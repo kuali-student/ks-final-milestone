@@ -191,11 +191,14 @@ angular.module('regCartApp')
                 $scope.userMessage.txt = '';
                 console.log('Submitted cart. RegReqId[' + registrationResponseInfo.registrationRequestId + ']');
 
+                $scope.cartResults = $.extend( true, {}, $scope.cart );
+                $scope.cart.items.splice(0, $scope.cart.items.length);
+
                 // set cart and all items in cart to processing
-                $scope.cart.state = 'kuali.lpr.trans.state.processing';
-                $scope.cart.status = 'processing';  // set the overall status to processing
+                $scope.cartResults.state = 'kuali.lpr.trans.state.processing';
+                $scope.cartResults.status = 'processing';  // set the overall status to processing
                 $scope.creditTotal = 0; // your cart will always update to zero upon submit
-                angular.forEach($scope.cart.items, function (item) {
+                angular.forEach($scope.cartResults.items, function (item) {
                     item.state = 'kuali.lpr.trans.item.state.processing';
                     item.status = 'processing';
                 });
@@ -213,7 +216,7 @@ angular.module('regCartApp')
                     $scope.cart.state = regResponseResult.state;
                     var locCart = $scope.cart;  // for debug only
                     angular.forEach(regResponseResult.responseItemResults, function (responseItem) {
-                        angular.forEach($scope.cart.items, function (item) {
+                        angular.forEach($scope.cartResults.items, function (item) {
                             if (item.cartItemId === responseItem.registrationRequestItemId) {
                                 item.state = responseItem.state;
                                 // we need to update the status, which is used to controll css
@@ -244,6 +247,10 @@ angular.module('regCartApp')
                 });
             }, 1000);  // right now we're going to wait 1 second per poll
         };
+
+        $scope.removeCartResultItem = function (cartResultItem) {
+            $scope.cartResults.items.splice(cartResultItem, 1);
+        }
 
         function creditTotal() {
             if (!$scope.cart) {

@@ -74,8 +74,8 @@
     </span>
 </div>
 
-<div class="kscr-Heading-sub">
-    <span>CART CONTENTS</span>
+<div class="kscr-Heading-sub" ng-show="cartResults.items.length">
+    <span>CART RESULTS</span>
 </div>
 
 <!--Alert message-->
@@ -84,9 +84,36 @@
     <a id="userMessageInvoke" ng-click="invokeActionLink(userMessage.actionLink);" ng-if="userMessage.linkText">{{userMessage.linkText}}</a>
 </div>
 
+<div class="kscr-Card-Results panel-group">
+
+    <div  ng-repeat="cartResultItem in cartResults.items" is-open="isopen" class="panel cart-item-status-{{cartResultItem.status}}">
+        <div class="kscr-cartResult-heading">
+            <!--credits-->
+            <div id="course_remove_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}" class="kscr-Card-supportText">
+                <span class="kscr-cartResult-remove"><a href="" ng-click="removeCartResultItem(cartResultItem)"><i class="glyphicon glyphicon-remove"></i></a></span>
+            </div>
+
+            <!--Course Header Section-->
+            <div class="ng-scope">
+                <span class="kscr-Card-title" id="course_code_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}">{{cartResultItem.courseCode}} ({{cartResultItem.regGroupCode}}) {{cartResultItem.status}}</span>
+            </div>
+            <!--Course Title and description-->
+            <div class="kscr-Card-text" id="title_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}">{{cartResultItem.courseTitle}}</div>
+
+        </div>
+            <div ng-if="cartResultItem.statusMessage" class="kscr-CardResult-detailsText">
+                {{cartResultItem.statusMessage}}
+            </div>
+    </div>
+</div>
+
+<div class="kscr-Heading-sub">
+    <span>CART CONTENTS</span>
+</div>
+
 <div class="kscr-Card">
 <accordion close-others="oneAtATime">
-    <accordion-group  ng-repeat="cartItem in cart.items" is-open="isopen" class="cart-item-status-{{cartItem.status}}">
+    <accordion-group  ng-repeat="cartItem in cart.items" is-open="isopen">
         <accordion-heading>
             <!--credits-->
             <div id="course_info_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" class="kscr-Card-supportText" ng-hide="editing(cartItem)">

@@ -1,7 +1,7 @@
 /******These are styles for use in the card section ******/
 
 
-.kscr-Card{
+.kscr-Card, .kscr-Card-Results{
     padding: 0 0.5em 0 0.5em;
     a {text-decoration:none;}
 }
@@ -42,6 +42,10 @@
     line-height:0;
     opacity:0;
     //padding:0 10px;
+}
+
+.kscr-CardResult-detailsText {
+    padding-left: 1.8em;
 }
 
 .kscr-Card-courseTimes{
@@ -94,6 +98,13 @@
     padding: 10px 5px;
 }
 
+.kscr-cartResult-heading {
+      background-color: @cardBackgroundColor;
+      border-color: @cardBorderColor;
+      color: @cardTextColor;
+      padding: 10px 5px;
+  }
+
 .panel {
     background-color: @cardBackgroundColor;
 
@@ -131,28 +142,25 @@
     opacity:0;
 }
 
-.panel.cart-item-status-success {
+.cart-item-status-success {
     background-color: @successBackground;   // #dff0d8;
     border-color: @successBorder;  //#D6E9C6;
     color: @successText; // #3B723B;
     text-shadow: 0 .5px #fff;
 
-    .panel-heading {
+    .kscr-cartResult-heading {
         background-image: url("../images/validation/success.png");
         background-repeat: no-repeat;
         background-position: @iconPosition;
         background-color: inherit;
-        .kscr-Card-icon {
-            display:none;
-        }
     }
     .kscr-Card-buttons {
         display: none;
     }
 }
 
-.panel.cart-item-status-processing {
-    .panel-heading {
+.cart-item-status-processing {
+    .kscr-cartResult-heading {
         background-image: url("../images/validation/spinner_small.gif");
         background-repeat: no-repeat;
         background-position: @iconPosition;
@@ -166,19 +174,16 @@
     }
 }
 
-.panel.cart-item-status-error {
+.cart-item-status-error {
     background-color: @errorBackground; //#F2DEDE;
     border-color: @errorBorder;  //#EFD3D7;
     color: @errorText; //#A3403C;
     text-shadow: 0 .5px #fff;
-    .panel-heading {
+    .kscr-cartResult-heading {
         background-image: url("../images/validation/error.png");
         background-repeat: no-repeat;
         background-position: @iconPosition;
         background-color: inherit;
-        .kscr-Card-icon {
-            display:none;
-        }
     }
     .kscr-Card-buttons {
         display: none;
@@ -186,8 +191,9 @@
 }
 
 
+/*
 .panel.cart-item-status- .panel-heading .kscr-Card-icon {
     display:block;
 }
-
+*/
 /**** End ****/
