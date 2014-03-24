@@ -854,6 +854,11 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             courseInfoWrapper.getCourseInfo().getFormats().add(new FormatInfo());
         }
 
+        // Initialize Author & Collaborator
+        if (courseInfoWrapper.getCollaboratorWrappers().isEmpty()) {
+            courseInfoWrapper.getCollaboratorWrappers().add(new CollaboratorWrapper());
+           }
+
         if (requestParameters.get(CourseController.URL_PARAM_USE_CURRICULUM_REVIEW) != null || requestParameters.get(CourseController.URL_PARAM_USE_CURRICULUM_REVIEW).length != 0){
             Boolean isUseReviewProcess = BooleanUtils.toBoolean(requestParameters.get(CourseController.URL_PARAM_USE_CURRICULUM_REVIEW)[0]);
             courseInfoWrapper.getUiHelper().setUseReviewProcess(isUseReviewProcess);
