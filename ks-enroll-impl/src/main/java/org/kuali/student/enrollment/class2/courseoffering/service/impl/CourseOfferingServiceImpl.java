@@ -1,22 +1,8 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.xml.namespace.QName;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
+import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -106,7 +92,6 @@ import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
-import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
@@ -119,6 +104,19 @@ import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.xml.namespace.QName;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class CourseOfferingServiceImpl implements CourseOfferingService {
 
@@ -685,7 +683,18 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         courseOfferingTransformer.courseOffering2Lui(coInfo, lui, context);
 
         // Update lprs for offering instructors
-        List<OfferingInstructorInfo> existingLprs = OfferingInstructorTransformer.lprs2Instructors(lprService.getLprsByLui(lui.getId(), context));
+        //List<OfferingInstructorInfo> existingLprs = new ArrayList<OfferingInstructorInfo>();
+
+        List<Predicate> predicates = new ArrayList<Predicate>();
+        predicates.add(PredicateFactory.in("luiId", lui.getId()));
+        predicates.add(PredicateFactory.in("personRelationTypeId", LprServiceConstants.COURSE_INSTRUCTOR_TYPE_KEYS));  // allow all instructor types
+        //predicates.add(PredicateFactory.equal("personRelationStateId", LprServiceConstants.ASSIGNED_STATE_KEY));
+
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(predicates.toArray(new Predicate[predicates.size()]));
+        QueryByCriteria criteria = qbcBuilder.build();
+
+        List<OfferingInstructorInfo> existingLprs = OfferingInstructorTransformer.lprs2Instructors(lprService.searchForLprs(criteria, context));
         // map existing lprs to their person id
         Map<String, OfferingInstructorInfo> existingPersonMap = new HashMap<String, OfferingInstructorInfo>(existingLprs.size());
         for (OfferingInstructorInfo info : existingLprs) {
@@ -1634,7 +1643,16 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         // Update lprs for offering instructors
 
-        List<OfferingInstructorInfo> existingLprs = OfferingInstructorTransformer.lprs2Instructors(lprService.getLprsByLui(lui.getId(), context));
+        List<Predicate> predicates = new ArrayList<Predicate>();
+        predicates.add(PredicateFactory.in("luiId", lui.getId()));
+        predicates.add(PredicateFactory.in("personRelationTypeId", LprServiceConstants.COURSE_INSTRUCTOR_TYPE_KEYS));  // allow all instructor types
+        //predicates.add(PredicateFactory.equal("personRelationStateId", LprServiceConstants.ASSIGNED_STATE_KEY));
+
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(predicates.toArray(new Predicate[predicates.size()]));
+        QueryByCriteria criteria = qbcBuilder.build();
+
+        List<OfferingInstructorInfo> existingLprs = OfferingInstructorTransformer.lprs2Instructors(lprService.searchForLprs(criteria, context));
         // map existing lprs to their person id
         Map<String, OfferingInstructorInfo> existingPersonMap = new HashMap<String, OfferingInstructorInfo>(existingLprs.size());
         for (OfferingInstructorInfo info : existingLprs) {
@@ -2914,13 +2932,27 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             }
 
             if (coIds.isEmpty()){
-                List<LprInfo> lprs = new ArrayList<LprInfo>();
 
                 //create the map to store co-lprList relationship
                 try {
-                    lprs = getLprService().getLprsByLuis(coIds, context);
+                    List<LprInfo> lprInfos = new ArrayList<LprInfo>();
+                    for(String coId: coIds){
+
+
+                        List<Predicate> predicates = new ArrayList<Predicate>();
+                        predicates.add(PredicateFactory.in("luiId", coId));
+                        predicates.add(PredicateFactory.in("personRelationTypeId", LprServiceConstants.COURSE_INSTRUCTOR_TYPE_KEYS));  // allow all instructor types
+                        //predicates.add(PredicateFactory.equal("personRelationStateId", LprServiceConstants.ASSIGNED_STATE_KEY));
+
+                        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+                        qbcBuilder.setPredicates(predicates.toArray(new Predicate[predicates.size()]));
+                        QueryByCriteria lprCriteria = qbcBuilder.build();
+
+                        lprInfos.addAll(getLprService().searchForLprs(criteria, context));
+                    }
+
                     Map<String, List<LprInfo>> coLprMap = new HashMap<String, List<LprInfo>>(courseOfferings.size());
-                    for (LprInfo lpr : lprs) {
+                    for (LprInfo lpr : lprInfos) {
                         int mapIndex = 0;
                         for (Map.Entry<String, List<LprInfo>> entry : coLprMap.entrySet()) {
                             if (entry.getKey().equals(lpr.getLuiId())) {

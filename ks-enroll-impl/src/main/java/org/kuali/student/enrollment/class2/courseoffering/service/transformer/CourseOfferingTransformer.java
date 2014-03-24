@@ -2,6 +2,9 @@ package org.kuali.student.enrollment.class2.courseoffering.service.transformer;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.criteria.Predicate;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
@@ -139,7 +142,21 @@ public class CourseOfferingTransformer {
         }
 
         //retrieve a list of LprInfo by a list of luiIds and generate the map of luiId to LprInfo
-        List<LprInfo> lprs = lprService.getLprsByLuis(luiIds, context);
+        List<LprInfo> lprs = new ArrayList<LprInfo>();
+        for(String ao: luiIds){
+
+
+            List<Predicate> predicates = new ArrayList<Predicate>();
+            predicates.add(PredicateFactory.in("luiId", ao));
+            predicates.add(PredicateFactory.in("personRelationTypeId", LprServiceConstants.COURSE_INSTRUCTOR_TYPE_KEYS));  // allow all instructor types
+            //predicates.add(PredicateFactory.equal("personRelationStateId", LprServiceConstants.ASSIGNED_STATE_KEY));
+
+            QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+            qbcBuilder.setPredicates(predicates.toArray(new Predicate[predicates.size()]));
+            QueryByCriteria criteria = qbcBuilder.build();
+
+            lprs.addAll(lprService.searchForLprs(criteria, context));
+        }
         Map<String, List<LprInfo>>luiToLprListMap = new HashMap<String, List<LprInfo>>();
         for (LprInfo lprInfo : lprs) {
             List<LprInfo> lprList = luiToLprListMap.get(lprInfo.getLuiId());
@@ -829,7 +846,16 @@ public class CourseOfferingTransformer {
     public void assembleInstructors(CourseOfferingInfo co, String luiId, ContextInfo context, LprService lprService) {
         List<LprInfo> lprs = null;
         try {
-            lprs = lprService.getLprsByLui(luiId, context);
+            List<Predicate> predicates = new ArrayList<Predicate>();
+            predicates.add(PredicateFactory.in("luiId", luiId));
+            predicates.add(PredicateFactory.in("personRelationTypeId", LprServiceConstants.COURSE_INSTRUCTOR_TYPE_KEYS));  // allow all instructor types
+            //predicates.add(PredicateFactory.equal("personRelationStateId", LprServiceConstants.ASSIGNED_STATE_KEY));
+
+            QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+            qbcBuilder.setPredicates(predicates.toArray(new Predicate[predicates.size()]));
+            QueryByCriteria criteria = qbcBuilder.build();
+
+            lprs = lprService.searchForLprs(criteria, context);
         } catch (InvalidParameterException e) {
             String errorMessage = String.format("Error getting instructors for LuiId: %s Invalid Parameter ", luiId);
             LOG.error(errorMessage, e);
