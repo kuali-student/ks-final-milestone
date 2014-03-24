@@ -20,8 +20,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.maintenance.MaintenanceDocumentBase;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.rules.rule.event.SaveEvent;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.persistence.Entity;
 
@@ -39,7 +37,6 @@ import javax.persistence.Entity;
 public class CMMaintenanceDocument extends MaintenanceDocumentBase {
 
     private static final long serialVersionUID = -505085142412593315L;
-    private static final Logger LOG = LoggerFactory.getLogger(CMMaintenanceDocument.class);
 
     public CMMaintenanceDocument() {
         super();
@@ -53,7 +50,6 @@ public class CMMaintenanceDocument extends MaintenanceDocumentBase {
     public void processAfterRetrieve() {
 
         if (documentHeader == null || !documentHeader.hasWorkflowDocument()){
-            LOG.error("Document Header or workflow document is null");
             throw new RuntimeException("Document Header or workflow document is null");
         }
 
@@ -62,7 +58,6 @@ public class CMMaintenanceDocument extends MaintenanceDocumentBase {
         Class clazz = getDocumentDictionaryService().getMaintainableClass(documentTypeName);
 
         if (!CMMaintainable.class.isAssignableFrom(clazz)) {
-            LOG.error("Maintainable should be of CMMaintainable type");
             throw new RuntimeException("Maintainable should be of CMMaintainable type");
         }
 
@@ -77,10 +72,8 @@ public class CMMaintenanceDocument extends MaintenanceDocumentBase {
             newMaintainableObject.setDataObject(dataObjectClazz.newInstance());
             newMaintainableObject.setDataObjectClass(dataObjectClazz);
         } catch (InstantiationException e) {
-            LOG.error("Unable to initialize maintainables of type " + clazz.getName());
             throw new RuntimeException("Unable to initialize maintainables of type " + clazz.getName());
         } catch (IllegalAccessException e) {
-            LOG.error("Unable to initialize maintainables of type " + clazz.getName());
             throw new RuntimeException("Unable to initialize maintainables of type " + clazz.getName());
         }
 
