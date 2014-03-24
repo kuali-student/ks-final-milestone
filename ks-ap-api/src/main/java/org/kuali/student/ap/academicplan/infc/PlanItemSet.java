@@ -2,6 +2,7 @@ package org.kuali.student.ap.academicplan.infc;
 
 import org.kuali.student.r2.common.infc.HasId;
 import org.kuali.student.r2.common.infc.HasType;
+import org.kuali.student.r2.common.infc.IdEntity;
 import org.kuali.student.r2.common.infc.RichText;
 import org.kuali.student.r2.common.infc.TypeStateEntity;
 import org.omg.Security.Public;
@@ -14,7 +15,7 @@ import java.util.List;
  * @Author kmuthu
  * Date: 1/5/12
  */
-public interface PlanItemSet extends HasId, TypeStateEntity {
+public interface PlanItemSet extends IdEntity {
 
    /**
      * A description of the Learning Plan

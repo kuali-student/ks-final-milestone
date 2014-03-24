@@ -1,6 +1,7 @@
 package org.kuali.student.ap.academicplan.dto;
 
 import org.kuali.student.ap.academicplan.infc.PlanItemSet;
+import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.TypeStateEntityInfo;
 import org.w3c.dom.Element;
@@ -17,14 +18,8 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "PlanItemSetInfo", propOrder = {"planItemIds", "interestedInItemsCount", "interestedInAllItems", "id",
-        "typeKey", "stateKey", "descr", "meta", "attributes", "_futureElements"})
-public class PlanItemSetInfo extends TypeStateEntityInfo implements PlanItemSet  {
-
-    @XmlAttribute
-    private String id;
-
-    @XmlElement
-    private RichTextInfo descr;
+        "typeKey", "stateKey", "name", "descr", "meta", "attributes", "_futureElements"})
+public class PlanItemSetInfo extends IdEntityInfo implements PlanItemSet  {
 
     @XmlElement
     private List<String> planItemIds;
@@ -40,8 +35,8 @@ public class PlanItemSetInfo extends TypeStateEntityInfo implements PlanItemSet 
 
 
     public PlanItemSetInfo() {
-        this.id = null;
-        this.descr = null;
+        this.setId(null);
+        this.setDescr(null);
         this.interestedInAllItems = false;
         this.interestedInItemsCount = null;
         this.planItemIds = new ArrayList<String>();
@@ -52,31 +47,13 @@ public class PlanItemSetInfo extends TypeStateEntityInfo implements PlanItemSet 
         super(planSet);
 
         if(null != planSet) {
-            this.id = planSet.getId();
+            this.setId (planSet.getId());
             this.interestedInAllItems = planSet.isInterestedInAllItems();
             this.interestedInItemsCount = planSet.getInterestedInItemsCount();
 
             this.planItemIds = (null != planSet.getPlanItemIds()) ? new ArrayList<String>( planSet.getPlanItemIds() ) : new ArrayList<String>();
-            this.descr = (null != planSet.getDescr()) ? new RichTextInfo(planSet.getDescr()) : null;
+            this.setDescr((null != planSet.getDescr()) ? new RichTextInfo(planSet.getDescr()) : null);
         }
-    }
-
-    @Override
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    @Override
-    public RichTextInfo getDescr() {
-        return descr;
-    }
-
-    public void setDescr(RichTextInfo descr) {
-        this.descr = descr;
     }
 
     @Override

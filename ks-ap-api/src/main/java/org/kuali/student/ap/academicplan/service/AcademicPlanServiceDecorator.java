@@ -35,10 +35,20 @@ public class AcademicPlanServiceDecorator implements AcademicPlanService {
     }
 
     @Override
+    public List<LearningPlanInfo> getLearningPlansByIds(@WebParam(name = "learningPlanIds") List<String> learningPlanIds, @WebParam(name = "contextInfo") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getLearningPlansByIds(learningPlanIds, context);
+    }
+
+    @Override
     public PlanItemInfo getPlanItem(@WebParam(name = "planItemId") String planItemId,
                                 @WebParam(name = "context") ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         return getNextDecorator().getPlanItem(planItemId, context);
+    }
+
+    @Override
+    public List<PlanItemInfo> getPlanItemsByIds(@WebParam(name = "planItemIds") List<String> planItemIds, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return getNextDecorator().getPlanItemsByIds(planItemIds, context);
     }
 
     @Override
@@ -96,6 +106,11 @@ public class AcademicPlanServiceDecorator implements AcademicPlanService {
     }
 
     @Override
+    public List<PlanItemSetInfo> getPlanItemSetsByIds(@WebParam(name = "planItemSetIds") List<String> planItemSetIds, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return getNextDecorator().getPlanItemSetsByIds(planItemSetIds, context);
+    }
+
+    @Override
     public List<LearningPlanInfo> getLearningPlansForStudentByType(@WebParam(name = "studentId") String studentId,
                                                                @WebParam(name = "planTypeKey") String planTypeKey,
                                                                @WebParam(name = "context") ContextInfo context)
@@ -115,7 +130,7 @@ public class AcademicPlanServiceDecorator implements AcademicPlanService {
     public PlanItemInfo createPlanItem(@WebParam(name = "planItem") PlanItemInfo planItem,
                                        @WebParam(name = "context") ContextInfo context)
             throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException {
+            MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         return getNextDecorator().createPlanItem(planItem, context);
     }
 
@@ -131,8 +146,7 @@ public class AcademicPlanServiceDecorator implements AcademicPlanService {
     public LearningPlanInfo updateLearningPlan(@WebParam(name = "learningPlanId") String learningPlanId,
                                                @WebParam(name = "learningPlan") LearningPlanInfo learningPlan,
                                                @WebParam(name = "context") ContextInfo context)
-            throws DataValidationErrorException, InvalidParameterException, MissingParameterException,
-                OperationFailedException, PermissionDeniedException, DoesNotExistException {
+            throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, VersionMismatchException {
         return getNextDecorator().updateLearningPlan(learningPlanId, learningPlan, context);
     }
 
@@ -141,7 +155,7 @@ public class AcademicPlanServiceDecorator implements AcademicPlanService {
                                        @WebParam(name = "planItem") PlanItemInfo planItem,
                                        @WebParam(name = "context") ContextInfo context)
             throws DataValidationErrorException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException, DoesNotExistException, AlreadyExistsException {
+            OperationFailedException, PermissionDeniedException, DoesNotExistException, AlreadyExistsException, VersionMismatchException {
         return getNextDecorator().updatePlanItem(planItemId, planItem, context);
     }
 
@@ -149,8 +163,7 @@ public class AcademicPlanServiceDecorator implements AcademicPlanService {
     public PlanItemSetInfo updatePlanItemSet(@WebParam(name = "planItemSetId") String planItemSetId,
                                              @WebParam(name = "planItemSet") PlanItemSetInfo planItemSet,
                                              @WebParam(name = "context") ContextInfo context)
-            throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException,
-                MissingParameterException, OperationFailedException, PermissionDeniedException {
+            throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         return getNextDecorator().updatePlanItemSet(planItemSetId, planItemSet, context);
     }
 

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.kuali.student.ap.academicplan.service.AcademicPlanServiceConstants;
 import org.kuali.student.r2.common.infc.HasId;
+import org.kuali.student.r2.common.infc.IdEntity;
 import org.kuali.student.r2.common.infc.RichText;
 import org.kuali.student.r2.common.infc.TypeStateEntity;
 
@@ -13,7 +14,9 @@ import org.kuali.student.r2.common.infc.TypeStateEntity;
  *
  * @Author Kamal
  */
-public interface PlanItem extends HasId, TypeStateEntity {
+public interface PlanItem extends IdEntity {
+
+    //TODO: KSAP-1014 - Add 'name' attribute to LearningPlan and PlanItem
 
     /**
      * A description of the Learning Plan Item

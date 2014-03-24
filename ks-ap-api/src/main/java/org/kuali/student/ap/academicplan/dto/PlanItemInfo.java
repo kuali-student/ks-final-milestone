@@ -1,6 +1,7 @@
 package org.kuali.student.ap.academicplan.dto;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +15,7 @@ import javax.xml.bind.annotation.XmlType;
 import org.kuali.student.ap.academicplan.infc.PlanItem;
 import org.kuali.student.ap.academicplan.service.AcademicPlanServiceConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.TypeStateEntityInfo;
 import org.kuali.student.r2.common.infc.Attribute;
@@ -26,16 +28,12 @@ import org.w3c.dom.Element;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "PlanItemInfo", propOrder = {"refObjectId", "refObjectType", "learningPlanId", "planPeriods", "id",
-        "credit", "category", "typeKey", "stateKey", "descr", "meta", "attributes", "_futureElements"})
-public class PlanItemInfo extends TypeStateEntityInfo implements PlanItem {
+        "credit", "category", "typeKey", "stateKey", "name", "descr", "meta", "attributes", "_futureElements"})
+public class PlanItemInfo extends IdEntityInfo implements PlanItem {
 
  	private static final long serialVersionUID = 7795677206429530520L;
 
-	@XmlAttribute
-    private String id;
-
-    @XmlElement
-    private RichTextInfo descr;
+    //TODO: KSAP-1014 - Add 'name' attribute to LearningPlan and PlanItem
 
     @XmlElement
     private String refObjectId;
@@ -60,8 +58,8 @@ public class PlanItemInfo extends TypeStateEntityInfo implements PlanItem {
     private List<Element> _futureElements;
 
     public PlanItemInfo() {
-        this.id = null;
-        this.descr = null;
+        this.setId(null);
+        this.setDescr(null);
         this.refObjectId = null;
         this.refObjectType = null;
         this.learningPlanId = null;
@@ -73,7 +71,7 @@ public class PlanItemInfo extends TypeStateEntityInfo implements PlanItem {
         super(item);
 
         if(null != item) {
-            this.id = item.getId();
+            this.setId(item.getId());
 			this.setTypeKey(item.getTypeKey());
 			this.setStateKey(item.getStateKey());
             this.refObjectId = item.getRefObjectId();
@@ -87,7 +85,7 @@ public class PlanItemInfo extends TypeStateEntityInfo implements PlanItem {
 				this.planPeriods = new ArrayList<String>(planPeriods);
             }
 
-            this.descr = (null != item.getDescr()) ? new RichTextInfo(item.getDescr()) : null;
+            this.setDescr((null != item.getDescr()) ? new RichTextInfo(item.getDescr()) : null);
 
 			List<? extends Attribute> attrs = item.getAttributes();
 			if (attrs != null) {
@@ -98,22 +96,6 @@ public class PlanItemInfo extends TypeStateEntityInfo implements PlanItem {
 				this.setAttributes(attrInfos);
 			}
         }
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public RichTextInfo getDescr() {
-        return descr;
-    }
-
-    public void setDescr(RichTextInfo descr) {
-        this.descr = descr;
     }
 
     public String getRefObjectId() {

@@ -1,6 +1,7 @@
 package org.kuali.student.ap.academicplan.dto;
 
 import org.kuali.student.ap.academicplan.infc.LearningPlan;
+import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.TypeStateEntityInfo;
 import org.w3c.dom.Element;
@@ -15,17 +16,13 @@ import java.util.List;
  * Date: 1/5/12
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "LearningPlanInfo", propOrder = {"studentId", "id", "typeKey", "stateKey", "shared", "descr", "meta", "attributes", "_futureElements"})
-public class LearningPlanInfo extends TypeStateEntityInfo implements LearningPlan {
-
-    @XmlAttribute
-    private String id;
-
-    @XmlElement
-    private RichTextInfo descr;
+@XmlType(name = "LearningPlanInfo", propOrder = {"studentId", "id", "typeKey", "stateKey", "shared", "name", "descr", "meta", "attributes", "_futureElements"})
+public class LearningPlanInfo extends IdEntityInfo implements LearningPlan {
 
     @XmlElement
     private String studentId;
+
+    //TODO: KSAP-1014 - Add 'name' attribute to LearningPlan and PlanItem
 
     @XmlElement
     private Boolean shared;
@@ -35,8 +32,8 @@ public class LearningPlanInfo extends TypeStateEntityInfo implements LearningPla
 
 
     public LearningPlanInfo() {
-        this.id = null;
-        this.descr = null;
+        this.setId(null);
+        this.setDescr(null);
         this.studentId = null;
         this._futureElements = null;
     }
@@ -45,28 +42,11 @@ public class LearningPlanInfo extends TypeStateEntityInfo implements LearningPla
         super(plan);
 
         if(null != plan) {
-            this.id = plan.getId();
+            this.setId(plan.getId());
             this.studentId = plan.getStudentId();
-            this.descr = (null != plan.getDescr()) ? new RichTextInfo(plan.getDescr()) : null;
+            this.setDescr((null != plan.getDescr()) ? new RichTextInfo(plan.getDescr()) : null);
+            this.setShared(plan.isShared());
         }
-    }
-
-    @Override
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    @Override
-    public RichTextInfo getDescr() {
-        return descr;
-    }
-
-    public void setDescr(RichTextInfo descr) {
-        this.descr = descr;
     }
 
     @Override
@@ -79,7 +59,7 @@ public class LearningPlanInfo extends TypeStateEntityInfo implements LearningPla
     }
 
     @Override
-    public Boolean getShared() {
+    public Boolean isShared() {
         return shared;
     }
 

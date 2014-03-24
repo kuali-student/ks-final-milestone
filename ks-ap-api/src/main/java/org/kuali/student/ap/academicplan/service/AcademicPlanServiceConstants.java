@@ -24,6 +24,19 @@ public class AcademicPlanServiceConstants {
             return ItemCategory.valueOf(enumString.toUpperCase());
         }
 
+        @Override
+        public String toString() {
+            switch(this) {
+                case PLANNED: return "PLANNED";
+                case BACKUP: return "BACKUP";
+                case WISHLIST: return "WISHLIST";
+                case WHATIF: return "WHATIF";
+                case CART: return "CART";
+                case COMPLETE: return "COMPLETE";
+                default: throw new IllegalArgumentException();
+            }
+        }
+
     }
 
     public static final String LEARNING_PLAN_ITEM_TYPE = "kuali.academicplan.planitem";
