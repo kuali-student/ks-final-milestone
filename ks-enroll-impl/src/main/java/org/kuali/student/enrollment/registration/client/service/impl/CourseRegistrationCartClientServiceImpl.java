@@ -627,6 +627,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
                 currentCartItem.setRegGroupCode(rgCode);
                 currentCartItem.getActionLinks().add(buildDeleteLink(cartId, cartItemId, grading, creditsStr));
                 currentCartItem.setState(cartItemState);
+                currentCartItem.setCartId(cartId);
                 cartResult.getItems().add(currentCartItem);
                 //Reset the lastAO Name
                 lastAoName = "";
