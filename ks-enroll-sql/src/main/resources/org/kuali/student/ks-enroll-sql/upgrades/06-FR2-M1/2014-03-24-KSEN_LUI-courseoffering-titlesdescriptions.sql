@@ -1,3 +1,4 @@
+-- This sql should always be ran after the roll over for the term
 UPDATE KSEN_LUI SET DESCR_PLAIN='A Indepth look into fantasy authors of the late 90s and 2000s inluding JK Rawlings, Tracy Hickman and Robert Jordan.', DESCR_FORMATTED='A in depth look into fantasy authors of the late 90s and 2000s inluding JK Rawlings, Tracy Hickman and Robert Jordan.'
   WHERE name = 'ENGL278T CO' and atp_id='kuali.atp.2014Spring'
     and lui_type='kuali.lui.type.course.offering'
