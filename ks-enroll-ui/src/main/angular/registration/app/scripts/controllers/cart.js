@@ -5,6 +5,7 @@ angular.module('regCartApp')
     function ($scope, $modal, CartService, ScheduleService, GlobalVarsService, $timeout) {
         $scope.oneAtATime = false;
         var hasCartBeenLoaded = false;
+        $scope.cartResults = {items : []};
 
         //Add a watch so that when termId changes, the cart is reloaded with the new termId
         $scope.$watch('termId', function (newValue) {
@@ -14,28 +15,38 @@ angular.module('regCartApp')
                 loadCart(newValue);
             }
         });
-        // If for some reason you reload the page, and your termId hasn't changed we need to load the cart.
-        // Don't load the cart if the watch above has been called.
-        if(!hasCartBeenLoaded && $scope.termId){
-            loadCart($scope.termId);
-        }
 
         // this method loads the cart and kicks off polling if needed
         function loadCart(termId){
             CartService.getCart().query({termId: termId}, function (theCart) {
                 $scope.cart = theCart;
 
+                var startPolling = false; // prime to false
+                var submittedCartId; // we must assume that the items are all from one cart
+
+                console.log('cart.js::loadCart()');
+
                 // if there are any processing items in the cart we need to start polling
                 for(var i = 0; i < $scope.cart.items.length; i++){
+                    console.log('Traversing cart index ',i );
                     var item = $scope.cart.items[i];
                     if (GlobalVarsService.getCorrespondingStatusFromState(item.state) === 'processing'){
                         item.status = 'processing';
-                        cartPoller(item.cartId);  // each items has a reference back to the cartId
-                        break;
+                        var newItem = $.extend( true, {}, item );
+                        $scope.cart.items.splice(i, 1);
+                        $scope.cartResults.items.push(newItem);
+                        // set cart and all items in cart to processing
+                        $scope.cartResults.state = 'kuali.lpr.trans.state.processing';
+                        $scope.cartResults.status = 'processing';  // set the overall status to processing
+                        startPolling = true;
+                        submittedCartId = item.cartId;
                     }
                 }
+                if(startPolling){
+                    cartPoller(submittedCartId);  // each items has a reference back to the cartId
+                }
             });
-        };
+        }
 
         $scope.addRegGroupToCart = function () {
             $scope.courseCode = $scope.courseCode.toUpperCase();
@@ -250,7 +261,7 @@ angular.module('regCartApp')
 
         $scope.removeCartResultItem = function (cartResultItem) {
             $scope.cartResults.items.splice(cartResultItem, 1);
-        }
+        };
 
         function creditTotal() {
             if (!$scope.cart) {
