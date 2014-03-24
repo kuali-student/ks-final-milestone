@@ -21,7 +21,10 @@ import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 
-import static junit.framework.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.fail;
 
 /**
  * Unit tester for the type service impl

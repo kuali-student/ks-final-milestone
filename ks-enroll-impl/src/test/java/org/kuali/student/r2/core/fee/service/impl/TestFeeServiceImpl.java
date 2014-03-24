@@ -35,7 +35,7 @@ import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 
-import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 /**
  * This class provides unit tests for FeeServiceImpl

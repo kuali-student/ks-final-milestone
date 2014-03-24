@@ -14,9 +14,8 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import junit.framework.Assert;
-
 import org.apache.commons.collections.CollectionUtils;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;

@@ -32,8 +32,6 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.persistence.Query;
 
-import junit.framework.Assert;
-
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
