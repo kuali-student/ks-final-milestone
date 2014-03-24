@@ -16,8 +16,11 @@
 package org.kuali.student.r2.common.datadictionary;
 
 import java.util.List;
-import org.kuali.rice.krad.datadictionary.DataObjectEntry;
+
+import org.kuali.rice.krad.datadictionary.DataDictionary;
+import org.kuali.rice.krad.datadictionary.DataDictionaryEntry;
 import org.kuali.rice.krad.datadictionary.validation.result.DictionaryValidationResult;
+import org.kuali.rice.krad.service.DataDictionaryService;
 import org.kuali.rice.krad.service.DictionaryValidationService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -43,17 +46,17 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 public class RiceDataDictionaryValidatorImpl implements DataDictionaryValidator {
 
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(RiceDataDictionaryValidatorImpl.class);
-    private RiceDataDictionaryServiceInfc riceDataDictionaryService;
+    private DataDictionaryService riceDataDictionaryService;
     private DictionaryValidationService riceDictionaryValidationService;
 
     public RiceDataDictionaryValidatorImpl() {
     }
 
-    public RiceDataDictionaryServiceInfc getRiceDataDictionaryService() {
+    public DataDictionaryService getRiceDataDictionaryService() {
         return riceDataDictionaryService;
     }
 
-    public void setRiceDataDictionaryService(RiceDataDictionaryServiceInfc riceDataDictionaryService) {
+    public void setRiceDataDictionaryService(DataDictionaryService riceDataDictionaryService) {
         this.riceDataDictionaryService = riceDataDictionaryService;
     }
 
@@ -76,17 +79,12 @@ public class RiceDataDictionaryValidatorImpl implements DataDictionaryValidator 
             doOptionalProcessing = false;
         }
         String entryName = info.getClass().getName();
-        DataObjectEntry dictEntry;
-        dictEntry = this.riceDataDictionaryService.getDataObjectEntry(entryName);
+        DataDictionaryEntry dictEntry;
+        dictEntry = this.riceDataDictionaryService.getDataDictionary().getDictionaryObjectEntry(entryName);
         if (dictEntry == null) {
             throw new OperationFailedException("Dictionary entry for " + entryName + " does not exist");
         }
-        DictionaryValidationResult dvr = this.riceDictionaryValidationService.validate(info,
-          entryName,
-          dictEntry,
-          doOptionalProcessing);
-        Rice2ValidationResultConverter converter = new Rice2ValidationResultConverter();
-        List<ValidationResultInfo> vrs = converter.convert(dvr);
-        return vrs;
+        DictionaryValidationResult dvr = this.riceDictionaryValidationService.validate(info, entryName, dictEntry, doOptionalProcessing);
+        return new Rice2ValidationResultConverter().convert(dvr);
     }
 }
