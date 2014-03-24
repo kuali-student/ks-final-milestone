@@ -177,12 +177,11 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
     private transient IdentityService identityService;
 
-    @Transient
-    private ProposalService proposalService;
+    private transient ProposalService proposalService;
 
-    private TypeService typeService;
+    private transient TypeService typeService;
 
-    private LRCService lrcService;
+    private transient LRCService lrcService;
 
     private transient EnumerationManagementService enumerationManagementService;
 

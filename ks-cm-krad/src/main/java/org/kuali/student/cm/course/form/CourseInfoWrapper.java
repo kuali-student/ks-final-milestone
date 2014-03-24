@@ -81,7 +81,7 @@ public class CourseInfoWrapper implements Serializable {
     private boolean pilotCourse;
     private String startTerm;
 
-    private CreateCourseUIHelper uiHelper;
+    private transient CreateCourseUIHelper uiHelper;
 
     public String getEndTerm() {
         return endTerm;
@@ -438,7 +438,7 @@ public class CourseInfoWrapper implements Serializable {
      * involved in data persistance.
      *
      */
-    public class CreateCourseUIHelper {
+    public class CreateCourseUIHelper{
 
         CurriculumManagementConstants.CourseViewSections selectedSection;
         boolean curriculumSpecialistUser;
