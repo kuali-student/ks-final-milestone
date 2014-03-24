@@ -70,7 +70,6 @@ import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.core.krms.tree.KSRuleViewTreeBuilder;
 import org.kuali.student.core.organization.ui.client.mvc.model.MembershipInfo;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities;
-import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.lum.lu.ui.krms.dto.LUAgendaEditor;
 import org.kuali.student.lum.lu.ui.krms.dto.LURuleEditor;
 import org.kuali.student.lum.lu.ui.krms.tree.LURuleViewTreeBuilder;
@@ -124,9 +123,9 @@ import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
-import org.springframework.beans.BeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 
 import javax.persistence.Transient;
 import javax.xml.namespace.QName;
@@ -943,28 +942,17 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         // update  supporting Documents Section;
     }
 
-    private List<String> updateCampusLocations(List<String> campusLocations){
+    private List<String> updateCampusLocations(List<String> campusLocations) {
 
-        String CAMPUS_LOCATION_NORTH = "NO";
-        String CAMPUS_LOCATION_SOUTH = "SO";
-        String NORTH_CAMPUS          = "North Campus";
-        String SOUTH_CAMPUS          = "South Campus";
+        String CAMPUS_LOCATIONS[] = {"NO", "SO", "EX", "AL"};
+        String FULL_NAME_CAMPUS_LOCATIONS[] = {"North Campus", "South Campus", "Extended Campus", "All Campus"};
         List<String> newCampusLocationsName = new ArrayList<String>();
 
-
-        newCampusLocationsName.addAll(campusLocations);
-        if(campusLocations.contains(CAMPUS_LOCATION_NORTH))
-        {
-            newCampusLocationsName.add(NORTH_CAMPUS);
-            newCampusLocationsName.remove(newCampusLocationsName.indexOf(CAMPUS_LOCATION_NORTH));
+        for (int count = 0; CAMPUS_LOCATIONS.length > count; count++) {
+            if (campusLocations.contains(CAMPUS_LOCATIONS[count])) {
+                newCampusLocationsName.add(FULL_NAME_CAMPUS_LOCATIONS[count]);
+            }
         }
-
-        if(campusLocations.contains(CAMPUS_LOCATION_SOUTH))
-        {
-            newCampusLocationsName.add(SOUTH_CAMPUS);
-            newCampusLocationsName.remove(newCampusLocationsName.indexOf(CAMPUS_LOCATION_SOUTH));
-        }
-
         return newCampusLocationsName;
     }
 
