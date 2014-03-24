@@ -19,7 +19,6 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
-import org.kuali.rice.core.api.exception.RiceIllegalStateException;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -44,7 +43,6 @@ import org.kuali.student.cm.course.form.CourseInfoWrapper;
 import org.kuali.student.cm.course.form.LoDisplayInfoWrapper;
 import org.kuali.student.cm.course.form.LoDisplayWrapperModel;
 import org.kuali.student.cm.course.form.RecentlyViewedDocsUtil;
-import org.kuali.student.cm.course.form.ReviewProposalDisplay;
 import org.kuali.student.cm.course.form.SupportingDocumentInfoWrapper;
 import org.kuali.student.cm.course.service.CourseInfoMaintainable;
 import org.kuali.student.cm.course.util.CourseProposalUtil;
@@ -57,7 +55,6 @@ import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.DtoConstants.DtoState;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.util.date.DateFormatters;
-import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
 import org.kuali.student.r2.core.comment.service.CommentService;
@@ -78,6 +75,8 @@ import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.AutoPopulatingList;
 import org.springframework.validation.BindingResult;
@@ -93,10 +92,6 @@ import javax.xml.namespace.QName;
 import java.util.Date;
 import java.util.List;
 
-import static org.kuali.student.logging.FormattedLogger.debug;
-import static org.kuali.student.logging.FormattedLogger.error;
-import static org.kuali.student.logging.FormattedLogger.info;
-import static org.kuali.student.logging.FormattedLogger.warn;
 
 /**
  * This controller handles all the requests from the 'Create a Course' UI.
@@ -108,8 +103,8 @@ import static org.kuali.student.logging.FormattedLogger.warn;
 public class CourseController extends CourseRuleEditorController {
 
     public static final String URL_PARAM_USE_CURRICULUM_REVIEW = "useCurriculumReview";
-        
-    private static final String DECISIONS_DIALOG_KEY        = "decisionsDialog";    
+    private static final Logger LOG = LoggerFactory.getLogger(CourseController.class);
+    private static final String DECISIONS_DIALOG_KEY        = "decisionsDialog";
 
     private CourseService courseService;
     private CommentService commentService;
@@ -263,14 +258,14 @@ public class CourseController extends CourseRuleEditorController {
             toAdd.getDocumentBinary().setBinary(new String(Base64.encodeBase64(addLineResult.getDocumentUpload().getBytes())));
         }
         catch (Exception e) {
-            warn("Failed to get binary data: %s", e.getMessage());
+            LOG.warn("Failed to get binary data: %s", e.getMessage());
         }
 
         try {
             getSupportingDocumentService().createDocument("documentType.doc", "documentCategory.proposal", toAdd, ContextUtils.getContextInfo());
         }
         catch (Exception e) {
-            warn("Unable to create a document: %s", e.getMessage());
+            LOG.warn("Unable to create a document: %s", e.getMessage());
         }
 
         // Now relate the document to the course
@@ -284,7 +279,7 @@ public class CourseController extends CourseRuleEditorController {
                                                       ContextUtils.getContextInfo());
         }
         catch (Exception e) {
-            warn("Unable to relate a document with the course: %s", e.getMessage());
+            LOG.warn("Unable to relate a document with the course: %s", e.getMessage());
         }
 
         return retval;
@@ -332,7 +327,7 @@ public class CourseController extends CourseRuleEditorController {
             getSupportingDocumentService().deleteDocument(toRemove.getId(), ContextUtils.getContextInfo());
         }
         catch (Exception e) {
-            warn("Unable to delete document: %s, reason: %s", toRemove.getId(), e.getMessage());
+            LOG.warn("Unable to delete document: %s, reason: %s", toRemove.getId(), e.getMessage());
         }
         
         return deleteLine(form, result, request, response);
@@ -667,7 +662,7 @@ public class CourseController extends CourseRuleEditorController {
                         commentInfo.getReferenceTypeKey(), commentInfo.getTypeKey(), commentInfo,
                         ContextUtils.getContextInfo());
             } catch (Exception e) {
-                error("Error creating a new comment. %s", e);
+                LOG.error("Error creating a new comment. %s", e);
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS,CurriculumManagementConstants.MessageKeys.ERROR_CREATE_COMMENT);
                 return getUIFModelAndView(form);
             }
@@ -756,17 +751,17 @@ public class CourseController extends CourseRuleEditorController {
                                                 final BindingResult result,
                                                 final HttpServletRequest request,
                                                 final HttpServletResponse response) {
-        info("Adding a unitsContentOwner");
+        LOG.info("Adding a unitsContentOwner");
         final CourseInfoMaintainable maintainable = (CourseInfoMaintainable) form.getDocument().getNewMaintainableObject();
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
         courseInfoWrapper.getUnitsContentOwner().clear();
         if (courseInfoWrapper.getUnitsContentOwnerToAdd() == null) {
-            info("Units Content Owner is null");
+            LOG.info("Units Content Owner is null");
             return getUIFModelAndView(form);
         }
 
         final String toAdd = courseInfoWrapper.getUnitsContentOwnerToAdd();
-        info("Adding ", toAdd);
+        LOG.info("Adding ", toAdd);
         courseInfoWrapper.getUnitsContentOwner().add(getOrganizationBy(courseInfoWrapper.getCourseInfo().getSubjectArea(), toAdd));
         courseInfoWrapper.setUnitsContentOwnerToAdd("");
 
@@ -782,7 +777,7 @@ public class CourseController extends CourseRuleEditorController {
      * @return KeyValue
      */
     protected KeyValue getOrganizationBy(final String code, final String orgId) {
-        debug("Using code: %s and orgId: %s for the search", code, orgId);
+        LOG.debug("Using code: %s and orgId: %s for the search", code, orgId);
         final SearchRequestInfo searchRequest = new SearchRequestInfo();
         searchRequest.setSearchKey("subjectCode.search.orgsForSubjectCode");
         searchRequest.addParam("subjectCode.queryParam.code", code);
@@ -805,11 +800,11 @@ public class CourseController extends CourseRuleEditorController {
                 return new ConcreteKeyValue(subjectCodeOptionalLongName, subjectCodeId);
             }
         } catch (Exception e) {
-        	error("Error building KeyValues List %s", e);
+            LOG.error("Error building KeyValues List %s", e);
             throw new RuntimeException(e);
         }
-        
-        info("Returning a null from org search");
+
+        LOG.info("Returning a null from org search");
         return null;
     }
     

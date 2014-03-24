@@ -13,14 +13,16 @@ import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.kuali.student.logging.FormattedLogger.error;
 
 public class CourseCodeSearchUtil {
-    
+
+    private static final Logger LOG = LoggerFactory.getLogger(CourseCodeSearchUtil.class);
 
     private CourseCodeSearchUtil() {
     }
@@ -81,7 +83,7 @@ public class CourseCodeSearchUtil {
                 searchWrappers.add(searchWrapper);
             }
         } catch (Exception e) {
-            error("An error occurred while searching for Course Codes: ", e);
+            LOG.error("An error occurred while searching for Course Codes: ", e);
         }
         
         return searchWrappers;
@@ -123,7 +125,7 @@ public class CourseCodeSearchUtil {
         try {
             BeanUtils.copyProperties(instance, searchWrapper);
         } catch (Exception e) {
-            error("An error occurred while converting from the CouresCodeSearchWrapper to a CourseJointInfoWrapper: ", e);
+            LOG.error("An error occurred while converting from the CouresCodeSearchWrapper to a CourseJointInfoWrapper: ", e);
         }
         return instance;
     }

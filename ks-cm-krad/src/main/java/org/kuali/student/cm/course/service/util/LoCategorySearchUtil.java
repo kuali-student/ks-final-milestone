@@ -1,10 +1,5 @@
 package org.kuali.student.cm.course.service.util;
 
-import static org.kuali.student.logging.FormattedLogger.error;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.student.cm.course.form.LoCategoryInfoWrapper;
 import org.kuali.student.common.util.security.ContextUtils;
@@ -15,8 +10,15 @@ import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class LoCategorySearchUtil {
+
+    private static final Logger LOG = LoggerFactory.getLogger(LoCategorySearchUtil.class);
 
     private LoCategorySearchUtil() {
     }
@@ -64,7 +66,7 @@ public class LoCategorySearchUtil {
                 retrievedCategories.add(newCat);
             }
         } catch (Exception e) {
-            error("An error occurred in searchForLoCategories.", e);
+            LOG.error("An error occurred in searchForLoCategories.", e);
         }
 
         return retrievedCategories;

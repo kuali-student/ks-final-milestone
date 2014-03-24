@@ -9,12 +9,13 @@ import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
-import org.kuali.student.logging.FormattedLogger;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.common.util.constants.LearningObjectiveServiceConstants;
 import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.namespace.QName;
 import java.util.Collection;
@@ -22,6 +23,7 @@ import java.util.List;
 
 public class LoCategoryViewHelperServiceImpl extends ViewHelperServiceImpl {
 
+    private static final Logger LOG = LoggerFactory.getLogger(LoCategoryViewHelperServiceImpl.class);
     private transient LearningObjectiveService loService;
     public final String ACTIVE = "Active";
 
@@ -37,7 +39,7 @@ public class LoCategoryViewHelperServiceImpl extends ViewHelperServiceImpl {
         } catch (DataValidationErrorException e) {
             GlobalVariables.getMessageMap().putErrorForSectionId(CurriculumManagementConstants.KS_LO_CAT_TABLE, CurriculumManagementConstants.MessageKeys.ERROR_LO_CATEGORY_DUPLICATE);
         } catch (Exception e) {
-            FormattedLogger.error("An error occurred while trying to create a new Learning Objective Category: %s",
+            LOG.error("An error occurred while trying to create a new Learning Objective Category: %s",
                     e.getMessage());
         }
     }
@@ -54,7 +56,7 @@ public class LoCategoryViewHelperServiceImpl extends ViewHelperServiceImpl {
         } catch (DataValidationErrorException e) {
             GlobalVariables.getMessageMap().putErrorForSectionId(CurriculumManagementConstants.KS_LO_CAT_TABLE, CurriculumManagementConstants.MessageKeys.ERROR_LO_CATEGORY_DUPLICATE);
         } catch (Exception e) {
-            FormattedLogger.error("An error occurred while updating the Learning Objective Category: %s",
+            LOG.error("An error occurred while updating the Learning Objective Category: %s",
                     e.getMessage());
         }
     }
@@ -95,7 +97,7 @@ public class LoCategoryViewHelperServiceImpl extends ViewHelperServiceImpl {
                 try {
                     getLoService().deleteLoCategory(loCategory.getId(), ContextUtils.getContextInfo());
                 } catch (Exception e) {
-                    FormattedLogger.error("An error occurred while trying to delete a Learning Objective Category: %s",
+                    LOG.error("An error occurred while trying to delete a Learning Objective Category: %s",
                             e.getMessage());
                 }
                 ((List<Object>) collection).remove(lineIndex);

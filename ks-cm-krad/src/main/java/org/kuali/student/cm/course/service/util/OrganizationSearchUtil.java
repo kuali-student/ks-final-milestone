@@ -11,14 +11,16 @@ import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.kuali.student.logging.FormattedLogger.info;
-
 public class OrganizationSearchUtil {
-    
+
+    private static final Logger LOG = LoggerFactory.getLogger(OrganizationSearchUtil.class);
+
     private OrganizationSearchUtil() {
     }
 
@@ -63,8 +65,8 @@ public class OrganizationSearchUtil {
             final List<SearchResultCellInfo> cells = result.getCells();
             final OrganizationInfoWrapper cluOrgInfoDisplay = new OrganizationInfoWrapper();
             for (final SearchResultCellInfo cell : cells) {
-                info("Got key %s", cell.getKey());
-                info("Got key %s", cell.getValue());
+                LOG.info("Got key %s", cell.getKey());
+                LOG.info("Got key %s", cell.getValue());
                 
                 if ((CurriculumManagementConstants.OrganizationMessageKeys.ORG_RESULT_COLUMN_ID).equals(cell.getKey())) {
                     cluOrgInfoDisplay.setId(cell.getValue());

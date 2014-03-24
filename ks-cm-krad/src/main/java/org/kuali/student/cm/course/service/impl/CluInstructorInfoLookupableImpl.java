@@ -20,7 +20,6 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
-import org.kuali.student.logging.FormattedLogger;
 import org.kuali.student.r1.core.personsearch.service.impl.QuickViewByGivenName;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
@@ -30,6 +29,8 @@ import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -41,9 +42,11 @@ public class CluInstructorInfoLookupableImpl extends LookupableImpl {
 	private static final long serialVersionUID = -3027283578926320100L;
     private static final String PERSON_ID = "personId";
     private static final String DISPLAY_NAME ="displayName";
+    private static final Logger LOG = LoggerFactory.getLogger(CluInstructorInfoLookupableImpl.class);
 
-	
-	private SearchService searchService;
+
+
+    private SearchService searchService;
 
 	@Override
 	protected List<?> getSearchResults(LookupForm form,
@@ -96,7 +99,7 @@ public class CluInstructorInfoLookupableImpl extends LookupableImpl {
                 cluInstructorInfoDisplays.add(cluInstructorInfoDisplay);
         	}
 		} catch (Exception e) {
-            FormattedLogger.error("An error occurred retrieving the CluInstructors: " + e);
+            LOG.error("An error occurred retrieving the CluInstructors: " + e);
 		}
         
 		return cluInstructorInfoDisplays;

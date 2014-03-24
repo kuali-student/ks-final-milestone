@@ -20,7 +20,6 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
-import org.kuali.student.logging.FormattedLogger;
 import org.kuali.student.lum.lu.ui.course.keyvalues.CourseJointKeyValuesFinder.SearchByKeys;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.common.util.security.ContextUtils;
@@ -32,6 +31,8 @@ import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -41,8 +42,10 @@ import java.util.Map;
 public class CourseJointInfoLookupableImpl extends LookupableImpl {
 
 	private static final long serialVersionUID = 730938705006420306L;
-	
-	private CluService cluService;
+    private static final Logger LOG = LoggerFactory.getLogger(CourseJointInfoLookupableImpl.class);
+
+
+    private CluService cluService;
 	
 	@Override
 	protected List<?> getSearchResults(LookupForm form,
@@ -140,7 +143,7 @@ public class CourseJointInfoLookupableImpl extends LookupableImpl {
                 courseJointInfoDisplays.add(courseJointInfoDisplay);
             }
         } catch (Exception e) {
-            FormattedLogger.error("An error occurred retrieving the courseJointInfoDisplay: " + e);
+            LOG.error("An error occurred retrieving the courseJointInfoDisplay: " + e);
         }
         return courseJointInfoDisplays;
 	}	

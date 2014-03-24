@@ -1,29 +1,29 @@
 package org.kuali.student.cm.course.controller;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.xml.namespace.QName;
-
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.converters.DateConverter;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.cm.course.form.LoCategoryForm;
-import org.kuali.student.logging.FormattedLogger;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.common.util.constants.LearningObjectiveServiceConstants;
 import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.xml.namespace.QName;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * This controller handles the Learning Objective Category maintenance from the CM Home
@@ -36,6 +36,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class LoCategoryController extends UifControllerBase {
 
     private transient LearningObjectiveService loService;
+    private static final Logger LOG = LoggerFactory.getLogger(LoCategoryController.class);
 
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
@@ -57,7 +58,7 @@ public class LoCategoryController extends UifControllerBase {
                 }
             }
         } catch (Exception e) {
-            FormattedLogger.error("The Learning Objective Categories could not be retrieved from the database: %s",
+            LOG.error("The Learning Objective Categories could not be retrieved from the database: %s",
                     e.getMessage());
         }
         return loCategories;
@@ -80,7 +81,7 @@ public class LoCategoryController extends UifControllerBase {
         try {
             model = refresh(uifForm, result, request, response);
         } catch (Exception e) {
-            FormattedLogger.error("An error occurred while refreshing the Learning Objective Categories: %s",
+            LOG.error("An error occurred while refreshing the Learning Objective Categories: %s",
                     e.getMessage());
         }
         return model;
@@ -94,7 +95,7 @@ public class LoCategoryController extends UifControllerBase {
         try {
             model = refresh(uifForm, result, request, response);
         } catch (Exception e) {
-            FormattedLogger.error("An error occurred while refreshing the Learning Objective Categories: %s",
+            LOG.error("An error occurred while refreshing the Learning Objective Categories: %s",
                     e.getMessage());
         }
         return model;

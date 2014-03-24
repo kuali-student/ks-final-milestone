@@ -31,14 +31,13 @@ import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.kuali.student.logging.FormattedLogger.debug;
-import static org.kuali.student.logging.FormattedLogger.error;
-import static org.kuali.student.logging.FormattedLogger.info;
 
 /**
  * Return all organizations by a specific subject code.
@@ -47,7 +46,8 @@ import static org.kuali.student.logging.FormattedLogger.info;
  */
 public class OrgsBySubjectCodeValuesFinder extends UifKeyValuesFinderBase {
 
-	private SubjectCodeService subjectCodeService;
+    private static final Logger LOG = LoggerFactory.getLogger(OrgsBySubjectCodeValuesFinder.class);
+    private SubjectCodeService subjectCodeService;
     private boolean blankOption;
 
     @Override
@@ -89,11 +89,11 @@ public class OrgsBySubjectCodeValuesFinder extends UifKeyValuesFinderBase {
                     departments.add(new ConcreteKeyValue(subjectCodeId, subjectCodeOptionalLongName));
                 }
             }
-            debug("Returning %s", departments);
+            LOG.debug("Returning %s", departments);
 
         	return departments;
         } catch (Exception e) {
-        	error("Error building KeyValues List %s", e);
+        	LOG.error("Error building KeyValues List %s", e);
             throw new RuntimeException(e);
         }
     }
@@ -114,7 +114,7 @@ public class OrgsBySubjectCodeValuesFinder extends UifKeyValuesFinderBase {
      * @return KeyValue
      */
     protected KeyValue getOrganizationBy(final String code, final String orgId) {
-        debug("Using code: %s and orgId: %s for the search", code, orgId);
+        LOG.debug("Using code: %s and orgId: %s for the search", code, orgId);
         final SearchRequestInfo searchRequest = new SearchRequestInfo();
         searchRequest.setSearchKey("subjectCode.search.orgsForSubjectCode");
         searchRequest.addParam("subjectCode.queryParam.code", code);
@@ -137,11 +137,11 @@ public class OrgsBySubjectCodeValuesFinder extends UifKeyValuesFinderBase {
                 return new ConcreteKeyValue(subjectCodeOptionalLongName, subjectCodeId);
             }
         } catch (Exception e) {
-        	error("Error building KeyValues List %s", e);
+        	LOG.error("Error building KeyValues List %s", e);
             throw new RuntimeException(e);
         }
         
-        info("Returning a null from org search");
+        LOG.info("Returning a null from org search");
         return null;
     }
 

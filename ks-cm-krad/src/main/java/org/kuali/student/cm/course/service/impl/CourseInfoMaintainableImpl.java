@@ -122,6 +122,8 @@ import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import org.springframework.beans.BeanUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.persistence.Transient;
 import javax.xml.namespace.QName;
@@ -129,9 +131,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static org.kuali.student.logging.FormattedLogger.error;
-import static org.kuali.student.logging.FormattedLogger.info;
 
 /**
  *
@@ -142,6 +141,9 @@ import static org.kuali.student.logging.FormattedLogger.info;
  */
 public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl implements CourseInfoMaintainable, RuleViewHelperService,CMMaintainable {
 
+
+
+    private static final Logger LOG = LoggerFactory.getLogger(CourseInfoMaintainableImpl.class);
 
     protected transient static final String DEFAULT_REQUIRED_WORKFLOW_MODE = "Submit";
 
@@ -234,7 +236,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 cluInstructorInfoDisplays.add(cluInstructorInfoDisplay);
             }
         } catch (Exception e) {
-            error("An error occurred in the getInstructorsForSuggest method. %s", e.getMessage());
+            LOG.error("An error occurred in the getInstructorsForSuggest method. %s", e.getMessage());
         }
 
         return cluInstructorInfoDisplays;
@@ -298,10 +300,10 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                     }
                 }
             } else {
-                error(CurriculumManagementConstants.MessageKeys.ERROR_GET_INSTRUCTOR_RETURN_MORE_THAN_ONE_RESULT);
+                LOG.error(CurriculumManagementConstants.MessageKeys.ERROR_GET_INSTRUCTOR_RETURN_MORE_THAN_ONE_RESULT);
             }
         } catch (Exception e) {
-            error("An error occurred in the getInstructor method. %s", e.getMessage());
+            LOG.error("An error occurred in the getInstructor method. %s", e.getMessage());
         }
 
         return instructor;
@@ -344,7 +346,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 retrievedCodes.add(new SubjectCodeWrapper(id, code));
             }
         } catch (Exception e) {
-            error("An error occurred retrieving the SubjectCodeDisplay: %s", e);
+            LOG.error("An error occurred retrieving the SubjectCodeDisplay: %s", e);
         }
 
         return retrievedCodes;
@@ -411,7 +413,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 listCollaboratorWrappers.add(theCollaboratorWrapper);
             }
         } catch (Exception e) {
-            error("Error retrieving Personel search List %s", e);
+            LOG.error("Error retrieving Personel search List %s", e);
             //throw new RuntimeException();
         }
 
@@ -1338,7 +1340,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             courseInfoWrapper.setCourseInfo(getCourseService().updateCourse(course.getId(), course, ContextUtils.getContextInfo()));
         }
 
-        info("Saving Proposal for course %s", courseInfoWrapper.getCourseInfo().getId());
+        LOG.info("Saving Proposal for course %s", courseInfoWrapper.getCourseInfo().getId());
 
         ProposalInfo proposal = courseInfoWrapper.getProposalInfo();
         proposal.setWorkflowId(getDocumentNumber());

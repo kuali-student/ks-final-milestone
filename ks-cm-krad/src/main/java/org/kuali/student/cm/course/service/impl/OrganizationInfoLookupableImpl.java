@@ -30,15 +30,14 @@ import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.namespace.QName;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import static org.kuali.student.logging.FormattedLogger.debug;
-import static org.kuali.student.logging.FormattedLogger.error;
-import static org.kuali.student.logging.FormattedLogger.info;
 
 
 /**
@@ -54,8 +53,9 @@ public class OrganizationInfoLookupableImpl extends LookupableImpl {
     public static final String ORGANIZATION_NAME = "organizationName";
     public static final String ABBREVIATION = "abbreviation";
     public static final String ID = "id";
-	
-	private SearchService searchService;
+    private static final Logger LOG = LoggerFactory.getLogger(OrganizationInfoLookupableImpl.class);
+
+    private SearchService searchService;
 	private OrganizationService organizationService;
 
 
@@ -90,7 +90,7 @@ public class OrganizationInfoLookupableImpl extends LookupableImpl {
             queryParamValueList.add(shortNameParam);
         }
 
-        info("Searching for %s", queryParamValueList);
+        LOG.info("Searching for %s", queryParamValueList);
 
         final SearchRequestInfo searchRequest = new SearchRequestInfo();
         searchRequest.setSearchKey(CurriculumManagementConstants.OrganizationMessageKeys.ORG_SEARCH_GENERIC);
@@ -103,15 +103,15 @@ public class OrganizationInfoLookupableImpl extends LookupableImpl {
         try {
         	searchResult = getOrganizationService().search(searchRequest, ContextUtils.getContextInfo());
 		} catch (Exception e) {
-            error("An error occurred in getting search result. %s", e.getMessage());
+            LOG.error("An error occurred in getting search result. %s", e.getMessage());
 		}
 
         for (final SearchResultRowInfo result : searchResult.getRows()) {
             final List<SearchResultCellInfo> cells = result.getCells();
             final OrganizationInfoWrapper cluOrgInfoDisplay = new OrganizationInfoWrapper();
             for (final SearchResultCellInfo cell : cells) {
-                debug("Got key %s", cell.getKey());
-                debug("Got value %s", cell.getValue());
+                LOG.debug("Got key %s", cell.getKey());
+                LOG.debug("Got value %s", cell.getValue());
                 
                 if ((CurriculumManagementConstants.OrganizationMessageKeys.ORG_RESULT_COLUMN_ID).equals(cell.getKey())) {
                     cluOrgInfoDisplay.setId(cell.getValue());
