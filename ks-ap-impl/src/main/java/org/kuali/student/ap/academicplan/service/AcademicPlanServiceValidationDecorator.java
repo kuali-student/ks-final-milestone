@@ -15,9 +15,8 @@ import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.infc.HoldsDataDictionaryService;
 import org.kuali.student.r2.common.infc.HoldsValidator;
 import org.kuali.student.r2.common.infc.ValidationResult;
-import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 
-import java.util.ArrayList;
+import javax.jws.WebParam;
 import java.util.List;
 
 public class AcademicPlanServiceValidationDecorator extends
@@ -68,7 +67,17 @@ public class AcademicPlanServiceValidationDecorator extends
 		return getNextDecorator().getLearningPlan(learningPlanId, context);
 	}
 
-	@Override
+    @Override
+    public List<LearningPlanInfo> getLearningPlansByIds(@WebParam(name = "learningPlanIds") List<String> learningPlanIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getLearningPlansByIds(learningPlanIds, contextInfo);
+    }
+
+    @Override
+    public List<PlanItemInfo> getPlanItemsByIds(@WebParam(name = "planItemIds") List<String> planItemIds, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return getNextDecorator().getPlanItemsByIds(planItemIds, context);
+    }
+
+    @Override
 	public List<PlanItemInfo> getPlanItemsInPlan(String learningPlanId,
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -86,6 +95,11 @@ public class AcademicPlanServiceValidationDecorator extends
 				.getPlanItemsInPlanByRefObjectIdByRefObjectType(learningPlanId,
 						refObjectId, refObjectType, context);
 	}
+
+    @Override
+    public List<PlanItemSetInfo> getPlanItemSetsByIds(@WebParam(name = "planItemSetIds") List<String> planItemSetIds, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return getNextDecorator().getPlanItemSetsByIds(planItemSetIds, context);
+    }
 
 	@Override
 	public List<LearningPlanInfo> getLearningPlansForStudentByType(
@@ -109,9 +123,9 @@ public class AcademicPlanServiceValidationDecorator extends
 	@Override
 	public PlanItemInfo createPlanItem(PlanItemInfo planItem,
 			ContextInfo context) throws AlreadyExistsException,
-			DataValidationErrorException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
+            DataValidationErrorException, InvalidParameterException,
+            MissingParameterException, OperationFailedException,
+            PermissionDeniedException, VersionMismatchException {
 		fullValidation(planItem, context);
 
         try {
@@ -327,12 +341,12 @@ public class AcademicPlanServiceValidationDecorator extends
 	}
 
 	@Override
-	public LearningPlanInfo updateLearningPlan(String learningPlanId,
+    public LearningPlanInfo updateLearningPlan(String learningPlanId,
 			LearningPlanInfo learningPlan, ContextInfo context)
-			throws DataValidationErrorException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException, DoesNotExistException {
-		fullValidation(learningPlan, context);
+            throws DataValidationErrorException, InvalidParameterException,
+            MissingParameterException, OperationFailedException,
+            PermissionDeniedException, DoesNotExistException, VersionMismatchException {
+        fullValidation(learningPlan, context);
 		return getNextDecorator().updateLearningPlan(learningPlanId,
 				learningPlan, context);
 	}
@@ -340,10 +354,10 @@ public class AcademicPlanServiceValidationDecorator extends
 	@Override
 	public PlanItemInfo updatePlanItem(String planItemId,
 			PlanItemInfo planItem, ContextInfo context)
-			throws DoesNotExistException, DataValidationErrorException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException,
-			AlreadyExistsException {
+            throws DoesNotExistException, DataValidationErrorException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException,
+            AlreadyExistsException, VersionMismatchException {
 
 		// Since this is an update we can ignore AlreadyExistsExceptions. That
 		// is the last validation which is performed.

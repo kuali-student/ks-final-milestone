@@ -58,6 +58,7 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
@@ -208,8 +209,11 @@ public class DefaultScheduleBuildStrategy implements ScheduleBuildStrategy,
 		} catch (OperationFailedException e) {
 			throw new IllegalStateException(
 					"Error saving reserved time attributes in learning plan", e);
-		}
-	}
+		} catch (VersionMismatchException e) {
+            throw new IllegalStateException(
+                    "Error saving reserved time attributes in learning plan", e);
+        }
+    }
 
 	@Override
 	public ScheduleBuildForm getInitialForm() {

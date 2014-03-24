@@ -1,15 +1,25 @@
 package org.kuali.student.ap.academicplan.model;
 
 import com.sun.istack.NotNull;
+import org.kuali.student.ap.academicplan.dao.LearningPlanDao;
 import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
 import org.kuali.student.ap.academicplan.service.AcademicPlanServiceConstants;
+import org.kuali.student.ap.academicplan.service.AcademicPlanServiceImpl;
+import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
+import org.kuali.student.r2.common.assembler.TransformUtility;
 import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.core.scheduling.model.ScheduleRequestAttributeEntity;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -62,6 +72,9 @@ public class PlanItemEntity extends MetaEntity implements AttributeOwner<PlanIte
     @JoinColumn(name = "PLAN_ID")
     private LearningPlanEntity learningPlan;
 
+    //TODO: KSAP-1014 - Add 'name' attribute to LearningPlan and PlanItem
+    //TODO: KSAP-1015 - move description to LearningPlan & PlanItem
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "RT_DESCR_ID")
     private PlanItemRichTextEntity descr;
@@ -81,6 +94,9 @@ public class PlanItemEntity extends MetaEntity implements AttributeOwner<PlanIte
 
     @Column(name = "CATEGORY")
     private String category;
+
+    @Column(name="STATE")
+    private String stateKey;
 
     public PlanItemEntity() {
         super();
@@ -160,6 +176,15 @@ public class PlanItemEntity extends MetaEntity implements AttributeOwner<PlanIte
         this.category = category;
     }
 
+    public String getStateKey() {
+        return stateKey;
+    }
+
+    public void setStateKey(String stateKey) {
+        this.stateKey = stateKey;
+    }
+
+
     /**
      * Add an ATP id to the set. No nulls or empty strings.
      *
@@ -184,7 +209,7 @@ public class PlanItemEntity extends MetaEntity implements AttributeOwner<PlanIte
 
     /**
      * Provides and data transfer object representation of the plan item.
-     * @return LearningPlanInfo
+     * @return LearningPlanItemInfo
      */
     public PlanItemInfo toDto() {
         PlanItemInfo dto = new PlanItemInfo();
@@ -194,7 +219,7 @@ public class PlanItemEntity extends MetaEntity implements AttributeOwner<PlanIte
         dto.setRefObjectId(this.getRefObjectId());
         dto.setRefObjectType(this.getRefObjectTypeKey());
         dto.setTypeKey(this.getTypeId());
-        dto.setStateKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_ACTIVE_STATE_KEY);
+        dto.setStateKey(this.getStateKey());
         dto.setCredit(this.getCredit());
         dto.setCategory(AcademicPlanServiceConstants.ItemCategory.fromString(this.getCategory()));
 
@@ -222,5 +247,62 @@ public class PlanItemEntity extends MetaEntity implements AttributeOwner<PlanIte
     @Override
     public String toString() {
         return "PlanItemEntity [" + getId() + "]";
+    }
+
+    /**
+     * Populate PlanItemEntity (this) from the passed in Data Transfer Object
+     * @param planItem -  plan item data transfer object
+     * @param learningPlanDao - learning plan data-access-object...used to populate the learningPlan of the PlanItemEntity
+     * @throws InvalidParameterException
+     */
+    public void fromDto(PlanItemInfo planItem, LearningPlanDao learningPlanDao) throws InvalidParameterException {
+        super.fromDTO(planItem);
+
+
+        setId(planItem.getId());
+        setRefObjectId(planItem.getRefObjectId());
+        setRefObjectTypeKey(planItem.getRefObjectType());
+        setTypeId(planItem.getTypeKey());
+        setStateKey(planItem.getStateKey());
+        setCredit(planItem.getCredit());
+        setCategory(planItem.getCategory().toString());
+
+        //  Update text entity.
+        RichTextInfo descrInfo = planItem.getDescr();
+        if (descrInfo == null) {
+            setDescr(null);
+        } else {
+            PlanItemRichTextEntity descr = getDescr();
+            if (descr == null) {
+                setDescr(new PlanItemRichTextEntity(planItem.getDescr()));
+            } else {
+                descr.setPlain(descrInfo.getPlain());
+                descr.setFormatted(descrInfo.getFormatted());
+            }
+        }
+
+        //  Update plan periods.
+        if (planItem.getPlanPeriods() != null) {
+            //  Convert from List to Set.
+            setPlanPeriods(new HashSet<String>(planItem.getPlanPeriods()));
+        }
+
+        //  Load entity attributes
+        if(this.getAttributes() == null) {
+            this.setAttributes(new HashSet<PlanItemAttributeEntity>());
+        }
+        else {
+            this.getAttributes().clear();
+        }
+        for (Attribute att : planItem.getAttributes()) {
+            this.getAttributes().add(new PlanItemAttributeEntity(att, this));
+        }
+
+        LearningPlanEntity planEntity = learningPlanDao.find(planItem.getLearningPlanId());
+        if (planEntity == null) {
+            throw new InvalidParameterException(String.format("Unknown learning plan id [%s]",
+                    planItem.getLearningPlanId()));
+        }
+        setLearningPlan(planEntity);
     }
 }

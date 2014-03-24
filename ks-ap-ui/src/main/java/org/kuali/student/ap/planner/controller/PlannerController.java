@@ -478,6 +478,9 @@ public class PlannerController extends KsapControllerBase {
 			throw new IllegalStateException("LP service failure", e);
 		} catch (PermissionDeniedException e) {
 			throw new IllegalStateException("LP service failure", e);
+        } catch (VersionMismatchException e) {
+            //TODO:  ksap-1012 handle VersionMismatchException appropriately
+            throw new IllegalStateException("LP service failure", e);
 		}
 
         // Construct json events for updating the planner screen
@@ -590,6 +593,9 @@ public class PlannerController extends KsapControllerBase {
 			throw new IllegalStateException("LP service failure", e);
 		} catch (PermissionDeniedException e) {
 			throw new IllegalStateException("LP service failure", e);
+        } catch (VersionMismatchException e) {
+            //TODO:  ksap-1012 handle VersionMismatchException appropriately
+            throw new IllegalStateException("LP service failure", e);
 		}
 
         // Create json strings for displaying action's response and updating the planner screen.
@@ -686,6 +692,9 @@ public class PlannerController extends KsapControllerBase {
 			throw new IllegalStateException("LP service failure", e);
 		} catch (PermissionDeniedException e) {
 			throw new IllegalStateException("LP service failure", e);
+        } catch (VersionMismatchException e) {
+            //TODO:  ksap-1012 handle VersionMismatchException appropriately
+            throw new IllegalStateException("LP service failure", e);
 		}
 
         // Create json strings for displaying action's response and updating the planner screen.
@@ -795,6 +804,9 @@ public class PlannerController extends KsapControllerBase {
         } catch (OperationFailedException e) {
             throw new IllegalStateException("LP service failure", e);
         } catch (PermissionDeniedException e) {
+            throw new IllegalStateException("LP service failure", e);
+        } catch (VersionMismatchException e) {
+            //TODO:  ksap-1012 handle VersionMismatchException appropriately
             throw new IllegalStateException("LP service failure", e);
         }
 
@@ -930,6 +942,9 @@ public class PlannerController extends KsapControllerBase {
         } catch (OperationFailedException e) {
             throw new IllegalStateException("LP service failure", e);
         } catch (PermissionDeniedException e) {
+            throw new IllegalStateException("LP service failure", e);
+        } catch (VersionMismatchException e) {
+            //TODO:  ksap-1012 handle VersionMismatchException appropriately
             throw new IllegalStateException("LP service failure", e);
         }
         eventList = PlanEventUtils.makeAddBookmarkEvent(newBookmark, eventList);

@@ -147,7 +147,7 @@ public class AdviserController extends UifControllerBase {
             logger.error("Query for learning plan failed.", e);
         }
         if (plan != null) {
-            if (plan.getShared().toString().equalsIgnoreCase(PlanConstants.LEARNING_PLAN_ITEM_SHARED_FALSE_KEY)) {
+            if (plan.isShared().toString().equalsIgnoreCase(PlanConstants.LEARNING_PLAN_ITEM_SHARED_FALSE_KEY)) {
                 return "redirect:/kr-krad/unauthorized";
             }
         }

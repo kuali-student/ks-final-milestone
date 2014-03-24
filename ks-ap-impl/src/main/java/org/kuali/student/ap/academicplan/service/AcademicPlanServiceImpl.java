@@ -20,14 +20,11 @@ import org.kuali.student.ap.academicplan.dto.LearningPlanInfo;
 import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
 import org.kuali.student.ap.academicplan.dto.PlanItemSetInfo;
 import org.kuali.student.ap.academicplan.model.AttributeEntity;
-import org.kuali.student.ap.academicplan.model.LearningPlanAttributeEntity;
 import org.kuali.student.ap.academicplan.model.LearningPlanEntity;
-import org.kuali.student.ap.academicplan.model.LearningPlanRichTextEntity;
 import org.kuali.student.ap.academicplan.model.PlanItemAttributeEntity;
 import org.kuali.student.ap.academicplan.model.PlanItemEntity;
 import org.kuali.student.ap.academicplan.model.PlanItemRichTextEntity;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -40,7 +37,6 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.infc.HasAttributes;
-import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -83,7 +79,25 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
 		return dto;
 	}
 
-	@Override
+    @Override
+    public List<LearningPlanInfo> getLearningPlansByIds(@WebParam(name = "learningPlanIds") List<String> learningPlanIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<LearningPlanEntity> entityList = learningPlanDao.findByIds(learningPlanIds);
+        List<LearningPlanInfo> infoList = new ArrayList<LearningPlanInfo>();
+
+
+        for (LearningPlanEntity planEntity : entityList) {
+
+            infoList.add(planEntity.toDto());
+        }
+
+        return infoList;
+    }
+
+//    @Override
+//    public List<String> getLearningPlanIdsByType(@WebParam(name = "planTypeKey") planTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+//    }
+
+    @Override
 	public PlanItemInfo getPlanItem(@WebParam(name = "planItemId") String planItemId,
 			@WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
@@ -96,7 +110,12 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
 		return planItem.toDto();
 	}
 
-	@Override
+    @Override
+    public List<PlanItemInfo> getPlanItemsByIds(@WebParam(name = "planItemIds") List<String> planItemIds, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        throw new RuntimeException("Not implemented.");
+    }
+
+    @Override
 	public List<PlanItemInfo> getPlanItemsInPlanByType(@WebParam(name = "learningPlanId") String learningPlanId,
 			@WebParam(name = "planItemTypeKey") String planItemTypeKey, @WebParam(name = "context") ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -195,7 +214,12 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
 		throw new RuntimeException("Not implemented.");
 	}
 
-	@Override
+    @Override
+    public List<PlanItemSetInfo> getPlanItemSetsByIds(@WebParam(name = "planItemSetIds") List<String> planItemSetIds, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        throw new RuntimeException("Not implemented.");
+    }
+
+    @Override
 	public List<LearningPlanInfo> getLearningPlansForStudentByType(@WebParam(name = "studentId") String studentId,
 			@WebParam(name = "planTypeKey") String planTypeKey, @WebParam(name = "context") ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -211,15 +235,13 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
 	}
 
 	@Override
-	@Transactional
+	@Transactional (readOnly = false, rollbackFor = {Throwable.class})
 	public LearningPlanInfo createLearningPlan(@WebParam(name = "learningPlan") LearningPlanInfo learningPlan,
 			@WebParam(name = "context") ContextInfo context) throws AlreadyExistsException,
 			DataValidationErrorException, InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 
 		LearningPlanEntity lpe = new LearningPlanEntity();
-		
-		lpe.setId(UUIDHelper.genStringUUID());
 
         TypeInfo type = null;
         try {
@@ -228,109 +250,38 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
             throw new InvalidParameterException(String.format("Unknown type [%s].", learningPlan.getTypeKey()));
         }
 
-		lpe.setTypeId(type.getKey());
-		lpe.setStateKey(learningPlan.getStateKey());
-
-		lpe.setStudentId(learningPlan.getStudentId());
-		lpe.setDescr(new LearningPlanRichTextEntity(learningPlan.getDescr()));
-
-		//  Item meta
-		lpe.setCreateId(context.getPrincipalId());
-		lpe.setCreateTime(new Date());
-		lpe.setUpdateId(context.getPrincipalId());
-		lpe.setUpdateTime(new Date());
-		lpe.setShared(learningPlan.getShared());
-
-		// Update attributes.
-		Set<LearningPlanAttributeEntity> attributeEntities = new HashSet<LearningPlanAttributeEntity>();
-		for (Attribute att : learningPlan.getAttributes())
-			attributeEntities.add(new LearningPlanAttributeEntity(att, lpe));
-		lpe.setAttributes(attributeEntities);
+        lpe.setId(UUIDHelper.genStringUUID());
+        lpe.fromDto(learningPlan);
+        lpe.setEntityCreated(context);
 
 		learningPlanDao.persist(lpe);
-		
 		learningPlanDao.getEm().flush();
-
-		return learningPlanDao.find(lpe.getId()).toDto();
+		return lpe.toDto();
 	}
 
 	@Override
-	@Transactional
+	@Transactional (readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
 	public PlanItemInfo createPlanItem(@WebParam(name = "planItem") PlanItemInfo planItem,
 			@WebParam(name = "context") ContextInfo context) throws AlreadyExistsException,
-			DataValidationErrorException, InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
+            DataValidationErrorException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException, VersionMismatchException {
 
 		//  For a given plan there should be only one planned course item per course id. So, do a lookup to see
 		//  if a plan item exists if the type is "planned" and do an update of ATPid instead of creating a new plan item.
 		PlanItemEntity pie = new PlanItemEntity();
-		String planItemId = UUIDHelper.genStringUUID();
-		pie.setId(planItemId);
+		planItem.setId(UUIDHelper.genStringUUID());
+        pie.fromDto(planItem,learningPlanDao);
+        pie.setEntityCreated(context);
 
-		pie.setRefObjectId(planItem.getRefObjectId());
-		pie.setRefObjectTypeKey(planItem.getRefObjectType());
-        pie.setCategory(planItem.getCategory().toString());
-
-		pie.setTypeId(planItem.getTypeKey());
-
-		//  Convert the List of plan periods to a Set.
-		pie.setPlanPeriods(new HashSet<String>(planItem.getPlanPeriods()));
-
-		//  Set attributes.
-		pie.setAttributes(new HashSet<PlanItemAttributeEntity>());
-		if (planItem.getAttributes() != null) {
-			for (Attribute att : planItem.getAttributes()) {
-				PlanItemAttributeEntity attEntity = new PlanItemAttributeEntity(att, pie);
-				pie.getAttributes().add(attEntity);
-			}
-		}
-
-		//  Create text entity.
-		pie.setDescr(new PlanItemRichTextEntity(planItem.getDescr()));
-
-		//  Set meta data.
-		pie.setCreateId(context.getPrincipalId());
-		pie.setCreateTime(new Date());
-		pie.setUpdateId(context.getPrincipalId());
-		pie.setUpdateTime(new Date());
-
-		// Set credits
-		if (planItem.getCredit() != null) {
-			pie.setCredit(planItem.getCredit());
-		}
-
-		//  Set the learning plan.
-		String planId = planItem.getLearningPlanId();
-		if (planId == null) {
-			throw new InvalidParameterException("Learning plan id was null.");
-		}
-		LearningPlanEntity plan = learningPlanDao.find(planItem.getLearningPlanId());
-		if (plan == null) {
-			throw new InvalidParameterException(String.format("Unknown learning plan id [%s]",
-					planItem.getLearningPlanId()));
-		}
-		pie.setLearningPlan(plan);
-
-		//  Save the new plan item.
 		planItemDao.persist(pie);
-		
 		planItemDao.getEm().flush();
 
-		plan.setEntityUpdated(context);
-		
-		//  Update the metadata (timestamp, updated-by) on the plan.
-		plan.setUpdateId(context.getPrincipalId());
-		plan.setUpdateTime(new Date());
-		
-		try {
-			plan = learningPlanDao.merge(plan);
-		} catch (VersionMismatchException e) {
-			throw new OperationFailedException("Failed to update learning plan("+plan.getId() +") on learning plan item change ("+planItem.getId()+")");
-		}
-
+        //Update LearningPlan's update-timeStamp & userId
+        LearningPlanEntity learningPlan = pie.getLearningPlan();
+        learningPlan.setEntityUpdated(context);
+        learningPlan = learningPlanDao.merge(learningPlan);
 		learningPlanDao.getEm().flush();
-		
-		return planItemDao.find(planItemId).toDto();
+		return pie.toDto();
 	}
 
 	@Override
@@ -341,275 +292,83 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
 		throw new RuntimeException("Not implemented.");
 	}
 
-	/**
-	 *
-	 * @param createNewPlanItem
-	 * @param attrSource
-	 * @param attributeEntities
-	 * @return
-	 */
-	private List<Attribute> mergeAttributes(boolean createNewPlanItem, HasAttributes attrSource,
-			Set<? extends AttributeEntity> attributeEntities) {
-		if (attrSource.getAttributes() == null)
-			return null;
-
-		Map<String, List<Attribute>> attributeMap = new LinkedHashMap<String, List<Attribute>>();
-		for (Attribute att : attrSource.getAttributes()) {
-			String key = att.getKey();
-			List<Attribute> attl = attributeMap.get(key);
-			if (attl == null)
-				attributeMap.put(key, attl = new LinkedList<Attribute>());
-			attl.add(att);
-		}
-
-		if (attributeEntities != null) {
-			if (createNewPlanItem) {
-				attributeEntities.clear();
-			} else {
-				Iterator<? extends AttributeEntity> ai = attributeEntities.iterator();
-			while (ai.hasNext()) {
-					AttributeEntity attrEntity = ai.next();
-				String key = attrEntity.getKey();
-				if (attributeMap.containsKey(key)) {
-					List<Attribute> attl = attributeMap.get(key);
-					if (attl.isEmpty()) {
-						ai.remove();
-					} else {
-						Iterator<Attribute> atti = attl.iterator();
-						Attribute att = null;
-						while (att == null && atti.hasNext()) {
-							Attribute attc = atti.next();
-							if (attc.getId() != null && attc.getId().equals(attrEntity.getId())) {
-								att = attc;
-								atti.remove();
-							}
-						}
-						if (att == null) {
-							att = attl.remove(0);
-						}
-						attrEntity.setValue(att.getValue());
-					}
-					if (attl.isEmpty())
-						attributeMap.remove(key);
-				} else {
-					ai.remove();
-				}
-			}
-		}
-		}
-
-		List<Attribute> rv = new LinkedList<Attribute>();
-		for (List<Attribute> attl : attributeMap.values())
-			rv.addAll(attl);
-		return rv;
-	}
-
 	@Override
-	@Transactional
+    @Transactional  (readOnly = false, rollbackFor = {Throwable.class})
 	public LearningPlanInfo updateLearningPlan(@WebParam(name = "learningPlanId") String learningPlanId,
 			@WebParam(name = "learningPlan") LearningPlanInfo learningPlan,
-			@WebParam(name = "context") ContextInfo context) throws DataValidationErrorException,
-			InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException,
-			DoesNotExistException {
+			@WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, VersionMismatchException {
+
+        if (!learningPlanId.equals(learningPlan.getId())) {
+            throw new InvalidParameterException(learningPlanId + " does not match the id on the object " + learningPlan.getId());
+        }
 
 		LearningPlanEntity lpe = learningPlanDao.find(learningPlanId);
 		if (lpe == null) {
 			throw new DoesNotExistException(learningPlanId);
 		}
 
-        TypeInfo type = null;
-        try {
-            type = KsapFrameworkServiceLocator.getTypeService().getType(learningPlan.getTypeKey(), context);
-        } catch (DoesNotExistException e) {
-            throw new InvalidParameterException(String.format("Unknown type [%s].", learningPlan.getTypeKey()));
+        if (!lpe.getTypeId().equals(learningPlan.getTypeKey())) {
+            throw new OperationFailedException("Passed in plan Type: "+learningPlan.getTypeKey()+" must match stored typeKey: "+lpe.getTypeId()+" for planId: "+learningPlanId);
         }
-        lpe.setTypeId(type.getKey());
-		lpe.setStateKey(learningPlan.getStateKey());
 
-		lpe.setStudentId(learningPlan.getStudentId());
-
-		//  Update text entity.
-		RichTextInfo descrInfo = learningPlan.getDescr();
-		if (descrInfo == null) {
-			lpe.setDescr(null);
-		} else {
-			LearningPlanRichTextEntity descr = lpe.getDescr();
-			if (descr == null) {
-				descr = new LearningPlanRichTextEntity(descrInfo);
-			} else {
-				descr.setPlain(descrInfo.getPlain());
-				descr.setFormatted(descrInfo.getFormatted());
-			}
-		}
-
-		//  Update attributes.
-		List<Attribute> createAttrs = mergeAttributes(false, learningPlan, lpe.getAttributes());
-		if (createAttrs != null) {
-			Set<LearningPlanAttributeEntity> attributeEntities = lpe.getAttributes();
-			if (attributeEntities == null) {
-				lpe.setAttributes(attributeEntities = new HashSet<LearningPlanAttributeEntity>());
-			}
-			for (Attribute att : createAttrs)
-				attributeEntities.add(new LearningPlanAttributeEntity(att, lpe));
-		}
-
-		//  Plan meta
-		lpe.setUpdateId(context.getPrincipalId());
-		lpe.setUpdateTime(new Date());
-		lpe.setShared(learningPlan.getShared());
-
-		try {
-			lpe = learningPlanDao.merge(lpe);
-		} catch (VersionMismatchException e) {
-			throw new OperationFailedException("Failed to update Learning Plan for id = "+ learningPlanId);
-		}
-		
+        lpe.fromDto(learningPlan);
+        lpe.setEntityUpdated(context);
+        lpe = learningPlanDao.merge(lpe);
 		learningPlanDao.getEm().flush();
-		
-		return learningPlanDao.find(learningPlanId).toDto();
+		return lpe.toDto();
 	}
 
-	@Override
-	@Transactional
+    @Override
+	@Transactional  (readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
 	public PlanItemInfo updatePlanItem(@WebParam(name = "planItemId") String planItemId,
 			@WebParam(name = "planItem") PlanItemInfo planItem, @WebParam(name = "context") ContextInfo context)
-			throws DoesNotExistException, DataValidationErrorException, InvalidParameterException,
-			MissingParameterException, OperationFailedException, PermissionDeniedException {
+            throws DoesNotExistException, DataValidationErrorException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
 
-		//  See if the plan item exists before trying to update it.
-		PlanItemEntity planItemEntity = planItemDao.find(planItemId);
+        if (!planItemId.equals(planItem.getId())) {
+            throw new InvalidParameterException(planItemId + " does not match the id on the object " + planItem.getId());
+        }
 
-		// If Plan type changes, create a new one and update the old one's state to DELETED
-		String origPlanItemId = null;
-
-		if (planItemEntity == null) {
+        //  See if the plan item exists before trying to update it.
+        PlanItemEntity planItemEntity = planItemDao.find(planItemId);
+        if (planItemEntity == null) {
 			throw new DoesNotExistException(planItemId);
 		}
 
-		planItemEntity.setRefObjectId(planItem.getRefObjectId());
-		planItemEntity.setRefObjectTypeKey(planItem.getRefObjectType());
-
-		//  Update the plan item category if it has changed.
-		boolean createNewPlanItem = false;
-		if (!planItemEntity.getCategory().equals(planItem.getCategory())
-				&& planItemEntity.getCategory()
-						.equals(AcademicPlanServiceConstants.ItemCategory.WISHLIST)) {
-			createNewPlanItem = true;
-		}
-
-		if (!planItemEntity.getCategory().equals(planItem.getCategory())) {
-            planItemEntity.setCategory(planItem.getCategory().toString());
-			origPlanItemId = planItemEntity.getId();
-		}
-
-		//  Update plan periods.
-		if (planItem.getPlanPeriods() != null) {
-			//  Convert from List to Set.
-			planItemEntity.setPlanPeriods(new HashSet<String>(planItem.getPlanPeriods()));
-		}
-
-		//  Update attributes.
-		List<Attribute> createAttrs = mergeAttributes(createNewPlanItem, planItem, planItemEntity.getAttributes());
-		if (createAttrs != null) {
-			Set<PlanItemAttributeEntity> attributeEntities = planItemEntity.getAttributes();
-			if (attributeEntities == null) {
-				planItemEntity.setAttributes(attributeEntities = new HashSet<PlanItemAttributeEntity>());
-			}
-			for (Attribute att : createAttrs)
-				attributeEntities.add(new PlanItemAttributeEntity(att, planItemEntity));
-		}
-
-		//  Update text entity.
-		RichTextInfo descrInfo = planItem.getDescr();
-		if (descrInfo == null) {
-			planItemEntity.setDescr(null);
-		} else {
-			PlanItemRichTextEntity descr = planItemEntity.getDescr();
-			if (descr == null) {
-				planItemEntity.setDescr(new PlanItemRichTextEntity(planItem.getDescr()));
-			} else {
-				descr.setPlain(descrInfo.getPlain());
-				descr.setFormatted(descrInfo.getFormatted());
-			}
-		}
-
-		//  Update meta data.
-		planItemEntity.setUpdateId(context.getPrincipalId());
-		planItemEntity.setUpdateTime(new Date());
-
-		//   If the the learning plan has changed update the plan item and update the meta data (update date, user) on the old plan.
-		LearningPlanEntity originalPlan = learningPlanDao.find(planItem.getLearningPlanId());
-		if (originalPlan == null) {
-			throw new InvalidParameterException(String.format("Unknown learning plan id [%s]",
-					planItem.getLearningPlanId()));
-		}
-
-		LearningPlanEntity newPlan = null;
-		if (!planItemEntity.getLearningPlan().getId().equals(planItem.getLearningPlanId())) {
-			String planId = planItem.getLearningPlanId();
-			if (planId == null) {
-				throw new InvalidParameterException("Learning plan id was null.");
-			}
-			newPlan = learningPlanDao.find(planItem.getLearningPlanId());
-			if (newPlan == null) {
-				throw new InvalidParameterException(String.format("Unknown learning plan id [%s]",
-						planItem.getLearningPlanId()));
-			}
-			planItemEntity.setLearningPlan(newPlan);
-		}
-
-        // update credits
-        if (planItem.getCredit() != null) {
-            planItemEntity.setCredit(planItem.getCredit());
+        if (!planItemEntity.getTypeId().equals(planItem.getTypeKey())) {
+            throw new OperationFailedException("Passed in item type: "+planItem.getTypeKey()+" must match stored typeKey: "+planItemEntity.getTypeId()+" for planItemId: "+planItemId);
         }
 
-		// If plan type changes create a new one and delete
-		String updatePlanItemId = null;
-		if (createNewPlanItem) {
-			try {
-				PlanItemInfo newpiInfo = createPlanItem(planItemEntity.toDto(), context);
-				updatePlanItemId = newpiInfo.getId();
-			} catch (AlreadyExistsException e) {
-				throw new OperationFailedException(e.getMessage());
-			}
-			deletePlanItem(origPlanItemId, context);
-		} else {
-			updatePlanItemId = planItemEntity.getId();
-			try {
-				planItemEntity = planItemDao.merge(planItemEntity);
-			} catch (VersionMismatchException e) {
-				throw new OperationFailedException("Failed to merge planItem for id = " + planItemId);
-			}
-		}
+        //Get originalPlandId so that if it has changed we can later update the plan item and update the meta data (update date, user) on the old plan.
+        String originalPlanId = planItem.getLearningPlanId();
 
-		//  Update meta data on the original plan.
-		originalPlan.setUpdateId(context.getPrincipalId());
-		originalPlan.setUpdateTime(new Date());
-		try {
-			originalPlan = learningPlanDao.merge(originalPlan);
-		} catch (VersionMismatchException e) {
-			throw new OperationFailedException("Failed to merge original plan for id = " + originalPlan.getId());
-		}
+        planItemEntity.fromDto(planItem, learningPlanDao);
 
-		//  Update the new plan meta data if the plan changed.
-		if (newPlan != null) {
-			newPlan.setUpdateId(context.getPrincipalId());
-			newPlan.setUpdateTime(new Date());
-			try {
-				newPlan = learningPlanDao.merge(newPlan);
-			} catch (VersionMismatchException e) {
-				throw new OperationFailedException("Failed to merge new plan for id = " + newPlan.getId());
-			}
-		}
+        //  Update meta data.
+        planItemEntity.setEntityUpdated(context);
 
-		return planItemDao.find(updatePlanItemId).toDto();
+        planItemEntity = planItemDao.merge(planItemEntity);
+
+        //  Update the plan meta data if the plan changed.
+        planItemEntity.getLearningPlan().setEntityUpdated(context);
+        planItemEntity.setLearningPlan(learningPlanDao.merge(planItemEntity.getLearningPlan()));
+
+		//  If the item's planId has changed, then Update meta data on the original plan
+        if (!originalPlanId.equals(planItemEntity.getLearningPlan().getId())) {
+            LearningPlanEntity originalPlan = learningPlanDao.find(originalPlanId);
+            if (originalPlan != null) {
+                originalPlan.setEntityUpdated(context);
+                originalPlan = learningPlanDao.merge(originalPlan);
+            }
+        }
+        learningPlanDao.getEm().flush();
+		return planItemEntity.toDto();
 	}
 
-	@Override
-	public PlanItemSetInfo updatePlanItemSet(@WebParam(name = "planItemSetId") String planItemSetId,
+    @Override
+    public PlanItemSetInfo updatePlanItemSet(@WebParam(name = "planItemSetId") String planItemSetId,
 			@WebParam(name = "planItemSet") PlanItemSetInfo planItemSet, @WebParam(name = "context") ContextInfo context)
-			throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException,
-			MissingParameterException, OperationFailedException, PermissionDeniedException {
+            throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
 		return null; //To change body of implemented methods use File | Settings | File Templates.
 	}
 

@@ -13,6 +13,7 @@ import org.kuali.student.ap.schedulebuilder.ShoppingCartRequest;
 import org.kuali.student.ap.schedulebuilder.ShoppingCartStrategy;
 import org.kuali.student.ap.schedulebuilder.infc.CourseOption;
 import org.kuali.student.ap.schedulebuilder.infc.PossibleScheduleOption;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
 import org.kuali.student.ap.academicplan.infc.LearningPlan;
@@ -311,6 +312,9 @@ public class ShoppingCartController extends UifControllerBase {
 						throw new IllegalStateException("LP service failure", e);
 					} catch (DoesNotExistException e) {
 						throw new IllegalStateException("LP service failure", e);
+                    } catch (VersionMismatchException e) {
+                        //TODO:  ksap-1012 handle VersionMismatchException appropriately
+                        throw new IllegalStateException("LP service failure", e);
 					}
 
 					if (form.getPossibleScheduleId() == null) {
