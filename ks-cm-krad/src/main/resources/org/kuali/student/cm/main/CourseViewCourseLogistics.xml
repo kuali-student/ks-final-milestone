@@ -261,8 +261,7 @@
                       p:progressiveRenderViaAJAX="true" p:propertyName="resultValueKeysDisplay">
                      <property name="addLineActions">
                         <list>
-                            <bean id="addBlankLine-outcome-multiple" parent="KSCM-Uif-AddBlankLineAction">
-                            </bean>
+                            <bean id="addBlankLine-outcome-multiple" parent="Uif-AddLineAction" p:actionLabel="Add"/>
                         </list>
                     </property>
                     <property name="addLinePlacement" value="BOTTOM" />
@@ -411,6 +410,4 @@
             </list>
         </property>
     </bean>
-    <bean id="KSCM-Uif-AddBlankLineAction" parent="Uif-PrimaryActionButton-Small" p:methodToCall="addBlankLine"
-          p:actionLabel="Add" p:actionEvent="addBlankLine" p:id="addBlankLine-outcome-multiple"/>
 </beans>
