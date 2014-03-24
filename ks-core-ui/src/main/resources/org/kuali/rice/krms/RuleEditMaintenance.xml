@@ -127,11 +127,9 @@ limitations under the License.
         <property name="layoutManager.orientation" value="VERTICAL"/>
         <property name="items">
             <list>
-                <!-- Note: this bean id is important, it is used for component matching in an ajax refresh -->
                 <bean parent="Uif-Message" p:messageText="Click on rule statement to move or modify"
                       p:style="font-weight:bold;margin-left: 2em;"/>
-                <!-- Note: this bean id is important, it is used for component matching in an ajax refresh -->
-                <bean id="RuleStudentEditorView-Tree" parent="KRMS-RulerEditor-TreeSection-parent"/>
+                <bean parent="KRMS-RulerEditor-TreeSection-parent"/>
                 <bean id="proposition_selected" parent="KRMS-Rules-HiddenField"
                       p:propertyName="selectedKey"/>
                 <bean id="proposition_copy" parent="KRMS-Rules-HiddenField" p:propertyName="copyKey"/>

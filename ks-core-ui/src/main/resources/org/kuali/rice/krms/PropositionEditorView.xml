@@ -79,15 +79,14 @@ limitations under the License.
         </property>
         <property name="footer">
             <!--Add button to update the preview-->
-            <bean id="KRMS-PropEdit-ButtonPanel" parent="Uif-HorizontalBoxGroup">
+            <bean parent="Uif-HorizontalBoxGroup">
                 <property name="items">
                     <list>
-                        <bean id="KRMS-RulePreview-Button" parent="Uif-SecondaryActionButton-Small" p:performClientSideValidation="true">
+                        <bean parent="Uif-SecondaryActionButton-Small" p:performClientSideValidation="true">
                             <property name="actionLabel" value="Preview Change"/>
                             <property name="actionScript" value="updateProposition('updateProposition', 'KRMS-RuleEditor-TreeGroup');"/>
                         </bean>
-                        <bean id="KRMS-CancelProp-Button" parent="Uif-ActionLink"
-                              p:style="margin-left: 0.5em;margin-top: 0.3em;color: #3F7826;">
+                        <bean parent="Uif-ActionLink" p:style="margin-left: 0.5em;margin-top: 0.3em;color: #3F7826;">
                             <property name="actionLabel" value="Cancel"/>
                             <property name="actionScript" value="updateProposition('cancelEditProposition', 'KRMS-RuleEditor-TreeGroup');"/>
                         </bean>
