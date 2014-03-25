@@ -17,7 +17,6 @@ package org.kuali.student.r2.common.datadictionary;
 
 import java.util.List;
 
-import org.kuali.rice.krad.datadictionary.DataDictionary;
 import org.kuali.rice.krad.datadictionary.DataDictionaryEntry;
 import org.kuali.rice.krad.datadictionary.validation.result.DictionaryValidationResult;
 import org.kuali.rice.krad.service.DataDictionaryService;
@@ -45,7 +44,6 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
  */
 public class RiceDataDictionaryValidatorImpl implements DataDictionaryValidator {
 
-    private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(RiceDataDictionaryValidatorImpl.class);
     private DataDictionaryService riceDataDictionaryService;
     private DictionaryValidationService riceDictionaryValidationService;
 
