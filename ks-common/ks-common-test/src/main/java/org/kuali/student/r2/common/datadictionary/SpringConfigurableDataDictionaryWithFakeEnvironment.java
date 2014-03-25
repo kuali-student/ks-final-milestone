@@ -63,7 +63,7 @@ public class SpringConfigurableDataDictionaryWithFakeEnvironment extends DataDic
         DataDictionaryServiceImpl dataDictionaryService = new DataDictionaryServiceImpl();
         DataDictionary embeddedDataDictionary = dataDictionaryService.getDataDictionary();
 
-        // UIF files for adding to the embedded DD
+        // UIF files for adding to the embedded DD (behind the scenes)
         List<String> uifDictionaryLocations = Arrays.asList(
                 "classpath:org/kuali/rice/krad/uif/UifControlDefinitions.xml",
                 "classpath:org/kuali/rice/krad/uif/UifConfigurationDefinitions.xml",
