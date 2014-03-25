@@ -50,12 +50,12 @@ angular.module('regCartApp')
             });
         }
 
-        function getStatusMessageFromStatus(status){
+        $scope.getStatusMessageFromStatus = function(status) {
             var retStatus = '';
             if(status === 'success'){
-                retStatus = 'Success!';
+                retStatus = ' - Success!';
             } if(status === 'error'){
-                retStatus = 'Failed';
+                retStatus = ' - Failed!';
             }
 
             return retStatus;
