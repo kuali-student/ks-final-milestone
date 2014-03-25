@@ -14,7 +14,9 @@
 
     <bean id="acalService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.AcademicCalendarServiceMockImpl" />
     <bean id="luiService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.LuiServiceMockImpl" />
-    <bean id="lprService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LprServiceMockImpl" />
+    <bean id="lprService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LprServiceMockImpl">
+        <property name="criteriaLookupService" ref="coCriteriaLookupService"/>
+    </bean>
     <bean id="LrcService" class="org.kuali.student.r2.lum.lrc.service.impl.LrcServiceMockImpl"/>
     <bean id="typeService" class="org.kuali.student.r2.common.type.service.TypeServiceMockImpl" />
     <bean id="stateService" class="org.kuali.student.r2.core.class1.state.mock.StateServiceMockImpl" />

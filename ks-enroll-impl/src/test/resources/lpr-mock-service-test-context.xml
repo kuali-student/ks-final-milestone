@@ -12,5 +12,9 @@
     <import resource="classpath:ks-enroll-test-data-dictionary-configuration.xml" />
 
 
-    <bean id="LprService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LprServiceMockImpl" />
+    <bean id="LprService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LprServiceMockImpl">
+        <property name="criteriaLookupService" ref="defaultRelationCriteriaLookupService"/>
+    </bean>
+
+    <bean id="defaultRelationCriteriaLookupService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CriteriaLookupServiceMockImpl"/>
 </beans>

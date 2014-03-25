@@ -15,26 +15,18 @@
  */
 package org.kuali.student.enrollment.class1.lpr.service.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.jws.WebParam;
-
+import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.mock.MockService;
 import org.kuali.student.common.util.UUIDHelper;
+import org.kuali.student.enrollment.class1.lpr.model.LprEntity;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
+import org.kuali.student.r2.common.criteria.CriteriaLookupService;
 import org.kuali.student.r2.common.dto.BulkStatusInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
@@ -51,6 +43,16 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.core.class1.util.ValidationUtils;
+
+import javax.jws.WebParam;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class LprServiceMockImpl implements LprService, MockService {
 
@@ -307,8 +309,28 @@ public class LprServiceMockImpl implements LprService, MockService {
     @Override
     public List<LprInfo> searchForLprs(QueryByCriteria criteria, ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("searchForLprs has not been implemented");
+        List<LprInfo> resultList = new ArrayList<LprInfo>();
+
+        GenericQueryResults<LprEntity> results = criteriaLookupService.lookup(LprEntity.class, criteria);
+
+        if(results != null){
+            for(LprEntity lprEntity : results.getResults()){
+                resultList.add(lprEntity.toDto());
+            }
+        }
+
+        return resultList;
     }
+
+    public CriteriaLookupService getCriteriaLookupService() {
+        return criteriaLookupService;
+    }
+
+    public void setCriteriaLookupService(CriteriaLookupService criteriaLookupService) {
+        this.criteriaLookupService = criteriaLookupService;
+    }
+
+    private CriteriaLookupService criteriaLookupService;
     // cache variable 
     // The LinkedHashMap is just so the values come back in a predictable order
     private Map<String, LprInfo> lprMap = new LinkedHashMap<String, LprInfo>();
