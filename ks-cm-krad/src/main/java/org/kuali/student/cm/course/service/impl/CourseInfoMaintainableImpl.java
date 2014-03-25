@@ -48,7 +48,6 @@ import org.kuali.rice.krms.tree.node.CompareTreeNode;
 import org.kuali.rice.krms.tree.node.RuleEditorTreeNode;
 import org.kuali.rice.krms.tree.node.TreeNode;
 import org.kuali.rice.krms.util.NaturalLanguageHelper;
-import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.controller.CourseController;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
 import org.kuali.student.cm.course.form.CollaboratorWrapper;
@@ -132,7 +131,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 
-import javax.persistence.Transient;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -987,6 +985,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         CourseInfo course = courseInfoWrapper.getCourseInfo();
         List<String> orgIds = course.getUnitsContentOwner();
         StringBuffer builder = new StringBuffer();
+        List<String> oversights = new ArrayList<String>();
 
         if(orgIds!=null && !orgIds.isEmpty()) {
 
@@ -1001,21 +1000,18 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 try {
 
                     for (final SearchResultRowInfo searchResult : getSubjectCodeService().search(searchRequest, ContextUtils.getContextInfo()).getRows()) {
-
-                        String subjectCodeOptionalLongName = "";
-
                         for (final SearchResultCellInfo resultCell : searchResult.getCells()) {
 
                             if ("subjectCode.resultColumn.orgLongName".equals(resultCell.getKey())) {
+                                if(oversights.contains(resultCell.getValue())) {
+                                    break;
+                                }
+                                oversights.add(resultCell.getValue());
                                 builder.append(resultCell.getValue() + "; ");
+                                break;
                             }
                         }
-
-                        return StringUtils.removeEnd(builder.toString(), "; ");
-
                     }
-
-                    return builder.toString();
 
                 } catch (Exception e) {
                     LOG.error("Error building KeyValues List", e);
@@ -1023,7 +1019,9 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 }
             }
         }
-
+        if(!builder.toString().isEmpty()) {
+            return StringUtils.removeEnd(builder.toString(), "; ");
+        }
         return builder.toString();
 
     }
