@@ -64,6 +64,10 @@
         </property>
     </bean>
 
+    <bean id="KS-Uif-FormView-ApplicationHeader" parent="Uif-GlobalApplicationHeader-parentBean"
+          p:template="/ks-common/WEB-INF/ftl/ksApplicationHeader.ftl" p:render="true"
+          p:templateName="ks_applicationHeader"/>
+
     <bean id="KS-Uif-FormView" abstract="true" parent="Uif-FormView"
           class="org.kuali.student.common.uif.view.KSUifFormView">
         <property name="theme">
@@ -74,9 +78,7 @@
         <property name="stickyApplicationHeader" value="false"/>
         <property name="stickyHeader" value="true"/>
         <property name="applicationHeader">
-            <bean parent="Uif-GlobalApplicationHeader-parentBean"
-                  p:template="/ks-common/WEB-INF/ftl/ksApplicationHeader.ftl" p:render="true"
-                  p:templateName="ks_applicationHeader"/>
+            <bean parent="KS-Uif-FormView-ApplicationHeader"/>
         </property>
         <property name="dialogs">
             <list>
@@ -201,9 +203,7 @@
         <property name="stickyApplicationHeader" value="false"/>
         <property name="stickyHeader" value="true"/>
         <property name="applicationHeader">
-            <bean parent="Uif-GlobalApplicationHeader-parentBean"
-                  p:template="/ks-common/WEB-INF/ftl/ksApplicationHeader.ftl" p:render="true"
-                  p:templateName="ks_applicationHeader"/>
+            <bean parent="KS-Uif-FormView-ApplicationHeader"/>
         </property>
         <property name="header.cssClasses">
             <list merge="true">
