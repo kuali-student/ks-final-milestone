@@ -246,6 +246,26 @@
                                   p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.finalExamStatus" p:required="true" />
                             <bean parent="Uif-DataField" p:label="Final Exam Rationale"  p:colSpan="3" p:fieldLabel.renderColon="false"
                                   p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.finalExamStatusRationale" p:required="true" />
+                            <bean parent="Uif-VerticalFieldGroup" p:label="Outcomes" >
+                                <property name="items">
+                                  <list>
+                                    <bean id="course_review_outcome_details" parent="Uif-StackedCollectionSection" p:readOnly="true"
+                                          p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.outComes"
+                                          p:collectionObjectClass="org.kuali.student.cm.course.form.OutcomeReviewSection">
+                                          <property name="layoutManager.lineGroupPrototype.header.headerText" value="Outcome @{(#index + 1)}" />
+                                          <property name="layoutManager.lineGroupPrototype.header.style" value="border-bottom : 1px solid black;"/>
+                                            <property name="items">
+                                                <list>
+                                                    <bean parent="Uif-DataField" p:label="Type"
+                                                          p:propertyName="outComeType"/>
+                                                    <bean parent="Uif-DataField" p:label="Credit Value"
+                                                          p:propertyName="outComeValue"/>
+                                                </list>
+                                            </property>
+                                    </bean>
+                                  </list>
+                                </property>
+                            </bean>
                         </list>
                     </property>
                 </bean>

@@ -247,6 +247,11 @@ public class ReviewProposalDisplay implements java.io.Serializable {
         private String audit;
         private String finalExamStatus;
         private String finalExamStatusRationale;
+        private List<OutcomeReviewSection> outComes;
+
+        public CourseLogisticsSectionWrapper(){
+
+        }
 
         public List<String> getTerms() {
             if(terms == null) {
@@ -311,6 +316,18 @@ public class ReviewProposalDisplay implements java.io.Serializable {
         public void setFinalExamStatusRationale(String finalExamStatusRationale) {
             this.finalExamStatusRationale = finalExamStatusRationale;
         }
+
+        public List<OutcomeReviewSection> getOutComes() {
+            if (outComes == null){
+                outComes = new ArrayList<OutcomeReviewSection>();
+            }
+            return outComes;
+        }
+
+        public void setOutComes(List<OutcomeReviewSection> outComes) {
+            this.outComes = outComes;
+        }
+
     }
 
     public class LearningObjectivesSectionWrapper implements java.io.Serializable {

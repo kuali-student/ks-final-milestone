@@ -58,6 +58,7 @@ import org.kuali.student.cm.course.form.LoCategoryInfoWrapper;
 import org.kuali.student.cm.course.form.LoDisplayInfoWrapper;
 import org.kuali.student.cm.course.form.LoDisplayWrapperModel;
 import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
+import org.kuali.student.cm.course.form.OutcomeReviewSection;
 import org.kuali.student.cm.course.form.ResultValueKeysWrapper;
 import org.kuali.student.cm.course.form.ResultValuesGroupInfoWrapper;
 import org.kuali.student.cm.course.form.ReviewProposalDisplay;
@@ -122,6 +123,7 @@ import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
+import org.kuali.student.r2.lum.lrc.dto.ResultValueRangeInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
@@ -938,6 +940,29 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         reviewData.getcourseLogisticsSection().setFinalExamStatus(getFinalExamString());
         reviewData.getcourseLogisticsSection().setFinalExamStatusRationale(courseInfoWrapper.getFinalExamRationale());
 
+        reviewData.getcourseLogisticsSection().getOutComes().clear();
+
+        for (ResultValuesGroupInfoWrapper rvg : courseInfoWrapper.getCreditOptionWrappers()){
+            String creditOptionType = "";
+            String creditOptionValue = "";
+            if (StringUtils.equals(rvg.getTypeKey(),LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)){
+                creditOptionType = "Fixed";
+                creditOptionValue = StringUtils.substringAfterLast(rvg.getResultValueKeys().get(0), "degree.");
+            } else if (StringUtils.equals(rvg.getTypeKey(),LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE)){
+                creditOptionType = "Multiple";
+                StringBuilder builder = new StringBuilder();
+                for (String rvKey : rvg.getResultValueKeys()){
+                    builder.append(StringUtils.substringAfterLast(rvKey,"degree.") + ", ");
+                }
+                creditOptionValue = StringUtils.removeEnd(builder.toString(),", ");
+            } else if (StringUtils.equals(rvg.getTypeKey(),LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)){
+                creditOptionType = "Range";
+                ResultValueRangeInfo range = rvg.getResultValueRange();
+                creditOptionValue = range.getMinValue() + " - " + range.getMaxValue();
+            }
+            reviewData.getcourseLogisticsSection().getOutComes().add(new OutcomeReviewSection(creditOptionType,creditOptionValue));
+        }
+
         /**
          * Active Dates section
          */
@@ -1202,7 +1227,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             if (StringUtils.equals(rvg.getTypeKey(),LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE)){
                 for (String rvKey : rvg.getResultValueKeys()){
                     ResultValueKeysWrapper keysWrapper = new ResultValueKeysWrapper();
-                    keysWrapper.setCreditValueDisplay(rvKey);
+                    keysWrapper.setCreditValueDisplay(StringUtils.substringAfterLast(rvKey,"."));
                     rvgWrapper.getResultValueKeysDisplay().add(keysWrapper);
                 }
             }
