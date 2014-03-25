@@ -217,7 +217,7 @@ public interface ExamOfferingServiceFacade {
      * @throws DoesNotExistException
      */
     void generateFinalExamOfferingsPerAO(String courseOfferingId, String termId, String examPeriodId,
-                                         List<String> optionKeys, ContextInfo context)
+                                         List<String> optionKeys, ContextInfo context, boolean useFinalExamMatrix)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException;
 
@@ -240,7 +240,7 @@ public interface ExamOfferingServiceFacade {
     void generateFinalExamOfferingsPerAOOptimized(String courseOfferingId, String termId, String examPeriodId,
                                                                 List<String> optionKeys,
                                                                 ContextInfo context,
-                                                                Map<String, List<ActivityOfferingInfo>> foIdToListOfAOs)
+                                                                Map<String, List<ActivityOfferingInfo>> foIdToListOfAOs, boolean useFinalExamMatrix)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException;
     /**
@@ -309,7 +309,7 @@ public interface ExamOfferingServiceFacade {
      * @throws DataValidationErrorException
      */
     void generateFinalExamOfferingsPerCO(CourseOfferingInfo courseOffering, String termId, String examPeriodId, List<String> optionKeys,
-                                         ContextInfo context)
+                                         ContextInfo context, boolean useFinalExamMatrix)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException;
 
@@ -333,7 +333,7 @@ public interface ExamOfferingServiceFacade {
      * @throws DataValidationErrorException
      */
     void generateFinalExamOfferingsPerCOOptimized(CourseOfferingInfo courseOffering, String termId, String examPeriodId, List<String> optionKeys,
-                                         ContextInfo context, Map<String, List<ActivityOfferingInfo>> foIdToListOfAOs)
+                                         ContextInfo context, Map<String, List<ActivityOfferingInfo>> foIdToListOfAOs, boolean useFinalExamMatrix)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException;
 
