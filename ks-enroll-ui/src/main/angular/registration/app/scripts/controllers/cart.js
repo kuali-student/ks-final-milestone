@@ -19,29 +19,31 @@ angular.module('regCartApp')
         // this method loads the cart and kicks off polling if needed
         function loadCart(termId){
             CartService.getCart().query({termId: termId}, function (theCart) {
-                $scope.cart = theCart;
+                $scope.cart = theCart; // right now theCart is a mix of processing and cart items
+                var cartItems = [];
 
                 var startPolling = false; // prime to false
                 var submittedCartId; // we must assume that the items are all from one cart
 
-                console.log('cart.js::loadCart()');
-
                 // if there are any processing items in the cart we need to start polling
                 for(var i = 0; i < $scope.cart.items.length; i++){
-                    console.log('Traversing cart index ',i );
+
                     var item = $scope.cart.items[i];
                     if (GlobalVarsService.getCorrespondingStatusFromState(item.state) === 'processing'){
                         item.status = 'processing';
                         var newItem = $.extend( true, {}, item );
-                        $scope.cart.items.splice(i, 1);
                         $scope.cartResults.items.push(newItem);
                         // set cart and all items in cart to processing
                         $scope.cartResults.state = 'kuali.lpr.trans.state.processing';
                         $scope.cartResults.status = 'processing';  // set the overall status to processing
                         startPolling = true;
                         submittedCartId = item.cartId;
+                    } else {
+                        cartItems.push(item);
                     }
                 }
+
+                $scope.cart.items = cartItems;
                 if(startPolling){
                     cartPoller(submittedCartId);  // each items has a reference back to the cartId
                 }
@@ -159,7 +161,7 @@ angular.module('regCartApp')
             CartService.invokeActionLink(actionLink).query({},
                 function (response) {
                     $scope.cart.items.unshift(response);
-                    $scope.userMessage.txt = '';
+                    $scope.userMessage = {txt :''};
                 });
         };
 
@@ -199,7 +201,7 @@ angular.module('regCartApp')
             CartService.submitCart().query({
                 cartId: $scope.cart.cartId
             }, function (registrationResponseInfo) {
-                $scope.userMessage.txt = '';
+                $scope.userMessage = {txt :''};
                 console.log('Submitted cart. RegReqId[' + registrationResponseInfo.registrationRequestId + ']');
 
                 $scope.cartResults = $.extend( true, {}, $scope.cart );
