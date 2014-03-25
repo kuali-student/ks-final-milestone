@@ -5,15 +5,16 @@ var cartServiceModule = angular.module('regCartApp');
 cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleService', 'GlobalVarsService',
     function ($scope, $modal, ScheduleService, GlobalVarsService) {
 
+
+        $scope.schedules = GlobalVarsService.getSchedule;
+        $scope.registeredCredits = GlobalVarsService.getRegisteredCredits;
+        $scope.registeredCourseCount = GlobalVarsService.getRegisteredCourseCount;
+
         if($scope.termId){
         ScheduleService.getScheduleFromServer().query({termId: $scope.termId }, function (result) {
             console.log('called rest service to get schedule data - in schedule.js');
 
             GlobalVarsService.updateScheduleCounts(result);
-            $scope.schedules = GlobalVarsService.getSchedule;
-            $scope.registeredCredits = GlobalVarsService.getRegisteredCredits;
-            $scope.registeredCourseCount = GlobalVarsService.getRegisteredCourseCount;
-
         });
         }
 
@@ -34,8 +35,8 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
                 masterLprId: course.masterLprId
             }, function () {
                 course.dropping = false;
-                $scope.schedules[0].courseOfferings.splice(index, 1);
-                GlobalVarsService.updateScheduleCounts($scope.schedules);
+                $scope.schedules()[0].courseOfferings.splice(index, 1);
+                GlobalVarsService.updateScheduleCounts($scope.schedules());
                 //ScheduleService.setRegisteredCredits(parseFloat(ScheduleService.getRegisteredCredits()) - parseFloat(course.credits));
                 $scope.userMessage = {txt:course.courseCode + ' dropped Successfully', type:'success'};
             });
