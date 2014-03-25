@@ -260,6 +260,22 @@ angular.module('regCartApp')
                         console.log('Stop polling');
                         $scope.cart.status = '';  // set the overall status to nothing... which is the default i guess
 
+                        $scope.cartResults.successCount = 0;
+                        $scope.cartResults.waitlistCount = 0;
+                        $scope.cartResults.errorCount = 0;
+                        angular.forEach($scope.cartResults.items, function (item) {
+                            switch(item.status) {
+                                case 'success':
+                                    $scope.cartResults.successCount++;
+                                    break;
+                                case 'waitlist':
+                                    $scope.cartResults.waitlistCount++;
+                                    break;
+                                case 'error':
+                                    $scope.cartResults.errorCount++;
+                                    break;
+                            }
+                        });
                         // After all the processing is complete, get the final Schedule counts.
                         ScheduleService.getScheduleFromServer().query({termId: $scope.termId }, function (result) {
                             console.log('called rest service to get schedule data - in main.js');

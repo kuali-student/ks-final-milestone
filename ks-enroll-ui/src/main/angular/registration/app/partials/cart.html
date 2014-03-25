@@ -81,6 +81,9 @@
 </div>
             -->
 <div class="kscr-Heading-sub">
+    <span class="responseCount" ng-if="cartResults.errorCount > 0">Error ({{cartResults.errorCount}})</span>
+    <span class="responseCount" ng-if="cartResults.waitlistCount > 0">Waitlist ({{cartResults.waitlistCount}})</span>
+    <span class="responseCount" ng-if="cartResults.successCount > 0">Success ({{cartResults.successCount}})</span>
     <span>CART CONTENTS</span>
 </div>
 
