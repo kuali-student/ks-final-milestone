@@ -71,8 +71,6 @@ import java.util.Map;
  */
 public class AORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CORuleEditorMaintainableImpl.class);
-
     private transient LuiService luiService;
     private transient AtpService atpService;
     private transient CourseOfferingService courseOfferingService;

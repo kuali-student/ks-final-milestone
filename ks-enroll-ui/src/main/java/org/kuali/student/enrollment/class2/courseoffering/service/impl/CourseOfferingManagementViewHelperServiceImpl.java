@@ -121,6 +121,8 @@ import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.CourseJointInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -144,7 +146,7 @@ import static java.util.Arrays.asList;
  */
 public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_ViewHelperServiceImpl implements CourseOfferingManagementViewHelperService {
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CourseOfferingManagementViewHelperServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CourseOfferingManagementViewHelperServiceImpl.class);
 
     /**
      * This method fetches the <code>TermInfo</code> and validate for exact match
@@ -231,7 +233,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         loadCourseOfferings(searchRequest, form);
 
         if (form.getCourseOfferingResultList().isEmpty()) {
-            LOG.error("Error: Can't find any Course Offering for a course code: " + courseCode + " in term: " + termInfo.getName());
+            LOG.error("Error: Can't find any Course Offering for a course code: {}  in term: {}", courseCode, termInfo.getName());
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "course code", courseCode, termInfo.getName());
         }
 
@@ -454,7 +456,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                 i++;
             }
             Date endOfValidation = new Date();
-            LOG.info("Time of RG Validation:" + (endOfValidation.getTime() - startOfValidation.getTime()) + "ms");
+            LOG.info("Time of RG Validation: {}ms", (endOfValidation.getTime() - startOfValidation.getTime()));
         }
     }
 

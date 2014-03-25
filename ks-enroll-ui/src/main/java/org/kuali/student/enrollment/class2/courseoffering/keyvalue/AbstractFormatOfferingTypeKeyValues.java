@@ -10,6 +10,8 @@ import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -25,7 +27,7 @@ public abstract class AbstractFormatOfferingTypeKeyValues extends UifKeyValuesFi
 
     private static final long serialVersionUID = 1L;
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AbstractFormatOfferingTypeKeyValues.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AbstractFormatOfferingTypeKeyValues.class);
 
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {

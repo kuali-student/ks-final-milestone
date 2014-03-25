@@ -22,6 +22,8 @@ import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -31,7 +33,7 @@ import java.util.Map;
 
 
 public class AppointmentWindowWrapperLookupableImpl extends LookupableImpl {
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AppointmentWindowWrapperLookupableImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AppointmentWindowWrapperLookupableImpl.class);
     private static final long serialVersionUID = 1L;
     private transient AppointmentService appointmentService;
     private transient AcademicCalendarService academicCalendarService;

@@ -59,6 +59,8 @@ import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.constants.StateServiceConstants;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
 import javax.xml.namespace.QName;
@@ -73,7 +75,7 @@ import java.util.Map;
  */
 public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CORuleEditorMaintainableImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CORuleEditorMaintainableImpl.class);
 
     private transient CluService cluService;
     private transient AtpService atpService;
@@ -159,7 +161,7 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
     @Override
     protected AgendaEditor getAgendaEditor(String agendaId) {
         AgendaDefinition agenda = this.getRuleManagementService().getAgenda(agendaId);
-        LOG.info("Retrieved agenda for id: " + agendaId);
+        LOG.info("Retrieved agenda for id: {}", agendaId);
         return new LUAgendaEditor(agenda);
     }
 

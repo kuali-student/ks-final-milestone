@@ -49,6 +49,8 @@ import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.room.service.RoomService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springmodules.orm.ojb.OjbOperationException;
 
 import javax.xml.namespace.QName;
@@ -69,7 +71,7 @@ import java.util.Queue;
  */
 public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FERuleEditorMaintainableImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(FERuleEditorMaintainableImpl.class);
 
     private transient RoomService roomService;
     private transient TypeService typeService;
@@ -152,10 +154,10 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         List<AgendaEditor> sortedAgendas = new ArrayList<AgendaEditor>();
 
         // Get the list of existing agendas
-        LOG.info("Retrieving reference object binding for refobjectid: " + refObjectId);
+        LOG.info("Retrieving reference object binding for refobjectid: {}", refObjectId);
         List<ReferenceObjectBinding> refObjectsBindings = this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject(discriminatorType, refObjectId);
         for (ReferenceObjectBinding referenceObjectBinding : refObjectsBindings) {
-            LOG.info("Retrieved reference object binding with id: " + referenceObjectBinding);
+            LOG.info("Retrieved reference object binding with id: {}", referenceObjectBinding);
             agendas.add(this.getAgendaEditor(referenceObjectBinding.getKrmsObjectId()));
         }
 
@@ -194,7 +196,7 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
     @Override
     protected AgendaEditor getAgendaEditor(String agendaId) {
         AgendaDefinition agenda = this.getRuleManagementService().getAgenda(agendaId);
-        LOG.info("Retrieved agenda for id: " + agendaId);
+        LOG.info("Retrieved agenda for id: {}", agendaId);
         return new FEAgendaEditor(agenda);
     }
 

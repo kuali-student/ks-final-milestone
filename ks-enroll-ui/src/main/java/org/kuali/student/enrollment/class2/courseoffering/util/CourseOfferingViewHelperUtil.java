@@ -76,8 +76,6 @@ import java.util.Map;
  */
 public class CourseOfferingViewHelperUtil {
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CourseOfferingViewHelperUtil.class);
-
     public static List<Person> getInstructorByPersonId(String personId){
         Map<String, String> searchCriteria = new HashMap<String, String>();
         searchCriteria.put(KIMPropertyConstants.Person.PRINCIPAL_ID, personId);

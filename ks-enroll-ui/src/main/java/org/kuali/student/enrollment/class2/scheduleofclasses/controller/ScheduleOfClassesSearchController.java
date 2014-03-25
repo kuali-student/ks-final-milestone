@@ -48,6 +48,8 @@ import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -66,7 +68,7 @@ import java.util.Map;
 @RequestMapping(value = "/scheduleOfClassesSearch")
 public class ScheduleOfClassesSearchController extends UifControllerBase {
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ScheduleOfClassesSearchController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ScheduleOfClassesSearchController.class);
 
     private static final String MODEL_ATTRIBUTE_FORM = "KualiForm";
     private static final String SEARCH_TYPE_COURSE = "course";

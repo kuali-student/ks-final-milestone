@@ -39,8 +39,6 @@ import static org.kuali.student.enrollment.class2.courseoffering.util.CourseOffe
 @RequestMapping(value = "/timeslot")
 public class TimeSlotController extends UifControllerBase {
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TimeSlotController.class);
-
     private static final String MODEL_ATTRIBUTE_FORM = "KualiForm";
 
     private TimeSlotViewHelperService viewHelperService;

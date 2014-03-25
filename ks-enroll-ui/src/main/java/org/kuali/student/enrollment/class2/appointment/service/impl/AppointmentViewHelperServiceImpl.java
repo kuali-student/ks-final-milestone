@@ -59,6 +59,8 @@ import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -75,7 +77,7 @@ import java.util.Map;
  */
 public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl implements AppointmentViewHelperService {
     private static final long serialVersionUID = 1L;
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AppointmentViewHelperServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AppointmentViewHelperServiceImpl.class);
 
     private transient AcademicCalendarService academicCalendarService;
     private transient TypeService typeService;

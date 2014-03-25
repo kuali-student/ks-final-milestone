@@ -21,6 +21,8 @@ import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingMan
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.RegistrationGroupManagementForm;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 import java.util.Date;
@@ -34,7 +36,7 @@ import java.util.Map;
  * (object.field1[3].field2->qualifierId)
  */
 public class KsViewAuthorizerBase extends ViewAuthorizerBase {
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KsViewAuthorizerBase.class);
+    private static final Logger LOG = LoggerFactory.getLogger(KsViewAuthorizerBase.class);
 
     protected MessageService messageService = null;
 
@@ -227,9 +229,7 @@ public class KsViewAuthorizerBase extends ViewAuthorizerBase {
             result = isAuthorizedByTemplate(dataObjectForContext, "KS-ENR", permissionTemplateName,
                     user.getPrincipalId(), permissionDetails, roleQualifications);
 
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Performed permission check for: " + permissionTemplateName + " and got result: " + result);
-            }
+            LOG.debug("Performed permission check for: {} and got result: {}", permissionTemplateName, result);
         }
 
         return result;

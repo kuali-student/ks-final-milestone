@@ -15,7 +15,6 @@
  */
 package org.kuali.student.enrollment.class1.check.controller;
 
-import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.datadictionary.DataObjectEntry;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
@@ -44,8 +43,6 @@ import java.util.Properties;
 @Controller
 @RequestMapping(value = "/checkLookup")
 public class CheckInfolookupController extends LookupController {
-
-        private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CheckInfolookupController.class);
 
         /**
          * Overrides the KRAD search functionality to perform redirect on single search result.

@@ -64,6 +64,8 @@ import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -84,7 +86,7 @@ import java.util.Set;
  */
 public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManagementViewHelperServiceImpl implements ScheduleOfClassesViewHelperService {
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ScheduleOfClassesViewHelperServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ScheduleOfClassesViewHelperServiceImpl.class);
 
     @ReferenceCopy
     private KSComparatorChain activityComparatorChain;
@@ -164,11 +166,11 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
             int firstInstructor = 0;
 
             if (instructors == null || instructors.isEmpty()) {
-                LOG.error("Error: Can't find any instructor for selected instructor in term: " + termId);
+                LOG.error("Error: Can't find any instructor for selected instructor in term: {}", termId);
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, RiceKeyConstants.ERROR_CUSTOM, "Invalid Principal Id/Name.");
                 return;
             } else if (instructors.size() > 1) {
-                LOG.error("Error: There is more than one instructor with the same name in term: " + termId);
+                LOG.error("Error: There is more than one instructor with the same name in term: {}", termId);
                 GlobalVariables.getMessageMap().putError("Term & Instructor", ScheduleOfClassesConstants.SOC_MSG_ERROR_MULTIPLE_INSTRUCTOR_IS_FOUND, instructorName);
                 return;
             } else {
@@ -201,7 +203,7 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
 
             //If nothing was found then error
             if (courseOfferingIds==null || courseOfferingIds.isEmpty()) {
-                LOG.error("Error: Can't find any Course Offering for selected Instructor in term: " + termId);
+                LOG.error("Error: Can't find any Course Offering for selected Instructor in term: {}", termId);
                 GlobalVariables.getMessageMap().putError("Term & Instructor", ScheduleOfClassesConstants.SOC_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "instructor", instructorId, termId);
                 form.getCoDisplayWrapperList().clear();
                 return;
@@ -237,11 +239,11 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
             List<String> orgIDs = organizationService.searchForOrgIds(query, ContextUtils.createDefaultContextInfo());
 
             if (orgIDs.isEmpty()) {
-                LOG.error("Error: Can't find any Department for selected Department in term: " + termId);
+                LOG.error("Error: Can't find any Department for selected Department in term: {}", termId);
                 GlobalVariables.getMessageMap().putError("Term & Department", ScheduleOfClassesConstants.SOC_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "department", organizationName, termId);
                 return;
             } else if (orgIDs.size() > 1) {
-                LOG.error("Error: There is more than one departments with the same long name in term: " + termId);
+                LOG.error("Error: There is more than one departments with the same long name in term: {}", termId);
                 GlobalVariables.getMessageMap().putError("Term & Department", ScheduleOfClassesConstants.SOC_MSG_ERROR_MULTIPLE_DEPARTMENT_IS_FOUND, organizationName);
                 return;
             } else {
