@@ -3,6 +3,9 @@
 .kscr-MainHeading {
     background-color: @whiteBackground; //#FCFCFC;
     padding: 10px;
+    border: 1px @cardBorderColor solid;
+    border-top: none;
+    padding-top: 0px;
 }
 
 .kscr-MainHeading-header{
@@ -20,6 +23,18 @@
     font-weight: normal !important;
 }
 
+.kscr-MainHeading-header--processing{
+  color: @primaryTextColor; //#333333
+  font-family: @primaryFontFamily;
+  font-size: 16px;
+  font-weight: normal;
+  padding: 10px;
+  padding-left:40px;
+  background-image: url("../images/validation/spinner_big.gif");
+  background-repeat: no-repeat;
+  background-position: @iconPosition;
+  background-color: inherit;
+}
 
 /**mixin for main heading**/
 #mainHeadingStyles{

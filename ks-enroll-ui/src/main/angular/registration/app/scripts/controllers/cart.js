@@ -259,7 +259,7 @@ angular.module('regCartApp')
                     }else {
                         console.log('Stop polling');
                         $scope.cart.status = '';  // set the overall status to nothing... which is the default i guess
-
+                        $scope.cartResults.state ='kuali.lpr.trans.state.succeeded';
                         $scope.cartResults.successCount = 0;
                         $scope.cartResults.waitlistCount = 0;
                         $scope.cartResults.errorCount = 0;

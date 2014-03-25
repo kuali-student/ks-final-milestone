@@ -1,6 +1,6 @@
 <div>
     <!--My Cart Main Heading-->
-    <div class="kscr-MainHeading util-Grid util-Grid--center" ng-hide="showConfirmation">
+    <div class="kscr-MainHeading util-Grid util-Grid--center" ng-hide="showConfirmation||cartResults.state=='kuali.lpr.trans.state.processing'">
         <div class="util-Grid-cell">
             <span class="kscr-MainHeading-header">MY CART  </span>
             <div id="credit_count_title" class="kscr-MainHeading-support">
@@ -17,6 +17,11 @@
 
         <div>
             <button id="register" ng-disabled="cart.items.length < 1" class="kscr-Button--primary" type="button" ng-click="showConfirmation =!showConfirmation">Register</button>
+        </div>
+    </div>
+    <div class="kscr-MainHeading" ng-show="cartResults.state=='kuali.lpr.trans.state.processing'">
+        <div class="kscr-MainHeading-header--processing">
+            Registering for courses...
         </div>
     </div>
     <form ng-submit="register()">
