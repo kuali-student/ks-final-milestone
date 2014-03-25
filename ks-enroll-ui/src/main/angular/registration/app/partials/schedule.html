@@ -13,7 +13,7 @@
 </div>
 
 <div class="kscr-Card">
-    <div ng-repeat="schedule in schedules">
+    <div ng-repeat="schedule in schedules()">
         <div ng-repeat="course in schedule.courseOfferings" class="kscr-course-container">
             <div class="kscr-dropCourse-container" ng-show="course.dropping">
                 <div class="kscr-dropCourse-background"></div>

@@ -4,14 +4,18 @@ var cartServiceModule = angular.module('regCartApp');
 
 cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleService', 'GlobalVarsService',
     function ($scope, $modal, ScheduleService, GlobalVarsService) {
+
+        if($scope.termId){
         ScheduleService.getScheduleFromServer().query({termId: $scope.termId }, function (result) {
             console.log('called rest service to get schedule data - in schedule.js');
-            $scope.schedules = result;
-            GlobalVarsService.updateScheduleCounts($scope.schedules);
+
+            GlobalVarsService.updateScheduleCounts(result);
+            $scope.schedules = GlobalVarsService.getSchedule;
             $scope.registeredCredits = GlobalVarsService.getRegisteredCredits;
             $scope.registeredCourseCount = GlobalVarsService.getRegisteredCourseCount;
 
         });
+        }
 
         $scope.openDropConfirmation = function (index, course) {
             console.log('Open drop confirmation');

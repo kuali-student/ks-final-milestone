@@ -12,6 +12,13 @@ angular.module('regCartApp')
         $scope.$watch('termId', function (newValue) {
             if (newValue) {
                 $scope.termName = TermsService.getTermNameForTermId($scope.terms, newValue);
+
+                ScheduleService.getScheduleFromServer().query({termId: newValue }, function (result) {
+                    console.log('called rest service to get schedule data - in main.js');
+                    GlobalVarsService.updateScheduleCounts(result);
+                    $scope.registeredCredits = GlobalVarsService.getRegisteredCredits;   // notice that i didn't put the (). in the ui call: {{registeredCredits()}}
+                    $scope.registeredCourseCount = GlobalVarsService.getRegisteredCourseCount; // notice that i didn't put the (). in the ui call: {{registeredCourseCount()}}
+                });
             }
         });
 
@@ -24,12 +31,13 @@ angular.module('regCartApp')
 
 
 
-
+        /**
         ScheduleService.getScheduleFromServer().query({termId: $scope.termId }, function (result) {
             console.log('called rest service to get schedule data - in main.js');
             GlobalVarsService.updateScheduleCounts(result);
             $scope.registeredCredits = GlobalVarsService.getRegisteredCredits;   // notice that i didn't put the (). in the ui call: {{registeredCredits()}}
             $scope.registeredCourseCount = GlobalVarsService.getRegisteredCourseCount; // notice that i didn't put the (). in the ui call: {{registeredCourseCount()}}
         });
+         **/
 
     });

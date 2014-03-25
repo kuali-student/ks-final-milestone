@@ -50,6 +50,17 @@ angular.module('regCartApp')
             });
         }
 
+        function getStatusMessageFromStatus(status){
+            var retStatus = '';
+            if(status === 'success'){
+                retStatus = 'Success!';
+            } if(status === 'error'){
+                retStatus = 'Failed';
+            }
+
+            return retStatus;
+        }
+
         $scope.addRegGroupToCart = function () {
             $scope.courseCode = $scope.courseCode.toUpperCase();
             addCourseToCart($scope.cart.cartId, $scope.courseCode, $scope.termId, $scope.regCode, null, null, null, null);

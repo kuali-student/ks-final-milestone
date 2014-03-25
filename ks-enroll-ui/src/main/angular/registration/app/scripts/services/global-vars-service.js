@@ -5,6 +5,7 @@ angular.module('regCartApp')
 
         var registeredCredits = 0;
         var registeredCourseCount = 0;
+        var schedule;
 
         var processingStates = ['kuali.lpr.trans.item.state.processing','kuali.lpr.trans.state.processing'];
         var successStates = ['kuali.lpr.trans.state.succeeded', 'kuali.lpr.trans.item.state.succeeded'];
@@ -26,6 +27,14 @@ angular.module('regCartApp')
 
         this.setRegisteredCourseCount = function (value) {
             registeredCourseCount = value;
+        };
+
+        this.getSchedule = function () {
+            return schedule;
+        };
+
+        this.setSchedule = function (value) {
+            schedule = value;
         };
 
         // In this method we pass in a state and it returns a status
@@ -52,6 +61,8 @@ angular.module('regCartApp')
             //Calculate credit count, course count and grading option count
             var creditCount = 0;
             var courses = 0;
+
+            this.setSchedule(scheduleList);
             angular.forEach(scheduleList, function (schedule) {
                 angular.forEach(schedule.courseOfferings, function (course) {
                     creditCount += parseFloat(course.credits);
