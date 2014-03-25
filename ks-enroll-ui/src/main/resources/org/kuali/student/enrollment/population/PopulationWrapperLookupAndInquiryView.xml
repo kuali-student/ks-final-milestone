@@ -56,9 +56,7 @@
         <property name="stickyApplicationHeader" value="false"/>
         <property name="stickyHeader" value="@{viewName != null ? 'true' : 'false'}"/>
         <property name="applicationHeader">
-            <bean parent="Uif-GlobalApplicationHeader-parentBean"
-                  p:template="/ks-common/WEB-INF/ftl/ksApplicationHeader.ftl"
-                  p:templateName="ks_applicationHeader" p:render="@{viewName != null}"/>
+            <bean parent="KS-Uif-FormView-ApplicationHeader" p:render="@{viewName != null}"/>
         </property>
         <property name="header.cssClasses">
             <list merge="true">
