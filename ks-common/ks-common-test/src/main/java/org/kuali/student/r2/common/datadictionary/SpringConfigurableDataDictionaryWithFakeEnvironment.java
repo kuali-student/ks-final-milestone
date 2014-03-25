@@ -49,6 +49,7 @@ public class SpringConfigurableDataDictionaryWithFakeEnvironment extends DataDic
     // copied from org.kuali.rice.core.impl.datetime.DateTimeServiceImpl
     private static final String STRING_TO_DATE_FORMATS = "MM/dd/yyyy hh:mm a;MM/dd/yy;MM/dd/yyyy;MM-dd-yy;MM-dd-yyyy;MMddyy;MMMM dd;yyyy;MM/dd/yy HH:mm:ss;MM/dd/yyyy HH:mm:ss;MM-dd-yy HH:mm:ss;MMddyy HH:mm:ss;MMMM dd HH:mm:ss;yyyy HH:mm:ss";
     public static final String NAMESPACE_CODE = "http://student.kuali.org/wsdl/datadictionary";
+    public static final String ALL_DICTIONARY_FILE_LOCATIONS = "allDictionaryFileLocations";
 
     private ApplicationContext applicationContext;
 
@@ -83,7 +84,7 @@ public class SpringConfigurableDataDictionaryWithFakeEnvironment extends DataDic
 
         // all dictionary files for addition to the "real" DD
         @SuppressWarnings("unchecked")
-        List<String> allDictionaryFileLocations = (List<String>) applicationContext.getBean("allDictionaryFileLocations");
+        List<String> allDictionaryFileLocations = (List<String>) applicationContext.getBean(ALL_DICTIONARY_FILE_LOCATIONS);
 
         for (String location : allDictionaryFileLocations) {
             super.addConfigFileLocation(NAMESPACE_CODE, location);
