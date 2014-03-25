@@ -408,7 +408,7 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
         AttributeInfo attr = new AttributeInfo();
         attr.setKey(MessengerConstants.USER_MESSAGE_PROCESS_ID);
-        attr.setValue(contextInfo.getPrincipalId());
+        attr.setValue(GlobalVariables.getUserSession().getKualiSessionId());
         contextInfo.getAttributes().add(attr);
         SocRolloverResultItemInfo item = CourseOfferingManagementUtil.getCourseOfferingService().rolloverCourseOffering(existingCO.getId(),
                 createWrapper.getTerm().getId(),
