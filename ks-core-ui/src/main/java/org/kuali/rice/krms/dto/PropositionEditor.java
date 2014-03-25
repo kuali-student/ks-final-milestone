@@ -21,6 +21,8 @@ import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContr
 import org.kuali.rice.krms.api.repository.proposition.PropositionParameterContract;
 import org.kuali.rice.krms.api.repository.term.TermDefinition;
 import org.kuali.rice.krms.impl.ui.TermParameter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStreamWriter;
@@ -39,7 +41,7 @@ public class PropositionEditor implements PropositionDefinitionContract, Seriali
 
     private static final long serialVersionUID = 1L;
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PropositionEditor.class);
+    private static final Logger LOG = LoggerFactory.getLogger(PropositionEditor.class);
 
     private String key;
 

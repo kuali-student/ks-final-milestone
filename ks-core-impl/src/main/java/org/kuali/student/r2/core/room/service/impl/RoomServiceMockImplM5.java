@@ -38,6 +38,8 @@ import org.kuali.student.r2.core.room.dto.PartitionInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
 import org.kuali.student.r2.core.room.dto.RoomResponsibleOrgInfo;
 import org.kuali.student.r2.core.room.service.RoomService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -60,7 +62,7 @@ public class RoomServiceMockImplM5 implements RoomService, MockService
     private Map<String, BuildingInfo> buildingMap = new LinkedHashMap<String, BuildingInfo>();
     private Map<String, RoomResponsibleOrgInfo> roomResponsibleOrgMap = new LinkedHashMap<String, RoomResponsibleOrgInfo>();
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RoomServiceMockImplM5.class);
+    private static final Logger LOG = LoggerFactory.getLogger(RoomServiceMockImplM5.class);
 
     ///////////////////////////////////
     // IMPLEMENTING METHODS
@@ -86,7 +88,7 @@ public class RoomServiceMockImplM5 implements RoomService, MockService
             // This exception is crashing the AO screen and we can't do QA
             // The room data will not be in the system because this is a mock service using a map,
             // so when we export the data the rooms are not written to the impex
-            LOG.warn("Room id does not exist:"+roomId);
+            LOG.warn("Room id does not exist: {}", roomId);
             RoomInfo r = new RoomInfo();
             r.setDescr(new RichTextInfo("FAKE_DESC_NOT_IMPL", "FAKE_DESC_NOT_IMPL"));
             r.setFloor("FAKE_FLOOR");
@@ -324,7 +326,7 @@ public class RoomServiceMockImplM5 implements RoomService, MockService
             // This exception is crashing the AO screen and we can't do QA
             // The room data will not be in the system because this is a mock service using a map,
             // so when we export the data the rooms are not written to the impex
-            LOG.warn("Building id does not exist:"+buildingId);
+            LOG.warn("Building id does not exist: {}", buildingId);
             BuildingInfo b = new BuildingInfo();
             b.setDescr(new RichTextInfo("FAKE_DESC_NOT_IMPL", "FAKE_DESC_NOT_IMPL"));
             b.setBuildingCode("FAKE_CODE");
