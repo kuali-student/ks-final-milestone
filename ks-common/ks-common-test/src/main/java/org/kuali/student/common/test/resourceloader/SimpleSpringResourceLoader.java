@@ -21,7 +21,10 @@ import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.resourceloader.ServiceLocator;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.krad.data.provider.ProviderRegistry;
+import org.kuali.rice.krad.data.provider.impl.ProviderRegistryImpl;
 import org.kuali.rice.krad.service.DataDictionaryService;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.service.impl.KualiModuleServiceImpl;
 import org.kuali.rice.krad.uif.service.impl.UifDefaultingServiceImpl;
@@ -53,6 +56,7 @@ public class SimpleSpringResourceLoader implements ServiceLocator {
     private static final IdentityService identityService = new IdentityServiceMockImpl();
     private static final RoleService roleService = new RoleServiceMockImpl();
     private static final ExpressionEvaluatorFactory expressionEvaluatorFactory = new DefaultExpressionEvaluatorFactory();
+    private static final ProviderRegistry providerRegistry = new ProviderRegistryImpl();
 
     private ApplicationContext applicationContext;
     private DataDictionaryService dataDictionaryService;
@@ -78,6 +82,8 @@ public class SimpleSpringResourceLoader implements ServiceLocator {
             return kualiModuleService;
         } else if (KRADServiceLocatorWeb.DATA_DICTIONARY_SERVICE.equals(qualifiedServiceName)) {
             return dataDictionaryService;
+        } else if (KRADServiceLocator.KD_PROVIDER_REGISTRY.equals(qualifiedServiceName)) {
+            return providerRegistry;
         } else if (KRADServiceLocatorWeb.UIF_DEFAULTING_SERVICE.equals(qualifiedServiceName)) {
             return uifDefaultingService;
         } else if (KRADServiceLocatorWeb.EXPRESSION_EVALUATOR_FACTORY.equals(qualifiedServiceName)) {

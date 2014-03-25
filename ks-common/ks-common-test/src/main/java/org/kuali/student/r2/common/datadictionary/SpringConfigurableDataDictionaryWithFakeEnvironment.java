@@ -48,10 +48,11 @@ public class SpringConfigurableDataDictionaryWithFakeEnvironment extends DataDic
     private static final String VERSION_ONE = "1.0";
     // copied from org.kuali.rice.core.impl.datetime.DateTimeServiceImpl
     private static final String STRING_TO_DATE_FORMATS = "MM/dd/yyyy hh:mm a;MM/dd/yy;MM/dd/yyyy;MM-dd-yy;MM-dd-yyyy;MMddyy;MMMM dd;yyyy;MM/dd/yy HH:mm:ss;MM/dd/yyyy HH:mm:ss;MM-dd-yy HH:mm:ss;MMddyy HH:mm:ss;MMMM dd HH:mm:ss;yyyy HH:mm:ss";
+    public static final String NAMESPACE_CODE = "http://student.kuali.org/wsdl/datadictionary";
 
     private ApplicationContext applicationContext;
 
-    public void init() {
+    public void init() throws IOException {
         Config config = new JAXBConfigImpl();
         config.putProperty(CoreConstants.Config.APPLICATION_ID, MOCK_APP_ID);
         config.putProperty(APPLICATION_VERSION, VERSION_ONE);
@@ -60,7 +61,10 @@ public class SpringConfigurableDataDictionaryWithFakeEnvironment extends DataDic
         ConfigContext.init(config);
 
         DataDictionaryServiceImpl dataDictionaryService = new DataDictionaryServiceImpl();
-        List<String> locations = Arrays.asList(
+        DataDictionary embeddedDataDictionary = dataDictionaryService.getDataDictionary();
+
+        // UIF files for adding to the embedded DD
+        List<String> uifDictionaryLocations = Arrays.asList(
                 "classpath:org/kuali/rice/krad/uif/UifControlDefinitions.xml",
                 "classpath:org/kuali/rice/krad/uif/UifConfigurationDefinitions.xml",
                 "classpath:org/kuali/rice/krad/uif/UifWidgetDefinitions.xml",
@@ -72,10 +76,17 @@ public class SpringConfigurableDataDictionaryWithFakeEnvironment extends DataDic
                 "classpath:org/kuali/rice/krad/uif/UifLayoutManagerDefinitions.xml",
                 "classpath:org/kuali/rice/krad/uif/UifMenuDefinitions.xml",
                 "classpath:org/kuali/rice/krad/uif/UifActionDefinitions.xml");
-        try {
-            dataDictionaryService.addDataDictionaryLocations("SOME-NAMESPACE", locations);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+
+        for (String location : uifDictionaryLocations) {
+            embeddedDataDictionary.addConfigFileLocation(NAMESPACE_CODE, location);
+        }
+
+        // all dictionary files for addition to the "real" DD
+        @SuppressWarnings("unchecked")
+        List<String> allDictionaryFileLocations = (List<String>) applicationContext.getBean("allDictionaryFileLocations");
+
+        for (String location : allDictionaryFileLocations) {
+            super.addConfigFileLocation(NAMESPACE_CODE, location);
         }
 
         ResourceLoader resourceLoader =
@@ -92,7 +103,7 @@ public class SpringConfigurableDataDictionaryWithFakeEnvironment extends DataDic
             throw new RuntimeException("Error initializing GRL", e);
         }
 
-        dataDictionaryService.getDataDictionary().parseDataDictionaryConfigurationFiles(false);
+        embeddedDataDictionary.parseDataDictionaryConfigurationFiles(false);
         super.parseDataDictionaryConfigurationFiles(false);
     }
 
