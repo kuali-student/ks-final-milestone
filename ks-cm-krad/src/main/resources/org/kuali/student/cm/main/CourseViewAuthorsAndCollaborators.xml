@@ -33,7 +33,7 @@
 
     <bean id="KS-CourseView-AuthorsAndCollaboratorsSubSection" parent="KS-CourseView-AuthorsAndCollaboratorsSubSection-parent"/>
      <bean id="KS-CourseView-AuthorsAndCollaboratorsSubSection-parent" parent="KS-TableCollectionSubSection-BottomAddLine"   abstract="true"
-           p:layoutManager.id="cc-authorsandcollaboratorsgroup-table" p:layoutManager.style="width: 60em;">
+           p:layoutManager.id="cc-authorsandcollaboratorsgroup-table" p:layoutManager.style="width: 60em;" >
                     <property name="addBlankLineAction.actionLabel" value="Add Person"/>
                     <property name="addBlankLineAction.render" value="true"/>
                     <property name="addBlankLineAction.id" value="KS-CourseView-AuthorsAndCollaborators-Section_add"/>
@@ -85,8 +85,8 @@
                                         <property name="options">
                                             <list>
                                                 <bean parent="Uif-KeyLabelPair" p:key="view" p:value="View" />
-                                                <bean parent="Uif-KeyLabelPair" p:key="edit" p:value="Edit, Comments, View" />
                                                 <bean parent="Uif-KeyLabelPair" p:key="comment" p:value="Comments, View" />
+                                                <bean parent="Uif-KeyLabelPair" p:key="edit" p:value="Edit, Comments, View" />
                                             </list>
                                         </property>
                                     </bean>
