@@ -37,9 +37,7 @@ limitations under the License.
         <property name="showMaintenanceLinks" value="true"/>
 
         <property name="applicationHeader">
-            <bean parent="Uif-GlobalApplicationHeader-parentBean"
-                  p:template="/ks-common/WEB-INF/ftl/ksApplicationHeader.ftl" p:render="true"
-                  p:templateName="ks_applicationHeader"/>
+            <bean parent="KS-Uif-FormView-ApplicationHeader"/>
         </property>
 
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
