@@ -3,6 +3,8 @@
 .kscr-Confirmation-container{
     background-color: #FCFCFC;
     padding: 10px;
+    border: 1px @cardBorderColor solid;
+    border-bottom-width: 2px;
 
         -webkit-transition: all (@transitionSpeed + 0.1s) linear;
         transition: all (@transitionSpeed + 0.1s) linear;
@@ -33,5 +35,5 @@
 .kscr-Confirmation-container.ng-hide {
     line-height:0;
     opacity:0;
-    //padding:0 10px;
+    padding:0 10px;
 }
