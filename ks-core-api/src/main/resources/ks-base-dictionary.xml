@@ -173,7 +173,7 @@
     </bean>
 
     <bean id="BaseKuali.dateTime" abstract="true" parent="AttributeDefinition">
-        <property name="dataType" value="DATE" />
+        <property name="dataType" value="DATETIME" />
         <property name="required" value="false"/>
 <!--        <property name="minOccurs" value="0" />
         <property name="maxOccurs" value="1" />-->
