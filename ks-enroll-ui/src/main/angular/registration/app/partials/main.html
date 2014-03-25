@@ -50,10 +50,12 @@
                             <div class="kscr-Menu-links-heading">My Schedule <span>&#187;</span></div>
                                 <div>
                                     Registered for
+                                    <strong>
                                     <ng-pluralize count="registeredCourseCount()"
                                                   when="{'1'    : ' {} course ',
                                                                  'other': ' {} courses '}">
                                     </ng-pluralize>
+                                    </strong>
                                     (<ng-pluralize count="registeredCredits()"
                                                    when="{'1'    : '{} credit',
                                                                  'other': '{} credits'}">
