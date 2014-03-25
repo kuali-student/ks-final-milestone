@@ -16,18 +16,20 @@ import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.common.util.constants.ProgramServiceConstants;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r2.lum.program.service.ProgramService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(readOnly=true, rollbackFor={Throwable.class})
 public class ProgramPostProcessorBase extends KualiStudentPostProcessorBase {
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProgramPostProcessorBase.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ProgramPostProcessorBase.class);
 
     private ProgramService programService;
 	private StateChangeService stateChangeService;
 
     @Override
     protected void processWithdrawActionTaken(ActionTakenEvent actionTakenEvent, ProposalInfo proposalInfo) throws Exception {
-        LOG.info("Will set CLU state to '" + DtoConstants.STATE_DRAFT + "'");
+        LOG.info("Will set CLU state to '{}'", DtoConstants.STATE_DRAFT);
         String programId = getProgramId(proposalInfo);
         getStateChangeService().changeState(programId, DtoConstants.STATE_DRAFT, ContextUtils.getContextInfo());
     }
@@ -52,8 +54,10 @@ public class ProgramPostProcessorBase extends KualiStudentPostProcessorBase {
 
     protected String getProgramId(ProposalInfo proposalInfo) throws OperationFailedException {
         if (proposalInfo.getProposalReference().size() != 1) {
-            LOG.error("Found " + proposalInfo.getProposalReference().size() + " CLU objects linked to proposal with proposalId='" + proposalInfo.getId() + "'. Must have exactly 1 linked.");
-            throw new OperationFailedException("Found " + proposalInfo.getProposalReference().size() + " CLU objects linked to proposal with docId='" + proposalInfo.getWorkflowId() + "' and proposalId='" + proposalInfo.getId() + "'. Must have exactly 1 linked.");
+            String message = String.format("Found %s CLU objects linked to proposal with docId='%s' and proposalId='%s'. Must have exactly 1 linked.",
+                    proposalInfo.getProposalReference().size(), proposalInfo.getWorkflowId(), proposalInfo.getId());
+            LOG.error(message);
+            throw new OperationFailedException(message);
         }
         return proposalInfo.getProposalReference().get(0);
     }
@@ -90,9 +94,7 @@ public class ProgramPostProcessorBase extends KualiStudentPostProcessorBase {
      * <code>currentCluState</code> value. Otherwise <code>null</code> will be returned.
      */
     protected String getCourseStateFromNewState(String currentCourseState, String newCourseState) {
-        if (LOG.isInfoEnabled()) {
-            LOG.info("current CLU state is '" + currentCourseState + "' and new CLU state will be '" + newCourseState + "'");
-        }
+        LOG.info("current CLU state is '{}' and new CLU state will be '{}'", currentCourseState, newCourseState);
         return getStateFromNewState(currentCourseState, newCourseState);
     }
 

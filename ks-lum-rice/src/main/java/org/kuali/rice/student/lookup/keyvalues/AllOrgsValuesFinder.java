@@ -23,9 +23,11 @@ import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.common.util.security.ContextUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AllOrgsValuesFinder extends StudentKeyValuesBase {
-	private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AllOrgsValuesFinder.class);
+	private static final Logger LOG = LoggerFactory.getLogger(AllOrgsValuesFinder.class);
 
 	public List<KeyValue> getKeyValues() {
         List<KeyValue> departments = new ArrayList<KeyValue>();

@@ -29,6 +29,8 @@ import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.impl.identity.IdentityServiceImpl;
 import org.kuali.rice.krad.service.impl.DocumentServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This service override is used to facilitate a fix to the encrypted passwords in the
@@ -42,7 +44,7 @@ import org.kuali.rice.krad.service.impl.DocumentServiceImpl;
 // @see org.kuali.rice.kim.api.KimApiConstants.KIM_NAMESPACE_PREFIX
 @WebService(endpointInterface = KimIdentityServiceConstants.INTERFACE_CLASS, serviceName = KimApiConstants.ServiceNames.IDENTITY_SERVICE_SOAP, portName = KimIdentityServiceConstants.WEB_SERVICE_PORT, targetNamespace = KimIdentityServiceConstants.MODULE_TARGET_NAMESPACE)
 public class StudentIdentityServiceImpl extends IdentityServiceImpl implements IdentityService {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DocumentServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DocumentServiceImpl.class);
 
 	/* (non-Javadoc)
 	 * @see org.kuali.rice.kim.service.impl.IdentityServiceImpl#getPrincipalByPrincipalNameAndPassword(java.lang.String, java.lang.String)
@@ -53,7 +55,7 @@ public class StudentIdentityServiceImpl extends IdentityServiceImpl implements I
 		    String finalPassword = CoreApiServiceLocator.getEncryptionService().hash(password)+ EncryptionService.HASH_POST_PREFIX;
 			return super.getPrincipalByPrincipalNameAndPassword(principalName, finalPassword);
 		} catch (GeneralSecurityException e) {
-			String message = "Caught Exception attempting to encrypt password (with length " + password.length() + ") for principalName: " + principalName;
+			String message = String.format("Caught Exception attempting to encrypt password (with length %s) for principalName: %s", password.length(), principalName);
 			LOG.error(message, e);
 			throw new RuntimeException(e);
 		}

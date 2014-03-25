@@ -18,6 +18,8 @@ import org.kuali.rice.kns.workflow.attribute.KualiXmlSearchableAttributeImpl;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.namespace.QName;
 import java.util.List;
@@ -28,7 +30,7 @@ import java.util.List;
  * @author lindholm
  */
 public class OrgSearchAttribute extends KualiXmlSearchableAttributeImpl {
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DocumentTypeServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DocumentTypeServiceImpl.class);
 
     private static final long serialVersionUID = 1L;
 
@@ -50,19 +52,19 @@ public class OrgSearchAttribute extends KualiXmlSearchableAttributeImpl {
                     // TODO: RICE-M7 UPGRADE I think this is correct but I'm not sure
                     ((SearchableAttributeValue) value).setupAttributeValue(orgInfo.getShortName());
                 } catch (DoesNotExistException e) {
-                    LOG.error(e);
+                    LOG.error("Exception occurred", e);
                     throw new RuntimeException(e);
                 } catch (InvalidParameterException e) {
-                    LOG.error(e);
+                    LOG.error("Exception occurred", e);
                     throw new RuntimeException(e);
                 } catch (MissingParameterException e) {
-                    LOG.error(e);
+                    LOG.error("Exception occurred", e);
                     throw new RuntimeException(e);
                 } catch (OperationFailedException e) {
-                    LOG.error(e);
+                    LOG.error("Exception occurred", e);
                     throw new RuntimeException(e);
                 } catch (PermissionDeniedException e) {
-                    LOG.error(e);
+                    LOG.error("Exception occurred", e);
                     throw new RuntimeException(e);
                 }
             }

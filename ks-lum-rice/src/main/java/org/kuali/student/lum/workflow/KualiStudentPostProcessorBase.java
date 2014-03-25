@@ -51,11 +51,13 @@ import org.kuali.student.r2.common.util.AttributeHelper;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r2.core.proposal.service.ProposalService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class KualiStudentPostProcessorBase implements PostProcessor{
 
 
-	private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KualiStudentPostProcessorBase.class);
+	private static final Logger LOG = LoggerFactory.getLogger(KualiStudentPostProcessorBase.class);
 
     private ProposalService proposalService;
 
@@ -118,13 +120,13 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
     protected void processActionTakenOnAdhocRequest(ActionTakenEvent actionTakenEvent, ActionRequest actionRequest) throws Exception {
         ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(actionTakenEvent.getDocumentId(), ContextUtils.getContextInfo());        
         WorkflowDocument doc = WorkflowDocumentFactory.loadDocument(getPrincipalIdForSystemUser(), proposalInfo.getWorkflowId());
-        LOG.info("Clearing EDIT permissions added via adhoc requests to principal id: " + actionRequest.getPrincipalId());
+        LOG.info("Clearing EDIT permissions added via adhoc requests to principal id: {}", actionRequest.getPrincipalId());
         removeEditAdhocPermissions(actionRequest.getPrincipalId(), doc);
     }
 
     protected void processSuperUserDisapproveActionTaken(ActionTakenEvent actionTakenEvent, ActionTaken actionTaken, ProposalInfo proposalInfo) throws Exception {
         LOG.info("Action taken was 'Super User Disapprove' which is a 'Withdraw' in Kuali Student");
-        LOG.info("Will set proposal state to '" + ProposalConstants.PROPOSAL_STATE_WITHDRAWN + "'");
+        LOG.info("Will set proposal state to '{}'", ProposalConstants.PROPOSAL_STATE_WITHDRAWN);
         updateProposal(actionTakenEvent, ProposalConstants.PROPOSAL_STATE_WITHDRAWN, proposalInfo);
         processWithdrawActionTaken(actionTakenEvent, proposalInfo);
 	}
@@ -150,7 +152,7 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
             for (ActionRequest actionRequest : doc.getRootActionRequests()) {
                 if (actionRequest.isAdHocRequest() && actionRequest.isUserRequest() &&
                         StringUtils.equals(documentRouteLevelChange.getOldNodeName(),actionRequest.getNodeName())) {
-                    LOG.info("Clearing EDIT permissions added via adhoc requests to principal id: " + actionRequest.getPrincipalId());
+                    LOG.info("Clearing EDIT permissions added via adhoc requests to principal id: {}", actionRequest.getPrincipalId());
                     removeEditAdhocPermissions(actionRequest.getPrincipalId(), doc);
                 }
             }
@@ -250,9 +252,7 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
      */
     protected String getStateFromNewState(String currentState, String newState) {
         if (StringUtils.equals(currentState, newState)) {
-            if (LOG.isInfoEnabled()) {
-                LOG.info("returning null as current state and new state are both '" + currentState + "'");
-            }
+            LOG.info("returning null as current state and new state are both '{}'", currentState);
             return null;
         }
         return newState;
@@ -281,9 +281,7 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
     }
 
     protected void updateProposal(IDocumentEvent iDocumentEvent, String proposalState, ProposalInfo proposalInfo) throws Exception {
-        if (LOG.isInfoEnabled()) {
-            LOG.info("Setting state '" + proposalState + "' on Proposal with docId='" + proposalInfo.getWorkflowId() + "' and proposalId='" + proposalInfo.getId() + "'");
-        }
+        LOG.info("Setting state '{}' on Proposal with docId='{}' and proposalId='{}'", proposalState, proposalInfo.getWorkflowId(), proposalInfo.getId());
         boolean requiresSave = false;
         if (proposalState != null) {
             proposalInfo.setState(proposalState);

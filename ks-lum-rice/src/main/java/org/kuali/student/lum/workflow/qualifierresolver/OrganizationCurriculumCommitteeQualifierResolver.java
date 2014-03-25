@@ -16,6 +16,8 @@ import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.dto.OrgOrgRelationInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.lum.workflow.node.OrganizationDynamicNode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A qualifier resolver class that is used by the hierarchy routing node {@link OrganizationDynamicNode}.
@@ -35,7 +37,7 @@ import org.kuali.student.lum.workflow.node.OrganizationDynamicNode;
  *
  */
 public class OrganizationCurriculumCommitteeQualifierResolver extends AbstractOrganizationServiceQualifierResolver {
-    protected static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationCurriculumCommitteeQualifierResolver.class);
+    protected static final Logger LOG = LoggerFactory.getLogger(OrganizationCurriculumCommitteeQualifierResolver.class);
 
     @Override
     public List<Map<String,String>> resolve(RouteContext routeContext) {
@@ -44,9 +46,7 @@ public class OrganizationCurriculumCommitteeQualifierResolver extends AbstractOr
         if (StringUtils.isBlank(orgIdValue)) {
             throw new RuntimeException("Cannot find valid organization ID in Route Node Instance Node States");
         }
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("orgIdValue = '" + orgIdValue + "'");
-        }
+        LOG.debug("orgIdValue = '{}'", orgIdValue);
 
         try {
             List<Map<String,String>> attributeSets = new ArrayList<Map<String,String>>();
@@ -60,9 +60,7 @@ public class OrganizationCurriculumCommitteeQualifierResolver extends AbstractOr
                         OrgInfo nextNodeOrgInfo = getOrganization(orgOrgRelationInfo.getRelatedOrgId());
                         // check the org type of the related org is the proper org type
                         if (StringUtils.equals(AbstractOrganizationServiceQualifierResolver.KUALI_ORG_COC, nextNodeOrgInfo.getTypeKey())) {
-                            if (LOG.isDebugEnabled()) {
-                                LOG.debug("---- Related Org Relation: " + nextNodeOrgInfo.getId() + " - " + nextNodeOrgInfo.getShortName() + " (" + nextNodeOrgInfo.getLongName() + ")");
-                            }
+                            LOG.debug("---- Related Org Relation: {} - {} ({})", nextNodeOrgInfo.getId(), nextNodeOrgInfo.getShortName(), nextNodeOrgInfo.getLongName());
                             Map<String,String> attributeSet = new LinkedHashMap<String,String>();
                             attributeSet.put(KualiStudentKimAttributes.QUALIFICATION_ORG_ID, nextNodeOrgInfo.getId());
                             attributeSets.add(attributeSet);

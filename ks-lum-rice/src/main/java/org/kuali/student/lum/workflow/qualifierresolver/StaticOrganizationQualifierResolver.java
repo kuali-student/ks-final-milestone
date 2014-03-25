@@ -8,6 +8,8 @@ import org.kuali.rice.kew.rule.xmlrouting.XPathHelper;
 import org.kuali.rice.student.bo.KualiStudentKimAttributes;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -44,7 +46,7 @@ import java.util.Map;
  *
  */
 public class StaticOrganizationQualifierResolver extends AbstractOrganizationServiceQualifierResolver {
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(StaticOrganizationQualifierResolver.class);
+    private static final Logger LOG = LoggerFactory.getLogger(StaticOrganizationQualifierResolver.class);
 
     protected static final String ROUTE_NODE_ORGANIZATION_ID_XML_TAG_NAME = "organizationId";
 
@@ -60,12 +62,13 @@ public class StaticOrganizationQualifierResolver extends AbstractOrganizationSer
             Document document = db.parse(new InputSource(new StringReader(context.getNodeInstance().getRouteNode().getContentFragment())));
             organizationElements = (NodeList) xPath.evaluate("//" + getOrganizationIdXmlTagName(), document, XPathConstants.NODESET);
         } catch (Exception e) {
-            LOG.error(e);
+            LOG.error("Encountered an issue fetching organization ids", e);
             throw new RuntimeException("Encountered an issue fetching organization ids using xml tag name '" + getOrganizationIdXmlTagName() + "'.", e);
         }
         if (organizationElements.getLength() == 0) {
-            LOG.error("No organizations found in Route Node xml configuration using xml tag name '" + getOrganizationIdXmlTagName() + "'");
-            throw new RuntimeException("No organizations found in Route Node xml configuration using xml tag name '" + getOrganizationIdXmlTagName() + "'");
+            String message = String.format("No organizations found in Route Node xml configuration using xml tag name '%s'", getOrganizationIdXmlTagName());
+            LOG.error(message);
+            throw new RuntimeException(message);
         }
         String orgId = "";
         try {
@@ -79,10 +82,10 @@ public class StaticOrganizationQualifierResolver extends AbstractOrganizationSer
                 attributeSets.add(attrSet);
             }
         } catch (DOMException e) {
-            LOG.error(e);
+            LOG.error("Error getting organization from XML node", e);
             throw new RuntimeException("Error getting organization from XML node", e);
         } catch (Exception e) {
-            LOG.error(e);
+            LOG.error("Error getting organization from OrganizationService", e);
             throw new RuntimeException("Error getting organization with id '" + orgId + "' from OrganizationService", e);
         }
         return attributeSets;
@@ -103,12 +106,13 @@ public class StaticOrganizationQualifierResolver extends AbstractOrganizationSer
             Document document = db.parse(new InputSource(new StringReader(context.getNodeInstance().getRouteNode().getContentFragment())));
             organizationElements = (NodeList) xPath.evaluate("//" + getOrganizationIdXmlTagName(), document, XPathConstants.NODESET);
         } catch (Exception e) {
-            LOG.error(e);
+            LOG.error("Encountered an issue fetching organization ids", e);
             throw new RuntimeException("Encountered an issue fetching organization ids using xml tag name '" + getOrganizationIdXmlTagName() + "'.", e);
         }
         if (organizationElements.getLength() == 0) {
-            LOG.error("No organizations found in Route Node xml configuration using xml tag name '" + getOrganizationIdXmlTagName() + "'");
-            throw new RuntimeException("No organizations found in Route Node xml configuration using xml tag name '" + getOrganizationIdXmlTagName() + "'");
+            String message = String.format("No organizations found in Route Node xml configuration using xml tag name '%s'", getOrganizationIdXmlTagName());
+            LOG.error(message);
+            throw new RuntimeException(message);
         }
         String orgId = "";
         try {
@@ -122,10 +126,10 @@ public class StaticOrganizationQualifierResolver extends AbstractOrganizationSer
                 attributeSets.add(attrSet);
             }
         } catch (DOMException e) {
-            LOG.error(e);
+            LOG.error("Error getting organization from XML node", e);
             throw new RuntimeException("Error getting organization from XML node", e);
         } catch (Exception e) {
-            LOG.error(e);
+            LOG.error("Error getting organization from OrganizationService", e);
             throw new RuntimeException("Error getting organization with id '" + orgId + "' from OrganizationService", e);
         }
         return attributeSets;

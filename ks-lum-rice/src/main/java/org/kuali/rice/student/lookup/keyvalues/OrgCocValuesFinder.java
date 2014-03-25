@@ -22,9 +22,11 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.student.r2.core.search.dto.*;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.common.util.security.ContextUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class OrgCocValuesFinder extends StudentKeyValuesBase {
-	private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AllOrgsValuesFinder.class);
+	private static final Logger LOG = LoggerFactory.getLogger(AllOrgsValuesFinder.class);
 
 	public static List<KeyValue> findCocOrgs() {
         List<KeyValue> departments = new ArrayList<KeyValue>();

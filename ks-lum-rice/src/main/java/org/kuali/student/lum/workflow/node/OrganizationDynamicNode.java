@@ -41,6 +41,8 @@ import org.kuali.student.r2.core.organization.dto.OrgOrgRelationInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.lum.workflow.qualifierresolver.AbstractOrganizationServiceQualifierResolver;
 import org.kuali.student.lum.workflow.qualifierresolver.OrganizationCurriculumCommitteeQualifierResolver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -52,7 +54,7 @@ import org.w3c.dom.NodeList;
  * 
  */
 public class OrganizationDynamicNode implements DynamicNode {
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationDynamicNode.class);
+    private static final Logger LOG = LoggerFactory.getLogger(OrganizationDynamicNode.class);
 
     // name of the prototype node used by the dynamically created node instances
     protected static final String ORG_HIERARCHY_NODE = "Org Hierarchy Review";
@@ -102,7 +104,7 @@ public class OrganizationDynamicNode implements DynamicNode {
         DynamicResult result = new DynamicResult(orgIds == null || orgIds.isEmpty(), null);
         for (String orgId : orgIds) {
             RouteNodeInstance nodeInstance = generateNextNodeInstance(orgId, roleNodePrototype, context, dynamicNodeInstance.getBranch(), helper);
-            LOG.debug("Exiting transitioningInto with " + ((nodeInstance == null) ? "no" : "a") + " valid next node instance");
+            LOG.debug("Exiting transitioningInto with {} valid next node instance", (nodeInstance == null) ? "no" : "a");
             if (nodeInstance != null) {
                 result.setNextNodeInstance(nodeInstance);
             }
@@ -134,29 +136,29 @@ public class OrganizationDynamicNode implements DynamicNode {
         try {
             for (String orgId : orgIds) {
                 OrgInfo orgInfo = getOrganizationService().getOrg(orgId, contextInfo);
-                LOG.debug("Org on Document: " + getOrgInfoForPrint(orgInfo));
+                LOG.debug("Org on Document: {}", getOrgInfoForPrint(orgInfo));
                 List<OrgOrgRelationInfo> orgRelationInfos = getOrganizationService().getOrgOrgRelationsByOrg(orgId, contextInfo);
                 for (OrgOrgRelationInfo orgOrgRelationInfo : orgRelationInfos) {
                     LOG.debug("---- Org Relation:");
-                    LOG.debug("------------ Org ID: " + orgOrgRelationInfo.getOrgId());
+                    LOG.debug("------------ Org ID: {}", orgOrgRelationInfo.getOrgId());
                     orgInfo = getOrganizationService().getOrg(orgOrgRelationInfo.getRelatedOrgId(), contextInfo);
-                    LOG.debug("------------ Related Org on Document: " + getOrgInfoForPrint(orgInfo));
-                    LOG.debug("------------ Relation State: " + orgOrgRelationInfo.getStateKey());
-                    LOG.debug("------------ Relation Type: " + orgOrgRelationInfo.getTypeKey());
+                    LOG.debug("------------ Related Org on Document: {}", getOrgInfoForPrint(orgInfo));
+                    LOG.debug("------------ Relation State: {}", orgOrgRelationInfo.getStateKey());
+                    LOG.debug("------------ Relation Type: {}", orgOrgRelationInfo.getTypeKey());
                 }
                 List<OrgOrgRelationInfo> relatedOrgRelationInfos = null;
                 relatedOrgRelationInfos = getOrganizationService().getOrgOrgRelationsByOrg(orgId, contextInfo);
                 for (OrgOrgRelationInfo orgOrgRelationInfo : relatedOrgRelationInfos) {
                     LOG.debug("---- Related Org Relation:");
-                    LOG.debug("------------ Related Org ID: " + orgOrgRelationInfo.getRelatedOrgId());
+                    LOG.debug("------------ Related Org ID: {}", orgOrgRelationInfo.getRelatedOrgId());
                     orgInfo = getOrganizationService().getOrg(orgOrgRelationInfo.getOrgId(), contextInfo);
-                    LOG.debug("------------ Org of Relation: " + getOrgInfoForPrint(orgInfo));
-                    LOG.debug("------------ Relation State: " + orgOrgRelationInfo.getStateKey());
-                    LOG.debug("------------ Relation Type: " + orgOrgRelationInfo.getTypeKey());
+                    LOG.debug("------------ Org of Relation: {}", getOrgInfoForPrint(orgInfo));
+                    LOG.debug("------------ Relation State: {}", orgOrgRelationInfo.getStateKey());
+                    LOG.debug("------------ Relation Type: {}", orgOrgRelationInfo.getTypeKey());
                 }
             }
         } catch (Exception e) {
-            LOG.error(e);
+            LOG.error("Caught Exception using Organization Service", e);
             throw new RuntimeException("Caught Exception using Organization Service", e);
         }
         return orgIds;
@@ -183,7 +185,7 @@ public class OrganizationDynamicNode implements DynamicNode {
                 orgIds.add(attributeValue);
             }
             if (LOG.isDebugEnabled()) {
-                LOG.debug("Found " + orgElements.getLength() + " organization ids to parse for routing:" + XmlJotter.jotDocument(xmlContent));
+                LOG.debug("Found {} organization ids to parse for routing: {}", orgElements.getLength(), XmlJotter.jotDocument(xmlContent));
             }
             return orgIds;
         } catch (XPathExpressionException e) {
@@ -243,11 +245,11 @@ public class OrganizationDynamicNode implements DynamicNode {
     protected List<String> getNextOrganizationIdsForRouting(RouteContext context, RouteHelper helper, ContextInfo contextInfo) {
         RouteNodeInstance currentNode = context.getNodeInstance();
         String currentNodeName = currentNode.getName();
-        LOG.debug("currentNodeName = '" + currentNodeName + "'");
+        LOG.debug("currentNodeName = '{}'", currentNodeName);
         NodeState currentNodeOrgIdState = currentNode.getNodeState(NODE_STATE_ORG_ID_KEY);
-        LOG.debug("currentNodeOrgIdState is " + ((currentNodeOrgIdState != null) ? "not " : "") + "null");
+        LOG.debug("currentNodeOrgIdState is {}null", ((currentNodeOrgIdState != null) ? "not " : ""));
         String currentNodeOrgId = (currentNodeOrgIdState != null) ? currentNodeOrgIdState.getValue() : null;
-        LOG.debug("currentNodeOrgId = '" + currentNodeOrgId + "'");
+        LOG.debug("currentNodeOrgId = '{}'", currentNodeOrgId);
         Set<String> relatedOrgIds = new HashSet<String>();
         try {
             List<OrgOrgRelationInfo> relatedOrgRelationInfos = null;
@@ -260,8 +262,8 @@ public class OrganizationDynamicNode implements DynamicNode {
                         referenceOrgInfo = getOrganizationService().getOrg(orgOrgRelationInfo.getRelatedOrgId(), contextInfo);
                         OrgInfo nextNodeOrgInfo = null; 
                         nextNodeOrgInfo = getOrganizationService().getOrg(orgOrgRelationInfo.getOrgId(), contextInfo);
-                        LOG.debug("------------ Reference Org: " + getOrgInfoForPrint(referenceOrgInfo));
-                        LOG.debug("------------ Org for Next Node: " + getOrgInfoForPrint(nextNodeOrgInfo));
+                        LOG.debug("------------ Reference Org: {}", getOrgInfoForPrint(referenceOrgInfo));
+                        LOG.debug("------------ Org for Next Node: {}", getOrgInfoForPrint(nextNodeOrgInfo));
                         relatedOrgIds.add(nextNodeOrgInfo.getId());
                     }
                 }
@@ -287,7 +289,7 @@ public class OrganizationDynamicNode implements DynamicNode {
      * 
      */
     protected RouteNodeInstance generateNextNodeInstance(String orgId, RouteNode routeNodeDefinition, RouteContext context, Branch branch, RouteHelper helper) {
-        LOG.debug("Adding new node with name '" + routeNodeDefinition.getRouteNodeName() + "'");
+        LOG.debug("Adding new node with name '{}'", routeNodeDefinition.getRouteNodeName());
         RouteNodeInstance actualRouteNodeInstance = helper.getNodeFactory().createRouteNodeInstance(context.getDocument().getDocumentId(), routeNodeDefinition);
         actualRouteNodeInstance.setBranch(branch);
         actualRouteNodeInstance.addNodeState(new NodeState(NODE_STATE_ORG_ID_KEY, orgId));

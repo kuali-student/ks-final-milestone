@@ -32,12 +32,14 @@ import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
 import org.kuali.student.lum.kim.KimQualificationHelper;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
 import org.kuali.student.common.util.security.ContextUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  */
 public class KSRouteLogDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KSRouteLogDerivedRoleTypeServiceImpl.class);
+    private static Logger LOG = LoggerFactory.getLogger(KSRouteLogDerivedRoleTypeServiceImpl.class);
 
     public static final String INITIATOR_ROLE_NAME = "Initiator";
     public static final String INITIATOR_OR_REVIEWER_ROLE_NAME = "Initiator or Reviewer";
@@ -95,8 +97,7 @@ public class KSRouteLogDerivedRoleTypeServiceImpl extends DerivedRoleTypeService
         if (StringUtils.isNotEmpty(documentId)) {
             return documentId;
         } else {
-            LOG.warn("Could not find workflow document id in qualification list:");
-            LOG.warn(qualification);
+            LOG.warn("Could not find workflow document id in qualification list: {}", qualification);
             return null;
         }
 //		if (StringUtils.isNotEmpty(documentId)) {
@@ -165,7 +166,7 @@ public class KSRouteLogDerivedRoleTypeServiceImpl extends DerivedRoleTypeService
 				}
 			}
 		} catch (WorkflowException wex) {
-			LOG.error("Workflow Error: " + wex.getLocalizedMessage(),wex);
+			LOG.error("Workflow Error: ",wex);
 			throw new RuntimeException("Error in getting principal Ids in route log for document number: "+documentNumber+" :"+wex.getLocalizedMessage(),wex);
 		}
 		return members;
@@ -193,7 +194,7 @@ public class KSRouteLogDerivedRoleTypeServiceImpl extends DerivedRoleTypeService
 				}
 			}
 		} catch (WorkflowException wex) {
-			LOG.error("Workflow Error: " + wex.getLocalizedMessage(),wex);
+			LOG.error("Workflow Error: ",wex);
 			throw new RuntimeException("Error in determining whether the principal Id: "+principalId+" is in route log for document number: "+documentNumber+" :"+wex.getLocalizedMessage(),wex);
 		}
         return isUserInRouteLog;

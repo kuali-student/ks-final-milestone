@@ -24,14 +24,15 @@ import org.kuali.rice.student.bo.KualiStudentKimAttributes;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.core.organization.dto.OrgPersonRelationInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.namespace.QName;
 import java.util.*;
 
 public class OrgDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
 
-	private static final org.apache.log4j.Logger LOG =
-			org.apache.log4j.Logger.getLogger(OrgDerivedRoleTypeServiceImpl.class);
+	private static final Logger LOG = LoggerFactory.getLogger(OrgDerivedRoleTypeServiceImpl.class);
 
 	private OrganizationService orgService;
 	private List<String> includedOrgPersonRelationTypes = null;
@@ -59,12 +60,7 @@ public class OrgDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
 		List<RoleMembership> members = new ArrayList<RoleMembership>();
 
 		String orgId = qualification.get(KualiStudentKimAttributes.QUALIFICATION_ORG_ID);
-//		String org = qualification.get(KualiStudentKimAttributes.QUALIFICATION_ORG);
-		if (LOG.isDebugEnabled()) {
-    		LOG.debug("Using Org Values:");
-    		LOG.debug("------ Org ID: " + orgId);
-//    		LOG.debug("------ Org Short Name: " + org);
-    	}
+        LOG.debug("Using Org Values Org ID: {}", orgId);
 		if (StringUtils.isEmpty(orgId)) {
 		    throw new RuntimeException("No valid qualifier value found for key: " + KualiStudentKimAttributes.QUALIFICATION_ORG_ID);
 		}
@@ -109,7 +105,7 @@ public class OrgDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
 				}
 			}
 		} catch (Exception e) {
-			LOG.warn("Error getting relations from Org Service for Org:"+orgId+". ",e);
+			LOG.warn(String.format("Error getting relations from Org Service for Org: %s.", orgId), e);
 		}
 
 		return members;

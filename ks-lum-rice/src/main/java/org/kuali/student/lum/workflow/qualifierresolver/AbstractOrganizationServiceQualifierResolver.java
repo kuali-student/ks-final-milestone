@@ -23,6 +23,8 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.search.dto.*;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -33,7 +35,7 @@ import org.w3c.dom.NodeList;
  * 
  */
 public abstract class AbstractOrganizationServiceQualifierResolver implements QualifierResolver {
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AbstractOrganizationServiceQualifierResolver.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AbstractOrganizationServiceQualifierResolver.class);
     
     protected static final String DOCUMENT_CONTENT_XML_DEFAULT_ORG_ID_KEY = "orgId";
     protected static final String DOCUMENT_CONTENT_XML_ORG_ID_KEY = "organizationIdDocumentContentKey";
@@ -79,7 +81,7 @@ public abstract class AbstractOrganizationServiceQualifierResolver implements Qu
         try {
             NodeList baseElements = (NodeList) xPath.evaluate(baseXpathExpression, xmlContent, XPathConstants.NODESET);
             if (LOG.isDebugEnabled()) {
-                LOG.debug("Found " + baseElements.getLength() + " baseElements to parse for AttributeSets using document XML:" + XmlJotter.jotDocument(xmlContent));
+                LOG.debug("Found {} baseElements to parse for AttributeSets using document XML: {}", baseElements.getLength(), XmlJotter.jotDocument(xmlContent));
             }
             Set<String> distinctiveOrganizationIds = new HashSet<String>();
             for (int i = 0; i < baseElements.getLength(); i++) {
@@ -99,7 +101,7 @@ public abstract class AbstractOrganizationServiceQualifierResolver implements Qu
     protected String getOrganizationIdDocumentContentFieldKey(RouteContext context) {
         String organizationIdFieldKey = RouteNodeUtils.getValueOfCustomProperty(context.getNodeInstance().getRouteNode(), DOCUMENT_CONTENT_XML_ORG_ID_KEY);
         if (StringUtils.isBlank(organizationIdFieldKey)) {
-            LOG.info("Cannot find element '" + DOCUMENT_CONTENT_XML_ORG_ID_KEY + "' on Route Node XML configuration. Will use default value of '" + DOCUMENT_CONTENT_XML_DEFAULT_ORG_ID_KEY + "'.");
+            LOG.info("Cannot find element '{}' on Route Node XML configuration. Will use default value of '{}'.", DOCUMENT_CONTENT_XML_ORG_ID_KEY, DOCUMENT_CONTENT_XML_DEFAULT_ORG_ID_KEY);
             organizationIdFieldKey = DOCUMENT_CONTENT_XML_DEFAULT_ORG_ID_KEY;
         }
         return organizationIdFieldKey;

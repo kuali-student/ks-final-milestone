@@ -28,6 +28,8 @@ import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r2.lum.clu.CLUConstants;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -36,7 +38,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional(readOnly=true, rollbackFor={Throwable.class})
 public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CoursePostProcessorBase.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CoursePostProcessorBase.class);
 
     private CourseService courseService;
     private CourseStateChangeServiceImpl courseStateChangeService;
@@ -62,8 +64,7 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
             // proposals are submitted.)
             if ( CLUConstants.PROPOSAL_TYPE_COURSE_CREATE.equals(proposalDocType)
                     ||  CLUConstants.PROPOSAL_TYPE_COURSE_MODIFY.equals(proposalDocType)) {
-                LOG.info("Will set CLU state to '"
-                        + DtoConstants.STATE_NOT_APPROVED + "'");
+                LOG.info("Will set CLU state to '{}'", DtoConstants.STATE_NOT_APPROVED);
                 // Get Clu
                 CourseInfo courseInfo = getCourseService().getCourse(
                         getCourseId(proposalInfo), ContextUtils.getContextInfo());
@@ -73,9 +74,9 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
             } 
             // Retire proposal is the only proposal type at this time which will not require a 
             // change to the clu if withdrawn.
-                        else if ( CLUConstants.PROPOSAL_TYPE_COURSE_RETIRE.equals(proposalDocType)) {
-                LOG.info("Withdrawing a retire proposal with ID'" + proposalInfo.getId() 
-                        + ", will not change any CLU state as there is no new CLU object to set.");
+            else if ( CLUConstants.PROPOSAL_TYPE_COURSE_RETIRE.equals(proposalDocType)) {
+                LOG.info("Withdrawing a retire proposal with ID'{}, will not change any CLU state as there is no new CLU object to set.",
+                        proposalInfo.getId());
             }
         } else {
             LOG.info("Proposal Info is null when a withdraw proposal action was taken, doing nothing.");
@@ -194,8 +195,10 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
 
     protected String getCourseId(ProposalInfo proposalInfo) throws OperationFailedException {
         if (proposalInfo.getProposalReference().size() != 1) {
-            LOG.error("Found " + proposalInfo.getProposalReference().size() + " CLU objects linked to proposal with proposalId='" + proposalInfo.getId() + "'. Must have exactly 1 linked.");
-            throw new OperationFailedException("Found " + proposalInfo.getProposalReference().size() + " CLU objects linked to proposal with docId='" + proposalInfo.getWorkflowId() + "' and proposalId='" + proposalInfo.getId() + "'. Must have exactly 1 linked.");
+            String message = String.format("Found %s CLU objects linked to proposal with docId='%s' and proposalId='%s'. Must have exactly 1 linked.",
+                    proposalInfo.getProposalReference().size(), proposalInfo.getWorkflowId(), proposalInfo.getId());
+            LOG.error(message);
+            throw new OperationFailedException(message);
         }
         return proposalInfo.getProposalReference().get(0);
     }
@@ -246,9 +249,7 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
      * <code>currentCluState</code> value. Otherwise <code>null</code> will be returned.
      */
     protected String getCourseStateFromNewState(String currentCourseState, String newCourseState) {
-        if (LOG.isInfoEnabled()) {
-            LOG.info("current CLU state is '" + currentCourseState + "' and new CLU state will be '" + newCourseState + "'");
-        }
+        LOG.info("current CLU state is '{}' and new CLU state will be '{}'", currentCourseState, newCourseState);
         return getStateFromNewState(currentCourseState, newCourseState);
     }
 
@@ -257,15 +258,11 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
         // only change the state if the course is not currently set to that state
         boolean requiresSave = false;
         if (courseState != null) {
-            if (LOG.isInfoEnabled()) {
-                LOG.info("Setting state '" + courseState + "' on CLU with cluId='" + courseInfo.getId() + "'");
-            }
+            LOG.info("Setting state '{}' on CLU with cluId='{}'", courseState, courseInfo.getId());
             courseInfo.setStateKey(courseState);
             requiresSave = true;
         }
-        if (LOG.isInfoEnabled()) {
-            LOG.info("Running preProcessCluSave with cluId='" + courseInfo.getId() + "'");
-        }
+        LOG.info("Running preProcessCluSave with cluId='{}'", courseInfo.getId());
         requiresSave |= preProcessCourseSave(iDocumentEvent, courseInfo);
 
         if (requiresSave) {
