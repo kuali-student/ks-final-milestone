@@ -73,7 +73,6 @@ public class CourseAssemblerConstants {
 	public static final String COURSE_RESULT_COMP_ATTR_MAX_CREDIT_VALUE = "maxCreditValue";
     public static final String COURSE_RESULT_COMP_ATTR_CREDIT_VALUE_INCR = "creditValueIncrement";
 	public static final String COURSE_RESULT_COMP_CREDIT_PREFIX = "kuali.creditType.credit.degree.";
-    public static final String COURSE_RESULT_VALUE_CREDIT_PREFIX = "kuali.result.value.credit.degree.";
 
 	//FIXME ask norm for these values
 	public static final String COURSE_CODE_SPECIAL_TOPICS = "kuali.lu.code.specialTopics";

@@ -683,7 +683,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                         id = CourseAssemblerConstants.COURSE_RESULT_COMP_CREDIT_PREFIX + fixedCreditValue;
                         type = CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED;
                         resultValues = new ArrayList<String>();
-                        resultValues.add(CourseAssemblerConstants.COURSE_RESULT_VALUE_CREDIT_PREFIX + String.valueOf(fixedCreditValue));
+                        resultValues.add(String.valueOf(fixedCreditValue));
                         resultValueRange = new ResultValueRangeInfo();
                         resultValueRange.setMinValue(String.valueOf(fixedCreditValue));
                         resultValueRange.setMaxValue(String.valueOf(fixedCreditValue));
@@ -707,9 +707,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                         id = sb.toString();
                         type = CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE;
                         resultValues = new ArrayList<String>();
-                        for (String resultVal : resultVals) {
-                            resultValues.add(CourseAssemblerConstants.COURSE_RESULT_VALUE_CREDIT_PREFIX + resultVal);
-                        }
+                        resultValues.addAll(resultVals);
                     }else if(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE.equals(creditOption.getTypeKey())){
                         /*
                                * For variable credits create a Result values that goes from min to max with the specified increment.
@@ -730,7 +728,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                         type = CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE;
                         resultValues = new ArrayList<String>();
                         for(float i = minCredits; i <= maxCredits; i+=increment){
-                            resultValues.add(CourseAssemblerConstants.COURSE_RESULT_VALUE_CREDIT_PREFIX + String.valueOf(i));
+                            resultValues.add(String.valueOf(i));
                         }
                         resultValueRange = new ResultValueRangeInfo();
                         resultValueRange.setMinValue(String.valueOf(minCredits));
