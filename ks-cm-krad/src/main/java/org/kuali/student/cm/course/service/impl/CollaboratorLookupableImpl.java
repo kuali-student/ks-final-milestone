@@ -106,7 +106,7 @@ public class CollaboratorLookupableImpl extends LookupableImpl {
                 }
         	}
 		} catch (Exception e) {
-            LOG.error("An error occurred retrieving the Collaborators: " + e);
+            LOG.error("An error occurred retrieving the Collaborators", e);
 		}
         
 		return collaboratorDisplays;

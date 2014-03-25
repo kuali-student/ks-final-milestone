@@ -99,7 +99,7 @@ public class CluInstructorInfoLookupableImpl extends LookupableImpl {
                 cluInstructorInfoDisplays.add(cluInstructorInfoDisplay);
         	}
 		} catch (Exception e) {
-            LOG.error("An error occurred retrieving the CluInstructors: " + e);
+            LOG.error("An error occurred retrieving the CluInstructors", e);
 		}
         
 		return cluInstructorInfoDisplays;

@@ -89,11 +89,11 @@ public class OrgsBySubjectCodeValuesFinder extends UifKeyValuesFinderBase {
                     departments.add(new ConcreteKeyValue(subjectCodeId, subjectCodeOptionalLongName));
                 }
             }
-            LOG.debug("Returning %s", departments);
+            LOG.debug("Returning {}", departments);
 
         	return departments;
         } catch (Exception e) {
-        	LOG.error("Error building KeyValues List %s", e);
+        	LOG.error("Error building KeyValues List", e);
             throw new RuntimeException(e);
         }
     }
@@ -114,7 +114,7 @@ public class OrgsBySubjectCodeValuesFinder extends UifKeyValuesFinderBase {
      * @return KeyValue
      */
     protected KeyValue getOrganizationBy(final String code, final String orgId) {
-        LOG.debug("Using code: %s and orgId: %s for the search", code, orgId);
+        LOG.debug("Using code: {} and orgId: {} for the search", code, orgId);
         final SearchRequestInfo searchRequest = new SearchRequestInfo();
         searchRequest.setSearchKey("subjectCode.search.orgsForSubjectCode");
         searchRequest.addParam("subjectCode.queryParam.code", code);
@@ -137,7 +137,7 @@ public class OrgsBySubjectCodeValuesFinder extends UifKeyValuesFinderBase {
                 return new ConcreteKeyValue(subjectCodeOptionalLongName, subjectCodeId);
             }
         } catch (Exception e) {
-        	LOG.error("Error building KeyValues List %s", e);
+        	LOG.error("Error building KeyValues List", e);
             throw new RuntimeException(e);
         }
         

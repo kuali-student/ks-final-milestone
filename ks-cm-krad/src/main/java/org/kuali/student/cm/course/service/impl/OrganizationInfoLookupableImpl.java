@@ -90,7 +90,7 @@ public class OrganizationInfoLookupableImpl extends LookupableImpl {
             queryParamValueList.add(shortNameParam);
         }
 
-        LOG.info("Searching for %s", queryParamValueList);
+        LOG.info("Searching for {}", queryParamValueList);
 
         final SearchRequestInfo searchRequest = new SearchRequestInfo();
         searchRequest.setSearchKey(CurriculumManagementConstants.OrganizationMessageKeys.ORG_SEARCH_GENERIC);
@@ -103,16 +103,15 @@ public class OrganizationInfoLookupableImpl extends LookupableImpl {
         try {
         	searchResult = getOrganizationService().search(searchRequest, ContextUtils.getContextInfo());
 		} catch (Exception e) {
-            LOG.error("An error occurred in getting search result. %s", e.getMessage());
+            LOG.error("An error occurred in getting search result.", e);
 		}
 
         for (final SearchResultRowInfo result : searchResult.getRows()) {
             final List<SearchResultCellInfo> cells = result.getCells();
             final OrganizationInfoWrapper cluOrgInfoDisplay = new OrganizationInfoWrapper();
             for (final SearchResultCellInfo cell : cells) {
-                LOG.debug("Got key %s", cell.getKey());
-                LOG.debug("Got value %s", cell.getValue());
-                
+                LOG.debug("Got key: {} value: {}", cell.getKey(), cell.getValue());
+
                 if ((CurriculumManagementConstants.OrganizationMessageKeys.ORG_RESULT_COLUMN_ID).equals(cell.getKey())) {
                     cluOrgInfoDisplay.setId(cell.getValue());
                 } 

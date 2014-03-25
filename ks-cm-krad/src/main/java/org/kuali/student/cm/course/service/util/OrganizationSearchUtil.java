@@ -65,9 +65,8 @@ public class OrganizationSearchUtil {
             final List<SearchResultCellInfo> cells = result.getCells();
             final OrganizationInfoWrapper cluOrgInfoDisplay = new OrganizationInfoWrapper();
             for (final SearchResultCellInfo cell : cells) {
-                LOG.info("Got key %s", cell.getKey());
-                LOG.info("Got key %s", cell.getValue());
-                
+                LOG.info("Got key: {} value: {}", cell.getKey(), cell.getValue());
+
                 if ((CurriculumManagementConstants.OrganizationMessageKeys.ORG_RESULT_COLUMN_ID).equals(cell.getKey())) {
                     cluOrgInfoDisplay.setId(cell.getValue());
                 } 

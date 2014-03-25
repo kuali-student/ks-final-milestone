@@ -58,8 +58,7 @@ public class LoCategoryController extends UifControllerBase {
                 }
             }
         } catch (Exception e) {
-            LOG.error("The Learning Objective Categories could not be retrieved from the database: %s",
-                    e.getMessage());
+            LOG.error("The Learning Objective Categories could not be retrieved from the database", e);
         }
         return loCategories;
     }
@@ -81,8 +80,7 @@ public class LoCategoryController extends UifControllerBase {
         try {
             model = refresh(uifForm, result, request, response);
         } catch (Exception e) {
-            LOG.error("An error occurred while refreshing the Learning Objective Categories: %s",
-                    e.getMessage());
+            LOG.error("An error occurred while refreshing the Learning Objective Categories", e);
         }
         return model;
     }
@@ -95,8 +93,7 @@ public class LoCategoryController extends UifControllerBase {
         try {
             model = refresh(uifForm, result, request, response);
         } catch (Exception e) {
-            LOG.error("An error occurred while refreshing the Learning Objective Categories: %s",
-                    e.getMessage());
+            LOG.error("An error occurred while refreshing the Learning Objective Categories", e);
         }
         return model;
     }

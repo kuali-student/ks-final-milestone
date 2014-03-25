@@ -39,8 +39,7 @@ public class LoCategoryViewHelperServiceImpl extends ViewHelperServiceImpl {
         } catch (DataValidationErrorException e) {
             GlobalVariables.getMessageMap().putErrorForSectionId(CurriculumManagementConstants.KS_LO_CAT_TABLE, CurriculumManagementConstants.MessageKeys.ERROR_LO_CATEGORY_DUPLICATE);
         } catch (Exception e) {
-            LOG.error("An error occurred while trying to create a new Learning Objective Category: %s",
-                    e.getMessage());
+            LOG.error("An error occurred while trying to create a new Learning Objective Category", e);
         }
     }
 
@@ -56,8 +55,7 @@ public class LoCategoryViewHelperServiceImpl extends ViewHelperServiceImpl {
         } catch (DataValidationErrorException e) {
             GlobalVariables.getMessageMap().putErrorForSectionId(CurriculumManagementConstants.KS_LO_CAT_TABLE, CurriculumManagementConstants.MessageKeys.ERROR_LO_CATEGORY_DUPLICATE);
         } catch (Exception e) {
-            LOG.error("An error occurred while updating the Learning Objective Category: %s",
-                    e.getMessage());
+            LOG.error("An error occurred while updating the Learning Objective Category", e);
         }
     }
 
@@ -97,8 +95,7 @@ public class LoCategoryViewHelperServiceImpl extends ViewHelperServiceImpl {
                 try {
                     getLoService().deleteLoCategory(loCategory.getId(), ContextUtils.getContextInfo());
                 } catch (Exception e) {
-                    LOG.error("An error occurred while trying to delete a Learning Objective Category: %s",
-                            e.getMessage());
+                    LOG.error("An error occurred while trying to delete a Learning Objective Category", e);
                 }
                 ((List<Object>) collection).remove(lineIndex);
                 processAfterDeleteLine(view, collectionGroup, model, lineIndex);

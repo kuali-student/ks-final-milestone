@@ -239,7 +239,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 cluInstructorInfoDisplays.add(cluInstructorInfoDisplay);
             }
         } catch (Exception e) {
-            LOG.error("An error occurred in the getInstructorsForSuggest method. %s", e.getMessage());
+            LOG.error("An error occurred in the getInstructorsForSuggest method", e);
         }
 
         return cluInstructorInfoDisplays;
@@ -306,7 +306,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 LOG.error(CurriculumManagementConstants.MessageKeys.ERROR_GET_INSTRUCTOR_RETURN_MORE_THAN_ONE_RESULT);
             }
         } catch (Exception e) {
-            LOG.error("An error occurred in the getInstructor method. %s", e.getMessage());
+            LOG.error("An error occurred in the getInstructor method.", e);
         }
 
         return instructor;
@@ -349,7 +349,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 retrievedCodes.add(new SubjectCodeWrapper(id, code));
             }
         } catch (Exception e) {
-            LOG.error("An error occurred retrieving the SubjectCodeDisplay: %s", e);
+            LOG.error("An error occurred retrieving the SubjectCodeDisplay", e);
         }
 
         return retrievedCodes;
@@ -416,7 +416,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 listCollaboratorWrappers.add(theCollaboratorWrapper);
             }
         } catch (Exception e) {
-            LOG.error("Error retrieving Personel search List %s", e);
+            LOG.error("Error retrieving Personel search List", e);
             //throw new RuntimeException();
         }
 

@@ -143,7 +143,7 @@ public class CourseJointInfoLookupableImpl extends LookupableImpl {
                 courseJointInfoDisplays.add(courseJointInfoDisplay);
             }
         } catch (Exception e) {
-            LOG.error("An error occurred retrieving the courseJointInfoDisplay: " + e);
+            LOG.error("An error occurred retrieving the courseJointInfoDisplay", e);
         }
         return courseJointInfoDisplays;
 	}	

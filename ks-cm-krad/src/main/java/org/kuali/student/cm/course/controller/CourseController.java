@@ -258,14 +258,14 @@ public class CourseController extends CourseRuleEditorController {
             toAdd.getDocumentBinary().setBinary(new String(Base64.encodeBase64(addLineResult.getDocumentUpload().getBytes())));
         }
         catch (Exception e) {
-            LOG.warn("Failed to get binary data: %s", e.getMessage());
+            LOG.warn("Failed to get binary data", e);
         }
 
         try {
             getSupportingDocumentService().createDocument("documentType.doc", "documentCategory.proposal", toAdd, ContextUtils.getContextInfo());
         }
         catch (Exception e) {
-            LOG.warn("Unable to create a document: %s", e.getMessage());
+            LOG.warn("Unable to create a document", e);
         }
 
         // Now relate the document to the course
@@ -279,7 +279,7 @@ public class CourseController extends CourseRuleEditorController {
                                                       ContextUtils.getContextInfo());
         }
         catch (Exception e) {
-            LOG.warn("Unable to relate a document with the course: %s", e.getMessage());
+            LOG.warn("Unable to relate a document with the course", e);
         }
 
         return retval;
@@ -662,7 +662,7 @@ public class CourseController extends CourseRuleEditorController {
                         commentInfo.getReferenceTypeKey(), commentInfo.getTypeKey(), commentInfo,
                         ContextUtils.getContextInfo());
             } catch (Exception e) {
-                LOG.error("Error creating a new comment. %s", e);
+                LOG.error("Error creating a new comment", e);
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS,CurriculumManagementConstants.MessageKeys.ERROR_CREATE_COMMENT);
                 return getUIFModelAndView(form);
             }
@@ -761,7 +761,7 @@ public class CourseController extends CourseRuleEditorController {
         }
 
         final String toAdd = courseInfoWrapper.getUnitsContentOwnerToAdd();
-        LOG.info("Adding ", toAdd);
+        LOG.info("Adding {}", toAdd);
         courseInfoWrapper.getUnitsContentOwner().add(getOrganizationBy(courseInfoWrapper.getCourseInfo().getSubjectArea(), toAdd));
         courseInfoWrapper.setUnitsContentOwnerToAdd("");
 
@@ -800,7 +800,7 @@ public class CourseController extends CourseRuleEditorController {
                 return new ConcreteKeyValue(subjectCodeOptionalLongName, subjectCodeId);
             }
         } catch (Exception e) {
-            LOG.error("Error building KeyValues List %s", e);
+            LOG.error("Error building KeyValues List", e);
             throw new RuntimeException(e);
         }
 
