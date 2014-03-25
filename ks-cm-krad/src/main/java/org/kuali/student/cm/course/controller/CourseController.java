@@ -248,7 +248,7 @@ public class CourseController extends CourseRuleEditorController {
         // New document
         DocumentInfo toAdd = new DocumentInfo();
         toAdd.setFileName(addLineResult.getDocumentUpload().getOriginalFilename());
-        toAdd.setDescr(new RichTextInfo() {{ 
+        toAdd.setDescr(new RichTextInfo() {{
             setPlain(addLineResult.getDescription());
             setFormatted(addLineResult.getDescription());
         }});
@@ -256,30 +256,18 @@ public class CourseController extends CourseRuleEditorController {
         
         try {
             toAdd.getDocumentBinary().setBinary(new String(Base64.encodeBase64(addLineResult.getDocumentUpload().getBytes())));
-        }
-        catch (Exception e) {
-            LOG.warn("Failed to get binary data", e);
-        }
-
-        try {
             getSupportingDocumentService().createDocument("documentType.doc", "documentCategory.proposal", toAdd, ContextUtils.getContextInfo());
-        }
-        catch (Exception e) {
-            LOG.warn("Unable to create a document", e);
-        }
 
-        // Now relate the document to the course
-        RefDocRelationInfo docRelation = new RefDocRelationInfo();
-        try {
+            // Now relate the document to the course
+            RefDocRelationInfo docRelation = new RefDocRelationInfo();
             getSupportingDocumentService().createRefDocRelation("kuali.lu.type.CreditCourse",
                     courseInfoWrapper.getCourseInfo().getId(),
-                                                      toAdd.getId(),
-                                                      "kuali.org.DocRelation.allObjectTypes",
-                                                      docRelation,
-                                                      ContextUtils.getContextInfo());
-        }
-        catch (Exception e) {
-            LOG.warn("Unable to relate a document with the course", e);
+                    toAdd.getId(),
+                    "kuali.org.DocRelation.allObjectTypes",
+                    docRelation,
+                    ContextUtils.getContextInfo());
+        } catch (Exception e) {
+            LOG.warn("Unable to add supporting document to the course for file: " + toAdd.getFileName(), e);
         }
 
         return retval;
@@ -327,7 +315,8 @@ public class CourseController extends CourseRuleEditorController {
             getSupportingDocumentService().deleteDocument(toRemove.getId(), ContextUtils.getContextInfo());
         }
         catch (Exception e) {
-            LOG.warn("Unable to delete document: %s, reason: %s", toRemove.getId(), e.getMessage());
+            LOG.warn("Unable to delete document: " + toRemove.getId(),e);
+            throw new RuntimeException("Unable to delete document: " + toRemove.getId(), e);
         }
         
         return deleteLine(form, result, request, response);
@@ -385,16 +374,8 @@ public class CourseController extends CourseRuleEditorController {
      */
     @Override
     protected void performWorkflowAction(DocumentFormBase form, UifConstants.WorkflowAction action, boolean checkSensitiveData) {
-//        try {
-            CourseControllerTransactionHelper helper = GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "courseControllerTransactionHelper", CourseControllerTransactionHelper.class.getSimpleName()));
-            helper.performWorkflowActionSuper(form, action, checkSensitiveData, this);
-//            performWorkflowActionSuper(form,action,checkSensitiveData);
-//        } catch (Exception e) {
-//            LOG.error("Caught Exception attempting to perform action " + action.name() + " for document: " + form.getDocument().getDocumentNumber(),e);
-//            Throwable rootCause = KSObjectUtils.unwrapException(20,e);
-//            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, rootCause.getMessage());
-//        }
-//        super.performWorkflowAction(form, action, checkSensitiveData);
+        CourseControllerTransactionHelper helper = GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "courseControllerTransactionHelper", CourseControllerTransactionHelper.class.getSimpleName()));
+        helper.performWorkflowActionSuper(form, action, checkSensitiveData, this);
         AutoPopulatingList<ErrorMessage> infoMessages = GlobalVariables.getMessageMap().getInfoMessagesForProperty(KRADConstants.GLOBAL_MESSAGES);
         if (infoMessages != null) {
             for (ErrorMessage message : infoMessages) {
@@ -406,6 +387,7 @@ public class CourseController extends CourseRuleEditorController {
 
     /**
      * This will save the Course Proposal.
+     *
      * @param form {@link MaintenanceDocumentForm} instance used for this action
      * @param result
      * @param request {@link HttpServletRequest} instance of the actual HTTP request made
@@ -414,7 +396,7 @@ public class CourseController extends CourseRuleEditorController {
      */
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=saveProposal")
     public ModelAndView saveProposal(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
-            HttpServletRequest request, HttpServletResponse response) {
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
 //        final CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
 //        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
 //
@@ -425,11 +407,7 @@ public class CourseController extends CourseRuleEditorController {
 
         ModelAndView modelAndView;
 
-        try {
-            modelAndView = save(form, result, request, response);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        modelAndView = save(form, result, request, response);
 
         if (GlobalVariables.getMessageMap().hasErrors()){
             return modelAndView;
@@ -783,7 +761,7 @@ public class CourseController extends CourseRuleEditorController {
      * @return KeyValue
      */
     protected KeyValue getOrganizationBy(final String code, final String orgId) {
-        LOG.debug("Using code: %s and orgId: %s for the search", code, orgId);
+        LOG.debug("Using code: {} and orgId: {} for the search", code, orgId);
         final SearchRequestInfo searchRequest = new SearchRequestInfo();
         searchRequest.setSearchKey("subjectCode.search.orgsForSubjectCode");
         searchRequest.addParam("subjectCode.queryParam.code", code);
