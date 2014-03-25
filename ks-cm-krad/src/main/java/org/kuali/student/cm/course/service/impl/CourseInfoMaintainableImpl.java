@@ -937,11 +937,15 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         reviewData.getcourseLogisticsSection().setFinalExamStatus(getFinalExamString());
         reviewData.getcourseLogisticsSection().setFinalExamStatusRationale(courseInfoWrapper.getFinalExamRationale());
 
+        /**
+         * Active Dates section
+         */
         reviewData.getactiveDatesSection().setStartTerm(getTermDesc(courseInfoWrapper.getStartTerm()));
+        reviewData.getactiveDatesSection().setEndTerm(getTermDesc(courseInfoWrapper.getEndTerm()));
+        reviewData.getactiveDatesSection().setPilotCourse(BooleanUtils.toStringYesNo(courseInfoWrapper.isPilotCourse()));
 
         // update learning Objectives Section;
         // update  course Requisites Section;
-        // update  active Dates Section;
         // update  financials Section;
         // update  collaborator Section;
         // update  supporting Documents Section;
@@ -1140,6 +1144,9 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
         populateOutComesOnDTO();
 
+        courseInfoWrapper.getCourseInfo().setStartTerm(courseInfoWrapper.getStartTerm());
+        courseInfoWrapper.getCourseInfo().setEndTerm(courseInfoWrapper.getEndTerm());
+        courseInfoWrapper.getCourseInfo().setPilotCourse(courseInfoWrapper.isPilotCourse());
 
         try {
             handleFirstTimeSave();
@@ -1421,6 +1428,10 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
             CourseInfo course = getCourseService().getCourse(proposal.getProposalReference().get(0),createContextInfo());
             dataObject.setCourseInfo(course);
+
+            dataObject.setStartTerm(course.getStartTerm());
+            dataObject.setEndTerm(course.getEndTerm());
+            dataObject.setPilotCourse(course.isPilotCourse());
 
             populateAuditOnWrapper();
             populateFinalExamOnWrapper();
