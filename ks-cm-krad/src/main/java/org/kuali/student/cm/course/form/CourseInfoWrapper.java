@@ -81,6 +81,8 @@ public class CourseInfoWrapper implements Serializable {
     private boolean pilotCourse;
     private String startTerm;
 
+    private String previousSubjectCode;
+
     private transient CreateCourseUIHelper uiHelper;
 
     public String getEndTerm() {
@@ -153,6 +155,14 @@ public class CourseInfoWrapper implements Serializable {
 
     public void setShowAll(Boolean showAll) {
         this.showAll = showAll;
+    }
+
+    public String getPreviousSubjectCode() {
+        return previousSubjectCode;
+    }
+
+    public void setPreviousSubjectCode(String previousSubjectCode) {
+        this.previousSubjectCode = previousSubjectCode;
     }
 
     public LoDisplayWrapperModel getLoDisplayWrapperModel() {
