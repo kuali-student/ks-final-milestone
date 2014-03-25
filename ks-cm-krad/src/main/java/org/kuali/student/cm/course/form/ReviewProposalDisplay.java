@@ -199,7 +199,7 @@ public class ReviewProposalDisplay implements java.io.Serializable {
 
     public class GovernanceSectionWrapper implements java.io.Serializable {
         private List<String> campusLocations;
-        private List<String> curriculumOversight;
+        private String curriculumOversight;
         private List<String> administeringOrganization;
 
         public List<String> getCampusLocations() {
@@ -209,10 +209,11 @@ public class ReviewProposalDisplay implements java.io.Serializable {
             return campusLocations;
         }
 
-        public List<String> getCurriculumOversight() {
-            if (this.curriculumOversight == null) {
-                curriculumOversight = new LinkedList<String>();
-            }
+        public void setCurriculumOversight(String curriculumOversight) {
+            this.curriculumOversight = curriculumOversight;
+        }
+
+        public String getCurriculumOversight() {
             return curriculumOversight;
         }
 

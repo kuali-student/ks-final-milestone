@@ -18,6 +18,8 @@ package org.kuali.student.cm.course.service.impl;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.exception.RiceIllegalStateException;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -87,11 +89,14 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.constants.LearningObjectiveServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.common.util.date.KSDateTimeFormatter;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
 import org.kuali.student.r2.core.comment.dto.DecisionInfo;
 import org.kuali.student.r2.core.comment.service.CommentService;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.CommentServiceConstants;
 import org.kuali.student.r2.core.constants.EnumerationManagementServiceConstants;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
@@ -185,6 +190,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
     private transient EnumerationManagementService enumerationManagementService;
 
+    private transient AtpService atpService;
 
     /**
      * Method called when queryMethodToCall is executed for Administering Organizations in order to suggest back to the user an Administering Organization
@@ -899,8 +905,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         // Update governance section
         reviewData.getgovernanceSection().getCampusLocations().clear();
         reviewData.getgovernanceSection().getCampusLocations().addAll(updateCampusLocations(savedCourseInfo.getCampusLocations()));
-        reviewData.getgovernanceSection().getCurriculumOversight().clear();
-        reviewData.getgovernanceSection().getCurriculumOversight().addAll(savedCourseInfo.getUnitsContentOwner());
+        reviewData.getgovernanceSection().setCurriculumOversight(getCurriculumOversightString());
 
         // update course logistics section
         reviewData.getcourseLogisticsSection().getTerms().clear();
@@ -926,12 +931,13 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             reviewData.getcourseLogisticsSection().setTimeQuantity(savedCourseInfo.getDuration().getTimeQuantity());
         }
 
-        reviewData.getcourseLogisticsSection().setGradingOptions(getAssessementScaleString());
         reviewData.getcourseLogisticsSection().setAudit(BooleanUtils.toStringYesNo(courseInfoWrapper.isAudit()));
         reviewData.getcourseLogisticsSection().setPassFail(BooleanUtils.toStringYesNo(courseInfoWrapper.isPassFail()));
         reviewData.getcourseLogisticsSection().setGradingOptions(getGradingOptionString());
         reviewData.getcourseLogisticsSection().setFinalExamStatus(getFinalExamString());
         reviewData.getcourseLogisticsSection().setFinalExamStatusRationale(courseInfoWrapper.getFinalExamRationale());
+
+        reviewData.getactiveDatesSection().setStartTerm(getTermDesc(courseInfoWrapper.getStartTerm()));
 
         // update learning Objectives Section;
         // update  course Requisites Section;
@@ -939,6 +945,80 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         // update  financials Section;
         // update  collaborator Section;
         // update  supporting Documents Section;
+    }
+
+
+    private String getTermDesc(String term) {
+
+        String result = "";
+
+        if(StringUtils.isNotEmpty(term)) {
+
+            QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+            qbcBuilder.setPredicates(PredicateFactory.in("id", term));
+
+            QueryByCriteria qbc = qbcBuilder.build();
+            try {
+
+                List<AtpInfo> searchResult = this.getAtpService().searchForAtps(qbc,ContextUtils.createDefaultContextInfo());
+
+                if(searchResult.size()>=1) {
+                    result = searchResult.get(0).getName();
+                }
+
+            } catch (Exception ex) {
+                throw new RuntimeException("Could not retrieve description of Term \"" + term + "\" : " + ex);
+            }
+        }
+
+        return  result;
+    }
+
+    private String getCurriculumOversightString() {
+
+        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
+        CourseInfo course = courseInfoWrapper.getCourseInfo();
+        List<String> orgIds = course.getUnitsContentOwner();
+        StringBuffer builder = new StringBuffer();
+
+        if(orgIds!=null && !orgIds.isEmpty()) {
+
+            final SearchRequestInfo searchRequest = new SearchRequestInfo();
+            searchRequest.setSearchKey("subjectCode.search.orgsForSubjectCode");
+
+            for(String orgId : orgIds) {
+
+                searchRequest.getParams().clear();
+                searchRequest.addParam("subjectCode.queryParam.optionalOrgId", orgId);
+
+                try {
+
+                    for (final SearchResultRowInfo searchResult : getSubjectCodeService().search(searchRequest, ContextUtils.getContextInfo()).getRows()) {
+
+                        String subjectCodeOptionalLongName = "";
+
+                        for (final SearchResultCellInfo resultCell : searchResult.getCells()) {
+
+                            if ("subjectCode.resultColumn.orgLongName".equals(resultCell.getKey())) {
+                                builder.append(resultCell.getValue() + "; ");
+                            }
+                        }
+
+                        return StringUtils.removeEnd(builder.toString(), "; ");
+
+                    }
+
+                    return builder.toString();
+
+                } catch (Exception e) {
+                    LOG.error("Error building KeyValues List", e);
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+
+        return builder.toString();
+
     }
 
     private List<String> updateCampusLocations(List<String> campusLocations) {
@@ -1241,27 +1321,6 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
     }
 
-    protected String getAssessementScaleString(){
-
-        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
-
-        if (!courseInfoWrapper.getCourseInfo().getGradingOptions().isEmpty()){
-            try {
-                List<ResultValuesGroupInfo> resultValuesGroupInfos = getLRCService().getResultValuesGroupsByKeys(courseInfoWrapper.getCourseInfo().getGradingOptions(),createContextInfo());
-                StringBuilder builder = new StringBuilder();
-                for (ResultValuesGroupInfo info : resultValuesGroupInfos){
-                    builder.append(info.getName() + ",");
-                }
-                return StringUtils.removeEnd(builder.toString(), ",");
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-
-        }
-
-        return "";
-    }
-
     protected String getGradingOptionString(){
 
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
@@ -1271,9 +1330,9 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             try {
                 List<ResultValuesGroupInfo> rvgs = getLRCService().getResultValuesGroupsByKeys(courseInfoWrapper.getCourseInfo().getGradingOptions(),createContextInfo());
                 for (ResultValuesGroupInfo rvg : rvgs){
-                    builder.append(rvg.getName() + ",");
+                    builder.append(rvg.getName() + "; ");
                 }
-                return StringUtils.removeEnd(builder.toString(), ",");
+                return StringUtils.removeEnd(builder.toString(), "; ");
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -1574,5 +1633,14 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                     EnumerationManagementServiceConstants.NAMESPACE, EnumerationManagementServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return this.enumerationManagementService;
+    }
+
+    protected AtpService getAtpService() {
+        if (atpService == null)
+        {
+            QName qname = new QName(AtpServiceConstants.NAMESPACE, AtpServiceConstants.SERVICE_NAME_LOCAL_PART);
+            atpService = (AtpService) GlobalResourceLoader.getService(qname);
+        }
+        return atpService;
     }
 }
