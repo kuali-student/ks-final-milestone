@@ -20,6 +20,16 @@ angular.module('regCartApp')
             });
         };
 
+        this.getTermNameForTermId = function(terms, termId){
+            var retTermName;
+            angular.forEach(terms, function (term) {
+                if (term.termId === termId) {
+                    retTermName = term.termName;
+                }
+            });
+            return retTermName;
+        };
+
     }]);
 //angular.module('regCartApp')
 //    .service('TermsService', function TermsService($resource) {
