@@ -4,10 +4,12 @@
         <div class="util-Grid-cell">
             <span class="kscr-MainHeading-header">MY CART  </span>
             <div id="credit_count_title" class="kscr-MainHeading-support">
+                <strong>
                 <ng-pluralize count="cart.items.length"
                               when="{'1'    : '{} course ',
                                          'other': '{} courses '}">
                 </ng-pluralize>
+                </strong>
                 (<ng-pluralize count="creditTotal"
                                when="{'1'    : '{} credit',
                                          'other': '{} credits'}">
