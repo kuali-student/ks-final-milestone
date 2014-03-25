@@ -17,10 +17,8 @@ package org.kuali.student.cm.course.form;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Marker interface for having arbitrary course data in a collection displayed in stacks.
@@ -201,6 +199,7 @@ public class ReviewProposalDisplay implements java.io.Serializable {
         private List<String> campusLocations;
         private String curriculumOversight;
         private List<String> administeringOrganization;
+        private String campusLocationDisplay;
 
         public List<String> getCampusLocations() {
             if (this.campusLocations == null) {
@@ -222,6 +221,19 @@ public class ReviewProposalDisplay implements java.io.Serializable {
                 administeringOrganization = new LinkedList<String>();
             }
             return administeringOrganization;
+        }
+
+        public String getCampusLocationDisplay() {
+            StringBuffer builder = new StringBuffer();
+            for(int i=0; i < campusLocations.size(); i++) {
+                if(i == campusLocations.size() - 1) {
+                    builder.append(campusLocations.get(i));
+                }  else {
+                    builder.append(campusLocations.get(i) + "; ");
+                }
+            }
+            campusLocationDisplay = builder.toString();
+            return campusLocationDisplay;
         }
     }
     
