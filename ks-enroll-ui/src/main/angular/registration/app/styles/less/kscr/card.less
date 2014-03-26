@@ -46,14 +46,14 @@
 
 .kscr-CardResult-detailsText--warning {
     border-top: 1px solid @warningBorder;
-    padding: 10px 3px;
-    margin: 0em 1.5em;
+    padding: 10px 0px;
+    margin: 0em;
 }
 
 .kscr-CardResult-detailsText--error {
     border-top: 1px solid @errorBorder;  //#EFD3D7
-    padding: 10px 3px;
-    margin: 0em 1.5em;
+    padding: 10px 0px;
+    margin: 0em;
 }
 
 .kscr-Card-courseTimes{
@@ -65,6 +65,13 @@
     color: @cardTextColor;
     font-weight: normal;
     float: right;
+}
+
+.kscr-Card-remove {
+    float: right;
+    display: inline;
+    padding-right: 6px;
+    padding-top: 6px;
 }
 
 .kscr-Card-buttons{
@@ -160,16 +167,27 @@
     opacity:0;
 }
 
+.kscr-cartResult-heading {
+    background-color: inherit;
+    float: left;
+}
+
+.kscr-cartResult-icon {
+    background-repeat: no-repeat;
+    background-position: @iconPosition;
+    float: left;
+    width: 30px;
+    height: 30px;
+}
+
 .cart-item-status-success {
     background-color: @successBackground;   // #dff0d8;
     border-color: @successBorder;  //#D6E9C6;
     color: @successText; // #3B723B;
     text-shadow: 0 .5px #fff;
 
-    .kscr-cartResult-heading {
+    .kscr-cartResult-icon {
         background-image: url("../images/validation/success.png");
-        background-repeat: no-repeat;
-        background-position: @iconPosition;
         background-color: inherit;
     }
     .kscr-Card-buttons {
@@ -178,10 +196,8 @@
 }
 
 .cart-item-status-processing {
-    .kscr-cartResult-heading {
+    .kscr-cartResult-icon {
         background-image: url("../images/validation/spinner_small.gif");
-        background-repeat: no-repeat;
-        background-position: @iconPosition;
         background-color: inherit;
         .kscr-Card-icon {
             display:none;
@@ -197,11 +213,8 @@
     border-color: @errorBorder;  //#EFD3D7;
     color: @errorText; //#A3403C;
     text-shadow: 0 .5px #fff;
-    .kscr-cartResult-heading {
+    .kscr-cartResult-icon {
         background-image: url("../images/validation/error.png");
-        background-repeat: no-repeat;
-        background-position: @iconPosition;
-        background-color: inherit;
     }
     .kscr-Card-buttons {
         display: none;
@@ -219,12 +232,12 @@
 
 .kscr-Card-title-alert{
     font-weight: bold;
-    padding-left: 1.5em;
+    //padding-left: 1.5em;
 
 }
 
 .kscr-Card-text-alert{
-    padding-left: 1.5em;
+    //padding-left: 1.5em;
     padding-top: 0.3em;
 }
 

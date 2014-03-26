@@ -104,23 +104,21 @@
 <div class="kscr-Card-Results panel-group">
 
     <div  ng-repeat="cartResultItem in cartResults.items" is-open="isopen" class="panel cart-item-status-{{cartResultItem.status}}">
+        <div class="kscr-cartResult-icon">&nbsp;</div>
         <div class="kscr-cartResult-heading">
-            <!--credits-->
-            <div id="course_remove_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}" class="kscr-Card-supportText" ng-if="cartResultItem.status != 'processing'">
-                <span class="kscr-cartResult-remove"><a href="" ng-click="removeCartResultItem(cartResultItem)"><i class="glyphicon glyphicon-remove"></i></a></span>
-            </div>
-
             <!--Course Header Section-->
             <div class="ng-scope">
                 <span class="kscr-Card-title-alert kscr-Card-alert--{{cartResultItem.status}}" id="course_code_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}">{{cartResultItem.courseCode}} ({{cartResultItem.regGroupCode}}) {{getStatusMessageFromStatus(cartResultItem.status)}}</span>
             </div>
             <!--Course Title and description-->
             <div class="kscr-Card-text-alert kscr-Card-alert--{{cartResultItem.status}}" id="title_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}">{{cartResultItem.courseTitle}}</div>
-
-        </div>
             <div ng-if="cartResultItem.statusMessage && (cartResultItem.status != 'success')" id="result_status_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}" class="kscr-CardResult-detailsText--{{cartResultItem.status}}">
                 <strong>Reason:</strong> {{cartResultItem.statusMessage}}
             </div>
+        </div>
+        <div id="course_remove_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}" class="kscr-Card-remove" ng-if="cartResultItem.status != 'processing'">
+            <span class="kscr-cartResult-remove"><a href="" ng-click="removeCartResultItem(cartResultItem)"><i class="glyphicon glyphicon-remove"></i></a></span>
+        </div>
     </div>
 </div>
 
