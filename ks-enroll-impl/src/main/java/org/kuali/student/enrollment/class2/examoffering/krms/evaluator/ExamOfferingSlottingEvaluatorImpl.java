@@ -107,8 +107,8 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
         executionFacts.put(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO, context);
         executionFacts.put(KSKRMSServiceConstants.TERM_PREREQUISITE_TIMESLOTS, timeSlotsForAO);
         if (!executeRuleForSlotting(agenda, typeDefinition.getId(), executionFacts, examOfferingId, context)) {
-            String[] parameters = {activityOffering.getActivityCode()};
-            userMessenger.sendWarningMessage(ExamOfferingServiceConstants.EXAM_OFFERING_MATRIX_MATCH_NOT_FOUND, parameters, context);
+            String[] parameters = {activityOffering.getCourseOfferingCode(), activityOffering.getActivityCode()};
+            userMessenger.sendWarningMessage(ExamOfferingServiceConstants.EXAM_OFFERING_AO_MATRIX_MATCH_NOT_FOUND, parameters, context);
         }
 
     }
@@ -177,7 +177,7 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
 
             if (!executeRuleForSlotting(agenda, typeDefinition.getId(), executionFacts, examOfferingId, context)) {
                 String[] parameters = {courseOffering.getCourseOfferingCode()};
-                userMessenger.sendWarningMessage(ExamOfferingServiceConstants.EXAM_OFFERING_MATRIX_MATCH_NOT_FOUND, parameters, context);
+                userMessenger.sendWarningMessage(ExamOfferingServiceConstants.EXAM_OFFERING_CO_MATRIX_MATCH_NOT_FOUND, parameters, context);
             }
         } else {
             userMessenger.sendWarningMessage(ExamOfferingServiceConstants.EXAM_OFFERING_MATRIX_NOT_FOUND, null, context);
