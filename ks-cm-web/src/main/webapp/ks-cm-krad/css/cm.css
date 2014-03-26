@@ -74,30 +74,11 @@
     line-height: 15px;
 }
 
-/*
-.ks-cm-find-course-proposal .uif-gridLayout th[scope="row"] {
-    text-align: right;
-    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+.ks-cm-find-course-proposal .uif-tableCollectionLayout{
+    padding-top: 10px;
 }
 
-.ks-cm-find-course-proposal .uif-gridLayout th,
-.ks-cm-find-course-proposal .uif-tableCollectionLayout th {
-    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
-}
-
-.ks-cm-find-course-proposal .uif-gridLayout td,
-.ks-cm-find-course-proposal .uif-inputField input:first-child {
-    margin-bottom: 0;
-    width: 100%;
-}
-
-.ks-cm-find-course-proposal .ks-uif-footer div {
-    float: none;
-    margin-left: 356px;
-    white-space: nowrap;
-} */
-
-
+/* find course proposal end */
 
 
 .tree-bar-button {
