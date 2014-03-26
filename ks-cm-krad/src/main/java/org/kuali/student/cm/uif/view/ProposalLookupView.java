@@ -15,6 +15,7 @@
  */
 package org.kuali.student.cm.uif.view;
 
+import org.apache.commons.collections.iterators.EntrySetMapIterator;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.datadictionary.parse.BeanTag;
 import org.kuali.rice.krad.uif.UifPropertyPaths;
@@ -37,7 +38,9 @@ import org.kuali.rice.krad.web.form.LookupForm;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * View type for lookups
@@ -196,8 +199,8 @@ public class ProposalLookupView extends LookupView {
 
         // Replace original fields with range fieldgroups
         List<Component> itemList = (List<Component>)getCriteriaGroup().getItems();
-        for (Integer index : dateRangeFieldMap.keySet()) {
-                itemList.set(index, dateRangeFieldMap.get(index));
+        for (Map.Entry<Integer, Component> entry : dateRangeFieldMap.entrySet()) {
+                itemList.set(entry.getKey(), entry.getValue());
         }
 
         getCriteriaGroup().setItems(itemList);
