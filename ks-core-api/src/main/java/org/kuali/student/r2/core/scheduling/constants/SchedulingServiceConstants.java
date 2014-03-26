@@ -80,6 +80,7 @@ public class SchedulingServiceConstants {
     public static final String TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD_FULLTERM_SUMMER = "kuali.scheduling.time.slot.type.activityoffering.standard.fullterm.summer";
     public static final String TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD_HALFTERM = "kuali.scheduling.time.slot.type.activityoffering.standard.halfterm";
     public static final String TIME_SLOT_TYPE_EXAM = "kuali.scheduling.time.slot.type.exam"; // currently this is a Placeholder, not an Approved
+    public static final String TIME_SLOT_TYPE_EXAM_OFFERING_ADHOC = "kuali.scheduling.time.slot.type.examoffering.adhoc";
 
     //room feature types
     public static final String ROOM_FEATURE_TYPE_3_4_UMATIC_VCR = "kuali.scheduling.type.room.feature.umaticvcr";
