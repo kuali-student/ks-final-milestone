@@ -246,7 +246,7 @@
                                   p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.finalExamStatus" p:required="true" />
                             <bean parent="Uif-DataField" p:label="Final Exam Rationale"  p:colSpan="3" p:fieldLabel.renderColon="false"
                                   p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.finalExamStatusRationale" p:required="true" />
-                            <bean parent="Uif-VerticalFieldGroup" p:label="Outcomes" >
+                            <bean parent="Uif-VerticalFieldGroup" p:label="Outcomes" p:colSpan="3">
                                 <property name="items">
                                   <list>
                                     <bean id="course_review_outcome_details" parent="Uif-StackedCollectionSection" p:readOnly="true"

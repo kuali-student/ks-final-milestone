@@ -947,7 +947,11 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             String creditOptionValue = "";
             if (StringUtils.equals(rvg.getTypeKey(),LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)){
                 creditOptionType = "Fixed";
-                creditOptionValue = StringUtils.substringAfterLast(rvg.getResultValueKeys().get(0), "degree.");
+                if (StringUtils.contains(rvg.getResultValueRange().getMinValue(),"degree.")){
+                    creditOptionValue = StringUtils.substringAfterLast(rvg.getResultValueRange().getMinValue(), "degree.");
+                } else {
+                    creditOptionValue = rvg.getResultValueRange().getMinValue();
+                }
             } else if (StringUtils.equals(rvg.getTypeKey(),LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE)){
                 creditOptionType = "Multiple";
                 StringBuilder builder = new StringBuilder();
