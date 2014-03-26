@@ -494,7 +494,9 @@
 
     <bean id="amountInfo.unitTypeKey-parent" abstract="true" parent="baseKualiType">
         <property name="name" value="unitTypeKey"/>
+       <!-- Fix for KSCM-1602  The root cause of this issue is CM service (old-style) dict plumbing - goes to KSEM_ENUM_VAL_T instead of Type service
         <property name="lookupDefinition" ref="constraint.lookup.unitTypes"/>
+        -->
     </bean>
     <bean id="amountInfo.unitTypeKey" parent="amountInfo.unitTypeKey-parent"/>
 
