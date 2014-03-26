@@ -131,7 +131,7 @@ public class AcademicPlanServiceValidationDecorator extends
         try {
             KsapFrameworkServiceLocator.getTypeService().getType(planItem.getTypeKey(), context);
         } catch (DoesNotExistException e) {
-            throw new InvalidParameterException(String.format("Unknown plan item type id [%s].", planItem.getTypeKey()));
+            throw new InvalidParameterException(String.format("Unknown plan item type id [%s].", planItem.getTypeKey()),e);
         }
         return getNextDecorator().createPlanItem(planItem, context);
 	}
