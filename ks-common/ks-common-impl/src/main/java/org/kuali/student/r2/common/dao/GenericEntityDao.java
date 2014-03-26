@@ -25,7 +25,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.OptimisticLockException;
-import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.lang.reflect.ParameterizedType;
@@ -194,7 +193,6 @@ public class GenericEntityDao<T extends PersistableEntity<String>> implements En
     }
 
     @Override
-    @PersistenceContext
     public void setEm(EntityManager em) {
         this.em = em;
     }
