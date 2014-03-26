@@ -18,7 +18,7 @@
         </div>
 
         <div>
-            <button id="register" ng-disabled="cart.items.length < 1" class="kscr-Button--primary" type="button" ng-click="showConfirmation =!showConfirmation">Register</button>
+            <button id="register" ng-disabled="cart.items.length < 1" class="kscr-MainHeading-button kscr-Button--primary" type="button" ng-click="showConfirmation =!showConfirmation">Register</button>
         </div>
     </div>
     <div class="kscr-MainHeading" ng-show="cartResults.state=='kuali.lpr.trans.state.processing'">
@@ -87,12 +87,13 @@
     <span>RESULTS</span>
 </div>
             -->
-<div class="kscr-Heading-sub">
+<div class="kscr-Heading-sub" ng-show="cartResults.items.length">
     <span class="responseCount" ng-if="cartResults.errorCount > 0">Error ({{cartResults.errorCount}})</span>
     <span class="responseCount" ng-if="cartResults.waitlistCount > 0">Waitlist ({{cartResults.waitlistCount}})</span>
     <span class="responseCount" ng-if="cartResults.successCount > 0">Success ({{cartResults.successCount}})</span>
-    <span>CART CONTENTS</span>
+    <span>RESULTS</span>
 </div>
+
 
 <!--Alert message-->
 <div id="user_message" class="util-Alert util-Alert--{{userMessage.type}}" ng-if="userMessage.txt">
@@ -123,6 +124,9 @@
     </div>
 </div>
 
+<div class="kscr-Heading-sub" ng-hide="cartResults.items.length">
+    <span>CART CONTENTS</span>
+</div>
 <div class="kscr-Card">
 <accordion close-others="oneAtATime">
     <accordion-group  ng-repeat="cartItem in cart.items" is-open="isopen">
