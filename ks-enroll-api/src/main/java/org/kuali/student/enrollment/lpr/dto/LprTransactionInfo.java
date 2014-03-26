@@ -37,7 +37,7 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "LprTransactionInfo", propOrder = {
                 "id", "typeKey", "stateKey", "name", "descr",
-                "requestingPersonId", "atpId", "lprTransactionItems",
+                "requestingPersonId", "atpId",
                 "meta", "attributes", "_futureElements"})
 
 public class LprTransactionInfo 
@@ -51,9 +51,6 @@ public class LprTransactionInfo
 
     @XmlElement
     private String atpId;
-
-    @XmlElement
-    private List<LprTransactionItemInfo> lprTransactionItems;
 
     @XmlAnyElement
     private List<Element> _futureElements;
@@ -69,24 +66,6 @@ public class LprTransactionInfo
         }
         this.requestingPersonId = input.getRequestingPersonId();
         this.atpId = input.getAtpId();
-        this.lprTransactionItems = new ArrayList<LprTransactionItemInfo>();
-        if (input.getLprTransactionItems() != null) {
-            for (LprTransactionItem item : input.getLprTransactionItems()) {
-                this.lprTransactionItems.add(new LprTransactionItemInfo(item));
-            }
-        }
-    }
-
-    @Override
-    public List<LprTransactionItemInfo> getLprTransactionItems() {
-        if (this.lprTransactionItems == null) {
-            this.lprTransactionItems = new ArrayList<LprTransactionItemInfo>();
-        }
-        return lprTransactionItems;
-    }
-
-    public void setLprTransactionItems(List<LprTransactionItemInfo> lprTransactionItems) {
-        this.lprTransactionItems = lprTransactionItems;
     }
 
     @Override

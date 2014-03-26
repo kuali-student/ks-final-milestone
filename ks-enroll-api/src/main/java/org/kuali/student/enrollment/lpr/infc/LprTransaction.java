@@ -23,8 +23,7 @@ import org.kuali.student.r2.common.infc.IdEntity;
 /**
  * The LprTransaction represents an object to capture an overall
  * transaction request. The requesting person ID is the person who creates this
- * overall request. There are multiple transaction items,
- * {@link LprTransactionItem}, in a single overall transaction.
+ * overall request.
  * 
  * @author Kuali Student Team (sambit)
  */
@@ -53,11 +52,4 @@ public interface LprTransaction
      * @name ATP Id
      */
     public String getAtpId();
-    
-    /**
-     * Transaction item for this 
-     * 
-     * @name LPR Transaction Items
-     */
-    List<? extends LprTransactionItem> getLprTransactionItems();
 }

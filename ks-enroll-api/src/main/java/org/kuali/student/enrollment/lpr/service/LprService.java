@@ -1160,4 +1160,192 @@ public interface LprService {
                OperationFailedException, 
                PermissionDeniedException;
 
+    /**
+     * Retrieves a single LprTransactionItem by an LprTransactionItem Id.
+     * @param lprTransactionItemId the identifier for the Object to be retrieved
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return the LprTransactionItem requested
+     * @throws DoesNotExistException lprTransactionItemId is not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException lprTransactionItemId or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public LprTransactionItemInfo getLprTransactionItem(@WebParam(name = "lprTransactionItemId") String lprTransactionItemId,
+                                                        @WebParam(name = "contextInfo") ContextInfo contextInfo)
+        throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Retrieves a list of LprTransactionItems from a list of LprTransactionItems Ids. The returned list may be in any order and
+     * if duplicate Ids are supplied, a unique set may or may not be returned.
+     * @param lprTransactionItemIds a list of LprTransactionItem identifiers
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return a list of LprTransactionItems
+     * @throws DoesNotExistException an lprTransactionItemId in the list was not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException lprTransactionItemIds, an Id in the lprTransactionItemIds, or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<LprTransactionItemInfo> getLprTransactionItemsByIds(@WebParam(name = "lprTransactionItemIds") List<String> lprTransactionItemIds,
+                                                                    @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Retrieves a list of LprTransactionItem Ids by LprTransactionItem Type.
+     * @param lprTransactionItemTypeKey an identifier for an LprTransactionItem Type
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return a list of LprTransactionItem identifiers matching lprTransactionItemTypeKey or an empty list if none found
+     * @throws InvalidParameterException lprTransactionItemTypeKey or contextInfo is not valid
+     * @throws MissingParameterException lprTransactionItemTypeKey or context is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> getLprTransactionItemsByType(@WebParam(name = "lprTransactionItemTypeKey") String lprTransactionItemTypeKey,
+                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Searches for LprTransactionItem Ids that meet the given search criteria.
+     * @param criteria the search criteria
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return a list of LprTransactionItem identifiers matching the criteria
+     * @throws InvalidParameterException criteria or contextInfo is not valid
+     * @throws MissingParameterException criteria or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> searchForLprTransactionItemIds(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                                       @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Searches for LprTransactionItems that meet the given search criteria.
+     * @param criteria the search criteria
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return a list of LprTransactionItems matching the criteria
+     * @throws InvalidParameterException criteria or contextInfo is not valid
+     * @throws MissingParameterException criteria or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<LprTransactionItemInfo> searchForLprTransactionItems(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Validates an LprTransactionItem. Depending on the value of validationType, this validation could be limited to
+     * tests on just the current LprTransactionItem and its directly contained sub-objects or expanded to perform all
+     * tests related to this LprTransactionItem. If an identifier is present for the LprTransactionItem (and/or one of
+     * its contained sub-objects) and a record is found for that identifier, the validation checks if the
+     * LprTransactionItem can be updated to the new values. If an identifier is not present or a record does not exist,
+     * the validation checks if the LprTransactionItem with the given data can be created.
+     * @param validationTypeKey the identifier for the validation Type
+     * @param lprTransactionItemTypeKey the identifier for the LprTransactionItem Type to be validated
+     * @param lprTransactionItem the LprTransactionItem to be validated
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return a list of validation results or an empty list if validation succeeded
+     * @throws DoesNotExistException validationTypeKey or registrationRequestItemTypeKey is not found
+     * @throws InvalidParameterException lprTransactionItem or contextInfo is not valid
+     * @throws MissingParameterException lprTransactionItemId or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<ValidationResultInfo> validateLprTransactionItem(@WebParam(name = "validationTypeKey") String validationTypeKey,
+                                                                 @WebParam(name = "lprTransactionItemTypeKey") String lprTransactionItemTypeKey,
+                                                                 @WebParam(name = "lprTransactionItem") LprTransactionItemInfo lprTransactionItem,
+                                                                 @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Creates a new LprTransactionItem. The LprTransactionItem Id, Type, and Meta information may not be set in the supplied data object.
+     * @param lprTransactionItemTypeKey the identifier for the Type of LprTransactionItem to be created
+     * @param lprTransactionItemInfo the data with which to create the LprTransactionItem
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return the new LprTransactionItem
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException lprTransactionItemTypeKey does not exist or is not supported
+     * @throws InvalidParameterException lprTransactionItemInfo or contextInfo is not valid
+     * @throws MissingParameterException lprTransactionItemTypeKey, lprTransactionItemInfo, or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     * @throws ReadOnlyException an attempt at supplying information designated as read only
+     */
+    public LprTransactionItemInfo createLprTransactionItem(@WebParam(name = "lprTransactionItemTypeKey") String lprTransactionItemTypeKey,
+                                                           @WebParam(name = "lprTransactionItemInfo") LprTransactionItemInfo lprTransactionItemInfo,
+                                                           @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException;
+
+    /**
+     * Updates an existing LprTransactionItem. The LprTransactionItem Id, Type, and Meta information may not be changed.
+     * @param lprTransactionItemId the identifier for the LprTransactionItem to be updated
+     * @param lprTransactionItemInfo the new data for the LprTransactionItem
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return the updated LprTransactionItem
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException lprTransactionItemId is not found
+     * @throws InvalidParameterException lprTransactionItemInfo or contextInfo is not valid
+     * @throws MissingParameterException lprTransactionItemId, lprTransactionItemInfo, or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     * @throws ReadOnlyException an attempt at supplying information designated as read only
+     */
+    public LprTransactionItemInfo updateLprTransactionItem(@WebParam(name = "lprTransactionItemId") String lprTransactionItemId,
+                                                           @WebParam(name = "lprTransactionItemInfo") LprTransactionItemInfo lprTransactionItemInfo,
+                                                           @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException,
+            VersionMismatchException;
+
+    /**
+     * Deletes an existing LprTransactionItem.
+     * @param lprTransactionItemId the identifier for the LprTransactionItem to be deleted
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return the status of the delete operation. This must always be true.
+     * @throws DoesNotExistException lprTransactionItemId is not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException lprTransactionItemId or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public StatusInfo deleteLprTransactionItem(@WebParam(name = "lprTransactionItemId") String lprTransactionItemId,
+                                               @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
 }

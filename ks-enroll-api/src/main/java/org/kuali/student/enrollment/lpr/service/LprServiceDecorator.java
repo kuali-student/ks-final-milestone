@@ -103,6 +103,51 @@ public class LprServiceDecorator implements LprService {
     }
 
     @Override
+    public LprTransactionItemInfo getLprTransactionItem(String lprTransactionItemId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getLprTransactionItem(lprTransactionItemId, contextInfo);
+    }
+
+    @Override
+    public List<LprTransactionItemInfo> getLprTransactionItemsByIds(List<String> lprTransactionItemIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getLprTransactionItemsByIds(lprTransactionItemIds, contextInfo);
+    }
+
+    @Override
+    public List<String> getLprTransactionItemsByType(String lprTransactionItemTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getLprTransactionItemsByType(lprTransactionItemTypeKey, contextInfo);
+    }
+
+    @Override
+    public List<String> searchForLprTransactionItemIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().searchForLprTransactionItemIds(criteria, contextInfo);
+    }
+
+    @Override
+    public List<LprTransactionItemInfo> searchForLprTransactionItems(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().searchForLprTransactionItems(criteria, contextInfo);
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateLprTransactionItem(String validationTypeKey, String lprTransactionItemTypeKey, LprTransactionItemInfo lprTransactionItem, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().validateLprTransactionItem(validationTypeKey, lprTransactionItemTypeKey, lprTransactionItem, contextInfo);
+    }
+
+    @Override
+    public LprTransactionItemInfo createLprTransactionItem(String lprTransactionItemTypeKey, LprTransactionItemInfo lprTransactionItemInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        return getNextDecorator().createLprTransactionItem(lprTransactionItemTypeKey, lprTransactionItemInfo, contextInfo);
+    }
+
+    @Override
+    public LprTransactionItemInfo updateLprTransactionItem(String lprTransactionItemId, LprTransactionItemInfo lprTransactionItemInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+        return getNextDecorator().updateLprTransactionItem(lprTransactionItemId, lprTransactionItemInfo, contextInfo);
+    }
+
+    @Override
+    public StatusInfo deleteLprTransactionItem(String lprTransactionItemId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().deleteLprTransactionItem(lprTransactionItemId, contextInfo);
+    }
+
+    @Override
     public List<String> getPersonIdsByLuiAndTypeAndState(String luiId, String lprTypeKey, String relationState, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getPersonIdsByLuiAndTypeAndState(luiId, lprTypeKey, relationState, contextInfo);
     }

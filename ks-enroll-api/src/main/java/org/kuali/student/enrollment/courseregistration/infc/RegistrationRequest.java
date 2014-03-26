@@ -70,12 +70,4 @@ public interface RegistrationRequest
      * @impl LprTransaction.atpId
      */
     public String getTermId();
-
-    /**
-     * A list of specific registration request items.
-     * 
-     * @name Registration Request Items
-     * @impl LprTransaction.LprTransactionItems
-     */
-    public List<? extends RegistrationRequestItem> getRegistrationRequestItems();
 }

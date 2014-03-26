@@ -21,6 +21,7 @@ import java.util.List;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
+import javax.management.Query;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 
@@ -32,6 +33,7 @@ import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseI
 import org.kuali.student.enrollment.courseregistration.dto.CreditLoadInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 
+import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequestItem;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -966,6 +968,96 @@ public interface CourseRegistrationService  {
                PermissionDeniedException;
 
     /**
+     * Retrieves a single RegistrationRequestItem by an RegistrationRequestItem Id.
+     * @param registrationRequestItemId the identifier for the RegistrationRequestItem to be retrieved
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return the RegistrationRequestItem requested
+     * @throws DoesNotExistException registrationRequestItemId is not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException registrationRequestItemId or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public RegistrationRequestItemInfo getRegistrationRequestItem(@WebParam(name = "registrationRequestItemId") String registrationRequestItemId,
+                                                                  @WebParam(name = "contextInfo") ContextInfo contextInfo)
+        throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Retrieves a list of RegistrationRequestItems from a list of RegistrationRequestItem Ids. The returned list may be
+     * in any order and if duplicate Ids are supplied, a unique set may or may not be returned.
+     * @param registrationRequestItemIds a list of RegistrationRequestItem identifiers
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return a list of RegistrationRequestItems
+     * @throws DoesNotExistException a registrationRequestItemId was not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException registrationRequestItemIds, an Id in the registrationRequestItemIds, or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<RegistrationRequestItemInfo> getRegistrationRequestItemsByIds(@WebParam(name = "registrationRequestItemIds") List<String> registrationRequestItemIds,
+                                                                              @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Retrieves a list of RegistrationRequestItem Ids by RegistrationRequestItem Type.
+     * @param registrationRequestItemTypeKey an identifier for an RegistrationRequestItem Type
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return a list of RegistrationRequestItem identifiers matching registrationRequestItemTypeKey or an empty list if none found
+     * @throws InvalidParameterException registrationRequestItemTypeKey or contextInfo is not valid
+     * @throws MissingParameterException registrationRequestItemTypeKey or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> getRegistrationRequestItemIdsByType(@WebParam(name = "registrationRequestItemTypeKey") String registrationRequestItemTypeKey,
+                                                            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Searches for RegistrationRequestItem Ids that meet the given search criteria.
+     * @param criteria the search criteria
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return a list of RegistrationRequestItem identifiers matching the criteria
+     * @throws InvalidParameterException criteria or contextInfo is not valid
+     * @throws MissingParameterException criteria or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> searchForRegistrationRequestItemIds(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                                            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Searches for RegistrationRequestItems that meet the given search criteria.
+     * @param criteria the search criteria
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return a list of RegistrationRequestItems matching the criteria
+     * @throws InvalidParameterException criteria or contextInfo is not valid
+     * @throws MissingParameterException criteria or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<RegistrationRequestItem> searchForRegistrationRequestItems(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                                                           @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
      * Gets the RegistrationRequestItems that resulted in or impacted
      * the given CourseRegistration.
      * 
@@ -987,6 +1079,105 @@ public interface CourseRegistrationService  {
                MissingParameterException, 
                OperationFailedException, 
                PermissionDeniedException;
+
+    /**
+     * Validates an RegistrationRequestItem. Depending on the value of validationType, this validation could be limited to tests on just
+     * the current RegistrationRequestItem and its directly contained sub-objects or expanded to perform all tests related to this
+     * RegistrationRequestItem. If an identifier is present for the RegistrationRequestItem (and/or one of its contained sub-objects) and a record is
+     * found for that identifier, the validation checks if the RegistrationRequestItem can be updated to the new values. If an identifier
+     * is not present or a record does not exist, the validation checks if the RegistrationRequestItem with the given data can be created.
+     * @param validationTypeKey the identifier for the validation Type
+     * @param registrationRequestItemTypeKey the identifier for the RegistrationRequestItem Type to be validated
+     * @param registrationRequestItemInfo the RegistrationRequestItemInfo to be validated
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return a list of validation results or an empty list if validation succeeded
+     * @throws DoesNotExistException validationTypeKey or registrationRequestItemTypeKey is not found
+     * @throws InvalidParameterException registrationRequestItemInfo or contextInfo is not valid
+     * @throws MissingParameterException registrationRequestItemId or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<ValidationResultInfo> validateRegistrationRequestItem(@WebParam(name = "validationTypeKey") String validationTypeKey,
+                                                                      @WebParam(name = "registrationRequestItemTypeKey") String registrationRequestItemTypeKey,
+                                                                      @WebParam(name = "registrationRequestItemInfo") RegistrationRequestItem registrationRequestItemInfo,
+                                                                      @WebParam(name = "contextInfo") ContextInfo contextInfo)
+        throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Creates a new registrationRequestItem. The registrationRequestItem Id, Type, and Meta information may not be set
+     * in the supplied data object.
+     * @param registrationRequestItemTypeKey the identifier for the Type of RegistrationRequestItem to be created
+     * @param registrationRequestItemInfo the data with which to create the RegistrationRequestItem
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return the new RegistrationRequestItem
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException registrationRequestItemTypeKey does not exist or is not supported
+     * @throws InvalidParameterException registrationRequestItemInfo or contextInfo is not valid
+     * @throws MissingParameterException registrationRequestItemTypeKey, registrationRequestItemInfo, or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     * @throws ReadOnlyException an attempt at supplying information designated as read only
+     */
+    public RegistrationRequestItemInfo createRegistrationRequestItem(@WebParam(name = "registrationRequestItemTypeKey") String registrationRequestItemTypeKey,
+                                                                     @WebParam(name = "registrationRequestItemInfo") RegistrationRequestItem registrationRequestItemInfo,
+                                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException;
+
+    /**
+     * Updates an existing RegistrationRequestItem. The RegistrationRequestItem Id, Type, and Meta information may not be changed.
+     * @param registrationRequestItemId the identifier for the RegistrationRequestItem to be updated
+     * @param registrationRequestItemInfo the new data for the RegistrationRequestItem
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return the updated RegistrationRequestItem
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException registrationRequestItemTypeKey does not exist or is not supported
+     * @throws InvalidParameterException registrationRequestItemInfo or contextInfo is not valid
+     * @throws MissingParameterException registrationRequestItemInfo, or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     * @throws ReadOnlyException an attempt at supplying information designated as read only
+     * @throws VersionMismatchException an optimistic locking failure or the action was attempted on an out of date version
+     */
+    public RegistrationRequestItemInfo updateRegistrationRequestItem(@WebParam(name = "registrationRequestItemId") String registrationRequestItemId,
+                                                                     @WebParam(name = "registrationRequestItemInfo") RegistrationRequestItem registrationRequestItemInfo,
+                                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException,
+            VersionMismatchException;
+
+    /**
+     * Deletes an existing RegistrationRequestItem.
+     * @param registrationRequestItemId the identifier for the RegistrationRequestItem to be deleted
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return the status of the delete operation. This must always be true.
+     * @throws DoesNotExistException registrationRequestItemId is not found
+     * @throws InvalidParameterException registrationRequestItemInfo or contextInfo is not valid
+     * @throws MissingParameterException registrationRequestItemInfo, or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public StatusInfo deleteRegistrationRequestItem(@WebParam(name = "registrationRequestItemId") String registrationRequestItemId,
+                                                    @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Gets list of RegistrationRequestItems resulting in or impacting
