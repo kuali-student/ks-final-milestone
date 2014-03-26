@@ -17,28 +17,20 @@
 
 package org.kuali.student.cm.course.form;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.kew.api.KewApiConstants;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.util.CourseProposalUtil;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
 import org.kuali.student.r2.core.comment.dto.DecisionInfo;
 import org.kuali.student.r2.core.document.dto.DocumentInfo;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
-import org.kuali.student.r2.lum.clu.CLUConstants;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -81,6 +73,7 @@ public class CourseInfoWrapper implements Serializable {
     private boolean pilotCourse;
     private String startTerm;
 
+    // see KSCM-1803 for the details of adding this data member
     private String previousSubjectCode;
 
     private transient CreateCourseUIHelper uiHelper;
