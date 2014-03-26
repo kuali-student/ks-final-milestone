@@ -939,3 +939,22 @@ function toggleRow(event){
         };
     });
 }
+
+/**
+ * auto finish the time field with the format hh:mm am
+ */
+function timeFieldOnBlur(event){
+    var timeField = jQuery(event.target);
+    if (timeField.val() == ''){
+        return;
+    }
+
+    // Parse hours and minutes and am/pm
+    var timeMap = parseTimeString(timeField.val());
+    if (!timeMap) {
+        return;
+    }
+    var formattedTimeFieldVal = formatTime(timeMap);
+    timeField.val(formattedTimeFieldVal);
+    validateFieldValue(timeField);
+}
