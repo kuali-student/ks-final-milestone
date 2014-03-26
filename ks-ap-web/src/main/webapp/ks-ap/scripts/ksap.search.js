@@ -208,13 +208,11 @@ function searchForCourses(id, parentId) {
 										.hide();
 							}
 
-                            //Hide pagination if there is less than 1 page of results
+                            //Hide bottom pagination if there is less than 1 page of results - Check each refresh
                             if (this.fnSettings()._iDisplayLength > this.fnSettings().fnRecordsDisplay()) {
                                 jQuery('#course_search_results_wrapper').find('.dataTables_paginate').hide();
-                                jQuery('#course_search_results_length').addClass('invisible');
                             } else {
                                 jQuery('#course_search_results_wrapper').find('.dataTables_paginate').show();
-                                jQuery('#course_search_results_length').removeClass('invisible');
                             }
 						},
 						fnInitComplete : function(oSettings, json) {
@@ -229,6 +227,13 @@ function searchForCourses(id, parentId) {
                             newheader.removeClass("ksap-hide");
                             oldheader.append(newheader);
 							ksapSearchComplete();
+
+                            //Hide dropdown pagination if there is less than X (default=20) # of items in results - Check once
+                            if (this.fnSettings()._iDisplayLength > this.fnSettings().fnRecordsDisplay()) {
+                                jQuery('#course_search_results_length').addClass('invisible');
+                            } else {
+                                jQuery('#course_search_results_length').removeClass('invisible');
+                            }
 						},
 						fnServerData : function(sSource, aoData, fnCallback) {
 							jQuery
