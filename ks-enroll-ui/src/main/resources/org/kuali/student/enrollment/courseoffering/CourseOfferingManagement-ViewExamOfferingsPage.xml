@@ -247,7 +247,7 @@
                         <list>
                             <bean id="eoRsiStartTime" parent="Uif-InputField"
                                   p:propertyName="requestedSchedule.startTime" p:cssClasses="new_ts"
-                                  p:required="true">
+                                  p:required="true" p:disableNativeAutocomplete="true" >
                                 <property name="additionalCssClasses">
                                     <list merge="true">
                                         <value>off</value>
@@ -255,12 +255,12 @@
                                     </list>
                                 </property>
                                 <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="5" p:maxLength="5" />
+                                    <bean parent="Uif-TextControl" p:size="8" p:maxLength="8" p:cssClasses="validTimeAMPMPattern" p:onBlurScript="timeFieldOnBlur(event);"/>
                                 </property>
                                 <!--<property name="constraintText" value="HH:MM"/>-->
-                                <property name="validCharactersConstraint">
+                                <!--<property name="validCharactersConstraint">
                                     <bean parent="TimePatternConstraint" />
-                                </property>
+                                </property>-->
                             </bean>
                             <bean parent="Uif-DataField" p:propertyName="requestedSchedule.startTimeUI">
                                 <property name="additionalCssClasses">
@@ -268,21 +268,6 @@
                                         <value>on</value>
                                         <value>toggleable-element</value>
                                     </list>
-                                </property>
-                            </bean>
-                            <bean id="eoRsiStartTimeAmPm" parent="Uif-InputField" p:propertyName="requestedSchedule.startTimeAmPm" p:render="@{!#view.readOnly}"
-                                  p:defaultValue="AM" p:required="true">
-                                <property name="additionalCssClasses">
-                                    <list merge="true">
-                                        <value>off</value>
-                                        <value>toggleable-element</value>
-                                    </list>
-                                </property>
-                                <property name="control">
-                                    <bean parent="KS-Uif-VerticalRadioControl" p:options-ref="hctime-options"
-                                          p:refreshWhenChangedPropertyNames="#lp.requestedSchedule.startTime" p:evaluateDisabledOnKeyUp="true">
-                                        <property name="disabled" value="@{#empty(#lp.requestedSchedule.startTime)}"/>
-                                    </bean>
                                 </property>
                             </bean>
                         </list>
@@ -294,7 +279,7 @@
                         <list>
                             <bean id="eoRsiEndTime" parent="Uif-InputField"
                                   p:propertyName="requestedSchedule.endTime" p:cssClasses="new_ts"
-                                  p:required="true">
+                                  p:required="true" p:disableNativeAutocomplete="true">
                                 <property name="additionalCssClasses">
                                     <list merge="true">
                                         <value>off</value>
@@ -302,12 +287,12 @@
                                     </list>
                                 </property>
                                 <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="5" p:maxLength="5" />
+                                    <bean parent="Uif-TextControl" p:size="8" p:maxLength="8" p:cssClasses="validTimeAMPMPattern" p:onBlurScript="timeFieldOnBlur(event);"/>
                                 </property>
                                 <!--<property name="constraintText" value="HH:MM"/>-->
-                                <property name="validCharactersConstraint">
+                                <!--<property name="validCharactersConstraint">
                                     <bean parent="TimePatternConstraint" />
-                                </property>
+                                </property>-->
                             </bean>
                             <bean parent="Uif-DataField" p:propertyName="requestedSchedule.endTimeUI">
                                 <property name="additionalCssClasses">
@@ -315,21 +300,6 @@
                                         <value>on</value>
                                         <value>toggleable-element</value>
                                     </list>
-                                </property>
-                            </bean>
-                            <bean id="eoRsiEndTimeAmPm" parent="Uif-InputField"  p:propertyName="requestedSchedule.endTimeAmPm" p:render="@{!#view.readOnly}"
-                                  p:defaultValue="AM" p:required="true">
-                                <property name="additionalCssClasses">
-                                    <list merge="true">
-                                        <value>off</value>
-                                        <value>toggleable-element</value>
-                                    </list>
-                                </property>
-                                <property name="control">
-                                    <bean parent="KS-Uif-VerticalRadioControl" p:options-ref="hctime-options"
-                                          p:refreshWhenChangedPropertyNames="#lp.requestedSchedule.endTime" p:evaluateDisabledOnKeyUp="true">
-                                        <property name="disabled" value="@{#empty(#lp.requestedSchedule.endTime)}"/>
-                                    </bean>
                                 </property>
                             </bean>
                         </list>

@@ -210,12 +210,12 @@ public class ExamOfferingScheduleHelperImpl implements ExamOfferingScheduleHelpe
         List<Integer> days = new ArrayList<Integer>();
         days.add(new Integer(scheduleWrapper.getDayInExamPeriod()));
 
-        String startTimeString = scheduleWrapper.getStartTime() + scheduleWrapper.getStartTimeAmPm();
+        String startTimeString = scheduleWrapper.getStartTime();
         if (StringUtils.isNotBlank(startTimeString)) {
             startTimeOfDayInfo = TimeOfDayHelper.makeTimeOfDayInfoFromTimeString(startTimeString);
         }
 
-        String endTimeString = scheduleWrapper.getEndTime() + scheduleWrapper.getEndTimeAmPm();
+        String endTimeString = scheduleWrapper.getEndTime();
         if (StringUtils.isNotEmpty(endTimeString)) {
             endTimeOfDayInfo = TimeOfDayHelper.makeTimeOfDayInfoFromTimeString(endTimeString);
         }
@@ -339,14 +339,14 @@ public class ExamOfferingScheduleHelperImpl implements ExamOfferingScheduleHelpe
             if (startTime != null && startTime.getHour() != null) {
                 String startTimeUI = TimeOfDayHelper.makeFormattedTimeForAOSchedules(startTime);
                 scheduleWrapper.setStartTimeUI(startTimeUI);
-                scheduleWrapper.setStartTime(org.apache.commons.lang.StringUtils.substringBefore(startTimeUI, " "));
-                scheduleWrapper.setStartTimeAmPm(org.apache.commons.lang.StringUtils.substringAfter(startTimeUI, " "));
+                scheduleWrapper.setStartTime(startTimeUI);
+                //scheduleWrapper.setStartTimeAmPm(org.apache.commons.lang.StringUtils.substringAfter(startTimeUI, " "));
             }
             if (endTime != null && endTime.getHour() != null) {
                 String endTimeUI = TimeOfDayHelper.makeFormattedTimeForAOSchedules(endTime);
                 scheduleWrapper.setEndTimeUI(endTimeUI);
-                scheduleWrapper.setEndTime(org.apache.commons.lang.StringUtils.substringBefore(endTimeUI, " "));
-                scheduleWrapper.setEndTimeAmPm(org.apache.commons.lang.StringUtils.substringAfter(endTimeUI, " "));
+                scheduleWrapper.setEndTime(endTimeUI);
+                //scheduleWrapper.setEndTimeAmPm(org.apache.commons.lang.StringUtils.substringAfter(endTimeUI, " "));
             }
 
             if (days != null && days.size() > 0) {
@@ -424,19 +424,11 @@ public class ExamOfferingScheduleHelperImpl implements ExamOfferingScheduleHelpe
             GlobalVariables.getMessageMap().putError(examOfferingPath + ".requestedSchedule.startTime", ExamOfferingConstants.EXAM_OFFERING_MSG_ERROR_SCHEDULING_REQUIRED_FIELD_EMPTY);
             success = false;
         }
-        if (StringUtils.isBlank(requestedSchedule.getStartTimeAmPm())) {
-            GlobalVariables.getMessageMap().putError(examOfferingPath + ".requestedSchedule.startTimeAmPm", ExamOfferingConstants.EXAM_OFFERING_MSG_ERROR_SCHEDULING_REQUIRED_FIELD_EMPTY);
-            success = false;
-        }
         if (StringUtils.isBlank(requestedSchedule.getEndTime())) {
             GlobalVariables.getMessageMap().putError(examOfferingPath + ".requestedSchedule.endTime", ExamOfferingConstants.EXAM_OFFERING_MSG_ERROR_SCHEDULING_REQUIRED_FIELD_EMPTY);
             success = false;
         }
-        if (StringUtils.isBlank(requestedSchedule.getEndTimeAmPm())) {
-            GlobalVariables.getMessageMap().putError(examOfferingPath + ".requestedSchedule.endTimeAmPm", ExamOfferingConstants.EXAM_OFFERING_MSG_ERROR_SCHEDULING_REQUIRED_FIELD_EMPTY);
-            success = false;
-        }
-        if (!validateTime(requestedSchedule.getStartTime(), requestedSchedule.getStartTimeAmPm(), requestedSchedule.getEndTime(), requestedSchedule.getEndTimeAmPm())) {
+        if (!validateTime(requestedSchedule.getStartTime(), requestedSchedule.getEndTime())) {
             GlobalVariables.getMessageMap().putError(examOfferingPath + ".requestedSchedule.startTime", ExamOfferingConstants.EXAM_OFFERING_MSG_ERROR_SCHEDULING_INVALID_START_TIME);
             success = false;
         }
@@ -519,21 +511,13 @@ public class ExamOfferingScheduleHelperImpl implements ExamOfferingScheduleHelpe
             GlobalVariables.getMessageMap().putError(examOfferingPath + ".requestedSchedule.startTime", ExamOfferingConstants.EXAM_OFFERING_MSG_ERROR_SCHEDULING_REQUIRED_FIELD_EMPTY);
             success = false;
         }
-        if (StringUtils.isBlank(requestedSchedule.getStartTimeAmPm())) {
-            GlobalVariables.getMessageMap().putError(examOfferingPath + ".requestedSchedule.startTimeAmPm", ExamOfferingConstants.EXAM_OFFERING_MSG_ERROR_SCHEDULING_REQUIRED_FIELD_EMPTY);
-            success = false;
-        }
         if (StringUtils.isBlank(requestedSchedule.getEndTime())) {
             GlobalVariables.getMessageMap().putError(examOfferingPath + ".requestedSchedule.endTime", ExamOfferingConstants.EXAM_OFFERING_MSG_ERROR_SCHEDULING_REQUIRED_FIELD_EMPTY);
             success = false;
         }
-        if (StringUtils.isBlank(requestedSchedule.getEndTimeAmPm())) {
-            GlobalVariables.getMessageMap().putError(examOfferingPath + ".requestedSchedule.endTimeAmPm", ExamOfferingConstants.EXAM_OFFERING_MSG_ERROR_SCHEDULING_REQUIRED_FIELD_EMPTY);
-            success = false;
-        }
-        if (StringUtils.isNotBlank(requestedSchedule.getStartTime()) && StringUtils.isNotBlank(requestedSchedule.getStartTimeAmPm())
-            && StringUtils.isNotBlank(requestedSchedule.getEndTime()) && StringUtils.isNotBlank(requestedSchedule.getEndTimeAmPm())
-            && !validateTime(requestedSchedule.getStartTime(), requestedSchedule.getStartTimeAmPm(), requestedSchedule.getEndTime(), requestedSchedule.getEndTimeAmPm())) {
+        if (StringUtils.isNotBlank(requestedSchedule.getStartTime())
+                && StringUtils.isNotBlank(requestedSchedule.getEndTime())
+                && !validateTime(requestedSchedule.getStartTime(), requestedSchedule.getEndTime())) {
             GlobalVariables.getMessageMap().putError(examOfferingPath + ".requestedSchedule.startTime", ExamOfferingConstants.EXAM_OFFERING_MSG_ERROR_SCHEDULING_INVALID_START_TIME);
             success = false;
         }
@@ -664,17 +648,15 @@ public class ExamOfferingScheduleHelperImpl implements ExamOfferingScheduleHelpe
      * This method valids if a start time is prior to an end time
      *
      * @param startTime  in hh:mm format
-     * @param startAmPm  AM or PM
      * @param endTime in hh:mm format
-     * @param endAmPm AM or PM
      *
      * @return ScheduleRequestSetInfo
      */
-    public boolean validateTime (String startTime, String startAmPm, String endTime, String endAmPm) {
+    public boolean validateTime (String startTime, String endTime) {
         //Set Date objects
         KSDateTimeFormatter timeFormatter = new KSDateTimeFormatter("hh:mm aa");
-        DateTime startingTime = timeFormatter.getFormatter().parseDateTime(startTime + " " + startAmPm);
-        DateTime endingTime = timeFormatter.getFormatter().parseDateTime(endTime + " " + endAmPm);
+        DateTime startingTime = timeFormatter.getFormatter().parseDateTime(startTime);
+        DateTime endingTime = timeFormatter.getFormatter().parseDateTime(endTime);
 
         if (DateTimeComparator.getInstance().compare(startingTime, endingTime) > 0 ) {
             return false;

@@ -53,6 +53,7 @@
             <list merge="true">
                 <value>themes/ksboot/scripts/toolbar.js</value>
                 <value>ks-krad/scripts/ks-krad-collection-rowSelection.js</value>
+                <value>themes/ksboot/scripts/timeentry.js</value>
             </list>
         </property>
         <property name="additionalCssFiles">
