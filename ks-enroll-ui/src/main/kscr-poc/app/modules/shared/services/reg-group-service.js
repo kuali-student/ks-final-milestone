@@ -174,7 +174,8 @@ angular.module('kscrPocApp')
       // Configure the parameters.
       var params = {
         regGroupId: regGroupId,
-        userId: userId
+        userId: userId,
+        gradingOption:'kuali.resultComponent.grade.letter'
       };
       var httpConfig = configHttp(params);
       // Call the service.
