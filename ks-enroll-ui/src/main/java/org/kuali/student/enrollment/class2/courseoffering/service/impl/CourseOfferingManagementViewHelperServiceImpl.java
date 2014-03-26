@@ -17,7 +17,6 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.kim.api.KimConstants;
@@ -514,18 +513,11 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
     private void processInstructors(Map<String, ActivityOfferingWrapper> aoMap, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
         List<LprInfo> lprInfos = new ArrayList<LprInfo>();
         for(String ao: aoMap.keySet()){
-
-
-        List<Predicate> predicates = new ArrayList<Predicate>();
-        predicates.add(PredicateFactory.in("luiId", ao));
-        predicates.add(PredicateFactory.in("personRelationTypeId", LprServiceConstants.COURSE_INSTRUCTOR_TYPE_KEYS));  // allow all instructor types
-        //predicates.add(PredicateFactory.equal("personRelationStateId", LprServiceConstants.ASSIGNED_STATE_KEY));
-
-        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-        qbcBuilder.setPredicates(predicates.toArray(new Predicate[predicates.size()]));
-        QueryByCriteria criteria = qbcBuilder.build();
-
-        lprInfos.addAll(CourseOfferingManagementUtil.getLprService().searchForLprs(criteria, contextInfo));
+            QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+            qbcBuilder.setPredicates(PredicateFactory.in("luiId", ao),
+                    PredicateFactory.in("personRelationTypeId", LprServiceConstants.COURSE_INSTRUCTOR_TYPE_KEYS));
+            QueryByCriteria criteria = qbcBuilder.build();
+            lprInfos.addAll(CourseOfferingManagementUtil.getLprService().searchForLprs(criteria, contextInfo));
         }
         if (lprInfos != null) {
             Map<String, Set<String>> principalId2aoIdMap = new HashMap<String, Set<String>>();

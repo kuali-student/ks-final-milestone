@@ -144,17 +144,10 @@ public class CourseOfferingTransformer {
         //retrieve a list of LprInfo by a list of luiIds and generate the map of luiId to LprInfo
         List<LprInfo> lprs = new ArrayList<LprInfo>();
         for(String ao: luiIds){
-
-
-            List<Predicate> predicates = new ArrayList<Predicate>();
-            predicates.add(PredicateFactory.in("luiId", ao));
-            predicates.add(PredicateFactory.in("personRelationTypeId", LprServiceConstants.COURSE_INSTRUCTOR_TYPE_KEYS));  // allow all instructor types
-            //predicates.add(PredicateFactory.equal("personRelationStateId", LprServiceConstants.ASSIGNED_STATE_KEY));
-
             QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-            qbcBuilder.setPredicates(predicates.toArray(new Predicate[predicates.size()]));
+            qbcBuilder.setPredicates(PredicateFactory.in("luiId", ao),
+                    PredicateFactory.in("personRelationTypeId", LprServiceConstants.COURSE_INSTRUCTOR_TYPE_KEYS));
             QueryByCriteria criteria = qbcBuilder.build();
-
             lprs.addAll(lprService.searchForLprs(criteria, context));
         }
         Map<String, List<LprInfo>>luiToLprListMap = new HashMap<String, List<LprInfo>>();
@@ -846,13 +839,10 @@ public class CourseOfferingTransformer {
     public void assembleInstructors(CourseOfferingInfo co, String luiId, ContextInfo context, LprService lprService) {
         List<LprInfo> lprs = null;
         try {
-            List<Predicate> predicates = new ArrayList<Predicate>();
-            predicates.add(PredicateFactory.in("luiId", luiId));
-            predicates.add(PredicateFactory.in("personRelationTypeId", LprServiceConstants.COURSE_INSTRUCTOR_TYPE_KEYS));  // allow all instructor types
-            //predicates.add(PredicateFactory.equal("personRelationStateId", LprServiceConstants.ASSIGNED_STATE_KEY));
-
             QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-            qbcBuilder.setPredicates(predicates.toArray(new Predicate[predicates.size()]));
+            qbcBuilder.setPredicates(PredicateFactory.in("luiId", co.getId()),
+                    PredicateFactory.in("personRelationTypeId", LprServiceConstants.COURSE_INSTRUCTOR_TYPE_KEYS));
+            QueryByCriteria coCriteria = qbcBuilder.build();
             QueryByCriteria criteria = qbcBuilder.build();
 
             lprs = lprService.searchForLprs(criteria, context);
