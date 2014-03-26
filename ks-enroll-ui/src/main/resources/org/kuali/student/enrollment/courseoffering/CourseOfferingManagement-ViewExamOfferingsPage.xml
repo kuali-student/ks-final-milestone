@@ -113,7 +113,7 @@
                         <bean parent="Uif-HorizontalBoxGroup">
                             <property name="items">
                                 <list>
-                                    <!--<bean parent="KS-Uif-PrimaryActionButton" p:id="saveExamOfferingRSI" p:methodToCall="saveExamOfferingRSI" p:actionLabel="Save" p:render="@{!#view.readOnly}"/>-->
+                                    <!--<bean parent="KS-Uif-PrimaryActionButton" p:id="saveExamOfferingRSI" p:methodToCall="saveExamOfferingRSI" p:actionLabel="Save" p:performClientSideValidation="true" p:render="@{!#view.readOnly}"/>-->
                                     <bean parent="KS-Uif-ActionLink" p:actionLabel="Cancel" p:ajaxSubmit="false" p:methodToCall="cancel"/>
                                 </list>
                             </property>
@@ -170,13 +170,12 @@
                 <bean parent="Uif-DataField" p:label="Start Time" p:propertyName="requestedSchedule.startTimeUI"/>
                 <bean parent="Uif-DataField" p:label="End Time" p:propertyName="requestedSchedule.endTimeUI"/>
                 <bean parent="Uif-DataField" p:label="Facility" p:propertyName="requestedSchedule.building.name"/>
-                <bean parent="Uif-DataField" p:label="Room" p:propertyName="requestedSchedule.room.roomCode"/>
+                <bean parent="Uif-DataField" p:label="Room" p:propertyName="requestedSchedule.roomCode"/>
             </list>
         </property>
     </bean>
 
-
-    <bean id="KS-CourseOfferingManagement-ExamOfferingTableSection" parent="Uif-TableCollectionSection" p:renderAddLine="false" p:renderLineActions="false"
+    <bean id="KS-CourseOfferingManagement-ExamOfferingTableSection" parent="Uif-TableCollectionSection" p:renderAddLine="false"
           p:readOnly="false" abstract="true">
         <property name="collectionObjectClass"
                   value="org.kuali.student.enrollment.class2.courseoffering.dto.ExamOfferingWrapper"/>
@@ -213,131 +212,263 @@
                 </bean>
                 <bean parent="Uif-DataField-LabelTop" p:propertyName="typeName" p:label="Final Exam Driver Activity" p:render="@{#lp.driverPerAO}"/>
 
-                <bean id="eoRsiDayInExamPeriod" parent="Uif-InputField" p:propertyName="requestedSchedule.dayInExamPeriod" p:label="Day" p:required="false">
-                    <property name="readOnly" value="false"/>
-                    <property name="control">
-                        <bean parent="Uif-DropdownControl" p:disabled="@{!#root.editAuthz}"/>
-                    </property>
-                    <property name="optionsFinder">
-                        <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.DayInExamPeriodKeyValues" p:addBlankOption="true" />
-                    </property>
-                </bean>
-                <bean id="eoRsiStartTime" parent="Uif-InputField"
-                      p:propertyName="requestedSchedule.startTime" p:cssClasses="new_ts"
-                      p:label="Start Time">
-                    <property name="control">
-                        <bean parent="Uif-TextControl" p:size="5" p:maxLength="5"
-                              p:cssClasses="new_ts_control"/>
-                    </property>
-                    <!--<property name="constraintText" value="HH:MM"/>-->
-                    <property name="validCharactersConstraint">
-                        <bean parent="TimePatternConstraint" />
-                    </property>
-                </bean>
-                <bean id="eoRsiStartTimeAmPm" parent="Uif-InputField" p:propertyName="requestedSchedule.startTimeAmPm" p:render="@{!#view.readOnly}"
-                      p:defaultValue="AM">
-                    <property name="control">
-                        <bean parent="KS-Uif-VerticalRadioControl" p:options-ref="hctime-options"
-                              p:refreshWhenChangedPropertyNames="#lp.requestedSchedule.startTime" p:evaluateDisabledOnKeyUp="true">
-                            <property name="disabled" value="@{#empty(#lp.requestedSchedule.startTime)}"/>
-                        </bean>
-                    </property>
-                </bean>
-
-                <bean id="eoRsiEndTime" parent="Uif-InputField"
-                      p:propertyName="requestedSchedule.endTime" p:cssClasses="new_ts"
-                      p:label="End Time">
-                    <property name="control">
-                        <bean parent="Uif-TextControl" p:size="5" p:maxLength="5"
-                              p:cssClasses="new_ts_control"/>
-                    </property>
-                    <!--<property name="constraintText" value="HH:MM"/>-->
-                    <property name="validCharactersConstraint">
-                        <bean parent="TimePatternConstraint" />
-                    </property>
-                </bean>
-
-                <bean id="eoRsiEndTimeAmPm" parent="Uif-InputField"  p:propertyName="requestedSchedule.endTimeAmPm" p:render="@{!#view.readOnly}"
-                      p:defaultValue="AM">
-                    <property name="control">
-                        <bean parent="KS-Uif-VerticalRadioControl" p:options-ref="hctime-options"
-                              p:refreshWhenChangedPropertyNames="#lp.requestedSchedule.endTime" p:evaluateDisabledOnKeyUp="true">
-                            <property name="disabled" value="@{#empty(#lp.requestedSchedule.endTime)}"/>
-                        </bean>
-                    </property>
-                </bean>
-
-                <bean id="eoRsiBuilding" parent="Uif-InputField" p:label="Facility" p:labelPlacement="TOP"
-                      p:propertyName="requestedSchedule.buildingCode" p:uppercaseValue="true">
-                    <property name="control">
-                        <bean parent="Uif-TextControl" p:size="20" p:cssClasses="new_rdl_components"/>
-                    </property>
-                    <!-- The facility code quick finder -->
-                    <property name="quickfinder">
-                        <bean parent="Uif-QuickFinder">
-                            <property name="lightBoxLookup">
-                                <bean parent="Uif-LightBoxPost">
-                                    <property name="lookupReturnByScript" value="true" />
-                                </bean>
-                            </property>
-                            <property name="dataObjectClassName" value="org.kuali.student.r2.core.room.dto.BuildingInfo"/>
-                            <property name="fieldConversions">
-                                <map>
-                                    <entry key="buildingCode" value="requestedSchedule.buildingCode"/>
-                                </map>
-                            </property>
-                        </bean>
-                    </property>
-                    <!-- The facility code auto-complete -->
-                    <property name="suggest">
-                        <bean parent="Uif-Suggest" p:render="true" p:valuePropertyName="buildingCode"
-                              p:suggestQuery.dataObjectClassName="org.kuali.student.r2.core.room.dto.BuildingInfo">
-                            <property name="suggestQuery">
-                                <bean parent="Uif-AttributeQueryConfig"
-                                      p:queryMethodToCall="retrieveBuildingInfoByCode"
-                                      p:queryFieldMapping="requestedSchedule.buildingCode:buildingCode"
-                                      p:returnFieldMapping="buildingCode:requestedSchedule.buildingCode,name:requestedSchedule.editRenderHelper.buildingName"/>
-                            </property>
-                            <property name="templateOptions">
-                                <map merge="true">
-                                    <entry key="minLength" value="1"/>
-                                </map>
-                            </property>
-                        </bean>
-                    </property>
-                </bean>
-
-                <bean id="eoRsiRoom" parent="Uif-InputField" p:label="Room"
-                      p:propertyName="requestedSchedule.room.roomCode">
-                    <property name="control">
-                        <bean parent="Uif-TextControl" p:size="20" p:cssClasses="new_rdl_components"/>
-                    </property>
-                    <property name="quickfinder">
-                        <bean parent="Uif-QuickFinder">
-                            <property name="lightBoxLookup">
-                                <bean parent="Uif-LightBoxPost">
-                                    <property name="lookupReturnByScript" value="true" />
-                                </bean>
-                            </property>
-                            <property name="dataObjectClassName" value="org.kuali.student.r2.core.room.dto.RoomInfo"/>
-                            <property name="autoSearch" value="true"/>
-                            <property name="fieldConversions">
-                                <map>
-                                    <entry key="roomCode" value="requestedSchedule.room.roomCode"/>
-                                </map>
-                            </property>
-                            <property name="lookupParameters">
-                                <map>
-                                    <entry key="requestedSchedule.buildingCode" value="buildingCode"/>
-                                </map>
-                            </property>
-                        </bean>
-                    </property>
-                    <property name="dependencyConstraints">
+                <bean parent="Uif-VerticalFieldGroup" p:label="Day">
+                    <property name="items">
                         <list>
-                            <bean parent="PrerequisiteConstraint"
-                                  p:propertyName="requestedSchedule.buildingCode"/>
+                            <bean id="eoRsiDayInExamPeriod" parent="Uif-InputField" p:propertyName="requestedSchedule.dayInExamPeriod" p:required="true">
+                                <property name="additionalCssClasses">
+                                    <list merge="true">
+                                        <value>off</value>
+                                        <value>toggleable-element</value>
+                                    </list>
+                                </property>
+                                <property name="readOnly" value="false"/>
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:disabled="@{!#root.editAuthz}"/>
+                                </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.DayInExamPeriodKeyValues" p:addBlankOption="true" />
+                                </property>
+                            </bean>
+                            <bean parent="Uif-DataField" p:propertyName="requestedSchedule.daysUI">
+                                <property name="additionalCssClasses">
+                                    <list merge="true">
+                                        <value>on</value>
+                                        <value>toggleable-element</value>
+                                    </list>
+                                </property>
+                            </bean>
                         </list>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-HorizontalFieldGroup" p:label="Start Time">
+                    <property name="items">
+                        <list>
+                            <bean id="eoRsiStartTime" parent="Uif-InputField"
+                                  p:propertyName="requestedSchedule.startTime" p:cssClasses="new_ts"
+                                  p:required="true">
+                                <property name="additionalCssClasses">
+                                    <list merge="true">
+                                        <value>off</value>
+                                        <value>toggleable-element</value>
+                                    </list>
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="5" p:maxLength="5" />
+                                </property>
+                                <!--<property name="constraintText" value="HH:MM"/>-->
+                                <property name="validCharactersConstraint">
+                                    <bean parent="TimePatternConstraint" />
+                                </property>
+                            </bean>
+                            <bean parent="Uif-DataField" p:propertyName="requestedSchedule.startTimeUI">
+                                <property name="additionalCssClasses">
+                                    <list merge="true">
+                                        <value>on</value>
+                                        <value>toggleable-element</value>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean id="eoRsiStartTimeAmPm" parent="Uif-InputField" p:propertyName="requestedSchedule.startTimeAmPm" p:render="@{!#view.readOnly}"
+                                  p:defaultValue="AM" p:required="true">
+                                <property name="additionalCssClasses">
+                                    <list merge="true">
+                                        <value>off</value>
+                                        <value>toggleable-element</value>
+                                    </list>
+                                </property>
+                                <property name="control">
+                                    <bean parent="KS-Uif-VerticalRadioControl" p:options-ref="hctime-options"
+                                          p:refreshWhenChangedPropertyNames="#lp.requestedSchedule.startTime" p:evaluateDisabledOnKeyUp="true">
+                                        <property name="disabled" value="@{#empty(#lp.requestedSchedule.startTime)}"/>
+                                    </bean>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-HorizontalFieldGroup" p:label="End Time">
+                    <property name="items">
+                        <list>
+                            <bean id="eoRsiEndTime" parent="Uif-InputField"
+                                  p:propertyName="requestedSchedule.endTime" p:cssClasses="new_ts"
+                                  p:required="true">
+                                <property name="additionalCssClasses">
+                                    <list merge="true">
+                                        <value>off</value>
+                                        <value>toggleable-element</value>
+                                    </list>
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="5" p:maxLength="5" />
+                                </property>
+                                <!--<property name="constraintText" value="HH:MM"/>-->
+                                <property name="validCharactersConstraint">
+                                    <bean parent="TimePatternConstraint" />
+                                </property>
+                            </bean>
+                            <bean parent="Uif-DataField" p:propertyName="requestedSchedule.endTimeUI">
+                                <property name="additionalCssClasses">
+                                    <list merge="true">
+                                        <value>on</value>
+                                        <value>toggleable-element</value>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean id="eoRsiEndTimeAmPm" parent="Uif-InputField"  p:propertyName="requestedSchedule.endTimeAmPm" p:render="@{!#view.readOnly}"
+                                  p:defaultValue="AM" p:required="true">
+                                <property name="additionalCssClasses">
+                                    <list merge="true">
+                                        <value>off</value>
+                                        <value>toggleable-element</value>
+                                    </list>
+                                </property>
+                                <property name="control">
+                                    <bean parent="KS-Uif-VerticalRadioControl" p:options-ref="hctime-options"
+                                          p:refreshWhenChangedPropertyNames="#lp.requestedSchedule.endTime" p:evaluateDisabledOnKeyUp="true">
+                                        <property name="disabled" value="@{#empty(#lp.requestedSchedule.endTime)}"/>
+                                    </bean>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-VerticalFieldGroup" p:label="Facility">
+                    <property name="items">
+                        <list>
+                            <bean id="eoRsiBuilding" parent="Uif-InputField" p:labelPlacement="TOP"
+                                  p:propertyName="requestedSchedule.buildingCode" p:uppercaseValue="true">
+                                <property name="additionalCssClasses">
+                                    <list merge="true">
+                                        <value>off</value>
+                                        <value>toggleable-element</value>
+                                    </list>
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="20" p:cssClasses="new_rdl_components"/>
+                                </property>
+                                <!-- The facility code quick finder -->
+                                <property name="quickfinder">
+                                    <bean parent="Uif-QuickFinder">
+                                        <property name="lightBoxLookup">
+                                            <bean parent="Uif-LightBoxPost">
+                                                <property name="lookupReturnByScript" value="true" />
+                                            </bean>
+                                        </property>
+                                        <property name="dataObjectClassName" value="org.kuali.student.r2.core.room.dto.BuildingInfo"/>
+                                        <property name="fieldConversions">
+                                            <map>
+                                                <entry key="buildingCode" value="requestedSchedule.buildingCode"/>
+                                            </map>
+                                        </property>
+                                    </bean>
+                                </property>
+                                <!-- The facility code auto-complete -->
+                                <property name="suggest">
+                                    <bean parent="Uif-Suggest" p:render="true" p:valuePropertyName="buildingCode"
+                                          p:suggestQuery.dataObjectClassName="org.kuali.student.r2.core.room.dto.BuildingInfo">
+                                        <property name="suggestQuery">
+                                            <bean parent="Uif-AttributeQueryConfig"
+                                                  p:queryMethodToCall="retrieveBuildingInfoByCode"
+                                                  p:queryFieldMapping="requestedSchedule.buildingCode:buildingCode"
+                                                  p:returnFieldMapping="buildingCode:requestedSchedule.buildingCode,name:requestedSchedule.editRenderHelper.buildingName"/>
+                                        </property>
+                                        <property name="templateOptions">
+                                            <map merge="true">
+                                                <entry key="minLength" value="1"/>
+                                            </map>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-DataField" p:propertyName="requestedSchedule.building.name">
+                                <property name="additionalCssClasses">
+                                    <list merge="true">
+                                        <value>on</value>
+                                        <value>toggleable-element</value>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-VerticalFieldGroup" p:label="Room">
+                    <property name="items">
+                        <list>
+                            <bean id="eoRsiRoom" parent="Uif-InputField"
+                                  p:propertyName="requestedSchedule.roomCode">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="20" p:cssClasses="new_rdl_components"/>
+                                </property>
+                                <property name="additionalCssClasses">
+                                    <list merge="true">
+                                        <value>off</value>
+                                        <value>toggleable-element</value>
+                                    </list>
+                                </property>
+                                <property name="quickfinder">
+                                    <bean parent="Uif-QuickFinder">
+                                        <property name="lightBoxLookup">
+                                            <bean parent="Uif-LightBoxPost">
+                                                <property name="lookupReturnByScript" value="true" />
+                                            </bean>
+                                        </property>
+                                        <property name="dataObjectClassName" value="org.kuali.student.r2.core.room.dto.RoomInfo"/>
+                                        <property name="autoSearch" value="true"/>
+                                        <property name="fieldConversions">
+                                            <map>
+                                                <entry key="roomCode" value="requestedSchedule.roomCode"/>
+                                            </map>
+                                        </property>
+                                        <property name="lookupParameters">
+                                            <map>
+                                                <entry key="requestedSchedule.buildingCode" value="buildingCode"/>
+                                            </map>
+                                        </property>
+                                    </bean>
+                                </property>
+                                <property name="dependencyConstraints">
+                                    <list>
+                                        <bean parent="PrerequisiteConstraint"
+                                              p:propertyName="requestedSchedule.buildingCode"/>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-DataField" p:propertyName="requestedSchedule.roomCode">
+                                <property name="additionalCssClasses">
+                                    <list merge="true">
+                                        <value>on</value>
+                                        <value>toggleable-element</value>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="EO-toggleEditButton" parent="KS-Uif-ActionLink" p:actionLabel="" p:additionalCssClasses="toggleable-element on" p:actionScript="toggleRow(event)">
+                    <property name="actionImage">
+                        <bean parent="Uif-Image" p:altText="Edit" p:title="Edit"
+                              p:source="" p:cssClasses="ks-fontello-icon-pencil"/>
+                    </property>
+                </bean>
+                <bean id="EO-toggleUpdateButton" parent="KS-Uif-ActionLink" p:actionLabel="" p:additionalCssClasses="toggleable-element off" p:methodToCall="saveExamOfferingRSI">
+                    <property name="actionImage">
+                        <bean parent="Uif-Image" p:altText="Update" p:title="Update"
+                              p:source="" p:cssClasses="ks-fontello-icon-floppy"/>
+                    </property>
+                </bean>
+                <bean id="EO-toggleCancelButton" parent="KS-Uif-ActionLink" p:actionLabel="" p:additionalCssClasses="toggleable-element off" p:actionScript="toggleRow(event)">
+                    <property name="actionImage">
+                        <bean parent="Uif-Image" p:altText="Cancel" p:title="Cancel"
+                              p:source="" p:cssClasses="ks-fontello-icon-block-1"/>
                     </property>
                 </bean>
             </list>

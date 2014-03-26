@@ -19,6 +19,9 @@ package org.kuali.student.enrollment.class2.courseoffering.helper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ExamOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+
+import java.util.List;
 
 /**
  * This class defines methods to load and save schedules in Exam Offering schedule logic
@@ -26,6 +29,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
  * @author Kuali Student Team
  */
 public interface ExamOfferingScheduleHelper {
-    public void saveSchedules(ExamOfferingWrapper eoWrapper,ContextInfo defaultContextInfo);
+    public StatusInfo saveScheduleRequestBulk(List<ExamOfferingWrapper> eoWrappers, ContextInfo defaultContextInfo);
+    public StatusInfo saveScheduleRequest(ExamOfferingWrapper eoWrapper, ContextInfo defaultContextInfo);
     public void loadSchedules(ExamOfferingWrapper eoWrapper, CourseOfferingManagementForm theForm, ContextInfo defaultContextInfo);
 }

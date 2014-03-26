@@ -70,6 +70,8 @@ public class ScheduleWrapper implements Serializable{
 
     private EditRenderHelper editRenderHelper;
     private boolean modified;
+    private boolean toBeCreated;
+    private boolean toBeDeleted;
     private List<String> endTimes;
 
     private String dayInExamPeriod;
@@ -339,6 +341,22 @@ public class ScheduleWrapper implements Serializable{
 
     public void setModified(boolean modified) {
         this.modified = modified;
+    }
+
+    public boolean isToBeCreated() {
+        return toBeCreated;
+    }
+
+    public void setToBeCreated(boolean toBeCreated) {
+        this.toBeCreated = toBeCreated;
+    }
+
+    public boolean isToBeDeleted() {
+        return toBeDeleted;
+    }
+
+    public void setToBeDeleted(boolean toBeDeleted) {
+        this.toBeDeleted = toBeDeleted;
     }
 
     public EditRenderHelper getEditRenderHelper() {

@@ -37,6 +37,7 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrap
 import org.kuali.student.enrollment.class2.courseoffering.dto.ExamOfferingClusterWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ExamOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
@@ -46,9 +47,14 @@ import org.kuali.student.enrollment.class2.courseoffering.util.RegistrationGroup
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.common.util.security.ContextUtils;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.TimeOfDayInfo;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.util.TimeOfDayHelper;
 import org.kuali.student.r2.core.acal.dto.ExamPeriodInfo;
 import org.kuali.student.r2.core.class1.search.CourseOfferingManagementSearchImpl;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
+import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,6 +66,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
@@ -129,11 +136,11 @@ public class CourseOfferingManagementController extends UifControllerBase {
             try {
                 CourseOfferingListSectionWrapper coListWrapper = KSCollectionUtils.getRequiredZeroElement(form.getCourseOfferingResultList());
                 CourseOfferingManagementUtil.prepareManageAOsModelAndView(form, coListWrapper);
-                } catch (Exception e) {
+            } catch (Exception e) {
                 LOG.error("Exception occurred", e);
                 throw new RuntimeException(e);
-                }
-                return getUIFModelAndView(form, CourseOfferingConstants.MANAGE_THE_CO_PAGE);
+            }
+            return getUIFModelAndView(form, CourseOfferingConstants.MANAGE_THE_CO_PAGE);
         }
         return getUIFModelAndView(form);
     }
@@ -480,9 +487,9 @@ public class CourseOfferingManagementController extends UifControllerBase {
             Properties urlParameters = CourseOfferingHandler.edit(theForm, (CourseOfferingListSectionWrapper) selectedObject);
             if (((CourseOfferingListSectionWrapper) selectedObject).isCrossListed()){
                 urlParameters.put("editCrossListedCoAlias", BooleanUtils.toStringTrueFalse(true));
-             } else {
+            } else {
                 urlParameters.put("editCrossListedCoAlias", BooleanUtils.toStringTrueFalse(false));
-             }
+            }
             return super.performRedirect(theForm, CourseOfferingConstants.CONTROLLER_PATH_COURSEOFFERING_EDIT_MAINTENANCE, urlParameters);
         } else if (selectedObject instanceof ActivityOfferingWrapper) {
             Properties urlParameters = ActivityOfferingClusterHandler.editAO(theForm, ((ActivityOfferingWrapper) selectedObject).getAoInfo().getId());
@@ -585,8 +592,8 @@ public class CourseOfferingManagementController extends UifControllerBase {
     public ModelAndView approveCOs(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                    @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
-       CourseOfferingManagementUtil.getViewHelperService(theForm).approveCourseOfferings(theForm);
-       CourseOfferingManagementUtil.reloadCourseOfferings(theForm);
+        CourseOfferingManagementUtil.getViewHelperService(theForm).approveCourseOfferings(theForm);
+        CourseOfferingManagementUtil.reloadCourseOfferings(theForm);
 
         return getUIFModelAndView(theForm);
     }
@@ -720,21 +727,21 @@ public class CourseOfferingManagementController extends UifControllerBase {
 
     @RequestMapping(params = "methodToCall=addCluster")
     public ModelAndView addCluster(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
-                                        @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+                                   @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
         return show(ActivityOfferingClusterHandler.createNewCluster(theForm));
     }
 
     @RequestMapping(params = "methodToCall=moveToCluster")
     public ModelAndView moveToCluster(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
-                                        @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+                                      @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
         return show(ActivityOfferingClusterHandler.moveAOToACluster(theForm));
     }
 
     @RequestMapping(params = "methodToCall=copyAOs")
     public ModelAndView copyAOs(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
-                                        @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+                                @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
         //TODO: copyAOs
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_THE_CO_PAGE);
@@ -749,7 +756,7 @@ public class CourseOfferingManagementController extends UifControllerBase {
 
     @RequestMapping(params = "methodToCall=RenameCluster")
     public ModelAndView openRenameAClusterPopup(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
-                                                    @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+                                                @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
 
         return getUIFModelAndView(theForm, "KS-CourseOfferingManagement-RenameAOCPopupForm");
@@ -757,14 +764,14 @@ public class CourseOfferingManagementController extends UifControllerBase {
 
     @RequestMapping(params = "methodToCall=showDeleteClusterConfirmPage")
     public ModelAndView showDeleteClusterConfirmPage(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
-                                            @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+                                                     @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         ActivityOfferingClusterHandler.showDeleteClusterConfirmPage(theForm);
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_ARG_DELETE_CLUSTER_CONFIRM_PAGE);
     }
 
     @RequestMapping(params = "methodToCall=deleteClusterCascaded")
     public ModelAndView deleteClusterCascaded(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
-                                                     @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+                                              @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         ActivityOfferingClusterHandler.deleteClusterCascaded(theForm);
         // Because everything in this method is inside a transaction we need to separate the delete and the render. If we don't the render
         // will not detect the delete and the user is shown the same screen. So for this case, delete the cluster then call
@@ -774,7 +781,7 @@ public class CourseOfferingManagementController extends UifControllerBase {
 
     @RequestMapping(params = "methodToCall=cancelDeleteCluster")
     public ModelAndView cancelDeleteCluster(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
-                                      @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+                                            @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_THE_CO_PAGE);
     }
 
@@ -831,7 +838,7 @@ public class CourseOfferingManagementController extends UifControllerBase {
             aoCluster.setName(requestedName);
             try {
                 aoCluster = CourseOfferingManagementUtil.getCourseOfferingService().updateActivityOfferingCluster(aoCluster.getFormatOfferingId(),
-                    aoCluster.getId(), aoCluster, ContextUtils.createDefaultContextInfo());
+                        aoCluster.getId(), aoCluster, ContextUtils.createDefaultContextInfo());
                 KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS, CourseOfferingConstants.CLUSTER_RENAME_SUCCESS);
                 selectedClusterWrapper.setAoCluster(aoCluster);
                 selectedClusterWrapper.setClusterNameForDisplay("Forget to set cluster?");
@@ -862,7 +869,7 @@ public class CourseOfferingManagementController extends UifControllerBase {
 
         Object selectedObject = CourseOfferingManagementUtil.getSelectedObject(form, "manageAORules");
 
-     if (selectedObject instanceof ActivityOfferingWrapper) {
+        if (selectedObject instanceof ActivityOfferingWrapper) {
             Properties urlParameters = ActivityOfferingClusterHandler.manageAO(form, ((ActivityOfferingWrapper) selectedObject).getAoInfo().getId());
             return super.performRedirect(form, "activityOfferingRules", urlParameters);
         } else {
@@ -883,7 +890,7 @@ public class CourseOfferingManagementController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=viewExamOfferings")
     public ModelAndView viewExamOfferings(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                           @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
-        List<ExamPeriodInfo> examPeriodInfos = CourseOfferingManagementUtil.getAcademicCalendarService().getExamPeriodsForTerm(theForm.getTermInfo().getId(),ContextUtils.createDefaultContextInfo());
+        List<ExamPeriodInfo> examPeriodInfos = CourseOfferingManagementUtil.getAcademicCalendarService().getExamPeriodsForTerm(theForm.getTermInfo().getId(), ContextUtils.createDefaultContextInfo());
         if (!examPeriodInfos.isEmpty()) {
             ExamPeriodInfo examPeriodInfo = KSCollectionUtils.getOptionalZeroElement(examPeriodInfos);
             ExamPeriodWrapper examPeriodWrapper = new ExamPeriodWrapper(examPeriodInfo, false);
@@ -913,6 +920,137 @@ public class CourseOfferingManagementController extends UifControllerBase {
         urlParameters.put("pageId", "manageTheCourseOfferingPage");
 
         return super.performRedirect(form, "courseOfferingManagement", urlParameters);
+    }
+
+    /**
+     * save RSI(s) of exam offering(s)
+     *
+     * @param theForm
+     * @param result
+     * @param request
+     * @param response
+     * @return ModelAndView
+     * @throws Exception
+     */
+    @RequestMapping(params = "methodToCall=saveExamOfferingRSIBulk")
+    public ModelAndView saveExamOfferingRSIBulk(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
+                                            @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+        List<ExamOfferingWrapper> eoRsiToDeleteList = new ArrayList<ExamOfferingWrapper>();
+        List<ExamOfferingWrapper> eoValidRsiToProcessList = new ArrayList<ExamOfferingWrapper>();
+        List<ExamOfferingWrapper> eoInvalidRsiList = new ArrayList<ExamOfferingWrapper>();
+        boolean success=true;
+
+        if (!theForm.getEoClusterResultList().isEmpty()) {
+            for (ExamOfferingClusterWrapper elCluster : theForm.getEoClusterResultList()) {
+                if (!elCluster.getEoWrapperList().isEmpty()) {
+                    for (ExamOfferingWrapper eoWrapper : elCluster.getEoWrapperList()) {
+                        ScheduleWrapper requestedSchedule = eoWrapper.getRequestedSchedule();
+                        success = CourseOfferingManagementUtil.getExamOfferingScheduleHelper().validateScheduleRequestBulk(requestedSchedule, theForm.getEoClusterResultList().indexOf(elCluster),
+                                elCluster.getEoWrapperList().indexOf(eoWrapper), false, ContextUtils.createDefaultContextInfo());
+                        if (!success) {
+                            eoInvalidRsiList.add(eoWrapper);
+                        } else {
+                            if (requestedSchedule.getScheduleRequestComponentInfo() != null) {
+                                requestedSchedule.setModified(true);
+                            } else {
+                                requestedSchedule.setToBeCreated(true);
+                            }
+                            eoWrapper.getRequestedScheduleComponents().clear();
+                            eoWrapper.getRequestedScheduleComponents().add(requestedSchedule);
+                            eoValidRsiToProcessList.add(eoWrapper);
+                        }
+                    }
+                }
+            }
+        }
+
+        if (!theForm.getExamOfferingWrapperList().isEmpty()) {
+            for (ExamOfferingWrapper eoWrapper : theForm.getExamOfferingWrapperList()) {
+                ScheduleWrapper requestedSchedule = eoWrapper.getRequestedSchedule();
+                success = CourseOfferingManagementUtil.getExamOfferingScheduleHelper().validateScheduleRequestBulk(requestedSchedule, 0,
+                        theForm.getExamOfferingWrapperList().indexOf(eoWrapper), true, ContextUtils.createDefaultContextInfo());
+                if (!success) {
+                    eoInvalidRsiList.add(eoWrapper);
+                } else {
+                    if (requestedSchedule.getScheduleRequestComponentInfo() != null) {
+                        requestedSchedule.setModified(true);
+                    } else {
+                        requestedSchedule.setToBeCreated(true);
+                    }
+                    eoWrapper.getRequestedScheduleComponents().clear();
+                    eoWrapper.getRequestedScheduleComponents().add(requestedSchedule);
+                    eoValidRsiToProcessList.add(eoWrapper);
+                }
+            }
+        }
+
+        if (eoInvalidRsiList.isEmpty() && !eoValidRsiToProcessList.isEmpty()) {
+            CourseOfferingManagementUtil.getExamOfferingScheduleHelper().saveScheduleRequestBulk(eoValidRsiToProcessList, ContextUtils.createDefaultContextInfo());
+        }
+        return getUIFModelAndView(theForm);
+    }
+
+    /**
+     * save RSI(s) of exam offering(s)
+     *
+     * @param theForm
+     * @param result
+     * @param request
+     * @param response
+     * @return ModelAndView
+     * @throws Exception
+     */
+    @RequestMapping(params = "methodToCall=saveExamOfferingRSI")
+    public ModelAndView saveExamOfferingRSI(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
+                                                @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+        String selectedCollectionPath = theForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        String selectedLine = theForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
+        boolean success;
+        Object selectedObject = CourseOfferingManagementUtil.getSelectedObject(theForm, "edit");
+        if (selectedObject instanceof ExamOfferingWrapper) {
+            ExamOfferingWrapper eoWrapper = (ExamOfferingWrapper)selectedObject;
+            ScheduleWrapper requestedSchedule = eoWrapper.getRequestedSchedule();
+
+            success = CourseOfferingManagementUtil.getExamOfferingScheduleHelper().validateScheduleRequest(requestedSchedule, selectedCollectionPath,
+                    selectedLine, ContextUtils.createDefaultContextInfo());
+            if (success) {
+                if (requestedSchedule.getScheduleRequestComponentInfo() != null) {
+                    requestedSchedule.setModified(true);
+                } else {
+                    requestedSchedule.setToBeCreated(true);
+                }
+                eoWrapper.getRequestedScheduleComponents().clear();
+                eoWrapper.getRequestedScheduleComponents().add(requestedSchedule);
+                StatusInfo statusInfo = CourseOfferingManagementUtil.getExamOfferingScheduleHelper().saveScheduleRequest(eoWrapper, ContextUtils.createDefaultContextInfo());
+
+                if (!statusInfo.getIsSuccess()){
+                    throw new OperationFailedException("Error updating Exam Offering Request Scheduling Information" + " " + statusInfo);
+                }
+
+                // reset the UI fields in the wrapper so that they will be refreshed after update
+                int firstScheduleComponentIndex = 0;
+                ScheduleWrapper scheduleWrapper = eoWrapper.getRequestedScheduleComponents().get(firstScheduleComponentIndex);
+                TimeSlotInfo timeSlot = scheduleWrapper.getTimeSlot();
+                List<Integer> days = timeSlot.getWeekdays();
+                TimeOfDayInfo startTime = timeSlot.getStartTime();
+                TimeOfDayInfo endTime = timeSlot.getEndTime();
+                if (startTime != null && startTime.getHour() != null) {
+                    String startTimeUI = TimeOfDayHelper.makeFormattedTimeForAOSchedules(startTime);
+                    scheduleWrapper.setStartTimeUI(startTimeUI);
+                }
+                if (endTime != null && endTime.getHour() != null) {
+                    String endTimeUI = TimeOfDayHelper.makeFormattedTimeForAOSchedules(endTime);
+                    scheduleWrapper.setEndTimeUI(endTimeUI);
+                }
+                if (days != null && days.size() > 0) {
+                    scheduleWrapper.setDaysUI(CourseOfferingManagementUtil.examPeriodDaysDisplay(days, theForm.getExamPeriodWrapper()));
+                }
+            }
+        } else {
+            throw new RuntimeException("Invalid type. Does not support for now");
+        }
+
+        return getUIFModelAndView(theForm);
     }
 
 }
