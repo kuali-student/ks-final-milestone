@@ -928,3 +928,14 @@ function handleEventforDisabledElements() {
         }
     });
 }
+
+function toggleRow(event){
+    var row = jQuery(event.target).closest('tr');
+    jQuery(row).find('.toggleable-element').each(function(){
+        if(jQuery(this).hasClass("on")) {
+            jQuery(this).switchClass("on", "off");
+        } else {
+            jQuery(this).switchClass("off", "on");
+        };
+    });
+}
