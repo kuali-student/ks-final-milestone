@@ -183,7 +183,7 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-DataField" p:label="Campus Locations" p:colSpan="3" p:fieldLabel.renderColon="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.governanceSection.campusLocationDisplay" />
+                                  p:propertyName="dataObject.reviewProposalDisplay.governanceSection.campusLocations"  p:readOnlyListDelimiter="; "/>
                             <bean parent="Uif-DataField" p:label="Curriculum Oversight" p:colSpan="3" p:fieldLabel.renderColon="false"
                                   p:escapeHtmlInPropertyValue="false"
                                   p:propertyName="dataObject.reviewProposalDisplay.governanceSection.curriculumOversight" p:required="true" />

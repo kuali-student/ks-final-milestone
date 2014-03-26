@@ -199,7 +199,6 @@ public class ReviewProposalDisplay implements java.io.Serializable {
         private List<String> campusLocations;
         private String curriculumOversight;
         private List<String> administeringOrganization;
-        private String campusLocationDisplay;
 
         public List<String> getCampusLocations() {
             if (this.campusLocations == null) {
@@ -221,19 +220,6 @@ public class ReviewProposalDisplay implements java.io.Serializable {
                 administeringOrganization = new LinkedList<String>();
             }
             return administeringOrganization;
-        }
-
-        public String getCampusLocationDisplay() {
-            StringBuilder builder = new StringBuilder();
-            for(int i=0; i < campusLocations.size(); i++) {
-                if(i == campusLocations.size() - 1) {
-                    builder.append(campusLocations.get(i));
-                }  else {
-                    builder.append(campusLocations.get(i) + "; ");
-                }
-            }
-            campusLocationDisplay = builder.toString();
-            return campusLocationDisplay;
         }
     }
     
