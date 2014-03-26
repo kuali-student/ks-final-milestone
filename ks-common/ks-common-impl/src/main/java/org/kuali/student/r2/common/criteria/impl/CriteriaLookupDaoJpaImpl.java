@@ -48,6 +48,7 @@ import org.kuali.student.r2.common.criteria.Criteria;
 import org.kuali.student.r2.common.criteria.LookupCustomizer;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -363,6 +364,7 @@ public class CriteriaLookupDaoJpaImpl {
     /**
      * @param entityManager the entityManager to set
      */
+    @PersistenceContext
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
     }

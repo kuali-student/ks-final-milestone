@@ -23,6 +23,7 @@ import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.service.SearchService;
 
+import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import java.util.Arrays;
 import java.util.List;
@@ -76,6 +77,7 @@ public abstract class SearchServiceAbstractHardwiredImplBase
         return entityManager;
     }
 
+    @Resource
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
