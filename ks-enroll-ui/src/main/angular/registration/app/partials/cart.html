@@ -107,8 +107,8 @@
             </div>
             <!--Course Title and description-->
             <div class="kscr-Card-text-alert kscr-Card-alert--{{cartResultItem.status}}" id="title_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}">{{cartResultItem.courseTitle}}</div>
-            <div ng-if="cartResultItem.statusMessage && (cartResultItem.status != 'success')" id="result_status_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}" class="kscr-Card-text-alert kscr-CardResult-detailsText--{{cartResultItem.status}}">
-                <strong>Reason:</strong> {{cartResultItem.statusMessage}}
+            <div ng-if="cartResultItem.statusMessage && (cartResultItem.status != 'success')" id="result_status_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}" class="kscr-CardResult-detailsText--{{cartResultItem.status}}">
+               <span class="kscr-Card-reason"> <strong>Reason:</strong> {{cartResultItem.statusMessage}}</span>
             </div>
         </div>
         <div id="course_remove_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}" class="kscr-Card-remove" ng-if="cartResultItem.status != 'processing'">
