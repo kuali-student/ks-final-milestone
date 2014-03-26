@@ -78,7 +78,6 @@ import java.util.Set;
  *
  */
 public class CriteriaLookupDaoJpaImpl {
-    @PersistenceContext
     private EntityManager entityManager;
 
     public <T> GenericQueryResults<T> lookup(final Class<T> queryClass, final QueryByCriteria criteria, LookupCustomizer<T> customizer) {
@@ -365,6 +364,7 @@ public class CriteriaLookupDaoJpaImpl {
     /**
      * @param entityManager the entityManager to set
      */
+    @PersistenceContext
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
