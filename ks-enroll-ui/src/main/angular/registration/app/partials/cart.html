@@ -82,11 +82,6 @@
     </span>
 </div>
 
-        <!--
-<div class="kscr-Heading-sub" ng-show="cartResults.items.length">
-    <span>RESULTS</span>
-</div>
-            -->
 <div class="kscr-Heading-sub" ng-show="cartResults.items.length">
     <span class="responseCount" ng-if="cartResults.errorCount > 0">Error ({{cartResults.errorCount}})</span>
     <span class="responseCount" ng-if="cartResults.waitlistCount > 0">Waitlist ({{cartResults.waitlistCount}})</span>
@@ -112,7 +107,7 @@
             </div>
             <!--Course Title and description-->
             <div class="kscr-Card-text-alert kscr-Card-alert--{{cartResultItem.status}}" id="title_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}">{{cartResultItem.courseTitle}}</div>
-            <div ng-if="cartResultItem.statusMessage && (cartResultItem.status != 'success')" id="result_status_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}" class="kscr-CardResult-detailsText--{{cartResultItem.status}}">
+            <div ng-if="cartResultItem.statusMessage && (cartResultItem.status != 'success')" id="result_status_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}" class="kscr-Card-text-alert kscr-CardResult-detailsText--{{cartResultItem.status}}">
                 <strong>Reason:</strong> {{cartResultItem.statusMessage}}
             </div>
         </div>

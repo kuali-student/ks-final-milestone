@@ -4,6 +4,8 @@
 .kscr-Card, .kscr-Card-Results{
     padding: 0 0.5em 0 0.5em;
     a {text-decoration:none;}
+        font-size: 14px;
+        font-family: @secondaryFontFamily;
 }
 
 .kscr-Card-title{
@@ -46,12 +48,14 @@
 
 .kscr-CardResult-detailsText--warning {
     border-top: 1px solid @warningBorder;
+    color: @warningText;
     padding: 10px 0px;
     margin: 0em;
 }
 
 .kscr-CardResult-detailsText--error {
-    border-top: 1px solid @errorBorder;  //#EFD3D7
+    border-top: 1px solid @errorBorder;
+    color: @errorText;
     padding: 10px 0px;
     margin: 0em;
 }
