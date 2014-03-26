@@ -41,7 +41,7 @@ public class PerformanceEndNodeFilter extends AbstractCourseRegistrationNodeFilt
             jmsTemplate.convertAndSend(SimplePerformanceListener.QUEUE_NAME, perfMap);
             return outMessage;
         } catch (Exception e) {
-            throw new RuntimeException("Error starting performance processing");
+            throw new RuntimeException("Error starting performance processing", e);
         }
     }
 }

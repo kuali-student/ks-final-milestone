@@ -38,7 +38,7 @@ public class PerformanceStartNodeFilter extends AbstractCourseRegistrationNodeFi
 
             return inMessage;
         } catch (Exception e) {
-            throw new RuntimeException("Error starting performance processing");
+            throw new RuntimeException("Error starting performance processing", e);
         }
     }
 }
