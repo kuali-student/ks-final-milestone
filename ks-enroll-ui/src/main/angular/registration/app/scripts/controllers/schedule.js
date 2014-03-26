@@ -66,7 +66,7 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
                 console.log(scheduleItemResult);
                 course.credits = scheduleItemResult.credits;
                 course.gradingOptionId = scheduleItemResult.gradingOptionId;
-                GlobalVarsService.updateScheduleCounts($scope.schedules);
+                GlobalVarsService.updateScheduleCounts($scope.schedules());
                 course.editing = false;
                 $scope.userMessage = {txt: 'Updated Successfully', type: 'success'};
             });
