@@ -68,6 +68,7 @@ import org.kuali.student.cm.course.service.util.CourseCodeSearchUtil;
 import org.kuali.student.cm.course.service.util.LoCategorySearchUtil;
 import org.kuali.student.cm.course.service.util.OrganizationSearchUtil;
 import org.kuali.student.cm.maintenance.CMMaintainable;
+import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.core.krms.tree.KSRuleViewTreeBuilder;
 import org.kuali.student.core.organization.ui.client.mvc.model.MembershipInfo;
@@ -997,8 +998,10 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
                 List<AtpInfo> searchResult = this.getAtpService().searchForAtps(qbc,ContextUtils.createDefaultContextInfo());
 
-                if(searchResult.size()>=1) {
-                    result = searchResult.get(0).getName();
+                AtpInfo atpInfo = KSCollectionUtils.getOptionalZeroElement(searchResult);
+
+                if(atpInfo!=null) {
+                    result = atpInfo.getName();
                 }
 
             } catch (Exception ex) {
