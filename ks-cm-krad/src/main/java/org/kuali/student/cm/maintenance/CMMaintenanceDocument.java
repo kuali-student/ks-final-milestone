@@ -72,9 +72,9 @@ public class CMMaintenanceDocument extends MaintenanceDocumentBase {
             newMaintainableObject.setDataObject(dataObjectClazz.newInstance());
             newMaintainableObject.setDataObjectClass(dataObjectClazz);
         } catch (InstantiationException e) {
-            throw new RuntimeException("Unable to initialize maintainables of type " + clazz.getName());
+            throw new RuntimeException("Unable to initialize maintainables of type " + clazz.getName(),e);
         } catch (IllegalAccessException e) {
-            throw new RuntimeException("Unable to initialize maintainables of type " + clazz.getName());
+            throw new RuntimeException("Unable to initialize maintainables of type " + clazz.getName(),e);
         }
 
         super.processAfterRetrieve();
