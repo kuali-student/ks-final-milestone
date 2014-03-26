@@ -224,7 +224,7 @@ public class ReviewProposalDisplay implements java.io.Serializable {
         }
 
         public String getCampusLocationDisplay() {
-            StringBuffer builder = new StringBuffer();
+            StringBuilder builder = new StringBuilder();
             for(int i=0; i < campusLocations.size(); i++) {
                 if(i == campusLocations.size() - 1) {
                     builder.append(campusLocations.get(i));

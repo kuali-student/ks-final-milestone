@@ -1013,7 +1013,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
         CourseInfo course = courseInfoWrapper.getCourseInfo();
         List<String> orgIds = course.getUnitsContentOwner();
-        StringBuffer builder = new StringBuffer();
+        StringBuilder builder = new StringBuilder();
         List<String> oversights = new ArrayList<String>();
 
         if(orgIds!=null && !orgIds.isEmpty()) {
