@@ -117,8 +117,8 @@
             <div class="kscr-Card-text-alert kscr-Card-alert--{{cartResultItem.status}}" id="title_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}">{{cartResultItem.courseTitle}}</div>
 
         </div>
-            <div ng-if="cartResultItem.statusMessage && (cartResultItem.status != 'success')" id="result_status_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}" class="kscr-CardResult-detailsText">
-                {{cartResultItem.statusMessage}}
+            <div ng-if="cartResultItem.statusMessage && (cartResultItem.status != 'success')" id="result_status_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}" class="kscr-CardResult-detailsText--{{cartResultItem.status}}">
+                <strong>Reason:</strong> {{cartResultItem.statusMessage}}
             </div>
     </div>
 </div>
