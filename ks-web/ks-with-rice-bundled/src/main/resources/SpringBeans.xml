@@ -100,14 +100,9 @@
 
 	<bean id="kualiModuleService" class="org.kuali.rice.krad.service.impl.KualiModuleServiceImpl" />
 
-    <bean id="studentRiceModule" class="org.kuali.rice.krad.service.impl.KRADModuleService">
+    <bean id="studentRiceModule" class="org.kuali.rice.krad.service.impl.ModuleServiceBase">
         <property name="moduleConfiguration" ref="studentRiceModuleConfiguration" />
         <property name="kualiModuleService" ref="kualiModuleService" />
-        <property name="businessObjects">
-              <list>
-                <value>org.kuali.student.cm.maintenance.CMMaintenanceDocument</value>
-              </list>
-        </property>
     </bean>
 
 	<bean id="studentRiceModuleConfiguration" class="org.kuali.rice.krad.bo.ModuleConfiguration">
