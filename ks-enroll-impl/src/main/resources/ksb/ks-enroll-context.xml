@@ -24,6 +24,7 @@
     <import resource="classpath:enrollDao.xml" />
     <import resource="classpath:statement-context.xml" />
     <import resource="classpath:mq-context.xml" />
+    <import resource="classpath:ks-enroll-batch-context.xml" />
     <!-- import resource="classpath:ks-enroll-mock-room-data-context.xml"/ -->
 
     <!-- Top Level Alias -->
@@ -1568,6 +1569,20 @@
             </bean>
         </property>
     </bean>
+
+    <!-- Batch Scheduler: the bean is defined in ks-enroll-batch-context.xml. -->
+    <bean id="ks.exp.batchScheduler" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.JavaServiceDefinition">
+                <property name="service" ref="batchScheduler" /> <!-- Must match id in the bean -->
+                <property name="serviceInterface" value="org.kuali.student.enrollment.batch.BatchScheduler" />
+                <property name="localServiceName" value="BatchScheduler" /> <!-- Part of the QName -->
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/batch" />
+                <property name="busSecurity" value="${ks.enroll.bus.security}" />
+            </bean>
+        </property>
+    </bean>
+
  </beans>
 
 

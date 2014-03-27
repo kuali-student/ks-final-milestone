@@ -75,6 +75,9 @@
                 <value>classpath:org/kuali/student/enrollment/courseoffering/RoomLookupAndInquiry.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingInquiryView.xml</value>
 
+                <!-- batch -->
+                <value>classpath:org/kuali/student/enrollment/batch/EnrollmentBatchView.xml</value>
+
                 <!-- Course Offering Rollover Pages -->
                 <value>classpath:org/kuali/student/enrollment/courseoffering/rollover/CourseOfferingRolloverManagement-SelectTermPage.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/rollover/CourseOfferingRolloverManagement-ReleaseToDeptsPage.xml</value>
