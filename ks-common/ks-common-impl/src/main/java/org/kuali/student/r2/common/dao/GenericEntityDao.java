@@ -46,6 +46,7 @@ public class GenericEntityDao<T extends PersistableEntity<String>> implements En
      */
     protected Class<T> entityClass;
 
+    @PersistenceContext
     protected EntityManager em;
 
     protected Integer maxInClauseElements = 100;
@@ -194,7 +195,6 @@ public class GenericEntityDao<T extends PersistableEntity<String>> implements En
     }
 
     @Override
-    @PersistenceContext
     public void setEm(EntityManager em) {
         this.em = em;
     }

@@ -37,6 +37,7 @@ public abstract class SearchServiceAbstractHardwiredImplBase
         implements SearchService {
 
 
+    @Resource
     protected EntityManager entityManager;
 
     /**
@@ -77,7 +78,6 @@ public abstract class SearchServiceAbstractHardwiredImplBase
         return entityManager;
     }
 
-    @Resource
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
