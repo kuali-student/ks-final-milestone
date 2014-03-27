@@ -102,6 +102,7 @@
         <spring.security.javadoc.version>3.1.x</spring.security.javadoc.version>
         <spring.security-cas.version>3.1.0.RELEASE</spring.security-cas.version>
         <spring.version>3.2.3.RELEASE</spring.version>
+        <spring.batch.version>2.2.5.RELEASE</spring.batch.version>
         <tomcat.plugin.version>1.1</tomcat.plugin.version>
         <velocity.version>1.6.4</velocity.version>
         <velocity.tools.version>2.0</velocity.tools.version>
