@@ -696,10 +696,9 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                         });
 
                         StringBuilder sb = new StringBuilder(CourseAssemblerConstants.COURSE_RESULT_COMP_CREDIT_PREFIX);
-                        for (Iterator<String> iter = resultVals.iterator();
-                             iter.hasNext();){
-                            String str = iter.next();
-                            sb.append(str);
+                        for (Iterator<String> iter = resultVals.iterator();iter.hasNext();){
+                            float value = Float.parseFloat(iter.next());
+                            sb.append(value);
                             if(iter.hasNext()){
                                 sb.append(",");
                             }
@@ -707,7 +706,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                         id = sb.toString();
                         type = CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE;
                         resultValues = new ArrayList<String>();
-                        resultValues.addAll(resultVals);
+                        resultValues.addAll(creditOption.getResultValueKeys());
                     }else if(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE.equals(creditOption.getTypeKey())){
                         /*
                                * For variable credits create a Result values that goes from min to max with the specified increment.
