@@ -318,7 +318,7 @@ limitations under the License.
 
         <property name="items">
             <list>
-                <bean parent="Uif-MessageField" p:label="messageFieldTest" p:messageText="@{#line.description}"/>
+                <bean parent="Uif-MessageField" p:label="If course meets:" p:messageText="@{#line.description}"/>
                 <bean parent="Uif-DataField" p:label="Exam will be on:" p:propertyName="dayToDisplay"/>
                 <bean parent="Uif-DataField" p:label="Time:" p:propertyName="timePeriodToDisplay"/>
             </list>
