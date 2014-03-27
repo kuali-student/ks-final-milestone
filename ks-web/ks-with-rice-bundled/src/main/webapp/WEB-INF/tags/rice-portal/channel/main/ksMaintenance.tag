@@ -47,5 +47,11 @@
         <li><portal:portalLink displayTitle="true" title="SocRolloverResultInfo Lookup" url="${ConfigProperties.lum.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo&returnLocation=${ConfigProperties.lum.application.url}/portal.do&hideReturnLink=true" /></li>
         <li><portal:portalLink displayTitle="true" title="SocRolloverResultItemInfo Lookup" url="${ConfigProperties.lum.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo&returnLocation=${ConfigProperties.lum.application.url}/portal.do&hideReturnLink=true" /></li>
     </ul>
+
+    <strong>Batch</strong>
+    <ul class="chan">
+        <li><a href="${ConfigProperties.application.url}/kr-krad/batch?methodToCall=start&viewId=enrollmentBatchView">Batch Scheduler</a></li>
+    </ul>
+
 </div>
 <channel:portalChannelBottom />
