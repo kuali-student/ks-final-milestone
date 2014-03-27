@@ -211,7 +211,7 @@ public class KSTranslationUtility implements TranslateBusinessMethods {
     private String getCompoundSeperator(PropositionDefinition proposition, boolean isRoot) {
         String operator = getCompoundOperator(proposition);
         if (isRoot){
-            return ". " + StringUtils.capitalize(operator) + " ";
+            return ". " + StringUtils.capitalize(operator) + " <br> ";
         }
         return "; " + operator + " ";
     }
