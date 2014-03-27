@@ -940,6 +940,65 @@ function toggleRow(event){
     });
 }
 
+function getSelectedCollectionPathAndIndex(row){
+    var found = false;
+    var selectedCollectionPathAndIndex = {
+        selectedCollectionPath : "",
+        selectedLineIndex : -1
+    };
+
+    jQuery(row).find('.toggleable-element.on').each(function(){
+        jQuery(this).find('input').each(function(){
+            var name = jQuery(this).attr("name");
+            if(name != undefined){console.log(name);
+                var splitedName = name.split(".");
+                var clusterName = splitedName[0];
+                var wrapperName = splitedName[1].split('[')[0];
+                selectedCollectionPathAndIndex['selectedCollectionPath'] = clusterName + "." + wrapperName;
+                var index = splitedName[1].match(/\[(\d+)\]/)[1];
+                selectedCollectionPathAndIndex['selectedLineIndex'] = index;
+                found = true;
+                return false;
+            }
+        });
+        if(found) return false;
+    });
+    return selectedCollectionPathAndIndex;
+}
+
+function saveRSI(event, baseUrl){
+    var row = jQuery(event.target).closest('tr');
+    var index = jQuery(row).parent().index() - 1;
+
+    var selectedCollectionPathAndIndex = getSelectedCollectionPathAndIndex(row);
+
+    var formData = jQuery('#kualiForm').serialize() + '&' + jQuery.param(selectedCollectionPathAndIndex);
+
+    jQuery.ajax({
+        dataType:"json",
+        url:baseUrl + "/kr-krad/courseOfferingManagement?methodToCall=saveExamOfferingRSIJSON",
+        type:"POST",
+        data:formData,
+        success:function (data, textStatus, jqXHR) {
+            updateTable(event, data);
+        }
+    });
+}
+
+function updateTable(event, data){
+    var row = jQuery(event.target).closest('tr');
+    jQuery(row).find('.toggleable-element.off').each(function(){
+        var id = jQuery(this).attr("id");
+        if(id != undefined){
+            id = id.split("_id")[0];
+            var span = jQuery(this).find('span.uif-readOnlyContent');
+            var value = data[id];
+            jQuery(span).text(value);
+        }
+    });
+    toggleRow(event);
+}
+
 /**
  * auto finish the time field with the format hh:mm am
  */
