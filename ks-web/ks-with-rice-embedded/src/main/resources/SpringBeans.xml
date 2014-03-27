@@ -50,7 +50,7 @@
 	<import resource="classpath:org/kuali/rice/core/RiceDataSourceSpringBeans.xml"/>
 	<import resource="classpath:org/kuali/rice/config/RiceSpringBeans.xml"/>
         
-	<import resource="classpath:org/kuali/rice/core/CommonSpringBeans.xml"/> 
+	<import resource="classpath:org/kuali/rice/core/KSCommonSpringBeans.xml"/>
 	
 	<alias name="jtaUserTransaction" alias="userTransaction"/>
 
