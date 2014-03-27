@@ -19,7 +19,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="KS-CourseView-ReviewProposalPage" parent="Uif-MaintenancePage"  p:style="margin-left: -18px;"
+    <bean id="KS-CourseView-ReviewProposalPage" parent="Uif-MaintenancePage" p:style="margin-left: -18px;"
           p:headerText="Review Proposal}"
           p:disclosure.render="false">
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
@@ -36,7 +36,7 @@
         </property>
 
         <property name="onDocumentReadyScript" value="onProposalReviewLoad();"/>
-        <property name="header" ref="KS-CourseView-ReviewProposal-Header" />
+        <property name="header" ref="KS-CourseView-ReviewProposal-Header"/>
         <property name="items">
             <list>
                 <ref bean="KS-CourseView-ReviewProposal-Section"/>
@@ -51,15 +51,15 @@
           p:headerText="">
         <property name="items">
             <list>
-                <ref bean="KS-CourseView-CourseInfo-ReviewWidgets" />
-                <ref bean="KS-CourseView-Governance-ReviewWidgets" />
-                <ref bean="KS-CourseView-CourseLogistics-ReviewWidgets" />
-                <ref bean="KS-CourseView-LearningObjectives-ReviewWidgets" />
-                <ref bean="KS-CourseView-CourseRequisitesPage-ReviewWidgets" />
-                <ref bean="KS-CourseView-ActiveDates-ReviewWidgets" />
-                <ref bean="KS-CourseView-Financials-ReviewWidgets" />
-                <ref bean="KS-CourseView-AuthorsAndCollaborators-ReviewWidgets" />
-                <ref bean="KS-CourseView-SupportingDocuments-ReviewWidgets" />
+                <ref bean="KS-CourseView-CourseInfo-ReviewWidgets"/>
+                <ref bean="KS-CourseView-Governance-ReviewWidgets"/>
+                <ref bean="KS-CourseView-CourseLogistics-ReviewWidgets"/>
+                <ref bean="KS-CourseView-LearningObjectives-ReviewWidgets"/>
+                <ref bean="KS-CourseView-CourseRequisitesPage-ReviewWidgets"/>
+                <ref bean="KS-CourseView-ActiveDates-ReviewWidgets"/>
+                <ref bean="KS-CourseView-Financials-ReviewWidgets"/>
+                <ref bean="KS-CourseView-AuthorsAndCollaborators-ReviewWidgets"/>
+                <ref bean="KS-CourseView-SupportingDocuments-ReviewWidgets"/>
             </list>
         </property>
     </bean>
@@ -67,26 +67,28 @@
     <bean name="KS-CourseView-CourseInfo-ReviewWidgets" parent="Uif-Disclosure-VerticalBoxSection">
         <property name="items">
             <list>
-                <bean parent="KS-CourseView-SectionHeader" p:additionalCssClasses="ks-dottedHeaderActions, cm_dottedHeaderActions" p:style="margin-top: 30px;">
-                    <property name="headerText" value="Course Information" />
+                <bean parent="KS-CourseView-SectionHeader"
+                      p:additionalCssClasses="ks-dottedHeaderActions, cm_dottedHeaderActions"
+                      p:style="margin-top: 30px;">
+                    <property name="headerText" value="Course Information"/>
                     <property name="rightGroup">
                         <bean parent="KS-CourseView-ReviewLink">
                             <property name="items">
                                 <list>
                                     <bean parent="Uif-ActionLink-Course-Proposal-Review-Page-Edit-Link"
-                                        p:id="CourseInfo-Review-Edit-link" >
+                                          p:id="CourseInfo-Review-Edit-link">
                                         <property name="actionParameters">
                                             <map>
                                                 <entry key="displaySection" value="KS-CourseView-CourseInfo-Section"/>
                                             </map>
                                         </property>
                                     </bean>
-                                </list> 
+                                </list>
                             </property>
                         </bean>
                     </property>
                 </bean>
-                <ref bean="CourseInfo-Review-section" />
+                <ref bean="CourseInfo-Review-section"/>
             </list>
         </property>
     </bean>
@@ -151,14 +153,15 @@
     <bean name="KS-CourseView-Governance-ReviewWidgets" parent="Uif-Disclosure-VerticalBoxSection">
         <property name="items">
             <list>
-                <bean parent="KS-CourseView-SectionHeader" p:additionalCssClasses="ks-dottedHeaderActions, cm_dottedHeaderActions">
-                    <property name="headerText" value="Governance" />
+                <bean parent="KS-CourseView-SectionHeader"
+                      p:additionalCssClasses="ks-dottedHeaderActions, cm_dottedHeaderActions">
+                    <property name="headerText" value="Governance"/>
                     <property name="rightGroup">
                         <bean parent="KS-CourseView-ReviewLink">
                             <property name="items">
                                 <list>
                                     <bean parent="Uif-ActionLink-Course-Proposal-Review-Page-Edit-Link"
-                                          p:id="Governance-Review-Edit-link" >
+                                          p:id="Governance-Review-Edit-link">
                                         <property name="actionParameters">
                                             <map>
                                                 <entry key="displaySection" value="KS-CourseView-Governance-Section"/>
@@ -170,7 +173,7 @@
                         </bean>
                     </property>
                 </bean>
-                <ref bean="Governance-Review-section" />
+                <ref bean="Governance-Review-section"/>
             </list>
         </property>
     </bean>
@@ -182,14 +185,19 @@
                       p:additionalCssClasses="course_review_details-panel, course_review_details-table, ks-no-margins,ks-subSection">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:label="Campus Locations" p:colSpan="3" p:fieldLabel.renderColon="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.governanceSection.campusLocations"  p:readOnlyListDelimiter="; "/>
-                            <bean parent="Uif-DataField" p:label="Curriculum Oversight" p:colSpan="3" p:fieldLabel.renderColon="false"
+                            <bean parent="Uif-DataField" p:label="Campus Locations" p:colSpan="3"
+                                  p:fieldLabel.renderColon="false"
+                                  p:propertyName="dataObject.reviewProposalDisplay.governanceSection.campusLocations"
+                                  p:readOnlyListDelimiter="; "/>
+                            <bean parent="Uif-DataField" p:label="Curriculum Oversight" p:colSpan="3"
+                                  p:fieldLabel.renderColon="false"
                                   p:escapeHtmlInPropertyValue="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.governanceSection.curriculumOversight" p:required="true" />
-                            <bean parent="Uif-DataField" p:label="Administering Organization" p:colSpan="3" p:fieldLabel.renderColon="false"
+                                  p:propertyName="dataObject.reviewProposalDisplay.governanceSection.curriculumOversight"
+                                  p:required="true"/>
+                            <bean parent="Uif-DataField" p:label="Administering Organization" p:colSpan="3"
+                                  p:fieldLabel.renderColon="false"
                                   p:escapeHtmlInPropertyValue="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.governanceSection.administeringOrganization" />
+                                  p:propertyName="dataObject.reviewProposalDisplay.governanceSection.administeringOrganization"/>
                         </list>
                     </property>
                 </bean>
@@ -200,14 +208,15 @@
     <bean name="KS-CourseView-CourseLogistics-ReviewWidgets" parent="Uif-Disclosure-VerticalBoxSection">
         <property name="items">
             <list>
-                <bean parent="KS-CourseView-SectionHeader" p:additionalCssClasses="ks-dottedHeaderActions, cm_dottedHeaderActions">
-                    <property name="headerText" value="Course Logistics" />
+                <bean parent="KS-CourseView-SectionHeader"
+                      p:additionalCssClasses="ks-dottedHeaderActions, cm_dottedHeaderActions">
+                    <property name="headerText" value="Course Logistics"/>
                     <property name="rightGroup">
                         <bean parent="KS-CourseView-ReviewLink">
                             <property name="items">
                                 <list>
                                     <bean parent="Uif-ActionLink-Course-Proposal-Review-Page-Edit-Link"
-                                          p:id="CourseLogistics-Review-Edit-link" >
+                                          p:id="CourseLogistics-Review-Edit-link">
                                         <property name="actionParameters">
                                             <map>
                                                 <entry key="displaySection" value="KS-CourseView-Logistics-Section"/>
@@ -219,7 +228,7 @@
                         </bean>
                     </property>
                 </bean>
-                <ref bean="CourseLogistics-Review-section" />
+                <ref bean="CourseLogistics-Review-section"/>
             </list>
         </property>
     </bean>
@@ -232,28 +241,39 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-DataField" p:label="Terms" p:colSpan="3" p:fieldLabel.renderColon="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.terms" />
-                            <bean parent="Uif-DataField" p:label="Duration" p:colSpan="3" p:fieldLabel.renderColon="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.atpDurationType" />
-                            <bean parent="Uif-DataField" p:label="Assessment Scale" p:colSpan="3" p:fieldLabel.renderColon="false"
+                                  p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.terms"/>
+                            <bean parent="Uif-DataField" p:label="Duration" p:colSpan="3"
+                                  p:fieldLabel.renderColon="false"
+                                  p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.atpDurationType"/>
+                            <bean parent="Uif-DataField" p:label="Assessment Scale" p:colSpan="3"
+                                  p:fieldLabel.renderColon="false"
                                   p:escapeHtmlInPropertyValue="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.gradingOptions" p:required="true" />
-                            <bean parent="Uif-DataField" p:label="Audit"   p:colSpan="3" p:fieldLabel.renderColon="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.audit" />
-                            <bean parent="Uif-DataField" p:label="Pass Fail Transcript Grade"   p:colSpan="3" p:fieldLabel.renderColon="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.passFail" />
-                            <bean parent="Uif-DataField" p:label="Final Exam Status"  p:colSpan="3" p:fieldLabel.renderColon="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.finalExamStatus" p:required="true" />
-                            <bean parent="Uif-DataField" p:label="Final Exam Rationale"  p:colSpan="3" p:fieldLabel.renderColon="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.finalExamStatusRationale" p:required="true" />
+                                  p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.gradingOptions"
+                                  p:required="true"/>
+                            <bean parent="Uif-DataField" p:label="Audit" p:colSpan="3" p:fieldLabel.renderColon="false"
+                                  p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.audit"/>
+                            <bean parent="Uif-DataField" p:label="Pass Fail Transcript Grade" p:colSpan="3"
+                                  p:fieldLabel.renderColon="false"
+                                  p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.passFail"/>
+                            <bean parent="Uif-DataField" p:label="Final Exam Status" p:colSpan="3"
+                                  p:fieldLabel.renderColon="false"
+                                  p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.finalExamStatus"
+                                  p:required="true"/>
+                            <bean parent="Uif-DataField" p:label="Final Exam Rationale" p:colSpan="3"
+                                  p:fieldLabel.renderColon="false"
+                                  p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.finalExamStatusRationale"
+                                  p:required="true"/>
                             <bean parent="Uif-VerticalFieldGroup" p:label="Outcomes" p:colSpan="3" p:fieldLabel.renderColon="false">
                                 <property name="items">
-                                  <list>
-                                    <bean id="course_review_outcome_details" parent="Uif-StackedCollectionSection" p:readOnly="true"
-                                          p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.outComes"
-                                          p:collectionObjectClass="org.kuali.student.cm.course.form.OutcomeReviewSection">
-                                          <property name="layoutManager.lineGroupPrototype.header.headerText" value="Outcome @{(#index + 1)}" />
-                                          <property name="layoutManager.lineGroupPrototype.header.style" value="border-bottom : 1px solid black;"/>
+                                    <list>
+                                        <bean id="course_review_outcome_details" parent="Uif-StackedCollectionSection"
+                                              p:readOnly="true"
+                                              p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.outComes"
+                                              p:collectionObjectClass="org.kuali.student.cm.course.form.OutcomeReviewSection">
+                                            <property name="layoutManager.lineGroupPrototype.header.headerText"
+                                                      value="Outcome @{(#index + 1)}"/>
+                                            <property name="layoutManager.lineGroupPrototype.header.style"
+                                                      value="border-bottom : 1px solid black;"/>
                                             <property name="items">
                                                 <list>
                                                     <bean parent="Uif-DataField" p:label="Type"
@@ -262,10 +282,55 @@
                                                           p:propertyName="outComeValue"/>
                                                 </list>
                                             </property>
-                                    </bean>
-                                  </list>
+                                        </bean>
+                                    </list>
                                 </property>
                             </bean>
+
+                            <bean parent="Uif-VerticalFieldGroup" p:label=" Course Formats" p:colSpan="3">
+                                <property name="items">
+                                    <list>
+                                        <bean id="course_review_format_details" parent="Uif-StackedCollectionSection"
+                                              p:readOnly="true"
+                                              p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.formatInfoWrappers"
+                                              p:collectionObjectClass="org.kuali.student.cm.course.form.FormatInfoWrapper" p:colSpan="3">
+                                            <property name="layoutManager.lineGroupPrototype.header.headerText"
+                                                      value="Format @{(#index + 1)}"/>
+                                            <property name="layoutManager.lineGroupPrototype.header.style"
+                                                      value="border-bottom : 1px solid black;"/>
+
+                                            <property name="subCollections">
+                                                <list>
+                                                    <bean parent="Uif-StackedSubCollection-WithinSection"
+                                                          p:collectionObjectClass="org.kuali.student.cm.course.form.ActivityInfoWrapper"
+                                                          p:propertyName="activities" p:colSpan="3"  p:align="left">
+                                                        <property
+                                                                name="layoutManager.lineGroupPrototype.header.headerText"
+                                                                value="Activity @{(#index + 1)} "/>
+                                                        <property name="layoutManager.lineGroupPrototype.header.style"
+                                                                  value="border-bottom : 0.5px dotted black;"/>
+                                                        <property name="items">
+                                                            <list>
+                                                                <bean parent="Uif-DataField" p:label="Contact Hours"
+                                                                      p:propertyName="duration" />
+                                                                <bean parent="Uif-DataField" p:label="Duration"
+                                                                      p:propertyName="durationCount" />
+                                                                <bean parent="Uif-DataField"
+                                                                      p:label="Anticipated Class Size"
+                                                                      p:propertyName="anticipatedClassSize"/>
+                                                            </list>
+                                                        </property>
+                                                    </bean>
+                                                </list>
+                                            </property>
+
+                                        </bean>
+                                    </list>
+                                </property>
+
+                            </bean>
+
+
                         </list>
                     </property>
                 </bean>
@@ -276,17 +341,19 @@
     <bean name="KS-CourseView-LearningObjectives-ReviewWidgets" parent="Uif-Disclosure-VerticalBoxSection">
         <property name="items">
             <list>
-                <bean parent="KS-CourseView-SectionHeader" p:additionalCssClasses="ks-dottedHeaderActions, cm_dottedHeaderActions">
-                    <property name="headerText" value="Learning Objectives" />
+                <bean parent="KS-CourseView-SectionHeader"
+                      p:additionalCssClasses="ks-dottedHeaderActions, cm_dottedHeaderActions">
+                    <property name="headerText" value="Learning Objectives"/>
                     <property name="rightGroup">
                         <bean parent="KS-CourseView-ReviewLink">
                             <property name="items">
                                 <list>
                                     <bean parent="Uif-ActionLink-Course-Proposal-Review-Page-Edit-Link"
-                                        p:id="LearningObjectives-Review-Edit-link" >
+                                          p:id="LearningObjectives-Review-Edit-link">
                                         <property name="actionParameters">
                                             <map>
-                                                <entry key="displaySection" value="KS-CourseView-LearningObjectives-Section"/>
+                                                <entry key="displaySection"
+                                                       value="KS-CourseView-LearningObjectives-Section"/>
                                             </map>
                                         </property>
                                     </bean>
@@ -295,7 +362,7 @@
                         </bean>
                     </property>
                 </bean>
-                <ref bean="LearningObjectives-Review-section" />
+                <ref bean="LearningObjectives-Review-section"/>
             </list>
         </property>
     </bean>
@@ -307,9 +374,10 @@
                       p:additionalCssClasses="course_review_details-panel, course_review_details-table, ks-no-margins,ks-subSection">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:label="Learning Objectives" p:colSpan="3" p:fieldLabel.renderColon="false"
+                            <bean parent="Uif-DataField" p:label="Learning Objectives" p:colSpan="3"
+                                  p:fieldLabel.renderColon="false"
                                   p:escapeHtmlInPropertyValue="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.learningObjectivesSection.learningObjectives" />
+                                  p:propertyName="dataObject.reviewProposalDisplay.learningObjectivesSection.learningObjectives"/>
                         </list>
                     </property>
                 </bean>
@@ -321,17 +389,19 @@
     <bean name="KS-CourseView-CourseRequisitesPage-ReviewWidgets" parent="Uif-Disclosure-VerticalBoxSection">
         <property name="items">
             <list>
-                <bean parent="KS-CourseView-SectionHeader" p:additionalCssClasses="ks-dottedHeaderActions, cm_dottedHeaderActions">
-                    <property name="headerText" value="Course Requisites" />
+                <bean parent="KS-CourseView-SectionHeader"
+                      p:additionalCssClasses="ks-dottedHeaderActions, cm_dottedHeaderActions">
+                    <property name="headerText" value="Course Requisites"/>
                     <property name="rightGroup">
                         <bean parent="KS-CourseView-ReviewLink">
                             <property name="items">
                                 <list>
                                     <bean parent="Uif-ActionLink-Course-Proposal-Review-Page-Edit-Link"
-                                          p:id="CourseRequisites-Review-Edit-link" >
+                                          p:id="CourseRequisites-Review-Edit-link">
                                         <property name="actionParameters">
                                             <map>
-                                                <entry key="displaySection" value="KS-CourseView-CourseRequisites-Section"/>
+                                                <entry key="displaySection"
+                                                       value="KS-CourseView-CourseRequisites-Section"/>
                                             </map>
                                         </property>
                                     </bean>
@@ -340,9 +410,9 @@
                         </bean>
                     </property>
                 </bean>
-                <ref bean="CourseRequisitesPage-Review-section" />
+                <ref bean="CourseRequisitesPage-Review-section"/>
             </list>
-       </property>
+        </property>
     </bean>
 
     <bean id="CourseRequisitesPage-Review-section" parent="Uif-VerticalBoxSection">
@@ -352,18 +422,24 @@
                       p:additionalCssClasses="course_review_details-panel, course_review_details-table, ks-no-margins,ks-subSection">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:label="Student Eligibility + Prerequisite" p:colSpan="3" p:fieldLabel.renderColon="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.terms" />
-                            <bean parent="Uif-DataField" p:label="Corequisite" p:colSpan="3" p:fieldLabel.renderColon="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.terms" />
-                            <bean parent="Uif-DataField" p:label="Recommended Preparation"  p:colSpan="3" p:fieldLabel.renderColon="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.terms" />
-                            <bean parent="Uif-DataField" p:label="Antirequisite"  p:colSpan="3" p:fieldLabel.renderColon="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.terms" />
-                            <bean parent="Uif-DataField" p:label="Course that Restricts Credits" p:colSpan="3" p:fieldLabel.renderColon="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.terms" />
-                            <bean parent="Uif-DataField" p:label="Repeatable for Credit"  p:colSpan="3" p:fieldLabel.renderColon="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.terms" />
+                            <bean parent="Uif-DataField" p:label="Student Eligibility + Prerequisite" p:colSpan="3"
+                                  p:fieldLabel.renderColon="false"
+                                  p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.terms"/>
+                            <bean parent="Uif-DataField" p:label="Corequisite" p:colSpan="3"
+                                  p:fieldLabel.renderColon="false"
+                                  p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.terms"/>
+                            <bean parent="Uif-DataField" p:label="Recommended Preparation" p:colSpan="3"
+                                  p:fieldLabel.renderColon="false"
+                                  p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.terms"/>
+                            <bean parent="Uif-DataField" p:label="Antirequisite" p:colSpan="3"
+                                  p:fieldLabel.renderColon="false"
+                                  p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.terms"/>
+                            <bean parent="Uif-DataField" p:label="Course that Restricts Credits" p:colSpan="3"
+                                  p:fieldLabel.renderColon="false"
+                                  p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.terms"/>
+                            <bean parent="Uif-DataField" p:label="Repeatable for Credit" p:colSpan="3"
+                                  p:fieldLabel.renderColon="false"
+                                  p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.terms"/>
                         </list>
                     </property>
                 </bean>
@@ -374,14 +450,15 @@
     <bean name="KS-CourseView-ActiveDates-ReviewWidgets" parent="Uif-Disclosure-VerticalBoxSection">
         <property name="items">
             <list>
-                <bean parent="KS-CourseView-SectionHeader" p:additionalCssClasses="ks-dottedHeaderActions, cm_dottedHeaderActions">
-                    <property name="headerText" value="Active Dates" />
+                <bean parent="KS-CourseView-SectionHeader"
+                      p:additionalCssClasses="ks-dottedHeaderActions, cm_dottedHeaderActions">
+                    <property name="headerText" value="Active Dates"/>
                     <property name="rightGroup">
                         <bean parent="KS-CourseView-ReviewLink">
                             <property name="items">
                                 <list>
                                     <bean parent="Uif-ActionLink-Course-Proposal-Review-Page-Edit-Link"
-                                        p:id="ActiveDates-Review-Edit-link" >
+                                          p:id="ActiveDates-Review-Edit-link">
                                         <property name="actionParameters">
                                             <map>
                                                 <entry key="displaySection" value="KS-CourseView-ActiveDates-Section"/>
@@ -393,9 +470,9 @@
                         </bean>
                     </property>
                 </bean>
-                <ref bean="ActiveDates-Review-section" />
+                <ref bean="ActiveDates-Review-section"/>
             </list>
-       </property>
+        </property>
     </bean>
 
     <bean id="ActiveDates-Review-section" parent="Uif-VerticalBoxSection">
@@ -405,12 +482,16 @@
                       p:additionalCssClasses="course_review_details-panel, course_review_details-table, ks-subSection">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:label="Start Term" p:colSpan="3" p:fieldLabel.renderColon="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.activeDatesSection.startTerm" p:required="true" />
-                            <bean parent="Uif-DataField" p:label="End Term" p:colSpan="3" p:fieldLabel.renderColon="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.activeDatesSection.endTerm" />
-                            <bean parent="Uif-DataField" p:label="Pilot Course"  p:colSpan="3" p:fieldLabel.renderColon="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.activeDatesSection.pilotCourse" />
+                            <bean parent="Uif-DataField" p:label="Start Term" p:colSpan="3"
+                                  p:fieldLabel.renderColon="false"
+                                  p:propertyName="dataObject.reviewProposalDisplay.activeDatesSection.startTerm"
+                                  p:required="true"/>
+                            <bean parent="Uif-DataField" p:label="End Term" p:colSpan="3"
+                                  p:fieldLabel.renderColon="false"
+                                  p:propertyName="dataObject.reviewProposalDisplay.activeDatesSection.endTerm"/>
+                            <bean parent="Uif-DataField" p:label="Pilot Course" p:colSpan="3"
+                                  p:fieldLabel.renderColon="false"
+                                  p:propertyName="dataObject.reviewProposalDisplay.activeDatesSection.pilotCourse"/>
                         </list>
                     </property>
                 </bean>
@@ -419,29 +500,30 @@
     </bean>
 
 
-    <bean name="KS-CourseView-Financials-ReviewWidgets"  parent="Uif-Disclosure-VerticalBoxSection">
+    <bean name="KS-CourseView-Financials-ReviewWidgets" parent="Uif-Disclosure-VerticalBoxSection">
         <property name="items">
             <list>
-                <bean parent="KS-CourseView-SectionHeader" p:additionalCssClasses="ks-dottedHeaderActions, cm_dottedHeaderActions">
+                <bean parent="KS-CourseView-SectionHeader"
+                      p:additionalCssClasses="ks-dottedHeaderActions, cm_dottedHeaderActions">
                     <property name="headerText" value="Financials"/>
                     <property name="rightGroup">
                         <bean parent="KS-CourseView-ReviewLink">
                             <property name="items">
                                 <list>
                                     <bean parent="Uif-ActionLink-Course-Proposal-Review-Page-Edit-Link"
-                                          p:id="Financials-Review-Edit-link" >
-                                          <property name="actionParameters">
-                                              <map>
-                                                  <entry key="displaySection" value="KS-CourseView-Financials-Section"/>
-                                              </map>
-                                          </property>
+                                          p:id="Financials-Review-Edit-link">
+                                        <property name="actionParameters">
+                                            <map>
+                                                <entry key="displaySection" value="KS-CourseView-Financials-Section"/>
+                                            </map>
+                                        </property>
                                     </bean>
                                 </list>
                             </property>
                         </bean>
                     </property>
                 </bean>
-                <ref bean="Financials-Review-section" />
+                <ref bean="Financials-Review-section"/>
             </list>
         </property>
     </bean>
@@ -453,9 +535,10 @@
                       p:additionalCssClasses="course_review_details-panel, course_review_details-table, ks-no-margins,ks-subSection">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:label="Justification of Fees" p:colSpan="3" p:fieldLabel.renderColon="false"
+                            <bean parent="Uif-DataField" p:label="Justification of Fees" p:colSpan="3"
+                                  p:fieldLabel.renderColon="false"
                                   p:escapeHtmlInPropertyValue="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.financialsSection.justificationOfFees" />
+                                  p:propertyName="dataObject.reviewProposalDisplay.financialsSection.justificationOfFees"/>
                         </list>
                     </property>
                 </bean>
@@ -464,20 +547,22 @@
     </bean>
 
 
-    <bean name="KS-CourseView-AuthorsAndCollaborators-ReviewWidgets"  parent="Uif-Disclosure-VerticalBoxSection">
+    <bean name="KS-CourseView-AuthorsAndCollaborators-ReviewWidgets" parent="Uif-Disclosure-VerticalBoxSection">
         <property name="items">
             <list>
-                <bean parent="KS-CourseView-SectionHeader" p:additionalCssClasses="ks-dottedHeaderActions, cm_dottedHeaderActions">
+                <bean parent="KS-CourseView-SectionHeader"
+                      p:additionalCssClasses="ks-dottedHeaderActions, cm_dottedHeaderActions">
                     <property name="headerText" value="Authors and Collaborators"/>
                     <property name="rightGroup">
                         <bean parent="KS-CourseView-ReviewLink">
                             <property name="items">
                                 <list>
                                     <bean parent="Uif-ActionLink-Course-Proposal-Review-Page-Edit-Link"
-                                          p:id="AuthorsAndCollaborators-Review-Edit-link" >
+                                          p:id="AuthorsAndCollaborators-Review-Edit-link">
                                         <property name="actionParameters">
                                             <map>
-                                                <entry key="displaySection" value="KS-CourseView-AuthorsAndCollaborators-Section"/>
+                                                <entry key="displaySection"
+                                                       value="KS-CourseView-AuthorsAndCollaborators-Section"/>
                                             </map>
                                         </property>
                                     </bean>
@@ -486,7 +571,7 @@
                         </bean>
                     </property>
                 </bean>
-                <ref bean="AuthorsAndCollaborators-Review-section" />
+                <ref bean="AuthorsAndCollaborators-Review-section"/>
             </list>
         </property>
     </bean>
@@ -498,8 +583,9 @@
                       p:additionalCssClasses="course_review_details-panel, course_review_details-table, ks-no-margins,ks-subSection">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:label="Authors and Collaborators" p:colSpan="3" p:fieldLabel.renderColon="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.collaboratorSection.name" />
+                            <bean parent="Uif-DataField" p:label="Authors and Collaborators" p:colSpan="3"
+                                  p:fieldLabel.renderColon="false"
+                                  p:propertyName="dataObject.reviewProposalDisplay.collaboratorSection.name"/>
                         </list>
                     </property>
                 </bean>
@@ -511,17 +597,19 @@
     <bean name="KS-CourseView-SupportingDocuments-ReviewWidgets" parent="Uif-Disclosure-VerticalBoxSection">
         <property name="items">
             <list>
-                <bean parent="KS-CourseView-SectionHeader" p:additionalCssClasses="ks-dottedHeaderActions, cm_dottedHeaderActions">
-                    <property name="headerText" value="Supporting Documents" />
+                <bean parent="KS-CourseView-SectionHeader"
+                      p:additionalCssClasses="ks-dottedHeaderActions, cm_dottedHeaderActions">
+                    <property name="headerText" value="Supporting Documents"/>
                     <property name="rightGroup">
                         <bean parent="KS-CourseView-ReviewLink">
                             <property name="items">
                                 <list>
                                     <bean parent="Uif-ActionLink-Course-Proposal-Review-Page-Edit-Link"
-                                          p:id="SupportingDocuments-Review-Edit-link" >
+                                          p:id="SupportingDocuments-Review-Edit-link">
                                         <property name="actionParameters">
                                             <map>
-                                                <entry key="displaySection" value="KS-CourseView-SupportingDocuments-Section"/>
+                                                <entry key="displaySection"
+                                                       value="KS-CourseView-SupportingDocuments-Section"/>
                                             </map>
                                         </property>
                                     </bean>
@@ -530,7 +618,7 @@
                         </bean>
                     </property>
                 </bean>
-                <ref bean="SupportingDocuments-Review-section" />
+                <ref bean="SupportingDocuments-Review-section"/>
             </list>
         </property>
     </bean>
@@ -538,7 +626,7 @@
     <bean id="SupportingDocuments-Review-section" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
-                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4" >
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4">
                     <property name="cssClasses">
                         <list merge="true">
                             <value>course_review_details-panel</value>
@@ -549,8 +637,9 @@
                     </property>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:label="Supporting Documents" p:colSpan="3" p:fieldLabel.renderColon="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.supportingDocumentsSection.supportingDoc" />
+                            <bean parent="Uif-DataField" p:label="Supporting Documents" p:colSpan="3"
+                                  p:fieldLabel.renderColon="false"
+                                  p:propertyName="dataObject.reviewProposalDisplay.supportingDocumentsSection.supportingDoc"/>
                         </list>
                     </property>
                 </bean>
@@ -558,20 +647,21 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseView-ReviewProposal-Header" parent="Uif-HeaderOne" p:style="margin-bottom: 20px;" p:render="false">
+    <bean id="KS-CourseView-ReviewProposal-Header" parent="Uif-HeaderOne" p:style="margin-bottom: 20px;"
+          p:render="false">
     </bean>
 
     <bean id="KS-CourseView-ReviewProposal-Footer" parent="Uif-FooterBase">
         <property name="items">
             <list>
-<!--
-                <bean parent="Uif-PrimaryActionButton"
-                      p:ajaxSubmit="false"
-                      p:methodToCall="route"
-                      p:actionLabel="Submit"
-                      p:performClientSideValidation="true"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
--->
+                <!--
+                                <bean parent="Uif-PrimaryActionButton"
+                                      p:ajaxSubmit="false"
+                                      p:methodToCall="route"
+                                      p:actionLabel="Submit"
+                                      p:performClientSideValidation="true"
+                                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
+                -->
                 <bean id="CourseView-ReviewProposal-cancel"
                       parent="Uif-ActionLink"
                       p:actionLabel="Cancel"
@@ -586,7 +676,7 @@
         <property name="label" value="@{#uiHelper.proposalName}: Review Proposal"></property>
     </bean>
 
-     <bean id="KS-CourseView-ReviewLink" parent="Uif-VerticalBoxGroup">
+    <bean id="KS-CourseView-ReviewLink" parent="Uif-VerticalBoxGroup">
         <property name="cssClasses">
             <list merge="true">
                 <value>ks-header</value>
@@ -598,6 +688,6 @@
           p:ajaxSubmit="false"
           p:methodToCall="editCourseProposalPage"
           p:actionLabel="Edit"
-          p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_EDIT]}" />
+          p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_EDIT]}"/>
 
 </beans>

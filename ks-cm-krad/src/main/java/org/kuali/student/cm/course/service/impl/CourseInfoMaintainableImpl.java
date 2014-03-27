@@ -49,11 +49,13 @@ import org.kuali.rice.krms.tree.node.RuleEditorTreeNode;
 import org.kuali.rice.krms.tree.node.TreeNode;
 import org.kuali.rice.krms.util.NaturalLanguageHelper;
 import org.kuali.student.cm.course.controller.CourseController;
+import org.kuali.student.cm.course.form.ActivityInfoWrapper;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
 import org.kuali.student.cm.course.form.CollaboratorWrapper;
 import org.kuali.student.cm.course.form.CourseInfoWrapper;
 import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
 import org.kuali.student.cm.course.form.CourseRuleManagementWrapper;
+import org.kuali.student.cm.course.form.FormatInfoWrapper;
 import org.kuali.student.cm.course.form.LoCategoryInfoWrapper;
 import org.kuali.student.cm.course.form.LoDisplayInfoWrapper;
 import org.kuali.student.cm.course.form.LoDisplayWrapperModel;
@@ -141,13 +143,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *
- *
  * Base view helper service for both create and edit course info presentations.
  *
  * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
  */
-public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl implements CourseInfoMaintainable, RuleViewHelperService,CMMaintainable {
+public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl implements CourseInfoMaintainable, RuleViewHelperService, CMMaintainable {
 
 
 
@@ -155,7 +155,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
     protected transient static final String DEFAULT_REQUIRED_WORKFLOW_MODE = "Submit";
 
-    protected transient static final String CREDIT_COURSE_CLU_TYPE_KEY  = "kuali.lu.typeKey.CreditCourse";
+    protected transient static final String CREDIT_COURSE_CLU_TYPE_KEY = "kuali.lu.typeKey.CreditCourse";
 
     private static final long serialVersionUID = 1338662637708570500L;
 
@@ -207,7 +207,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
      * @see CourseInfoMaintainable#getInstructorsForSuggest(String)
      */
     public List<CluInstructorInfoWrapper> getInstructorsForSuggest(
-        String instructorName) {
+            String instructorName) {
         List<CluInstructorInfoWrapper> cluInstructorInfoDisplays = new ArrayList<CluInstructorInfoWrapper>();
 
         List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
@@ -253,8 +253,6 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     }
 
 
-
-
     public LoDisplayWrapperModel getLoDisplayWrapperModel() {
         if (loDisplayWrapperModel == null) {
             loDisplayWrapperModel = new LoDisplayWrapperModel();
@@ -293,7 +291,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         SearchResultInfo searchResult = null;
         try {
             searchResult = getSearchService().search(searchRequest,
-                                                     ContextUtils.getContextInfo());
+                    ContextUtils.getContextInfo());
         } catch (Exception e) {
             LOG.error("An error occurred searching for an instructor with name: " + instructorName, e);
             throw new RuntimeException("An error occurred searching for an instructor with name: " + instructorName, e);
@@ -387,7 +385,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     /**
      */
     public List<CollaboratorWrapper> getCollaboratorWrappersSuggest(
-        String principalId) {
+            String principalId) {
         List<CollaboratorWrapper> listCollaboratorWrappers = new ArrayList<CollaboratorWrapper>();
 
         List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
@@ -500,7 +498,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     public void setCutKey(String cutKey) {
         getCourseRuleManagementWrapper().setCutKey(cutKey);
     }
-    
+
     /**
      * Specifically created for KRMS purposes.
      */
@@ -514,7 +512,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     public void setCopyKey(String copyKey) {
         getCourseRuleManagementWrapper().setCopyKey(copyKey);
     }
-    
+
     /**
      * Specifically created for KRMS purposes.
      */
@@ -563,14 +561,14 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         }
         return ((CourseRuleViewHelperServiceImpl) getRuleViewHelperService()).performAddLineValidation(view, collectionGroup, model, addLine);
     }
-    
+
     @Override
     protected void processAfterAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine,
-            boolean isValidLine) {
+                                       boolean isValidLine) {
         ((CourseRuleViewHelperServiceImpl) getRuleViewHelperService()).processAfterAddLine(view, collectionGroup, model, addLine, isValidLine);
     }
-    
-    
+
+
     @Override
     protected void addCustomContainerComponents(View view, Object model, Container container) {
         ((CourseRuleViewHelperServiceImpl) getRuleViewHelperService()).addCustomContainerComponents(view, model, container);
@@ -787,7 +785,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         }
         return nlHelper;
     }
-    
+
     protected RuleViewHelperService getRuleViewHelperService() {
         return ruleViewHelperService;
     }
@@ -798,7 +796,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         }
         return courseService;
     }
-    
+
     protected SearchService getSearchService() {
         if (searchService == null) {
             searchService = GlobalResourceLoader.getService(new QName(CourseServiceConstants.NAMESPACE_PERSONSEACH, CourseServiceConstants.PERSONSEACH_SERVICE_NAME_LOCAL_PART));
@@ -823,7 +821,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     protected LearningObjectiveService getLearningObjectiveService() {
         if (learningObjectiveService == null) {
             learningObjectiveService = GlobalResourceLoader.getService(new QName(
-                                                                           LearningObjectiveServiceConstants.NAMESPACE, LearningObjectiveService.class.getSimpleName()));
+                    LearningObjectiveServiceConstants.NAMESPACE, LearningObjectiveService.class.getSimpleName()));
         }
         return learningObjectiveService;
     }
@@ -831,7 +829,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     protected OrganizationService getOrganizationService() {
         if (organizationService == null) {
             organizationService = (OrganizationService) GlobalResourceLoader
-                .getService(new QName("http://student.kuali.org/wsdl/organization", "OrganizationService"));
+                    .getService(new QName("http://student.kuali.org/wsdl/organization", "OrganizationService"));
         }
         return organizationService;
     }
@@ -872,10 +870,10 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         // Initialize Author & Collaborator
         if (courseInfoWrapper.getCollaboratorWrappers().isEmpty()) {
             courseInfoWrapper.getCollaboratorWrappers().add(new CollaboratorWrapper());
-           }
+        }
 
         if (requestParameters.get(CourseController.URL_PARAM_USE_CURRICULUM_REVIEW) != null &&
-            requestParameters.get(CourseController.URL_PARAM_USE_CURRICULUM_REVIEW).length != 0){
+                requestParameters.get(CourseController.URL_PARAM_USE_CURRICULUM_REVIEW).length != 0) {
             Boolean isUseReviewProcess = BooleanUtils.toBoolean(requestParameters.get(CourseController.URL_PARAM_USE_CURRICULUM_REVIEW)[0]);
             courseInfoWrapper.getUiHelper().setUseReviewProcess(isUseReviewProcess);
         }
@@ -885,13 +883,13 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
     public void updateReview() {
 
-        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper)getDataObject();
+        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
         CourseInfo savedCourseInfo = courseInfoWrapper.getCourseInfo();
         ProposalInfo proposalInfo = courseInfoWrapper.getProposalInfo();
 
         // Update course section
         ReviewProposalDisplay reviewData = courseInfoWrapper.getReviewProposalDisplay();
-        if (reviewData == null){
+        if (reviewData == null) {
             reviewData = new ReviewProposalDisplay();
             courseInfoWrapper.setReviewProposalDisplay(reviewData);
         }
@@ -903,7 +901,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         reviewData.getcourseSection().setSubjectArea(savedCourseInfo.getSubjectArea());
         reviewData.getcourseSection().setCourseNumberSuffix(savedCourseInfo.getCourseNumberSuffix());
         reviewData.getcourseSection().setDescription(savedCourseInfo.getDescr().getPlain());
-        if (proposalInfo.getRationale() != null){
+        if (proposalInfo.getRationale() != null) {
             reviewData.getcourseSection().setRationale(proposalInfo.getRationale().getPlain());
         }
 
@@ -915,7 +913,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         // update course logistics section
         reviewData.getcourseLogisticsSection().getTerms().clear();
         try {
-            for(String termType : savedCourseInfo.getTermsOffered())  {
+            for (String termType : savedCourseInfo.getTermsOffered()) {
                 TypeInfo term = getTypeService().getType(termType, ContextUtils.getContextInfo());
                 reviewData.getcourseLogisticsSection().getTerms().add(term.getName());
             }
@@ -932,7 +930,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             }
         }
 
-        if (savedCourseInfo.getDuration() != null){
+        if (savedCourseInfo.getDuration() != null) {
             reviewData.getcourseLogisticsSection().setTimeQuantity(savedCourseInfo.getDuration().getTimeQuantity());
         }
 
@@ -944,30 +942,54 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
         reviewData.getcourseLogisticsSection().getOutComes().clear();
 
-        for (ResultValuesGroupInfoWrapper rvg : courseInfoWrapper.getCreditOptionWrappers()){
+        for (ResultValuesGroupInfoWrapper rvg : courseInfoWrapper.getCreditOptionWrappers()) {
             String creditOptionType = "";
             String creditOptionValue = "";
-            if (StringUtils.equals(rvg.getTypeKey(),LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)){
+            if (StringUtils.equals(rvg.getTypeKey(), LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)) {
                 creditOptionType = "Fixed";
-                if (StringUtils.contains(rvg.getResultValueRange().getMinValue(),"degree.")){
+                if (StringUtils.contains(rvg.getResultValueRange().getMinValue(), "degree.")) {
                     creditOptionValue = StringUtils.substringAfterLast(rvg.getResultValueRange().getMinValue(), "degree.");
                 } else {
                     creditOptionValue = rvg.getResultValueRange().getMinValue();
                 }
-            } else if (StringUtils.equals(rvg.getTypeKey(),LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE)){
+            } else if (StringUtils.equals(rvg.getTypeKey(), LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE)) {
                 creditOptionType = "Multiple";
                 StringBuilder builder = new StringBuilder();
-                for (String rvKey : rvg.getResultValueKeys()){
-                    builder.append(StringUtils.substringAfterLast(rvKey,"degree.") + ", ");
+                for (String rvKey : rvg.getResultValueKeys()) {
+                    builder.append(StringUtils.substringAfterLast(rvKey, "degree.") + ", ");
                 }
-                creditOptionValue = StringUtils.removeEnd(builder.toString(),", ");
-            } else if (StringUtils.equals(rvg.getTypeKey(),LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)){
+                creditOptionValue = StringUtils.removeEnd(builder.toString(), ", ");
+            } else if (StringUtils.equals(rvg.getTypeKey(), LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)) {
                 creditOptionType = "Range";
                 ResultValueRangeInfo range = rvg.getResultValueRange();
                 creditOptionValue = range.getMinValue() + " - " + range.getMaxValue();
             }
-            reviewData.getcourseLogisticsSection().getOutComes().add(new OutcomeReviewSection(creditOptionType,creditOptionValue));
+            reviewData.getcourseLogisticsSection().getOutComes().add(new OutcomeReviewSection(creditOptionType, creditOptionValue));
         }
+
+        List<ActivityInfoWrapper> activityInfoWrapperList = new ArrayList<ActivityInfoWrapper>();
+        try {
+            for (ActivityInfo activityInfo : KSCollectionUtils.getRequiredZeroElement(savedCourseInfo.getFormats()).getActivities()) {
+
+                String durationTypeKey = activityInfo.getContactHours().getUnitTypeKey();
+                Integer anticipatedClassSize = activityInfo.getDefaultEnrollmentEstimate();
+                String activityType = activityInfo.getTypeKey();
+                String durationCount = activityInfo.getDuration().getTimeQuantity().toString();
+                String contactHours = activityInfo.getContactHours().getUnitQuantity();
+
+                ActivityInfoWrapper activityInfoWrapper = new ActivityInfoWrapper(durationTypeKey, anticipatedClassSize, activityType, durationCount, contactHours);
+                activityInfoWrapper.setDuration(activityInfo.getContactHours().getUnitTypeKey());
+                activityInfoWrapper.setDurationCount(activityInfo.getDuration().getTimeQuantity().toString());
+                activityInfoWrapperList.add(activityInfoWrapper);
+            }
+        } catch (OperationFailedException e) {
+            throw new RiceIllegalStateException(e);
+        }
+
+        FormatInfoWrapper formatInfoWrapper = new FormatInfoWrapper(activityInfoWrapperList);
+        List<FormatInfoWrapper> formatInfoWrappers = new ArrayList<FormatInfoWrapper>();
+        formatInfoWrappers.add(formatInfoWrapper);
+        reviewData.getcourseLogisticsSection().setFormatInfoWrappers(formatInfoWrappers);
 
         /**
          * Active Dates section
@@ -988,7 +1010,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
         String result = "";
 
-        if(StringUtils.isNotEmpty(term)) {
+        if (StringUtils.isNotEmpty(term)) {
 
             QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
             qbcBuilder.setPredicates(PredicateFactory.in("id", term));
@@ -996,11 +1018,11 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             QueryByCriteria qbc = qbcBuilder.build();
             try {
 
-                List<AtpInfo> searchResult = this.getAtpService().searchForAtps(qbc,ContextUtils.createDefaultContextInfo());
+                List<AtpInfo> searchResult = this.getAtpService().searchForAtps(qbc, ContextUtils.createDefaultContextInfo());
 
                 AtpInfo atpInfo = KSCollectionUtils.getOptionalZeroElement(searchResult);
 
-                if(atpInfo!=null) {
+                if (atpInfo != null) {
                     result = atpInfo.getName();
                 }
 
@@ -1009,7 +1031,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             }
         }
 
-        return  result;
+        return result;
     }
 
     private String getCurriculumOversightString() {
@@ -1020,12 +1042,12 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         StringBuilder builder = new StringBuilder();
         List<String> oversights = new ArrayList<String>();
 
-        if(orgIds!=null && !orgIds.isEmpty()) {
+        if (orgIds != null && !orgIds.isEmpty()) {
 
             final SearchRequestInfo searchRequest = new SearchRequestInfo();
             searchRequest.setSearchKey("subjectCode.search.orgsForSubjectCode");
 
-            for(String orgId : orgIds) {
+            for (String orgId : orgIds) {
 
                 searchRequest.getParams().clear();
                 searchRequest.addParam("subjectCode.queryParam.optionalOrgId", orgId);
@@ -1036,7 +1058,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                         for (final SearchResultCellInfo resultCell : searchResult.getCells()) {
 
                             if ("subjectCode.resultColumn.orgLongName".equals(resultCell.getKey())) {
-                                if(oversights.contains(resultCell.getValue())) {
+                                if (oversights.contains(resultCell.getValue())) {
                                     break;
                                 }
                                 oversights.add(resultCell.getValue());
@@ -1052,7 +1074,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 }
             }
         }
-        if(!builder.toString().isEmpty()) {
+        if (!builder.toString().isEmpty()) {
             return StringUtils.removeEnd(builder.toString(), "; ");
         }
         return builder.toString();
@@ -1074,7 +1096,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     }
 
     @Override
-    public void saveDataObject(){
+    public void saveDataObject() {
 
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
 
@@ -1144,15 +1166,15 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         }
 
         //Formats
-        for (FormatInfo format : courseInfoWrapper.getCourseInfo().getFormats()){
-            if (StringUtils.isBlank(format.getId())){ // If it's new
+        for (FormatInfo format : courseInfoWrapper.getCourseInfo().getFormats()) {
+            if (StringUtils.isBlank(format.getId())) { // If it's new
                 format.setState(DtoConstants.STATE_DRAFT);
-                if (StringUtils.isBlank(format.getTypeKey())){
+                if (StringUtils.isBlank(format.getTypeKey())) {
                     format.setTypeKey(CluServiceConstants.COURSE_FORMAT_TYPE_KEY);
                 }
             }
-            for (ActivityInfo activity : format.getActivities()){
-                if (StringUtils.isBlank(activity.getId())){ // If it's new
+            for (ActivityInfo activity : format.getActivities()) {
+                if (StringUtils.isBlank(activity.getId())) { // If it's new
                     activity.setState(DtoConstants.STATE_DRAFT);
                 }
             }
@@ -1161,7 +1183,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         courseInfoWrapper.getCourseInfo().getCreditOptions().clear();
 
         //Credit Options
-        if (courseInfoWrapper.isAudit()){
+        if (courseInfoWrapper.isAudit()) {
             ResultValuesGroupInfo resultValuesGroupInfo = new ResultValuesGroupInfo();
             resultValuesGroupInfo.setName("Audit");
             resultValuesGroupInfo.setTypeKey(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT);
@@ -1193,30 +1215,30 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     }
 
 
-    protected void populateOutComesOnDTO(){
+    protected void populateOutComesOnDTO() {
 
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
 
         courseInfoWrapper.getCourseInfo().getCreditOptions().clear();
 
-        for (ResultValuesGroupInfoWrapper rvgWrapper : courseInfoWrapper.getCreditOptionWrappers()){
+        for (ResultValuesGroupInfoWrapper rvgWrapper : courseInfoWrapper.getCreditOptionWrappers()) {
 
             ResultValuesGroupInfo rvg = rvgWrapper.getResultValuesGroupInfo();
 
-            if (rvg == null){
+            if (rvg == null) {
                 rvg = new ResultValuesGroupInfo();
                 courseInfoWrapper.getCourseInfo().getCreditOptions().add(rvg);
                 rvg.setTypeKey(rvgWrapper.getTypeKey());
                 rvg.setStateKey(LrcServiceConstants.RESULT_GROUPS_STATE_DRAFT);
             }
 
-            if (StringUtils.equals(rvgWrapper.getTypeKey(),LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)){
+            if (StringUtils.equals(rvgWrapper.getTypeKey(), LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)) {
                 rvg.setResultValueRange(rvgWrapper.getResultValueRange());
-            } else if (StringUtils.equals(rvgWrapper.getTypeKey(),LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE)){
-                for (ResultValueKeysWrapper rvKeys : rvgWrapper.getResultValueKeysDisplay()){
+            } else if (StringUtils.equals(rvgWrapper.getTypeKey(), LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE)) {
+                for (ResultValueKeysWrapper rvKeys : rvgWrapper.getResultValueKeysDisplay()) {
                     rvg.getResultValueKeys().add(rvKeys.getCreditValueDisplay());
                 }
-            } else if (StringUtils.equals(rvgWrapper.getTypeKey(),LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)){
+            } else if (StringUtils.equals(rvgWrapper.getTypeKey(), LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)) {
                 rvg.setResultValueRange(rvgWrapper.getResultValueRange());
             }
         }
@@ -1224,18 +1246,18 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     }
 
 
-    protected void populateOutComesOnWrapper(){
+    protected void populateOutComesOnWrapper() {
 
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
 
-        for (ResultValuesGroupInfo rvg : courseInfoWrapper.getCourseInfo().getCreditOptions()){
+        for (ResultValuesGroupInfo rvg : courseInfoWrapper.getCourseInfo().getCreditOptions()) {
             ResultValuesGroupInfoWrapper rvgWrapper = new ResultValuesGroupInfoWrapper();
-            BeanUtils.copyProperties(rvg,rvgWrapper);
+            BeanUtils.copyProperties(rvg, rvgWrapper);
             rvgWrapper.setResultValuesGroupInfo(rvg);
-            if (StringUtils.equals(rvg.getTypeKey(),LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE)){
-                for (String rvKey : rvg.getResultValueKeys()){
+            if (StringUtils.equals(rvg.getTypeKey(), LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE)) {
+                for (String rvKey : rvg.getResultValueKeys()) {
                     ResultValueKeysWrapper keysWrapper = new ResultValueKeysWrapper();
-                    keysWrapper.setCreditValueDisplay(StringUtils.substringAfterLast(rvKey,"."));
+                    keysWrapper.setCreditValueDisplay(StringUtils.substringAfterLast(rvKey, "."));
                     rvgWrapper.getResultValueKeysDisplay().add(keysWrapper);
                 }
             }
@@ -1244,19 +1266,19 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
     }
 
-    protected void populatePassFailOnDTO(){
+    protected void populatePassFailOnDTO() {
 
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
 
         AttributeInfo passFailAttr = null;
-        for (AttributeInfo attr : courseInfoWrapper.getCourseInfo().getAttributes()){
-            if (StringUtils.equals(attr.getKey(), CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_PASSFAIL)){
+        for (AttributeInfo attr : courseInfoWrapper.getCourseInfo().getAttributes()) {
+            if (StringUtils.equals(attr.getKey(), CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_PASSFAIL)) {
                 passFailAttr = attr;
                 break;
             }
         }
 
-        if (passFailAttr == null){
+        if (passFailAttr == null) {
             passFailAttr = new AttributeInfo();
             passFailAttr.setKey(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_PASSFAIL);
             courseInfoWrapper.getCourseInfo().getAttributes().add(passFailAttr);
@@ -1265,12 +1287,12 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         passFailAttr.setValue(BooleanUtils.toStringTrueFalse(courseInfoWrapper.isPassFail()));
     }
 
-    protected void populatePassFailOnWrapper(){
+    protected void populatePassFailOnWrapper() {
 
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
 
-        for (AttributeInfo attr : courseInfoWrapper.getCourseInfo().getAttributes()){
-            if (StringUtils.equals(attr.getKey(), CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_PASSFAIL)){
+        for (AttributeInfo attr : courseInfoWrapper.getCourseInfo().getAttributes()) {
+            if (StringUtils.equals(attr.getKey(), CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_PASSFAIL)) {
                 courseInfoWrapper.setPassFail(BooleanUtils.toBoolean(attr.getValue()));
                 break;
             }
@@ -1278,19 +1300,19 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
     }
 
-    protected void populateAuditOnDTO(){
+    protected void populateAuditOnDTO() {
 
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
 
         AttributeInfo auditAttr = null;
-        for (AttributeInfo attr : courseInfoWrapper.getCourseInfo().getAttributes()){
-            if (StringUtils.equals(attr.getKey(), CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_AUDIT)){
+        for (AttributeInfo attr : courseInfoWrapper.getCourseInfo().getAttributes()) {
+            if (StringUtils.equals(attr.getKey(), CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_AUDIT)) {
                 auditAttr = attr;
                 break;
             }
         }
 
-        if (auditAttr == null){
+        if (auditAttr == null) {
             auditAttr = new AttributeInfo();
             auditAttr.setKey(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_AUDIT);
             courseInfoWrapper.getCourseInfo().getAttributes().add(auditAttr);
@@ -1299,12 +1321,12 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         auditAttr.setValue(BooleanUtils.toStringTrueFalse(courseInfoWrapper.isAudit()));
     }
 
-    protected void populateAuditOnWrapper(){
+    protected void populateAuditOnWrapper() {
 
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
 
-        for (AttributeInfo attr : courseInfoWrapper.getCourseInfo().getAttributes()){
-            if (StringUtils.equals(attr.getKey(), CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_AUDIT)){
+        for (AttributeInfo attr : courseInfoWrapper.getCourseInfo().getAttributes()) {
+            if (StringUtils.equals(attr.getKey(), CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_AUDIT)) {
                 courseInfoWrapper.setAudit(BooleanUtils.toBoolean(attr.getValue()));
                 break;
             }
@@ -1312,35 +1334,35 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
     }
 
-    protected void populateFinalExamOnDTO(){
+    protected void populateFinalExamOnDTO() {
 
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
 
         AttributeInfo finalExamStatusDetail = null;
         AttributeInfo finalExamRationalDetail = null;
-        for (AttributeInfo attr : courseInfoWrapper.getCourseInfo().getAttributes()){
-            if (StringUtils.equals(attr.getKey(), CourseServiceConstants.FINAL_EXAM)){
+        for (AttributeInfo attr : courseInfoWrapper.getCourseInfo().getAttributes()) {
+            if (StringUtils.equals(attr.getKey(), CourseServiceConstants.FINAL_EXAM)) {
                 finalExamStatusDetail = attr;
-            } else if (StringUtils.equals(attr.getKey(), CourseServiceConstants.FINAL_EXAM_RATIONALE)){
+            } else if (StringUtils.equals(attr.getKey(), CourseServiceConstants.FINAL_EXAM_RATIONALE)) {
                 finalExamRationalDetail = attr;
             }
         }
 
-        if (finalExamStatusDetail == null){
+        if (finalExamStatusDetail == null) {
             finalExamStatusDetail = new AttributeInfo();
             finalExamStatusDetail.setKey(CourseServiceConstants.FINAL_EXAM);
             courseInfoWrapper.getCourseInfo().getAttributes().add(finalExamStatusDetail);
         }
 
         if (StringUtils.isNotBlank(courseInfoWrapper.getFinalExamStatus()) &&
-            !StringUtils.equals(courseInfoWrapper.getFinalExamStatus(),CourseServiceConstants.STD_EXAM_FINAL_ENUM_KEY) &&
-            finalExamRationalDetail == null){
+                !StringUtils.equals(courseInfoWrapper.getFinalExamStatus(), CourseServiceConstants.STD_EXAM_FINAL_ENUM_KEY) &&
+                finalExamRationalDetail == null) {
             finalExamRationalDetail = new AttributeInfo();
             finalExamRationalDetail.setKey(CourseServiceConstants.FINAL_EXAM_RATIONALE);
             courseInfoWrapper.getCourseInfo().getAttributes().add(finalExamRationalDetail);
         }
 
-        if (finalExamRationalDetail != null){
+        if (finalExamRationalDetail != null) {
             finalExamRationalDetail.setValue(courseInfoWrapper.getFinalExamRationale());
         }
 
@@ -1348,29 +1370,29 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     }
 
 
-    protected void populateFinalExamOnWrapper(){
+    protected void populateFinalExamOnWrapper() {
 
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
 
-        for (AttributeInfo attr : courseInfoWrapper.getCourseInfo().getAttributes()){
-            if (StringUtils.equals(attr.getKey(), CourseServiceConstants.FINAL_EXAM)){
+        for (AttributeInfo attr : courseInfoWrapper.getCourseInfo().getAttributes()) {
+            if (StringUtils.equals(attr.getKey(), CourseServiceConstants.FINAL_EXAM)) {
                 courseInfoWrapper.setFinalExamStatus(attr.getValue());
-            } else if (StringUtils.equals(attr.getKey(), CourseServiceConstants.FINAL_EXAM_RATIONALE)){
+            } else if (StringUtils.equals(attr.getKey(), CourseServiceConstants.FINAL_EXAM_RATIONALE)) {
                 courseInfoWrapper.setFinalExamRationale(attr.getValue());
             }
         }
 
     }
 
-    protected String getGradingOptionString(){
+    protected String getGradingOptionString() {
 
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
 
-        if (!courseInfoWrapper.getCourseInfo().getGradingOptions().isEmpty()){
+        if (!courseInfoWrapper.getCourseInfo().getGradingOptions().isEmpty()) {
             StringBuilder builder = new StringBuilder();
             try {
-                List<ResultValuesGroupInfo> rvgs = getLRCService().getResultValuesGroupsByKeys(courseInfoWrapper.getCourseInfo().getGradingOptions(),createContextInfo());
-                for (ResultValuesGroupInfo rvg : rvgs){
+                List<ResultValuesGroupInfo> rvgs = getLRCService().getResultValuesGroupsByKeys(courseInfoWrapper.getCourseInfo().getGradingOptions(), createContextInfo());
+                for (ResultValuesGroupInfo rvg : rvgs) {
                     builder.append(rvg.getName() + "; ");
                 }
                 return StringUtils.removeEnd(builder.toString(), "; ");
@@ -1382,11 +1404,11 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         return "";
     }
 
-    protected String getFinalExamString(){
+    protected String getFinalExamString() {
 
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
 
-        if (StringUtils.isNotBlank(courseInfoWrapper.getFinalExamStatus())){
+        if (StringUtils.isNotBlank(courseInfoWrapper.getFinalExamStatus())) {
             List<EnumeratedValueInfo> enumerationInfos = null;
             try {
                 enumerationInfos = getEnumerationManagementService().getEnumeratedValues(
@@ -1454,13 +1476,13 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
     public void retrieveDataObject() {
 
-        CourseInfoWrapper dataObject = (CourseInfoWrapper)getDataObject();
+        CourseInfoWrapper dataObject = (CourseInfoWrapper) getDataObject();
 
         try {
             ProposalInfo proposal = getProposalService().getProposalByWorkflowId(getDocumentNumber(), ContextUtils.getContextInfo());
             dataObject.setProposalInfo(proposal);
 
-            CourseInfo course = getCourseService().getCourse(proposal.getProposalReference().get(0),createContextInfo());
+            CourseInfo course = getCourseService().getCourse(proposal.getProposalReference().get(0), createContextInfo());
             dataObject.setCourseInfo(course);
 
             dataObject.setStartTerm(course.getStartTerm());
@@ -1473,7 +1495,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             populateOutComesOnWrapper();
 
             redrawDecisionTable();
-            updateReview(); 
+            updateReview();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -1482,17 +1504,16 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
     /**
      * Handles functionality that should only happen when the document is first saved.
-     *
      */
     protected void handleFirstTimeSave() throws Exception {
 
-        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper)getDataObject();
+        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
 
         final CourseInfo course = courseInfoWrapper.getCourseInfo();
         for (final CourseVariationInfo variation : course.getVariations()) {
             variation.setTypeKey(ProgramConstants.VARIATION_TYPE_KEY);
         }
-        if (StringUtils.isBlank(course.getId())){
+        if (StringUtils.isBlank(course.getId())) {
             courseInfoWrapper.setCourseInfo(getCourseService().createCourse(course, ContextUtils.getContextInfo()));
         } else {
             courseInfoWrapper.setCourseInfo(getCourseService().updateCourse(course.getId(), course, ContextUtils.getContextInfo()));
@@ -1502,7 +1523,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
         ProposalInfo proposal = courseInfoWrapper.getProposalInfo();
         proposal.setWorkflowId(getDocumentNumber());
-        if (StringUtils.isBlank(proposal.getId())){
+        if (StringUtils.isBlank(proposal.getId())) {
             proposal.setState(ProposalConstants.PROPOSAL_STATE_SAVED);     // remove proposal constant, try to use KualiStudentPostProcessorBase
             proposal.setType(ProposalServiceConstants.PROPOSAL_TYPE_COURSE_CREATE_KEY);
             proposal.setProposalReferenceType(ProposalServiceConstants.PROPOSAL_DOC_RELATION_TYPE_CLU_KEY);
@@ -1511,7 +1532,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             proposal.getProposerPerson().clear();
         }
 
-        if (StringUtils.isBlank(proposal.getId())){
+        if (StringUtils.isBlank(proposal.getId())) {
             proposal = getProposalService().createProposal(ProposalServiceConstants.PROPOSAL_TYPE_COURSE_CREATE_KEY, proposal, ContextUtils.getContextInfo());
         } else {
             proposal = getProposalService().updateProposal(proposal.getId(), proposal, ContextUtils.getContextInfo());
@@ -1520,22 +1541,20 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     }
 
     /**
-     *
      * @throws InvalidParameterException when incorrect parameters are used for looking up the comments made
      * @throws MissingParameterException when null or empty parameters are used for looking up the comments made
-     * @throws OperationFailedException when it cannot be determined what comments were made.
+     * @throws OperationFailedException  when it cannot be determined what comments were made.
      * @throws PermissionDeniedException when the user doesn't have rights to look up comments.
      */
     protected void redrawDecisionTable()
-        throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<CommentInfo> commentInfos = null;
         try {
             commentInfos = getCommentService()
-                .getCommentsByReferenceAndType("temp_reference_id",
-                                               "referenceType.clu.proposal",
-                                               ContextUtils.getContextInfo());
-        }
-        catch (DoesNotExistException e) {
+                    .getCommentsByReferenceAndType("temp_reference_id",
+                            "referenceType.clu.proposal",
+                            ContextUtils.getContextInfo());
+        } catch (DoesNotExistException e) {
             // Add a dummy row
             // form.getDecisions().add(new DecisionInfo());
 
@@ -1546,10 +1565,9 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         // Collect person ids to search
         final List<String> personIds = new ArrayList<String>();
         for (CommentInfo comment : commentInfos) {
-            if(comment.getMeta().getCreateId()!=null){
+            if (comment.getMeta().getCreateId() != null) {
                 personIds.add(comment.getMeta().getCreateId());
-            }
-            else{
+            } else {
                 personIds.add("");
             }
         }
@@ -1563,10 +1581,10 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
      * Responsible for rebuilding/reloading content within the decision view's HTML table.
      *
      * @param commentInfos {@link List} of {@link CommentInfo} instances that currently exist.
-     * These are comments for decisions that represent our rationale
-     * @param members {@link Map} of {@link MembershipInfo} instances mapped by commenter ids.
-     * Commenter ids are supplied in the {@link CommentInfo} instances. The {@link MembershipInfo}
-     * is used to determine who is responsible for the decision.
+     *                     These are comments for decisions that represent our rationale
+     * @param members      {@link Map} of {@link MembershipInfo} instances mapped by commenter ids.
+     *                     Commenter ids are supplied in the {@link CommentInfo} instances. The {@link MembershipInfo}
+     *                     is used to determine who is responsible for the decision.
      * @see {@link #getNamesForPersonIds(List)} for the method that typically populates the members parameter.
      */
     protected void redrawDecisionTable(final List<CommentInfo> commentInfos,
@@ -1612,11 +1630,11 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
      * instances of the personIds
      *
      * @param personIds {@link List} of ids used to get {@link org.kuali.rice.kim.api.identity.entity.EntityDefault}s with first and last names
-     * @param {@link Map} of {@link MembershipInfo} instances with first and last names mapped to each personId
+     * @param {@link    Map} of {@link MembershipInfo} instances with first and last names mapped to each personId
      */
     protected Map<String, MembershipInfo> getNamesForPersonIds(final List<String> personIds) {
         final Map<String, MembershipInfo> identities = new HashMap<String, MembershipInfo>();
-        for (String pId : personIds ){
+        for (String pId : personIds) {
             final EntityDefault entity = getIdentityService().getEntityDefaultByPrincipalId(pId);
             final MembershipInfo memeberEntity = new MembershipInfo();
             memeberEntity.setFirstName(entity.getName().getFirstName());
@@ -1656,16 +1674,15 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     }
 
     protected TypeService getTypeService() {
-        if(typeService == null) {
-            typeService =  (TypeService) GlobalResourceLoader.getService(new QName(TypeServiceConstants.NAMESPACE, TypeServiceConstants.SERVICE_NAME_LOCAL_PART));
+        if (typeService == null) {
+            typeService = (TypeService) GlobalResourceLoader.getService(new QName(TypeServiceConstants.NAMESPACE, TypeServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
 
         return typeService;
     }
 
     private LRCService getLRCService() {
-        if (lrcService == null)
-        {
+        if (lrcService == null) {
             QName qname = new QName(LrcServiceConstants.NAMESPACE, LrcServiceConstants.SERVICE_NAME_LOCAL_PART);
             lrcService = (LRCService) GlobalResourceLoader.getService(qname);
         }
@@ -1681,8 +1698,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     }
 
     protected AtpService getAtpService() {
-        if (atpService == null)
-        {
+        if (atpService == null) {
             QName qname = new QName(AtpServiceConstants.NAMESPACE, AtpServiceConstants.SERVICE_NAME_LOCAL_PART);
             atpService = (AtpService) GlobalResourceLoader.getService(qname);
         }

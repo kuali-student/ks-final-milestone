@@ -1,12 +1,12 @@
 /**
  * Copyright 2005-2013 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the
  * "License"); you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -78,7 +78,7 @@ public class ReviewProposalDisplay implements java.io.Serializable {
             courseRequisitesSection = new CourseRequisitesSectionWrapper();
         }
         return courseRequisitesSection;
-    
+
     }
 
     public FinancialsSectionWrapper getfinancialsSection() {
@@ -86,11 +86,11 @@ public class ReviewProposalDisplay implements java.io.Serializable {
             financialsSection = new FinancialsSectionWrapper();
         }
         return financialsSection;
-    
+
     }
 
     public CollaboratorSectionWrapper getcollaboratorSection() {
-        if(this.collaboratorSection == null) {
+        if (this.collaboratorSection == null) {
             collaboratorSection = new CollaboratorSectionWrapper();
         }
         return collaboratorSection;
@@ -101,7 +101,7 @@ public class ReviewProposalDisplay implements java.io.Serializable {
             supportingDocumentsSection = new SupportingDocumentsSectionWrapper();
         }
         return supportingDocumentsSection;
-    
+
     }
 
     public class CourseSectionWrapper implements java.io.Serializable {
@@ -222,7 +222,6 @@ public class ReviewProposalDisplay implements java.io.Serializable {
             return administeringOrganization;
         }
     }
-    
 
     public class CourseLogisticsSectionWrapper implements java.io.Serializable {
         private List<String> terms;
@@ -234,13 +233,25 @@ public class ReviewProposalDisplay implements java.io.Serializable {
         private String finalExamStatus;
         private String finalExamStatusRationale;
         private List<OutcomeReviewSection> outComes;
+        private List<FormatInfoWrapper> formatInfoWrappers;
 
-        public CourseLogisticsSectionWrapper(){
+        public List<FormatInfoWrapper> getFormatInfoWrappers() {
+            if (formatInfoWrappers == null) {
+                formatInfoWrappers = new ArrayList<FormatInfoWrapper>();
+            }
+            return formatInfoWrappers;
+        }
+
+        public void setFormatInfoWrappers(List<FormatInfoWrapper> formatInfoWrapper) {
+            this.formatInfoWrappers = formatInfoWrapper;
+        }
+
+        public CourseLogisticsSectionWrapper() {
 
         }
 
         public List<String> getTerms() {
-            if(terms == null) {
+            if (terms == null) {
                 terms = new ArrayList<String>();
             }
             return terms;
@@ -304,7 +315,7 @@ public class ReviewProposalDisplay implements java.io.Serializable {
         }
 
         public List<OutcomeReviewSection> getOutComes() {
-            if (outComes == null){
+            if (outComes == null) {
                 outComes = new ArrayList<OutcomeReviewSection>();
             }
             return outComes;
@@ -320,7 +331,7 @@ public class ReviewProposalDisplay implements java.io.Serializable {
         private List<String> learningObjectives;
 
         public List<String> getLearningObjectives() {
-            if(learningObjectives == null) {
+            if (learningObjectives == null) {
                 learningObjectives = new ArrayList<String>();
             }
             return learningObjectives;
@@ -344,7 +355,7 @@ public class ReviewProposalDisplay implements java.io.Serializable {
         public String getStartTerm() {
             return startTerm;
         }
- 
+
         public void setEndTerm(final String endTerm) {
             this.endTerm = endTerm;
         }
@@ -352,7 +363,7 @@ public class ReviewProposalDisplay implements java.io.Serializable {
         public String getEndTerm() {
             return endTerm;
         }
-        
+
         public void setPilotCourse(final String pilotCourse) {
             this.pilotCourse = pilotCourse;
         }
@@ -360,7 +371,7 @@ public class ReviewProposalDisplay implements java.io.Serializable {
         public String getPilotCourse() {
             return pilotCourse;
         }
-        
+
     }
 
     public class FinancialsSectionWrapper implements java.io.Serializable {
@@ -369,7 +380,7 @@ public class ReviewProposalDisplay implements java.io.Serializable {
         private String revenueSource;
         private String expendingOrganization;
 
-        
+
         public void setJustificationOfFees(final String justificationOfFees) {
             this.justificationOfFees = justificationOfFees;
         }
