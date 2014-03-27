@@ -62,6 +62,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -1051,6 +1052,71 @@ public class CourseOfferingManagementController extends UifControllerBase {
         }
 
         return getUIFModelAndView(theForm);
+    }
+
+    /**
+     * save RSI(s) of exam offering(s)
+     *
+     * @param theForm
+     * @param result
+     * @param request
+     * @param response
+     * @return ModelAndView
+     * @throws Exception
+     */
+    @RequestMapping(params = "methodToCall=saveExamOfferingRSIJSON")
+    public @ResponseBody ScheduleWrapper saveExamOfferingRSIJSON(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
+                                                                 @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+        String selectedCollectionPath = request.getParameter(UifParameters.SELLECTED_COLLECTION_PATH);
+        theForm.getActionParameters().put(UifParameters.SELLECTED_COLLECTION_PATH, selectedCollectionPath);
+        String selectedLine = request.getParameter(UifParameters.SELECTED_LINE_INDEX);
+        theForm.getActionParameters().put(UifParameters.SELECTED_LINE_INDEX, selectedLine);
+        boolean success;
+        ScheduleWrapper requestedSchedule = null;
+        Object selectedObject = CourseOfferingManagementUtil.getSelectedObject(theForm, "edit");
+        if (selectedObject instanceof ExamOfferingWrapper) {
+            ExamOfferingWrapper eoWrapper = (ExamOfferingWrapper)selectedObject;
+            requestedSchedule = eoWrapper.getRequestedSchedule();
+
+            success = CourseOfferingManagementUtil.getExamOfferingScheduleHelper().validateScheduleRequest(requestedSchedule, selectedCollectionPath,
+                    selectedLine, ContextUtils.createDefaultContextInfo());
+            if (success) {
+                if (requestedSchedule.getScheduleRequestComponentInfo() != null) {
+                    requestedSchedule.setModified(true);
+                } else {
+                    requestedSchedule.setToBeCreated(true);
+                }
+                eoWrapper.getRequestedScheduleComponents().clear();
+                eoWrapper.getRequestedScheduleComponents().add(requestedSchedule);
+                StatusInfo statusInfo = CourseOfferingManagementUtil.getExamOfferingScheduleHelper().saveScheduleRequest(eoWrapper, ContextUtils.createDefaultContextInfo());
+
+                if (!statusInfo.getIsSuccess()){
+                    throw new OperationFailedException("Error updating Exam Offering Request Scheduling Information" + " " + statusInfo);
+                }
+
+                // reset the UI fields in the wrapper so that they will be refreshed after update
+                int firstScheduleComponentIndex = 0;
+                ScheduleWrapper scheduleWrapper = eoWrapper.getRequestedScheduleComponents().get(firstScheduleComponentIndex);
+                TimeSlotInfo timeSlot = scheduleWrapper.getTimeSlot();
+                List<Integer> days = timeSlot.getWeekdays();
+                TimeOfDayInfo startTime = timeSlot.getStartTime();
+                TimeOfDayInfo endTime = timeSlot.getEndTime();
+                if (startTime != null && startTime.getHour() != null) {
+                    String startTimeUI = TimeOfDayHelper.makeFormattedTimeForAOSchedules(startTime);
+                    scheduleWrapper.setStartTimeUI(startTimeUI);
+                }
+                if (endTime != null && endTime.getHour() != null) {
+                    String endTimeUI = TimeOfDayHelper.makeFormattedTimeForAOSchedules(endTime);
+                    scheduleWrapper.setEndTimeUI(endTimeUI);
+                }
+                if (days != null && days.size() > 0) {
+                    scheduleWrapper.setDaysUI(CourseOfferingManagementUtil.examPeriodDaysDisplay(days, theForm.getExamPeriodWrapper()));
+                }
+            }
+        } else {
+            throw new RuntimeException("Invalid type. Does not support for now");
+        }
+        return requestedSchedule;
     }
 
 }

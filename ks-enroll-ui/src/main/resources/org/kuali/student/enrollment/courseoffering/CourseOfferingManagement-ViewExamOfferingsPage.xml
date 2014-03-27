@@ -230,7 +230,7 @@
                                     <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.DayInExamPeriodKeyValues" p:addBlankOption="true" />
                                 </property>
                             </bean>
-                            <bean parent="Uif-DataField" p:propertyName="requestedSchedule.daysUI">
+                            <bean id="daysUI_id" parent="Uif-DataField" p:propertyName="requestedSchedule.daysUI">
                                 <property name="additionalCssClasses">
                                     <list merge="true">
                                         <value>on</value>
@@ -262,7 +262,7 @@
                                     <bean parent="TimePatternConstraint" />
                                 </property>-->
                             </bean>
-                            <bean parent="Uif-DataField" p:propertyName="requestedSchedule.startTimeUI">
+                            <bean id="startTimeUI_id" parent="Uif-DataField" p:propertyName="requestedSchedule.startTimeUI">
                                 <property name="additionalCssClasses">
                                     <list merge="true">
                                         <value>on</value>
@@ -294,7 +294,7 @@
                                     <bean parent="TimePatternConstraint" />
                                 </property>-->
                             </bean>
-                            <bean parent="Uif-DataField" p:propertyName="requestedSchedule.endTimeUI">
+                            <bean id="endTimeUI_id" parent="Uif-DataField" p:propertyName="requestedSchedule.endTimeUI">
                                 <property name="additionalCssClasses">
                                     <list merge="true">
                                         <value>on</value>
@@ -354,7 +354,7 @@
                                     </bean>
                                 </property>
                             </bean>
-                            <bean parent="Uif-DataField" p:propertyName="requestedSchedule.building.name">
+                            <bean id="buildingName_id" parent="Uif-DataField" p:propertyName="requestedSchedule.building.name">
                                 <property name="additionalCssClasses">
                                     <list merge="true">
                                         <value>on</value>
@@ -408,7 +408,7 @@
                                     </list>
                                 </property>
                             </bean>
-                            <bean parent="Uif-DataField" p:propertyName="requestedSchedule.roomCode">
+                            <bean id="roomCode_id" parent="Uif-DataField" p:propertyName="requestedSchedule.roomCode">
                                 <property name="additionalCssClasses">
                                     <list merge="true">
                                         <value>on</value>
@@ -423,19 +423,19 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean id="EO-toggleEditButton" parent="KS-Uif-ActionLink" p:actionLabel="" p:additionalCssClasses="toggleable-element on" p:actionScript="toggleRow(event)">
+                <bean id="EO-toggleEditButton" parent="KS-Uif-ActionLink" p:actionLabel="" p:additionalCssClasses="toggleable-element on" p:actionScript="toggleRow(event);">
                     <property name="actionImage">
                         <bean parent="Uif-Image" p:altText="Edit" p:title="Edit"
                               p:source="" p:cssClasses="ks-fontello-icon-pencil"/>
                     </property>
                 </bean>
-                <bean id="EO-toggleUpdateButton" parent="KS-Uif-ActionLink" p:actionLabel="" p:additionalCssClasses="toggleable-element off" p:methodToCall="saveExamOfferingRSI">
+                <bean id="EO-toggleUpdateButton" parent="KS-Uif-ActionLink" p:actionLabel="" p:additionalCssClasses="toggleable-element off" p:actionScript="saveRSI(event, '@{#ConfigProperties['application.url']}');">
                     <property name="actionImage">
                         <bean parent="Uif-Image" p:altText="Update" p:title="Update"
                               p:source="" p:cssClasses="ks-fontello-icon-floppy"/>
                     </property>
                 </bean>
-                <bean id="EO-toggleCancelButton" parent="KS-Uif-ActionLink" p:actionLabel="" p:additionalCssClasses="toggleable-element off" p:actionScript="toggleRow(event)">
+                <bean id="EO-toggleUpdateButton" parent="KS-Uif-ActionLink" p:actionLabel="" p:additionalCssClasses="toggleable-element off" p:actionScript="toggleRow(event);">
                     <property name="actionImage">
                         <bean parent="Uif-Image" p:altText="Cancel" p:title="Cancel"
                               p:source="" p:cssClasses="ks-fontello-icon-block-1"/>
