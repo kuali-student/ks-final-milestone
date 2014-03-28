@@ -231,7 +231,7 @@
         <property name="singlePageView" value="true"/>
         <property name="page.header.render" value="false"/>
         <property name="header.render" value="false"/>
-        <property name="renderSearchButtons" value="false" />
+        <property name="renderCriteriaActions" value="false" />
         <property name="cssClasses">
             <list merge="true">
                 <value>ksap-view</value>
