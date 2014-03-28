@@ -177,7 +177,7 @@
                                 </map>
                             </property>
                             <!-- Hide the state option, and default it to Active -->
-                            <property name="readOnlySearchFields" value="populationInfo.stateKey" />
+                            <property name="readOnlyLookupFields" value="populationInfo.stateKey" />
                             <property name="quickfinderAction">
                                 <bean parent="KS-Uif-ActionLink" p:methodToCall="performLookup" p:id="lookup_searchRefPopulation" p:actionLabel="Find a Population" />
                             </property>
@@ -233,7 +233,7 @@
                                             </map>
                                         </property>
                                         <!-- Hide the state option, and default it to Active -->
-                                        <property name="readOnlySearchFields" value="populationInfo.stateKey" />
+                                        <property name="readOnlyLookupFields" value="populationInfo.stateKey" />
                                         <property name="quickfinderAction">
                                             <bean parent="KS-Uif-ActionLink" p:methodToCall="performLookup" p:id="lookup_searchPopulation" p:actionLabel="Find a Name" />
                                         </property>

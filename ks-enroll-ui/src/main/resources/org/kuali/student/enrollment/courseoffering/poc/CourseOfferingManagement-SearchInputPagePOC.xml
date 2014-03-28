@@ -61,7 +61,7 @@
                                                 <entry key="code" value="inputCode"/>
                                             </map>
                                         </property>
-                                        <property name="readOnlySearchFields" value="courseInfo.courseTitle" />
+                                        <property name="readOnlyLookupFields" value="courseInfo.courseTitle" />
                                         <property name="quickfinderAction">
                                             <bean parent="Uif-ActionLink" p:methodToCall="performLookup" p:id="lookup_searchCourseCode">
                                                 <property name="actionImage">

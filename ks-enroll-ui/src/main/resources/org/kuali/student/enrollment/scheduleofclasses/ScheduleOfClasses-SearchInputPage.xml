@@ -71,7 +71,7 @@
                                                 <entry key="code" value="course"/>
                                             </map>
                                         </property>
-                                        <property name="readOnlySearchFields" value="courseInfo.courseTitle" />
+                                        <property name="readOnlyLookupFields" value="courseInfo.courseTitle" />
                                         <property name="quickfinderAction">
                                             <bean parent="KS-Uif-ActionLink" p:methodToCall="performLookup" p:id="lookup_searchCourseCode" p:actionLabel="Find a Course" />
                                         </property>
