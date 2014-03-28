@@ -208,7 +208,7 @@ limitations under the License.
                         <property name="style" value="display:block"/>
                     </bean>
                 </property>
-                <property name="lightBoxLookup">
+                <property name="lightBox">
                     <bean parent="Uif-LightBox" p:lookupReturnByScript="false"/>
                 </property>
             </bean>
@@ -501,7 +501,7 @@ limitations under the License.
 		            <bean parent="KS-Uif-ActionLink" p:actionLabel="Advanced Search" p:style="display:block"
         		          p:methodToCall="performLookup"/>
 		        </property>
-        		<property name="lightBoxLookup">
+        		<property name="lightBox">
 		            <bean parent="Uif-LightBox" p:lookupReturnByScript="false"/>
         		</property>
         	</bean>

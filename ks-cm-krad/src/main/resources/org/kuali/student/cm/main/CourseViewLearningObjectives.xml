@@ -137,7 +137,7 @@
                                                 </property>
                                             </bean>
                                         </property>
-                                        <property name="lightBoxLookup">
+                                        <property name="lightBox">
                                             <bean parent="Uif-LightBox" p:lookupReturnByScript="false" />
                                         </property>
                                         <property name="dataObjectClassName"

@@ -151,7 +151,7 @@
                             <property name="quickfinderAction">
                                 <bean parent="Uif-ActionLink" p:actionLabel="Advanced Search" p:style="display:block" p:methodToCall="performLookup" p:evaluateDisabledOnKeyUp="true" />
                             </property>
-                            <property name="lightBoxLookup">
+                            <property name="lightBox">
                                 <bean parent="Uif-LightBox" p:lookupReturnByScript="false"/>
                             </property>
                         </bean>
