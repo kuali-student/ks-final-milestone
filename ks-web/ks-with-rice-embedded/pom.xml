@@ -333,6 +333,10 @@
             <artifactId>antlr</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.kuali.student.lum</groupId>
             <artifactId>ks-cm-krad</artifactId>
             <version>${ks.lum.version}</version>
