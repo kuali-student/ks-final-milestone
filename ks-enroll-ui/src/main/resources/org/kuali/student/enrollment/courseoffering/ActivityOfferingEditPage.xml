@@ -113,7 +113,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-InputField" id="activity_code" p:label="Activity Code " p:fieldLabel.renderColon="false" p:propertyName="aoInfo.activityCode"
-                      p:onChangeScript="jQuery('#dirtyForm').val(true);" p:id="activityCode" p:componentSecurity.editAuthz="true">
+                      p:onChangeScript="jQuery('#dirtyForm').val(true);" p:id="activityCode" p:editAuthz="true">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="1" p:disabled="@{!#dp.editActivityCodeAllowed}" />
                     </property>
@@ -134,7 +134,7 @@
                       p:fieldLabel.renderColon="false"
                       p:onChangeScript="jQuery('#dirtyForm').val(true);"
                       p:propertyName="colocatedAO"
-                      p:id="is_co_located" p:componentSecurity.viewAuthz="true">
+                      p:id="is_co_located" p:viewAuthz="true">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl">
                             <property name="disabled" value="@{#dp.aoInfo.stateKey eq 'kuali.lui.activity.offering.state.canceled'}"/>
@@ -143,7 +143,7 @@
                     </property>
                 </bean>
                 <bean parent="Uif-InputField" id="max_enrollment" p:label="Total Maximum Enrollment" p:fieldLabel.renderColon="false" p:propertyName="aoInfo.maximumEnrollment"
-                      p:id="maximumEnrollment" p:onChangeScript="jQuery('#dirtyForm').val(true); calculatePercent(jQuery(this))" p:componentSecurity.editAuthz="true">
+                      p:id="maximumEnrollment" p:onChangeScript="jQuery('#dirtyForm').val(true); calculatePercent(jQuery(this))" p:editAuthz="true">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="3"/>
                     </property>
@@ -152,7 +152,7 @@
         </property>
     </bean>
 
-    <bean id="ActivityOfferingEdit-CoLocation" parent="Uif-VerticalBoxSection"  p:componentSecurity.viewAuthz="true">
+    <bean id="ActivityOfferingEdit-CoLocation" parent="Uif-VerticalBoxSection"  p:viewAuthz="true">
         <property name="additionalCssClasses">
             <list merge="true">
                 <value>ks-activity-offering-coLocation-form</value>

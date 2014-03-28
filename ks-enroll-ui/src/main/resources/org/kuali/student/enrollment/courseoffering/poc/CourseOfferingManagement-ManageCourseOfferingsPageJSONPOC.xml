@@ -43,7 +43,7 @@
                 <bean parent="Uif-ActionLink" p:preSubmitCall="return confirm('This will mark all Activity Offerings in this Subject Code as: Ready for Scheduling')"
                       p:methodToCall="markSubjectCodeReadyForScheduling"
                       p:actionLabel="Approve Subject Code for Scheduling" p:disabled="@{#parent.readOnly}"
-                      p:componentSecurity.performActionAuthz="true" p:actionEvent="approveSubj" />
+                      p:performActionAuthz="true" p:actionEvent="approveSubj" />
                 <bean parent="Uif-DataField"
                       p:propertyName="readOnly"
                       p:id="isReadOnly"
@@ -114,7 +114,7 @@
             <list>
                 <bean parent="Uif-NavigationActionLink" p:methodToCall="copyCourseOffering" p:actionLabel="Copy" />
                 <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit  " />
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="deleteCoConfirmation" p:actionLabel="Delete" p:render = "@{#line.isLegalToDelete()}" p:componentSecurity.performActionAuthz="true" p:actionEvent="deleteCO" />
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="deleteCoConfirmation" p:actionLabel="Delete" p:render = "@{#line.isLegalToDelete()}" p:performActionAuthz="true" p:actionEvent="deleteCO" />
                 <bean parent="Uif-NavigationActionLink" p:methodToCall="loadAOs" p:actionLabel="Manage" />
             </list>
         </property>

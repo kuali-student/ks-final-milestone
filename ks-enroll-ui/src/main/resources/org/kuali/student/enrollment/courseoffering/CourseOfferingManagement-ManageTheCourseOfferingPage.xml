@@ -154,12 +154,12 @@
                                         </bean>
                                         <!-- The ajaxSubmit="false" setting is to make the whole page refresh so that the "Loading... " message doesn't disappear prematurely. -->
                                         <bean id="edit_co" parent="Uif-ActionLink" p:methodToCall="editTheCO" p:actionLabel=" | Edit"
-                                              p:disabled="@{#parent.readOnly}" p:componentSecurity.performActionAuthz="true" p:actionEvent="editCO"
+                                              p:disabled="@{#parent.readOnly}" p:performActionAuthz="true" p:actionEvent="editCO"
                                               p:ajaxSubmit="false" />
                                         <bean id="delete_co" parent="Uif-ActionLink" p:id="ActivityOfferingResultSection-deleteOneCoWithLink" p:methodToCall="deleteOneCoWithLink"
                                               p:actionLabel=" | Delete" p:disabled="@{#parent.readOnly}"
                                               p:render = "@{currentCourseOfferingWrapper.isDeleteCoValid(currentCourseOfferingWrapper.stateKey)}"
-                                              p:componentSecurity.performActionAuthz="true" p:actionEvent="deleteCO" />
+                                              p:performActionAuthz="true" p:actionEvent="deleteCO" />
                                         <bean parent="Uif-ActionLink" p:actionLabel=" | View All Registration Groups (@{rgResultList.size()})"
                                               p:actionScript = "showLightboxComponent( 'KS-CourseOfferingManagement-AllRegistrationGroupsForACourseOffering' );"/>
                                         <bean parent="Uif-Link" p:linkText="| Course Offering Requisites "

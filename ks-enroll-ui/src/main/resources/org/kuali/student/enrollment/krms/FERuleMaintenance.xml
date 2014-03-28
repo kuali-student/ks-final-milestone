@@ -221,7 +221,7 @@ limitations under the License.
                 <bean parent="KS-Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route"
                       p:actionLabel="Save" p:performClientSideValidation="true"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"
-                      p:componentSecurity.performActionAuthz="true" p:actionEvent="useActions"/>
+                      p:performActionAuthz="true" p:actionEvent="useActions"/>
                 <bean parent="KS-Uif-NavigationActionLink" p:ajaxSubmit="false" p:methodToCall="cancelEditMatrix"
                       p:actionLabel="Cancel"/>
             </list>
@@ -243,7 +243,7 @@ limitations under the License.
                         <property name="items">
                             <list>
                                 <bean parent="KS-Uif-NavigationActionLink" p:methodToCall="addRule" p:actionLabel="Add"
-                                      p:componentSecurity.performActionAuthz="true" p:actionEvent="useActions"/>
+                                      p:performActionAuthz="true" p:actionEvent="useActions"/>
                             </list>
                         </property>
                     </bean>
@@ -282,9 +282,9 @@ limitations under the License.
         <property name="lineActions">
             <list>
                 <bean parent="KS-Uif-Edit-NavigationActionLink" p:id="edit_rule" p:methodToCall="goToRuleView" p:actionLabel="Edit"
-                      p:componentSecurity.performActionAuthz="true" p:actionEvent="useActions"/>
+                      p:performActionAuthz="true" p:actionEvent="useActions"/>
                 <bean parent="KS-Uif-Delete-NavigationActionLink" p:id="delete_rule" p:methodToCall="deleteRule" p:actionLabel="Delete"
-                      p:componentSecurity.performActionAuthz="true" p:actionEvent="useActions"/>
+                      p:performActionAuthz="true" p:actionEvent="useActions"/>
             </list>
         </property>
     </bean>
@@ -298,7 +298,7 @@ limitations under the License.
                         <property name="items">
                             <list>
                                 <bean parent="KS-Uif-NavigationActionLink" p:methodToCall="addRule" p:actionLabel="Add"
-                                      p:componentSecurity.performActionAuthz="true" p:actionEvent="useActions"/>
+                                      p:performActionAuthz="true" p:actionEvent="useActions"/>
                             </list>
                         </property>
                     </bean>

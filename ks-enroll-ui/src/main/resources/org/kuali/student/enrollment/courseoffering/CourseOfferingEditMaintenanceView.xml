@@ -371,7 +371,7 @@
     <bean id="KS-CourseOfferingEdit-GradingOptions" parent="Uif-HorizontalBoxSection">
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.gradingOptionId" p:id="gradingOptionId" p:label="Grading Option" p:fieldLabel.renderColon="false" p:componentSecurity.editAuthz="true"
+                <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.gradingOptionId" p:id="gradingOptionId" p:label="Grading Option" p:fieldLabel.renderColon="false" p:editAuthz="true"
                       p:onChangeScript="jQuery('#dirtyForm').val(true);" >
                     <property name="control">
                         <bean parent="Uif-HorizontalRadioControl"/>
@@ -505,7 +505,7 @@
                     <property name="items">
                         <list>
                             <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="courseOfferingInfo.finalExamType" p:id="finalExamType" p:label="Exam Type"
-                                  p:fieldLabel.renderColon="false" p:componentSecurity.editAuthz="true"
+                                  p:fieldLabel.renderColon="false" p:editAuthz="true"
                                   p:onChangeScript="jQuery('#dirtyForm').val(true);"  >
                                 <property name="control">
                                     <bean parent="Uif-VerticalRadioControl"/>

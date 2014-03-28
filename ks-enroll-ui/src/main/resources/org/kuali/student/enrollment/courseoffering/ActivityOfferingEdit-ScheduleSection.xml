@@ -89,7 +89,7 @@
             p:propertyName="requestedScheduleComponents"
             p:renderAddLine="false"
             p:layoutManager.renderSequenceField="false"
-            p:componentSecurity.editAuthz="true">
+            p:editAuthz="true">
         <property name="layoutManager.richTable.render" value="false" />
         <property name="items">
             <list>
@@ -125,7 +125,7 @@
       The "form" for managing scheduling requests.
       -->
     <bean id="ActivityOffering-DeliveryLogistic-New" parent="Uif-VerticalBoxSection" p:onDocumentReadyScript="makeReadOnlyCheckboxDisabled('isApprovedForNonStandardTimeSlots');"
-          p:componentSecurity.viewAuthz="true">
+          p:viewAuthz="true">
         <property name="additionalCssClasses">
             <list merge="true">
                 <value>ks-subSection</value>
@@ -148,7 +148,7 @@
                                       p:propertyName="aoInfo.isApprovedForNonStandardTimeSlots"
                                       p:forceSessionPersistence="true"
                                       p:label="Approved for non-standard time slots"
-                                      p:componentSecurity.editAuthz="true"
+                                      p:editAuthz="true"
                                       p:render="@{#dp.canNonStandardTimeslotsBeApproved}">
 
                                     <property name="control">

@@ -45,7 +45,7 @@
             https://wiki.kuali.org/display/STUDENT/KS+ENR+HLDS+-+Manage+Complex+Course+Offerings+%28Part+1%29
     -->
 
-    <bean id="KS-CourseOffering-Create-MaintenanceView" parent="KS-CourseOffering-MaintenanceViewWithTermContextBarPlaceholder" p:componentSecurity.viewAuthz="true">
+    <bean id="KS-CourseOffering-Create-MaintenanceView" parent="KS-CourseOffering-MaintenanceViewWithTermContextBarPlaceholder" p:viewAuthz="true">
         <property name="id" value="createCourseOfferingPage"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper"/>
         <property name="formClass" value="org.kuali.rice.krad.web.form.MaintenanceDocumentForm"/>
