@@ -136,6 +136,7 @@
                             <bean parent="Uif-RequiredInstructionsMessage" p:messageText="Required on @{document.newMaintainableObject.requiredWorkflowMode}"/>
 							<bean parent="KS-Uif-InputField-LabelTop" p:label="Description"
 								p:propertyName="course.descr.plain">
+                                <!-- Rice 2.4 upgrade : removing fieldLabel.requiredMessage -->
                                 <!--property name="fieldLabel.requiredMessage">
                                     <bean parent="Uif-RequiredMessage" p:messageText="Required on @{document.newMaintainableObject.requiredWorkflowMode}" />
                                 </property-->
@@ -163,7 +164,8 @@
                             <bean parent="Uif-RequiredInstructionsMessage" p:messageText="Required on @{document.newMaintainableObject.requiredWorkflowMode}"/>
 							<bean id="KS-ProposalRationale" parent="KS-Uif-InputField-LabelTop" p:label="Proposal Rationale"
 								p:propertyName="proposal.rationale.plain">
-								<!--property name="fieldLabel.requiredMessage">
+                                <!-- Rice 2.4 upgrade : removing fieldLabel.requiredMessage -->
+                                <!--property name="fieldLabel.requiredMessage">
                                     <bean parent="Uif-RequiredMessage" p:messageText="Required on @{document.newMaintainableObject.requiredWorkflowMode}" />
                                 </property-->
                                 <property name="instructionalText"
@@ -250,6 +252,7 @@
                             <bean parent="Uif-RequiredInstructionsMessage" p:messageText="Required on @{document.newMaintainableObject.requiredWorkflowMode}"/>
                             <bean id="KS-SubjectArea-Field" parent="KS-Uif-InputField-LabelTop"
                                   p:label="Subject Code" p:propertyName="course.subjectArea">
+                                <!-- Rice 2.4 upgrade : removing fieldLabel.requiredMessage -->
                                 <!--property name="fieldLabel.requiredMessage">
                                     <bean parent="Uif-RequiredMessage"
                                           p:messageText="Required on @{document.newMaintainableObject.requiredWorkflowMode}"/>
