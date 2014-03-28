@@ -450,8 +450,9 @@
 
     <bean id="KS-Lozenge-Grey-Uif-InputField" parent="Uif-InputField" p:additionalCssClasses="state-draft"
           p:fieldLabel.renderColon="false" p:fieldLabel.cssClasses="labelTop"
-          p:labelPlacement="TOP" p:instructionalMessage.render="false">
+          p:instructionalMessage.render="false">
         <!-- Rice 2.4 upgrade : removing p:fieldLabel.requiredMessagePlacement="LEFT" -->
+        <!-- Rice 2.4 upgrade : removing p:labelPlacement="TOP" -->
         <property name="instructionalMessage">
             <bean parent="Uif-InstructionalMessage"/>
         </property>
@@ -803,7 +804,8 @@
     <bean id="KS-Uif-InputField-LabelTop" parent="KS-Uif-InputField-LabelTop-parent"/>
     <!-- Rice 2.4 upgrade: Uif-InputField-LabelTop was removed by KULRICE-11750-->
     <bean id="KS-Uif-InputField-LabelTop-parent" parent="Uif-InputField"
-          p:labelPlacement="TOP" p:fieldLabel.renderColon="false">
+          p:fieldLabel.renderColon="false">
+        <!-- Rice 2.4 upgrade : removing p:labelPlacement="TOP" -->
         <property name="help">
             <null/>
         </property>
@@ -812,7 +814,18 @@
     <bean id="KS-Uif-InputField-LabelRight" parent="KS-Uif-InputField-LabelRight-parent"/>
     <!-- Rice 2.4 upgrade: Uif-InputField-LabelTop was removed by KULRICE-11750-->
     <bean id="KS-Uif-InputField-LabelRight-parent" parent="Uif-InputField"
-          p:labelPlacement="RIGHT" p:fieldLabel.renderColon="false">
+          p:fieldLabel.renderColon="false">
+        <!-- Rice 2.4 upgrade : removing p:labelPlacement="RIGHT" -->
+        <property name="help">
+            <null/>
+        </property>
+    </bean>
+
+    <bean id="KS-Uif-InputField-LabelLeft" parent="KS-Uif-InputField-LabelLeft-parent"/>
+    <!-- Rice 2.4 upgrade: Uif-InputField-LabelTop was removed by KULRICE-11750-->
+    <bean id="KS-Uif-InputField-LabelLeft-parent" parent="Uif-InputField"
+          p:fieldLabel.renderColon="false">
+        <!-- Rice 2.4 upgrade : removing p:labelPlacement="LEFT" -->
         <property name="help">
             <null/>
         </property>
@@ -828,7 +841,28 @@
     <bean id="KS-Uif-DataField-LabelTop" parent="KS-Uif-DataField-LabelTop-parent"/>
     <!-- Rice 2.4 upgrade: Uif-InputField-LabelTop was removed by KULRICE-11750-->
     <bean id="KS-Uif-DataField-LabelTop-parent" parent="Uif-DataField"
-          p:labelPlacement="TOP" p:fieldLabel.renderColon="false">
+          p:fieldLabel.renderColon="false">
+        <!-- Rice 2.4 upgrade : removing p:labelPlacement="TOP" -->
+        <property name="help">
+            <null/>
+        </property>
+    </bean>
+
+    <bean id="KS-Uif-DataField-LabelLeft" parent="KS-Uif-DataField-LabelLeft-parent"/>
+    <!-- Rice 2.4 upgrade: Uif-InputField-LabelTop was removed by KULRICE-11750-->
+    <bean id="KS-Uif-DataField-LabelLeft-parent" parent="Uif-DataField"
+          p:fieldLabel.renderColon="false">
+        <!-- Rice 2.4 upgrade : removing p:labelPlacement="LEFT" -->
+        <property name="help">
+            <null/>
+        </property>
+    </bean>
+
+    <bean id="KS-Uif-MessageField-LabelTop" parent="KS-Uif-MessageField-LabelTop-parent"/>
+    <!-- Rice 2.4 upgrade: Uif-InputField-LabelTop was removed by KULRICE-11750-->
+    <bean id="KS-Uif-MessageField-LabelTop-parent" parent="Uif-MessageField"
+          p:fieldLabel.renderColon="false">
+        <!-- Rice 2.4 upgrade : removing p:labelPlacement="TOP" -->
         <property name="help">
             <null/>
         </property>

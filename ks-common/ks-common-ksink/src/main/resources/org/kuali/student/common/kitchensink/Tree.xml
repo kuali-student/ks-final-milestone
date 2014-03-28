@@ -56,12 +56,12 @@
                                                             </property>
                                                         </bean>
 
-                                                        <bean id="UifCompView-OtherField5" parent="Uif-InputField" p:propertyName="field2"
-                                                              p:required="true" p:labelPlacement="TOP" p:fieldLabel.cssClasses="labelTop"/>
-                                                        <bean id="UifCompView-OtherField6" parent="Uif-InputField" p:propertyName="field3"
-                                                              p:required="true" p:labelPlacement="TOP" p:fieldLabel.cssClasses="labelTop"/>
-                                                        <bean id="UifCompView-OtherField7" parent="Uif-InputField" p:propertyName="field4"
-                                                              p:required="true" p:labelPlacement="TOP" p:fieldLabel.cssClasses="labelTop"/>
+                                                        <bean id="UifCompView-OtherField5" parent="KS-Uif-InputField-LabelTop" p:propertyName="field2"
+                                                              p:required="true" p:fieldLabel.cssClasses="labelTop"/>
+                                                        <bean id="UifCompView-OtherField6" parent="KS-Uif-InputField-LabelTop" p:propertyName="field3"
+                                                              p:required="true" p:fieldLabel.cssClasses="labelTop"/>
+                                                        <bean id="UifCompView-OtherField7" parent="KS-Uif-InputField-LabelTop" p:propertyName="field4"
+                                                              p:required="true" p:fieldLabel.cssClasses="labelTop"/>
                                                     </list>
                                                 </property>
                                             </bean>
