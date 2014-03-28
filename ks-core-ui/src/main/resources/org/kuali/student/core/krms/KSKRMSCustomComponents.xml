@@ -43,7 +43,7 @@ limitations under the License.
                 <property name="style" value="display:block"/>
             </bean>
         </property>
-        <property name="lightBoxLookup">
+        <property name="lightBox">
             <bean parent="Uif-LightBox" p:lookupReturnByScript="true"/>
         </property>
     </bean>
