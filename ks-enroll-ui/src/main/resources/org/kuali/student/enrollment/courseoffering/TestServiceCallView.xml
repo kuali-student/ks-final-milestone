@@ -42,6 +42,6 @@
 
 
     </bean>
-    <bean id="cluFixer" class="org.kuali.student.enrollment.class2.courseoffering.refdata.CluFixer"/>
+    <!--bean id="cluFixer" class="org.kuali.student.enrollment.class2.courseoffering.refdata.CluFixer"/-->
 
 </beans>
