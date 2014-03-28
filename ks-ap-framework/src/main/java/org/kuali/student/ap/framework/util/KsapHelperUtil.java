@@ -19,29 +19,48 @@ import java.util.List;
 import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
 import static org.kuali.rice.core.api.criteria.PredicateFactory.or;
 
+/**
+ * @author Kuali Student Team
+ *
+ * This is a common utility class for the KSAP application project containing widely used static methods.
+ */
 public class KsapHelperUtil {
 
     private static final Logger LOG = LoggerFactory.getLogger(KsapHelperUtil.class);
 
     static List<String> termTypes;
 
+    /**
+     * Gets the list of term types used by the ksap application when looking for and handling atp terms.  This includes
+     * loading term data, available term options, etc. The term type list is set in the application configuration file
+     * using the key "ks.ap.planner.term.types"
+     *
+     * @return The list of term types found for this deployment of the application
+     */
+    public static List<String> getTermTypes(){
+        if(termTypes==null){
+            termTypes = new ArrayList<String>();
+            String types[] = ConfigContext.getCurrentContextConfig().getProperty("ks.ap.planner.term.types").split(",");
+            for(String term : types){
+                if(termTypes.contains(term)) continue;
+                termTypes.add(term);
+            }
+        }
+        return termTypes;
+    }
+
+    /**
+     * This creates an array of equal predicates for when the typeKey column equals one of the term types used in the
+     * application
+     *
+     * @return A list of equal predicates
+     */
     public static Predicate[] getTermPredicates() {
         Predicate predicates[] = new Predicate[getTermTypes().size()];
         for(int i=0;i<getTermTypes().size();i++){
             predicates[i]=equal("typeKey", getTermTypes().get(i));
         }
         return predicates;
-    }
-
-    public static List<String> getTermTypes(){
-        if(termTypes==null){
-            termTypes = new ArrayList<String>();
-            String types[] = ConfigContext.getCurrentContextConfig().getProperty("ks.ap.planner.term.types").split(",");
-            for(String term : types){
-                termTypes.add(term);
-            }
-        }
-        return termTypes;
     }
 
     /**

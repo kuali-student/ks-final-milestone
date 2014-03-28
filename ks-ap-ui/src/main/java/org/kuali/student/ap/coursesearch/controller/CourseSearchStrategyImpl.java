@@ -768,14 +768,20 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 		Map<String, CourseSearchItem.PlanState> courseStatusMap = getCourseStatusMap(studentId);
 		List<String> courseIDs = new ArrayList<String>();
 		for (Hit hit : hits) {
-			if(courseIDs.size() >= maxCount){
-                break;
-            }
             courseIDs.add(hit.courseID);
 		}
+
         List<CourseSearchItemImpl> courses = new ArrayList<CourseSearchItemImpl>();
         if(!courseIDs.isEmpty()){
             courseIDs = termfilterCourseIds(courseIDs,form.getSearchTerm());
+            if(courseIDs.size()>maxCount){
+                List<String> temp = new ArrayList<String>();
+                for(String id : courseIDs){
+                    if(temp.size()>=maxCount)break;
+                    temp.add(id);
+                }
+                courseIDs = temp;
+            }
             if (!courseIDs.isEmpty()) {
                 courses = getCoursesInfo(courseIDs);
                 loadCampuses(courses, courseIDs);
