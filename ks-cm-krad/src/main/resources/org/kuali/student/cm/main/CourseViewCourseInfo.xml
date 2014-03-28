@@ -132,11 +132,13 @@
 				<bean parent="Uif-VerticalBoxSubSection" p:headerText="Description and Rationale">
 					<property name="items">
 						<list>
+                            <!-- Rice 2.4 upgrade : Uif-RequiredMessage was replaced by requiredIndicator" -->
+                            <bean parent="Uif-RequiredInstructionsMessage" p:messageText="Required on @{document.newMaintainableObject.requiredWorkflowMode}"/>
 							<bean parent="KS-Uif-InputField-LabelTop" p:label="Description"
 								p:propertyName="course.descr.plain">
-                                <property name="fieldLabel.requiredMessage">
+                                <!--property name="fieldLabel.requiredMessage">
                                     <bean parent="Uif-RequiredMessage" p:messageText="Required on @{document.newMaintainableObject.requiredWorkflowMode}" />
-                                </property>
+                                </property-->
                                 <property name="cssClasses">
                                     <list>
                                         <value>uif-label</value>
@@ -157,11 +159,13 @@
 									<bean parent="Uif-LargeTextAreaControl" />
 								</property>
 							</bean>
+                            <!-- Rice 2.4 upgrade : Uif-RequiredMessage was replaced by requiredIndicator" -->
+                            <bean parent="Uif-RequiredInstructionsMessage" p:messageText="Required on @{document.newMaintainableObject.requiredWorkflowMode}"/>
 							<bean id="KS-ProposalRationale" parent="KS-Uif-InputField-LabelTop" p:label="Proposal Rationale"
 								p:propertyName="proposal.rationale.plain">
-								<property name="fieldLabel.requiredMessage">
+								<!--property name="fieldLabel.requiredMessage">
                                     <bean parent="Uif-RequiredMessage" p:messageText="Required on @{document.newMaintainableObject.requiredWorkflowMode}" />
-                                </property>
+                                </property-->
                                 <property name="instructionalText"
 									value="This will be used in evaluating the proposal. It will not be published in the catalog." />
                                 <property name="simpleConstraint">
@@ -242,12 +246,14 @@
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
+                            <!-- Rice 2.4 upgrade : Uif-RequiredMessage was replaced by requiredIndicator" -->
+                            <bean parent="Uif-RequiredInstructionsMessage" p:messageText="Required on @{document.newMaintainableObject.requiredWorkflowMode}"/>
                             <bean id="KS-SubjectArea-Field" parent="KS-Uif-InputField-LabelTop"
                                   p:label="Subject Code" p:propertyName="course.subjectArea">
-                                <property name="fieldLabel.requiredMessage">
+                                <!--property name="fieldLabel.requiredMessage">
                                     <bean parent="Uif-RequiredMessage"
                                           p:messageText="Required on @{document.newMaintainableObject.requiredWorkflowMode}"/>
-                                </property>
+                                </property-->
                                 <property name="constraintText" value="Must be a 4 letter code"/>
                                 <property name="validCharactersConstraint">
                                     <bean parent="AlphaPatternConstraint"/>

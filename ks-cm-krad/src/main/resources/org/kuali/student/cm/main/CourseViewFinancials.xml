@@ -36,11 +36,13 @@
     <bean id="KS-CourseView-FinancialsPage-Widgets" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
+                <!-- Rice 2.4 upgrade : Uif-RequiredMessage was replaced by requiredIndicator" -->
+                <bean parent="Uif-RequiredInstructionsMessage" p:messageText="Required on @{document.newMaintainableObject.requiredWorkflowMode}"/>
                 <bean parent="KS-Uif-InputField-LabelTop" p:label="Justification of Fees" p:propertyName="course.feeJustification.plain">
                     <property name="instructionalText" value="This is for internal use only and will not be seen by students." />
-                    <property name="fieldLabel.requiredMessage">
+                    <!--property name="fieldLabel.requiredMessage">
                         <bean parent="Uif-RequiredMessage" p:messageText="Required on @{document.newMaintainableObject.requiredWorkflowMode}" />
-                    </property>
+                    </property-->
                     <property name="cssClasses">
                         <list>
                             <value>uif-label</value>
