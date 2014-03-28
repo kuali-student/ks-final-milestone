@@ -150,7 +150,6 @@ import java.util.Map;
 public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl implements CourseInfoMaintainable, RuleViewHelperService, CMMaintainable {
 
 
-
     private static final Logger LOG = LoggerFactory.getLogger(CourseInfoMaintainableImpl.class);
 
     protected transient static final String DEFAULT_REQUIRED_WORKFLOW_MODE = "Submit";
@@ -967,10 +966,11 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             reviewData.getcourseLogisticsSection().getOutComes().add(new OutcomeReviewSection(creditOptionType, creditOptionValue));
         }
 
-        List<ActivityInfoWrapper> activityInfoWrapperList = new ArrayList<ActivityInfoWrapper>();
-        try {
-            for (ActivityInfo activityInfo : KSCollectionUtils.getRequiredZeroElement(savedCourseInfo.getFormats()).getActivities()) {
+        List<FormatInfoWrapper> formatInfoWrappers = new ArrayList<FormatInfoWrapper>();
+        for (FormatInfo formatInfo : savedCourseInfo.getFormats()) {
 
+            List<ActivityInfoWrapper> activityInfoWrapperList = new ArrayList<ActivityInfoWrapper>();
+            for (ActivityInfo activityInfo : formatInfo.getActivities()) {
                 String durationTypeKey = activityInfo.getContactHours().getUnitTypeKey();
                 Integer anticipatedClassSize = activityInfo.getDefaultEnrollmentEstimate();
                 String activityType = activityInfo.getTypeKey();
@@ -982,14 +982,11 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 activityInfoWrapper.setDurationCount(activityInfo.getDuration().getTimeQuantity().toString());
                 activityInfoWrapperList.add(activityInfoWrapper);
             }
-        } catch (OperationFailedException e) {
-            throw new RiceIllegalStateException(e);
+            FormatInfoWrapper formatInfoWrapper = new FormatInfoWrapper(activityInfoWrapperList);
+            formatInfoWrappers.add(formatInfoWrapper);
         }
-
-        FormatInfoWrapper formatInfoWrapper = new FormatInfoWrapper(activityInfoWrapperList);
-        List<FormatInfoWrapper> formatInfoWrappers = new ArrayList<FormatInfoWrapper>();
-        formatInfoWrappers.add(formatInfoWrapper);
-        reviewData.getcourseLogisticsSection().setFormatInfoWrappers(formatInfoWrappers);
+        if (!formatInfoWrappers.isEmpty())
+            reviewData.getcourseLogisticsSection().setFormatInfoWrappers(formatInfoWrappers);
 
         /**
          * Active Dates section
@@ -1260,8 +1257,8 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             if (StringUtils.equals(rvg.getTypeKey(), LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE)) {
                 for (String rvKey : rvg.getResultValueKeys()) {
                     ResultValueKeysWrapper keysWrapper = new ResultValueKeysWrapper();
-                    String value = StringUtils.strip(rvKey,LrcServiceConstants.RESULT_VALUE_KEY_CREDIT_DEGREE_PREFIX);
-                    value = StringUtils.strip(value,".0"); // This can be only be integer at ui.
+                    String value = StringUtils.strip(rvKey, LrcServiceConstants.RESULT_VALUE_KEY_CREDIT_DEGREE_PREFIX);
+                    value = StringUtils.strip(value, ".0"); // This can be only be integer at ui.
                     keysWrapper.setCreditValueDisplay(value);
                     rvgWrapper.getResultValueKeysDisplay().add(keysWrapper);
                 }
