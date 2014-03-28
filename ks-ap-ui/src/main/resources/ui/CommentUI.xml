@@ -509,15 +509,15 @@
                                     </list>
                                 </property>
                             </bean>
-                            <bean parent="Uif-DataField" p:propertyName="createDate"
-                                  p:label="Posted" p:labelPlacement="TOP"
+                            <bean parent="KS-Uif-DataField-LabelTop" p:propertyName="createDate"
+                                  p:label="Posted"
                                   p:fieldLabel.renderColon="false"
                                   p:fieldLabel.cssClasses="ksap-text-normal"
                                   p:render="@{#line.comments.size() eq 0}" p:escapeHtmlInPropertyValue="false">
                                 <property name="propertyEditor" ref="timestamp_formatter"/>
                             </bean>
-                            <bean parent="Uif-DataField" p:propertyName="lastCommentDate"
-                                  p:label="Last Comment" p:labelPlacement="TOP"
+                            <bean parent="KS-Uif-DataField-LabelTop" p:propertyName="lastCommentDate"
+                                  p:label="Last Comment"
                                   p:fieldLabel.renderColon="false"
                                   p:fieldLabel.cssClasses="ksap-text-normal"
                                   p:render="@{#line.comments.size() gt 0}" p:escapeHtmlInPropertyValue="false">

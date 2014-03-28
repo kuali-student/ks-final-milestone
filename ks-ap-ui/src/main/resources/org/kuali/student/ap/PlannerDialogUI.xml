@@ -191,8 +191,8 @@
             <!-- Issue with datafields and the property names causing a issue with opening the dialog -->
 			<list>
 				<!-- Scheduled Terms -->
-				<bean parent="Uif-DataField" p:label="Scheduled for" p:propertyName="courseSummaryDetails.scheduledTermsNames"
-						p:fieldLabel.cssClasses="ksap-text-normal ks-Popover-detailLabel" p:labelPlacement="LEFT">
+				<bean parent="KS-Uif-DataField-LabelLeft" p:label="Scheduled for" p:propertyName="courseSummaryDetails.scheduledTermsNames"
+						p:fieldLabel.cssClasses="ksap-text-normal ks-Popover-detailLabel">
 					<property name="cssClasses">
 						<list merge="true">
 							<value>ksap-data-list</value>
@@ -209,7 +209,7 @@
 					</property>
 				</bean>
 				<!-- Last Offered -->
-				<bean parent="Uif-DataField" p:label="Last Offered" p:propertyName="courseSummaryDetails.lastOffered" p:labelPlacement="LEFT">
+				<bean parent="KS-Uif-DataField-LabelLeft" p:label="Last Offered" p:propertyName="courseSummaryDetails.lastOffered">
 					<property name="fieldLabel.cssClasses" value="ksap-text-normal ks-Popover-detailLabel"/>
 					<property name="render" value="@{courseSummaryDetails.lastOffered ne null and courseSummaryDetails.scheduledTerms.size() eq 0}"/>
 				</bean>
