@@ -18,9 +18,6 @@ import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 
 import java.util.List;
 
-/**
- * Created by swedev on 3/19/14.
- */
 public class CourseRegistrationLprActionProcessor {
 
     private CourseRegistrationEngineService courseRegistrationEngineService;
@@ -36,15 +33,34 @@ public class CourseRegistrationLprActionProcessor {
 
                 //Handle Add requests
                 //Do a seat check
-                if (courseRegistrationEngineService.areSeatsAvailable(message, contextInfo)) {
+                if (areSeatsAvailable(message, contextInfo)) {
 
                     //Register person
                     registerPersonForCourse(message, contextInfo);
 
                 } else {
+                    //No Seats available
+                    if (isThereAWaitlist(message, contextInfo)) {
 
-                    //Handle no seats available
-                    noSeatsAvailable(message, contextInfo);
+                        if (isWaitlistFull(message, contextInfo)) {
+
+                            //The waitlist is full for this request
+                            notifyWaitlistIsFull(message, contextInfo);
+
+                        } else {
+                            if (doesStudentWantToWaitlist(message, contextInfo)) {
+
+                                //Add the student to the waitlist
+                                addStudentToWaitList(message, contextInfo);
+                            }
+
+                            //Notify waitlist is available
+                            notifyWaitlistAvailable(message, contextInfo);
+                        }
+                    } else {
+                        //Handle no waitlist available and no seats
+                        notifyNoSeatsAvailable(message, contextInfo);
+                    }
 
                 }
 
@@ -58,13 +74,61 @@ public class CourseRegistrationLprActionProcessor {
                 //Handle Update
                 updateRegistration(message, contextInfo);
 
+            } else if (registrationRequestItem.getTypeKey().equals(LprServiceConstants.REQ_ITEM_DROP_WAITLIST_TYPE_KEY)) {
+
+                //Handle WL Update
+                updateWaitlist(message, contextInfo);
+
+            } else if (registrationRequestItem.getTypeKey().equals(LprServiceConstants.REQ_ITEM_UPDATE_WAITLIST_TYPE_KEY)) {
+
+                //Handle WL Drop
+                dropWaitlist(message, contextInfo);
+
             } else {
                 throw new UnsupportedOperationException("Unknown Registration Request Item Type: " + registrationRequestItem.getTypeKey());
             }
+
             return message;
+
         } catch (Exception e) {
             throw new RuntimeException("Error processing", e);
         }
+    }
+
+    private void dropWaitlist(RegistrationRequestItemEngineMessage message, ContextInfo contextInfo) {
+        //TODO KSENROLL-12317
+    }
+
+    private void updateWaitlist(RegistrationRequestItemEngineMessage message, ContextInfo contextInfo) {
+        //TODO KSENROLL-12374
+    }
+
+    private void notifyWaitlistAvailable(RegistrationRequestItemEngineMessage message, ContextInfo contextInfo) {
+        //TODO KSENROLL-12306
+    }
+
+    private void addStudentToWaitList(RegistrationRequestItemEngineMessage message, ContextInfo contextInfo) {
+        //TODO KSENROLL-12307
+    }
+
+    private boolean doesStudentWantToWaitlist(RegistrationRequestItemEngineMessage message, ContextInfo contextInfo) {
+        return false;//TODO KSENROLL-12307
+    }
+
+    private void notifyWaitlistIsFull(RegistrationRequestItemEngineMessage message, ContextInfo contextInfo) {
+        //TODO KSENROLL-12314
+    }
+
+    private boolean isWaitlistFull(RegistrationRequestItemEngineMessage message, ContextInfo contextInfo) {
+        return false;//TODO KSENROLL-12314
+    }
+
+    private boolean isThereAWaitlist(RegistrationRequestItemEngineMessage message, ContextInfo contextInfo) {
+        return false;//TODO KSENROLL-12306
+    }
+
+    private boolean areSeatsAvailable(RegistrationRequestItemEngineMessage message, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, InvalidParameterException, OperationFailedException, DoesNotExistException {
+        return courseRegistrationEngineService.areSeatsAvailable(message, contextInfo);
     }
 
     public void updateRegistrationRequestStatus(List<RegistrationRequestItemEngineMessage> regItems) throws PermissionDeniedException, OperationFailedException, VersionMismatchException, InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException {
@@ -75,7 +139,7 @@ public class CourseRegistrationLprActionProcessor {
 
         // for this implementation we just want the requestId and the id of the person initiating the request.
         // in the future we might want to inspect each item
-        for(RegistrationRequestItemEngineMessage regItem : regItems){
+        for (RegistrationRequestItemEngineMessage regItem : regItems) {
             regReqId = regItem.getRequestItem().getRegistrationRequestId();
             requestorId = regItem.getRequestItem().getPersonId();
             break;
@@ -112,7 +176,7 @@ public class CourseRegistrationLprActionProcessor {
                 contextInfo);
     }
 
-    private void noSeatsAvailable(RegistrationRequestItemEngineMessage requestItemEngineMessage, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, VersionMismatchException, DataValidationErrorException {
+    private void notifyNoSeatsAvailable(RegistrationRequestItemEngineMessage requestItemEngineMessage, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, VersionMismatchException, DataValidationErrorException {
         courseRegistrationEngineService.updateLprTransactionItemResult(requestItemEngineMessage.getRequestItem().getRegistrationRequestId(),
                 requestItemEngineMessage.getRequestItem().getId(),
                 LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY,
