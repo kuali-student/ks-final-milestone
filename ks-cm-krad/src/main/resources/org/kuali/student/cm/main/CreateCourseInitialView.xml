@@ -56,7 +56,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField-LabelRight" id="KS-createCourseInitialPage-CMStartOptions" p:propertyName="createCourseInitialAction"
+                <bean parent="KS-Uif-InputField-LabelRight" id="KS-createCourseInitialPage-CMStartOptions" p:propertyName="createCourseInitialAction"
                       p:required="true" p:bindingInfo.bindToForm="true"
                       p:style="padding-top: 18px;" p:defaultValue="startBlankProposal">
                     <property name="control">
@@ -70,7 +70,7 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField-LabelRight" id="KS-createCourseInitialPage-StartOptions" p:propertyName="createCourseInitialAction"
+                <bean parent="KS-Uif-InputField-LabelRight" id="KS-createCourseInitialPage-StartOptions" p:propertyName="createCourseInitialAction"
                       p:required="true" p:bindingInfo.bindToForm="true"    p:render="false"
                       p:style="padding-top: 18px;" p:defaultValue="startBlankProposal">
                     <property name="control">
@@ -102,7 +102,7 @@
         <property name="items">
             <list>
                 <bean id="createCourseInitial_is_reviewProcess"
-                      parent="Uif-InputField-LabelRight"
+                      parent="KS-Uif-InputField-LabelRight"
                       p:label="Use curriculum review process"
                       p:fieldLabel.cssClasses="label-normal"
                       p:propertyName="useCMreviewProcess" p:bindingInfo.bindToForm="true"
