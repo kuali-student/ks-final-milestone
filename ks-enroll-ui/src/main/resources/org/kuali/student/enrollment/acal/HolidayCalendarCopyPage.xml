@@ -213,8 +213,8 @@
                                   p:label="Name"
                                   p:labelPlacement="TOP"
                                   p:required="true"
-                                  p:fieldLabel.renderColon="false"
-                                  p:fieldLabel.requiredMessagePlacement="RIGHT">
+                                  p:fieldLabel.renderColon="false">
+                                <!-- Rice 2.4 upgrade : removing p:fieldLabel.requiredMessagePlacement="RIGHT" -->
                                 <!--
                                 <property name="validCharactersConstraint">
                                     <bean parent="AlphaNumericPatternConstraint"
@@ -233,8 +233,8 @@
                                   p:label="Start Date"
                                   p:labelPlacement="TOP"
                                   p:required="true"
-                                  p:fieldLabel.renderColon="false"
-                                  p:fieldLabel.requiredMessagePlacement="RIGHT">
+                                  p:fieldLabel.renderColon="false">
+                                <!-- Rice 2.4 upgrade : removing p:fieldLabel.requiredMessagePlacement="RIGHT" -->
                                 <property name="validCharactersConstraint">
                                     <bean parent="KS-BasicDatePatternConstraint" />
                                 </property>
@@ -247,8 +247,8 @@
                                   p:label="End Date"
                                   p:labelPlacement="TOP"
                                   p:required="true"
-                                  p:fieldLabel.renderColon="false"
-                                  p:fieldLabel.requiredMessagePlacement="RIGHT">
+                                  p:fieldLabel.renderColon="false">
+                                <!-- Rice 2.4 upgrade : removing p:fieldLabel.requiredMessagePlacement="RIGHT" -->
                                 <property name="validCharactersConstraint">
                                     <bean parent="KS-BasicDatePatternConstraint" />
                                 </property>
