@@ -200,7 +200,7 @@
         </property>
         <property name="items">
             <list>
-                <bean id="rdl_tba" parent="Uif-InputField-LabelRight" p:propertyName="newScheduleRequest.tba" p:label="TBA" p:onClickScript="tbaOnClick();" p:additionalCssClasses="ks-manage-scheduling-request-form-field-top-aligned">
+                <bean id="rdl_tba" parent="KS-Uif-InputField-LabelRight" p:propertyName="newScheduleRequest.tba" p:label="TBA" p:onClickScript="tbaOnClick();" p:additionalCssClasses="ks-manage-scheduling-request-form-field-top-aligned">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl"/>
                     </property>

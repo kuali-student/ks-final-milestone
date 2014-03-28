@@ -517,7 +517,7 @@ limitations under the License.
     <bean id="FinalExam-DeliveryLogistic-New-Section" parent="Uif-HorizontalBoxSubSection">
         <property name="items">
             <list>
-                <bean id="FinalExam_tba" parent="Uif-InputField-LabelRight" p:propertyName="ruleEditor.tba"
+                <bean id="FinalExam_tba" parent="KS-Uif-InputField-LabelRight" p:propertyName="ruleEditor.tba"
                       p:label="TBA" p:style="margin-top:15px">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl"/>

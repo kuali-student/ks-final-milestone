@@ -699,7 +699,7 @@
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean id="KS-CourseOfferingEdit-HasWaitlist" parent="Uif-InputField-LabelRight" p:propertyName="courseOfferingInfo.hasWaitlist" p:label="Waitlists Active" >
+                            <bean id="KS-CourseOfferingEdit-HasWaitlist" parent="KS-Uif-InputField-LabelRight" p:propertyName="courseOfferingInfo.hasWaitlist" p:label="Waitlists Active" >
                                 <property name="control">
                                     <!-- show dialog prompt if user deactivates waitlist -->
                                     <bean parent="Uif-CheckboxControl"

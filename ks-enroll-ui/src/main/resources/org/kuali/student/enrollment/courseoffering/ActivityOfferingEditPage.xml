@@ -129,7 +129,7 @@
                     </property>
                 </bean>
                 <bean parent="Uif-InputField" p:id="infoColoStatus" p:propertyName="aoInfo.isColocated" p:hidden="true" />  <!-- keeps track of whether or not the colocation has been persisted to the db -->
-                <bean parent="Uif-InputField-LabelRight"
+                <bean parent="KS-Uif-InputField-LabelRight"
                       p:label="This activity is co-located"
                       p:fieldLabel.renderColon="false"
                       p:onChangeScript="jQuery('#dirtyForm').val(true);"
@@ -464,7 +464,7 @@
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean id="ActivityOfferingEdit-HasWaitlist" parent="Uif-InputField-LabelRight" p:propertyName="hasWaitlist" p:label="Waitlist Active">
+                            <bean id="ActivityOfferingEdit-HasWaitlist" parent="KS-Uif-InputField-LabelRight" p:propertyName="hasWaitlist" p:label="Waitlist Active">
                                 <property name="control">
                                     <bean parent="Uif-CheckboxControl" />
                                 </property>
@@ -511,7 +511,7 @@
                                         <bean parent="Uif-HorizontalBoxSection">
                                             <property name="items">
                                                 <list>
-                                                    <bean parent="Uif-InputField-LabelRight" p:propertyName="limitWaitlistSize" p:label="Limit Waitlist Size">
+                                                    <bean parent="KS-Uif-InputField-LabelRight" p:propertyName="limitWaitlistSize" p:label="Limit Waitlist Size">
                                                         <property name="control">
                                                             <bean parent="Uif-CheckboxControl" />
                                                         </property>
@@ -525,7 +525,7 @@
                                                 </list>
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-InputField-LabelRight" p:id="allow-hold-list-checkbox" p:propertyName="courseWaitListInfo.allowHoldUntilEntries" p:label="Allow Hold List">
+                                        <bean parent="KS-Uif-InputField-LabelRight" p:id="allow-hold-list-checkbox" p:propertyName="courseWaitListInfo.allowHoldUntilEntries" p:label="Allow Hold List">
                                             <property name="control">
                                                 <bean parent="Uif-CheckboxControl" />
                                             </property>
@@ -673,7 +673,7 @@
                     <property name="items">
                         <list>
                             <bean id="is_evaluated"
-                                  parent="Uif-InputField-LabelRight"
+                                  parent="KS-Uif-InputField-LabelRight"
                                   p:propertyName="aoInfo.isEvaluated"
                                   p:label="This lecture requires an evaluation"
                                   p:fieldLabel.cssClasses="label-normal"
@@ -692,7 +692,7 @@
                     <property name="items">
                         <list>
                             <bean id="is_honors_offering"
-                                  parent="Uif-InputField-LabelRight"
+                                  parent="KS-Uif-InputField-LabelRight"
                                   p:propertyName="aoInfo.isHonorsOffering"
                                   p:label="This is an honors course"
                                   p:fieldLabel.cssClasses="label-normal"
