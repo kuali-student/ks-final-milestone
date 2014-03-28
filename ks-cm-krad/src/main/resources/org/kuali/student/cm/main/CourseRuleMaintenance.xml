@@ -342,7 +342,7 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KS-EditWithLogic-TreeGroup" parent="KRMS-EditWithLogic-TreeGroup" p:componentSecurity.editAuthz="true">
+    <bean id="KS-EditWithLogic-TreeGroup" parent="KRMS-EditWithLogic-TreeGroup" p:editAuthz="true">
         <property name="items">
             <list>
                 <ref bean="KRMS-LogicArea-InputField"/>
