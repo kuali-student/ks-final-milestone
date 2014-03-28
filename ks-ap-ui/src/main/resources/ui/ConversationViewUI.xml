@@ -75,7 +75,7 @@
 				<bean parent="Uif-MessageField" p:messageText="[hr]"/>
 				<bean parent="Uif-HorizontalFieldGroup">
                     <property name="fieldLabel.render" value="false"/>
-                    <property name="group.validationMessages.render" value="false"/>
+                    <property name="group.validationMessages.displayMessages" value="false"/>
                     <property name="items">
                         <list>
 
@@ -140,7 +140,7 @@
             <list>
             	<bean parent="Uif-VerticalFieldGroup">
                     <property name="fieldLabel.render" value="false"/>
-                    <property name="group.validationMessages.render" value="false"/>
+                    <property name="group.validationMessages.displayMessages" value="false"/>
                     <property name="cssClasses">
 					<list merge="true">
 						<value>boxedComment</value>

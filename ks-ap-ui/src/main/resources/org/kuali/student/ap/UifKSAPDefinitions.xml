@@ -352,7 +352,7 @@
         </property>
         <property name="lineGroupPrototype">
             <bean parent="Uif-CollectionHorizontalBoxItem">
-                <property name="validationMessages.render" value="false"/>
+                <property name="validationMessages.displayMessages" value="false"/>
                 <property name="footer.render" value="false"/>
             </bean>
         </property>

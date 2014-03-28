@@ -161,7 +161,7 @@
 
     <bean id="planner_course_details_summary_info" parent="planner_course_details_summary_info-parent"/>
 	<bean id="planner_course_details_summary_info-parent" abstract="true" parent="Uif-VerticalBoxGroup">
-		<property name="validationMessages.render" value="false"/>
+		<property name="validationMessages.displayMessages" value="false"/>
 		<property name="items">
 			<list>
 				<ref bean="planner_course_summary_details_data" />
@@ -177,7 +177,7 @@
 
     <bean id="planner_course_summary_details_data" parent="planner_course_summary_details_data-parent"/>
 	<bean id="planner_course_summary_details_data-parent" abstract="true" parent="Uif-VerticalBoxGroup">
-		<property name="validationMessages.render" value="false"/>
+		<property name="validationMessages.displayMessages" value="false"/>
 		<property name="cssClasses">
 			<list merge="true">
 				<value>ksap-course-details</value>

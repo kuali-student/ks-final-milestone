@@ -68,7 +68,7 @@
 
 	<bean id="schedule_build_controls" parent="schedule_build_controls-parent" />
 	<bean abstract="true" id="schedule_build_controls-parent" parent="Uif-VerticalBoxGroup" p:id="schedule_build_controls">
-		<property name="validationMessages.render" value="false" />
+		<property name="validationMessages.displayMessages" value="false" />
 		<property name="forceSessionPersistence" value="true"/>
 		<property name="items">
 			<list>
@@ -87,7 +87,7 @@
 
 	<bean id="sb_possible_tab" parent="sb_possible_tab-parent" />
 	<bean abstract="true" id="sb_possible_tab-parent" parent="Uif-VerticalBoxGroup" p:id="sb_possible_tab">
-		<property name="validationMessages.render" value="false" />
+		<property name="validationMessages.displayMessages" value="false" />
 		<property name="forceSessionPersistence" value="true"/>
 		<property name="header">
 			<bean parent="Uif-HeaderTwo" />
@@ -105,7 +105,7 @@
 
 	<bean id="sb_saved_tab" parent="sb_saved_tab-parent" />
 	<bean abstract="true" id="sb_saved_tab-parent" parent="Uif-VerticalBoxGroup" p:id="sb_saved_tab">
-		<property name="validationMessages.render" value="false" />
+		<property name="validationMessages.displayMessages" value="false" />
 		<property name="forceSessionPersistence" value="true"/>
 		<property name="header">
 			<bean parent="Uif-HeaderTwo" />
@@ -140,7 +140,7 @@
 
     <bean id="sb_possible_options" parent="sb_possible_options-parent" />
 	<bean id="sb_possible_options-parent" abstract="true" parent="Uif-VerticalBoxGroup" p:id="sb_possible_options">
-		<property name="validationMessages.render" value="false" />
+		<property name="validationMessages.displayMessages" value="false" />
 		<property name="items">
 			<list />
 		</property>
@@ -154,12 +154,12 @@
 
     <bean id="sb_schedule_option_template" parent="sb_schedule_option_template-parent"/>
 	<bean id="sb_schedule_option_template-parent" abstract="true" parent="Uif-VerticalBoxGroup" p:style="display : none">
-		<property name="validationMessages.render" value="false" />
+		<property name="validationMessages.displayMessages" value="false" />
 		<property name="items">
 			<list>
 				<bean parent="Uif-HorizontalBoxGroup" p:id="sb-schedule-option-row-__KSAP_UID__"
 						p:additionalCssClasses="ksap-sb-schedule-row,ksap-sb-deselected">
-					<property name="validationMessages.render" value="false" />
+					<property name="validationMessages.displayMessages" value="false" />
 					<property name="items">
 						<list>
 							<bean parent="Uif-InputField" p:propertyName="shuffle" p:fieldLabel.render="false">
@@ -264,12 +264,12 @@
 
     <bean id="sb_reserved_time_template" parent="sb_reserved_time_template-parent"/>
 	<bean id="sb_reserved_time_template-parent" abstract="true" parent="Uif-VerticalBoxGroup" p:style="display : none">
-		<property name="validationMessages.render" value="false" />
+		<property name="validationMessages.displayMessages" value="false" />
 		<property name="items">
 			<list>
 				<bean parent="Uif-HorizontalBoxGroup" p:id="sb-reserved-time-row-__KSAP_UID__"
 						p:additionalCssClasses="ksap-sb-reserved-time-row,ksap-sb-deselected">
-					<property name="validationMessages.render" value="false" />
+					<property name="validationMessages.displayMessages" value="false" />
 					<property name="dataAttributes">
 						<map merge="true">
 							<entry key="index" value="__KSAP_INDEX__" />
@@ -281,7 +281,7 @@
 							<bean parent="sb_option_control-parent" p:propertyName="selected" p:id="sb-reserved-time-select-__KSAP_UID__"
 									p:additionalCssClasses="ksap-sb-reserved-time-select" p:onChangeScript="toggleReservedTimeSelect('__KSAP_UID__')" />
 							<bean parent="Uif-VerticalBoxGroup" p:onClickScript="toggleReservedTime('__KSAP_UID__')">
-								<property name="validationMessages.render" value="false" />
+								<property name="validationMessages.displayMessages" value="false" />
 								<property name="items">
 									<list>
 										<bean parent="Uif-Message" p:messageText="__KSAP_DESCR__" p:additionalCssClasses="ksap-sb-reserved-time-title" />
@@ -328,7 +328,7 @@
 						<list>
 							<bean parent="Uif-HorizontalBoxGroup" p:id="sb-course-option-row-@{#line.uniqueId}"
 									p:additionalCssClasses="ksap-sb-course-row,ksap-sb-@{#line.selected?'selected':'deselected'}">
-								<property name="validationMessages.render" value="false" />
+								<property name="validationMessages.displayMessages" value="false" />
 								<property name="items">
 									<list>
 										<bean parent="sb_option_control-parent" p:propertyName="selected" p:id="sb-course-option-select-@{#line.uniqueId}"
@@ -409,7 +409,7 @@
     <bean id="sb_activity_option_row" abstract="true" parent="sb_activity_option_row-parent"/>
     <bean id="sb_activity_option_row-parent" abstract="true" parent="Uif-HorizontalBoxGroup"
 			p:additionalCssClasses="ksap-sb-@{#line.primary?'primary':'secondary'}-row,ksap-sb-@{#line.selected?'selected':'deselected'},ksap-sb-activity-@{#line.closed?'closed':'open'}">
-		<property name="validationMessages.render" value="false" />
+		<property name="validationMessages.displayMessages" value="false" />
 		<property name="dataAttributes">
 			<map merge="true">
 				<entry key="primary" value="@{#line.primary}" />
@@ -424,11 +424,11 @@
 						p:additionalCssClasses="ksap-sb-activity-select" p:onChangeScript="toggleActivitySelect(@{#line.primary}, '@{#line.uniqueId}', '@{#line.parentUniqueId}')" />
 				<bean parent="Uif-VerticalBoxGroup" p:onClickScript="toggleActivity(@{#line.primary}, '@{#line.uniqueId}', '@{#line.parentUniqueId}')"
 							p:additionalCssClasses="ksap-sb-activity-details">
-					<property name="validationMessages.render" value="false" />
+					<property name="validationMessages.displayMessages" value="false" />
 					<property name="items">
 						<list>
 							<bean parent="Uif-HorizontalBoxGroup">
-								<property name="validationMessages.render" value="false" />
+								<property name="validationMessages.displayMessages" value="false" />
 								<property name="items">
 									<list>
 										<bean parent="Uif-MessageField" p:messageText="@{#line.registrationCode}"
@@ -498,7 +498,7 @@
 						<list>
 							<bean parent="Uif-HorizontalBoxGroup" p:id="sb-secondary-row-@{#line.uniqueId}"
 									p:additionalCssClasses="ksap-sb-secondary-option-row,ksap-sb-@{#line.getSelectedActivityCount(includeClosed) gt 0?'selected':'deselected'}">
-								<property name="validationMessages.render" value="false" />
+								<property name="validationMessages.displayMessages" value="false" />
 								<property name="items">
 									<list>
 										<bean parent="Uif-Message" p:messageText="@{#line.getActivityCount(includeClosed)} included"
@@ -543,7 +543,7 @@
 		<property name="items">
 			<list>
 				<bean parent="Uif-HorizontalBoxGroup" p:id="sb_classes_include_closed_sections">
-					<property name="validationMessages.render" value="false" />
+					<property name="validationMessages.displayMessages" value="false" />
 					<property name="items">
 						<list>
 							<bean parent="sb_option_control-parent" p:propertyName="includeClosed"
@@ -559,12 +559,12 @@
 
     <bean id="sb_weekgroup_template" parent="sb_weekgroup_template-parent"/>
 	<bean id="sb_weekgroup_template-parent" abstract="true" parent="Uif-HorizontalBoxGroup" p:style="display : none">
-		<property name="validationMessages.render" value="false" />
+		<property name="validationMessages.displayMessages" value="false" />
 		<property name="items">
 			<list>
 				<bean parent="Uif-VerticalBoxGroup"
 						p:additionalCssClasses="ksap-sb-weekGroup,ksap-sb-selected">
-					<property name="validationMessages.render" value="false" />
+					<property name="validationMessages.displayMessages" value="false" />
 					<property name="items">
 						<list>
 							<bean parent="Uif-Message" p:additionalCssClasses="ksap-sb-weekGroup-title" p:messageText="__KSAP_TITLE__" />
@@ -578,15 +578,15 @@
 
 	<bean id="schedule_build_weekview" parent="schedule_build_weekview-parent" />
 	<bean abstract="true" id="schedule_build_weekview-parent" parent="Uif-VerticalBoxGroup" p:id="schedule_build_weekview">
-		<property name="validationMessages.render" value="false" />
+		<property name="validationMessages.displayMessages" value="false" />
 		<property name="items">
 			<list>
 				<bean parent="Uif-HorizontalBoxGroup" p:id="sb_week_group_area">
-					<property name="validationMessages.render" value="false" />
+					<property name="validationMessages.displayMessages" value="false" />
 					<property name="items">
 						<list>
 							<bean parent="Uif-VerticalBoxGroup" p:additionalCssClasses="ksap-sb-weekGroup,ksap-sb-selected">
-								<property name="validationMessages.render" value="false" />
+								<property name="validationMessages.displayMessages" value="false" />
 								<property name="items">
 									<list>
 										<bean parent="Uif-Message" p:additionalCssClasses="ksap-sb-weekGroup-title" p:messageText="@{fullTermWeekTitle}" />
