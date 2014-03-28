@@ -31,7 +31,7 @@ limitations under the License.
                 <!-- Hidden ID field -->
                 <bean parent="KRMS-PropKey-HiddenField"/>
 
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="typeId"
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="typeId"
                       p:style="margin-left: 12pt" p:showLabel="true" p:label="Type" p:labelPlacement="TOP"
                       p:maxLength="40">
                     <property name="control">
@@ -47,7 +47,7 @@ limitations under the License.
                     <property name="items">
                         <list merge="true">
 
-                            <bean parent="Uif-InputField-LabelTop" p:propertyName="typeId"
+                            <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="typeId"
                                   p:style="margin-left: 12pt" p:showLabel="true" p:label="Type" p:labelPlacement="TOP"
                                   p:maxLength="40">
                                 <property name="control">
@@ -107,7 +107,7 @@ limitations under the License.
                 <bean parent="KRMS-PropKey-HiddenField"/>
 
                 <!--Add the type droplist-->
-                <bean id="KRMS-PropositionType-Dropdown" parent="Uif-InputField-LabelTop" p:propertyName="proposition.typeId"
+                <bean id="KRMS-PropositionType-Dropdown" parent="KS-Uif-InputField-LabelTop" p:propertyName="proposition.typeId"
                       p:showLabel="true" p:label="Rule Statement Option" p:maxLength="40" p:required="true">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:cssClasses="categorySelect"

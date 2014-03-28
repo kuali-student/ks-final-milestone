@@ -26,7 +26,7 @@
 
     <!-- The Interesting Bits -->
 
-    <bean parent="Uif-InputField-LabelTop"  id="KS-KitchenSink-Select-Example1">
+    <bean parent="KS-Uif-InputField-LabelTop"  id="KS-KitchenSink-Select-Example1">
         <property name="propertyName" value="dropdownSelection"/>
         <property name="label" value="Dropdown Select Label"/>
         <property name="width" value="auto"/>
@@ -50,7 +50,7 @@
         <bean parent="Uif-KeyLabelPair" p:key="5" p:value="Select option #5"/>
     </util:list>
 
-    <bean parent="Uif-InputField-LabelTop"  id="KS-KitchenSink-Select-Example2">
+    <bean parent="KS-Uif-InputField-LabelTop"  id="KS-KitchenSink-Select-Example2">
         <property name="propertyName" value="dropdownSelection"/>
         <property name="label" value="Dropdown Select Label"/>
         <property name="width" value="auto"/>

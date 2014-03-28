@@ -44,7 +44,7 @@
                     <property name="items">
                         <list>
                 <!-- end of bug work-arounds -->
-                            <bean parent="Uif-InputField-LabelTop">
+                            <bean parent="KS-Uif-InputField-LabelTop">
                                 <property name="render" value="@{!#isAddLine}"/>
                                 <property name="propertyName" value="id"/>
                                 <property name="label" value="ID"/>
@@ -54,15 +54,15 @@
                                     </bean>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField-LabelTop">
+                            <bean parent="KS-Uif-InputField-LabelTop">
                                 <property name="propertyName" value="name"/>
                                 <property name="label" value="Name"/>
                             </bean>
-                            <bean parent="Uif-InputField-LabelTop">
+                            <bean parent="KS-Uif-InputField-LabelTop">
                                 <property name="propertyName" value="description"/>
                                 <property name="label" value="Description"/>
                             </bean>
-                            <bean parent="Uif-InputField-LabelTop">
+                            <bean parent="KS-Uif-InputField-LabelTop">
                                 <property name="propertyName" value="date"/>
                                 <property name="label" value="Date"/>
                             </bean>

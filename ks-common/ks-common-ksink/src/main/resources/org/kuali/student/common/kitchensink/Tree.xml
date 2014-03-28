@@ -30,7 +30,7 @@
                     <property name="propertyName" value="tree1"/>
                 </bean>
 
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="dateField" p:label="Effective From">
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="dateField" p:label="Effective From">
                     <property name="control">
                         <bean parent="Uif-DateControl" />
                     </property>
@@ -50,7 +50,7 @@
                                             <bean parent="Uif-HorizontalFieldGroup">
                                                 <property name="items">
                                                     <list>
-                                                        <bean parent="Uif-InputField-LabelTop" p:propertyName="field4" p:label="Effective From">
+                                                        <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="field4" p:label="Effective From">
                                                             <property name="control">
                                                                 <bean parent="Uif-DateControl" />
                                                             </property>
