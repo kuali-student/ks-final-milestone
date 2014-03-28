@@ -492,8 +492,8 @@
                             <bean parent="Uif-VerticalBoxSection">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-InputField" p:id="wait_list_type" p:propertyName="waitListType" p:label="Waitlist Type"
-                                              p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
+                                        <bean parent="KS-Uif-InputField-LabelTop" p:id="wait_list_type" p:propertyName="waitListType" p:label="Waitlist Type"
+                                              p:fieldLabel.renderColon="false">
                                             <property name="control">
                                                 <bean parent="Uif-VerticalRadioControl"/>
                                             </property>

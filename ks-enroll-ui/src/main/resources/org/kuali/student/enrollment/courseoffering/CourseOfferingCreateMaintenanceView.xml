@@ -272,14 +272,14 @@
             <list>
                  <bean parent="Uif-DataField" p:label="CODE" p:propertyName="courseCode"/>
                  <bean parent="Uif-DataField" p:propertyName="activitesUI" p:label="Format"/>
-                 <bean parent="Uif-InputField" p:propertyName="formatOfferingInfo.gradeRosterLevelTypeKey"
-                      p:label="Grade Roster Level" p:required="true" p:labelPlacement="TOP" p:finalizeMethodToCall="populateGradeRosterLevelTypes">
+                 <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="formatOfferingInfo.gradeRosterLevelTypeKey"
+                      p:label="Grade Roster Level" p:required="true" p:finalizeMethodToCall="populateGradeRosterLevelTypes">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="formatOfferingInfo.finalExamLevelTypeKey"
-                      p:label="Final Exam Driver Activity" p:required="true" p:labelPlacement="TOP" p:finalizeMethodToCall="populateFinalExamDriverTypes">
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="formatOfferingInfo.finalExamLevelTypeKey"
+                      p:label="Final Exam Driver Activity" p:required="true" p:finalizeMethodToCall="populateFinalExamDriverTypes">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
@@ -404,8 +404,8 @@
     <bean id="KS-CourseOffering-CodeTargetSection" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="targetTermCode" p:required="true" p:id="targetTermCode"
-                      p:label="Target Term" p:labelPlacement="TOP" p:fieldLabel.renderColon="false">
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="targetTermCode" p:required="true" p:id="targetTermCode"
+                      p:label="Target Term" p:fieldLabel.renderColon="false">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="10" p:watermarkText="201301" p:onClickScript="toggleTextBoxes(this);"/>
                     </property>
@@ -413,8 +413,8 @@
                         <bean parent="Uif-Help" p:tooltipHelpContent="Term is required to retrieve the correct version of the Catalog Course"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="catalogCourseCode" p:id="catalogCourseCode"
-                      p:label="Catalog Course Code" p:labelPlacement="TOP" p:required="true" p:fieldLabel.renderColon="false" p:additionalCssClasses="ks-uif-quickFinder">
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="catalogCourseCode" p:id="catalogCourseCode"
+                      p:label="Catalog Course Code" p:required="true" p:fieldLabel.renderColon="false" p:additionalCssClasses="ks-uif-quickFinder">
                     <property name="refreshWhenChangedPropertyNames" value="targetTermCode"/>
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="10" p:watermarkText="ENGL237">

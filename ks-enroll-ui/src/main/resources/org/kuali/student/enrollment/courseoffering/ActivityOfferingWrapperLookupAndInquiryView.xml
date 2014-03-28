@@ -149,7 +149,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-Message" p:messageText=""/>
-                <bean parent="Uif-InputField" p:propertyName="aoInfo.isHonorsOffering" p:label="Honors Flag" p:fieldLabel.renderColon="false" p:labelPlacement="LEFT">
+                <bean parent="KS-Uif-InputField-LabelLeft" p:propertyName="aoInfo.isHonorsOffering" p:label="Honors Flag" p:fieldLabel.renderColon="false">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl">
                             <property name="checkboxLabel" value="This is an Honors Course"/>
@@ -165,7 +165,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-Message" p:messageText=""/>
-                <bean parent="Uif-InputField" p:propertyName="aoInfo.isEvaluated" p:label="Evaluation" p:fieldLabel.renderColon="false" p:labelPlacement="LEFT">
+                <bean parent="KS-Uif-InputField-LabelLeft" p:propertyName="aoInfo.isEvaluated" p:label="Evaluation" p:fieldLabel.renderColon="false">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl">
                             <property name="checkboxLabel" value="This lecture requires an evaluation"/>

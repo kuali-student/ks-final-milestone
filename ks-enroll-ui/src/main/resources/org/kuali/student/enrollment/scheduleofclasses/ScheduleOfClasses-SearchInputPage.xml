@@ -41,7 +41,7 @@
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="termCode" p:id="term_code" p:label="Term" p:labelPlacement="TOP"
+                            <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="termCode" p:id="term_code" p:label="Term"
                                   p:fieldLabel.renderColon="false" p:required="true" p:onChangeScript="toggleShowButton();">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl"/>
@@ -50,7 +50,7 @@
                                     <bean class="org.kuali.student.enrollment.class2.scheduleofclasses.keyvalue.ScheduleOfClassesTermKeyValues"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="searchType" p:id="searchType" p:label="Type of Search" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:required="true" p:onChangeScript="toggleShowButton();">
+                            <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="searchType" p:id="searchType" p:label="Type of Search" p:fieldLabel.renderColon="false" p:required="true" p:onChangeScript="toggleShowButton();">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl"/>
                                 </property>

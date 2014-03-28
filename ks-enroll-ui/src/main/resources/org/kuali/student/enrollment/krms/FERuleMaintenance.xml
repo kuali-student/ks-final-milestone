@@ -147,8 +147,7 @@ limitations under the License.
                     <property name="items">
                         <list>
 
-                            <bean parent="Uif-InputField" p:propertyName="type.key" p:label="Term"
-                                  p:labelPlacement="LEFT"
+                            <bean parent="KS-Uif-InputField-LabelLeft" p:propertyName="type.key" p:label="Term"
                                   p:required="true" p:readOnly="false" p:id="termType"
                                   p:onChangeScript="toggleButtonOnInput('termType', 'show_button');">
                                 <property name="control">
@@ -180,8 +179,8 @@ limitations under the License.
                             <bean parent="Uif-HorizontalBoxSection">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-InputField" p:id="ksfeTermType" p:propertyName="termToUse"
-                                              p:label="Term Type" p:labelPlacement="LEFT" p:readOnly="false"
+                                        <bean parent="KS-Uif-InputField-LabelLeft" p:id="ksfeTermType" p:propertyName="termToUse"
+                                              p:label="Term Type" p:readOnly="false"
                                               p:onChangeScript="retrieveFinalExamMatrix('KSFE-AgendaManage-Section', 'loadTermType', 'ksfeTermType');">
                                             <property name="control">
                                                 <bean parent="Uif-DropdownControl"/>
@@ -744,9 +743,8 @@ limitations under the License.
     </bean>
     <bean id="KSFE-endtime_ampm-Section" parent="KSFE-endtime_ampm-Section-Parent"/>
 
-    <bean id="KSFE_location-Parent" parent="Uif-InputField"
+    <bean id="KSFE_location-Parent" parent="KS-Uif-InputField-LabelLeft"
           p:label="Standard Final Exam location determined by Activity Offering location" p:propertyName="location"
-          p:labelPlacement="LEFT"
           p:uppercaseValue="false">
         <property name="control">
             <bean parent="Uif-CheckboxControl" p:disabled="true"/>

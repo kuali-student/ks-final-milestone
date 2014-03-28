@@ -88,20 +88,20 @@
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="populationInfo.name" p:label="Name"
-                      p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:required="true">
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="populationInfo.name" p:label="Name"
+                      p:fieldLabel.renderColon="false" p:required="true">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="40" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="populationInfo.descr.plain" p:label="Description"
-                      p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:required="true">
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="populationInfo.descr.plain" p:label="Description"
+                      p:fieldLabel.renderColon="false" p:required="true">
                     <property name="control">
                         <bean parent="Uif-TextAreaControl" p:rows="5" p:cols="43" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:fieldLabel.render="@{#view.readOnly}" p:propertyName="populationInfo.stateKey"
-                      p:label="State" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:render="@{maintenanceAction eq 'Edit'}">
+                <bean parent="KS-Uif-InputField-LabelTop" p:fieldLabel.render="@{#view.readOnly}" p:propertyName="populationInfo.stateKey"
+                      p:label="State" p:fieldLabel.renderColon="false" p:render="@{maintenanceAction eq 'Edit'}">
                     <property name="control">
                         <bean parent="Uif-HorizontalRadioControl" p:options-ref="populationStateKeyName-options"/>
                     </property>
@@ -131,8 +131,8 @@
                         <bean parent="Uif-TextAreaControl" p:rows="5" p:cols="43" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:fieldLabel.render="@{#view.readOnly}" p:propertyName="populationInfo.stateKey"
-                      p:label="State" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:render="@{maintenanceAction eq 'Edit'}">
+                <bean parent="KS-Uif-InputField-LabelTop" p:fieldLabel.render="@{#view.readOnly}" p:propertyName="populationInfo.stateKey"
+                      p:label="State" p:fieldLabel.renderColon="false" p:render="@{maintenanceAction eq 'Edit'}">
                     <property name="control">
                         <bean parent="Uif-HorizontalRadioControl" p:options-ref="populationStateKeyName-options"/>
                     </property>

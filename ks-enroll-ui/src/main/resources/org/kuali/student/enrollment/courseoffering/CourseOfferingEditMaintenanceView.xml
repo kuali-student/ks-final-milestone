@@ -398,8 +398,8 @@
                 <!--p:addBlankOption="false" />-->
                 <!--</property>-->
                 <!--</bean>-->
-                <bean parent="Uif-MessageField" p:label="Student Registration Options"
-                      p:labelPlacement="TOP" p:fieldLabel.renderColon="false"
+                <bean parent="KS-Uif-MessageField-LabelTop" p:label="Student Registration Options"
+                      p:fieldLabel.renderColon="false"
                       p:render="true"  />
                 <!-- List of checkboxes seem to break in KRAD 2.2M3 so had to replace with individual checkboxes -->
                 <bean parent="Uif-CheckboxInputField" p:id="is_pass_fail" p:label="Pass/Fail"
@@ -504,8 +504,8 @@
                     </property>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.finalExamType" p:id="finalExamType" p:label="Exam Type"
-                                  p:fieldLabel.renderColon="false" p:labelPlacement="TOP" p:componentSecurity.editAuthz="true"
+                            <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="courseOfferingInfo.finalExamType" p:id="finalExamType" p:label="Exam Type"
+                                  p:fieldLabel.renderColon="false" p:componentSecurity.editAuthz="true"
                                   p:onChangeScript="jQuery('#dirtyForm').val(true);"  >
                                 <property name="control">
                                     <bean parent="Uif-VerticalRadioControl"/>
@@ -535,7 +535,7 @@
                                                 <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.FinalExamDriversKeyValues" p:addBlankOption="false"/>
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-InputField" p:id="finalExamMatrix" p:label="Use Final Exam Matrix" p:propertyName="useFinalExamMatrix" p:labelPlacement="RIGHT"
+                                        <bean parent="KS-Uif-InputField-LabelRight" p:id="finalExamMatrix" p:label="Use Final Exam Matrix" p:propertyName="useFinalExamMatrix"
                                             p:render="@{!#parent.readOnly}" p:defaultValue="true">
                                             <property name="control">
                                                 <bean parent="Uif-CheckboxControl"/>
@@ -658,17 +658,15 @@
                       p:render="@{!#parent.readOnly and (#dp.courseOfferingInfo.finalExamType eq 'STANDARD')}"
                       p:label="Final Exam Driver"
                       p:additionalCssClasses="final_exam_course_offering"/>
-                <bean parent="Uif-MessageField"
-                      p:label="Final Exam Driver"
-                      p:labelPlacement="TOP" p:fieldLabel.renderColon="false"
+                <bean parent="KS-Uif-MessageField-LabelTop"
+                      p:label="Final Exam Driver" p:fieldLabel.renderColon="false"
                       p:messageText="@{#lp.courseOfferingWrapper.finalExamDriverUI}"
                       p:render="@{#parent.readOnly and (#dp.courseOfferingInfo.finalExamType eq 'STANDARD')}"
                       p:additionalCssClasses="final_exam_course_offering"/>
 
-                <bean id="edit_co_final_exam_type" parent="Uif-InputField"
+                <bean id="edit_co_final_exam_type" parent="KS-Uif-InputField-LabelTop"
                       p:propertyName="formatOfferingInfo.finalExamLevelTypeKey"
                       p:label="Final Exam Driver Activity"
-                      p:labelPlacement="TOP"
                       p:required="true"
                       p:render="@{#dp.courseOfferingInfo.finalExamType eq 'STANDARD'}"
                       p:finalizeMethodToCall="populateFinalExamDriverTypes" p:forceSessionPersistence="true"
@@ -682,8 +680,8 @@
                         <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.DummyKeyValue"/>
                     </property>
                 </bean>
-                <bean parent="Uif-MessageField" p:label="Final Exam Driver" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:messageText="Alternate exam for this offering" p:render="@{#dp.courseOfferingInfo.finalExamType eq 'ALTERNATE'}" />
-                <bean parent="Uif-MessageField" p:label="Final Exam Driver" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:messageText="No final exam for this offering" p:render="@{#dp.courseOfferingInfo.finalExamType eq 'NONE'}" />
+                <bean parent="KS-Uif-MessageField-LabelTop" p:label="Final Exam Driver" p:fieldLabel.renderColon="false" p:messageText="Alternate exam for this offering" p:render="@{#dp.courseOfferingInfo.finalExamType eq 'ALTERNATE'}" />
+                <bean parent="KS-Uif-MessageField-LabelTop" p:label="Final Exam Driver" p:fieldLabel.renderColon="false" p:messageText="No final exam for this offering" p:render="@{#dp.courseOfferingInfo.finalExamType eq 'NONE'}" />
             </list>
         </property>
     </bean>
@@ -897,7 +895,7 @@
     <bean id="KS-CourseOfferingEdit-HonorsOffering" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:id="isHonoursOffering" p:propertyName="courseOfferingInfo.isHonorsOffering" p:label="Honors Flag" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
+                <bean parent="KS-Uif-InputField-LabelTop" p:id="isHonoursOffering" p:propertyName="courseOfferingInfo.isHonorsOffering" p:label="Honors Flag" p:fieldLabel.renderColon="false">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl">
                             <property name="checkboxLabel" value="This is an Honors Course"/>

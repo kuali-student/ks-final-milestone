@@ -79,8 +79,8 @@
                 <bean parent="Uif-HorizontalFieldGroup">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:label="Period"
-                                  p:labelPlacement="TOP" p:fieldLabel.renderColon="false"
+                            <bean parent="KS-Uif-InputField-LabelTop" p:label="Period"
+                                  p:fieldLabel.renderColon="false"
                                   p:propertyName="periodId" p:fieldLabel.style="display:block;">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl"/>
@@ -238,7 +238,7 @@
                     </property>
                 </bean>
 
-                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="startTime" p:label="Start Time" p:labelPlacement="LEFT"
+                <bean parent="KS-Uif-InputField-LabelLeft" p:propertyName="startTime" p:label="Start Time"
                       p:forceSessionPersistence="true" p:required="true" p:style="font-weight:normal;" p:readOnly="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}"  >
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="5"  p:watermarkText="HH:mm"/>
@@ -274,7 +274,7 @@
                     </property>
                 </bean>
 
-                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="endTime" p:label="Closing Time" p:labelPlacement="LEFT" p:style="font-weight:normal;"
+                <bean parent="KS-Uif-InputField-LabelLeft" p:propertyName="endTime" p:label="Closing Time" p:style="font-weight:normal;"
                       p:readOnly="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="5"  p:watermarkText="HH:mm"/>

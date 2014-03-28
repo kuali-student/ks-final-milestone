@@ -126,7 +126,7 @@
             <bean parent="Uif-HorizontalBoxSection">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-InputField" p:propertyName="selectedOfferingAction" p:label="Selected Course Offering Actions" p:labelPlacement="TOP">
+                        <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="selectedOfferingAction" p:label="Selected Course Offering Actions">
                             <property name="readOnly" value="false"/>
                             <property name="control">
                                 <bean parent="Uif-DropdownControl" p:disabled="@{!#root.editAuthz}"/>
