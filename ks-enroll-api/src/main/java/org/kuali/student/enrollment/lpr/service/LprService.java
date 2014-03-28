@@ -1260,6 +1260,7 @@ public interface LprService {
      * @param validationTypeKey the identifier for the validation Type
      * @param lprTransactionItemTypeKey the identifier for the LprTransactionItem Type to be validated
      * @param lprTransactionItem the LprTransactionItem to be validated
+     * @param lprTransactionId the lprTransactionId
      * @param contextInfo information containing the principalId and locale information about the caller of the service operation
      * @return a list of validation results or an empty list if validation succeeded
      * @throws DoesNotExistException validationTypeKey or registrationRequestItemTypeKey is not found
@@ -1271,6 +1272,7 @@ public interface LprService {
     public List<ValidationResultInfo> validateLprTransactionItem(@WebParam(name = "validationTypeKey") String validationTypeKey,
                                                                  @WebParam(name = "lprTransactionItemTypeKey") String lprTransactionItemTypeKey,
                                                                  @WebParam(name = "lprTransactionItem") LprTransactionItemInfo lprTransactionItem,
+                                                                 @WebParam(name = "lprTransactionId") String lprTransactionId,
                                                                  @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
@@ -1282,6 +1284,7 @@ public interface LprService {
      * Creates a new LprTransactionItem. The LprTransactionItem Id, Type, and Meta information may not be set in the supplied data object.
      * @param lprTransactionItemTypeKey the identifier for the Type of LprTransactionItem to be created
      * @param lprTransactionItemInfo the data with which to create the LprTransactionItem
+     * @param lprTransactionId the lprTransactionId
      * @param contextInfo information containing the principalId and locale information about the caller of the service operation
      * @return the new LprTransactionItem
      * @throws DataValidationErrorException supplied data is invalid
@@ -1294,6 +1297,7 @@ public interface LprService {
      */
     public LprTransactionItemInfo createLprTransactionItem(@WebParam(name = "lprTransactionItemTypeKey") String lprTransactionItemTypeKey,
                                                            @WebParam(name = "lprTransactionItemInfo") LprTransactionItemInfo lprTransactionItemInfo,
+                                                           @WebParam(name = "lprTransactionId") String lprTransactionId,
                                                            @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DataValidationErrorException,
             DoesNotExistException,

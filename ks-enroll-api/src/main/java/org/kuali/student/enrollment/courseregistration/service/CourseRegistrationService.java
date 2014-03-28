@@ -1089,6 +1089,7 @@ public interface CourseRegistrationService  {
      * @param validationTypeKey the identifier for the validation Type
      * @param registrationRequestItemTypeKey the identifier for the RegistrationRequestItem Type to be validated
      * @param registrationRequestItemInfo the RegistrationRequestItemInfo to be validated
+     * @param registrationRequestId the registrationRequestId
      * @param contextInfo information containing the principalId and locale information about the caller of the service operation
      * @return a list of validation results or an empty list if validation succeeded
      * @throws DoesNotExistException validationTypeKey or registrationRequestItemTypeKey is not found
@@ -1100,6 +1101,7 @@ public interface CourseRegistrationService  {
     public List<ValidationResultInfo> validateRegistrationRequestItem(@WebParam(name = "validationTypeKey") String validationTypeKey,
                                                                       @WebParam(name = "registrationRequestItemTypeKey") String registrationRequestItemTypeKey,
                                                                       @WebParam(name = "registrationRequestItemInfo") RegistrationRequestItem registrationRequestItemInfo,
+                                                                      @WebParam(name = "registrationRequestId") String registrationRequestId,
                                                                       @WebParam(name = "contextInfo") ContextInfo contextInfo)
         throws DoesNotExistException,
             InvalidParameterException,
@@ -1112,6 +1114,7 @@ public interface CourseRegistrationService  {
      * in the supplied data object.
      * @param registrationRequestItemTypeKey the identifier for the Type of RegistrationRequestItem to be created
      * @param registrationRequestItemInfo the data with which to create the RegistrationRequestItem
+     * @param registrationRequestId the registrationRequestId
      * @param contextInfo information containing the principalId and locale information about the caller of the service operation
      * @return the new RegistrationRequestItem
      * @throws DataValidationErrorException supplied data is invalid
@@ -1124,6 +1127,7 @@ public interface CourseRegistrationService  {
      */
     public RegistrationRequestItemInfo createRegistrationRequestItem(@WebParam(name = "registrationRequestItemTypeKey") String registrationRequestItemTypeKey,
                                                                      @WebParam(name = "registrationRequestItemInfo") RegistrationRequestItem registrationRequestItemInfo,
+                                                                     @WebParam(name = "registrationRequestId") String registrationRequestId,
                                                                      @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DataValidationErrorException,
             DoesNotExistException,

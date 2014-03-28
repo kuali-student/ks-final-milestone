@@ -128,13 +128,13 @@ public class LprServiceDecorator implements LprService {
     }
 
     @Override
-    public List<ValidationResultInfo> validateLprTransactionItem(String validationTypeKey, String lprTransactionItemTypeKey, LprTransactionItemInfo lprTransactionItem, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().validateLprTransactionItem(validationTypeKey, lprTransactionItemTypeKey, lprTransactionItem, contextInfo);
+    public List<ValidationResultInfo> validateLprTransactionItem(String validationTypeKey, String lprTransactionItemTypeKey, LprTransactionItemInfo lprTransactionItem, String lprTransactionId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().validateLprTransactionItem(validationTypeKey, lprTransactionItemTypeKey, lprTransactionItem, lprTransactionId, contextInfo);
     }
 
     @Override
-    public LprTransactionItemInfo createLprTransactionItem(String lprTransactionItemTypeKey, LprTransactionItemInfo lprTransactionItemInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        return getNextDecorator().createLprTransactionItem(lprTransactionItemTypeKey, lprTransactionItemInfo, contextInfo);
+    public LprTransactionItemInfo createLprTransactionItem(String lprTransactionItemTypeKey, LprTransactionItemInfo lprTransactionItemInfo, String lprTransactionId, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        return getNextDecorator().createLprTransactionItem(lprTransactionItemTypeKey, lprTransactionItemInfo, lprTransactionId, contextInfo);
     }
 
     @Override
