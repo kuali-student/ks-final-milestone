@@ -209,7 +209,7 @@ limitations under the License.
                     </bean>
                 </property>
                 <property name="lightBoxLookup">
-                    <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
+                    <bean parent="Uif-LightBox" p:lookupReturnByScript="false"/>
                 </property>
             </bean>
         </property-->
@@ -502,7 +502,7 @@ limitations under the License.
         		          p:methodToCall="performLookup"/>
 		        </property>
         		<property name="lightBoxLookup">
-		            <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
+		            <bean parent="Uif-LightBox" p:lookupReturnByScript="false"/>
         		</property>
         	</bean>
         </property>

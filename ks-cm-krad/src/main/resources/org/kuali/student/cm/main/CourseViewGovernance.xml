@@ -152,7 +152,7 @@
                                 <bean parent="Uif-ActionLink" p:actionLabel="Advanced Search" p:style="display:block" p:methodToCall="performLookup" p:evaluateDisabledOnKeyUp="true" />
                             </property>
                             <property name="lightBoxLookup">
-                                <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
+                                <bean parent="Uif-LightBox" p:lookupReturnByScript="false"/>
                             </property>
                         </bean>
                     </property>
