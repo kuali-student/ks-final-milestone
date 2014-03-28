@@ -44,7 +44,7 @@ limitations under the License.
             </bean>
         </property>
         <property name="lightBoxLookup">
-            <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="true"/>
+            <bean parent="Uif-LightBox" p:lookupReturnByScript="true"/>
         </property>
     </bean>
 
