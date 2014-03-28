@@ -34,11 +34,11 @@ public class CourseHelperMockTest implements CourseHelper {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    @Override
+/*    @Override
     public String getLastOfferedTermIdForCourse(Course course) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
-
+*/
     @Override
     public List<String> getScheduledTermsForCourse(Course course) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.

@@ -422,7 +422,7 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
         return offerings;
     }
 
-	@Override
+	/*@Override
 	public String getLastOfferedTermIdForCourse(Course course) {
 		ContextInfo ctx = KsapFrameworkServiceLocator.getContext().getContextInfo();
 		List<CourseOfferingInfo> courseOfferingInfo = null;
@@ -436,15 +436,15 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
                     }
             }
             // Not supported
-			/*List<String> courseIds = KsapFrameworkServiceLocator.getCourseService().searchForCourseIds(
-					QueryByCriteria.Builder.fromPredicates(PredicateFactory.equal("officialIdentifier.code",
-							course.getCode())), ctx);
-			String termId = KsapFrameworkServiceLocator.getTermHelper().getOldestHistoricalTerm().getId();
-			QueryByCriteria crit = QueryByCriteria.Builder.fromPredicates(PredicateFactory.and(
-					PredicateFactory.in("cluId", courseIds.toArray(new String[courseIds.size()])),
-					PredicateFactory.greaterThanOrEqual("atpId", termId)));
-			courseOfferingInfo = KsapFrameworkServiceLocator.getCourseOfferingService().searchForCourseOfferings(crit,
-					ctx);*/
+//			List<String> courseIds = KsapFrameworkServiceLocator.getCourseService().searchForCourseIds(
+//					QueryByCriteria.Builder.fromPredicates(PredicateFactory.equal("officialIdentifier.code",
+//							course.getCode())), ctx);
+//			String termId = KsapFrameworkServiceLocator.getTermHelper().getOldestHistoricalTerm().getId();
+//			QueryByCriteria crit = QueryByCriteria.Builder.fromPredicates(PredicateFactory.and(
+//					PredicateFactory.in("cluId", courseIds.toArray(new String[courseIds.size()])),
+//					PredicateFactory.greaterThanOrEqual("atpId", termId)));
+//			courseOfferingInfo = KsapFrameworkServiceLocator.getCourseOfferingService().searchForCourseOfferings(crit,
+//					ctx);
 		} catch (InvalidParameterException e) {
 			throw new IllegalArgumentException("CO lookup failure", e);
 		} catch (MissingParameterException e) {
@@ -477,6 +477,7 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 		} else
 			return null;
 	}
+     */
 
 	@Override
 	public List<Course> getCoursesByCode(String courseCd) {

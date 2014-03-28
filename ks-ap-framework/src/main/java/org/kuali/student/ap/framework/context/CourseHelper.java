@@ -40,11 +40,12 @@ public interface CourseHelper {
 	List<ActivityOfferingDisplayInfo> getActivityOfferingDisplaysByCourseAndTerm(String courseId, String term);
 
     /**
-     *
+     * temporarily comment it out
      * @param course
      * @return
-     */
+
 	String getLastOfferedTermIdForCourse(Course course);
+     */
 
     /**
      * Get a list of term ids where the given course is scheduled

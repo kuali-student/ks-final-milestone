@@ -216,8 +216,9 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 		courseDetails.setScheduledTerms(KsapFrameworkServiceLocator.getCourseHelper().getScheduledTermsForCourse(course));
 		if (courseDetails.getScheduledTerms() == null)
 			courseDetails.setScheduledTerms(new ArrayList<String>());
-		if (courseDetails.getScheduledTerms().size() == 0)
-			courseDetails.setLastOffered(KsapFrameworkServiceLocator.getCourseHelper().getLastOfferedTermIdForCourse(course));
+        //when a course does not have a scheduled term, it tries to fine last offered term
+//		if (courseDetails.getScheduledTerms().size() == 0)
+//			courseDetails.setLastOffered(KsapFrameworkServiceLocator.getCourseHelper().getLastOfferedTermIdForCourse(course));
 
 		return courseDetails;
 
