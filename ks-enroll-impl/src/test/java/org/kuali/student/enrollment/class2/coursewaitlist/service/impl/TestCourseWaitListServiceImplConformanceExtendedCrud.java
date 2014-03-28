@@ -247,8 +247,8 @@ public class TestCourseWaitListServiceImplConformanceExtendedCrud extends TestCo
         expected.setLastCheckIn(dateFormat.parse("19000101"));
 		expected.setCourseWaitListId("waitListId01");
 		expected.setStudentId("studentId01");
-		expected.setRegistrationGroupId("registrationGroupId01");
-		expected.setPosition(1);
+		expected.setRegistrationRequestItemId("registrationRequestItemId01");
+		expected.setOrder(1);
 	}
 	
 	/*
@@ -265,8 +265,8 @@ public class TestCourseWaitListServiceImplConformanceExtendedCrud extends TestCo
 		assertEquals (expected.getExpirationDate(), actual.getExpirationDate());
 		assertEquals (expected.getCourseWaitListId(), actual.getCourseWaitListId());
 		assertEquals (expected.getStudentId(), actual.getStudentId());
-		assertEquals (expected.getRegistrationGroupId(), actual.getRegistrationGroupId());
-		assertEquals (expected.getPosition(), actual.getPosition());
+		assertEquals (expected.getRegistrationRequestItemId(), actual.getRegistrationRequestItemId());
+		assertEquals (expected.getOrder(), actual.getOrder());
 		assertEquals (expected.getLastCheckIn(), actual.getLastCheckIn());
 	}
 	
@@ -278,7 +278,7 @@ public class TestCourseWaitListServiceImplConformanceExtendedCrud extends TestCo
         expected.setEffectiveDate(dateFormat.parse("20120219"));
         expected.setExpirationDate(dateFormat.parse("21000515"));
         expected.setLastCheckIn(dateFormat.parse("19000202"));
-        expected.setRegistrationGroupId("registrationGroupId_Updated");
+        expected.setRegistrationRequestItemId("registrationRequestItemId_Updated");
 	}
 	
 	/*
@@ -294,8 +294,8 @@ public class TestCourseWaitListServiceImplConformanceExtendedCrud extends TestCo
         assertEquals (expected.getExpirationDate(), actual.getExpirationDate());
         assertEquals (expected.getCourseWaitListId(), actual.getCourseWaitListId());
         assertEquals (expected.getStudentId(), actual.getStudentId());
-        assertEquals (expected.getRegistrationGroupId(), actual.getRegistrationGroupId());
-        assertEquals (expected.getPosition(), actual.getPosition());
+        assertEquals (expected.getRegistrationRequestItemId(), actual.getRegistrationRequestItemId());
+        assertEquals (expected.getOrder(), actual.getOrder());
         assertEquals (expected.getLastCheckIn(), actual.getLastCheckIn());
 	}
 	
@@ -308,7 +308,7 @@ public class TestCourseWaitListServiceImplConformanceExtendedCrud extends TestCo
         expected.setEffectiveDate(dateFormat.parse("20130219"));
         expected.setExpirationDate(dateFormat.parse("21000414"));
         expected.setLastCheckIn(dateFormat.parse("19000303"));
-        expected.setRegistrationGroupId("registrationGroupId_Updated");
+        expected.setRegistrationRequestItemId("registrationRequestItemId_Updated");
         expected.setCourseWaitListId("WL_ID_Updated");
         expected.setStudentId("S_ID_Updated");
 	}
@@ -491,7 +491,7 @@ public class TestCourseWaitListServiceImplConformanceExtendedCrud extends TestCo
         assertEquals(entriesByWaitList.get(8).getId(), reorderedEntries.get(9).getId());
     }
 	
-	/* Method Name: moveCourseWaitListEntryToPosition */
+	/* Method Name: moveCourseWaitListEntryToOrder */
 	@Test
 	public void test_moveCourseWaitListEntryToPosition() throws Exception {
         loadData();
@@ -504,9 +504,9 @@ public class TestCourseWaitListServiceImplConformanceExtendedCrud extends TestCo
         List<CourseWaitListEntryInfo> entriesByWaitList = testService.getCourseWaitListEntriesByCourseWaitList(id, contextInfo);
         assertEquals(10, entriesByWaitList.size());
 
-        testService.moveCourseWaitListEntryToPosition(entriesByWaitList.get(0).getId(), 10, contextInfo);
-        testService.moveCourseWaitListEntryToPosition(entriesByWaitList.get(3).getId(), 1, contextInfo);
-        testService.moveCourseWaitListEntryToPosition(entriesByWaitList.get(7).getId(), 2, contextInfo);
+        testService.moveCourseWaitListEntryToOrder(entriesByWaitList.get(0).getId(), 10, contextInfo);
+        testService.moveCourseWaitListEntryToOrder(entriesByWaitList.get(3).getId(), 1, contextInfo);
+        testService.moveCourseWaitListEntryToOrder(entriesByWaitList.get(7).getId(), 2, contextInfo);
 
         List<CourseWaitListEntryInfo> reorderedEntries = testService.getCourseWaitListEntriesByCourseWaitList(id, contextInfo);
 
@@ -522,11 +522,11 @@ public class TestCourseWaitListServiceImplConformanceExtendedCrud extends TestCo
         assertEquals(entriesByWaitList.get(0).getId(), reorderedEntries.get(9).getId());
 	}
 
-    private void assertContainsInfo(CourseWaitListEntryInfo entry, String studentId, String regGroupId,
-                                    String waitListId, Integer position) {
-        if(!entry.getStudentId().equals(studentId) || !entry.getRegistrationGroupId().equals(regGroupId) ||
-                !entry.getCourseWaitListId().equals(waitListId) || !entry.getPosition().equals(position)) {
-            fail("list does not contain " + studentId + ", " + regGroupId + ", " + waitListId + ", and " + position);
+    private void assertContainsInfo(CourseWaitListEntryInfo entry, String studentId, String registrationRequestItemId,
+                                    String waitListId, Integer order) {
+        if(!entry.getStudentId().equals(studentId) || !entry.getRegistrationRequestItemId().equals(registrationRequestItemId) ||
+                !entry.getCourseWaitListId().equals(waitListId) || !entry.getOrder().equals(order)) {
+            fail("list does not contain " + studentId + ", " + registrationRequestItemId + ", " + waitListId + ", and " + order);
         }
     }
 

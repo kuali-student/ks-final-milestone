@@ -550,7 +550,7 @@ public abstract class TestCourseWaitListServiceImplConformanceBaseCrud {
 	@Test
 	public abstract void test_reorderCourseWaitListEntries() throws Exception;
 	
-	/* Method Name: moveCourseWaitListEntryToPosition */
+	/* Method Name: moveCourseWaitListEntryToOrder */
 	@Test
 	public abstract void test_moveCourseWaitListEntryToPosition() throws Exception;
 

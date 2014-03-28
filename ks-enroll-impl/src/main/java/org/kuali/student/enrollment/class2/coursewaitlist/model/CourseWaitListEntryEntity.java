@@ -57,11 +57,11 @@ public class CourseWaitListEntryEntity extends MetaEntity implements AttributeOw
     @Column(name = "STUDENT_ID")
     private String studentId;
 
-    @Column(name = "REG_GROUP_ID")
-    private String regGroupId;
+    @Column(name = "REG_RQST_ITEM_ID")
+    private String registrationRequestItemId;
 
-    @Column(name = "POSITION")
-    private Integer position;
+    @Column(name = "ORDER")
+    private Integer order;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "LAST_CHECK_IN")
@@ -128,20 +128,20 @@ public class CourseWaitListEntryEntity extends MetaEntity implements AttributeOw
         this.studentId = studentId;
     }
 
-    public String getRegGroupId() {
-        return regGroupId;
+    public String getRegistrationRequestItemId() {
+        return registrationRequestItemId;
     }
 
-    public void setRegGroupId(String regGroupId) {
-        this.regGroupId = regGroupId;
+    public void setRegistrationRequestItemId(String registrationRequestItemId) {
+        this.registrationRequestItemId = registrationRequestItemId;
     }
 
-    public Integer getPosition() {
-        return position;
+    public Integer getOrder() {
+        return order;
     }
 
-    public void setPosition(Integer position) {
-        this.position = position;
+    public void setOrder(Integer order) {
+        this.order = order;
     }
 
     public Date getLastCheckIn() {
@@ -180,8 +180,8 @@ public class CourseWaitListEntryEntity extends MetaEntity implements AttributeOw
             this.getAttributes().add(attEntity);
         }
         this.setLastCheckIn(entry.getLastCheckIn());
-        this.setPosition(entry.getPosition());
-        this.setRegGroupId(entry.getRegistrationGroupId());
+        this.setOrder(entry.getOrder());
+        this.setRegistrationRequestItemId(entry.getRegistrationRequestItemId());
         this.setStudentId(entry.getStudentId());
         //
         // Note: CourseWaitListEntity can't be set from CourseWaitListEntryEntity which only contains the
@@ -206,9 +206,9 @@ public class CourseWaitListEntryEntity extends MetaEntity implements AttributeOw
         entryInfo.setStudentId(getStudentId());
         entryInfo.setEffectiveDate(getEffectiveDate());
         entryInfo.setExpirationDate(getExpirationDate());
-        entryInfo.setPosition(getPosition());
+        entryInfo.setOrder(getOrder());
         entryInfo.setLastCheckIn(getLastCheckIn());
-        entryInfo.setRegistrationGroupId(getRegGroupId());
+        entryInfo.setRegistrationRequestItemId(getRegistrationRequestItemId());
         entryInfo.setCourseWaitListId(getCourseWaitListEntity().getId());
         entryInfo.setMeta(super.toDTO());
         for(CourseWaitListEntryAttributeEntity att : getAttributes()) {

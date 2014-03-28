@@ -85,7 +85,7 @@ public class TestCourseWaitListServiceImpl {
         CourseWaitListEntryInfo fetched = cwlService.getCourseWaitListEntry(id, contextInfo);
         assertEquals(cwlEntryInfo.getLastCheckIn(), fetched.getLastCheckIn());
         assertEquals(cwlEntryInfo.getCourseWaitListId(), fetched.getCourseWaitListId());
-        assertEquals(cwlEntryInfo.getPosition(), fetched.getPosition());
+        assertEquals(cwlEntryInfo.getOrder(), fetched.getOrder());
         assertEquals(cwlEntryInfo.getStudentId(), fetched.getStudentId());
     }
 
@@ -112,12 +112,12 @@ public class TestCourseWaitListServiceImpl {
         CourseWaitListEntryInfo returned = cwlService.createCourseWaitListEntry(cwlEntryInfo.getCourseWaitListId(), cwlEntryInfo.getStudentId(), CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY, cwlEntryInfo, contextInfo);
         String id = returned.getId();
         CourseWaitListEntryInfo fetched = cwlService.getCourseWaitListEntry(id, contextInfo);
-        fetched.setPosition(2);
+        fetched.setOrder(2);
         cwlService.updateCourseWaitListEntry(fetched.getId(), fetched, contextInfo);
 
         CourseWaitListEntryInfo fetchedAgain = cwlService.getCourseWaitListEntry(id, contextInfo);
 
-        assertEquals(fetchedAgain.getPosition(), fetched.getPosition());
+        assertEquals(fetchedAgain.getOrder(), fetched.getOrder());
     }
 
     @Test
@@ -214,10 +214,10 @@ public class TestCourseWaitListServiceImpl {
 
     private CourseWaitListEntryInfo buildDefaultCourseWaitListEntry(CourseWaitListInfo cwlInfo) {
         CourseWaitListEntryInfo cwlEntryInfo = new CourseWaitListEntryInfo();
-        cwlEntryInfo.setRegistrationGroupId("foo");
+        cwlEntryInfo.setRegistrationRequestItemId("foo");
         cwlEntryInfo.setCourseWaitListId(cwlInfo.getId());
         cwlEntryInfo.setLastCheckIn(new Date());
-        cwlEntryInfo.setPosition(1);
+        cwlEntryInfo.setOrder(1);
         cwlEntryInfo.setStudentId("543");
         return cwlEntryInfo;
     }

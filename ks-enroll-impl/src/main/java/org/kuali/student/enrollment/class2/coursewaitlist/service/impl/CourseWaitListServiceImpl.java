@@ -413,9 +413,9 @@ public class CourseWaitListServiceImpl implements CourseWaitListService {
 
     @Override
     @Transactional(readOnly = true)
-    public StatusInfo moveCourseWaitListEntryToPosition(@WebParam(name = "courseWaitListEntryId") String courseWaitListEntryId,
-                                                        @WebParam(name = "position") Integer position,
-                                                        @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public StatusInfo moveCourseWaitListEntryToOrder(@WebParam(name = "courseWaitListEntryId") String courseWaitListEntryId,
+                                                     @WebParam(name = "order") Integer order,
+                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,

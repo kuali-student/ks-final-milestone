@@ -406,15 +406,15 @@ public class CourseWaitListServiceMapImpl implements MockService, CourseWaitList
         List<CourseWaitListEntryInfo> entries = getCourseWaitListEntriesByCourseWaitList(courseWaitListId, contextInfo);
 
         CourseWaitListEntryInfo copy = new CourseWaitListEntryInfo(courseWaitListEntryInfo);
-        int position;
-        if(copy.getPosition() == null) {
-            position = entries.size() + 1;
-            copy.setPosition(position);
-        } else {
-            position = copy.getPosition();
-            copy.setPosition(entries.size() + 1);
-        }
 
+        int order;
+        if(copy.getOrder() == null) {
+            order = entries.size() + 1;
+            copy.setOrder(order);
+        } else {
+            order = copy.getOrder();
+            copy.setOrder(entries.size() + 1);
+        }
 
         if (copy.getId() == null) {
             copy.setId(UUIDHelper.genStringUUID());
@@ -423,7 +423,8 @@ public class CourseWaitListServiceMapImpl implements MockService, CourseWaitList
         courseWaitListEntryMap.put(copy.getId(), copy);
 
         entries.add(copy);
-        moveCourseWaitListEntryToPosition(copy.getId(), entries, position, contextInfo);
+
+        moveCourseWaitListEntryToOrder(copy.getId(), entries, order, contextInfo);
 
         return new CourseWaitListEntryInfo(copy);
     }
@@ -449,9 +450,8 @@ public class CourseWaitListServiceMapImpl implements MockService, CourseWaitList
             throw new VersionMismatchException(old.getMeta().getVersionInd());
         }
 
-        //If the position has changed then update the list.
-        if(!copy.getPosition().equals(old.getPosition())) {
-            moveCourseWaitListEntryToPosition(copy.getId(), copy.getPosition(), contextInfo);
+        if(!copy.getOrder().equals(old.getOrder())) {
+            moveCourseWaitListEntryToOrder(copy.getId(), copy.getOrder(), contextInfo);
         }
 
         copy.setMeta(updateMeta(copy.getMeta(), contextInfo));
@@ -478,11 +478,12 @@ public class CourseWaitListServiceMapImpl implements MockService, CourseWaitList
     {
         CourseWaitListEntryInfo entry = getCourseWaitListEntry(courseWaitListEntryId, contextInfo);
 
-        //reorder the positions
+        //reorder the orders
         List<CourseWaitListEntryInfo> courseWaitListEntries = getCourseWaitListEntriesByCourseWaitList(entry.getCourseWaitListId(), contextInfo);
 
-        if(entry.getPosition() < courseWaitListEntries.size()) {
-            moveCourseWaitListEntryToPosition(courseWaitListEntryId, courseWaitListEntries.size(), contextInfo);
+
+        if(entry.getOrder() < courseWaitListEntries.size()) {
+            moveCourseWaitListEntryToOrder(courseWaitListEntryId, courseWaitListEntries.size(), contextInfo);
         }
 
         // DELETE
@@ -502,64 +503,68 @@ public class CourseWaitListServiceMapImpl implements MockService, CourseWaitList
     {
         //This implementation is very very slow.  The assumption was made that this will be acceptable for the Map Impl.
         for(int i = 0; i < courseWaitListEntryIds.size(); i++) {
-            moveCourseWaitListEntryToPosition(courseWaitListEntryIds.get(i), i + 1, contextInfo);
+            moveCourseWaitListEntryToOrder(courseWaitListEntryIds.get(i), i + 1, contextInfo);
         }
         return new StatusInfo();
     }
 
     @Override
-    public StatusInfo moveCourseWaitListEntryToPosition(String courseWaitListEntryId, Integer position, ContextInfo contextInfo)
+    public StatusInfo moveCourseWaitListEntryToOrder(String courseWaitListEntryId, Integer order, ContextInfo contextInfo)
             throws DoesNotExistException
             ,InvalidParameterException
             ,MissingParameterException
             ,OperationFailedException
             ,PermissionDeniedException
     {
+
+
         CourseWaitListEntryInfo entry = getCourseWaitListEntry(courseWaitListEntryId, contextInfo);
 
-        if(!entry.getPosition().equals(position)) {
+        if(!entry.getOrder().equals(order)) {
             List<CourseWaitListEntryInfo> courseWaitListEntries = getCourseWaitListEntriesByCourseWaitList(entry.getCourseWaitListId(), contextInfo);
-            moveCourseWaitListEntryToPosition(courseWaitListEntryId, courseWaitListEntries, position, contextInfo);
+            moveCourseWaitListEntryToOrder(courseWaitListEntryId, courseWaitListEntries, order, contextInfo);
         }
         return new StatusInfo();
 
+
     }
 
-    private void moveCourseWaitListEntryToPosition(String courseWaitListEntryId, List<CourseWaitListEntryInfo> courseWaitListEntries, Integer position, ContextInfo contextInfo)
+    private void moveCourseWaitListEntryToOrder(String courseWaitListEntryId, List<CourseWaitListEntryInfo> courseWaitListEntries, Integer order, ContextInfo contextInfo)
             throws DoesNotExistException
             ,InvalidParameterException
             ,MissingParameterException
             ,OperationFailedException
             ,PermissionDeniedException {
-        if(position <= 0 || position > courseWaitListEntries.size()) {
-            throw new InvalidParameterException("The new position " + position + " for the wait list entry " + courseWaitListEntryId + " is not valid");
+
+        if(order <= 0 || order > courseWaitListEntries.size()) {
+            throw new InvalidParameterException("The new order " + order + " for the wait list entry " + courseWaitListEntryId + " is not valid");
         }
 
-        int currentPosition = 1;
-        if(currentPosition == position) {
-            currentPosition++;
+        int currentorder = 1;
+        if(currentorder == order) {
+            currentorder++;
         }
 
         for(CourseWaitListEntryInfo currentEntry : courseWaitListEntries) {
             boolean entryChanged = false;
             if(!currentEntry.getId().equals(courseWaitListEntryId)) {
-                if(!currentEntry.getPosition().equals(currentPosition)) {
-                    currentEntry.setPosition(currentPosition);
+                if(!currentEntry.getOrder().equals(currentorder)) {
+                    currentEntry.setOrder(currentorder);
                     entryChanged = true;
                 }
-                currentPosition++;
-                if(currentPosition == position) {
-                    currentPosition++;
+                currentorder++;
+                if(currentorder == order) {
+                    currentorder++;
                 }
             } else {
-                currentEntry.setPosition(position);
+                currentEntry.setOrder(order);
                 entryChanged = true;
             }
 
             if(entryChanged) {
                 //update directly to prevent cycle
                 CourseWaitListEntryInfo updatedEntry = courseWaitListEntryMap.get(currentEntry.getId());
-                updatedEntry.setPosition(currentEntry.getPosition());
+                updatedEntry.setOrder(currentEntry.getOrder());
                 updatedEntry.setMeta(updateMeta(updatedEntry.getMeta(), contextInfo));
             }
         }
@@ -618,7 +623,7 @@ public class CourseWaitListServiceMapImpl implements MockService, CourseWaitList
         Collections.sort(entries, new Comparator<CourseWaitListEntryInfo>() {
             @Override
             public int compare(CourseWaitListEntryInfo o1, CourseWaitListEntryInfo o2) {
-                return o1.getPosition().compareTo(o2.getPosition());
+                return o1.getOrder().compareTo(o2.getOrder());
             }
         });
 

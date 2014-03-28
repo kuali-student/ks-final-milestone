@@ -90,19 +90,18 @@ public class CourseWaitListDataLoader extends AbstractMockServicesAwareDataLoade
         }
     }
 
-    public void createWaitListEntry(CourseWaitListInfo courseWaitList, String regGroupId, String studentId, Integer position) throws ParseException,
+    public void createWaitListEntry(CourseWaitListInfo courseWaitList, String registrationRequestItemId, String studentId, Integer order) throws ParseException,
             DoesNotExistException, PermissionDeniedException, OperationFailedException, InvalidParameterException,
             ReadOnlyException, MissingParameterException, DataValidationErrorException {
         CourseWaitListEntryInfo info = new CourseWaitListEntryInfo();
         info.setCourseWaitListId(courseWaitList.getId());
-        info.setRegistrationGroupId(regGroupId);
+        info.setRegistrationRequestItemId(registrationRequestItemId);
         info.setTypeKey(COURSE_WAIT_LIST_ENTRY_TYPE_KEY);
         info.setStateKey("active");
         info.setEffectiveDate(dateFormat.parse("20130611"));
         info.setExpirationDate(dateFormat.parse("20500101"));
         info.setStudentId(studentId);
-        info.setPosition(position);
-
+        info.setOrder(order);
 
         info = courseWaitListService.createCourseWaitListEntry(courseWaitList.getId(), studentId, info.getTypeKey(), info, context);
     }
