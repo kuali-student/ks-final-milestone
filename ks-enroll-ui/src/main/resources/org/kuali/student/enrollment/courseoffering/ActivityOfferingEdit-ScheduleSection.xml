@@ -293,7 +293,7 @@
                             <!-- Tried using this syntax ... lightBoxLookup.templateOptions ... set the callback, but even with 'merge'
                                  set the other options were overwritten. -->
                             <property name="lightBoxLookup">
-                                <bean parent="Uif-LightBoxPost">
+                                <bean parent="Uif-LightBox">
                                     <property name="lookupReturnByScript" value="true" />
                                     <property name="templateOptions">
                                         <map merge="true">

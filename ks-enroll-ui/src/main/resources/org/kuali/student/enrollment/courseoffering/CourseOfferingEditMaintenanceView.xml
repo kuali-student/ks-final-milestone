@@ -785,7 +785,7 @@
                                         </property>
                                         <property name="viewName" value="ks_simplePersonLookup" />
                                         <property name="lightBoxLookup">
-                                            <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="true"/>
+                                            <bean parent="Uif-LightBox" p:lookupReturnByScript="true"/>
                                         </property>
                                     </bean>
                                 </property>
