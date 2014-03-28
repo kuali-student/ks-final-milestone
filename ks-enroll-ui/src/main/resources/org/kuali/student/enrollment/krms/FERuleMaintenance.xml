@@ -523,7 +523,7 @@ limitations under the License.
                         <bean parent="Uif-CheckboxControl"/>
                     </property>
                 </bean>
-                <bean id="FinalExam_days" parent="Uif-InputField-LabelTop" p:label="Days"
+                <bean id="FinalExam_days" parent="KS-Uif-InputField-LabelTop" p:label="Days"
                       p:propertyName="ruleEditor.day">
                     <property name="control">
                         <ref bean="KSFE-FinalExam-ExamDaysDropdown"/>
@@ -539,7 +539,7 @@ limitations under the License.
                                   p:progressiveRender="@{#dp.ruleEditor.tba eq false}">
                                 <property name="items">
                                     <list>
-                                        <bean id="FinalExam_starttime" parent="Uif-InputField-LabelTop"
+                                        <bean id="FinalExam_starttime" parent="KS-Uif-InputField-LabelTop"
                                               p:label="Start Time" p:propertyName="ruleEditor.startTime">
                                             <property name="fieldLabel.requiredMessage.messageText" value=""/>
                                             <property name="constraintText" value="HH:MM"/>
@@ -551,7 +551,7 @@ limitations under the License.
                                                 <bean parent="TimePatternConstraint"/>
                                             </property>
                                         </bean>
-                                        <bean id="FinalExam_starttime_ampm" parent="Uif-InputField-LabelTop"
+                                        <bean id="FinalExam_starttime_ampm" parent="KS-Uif-InputField-LabelTop"
                                               p:label="&lt;br&gt;" p:propertyName="ruleEditor.startTimeAMPM">
                                             <property name="fieldLabel.requiredMessage.messageText" value=""/>
                                             <property name="control">
@@ -559,7 +559,7 @@ limitations under the License.
                                                       p:cssClasses="new_rdl_components"/>
                                             </property>
                                         </bean>
-                                        <bean id="FinalExam_endtime" parent="Uif-InputField-LabelTop" p:label="End Time"
+                                        <bean id="FinalExam_endtime" parent="KS-Uif-InputField-LabelTop" p:label="End Time"
                                               p:propertyName="ruleEditor.endTime">
                                             <property name="fieldLabel.requiredMessage.messageText" value=""/>
                                             <property name="constraintText" value="HH:MM"/>
@@ -571,7 +571,7 @@ limitations under the License.
                                                 <bean parent="TimePatternConstraint"/>
                                             </property>
                                         </bean>
-                                        <bean id="FinalExam_endtime_ampm" parent="Uif-InputField-LabelTop"
+                                        <bean id="FinalExam_endtime_ampm" parent="KS-Uif-InputField-LabelTop"
                                               p:label="&lt;br&gt;" p:propertyName="ruleEditor.endTimeAMPM">
                                             <property name="fieldLabel.requiredMessage.messageText" value=""/>
                                             <property name="control">
@@ -585,7 +585,7 @@ limitations under the License.
                         </list>
                     </property>
                 </bean>
-                <bean id="FinalExam_building" parent="Uif-InputField-LabelTop" p:label="Facility"
+                <bean id="FinalExam_building" parent="KS-Uif-InputField-LabelTop" p:label="Facility"
                       p:render="@{#dp.ruleEditor.ruleTypeInfo.type ne 'kuali.krms.rule.type.final.exam.standard'}"
                       p:propertyName="ruleEditor.building.buildingCode" p:uppercaseValue="true">
                     <property name="fieldLabel.requiredMessage.messageText" value=""/>
@@ -605,7 +605,7 @@ limitations under the License.
                         </bean>
                     </property>
                 </bean>
-                <bean id="FinalExam_room" parent="Uif-InputField-LabelTop" p:label="Room"
+                <bean id="FinalExam_room" parent="KS-Uif-InputField-LabelTop" p:label="Room"
                       p:render="@{#dp.ruleEditor.ruleTypeInfo.type ne 'kuali.krms.rule.type.final.exam.standard'}"
                       p:propertyName="ruleEditor.room.roomCode">
                     <property name="control">
@@ -668,7 +668,7 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KSFE_days-Parent" parent="Uif-InputField-LabelTop" p:label="Days" p:propertyName="proposition.weekdays"
+    <bean id="KSFE_days-Parent" parent="KS-Uif-InputField-LabelTop" p:label="Days" p:propertyName="proposition.weekdays"
           p:uppercaseValue="true">
         <property name="constraintText" value="MTWHFSU"/>
         <property name="control">
@@ -681,7 +681,7 @@ limitations under the License.
     </bean>
     <bean id="KSFE_days" parent="KSFE_days-Parent"/>
 
-    <bean id="KSFE_starttime-Parent" parent="Uif-InputField-LabelTop" p:label="Start Time"
+    <bean id="KSFE_starttime-Parent" parent="KS-Uif-InputField-LabelTop" p:label="Start Time"
           p:propertyName="proposition.startTime">
         <property name="constraintText" value="HH:MM"/>
         <property name="control">
@@ -693,7 +693,7 @@ limitations under the License.
     </bean>
     <bean id="KSFE_starttime" parent="KSFE_starttime-Parent"/>
 
-    <bean id="KSFE_starttime_ampm-Parent" parent="Uif-InputField-LabelTop" p:label="&lt;br&gt;"
+    <bean id="KSFE_starttime_ampm-Parent" parent="KS-Uif-InputField-LabelTop" p:label="&lt;br&gt;"
           p:propertyName="proposition.startTimeAMPM">
         <property name="control">
             <bean parent="Uif-DropdownControl" p:options-ref="AmPm-Options" p:cssClasses="new_rdl_components"/>
@@ -701,7 +701,7 @@ limitations under the License.
     </bean>
     <bean id="KSFE_starttime_ampm" parent="KSFE_starttime_ampm-Parent"/>
 
-    <bean id="KSFE_endtime-Parent" parent="Uif-InputField-LabelTop" p:label="End Time"
+    <bean id="KSFE_endtime-Parent" parent="KS-Uif-InputField-LabelTop" p:label="End Time"
           p:propertyName="proposition.endTime">
         <property name="constraintText" value="HH:MM"/>
         <property name="control">
@@ -713,7 +713,7 @@ limitations under the License.
     </bean>
     <bean id="KSFE_endtime" parent="KSFE_endtime-Parent"/>
 
-    <bean id="KSFE_endtime_ampm-Parent" parent="Uif-InputField-LabelTop" p:label="&lt;br&gt;"
+    <bean id="KSFE_endtime_ampm-Parent" parent="KS-Uif-InputField-LabelTop" p:label="&lt;br&gt;"
           p:propertyName="proposition.endTimeAMPM">
         <property name="control">
             <bean parent="Uif-DropdownControl" p:options-ref="AmPm-Options" p:cssClasses="new_rdl_components"/>

@@ -387,7 +387,7 @@
         <property name="items">
             <list>
                 <!-- Commented out - List of checkboxes seem to break in KRAD 2.2M3 so had to replace with individual checkboxes -->
-                <!--<bean parent="Uif-InputField-LabelTop" p:propertyName="courseOfferingInfo.studentRegistrationGradingOptions"-->
+                <!--<bean parent="KS-Uif-InputField-LabelTop" p:propertyName="courseOfferingInfo.studentRegistrationGradingOptions"-->
                 <!--p:label="Student Registration Options" p:render="@{!#dp.studentRegOptions.empty}"-->
                 <!-->-->
                 <!--<property name="control">-->

@@ -86,7 +86,7 @@
                     </property>
                     <property name="items">
                         <list>
-                            <bean id="subterm_type" parent="Uif-InputField-LabelTop" p:propertyName="subTermId" p:label="Choose a subterm">
+                            <bean id="subterm_type" parent="KS-Uif-InputField-LabelTop" p:propertyName="subTermId" p:label="Choose a subterm">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl" p:onChangeScript="displayAOsubTerm('subterm_name','subterm_type','change_link','activityCode','@{#dp.subTermDatesJsonString}');"/>
                                 </property>
@@ -659,7 +659,7 @@
         </property>
         <property name="items">
             <list>
-                <bean id="course_url" parent="Uif-InputField-LabelTop"
+                <bean id="course_url" parent="KS-Uif-InputField-LabelTop"
                       p:propertyName="aoInfo.activityOfferingURL"
                       p:label="Course URL">
                     <property name="control">

@@ -67,17 +67,17 @@
                             <bean parent="Uif-VerticalFieldGroup">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-InputField-LabelTop" p:label="Check Name" p:propertyName="name" >
+                                        <bean parent="KS-Uif-InputField-LabelTop" p:label="Check Name" p:propertyName="name" >
                                             <property name="control">
                                                 <bean parent="Uif-TextControl" p:watermarkText="Enter Check Name" p:size="15"/>
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-InputField-LabelTop" p:label="Check Description" p:propertyName="descr" p:instructionalText="Enter a full description of the purpose of the check">
+                                        <bean parent="KS-Uif-InputField-LabelTop" p:label="Check Description" p:propertyName="descr" p:instructionalText="Enter a full description of the purpose of the check">
                                             <property name="control">
                                                 <bean parent="Uif-SmallTextAreaControl"/>
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-InputField-LabelTop" p:label="Check Type" p:propertyName="typeKey">
+                                        <bean parent="KS-Uif-InputField-LabelTop" p:label="Check Type" p:propertyName="typeKey">
                                             <property name="control">
                                                 <bean parent="Uif-DropdownControl" p:required="true"/>
                                             </property>
@@ -173,12 +173,12 @@
                         <list>
                             <!-- This adds the file names to the page HTML -->
                             <ref bean="KS-SourceFile-Comment-Group"/>
-                            <bean parent="Uif-InputField-LabelTop" p:label="Check Name" p:propertyName="name">
+                            <bean parent="KS-Uif-InputField-LabelTop" p:label="Check Name" p:propertyName="name">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="20" p:required="true"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField-LabelTop" p:label="Check Description" p:propertyName="descr" >
+                            <bean parent="KS-Uif-InputField-LabelTop" p:label="Check Description" p:propertyName="descr" >
                                 <property name="control">
                                     <bean parent="Uif-SmallTextAreaControl" p:required="true"/>
                                 </property>
@@ -205,7 +205,7 @@
                     <property name="headerText" value="Set State for Check"/>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField-LabelTop" p:propertyName="dialogStateKey">
+                            <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="dialogStateKey">
                                 <property name="control">
                                     <bean parent="Uif-HorizontalRadioControl" p:disabled="@{isInstructionActive}">
                                         <property name="options">

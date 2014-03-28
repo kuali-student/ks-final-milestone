@@ -96,7 +96,7 @@
                     p:performClientSideValidation="false" p:actionLabel="Show" p:methodToCall="show" p:style="margin-top:46px;" p:successCallback="setupTimeSlotTypeDropdown();" p:id="timeSlotShowButton"/>
 
                 <!-- REMOVE ME: This is for a PoC for "intelligent" time entry
-                <bean id="daysPatternTextField" parent="Uif-InputField-LabelTop"  p:propertyName="pocTimeWithAMPM" p:label="PoC Days" p:required="true">
+                <bean id="daysPatternTextField" parent="KS-Uif-InputField-LabelTop"  p:propertyName="pocTimeWithAMPM" p:label="PoC Days" p:required="true">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="10"  p:maxLength="7" p:cssClasses="edit_ts_control">
                             <property name="onKeyPressScript">
@@ -110,7 +110,7 @@
                         <bean parent="CharsetPatternConstraint" p:validChars="MTWHFSUmtwhfsu" />
                     </property>
                 </bean>
-                <bean id="startTimeTextField" parent="Uif-InputField-LabelTop"  p:propertyName="pocTimeWithAMPM" p:label="PoC Start Time" p:required="true">
+                <bean id="startTimeTextField" parent="KS-Uif-InputField-LabelTop"  p:propertyName="pocTimeWithAMPM" p:label="PoC Start Time" p:required="true">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="8"  p:maxLength="8" p:cssClasses="validTimeAMPMPattern">
                            <property name="onBlurScript">
@@ -119,7 +119,7 @@
                         </bean>
                     </property>
                 </bean>
-                <bean id="endTimeTextField" parent="Uif-InputField-LabelTop"  p:propertyName="pocTimeWithAMPM" p:label="PoC End Time" p:required="true">
+                <bean id="endTimeTextField" parent="KS-Uif-InputField-LabelTop"  p:propertyName="pocTimeWithAMPM" p:label="PoC End Time" p:required="true">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="8"  p:maxLength="8" p:cssClasses="validTimeAMPMPattern"/>
                     </property>
@@ -273,7 +273,7 @@
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean id="addOrEditTermKey" parent="Uif-InputField-LabelTop" p:propertyName="editTermKey" p:cssClasses="edit_ts" p:label="Term Type" >
+                            <bean id="addOrEditTermKey" parent="KS-Uif-InputField-LabelTop" p:propertyName="editTermKey" p:cssClasses="edit_ts" p:label="Term Type" >
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl" p:cssClasses="edit_ts_control"/>
                                 </property>
@@ -281,7 +281,7 @@
                                     <bean class="org.kuali.student.enrollment.class1.timeslot.keyvalue.SelectedTimeSlotTypesOptionsFinder" p:addBlankOption="false" />
                                 </property>
                             </bean>
-                            <bean id="addOrEditDays" parent="Uif-InputField-LabelTop"  p:propertyName="editDays" p:cssClasses="edit_ts" p:label="Days" >
+                            <bean id="addOrEditDays" parent="KS-Uif-InputField-LabelTop"  p:propertyName="editDays" p:cssClasses="edit_ts" p:label="Days" >
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="10"  p:maxLength="7" p:cssClasses="edit_ts_control"/>
                                 </property>
@@ -291,7 +291,7 @@
                                     <bean parent="CharsetPatternConstraint" p:validChars="MTWHFSUmtwhfsu" />
                                 </property>-->
                             </bean>
-                            <bean id="addOrEditStartTime" parent="Uif-InputField-LabelTop"  p:propertyName="editStartTime" p:cssClasses="edit_ts" p:label="Start Time" >
+                            <bean id="addOrEditStartTime" parent="KS-Uif-InputField-LabelTop"  p:propertyName="editStartTime" p:cssClasses="edit_ts" p:label="Start Time" >
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="5"  p:maxLength="5" p:cssClasses="edit_ts_control"/>
                                 </property>
@@ -300,13 +300,13 @@
                                     <bean parent="TimePatternConstraint" />
                                 </property>-->
                             </bean>
-                            <bean id="addOrEditStartTimeAmPm" parent="Uif-InputField-LabelTop" p:label="&lt;br&gt;" p:propertyName="editStartTimeAmPm" p:cssClasses="edit_ts" >
+                            <bean id="addOrEditStartTimeAmPm" parent="KS-Uif-InputField-LabelTop" p:label="&lt;br&gt;" p:propertyName="editStartTimeAmPm" p:cssClasses="edit_ts" >
                                 <property name="fieldLabel.requiredMessage.messageText" value=""/>
                                 <property name="control">
                                     <bean parent="Uif-VerticalRadioControl" p:options-ref="hctime-options" p:cssClasses="edit_ts_control"/>
                                 </property>
                             </bean>
-                            <bean id="addOrEditEndTime" parent="Uif-InputField-LabelTop"  p:propertyName="editEndTime" p:label="End Time" p:cssClasses="edit_ts"  >
+                            <bean id="addOrEditEndTime" parent="KS-Uif-InputField-LabelTop"  p:propertyName="editEndTime" p:label="End Time" p:cssClasses="edit_ts"  >
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="5"  p:maxLength="5" p:cssClasses="edit_ts_control"/>
                                 </property>
@@ -315,7 +315,7 @@
                                     <bean parent="TimePatternConstraint" />
                                 </property>-->
                             </bean>
-                            <bean id="addOrEditEndTimeAmPm" parent="Uif-InputField-LabelTop" p:label="&lt;br&gt;" p:propertyName="editEndTimeAmPm" p:cssClasses="edit_ts" >
+                            <bean id="addOrEditEndTimeAmPm" parent="KS-Uif-InputField-LabelTop" p:label="&lt;br&gt;" p:propertyName="editEndTimeAmPm" p:cssClasses="edit_ts" >
                                 <property name="fieldLabel.requiredMessage.messageText" value=""/>
                                 <property name="control">
                                     <bean parent="Uif-VerticalRadioControl" p:options-ref="hctime-options" p:cssClasses="edit_ts_control"/>
@@ -350,7 +350,7 @@
         <property name="style" value="margin-bottom:0;padding-left:10px;padding-right:10px;"/>
         <property name="items">
             <list>
-                <bean id="addOrEditTermKey" parent="Uif-InputField-LabelTop" p:propertyName="addTermKey" p:cssClasses="new_ts" p:label="Term Type" >
+                <bean id="addOrEditTermKey" parent="KS-Uif-InputField-LabelTop" p:propertyName="addTermKey" p:cssClasses="new_ts" p:label="Term Type" >
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:cssClasses="new_ts_control"/>
                     </property>
@@ -358,7 +358,7 @@
                         <bean class="org.kuali.student.enrollment.class1.timeslot.keyvalue.SelectedTimeSlotTypesOptionsFinder" p:addBlankOption="false" />
                     </property>
                 </bean>
-                <bean id="addOrEditDays" parent="Uif-InputField-LabelTop"  p:propertyName="addDays" p:cssClasses="new_ts" p:label="Days" >
+                <bean id="addOrEditDays" parent="KS-Uif-InputField-LabelTop"  p:propertyName="addDays" p:cssClasses="new_ts" p:label="Days" >
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="10"  p:maxLength="7" p:cssClasses="new_ts_control"/>
                     </property>
@@ -368,7 +368,7 @@
                         <bean parent="CharsetPatternConstraint" p:validChars="MTWHFSUmtwhfsu" />
                     </property>-->
                 </bean>
-                <bean id="addOrEditStartTime" parent="Uif-InputField-LabelTop"  p:propertyName="addStartTime" p:cssClasses="new_ts" p:label="Start Time" >
+                <bean id="addOrEditStartTime" parent="KS-Uif-InputField-LabelTop"  p:propertyName="addStartTime" p:cssClasses="new_ts" p:label="Start Time" >
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="5"  p:maxLength="5" p:cssClasses="new_ts_control"/>
                     </property>
@@ -377,13 +377,13 @@
                         <bean parent="TimePatternConstraint" />
                     </property>-->
                 </bean>
-                <bean id="addOrEditStartTimeAmPm" parent="Uif-InputField-LabelTop" p:label="&lt;br&gt;" p:propertyName="addStartTimeAmPm" p:cssClasses="new_ts" >
+                <bean id="addOrEditStartTimeAmPm" parent="KS-Uif-InputField-LabelTop" p:label="&lt;br&gt;" p:propertyName="addStartTimeAmPm" p:cssClasses="new_ts" >
                     <property name="fieldLabel.requiredMessage.messageText" value=""/>
                     <property name="control">
                         <bean parent="Uif-VerticalRadioControl" p:options-ref="hctime-options" p:cssClasses="new_ts_control"/>
                     </property>
                 </bean>
-                <bean id="addOrEditEndTime" parent="Uif-InputField-LabelTop"  p:propertyName="addEndTime" p:label="End Time" p:cssClasses="new_ts" >
+                <bean id="addOrEditEndTime" parent="KS-Uif-InputField-LabelTop"  p:propertyName="addEndTime" p:label="End Time" p:cssClasses="new_ts" >
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="5"  p:maxLength="5" p:cssClasses="new_ts_control"/>
                     </property>
@@ -392,7 +392,7 @@
                         <bean parent="TimePatternConstraint" />
                     </property>-->
                 </bean>
-                <bean id="addOrEditEndTimeAmPm" parent="Uif-InputField-LabelTop" p:label="&lt;br&gt;" p:propertyName="addEndTimeAmPm" p:cssClasses="new_ts" >
+                <bean id="addOrEditEndTimeAmPm" parent="KS-Uif-InputField-LabelTop" p:label="&lt;br&gt;" p:propertyName="addEndTimeAmPm" p:cssClasses="new_ts" >
                     <property name="fieldLabel.requiredMessage.messageText" value=""/>
                     <property name="control">
                         <bean parent="Uif-VerticalRadioControl" p:options-ref="hctime-options" p:cssClasses="new_ts_control"/>

@@ -179,7 +179,7 @@
     <bean id="ActivityOfferingEdit-Inquiry-Miscellaneous" parent="Uif-VerticalBoxSection" p:headerText="Miscellaneous" p:id="aoInfo.Miscellaneous">
         <property name="items">
             <list>
-                <bean parent="Uif-InputField-LabelTop"
+                <bean parent="KS-Uif-InputField-LabelTop"
                       p:propertyName="aoInfo.activityOfferingURL"
                       p:label="Course URL">
                     <property name="control">

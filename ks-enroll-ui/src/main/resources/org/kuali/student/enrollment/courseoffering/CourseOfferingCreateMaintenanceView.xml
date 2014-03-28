@@ -315,7 +315,7 @@
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="addLineFormatWrapper.formatId"  p:required="true" p:label="Format" p:forceSessionPersistence="true">
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="addLineFormatWrapper.formatId"  p:required="true" p:label="Format" p:forceSessionPersistence="true">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"  p:additionalCssClasses="ignoreValid">
                         </bean>
@@ -325,14 +325,14 @@
                     </property>
                 </bean>
 
-                 <bean parent="Uif-InputField-LabelTop" p:propertyName="addLineFormatWrapper.gradeRosterLevelTypeKey" p:refreshWhenChangedPropertyNames="#dp.addLineFormatWrapper.formatId" p:forceSessionPersistence="true"
+                 <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="addLineFormatWrapper.gradeRosterLevelTypeKey" p:refreshWhenChangedPropertyNames="#dp.addLineFormatWrapper.formatId" p:forceSessionPersistence="true"
                       p:label="Grade Roster Level" p:required="true" p:finalizeMethodToCall="populateGradeRosterLevelTypes">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:additionalCssClasses="ignoreValid">
                         </bean>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="addLineFormatWrapper.finalExamLevelTypeKey" p:refreshWhenChangedPropertyNames="#dp.addLineFormatWrapper.gradeRosterLevelTypeKey,#dp.addLineFormatWrapper.formatId" p:forceSessionPersistence="true"
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="addLineFormatWrapper.finalExamLevelTypeKey" p:refreshWhenChangedPropertyNames="#dp.addLineFormatWrapper.gradeRosterLevelTypeKey,#dp.addLineFormatWrapper.formatId" p:forceSessionPersistence="true"
                       p:label="Final Exam Driver Activity" p:required="true" p:finalizeMethodToCall="populateFinalExamDriverTypes">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:additionalCssClasses="ignoreValid">
@@ -468,7 +468,7 @@
         <property name="headerText" value="Create From:"/>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="createFromCatalog" p:required="true" p:defaultValue="true">
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="createFromCatalog" p:required="true" p:defaultValue="true">
                     <property name="control">
                         <bean parent="Uif-VerticalRadioControl">
                             <property name="options">

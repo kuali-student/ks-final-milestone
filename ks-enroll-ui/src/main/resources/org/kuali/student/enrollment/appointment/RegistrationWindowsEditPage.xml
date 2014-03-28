@@ -238,7 +238,7 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="startTime" p:label="Start Time" p:labelPlacement="LEFT"
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="startTime" p:label="Start Time" p:labelPlacement="LEFT"
                       p:forceSessionPersistence="true" p:required="true" p:style="font-weight:normal;" p:readOnly="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}"  >
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="5"  p:watermarkText="HH:mm"/>
@@ -248,7 +248,7 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="startTimeAmPm" p:forceSessionPersistence="true" p:style="font-weight:normal;" p:required="true"
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="startTimeAmPm" p:forceSessionPersistence="true" p:style="font-weight:normal;" p:required="true"
                       p:readOnly="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}" >
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:options-ref="hctime-options-reg-window"/>
@@ -274,7 +274,7 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="endTime" p:label="Closing Time" p:labelPlacement="LEFT" p:style="font-weight:normal;"
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="endTime" p:label="Closing Time" p:labelPlacement="LEFT" p:style="font-weight:normal;"
                       p:readOnly="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="5"  p:watermarkText="HH:mm"/>
@@ -285,7 +285,7 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="endTimeAmPm"  p:style="font-weight:normal;"
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="endTimeAmPm"  p:style="font-weight:normal;"
                       p:readOnly="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:options-ref="hctime-options-reg-window"/>

@@ -205,7 +205,7 @@
                         <bean parent="Uif-CheckboxControl"/>
                     </property>
                 </bean>
-                <bean id="rdl_days" parent="Uif-InputField-LabelTop" p:label="Days" p:propertyName="newScheduleRequest.days" p:uppercaseValue="true">
+                <bean id="rdl_days" parent="KS-Uif-InputField-LabelTop" p:label="Days" p:propertyName="newScheduleRequest.days" p:uppercaseValue="true">
                     <property name="constraintText" value="MTWHFSU"/>
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="10" p:cssClasses="new_rdl_components" p:onBlurScript="rdlDaysOnBlur();"/>
@@ -214,14 +214,14 @@
 						<bean parent="CharsetPatternConstraint" p:validChars="MTWHFSUmtwhfsu" p:messageKey="validation.enroll.ao.scheduleValidChars"/>
 					</property>
                 </bean>
-                <bean id="rdl_starttime" parent="Uif-InputField-LabelTop" p:label="Start Time@{#dp.newScheduleRequest.tba ? '' : '*'}" p:propertyName="newScheduleRequest.startTime"   p:additionalCssClasses="uif-boxLayoutHorizontalItem"
+                <bean id="rdl_starttime" parent="KS-Uif-InputField-LabelTop" p:label="Start Time@{#dp.newScheduleRequest.tba ? '' : '*'}" p:propertyName="newScheduleRequest.startTime"   p:additionalCssClasses="uif-boxLayoutHorizontalItem"
                       p:disableNativeAutocomplete="true" p:required="@{!#dp.newScheduleRequest.tba}" p:refreshWhenChangedPropertyNames="#dp.newScheduleRequest.tba">
                     <property name="fieldLabel.requiredMessage.messageText" value=""/>
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="8" p:maxLength="8" p:cssClasses="new_rdl_components, validTimeAMPMPattern" p:onBlurScript="rdlStartTimeOnBlur();"/>
                     </property>
                 </bean>
-                <bean id="rdl_endtime" parent="Uif-InputField-LabelTop" p:label="End Time" p:propertyName="newScheduleRequest.endTime"
+                <bean id="rdl_endtime" parent="KS-Uif-InputField-LabelTop" p:label="End Time" p:propertyName="newScheduleRequest.endTime"
                                        p:disableNativeAutocomplete="true" p:forceSessionPersistence="true">
                     <property name="fieldLabel.requiredMessage.messageText" value=""/>
                      <property name="control">
@@ -253,7 +253,7 @@
                       </list>
                     </property>
                 </bean>
-                <bean id="rdl_bldg" parent="Uif-InputField-LabelTop" p:label="Facility" p:propertyName="newScheduleRequest.buildingCode" p:uppercaseValue="true">
+                <bean id="rdl_bldg" parent="KS-Uif-InputField-LabelTop" p:label="Facility" p:propertyName="newScheduleRequest.buildingCode" p:uppercaseValue="true">
                     <property name="fieldLabel.requiredMessage.messageText" value=""/>
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="20" p:cssClasses="new_rdl_components"/>
@@ -284,7 +284,7 @@
                         </bean>
                     </property>
                 </bean>
-                <bean id="rdl_room" parent="Uif-InputField-LabelTop" p:label="Room" p:propertyName="newScheduleRequest.roomCode">
+                <bean id="rdl_room" parent="KS-Uif-InputField-LabelTop" p:label="Room" p:propertyName="newScheduleRequest.roomCode">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="20" p:cssClasses="new_rdl_components"/>
                     </property>
@@ -324,7 +324,7 @@
                         </list>
                     </property>
                 </bean>
-                <bean id="authorizedToModifyEndTimeTS" parent="Uif-InputField-LabelTop" p:label="test" p:propertyName="authorizedToModifyEndTimeTS" p:hidden="true"/>
+                <bean id="authorizedToModifyEndTimeTS" parent="KS-Uif-InputField-LabelTop" p:label="test" p:propertyName="authorizedToModifyEndTimeTS" p:hidden="true"/>
             </list>
         </property>
     </bean>
