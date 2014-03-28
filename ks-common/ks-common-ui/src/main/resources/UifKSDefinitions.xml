@@ -809,6 +809,15 @@
         </property>
     </bean>
 
+    <bean id="KS-Uif-InputField-LabelRight" parent="KS-Uif-InputField-LabelRight-parent"/>
+    <!-- Rice 2.4 upgrade: Uif-InputField-LabelTop was removed by KULRICE-11750-->
+    <bean id="KS-Uif-InputField-LabelRight-parent" parent="Uif-InputField"
+          p:labelPlacement="RIGHT" p:fieldLabel.renderColon="false">
+        <property name="help">
+            <null/>
+        </property>
+    </bean>
+
     <bean id="KS-Uif-DataField" parent="KS-Uif-DataField-parent"/>
     <bean id="KS-Uif-DataField-parent" parent="Uif-DataField">
         <property name="help">
