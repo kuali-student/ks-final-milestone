@@ -414,8 +414,8 @@
                     <property name="group.validationMessages.displayMessages" value="false"/>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-MessageField" p:label="Course Requisites" p:messageText="@{#line.requisitesForUI}"
-                                  p:labelPlacement="LEFT">
+                            <bean parent="Uif-MessageField" p:label="Course Requisites" p:messageText="@{#line.requisitesForUI}">
+                                <!-- Rice 2.4 upgrade : removing p:labelPlacement="LEFT" -->
                                 <property name="fieldLabel.cssClasses" value="ksap-text-normal"/>
                                 <property name="cssClasses">
                                     <list merge="true">
