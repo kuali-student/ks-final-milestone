@@ -540,7 +540,8 @@ limitations under the License.
                                     <list>
                                         <bean id="FinalExam_starttime" parent="KS-Uif-InputField-LabelTop"
                                               p:label="Start Time" p:propertyName="ruleEditor.startTime">
-                                            <property name="fieldLabel.requiredMessage.messageText" value=""/>
+                                            <!-- Rice 2.4 upgrade : removing fieldLabel.requiredMessage -->
+                                            <!--<property name="fieldLabel.requiredMessage.messageText" value=""/>-->
                                             <property name="constraintText" value="HH:MM"/>
                                             <property name="control">
                                                 <bean parent="Uif-TextControl" p:size="5"
@@ -552,7 +553,8 @@ limitations under the License.
                                         </bean>
                                         <bean id="FinalExam_starttime_ampm" parent="KS-Uif-InputField-LabelTop"
                                               p:label="&lt;br&gt;" p:propertyName="ruleEditor.startTimeAMPM">
-                                            <property name="fieldLabel.requiredMessage.messageText" value=""/>
+                                            <!-- Rice 2.4 upgrade : removing fieldLabel.requiredMessage -->
+                                            <!--<property name="fieldLabel.requiredMessage.messageText" value=""/>-->
                                             <property name="control">
                                                 <bean parent="Uif-DropdownControl" p:options-ref="AmPm-Options"
                                                       p:cssClasses="new_rdl_components"/>
@@ -560,7 +562,8 @@ limitations under the License.
                                         </bean>
                                         <bean id="FinalExam_endtime" parent="KS-Uif-InputField-LabelTop" p:label="End Time"
                                               p:propertyName="ruleEditor.endTime">
-                                            <property name="fieldLabel.requiredMessage.messageText" value=""/>
+                                            <!-- Rice 2.4 upgrade : removing fieldLabel.requiredMessage -->
+                                            <!--<property name="fieldLabel.requiredMessage.messageText" value=""/>-->
                                             <property name="constraintText" value="HH:MM"/>
                                             <property name="control">
                                                 <bean parent="Uif-TextControl" p:size="5"
@@ -572,7 +575,8 @@ limitations under the License.
                                         </bean>
                                         <bean id="FinalExam_endtime_ampm" parent="KS-Uif-InputField-LabelTop"
                                               p:label="&lt;br&gt;" p:propertyName="ruleEditor.endTimeAMPM">
-                                            <property name="fieldLabel.requiredMessage.messageText" value=""/>
+                                            <!-- Rice 2.4 upgrade : removing fieldLabel.requiredMessage -->
+                                            <!--<property name="fieldLabel.requiredMessage.messageText" value=""/>-->
                                             <property name="control">
                                                 <bean parent="Uif-DropdownControl" p:options-ref="AmPm-Options"
                                                       p:cssClasses="new_rdl_components"/>
@@ -587,7 +591,8 @@ limitations under the License.
                 <bean id="FinalExam_building" parent="KS-Uif-InputField-LabelTop" p:label="Facility"
                       p:render="@{#dp.ruleEditor.ruleTypeInfo.type ne 'kuali.krms.rule.type.final.exam.standard'}"
                       p:propertyName="ruleEditor.building.buildingCode" p:uppercaseValue="true">
-                    <property name="fieldLabel.requiredMessage.messageText" value=""/>
+                    <!-- Rice 2.4 upgrade : removing fieldLabel.requiredMessage -->
+                    <!--<property name="fieldLabel.requiredMessage.messageText" value=""/>-->
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="20" p:cssClasses="new_rdl_components"/>
                     </property>
