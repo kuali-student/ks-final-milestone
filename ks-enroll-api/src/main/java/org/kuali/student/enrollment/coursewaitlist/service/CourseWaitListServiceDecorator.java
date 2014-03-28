@@ -186,8 +186,8 @@ public class CourseWaitListServiceDecorator implements CourseWaitListService {
     }
 
     @Override
-    public StatusInfo moveCourseWaitListEntryToPosition(String courseWaitListEntryId, Integer position, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().moveCourseWaitListEntryToPosition(courseWaitListEntryId, position, contextInfo);
+    public StatusInfo moveCourseWaitListEntryToOrder(String courseWaitListEntryId, Integer order, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().moveCourseWaitListEntryToOrder(courseWaitListEntryId, order, contextInfo);
     }
 
     @Override

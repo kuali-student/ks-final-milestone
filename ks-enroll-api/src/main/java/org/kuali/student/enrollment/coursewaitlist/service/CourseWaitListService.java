@@ -443,7 +443,7 @@ public interface CourseWaitListService {
 
     /**
      * Retrieves the CourseWaitListEntries associated with the given CourseWaitList Id.
-     * The returned list will be ordered by CourseWaitListEntryInfo.position starting with position 1.
+     * The returned list will be ordered by CourseWaitListEntryInfo.order starting with order 1.
      *
      * @param courseWaitListId  the identifier for the CourseWaitList
      * @param contextInfo information containing the principalId and
@@ -570,10 +570,10 @@ public interface CourseWaitListService {
             PermissionDeniedException;
 
     /**
-     * Creates a new CourseWaitListEntry. The position of any other entries that are affected by this
+     * Creates a new CourseWaitListEntry. The order of any other entries that are affected by this
      * addition are adjusted. For example, inserting a student at the third
-     * position of a list with more than three entries would cause all
-     * existing entries at position three and greater to have their positions
+     * order of a list with more than three entries would cause all
+     * existing entries at order three and greater to have their orders
      * increased by one.
      * <p/>
      * The CourseWaitList Id, student Id, CourseWaitListEntry type key, and Meta information may not be set in the supplied data object.
@@ -614,7 +614,7 @@ public interface CourseWaitListService {
      * Updates an existing CourseWaitListEntry. The CourseWaitListEntry id, Type, CourseWaitList id,
      * and Meta information may not be changed.
      *
-     * To update the position please use the operation reorderCourseWaitListEntries
+     * To update the order please use the operation reorderCourseWaitListEntries
      *
      * @param courseWaitListEntryId   the identifier for the CourseWaitListEntry to be
      *                          updated
@@ -698,11 +698,11 @@ public interface CourseWaitListService {
 
     /**
      * Reorders the CourseWaitListEntries contained in a CourseWaitList.
-     * Essentially this just adjusts the position of the entries relative to each other.
-     * Causes the entries not in the list to the have a higher position (lower priority) than all of the entries given.
+     * Essentially this just adjusts the order of the entries relative to each other.
+     * Causes the entries not in the list to the have a higher order (lower priority) than all of the entries given.
      *
      * It is important to note that this reordering is stable for any entries not given - entries not given will
-     * have the same position relative to each other.
+     * have the same order relative to each other.
      *
      * For example, given a course wait list with five entries (1, 2, 3, 4, 5) a call
      * to reorderCourseWaitListEntries with (3, 2) would reorder the course wait list as (3, 2, 1, 4, 5).
@@ -729,15 +729,15 @@ public interface CourseWaitListService {
             PermissionDeniedException;
 
     /**
-     * Inserts an existing CourseWaitListEntry at a particular position on
+     * Inserts an existing CourseWaitListEntry at a particular order on
      * the CourseWaitList.
      *
      * If another entry already exists at that particular
-     * position within the CourseWaitList then this method "bumps down" the
-     * rest of the entries until there is an open position.
+     * order within the CourseWaitList then this method "bumps down" the
+     * rest of the entries until there is an open order.
      *
      * @param courseWaitListEntryId the id for the CourseWaitListEntry to be moved.
-     * @param position the absolute position in the CourseWaitList
+     * @param order the absolute order in the CourseWaitList
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of the service
      *        operation
@@ -748,9 +748,9 @@ public interface CourseWaitListService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public StatusInfo moveCourseWaitListEntryToPosition(@WebParam(name = "courseWaitListEntryId") String courseWaitListEntryId,
-                                                  @WebParam(name = "position") Integer position,
-                                                  @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public StatusInfo moveCourseWaitListEntryToOrder(@WebParam(name = "courseWaitListEntryId") String courseWaitListEntryId,
+                                                     @WebParam(name = "order") Integer order,
+                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
@@ -805,4 +805,5 @@ public interface CourseWaitListService {
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException;
+
 }

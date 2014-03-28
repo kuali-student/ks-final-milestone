@@ -31,7 +31,7 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CourseWaitListEntryInfo", propOrder = {
         "id", "typeKey", "stateKey", "effectiveDate", "expirationDate",
-        "courseWaitListId", "studentId", "registrationGroupId", "position", "lastCheckIn",
+        "courseWaitListId", "studentId", "registrationRequestItemId", "order", "lastCheckIn",
         "meta", "attributes", "_futureElements"})
 
 public class CourseWaitListEntryInfo extends RelationshipInfo implements CourseWaitListEntry, Serializable {
@@ -43,9 +43,9 @@ public class CourseWaitListEntryInfo extends RelationshipInfo implements CourseW
     @XmlElement
     private String studentId;
     @XmlElement
-    private String registrationGroupId;
+    private String registrationRequestItemId;
     @XmlElement
-    private Integer position;
+    private Integer order;
     @XmlElement
     private Date lastCheckIn;
     @XmlAnyElement
@@ -60,8 +60,8 @@ public class CourseWaitListEntryInfo extends RelationshipInfo implements CourseW
         if(entry != null) {
             setCourseWaitListId(entry.getCourseWaitListId());
             setStudentId(entry.getStudentId());
-            setPosition(entry.getPosition());
-            setRegistrationGroupId(entry.getRegistrationGroupId());
+            setOrder(entry.getOrder());
+            setRegistrationRequestItemId(entry.getRegistrationRequestItemId());
             if(entry.getLastCheckIn() != null) {
                 setLastCheckIn(new Date(entry.getLastCheckIn().getTime()));
             }
@@ -87,21 +87,21 @@ public class CourseWaitListEntryInfo extends RelationshipInfo implements CourseW
     }
 
     @Override
-    public String getRegistrationGroupId() {
-        return registrationGroupId;
+    public String getRegistrationRequestItemId() {
+        return registrationRequestItemId;
     }
 
-    public void setRegistrationGroupId(String registrationGroupId) {
-        this.registrationGroupId = registrationGroupId;
+    public void setRegistrationRequestItemId(String registrationRequestItemId) {
+        this.registrationRequestItemId = registrationRequestItemId;
     }
 
     @Override
-    public Integer getPosition() {
-        return position;
+    public Integer getOrder() {
+        return order;
     }
 
-    public void setPosition(Integer position) {
-        this.position = position;
+    public void setOrder(Integer order) {
+        this.order = order;
     }
 
     @Override
