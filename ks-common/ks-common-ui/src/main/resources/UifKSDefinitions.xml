@@ -450,8 +450,8 @@
 
     <bean id="KS-Lozenge-Grey-Uif-InputField" parent="Uif-InputField" p:additionalCssClasses="state-draft"
           p:fieldLabel.renderColon="false" p:fieldLabel.cssClasses="labelTop"
-          p:labelPlacement="TOP" p:fieldLabel.requiredMessagePlacement="LEFT"
-          p:instructionalMessage.render="false">
+          p:labelPlacement="TOP" p:instructionalMessage.render="false">
+        <!-- Rice 2.4 upgrade : removing p:fieldLabel.requiredMessagePlacement="LEFT" -->
         <property name="instructionalMessage">
             <bean parent="Uif-InstructionalMessage"/>
         </property>
