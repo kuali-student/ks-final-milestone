@@ -358,7 +358,6 @@
                                                         <property name="fieldLabel.renderColon" value="false"/>
                                                     </bean>
                                                     <bean parent="Uif-VerticalFieldGroup" p:label="Other"
-                                                          p:labelPlacement="TOP"
                                                           p:style="width:199px;">
                                                         <property name="fieldLabel.renderColon" value="false"/>
                                                         <property name="group.validationMessages.displayMessages" value="false"/>
