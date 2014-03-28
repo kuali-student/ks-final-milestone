@@ -453,7 +453,7 @@
 
     <bean id="ActivityOfferingEdit-Waitlist" parent="Uif-VerticalBoxSection" p:headerText="Waitlist" p:render="@{#dp.hasWaitlistCO}">
         <property name="validationMessages.displayMessages" value="false"/>
-        <property name="componentSecurity.viewAuthz" value="true"/>
+        <property name="viewAuthz" value="true"/>
         <property name="additionalCssClasses">
             <list merge="true">
                 <value>ks-section</value>
@@ -541,7 +541,7 @@
     </bean>
 
     <bean id="ActivityOfferingView-Waitlist" parent="Uif-VerticalBoxSection" p:render="@{#dp.hasWaitlistCO}">
-        <property name="componentSecurity.viewAuthz" value="true"/>
+        <property name="viewAuthz" value="true"/>
         <property name="headerText" value="Waitlist" />
         <property name="items">
             <list>
@@ -565,7 +565,7 @@
     <bean id="ActivityOfferingEdit-SeatPool" parent="Uif-VerticalBoxSection" p:additionalCssClasses="ks-seatpools,ks-section">
         <property name="validationMessages.displayMessages" value="false"/>
         <property name="headerText" value="Seat Pools"/>
-        <property name="componentSecurity.editAuthz" value="true"/>
+        <property name="editAuthz" value="true"/>
         <property name="items">
             <list>
                 <bean parent="Uif-MessageField" p:label="Seat Pools" p:messageText="0" p:id="seatpoolCount">

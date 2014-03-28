@@ -494,7 +494,7 @@
 
     <bean id="KS-CourseOfferingEdit-DeliveryAndAssessment" p:id="delivery_and_assessment" parent="Uif-VerticalBoxSection" p:headerText="Delivery and Assessment">
         <property name="validationMessages.displayMessages" value="false"/>
-        <property name="componentSecurity.editAuthz" value="true"/>
+        <property name="editAuthz" value="true"/>
         <property name="items">
             <list>
                 <bean parent="Uif-VerticalBoxSection">

@@ -80,7 +80,7 @@
     </bean>
 
     <bean id="KS-CourseOfferingManagement-CourseOfferingResultSection" parent="Uif-VerticalBoxSection" p:id="searchResultSection">
-        <property name="componentSecurity.viewAuthz" value="true"/>
+        <property name="viewAuthz" value="true"/>
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>

@@ -37,7 +37,7 @@
 
     <bean id="KS-CourseOfferingManagement-CriteriaSection-JSONPOC" parent="Uif-HorizontalBoxSection"
         p:id="courseOfferingManagementCriteriaSection">
-        <!--<property name="componentSecurity.editAuthz" value="true" />-->
+        <!--<property name="editAuthz" value="true" />-->
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>
