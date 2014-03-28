@@ -1236,7 +1236,10 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 rvg.setResultValueRange(rvgWrapper.getResultValueRange());
             } else if (StringUtils.equals(rvgWrapper.getTypeKey(), LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE)) {
                 for (ResultValueKeysWrapper rvKeys : rvgWrapper.getResultValueKeysDisplay()) {
-                    rvg.getResultValueKeys().add(rvKeys.getCreditValueDisplay());
+                    StringBuilder builder = new StringBuilder(LrcServiceConstants.RESULT_VALUE_KEY_CREDIT_DEGREE_PREFIX);
+                    float floatValue = Float.valueOf(rvKeys.getCreditValueDisplay());
+                    builder.append(floatValue);
+                    rvg.getResultValueKeys().add(builder.toString());
                 }
             } else if (StringUtils.equals(rvgWrapper.getTypeKey(), LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)) {
                 rvg.setResultValueRange(rvgWrapper.getResultValueRange());
@@ -1257,7 +1260,9 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             if (StringUtils.equals(rvg.getTypeKey(), LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE)) {
                 for (String rvKey : rvg.getResultValueKeys()) {
                     ResultValueKeysWrapper keysWrapper = new ResultValueKeysWrapper();
-                    keysWrapper.setCreditValueDisplay(StringUtils.substringAfterLast(rvKey, "."));
+                    String value = StringUtils.strip(rvKey,LrcServiceConstants.RESULT_VALUE_KEY_CREDIT_DEGREE_PREFIX);
+                    value = StringUtils.strip(value,".0"); // This can be only be integer at ui.
+                    keysWrapper.setCreditValueDisplay(value);
                     rvgWrapper.getResultValueKeysDisplay().add(keysWrapper);
                 }
             }
