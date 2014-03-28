@@ -33,13 +33,20 @@ import org.kuali.student.enrollment.class2.courseoffering.service.decorators.Per
 import org.kuali.student.enrollment.courseoffering.infc.ActivityOffering;
 import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.messenger.Messenger;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.ExamOfferingServiceConstants;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.process.krms.evaluator.KRMSEvaluator;
+import org.kuali.student.r2.core.room.dto.BuildingInfo;
+import org.kuali.student.r2.core.room.dto.RoomInfo;
+import org.kuali.student.r2.core.room.service.RoomService;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
@@ -77,6 +84,7 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
 
     private SchedulingService schedulingService;
     private CourseService courseService;
+    private RoomService roomService;
 
     private Messenger userMessenger;
 
@@ -84,7 +92,7 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
      * @see ExamOfferingSlottingEvaluator
      */
     public void executeRuleForAOSlotting(ActivityOffering activityOffering, String examOfferingId, String termType,
-                                           ContextInfo context) throws OperationFailedException {
+                                         List<String> optionKeys, ContextInfo context) throws OperationFailedException {
 
         //Retrieve the matrix for the specific term type.
         KrmsTypeDefinition typeDefinition = this.getKrmsTypeRepositoryService().getTypeByName(
@@ -96,7 +104,23 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
         }
 
         //Retrieve the timeslots for the specific activity offering.
-        List<TimeSlotInfo> timeSlotsForAO = this.getTimeSlotsForAO(activityOffering, context);
+        List<ScheduleInfo> scheduleInfos = null;
+        List<ScheduleRequestInfo> scheduleRequestInfos = null;
+        try {
+            if (!activityOffering.getScheduleIds().isEmpty()) {
+                //Retrieve the ASI
+                scheduleInfos = this.getSchedulingService().getSchedulesByIds(activityOffering.getScheduleIds(), context);
+            } else {
+                //Retrieve the RSI
+                scheduleRequestInfos = this.getSchedulingService().getScheduleRequestsByRefObject(
+                        CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, activityOffering.getId(), context);
+            }
+        } catch (Exception e) {
+            throw new OperationFailedException("Unable to retrieve timeslots for ao.", e);
+        }
+
+        //Get all timeslots from ASI and RSI.
+        List<TimeSlotInfo> timeSlotsForAO = this.getTimeSlotsForAO(scheduleInfos, scheduleRequestInfos, context);
         if (timeSlotsForAO == null || timeSlotsForAO.isEmpty()) {
             userMessenger.sendWarningMessage(ExamOfferingServiceConstants.EXAM_OFFERING_ACTIVITY_OFFERING_TIMESLOTS_NOT_FOUND, null, context);
             return;
@@ -106,7 +130,21 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
         Map<String, Object> executionFacts = new HashMap<String, Object>();
         executionFacts.put(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO, context);
         executionFacts.put(KSKRMSServiceConstants.TERM_PREREQUISITE_TIMESLOTS, timeSlotsForAO);
-        if (!executeRuleForSlotting(agenda, typeDefinition.getId(), executionFacts, examOfferingId, context)) {
+
+        EngineResults results = executeRuleForSlotting(agenda, typeDefinition.getId(), executionFacts, examOfferingId, context);
+
+        //Check if action inserted a time slot info.
+        TimeSlotInfo timeslot = (TimeSlotInfo) results.getAttribute("timeslotInfo");
+        if (timeslot != null) {
+
+            ScheduleRequestComponentInfo componentInfo;
+            if (optionKeys.contains(ExamOfferingSlottingEvaluator.USE_AO_LOCATION_OPTION_KEY)) {
+                componentInfo = createScheduleRequestFromAOLocation(results, scheduleInfos, scheduleRequestInfos, context);
+            } else {
+                componentInfo = createScheduleRequestFromResults(results);
+            }
+            createRDLForExamOffering(componentInfo, timeslot, examOfferingId, context);
+        } else {
             String[] parameters = {activityOffering.getCourseOfferingCode(), activityOffering.getActivityCode()};
             userMessenger.sendWarningMessage(ExamOfferingServiceConstants.EXAM_OFFERING_AO_MATRIX_MATCH_NOT_FOUND, parameters, context);
         }
@@ -116,28 +154,26 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
     /**
      * By retrieving the timeslots at this stage, the termresolver can only use the existing values and therefore execute
      * much quicker.
-     *
-     * @param activityOffering
+     * @param scheduleInfos
+     * @param scheduleRequestInfos
      * @param context
      * @return
      * @throws OperationFailedException
      */
-    private List<TimeSlotInfo> getTimeSlotsForAO(ActivityOffering activityOffering, ContextInfo context) throws OperationFailedException {
+    private List<TimeSlotInfo> getTimeSlotsForAO(List<ScheduleInfo> scheduleInfos, List<ScheduleRequestInfo> scheduleRequestInfos,
+                                                 ContextInfo context) throws OperationFailedException {
         try {
             List<String> timeSlotIDs = new ArrayList<String>();
-            if (!activityOffering.getScheduleIds().isEmpty()) {
-                //Retrieve the ASI
-                List<ScheduleInfo> schedules = this.getSchedulingService().getSchedulesByIds(activityOffering.getScheduleIds(), context);
-                //populate the ASI timeslots
-                for (ScheduleInfo schedule : schedules) {
+            //populate the ASI timeslots
+            if (scheduleInfos != null) {
+                for (ScheduleInfo schedule : scheduleInfos) {
                     for (ScheduleComponentInfo scheduleComponent : schedule.getScheduleComponents()) {
                         timeSlotIDs.addAll(scheduleComponent.getTimeSlotIds());
                     }
                 }
-            } else {
-                //Retrieve the RSI
-                List<ScheduleRequestInfo> scheduleRequestInfos = this.getSchedulingService().getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, activityOffering.getId(), context);
-                //populate the RSI timeSlots
+            }
+            //populate the RSI timeSlots
+            if (scheduleRequestInfos != null) {
                 for (ScheduleRequestInfo scheduleRequestInfo : scheduleRequestInfos) {
                     for (ScheduleRequestComponentInfo componentInfo : scheduleRequestInfo.getScheduleRequestComponents()) {
                         timeSlotIDs.addAll(componentInfo.getTimeSlotIds());
@@ -158,7 +194,7 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
      * @see ExamOfferingSlottingEvaluator
      */
     public void executeRuleForCOSlotting(CourseOffering courseOffering, String examOfferingId, String termType,
-                                           ContextInfo context) throws OperationFailedException {
+                                         List<String> optionKeys, ContextInfo context) throws OperationFailedException {
 
         KrmsTypeDefinition typeDefinition = this.getKrmsTypeRepositoryService().getTypeByName(
                 PermissionServiceConstants.KS_SYS_NAMESPACE, KSKRMSServiceConstants.AGENDA_TYPE_FINAL_EXAM_CO_DRIVEN);
@@ -175,10 +211,18 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
                 throw new OperationFailedException("Unable to retrieve course version independent id.", e);
             }
 
-            if (!executeRuleForSlotting(agenda, typeDefinition.getId(), executionFacts, examOfferingId, context)) {
+            EngineResults results = executeRuleForSlotting(agenda, typeDefinition.getId(), executionFacts, examOfferingId, context);
+
+            //Check if action inserted a time slot info.
+            TimeSlotInfo timeslot = (TimeSlotInfo) results.getAttribute("timeslotInfo");
+            if (timeslot != null) {
+                ScheduleRequestComponentInfo componentInfo = createScheduleRequestFromResults(results);
+                createRDLForExamOffering(componentInfo, timeslot, examOfferingId, context);
+            } else {
                 String[] parameters = {courseOffering.getCourseOfferingCode()};
                 userMessenger.sendWarningMessage(ExamOfferingServiceConstants.EXAM_OFFERING_CO_MATRIX_MATCH_NOT_FOUND, parameters, context);
             }
+
         } else {
             userMessenger.sendWarningMessage(ExamOfferingServiceConstants.EXAM_OFFERING_MATRIX_NOT_FOUND, null, context);
         }
@@ -187,7 +231,6 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
 
     /**
      * Execute the rule for the given agenda.
-     * <p/>
      * This method also perform the persisting of the schedule request and timeslot if the execution of the rule
      * was successful.
      *
@@ -197,23 +240,78 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
      * @param examOfferingId
      * @param context
      */
-    private boolean executeRuleForSlotting(Agenda agenda, String typeId, Map<String, Object> executionFacts,
-                                             String examOfferingId, ContextInfo context) {
+    private EngineResults executeRuleForSlotting(Agenda agenda, String typeId, Map<String, Object> executionFacts,
+                                                 String examOfferingId, ContextInfo context) {
 
         Map<String, String> agendaQualifiers = new HashMap<String, String>();
         agendaQualifiers.put("typeId", typeId);
-        EngineResults results = this.evaluateAgenda(agenda, executionFacts, agendaQualifiers);
+        return this.evaluateAgenda(agenda, executionFacts, agendaQualifiers);
 
-        //Check if action inserted a schedule request component.
-        ScheduleRequestComponentInfo componentInfo = (ScheduleRequestComponentInfo) results.getAttribute("scheduleRequestComponentInfo");
-        if (componentInfo != null) {
-            TimeSlotInfo timeslot = (TimeSlotInfo) results.getAttribute("timeslotInfo");
-            createRDLForExamOffering(componentInfo, timeslot, examOfferingId, context);
-        } else {
-            return false;
+    }
+
+    /**
+     * @param results
+     * @return
+     */
+    private ScheduleRequestComponentInfo createScheduleRequestFromResults(EngineResults results) {
+        ScheduleRequestComponentInfo componentInfo = new ScheduleRequestComponentInfo();
+
+        Object tba = results.getAttribute("tba");
+        componentInfo.setIsTBA(tba == null ? false : (Boolean) tba);
+
+        Object buildingId = results.getAttribute("buildingId");
+        if (buildingId != null) {
+            componentInfo.getBuildingIds().add((String) buildingId);
         }
-        return true;
 
+        Object roomId = results.getAttribute("roomId");
+        if (roomId != null) {
+            componentInfo.getRoomIds().add((String) roomId);
+        }
+
+        return componentInfo;
+    }
+
+    /**
+     * @param scheduleInfos
+     * @param scheduleRequestInfos
+     * @return
+     */
+    private ScheduleRequestComponentInfo createScheduleRequestFromAOLocation(EngineResults results, List<ScheduleInfo> scheduleInfos,
+                                                                             List<ScheduleRequestInfo> scheduleRequestInfos, ContextInfo context) {
+        ScheduleRequestComponentInfo eoComponentInfo = new ScheduleRequestComponentInfo();
+
+        Object tba = results.getAttribute("tba");
+        eoComponentInfo.setIsTBA(tba == null ? false : (Boolean) tba);
+
+        //populate the ASI timeslots
+        if (scheduleInfos != null) {
+            for (ScheduleInfo schedule : scheduleInfos) {
+                for (ScheduleComponentInfo scheduleComponent : schedule.getScheduleComponents()) {
+                    eoComponentInfo.getRoomIds().add(scheduleComponent.getRoomId());
+
+                    try {
+                        RoomInfo room = this.getRoomService().getRoom(scheduleComponent.getRoomId(), context);
+                        eoComponentInfo.getBuildingIds().add(room.getBuildingId());
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                    return eoComponentInfo;
+                }
+            }
+        }
+        //populate the RSI timeSlots
+        if (scheduleRequestInfos != null) {
+            for (ScheduleRequestInfo scheduleRequestInfo : scheduleRequestInfos) {
+                for (ScheduleRequestComponentInfo componentInfo : scheduleRequestInfo.getScheduleRequestComponents()) {
+                    eoComponentInfo.getRoomIds().addAll(componentInfo.getRoomIds());
+                    eoComponentInfo.getBuildingIds().addAll(componentInfo.getBuildingIds());
+
+                    return eoComponentInfo;
+                }
+            }
+        }
+        return eoComponentInfo;
     }
 
     /**
@@ -377,6 +475,14 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
 
     public void setCourseService(CourseService courseService) {
         this.courseService = courseService;
+    }
+
+    public RoomService getRoomService() {
+        return roomService;
+    }
+
+    public void setRoomService(RoomService roomService) {
+        this.roomService = roomService;
     }
 
     public Messenger getUserMessenger() {

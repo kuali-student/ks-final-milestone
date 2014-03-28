@@ -20,6 +20,8 @@ import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 
+import java.util.List;
+
 /**
  * This is an interface for the execution of the final exam matrix in order to create the requested delivery
  * logistic.
@@ -28,17 +30,20 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
  */
 public interface ExamOfferingSlottingEvaluator {
 
+    public static final String USE_AO_LOCATION_OPTION_KEY = "kuali.option.key.eo.slotting.use.ao.location";
+
     /**
      * This method will evaluate the appropriate final exam matrix and create the requested delivery logistic.
      *
      * @param activityOffering
      * @param examOfferingId
      * @param termType
+     * @param optionKeys
      * @param context
      * @throws OperationFailedException
      */
     public void executeRuleForAOSlotting(ActivityOffering activityOffering, String examOfferingId, String termType,
-                                    ContextInfo context) throws OperationFailedException;
+                                         List<String> optionKeys, ContextInfo context) throws OperationFailedException;
 
     /**
      * This method will evaluate the appropriate final exam matrix and create the requested delivery logistic.
@@ -46,9 +51,10 @@ public interface ExamOfferingSlottingEvaluator {
      * @param courseOffering
      * @param examOfferingId
      * @param termType
+     * @param optionKeys
      * @param context
      * @throws OperationFailedException
      */
     public void executeRuleForCOSlotting(CourseOffering courseOffering,String examOfferingId, String termType,
-                                    ContextInfo context) throws OperationFailedException;
+                                         List<String> optionKeys, ContextInfo context) throws OperationFailedException;
 }

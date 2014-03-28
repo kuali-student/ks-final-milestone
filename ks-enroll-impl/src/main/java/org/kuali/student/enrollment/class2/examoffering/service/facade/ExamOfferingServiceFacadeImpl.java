@@ -247,9 +247,9 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
                 eo = createExamOffering(examPeriodId, ExamOfferingServiceConstants.EXAM_OFFERING_DRAFT_STATE_KEY, Driver.PER_CO.name(),
                         context);
             }
-
+            //pass
             if(this.getScheduleEvaluator()!=null && useFinalExamMatrix ){
-                this.getScheduleEvaluator().executeRuleForCOSlotting(courseOffering, eo.getId(), termType, context);
+                this.getScheduleEvaluator().executeRuleForCOSlotting(courseOffering, eo.getId(), termType, new ArrayList<String>(), context);
             }
 
             //Create new Exam Offering Relationship
@@ -448,7 +448,11 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
                 }
 
                 if (this.getScheduleEvaluator() != null && useFinalExamMatrix) {
-                    this.getScheduleEvaluator().executeRuleForAOSlotting(aoInfo, eo.getId(), termType, context);
+                    List<String> evaluatorOptions = new ArrayList<String>();
+                    if(this.isSetLocation()){
+                        evaluatorOptions.add(ExamOfferingSlottingEvaluator.USE_AO_LOCATION_OPTION_KEY);
+                    }
+                    this.getScheduleEvaluator().executeRuleForAOSlotting(aoInfo, eo.getId(), termType, evaluatorOptions, context);
                 }
 
             }

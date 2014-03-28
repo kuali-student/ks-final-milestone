@@ -44,11 +44,6 @@ public class RDLAction implements Action {
     @Override
     public void execute(ExecutionEnvironment environment) {
 
-        ScheduleRequestComponentInfo componentInfo = new ScheduleRequestComponentInfo();
-        componentInfo.setIsTBA(this.isTba());
-        componentInfo.getBuildingIds().add(this.getBuildingId());
-        componentInfo.getRoomIds().add(this.getRoomId());
-
         TimeSlotInfo timeSlot = new TimeSlotInfo();
         timeSlot.setTypeKey(SchedulingServiceConstants.TIME_SLOT_TYPE_EXAM);
         timeSlot.setStateKey(SchedulingServiceConstants.TIME_SLOT_STATE_ACTIVE);
@@ -61,8 +56,16 @@ public class RDLAction implements Action {
         timeSlot.setEndTime(endTimeOfDayInfo);
 
         // set our attribute on the engine results
-        environment.getEngineResults().setAttribute("scheduleRequestComponentInfo", componentInfo);
         environment.getEngineResults().setAttribute("timeslotInfo", timeSlot);
+        environment.getEngineResults().setAttribute("tba", this.isTba());
+
+        if(this.getBuildingId()!=null){
+            environment.getEngineResults().setAttribute("buildingId", this.getBuildingId());
+        }
+
+        if(this.getRoomId()!=null){
+            environment.getEngineResults().setAttribute("roomId", this.getRoomId());
+        }
     }
 
     /**
