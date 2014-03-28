@@ -51,7 +51,7 @@ limitations under the License.
 
     <bean id="KRMS-CreditHours-ConstantValue" parent="KRMS-Integer-ConstantValue-Parent" p:label="Credit Hours"/>
 
-    <bean id="KRMS-SingleCourse-InputField-Parent" parent="Uif-InputField-LabelTop"
+    <bean id="KRMS-SingleCourse-InputField-Parent" parent="KS-Uif-InputField-LabelTop"
           p:propertyName="proposition.courseInfo.code" p:label="Course" p:required="true">
         <property name="quickfinder">
             <bean parent="KRMS-Course-QuickFinder"/>
@@ -86,7 +86,7 @@ limitations under the License.
     </bean>
     <bean id="KRMS-MultiCourse-Section" parent="KRMS-MultiCourse-Section-Parent"/>
 
-    <bean id="KRMS-MultiCourse-Type-Field-Parent" parent="Uif-InputField-LabelTop"
+    <bean id="KRMS-MultiCourse-Type-Field-Parent" parent="KS-Uif-InputField-LabelTop"
           p:propertyName="proposition.multipleCourseType">
         <property name="control">
             <bean parent="Uif-DropdownControl">
@@ -181,7 +181,7 @@ limitations under the License.
                         <bean parent="AnyCharacterPatternConstraint" p:applyClientSide="false"/>
                     </property>
                 </bean>
-                <bean id="cluSetName" parent="Uif-InputField-LabelTop" p:style="width: 500px;">
+                <bean id="cluSetName" parent="KS-Uif-InputField-LabelTop" p:style="width: 500px;">
                     <property name="propertyName" value="cluSetInfo.name"/>
                     <property name="control">
                         <bean parent="Uif-TextControl" p:disabled="true"
@@ -254,7 +254,7 @@ limitations under the License.
         </property>
         <property name="addLineItems">
             <list>
-                <bean parent="Uif-InputField-LabelTop" p:style="width: 280px;">
+                <bean parent="KS-Uif-InputField-LabelTop" p:style="width: 280px;">
                     <property name="propertyName" value="code"/>
                     <property name="label" value="Course Code"/>
                     <property name="quickfinder">
@@ -294,7 +294,7 @@ limitations under the License.
     </bean>
     <bean id="KS-CourseRange-BoxSection" parent="KS-CourseRange-BoxSection-parent"/>
 
-    <bean id="KS-CourseRange-TypeField-parent" parent="Uif-InputField-LabelTop" p:label="Select Course Range Type"
+    <bean id="KS-CourseRange-TypeField-parent" parent="KS-Uif-InputField-LabelTop" p:label="Select Course Range Type"
           p:width="auto" p:propertyName="proposition.cluSet.rangeHelper.searchByCourseRange">
         <property name="control">
             <bean parent="Uif-HorizontalRadioControl">
@@ -317,13 +317,13 @@ limitations under the License.
           p:progressiveRender="#np.proposition.cluSet.rangeHelper.searchByCourseRange eq '1'">
         <property name="items">
             <list>
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="proposition.cluSet.rangeHelper.subjectCode" p:label="Subject Code">
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="proposition.cluSet.rangeHelper.subjectCode" p:label="Subject Code">
                     <property name="control">
                         <bean parent="Uif-TextControl" />
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="proposition.cluSet.rangeHelper.courseNumberRange" p:label="Course Number Range">
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="proposition.cluSet.rangeHelper.courseNumberRange" p:label="Course Number Range">
                     <property name="control">
                         <bean parent="Uif-TextControl" />
                     </property>
@@ -339,7 +339,7 @@ limitations under the License.
         <property name="validationMessages.displayMessages" value="false"/>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="proposition.cluSet.rangeHelper.learningObjective" p:label="Description">
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="proposition.cluSet.rangeHelper.learningObjective" p:label="Description">
                     <property name="control">
                         <bean parent="Uif-TextControl" />
                     </property>
@@ -355,13 +355,13 @@ limitations under the License.
           p:progressiveRender="#np.proposition.cluSet.rangeHelper.searchByCourseRange eq '3'">
         <property name="items">
             <list>
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="proposition.cluSet.rangeHelper.effectiveFrom" p:label="Effective From">
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="proposition.cluSet.rangeHelper.effectiveFrom" p:label="Effective From">
                     <property name="control">
                         <bean parent="KS-Uif-Default-DateControl" />
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="proposition.cluSet.rangeHelper.effectiveTo" p:label="Effective To">
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="proposition.cluSet.rangeHelper.effectiveTo" p:label="Effective To">
                     <property name="control">
                         <bean parent="KS-Uif-Default-DateControl" />
                     </property>
@@ -444,7 +444,7 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-GPA-Field-Parent" parent="Uif-InputField-LabelTop" p:propertyName="proposition.parameters[1].value"
+    <bean id="KRMS-GPA-Field-Parent" parent="KS-Uif-InputField-LabelTop" p:propertyName="proposition.parameters[1].value"
           p:label="GPA" p:maxLength="4" p:required="true">
         <property name="control">
             <bean parent="Uif-TextControl"/>
@@ -461,7 +461,7 @@ limitations under the License.
     </bean>
     <bean id="KRMS-GPA-Field" parent="KRMS-GPA-Field-Parent"/>
 
-    <bean id="KRMS-TestScore-Field-Parent" parent="Uif-InputField-LabelTop" p:propertyName="proposition.termParameter"
+    <bean id="KRMS-TestScore-Field-Parent" parent="KS-Uif-InputField-LabelTop" p:propertyName="proposition.termParameter"
           p:label="Test Score" p:maxLength="6" p:required="true">
         <property name="control">
             <bean parent="Uif-TextControl"/>
@@ -472,7 +472,7 @@ limitations under the License.
     </bean>
     <bean id="KRMS-TestScore-Field" parent="KRMS-TestScore-Field-Parent"/>
 
-    <bean id="KRMS-TestName-Field-Parent" parent="Uif-InputField-LabelTop" p:propertyName="proposition.termParameter"
+    <bean id="KRMS-TestName-Field-Parent" parent="KS-Uif-InputField-LabelTop" p:propertyName="proposition.termParameter"
           p:label="Tests" p:required="true">
         <property name="suggest">
             <bean parent="Uif-Suggest">
@@ -528,7 +528,7 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-GradeScale-Field-Parent" parent="Uif-InputField-LabelTop" p:propertyName="proposition.gradeScale"
+    <bean id="KRMS-GradeScale-Field-Parent" parent="KS-Uif-InputField-LabelTop" p:propertyName="proposition.gradeScale"
           p:label="Grade" p:required="true">
         <property name="control">
             <bean parent="Uif-VerticalRadioControl"/>
@@ -579,7 +579,7 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-Program-InputField-Parent" parent="Uif-InputField-LabelTop"
+    <bean id="KRMS-Program-InputField-Parent" parent="KS-Uif-InputField-LabelTop"
           p:propertyName="proposition.termParameter" p:label="Program" p:required="true"/>
     <bean id="KRMS-Program-InputField" parent="KRMS-Program-InputField-Parent"/>
 
@@ -638,7 +638,7 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-CourseOffering-InputField-Parent" parent="Uif-InputField-LabelTop"
+    <bean id="KRMS-CourseOffering-InputField-Parent" parent="KS-Uif-InputField-LabelTop"
           p:propertyName="proposition.termParameter" p:label="Program" p:required="true"/>
     <bean id="KRMS-CourseOffering-InputField" parent="KRMS-CourseOffering-InputField-Parent"/>
 
@@ -723,7 +723,7 @@ limitations under the License.
             </list>
         </property>
     </bean>
-    <bean id="KRMS-DurationCount-Field-Parent" parent="Uif-InputField-LabelTop" p:propertyName="proposition.duration"
+    <bean id="KRMS-DurationCount-Field-Parent" parent="KS-Uif-InputField-LabelTop" p:propertyName="proposition.duration"
           p:label="Duration Count" p:maxLength="6" p:required="true">
         <property name="control">
             <bean parent="Uif-TextControl"/>
@@ -734,7 +734,7 @@ limitations under the License.
     </bean>
     <bean id="KRMS-DurationCount-Field" parent="KRMS-DurationCount-Field-Parent"/>
 
-    <bean id="KRMS-DurationType-Field-Parent" parent="Uif-InputField-LabelTop" p:propertyName="proposition.durationType"
+    <bean id="KRMS-DurationType-Field-Parent" parent="KS-Uif-InputField-LabelTop" p:propertyName="proposition.durationType"
           p:label="Duration Type" p:required="true">
         <property name="control">
             <bean parent="Uif-DropdownControl"/>
@@ -759,7 +759,7 @@ limitations under the License.
     </bean>
     <bean id="KRMS-Program-Section" parent="KRMS-Program-Section-Parent"/>
 
-    <bean id="KRMS-Program-Type-Field-Parent" parent="Uif-InputField-LabelTop" p:propertyName="proposition.programType">
+    <bean id="KRMS-Program-Type-Field-Parent" parent="KS-Uif-InputField-LabelTop" p:propertyName="proposition.programType">
         <property name="control">
             <bean parent="Uif-DropdownControl"/>
         </property>
@@ -806,7 +806,7 @@ limitations under the License.
         </property>
         <property name="addLineItems">
             <list>
-                <bean parent="Uif-InputField-LabelTop" p:style="width: 280px;">
+                <bean parent="KS-Uif-InputField-LabelTop" p:style="width: 280px;">
                     <property name="propertyName" value="code"/>
                     <property name="label" value="Program Code"/>
                     <property name="quickfinder">
@@ -865,7 +865,7 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-Term-Field-Parent" parent="Uif-InputField-LabelTop" p:propertyName="proposition.termCode" p:label="Term" p:required="true" p:readOnly="false">
+    <bean id="KRMS-Term-Field-Parent" parent="KS-Uif-InputField-LabelTop" p:propertyName="proposition.termCode" p:label="Term" p:required="true" p:readOnly="false">
         <property name="control">
             <bean parent="Uif-TextControl" p:size="6" p:watermarkText="201301" p:minLength="5" p:maxLength="6"/>
         </property>

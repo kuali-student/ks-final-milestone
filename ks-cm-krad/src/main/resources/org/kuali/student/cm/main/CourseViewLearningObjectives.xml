@@ -108,7 +108,7 @@
 					<property name="addLineLabel.render" value="false" />
 					<property name="items">
 						<list>
-							<bean parent="Uif-InputField-LabelTop" p:label="Category"
+							<bean parent="KS-Uif-InputField-LabelTop" p:label="Category"
 								p:propertyName="name">
 								<property name="control">
 									<bean parent="Uif-TextControl" />

@@ -23,7 +23,7 @@
         <property name="items">
             <list>
 
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="startTerm" p:label="Start Term">
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="startTerm" p:label="Start Term">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" />
                     </property>
@@ -37,7 +37,7 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="pilotCourse" p:label="Pilot Course">
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="pilotCourse" p:label="Pilot Course">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl" p:checkboxLabel="Yes, this is a one-time/pilot course" />
                     </property>
@@ -46,7 +46,7 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="endTerm" p:label="End Term"
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="endTerm" p:label="End Term"
                     p:required="@{document.newMaintainableObject.dataObject.pilotCourse}" >
                     <property name="refreshWhenChangedPropertyNames">
                         <list>
