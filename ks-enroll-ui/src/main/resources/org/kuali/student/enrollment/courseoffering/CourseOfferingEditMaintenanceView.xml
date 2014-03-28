@@ -782,7 +782,7 @@
                                             </map>
                                         </property>
                                         <property name="viewName" value="ks_simplePersonLookup" />
-                                        <property name="lightBoxLookup">
+                                        <property name="lightBox">
                                             <bean parent="Uif-LightBox" p:lookupReturnByScript="true"/>
                                         </property>
                                     </bean>

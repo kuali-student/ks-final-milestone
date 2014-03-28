@@ -259,7 +259,7 @@
                     </property>
                     <!-- The facility code quick finder -->
                     <property name="quickfinder">
-                        <bean parent="Uif-QuickFinder" p:lightBoxLookup.lookupReturnByScript="true">
+                        <bean parent="Uif-QuickFinder" p:lightBox.lookupReturnByScript="true">
                             <property name="dataObjectClassName" value="org.kuali.student.r2.core.room.dto.BuildingInfo"/>
                             <property name="fieldConversions">
                                 <map>
@@ -289,9 +289,9 @@
                     </property>
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinder">
-                            <!-- Tried using this syntax ... lightBoxLookup.templateOptions ... set the callback, but even with 'merge'
+                            <!-- Tried using this syntax ... lightBox.templateOptions ... set the callback, but even with 'merge'
                                  set the other options were overwritten. -->
-                            <property name="lightBoxLookup">
+                            <property name="lightBox">
                                 <bean parent="Uif-LightBox">
                                     <property name="lookupReturnByScript" value="true" />
                                     <property name="templateOptions">

@@ -87,7 +87,7 @@
                                         <property name="quickfinderAction">
                                             <bean parent="KS-Uif-ActionLink" p:methodToCall="performLookup" p:id="lookup_searchCourseCode" p:actionLabel="Find a Course" />
                                         </property>
-                                        <property name="lightBoxLookup">
+                                        <property name="lightBox">
                                             <bean parent="Uif-LightBox" p:lookupReturnByScript="true"/>
                                         </property>
                                     </bean>

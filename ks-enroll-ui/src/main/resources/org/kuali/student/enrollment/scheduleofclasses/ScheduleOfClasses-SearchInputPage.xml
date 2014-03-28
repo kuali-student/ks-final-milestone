@@ -75,7 +75,7 @@
                                         <property name="quickfinderAction">
                                             <bean parent="KS-Uif-ActionLink" p:methodToCall="performLookup" p:id="lookup_searchCourseCode" p:actionLabel="Find a Course" />
                                         </property>
-                                        <property name="lightBoxLookup">
+                                        <property name="lightBox">
                                             <bean parent="Uif-LightBox" p:lookupReturnByScript="false"/>
                                         </property>
                                     </bean>
@@ -97,7 +97,7 @@
                                         <property name="quickfinderAction">
                                             <bean parent="KS-Uif-ActionLink" p:methodToCall="performLookup" p:id="lookup_searchDepartment" p:actionLabel="Find a Department" />
                                         </property>
-                                        <property name="lightBoxLookup">
+                                        <property name="lightBox">
                                             <bean parent="Uif-LightBox" p:lookupReturnByScript="false"/>
                                         </property>
                                     </bean>
@@ -120,7 +120,7 @@
                                         <property name="quickfinderAction">
                                             <bean parent="KS-Uif-ActionLink" p:methodToCall="performLookup" p:id="lookup_searchInstructor" p:actionLabel="Find an Instructor" />
                                         </property>
-                                        <property name="lightBoxLookup">
+                                        <property name="lightBox">
                                             <bean parent="Uif-LightBox" p:lookupReturnByScript="true"/>
                                         </property>
                                     </bean>
