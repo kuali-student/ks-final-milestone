@@ -404,12 +404,14 @@
                 <!-- List of checkboxes seem to break in KRAD 2.2M3 so had to replace with individual checkboxes -->
                 <bean parent="Uif-CheckboxInputField" p:id="is_pass_fail" p:label="Pass/Fail"
                       p:propertyName="passFailStudentRegOpts"
-                      p:labelPlacement="RIGHT" p:fieldLabel.renderColon="false"
+                      p:fieldLabel.renderColon="false"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and #dp.studentRegOptions.contains('kuali.resultComponent.grade.passFail')}"/>
+                <!-- Rice 2.4 upgrade : removing p:labelPlacement="RIGHT" -->
                 <bean parent="Uif-CheckboxInputField" p:id="is_audit" p:label="Audit"
                       p:propertyName="auditStudentRegOpts"
-                      p:labelPlacement="RIGHT" p:fieldLabel.renderColon="false"
+                      p:fieldLabel.renderColon="false"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and #dp.studentRegOptions.contains('kuali.resultComponent.grade.audit')}"/>
+                <!-- Rice 2.4 upgrade : removing p:labelPlacement="RIGHT" -->
                 <!-- For read only view show as message fields -->
                 <bean parent="Uif-MessageField"
                       p:messageText="Pass/Fail" p:render="@{!#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and #dp.passFailStudentRegOpts}"/>
@@ -541,7 +543,8 @@
                                                 <bean parent="Uif-CheckboxControl"/>
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-MessageField" p:label="Use Final Exam Matrix" p:labelPlacement="LEFT" p:fieldLabel.renderColon="false" p:messageText="@{#dp.useFinalExamMatrixUI}" p:render="@{#parent.readOnly}" />
+                                        <bean parent="Uif-MessageField" p:label="Use Final Exam Matrix" p:fieldLabel.renderColon="false" p:messageText="@{#dp.useFinalExamMatrixUI}" p:render="@{#parent.readOnly}" />
+                                        <!-- Rice 2.4 upgrade : removing p:labelPlacement="LEFT" -->
 
                                     </list>
                                 </property>

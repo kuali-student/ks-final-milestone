@@ -57,7 +57,8 @@
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-LookupCriteriaInputField" p:propertyName="typeKey" p:label="Type" p:labelPlacement="LEFT" p:required="true">
+                            <bean parent="Uif-LookupCriteriaInputField" p:propertyName="typeKey" p:label="Type" p:required="true">
+                                <!-- Rice 2.4 upgrade : removing p:labelPlacement="LEFT" -->
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl"/>
                                 </property>
