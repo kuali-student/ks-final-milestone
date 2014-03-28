@@ -137,7 +137,7 @@
                         <bean parent="Uif-HorizontalRadioControl" p:options-ref="populationStateKeyName-options"/>
                     </property>
                 </bean>
-                <bean parent="Uif-DataField-LabelTop" p:label="Operation" p:propertyName="operationTypeText"
+                <bean parent="KS-Uif-DataField-LabelTop" p:label="Operation" p:propertyName="operationTypeText"
                       p:render="@{maintenanceAction eq 'Edit'}"/>
                 <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="operationType" p:label="Operation"
                       p:defaultValue="@{maintenanceAction eq 'New' ? 'kuali.population.rule.type.union' : #dp.operationType}" p:required="true"
