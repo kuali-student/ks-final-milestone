@@ -67,7 +67,7 @@
                                     <list>
                                         <bean parent="Uif-NavigationActionLink" id="change_link" p:actionLabel="Change" p:render="@{#dp.hasSubTerms and !#parent.readOnly}"
                                             p:performDirtyValidation="false" p:actionScript="openPopupContent(e,'KS-ActivityOfferingEdit-SubtermsPopupForm');"
-                                            p:componentSecurity.performActionAuthz="true" p:actionEvent="changeSubtermAO"/>
+                                            p:performActionAuthz="true" p:actionEvent="changeSubtermAO"/>
                                     </list>
                                 </property>
                             </bean>
