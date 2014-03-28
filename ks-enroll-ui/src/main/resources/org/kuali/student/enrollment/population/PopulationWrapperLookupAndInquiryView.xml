@@ -181,11 +181,38 @@
         </property>
     </bean>
 
+    <bean id="Uif-CreateNewLink" parent="Uif-ActionLink" p:actionLabel="Create New"
+          p:render="@{!#view.suppressActions and #view.showMaintenanceLinks and #ViewHelper.allowsMaintenanceNewOrCopyAction()}">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>uif-createNewLink</value>
+            </list>
+        </property>
+        <property name="finalizeMethodToCall" value="getMaintenanceActionLink"/>
+        <property name="finalizeMethodAdditionalArguments">
+            <list>
+                <value>start</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Uif-Lookup-MaintenanceCreateLink" parent="Uif-Link" p:linkText="Create New"
+          p:render="@{#view.renderMaintenanceLinks and #ViewHelper.allowsMaintenanceNewOrCopyAction()}">
+        <property name="finalizeMethodToCall" value="buildMaintenanceActionLink"/>
+        <property name="finalizeMethodAdditionalArguments">
+            <list>
+                <value>start</value>
+            </list>
+        </property>
+    </bean>
+
     <!-- Re-defining css for "Create New" link for lookup screen -->
     <bean id="Uif-LookupPageHeaderGroup" parent="Uif-ActionsGroup" p:additionalCssClasses="uif-leftAligned-headerFieldGroup">
         <property name="items">
             <list>
-                <bean parent="Uif-CreateNewLink"/>
+                <!-- Rice 2.4 upgrade: Uif-CreateNewLink was replaced with Uif-Lookup-MaintenanceCreateLink in UifLookupDefinition.xml r42097-->
+                <bean parent="Uif-Lookup-MaintenanceCreateLink"/>
+                <!--bean parent="Uif-CreateNewLink"/-->
             </list>
         </property>
     </bean>
