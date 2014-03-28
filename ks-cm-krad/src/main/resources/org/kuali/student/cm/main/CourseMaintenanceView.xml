@@ -205,15 +205,15 @@
                                     <bean parent="Uif-LinkGroup" p:linkSeparator="|">
                                         <property name="items">
                                             <list>
-                                                <bean parent="Uif-DataField" p:label="Proposal Status"
-                                                      p:shortLabel="Status" p:labelPlacement="LEFT" p:propertyName="course.stateKey" />
+                                                <bean parent="KS-Uif-DataField-LabelLeft" p:label="Proposal Status"
+                                                      p:shortLabel="Status" p:propertyName="course.stateKey" />
                                                 <bean parent="Uif-ActionLink" p:actionLabel="Comments"
                                                       p:methodToCall="showComment" />
                                                 <bean parent="Uif-ActionLink" p:actionLabel="Decisions"
                                                       p:methodToCall="showDecisions" />
                                                 <bean parent="Uif-Space" />
-                                                <bean parent="Uif-DataField" p:label="Last Updated"
-                                                      p:shortLabel="Updated" p:labelPlacement="LEFT" p:propertyName="lastUpdated" />
+                                                <bean parent="KS-Uif-DataField-LabelLeft" p:label="Last Updated"
+                                                      p:shortLabel="Updated" p:propertyName="lastUpdated" />
                                             </list>
                                         </property>
                                     </bean>
