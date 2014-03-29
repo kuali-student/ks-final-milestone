@@ -436,7 +436,7 @@
                     </property>
                     <property name="items">
                         <list>
-                            <bean parent="KS-Uif-MessageField-LabelTop" p:label="Course Description"
+                            <bean parent="Uif-MessageField" p:label="Course Description"
                                   p:messageText="@{#line.courseSummaryDetails.courseDescription}">
                                 <property name="fieldLabel.cssClasses" value="ksap-text-normal"/>
                                 <property name="cssClasses">
@@ -448,7 +448,7 @@
                                           value="@{#line.courseSummaryDetails.courseDescription ne null}"/>
                             </bean>
                             <!-- If Course Description is empty-->
-                            <bean parent="KS-Uif-MessageField-LabelTop" p:label="Course Description">
+                            <bean parent="Uif-MessageField" p:label="Course Description">
                                 <property name="fieldLabel.cssClasses" value="ksap-text-normal"/>
                                 <property name="message">
                                     <bean parent="Uif-Message" p:messageText="This course has no description."/>
