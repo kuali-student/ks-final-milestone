@@ -193,6 +193,9 @@
     color: @successText; // #3B723B;
     text-shadow: 0 .5px #fff;
 
+  -webkit-transition: @transition;
+  transition: @transition;
+
     .kscr-cartResult-icon {
         background-image: url("../images/validation/success.png");
         background-color: inherit;
@@ -220,6 +223,10 @@
     border-color: @errorBorder;  //#EFD3D7;
     color: @errorText; //#A3403C;
     text-shadow: 0 .5px #fff;
+
+  -webkit-transition: @transition;
+  transition: @transition;
+
     .kscr-cartResult-icon {
         background-image: url("../images/validation/error.png");
     }
