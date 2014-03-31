@@ -175,7 +175,6 @@ public class CourseInfoWrapper implements Serializable {
     public CourseInfoWrapper(){
 
         proposalInfo = new ProposalInfo();
-        proposalInfo.setStateKey(ProposalConstants.PROPOSAL_STATE_SAVED);
         instructorWrappers = new ArrayList<CluInstructorInfoWrapper>();
         courseJointWrappers = new ArrayList<CourseJointInfoWrapper>();
         creditOptionWrappers = new ArrayList<ResultValuesGroupInfoWrapper>();
