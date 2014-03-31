@@ -442,6 +442,41 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
         return dropLprInfos(masterLprId, contextInfo);
     }
 
+    @Override
+    public List<SeatCount> getSeatCountsForActivityOfferings(List<String> activityOfferingIds, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
+        return getCourseSeatCountService().getSeatCountsForActivityOfferings(activityOfferingIds, contextInfo);
+    }
+
+    @Override
+    public boolean areSeatsAvailable(List<SeatCount> seatCounts, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
+        for (SeatCount seatCount : seatCounts) {
+            if (seatCount.getAvailableSeats() <= 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public boolean isThereAWaitlist(List<SeatCount> seatCounts, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
+        for (SeatCount seatCount : seatCounts) {
+            if (!seatCount.hasWaitList()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public boolean isWaitlistFull(List<SeatCount> seatCounts, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
+        for (SeatCount seatCount : seatCounts) {
+            if (seatCount.getWaitListSize() == seatCount.getMaxWaitListSize()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     private Map<String, RegistrationGroup> getRegistrationGroupsForRequest(RegistrationRequestInfo registrationRequestInfo, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
 
         //Look up all the registration group information for the request
@@ -534,6 +569,4 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
     public void setCourseSeatCountService(CourseSeatCountService courseRegistrationService) {
         this.courseSeatCountService = courseRegistrationService;
     }
-
-
 }
