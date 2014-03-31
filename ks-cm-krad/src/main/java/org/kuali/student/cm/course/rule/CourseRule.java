@@ -22,6 +22,7 @@ import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
 
+import org.kuali.rice.krad.util.KRADPropertyConstants;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.form.CourseInfoWrapper;
 
@@ -34,7 +35,8 @@ import org.kuali.student.common.uif.rule.KsMaintenanceDocumentRuleBase;
  */
 public class CourseRule extends KsMaintenanceDocumentRuleBase {
 
-    public static final String DATA_OBJECT_PATH = "document.newMaintainableObject.dataObject";
+    public static final String DATA_OBJECT_PATH = KRADPropertyConstants.DOCUMENT + "."
+            + KRADPropertyConstants.NEW_MAINTAINABLE_OBJECT + ".dataObject";
 
     @Override
     public boolean processSaveDocument(Document document) {
