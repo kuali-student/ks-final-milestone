@@ -235,6 +235,9 @@ public class ReviewProposalDisplay implements java.io.Serializable {
         private List<OutcomeReviewSection> outComes;
         private List<FormatInfoWrapper> formatInfoWrappers;
 
+        public CourseLogisticsSectionWrapper() {
+        }
+
         public List<FormatInfoWrapper> getFormatInfoWrappers() {
             if (formatInfoWrappers == null) {
                 formatInfoWrappers = new ArrayList<FormatInfoWrapper>();
@@ -244,10 +247,6 @@ public class ReviewProposalDisplay implements java.io.Serializable {
 
         public void setFormatInfoWrappers(List<FormatInfoWrapper> formatInfoWrapper) {
             this.formatInfoWrappers = formatInfoWrapper;
-        }
-
-        public CourseLogisticsSectionWrapper() {
-
         }
 
         public List<String> getTerms() {

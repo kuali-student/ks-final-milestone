@@ -370,6 +370,10 @@
     margin-bottom: 10px;
 }
 
+#cm_reviewProposal_courseInfo {
+    margin-top: 30px;
+}
+
 #course_review_outcome_details table tr {
     float : left;
     clear : both;
