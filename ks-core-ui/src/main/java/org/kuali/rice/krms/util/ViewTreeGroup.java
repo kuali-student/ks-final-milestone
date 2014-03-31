@@ -41,10 +41,9 @@ public class ViewTreeGroup extends TreeGroup {
     /**
      * This method is overridden to add a null check.
      *
-     * @param view
      * @param model
      */
-    protected void buildTreeGroups(View view, Object model) {
+    protected void buildTreeGroups(Object model) {
         // get Tree data property
         Tree<Object, String> treeData = ObjectPropertyUtils.getPropertyValue(model, getBindingInfo().getBindingPath());
 
