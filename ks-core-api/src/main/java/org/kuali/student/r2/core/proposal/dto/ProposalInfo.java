@@ -26,9 +26,9 @@ import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 
 import org.kuali.student.r2.core.proposal.infc.Proposal;
-//import org.w3c.dom.Element;
 
-@XmlType(name = "ProposalInfo", propOrder = {"id", 
+@XmlType(name = "ProposalInfo", propOrder = {
+        "id",
         "typeKey", 
         "stateKey",
         "name", 

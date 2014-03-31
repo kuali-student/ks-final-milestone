@@ -79,7 +79,17 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 
 	<bean id="CourseInfo.descr.plain" parent="CourseInfo.descr.plain-parent"/>
 	<bean id="CourseInfo.descr.plain-parent" abstract="true" parent="CourseInfo.descr.plain-generated">
-	<!-- insert any overrides to the generated attribute definitions here -->
+	    <!-- insert any overrides to the generated attribute definitions here -->
+        <property name="simpleConstraint">
+            <bean parent="RequiredConstraint">
+                <property name="maxLength" value="1000" />
+                <property name="states">
+                    <list>
+                        <value>ACTIVE</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
 	</bean>
 
 	<bean id="CourseInfo.descr.formatted" parent="CourseInfo.descr.formatted-parent"/>
@@ -94,7 +104,22 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 
 	<bean id="CourseInfo.courseNumberSuffix" parent="CourseInfo.courseNumberSuffix-parent"/>
 	<bean id="CourseInfo.courseNumberSuffix-parent" abstract="true" parent="CourseInfo.courseNumberSuffix-generated">
-	<!-- insert any overrides to the generated attribute definitions here -->
+	    <!-- insert any overrides to the generated attribute definitions here -->
+        <property name="validCharactersConstraint">
+            <bean parent="NumericPatternConstraint"/>
+        </property>
+
+        <property name="simpleConstraint">
+            <bean parent="RequiredConstraint">
+                <property name="maxLength" value="3" />
+                <property name="states">
+                    <list>
+                        <value>ACTIVE</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
+
 	</bean>
 
 	<bean id="CourseInfo.level" parent="CourseInfo.level-parent"/>
@@ -105,6 +130,11 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<bean id="CourseInfo.courseTitle" parent="CourseInfo.courseTitle-parent"/>
 	<bean id="CourseInfo.courseTitle-parent" abstract="true" parent="CourseInfo.courseTitle-generated">
 	    <!-- insert any overrides to the generated attribute definitions here -->
+        <property name="required" value="true" />
+        <property name="maxLength" value="150" />
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint" p:allowWhitespace="true"/>
+        </property>
 	</bean>
 
 	<bean id="CourseInfo.transcriptTitle" parent="CourseInfo.transcriptTitle-parent"/>
@@ -155,6 +185,20 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<bean id="CourseInfo.subjectArea" parent="CourseInfo.subjectArea-parent"/>
 	<bean id="CourseInfo.subjectArea-parent" abstract="true" parent="CourseInfo.subjectArea-generated">
 	    <!-- insert any overrides to the generated attribute definitions here -->
+        <property name="validCharactersConstraint">
+            <bean parent="AlphaPatternConstraint"/>
+        </property>
+
+        <property name="simpleConstraint">
+            <bean parent="RequiredConstraint">
+                <property name="maxLength" value="4" />
+                <property name="states">
+                    <list>
+                        <value>ACTIVE</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
 	</bean>
 
 	<bean id="CourseInfo.campusLocations" parent="CourseInfo.campusLocations-parent"/>
@@ -259,7 +303,16 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 
 	<bean id="CourseInfo.gradingOptions" parent="CourseInfo.gradingOptions-parent"/>
 	<bean id="CourseInfo.gradingOptions-parent" abstract="true" parent="CourseInfo.gradingOptions-generated">
-	<!-- insert any overrides to the generated attribute definitions here -->
+	    <!-- insert any overrides to the generated attribute definitions here -->
+        <property name="simpleConstraint">
+            <bean parent="RequiredConstraint">
+                <property name="states">
+                    <list>
+                        <value>ACTIVE</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
 	</bean>
 
 	<bean id="CourseInfo.creditOptions" parent="CourseInfo.creditOptions-parent"/>
