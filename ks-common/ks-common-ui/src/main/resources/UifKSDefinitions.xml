@@ -245,10 +245,8 @@
     </bean>
 
     <bean id="KS-Uif-Disclosure" abstract="true" parent="Uif-Disclosure">
-        <property name="collapseImageSrc"
-                  value="@{#ConfigProperties['krad.externalizable.images.url']}h3_collapse-back-ks.png"/>
-        <property name="expandImageSrc"
-                  value="@{#ConfigProperties['krad.externalizable.images.url']}h3_expand-back-ks.png"/>
+        <property name="collapsedIconClass" value="icon-angle-right"/>
+        <property name="expandedIconClass" value="icon-angle-down"/>
     </bean>
 
     <!--Note by bonnie: Not used in any code -->
