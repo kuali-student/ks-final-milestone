@@ -55,7 +55,7 @@ public class CourseRegistrationLprActionProcessor {
                         }
                     } else {
                         //Handle no waitlist available and no seats
-                        notifyNoSeatsAvailable(message, contextInfo);
+                        notifyNoSeatsNoWaitlistAvailable(message, contextInfo);
                     }
                 }
             } else if (registrationRequestItem.getTypeKey().equals(LprServiceConstants.REQ_ITEM_DROP_TYPE_KEY)) {
@@ -105,8 +105,14 @@ public class CourseRegistrationLprActionProcessor {
                 contextInfo);
     }
 
-    private void notifyWaitlistAvailable(RegistrationRequestItemEngineMessage message, ContextInfo contextInfo) {
-        //TODO KSENROLL-12306
+    private void notifyWaitlistAvailable(RegistrationRequestItemEngineMessage message, ContextInfo contextInfo) throws PermissionDeniedException, OperationFailedException, VersionMismatchException, InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException {
+        courseRegistrationEngineService.updateLprTransactionItemResult(message.getRequestItem().getRegistrationRequestId(),
+                message.getRequestItem().getId(),
+                LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY,
+                null,
+                LprServiceConstants.LPRTRANS_ITEM_SEAT_UNAVAILABLE_MESSAGE,
+                false,
+                contextInfo);
     }
 
     private void addStudentToWaitList(RegistrationRequestItemEngineMessage requestItemEngineMessage, ContextInfo contextInfo) throws PermissionDeniedException, OperationFailedException, VersionMismatchException, InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException {
@@ -197,16 +203,15 @@ public class CourseRegistrationLprActionProcessor {
                 contextInfo);
     }
 
-    private void notifyNoSeatsAvailable(RegistrationRequestItemEngineMessage message, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, VersionMismatchException, DataValidationErrorException {
+    private void notifyNoSeatsNoWaitlistAvailable(RegistrationRequestItemEngineMessage message, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, VersionMismatchException, DataValidationErrorException {
         courseRegistrationEngineService.updateLprTransactionItemResult(message.getRequestItem().getRegistrationRequestId(),
                 message.getRequestItem().getId(),
                 LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY,
                 null,
-                LprServiceConstants.LPRTRANS_ITEM_SEAT_UNAVAILABLE_MESSAGE,
+                LprServiceConstants.LPRTRANS_ITEM_WAITLIST_NOT_OFFERED_MESSAGE,
                 false,
                 contextInfo);
     }
-
 
     private void registerPersonForCourse(RegistrationRequestItemEngineMessage message, ContextInfo contextInfo) throws DataValidationErrorException, PermissionDeniedException, OperationFailedException, VersionMismatchException, InvalidParameterException, ReadOnlyException, MissingParameterException, DoesNotExistException {
         String creditStr = message.getRequestItem().getCredits() == null ? "" : message.getRequestItem().getCredits().bigDecimalValue().setScale(1).toPlainString();
