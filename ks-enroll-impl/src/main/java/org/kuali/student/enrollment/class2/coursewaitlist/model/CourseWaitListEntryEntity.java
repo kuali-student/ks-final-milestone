@@ -57,10 +57,10 @@ public class CourseWaitListEntryEntity extends MetaEntity implements AttributeOw
     @Column(name = "STUDENT_ID")
     private String studentId;
 
-    @Column(name = "REG_GROUP_ID") // should be REG_RQST_ITEM_ID
+    @Column(name = "REG_RQST_ITEM_ID") // was REG_GROUP_ID
     private String registrationRequestItemId;
 
-    @Column(name = "POSITION") // should be ORDER
+    @Column(name = "ENTRY_ORDER") // was POSITION
     private Integer order;
 
     @Temporal(TemporalType.TIMESTAMP)
