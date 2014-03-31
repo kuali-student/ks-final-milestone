@@ -39,6 +39,9 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
                 GlobalVarsService.updateScheduleCounts($scope.schedules());
                 //ScheduleService.setRegisteredCredits(parseFloat(ScheduleService.getRegisteredCredits()) - parseFloat(course.credits));
                 $scope.userMessage = {txt:course.courseCode + ' dropped Successfully', type:'success'};
+            }, function (error) {
+                //course.dropping = false;
+                $scope.userMessage = {txt: error.data, type: 'error'};
             });
         };
 
@@ -69,6 +72,9 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
                 GlobalVarsService.updateScheduleCounts($scope.schedules());
                 course.editing = false;
                 $scope.userMessage = {txt: 'Updated Successfully', type: 'success'};
+            }, function (error) {
+                //course.editing = false;
+                $scope.userMessage = {txt: error.data, type: 'error'};
             });
         };
 
