@@ -144,15 +144,14 @@
                         <property name="items">
                             <list>
                                 <bean p:id="isApprovedForNonStandardTimeSlots"
-                                      parent="KS-Uif-InputField-LabelRight"
+                                      parent="KS-Uif-InputField"
                                       p:propertyName="aoInfo.isApprovedForNonStandardTimeSlots"
                                       p:forceSessionPersistence="true"
-                                      p:label="Approved for non-standard time slots"
                                       p:editAuthz="true"
                                       p:render="@{#dp.canNonStandardTimeslotsBeApproved}">
 
                                     <property name="control">
-                                        <bean parent="Uif-CheckboxControl"/>
+                                        <bean parent="Uif-CheckboxControl" p:checkboxLabel="Approved for non-standard time slots" />
                                     </property>
                                 </bean>
                             </list>
@@ -199,9 +198,9 @@
         </property>
         <property name="items">
             <list>
-                <bean id="rdl_tba" parent="KS-Uif-InputField-LabelRight" p:propertyName="newScheduleRequest.tba" p:label="TBA" p:onClickScript="tbaOnClick();" p:additionalCssClasses="ks-manage-scheduling-request-form-field-top-aligned">
+                <bean id="rdl_tba" parent="KS-Uif-InputField" p:propertyName="newScheduleRequest.tba" p:onClickScript="tbaOnClick();" p:additionalCssClasses="ks-manage-scheduling-request-form-field-top-aligned">
                     <property name="control">
-                        <bean parent="Uif-CheckboxControl"/>
+                        <bean parent="Uif-CheckboxControl" p:checkboxLabel="TBA" />
                     </property>
                 </bean>
                 <bean id="rdl_days" parent="KS-Uif-InputField-LabelTop" p:label="Days" p:propertyName="newScheduleRequest.days" p:uppercaseValue="true">

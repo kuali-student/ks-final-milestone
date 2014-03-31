@@ -596,16 +596,16 @@
                 <bean parent="Uif-DataField" p:propertyName="endDateUI" p:render="@{#view.readOnly}"
                       p:label="End Date"/>
 
-                <bean parent="KS-Uif-InputField-LabelRight" p:id="exclude_Saturday" p:label="Exclude Saturday"
+                <bean parent="KS-Uif-InputField" p:id="exclude_Saturday"
                       p:propertyName="excludeSaturday">
                     <property name="control">
-                        <bean parent="KS-Uif-CheckboxControl"/>
+                        <bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="Exclude Saturday" />
                     </property>
                 </bean>
-                <bean parent="KS-Uif-InputField-LabelRight" p:id="exclude_Sunday" p:label="Exclude Sunday"
+                <bean parent="KS-Uif-InputField" p:id="exclude_Sunday"
                       p:propertyName="excludeSunday">
                     <property name="control">
-                        <bean parent="KS-Uif-CheckboxControl"/>
+                        <bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="Exclude Sunday" />
                     </property>
                 </bean>
             </list>

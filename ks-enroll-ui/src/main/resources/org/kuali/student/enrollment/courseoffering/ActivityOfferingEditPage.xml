@@ -129,14 +129,13 @@
                     </property>
                 </bean>
                 <bean parent="Uif-InputField" p:id="infoColoStatus" p:propertyName="aoInfo.isColocated" p:hidden="true" />  <!-- keeps track of whether or not the colocation has been persisted to the db -->
-                <bean parent="KS-Uif-InputField-LabelRight"
-                      p:label="This activity is co-located"
+                <bean parent="KS-Uif-InputField"
                       p:fieldLabel.renderColon="false"
                       p:onChangeScript="jQuery('#dirtyForm').val(true);"
                       p:propertyName="colocatedAO"
                       p:id="is_co_located" p:viewAuthz="true">
                     <property name="control">
-                        <bean parent="Uif-CheckboxControl">
+                        <bean parent="Uif-CheckboxControl" p:checkboxLabel="This activity is co-located">
                             <property name="disabled" value="@{#dp.aoInfo.stateKey eq 'kuali.lui.activity.offering.state.canceled'}"/>
                             <property name="onChangeScript" value="handleColocation();"/>
                         </bean>
@@ -464,9 +463,9 @@
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean id="ActivityOfferingEdit-HasWaitlist" parent="KS-Uif-InputField-LabelRight" p:propertyName="hasWaitlist" p:label="Waitlist Active">
+                            <bean id="ActivityOfferingEdit-HasWaitlist" parent="KS-Uif-InputField" p:propertyName="hasWaitlist">
                                 <property name="control">
-                                    <bean parent="Uif-CheckboxControl" />
+                                    <bean parent="Uif-CheckboxControl" p:checkboxLabel="Waitlist Active" />
                                 </property>
                             </bean>
                         </list>
@@ -511,9 +510,9 @@
                                         <bean parent="Uif-HorizontalBoxSection">
                                             <property name="items">
                                                 <list>
-                                                    <bean parent="KS-Uif-InputField-LabelRight" p:propertyName="limitWaitlistSize" p:label="Limit Waitlist Size">
+                                                    <bean parent="KS-Uif-InputField" p:propertyName="limitWaitlistSize">
                                                         <property name="control">
-                                                            <bean parent="Uif-CheckboxControl" />
+                                                            <bean parent="Uif-CheckboxControl" p:checkboxLabel="Limit Waitlist Size" />
                                                         </property>
                                                     </bean>
                                                     <bean  id="limit_waitlist_size_text" parent="Uif-InputField" p:required="true" p:inclusiveMax="999" p:exclusiveMin="0" p:dataType="INTEGER"
@@ -525,9 +524,9 @@
                                                 </list>
                                             </property>
                                         </bean>
-                                        <bean parent="KS-Uif-InputField-LabelRight" p:id="allow-hold-list-checkbox" p:propertyName="courseWaitListInfo.allowHoldUntilEntries" p:label="Allow Hold List">
+                                        <bean parent="KS-Uif-InputField" p:id="allow-hold-list-checkbox" p:propertyName="courseWaitListInfo.allowHoldUntilEntries">
                                             <property name="control">
-                                                <bean parent="Uif-CheckboxControl" />
+                                                <bean parent="Uif-CheckboxControl" p:checkboxLabel="Allow Hold List" />
                                             </property>
                                         </bean>
                                     </list>
@@ -673,13 +672,11 @@
                     <property name="items">
                         <list>
                             <bean id="is_evaluated"
-                                  parent="KS-Uif-InputField-LabelRight"
+                                  parent="KS-Uif-InputField"
                                   p:propertyName="aoInfo.isEvaluated"
-                                  p:label="This lecture requires an evaluation"
-                                  p:fieldLabel.cssClasses="label-normal"
                                   p:required="false">
                                 <property name="control">
-                                    <bean parent="Uif-CheckboxControl"/>
+                                    <bean parent="Uif-CheckboxControl" p:checkboxLabel="This lecture requires an evaluation"/>
                                 </property>
                             </bean>
                         </list>
@@ -692,13 +689,11 @@
                     <property name="items">
                         <list>
                             <bean id="is_honors_offering"
-                                  parent="KS-Uif-InputField-LabelRight"
+                                  parent="KS-Uif-InputField"
                                   p:propertyName="aoInfo.isHonorsOffering"
-                                  p:label="This is an honors course"
-                                  p:fieldLabel.cssClasses="label-normal"
                                   p:required="false">
                                 <property name="control">
-                                    <bean parent="Uif-CheckboxControl"/>
+                                    <bean parent="Uif-CheckboxControl" p:checkboxLabel="This is an honors course"/>
                                 </property>
                             </bean>
                         </list>

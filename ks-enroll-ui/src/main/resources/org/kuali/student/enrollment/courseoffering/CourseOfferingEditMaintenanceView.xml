@@ -537,10 +537,10 @@
                                                 <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.FinalExamDriversKeyValues" p:addBlankOption="false"/>
                                             </property>
                                         </bean>
-                                        <bean parent="KS-Uif-InputField-LabelRight" p:id="finalExamMatrix" p:label="Use Final Exam Matrix" p:propertyName="useFinalExamMatrix"
+                                        <bean parent="KS-Uif-InputField" p:id="finalExamMatrix" p:propertyName="useFinalExamMatrix"
                                             p:render="@{!#parent.readOnly}" p:defaultValue="true">
                                             <property name="control">
-                                                <bean parent="Uif-CheckboxControl"/>
+                                                <bean parent="Uif-CheckboxControl" p:checkboxLabel="Use Final Exam Matrix"/>
                                             </property>
                                         </bean>
                                         <bean parent="Uif-MessageField" p:label="Use Final Exam Matrix" p:fieldLabel.renderColon="false" p:messageText="@{#dp.useFinalExamMatrixUI}" p:render="@{#parent.readOnly}" />
@@ -700,11 +700,12 @@
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean id="KS-CourseOfferingEdit-HasWaitlist" parent="KS-Uif-InputField-LabelRight" p:propertyName="courseOfferingInfo.hasWaitlist" p:label="Waitlists Active" >
+                            <bean id="KS-CourseOfferingEdit-HasWaitlist" parent="KS-Uif-InputField" p:propertyName="courseOfferingInfo.hasWaitlist" >
                                 <property name="control">
                                     <!-- show dialog prompt if user deactivates waitlist -->
                                     <bean parent="Uif-CheckboxControl"
-                                          p:onClickScript="jQuery('#dirtyForm').val(true); if (!jQuery('#KS-CourseOfferingEdit-HasWaitlist_control').attr('checked')) {showLightboxComponent('CourseOfferingEdit-Waitlist-Inactivate-Prompt'); }"/>
+                                          p:onClickScript="jQuery('#dirtyForm').val(true); if (!jQuery('#KS-CourseOfferingEdit-HasWaitlist_control').attr('checked')) {showLightboxComponent('CourseOfferingEdit-Waitlist-Inactivate-Prompt'); }"
+                                          p:checkboxLabel="Waitlists Active"/>
                                 </property>
                             </bean>
                             <ref bean="CourseOfferingEdit-Waitlist-Inactivate-Prompt"/>
