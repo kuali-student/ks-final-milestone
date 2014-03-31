@@ -222,10 +222,6 @@
 
                                 <property name="fieldLabel.requiredMessage">
                                     <bean parent="CM-StateAware-RequiredMessage" />
-                                    <!--
-                                    <bean parent="Uif-RequiredMessage"
-                                          p:messageText="*@{((document.documentHeader.workflowDocument.initiated) or (document.documentHeader.workflowDocument.saved)) ? '*' : ''}"/>
-                                    -->
                                 </property>
 
                                 <property name="constraintText" value="Must be a 4 letter code"/>

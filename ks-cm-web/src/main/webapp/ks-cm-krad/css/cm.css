@@ -382,6 +382,7 @@
  *  Review Proposal styling
  */
 
+
 /* Remove the input styling */
 .review_readonly textarea:focus,
 .review_readonly input[type="text"]:focus {
@@ -404,14 +405,23 @@
 	color: black;
 }
 
+.review_readonly textarea {
+    resize: none;
+}
+
 .course_review_details-table th,
 .course_review_details-table td,
 .course_review_details-table input {
     padding: 2px 5px 0px 5px;
-    vertical-align: bottom;
+}
+
+/* Move the labels down a smidge */
+.course_review_details-table .uif-gridLayout th[scope="row"] {
+    padding-top: 5px;
 }
 /* End */
 
+/*  The required message text on course details */
 .cm-requiredMessage-text {
     color: #888888;
     font-style: italic;

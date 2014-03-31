@@ -205,7 +205,6 @@ public class CourseController extends CourseRuleEditorController {
         if (formBase.getPageId().equals(PageNames.REVIEW_PROPOSAL)) {
             KRADServiceLocatorWeb.getViewValidationService().validateViewAgainstNextState(formBase.getView(), formBase);
         }
-
         return modelAndView;
     }
     @Override

@@ -93,18 +93,23 @@
         </property>
     </bean>
 
-    <bean id="ReadOnlyTextControl" parent="Uif-TextControl" p:readOnly="true"/>
-
-    <bean id="ReadOnlyInput" parent="Uif-InputField" p:colSpan="3" p:escapeHtmlInPropertyValue="false">
+    <bean id="CM-ReadOnlyInput" parent="Uif-InputField" p:colSpan="3" p:escapeHtmlInPropertyValue="false" abstract="true">
         <property name="cssClasses">
             <list merge="true">
                 <value>review_readonly</value>
             </list>
         </property>
         <property name="control">
-            <bean parent="ReadOnlyTextControl"/>
+           <bean parent="Uif-TextControl" p:readOnly="true" />
         </property>
         <property name="fieldLabel.requiredMessagePlacement" value="LEFT"/>
+    </bean>
+
+    <bean id="CM-ReadOnlyInput-large" parent="CM-ReadOnlyInput" abstract="true">
+        <property name="control">
+            <bean parent="Uif-LargeTextAreaControl" p:readOnly="true" />
+        </property>
+        <!-- jQuery("#u327_control").height(jQuery("#u327_control")[0].scrollHeight); -->
     </bean>
 
     <bean id="CourseInfo-Review-section" parent="Uif-VerticalBoxSection">
@@ -121,15 +126,11 @@
                     </property>
                     <property name="items">
                         <list>
-                            <bean parent="ReadOnlyInput" p:label="Proposal Title" p:propertyName="proposalInfo.name"/>
-                            <bean parent="ReadOnlyInput" p:label="Course Title"
-                                  p:propertyName="courseInfo.courseTitle"/>
-                            <bean parent="ReadOnlyInput" p:label="Transcript Course Title"
-                                  p:propertyName="courseInfo.transcriptTitle"/>
-                            <bean parent="ReadOnlyInput" p:label="Subject Code"
-                                  p:propertyName="courseInfo.subjectArea"/>
-                            <bean parent="ReadOnlyInput" p:label="Course Number"
-                                  p:propertyName="courseInfo.courseNumberSuffix"/>
+                            <bean parent="CM-ReadOnlyInput" p:label="Proposal Title" p:propertyName="proposalInfo.name" />
+                            <bean parent="CM-ReadOnlyInput" p:label="Course Title" p:propertyName="courseInfo.courseTitle" />
+                            <bean parent="CM-ReadOnlyInput" p:label="Transcript Course Title" p:propertyName="courseInfo.transcriptTitle" />
+                            <bean parent="CM-ReadOnlyInput" p:label="Subject Code" p:propertyName="courseInfo.subjectArea" />
+                            <bean parent="CM-ReadOnlyInput" p:label="Course Number" p:propertyName="courseInfo.courseNumberSuffix" />
 
                             <bean parent="Uif-DataField" p:label="Cross Listed Courses" p:colSpan="3"
                                   p:fieldLabel.renderColon="false"
@@ -144,10 +145,8 @@
                                   p:fieldLabel.renderColon="false"
                                   p:propertyName="reviewProposalDisplay.courseSection.instructors"/>
 
-                            <bean parent="ReadOnlyInput" p:label="Description"
-                                  p:propertyName="reviewProposalDisplay.courseSection.description"/>
-                            <bean parent="ReadOnlyInput" p:label="Proposal Rationale"
-                                  p:propertyName="reviewProposalDisplay.courseSection.rationale"/>
+                            <bean parent="CM-ReadOnlyInput-large" p:label="Description" p:propertyName="courseInfo.descr.plain" />
+                            <bean parent="CM-ReadOnlyInput-large" p:label="Proposal Rationale" p:propertyName="proposalInfo.rationale.plain" />
                         </list>
                     </property>
                 </bean>

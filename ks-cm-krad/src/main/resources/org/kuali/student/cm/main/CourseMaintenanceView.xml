@@ -43,7 +43,7 @@
 
     <!-- Common beans -->
 
-    <!-- Override simpleConstraint.states with proposal state R (Enroute) and beyond -->
+    <!-- Override simpleConstraint.states with workflow doc state R (Enroute) and beyond -->
     <bean id="DDValueReplacer-Enroute" parent="FieldOverrideForValueReplace" abstract="true" >
         <property name="propertyName" value="simpleConstraint.states" />
         <property name="value">
@@ -53,9 +53,9 @@
         </property>
     </bean>
 
-    <!-- Override simpleConstraint.states with proposal state P (Processed) -->
-    <bean id="DDValueReplacer-Approved" parent="FieldOverrideForValueReplace" abstract="true" >
-        <property name="propertyName" value="simpleConstraint" />
+    <!-- Override simpleConstraint.states with workflow doc state P (Processed) -->
+    <bean id="DDValueReplacer-Processed" parent="FieldOverrideForValueReplace" abstract="true" >
+        <property name="propertyName" value="simpleConstraint.states" />
         <property name="value">
             <list>
                 <value>P</value>
@@ -64,7 +64,7 @@
     </bean>
 
     <!--
-        Per property overrides for proposal state Enroute.
+        Per property overrides for workflow doc state R (Enroute).
     -->
     <bean id="CourseInfo.subjectArea-override" parent="DataDictionaryBeanOverride">
         <property name="beanName" value="CourseInfo.subjectArea" />
@@ -88,12 +88,12 @@
     </bean>
 
     <!--
-        Per property overrides for proposal state Approved.
+        Per property overrides for workflow doc state P (Processed).
 
     <bean id="CourseInfo.courseNumberSuffix.override" parent="DataDictionaryBeanOverride">
         <property name="beanName" value="CourseInfo.courseNumberSuffix" />
         <property name="fieldOverrides">
-            <bean parent="DDValueReplacer-Approved" />
+            <bean parent="DDValueReplacer-Processed" />
         </property>
     </bean>
      -->
@@ -242,7 +242,7 @@
             <list>
                 <bean parent="Uif-ConditionalBeanPropertyReplacer"
                     p:propertyName="messageText"
-                    p:condition="@{document.documentHeader.workflowDocument.saved}" >
+                    p:condition="@{#workflowDoc.saved}" >
                     <property name="replacement">
                         <!-- This should be read from the message service -->
                         <value>Required for Submit</value>
@@ -250,7 +250,7 @@
                 </bean>
                 <bean parent="Uif-ConditionalBeanPropertyReplacer"
                      p:propertyName="messageText"
-                     p:condition="@{document.documentHeader.workflowDocument.enroute}" >
+                     p:condition="@{#workflowDoc.enroute}" >
                     <property name="replacement">
                         <!-- This should be read from the message service -->
                         <value>Required for Approval</value>
