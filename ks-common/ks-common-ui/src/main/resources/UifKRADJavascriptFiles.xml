@@ -46,7 +46,7 @@
                 <value>plugins/validate/jquery.validate.js</value>
                 <value>plugins/jqueryUI/jquery-ui-1.9.2.js</value>
                 <value>plugins/datatables/jquery.dataTables.js</value>
-                <value>plugins/scrollto/jquery.scrollTo-1.4.3-min.js</value>
+                <value>plugins/scrollto/jquery.scrollTo-1.4.6.js</value>
                 <value>plugins/jqform/jquery.form-3.31.0.js</value>
                 <value>plugins/globalize/globalize.js</value>
                 <value>plugins/menu/krad.navigationMenu.js</value>
