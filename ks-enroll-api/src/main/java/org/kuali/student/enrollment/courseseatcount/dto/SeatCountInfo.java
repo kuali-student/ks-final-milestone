@@ -22,7 +22,7 @@ import java.util.Date;
 
 /**
  * This is the structure that represents the seat counts.  Should some be unavailable, then
- * value can be set to null.
+ * value can be set to null.  This also includes information related to waitlists.
  *
  * @author Kuali Student Team
  */
@@ -32,8 +32,42 @@ public class SeatCountInfo implements SeatCount {
     private String luiTypeKey;
 
     private Integer totalSeats;
+
     private Integer usedSeats;
     private Integer availableSeats;
+
+    private boolean hasWaitList; // true, if it has an active waitlist.  If false, other fields
+                                 // below are ignored
+
+    private Integer maxWaitListSize; // null implies unbounded waitlist size (defined in CourseWaitListInfo)
+    private Integer waitListSize; // Number of students on waitlist
+    // Note: the number of remaining wait list spots can be derived from maxWaitListSize - waitListSize
+
+    public Integer getMaxWaitListSize() {
+        return maxWaitListSize;
+    }
+
+    public void setMaxWaitListSize(Integer maxWaitListSize) {
+        this.maxWaitListSize = maxWaitListSize;
+    }
+
+    public Integer getWaitListSize() {
+        return waitListSize;
+    }
+
+    public void setWaitListSize(Integer waitListSize) {
+        this.waitListSize = waitListSize;
+    }
+
+    public boolean hasWaitList() {
+
+        return hasWaitList;
+    }
+
+    public void setHasWaitList(boolean hasWaitList) {
+        this.hasWaitList = hasWaitList;
+    }
+
 
     @Override
     public Integer getTotalSeats() {

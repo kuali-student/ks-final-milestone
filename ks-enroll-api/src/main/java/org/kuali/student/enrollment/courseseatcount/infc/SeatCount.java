@@ -63,4 +63,27 @@ public interface SeatCount {
      * @return The type key of the lui id
      */
     String getLuiTypeKey();
+
+    /**
+     * Returns true if the luiId has a waitlist that is active (and thus exists).  Returns
+     * false if there is not waitlist on the AO or the waitlist is not active.
+     * @return see above
+     */
+    boolean hasWaitList();
+
+    /**
+     * Returns the number of registrants on the waitlist.  This value could exist even if the
+     * waitlist is inactive.  However, it may not be necessary to fill it out.
+     * @return the number of registrants on the waitlist based on luiId.  Could be null if
+     * hasWaitlist is false.
+     */
+    Integer getWaitListSize();
+
+
+    /**
+     * Maximum capacity for the waitlist.  If hasWaitlist is false, it could still have a value (since
+     * the waitlst config could exist), but if the config is missing, this is going to null.
+     * @return The max size for the waitlist.  null, if the waitlist does not have a max (infinite capacity)
+     */
+    Integer getMaxWaitListSize();
 }
