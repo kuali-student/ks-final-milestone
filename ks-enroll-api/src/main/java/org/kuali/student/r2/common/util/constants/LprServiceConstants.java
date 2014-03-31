@@ -77,12 +77,26 @@ public class LprServiceConstants {
     public static final String LPRTRANS_FAILED_STATE_KEY = "kuali.lpr.trans.state.failed";
     public static final String LPRTRANS_DISCARDED_STATE_KEY = "kuali.lpr.trans.state.discarded";
 
+    // transaction item waitlist messages
+    public static final String LPRTRANS_ITEM_WAITLIST_STUDENT_REMOVED_MESSAGE = "Student removed from waitlist";
+    public static final String LPRTRANS_ITEM_WAITLIST_OPTIONS_UPDATED_MESSAGE = "Waitlist options were updated";
+    public static final String LPRTRANS_ITEM_WAITLISTED_MESSAGE = "Waitlisted";
+    public static final String LPRTRANS_ITEM_WAITLIST_FULL_MESSAGE = "Waitlist is full";
+
+    // transaction item course action messages
+    public static final String LPRTRANS_ITEM_COURSE_UPDATED_MESSAGE = "Course was updated";
+    public static final String LPRTRANS_ITEM_COURSE_DROPPED_MESSAGE = "Course was dropped";
+
+    // other messages
+    public static final String LPRTRANS_ITEM_SEAT_UNAVAILABLE_MESSAGE = "No Seats Available";
+    public static final String LPRTRANS_ITEM_PERSON_REGISTERED_MESSAGE = "Registered";
+
     // transaction item states
     public static final String LPRTRANS_ITEM_NEW_STATE_KEY = "kuali.lpr.trans.item.state.new";
     public static final String LPRTRANS_ITEM_PROCESSING_STATE_KEY = "kuali.lpr.trans.item.state.processing";
     public static final String LPRTRANS_ITEM_SUCCEEDED_STATE_KEY = "kuali.lpr.trans.item.state.succeeded";
     public static final String LPRTRANS_ITEM_FAILED_STATE_KEY = "kuali.lpr.trans.item.state.failed";
-    
+
     public static final String[] COURSE_INSTRUCTOR_TYPE_KEYS = {INSTRUCTOR_MAIN_TYPE_KEY,
         INSTRUCTOR_ASSISTANT_TYPE_KEY, INSTRUCTOR_SUPPORT_TYPE_KEY};
     public static final String[] COURSE_STUDENT_TYPE_KEYS = {REGISTRANT_AO_TYPE_KEY,
