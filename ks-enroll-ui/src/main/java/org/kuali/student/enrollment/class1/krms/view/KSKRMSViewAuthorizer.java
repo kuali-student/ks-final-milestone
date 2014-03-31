@@ -19,6 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.uif.component.Component;
+import org.kuali.rice.krad.uif.component.ComponentSecurity;
 import org.kuali.rice.krad.uif.container.Group;
 import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.view.View;
@@ -46,7 +47,7 @@ public class KSKRMSViewAuthorizer extends KsViewAuthorizerBase {
     public boolean canPerformAction(View view, ViewModel model, Action action, String actionEvent,
                                     String actionId, Person user) {
         // check action authz flag is set
-        if (!action.getActionSecurity().isPerformActionAuthz()) {
+        if ((action.getActionSecurity() == null) || !action.getActionSecurity().isPerformActionAuthz()) {
             return true;
         }
 
@@ -113,8 +114,16 @@ public class KSKRMSViewAuthorizer extends KsViewAuthorizerBase {
     }
 
     public boolean canEditGroup(View view, ViewModel model, Group group, String groupId, Person user) {
+
+        ComponentSecurity componentSecurity = group.getComponentSecurity();
+
+        // check component security exists
+        if (componentSecurity == null) {
+            return true;
+        }
+
         // check edit group authz flag is set
-        if (!group.getComponentSecurity().isEditAuthz()) {
+        if (componentSecurity.isEditAuthz() == null || !componentSecurity.isEditAuthz().booleanValue()) {
             return true;
         }
 
