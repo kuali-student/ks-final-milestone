@@ -508,3 +508,58 @@ jQuery.validator.addMethod("validSubjectCode",
     function(value, element) {
          return this.optional(element) || compareSubjectCodeInput(value, element);
     }, "Subject code is invalid")
+
+jQuery.validator.addMethod("validInstructorNameAndID",
+    function(value, element) {
+        return this.optional(element) || compareInstructorNameInput(value, element);
+    }, "Instructor name/ID combo is invalid")
+
+/*Compare the input instructor from the autofill suggest results: data. If the input is in the result data
+  it is valid input instructor */
+function compareInstructorNameInput(value, element) {
+    var isValid;
+    if(event.type != "blur") {
+        return false;
+    }
+
+    if(value == null || value.length < 2) {
+        return false;
+    }
+    var queryVal = value.split(',')[0];
+
+    var successFunction = function (data) {
+        if(data == null || data.resultData == null)  {
+            isValid = false;
+        } else {
+            for(var i=0; len= data.resultData.length, i<len; i++)  {
+                if(data.resultData[i].displayName == value) {
+                    isValid = true;
+                    break;
+                }
+            }
+        }
+        jQuery("#"+element.id).attr('value', value);
+    };
+
+    var queryData = {};
+
+    queryData.methodToCall = 'performFieldSuggest';
+    queryData.ajaxRequest = true;
+    queryData.ajaxReturnType = 'update-none';
+    queryData.formKey = jQuery("input#formKey").val();
+    queryData.queryTerm = queryVal;
+    queryData.queryFieldId = "KS-Instructor-displayName_add";
+
+    jQuery.ajax({
+        url: jQuery("form#kualiForm").attr("action"),
+        dataType: "json",
+        async: false,
+        beforeSend: null,
+        complete: null,
+        error: null,
+        data: queryData,
+        success: successFunction
+    });
+
+    return isValid;
+}

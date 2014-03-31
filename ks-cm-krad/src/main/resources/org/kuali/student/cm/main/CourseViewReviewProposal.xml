@@ -245,7 +245,7 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-DataField" p:label="Terms" p:colSpan="3" p:fieldLabel.renderColon="false"
-                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.terms"/>
+                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.terms"  p:readOnlyListDelimiter="; "/>
                             <bean parent="Uif-DataField" p:label="Duration" p:colSpan="3"
                                   p:fieldLabel.renderColon="false"
                                   p:propertyName="reviewProposalDisplay.courseLogisticsSection.atpDurationType"/>
