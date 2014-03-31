@@ -81,14 +81,15 @@ public class LprServiceConstants {
     public static final String LPRTRANS_ITEM_WAITLIST_STUDENT_REMOVED_MESSAGE = "Student removed from waitlist";
     public static final String LPRTRANS_ITEM_WAITLIST_OPTIONS_UPDATED_MESSAGE = "Waitlist options were updated";
     public static final String LPRTRANS_ITEM_WAITLISTED_MESSAGE = "Waitlisted";
-    public static final String LPRTRANS_ITEM_WAITLIST_FULL_MESSAGE = "Waitlist is full";
+    public static final String LPRTRANS_ITEM_WAITLIST_FULL_MESSAGE = "No seats available. (Waitlist full)";
+    public static final String LPRTRANS_ITEM_WAITLIST_NOT_OFFERED_MESSAGE = "No seats available. (Waitlist not offered)";
 
     // transaction item course action messages
     public static final String LPRTRANS_ITEM_COURSE_UPDATED_MESSAGE = "Course was updated";
     public static final String LPRTRANS_ITEM_COURSE_DROPPED_MESSAGE = "Course was dropped";
 
     // other messages
-    public static final String LPRTRANS_ITEM_SEAT_UNAVAILABLE_MESSAGE = "No Seats Available";
+    public static final String LPRTRANS_ITEM_SEAT_UNAVAILABLE_MESSAGE = "No seats available.";
     public static final String LPRTRANS_ITEM_PERSON_REGISTERED_MESSAGE = "Registered";
 
     // transaction item states
