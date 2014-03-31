@@ -10733,6 +10733,9 @@
         <column name="EFF_DT" type="TIMESTAMP">
             <size scale="6" scaleSet="true" value="11"/>
         </column>
+        <column name="ENTRY_ORDER" type="FLOAT">
+            <size value="0"/>
+        </column>
         <column name="EXPIR_DT" type="TIMESTAMP">
             <size scale="6" scaleSet="true" value="11"/>
         </column>
@@ -10745,10 +10748,7 @@
         <column name="OBJ_ID" type="STRING">
             <size value="36"/>
         </column>
-        <column name="POSITION" type="FLOAT">
-            <size value="0"/>
-        </column>
-        <column name="REG_GROUP_ID" nullable="false" type="STRING">
+        <column name="REG_RQST_ITEM_ID" nullable="false" type="STRING">
             <size value="255"/>
         </column>
         <column name="STUDENT_ID" nullable="false" type="STRING">
