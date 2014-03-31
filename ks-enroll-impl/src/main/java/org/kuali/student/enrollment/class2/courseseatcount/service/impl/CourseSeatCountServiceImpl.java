@@ -21,6 +21,7 @@ import org.kuali.student.enrollment.courseseatcount.dto.SeatCountInfo;
 import org.kuali.student.enrollment.courseseatcount.infc.SeatCount;
 import org.kuali.student.enrollment.courseseatcount.service.CourseSeatCountService;
 import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
+import org.kuali.student.enrollment.registration.client.service.impl.util.SearchResultHelper;
 import org.kuali.student.enrollment.registration.search.service.impl.CourseRegistrationSearchServiceImpl;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -57,8 +58,7 @@ public class CourseSeatCountServiceImpl implements CourseSeatCountService {
         List<String> aoIds = new ArrayList<String>();
         aoIds.add(activityOfferingId);
         List<SeatCount> list = getSeatCountsForActivityOfferings(aoIds, context);
-        SeatCount result = KSCollectionUtils.getRequiredZeroElement(list);
-        return result;
+        return KSCollectionUtils.getRequiredZeroElement(list);
     }
 
     @Override
@@ -67,15 +67,20 @@ public class CourseSeatCountServiceImpl implements CourseSeatCountService {
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         validateAoIds(activityOfferingIds, context);
+        // Map from ao ID to max seats for that AO
+        Map<String, Integer> aoIdToMaxSeats = new HashMap<String, Integer>();
+        // Map from aoID to the AO type
+        Map<String, String> aoIdToAoType = new HashMap<String, String>();
         // Get max seats map
-        Map [] maps =
-                computeAoIdToMaxSeats(activityOfferingIds, context);
-        Map<String, Integer> aoIdToMaxSeats = (Map<String, Integer>) maps[0];
-        Map<String, String> aoIdToAoType = (Map<String, String>) maps[1];
+        computeAoIdToMaxSeats(activityOfferingIds, aoIdToMaxSeats, aoIdToAoType, context);
+        // Compute how many students have seats for each ao ID
         Map<String, Integer> aoIdToRegisteredSeats =
                 computeAoIdToRegisteredSeats(activityOfferingIds, context);
         Date timestamp = new Date();
         List<SeatCount> seatCounts = new ArrayList<SeatCount>();
+        // Loop through the aoIdToMax seats and find out how many seats are actually
+        // occupied, and compute the difference.  If the maxSeats is null, then only
+        // fill out the occupied/used seats.
         for (Map.Entry<String, Integer> entry: aoIdToMaxSeats.entrySet()) {
             SeatCountInfo seatCountInfo = new SeatCountInfo();
             String aoId = entry.getKey();
@@ -115,16 +120,8 @@ public class CourseSeatCountServiceImpl implements CourseSeatCountService {
             throw new OperationFailedException("getSeatCountsForActivityOfferings", e);
         }
         Map<String, Integer> aoIdToRegisteredSeats = new HashMap<String, Integer>();
-        for (SearchResultRowInfo row: searchResult.getRows()) {
-            String aoId = null;
-            Integer count = null;
-            for (SearchResultCellInfo cell: row.getCells()) {
-                if (CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_ID.equals(cell.getKey())) {
-                    // For now, assume if ao id exists, it represents a new student
-                    aoId = cell.getValue();
-                    break;
-                }
-            }
+        for (SearchResultHelper.KeyValue row: SearchResultHelper.wrap(searchResult)) {
+            String aoId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_ID);
             if (aoId != null) {
                 // Doesn't make sense to map if aoId never got set (but that should also never happen)
                 if (!aoIdToRegisteredSeats.containsKey(aoId)) {
@@ -142,7 +139,10 @@ public class CourseSeatCountServiceImpl implements CourseSeatCountService {
         return aoIdToRegisteredSeats;
     }
 
-    private Map[] computeAoIdToMaxSeats(List<String> activityOfferingIds, ContextInfo context)
+    private void computeAoIdToMaxSeats(List<String> activityOfferingIds,
+                                        Map<String, Integer> aoIdToMaxSeats,
+                                        Map<String, String> aoIdToAoType,
+                                        ContextInfo context)
             throws OperationFailedException {
         SearchRequestInfo searchRequest =
                 new SearchRequestInfo(CourseRegistrationSearchServiceImpl.AOIDS_TYPE_MAXSEATS_SEARCH_TYPE.getKey());
@@ -157,20 +157,11 @@ public class CourseSeatCountServiceImpl implements CourseSeatCountService {
             throw new OperationFailedException("computeAoIdToMaxSeats failed", e);
         }
 
-        Map<String, Integer> aoIdToMaxSeats = new HashMap<String, Integer>();
-        Map<String, String> aoIdToAoType = new HashMap<String, String>();
-        for (SearchResultRowInfo row: searchResult.getRows()) {
-            String aoId = null, aoType = null;
-            Integer count = null;
-            for (SearchResultCellInfo cell: row.getCells()) {
-                if (CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_ID.equals(cell.getKey())) {
-                    aoId = cell.getValue();
-                } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_MAX_SEATS.equals(cell.getKey())) {
-                    count = Integer.valueOf(cell.getValue());
-                } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_TYPE.equals(cell.getKey())) {
-                    aoType = cell.getValue();
-                }
-            }
+        for (SearchResultHelper.KeyValue row: SearchResultHelper.wrap(searchResult)) {
+            String aoId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_ID);
+            String aoType = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_TYPE);
+            Integer count =
+                    Integer.valueOf(row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_MAX_SEATS));
             if (aoId != null) {
                 aoIdToMaxSeats.put(aoId, count);
                 aoIdToAoType.put(aoId, aoType);
@@ -183,10 +174,6 @@ public class CourseSeatCountServiceImpl implements CourseSeatCountService {
                 aoIdToAoType.put(aoId, null);
             }
         }
-        Map[] maps = new Map[2];
-        maps[0] = aoIdToMaxSeats;
-        maps[1] = aoIdToAoType;
-        return maps;
     }
 
     /**
@@ -209,14 +196,14 @@ public class CourseSeatCountServiceImpl implements CourseSeatCountService {
             throw new OperationFailedException("validateAoIds failed", e);
         }
         // Should get back one result
-        SearchResultRowInfo row = KSCollectionUtils.getRequiredZeroElement(searchResult.getRows());
+        SearchResultRowInfo checkRow = KSCollectionUtils.getRequiredZeroElement(searchResult.getRows());
         int actual = -1, expected = -1;
-        for (SearchResultCellInfo cell: row.getCells()) {
-            if (CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_IDS_ACTUAL_COUNT.equals(cell.getKey())) {
-                actual = Integer.valueOf(cell.getValue());
-            } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_IDS_EXPECTED_COUNT.equals(cell.getKey())) {
-                expected = Integer.valueOf(cell.getValue());
-            }
+
+        for (SearchResultHelper.KeyValue row: SearchResultHelper.wrap(searchResult)) {
+            actual =
+                    Integer.parseInt(row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_IDS_ACTUAL_COUNT));
+            expected =
+                    Integer.parseInt(row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_IDS_EXPECTED_COUNT));
         }
         if (actual == -1 || expected == -1) {
             // Result should have set these two values to non-negative
