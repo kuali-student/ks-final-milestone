@@ -22,6 +22,7 @@ import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.exception.RiceIllegalStateException;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.kim.api.KimConstants;
@@ -137,10 +138,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 
 import javax.xml.namespace.QName;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Base view helper service for both create and edit course info presentations.
@@ -1064,17 +1062,42 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
     }
 
+    private static class FinalExamComparator implements Comparator<EnumeratedValueInfo> {
+
+        @Override
+        public int compare(EnumeratedValueInfo o1, EnumeratedValueInfo o2) {
+            int result = o1.getSortKey().compareToIgnoreCase(o2.getSortKey());
+            return result;
+        }
+    }
+
     private List<String> updateCampusLocations(List<String> campusLocations) {
 
-        String CAMPUS_LOCATIONS[] = {"NO", "SO", "EX", "AL"};
-        String FULL_NAME_CAMPUS_LOCATIONS[] = {"North Campus", "South Campus", "Extended Campus", "All Campus"};
-        List<String> newCampusLocationsName = new ArrayList<String>();
+        final List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        try {
+            final List<EnumeratedValueInfo> enumerationInfos =
+                    getEnumerationManagementService().getEnumeratedValues
+                            (CluServiceConstants.CAMPUS_LOCATION_ENUM_KEY, null, null, null, ContextUtils.createDefaultContextInfo());
 
-        for (int count = 0; CAMPUS_LOCATIONS.length > count; count++) {
-            if (campusLocations.contains(CAMPUS_LOCATIONS[count])) {
-                newCampusLocationsName.add(FULL_NAME_CAMPUS_LOCATIONS[count]);
+            Collections.sort(enumerationInfos, new FinalExamComparator());
+
+            for (final EnumeratedValueInfo enumerationInfo : enumerationInfos) {
+                keyValues.add(new ConcreteKeyValue(enumerationInfo.getCode(), enumerationInfo.getValue()));
+            }
+
+        } catch (DoesNotExistException e) {
+            throw new RuntimeException("No subject areas found! There should be some in the database", e);
+        } catch (Exception e) {
+            throw new RuntimeException("Error looking up Campus Locations", e);
+        }
+
+        List<String> newCampusLocationsName = new ArrayList<String>();
+        for (KeyValue kval : keyValues) {
+            if (campusLocations.contains(kval.getKey())) {
+                newCampusLocationsName.add(kval.getValue());
             }
         }
+
         return newCampusLocationsName;
     }
 
