@@ -189,7 +189,6 @@ public class CourseController extends CourseRuleEditorController {
                 .setUseReviewProcess(!ArrayUtils.contains(CurriculumManagementConstants.DocumentTypeNames.ADMIN_DOC_TYPE_NAMES, form.getDocTypeName()));
         wrapper.getUiHelper()
                 .setCurriculumSpecialistUser(CourseProposalUtil.isUserCurriculumSpecialist());
-        updateFormState(form);
     }
 
     /**
@@ -250,13 +249,6 @@ public class CourseController extends CourseRuleEditorController {
         }
 
         return getUIFModelAndView(form, PageNames.CREATE_COURSE);
-    }
-
-    /**
-     * Fish the workflow document status out and write it to the form.
-     */
-    protected void updateFormState(DocumentFormBase form) {
-        form.setState(form.getDocument().getDocumentHeader().getWorkflowDocument().getStatus().getCode());
     }
 
     /**
@@ -448,8 +440,6 @@ public class CourseController extends CourseRuleEditorController {
         if (GlobalVariables.getMessageMap().hasErrors()){
             return modelAndView;
         }
-
-        updateFormState(form);
 
         RecentlyViewedDocsUtil.addRecentDoc(form.getDocument().getDocumentHeader().getDocumentDescription(),
                 form.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentHandlerUrl() + "&docId="

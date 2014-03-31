@@ -170,24 +170,7 @@
         </property>
 
         <property name="stateMapping">
-            <bean parent="StateMapping">
-                <property name="states">
-                    <list>
-                        <value>I</value> <!-- Initiated -->
-                        <value>S</value> <!-- Saved -->
-                        <value>R</value> <!-- Enroute -->
-                        <value>P</value> <!-- Processed -->
-                    </list>
-                </property>
-                <!--
-                <property name="stateNameMessageKeyMap">
-                    <map>
-                        <entry key="DRAFT" value="demo.state1"/>
-                        <entry key="SUBMITTED" value="demo.state2"/>
-                        <entry key="APPROVED" value="demo.state3"/>
-                    </map>
-                </property>   -->
-
+            <bean parent="WorkflowStateMapping">
                 <property name="customClientSideValidationStates">
                     <map>
                         <entry key="I" value="S" />
@@ -259,15 +242,17 @@
             <list>
                 <bean parent="Uif-ConditionalBeanPropertyReplacer"
                     p:propertyName="messageText"
-                    p:condition="@{#form.state == 'S'}" >
+                    p:condition="@{document.documentHeader.workflowDocument.saved}" >
                     <property name="replacement">
+                        <!-- This should be read from the message service -->
                         <value>Required for Submit</value>
                     </property>
                 </bean>
                 <bean parent="Uif-ConditionalBeanPropertyReplacer"
                      p:propertyName="messageText"
-                     p:condition="@{#form.state == 'R'}" >
+                     p:condition="@{document.documentHeader.workflowDocument.enroute}" >
                     <property name="replacement">
+                        <!-- This should be read from the message service -->
                         <value>Required for Approval</value>
                     </property>
                 </bean>
