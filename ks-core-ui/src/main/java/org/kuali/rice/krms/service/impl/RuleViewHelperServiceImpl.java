@@ -58,7 +58,6 @@ import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.rice.krms.dto.TemplateInfo;
 import org.kuali.rice.krms.service.RuleViewHelperService;
 import org.kuali.student.common.uif.service.impl.KSViewHelperServiceImpl;
-import org.kuali.student.r1.common.rice.StudentIdentityConstants;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.springframework.beans.BeanUtils;
 

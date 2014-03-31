@@ -15,54 +15,25 @@
  */
 package org.kuali.rice.krms.impl.repository;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.api.criteria.GenericQueryResults;
-import org.kuali.rice.core.api.criteria.Predicate;
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krms.api.repository.NaturalLanguage;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
-import org.kuali.rice.krms.api.repository.TranslateBusinessMethods;
+import org.kuali.rice.krms.api.repository.NaturalLanguage;
 import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
-import org.kuali.rice.krms.api.repository.agenda.AgendaItemDefinition;
-import org.kuali.rice.krms.api.repository.language.NaturalLanguageTemplate;
-import org.kuali.rice.krms.api.repository.language.NaturalLanguageUsage;
-import org.kuali.rice.krms.api.repository.proposition.PropositionDefinition;
 import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
-import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
-import org.kuali.rice.krad.service.KRADServiceLocator;
-import org.kuali.rice.krad.service.SequenceAccessorService;
-import org.kuali.rice.krms.api.repository.NaturalLanguageTree;
-import org.kuali.rice.krms.api.repository.action.ActionDefinition;
-import org.kuali.rice.krms.api.repository.context.ContextDefinition;
-import org.kuali.rice.krms.api.repository.language.NaturalLanguageTemplaterContract;
-import org.kuali.rice.krms.api.repository.proposition.PropositionParameter;
-import org.kuali.rice.krms.api.repository.proposition.PropositionParameterType;
-import org.kuali.rice.krms.api.repository.proposition.PropositionType;
-import org.kuali.rice.krms.api.repository.term.TermDefinition;
-import org.kuali.rice.krms.api.repository.term.TermRepositoryService;
-import org.kuali.rice.krms.impl.repository.language.SimpleNaturalLanguageTemplater;
 
 import static org.kuali.rice.core.api.criteria.PredicateFactory.in;
 
 /**
- * The implementation of {@link RuleManagementService} operations facilitate management of rules and
+ * The implementation of {@link org.kuali.rice.krms.api.repository.RuleManagementService} operations facilitate management of rules and
  * associated information.
  *
  * @author Kuali Rice Team (rice.collab@kuali.org)
  */
-public class KSRuleManagementServiceImpl extends RuleManagementServiceImpl {
+public class KSRuleManagementServiceImpl extends RuleManagementServiceImpl implements RuleManagementService {
 
     private boolean isSame(AgendaDefinition agenda, AgendaDefinition existing) {
         if (!this.isSame(agenda.isActive(), existing.isActive())) {
@@ -126,6 +97,48 @@ public class KSRuleManagementServiceImpl extends RuleManagementServiceImpl {
         }
 
         return o1.equals(o2);
+    }
+
+    @Override
+    public List<ReferenceObjectBinding> findReferenceObjectBindingsByReferenceObjectIds(String referenceObjectReferenceDiscriminatorType,
+                                                                                        List<String> referenceObjectIds)
+            throws RiceIllegalArgumentException {
+        if (referenceObjectReferenceDiscriminatorType == null) {
+            throw new RiceIllegalArgumentException("reference binding object discriminator type must not be null");
+        }
+
+        if (referenceObjectIds == null) {
+            throw new RiceIllegalArgumentException("reference object ids must not be null");
+        }
+
+        List<ReferenceObjectBinding> list = new ArrayList<ReferenceObjectBinding>();
+        for(String referenceObjectId : referenceObjectIds){
+            for (ReferenceObjectBinding binding : this.getReferenceObjectBindingBoService().findReferenceObjectBindingsByReferenceObject(referenceObjectId)) {
+                if (binding.getReferenceDiscriminatorType().equals(referenceObjectReferenceDiscriminatorType)) {
+                    list.add(binding);
+                }
+            }
+        }
+
+        return list;
+    }
+
+    @Override
+    public List<NaturalLanguage> translateNaturalLanguageForObjects(String naturalLanguageUsageId, String typeId, List<String> krmsObjectIds,
+                                                                    String languageCode)
+            throws RiceIllegalArgumentException {
+
+        List<NaturalLanguage> nlList = new ArrayList<NaturalLanguage>();
+        for(String krmsObjectId : krmsObjectIds){
+            String nl = this.getTranslateBusinessMethods().translateNaturalLanguageForObject(naturalLanguageUsageId, typeId, krmsObjectId, languageCode);
+
+            NaturalLanguage.Builder nlBuilder = NaturalLanguage.Builder.create();
+            nlBuilder.setKrmsObjectId(krmsObjectId);
+            nlBuilder.setNaturalLanguage(nl);
+            nlList.add(nlBuilder.build());
+        }
+
+        return nlList;
     }
 
 }
