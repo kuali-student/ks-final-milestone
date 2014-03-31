@@ -21,8 +21,11 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.util.CourseProposalUtil;
+import org.kuali.student.r1.core.proposal.ProposalConstants;
+import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
 import org.kuali.student.r2.core.comment.dto.DecisionInfo;
+import org.kuali.student.r2.core.constants.ProposalServiceConstants;
 import org.kuali.student.r2.core.document.dto.DocumentInfo;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
@@ -172,6 +175,7 @@ public class CourseInfoWrapper implements Serializable {
     public CourseInfoWrapper(){
 
         proposalInfo = new ProposalInfo();
+        proposalInfo.setStateKey(ProposalConstants.PROPOSAL_STATE_SAVED);
         instructorWrappers = new ArrayList<CluInstructorInfoWrapper>();
         courseJointWrappers = new ArrayList<CourseJointInfoWrapper>();
         creditOptionWrappers = new ArrayList<ResultValuesGroupInfoWrapper>();
@@ -191,8 +195,6 @@ public class CourseInfoWrapper implements Serializable {
         loDisplayWrapperModel = new LoDisplayWrapperModel();
         uiHelper = new CreateCourseUIHelper();
     }
-
-
 
     /**
      * Gets the value of finalExamStatus

@@ -60,7 +60,7 @@
     <bean id="KS-CourseView-Financials-Widgets" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
-                <bean parent="Uif-InputField-LabelTop" p:label="Justification of Fees" p:propertyName="course.feeJustification.plain">
+                <bean parent="Uif-InputField-LabelTop" p:label="Justification of Fees" p:propertyName="courseInfo.feeJustification.plain">
                     <property name="instructionalText" value="This is for internal use only and will not be seen by students." />
                     <property name="fieldLabel.requiredMessage">
                         <bean parent="Uif-RequiredMessage" p:messageText="Required on @{document.newMaintainableObject.dataObject.requiredWorkflowMode}" />
@@ -70,15 +70,6 @@
                             <value>uif-label</value>
                         </list>
                     </property>
-                    <!--<property name="simpleConstraint">
-                        <bean parent="RequiredConstraint">
-                            <property name="states">
-                                <list>
-                                    <value>S+</value>
-                                </list>
-                            </property>
-                        </bean>
-                    </property>-->
                     <property name="control">
                         <bean parent="Uif-LargeTextAreaControl" />
                     </property>

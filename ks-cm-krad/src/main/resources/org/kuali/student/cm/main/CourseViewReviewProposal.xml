@@ -20,7 +20,7 @@
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="KS-CourseView-ReviewProposalPage" parent="Uif-MaintenancePage" p:style="margin-left: -18px;"
-          p:headerText="Review Proposal}"
+          p:headerText="Review Proposal"
           p:disclosure.render="false">
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <list>
@@ -93,6 +93,20 @@
         </property>
     </bean>
 
+    <bean id="ReadOnlyTextControl" parent="Uif-TextControl" p:readOnly="true" />
+
+    <bean id="ReadOnlyInput" parent="Uif-InputField" p:colSpan="3" p:escapeHtmlInPropertyValue="false">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>review_readonly</value>
+            </list>
+        </property>
+        <property name="control">
+            <bean parent="ReadOnlyTextControl" />
+        </property>
+        <property name="fieldLabel.requiredMessagePlacement" value="LEFT"/>
+    </bean>
+
     <bean id="CourseInfo-Review-section" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
@@ -107,42 +121,27 @@
                     </property>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:label="Proposal Title" p:colSpan="3"
-                                  p:fieldLabel.renderColon="false" p:escapeHtmlInPropertyValue="false"
-                                  p:propertyName="dataObject.proposalInfo.name"
-                                  p:required="true"/>
-                            <bean parent="Uif-DataField" p:label="Course Title" p:colSpan="3"
-                                  p:fieldLabel.renderColon="false" p:escapeHtmlInPropertyValue="false"
-                                  p:propertyName="dataObject.courseInfo.courseTitle"
-                                  p:required="true"/>
-                            <bean parent="Uif-DataField" p:label="Transcript Course Title" p:colSpan="3"
-                                  p:fieldLabel.renderColon="false" p:escapeHtmlInPropertyValue="false"
-                                  p:propertyName="dataObject.courseInfo.transcriptTitle"/>
-                            <bean parent="Uif-DataField" p:label="Subject Code" p:colSpan="3"
-                                  p:fieldLabel.renderColon="false"
-                                  p:propertyName="dataObject.courseInfo.subjectArea"
-                                  p:required="true"/>
-                            <bean parent="Uif-DataField" p:label="Course Number" p:colSpan="3"
-                                  p:fieldLabel.renderColon="false"
-                                  p:propertyName="dataObject.courseInfo.courseNumberSuffix"/>
+                            <bean parent="ReadOnlyInput" p:label="Proposal Title" p:propertyName="proposalInfo.name" />
+                            <bean parent="ReadOnlyInput" p:label="Course Title" p:propertyName="courseInfo.courseTitle" />
+                            <bean parent="ReadOnlyInput" p:label="Transcript Course Title" p:propertyName="courseInfo.transcriptTitle" />
+                            <bean parent="ReadOnlyInput" p:label="Subject Code" p:propertyName="courseInfo.subjectArea" />
+                            <bean parent="ReadOnlyInput" p:label="Course Number" p:propertyName="courseInfo.courseNumberSuffix" />
+
                             <bean parent="Uif-DataField" p:label="Cross Listed Courses" p:colSpan="3"
                                   p:fieldLabel.renderColon="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.courseSection.instructors"/>
+                                  p:propertyName="reviewProposalDisplay.courseSection.instructors"/>
                             <bean parent="Uif-DataField" p:label="Jointly Offered Courses" p:colSpan="3"
                                   p:fieldLabel.renderColon="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.courseSection.instructors"/>
+                                  p:propertyName="reviewProposalDisplay.courseSection.instructors"/>
                             <bean parent="Uif-DataField" p:label="Version Codes" p:colSpan="3"
                                   p:fieldLabel.renderColon="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.courseSection.instructors"/>
+                                  p:propertyName="reviewProposalDisplay.courseSection.instructors"/>
                             <bean parent="Uif-DataField" p:label="Instructor(s)" p:colSpan="3"
                                   p:fieldLabel.renderColon="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.courseSection.instructors"/>
-                            <bean parent="Uif-DataField" p:label="Description" p:colSpan="3"
-                                  p:fieldLabel.renderColon="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.courseSection.description"/>
-                            <bean parent="Uif-DataField" p:label="Proposal Rationale" p:colSpan="3"
-                                  p:fieldLabel.renderColon="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.courseSection.rationale"/>
+                                  p:propertyName="reviewProposalDisplay.courseSection.instructors"/>
+
+                            <bean parent="ReadOnlyInput" p:label="Description" p:propertyName="reviewProposalDisplay.courseSection.description" />
+                            <bean parent="ReadOnlyInput" p:label="Proposal Rationale" p:propertyName="reviewProposalDisplay.courseSection.rationale" />
                         </list>
                     </property>
                 </bean>
@@ -187,17 +186,17 @@
                         <list>
                             <bean parent="Uif-DataField" p:label="Campus Locations" p:colSpan="3"
                                   p:fieldLabel.renderColon="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.governanceSection.campusLocations"
+                                  p:propertyName="reviewProposalDisplay.governanceSection.campusLocations"
                                   p:readOnlyListDelimiter="; "/>
                             <bean parent="Uif-DataField" p:label="Curriculum Oversight" p:colSpan="3"
                                   p:fieldLabel.renderColon="false"
                                   p:escapeHtmlInPropertyValue="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.governanceSection.curriculumOversight"
+                                  p:propertyName="reviewProposalDisplay.governanceSection.curriculumOversight"
                                   p:required="true"/>
                             <bean parent="Uif-DataField" p:label="Administering Organization" p:colSpan="3"
                                   p:fieldLabel.renderColon="false"
                                   p:escapeHtmlInPropertyValue="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.governanceSection.administeringOrganization"/>
+                                  p:propertyName="reviewProposalDisplay.governanceSection.administeringOrganization"/>
                         </list>
                     </property>
                 </bean>
@@ -241,34 +240,34 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-DataField" p:label="Terms" p:colSpan="3" p:fieldLabel.renderColon="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.terms"/>
+                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.terms"/>
                             <bean parent="Uif-DataField" p:label="Duration" p:colSpan="3"
                                   p:fieldLabel.renderColon="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.atpDurationType"/>
+                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.atpDurationType"/>
                             <bean parent="Uif-DataField" p:label="Assessment Scale" p:colSpan="3"
                                   p:fieldLabel.renderColon="false"
                                   p:escapeHtmlInPropertyValue="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.gradingOptions"
+                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.gradingOptions"
                                   p:required="true"/>
                             <bean parent="Uif-DataField" p:label="Audit" p:colSpan="3" p:fieldLabel.renderColon="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.audit"/>
+                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.audit"/>
                             <bean parent="Uif-DataField" p:label="Pass Fail Transcript Grade" p:colSpan="3"
                                   p:fieldLabel.renderColon="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.passFail"/>
+                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.passFail"/>
                             <bean parent="Uif-DataField" p:label="Final Exam Status" p:colSpan="3"
                                   p:fieldLabel.renderColon="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.finalExamStatus"
+                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.finalExamStatus"
                                   p:required="true"/>
                             <bean parent="Uif-DataField" p:label="Final Exam Rationale" p:colSpan="3"
                                   p:fieldLabel.renderColon="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.finalExamStatusRationale"
+                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.finalExamStatusRationale"
                                   p:required="true"/>
                             <bean parent="Uif-VerticalFieldGroup" p:label="Outcomes" p:colSpan="3" p:fieldLabel.renderColon="false">
                                 <property name="items">
                                     <list>
                                         <bean id="course_review_outcome_details" parent="Uif-StackedCollectionSection"
                                               p:readOnly="true"
-                                              p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.outComes"
+                                              p:propertyName="reviewProposalDisplay.courseLogisticsSection.outComes"
                                               p:collectionObjectClass="org.kuali.student.cm.course.form.OutcomeReviewSection">
                                             <property name="layoutManager.lineGroupPrototype.header.headerText"
                                                       value="Outcome @{(#index + 1)}"/>
@@ -292,7 +291,7 @@
                                     <list>
                                         <bean id="course_review_format_details" parent="Uif-StackedCollectionSection"
                                               p:readOnly="true"
-                                              p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.formatInfoWrappers"
+                                              p:propertyName="reviewProposalDisplay.courseLogisticsSection.formatInfoWrappers"
                                               p:collectionObjectClass="org.kuali.student.cm.course.form.FormatInfoWrapper" p:colSpan="3">
                                             <property name="layoutManager.lineGroupPrototype.header.headerText"
                                                       value="Format @{(#index + 1)}"/>
@@ -377,7 +376,7 @@
                             <bean parent="Uif-DataField" p:label="Learning Objectives" p:colSpan="3"
                                   p:fieldLabel.renderColon="false"
                                   p:escapeHtmlInPropertyValue="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.learningObjectivesSection.learningObjectives"/>
+                                  p:propertyName="reviewProposalDisplay.learningObjectivesSection.learningObjectives"/>
                         </list>
                     </property>
                 </bean>
@@ -422,24 +421,18 @@
                       p:additionalCssClasses="course_review_details-panel, course_review_details-table, ks-no-margins,ks-subSection">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:label="Student Eligibility + Prerequisite" p:colSpan="3"
-                                  p:fieldLabel.renderColon="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.terms"/>
-                            <bean parent="Uif-DataField" p:label="Corequisite" p:colSpan="3"
-                                  p:fieldLabel.renderColon="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.terms"/>
-                            <bean parent="Uif-DataField" p:label="Recommended Preparation" p:colSpan="3"
-                                  p:fieldLabel.renderColon="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.terms"/>
-                            <bean parent="Uif-DataField" p:label="Antirequisite" p:colSpan="3"
-                                  p:fieldLabel.renderColon="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.terms"/>
-                            <bean parent="Uif-DataField" p:label="Course that Restricts Credits" p:colSpan="3"
-                                  p:fieldLabel.renderColon="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.terms"/>
-                            <bean parent="Uif-DataField" p:label="Repeatable for Credit" p:colSpan="3"
-                                  p:fieldLabel.renderColon="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.terms"/>
+                            <bean parent="Uif-DataField" p:label="Student Eligibility + Prerequisite" p:colSpan="3" p:fieldLabel.renderColon="false"
+                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.terms" />
+                            <bean parent="Uif-DataField" p:label="Corequisite" p:colSpan="3" p:fieldLabel.renderColon="false"
+                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.terms" />
+                            <bean parent="Uif-DataField" p:label="Recommended Preparation"  p:colSpan="3" p:fieldLabel.renderColon="false"
+                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.terms" />
+                            <bean parent="Uif-DataField" p:label="Antirequisite"  p:colSpan="3" p:fieldLabel.renderColon="false"
+                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.terms" />
+                            <bean parent="Uif-DataField" p:label="Course that Restricts Credits" p:colSpan="3" p:fieldLabel.renderColon="false"
+                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.terms" />
+                            <bean parent="Uif-DataField" p:label="Repeatable for Credit"  p:colSpan="3" p:fieldLabel.renderColon="false"
+                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.terms" />
                         </list>
                     </property>
                 </bean>
@@ -482,16 +475,12 @@
                       p:additionalCssClasses="course_review_details-panel, course_review_details-table, ks-subSection">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:label="Start Term" p:colSpan="3"
-                                  p:fieldLabel.renderColon="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.activeDatesSection.startTerm"
-                                  p:required="true"/>
-                            <bean parent="Uif-DataField" p:label="End Term" p:colSpan="3"
-                                  p:fieldLabel.renderColon="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.activeDatesSection.endTerm"/>
-                            <bean parent="Uif-DataField" p:label="Pilot Course" p:colSpan="3"
-                                  p:fieldLabel.renderColon="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.activeDatesSection.pilotCourse"/>
+                            <bean parent="Uif-DataField" p:label="Start Term" p:colSpan="3" p:fieldLabel.renderColon="false"
+                                  p:propertyName="reviewProposalDisplay.activeDatesSection.startTerm" p:required="true" />
+                            <bean parent="Uif-DataField" p:label="End Term" p:colSpan="3" p:fieldLabel.renderColon="false"
+                                  p:propertyName="reviewProposalDisplay.activeDatesSection.endTerm" />
+                            <bean parent="Uif-DataField" p:label="Pilot Course"  p:colSpan="3" p:fieldLabel.renderColon="false"
+                                  p:propertyName="reviewProposalDisplay.activeDatesSection.pilotCourse" />
                         </list>
                     </property>
                 </bean>
@@ -538,7 +527,7 @@
                             <bean parent="Uif-DataField" p:label="Justification of Fees" p:colSpan="3"
                                   p:fieldLabel.renderColon="false"
                                   p:escapeHtmlInPropertyValue="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.financialsSection.justificationOfFees"/>
+                                  p:propertyName="reviewProposalDisplay.financialsSection.justificationOfFees" />
                         </list>
                     </property>
                 </bean>
@@ -585,7 +574,7 @@
                         <list>
                             <bean parent="Uif-DataField" p:label="Authors and Collaborators" p:colSpan="3"
                                   p:fieldLabel.renderColon="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.collaboratorSection.name"/>
+                                  p:propertyName="reviewProposalDisplay.collaboratorSection.name"/>
                         </list>
                     </property>
                 </bean>
@@ -637,9 +626,8 @@
                     </property>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:label="Supporting Documents" p:colSpan="3"
-                                  p:fieldLabel.renderColon="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.supportingDocumentsSection.supportingDoc"/>
+                            <bean parent="Uif-DataField" p:label="Supporting Documents" p:colSpan="3" p:fieldLabel.renderColon="false"
+                                  p:propertyName="reviewProposalDisplay.supportingDocumentsSection.supportingDoc" />
                         </list>
                     </property>
                 </bean>

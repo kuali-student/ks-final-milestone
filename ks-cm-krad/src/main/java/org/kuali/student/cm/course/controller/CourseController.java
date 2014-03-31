@@ -95,16 +95,15 @@ import java.util.List;
 
 /**
  * This controller handles all the requests from the 'Create a Course' UI.
- * 
- * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
  */
 @Controller
 @RequestMapping(value = CurriculumManagementConstants.ControllerRequestMappings.CREATE_COURSE)
 public class CourseController extends CourseRuleEditorController {
 
-    public static final String URL_PARAM_USE_CURRICULUM_REVIEW = "useCurriculumReview";
     private static final Logger LOG = LoggerFactory.getLogger(CourseController.class);
-    private static final String DECISIONS_DIALOG_KEY        = "decisionsDialog";
+
+    public static final String URL_PARAM_USE_CURRICULUM_REVIEW = "useCurriculumReview";
+    private static final String DECISIONS_DIALOG_KEY = "decisionsDialog";
 
     private CourseService courseService;
     private CommentService commentService;
@@ -114,6 +113,14 @@ public class CourseController extends CourseRuleEditorController {
     private CluService cluService;
     private ProposalService proposalService;
     private TypeService typeService;
+
+    /**
+     * The bean ids of the pages within the view.
+     */
+    public static class PageNames {
+        public final static String REVIEW_PROPOSAL = "KS-CourseView-ReviewProposalPage";
+        public final static String CREATE_COURSE = "KS-CourseView-CoursePage";
+    }
 
     /**
      * This method creates the form and in the case of a brand new proposal where this method is called after the user uses
@@ -141,7 +148,7 @@ public class CourseController extends CourseRuleEditorController {
     }
 
     /**
-     * Overriden because we needed a point at which the form is loaded with the document before we can initialize some
+     * Overridden because we needed a point at which the form is loaded with the document before we can initialize some
      * form fields. This method is used for when a new document is created.
      *
      * @param form - form instance that contains the doc type parameter and where
@@ -155,7 +162,7 @@ public class CourseController extends CourseRuleEditorController {
     }
 
     /**
-     * Overriden because we needed a point at which the form is loaded with the document before we can initialize some
+     * Overridden because we needed a point at which the form is loaded with the document before we can initialize some
      * form fields. This method is used for loading an existing document.
      *
      * @param form - form instance that contains the doc id parameter and where
@@ -178,10 +185,30 @@ public class CourseController extends CourseRuleEditorController {
      */
     protected void updateCourseForm(DocumentFormBase form) {
         CourseInfoWrapper wrapper = ((CourseInfoWrapper)((MaintenanceDocumentForm)form).getDocument().getNewMaintainableObject().getDataObject());
-        wrapper.getUiHelper().setUseReviewProcess(!ArrayUtils.contains(CurriculumManagementConstants.DocumentTypeNames.ADMIN_DOC_TYPE_NAMES, form.getDocTypeName()));
-        wrapper.getUiHelper().setCurriculumSpecialistUser(CourseProposalUtil.isUserCurriculumSpecialist());
+        wrapper.getUiHelper()
+                .setUseReviewProcess(!ArrayUtils.contains(CurriculumManagementConstants.DocumentTypeNames.ADMIN_DOC_TYPE_NAMES, form.getDocTypeName()));
+        wrapper.getUiHelper()
+                .setCurriculumSpecialistUser(CourseProposalUtil.isUserCurriculumSpecialist());
+        updateFormState(form);
     }
 
+    /**
+     * This method is being overridden to validate the Review Proposal page before it is displayed.
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    @RequestMapping(params = "methodToCall=docHandler")
+    public ModelAndView docHandler(@ModelAttribute("KualiForm") DocumentFormBase formBase, BindingResult result, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        ModelAndView modelAndView = super.docHandler(formBase, result, request, response);
+
+        if (formBase.getPageId().equals(PageNames.REVIEW_PROPOSAL)) {
+            KRADServiceLocatorWeb.getViewValidationService().validateView(formBase.getView(), formBase, formBase.getState());
+        }
+
+        return modelAndView;
+    }
     @Override
     public ModelAndView route(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
         // manually call the view validation service as this validation cannot be run client-side in current setup
@@ -201,7 +228,7 @@ public class CourseController extends CourseRuleEditorController {
     public ModelAndView reviewCourseProposal(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
                                              HttpServletRequest request, HttpServletResponse response) throws Exception {
         ((CourseInfoMaintainable)((MaintenanceDocumentForm)form).getDocument().getNewMaintainableObject()).updateReview();
-        return getUIFModelAndView(form, "KS-CourseView-ReviewProposalPage");
+        return getUIFModelAndView(form, PageNames.REVIEW_PROPOSAL);
     }
 
     /**
@@ -210,6 +237,7 @@ public class CourseController extends CourseRuleEditorController {
     @RequestMapping(params = "methodToCall=editCourseProposalPage")
     public ModelAndView editCourseProposalPage(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
                                              HttpServletRequest request, HttpServletResponse response) throws Exception {
+
 
         String displaySectionId = form.getActionParameters().get("displaySection");
         CourseInfoWrapper wrapper = ((CourseInfoWrapper)((MaintenanceDocumentForm)form).getDocument().getNewMaintainableObject().getDataObject());
@@ -220,7 +248,15 @@ public class CourseController extends CourseRuleEditorController {
             CourseViewSections section = CourseViewSections.getSection(displaySectionId);
             wrapper.getUiHelper().setSelectedSection(section);
         }
-        return getUIFModelAndView(form, "KS-CourseView-CoursePage");
+
+        return getUIFModelAndView(form, PageNames.CREATE_COURSE);
+    }
+
+    /**
+     * Fish the workflow document status out and write it to the form.
+     */
+    private void updateFormState(DocumentFormBase form) {
+        form.setState(form.getDocument().getDocumentHeader().getWorkflowDocument().getStatus().getCode());
     }
 
     /**
@@ -413,7 +449,11 @@ public class CourseController extends CourseRuleEditorController {
             return modelAndView;
         }
 
-        RecentlyViewedDocsUtil.addRecentDoc(form.getDocument().getDocumentHeader().getDocumentDescription(), form.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentHandlerUrl() + "&docId=" + form.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentId());
+        updateFormState(form);
+
+        RecentlyViewedDocsUtil.addRecentDoc(form.getDocument().getDocumentHeader().getDocumentDescription(),
+                form.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentHandlerUrl() + "&docId="
+                        + form.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentId());
 
         String nextOrCurrentPage = form.getActionParameters().get("displayPage");
 
@@ -425,7 +465,7 @@ public class CourseController extends CourseRuleEditorController {
             }
             return getUIFModelAndView(form);
         } else if (StringUtils.equalsIgnoreCase(nextOrCurrentPage, "KS-CourseView-ReviewProposalLink")) {
-            return getUIFModelAndView(form, "KS-CourseView-ReviewProposalPage");
+            return getUIFModelAndView(form, PageNames.REVIEW_PROPOSAL);
         } else {
             return getUIFModelAndView(form);
         }

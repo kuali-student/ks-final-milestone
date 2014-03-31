@@ -372,15 +372,6 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         return LoCategorySearchUtil.searchForLoCategories(categoryName, getLearningObjectiveService());
     }
 
-
-    public CourseInfo getCourse() {
-        return ((CourseInfoWrapper) getDataObject()).getCourseInfo();
-    }
-
-    public void setCourse(final CourseInfo course) {
-        setDataObject(course);
-    }
-
     /**
      */
     public List<CollaboratorWrapper> getCollaboratorWrappersSuggest(
@@ -859,11 +850,6 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         // Initialize Curriculum Oversight if it hasn't already been.
         if (courseInfoWrapper.getCourseInfo().getUnitsContentOwner() == null) {
             courseInfoWrapper.getCourseInfo().setUnitsContentOwner(new ArrayList<String>());
-        }
-
-        // Initialize formats
-        if (courseInfoWrapper.getCourseInfo().getFormats().isEmpty()) {
-            courseInfoWrapper.getCourseInfo().getFormats().add(new FormatInfo());
         }
 
         // Initialize Author & Collaborator
@@ -1594,7 +1580,6 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
 
-        //final DateTimeFormatter dateFormat = DateTimeFormat.forPattern("MM/dd/yyyy");
         final KSDateTimeFormatter dateFormat = DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER;
 
         if (commentInfos != null) {

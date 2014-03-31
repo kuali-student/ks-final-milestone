@@ -23,7 +23,7 @@
         <property name="headerText" value="Governance"/>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="dataObject.courseInfo.campusLocations" p:label="Campus Locations"
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="courseInfo.campusLocations" p:label="Campus Locations"
                       p:instructionalText="" p:width="auto" >
                     <property name="control">
                         <bean parent="Uif-VerticalCheckboxesControl" />
@@ -42,7 +42,7 @@
                     <property name="items">
                         <list>
                             <bean id="KS-Course-CurriculumOversight-input-field" parent="Uif-InputField-LabelTop"
-                                  p:propertyName="dataObject.unitsContentOwnerToAdd" >
+                                  p:propertyName="unitsContentOwnerToAdd" >
                                 <property name="optionsFinder">
                                     <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.OrgsBySubjectCodeValuesFinder"
                                           p:blankOption="true" />
@@ -57,7 +57,7 @@
                 </bean>
 
                 <bean id = "KS-Course-CurriculumOversight-Section" parent="Uif-StackedCollectionGroup"
-                      p:propertyName="dataObject.unitsContentOwner"
+                      p:propertyName="unitsContentOwner"
                       p:headerText="Curriculum Oversight"
                       p:collectionObjectClass="org.kuali.rice.core.api.util.ConcreteKeyValue"
                       p:instructionalText="">
@@ -96,7 +96,7 @@
     </bean>
 
     <bean id="KS-AdministeringOrganization-Section" parent="Uif-StackedCollectionSection"
-          p:headerText="Administering Organization(s)" p:propertyName="dataObject.administeringOrganizations"
+          p:headerText="Administering Organization(s)" p:propertyName="administeringOrganizations"
           p:instructionalText="List the organization(s) that can administer, or offer, this course. In most cases this will be the same as the Curriculum Oversight organization, but additional and/or alternate organizations can also be listed as administering organizations."
           p:collectionObjectClass="org.kuali.student.cm.course.form.OrganizationInfoWrapper">
         <property name="addLineLabel.messageText" value="Add an Organization" />

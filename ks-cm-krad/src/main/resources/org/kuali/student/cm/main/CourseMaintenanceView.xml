@@ -19,15 +19,17 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+    <!--
+        The data dictionary for the CourseInfoWrapper class.
+    -->
     <bean id="CourseInfoWrapper" parent="CourseInfoWrapper-parentBean" />
-
     <bean id="CourseInfoWrapper-parentBean" abstract="true" parent="DataObjectEntry">
         <property name="dataObjectClass" value="org.kuali.student.cm.course.form.CourseInfoWrapper"/>
         <property name="titleAttribute" value="courseInfo.id"/>
         <property name="attributes">
             <list />
         </property>
-        <property name="objectLabel" value="Course info wrapper"/>
+        <property name="objectLabel" value="CourseInfo Wrapper"/>
         <property name="primaryKeys">
             <list>
                 <value>courseInfo.id</value>
@@ -35,11 +37,104 @@
         </property>
     </bean>
 
+    <!--
+        Data dictionary overrides for validation.
+    -->
+
+    <!-- Common beans -->
+
+    <!-- Override simpleConstraint.states with proposal state R (Enroute) and beyond -->
+    <bean id="DDValueReplacer-Enroute" parent="FieldOverrideForValueReplace" abstract="true" >
+        <property name="propertyName" value="simpleConstraint.states" />
+        <property name="value">
+            <list>
+                <value>R+</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Override simpleConstraint.states with proposal state P (Processed) -->
+    <bean id="DDValueReplacer-Approved" parent="FieldOverrideForValueReplace" abstract="true" >
+        <property name="propertyName" value="simpleConstraint" />
+        <property name="value">
+            <list>
+                <value>P</value>
+            </list>
+        </property>
+    </bean>
+
+    <!--
+        Per property overrides for proposal state Enroute.
+    -->
+    <bean id="CourseInfo.subjectArea-override" parent="DataDictionaryBeanOverride">
+        <property name="beanName" value="CourseInfo.subjectArea" />
+        <property name="fieldOverrides">
+            <bean parent="DDValueReplacer-Enroute" />
+        </property>
+    </bean>
+
+    <bean id="CourseInfo.descr.plain-override" parent="DataDictionaryBeanOverride">
+	    <property name="beanName" value="CourseInfo.descr.plain" />
+        <property name="fieldOverrides">
+            <bean parent="DDValueReplacer-Enroute" />
+        </property>
+	</bean>
+
+    <bean id="ProposalInfo.rationale.plain-override" parent="DataDictionaryBeanOverride">
+        <property name="beanName" value="ProposalInfo.rationale.plain" />
+        <property name="fieldOverrides">
+            <bean parent="DDValueReplacer-Enroute" />
+        </property>
+    </bean>
+
+    <!--
+        Per property overrides for proposal state Approved.
+
+    <bean id="CourseInfo.courseNumberSuffix.override" parent="DataDictionaryBeanOverride">
+        <property name="beanName" value="CourseInfo.courseNumberSuffix" />
+        <property name="fieldOverrides">
+            <bean parent="DDValueReplacer-Approved" />
+        </property>
+    </bean>
+     -->
+    <!-- Explicitly set a simple constraint with required=false so that the requiredness message will behave -->
+    <bean id="CourseInfo.courseNumberSuffix.override-required-bug" parent="DataDictionaryBeanOverride">
+        <property name="beanName" value="CourseInfo.courseNumberSuffix" />
+        <property name="fieldOverrides">
+            <bean parent="FieldOverrideForValueReplace" >
+                <property name="propertyName" value="simpleConstraint" />
+                <property name="value">
+                    <bean parent="SimpleConstraint">
+                        <property name="maxLength" value="3" />
+                        <property name="required" value="false" />
+                        <property name="states">
+                            <list>
+                                <value>I,S,R</value>
+                            </list>
+                        </property>
+                        <property name="constraintStateOverrides">
+                            <list>
+                                <bean parent="RequiredConstraint">
+                                    <property name="maxLength" value="3" />
+                                    <property name="states">
+                                        <list>
+                                            <value>P</value>
+                                        </list>
+                                    </property>
+                                </bean>
+                            </list>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+
     <!-- Controller Class: CourseController.java View Helper Class: CourseViewHelperServiceImpl.java UX : http://ux.ks.kuali.org.s3.amazonaws.com/wireframes/ENR/Scheduling_Interface/v3/start.html 
         This view has couple of pages (edit and copy) with all the beans defined at 1. CourseViewCourseInfoPage.xml -->
 
     <bean id="KS-CourseView" parent="KS-Uif-MaintenanceView">
-        <property name="defaultBindingObjectPath" value="document.newMaintainableObject" />
         <property name="dataObjectClassName" value="org.kuali.student.cm.course.form.CourseInfoWrapper"/>
         <!-- New Course header requires static string therefore below string construction is not required.
         commenting below code in case required in future.
@@ -53,10 +148,6 @@
             <list>
                 <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
                 <ref bean="KS-HomewardPathBreadcrumbs-CurriculumManagement"/>
-<!--
-                <ref bean="KS-HomewardPathBreadcrumbs-NewCourse"/>
-                <ref bean="KS-HomewardPathBreadcrumbs-NewCourse-information"/>
--->
             </list>
         </property>
         <property name="header.id" value="KS-CourseView-Header"/>
@@ -65,30 +156,49 @@
                 <property name="items">
                     <list>
                         <bean parent="Uif-DataField" p:label="Proposal Status"
-                              p:shortLabel="Status" p:labelPlacement="LEFT" p:propertyName="dataObject.proposalInfo.stateKey" />
+                              p:shortLabel="Status" p:labelPlacement="LEFT" p:propertyName="proposalInfo.stateKey" />
                         <bean parent="Uif-ActionLink" p:actionLabel="Comments"
                               p:methodToCall="showComment" />
                         <bean parent="Uif-ActionLink" p:actionLabel="Decisions"
                               p:methodToCall="showDecisions" />
                         <bean parent="Uif-Space" />
                         <bean parent="Uif-DataField" p:label="Last Updated"
-                              p:shortLabel="Updated" p:labelPlacement="LEFT" p:propertyName="dataObject.lastUpdated" />
+                              p:shortLabel="Updated" p:labelPlacement="LEFT" p:propertyName="lastUpdated" />
                     </list>
                 </property>
             </bean>
         </property>
-<!--
+
         <property name="stateMapping">
-            <bean parent="WorkflowStateMapping">
+            <bean parent="StateMapping">
+                <property name="states">
+                    <list>
+                        <value>I</value> <!-- Initiated -->
+                        <value>S</value> <!-- Saved -->
+                        <value>R</value> <!-- Enroute -->
+                        <value>P</value> <!-- Processed -->
+                    </list>
+                </property>
+                <!--
+                <property name="stateNameMessageKeyMap">
+                    <map>
+                        <entry key="DRAFT" value="demo.state1"/>
+                        <entry key="SUBMITTED" value="demo.state2"/>
+                        <entry key="APPROVED" value="demo.state3"/>
+                    </map>
+                </property>   -->
+
                 <property name="customClientSideValidationStates">
                     <map>
-                        <entry key="I" value="S"/>
-                        <entry key="S" value="S"/>
+                        <entry key="I" value="S" />
+                        <entry key="S" value="S" />
+                        <entry key="R" value="S" />
+                        <entry key="P" value="S" />
                     </map>
                 </property>
             </bean>
         </property>
--->
+
         <property name="dialogs">
             <list>
                 <ref bean="commentsLightBox" />
@@ -124,10 +234,41 @@
         </property>
         <property name="expressionVariables">
             <map merge="true">
+                <entry key="dataObject" value="document.newMaintainableObject.dataObject"/>
                 <entry key="uiHelper" value="document.newMaintainableObject.dataObject.uiHelper"/>
+                <entry key="workflowDoc" value="document.documentHeader.workflowDocument"/>
             </map>
         </property>
     </bean>
+
+
+
+    <bean id="CM-StateAware-RequiredMessage" parent="CM-StateAware-RequiredMessage-parent" abstract="true" />
+    <bean id="CM-StateAware-RequiredMessage-parent" parent="Uif-RequiredMessage"  abstract="true">
+        <!-- p:messageText="Required for @{((document.documentHeader.workflowDocument.initiated) or (document.documentHeader.workflowDocument.saved)) ? '*' : ''}"   -->
+
+        <property name="messageText" value="" />
+        <property name="propertyReplacers">
+            <list>
+                <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                    p:propertyName="messageText"
+                    p:condition="@{#form.state == 'S'}" >
+                    <property name="replacement">
+                        <value>Required for Submit</value>
+                    </property>
+                </bean>
+                <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                     p:propertyName="messageText"
+                     p:condition="@{#form.state == 'R'}" >
+                    <property name="replacement">
+                        <value>Required for Approval</value>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
 
     <bean id="CourseInfoMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
         <property name="dataObjectClass" value="org.kuali.student.cm.course.form.CourseInfoWrapper" />
@@ -157,7 +298,9 @@
         </property>
     </bean>
 
-    <!-- Each course details tab/section extends this -->
+    <!--
+        Each course details tab/section extends this
+    -->
     <bean id="KS-CourseView-VerticalBoxSection" parent="Uif-VerticalBoxSection" abstract="true">
         <property name="cssClasses">
             <list merge="true">
@@ -411,7 +554,7 @@
         <property name="items">
             <list>
                 <!--"propsalCommentSection" -->
-                <bean parent="Uif-DataField" p:propertyName="dataObject.ProposalInfo.name" />
+                <bean parent="Uif-DataField" p:propertyName="proposalInfo.name" />
                 <bean parent="Uif-Message"
                       p:messageText="All comments posted here will be visible to authors, and to reviewers after you submit the proposal" />
 
@@ -421,7 +564,7 @@
                     <property name="headerText" value="Leave a Comment" />
                     <property name="collectionObjectClass" value="org.kuali.student.r2.core.comment.dto.CommentInfo" />
 
-                    <property name="propertyName" value="dataObject.commentInfos" />
+                    <property name="propertyName" value="commentInfos" />
                     <property name="layoutManager.separateAddLine" value="true" />
                     <property name="addLineLabel.messageText" value=" " />
                     <property name="layoutManager.renderSequenceField" value="false" />
@@ -448,7 +591,7 @@
                 <bean parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="4">
                     <property name="header.render" value="false" />
                     <property name="collectionObjectClass" value="org.kuali.student.r2.core.comment.dto.DecisionInfo" />
-                    <property name="propertyName" value="dataObject.decisions" />
+                    <property name="propertyName" value="decisions" />
                     <property name="layoutManager.generateAutoSequence" value="true" />
                     <property name="layoutManager.richTable.render" value="false" />
                     <property name="renderAddLine" value="false" />

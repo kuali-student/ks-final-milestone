@@ -36,7 +36,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="dataObject.courseInfo.termsOffered"
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="courseInfo.termsOffered"
                       p:label="Term"
                       p:instructionalText="Selecting a single term will restrict this course to only that term. Any will allow the
 								course to be offered in any term that matches the duration selected below.">
@@ -64,14 +64,14 @@
         <property name="items">
             <list>
                 <bean id="KS-DurationTypeDropDown" parent="Uif-InputField-LabelTop"
-                      p:propertyName="dataObject.courseInfo.duration.atpDurationTypeKey" p:label="Duration Type"
+                      p:propertyName="courseInfo.duration.atpDurationTypeKey" p:label="Duration Type"
                       p:optionsFinderClass="org.kuali.student.lum.lu.ui.course.keyvalues.DurationTypeKeyValueFinder">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" />
                     </property>
                 </bean>
                 <bean id="KS-DurationTimeQuantity-Field" parent="Uif-InputField-LabelTop"
-                      p:label="Durantion Count" p:propertyName="dataObject.courseInfo.duration.timeQuantity">
+                      p:label="Durantion Count" p:propertyName="courseInfo.duration.timeQuantity">
                     <property name="validCharactersConstraint">
                         <bean parent="NumericPatternConstraint" />
                     </property>
@@ -112,8 +112,7 @@
                 <bean parent="Uif-HorizontalBoxSubSection">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-Label" p:labelText="Assessment Scale" p:renderColon="false"/>
-                            <bean parent="Uif-Label" p:labelText="Required on Submit" p:renderColon="false" p:additionalCssClasses="cm-form-required-for-submit">
+                            <bean parent="Uif-Label" p:labelText="Assessment Scale" p:renderColon="false">
                                 <property name="richLabelMessage">
                                     <bean parent="Uif-KS-IconLabelMessage">
                                         <property name="iconToolTipText" value="&lt;b&gt;Letter, Standard Values&lt;b&gt;&lt;br&gt;
@@ -129,13 +128,12 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="dataObject.courseInfo.gradingOptions" p:showLabel="false" >
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="courseInfo.gradingOptions" p:showLabel="false" >
                     <property name="control">
                         <bean parent="Uif-VerticalCheckboxesControl" />
                     </property>
                     <property name="optionsFinder">
-                        <bean
-                                class="org.kuali.student.lum.lu.ui.course.keyvalues.AssesmentKeyValueFinder" />
+                        <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.AssesmentKeyValueFinder" />
                     </property>
                 </bean>
             </list>
@@ -150,13 +148,13 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="dataObject.audit"
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="audit"
                       p:label="Audit" >
                     <property name="control">
                         <bean parent="Uif-CheckboxControl" p:checkboxLabel="This course can be audited" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="dataObject.passFail" p:label="Pass Fail Transcript Grade" >
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="passFail" p:label="Pass Fail Transcript Grade" >
                     <property name="control">
                         <bean parent="Uif-CheckboxControl" p:checkboxLabel="This course will have a student selectable pass/fail option" />
                     </property>
@@ -169,22 +167,21 @@
           parent="Uif-VerticalBoxSection" p:headerText="Final Exam">
         <property name="items">
             <list>
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="dataObject.finalExamStatus"
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="finalExamStatus"
                       p:label="Final Exam Status" >
                     <property name="constraintText" value="Required on Submit" />
                     <property name="control">
                         <bean parent="Uif-VerticalRadioControl" />
                     </property>
                     <property name="optionsFinder">
-                        <bean
-                                class="org.kuali.student.lum.lu.ui.course.keyvalues.FinalExamKeyValueFinder"
-                                p:addBlankOption="false" />
+                        <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.FinalExamKeyValueFinder"
+                            p:addBlankOption="false" />
                     </property>
                 </bean>
                 <bean id="KS-FinalExamRationale" parent="Uif-InputField-LabelTop"
                       p:label="Final Exam Rationale" p:required="true"
-                      p:progressiveRender="#dp.dataObject.finalExamStatus eq 'None' or #dp.dataObject.finalExamStatus eq 'ALT'"
-                      p:propertyName="dataObject.finalExamRationale">
+                      p:progressiveRender="#dp.finalExamStatus eq 'None' or #dp.finalExamStatus eq 'ALT'"
+                      p:propertyName="finalExamRationale">
                     <property name="control">
                         <bean parent="Uif-LargeTextAreaControl" p:maxLength="255" />
                     </property>
@@ -194,7 +191,7 @@
     </bean>
     <bean id="KS-CourseView-CourseLogisticsPage-Outcome-Widgets"
           parent="Uif-StackedCollectionSection" p:headerText="Outcome"
-          p:propertyName="dataObject.creditOptionWrappers"
+          p:propertyName="creditOptionWrappers"
           p:collectionObjectClass="org.kuali.student.cm.course.form.ResultValuesGroupInfoWrapper">
         <property name="addLineActions">
             <list>
@@ -282,7 +279,7 @@
     </bean>
     <bean id="KS-CourseView-CourseLogisticsPage-CourseFormats-Widgets"
           parent="Uif-StackedCollectionSection" p:headerText="Course Format(s)"
-          p:propertyName="dataObject.courseInfo.formats" p:collectionObjectClass="org.kuali.student.r2.lum.course.dto.FormatInfo">
+          p:propertyName="courseInfo.formats" p:collectionObjectClass="org.kuali.student.r2.lum.course.dto.FormatInfo">
         <property name="instructionalText"
                   value="Each course format can consist of any number of activities, and you may have more than one course format for this course." />
         <!--<property name="help">

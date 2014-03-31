@@ -126,6 +126,4 @@ public class CurriculumManagementConstants {
     public final static String KUALI_LO_REPOSITORY_KEY_SINGLE_USE = "kuali.loRepository.key.singleUse";
 
     public final static String KS_LO_CAT_TABLE = "KS-LoCatTable";
-
-
 }

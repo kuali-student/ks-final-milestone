@@ -17,11 +17,14 @@
 package org.kuali.student.cm.course.rule;
 
 import org.apache.commons.lang.StringUtils;
+
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
+
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.form.CourseInfoWrapper;
+
 import org.kuali.student.common.uif.rule.KsMaintenanceDocumentRuleBase;
 
 /**
@@ -30,6 +33,8 @@ import org.kuali.student.common.uif.rule.KsMaintenanceDocumentRuleBase;
  * @author Kuali Student Team
  */
 public class CourseRule extends KsMaintenanceDocumentRuleBase {
+
+    public static final String DATA_OBJECT_PATH = "document.newMaintainableObject.dataObject";
 
     @Override
     public boolean processSaveDocument(Document document) {
@@ -41,30 +46,26 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
         }
 
         MaintenanceDocument maintenanceDocument = (MaintenanceDocument) document;
-        CourseInfoWrapper dataObject = (CourseInfoWrapper)maintenanceDocument.getNewMaintainableObject().getDataObject();
+        CourseInfoWrapper dataObject = (CourseInfoWrapper) maintenanceDocument.getNewMaintainableObject().getDataObject();
 
         if (StringUtils.isBlank(dataObject.getProposalInfo().getName())){
-            GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.proposalInfo.name", CurriculumManagementConstants.MessageKeys.ERROR_PROPOSAL_TITLE_REQUIRED);
+            GlobalVariables.getMessageMap().putError(DATA_OBJECT_PATH + ".proposalInfo.name",
+                    CurriculumManagementConstants.MessageKeys.ERROR_PROPOSAL_TITLE_REQUIRED);
             success = false;
         }
 
         if (StringUtils.isBlank(dataObject.getCourseInfo().getCourseTitle())){
-            GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.courseInfo.courseTitle", CurriculumManagementConstants.MessageKeys.ERROR_COURSE_TITLE_REQUIRED);
+            GlobalVariables.getMessageMap().putError(DATA_OBJECT_PATH + ".courseInfo.courseTitle",
+                    CurriculumManagementConstants.MessageKeys.ERROR_COURSE_TITLE_REQUIRED);
             success = false;
         }
 
         return success;
     }
 
-
     @Override
     public boolean processRouteDocument(Document document) {
-
         boolean success = super.processRouteDocument(document);
-
-
         return success;
-
     }
-
 }

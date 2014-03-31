@@ -61,7 +61,7 @@
 	margin-left: 356px;
     white-space: nowrap;
 }
- /* end */
+/* end */
 
 
 /* find course proposal start */
@@ -366,7 +366,7 @@
     border: none;
 }
 
-#cm_dottedHeaderActions {
+#ocm_dottedHeaderActions {
     margin-bottom: 10px;
 }
 
@@ -374,3 +374,38 @@
     float : left;
     clear : both;
 }
+/*
+ *  Review Proposal styling
+ */
+
+/* Remove the input styling */
+.review_readonly textarea:focus,
+.review_readonly input[type="text"]:focus {
+    outline: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    color: black;
+}
+
+.review_readonly textarea,
+.review_readonly input[type="text"] {
+    background: none;
+    border: none;
+	-webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    -moz-transition: none;
+    -o-transition: none;
+    transition: none;
+	color: black;
+}
+
+.course_review_details-table th,
+.course_review_details-table td,
+.course_review_details-table input {
+    padding: 2px 5px 0px 5px;
+    vertical-align: bottom;
+}
+
+
+/* End */
