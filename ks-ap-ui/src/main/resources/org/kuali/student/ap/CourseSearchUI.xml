@@ -170,7 +170,7 @@
 			<bean class="org.kuali.student.ap.coursesearch.keyvalue.PublishedTermsListBuilder">
 				<property name="additionalListItemsTop">
 					<map>
-						<entry key="any" value="Any term" />
+						<entry key="any" value="All" />
 						<!--<entry key="projected" value="Projected terms only" />-->
 						<entry key="scheduled" value="Scheduled terms" />
 					</map>
