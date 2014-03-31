@@ -44,7 +44,7 @@ function ksapCourseSearchColumns() {
         'bSearchable' : true,
         'sTitle' : 'Code',
         'sClass' : 'ksap-text-nowrap sortable',
-        'sWidth' : '73px',
+        'sWidth' : '78px',
         'sType' : 'string'
     }, {
         'bSortable' : true,
@@ -56,12 +56,12 @@ function ksapCourseSearchColumns() {
         'bSortable' : false,
         'bSearchable' : true,
         'sTitle' : 'Credits',
-        'sWidth' : '34px'
+        'sWidth' : '43px'
     }, {
         'bSortable' : false,
         'bSearchable' : true,
         'sTitle' : 'Campus',
-        'sWidth' : '34px'
+        'sWidth' : '47px'
     },{
         'bSortable' : false,
         'bSearchable' : true,
@@ -73,7 +73,7 @@ function ksapCourseSearchColumns() {
         'bSearchable' : true,
         'sTitle' : 'Terms Offered',
         'sClass' : 'ksap-data-list',
-        'sWidth' : '100px'
+        'sWidth' : '110px'
     }, {
         'bSortable' : false,
         'bSearchable' : true,
@@ -84,7 +84,7 @@ function ksapCourseSearchColumns() {
         'bSearchable' : true,
         'sTitle' : '',
         'sClass' : 'ksap-status-column',
-        'sWidth' : '45px'
+        'sWidth' : '41px'
     } ];
 }
 
