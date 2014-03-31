@@ -65,7 +65,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             "kuali.search.type.lui.searchForAOSchedulesAndCOCreditAndGradingOptionsByIds";
     public static final String LPR_TRANS_IDS_BY_PERSON_TERM_TYPE_SEARCH_KEY =
             "kuali.search.type.lpr.searchForLprTransIdsByAtpAndPersonAndTypeKey";
-    public static final String REG_CART_BY_PERSON_TERM_SEARCH_KEY = 
+    public static final String REG_CART_BY_PERSON_TERM_SEARCH_KEY =
             "kuali.search.type.lui.searchForCourseRegistrationCartByStudentAndTerm";
     public static final String RVGS_BY_LUI_IDS_SEARCH_KEY =
             "kuali.search.type.lui.searchForRVGsByLuiIds";
@@ -77,6 +77,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             "kuali.search.type.lui.searchTypeAoLprsByAoIdsAndLprStates";
     public static final String LPRIDS_BY_MASTER_LPR_ID_SEARCH_KEY =
             "kuali.search.type.lui.searchForLprIdsByMasterLprId";
+    public static final String SEAT_COUNT_INFO_BY_AOIDS_SEARCH_KEY =
+            "kuali.search.type.lui.searchForSeatCountInfoByAOIds";
 
     public static final TypeInfo REG_INFO_BY_PERSON_TERM_SEARCH_TYPE;
     public static final TypeInfo REG_CART_BY_PERSON_TERM_SEARCH_TYPE;
@@ -87,6 +89,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
     public static final TypeInfo AOIDS_TYPE_MAXSEATS_SEARCH_TYPE;
     public static final TypeInfo LPRS_BY_AOIDS_LPR_STATE_TYPE;
     public static final TypeInfo LPRIDS_BY_MASTER_LPR_ID_SEARCH_TYPE;
+    public static final TypeInfo SEAT_COUNT_INFO_BY_AOIDS_SEARCH_TYPE;
 
     public static final String DEFAULT_EFFECTIVE_DATE = "01/01/2012";
 
@@ -130,7 +133,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         public static final String ATP_CD = "atpCd";
         public static final String ATP_NAME = "atpName";
         public static final String LPR_TRANS_ID = "lprTransId";
-        
+
         public static final String CART_ID = "cartId";
         public static final String CART_ITEM_ID = "cartItemId";
         public static final String CART_STATE = "cartState";
@@ -149,6 +152,9 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         public static final String AO_MAX_SEATS = "maxSeats";
         public static final String AO_IDS_ACTUAL_COUNT = "aoIdsActualCount";
         public static final String AO_IDS_EXPECTED_COUNT = "aoIdsExpectedCount";
+        public static final String AO_WAITLIST_COUNT = "waitlistCount";
+        public static final String CWL_MAX_SIZE = "courseWaitlistMaxSize";
+        public static final String CWL_ID = "courseWaitlistId";
 
         public static final String LPR_ID = "lprId";
         public static final String LPR_TYPE = "lprType";
@@ -158,9 +164,10 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
 
     /**
      * Convenience method for creating type info
+     *
      * @param searchKey Search key
-     * @param name Fills the name field
-     * @param desc and the description field
+     * @param name      Fills the name field
+     * @param desc      and the description field
      * @return a TypeInfo object
      */
     private static TypeInfo createTypeInfo(String searchKey, String name, String desc) {
@@ -178,7 +185,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         searchKeyToSearchTypeMap = new HashMap<String, TypeInfo>();
         searchTypeList = new ArrayList<TypeInfo>();
 
-        REG_INFO_BY_PERSON_TERM_SEARCH_TYPE  =
+        REG_INFO_BY_PERSON_TERM_SEARCH_TYPE =
                 createTypeInfo(REG_INFO_BY_PERSON_TERM_SEARCH_KEY,
                         "Registration info by person and term",
                         "Returns registration info for given person and term");
@@ -225,6 +232,10 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "(MasterLprId) for a list of LPR (AO, CO, RG) ids",
                         "Returns (Id) for a list of LPR (AO, CO, RG) ids");
 
+        SEAT_COUNT_INFO_BY_AOIDS_SEARCH_TYPE =
+                createTypeInfo(SEAT_COUNT_INFO_BY_AOIDS_SEARCH_KEY,
+                        "(aoId, type, maxSeats, maxWaitlistSize, cwlId) for a list of AO ids",
+                        "Returns (aoId, type, maxSeats, maxWaitlistSize, cwlId) for a list of AO ids");
     }
 
     @Override
@@ -277,9 +288,89 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             return searchForAoLprs(searchRequestInfo);
         } else if (LPRIDS_BY_MASTER_LPR_ID_SEARCH_TYPE.getKey().equals(searchKey)) {
             return searchForLprIdsByMasterLprId(searchRequestInfo);
+        } else if (SEAT_COUNT_INFO_BY_AOIDS_SEARCH_TYPE.getKey().equals(searchKey)) {
+            return searchForSeatCountInfoByAOIds(searchRequestInfo);
         } else {
             throw new OperationFailedException("Unsupported search type: " + searchRequestInfo.getSearchKey());
         }
+    }
+
+    /**
+     * Searches for seat counts and waitlist counts for the given AO ids
+     * Note this implementation assumes that there is one course waitlist per AO.
+     *
+     * @param searchRequestInfo ao ids to search on
+     * @return list of search results
+     */
+    private SearchResultInfo searchForSeatCountInfoByAOIds(SearchRequestInfo searchRequestInfo) {
+        SearchResultInfo resultInfo = new SearchResultInfo();
+        SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
+        List<String> aoIds = requestHelper.getParamAsList(SearchParameters.AO_IDS);
+
+        String queryStr =
+                "SELECT " +
+                        "    ao.ID AO_ID, " +
+                        "    ao.LUI_TYPE LUI_TYPE, " +
+                        "    ao.MAX_SEATS MAX_SEATS, " +
+                        "    cwl.MAX_SIZE MAX_SIZE, " +
+                        "    cwl.id CWL_ID, " +
+                        "    ( " +
+                        "        SELECT " +
+                        "            COUNT(*) " +
+                        "        FROM " +
+                        "            KSEN_LPR lpr " +
+                        "        WHERE " +
+                        "            lpr.LUI_ID = ao.ID " +
+                        "        AND lpr.LPR_TYPE='kuali.lpr.type.registrant.activity.offering' " +
+                        "        AND lpr.LPR_STATE='kuali.lpr.state.registered') registered, " +
+                        "    ( " +
+                        "        SELECT " +
+                        "            COUNT(*) " +
+                        "        FROM " +
+                        "            KSEN_LPR lpr " +
+                        "        WHERE " +
+                        "            lpr.LUI_ID = ao.ID " +
+                        "        AND lpr.LPR_TYPE='kuali.lpr.type.waitlist.activity.offering' " +
+                        "        AND lpr.LPR_STATE='kuali.lpr.state.waitlisted') waitlisted " +
+                        "FROM " +
+                        "    KSEN_LUI ao " +
+                        "LEFT OUTER JOIN " +
+                        "    KSEN_CWL_ACTIV_OFFER cwl2ao " +
+                        "ON " +
+                        "    cwl2ao.ACTIV_OFFER_ID = ao.id " +
+                        "LEFT OUTER JOIN " +
+                        "    KSEN_CWL cwl " +
+                        "ON " +
+                        "    ( " +
+                        "        cwl.id = cwl2ao.CWL_ID " +
+                        "    AND cwl.CWL_STATE='kuali.course.waitlist.state.active') " +
+                        "WHERE " +
+                        "    ao.ID IN(:activityOfferingIds)";
+
+
+        Query query = entityManager.createNativeQuery(queryStr);
+        query.setParameter(SearchParameters.AO_IDS, aoIds);
+
+        List<Object[]> results = query.getResultList();
+
+        for (Object[] resultRow : results) {
+            int i = 0;
+            SearchResultRowInfo row = new SearchResultRowInfo();
+            row.addCell(SearchResultColumns.AO_ID, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.AO_TYPE, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.AO_MAX_SEATS, resultRow[i] == null ? null : ((BigDecimal) resultRow[i]).toString());
+            i++;
+            row.addCell(SearchResultColumns.CWL_MAX_SIZE, resultRow[i] == null ? null : ((BigDecimal) resultRow[i]).toString());
+            i++;
+            row.addCell(SearchResultColumns.CWL_ID, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.AO_IDS_ACTUAL_COUNT, resultRow[i] == null ? null : ((BigDecimal) resultRow[i]).toString());
+            i++;
+            row.addCell(SearchResultColumns.AO_WAITLIST_COUNT, resultRow[i] == null ? null : ((BigDecimal) resultRow[i]).toString());
+
+            resultInfo.getRows().add(row);
+        }
+
+        return resultInfo;
     }
 
     private SearchResultInfo searchForRVGsByLuiIds(SearchRequestInfo searchRequestInfo) throws OperationFailedException {
@@ -337,11 +428,11 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         String cartId = requestHelper.getParamAsString(SearchParameters.CART_ID);
         String cartItemId = requestHelper.getParamAsString(SearchParameters.CART_ITEM_ID);
         String lprtType = requestHelper.getParamAsString(SearchParameters.LPRT_TYPE);
-        if(StringUtils.isEmpty(lprtType)){
+        if (StringUtils.isEmpty(lprtType)) {
             lprtType = LprServiceConstants.LPRTRANS_REG_CART_TYPE_KEY;
         }
 
-        String queryStr ="SELECT " +
+        String queryStr = "SELECT " +
                 "    lprt.id                   cartId, " +
                 "    lprti.ID                  cartItemId, " +
                 "    lprt.LPR_TRANS_STATE       cartState, " +
@@ -421,8 +512,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                 "AND co.id = co2fo.LUI_ID " +
                 "AND rg.id = lprti.NEW_LUI_ID " +
                 "AND coId.LUI_ID = co.id " +
-                (StringUtils.isEmpty(cartItemId)?" ":"AND lprti.ID = :cartItemId ") +
-                (StringUtils.isEmpty(cartId)?" ":"AND lprt.ID = :cartId ") +
+                (StringUtils.isEmpty(cartItemId) ? " " : "AND lprti.ID = :cartItemId ") +
+                (StringUtils.isEmpty(cartId) ? " " : "AND lprt.ID = :cartId ") +
                 "ORDER BY " +
                 "    lprt.ID, " +
                 "    lprti.ID, " +
@@ -434,10 +525,10 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         query.setParameter(SearchParameters.LPRT_TYPE, lprtType);
         query.setParameter("lprtiProcessingState", LprServiceConstants.LPRTRANS_ITEM_PROCESSING_STATE_KEY);
 
-        if(!StringUtils.isEmpty(cartItemId)){
+        if (!StringUtils.isEmpty(cartItemId)) {
             query.setParameter(SearchParameters.CART_ITEM_ID, cartItemId);
         }
-        if(!StringUtils.isEmpty(cartId)){
+        if (!StringUtils.isEmpty(cartId)) {
             query.setParameter(SearchParameters.CART_ID, cartId);
         }
 
@@ -564,7 +655,6 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
     }
 
     /**
-     *
      * @param searchRequestInfo Search request parameter
      * @return Search result with list of LPR Transaction IDs
      * @throws OperationFailedException
@@ -666,8 +756,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         String aoIdsStr = commaString(aoIdsList);
         String queryStr =
                 "SELECT lui.ID, lui.LUI_TYPE, lui.MAX_SEATS " +
-                "FROM KSEN_LUI lui " +
-                "WHERE lui.ID IN (:activityOfferingIds) ";
+                        "FROM KSEN_LUI lui " +
+                        "WHERE lui.ID IN (:activityOfferingIds) ";
         Query query = entityManager.createNativeQuery(queryStr);
         query.setParameter(SearchParameters.AO_IDS, aoIdsList);
         List<Object[]> results = query.getResultList();
@@ -723,6 +813,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
 
     /**
      * Lets you search for AO-student LPRs based on a list of AO ids, and lpr states
+     *
      * @param searchRequestInfo
      * @return
      * @throws OperationFailedException
@@ -742,7 +833,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         if (lprStateListIsNonEmpty) {
             // If the list is empty or null, then pretend it doesn't exist, otherwise
             // add it to the query
-            queryStr += "AND lpr.LPR_STATE IN (:lprStates)" ;
+            queryStr += "AND lpr.LPR_STATE IN (:lprStates)";
         }
         Query query = entityManager.createNativeQuery(queryStr);
         query.setParameter(SearchParameters.AO_IDS, aoIdsList);
@@ -806,7 +897,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         return resultInfo;
     }
 
-    private static String commaString(List<String> items){
+    private static String commaString(List<String> items) {
         return items.toString().replace("[", "'").replace("]", "'").replace(", ", "','");
     }
 

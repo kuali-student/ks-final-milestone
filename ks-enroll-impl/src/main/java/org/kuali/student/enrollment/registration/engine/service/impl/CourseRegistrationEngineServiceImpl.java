@@ -94,7 +94,7 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
     public LprTransactionInfo updateLprTransaction(String lprTransactionId, String state, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, VersionMismatchException, DataValidationErrorException {
         LprTransactionInfo lprTransactionInfo = getLprService().getLprTransaction(lprTransactionId, contextInfo);
         lprTransactionInfo.setStateKey(state);
-        return  getLprService().updateLprTransaction(lprTransactionId, lprTransactionInfo, contextInfo);
+        return getLprService().updateLprTransaction(lprTransactionId, lprTransactionInfo, contextInfo);
     }
 
     /**
@@ -369,6 +369,7 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
         }
         return result;
     }
+
     @Override
     public List<LprInfo> updateCourseWaitlistEntry(String masterLprId, String credits, String gradingOptionId, ContextInfo contextInfo) throws OperationFailedException, PermissionDeniedException, MissingParameterException, InvalidParameterException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
         // KSENROLL-12144
@@ -470,11 +471,11 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
     @Override
     public boolean isWaitlistFull(List<SeatCount> seatCounts, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
         for (SeatCount seatCount : seatCounts) {
-            if (seatCount.getWaitListSize() == seatCount.getMaxWaitListSize()) {
-                return false;
+            if (seatCount.getMaxWaitListSize() != null && seatCount.getWaitListSize() >= seatCount.getMaxWaitListSize()) {
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     private Map<String, RegistrationGroup> getRegistrationGroupsForRequest(RegistrationRequestInfo registrationRequestInfo, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {

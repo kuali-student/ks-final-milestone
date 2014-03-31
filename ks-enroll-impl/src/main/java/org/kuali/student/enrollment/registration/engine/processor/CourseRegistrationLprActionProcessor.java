@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.registration.engine.processor;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequestItem;
 import org.kuali.student.enrollment.courseseatcount.infc.SeatCount;
@@ -129,7 +130,7 @@ public class CourseRegistrationLprActionProcessor {
     }
 
     private boolean doesStudentWantToWaitlist(RegistrationRequestItemEngineMessage message, ContextInfo contextInfo) {
-        return false;//TODO KSENROLL-12307
+        return BooleanUtils.toBoolean(message.getRequestItem().getOkToWaitlist());
     }
 
     private void notifyWaitlistIsFull(RegistrationRequestItemEngineMessage message, ContextInfo contextInfo) throws PermissionDeniedException, OperationFailedException, VersionMismatchException, InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException {

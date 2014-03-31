@@ -16,6 +16,7 @@
  */
 package org.kuali.student.enrollment.class2.courseseatcount.service.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.enrollment.courseseatcount.dto.SeatCountInfo;
 import org.kuali.student.enrollment.courseseatcount.infc.SeatCount;
@@ -31,7 +32,6 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
-import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.service.SearchService;
@@ -63,89 +63,18 @@ public class CourseSeatCountServiceImpl implements CourseSeatCountService {
 
     @Override
     @Transactional(readOnly = true)
+    /**
+     * Note this implementation assumes that there is one course waitlist per AO.
+     */
     public List<SeatCount> getSeatCountsForActivityOfferings(List<String> activityOfferingIds, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        validateAoIds(activityOfferingIds, context);
-        // Map from ao ID to max seats for that AO
-        Map<String, Integer> aoIdToMaxSeats = new HashMap<String, Integer>();
-        // Map from aoID to the AO type
-        Map<String, String> aoIdToAoType = new HashMap<String, String>();
-        // Get max seats map
-        computeAoIdToMaxSeats(activityOfferingIds, aoIdToMaxSeats, aoIdToAoType, context);
-        // Compute how many students have seats for each ao ID
-        Map<String, Integer> aoIdToRegisteredSeats =
-                computeAoIdToRegisteredSeats(activityOfferingIds, context);
-        Date timestamp = new Date();
-        List<SeatCount> seatCounts = new ArrayList<SeatCount>();
-        // Loop through the aoIdToMax seats and find out how many seats are actually
-        // occupied, and compute the difference.  If the maxSeats is null, then only
-        // fill out the occupied/used seats.
-        for (Map.Entry<String, Integer> entry: aoIdToMaxSeats.entrySet()) {
-            SeatCountInfo seatCountInfo = new SeatCountInfo();
-            String aoId = entry.getKey();
-            Integer totalSeats = entry.getValue();
-            seatCountInfo.setTotalSeats(totalSeats);
-            Integer usedSeats = aoIdToRegisteredSeats.get(aoId);
-            seatCountInfo.setUsedSeats(usedSeats);
-            if (totalSeats != null && usedSeats != null) {
-                Integer availableSeats = totalSeats - usedSeats;
-                seatCountInfo.setAvailableSeats(availableSeats);
-            }
-            seatCountInfo.setTimestamp(timestamp);
-            seatCountInfo.setLuiId(aoId);
-            String aoType = aoIdToAoType.get(aoId);
-            seatCountInfo.setLuiTypeKey(aoType);
-            // Add the object to the container
-            seatCounts.add(seatCountInfo);
-        }
+        //We might want to validate that these are AO ids in the future?
+        //validateAoIds(activityOfferingIds, context);
 
-        return seatCounts;
-    }
-
-    private Map<String, Integer> computeAoIdToRegisteredSeats(List<String> activityOfferingIds, ContextInfo context)
-            throws OperationFailedException {
-        // Start the count
+        //Search for seat count info based on the ao ids (max seats, used seats, max waitlist, total waitlist)
         SearchRequestInfo searchRequest =
-                new SearchRequestInfo(CourseRegistrationSearchServiceImpl.LPRS_BY_AOIDS_LPR_STATE_TYPE.getKey());
-        searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.AO_IDS, activityOfferingIds);
-        List<String> lprStates = new ArrayList<String>();
-        lprStates.add(LprServiceConstants.REGISTERED_STATE_KEY);
-        searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.LPR_STATES, lprStates);
-
-        SearchResultInfo searchResult;
-        try {
-            searchResult = CourseRegistrationAndScheduleOfClassesUtil.getSearchService().search(searchRequest, context);
-        } catch (Exception e) {
-            throw new OperationFailedException("getSeatCountsForActivityOfferings", e);
-        }
-        Map<String, Integer> aoIdToRegisteredSeats = new HashMap<String, Integer>();
-        for (SearchResultHelper.KeyValue row: SearchResultHelper.wrap(searchResult)) {
-            String aoId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_ID);
-            if (aoId != null) {
-                // Doesn't make sense to map if aoId never got set (but that should also never happen)
-                if (!aoIdToRegisteredSeats.containsKey(aoId)) {
-                    aoIdToRegisteredSeats.put(aoId, 0);
-                }
-                int value = aoIdToRegisteredSeats.get(aoId);
-                aoIdToRegisteredSeats.put(aoId, value + 1);
-            }
-        }
-        for (String aoId: activityOfferingIds) {
-            if (!aoIdToRegisteredSeats.containsKey(aoId)) {
-                aoIdToRegisteredSeats.put(aoId, 0);
-            }
-        }
-        return aoIdToRegisteredSeats;
-    }
-
-    private void computeAoIdToMaxSeats(List<String> activityOfferingIds,
-                                        Map<String, Integer> aoIdToMaxSeats,
-                                        Map<String, String> aoIdToAoType,
-                                        ContextInfo context)
-            throws OperationFailedException {
-        SearchRequestInfo searchRequest =
-                new SearchRequestInfo(CourseRegistrationSearchServiceImpl.AOIDS_TYPE_MAXSEATS_SEARCH_TYPE.getKey());
+                new SearchRequestInfo(CourseRegistrationSearchServiceImpl.SEAT_COUNT_INFO_BY_AOIDS_SEARCH_TYPE.getKey());
         searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.AO_IDS,
                 activityOfferingIds);
 
@@ -157,30 +86,48 @@ public class CourseSeatCountServiceImpl implements CourseSeatCountService {
             throw new OperationFailedException("computeAoIdToMaxSeats failed", e);
         }
 
-        for (SearchResultHelper.KeyValue row: SearchResultHelper.wrap(searchResult)) {
+        //Date for time of query
+        Date timestamp = new Date();
+
+        List<SeatCount> seatCounts = new ArrayList<SeatCount>();
+
+        //PArse results
+        for (SearchResultHelper.KeyValue row : SearchResultHelper.wrap(searchResult)) {
             String aoId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_ID);
             String aoType = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_TYPE);
-            Integer count =
-                    Integer.valueOf(row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_MAX_SEATS));
-            if (aoId != null) {
-                aoIdToMaxSeats.put(aoId, count);
-                aoIdToAoType.put(aoId, aoType);
+            String maxSeats = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_MAX_SEATS);
+            String maxWaitlistSize = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CWL_MAX_SIZE);
+            String cwlId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CWL_ID);
+            String seatCount = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_IDS_ACTUAL_COUNT);
+            String waitlistCount = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_WAITLIST_COUNT);
+
+            SeatCountInfo seatCountInfo = new SeatCountInfo();
+            seatCountInfo.setLuiId(aoId);
+            seatCountInfo.setLuiTypeKey(aoType);
+            seatCountInfo.setTimestamp(timestamp);
+
+            //Calculate total and used seats
+            seatCountInfo.setTotalSeats(maxSeats == null ? null : Integer.parseInt(maxSeats));
+            seatCountInfo.setUsedSeats(seatCount == null ? null : Integer.parseInt(seatCount));
+            if (seatCountInfo.getTotalSeats() != null && seatCountInfo.getUsedSeats() != null) {
+                seatCountInfo.setAvailableSeats(seatCountInfo.getTotalSeats() - seatCountInfo.getUsedSeats());
             }
+            seatCountInfo.setMaxWaitListSize(maxWaitlistSize == null ? null : Integer.parseInt(maxWaitlistSize));
+            seatCountInfo.setWaitListSize(waitlistCount == null ? null : Integer.parseInt(waitlistCount));
+            seatCountInfo.setHasWaitList(!StringUtils.isEmpty(cwlId));
+            seatCounts.add(seatCountInfo);
         }
-        // Make sure that this map has a key for each aoId
-        for (String aoId: activityOfferingIds) {
-            if (!aoIdToMaxSeats.containsKey(aoId)) {
-                aoIdToMaxSeats.put(aoId, null);
-                aoIdToAoType.put(aoId, null);
-            }
-        }
+
+        return seatCounts;
     }
+
 
     /**
      * Checks to see if all the ids are actually activityOfferingIds.  If not, throws
      * InvalidParameterException or OperationFailedException
+     *
      * @param activityOfferingIds A list of activity offering ids.
-     * @param context The context info
+     * @param context             The context info
      */
     private void validateAoIds(List<String> activityOfferingIds, ContextInfo context)
             throws InvalidParameterException, OperationFailedException {
@@ -199,7 +146,7 @@ public class CourseSeatCountServiceImpl implements CourseSeatCountService {
         SearchResultRowInfo checkRow = KSCollectionUtils.getRequiredZeroElement(searchResult.getRows());
         int actual = -1, expected = -1;
 
-        for (SearchResultHelper.KeyValue row: SearchResultHelper.wrap(searchResult)) {
+        for (SearchResultHelper.KeyValue row : SearchResultHelper.wrap(searchResult)) {
             actual =
                     Integer.parseInt(row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_IDS_ACTUAL_COUNT));
             expected =
