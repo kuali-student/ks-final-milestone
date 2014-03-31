@@ -136,12 +136,8 @@
                                     </bean>
                                 </property>
                                 <property name="fieldLabel.requiredMessage">
-                                                                   <bean parent="CM-StateAware-RequiredMessage" />
-                                                                   <!--
-                                                                   <bean parent="Uif-RequiredMessage"
-                                                                         p:messageText="*@{((document.documentHeader.workflowDocument.initiated) or (document.documentHeader.workflowDocument.saved)) ? '*' : ''}"/>
-                                                                   -->
-                                                               </property>
+                                    <bean parent="CM-StateAware-RequiredMessage" />
+                                </property>
                             </bean>
 
                             <bean id="KS-ProposalRationale" parent="KS-Uif-InputField-LabelTop"
@@ -158,12 +154,8 @@
                                     </bean>
                                 </property>
                                 <property name="fieldLabel.requiredMessage">
-                                                                   <bean parent="CM-StateAware-RequiredMessage" />
-                                                                   <!--
-                                                                   <bean parent="Uif-RequiredMessage"
-                                                                         p:messageText="*@{((document.documentHeader.workflowDocument.initiated) or (document.documentHeader.workflowDocument.saved)) ? '*' : ''}"/>
-                                                                   -->
-                                                               </property>
+                                    <bean parent="CM-StateAware-RequiredMessage" />
+                                </property>
                             </bean>
                         </list>
                     </property>

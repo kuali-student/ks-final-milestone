@@ -242,12 +242,19 @@
     </bean>
 
 
-
+    <!--
+        An extended Uif-RequiredMessage which conditionally replaces the message text based on workflow state.
+        This can be used for any input (not just required ones) because it doesn't get displayed unless requiredness
+        in simpleConstraint is turned on for the field.
+    -->
     <bean id="CM-StateAware-RequiredMessage" parent="CM-StateAware-RequiredMessage-parent" abstract="true" />
     <bean id="CM-StateAware-RequiredMessage-parent" parent="Uif-RequiredMessage"  abstract="true">
-        <!-- p:messageText="Required for @{((document.documentHeader.workflowDocument.initiated) or (document.documentHeader.workflowDocument.saved)) ? '*' : ''}"   -->
-
         <property name="messageText" value="" />
+        <property name="cssClasses">
+            <list merge="true">
+                <value>cm-requiredMessage-text</value>
+            </list>
+        </property>
         <property name="propertyReplacers">
             <list>
                 <bean parent="Uif-ConditionalBeanPropertyReplacer"
@@ -267,7 +274,6 @@
             </list>
         </property>
     </bean>
-
 
 
     <bean id="CourseInfoMaintenanceDocument" parent="uifMaintenanceDocumentEntry">

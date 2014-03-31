@@ -204,7 +204,7 @@ public class CourseController extends CourseRuleEditorController {
         ModelAndView modelAndView = super.docHandler(formBase, result, request, response);
 
         if (formBase.getPageId().equals(PageNames.REVIEW_PROPOSAL)) {
-            KRADServiceLocatorWeb.getViewValidationService().validateView(formBase.getView(), formBase, formBase.getState());
+            KRADServiceLocatorWeb.getViewValidationService().validateViewAgainstNextState(formBase.getView(), formBase);
         }
 
         return modelAndView;
@@ -255,7 +255,7 @@ public class CourseController extends CourseRuleEditorController {
     /**
      * Fish the workflow document status out and write it to the form.
      */
-    private void updateFormState(DocumentFormBase form) {
+    protected void updateFormState(DocumentFormBase form) {
         form.setState(form.getDocument().getDocumentHeader().getWorkflowDocument().getStatus().getCode());
     }
 

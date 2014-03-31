@@ -406,6 +406,10 @@
     padding: 2px 5px 0px 5px;
     vertical-align: bottom;
 }
-
-
 /* End */
+
+.cm-requiredMessage-text {
+    color: #888888;
+    font-style: italic;
+    font-size: 88%;
+}
