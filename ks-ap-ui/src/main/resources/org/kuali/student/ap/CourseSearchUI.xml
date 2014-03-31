@@ -343,9 +343,8 @@
 		</property>
         <property name="disclosure">
             <bean parent="Uif-Disclosure">
-                <!-- Blank images, real ones are set by css-->
-                <property name="collapseImageSrc" value="@{#ConfigProperties['ks.ap.externalizable.images.url']}pixel.gif"/>
-                <property name="expandImageSrc" value="@{#ConfigProperties['ks.ap.externalizable.images.url']}pixel.gif"/>
+                <property name="collapsedIconClass" value="icon-angle-right"/>
+                <property name="expandedIconClass" value="icon-angle-down"/>
             </bean>
         </property>
 	</bean>
