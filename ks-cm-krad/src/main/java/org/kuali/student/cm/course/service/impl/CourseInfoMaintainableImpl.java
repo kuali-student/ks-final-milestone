@@ -883,7 +883,6 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         }
 
         reviewData.getcourseSection().setProposalName(courseInfoWrapper.getProposalInfo().getName());
-//        maintenanceDocForm.setProposalName(courseInfoWrapper.getProposalInfo().getName());
         reviewData.getcourseSection().setCourseTitle(savedCourseInfo.getCourseTitle());
         reviewData.getcourseSection().setTranscriptTitle(savedCourseInfo.getTranscriptTitle());
         reviewData.getcourseSection().setSubjectArea(savedCourseInfo.getSubjectArea());
@@ -893,10 +892,18 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             reviewData.getcourseSection().setRationale(proposalInfo.getRationale().getPlain());
         }
 
+        for(CluInstructorInfoWrapper insturctorWrappers : courseInfoWrapper.getInstructorWrappers()) {
+            reviewData.getcourseSection().getInstructors().add(insturctorWrappers.getDisplayName());
+        }
+
         // Update governance section
         reviewData.getgovernanceSection().getCampusLocations().clear();
         reviewData.getgovernanceSection().getCampusLocations().addAll(updateCampusLocations(savedCourseInfo.getCampusLocations()));
         reviewData.getgovernanceSection().setCurriculumOversight(getCurriculumOversightString());
+
+        for(OrganizationInfoWrapper organizationInfoWrapper : courseInfoWrapper.getAdministeringOrganizations()) {
+            reviewData.getgovernanceSection().getAdministeringOrganization().add(organizationInfoWrapper.getOrganizationName());
+        }
 
         // update course logistics section
         reviewData.getcourseLogisticsSection().getTerms().clear();
@@ -983,6 +990,8 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         reviewData.getactiveDatesSection().setStartTerm(getTermDesc(courseInfoWrapper.getStartTerm()));
         reviewData.getactiveDatesSection().setEndTerm(getTermDesc(courseInfoWrapper.getEndTerm()));
         reviewData.getactiveDatesSection().setPilotCourse(BooleanUtils.toStringYesNo(courseInfoWrapper.isPilotCourse()));
+
+        reviewData.getfinancialsSection().setJustificationOfFees(savedCourseInfo.getFeeJustification().getPlain());
 
         // update learning Objectives Section;
         // update  course Requisites Section;
@@ -1128,12 +1137,6 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             for (final CluInstructorInfoWrapper instructorDisplay : courseInfoWrapper.getInstructorWrappers()) {
                 final CluInstructorInfoWrapper retrievedInstructor = getInstructor(getInstructorSearchString(instructorDisplay.getDisplayName()));
                 courseInfoWrapper.getCourseInfo().getInstructors().add(retrievedInstructor);
-            }
-        }
-
-        if (courseInfoWrapper.getAdministeringOrganizations() != null) {
-            for (final OrganizationInfoWrapper org : courseInfoWrapper.getAdministeringOrganizations()) {
-                courseInfoWrapper.getCourseInfo().getUnitsDeployment().add(org.getOrganizationName());
             }
         }
 
