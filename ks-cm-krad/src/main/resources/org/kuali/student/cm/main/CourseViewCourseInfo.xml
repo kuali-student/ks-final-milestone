@@ -72,7 +72,6 @@
                                                     <value>
                                                         function(event, ui) {
                                                             if (ui.item==null) {
-                                                                jQuery(this).val('');
                                                                 jQuery(this).focus();
                                                             }
                                                         }

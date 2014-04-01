@@ -534,7 +534,6 @@ function compareInstructorNameInput(value, element) {
                 }
             }
         }
-        jQuery("#"+element.id).attr('value', value);
     };
 
     var queryData = {};
@@ -545,6 +544,55 @@ function compareInstructorNameInput(value, element) {
     queryData.formKey = jQuery("input#formKey").val();
     queryData.queryTerm = queryVal;
     queryData.queryFieldId = "KS-Instructor-displayName_add";
+
+    jQuery.ajax({
+        url: jQuery("form#kualiForm").attr("action"),
+        dataType: "json",
+        async: false,
+        beforeSend: null,
+        complete: null,
+        error: null,
+        data: queryData,
+        success: successFunction
+    });
+
+    return isValid;
+}
+
+jQuery.validator.addMethod("validOrganizationName",
+    function(value, element) {
+        return this.optional(element) || compareOrganizationNameInput(value, element);
+    }, "Invalid administering organization")
+
+/*Compare the input Organization Name from the autofill suggest results: data. If the input is in the result data
+ it is valid input Organization */
+function compareOrganizationNameInput(value, element) {
+    var isValid;
+    if(value == null || value.length < 2) {
+        return false;
+    }
+
+    var successFunction = function (data) {
+        if(data == null || data.resultData == null)  {
+            isValid = false;
+        } else {
+            for(var i=0; len= data.resultData.length, i<len; i++)  {
+                if(data.resultData[i].organizationName == value) {
+                    isValid = true;
+                    break;
+                }
+            }
+        }
+    };
+
+    var queryData = {};
+
+    queryData.methodToCall = 'performFieldSuggest';
+    queryData.ajaxRequest = true;
+    queryData.ajaxReturnType = 'update-none';
+    queryData.formKey = jQuery("input#formKey").val();
+    queryData.queryTerm = value;
+    queryData.queryFieldId = "organizationName_add";
 
     jQuery.ajax({
         url: jQuery("form#kualiForm").attr("action"),
