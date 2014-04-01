@@ -27,7 +27,10 @@
         <class>org.kuali.student.r2.core.class1.atp.model.AtpMilestoneRelationEntity</class>
         <class>org.kuali.student.r2.core.class1.atp.model.MilestoneEntity</class>
         <class>org.kuali.student.r2.core.class1.atp.model.MilestoneAttributeEntity</class>
-
+        <class>org.kuali.student.r2.common.class1.type.model.TypeTypeRelationEntity</class>
+        <class>org.kuali.student.r2.common.class1.type.model.TypeTypeRelationAttributeEntity</class>
+        <class>org.kuali.student.r2.common.class1.type.model.TypeEntity</class>
+        <class>org.kuali.student.r2.common.class1.type.model.TypeAttributeEntity</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
     </persistence-unit>
 </persistence>

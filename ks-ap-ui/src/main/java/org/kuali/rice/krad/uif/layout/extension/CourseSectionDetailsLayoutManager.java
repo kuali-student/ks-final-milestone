@@ -2,7 +2,6 @@ package org.kuali.rice.krad.uif.layout.extension;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.container.collections.LineBuilderContext;
@@ -13,6 +12,8 @@ import org.kuali.rice.krad.uif.lifecycle.ViewLifecycle;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.student.ap.coursesearch.dataobject.ActivityOfferingItem;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Layout manager for controlling and optimizing section details presentation.
@@ -21,8 +22,7 @@ public class CourseSectionDetailsLayoutManager extends TableLayoutManagerBase {
 
 	private static final long serialVersionUID = 3056313875988089648L;
 
-	private static final Logger LOG = Logger
-			.getLogger(CourseSectionDetailsLayoutManager.class);
+	private static final Logger LOG = LoggerFactory.getLogger(CourseSectionDetailsLayoutManager.class);
 
 	@Override
 	public void buildLine(LineBuilderContext lineBuilderContext) {
@@ -59,10 +59,10 @@ public class CourseSectionDetailsLayoutManager extends TableLayoutManagerBase {
 				rowCss.add(r2css.toString());
 				rowCss.add(r2css.toString());
 			}
-			if (LOG.isDebugEnabled())
-				LOG.debug("AO luiId " + aoi.getLuiId() + " lineIndex = "
-						+ lineIndex + " css(1) " + r1css.toString()
-						+ " css(2,3) " + r2css.toString());
+			if (LOG.isDebugEnabled()) {
+				LOG.debug("AO luiId {} lineIndex = {} css(1) {} css(2,3) {}",
+                        aoi.getLuiId(), lineIndex, r1css, r2css);
+            }
 		}
 	}
 

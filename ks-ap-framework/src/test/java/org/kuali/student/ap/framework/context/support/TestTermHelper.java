@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -37,16 +38,13 @@ public class TestTermHelper {
     public void setUp() throws Throwable {
         DefaultKsapContext.before("student1");
         th = KsapFrameworkServiceLocator.getTermHelper();
-        try {
-            loadData();
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
-        }
+        loadData();
     }
 
     private void loadData() throws Exception {
         TermAndCalDataLoader loader = new TermAndCalDataLoader(KsapFrameworkServiceLocator.getAtpService(),
-                KsapFrameworkServiceLocator.getAcademicCalendarService(), KsapFrameworkServiceLocator.getCourseOfferingSetService());
+                KsapFrameworkServiceLocator.getAcademicCalendarService(), KsapFrameworkServiceLocator.getCourseOfferingSetService(),
+                KsapFrameworkServiceLocator.getTypeService());
         loader.loadData();
     }
 
@@ -79,28 +77,35 @@ public class TestTermHelper {
     public void testGetCurrentTerms() throws Exception {
         List<Term> terms = th.getCurrentTerms();
         assertNotNull(terms);
-        assertTrue(terms.size() > 0);
+        assertTrue(!terms.isEmpty());
     }
 
     @Test
     public void testGetCurrentTermsBasedOnKeyDate() throws Exception {
         List<Term> terms = th.getCurrentTermsBasedOnKeyDate();
         assertNotNull(terms);
-        assertTrue(terms.size() > 0);
+        assertTrue(!terms.isEmpty());
     }
 
     @Test
     public void testGetCurrentTermsWithPublishedSOC() throws Exception {
         List<Term> terms = th.getCurrentTermsWithPublishedSOC();
         assertNotNull(terms);
-        assertTrue(terms.size() > 0);
+        assertTrue(!terms.isEmpty());
     }
 
     @Test
     public void testGetFutureTermsWithPublishedSOC() throws Exception {
         List<Term> terms = th.getFutureTermsWithPublishedSOC();
         assertNotNull(terms);
-        assertTrue(terms.size() > 0);
+        assertTrue(!terms.isEmpty());
+    }
+
+    @Test
+    public void testGetFirstTermIdOfCurrentAcademicYear() throws Exception {
+        String termId = th.getFirstTermIdOfCurrentAcademicYear();
+        assertNotNull(termId);
+        assertEquals("ksapAtpNow2", termId);
     }
 
 }

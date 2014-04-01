@@ -1,10 +1,11 @@
 package org.kuali.student.ap.framework.context.support;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.EnumerationHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.List;
@@ -12,9 +13,7 @@ import java.util.List;
 public class DefaultEnumerationHelper implements EnumerationHelper{
 
 
-    private final Logger logger = Logger
-            .getLogger(DefaultEnumerationHelper.class);
-
+    private static final Logger logger = LoggerFactory.getLogger(DefaultEnumerationHelper.class);
     private HashMap<String, List<EnumeratedValueInfo>> enumServiceCache;
 
     private final String GEN_EDU_REQ_KEY = "kuali.lu.genedreq";
@@ -99,7 +98,7 @@ public class DefaultEnumerationHelper implements EnumerationHelper{
                 }
             }
         } catch (Exception e) {
-            logger.error("Could not load genEdReqValue");
+            logger.error("Could not load genEdReqValue", e);
         }
         return enumAbbrValue;
 

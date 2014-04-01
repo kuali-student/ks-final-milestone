@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -17,13 +16,15 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueRangeInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Turns credits info into Strings.
  */
 public class CreditsFormatter {
 
-	private static final Logger LOG = Logger.getLogger(CreditsFormatter.class);
+	private static final Logger LOG = LoggerFactory.getLogger(CreditsFormatter.class);
 
 	public static class Range {
 		private final BigDecimal min;
@@ -112,7 +113,7 @@ public class CreditsFormatter {
 				try {
 					min = max = new BigDecimal(creditString);
 				} catch (NumberFormatException e) {
-					LOG.warn("Invalid credits value for course " + course.getId(), e);
+					LOG.warn(String.format("Invalid credits value for course %s", course.getId()), e);
 				}
 
 		} else if (type.equals("kuali.result.values.group.type.range")) {
@@ -131,14 +132,14 @@ public class CreditsFormatter {
 				try {
 					min = new BigDecimal(minString);
 				} catch (NumberFormatException e) {
-					LOG.warn("Invalid min credits value for course " + course.getId(), e);
+					LOG.warn(String.format("Invalid min credits value for course %s", course.getId()), e);
 				}
 
 			if (maxString != null)
 				try {
 					max = new BigDecimal(maxString);
 				} catch (NumberFormatException e) {
-					LOG.warn("Invalid min credits value for course " + course.getId(), e);
+					LOG.warn(String.format("Invalid min credits value for course %s", course.getId()), e);
 				}
 
 			if (min == null)

@@ -1,21 +1,22 @@
 package org.kuali.student.ap.framework.context.support;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.CourseSearchConstants;
 import org.kuali.student.ap.framework.context.OrgHelper;
+import org.kuali.student.ap.framework.util.KsapHelperUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
-import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.infc.SearchResult;
 import org.kuali.student.r2.core.search.infc.SearchResultCell;
 import org.kuali.student.r2.core.search.infc.SearchResultRow;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,8 +25,7 @@ import java.util.Map;
 
 public class DefaultOrgHelper implements OrgHelper{
 
-    private final Logger logger = Logger.getLogger(DefaultOrgHelper.class);
-    public OrganizationService organizationService;
+    private static final Logger logger = LoggerFactory.getLogger(DefaultOrgHelper.class);
 
     public HashMap<String, List<OrgInfo>> orgTypeCache;
 
@@ -70,10 +70,10 @@ public class DefaultOrgHelper implements OrgHelper{
             }
             for (SearchResultRow row : searchResult.getRows()) {
                 OrgInfo orgInfo = new OrgInfo();
-                orgInfo.setId(getCellValue(row, "org.resultColumn.orgId"));
-                orgInfo.setShortName(getCellValue(row,
+                orgInfo.setId(KsapHelperUtil.getCellValue(row, "org.resultColumn.orgId"));
+                orgInfo.setShortName(KsapHelperUtil.getCellValue(row,
                         "org.resultColumn.orgShortName"));
-                orgInfo.setLongName(getCellValue(row,
+                orgInfo.setLongName(KsapHelperUtil.getCellValue(row,
                         "org.resultColumn.orgLongName"));
                 orgInfoList.add(orgInfo);
 
@@ -106,8 +106,8 @@ public class DefaultOrgHelper implements OrgHelper{
             logger.error("Search Failed to get the Organization Data ", e);
         }
         for (SearchResultRow row : searchResult.getRows()) {
-            subjects.put(getCellValue(row, "org.resultColumn.attrValue"),
-                    getCellValue(row, "org.resultColumn.name"));
+            subjects.put(KsapHelperUtil.getCellValue(row, "org.resultColumn.attrValue"),
+                    KsapHelperUtil.getCellValue(row, "org.resultColumn.name"));
         }
         return subjects;
     }
@@ -135,21 +135,11 @@ public class DefaultOrgHelper implements OrgHelper{
         }
         for (SearchResultRow row : searchResult.getRows()) {
             subjects.put(
-                    getCellValue(row, "org.resultColumn.attrValue").trim(),
-                    getCellValue(row, "org.resultColumn.orgLongName"));
+                    KsapHelperUtil.getCellValue(row, "org.resultColumn.attrValue").trim(),
+                    KsapHelperUtil.getCellValue(row, "org.resultColumn.orgLongName"));
 
         }
         return subjects;
-    }
-
-    @Override
-    public String getCellValue(SearchResultRow row, String key) {
-        for (SearchResultCell cell : row.getCells()) {
-            if (key.equals(cell.getKey())) {
-                return cell.getValue();
-            }
-        }
-        throw new RuntimeException("cell result '" + key + "' not found");
     }
 
 }

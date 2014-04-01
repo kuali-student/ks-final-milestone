@@ -31,7 +31,6 @@ import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.api.identity.Person;
@@ -47,6 +46,7 @@ import org.kuali.student.ap.audit.service.DegreeAuditServiceConstants;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.CourseSearchConstants;
 import org.kuali.student.ap.framework.context.PlanConstants;
+import org.kuali.student.ap.framework.util.KsapHelperUtil;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -59,6 +59,8 @@ import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.infc.SearchResult;
 import org.kuali.student.r2.core.search.infc.SearchResultCell;
 import org.kuali.student.r2.core.search.infc.SearchResultRow;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -75,7 +77,7 @@ import org.xml.sax.InputSource;
 @RequestMapping(value = "/audit/**")
 public class DegreeAuditController extends UifControllerBase {
 
-	private final Logger logger = Logger.getLogger(DegreeAuditController.class);
+	private static final Logger logger = LoggerFactory.getLogger(DegreeAuditController.class);
 
 	private transient DegreeAuditService degreeAuditService;
 
@@ -141,7 +143,7 @@ public class DegreeAuditController extends UifControllerBase {
 				// retrieved from the database - given the Person's ID
 				// (AdviserID or StudentID).
 				// form.setCampusParam(campusMap.get("0"));
-				logger.info("audit systemkey " + systemKey);
+				logger.info("audit systemkey {}", systemKey);
 				List<AuditReportInfo> auditReportInfoList = degreeAuditService
 						.getAuditsForStudentInDateRange(systemKey, startDate,
 								endDate, contextInfo);
@@ -366,42 +368,33 @@ public class DegreeAuditController extends UifControllerBase {
 		}
 		for (SearchResultRow row : searchResult.getRows()) {
 
-			// if (getCellValue(row,
+			// if (KsapHelperUtil.getCellValue(row,
 			// "org.resultColumn.orgShortName").equalsIgnoreCase("seattle")) {
-			// orgCampusTypes.put("0", getCellValue(row,
+			// orgCampusTypes.put("0", KsapHelperUtil.getCellValue(row,
 			// "org.resultColumn.orgId"));
 			// }
-			// if (getCellValue(row,
+			// if (KsapHelperUtil.getCellValue(row,
 			// "org.resultColumn.orgShortName").equalsIgnoreCase("bothell")) {
-			// orgCampusTypes.put("1", getCellValue(row,
+			// orgCampusTypes.put("1", KsapHelperUtil.getCellValue(row,
 			// "org.resultColumn.orgId"));
 			// }
-			// if (getCellValue(row,
+			// if (KsapHelperUtil.getCellValue(row,
 			// "org.resultColumn.orgShortName").equalsIgnoreCase("tacoma")) {
-			// orgCampusTypes.put("2", getCellValue(row,
+			// orgCampusTypes.put("2", KsapHelperUtil.getCellValue(row,
 			// "org.resultColumn.orgId"));
 			// }
-			String strCampusParam = getCellValue(row,
-					"org.resultColumn.orgShortName");
+			String strCampusParam = KsapHelperUtil.getCellValue(row,
+                    "org.resultColumn.orgShortName");
 			String index = Character.toString(strCampusParam
 					.charAt(strCampusParam.length() - 1));
 			orgCampusTypes.put(index,
-					getCellValue(row, "org.resultColumn.orgId"));
-			// orgCampusTypes.put(getCellValue("0",
-			// "org.resultColumn.orgShortName"), getCellValue(row,
+					KsapHelperUtil.getCellValue(row, "org.resultColumn.orgId"));
+			// orgCampusTypes.put(KsapHelperUtil.getCellValue("0",
+			// "org.resultColumn.orgShortName"), KsapHelperUtil.getCellValue(row,
 			// "org.resultColumn.orgId"));
 
 		}
 		return orgCampusTypes;
-	}
-
-	public String getCellValue(SearchResultRow row, String key) {
-		for (SearchResultCell cell : row.getCells()) {
-			if (key.equals(cell.getKey())) {
-				return cell.getValue();
-			}
-		}
-		throw new RuntimeException("cell result '" + key + "' not found");
 	}
 
 	public String getErrorMessageFromXml(String xmlString) {

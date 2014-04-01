@@ -4,7 +4,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.student.ap.framework.context.support.DefaultKsapContext;
-import org.kuali.student.ap.i18n.LocaleHelper;
+import org.kuali.student.ap.i18n.LocaleUtil;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 
 import java.util.Enumeration;
@@ -28,7 +28,7 @@ public abstract class ResourceBundlesTestBase {
     @Before
     public void setUp() throws Throwable {
         DefaultKsapContext.before("student1", getLocaleInfo());
-        rb = ResourceBundle.getBundle("META-INF/ks-ap/bundles/test", LocaleHelper.localeInfo2Locale(getLocaleInfo()));
+        rb = ResourceBundle.getBundle("META-INF/ks-ap/bundles/test", LocaleUtil.localeInfo2Locale(getLocaleInfo()));
     }
 
     @After

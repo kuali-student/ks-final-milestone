@@ -1,6 +1,5 @@
 package org.kuali.student.ap.planner.support;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.ap.academicplan.service.AcademicPlanServiceConstants;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
@@ -14,6 +13,8 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.lum.course.infc.Course;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
 import java.util.Collections;
@@ -23,7 +24,7 @@ public abstract class AbstractPlanItemForm extends UifFormBase implements PlanIt
 
 	private static final long serialVersionUID = -6749034321198329558L;
 
-	private static final Logger LOG = Logger.getLogger(DefaultPlannerForm.class);
+	private static final Logger LOG = LoggerFactory.getLogger(AbstractPlanItemForm.class);
 
 	private String uniqueId;
 
@@ -65,9 +66,9 @@ public abstract class AbstractPlanItemForm extends UifFormBase implements PlanIt
 					learningPlan = KsapFrameworkServiceLocator.getAcademicPlanService().getLearningPlan(learningPlanId,
 							KsapFrameworkServiceLocator.getContext().getContextInfo());
 				} catch (DoesNotExistException e) {
-					LOG.warn("Learning plan " + learningPlanId + " does not exist", e);
+					LOG.warn(String.format("Learning plan %s does not exist", learningPlanId), e);
 				} catch (InvalidParameterException e) {
-					LOG.warn("Invalid learning plan ID " + learningPlanId, e);
+					LOG.warn(String.format("Invalid learning plan ID %s", learningPlanId), e);
 				} catch (MissingParameterException e) {
 					throw new IllegalStateException("LP lookup failure", e);
 				} catch (OperationFailedException e) {
@@ -125,9 +126,9 @@ public abstract class AbstractPlanItemForm extends UifFormBase implements PlanIt
 				planItem = KsapFrameworkServiceLocator.getAcademicPlanService().getPlanItem(planItemId,
 						KsapFrameworkServiceLocator.getContext().getContextInfo());
 			} catch (DoesNotExistException e) {
-				LOG.warn("Plan item " + planItemId + " does not exist", e);
+				LOG.warn(String.format("Plan item %s does not exist", planItemId), e);
 			} catch (InvalidParameterException e) {
-				LOG.warn("Invalid plan item ID " + planItemId, e);
+				LOG.warn(String.format("Invalid plan item ID %s", planItemId), e);
 			} catch (MissingParameterException e) {
 				throw new IllegalStateException("LP lookup failure", e);
 			} catch (OperationFailedException e) {

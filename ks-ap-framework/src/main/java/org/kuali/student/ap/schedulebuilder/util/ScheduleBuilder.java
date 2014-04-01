@@ -1,6 +1,5 @@
 package org.kuali.student.ap.schedulebuilder.util;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.ap.schedulebuilder.dto.ActivityOptionInfo;
 import org.kuali.student.ap.schedulebuilder.dto.CourseOptionInfo;
 import org.kuali.student.ap.schedulebuilder.dto.PossibleScheduleOptionInfo;
@@ -13,6 +12,8 @@ import org.kuali.student.ap.schedulebuilder.infc.ReservedTime;
 import org.kuali.student.ap.schedulebuilder.infc.ScheduleBuildEvent;
 import org.kuali.student.ap.schedulebuilder.infc.SecondaryActivityOptions;
 import org.kuali.student.r2.core.acal.infc.Term;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class ScheduleBuilder implements Serializable {
 
 	private static final long serialVersionUID = 4792345964542902431L;
 
-	private static final Logger LOG = Logger.getLogger(ScheduleBuilder.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ScheduleBuilder.class);
 
 	private static long[][][] BLOCK_CACHE = new long[288][288][];
 
@@ -220,14 +221,8 @@ public class ScheduleBuilder implements Serializable {
 									if (sao.isSelected() || sao.isLockedIn())
 										saol.add(sao);
 								if (saol.isEmpty()) {
-									LOG.warn("Course option is selected, but has no selected activities for "
-											+ ao.getRegistrationCode()
-											+ " "
-											+ so.getActivityTypeDescription()
-											+ " "
-											+ c.getCourseId()
-											+ " "
-											+ c.getCourseCode());
+									LOG.warn("Course option is selected, but has no selected activities for {} {} {} {}",
+                                            ao.getRegistrationCode(), so.getActivityTypeDescription(), c.getCourseId(), c.getCourseCode());
 									empty = true;
 									break course;
 								}
@@ -241,8 +236,7 @@ public class ScheduleBuilder implements Serializable {
 							aol.add(aoi);
 						}
 					if (aol.isEmpty()) {
-						LOG.warn("Course option is selected, but has no selected activities "
-								+ c.getCourseId() + " " + c.getCourseCode());
+						LOG.warn("Course option is selected, but has no selected activities {} {}", c.getCourseId(), c.getCourseCode());
 						empty = true;
 						break course;
 					}
@@ -652,7 +646,7 @@ public class ScheduleBuilder implements Serializable {
 			}
 		} while (!done);
 		if (msg != null) {
-			LOG.debug(msg);
+			LOG.debug(msg.toString());
 		}
 		hasMore = hasMore || (rv.size() >= count && !rolled);
 		return rv;

@@ -33,12 +33,12 @@
         <property name="enumerationManagementService" ref="enumServiceClient"/>
         <property name="courseService" ref="ksLumCourseService"/>
         <property name="programService" ref="ksLumProgramService"/>
-        <property name="cluService" ref="ksLumCluService"/>
+        <property name="cluService" ref="cluServiceCache"/>
         <property name="lrcService" ref="ksLumLrcService"/>
-        <property name="organizationService" ref="orgClient"/>
+        <property name="organizationService" ref="orgServiceCache"/>
         <property name="messageService" ref="ksCoreMessageService"/>
         <property name="typeService" ref="typeClient"/>
-        <property name="atpService" ref="atpServiceClient"/>
+        <property name="atpService" ref="atpServiceCache"/>
         <property name="academicPlanService" ref="academicPlanService"/>
         <property name="enrollmentStatusHelper" ref="enrollStatusHelper"/>
         <property name="learningPlanReviewStrategy" ref="learningPlanReviewStrategy"/>
@@ -177,6 +177,7 @@
     </bean>
 
     <bean id="academicPlanServiceValidator" class="org.kuali.student.ap.academicplan.service.AcademicPlanServiceValidationDecorator">
+        <property name="planItemDao" ref="planItemDao"/>
         <property name="nextDecorator" ref="academicPlanServicePersistence"/>
         <property name="validator" ref="validator"/>
     </bean>

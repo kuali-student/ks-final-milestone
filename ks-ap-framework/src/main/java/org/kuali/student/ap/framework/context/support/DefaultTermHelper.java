@@ -1,21 +1,5 @@
 package org.kuali.student.ap.framework.context.support;
 
-import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
-import static org.kuali.rice.core.api.criteria.PredicateFactory.greaterThan;
-import static org.kuali.rice.core.api.criteria.PredicateFactory.greaterThanOrEqual;
-import static org.kuali.rice.core.api.criteria.PredicateFactory.lessThanOrEqual;
-import static org.kuali.rice.core.api.criteria.PredicateFactory.or;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -33,7 +17,7 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
@@ -49,8 +33,25 @@ import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.support.TransactionSynchronizationAdapter;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
+import static org.kuali.rice.core.api.criteria.PredicateFactory.greaterThan;
+import static org.kuali.rice.core.api.criteria.PredicateFactory.greaterThanOrEqual;
+import static org.kuali.rice.core.api.criteria.PredicateFactory.lessThanOrEqual;
+import static org.kuali.rice.core.api.criteria.PredicateFactory.or;
 
 /**
  * Default implementation of {@link TermHelper} for use with applications that
@@ -77,7 +78,7 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
  */
 public class DefaultTermHelper implements TermHelper {
 
-    private final static Logger LOG = Logger.getLogger(DefaultTermHelper.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DefaultTermHelper.class);
 
     private static final MarkerKey MARKER_KEY = new MarkerKey();
 
@@ -743,7 +744,7 @@ public class DefaultTermHelper implements TermHelper {
                 socInfo = KsapFrameworkServiceLocator.getCourseOfferingSetService().getSoc(socIds.get(firstId), ContextUtils.createDefaultContextInfo());
             } catch (Exception e){
                 if (LOG.isDebugEnabled()){
-                    LOG.debug("Error getting the soc [id=" + socIds.get(firstId) + "]");
+                    LOG.debug("Error getting the soc [id={}]", socIds.get(firstId));
                 }
                 continue;
             }
@@ -796,6 +797,15 @@ public class DefaultTermHelper implements TermHelper {
 
     private Term getFirstPlanningTerm(){
         return getPlanningTerms().get(0);
+    }
+
+    @Override
+    public String getFirstTermIdOfCurrentAcademicYear() {
+        List<Term> terms = KsapFrameworkServiceLocator.getTermHelper().getTermsInAcademicYear();
+        if(terms.size()>0){
+            return terms.get(0).getId();
+        }
+        return "";
     }
 
 

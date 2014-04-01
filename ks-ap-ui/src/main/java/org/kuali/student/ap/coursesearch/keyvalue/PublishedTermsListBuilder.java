@@ -4,12 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.r2.core.acal.infc.Term;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -18,7 +19,7 @@ import org.kuali.student.r2.core.acal.infc.Term;
 public class PublishedTermsListBuilder extends KeyValuesBase {
 
 	private static final long serialVersionUID = 5731515860737088740L;
-    private final static Logger LOG = Logger.getLogger(PublishedTermsListBuilder.class);
+    private final static Logger LOG = LoggerFactory.getLogger(PublishedTermsListBuilder.class);
 
 	/**
 	 * An optional suffix to add to each value in the list.

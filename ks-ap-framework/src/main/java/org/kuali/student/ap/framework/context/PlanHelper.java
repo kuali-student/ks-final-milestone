@@ -22,7 +22,7 @@ public interface PlanHelper {
      *
      * @return Term Id
      */
-    public String getStartTermId();
+    public String getPlannerFirstTermId();
 
     /**
      * Gets the list of Terms to use in the Planner Calendar using a Start Term.
@@ -30,6 +30,6 @@ public interface PlanHelper {
      * @param startTerm - Term that the calendar starts around
      * @return A full List of terms to display in the calendar.
      */
-    public List<Term> getCalendarTerms(Term startTerm);
+    public List<Term> getPlannerCalendarTerms(Term startTerm);
 
 }

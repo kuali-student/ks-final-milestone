@@ -1,29 +1,27 @@
 package org.kuali.student.ap.framework.context.support;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.KsapContext;
 import org.kuali.student.ap.framework.context.TextHelper;
 import org.kuali.student.ap.i18n.DBResourceBundleControlImpl;
 import org.kuali.student.ap.i18n.DBResourceBundleImpl;
-import org.kuali.student.ap.i18n.LocaleHelper;
+import org.kuali.student.ap.i18n.LocaleUtil;
+import org.kuali.student.ap.i18n.MergedPropertiesResourceBundleControlImpl;
 import org.kuali.student.ap.i18n.MergedPropertiesResourceBundleImpl;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class DefaultTextHelper implements TextHelper, Serializable {
 
 	private static final long serialVersionUID = -616654137052936870L;
 
-    private static final Logger LOG = Logger.getLogger(DefaultTextHelper.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DefaultTextHelper.class);
 
 	private String messageGroup;
     private List<String> baseNames;
@@ -61,9 +59,12 @@ public class DefaultTextHelper implements TextHelper, Serializable {
     public String getText(String messageCode) {
         String value;
         try {
-            value = getBundle().getString(messageCode);
+            ResourceBundle bundle = getBundle();
+            validateLocaleMatch(getLocale(), bundle.getLocale(), "getText(" + messageCode + ")");
+            LOG.debug("getText({}) - bundle with locale: '{}' when looking for '{}'", messageCode, bundle.getLocale(), getLocale());
+            value = bundle.getString(messageCode);
         } catch (MissingResourceException mre) {
-            LOG.error("Error getting text value", mre);
+            LOG.error("Error getting text value: {}", mre.getLocalizedMessage());
             value = "\\[missing key (mre): " + getResourceBundleNamesFromConfig() + " " + messageCode + "\\]";
         }
         return value;
@@ -88,30 +89,35 @@ public class DefaultTextHelper implements TextHelper, Serializable {
 
     /**
      * Get the locale from the Context
-     * @return
+     * @return The java.util.Locale from the context
      */
     private Locale getLocale() {
         KsapContext ksapCtx = KsapFrameworkServiceLocator.getContext();
         ContextInfo contextInfo = ksapCtx.getContextInfo();
-        Locale locale = LocaleHelper.localeInfo2Locale(contextInfo.getLocale());
+        Locale locale = LocaleUtil.localeInfo2Locale(contextInfo.getLocale());
         return locale;
     }
 
     /**
-     * Get the appropriate DBResourceBundleImpl to use for text lookups.
+     * Get the appropriate ResourceBundle to use for text lookups.
      * @return
      */
-    private DBResourceBundleImpl getBundle() {
+    private ResourceBundle getBundle() {
         KsapContext ksapCtx = KsapFrameworkServiceLocator.getContext();
         ContextInfo contextInfo = ksapCtx.getContextInfo();
-        Locale locale = LocaleHelper.localeInfo2Locale(contextInfo.getLocale());
+        Locale locale = LocaleUtil.localeInfo2Locale(contextInfo.getLocale());
         List<ResourceBundle> bundles = processBundles(locale);
-        MergedPropertiesResourceBundleImpl mprb = new MergedPropertiesResourceBundleImpl(bundles);
 
         DBResourceBundleImpl drb = (DBResourceBundleImpl) ResourceBundle.getBundle(DBResourceBundleControlImpl.class.getName(), locale,
-                new DBResourceBundleControlImpl(getMessageGroup(), contextInfo, mprb));
+                new DBResourceBundleControlImpl(getMessageGroup(), contextInfo));
 
-        return drb;
+        //Add to the beginning so that it gets searched first
+        bundles.add(0, drb);
+
+        MergedPropertiesResourceBundleImpl.Control control = new MergedPropertiesResourceBundleControlImpl(bundles);
+        ResourceBundle mprb = ResourceBundle.getBundle(MergedPropertiesResourceBundleImpl.class.getName(), locale, control);
+
+        return mprb;
     }
 
     /**
@@ -121,12 +127,20 @@ public class DefaultTextHelper implements TextHelper, Serializable {
      */
     private List<ResourceBundle> processBundles(Locale locale) {
         List<ResourceBundle> bundles = new ArrayList<ResourceBundle>();
-        LOG.debug("Processing " + getBaseNames().size() + " bundles...");
+        LOG.debug("Processing {} bundles...", getBaseNames().size());
         for (String baseName : getBaseNames()) {
-            LOG.debug("Creating new ResourceBundle(baseName:" + baseName + ", locale: " + locale.toString() + ")");
+            LOG.debug("Creating new ResourceBundle(baseName: {}, locale: '{}')", baseName, locale);
             ResourceBundle krb = ResourceBundle.getBundle(baseName, locale);
+            LOG.debug("Found bundle with locale: '{}' when looking for '{}'", krb.getLocale(), locale);
+            validateLocaleMatch(locale, krb.getLocale(), "processBundles()");
             bundles.add(krb);
         }
         return bundles;
+    }
+
+    private void validateLocaleMatch(Locale expected, Locale actual, String logContext) {
+        if (!"".equals(actual.toString()) && !expected.toString().equals(actual.toString())) {
+            throw new RuntimeException(logContext + "- Locale mismatch.  Wanted '" + expected.toString() + "' but got '" + actual.toString() + "'");
+        }
     }
 }

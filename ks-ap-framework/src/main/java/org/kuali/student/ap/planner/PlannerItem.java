@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.ap.academicplan.infc.PlanItem;
 import org.kuali.student.ap.academicplan.service.AcademicPlanServiceConstants;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
@@ -16,13 +15,15 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.infc.RichText;
 import org.kuali.student.r2.lum.course.infc.Course;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PlannerItem implements
 		org.kuali.student.ap.common.infc.HasUniqueId, Serializable {
 
 	private static final long serialVersionUID = -2043370757872665126L;
 
-	private static final Logger LOG = Logger.getLogger(PlannerItem.class);
+	private static final Logger LOG = LoggerFactory.getLogger(PlannerItem.class);
 
 	private String parentUniqueId;
 	private String uniqueId;
@@ -70,8 +71,7 @@ public class PlannerItem implements
 					: new BigDecimal(creditsString);
 		} catch (NumberFormatException e) {
 			LOG.warn(
-					"Invalid credits in course record "
-							+ completedRecord.getCreditsEarned(), e);
+                    String.format("Invalid credits in course record %s", completedRecord.getCreditsEarned()), e);
 		}
 
 		String grade = completedRecord.getCalculatedGradeValue();
@@ -88,7 +88,7 @@ public class PlannerItem implements
         try{
 		    termId = KSCollectionUtils.getRequiredZeroElement(planItem.getPlanPeriods());
         }catch (OperationFailedException e){
-            LOG.warn("No Term id found for "+course.getCode(),e);
+            LOG.warn(String.format("No Term id found for %s", course.getCode()), e);
         }
 		learningPlanId = planItem.getLearningPlanId();
 		planItemId = planItem.getId();

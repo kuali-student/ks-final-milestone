@@ -9,17 +9,16 @@ import java.util.Set;
 
 /**
  * This class provides a ResourceBundle implementation that uses the {@link org.kuali.student.r2.common.messages.service.MessageService} and the Locale from a {@link org.kuali.student.r2.common.dto.ContextInfo}
- * @see DBResourceBundleControlImpl for the details on how the properties are actually retrieved from the DB.
+ * @see org.kuali.student.ap.i18n.DBResourceBundleControlImpl for the details on how the properties are actually retrieved from the DB.
  * @author Chris Maurer <chmaurer@iu.edu>
  */
 public class DBResourceBundleImpl extends ResourceBundle {
     private Locale locale;
     private Properties properties;
 
-    public DBResourceBundleImpl(Properties properties, Locale locale, MergedPropertiesResourceBundleImpl parent) {
+    public DBResourceBundleImpl(Properties properties, Locale locale) {
         this.properties = properties;
         this.locale = locale;
-        this.parent = parent;
     }
 
     @Override

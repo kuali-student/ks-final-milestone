@@ -25,12 +25,12 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CollectionListPropertyEditor extends PropertyEditorSupport implements Serializable {
 
-    private final static Logger logger = Logger.getLogger(CollectionListPropertyEditor.class);
+    private final static Logger logger = LoggerFactory.getLogger(CollectionListPropertyEditor.class);
 
     //  Default parameter values.
     protected CollectionListPropertyEditorHtmlListType listType = CollectionListPropertyEditorHtmlListType.DL;
@@ -54,7 +54,7 @@ public class CollectionListPropertyEditor extends PropertyEditorSupport implemen
         }
 
         if ( ! (value instanceof Collection)) {
-            logger.error(String.format("Value was type [%s] instead of Collection.", value.getClass()));
+            logger.error("Value was type [{}] instead of Collection.", value.getClass());
             return;
         }
 

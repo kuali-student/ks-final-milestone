@@ -75,4 +75,5 @@ public interface CourseSearchForm {
 	 */
 	List<String> getAdditionalCriteria();
 
+    public String getSessionId();
 }

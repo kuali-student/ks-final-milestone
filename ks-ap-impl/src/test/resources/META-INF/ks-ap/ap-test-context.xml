@@ -23,10 +23,19 @@
         <property name="entityManagerFactory" ref="entityManagerFactory" />
     </bean>
 
-    <bean id="academicPlanService" class="org.kuali.student.ap.academicplan.service.AcademicPlanServiceImpl">
+    <bean id="academicPlanServiceImpl" class="org.kuali.student.ap.academicplan.service.AcademicPlanServiceImpl">
         <property name="learningPlanDao" ref="learningPlanDao"/>
         <property name="planItemDao" ref="planItemDao"/>
     </bean>
+
+    <bean id="academicPlanServiceValidator" class="org.kuali.student.ap.academicplan.service.AcademicPlanServiceValidationDecorator">
+        <property name="planItemDao" ref="planItemDao"/>
+        <property name="nextDecorator" ref="academicPlanServiceImpl"/>
+        <property name="validator" ref="validator"/>
+        <property name="dataDictionaryService" ref="dataDictionaryServiceForAcademicPlanService"/>
+    </bean>
+
+    <alias name="academicPlanServiceValidator" alias="academicPlanService" />
 
 
     <!--<bean id="typeService" class="org.kuali.student.r2.common.type.service.TypeServiceMockImpl"/>-->

@@ -27,9 +27,9 @@
 		<property name="additionalCssFiles">
 			<list>
 				<value>ks-ap/css/schedulebuilder/fullcalendar/fullcalendar.css</value>
-				<value>ks-ap/css/sb.calendar.css</value>
-				<value>ks-ap/css/sb.base.css</value>
-				<value>ks-ap/css/sb.cart.css</value>
+				<value>ks-ap/css/schedulebuilder/sb.calendar.css</value>
+				<value>ks-ap/css/schedulebuilder/sb.base.css</value>
+				<value>ks-ap/css/schedulebuilder/sb.cart.css</value>
 			</list>
 		</property>
 		<property name="additionalScriptFiles">

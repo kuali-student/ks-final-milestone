@@ -3,7 +3,6 @@ package org.kuali.student.ap.framework.context.support;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.entity.Entity;
 import org.kuali.rice.kim.api.identity.type.EntityTypeContactInfo;
@@ -12,12 +11,13 @@ import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.framework.context.UserSessionHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataRetrievalFailureException;
 
 public class DefaultUserSessionHelper implements UserSessionHelper {
 
-	private static final Logger logger = Logger
-			.getLogger(UserSessionHelper.class);
+	private static final Logger logger = LoggerFactory.getLogger(DefaultUserSessionHelper.class);
 
     private static final String STUDENT_KEY = "STDNT";
 

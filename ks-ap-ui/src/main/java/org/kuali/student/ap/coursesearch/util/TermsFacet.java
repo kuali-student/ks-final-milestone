@@ -23,7 +23,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
  */
 public class TermsFacet extends AbstractFacet {
 
-	private static final String PROJECTED_TERM_PREFIX = "Projected ";
+	private static final String PROJECTED_TERM_PREFIX = "";
 
 	public TermsFacet() {
 		super();
@@ -87,13 +87,7 @@ public class TermsFacet extends AbstractFacet {
 			facetKeys.add(getUnknownFacetKey());
 		} else {
 			for (String t : course.getScheduledTermsList()) {
-				String termFacetKey = KsapFrameworkServiceLocator.getTermHelper().getTerm(t).getName();
-
-				// Convert Winter 2012 to WI 12
-				Matcher m = CourseSearchConstants.TERM_PATTERN.matcher(termFacetKey);
-				if (m.matches()) {
-					termFacetKey = m.group(1).substring(0, 2).toUpperCase() + " " + m.group(2);
-				}
+				String termFacetKey = KsapFrameworkServiceLocator.getTermHelper().getYearTerm(t).getAbbrivation();
 
 				if (isNewFacetKey(termFacetKey)) {
 					facetItems.add(new FacetItem(termFacetKey, termFacetKey));

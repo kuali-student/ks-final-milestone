@@ -202,15 +202,7 @@ public class CourseSummaryDetails implements Serializable {
 		if (scheduledTerms != null) {
 			for (int i = 0; i < scheduledTerms.size(); i++) {
 				String term = scheduledTerms.get(i);
-				String elemTxt = KsapFrameworkServiceLocator.getTermHelper().getTerm(term).getName();
-
-				// Convert Winter 2012 to WI 12
-
-				Matcher m = CourseSearchConstants.TERM_PATTERN.matcher(KsapFrameworkServiceLocator.getTermHelper()
-						.getTerm(term).getName());
-				if (m.matches()) {
-					elemTxt = m.group(1).substring(0, 2).toUpperCase() + " " + m.group(2);
-				}
+				String elemTxt = KsapFrameworkServiceLocator.getTermHelper().getYearTerm(term).getAbbrivation();
 				list.append(elemTxt + " ");
 			}
 		}

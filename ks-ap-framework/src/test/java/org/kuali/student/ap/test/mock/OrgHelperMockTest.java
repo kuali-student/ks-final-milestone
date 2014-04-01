@@ -77,13 +77,4 @@ public class OrgHelperMockTest implements OrgHelper {
         return getTrimSubjectAreaMap();  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    /**
-     * Gets an individual value of a search result entry.
-     *
-     * @return Entry's value
-     */
-    @Override
-    public String getCellValue(SearchResultRow row, String key) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-}
+ }

@@ -17,8 +17,9 @@ package org.kuali.student.ap.coursesearch.util;
 
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.student.r2.common.util.date.KSDateTimeFormatter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.beans.PropertyEditorSupport;
 import java.io.Serializable;
@@ -27,7 +28,7 @@ import java.util.*;
 
 public class TimestampPropertyEditor extends PropertyEditorSupport implements Serializable {
 
-    private final static Logger logger = Logger.getLogger(TimestampPropertyEditor.class);
+    private final static Logger logger = LoggerFactory.getLogger(TimestampPropertyEditor.class);
 
     private List<String> styleClasses;
 
@@ -47,7 +48,7 @@ public class TimestampPropertyEditor extends PropertyEditorSupport implements Se
         }
 
         if ( ! (value instanceof Date)) {
-            logger.error(String.format("Value was type [%s] instead of Date.", value.getClass()));
+            logger.error("Value was type [{}] instead of Date.", value.getClass());
             return;
         }
 

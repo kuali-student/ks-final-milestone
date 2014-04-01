@@ -11,9 +11,9 @@ import java.util.regex.Pattern;
 import javax.xml.namespace.QName;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
+import org.kuali.student.ap.framework.util.KsapHelperUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -25,6 +25,8 @@ import org.kuali.student.r2.core.search.infc.SearchResultCell;
 import org.kuali.student.r2.core.search.infc.SearchResultRow;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Helper class to parse lines of text and create links where course codes are
@@ -32,8 +34,7 @@ import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
  */
 public class CourseLinkBuilder {
 
-	private static final Logger logger = Logger
-			.getLogger(CourseLinkBuilder.class);
+	private static final Logger logger = LoggerFactory.getLogger(CourseLinkBuilder.class);
 
 	private transient static CluService cluService;
 
@@ -357,15 +358,6 @@ public class CourseLinkBuilder {
 		return link;
 	}
 
-	private static String getCellValue(SearchResultRow row, String key) {
-		for (SearchResultCell cell : row.getCells()) {
-			if (key.equals(cell.getKey())) {
-				return cell.getValue();
-			}
-		}
-		throw new RuntimeException("cell result '" + key + "' not found");
-	}
-
 	private static synchronized Map<String, String> getCourseInfo(
 			String curriculumCode, String courseNumber, ContextInfo context) {
 		SearchRequestInfo searchRequest = new SearchRequestInfo(
@@ -389,8 +381,8 @@ public class CourseLinkBuilder {
 
 		Map<String, String> result = new HashMap<String, String>();
 		for (SearchResultRow row : searchResult.getRows()) {
-			String courseId = getCellValue(row, "lu.resultColumn.cluId");
-			String courseTitle = getCellValue(row, "id.lngName");
+			String courseId = KsapHelperUtil.getCellValue(row, "lu.resultColumn.cluId");
+			String courseTitle = KsapHelperUtil.getCellValue(row, "id.lngName");
 			result.put("courseId", courseId);
 			result.put("courseTitle", courseTitle);
 		}

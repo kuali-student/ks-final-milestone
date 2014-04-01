@@ -49,4 +49,11 @@ public interface YearTerm extends Comparable<YearTerm> {
 	 */
 	String getLongName();
 
+    /**
+     * Get the abbreviation of the term name for display (i.e. &quot;SP 13&quot; for Spring 2013).
+     *
+     * @return The abbreviation of the term name for display (i.e. &quot;SP 13&quot; for Spring 2013).
+     */
+    String getAbbrivation();
+
 }

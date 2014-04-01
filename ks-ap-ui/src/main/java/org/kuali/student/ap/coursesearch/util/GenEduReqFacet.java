@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.course.CourseSearchItem;
 import org.kuali.student.ap.coursesearch.dataobject.CourseSearchItemImpl;
@@ -19,8 +18,6 @@ import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
  * Logic for building list of FacetItems and coding CourseSearchItems.
  */
 public class GenEduReqFacet extends AbstractFacet {
-
-	private final Logger logger = Logger.getLogger(GenEduReqFacet.class);
 
 	public GenEduReqFacet() {
 		super();
@@ -45,7 +42,7 @@ public class GenEduReqFacet extends AbstractFacet {
 				|| genEdString.equals("")) {
 			facetKeys.add(getUnknownFacetKey());
 		} else {
-			// TODO: KSAP-757
+
 			// Remove white space before tokenizing.
 			genEdString = genEdString.replaceAll("\\s+", "");
 			String k[] = genEdString.split(",");
@@ -60,22 +57,10 @@ public class GenEduReqFacet extends AbstractFacet {
 					key = key.replace("&amp;", "&");
 				}
 				if (isNewFacetKey(key)) {
-					EnumeratedValueInfo e = KsapFrameworkServiceLocator
-							.getEnumerationHelper().getGenEdReqEnumInfo(
-									KsapFrameworkServiceLocator
-											.getEnumerationHelper()
-											.getEnumCodeForAbbrVal(key),
-									context);
-					if (e == null)
-						continue;
-					key = e.getAbbrevValue();
-					String title = e.getValue();
-					if (!StringUtils.isEmpty(title)) {
-						itemFacet.setTitle(title);
-						itemFacet.setKey(key);
-						itemFacet.setDisplayName(key);
-						facetItems.add(itemFacet);
-					}
+                    itemFacet.setTitle(key);
+                    itemFacet.setKey(key);
+                    itemFacet.setDisplayName(key);
+                    facetItems.add(itemFacet);
 				}
 				facetKeys.add(key);
 			}

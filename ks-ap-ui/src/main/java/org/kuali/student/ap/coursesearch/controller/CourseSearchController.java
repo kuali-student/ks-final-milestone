@@ -15,6 +15,52 @@
  */
 package org.kuali.student.ap.coursesearch.controller;
 
+import org.apache.commons.lang.StringUtils;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.node.ArrayNode;
+import org.codehaus.jackson.node.ObjectNode;
+import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.web.controller.UifControllerBase;
+import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.ap.coursesearch.dataobject.CourseSummaryDetails;
+import org.kuali.student.ap.coursesearch.form.CourseSearchFormImpl;
+import org.kuali.student.ap.coursesearch.service.impl.CourseDetailsInquiryHelperImpl;
+import org.kuali.student.ap.coursesearch.util.CampusSearch;
+import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
+import org.kuali.student.ap.framework.context.CourseHelper;
+import org.kuali.student.ap.framework.context.CourseSearchConstants;
+import org.kuali.student.ap.framework.course.CourseSearchForm;
+import org.kuali.student.ap.framework.course.CourseSearchItem;
+import org.kuali.student.ap.framework.course.CourseSearchStrategy;
+import org.kuali.student.ap.framework.course.FacetKeyValue;
+import org.kuali.student.ap.framework.util.KsapHelperUtil;
+import org.kuali.student.common.collection.KSCollectionUtils;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.infc.SearchResult;
+import org.kuali.student.r2.core.search.infc.SearchResultRow;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -29,52 +75,11 @@ import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.regex.Pattern;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.node.ArrayNode;
-import org.codehaus.jackson.node.ObjectNode;
-import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.web.controller.UifControllerBase;
-import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.ap.coursesearch.dataobject.CourseSummaryDetails;
-import org.kuali.student.ap.coursesearch.form.CourseSearchFormImpl;
-import org.kuali.student.ap.coursesearch.service.impl.CourseDetailsInquiryHelperImpl;
-import org.kuali.student.ap.coursesearch.util.CampusSearch;
-import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
-import org.kuali.student.ap.framework.context.CourseHelper;
-import org.kuali.student.ap.framework.context.CourseSearchConstants;
-import org.kuali.student.ap.framework.course.CourseSearchForm;
-import org.kuali.student.ap.framework.course.CourseSearchItem;
-import org.kuali.student.ap.framework.course.CourseSearchStrategy;
-import org.kuali.student.ap.framework.course.FacetKeyValue;
-import org.kuali.student.common.collection.KSCollectionUtils;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
-import org.kuali.student.r2.core.search.infc.SearchResult;
-import org.kuali.student.r2.core.search.infc.SearchResultRow;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
-
 @Controller
 @RequestMapping(value = "/course/**")
 public class CourseSearchController extends UifControllerBase {
 
-	private static final Logger LOG = Logger
-			.getLogger(CourseSearchController.class);
+	private static final Logger LOG = LoggerFactory.getLogger(CourseSearchController.class);
 
 	/**
 	 * HTTP session attribute key for holding recent search results.
@@ -476,13 +481,7 @@ public class CourseSearchController extends UifControllerBase {
                                 fs.count++;
                             }
                 }
-                for (String kw : row.item.getKeywords()) {
-                    Integer kwi = kwc.get(kw);
-                    if (kwi == null)
-                        kwc.put(kw, 1);
-                    else
-                        kwc.put(kw, kwi + 1);
-                }
+
             }
             // Post-process based on calculated totals and per-column rules
             for (String fk : facetColumns.keySet()) {
@@ -628,7 +627,7 @@ public class CourseSearchController extends UifControllerBase {
 							getFacetState(fci, fce.getKey()).count++;
 			}
 			if (LOG.isDebugEnabled())
-				LOG.debug("Pruned facet entry " + pruned.count);
+				LOG.debug("Pruned facet entry {}", pruned.count);
 		}
 
 		/**
@@ -641,7 +640,7 @@ public class CourseSearchController extends UifControllerBase {
 		 *            The facet column the click is related to.
 		 */
 		private void facetClick(String key, String fcol) {
-			LOG.debug("Facet click " + key + " " + fcol);
+			LOG.debug("Facet click {} {}", key, fcol);
 			Map<String, FacetState> fsm = facetState.get(fcol);
 			if (fsm == null)
 				return;
@@ -924,7 +923,7 @@ public class CourseSearchController extends UifControllerBase {
 	/**
 	 * Synchronously retrieve session bound search results for an incoming
 	 * request.
-	 * 
+	 *
 	 * <p>
 	 * This method ensures that only one back-end search per HTTP session is
 	 * running at the same time for the same set of criteria. This is important
@@ -932,7 +931,7 @@ public class CourseSearchController extends UifControllerBase {
 	 * independently, so this consideration constrains those two requests to
 	 * operating synchronously on the same set of results.
 	 * </p>
-	 * 
+	 *
 	 * @param request
 	 *            The incoming request.
 	 * @return Session-bound search results for the request.
@@ -960,8 +959,8 @@ public class CourseSearchController extends UifControllerBase {
 		SessionSearchInfo table = null;
 		// Synchronize on the result table to constrain sessions to one back-end search at a time
 		synchronized (results) {
-			// dump search results in excess of 3
-			while (results.size() > 3) {
+			// dump search results in excess of 1
+			while (results.size() > 1) {
 				Iterator<?> ei = results.entrySet().iterator();
 				ei.next();
 				ei.remove();
@@ -982,7 +981,7 @@ public class CourseSearchController extends UifControllerBase {
 
 	@Override
 	protected UifFormBase createInitialForm(HttpServletRequest request) {
-		return (UifFormBase) searcher.createSearchForm();
+        return (UifFormBase) searcher.createSearchForm();
 	}
 
 	@RequestMapping(value = "/course/{courseCd}", method = RequestMethod.GET)
@@ -1048,7 +1047,7 @@ public class CourseSearchController extends UifControllerBase {
 			throw new RuntimeException(e);
 		}
 		for (SearchResultRow row : searchResult.getRows()) {
-			courseId = searcher.getCellValue(row, "lu.resultColumn.cluId");
+			courseId = KsapHelperUtil.getCellValue(row, "lu.resultColumn.cluId");
 		}
 		if (courseId.equalsIgnoreCase("")) {
 			response.sendRedirect("../course?searchQuery=" + courseCd
@@ -1104,10 +1103,10 @@ public class CourseSearchController extends UifControllerBase {
 		// Parse incoming jQuery datatables inputs
 		final DataTablesInputs dataTablesInputs = new DataTablesInputs(request);
 		if (LOG.isDebugEnabled())
-			LOG.debug(dataTablesInputs);
+			LOG.debug(dataTablesInputs.toString());
 
 		if (LOG.isDebugEnabled())
-			LOG.debug("Search form : " + form);
+			LOG.debug("Search form: {}", form);
 
         // Run search and retrieve results in the table
 		SessionSearchInfo table = getSearchResults(new FormKey(form),
@@ -1121,8 +1120,19 @@ public class CourseSearchController extends UifControllerBase {
 			return;
 		}
 
+        ObjectNode json = mapper.createObjectNode();
+
         // Validate search results
 		if (table.searchResults != null && !table.searchResults.isEmpty()) {
+            String maxCountProp = ConfigContext.getCurrentContextConfig()
+                    .getProperty("ksap.search.results.max");
+            int maxCount = maxCountProp != null && !"".equals(maxCountProp.trim()) ? Integer
+                    .valueOf(maxCountProp) : CourseSearchStrategy.MAX_HITS;
+            if(table.getSearchResults().size()>=maxCount){
+                json.put("LimitExceeded", maxCount);
+            }else{
+                json.put("LimitExceeded", 0);
+            }
 			SearchInfo firstRow = table.searchResults.iterator().next();
 			// Validate incoming jQuery datatables inputs
 			assert table != null;
@@ -1157,21 +1167,18 @@ public class CourseSearchController extends UifControllerBase {
 				.getFilteredResults(dataTablesInputs);
 
 		// Render JSON response for DataTables
-		ObjectNode json = mapper.createObjectNode();
 		json.put("iTotalRecords", table.searchResults.size());
 		json.put("iTotalDisplayRecords", filteredResults.size());
 		json.put("sEcho", Integer.toString(dataTablesInputs.sEcho));
 		ArrayNode aaData = mapper.createArrayNode();
 		int rsize = Math.min(filteredResults.size(),
 				dataTablesInputs.iDisplayLength);
-		final List<String> courseIds = new java.util.ArrayList<String>(rsize);
 		for (int i = 0; i < rsize; i++) {
 			int resultsIndex = dataTablesInputs.iDisplayStart + i;
 			if (resultsIndex >= filteredResults.size())
 				break;
 			ArrayNode cs = mapper.createArrayNode();
 			CourseSearchItem item = filteredResults.get(resultsIndex).item;
-			courseIds.add(item.getCourseId());
 			String[] scol = item.getSearchColumns();
 			for (String col : scol)
 				cs.add(col);
@@ -1184,9 +1191,9 @@ public class CourseSearchController extends UifControllerBase {
         // Write Json string
         String jsonString = mapper.writeValueAsString(json);
 		if (LOG.isDebugEnabled())
-			LOG.debug("JSON output : "
-					+ (jsonString.length() < 8192 ? jsonString : jsonString
-							.substring(0, 8192)));
+			LOG.debug("JSON output: {}", jsonString.length() < 8192
+                    ? jsonString
+                    : jsonString.substring(0, 8192));
 
 		response.setContentType("application/json");
 		response.setHeader("Cache-Control", "No-cache");
@@ -1209,7 +1216,7 @@ public class CourseSearchController extends UifControllerBase {
 			final HttpServletRequest request) throws IOException {
 
 		if (LOG.isDebugEnabled())
-			LOG.debug("Search form : " + form);
+			LOG.debug("Search form: {}", form);
 
         // Run search and retrieve results in the table
 		SessionSearchInfo table = getSearchResults(new FormKey(form),
@@ -1227,8 +1234,6 @@ public class CourseSearchController extends UifControllerBase {
 		String fcol = request.getParameter("fcol");
 		if (fclick != null && fcol != null)
 			table.facetClick(fclick, fcol);
-		else
-			table.facetClickAll();
 
 		// Create the oFacets object used by ksap.search.js
 		ObjectNode oFacets = mapper.createObjectNode();
@@ -1256,9 +1261,9 @@ public class CourseSearchController extends UifControllerBase {
         // Write json string
 		String jsonString = mapper.writeValueAsString(oFacets);
 		if (LOG.isDebugEnabled())
-			LOG.debug("JSON output : "
-					+ (jsonString.length() < 8192 ? jsonString : jsonString
-							.substring(0, 8192)));
+			LOG.debug("JSON output: {}", jsonString.length() < 8192
+                    ? jsonString
+                    : jsonString.substring(0, 8192));
 
 		response.setContentType("application/json");
 		response.setHeader("Cache-Control", "No-cache");
@@ -1317,7 +1322,7 @@ public class CourseSearchController extends UifControllerBase {
 		List<String> results = new ArrayList<String>(searchResult.getRows()
 				.size());
 		for (SearchResultRow row : searchResult.getRows())
-			results.add(searcher.getCellValue(row, "courseCode"));
+			results.add(KsapHelperUtil.getCellValue(row, "courseCode"));
 		return results;
 	}
 
@@ -1346,8 +1351,36 @@ public class CourseSearchController extends UifControllerBase {
 
 		CourseHelper ch = KsapFrameworkServiceLocator.getCourseHelper();
 		Map<String, Map<String, Object>> payload = new java.util.LinkedHashMap<String, Map<String, Object>>();
-		for (String termId : termIds)
-			ch.getAllSectionStatus(payload, courseId, termId);
+
+        try {
+            for (String termId : termIds){
+                for (CourseOfferingInfo co : KsapFrameworkServiceLocator.getCourseOfferingService()
+                        .getCourseOfferingsByCourseAndTerm(courseId, termId,
+                                KsapFrameworkServiceLocator.getContext().getContextInfo())) {
+                    for (ActivityOfferingInfo ao : KsapFrameworkServiceLocator.getCourseOfferingService()
+                            .getActivityOfferingsByCourseOffering(co.getId(),
+                                    KsapFrameworkServiceLocator.getContext().getContextInfo())) {
+                        Map<String, Object> enrl = new java.util.LinkedHashMap<String, Object>();
+                        enrl.put("enrollMaximum", KsapFrameworkServiceLocator.getEnrollmentStatusHelper().populateMaxEnrollmentField(ao));
+                        enrl.put("enrollCount", KsapFrameworkServiceLocator.getEnrollmentStatusHelper().populateCurrentEnrollmentField(ao));
+                        enrl.put("enrollOpen", KsapFrameworkServiceLocator.getEnrollmentStatusHelper().populateCurrentEnrollmentField(ao));
+                        enrl.put("enrollEstimate", KsapFrameworkServiceLocator.getEnrollmentStatusHelper().populateEstimatedEnrollmentField(ao));
+                        String key = "enrl_" + termId.replace('.', '-').intern() + "_" + ao.getActivityCode();
+                        payload.put(key, enrl);
+                    }
+                }
+            }
+        } catch (DoesNotExistException e) {
+            throw new IllegalArgumentException("CO lookup failure", e);
+        } catch (InvalidParameterException e) {
+            throw new IllegalArgumentException("CO lookup failure", e);
+        } catch (MissingParameterException e) {
+            throw new IllegalArgumentException("CO lookup failure", e);
+        } catch (OperationFailedException e) {
+            throw new IllegalStateException("CO lookup failure", e);
+        } catch (PermissionDeniedException e) {
+            throw new IllegalStateException("CO lookup failure", e);
+        }
 
 		String json;
 		try {

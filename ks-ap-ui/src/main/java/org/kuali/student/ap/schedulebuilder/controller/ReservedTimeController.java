@@ -1,6 +1,5 @@
 package org.kuali.student.ap.schedulebuilder.controller;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.krad.datadictionary.validation.result.ConstraintValidationResult;
 import org.kuali.rice.krad.datadictionary.validation.result.DictionaryValidationResult;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
@@ -12,6 +11,8 @@ import org.kuali.student.ap.planner.util.PlanEventUtils;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.common.util.date.KSDateTimeFormatter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -32,8 +33,7 @@ import java.util.Iterator;
 @RequestMapping(value = "/sb/reserved")
 public class ReservedTimeController extends UifControllerBase {
 
-	private static final Logger LOG = Logger
-			.getLogger(ReservedTimeController.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ReservedTimeController.class);
 
 	private static final String FORM = "ScheduleBuild-ReservedTime-FormView";
 	private static final String CREATE_PAGE = "sb_create_reserved_time_page";
@@ -46,16 +46,9 @@ public class ReservedTimeController extends UifControllerBase {
 					.getLearningPlan(form.getRequestedLearningPlanId());
 			return true;
 		} catch (PermissionDeniedException e) {
-			LOG.warn(
-					"User "
-							+ request.getRemoteUser()
-							+ " is not permitted to build a schedule based on this learning plan.",
-					e);
-			response.sendError(
-					HttpServletResponse.SC_FORBIDDEN,
-					"User "
-							+ request.getRemoteUser()
-							+ " is not permitted to build a schedule based on this learning plan.");
+            String errorMessage = String.format("User %s is not permitted to build a schedule based on this learning plan.", request.getRemoteUser());
+			LOG.warn(errorMessage, e);
+            response.sendError(HttpServletResponse.SC_FORBIDDEN, errorMessage);
 			return false;
 		}
 
@@ -90,12 +83,9 @@ public class ReservedTimeController extends UifControllerBase {
 			return null;
 
 		if (result.hasErrors()) {
-			LOG.warn("Errors validating reserve time form "
-					+ result.getAllErrors());
-			response.sendError(
-					HttpServletResponse.SC_BAD_REQUEST,
-					"Errors validating reserve time form "
-							+ result.getAllErrors());
+            String errorMessage = String.format("Errors validating reserve time form %s", result.getAllErrors());
+            LOG.warn(errorMessage);
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, errorMessage);
 		}
 
 		DictionaryValidationResult validationResult = KRADServiceLocatorWeb
@@ -124,7 +114,7 @@ public class ReservedTimeController extends UifControllerBase {
 				sb.append(" ");
 				sb.append(err.getStatus());
 			}
-			LOG.warn(sb);
+			LOG.warn("{}", sb);
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST,
 					sb.toString());
 			return null;

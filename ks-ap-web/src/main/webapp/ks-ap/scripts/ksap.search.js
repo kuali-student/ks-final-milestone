@@ -1,3 +1,24 @@
+jQuery('#course_search #text_searchQuery_control').ready(function(){
+    if(sessionStorage.getItem('back_search') != null) {
+        //came from the course details page, check search input, and fill in if blank
+        if(jQuery('#text_searchQuery_control').val().length == 0){
+            //fill in the form input for the user with the last search term
+            jQuery('#text_searchQuery_control').val(sessionStorage.getItem('back_search'));
+        }
+    }
+    //clear the local storage values
+    sessionStorage.removeItem('back_search');
+    sessionStorage.removeItem('last_search');
+});
+
+jQuery(function(){
+    //set the search terms to pass onto course details page
+    //for setting a sentinal value there
+    jQuery('#course_search #course_search_results').on('click', 'td.details_link a', function(){
+        sessionStorage.setItem('last_search', jQuery('#text_searchQuery_control').val());
+    });
+});
+
 var oTable;
 var oFacets = new Object();
 
@@ -8,13 +29,13 @@ function ksapCourseSearchTableWidth() {
 
 /**
  * Override this method to redefine course search columns.
- * 
+ *
  * <p>
  * NOTE: Display fields and search fields do not work on the same data on the
  * back end. There need to be enough columns defined to accommodate the largest
  * of these two lists. Column order for search fields (facets) is internal to
  * CourseSearchController
- * 
+ *
  * @returns aoColumns Value for DataTables.
  */
 function ksapCourseSearchColumns() {
@@ -23,24 +44,24 @@ function ksapCourseSearchColumns() {
         'bSearchable' : true,
         'sTitle' : 'Code',
         'sClass' : 'ksap-text-nowrap sortable',
-        'sWidth' : '73px',
+        'sWidth' : '78px',
         'sType' : 'string'
     }, {
         'bSortable' : true,
         'bSearchable' : true,
         'sTitle' : 'Title',
         'sClass' : 'sortable details_link',
-        'sWidth' : '160px'
+        'sWidth' : '170px'
     }, {
         'bSortable' : false,
         'bSearchable' : true,
         'sTitle' : 'Credits',
-        'sWidth' : '34px'
+        'sWidth' : '43px'
     }, {
         'bSortable' : false,
         'bSearchable' : true,
         'sTitle' : 'Campus',
-        'sWidth' : '34px'
+        'sWidth' : '47px'
     },{
         'bSortable' : false,
         'bSearchable' : true,
@@ -52,18 +73,18 @@ function ksapCourseSearchColumns() {
         'bSearchable' : true,
         'sTitle' : 'Terms Offered',
         'sClass' : 'ksap-data-list',
-        'sWidth' : '100px'
+        'sWidth' : '110px'
     }, {
         'bSortable' : false,
         'bSearchable' : true,
         'sTitle' : 'Gen Ed',
-        'sWidth' : '50px'
+        'sWidth' : '55px'
     }, {
         'bSortable' : false,
         'bSearchable' : true,
-        'sTitle' : 'Actions',
+        'sTitle' : '',
         'sClass' : 'ksap-status-column',
-        'sWidth' : '59px'
+        'sWidth' : '41px'
     } ];
 }
 
@@ -112,7 +133,7 @@ function fnSelectAllCampuses() {
 
 /**
  * Perform a course search.
- * 
+ *
  * @param id
  *            The ID of the course search DataTables table element.
  * @param parentId
@@ -120,13 +141,6 @@ function fnSelectAllCampuses() {
  *            be hidden while the initial search is taking place.
  */
 function searchForCourses(id, parentId) {
-    if(jQuery('#text_searchQuery_control').val().length<3){
-        jQuery('#searchValidationMessages').removeClass("ksap-hide");
-        return;
-    }else{
-        jQuery('#searchValidationMessages').addClass("ksap-hide");
-    }
-
 
 	var results = jQuery("#" + parentId); // course_search_results_panel
 	results.fadeOut("fast");
@@ -142,22 +156,29 @@ function searchForCourses(id, parentId) {
 			.dataTable(
 					{
 						aLengthMenu : [ 20, 50, 100 ],
-						aaSorting : [[0,'asc']],
+						aaSorting : [],
 						aoColumns : ksapCourseSearchColumns(),
 						bAutoWidth : false,
 						bDeferRender : true,
 						bDestroy : true,
-						bJQueryUI : true,
+						bJQueryUI : false,
 						bProcessing : false,
 						bScrollCollapse : true,
 						bServerSide : true,
 						bSortClasses : false,
 						bStateSave : true,     // Turn save state on to allow for saving pagination when moving between pages
                         "fnStateSave": function (oSettings, oData) {
-                            localStorage.setItem( 'DataTables_'+jQuery('#text_searchQuery_control').val(), JSON.stringify(oData) );
+                            jQuery.extend(oData,{searchQuery: jQuery('#text_searchQuery_control').val(), searchTerm: jQuery("select[name='searchTerm'] option:selected").val()});
+                            sessionStorage.setItem( 'DataTables_SearchQuery', JSON.stringify(oData) );
                         },
                         "fnStateLoad": function (oSettings) {
-                            return JSON.parse( localStorage.getItem('DataTables_'+jQuery('#text_searchQuery_control').val()) );
+                            var oData = JSON.parse( sessionStorage.getItem('DataTables_SearchQuery') );
+                            if(oData!=null){
+                                if(oData.searchQuery!=jQuery('#text_searchQuery_control').val() || oData.searchTerm!=jQuery("select[name='searchTerm'] option:selected").val()){
+                                    sessionStorage.removeItem('DataTables_SearchQuery');
+                                }
+                            }
+                            return JSON.parse( sessionStorage.getItem('DataTables_SearchQuery') );
                         },
 						iCookieDuration : 600,
 						iDisplayLength : 20,
@@ -169,12 +190,13 @@ function searchForCourses(id, parentId) {
 						fnDrawCallback : function() {
                             // Create search summary line
                             if(this.fnSettings().aoData.length){
-                                var searchKeyword = jQuery('#text_searchQuery_control').val();
-                                jQuery('<span/>', {text: ' for '}).appendTo('#course_search_results_info');
-                                jQuery('<span/>', {text: searchKeyword, class: 'search_keyword'}).appendTo('#course_search_results_info');
+                                if (jQuery('#course_search_results_info span[class=search_keyword]').size()==0) {
+                                    // fnDrawCallback seems to get called multiple times on occasion, so only append the search_keyword once
+                                    var searchKeyword = jQuery('#text_searchQuery_control').val();
+                                    jQuery('<span/>', {text: ' for '}).appendTo('#course_search_results_info');
+                                    jQuery('<span/>', {text: searchKeyword, class: 'search_keyword'}).appendTo('#course_search_results_info');
+                                }
                                 jQuery("#course_search_results_facets").removeClass("invisible");
-                            }else{
-                                jQuery("#course_search_results_facets").addClass("invisible");
                             }
 
 							if (Math
@@ -186,7 +208,7 @@ function searchForCourses(id, parentId) {
 										.hide();
 							}
 
-                            //Hide pagination if there is less than 1 page of results
+                            //Hide bottom pagination if there is less than 1 page of results - Check each refresh
                             if (this.fnSettings()._iDisplayLength > this.fnSettings().fnRecordsDisplay()) {
                                 jQuery('#course_search_results_wrapper').find('.dataTables_paginate').hide();
                             } else {
@@ -199,7 +221,19 @@ function searchForCourses(id, parentId) {
 							results.find("table#" + id).width(
 									ksapCourseSearchTableWidth());
 
+                            var newheader = jQuery("#termsOfferedPlaceholder").clone(true);
+                            var oldheader = jQuery("[aria-label='Terms Offered']");
+                            oldheader.empty();
+                            newheader.removeClass("ksap-hide");
+                            oldheader.append(newheader);
 							ksapSearchComplete();
+
+                            //Hide dropdown pagination if there is less than X (default=20) # of items in results - Check once
+                            if (this.fnSettings()._iDisplayLength > this.fnSettings().fnRecordsDisplay()) {
+                                jQuery('#course_search_results_length').addClass('invisible');
+                            } else {
+                                jQuery('#course_search_results_length').removeClass('invisible');
+                            }
 						},
 						fnServerData : function(sSource, aoData, fnCallback) {
 							jQuery
@@ -208,7 +242,18 @@ function searchForCourses(id, parentId) {
 										type : "GET",
 										url : sSource,
 										data : aoData,
-										success : fnCallback,
+                                        success : function(data, textStatus, jqXHR){
+                                            if(data.LimitExceeded>0){
+                                                var message = jQuery('#searchValidationMessages div span');
+                                                var text = message.html();
+                                                var formatted = text.replace('__KSAP_SEARCH_LIMIT__',data.LimitExceeded+'');
+                                                jQuery('#searchValidationMessages div span').html(formatted);
+                                                jQuery('#searchValidationMessages').removeClass("ksap-hide");
+                                            }else{
+                                                jQuery('#searchValidationMessages').addClass("ksap-hide");
+                                            }
+                                            fnCallback(data,textStatus,jqXHR);
+                                        },
 										error : function(jqXHR, textStatus,
 												errorThrown) {
 											hideLoading();
@@ -259,6 +304,12 @@ function fnLoadFacets() {
 				url : 'course/facetValues' + ksapGetSearchParams(),
 				success : function(data, textStatus, jqXHR) {
 					oFacets = data;
+                    var facets = data.oFacetState;
+                    if(jQuery.isEmptyObject(facets)){
+                        jQuery("#course_search_results_facets").addClass("invisible");
+                    }else{
+                        jQuery("#course_search_results_facets").removeClass("invisible");
+                    }
 					jQuery(
 							".ksap-facets-group .uif-disclosureContent .uif-boxLayout")
 							.each(function() {
@@ -282,7 +333,7 @@ function fnLoadFacets() {
 /**
  * Send a facet click event to the server, and receive an updated facet state in
  * oFacets.
- * 
+ *
  * @param sFilter
  *            The facet key that was clicked.
  * @param i
@@ -326,12 +377,12 @@ function fnClickFacet(sFilter, fcol, e) {
 
 /**
  * GENERATE_FACETS event handler.
- * 
+ *
  * <p>
  * This event is sent to all facet groups after receiving initial facet state
  * from the server in conjunction with a search.
  * </p>
- * 
+ *
  * @param i
  *            The facet columns index.
  * @param obj
@@ -351,14 +402,28 @@ function fnGenerateFacetGroup(obj) {
 			continue;
 		else if (oData.hasOwnProperty(key))
 			bMore = !(bOne = !bOne);
+    if (bOne){
+        obj.addClass("ksap-hide");
+        return;
+    }
+    obj.removeClass("ksap-hide");
+    var bAll = true;
+    for ( var key in oData)
+        if (!bAll)
+            continue;
+        else if (oData.hasOwnProperty(key) && !oData[key].checked)
+            bAll = false;
 	if (bMore) {
 		jFacets.append(jQuery('<div class="all"><ul /></div>'));
 		var jAll = jQuery('<li />').attr("title", "All").data("facetid", fcol)
-				.addClass("all checked").html('<a href="#">All</a>').click(
+            .addClass("all").html('<a href="#">All</a>').click(
 						function(e) {
 							var t = jQuery(this);
 							fnClickFacet('All', t.data("facetid"), e);
 						});
+        if(bAll){
+            jAll.addClass("checked")
+        }
 		jFacets.find(".all ul").append(jAll);
 	}
 	jFacets.append(jQuery('<div class="facets"><ul /></div>'));
@@ -371,6 +436,10 @@ function fnGenerateFacetGroup(obj) {
 					var t = jQuery(this);
 					fnClickFacet(t.data("facetkey"), t.data("facetid"), e);
 				});
+        if (!bAll && oData[key].checked)
+            jQuery(jItem).addClass("checked");
+        else
+            jQuery(jItem).removeClass("checked")
 		if (bOne)
 			jItem.addClass("static");
 		ful.append(jItem);
@@ -379,12 +448,12 @@ function fnGenerateFacetGroup(obj) {
 
 /**
  * UPDATE_FACETS event handler.
- * 
+ *
  * <p>
  * This event is sent to all facet groups after receiving updated facet state
  * from the server.
  * </p>
- * 
+ *
  * @param i
  *            The facet column index.
  * @param obj

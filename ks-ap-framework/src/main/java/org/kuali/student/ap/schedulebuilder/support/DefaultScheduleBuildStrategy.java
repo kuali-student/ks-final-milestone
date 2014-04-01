@@ -22,7 +22,6 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.ap.academicplan.dto.LearningPlanInfo;
 import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
 import org.kuali.student.ap.academicplan.infc.LearningPlan;
@@ -59,6 +58,7 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
@@ -70,6 +70,8 @@ import org.kuali.student.r2.core.scheduling.dto.ScheduleDisplayInfo;
 import org.kuali.student.r2.core.scheduling.infc.ScheduleComponentDisplay;
 import org.kuali.student.r2.core.scheduling.infc.TimeSlot;
 import org.kuali.student.r2.lum.course.infc.Course;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DefaultScheduleBuildStrategy implements ScheduleBuildStrategy,
 		Serializable {
@@ -79,8 +81,7 @@ public class DefaultScheduleBuildStrategy implements ScheduleBuildStrategy,
 	private static final String SCHEDULE_BUILD_ATTR = ScheduleBuildStrategy.class
 			.getName() + ".scheduleBuild";
 
-	private static final Logger LOG = Logger
-			.getLogger(DefaultScheduleBuildStrategy.class);
+	private static final Logger LOG = LoggerFactory.getLogger(DefaultScheduleBuildStrategy.class);
 
 	/**
 	 * Simple XML wrapper for storing a list of reserved times as a dynamic
@@ -208,8 +209,11 @@ public class DefaultScheduleBuildStrategy implements ScheduleBuildStrategy,
 		} catch (OperationFailedException e) {
 			throw new IllegalStateException(
 					"Error saving reserved time attributes in learning plan", e);
-		}
-	}
+		} catch (VersionMismatchException e) {
+            throw new IllegalStateException(
+                    "Error saving reserved time attributes in learning plan", e);
+        }
+    }
 
 	@Override
 	public ScheduleBuildForm getInitialForm() {
@@ -713,7 +717,7 @@ public class DefaultScheduleBuildStrategy implements ScheduleBuildStrategy,
 			}
 
 			if (msg != null) {
-				LOG.debug(msg);
+				LOG.debug(msg.toString());
 			}
 		}
 

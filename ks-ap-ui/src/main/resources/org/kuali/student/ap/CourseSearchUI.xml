@@ -46,6 +46,7 @@
 		<property name="layoutManager">
 			<bean parent="Uif-HorizontalBoxLayout" />
 		</property>
+        <property name="onDocumentReadyScript" value="registerClosePopups();"/>
 		<property name="items">
 			<list>
                 <bean p:id="searchValidationMessages" parent="Uif-HorizontalBoxGroup">
@@ -54,14 +55,14 @@
                             <value>uif-validationMessages</value>
                             <value>uif-groupValidationMessages</value>
                             <value>uif-pageValidationMessages</value>
-                            <value>uif-pageValidationMessages-error</value>
+                            <value>uif-pageValidationMessages-info</value>
                             <value>ksap-hide</value>
                         </list>
                     </property>
                     <property name="items">
                         <list>
                             <bean parent="Uif-Image"
-                                  p:source="../themes/ksboot/images/validation/error.png">
+                                  p:source="../themes/ksboot/images/validation/info.png">
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>uif-validationImage</value>
@@ -69,16 +70,23 @@
                                 </property>
                             </bean>
                             <bean parent="Uif-Message">
-                                <property name="messageText" value="There was a problem with your submission. Errors are highlighted below."/>
+                                <property name="messageText" value="Number of results exceeds maximum allowed. First __KSAP_SEARCH_LIMIT__ results are displayed."/>
                             </bean>
                         </list>
                     </property>
                 </bean>
-                <bean parent="Uif-Message">
-                    <property name="messageText" value="Enter a department, course code, title, or a keyword to search the Course Catalog and Schedule of Classes."/>
-                </bean>
 				<ref bean="ksap_dialog_anchor" />
 				<ref bean="course_search_result_section" />
+                <bean p:id="termsOfferedPlaceholder" parent="Uif-HorizontalBoxGroup" p:cssClasses="ksap-hide">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-Message" p:messageText="Terms Offered"/>
+                        </list>
+                    </property>
+                    <property name="toolTip">
+                        <ref bean="quarter_facet_help_tooltip"/>
+                    </property>
+                </bean>
 			</list>
 		</property>
         <property name="stickyFooter" value="false"/>
@@ -122,7 +130,7 @@
 
 	<bean id="course_search_criteria_input" parent="course_search_criteria_input-parent" />
 	<bean id="course_search_criteria_input-parent" abstract="true" parent="Uif-TextControl"
-		p:watermarkText="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('SEARCH_SEARCHTERMS_PLACEHOLDER_TEXT')}">
+		p:watermarkText="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('SEARCH_SEARCHTERMS_PLACEHOLDER_TEXT')}">
 		<property name="onDocumentReadyScript"
                   value="setupCourseSearchCriteriaActions(jQuery('#text_searchQuery_control'), jQuery('#searchForCourses'))"/>
 	</bean>
@@ -136,6 +144,11 @@
 		</property>
         <property name="simpleConstraint.minLength" value="3"/>
         <property name="simpleConstraint.maxLength" value="30"/>
+        <property name="validationMessages">
+            <bean parent="Uif-FieldValidationMessages">
+                <property name="useTooltip" value="false"/>
+            </bean>
+        </property>
 	</bean>
 
 	<bean id="hidden_savedCourses" parent="Uif-InputField" p:propertyName="savedCourses"
@@ -157,7 +170,7 @@
 			<bean class="org.kuali.student.ap.coursesearch.keyvalue.PublishedTermsListBuilder">
 				<property name="additionalListItemsTop">
 					<map>
-						<entry key="any" value="Any term" />
+						<entry key="any" value="All" />
 						<!--<entry key="projected" value="Projected terms only" />-->
 						<entry key="scheduled" value="Scheduled terms" />
 					</map>
@@ -283,8 +296,10 @@
 					value="function() {
                             if (Math.ceil((this.fnSettings().fnRecordsDisplay()) / this.fnSettings()._iDisplayLength) > 1)  {
                                 jQuery('.dataTables_paginate span').not('.first, .last').show();
+                                jQuery('#course_search_results_length').removeClass('invisible');
                             } else {
                                 jQuery('.dataTables_paginate span').hide();
+                                jQuery('#course_search_results_length').addClass('invisible');
                             }
                        }" />
 			</map>
@@ -323,7 +338,6 @@
 				<ref bean="facet_credits" />
 				<ref bean="facet_level" />
 				<ref bean="facet_curriculum" />
-				<ref bean="facet_keywords" />
 				<ref bean="add_course_items" />
 				<ref bean="course_quick_detail" />
 			</list>
@@ -349,24 +363,11 @@
         </property>
 	</bean>
 
-	<bean id="facet_quarter" parent="facet-parent" p:headerText="Terms Scheduled">
-		<!-- TODO: KSAP-560 -  Unhide and change to underlined help text
-		<property name="header.rightGroup">
-			<bean parent="Uif-HorizontalBoxGroup">
-				<property name="items">
-					<list>
-						<ref bean="quarter_facet_help_icon" />
-					</list>
-				</property>
-			</bean>
-		</property>
-		-->
-	</bean>
+	<bean id="facet_quarter" parent="facet-parent" p:headerText="Terms Scheduled"/>
 	<bean id="facet_genedureq" parent="facet-parent" p:headerText="Gen Ed" />
-	<bean id="facet_credits" parent="facet-parent" p:headerText="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('RESULTS_CREDITS_FACET_NAME')}" />
+	<bean id="facet_credits" parent="facet-parent" p:headerText="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('RESULTS_CREDITS_FACET_NAME')}" />
 	<bean id="facet_level" parent="facet-parent" p:headerText="Course Level" />
 	<bean id="facet_curriculum" parent="facet-parent" p:headerText="Course Prefix" />
-	<bean id="facet_keywords" parent="facet-parent" p:headerText="Keywords" />
 
 	<!--Add Course Menu -->
     <bean id="add_course_items" parent="add_course_items-parent"/>

@@ -1,10 +1,11 @@
 package org.kuali.student.ap.plannerreview.form;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.ap.plannerreview.infc.ConversationAdvisor;
 import org.kuali.student.ap.plannerreview.util.ConversationConstants;
 import org.kuali.student.ap.plannerreview.dto.AcademicYearInfo;
 import org.kuali.student.ap.plannerreview.dto.CourseInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Map;
@@ -13,8 +14,7 @@ public class ConversationCreateForm extends ConversationFormBase {
 
 	private static final long serialVersionUID = -6603731205873195959L;
 	
-	private static final Logger LOG = Logger
-			.getLogger(ConversationCreateForm.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ConversationCreateForm.class);
 
 	private String learningPlanId;
 	private String advisorId;

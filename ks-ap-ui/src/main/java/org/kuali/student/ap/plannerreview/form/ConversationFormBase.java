@@ -1,9 +1,10 @@
 package org.kuali.student.ap.plannerreview.form;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.ap.plannerreview.infc.ConversationAdvisor;
 import org.kuali.student.ap.plannerreview.dto.ConversationAdvisorInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,8 +13,7 @@ public class ConversationFormBase extends UifFormBase {
 
 	private static final long serialVersionUID = 6362312801092393144L;
 	
-	private static final Logger LOG = Logger
-			.getLogger(ConversationFormBase.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ConversationFormBase.class);
 
 	/**
 	 * Map needs to have a key that is an advisorId combined with the role like so:
@@ -34,7 +34,7 @@ public class ConversationFormBase extends UifFormBase {
 		if (advisorMap != null && advisorMap.containsKey(key)) {
 			return advisorMap.get(key);
 		}
-		LOG.error("Unable to find advisor in map with the key: " + key);
+		LOG.error("Unable to find advisor in map with the key: {}", key);
 		return null;
 	}
 

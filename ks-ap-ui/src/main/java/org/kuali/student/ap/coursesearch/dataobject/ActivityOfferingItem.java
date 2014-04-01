@@ -11,9 +11,7 @@ import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
  * Created with IntelliJ IDEA. User: jasonosgood Date: 12/5/12 Time: 11:06 AM To
  * change this template use File | Settings | File Templates.
  * 
- * 
- * https://wiki.cac.washington.edu/display/MyPlan/MyPlan+Course+Section+Details+
- * Data+Needs
+ *
  */
 public class ActivityOfferingItem implements Serializable {
 
@@ -31,8 +29,6 @@ public class ActivityOfferingItem implements Serializable {
 	// Section Line Number - UW-ism
 	private String atpId;
 	private String registrationCode;
-	// Used by the UI to feed the QTRYR query parameter, like in the following:
-	// https://sdb.admin.washington.edu/timeschd/uwnetid/registrationCode.asp?QTRYR=WIN+2013&amp;SLN=11944
 	private String qtryr;
 	private boolean enrollRestriction;
 	private boolean enrollOpen;

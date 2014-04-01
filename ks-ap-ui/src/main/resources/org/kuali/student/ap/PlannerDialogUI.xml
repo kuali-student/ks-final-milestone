@@ -429,7 +429,7 @@
         <property name="headerText" value="Add Bookmark Course" />
         <property name="items">
             <list merge="true">
-                <ref bean="planner_course_summary_link" />
+                <bean parent="Uif-Message" p:messageText="@{course.code} @{course.courseTitle} (@{creditString})" p:cssClasses="bold"/>
                 <ref bean="planner_course_summary_details_data"/>
                 <bean parent="planner_term_input">
                     <property name="propertyName" value="termId" />
@@ -509,7 +509,7 @@
         <property name="headerText" value="Add to Plan" />
         <property name="items">
             <list merge="true">
-                <ref bean="planner_course_summary_link" />
+                <bean parent="Uif-Message" p:messageText="@{course.code} @{course.courseTitle} (@{creditString})" p:cssClasses="bold"/>
                 <ref bean="planner_course_summary_details_data"/>
                 <bean parent="planner_term_input">
                     <property name="propertyName" value="termId" />

@@ -14,16 +14,6 @@ public interface CourseSearchItem {
 
 	static final String EMPTY_RESULT_VALUE_KEY = "&mdash;";
 
-	static final Set<String> NOISE_WORDS = new java.util.HashSet<String>(
-			Arrays.asList("THE", "AND", "BUT", "PUT", "FOR", "ALL", "ALSO",
-					"ARE", "BETWEEN", "BOTH", "DAY", "EACH", "HALL", "WHO",
-					"WHAT", "WHERE", "WHICH", "WHY", "HOW", "HIS", "HERS",
-					"THEN", "THAN", "THAT", "THEREFORE", "THEIR", "WHICHEVER",
-					"WHOM", "IN", "OUT", "NORTH", "SOUTH", "EAST", "WEST",
-					"TOPICS", "EMPHASIS", "COURSE", "EMPHASIS", "INTRO",
-					"INTRODUCTION", "ISSUES", "SKILLS", "STUDENTS", "INCLUDE",
-					"STUDY"));
-
 	enum CreditType {
 		fixed, range, multiple, unknown
 	}
@@ -160,17 +150,17 @@ public interface CourseSearchItem {
 	 */
 	List<String> getScheduledTermsList();
 
-	/**
-	 * Get a list of keywords for use with the trending searches feature.
-	 * 
-	 * @return A list of keywords for use with the trending searches feature.
-	 */
-	List<String> getKeywords();
-
     /**
      * Get a list of campus where the courses is offered.
      *
      * @return A list of campuses.
      */
     List<String> getCampuses();
+
+    /**
+     * Get the version independent id of the course
+     *
+     * @return A identifier for the course not related to a specific version
+     */
+    public String getVersionIndependentId();
 }

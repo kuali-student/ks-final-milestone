@@ -3,9 +3,9 @@ package org.kuali.student.ap.coursesearch.dataobject;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +40,7 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 
 	private String courseId;
 	private String code;
+    private String versionIndependentId;
 
 	private String number;
 	private String subject;
@@ -65,8 +66,6 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 
 	private List<String> termInfoList;
 
-	private List<String> keywords;
-
     private List<String> campuses;
 
 	/**
@@ -83,6 +82,8 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 	 * Lazy initialized column data for supporting server side result caching.
 	 */
 	private transient FacetIndex facetColumns;
+
+    private String sessionid;
 
 	public String getCourseId() {
 		return courseId;
@@ -420,7 +421,7 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 	 * @return Additional GET parameters to send on the course inquiry link.
 	 */
 	protected Map<String, String> getInquiryParams() {
-		return Collections.emptyMap();
+		return new HashMap<String,String>();
 	}
 
 	/**
@@ -440,6 +441,9 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 			throw new IllegalStateException("UTF-8 is unsupported", e);
 		}
 		Map<String, String> ap = getInquiryParams();
+        // Only send part of the session id to create session specific link for security
+        String sid = sessionid.substring(0,sessionid.length()/2);
+        ap.put("sid",sid);
 		if (ap != null)
 			for (Entry<String, String> e : ap.entrySet())
 				try {
@@ -472,6 +476,7 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 
 		Element stsp = DocumentHelper.createElement("span");
 		stsp.addAttribute("id", cid + "_status");
+        stsp.addAttribute("class", "ks-fontello-icon-plus-circled");
 		if (statusLabel.length() > 0) {
 			stsp.addAttribute("class", statusLabel.toLowerCase());
 			stsp.setText(statusLabel);
@@ -498,37 +503,6 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 			addAnchor.addAttribute("onclick", openMenu.toString());
 		}
 		return stsp.asXML();
-	}
-
-	@Override
-	public List<String> getKeywords() {
-		if (keywords == null) {
-			List<String> kws = new java.util.LinkedList<String>();
-			for (String kw : getCourseName().split("\\s+")) {
-				StringBuilder kwsb = new StringBuilder(kw);
-				int dig = 0;
-				boolean wild = false;
-				for (int c = 0; c < kwsb.length(); c++) {
-					char kwc = kwsb.charAt(c);
-					if (wild = wild || kwc == '-' || kwc == '*' || kwc == '#')
-						continue;
-					if (!Character.isLetterOrDigit(kwc))
-						kwsb.deleteCharAt(c);
-					else if (Character.isDigit(kwc) || kwc == 'x' || kwc == 'X')
-						dig++;
-				}
-				if (wild)
-					continue;
-				String searchTerm = kwsb.toString().trim().toUpperCase();
-				if (searchTerm.length() - dig >= 5
-						&& !Character.isDigit(searchTerm.charAt(0))
-						&& !NOISE_WORDS.contains(searchTerm)
-						&& !kws.contains(searchTerm))
-					kws.add(searchTerm);
-			}
-			keywords = kws;
-		}
-		return keywords;
 	}
 
 	/**
@@ -584,7 +558,6 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 			m.put("facet_credits", facetString(getCreditsFacetKeys()));
 			m.put("facet_level", facetString(getCourseLevelFacetKeys()));
 			m.put("facet_curriculum", facetString(getCurriculumFacetKeys()));
-			m.put("facet_keywords", facetString(getKeywords()));
 			facetColumns = m.build();
 		}
 		return facetColumns;
@@ -604,4 +577,20 @@ public class CourseSearchItemImpl implements CourseSearchItem {
         return campusBuilder.toString();
     }
 
+    public String getSessionid() {
+        return sessionid;
+    }
+
+    public void setSessionid(String sessionid) {
+        this.sessionid = sessionid;
+    }
+
+    @Override
+    public String getVersionIndependentId() {
+        return versionIndependentId;
+    }
+
+    public void setVersionIndependentId(String versionIndependentId) {
+        this.versionIndependentId = versionIndependentId;
+    }
 }

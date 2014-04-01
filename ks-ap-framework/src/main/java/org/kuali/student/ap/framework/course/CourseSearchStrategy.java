@@ -11,6 +11,8 @@ import org.kuali.student.r2.core.search.infc.SearchResultRow;
  */
 public interface CourseSearchStrategy {
 
+    public static final int MAX_HITS = 1000;
+
 	static enum ProjectedOrder {
 		AU, FA, WI, SP, SU;
 	}
@@ -167,16 +169,6 @@ public interface CourseSearchStrategy {
 	 * @return A new instance of the course search form.
 	 */
 	CourseSearchForm createSearchForm();
-
-	/**
-	 * Get a specific cell value for a search row.
-	 * 
-	 * @param row
-	 *            The search result row.
-	 * @param key
-	 *            The column key.
-	 */
-	String getCellValue(SearchResultRow row, String key);
 
 	Map<String, Credit> getCreditMap();
 

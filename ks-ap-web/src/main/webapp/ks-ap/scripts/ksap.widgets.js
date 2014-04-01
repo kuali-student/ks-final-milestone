@@ -212,6 +212,7 @@ function openMenu(id, getId, atpId, e, selector, popupClasses, popupOptions, clo
         });
     });
 
+    //@TODO: ksap-961 Convert to icon font instead of image
     if (close || typeof close === 'undefined') jQuery("#" + popupBoxId + " .jquerybubblepopup-innerHtml").append('<img src="../ks-ap/images/btnClose.png" class="ksap-popup-close"/>');
 
     runHiddenScripts(id + "_popup");
@@ -277,7 +278,7 @@ function ksapAjaxSubmitForm(data, successCallback, elementToBlock, formId, block
                 else {
                     var elementBlockingDefaults = {
                         baseZ:500,
-                        message:'<img src="../ks-ap/images/ajaxLoader16.gif" alt="loading..." />',
+                        message:'<img src="../ks-ap/images/ajaxLoader.gif" alt="loading..." />',
                         fadeIn:0,
                         fadeOut:0,
                         overlayCSS:{
@@ -473,7 +474,7 @@ function ksapGetSectionEnrollment(url, retrieveOptions, componentId) {
         dataType:"json",
         beforeSend:function () {
             elementToBlock.block({
-                message:'<img src="../ks-ap/images/ajaxLoader16.gif" alt="Fetching enrollment data..." />',
+                message:'<img src="../ks-ap/images/ajaxLoader.gif" alt="Fetching enrollment data..." />',
                 fadeIn:0,
                 fadeOut:0,
                 overlayCSS:{
@@ -769,6 +770,7 @@ function openPopup(getId, retrieveData, formAction, popupStyle, popupOptions, e)
         if (jQuery("#KSAP-Popover").length) {
             popupItem.SetPopOverInnerHtml(component);
             fnPositionPopUp(popupId);
+            //@TODO ksap-961 Convert to icon font instead of image
             if (popupOptions.close || typeof popupOptions.close === 'undefined') jQuery("#" + popupId + " .jquerypopover-innerHtml").append('<img src="../ks-ap/images/btnClose.png" class="ksap-popup-close"/>');
             jQuery("#" + popupId + " img.ksap-popup-close").on('click', function () {
                 popupItem.HidePopOver();
