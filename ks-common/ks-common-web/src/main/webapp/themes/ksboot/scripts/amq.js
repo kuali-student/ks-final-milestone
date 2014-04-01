@@ -49,8 +49,14 @@ org.activemq.Amq = function() {
 	// before sending the next poll after the last completes.
 	var pollDelay;
 
+    // Polling counter
+    var counter = 100;
+
 	// Inidicates whether logging is active or not. Not by default.
 	var logging = true;
+
+    // Inidicates whether this amq instance is active or not. Not by default.
+    var active = true;
 
 	// 5 second delay if an error occurs during poll. This could be due to
 	// server capacity problems or a timeout condition.
@@ -108,10 +114,12 @@ org.activemq.Amq = function() {
 		connectStatusHandler(false);
 		if (status === 'error' && xhr.status === 0) {
 			if (logging) adapter.log('Server connection dropped.');
+            setTimeout(function() { sendPoll(); }, pollErrorDelay);
 			return;
 		}
 		if (logging) adapter.log('Error occurred in poll. HTTP result: ' +
 		                         xhr.status + ', status: ' + status);
+        setTimeout(function() { sendPoll(); }, pollErrorDelay);
 	}
 
 	var pollHandler = function(data) {
@@ -121,9 +129,25 @@ org.activemq.Amq = function() {
 			if (logging) adapter.log('Exception in the poll handler: ' + data, e);
 			throw(e);
 		}
+        finally {
+            setTimeout(sendPoll, pollDelay);
+        }
 	};
 
 	var sendPoll = function() {
+
+
+        var context = getContext();
+        context.blockUI
+
+        //Check if this amq instance is still active or polling counter is not yet 0.
+        if ((!active) || (counter == 0)) {
+            return;
+        }
+
+        //reset counter.
+        counter = counter - 1;
+
         // Workaround IE6 bug where it caches the response
 		// Generate a unique query string with date and random
 		var now = new Date();
@@ -189,6 +213,7 @@ org.activemq.Amq = function() {
 			pollDelay = typeof options.pollDelay == 'number' ? options.pollDelay : 0;
 			timeout = typeof options.timeout == 'number' ? options.timeout : 25;
 			logging = options.logging;
+            counter = options.counter;
 			clientId = options.clientId;
 			adapter.init(options);
 
@@ -216,6 +241,10 @@ org.activemq.Amq = function() {
 
         startPolling : function() {
            sendPoll();
+        },
+
+        deactivate : function() {
+            active = false;
         },
 		
 		testPollHandler: function( data ) {

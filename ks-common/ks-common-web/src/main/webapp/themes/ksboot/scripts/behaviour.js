@@ -5,13 +5,24 @@ function initAMQListener() {
         uri: 'amq',
         logging: true,
         timeout: 1,
+        pollDelay: 1000,
+        counter: 5,
         clientId: kualiSessionId
     });
 
     amq.addListener('theBrowser', 'org.kuali.student.user.message', function(msg) {
-        var res = displayMessage(msg);
+        if(msg.textContent == "org.kuali.student.user.message.stop"){
+            amq.deactivate();
+        } else {
+            var res = displayMessage(msg);
+        }
+
     }, { selector: "JMSCorrelationID='" + kualiSessionId + "'" });
 
+}
+
+function deactivateAMQListener(){
+    org.activemq.Amq.deactivate();
 }
 
 function getKualiSessionId() {
