@@ -154,9 +154,10 @@
                                         </property>
                                     </bean>
                                 </property>
-                                <property name="fieldLabel.requiredMessage">
-                                    <bean parent="CM-StateAware-RequiredMessage" />
-                                </property>
+                                <!-- Rice 2.4 upgrade : removing fieldLabel.requiredMessage -->
+                                <!--<property name="fieldLabel.requiredMessage">-->
+                                    <!--<bean parent="CM-StateAware-RequiredMessage" />-->
+                                <!--</property>-->
                             </bean>
                         </list>
                     </property>
@@ -249,9 +250,10 @@
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="3" p:watermarkText="111"/>
                                 </property>
-                                <property name="fieldLabel.requiredMessage">
-                                    <bean parent="CM-StateAware-RequiredMessage" />
-                                </property>
+                                <!-- Rice 2.4 upgrade : removing fieldLabel.requiredMessage -->
+                                <!--<property name="fieldLabel.requiredMessage">-->
+                                    <!--<bean parent="CM-StateAware-RequiredMessage" />-->
+                                <!--</property>-->
 
                                 <property name="fieldLabel.richLabelMessage.iconToolTipText"
                                           value="The department will determine the course number based on: course format, restrictions, available numbers, and other factors."/>

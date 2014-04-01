@@ -230,35 +230,36 @@
         This can be used for any input (not just required ones) because it doesn't get displayed unless requiredness
         in simpleConstraint is turned on for the field.
     -->
-    <bean id="CM-StateAware-RequiredMessage" parent="CM-StateAware-RequiredMessage-parent" abstract="true" />
-    <bean id="CM-StateAware-RequiredMessage-parent" parent="Uif-RequiredMessage"  abstract="true">
-        <property name="messageText" value="" />
-        <property name="cssClasses">
-            <list merge="true">
-                <value>cm-requiredMessage-text</value>
-            </list>
-        </property>
-        <property name="propertyReplacers">
-            <list>
-                <bean parent="Uif-ConditionalBeanPropertyReplacer"
-                    p:propertyName="messageText"
-                    p:condition="@{#workflowDoc.saved}" >
-                    <property name="replacement">
-                        <!-- This should be read from the message service -->
-                        <value>Required for Submit</value>
-                    </property>
-                </bean>
-                <bean parent="Uif-ConditionalBeanPropertyReplacer"
-                     p:propertyName="messageText"
-                     p:condition="@{#workflowDoc.enroute}" >
-                    <property name="replacement">
-                        <!-- This should be read from the message service -->
-                        <value>Required for Approval</value>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>
+    <!-- Rice 2.4 upgrade : Uif-RequiredMessage was replaced by requiredIndicator" -->
+    <!--<bean id="CM-StateAware-RequiredMessage" parent="CM-StateAware-RequiredMessage-parent" abstract="true" />-->
+    <!--<bean id="CM-StateAware-RequiredMessage-parent" parent="Uif-RequiredMessage"  abstract="true">-->
+        <!--<property name="messageText" value="" />-->
+        <!--<property name="cssClasses">-->
+            <!--<list merge="true">-->
+                <!--<value>cm-requiredMessage-text</value>-->
+            <!--</list>-->
+        <!--</property>-->
+        <!--<property name="propertyReplacers">-->
+            <!--<list>-->
+                <!--<bean parent="Uif-ConditionalBeanPropertyReplacer"-->
+                    <!--p:propertyName="messageText"-->
+                    <!--p:condition="@{#workflowDoc.saved}" >-->
+                    <!--<property name="replacement">-->
+                        <!--&lt;!&ndash; This should be read from the message service &ndash;&gt;-->
+                        <!--<value>Required for Submit</value>-->
+                    <!--</property>-->
+                <!--</bean>-->
+                <!--<bean parent="Uif-ConditionalBeanPropertyReplacer"-->
+                     <!--p:propertyName="messageText"-->
+                     <!--p:condition="@{#workflowDoc.enroute}" >-->
+                    <!--<property name="replacement">-->
+                        <!--&lt;!&ndash; This should be read from the message service &ndash;&gt;-->
+                        <!--<value>Required for Approval</value>-->
+                    <!--</property>-->
+                <!--</bean>-->
+            <!--</list>-->
+        <!--</property>-->
+    <!--</bean>-->
 
 
     <bean id="CourseInfoMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
