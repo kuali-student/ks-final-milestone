@@ -44,9 +44,7 @@
                         <bean parent="Uif-VerticalCheckboxesControl" />
                     </property>
                     <property name="optionsFinder">
-                        <bean
-                                class="org.kuali.student.lum.lu.ui.course.keyvalues.TermsKeyValueFinder"
-                                p:addBlankOption="false" />
+                        <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.TermsKeyValueFinder" p:addBlankOption="false" />
                     </property>
                 </bean>
             </list>
@@ -90,29 +88,22 @@
 			for either type, which can be used for multiple course formats, or to account for variations in course offerings." />
     </bean>
 
-    <bean id="KS-CourseView-CourseLogisticsPage-GradesAssessments-Widgets"
-          parent="Uif-VerticalBoxSection" p:headerText="Grades/Assessments">
-        <!--<property name="help">
-            <bean parent="Uif-KS-Help"
-                  p:tooltipHelpContent= />
-        </property>-->
-        <!--<property name="header">
-            <bean parent="Uif-KS-IconHeader">
-                <property name="richHeaderMessage.iconToolTipText" value="&lt;b&gt;Letter, Standard Values&lt;b&gt;&lt;br&gt;
-                                                                        A,B,C,D,F&lt;br&gt;&lt;br&gt;&lt;b&gt;Satisfactory, unsatisfactory&lt;br&gt;&lt;br&gt;&lt;b&gt;Recital
-                                                                        Values&lt;b&gt; >60% pass&lt;br&gt;&lt;br&gt;&lt;b&gt;Recital Review&lt;b&gt;&lt;br&gt;Lorem
-                                                                        ipsum description of recital review&lt;br&gt;&lt;br&gt;&lt;b&gt;Design Review&lt;b&gt;&lt;br&gt;Lorem
-                                                                        ipsum description of design review&lt;br&gt;&lt;br&gt;&lt;b&gt;Completed
-                                                                        Notation&lt;b&gt;&lt;br&gt;complete,incomplete "/>
-            </bean>
-        </property>-->
+    <bean id="KS-CourseView-CourseLogisticsPage-GradesAssessments-Widgets" parent="Uif-VerticalBoxSection"
+          p:headerText="Grades/Assessments">
+        <property name="validationMessages.displayMessages" value="false" />
         <property name="items">
             <list>
+                <bean id="KS-CourseView-gradingOptions" parent="Uif-InputField-LabelTop" p:propertyName="courseInfo.gradingOptions"
+                      p:required="@{(#workflowDoc.saved or #workflowDoc.enroute) ? 'true' : 'false'}">
+                    <property name="control">
+                        <bean parent="Uif-VerticalCheckboxesControl" />
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.AssesmentKeyValueFinder" />
+                    </property>
 
-                <bean parent="Uif-HorizontalBoxSubSection">
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-Label" p:labelText="Assessment Scale" p:renderColon="false">
+                    <property name="fieldLabel">
+                         <bean parent="Uif-Label" p:labelText="Assessment Scale" p:renderColon="false">
                                 <property name="richLabelMessage">
                                     <bean parent="Uif-KS-IconLabelMessage">
                                         <property name="iconToolTipText" value="&lt;b&gt;Letter, Standard Values&lt;b&gt;&lt;br&gt;
@@ -124,23 +115,17 @@
                                     </bean>
                                 </property>
                             </bean>
-                        </list>
                     </property>
-                </bean>
 
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="courseInfo.gradingOptions" p:showLabel="false" >
-                    <property name="control">
-                        <bean parent="Uif-VerticalCheckboxesControl" />
-                    </property>
-                    <property name="optionsFinder">
-                        <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.AssesmentKeyValueFinder" />
+                    <property name="fieldLabel.requiredMessage">
+                        <bean parent="CM-StateAware-RequiredMessage" />
                     </property>
                 </bean>
             </list>
         </property>
     </bean>
-    <bean id="KS-CourseView-CourseLogisticsPage-StudentRegistrationOptions-Widgets"
-            parent="Uif-VerticalBoxSection" p:headerText="Student Registration Options" >
+    <bean id="KS-CourseView-CourseLogisticsPage-StudentRegistrationOptions-Widgets" parent="Uif-VerticalBoxSection"
+          p:headerText="Student Registration Options" >
         <property name="cssClasses">
             <list merge="true">
                 <value>admin-not-required-field</value>
@@ -169,7 +154,6 @@
             <list>
                 <bean parent="Uif-InputField-LabelTop" p:propertyName="finalExamStatus"
                       p:label="Final Exam Status" >
-                    <property name="constraintText" value="Required on Submit" />
                     <property name="control">
                         <bean parent="Uif-VerticalRadioControl" />
                     </property>
