@@ -324,7 +324,7 @@
                                 <!-- The facility code quick finder -->
                                 <property name="quickfinder">
                                     <bean parent="Uif-QuickFinder">
-                                        <property name="lightBoxLookup">
+                                        <property name="lightBox">
                                             <bean parent="Uif-LightBox">
                                                 <property name="lookupReturnByScript" value="true" />
                                             </bean>
@@ -383,7 +383,7 @@
                                 </property>
                                 <property name="quickfinder">
                                     <bean parent="Uif-QuickFinder">
-                                        <property name="lightBoxLookup">
+                                        <property name="lightBox">
                                             <bean parent="Uif-LightBox">
                                                 <property name="lookupReturnByScript" value="true" />
                                             </bean>
