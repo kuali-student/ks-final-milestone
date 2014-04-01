@@ -59,8 +59,8 @@
         <property name="required" value="true"/>
 	</bean>
 
-	<bean id="PlanItemInfo.planPeriods" parent="PlanItemInfo.planPeriods-parent"/>
-	<bean id="PlanItemInfo.planPeriods-parent" abstract="true" parent="PlanItemInfo.planPeriods-generated">
+	<bean id="PlanItemInfo.planTermIds" parent="PlanItemInfo.planTermIds-parent"/>
+	<bean id="PlanItemInfo.planTermIds-parent" abstract="true" parent="PlanItemInfo.planTermIds-generated">
         <!-- insert any overrides to the generated attribute definitions here -->
 		<property name="dataObjectClass" value="null"/>
 	</bean>

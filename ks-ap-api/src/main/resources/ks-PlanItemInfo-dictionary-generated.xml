@@ -70,7 +70,7 @@ PlanItem message structure
 
 		<property name="collections">
 			<list>
-				<ref bean="PlanItemInfo.planPeriods"/>
+				<ref bean="PlanItemInfo.planTermIds"/>
 			</list>
 		</property>
 	</bean>
@@ -143,19 +143,19 @@ Credit hours for the plan item, used for placeholders.
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="PlanItemInfo.planPeriods-generated" abstract="true" parent="CollectionDefinition">
-		<property name="name" value="planPeriods"/>
-		<property name="shortLabel" value="Plan Periods"/>
+	<bean id="PlanItemInfo.planTermIds-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="planTermIds"/>
+		<property name="shortLabel" value="Plan Term Ids"/>
 		<property name="summary">
 			<value>
 Time Periods for which the item is planned.
 			</value>
 		</property>
-		<property name="label" value="Time Periods"/>
-		<property name="elementLabel" value="Plan Period"/>
+		<property name="label" value="Plan Term Ids"/>
+		<property name="elementLabel" value="Plan Term Ids"/>
 		<property name="description">
 			<value>
-Academic Time Period keys for which the item is planned.
+Academic Time Period term keys for which the item is planned.
 			</value>
 		</property>
 		<property name="minOccurs" value="0"/>

@@ -14,17 +14,12 @@
     <bean id="planItemInfoDictionaryLocation" class="java.lang.String">
         <constructor-arg value="classpath:ks-PlanItemInfo-dictionary.xml"/>
     </bean>
-    <bean id="planItemSetInfoDictionaryLocation" class="java.lang.String">
-        <constructor-arg value="classpath:ks-PlanItemSetInfo-dictionary.xml"/>
-    </bean>
-
     <bean name="academicPlanServiceDictionaryLocations" class="java.util.ArrayList">
         <constructor-arg>
             <list>
                 <bean parent="ksBaseDictionaryLocation" />
                 <bean parent="learningPlanInfoDictionaryLocation" />
                 <bean parent="planItemInfoDictionaryLocation" />
-                <bean parent="planItemSetInfoDictionaryLocation" />
             </list>
         </constructor-arg>
     </bean>
@@ -39,7 +34,6 @@
         	<list>
                 <bean parent="learningPlanInfoDictionaryLocation" />
                 <bean parent="planItemInfoDictionaryLocation" />
-                <bean parent="planItemSetInfoDictionaryLocation" />
                 <bean parent="auditReportInfoDictionaryLocation" />
             </list>
         </constructor-arg>

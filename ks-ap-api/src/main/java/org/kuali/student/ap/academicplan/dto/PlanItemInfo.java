@@ -1,33 +1,45 @@
+/*
+ * Copyright 2014 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
 package org.kuali.student.ap.academicplan.dto;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.ap.academicplan.infc.PlanItem;
-import org.kuali.student.ap.academicplan.service.AcademicPlanServiceConstants;
+import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.dto.TypeStateEntityInfo;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.w3c.dom.Element;
 
 /**
  * PlanItem message structure
  *
- * @Author kmuthu Date: 1/5/12
+ * @author Kuali Student Team
+ * @version 1.0 (Dev)
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "PlanItemInfo", propOrder = {"refObjectId", "refObjectType", "learningPlanId", "planPeriods", "id",
+@XmlType(name = "PlanItemInfo", propOrder = {"refObjectId", "refObjectType", "learningPlanId", "planTermIds", "id",
         "credit", "category", "typeKey", "stateKey", "name", "descr", "meta", "attributes", "_futureElements"})
 public class PlanItemInfo extends IdEntityInfo implements PlanItem {
 
@@ -45,7 +57,7 @@ public class PlanItemInfo extends IdEntityInfo implements PlanItem {
     private String learningPlanId;
 
     @XmlElement
-    private List<String> planPeriods;
+    private List<String> planTermIds;
 
     @XmlElement
     private BigDecimal credit;
@@ -58,13 +70,7 @@ public class PlanItemInfo extends IdEntityInfo implements PlanItem {
     private List<Element> _futureElements;
 
     public PlanItemInfo() {
-        this.setId(null);
-        this.setDescr(null);
-        this.refObjectId = null;
-        this.refObjectType = null;
-        this.learningPlanId = null;
-        this.planPeriods = new ArrayList<String>();
-        this._futureElements = null;
+        this.planTermIds = new ArrayList<String>();
     }
 
     public PlanItemInfo(PlanItem item) {
@@ -77,12 +83,12 @@ public class PlanItemInfo extends IdEntityInfo implements PlanItem {
             this.refObjectId = item.getRefObjectId();
             this.refObjectType = item.getRefObjectType();
             this.learningPlanId = item.getLearningPlanId();
-			this.credit = item.getCredit();
+			this.credit = item.getCredits();
             this.category = item.getCategory();
 
-			List<String> planPeriods = item.getPlanPeriods();
-			if (null != planPeriods) {
-				this.planPeriods = new ArrayList<String>(planPeriods);
+			List<String> planTermIds = item.getPlanTermIds();
+			if (null != planTermIds) {
+				this.planTermIds = new ArrayList<String>(planTermIds);
             }
 
             this.setDescr((null != item.getDescr()) ? new RichTextInfo(item.getDescr()) : null);
@@ -122,15 +128,15 @@ public class PlanItemInfo extends IdEntityInfo implements PlanItem {
         this.learningPlanId = learningPlanId;
     }
 
-    public List<String> getPlanPeriods() {
-        return planPeriods;
+    public List<String> getPlanTermIds() {
+        return planTermIds;
     }
 
-    public void setPlanPeriods(List<String> planPeriods) {
-        this.planPeriods = planPeriods;
+    public void setPlanTermIds(List<String> planTermIds) {
+        this.planTermIds = planTermIds;
     }
 
-     public BigDecimal getCredit() {
+     public BigDecimal getCredits() {
         return credit;
     }
 
