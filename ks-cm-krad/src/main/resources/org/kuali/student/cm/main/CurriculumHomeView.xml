@@ -50,18 +50,10 @@
                 <value>ks-curriculum-home</value>
             </list>
         </property>
-
-        <!-- CSS Styling -->
-        <property name="additionalCssFiles">
-            <list merge="true">
-                <value>ks-cm-krad/css/cm.css</value>
-            </list>
-        </property>
         <!-- Custom JavaScript -->
         <property name="additionalScriptFiles">
             <list merge="true">
                 <value>ks-cm-krad/scripts/jquery.jqEasyCharCounter.custom.js</value>
-                <value>ks-cm-krad/scripts/common.js</value>
             </list>
         </property>
     </bean>

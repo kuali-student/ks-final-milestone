@@ -91,4 +91,23 @@
       </property>
   </bean>
 
+    <!-- Override the default theme to include all the cm specific css/js.
+         This will load only if ks-cm profile is active.
+    -->
+    <bean id="KSTheme" abstract="true" parent="KSTheme-CM-parentBean"/>
+
+    <bean id="KSTheme-CM-parentBean" parent="KSTheme-parentBean">
+        <property name="minCssSourceFiles">
+            <list merge="true">
+                <value>themes/ksboot/stylesheets/cm.css</value>
+            </list>
+        </property>
+        <property name="minScriptSourceFiles">
+            <list merge="true">
+                <value>themes/ksboot/scripts/cm.js</value>
+                <value>themes/ksboot/scripts/jquery.jqEasyCharCounter.custom.js</value>
+            </list>
+        </property>
+    </bean>
+
 </beans>
