@@ -514,10 +514,6 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
     }
 
     public RoomService getRoomService() {
-        if (roomService == null){
-            roomService = GlobalResourceLoader.getService(new QName(RoomServiceConstants.NAMESPACE,
-                    RoomServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
         return roomService;
     }
 
