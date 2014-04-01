@@ -47,12 +47,13 @@ public class CourseRegistrationLprActionProcessor {
                             //The waitlist is full for this request
                             notifyWaitlistIsFull(message, contextInfo);
                         } else {
-                            if (doesStudentWantToWaitlist(message, contextInfo)) {
+                            if (doesStudentWantToWaitlist(message)) {
                                 //Add the student to the waitlist
                                 addStudentToWaitList(message, contextInfo);
+                            } else {
+                                //Notify waitlist is available
+                                notifyWaitlistAvailable(message, contextInfo);
                             }
-                            //Notify waitlist is available
-                            notifyWaitlistAvailable(message, contextInfo);
                         }
                     } else {
                         //Handle no waitlist available and no seats
@@ -129,7 +130,7 @@ public class CourseRegistrationLprActionProcessor {
                 contextInfo);
     }
 
-    private boolean doesStudentWantToWaitlist(RegistrationRequestItemEngineMessage message, ContextInfo contextInfo) {
+    private boolean doesStudentWantToWaitlist(RegistrationRequestItemEngineMessage message) {
         return BooleanUtils.toBoolean(message.getRequestItem().getOkToWaitlist());
     }
 
