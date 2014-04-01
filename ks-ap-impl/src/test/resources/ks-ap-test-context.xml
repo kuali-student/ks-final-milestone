@@ -25,6 +25,39 @@
     <import resource="classpath:META-INF/default-property-config-context-test.xml"/>
     <import resource="classpath:testKsapFrameworkInit-context.xml"/>
 
+    <import resource="classpath:ks-core-api-dictionary-file-locations.xml" />
+    <import resource="classpath:ks-academic-plan-dictionary-file-locations.xml" />
+    <import resource="classpath:ks-core-api-data-dictionary-validator-configuration.xml" />
+
+    <!-- set allDictionaryFileLocations to include ks-ap files as well -->
+    <bean id="allDictionaryFileLocations" class="org.kuali.student.common.spring.CollectionAggregatingFactoryBean">
+        <property name="collectionBeanReferences" >
+            <list>
+                <value>ks-core-dictionary-file-locations</value>
+                <value>ks-ap-dictionary-file-locations</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- redefine riceDataDictionaryService to take into account redifinition of allDictionaryFileLocations above -->
+    <bean id="riceDataDictionaryService" class="org.kuali.rice.krad.service.impl.DataDictionaryServiceImpl">
+        <constructor-arg>
+            <bean class="org.kuali.student.r2.common.datadictionary.SpringConfigurableDataDictionaryWithFakeEnvironment" init-method="init">
+                <property name="dataDictionaryMapper">
+                    <bean class="org.kuali.rice.krad.datadictionary.DataDictionaryIndexMapper"/>
+                </property>
+            </bean>
+        </constructor-arg>
+        <property name="kualiModuleService" ref="kualiModuleService" />
+        <property name="additionalDictionaryFiles">
+            <map>
+                <entry key="http://student.kuali.org/wsdl/datadictionary">
+                    <ref bean="allDictionaryFileLocations"/>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
     <!--<bean id="systemPropertyConfigurer"-->
           <!--class="org.kuali.student.common.util.SystemPropertyConfigurer">-->
         <!--<property name="properties" value="${propertiesPrefix.systemProperties}"/>-->

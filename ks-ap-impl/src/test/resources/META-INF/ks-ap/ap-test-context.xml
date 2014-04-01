@@ -32,7 +32,6 @@
         <property name="planItemDao" ref="planItemDao"/>
         <property name="nextDecorator" ref="academicPlanServiceImpl"/>
         <property name="validator" ref="validator"/>
-        <property name="dataDictionaryService" ref="dataDictionaryServiceForAcademicPlanService"/>
     </bean>
 
     <alias name="academicPlanServiceValidator" alias="academicPlanService" />
