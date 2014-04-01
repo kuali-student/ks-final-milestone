@@ -335,7 +335,7 @@
                                             </bean>
                                         </property>
                                         <property name="lightBoxLookup">
-                                            <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
+                                            <bean parent="Uif-LightBox" p:lookupReturnByScript="false"/>
                                         </property>
                                         <property name="dataObjectClassName" value="org.kuali.student.cm.course.form.CourseJointInfoWrapper"/>
                                         <property name="fieldConversions">
