@@ -518,10 +518,6 @@ jQuery.validator.addMethod("validInstructorNameAndID",
   it is valid input instructor */
 function compareInstructorNameInput(value, element) {
     var isValid;
-    if(event.type != "blur") {
-        return false;
-    }
-
     if(value == null || value.length < 2) {
         return false;
     }
