@@ -38,6 +38,7 @@ import org.kuali.student.r2.common.messenger.Messenger;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.ExamOfferingServiceConstants;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
+import org.kuali.student.r2.core.constants.RoomServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.process.krms.evaluator.KRMSEvaluator;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
@@ -366,6 +367,48 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
             } catch (Exception e) {
                 throw new RuntimeException("Error creating timeslot: " + timeSlot, e);
             }
+        } else {
+            try {
+
+                ScheduleRequestSetInfo schedulerequestSet = null;
+                for (ScheduleRequestSetInfo requestSet : requestSetList) {
+                    schedulerequestSet = requestSet;
+                }
+                List<ScheduleRequestInfo> scheduleRequestList = new ArrayList<ScheduleRequestInfo>();
+                scheduleRequestList = this.getSchedulingService().getScheduleRequestsByScheduleRequestSet(schedulerequestSet.getId(), context);
+                ScheduleRequestInfo scheduleRequestInfo = null;
+                ScheduleRequestComponentInfo scheduleRequestComponentInfo = null;
+                for (ScheduleRequestInfo scheduleRequest : scheduleRequestList) {
+                    for (ScheduleRequestComponentInfo scheduleRequestComponent : scheduleRequest.getScheduleRequestComponents()) {
+                        scheduleRequestComponentInfo = scheduleRequestComponent;
+                        scheduleRequestInfo = scheduleRequest;
+                        break;
+                    }
+                    break;
+                }
+
+                List<TimeSlotInfo> existingList = this.getSchedulingService().getTimeSlotsByDaysAndStartTimeAndEndTime(SchedulingServiceConstants.TIME_SLOT_TYPE_EXAM,
+                        timeSlot.getWeekdays(), timeSlot.getStartTime(), timeSlot.getEndTime(), context);
+                if (existingList.isEmpty()) {
+                    TimeSlotInfo createdTimeSlot = getSchedulingService().createTimeSlot(
+                            SchedulingServiceConstants.TIME_SLOT_TYPE_EXAM, timeSlot, context);
+                    componentInfo.getTimeSlotIds().add(createdTimeSlot.getId());
+                } else {
+                    for (TimeSlotInfo existing : existingList) {
+                        componentInfo.getTimeSlotIds().add(existing.getId());
+                        componentInfo.setId(scheduleRequestComponentInfo.getId());
+
+                    }
+                }
+
+                scheduleRequestInfo.getScheduleRequestComponents().clear();
+                scheduleRequestInfo.getScheduleRequestComponents().add(componentInfo);
+
+                this.getSchedulingService().updateScheduleRequest(
+                        scheduleRequestInfo.getId(), scheduleRequestInfo, context);
+            } catch (Exception e) {
+                throw new RuntimeException("Error creating timeslot: " + timeSlot, e);
+            }
         }
     }
 
@@ -471,6 +514,10 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
     }
 
     public RoomService getRoomService() {
+        if (roomService == null){
+            roomService = GlobalResourceLoader.getService(new QName(RoomServiceConstants.NAMESPACE,
+                    RoomServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
         return roomService;
     }
 
