@@ -36,7 +36,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="courseInfo.termsOffered"
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="courseInfo.termsOffered"
                       p:label="Term"
                       p:instructionalText="Selecting a single term will restrict this course to only that term. Any will allow the
 								course to be offered in any term that matches the duration selected below.">
@@ -178,7 +178,7 @@
                             p:addBlankOption="false" />
                     </property>
                 </bean>
-                <bean id="KS-FinalExamRationale" parent="Uif-InputField"
+                <bean id="KS-FinalExamRationale" parent="KS-Uif-InputField-LabelTop"
                       p:label="Final Exam Rationale" p:required="true"
                       p:progressiveRender="#dp.finalExamStatus eq 'None' or #dp.finalExamStatus eq 'ALT'"
                       p:propertyName="finalExamRationale">
@@ -208,7 +208,7 @@
         <property name="addLinePlacement" value="BOTTOM" />
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="typeKey"
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="typeKey"
                       p:label="Type" p:required="true" >
                     <property name="control">
                         <bean parent="Uif-DropdownControl"

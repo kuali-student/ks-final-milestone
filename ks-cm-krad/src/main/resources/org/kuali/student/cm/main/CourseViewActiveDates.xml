@@ -14,7 +14,7 @@
         <property name="headerText" value="Active Dates"/>
         <property name="items">
             <list>
-                <bean parent="Uif-KS-IconInputField-LabelTop" p:propertyName="startTerm" p:label="Start Term" >
+                <bean parent="Uif-KS-IconInputField" p:propertyName="startTerm" p:label="Start Term" >
                     <property name="control">
                         <bean parent="Uif-DropdownControl" />
                     </property>
@@ -24,7 +24,7 @@
                     </property>
                     <property name="fieldLabel.richLabelMessage.iconToolTipText" value="New Courses: This course will not neccessarily be acticated or offered this term, but will be eligible for scheduling on or after this term. Course Modifications: Any instances of the course offered on or after this term will reflect modifications."/>
                 </bean>
-                <bean parent="Uif-KS-IconInputField-LabelTop" p:propertyName="pilotCourse" p:label="Pilot Course"  p:id="CourseView-ActiveDatesPage-PilotCourse" >
+                <bean parent="Uif-KS-IconInputField" p:propertyName="pilotCourse" p:label="Pilot Course"  p:id="CourseView-ActiveDatesPage-PilotCourse" >
                     <property name="cssClasses">
                         <list merge="true">
                             <value>admin-not-required-field</value>
@@ -35,7 +35,7 @@
                     </property>
                     <property name="fieldLabel.richLabelMessage.iconToolTipText" value="If this is a pilot course, you must select an End Term"/>
                 </bean>
-                <bean parent="Uif-KS-IconInputField-LabelTop" p:propertyName="endTerm" p:label="End Term"   p:id="CourseView-ActiveDatesPage-EndTerm"
+                <bean parent="Uif-KS-IconInputField" p:propertyName="endTerm" p:label="End Term"   p:id="CourseView-ActiveDatesPage-EndTerm"
                       p:required="true" >
                     <property name="cssClasses">
                         <list merge="true">
