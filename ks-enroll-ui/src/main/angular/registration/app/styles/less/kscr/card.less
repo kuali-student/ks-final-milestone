@@ -235,7 +235,22 @@
     }
 }
 
+.cart-item-status-waitlist {
+  background-color: @warningBackground; //#F2DEDE;
+  border-color: @warningBorder;  //#EFD3D7;
+  color: @warningText; //#A3403C;
+  text-shadow: 0 .5px #fff;
 
+  -webkit-transition: @transition;
+  transition: @transition;
+
+  .kscr-cartResult-icon {
+    background-image: url("../images/validation/warning.png");
+  }
+  .kscr-Card-buttons {
+    display: none;
+  }
+}
 /*
 .panel.cart-item-status- .panel-heading .kscr-Card-icon {
     display:block;

@@ -10,8 +10,8 @@ angular.module('regCartApp')
         var processingStates = ['kuali.lpr.trans.item.state.processing','kuali.lpr.trans.state.processing'];
         var successStates = ['kuali.lpr.trans.state.succeeded', 'kuali.lpr.trans.item.state.succeeded'];
         var errorStates = ['kuali.lpr.trans.state.failed', 'kuali.lpr.trans.item.state.failed'];
+        var waitlistStates = ['kuali.lpr.trans.item.state.waitlist'];
         //var actionStates = ["", ""];
-
 
         this.getRegisteredCredits = function () {
             return registeredCredits;
@@ -46,6 +46,8 @@ angular.module('regCartApp')
                 retStatus = 'success';
             } else if(errorStates.indexOf(state) >= 0){
                 retStatus = 'error';
+            } else if(waitlistStates.indexOf(state) >= 0){
+                retStatus = 'waitlist';
             }
 
             return retStatus;
