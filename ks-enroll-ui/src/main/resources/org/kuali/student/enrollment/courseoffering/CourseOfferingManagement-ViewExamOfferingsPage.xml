@@ -165,7 +165,7 @@
                         </list>
                     </property>
                 </bean>
-                <bean parent="Uif-DataField-LabelTop" p:propertyName="typeName" p:label="Final Exam Driver Activity"
+                <bean parent="KS-Uif-DataField-LabelTop" p:propertyName="typeName" p:label="Final Exam Driver Activity"
                       p:render="@{#lp.driverPerAO}"/>
                 <bean parent="Uif-DataField" p:label="Days" p:propertyName="requestedSchedule.daysUI"/>
                 <bean parent="Uif-DataField" p:label="Start Time" p:propertyName="requestedSchedule.startTimeUI"/>
@@ -211,7 +211,7 @@
                         </list>
                     </property>
                 </bean>
-                <bean parent="Uif-DataField-LabelTop" p:propertyName="typeName" p:label="Final Exam Driver Activity" p:render="@{#lp.driverPerAO}"/>
+                <bean parent="KS-Uif-DataField-LabelTop" p:propertyName="typeName" p:label="Final Exam Driver Activity" p:render="@{#lp.driverPerAO}"/>
 
                 <bean parent="Uif-VerticalFieldGroup" p:label="Day">
                     <property name="items">
@@ -325,7 +325,7 @@
                                 <property name="quickfinder">
                                     <bean parent="Uif-QuickFinder">
                                         <property name="lightBoxLookup">
-                                            <bean parent="Uif-LightBoxPost">
+                                            <bean parent="Uif-LightBox">
                                                 <property name="lookupReturnByScript" value="true" />
                                             </bean>
                                         </property>
@@ -384,7 +384,7 @@
                                 <property name="quickfinder">
                                     <bean parent="Uif-QuickFinder">
                                         <property name="lightBoxLookup">
-                                            <bean parent="Uif-LightBoxPost">
+                                            <bean parent="Uif-LightBox">
                                                 <property name="lookupReturnByScript" value="true" />
                                             </bean>
                                         </property>
