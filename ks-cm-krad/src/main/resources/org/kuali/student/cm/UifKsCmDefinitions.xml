@@ -55,16 +55,19 @@
 
   <bean id="Uif-KS-IconInputField" parent="Uif-KS-IconInputField-parentBean" abstract="true"/>
   <bean id="Uif-KS-IconInputField-parentBean" abstract="true" parent="Uif-InputField-parentBean" scope="prototype">
-      <property name="requiredMessage.messageText" value=""/>
+      <!-- Rice 2.4 upgrade: requiredMessage got replaced by requiredIndicator -->
+      <!--<property name="requiredMessage.messageText" value=""/>-->
       <property name="fieldLabel.labelText" value="test"/> <!-- TODO: This is a workaround needed as KRAD not rendering the label if this is empty -->
       <property name="fieldLabel.richLabelMessage">
           <bean parent="Uif-KS-IconLabelMessage"/>
       </property>
   </bean>
 
+  <!-- Rice 2.4 upgrade: Uif-InputField-LabelTop is no longer available -->
   <bean id="Uif-KS-IconInputField-LabelTop" parent="Uif-KS-IconInputField-LabelTop-parentBean" abstract="true"/>
-  <bean id="Uif-KS-IconInputField-LabelTop-parentBean" abstract="true" parent="Uif-InputField-LabelTop-parentBean" scope="prototype">
-      <property name="fieldLabel.requiredMessage.messageText" value=""/>
+  <bean id="Uif-KS-IconInputField-LabelTop-parentBean" abstract="true" parent="Uif-InputField" scope="prototype">
+      <!-- Rice 2.4 upgrade: requiredMessage got replaced by requiredIndicator -->
+      <!--<property name="fieldLabel.requiredMessage.messageText" value=""/>-->
       <property name="fieldLabel.labelText" value="test"/> <!-- TODO: (KSCM-) This is a workaround needed as KRAD not rendering the label if it is empty -->
       <property name="fieldLabel.richLabelMessage">
             <bean parent="Uif-KS-IconLabelMessage"/>
