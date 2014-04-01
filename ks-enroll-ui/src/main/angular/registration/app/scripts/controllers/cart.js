@@ -132,7 +132,7 @@ angular.module('regCartApp')
         }
 
         $scope.cancelNewCartItem = function () {
-            $scope.newCcartItem = null;
+            $scope.newCartItem = null;
             $scope.showNew = false;
         };
 
