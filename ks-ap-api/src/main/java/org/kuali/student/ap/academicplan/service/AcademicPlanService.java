@@ -285,7 +285,6 @@ public interface AcademicPlanService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException the user (context.getUserId()) is not authorized to perform this operation
      * @throws DoesNotExistException a learning plan does not exist having the indicated plan id
-     * @throws AlreadyExistsException
      * @throws VersionMismatchException the version on the passed in plan was out of sync with the last saved version
      */
     public PlanItemInfo updatePlanItem(@WebParam(name = "planItemId") String planItemId,
