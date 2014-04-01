@@ -28,6 +28,10 @@ public class LprDao extends GenericEntityDao<LprEntity> {
         return em.createQuery("from LprEntity lpr where lpr.personId=:personId and lpr.personRelationTypeId=:typeKey").setParameter("personId", personId).setParameter("typeKey", typeKey).getResultList();
     }
 
+    @SuppressWarnings("unchecked")
+    public List<LprEntity> getLprsByMasterLprId(String masterLprId){
+        return em.createQuery("from LprEntity lpr where lpr.masterLprId=:masterLprId").setParameter("masterLprId", masterLprId).getResultList();
+    }
 
     @SuppressWarnings("unchecked")
     public List<LprEntity> getLprsByPerson(String personId){
