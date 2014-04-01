@@ -300,7 +300,7 @@
 }
 
 #course_tabs_tabs .ui-tabs-nav li {
-    /* Make the left corners round the the right ones square*/
+    /* Make the left corners round and the right ones square*/
 	-moz-border-radius-bottomleft: 5px;
     -moz-border-radius-topleft: 5px;
 	-moz-border-radius-bottomright: 0px;
@@ -321,7 +321,7 @@
 	padding-bottom: 6px;
 	padding-left: 15px;
 
-    /* Make the left corners round the the right ones square*/
+    /* Make the left corners round and the right ones square*/
     -moz-border-radius-bottomleft: 5px;
     -moz-border-radius-topleft: 5px;
 	-moz-border-radius-bottomright: 0px;
@@ -349,7 +349,7 @@
     cursor: pointer;
 }
 
-/*  Used to keep all of the tabs/sections visible in Curriculum Speicalist mode */
+/*  Used to keep all of the tabs/sections visible in Curriculum Specialist mode */
 .never_hide {
     display: block !important;
 }
@@ -358,6 +358,13 @@
 #course_tabs_tabs .uif-validationImage {
 	float: right;
 	padding-right: 5px;
+}
+
+/*  The required message text on course details */
+.cm-requiredMessage-text {
+    color: #888888;
+    font-style: italic;
+    font-size: 88%;
 }
 
 #course_review_details-panel  {
@@ -378,3 +385,45 @@
     float : left;
     clear : both;
 }
+
+/*
+ *  Review Proposal styling
+ */
+
+/* Remove the input styling */
+.review_readonly textarea:focus,
+.review_readonly input[type="text"]:focus {
+    outline: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    color: black;
+}
+
+.review_readonly textarea,
+.review_readonly input[type="text"] {
+    background: none;
+    border: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    -moz-transition: none;
+    -o-transition: none;
+    transition: none;
+	color: black;
+}
+
+.review_readonly textarea {
+    resize: none;
+}
+
+.course_review_details-table th,
+.course_review_details-table td,
+.course_review_details-table input {
+    padding: 2px 5px 0px 5px;
+}
+
+/* Move the labels down a smidge */
+.course_review_details-table .uif-gridLayout th[scope="row"] {
+    padding-top: 5px;
+}
+/* End */
