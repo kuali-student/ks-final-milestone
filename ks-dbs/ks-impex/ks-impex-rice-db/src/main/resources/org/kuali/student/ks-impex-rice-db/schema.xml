@@ -626,7 +626,7 @@
     <sequence name="KREW_ACTN_RQST_S" startValue="2369"/>
     <sequence name="KREW_ACTN_TKN_S" startValue="2329"/>
     <sequence name="KREW_ATTR_DEFN_S" startValue="10000"/>
-    <sequence name="KREW_DOC_HDR_S" startValue="3018"/>
+    <sequence name="KREW_DOC_HDR_S" startValue="3015"/>
     <sequence name="KREW_DOC_LNK_S" startValue="2000"/>
     <sequence name="KREW_DOC_NTE_S" startValue="2020"/>
     <sequence name="KREW_DOC_TYP_ATTR_S" startValue="2010"/>
@@ -638,8 +638,8 @@
     <sequence name="KREW_PPL_FLW_MBR_S" startValue="10000"/>
     <sequence name="KREW_PPL_FLW_S" startValue="10000"/>
     <sequence name="KREW_RSP_S" startValue="2065"/>
-    <sequence name="KREW_RTE_NODE_CFG_PARM_S" startValue="2530"/>
-    <sequence name="KREW_RTE_NODE_S" startValue="2939"/>
+    <sequence name="KREW_RTE_NODE_CFG_PARM_S" startValue="2485"/>
+    <sequence name="KREW_RTE_NODE_S" startValue="2923"/>
     <sequence name="KREW_RTE_TMPL_S" startValue="1645"/>
     <sequence name="KREW_RULE_EXPR_S" startValue="2002"/>
     <sequence name="KREW_RULE_TMPL_OPTN_S" startValue="2020"/>
@@ -647,32 +647,32 @@
     <sequence name="KREW_TYP_ATTR_S" startValue="10000"/>
     <sequence name="KREW_TYP_S" startValue="10000"/>
     <sequence name="KREW_USR_S" startValue="100000000000"/>
-    <sequence name="KRIM_ATTR_DATA_ID_S" startValue="10007"/>
+    <sequence name="KRIM_ATTR_DATA_ID_S" startValue="10015"/>
     <sequence name="KRIM_ATTR_DEFN_ID_S" startValue="10003"/>
     <sequence name="KRIM_DLGN_ID_S" startValue="10000"/>
     <sequence name="KRIM_DLGN_MBR_ID_S" startValue="10000"/>
     <sequence name="KRIM_ENTITY_ADDR_ID_S" startValue="10000"/>
-    <sequence name="KRIM_ENTITY_AFLTN_ID_S" startValue="10000"/>
+    <sequence name="KRIM_ENTITY_AFLTN_ID_S" startValue="10001"/>
     <sequence name="KRIM_ENTITY_CTZNSHP_ID_S" startValue="10000"/>
     <sequence name="KRIM_ENTITY_EMAIL_ID_S" startValue="10000"/>
     <sequence name="KRIM_ENTITY_EMP_ID_S" startValue="10000"/>
     <sequence name="KRIM_ENTITY_ETHNIC_ID_S" startValue="10000"/>
     <sequence name="KRIM_ENTITY_EXT_ID_ID_S" startValue="10000"/>
     <sequence name="KRIM_ENTITY_ID_S" startValue="10000"/>
-    <sequence name="KRIM_ENTITY_NM_ID_S" startValue="10000"/>
+    <sequence name="KRIM_ENTITY_NM_ID_S" startValue="10001"/>
     <sequence name="KRIM_ENTITY_PHONE_ID_S" startValue="10000"/>
     <sequence name="KRIM_ENTITY_RESIDENCY_ID_S" startValue="10000"/>
     <sequence name="KRIM_ENTITY_VISA_ID_S" startValue="10000"/>
     <sequence name="KRIM_GRP_ATTR_DATA_ID_S" startValue="10000"/>
     <sequence name="KRIM_GRP_ID_S" startValue="10000"/>
     <sequence name="KRIM_GRP_MBR_ID_S" startValue="10000"/>
-    <sequence name="KRIM_PERM_ID_S" startValue="10007"/>
+    <sequence name="KRIM_PERM_ID_S" startValue="10012"/>
     <sequence name="KRIM_PERM_RQRD_ATTR_ID_S" startValue="10000"/>
-    <sequence name="KRIM_PERM_TMPL_ID_S" startValue="10002"/>
+    <sequence name="KRIM_PERM_TMPL_ID_S" startValue="10003"/>
     <sequence name="KRIM_PRNCPL_ID_S" startValue="10000"/>
     <sequence name="KRIM_ROLE_ID_S" startValue="10003"/>
-    <sequence name="KRIM_ROLE_MBR_ID_S" startValue="10005"/>
-    <sequence name="KRIM_ROLE_PERM_ID_S" startValue="10008"/>
+    <sequence name="KRIM_ROLE_MBR_ID_S" startValue="10006"/>
+    <sequence name="KRIM_ROLE_PERM_ID_S" startValue="10015"/>
     <sequence name="KRIM_ROLE_RSP_ACTN_ID_S" startValue="10000"/>
     <sequence name="KRIM_ROLE_RSP_ID_S" startValue="10000"/>
     <sequence name="KRIM_RSP_ID_S" startValue="10000"/>
@@ -6369,7 +6369,7 @@
             <size value="1"/>
         </column>
         <column name="ATTR_DEFN_ID" nullable="false" primaryKey="true" type="STRING">
-            <size value="40"/>
+            <size value="255"/>
         </column>
         <column name="CMPNT_NM" type="STRING">
             <size value="100"/>
@@ -7072,7 +7072,7 @@
             <size value="1"/>
         </column>
         <column name="ATTR_DEFN_ID" nullable="false" type="STRING">
-            <size value="40"/>
+            <size value="255"/>
         </column>
         <column name="SEQ_NO" nullable="false" type="FLOAT">
             <size value="5"/>
@@ -7959,32 +7959,6 @@
         </column>
         <column name="SVC_DSCRPTR_ID" nullable="false" primaryKey="true" type="STRING">
             <size value="40"/>
-        </column>
-    </table>
-    <table name="KRTST_TEST_DISABLE_NO_VER_T">
-        <column name="ID" nullable="false" primaryKey="true" type="STRING">
-            <size value="10"/>
-        </column>
-        <column name="OBJ_ID" nullable="false" type="STRING">
-            <size value="36"/>
-        </column>
-        <column name="STR_PROP" type="STRING">
-            <size value="40"/>
-        </column>
-    </table>
-    <table name="KRTST_TEST_DISABLE_VER_T">
-        <column name="ID" nullable="false" primaryKey="true" type="STRING">
-            <size value="10"/>
-        </column>
-        <column name="OBJ_ID" nullable="false" type="STRING">
-            <size value="36"/>
-        </column>
-        <column name="STR_PROP" type="STRING">
-            <size value="40"/>
-        </column>
-        <column name="VER_NBR" nullable="false" type="FLOAT">
-            <defaultValue>1 </defaultValue>
-            <size value="8"/>
         </column>
     </table>
     <view name="KRIM_GRP_MBR_V">
