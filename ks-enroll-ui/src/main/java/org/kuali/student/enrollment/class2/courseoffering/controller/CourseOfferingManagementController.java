@@ -47,10 +47,14 @@ import org.kuali.student.enrollment.class2.courseoffering.util.RegistrationGroup
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.common.util.security.ContextUtils;
+import org.kuali.student.enrollment.examoffering.dto.ExamOfferingInfo;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.util.TimeOfDayHelper;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
+import org.kuali.student.r2.common.util.constants.ExamOfferingServiceConstants;
 import org.kuali.student.r2.core.acal.dto.ExamPeriodInfo;
 import org.kuali.student.r2.core.class1.search.CourseOfferingManagementSearchImpl;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
@@ -1028,6 +1032,12 @@ public class CourseOfferingManagementController extends UifControllerBase {
                     throw new OperationFailedException("Error updating Exam Offering Request Scheduling Information" + " " + statusInfo);
                 }
 
+                //save exam offering matrix overriding flag
+                statusInfo = saveExamOfferingOverrideMatrixFlag(eoWrapper);
+                if (!statusInfo.getIsSuccess()){
+                    throw new OperationFailedException("Error saving Exam Offering Matrix Overriding flag" + " " + statusInfo);
+                }
+
                 // reset the UI fields in the wrapper so that they will be refreshed after update
                 int firstScheduleComponentIndex = 0;
                 ScheduleWrapper scheduleWrapper = eoWrapper.getRequestedScheduleComponents().get(firstScheduleComponentIndex);
@@ -1094,6 +1104,12 @@ public class CourseOfferingManagementController extends UifControllerBase {
                     throw new OperationFailedException("Error updating Exam Offering Request Scheduling Information" + " " + statusInfo);
                 }
 
+                //save exam offering matrix overriding flag
+                statusInfo = saveExamOfferingOverrideMatrixFlag(eoWrapper);
+                if (!statusInfo.getIsSuccess()){
+                    throw new OperationFailedException("Error saving Exam Offering Matrix Overriding flag" + " " + statusInfo);
+                }
+
                 // reset the UI fields in the wrapper so that they will be refreshed after update
                 int firstScheduleComponentIndex = 0;
                 ScheduleWrapper scheduleWrapper = eoWrapper.getRequestedScheduleComponents().get(firstScheduleComponentIndex);
@@ -1117,6 +1133,41 @@ public class CourseOfferingManagementController extends UifControllerBase {
             throw new RuntimeException("Invalid type. Does not support for now");
         }
         return requestedSchedule;
+    }
+
+    private StatusInfo saveExamOfferingOverrideMatrixFlag (ExamOfferingWrapper eoWrapper) {
+        AttributeInfo attributeInfo = this.getExamOfferingAttributeForKey(eoWrapper.getEoInfo(), ExamOfferingServiceConstants.EXAM_OFFERING_MATRIX_OVERRIDE_ATTR);
+        ExamOfferingInfo eoInfo;
+        if (attributeInfo != null) {
+            attributeInfo.setValue(String.valueOf(eoWrapper.isOverrideMatrix()));
+        } else {
+            attributeInfo = createAttribute(ExamOfferingServiceConstants.EXAM_OFFERING_MATRIX_OVERRIDE_ATTR, String.valueOf(eoWrapper.isOverrideMatrix()));
+            eoWrapper.getEoInfo().getAttributes().add(attributeInfo);
+        }
+
+        try {
+            eoInfo = CourseOfferingManagementUtil.getExamOfferingService().updateExamOffering(eoWrapper.getEoInfo().getId(), eoWrapper.getEoInfo(), ContextUtils.createDefaultContextInfo());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        eoWrapper.setEoInfo(eoInfo);
+        return new StatusInfo();
+    }
+
+    private AttributeInfo getExamOfferingAttributeForKey(ExamOfferingInfo eoInfo, String key) {
+        for (AttributeInfo info : eoInfo.getAttributes()) {
+            if (info.getKey().equals(key)) {
+                return info;
+            }
+        }
+        return null;
+    }
+    private AttributeInfo createAttribute(String key, String value) {
+        AttributeInfo newAttr = new AttributeInfo();
+        newAttr.setKey(key);
+        newAttr.setValue(value);
+        return newAttr;
     }
 
 }

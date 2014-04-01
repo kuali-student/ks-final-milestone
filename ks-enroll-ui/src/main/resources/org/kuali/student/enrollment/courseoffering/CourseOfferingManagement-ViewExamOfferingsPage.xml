@@ -213,6 +213,26 @@
                 </bean>
                 <bean parent="Uif-DataField-LabelTop" p:propertyName="typeName" p:label="Final Exam Driver Activity" p:render="@{#lp.driverPerAO}"/>
 
+                <bean parent="Uif-VerticalFieldGroup" p:label="Override Matrix">
+                    <property name="items">
+                        <list>
+                            <bean id="eoOverrideMatrix" parent="Uif-InputField" p:propertyName="overrideMatrix" p:required="true">
+                                <property name="additionalCssClasses">
+                                    <list merge="true">
+                                        <value>off</value>
+                                        <value>toggleable-element</value>
+                                    </list>
+                                </property>
+                                <property name="readOnly" value="false"/>
+                                <property name="control">
+                                    <bean parent="Uif-CheckboxControl"/>
+                                </property>
+                            </bean>
+
+                        </list>
+                    </property>
+                </bean>
+
                 <bean parent="Uif-VerticalFieldGroup" p:label="Day">
                     <property name="items">
                         <list>
@@ -430,7 +450,7 @@
                               p:source="" p:cssClasses="ks-fontello-icon-pencil"/>
                     </property>
                 </bean>
-                <bean id="EO-toggleUpdateButton" parent="KS-Uif-ActionLink" p:actionLabel="" p:additionalCssClasses="toggleable-element off" p:actionScript="saveRSI(event, '@{#ConfigProperties['application.url']}');">
+                <bean id="EO-toggleUpdateButton" parent="KS-Uif-ActionLink" p:actionLabel="" p:additionalCssClasses="toggleable-element off" p:methodToCall="saveExamOfferingRSI">
                     <property name="actionImage">
                         <bean parent="Uif-Image" p:altText="Update" p:title="Update"
                               p:source="" p:cssClasses="ks-fontello-icon-floppy"/>
