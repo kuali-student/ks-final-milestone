@@ -42,6 +42,7 @@
 
 
     </bean>
-    <bean id="cluFixer" class="org.kuali.student.enrollment.class2.courseoffering.refdata.CluFixer"/>
+    <!-- Rice 2.4 upgrade: CluFixer is an interface and cannot be instantiated -->
+    <!--<bean id="cluFixer" class="org.kuali.student.enrollment.class2.courseoffering.refdata.CluFixer"/>-->
 
 </beans>
