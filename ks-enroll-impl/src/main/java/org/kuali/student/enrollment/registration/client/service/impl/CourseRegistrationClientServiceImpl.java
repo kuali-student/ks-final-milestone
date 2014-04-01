@@ -14,6 +14,7 @@ import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemResultInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.registration.client.service.CourseRegistrationClientService;
+import org.kuali.student.enrollment.registration.client.service.CourseRegistrationClientServiceConstants;
 import org.kuali.student.enrollment.registration.client.service.dto.ActivityOfferingScheduleComponentResult;
 import org.kuali.student.enrollment.registration.client.service.dto.InstructorSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
@@ -858,13 +859,33 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
             if (lprTransactionItemResultInfo != null) {
                 //resultItem.setStatus(lprTransactionItemResultInfo.getStatus()); // the status is currently boolean. not usable. use state for now
                 resultItem.setMessage(lprTransactionItemResultInfo.getMessage());
+                if (lprTransactionItemResultInfo.getMessage() != null) {
+                    if (StringUtils.equals(lprTransactionItemResultInfo.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_MESSAGE_KEY)) {
+                        resultItem.setMessage(CourseRegistrationClientServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_MESSAGE);
+                        resultItem.setState(LprServiceConstants.LPRTRANS_ITEM_WAITLIST_STATE_KEY);
+                    } else if (StringUtils.equals(lprTransactionItemResultInfo.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_STUDENT_REMOVED_MESSAGE_KEY)) {
+                        resultItem.setMessage(CourseRegistrationClientServiceConstants.LPRTRANS_ITEM_WAITLIST_STUDENT_REMOVED_MESSAGE);
+                    } else if (StringUtils.equals(lprTransactionItemResultInfo.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_OPTIONS_UPDATED_MESSAGE_KEY)) {
+                        resultItem.setMessage(CourseRegistrationClientServiceConstants.LPRTRANS_ITEM_WAITLIST_OPTIONS_UPDATED_MESSAGE);
+                    } else if (StringUtils.equals(lprTransactionItemResultInfo.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_WAITLISTED_MESSAGE_KEY)) {
+                        resultItem.setMessage(CourseRegistrationClientServiceConstants.LPRTRANS_ITEM_WAITLIST_WAITLISTED_MESSAGE);
+                    } else if (StringUtils.equals(lprTransactionItemResultInfo.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_FULL_MESSAGE_KEY)) {
+                        resultItem.setMessage(CourseRegistrationClientServiceConstants.LPRTRANS_ITEM_WAITLIST_FULL_MESSAGE);
+                    } else if (StringUtils.equals(lprTransactionItemResultInfo.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_NOT_OFFERED_MESSAGE_KEY)) {
+                        resultItem.setMessage(CourseRegistrationClientServiceConstants.LPRTRANS_ITEM_WAITLIST_NOT_OFFERED_MESSAGE);
+                    } else if (StringUtils.equals(lprTransactionItemResultInfo.getMessage(), LprServiceConstants.LPRTRANS_ITEM_COURSE_UPDATED_MESSAGE_KEY)) {
+                        resultItem.setMessage(CourseRegistrationClientServiceConstants.LPRTRANS_ITEM_COURSE_UPDATED_MESSAGE);
+                    } else if (StringUtils.equals(lprTransactionItemResultInfo.getMessage(), LprServiceConstants.LPRTRANS_ITEM_COURSE_DROPPED_MESSAGE_KEY)) {
+                        resultItem.setMessage(CourseRegistrationClientServiceConstants.LPRTRANS_ITEM_COURSE_DROPPED_MESSAGE);
+                    } else if (StringUtils.equals(lprTransactionItemResultInfo.getMessage(), LprServiceConstants.LPRTRANS_ITEM_PERSON_REGISTERED_MESSAGE_KEY)) {
+                        resultItem.setMessage(CourseRegistrationClientServiceConstants.LPRTRANS_ITEM_PERSON_REGISTERED_MESSAGE);
+                    }
+                }
                 resultItem.setResultingLprId(lprTransactionItemResultInfo.getResultingLprId());
-
             }
 
             result.getResponseItemResults().add(resultItem);
         }
-
 
         return result;
     }

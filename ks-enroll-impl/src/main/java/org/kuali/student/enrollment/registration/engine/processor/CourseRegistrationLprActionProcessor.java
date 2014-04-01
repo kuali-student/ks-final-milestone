@@ -89,7 +89,7 @@ public class CourseRegistrationLprActionProcessor {
                 requestItemEngineMessage.getRequestItem().getId(),
                 LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY,
                 registrationRequestItem.getExistingCourseRegistrationId(),
-                LprServiceConstants.LPRTRANS_ITEM_WAITLIST_STUDENT_REMOVED_MESSAGE,
+                LprServiceConstants.LPRTRANS_ITEM_WAITLIST_STUDENT_REMOVED_MESSAGE_KEY,
                 true,
                 contextInfo);
     }
@@ -102,7 +102,7 @@ public class CourseRegistrationLprActionProcessor {
                 requestItemEngineMessage.getRequestItem().getId(),
                 LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY,
                 registrationRequestItem.getExistingCourseRegistrationId(),
-                LprServiceConstants.LPRTRANS_ITEM_WAITLIST_OPTIONS_UPDATED_MESSAGE,
+                LprServiceConstants.LPRTRANS_ITEM_WAITLIST_OPTIONS_UPDATED_MESSAGE_KEY,
                 true,
                 contextInfo);
     }
@@ -112,7 +112,7 @@ public class CourseRegistrationLprActionProcessor {
                 message.getRequestItem().getId(),
                 LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY,
                 null,
-                LprServiceConstants.LPRTRANS_ITEM_SEAT_UNAVAILABLE_MESSAGE,
+                LprServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_MESSAGE_KEY,
                 false,
                 contextInfo);
     }
@@ -125,7 +125,7 @@ public class CourseRegistrationLprActionProcessor {
                 requestItemEngineMessage.getRequestItem().getId(),
                 LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY,
                 masterLprId,
-                LprServiceConstants.LPRTRANS_ITEM_WAITLISTED_MESSAGE,
+                LprServiceConstants.LPRTRANS_ITEM_WAITLIST_WAITLISTED_MESSAGE_KEY,
                 true,
                 contextInfo);
     }
@@ -139,7 +139,7 @@ public class CourseRegistrationLprActionProcessor {
                 message.getRequestItem().getId(),
                 LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY,
                 null,
-                LprServiceConstants.LPRTRANS_ITEM_WAITLIST_FULL_MESSAGE,
+                LprServiceConstants.LPRTRANS_ITEM_WAITLIST_FULL_MESSAGE_KEY,
                 false,
                 contextInfo);
     }
@@ -188,7 +188,7 @@ public class CourseRegistrationLprActionProcessor {
                 message.getRequestItem().getId(),
                 LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY,
                 registrationRequestItem.getExistingCourseRegistrationId(),
-                LprServiceConstants.LPRTRANS_ITEM_COURSE_UPDATED_MESSAGE,
+                LprServiceConstants.LPRTRANS_ITEM_COURSE_UPDATED_MESSAGE_KEY,
                 true,
                 contextInfo);
     }
@@ -200,7 +200,7 @@ public class CourseRegistrationLprActionProcessor {
                 message.getRequestItem().getId(),
                 LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY,
                 registrationRequestItem.getExistingCourseRegistrationId(),
-                LprServiceConstants.LPRTRANS_ITEM_COURSE_DROPPED_MESSAGE,
+                LprServiceConstants.LPRTRANS_ITEM_COURSE_DROPPED_MESSAGE_KEY,
                 true,
                 contextInfo);
     }
@@ -210,7 +210,7 @@ public class CourseRegistrationLprActionProcessor {
                 message.getRequestItem().getId(),
                 LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY,
                 null,
-                LprServiceConstants.LPRTRANS_ITEM_WAITLIST_NOT_OFFERED_MESSAGE,
+                LprServiceConstants.LPRTRANS_ITEM_WAITLIST_NOT_OFFERED_MESSAGE_KEY,
                 false,
                 contextInfo);
     }
@@ -223,7 +223,7 @@ public class CourseRegistrationLprActionProcessor {
                 message.getRequestItem().getId(),
                 LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY,
                 masterLprId,
-                LprServiceConstants.LPRTRANS_ITEM_PERSON_REGISTERED_MESSAGE,
+                LprServiceConstants.LPRTRANS_ITEM_PERSON_REGISTERED_MESSAGE_KEY,
                 true,
                 contextInfo);
     }
