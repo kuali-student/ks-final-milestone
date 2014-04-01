@@ -23,7 +23,7 @@
         <property name="headerText" value="Governance"/>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="courseInfo.campusLocations" p:label="Campus Locations"
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="courseInfo.campusLocations" p:label="Campus Locations"
                       p:instructionalText="" p:width="auto" >
                     <property name="control">
                         <bean parent="Uif-VerticalCheckboxesControl" />
@@ -41,7 +41,7 @@
                     <property name="refreshWhenChangedPropertyNames" value="#dp.dataObject.courseInfo.subjectArea"/>
                     <property name="items">
                         <list>
-                            <bean id="KS-Course-CurriculumOversight-input-field" parent="Uif-InputField-LabelTop"
+                            <bean id="KS-Course-CurriculumOversight-input-field" parent="KS-Uif-InputField-LabelTop"
                                   p:propertyName="unitsContentOwnerToAdd" >
                                 <property name="optionsFinder">
                                     <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.OrgsBySubjectCodeValuesFinder"
@@ -148,8 +148,8 @@
                             <property name="quickfinderAction">
                                 <bean parent="Uif-ActionLink" p:actionLabel="Advanced Search" p:style="display:block" p:methodToCall="performLookup" p:evaluateDisabledOnKeyUp="true" />
                             </property>
-                            <property name="lightBoxLookup">
-                                <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
+                            <property name="lightBox">
+                                <bean parent="Uif-LightBox" p:lookupReturnByScript="false"/>
                             </property>
                         </bean>
                     </property>

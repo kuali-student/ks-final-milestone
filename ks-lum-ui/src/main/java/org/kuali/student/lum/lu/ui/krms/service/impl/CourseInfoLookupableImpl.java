@@ -16,7 +16,7 @@
 package org.kuali.student.lum.lu.ui.krms.service.impl;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.krad.web.form.LookupForm;
+import org.kuali.rice.krad.lookup.LookupForm;
 import org.kuali.student.common.uif.service.impl.KSLookupableImpl;
 import org.kuali.student.lum.lu.ui.krms.util.CluSearchUtil;
 import org.kuali.student.common.util.security.ContextUtils;
@@ -67,13 +67,13 @@ public class CourseInfoLookupableImpl extends KSLookupableImpl {
     }
 
     @Override
-    protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
+    public List<?> performSearch(LookupForm lookupForm, Map<String, String> searchCriteria, boolean bounded) {
 
         List<SearchParamInfo> searchParams = new ArrayList<SearchParamInfo>();
         searchParams.add(CluSearchUtil.getTypeSearchParamForCourse());
         searchParams.add(CluSearchUtil.getApprovedStateSearchParam());
         for (QueryParamEnum qpEnum : QueryParamEnum.values()) {
-            String fieldValue = fieldValues.get(qpEnum.getFieldValue());
+            String fieldValue = searchCriteria.get(qpEnum.getFieldValue());
             if ( ! isEmpty(fieldValue) ) {
                 SearchParamInfo qpv = new SearchParamInfo();
                 qpv.setKey(qpEnum.getQueryKey());

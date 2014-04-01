@@ -69,7 +69,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField-LabelRight" id="KS-createCourseInitialPage-CMStartOptions" p:propertyName="createCourseInitialAction"
+                <bean parent="KS-Uif-InputField" id="KS-createCourseInitialPage-CMStartOptions" p:propertyName="createCourseInitialAction"
                       p:required="true" p:bindingInfo.bindToForm="true"
                       p:style="padding-top: 18px;" p:defaultValue="startBlankProposal">
                     <property name="control">
@@ -83,7 +83,7 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField-LabelRight" id="KS-createCourseInitialPage-StartOptions" p:propertyName="createCourseInitialAction"
+                <bean parent="KS-Uif-InputField" id="KS-createCourseInitialPage-StartOptions" p:propertyName="createCourseInitialAction"
                       p:required="true" p:bindingInfo.bindToForm="true"    p:render="false"
                       p:style="padding-top: 18px;" p:defaultValue="startBlankProposal">
                     <property name="control">
@@ -115,13 +115,11 @@
         <property name="items">
             <list>
                 <bean id="createCourseInitial_is_reviewProcess"
-                      parent="Uif-InputField-LabelRight"
-                      p:label="Use curriculum review process"
-                      p:fieldLabel.cssClasses="label-normal"
+                      parent="KS-Uif-InputField"
                       p:propertyName="useReviewProcess" p:bindingInfo.bindToForm="true"
                       p:required="false">
                     <property name="control">
-                        <bean parent="Uif-CheckboxControl" p:style="margin-left: 6px;"/>
+                        <bean parent="Uif-CheckboxControl" p:style="margin-left: 6px;" p:checkboxLabel="Use curriculum review process"/>
                     </property>
                 </bean>
             </list>

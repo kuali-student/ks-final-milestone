@@ -63,14 +63,14 @@
         </property>
         <property name="items">
             <list>
-                <bean id="KS-DurationTypeDropDown" parent="Uif-InputField-LabelTop"
+                <bean id="KS-DurationTypeDropDown" parent="KS-Uif-InputField-LabelTop"
                       p:propertyName="courseInfo.duration.atpDurationTypeKey" p:label="Duration Type"
                       p:optionsFinderClass="org.kuali.student.lum.lu.ui.course.keyvalues.DurationTypeKeyValueFinder">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" />
                     </property>
                 </bean>
-                <bean id="KS-DurationTimeQuantity-Field" parent="Uif-InputField-LabelTop"
+                <bean id="KS-DurationTimeQuantity-Field" parent="KS-Uif-InputField-LabelTop"
                       p:label="Durantion Count" p:propertyName="courseInfo.duration.timeQuantity">
                     <property name="validCharactersConstraint">
                         <bean parent="NumericPatternConstraint" />
@@ -128,7 +128,7 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="courseInfo.gradingOptions" p:showLabel="false" >
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="courseInfo.gradingOptions" p:showLabel="false" >
                     <property name="control">
                         <bean parent="Uif-VerticalCheckboxesControl" />
                     </property>
@@ -148,13 +148,13 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="audit"
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="audit"
                       p:label="Audit" >
                     <property name="control">
                         <bean parent="Uif-CheckboxControl" p:checkboxLabel="This course can be audited" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="passFail" p:label="Pass Fail Transcript Grade" >
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="passFail" p:label="Pass Fail Transcript Grade" >
                     <property name="control">
                         <bean parent="Uif-CheckboxControl" p:checkboxLabel="This course will have a student selectable pass/fail option" />
                     </property>
@@ -167,7 +167,7 @@
           parent="Uif-VerticalBoxSection" p:headerText="Final Exam">
         <property name="items">
             <list>
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="finalExamStatus"
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="finalExamStatus"
                       p:label="Final Exam Status" >
                     <property name="constraintText" value="Required on Submit" />
                     <property name="control">
@@ -227,21 +227,21 @@
                         </bean>
                     </property>
                 </bean>
-                <bean id="fixedCreditVale" parent="Uif-InputField-LabelTop"
+                <bean id="fixedCreditVale" parent="KS-Uif-InputField-LabelTop"
                       p:render="@{#lp.typeKey eq 'kuali.result.values.group.type.fixed'}"
                       p:label="Credit Value" p:propertyName="resultValueRange.minValue">
                     <property name="validCharactersConstraint">
                         <bean parent="NumericPatternConstraint" />
                     </property>
                 </bean>
-                <bean  id="MinRangeCreditVale" parent="Uif-InputField-LabelTop"
+                <bean  id="MinRangeCreditVale" parent="KS-Uif-InputField-LabelTop"
                        p:render="@{#lp.typeKey eq 'kuali.result.values.group.type.range'}"
                        p:label="Minimum Credit Value" p:propertyName="resultValueRange.minValue">
                     <property name="validCharactersConstraint">
                         <bean parent="NumericPatternConstraint" />
                     </property>
                 </bean>
-                <bean id="MaxRangeCreditVale" parent="Uif-InputField-LabelTop"
+                <bean id="MaxRangeCreditVale" parent="KS-Uif-InputField-LabelTop"
                       p:render="@{#lp.typeKey eq 'kuali.result.values.group.type.range'}"
                       p:label="Maximum Credit Value" p:propertyName="resultValueRange.maxValue">
                     <property name="validCharactersConstraint">
@@ -265,7 +265,7 @@
                     <property name="addLineLabel.messageText" value=" " />
                     <property name="items">
                         <list>
-                            <bean id="outcome-multiple-credit" parent="Uif-InputField-LabelTop" p:label="Credit Value"
+                            <bean id="outcome-multiple-credit" parent="KS-Uif-InputField-LabelTop" p:label="Credit Value"
                                   p:propertyName="creditValueDisplay">
                                 <property name="validCharactersConstraint">
                                     <bean parent="NumericPatternConstraint" />
@@ -322,7 +322,7 @@
                               value="Activity @{(#index + 1)}" />
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField-LabelTop" p:propertyName="typeKey"
+                            <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="typeKey"
                                   p:required="true" p:label="Activity Type"
                                   p:optionsFinderClass="org.kuali.student.lum.lu.ui.course.keyvalues.ActivityTypeKeyValueFinder" >
                                 <property name="control">
@@ -332,7 +332,7 @@
                             <bean parent="Uif-HorizontalFieldGroup">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-InputField-LabelTop" p:label="Contacted Hours"
+                                        <bean parent="KS-Uif-InputField-LabelTop" p:label="Contacted Hours"
                                               p:required="false" p:propertyName="contactHours.unitQuantity" >
                                             <property name="validCharactersConstraint">
                                                 <bean parent="NumericPatternConstraint" />
@@ -354,7 +354,7 @@
                                     </list>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField-LabelTop" p:propertyName="contactHours.unitTypeKey"
+                            <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="contactHours.unitTypeKey"
                                   p:label="Frequency" p:required="false"
                                   p:optionsFinderClass="org.kuali.student.lum.lu.ui.course.keyvalues.FrequencyKeyValueFinder" >
                                 <property name="control">
@@ -383,7 +383,7 @@
                             <bean parent="Uif-HorizontalFieldGroup">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-InputField-LabelTop" p:label="Anticipated Class Size"
+                                        <bean parent="KS-Uif-InputField-LabelTop" p:label="Anticipated Class Size"
                                               p:propertyName="defaultEnrollmentEstimate">
                                             <property name="validCharactersConstraint">
                                                 <bean parent="NumericPatternConstraint" />

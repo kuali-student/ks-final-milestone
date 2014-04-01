@@ -78,7 +78,7 @@
                                     </bean>
                                 </property>
                             </bean>
-                            <bean id="KS-PermissionDropDown" parent="Uif-InputField" p:propertyName="permission" p:labelPlacement="TOP"
+                            <bean id="KS-PermissionDropDown" parent="KS-Uif-InputField-LabelTop" p:propertyName="permission"
                                   p:label="Permission" p:required="true" >
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl" >
@@ -92,7 +92,7 @@
                                     </bean>
                                 </property>
                             </bean>
-                            <bean id="KS-ActionRequestDropDown" parent="Uif-InputField" p:propertyName="action" p:labelPlacement="TOP"
+                            <bean id="KS-ActionRequestDropDown" parent="KS-Uif-InputField-LabelTop" p:propertyName="action"
                                   p:label="Action Required" p:required="true" p:style="width:10em" >
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl"  >
@@ -104,7 +104,7 @@
                                     </bean>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="author" p:label="Author Notation" p:labelPlacement="TOP" p:style="width:9em">
+                            <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="author" p:label="Author Notation" p:style="width:9em">
                                 <property name="control">
                                     <bean parent="Uif-CheckboxControl" p:checkboxLabel="Add Author Notation" />
                                 </property>

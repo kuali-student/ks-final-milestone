@@ -27,6 +27,7 @@ import org.kuali.rice.kim.api.identity.entity.EntityDefaultQueryResults;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.lookup.LookupForm;
 import org.kuali.rice.krad.maintenance.MaintenanceDocumentBase;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.uif.UifConstants;
@@ -35,7 +36,6 @@ import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
-import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.form.CourseInfoWrapper;
 import org.kuali.student.cm.maintenance.CMMaintenanceDocument;
@@ -75,7 +75,7 @@ public class ProposalLookupableImpl extends KSLookupableImpl {
     protected final String CAN_OPEN_PROPOSAL_KEY = "canOpenProposal";
 
     @Override
-    protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
+    public List<?> performSearch(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
 
         List<SearchParamInfo> searchParams = new ArrayList<SearchParamInfo>();
 
@@ -257,7 +257,8 @@ public class ProposalLookupableImpl extends KSLookupableImpl {
 
         actionLink.setActionScript("window.open('" + href + "', '_self');");
 
-        lookupForm.setAtLeastOneRowHasActions(true);
+        // rice 2.4 upgrade - commented out
+//        lookupForm.setAtLeastOneRowHasActions(true);
     }
 
     protected String getProposalUrl(LookupForm lookupForm, Object dataObject, String methodToCall, String pageId) {

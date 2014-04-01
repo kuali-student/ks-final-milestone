@@ -77,8 +77,8 @@ limitations under the License.
                                     <bean parent="Uif-LinkGroup" p:linkSeparator="|">
                                         <property name="items">
                                             <list>
-                                                <bean parent="Uif-DataField" p:label="Proposal Status"
-                                                      p:shortLabel="Status" p:labelPlacement="LEFT" p:propertyName="dataObject.proposalInfo.stateKey" />
+                                                <bean parent="KS-Uif-DataField-LabelLeft" p:label="Proposal Status"
+                                                      p:shortLabel="Status" p:propertyName="dataObject.proposalInfo.stateKey" />
                                                 <bean parent="Uif-ActionLink" p:actionLabel="Version History"
                                                       p:methodToCall="versionHistory" />
                                                 <bean parent="Uif-Space" />

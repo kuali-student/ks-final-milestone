@@ -18,7 +18,7 @@ package org.kuali.student.cm.course.service.impl;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupableImpl;
-import org.kuali.rice.krad.web.form.LookupForm;
+import org.kuali.rice.krad.lookup.LookupForm;
 import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
 import org.kuali.student.lum.lu.ui.course.keyvalues.CourseJointKeyValuesFinder.SearchByKeys;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -48,8 +48,8 @@ public class CourseJointInfoLookupableImpl extends LookupableImpl {
     private CluService cluService;
 	
 	@Override
-	protected List<?> getSearchResults(LookupForm form,
-			Map<String, String> searchCriteria, boolean unbounded) {
+	public List<?> performSearch(LookupForm form,
+			Map<String, String> searchCriteria, boolean bounded) {
 		List<CourseJointInfoWrapper> courseJointInfoDisplays = new ArrayList<CourseJointInfoWrapper>();
 		
         List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();

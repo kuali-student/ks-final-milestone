@@ -4,11 +4,11 @@
     <parent>
         <groupId>org.kuali.student</groupId>
         <artifactId>student</artifactId>
-        <version>2.1.1-FR2-M1-SNAPSHOT</version>
+        <version>2.0.0-rice24upgrade-SNAPSHOT</version>
     </parent>
     <groupId>org.kuali.student.lum</groupId>
     <artifactId>ks-lum</artifactId>
-    <version>2.1.1-FR2-M1-SNAPSHOT</version>
+    <version>2.0.0-rice24upgrade-SNAPSHOT</version>
     <name>KS Lum</name>
     <description>KS Learning Unit Management</description>
     <packaging>pom</packaging>
@@ -46,6 +46,16 @@
                 <module>ks-lum-program</module>
                 <module>ks-lum-ui-common</module>
                 <module>ks-cm-krad</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>test-only</id>
+            <modules>
+                <module>ks-lum-impl</module>
+                <module>ks-lum-rice</module>
+                <module>ks-lum-ui</module>
+                <module>ks-lum-program</module>
+                <module>ks-lum-ui-common</module>
             </modules>
         </profile>
         <profile>

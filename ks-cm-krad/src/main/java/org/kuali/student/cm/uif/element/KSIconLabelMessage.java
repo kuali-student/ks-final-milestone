@@ -26,6 +26,7 @@ import org.kuali.rice.krad.uif.element.Label;
 import org.kuali.rice.krad.uif.element.Message;
 import org.kuali.rice.krad.uif.field.ImageField;
 import org.kuali.rice.krad.uif.field.InputField;
+import org.kuali.rice.krad.uif.util.LifecycleElement;
 import org.kuali.rice.krad.uif.view.View;
 
 /**
@@ -51,7 +52,7 @@ public class KSIconLabelMessage extends Message {
      * @param parent
      */
     @Override
-    public void performApplyModel(View view, Object model, Component parent) {
+    public void performApplyModel(Object model, LifecycleElement parent) {
 
         if (StringUtils.isNotBlank(iconToolTipText)){
             Component component = (Component)parent.getContext().get("parent");
@@ -80,7 +81,7 @@ public class KSIconLabelMessage extends Message {
 
         }
 
-        super.performApplyModel(view, model, parent);
+        super.performApplyModel(model, parent);
     }
 
     @BeanTagAttribute(name="iconToolTipText")
@@ -132,16 +133,4 @@ public class KSIconLabelMessage extends Message {
 
         super.completeValidation(tracer.getCopy());
     }
-
-    /**
-     * @see org.kuali.rice.krad.uif.component.ComponentBase#copy()
-     */
-    @Override
-    protected <T> void copyProperties(T component) {
-        super.copyProperties(component);
-
-        KSIconLabelMessage inputFieldCopy = (KSIconLabelMessage) component;
-        inputFieldCopy.setIconToolTipText(getIconToolTipText());
-    }
-
 }

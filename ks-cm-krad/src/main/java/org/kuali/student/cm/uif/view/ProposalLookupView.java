@@ -18,6 +18,9 @@ package org.kuali.student.cm.uif.view;
 import org.apache.commons.collections.iterators.EntrySetMapIterator;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.datadictionary.parse.BeanTag;
+import org.kuali.rice.krad.lookup.LookupForm;
+import org.kuali.rice.krad.lookup.LookupInputField;
+import org.kuali.rice.krad.lookup.LookupView;
 import org.kuali.rice.krad.uif.UifPropertyPaths;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.Group;
@@ -28,13 +31,11 @@ import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.element.Message;
 import org.kuali.rice.krad.uif.field.FieldGroup;
 import org.kuali.rice.krad.uif.field.InputField;
-import org.kuali.rice.krad.uif.field.LookupInputField;
 import org.kuali.rice.krad.uif.util.ComponentUtils;
+import org.kuali.rice.krad.uif.util.LifecycleElement;
 import org.kuali.rice.krad.uif.view.ExpressionEvaluator;
-import org.kuali.rice.krad.uif.view.LookupView;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.web.form.LookupForm;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -64,26 +65,33 @@ public class ProposalLookupView extends LookupView {
     private static final long serialVersionUID = 716926008488403612L;
 
     /**
-     * @see org.kuali.rice.krad.uif.container.ContainerBase#performApplyModel(View, Object,
-     * org.kuali.rice.krad.uif.component.Component)
+     * @see org.kuali.rice.krad.uif.container.ContainerBase#performApplyModel(Object,
+     * org.kuali.rice.krad.uif.util.LifecycleElement)
      */
     @Override
-    public void performApplyModel(View view, Object model, Component parent) {
+    public void performApplyModel(Object model, LifecycleElement parent) {
         LookupForm lookupForm = (LookupForm) model;
 
+        // rice 2.4 upgrade: commented out
+/*
         if (!isRenderSearchButtons()) {
             getCriteriaGroup().getFooter().setRender(false);
         }
+*/
 
         if (!isRenderLookupCriteria()) {
             getCriteriaGroup().setRender(false);
         }
 
+        // rice 2.4 upgrade: commented out
+/*
         if (!isRenderHeader()) {
             getHeader().setRender(false);
         }
+*/
 
-        setupLookupCriteriaFields(view, model);
+        View view = lookupForm.getView();
+        setupLookupCriteriaFields(view);
 
         // Get the search action button for trigger on change and trigger on enter
         Group actionGroup = getCriteriaGroup().getFooter();
@@ -100,7 +108,7 @@ public class ProposalLookupView extends LookupView {
 
         if (this.isRender() && StringUtils.isNotEmpty(getProgressiveRender())) {
             // progressive anded with render, will not render at least one of the two are false
-            ExpressionEvaluator expressionEvaluator = view.getViewHelperService().getExpressionEvaluator();
+            ExpressionEvaluator expressionEvaluator = view.getViewHelperService().getExpressionEvaluatorFactory().createExpressionEvaluator();
 
             String adjustedProgressiveRender = expressionEvaluator.replaceBindingPrefixes(view, this,
                     getProgressiveRender());
@@ -117,11 +125,11 @@ public class ProposalLookupView extends LookupView {
         }
 
         if (getLayoutManager() != null) {
-            getLayoutManager().performApplyModel(view, model, this);
+            getLayoutManager().performApplyModel(model, parent);
         }
 
         if (getTheme() != null) {
-            view.getViewHelperService().getExpressionEvaluator().evaluateExpressionsOnConfigurable(view, getTheme(),
+            view.getViewHelperService().getExpressionEvaluatorFactory().createExpressionEvaluator().evaluateExpressionsOnConfigurable(view, getTheme(),
                     getContext());
 
             getTheme().configureThemeDefaults();
@@ -134,11 +142,11 @@ public class ProposalLookupView extends LookupView {
     /**
      * Helper method to do any lookup specific changes to the criteria fields
      */
-    private void setupLookupCriteriaFields(View view, Object model) {
+    private void setupLookupCriteriaFields(View view) {
         HashMap<Integer, Component> dateRangeFieldMap = new HashMap<Integer, Component>();
 
         ExpressionEvaluator expressionEvaluator =
-                view.getViewHelperService().getExpressionEvaluator();
+                view.getViewHelperService().getExpressionEvaluatorFactory().createExpressionEvaluator();
 
         int rangeIndex = 0;
         for (Component criteriaField : getCriteriaGroup().getItems()) {
@@ -161,7 +169,8 @@ public class ProposalLookupView extends LookupView {
                     expressionEvaluator.evaluatePropertyExpression(view, criteriaField.getContext(), criteriaField,
                             "required", true);
                     rangeFieldGroup.setRequired(criteriaField.getRequired());
-                    ((LookupInputField) criteriaField).getFieldLabel().setRequiredMessage(new Message());
+                    // rice 2.4 upgrade : requiredMessage is no longer available
+//                    ((LookupInputField) criteriaField).getFieldLabel().setRequiredMessage(new Message());
 
                     // Evaluate and set the render property
                     expressionEvaluator.evaluatePropertyExpression(view, criteriaField.getContext(), criteriaField,
@@ -236,9 +245,12 @@ public class ProposalLookupView extends LookupView {
 
            criteriaField.setOnKeyPressScript("if(e.which == 13) { e.preventDefault();jQuery('#" + searchButtonId + "' ).click();}");
 
+           // rice 2.4 upgrade: commented out
+/*
            if (isTriggerOnChange() || ((LookupInputField)criteriaField).isTriggerOnChange()) {
                criteriaField.setOnChangeScript("jQuery('#" + searchButtonId + "' ).click();");
            }
+*/
        }
    }
 
