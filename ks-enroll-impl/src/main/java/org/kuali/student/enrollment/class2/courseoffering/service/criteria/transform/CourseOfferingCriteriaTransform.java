@@ -18,8 +18,8 @@ package org.kuali.student.enrollment.class2.courseoffering.service.criteria.tran
 
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PropertyPathPredicate;
-import org.kuali.rice.core.framework.persistence.jpa.criteria.Criteria;
-import org.kuali.rice.core.framework.persistence.jpa.criteria.QueryByCriteria;
+import org.kuali.student.r2.common.criteria.Criteria;
+import org.kuali.student.r2.common.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.class1.lui.model.LuiLuiRelationEntity;
 import org.kuali.student.r2.common.criteria.transform.BaseTransform;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;

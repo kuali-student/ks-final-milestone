@@ -77,9 +77,10 @@
         <property name="help">
           <null/>
         </property>
-        <property name="fieldLabel.requiredMessage">
-            <null/>
-        </property>
+        <!-- Rice 2.4 upgrade : removing fieldLabel.requiredMessage -->
+        <!--<property name="fieldLabel.requiredMessage">-->
+            <!--<null/>-->
+        <!--</property>-->
     </bean>
 
     <bean id="CourseInfo-LookupView" parent="KS-Uif-LookupView">

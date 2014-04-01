@@ -30,7 +30,7 @@ limitations under the License.
     -->
     <bean id="KS-AcademicCalendar-EditPage" parent="KS-Uif-Page" p:disclosure.render="false"
           p:readOnly="@{#view.readOnly}"
-          p:componentSecurity.viewAuthz="true" p:stickyFooter="@{!#view.readOnly}">
+          p:viewAuthz="true" p:stickyFooter="@{!#view.readOnly}">
         <property name="id" value="academicCalendarEditPage"/>
         <property name="headerText" value="&#160;"/>
         <property name="pageSourceFile" value="AcademicCalendarEditPage.xml"/>
@@ -275,17 +275,15 @@ limitations under the License.
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean parent="KS-Uif-InputField" p:propertyName="academicCalendarInfo.name"
-                                  p:label="Academic Calendar Name" p:labelPlacement="TOP"
-                                  p:required="true"
+                            <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="academicCalendarInfo.name"
+                                  p:label="Academic Calendar Name" p:required="true"
                                   p:onChangeScript="displayCalendarInformation(jQuery(this),'academicCalendarName')">
                                 <property name="control">
                                     <bean parent="KS-Uif-TextControl" p:size="30"/>
                                 </property>
                             </bean>
-                            <bean parent="KS-Uif-InputField" p:propertyName="academicCalendarInfo.startDate"
-                                  p:label="Start Date" p:labelPlacement="TOP"
-                                  p:required="true"
+                            <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="academicCalendarInfo.startDate"
+                                  p:label="Start Date" p:required="true"
                                   p:onChangeScript="displayCalendarInformation(jQuery(this),'academicCalendarStartDate')">
                                 <property name="control">
                                     <bean parent="KS-Uif-Default-DateControl"/>
@@ -294,9 +292,8 @@ limitations under the License.
                                     <bean parent="KS-BasicDatePatternConstraint"/>
                                 </property>
                             </bean>
-                            <bean parent="KS-Uif-InputField" p:propertyName="academicCalendarInfo.endDate"
-                                  p:label="End Date" p:labelPlacement="TOP"
-                                  p:required="true"
+                            <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="academicCalendarInfo.endDate"
+                                  p:label="End Date" p:required="true"
                                   p:onChangeScript="displayCalendarInformation(jQuery(this),'academicCalendarEndDate')">
                                 <property name="control">
                                     <bean parent="KS-Uif-Default-DateControl"/>
@@ -573,23 +570,20 @@ limitations under the License.
                                   p:layoutManager.cssClasses="acal-layout">
                                 <property name="items">
                                     <list>
-                                        <bean parent="KS-Uif-DataField"
+                                        <bean parent="KS-Uif-DataField-LabelTop"
                                               p:propertyName="holidayCalendarInfo.name"
                                               p:label="Holiday Calendar Name"
-                                              p:labelPlacement="TOP"
                                               p:fieldLabel.renderColon="false">
                                         </bean>
-                                        <bean parent="KS-Uif-DataField"
+                                        <bean parent="KS-Uif-DataField-LabelTop"
                                               p:propertyName="holidayCalendarInfo.startDate"
                                               p:label="Start Date"
-                                              p:labelPlacement="TOP"
                                               p:fieldLabel.renderColon="false"
                                               p:id="startDate">
                                         </bean>
-                                        <bean parent="KS-Uif-DataField"
+                                        <bean parent="KS-Uif-DataField-LabelTop"
                                               p:propertyName="holidayCalendarInfo.endDate"
                                               p:label="End Date"
-                                              p:labelPlacement="TOP"
                                               p:fieldLabel.renderColon="false"
                                               p:id="endDate">
                                         </bean>

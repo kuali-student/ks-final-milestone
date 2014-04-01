@@ -45,7 +45,7 @@
             https://wiki.kuali.org/display/STUDENT/KS+ENR+HLDS+-+Manage+Complex+Course+Offerings+%28Part+1%29
     -->
 
-    <bean id="KS-CourseOffering-Create-MaintenanceView" parent="KS-CourseOffering-MaintenanceViewWithTermContextBarPlaceholder" p:componentSecurity.viewAuthz="true">
+    <bean id="KS-CourseOffering-Create-MaintenanceView" parent="KS-CourseOffering-MaintenanceViewWithTermContextBarPlaceholder" p:viewAuthz="true">
         <property name="id" value="createCourseOfferingPage"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper"/>
         <property name="formClass" value="org.kuali.rice.krad.web.form.MaintenanceDocumentForm"/>
@@ -272,14 +272,14 @@
             <list>
                  <bean parent="Uif-DataField" p:label="CODE" p:propertyName="courseCode"/>
                  <bean parent="Uif-DataField" p:propertyName="activitesUI" p:label="Format"/>
-                 <bean parent="Uif-InputField" p:propertyName="formatOfferingInfo.gradeRosterLevelTypeKey"
-                      p:label="Grade Roster Level" p:required="true" p:labelPlacement="TOP" p:finalizeMethodToCall="populateGradeRosterLevelTypes">
+                 <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="formatOfferingInfo.gradeRosterLevelTypeKey"
+                      p:label="Grade Roster Level" p:required="true" p:finalizeMethodToCall="populateGradeRosterLevelTypes">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="formatOfferingInfo.finalExamLevelTypeKey"
-                      p:label="Final Exam Driver Activity" p:required="true" p:labelPlacement="TOP" p:finalizeMethodToCall="populateFinalExamDriverTypes">
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="formatOfferingInfo.finalExamLevelTypeKey"
+                      p:label="Final Exam Driver Activity" p:required="true" p:finalizeMethodToCall="populateFinalExamDriverTypes">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
@@ -315,7 +315,7 @@
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="addLineFormatWrapper.formatId"  p:required="true" p:label="Format" p:forceSessionPersistence="true">
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="addLineFormatWrapper.formatId"  p:required="true" p:label="Format" p:forceSessionPersistence="true">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"  p:additionalCssClasses="ignoreValid">
                         </bean>
@@ -325,14 +325,14 @@
                     </property>
                 </bean>
 
-                 <bean parent="Uif-InputField-LabelTop" p:propertyName="addLineFormatWrapper.gradeRosterLevelTypeKey" p:refreshWhenChangedPropertyNames="#dp.addLineFormatWrapper.formatId" p:forceSessionPersistence="true"
+                 <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="addLineFormatWrapper.gradeRosterLevelTypeKey" p:refreshWhenChangedPropertyNames="#dp.addLineFormatWrapper.formatId" p:forceSessionPersistence="true"
                       p:label="Grade Roster Level" p:required="true" p:finalizeMethodToCall="populateGradeRosterLevelTypes">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:additionalCssClasses="ignoreValid">
                         </bean>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="addLineFormatWrapper.finalExamLevelTypeKey" p:refreshWhenChangedPropertyNames="#dp.addLineFormatWrapper.gradeRosterLevelTypeKey,#dp.addLineFormatWrapper.formatId" p:forceSessionPersistence="true"
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="addLineFormatWrapper.finalExamLevelTypeKey" p:refreshWhenChangedPropertyNames="#dp.addLineFormatWrapper.gradeRosterLevelTypeKey,#dp.addLineFormatWrapper.formatId" p:forceSessionPersistence="true"
                       p:label="Final Exam Driver Activity" p:required="true" p:finalizeMethodToCall="populateFinalExamDriverTypes">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:additionalCssClasses="ignoreValid">
@@ -404,8 +404,8 @@
     <bean id="KS-CourseOffering-CodeTargetSection" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="targetTermCode" p:required="true" p:id="targetTermCode"
-                      p:label="Target Term" p:labelPlacement="TOP" p:fieldLabel.renderColon="false">
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="targetTermCode" p:required="true" p:id="targetTermCode"
+                      p:label="Target Term" p:fieldLabel.renderColon="false">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="10" p:watermarkText="201301" p:onClickScript="toggleTextBoxes(this);"/>
                     </property>
@@ -413,8 +413,8 @@
                         <bean parent="Uif-Help" p:tooltipHelpContent="Term is required to retrieve the correct version of the Catalog Course"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="catalogCourseCode" p:id="catalogCourseCode"
-                      p:label="Catalog Course Code" p:labelPlacement="TOP" p:required="true" p:fieldLabel.renderColon="false" p:additionalCssClasses="ks-uif-quickFinder">
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="catalogCourseCode" p:id="catalogCourseCode"
+                      p:label="Catalog Course Code" p:required="true" p:fieldLabel.renderColon="false" p:additionalCssClasses="ks-uif-quickFinder">
                     <property name="refreshWhenChangedPropertyNames" value="targetTermCode"/>
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="10" p:watermarkText="ENGL237">
@@ -441,8 +441,8 @@
                                 <bean parent="Uif-ActionLink" p:actionLabel="Find a Course" p:style="display:block" p:methodToCall="performLookup" p:disabled="@{#dp.targetTermCode eq null}"
                                       p:evaluateDisabledOnKeyUp="true" />
                             </property>
-                            <property name="lightBoxLookup">
-                                <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
+                            <property name="lightBox">
+                                <bean parent="Uif-LightBox" p:lookupReturnByScript="false"/>
                             </property>
                         </bean>
                     </property>
@@ -468,7 +468,7 @@
         <property name="headerText" value="Create From:"/>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="createFromCatalog" p:required="true" p:defaultValue="true">
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="createFromCatalog" p:required="true" p:defaultValue="true">
                     <property name="control">
                         <bean parent="Uif-VerticalRadioControl">
                             <property name="options">

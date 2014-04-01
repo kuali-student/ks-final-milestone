@@ -39,14 +39,14 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField-LabelTop" p:label="Process Name" p:propertyName="name"
+                <bean parent="KS-Uif-InputField-LabelTop" p:label="Process Name" p:propertyName="name"
                       p:id="processName" p:required="true">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="25" p:disabled="@{isSaveSuccess}"/>
                     </property>
 
                 </bean>
-                <bean parent="Uif-InputField-LabelTop" p:label="Process Category" p:propertyName="typeKey"
+                <bean parent="KS-Uif-InputField-LabelTop" p:label="Process Category" p:propertyName="typeKey"
                       p:required="true">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:disabled="@{isSaveSuccess}"/>
@@ -55,14 +55,14 @@
                         <bean class="org.kuali.student.enrollment.class1.process.keyvalues.ProcessInfoTypeKeyValues"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField-LabelTop" p:label="Process Description"
+                <bean parent="KS-Uif-InputField-LabelTop" p:label="Process Description"
                       p:instructionalText="Enter a full description of the purpose of the process"
                       p:propertyName="descr">
                     <property name="control">
                         <bean parent="Uif-SmallTextAreaControl"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField-LabelTop" p:label="Owning Organization" p:propertyName="orgName" p:required="true">
+                <bean parent="KS-Uif-InputField-LabelTop" p:label="Owning Organization" p:propertyName="orgName" p:required="true">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="20" p:disabled="true"/>
                     </property>

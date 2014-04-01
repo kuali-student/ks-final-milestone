@@ -91,7 +91,7 @@ public class CourseOfferingManagementController extends UifControllerBase {
 
     @Override
     @RequestMapping(params = "methodToCall=start")
-    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase uifForm, @SuppressWarnings("unused") BindingResult result,
+    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase uifForm,
                               @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
 
         if (!(uifForm instanceof CourseOfferingManagementForm)) {
@@ -1004,7 +1004,7 @@ public class CourseOfferingManagementController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=saveExamOfferingRSI")
     public ModelAndView saveExamOfferingRSI(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                                 @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
-        String selectedCollectionPath = theForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        String selectedCollectionPath = theForm.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
         String selectedLine = theForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
         boolean success;
         Object selectedObject = CourseOfferingManagementUtil.getSelectedObject(theForm, "edit");
@@ -1067,8 +1067,8 @@ public class CourseOfferingManagementController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=saveExamOfferingRSIJSON")
     public @ResponseBody ScheduleWrapper saveExamOfferingRSIJSON(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                                                  @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
-        String selectedCollectionPath = request.getParameter(UifParameters.SELLECTED_COLLECTION_PATH);
-        theForm.getActionParameters().put(UifParameters.SELLECTED_COLLECTION_PATH, selectedCollectionPath);
+        String selectedCollectionPath = request.getParameter(UifParameters.SELECTED_COLLECTION_PATH);
+        theForm.getActionParameters().put(UifParameters.SELECTED_COLLECTION_PATH, selectedCollectionPath);
         String selectedLine = request.getParameter(UifParameters.SELECTED_LINE_INDEX);
         theForm.getActionParameters().put(UifParameters.SELECTED_LINE_INDEX, selectedLine);
         boolean success;

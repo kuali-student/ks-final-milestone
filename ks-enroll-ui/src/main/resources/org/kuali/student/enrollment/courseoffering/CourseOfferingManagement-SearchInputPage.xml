@@ -46,7 +46,7 @@
 
     <bean id="KS-CourseOfferingManagement-CriteriaSection" parent="Uif-HorizontalBoxSection" p:onDocumentReadyScript="toggleShowButton();"
         p:id="courseOfferingManagementCriteriaSection">
-        <!--<property name="componentSecurity.editAuthz" value="true" />-->
+        <!--<property name="editAuthz" value="true" />-->
         <property name="disclosure.render" value="false"/>
         <property name="validationMessages.displayMessages" value="false"/>
         <property name="items">
@@ -58,7 +58,7 @@
                                  to cause the client-side validation to be re-displayed if a bad term code is submitted to
                                  the server. Another, potentially less hacky, approach would be to not enable the show/submit
                                  button until the term code field contains valid text. -->
-                            <bean parent="Uif-InputField" p:id="termCodeField" p:propertyName="termCode" p:label="Term" p:labelPlacement="LEFT" p:required="true"
+                            <bean parent="KS-Uif-InputField-LabelLeft" p:id="termCodeField" p:propertyName="termCode" p:label="Term" p:required="true"
                                     p:readOnly="false"
                                     p:onDocumentReadyScript="triggerFieldValidationAfterPageLoads('#termCodeField_control');"
                                     p:onKeyUpScript="toggleShowButton();"
@@ -83,12 +83,12 @@
                                     <bean parent="Uif-QuickFinder"
                                           p:dataObjectClassName="org.kuali.student.r2.lum.course.dto.CourseInfo"
                                           p:fieldConversions="code:inputCode">
-                                        <property name="readOnlySearchFields" value="courseInfo.courseTitle" />
+                                        <property name="readOnlyLookupFields" value="courseInfo.courseTitle" />
                                         <property name="quickfinderAction">
                                             <bean parent="KS-Uif-ActionLink" p:methodToCall="performLookup" p:id="lookup_searchCourseCode" p:actionLabel="Find a Course" />
                                         </property>
-                                        <property name="lightBoxLookup">
-                                            <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="true"/>
+                                        <property name="lightBox">
+                                            <bean parent="Uif-LightBox" p:lookupReturnByScript="true"/>
                                         </property>
                                     </bean>
                                 </property>

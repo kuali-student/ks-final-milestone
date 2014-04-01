@@ -128,21 +128,21 @@
                 <bean parent="Uif-VerticalBoxSection">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="populationInfo.name" p:labelPlacement="TOP" p:id="name_inquiry"/>
-                            <bean parent="Uif-InputField" p:propertyName="populationInfo.descr.plain" p:label="Description" p:labelPlacement="TOP" p:id="desc_inquiry"/>
-                            <bean parent="Uif-InputField" p:propertyName="populationInfo.stateKey"
-                                  p:label="State" p:labelPlacement="TOP" p:id="state_inquiry">
+                            <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="populationInfo.name" p:id="name_inquiry"/>
+                            <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="populationInfo.descr.plain" p:label="Description" p:id="desc_inquiry"/>
+                            <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="populationInfo.stateKey"
+                                  p:label="State" p:id="state_inquiry">
                                 <property name="optionsFinder">
                                     <bean class="org.kuali.student.enrollment.class2.population.keyvalue.PopulationStateKeyValues" />
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="populationRuleInfo.typeKey"
-                                  p:label="Operation" p:labelPlacement="TOP" p:render="@{#dp.populationRuleInfo.typeKey != 'kuali.population.rule.type.rule'}" p:id="type_inquiry">
+                            <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="populationRuleInfo.typeKey"
+                                  p:label="Operation" p:render="@{#dp.populationRuleInfo.typeKey != 'kuali.population.rule.type.rule'}" p:id="type_inquiry">
                                 <property name="optionsFinder">
                                     <bean class="org.kuali.student.enrollment.class2.population.keyvalue.PopulationRuleTypeKeyValues"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="populationRuleInfo.ruleId" p:label="Rule" p:fieldLabel.renderColon="true" p:labelPlacement="LEFT" p:render="@{#dp.populationRuleInfo.typeKey eq 'kuali.population.rule.type.rule'}" p:id="rule_inquiry" >
+                            <bean parent="KS-Uif-InputField-LabelLeft" p:propertyName="populationRuleInfo.ruleId" p:label="Rule" p:fieldLabel.renderColon="true" p:render="@{#dp.populationRuleInfo.typeKey eq 'kuali.population.rule.type.rule'}" p:id="rule_inquiry" >
                                 <property name="inquiry">
                                     <bean parent="Uif-Inquiry">
                                         <property name="render" value="false" />
@@ -153,7 +153,7 @@
                                 </property>
                             </bean>
 
-                            <bean parent="Uif-InputField" p:propertyName="referencePopulation.name" p:label="Reference Population" p:labelPlacement="TOP" p:render="@{#dp.populationRuleInfo.typeKey eq 'kuali.population.rule.type.exclusion'}" p:id="refpop_inquiry" />
+                            <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="referencePopulation.name" p:label="Reference Population" p:render="@{#dp.populationRuleInfo.typeKey eq 'kuali.population.rule.type.exclusion'}" p:id="refpop_inquiry" />
 
                             <bean parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="1" p:render="@{!#dp.childPopulations.empty}"
                                   p:layoutManager.style="width: 50%; ">
@@ -179,11 +179,38 @@
         </property>
     </bean>
 
+    <bean id="Uif-CreateNewLink" parent="Uif-ActionLink" p:actionLabel="Create New"
+          p:render="@{!#view.suppressActions and #view.showMaintenanceLinks and #ViewHelper.allowsMaintenanceNewOrCopyAction()}">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>uif-createNewLink</value>
+            </list>
+        </property>
+        <property name="finalizeMethodToCall" value="getMaintenanceActionLink"/>
+        <property name="finalizeMethodAdditionalArguments">
+            <list>
+                <value>start</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Uif-Lookup-MaintenanceCreateLink" parent="Uif-Link" p:linkText="Create New"
+          p:render="@{#view.renderMaintenanceLinks and #ViewHelper.allowsMaintenanceNewOrCopyAction()}">
+        <property name="finalizeMethodToCall" value="buildMaintenanceActionLink"/>
+        <property name="finalizeMethodAdditionalArguments">
+            <list>
+                <value>start</value>
+            </list>
+        </property>
+    </bean>
+
     <!-- Re-defining css for "Create New" link for lookup screen -->
     <bean id="Uif-LookupPageHeaderGroup" parent="Uif-ActionsGroup" p:additionalCssClasses="uif-leftAligned-headerFieldGroup">
         <property name="items">
             <list>
-                <bean parent="Uif-CreateNewLink"/>
+                <!-- Rice 2.4 upgrade: Uif-CreateNewLink was replaced with Uif-Lookup-MaintenanceCreateLink in UifLookupDefinition.xml r42097-->
+                <bean parent="Uif-Lookup-MaintenanceCreateLink"/>
+                <!--bean parent="Uif-CreateNewLink"/-->
             </list>
         </property>
     </bean>

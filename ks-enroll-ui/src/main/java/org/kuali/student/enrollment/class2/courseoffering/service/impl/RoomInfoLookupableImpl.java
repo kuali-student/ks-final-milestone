@@ -6,7 +6,7 @@ import org.kuali.rice.krad.lookup.Lookupable;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.web.form.LookupForm;
+import org.kuali.rice.krad.lookup.LookupForm;
 import org.kuali.student.common.util.ContextBuilder;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -40,20 +40,20 @@ public class RoomInfoLookupableImpl extends LookupableImpl implements Lookupable
     }
 
     @Override
-    protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
-        boolean validate = validateSearchParameters(lookupForm,fieldValues);
+    public List<?> performSearch(LookupForm lookupForm, Map<String, String> searchCriteria, boolean bounded) {
+        boolean validate = validateSearchParameters(lookupForm,searchCriteria);
         int firstBuilding = 0;
         if (validate){
             try {
 
-                List<BuildingInfo> buildings = CourseOfferingManagementUtil.getRoomService().getBuildingsByBuildingCode(fieldValues.get("buildingCode"), ContextBuilder.loadContextInfo());
+                List<BuildingInfo> buildings = CourseOfferingManagementUtil.getRoomService().getBuildingsByBuildingCode(searchCriteria.get("buildingCode"), ContextBuilder.loadContextInfo());
 
                 if (buildings.isEmpty()){
                     GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM,"Invalid building code");
                     return new ArrayList<RoomInfo>();
                 }
 
-                if (StringUtils.isBlank(fieldValues.get("roomCode"))){
+                if (StringUtils.isBlank(searchCriteria.get("roomCode"))){
                     List<String> roomIds = CourseOfferingManagementUtil.getRoomService().getRoomIdsByBuilding(buildings.get(firstBuilding).getId(), ContextBuilder.loadContextInfo());
 
                     if(roomIds.isEmpty()) {
@@ -62,7 +62,7 @@ public class RoomInfoLookupableImpl extends LookupableImpl implements Lookupable
 
                     return CourseOfferingManagementUtil.getRoomService().getRoomsByIds(roomIds,ContextBuilder.loadContextInfo());
                 } else {
-                    return CourseOfferingManagementUtil.getRoomService().getRoomsByBuildingAndRoomCode(buildings.get(firstBuilding).getId(),fieldValues.get("roomCode"),ContextBuilder.loadContextInfo());
+                    return CourseOfferingManagementUtil.getRoomService().getRoomsByBuildingAndRoomCode(buildings.get(firstBuilding).getId(),searchCriteria.get("roomCode"),ContextBuilder.loadContextInfo());
                 }
 
             } catch (DoesNotExistException e) {

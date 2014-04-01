@@ -58,12 +58,12 @@
                             <bean parent="Uif-HorizontalBoxSection">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-InputField-LabelTop" p:label="Hold Name" p:propertyName="name" p:required="true">
+                                        <bean parent="KS-Uif-InputField-LabelTop" p:label="Hold Name" p:propertyName="name" p:required="true">
                                             <property name="control">
                                                 <bean parent="Uif-TextControl" p:size="20"/>
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-InputField-LabelTop" p:label="Category Name" p:propertyName="typeKey" p:required="true">
+                                        <bean parent="KS-Uif-InputField-LabelTop" p:label="Category Name" p:propertyName="typeKey" p:required="true">
                                             <property name="control">
                                                 <bean parent="Uif-DropdownControl" />
                                             </property>
@@ -71,17 +71,17 @@
                                                 <bean class="org.kuali.student.enrollment.class1.hold.keyvalues.HoldIssueInfoTypeKeyValues"/>
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-InputField-LabelTop" p:label="Hold Description"  p:propertyName="descr" >
+                                        <bean parent="KS-Uif-InputField-LabelTop" p:label="Hold Description"  p:propertyName="descr" >
                                             <property name="control">
                                                 <bean parent="Uif-SmallTextAreaControl" />
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-InputField-LabelTop" p:label="Owning Organization"  p:propertyName="organizationId" p:required="true">
+                                        <bean parent="KS-Uif-InputField-LabelTop" p:label="Owning Organization"  p:propertyName="organizationId" p:required="true">
                                             <property name="control">
                                                 <bean parent="Uif-TextControl" p:size="20" p:disabled="true"/>
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-InputField-LabelTop" p:label="Organization Name" p:propertyName="orgName" p:required="true">
+                                        <bean parent="KS-Uif-InputField-LabelTop" p:label="Organization Name" p:propertyName="orgName" p:required="true">
                                             <property name="control">
                                                 <bean parent="Uif-TextControl" p:size="20" p:disabled="true"/>
                                             </property>

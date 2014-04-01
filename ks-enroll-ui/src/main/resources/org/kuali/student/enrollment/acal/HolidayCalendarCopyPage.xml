@@ -208,13 +208,12 @@
                     </property>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField"
+                            <bean parent="KS-Uif-InputField-LabelTop"
                                   p:propertyName="newCalendarName" p:id="newCalendarName"
                                   p:label="Name"
-                                  p:labelPlacement="TOP"
                                   p:required="true"
-                                  p:fieldLabel.renderColon="false"
-                                  p:fieldLabel.requiredMessagePlacement="RIGHT">
+                                  p:fieldLabel.renderColon="false">
+                                <!-- Rice 2.4 upgrade : removing p:fieldLabel.requiredMessagePlacement="RIGHT" -->
                                 <!--
                                 <property name="validCharactersConstraint">
                                     <bean parent="AlphaNumericPatternConstraint"
@@ -228,13 +227,12 @@
                                             />
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField"
+                            <bean parent="KS-Uif-InputField-LabelTop"
                                   p:propertyName="newCalendarStartDate" p:id="newCalendarStartDate"
                                   p:label="Start Date"
-                                  p:labelPlacement="TOP"
                                   p:required="true"
-                                  p:fieldLabel.renderColon="false"
-                                  p:fieldLabel.requiredMessagePlacement="RIGHT">
+                                  p:fieldLabel.renderColon="false">
+                                <!-- Rice 2.4 upgrade : removing p:fieldLabel.requiredMessagePlacement="RIGHT" -->
                                 <property name="validCharactersConstraint">
                                     <bean parent="KS-BasicDatePatternConstraint" />
                                 </property>
@@ -242,13 +240,12 @@
                                     <bean parent="KS-Uif-Default-DateControl"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField"
+                            <bean parent="KS-Uif-InputField-LabelTop"
                                   p:propertyName="newCalendarEndDate" p:id="newCalendarEndDate"
                                   p:label="End Date"
-                                  p:labelPlacement="TOP"
                                   p:required="true"
-                                  p:fieldLabel.renderColon="false"
-                                  p:fieldLabel.requiredMessagePlacement="RIGHT">
+                                  p:fieldLabel.renderColon="false">
+                                <!-- Rice 2.4 upgrade : removing p:fieldLabel.requiredMessagePlacement="RIGHT" -->
                                 <property name="validCharactersConstraint">
                                     <bean parent="KS-BasicDatePatternConstraint" />
                                 </property>

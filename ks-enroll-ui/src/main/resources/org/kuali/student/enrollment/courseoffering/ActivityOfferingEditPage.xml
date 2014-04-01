@@ -67,7 +67,7 @@
                                     <list>
                                         <bean parent="Uif-NavigationActionLink" id="change_link" p:actionLabel="Change" p:render="@{#dp.hasSubTerms and !#parent.readOnly}"
                                             p:performDirtyValidation="false" p:actionScript="openPopupContent(e,'KS-ActivityOfferingEdit-SubtermsPopupForm');"
-                                            p:componentSecurity.performActionAuthz="true" p:actionEvent="changeSubtermAO"/>
+                                            p:performActionAuthz="true" p:actionEvent="changeSubtermAO"/>
                                     </list>
                                 </property>
                             </bean>
@@ -86,7 +86,7 @@
                     </property>
                     <property name="items">
                         <list>
-                            <bean id="subterm_type" parent="Uif-InputField-LabelTop" p:propertyName="subTermId" p:label="Choose a subterm">
+                            <bean id="subterm_type" parent="KS-Uif-InputField-LabelTop" p:propertyName="subTermId" p:label="Choose a subterm">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl" p:onChangeScript="displayAOsubTerm('subterm_name','subterm_type','change_link','activityCode','@{#dp.subTermDatesJsonString}');"/>
                                 </property>
@@ -113,7 +113,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-InputField" id="activity_code" p:label="Activity Code " p:fieldLabel.renderColon="false" p:propertyName="aoInfo.activityCode"
-                      p:onChangeScript="jQuery('#dirtyForm').val(true);" p:id="activityCode" p:componentSecurity.editAuthz="true">
+                      p:onChangeScript="jQuery('#dirtyForm').val(true);" p:id="activityCode" p:editAuthz="true">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="1" p:disabled="@{!#dp.editActivityCodeAllowed}" />
                     </property>
@@ -129,21 +129,20 @@
                     </property>
                 </bean>
                 <bean parent="Uif-InputField" p:id="infoColoStatus" p:propertyName="aoInfo.isColocated" p:hidden="true" />  <!-- keeps track of whether or not the colocation has been persisted to the db -->
-                <bean parent="Uif-InputField-LabelRight"
-                      p:label="This activity is co-located"
+                <bean parent="KS-Uif-InputField"
                       p:fieldLabel.renderColon="false"
                       p:onChangeScript="jQuery('#dirtyForm').val(true);"
                       p:propertyName="colocatedAO"
-                      p:id="is_co_located" p:componentSecurity.viewAuthz="true">
+                      p:id="is_co_located" p:viewAuthz="true">
                     <property name="control">
-                        <bean parent="Uif-CheckboxControl">
+                        <bean parent="Uif-CheckboxControl" p:checkboxLabel="This activity is co-located">
                             <property name="disabled" value="@{#dp.aoInfo.stateKey eq 'kuali.lui.activity.offering.state.canceled'}"/>
                             <property name="onChangeScript" value="handleColocation();"/>
                         </bean>
                     </property>
                 </bean>
                 <bean parent="Uif-InputField" id="max_enrollment" p:label="Total Maximum Enrollment" p:fieldLabel.renderColon="false" p:propertyName="aoInfo.maximumEnrollment"
-                      p:id="maximumEnrollment" p:onChangeScript="jQuery('#dirtyForm').val(true); calculatePercent(jQuery(this))" p:componentSecurity.editAuthz="true">
+                      p:id="maximumEnrollment" p:onChangeScript="jQuery('#dirtyForm').val(true); calculatePercent(jQuery(this))" p:editAuthz="true">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="3"/>
                     </property>
@@ -152,7 +151,7 @@
         </property>
     </bean>
 
-    <bean id="ActivityOfferingEdit-CoLocation" parent="Uif-VerticalBoxSection"  p:componentSecurity.viewAuthz="true">
+    <bean id="ActivityOfferingEdit-CoLocation" parent="Uif-VerticalBoxSection"  p:viewAuthz="true">
         <property name="additionalCssClasses">
             <list merge="true">
                 <value>ks-activity-offering-coLocation-form</value>
@@ -258,7 +257,7 @@
                         <bean parent="Uif-TextControl" p:size="4" p:watermarkText="A"/>
                     </property>
                     <property name="quickfinder">
-                        <bean parent="Uif-QuickFinder"  p:lightBoxLookup.lookupReturnByScript="true">
+                        <bean parent="Uif-QuickFinder"  p:lightBox.lookupReturnByScript="true">
                             <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper"/>
                             <property name="quickfinderAction">
                                 <bean parent="Uif-ActionLink" p:actionLabel="Find an Activity Offering" p:methodToCall="performLookup"/>
@@ -391,8 +390,8 @@
                                             </map>
                                         </property>
                                         <property name="viewName" value="ks_simplePersonLookup" />
-                                        <property name="lightBoxLookup">
-                                            <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="true"/>
+                                        <property name="lightBox">
+                                            <bean parent="Uif-LightBox" p:lookupReturnByScript="true"/>
                                         </property>
                                     </bean>
                                 </property>
@@ -453,7 +452,7 @@
 
     <bean id="ActivityOfferingEdit-Waitlist" parent="Uif-VerticalBoxSection" p:headerText="Waitlist" p:render="@{#dp.hasWaitlistCO}">
         <property name="validationMessages.displayMessages" value="false"/>
-        <property name="componentSecurity.viewAuthz" value="true"/>
+        <property name="viewAuthz" value="true"/>
         <property name="additionalCssClasses">
             <list merge="true">
                 <value>ks-section</value>
@@ -464,9 +463,9 @@
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean id="ActivityOfferingEdit-HasWaitlist" parent="Uif-InputField-LabelRight" p:propertyName="hasWaitlist" p:label="Waitlist Active">
+                            <bean id="ActivityOfferingEdit-HasWaitlist" parent="KS-Uif-InputField" p:propertyName="hasWaitlist">
                                 <property name="control">
-                                    <bean parent="Uif-CheckboxControl" />
+                                    <bean parent="Uif-CheckboxControl" p:checkboxLabel="Waitlist Active" />
                                 </property>
                             </bean>
                         </list>
@@ -492,8 +491,8 @@
                             <bean parent="Uif-VerticalBoxSection">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-InputField" p:id="wait_list_type" p:propertyName="waitListType" p:label="Waitlist Type"
-                                              p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
+                                        <bean parent="KS-Uif-InputField-LabelTop" p:id="wait_list_type" p:propertyName="waitListType" p:label="Waitlist Type"
+                                              p:fieldLabel.renderColon="false">
                                             <property name="control">
                                                 <bean parent="Uif-VerticalRadioControl"/>
                                             </property>
@@ -511,9 +510,9 @@
                                         <bean parent="Uif-HorizontalBoxSection">
                                             <property name="items">
                                                 <list>
-                                                    <bean parent="Uif-InputField-LabelRight" p:propertyName="limitWaitlistSize" p:label="Limit Waitlist Size">
+                                                    <bean parent="KS-Uif-InputField" p:propertyName="limitWaitlistSize">
                                                         <property name="control">
-                                                            <bean parent="Uif-CheckboxControl" />
+                                                            <bean parent="Uif-CheckboxControl" p:checkboxLabel="Limit Waitlist Size" />
                                                         </property>
                                                     </bean>
                                                     <bean  id="limit_waitlist_size_text" parent="Uif-InputField" p:required="true" p:inclusiveMax="999" p:exclusiveMin="0" p:dataType="INTEGER"
@@ -525,9 +524,9 @@
                                                 </list>
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-InputField-LabelRight" p:id="allow-hold-list-checkbox" p:propertyName="courseWaitListInfo.allowHoldUntilEntries" p:label="Allow Hold List">
+                                        <bean parent="KS-Uif-InputField" p:id="allow-hold-list-checkbox" p:propertyName="courseWaitListInfo.allowHoldUntilEntries">
                                             <property name="control">
-                                                <bean parent="Uif-CheckboxControl" />
+                                                <bean parent="Uif-CheckboxControl" p:checkboxLabel="Allow Hold List" />
                                             </property>
                                         </bean>
                                     </list>
@@ -541,7 +540,7 @@
     </bean>
 
     <bean id="ActivityOfferingView-Waitlist" parent="Uif-VerticalBoxSection" p:render="@{#dp.hasWaitlistCO}">
-        <property name="componentSecurity.viewAuthz" value="true"/>
+        <property name="viewAuthz" value="true"/>
         <property name="headerText" value="Waitlist" />
         <property name="items">
             <list>
@@ -565,7 +564,7 @@
     <bean id="ActivityOfferingEdit-SeatPool" parent="Uif-VerticalBoxSection" p:additionalCssClasses="ks-seatpools,ks-section">
         <property name="validationMessages.displayMessages" value="false"/>
         <property name="headerText" value="Seat Pools"/>
-        <property name="componentSecurity.editAuthz" value="true"/>
+        <property name="editAuthz" value="true"/>
         <property name="items">
             <list>
                 <bean parent="Uif-MessageField" p:label="Seat Pools" p:messageText="0" p:id="seatpoolCount">
@@ -613,7 +612,7 @@
                                           p:cssClasses="this, validSeatsAndPopulationName"/>
                                 </property>
                                 <property name="quickfinder">
-                                    <bean parent="Uif-QuickFinder" p:lightBoxLookup.lookupReturnByScript="true">
+                                    <bean parent="Uif-QuickFinder" p:lightBox.lookupReturnByScript="true">
                                         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
                                         <property name="fieldConversions">
                                             <map>
@@ -659,7 +658,7 @@
         </property>
         <property name="items">
             <list>
-                <bean id="course_url" parent="Uif-InputField-LabelTop"
+                <bean id="course_url" parent="KS-Uif-InputField-LabelTop"
                       p:propertyName="aoInfo.activityOfferingURL"
                       p:label="Course URL">
                     <property name="control">
@@ -673,13 +672,11 @@
                     <property name="items">
                         <list>
                             <bean id="is_evaluated"
-                                  parent="Uif-InputField-LabelRight"
+                                  parent="KS-Uif-InputField"
                                   p:propertyName="aoInfo.isEvaluated"
-                                  p:label="This lecture requires an evaluation"
-                                  p:fieldLabel.cssClasses="label-normal"
                                   p:required="false">
                                 <property name="control">
-                                    <bean parent="Uif-CheckboxControl"/>
+                                    <bean parent="Uif-CheckboxControl" p:checkboxLabel="This lecture requires an evaluation"/>
                                 </property>
                             </bean>
                         </list>
@@ -692,13 +689,11 @@
                     <property name="items">
                         <list>
                             <bean id="is_honors_offering"
-                                  parent="Uif-InputField-LabelRight"
+                                  parent="KS-Uif-InputField"
                                   p:propertyName="aoInfo.isHonorsOffering"
-                                  p:label="This is an honors course"
-                                  p:fieldLabel.cssClasses="label-normal"
                                   p:required="false">
                                 <property name="control">
-                                    <bean parent="Uif-CheckboxControl"/>
+                                    <bean parent="Uif-CheckboxControl" p:checkboxLabel="This is an honors course"/>
                                 </property>
                             </bean>
                         </list>

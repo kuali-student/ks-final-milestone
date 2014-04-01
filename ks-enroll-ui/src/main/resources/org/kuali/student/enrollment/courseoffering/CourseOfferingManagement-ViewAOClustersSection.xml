@@ -74,7 +74,7 @@
                       p:actionScript="openPopupContent(e,'KS-CourseOfferingManagement-RenameAOCPopupForm',{align:'right',tail:{align:'right'}});" p:style="float:right"
                       p:successCallback="jQuery('div[id=KS-CourseOfferingManagement-RenameAOCPopupForm]:gt(0)').detach();"
                       p:errorCallback="jQuery('div[id=KS-CourseOfferingManagement-RenameAOCPopupForm]:gt(0)').detach();"
-                      p:componentSecurity.performActionAuthz="true" p:actionEvent="renameCluster">
+                      p:performActionAuthz="true" p:actionEvent="renameCluster">
                     <property name="actionImage">
                         <bean parent="Uif-Image" p:source="" p:cssClasses="ks-fontello-icon-pencil"/>
                     </property>
@@ -84,7 +84,7 @@
                 <bean parent="Uif-NavigationActionLink" p:methodToCall="showDeleteClusterConfirmPage"
                       p:onClickScript="jQuery('input.required[value=]').removeClass('required');writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"
                       p:actionLabel="Delete"  p:style="float:right;"
-                      p:componentSecurity.performActionAuthz="true" p:actionEvent="deleteCluster">
+                      p:performActionAuthz="true" p:actionEvent="deleteCluster">
                     <property name="actionImage">
                         <bean parent="Uif-Image" p:source="" p:cssClasses="ks-fontello-icon-cancel"/>
                     </property>
@@ -99,12 +99,12 @@
         <property name="style" value="margin-bottom:0;padding-left:10px;padding-right:10px;"/>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField-LabelTop" p:id="privateClusterNameForRename" p:label="Private Name" p:propertyName="privateClusterNameForRenamePopover" p:required="true">
+                <bean parent="KS-Uif-InputField-LabelTop" p:id="privateClusterNameForRename" p:label="Private Name" p:propertyName="privateClusterNameForRenamePopover" p:required="true">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="30"  p:maxLength="20" p:onKeyUpScript="toggleAddAOCButton('renameAOCButton','privateClusterNameForRename_control');"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField-LabelTop" p:id="publishedClusterNameForRename"  p:propertyName="publishedClusterNameForRenamePopover" p:label="Published Name" >
+                <bean parent="KS-Uif-InputField-LabelTop" p:id="publishedClusterNameForRename"  p:propertyName="publishedClusterNameForRenamePopover" p:label="Published Name" >
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="30"  p:maxLength="20"/>
                     </property>

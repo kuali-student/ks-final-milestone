@@ -256,7 +256,7 @@ public class ActivityOfferingClusterHandler {
         // clear the list
         selectedIndexList.clear();
 
-        String selectedCollectionPath = theForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        String selectedCollectionPath = theForm.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
         if (StringUtils.isNotBlank(selectedCollectionPath)) {
             // select the single AO
             int selectedLineIndex = -1;
