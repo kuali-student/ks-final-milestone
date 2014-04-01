@@ -1,4 +1,4 @@
-package org.kuali.student.ap.framework.course;
+package org.kuali.student.ap.coursesearch;
 
 import java.util.Map;
 

@@ -1,10 +1,9 @@
 package org.kuali.student.ap.test.mock;
 
-import org.kuali.student.ap.framework.course.CourseSearchForm;
-import org.kuali.student.ap.framework.course.CourseSearchItem;
-import org.kuali.student.ap.framework.course.CourseSearchStrategy;
-import org.kuali.student.ap.framework.course.Credit;
-import org.kuali.student.r2.core.search.infc.SearchResultRow;
+import org.kuali.student.ap.coursesearch.CourseSearchForm;
+import org.kuali.student.ap.coursesearch.CourseSearchItem;
+import org.kuali.student.ap.coursesearch.CourseSearchStrategy;
+import org.kuali.student.ap.coursesearch.Credit;
 
 import java.util.Comparator;
 import java.util.List;

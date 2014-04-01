@@ -10,7 +10,7 @@ import java.util.Set;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.CourseSearchConstants;
 import org.kuali.student.ap.framework.context.KsapContext;
-import org.kuali.student.ap.framework.course.CourseSearchItem;
+import org.kuali.student.ap.coursesearch.CourseSearchItem;
 import org.kuali.student.ap.coursesearch.dataobject.CourseSearchItemImpl;
 import org.kuali.student.ap.coursesearch.dataobject.FacetItem;
 import org.kuali.student.r2.common.dto.ContextInfo;

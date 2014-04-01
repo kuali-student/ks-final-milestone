@@ -23,7 +23,6 @@ import org.codehaus.jackson.node.ArrayNode;
 import org.codehaus.jackson.node.ObjectNode;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.ap.coursesearch.dataobject.CourseSummaryDetails;
@@ -33,10 +32,10 @@ import org.kuali.student.ap.coursesearch.util.CampusSearch;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.CourseHelper;
 import org.kuali.student.ap.framework.context.CourseSearchConstants;
-import org.kuali.student.ap.framework.course.CourseSearchForm;
-import org.kuali.student.ap.framework.course.CourseSearchItem;
-import org.kuali.student.ap.framework.course.CourseSearchStrategy;
-import org.kuali.student.ap.framework.course.FacetKeyValue;
+import org.kuali.student.ap.coursesearch.CourseSearchForm;
+import org.kuali.student.ap.coursesearch.CourseSearchItem;
+import org.kuali.student.ap.coursesearch.CourseSearchStrategy;
+import org.kuali.student.ap.coursesearch.FacetKeyValue;
 import org.kuali.student.ap.framework.util.KsapHelperUtil;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
@@ -306,8 +305,8 @@ public class CourseSearchController extends UifControllerBase {
 	 * Simple object representing pre-processed search data.
 	 * 
 	 * @see org.kuali.student.ap.coursesearch.controller.CourseSearchController.SessionSearchInfo
-	 * @see org.kuali.student.ap.framework.course.CourseSearchItem#getSearchColumns()
-	 * @see org.kuali.student.ap.framework.course.CourseSearchItem#getFacetColumns()
+	 * @see org.kuali.student.ap.coursesearch.CourseSearchItem#getSearchColumns()
+	 * @see org.kuali.student.ap.coursesearch.CourseSearchItem#getFacetColumns()
 	 */
 	public static class SearchInfo implements Serializable {
 		private static final long serialVersionUID = 8697147011424347285L;

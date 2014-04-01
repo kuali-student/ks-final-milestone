@@ -12,7 +12,7 @@ import org.kuali.student.ap.framework.context.ShoppingCartHelper;
 import org.kuali.student.ap.framework.context.TermHelper;
 import org.kuali.student.ap.framework.context.TextHelper;
 import org.kuali.student.ap.framework.context.UserSessionHelper;
-import org.kuali.student.ap.framework.course.CourseSearchStrategy;
+import org.kuali.student.ap.coursesearch.CourseSearchStrategy;
 import org.kuali.student.ap.plannerreview.LearningPlanReviewStrategy;
 import org.kuali.student.ap.schedulebuilder.ScheduleBuildStrategy;
 import org.kuali.student.ap.schedulebuilder.ShoppingCartStrategy;

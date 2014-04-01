@@ -1,10 +1,8 @@
-package org.kuali.student.ap.framework.course;
+package org.kuali.student.ap.coursesearch;
 
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-
-import org.kuali.student.r2.core.search.infc.SearchResultRow;
 
 /**
  * Strategy interface for specifying course search behavior.

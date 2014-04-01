@@ -3,7 +3,7 @@ package org.kuali.student.ap.planner;
 import org.kuali.student.ap.common.infc.HasUniqueId;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.TermHelper;
-import org.kuali.student.ap.framework.course.CreditsFormatter;
+import org.kuali.student.ap.coursesearch.CreditsFormatter;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.springframework.web.util.HtmlUtils;
 

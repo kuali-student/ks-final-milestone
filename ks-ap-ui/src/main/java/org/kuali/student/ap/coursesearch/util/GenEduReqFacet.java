@@ -6,13 +6,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
-import org.kuali.student.ap.framework.course.CourseSearchItem;
+import org.kuali.student.ap.coursesearch.CourseSearchItem;
 import org.kuali.student.ap.coursesearch.dataobject.CourseSearchItemImpl;
 import org.kuali.student.ap.coursesearch.dataobject.FacetItem;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
 
 /**
  * Logic for building list of FacetItems and coding CourseSearchItems.

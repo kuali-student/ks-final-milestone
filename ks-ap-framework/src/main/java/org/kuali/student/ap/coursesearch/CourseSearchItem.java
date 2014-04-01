@@ -1,8 +1,6 @@
-package org.kuali.student.ap.framework.course;
+package org.kuali.student.ap.coursesearch;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Bean interface representing a search row in KSAP course search from the

@@ -1,4 +1,4 @@
-package org.kuali.student.ap.framework.course;
+package org.kuali.student.ap.coursesearch;
 
 import java.math.BigDecimal;
 import java.util.Collections;

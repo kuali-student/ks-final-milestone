@@ -1,6 +1,6 @@
 package org.kuali.student.ap.framework.context;
 
-import org.kuali.student.ap.framework.course.CourseSearchItem;
+import org.kuali.student.ap.coursesearch.CourseSearchItem;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.r2.core.acal.infc.Term;
@@ -8,7 +8,6 @@ import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.infc.Course;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Helper class that provides some convenience methods around Course interactions.

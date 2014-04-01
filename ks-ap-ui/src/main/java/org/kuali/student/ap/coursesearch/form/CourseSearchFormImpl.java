@@ -18,7 +18,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.ap.framework.course.CourseSearchForm;
+import org.kuali.student.ap.coursesearch.CourseSearchForm;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 
