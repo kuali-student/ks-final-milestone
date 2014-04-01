@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd" >
+<log4j:configuration>
+
+	<appender name="OUT" class="org.apache.log4j.ConsoleAppender">
+		<param name="Threshold" value="DEBUG" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="%n%X{sisEnvironment},%X{sisProject},%t,%X{sisRequestId},%X{sr5RequestId},%p,%d,%c,%X{sisTxId},%X{sr5TxId},%X{user},%X{sr5user},%X{sisSessionId},%X{sr5SessionId},%X{docId},%X{sisApplication}%n%m%n" />
+		</layout>
+	</appender>
+
+	<!-- sisrice 5 logger names -->
+	<logger name="edu.iu.sis">
+		<level value="DEBUG" />
+	</logger>
+	<logger name="edu.iu.es.sis">
+		<level value="DEBUG" />
+	</logger>
+	<logger name="edu.iu.es.sis.audit">
+		<level value="INFO" />
+	</logger>
+	<logger name="edu.iu.es.sis.audit.ProcessLogger">
+		<level value="INFO" />
+	</logger>
+	<logger name="edu.iu.es.sis.core.session">
+		<level value="INFO" />
+	</logger>
+	<logger name="edu.iu.es.sis.platform.impl.SerializationContextImpl">
+		<level value="INFO" />
+	</logger>
+	<logger name="edu.iu.es.sis.platform.impl.SisModuleLoader">
+		<level value="INFO" />
+	</logger>
+	<logger name="edu.iu.es.sis.platform.impl.SisModuleImpl">
+		<level value="INFO" />
+	</logger>
+	<logger name="edu.iu.es.sis.platform.impl.SisServletContext">
+		<level value="INFO" />
+	</logger>
+	<logger name="edu.iu.es.sis.rice.impl.SisRemoteServiceRegistryConnector">
+		<level value="INFO" />
+	</logger>
+	<logger name="edu.iu.es.sis.rice.impl.SisCxfInInterceptor">
+		<level value="INFO" />
+	</logger>
+	<logger name="edu.iu.es.sis.rice.impl.SisCxfOutInterceptor">
+		<level value="INFO" />
+	</logger>
+
+	<logger name="edu.iu.es.sis.ks.ksb.impl.SisRemoteServiceRegistryConnector">
+		<level value="INFO" />
+	</logger>
+	<logger name="edu.iu.es.sis.ks.ksb.impl.SisCxfInInterceptor">
+		<level value="INFO" />
+	</logger>
+	<logger name="edu.iu.es.sis.ks.ksb.impl.SisCxfSendInterceptor">
+		<level value="DEBUG" />
+	</logger>
+	<logger name="edu.iu.es.sis.ks.ksb.impl.SisCxfOutInterceptor">
+		<level value="INFO" />
+	</logger>
+
+	<logger name="edu.iu.es.sis.core.transaction.SisTransaction">
+		<level value="INFO" />
+	</logger>
+	<logger name="org.springframework.transaction">
+		<level value="WARN" />
+	</logger>
+	<logger name="org.springframework.transaction.jta.JtaTransactionManager">
+		<level value="WARN" />
+	</logger>
+
+	<!-- SIS EJB container core impl debugging -->
+	<logger name="edu.iu.es.sis.core.impl.Sprouts">
+		<level value="INFO" />
+	</logger>
+	<logger name="edu.iu.es.sis.core.impl.Pod">
+		<level value="INFO" />
+	</logger>
+
+	<logger name="edu.iu.es.sis.core.jdbc.SisConnection">
+		<level value="INFO" />
+	</logger>
+	<logger name="edu.iu.es.sis.core.jdbc.SisDataSource">
+		<level value="INFO" />
+	</logger>
+	<logger name="edu.iu.es.sis.core.jdbc.SisStatement">
+		<level value="DEBUG" />
+	</logger>
+	<logger name="edu.iu.es.sis.core.jdbc.SisPreparedStatement">
+		<level value="DEBUG" />
+	</logger>
+	<logger name="edu.iu.es.sis.core.jdbc.SisResultSet">
+		<level value="INFO" />
+	</logger>
+	<logger name="edu.iu.es.sis.core.jdbc.SisDatabaseResource">
+		<level value="INFO" />
+	</logger>
+
+	<logger name="edu.iu.es.sis.core.persistence">
+		<level value="INFO" />
+	</logger>
+	<logger name="edu.iu.es.sis.core.persistence.JdbcSqlQuery">
+		<level value="DEBUG" />
+	</logger>
+
+	<logger name="edu.iu.es.sis.core.transaction.SisAttributeResource">
+		<level value="INFO" />
+	</logger>
+	<logger name="edu.iu.uis.sis.jta.SisAttributeResource">
+		<level value="ERROR" />
+	</logger>
+
+	<!-- Kuali Rice 2.0 log tuning -->
+	<logger name="org.kuali.rice.core.web.listener">
+		<level value="INFO" />
+	</logger>
+	<logger name="org.kuali.rice.core.impl.config.property.JAXBConfigImpl">
+		<level value="ERROR" />
+	</logger>
+	<logger name="org.kuali.rice.kew">
+		<level value="INFO" />
+	</logger>
+	<logger name="org.kuali.rice.krad">
+		<level value="INFO" />
+	</logger>
+
+	<!-- KS log tuning -->
+	<logger name="org.kuali.student.ap">
+		<level value="DEBUG" />
+	</logger>
+
+	<!-- External loggers related to SIS Rice 5 / Kuali Rice 2 -->
+	<logger name="net.sf.ehcache">
+		<level value="WARN" />
+	</logger>
+	<logger name="org.apache.cxf.services">
+		<level value="WARN" /> <!-- INFO is verbose -->
+	</logger>
+
+	<!-- sisrice 4 and earlier legacy names -->
+	<logger name="BOOT">
+		<level value="WARN" />
+	</logger>
+	<logger name="DEFAULT">
+		<level value="WARN" />
+	</logger>
+
+	<logger name="org">
+		<level value="WARN" />
+	</logger>
+	<logger name="com">
+		<level value="WARN" />
+	</logger>
+	<logger name="edu">
+		<level value="WARN" />
+	</logger>
+	<logger name="uk">
+		<level value="WARN" />
+	</logger>
+	<logger name="httpclient">
+		<level value="FATAL" />
+	</logger>
+
+	<logger name="org.springframework">
+		<level value="WARN" />
+	</logger>
+	<logger name="org.springframework.web">
+		<level value="INFO" />
+	</logger>
+	<logger name="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<level value="INFO" />
+	</logger>
+	<logger name="org.codehaus.xfire.spring">
+		<level value="ERROR" />
+	</logger>
+	<logger name="org.apache.jasper.xmlparser.MyEntityResolver">
+		<level value="FATAL" />
+	</logger>
+	<logger name="org.apache.commons">
+		<level value="ERROR" />
+	</logger>
+	<logger name="org.apache.cxf">
+		<level value="INFO" />
+	</logger>
+	<logger name="org.apache.cxf.services.ServiceRegistryService">
+		<level value="WARN" />
+	</logger>
+	<logger name="org.apache.cxf.interceptor.LoggingInInterceptor">
+		<level value="WARN" />
+	</logger>
+	<logger name="org.apache.cxf.interceptor.LoggingOutInterceptor">
+		<level value="WARN" />
+	</logger>
+
+	<logger name="edu.iu.uis.eden">
+		<level value="WARN" />
+	</logger>
+	<logger name="edu.iu.uis.eden.core">
+		<level value="ERROR" />
+	</logger>
+	<logger name="org.kuali.rice">
+		<level value="WARN" />
+	</logger>
+	<logger name="org.kuali.rice.config">
+		<level value="ERROR" />
+	</logger>
+	<logger name="org.kuali.rice.core.config">
+		<level value="ERROR" />
+	</logger>
+	<logger name="org.kuali.rice.core.resourceloader">
+		<level value="ERROR" />
+	</logger>
+
+	<logger name="org.kuali.core.util">
+		<level value="WARN" />
+	</logger>
+	<logger name="org.kuali.rice.ksb">
+		<level value="WARN" />
+	</logger>
+	<logger name="org.kuali.rice.kns.util.GlobalVariables">
+		<level value="DEBUG" />
+	</logger>
+	<logger name="org.kuali.rice.kns.UserSession">
+		<level value="DEBUG" />
+	</logger>
+	<logger name="edu.iu.uis.eden.messaging">
+		<level value="ERROR" />
+	</logger>
+	<logger name="edu.iu.uis.eden.doctype.DocumentSecurityServiceImpl">
+		<level value="DEBUG" />
+	</logger>
+	<logger name="org.kuali.rice.core.config.ConfigParserImpl">
+		<level value="ERROR" />
+	</logger>
+	<logger name="org.kuali.rice.kew.actions.ApproveAction">
+		<level value="DEBUG" />
+	</logger>
+	<logger name="org.kuali.rice.kew.actionitem.ActionItem">
+		<level value="ERROR" />
+	</logger>
+	<logger
+		name="org.kuali.rice.kew.actionrequest.service.impl.ActionRequestServiceImpl">
+		<level value="INFO" />
+	</logger>
+	<logger name="org.kuali.rice.kew.doctype.DocumentTypeSecurity">
+		<level value="ERROR" />
+	</logger>
+	<logger name="org.kuali.rice.kim.service.impl.RoleManagementServiceImpl">
+		<level value="ERROR" />
+	</logger>
+	<logger name="org.kuali.rice.kim.service.impl.RoleServiceImpl">
+		<level value="ERROR" />
+	</logger>
+	<logger name="org.kuali.rice.ksb.messaging.MessageServiceInvoker">
+		<level value="DEBUG" />
+	</logger>
+	<logger name="org.kuali.rice.ksb.messaging.ServiceInfo">
+		<level value="ERROR" />
+	</logger>
+	<logger name="org.kuali.rice.kns.datadictionary.DataDictionary">
+		<level value="ERROR" />
+	</logger>
+	<logger name="org.kuali.rice.kns">
+		<level value="INFO" />
+	</logger>
+	<logger name="org.kuali.rice.kns.web.struts.action.KualiAction">
+		<level value="ERROR" />
+	</logger>
+	<logger name="edu.iu.uis.sit.util.directory">
+		<level value="DEBUG" />
+	</logger>
+
+	<logger name="edu.iu.uits.sis">
+		<level value="DEBUG" />
+	</logger>
+	<logger name="edu.iu.uits.sis.ejb.request">
+		<level value="INFO" />
+	</logger>
+	<logger name="edu.iu.uis.sis">
+		<level value="DEBUG" />
+	</logger>
+	<logger name="edu.iu.uis.sis.adm">
+		<level value="DEBUG" />
+	</logger>
+	<logger name="edu.iu.uis.sis.adm.document.NonUgrdDocument">
+		<level value="DEBUG" />
+	</logger>
+	<logger name="edu.iu.uis.sis.adm.document.workflow.NonUgrdRoleAttribute">
+		<level value="INFO" />
+	</logger>
+	<logger
+		name="edu.iu.uis.sis.adm.document.workflow.NonUgrdRoleSearchAttribute">
+		<level value="INFO" />
+	</logger>
+	<logger name="edu.iu.uis.sis.app">
+		<level value="INFO" />
+	</logger>
+	<logger
+		name="edu.iu.uis.sis.courseapproval.web.form.CourseApprovalInitiateForm">
+		<level value="INFO" />
+	</logger>
+	<logger
+		name="edu.iu.uis.sis.courseapproval.web.action.CourseApprovalDocumentAction">
+		<level value="INFO" />
+	</logger>
+	<logger
+		name="edu.iu.uis.sis.courseapproval.document.workflow.CourseApprovalRoleAttribute">
+		<level value="INFO" />
+	</logger>
+	<logger
+		name="edu.iu.uis.sis.courseapproval.document.workflow.CourseApprovalRoleSearchAttribute">
+		<level value="INFO" />
+	</logger>
+	<logger name="edu.iu.uis.sis.dao">
+		<level value="INFO" />
+	</logger>
+	<logger name="edu.iu.uis.sis.dao.SisDao">
+		<level value="DEBUG" />
+	</logger>
+	<logger name="edu.iu.uis.sis.dao.impl.SisConnection">
+		<level value="INFO" />
+	</logger>
+	<logger name="edu.iu.uis.sis.dao.impl.SisDataSource">
+		<level value="INFO" />
+	</logger>
+	<logger name="edu.iu.uis.sis.dao.impl.GenericSqlBuilder">
+		<level value="INFO" />
+	</logger>
+	<logger name="edu.iu.uis.sis.dao.impl.JdbcSisDao">
+		<level value="INFO" />
+	</logger>
+	<logger name="edu.iu.uis.sis.dao.impl.SisStatement">
+		<level value="DEBUG" />
+	</logger>
+	<logger name="edu.iu.uis.sis.dao.impl.SisPreparedStatement">
+		<level value="DEBUG" />
+	</logger>
+	<logger name="edu.iu.uis.sis.dao.impl.SisResultSet">
+		<level value="INFO" />
+	</logger>
+	<logger name="edu.iu.uis.sis.jta">
+		<level value="INFO" />
+	</logger>
+	<logger name="edu.iu.uis.sis.kns">
+		<level value="INFO" />
+	</logger>
+	<logger name="edu.iu.uis.sis.kns.SisRequestProcessor">
+		<level value="DEBUG" />
+	</logger>
+	<logger name="edu.iu.uis.sis.kns.SisBusinessObjectDao">
+		<level value="INFO" />
+	</logger>
+	<logger name="edu.iu.uis.sis.kns.SisDocumentDao">
+		<level value="DEBUG" />
+	</logger>
+	<logger name="edu.iu.uis.sis.kns.SisDocumentPostProcessor">
+		<level value="INFO" />
+	</logger>
+	<logger name="edu.iu.uis.sis.kns.SisDocumentSession">
+		<level value="INFO" />
+	</logger>
+	<logger name="edu.iu.uis.sis.kns.SisKnsSessionFilter">
+		<level value="INFO" />
+	</logger>
+	<logger name="edu.iu.uis.sis.kns.SisKnsUserSession">
+		<level value="DEBUG" />
+	</logger>
+	<logger name="edu.iu.uis.sis.kns.impl">
+		<level value="DEBUG" />
+	</logger>
+	<logger name="edu.iu.uis.sis.ksb">
+		<level value="INFO" />
+	</logger>
+	<logger name="edu.iu.uis.sis.ksb.SisCxfInInterceptor">
+		<level value="DEBUG" />
+	</logger>
+	<logger name="edu.iu.uis.sis.ksb.SisCxfOutInterceptor">
+		<level value="DEBUG" />
+	</logger>
+	<logger name="edu.iu.uis.sis.ksb.impl.StatusServiceRemoteImpl">
+		<level value="DEBUG" />
+	</logger>
+	<logger name="edu.iu.uis.sis.ksb.TransactionNamespaceSoap">
+		<level value="DEBUG" />
+	</logger>
+	<logger name="edu.iu.uis.sis.session">
+		<level value="INFO" />
+	</logger>
+	<logger name="edu.iu.uis.sis.session.BaseSisUserSession">
+		<level value="INFO" />
+	</logger>
+	<logger name="edu.iu.uis.sis.session.servlet.SisActionServlet">
+		<level value="INFO" />
+	</logger>
+	<logger name="edu.iu.uis.sis.session.servlet.SisRequestFilter">
+		<level value="INFO" />
+	</logger>
+	<logger name="edu.iu.uis.sis.session.servlet.SisSessionFilter">
+		<level value="DEBUG" />
+	</logger>
+	<logger name="edu.iu.uis.sis.session.servlet.SisSessionRequestWrapper">
+		<level value="DEBUG" />
+	</logger>
+	<logger name="edu.iu.uis.sis.util">
+		<level value="INFO" />
+	</logger>
+	<logger name="edu.iu.uis.sis.util.AbstractPoller">
+		<level value="DEBUG" />
+	</logger>
+	<logger name="edu.iu.uis.sis.util.AuditUtil">
+		<level value="INFO" />
+	</logger>
+	<logger name="edu.iu.uis.sis.util.BeanUtil">
+		<level value="INFO" />
+	</logger>
+	<logger name="edu.iu.uis.sis.util.impl.DefaultValidator">
+		<level value="INFO" />
+	</logger>
+	<logger name="edu.iu.uis.sis.util.impl.GenericValidator">
+		<level value="INFO" />
+	</logger>
+	<logger name="edu.iu.uis.sis.util.ObservationHandler">
+		<level value="INFO" />
+	</logger>
+	<logger name="edu.iu.uis.sis.util.ProcessLogger">
+		<level value="INFO" />
+	</logger>
+	<logger name="edu.iu.uis.sis.util.ReflectionUtil">
+		<level value="INFO" />
+	</logger>
+	<logger name="edu.iu.uis.sis.util.SisEnvironment">
+		<level value="INFO" />
+	</logger>
+	<logger name="edu.iu.uis.sis.util.SisTestCase">
+		<level value="DEBUG" />
+	</logger>
+	<logger name="edu.iu.uis.sis.util.SpringUtil">
+		<level value="DEBUG" />
+	</logger>
+	<logger name="edu.iu.uis.sis.util.TransactionUtil">
+		<level value="INFO" />
+	</logger>
+	<logger name="edu.iu.uis.sis.util.servlet">
+		<level value="INFO" />
+	</logger>
+	<logger name="edu.iu.uis.sis.util.kuali">
+		<level value="INFO" />
+	</logger>
+	<logger name="edu.iu.uis.sis.util.kuali.impl">
+		<level value="INFO" />
+	</logger>
+	<logger name="edu.iu.uis.sis.util.kuali.AbstractWorkgroupRoleAttribute">
+		<level value="INFO" />
+	</logger>
+	<logger name="edu.iu.uis.sis.util.kuali.GenericWorkflowAttribute">
+		<level value="INFO" />
+	</logger>
+	<logger name="edu.iu.uis.sis.util.kuali.KualiUtil">
+		<level value="DEBUG" />
+	</logger>
+	<logger name="edu.iu.uis.sis.util.spring">
+		<level value="WARN" />
+	</logger>
+	<logger name="edu.iu.uis.sis.util.spring.SisApplicationContext">
+		<level value="WARN" />
+	</logger>
+	<logger name="edu.iu.uis.sis.util.kuali.SisKewConfigurer">
+		<level value="WARN" />
+	</logger>
+
+	<root>
+		<priority value="DEBUG" />
+		<appender-ref ref="OUT" />
+	</root>
+
+</log4j:configuration>

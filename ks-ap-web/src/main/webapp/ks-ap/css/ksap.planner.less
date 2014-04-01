@@ -1,0 +1,566 @@
+.ks-plan-Bucket-headerStatusIcons{ right:5px;}
+.ksap-plan-loader div.blockElement {
+  left: 180px !important;
+  top: 20px !important;
+}
+
+button.uif-primaryActionButton.ksap-carousel-prev,
+button.uif-primaryActionButton.ksap-carousel-next {
+  font-weight: bold;
+  padding: 6px 14px;
+}
+
+button.uif-primaryActionButton.ksap-carousel-prev {
+  border-radius: 15px 0px 0px 15px;
+}
+
+button.uif-primaryActionButton.ksap-carousel-next {
+  border-radius: 0px 15px 15px 0px;
+}
+
+button.uif-primaryActionButton.ksap-carousel-prev img,
+button.uif-primaryActionButton.ksap-carousel-next img {
+  width: 9px;
+  height: 15px;
+}
+
+button.uif-primaryActionButton.ksap-carousel-prev img,
+button.uif-primaryActionButton.ksap-carousel-next img {
+  width: 9px;
+  height: 15px;
+  margin: 0;
+  /*
+      @TODO ksap-961 use icon font instead of images
+  */
+  background: url('../images/ksap_icon_sprites.png') no-repeat;
+}
+
+button.uif-primaryActionButton.ksap-carousel-prev img {
+  background-position: 0px -100px;
+}
+
+button.uif-primaryActionButton.ksap-carousel-next img {
+  background-position: -10px -100px;
+}
+
+button.uif-primaryActionButton.ksap-carousel-prev.disabled img {
+  background-position: -20px -100px;
+}
+
+button.uif-primaryActionButton.ksap-carousel-next.disabled img {
+  background-position: -30px -100px;
+}
+.ksap-plan-header {
+  text-align: center;
+  width: 450px;
+  font-size: 30px;
+  line-height: 30px;
+}
+
+.ksap-carousel-list > .uif-headerField .uif-header {
+  text-align: center;
+}
+
+.ksap-carousel-list {
+  overflow: hidden;
+}
+
+.ksap-carousel-list ul {
+  width: 20000em;
+}
+
+.ksap-carousel-list ul,
+.ksap-carousel-list ul li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ksap-carousel-list ul li {
+  float: left;
+}
+
+.ksap-carousel-list ul li > .uif-group > .uif-header {
+  margin: 0;
+  padding: 0;
+  height: auto;
+  line-height: inherit;
+  background: none;
+  border: none;
+}
+/* Tab header yellow */
+.ksap-carousel-list ul li > .uif-group > .uif-header h4 {
+  display: block;
+  white-space: nowrap;
+  text-align: center;
+  padding: 9px 0;
+  border: solid 1px #000000;
+  border-radius: 5px 5px 0px 0px;
+
+}
+.ksap-carousel-list ul li > .uif-group > .uif-header h4 .uif-headerText-span {
+  color: #555;
+  font-size: 13px;
+  text-transform: uppercase;
+  text-shadow: 0px 1px 0px #fcffff;
+}
+/*Planner Calendar other terms*/
+.ksap-carousel-list ul li > .uif-group.ksap-term-past > .uif-header h4 {
+  border: solid 1px #cccccc;
+  background-color: #dedede;
+}
+/* Planner Calendar current term */
+.ksap-carousel-list ul li > .uif-group.ksap-term-current > .uif-header h4 {
+  border: solid 1px #432f69;
+}
+
+.ksap-carousel-list ul li > .uif-group.ksap-term-current > .uif-header h4 .uif-headerText-span {
+  color: #f9f7f7;
+  text-shadow: 0px 1px 0px #000;
+}
+
+.ksap-carousel-list ul li > .uif-group > .uif-verticalBoxLayout {
+  /*
+      @TODO KSAP-961 Convert to a border style instead of an image
+  */
+  background: url('../images/bkgrdDotted.gif');
+  min-height: 519px;
+  border: solid 1px #dfdfdf;
+  border-top: none;
+  border-radius: 0px 0px 5px 5px;
+}
+.ksap-carousel-list ul li .uif-group .uif-stackedCollectionLayout {
+  overflow: hidden;
+  background: none;
+  padding: 0px;
+}
+
+.ksap-carousel-list ul li .uif-header {
+  padding: 0px 0px 0px 10px;
+  height: 25px;
+  line-height: 25px;
+  background-color: #F5F5F5;
+  background-image: linear-gradient(to bottom, #F5F5F5 0%, #EBEBEB 100%);
+  border-top: solid 1px #e2e2e2;
+  border-bottom: solid 1px #e2e2e2;
+  margin-bottom: -1px;
+}
+
+.ksap-carousel-list ul li .uif-header h6.uif-headerText {
+  color: #777;
+  font-weight: normal;
+  font-size: 12px;
+  vertical-align: middle;
+  display: inline-block;
+  text-transform: capitalize;
+}
+.ksap-carousel-list ul li .uif-tooltip h6.uif-headerText span{
+  border-bottom: 1px dotted #777;
+}
+
+.ksap-carousel-list ul li .uif-header .uif-helpImage {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 5px 0 0 5px;
+}
+
+.ksap-carousel-list ul li .ksap-carousel-term-total .uif-helpImage {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 5px 0 0 5px;
+}
+
+.ksap-carousel-list ul li .ksap-carousel-term .uif-header .uif-header-rightGroup {
+  position: relative;
+  right: auto;
+  top: auto;
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 0 0 5px;
+}
+
+.ksap-carousel-list ul li .ksap-carousel-term .uif-header .uif-header-rightGroup img {
+  margin: 0;
+}
+.ksap-carousel-list ul li .ksap-carousel-term .uif-header .uif-header-lowerGroup {
+  display: inline-block;
+  float: right;
+  margin: 7px 0 0 0;
+}
+
+.ksap-carousel-list ul li .ksap-carousel-term .uif-header .uif-header-lowerGroup .ksap-registration-status {
+  width: 9px;
+  height: 11px;
+  /*
+      @TODO ksap-961 use icon font instead of images
+  */
+  background: url('../images/ksap_icon_sprites.png') no-repeat -1000px -1000px;
+}
+
+.ksap-carousel-list ul li .ksap-carousel-term .uif-header .uif-header-lowerGroup .ksap-registration-status.unlocked {
+  background-position: -1px -134px;
+}
+
+.ksap-carousel-list ul li .ksap-carousel-term .uif-header .uif-header-lowerGroup .ksap-registration-status.locked {
+  background-position: -12px -134px;
+}
+
+.ksap-carousel-list ul li .ksap-carousel-term.ksap-term-fixed-height .uif-stackedCollectionLayout {
+  height: 208px;
+}
+
+.ksap-carousel-list ul li .ksap-carousel-term .uif-stackedCollectionLayout .uif-collectionItem {
+  margin: 1px 0 0 0;
+  font-size: 0.8462em;
+  padding: 0px;
+  background: none;
+}
+
+.ksap-carousel-list ul li .ksap-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .code {
+  color: #000;
+}
+
+.ksap-carousel-list ul li .ksap-term-past .uif-stackedCollectionLayout .uif-collectionItem .code {
+  color: #555;
+}
+
+.ksap-carousel-list ul li .ksap-term-past .uif-stackedCollectionLayout .uif-collectionItem .ksap-course-invalid .code {
+  color: #666;
+}
+
+.ksap-carousel-list ul li .ksap-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .credit {
+  color: #888;
+  margin-left: 5px;
+}
+
+.ksap-carousel-list ul li .ksap-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .grade {
+  color: #777;
+  font-weight: bold;
+  float: right;
+}
+
+.ksap-carousel-list ul li .ksap-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .ksap-course-valid,
+.ksap-carousel-list ul li .ksap-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .ksap-course-invalid,
+.quick-add-cell {
+  height: 25px;
+  line-height: 25px;
+  padding: 0 5px 0 26px;
+}
+
+.ksap-carousel-list ul li .ksap-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .schedule {
+  padding: 0 5px 0 4px;
+}
+.ksap-carousel-list ul li .ksap-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .ksap-course-valid.not-scheduled,
+.ksap-carousel-list ul li .ksap-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .ksap-course-invalid.not-scheduled {
+  /*@TODO: ksap-961 Use icon font or point to ksboot resource instead*/
+  background: url('../images/iconWarning.png') no-repeat 4px;
+}
+
+.ksap-carousel-list ul li .ksap-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .schedule .schedule-status {
+  margin-right: 4px;
+}
+
+.ksap-carousel-list ul li .ksap-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .schedule-status img {
+  width: 18px;
+  height: 18px;
+  vertical-align: middle;
+  /*
+      @TODO ksap-961 use icon font instead of images
+  */
+  background: url('../images/ksap_icon_sprites.png') no-repeat -1000px -1000px;
+}
+
+.ksap-carousel-list ul li .ksap-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .schedule-status.not-scheduled img {
+  background-position: -54px -115px;
+}
+
+.quick-add-cell {
+  font-size: 0.8462em;
+  font-style: italic;
+  color: #117bdf;
+  padding: 0px 5px;
+  text-align: center;
+  margin: 1px 0 0 0;
+  background: none;
+}
+
+.ksap-carousel-list ul li .ksap-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .ksap-course-valid:hover,
+.ksap-carousel-list ul li .ksap-carousel-term .uif-stackedCollectionLayout .quick-add-cell:hover {
+  background-color: #e3f0fe;
+  cursor: pointer;
+}
+
+.ksap-carousel-list .ksap-carousel-term-total {
+  /*background: #f6ebcd;*/
+  /*color: #39275b;*/
+  font-size: 12px;
+  height: 26px;
+  line-height: 26px;
+  display: block;
+  padding: 0 10px !important;
+}
+.ksap-carousel-list .ksap-carousel-term-total .ks-plan-Bucket-creditLabel span{
+  border-bottom: 1px dotted #777;
+}
+
+.ksap-carousel-list .ksap-carousel-term-total .credits {
+  float: right;
+  font-size: 14px;
+}
+
+label.scheduled {
+  background: #ccc;
+  color: #333;
+  border-radius: 3px;
+  font-weight: bold;
+  font-size: 80%;
+  padding: 0 4px;
+  clear: none;
+  margin-right: 0.33em;
+  line-height: 1.8em;
+  display: inline-block;
+}
+
+.ksap-full-plan-detail {
+  margin: 0 auto !important;
+}
+
+.ksap-full-plan-detail > .uif-verticalBoxLayout {
+  border: 1px solid #a9a9a9;
+  border-radius: 5px;
+  font-size: 90%;
+  width: 618px;
+  margin: 0 20px;
+}
+
+.ksap-full-plan-detail table td,
+.ksap-full-plan-detail table th,
+.ksap-full-plan-detail ul,
+.ksap-full-plan-detail ul li,
+.ksap-full-plan-detail .uif-stackedCollectionLayout,
+.ksap-full-plan-detail .uif-stackedCollectionLayout > .uif-collectionItem {
+  padding: 0;
+  margin: 0;
+  background: none;
+}
+
+.ksap-full-plan-detail table th {
+  padding: 5px 0 0 10px;
+  text-align: left;
+  display: block;
+  width: 64px;
+  font-weight: bold;
+  line-height: 1.25em;
+}
+
+.ksap-full-plan-detail h4.uif-headerText {
+  font-size: 85%;
+  text-transform: uppercase;
+  color: #999;
+}
+
+.ksap-full-plan-detail .uif-stackedCollectionLayout > .uif-collectionItem.ksap-term{
+  display: inline-block;
+  float: left;
+}
+
+.ksap-full-plan-detail table.uif-gridLayout {
+  margin: 0;
+  border-top: solid 1px #a9a9a9;
+}
+
+.ksap-full-plan-detail .ksap-term {
+  border-left: solid 1px #a9a9a9;
+  width: 135px;
+}
+
+.ksap-full-plan-detail .ksap-term > .uif-verticalBoxLayout {
+  padding: 5px 10px;
+  min-height: 100px;
+}
+
+.ksap-full-plan-detail .ksap-term.ksap-current-term > .uif-verticalBoxLayout {
+  font-weight: bold;
+}
+
+.ksap-full-plan-detail .ksap-term .ksap-term-footer,
+.ksap-full-plan-detail .ksap-term .ksap-term-footer-blank {
+  border-top: dotted 1px #a9a9a9;
+  padding: 0 10px;
+  font-size: 90%;
+}
+
+.ksap-full-plan-detail .ksap-term .ksap-term-footer-blank {
+  border-top-color: transparent;
+}
+
+/* Quarter Detail View ######################################################################################### */
+.ksap-quarter-detail .uif-stackedCollectionLayout,
+.ksap-quarter-detail .uif-stackedCollectionLayout > .uif-collectionItem {
+  padding: 0;
+  margin: 0;
+  background: none;
+}
+
+.ksap-quarter-detail h5 {
+  border: solid 1px #ccc;
+  border-bottom: none;
+  text-transform: uppercase;
+  background: #e9e9e9;
+  font-weight: bold;
+  line-height: 1em;
+  padding: 10px 5px;
+}
+
+.ksap-quarter-detail .ksap-course-item {
+  border: solid 1px #ccc;
+  border-bottom: none;
+  padding: 5px;
+}
+
+.ksap-quarter-detail .ksap-course-sections table {
+  border-bottom: none;
+}
+
+.ksap-quarter-detail .dataTables_wrapper,
+.ksap-quarter-detail .dataTables_info {
+  margin: 0;
+}
+
+.ksap-quarter-detail .ksap-credit-total {
+  padding: 10px 5px;
+  background: #ccc;
+}
+.ks-plan-Widgets .ksap-widget {
+  margin-bottom: 10px;
+}
+.ks-plan-Bucket-emptyLabel {
+  display: block !important;
+  font-size: 0.8462em !important;
+  height: 25px !important;
+  line-height: 25px !important;
+  margin-top: 1px !important;
+  padding: 0 5px !important;
+  text-align: center !important;
+}
+
+.ks-plan-Bucket-item {
+  padding-left: 20px !important;
+}
+
+.ks-plan-Bucket-itemCreditCount::before {
+  content: '(' !important;
+}
+
+.ks-plan-Bucket-itemCreditCount::after {
+  content: ')' !important;
+}
+
+.ks-plan-Popover-body {
+  margin: 0 !important;
+}
+
+.ks-plan-Popover-bodyLabel {
+  display: block !important;
+  width: 280px !important;
+}
+
+.ks-plan-Header-headline {
+  margin: 0 !important;
+  width: 440px !important;
+}
+
+.ks-plan-Header-buttonWrapper {
+  margin: 0 !important;
+  text-align: right !important;
+  width: 90px !important;
+}
+
+.ks-plan-Header-button {
+  margin: 0 !important;
+}
+
+.ks-plan-Header-button--next {}
+
+.ks-plan-Header-button--previous {}
+
+.ks-plan-Header-buttonImage {
+  margin: 0 !important;
+}
+
+.ks-plan-Loader {
+  margin-right: 10px !important;
+  min-height: 400px !important;
+  width: 620px !important;
+}
+
+.ks-plan-Loader .blockOverlay {
+  background-color: #fff !important;
+  cursor: wait !important;
+  opacity: 0 !important;
+}
+
+.ks-plan-Loader .blockMsg {
+  background-color: #fffdd7 !important;
+  border: 1px solid #ffd14c !important;
+  border-radius: 15px !important;
+  padding: 20px !important;
+  text-align: center !important;
+  width: 230px !important;
+}
+
+.ks-plan-View-pageDetails {
+  margin-right: 10px;
+  width: 620px;
+}
+
+.ks-plan-Widgets {
+  margin: 0 !important;
+  width: 310px !important;
+}
+
+.ks-plan-TermsList-itemHeader {
+  position: relative;
+}
+.ks-plan-TermNote-input {
+  width: 97%;
+  resize: none;
+}
+
+.ks-plan-Note-input {
+  resize: none;
+  width:95%;
+}
+
+#popupForm .jquerybubblepopup{
+  display:none;
+}
+#course_search_result_section{
+  margin-right: 10px;
+}
+.ks-plan-Bucket-footer-hide {
+  display: none !important;
+}
+#plan-page, #planner_courses_detail_page {
+  margin: 0px;
+}
+
+#PlannerDialog-FormView {
+  width: 300px;
+  min-height: 0px;
+}
+
+.jquerypopover-innerHtml form {
+  margin: 0px;
+  width: 300px;
+  min-height: 0px;
+}
+
+#full_planned_courses_detail .uif-horizontalBoxLayout .uif-header-contentWrapper {
+  width: auto;
+  clear: none;
+  float: left;
+}
+#academicYearCollection .uif-gridLayout th[scope="row"] {
+  background-color: rgb(255, 255, 255);
+}

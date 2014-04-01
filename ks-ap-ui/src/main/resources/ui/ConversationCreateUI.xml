@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+    <!--
+     Copyright 2007-2009 The Kuali Foundation
+
+     Licensed under the Educational Community License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+     http://www.opensource.org/licenses/ecl2.php
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+    -->
+    <bean id="Conversation-create-FormView" parent="Conversation-create-FormView-parent" />
+    <bean abstract="true" id="Conversation-create-FormView-parent" parent="KSAPBaseFormView">
+		<property name="id" value="Conversation-create-FormView" />
+		<property name="entryPageId" value="create_conversation" />
+		<property name="items">
+			<list>
+				<ref bean="create_conversation_page" />
+			</list>
+		</property>
+		<property name="additionalScriptFiles">
+            <list>
+                <value>arm-ks/scripts/arm-review-ks.js</value>
+            </list>
+        </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>arm-ks/css/arm-review-ks.css</value>
+            </list>
+        </property>
+		
+		<property name="headerText" value="New Conversation" />
+	</bean>
+	
+	<bean id="create_conversation_page" parent="create_conversation_page-parent" />
+	<bean abstract="true" id="create_conversation_page-parent" parent="Uif-Page" p:id="create_conversation">
+		<property name="layoutManager">
+			<bean parent="Uif-VerticalBoxLayout" />
+		</property>
+		<property name="cssClasses">
+      		<list merge="true">
+          		<value>conversation-create-section</value>
+      		</list>
+  		</property>
+		<property name="items">
+			<list>
+				<ref bean="create_conversation_outer" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="create_conversation_outer" parent="create_conversation_outer-parent" />
+	<bean abstract="true" id="create_conversation_outer-parent" parent="Uif-VerticalBoxGroup" p:id="create_conversation_outer">
+		<property name="items">
+			<list>
+				<ref bean="breadcrumb_for_create_conversation" />
+				<bean parent="Uif-MessageField" p:messageText="[hr]"/>
+				<ref bean="conversation_advisor_field" />
+				<ref bean="conversation_topic_field" />
+				<ref bean="conversation_message_field" />
+				<ref bean="create_conversation_buttons" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="conversation_advisor_field" parent="conversation_advisor_field-parent" p:render="@{step1}" />
+	<bean abstract="true" id="conversation_advisor_field-parent" parent="Uif-VerticalBoxGroup" p:id="conversation_advisor_field">
+		<property name="items">
+			<list>
+				<bean parent="Uif-MessageField" p:messageText="Start a conversation with..."/>
+				<bean parent="Uif-InputField-LabelTop" p:propertyName="advisorId" p:width="auto">
+					<property name="control">
+						<bean parent="Uif-VerticalRadioControl" />
+					</property>
+					<property name="optionsFinder">
+						<bean class="org.kuali.student.ap.plannerreview.util.AvailableAdvisorBuilder" p:addBlankOption="false"/>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="conversation_topic_field" parent="conversation_topic_field-parent" p:render="@{step2}" />
+	<bean abstract="true" id="conversation_topic_field-parent" parent="Uif-VerticalBoxGroup" p:id="conversation_topic_field">
+		<property name="items">
+			<list>
+				<bean parent="Uif-MessageField" p:messageText="Contact @{selectedAdvisorName} about..."/>
+				<bean parent="Uif-InputField-LabelTop" p:propertyName="topicType" p:width="auto">
+					<property name="control">
+						<bean parent="Uif-HorizontalRadioControl">
+							<property name="options">
+								<list>
+									<bean parent="Uif-KeyLabelPair" p:key="kuali.ap.plan.topic.type.all" p:value="Entire Plan"/>
+									<bean parent="Uif-KeyLabelPair" p:key="kuali.ap.plan.topic.type.terms" p:value="Specific terms"/>
+									<bean parent="Uif-KeyLabelPair" p:key="kuali.ap.plan.topic.type.courses" p:value="Specific courses"/>
+								</list>
+							</property>
+						</bean>
+					</property>
+				</bean>
+				<ref bean="conversation_dynamic_topic_fields"/>
+				<ref bean="conversation_bookmarked_courses"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="conversation_dynamic_topic_fields" parent="conversation_dynamic_topic_fields-parent" />
+	<bean id="conversation_dynamic_topic_fields-parent" parent="Uif-VerticalBoxGroup" abstract="true">
+		<property name="items">
+			<list>
+				<ref bean="conversation_entirePlan"/>
+				<ref bean="conversation_specificTerms"/>
+				<ref bean="conversation_specificCourses"/>
+				<bean parent="Uif-MessageField" p:messageText="[hr]"/>
+				<bean id="conversation_termAndCourseNotes" parent="Uif-InputField-LabelTop" p:propertyName="includeNotes" p:progressiveRender="@{topicType ne 'kuali.ap.plan.topic.type.courses'}">
+				    <property name="control">
+				    	<bean parent="Uif-CheckboxControl" 
+				    		p:checkboxLabel="Include term and course notes" />
+				    </property>
+				 </bean>
+				 <bean id="conversation_courseNotes" parent="Uif-InputField-LabelTop" p:propertyName="includeNotes" p:progressiveRender="@{topicType eq 'kuali.ap.plan.topic.type.courses'}">
+				    <property name="control">
+				    	<bean parent="Uif-CheckboxControl" 
+				    		p:checkboxLabel="Include course notes" />
+				    </property>
+				 </bean>
+				 <bean id="conversation_backup" parent="Uif-InputField-LabelTop" p:propertyName="includeBackups" p:progressiveRender="@{topicType ne 'kuali.ap.plan.topic.type.courses'}">
+				    <property name="control">
+				    	<bean parent="Uif-CheckboxControl" p:checkboxLabel="Include backup courses"/>
+				    </property>
+				 </bean>
+				 <bean parent="Uif-MessageField" p:messageText="[hr]"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="conversation_entirePlan" parent="conversation_entirePlan-parent"
+		p:progressiveRender="@{topicType eq 'kuali.ap.plan.topic.type.all'}"/>
+	<bean abstract="true" id="conversation_entirePlan-parent" parent="Uif-VerticalBoxGroup" p:id="conversation_entire_plan">
+		<property name="items">
+			<list>
+				<bean parent="Uif-MessageField" p:messageText="@{fullPlanDisplay}"/> 
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="conversation_specificTerms" parent="conversation_specificTerms-parent"
+		p:progressiveRender="@{topicType eq 'kuali.ap.plan.topic.type.terms'}"/>
+	<bean abstract="true" id="conversation_specificTerms-parent" parent="Uif-VerticalBoxGroup" p:id="conversation_specific_terms">
+		<property name="items">
+			<list>
+				<bean id="dynamic_acadYear_list" parent="Uif-ListCollectionSection">
+			        <property name="collectionObjectClass"
+			                  value="org.kuali.student.ap.plannerreview.dto.AcademicYearInfo"/>
+			        <property name="propertyName" value="availableAcademicYears"/>
+			        <property name="renderAddLine" value="false"/>
+			        <property name="renderLineActions" value="false"/>
+			        <property name="disclosure.render" value="false"/>
+			        <property name="layoutManager.lineGroupPrototype.header.render" value="false"/>
+			        <property name="items">
+			            <list>
+			            </list>
+			        </property>
+			        <property name="subCollections">
+			            <list>
+			            	<bean id="dynamic_term_list" parent="Uif-ListCollectionSection">
+						        <property name="collectionObjectClass"
+						                  value="org.kuali.student.ap.plannerreview.dto.PlanTermInfo"/>
+						        <property name="propertyName" value="terms"/>
+						        <property name="renderAddLine" value="false"/>
+						        <property name="renderLineActions" value="false"/>
+						        <property name="disclosure.render" value="false"/>
+						        <property name="layoutManager.lineGroupPrototype.header.render" value="false"/>
+						        <property name="cssClasses">
+									<list merge="true">
+										<value>checkboxRows</value>
+									</list>
+								</property>
+						        <property name="items">
+						            <list>
+						            	<bean parent="Uif-HorizontalFieldGroup" p:id="@{#line.termId}">
+						                    <property name="fieldLabel.render" value="false"/>
+						                    <property name="group.validationMessages.render" value="false"/>
+						                    <property name="items">
+						                        <list>
+						                        	<bean parent="Uif-MessageField" p:messageText="@{#parentLine.yearDisplay}" p:render="@{#index eq 0}"/>
+						                            <bean id="conversation_selected_term" parent="Uif-InputField-LabelTop" 
+						                            		p:propertyName="selected" p:width="auto">
+														<property name="control">
+														    <bean parent="Uif-CheckboxControl" p:checkboxLabel="@{#line.termName}"/>
+														</property>
+													</bean>
+						                        </list>
+						                    </property>
+						                </bean>
+						            </list>
+						        </property>
+						    </bean>
+			            </list>
+			        </property>
+			    </bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="conversation_specificCourses" parent="conversation_specificCourses-parent"
+		p:progressiveRender="@{topicType eq 'kuali.ap.plan.topic.type.courses'}"/>
+	<bean abstract="true" id="conversation_specificCourses-parent" parent="Uif-VerticalBoxGroup" p:id="conversation_specific_courses">
+		<property name="items">
+			<list>
+				<bean id="dynamic_acadYearTermCourse_list" parent="Uif-ListCollectionSection">
+			        <property name="collectionObjectClass"
+			                  value="org.kuali.student.ap.plannerreview.dto.AcademicYearInfo"/>
+			        <property name="propertyName" value="availableAcademicYears"/>
+			        <property name="renderAddLine" value="false"/>
+			        <property name="renderLineActions" value="false"/>
+			        <property name="disclosure.render" value="false"/>
+			        <property name="layoutManager.lineGroupPrototype.header.render" value="false"/>
+			        <property name="items">
+			            <list>
+			            </list>
+			        </property>
+			        <property name="subCollections">
+			            <list>
+			            	<bean id="dynamic_termcourse_list" parent="Uif-ListCollectionSection">
+						        <property name="collectionObjectClass"
+						                  value="org.kuali.student.ap.plannerreview.dto.PlanTermInfo"/>
+						        <property name="propertyName" value="terms"/>
+						        <property name="renderAddLine" value="false"/>
+						        <property name="renderLineActions" value="false"/>
+						        <property name="disclosure.render" value="true"/>
+						        <property name="layoutManager.lineGroupPrototype.header.render" value="false"/>
+						        <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
+						        <property name="items">
+						            <list>
+						            </list>
+						        </property>
+						        <property name="subCollections">
+						            <list>
+						            	<ref bean="dynamic_course_type_list" />
+						            </list>
+						        </property>
+						    </bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+    <bean id="dynamic_course_type_list" parent="dynamic_course_type_list-parent"/>
+	<bean abstract="true" id="dynamic_course_type_list-parent" parent="Uif-ListCollectionSection">
+		<property name="collectionObjectClass"
+                  value="org.kuali.student.ap.plannerreview.dto.CourseTypeInfo"/>
+        <property name="propertyName" value="courseTypes"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="disclosure.render" value="true"/>
+        <property name="layoutManager.lineGroupPrototype.header.render" value="false"/>
+        <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
+        <property name="cssClasses">
+			<list merge="true">
+				<value>indentedContent</value>
+			</list>
+		</property>
+        <property name="items">
+            <list>
+            </list>
+        </property>
+        
+		<property name="headerText" value="@{#line.fullName}"/>
+		<property name="header.headerLevel" value="h4" />
+		<property name="subCollections">
+      		<list>
+       			<ref bean="dynamic_course_list" />
+          	</list>
+      	</property>
+	</bean>
+
+    <bean id="dynamic_course_list" abstract="false" parent="dynamic_course_list-parent"/>
+	<bean id="dynamic_course_list-parent" abstract="false" parent="Uif-ListCollectionSection">
+        <property name="collectionObjectClass"
+                  value="org.kuali.student.ap.plannerreview.dto.CourseInfo"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="disclosure.render" value="false"/>
+        <!-- <property name="layoutManager.summaryFields" value="backup" />  -->
+        <property name="layoutManager.lineGroupPrototype.header.render" value="false"/>
+        <property name="propertyName" value="courses"/>
+        <property name="headerText" value="@{#line.type eq 'kuali.ap.plan.course.type.planned' ? 'Planned' : 'Backup'}"/>
+        <property name="header.headerLevel" value="h4" />
+        <property name="cssClasses">
+			<list merge="true">
+				<value>checkboxRows</value>
+			</list>
+		</property>
+        <property name="items">
+			<list>
+				<bean parent="Uif-HorizontalFieldGroup" p:id="@{#line.courseId}">
+                    <property name="fieldLabel.render" value="false"/>
+                    <property name="group.validationMessages.render" value="false"/>
+                    <property name="items">
+                        <list>
+							<bean id="conversation_selected_course" parent="Uif-InputField-LabelTop"
+								p:propertyName="isChecked" p:width="auto">
+								<property name="control">
+									<!-- <bean parent="Uif-CheckboxControl" p:checkboxLabel="[span title='@{#line.courseName}']@{#line.courseCode}[/span]"/> -->
+									<bean parent="Uif-CheckboxControl" p:checkboxLabel="[id='course_checkbox_tooltip' messageText='@{#line.courseCode}' toolTip.tooltipContent='@{#line.courseName}']"/>
+								</property>
+								<property name="cssClasses">
+									<list merge="true">
+										<value>checkboxItem</value>
+									</list>
+								</property>
+							</bean>
+						 </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+	
+	<bean id="conversation_bookmarked_courses" parent="conversation_bookmarked_courses-parent"/>
+	<bean abstract="true" id="conversation_bookmarked_courses-parent" parent="Uif-Disclosure-HorizontalBoxSection" p:id="conversation_bookmarked"
+		p:headerText="Include bookmarked courses">
+		<property name="header.headerLevel" value="h4" />
+		<property name="disclosure.defaultOpen" value="false"/>
+		<property name="items">
+			<list>
+				<bean parent="Uif-InputField-LabelTop" p:propertyName="selectedBookmarks">
+					<property name="control">
+						<bean parent="Uif-HorizontalCheckboxesControl"/>
+					</property>
+					<property name="optionsFinder">
+						<bean class="org.kuali.student.ap.plannerreview.util.BookmarkedCoursesBuilder" p:addBlankOption="false"
+								p:useSpanInsteadOfTooltip="false"/>
+					</property>
+					<property name="cssClasses">
+	            		<list merge="true">
+	                		<value>bookmarkCheckboxRows</value>
+	            		</list>
+	        		</property>
+				</bean>
+				<bean id="no_bookmarked_courses_msg" parent="Uif-MessageField" p:messageText="No bookmarked courses available" 
+					p:render="@{bookmarkedCourses.size() eq 0}"/>
+			</list>
+		</property>
+	</bean>
+
+    <bean id="course_checkbox_tooltip" parent="course_checkbox_tooltip-parent"/>
+	<bean abstract="true" id="course_checkbox_tooltip-parent" parent="Uif-MessageField" p:messageText="Message Field Text">
+		<property name="toolTip">
+			<bean parent="Uif-Tooltip" p:tooltipContent=""/>
+		</property>
+	</bean>
+	
+	<bean id="conversation_message_field" parent="conversation_message_field-parent" p:render="@{step3}"/>
+	<bean abstract="true" id="conversation_message_field-parent" parent="Uif-VerticalBoxGroup" p:id="conversation_message_field">
+		<property name="items">
+			<list>
+				<bean id="messageTitleShort" parent="Uif-MessageField" p:messageText="Contact @{selectedAdvisorName} about @{messageTitleShort}"/>
+				<bean id="messageTitleFull" parent="Uif-MessageField" p:messageText="Contact @{selectedAdvisorName} about @{messageTitle}" p:style="display:none;"/>
+			    <bean parent="Uif-InputField" p:propertyName="messageText">
+				    <property name="control">
+				 		<bean parent="Uif-TextAreaControl"/>
+				    </property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="show_more_link" parent="Uif-ActionLink" p:actionLabel="" p:actionScript="jQuery('#messageTitleFull').show();jQuery('#messageTitleShort').hide();" />
+	
+	<bean id="create_conversation_buttons" parent="create_conversation_buttons-parent" />
+	<bean abstract="true" id="create_conversation_buttons-parent" parent="Uif-FooterBase">
+		<property name="items">
+			<list>
+				<bean parent="Uif-SecondaryActionButton" p:actionLabel="Close"
+						p:actionScript="closeLightbox()" />
+				<bean id="step1_next" parent="Uif-PrimaryActionButton" p:actionLabel="Next" p:render="@{step1}"
+						p:methodToCall="nextStep" p:disabled="@{advisorIdEmpty}" p:enabledWhenChangedPropertyNames="advisorId"/>
+				<bean id="step2_next" parent="Uif-PrimaryActionButton" p:actionLabel="Next" p:render="@{step2}"
+						p:methodToCall="nextStep" p:disabled="@{topicTypeEmpty}" p:enabledWhenChangedPropertyNames="topicType"/>
+				<bean id="step3_send" parent="Uif-PrimaryActionButton" p:actionLabel="Send" p:render="@{step3}"
+						p:methodToCall="send" p:disabled="@{messageTextEmpty}" p:enabledWhenChangedPropertyNames="messageText" 
+						p:evaluateDisabledOnKeyUp="true" p:successCallback="closeLightbox()"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="breadcrumb_for_create_conversation" parent="breadcrumb_for_create_conversation-parent" />
+	<bean abstract="true" id="breadcrumb_for_create_conversation-parent" parent="Uif-VerticalBoxGroup">
+		<property name="items">
+			<list>
+				<bean parent="Uif-HorizontalBoxGroup">
+					<property name="items">
+						<list>
+							<bean parent="Uif-ActionLink" p:actionLabel="Advisor" p:methodToCall="step1" p:disabled="@{step1}"/>
+							<bean parent="Uif-MessageField" p:messageText=">"/>
+							<bean parent="Uif-ActionLink" p:actionLabel="Topic" p:methodToCall="step2" p:disabled="@{step2 or advisorIdEmpty}"/>
+							<bean parent="Uif-MessageField" p:messageText=">"/>
+							<bean parent="Uif-ActionLink" p:actionLabel="Message" p:methodToCall="step3" p:disabled="@{step3 or topicTypeEmpty}"/>
+						</list>
+					</property>
+				</bean>
+				
+			</list>
+		</property>
+	</bean>
+ 
+</beans>

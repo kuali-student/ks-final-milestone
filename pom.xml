@@ -6,11 +6,12 @@
         <artifactId>student</artifactId>
         <version>2.1.1-FR2-M1-SNAPSHOT</version>
     </parent>
-    <groupId>org.kuali.student.api</groupId>
-    <artifactId>ks-api</artifactId>
-    <version>2.1.1-FR2-M1-SNAPSHOT</version>
+    <groupId>org.kuali.student.ap</groupId>
+    <artifactId>ks-ap</artifactId>
+    <version>0.8.0-FR2-M1-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>KS API</name>
+    <name>KSAP</name>
+    <description>Kuali Student Academic Planning Module</description>
     <profiles>
         <profile>
             <id>default</id>
@@ -18,18 +19,34 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <modules>
-                <module>ks-common-api</module>
-                <module>ks-core-api</module>
-                <module>ks-lum-api</module>
-                <module>ks-enroll-api</module>
-                <module>ks-ap-api</module>
+                <module>ks-ap-sql</module>
+                <module>ks-ap-framework</module>
+                <module>ks-ap-impl</module>
+                <module>ks-ap-ui</module>
+                <module>ks-ap-web</module>
+                <module>ks-ap-deployment-resources</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>sql-only</id>
+            <modules>
+                <module>ks-ap-sql</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>skip-all-wars</id>
+            <modules>
+                <module>ks-ap-sql</module>
+                <module>ks-ap-impl</module>
+                <module>ks-ap-framework</module>
+                <module>ks-ap-ui</module>
             </modules>
         </profile>
         <profile>
             <id>skip-surefire-tests</id>
             <activation>
                 <property>
-                    <name>skip.api.tests</name>
+                    <name>skip.ap.tests</name>
                 </property>
             </activation>
             <build>
@@ -42,13 +59,12 @@
                     </plugin>
                 </plugins>
             </build>
-            <!-- include all the modules from the default profile -->
+            <!-- include all the modules from the default profile (except SQL modules and Web modules) -->
             <modules>
-                <module>ks-common-api</module>
-                <module>ks-core-api</module>
-                <module>ks-lum-api</module>
-                <module>ks-enroll-api</module>
-                <module>ks-ap-api</module>
+                <module>ks-ap-framework</module>
+                <module>ks-ap-impl</module>
+                <module>ks-ap-ui</module>
+                <module>ks-ap-deployment-resources</module>
             </modules>
         </profile>
     </profiles>
