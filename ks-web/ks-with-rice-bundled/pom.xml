@@ -8,7 +8,7 @@
     <parent>
         <groupId>org.kuali.student.web</groupId>
         <artifactId>ks-web</artifactId>
-        <version>2.1.1-FR2-M1-SNAPSHOT</version>
+        <version>2.0.0-rice24upgrade-SNAPSHOT</version>
     </parent>
     <properties>
         <ks.gwt.module.org>org.kuali.student.core.organization.ui.OrgEntry</ks.gwt.module.org>
@@ -332,6 +332,10 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.kuali.student.lum</groupId>
             <artifactId>ks-lum-ui</artifactId>
             <classifier>sources</classifier>
@@ -391,6 +395,10 @@
         <dependency>
             <groupId>antlr</groupId>
             <artifactId>antlr</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
         </dependency>
     </dependencies>
 </project>

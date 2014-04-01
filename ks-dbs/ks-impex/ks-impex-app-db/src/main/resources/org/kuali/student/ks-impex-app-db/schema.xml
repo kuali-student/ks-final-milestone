@@ -1360,7 +1360,7 @@
         <foreignColumnNames>TYPE_KEY</foreignColumnNames>
         <localColumnNames>OWNER</localColumnNames>
     </foreignKey>
-    <sequence name="KS_RICE_ID_S" startValue="55758"/>
+    <sequence name="KS_RICE_ID_S" startValue="55748"/>
     <table name="KSDO_DOCUMENT">
         <column name="CREATEID" type="STRING">
             <size value="255"/>
@@ -2772,9 +2772,6 @@
         <column name="EFF_DT" type="TIMESTAMP">
             <size scale="6" scaleSet="true" value="11"/>
         </column>
-        <column name="ENTRY_ORDER" type="FLOAT">
-            <size value="0"/>
-        </column>
         <column name="EXPIR_DT" type="TIMESTAMP">
             <size scale="6" scaleSet="true" value="11"/>
         </column>
@@ -2787,7 +2784,10 @@
         <column name="OBJ_ID" type="STRING">
             <size value="36"/>
         </column>
-        <column name="REG_RQST_ITEM_ID" nullable="false" type="STRING">
+        <column name="POSITION" type="FLOAT">
+            <size value="0"/>
+        </column>
+        <column name="REG_GROUP_ID" nullable="false" type="STRING">
             <size value="255"/>
         </column>
         <column name="STUDENT_ID" nullable="false" type="STRING">
@@ -3098,7 +3098,7 @@
         <column name="LUI_ID" nullable="false" type="STRING">
             <size value="255"/>
         </column>
-        <column name="MASTER_LPR_ID" type="STRING">
+        <column name="MASTER_LUI_ID" type="STRING">
             <size value="255"/>
         </column>
         <column name="OBJ_ID" type="STRING">
