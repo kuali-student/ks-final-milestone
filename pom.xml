@@ -26,7 +26,6 @@
                 <module>ks-lum-program</module>
                 <module>ks-lum-ui-common</module>
                 <module>ks-cm-krad</module>
-                <module>ks-cm-web</module>
                 <module>ks-cm-deployment-resources</module>
             </modules>
         </profile>
@@ -81,7 +80,6 @@
                 <module>ks-lum-program</module>
                 <module>ks-lum-ui-common</module>
                 <module>ks-cm-krad</module>
-                <module>ks-cm-web</module>
             </modules>
         </profile>
     </profiles>
