@@ -71,7 +71,13 @@
                         </list>
                     </property>
                     <property name="control">
-                        <bean parent="Uif-LargeTextAreaControl" />
+                        <bean parent="Uif-LargeTextAreaControl">
+                            <property name="cssClasses">
+                                <list merge="true">
+                                    <value>cm-charcount-max-500</value>
+                                </list>
+                            </property>
+                        </bean>
                     </property>
                 </bean>
             </list>
