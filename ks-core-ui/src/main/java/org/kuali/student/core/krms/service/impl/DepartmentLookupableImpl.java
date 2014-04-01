@@ -17,7 +17,7 @@ package org.kuali.student.core.krms.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.krad.web.form.LookupForm;
+import org.kuali.rice.krad.lookup.LookupForm;
 import org.kuali.student.common.uif.service.impl.KSLookupableImpl;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.common.util.security.ContextUtils;
@@ -49,10 +49,10 @@ public class DepartmentLookupableImpl extends KSLookupableImpl {
     private OrganizationService organizationService;
 
     @Override
-    protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
+    public List<?> performSearch(LookupForm lookupForm, Map<String, String> searchCriteria, boolean bounded) {
 
-        String shortName = fieldValues.get("shortName");
-        String longName = fieldValues.get("longName");
+        String shortName = searchCriteria.get("shortName");
+        String longName = searchCriteria.get("longName");
 
         List<OrgInfo> displays = new ArrayList<OrgInfo>();
         List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();

@@ -21,9 +21,11 @@ import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.Container;
+import org.kuali.rice.krad.uif.lifecycle.ViewLifecycle;
 import org.kuali.rice.krad.uif.util.ComponentFactory;
 import org.kuali.rice.krad.uif.util.ComponentUtils;
 import org.kuali.rice.krad.uif.view.View;
+import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.util.BeanPropertyComparator;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -56,7 +58,6 @@ import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.rice.krms.dto.TemplateInfo;
 import org.kuali.rice.krms.service.RuleViewHelperService;
 import org.kuali.student.common.uif.service.impl.KSViewHelperServiceImpl;
-import org.kuali.student.r1.common.rice.StudentIdentityConstants;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.springframework.beans.BeanUtils;
 
@@ -108,13 +109,13 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
     }
 
     @Override
-    protected void addCustomContainerComponents(View view, Object model, Container container) {
+    public void addCustomContainerComponents(ViewModel model, Container container) {
         if (KRMSConstants.KRMS_PROPOSITION_DETAILSECTION_ID.equals(container.getId())) {
-            customizePropositionEditSection(view, model, container);
+            customizePropositionEditSection(model, container);
         }
     }
 
-    private void customizePropositionEditSection(View view, Object model, Container container) {
+    private void customizePropositionEditSection(Object model, Container container) {
         //Retrieve the current editing proposition if exists.
         MaintenanceDocumentForm maintenanceDocumentForm = (MaintenanceDocumentForm) model;
         Object dataObject = maintenanceDocumentForm.getDocument().getNewMaintainableObject().getDataObject();
@@ -127,9 +128,10 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
             //Retrieve the name of the xml component to display for the proposition type.
             TemplateInfo template = this.getTemplateForType(propEditor.getType());
 
+            View view = ViewLifecycle.getView();
+
             if (template != null && template.getComponentId() != null) {
                 Component component = ComponentFactory.getNewComponentInstance(template.getComponentId());
-                view.assignComponentIds(component);
                 if(container.getId().equals(maintenanceDocumentForm.getUpdateComponentId())){
                     String nodePath = view.getDefaultBindingObjectPath() + "." + propEditor.getBindingPath();
                     ComponentUtils.pushObjectToContext(component, UifConstants.ContextVariableNames.NODE_PATH, nodePath);
@@ -142,7 +144,6 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
 
             if (template != null && template.getConstantComponentId() != null) {
                 Component component = ComponentFactory.getNewComponentInstance(template.getConstantComponentId());
-                view.assignComponentIds(component);
 
                 //Add Proposition Type FieldGroup to Tree Node
                 components.add(component);

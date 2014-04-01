@@ -1,7 +1,6 @@
 package org.kuali.student.common.messagebuilder.booleanmessage.ast;
 
-import junit.framework.Assert;
-
+import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.student.common.messagebuilder.booleanmessage.ast.BooleanFunctionResult;
 

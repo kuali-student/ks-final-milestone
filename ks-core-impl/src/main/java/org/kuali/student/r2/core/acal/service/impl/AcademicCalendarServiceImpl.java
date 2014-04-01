@@ -11,7 +11,6 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
-import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -82,7 +81,6 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     private TypeService typeService;
     private AcademicCalendarAssembler acalAssembler;
     private TermAssembler termAssembler;
-    private DataDictionaryService dataDictionaryService;
     private HolidayCalendarAssembler holidayCalendarAssembler;
     private HolidayAssembler holidayAssembler;
     private KeyDateAssembler keyDateAssembler;
@@ -131,14 +129,6 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
     public void setExamPeriodTransformer(ExamPeriodTransformer examPeriodTransformer) {
         this.examPeriodTransformer = examPeriodTransformer;
-    }
-
-    public DataDictionaryService getDataDictionaryService() {
-        return dataDictionaryService;
-    }
-
-    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
-        this.dataDictionaryService = dataDictionaryService;
     }
 
     public TypeService getTypeService() {

@@ -4,7 +4,7 @@ import static org.kuali.rice.core.api.criteria.PredicateFactory.and;
 import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
 
 import org.kuali.rice.core.api.criteria.Predicate;
-import org.kuali.rice.core.framework.persistence.jpa.criteria.Criteria;
+import org.kuali.student.r2.common.criteria.Criteria;
 
 public class AddEqualTransform extends BaseTransform {
     

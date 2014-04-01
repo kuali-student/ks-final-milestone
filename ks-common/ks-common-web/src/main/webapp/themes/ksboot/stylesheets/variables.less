@@ -7,7 +7,8 @@
 
 /*------------------- BEGIN KBOOT OVERRIDES ---------------------------*/
 // Text
-@textColor: #000;
+@black: #000;
+@textColor: @black;
 @selectedText: @textColor;
 
 @baseFontSize:          13px; //overrideds kboot and boostrap baseFontSize setting of 14px
@@ -19,7 +20,7 @@
 // Buttons
 @btnPrimaryBackground:              @linkColor;
 @btnPrimaryBackgroundHighlight:     spin(@btnPrimaryBackground, 20%);
-@btnBackground:                     @white;
+@btnBackground:                     @white_background;
 @btnBackgroundHighlight:            #E6E6E6;
 @btnBorder:                         #CCC;
 
@@ -54,8 +55,8 @@
 @summerColor: #FEF200;
 
 // States
-@stateTextColor: @white;
-@draftStateBackground: @grayLight;
+@stateTextColor: @white_background;
+@draftStateBackground: @gray-light;
 @readyStateBackground: #3A87AD;
 @completedStateBackground: #468847;
 @canceledStateBackground: #B94A48;

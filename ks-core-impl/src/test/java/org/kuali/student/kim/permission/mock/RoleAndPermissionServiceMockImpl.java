@@ -913,11 +913,6 @@ public class RoleAndPermissionServiceMockImpl implements RoleService, Permission
     public Permission updatePermission(Permission permission) throws RiceIllegalArgumentException, RiceIllegalStateException {
         // UPDATE
         Permission.Builder copy = Permission.Builder.create(permission);
-        Permission old = this.getPermission(permission.getId());
-        if (!old.getVersionNumber().equals(copy.getVersionNumber())) {
-            throw new RiceIllegalStateException("" + old.getVersionNumber());
-        }
-        copy.setVersionNumber(copy.getVersionNumber() + 1);
         permission = copy.build();
         this.permissionMap.put(permission.getId(), permission);
         return permission;

@@ -37,15 +37,5 @@ public class KSUifActionButton extends Action {
         }
     }
 
-    /**
-     * @see org.kuali.rice.krad.uif.component.ComponentBase#copy()
-     */
-    @Override
-    protected <T> void copyProperties(T component) {
-        super.copyProperties(component);
 
-        KSUifActionButton buttonCopy = (KSUifActionButton) component;
-
-        buttonCopy.setButtonSize(this.getButtonSize());
-    }
 }

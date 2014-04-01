@@ -152,7 +152,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField-LabelTop">
+                <bean parent="KS-Uif-InputField-LabelTop">
                     <property name="forceSessionPersistence" value="true"/>
                     <property name="propertyName" value="dropdownSelection"/>
                     <property name="label" value="Dropdown #1"/>
@@ -162,7 +162,7 @@
                               p:options-ref="KS-KitchenSink-Select-Example1-Options"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField-LabelTop">
+                <bean parent="KS-Uif-InputField-LabelTop">
                     <property name="propertyName" value="dropdownSelection2"/>
                     <property name="label" value="Dropdown #2"/>
                     <property name="refreshWhenChangedPropertyNames" value="dropdownSelection"/>
@@ -171,7 +171,7 @@
                               p:options-ref="KS-KitchenSink-Select-Example1-Options"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField-LabelTop">
+                <bean parent="KS-Uif-InputField-LabelTop">
                     <property name="propertyName" value="stringField1"/>
                     <property name="label" value="Field #1"/>
                     <property name="helpSummary" value="Standard KRAD 'helpSummary' property"/>
@@ -220,7 +220,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField-LabelTop">
+                <bean parent="KS-Uif-InputField-LabelTop">
                     <property name="propertyName" value="stringField2"/>
                     <property name="label" value="Preset Text"/>
                     <property name="control">

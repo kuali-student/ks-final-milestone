@@ -57,7 +57,7 @@ limitations under the License.
                 <bean parent="KRMS-PropKey-HiddenField"/>
 
                 <!--Add the type droplist-->
-                <bean id="KRMS-PropositionType-Dropdown" parent="Uif-InputField-LabelTop" p:propertyName="proposition.typeId"
+                <bean id="KRMS-PropositionType-Dropdown" parent="KS-Uif-InputField-LabelTop" p:propertyName="proposition.typeId"
                       p:showLabel="true" p:label="Rule Statement Option" p:maxLength="40" p:required="true">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:cssClasses="categorySelect"
