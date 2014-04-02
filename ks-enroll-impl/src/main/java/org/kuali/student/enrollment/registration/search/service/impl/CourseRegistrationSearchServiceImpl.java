@@ -60,7 +60,9 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
     public static final List<TypeInfo> searchTypeList;
 
     public static final String REG_INFO_BY_PERSON_TERM_SEARCH_KEY =
-            "kuali.search.type.lui.searchForCourseRegistrationByStudentAndTerm ";
+            "kuali.search.type.lui.searchForCourseRegistrationByStudentAndTerm";
+    public static final String REG_AND_WL_INFO_BY_PERSON_TERM_SEARCH_KEY =
+            "kuali.search.type.lui.searchForCourseRegistrationAndWaitlistByStudentAndTerm";
     public static final String AO_SCHEDULES_CO_CREDITS_GRADING_OPTIONS_BY_IDS_SEARCH_KEY =
             "kuali.search.type.lui.searchForAOSchedulesAndCOCreditAndGradingOptionsByIds";
     public static final String LPR_TRANS_IDS_BY_PERSON_TERM_TYPE_SEARCH_KEY =
@@ -90,6 +92,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
     public static final TypeInfo LPRS_BY_AOIDS_LPR_STATE_TYPE;
     public static final TypeInfo LPRIDS_BY_MASTER_LPR_ID_SEARCH_TYPE;
     public static final TypeInfo SEAT_COUNT_INFO_BY_AOIDS_SEARCH_TYPE;
+    public static final TypeInfo REG_AND_WL_INFO_BY_PERSON_TERM_SEARCH_TYPE;
 
     public static final String DEFAULT_EFFECTIVE_DATE = "01/01/2012";
 
@@ -236,6 +239,11 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                 createTypeInfo(SEAT_COUNT_INFO_BY_AOIDS_SEARCH_KEY,
                         "(aoId, type, maxSeats, maxWaitlistSize, cwlId) for a list of AO ids",
                         "Returns (aoId, type, maxSeats, maxWaitlistSize, cwlId) for a list of AO ids");
+
+        REG_AND_WL_INFO_BY_PERSON_TERM_SEARCH_TYPE =
+                createTypeInfo(REG_AND_WL_INFO_BY_PERSON_TERM_SEARCH_KEY,
+                        "Registration and waitlist info by person and term",
+                        "Returns registration and waitlist info for given person and term");
     }
 
     @Override
@@ -290,9 +298,142 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             return searchForLprIdsByMasterLprId(searchRequestInfo);
         } else if (SEAT_COUNT_INFO_BY_AOIDS_SEARCH_TYPE.getKey().equals(searchKey)) {
             return searchForSeatCountInfoByAOIds(searchRequestInfo);
+        } else if (REG_AND_WL_INFO_BY_PERSON_TERM_SEARCH_TYPE.getKey().equals(searchKey)) {
+            return searchForCourseRegistrationAndWaitlistByStudentAndTerm(searchRequestInfo);
         } else {
             throw new OperationFailedException("Unsupported search type: " + searchRequestInfo.getSearchKey());
         }
+    }
+
+    private SearchResultInfo searchForCourseRegistrationAndWaitlistByStudentAndTerm(SearchRequestInfo searchRequestInfo) throws OperationFailedException {
+        SearchResultInfo resultInfo = new SearchResultInfo();
+        SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
+        String atpId = requestHelper.getParamAsString(SearchParameters.ATP_ID);
+        String personId = requestHelper.getParamAsString(SearchParameters.PERSON_ID);
+
+        String queryStr =
+                "SELECT " +
+                        "    lpr.LPR_TYPE              lprType, " +
+                        "    lpr.id                    lprId, " +
+                        "    lpr.ATP_ID                atpId, " +
+                        "    atp.ATP_CD                atpCode, " +
+                        "    atp.NAME                  atpName, " +
+                        "    coId.LUI_CD               courseCode, " +
+                        "    co.ID                     courseId, " +
+                        "    rg.NAME                   rgName, " +
+                        "    ao.NAME                   aoName, " +
+                        "    ao.LUI_TYPE               luiType, " +
+                        "    coId.LNG_NAME             coTitle, " +
+                        "    co.DESCR_FORMATTED        coDescription, " +
+                        "    schedCmp.TBA_IND          isTBA, " +
+                        "    room.ROOM_CD              room, " +
+                        "    room2bldg.BUILDING_CD     building, " +
+                        "    schedTmslt.WEEKDAYS       weekdays, " +
+                        "    schedTmslt.START_TIME_MS  startTime, " +
+                        "    schedTmslt.END_TIME_MS    endTime, " +
+                        "    credits.RESULT_VAL_GRP_ID credits, " +
+                        "    grading.RESULT_VAL_GRP_ID grading " +
+                        "FROM " +
+                        "    KSEN_LUI co, " +
+                        "    KSEN_LUI rg, " +
+                        "    KSEN_LUI_IDENT coId, " +
+                        "    KSEN_LUILUI_RELTN fo2rg, " +
+                        "    KSEN_LUILUI_RELTN co2fo, " +
+                        "    KSEN_LUILUI_RELTN rg2ao, " +
+                        "    KSEN_LUI ao " +
+                        "LEFT OUTER JOIN " +
+                        "    KSEN_LUI_SCHEDULE sched " +
+                        "ON " +
+                        "    sched.LUI_ID = ao.ID " +
+                        "LEFT OUTER JOIN " +
+                        "    KSEN_SCHED_CMP schedCmp " +
+                        "ON " +
+                        "    schedCmp.SCHED_ID = sched.SCHED_ID " +
+                        "LEFT OUTER JOIN " +
+                        "    KSEN_ROOM room " +
+                        "ON " +
+                        "    room.ID = schedCmp.ROOM_ID " +
+                        "LEFT OUTER JOIN " +
+                        "    KSEN_ROOM_BUILDING room2bldg " +
+                        "ON " +
+                        "    room2bldg.ID = room.BUILDING_ID " +
+                        "LEFT OUTER JOIN " +
+                        "    KSEN_SCHED_CMP_TMSLOT schedCmpTmslt " +
+                        "ON " +
+                        "    schedCmpTmslt.SCHED_CMP_ID = schedCmp.ID " +
+                        "LEFT OUTER JOIN " +
+                        "    KSEN_SCHED_TMSLOT schedTmslt " +
+                        "ON " +
+                        "    schedTmslt.ID = schedCmpTmslt.TM_SLOT_ID, " +
+                        "    KSEN_LPR lpr " +
+                        "LEFT OUTER JOIN " +
+                        "    KSEN_LPR_RESULT_VAL_GRP credits " +
+                        "ON " +
+                        "    credits.LPR_ID = lpr.id " +
+                        "AND credits.RESULT_VAL_GRP_ID LIKE 'kuali.result.value.credit.degree.%' " +
+                        "LEFT OUTER JOIN " +
+                        "    KSEN_LPR_RESULT_VAL_GRP grading " +
+                        "ON " +
+                        "    grading.LPR_ID = lpr.id " +
+                        "AND grading.RESULT_VAL_GRP_ID LIKE 'kuali.resultComponent.grade.%' " +
+                        "WHERE " +
+                        "    lpr.PERS_ID = :personId " +
+                        "AND lpr.LPR_STATE IN ('kuali.lpr.state.registered', " +
+                        "                      'kuali.lpr.state.active') " +
+                        "AND lpr.LPR_TYPE IN('kuali.lpr.type.registrant.registration.group', " +
+                        "                    'kuali.lpr.type.waitlist.registration.group') " +
+                        (!StringUtils.isEmpty(atpId) ? " AND lpr.ATP_ID = :atpId " : "") +
+                        "AND rg2ao.LUILUI_RELTN_TYPE='kuali.lui.lui.relation.type.registeredforvia.rg2ao' " +
+                        "AND fo2rg.LUILUI_RELTN_TYPE='kuali.lui.lui.relation.type.deliveredvia.fo2rg' " +
+                        "AND co2fo.LUILUI_RELTN_TYPE='kuali.lui.lui.relation.type.deliveredvia.co2fo' " +
+                        "AND rg2ao.LUI_ID=lpr.LUI_ID " +
+                        "AND fo2rg.RELATED_LUI_ID = lpr.LUI_ID " +
+                        "AND co2fo.RELATED_LUI_ID = fo2rg.LUI_ID " +
+                        "AND ao.id = rg2ao.RELATED_LUI_ID " +
+                        "AND co.id = co2fo.LUI_ID " +
+                        "AND rg.id = lpr.LUI_ID " +
+                        "AND coId.LUI_ID = co.id " +
+                        "ORDER BY atp.id, lpr.LPR_TYPE, lpr.id, ao.LUI_TYPE";
+
+
+        Query query = entityManager.createNativeQuery(queryStr);
+        query.setParameter(SearchParameters.PERSON_ID, personId);
+        if (!StringUtils.isEmpty(atpId)) {
+            query.setParameter(SearchParameters.ATP_ID, atpId);
+        }
+        List<Object[]> results = query.getResultList();
+
+        for (Object[] resultRow : results) {
+            int i = 0;
+            SearchResultRowInfo row = new SearchResultRowInfo();
+            row.addCell(SearchResultColumns.LPR_TYPE, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.MASTER_LPR_ID, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.ATP_ID, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.ATP_CD, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.ATP_NAME, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.COURSE_CODE, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.COURSE_ID, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.RG_CODE, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.AO_NAME, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.AO_TYPE, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.LUI_LONG_NAME, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.LUI_DESC, (String) resultRow[i++]);
+            BigDecimal tbaInd = (BigDecimal) resultRow[i++];
+            row.addCell(SearchResultColumns.TBA_IND, (tbaInd == null) ? "" : tbaInd.toString());
+            row.addCell(SearchResultColumns.ROOM_CODE, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.BUILDING_CODE, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.WEEKDAYS, (String) resultRow[i++]);
+            BigDecimal startTimeMs = (BigDecimal) resultRow[i++];
+            row.addCell(SearchResultColumns.START_TIME_MS, (startTimeMs == null) ? "" : startTimeMs.toString());
+            BigDecimal endTimeMs = (BigDecimal) resultRow[i++];
+            row.addCell(SearchResultColumns.END_TIME_MS, (endTimeMs == null) ? "" : endTimeMs.toString());
+            row.addCell(SearchResultColumns.CREDITS, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.GRADING_OPTION_ID, (String) resultRow[i]);
+
+            resultInfo.getRows().add(row);
+        }
+
+        return resultInfo;
     }
 
     /**
