@@ -93,8 +93,7 @@
         <property name="validationMessages.displayMessages" value="false" />
         <property name="items">
             <list>
-                <bean id="KS-CourseView-gradingOptions" parent="Uif-InputField-LabelTop" p:propertyName="courseInfo.gradingOptions"
-                      p:required="@{(#workflowDoc.enroute) ? 'true' : 'false'}">
+                <bean id="KS-CourseView-gradingOptions" parent="Uif-InputField-LabelTop" p:propertyName="courseInfo.gradingOptions" >
                     <property name="control">
                         <bean parent="Uif-VerticalCheckboxesControl" />
                     </property>
@@ -116,7 +115,15 @@
                                 </property>
                             </bean>
                     </property>
-
+                    <property name="simpleConstraint">
+                        <bean parent="RequiredConstraint">
+                            <property name="states">
+                                <list>
+                                    <value>R+</value>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
                     <property name="fieldLabel.requiredMessage">
                         <bean parent="CM-StateAware-RequiredMessage" />
                     </property>
@@ -150,16 +157,28 @@
 
     <bean id="KS-CourseView-CourseLogisticsPage-FinalExam-Widgets"
           parent="Uif-VerticalBoxSection" p:headerText="Final Exam">
+        <property name="validationMessages.displayMessages" value="false" />
         <property name="items">
             <list>
-                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="finalExamStatus"
-                      p:label="Final Exam Status" >
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="finalExamStatus" p:label="Final Exam Status" >
                     <property name="control">
                         <bean parent="KS-Uif-VerticalRadioControl" />
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.FinalExamKeyValueFinder"
                             p:addBlankOption="false" />
+                    </property>
+                    <property name="simpleConstraint">
+                        <bean parent="RequiredConstraint">
+                            <property name="states">
+                                <list>
+                                    <value>R+</value>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                    <property name="fieldLabel.requiredMessage">
+                        <bean parent="CM-StateAware-RequiredMessage" />
                     </property>
                 </bean>
                 <bean id="KS-FinalExamRationale" parent="KS-Uif-InputField-LabelTop"
@@ -186,9 +205,7 @@
                 </bean>
             </list>
         </property>
-        <property name="layoutManager.lineGroupPrototype.header.headerText"
-                  value="Outcome @{(#index + 1)}" />
-        <!--<property name="renderAddBlankLineButton" value="true" />-->
+        <property name="layoutManager.lineGroupPrototype.header.headerText" value="Outcome @{(#index + 1)}" />
         <property name="addLinePlacement" value="BOTTOM" />
         <property name="items">
             <list>

@@ -51,7 +51,8 @@
                                     <bean parent="KS-Uif-DropdownControl" />
                                 </property>
                             </bean>
-                            <bean parent="Uif-SecondaryActionButton-Small" p:id="addCurriculumOversight" p:actionLabel="Add" p:methodToCall="addUnitsContentOwner" />
+                            <bean parent="Uif-SecondaryActionButton-Small" p:id="addCurriculumOversight" p:actionLabel="Add"
+                                  p:methodToCall="addUnitsContentOwner" />
                         </list>
                     </property>
                 </bean>
