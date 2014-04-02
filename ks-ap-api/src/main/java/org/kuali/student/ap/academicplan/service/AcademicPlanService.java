@@ -28,20 +28,28 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import java.util.List;
 
+
 /**
- * Academic Plan service provides a means for students to specify plans for taking courses (and/or possibly other
- * requirements) to meet certain program goals.
+ * Provides a means for students to plan an academic career.
  * <p/>
- * Things available through the learning plan service:
+ * It designed to allow the student to:
  * <p/>
- * <ol>
- * <li>Selecting courses [future: requirements, certifications, etc.] for a specific academic term</li>
- * <li>Selecting courses and adding them to a wish list ("bookmarks")</li>
- * <li>Selecting courses for doing a what if audit</li>
+ * <ul>
+ * <li>Search for courses [requirements, certifications, etc.] by subject course code, keyword, and to selective narrow
+ *      a search result by a plethora of categories (e.g. subj code, course # level, gen-end rqmts,....</li>
+ * <li>Select courses and add them to a "bookmark" list</li>
+ * <li>Adopt a learning template plan</li>
+ * <li>View of courses already taken and credits/grade recieved for each, directly within their plan</li>
+ * <li>Share a plan (...or part thereof) with an Advisor for review/comment/recommendation</li>
+ * <li>Run degree audit on a plan</li>
+ * <li>Select courses for doing a what if audit</li>
  * <li>Creating multiple plans (pathways) to meet program goals</li>
- * <li>Template plans</li>
- * </ol>
- *
+ * <li>Build out a detailed class schedule that may be used to feed registration (i.e. ...to make  a "registration
+ *      request")</li>
+ * <li>Use an interface to the program / learning objectives (degree/major/minor/certificate/...) in which
+ *      they are enrolled, or for which they may wish to consider in a "what if" planning scenario (e.g. when running
+ *      degree audit)</li>
+ * </ul>
  * @author Kuali Student Team
  * @version 1.0 (Dev)
  */
