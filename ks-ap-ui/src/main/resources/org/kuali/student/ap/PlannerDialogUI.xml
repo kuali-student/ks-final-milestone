@@ -557,7 +557,7 @@
 	</bean>
 
 	<bean id="planner_dialog_input" parent="Uif-InputField" abstract="true">
-		<property name="labelPlacement" value="TOP" />
+		<!-- Rice 2.4 upgrade : removing p:labelPlacement="TOP" -->
 		<property name="fieldLabel.render" value="true" />
 	</bean>
 
