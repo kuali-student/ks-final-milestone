@@ -663,6 +663,7 @@
         <property name="socService" ref="CourseOfferingSetService" />
         <property name="typeService" ref="typeServiceCacheDecorator" />
         <property name="scheduleEvaluator" ref="examOfferingScheduleEvaluator" />
+        <property name="schedulingService" ref="SchedulingService"/>
         <property name="setLocation" value="true" />
     </bean>
 
