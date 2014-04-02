@@ -31,7 +31,7 @@ import org.kuali.rice.krms.tree.node.RuleEditorTreeNode;
  */
 public class EditTreeGroup extends TreeGroup {
 
-    protected void buildTreeGroups(View view, Object model) {
+    protected void buildTreeGroups(Object model) {
         // get Tree data property
         Tree<Object, String> treeData = ObjectPropertyUtils.getPropertyValue(model, getBindingInfo().getBindingPath());
 
