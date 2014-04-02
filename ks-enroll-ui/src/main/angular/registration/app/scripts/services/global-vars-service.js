@@ -66,7 +66,7 @@ angular.module('regCartApp')
 
             this.setSchedule(scheduleList);
             angular.forEach(scheduleList, function (schedule) {
-                angular.forEach(schedule.courseOfferings, function (course) {
+                angular.forEach(schedule.registeredCourseOfferings, function (course) {
                     creditCount += parseFloat(course.credits);
                     courses++;
                     var gradingOptionCount = 0;
