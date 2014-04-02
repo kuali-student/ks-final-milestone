@@ -144,6 +144,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         public static final String COURSE_CODE = "courseCode";
         public static final String COURSE_ID = "courseId";
         public static final String RG_CODE = "regGroupCode";
+        public static final String RG_ID = "regGroupId";
         public static final String AO_NAME = "aoName";
         public static final String AO_TYPE = "aoType";
         public static final String GRADING = "grading";
@@ -581,6 +582,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                 "    coId.LUI_CD               courseCode, " +
                 "    co.ID                     courseId, " +
                 "    rg.NAME                   rgName, " +
+                "    rg.ID                     rgId, " +
                 "    ao.NAME                   aoName, " +
                 "    ao.LUI_TYPE               luiType, " +
                 "    coId.LNG_NAME             coTitle, " +
@@ -685,6 +687,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             row.addCell(SearchResultColumns.COURSE_CODE, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.COURSE_ID, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.RG_CODE, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.RG_ID, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.AO_NAME, (String) resultRow[i++]);
 //            row.addCell(SearchResultColumns.LUI_DESC, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.AO_TYPE, (String) resultRow[i++]);

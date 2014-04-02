@@ -604,6 +604,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
             String courseCode = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.COURSE_CODE);
             String courseId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.COURSE_ID);
             String rgCode = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.RG_CODE);
+            String rgId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.RG_ID);
             String aoName = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_NAME);
             String aoType = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_TYPE);
             //String courseDescription = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_DESC);
@@ -628,6 +629,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
                 currentCartItem.setCredits(creditsStr);
                 currentCartItem.setGrading(grading);
                 currentCartItem.setRegGroupCode(rgCode);
+                currentCartItem.setRegGroupId(rgId);
                 currentCartItem.getActionLinks().add(buildDeleteLink(cartId, cartItemId, grading, creditsStr));
                 currentCartItem.setState(cartItemState);
                 currentCartItem.setCartId(cartId);
