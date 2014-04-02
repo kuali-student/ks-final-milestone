@@ -110,6 +110,11 @@
             <div ng-if="cartResultItem.statusMessage && (cartResultItem.status != 'success')" id="result_status_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}" class="kscr-CardResult-detailsText--{{cartResultItem.status}}">
                <span class="kscr-Card-reason"> <strong>Reason:</strong> {{cartResultItem.statusMessage}}</span>
             </div>
+            <div class="kscr-Card-button" ng-if="cartResultItem.statusMessage && (cartResultItem.status == 'waitlist')">
+                <span>
+                    <button class="kscr-Button" id="waitlist_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}" ng-click="openDropConfirmation($index, course)">Add to Waitlist</button>
+                </span>
+            </div>
         </div>
         <div id="course_remove_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}" class="kscr-Card-remove" ng-if="cartResultItem.status != 'processing'">
             <span class="kscr-cartResult-remove"><a href="" ng-click="removeCartResultItem(cartResultItem)"><i class="glyphicon glyphicon-remove"></i></a></span>
