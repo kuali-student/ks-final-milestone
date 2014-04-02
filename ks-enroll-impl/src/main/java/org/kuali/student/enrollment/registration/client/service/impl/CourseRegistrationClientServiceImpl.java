@@ -252,7 +252,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
 
         //Create events per day from the schedule
         for (StudentScheduleTermResult scheduleItem : schedule) {
-            for (StudentScheduleCourseResult course : scheduleItem.getCourseOfferings()) {
+            for (StudentScheduleCourseResult course : scheduleItem.getRegisteredCourseOfferings()) {
                 String colour = colours[colourIndex++];
                 for (StudentScheduleActivityOfferingResult ao : course.getActivityOfferings()) {
                     for (ActivityOfferingScheduleComponentResult component : ao.getScheduleComponents()) {
@@ -370,6 +370,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
             String luiId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_ID);
             String masterLprId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.MASTER_LPR_ID);
             String personLuiType = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.PERSON_LUI_TYPE);
+            String lprState = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LPR_STATE);
             String credits = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CREDITS);
             String gradingOptionId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.GRADING_OPTION_ID);
             String luiCode = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_CODE);
@@ -396,6 +397,11 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                     studentScheduleCourseResult.setGradingOptionId(gradingOptionId);
                     studentScheduleCourseResult.setLongName(luiLongName);
                     studentScheduleCourseResult.setMasterLprId(masterLprId);
+                    if (lprState != null && StringUtils.equals(lprState, LprServiceConstants.ACTIVE_STATE_KEY)) {
+                        studentScheduleCourseResult.setWaitlisted(true);
+                    } else {
+                        studentScheduleCourseResult.setWaitlisted(false);
+                    }
                     if (resultValuesGroupKey != null && resultValuesGroupKey.startsWith(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE_OLD)) {
                         studentScheduleCourseResult.setCreditOptions(getCourseOfferingCreditOptionValues(resultValuesGroupKey, contextInfo));
                     } else {
@@ -460,6 +466,11 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                     studentScheduleCourseResult.setGradingOptionId(gradingOptionId);
                     studentScheduleCourseResult.setLongName(luiLongName);
                     studentScheduleCourseResult.setMasterLprId(masterLprId);
+                    if (lprState != null && StringUtils.equals(lprState, LprServiceConstants.ACTIVE_STATE_KEY)) {
+                        studentScheduleCourseResult.setWaitlisted(true);
+                    } else {
+                        studentScheduleCourseResult.setWaitlisted(false);
+                    }
                     if (resultValuesGroupKey != null && resultValuesGroupKey.startsWith(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE_OLD)) {
                         studentScheduleCourseResult.setCreditOptions(getCourseOfferingCreditOptionValues(resultValuesGroupKey, contextInfo));
                     } else {
@@ -524,7 +535,8 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         }
 
         for (Map.Entry<String, List<String>> pair : hmTerm.entrySet()) {
-            List<StudentScheduleCourseResult> studentScheduleCourseResults = new ArrayList<StudentScheduleCourseResult>();
+            List<StudentScheduleCourseResult> studentScheduleRegisteredCourseResults = new ArrayList<StudentScheduleCourseResult>();
+            List<StudentScheduleCourseResult> studentScheduleWaitlistCourseResults = new ArrayList<StudentScheduleCourseResult>();
             TermSearchResult termInfo = hmTermInfo.get(pair.getKey());
             List<String> masterLuiIds = pair.getValue();
             for (String masterLuiId : masterLuiIds) {
@@ -537,11 +549,16 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                         activityOffering.setInstructors(hmAOInstructors.get(activityOffering.getActivityOfferingId()));
                     }
                 }
-                studentScheduleCourseResults.add(studentScheduleCourseResult);
+                if (studentScheduleCourseResult.isWaitlisted()) {
+                    studentScheduleWaitlistCourseResults.add(studentScheduleCourseResult);
+                } else {
+                    studentScheduleRegisteredCourseResults.add(studentScheduleCourseResult);
+                }
             }
             StudentScheduleTermResult studentScheduleTermResult = new StudentScheduleTermResult();
             studentScheduleTermResult.setTerm(termInfo);
-            studentScheduleTermResult.setCourseOfferings(studentScheduleCourseResults);
+            studentScheduleTermResult.setRegisteredCourseOfferings(studentScheduleRegisteredCourseResults);
+            studentScheduleTermResult.setWaitlistCourseOfferings(studentScheduleWaitlistCourseResults);
 
             studentScheduleTermResults.add(studentScheduleTermResult);
         }

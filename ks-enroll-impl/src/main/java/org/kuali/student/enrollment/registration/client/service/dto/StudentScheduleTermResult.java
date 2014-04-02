@@ -25,17 +25,30 @@ import java.util.List;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "StudentScheduleCourseResult", propOrder = {
-        "term", "courseOfferings"})
+        "term", "registeredCourseOfferings", "waitlistCourseOfferings"})
 public class StudentScheduleTermResult {
 
     private TermSearchResult term;
-    private List<StudentScheduleCourseResult> courseOfferings;
+    private List<StudentScheduleCourseResult> registeredCourseOfferings;
+    private List<StudentScheduleCourseResult> waitlistCourseOfferings;
 
     public TermSearchResult getTerm() { return term; }
 
     public void setTerm(TermSearchResult term) { this.term = term; }
 
-    public List<StudentScheduleCourseResult> getCourseOfferings() { return courseOfferings; }
+    public List<StudentScheduleCourseResult> getRegisteredCourseOfferings() {
+        return registeredCourseOfferings;
+    }
 
-    public void setCourseOfferings(List<StudentScheduleCourseResult> courseOfferings) { this.courseOfferings = courseOfferings; }
+    public void setRegisteredCourseOfferings(List<StudentScheduleCourseResult> registeredCourseOfferings) {
+        this.registeredCourseOfferings = registeredCourseOfferings;
+    }
+
+    public List<StudentScheduleCourseResult> getWaitlistCourseOfferings() {
+        return waitlistCourseOfferings;
+    }
+
+    public void setWaitlistCourseOfferings(List<StudentScheduleCourseResult> waitlistCourseOfferings) {
+        this.waitlistCourseOfferings = waitlistCourseOfferings;
+    }
 }

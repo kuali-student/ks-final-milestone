@@ -24,6 +24,7 @@ public class StudentScheduleCourseResult {
     private List<String> creditOptions;
     private Map<String, String> gradingOptions;
     private List<StudentScheduleActivityOfferingResult> activityOfferings;
+    private boolean isWaitlisted;
 
     public List<StudentScheduleActivityOfferingResult> getActivityOfferings() {
         if (activityOfferings == null) {
@@ -97,4 +98,8 @@ public class StudentScheduleCourseResult {
     }
 
     public void setGradingOptions(Map<String, String> gradingOptions) { this.gradingOptions = gradingOptions; }
+
+    public boolean isWaitlisted() { return isWaitlisted; }
+
+    public void setWaitlisted(boolean isWaitlisted) { this.isWaitlisted = isWaitlisted; }
 }

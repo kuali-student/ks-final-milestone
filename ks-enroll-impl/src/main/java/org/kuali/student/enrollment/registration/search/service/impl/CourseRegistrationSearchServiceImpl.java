@@ -579,7 +579,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         String personId = requestHelper.getParamAsString(SearchParameters.PERSON_ID);
 
         String queryStr =
-                "SELECT atp.ID, atp.ATP_CD, atp.NAME as atp_name, lpr.LUI_ID, lpr.MASTER_LPR_ID, lpr.LPR_TYPE, lpr.CREDITS, lpr.GRADING_OPT_ID, " +
+                "SELECT atp.ID, atp.ATP_CD, atp.NAME as atp_name, " +
+                        "lpr.LUI_ID, lpr.MASTER_LPR_ID, lpr.LPR_TYPE, lpr.LPR_STATE, lpr.CREDITS, lpr.GRADING_OPT_ID, " +
                         "luiId.LUI_CD, lui.NAME as lui_name, lui.DESCR_FORMATTED, lui.LUI_TYPE, luiId.LNG_NAME, " +
                         "luiRes.RESULT_VAL_GRP_ID, schedCmp.TBA_IND, " +
                         "room.ROOM_CD, rBldg.BUILDING_CD, " +
@@ -609,7 +610,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "  AND lui.ID = lpr.LUI_ID " +
                         "  AND lui.ATP_ID = lpr.ATP_ID " +
                         "  AND luiId.LUI_ID = lui.ID " +
-                        "  AND lpr.LPR_STATE in ('" + LprServiceConstants.PLANNED_STATE_KEY + "', '" + LprServiceConstants.REGISTERED_STATE_KEY + "') ";
+                        "  AND lpr.LPR_STATE in ('" + LprServiceConstants.REGISTERED_STATE_KEY + "', '" + LprServiceConstants.ACTIVE_STATE_KEY + "') ";
 
         if (!StringUtils.isEmpty(atpId)) {
             queryStr = queryStr + " AND lpr.ATP_ID = :atpId ";
@@ -631,6 +632,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             row.addCell(SearchResultColumns.LUI_ID, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.MASTER_LPR_ID, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.PERSON_LUI_TYPE, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.LPR_STATE, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.CREDITS, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.GRADING_OPTION_ID, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.LUI_CODE, (String) resultRow[i++]);
