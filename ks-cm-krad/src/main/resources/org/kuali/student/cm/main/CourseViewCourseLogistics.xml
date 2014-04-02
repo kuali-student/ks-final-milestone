@@ -94,7 +94,7 @@
         <property name="items">
             <list>
                 <bean id="KS-CourseView-gradingOptions" parent="Uif-InputField-LabelTop" p:propertyName="courseInfo.gradingOptions"
-                      p:required="@{(#workflowDoc.saved or #workflowDoc.enroute) ? 'true' : 'false'}">
+                      p:required="@{(#workflowDoc.enroute) ? 'true' : 'false'}">
                     <property name="control">
                         <bean parent="Uif-VerticalCheckboxesControl" />
                     </property>
