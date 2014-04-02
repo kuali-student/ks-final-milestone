@@ -94,6 +94,7 @@
 <div id="user_message" class="util-Alert util-Alert--{{userMessage.type}}" ng-if="userMessage.txt">
     {{userMessage.txt}}
     <a id="userMessageInvoke" ng-click="invokeActionLink(userMessage.actionLink);" ng-if="userMessage.linkText">{{userMessage.linkText}}</a>
+    <span class="kscr-Card-statusRemove" ng-if="!userMessage.linkText"><a href="" ng-click="removeUserMessage()"><i class="glyphicon glyphicon-remove"></i></a></span>
 </div>
 
 <div class="kscr-Card-Results panel-group">
@@ -126,8 +127,14 @@
     <span>CART CONTENTS</span>
 </div>
 <div class="kscr-Card">
+<div ng-repeat="cartItem in cart.items" is-open="isopen">
+    <div id="cartItem_status_message" class="util-Alert--card util-Alert--{{cartItem.alertMessage.type}}"  ng-if="cartItem.alertMessage.txt">
+        {{cartItem.alertMessage.txt}}
+        <span class="kscr-Card-statusRemove"><a href="" ng-click="removeAlertMessage(cartItem)"><i class="glyphicon glyphicon-remove"></i></a></span>
+    </div>
 <accordion close-others="oneAtATime">
-    <accordion-group  ng-repeat="cartItem in cart.items" is-open="isopen">
+    <accordion-group>
+
         <accordion-heading>
             <!--credits-->
             <div id="course_info_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" class="kscr-Card-supportText" ng-hide="editing(cartItem)">
@@ -202,4 +209,5 @@
             </div>
     </accordion-group>
 </accordion>
+</div>
 </div>

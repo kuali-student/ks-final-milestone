@@ -83,6 +83,11 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
             course.statusMessage = null;
         }
 
+        $scope.removeUserMessage = function() {
+            $scope.userMessage.txt = null;
+            $scope.userMessage.linkText = null;
+        }
+
         $scope.showBadge = function (course) {
             return course.gradingOptions[course.gradingOptionId] != 'Letter';
         };

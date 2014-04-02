@@ -201,7 +201,7 @@ angular.module('regCartApp')
                 cartItem.status = '';
                 cartItem.actionLinks = newCartItem.actionLinks;
                 $scope.creditTotal = creditTotal();
-                $scope.userMessage = {txt: 'Updated Successfully', type: 'success'};
+                cartItem.alertMessage = {txt: 'Changes saved successfully', type: 'success'};
             });
         };
 
@@ -215,6 +215,15 @@ angular.module('regCartApp')
                 cartItem.status = 'waitlisted';
             });
         };
+
+        $scope.removeAlertMessage = function (cartItem){
+            cartItem.alertMessage = null;
+        }
+
+        $scope.removeUserMessage = function() {
+            $scope.userMessage.txt = null;
+            $scope.userMessage.linkText = null;
+        }
 
         $scope.register = function () {
             CartService.submitCart().query({
