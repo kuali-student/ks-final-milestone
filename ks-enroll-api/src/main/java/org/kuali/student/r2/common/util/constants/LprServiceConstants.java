@@ -46,6 +46,7 @@ public class LprServiceConstants {
     public static final String REGISTRANT_CO_TYPE_KEY = "kuali.lpr.type.registrant.course.offering";
     public static final String REGISTRANT_AO_TYPE_KEY = "kuali.lpr.type.registrant.activity.offering";
     public static final String REGISTRANT_RG_TYPE_KEY = "kuali.lpr.type.registrant.registration.group";
+    public static final String WAITLIST_CO_TYPE_KEY = "kuali.lpr.type.waitlist.course.offering";
     public static final String WAITLIST_FO_TYPE_KEY = "kuali.lpr.type.waitlist.format.offering";
     public static final String WAITLIST_AO_TYPE_KEY = "kuali.lpr.type.waitlist.activity.offering";
     public static final String WAITLIST_RG_TYPE_KEY = "kuali.lpr.type.waitlist.registration.group";
