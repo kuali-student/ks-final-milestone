@@ -39,7 +39,10 @@ public class ActivityInfoWrapper {
     public String getActivityType() {
         if (activityType == null)
             return "";
-        return activityType;
+        // to get Discussion                  from  kuali.lu.type.activity.Discussion
+        //        ExperientialLearningOROther from  kuali.lu.type.activity.ExperientialLearningOROther
+        //        Lab                         from  kuali.lu.type.activity.Lab
+        return activityType.substring(activityType.lastIndexOf(".") + 1);
     }
 
     public void setActivityType(String activityType) {

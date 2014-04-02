@@ -313,7 +313,7 @@
                                                           p:propertyName="activities" p:colSpan="3" p:align="left">
                                                         <property
                                                                 name="layoutManager.lineGroupPrototype.header.headerText"
-                                                                value="Activity @{(#index + 1)} "/>
+                                                                value="Activity @{(#index + 1)} (@{#line.activityType}) "/>
                                                         <property name="layoutManager.lineGroupPrototype.header.style"
                                                                   value="border-bottom : 0.5px dotted black;"/>
                                                         <property name="items">
