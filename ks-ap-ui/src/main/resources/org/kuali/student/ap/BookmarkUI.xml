@@ -45,7 +45,7 @@
         <!-- Not Displaying any criteria -->
         <property name="criteriaGroup">
             <bean parent="Uif-VerticalBoxGroup">
-                <property name="validationMessages.render" value="false"/>
+                <property name="validationMessages.displayMessages" value="false"/>
                 <property name="footer">
                     <bean parent="Uif-FooterBase"/>
                 </property>
@@ -85,7 +85,7 @@
             <list>
                 <bean parent="Uif-HorizontalFieldGroup" p:id="@{#line.uniqueId}" p:style="cursor:pointer;">
                     <property name="fieldLabel.render" value="false"/>
-                    <property name="group.validationMessages.render" value="false"/>
+                    <property name="group.validationMessages.displayMessages" value="false"/>
                     <property name="cssClasses">
                         <list merge="true">
                             <value>ksap-click</value>
@@ -153,7 +153,7 @@
                     <property name="target" value=""/>
                 </bean>
                 <bean parent="Uif-HorizontalBoxGroup" p:style="padding: 1em 0px;">
-                    <property name="validationMessages.render" value="false"/>
+                    <property name="validationMessages.displayMessages" value="false"/>
                     <property name="render"
                               value="@{lookupResults ne null and lookupResults.size() gt 0 ? false : true}"/>
                     <property name="items">
@@ -173,7 +173,7 @@
             <list>
                 <bean parent="Uif-HorizontalFieldGroup" p:id="__KSAP__UID__" p:style="cursor:pointer;">
                     <property name="fieldLabel.render" value="false"/>
-                    <property name="group.validationMessages.render" value="false"/>
+                    <property name="group.validationMessages.displayMessages" value="false"/>
                     <property name="cssClasses">
                         <list merge="true">
                             <value>ksap-click</value>
@@ -231,7 +231,7 @@
         <property name="singlePageView" value="true"/>
         <property name="page.header.render" value="false"/>
         <property name="header.render" value="false"/>
-        <property name="renderSearchButtons" value="false" />
+        <property name="renderCriteriaActions" value="false" />
         <property name="cssClasses">
             <list merge="true">
                 <value>ksap-view</value>
@@ -337,7 +337,7 @@
             <list>
                 <bean parent="Uif-HorizontalFieldGroup"  p:style="display:block;">
                     <property name="fieldLabel.render" value="false"/>
-                    <property name="group.validationMessages.render" value="false"/>
+                    <property name="group.validationMessages.displayMessages" value="false"/>
                     <property name="cssClasses">
                         <list merge="true">
                             <value>ksap-remove-margin</value>
@@ -380,7 +380,7 @@
                 </bean>
                 <bean parent="Uif-VerticalFieldGroup">
                     <property name="fieldLabel.render" value="false"/>
-                    <property name="group.validationMessages.render" value="false"/>
+                    <property name="group.validationMessages.displayMessages" value="false"/>
                     <property name="items">
                         <list>
                             <bean parent="Uif-MessageField" p:label="Scheduled For" p:messageText="@{#line.scheduledForUI}" >
@@ -393,8 +393,8 @@
 
                             <!--Last Offered -->
 
-                            <bean parent="Uif-DataField" p:label="Last Offered"
-                                  p:propertyName="courseSummaryDetails.lastOffered" p:labelPlacement="LEFT">
+                            <bean parent="KS-Uif-DataField-LabelLeft" p:label="Last Offered"
+                                  p:propertyName="courseSummaryDetails.lastOffered">
                                 <property name="fieldLabel.cssClasses" value="ksap-text-normal"/>
                                 <property name="render" value="@{#line.courseSummaryDetails.lastOffered ne null and #line.courseSummaryDetails.scheduledTerms.size() eq 0}"/>
                             </bean>
@@ -411,11 +411,11 @@
 
                 <bean parent="Uif-HorizontalFieldGroup">
                     <property name="fieldLabel.render" value="false"/>
-                    <property name="group.validationMessages.render" value="false"/>
+                    <property name="group.validationMessages.displayMessages" value="false"/>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-MessageField" p:label="Course Requisites" p:messageText="@{#line.requisitesForUI}"
-                                  p:labelPlacement="LEFT">
+                            <bean parent="Uif-MessageField" p:label="Course Requisites" p:messageText="@{#line.requisitesForUI}">
+                                <!-- Rice 2.4 upgrade : removing p:labelPlacement="LEFT" -->
                                 <property name="fieldLabel.cssClasses" value="ksap-text-normal"/>
                                 <property name="cssClasses">
                                     <list merge="true">
@@ -428,7 +428,7 @@
                 </bean>
                 <bean parent="Uif-HorizontalFieldGroup">
                     <property name="fieldLabel.render" value="false"/>
-                    <property name="group.validationMessages.render" value="false"/>
+                    <property name="group.validationMessages.displayMessages" value="false"/>
                     <property name="cssClasses">
                         <list merge="true">
                             <value>uif-boxLayoutVerticalItem</value>
@@ -437,8 +437,7 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-MessageField" p:label="Course Description"
-                                  p:messageText="@{#line.courseSummaryDetails.courseDescription}"
-                                  p:labelPlacement="TOP" >
+                                  p:messageText="@{#line.courseSummaryDetails.courseDescription}">
                                 <property name="fieldLabel.cssClasses" value="ksap-text-normal"/>
                                 <property name="cssClasses">
                                     <list merge="true">
@@ -449,8 +448,7 @@
                                           value="@{#line.courseSummaryDetails.courseDescription ne null}"/>
                             </bean>
                             <!-- If Course Description is empty-->
-                            <bean parent="Uif-MessageField" p:label="Course Description"
-                                  p:labelPlacement="TOP">
+                            <bean parent="Uif-MessageField" p:label="Course Description">
                                 <property name="fieldLabel.cssClasses" value="ksap-text-normal"/>
                                 <property name="message">
                                     <bean parent="Uif-Message" p:messageText="This course has no description."/>
@@ -464,7 +462,7 @@
 
                 <bean parent="Uif-HorizontalFieldGroup">
                     <property name="fieldLabel.render" value="false"/>
-                    <property name="group.validationMessages.render" value="false"/>
+                    <property name="group.validationMessages.displayMessages" value="false"/>
                     <property name="cssClasses">
                         <list merge="true">
                             <value>uif-boxLayoutVerticalItem</value>
@@ -530,7 +528,7 @@
 
     <!-- Group for Empty Result Set -->
     <bean id="bookmark_detail_list_empty" parent="Uif-VerticalBoxGroup">
-        <property name="validationMessages.render" value="false"/>
+        <property name="validationMessages.displayMessages" value="false"/>
         <property name="headerText"
                   value="You have &lt;strong&gt;@{lookupResults.size()}&lt;/strong&gt; courses bookmarked"/>
         <property name="render" value="@{lookupResults.size() gt 0 ? false : true}"/>

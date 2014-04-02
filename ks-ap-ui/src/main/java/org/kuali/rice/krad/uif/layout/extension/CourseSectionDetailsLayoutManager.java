@@ -2,11 +2,13 @@ package org.kuali.rice.krad.uif.layout.extension;
 
 import java.util.List;
 
+import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
-import org.kuali.rice.krad.uif.element.Action;
+import org.kuali.rice.krad.uif.container.collections.LineBuilderContext;
 import org.kuali.rice.krad.uif.field.Field;
 import org.kuali.rice.krad.uif.field.FieldGroup;
-import org.kuali.rice.krad.uif.layout.TableLayoutManager;
+import org.kuali.rice.krad.uif.layout.TableLayoutManagerBase;
+import org.kuali.rice.krad.uif.lifecycle.ViewLifecycle;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.student.ap.coursesearch.dataobject.ActivityOfferingItem;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
@@ -16,21 +18,18 @@ import org.slf4j.LoggerFactory;
 /**
  * Layout manager for controlling and optimizing section details presentation.
  */
-public class CourseSectionDetailsLayoutManager extends TableLayoutManager {
+public class CourseSectionDetailsLayoutManager extends TableLayoutManagerBase {
 
 	private static final long serialVersionUID = 3056313875988089648L;
 
 	private static final Logger LOG = LoggerFactory.getLogger(CourseSectionDetailsLayoutManager.class);
 
 	@Override
-	public void buildLine(View view, Object model,
-			CollectionGroup collectionGroup, List<Field> lineFields,
-			List<FieldGroup> subCollectionFields, String bindingPath,
-			List<Action> actions, String idSuffix, Object currentLine,
-			int lineIndex) {
-		super.buildLine(view, model, collectionGroup, lineFields,
-				subCollectionFields, bindingPath, actions, idSuffix,
-				currentLine, lineIndex);
+	public void buildLine(LineBuilderContext lineBuilderContext) {
+        int lineIndex = lineBuilderContext.getLineIndex();
+        Object currentLine = lineBuilderContext.getCurrentLine();
+
+		super.buildLine(lineBuilderContext);
 
 		// This logic replaces onDocumentReadyScript entries previously in
 		// CourseDetailsUI.xml by assigning the correct CSS class to table rows

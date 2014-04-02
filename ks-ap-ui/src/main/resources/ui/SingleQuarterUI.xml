@@ -50,7 +50,7 @@
 
     <bean id="single_collection_data" parent="Uif-VerticalBoxGroup"
           p:style="margin:0; width: 630px; padding-right: 10px;">
-        <property name="validationMessages.render" value="false"/>
+        <property name="validationMessages.displayMessages" value="false"/>
         <property name="cssClasses">
             <list merge="true">
                 <value>ksap-remove-margin</value>
@@ -66,7 +66,7 @@
     </bean>
 
     <bean id="single_AcademicRecord_Collection" parent="Uif-TableCollectionSection">
-        <property name="validationMessages.render" value="false"/>
+        <property name="validationMessages.displayMessages" value="false"/>
         <property name="collectionObjectClass"
                   value="org.kuali.student.myplan.plan.dataobject.AcademicRecordDataObject"/>
         <property name="propertyName" value="academicRecord"/>
@@ -119,7 +119,7 @@
                 <bean parent="Uif-VerticalFieldGroup" p:label="Section"
                       p:render="@{#line.activityOfferingItem ne null}">
                     <property name="fieldLabel.render" value="false"/>
-                    <property name="group.validationMessages.render" value="false"/>
+                    <property name="group.validationMessages.displayMessages" value="false"/>
                     <property name="items">
                         <list>
                             <bean parent="Uif-MessageField" p:messageText="@{#line.courseCode} @{#line.activityCode}"/>
@@ -131,7 +131,7 @@
                 <bean parent="Uif-VerticalFieldGroup" p:label="Type (Credit)"
                       p:render="@{#line.activityOfferingItem ne null}">
                     <property name="fieldLabel.render" value="false"/>
-                    <property name="group.validationMessages.render" value="false"/>
+                    <property name="group.validationMessages.displayMessages" value="false"/>
                     <property name="items">
                         <list>
                             <!--<bean parent="Uif-DataField" p:propertyName="activityOfferingItem.activityOfferingType"
@@ -155,7 +155,7 @@
     </bean>
 
     <bean id="single_Planned_Collection" parent="Uif-StackedCollectionGroup" p:headerText="Planned">
-        <property name="validationMessages.render" value="false"/>
+        <property name="validationMessages.displayMessages" value="false"/>
         <property name="header">
             <bean parent="Uif-HeaderFive"/>
         </property>
@@ -180,7 +180,7 @@
                 <property name="lineGroupPrototype">
                     <bean parent="Uif-CollectionVerticalBoxItem">
                         <property name="footer.render" value="false"/>
-                        <property name="validationMessages.render" value="false"/>
+                        <property name="validationMessages.displayMessages" value="false"/>
                     </bean>
                 </property>
             </bean>
@@ -189,7 +189,7 @@
             <list>
                 <bean p:id="@{#line.planItemDataObject.id}" parent="Uif-HorizontalFieldGroup"
                       p:title="@{#line.courseDetails.courseTitle}">
-                    <property name="group.validationMessages.render" value="false"/>
+                    <property name="group.validationMessages.displayMessages" value="false"/>
                     <property name="dataAttributes">
                         <map>
                             <entry key="courseid" value="@{#line.courseDetails.courseId}"/>
@@ -256,7 +256,7 @@
         </property>
         <property name="footer">
             <bean parent="Uif-VerticalBoxGroup">
-                <property name="validationMessages.render" value="false"/>
+                <property name="validationMessages.displayMessages" value="false"/>
                 <property name="cssClasses">
                     <list merge="true">
                         <value>ksap-credit-total</value>
@@ -280,7 +280,7 @@
 
     <bean id="activityOfferingTableCollection" parent="Uif-TableCollectionSection">
         <property name="id" value="@{#line.courseDetails.courseId}_sections_collection"/>
-        <property name="validationMessages.render" value="false"/>
+        <property name="validationMessages.displayMessages" value="false"/>
         <property name="header.render" value="false"/>
         <property name="collectionObjectClass" value="org.kuali.student.ap.coursesearch.dataobject.ActivityOfferingItem"/>
         <property name="propertyName" value="planActivities"/>
@@ -328,7 +328,7 @@
             <list>
                 <bean parent="Uif-VerticalFieldGroup" p:label="Section">
                     <property name="fieldLabel.render" value="false"/>
-                    <property name="group.validationMessages.render" value="false"/>
+                    <property name="group.validationMessages.displayMessages" value="false"/>
                     <property name="items">
                         <list>
                             <bean parent="Uif-DataField" p:propertyName="code" p:label="Section"
@@ -343,26 +343,25 @@
 
                             <bean parent="Uif-VerticalBoxSection" p:style="margin:0 0 0 56px; display:none;">
                                 <property name="header.render" value="false"/>
-                                <property name="validationMessages.render" value="false"/>
+                                <property name="validationMessages.displayMessages" value="false"/>
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-HorizontalBoxGroup">
-                                            <property name="validationMessages.render" value="false"/>
+                                            <property name="validationMessages.displayMessages" value="false"/>
                                             <!-- @TODO KSAP-961 Remove direct styles, use border style instead of image -->
                                             <property name="style"
                                                       value="margin:0; background:url('../ks-ap/images/bkgrdDottedCCC.png') 353px 0px repeat-y;"/>
                                             <property name="items">
                                                 <list>
-                                                    <bean parent="Uif-DataField" p:propertyName="instructor"
-                                                          p:label="Instructor" p:labelPlacement="TOP"
+                                                    <bean parent="KS-Uif-DataField-LabelTop" p:propertyName="instructor"
+                                                          p:label="Instructor"
                                                           p:style="width:345px;">
                                                         <property name="fieldLabel.renderColon" value="false"/>
                                                     </bean>
                                                     <bean parent="Uif-VerticalFieldGroup" p:label="Other"
-                                                          p:labelPlacement="TOP"
                                                           p:style="width:199px;">
                                                         <property name="fieldLabel.renderColon" value="false"/>
-                                                        <property name="group.validationMessages.render" value="false"/>
+                                                        <property name="group.validationMessages.displayMessages" value="false"/>
                                                         <property name="items">
                                                             <list>
                                                                 <bean parent="Uif-Message"
@@ -406,7 +405,7 @@
                                         </bean>
                                         <bean parent="Uif-HorizontalFieldGroup" p:label="Additional Details"
                                               p:style="margin:0;">
-                                            <property name="group.validationMessages.render" value="false"/>
+                                            <property name="group.validationMessages.displayMessages" value="false"/>
                                             <property name="items">
                                                 <list>
                                                     <bean parent="current_section_status"
@@ -422,7 +421,7 @@
                 </bean>
                 <bean parent="Uif-VerticalFieldGroup" p:label="Type (Credit)">
                     <property name="fieldLabel.render" value="false"/>
-                    <property name="group.validationMessages.render" value="false"/>
+                    <property name="group.validationMessages.displayMessages" value="false"/>
                     <property name="items">
                         <list>
                             <bean parent="Uif-DataField" p:propertyName="activityOfferingType"
@@ -440,7 +439,7 @@
                 </bean>
 
                 <!--<bean parent="Uif-HorizontalFieldGroup" p:label="ENRL RESTR">
-                    <property name="group.validationMessages.render" value="false"/>
+                    <property name="group.validationMessages.displayMessages" value="false"/>
                     <property name="items">
                         <list>
                             <bean parent="Uif-Message" p:messageText="- -" p:render="@{!#line.enrollRestriction}"
@@ -451,7 +450,7 @@
                     </property>
                 </bean>-->
                 <bean parent="Uif-HorizontalFieldGroup" p:label="SLN">
-                    <property name="group.validationMessages.render" value="false"/>
+                    <property name="group.validationMessages.displayMessages" value="false"/>
                     <property name="items">
                         <list>
                             <bean parent="current_section_status" p:actionLabel="@{#line.registrationCode}"/>
@@ -459,7 +458,7 @@
                     </property>
                 </bean>
                 <bean parent="Uif-HorizontalFieldGroup" p:label="ENRL RESTR">
-                    <property name="group.validationMessages.render" value="false"/>
+                    <property name="group.validationMessages.displayMessages" value="false"/>
                     <property name="items">
                         <list>
                             <bean parent="Uif-Message" p:messageText="--" p:render="@{!#line.enrollRestriction}"
@@ -470,7 +469,7 @@
                     </property>
                 </bean>
                 <bean parent="Uif-HorizontalFieldGroup" p:label="ENRL / Limit">
-                    <property name="group.validationMessages.render" value="false"/>
+                    <property name="group.validationMessages.displayMessages" value="false"/>
                     <property name="items">
                         <list>
                             <bean parent="Uif-Message"

@@ -509,15 +509,15 @@
                                     </list>
                                 </property>
                             </bean>
-                            <bean parent="Uif-DataField" p:propertyName="createDate"
-                                  p:label="Posted" p:labelPlacement="TOP"
+                            <bean parent="KS-Uif-DataField-LabelTop" p:propertyName="createDate"
+                                  p:label="Posted"
                                   p:fieldLabel.renderColon="false"
                                   p:fieldLabel.cssClasses="ksap-text-normal"
                                   p:render="@{#line.comments.size() eq 0}" p:escapeHtmlInPropertyValue="false">
                                 <property name="propertyEditor" ref="timestamp_formatter"/>
                             </bean>
-                            <bean parent="Uif-DataField" p:propertyName="lastCommentDate"
-                                  p:label="Last Comment" p:labelPlacement="TOP"
+                            <bean parent="KS-Uif-DataField-LabelTop" p:propertyName="lastCommentDate"
+                                  p:label="Last Comment"
                                   p:fieldLabel.renderColon="false"
                                   p:fieldLabel.cssClasses="ksap-text-normal"
                                   p:render="@{#line.comments.size() gt 0}" p:escapeHtmlInPropertyValue="false">
@@ -608,7 +608,7 @@
         </property>
     </bean>
 
-    <bean id="messages_detail" parent="Uif-VerticalBoxSubSection" p:validationMessages.render="false" p:style="width: 710px; margin-right: 10px;">
+    <bean id="messages_detail" parent="Uif-VerticalBoxSubSection" p:validationMessages.displayMessages="false" p:style="width: 710px; margin-right: 10px;">
         <property name="cssClasses">
             <list merge="true">
                 <value>ksap-messages-detail</value>
@@ -627,7 +627,9 @@
         <property name="propertyName" value="lookupResults"/>
         <property name="renderAddLine" value="false"/>
         <property name="renderLineActions" value="false"/>
-        <property name="collectionLookup.quickfinderAction.render" value="false"/>
+        <property name="collectionLookup">
+            <bean parent="Uif-QuickFinder" p:quickfinderAction.render="false" />
+        </property>
         <property name="layoutManager.renderSequenceField" value="false"/>
         <property name="header.render" value="false"/>
         <property name="layoutManager.applyDefaultCellWidths" value="false"/>
@@ -671,7 +673,7 @@
         </property>
         <property name="items">
             <list>
-                <bean p:id="@{#line.messageId}_subject" parent="Uif-VerticalFieldGroup" p:label="Subject" p:group.validationMessages.render="false">
+                <bean p:id="@{#line.messageId}_subject" parent="Uif-VerticalFieldGroup" p:label="Subject" p:group.validationMessages.displayMessages="false">
                     <property name="onDocumentReadyScript" value="ksapCreateLightBoxLink('@{#line.messageId}_subject', {helpers:{overlay:{closeClick: false}},autoScale:true,width:650,centerOnScroll:true,transitionIn:'fade',transitionOut:'fade',speedIn:200,speedOut:200,type:'iframe',href:'comment?methodToCall=startCommentForm&amp;viewId=Message-FormView&amp;pageId=comment_dialog_response_page&amp;messageId=@{#line.messageId}'});"/>
                     <property name="items">
                         <list>
@@ -689,7 +691,7 @@
                     </property>
                 </bean>
 
-                <bean p:id="@{#line.messageId}_received" parent="Uif-VerticalFieldGroup" p:label="Received" p:group.validationMessages.render="false">
+                <bean p:id="@{#line.messageId}_received" parent="Uif-VerticalFieldGroup" p:label="Received" p:group.validationMessages.displayMessages="false">
                     <property name="onDocumentReadyScript" value="ksapCreateLightBoxLink('@{#line.messageId}_received', {helpers:{overlay:{closeClick: false}},autoScale:true,width:650,centerOnScroll:true,transitionIn:'fade',transitionOut:'fade',speedIn:200,speedOut:200,type:'iframe',href:'comment?methodToCall=startCommentForm&amp;viewId=Message-FormView&amp;pageId=comment_dialog_response_page&amp;messageId=@{#line.messageId}'});"/>
                     <property name="items">
                         <list>
@@ -701,7 +703,7 @@
                     </property>
                 </bean>
 
-                <bean p:id="@{#line.messageId}_comments" parent="Uif-VerticalFieldGroup" p:label="Comments" p:group.validationMessages.render="false">
+                <bean p:id="@{#line.messageId}_comments" parent="Uif-VerticalFieldGroup" p:label="Comments" p:group.validationMessages.displayMessages="false">
                     <property name="onDocumentReadyScript" value="ksapCreateLightBoxLink('@{#line.messageId}_comments', {helpers:{overlay:{closeClick: false}},autoScale:true,width:650,centerOnScroll:true,transitionIn:'fade',transitionOut:'fade',speedIn:200,speedOut:200,type:'iframe',href:'comment?methodToCall=startCommentForm&amp;viewId=Message-FormView&amp;pageId=comment_dialog_response_page&amp;messageId=@{#line.messageId}'});"/>
                     <property name="items">
                         <list>
@@ -712,7 +714,7 @@
                     </property>
                 </bean>
 
-                <bean p:id="@{#line.messageId}_lastcomment" parent="Uif-VerticalFieldGroup" p:label="Last Comment" p:group.validationMessages.render="false">
+                <bean p:id="@{#line.messageId}_lastcomment" parent="Uif-VerticalFieldGroup" p:label="Last Comment" p:group.validationMessages.displayMessages="false">
                     <property name="onDocumentReadyScript" value="ksapCreateLightBoxLink('@{#line.messageId}_lastcomment', {helpers:{overlay:{closeClick: false}},autoScale:true,width:650,centerOnScroll:true,transitionIn:'fade',transitionOut:'fade',speedIn:200,speedOut:200,type:'iframe',href:'comment?methodToCall=startCommentForm&amp;viewId=Message-FormView&amp;pageId=comment_dialog_response_page&amp;messageId=@{#line.messageId}'});"/>
                     <property name="items">
                         <list>

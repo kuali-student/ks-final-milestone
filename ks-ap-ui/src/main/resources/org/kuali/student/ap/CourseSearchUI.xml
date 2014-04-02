@@ -161,7 +161,7 @@
     <bean id="select_searchTerm" parent="select_searchTerm-parent"/>
 	<bean id="select_searchTerm-parent" abstract="true" parent="Uif-InputField"
 		p:propertyName="searchTerm" p:label="in" p:fieldLabel.renderColon="false"
-		p:validationMessages.render="false">
+		p:validationMessages.displayMessages="false">
 
 		<property name="control">
 			<bean parent="Uif-DropdownControl" />
@@ -194,7 +194,7 @@
 
 	<!-- Group for Search Fields and button-->
 	<bean id="course_search_fields" parent="course_search_fields-parent" />
-	<bean id="course_search_fields-parent" abstract="true" parent="Uif-HorizontalFieldGroup" p:group.validationMessages.render="false">
+	<bean id="course_search_fields-parent" abstract="true" parent="Uif-HorizontalFieldGroup" p:group.validationMessages.displayMessages="false">
 		<property name="items">
 			<list>
 				<ref bean="text_searchQuery" />
@@ -357,9 +357,8 @@
 		</property>
         <property name="disclosure">
             <bean parent="Uif-Disclosure">
-                <!-- Blank images, real ones are set by css-->
-                <property name="collapseImageSrc" value="@{#ConfigProperties['ks.ap.externalizable.images.url']}pixel.gif"/>
-                <property name="expandImageSrc" value="@{#ConfigProperties['ks.ap.externalizable.images.url']}pixel.gif"/>
+                <property name="collapsedIconClass" value="icon-angle-right"/>
+                <property name="expandedIconClass" value="icon-angle-down"/>
             </bean>
         </property>
 	</bean>
@@ -409,11 +408,11 @@
 			<list>
 				<bean parent="Uif-Message" p:messageText="__KSAP__DESCRIPTION__" />
 				<bean parent="Uif-HorizontalFieldGroup"
-					p:fieldLabel.renderColon="false" p:group.validationMessages.render="false">
+					p:fieldLabel.renderColon="false" p:group.validationMessages.displayMessages="false">
 					<property name="items">
 						<list>
 							<bean parent="Uif-HorizontalBoxGroup"
-								p:validationMessages.render="false">
+								p:validationMessages.displayMessages="false">
 								<property name="cssClasses">
 									<list merge="true">
 										<value>ksap-course-detail-label</value>
@@ -428,7 +427,7 @@
 								</property>
 							</bean>
 							<bean parent="Uif-HorizontalBoxGroup"
-								p:validationMessages.render="false">
+								p:validationMessages.displayMessages="false">
 								<property name="cssClasses">
 									<list merge="true">
 										<value>ksap-course-detail-field</value>
@@ -444,11 +443,11 @@
 					</property>
 				</bean>
 				<bean parent="Uif-HorizontalFieldGroup"
-					p:fieldLabel.renderColon="false" p:group.validationMessages.render="false">
+					p:fieldLabel.renderColon="false" p:group.validationMessages.displayMessages="false">
 					<property name="items">
 						<list>
 							<bean parent="Uif-HorizontalBoxGroup"
-								p:validationMessages.render="false">
+								p:validationMessages.displayMessages="false">
 								<property name="cssClasses">
 									<list merge="true">
 										<value>ksap-course-detail-label</value>
@@ -463,7 +462,7 @@
 								</property>
 							</bean>
 							<bean parent="Uif-HorizontalBoxGroup"
-								p:validationMessages.render="false">
+								p:validationMessages.displayMessages="false">
 								<property name="cssClasses">
 									<list merge="true">
 										<value>ksap-course-detail-field</value>

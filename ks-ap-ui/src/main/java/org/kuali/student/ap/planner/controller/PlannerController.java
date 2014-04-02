@@ -89,13 +89,13 @@ public class PlannerController extends KsapControllerBase {
      * Does not appear to be hit at any time.
      */
 	@RequestMapping(method = RequestMethod.GET)
-	public ModelAndView startPlanner(@ModelAttribute("KualiForm") PlannerForm form, BindingResult result,
+	public ModelAndView startPlanner(@ModelAttribute("KualiForm") PlannerForm form,
 			HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		if (PlanItemControllerHelper.getAuthorizedLearningPlan(form, request, response) == null)
 			return null;
 
 		UifFormBase uifForm = (UifFormBase) form;
-		super.start(uifForm, result, request, response);
+		super.start(uifForm, request, response);
 
 		uifForm.setViewId(PLANNER_FORM);
 		uifForm.setView(super.getViewService().getViewById(PLANNER_FORM));
@@ -110,7 +110,7 @@ public class PlannerController extends KsapControllerBase {
      * to load the calendar term data.
      */
 	@RequestMapping(params = "methodToCall=load")
-	public ModelAndView loadPlanner(@ModelAttribute("KualiForm") PlannerForm form, BindingResult result,
+	public ModelAndView loadPlanner(@ModelAttribute("KualiForm") PlannerForm form,
 			HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		if (PlanItemControllerHelper.getAuthorizedLearningPlan(form, request, response) == null)
 			return null;
@@ -123,7 +123,7 @@ public class PlannerController extends KsapControllerBase {
 
 		UifFormBase uifForm = (UifFormBase) newForm;
         uifForm.getView().setAuthorizer(new ViewAuthorizerBase());
-		super.start(uifForm, result, request, response);
+		super.start(uifForm, request, response);
 
 		uifForm.setViewId(PLANNER_FORM);
 		uifForm.setView(super.getViewService().getViewById(PLANNER_FORM));
@@ -135,7 +135,7 @@ public class PlannerController extends KsapControllerBase {
      * Loads the initial information for any dialog screen opened in the planner.
      */
 	@RequestMapping(params = "methodToCall=startDialog")
-	public ModelAndView startDialog(@ModelAttribute("KualiForm") PlannerForm form, BindingResult result,
+	public ModelAndView startDialog(@ModelAttribute("KualiForm") PlannerForm form,
 			HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
 		LearningPlan plan = PlanItemControllerHelper.getAuthorizedLearningPlan(form, request, response);
@@ -143,7 +143,7 @@ public class PlannerController extends KsapControllerBase {
 			return null;
 
 		UifFormBase uifForm = (UifFormBase) form;
-		super.start(uifForm, result, request, response);
+		super.start(uifForm, request, response);
 
 		String pageId = uifForm.getPageId();
 
