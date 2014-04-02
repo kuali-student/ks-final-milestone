@@ -73,7 +73,7 @@
                       p:required="true" p:bindingInfo.bindToForm="true"
                       p:style="padding-top: 18px;" p:defaultValue="startBlankProposal">
                     <property name="control">
-                        <bean parent="Uif-VerticalRadioControl">
+                        <bean parent="KS-Uif-VerticalRadioControl">
                             <property name="options">
                                 <list>
                                     <bean id="createCourse-startBlankProposal" parent="Uif-KeyLabelPair" p:key="startBlankProposal"  p:value="Start a blank proposal" />
@@ -87,7 +87,7 @@
                       p:required="true" p:bindingInfo.bindToForm="true"    p:render="false"
                       p:style="padding-top: 18px;" p:defaultValue="startBlankProposal">
                     <property name="control">
-                        <bean parent="Uif-VerticalRadioControl">
+                        <bean parent="KS-Uif-VerticalRadioControl">
                             <property name="options">
                                 <list>
                                     <bean id="createCourse-startBlankProposal" parent="Uif-KeyLabelPair" p:key="startBlankProposal"  p:value="Start a blank proposal" />
@@ -121,7 +121,7 @@
                       p:propertyName="useReviewProcess" p:bindingInfo.bindToForm="true"
                       p:required="false">
                     <property name="control">
-                        <bean parent="Uif-CheckboxControl" p:style="margin-left: 6px;"/>
+                        <bean parent="KS-Uif-CheckboxControl" p:style="margin-left: 6px;"/>
                     </property>
                 </bean>
             </list>

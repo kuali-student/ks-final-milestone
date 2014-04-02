@@ -78,10 +78,10 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:label="Category" p:propertyName="name" p:required="true" />
-                <bean parent="Uif-InputField" p:label="Type" p:propertyName="typeKey" p:required="true">
+                <bean parent="KS-Uif-InputField" p:label="Category" p:propertyName="name" p:required="true" />
+                <bean parent="KS-Uif-InputField" p:label="Type" p:propertyName="typeKey" p:required="true">
                     <property name="control">
-                        <bean parent="Uif-DropdownControl" />
+                        <bean parent="KS-Uif-DropdownControl" />
                     </property>
                     <property name="optionsFinder">
                         <bean 

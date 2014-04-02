@@ -70,7 +70,7 @@
 		<property name="label" value="Name" />
 		<property name="shortLabel" value="Name" />
 		<property name="controlField">
-			<bean parent="Uif-TextControl" />
+			<bean parent="KS-Uif-TextControl" />
 		</property>
 	</bean>
 
@@ -80,7 +80,7 @@
 		<property name="label" value="Given Name" />
 		<property name="shortLabel" value="Given Name" />
 		<property name="controlField">
-			<bean parent="Uif-TextControl" />
+			<bean parent="KS-Uif-TextControl" />
 		</property>
 	</bean>
 
@@ -90,7 +90,7 @@
 		<property name="label" value="Username" />
 		<property name="shortLabel" value="Username" />
 		<property name="controlField">
-			<bean parent="Uif-TextControl" />
+			<bean parent="KS-Uif-TextControl" />
 		</property>
 	</bean>
 
@@ -109,12 +109,12 @@
 		</property>
 		<property name="resultFields">
 			<list>
-				<bean parent="Uif-DataField" p:propertyName="givenName"
+				<bean parent="KS-Uif-DataField" p:propertyName="givenName"
 					p:label="Given Name" />
-				<bean parent="Uif-DataField" p:propertyName="id" p:label="Internal ID" />
-				<bean parent="Uif-DataField" p:propertyName="principalName"
+				<bean parent="KS-Uif-DataField" p:propertyName="id" p:label="Internal ID" />
+				<bean parent="KS-Uif-DataField" p:propertyName="principalName"
 					p:label="Username" />
-				<bean parent="Uif-DataField" p:propertyName="displayName"
+				<bean parent="KS-Uif-DataField" p:propertyName="displayName"
 					p:label="Display Name" />
 			</list>
 		</property>

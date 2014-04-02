@@ -52,7 +52,7 @@ limitations under the License.
             <bean parent="AnyCharacterPatternConstraint"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="30"/>
+            <bean parent="KS-Uif-TextControl" p:size="30"/>
         </property>
     </bean>
 
@@ -68,7 +68,7 @@ limitations under the License.
             <bean parent="AnyCharacterPatternConstraint"  p:allowWhitespace="true"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="35"/>
+            <bean parent="KS-Uif-TextControl" p:size="35"/>
         </property>
     </bean>
 
@@ -84,7 +84,7 @@ limitations under the License.
             <bean parent="AnyCharacterPatternConstraint"  p:allowWhitespace="true"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="35"/>
+            <bean parent="KS-Uif-TextControl" p:size="35"/>
         </property>
     </bean>
 
@@ -102,7 +102,7 @@ limitations under the License.
         </property>
         <property name="resultFields">
             <list>
-                <bean parent="Uif-DataField" p:propertyName="name"/>
+                <bean parent="KS-Uif-DataField" p:propertyName="name"/>
             </list>
         </property>
 

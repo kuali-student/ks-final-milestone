@@ -23,7 +23,7 @@
         <property name="headerText" value="Governance"/>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="courseInfo.campusLocations" p:label="Campus Locations"
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="courseInfo.campusLocations" p:label="Campus Locations"
                       p:instructionalText="" p:width="auto" >
                     <property name="control">
                         <bean parent="Uif-VerticalCheckboxesControl" />
@@ -41,14 +41,14 @@
                     <property name="refreshWhenChangedPropertyNames" value="#dp.dataObject.courseInfo.subjectArea"/>
                     <property name="items">
                         <list>
-                            <bean id="KS-Course-CurriculumOversight-input-field" parent="Uif-InputField-LabelTop"
+                            <bean id="KS-Course-CurriculumOversight-input-field" parent="KS-Uif-InputField-LabelTop"
                                   p:propertyName="unitsContentOwnerToAdd" >
                                 <property name="optionsFinder">
                                     <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.OrgsBySubjectCodeValuesFinder"
                                           p:blankOption="true" />
                                 </property>
                                 <property name="control">
-                                    <bean parent="Uif-DropdownControl" />
+                                    <bean parent="KS-Uif-DropdownControl" />
                                 </property>
                             </bean>
                             <bean parent="Uif-SecondaryActionButton-Small" p:id="addCurriculumOversight" p:actionLabel="Add" p:methodToCall="addUnitsContentOwner" />
@@ -86,7 +86,7 @@
                     </property>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:labelRendered="false" p:propertyName="key" />
+                            <bean parent="KS-Uif-DataField" p:labelRendered="false" p:propertyName="key" />
                         </list>
                     </property>
                 </bean>
@@ -125,10 +125,10 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="organizationName" p:id="organizationName" >
+                <bean parent="KS-Uif-InputField" p:propertyName="organizationName" p:id="organizationName" >
                     <property name="refreshWhenChangedPropertyNames" value="organizationName"/>
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="50" p:cssClasses="validOrganizationName" />
+                        <bean parent="KS-Uif-TextControl" p:size="50" p:cssClasses="validOrganizationName" />
                     </property>
                     <property name="suggest">
                         <bean parent="Uif-Suggest" p:render="true" p:valuePropertyName="organizationName">
