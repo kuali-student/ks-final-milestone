@@ -164,7 +164,7 @@ public class CalendarSearchViewHelperServiceImpl extends KSViewHelperServiceImpl
             }
         } catch (Exception e) {
             LOG.debug("Error calling getAcademicCalendarsForTerm - {}", term.getId());
-            convertServiceExceptionsToUI(e);
+            throw convertServiceExceptionsToUI(e);
         }
 
         Properties props = new Properties();

@@ -43,7 +43,6 @@ import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.xml.namespace.QName;
 import java.util.*;
 
 /**
@@ -79,9 +78,8 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
             return terms.get(firstTerm);
         }catch (Exception e){
             LOG.debug("Error getting term for the code - {}", termCode);
-            convertServiceExceptionsToUI(e);
+            throw convertServiceExceptionsToUI(e);
         }
-        return null;
     }
 
     /**
