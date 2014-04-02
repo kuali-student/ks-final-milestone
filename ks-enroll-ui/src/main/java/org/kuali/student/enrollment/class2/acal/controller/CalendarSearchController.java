@@ -193,17 +193,18 @@ public class CalendarSearchController  extends UifControllerBase {
         String controllerPath;
         CalendarSearchViewHelperService viewHelperService = (CalendarSearchViewHelperService) KSControllerHelper.getViewHelperService(searchForm);
 
+        String flowKey = searchForm.getFlowKey();
         if(CalendarConstants.HOLIDAYCALENDER.equals(atp.getAcalSearchTypeKey())){
             urlParameters = viewHelperService.buildHCalURLParameters(atp, CalendarConstants.HC_VIEW_METHOD, true, getContextInfo());
-            urlParameters.put("flow", searchForm.getFlowKey());
+            urlParameters.put("flow", flowKey == null ? "" : flowKey);
             controllerPath = CalendarConstants.HCAL_CONTROLLER_PATH;
         } else if(CalendarConstants.ACADEMICCALENDER.equals(atp.getAcalSearchTypeKey())) {
             urlParameters = viewHelperService.buildACalURLParameters(atp, CalendarConstants.AC_VIEW_METHOD, true, getContextInfo());
-            urlParameters.put("flow", searchForm.getFlowKey());
+            urlParameters.put("flow", flowKey == null ? "" : flowKey);
             controllerPath = CalendarConstants.ACAL_CONTROLLER_PATH;
         } else if(CalendarConstants.TERM.equals(atp.getAcalSearchTypeKey()) || CalendarConstants.SUBTERM.equals(atp.getAcalSearchTypeKey())){
             urlParameters = viewHelperService.buildTermURLParameters(atp, CalendarConstants.AC_VIEW_METHOD, true, getContextInfo());
-            urlParameters.put("flow", searchForm.getFlowKey());
+            urlParameters.put("flow", flowKey == null ? "" : flowKey);
             controllerPath = CalendarConstants.ACAL_CONTROLLER_PATH;
         } else {
             throw new RuntimeException("Invalid calendar type. This search supports Acal/HCal/Term/Subterm only");
@@ -231,17 +232,18 @@ public class CalendarSearchController  extends UifControllerBase {
         String controllerPath;
         CalendarSearchViewHelperService viewHelperService = (CalendarSearchViewHelperService) KSControllerHelper.getViewHelperService(searchForm);
 
+        String flowKey = searchForm.getFlowKey();
         if(CalendarConstants.HOLIDAYCALENDER.equals(atp.getAcalSearchTypeKey())){
             urlParameters = viewHelperService.buildHCalURLParameters(atp, CalendarConstants.HC_EDIT_METHOD, false, getContextInfo());
-            urlParameters.put("flow", searchForm.getFlowKey());
+            urlParameters.put("flow", flowKey == null ? "" : flowKey);
             controllerPath = CalendarConstants.HCAL_CONTROLLER_PATH;
         } else if(CalendarConstants.ACADEMICCALENDER.equals(atp.getAcalSearchTypeKey())) {
             urlParameters = viewHelperService.buildACalURLParameters(atp, CalendarConstants.AC_EDIT_METHOD, false, getContextInfo());
-            urlParameters.put("flow", searchForm.getFlowKey());
+            urlParameters.put("flow", flowKey == null ? "" : flowKey);
             controllerPath = CalendarConstants.ACAL_CONTROLLER_PATH;
         } else if(CalendarConstants.TERM.equals(atp.getAcalSearchTypeKey()) || CalendarConstants.SUBTERM.equals(atp.getAcalSearchTypeKey())){
             urlParameters = viewHelperService.buildTermURLParameters(atp, CalendarConstants.AC_EDIT_METHOD, false, getContextInfo());
-            urlParameters.put("flow", searchForm.getFlowKey());
+            urlParameters.put("flow", flowKey == null ? "" : flowKey);
             controllerPath = CalendarConstants.ACAL_CONTROLLER_PATH;
         } else {
             throw new RuntimeException("Invalid calendar type. This search supports Acal/HCal/Term only");
@@ -270,14 +272,15 @@ public class CalendarSearchController  extends UifControllerBase {
         String controllerPath;
         CalendarSearchViewHelperService viewHelperService = (CalendarSearchViewHelperService) KSControllerHelper.getViewHelperService(searchForm);
 
+        String flowKey = searchForm.getFlowKey();
         if(CalendarConstants.HOLIDAYCALENDER.equals(atp.getAcalSearchTypeKey())){
             controllerPath = CalendarConstants.HCAL_CONTROLLER_PATH;
             urlParameters = viewHelperService.buildHCalURLParameters(atp, CalendarConstants.HC_COPY_METHOD, false, getContextInfo());
-            urlParameters.put("flow", searchForm.getFlowKey());
+            urlParameters.put("flow", flowKey == null ? "" : flowKey);
         }else if(CalendarConstants.ACADEMICCALENDER.equals(atp.getAcalSearchTypeKey())){
             urlParameters = viewHelperService.buildACalURLParameters(atp, CalendarConstants.AC_COPY_METHOD, false, getContextInfo());
             controllerPath = CalendarConstants.ACAL_CONTROLLER_PATH;
-            urlParameters.put("flow", searchForm.getFlowKey());
+            urlParameters.put("flow", flowKey == null ? "" : flowKey);
         } else {
             throw new RuntimeException("Invalid calendar type. This search supports Acal and HCal only");
         }
@@ -296,7 +299,8 @@ public class CalendarSearchController  extends UifControllerBase {
         // https://fisheye.kuali.org/changelog/rice?cs=39034
         // TODO KSENROLL-8469
         //urlParameters.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
-        urlParameters.put("flow", searchForm.getFlowKey());
+        String flowKey = searchForm.getFlowKey();
+        urlParameters.put("flow", flowKey == null ? "" : flowKey);
         urlParameters.put(CalendarConstants.PAGE_ID,CalendarConstants.ACADEMIC_CALENDAR_EDIT_PAGE);
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "startNew");
         String controllerPath = CalendarConstants.ACAL_CONTROLLER_PATH;
@@ -313,7 +317,8 @@ public class CalendarSearchController  extends UifControllerBase {
         // https://fisheye.kuali.org/changelog/rice?cs=39034
         // TODO KSENROLL-8469
         //urlParameters.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(true));
-        urlParameters.put("flow", searchForm.getFlowKey());
+        String flowKey = searchForm.getFlowKey();
+        urlParameters.put("flow", flowKey == null ? "" : flowKey);
         urlParameters.put(CalendarConstants.PAGE_ID,CalendarConstants.HOLIDAYCALENDAR_EDITPAGE);
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "startNew");
         String controllerPath = CalendarConstants.HCAL_CONTROLLER_PATH;

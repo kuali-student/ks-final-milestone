@@ -338,7 +338,8 @@ public class HolidayCalendarController extends UifControllerBase {
         // Made this consistent with the rest of the controllers for creating blank acal/hcal
         Properties urlParameters = new Properties();
         urlParameters.put(UifParameters.VIEW_ID, CalendarConstants.HOLIDAYCALENDAR_FLOWVIEW);
-        urlParameters.put("flow", hcForm.getFlowKey());
+        String flowKey = hcForm.getFlowKey();
+        urlParameters.put("flow", flowKey == null ? "" : flowKey);
         urlParameters.put(CalendarConstants.PAGE_ID,CalendarConstants.HOLIDAYCALENDAR_EDITPAGE);
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "startNew");
         String controllerPath = CalendarConstants.HCAL_CONTROLLER_PATH;
