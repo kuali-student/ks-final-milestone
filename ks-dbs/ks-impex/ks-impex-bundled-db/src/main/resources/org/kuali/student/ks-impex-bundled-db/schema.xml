@@ -576,6 +576,38 @@
         <foreignColumnNames>SVC_DSCRPTR_ID</foreignColumnNames>
         <localColumnNames>SVC_DSCRPTR_ID</localColumnNames>
     </foreignKey>
+    <foreignKey foreignTableName="KRTST_CONF_COORD_T" localTableName="KRTST_CONF_SESS_T" name="KRTST_CONF_SESS_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>COORD_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRTST_CONF_COORD_T" localTableName="KRTST_CONF_SESS_T" name="KRTST_CONF_SESS_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>ALT_COORD1_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRTST_CONF_COORD_T" localTableName="KRTST_CONF_SESS_T" name="KRTST_CONF_SESS_FK3" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>ALT_COORD2_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRTST_CONF_ROOM_T" localTableName="KRTST_CONF_SESS_T" name="KRTST_CONF_SESS_FK4" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>ROOM_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRTST_CONF_ROOM_T" localTableName="KRTST_CONF_SESS_T" name="KRTST_CONF_SESS_FK5" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>ALT_ROOM1_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRTST_CONF_ROOM_T" localTableName="KRTST_CONF_SESS_T" name="KRTST_CONF_SESS_FK6" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>ALT_ROOM2_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRTST_CONF_SESS_T" localTableName="KRTST_CONF_SESS_PRES_T" name="KRTST_CONF_SESS_PRES_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>SESS_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRTST_CONF_PRESENTER_T" localTableName="KRTST_CONF_SESS_PRES_T" name="KRTST_CONF_SESS_PRES_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>PRES_ID</localColumnNames>
+    </foreignKey>
     <foreignKey foreignTableName="KRLC_CNTRY_T" localTableName="KRLC_PSTL_CD_T" name="KR_POSTAL_CODE_TR1" onDelete="RESTRICT" onUpdate="RESTRICT">
         <foreignColumnNames>POSTAL_CNTRY_CD</foreignColumnNames>
         <localColumnNames>POSTAL_CNTRY_CD</localColumnNames>
@@ -1986,7 +2018,7 @@
     <sequence name="KREW_ACTN_RQST_S" startValue="2369"/>
     <sequence name="KREW_ACTN_TKN_S" startValue="2329"/>
     <sequence name="KREW_ATTR_DEFN_S" startValue="10000"/>
-    <sequence name="KREW_DOC_HDR_S" startValue="3015"/>
+    <sequence name="KREW_DOC_HDR_S" startValue="3024"/>
     <sequence name="KREW_DOC_LNK_S" startValue="2000"/>
     <sequence name="KREW_DOC_NTE_S" startValue="2020"/>
     <sequence name="KREW_DOC_TYP_ATTR_S" startValue="2010"/>
@@ -1998,8 +2030,8 @@
     <sequence name="KREW_PPL_FLW_MBR_S" startValue="10000"/>
     <sequence name="KREW_PPL_FLW_S" startValue="10000"/>
     <sequence name="KREW_RSP_S" startValue="2065"/>
-    <sequence name="KREW_RTE_NODE_CFG_PARM_S" startValue="2485"/>
-    <sequence name="KREW_RTE_NODE_S" startValue="2923"/>
+    <sequence name="KREW_RTE_NODE_CFG_PARM_S" startValue="2539"/>
+    <sequence name="KREW_RTE_NODE_S" startValue="2942"/>
     <sequence name="KREW_RTE_TMPL_S" startValue="1645"/>
     <sequence name="KREW_RULE_EXPR_S" startValue="2002"/>
     <sequence name="KREW_RULE_TMPL_OPTN_S" startValue="2020"/>
@@ -2087,6 +2119,11 @@
     <sequence name="KRSB_MSG_QUE_S" startValue="467"/>
     <sequence name="KRSB_SVC_DEF_S" startValue="10105"/>
     <sequence name="KRSB_SVC_DSCRPTR_S" startValue="10105"/>
+    <sequence name="KRTST_CONF_COORD_S" startValue="1"/>
+    <sequence name="KRTST_CONF_PRESENTER_S" startValue="1"/>
+    <sequence name="KRTST_CONF_ROOM_S" startValue="1"/>
+    <sequence name="KRTST_CONF_SESS_PRES_S" startValue="1"/>
+    <sequence name="KRTST_CONF_SESS_S" startValue="1"/>
     <sequence name="KS_RICE_ID_S" startValue="55758"/>
     <table name="KRAD_MSG_T">
         <column name="CMPNT_CD" nullable="false" primaryKey="true" type="STRING">
@@ -7730,7 +7767,7 @@
             <size value="1"/>
         </column>
         <column name="ATTR_DEFN_ID" nullable="false" primaryKey="true" type="STRING">
-            <size value="255"/>
+            <size value="40"/>
         </column>
         <column name="CMPNT_NM" type="STRING">
             <size value="100"/>
@@ -8433,7 +8470,7 @@
             <size value="1"/>
         </column>
         <column name="ATTR_DEFN_ID" nullable="false" type="STRING">
-            <size value="255"/>
+            <size value="40"/>
         </column>
         <column name="SEQ_NO" nullable="false" type="FLOAT">
             <size value="5"/>
@@ -9320,6 +9357,130 @@
         </column>
         <column name="SVC_DSCRPTR_ID" nullable="false" primaryKey="true" type="STRING">
             <size value="40"/>
+        </column>
+    </table>
+    <table name="KRTST_CONF_COORD_T">
+        <column name="ID" nullable="false" primaryKey="true" type="FLOAT">
+            <size value="14"/>
+        </column>
+        <column name="NM" type="STRING">
+            <size value="40"/>
+        </column>
+    </table>
+    <table name="KRTST_CONF_LBL_EXT_T">
+        <column name="EXTRA" type="STRING">
+            <size value="40"/>
+        </column>
+        <column name="NM" nullable="false" primaryKey="true" type="STRING">
+            <size value="40"/>
+        </column>
+    </table>
+    <table name="KRTST_CONF_LBL_T">
+        <column name="NM" nullable="false" primaryKey="true" type="STRING">
+            <size value="40"/>
+        </column>
+    </table>
+    <table name="KRTST_CONF_PRESENTER_T">
+        <column name="ID" nullable="false" primaryKey="true" type="STRING">
+            <size value="10"/>
+        </column>
+        <column name="INST_NM" type="STRING">
+            <size value="40"/>
+        </column>
+        <column name="NM" type="STRING">
+            <size value="40"/>
+        </column>
+    </table>
+    <table name="KRTST_CONF_ROOM_T">
+        <column name="BLDG_NM" type="STRING">
+            <size value="40"/>
+        </column>
+        <column name="ID" nullable="false" primaryKey="true" type="STRING">
+            <size value="10"/>
+        </column>
+        <column name="NUM" type="STRING">
+            <size value="10"/>
+        </column>
+    </table>
+    <table name="KRTST_CONF_SESS_PRES_T">
+        <column name="ID" nullable="false" primaryKey="true" type="STRING">
+            <size value="10"/>
+        </column>
+        <column name="PRES_ID" type="STRING">
+            <size value="10"/>
+        </column>
+        <column name="PRIMARY_IND" type="CHAR">
+            <size value="1"/>
+        </column>
+        <column name="SESS_ID" type="STRING">
+            <size value="10"/>
+        </column>
+    </table>
+    <table name="KRTST_CONF_SESS_T">
+        <column name="ALT_COORD1_ID" type="FLOAT">
+            <size value="14"/>
+        </column>
+        <column name="ALT_COORD2_ID" type="FLOAT">
+            <size value="14"/>
+        </column>
+        <column name="ALT_ROOM1_ID" type="STRING">
+            <size value="10"/>
+        </column>
+        <column name="ALT_ROOM2_ID" type="STRING">
+            <size value="10"/>
+        </column>
+        <column name="COORD_ID" type="FLOAT">
+            <size value="14"/>
+        </column>
+        <column name="DESCRIPTION" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="END_TIME" type="STRING">
+            <size value="10"/>
+        </column>
+        <column name="ID" nullable="false" primaryKey="true" type="STRING">
+            <size value="10"/>
+        </column>
+        <column name="ROOM_ID" type="STRING">
+            <size value="10"/>
+        </column>
+        <column name="SESS_DT" type="TIMESTAMP">
+            <size value="7"/>
+        </column>
+        <column name="SESS_TYPE_CODE" type="CHAR">
+            <size value="1"/>
+        </column>
+        <column name="START_TIME" type="STRING">
+            <size value="10"/>
+        </column>
+        <column name="TITLE" type="STRING">
+            <size value="40"/>
+        </column>
+    </table>
+    <table name="KRTST_TEST_DISABLE_NO_VER_T">
+        <column name="ID" nullable="false" primaryKey="true" type="STRING">
+            <size value="10"/>
+        </column>
+        <column name="OBJ_ID" nullable="false" type="STRING">
+            <size value="36"/>
+        </column>
+        <column name="STR_PROP" type="STRING">
+            <size value="40"/>
+        </column>
+    </table>
+    <table name="KRTST_TEST_DISABLE_VER_T">
+        <column name="ID" nullable="false" primaryKey="true" type="STRING">
+            <size value="10"/>
+        </column>
+        <column name="OBJ_ID" nullable="false" type="STRING">
+            <size value="36"/>
+        </column>
+        <column name="STR_PROP" type="STRING">
+            <size value="40"/>
+        </column>
+        <column name="VER_NBR" nullable="false" type="FLOAT">
+            <defaultValue>1 </defaultValue>
+            <size value="8"/>
         </column>
     </table>
     <table name="KSDO_DOCUMENT">
