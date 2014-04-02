@@ -89,7 +89,7 @@
                 <bean parent="Uif-MessageField" p:messageText="[hr]"/>
 				<bean parent="Uif-MessageField" p:messageText="@{conversation.advisor.name}"/>
 				<bean parent="Uif-MessageField" p:messageText="[hr]"/>
-				<bean parent="Uif-InputField" p:propertyName="newComment" p:render="@{not conversation.closed}">
+				<bean parent="KS-Uif-InputField" p:propertyName="newComment" p:render="@{not conversation.closed}">
 				    <property name="control">
 				 		<bean parent="Uif-TextAreaControl"/>
 				    </property>

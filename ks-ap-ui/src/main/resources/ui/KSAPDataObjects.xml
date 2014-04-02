@@ -41,7 +41,7 @@
             <bean parent="TextControlDefinition" p:size="10"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="10"/>
+            <bean parent="KS-Uif-TextControl" p:size="10"/>
         </property>
     </bean>
     <bean id="BookmarkDetailWrapper.planItemId" parent="BookmarkDetailWrapper.planItemId-parentBean"/>
@@ -59,7 +59,7 @@
             <bean parent="TextControlDefinition" p:size="10"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="10"/>
+            <bean parent="KS-Uif-TextControl" p:size="10"/>
         </property>
     </bean>
     <bean id="BookmarkDetailWrapper.dateAdded" parent="BookmarkDetailWrapper.dateAdded-parentBean"/>
@@ -77,7 +77,7 @@
             <bean parent="TextControlDefinition" p:size="10"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="20"/>
+            <bean parent="KS-Uif-TextControl" p:size="20"/>
         </property>
     </bean>
     <bean id="BookmarkDetailWrapper.uniqueId" parent="BookmarkDetailWrapper.uniqueId-parentBean"/>
@@ -95,7 +95,7 @@
             <bean parent="TextControlDefinition" p:size="10"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="10"/>
+            <bean parent="KS-Uif-TextControl" p:size="10"/>
         </property>
     </bean>
     <bean id="BookmarkDetailWrapper.courseSummaryDetails" parent="ComplexAttributeDefinition">
@@ -137,7 +137,7 @@
             <bean parent="TextControlDefinition" p:size="10"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="10"/>
+            <bean parent="KS-Uif-TextControl" p:size="10"/>
         </property>
     </bean>
     <bean id="BookmarkSideBarWrapper.courseCd" parent="BookmarkSideBarWrapper.courseCd-parentBean"/>
@@ -155,7 +155,7 @@
             <bean parent="TextControlDefinition" p:size="10"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="10"/>
+            <bean parent="KS-Uif-TextControl" p:size="10"/>
         </property>
     </bean>
     <bean id="BookmarkSideBarWrapper.learningPlanId" parent="BookmarkSideBarWrapper.learningPlanId-parentBean"/>
@@ -173,7 +173,7 @@
             <bean parent="TextControlDefinition" p:size="10"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="10"/>
+            <bean parent="KS-Uif-TextControl" p:size="10"/>
         </property>
     </bean>
     <bean id="BookmarkSideBarWrapper.planItemId" parent="BookmarkSideBarWrapper.planItemId-parentBean"/>
@@ -191,7 +191,7 @@
             <bean parent="TextControlDefinition" p:size="10"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="10"/>
+            <bean parent="KS-Uif-TextControl" p:size="10"/>
         </property>
     </bean>
     <bean id="BookmarkSideBarWrapper.courseTitle" parent="BookmarkSideBarWrapper.courseTitle-parentBean"/>
@@ -209,7 +209,7 @@
             <bean parent="TextControlDefinition" p:size="10"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="10"/>
+            <bean parent="KS-Uif-TextControl" p:size="10"/>
         </property>
     </bean>
     <bean id="BookmarkSideBarWrapper.uniqueId" parent="BookmarkSideBarWrapper.uniqueId-parentBean"/>
@@ -227,7 +227,7 @@
             <bean parent="TextControlDefinition" p:size="10"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="10"/>
+            <bean parent="KS-Uif-TextControl" p:size="10"/>
         </property>
     </bean>
     <bean id="BookmarkSideBarWrapper.dateAdded" parent="BookmarkSideBarWrapper.dateAdded-parentBean"/>
@@ -245,7 +245,7 @@
             <bean parent="TextControlDefinition" p:size="10"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="20"/>
+            <bean parent="KS-Uif-TextControl" p:size="20"/>
         </property>
     </bean>
     <bean id="BookmarkSideBarWrapper.credits" parent="BookmarkSideBarWrapper.credits-parentBean"/>
@@ -264,7 +264,7 @@
         </property>
 
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="10"/>
+            <bean parent="KS-Uif-TextControl" p:size="10"/>
         </property>
     </bean>
 
@@ -305,7 +305,7 @@
             <bean parent="TextControlDefinition" p:size="10"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="10"/>
+            <bean parent="KS-Uif-TextControl" p:size="10"/>
         </property>
     </bean>
 
@@ -324,7 +324,7 @@
             <bean parent="TextControlDefinition" p:size="10"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="20"/>
+            <bean parent="KS-Uif-TextControl" p:size="20"/>
         </property>
     </bean>
 
@@ -343,7 +343,7 @@
             <bean parent="TextControlDefinition" p:size="10"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="10"/>
+            <bean parent="KS-Uif-TextControl" p:size="10"/>
         </property>
     </bean>
 
@@ -362,7 +362,7 @@
             <bean parent="TextControlDefinition" p:size="10"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="10"/>
+            <bean parent="KS-Uif-TextControl" p:size="10"/>
         </property>
     </bean>
 
@@ -381,7 +381,7 @@
             <bean parent="TextControlDefinition" p:size="10"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="10"/>
+            <bean parent="KS-Uif-TextControl" p:size="10"/>
         </property>
     </bean>
 
@@ -400,7 +400,7 @@
             <bean parent="TextControlDefinition" p:size="10"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="10"/>
+            <bean parent="KS-Uif-TextControl" p:size="10"/>
         </property>
     </bean>
 
@@ -419,7 +419,7 @@
             <bean parent="TextControlDefinition" p:size="10"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="10"/>
+            <bean parent="KS-Uif-TextControl" p:size="10"/>
         </property>
     </bean>
 
@@ -438,7 +438,7 @@
             <bean parent="TextControlDefinition" p:size="10"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="10"/>
+            <bean parent="KS-Uif-TextControl" p:size="10"/>
         </property>
     </bean>
 
@@ -457,7 +457,7 @@
             <bean parent="TextControlDefinition" p:size="10"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="10"/>
+            <bean parent="KS-Uif-TextControl" p:size="10"/>
         </property>
     </bean>
 
@@ -476,7 +476,7 @@
             <bean parent="TextControlDefinition" p:size="10"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="10"/>
+            <bean parent="KS-Uif-TextControl" p:size="10"/>
         </property>
     </bean>
     <!--************PlanItemDataObject End*********************-->
@@ -520,7 +520,7 @@
             <bean parent="TextControlDefinition" p:size="10"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="10"/>
+            <bean parent="KS-Uif-TextControl" p:size="10"/>
         </property>
     </bean>
 
@@ -540,7 +540,7 @@
         </property>
 
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="10"/>
+            <bean parent="KS-Uif-TextControl" p:size="10"/>
         </property>
     </bean>
 
@@ -560,7 +560,7 @@
             <bean parent="TextControlDefinition" p:size="10"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="10"/>
+            <bean parent="KS-Uif-TextControl" p:size="10"/>
         </property>
     </bean>
 
@@ -615,7 +615,7 @@
             <bean parent="TextControlDefinition" p:size="10"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="10"/>
+            <bean parent="KS-Uif-TextControl" p:size="10"/>
         </property>
     </bean>
     <bean id="FullPlanItemsDataObject.terms" parent="CollectionDefinition">
@@ -715,7 +715,7 @@
             <bean parent="TextControlDefinition" p:size="100"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="100"/>
+            <bean parent="KS-Uif-TextControl" p:size="100"/>
         </property>
     </bean>
 
@@ -734,7 +734,7 @@
             <bean parent="TextControlDefinition" p:size="100"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="100"/>
+            <bean parent="KS-Uif-TextControl" p:size="100"/>
         </property>
     </bean>
 
@@ -753,7 +753,7 @@
             <bean parent="TextControlDefinition" p:size="10"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="10"/>
+            <bean parent="KS-Uif-TextControl" p:size="10"/>
         </property>
     </bean>
 
@@ -773,7 +773,7 @@
             <bean parent="TextControlDefinition" p:size="10"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="10"/>
+            <bean parent="KS-Uif-TextControl" p:size="10"/>
         </property>
     </bean>
 
@@ -793,7 +793,7 @@
             <bean parent="TextControlDefinition" p:size="10"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="10"/>
+            <bean parent="KS-Uif-TextControl" p:size="10"/>
         </property>
     </bean>
 
@@ -812,7 +812,7 @@
             <bean parent="TextControlDefinition" p:size="40"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="40"/>
+            <bean parent="KS-Uif-TextControl" p:size="40"/>
         </property>
     </bean>
 
@@ -831,7 +831,7 @@
             <bean parent="TextControlDefinition" p:size="20"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="20"/>
+            <bean parent="KS-Uif-TextControl" p:size="20"/>
         </property>
     </bean>
 
@@ -850,7 +850,7 @@
             <bean parent="TextControlDefinition" p:size="200"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="200"/>
+            <bean parent="KS-Uif-TextControl" p:size="200"/>
         </property>
     </bean>
 
@@ -895,7 +895,7 @@
             <bean parent="TextControlDefinition" p:size="200"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="200"/>
+            <bean parent="KS-Uif-TextControl" p:size="200"/>
         </property>
     </bean>
 
@@ -954,7 +954,7 @@
             <bean parent="TextControlDefinition" p:size="200"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="200"/>
+            <bean parent="KS-Uif-TextControl" p:size="200"/>
         </property>
     </bean>
 
@@ -1042,7 +1042,7 @@
             <bean parent="TextControlDefinition" p:size="10"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="10"/>
+            <bean parent="KS-Uif-TextControl" p:size="10"/>
         </property>
     </bean>
 
@@ -1064,7 +1064,7 @@
             <bean parent="TextControlDefinition" p:size="20"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="20"/>
+            <bean parent="KS-Uif-TextControl" p:size="20"/>
         </property>
     </bean>
 
@@ -1133,7 +1133,7 @@
             <bean parent="TextControlDefinition" p:size="50"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="50"/>
+            <bean parent="KS-Uif-TextControl" p:size="50"/>
         </property>
     </bean>
 
@@ -1153,7 +1153,7 @@
             <bean parent="TextControlDefinition" p:size="50"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="50"/>
+            <bean parent="KS-Uif-TextControl" p:size="50"/>
         </property>
     </bean>
 
@@ -1173,7 +1173,7 @@
             <bean parent="TextControlDefinition" p:size="50000"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="50000"/>
+            <bean parent="KS-Uif-TextControl" p:size="50000"/>
         </property>
     </bean>
     <!--*********************** End DegreeAuditItem Data Object. ********************-->
@@ -1210,7 +1210,7 @@
             <bean parent="NoWhitespacePatternConstraint"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="10"/>
+            <bean parent="KS-Uif-TextControl" p:size="10"/>
         </property>
     </bean>
 
@@ -1226,7 +1226,7 @@
             <bean parent="NoWhitespacePatternConstraint"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="10"/>
+            <bean parent="KS-Uif-TextControl" p:size="10"/>
         </property>
     </bean>
 
@@ -1242,7 +1242,7 @@
             <bean parent="NoWhitespacePatternConstraint"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="10"/>
+            <bean parent="KS-Uif-TextControl" p:size="10"/>
         </property>
     </bean>
 
@@ -1258,7 +1258,7 @@
             <bean parent="NoWhitespacePatternConstraint"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="10"/>
+            <bean parent="KS-Uif-TextControl" p:size="10"/>
         </property>
     </bean>
 
@@ -1274,7 +1274,7 @@
             <bean parent="NoWhitespacePatternConstraint"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="10"/>
+            <bean parent="KS-Uif-TextControl" p:size="10"/>
         </property>
     </bean>
 
@@ -1290,7 +1290,7 @@
             <bean parent="NoWhitespacePatternConstraint"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="10"/>
+            <bean parent="KS-Uif-TextControl" p:size="10"/>
         </property>
     </bean>
 
@@ -1306,7 +1306,7 @@
             <bean parent="NoWhitespacePatternConstraint"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="10"/>
+            <bean parent="KS-Uif-TextControl" p:size="10"/>
         </property>
     </bean>
 
@@ -1322,7 +1322,7 @@
             <bean parent="NoWhitespacePatternConstraint"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="10"/>
+            <bean parent="KS-Uif-TextControl" p:size="10"/>
         </property>
     </bean>-->
     <!--*********************** AcademicRecord Data Object End ********************-->
@@ -1358,7 +1358,7 @@
             <bean parent="TextControlDefinition" p:size="16"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="20"/>
+            <bean parent="KS-Uif-TextControl" p:size="20"/>
         </property>
     </bean>
 
@@ -1371,7 +1371,7 @@
         <property name="forceUppercase" value="false"/>
         <property name="maxLength" value="40"/>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="40"/>
+            <bean parent="KS-Uif-TextControl" p:size="40"/>
         </property>
     </bean>
 
@@ -1384,7 +1384,7 @@
         <property name="forceUppercase" value="false"/>
         <property name="maxLength" value="1000"/>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="1000"/>
+            <bean parent="KS-Uif-TextControl" p:size="1000"/>
         </property>
     </bean>
 
@@ -1397,7 +1397,7 @@
         <property name="forceUppercase" value="false"/>
         <property name="maxLength" value="40"/>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="40"/>
+            <bean parent="KS-Uif-TextControl" p:size="40"/>
         </property>
     </bean>
 
@@ -1427,7 +1427,7 @@
         <property name="forceUppercase" value="false"/>
         <property name="maxLength" value="100"/>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="100"/>
+            <bean parent="KS-Uif-TextControl" p:size="100"/>
         </property>
     </bean>
 
@@ -1446,7 +1446,7 @@
             <bean parent="TextControlDefinition" p:size="16"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="20"/>
+            <bean parent="KS-Uif-TextControl" p:size="20"/>
         </property>
     </bean>
 

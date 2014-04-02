@@ -358,13 +358,13 @@
     <bean id="campus_params" parent="Uif-HorizontalFieldGroup">
         <property name="items">
             <list>
-                <bean id="radio_campusParam" parent="Uif-InputField" p:propertyName="campusParam">
+                <bean id="radio_campusParam" parent="KS-Uif-InputField" p:propertyName="campusParam">
                     <property name="onChangeScript" value="
                         jQuery('button#degree_audit_run').attr('disabled', degreeAuditButton());
                         setUrlHash('modified', 'yes');
                     "/>
                     <property name="control">
-                        <bean parent="Uif-VerticalRadioControl"/>
+                        <bean parent="KS-Uif-VerticalRadioControl"/>
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.ap.coursesearch.util.AuditRunCampusParam"/>
@@ -381,12 +381,12 @@
                       p:progressiveRender="true" p:disclosure.render="true">
                     <property name="items">
                         <list>
-                            <bean id="select_programParam" parent="Uif-InputField"
+                            <bean id="select_programParam" parent="KS-Uif-InputField"
                                   p:propertyName="programParam" p:validationMessages.render="false"
                                   p:width="auto"
                                   p:refreshWhenChangedPropertyNames="#dp.campusParam">
                                 <property name="control">
-                                    <bean parent="Uif-DropdownControl">
+                                    <bean parent="KS-Uif-DropdownControl">
                                         <property name="onChangeScript"
                                                   value="jQuery('button#degree_audit_run').attr('disabled', degreeAuditButton());"/>
                                         <property name="onDocumentReadyScript"

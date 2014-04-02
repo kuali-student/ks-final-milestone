@@ -628,7 +628,7 @@
 
     <!-- Light weight fields -->
     <bean id="KSAP-SimpleDataField" parent="KSAP-SimpleDataField-parentBean"/>
-    <bean id="KSAP-SimpleDataField-parentBean" abstract="true" parent="Uif-DataField" scope="prototype">
+    <bean id="KSAP-SimpleDataField-parentBean" abstract="true" parent="KS-Uif-DataField" scope="prototype">
         <property name="fieldLabel.render" value="false"/>
         <property name="template" value="/ks-ap/WEB-INF/ftl/components/KSAPSimpleDataField.ftl"/>
         <property name="templateName" value="ksap_simpleDataField"/>

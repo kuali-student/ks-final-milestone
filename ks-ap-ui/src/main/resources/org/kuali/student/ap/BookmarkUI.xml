@@ -364,7 +364,7 @@
                                     </list>
                                 </property>
                             </bean>
-                            <bean parent="Uif-DataField" p:propertyName="dateAdded"
+                            <bean parent="KS-Uif-DataField" p:propertyName="dateAdded"
                                   p:style="width:131px;" p:label="Added on">
                                 <property name="fieldLabel.cssClasses" value="ksap-text-normal"/>
                                 <property name="fieldLabel.renderColon" value="false"/>
@@ -393,7 +393,7 @@
 
                             <!--Last Offered -->
 
-                            <bean parent="Uif-DataField" p:label="Last Offered"
+                            <bean parent="KS-Uif-DataField" p:label="Last Offered"
                                   p:propertyName="courseSummaryDetails.lastOffered" p:labelPlacement="LEFT">
                                 <property name="fieldLabel.cssClasses" value="ksap-text-normal"/>
                                 <property name="render" value="@{#line.courseSummaryDetails.lastOffered ne null and #line.courseSummaryDetails.scheduledTerms.size() eq 0}"/>

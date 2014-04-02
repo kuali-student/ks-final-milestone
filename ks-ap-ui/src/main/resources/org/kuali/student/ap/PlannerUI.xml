@@ -287,16 +287,16 @@
         <property name="header.render" value="true" />
         <property name="items">
             <list>
-                <bean id="plan_base_atpId" parent="Uif-DataField"
+                <bean id="plan_base_atpId" parent="KS-Uif-DataField"
                       p:propertyName="termName" p:cssClasses="ksap-hide">
                     <property name="fieldLabel.render" value="false" />
                 </bean>
 
                 <!--
-                <bean p:id="@{#line.uniqueId}_plan_status" parent="Uif-InputField"
+                <bean p:id="@{#line.uniqueId}_plan_status" parent="KS-Uif-InputField"
                     p:propertyName="planning">
                     <property name="control">
-                        <bean parent="Uif-HiddenControl" />
+                        <bean parent="KS-Uif-HiddenControl" />
                     </property>
                 </bean>
                  -->

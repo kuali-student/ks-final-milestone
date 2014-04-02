@@ -446,7 +446,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                                                         </property>
                                                         <property name="items">
                                                             <list>
-                                                                <bean parent="Uif-DataField"
+                                                                <bean parent="KS-Uif-DataField"
                                                                       p:propertyName="courseSummaryDetails.lastOffered"
                                                                       p:label="Last Offered"
                                                                       p:render="@{dataObject.courseSummaryDetails.lastOffered ne null ? true : false}">
@@ -588,7 +588,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-DataField" 
+                <bean parent="KS-Uif-DataField"
                       p:propertyName="courseSummaryDetails.curriculumTitle">
                     <property name="fieldLabel.renderColon" value="false"/>
                     <property name="fieldLabel.render" value="false"/>
