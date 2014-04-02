@@ -72,11 +72,6 @@ public class CheckInfolookupController extends LookupController {
                     }  else{
                         props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, UifConstants.MethodToCallNames.START);
                     }
-                    // UrlParams.SHOW_HISTORY and SHOW_HOME no longer exist
-                    // https://fisheye.kuali.org/changelog/rice?cs=39034
-                    // TODO KSENROLL-8469
-                    //props.put(UifConstants.UrlParams.SHOW_HISTORY, BooleanUtils.toStringTrueFalse(false));
-                    //props.put(UifConstants.UrlParams.SHOW_HOME,BooleanUtils.toStringTrueFalse(false));
                     props.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE,lookupForm.getDataObjectClassName());
 
                     return performRedirect(lookupForm,defaultAction,props );

@@ -308,11 +308,6 @@ public class HolidayCalendarController extends UifControllerBase {
         Properties urlParameters = new Properties();
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.START_METHOD);
         urlParameters.put(UifParameters.VIEW_ID, CalendarConstants.CALENDAR_SEARCH_VIEW);
-
-        // UrlParams.SHOW_HISTORY and SHOW_HOME no longer exist
-        // https://fisheye.kuali.org/changelog/rice?cs=39034
-        // TODO KSENROLL-8469
-        //urlParameters.put(UifConstants.UrlParams.SHOW_HISTORY, BooleanUtils.toStringTrueFalse(false));
         urlParameters.put(CalendarConstants.CALENDAR_SEARCH_TYPE, CalendarConstants.HOLIDAYCALENDER);
         return super.performRedirect(form,controllerPath, urlParameters);
     }
@@ -429,11 +424,6 @@ public class HolidayCalendarController extends UifControllerBase {
         Properties urlParameters = new  Properties();
         urlParameters.put("viewId", CalendarConstants.CALENDAR_SEARCH_VIEW);
         urlParameters.put("methodToCall", KRADConstants.SEARCH_METHOD);
-
-        // UrlParams.SHOW_HISTORY and SHOW_HOME no longer exist
-        // https://fisheye.kuali.org/changelog/rice?cs=39034
-        // TODO KSENROLL-8469
-        //urlParameters.put(UifConstants.UrlParams.SHOW_HISTORY, BooleanUtils.toStringTrueFalse(false));
         HolidayCalendarInfo hCalInfo = hcForm.getHolidayCalendarInfo();
         urlParameters.put(EnrollConstants.GROWL_MESSAGE, CalendarConstants.MessageKeys.INFO_HOLIDAY_CALENDAR_DELETED);
         urlParameters.put(EnrollConstants.GROWL_MESSAGE_PARAMS, hCalInfo.getName());

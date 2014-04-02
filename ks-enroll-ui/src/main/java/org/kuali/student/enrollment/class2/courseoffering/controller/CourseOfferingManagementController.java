@@ -251,10 +251,6 @@ public class CourseOfferingManagementController extends UifControllerBase {
         urlParameters.put("coInfo.id", theCourseOfferingInfo.getId());
         urlParameters.put(UifParameters.VIEW_ID, RegistrationGroupConstants.RG_VIEW);
         urlParameters.put(UifParameters.PAGE_ID, RegistrationGroupConstants.RG_PAGE);
-        // UrlParams.SHOW_HISTORY and SHOW_HOME no longer exist
-        // https://fisheye.kuali.org/changelog/rice?cs=39034
-        // TODO KSENROLL-8469
-        //urlParameters.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
         urlParameters.put("withinPortal", BooleanUtils.toStringTrueFalse(theForm.isWithinPortal()));
         String controllerPath = RegistrationGroupConstants.RG_CONTROLLER_PATH;
 

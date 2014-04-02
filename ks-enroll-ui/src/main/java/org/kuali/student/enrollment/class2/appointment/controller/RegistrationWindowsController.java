@@ -180,10 +180,6 @@ public class RegistrationWindowsController extends UifControllerBase {
         urlParameters.put("periodId", uifForm.getPeriodId());
         urlParameters.put("termType", uifForm.getTermType());
         urlParameters.put("termYear", uifForm.getTermYear());
-        // UrlParams.SHOW_HISTORY and SHOW_HOME no longer exist
-        // https://fisheye.kuali.org/changelog/rice?cs=39034
-        // TODO KSENROLL-8469
-        //urlParameters.put(UifConstants.UrlParams.SHOW_HISTORY, BooleanUtils.toStringTrueFalse(false));
         String controllerPath = AppointmentConstants.REGISTRATION_WINDOWS_CONTROLLER_PATH;
 
         try {
@@ -236,10 +232,6 @@ public class RegistrationWindowsController extends UifControllerBase {
         urlParameters.put("periodId", uifForm.getPeriodId());
         urlParameters.put("termType", uifForm.getTermType());
         urlParameters.put("termYear", uifForm.getTermYear());
-        // UrlParams.SHOW_HISTORY and SHOW_HOME no longer exist
-        // https://fisheye.kuali.org/changelog/rice?cs=39034
-        // TODO KSENROLL-8469
-        //urlParameters.put(UifConstants.UrlParams.SHOW_HISTORY, BooleanUtils.toStringTrueFalse(false));
         String controllerPath = AppointmentConstants.REGISTRATION_WINDOWS_CONTROLLER_PATH;
 
 //        TODO: KSENROLL-9721: Need to create a confirmation dialog in browser as opposed to make a server side round trip
