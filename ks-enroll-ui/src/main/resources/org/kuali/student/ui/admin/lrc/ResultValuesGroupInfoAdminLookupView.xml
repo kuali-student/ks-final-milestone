@@ -80,29 +80,29 @@
 		</property>
 		<property name="resultFields">
 		    <list>
-		        <bean parent="Uif-DataField" p:propertyName="key">
+		        <bean parent="KS-Uif-DataField" p:propertyName="key">
 		            <property name="inquiry">
 		                <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo" p:inquiryParameters="key" />
 		            </property>
 		        </bean>
-		        <bean parent="Uif-DataField" p:propertyName="typeKey">
+		        <bean parent="KS-Uif-DataField" p:propertyName="typeKey">
 		            <property name="inquiry">
 		                <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.r2.core.class1.type.dto.TypeInfo" p:inquiryParameters="typeKey:key" />
 		            </property>
 		        </bean>
-		        <bean parent="Uif-DataField" p:propertyName="stateKey">
+		        <bean parent="KS-Uif-DataField" p:propertyName="stateKey">
 		            <property name="inquiry">
 		                <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.r2.core.class1.state.dto.StateInfo" p:inquiryParameters="stateKey:key" />
 		            </property>
 		        </bean>
-		        <bean parent="Uif-DataField" p:propertyName="name" />
-		        <bean parent="Uif-DataField" p:propertyName="resultScaleKey">
+		        <bean parent="KS-Uif-DataField" p:propertyName="name" />
+		        <bean parent="KS-Uif-DataField" p:propertyName="resultScaleKey">
 		            <property name="inquiry">
 		                <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.r2.lum.lrc.dto.ResultScaleInfo" p:inquiryParameters="resultScaleKey:key" />
 		            </property>
 		        </bean>
-		        <bean parent="Uif-DataField" p:propertyName="effectiveDate" />
-		        <bean parent="Uif-DataField" p:propertyName="expirationDate" />
+		        <bean parent="KS-Uif-DataField" p:propertyName="effectiveDate" />
+		        <bean parent="KS-Uif-DataField" p:propertyName="expirationDate" />
 		    </list>
 		</property>
 	</bean>

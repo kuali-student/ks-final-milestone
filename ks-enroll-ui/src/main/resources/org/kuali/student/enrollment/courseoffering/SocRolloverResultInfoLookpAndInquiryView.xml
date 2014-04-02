@@ -35,10 +35,10 @@
         </property>
         <property name="resultFields">
             <list>
-                <bean parent="Uif-DataField" p:propertyName="id" />
-                <bean parent="Uif-DataField" p:propertyName="targetTermId" />
-                <bean parent="Uif-DataField" p:propertyName="sourceTermId" />
-                <!--<bean parent="Uif-DataField" p:propertyName="percentageEffort" />-->
+                <bean parent="KS-Uif-DataField" p:propertyName="id" />
+                <bean parent="KS-Uif-DataField" p:propertyName="targetTermId" />
+                <bean parent="KS-Uif-DataField" p:propertyName="sourceTermId" />
+                <!--<bean parent="KS-Uif-DataField" p:propertyName="percentageEffort" />-->
             </list>
         </property>
     </bean>
@@ -54,10 +54,10 @@
                     <property name="headerText" value="SocRolloverResultInfo Inquiry"/>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="id"/>
-                            <bean parent="Uif-InputField" p:propertyName="targetTermId"/>
-                            <bean parent="Uif-InputField" p:propertyName="sourceTermId"/>
-                            <bean parent="Uif-InputField" p:propertyName="percentageEffort"/>
+                            <bean parent="KS-Uif-InputField" p:propertyName="id"/>
+                            <bean parent="KS-Uif-InputField" p:propertyName="targetTermId"/>
+                            <bean parent="KS-Uif-InputField" p:propertyName="sourceTermId"/>
+                            <bean parent="KS-Uif-InputField" p:propertyName="percentageEffort"/>
                         </list>
                     </property>
                 </bean>

@@ -59,7 +59,7 @@
         p:label="Term"
         p:required="true">
         <property name="controlField">
-            <bean parent="Uif-DropdownControl"/>
+            <bean parent="KS-Uif-DropdownControl"/>
         </property>
         <property name="optionsFinder">
             <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.AcademicTermTypeKeyValues"/>
@@ -74,7 +74,7 @@
             <bean parent="NumericPatternConstraint" p:allowWhitespace="false"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="10" p:watermarkText="2012"/>
+            <bean parent="KS-Uif-TextControl" p:size="10" p:watermarkText="2012"/>
         </property>
     </bean>
 
@@ -109,10 +109,10 @@
         </property>
         <property name="resultFields">
             <list>
-                <bean parent="Uif-DataField" p:propertyName="id" />
-                <bean parent="Uif-DataField" p:propertyName="windowName" p:label="Window"/>
-                <bean parent="Uif-DataField" p:propertyName="appointmentWindowInfo.stateKey" />
-                <bean parent="Uif-DataField" p:propertyName="appointmentWindowInfo.startDate" />
+                <bean parent="KS-Uif-DataField" p:propertyName="id" />
+                <bean parent="KS-Uif-DataField" p:propertyName="windowName" p:label="Window"/>
+                <bean parent="KS-Uif-DataField" p:propertyName="appointmentWindowInfo.stateKey" />
+                <bean parent="KS-Uif-DataField" p:propertyName="appointmentWindowInfo.startDate" />
             </list>
         </property>
     </bean>
@@ -155,26 +155,26 @@
                       p:layoutManager.applyDefaultCellWidths="false">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField"
+                            <bean parent="KS-Uif-DataField"
                                   p:propertyName="numberOfStudents"
                                   p:label="# of Students"
                                   p:fieldLabel.width="40%"
                                   p:width="60%"
                                   p:fieldLabel.renderColon="false"/>
-                            <bean parent="Uif-DataField"
+                            <bean parent="KS-Uif-DataField"
                                   p:propertyName="numberOfSlots"
                                   p:label="# Of Slots"
                                   p:fieldLabel.renderColon="false"/>
-                            <bean parent="Uif-DataField"
+                            <bean parent="KS-Uif-DataField"
                                   p:propertyName="meanStudentsPerSlot"
                                   p:label="Students Per Slot"
                                   p:instructionalText="This displays the most common allotment size (mode), not the average."
                                   p:fieldLabel.renderColon="false"/>
-                            <bean parent="Uif-DataField"
+                            <bean parent="KS-Uif-DataField"
                                   p:propertyName="firstSlotPopulated"
                                   p:label="First Slot Populated "
                                   p:fieldLabel.renderColon="false"/>
-                            <bean parent="Uif-DataField"
+                            <bean parent="KS-Uif-DataField"
                                   p:propertyName="lastSlotPopulated"
                                   p:label="Last Slot Populated "
                                   p:fieldLabel.renderColon="false"/>
@@ -197,37 +197,37 @@
                       p:layoutManager.applyDefaultCellWidths="false">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField"
+                            <bean parent="KS-Uif-DataField"
                                   p:propertyName="periodName"
                                   p:label="Period"
                                   p:fieldLabel.width="40%"
                                   p:width="60%"
                                   p:fieldLabel.renderColon="false"/>
-                            <bean parent="Uif-DataField"
+                            <bean parent="KS-Uif-DataField"
                                   p:propertyName="appointmentWindowInfo.name"
                                   p:label="Window"
                                   p:fieldLabel.renderColon="false"/>
-                            <bean parent="Uif-DataField"
+                            <bean parent="KS-Uif-DataField"
                                   p:propertyName="assignedPopulationName"
                                   p:label="Student Group"
                                   p:fieldLabel.renderColon="false"/>
-                            <bean parent="Uif-DataField"
+                            <bean parent="KS-Uif-DataField"
                                   p:propertyName="appointmentWindowInfo.startDate"
                                   p:label="Start Date"
                                   p:fieldLabel.renderColon="false"/>
-                            <bean parent="Uif-DataField"
+                            <bean parent="KS-Uif-DataField"
                                   p:propertyName="appointmentWindowInfo.endDate"
                                   p:label="Last Date"
                                   p:fieldLabel.renderColon="false"/>
-                            <bean parent="Uif-DataField"
+                            <bean parent="KS-Uif-DataField"
                                   p:propertyName="windowTypeName"
                                   p:label="Slot Allocation Method"
                                   p:fieldLabel.renderColon="false"/>
-                            <bean parent="Uif-DataField"
+                            <bean parent="KS-Uif-DataField"
                                   p:propertyName="appointmentWindowInfo.maxAppointmentsPerSlot"
                                   p:label="Max Number"
                                   p:fieldLabel.renderColon="false"/>
-                            <bean parent="Uif-DataField"
+                            <bean parent="KS-Uif-DataField"
                                   p:propertyName="assignmentsCreated"
                                   p:label="Assignments Created"
                                   p:fieldLabel.renderColon="false"/>

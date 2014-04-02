@@ -61,7 +61,7 @@
         <property name="promptText" value=""/>
         <property name="items">
           <list>
-            <bean parent="Uif-DataField" p:label="Course Offerings" p:propertyName="toBeScheduledCourseOfferingsUI" p:fieldLabel.style="font-weight:bold;"/>
+            <bean parent="KS-Uif-DataField" p:label="Course Offerings" p:propertyName="toBeScheduledCourseOfferingsUI" p:fieldLabel.style="font-weight:bold;"/>
             <bean parent="Uif-MessageField" p:label="Activity Offerings" p:messageText="All contained in the course offerings (@{toBeScheduledCourseOfferingsCount})" p:fieldLabel.style="font-weight:bold;"/>
           </list>
         </property>

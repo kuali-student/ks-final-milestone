@@ -35,12 +35,12 @@
         <property name="layoutManager.richTable.render" value="false" />
         <property name="items">
             <list>
-                <bean parent="Uif-DataField" p:id="asi_tba" p:label="TBA" p:propertyName="tbaUI"/>
-                <bean parent="Uif-DataField" p:id="asi_days" p:label="Days" p:propertyName="daysUI"/>
-                <bean parent="Uif-DataField" p:id="asi_st_time" p:label="Start Time" p:propertyName="startTime"/>
-                <bean parent="Uif-DataField" p:id="asi_end_time" p:label="End Time" p:propertyName="endTime"/>
-                <bean parent="Uif-DataField" p:id="asi_bldg" p:label="Facility" p:propertyName="buildingName"/>
-                <bean parent="Uif-DataField" p:id="asi_room" p:label="Room" p:propertyName="roomCode"/>
+                <bean parent="KS-Uif-DataField" p:id="asi_tba" p:label="TBA" p:propertyName="tbaUI"/>
+                <bean parent="KS-Uif-DataField" p:id="asi_days" p:label="Days" p:propertyName="daysUI"/>
+                <bean parent="KS-Uif-DataField" p:id="asi_st_time" p:label="Start Time" p:propertyName="startTime"/>
+                <bean parent="KS-Uif-DataField" p:id="asi_end_time" p:label="End Time" p:propertyName="endTime"/>
+                <bean parent="KS-Uif-DataField" p:id="asi_bldg" p:label="Facility" p:propertyName="buildingName"/>
+                <bean parent="KS-Uif-DataField" p:id="asi_room" p:label="Room" p:propertyName="roomCode"/>
                 <bean parent="Uif-ImageField" p:id="asi_options" p:label="Options" p:hidden="@{!#lp.editRenderHelper.isShowColocateToolTip()}" p:image.altText="@{#lp.editRenderHelper.colocatedAOs}"
                     p:source="@{#ConfigProperties['ks.externalizable.images.url']}/colocate_icon.png">
                     <property name="toolTip">
@@ -93,12 +93,12 @@
         <property name="layoutManager.richTable.render" value="false" />
         <property name="items">
             <list>
-                <bean id="rsc_tabUI" parent="Uif-DataField" p:label="TBA" p:propertyName="tbaUI"/>
-                <bean id="rsc_daysUI" parent="Uif-DataField" p:label="Days" p:propertyName="daysUI"/>
-                <bean id="rsc_startTime" parent="Uif-DataField" p:label="Start Time" p:propertyName="startTime"/>
-                <bean id="rsc_endTime" parent="Uif-DataField" p:label="End Time" p:propertyName="endTime"/>
-                <bean id="rsc_buildingName" parent="Uif-DataField" p:label="Facility" p:propertyName="buildingName"/>
-                <bean id="rsc_roomName" parent="Uif-DataField" p:label="Room" p:propertyName="roomName"/>
+                <bean id="rsc_tabUI" parent="KS-Uif-DataField" p:label="TBA" p:propertyName="tbaUI"/>
+                <bean id="rsc_daysUI" parent="KS-Uif-DataField" p:label="Days" p:propertyName="daysUI"/>
+                <bean id="rsc_startTime" parent="KS-Uif-DataField" p:label="Start Time" p:propertyName="startTime"/>
+                <bean id="rsc_endTime" parent="KS-Uif-DataField" p:label="End Time" p:propertyName="endTime"/>
+                <bean id="rsc_buildingName" parent="KS-Uif-DataField" p:label="Facility" p:propertyName="buildingName"/>
+                <bean id="rsc_roomName" parent="KS-Uif-DataField" p:label="Room" p:propertyName="roomName"/>
                 <bean id="rsc_options" parent="Uif-ImageField" p:label="Options" p:hidden="@{!#lp.editRenderHelper.isShowColocateToolTip()}" p:image.altText="@{#lp.editRenderHelper.colocatedAOs}"
                     p:source="@{#ConfigProperties['ks.externalizable.images.url']}/colocate_icon.png">
                     <property name="toolTip">
@@ -144,7 +144,7 @@
                         <property name="items">
                             <list>
                                 <bean p:id="isApprovedForNonStandardTimeSlots"
-                                      parent="Uif-InputField"
+                                      parent="KS-Uif-InputField"
                                       p:propertyName="aoInfo.isApprovedForNonStandardTimeSlots"
                                       p:forceSessionPersistence="true"
                                       p:label="Approved for non-standard time slots"
@@ -153,7 +153,7 @@
                                       p:render="@{#dp.canNonStandardTimeslotsBeApproved}">
 
                                     <property name="control">
-                                        <bean parent="Uif-CheckboxControl"/>
+                                        <bean parent="KS-Uif-CheckboxControl"/>
                                     </property>
                                 </bean>
                             </list>
@@ -174,7 +174,7 @@
                      javascript; thus, don't get confused by the fact that I have named a data-field with an ID of 'checkbox'.
                      See both activity-offering.js/onColoCheckBoxChange() and ScheduleWrapper.getColocatedAOsAsStringForUi()
                      ~brandon.gresham -->
-                <bean id="ActivityOffering-CoLocated-checkbox" parent="Uif-DataField" p:propertyName="newScheduleRequest.colocatedAOsAsStringForUi" p:forceSessionPersistence="true">
+                <bean id="ActivityOffering-CoLocated-checkbox" parent="KS-Uif-DataField" p:propertyName="newScheduleRequest.colocatedAOsAsStringForUi" p:forceSessionPersistence="true">
                     <property name="label" value="Colocate With"/>
                 </bean>
 
@@ -204,30 +204,30 @@
             <list>
                 <bean id="rdl_tba" parent="Uif-InputField-LabelRight" p:propertyName="newScheduleRequest.tba" p:label="TBA" p:onClickScript="tbaOnClick();" p:additionalCssClasses="ks-manage-scheduling-request-form-field-top-aligned">
                     <property name="control">
-                        <bean parent="Uif-CheckboxControl"/>
+                        <bean parent="KS-Uif-CheckboxControl"/>
                     </property>
                 </bean>
-                <bean id="rdl_days" parent="Uif-InputField-LabelTop" p:label="Days" p:propertyName="newScheduleRequest.days" p:uppercaseValue="true">
+                <bean id="rdl_days" parent="KS-Uif-InputField-LabelTop" p:label="Days" p:propertyName="newScheduleRequest.days" p:uppercaseValue="true">
                     <property name="constraintText" value="MTWHFSU"/>
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="10" p:cssClasses="new_rdl_components" p:onBlurScript="rdlDaysOnBlur();"/>
+                        <bean parent="KS-Uif-TextControl" p:size="10" p:cssClasses="new_rdl_components" p:onBlurScript="rdlDaysOnBlur();"/>
                     </property>
                     <property name="validCharactersConstraint">
 						<bean parent="CharsetPatternConstraint" p:validChars="MTWHFSUmtwhfsu" p:messageKey="validation.enroll.ao.scheduleValidChars"/>
 					</property>
                 </bean>
-                <bean id="rdl_starttime" parent="Uif-InputField-LabelTop" p:label="Start Time@{#dp.newScheduleRequest.tba ? '' : ' *'}" p:propertyName="newScheduleRequest.startTime"   p:additionalCssClasses="uif-boxLayoutHorizontalItem"
+                <bean id="rdl_starttime" parent="KS-Uif-InputField-LabelTop" p:label="Start Time@{#dp.newScheduleRequest.tba ? '' : ' *'}" p:propertyName="newScheduleRequest.startTime"   p:additionalCssClasses="uif-boxLayoutHorizontalItem"
                       p:disableNativeAutocomplete="true" p:required="@{(!#dp.newScheduleRequest.tba or (#dp.newScheduleRequest.tba and (#dp.newScheduleRequest.endTime ne null or #dp.newScheduleRequest.endTime ne '')))}" p:refreshWhenChangedPropertyNames="#dp.newScheduleRequest.tba, #dp.newScheduleRequest.endTime">
                     <property name="fieldLabel.requiredMessage.messageText" value=""/>
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="8" p:maxLength="8" p:cssClasses="new_rdl_components, validTimeAMPMPattern" p:onBlurScript="rdlStartTimeOnBlur();"/>
+                        <bean parent="KS-Uif-TextControl" p:size="8" p:maxLength="8" p:cssClasses="new_rdl_components, validTimeAMPMPattern" p:onBlurScript="rdlStartTimeOnBlur();"/>
                     </property>
                 </bean>
-                <bean id="rdl_endtime" parent="Uif-InputField-LabelTop" p:label="End Time@{#dp.newScheduleRequest.tba ? '' : ' *'}"  p:propertyName="newScheduleRequest.endTime"  p:additionalCssClasses="uif-boxLayoutHorizontalItem"
+                <bean id="rdl_endtime" parent="KS-Uif-InputField-LabelTop" p:label="End Time@{#dp.newScheduleRequest.tba ? '' : ' *'}"  p:propertyName="newScheduleRequest.endTime"  p:additionalCssClasses="uif-boxLayoutHorizontalItem"
                                        p:disableNativeAutocomplete="true" p:forceSessionPersistence="true" p:required="@{(!#dp.newScheduleRequest.tba or (#dp.newScheduleRequest.tba and (#dp.newScheduleRequest.startTime ne null or #dp.newScheduleRequest.startTime ne '')))}" p:refreshWhenChangedPropertyNames="#dp.newScheduleRequest.tba, #dp.newScheduleRequest.startTime">
                     <property name="fieldLabel.requiredMessage.messageText" value=""/>
                      <property name="control">
-                         <bean parent="Uif-DropdownControl" p:cssClasses="new_rdl_components, validDaysStartimeComboForStandardTimeSlot"/>
+                         <bean parent="KS-Uif-DropdownControl" p:cssClasses="new_rdl_components, validDaysStartimeComboForStandardTimeSlot"/>
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.TimeSlotEndTimeKeyValues" p:addBlankOption="false" />
@@ -236,7 +236,7 @@
                       <list>
                         <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="control" p:condition="#dp.authorizedToModifyEndTimeTS or #dp.newScheduleRequest.tba">
                           <property name="replacement">
-                              <bean parent="Uif-TextControl" p:size="10" p:cssClasses="new_rdl_components, validTimeAMPMPattern" p:onBlurScript="endTimeOnBlur();"/>
+                              <bean parent="KS-Uif-TextControl" p:size="10" p:cssClasses="new_rdl_components, validTimeAMPMPattern" p:onBlurScript="endTimeOnBlur();"/>
                           </property>
                         </bean>
                         <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="suggest" p:condition="#dp.authorizedToModifyEndTimeTS">
@@ -255,10 +255,10 @@
                       </list>
                     </property>
                 </bean>
-                <bean id="rdl_bldg" parent="Uif-InputField-LabelTop" p:label="Facility" p:propertyName="newScheduleRequest.buildingCode" p:uppercaseValue="true">
+                <bean id="rdl_bldg" parent="KS-Uif-InputField-LabelTop" p:label="Facility" p:propertyName="newScheduleRequest.buildingCode" p:uppercaseValue="true">
                     <property name="fieldLabel.requiredMessage.messageText" value=""/>
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="20" p:cssClasses="new_rdl_components"/>
+                        <bean parent="KS-Uif-TextControl" p:size="20" p:cssClasses="new_rdl_components"/>
                     </property>
                     <!-- The facility code quick finder -->
                     <property name="quickfinder">
@@ -286,9 +286,9 @@
                         </bean>
                     </property>
                 </bean>
-                <bean id="rdl_room" parent="Uif-InputField-LabelTop" p:label="Room" p:propertyName="newScheduleRequest.roomCode">
+                <bean id="rdl_room" parent="KS-Uif-InputField-LabelTop" p:label="Room" p:propertyName="newScheduleRequest.roomCode">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="20" p:cssClasses="new_rdl_components"/>
+                        <bean parent="KS-Uif-TextControl" p:size="20" p:cssClasses="new_rdl_components"/>
                     </property>
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinder">
@@ -326,7 +326,7 @@
                         </list>
                     </property>
                 </bean>
-                <bean id="authorizedToModifyEndTimeTS" parent="Uif-InputField-LabelTop" p:label="test" p:propertyName="authorizedToModifyEndTimeTS" p:hidden="true"/>
+                <bean id="authorizedToModifyEndTimeTS" parent="KS-Uif-InputField-LabelTop" p:label="test" p:propertyName="authorizedToModifyEndTimeTS" p:hidden="true"/>
             </list>
         </property>
     </bean>
@@ -391,18 +391,18 @@
                 </bean>
 
                 <bean id="ActivityOfferingEdit-RemoveAllOfferingsFromSchedulerConfirmation_ActivityState"
-                      parent="Uif-InputField"
+                      parent="KS-Uif-InputField"
                       p:propertyName="stateName">
                     <property name="control">
-                        <bean parent="Uif-HiddenControl" />
+                        <bean parent="KS-Uif-HiddenControl" />
                     </property>
                 </bean>
 
                 <bean id="ActivityOfferingEdit-RemoveAllOfferingsFromSchedulerConfirmation_IsRdlListRecentlyEmpty"
-                      parent="Uif-InputField"
+                      parent="KS-Uif-InputField"
                       p:propertyName="requestedScheduleComponentsRecentlyEmpty">
                     <property name="control">
-                        <bean parent="Uif-HiddenControl" />
+                        <bean parent="KS-Uif-HiddenControl" />
                     </property>
                 </bean>
 

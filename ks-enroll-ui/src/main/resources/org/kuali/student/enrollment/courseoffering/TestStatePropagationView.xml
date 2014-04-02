@@ -45,8 +45,8 @@
                             <bean id="changeSocStateBean" parent="Uif-HorizontalBoxSection">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-InputField" p:label="Term" p:propertyName="termCodeForSocStateChange" />
-                                        <bean parent="Uif-InputField" p:label="Soc State" p:propertyName="newSocStateForSocStateChange" />
+                                        <bean parent="KS-Uif-InputField" p:label="Term" p:propertyName="termCodeForSocStateChange" />
+                                        <bean parent="KS-Uif-InputField" p:label="Soc State" p:propertyName="newSocStateForSocStateChange" />
                                         <bean parent="Uif-PrimaryActionButton" p:actionLabel="Change SOC State" p:methodToCall="changeSocState" />
                                     </list>
                                 </property>

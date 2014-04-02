@@ -149,12 +149,12 @@
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:id="socTermField" p:propertyName="termCode" p:label="Term" p:labelPlacement="LEFT" p:required="true"
+                            <bean parent="KS-Uif-InputField" p:id="socTermField" p:propertyName="termCode" p:label="Term" p:labelPlacement="LEFT" p:required="true"
                                   p:onKeyUpScript="toggleButtonOnInput('socTermField', 'socShowButton');"
                                   p:onMouseOutScript="toggleButtonOnInput('socTermField', 'socShowButton');">
 
                                 <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="6" p:minLength="5" p:maxLength="6"/>
+                                    <bean parent="KS-Uif-TextControl" p:size="6" p:minLength="5" p:maxLength="6"/>
                                 </property>
                             </bean>
                             <ref bean="ManageSOCView-GoButton"/>
@@ -205,7 +205,7 @@
         <property name="layoutManager.richTable.render" value="false" />
         <property name="items">
             <list>
-                <bean parent="Uif-DataField" p:propertyName="state" p:label="State">
+                <bean parent="KS-Uif-DataField" p:propertyName="state" p:label="State">
                     <property name="propertyReplacers">
                         <list>
                             <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="style"
@@ -215,7 +215,7 @@
                         </list>
                     </property>
                 </bean>
-                <bean parent="Uif-DataField" p:propertyName="date" p:label="Effective Date">
+                <bean parent="KS-Uif-DataField" p:propertyName="date" p:label="Effective Date">
                     <property name="propertyReplacers">
                         <list>
                             <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="style"
@@ -263,10 +263,10 @@
                 <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:colSpan="3" id="socSchedulingStatus" p:label="Scheduling Status" p:propertyName="socSchedulingStatus"/>
-                            <bean parent="Uif-DataField" p:colSpan="3" id="schedule_initiated_date" p:label="Initiated" p:propertyName="scheduleInitiatedDate"/>
-                            <bean parent="Uif-DataField" p:colSpan="3" id="schedule_completed_date" p:label="Completed" p:propertyName="scheduleCompleteDate"/>
-                            <bean parent="Uif-DataField" p:colSpan="3" id="schedule_duration" p:label="Scheduling Duration" p:propertyName="scheduleDuration"/>
+                            <bean parent="KS-Uif-DataField" p:colSpan="3" id="socSchedulingStatus" p:label="Scheduling Status" p:propertyName="socSchedulingStatus"/>
+                            <bean parent="KS-Uif-DataField" p:colSpan="3" id="schedule_initiated_date" p:label="Initiated" p:propertyName="scheduleInitiatedDate"/>
+                            <bean parent="KS-Uif-DataField" p:colSpan="3" id="schedule_completed_date" p:label="Completed" p:propertyName="scheduleCompleteDate"/>
+                            <bean parent="KS-Uif-DataField" p:colSpan="3" id="schedule_duration" p:label="Scheduling Duration" p:propertyName="scheduleDuration"/>
                         </list>
                     </property>
                 </bean>
@@ -289,10 +289,10 @@
                 <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:colSpan="3" id="socPublishingStatus" p:label="Publishing Status" p:propertyName="socPublishingStatus"/>
-                            <bean parent="Uif-DataField" p:colSpan="3" id="publish_initiated_date" p:label="Initiated" p:propertyName="publishInitiatedDate"/>
-                            <bean parent="Uif-DataField" p:colSpan="3" id="publish_completed_date" p:label="Completed" p:propertyName="publishCompleteDate"/>
-                            <bean parent="Uif-DataField" p:colSpan="3" id="publish_duration" p:label="Publishing Duration" p:propertyName="publishDuration"/>
+                            <bean parent="KS-Uif-DataField" p:colSpan="3" id="socPublishingStatus" p:label="Publishing Status" p:propertyName="socPublishingStatus"/>
+                            <bean parent="KS-Uif-DataField" p:colSpan="3" id="publish_initiated_date" p:label="Initiated" p:propertyName="publishInitiatedDate"/>
+                            <bean parent="KS-Uif-DataField" p:colSpan="3" id="publish_completed_date" p:label="Completed" p:propertyName="publishCompleteDate"/>
+                            <bean parent="KS-Uif-DataField" p:colSpan="3" id="publish_duration" p:label="Publishing Duration" p:propertyName="publishDuration"/>
                         </list>
                     </property>
                 </bean>

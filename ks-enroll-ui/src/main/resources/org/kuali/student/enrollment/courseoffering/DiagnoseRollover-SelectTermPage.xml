@@ -58,15 +58,15 @@
                                                     <bean parent="Uif-HorizontalFieldGroup" p:required="true" p:label="Source Term and CO Code" p:labelPlacement="TOP">
                                                         <property name="items">
                                                             <list>
-                                                                <bean parent="Uif-InputField" p:propertyName="sourceTermCode" p:required="true">
+                                                                <bean parent="KS-Uif-InputField" p:propertyName="sourceTermCode" p:required="true">
                                                                     <property name="control">
-                                                                        <bean parent="Uif-TextControl" p:size="6" p:watermarkText="20122" p:minLength="5" p:maxLength="6"/>
+                                                                        <bean parent="KS-Uif-TextControl" p:size="6" p:watermarkText="20122" p:minLength="5" p:maxLength="6"/>
                                                                     </property>
                                                                 </bean>
-                                                                <bean parent="Uif-InputField" p:propertyName="courseOfferingCode"
+                                                                <bean parent="KS-Uif-InputField" p:propertyName="courseOfferingCode"
                                                                       p:required="true">
                                                                     <property name="control">
-                                                                        <bean parent="Uif-TextControl" p:size="10" p:watermarkText="CHEM152" p:minLength="7" p:maxLength="10"/>
+                                                                        <bean parent="KS-Uif-TextControl" p:size="10" p:watermarkText="CHEM152" p:minLength="7" p:maxLength="10"/>
                                                                     </property>
                                                                 </bean>
                                                                 <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Go" p:methodToCall="goSourceCO" p:valign="middle"/>
@@ -77,12 +77,12 @@
                                                         <property name="items">
                                                             <list>
                                                                 <!-- More stuff on right side here -->
-                                                                <bean parent="Uif-DataField" p:propertyName="displayedSourceTermCode" p:label="Term Code"/>
-                                                                <bean parent="Uif-DataField" p:propertyName="sourceTermStartDate" p:label="Term Start Date"/>
-                                                                <bean parent="Uif-DataField" p:propertyName="sourceTermEndDate" p:label="Term End Date"/>
-                                                                <bean parent="Uif-DataField" p:propertyName="displayedCourseOfferingCode" p:label="CO Code"/>
-                                                                <bean parent="Uif-DataField" p:propertyName="coCodeId" p:label="COC ID"/>
-                                                                <bean parent="Uif-DataField" p:propertyName="courseOfferingTitle" p:label="COC Title"/>
+                                                                <bean parent="KS-Uif-DataField" p:propertyName="displayedSourceTermCode" p:label="Term Code"/>
+                                                                <bean parent="KS-Uif-DataField" p:propertyName="sourceTermStartDate" p:label="Term Start Date"/>
+                                                                <bean parent="KS-Uif-DataField" p:propertyName="sourceTermEndDate" p:label="Term End Date"/>
+                                                                <bean parent="KS-Uif-DataField" p:propertyName="displayedCourseOfferingCode" p:label="CO Code"/>
+                                                                <bean parent="KS-Uif-DataField" p:propertyName="coCodeId" p:label="COC ID"/>
+                                                                <bean parent="KS-Uif-DataField" p:propertyName="courseOfferingTitle" p:label="COC Title"/>
                                                             </list>
                                                         </property>
                                                     </bean>
@@ -110,10 +110,10 @@
                                                     <bean parent="Uif-HorizontalFieldGroup" p:required="true" p:label="Target Term" p:labelPlacement="TOP">
                                                         <property name="items">
                                                             <list>
-                                                                <bean parent="Uif-InputField" p:propertyName="targetTermCode"
+                                                                <bean parent="KS-Uif-InputField" p:propertyName="targetTermCode"
                                                                       p:required="true">
                                                                     <property name="control">
-                                                                        <bean parent="Uif-TextControl" p:size="6" p:watermarkText="20132" p:minLength="5" p:maxLength="6"/>
+                                                                        <bean parent="KS-Uif-TextControl" p:size="6" p:watermarkText="20132" p:minLength="5" p:maxLength="6"/>
                                                                     </property>
                                                                 </bean>
                                                                 <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Go" p:methodToCall="goTargetTerm"  p:disabled="@{isGoTargetButtonDisabled}" p:valign="bottom"/>
@@ -124,8 +124,8 @@
                                                         <property name="items">
                                                             <list>
                                                                 <!-- More stuff on left side here -->
-                                                                <bean parent="Uif-DataField" p:propertyName="displayedTargetTermCode" p:label="Term Code"/>
-                                                                <bean parent="Uif-DataField" p:propertyName="rolloverDuration" p:label="Rollover Duration"/>
+                                                                <bean parent="KS-Uif-DataField" p:propertyName="displayedTargetTermCode" p:label="Term Code"/>
+                                                                <bean parent="KS-Uif-DataField" p:propertyName="rolloverDuration" p:label="Rollover Duration"/>
                                                             </list>
                                                         </property>
                                                     </bean>

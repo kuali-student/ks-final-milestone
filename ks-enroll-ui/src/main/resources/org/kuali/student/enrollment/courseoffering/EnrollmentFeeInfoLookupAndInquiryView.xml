@@ -27,10 +27,10 @@
         </property>
         <property name="resultFields">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="id"/>
-                <bean parent="Uif-DataField" p:propertyName="descr.plain"/>
-                <bean parent="Uif-DataField" p:propertyName="stateKey" />
-                <bean parent="Uif-DataField" p:propertyName="typeKey" />
+                <bean parent="KS-Uif-InputField" p:propertyName="id"/>
+                <bean parent="KS-Uif-DataField" p:propertyName="descr.plain"/>
+                <bean parent="KS-Uif-DataField" p:propertyName="stateKey" />
+                <bean parent="KS-Uif-DataField" p:propertyName="typeKey" />
             </list>
         </property>
     </bean>
@@ -46,10 +46,10 @@
                 <property name="layoutManager.numberOfColumns" value="2" />
                 <property name="items">
                     <list>
-                        <bean parent="Uif-DataField" p:propertyName="id"/>
-                        <bean parent="Uif-DataField" p:propertyName="descr.plain"/>
-                        <bean parent="Uif-DataField" p:propertyName="stateKey" />
-                        <bean parent="Uif-DataField" p:propertyName="typeKey" />
+                        <bean parent="KS-Uif-DataField" p:propertyName="id"/>
+                        <bean parent="KS-Uif-DataField" p:propertyName="descr.plain"/>
+                        <bean parent="KS-Uif-DataField" p:propertyName="stateKey" />
+                        <bean parent="KS-Uif-DataField" p:propertyName="typeKey" />
                     </list>
                 </property>
                 </bean>

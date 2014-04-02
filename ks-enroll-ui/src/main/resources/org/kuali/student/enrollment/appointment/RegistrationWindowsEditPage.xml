@@ -79,11 +79,11 @@
                 <bean parent="Uif-HorizontalFieldGroup">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:label="Period"
+                            <bean parent="KS-Uif-InputField" p:label="Period"
                                   p:labelPlacement="TOP" p:fieldLabel.renderColon="false"
                                   p:propertyName="periodId" p:fieldLabel.style="display:block;">
                                 <property name="control">
-                                    <bean parent="Uif-DropdownControl"/>
+                                    <bean parent="KS-Uif-DropdownControl"/>
                                 </property>
                                 <property name="optionsFinder">
                                     <bean class="org.kuali.student.enrollment.class2.appointment.keyvalue.PeriodKeyDatesFinder"/>
@@ -129,48 +129,48 @@
         <property name="items">
             <list>
                 <!-- period, name, student group, start date, start time, am/pm -->
-                <bean parent="Uif-InputField" p:label="Period" p:propertyName="periodKey" p:required="true" p:style="font-weight:bold;"
+                <bean parent="KS-Uif-InputField" p:label="Period" p:propertyName="periodKey" p:required="true" p:style="font-weight:bold;"
                       p:render="@{#isAddLine or (!#isAddLine and #line.appointmentWindowInfo.stateKey!='kuali.appointment.window.state.assigned')}"
                       p:readOnly="@{!#isAddLine or #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}">
                     <property name="control">
-                        <bean parent="Uif-DropdownControl"/>
+                        <bean parent="KS-Uif-DropdownControl"/>
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.enrollment.class2.appointment.keyvalue.PeriodForAppWindowKeyDatesFinder"/>
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField" p:label="Period" p:propertyName="periodName" p:required="true"
+                <bean parent="KS-Uif-InputField" p:label="Period" p:propertyName="periodName" p:required="true"
                       p:style="font-weight:bold;"
                       p:render="@{!#isAddLine and #line.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}"
                       p:readOnly="@{!#isAddLine or #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="30" />
+                        <bean parent="KS-Uif-TextControl" p:size="30" />
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField"  p:label="Window"  p:propertyName="appointmentWindowInfo.name" p:required="true" p:style="font-weight:bold;"
+                <bean parent="KS-Uif-InputField"  p:label="Window"  p:propertyName="appointmentWindowInfo.name" p:required="true" p:style="font-weight:bold;"
                       p:render="@{#isAddLine or (!#isAddLine and #line.appointmentWindowInfo.stateKey!='kuali.appointment.window.state.assigned')}"
                       p:readOnly="@{!#isAddLine or #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="10" />
+                        <bean parent="KS-Uif-TextControl" p:size="10" />
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField"  p:label="Window"  p:propertyName="windowName" p:required="true" p:style="font-weight:bold;"
+                <bean parent="KS-Uif-InputField"  p:label="Window"  p:propertyName="windowName" p:required="true" p:style="font-weight:bold;"
                       p:render="@{!#isAddLine and #line.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}"
                       p:readOnly="@{!#isAddLine or #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="10" />
+                        <bean parent="KS-Uif-TextControl" p:size="10" />
                     </property>
                 </bean>
 
 
-                <bean parent="Uif-InputField" p:fieldLabel.render="false" p:label="Student Group"  p:propertyName="assignedPopulationName" p:style="font-weight:bold;white-space:nowrap;" p:required="true"
+                <bean parent="KS-Uif-InputField" p:fieldLabel.render="false" p:label="Student Group"  p:propertyName="assignedPopulationName" p:style="font-weight:bold;white-space:nowrap;" p:required="true"
                       p:render="@{#isAddLine or (!#isAddLine and #line.appointmentWindowInfo.stateKey!='kuali.appointment.window.state.assigned')}"
                       p:readOnly="@{!#isAddLine or #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="30" p:ReadOnly="false" />
+                        <bean parent="KS-Uif-TextControl" p:size="30" p:ReadOnly="false" />
                     </property>
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper">
@@ -193,11 +193,11 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField" p:fieldLabel.render="false" p:label="Student Group"  p:propertyName="assignedPopulationName" p:style="font-weight:bold;" p:required="true"
+                <bean parent="KS-Uif-InputField" p:fieldLabel.render="false" p:label="Student Group"  p:propertyName="assignedPopulationName" p:style="font-weight:bold;" p:required="true"
                       p:render="@{!#isAddLine and #line.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}"
                       p:readOnly="@{!#isAddLine or #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}">
                      <property name="control">
-                        <bean parent="Uif-TextControl" p:size="40" p:ReadOnly="true" />
+                        <bean parent="KS-Uif-TextControl" p:size="40" p:ReadOnly="true" />
                     </property>
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper">
@@ -220,10 +220,10 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField" p:propertyName="startDate" p:label="Start Date" p:required="true" p:style="font-weight:normal;white-space:nowrap;" p:readOnlyDisplayReplacementPropertyName="startDateUI"
+                <bean parent="KS-Uif-InputField" p:propertyName="startDate" p:label="Start Date" p:required="true" p:style="font-weight:normal;white-space:nowrap;" p:readOnlyDisplayReplacementPropertyName="startDateUI"
                       p:readOnly="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}">
                     <property name="control">
-                        <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
+                        <bean parent="KS-Uif-Default-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
                     </property>
                     <property name="validCharactersConstraint">
                         <bean parent="KS-BasicDatePatternConstraint" >
@@ -238,27 +238,27 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="startTime" p:label="Start Time" p:labelPlacement="LEFT"
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="startTime" p:label="Start Time" p:labelPlacement="LEFT"
                       p:forceSessionPersistence="true" p:required="true" p:style="font-weight:normal;" p:readOnly="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}"  >
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="5"  p:watermarkText="HH:mm"/>
+                        <bean parent="KS-Uif-TextControl" p:size="5"  p:watermarkText="HH:mm"/>
                     </property>
                     <property name="validCharactersConstraint">
                         <bean parent="TimePatternConstraint" />
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="startTimeAmPm" p:forceSessionPersistence="true" p:style="font-weight:normal;" p:required="true"
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="startTimeAmPm" p:forceSessionPersistence="true" p:style="font-weight:normal;" p:required="true"
                       p:readOnly="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}" >
                     <property name="control">
-                        <bean parent="Uif-DropdownControl" p:options-ref="hctime-options-reg-window"/>
+                        <bean parent="KS-Uif-DropdownControl" p:options-ref="hctime-options-reg-window"/>
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField" p:propertyName="endDate" p:label="Last Date"  p:style="font-weight:normal;white-space:nowrap;"
+                <bean parent="KS-Uif-InputField" p:propertyName="endDate" p:label="Last Date"  p:style="font-weight:normal;white-space:nowrap;"
                       p:readOnly="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}">
                     <property name="control">
-                        <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
+                        <bean parent="KS-Uif-Default-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
                     </property>
 
                     <property name="validCharactersConstraint">
@@ -274,10 +274,10 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="endTime" p:label="Closing Time" p:labelPlacement="LEFT" p:style="font-weight:normal;"
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="endTime" p:label="Closing Time" p:labelPlacement="LEFT" p:style="font-weight:normal;"
                       p:readOnly="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="5"  p:watermarkText="HH:mm"/>
+                        <bean parent="KS-Uif-TextControl" p:size="5"  p:watermarkText="HH:mm"/>
                     </property>
 
                     <property name="validCharactersConstraint">
@@ -285,41 +285,41 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="endTimeAmPm"  p:style="font-weight:normal;"
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="endTimeAmPm"  p:style="font-weight:normal;"
                       p:readOnly="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}">
                     <property name="control">
-                        <bean parent="Uif-DropdownControl" p:options-ref="hctime-options-reg-window"/>
+                        <bean parent="KS-Uif-DropdownControl" p:options-ref="hctime-options-reg-window"/>
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField" p:label="Slot Allocation Method" p:propertyName="windowTypeKey" p:required="true" p:style="font-weight:bold;"
+                <bean parent="KS-Uif-InputField" p:label="Slot Allocation Method" p:propertyName="windowTypeKey" p:required="true" p:style="font-weight:bold;"
                       p:readOnly="@{!#isAddLine or #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}">
                     <property name="control">
-                        <bean parent="Uif-DropdownControl"/>
+                        <bean parent="KS-Uif-DropdownControl"/>
                     </property>
 
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.enrollment.class2.appointment.keyvalue.RegWindowTypeKeyValues" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField"  p:label="Max #"  p:propertyName="appointmentWindowInfo.maxAppointmentsPerSlot"
+                <bean parent="KS-Uif-InputField"  p:label="Max #"  p:propertyName="appointmentWindowInfo.maxAppointmentsPerSlot"
                 		    p:progressiveRender="@{#lp.windowTypeKey =='kuali.appointment.window.type.slotted.max'}"
                              p:required="@{#lp.windowTypeKey =='kuali.appointment.window.type.slotted.max'}"
                              p:style="font-weight:bold;"    
                              p:readOnly="@{#lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}"                        
                         >
                 <property name="control">
-                    <bean parent="Uif-TextControl" p:size="5" />
+                    <bean parent="KS-Uif-TextControl" p:size="5" />
                 </property>
             </bean>
 
                 <!-- bean entry for dropdown Appt rule type-->
-                <bean parent="Uif-InputField" p:label="Appt. Rule Type/Interval" p:propertyName="slotRuleEnumType" p:style="font-weight:bold;"
+                <bean parent="KS-Uif-InputField" p:label="Appt. Rule Type/Interval" p:propertyName="slotRuleEnumType" p:style="font-weight:bold;"
                       p:progressiveRender="@{#lp.windowTypeKey !='kuali.appointment.window.type.one.slot'}"
                       p:required="@{#lp.windowTypeKey !='kuali.appointment.window.type.one.slot' and #lp.windowTypeKey !='' }"
                       p:readOnly="@{#lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}">
                     <property name="control">
-                        <bean parent="Uif-DropdownControl"/>
+                        <bean parent="KS-Uif-DropdownControl"/>
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.enrollment.class2.appointment.keyvalue.SlotRuleForAppWindowKeyValuesFinder" >

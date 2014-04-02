@@ -44,7 +44,7 @@
                       p:methodToCall="markSubjectCodeReadyForScheduling"
                       p:actionLabel="Approve Subject Code for Scheduling" p:disabled="@{#parent.readOnly}"
                       p:componentSecurity.performActionAuthz="true" p:actionEvent="approveSubj" />
-                <bean parent="Uif-DataField"
+                <bean parent="KS-Uif-DataField"
                       p:propertyName="readOnly"
                       p:id="isReadOnly"
                       p:hidden="true"
@@ -80,29 +80,29 @@
 
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="isChecked" p:required="false">
+                <bean parent="KS-Uif-InputField" p:propertyName="isChecked" p:required="false">
                     <property name="control">
-                        <bean parent="Uif-CheckboxControl" p:disabled="false"/>
+                        <bean parent="KS-Uif-CheckboxControl" p:disabled="false"/>
                     </property>
                 </bean>
-                <bean parent="Uif-DataField" p:propertyName="courseOfferingCode">
+                <bean parent="KS-Uif-DataField" p:propertyName="courseOfferingCode">
                     <property name="inquiry">
                         <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper" p:inquiryParameters="courseOfferingId" />
                     </property>
                 </bean>
-                <bean parent="Uif-DataField"
+                <bean parent="KS-Uif-DataField"
                       p:label="Status"
                       p:propertyName="courseOfferingStateDisplay"/>
-                <bean parent="Uif-DataField"
+                <bean parent="KS-Uif-DataField"
                       p:label="Title"
                       p:propertyName="courseOfferingDesc"/>
-                <bean parent="Uif-DataField"
+                <bean parent="KS-Uif-DataField"
                       p:label="Credits"
                       p:propertyName="courseOfferingCreditOptionDisplay"/>
-                <bean parent="Uif-DataField"
+                <bean parent="KS-Uif-DataField"
                       p:label="Grading"
                       p:propertyName="courseOfferingGradingOptionDisplay"/>
-                <!--<bean parent="Uif-DataField"-->
+                <!--<bean parent="KS-Uif-DataField"-->
                       <!--p:label="STATUS"-->
                       <!--p:propertyName="stateKey"/>-->
             </list>
@@ -126,10 +126,10 @@
             <bean parent="Uif-HorizontalBoxSection">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-InputField" p:propertyName="selectedOfferingAction" p:label="Selected Course Offering Actions" p:labelPlacement="TOP">
+                        <bean parent="KS-Uif-InputField" p:propertyName="selectedOfferingAction" p:label="Selected Course Offering Actions" p:labelPlacement="TOP">
                             <property name="readOnly" value="false"/>
                             <property name="control">
-                                <bean parent="Uif-DropdownControl" p:disabled="@{!#root.editAuthz}"/>
+                                <bean parent="KS-Uif-DropdownControl" p:disabled="@{!#root.editAuthz}"/>
                             </property>
                             <property name="optionsFinder">
                                 <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.CourseOfferingActionsKeyValues"/>

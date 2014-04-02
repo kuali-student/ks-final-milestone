@@ -46,14 +46,14 @@
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean p:id="termCodeId" parent="Uif-InputField" p:propertyName="termCode" p:label="Term" p:labelPlacement="LEFT" p:required="true" p:readOnly="false">
+                            <bean p:id="termCodeId" parent="KS-Uif-InputField" p:propertyName="termCode" p:label="Term" p:labelPlacement="LEFT" p:required="true" p:readOnly="false">
                                 <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="6" p:watermarkText="20132" p:minLength="5" p:maxLength="6"/>
+                                    <bean parent="KS-Uif-TextControl" p:size="6" p:watermarkText="20132" p:minLength="5" p:maxLength="6"/>
                                 </property>
                             </bean>
-                            <bean p:id="inputCodeId" parent="Uif-InputField" p:propertyName="inputCode" p:label="Course" p:required="true" p:readOnly="false">
+                            <bean p:id="inputCodeId" parent="KS-Uif-InputField" p:propertyName="inputCode" p:label="Course" p:required="true" p:readOnly="false">
                                 <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="30" p:watermarkText="ENGL or ENGL1 or ENGL101"/>
+                                    <bean parent="KS-Uif-TextControl" p:size="30" p:watermarkText="ENGL or ENGL1 or ENGL101"/>
                                 </property>
                                 <property name="quickfinder">
                                     <bean parent="Uif-QuickFinder">

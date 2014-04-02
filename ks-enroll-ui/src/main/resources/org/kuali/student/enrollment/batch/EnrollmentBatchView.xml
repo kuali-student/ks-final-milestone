@@ -52,11 +52,11 @@
                         <bean parent="KS-BasicDatePatternConstraint"/>
                     </property>
                 </bean>
-                <bean id="startTime" parent="Uif-InputField"
+                <bean id="startTime" parent="KS-Uif-InputField"
                       p:propertyName="startTime" p:cssClasses="new_ts"
                       p:label="Start Time">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="5" p:maxLength="5"
+                        <bean parent="KS-Uif-TextControl" p:size="5" p:maxLength="5"
                               p:cssClasses="new_ts_control"/>
                     </property>
                     <!--<property name="constraintText" value="HH:MM"/>-->
@@ -64,7 +64,7 @@
                         <bean parent="TimePatternConstraint"/>
                     </property>
                 </bean>
-                <bean id="startTimeAmPm" parent="Uif-InputField" p:propertyName="startTimeAmPm"
+                <bean id="startTimeAmPm" parent="KS-Uif-InputField" p:propertyName="startTimeAmPm"
                       p:render="@{!#view.readOnly}"
                       p:defaultValue="AM">
                     <property name="control">

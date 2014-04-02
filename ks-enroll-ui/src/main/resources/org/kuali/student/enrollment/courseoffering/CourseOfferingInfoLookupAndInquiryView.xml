@@ -31,10 +31,10 @@
         </property>
         <property name="resultFields">
             <list>
-                <bean parent="Uif-DataField" p:propertyName="id" />
-                <bean parent="Uif-DataField" p:propertyName="courseOfferingTitle"/>
-                <bean parent="Uif-DataField" p:propertyName="termId" />
-                <bean parent="Uif-DataField" p:propertyName="courseOfferingCode"/>
+                <bean parent="KS-Uif-DataField" p:propertyName="id" />
+                <bean parent="KS-Uif-DataField" p:propertyName="courseOfferingTitle"/>
+                <bean parent="KS-Uif-DataField" p:propertyName="termId" />
+                <bean parent="KS-Uif-DataField" p:propertyName="courseOfferingCode"/>
             </list>
         </property>
     </bean>
@@ -51,12 +51,12 @@
                     <property name="headerText" value="CourseOfferingInfo Inquiry"/>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="id"/>
-                            <bean parent="Uif-InputField" p:propertyName="termId"/>
-                            <bean parent="Uif-InputField" p:propertyName="courseOfferingTitle"/>
-                            <bean parent="Uif-InputField" p:propertyName="courseOfferingCode"/>
-                            <bean parent="Uif-InputField" p:propertyName="typeKey"/>
-                            <bean parent="Uif-InputField" p:propertyName="stateKey"/>
+                            <bean parent="KS-Uif-InputField" p:propertyName="id"/>
+                            <bean parent="KS-Uif-InputField" p:propertyName="termId"/>
+                            <bean parent="KS-Uif-InputField" p:propertyName="courseOfferingTitle"/>
+                            <bean parent="KS-Uif-InputField" p:propertyName="courseOfferingCode"/>
+                            <bean parent="KS-Uif-InputField" p:propertyName="typeKey"/>
+                            <bean parent="KS-Uif-InputField" p:propertyName="stateKey"/>
                         </list>
                     </property>
                 </bean>

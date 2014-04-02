@@ -42,31 +42,31 @@
             <list>
                 <!-- This adds the file names to the page HTML -->
                 <ref bean="KS-SourceFile-Comment-Group"/>
-                <bean parent="Uif-InputField-LabelTop" p:label="Check Name" p:propertyName="name"
+                <bean parent="KS-Uif-InputField-LabelTop" p:label="Check Name" p:propertyName="name"
                       p:required="true">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="25"/>
+                        <bean parent="KS-Uif-TextControl" p:size="25"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField-LabelTop" p:label="Check Description" p:propertyName="descr"
+                <bean parent="KS-Uif-InputField-LabelTop" p:label="Check Description" p:propertyName="descr"
                       p:instructionalText="Enter a full description of the purpose of the check">
                     <property name="control">
                         <bean parent="Uif-SmallTextAreaControl"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField-LabelTop" p:label="Check Types" p:propertyName="typeKey"
+                <bean parent="KS-Uif-InputField-LabelTop" p:label="Check Types" p:propertyName="typeKey"
                       p:required="true">
                     <property name="control">
-                        <bean parent="Uif-DropdownControl"/>
+                        <bean parent="KS-Uif-DropdownControl"/>
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.enrollment.class1.check.keyvalues.CheckInfoTypeKeyValues"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField-LabelTop" p:label="Hold Issue" p:propertyName="holdName"
+                <bean parent="KS-Uif-InputField-LabelTop" p:label="Hold Issue" p:propertyName="holdName"
                       p:required="true" p:progressiveRender="typeKey eq 'hold'">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="25"/>
+                        <bean parent="KS-Uif-TextControl" p:size="25"/>
                     </property>
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.student.r2.core.hold.dto.HoldIssueInfo">
@@ -85,11 +85,11 @@
                         </bean>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField-LabelTop" p:label="Academic Calendar Event"
+                <bean parent="KS-Uif-InputField-LabelTop" p:label="Academic Calendar Event"
                       p:propertyName="eventcalendar"
                       p:required="true" p:progressiveRender="typeKey eq 'milestone'">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="25"/>
+                        <bean parent="KS-Uif-TextControl" p:size="25"/>
                     </property>
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinder">
@@ -109,10 +109,10 @@
                         </bean>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField-LabelTop" p:label="Process" p:propertyName="childProcessKey"
+                <bean parent="KS-Uif-InputField-LabelTop" p:label="Process" p:propertyName="childProcessKey"
                       p:required="true" p:progressiveRender="typeKey eq 'process'">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="25"/>
+                        <bean parent="KS-Uif-TextControl" p:size="25"/>
                     </property>
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinder">
@@ -131,14 +131,14 @@
                         </bean>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="holdIssueId" p:hidden="true" />
-                <bean parent="Uif-InputField" p:propertyName="milestoneTypeKey" p:hidden="true" />
-                <bean parent="Uif-InputField" p:propertyName="childProcessKey" p:hidden="true" />
+                <bean parent="KS-Uif-InputField" p:propertyName="holdIssueId" p:hidden="true" />
+                <bean parent="KS-Uif-InputField" p:propertyName="milestoneTypeKey" p:hidden="true" />
+                <bean parent="KS-Uif-InputField" p:propertyName="childProcessKey" p:hidden="true" />
 
-                <bean parent="Uif-InputField-LabelTop" p:label="Process State" p:propertyName="stateKey"
+                <bean parent="KS-Uif-InputField-LabelTop" p:label="Process State" p:propertyName="stateKey"
                       p:required="true" p:progressiveRender="typeKey != ''">
                     <property name="control">
-                        <bean parent="Uif-VerticalRadioControl">
+                        <bean parent="KS-Uif-VerticalRadioControl">
                             <property name="options">
                                 <list>
                                     <bean parent="Uif-KeyLabelPair" p:key="kuali.process.check.state.active" p:value="Active"/>

@@ -88,9 +88,9 @@ limitations under the License.
                         </value>
                     </property>
                 </bean>
-                <bean id="AcalEdit-DirtyFields" parent="Uif-InputField" p:propertyName="dirtyFields">
+                <bean id="AcalEdit-DirtyFields" parent="KS-Uif-InputField" p:propertyName="dirtyFields">
                     <property name="control">
-                        <bean parent="Uif-HiddenControl">
+                        <bean parent="KS-Uif-HiddenControl">
                             <property name="tabIndex" value="1"/>
                         </bean>
                     </property>
@@ -170,10 +170,10 @@ limitations under the License.
                       p:additionalCssClasses="ks-krad-tab-gridgroup-fix,ks-details-panel,ks-no-margins,ks-subSection">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:propertyName="academicCalendarInfo.startDate"
+                            <bean parent="KS-Uif-DataField" p:propertyName="academicCalendarInfo.startDate"
                                   p:label="Start Date" p:colSpan="3"
                                   p:fieldLabel.renderColon="false" p:id="academicCalendarStartDate"/>
-                            <bean parent="Uif-DataField" p:propertyName="academicCalendarInfo.endDate"
+                            <bean parent="KS-Uif-DataField" p:propertyName="academicCalendarInfo.endDate"
                                   p:label="End Date" p:colSpan="3"
                                   p:fieldLabel.renderColon="false" p:id="academicCalendarEndDate"/>
                         </list>
@@ -208,13 +208,13 @@ limitations under the License.
             <list>
                 <bean parent="Uif-MessageField" p:valign="middle"
                       p:messageText="@{#line.isSubTerm()? 'Sub term' : ''}"/>
-                <bean parent="Uif-DataField"
+                <bean parent="KS-Uif-DataField"
                       p:label="Term"
                       p:propertyName="termNameForUI" p:style="padding-right: 30px" p:valign="middle"/>
-                <bean parent="Uif-DataField"
+                <bean parent="KS-Uif-DataField"
                       p:label="Start Date"
                       p:propertyName="startDate" p:style="padding-right: 30px" p:valign="middle"/>
-                <bean parent="Uif-DataField"
+                <bean parent="KS-Uif-DataField"
                       p:label="End Date"
                       p:propertyName="endDate" p:style="padding-right: 30px" p:valign="middle"/>
                 <bean parent="Uif-MessageField" p:label="Status" p:render="@{#line.official}">
@@ -263,10 +263,10 @@ limitations under the License.
         <property name="items">
             <list>
                 <!-- Hidden field to set focus to instead of one with client side validation -->
-                <bean parent="Uif-InputField" p:id="default_tab_to_show" p:propertyName="defaultTabToShow">
+                <bean parent="KS-Uif-InputField" p:id="default_tab_to_show" p:propertyName="defaultTabToShow">
                     <property name="style" value="visibility:hidden;width:2px;height:2px;"/>
                     <property name="control">
-                        <bean parent="Uif-HiddenControl">
+                        <bean parent="KS-Uif-HiddenControl">
                             <property name="tabIndex" value="1"/>
                         </bean>
                     </property>
@@ -414,7 +414,7 @@ limitations under the License.
                         <bean parent="KS-BasicDatePatternConstraint"/>
                     </property>
                 </bean>
-                <bean parent="Uif-DataField" p:propertyName="endDateUI" p:render="@{#view.readOnly}"
+                <bean parent="KS-Uif-DataField" p:propertyName="endDateUI" p:render="@{#view.readOnly}"
                       p:label="End Date"/>
                 <bean parent="KS-Uif-InputField" p:id="event_end_time" p:propertyName="endTime" p:render="@{!#view.readOnly}"
                       p:label="End Time">
@@ -535,7 +535,7 @@ limitations under the License.
         </property>
         <property name="addLineItems">
             <list>
-                <bean id="holidayCalendars" parent="Uif-InputField" p:label=" " p:propertyName="id">
+                <bean id="holidayCalendars" parent="KS-Uif-InputField" p:label=" " p:propertyName="id">
                     <property name="inquiry">
                         <bean parent="Uif-Inquiry">
                             <property name="directInquiryAction">
@@ -545,7 +545,7 @@ limitations under the License.
                         </bean>
                     </property>
                     <property name="control">
-                        <bean parent="Uif-DropdownControl"/>
+                        <bean parent="KS-Uif-DropdownControl"/>
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.HolidayWrapperListFinder"

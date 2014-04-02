@@ -41,16 +41,16 @@
         </property>
         <property name="equivalences">
             <list>
-                <bean parent="Uif-DataField"
+                <bean parent="KS-Uif-DataField"
                       p:label="Type Key"
                       p:propertyName="typeKey"/>
-                <bean parent="Uif-DataField"
+                <bean parent="KS-Uif-DataField"
                       p:label="Service"
                       p:propertyName="service"/>
-                <bean parent="Uif-DataField"
+                <bean parent="KS-Uif-DataField"
                       p:label="Constant"
                       p:propertyName="constant"/>
-                <!--<bean parent="Uif-DataField"-->
+                <!--<bean parent="KS-Uif-DataField"-->
                 <!--p:label="STATUS"-->
                 <!--p:propertyName="stateKey"/>-->
             </list>

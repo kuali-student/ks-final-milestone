@@ -188,16 +188,16 @@
         <property name="items">
             <list>
                 <!-- This column is hidden unless there are 2(or more) CO's to delete; see the property-replacer above -->
-                <bean parent="Uif-InputField" p:propertyName="isChecked" p:required="false" p:cssClasses="checkBox_course_offering">
+                <bean parent="KS-Uif-InputField" p:propertyName="isChecked" p:required="false" p:cssClasses="checkBox_course_offering">
                     <property name="control">
-                        <bean parent="Uif-CheckboxControl" p:disabled="false"/>
+                        <bean parent="KS-Uif-CheckboxControl" p:disabled="false"/>
                     </property>
                 </bean>
 
                 <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.labelText="Course" p:cssClasses="course_course_offering">
                     <property name="items">
                        <list>
-                            <bean parent="Uif-DataField" p:propertyName="courseOfferingCode"/>
+                            <bean parent="KS-Uif-DataField" p:propertyName="courseOfferingCode"/>
                            <bean parent="Uif-ImageField" p:hidden="@{#lp.alternateCOCodes.isEmpty()}" p:image.altText="@{#lp.crossListedCodesUI}" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/cross-listed.png">
                                <property name="toolTip">
                                    <bean parent="Uif-KS-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#lp.crossListedCodesUI}"/>
@@ -219,11 +219,11 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-DataField"
+                <bean parent="KS-Uif-DataField"
                       p:label="Title"
                       p:propertyName="courseOfferingDesc"
                       p:cssClasses="title_course_offering"/>
-                <bean parent="Uif-DataField"
+                <bean parent="KS-Uif-DataField"
                       p:label="Credits"
                       p:propertyName="courseOfferingCreditOptionDisplay"
                       p:cssClasses="credits_course_offering"/>

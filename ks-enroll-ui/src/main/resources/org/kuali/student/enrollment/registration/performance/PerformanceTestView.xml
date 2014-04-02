@@ -61,12 +61,12 @@
         </property>
     </bean>
 
-    <bean id="KS-KitchenSink-TextField-Perf" parent="Uif-InputField"  >
+    <bean id="KS-KitchenSink-TextField-Perf" parent="KS-Uif-InputField"  >
         <property name="propertyName" value="inputOne"/>
         <property name="label" value="Course Search"/>
         <property name="instructionalText" value="Please enter a partial course code to search"/>
         <property name="control">
-            <bean parent="Uif-TextControl">
+            <bean parent="KS-Uif-TextControl">
                 <property name="size" value="25"/>
                 <property name="maxLength" value="8"/>
             </bean>
@@ -90,14 +90,14 @@
         <property name="layoutManager.richTable.render" value="false" />
         <property name="items">
             <list>
-                <bean parent="Uif-DataField" p:propertyName="courseOfferingId" p:label="courseOfferingId"/>
-                <bean parent="Uif-DataField" p:propertyName="courseOfferingCode" p:label="courseOfferingCode"/>
-                <bean parent="Uif-DataField" p:propertyName="courseOfferingDesc" p:label="courseOfferingDesc"/>
-                <bean parent="Uif-DataField" p:propertyName="courseOfferingCreditOptionDisplay" p:label="courseOfferingCreditOptionDisplay"/>
-                <bean parent="Uif-DataField" p:propertyName="courseOfferingGradingOptionDisplay" p:label="courseOfferingGradingOptionDisplay"/>
-                <bean parent="Uif-DataField" p:propertyName="studentSelectablePassFail" p:label="studentSelectablePassFail"/>
-                <bean parent="Uif-DataField" p:propertyName="auditCourse" p:label="auditCourse"/>
-                <bean parent="Uif-DataField" p:propertyName="honorsCourse" p:label="honorsCourse"/>
+                <bean parent="KS-Uif-DataField" p:propertyName="courseOfferingId" p:label="courseOfferingId"/>
+                <bean parent="KS-Uif-DataField" p:propertyName="courseOfferingCode" p:label="courseOfferingCode"/>
+                <bean parent="KS-Uif-DataField" p:propertyName="courseOfferingDesc" p:label="courseOfferingDesc"/>
+                <bean parent="KS-Uif-DataField" p:propertyName="courseOfferingCreditOptionDisplay" p:label="courseOfferingCreditOptionDisplay"/>
+                <bean parent="KS-Uif-DataField" p:propertyName="courseOfferingGradingOptionDisplay" p:label="courseOfferingGradingOptionDisplay"/>
+                <bean parent="KS-Uif-DataField" p:propertyName="studentSelectablePassFail" p:label="studentSelectablePassFail"/>
+                <bean parent="KS-Uif-DataField" p:propertyName="auditCourse" p:label="auditCourse"/>
+                <bean parent="KS-Uif-DataField" p:propertyName="honorsCourse" p:label="honorsCourse"/>
             </list>
 
         </property>

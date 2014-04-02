@@ -64,19 +64,19 @@
 		</property>
 		<property name="resultFields">
 		    <list>
-		        <bean parent="Uif-DataField" p:propertyName="key">
+		        <bean parent="KS-Uif-DataField" p:propertyName="key">
 		            <property name="inquiry">
 		                <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.r2.core.class1.state.dto.StateInfo" p:inquiryParameters="key" />
 		            </property>
 		        </bean>
-		        <bean parent="Uif-DataField" p:propertyName="name" />
-		        <bean parent="Uif-DataField" p:propertyName="lifecycleKey">
+		        <bean parent="KS-Uif-DataField" p:propertyName="name" />
+		        <bean parent="KS-Uif-DataField" p:propertyName="lifecycleKey">
 		            <property name="inquiry">
 		                <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.r2.core.class1.state.dto.LifecycleInfo" p:inquiryParameters="lifecycleKey:key" />
 		            </property>
 		        </bean>
-		        <bean parent="Uif-DataField" p:propertyName="effectiveDate" />
-		        <bean parent="Uif-DataField" p:propertyName="expirationDate" />
+		        <bean parent="KS-Uif-DataField" p:propertyName="effectiveDate" />
+		        <bean parent="KS-Uif-DataField" p:propertyName="expirationDate" />
 		    </list>
 		</property>
 	</bean>

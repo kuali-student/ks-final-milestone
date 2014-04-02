@@ -45,9 +45,9 @@
                                         <bean parent="Uif-HorizontalBoxSection">
                                             <property name="items">
                                                 <list>
-                                                    <bean parent="Uif-InputField" p:propertyName="targetTermCode" p:label="Term" p:required="true">
+                                                    <bean parent="KS-Uif-InputField" p:propertyName="targetTermCode" p:label="Term" p:required="true">
                                                         <property name="control">
-                                                            <bean parent="Uif-TextControl" p:size="6" p:watermarkText="20132" p:minLength="5" p:maxLength="6"/>
+                                                            <bean parent="KS-Uif-TextControl" p:size="6" p:watermarkText="20132" p:minLength="5" p:maxLength="6"/>
                                                         </property>
                                                     </bean>
                                                     <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Go" p:methodToCall="goTargetTerm" p:valign="bottom"/>
@@ -59,9 +59,9 @@
                                             <property name="items">
                                                 <list>
                                                     <!-- More stuff on left side here -->
-                                                    <bean parent="Uif-DataField" p:propertyName="displayedTargetTermId" p:label="Term ID"/>
-                                                    <bean parent="Uif-DataField" p:propertyName="targetTermStartDate" p:label="Term Start Date"/>
-                                                    <bean parent="Uif-DataField" p:propertyName="targetTermEndDate" p:label="Term End Date"/>
+                                                    <bean parent="KS-Uif-DataField" p:propertyName="displayedTargetTermId" p:label="Term ID"/>
+                                                    <bean parent="KS-Uif-DataField" p:propertyName="targetTermStartDate" p:label="Term Start Date"/>
+                                                    <bean parent="KS-Uif-DataField" p:propertyName="targetTermEndDate" p:label="Term End Date"/>
                                                 </list>
                                             </property>
                                         </bean>

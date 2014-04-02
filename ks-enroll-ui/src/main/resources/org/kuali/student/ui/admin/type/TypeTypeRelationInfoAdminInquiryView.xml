@@ -37,36 +37,36 @@
 		            <property name="headerText" value="TypeTypeRelationInfo Inquiry"/>
 		            <property name="items">
 		                <list>
-		                    <bean parent="Uif-DataField" p:propertyName="id" />
-		                    <bean parent="Uif-DataField" p:propertyName="typeKey">
+		                    <bean parent="KS-Uif-DataField" p:propertyName="id" />
+		                    <bean parent="KS-Uif-DataField" p:propertyName="typeKey">
 		                        <property name="inquiry">
 		                            <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.r2.core.class1.type.dto.TypeInfo" p:inquiryParameters="typeKey:key" />
 		                        </property>
 		                    </bean>
-		                    <bean parent="Uif-DataField" p:propertyName="stateKey">
+		                    <bean parent="KS-Uif-DataField" p:propertyName="stateKey">
 		                        <property name="inquiry">
 		                            <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.r2.core.class1.state.dto.StateInfo" p:inquiryParameters="stateKey:key" />
 		                        </property>
 		                    </bean>
-		                    <bean parent="Uif-DataField" p:propertyName="effectiveDate" />
-		                    <bean parent="Uif-DataField" p:propertyName="expirationDate" />
-		                    <bean parent="Uif-DataField" p:propertyName="ownerTypeKey">
+		                    <bean parent="KS-Uif-DataField" p:propertyName="effectiveDate" />
+		                    <bean parent="KS-Uif-DataField" p:propertyName="expirationDate" />
+		                    <bean parent="KS-Uif-DataField" p:propertyName="ownerTypeKey">
 		                        <property name="inquiry">
 		                            <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.r2.core.class1.type.dto.TypeInfo" p:inquiryParameters="ownerTypeKey:key" />
 		                        </property>
 		                    </bean>
-		                    <bean parent="Uif-DataField" p:propertyName="relatedTypeKey">
+		                    <bean parent="KS-Uif-DataField" p:propertyName="relatedTypeKey">
 		                        <property name="inquiry">
 		                            <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.r2.core.class1.type.dto.TypeInfo" p:inquiryParameters="relatedTypeKey:key" />
 		                        </property>
 		                    </bean>
-		                    <bean parent="Uif-DataField" p:propertyName="rank" />
+		                    <bean parent="KS-Uif-DataField" p:propertyName="rank" />
 		                    <!-- TODO: deal with dynamic attributes -->
-		                    <bean parent="Uif-DataField" p:propertyName="meta.versionInd" />
-		                    <bean parent="Uif-DataField" p:propertyName="meta.createTime" />
-		                    <bean parent="Uif-DataField" p:propertyName="meta.createId" />
-		                    <bean parent="Uif-DataField" p:propertyName="meta.updateTime" />
-		                    <bean parent="Uif-DataField" p:propertyName="meta.updateId" />
+		                    <bean parent="KS-Uif-DataField" p:propertyName="meta.versionInd" />
+		                    <bean parent="KS-Uif-DataField" p:propertyName="meta.createTime" />
+		                    <bean parent="KS-Uif-DataField" p:propertyName="meta.createId" />
+		                    <bean parent="KS-Uif-DataField" p:propertyName="meta.updateTime" />
+		                    <bean parent="KS-Uif-DataField" p:propertyName="meta.updateId" />
 		                </list>
 		            </property>
 		        </bean>

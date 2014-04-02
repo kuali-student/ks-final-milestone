@@ -120,7 +120,7 @@ limitations under the License.
                     </property>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField"
+                            <bean parent="KS-Uif-DataField"
                                   p:propertyName="copyFromAcal.name"
                                   p:id="copyFromAcalName"
                                   p:showLabel="false"
@@ -148,13 +148,13 @@ limitations under the License.
                                         <bean parent="Uif-VerticalBoxGroup" p:additionalCssClasses="ks-calendar-copy-from-date-values">
                                             <property name="items">
                                                 <list>
-                                                    <bean parent="Uif-DataField"
+                                                    <bean parent="KS-Uif-DataField"
                                                           p:propertyName="copyFromAcal.startDate">
                                                         <property name="labelRendered" value="true"/>
                                                         <property name="align" value="right"/>
                                                         <property name="valign" value="bottom"/>
                                                     </bean>
-                                                    <bean parent="Uif-DataField"
+                                                    <bean parent="KS-Uif-DataField"
                                                           p:propertyName="copyFromAcal.endDate">
                                                         <property name="labelRendered" value="true"/>
                                                         <property name="align" value="right"/>

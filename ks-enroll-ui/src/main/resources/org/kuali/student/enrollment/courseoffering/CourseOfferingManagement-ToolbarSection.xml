@@ -189,39 +189,39 @@
         <property name="style" value="margin-bottom:0;padding-left:10px;padding-right:10px;"/>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="formatOfferingIdForNewAO" p:label="Format Offering" p:labelPlacement="TOP" p:required="true" p:onChangeScript="refreshAddAODropdowns();">
+                <bean parent="KS-Uif-InputField" p:propertyName="formatOfferingIdForNewAO" p:label="Format Offering" p:labelPlacement="TOP" p:required="true" p:onChangeScript="refreshAddAODropdowns();">
                     <property name="readOnly" value="false"/>
                     <property name="control">
-                        <bean parent="Uif-DropdownControl" p:disabled="@{!#root.editAuthz}"/>
+                        <bean parent="KS-Uif-DropdownControl" p:disabled="@{!#root.editAuthz}"/>
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.FormatsForCreateAOKeyValues" p:addBlankOption="false" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:id="activityOfferingTypeDropDown" p:propertyName="activityIdForNewAO" p:label="Activity Type" p:labelPlacement="TOP" p:required="true" p:forceSessionPersistence="true">
+                <bean parent="KS-Uif-InputField" p:id="activityOfferingTypeDropDown" p:propertyName="activityIdForNewAO" p:label="Activity Type" p:labelPlacement="TOP" p:required="true" p:forceSessionPersistence="true">
                     <property name="readOnly" value="false"/>
                     <property name="control">
-                        <bean parent="Uif-DropdownControl" p:disabled="@{!#root.editAuthz}"/>
+                        <bean parent="KS-Uif-DropdownControl" p:disabled="@{!#root.editAuthz}"/>
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.ActivitiesForCreateAOKeyValues" p:addBlankOption="false" />
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField" p:id="clusterDropDown" p:propertyName="clusterIdForNewAO" p:label="Cluster" p:labelPlacement="TOP" p:required="true" p:forceSessionPersistence="true">
+                <bean parent="KS-Uif-InputField" p:id="clusterDropDown" p:propertyName="clusterIdForNewAO" p:label="Cluster" p:labelPlacement="TOP" p:required="true" p:forceSessionPersistence="true">
                     <property name="readOnly" value="false"/>
                     <property name="control">
-                        <bean parent="Uif-DropdownControl" p:disabled="@{!#root.editAuthz}"/>
+                        <bean parent="KS-Uif-DropdownControl" p:disabled="@{!#root.editAuthz}"/>
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.ClustersForCreateAOKeyValues" p:addBlankOption="false" />
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField" p:propertyName="noOfActivityOfferings" p:label="Quantity" p:labelPlacement="TOP" p:required="true" p:exclusiveMin="0" p:id="addActivityOfferingQuantity">
+                <bean parent="KS-Uif-InputField" p:propertyName="noOfActivityOfferings" p:label="Quantity" p:labelPlacement="TOP" p:required="true" p:exclusiveMin="0" p:id="addActivityOfferingQuantity">
                     <property name="readOnly" value="false"/>
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="3" p:disabled="@{!#root.editAuthz}" />
+                        <bean parent="KS-Uif-TextControl" p:size="3" p:disabled="@{!#root.editAuthz}" />
                     </property>
                     <property name="validCharactersConstraint">
                       <bean parent="NumericPatternConstraint"/>
@@ -247,22 +247,22 @@
         <property name="style" value="margin-bottom:0;padding-left:10px;padding-right:10px;"/>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="formatOfferingIdForViewRG" p:label="Select Format" p:labelPlacement="TOP" p:required="true" >
+                <bean parent="KS-Uif-InputField" p:propertyName="formatOfferingIdForViewRG" p:label="Select Format" p:labelPlacement="TOP" p:required="true" >
                     <property name="control">
-                        <bean parent="Uif-DropdownControl"/>
+                        <bean parent="KS-Uif-DropdownControl"/>
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.FormatsForCreateRGKeyValues" p:addBlankOption="false" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField"  p:id="privateClusterNamePopover" p:propertyName="privateClusterNamePopover" p:label="Private Name" p:labelPlacement="TOP" p:render="true" p:required="true">
+                <bean parent="KS-Uif-InputField"  p:id="privateClusterNamePopover" p:propertyName="privateClusterNamePopover" p:label="Private Name" p:labelPlacement="TOP" p:render="true" p:required="true">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="10"  p:maxLength="20" p:onKeyUpScript="toggleAddAOCButton('addAOCButton','privateClusterNamePopover_control');"/>
+                        <bean parent="KS-Uif-TextControl" p:size="10"  p:maxLength="20" p:onKeyUpScript="toggleAddAOCButton('addAOCButton','privateClusterNamePopover_control');"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField"  p:propertyName="publishedClusterNamePopover" p:label="Published Name" p:labelPlacement="TOP"  p:render="true">
+                <bean parent="KS-Uif-InputField"  p:propertyName="publishedClusterNamePopover" p:label="Published Name" p:labelPlacement="TOP"  p:render="true">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="10"  p:maxLength="20"/>
+                        <bean parent="KS-Uif-TextControl" p:size="10"  p:maxLength="20"/>
                     </property>
                 </bean>
                 <bean parent="Uif-SecondaryActionButton-Small" p:id="addAOCButton" p:additionalCssClasses="ks_toolbar_popup_action_button">
@@ -294,31 +294,31 @@
         <property name="style" value="margin-bottom:0;padding-left:10px;padding-right:10px;"/>
         <property name="items">
             <list>
-                <bean id="clusterIDListForAOMove" parent="Uif-InputField" p:propertyName="clusterIdForAOMove"  p:label="Move selected offerings to" p:labelPlacement="TOP"
+                <bean id="clusterIDListForAOMove" parent="KS-Uif-InputField" p:propertyName="clusterIdForAOMove"  p:label="Move selected offerings to" p:labelPlacement="TOP"
                       p:onChangeScript="toggleAddAOCButton('moveAOCButton','privateNameForMoveId_control');">
                     <property name="control">
-                        <bean parent="Uif-DropdownControl"/>
+                        <bean parent="KS-Uif-DropdownControl"/>
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.ListOfAOClustersForFOKeyValues" p:addBlankOption="false" />
                     </property>
                 </bean>
-                <bean p:id="foIdForAOMoveId" parent="Uif-DataField" p:propertyName="selectedFOIDForAOMove" p:label="Format Offering ID" p:labelPlacement="TOP" p:style="display:none;">
+                <bean p:id="foIdForAOMoveId" parent="KS-Uif-DataField" p:propertyName="selectedFOIDForAOMove" p:label="Format Offering ID" p:labelPlacement="TOP" p:style="display:none;">
                 </bean>
-                <bean p:id="foNameForAOMoveId" parent="Uif-DataField" p:propertyName="selectedFONameForAOMove" p:label="Format Offering" p:labelPlacement="TOP" p:style="display:none; margin-right:15px;">
+                <bean p:id="foNameForAOMoveId" parent="KS-Uif-DataField" p:propertyName="selectedFONameForAOMove" p:label="Format Offering" p:labelPlacement="TOP" p:style="display:none; margin-right:15px;">
                 </bean>
-                <bean p:id="privateNameForMoveId" parent="Uif-InputField" p:propertyName="privateClusterNameForMovePopover" p:label="Private Name" p:labelPlacement="TOP" p:render="true" p:required="true" p:style="display:none">
+                <bean p:id="privateNameForMoveId" parent="KS-Uif-InputField" p:propertyName="privateClusterNameForMovePopover" p:label="Private Name" p:labelPlacement="TOP" p:render="true" p:required="true" p:style="display:none">
                     <property name="control">
-                        <bean parent="Uif-TextControl"
+                        <bean parent="KS-Uif-TextControl"
                               p:size="10"
                               p:maxLength="20"
                               p:onKeyPressScript="submitMoveAoOnEnterKeyIfValid();"
                               p:onKeyUpScript="toggleAddAOCButton('moveAOCButton','privateNameForMoveId_control');"/>
                     </property>
                 </bean>
-                <bean p:id="publishedNameForMoveId" parent="Uif-InputField"  p:propertyName="publishedClusterNameForMovePopover" p:label="Published Name" p:labelPlacement="TOP"  p:render="true" p:style="display:none">
+                <bean p:id="publishedNameForMoveId" parent="KS-Uif-InputField"  p:propertyName="publishedClusterNameForMovePopover" p:label="Published Name" p:labelPlacement="TOP"  p:render="true" p:style="display:none">
                     <property name="control">
-                        <bean parent="Uif-TextControl"
+                        <bean parent="KS-Uif-TextControl"
                               p:size="10"
                               p:maxLength="20"
                               p:onKeyPressScript="submitMoveAoOnEnterKeyIfValid();" />

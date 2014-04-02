@@ -25,11 +25,11 @@
         </property>
         <property name="resultFields">
             <list>
-                <bean parent="Uif-DataField" p:propertyName="id" />
-                <bean parent="Uif-DataField" p:propertyName="name"/>
-                <bean parent="Uif-DataField" p:propertyName="typeKey" />
-                <bean parent="Uif-DataField" p:propertyName="stateKey" />
-                <bean parent="Uif-DataField" p:propertyName="termId" />
+                <bean parent="KS-Uif-DataField" p:propertyName="id" />
+                <bean parent="KS-Uif-DataField" p:propertyName="name"/>
+                <bean parent="KS-Uif-DataField" p:propertyName="typeKey" />
+                <bean parent="KS-Uif-DataField" p:propertyName="stateKey" />
+                <bean parent="KS-Uif-DataField" p:propertyName="termId" />
             </list>
         </property>
     </bean>
@@ -48,14 +48,14 @@
         </property>
         <property name="resultFields">
             <list>
-                <bean parent="Uif-DataField" p:propertyName="stateKey" />
-                <bean parent="Uif-DataField" p:propertyName="id" />
-                <bean parent="Uif-DataField" p:propertyName="typeKey" />
-                <bean parent="Uif-DataField" p:propertyName="formatOfferingName" />
-                <!--<bean parent="Uif-DataField" p:propertyName="time" />-->
-                <!--<bean parent="Uif-DataField" p:propertyName="Days" />-->
-                <!--<bean parent="Uif-DataField" p:propertyName="Instructor" />-->
-                <!--<bean parent="Uif-DataField" p:propertyName="Seats" />-->
+                <bean parent="KS-Uif-DataField" p:propertyName="stateKey" />
+                <bean parent="KS-Uif-DataField" p:propertyName="id" />
+                <bean parent="KS-Uif-DataField" p:propertyName="typeKey" />
+                <bean parent="KS-Uif-DataField" p:propertyName="formatOfferingName" />
+                <!--<bean parent="KS-Uif-DataField" p:propertyName="time" />-->
+                <!--<bean parent="KS-Uif-DataField" p:propertyName="Days" />-->
+                <!--<bean parent="KS-Uif-DataField" p:propertyName="Instructor" />-->
+                <!--<bean parent="KS-Uif-DataField" p:propertyName="Seats" />-->
             </list>
         </property>
     </bean>
@@ -96,23 +96,23 @@
                       p:layoutManager.applyDefaultCellWidths="false">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:propertyName="id" />
-                            <bean parent="Uif-DataField" p:propertyName="name"/>
-                            <bean parent="Uif-DataField" p:propertyName="typeKey" />
-                            <bean parent="Uif-DataField" p:propertyName="stateKey" />
-                            <bean parent="Uif-DataField" p:propertyName="termId" />
-                            <bean parent="Uif-DataField" p:propertyName="termCode" />
-                            <bean parent="Uif-DataField" p:propertyName="courseOfferingId" />
-                            <bean parent="Uif-DataField" p:propertyName="courseOfferingTitle" />
-                            <bean parent="Uif-DataField" p:propertyName="courseOfferingCode" />
-                            <bean parent="Uif-DataField" p:propertyName="activityCode" />
-                            <bean parent="Uif-DataField" p:propertyName="activityId"/>
-                            <bean parent="Uif-DataField" p:propertyName="formatOfferingId" p:label="Format Offering ID"/>
-                            <bean parent="Uif-DataField" p:propertyName="maximumEnrollment" p:label="Total Maximum Enrollment"/>
-                            <bean parent="Uif-DataField" p:propertyName="isMaxEnrollmentEstimate" p:label="Maximum Enrollment is an estimate"/>
-                            <bean parent="Uif-DataField" p:propertyName="isEvaluated" p:label="This course requires an evaluation"/>
-                            <bean parent="Uif-DataField" p:propertyName="isHonorsOffering"/>
-                            <bean parent="Uif-DataField" p:propertyName="activityOfferingURL"/>
+                            <bean parent="KS-Uif-DataField" p:propertyName="id" />
+                            <bean parent="KS-Uif-DataField" p:propertyName="name"/>
+                            <bean parent="KS-Uif-DataField" p:propertyName="typeKey" />
+                            <bean parent="KS-Uif-DataField" p:propertyName="stateKey" />
+                            <bean parent="KS-Uif-DataField" p:propertyName="termId" />
+                            <bean parent="KS-Uif-DataField" p:propertyName="termCode" />
+                            <bean parent="KS-Uif-DataField" p:propertyName="courseOfferingId" />
+                            <bean parent="KS-Uif-DataField" p:propertyName="courseOfferingTitle" />
+                            <bean parent="KS-Uif-DataField" p:propertyName="courseOfferingCode" />
+                            <bean parent="KS-Uif-DataField" p:propertyName="activityCode" />
+                            <bean parent="KS-Uif-DataField" p:propertyName="activityId"/>
+                            <bean parent="KS-Uif-DataField" p:propertyName="formatOfferingId" p:label="Format Offering ID"/>
+                            <bean parent="KS-Uif-DataField" p:propertyName="maximumEnrollment" p:label="Total Maximum Enrollment"/>
+                            <bean parent="KS-Uif-DataField" p:propertyName="isMaxEnrollmentEstimate" p:label="Maximum Enrollment is an estimate"/>
+                            <bean parent="KS-Uif-DataField" p:propertyName="isEvaluated" p:label="This course requires an evaluation"/>
+                            <bean parent="KS-Uif-DataField" p:propertyName="isHonorsOffering"/>
+                            <bean parent="KS-Uif-DataField" p:propertyName="activityOfferingURL"/>
                             <bean parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="4"
                                       p:layoutManager.style="width: 100%; display:block;">
                                     <property name="headerText" value="Affiliated Personnel" />
@@ -125,10 +125,10 @@
                                     <property name="layoutManager.applyAlternatingRowStyles" value="false" />
                                     <property name="items">
                                         <list>
-                                            <bean parent="Uif-InputField" p:propertyName="personId" p:label="ID" />
-                                            <bean parent="Uif-InputField" p:propertyName="personName" p:label="Name" />
-                                            <bean parent="Uif-InputField" p:propertyName="typeKey" p:label="AFFILIATION" />
-                                            <bean parent="Uif-InputField" p:propertyName="percentageEffort" p:label="INST.EFFORT" />
+                                            <bean parent="KS-Uif-InputField" p:propertyName="personId" p:label="ID" />
+                                            <bean parent="KS-Uif-InputField" p:propertyName="personName" p:label="Name" />
+                                            <bean parent="KS-Uif-InputField" p:propertyName="typeKey" p:label="AFFILIATION" />
+                                            <bean parent="KS-Uif-InputField" p:propertyName="percentageEffort" p:label="INST.EFFORT" />
                                         </list>
                                     </property>
 

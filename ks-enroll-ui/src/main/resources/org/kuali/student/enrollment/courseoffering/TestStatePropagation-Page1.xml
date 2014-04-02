@@ -41,10 +41,10 @@
                         <bean parent="Uif-HorizontalBoxSection" id="countSection">
                             <property name="items">
                                 <list>
-                                    <bean parent="Uif-DataField"
+                                    <bean parent="KS-Uif-DataField"
                                           p:label="Pass Count"
                                           p:propertyName="passCount"/>
-                                    <bean parent="Uif-DataField"
+                                    <bean parent="KS-Uif-DataField"
                                           p:label="Fail Count"
                                           p:propertyName="failCount"/>
                                 </list>
@@ -74,25 +74,25 @@
                                 </property>
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-DataField"
+                                        <bean parent="KS-Uif-DataField"
                                               p:label="Soc State"
                                               p:propertyName="socState"/>
-                                        <bean parent="Uif-DataField"
+                                        <bean parent="KS-Uif-DataField"
                                               p:label="AO From"
                                               p:propertyName="aoFrom"/>
-                                        <bean parent="Uif-DataField"
+                                        <bean parent="KS-Uif-DataField"
                                               p:label="AO To"
                                               p:propertyName="aoTo"/>
-                                        <bean parent="Uif-DataField"
+                                        <bean parent="KS-Uif-DataField"
                                               p:label="2nd AO State"
                                               p:propertyName="secondAoState"/>
-                                        <bean parent="Uif-DataField"
+                                        <bean parent="KS-Uif-DataField"
                                               p:label="Expected"
                                               p:propertyName="expected"/>
-                                        <bean parent="Uif-DataField"
+                                        <bean parent="KS-Uif-DataField"
                                               p:label="Actual"
                                               p:propertyName="actual"/>
-                                        <bean parent="Uif-DataField"
+                                        <bean parent="KS-Uif-DataField"
                                               p:label="Status"
                                               p:propertyName="status">
                                             <property name="propertyReplacers">
@@ -134,25 +134,25 @@
                                     </property>
                                     <property name="items">
                                         <list>
-                                            <bean parent="Uif-DataField"
+                                            <bean parent="KS-Uif-DataField"
                                                   p:label="Soc State"
                                                   p:propertyName="socState"/>
-                                            <bean parent="Uif-DataField"
+                                            <bean parent="KS-Uif-DataField"
                                                   p:label="AO From"
                                                   p:propertyName="aoFrom"/>
-                                            <bean parent="Uif-DataField"
+                                            <bean parent="KS-Uif-DataField"
                                                   p:label="AO To"
                                                   p:propertyName="aoTo"/>
-                                            <bean parent="Uif-DataField"
+                                            <bean parent="KS-Uif-DataField"
                                                   p:label="2nd AO State"
                                                   p:propertyName="secondAoState"/>
-                                            <bean parent="Uif-DataField"
+                                            <bean parent="KS-Uif-DataField"
                                                   p:label="Expected"
                                                   p:propertyName="expected"/>
-                                            <bean parent="Uif-DataField"
+                                            <bean parent="KS-Uif-DataField"
                                                   p:label="Actual"
                                                   p:propertyName="actual"/>
-                                            <bean parent="Uif-DataField"
+                                            <bean parent="KS-Uif-DataField"
                                                   p:label="Status"
                                                   p:propertyName="status">
                                                 <property name="propertyReplacers">
@@ -194,25 +194,25 @@
                                     </property>
                                     <property name="items">
                                         <list>
-                                            <bean parent="Uif-DataField"
+                                            <bean parent="KS-Uif-DataField"
                                                   p:label="Soc State"
                                                   p:propertyName="socState"/>
-                                            <bean parent="Uif-DataField"
+                                            <bean parent="KS-Uif-DataField"
                                                   p:label="AO From"
                                                   p:propertyName="aoFrom"/>
-                                            <bean parent="Uif-DataField"
+                                            <bean parent="KS-Uif-DataField"
                                                   p:label="AO To"
                                                   p:propertyName="aoTo"/>
-                                            <bean parent="Uif-DataField"
+                                            <bean parent="KS-Uif-DataField"
                                                   p:label="2nd AO State"
                                                   p:propertyName="secondAoState"/>
-                                            <bean parent="Uif-DataField"
+                                            <bean parent="KS-Uif-DataField"
                                                   p:label="Expected"
                                                   p:propertyName="expected"/>
-                                            <bean parent="Uif-DataField"
+                                            <bean parent="KS-Uif-DataField"
                                                   p:label="Actual"
                                                   p:propertyName="actual"/>
-                                            <bean parent="Uif-DataField"
+                                            <bean parent="KS-Uif-DataField"
                                                   p:label="Status"
                                                   p:propertyName="status">
                                             <property name="propertyReplacers">
@@ -255,22 +255,22 @@
                                         <property name="items">
                                             <list>
 
-                                                <bean parent="Uif-DataField"
+                                                <bean parent="KS-Uif-DataField"
                                                       p:label="AO 1"
                                                       p:propertyName="ao1"/>
-                                                <bean parent="Uif-DataField"
+                                                <bean parent="KS-Uif-DataField"
                                                       p:label="AO 2"
                                                       p:propertyName="ao2"/>
-                                                <bean parent="Uif-DataField"
+                                                <bean parent="KS-Uif-DataField"
                                                       p:label="AO 3"
                                                       p:propertyName="ao3"/>
-                                                <bean parent="Uif-DataField"
+                                                <bean parent="KS-Uif-DataField"
                                                       p:label="Expected"
                                                       p:propertyName="expected"/>
-                                                <bean parent="Uif-DataField"
+                                                <bean parent="KS-Uif-DataField"
                                                       p:label="Actual"
                                                       p:propertyName="actual"/>
-                                                <bean parent="Uif-DataField"
+                                                <bean parent="KS-Uif-DataField"
                                                       p:label="Status"
                                                       p:propertyName="status">
                                                     <property name="propertyReplacers">
@@ -313,19 +313,19 @@
                                         <property name="items">
                                             <list>
 
-                                                <bean parent="Uif-DataField"
+                                                <bean parent="KS-Uif-DataField"
                                                       p:label="RG From"
                                                       p:propertyName="rgFrom"/>
-                                                <bean parent="Uif-DataField"
+                                                <bean parent="KS-Uif-DataField"
                                                       p:label="RG To"
                                                       p:propertyName="rgTo"/>
-                                                <bean parent="Uif-DataField"
+                                                <bean parent="KS-Uif-DataField"
                                                       p:label="Expected"
                                                       p:propertyName="expected"/>
-                                                <bean parent="Uif-DataField"
+                                                <bean parent="KS-Uif-DataField"
                                                       p:label="Actual"
                                                       p:propertyName="actual"/>
-                                                <bean parent="Uif-DataField"
+                                                <bean parent="KS-Uif-DataField"
                                                       p:label="Status"
                                                       p:propertyName="status">
                                                     <property name="propertyReplacers">

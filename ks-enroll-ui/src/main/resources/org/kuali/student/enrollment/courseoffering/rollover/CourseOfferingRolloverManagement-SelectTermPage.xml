@@ -78,10 +78,10 @@
                                         <bean parent="Uif-VerticalFieldGroup">
                                             <property name="items">
                                                 <list>
-                                                    <bean parent="Uif-InputField" p:propertyName="sourceTermCode"
+                                                    <bean parent="KS-Uif-InputField" p:propertyName="sourceTermCode"
                                                           p:required="true">
                                                         <property name="control">
-                                                            <bean parent="Uif-TextControl" p:size="6"
+                                                            <bean parent="KS-Uif-TextControl" p:size="6"
                                                                   p:watermarkText="201201" p:minLength="5"
                                                                   p:maxLength="6"/>
                                                         </property>
@@ -121,10 +121,10 @@
                                         <bean parent="Uif-VerticalFieldGroup">
                                             <property name="items">
                                                 <list>
-                                                    <bean parent="Uif-InputField" p:propertyName="targetTermCode"
+                                                    <bean parent="KS-Uif-InputField" p:propertyName="targetTermCode"
                                                           p:required="true">
                                                         <property name="control">
-                                                            <bean parent="Uif-TextControl" p:size="6"
+                                                            <bean parent="KS-Uif-TextControl" p:size="6"
                                                                   p:watermarkText="201301" p:minLength="5"
                                                                   p:maxLength="6"/>
                                                         </property>

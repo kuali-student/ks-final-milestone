@@ -50,7 +50,7 @@
             <bean parent="AnyCharacterPatternConstraint"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="10"/>
+            <bean parent="KS-Uif-TextControl" p:size="10"/>
         </property>
     </bean>
 
@@ -66,11 +66,11 @@
             <bean parent="AnyCharacterPatternConstraint"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="40"/>
+            <bean parent="KS-Uif-TextControl" p:size="40"/>
         </property>
     </bean>
 
-    <bean id="CourseLookupField" parent="Uif-DataField">
+    <bean id="CourseLookupField" parent="KS-Uif-DataField">
         <property name="inquiry">
             <null/>
         </property>

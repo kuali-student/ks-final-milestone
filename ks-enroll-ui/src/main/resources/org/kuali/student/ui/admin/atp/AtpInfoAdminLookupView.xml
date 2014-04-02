@@ -72,26 +72,26 @@
 		</property>
 		<property name="resultFields">
 		    <list>
-		        <bean parent="Uif-DataField" p:propertyName="id">
+		        <bean parent="KS-Uif-DataField" p:propertyName="id">
 		            <property name="inquiry">
 		                <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.r2.core.atp.dto.AtpInfo" p:inquiryParameters="id" />
 		            </property>
 		        </bean>
-		        <bean parent="Uif-DataField" p:propertyName="typeKey">
+		        <bean parent="KS-Uif-DataField" p:propertyName="typeKey">
 		            <property name="inquiry">
 		                <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.r2.core.class1.type.dto.TypeInfo" p:inquiryParameters="typeKey:key" />
 		            </property>
 		        </bean>
-		        <bean parent="Uif-DataField" p:propertyName="stateKey">
+		        <bean parent="KS-Uif-DataField" p:propertyName="stateKey">
 		            <property name="inquiry">
 		                <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.r2.core.class1.state.dto.StateInfo" p:inquiryParameters="stateKey:key" />
 		            </property>
 		        </bean>
-		        <bean parent="Uif-DataField" p:propertyName="name" />
-		        <bean parent="Uif-DataField" p:propertyName="code" />
-		        <bean parent="Uif-DataField" p:propertyName="startDate" />
-		        <bean parent="Uif-DataField" p:propertyName="endDate" />
-		        <bean parent="Uif-DataField" p:propertyName="adminOrgId" />
+		        <bean parent="KS-Uif-DataField" p:propertyName="name" />
+		        <bean parent="KS-Uif-DataField" p:propertyName="code" />
+		        <bean parent="KS-Uif-DataField" p:propertyName="startDate" />
+		        <bean parent="KS-Uif-DataField" p:propertyName="endDate" />
+		        <bean parent="KS-Uif-DataField" p:propertyName="adminOrgId" />
 		    </list>
 		</property>
 	</bean>

@@ -121,7 +121,7 @@
                                           p:propertyName="sendRDLsToSchedulerAfterMSE">
                                         <property name="control">
                                             <bean id="send_RDLs_to_scheduler_control"
-                                                  parent="Uif-CheckboxControl"
+                                                  parent="KS-Uif-CheckboxControl"
                                                   p:onClickScript="showRemoveAllOfferingsFromSchedulerConfirmation();">
                                                 <property name="render" value="@{#dp.aoInfo.stateKey ne 'kuali.lui.activity.offering.state.canceled'}"/>
                                             </bean>
@@ -160,7 +160,7 @@
                 <ref bean="ActivityOfferingEdit-Miscellaneous"/>
 
                 <!-- This is needed for autosuggest-->
-                <bean parent="Uif-InputField" p:propertyName="termId" p:hidden="true"/>
+                <bean parent="KS-Uif-InputField" p:propertyName="termId" p:hidden="true"/>
                 <ref bean="ActivityOfferingEdit-NavigationConfirmation"/>
                 <ref bean="ActivityOfferingEdit-BreakColocateConfirmation"/>
                 <ref bean="ActivityOfferingEdit-CoLocatedAddLineDialog"/>
@@ -211,9 +211,9 @@
                       <bean parent="Uif-Image" p:altText="" p:source="" p:cssClasses="ks-fontello-icon-angle-left"/>
                     </property>
                 </bean>
-                <bean id="edit_ao_select" parent="Uif-InputField" p:propertyName="editRenderHelper.selectedAO" >
+                <bean id="edit_ao_select" parent="KS-Uif-InputField" p:propertyName="editRenderHelper.selectedAO" >
                     <property name="control">
-                        <bean parent="Uif-DropdownControl" p:onChangeScript="handleAOSelection(this);"/>
+                        <bean parent="KS-Uif-DropdownControl" p:onChangeScript="handleAOSelection(this);"/>
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.ActivityOfferingCodesKeyValues" p:addBlankOption="false"/>

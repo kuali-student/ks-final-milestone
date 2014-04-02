@@ -38,11 +38,11 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-DataField"
+                <bean parent="KS-Uif-DataField"
                       p:label="Reg Group ID"
                       p:propertyName="rgInfo.name" p:valign="middle">
                 </bean>
-                <bean parent="Uif-DataField"
+                <bean parent="KS-Uif-DataField"
                       p:label="State" p:escapeHtmlInPropertyValue="false"
                       p:propertyName="stateKey" p:valign="middle">
                 </bean>
@@ -50,11 +50,11 @@
                 <!-- ARG Notes By Bonnie -->
                 <!-- TODO: need to add Enroll column -->
                 <!-- TODO: when have more than one Format, display FORMAT column-->
-                <bean parent="Uif-DataField"
+                <bean parent="KS-Uif-DataField"
                       p:label="Cluster"
                       p:propertyName="aoClusterName">
                 </bean>
-                <bean parent="Uif-DataField"
+                <bean parent="KS-Uif-DataField"
                       p:label="Enroll"
                       p:propertyName="rgMaxEnrText">
                 </bean>

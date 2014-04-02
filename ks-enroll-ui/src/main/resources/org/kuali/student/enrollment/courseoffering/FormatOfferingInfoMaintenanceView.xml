@@ -29,8 +29,8 @@
                     <property name="headerText" value="Create a New Format Offering"/>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:propertyName="id"/>
-                            <bean parent="Uif-InputField" p:propertyName="courseOfferingId">
+                            <bean parent="KS-Uif-DataField" p:propertyName="id"/>
+                            <bean parent="KS-Uif-InputField" p:propertyName="courseOfferingId">
                                 <property name="quickfinder">
                                     <bean parent="Uif-QuickFinder">
                                         <property name="dataObjectClassName" value="org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo"/>
@@ -42,16 +42,16 @@
                                     </bean>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="formatId"
+                            <bean parent="KS-Uif-InputField" p:propertyName="formatId"
                                   p:optionsFinderClass="org.kuali.student.enrollment.class2.courseoffering.keyvalue.CourseOfferingIdFormatKeyValues"
                                   p:refreshWhenChangedPropertyNames="courseOfferingId">
                                 <property name="control">
-                                    <bean parent="Uif-DropdownControl"/>
+                                    <bean parent="KS-Uif-DropdownControl"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="termId" p:defaultValue="2012WINTER" />
-                            <bean parent="Uif-InputField" p:propertyName="gradeRosterLevelTypeKey"/>
-                            <bean parent="Uif-InputField" p:propertyName="finalExamLevelTypeKey"/>
+                            <bean parent="KS-Uif-InputField" p:propertyName="termId" p:defaultValue="2012WINTER" />
+                            <bean parent="KS-Uif-InputField" p:propertyName="gradeRosterLevelTypeKey"/>
+                            <bean parent="KS-Uif-InputField" p:propertyName="finalExamLevelTypeKey"/>
                         </list>
                     </property>
                 </bean>

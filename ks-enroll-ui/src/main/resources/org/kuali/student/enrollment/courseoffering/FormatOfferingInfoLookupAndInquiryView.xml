@@ -36,11 +36,11 @@
         </property>
         <property name="resultFields">
             <list>
-                <bean parent="Uif-DataField" p:propertyName="id" />
-                <bean parent="Uif-DataField" p:propertyName="name" />
-                <bean parent="Uif-DataField" p:propertyName="formatId" />
-                <bean parent="Uif-DataField" p:propertyName="courseOfferingId" />
-                <bean parent="Uif-DataField" p:propertyName="termId" />
+                <bean parent="KS-Uif-DataField" p:propertyName="id" />
+                <bean parent="KS-Uif-DataField" p:propertyName="name" />
+                <bean parent="KS-Uif-DataField" p:propertyName="formatId" />
+                <bean parent="KS-Uif-DataField" p:propertyName="courseOfferingId" />
+                <bean parent="KS-Uif-DataField" p:propertyName="termId" />
             </list>
         </property>
     </bean>
@@ -59,7 +59,7 @@
                         <list>
                             <bean parent="Uif-LookupCriteriaInputField" p:propertyName="typeKey" p:label="Type" p:labelPlacement="LEFT" p:required="true">
                                 <property name="control">
-                                    <bean parent="Uif-DropdownControl"/>
+                                    <bean parent="KS-Uif-DropdownControl"/>
                                 </property>
                                 <property name="optionsFinder">
                                     <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.FormatOfferingInfoByTypeKeyValues"  p:addBlankOption="false"/>
@@ -73,11 +73,11 @@
 
         <property name="resultFields">
             <list>
-                <bean parent="Uif-DataField" p:propertyName="id" />
-                <bean parent="Uif-DataField" p:propertyName="name" />
-                <bean parent="Uif-DataField" p:propertyName="formatId" />
-                <bean parent="Uif-DataField" p:propertyName="courseOfferingId" />
-                <bean parent="Uif-DataField" p:propertyName="termId" />
+                <bean parent="KS-Uif-DataField" p:propertyName="id" />
+                <bean parent="KS-Uif-DataField" p:propertyName="name" />
+                <bean parent="KS-Uif-DataField" p:propertyName="formatId" />
+                <bean parent="KS-Uif-DataField" p:propertyName="courseOfferingId" />
+                <bean parent="KS-Uif-DataField" p:propertyName="termId" />
             </list>
         </property>
     </bean>
@@ -94,13 +94,13 @@
                     <property name="headerText" value="Format OfferingInfo Inquiry"/>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="id"/>
-                            <bean parent="Uif-DataField" p:propertyName="name" />
-                            <bean parent="Uif-InputField" p:propertyName="formatId"/>
-                            <bean parent="Uif-InputField" p:propertyName="courseOfferingId"/>
-                            <bean parent="Uif-InputField" p:propertyName="termId"/>
-                            <bean parent="Uif-InputField" p:propertyName="gradeRosterLevelTypeKey"/>
-                            <bean parent="Uif-InputField" p:propertyName="finalExamLevelTypeKey"/>
+                            <bean parent="KS-Uif-InputField" p:propertyName="id"/>
+                            <bean parent="KS-Uif-DataField" p:propertyName="name" />
+                            <bean parent="KS-Uif-InputField" p:propertyName="formatId"/>
+                            <bean parent="KS-Uif-InputField" p:propertyName="courseOfferingId"/>
+                            <bean parent="KS-Uif-InputField" p:propertyName="termId"/>
+                            <bean parent="KS-Uif-InputField" p:propertyName="gradeRosterLevelTypeKey"/>
+                            <bean parent="KS-Uif-InputField" p:propertyName="finalExamLevelTypeKey"/>
                         </list>
                     </property>
                 </bean>

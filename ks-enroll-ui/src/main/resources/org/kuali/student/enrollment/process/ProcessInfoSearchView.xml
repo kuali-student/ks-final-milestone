@@ -64,27 +64,27 @@
                             <bean parent="Uif-HorizontalFieldGroup">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-InputField-LabelTop" p:label="Process Name" p:propertyName="name" >
+                                        <bean parent="KS-Uif-InputField-LabelTop" p:label="Process Name" p:propertyName="name" >
                                             <property name="control">
-                                                <bean parent="Uif-TextControl" p:size="20"/>
+                                                <bean parent="KS-Uif-TextControl" p:size="20"/>
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-InputField-LabelTop" p:label="Process Category" p:propertyName="typeKey" >
+                                        <bean parent="KS-Uif-InputField-LabelTop" p:label="Process Category" p:propertyName="typeKey" >
                                             <property name="control">
-                                                <bean parent="Uif-DropdownControl"/>
+                                                <bean parent="KS-Uif-DropdownControl"/>
                                             </property>
                                             <property name="optionsFinder">
                                                 <bean class="org.kuali.student.enrollment.class1.process.keyvalues.ProcessInfoTypeKeyValues"/>
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-InputField-LabelTop" p:label="Process Description" p:propertyName="descr" >
+                                        <bean parent="KS-Uif-InputField-LabelTop" p:label="Process Description" p:propertyName="descr" >
                                             <property name="control">
                                                 <bean parent="Uif-SmallTextAreaControl"/>
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-InputField-LabelTop" p:label="Owning Organization"  p:propertyName="orgName" p:style="font-weight:bold;white-space:nowrap;" p:propertyReplacers="">
+                                        <bean parent="KS-Uif-InputField-LabelTop" p:label="Owning Organization"  p:propertyName="orgName" p:style="font-weight:bold;white-space:nowrap;" p:propertyReplacers="">
                                             <property name="control">
-                                                <bean parent="Uif-TextControl" p:size="16" p:disabled="true"/>
+                                                <bean parent="KS-Uif-TextControl" p:size="16" p:disabled="true"/>
                                             </property>
                                             <property name="quickfinder">
                                                 <bean parent="Uif-QuickFinder">
@@ -98,7 +98,7 @@
                                                 </bean>
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-InputField-LabelTop" p:label="State" p:propertyName="stateKey" >
+                                        <bean parent="KS-Uif-InputField-LabelTop" p:label="State" p:propertyName="stateKey" >
                                             <property name="control">
                                                 <bean parent="Uif-HorizontalRadioControl">
                                                     <property name="options">
@@ -162,31 +162,31 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-DataField"
+                <bean parent="KS-Uif-DataField"
                       p:label="Process Name"
                       p:propertyName="name" />
-                <bean parent="Uif-InputField" p:label="Process Category" p:propertyName="typeKey"  p:readOnly="true">
+                <bean parent="KS-Uif-InputField" p:label="Process Category" p:propertyName="typeKey"  p:readOnly="true">
                     <property name="control">
-                        <bean parent="Uif-DropdownControl" />
+                        <bean parent="KS-Uif-DropdownControl" />
                     </property>
                     <property name="optionsFinder">
                         <bean id="ProcessTypes" class="org.kuali.student.enrollment.class1.process.keyvalues.ProcessInfoTypeKeyValues" />
                     </property>
                 </bean>
-                <bean parent="Uif-DataField"
+                <bean parent="KS-Uif-DataField"
                       p:label="Process Description"
                       p:propertyName="descr.plain"/>
-                <bean parent="Uif-InputField" p:label="Owning Organization" p:propertyName="ownerOrgId" p:readOnly="true">
+                <bean parent="KS-Uif-InputField" p:label="Owning Organization" p:propertyName="ownerOrgId" p:readOnly="true">
                     <property name="control">
-                        <bean parent="Uif-DropdownControl" />
+                        <bean parent="KS-Uif-DropdownControl" />
                     </property>
                     <property name="optionsFinder">
                         <bean id="ProcessOrgNames" class="org.kuali.student.enrollment.class1.util.OrgInfoNameKeyValues" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:label="State" p:propertyName="stateKey" p:readOnly="true">
+                <bean parent="KS-Uif-InputField" p:label="State" p:propertyName="stateKey" p:readOnly="true">
                     <property name="control">
-                        <bean parent="Uif-DropdownControl" />
+                        <bean parent="KS-Uif-DropdownControl" />
                     </property>
                     <property name="optionsFinder">
                         <bean id="ProcessStates" class="org.kuali.student.enrollment.class1.process.keyvalues.ProcessInfoStateKeyValues" />
@@ -212,7 +212,7 @@
                     <property name="headerText" value="Set State for Process"/>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField-LabelTop" p:propertyName="dialogStateKey">
+                            <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="dialogStateKey">
                                 <property name="control">
                                     <bean parent="Uif-HorizontalRadioControl" p:disabled="@{isInstructionActive}">
                                         <property name="options">

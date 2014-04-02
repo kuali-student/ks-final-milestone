@@ -59,7 +59,7 @@
             <bean parent="AnyCharacterPatternConstraint"  p:allowWhitespace="false"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="60"/>
+            <bean parent="KS-Uif-TextControl" p:size="60"/>
         </property>
     </bean>
 
@@ -71,7 +71,7 @@
             <bean parent="AnyCharacterPatternConstraint"  p:allowWhitespace="true"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="60"/>
+            <bean parent="KS-Uif-TextControl" p:size="60"/>
         </property>
         <property name="summary"  value="Name of the Academic Calendar"/>
     </bean>
@@ -141,7 +141,7 @@
             <bean parent="NumericPatternConstraint" p:allowWhitespace="false"/>
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="10" p:watermarkText="2011"/>
+            <bean parent="KS-Uif-TextControl" p:size="10" p:watermarkText="2011"/>
         </property>
     </bean>
 
@@ -168,10 +168,10 @@
         </property>
         <property name="resultFields">
             <list>
-                <bean parent="Uif-DataField" p:propertyName="id" />
-                <bean parent="Uif-DataField" p:propertyName="holidayCalendarInfo.name"/>
-                <bean parent="Uif-DataField" p:propertyName="holidayCalendarInfo.startDate" />
-                <bean parent="Uif-DataField" p:propertyName="holidayCalendarInfo.endDate" />
+                <bean parent="KS-Uif-DataField" p:propertyName="id" />
+                <bean parent="KS-Uif-DataField" p:propertyName="holidayCalendarInfo.name"/>
+                <bean parent="KS-Uif-DataField" p:propertyName="holidayCalendarInfo.startDate" />
+                <bean parent="KS-Uif-DataField" p:propertyName="holidayCalendarInfo.endDate" />
             </list>
         </property>
     </bean>
@@ -210,21 +210,21 @@
                       p:layoutManager.applyDefaultCellWidths="false">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField"
+                            <bean parent="KS-Uif-DataField"
                                   p:propertyName="holidayCalendarInfo.name"
                                   p:label="Holiday Calendar Name"
                                   p:fieldLabel.width="40%"
                                   p:width="60%"
                                   p:fieldLabel.renderColon="false"/>
-                            <bean parent="Uif-DataField"
+                            <bean parent="KS-Uif-DataField"
                                   p:propertyName="holidayCalendarInfo.startDate"
                                   p:label="Start Date"
                                   p:fieldLabel.renderColon="false"/>
-                            <bean parent="Uif-DataField"
+                            <bean parent="KS-Uif-DataField"
                                   p:propertyName="holidayCalendarInfo.endDate"
                                   p:label="End Date"
                                   p:fieldLabel.renderColon="false"/>
-                            <bean parent="Uif-DataField"
+                            <bean parent="KS-Uif-DataField"
                                   p:propertyName="stateName"
                                   p:label="State"
                                   p:fieldLabel.renderColon="false"/>
@@ -250,13 +250,13 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-DataField"
+                <bean parent="KS-Uif-DataField"
                       p:propertyName="typeName"
                       p:style="font-weight:bold;"/>
-                <bean parent="Uif-DataField"
+                <bean parent="KS-Uif-DataField"
                       p:label="Start Date"
                       p:propertyName="startDateUI"/>
-                <bean parent="Uif-DataField"
+                <bean parent="KS-Uif-DataField"
                       p:label="End Date"
                       p:propertyName="endDateUI"/>
                 <bean parent="Uif-MessageField" p:label="Instructional" p:align="center"

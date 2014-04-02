@@ -147,7 +147,7 @@
                     </property>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField"
+                            <bean parent="KS-Uif-DataField"
                                   p:label="Status"
                                   p:propertyName="stateName"
                                   p:cssClasses="status_activity_offering"/>
@@ -156,7 +156,7 @@
                                    p:cssClasses="code_activity_offering">
                                  <property name="items">
                                     <list>
-                                        <bean parent="Uif-DataField"  p:showLabel="false" p:propertyName="aoInfo.activityCode"/>
+                                        <bean parent="KS-Uif-DataField"  p:showLabel="false" p:propertyName="aoInfo.activityCode"/>
                                         <bean parent="Uif-ImageField" p:hidden="@{#lp.colocatedAoInfo.isEmpty()}" p:image.altText="@{#lp.colocatedAoInfoUI}"
                                             p:source="@{#ConfigProperties['ks.externalizable.images.url']}/colocate_icon.png">
                                             <property name="style" value="padding-left:5px"/>
@@ -171,11 +171,11 @@
                                     </list>
                                 </property>
                             </bean>
-                            <bean parent="Uif-DataField"
+                            <bean parent="KS-Uif-DataField"
                                   p:label="Type"
                                   p:propertyName="typeName"
                                   p:cssClasses="type_activity_offering"/>
-                            <bean parent="Uif-DataField"
+                            <bean parent="KS-Uif-DataField"
                                   p:label="Format"
                                   p:propertyName="aoInfo.formatOfferingName"
                                   p:cssClasses="format_activity_offering"/>

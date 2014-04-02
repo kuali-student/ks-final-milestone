@@ -48,21 +48,21 @@
                 <bean parent="Uif-Message" p:messageText="@{searchParameter}" p:style="font-size:125%;font-weight:bold;"/>
                 <ref bean="KS-ScheduleOfClasses-AoDisplaySelector" />
                 <ref bean="KS-ScheduleOfClasses-CourseOfferingListSection"/>
-                <bean parent="Uif-DataField" p:propertyName="displayCoId" p:hidden="true" p:id="displayCoId" />
-                <bean parent="Uif-DataField" p:propertyName="displayCoIdAdd" p:hidden="true" p:id="displayCoIdAdd" />
+                <bean parent="KS-Uif-DataField" p:propertyName="displayCoId" p:hidden="true" p:id="displayCoId" />
+                <bean parent="KS-Uif-DataField" p:propertyName="displayCoIdAdd" p:hidden="true" p:id="displayCoIdAdd" />
             </list>
         </property>
     </bean>
 
 
-    <bean id="KS-ScheduleOfClasses-AoDisplaySelector" parent="Uif-InputField"
+    <bean id="KS-ScheduleOfClasses-AoDisplaySelector" parent="KS-Uif-InputField"
           p:label="Activity Offering Display"
           p:propertyName="aoDisplayFormat"
           p:render="@{allowSelectableAoRendering}"
           p:onChangeScript="jQuery('#show_button').click();">
 
         <property name="control">
-            <bean parent="Uif-DropdownControl" />
+            <bean parent="KS-Uif-DropdownControl" />
         </property>
         <property name="optionsFinder" >
             <bean class="org.kuali.student.enrollment.class2.scheduleofclasses.keyvalue.ScheduleOfClassesAoDisplayFormatKeyValues" />
@@ -98,8 +98,8 @@
                         </list>
                     </property>
                 </bean>
-                <bean parent="Uif-DataField" p:label="Title" p:propertyName="courseOfferingDesc" p:escapeHtmlInPropertyValue="false"/>
-                <bean parent="Uif-DataField" p:label="Credits" p:propertyName="courseOfferingCreditOptionDisplay"/>
+                <bean parent="KS-Uif-DataField" p:label="Title" p:propertyName="courseOfferingDesc" p:escapeHtmlInPropertyValue="false"/>
+                <bean parent="KS-Uif-DataField" p:label="Credits" p:propertyName="courseOfferingCreditOptionDisplay"/>
                 <bean parent="Uif-MessageField" p:label="Additional Info" p:messageText="@{#line.information}"
                       p:additionalCssClasses="course-offering-display-info-icon">
                 </bean>
@@ -227,7 +227,7 @@
                 <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.labelText="Code" >
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:propertyName="aoInfo.activityCode" p:fieldLabel.render="false" p:style="width:75px;"/>
+                            <bean parent="KS-Uif-DataField" p:propertyName="aoInfo.activityCode" p:fieldLabel.render="false" p:style="width:75px;"/>
                             <bean parent="Uif-ImageField" p:hidden="@{#lp.colocatedAoInfo.isEmpty()}"
                                   p:image.altText="@{#line.colocatedAoInfoUI}"
                                   p:source="@{#ConfigProperties['ks.externalizable.images.url']}/colocate_icon.png">
@@ -239,7 +239,7 @@
                         </list>
                     </property>
                 </bean>
-                <bean parent="Uif-DataField" p:label="Type" p:propertyName="typeName"  p:style="width:100px;"/>
+                <bean parent="KS-Uif-DataField" p:label="Type" p:propertyName="typeName"  p:style="width:100px;"/>
                 <bean parent="Uif-MessageField"
                       p:label="Days"
                       p:messageText="@{#line.daysDisplayName}" p:style="width:75px;"/>
@@ -263,7 +263,7 @@
                 <bean parent="Uif-MessageField"
                       p:label="Instructor"
                       p:messageText="@{#line.instructorDisplayNames}" p:style="width:200px;"/>
-                <bean parent="Uif-DataField" p:label="Seats" p:propertyName="aoInfo.maximumEnrollment" p:style="text-align:right;width:44px;"/>
+                <bean parent="KS-Uif-DataField" p:label="Seats" p:propertyName="aoInfo.maximumEnrollment" p:style="text-align:right;width:44px;"/>
                 <bean parent="Uif-MessageField" p:label="Additional Info" p:messageText="@{#line.schOfClassesRenderHelper.information}" p:style="width:111px;"/>
             </list>
         </property>
@@ -376,7 +376,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-DataField"
+                <bean parent="KS-Uif-DataField"
                       p:id="regGroupName"
                       p:label="Reg Group"
                       p:propertyName="rgInfo.name">
@@ -414,7 +414,7 @@
                       p:label="Instructor"
                       p:messageText="@{#line.aoInstructorText}">
                 </bean>
-                <bean parent="Uif-DataField"
+                <bean parent="KS-Uif-DataField"
                       p:id="regGroupSeats"
                       p:label="Seats"
                       p:propertyName="rgMaxEnrText">

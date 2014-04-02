@@ -54,23 +54,23 @@
     <bean id="CourseRegistration-TextField-Input-Section" parent="Uif-HorizontalBoxSection">
         <property name="items">
             <list>
-                <bean id="CourseRegistration-SearchInput-TermCode" parent="Uif-InputField"  >
+                <bean id="CourseRegistration-SearchInput-TermCode" parent="KS-Uif-InputField"  >
                     <property name="propertyName" value="termCode"/>
                     <property name="label" value="Term Code"/>
                     <property name="instructionalText" value="Please enter a valid term code"/>
                     <property name="control">
-                        <bean parent="Uif-TextControl">
+                        <bean parent="KS-Uif-TextControl">
                             <property name="size" value="25"/>
                             <property name="maxLength" value="8"/>
                         </bean>
                     </property>
                 </bean>
-                <bean id="CourseRegistration-SearchInput-CourseCode" parent="Uif-InputField"  >
+                <bean id="CourseRegistration-SearchInput-CourseCode" parent="KS-Uif-InputField"  >
                     <property name="propertyName" value="courseCode"/>
                     <property name="label" value="Course Code"/>
                     <property name="instructionalText" value="Please enter a valid Course code"/>
                     <property name="control">
-                        <bean parent="Uif-TextControl">
+                        <bean parent="KS-Uif-TextControl">
                             <property name="size" value="25"/>
                             <property name="maxLength" value="8"/>
                         </bean>
@@ -101,14 +101,14 @@
         <property name="layoutManager.richTable.render" value="false" />
         <property name="items">
             <list>
-                <bean parent="Uif-DataField" p:propertyName="courseOfferingId" p:label="courseOfferingId"/>
-                <bean parent="Uif-DataField" p:propertyName="courseOfferingCode" p:label="courseOfferingCode"/>
-                <bean parent="Uif-DataField" p:propertyName="courseOfferingDesc" p:label="courseOfferingDesc"/>
-                <bean parent="Uif-DataField" p:propertyName="courseOfferingCreditOptionDisplay" p:label="courseOfferingCreditOptionDisplay"/>
-                <bean parent="Uif-DataField" p:propertyName="courseOfferingGradingOptionDisplay" p:label="courseOfferingGradingOptionDisplay"/>
-                <bean parent="Uif-DataField" p:propertyName="studentSelectablePassFail" p:label="studentSelectablePassFail"/>
-                <bean parent="Uif-DataField" p:propertyName="auditCourse" p:label="auditCourse"/>
-                <bean parent="Uif-DataField" p:propertyName="honorsCourse" p:label="honorsCourse"/>
+                <bean parent="KS-Uif-DataField" p:propertyName="courseOfferingId" p:label="courseOfferingId"/>
+                <bean parent="KS-Uif-DataField" p:propertyName="courseOfferingCode" p:label="courseOfferingCode"/>
+                <bean parent="KS-Uif-DataField" p:propertyName="courseOfferingDesc" p:label="courseOfferingDesc"/>
+                <bean parent="KS-Uif-DataField" p:propertyName="courseOfferingCreditOptionDisplay" p:label="courseOfferingCreditOptionDisplay"/>
+                <bean parent="KS-Uif-DataField" p:propertyName="courseOfferingGradingOptionDisplay" p:label="courseOfferingGradingOptionDisplay"/>
+                <bean parent="KS-Uif-DataField" p:propertyName="studentSelectablePassFail" p:label="studentSelectablePassFail"/>
+                <bean parent="KS-Uif-DataField" p:propertyName="auditCourse" p:label="auditCourse"/>
+                <bean parent="KS-Uif-DataField" p:propertyName="honorsCourse" p:label="honorsCourse"/>
             </list>
 
         </property>

@@ -35,8 +35,8 @@
 
         <property name="resultFields">
             <list>
-                <bean parent="Uif-DataField" p:propertyName="name" />
-                <bean parent="Uif-DataField" p:propertyName="description" />
+                <bean parent="KS-Uif-DataField" p:propertyName="name" />
+                <bean parent="KS-Uif-DataField" p:propertyName="description" />
             </list>
         </property>
     </bean>

@@ -342,9 +342,9 @@ limitations under the License.
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-DataField" p:propertyName="code"/>
-                <bean parent="Uif-DataField" p:propertyName="shortName"/>
-                <bean parent="Uif-DataField" p:propertyName="credits"/>
+                <bean parent="KS-Uif-DataField" p:propertyName="code"/>
+                <bean parent="KS-Uif-DataField" p:propertyName="shortName"/>
+                <bean parent="KS-Uif-DataField" p:propertyName="credits"/>
             </list>
         </property>
     </bean>

@@ -36,14 +36,14 @@
         </property>
         <property name="resultFields">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="id">
+                <bean parent="KS-Uif-InputField" p:propertyName="id">
                     <property name="inquiry">
                         <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo" p:inquiryParameters="id" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="socRolloverResultId" />
-                <bean parent="Uif-InputField" p:propertyName="sourceCourseOfferingId" />
-                <bean parent="Uif-InputField" p:propertyName="targetCourseOfferingId" p:label="TARGET COURSE OFFERING ID"/>
+                <bean parent="KS-Uif-InputField" p:propertyName="socRolloverResultId" />
+                <bean parent="KS-Uif-InputField" p:propertyName="sourceCourseOfferingId" />
+                <bean parent="KS-Uif-InputField" p:propertyName="targetCourseOfferingId" p:label="TARGET COURSE OFFERING ID"/>
             </list>
         </property>
 
@@ -63,10 +63,10 @@
                     <property name="headerText" value="SocRolloverResultItemInfo Inquiry"/>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="id"/>
-                            <bean parent="Uif-InputField" p:propertyName="socRolloverResultId" />
-                            <bean parent="Uif-InputField" p:propertyName="sourceCourseOfferingId" />
-                            <bean parent="Uif-InputField" p:propertyName="targetCourseOfferingId" p:label="TARGET COURSE OFFERING ID"/>
+                            <bean parent="KS-Uif-InputField" p:propertyName="id"/>
+                            <bean parent="KS-Uif-InputField" p:propertyName="socRolloverResultId" />
+                            <bean parent="KS-Uif-InputField" p:propertyName="sourceCourseOfferingId" />
+                            <bean parent="KS-Uif-InputField" p:propertyName="targetCourseOfferingId" p:label="TARGET COURSE OFFERING ID"/>
                         </list>
                     </property>
                 </bean>

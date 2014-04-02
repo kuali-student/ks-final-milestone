@@ -56,9 +56,9 @@
                             <bean parent="Uif-HorizontalBoxGroup">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-InputField" p:propertyName="rolloverTargetTermCode" p:label="Term" p:required="true" p:fieldLabel.renderColon="false">
+                                        <bean parent="KS-Uif-InputField" p:propertyName="rolloverTargetTermCode" p:label="Term" p:required="true" p:fieldLabel.renderColon="false">
                                             <property name="control">
-                                                <bean parent="Uif-TextControl" p:size="6" p:watermarkText="201301" p:minLength="5" p:maxLength="6"/>
+                                                <bean parent="KS-Uif-TextControl" p:size="6" p:watermarkText="201301" p:minLength="5" p:maxLength="6"/>
                                             </property>
                                         </bean>
                                         <bean parent="Uif-SecondaryActionButton" p:performClientSideValidation="true" p:actionLabel="Show" p:methodToCall="showRolloverResults" p:valign="bottom"/>
@@ -100,12 +100,12 @@
                                                 </list>
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-DataField" p:label="Date Initiated" p:width="200px" p:fieldLabel.renderColon="false" p:propertyName="dateInitiated"/>
-                                        <bean parent="Uif-DataField" p:label="Date Completed" p:width="200px" p:fieldLabel.renderColon="false" p:propertyName="dateCompleted"/>
-                                        <bean parent="Uif-DataField" p:label="Rollover Duration" p:width="200px" p:fieldLabel.renderColon="false" p:propertyName="rolloverDuration"/>
-                                        <bean parent="Uif-DataField" p:label="Course Offerings" p:width="200px" p:fieldLabel.renderColon="false" p:propertyName="courseOfferingsAllowed"/>
-                                        <bean parent="Uif-DataField" p:label="Activity Offerings" p:width="200px" p:fieldLabel.renderColon="false" p:propertyName="activityOfferingsAllowed"/>
-                                        <bean parent="Uif-DataField" p:label="Source Term" p:width="200px" p:fieldLabel.renderColon="false" p:propertyName="rolloverSourceTermDesc"/>
+                                        <bean parent="KS-Uif-DataField" p:label="Date Initiated" p:width="200px" p:fieldLabel.renderColon="false" p:propertyName="dateInitiated"/>
+                                        <bean parent="KS-Uif-DataField" p:label="Date Completed" p:width="200px" p:fieldLabel.renderColon="false" p:propertyName="dateCompleted"/>
+                                        <bean parent="KS-Uif-DataField" p:label="Rollover Duration" p:width="200px" p:fieldLabel.renderColon="false" p:propertyName="rolloverDuration"/>
+                                        <bean parent="KS-Uif-DataField" p:label="Course Offerings" p:width="200px" p:fieldLabel.renderColon="false" p:propertyName="courseOfferingsAllowed"/>
+                                        <bean parent="KS-Uif-DataField" p:label="Activity Offerings" p:width="200px" p:fieldLabel.renderColon="false" p:propertyName="activityOfferingsAllowed"/>
+                                        <bean parent="KS-Uif-DataField" p:label="Source Term" p:width="200px" p:fieldLabel.renderColon="false" p:propertyName="rolloverSourceTermDesc"/>
                                     </list>
                                 </property>
                             </bean>   <!-- grid section-->
@@ -168,9 +168,9 @@
                                 </property>
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-DataField" p:propertyName="course" p:label="Course"/>
-                                        <bean parent="Uif-DataField" p:propertyName="stateName" p:label="Reason"/>
-                                        <bean parent="Uif-DataField" p:propertyName="message" p:label="Details"/>
+                                        <bean parent="KS-Uif-DataField" p:propertyName="course" p:label="Course"/>
+                                        <bean parent="KS-Uif-DataField" p:propertyName="stateName" p:label="Reason"/>
+                                        <bean parent="KS-Uif-DataField" p:propertyName="message" p:label="Details"/>
                                     </list>
                                 </property>
                             </bean>  <!-- grid section -->

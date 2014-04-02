@@ -34,10 +34,10 @@
         </property>
         <property name="resultFields">
             <list>
-                <!--<bean parent="Uif-DataField" p:propertyName="id" />-->
-                <bean parent="Uif-DataField" p:propertyName="personId" />
-                <bean parent="Uif-DataField" p:propertyName="personName" />
-                <!--<bean parent="Uif-DataField" p:propertyName="percentageEffort" />-->
+                <!--<bean parent="KS-Uif-DataField" p:propertyName="id" />-->
+                <bean parent="KS-Uif-DataField" p:propertyName="personId" />
+                <bean parent="KS-Uif-DataField" p:propertyName="personName" />
+                <!--<bean parent="KS-Uif-DataField" p:propertyName="percentageEffort" />-->
             </list>
         </property>
     </bean>

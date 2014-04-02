@@ -22,8 +22,8 @@
         </property>
         <property name="resultFields">
             <list>
-                <bean parent="Uif-DataField" p:propertyName="buildingCode"/>
-                <bean parent="Uif-DataField" p:propertyName="name" />
+                <bean parent="KS-Uif-DataField" p:propertyName="buildingCode"/>
+                <bean parent="KS-Uif-DataField" p:propertyName="name" />
             </list>
         </property>
     </bean>

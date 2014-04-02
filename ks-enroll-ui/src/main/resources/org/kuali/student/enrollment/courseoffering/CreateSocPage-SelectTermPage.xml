@@ -35,9 +35,9 @@
                             <bean parent="Uif-HorizontalBoxGroup">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-InputField" p:propertyName="socTermCode" p:label="Term" p:required="true">
+                                        <bean parent="KS-Uif-InputField" p:propertyName="socTermCode" p:label="Term" p:required="true">
                                             <property name="control">
-                                                <bean parent="Uif-TextControl" p:size="6" p:watermarkText="201301" p:minLength="5" p:maxLength="6"/>
+                                                <bean parent="KS-Uif-TextControl" p:size="6" p:watermarkText="201301" p:minLength="5" p:maxLength="6"/>
                                             </property>
 
                                         </bean>

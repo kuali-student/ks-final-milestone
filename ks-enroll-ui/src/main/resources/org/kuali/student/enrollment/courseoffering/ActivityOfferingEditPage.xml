@@ -58,9 +58,9 @@
                 <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4" p:additionalCssClasses="ks-details-panel,ks-no-margins,ks-subSection">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:colSpan="3" id="status" p:label="Status" p:fieldLabel.renderColon ="false" p:propertyName="stateName"/>
-                            <bean parent="Uif-DataField" p:colSpan="3" id="term" p:label="Term" p:fieldLabel.renderColon="false" p:propertyName="termName"/>
-                            <bean parent="Uif-DataField" id="subterm_name" p:label="Sub Term" p:fieldLabel.renderColon="false" p:propertyName="subTermName"/>
+                            <bean parent="KS-Uif-DataField" p:colSpan="3" id="status" p:label="Status" p:fieldLabel.renderColon ="false" p:propertyName="stateName"/>
+                            <bean parent="KS-Uif-DataField" p:colSpan="3" id="term" p:label="Term" p:fieldLabel.renderColon="false" p:propertyName="termName"/>
+                            <bean parent="KS-Uif-DataField" id="subterm_name" p:label="Sub Term" p:fieldLabel.renderColon="false" p:propertyName="subTermName"/>
                             <bean parent="Uif-HorizontalBoxSection" id="aoEdit_subTerm_change"  p:colSpan="2">
                                 <property name="header.render" value="false"/>
                                 <property name="items">
@@ -71,9 +71,9 @@
                                     </list>
                                 </property>
                             </bean>
-                            <bean parent="Uif-DataField" p:colSpan="3" id="start_end_date" p:label="Start/End" p:fieldLabel.renderColon="false" p:propertyName="termStartEndDate" />
-                            <bean parent="Uif-DataField" id="type_name" p:label="Activity Type" p:fieldLabel.renderColon="false" p:propertyName="typeName" />
-                            <bean parent="Uif-DataField"  id="format_offering_name" p:label="Format" p:fieldLabel.renderColon="false" p:propertyName="aoInfo.formatOfferingName" />
+                            <bean parent="KS-Uif-DataField" p:colSpan="3" id="start_end_date" p:label="Start/End" p:fieldLabel.renderColon="false" p:propertyName="termStartEndDate" />
+                            <bean parent="KS-Uif-DataField" id="type_name" p:label="Activity Type" p:fieldLabel.renderColon="false" p:propertyName="typeName" />
+                            <bean parent="KS-Uif-DataField"  id="format_offering_name" p:label="Format" p:fieldLabel.renderColon="false" p:propertyName="aoInfo.formatOfferingName" />
                         </list>
                     </property>
                 </bean>
@@ -86,9 +86,9 @@
                     </property>
                     <property name="items">
                         <list>
-                            <bean id="subterm_type" parent="Uif-InputField-LabelTop" p:propertyName="subTermId" p:label="Choose a subterm">
+                            <bean id="subterm_type" parent="KS-Uif-InputField-LabelTop" p:propertyName="subTermId" p:label="Choose a subterm">
                                 <property name="control">
-                                    <bean parent="Uif-DropdownControl" p:onChangeScript="displayAOsubTerm('subterm_name','subterm_type','change_link','activityCode','@{#dp.subTermDatesJsonString}');"/>
+                                    <bean parent="KS-Uif-DropdownControl" p:onChangeScript="displayAOsubTerm('subterm_name','subterm_type','change_link','activityCode','@{#dp.subTermDatesJsonString}');"/>
                                 </property>
                                 <property name="optionsFinder">
                                     <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.ActivityOfferingSubtermKeyValues" p:addBlankOption="false"/>
@@ -112,23 +112,23 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" id="activity_code" p:label="Activity Code " p:fieldLabel.renderColon="false" p:propertyName="aoInfo.activityCode"
+                <bean parent="KS-Uif-InputField" id="activity_code" p:label="Activity Code " p:fieldLabel.renderColon="false" p:propertyName="aoInfo.activityCode"
                       p:onChangeScript="jQuery('#dirtyForm').val(true);" p:id="activityCode" p:componentSecurity.editAuthz="true">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="1" p:disabled="@{!#dp.editActivityCodeAllowed}" />
+                        <bean parent="KS-Uif-TextControl" p:size="1" p:disabled="@{!#dp.editActivityCodeAllowed}" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="partOfColoSetOnLoadAlready" p:onChangeScript="jQuery('#dirtyForm').val(true);" p:id="colocatedAO_value" p:readOnlyDisplayReplacement=" ">
+                <bean parent="KS-Uif-InputField" p:propertyName="partOfColoSetOnLoadAlready" p:onChangeScript="jQuery('#dirtyForm').val(true);" p:id="colocatedAO_value" p:readOnlyDisplayReplacement=" ">
                     <property name="control">
-                        <bean parent="Uif-HiddenControl"/>
+                        <bean parent="KS-Uif-HiddenControl"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="hiddenMaxEnrollmentShared" p:onChangeScript="jQuery('#dirtyForm').val(true);" p:id="maxEnrollmentShared_value" p:readOnlyDisplayReplacement=" ">
+                <bean parent="KS-Uif-InputField" p:propertyName="hiddenMaxEnrollmentShared" p:onChangeScript="jQuery('#dirtyForm').val(true);" p:id="maxEnrollmentShared_value" p:readOnlyDisplayReplacement=" ">
                     <property name="control">
-                        <bean parent="Uif-HiddenControl"/>
+                        <bean parent="KS-Uif-HiddenControl"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:id="infoColoStatus" p:propertyName="aoInfo.isColocated" p:hidden="true" />  <!-- keeps track of whether or not the colocation has been persisted to the db -->
+                <bean parent="KS-Uif-InputField" p:id="infoColoStatus" p:propertyName="aoInfo.isColocated" p:hidden="true" />  <!-- keeps track of whether or not the colocation has been persisted to the db -->
                 <bean parent="Uif-InputField-LabelRight"
                       p:label="This activity is co-located"
                       p:fieldLabel.renderColon="false"
@@ -136,16 +136,16 @@
                       p:propertyName="colocatedAO"
                       p:id="is_co_located" p:componentSecurity.viewAuthz="true">
                     <property name="control">
-                        <bean parent="Uif-CheckboxControl">
+                        <bean parent="KS-Uif-CheckboxControl">
                             <property name="disabled" value="@{#dp.aoInfo.stateKey eq 'kuali.lui.activity.offering.state.canceled'}"/>
                             <property name="onChangeScript" value="handleColocation();"/>
                         </bean>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" id="max_enrollment" p:label="Total Maximum Enrollment" p:fieldLabel.renderColon="false" p:propertyName="aoInfo.maximumEnrollment"
+                <bean parent="KS-Uif-InputField" id="max_enrollment" p:label="Total Maximum Enrollment" p:fieldLabel.renderColon="false" p:propertyName="aoInfo.maximumEnrollment"
                       p:id="maximumEnrollment" p:onChangeScript="jQuery('#dirtyForm').val(true); calculatePercent(jQuery(this))" p:componentSecurity.editAuthz="true">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="3"/>
+                        <bean parent="KS-Uif-TextControl" p:size="3"/>
                     </property>
                 </bean>
             </list>
@@ -164,7 +164,7 @@
                 <bean parent="Uif-Message" p:messageText="Select Activities for Colocation"/>
                 <ref bean="ActivityOfferingEdit-CoLocatedActivities"/>
                 <bean parent="Uif-Message" p:messageText="Set Maximum Enrollment"/>
-                <bean id="share_seats" parent="Uif-InputField" p:propertyName="maxEnrollmentShared">
+                <bean id="share_seats" parent="KS-Uif-InputField" p:propertyName="maxEnrollmentShared">
                     <property name="control">
                         <bean parent="Uif-HorizontalRadioControl">
                             <property name="options">
@@ -212,7 +212,7 @@
         <property name="items">
             <list>
                 <!-- CO Input Field -->
-                <bean parent="Uif-InputField"
+                <bean parent="KS-Uif-InputField"
                       p:id="ActivityOfferingEdit-CoLocatedActivities-CoInputField"
                       p:propertyName="courseOfferingCode"
                       p:fieldLabel.render="false"
@@ -223,7 +223,7 @@
                         <bean parent="AlphaNumericPatternConstraint" />
                     </property>
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="10" p:watermarkText="ENGL101"/>
+                        <bean parent="KS-Uif-TextControl" p:size="10" p:watermarkText="ENGL101"/>
                     </property>
                     <property name="suggest">
                         <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true">
@@ -241,7 +241,7 @@
                 </bean>
 
                 <!-- AO Input Field -->
-                <bean parent="Uif-InputField"
+                <bean parent="KS-Uif-InputField"
                       p:id="ActivityOfferingEdit-CoLocatedActivities-AoInputField"
                       p:propertyName="activityOfferingCode"
                       p:fieldLabel.render="false"
@@ -255,7 +255,7 @@
                     </property>
 
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="4" p:watermarkText="A"/>
+                        <bean parent="KS-Uif-TextControl" p:size="4" p:watermarkText="A"/>
                     </property>
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinder"  p:lightBoxLookup.lookupReturnByScript="true">
@@ -287,10 +287,10 @@
     <bean id="ActivityOfferingEdit-CoLocatedEnrollmentShared" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
-                <bean id="shared_max_enr" parent="Uif-InputField" p:propertyName="sharedMaxEnrollment" p:label="Shared Maximum Enrollment"
+                <bean id="shared_max_enr" parent="KS-Uif-InputField" p:propertyName="sharedMaxEnrollment" p:label="Shared Maximum Enrollment"
                        p:required="true" p:exclusiveMin="0">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="4" />
+                        <bean parent="KS-Uif-TextControl" p:size="4" />
                     </property>
                     <property name="additionalCssClasses">
                         <list merge="true">
@@ -330,11 +330,11 @@
                     </property>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:propertyName="editRenderHelper.code" p:label="Colocated Activities"/>
-                            <bean parent="Uif-InputField" p:propertyName="maxEnrollmentCount" p:label="Max Enr" p:readOnly="@{!#lp.editRenderHelper.allowEnrollmentEdit}"
+                            <bean parent="KS-Uif-DataField" p:propertyName="editRenderHelper.code" p:label="Colocated Activities"/>
+                            <bean parent="KS-Uif-InputField" p:propertyName="maxEnrollmentCount" p:label="Max Enr" p:readOnly="@{!#lp.editRenderHelper.allowEnrollmentEdit}"
                                   p:required="true" p:exclusiveMin="0">
                                 <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="4" />
+                                    <bean parent="KS-Uif-TextControl" p:size="4" />
                                 </property>
                             </bean>
                         </list>
@@ -379,7 +379,7 @@
                     <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:id="personnel_id" p:propertyName="offeringInstructorInfo.personId"
+                            <bean parent="KS-Uif-InputField" p:id="personnel_id" p:propertyName="offeringInstructorInfo.personId"
                                   p:label="ID" p:required="false" p:cssClasses="col_5">
                                 <property name="quickfinder">
                                     <bean parent="Uif-QuickFinder">
@@ -397,18 +397,18 @@
                                     </bean>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:id="personnel_name" p:propertyName="offeringInstructorInfo.personName" p:label="Name" p:required="false"/>
-                            <bean parent="Uif-InputField" p:id="personnel_affiliation" p:propertyName="offeringInstructorInfo.typeKey" p:label="Affiliation" p:required="false">
+                            <bean parent="KS-Uif-InputField" p:id="personnel_name" p:propertyName="offeringInstructorInfo.personName" p:label="Name" p:required="false"/>
+                            <bean parent="KS-Uif-InputField" p:id="personnel_affiliation" p:propertyName="offeringInstructorInfo.typeKey" p:label="Affiliation" p:required="false">
                                 <property name="control">
-                                    <bean parent="Uif-DropdownControl" p:options-ref="aoInstructors-options" />
+                                    <bean parent="KS-Uif-DropdownControl" p:options-ref="aoInstructors-options" />
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:id="personnel_allocation" p:propertyName="sEffort" p:label="Inst.Effort" p:refreshWhenChangedPropertyNames="#lp.offeringInstructorInfo.typeKey" p:required="false" p:inclusiveMax="100">
+                            <bean parent="KS-Uif-InputField" p:id="personnel_allocation" p:propertyName="sEffort" p:label="Inst.Effort" p:refreshWhenChangedPropertyNames="#lp.offeringInstructorInfo.typeKey" p:required="false" p:inclusiveMax="100">
                                   <property name="validCharactersConstraint">
                                         <bean parent="IntegerPatternConstraint" />
                                   </property>
                                 <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="10" />
+                                    <bean parent="KS-Uif-TextControl" p:size="10" />
                                 </property>
                                 <property name="propertyReplacers">
                                   <list>
@@ -466,7 +466,7 @@
                         <list>
                             <bean id="ActivityOfferingEdit-HasWaitlist" parent="Uif-InputField-LabelRight" p:propertyName="hasWaitlist" p:label="Waitlist Active">
                                 <property name="control">
-                                    <bean parent="Uif-CheckboxControl" />
+                                    <bean parent="KS-Uif-CheckboxControl" />
                                 </property>
                             </bean>
                         </list>
@@ -492,10 +492,10 @@
                             <bean parent="Uif-VerticalBoxSection">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-InputField" p:id="wait_list_type" p:propertyName="waitListType" p:label="Waitlist Type"
+                                        <bean parent="KS-Uif-InputField" p:id="wait_list_type" p:propertyName="waitListType" p:label="Waitlist Type"
                                               p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
                                             <property name="control">
-                                                <bean parent="Uif-VerticalRadioControl"/>
+                                                <bean parent="KS-Uif-VerticalRadioControl"/>
                                             </property>
                                             <property name="optionsFinder">
                                                 <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.WaitlistTypeOptionsKeyValues" p:addBlankOption="false" />
@@ -513,13 +513,13 @@
                                                 <list>
                                                     <bean parent="Uif-InputField-LabelRight" p:propertyName="limitWaitlistSize" p:label="Limit Waitlist Size">
                                                         <property name="control">
-                                                            <bean parent="Uif-CheckboxControl" />
+                                                            <bean parent="KS-Uif-CheckboxControl" />
                                                         </property>
                                                     </bean>
-                                                    <bean  id="limit_waitlist_size_text" parent="Uif-InputField" p:required="true" p:inclusiveMax="999" p:exclusiveMin="0" p:dataType="INTEGER"
+                                                    <bean  id="limit_waitlist_size_text" parent="KS-Uif-InputField" p:required="true" p:inclusiveMax="999" p:exclusiveMin="0" p:dataType="INTEGER"
                                                            p:propertyName="courseWaitListInfo.maxSize" p:refreshWhenChangedPropertyNames="@{#dp.limitWaitlistSize}">
                                                         <property name="control">
-                                                            <bean parent="Uif-TextControl" p:disabled="@{!#dp.limitWaitlistSize}" />
+                                                            <bean parent="KS-Uif-TextControl" p:disabled="@{!#dp.limitWaitlistSize}" />
                                                         </property>
                                                     </bean>
                                                 </list>
@@ -527,7 +527,7 @@
                                         </bean>
                                         <bean parent="Uif-InputField-LabelRight" p:id="allow-hold-list-checkbox" p:propertyName="courseWaitListInfo.allowHoldUntilEntries" p:label="Allow Hold List">
                                             <property name="control">
-                                                <bean parent="Uif-CheckboxControl" />
+                                                <bean parent="KS-Uif-CheckboxControl" />
                                             </property>
                                         </bean>
                                     </list>
@@ -583,18 +583,18 @@
                     <property name="addBlankLineAction.dirtyOnAction" value="true" />
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:id="seatPoolPriority" p:propertyName="seatPool.processingPriority" p:label="Priority"
+                            <bean parent="KS-Uif-InputField" p:id="seatPoolPriority" p:propertyName="seatPool.processingPriority" p:label="Priority"
                                   p:maxLength="2" p:required="true">
                                 <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="2" />
+                                    <bean parent="KS-Uif-TextControl" p:size="2" />
                                 </property>
                                 <property name="validCharactersConstraint">
                                     <bean parent="IntegerPatternConstraint" />
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="seatPool.seatLimit" p:label="Seats" p:maxLength="3" p:id="seatLimit" >
+                            <bean parent="KS-Uif-InputField" p:propertyName="seatPool.seatLimit" p:label="Seats" p:maxLength="3" p:id="seatLimit" >
                                 <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="3" p:onBlurScript="validateSeatsForSP(jQuery(this))" />
+                                    <bean parent="KS-Uif-TextControl" p:size="3" p:onBlurScript="validateSeatsForSP(jQuery(this))" />
                                 </property>
                                 <property name="dependencyConstraints">
                                     <list>
@@ -606,10 +606,10 @@
                                 </property>
                             </bean>
                             <bean parent="Uif-MessageField" p:messageText="%" p:label="Percent" p:id="seatLimitPercent" />
-                            <bean parent="Uif-InputField" p:label="Population Name" p:id="ao-seatpoolgroup-population-name" p:propertyName="seatPoolPopulation.name"
+                            <bean parent="KS-Uif-InputField" p:label="Population Name" p:id="ao-seatpoolgroup-population-name" p:propertyName="seatPoolPopulation.name"
                                   p:onChangeScript="jQuery('#dirtyForm').val(true);" p:cssClasses="col_6">
                                 <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="40" p:onBlurScript="validatePopulationForSP(this,'@{document.newMaintainableObject.dataObject.populationsJSONString}');"
+                                    <bean parent="KS-Uif-TextControl" p:size="40" p:onBlurScript="validatePopulationForSP(this,'@{document.newMaintainableObject.dataObject.populationsJSONString}');"
                                           p:cssClasses="this, validSeatsAndPopulationName"/>
                                 </property>
                                 <property name="quickfinder">
@@ -629,9 +629,9 @@
                                     </list>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:id="seatpool_milestone" p:propertyName="seatPool.expirationMilestoneTypeKey" p:onChangeScript="jQuery('#dirtyForm').val(true);" p:label="Expiration Milestone">
+                            <bean parent="KS-Uif-InputField" p:id="seatpool_milestone" p:propertyName="seatPool.expirationMilestoneTypeKey" p:onChangeScript="jQuery('#dirtyForm').val(true);" p:label="Expiration Milestone">
                                 <property name="control">
-                                    <bean parent="Uif-DropdownControl" />
+                                    <bean parent="KS-Uif-DropdownControl" />
                                 </property>
                                 <property name="optionsFinder">
                                     <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.SeatPoolExpirationMilestoneTypeKeyValues" p:addBlankOption="false"/>
@@ -659,11 +659,11 @@
         </property>
         <property name="items">
             <list>
-                <bean id="course_url" parent="Uif-InputField-LabelTop"
+                <bean id="course_url" parent="KS-Uif-InputField-LabelTop"
                       p:propertyName="aoInfo.activityOfferingURL"
                       p:label="Course URL">
                     <property name="control">
-                        <bean parent="Uif-TextControl"
+                        <bean parent="KS-Uif-TextControl"
                               p:size="30"/>
                     </property>
                 </bean>
@@ -679,7 +679,7 @@
                                   p:fieldLabel.cssClasses="label-normal"
                                   p:required="false">
                                 <property name="control">
-                                    <bean parent="Uif-CheckboxControl"/>
+                                    <bean parent="KS-Uif-CheckboxControl"/>
                                 </property>
                             </bean>
                         </list>
@@ -698,7 +698,7 @@
                                   p:fieldLabel.cssClasses="label-normal"
                                   p:required="false">
                                 <property name="control">
-                                    <bean parent="Uif-CheckboxControl"/>
+                                    <bean parent="KS-Uif-CheckboxControl"/>
                                 </property>
                             </bean>
                         </list>

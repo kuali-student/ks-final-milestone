@@ -99,14 +99,14 @@
         <property name="style" value="margin-bottom:0;padding-left:10px;padding-right:10px;"/>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField-LabelTop" p:id="privateClusterNameForRename" p:label="Private Name" p:propertyName="privateClusterNameForRenamePopover" p:required="true">
+                <bean parent="KS-Uif-InputField-LabelTop" p:id="privateClusterNameForRename" p:label="Private Name" p:propertyName="privateClusterNameForRenamePopover" p:required="true">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="30"  p:maxLength="20" p:onKeyUpScript="toggleAddAOCButton('renameAOCButton','privateClusterNameForRename_control');"/>
+                        <bean parent="KS-Uif-TextControl" p:size="30"  p:maxLength="20" p:onKeyUpScript="toggleAddAOCButton('renameAOCButton','privateClusterNameForRename_control');"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField-LabelTop" p:id="publishedClusterNameForRename"  p:propertyName="publishedClusterNameForRenamePopover" p:label="Published Name" >
+                <bean parent="KS-Uif-InputField-LabelTop" p:id="publishedClusterNameForRename"  p:propertyName="publishedClusterNameForRenamePopover" p:label="Published Name" >
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="30"  p:maxLength="20"/>
+                        <bean parent="KS-Uif-TextControl" p:size="30"  p:maxLength="20"/>
                     </property>
                 </bean>
                 <bean parent="Uif-SecondaryActionButton-Small" p:id="renameAOCButton">
@@ -154,7 +154,7 @@
                                                      'KS-CourseOfferingManagement-ToolBar-MoveTo-AO-ClusterTab']);"
                       p:hidden="@{!#line.isEnableDeleteButton()}">
                     <property name="control">
-                        <bean parent="Uif-CheckboxControl" p:disabled="false"/>
+                        <bean parent="KS-Uif-CheckboxControl" p:disabled="false"/>
                     </property>
                 </bean>
                 <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.labelText="Code" >
@@ -208,13 +208,13 @@
                         </list>
                     </property>
                 </bean>
-                <bean parent="Uif-DataField"
+                <bean parent="KS-Uif-DataField"
                       p:label="Status"
                       p:propertyName="stateName" />
-                <bean parent="Uif-DataField"
+                <bean parent="KS-Uif-DataField"
                       p:label="Type"
                       p:propertyName="typeName"/>
-                <bean parent="Uif-DataField"
+                <bean parent="KS-Uif-DataField"
                       p:label="Max Enr"
                       p:propertyName="aoInfo.maximumEnrollment"/>
                <!-- Revisit after KD13 <bean parent="Uif-MessageField"
@@ -314,7 +314,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-DataField"
+                <bean parent="KS-Uif-DataField"
                       p:label="Reg Group ID"
                       p:propertyName="rgInfo.name" p:valign="middle">
                 </bean>

@@ -35,16 +35,16 @@
 
         <property name="resultFields">
             <list>
-                <bean parent="Uif-DataField" p:propertyName="id"/>
-                <bean parent="Uif-DataField"
+                <bean parent="KS-Uif-DataField" p:propertyName="id"/>
+                <bean parent="KS-Uif-DataField"
                       p:propertyName="name"/>
-                <bean parent="Uif-DataField"
+                <bean parent="KS-Uif-DataField"
                       p:propertyName="typeKey"/>
-                <bean parent="Uif-DataField"
+                <bean parent="KS-Uif-DataField"
                       p:propertyName="descr.plain"/>
-                <bean parent="Uif-DataField"
+                <bean parent="KS-Uif-DataField"
                       p:propertyName="organizationId"/>
-                <bean parent="Uif-DataField"
+                <bean parent="KS-Uif-DataField"
                       p:id="state"
                       p:propertyName="stateKey"/>
             </list>

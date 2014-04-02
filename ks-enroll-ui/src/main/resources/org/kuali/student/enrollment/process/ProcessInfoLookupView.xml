@@ -33,11 +33,11 @@
         </property>
         <property name="resultFields">
             <list>
-                <bean parent="Uif-DataField" p:propertyName="name"/>
-                <bean parent="Uif-DataField" p:propertyName="typeKey"/>
-                <bean parent="Uif-DataField" p:propertyName="descr.plain"/>
-                <bean parent="Uif-DataField" p:propertyName="ownerOrgId"/>
-                <bean parent="Uif-DataField" p:propertyName="stateKey"/>
+                <bean parent="KS-Uif-DataField" p:propertyName="name"/>
+                <bean parent="KS-Uif-DataField" p:propertyName="typeKey"/>
+                <bean parent="KS-Uif-DataField" p:propertyName="descr.plain"/>
+                <bean parent="KS-Uif-DataField" p:propertyName="ownerOrgId"/>
+                <bean parent="KS-Uif-DataField" p:propertyName="stateKey"/>
             </list>
         </property>
     </bean>

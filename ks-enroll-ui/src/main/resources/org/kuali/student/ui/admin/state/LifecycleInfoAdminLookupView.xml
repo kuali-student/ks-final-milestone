@@ -57,13 +57,13 @@
 		</property>
 		<property name="resultFields">
 		    <list>
-		        <bean parent="Uif-DataField" p:propertyName="key">
+		        <bean parent="KS-Uif-DataField" p:propertyName="key">
 		            <property name="inquiry">
 		                <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.r2.core.class1.state.dto.LifecycleInfo" p:inquiryParameters="key" />
 		            </property>
 		        </bean>
-		        <bean parent="Uif-DataField" p:propertyName="name" />
-		        <bean parent="Uif-DataField" p:propertyName="refObjectUri" />
+		        <bean parent="KS-Uif-DataField" p:propertyName="name" />
+		        <bean parent="KS-Uif-DataField" p:propertyName="refObjectUri" />
 		    </list>
 		</property>
 	</bean>

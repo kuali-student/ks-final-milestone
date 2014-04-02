@@ -37,36 +37,36 @@
 		            <property name="headerText" value="MilestoneInfo Inquiry"/>
 		            <property name="items">
 		                <list>
-		                    <bean parent="Uif-DataField" p:propertyName="id" />
-		                    <bean parent="Uif-DataField" p:propertyName="typeKey">
+		                    <bean parent="KS-Uif-DataField" p:propertyName="id" />
+		                    <bean parent="KS-Uif-DataField" p:propertyName="typeKey">
 		                        <property name="inquiry">
 		                            <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.r2.core.class1.type.dto.TypeInfo" p:inquiryParameters="typeKey:key" />
 		                        </property>
 		                    </bean>
-		                    <bean parent="Uif-DataField" p:propertyName="stateKey">
+		                    <bean parent="KS-Uif-DataField" p:propertyName="stateKey">
 		                        <property name="inquiry">
 		                            <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.r2.core.class1.state.dto.StateInfo" p:inquiryParameters="stateKey:key" />
 		                        </property>
 		                    </bean>
-		                    <bean parent="Uif-DataField" p:propertyName="name" />
-		                    <bean parent="Uif-DataField" p:propertyName="descr.plain" />
-		                    <bean parent="Uif-DataField" p:propertyName="descr.formatted" />
-		                    <bean parent="Uif-DataField" p:propertyName="isAllDay" />
-		                    <bean parent="Uif-DataField" p:propertyName="isInstructionalDay" />
-		                    <bean parent="Uif-DataField" p:propertyName="isRelative" />
-		                    <bean parent="Uif-DataField" p:propertyName="relativeAnchorMilestoneId">
+		                    <bean parent="KS-Uif-DataField" p:propertyName="name" />
+		                    <bean parent="KS-Uif-DataField" p:propertyName="descr.plain" />
+		                    <bean parent="KS-Uif-DataField" p:propertyName="descr.formatted" />
+		                    <bean parent="KS-Uif-DataField" p:propertyName="isAllDay" />
+		                    <bean parent="KS-Uif-DataField" p:propertyName="isInstructionalDay" />
+		                    <bean parent="KS-Uif-DataField" p:propertyName="isRelative" />
+		                    <bean parent="KS-Uif-DataField" p:propertyName="relativeAnchorMilestoneId">
 		                        <property name="inquiry">
 		                            <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.r2.core.atp.dto.MilestoneInfo" p:inquiryParameters="relativeAnchorMilestoneId:id" />
 		                        </property>
 		                    </bean>
-		                    <bean parent="Uif-DataField" p:propertyName="isDateRange" />
-		                    <bean parent="Uif-DataField" p:propertyName="startDate" />
-		                    <bean parent="Uif-DataField" p:propertyName="endDate" />
-		                    <bean parent="Uif-DataField" p:propertyName="meta.versionInd" />
-		                    <bean parent="Uif-DataField" p:propertyName="meta.createTime" />
-		                    <bean parent="Uif-DataField" p:propertyName="meta.createId" />
-		                    <bean parent="Uif-DataField" p:propertyName="meta.updateTime" />
-		                    <bean parent="Uif-DataField" p:propertyName="meta.updateId" />
+		                    <bean parent="KS-Uif-DataField" p:propertyName="isDateRange" />
+		                    <bean parent="KS-Uif-DataField" p:propertyName="startDate" />
+		                    <bean parent="KS-Uif-DataField" p:propertyName="endDate" />
+		                    <bean parent="KS-Uif-DataField" p:propertyName="meta.versionInd" />
+		                    <bean parent="KS-Uif-DataField" p:propertyName="meta.createTime" />
+		                    <bean parent="KS-Uif-DataField" p:propertyName="meta.createId" />
+		                    <bean parent="KS-Uif-DataField" p:propertyName="meta.updateTime" />
+		                    <bean parent="KS-Uif-DataField" p:propertyName="meta.updateId" />
 		                    <!-- TODO: deal with dynamic attributes -->
 		                </list>
 		            </property>

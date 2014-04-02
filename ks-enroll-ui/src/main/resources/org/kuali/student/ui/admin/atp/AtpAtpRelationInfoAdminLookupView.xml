@@ -80,33 +80,33 @@
 		</property>
 		<property name="resultFields">
 		    <list>
-		        <bean parent="Uif-DataField" p:propertyName="id">
+		        <bean parent="KS-Uif-DataField" p:propertyName="id">
 		            <property name="inquiry">
 		                <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo" p:inquiryParameters="id" />
 		            </property>
 		        </bean>
-		        <bean parent="Uif-DataField" p:propertyName="typeKey">
+		        <bean parent="KS-Uif-DataField" p:propertyName="typeKey">
 		            <property name="inquiry">
 		                <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.r2.core.class1.type.dto.TypeInfo" p:inquiryParameters="typeKey:key" />
 		            </property>
 		        </bean>
-		        <bean parent="Uif-DataField" p:propertyName="stateKey">
+		        <bean parent="KS-Uif-DataField" p:propertyName="stateKey">
 		            <property name="inquiry">
 		                <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.r2.core.class1.state.dto.StateInfo" p:inquiryParameters="stateKey:key" />
 		            </property>
 		        </bean>
-		        <bean parent="Uif-DataField" p:propertyName="atpId">
+		        <bean parent="KS-Uif-DataField" p:propertyName="atpId">
 		            <property name="inquiry">
 		                <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.r2.core.atp.dto.AtpInfo" p:inquiryParameters="atpId:id" />
 		            </property>
 		        </bean>
-		        <bean parent="Uif-DataField" p:propertyName="relatedAtpId">
+		        <bean parent="KS-Uif-DataField" p:propertyName="relatedAtpId">
 		            <property name="inquiry">
 		                <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.r2.core.atp.dto.AtpInfo" p:inquiryParameters="relatedAtpId:id" />
 		            </property>
 		        </bean>
-		        <bean parent="Uif-DataField" p:propertyName="effectiveDate" />
-		        <bean parent="Uif-DataField" p:propertyName="expirationDate" />
+		        <bean parent="KS-Uif-DataField" p:propertyName="effectiveDate" />
+		        <bean parent="KS-Uif-DataField" p:propertyName="expirationDate" />
 		    </list>
 		</property>
 	</bean>

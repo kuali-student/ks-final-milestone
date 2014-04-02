@@ -238,13 +238,13 @@
                     </property>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField"
+                            <bean parent="KS-Uif-DataField"
                                   p:label="Status"
                                   p:propertyName="stateName"/>
                             <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.labelText="Code">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-DataField" p:showLabel="false"
+                                        <bean parent="KS-Uif-DataField" p:showLabel="false"
                                               p:propertyName="aoInfo.activityCode"/>
                                         <!--Colocated is not in scope for M8
                                         <bean parent="Uif-ImageField" p:image.altText="@{#lp.colocatedAoInfoUI}"
@@ -259,10 +259,10 @@
                                 </property>
                             </bean>
 
-                            <bean parent="Uif-DataField"
+                            <bean parent="KS-Uif-DataField"
                                   p:label="Type"
                                   p:propertyName="typeName"/>
-                            <bean parent="Uif-DataField"
+                            <bean parent="KS-Uif-DataField"
                                   p:label="Format"
                                   p:propertyName="aoInfo.formatOfferingName"/>
                         </list>
@@ -294,13 +294,13 @@
                     </property>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField"
+                            <bean parent="KS-Uif-DataField"
                                   p:label="Status"
                                   p:propertyName="stateName"/>
                             <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.labelText="Code">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-DataField" p:showLabel="false"
+                                        <bean parent="KS-Uif-DataField" p:showLabel="false"
                                               p:propertyName="aoInfo.activityCode"/>
                                         <!--Colocated is not in scope for M8
                                         <bean parent="Uif-ImageField" p:image.altText="@{#lp.colocatedAoInfoUI}"
@@ -315,10 +315,10 @@
                                 </property>
                             </bean>
 
-                            <bean parent="Uif-DataField"
+                            <bean parent="KS-Uif-DataField"
                                   p:label="Type"
                                   p:propertyName="typeName"/>
-                            <bean parent="Uif-DataField"
+                            <bean parent="KS-Uif-DataField"
                                   p:label="Format"
                                   p:propertyName="aoInfo.formatOfferingName"/>
                         </list>
@@ -350,17 +350,17 @@
                     </property>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField"
+                            <bean parent="KS-Uif-DataField"
                                   p:label="Status"
                                   p:propertyName="stateName"/>
-                            <bean parent="Uif-DataField"
+                            <bean parent="KS-Uif-DataField"
                                   p:label="New Status"
                                   p:propertyName="reinstateStateName"/>
 
                             <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.labelText="Code">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-DataField" p:showLabel="false"
+                                        <bean parent="KS-Uif-DataField" p:showLabel="false"
                                               p:propertyName="aoInfo.activityCode"/>
                                         <!--Colocated is not in scope for M8
                                         <bean parent="Uif-ImageField" p:image.altText="@{#lp.colocatedAoInfoUI}"
@@ -375,10 +375,10 @@
                                 </property>
                             </bean>
 
-                            <bean parent="Uif-DataField"
+                            <bean parent="KS-Uif-DataField"
                                   p:label="Type"
                                   p:propertyName="typeName"/>
-                            <bean parent="Uif-DataField"
+                            <bean parent="KS-Uif-DataField"
                                   p:label="Format"
                                   p:propertyName="aoInfo.formatOfferingName"/>
                         </list>

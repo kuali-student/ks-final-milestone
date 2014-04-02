@@ -64,10 +64,10 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-DataField"
+                <bean parent="KS-Uif-DataField"
                       p:label="CHECK TYPE"
                       p:propertyName="typeKey" />
-                <bean parent="Uif-DataField"
+                <bean parent="KS-Uif-DataField"
                       p:label="CHECK"
                       p:propertyName="name"/>
             </list>
