@@ -303,7 +303,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 
 	<bean id="CourseInfo.gradingOptions" parent="CourseInfo.gradingOptions-parent"/>
 	<bean id="CourseInfo.gradingOptions-parent" abstract="true" parent="CourseInfo.gradingOptions-generated">
-	<!-- insert any overrides to the generated attribute definitions here -->
+    <!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
 	<bean id="CourseInfo.creditOptions" parent="CourseInfo.creditOptions-parent"/>
