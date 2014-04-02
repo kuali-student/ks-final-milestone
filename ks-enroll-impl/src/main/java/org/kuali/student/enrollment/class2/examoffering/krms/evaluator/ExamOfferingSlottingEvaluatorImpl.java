@@ -367,48 +367,64 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
             } catch (Exception e) {
                 throw new RuntimeException("Error creating timeslot: " + timeSlot, e);
             }
-        } else {
-            try {
 
-                ScheduleRequestSetInfo schedulerequestSet = null;
-                for (ScheduleRequestSetInfo requestSet : requestSetList) {
-                    schedulerequestSet = requestSet;
-                }
-                List<ScheduleRequestInfo> scheduleRequestList = new ArrayList<ScheduleRequestInfo>();
-                scheduleRequestList = this.getSchedulingService().getScheduleRequestsByScheduleRequestSet(schedulerequestSet.getId(), context);
-                ScheduleRequestInfo scheduleRequestInfo = null;
-                ScheduleRequestComponentInfo scheduleRequestComponentInfo = null;
-                for (ScheduleRequestInfo scheduleRequest : scheduleRequestList) {
-                    for (ScheduleRequestComponentInfo scheduleRequestComponent : scheduleRequest.getScheduleRequestComponents()) {
-                        scheduleRequestComponentInfo = scheduleRequestComponent;
-                        scheduleRequestInfo = scheduleRequest;
-                        break;
-                    }
+        }
+        else {
+            updateRDLForExamOffering(componentInfo, timeSlot,examOfferingId,requestSetList, context) ;
+        }
+    }
+
+    /**
+     * This method update the schedule request for the exam offering. The ScheduleRequestComponentInfo and
+     * TimeSlotInfo objects were already created by action and is only passed along.
+     *
+     * @param componentInfo
+     * @param timeSlot
+     * @param examOfferingId
+     * @param requestSetList
+     * @param context
+     */
+    private void updateRDLForExamOffering(ScheduleRequestComponentInfo componentInfo, TimeSlotInfo timeSlot,
+                                          String examOfferingId,  List<ScheduleRequestSetInfo> requestSetList,ContextInfo context) {
+        try {
+
+            ScheduleRequestSetInfo schedulerequestSet = null;
+            for (ScheduleRequestSetInfo requestSet : requestSetList) {
+                schedulerequestSet = requestSet;
+            }
+            List<ScheduleRequestInfo> scheduleRequestList = new ArrayList<ScheduleRequestInfo>();
+            scheduleRequestList = this.getSchedulingService().getScheduleRequestsByScheduleRequestSet(schedulerequestSet.getId(), context);
+            ScheduleRequestInfo scheduleRequestInfo = null;
+            ScheduleRequestComponentInfo scheduleRequestComponentInfo = null;
+            for (ScheduleRequestInfo scheduleRequest : scheduleRequestList) {
+                for (ScheduleRequestComponentInfo scheduleRequestComponent : scheduleRequest.getScheduleRequestComponents()) {
+                    scheduleRequestComponentInfo = scheduleRequestComponent;
+                    scheduleRequestInfo = scheduleRequest;
                     break;
                 }
-
-                List<TimeSlotInfo> existingList = this.getSchedulingService().getTimeSlotsByDaysAndStartTimeAndEndTime(SchedulingServiceConstants.TIME_SLOT_TYPE_EXAM,
-                        timeSlot.getWeekdays(), timeSlot.getStartTime(), timeSlot.getEndTime(), context);
-                if (existingList.isEmpty()) {
-                    TimeSlotInfo createdTimeSlot = getSchedulingService().createTimeSlot(
-                            SchedulingServiceConstants.TIME_SLOT_TYPE_EXAM, timeSlot, context);
-                    componentInfo.getTimeSlotIds().add(createdTimeSlot.getId());
-                } else {
-                    for (TimeSlotInfo existing : existingList) {
-                        componentInfo.getTimeSlotIds().add(existing.getId());
-                        componentInfo.setId(scheduleRequestComponentInfo.getId());
-
-                    }
-                }
-
-                scheduleRequestInfo.getScheduleRequestComponents().clear();
-                scheduleRequestInfo.getScheduleRequestComponents().add(componentInfo);
-
-                this.getSchedulingService().updateScheduleRequest(
-                        scheduleRequestInfo.getId(), scheduleRequestInfo, context);
-            } catch (Exception e) {
-                throw new RuntimeException("Error creating timeslot: " + timeSlot, e);
+                break;
             }
+            List<TimeSlotInfo> existingList = this.getSchedulingService().getTimeSlotsByDaysAndStartTimeAndEndTime(SchedulingServiceConstants.TIME_SLOT_TYPE_EXAM,
+                    timeSlot.getWeekdays(), timeSlot.getStartTime(), timeSlot.getEndTime(), context);
+            if (existingList.isEmpty()) {
+                TimeSlotInfo createdTimeSlot = getSchedulingService().createTimeSlot(
+                        SchedulingServiceConstants.TIME_SLOT_TYPE_EXAM, timeSlot, context);
+                componentInfo.getTimeSlotIds().add(createdTimeSlot.getId());
+            } else {
+                for (TimeSlotInfo existing : existingList) {
+                    componentInfo.getTimeSlotIds().add(existing.getId());
+                    componentInfo.setId(scheduleRequestComponentInfo.getId());
+
+                }
+            }
+
+            scheduleRequestInfo.getScheduleRequestComponents().clear();
+            scheduleRequestInfo.getScheduleRequestComponents().add(componentInfo);
+
+            this.getSchedulingService().updateScheduleRequest(
+                    scheduleRequestInfo.getId(), scheduleRequestInfo, context);
+        } catch (Exception e) {
+            throw new RuntimeException("Error creating timeslot: " + timeSlot, e);
         }
     }
 
