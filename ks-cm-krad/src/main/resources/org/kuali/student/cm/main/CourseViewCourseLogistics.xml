@@ -365,7 +365,14 @@
                             <bean parent="Uif-HorizontalFieldGroup">
                                 <property name="items">
                                     <list>
-                                        <bean parent="KS-DurationTypeDropDown" p:propertyName="duration.atpDurationTypeKey"/>
+                                        <bean id="KS-Logistics-Format-DurationTypeDropDown" parent="KS-Uif-InputField-LabelTop"
+                                              p:propertyName="duration.atpDurationTypeKey" p:label="Duration Type"
+                                              p:optionsFinderClass="org.kuali.student.lum.lu.ui.course.keyvalues.DurationTypeKeyValueFinder">
+                                            <property name="control">
+                                                <bean parent="KS-Uif-DropdownControl"/>
+                                            </property>
+                                        </bean>
+
                                         <bean parent="Uif-ImageField" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/validation/info.png">
                                             <property name="toolTip">
                                                 <bean parent="Uif-KS-Tooltip" p:tooltipContent="First select the duration type(term,month,week,weekend,day)&lt;br&gt;then select the count of the duration for the course.&lt;br&gt;Most courses will have 1 or 2 terms,&lt;br&gt;for example"/>
@@ -374,13 +381,16 @@
                                     </list>
                                 </property>
                             </bean>
-                            <!--<bean parent="KS-DurationTypeDropDown" p:propertyName="duration.atpDurationTypeKey">-->
-                                <!--<property name="help">
-                                    <bean parent="Uif-KS-Help"
-                                          p:tooltipHelpContent="First select the duration type(term,month,week,weekend,day)&lt;br&gt;then select the count of the duration for the course.&lt;br&gt;Most courses will have 1 or 2 terms,&lt;br&gt;for example" />
+                            <bean id="KS-Logistics-Format-DurationTimeQuantity-Field" parent="KS-Uif-InputField-LabelTop"
+                                  p:label="Durantion Count" p:propertyName="duration.timeQuantity">
+                                <property name="validCharactersConstraint">
+                                    <bean parent="NumericPatternConstraint" />
                                 </property>
-                            </bean> -->
-                            <bean parent="KS-DurationTimeQuantity-Field" p:propertyName="duration.timeQuantity" />
+                                <property name="maxLength" value="3" />
+                                <property name="control">
+                                    <bean parent="KS-Uif-TextControl" p:size="3" p:maxLength="3"/>
+                                </property>
+                            </bean>
                             <bean parent="Uif-HorizontalFieldGroup">
                                 <property name="items">
                                     <list>
