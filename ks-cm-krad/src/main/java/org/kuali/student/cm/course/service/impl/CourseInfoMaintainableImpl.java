@@ -855,6 +855,11 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             courseInfoWrapper.getCourseInfo().getFormats().add(new FormatInfo());
         }
 
+        // Administering Organizations
+        if(courseInfoWrapper.getAdministeringOrganizations().isEmpty()){
+            courseInfoWrapper.getAdministeringOrganizations().add(new OrganizationInfoWrapper());
+        }
+
         // Initialize Author & Collaborator
         if (courseInfoWrapper.getCollaboratorWrappers().isEmpty()) {
             courseInfoWrapper.getCollaboratorWrappers().add(new CollaboratorWrapper());

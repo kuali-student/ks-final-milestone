@@ -95,19 +95,23 @@
         </property>
     </bean>
 
-    <bean id="KS-AdministeringOrganization-Section" parent="Uif-StackedCollectionSection"
-          p:headerText="Administering Organization(s)" p:propertyName="administeringOrganizations"
-          p:instructionalText="List the organization(s) that can administer, or offer, this course. In most cases this will be the same as the Curriculum Oversight organization, but additional and/or alternate organizations can also be listed as administering organizations."
-          p:collectionObjectClass="org.kuali.student.cm.course.form.OrganizationInfoWrapper">
-        <property name="addLineLabel.messageText" value="Add an Organization" />
-        <property name="layoutManager.lineGroupPrototype.header.headerText"
-                  value="Organization @{(#index + 1)}" />
-        <!-- <property name="collectionLookup.quickfinderAction.render"
-                  value="false" /> -->
-        <!--<property name="help">
-            <bean parent="Uif-KS-Help"
-                  p:tooltipHelpContent="This is not a restrictive list - organizations here are additional organizations that can administer this course." />
-        </property>-->
+    <bean id="KS-AdministeringOrganization-Section" parent="KS-TableCollectionSubSection-BottomAddLine"
+                      p:id="administering-organization" p:layoutManager.style="width: 100%;"
+                      p:instructionalText="List the organization(s) that can administer, or offer, this course. In most cases this will be the same as the Curriculum Oversight organization, but additional and/or alternate organizations can also be listed as administering organizations."
+                      p:headerText="Administering Organization(s)">
+        <property name="collectionObjectClass" value="org.kuali.student.cm.course.form.OrganizationInfoWrapper" />
+        <property name="propertyName" value="administeringOrganizations" />
+        <property name="addBlankLineAction.actionLabel" value="Add Organization"/>
+        <property name="addBlankLineAction.id" value="addAdministeringOrganization"/>
+        <property name="addBlankLineAction.onDocumentReadyScript" value="reDisplayAdministeringOrganization();"/>
+        <property name="addBlankLineAction.dirtyOnAction" value="true" />
+        <property name="validationMessages.displayMessages" value="false"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.generateAutoSequence" value="false"/>
+        <property name="layoutManager.separateAddLine" value="false"/>
+        <property name="layoutManager.richTable.disableTableSort" value="true"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
         <property name="header">
             <bean parent="Uif-KS-IconHeader">
                 <property name="richHeaderMessage.iconToolTipText" value="This is not a restrictive list - organizations here are additional organizations that can administer this course."/>
@@ -119,39 +123,12 @@
                 <value>admin-not-required-field</value>
             </list>
         </property>
-        <property name="addLineActions">
-            <list>
-                <bean parent="Uif-AddLineAction" p:actionLabel="Add" />
-            </list>
-        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-InputField" p:propertyName="organizationName" p:id="organizationName" >
                     <property name="refreshWhenChangedPropertyNames" value="organizationName"/>
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="50" p:cssClasses="validOrganizationName" />
-                    </property>
-                    <property name="quickfinder">
-                        <bean parent="Uif-QuickFinder">
-                            <property name="dataObjectClassName" value="org.kuali.student.cm.course.form.OrganizationInfoWrapper"/>
-                            <property name="fieldConversions">
-                                <map>
-                                    <entry key="organizationName" value="organizationName" />
-                                    <entry key="abbreviation" value="abbreviation" />
-                                </map>
-                            </property>
-                            <property name="lookupParameters">
-                                <map>
-                                    <entry key="organizationName" value="organizationName"/>
-                                </map>
-                            </property>
-                            <property name="quickfinderAction">
-                                <bean parent="Uif-ActionLink" p:actionLabel="Advanced Search" p:style="display:block" p:methodToCall="performLookup" p:evaluateDisabledOnKeyUp="true" />
-                            </property>
-                            <property name="lightBoxLookup">
-                                <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
-                            </property>
-                        </bean>
                     </property>
                     <property name="suggest">
                         <bean parent="Uif-Suggest" p:render="true" p:valuePropertyName="organizationName">
@@ -167,6 +144,12 @@
                         </bean>
                     </property>
                 </bean>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="KS-Uif-Delete-ActionLink" p:id="delete_administeringorganization" p:methodToCall="deleteLine" p:actionLabel="Delete"
+                      p:actionEvent="deleteLine" p:dirtyOnAction="true"/>
             </list>
         </property>
     </bean>
