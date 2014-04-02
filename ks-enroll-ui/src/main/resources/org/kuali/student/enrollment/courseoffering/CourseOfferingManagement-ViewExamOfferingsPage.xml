@@ -310,8 +310,9 @@
                 <bean parent="Uif-VerticalFieldGroup" p:label="Facility">
                     <property name="items">
                         <list>
-                            <bean id="eoRsiBuilding" parent="Uif-InputField" p:labelPlacement="TOP"
+                            <bean id="eoRsiBuilding" parent="KS-Uif-InputField-LabelTop"
                                   p:propertyName="requestedSchedule.buildingCode" p:uppercaseValue="true">
+                                <!-- Rice 2.4 upgrade : removing p:labelPlacement="TOP" -->
                                 <property name="additionalCssClasses">
                                     <list merge="true">
                                         <value>off</value>
