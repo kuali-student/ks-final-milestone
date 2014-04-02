@@ -341,14 +341,21 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
             List<String> foIds = luiServiceLocal.getLuiIdsByRelatedLuiAndRelationType(regGroupId,
                     LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_RG_TYPE_KEY, context);
             String foId = KSCollectionUtils.getRequiredZeroElement(foIds);
+            List<String> coIds = luiServiceLocal.getLuiIdsByRelatedLuiAndRelationType(foId,
+                    LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_CO_TO_FO_TYPE_KEY, context);
+            String coId = KSCollectionUtils.getRequiredZeroElement(coIds);
 
             // Create RG LPR
             LprInfo rgLprCreated = makeLpr(LprServiceConstants.WAITLIST_RG_TYPE_KEY, regGroupId, null, effDate, termId, credits, gradingOptionKey, stateKey, context);
             result.add(rgLprCreated);
 
-            // Create FO LPR
-            LprInfo coLprCreated = makeLpr(LprServiceConstants.WAITLIST_FO_TYPE_KEY, foId, rgLprCreated.getMasterLprId(), effDate, termId, credits, gradingOptionKey, stateKey, context);
+            // Create CO LPR
+            LprInfo coLprCreated = makeLpr(LprServiceConstants.WAITLIST_CO_TYPE_KEY, coId, rgLprCreated.getMasterLprId(), effDate, termId, credits, gradingOptionKey, stateKey, context);
             result.add(coLprCreated);
+
+            // Create FO LPR
+            LprInfo foLprCreated = makeLpr(LprServiceConstants.WAITLIST_FO_TYPE_KEY, foId, rgLprCreated.getMasterLprId(), effDate, termId, credits, gradingOptionKey, stateKey, context);
+            result.add(foLprCreated);
 
             // Set credits and gradingOptionsKey to null so only the RG LPR (masterLpr) and CO LPR have those values set.
             credits = null;
