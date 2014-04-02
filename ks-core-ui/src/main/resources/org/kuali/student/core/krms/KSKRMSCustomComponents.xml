@@ -20,11 +20,11 @@ limitations under the License.
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
     <!--Generic Components-->
-    <bean id="KRMS-Integer-ConstantValue-Parent" parent="Uif-InputField"
+    <bean id="KRMS-Integer-ConstantValue-Parent" parent="KS-Uif-InputField"
           p:propertyName="proposition.parameters[1].value" p:showLabel="true" p:label="Value" p:maxLength="255"
           p:required="true">
         <property name="control">
-            <bean parent="Uif-TextControl" p:style="margin-top:null 2px;"/>
+            <bean parent="KS-Uif-TextControl" p:style="margin-top:null 2px;"/>
         </property>
         <property name="validCharactersConstraint">
             <bean parent="IntegerPatternConstraint" p:allowNegative="false"/>
@@ -49,7 +49,7 @@ limitations under the License.
     </bean>
 
     <!-- TextArea component -->
-    <bean id="KRMS-FreeForm-InputField-parent" parent="Uif-InputField-LabelTop"
+    <bean id="KRMS-FreeForm-InputField-parent" parent="KS-Uif-InputField-LabelTop"
           p:propertyName="proposition.termParameter" p:showLabel="true" p:label="Text" p:required="true">
         <property name="maxLength" value="255"/>
         <property name="control">
@@ -58,11 +58,11 @@ limitations under the License.
     </bean>
     <bean id="KRMS-FreeForm-InputField" parent="KRMS-FreeForm-InputField-parent"/>
 
-    <bean id="KRMS-OrgDepartment-Field-Parent" parent="Uif-InputField-LabelTop"
+    <bean id="KRMS-OrgDepartment-Field-Parent" parent="KS-Uif-InputField-LabelTop"
           p:propertyName="proposition.orgInfo.longName" p:required="true">
         <property name="style" value="width:450px;"/>
         <property name="control">
-            <bean parent="Uif-TextControl" p:size="60" p:style="background-color: #DDDDDD;width:370px; margin-top:null 2px;"
+            <bean parent="KS-Uif-TextControl" p:size="60" p:style="background-color: #DDDDDD;width:370px; margin-top:null 2px;"
                   p:readOnly="true"/>
         </property>
         <property name="quickfinder">
@@ -74,10 +74,10 @@ limitations under the License.
 
     <bean id="KRMS-Administering-Org-Field" parent="KRMS-OrgDepartment-Field-Parent" p:label="Organization"/>
 
-    <bean id="KRMS-OrgId-HiddenField" parent="Uif-InputField" p:showLabel="false">
+    <bean id="KRMS-OrgId-HiddenField" parent="KS-Uif-InputField" p:showLabel="false">
         <property name="propertyName" value="proposition.orgInfo.id"/>
         <property name="control">
-            <bean parent="Uif-HiddenControl"/>
+            <bean parent="KS-Uif-HiddenControl"/>
         </property>
         <property name="validCharactersConstraint">
             <bean parent="AnyCharacterPatternConstraint" p:applyClientSide="false"/>
@@ -131,11 +131,11 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-Population-Field-Parent" parent="Uif-InputField-LabelTop"
+    <bean id="KRMS-Population-Field-Parent" parent="KS-Uif-InputField-LabelTop"
           p:propertyName="proposition.population.name" p:required="true">
         <property name="style" value="width:450px;"/>
         <property name="control">
-            <bean parent="Uif-TextControl" p:size="60" p:style="background-color: #DDDDDD;width:370px; margin-top:null 2px;"
+            <bean parent="KS-Uif-TextControl" p:size="60" p:style="background-color: #DDDDDD;width:370px; margin-top:null 2px;"
                   p:readOnly="true"/>
         </property>
         <property name="quickfinder">
@@ -144,10 +144,10 @@ limitations under the License.
     </bean>
     <bean id="KRMS-Population-Field" parent="KRMS-Population-Field-Parent" p:label="Population"/>
 
-    <bean id="KRMS-PopulationId-HiddenField" parent="Uif-InputField" p:showLabel="false">
+    <bean id="KRMS-PopulationId-HiddenField" parent="KS-Uif-InputField" p:showLabel="false">
         <property name="propertyName" value="proposition.population.id"/>
         <property name="control">
-            <bean parent="Uif-HiddenControl"/>
+            <bean parent="KS-Uif-HiddenControl"/>
         </property>
         <property name="validCharactersConstraint">
             <bean parent="AnyCharacterPatternConstraint" p:applyClientSide="false"/>

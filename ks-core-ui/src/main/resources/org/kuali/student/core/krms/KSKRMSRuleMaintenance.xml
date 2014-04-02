@@ -57,10 +57,10 @@ limitations under the License.
                 <bean parent="KRMS-PropKey-HiddenField"/>
 
                 <!--Add the type droplist-->
-                <bean id="KRMS-PropositionType-Dropdown" parent="Uif-InputField-LabelTop" p:propertyName="proposition.typeId"
+                <bean id="KRMS-PropositionType-Dropdown" parent="KS-Uif-InputField-LabelTop" p:propertyName="proposition.typeId"
                       p:showLabel="true" p:label="Rule Statement Option" p:maxLength="40" p:required="true">
                     <property name="control">
-                        <bean parent="Uif-DropdownControl" p:cssClasses="categorySelect"
+                        <bean parent="KS-Uif-DropdownControl" p:cssClasses="categorySelect"
                               p:onChangeScript="ajaxCallPropositionTypeUpdate(jQuery(this), 'updatePropositionType', 'KRMS-PropositionEdit-DetailSection');"/>
                     </property>
                     <property name="optionsFinder">
@@ -207,9 +207,9 @@ limitations under the License.
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-DataField" p:propertyName="code"/>
-                <bean parent="Uif-DataField" p:propertyName="shortName"/>
-                <bean parent="Uif-DataField" p:propertyName="credits"/>
+                <bean parent="KS-Uif-DataField" p:propertyName="code"/>
+                <bean parent="KS-Uif-DataField" p:propertyName="shortName"/>
+                <bean parent="KS-Uif-DataField" p:propertyName="credits"/>
             </list>
         </property>
     </bean>

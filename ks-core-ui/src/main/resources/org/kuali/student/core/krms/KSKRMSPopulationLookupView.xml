@@ -56,10 +56,10 @@ limitations under the License.
         </property>
         <property name="resultFields">
             <list>
-                <bean parent="Uif-DataField" p:propertyName="populationInfo.name" p:label="Name"/>
-                <bean parent="Uif-DataField" p:propertyName="populationInfo.descr.plain" p:label="Description"/>
-                <bean parent="Uif-DataField" p:propertyName="populationRuleTypeKeyName"  p:label="Type"/>
-                <bean parent="Uif-DataField" p:propertyName="populationStateKeyName"  p:label="State"/>
+                <bean parent="KS-Uif-DataField" p:propertyName="populationInfo.name" p:label="Name"/>
+                <bean parent="KS-Uif-DataField" p:propertyName="populationInfo.descr.plain" p:label="Description"/>
+                <bean parent="KS-Uif-DataField" p:propertyName="populationRuleTypeKeyName"  p:label="Type"/>
+                <bean parent="KS-Uif-DataField" p:propertyName="populationStateKeyName"  p:label="State"/>
             </list>
         </property>
     </bean>

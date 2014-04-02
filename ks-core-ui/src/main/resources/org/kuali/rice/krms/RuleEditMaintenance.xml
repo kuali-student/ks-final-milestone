@@ -86,7 +86,7 @@ limitations under the License.
     </bean>
 
     <!-- Note: this bean id is important, it is used for component matching in an ajax refresh -->
-    <bean id="KRMS-LogicArea-InputField" parent="Uif-InputField" p:propertyName="logicArea" p:id="logicArea"
+    <bean id="KRMS-LogicArea-InputField" parent="KS-Uif-InputField" p:propertyName="logicArea" p:id="logicArea"
           p:style="margin-left: 5px; margin-top: 5px">
         <property name="control">
             <bean parent="Uif-MediumTextAreaControl" p:style="width:612px"/>
@@ -138,9 +138,9 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-Rules-HiddenField" parent="Uif-InputField" p:showLabel="false">
+    <bean id="KRMS-Rules-HiddenField" parent="KS-Uif-InputField" p:showLabel="false">
         <property name="control">
-            <bean parent="Uif-HiddenControl"/>
+            <bean parent="KS-Uif-HiddenControl"/>
         </property>
     </bean>
 
@@ -148,7 +148,7 @@ limitations under the License.
           p:showLabel="false" p:label="id" p:maxLength="255">
         <property name="control">
             <!-- NOTE: additionalCssClasses property does not work here. -->
-            <bean parent="Uif-HiddenControl" p:cssClasses="hiddenId"/>
+            <bean parent="KS-Uif-HiddenControl" p:cssClasses="hiddenId"/>
         </property>
     </bean>
 
@@ -363,10 +363,10 @@ limitations under the License.
 
                         <bean parent="KRMS-PropKey-HiddenField"/>
 
-                        <bean parent="Uif-InputField" p:propertyName="proposition.compoundOpCode" p:id="prop_compoundOpCode"
+                        <bean parent="KS-Uif-InputField" p:propertyName="proposition.compoundOpCode" p:id="prop_compoundOpCode"
                               p:style="margin-left: 12pt;" p:showLabel="false" p:label="operator" p:maxLength="20">
                             <property name="control">
-                                <bean parent="Uif-DropdownControl"
+                                <bean parent="KS-Uif-DropdownControl"
                                       p:onChangeScript="handleOperatorChange(jQuery(this), 'updateCompoundOperator', 'KRMS-RuleEditor-TreeGroup');"/>
                             </property>
                             <property name="optionsFinder">
