@@ -524,18 +524,23 @@ jQuery.validator.addMethod("validInstructorNameAndID",
 /*Compare the input instructor from the autofill suggest results: data. If the input is in the result data
  it is valid input instructor */
 function compareInstructorNameInput(value, element) {
-    var isValid;
+    var isValid = false;
     if(value == null || value.length < 2) {
-        return false;
+        return isValid;
     }
     var queryVal = value.split(',')[0];
 
     var successFunction = function (data) {
+        var lastName = value.split(',')[0];
+        var restVal =  value.split(',')[1];
+        var firstName = restVal.split('(')[0];
+        var nameID = restVal.split('(')[1];
         if(data == null || data.resultData == null)  {
             isValid = false;
         } else {
             for(var i=0; len= data.resultData.length, i<len; i++)  {
-                if(data.resultData[i].displayName == value) {
+                var correctName = data.resultData[i].displayName;
+                if(correctName.indexOf(lastName) >= 0 && correctName.indexOf(firstName) >1 && correctName.indexOf(nameID) >2) {
                     isValid = true;
                     break;
                 }
@@ -594,12 +599,13 @@ function compareOrganizationNameInput(value, element) {
 
     var queryData = {};
 
+    var qFieldId = element.parentElement.getAttribute('id');
     queryData.methodToCall = 'performFieldSuggest';
     queryData.ajaxRequest = true;
     queryData.ajaxReturnType = 'update-none';
     queryData.formKey = jQuery("input#formKey").val();
     queryData.queryTerm = value;
-    queryData.queryFieldId = "organizationName_add";
+    queryData.queryFieldId = qFieldId;
 
     jQuery.ajax({
         url: jQuery("form#kualiForm").attr("action"),
