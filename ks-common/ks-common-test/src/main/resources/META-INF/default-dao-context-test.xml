@@ -56,19 +56,6 @@
         <property name="testQuery" value="${jdbc.testQuery}" />
 	</bean>
 
-	<!-- JPA EntityManagerFactory -->
-	<bean id="postProcessorList" class="java.util.ArrayList">
-		<constructor-arg index="0">
-			<list>
-				<bean id="ricePostProcessor"
-					class="org.kuali.rice.krad.app.persistence.jpa.RicePersistenceUnitPostProcessor">
-					<property name="jtaDataSource"
-						ref="dataSource" />
-				</bean>
-			</list>
-		</constructor-arg>
-	</bean>
-
 	<bean id="vendorAdapter" class="${jpa.vendorAdapter}" depends-on="propertyConfigurer">
 		<property name="databasePlatform"
 			value="${jpa.databasePlatform}" />
@@ -83,7 +70,6 @@
 			value="${ks.test.persistenceLocation}" />
 		<property name="dataSource" ref="dataSource" />
 		<property name="jpaPropertyMap" value="${propertiesPrefix.jpa.properties}"/>
-		<property name="persistenceUnitPostProcessors" ref="postProcessorList" />
 	</bean>
 
     <bean id="AtomikosTxMgr"

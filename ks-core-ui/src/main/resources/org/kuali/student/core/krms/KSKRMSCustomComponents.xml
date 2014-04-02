@@ -43,13 +43,13 @@ limitations under the License.
                 <property name="style" value="display:block"/>
             </bean>
         </property>
-        <property name="lightBoxLookup">
-            <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="true"/>
+        <property name="lightBox">
+            <bean parent="Uif-LightBox" p:lookupReturnByScript="true"/>
         </property>
     </bean>
 
     <!-- TextArea component -->
-    <bean id="KRMS-FreeForm-InputField-parent" parent="Uif-InputField-LabelTop"
+    <bean id="KRMS-FreeForm-InputField-parent" parent="KS-Uif-InputField-LabelTop"
           p:propertyName="proposition.termParameter" p:showLabel="true" p:label="Text" p:required="true">
         <property name="maxLength" value="255"/>
         <property name="control">
@@ -58,7 +58,7 @@ limitations under the License.
     </bean>
     <bean id="KRMS-FreeForm-InputField" parent="KRMS-FreeForm-InputField-parent"/>
 
-    <bean id="KRMS-OrgDepartment-Field-Parent" parent="Uif-InputField-LabelTop"
+    <bean id="KRMS-OrgDepartment-Field-Parent" parent="KS-Uif-InputField-LabelTop"
           p:propertyName="proposition.orgInfo.longName" p:required="true">
         <property name="style" value="width:450px;"/>
         <property name="control">
@@ -131,7 +131,7 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-Population-Field-Parent" parent="Uif-InputField-LabelTop"
+    <bean id="KRMS-Population-Field-Parent" parent="KS-Uif-InputField-LabelTop"
           p:propertyName="proposition.population.name" p:required="true">
         <property name="style" value="width:450px;"/>
         <property name="control">

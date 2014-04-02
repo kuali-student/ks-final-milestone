@@ -26,6 +26,7 @@ import org.kuali.rice.krad.uif.field.InputField;
 import org.kuali.rice.krad.uif.util.ComponentUtils;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.View;
+import org.kuali.rice.krad.uif.view.ViewModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,8 +43,7 @@ import java.util.Map;
  * @author Kuali Student Team
  */
 public class KSViewAttributeValueReader extends ViewAttributeValueReader {
-    private View view;
-    private Object form;
+    private ViewModel form;
 
     private List<Constrainable> inputFields = new ArrayList<Constrainable>();
     private Map<String, InputField> inputFieldMap = new HashMap<String, InputField>();
@@ -52,16 +52,14 @@ public class KSViewAttributeValueReader extends ViewAttributeValueReader {
      * Constructor for ViewAttributeValueReader, the View must already be indexed and
      * the InputFields must have already be initialized for this reader to work properly
      *
-     * @param view the View to validate
      * @param form model object representing the View's form data
      */
-    public KSViewAttributeValueReader(View view, Object form) {
-        super(view,form);
-        this.view = view;
+    public KSViewAttributeValueReader(ViewModel form) {
+        super(form);
         this.form = form;
 
         // this below is the customized line which fetches all the pages in this view and finds all InputField objects
-        List<InputField> containerInputFields = ComponentUtils.getComponentsOfTypeDeep(view.getItems(),InputField.class);
+        List<InputField> containerInputFields = ComponentUtils.getComponentsOfType(form.getView().getItems(), InputField.class);
         for (InputField field : containerInputFields) {
             if (StringUtils.isNotBlank(field.getName())) {
                 inputFields.add(field);
@@ -107,16 +105,6 @@ public class KSViewAttributeValueReader extends ViewAttributeValueReader {
         } else {
             return null;
         }
-    }
-
-    /**
-     * Returns the View object
-     *
-     * @return view set in the constructor
-     */
-    @Override
-    public Object getObject() {
-        return view;
     }
 
     /**
@@ -205,7 +193,7 @@ public class KSViewAttributeValueReader extends ViewAttributeValueReader {
      */
     @Override
     public AttributeValueReader clone() {
-        ViewAttributeValueReader clone = new ViewAttributeValueReader(view, form);
+        ViewAttributeValueReader clone = new ViewAttributeValueReader(form);
         clone.setAttributeName(this.attributeName);
         return clone;
     }
