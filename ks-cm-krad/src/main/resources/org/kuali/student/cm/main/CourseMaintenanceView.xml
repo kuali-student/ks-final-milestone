@@ -156,14 +156,16 @@
                 <property name="items">
                     <list>
                         <bean parent="Uif-DataField" p:label="Proposal Status"
-                              p:shortLabel="Status" p:labelPlacement="LEFT" p:propertyName="proposalInfo.stateKey" />
+                              p:shortLabel="Status" p:propertyName="proposalInfo.stateKey" />
+                        <!-- Rice 2.4 upgrade : removing p:labelPlacement="LEFT" -->
                         <bean parent="Uif-ActionLink" p:actionLabel="Comments"
                               p:methodToCall="showComment" />
                         <bean parent="Uif-ActionLink" p:actionLabel="Decisions"
                               p:methodToCall="showDecisions" />
                         <bean parent="Uif-Space" />
                         <bean parent="Uif-DataField" p:label="Last Updated"
-                              p:shortLabel="Updated" p:labelPlacement="LEFT" p:propertyName="lastUpdated" />
+                              p:shortLabel="Updated" p:propertyName="lastUpdated" />
+                        <!-- Rice 2.4 upgrade : removing p:labelPlacement="LEFT" -->
                     </list>
                 </property>
             </bean>
