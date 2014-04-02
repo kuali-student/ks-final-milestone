@@ -139,6 +139,7 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
             }
             createRDLForExamOffering(componentInfo, timeslot, examOfferingId, context);
         } else {
+            removeRDLForExamOffering(null, timeslot, examOfferingId, context);
             String[] parameters = {activityOffering.getCourseOfferingCode(), activityOffering.getActivityCode()};
             userMessenger.sendWarningMessage(ExamOfferingServiceConstants.EXAM_OFFERING_AO_MATRIX_MATCH_NOT_FOUND, parameters, context);
         }
@@ -213,6 +214,7 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
                 ScheduleRequestComponentInfo componentInfo = createScheduleRequestFromResults(results);
                 createRDLForExamOffering(componentInfo, timeslot, examOfferingId, context);
             } else {
+                removeRDLForExamOffering(null, timeslot, examOfferingId, context);
                 String[] parameters = {courseOffering.getCourseOfferingCode()};
                 userMessenger.sendWarningMessage(ExamOfferingServiceConstants.EXAM_OFFERING_CO_MATRIX_MATCH_NOT_FOUND, parameters, context);
             }
@@ -370,11 +372,11 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
 
         }
         else {
-            updateRDLForExamOffering(componentInfo, timeSlot,examOfferingId,requestSetList, context) ;
+            updateRDLForExamOffering(componentInfo, timeSlot, examOfferingId, requestSetList, context) ;
         }
     }
 
-    /**
+      /**
      * This method update the schedule request for the exam offering. The ScheduleRequestComponentInfo and
      * TimeSlotInfo objects were already created by action and is only passed along.
      *
@@ -424,7 +426,36 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
             this.getSchedulingService().updateScheduleRequest(
                     scheduleRequestInfo.getId(), scheduleRequestInfo, context);
         } catch (Exception e) {
-            throw new RuntimeException("Error creating timeslot: " + timeSlot, e);
+            throw new RuntimeException("Error updating ScheduleRequest: " + timeSlot, e);
+        }
+    }
+
+    /**
+     * This method remove the schedule request for the exam offering.
+     *
+     * @param componentInfo
+     * @param timeSlot
+     * @param examOfferingId
+     * @param context
+     */
+    private void removeRDLForExamOffering(ScheduleRequestComponentInfo componentInfo, TimeSlotInfo timeSlot,
+                                          String examOfferingId,ContextInfo context) {
+        try {
+            List<ScheduleRequestSetInfo> requestSetList = new ArrayList<ScheduleRequestSetInfo>();
+            try {
+                requestSetList = getSchedulingService().getScheduleRequestSetsByRefObject(ExamOfferingServiceConstants.REF_OBJECT_URI_EXAM_OFFERING, examOfferingId, context);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            if (!requestSetList.isEmpty() || requestSetList.size() > 0) {
+                ScheduleRequestSetInfo schedulerequestSet = null;
+                for (ScheduleRequestSetInfo requestSet : requestSetList) {
+                    schedulerequestSet = requestSet;
+                }
+                this.getSchedulingService().deleteScheduleRequestSet(schedulerequestSet.getId(), context);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Error deleting ScheduleRequest: " + timeSlot, e);
         }
     }
 
