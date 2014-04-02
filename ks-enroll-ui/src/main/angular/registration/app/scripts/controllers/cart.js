@@ -194,8 +194,6 @@ angular.module('regCartApp')
                 credits: newCredits,
                 gradingOptionId: newGrading
             }, function (newCartItem) {
-                console.log($scope);
-                console.log(JSON.stringify(newCartItem));
                 cartItem.credits = newCartItem.credits;
                 console.log('old: ' + cartItem.grading + ' To: ' + newCartItem.grading);
                 cartItem.grading = newCartItem.grading;
@@ -205,7 +203,17 @@ angular.module('regCartApp')
                 $scope.creditTotal = creditTotal();
                 $scope.userMessage = {txt: 'Updated Successfully', type: 'success'};
             });
+        };
 
+        $scope.addCartItemToWaitlist = function (cartItem) {
+            console.log('Adding cart item to waitlist... ');
+            ScheduleService.registerForRegistrationGroup().query({
+                courseCode: cartItem.courseCode,
+                regGroupId: cartItem.regGroupId,
+                allowWaitlist: true
+            }, function () {
+                cartItem.status = 'waitlisted';
+            });
         };
 
         $scope.register = function () {

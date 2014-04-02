@@ -112,7 +112,7 @@
             </div>
             <div class="kscr-Card-button" ng-if="cartResultItem.statusMessage && (cartResultItem.status == 'waitlist')">
                 <span>
-                    <button class="kscr-Button" id="waitlist_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}" ng-click="openDropConfirmation($index, course)">Add to Waitlist</button>
+                    <button class="kscr-Button" id="waitlist_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}" ng-click="addCartItemToWaitlist(cartResultItem)">Add to Waitlist</button>
                 </span>
             </div>
         </div>
