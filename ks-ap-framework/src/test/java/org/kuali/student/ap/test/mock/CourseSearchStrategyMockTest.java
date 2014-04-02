@@ -66,4 +66,9 @@ public class CourseSearchStrategyMockTest implements CourseSearchStrategy {
     public Map<String, Comparator<String>> getFacetSort() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
+
+    @Override
+    public boolean isLimitExceeded() {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
+    }
 }

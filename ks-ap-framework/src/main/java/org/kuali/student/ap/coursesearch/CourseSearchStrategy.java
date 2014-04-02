@@ -185,4 +185,6 @@ public interface CourseSearchStrategy {
 
 	Map<String, Comparator<String>> getFacetSort();
 
+    public boolean isLimitExceeded();
+
 }
