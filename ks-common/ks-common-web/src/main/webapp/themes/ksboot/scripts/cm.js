@@ -121,6 +121,13 @@ function removeCurrciulumOversight() {
     }
 }
 
+function reDisplayAdministeringOrganization() {
+    var administeringOrganizationComponent = jQuery("#administering-organization");
+    if (administeringOrganizationComponent.css('display') == "none") {
+        administeringOrganizationComponent.show();
+    }
+}
+
 /**
  * Checks if a particular scroll event handler has been bound to the window.
  * @param namespace The scroll event namespace.
