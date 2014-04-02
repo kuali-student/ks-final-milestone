@@ -108,6 +108,7 @@
         <property name="examService" ref="examService"/>
         <property name="examOfferingService" ref="examOfferingService"/>
         <property name="courseOfferingService" ref="courseOfferingService"/>
+        <property name="schedulingService" ref="schedulingService"/>
         <property name="socService" ref="socService"/>
         <property name="typeService" ref="typeService" />
     </bean>
