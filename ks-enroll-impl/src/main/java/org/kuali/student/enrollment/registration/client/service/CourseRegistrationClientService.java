@@ -1,7 +1,10 @@
 package org.kuali.student.enrollment.registration.client.service;
 
+import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
 import org.kuali.student.enrollment.registration.client.service.dto.ScheduleCalendarEventResult;
+import org.kuali.student.enrollment.registration.client.service.dto.ScheduleItemResult;
 import org.kuali.student.enrollment.registration.client.service.dto.StudentScheduleTermResult;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -41,17 +44,9 @@ public interface CourseRegistrationClientService {
      * @param regGroupId      optional, but the term, course, and reg group name are not checked if you supply the id
      * @param gradingOptionId
      * @param credits
+     * @param allowWaitlist
      * @return The response should be instant and give a handle to the registrationRequestId. The registration engine is
      * ansynchonous so the client will need to poll the system for status updates.
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
-     * @throws DataValidationErrorException
-     * @throws DoesNotExistException
-     * @throws ReadOnlyException
-     * @throws AlreadyExistsException
-     * @throws LoginException
      */
     @GET
     @Produces({MediaType.APPLICATION_JSON})
@@ -61,7 +56,8 @@ public interface CourseRegistrationClientService {
                                                    @QueryParam("regGroupCode") String regGroupCode,
                                                    @QueryParam("regGroupId") String regGroupId,
                                                    @QueryParam("credits") String credits,
-                                                   @QueryParam("gradingOption") String gradingOptionId);
+                                                   @QueryParam("gradingOption") String gradingOptionId,
+                                                   @QueryParam("allowWaitlist") boolean allowWaitlist);
 
     /**
      * Returns statistics for the registration engine.
@@ -79,12 +75,6 @@ public interface CourseRegistrationClientService {
      *
      * @param termId
      * @param termCode
-     * @return StudentScheduleCourseResult
-     * @throws LoginException
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
      */
     @GET
     @Produces({MediaType.APPLICATION_JSON})
@@ -136,14 +126,6 @@ public interface CourseRegistrationClientService {
      * @param credits         - current credits registered for
      * @param gradingOptionId - current grading option registered for
      * @return
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws DoesNotExistException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
-     * @throws DataValidationErrorException
-     * @throws ReadOnlyException
-     * @throws AlreadyExistsException
      */
 
     @PUT
@@ -163,15 +145,6 @@ public interface CourseRegistrationClientService {
      * @param masterLprId
      * @return The response should be instant and give a handle to the registrationRequestId. The registration engine is
      * ansynchonous so the client will need to poll the system for status updates.
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
-     * @throws DataValidationErrorException
-     * @throws DoesNotExistException
-     * @throws ReadOnlyException
-     * @throws AlreadyExistsException
-     * @throws LoginException
      */
     @DELETE
     @Path("/dropRegistrationGroup")
@@ -179,6 +152,7 @@ public interface CourseRegistrationClientService {
 
     /**
      * Gets the current registration status for a particular registration request
+     *
      * @param regReqId
      * @return
      */
@@ -187,4 +161,22 @@ public interface CourseRegistrationClientService {
     @Path("/getRegistrationStatus")
     public Response getRegistrationStatusRS(@QueryParam("regReqId") String regReqId);
 
+
+    public ScheduleItemResult updateWaitlistEntry(String courseCode, String regGroupCode, String masterLprId, String credits, String gradingOptionId, ContextInfo contextInfo) throws DoesNotExistException, PermissionDeniedException, OperationFailedException, InvalidParameterException, ReadOnlyException, MissingParameterException, DataValidationErrorException, AlreadyExistsException;
+
+    @PUT
+    @Produces({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
+    @Path("/updateWaitlistEntry")
+    public Response updateWaitlistEntryRS(@FormParam("courseCode") String courseCode,
+                                          @FormParam("regGroupCode") String regGroupCode,
+                                          @FormParam("masterLprId") String masterLprId,
+                                          @FormParam("credits") String credits,
+                                          @FormParam("gradingOptionId") String gradingOptionId);
+
+    public RegistrationResponseInfo dropFromWaitlist(ContextInfo contextInfo, String masterLprId) throws DoesNotExistException, PermissionDeniedException, OperationFailedException, InvalidParameterException, ReadOnlyException, MissingParameterException, DataValidationErrorException, AlreadyExistsException, LoginException;
+
+    @DELETE
+    @Path("/dropFromWaitlistEntry")
+    public Response dropFromWaitlistEntryRS(@QueryParam("masterLprId") String masterLprId);
 }

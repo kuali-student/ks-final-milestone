@@ -139,8 +139,7 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
             }
 
         } catch (Exception ex) {
-            LOGGER.error("Error building LPR items", ex);
-            return new ArrayList<LprInfo>();
+            throw new RuntimeException("Error building LPR items", ex);
         }
         return result;
     }
@@ -320,7 +319,7 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
     @Override
     public List<LprInfo> addCourseWaitlistEntry(String regGroupId, String termId, String credits, String gradingOptionId, ContextInfo contextInfo) {
         List<LprInfo> lprInfos = new ArrayList<LprInfo>();
-        lprInfos.addAll(buildLprWaitlistItems(regGroupId, termId, credits, gradingOptionId, LprServiceConstants.WAITLISTED_STATE_KEY, contextInfo));
+        lprInfos.addAll(buildLprWaitlistItems(regGroupId, termId, credits, gradingOptionId, LprServiceConstants.ACTIVE_STATE_KEY, contextInfo));
         return lprInfos;
     }
 
@@ -364,8 +363,7 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
             }
 
         } catch (Exception ex) {
-            LOGGER.error("Error building LPR items", ex);
-            return new ArrayList<LprInfo>();
+            throw new RuntimeException("Error building LPR items", ex);
         }
         return result;
     }

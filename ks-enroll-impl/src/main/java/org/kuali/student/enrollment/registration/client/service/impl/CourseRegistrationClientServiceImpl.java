@@ -14,6 +14,7 @@ import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemResultInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.registration.client.service.CourseRegistrationClientService;
+import org.kuali.student.enrollment.registration.client.service.CourseRegistrationClientServiceConstants;
 import org.kuali.student.enrollment.registration.client.service.dto.ActivityOfferingScheduleComponentResult;
 import org.kuali.student.enrollment.registration.client.service.dto.InstructorSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
@@ -71,11 +72,11 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
 
     @Override
     @Transactional
-    public Response registerForRegistrationGroupRS(String termCode, String courseCode, String regGroupCode, String regGroupId, String credits, String gradingOptionId) {
+    public Response registerForRegistrationGroupRS(String termCode, String courseCode, String regGroupCode, String regGroupId, String credits, String gradingOptionId, boolean okToWaitlist) {
         Response.ResponseBuilder response;
 
         try {
-            response = Response.ok(registerForRegistrationGroupLocal(ContextUtils.createDefaultContextInfo(), termCode, courseCode, regGroupCode, regGroupId, credits, gradingOptionId));
+            response = Response.ok(registerForRegistrationGroupLocal(termCode, courseCode, regGroupCode, regGroupId, credits, gradingOptionId, okToWaitlist, ContextUtils.createDefaultContextInfo()));
         } catch (Exception e) {
             LOGGER.warn("Exception occurred", e);
             response = Response.serverError().entity(e.getMessage());
@@ -99,7 +100,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         return response.build();
     }
 
-    public RegistrationResponseInfo registerForRegistrationGroupLocal(ContextInfo contextInfo, String termCode, String courseCode, String regGroupCode, String regGroupId, String credits, String gradingOptionId) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, DoesNotExistException, ReadOnlyException, AlreadyExistsException, LoginException {
+    public RegistrationResponseInfo registerForRegistrationGroupLocal(String termCode, String courseCode, String regGroupCode, String regGroupId, String credits, String gradingOptionId, boolean okToWaitlist, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, DoesNotExistException, ReadOnlyException, AlreadyExistsException, LoginException {
         LOGGER.debug("REGISTRATION: user[{}] termCode[{}] courseCode[{}] regGroup[{}]",
                 contextInfo.getPrincipalId(), termCode, courseCode, regGroupCode);
 
@@ -113,7 +114,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         credits = verifyRegistrationRequestCreditsGradingOption(courseOfferingInfo, credits, gradingOptionId, contextInfo);
 
         //Create the request object
-        RegistrationRequestInfo regReqInfo = createRegistrationRequest(contextInfo.getPrincipalId(), rg.getTermId(), rg.getRegGroupId(), null, credits, gradingOptionId, LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY, LprServiceConstants.LPRTRANS_NEW_STATE_KEY, LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY, LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
+        RegistrationRequestInfo regReqInfo = createRegistrationRequest(contextInfo.getPrincipalId(), rg.getTermId(), rg.getRegGroupId(), null, credits, gradingOptionId, LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY, LprServiceConstants.LPRTRANS_NEW_STATE_KEY, LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY, LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY, okToWaitlist);
 
         // persist the request object in the service
         RegistrationRequestInfo newRegReq = CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().createRegistrationRequest(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY, regReqInfo, contextInfo);
@@ -136,7 +137,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         }
 
         //Create the request object
-        RegistrationRequestInfo regReqInfo = createRegistrationRequest(contextInfo.getPrincipalId(), null, null, masterLprId, null, null, LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY, LprServiceConstants.LPRTRANS_DISCARDED_STATE_KEY, LprServiceConstants.REQ_ITEM_DROP_TYPE_KEY, LprServiceConstants.LPRTRANS_ITEM_DELETE_TYPE_KEY);
+        RegistrationRequestInfo regReqInfo = createRegistrationRequest(contextInfo.getPrincipalId(), null, null, masterLprId, null, null, LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY, LprServiceConstants.LPRTRANS_DISCARDED_STATE_KEY, LprServiceConstants.REQ_ITEM_DROP_TYPE_KEY, LprServiceConstants.LPRTRANS_ITEM_DELETE_TYPE_KEY, false);
 
         // persist the request object in the service
         RegistrationRequestInfo newRegReq = CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().createRegistrationRequest(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY, regReqInfo, contextInfo);
@@ -260,13 +261,27 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                             String text = course.getCourseCode() + " " + (ao.getActivityOfferingTypeShortName() != null && ao.getActivityOfferingTypeShortName().length() >= 3 ? ao.getActivityOfferingTypeShortName().substring(0, 3).toUpperCase() : "");
                             int startTimeMin = toMins(component.getStartTime());
                             int duration = toMins(component.getEndTime()) - startTimeMin;
-                            if(component.isMon()){dayToEventListMap.get("M").add(new ScheduleCalendarEventResult(duration, text, startTimeMin, colour));}
-                            if(component.isTue()){dayToEventListMap.get("T").add(new ScheduleCalendarEventResult(duration, text, startTimeMin, colour));}
-                            if(component.isWed()){dayToEventListMap.get("W").add(new ScheduleCalendarEventResult(duration, text, startTimeMin, colour));}
-                            if(component.isThu()){dayToEventListMap.get("H").add(new ScheduleCalendarEventResult(duration, text, startTimeMin, colour));}
-                            if(component.isFri()){dayToEventListMap.get("F").add(new ScheduleCalendarEventResult(duration, text, startTimeMin, colour));}
-                            if(component.isSat()){dayToEventListMap.get("S").add(new ScheduleCalendarEventResult(duration, text, startTimeMin, colour));}
-                            if(component.isSun()){dayToEventListMap.get("U").add(new ScheduleCalendarEventResult(duration, text, startTimeMin, colour));}
+                            if (component.isMon()) {
+                                dayToEventListMap.get("M").add(new ScheduleCalendarEventResult(duration, text, startTimeMin, colour));
+                            }
+                            if (component.isTue()) {
+                                dayToEventListMap.get("T").add(new ScheduleCalendarEventResult(duration, text, startTimeMin, colour));
+                            }
+                            if (component.isWed()) {
+                                dayToEventListMap.get("W").add(new ScheduleCalendarEventResult(duration, text, startTimeMin, colour));
+                            }
+                            if (component.isThu()) {
+                                dayToEventListMap.get("H").add(new ScheduleCalendarEventResult(duration, text, startTimeMin, colour));
+                            }
+                            if (component.isFri()) {
+                                dayToEventListMap.get("F").add(new ScheduleCalendarEventResult(duration, text, startTimeMin, colour));
+                            }
+                            if (component.isSat()) {
+                                dayToEventListMap.get("S").add(new ScheduleCalendarEventResult(duration, text, startTimeMin, colour));
+                            }
+                            if (component.isSun()) {
+                                dayToEventListMap.get("U").add(new ScheduleCalendarEventResult(duration, text, startTimeMin, colour));
+                            }
                         }
                     }
                 }
@@ -369,7 +384,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
             String startTimeMs = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.START_TIME_MS);
             String endTimeMs = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.END_TIME_MS);
             String resultValuesGroupKey = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.RES_VAL_GROUP_KEY);
-            String aoName = (luiName!=null&&luiName.length()>=3?luiName.substring(0,3).toUpperCase():"");
+            String aoName = (luiName != null && luiName.length() >= 3 ? luiName.substring(0, 3).toUpperCase() : "");
 
             // running over the list of results returned. One CO can have multiple AOs
             if (hmCourseOffering.containsKey(masterLprId)) {
@@ -577,16 +592,17 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
      * @param stateKey        stateKey
      * @param reqItemTypeKey  reqItemTypeKey
      * @param reqItemStateKey reqItemStateKey
+     * @param okToWaitlist    flag to indicate that the student wants to be added to the waitlist if that option is available
      * @return registration request
      */
-    private RegistrationRequestInfo createRegistrationRequest(String principalId, String termId, String regGroupId, String masterLprId, String credits, String gradingOptionId, String typeKey, String stateKey, String reqItemTypeKey, String reqItemStateKey) {
+    private RegistrationRequestInfo createRegistrationRequest(String principalId, String termId, String regGroupId, String masterLprId, String credits, String gradingOptionId, String typeKey, String stateKey, String reqItemTypeKey, String reqItemStateKey, boolean okToWaitlist) {
         RegistrationRequestInfo regReqInfo = new RegistrationRequestInfo();
         regReqInfo.setRequestorId(principalId);
         regReqInfo.setTermId(termId); // bad bc we have it from the load call above
         regReqInfo.setTypeKey(typeKey);
         regReqInfo.setStateKey(stateKey);
 
-        RegistrationRequestItemInfo registrationRequestItem = CourseRegistrationAndScheduleOfClassesUtil.createNewRegistrationRequestItem(principalId, regGroupId, masterLprId, credits, gradingOptionId, reqItemTypeKey, reqItemStateKey);
+        RegistrationRequestItemInfo registrationRequestItem = CourseRegistrationAndScheduleOfClassesUtil.createNewRegistrationRequestItem(principalId, regGroupId, masterLprId, credits, gradingOptionId, reqItemTypeKey, reqItemStateKey, okToWaitlist);
 
         regReqInfo.getRegistrationRequestItems().add(registrationRequestItem);
 
@@ -659,7 +675,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         registrationRequestInfo.setTypeKey(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY);
 
         //Create Reg Request Item
-        RegistrationRequestItemInfo registrationRequestItem = CourseRegistrationAndScheduleOfClassesUtil.createNewRegistrationRequestItem(userId, null, masterLprId, credits, gradingOptionId, LprServiceConstants.REQ_ITEM_UPDATE_TYPE_KEY, LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
+        RegistrationRequestItemInfo registrationRequestItem = CourseRegistrationAndScheduleOfClassesUtil.createNewRegistrationRequestItem(userId, null, masterLprId, credits, gradingOptionId, LprServiceConstants.REQ_ITEM_UPDATE_TYPE_KEY, LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY, false);
         List<RegistrationRequestItemInfo> registrationRequestItemInfos = new ArrayList<RegistrationRequestItemInfo>();
         registrationRequestItemInfos.add(registrationRequestItem);
         registrationRequestInfo.setRegistrationRequestItems(registrationRequestItemInfos);
@@ -723,11 +739,97 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         return response.build();
     }
 
+    @Override
+    public ScheduleItemResult updateWaitlistEntry(String courseCode, String regGroupCode, String masterLprId, String credits, String gradingOptionId, ContextInfo contextInfo) throws DoesNotExistException, PermissionDeniedException, OperationFailedException, InvalidParameterException, ReadOnlyException, MissingParameterException, DataValidationErrorException, AlreadyExistsException {
+        RegistrationRequestInfo registrationRequestInfo = new RegistrationRequestInfo();
+        String userId = contextInfo.getPrincipalId();
+
+        //Populate Fields for RegRequestInfo object
+        registrationRequestInfo.setRequestorId(userId);
+        registrationRequestInfo.setStateKey(LprServiceConstants.LPRTRANS_NEW_STATE_KEY);
+        registrationRequestInfo.setTypeKey(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY);
+
+        //Create Reg Request Item
+        RegistrationRequestItemInfo registrationRequestItem = CourseRegistrationAndScheduleOfClassesUtil.createNewRegistrationRequestItem(userId, null, masterLprId, credits, gradingOptionId, LprServiceConstants.REQ_ITEM_UPDATE_WAITLIST_TYPE_KEY, LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY, false);
+        List<RegistrationRequestItemInfo> registrationRequestItemInfos = new ArrayList<RegistrationRequestItemInfo>();
+        registrationRequestItemInfos.add(registrationRequestItem);
+        registrationRequestInfo.setRegistrationRequestItems(registrationRequestItemInfos);
+
+        //Create Registration Request
+        RegistrationRequestInfo newRegReq = CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().createRegistrationRequest(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY, registrationRequestInfo, contextInfo);
+
+        // submit the request to the registration engine.
+        CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().submitRegistrationRequest(newRegReq.getId(), contextInfo);
+
+        //Build Result object
+        ScheduleItemResult scheduleItemResult = new ScheduleItemResult();
+        scheduleItemResult.setCourseCode(courseCode);
+        scheduleItemResult.setCredits(credits);
+        scheduleItemResult.setGradingOptions(gradingOptionId);
+        scheduleItemResult.setRegGroupId(regGroupCode);
+        scheduleItemResult.setUserId(userId);
+
+        return scheduleItemResult;
+    }
+
+    @Override
+    public Response updateWaitlistEntryRS(String courseCode, String regGroupCode, String masterLprId, String credits, String gradingOptionId) {
+        Response.ResponseBuilder response;
+
+        try {
+            response = Response.ok(updateWaitlistEntry(courseCode, regGroupCode, masterLprId, credits, gradingOptionId, ContextUtils.createDefaultContextInfo()));
+        } catch (Exception e) {
+            LOGGER.warn("Exception occurred", e);
+            response = Response.serverError().entity(e.getMessage());
+        }
+
+        return response.build();
+    }
+
+    @Override
+    public RegistrationResponseInfo dropFromWaitlist(ContextInfo contextInfo, String masterLprId) throws DoesNotExistException, PermissionDeniedException, OperationFailedException, InvalidParameterException, ReadOnlyException, MissingParameterException, DataValidationErrorException, AlreadyExistsException, LoginException {
+
+        String userId = contextInfo.getPrincipalId();
+
+        LOGGER.debug("REGISTRATION: user[{}] masterLprId[{}]", userId, masterLprId);
+
+
+        if (!StringUtils.isEmpty(userId)) {
+            contextInfo.setPrincipalId(userId);
+        } else if (StringUtils.isEmpty(contextInfo.getPrincipalId())) {
+            throw new LoginException("[CourseRegistrationClientServiceImpl::registerForRegistrationGroupLocal] User must be logged in to access this service");
+        }
+
+        //Create the request object
+        RegistrationRequestInfo regReqInfo = createRegistrationRequest(contextInfo.getPrincipalId(), null, null, masterLprId, null, null, LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY, LprServiceConstants.LPRTRANS_DISCARDED_STATE_KEY, LprServiceConstants.REQ_ITEM_DROP_WAITLIST_TYPE_KEY, LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY, false);
+
+        // persist the request object in the service
+        RegistrationRequestInfo newRegReq = CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().createRegistrationRequest(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY, regReqInfo, contextInfo);
+
+        // submit the request to the registration engine.
+        return CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().submitRegistrationRequest(newRegReq.getId(), contextInfo);
+    }
+
+    @Override
+    public Response dropFromWaitlistEntryRS(@QueryParam("masterLprId") String masterLprId) {
+        Response.ResponseBuilder response;
+
+        try {
+            response = Response.ok(dropFromWaitlist(ContextUtils.createDefaultContextInfo(), masterLprId));
+        } catch (Exception e) {
+            LOGGER.warn("Exception occurred", e);
+            response = Response.serverError().entity(e.getMessage());
+        }
+
+        return response.build();
+    }
+
     /**
      * All info about a registration request can be found in the LprTransaction. get the lpr transaction and transform
      * it into something useful.
-     * @param regReqId
-     * @param contextInfo
+     *
+     * @param regReqId    registration request id
+     * @param contextInfo context of the call
      * @throws PermissionDeniedException
      * @throws MissingParameterException
      * @throws InvalidParameterException
@@ -744,7 +846,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         result.setState(lprTransactionInfo.getStateKey());
         result.setStatus(lprTransactionInfo.getStateKey()); // use state for now until we come up with something better
 
-        for(LprTransactionItemInfo lprTransactionItemInfo :  lprTransactionInfo.getLprTransactionItems()){
+        for (LprTransactionItemInfo lprTransactionItemInfo : lprTransactionInfo.getLprTransactionItems()) {
             RegistrationResponseItemResult resultItem = new RegistrationResponseItemResult();
             LprTransactionItemResultInfo lprTransactionItemResultInfo = lprTransactionItemInfo.getLprTransactionItemResult();
 
@@ -754,23 +856,43 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
             resultItem.setStatus(lprTransactionItemInfo.getStateKey()); // we should be useing the result state, but that is currently a boolean and not useful
             resultItem.setNewLuiId(lprTransactionItemInfo.getLuiId());
 
-            if(lprTransactionItemResultInfo != null){
+            if (lprTransactionItemResultInfo != null) {
                 //resultItem.setStatus(lprTransactionItemResultInfo.getStatus()); // the status is currently boolean. not usable. use state for now
                 resultItem.setMessage(lprTransactionItemResultInfo.getMessage());
+                if (lprTransactionItemResultInfo.getMessage() != null) {
+                    if (StringUtils.equals(lprTransactionItemResultInfo.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_MESSAGE_KEY)) {
+                        resultItem.setMessage(CourseRegistrationClientServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_MESSAGE);
+                        resultItem.setState(LprServiceConstants.LPRTRANS_ITEM_WAITLIST_STATE_KEY);
+                    } else if (StringUtils.equals(lprTransactionItemResultInfo.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_STUDENT_REMOVED_MESSAGE_KEY)) {
+                        resultItem.setMessage(CourseRegistrationClientServiceConstants.LPRTRANS_ITEM_WAITLIST_STUDENT_REMOVED_MESSAGE);
+                    } else if (StringUtils.equals(lprTransactionItemResultInfo.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_OPTIONS_UPDATED_MESSAGE_KEY)) {
+                        resultItem.setMessage(CourseRegistrationClientServiceConstants.LPRTRANS_ITEM_WAITLIST_OPTIONS_UPDATED_MESSAGE);
+                    } else if (StringUtils.equals(lprTransactionItemResultInfo.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_WAITLISTED_MESSAGE_KEY)) {
+                        resultItem.setMessage(CourseRegistrationClientServiceConstants.LPRTRANS_ITEM_WAITLIST_WAITLISTED_MESSAGE);
+                    } else if (StringUtils.equals(lprTransactionItemResultInfo.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_FULL_MESSAGE_KEY)) {
+                        resultItem.setMessage(CourseRegistrationClientServiceConstants.LPRTRANS_ITEM_WAITLIST_FULL_MESSAGE);
+                    } else if (StringUtils.equals(lprTransactionItemResultInfo.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_NOT_OFFERED_MESSAGE_KEY)) {
+                        resultItem.setMessage(CourseRegistrationClientServiceConstants.LPRTRANS_ITEM_WAITLIST_NOT_OFFERED_MESSAGE);
+                    } else if (StringUtils.equals(lprTransactionItemResultInfo.getMessage(), LprServiceConstants.LPRTRANS_ITEM_COURSE_UPDATED_MESSAGE_KEY)) {
+                        resultItem.setMessage(CourseRegistrationClientServiceConstants.LPRTRANS_ITEM_COURSE_UPDATED_MESSAGE);
+                    } else if (StringUtils.equals(lprTransactionItemResultInfo.getMessage(), LprServiceConstants.LPRTRANS_ITEM_COURSE_DROPPED_MESSAGE_KEY)) {
+                        resultItem.setMessage(CourseRegistrationClientServiceConstants.LPRTRANS_ITEM_COURSE_DROPPED_MESSAGE);
+                    } else if (StringUtils.equals(lprTransactionItemResultInfo.getMessage(), LprServiceConstants.LPRTRANS_ITEM_PERSON_REGISTERED_MESSAGE_KEY)) {
+                        resultItem.setMessage(CourseRegistrationClientServiceConstants.LPRTRANS_ITEM_PERSON_REGISTERED_MESSAGE);
+                    }
+                }
                 resultItem.setResultingLprId(lprTransactionItemResultInfo.getResultingLprId());
-
             }
 
             result.getResponseItemResults().add(resultItem);
         }
-
 
         return result;
     }
 
     protected LprService getLprService() {
         if (lprService == null) {
-            lprService = (LprService) GlobalResourceLoader.getService(new QName(LprServiceConstants.NAMESPACE, LprServiceConstants.SERVICE_NAME_LOCAL_PART));
+            lprService = GlobalResourceLoader.getService(new QName(LprServiceConstants.NAMESPACE, LprServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return lprService;
     }

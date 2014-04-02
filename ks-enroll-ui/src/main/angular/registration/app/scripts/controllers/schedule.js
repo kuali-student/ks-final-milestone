@@ -71,12 +71,17 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
                 course.gradingOptionId = scheduleItemResult.gradingOptionId;
                 GlobalVarsService.updateScheduleCounts($scope.schedules());
                 course.editing = false;
-                $scope.userMessage = {txt: 'Updated Successfully', type: 'success'};
+                course.statusMessage = {txt: 'Changes saved successfully', type: 'success'};
+                course.edited = true;
             }, function (error) {
                 //course.editing = false;
                 $scope.userMessage = {txt: error.data, type: 'error'};
             });
         };
+
+        $scope.removeStatusMessage = function (course){
+            course.statusMessage = null;
+        }
 
         $scope.showBadge = function (course) {
             return course.gradingOptions[course.gradingOptionId] != 'Letter';

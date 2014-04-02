@@ -54,7 +54,7 @@ angular.module('regCartApp')
             var retStatus = '';
             if(status === 'success'){
                 retStatus = ' - Success!';
-            } if(status === 'error'){
+            } if(status === 'error' || status === 'waitlist'){
                 retStatus = ' - Failed!';
             }
 
@@ -132,7 +132,7 @@ angular.module('regCartApp')
         }
 
         $scope.cancelNewCartItem = function () {
-            $scope.newCcartItem = null;
+            $scope.newCartItem = null;
             $scope.showNew = false;
         };
 
@@ -253,10 +253,10 @@ angular.module('regCartApp')
                             }
                         });
                     });
-                    if($scope.pollingCart){
+                    if ($scope.pollingCart){
                         console.log('Continue polling');
                         cartPoller(registrationRequestId);
-                    }else {
+                    } else {
                         console.log('Stop polling');
                         $scope.cart.status = '';  // set the overall status to nothing... which is the default i guess
                         $scope.cartResults.state ='kuali.lpr.trans.state.succeeded';

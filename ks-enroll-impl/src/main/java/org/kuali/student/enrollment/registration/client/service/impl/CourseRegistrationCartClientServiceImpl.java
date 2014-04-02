@@ -128,7 +128,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
         } catch (DoesNotExistException e) {
             //The reg request does not exist (HTTP status 404 Not Found)
             response = getResponse(Response.Status.NOT_FOUND, e.getMessage());
-        }catch (GenericUserException e) {
+        } catch (GenericUserException e) {
             LOGGER.warn("Error adding to cart", e);
             response = getResponse(Response.Status.INTERNAL_SERVER_ERROR, e.getUserMessage());
         } catch (Exception e) {
@@ -137,8 +137,8 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
             // Convert the generic user message into something useful to the UI.
             UserMessageResult userMessage = new UserMessageResult();
             userMessage.setGenericMessage("Unable to add item to cart.");
-            String technicalInfo = String.format("Technical Info:(cartId:[%s] courseCode[%s] regGroupId[%s] gradingOptionId[%s] credits:[%s] )",
-                    cartId, courseCode, regGroupId, regGroupCode, gradingOptionId, credits);
+            String technicalInfo = String.format("Technical Info:(cartId:[%s] courseCode:[%s] regGroupCode:[%s] regGroupId:[%s] gradingOptionId:[%s] credits:[%s] )",
+                    cartId, courseCode, regGroupCode, regGroupId, gradingOptionId, credits);
 
             userMessage.setConsoleMessage(technicalInfo);
             response = getResponse(Response.Status.INTERNAL_SERVER_ERROR, userMessage);
@@ -193,7 +193,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
             // Convert the generic user message into something useful to the UI.
             UserMessageResult userMessage = new UserMessageResult();
             userMessage.setGenericMessage("Error removing item from cart. ");
-            String technicalInfo = String.format("Technical Info:(cartId:[%s] cartItemId[%s])",cartId, cartItemId);
+            String technicalInfo = String.format("Technical Info:(cartId:[%s] cartItemId[%s])", cartId, cartItemId);
 
             userMessage.setConsoleMessage(technicalInfo);
             response = getResponse(Response.Status.INTERNAL_SERVER_ERROR, userMessage);
@@ -267,7 +267,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
 
         ValidationResultInfo regGroupValidation = validateRegGroupSearchResult(rg);
 
-        if(regGroupValidation.isError()){
+        if (regGroupValidation.isError()) {
             String technicalInfo = String.format("Technical Info:(term:[%s] id:[%s] state:[%s] )",
                     rg.getTermId(), rg.getRegGroupId(), rg.getRegGroupState());
 
@@ -283,7 +283,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
         CartItemResult optionsCartItem = getOptionsCartItem(rg, courseCode, credits, gradingOptionId, contextInfo);
 
         // Create new reg request item and add it to the cart
-        RegistrationRequestItemInfo registrationRequestItem = CourseRegistrationAndScheduleOfClassesUtil.createNewRegistrationRequestItem(cart.getRequestorId(), rg.getRegGroupId(), null, optionsCartItem.getCredits(), optionsCartItem.getGrading(), LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY, LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
+        RegistrationRequestItemInfo registrationRequestItem = CourseRegistrationAndScheduleOfClassesUtil.createNewRegistrationRequestItem(cart.getRequestorId(), rg.getRegGroupId(), null, optionsCartItem.getCredits(), optionsCartItem.getGrading(), LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY, LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY, false);
         registrationRequestItem.setMeta(new MetaInfo());
         registrationRequestItem.getMeta().setCreateId(cart.getMeta().getCreateId());//TODO KSENROLL-11755 we need a  better way to handle userIds (add as param in RS)
         cart.getRegistrationRequestItems().add(registrationRequestItem);
@@ -305,7 +305,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
         }
 
         //Get the cart result with the item id to trim it down and no reg options since we know these already
-        CartResult cartResult = getCartForUserAndTerm(cart.getRequestorId(), cart.getTermId(), null,  newCartItemId, false, contextInfo);
+        CartResult cartResult = getCartForUserAndTerm(cart.getRequestorId(), cart.getTermId(), null, newCartItemId, false, contextInfo);
         CartItemResult cartItemResult = KSCollectionUtils.getRequiredZeroElement(cartResult.getItems());
 
         //populate the options we have already calculated
@@ -316,14 +316,14 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
         return cartItemResult;
     }
 
-    protected ValidationResultInfo validateRegGroupSearchResult(RegGroupSearchResult regGroupSearchResult){
+    protected ValidationResultInfo validateRegGroupSearchResult(RegGroupSearchResult regGroupSearchResult) {
 
         ValidationResultInfo resultInfo = new ValidationResultInfo();
-        if(!LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY.equals(regGroupSearchResult.getRegGroupState())){
+        if (!LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY.equals(regGroupSearchResult.getRegGroupState())) {
             resultInfo.setError("The Registration Group you selected is not in an Offered State. You can only add offered registration groups to cart.");
         }
 
-        return  resultInfo;
+        return resultInfo;
     }
 
     /**
@@ -445,7 +445,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
             // Convert the generic user message into something useful to the UI.
             UserMessageResult userMessage = new UserMessageResult();
             userMessage.setGenericMessage("Unable to get student registration options.");
-            String technicalInfo = String.format("Technical Info:(termId:[%s] courseCode[%s] regGroupId[%s] )",termId, courseCode, regGroupId);
+            String technicalInfo = String.format("Technical Info:(termId:[%s] courseCode[%s] regGroupId[%s] )", termId, courseCode, regGroupId);
 
             userMessage.setConsoleMessage(technicalInfo);
             response = getResponse(Response.Status.INTERNAL_SERVER_ERROR, userMessage);
@@ -508,7 +508,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
         getAtpService().getAtp(termId, contextInfo);
 
         //Perform the actual search (this requires user id and term id)
-        CartResult cartResult = getCartForUserAndTerm(userId, termId, null,  null, true, contextInfo);
+        CartResult cartResult = getCartForUserAndTerm(userId, termId, null, null, true, contextInfo);
 
         //If nothing was found, this could mean there is an empty cart or no cart at all
         if (cartResult == null) {
@@ -541,7 +541,10 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
         }
 
         for (SearchResultHelper.KeyValue row : SearchResultHelper.wrap(searchResult)) {
-            return row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LPR_TRANS_ID);
+            String lprTransactionId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LPR_TRANS_ID);
+            if (lprTransactionId != null) {
+                return lprTransactionId;
+            }
         }
         return null;
     }
@@ -730,13 +733,12 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
         registrationRequest.setRequestorId(userId);
         registrationRequest.setStateKey(LprServiceConstants.LPRTRANS_NEW_STATE_KEY);
         registrationRequest.setTypeKey(LprServiceConstants.LPRTRANS_REG_CART_TYPE_KEY);
-        RegistrationRequestInfo created = getCourseRegistrationService().createRegistrationRequest(registrationRequest.getTypeKey(), registrationRequest, contextInfo);
-        return created;
+        return getCourseRegistrationService().createRegistrationRequest(registrationRequest.getTypeKey(), registrationRequest, contextInfo);
     }
 
     public CourseRegistrationService getCourseRegistrationService() {
         if (courseRegistrationService == null) {
-            courseRegistrationService = (CourseRegistrationService) GlobalResourceLoader.getService(new QName(CourseRegistrationServiceConstants.NAMESPACE, CourseRegistrationServiceConstants.SERVICE_NAME_LOCAL_PART));
+            courseRegistrationService = GlobalResourceLoader.getService(new QName(CourseRegistrationServiceConstants.NAMESPACE, CourseRegistrationServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return courseRegistrationService;
     }
@@ -747,7 +749,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
 
     public LprService getLprService() {
         if (lprService == null) {
-            lprService = (LprService) GlobalResourceLoader.getService(new QName(LprServiceConstants.NAMESPACE, LprServiceConstants.SERVICE_NAME_LOCAL_PART));
+            lprService = GlobalResourceLoader.getService(new QName(LprServiceConstants.NAMESPACE, LprServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return lprService;
     }
@@ -758,7 +760,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
 
     public AtpService getAtpService() {
         if (atpService == null) {
-            atpService = (AtpService) GlobalResourceLoader.getService(new QName(AtpServiceConstants.NAMESPACE, AtpServiceConstants.SERVICE_NAME_LOCAL_PART));
+            atpService = GlobalResourceLoader.getService(new QName(AtpServiceConstants.NAMESPACE, AtpServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return atpService;
     }

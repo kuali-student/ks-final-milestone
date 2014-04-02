@@ -1,6 +1,6 @@
 /**** Alert messages ****/
 
-@iconPosition: calc(6px) calc(12px);
+
 
 .util-Alert a {
   cursor: pointer;
@@ -21,6 +21,11 @@
 
 }
 
+.util-Alert-dropCourse-container.ng-hide-add,
+.util-Alert.ng-hide-remove {
+    display:block!important;
+}
+
 .util-Alert--success {
     background-image: url("../images/validation/success.png");
     background-repeat: no-repeat;
@@ -29,7 +34,21 @@
     border-color: @successBorder;  //#D6E9C6;
     color: @successText; // #3B723B;
     text-shadow: 0 .5px #fff;
+}
 
+.util-Alert--card {
+    border-radius: 2px;
+    padding: 10px 10px 10px 35px;
+    margin-bottom: 0em;
+    margin-left: 0em;
+    margin-top: .5em ;
+    margin-right: 0em;
+    //color: #3B723B;
+    font-family: @secondaryFontFamily;
+    font-size: 14px;
+    font-weight: normal;
+    border-width:1px 1px 1px 1px;
+    border-style: solid;
 }
 
 .util-Alert--information {

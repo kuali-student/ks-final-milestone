@@ -174,6 +174,22 @@ public class LprServiceMockImpl implements LprService, MockService {
     }
 
     @Override
+    public List<LprInfo> getLprsByMasterLprId(String masterLprId, ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        List<LprInfo> list = new ArrayList<LprInfo>();
+        for (LprInfo info : lprMap.values()) {
+            if (masterLprId.equals(info.getMasterLprId())) {
+                list.add(info);
+            }
+        }
+        return list;
+    }
+
+    @Override
     public List<LprInfo> getLprsByPerson(String personId, ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {

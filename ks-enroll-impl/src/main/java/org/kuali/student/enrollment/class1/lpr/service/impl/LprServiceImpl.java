@@ -201,6 +201,27 @@ public class LprServiceImpl implements LprService {
     }
 
     @Override
+    public List<LprInfo> getLprsByMasterLprId(String masterLprId, ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+
+        List<LprEntity> entityList = lprDao.getLprsByMasterLprId(masterLprId);
+
+        List<LprInfo> infoList = new ArrayList<LprInfo>();
+
+        if (entityList != null && !entityList.isEmpty()) {
+            for (LprEntity entity : entityList) {
+                infoList.add(entity.toDto());
+            }
+
+        }
+        return infoList;
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public List<LprInfo> getLprsByPerson(String personId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<LprEntity> entityList = lprDao.getLprsByPerson(personId);
