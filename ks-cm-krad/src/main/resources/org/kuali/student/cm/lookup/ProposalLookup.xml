@@ -47,12 +47,6 @@ limitations under the License.
             </list>
         </property>
 
-        <property name="additionalCssFiles">
-            <list>
-                <value>ks-cm-krad/css/cm.css</value>
-            </list>
-        </property>
-
         <property name="cssClasses">
             <list>
                 <value>ks-cm-find-course-proposal</value>

@@ -109,7 +109,7 @@
         <property name="control">
             <bean parent="Uif-LargeTextAreaControl" p:readOnly="true" />
         </property>
-        <!-- jQuery("#u327_control").height(jQuery("#u327_control")[0].scrollHeight); -->
+        <!-- Shrink to fit the text area: jQuery("#u327_control").height(jQuery("#u327_control")[0].scrollHeight); -->
     </bean>
 
     <bean id="CourseInfo-Review-section" parent="Uif-VerticalBoxSection">

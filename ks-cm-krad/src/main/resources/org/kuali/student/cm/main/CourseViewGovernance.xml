@@ -129,7 +129,7 @@
                 <bean parent="Uif-InputField" p:propertyName="organizationName" p:id="organizationName" >
                     <property name="refreshWhenChangedPropertyNames" value="organizationName"/>
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="50" />
+                        <bean parent="Uif-TextControl" p:size="50" p:cssClasses="validOrganizationName" />
                     </property>
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinder">
