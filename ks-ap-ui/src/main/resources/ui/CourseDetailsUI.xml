@@ -59,7 +59,6 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 		<property name="items">
 			<list>
 				<ref bean="course_details_section" />
-				<ref bean="ksap_section" />
 			</list>
 		</property>
         <property name="stickyFooter" value="false"/>
