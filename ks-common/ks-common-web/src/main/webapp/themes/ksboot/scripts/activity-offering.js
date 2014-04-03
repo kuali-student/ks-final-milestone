@@ -668,19 +668,19 @@ function setRequestedDeliveryLogisticsFieldRequired(jqObject,required){
 
 function rePositionChangeLink(subTermNameId, popoverId) {
     /* re-position change link based on the sub term name selected */
-    var changeLinkOffset = jQuery("#"+subTermNameId+"_control").offset().left + jQuery("#"+subTermNameId+"_control").width() + 10;
+    var changeLinkOffset = jQuery("#"+subTermNameId).offset().left + jQuery("#"+subTermNameId).width() + 10;
     jQuery("#" + popoverId).offset({ left: changeLinkOffset });
 }
 
 function displayAOsubTerm(subTermNameId, subTermTypeId, popoverId, dirtyId, subTermDatesJsonString) {
-    var subTermName = jQuery("#"+subTermTypeId+"_control").find(":selected").text();
+    var subTermName = jQuery("#"+subTermTypeId).find(":selected").text();
     var subTermId = jQuery("#"+subTermTypeId+"_control").find(":selected").val();
 
     /* set subTermName */
-    jQuery("#"+subTermNameId+"_control").text(subTermName);
+    jQuery("#"+subTermNameId).text(subTermName);
 
     /* re-position change link based on the sub term name selected */
-    var changeLinkOffset = jQuery("#"+subTermNameId+"_control").offset().left + jQuery("#"+subTermNameId+"_control").width() + 10;
+    var changeLinkOffset = jQuery("#"+subTermNameId).offset().left + jQuery("#"+subTermNameId).width() + 10;
     jQuery("#" + popoverId).offset({ left: changeLinkOffset });
 
     /* Set indicated field control as dirty to register changes in form (may not be a subterm field.) */
