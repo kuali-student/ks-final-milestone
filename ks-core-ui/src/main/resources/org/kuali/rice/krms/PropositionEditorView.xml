@@ -33,8 +33,8 @@ limitations under the License.
 
                 <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="typeId"
                       p:style="margin-left: 12pt" p:showLabel="true" p:label="Type" p:maxLength="40">
-                    <property name="control">
-                        <bean parent="Uif-DropdownControl" p:cssClasses="categorySelect"/>
+                <property name="control">
+                        <bean parent="KS-Uif-DropdownControl" p:cssClasses="categorySelect"/>
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.rice.krms.keyvalues.PropositionTypeValuesFinder"/>
@@ -45,12 +45,11 @@ limitations under the License.
                 <bean parent="Uif-HorizontalBoxGroup">
                     <property name="items">
                         <list merge="true">
-
                             <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="typeId"
                                   p:style="margin-left: 12pt" p:showLabel="true" p:label="Type"
                                   p:maxLength="40">
                                 <property name="control">
-                                    <bean parent="Uif-DropdownControl" p:cssClasses="categorySelect"/>
+                                    <bean parent="KS-Uif-DropdownControl" p:cssClasses="categorySelect"/>
                                 </property>
                                 <property name="optionsFinder">
                                     <bean class="org.kuali.rice.krms.keyvalues.PropositionTypeValuesFinder"/>
@@ -108,7 +107,7 @@ limitations under the License.
                 <bean id="KRMS-PropositionType-Dropdown" parent="KS-Uif-InputField-LabelTop" p:propertyName="proposition.typeId"
                       p:showLabel="true" p:label="Rule Statement Option" p:maxLength="40" p:required="true">
                     <property name="control">
-                        <bean parent="Uif-DropdownControl" p:cssClasses="categorySelect"
+                        <bean parent="KS-Uif-DropdownControl" p:cssClasses="categorySelect"
                               p:onChangeScript="ajaxCallPropositionTypeUpdate(jQuery(this), 'updatePropositionType', 'KRMS-PropositionEdit-DetailSection');"/>
                     </property>
                     <property name="optionsFinder">

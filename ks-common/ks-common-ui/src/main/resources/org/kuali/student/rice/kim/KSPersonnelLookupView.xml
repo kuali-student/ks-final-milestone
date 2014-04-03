@@ -43,7 +43,7 @@
                 <list>
                     <bean parent="Uif-LookupCriteriaInputField" p:propertyName="ksNameSearch" p:label="Name" p:required="true" >
                         <property name="control">
-                            <bean parent="Uif-TextControl"  p:minLength="3"  p:size="50" p:watermarkText="&quot;Smith&quot; OR  &quot;Smi, J&quot; OR  &quot;Smith, John&quot;"/>
+                            <bean parent="KS-Uif-TextControl"  p:minLength="3"  p:size="50" p:watermarkText="&quot;Smith&quot; OR  &quot;Smi, J&quot; OR  &quot;Smith, John&quot;"/>
                         </property>
                         <property name="constraintText" value="&quot;Last Name, First Name&quot; or Partial Name." />
 

@@ -64,7 +64,7 @@
     </bean>
 
     <!-- All input fields in KS should have their required Message Placement on the right. This is the '*'. Also, we should never render the colon. -->
-    <bean id="Uif-InputField" parent="Uif-InputField-parentBean"
+    <bean id="KS-Uif-InputField" parent="Uif-InputField-parentBean"
           p:fieldLabel.renderColon="false">
         <!-- Rice 2.4 upgrade : removing p:fieldLabel.requiredMessagePlacement="RIGHT" -->
     </bean>
