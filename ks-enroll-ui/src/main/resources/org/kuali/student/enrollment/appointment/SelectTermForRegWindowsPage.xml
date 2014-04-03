@@ -34,7 +34,7 @@
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean parent="KS-Uif-InputField" p:propertyName="termType" p:label="Term" p:labelPlacement="TOP" p:required="true">
+                            <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="termType" p:label="Term" p:required="true">
                                 <property name="control">
                                     <bean parent="KS-Uif-DropdownControl"/>
                                 </property>
@@ -44,7 +44,7 @@
                                 </property>
                             </bean>
 
-                            <bean parent="KS-Uif-InputField" p:propertyName="termYear" p:label="Year" p:labelPlacement="TOP" p:required="true">
+                            <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="termYear" p:label="Year" p:required="true">
                                 <property name="control">
                                     <bean parent="KS-Uif-TextControl" p:size="4"/>
                                 </property>

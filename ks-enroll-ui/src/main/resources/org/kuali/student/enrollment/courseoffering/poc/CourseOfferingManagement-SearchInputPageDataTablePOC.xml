@@ -39,14 +39,14 @@
 
     <bean id="KS-CourseOfferingManagement-CriteriaSection-DataTablePOC" parent="Uif-HorizontalBoxSection"
         p:id="courseOfferingManagementCriteriaSection">
-        <!--<property name="componentSecurity.editAuthz" value="true" />-->
+        <!--<property name="editAuthz" value="true" />-->
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean p:id="termCodeId" parent="KS-Uif-InputField" p:propertyName="termCode" p:label="Term" p:labelPlacement="LEFT" p:required="true" p:readOnly="false">
+                            <bean p:id="termCodeId" parent="KS-Uif-InputField-LabelLeft" p:propertyName="termCode" p:label="Term" p:required="true" p:readOnly="false">
                                 <property name="control">
                                     <bean parent="KS-Uif-TextControl" p:size="6" p:watermarkText="20132" p:minLength="5" p:maxLength="6"/>
                                 </property>
@@ -63,7 +63,7 @@
                                                 <entry key="code" value="inputCode"/>
                                             </map>
                                         </property>
-                                        <property name="readOnlySearchFields" value="courseInfo.courseTitle" />
+                                        <property name="readOnlyLookupFields" value="courseInfo.courseTitle" />
                                         <property name="quickfinderAction">
                                             <bean parent="Uif-ActionLink" p:methodToCall="performLookup" p:id="lookup_searchCourseCode">
                                                 <property name="actionImage">
@@ -71,8 +71,8 @@
                                                 </property>
                                             </bean>
                                         </property>
-                                        <property name="lightBoxLookup">
-                                            <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
+                                        <property name="lightBox">
+                                            <bean parent="Uif-LightBox" p:lookupReturnByScript="false"/>
                                         </property>
                                     </bean>
                                 </property>

@@ -16,7 +16,7 @@ import org.kuali.rice.core.api.criteria.AndPredicate;
 import org.kuali.rice.core.api.criteria.EqualPredicate;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
-import org.kuali.rice.core.framework.persistence.jpa.criteria.Criteria;
+import org.kuali.student.r2.common.criteria.Criteria;
 import org.kuali.student.r2.common.criteria.LookupCustomizer.PredicateTransform;
 
 /**

@@ -108,7 +108,6 @@ import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Formatter;
@@ -277,55 +276,35 @@ public class CourseOfferingManagementUtil {
 
     public static CourseOfferingManagementViewHelperService getViewHelperService(CourseOfferingManagementForm theForm) {
         if (viewHelperService == null) {
-            if (theForm.getView().getViewHelperServiceClass() != null) {
-                viewHelperService = (CourseOfferingManagementViewHelperService) theForm.getView().getViewHelperService();
-            } else {
-                viewHelperService = (CourseOfferingManagementViewHelperService) theForm.getPostedView().getViewHelperService();
-            }
+            viewHelperService = (CourseOfferingManagementViewHelperService) theForm.getViewHelperService();
         }
         return viewHelperService;
     }
 
     public static CourseOfferingViewHelperService getCoViewHelperService(UifFormBase form) {
         if (coViewHelperService == null) {
-            if (form.getView().getViewHelperServiceClass() != null) {
-                coViewHelperService = (CourseOfferingViewHelperService) form.getView().getViewHelperService();
-            } else {
-                coViewHelperService = (CourseOfferingViewHelperService) form.getPostedView().getViewHelperService();
-            }
+            coViewHelperService = (CourseOfferingViewHelperService) form.getViewHelperService();
         }
         return coViewHelperService;
     }
 
     public static CreateSocViewHelperService getSocViewHelperService(CreateSocForm createSocForm) {
         if (socViewHelperService == null) {
-            if (createSocForm.getView().getViewHelperServiceClass() != null) {
-                socViewHelperService = (CreateSocViewHelperService) createSocForm.getView().getViewHelperService();
-            } else {
-                socViewHelperService = (CreateSocViewHelperService) createSocForm.getPostedView().getViewHelperService();
-            }
+            socViewHelperService = (CreateSocViewHelperService) createSocForm.getViewHelperService();
         }
         return socViewHelperService;
     }
 
     public static DiagnoseRolloverViewHelperService getDrViewHelperService(DiagnoseRolloverForm rolloverForm) {
         if (drViewHelperService == null) {
-            if (rolloverForm.getView().getViewHelperServiceClass() != null) {
-                drViewHelperService = (DiagnoseRolloverViewHelperService) rolloverForm.getView().getViewHelperService();
-            } else {
-                drViewHelperService = (DiagnoseRolloverViewHelperService) rolloverForm.getPostedView().getViewHelperService();
-            }
+            drViewHelperService = (DiagnoseRolloverViewHelperService) rolloverForm.getViewHelperService();
         }
         return drViewHelperService;
     }
 
     public static DevTestWidgetViewHelperService getDevTestWidgetViewHelperService(DevTestWidgetForm serviceCallForm) {
         if (devTestWidgetViewHelperService == null) {
-            if (serviceCallForm.getView().getViewHelperServiceClass() != null) {
-                devTestWidgetViewHelperService = (DevTestWidgetViewHelperService) serviceCallForm.getView().getViewHelperService();
-            } else {
-                devTestWidgetViewHelperService = (DevTestWidgetViewHelperService) serviceCallForm.getPostedView().getViewHelperService();
-            }
+            devTestWidgetViewHelperService = (DevTestWidgetViewHelperService) serviceCallForm.getViewHelperService();
         }
         return devTestWidgetViewHelperService;
     }
@@ -563,7 +542,7 @@ public class CourseOfferingManagementUtil {
      *  @return True if any COs where selected. Otherwise, false.
      */
     public static Object getSelectedObject(KSUifForm theForm, String actionLink) {
-        String selectedCollectionPath = theForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        String selectedCollectionPath = theForm.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
             throw new RuntimeException("Selected collection was not set for " + actionLink);
         }
@@ -647,11 +626,6 @@ public class CourseOfferingManagementUtil {
         props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
         props.put("courseOfferingInfo.id", courseOfferingInfo.getId());
         props.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, CourseOfferingEditWrapper.class.getName());
-
-        // UrlParams.SHOW_HISTORY and SHOW_HOME no longer exist
-        // https://fisheye.kuali.org/changelog/rice?cs=39034
-        // TODO KSENROLL-8469
-        //props.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
         return props;
     }
 

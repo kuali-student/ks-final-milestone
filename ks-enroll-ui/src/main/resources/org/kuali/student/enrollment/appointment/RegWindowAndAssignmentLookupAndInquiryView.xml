@@ -165,11 +165,13 @@
                                   p:propertyName="numberOfSlots"
                                   p:label="# Of Slots"
                                   p:fieldLabel.renderColon="false"/>
+                            <!-- Rice 2.4 upgrade : removed instructionalText as it not valid on a data field -->
                             <bean parent="KS-Uif-DataField"
                                   p:propertyName="meanStudentsPerSlot"
                                   p:label="Students Per Slot"
-                                  p:instructionalText="This displays the most common allotment size (mode), not the average."
                                   p:fieldLabel.renderColon="false"/>
+                                  <!--p:instructionalText="This displays the most common allotment size (mode), not the average."-->
+                                  <!--p:fieldLabel.renderColon="false"/>-->
                             <bean parent="KS-Uif-DataField"
                                   p:propertyName="firstSlotPopulated"
                                   p:label="First Slot Populated "

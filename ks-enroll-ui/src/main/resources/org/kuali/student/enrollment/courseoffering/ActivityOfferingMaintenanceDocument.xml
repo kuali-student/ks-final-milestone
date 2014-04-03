@@ -114,15 +114,15 @@
                             <property name="items">
                                 <list>
                                     <bean id="send_RDLs_to_scheduler"
-                                          parent="Uif-InputField-LabelRight"
+                                          parent="KS-Uif-InputField"
                                           p:cssClasses="unprocessed_changes_checkbox"
                                           p:render="@{#dp.schedulingCompleted}"
-                                          p:label="@{#dp.aoInfo.stateKey eq 'kuali.lui.activity.offering.state.canceled' ? 'Scheduling information cannot be sent to the scheduler for this activity offering because it is canceled.' : 'Send revised scheduling information to the scheduler for processing upon save.'}"
                                           p:propertyName="sendRDLsToSchedulerAfterMSE">
                                         <property name="control">
                                             <bean id="send_RDLs_to_scheduler_control"
                                                   parent="KS-Uif-CheckboxControl"
-                                                  p:onClickScript="showRemoveAllOfferingsFromSchedulerConfirmation();">
+                                                  p:onClickScript="showRemoveAllOfferingsFromSchedulerConfirmation();"
+                                                  p:checkboxLabel="@{#dp.aoInfo.stateKey eq 'kuali.lui.activity.offering.state.canceled' ? 'Scheduling information cannot be sent to the scheduler for this activity offering because it is canceled.' : 'Send revised scheduling information to the scheduler for processing upon save.'}">
                                                 <property name="render" value="@{#dp.aoInfo.stateKey ne 'kuali.lui.activity.offering.state.canceled'}"/>
                                             </bean>
                                         </property>

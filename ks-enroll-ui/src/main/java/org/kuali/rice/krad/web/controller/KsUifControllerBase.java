@@ -85,7 +85,7 @@ public abstract class KsUifControllerBase extends UifControllerBase {
 
         // invoke attribute query service to perform the query
         AttributeQueryResult queryResult = KRADServiceLocatorWeb.getAttributeQueryService().performFieldSuggestQuery(
-                form.getPostedView(), queryFieldId, queryTerm, queryParameters);
+                form.getViewPostMetadata(), queryFieldId, queryTerm, queryParameters);
 
         return queryResult;
     }

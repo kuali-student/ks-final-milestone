@@ -20,8 +20,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.krad.lookup.LookupForm;
 import org.kuali.rice.krad.lookup.LookupableImpl;
-import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.common.util.ContextBuilder;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.constants.HoldServiceConstants;
@@ -48,17 +48,17 @@ public class HoldIssueInfoLookupableImpl extends LookupableImpl {
     ContextInfo contextInfo = new ContextInfo();
 
     @Override
-    protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
+    public List<?> performSearch(LookupForm lookupForm, Map<String, String> searchCriteria, boolean bounded) {
         List<HoldIssueInfo> results = new ArrayList<HoldIssueInfo>();
         QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
         List<Predicate> pList = new ArrayList<Predicate>();
         Predicate p;
 
-        String type = fieldValues.get("typeKey");
-        String name = fieldValues.get("name");
-        String state = fieldValues.get("stateKey");
-        String orgId = fieldValues.get("organizationId");
-        String descr = fieldValues.get("descr.plain");
+        String type = searchCriteria.get("typeKey");
+        String name = searchCriteria.get("name");
+        String state = searchCriteria.get("stateKey");
+        String orgId = searchCriteria.get("organizationId");
+        String descr = searchCriteria.get("descr.plain");
         qBuilder.setPredicates();
         if (StringUtils.isNotBlank(name)){
             p = like("name", "%" + name + "%");

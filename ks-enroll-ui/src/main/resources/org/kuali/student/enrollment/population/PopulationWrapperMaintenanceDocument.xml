@@ -88,20 +88,20 @@
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>
-                <bean parent="KS-Uif-InputField" p:propertyName="populationInfo.name" p:label="Name"
-                      p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:required="true">
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="populationInfo.name" p:label="Name"
+                      p:fieldLabel.renderColon="false" p:required="true">
                     <property name="control">
                         <bean parent="KS-Uif-TextControl" p:size="40" />
                     </property>
                 </bean>
-                <bean parent="KS-Uif-InputField" p:propertyName="populationInfo.descr.plain" p:label="Description"
-                      p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:required="true">
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="populationInfo.descr.plain" p:label="Description"
+                      p:fieldLabel.renderColon="false" p:required="true">
                     <property name="control">
                         <bean parent="Uif-TextAreaControl" p:rows="5" p:cols="43" />
                     </property>
                 </bean>
-                <bean parent="KS-Uif-InputField" p:fieldLabel.render="@{#view.readOnly}" p:propertyName="populationInfo.stateKey"
-                      p:label="State" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:render="@{maintenanceAction eq 'Edit'}">
+                <bean parent="KS-Uif-InputField-LabelTop" p:fieldLabel.render="@{#view.readOnly}" p:propertyName="populationInfo.stateKey"
+                      p:label="State" p:fieldLabel.renderColon="false" p:render="@{maintenanceAction eq 'Edit'}">
                     <property name="control">
                         <bean parent="Uif-HorizontalRadioControl" p:options-ref="populationStateKeyName-options"/>
                     </property>
@@ -131,13 +131,13 @@
                         <bean parent="Uif-TextAreaControl" p:rows="5" p:cols="43" />
                     </property>
                 </bean>
-                <bean parent="KS-Uif-InputField" p:fieldLabel.render="@{#view.readOnly}" p:propertyName="populationInfo.stateKey"
-                      p:label="State" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:render="@{maintenanceAction eq 'Edit'}">
+                <bean parent="KS-Uif-InputField-LabelTop" p:fieldLabel.render="@{#view.readOnly}" p:propertyName="populationInfo.stateKey"
+                      p:label="State" p:fieldLabel.renderColon="false" p:render="@{maintenanceAction eq 'Edit'}">
                     <property name="control">
                         <bean parent="Uif-HorizontalRadioControl" p:options-ref="populationStateKeyName-options"/>
                     </property>
                 </bean>
-                <bean parent="Uif-DataField-LabelTop" p:label="Operation" p:propertyName="operationTypeText"
+                <bean parent="KS-Uif-DataField-LabelTop" p:label="Operation" p:propertyName="operationTypeText"
                       p:render="@{maintenanceAction eq 'Edit'}"/>
                 <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="operationType" p:label="Operation"
                       p:defaultValue="@{maintenanceAction eq 'New' ? 'kuali.population.rule.type.union' : #dp.operationType}" p:required="true"
@@ -160,7 +160,7 @@
                 </bean>
                 <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="referencePopulation.name"
                       p:label="Reference Population" p:required="true"
-                      p:refreshWhenChangedPropertyNames="@{#dp.operationType}"
+                      p:refreshWhenChangedPropertyNames="#dp.operationType"
                       p:progressiveRender="@{#dp.operationType eq 'kuali.population.rule.type.exclusion'}"
                       p:additionalCssClasses="ks-uif-quickFinder">
                     <property name="control">
@@ -177,7 +177,7 @@
                                 </map>
                             </property>
                             <!-- Hide the state option, and default it to Active -->
-                            <property name="readOnlySearchFields" value="populationInfo.stateKey" />
+                            <property name="readOnlyLookupFields" value="populationInfo.stateKey" />
                             <property name="quickfinderAction">
                                 <bean parent="KS-Uif-ActionLink" p:methodToCall="performLookup" p:id="lookup_searchRefPopulation" p:actionLabel="Find a Population" />
                             </property>
@@ -233,7 +233,7 @@
                                             </map>
                                         </property>
                                         <!-- Hide the state option, and default it to Active -->
-                                        <property name="readOnlySearchFields" value="populationInfo.stateKey" />
+                                        <property name="readOnlyLookupFields" value="populationInfo.stateKey" />
                                         <property name="quickfinderAction">
                                             <bean parent="KS-Uif-ActionLink" p:methodToCall="performLookup" p:id="lookup_searchPopulation" p:actionLabel="Find a Name" />
                                         </property>
