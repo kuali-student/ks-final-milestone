@@ -82,7 +82,7 @@
 
         <property name="items">
             <list>
-                <bean parent="Uif-HorizontalBoxSection">
+                <bean parent="Uif-VerticalBoxSection">
                     <property name="items">
                         <list>
                             <!--<ref bean="KS-CourseOffering-ContextBar"/>-->
