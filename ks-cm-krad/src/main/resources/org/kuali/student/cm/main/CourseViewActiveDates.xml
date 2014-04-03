@@ -36,7 +36,7 @@
                     <property name="fieldLabel.richLabelMessage.iconToolTipText" value="If this is a pilot course, you must select an End Term"/>
                 </bean>
                 <bean parent="Uif-KS-IconInputField-LabelTop" p:propertyName="endTerm" p:label="End Term"   p:id="CourseView-ActiveDatesPage-EndTerm"
-                      p:required="true" >
+                      p:required="@{document.newMaintainableObject.dataObject.pilotCourse}" >
                     <property name="cssClasses">
                         <list merge="true">
                             <value>admin-not-required-field</value>
@@ -50,7 +50,7 @@
                     </property>
                     <property name="instructionalText" value="Last term in which the course can be offered" />
                     <property name="control">
-                        <bean parent="KS-Uif-DropdownControl" p:disabled="@{!document.newMaintainableObject.dataObject.courseInfo.pilotCourse}" />
+                        <bean parent="KS-Uif-DropdownControl" p:disabled="@{!document.newMaintainableObject.dataObject.pilotCourse}" />
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.DatesKeyValuesFinder"
