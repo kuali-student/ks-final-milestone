@@ -477,7 +477,7 @@
     </bean>
 
     <bean id="ActivityOfferingEdit-WailtList-Info-Section" parent="Uif-VerticalBoxSection"
-          p:progressiveRender="@{#dp.hasWaitlist}" p:refreshWhenChangedPropertyNames="@{#dp.hasWaitlist}">
+          p:progressiveRender="@{#dp.hasWaitlist}" p:refreshWhenChangedPropertyNames="#dp.hasWaitlist">
         <property name="additionalCssClasses">
             <list merge="true">
                 <value>ks-form-panel</value>
@@ -516,7 +516,7 @@
                                                         </property>
                                                     </bean>
                                                     <bean  id="limit_waitlist_size_text" parent="Uif-InputField" p:required="true" p:inclusiveMax="999" p:exclusiveMin="0" p:dataType="INTEGER"
-                                                           p:propertyName="courseWaitListInfo.maxSize" p:refreshWhenChangedPropertyNames="@{#dp.limitWaitlistSize}">
+                                                           p:propertyName="courseWaitListInfo.maxSize" p:refreshWhenChangedPropertyNames="#dp.limitWaitlistSize">
                                                         <property name="control">
                                                             <bean parent="Uif-TextControl" p:disabled="@{!#dp.limitWaitlistSize}" />
                                                         </property>

@@ -160,7 +160,7 @@
                 </bean>
                 <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="referencePopulation.name"
                       p:label="Reference Population" p:required="true"
-                      p:refreshWhenChangedPropertyNames="@{#dp.operationType}"
+                      p:refreshWhenChangedPropertyNames="#dp.operationType"
                       p:progressiveRender="@{#dp.operationType eq 'kuali.population.rule.type.exclusion'}"
                       p:additionalCssClasses="ks-uif-quickFinder">
                     <property name="control">
