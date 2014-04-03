@@ -212,7 +212,9 @@ angular.module('regCartApp')
                 regGroupId: cartItem.regGroupId,
                 allowWaitlist: true
             }, function () {
-                cartItem.status = 'waitlisted';
+                cartItem.status = 'success';
+                cartItem.waitlistedStatus = 'true';
+                cartItem.statusMessage = 'If a seat becomes available you will be registered automatically'
             });
         };
 
