@@ -37,7 +37,7 @@ angular.module('regCartApp')
 
         this.registerForRegistrationGroup = function () {
             return $resource(APP_URL + 'CourseRegistrationClientService/registerreggroup', {}, {
-                query: {method: 'GET', cache: false, isArray: true}
+                query: {method: 'GET', cache: false, isArray: false}
             });
         };
 
