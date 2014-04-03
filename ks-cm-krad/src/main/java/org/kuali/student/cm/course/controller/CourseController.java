@@ -753,28 +753,18 @@ public class CourseController extends CourseRuleEditorController {
      * @param response the {@link HttpServletResponse} instance
      * @return ModelAndView of the next view
      */
-    @RequestMapping(params="methodToCall=addUnitsContentOwner")
-    protected ModelAndView addUnitsContentOwner(final @ModelAttribute("KualiForm") MaintenanceDocumentForm form, 
+    @RequestMapping(params="methodToCall=refreshOversightSection")
+    protected ModelAndView refreshOversightSection(final @ModelAttribute("KualiForm") MaintenanceDocumentForm form,
                                                 final BindingResult result,
                                                 final HttpServletRequest request,
                                                 final HttpServletResponse response) {
         LOG.info("Adding a unitsContentOwner");
-        final CourseInfoMaintainable maintainable = (CourseInfoMaintainable) form.getDocument().getNewMaintainableObject();
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
         if(StringUtils.isBlank(courseInfoWrapper.getPreviousSubjectCode()) ||
                 !StringUtils.equals(courseInfoWrapper.getPreviousSubjectCode(), courseInfoWrapper.getCourseInfo().getSubjectArea())) {
             courseInfoWrapper.getUnitsContentOwner().clear();
             courseInfoWrapper.setPreviousSubjectCode(courseInfoWrapper.getCourseInfo().getSubjectArea());
         }
-        if (courseInfoWrapper.getUnitsContentOwnerToAdd() == null) {
-            LOG.info("Units Content Owner is null");
-            return getUIFModelAndView(form);
-        }
-
-        final String toAdd = courseInfoWrapper.getUnitsContentOwnerToAdd();
-        LOG.info("Adding {}", toAdd);
-        courseInfoWrapper.getUnitsContentOwner().add(getOrganizationBy(courseInfoWrapper.getCourseInfo().getSubjectArea(), toAdd));
-        courseInfoWrapper.setUnitsContentOwnerToAdd("");
 
         return getUIFModelAndView(form);
     }

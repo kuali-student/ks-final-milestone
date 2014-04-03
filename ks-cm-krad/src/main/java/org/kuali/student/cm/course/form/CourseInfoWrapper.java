@@ -60,7 +60,7 @@ public class CourseInfoWrapper implements Serializable {
     private String userId;
     private String lastUpdated;
     private String unitsContentOwnerToAdd;
-    private List<KeyValue> unitsContentOwner;
+    private List<CourseCreateUnitsContentOwner> unitsContentOwner;
     private String requiredWorkflowMode;
     private String finalExamStatus;
     private boolean audit;
@@ -190,7 +190,7 @@ public class CourseInfoWrapper implements Serializable {
         userId = "";
         lastUpdated = "";
         unitsContentOwnerToAdd = "";
-        unitsContentOwner = new ArrayList<KeyValue>();
+        unitsContentOwner = new ArrayList<CourseCreateUnitsContentOwner>();
         loDisplayWrapperModel = new LoDisplayWrapperModel();
         uiHelper = new CreateCourseUIHelper();
     }
@@ -242,13 +242,13 @@ public class CourseInfoWrapper implements Serializable {
         this.requiredWorkflowMode = requiredWorkflowMode;
     }
 
-    public void setUnitsContentOwner(final List<KeyValue> unitsContentOwner) {
+    public void setUnitsContentOwner(List<CourseCreateUnitsContentOwner> unitsContentOwner) {
         this.unitsContentOwner = unitsContentOwner;
     }
 
-    public List<KeyValue> getUnitsContentOwner() {
+    public List<CourseCreateUnitsContentOwner> getUnitsContentOwner() {
         if (unitsContentOwner == null) {
-            unitsContentOwner = new ArrayList<KeyValue>();
+            unitsContentOwner = new ArrayList<CourseCreateUnitsContentOwner>();
         }
         return unitsContentOwner;
     }
