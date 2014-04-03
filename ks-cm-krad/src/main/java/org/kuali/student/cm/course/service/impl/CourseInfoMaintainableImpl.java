@@ -1201,16 +1201,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
     }
 
-    private static class FinalExamComparator implements Comparator<EnumeratedValueInfo> {
-
-        @Override
-        public int compare(EnumeratedValueInfo o1, EnumeratedValueInfo o2) {
-            int result = o1.getSortKey().compareToIgnoreCase(o2.getSortKey());
-            return result;
-        }
-    }
-
-    private List<String> updateCampusLocations(List<String> campusLocations) {
+    protected List<String> updateCampusLocations(List<String> campusLocations) {
 
         final List<KeyValue> keyValues = new ArrayList<KeyValue>();
         try {
@@ -1218,7 +1209,13 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                     getEnumerationManagementService().getEnumeratedValues
                             (CluServiceConstants.CAMPUS_LOCATION_ENUM_KEY, null, null, null, ContextUtils.createDefaultContextInfo());
 
-            Collections.sort(enumerationInfos, new FinalExamComparator());
+            Collections.sort(enumerationInfos, new Comparator<EnumeratedValueInfo>() {
+                @Override
+                public int compare(EnumeratedValueInfo o1, EnumeratedValueInfo o2) {
+                    int result = o1.getSortKey().compareToIgnoreCase(o2.getSortKey());
+                    return result;
+                }
+            });
 
             for (final EnumeratedValueInfo enumerationInfo : enumerationInfos) {
                 keyValues.add(new ConcreteKeyValue(enumerationInfo.getCode(), enumerationInfo.getValue()));
