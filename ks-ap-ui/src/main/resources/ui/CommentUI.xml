@@ -104,11 +104,11 @@
                             <bean id="postCommentButton" p:id="postCommentButton" parent="Uif-PrimaryActionButton"
                                   p:actionLabel="Post a Comment" p:methodToCall="addComment" p:style="margin:0 0 0 100px;" p:disabled="true" p:focusOnIdAfterSubmit="commenting_textbox_control">
                             </bean>
-                            <bean id="hidden_messageId" parent="Uif-InputField" p:propertyName="messageId"
+                            <bean id="hidden_messageId" parent="KS-Uif-InputField" p:propertyName="messageId"
                                   p:defaultValue="@{messageId}" p:style="display:none;">
                                 <property name="hidden" value="true"/>
                                 <property name="control">
-                                    <bean parent="Uif-HiddenControl"/>
+                                    <bean parent="KS-Uif-HiddenControl"/>
                                 </property>
                             </bean>
                             <ref bean="comment_sent"/>
@@ -162,21 +162,21 @@
                 <bean id="comment_text_box" parent="Uif-HorizontalBoxSubSection">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:propertyName="from" p:label="From" p:fieldLabel.cssClasses="ksap-text-normal" p:fieldLabel.renderColon="false" />
-                            <bean parent="Uif-DataField" p:propertyName="createdDate" p:label="on" p:fieldLabel.cssClasses="ksap-text-normal" p:fieldLabel.renderColon="false" p:escapeHtmlInPropertyValue="false">
+                            <bean parent="KS-Uif-DataField" p:propertyName="from" p:label="From" p:fieldLabel.cssClasses="ksap-text-normal" p:fieldLabel.renderColon="false" />
+                            <bean parent="KS-Uif-DataField" p:propertyName="createdDate" p:label="on" p:fieldLabel.cssClasses="ksap-text-normal" p:fieldLabel.renderColon="false" p:escapeHtmlInPropertyValue="false">
                                 <property name="propertyEditor" ref="timestamp_formatter"/>
                             </bean>
                         </list>
                     </property>
                 </bean>
-                <bean parent="Uif-DataField" p:propertyName="subject" p:style="width:610px;">
+                <bean parent="KS-Uif-DataField" p:propertyName="subject" p:style="width:610px;">
                     <property name="cssClasses">
                         <list merge="true">
                             <value>ksap-text-ellipsis</value>
                         </list>
                     </property>
                 </bean>
-                <bean parent="Uif-DataField" p:propertyName="body" p:style="width:610px; margin:0;" p:escapeHtmlInPropertyValue="false">
+                <bean parent="KS-Uif-DataField" p:propertyName="body" p:style="width:610px; margin:0;" p:escapeHtmlInPropertyValue="false">
                     <property name="cssClasses">
                         <list merge="true">
                             <value>ksap-block-ellipsis</value>
@@ -221,14 +221,14 @@
                             <bean parent="Uif-HorizontalBoxSubSection" p:style="margin:0;">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-DataField" p:propertyName="from" />
-                                        <bean parent="Uif-DataField" p:propertyName="createDate" p:style="margin:0;" p:escapeHtmlInPropertyValue="false">
+                                        <bean parent="KS-Uif-DataField" p:propertyName="from" />
+                                        <bean parent="KS-Uif-DataField" p:propertyName="createDate" p:style="margin:0;" p:escapeHtmlInPropertyValue="false">
                                             <property name="propertyEditor" ref="timestamp_formatter"/>
                                         </bean>
                                     </list>
                                 </property>
                             </bean>
-                            <bean parent="Uif-DataField" p:propertyName="body" p:escapeHtmlInPropertyValue="false">
+                            <bean parent="KS-Uif-DataField" p:propertyName="body" p:escapeHtmlInPropertyValue="false">
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>ksap-messages-comments-body</value>
@@ -247,9 +247,9 @@
         <property name="items">
             <list>
 
-                <bean parent="Uif-DataField" p:propertyName="personName" p:style="margin:0;" />
+                <bean parent="KS-Uif-DataField" p:propertyName="personName" p:style="margin:0;" />
 
-                <bean id="commenting_textbox" parent="Uif-InputField" p:propertyName="commentBody"
+                <bean id="commenting_textbox" parent="KS-Uif-InputField" p:propertyName="commentBody"
                       p:fieldLabel.render="false" p:style="margin:0;">
                     <!--<property name="onDocumentReadyScript" value="
                         jQuery('textarea#commenting_textbox_control').focus();
@@ -304,10 +304,10 @@
         <property name="items">
             <list>
                 <bean parent="Uif-MessageField" p:messageText="Subject" p:style="margin:0;" />
-                <bean id="subject_textbox" parent="Uif-InputField" p:propertyName="subject"
+                <bean id="subject_textbox" parent="KS-Uif-InputField" p:propertyName="subject"
                       p:fieldLabel.render="false">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:maxLength="70" p:watermarkText="Maximum characters are 70" p:disabled="@{feedBackMode ? true : false}">
+                        <bean parent="KS-Uif-TextControl" p:maxLength="70" p:watermarkText="Maximum characters are 70" p:disabled="@{feedBackMode ? true : false}">
                             <property name="onKeyPressScript" value="
                                 var code = (e.keyCode ? e.keyCode : e.which);
                                 if (code == 13) {
@@ -330,7 +330,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-MessageField" p:messageText="Message" p:style="margin:0;" />
-                <bean id="message_textbox" parent="Uif-InputField" p:propertyName="body"
+                <bean id="message_textbox" parent="KS-Uif-InputField" p:propertyName="body"
                       p:fieldLabel.render="false">
                     <property name="control">
                         <bean parent="Uif-TextAreaControl" p:rows="10" p:textExpand="false" p:style="resize:none;"
@@ -677,7 +677,7 @@
                     <property name="onDocumentReadyScript" value="ksapCreateLightBoxLink('@{#line.messageId}_subject', {helpers:{overlay:{closeClick: false}},autoScale:true,width:650,centerOnScroll:true,transitionIn:'fade',transitionOut:'fade',speedIn:200,speedOut:200,type:'iframe',href:'comment?methodToCall=startCommentForm&amp;viewId=Message-FormView&amp;pageId=comment_dialog_response_page&amp;messageId=@{#line.messageId}'});"/>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:propertyName="subject" p:fieldLabel.render="false">
+                            <bean parent="KS-Uif-DataField" p:propertyName="subject" p:fieldLabel.render="false">
                                 <property name="style" value="width:242px;"/>
                                 <property name="cssClasses">
                                     <list merge="true">
@@ -685,7 +685,7 @@
                                     </list>
                                 </property>
                             </bean>
-                            <bean parent="Uif-DataField" p:propertyName="from" p:label="from" p:fieldLabel.cssClasses="ksap-text-normal" p:fieldLabel.renderColon="false"
+                            <bean parent="KS-Uif-DataField" p:propertyName="from" p:label="from" p:fieldLabel.cssClasses="ksap-text-normal" p:fieldLabel.renderColon="false"
                                   p:style="margin:0;" />
                         </list>
                     </property>
@@ -695,7 +695,7 @@
                     <property name="onDocumentReadyScript" value="ksapCreateLightBoxLink('@{#line.messageId}_received', {helpers:{overlay:{closeClick: false}},autoScale:true,width:650,centerOnScroll:true,transitionIn:'fade',transitionOut:'fade',speedIn:200,speedOut:200,type:'iframe',href:'comment?methodToCall=startCommentForm&amp;viewId=Message-FormView&amp;pageId=comment_dialog_response_page&amp;messageId=@{#line.messageId}'});"/>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:propertyName="createDate" p:fieldLabel.render="false" p:escapeHtmlInPropertyValue="false">
+                            <bean parent="KS-Uif-DataField" p:propertyName="createDate" p:fieldLabel.render="false" p:escapeHtmlInPropertyValue="false">
                                 <property name="propertyEditor" ref="timestamp_formatter"/>
                             </bean>
                             <bean parent="Uif-SpaceField" p:style="margin:0;"/> <!--<bean parent="Uif-MessageField" p:messageText="Received"/>-->
@@ -718,10 +718,10 @@
                     <property name="onDocumentReadyScript" value="ksapCreateLightBoxLink('@{#line.messageId}_lastcomment', {helpers:{overlay:{closeClick: false}},autoScale:true,width:650,centerOnScroll:true,transitionIn:'fade',transitionOut:'fade',speedIn:200,speedOut:200,type:'iframe',href:'comment?methodToCall=startCommentForm&amp;viewId=Message-FormView&amp;pageId=comment_dialog_response_page&amp;messageId=@{#line.messageId}'});"/>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:propertyName="lastCommentDate" p:fieldLabel.render="false" p:escapeHtmlInPropertyValue="false">
+                            <bean parent="KS-Uif-DataField" p:propertyName="lastCommentDate" p:fieldLabel.render="false" p:escapeHtmlInPropertyValue="false">
                                 <property name="propertyEditor" ref="last_comment_formatter"/>
                             </bean>
-                            <bean parent="Uif-DataField" p:propertyName="lastCommentBy" p:label="by" p:fieldLabel.cssClasses="ksap-text-normal" p:fieldLabel.renderColon="false"
+                            <bean parent="KS-Uif-DataField" p:propertyName="lastCommentBy" p:label="by" p:fieldLabel.cssClasses="ksap-text-normal" p:fieldLabel.renderColon="false"
                                   p:style="margin:0;">
                                 <property name="render" value="@{#line.lastCommentBy eq null ? false : true}"/>
                                 <property name="cssClasses">

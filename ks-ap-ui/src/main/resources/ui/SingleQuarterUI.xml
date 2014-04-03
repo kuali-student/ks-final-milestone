@@ -134,7 +134,7 @@
                     <property name="group.validationMessages.displayMessages" value="false"/>
                     <property name="items">
                         <list>
-                            <!--<bean parent="Uif-DataField" p:propertyName="activityOfferingItem.activityOfferingType"
+                            <!--<bean parent="KS-Uif-DataField" p:propertyName="activityOfferingItem.activityOfferingType"
                                   p:style="margin-right:0.33em; text-transform:capitalize;">
                                 <property name="fieldLabel.render" value="false"/>
                             </bean>-->
@@ -144,11 +144,11 @@
                         </list>
                     </property>
                 </bean>
-                <bean parent="Uif-DataField" p:label="Meeting Time" p:render="@{#line.activityOfferingItem ne null}"
+                <bean parent="KS-Uif-DataField" p:label="Meeting Time" p:render="@{#line.activityOfferingItem ne null}"
                       p:propertyName="activityOfferingItem.meetingDetailsList" p:escapeHtmlInPropertyValue="false">
                     <property name="propertyEditor" ref="meeting_building_link_formatter"/>
                 </bean>
-                <bean parent="Uif-DataField" p:render="@{#line.activityOfferingItem ne null}"
+                <bean parent="KS-Uif-DataField" p:render="@{#line.activityOfferingItem ne null}"
                       p:propertyName="activityOfferingItem.instructor" p:label="Instructor"/>
             </list>
         </property>
@@ -331,7 +331,7 @@
                     <property name="group.validationMessages.displayMessages" value="false"/>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:propertyName="code" p:label="Section"
+                            <bean parent="KS-Uif-DataField" p:propertyName="code" p:label="Section"
                                   p:style="margin:4px 0;">
                                 <property name="fieldLabel.render" value="false"/>
                             </bean>
@@ -424,7 +424,7 @@
                     <property name="group.validationMessages.displayMessages" value="false"/>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:propertyName="activityOfferingType"
+                            <bean parent="KS-Uif-DataField" p:propertyName="activityOfferingType"
                                   p:style="margin-right:0.33em; text-transform:capitalize;">
                                 <property name="fieldLabel.render" value="false"/>
                             </bean>
@@ -433,7 +433,7 @@
                         </list>
                     </property>
                 </bean>
-                <bean parent="Uif-DataField" p:label="Meeting Time" p:propertyName="meetingDetailsList"
+                <bean parent="KS-Uif-DataField" p:label="Meeting Time" p:propertyName="meetingDetailsList"
                       p:escapeHtmlInPropertyValue="false">
                     <property name="propertyEditor" ref="meeting_building_link_formatter"/>
                 </bean>

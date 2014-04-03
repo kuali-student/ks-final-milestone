@@ -170,7 +170,7 @@
                               value="openDocument('audit?methodToCall=audit&amp;viewId=DegreeAudit-FormView&amp;degreeAudit.auditId=@{#line.report.auditId}');"/>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:propertyName="programTitle" p:label="View"
+                            <bean parent="KS-Uif-DataField" p:propertyName="programTitle" p:label="View"
                                   p:fieldLabel.render="true" p:fieldLabel.renderColon="false">
                                 <property name="cssClasses">
                                     <list merge="true">
@@ -178,7 +178,7 @@
                                     </list>
                                 </property>
                             </bean>
-                            <bean parent="Uif-DataField" p:propertyName="report.runDate" p:label=""
+                            <bean parent="KS-Uif-DataField" p:propertyName="report.runDate" p:label=""
                                   p:fieldLabel.renderColon="false" p:fieldLabel.cssClasses="ksap-text-normal"
                                   p:fieldLabel.render="true" p:escapeHtmlInPropertyValue="false">
                                 <property name="propertyEditor" ref="timestamp_formatter"/>
@@ -188,10 +188,10 @@
                                     </list>
                                 </property>
                             </bean>
-                            <bean id="hidden_recentAuditId" parent="Uif-InputField" p:propertyName="report.auditId" p:fieldLabel.render="false" p:render="@{#line.recentAudit eq true ? true : false}"
+                            <bean id="hidden_recentAuditId" parent="KS-Uif-InputField" p:propertyName="report.auditId" p:fieldLabel.render="false" p:render="@{#line.recentAudit eq true ? true : false}"
                                   p:defaultValue="@{#line.report.auditId}">
                                 <property name="control">
-                                    <bean parent="Uif-HiddenControl"/>
+                                    <bean parent="KS-Uif-HiddenControl"/>
                                 </property>
                             </bean>
                         </list>

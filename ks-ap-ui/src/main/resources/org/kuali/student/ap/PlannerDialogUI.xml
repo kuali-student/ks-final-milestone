@@ -549,10 +549,10 @@
 
 	<!-- Dialog Input Components-->
 
-    <bean id="planner_hidden_input" parent="Uif-InputField" abstract="true">
+    <bean id="planner_hidden_input" parent="KS-Uif-InputField" abstract="true">
 		<property name="hidden" value="true" />
 		<property name="control">
-			<bean parent="Uif-HiddenControl" />
+			<bean parent="KS-Uif-HiddenControl" />
 		</property>
 	</bean>
 
@@ -566,7 +566,7 @@
 		<property name="label" value="Term &amp; Year" />
 		<property name="instructionalText" value="Note: This course MAY NOT be offered in your selected term. Check back after the schedule of classes has been released." />
 		<property name="control">
-			<bean parent="Uif-DropdownControl"/>
+			<bean parent="KS-Uif-DropdownControl"/>
 		</property>
 		<property name="optionsFinder">
 			<bean class="org.kuali.student.ap.planner.util.TermsListBuilder"/>
@@ -578,7 +578,7 @@
 		<property name="propertyName" value="courseCd" />
 		<property name="label" value="Enter subject and catalog number" />
 		<property name="control">
-			<bean parent="Uif-TextControl" p:additionalCssClasses="ksap-planner-courseCode">
+			<bean parent="KS-Uif-TextControl" p:additionalCssClasses="ksap-planner-courseCode">
                 <property name="onDocumentReadyScript" value="focusOnElement(jQuery('#courseCode_control'));" />
 				<property name="watermarkText" value="e.g. BL MATH-M 119" />
 				<property name="maxLength" value="50" />
@@ -593,7 +593,7 @@
  		<property name="label" value="Credits" />
  		<property name="instructionalText" value="Optional, for courses with a variable number of credits." />
  		<property name="control">
- 			<bean parent="Uif-TextControl">
+ 			<bean parent="KS-Uif-TextControl">
  				<property name="size" value="3" />
  			</bean>
  		</property>
@@ -664,7 +664,7 @@
     <bean id="planner_backup_input" parent="planner_dialog_input" p:propertyName="backup" p:defaultValue="false">
         <property name="label" value="Mark as &lt;strong&gt;'Backup'&lt;/strong&gt; course. (Optional)"/>
         <property name="control">
-            <bean parent="Uif-CheckboxControl"/>
+            <bean parent="KS-Uif-CheckboxControl"/>
         </property>
     </bean>
 

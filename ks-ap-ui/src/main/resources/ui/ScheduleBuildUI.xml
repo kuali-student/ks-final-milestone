@@ -162,9 +162,9 @@
 					<property name="validationMessages.displayMessages" value="false" />
 					<property name="items">
 						<list>
-							<bean parent="Uif-InputField" p:propertyName="shuffle" p:fieldLabel.render="false">
+							<bean parent="KS-Uif-InputField" p:propertyName="shuffle" p:fieldLabel.render="false">
 								<property name="control">
-									<bean parent="Uif-HiddenControl" />
+									<bean parent="KS-Uif-HiddenControl" />
 								</property>
 							</bean>
 							<bean parent="sb_option_control-parent" p:propertyName="selected" p:id="sb-schedule-option-select-__KSAP_UID__"
@@ -303,9 +303,9 @@
 		</property>
 	</bean>
 
-	<bean abstract="true" id="sb_option_control-parent" parent="Uif-InputField" p:fieldLabel.render="false">
+	<bean abstract="true" id="sb_option_control-parent" parent="KS-Uif-InputField" p:fieldLabel.render="false">
 		<property name="control">
-			<bean parent="Uif-CheckboxControl" />
+			<bean parent="KS-Uif-CheckboxControl" />
 		</property>
 	</bean>
 

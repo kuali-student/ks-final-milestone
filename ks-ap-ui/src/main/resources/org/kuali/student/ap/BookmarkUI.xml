@@ -364,7 +364,7 @@
                                     </list>
                                 </property>
                             </bean>
-                            <bean parent="Uif-DataField" p:propertyName="dateAdded"
+                            <bean parent="KS-Uif-DataField" p:propertyName="dateAdded"
                                   p:style="width:131px;" p:label="Added on">
                                 <property name="fieldLabel.cssClasses" value="ksap-text-normal"/>
                                 <property name="fieldLabel.renderColon" value="false"/>

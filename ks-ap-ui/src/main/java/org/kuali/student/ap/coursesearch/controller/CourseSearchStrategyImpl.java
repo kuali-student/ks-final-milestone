@@ -67,6 +67,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 	private static WeakReference<Map<String, Credit>> creditMapRef;
 
 	public static final String NO_CAMPUS = "-1";
+    private boolean limitExceeded;
 
 	static {
 		// Related to CourseSearchUI.xml definitions
@@ -753,7 +754,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 				.getProperty("ksap.search.results.max");
 		int maxCount = maxCountProp != null && !"".equals(maxCountProp.trim()) ? Integer
 				.valueOf(maxCountProp) : MAX_HITS;
-
+        this.limitExceeded = false;
 		List<SearchRequestInfo> requests = queryToRequests(form);
 		List<Hit> hits = processSearchRequests(requests);
 		List<CourseSearchItem> courseList = new ArrayList<CourseSearchItem>();
@@ -769,7 +770,10 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
             if(courseIDs.size()>maxCount){
                 List<String> temp = new ArrayList<String>();
                 for(String id : courseIDs){
-                    if(temp.size()>=maxCount)break;
+                    if(temp.size()>=maxCount){
+                        this.limitExceeded = true;
+                        break;
+                    }
                     temp.add(id);
                 }
                 courseIDs = temp;
@@ -1382,4 +1386,8 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 		return FACET_SORT;
 	}
 
+    @Override
+    public boolean isLimitExceeded(){
+        return this.limitExceeded;
+    }
 }

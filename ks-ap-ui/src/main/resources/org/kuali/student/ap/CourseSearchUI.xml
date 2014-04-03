@@ -129,14 +129,14 @@
 	</bean>
 
 	<bean id="course_search_criteria_input" parent="course_search_criteria_input-parent" />
-	<bean id="course_search_criteria_input-parent" abstract="true" parent="Uif-TextControl"
+	<bean id="course_search_criteria_input-parent" abstract="true" parent="KS-Uif-TextControl"
 		p:watermarkText="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('SEARCH_SEARCHTERMS_PLACEHOLDER_TEXT')}">
 		<property name="onDocumentReadyScript"
                   value="setupCourseSearchCriteriaActions(jQuery('#text_searchQuery_control'), jQuery('#searchForCourses'))"/>
 	</bean>
 
     <bean id="text_searchQuery" parent="text_searchQuery-parent"/>
-	<bean id="text_searchQuery-parent" abstract="true" parent="Uif-InputField"
+	<bean id="text_searchQuery-parent" abstract="true" parent="KS-Uif-InputField"
 		p:propertyName="searchQuery" p:label="Search for"
 		p:fieldLabel.renderColon="false">
 		<property name="control">
@@ -151,20 +151,20 @@
         </property>
 	</bean>
 
-	<bean id="hidden_savedCourses" parent="Uif-InputField" p:propertyName="savedCourses"
+	<bean id="hidden_savedCourses" parent="KS-Uif-InputField" p:propertyName="savedCourses"
 		p:fieldLabel.renderColon="false">
 		<property name="control">
-			<bean parent="Uif-HiddenControl" />
+			<bean parent="KS-Uif-HiddenControl" />
 		</property>
 	</bean>
 
     <bean id="select_searchTerm" parent="select_searchTerm-parent"/>
-	<bean id="select_searchTerm-parent" abstract="true" parent="Uif-InputField"
+	<bean id="select_searchTerm-parent" abstract="true" parent="KS-Uif-InputField"
 		p:propertyName="searchTerm" p:label="in" p:fieldLabel.renderColon="false"
 		p:validationMessages.displayMessages="false">
 
 		<property name="control">
-			<bean parent="Uif-DropdownControl" />
+			<bean parent="KS-Uif-DropdownControl" />
 		</property>
 		<property name="optionsFinder">
 			<bean class="org.kuali.student.ap.coursesearch.keyvalue.PublishedTermsListBuilder">

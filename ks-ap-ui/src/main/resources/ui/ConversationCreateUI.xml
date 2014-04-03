@@ -79,7 +79,7 @@
 				<bean parent="Uif-MessageField" p:messageText="Start a conversation with..."/>
 				<bean parent="KS-Uif-InputField-LabelTop" p:propertyName="advisorId" p:width="auto">
 					<property name="control">
-						<bean parent="Uif-VerticalRadioControl" />
+						<bean parent="KS-Uif-VerticalRadioControl" />
 					</property>
 					<property name="optionsFinder">
 						<bean class="org.kuali.student.ap.plannerreview.util.AvailableAdvisorBuilder" p:addBlankOption="false"/>
@@ -123,19 +123,19 @@
 				<bean parent="Uif-MessageField" p:messageText="[hr]"/>
 				<bean id="conversation_termAndCourseNotes" parent="KS-Uif-InputField-LabelTop" p:propertyName="includeNotes" p:progressiveRender="@{topicType ne 'kuali.ap.plan.topic.type.courses'}">
 				    <property name="control">
-				    	<bean parent="Uif-CheckboxControl" 
+				    	<bean parent="KS-Uif-CheckboxControl"
 				    		p:checkboxLabel="Include term and course notes" />
 				    </property>
 				 </bean>
 				 <bean id="conversation_courseNotes" parent="KS-Uif-InputField-LabelTop" p:propertyName="includeNotes" p:progressiveRender="@{topicType eq 'kuali.ap.plan.topic.type.courses'}">
 				    <property name="control">
-				    	<bean parent="Uif-CheckboxControl" 
+				    	<bean parent="KS-Uif-CheckboxControl"
 				    		p:checkboxLabel="Include course notes" />
 				    </property>
 				 </bean>
 				 <bean id="conversation_backup" parent="KS-Uif-InputField-LabelTop" p:propertyName="includeBackups" p:progressiveRender="@{topicType ne 'kuali.ap.plan.topic.type.courses'}">
 				    <property name="control">
-				    	<bean parent="Uif-CheckboxControl" p:checkboxLabel="Include backup courses"/>
+				    	<bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="Include backup courses"/>
 				    </property>
 				 </bean>
 				 <bean parent="Uif-MessageField" p:messageText="[hr]"/>
@@ -196,7 +196,7 @@
 						                            <bean id="conversation_selected_term" parent="KS-Uif-InputField-LabelTop"
 						                            		p:propertyName="selected" p:width="auto">
 														<property name="control">
-														    <bean parent="Uif-CheckboxControl" p:checkboxLabel="@{#line.termName}"/>
+														    <bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="@{#line.termName}"/>
 														</property>
 													</bean>
 						                        </list>
@@ -313,8 +313,8 @@
 							<bean id="conversation_selected_course" parent="KS-Uif-InputField-LabelTop"
 								p:propertyName="isChecked" p:width="auto">
 								<property name="control">
-									<!-- <bean parent="Uif-CheckboxControl" p:checkboxLabel="[span title='@{#line.courseName}']@{#line.courseCode}[/span]"/> -->
-									<bean parent="Uif-CheckboxControl" p:checkboxLabel="[id='course_checkbox_tooltip' messageText='@{#line.courseCode}' toolTip.tooltipContent='@{#line.courseName}']"/>
+									<!-- <bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="[span title='@{#line.courseName}']@{#line.courseCode}[/span]"/> -->
+									<bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="[id='course_checkbox_tooltip' messageText='@{#line.courseCode}' toolTip.tooltipContent='@{#line.courseName}']"/>
 								</property>
 								<property name="cssClasses">
 									<list merge="true">
@@ -369,7 +369,7 @@
 			<list>
 				<bean id="messageTitleShort" parent="Uif-MessageField" p:messageText="Contact @{selectedAdvisorName} about @{messageTitleShort}"/>
 				<bean id="messageTitleFull" parent="Uif-MessageField" p:messageText="Contact @{selectedAdvisorName} about @{messageTitle}" p:style="display:none;"/>
-			    <bean parent="Uif-InputField" p:propertyName="messageText">
+			    <bean parent="KS-Uif-InputField" p:propertyName="messageText">
 				    <property name="control">
 				 		<bean parent="Uif-TextAreaControl"/>
 				    </property>
