@@ -21,6 +21,21 @@
 
 }
 
+.util-Alert.ng-enter,
+.util-Alert.ng-leave {
+    -webkit-transition: @transition;
+    transition: @transition;
+}
+
+.util-Alert.ng-enter,
+.util-Alert.ng-leave.ng-leave-active {
+    opacity:0;
+}
+.util-Alert.ng-leave,
+.util-Alert.ng-enter.ng-enter-active {
+    opacity:1;
+}
+
 .util-Alert-dropCourse-container.ng-hide-add,
 .util-Alert.ng-hide-remove {
     display:block!important;

@@ -38,7 +38,7 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
                 $scope.schedules()[0].registeredCourseOfferings.splice(index, 1);
                 GlobalVarsService.updateScheduleCounts($scope.schedules());
                 //ScheduleService.setRegisteredCredits(parseFloat(ScheduleService.getRegisteredCredits()) - parseFloat(course.credits));
-                $scope.userMessage = {txt:course.courseCode + ' dropped Successfully', type:'success'};
+                $scope.userMessage = {txt:course.courseCode + ' dropped successfully', type:'success'};
             }, function (error) {
                 //course.dropping = false;
                 $scope.userMessage = {txt: error.data, type: 'error'};
