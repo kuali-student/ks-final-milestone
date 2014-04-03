@@ -48,7 +48,7 @@
 		<property name="label" value="Name" />
 		<property name="shortLabel" value="Name" />
 		<property name="controlField">
-			<bean parent="Uif-TextControl" />
+			<bean parent="KS-Uif-TextControl" />
 		</property>
 	</bean>
 
@@ -58,7 +58,7 @@
 		<property name="label" value="Abbreviation" />
 		<property name="shortLabel" value="Abbreviation" />
 		<property name="controlField">
-			<bean parent="Uif-TextControl" />
+			<bean parent="KS-Uif-TextControl" />
 		</property>
 	</bean>
 
@@ -78,10 +78,10 @@
 		</property>
 		<property name="resultFields">
 			<list>
-				<bean parent="Uif-DataField" p:propertyName="id" p:label="Internal ID" />
-				<bean parent="Uif-DataField" p:propertyName="organizationName"
+				<bean parent="KS-Uif-DataField" p:propertyName="id" p:label="Internal ID" />
+				<bean parent="KS-Uif-DataField" p:propertyName="organizationName"
 					p:label="Organization Name" p:escapeHtmlInPropertyValue="false" />
-				<bean parent="Uif-DataField" p:propertyName="abbreviation"
+				<bean parent="KS-Uif-DataField" p:propertyName="abbreviation"
 					p:label="Abbreviation" p:escapeHtmlInPropertyValue="false" />
 			</list>
 		</property>

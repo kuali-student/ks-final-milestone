@@ -61,7 +61,6 @@
         <property name="items">
             <list>
                 <!-- Rice 2.4 upgrade : Uif-RequiredMessage was replaced by requiredIndicator" -->
-                <bean parent="Uif-RequiredInstructionsMessage" p:messageText="Required on @{document.newMaintainableObject.requiredWorkflowMode}"/>
                 <bean parent="KS-Uif-InputField-LabelTop" p:label="Justification of Fees" p:propertyName="courseInfo.feeJustification.plain">
                     <property name="instructionalText" value="This is for internal use only and will not be seen by students." />
                     <!-- Rice 2.4 upgrade : removing fieldLabel.requiredMessage -->

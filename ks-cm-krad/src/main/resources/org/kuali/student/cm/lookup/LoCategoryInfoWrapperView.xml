@@ -49,8 +49,8 @@
         </property>
         <property name="resultFields">
             <list>
-                <bean parent="Uif-DataField" p:propertyName="name" p:label="Category" />
-                <bean parent="Uif-DataField" p:propertyName="typeName" p:label="Type" />
+                <bean parent="KS-Uif-DataField" p:propertyName="name" p:label="Category" />
+                <bean parent="KS-Uif-DataField" p:propertyName="typeName" p:label="Type" />
            </list>
         </property>
     </bean>

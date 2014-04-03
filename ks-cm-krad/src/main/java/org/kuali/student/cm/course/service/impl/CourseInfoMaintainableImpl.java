@@ -29,6 +29,7 @@ import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
+import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.container.Container;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
@@ -52,6 +53,7 @@ import org.kuali.student.cm.course.controller.CourseController;
 import org.kuali.student.cm.course.form.ActivityInfoWrapper;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
 import org.kuali.student.cm.course.form.CollaboratorWrapper;
+import org.kuali.student.cm.course.form.CourseCreateUnitsContentOwner;
 import org.kuali.student.cm.course.form.CourseInfoWrapper;
 import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
 import org.kuali.student.cm.course.form.CourseRuleManagementWrapper;
@@ -75,6 +77,7 @@ import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.core.krms.tree.KSRuleViewTreeBuilder;
 import org.kuali.student.core.organization.ui.client.mvc.model.MembershipInfo;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities;
+import org.kuali.student.lum.lu.ui.course.keyvalues.OrgsBySubjectCodeValuesFinder;
 import org.kuali.student.lum.lu.ui.krms.dto.LUAgendaEditor;
 import org.kuali.student.lum.lu.ui.krms.dto.LURuleEditor;
 import org.kuali.student.lum.lu.ui.krms.tree.LURuleViewTreeBuilder;
@@ -137,7 +140,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 
 import javax.xml.namespace.QName;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Base view helper service for both create and edit course info presentations.
@@ -546,6 +554,15 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 }
             }
             return StringUtils.isNotEmpty(collaboratorWrapper.getDisplayName()) ? true : false;
+        } else if (newLine instanceof CourseCreateUnitsContentOwner) {
+            MaintenanceDocumentForm modelForm = (MaintenanceDocumentForm) viewModel;
+            CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) modelForm.getDocument().getNewMaintainableObject().getDataObject();
+
+            for (CourseCreateUnitsContentOwner unitsContentOwner : courseInfoWrapper.getUnitsContentOwner()){
+                if (StringUtils.isBlank(unitsContentOwner.getOrgId())){
+                    return false;
+                }
+            }
         }
         return ((CourseRuleViewHelperServiceImpl) getRuleViewHelperService()).performAddLineValidation(viewModel, newLine, collectionId, collectionPath);
     }
@@ -850,9 +867,23 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             courseInfoWrapper.getCourseInfo().setUnitsContentOwner(new ArrayList<String>());
         }
 
+        CourseCreateUnitsContentOwner newCourseCreateUnitsContentOwner = new CourseCreateUnitsContentOwner();
+        newCourseCreateUnitsContentOwner.getRenderHelper().setNewRow(true);
+        courseInfoWrapper.getUnitsContentOwner().add(newCourseCreateUnitsContentOwner);
+
         // Initialize formats
         if (courseInfoWrapper.getCourseInfo().getFormats().isEmpty()) {
             courseInfoWrapper.getCourseInfo().getFormats().add(new FormatInfo());
+        }
+
+        // Administering Organizations
+        if(courseInfoWrapper.getAdministeringOrganizations().isEmpty()){
+            courseInfoWrapper.getAdministeringOrganizations().add(new OrganizationInfoWrapper());
+        }
+
+        // Initialize Instructors
+        if(courseInfoWrapper.getInstructorWrappers().isEmpty()){
+            courseInfoWrapper.getInstructorWrappers().add(new CluInstructorInfoWrapper());
         }
 
         // Initialize Author & Collaborator
@@ -868,6 +899,102 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
 
     }
+
+    @Override
+    public void processCollectionAddBlankLine(ViewModel model, String collectionId, String collectionPath) {
+
+        if (StringUtils.endsWith(collectionPath,"unitsContentOwner")){
+            MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) model;
+            MaintenanceDocument document = maintenanceForm.getDocument();
+
+            CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) document.getNewMaintainableObject().getDataObject();
+
+            //Before adding a new row, just make sure all the existing rows are not editable.
+            for (CourseCreateUnitsContentOwner existing : courseInfoWrapper.getUnitsContentOwner()){
+                existing.getRenderHelper().setNewRow(false);
+                if (StringUtils.isBlank(existing.getRenderHelper().getOrgLongName())){
+                    populateOrgName(courseInfoWrapper.getCourseInfo().getSubjectArea(), existing);
+                }
+            }
+
+            OrgsBySubjectCodeValuesFinder optionsFinder = new OrgsBySubjectCodeValuesFinder();
+            List<KeyValue> availableOptions = optionsFinder.getAvailableOrgs(courseInfoWrapper);
+
+            if (!availableOptions.isEmpty()){
+                CourseCreateUnitsContentOwner newCourseCreateUnitsContentOwner = new CourseCreateUnitsContentOwner();
+                newCourseCreateUnitsContentOwner.getRenderHelper().setNewRow(true);
+
+                courseInfoWrapper.getUnitsContentOwner().add(newCourseCreateUnitsContentOwner);
+            }
+
+            return;
+        }
+
+        super.processCollectionAddBlankLine(model, collectionId, collectionPath);
+    }
+
+    protected String populateOrgName(String subjectArea, CourseCreateUnitsContentOwner unitsContentOwner){
+
+        final SearchRequestInfo searchRequest = new SearchRequestInfo();
+        searchRequest.setSearchKey("subjectCode.search.orgsForSubjectCode");
+
+        searchRequest.addParam("subjectCode.queryParam.code", subjectArea);
+        searchRequest.addParam("subjectCode.queryParam.optionalOrgId", unitsContentOwner.getOrgId());
+
+        List<KeyValue> departments = new ArrayList<KeyValue>();
+
+        try {
+
+            SearchResultInfo result = getSubjectCodeService().search(searchRequest, ContextUtils.getContextInfo());
+
+            if (result.getRows().isEmpty()){
+                throw new RuntimeException("Invalid Org Id");
+            }
+
+            SearchResultRowInfo row = KSCollectionUtils.getOptionalZeroElement(result.getRows(),true);
+
+            for (final SearchResultCellInfo resultCell : row.getCells()) {
+                if ("subjectCode.resultColumn.orgLongName".equals(resultCell.getKey())) {
+                    unitsContentOwner.getRenderHelper().setOrgLongName(resultCell.getValue());
+                    break;
+                }
+            }
+
+            LOG.debug("Returning {}", departments);
+
+            return StringUtils.EMPTY;
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void processAfterDeleteLine(ViewModel model, String collectionId, String collectionPath, int lineIndex) {
+        CollectionGroup collectionGroup = model.getView().getViewIndex().getCollectionGroupByPath(collectionPath);
+        if (StringUtils.endsWith(collectionGroup.getPropertyName(),"unitsContentOwner")){
+            MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) model;
+            MaintenanceDocument document = maintenanceForm.getDocument();
+
+            CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) document.getNewMaintainableObject().getDataObject();
+
+            for (CourseCreateUnitsContentOwner existing : courseInfoWrapper.getUnitsContentOwner()){
+                existing.getRenderHelper().setNewRow(false);
+            }
+
+        }
+
+        super.processAfterDeleteLine(model, collectionId, collectionPath, lineIndex);
+    }
+
+   /* @Override
+    protected boolean performAddLineValidation(View view, CollectionGroup collectionGroup, Object model,Object addLine) {
+        super.processCollectionAddLine(view,model,collectionPath);
+
+        if (StringUtils.endsWith(collectionPath,"unitsContentOwner")){
+
+        }
+    }*/
 
     public void updateReview() {
 
@@ -1076,16 +1203,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
     }
 
-    private static class FinalExamComparator implements Comparator<EnumeratedValueInfo> {
-
-        @Override
-        public int compare(EnumeratedValueInfo o1, EnumeratedValueInfo o2) {
-            int result = o1.getSortKey().compareToIgnoreCase(o2.getSortKey());
-            return result;
-        }
-    }
-
-    private List<String> updateCampusLocations(List<String> campusLocations) {
+    protected List<String> updateCampusLocations(List<String> campusLocations) {
 
         final List<KeyValue> keyValues = new ArrayList<KeyValue>();
         try {
@@ -1093,7 +1211,13 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                     getEnumerationManagementService().getEnumeratedValues
                             (CluServiceConstants.CAMPUS_LOCATION_ENUM_KEY, null, null, null, ContextUtils.createDefaultContextInfo());
 
-            Collections.sort(enumerationInfos, new FinalExamComparator());
+            Collections.sort(enumerationInfos, new Comparator<EnumeratedValueInfo>() {
+                @Override
+                public int compare(EnumeratedValueInfo o1, EnumeratedValueInfo o2) {
+                    int result = o1.getSortKey().compareToIgnoreCase(o2.getSortKey());
+                    return result;
+                }
+            });
 
             for (final EnumeratedValueInfo enumerationInfo : enumerationInfos) {
                 keyValues.add(new ConcreteKeyValue(enumerationInfo.getCode(), enumerationInfo.getValue()));
@@ -1175,8 +1299,8 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         courseInfoWrapper.setLastUpdated(DateFormatters.SIMPLE_TIMESTAMP_FORMATTER.format(new DateTime()));
 
         courseInfoWrapper.getCourseInfo().setUnitsContentOwner(new ArrayList<String>());
-        for (final KeyValue wrapper : courseInfoWrapper.getUnitsContentOwner()) {
-            courseInfoWrapper.getCourseInfo().getUnitsContentOwner().add(wrapper.getValue());
+        for (CourseCreateUnitsContentOwner wrapper : courseInfoWrapper.getUnitsContentOwner()) {
+            courseInfoWrapper.getCourseInfo().getUnitsContentOwner().add(wrapper.getOrgId());
         }
 
         //Formats

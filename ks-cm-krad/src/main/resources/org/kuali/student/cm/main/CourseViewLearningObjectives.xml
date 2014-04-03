@@ -86,7 +86,7 @@
 
         <property name="items">
 			<list>
-				<bean id="KS-LoDisplayInfoWrapper-descr" parent="Uif-InputField"
+				<bean id="KS-LoDisplayInfoWrapper-descr" parent="KS-Uif-InputField"
 					p:propertyName="loInfo.descr.plain" p:showLabel="false">
 					<property name="control">
 						<bean parent="Uif-TextAreaControl" p:cols="60" >
@@ -116,14 +116,14 @@
                         </bean>
 					</property>
 				</bean>
-                <bean id="KS-LoDisplayInfoWrapper-selected" parent="Uif-InputField" p:propertyName="selected" >
+                <bean id="KS-LoDisplayInfoWrapper-selected" parent="KS-Uif-InputField" p:propertyName="selected" >
                     <property name="control">
-                        <bean parent="Uif-HiddenControl" />
+                        <bean parent="KS-Uif-HiddenControl" />
                     </property>
                 </bean>
-                <bean id="KS-LoDisplayInfoWrapper-indentLevel" parent="Uif-InputField" p:propertyName="indentLevel" >
+                <bean id="KS-LoDisplayInfoWrapper-indentLevel" parent="KS-Uif-InputField" p:propertyName="indentLevel" >
                     <property name="control">
-                        <bean parent="Uif-HiddenControl" />
+                        <bean parent="KS-Uif-HiddenControl" />
                     </property>
                 </bean>
 			</list>
@@ -151,7 +151,7 @@
                                         <bean parent="KS-Uif-InputField-LabelTop" p:label="Category"
                                             p:propertyName="name">
                                             <property name="control">
-                                                <bean parent="Uif-TextControl" />
+                                                <bean parent="KS-Uif-TextControl" />
                                             </property>
                                             <property name="suggest">
                                                 <bean parent="Uif-Suggest">

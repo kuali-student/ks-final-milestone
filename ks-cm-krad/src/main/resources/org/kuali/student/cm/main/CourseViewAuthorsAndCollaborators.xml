@@ -51,7 +51,7 @@
                     </property>
                     <property name="Items">
                         <list>
-                            <bean parent="Uif-InputField" p:label="Name" p:propertyName="displayName" p:additionalCssClasses="id_search_course_offering" >
+                            <bean parent="KS-Uif-InputField" p:label="Name" p:propertyName="displayName" p:additionalCssClasses="id_search_course_offering" >
                                 <property name="suggest">
                                     <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true">
                                         <property name="valuePropertyName" value="displayName" />
@@ -81,7 +81,7 @@
                             <bean id="KS-PermissionDropDown" parent="KS-Uif-InputField-LabelTop" p:propertyName="permission"
                                   p:label="Permission" p:required="true" >
                                 <property name="control">
-                                    <bean parent="Uif-DropdownControl" >
+                                    <bean parent="KS-Uif-DropdownControl" >
                                         <property name="options">
                                             <list>
                                                 <bean parent="Uif-KeyLabelPair" p:key="view" p:value="View" />
@@ -95,7 +95,7 @@
                             <bean id="KS-ActionRequestDropDown" parent="KS-Uif-InputField-LabelTop" p:propertyName="action"
                                   p:label="Action Required" p:required="true" p:style="width:10em" >
                                 <property name="control">
-                                    <bean parent="Uif-DropdownControl"  >
+                                    <bean parent="KS-Uif-DropdownControl"  >
                                         <property name="options">
                                             <list>
                                                 <bean parent="Uif-KeyLabelPair" p:key="fyi" p:value="FYI"  />
@@ -106,7 +106,7 @@
                             </bean>
                             <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="author" p:label="Author Notation" p:style="width:9em">
                                 <property name="control">
-                                    <bean parent="Uif-CheckboxControl" p:checkboxLabel="Add Author Notation" />
+                                    <bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="Add Author Notation" />
                                 </property>
                             </bean>
                         </list>

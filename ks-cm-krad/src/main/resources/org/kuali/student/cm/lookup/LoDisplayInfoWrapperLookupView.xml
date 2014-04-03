@@ -36,7 +36,7 @@
             <list>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="searchBy" p:label="Search By">
                     <property name="control">
-                        <bean parent="Uif-DropdownControl" />
+                        <bean parent="KS-Uif-DropdownControl" />
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.LoSearchByValuesFinder" p:addBlankOption="false"/>
@@ -45,7 +45,7 @@
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="descr.plain" p:label="Keyword in Learning Objective"/>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="name" p:label="Learning Objective Category">
                     <property name="control">
-                        <bean parent="Uif-TextControl" />
+                        <bean parent="KS-Uif-TextControl" />
                     </property>
                     <property name="suggest">
                         <bean parent="Uif-Suggest">
@@ -59,7 +59,7 @@
                 </bean>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="code" p:label="Course Code (Subject Code/Number)" p:progressiveRender="@{lookupCriteria['searchBy'] eq 'COURSE_ONLY'}">
                     <property name="control">
-                        <bean parent="Uif-TextControl" />
+                        <bean parent="KS-Uif-TextControl" />
                     </property>
                     <property name="suggest">
                         <bean parent="Uif-Suggest" p:render="true">
@@ -79,7 +79,7 @@
                 
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="orgName" p:label="Organization Name">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="50" />
+                        <bean parent="KS-Uif-TextControl" p:size="50" />
                     </property>
                     <property name="suggest">
                         <bean parent="Uif-Suggest" p:render="true">
@@ -93,17 +93,17 @@
                 </bean>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="orgType" p:label="Organization Type"  p:optionsFinderClass="org.kuali.student.lum.lu.ui.course.keyvalues.OrganizationTypeValuesFinder">
                     <property name="control">
-                        <bean parent="Uif-DropdownControl" />
+                        <bean parent="KS-Uif-DropdownControl" />
                     </property>
                 </bean>
             </list>
         </property>
         <property name="resultFields">
             <list>
-                <bean parent="Uif-DataField" p:propertyName="code" p:label="Code" />
-                <bean parent="Uif-DataField" p:propertyName="typeName" p:label="Type" p:hidden="@{(lookupCriteria['searchBy'] eq 'COURSE_ONLY') or (lookupCriteria['searchBy'] eq 'PROGRAM_ONLY')}" />
-                <bean parent="Uif-DataField" p:propertyName="name" p:label="Lo Category" />
-                <bean parent="Uif-DataField" p:propertyName="descr.plain" p:label="Lo Description" p:escapeHtmlInPropertyValue="false" />
+                <bean parent="KS-Uif-DataField" p:propertyName="code" p:label="Code" />
+                <bean parent="KS-Uif-DataField" p:propertyName="typeName" p:label="Type" p:hidden="@{(lookupCriteria['searchBy'] eq 'COURSE_ONLY') or (lookupCriteria['searchBy'] eq 'PROGRAM_ONLY')}" />
+                <bean parent="KS-Uif-DataField" p:propertyName="name" p:label="Lo Category" />
+                <bean parent="KS-Uif-DataField" p:propertyName="descr.plain" p:label="Lo Description" p:escapeHtmlInPropertyValue="false" />
            </list>
         </property>
     </bean>

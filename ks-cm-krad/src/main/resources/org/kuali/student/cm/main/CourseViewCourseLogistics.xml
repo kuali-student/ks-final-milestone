@@ -65,7 +65,7 @@
                       p:propertyName="courseInfo.duration.atpDurationTypeKey" p:label="Duration Type"
                       p:optionsFinderClass="org.kuali.student.lum.lu.ui.course.keyvalues.DurationTypeKeyValueFinder">
                     <property name="control">
-                        <bean parent="Uif-DropdownControl" p:cssClasses="validDurationTypeAndCountInput" p:onBlurScript="durationTypeOnBlur();"/>
+                        <bean parent="KS-Uif-DropdownControl" p:cssClasses="validDurationTypeAndCountInput" p:onBlurScript="durationTypeOnBlur();"/>
                     </property>
                 </bean>
                 <bean id="KS-DurationTimeQuantity-Field" parent="KS-Uif-InputField-LabelTop"
@@ -75,7 +75,7 @@
                     </property>
                     <property name="maxLength" value="3" />
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="3" p:maxLength="3" p:cssClasses="validDurationTypeAndCountInput" p:onBlurScript="durationCountOnBlur();"/>
+                        <bean parent="KS-Uif-TextControl" p:size="3" p:maxLength="3" p:cssClasses="validDurationTypeAndCountInput" p:onBlurScript="durationCountOnBlur();"/>
                     </property>
                 </bean>
             </list>
@@ -93,8 +93,7 @@
         <property name="validationMessages.displayMessages" value="false" />
         <property name="items">
             <list>
-                <bean id="KS-CourseView-gradingOptions" parent="KS-Uif-InputField-LabelTop" p:propertyName="courseInfo.gradingOptions"
-                      p:required="@{(#workflowDoc.saved or #workflowDoc.enroute) ? 'true' : 'false'}">
+                <bean id="KS-CourseView-gradingOptions" parent="KS-Uif-InputField-LabelTop" p:propertyName="courseInfo.gradingOptions" >
                     <property name="control">
                         <bean parent="Uif-VerticalCheckboxesControl" />
                     </property>
@@ -116,7 +115,15 @@
                                 </property>
                             </bean>
                     </property>
-
+                    <property name="simpleConstraint">
+                        <bean parent="RequiredConstraint">
+                            <property name="states">
+                                <list>
+                                    <value>R+</value>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
                     <!-- Rice 2.4 upgrade : removing fieldLabel.requiredMessage -->
 <!--
                     <property name="fieldLabel.requiredMessage">
@@ -139,12 +146,12 @@
                 <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="audit"
                       p:label="Audit" >
                     <property name="control">
-                        <bean parent="Uif-CheckboxControl" p:checkboxLabel="This course can be audited" />
+                        <bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="This course can be audited" />
                     </property>
                 </bean>
                 <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="passFail" p:label="Pass Fail Transcript Grade" >
                     <property name="control">
-                        <bean parent="Uif-CheckboxControl" p:checkboxLabel="This course will have a student selectable pass/fail option" />
+                        <bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="This course will have a student selectable pass/fail option" />
                     </property>
                 </bean>
             </list>
@@ -153,17 +160,32 @@
 
     <bean id="KS-CourseView-CourseLogisticsPage-FinalExam-Widgets"
           parent="Uif-VerticalBoxSection" p:headerText="Final Exam">
+        <property name="validationMessages.displayMessages" value="false" />
         <property name="items">
             <list>
-                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="finalExamStatus"
-                      p:label="Final Exam Status" >
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="finalExamStatus" p:label="Final Exam Status" >
                     <property name="control">
-                        <bean parent="Uif-VerticalRadioControl" />
+                        <bean parent="KS-Uif-VerticalRadioControl" />
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.FinalExamKeyValueFinder"
                             p:addBlankOption="false" />
                     </property>
+                    <property name="simpleConstraint">
+                        <bean parent="RequiredConstraint">
+                            <property name="states">
+                                <list>
+                                    <value>R+</value>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                    <!-- Rice 2.4 upgrade : removing fieldLabel.requiredMessage -->
+<!--
+                    <property name="fieldLabel.requiredMessage">
+                        <bean parent="CM-StateAware-RequiredMessage" />
+                    </property>
+-->
                 </bean>
                 <bean id="KS-FinalExamRationale" parent="KS-Uif-InputField-LabelTop"
                       p:label="Final Exam Rationale" p:required="true"
@@ -177,38 +199,43 @@
         </property>
     </bean>
     <bean id="KS-CourseView-CourseLogisticsPage-Outcome-Widgets"
-          parent="Uif-StackedCollectionSection" p:headerText="Outcome"
-          p:propertyName="creditOptionWrappers"
-          p:collectionObjectClass="org.kuali.student.cm.course.form.ResultValuesGroupInfoWrapper">
+          parent="Uif-StackedCollectionSection" p:headerText="Outcome" p:propertyName="creditOptionWrappers">
+        <property name="validationMessages.displayMessages" value="false" />
+        <property name="cssClasses">
+            <list merge="true">
+                <value>cm_requiredMessage_sectionHeader</value>
+            </list>
+        </property>
+        <!-- Rice 2.4 upgrade : removing as required message is no longer available -->
+<!--
+        <property name="instructionalMessage">
+            <bean parent="CM-StateAware-RequiredMessage" />
+        </property>
+-->
+        <property name="collectionObjectClass" value="org.kuali.student.cm.course.form.ResultValuesGroupInfoWrapper" />
         <property name="addLineActions">
             <list>
-                <bean parent="Uif-AddLineAction" p:actionLabel="Add Outcome" >
+                <bean parent="Uif-AddLineAction" p:actionLabel="Add Outcome">
                     <property name="actionImage">
                         <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']+'/plus_grey.png'}"/>
                     </property>
                 </bean>
             </list>
         </property>
-        <property name="layoutManager.lineGroupPrototype.header.headerText"
-                  value="Outcome @{(#index + 1)}" />
-        <!--<property name="renderAddBlankLineButton" value="true" />-->
+        <property name="layoutManager.addLineGroup.header.render" value="false" />
+        <property name="layoutManager.lineGroupPrototype.header.headerText" value="Outcome @{(#index + 1)}" />
         <property name="addLinePlacement" value="BOTTOM" />
         <property name="items">
             <list>
-                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="typeKey"
-                      p:label="Type" p:required="true" >
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="typeKey" p:label="Type" p:required="true" >
                     <property name="control">
-                        <bean parent="Uif-DropdownControl"
-                            p:onChangeScript="reDrawOutcomeComponent();">
+                        <bean parent="KS-Uif-DropdownControl" p:onChangeScript="reDrawOutcomeComponent();">
                             <property name="options">
                                 <list>
                                     <bean parent="Uif-KeyLabelPair" p:key="1" p:value="" />
-                                    <bean parent="Uif-KeyLabelPair" p:key="kuali.result.values.group.type.fixed"
-                                          p:value="Fixed" />
-                                    <bean parent="Uif-KeyLabelPair" p:key="kuali.result.values.group.type.multiple"
-                                          p:value="Multiple" />
-                                    <bean parent="Uif-KeyLabelPair" p:key="kuali.result.values.group.type.range"
-                                          p:value="Range" />
+                                    <bean parent="Uif-KeyLabelPair" p:key="kuali.result.values.group.type.fixed" p:value="Fixed" />
+                                    <bean parent="Uif-KeyLabelPair" p:key="kuali.result.values.group.type.multiple" p:value="Multiple" />
+                                    <bean parent="Uif-KeyLabelPair" p:key="kuali.result.values.group.type.range" p:value="Range" />
                                 </list>
                             </property>
                         </bean>
@@ -313,7 +340,7 @@
                                   p:required="true" p:label="Activity Type"
                                   p:optionsFinderClass="org.kuali.student.lum.lu.ui.course.keyvalues.ActivityTypeKeyValueFinder" >
                                 <property name="control">
-                                    <bean parent="Uif-DropdownControl" />
+                                    <bean parent="KS-Uif-DropdownControl" />
                                 </property>
                             </bean>
                             <bean parent="Uif-HorizontalFieldGroup">
@@ -326,7 +353,7 @@
                                             </property>
                                             <property name="maxLength" value="9" />
                                             <property name="control">
-                                                <bean parent="Uif-TextControl" p:size="9" />
+                                                <bean parent="KS-Uif-TextControl" p:size="9" />
                                             </property>
                                             <!--<property name="help">
                                                 <bean parent="Uif-KS-Help"
@@ -345,13 +372,20 @@
                                   p:label="Frequency" p:required="false"
                                   p:optionsFinderClass="org.kuali.student.lum.lu.ui.course.keyvalues.FrequencyKeyValueFinder" >
                                 <property name="control">
-                                    <bean parent="Uif-DropdownControl" />
+                                    <bean parent="KS-Uif-DropdownControl" />
                                 </property>
                             </bean>
                             <bean parent="Uif-HorizontalFieldGroup">
                                 <property name="items">
                                     <list>
-                                        <bean parent="KS-DurationTypeDropDown" p:propertyName="duration.atpDurationTypeKey"/>
+                                        <bean id="KS-Logistics-Format-DurationTypeDropDown" parent="KS-Uif-InputField-LabelTop"
+                                              p:propertyName="duration.atpDurationTypeKey" p:label="Duration Type"
+                                              p:optionsFinderClass="org.kuali.student.lum.lu.ui.course.keyvalues.DurationTypeKeyValueFinder">
+                                            <property name="control">
+                                                <bean parent="KS-Uif-DropdownControl"/>
+                                            </property>
+                                        </bean>
+
                                         <bean parent="Uif-ImageField" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/validation/info.png">
                                             <property name="toolTip">
                                                 <bean parent="Uif-KS-Tooltip" p:tooltipContent="First select the duration type(term,month,week,weekend,day)&lt;br&gt;then select the count of the duration for the course.&lt;br&gt;Most courses will have 1 or 2 terms,&lt;br&gt;for example"/>
@@ -360,13 +394,16 @@
                                     </list>
                                 </property>
                             </bean>
-                            <!--<bean parent="KS-DurationTypeDropDown" p:propertyName="duration.atpDurationTypeKey">-->
-                                <!--<property name="help">
-                                    <bean parent="Uif-KS-Help"
-                                          p:tooltipHelpContent="First select the duration type(term,month,week,weekend,day)&lt;br&gt;then select the count of the duration for the course.&lt;br&gt;Most courses will have 1 or 2 terms,&lt;br&gt;for example" />
+                            <bean id="KS-Logistics-Format-DurationTimeQuantity-Field" parent="KS-Uif-InputField-LabelTop"
+                                  p:label="Durantion Count" p:propertyName="duration.timeQuantity">
+                                <property name="validCharactersConstraint">
+                                    <bean parent="NumericPatternConstraint" />
                                 </property>
-                            </bean> -->
-                            <bean parent="KS-DurationTimeQuantity-Field" p:propertyName="duration.timeQuantity" />
+                                <property name="maxLength" value="3" />
+                                <property name="control">
+                                    <bean parent="KS-Uif-TextControl" p:size="3" p:maxLength="3"/>
+                                </property>
+                            </bean>
                             <bean parent="Uif-HorizontalFieldGroup">
                                 <property name="items">
                                     <list>
@@ -377,7 +414,7 @@
                                             </property>
                                             <property name="maxLength" value="3" />
                                             <property name="control">
-                                                <bean parent="Uif-TextControl" p:size="3" p:maxLength="3" />
+                                                <bean parent="KS-Uif-TextControl" p:size="3" p:maxLength="3" />
                                             </property>
                                         </bean>
                                         <bean parent="Uif-ImageField" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/validation/info.png">

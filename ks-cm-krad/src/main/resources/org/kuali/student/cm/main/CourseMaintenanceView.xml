@@ -27,7 +27,7 @@
         <property name="dataObjectClass" value="org.kuali.student.cm.course.form.CourseInfoWrapper"/>
         <property name="titleAttribute" value="courseInfo.id"/>
         <property name="attributes">
-            <list />
+            <list/>
         </property>
         <property name="objectLabel" value="CourseInfo Wrapper"/>
         <property name="primaryKeys">
@@ -86,6 +86,7 @@
             <bean parent="DDValueReplacer-Enroute" />
         </property>
     </bean>
+
 
     <!--
         Per property overrides for workflow doc state P (Processed).
@@ -155,7 +156,7 @@
             <bean id="KS-CourseView-LinkGroup" parent="Uif-LinkGroup" p:linkSeparator="|" p:render="@{#form.pageId eq 'KS-CourseView-CoursePage'}">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-DataField" p:label="Proposal Status"
+                        <bean parent="KS-Uif-DataField" p:label="Proposal Status"
                               p:shortLabel="Status" p:propertyName="proposalInfo.stateKey" />
                         <!-- Rice 2.4 upgrade : removing p:labelPlacement="LEFT" -->
                         <bean parent="Uif-ActionLink" p:actionLabel="Comments"
@@ -163,7 +164,7 @@
                         <bean parent="Uif-ActionLink" p:actionLabel="Decisions"
                               p:methodToCall="showDecisions" />
                         <bean parent="Uif-Space" />
-                        <bean parent="Uif-DataField" p:label="Last Updated"
+                        <bean parent="KS-Uif-DataField" p:label="Last Updated"
                               p:shortLabel="Updated" p:propertyName="lastUpdated" />
                         <!-- Rice 2.4 upgrade : removing p:labelPlacement="LEFT" -->
                     </list>
@@ -230,35 +231,37 @@
         in simpleConstraint is turned on for the field.
     -->
     <!-- Rice 2.4 upgrade : Uif-RequiredMessage was replaced by requiredIndicator" -->
-    <!--<bean id="CM-StateAware-RequiredMessage" parent="CM-StateAware-RequiredMessage-parent" abstract="true" />-->
-    <!--<bean id="CM-StateAware-RequiredMessage-parent" parent="Uif-RequiredMessage"  abstract="true">-->
-        <!--<property name="messageText" value="" />-->
-        <!--<property name="cssClasses">-->
-            <!--<list merge="true">-->
-                <!--<value>cm-requiredMessage-text</value>-->
-            <!--</list>-->
-        <!--</property>-->
-        <!--<property name="propertyReplacers">-->
-            <!--<list>-->
-                <!--<bean parent="Uif-ConditionalBeanPropertyReplacer"-->
-                    <!--p:propertyName="messageText"-->
-                    <!--p:condition="@{#workflowDoc.saved}" >-->
-                    <!--<property name="replacement">-->
-                        <!--&lt;!&ndash; This should be read from the message service &ndash;&gt;-->
-                        <!--<value>Required for Submit</value>-->
-                    <!--</property>-->
-                <!--</bean>-->
-                <!--<bean parent="Uif-ConditionalBeanPropertyReplacer"-->
-                     <!--p:propertyName="messageText"-->
-                     <!--p:condition="@{#workflowDoc.enroute}" >-->
-                    <!--<property name="replacement">-->
-                        <!--&lt;!&ndash; This should be read from the message service &ndash;&gt;-->
-                        <!--<value>Required for Approval</value>-->
-                    <!--</property>-->
-                <!--</bean>-->
-            <!--</list>-->
-        <!--</property>-->
-    <!--</bean>-->
+<!--
+    <bean id="CM-StateAware-RequiredMessage" parent="CM-StateAware-RequiredMessage-parent" abstract="true" />
+    <bean id="CM-StateAware-RequiredMessage-parent" parent="Uif-RequiredMessage"  abstract="true">
+        <property name="messageText" value="" />
+        <property name="cssClasses">
+            <list merge="true">
+                <value>cm_requiredMessage_text</value>
+            </list>
+        </property>
+        <property name="propertyReplacers">
+            <list>
+                <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                    p:propertyName="messageText"
+                    p:condition="@{#workflowDoc.saved}" >
+                    <property name="replacement">
+                        &lt;!&ndash; This should be read from the message service &ndash;&gt;
+                        <value>Required on Submit</value>
+                    </property>
+                </bean>
+                <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                     p:propertyName="messageText"
+                     p:condition="@{#workflowDoc.enroute}" >
+                    <property name="replacement">
+                        &lt;!&ndash; This should be read from the message service &ndash;&gt;
+                        <value>Required for Approval</value>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+-->
 
 
     <bean id="CourseInfoMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
@@ -545,7 +548,7 @@
         <property name="items">
             <list>
                 <!--"propsalCommentSection" -->
-                <bean parent="Uif-DataField" p:propertyName="proposalInfo.name" />
+                <bean parent="KS-Uif-DataField" p:propertyName="proposalInfo.name" />
                 <bean parent="Uif-Message"
                       p:messageText="All comments posted here will be visible to authors, and to reviewers after you submit the proposal" />
 
@@ -562,8 +565,8 @@
                     <property name="layoutManager.richTable.render" value="true" />
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:label=" " p:propertyName="commenterId"/>
-                            <bean parent="Uif-InputField" p:label=" " p:propertyName="commentText.plain" >
+                            <bean parent="KS-Uif-DataField" p:label=" " p:propertyName="commenterId"/>
+                            <bean parent="KS-Uif-InputField" p:label=" " p:propertyName="commentText.plain" >
                             </bean>
                         </list>
                     </property>
@@ -589,10 +592,10 @@
                     <property name="renderLineActions" value="false" />
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:label="Decision" p:propertyName="decision" />
-                            <bean parent="Uif-InputField" p:label="Date" p:propertyName="date" />
-                            <bean parent="Uif-InputField" p:label="Actor" p:propertyName="actor" />
-                            <bean parent="Uif-InputField" p:label="Rationale" p:propertyName="rationale" />
+                            <bean parent="KS-Uif-InputField" p:label="Decision" p:propertyName="decision" />
+                            <bean parent="KS-Uif-InputField" p:label="Date" p:propertyName="date" />
+                            <bean parent="KS-Uif-InputField" p:label="Actor" p:propertyName="actor" />
+                            <bean parent="KS-Uif-InputField" p:label="Rationale" p:propertyName="rationale" />
                         </list>
                     </property>
                 </bean>

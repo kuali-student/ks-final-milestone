@@ -16,7 +16,7 @@
             <list>
                 <bean parent="Uif-KS-IconInputField" p:propertyName="startTerm" p:label="Start Term" >
                     <property name="control">
-                        <bean parent="Uif-DropdownControl" />
+                        <bean parent="KS-Uif-DropdownControl" />
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.DatesKeyValuesFinder"
@@ -31,7 +31,7 @@
                         </list>
                     </property>
                     <property name="control">
-                        <bean parent="Uif-CheckboxControl" p:checkboxLabel="Yes, this is a one-time/pilot course" />
+                        <bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="Yes, this is a one-time/pilot course" />
                     </property>
                     <property name="fieldLabel.richLabelMessage.iconToolTipText" value="If this is a pilot course, you must select an End Term"/>
                 </bean>
@@ -43,14 +43,14 @@
                         </list>
                     </property>
                     <property name="refreshWhenChangedPropertyNames">
-                    <list>
-                        <value>document.newMaintainableObject.dataObject.startTerm</value>
-                        <value>document.newMaintainableObject.dataObject.pilotCourse</value>
-                    </list>
+                        <list>
+                            <value>document.newMaintainableObject.dataObject.startTerm</value>
+                            <value>document.newMaintainableObject.dataObject.pilotCourse</value>
+                        </list>
                     </property>
                     <property name="instructionalText" value="Last term in which the course can be offered" />
                     <property name="control">
-                        <bean parent="Uif-DropdownControl" p:disabled="@{!document.newMaintainableObject.dataObject.pilotCourse}"/>
+                        <bean parent="KS-Uif-DropdownControl" p:disabled="@{!document.newMaintainableObject.dataObject.courseInfo.pilotCourse}" />
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.DatesKeyValuesFinder"

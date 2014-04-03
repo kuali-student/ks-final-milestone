@@ -36,7 +36,7 @@
 			<list>
 							<bean parent="Uif-LookupCriteriaInputField" p:label="Search By" p:propertyName="searchBy">
 								<property name="control">
-									<bean parent="Uif-DropdownControl" />
+									<bean parent="KS-Uif-DropdownControl" />
 								</property>
 								<property name="optionsFinder">
                        	 			<bean class="org.kuali.student.lum.lu.ui.course.keyvalues.CourseJointKeyValuesFinder" p:addBlankOption="false"/>
@@ -60,10 +60,10 @@
 		</property>
 		<property name="resultFields">
 			<list>
-				<bean parent="Uif-DataField" p:propertyName="name" p:label="Name" p:escapeHtmlInPropertyValue="false" />
-				<bean parent="Uif-DataField" p:propertyName="courseCode"
+				<bean parent="KS-Uif-DataField" p:propertyName="name" p:label="Name" p:escapeHtmlInPropertyValue="false" />
+				<bean parent="KS-Uif-DataField" p:propertyName="courseCode"
 					p:label="Code" />
-				<bean parent="Uif-DataField" p:propertyName="descr.plain" p:escapeHtmlInPropertyValue="false"
+				<bean parent="KS-Uif-DataField" p:propertyName="descr.plain" p:escapeHtmlInPropertyValue="false"
                       p:label="Description" />
 			</list>
 		</property>

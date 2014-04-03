@@ -16,12 +16,14 @@
 
 package org.kuali.student.lum.lu.ui.course.keyvalues;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
+import org.kuali.student.cm.course.form.CourseCreateUnitsContentOwner;
 import org.kuali.student.cm.course.form.CourseInfoWrapper;
 import org.kuali.student.cm.course.service.CourseInfoMaintainable;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
@@ -69,8 +71,30 @@ public class OrgsBySubjectCodeValuesFinder extends UifKeyValuesFinderBase {
         final CourseInfoMaintainable maintainable = (CourseInfoMaintainable) form.getDocument().getNewMaintainableObject();
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
 
+        List<KeyValue> returnedOrgs = getAvailableOrgs(courseInfoWrapper);
+
+        if (!returnedOrgs.isEmpty()){
+            departments.addAll(returnedOrgs);
+        }
+
+        LOG.debug("Returning {}", departments);
+
+        return departments;
+    }
+
+    public List<KeyValue> getAvailableOrgs(CourseInfoWrapper courseInfoWrapper){
+
+        final SearchRequestInfo searchRequest = new SearchRequestInfo();
+        searchRequest.setSearchKey("subjectCode.search.orgsForSubjectCode");
+
+        String orgCode = courseInfoWrapper.getCourseInfo().getSubjectArea();
+
+        searchRequest.addParam("subjectCode.queryParam.code", orgCode);
+
+        List<KeyValue> departments = new ArrayList<KeyValue>();
+
         try {
-        	for (final SearchResultRowInfo result 
+            for (final SearchResultRowInfo result
                      : getSubjectCodeService().search(searchRequest, ContextUtils.getContextInfo()).getRows()) {
                 String subjectCodeId = "";
                 String subjectCodeOptionalLongName = "";
@@ -79,41 +103,42 @@ public class OrgsBySubjectCodeValuesFinder extends UifKeyValuesFinderBase {
                     if ("subjectCode.resultColumn.orgId".equals(resultCell.getKey())) {
                         subjectCodeId = resultCell.getValue();
                     } else if ("subjectCode.resultColumn.orgLongName".equals(resultCell.getKey())) {
-                    	subjectCodeOptionalLongName = resultCell.getValue();
+                        subjectCodeOptionalLongName = resultCell.getValue();
                     }
                 }
 
-                if (courseInfoWrapper.getUnitsContentOwner() != null
-                    && !courseInfoWrapper.getUnitsContentOwner().contains(getOrganizationBy(courseInfoWrapper.getCourseInfo().getSubjectArea(), subjectCodeId))) {
-                    
+                boolean alreadyExists = false;
+                for (CourseCreateUnitsContentOwner unitsContentOwner : courseInfoWrapper.getUnitsContentOwner()){
+                    if (StringUtils.equals(unitsContentOwner.getOrgId(),subjectCodeId)){
+                        alreadyExists = true;
+                        break;
+                    }
+                }
+
+                if (!alreadyExists){
                     departments.add(new ConcreteKeyValue(subjectCodeId, subjectCodeOptionalLongName));
                 }
+
             }
             LOG.debug("Returning {}", departments);
 
-        	return departments;
+            return departments;
         } catch (Exception e) {
-        	LOG.error("Error building KeyValues List", e);
             throw new RuntimeException(e);
         }
     }
 
+
     public void setBlankOption(final boolean blankOption) {
-        this.blankOption = blankOption;
-    }
+            this.blankOption = blankOption;
+        }
 
     public boolean getBlankOption() {
-        return blankOption;
-    }
+            return blankOption;
+        }
 
-
-    /**
-     *
-     * @param code
-     * @param orgId
-     * @return KeyValue
-     */
-    protected KeyValue getOrganizationBy(final String code, final String orgId) {
+    /*
+    protected CourseCreateUnitsContentOwner getOrganizationBy(final String code, final String orgId) {
         LOG.debug("Using code: {} and orgId: {} for the search", code, orgId);
         final SearchRequestInfo searchRequest = new SearchRequestInfo();
         searchRequest.setSearchKey("subjectCode.search.orgsForSubjectCode");
@@ -134,7 +159,7 @@ public class OrgsBySubjectCodeValuesFinder extends UifKeyValuesFinderBase {
                     	subjectCodeOptionalLongName = resultCell.getValue();
                     }
                 }
-                return new ConcreteKeyValue(subjectCodeOptionalLongName, subjectCodeId);
+                return new CourseCreateUnitsContentOwner(subjectCodeOptionalLongName, subjectCodeId);
             }
         } catch (Exception e) {
         	LOG.error("Error building KeyValues List", e);
@@ -143,7 +168,7 @@ public class OrgsBySubjectCodeValuesFinder extends UifKeyValuesFinderBase {
         
         LOG.info("Returning a null from org search");
         return null;
-    }
+    }*/
 
 	protected SubjectCodeService getSubjectCodeService() {
 		if (subjectCodeService == null) {

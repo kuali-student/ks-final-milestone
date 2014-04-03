@@ -19,10 +19,10 @@ limitations under the License.
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-    <bean id="KRMS-GradeValues-Field-Parent" parent="Uif-InputField" p:propertyName="proposition.termParameter"
+    <bean id="KRMS-GradeValues-Field-Parent" parent="KS-Uif-InputField" p:propertyName="proposition.termParameter"
           p:refreshWhenChangedPropertyNames="proposition.gradeScale" p:required="true">
         <property name="control">
-            <bean parent="Uif-DropdownControl"/>
+            <bean parent="KS-Uif-DropdownControl"/>
         </property>
         <property name="optionsFinder">
             <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.CMGradeValuesKeyFinder"/>
