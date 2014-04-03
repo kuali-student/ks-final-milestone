@@ -193,36 +193,40 @@
         </property>
     </bean>
     <bean id="KS-CourseView-CourseLogisticsPage-Outcome-Widgets"
-          parent="Uif-StackedCollectionSection" p:headerText="Outcome"
-          p:propertyName="creditOptionWrappers"
-          p:collectionObjectClass="org.kuali.student.cm.course.form.ResultValuesGroupInfoWrapper">
+          parent="Uif-StackedCollectionSection" p:headerText="Outcome" p:propertyName="creditOptionWrappers">
+        <property name="validationMessages.displayMessages" value="false" />
+        <property name="cssClasses">
+            <list merge="true">
+                <value>cm_requiredMessage_sectionHeader</value>
+            </list>
+        </property>
+        <property name="instructionalMessage">
+            <bean parent="CM-StateAware-RequiredMessage" />
+        </property>
+        <property name="collectionObjectClass" value="org.kuali.student.cm.course.form.ResultValuesGroupInfoWrapper" />
         <property name="addLineActions">
             <list>
-                <bean parent="Uif-AddLineAction" p:actionLabel="Add Outcome" >
+                <bean parent="Uif-AddLineAction" p:actionLabel="Add Outcome">
                     <property name="actionImage">
                         <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']+'/plus_grey.png'}"/>
                     </property>
                 </bean>
             </list>
         </property>
+        <property name="layoutManager.addLineGroup.header.render" value="false" />
         <property name="layoutManager.lineGroupPrototype.header.headerText" value="Outcome @{(#index + 1)}" />
         <property name="addLinePlacement" value="BOTTOM" />
         <property name="items">
             <list>
-                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="typeKey"
-                      p:label="Type" p:required="true" >
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="typeKey" p:label="Type" p:required="true" >
                     <property name="control">
-                        <bean parent="KS-Uif-DropdownControl"
-                            p:onChangeScript="reDrawOutcomeComponent();">
+                        <bean parent="KS-Uif-DropdownControl" p:onChangeScript="reDrawOutcomeComponent();">
                             <property name="options">
                                 <list>
                                     <bean parent="Uif-KeyLabelPair" p:key="1" p:value="" />
-                                    <bean parent="Uif-KeyLabelPair" p:key="kuali.result.values.group.type.fixed"
-                                          p:value="Fixed" />
-                                    <bean parent="Uif-KeyLabelPair" p:key="kuali.result.values.group.type.multiple"
-                                          p:value="Multiple" />
-                                    <bean parent="Uif-KeyLabelPair" p:key="kuali.result.values.group.type.range"
-                                          p:value="Range" />
+                                    <bean parent="Uif-KeyLabelPair" p:key="kuali.result.values.group.type.fixed" p:value="Fixed" />
+                                    <bean parent="Uif-KeyLabelPair" p:key="kuali.result.values.group.type.multiple" p:value="Multiple" />
+                                    <bean parent="Uif-KeyLabelPair" p:key="kuali.result.values.group.type.range" p:value="Range" />
                                 </list>
                             </property>
                         </bean>

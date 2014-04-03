@@ -27,7 +27,7 @@
         <property name="dataObjectClass" value="org.kuali.student.cm.course.form.CourseInfoWrapper"/>
         <property name="titleAttribute" value="courseInfo.id"/>
         <property name="attributes">
-            <list />
+            </list>
         </property>
         <property name="objectLabel" value="CourseInfo Wrapper"/>
         <property name="primaryKeys">
@@ -86,6 +86,7 @@
             <bean parent="DDValueReplacer-Enroute" />
         </property>
     </bean>
+
 
     <!--
         Per property overrides for workflow doc state P (Processed).
@@ -232,7 +233,7 @@
         <property name="messageText" value="" />
         <property name="cssClasses">
             <list merge="true">
-                <value>cm-requiredMessage-text</value>
+                <value>cm_requiredMessage_text</value>
             </list>
         </property>
         <property name="propertyReplacers">
@@ -242,7 +243,7 @@
                     p:condition="@{#workflowDoc.saved}" >
                     <property name="replacement">
                         <!-- This should be read from the message service -->
-                        <value>Required for Submit</value>
+                        <value>Required on Submit</value>
                     </property>
                 </bean>
                 <bean parent="Uif-ConditionalBeanPropertyReplacer"
