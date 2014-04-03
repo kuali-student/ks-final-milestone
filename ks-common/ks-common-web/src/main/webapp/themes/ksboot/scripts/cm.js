@@ -484,7 +484,7 @@ function compareSubjectCodeInput(value, element) {
         } else {
             jQuery("#"+element.id).attr('value', data.resultData[0].value);
             isValid = true;
-            retrieveComponent('KS-Course-CurriculumOversight-field');
+            retrieveComponent('KS-Course-CurriculumOversight-Section');
         }
     };
 
