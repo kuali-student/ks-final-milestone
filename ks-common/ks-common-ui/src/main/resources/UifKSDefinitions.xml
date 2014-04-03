@@ -136,7 +136,9 @@
                 </bean>
             </list>
         </property>
-        <property name="resultsGroup.layoutManager.richTable.showSearchAndExportOptions" value="true"/>
+        <!-- Removing property. Looks like Rice no longer supports it: KULRICE-10618
+        <property name="resultsGroup.layoutManager.richTable.showSearchAndExportOptions" value="true" />
+        -->
         <property name="resultsGroup.layoutManager.richTable.templateOptions">
             <map merge="true">
                 <entry key="sDom" value="iltp"/>
