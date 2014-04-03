@@ -6,6 +6,7 @@
     <import resource="classpath:ks-core-api-dictionary-file-locations.xml" />
     <import resource="classpath:ks-core-api-data-dictionary-validator-configuration.xml" />
 
+    <!-- redefine riceDataDictionaryService to be able to use SpringConfigurableDataDictionaryWithFakeEnvironment for fake environment to make Rice happy -->
     <bean id="riceDataDictionaryService" class="org.kuali.rice.krad.service.impl.DataDictionaryServiceImpl">
         <constructor-arg>
             <bean class="org.kuali.student.r2.common.datadictionary.SpringConfigurableDataDictionaryWithFakeEnvironment" init-method="init">
@@ -29,6 +30,9 @@
         <property name="collectionBeanReferences" >
             <list>
                 <value>ks-core-dictionary-file-locations</value>
+                <value>ks-enroll-dictionary-file-locations</value>
+                <value>ks-cm-dictionary-file-locations</value>
+                <value>ks-ap-dictionary-file-locations</value>
             </list>
         </property>
     </bean>
