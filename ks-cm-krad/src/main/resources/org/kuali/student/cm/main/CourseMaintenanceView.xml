@@ -27,7 +27,7 @@
         <property name="dataObjectClass" value="org.kuali.student.cm.course.form.CourseInfoWrapper"/>
         <property name="titleAttribute" value="courseInfo.id"/>
         <property name="attributes">
-            </list>
+            <list/>
         </property>
         <property name="objectLabel" value="CourseInfo Wrapper"/>
         <property name="primaryKeys">
