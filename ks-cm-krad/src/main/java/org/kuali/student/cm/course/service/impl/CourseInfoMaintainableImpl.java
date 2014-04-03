@@ -1116,9 +1116,9 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         /**
          * Active Dates section
          */
-        reviewData.getactiveDatesSection().setStartTerm(getTermDesc(courseInfoWrapper.getStartTerm()));
-        reviewData.getactiveDatesSection().setEndTerm(getTermDesc(courseInfoWrapper.getEndTerm()));
-        reviewData.getactiveDatesSection().setPilotCourse(BooleanUtils.toStringYesNo(courseInfoWrapper.isPilotCourse()));
+        reviewData.getactiveDatesSection().setStartTerm(getTermDesc(courseInfoWrapper.getCourseInfo().getStartTerm()));
+        reviewData.getactiveDatesSection().setEndTerm(getTermDesc(courseInfoWrapper.getCourseInfo().getEndTerm()));
+        reviewData.getactiveDatesSection().setPilotCourse(BooleanUtils.toStringYesNo(courseInfoWrapper.getCourseInfo().isPilotCourse()));
 
         reviewData.getfinancialsSection().setJustificationOfFees(savedCourseInfo.getFeeJustification().getPlain());
 
@@ -1340,9 +1340,9 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
         populateOutComesOnDTO();
 
-        courseInfoWrapper.getCourseInfo().setStartTerm(courseInfoWrapper.getStartTerm());
-        courseInfoWrapper.getCourseInfo().setEndTerm(courseInfoWrapper.getEndTerm());
-        courseInfoWrapper.getCourseInfo().setPilotCourse(courseInfoWrapper.isPilotCourse());
+        courseInfoWrapper.getCourseInfo().setStartTerm(courseInfoWrapper.getCourseInfo().getStartTerm());
+        courseInfoWrapper.getCourseInfo().setEndTerm(courseInfoWrapper.getCourseInfo().getEndTerm());
+        courseInfoWrapper.getCourseInfo().setPilotCourse(courseInfoWrapper.getCourseInfo().isPilotCourse());
 
         try {
             handleFirstTimeSave();
@@ -1630,9 +1630,9 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             CourseInfo course = getCourseService().getCourse(proposal.getProposalReference().get(0), createContextInfo());
             dataObject.setCourseInfo(course);
 
-            dataObject.setStartTerm(course.getStartTerm());
-            dataObject.setEndTerm(course.getEndTerm());
-            dataObject.setPilotCourse(course.isPilotCourse());
+           // dataObject.getCourseInfo().setStartTerm(course.getStartTerm());
+            //dataObject.getCourseInfo().setEndTerm(course.getEndTerm());
+           // dataObject.getCourseInfo().setPilotCourse(course.isPilotCourse());
 
             populateAuditOnWrapper();
             populateFinalExamOnWrapper();
