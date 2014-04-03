@@ -5,7 +5,7 @@
 
     <import resource="classpath:ks-test-system-property-configurer.xml"/>
     <import resource="classpath:META-INF/default-property-config-context-test.xml"/>
-    <bean class="org.kuali.student.r2.common.datadictionary.SpringConfigurableDataDictionaryWithFakeEnvironment" init-method="init"/>
+    <bean class="org.kuali.student.r2.common.datadictionary.DataDictionaryWithFakeEnvironment" init-method="init"/>
     <bean id="allDictionaryFileLocations" class="java.util.ArrayList">
         <constructor-arg>
             <list/>

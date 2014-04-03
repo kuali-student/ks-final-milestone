@@ -41,7 +41,7 @@ import java.util.List;
  *
  * @author Kuali Student Team
  */
-public class SpringConfigurableDataDictionaryWithFakeEnvironment extends DataDictionary implements ApplicationContextAware {
+public class DataDictionaryWithFakeEnvironment extends DataDictionary implements ApplicationContextAware {
     private static final String MOCK_APP_ID = "mock-app.id";
     private static final String APPLICATION_VERSION = "application.version";
     private static final String RICE_VERSION = "rice.version";
