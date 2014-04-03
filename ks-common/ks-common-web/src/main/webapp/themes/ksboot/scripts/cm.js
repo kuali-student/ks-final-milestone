@@ -128,6 +128,13 @@ function reDisplayAdministeringOrganization() {
     }
 }
 
+function reDisplayInstructor() {
+    var instructorComponent = jQuery("#instructor-section");
+    if (instructorComponent.css('display') == "none") {
+        instructorComponent.show();
+    }
+}
+
 /**
  * Checks if a particular scroll event handler has been bound to the window.
  * @param namespace The scroll event namespace.
