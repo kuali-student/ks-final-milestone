@@ -865,13 +865,9 @@
     </bean>
 
     <bean id="KS-Uif-MessageField-LabelTop" parent="KS-Uif-MessageField-LabelTop-parent"/>
-    <!-- Rice 2.4 upgrade: Uif-InputField-LabelTop was removed by KULRICE-11750-->
-    <bean id="KS-Uif-MessageField-LabelTop-parent" parent="Uif-MessageField"
-          p:fieldLabel.renderColon="false">
+    <!-- Rice 2.4 upgrade: Uif-MessageField-LabelTop was removed by KULRICE-11750-->
+    <bean id="KS-Uif-MessageField-LabelTop-parent" parent="Uif-MessageField">
         <!-- Rice 2.4 upgrade : removing p:labelPlacement="TOP" -->
-        <property name="help">
-            <null/>
-        </property>
     </bean>
 
     <bean id="KS-Uif-DropdownControl" parent="KS-Uif-DropdownControl-parent"/>
