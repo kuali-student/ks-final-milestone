@@ -34,6 +34,7 @@ public class FERuleManagementWrapper extends RuleManagementWrapper {
 
     public FERuleManagementWrapper() {
         this.setTermToUse("na");
+        type = new TypeInfo();
     }
 
     public TypeInfo getType() {
