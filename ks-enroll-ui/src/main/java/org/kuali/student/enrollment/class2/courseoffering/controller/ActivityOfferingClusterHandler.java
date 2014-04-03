@@ -515,6 +515,9 @@ public class ActivityOfferingClusterHandler {
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.Maintenance.METHOD_TO_CALL_EDIT);
         urlParameters.put(ActivityOfferingConstants.ACTIVITYOFFERING_COURSE_OFFERING_ID, theForm.getCurrentCourseOfferingWrapper().getCourseOfferingInfo().getId());
         urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, AORuleManagementWrapper.class.getName());
+        urlParameters.put(KRADConstants.OVERRIDE_KEYS,"refObjectId,courseOfferingId");
+        urlParameters.put("viewName", "AOAgendaManagementView");
+        urlParameters.put("refObjectId", aoId);
 
         return urlParameters;
     }

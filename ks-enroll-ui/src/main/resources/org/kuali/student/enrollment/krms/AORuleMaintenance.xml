@@ -375,13 +375,14 @@ limitations under the License.
         </property>
     </bean>
     <bean id="KSAO-ListItems-DataGroup" parent="KSAO-ListItems-DataGroup-parent">
-        <property name="subCollections">
+        <!--Rice 2.4 upgrade, comment out for now, still need to investigate this. see KSENROLL-12424-->
+        <!--property name="subCollections">
             <list merge="true">
                 <bean parent="KSAO-ListItems-DataGroup-parent" p:render="@{#line.cluGroups ne null}">
                     <property name="propertyName" value="cluGroups"/>
                 </bean>
             </list>
-        </property>
+        </property-->
     </bean>
 
     <bean id="KSAO-ListItems-SubGroup" parent="Uif-TableCollectionGroup" p:style="width: 550px; padding: 0;"
