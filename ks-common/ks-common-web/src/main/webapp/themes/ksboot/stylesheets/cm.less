@@ -292,7 +292,7 @@
 	float: none;
 }
 
-/**
+/*
  * Fix positions of nav elements
  */
 #KS-CourseView-ReviewProposalLink {
@@ -371,10 +371,24 @@
 }
 
 /*  The required message text on course details */
-.cm-requiredMessage-text {
+.cm_requiredMessage_text {
     color: #888888;
     font-style: italic;
     font-size: 88%;
+}
+
+/*  Allow the section header instructional message to align beside the header  */
+.cm_requiredMessage_sectionHeader .uif-sectionHeader,
+.cm_requiredMessage_sectionHeader .uif-header-contentWrapper {
+    display: inline-block;
+    float: left;
+}
+
+.cm_requiredMessage_sectionHeader > .uif-requiredMessage {
+    margin-left: 10px;
+    margin-top: 2px;
+    border: 1px solid green;
+    float: left;
 }
 
 #course_review_details-panel  {
