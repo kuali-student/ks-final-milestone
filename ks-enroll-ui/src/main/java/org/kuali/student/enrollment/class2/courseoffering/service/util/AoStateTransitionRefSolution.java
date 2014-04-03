@@ -37,14 +37,19 @@ public class AoStateTransitionRefSolution {
             {TransitionGridYesNoEnum.INVALID, TransitionGridYesNoEnum.INVALID, TransitionGridYesNoEnum.INVALID} };  // Technically, can't be in offered unless SOC in publishing/published
 
     public static final TransitionGridYesNoEnum [][] AO_STATE_SOC_OPEN = AO_STATE_SOC_DRAFT;
-    public static final TransitionGridYesNoEnum [][] AO_STATE_SOC_LOCKED = AO_STATE_SOC_DRAFT;
-    public static final TransitionGridYesNoEnum [][] AO_STATE_SOC_FINAL_EDITS = AO_STATE_SOC_DRAFT;
 
-    public static final TransitionGridYesNoEnum [][] AO_STATE_SOC_PUBLISHING =    {
+    public static final TransitionGridYesNoEnum [][] AO_STATE_SOC_LOCKED = {
             {TransitionGridYesNoEnum.YES, TransitionGridYesNoEnum.YES, TransitionGridYesNoEnum.YES},
             {TransitionGridYesNoEnum.YES, TransitionGridYesNoEnum.YES, TransitionGridYesNoEnum.YES},
-            {TransitionGridYesNoEnum.YES, TransitionGridYesNoEnum.YES, TransitionGridYesNoEnum.YES} };
-    public static final TransitionGridYesNoEnum [][] AO_STATE_SOC_PUBLISHED =  AO_STATE_SOC_PUBLISHING;
+            {TransitionGridYesNoEnum.NO, TransitionGridYesNoEnum.NO, TransitionGridYesNoEnum.YES} };
+
+    public static final TransitionGridYesNoEnum [][] AO_STATE_SOC_FINAL_EDITS = {
+            {TransitionGridYesNoEnum.YES, TransitionGridYesNoEnum.YES, TransitionGridYesNoEnum.YES},
+            {TransitionGridYesNoEnum.NO, TransitionGridYesNoEnum.YES, TransitionGridYesNoEnum.YES},
+            {TransitionGridYesNoEnum.NO, TransitionGridYesNoEnum.NO, TransitionGridYesNoEnum.YES} };
+
+    public static final TransitionGridYesNoEnum [][] AO_STATE_SOC_PUBLISHING = AO_STATE_SOC_FINAL_EDITS;
+    public static final TransitionGridYesNoEnum [][] AO_STATE_SOC_PUBLISHED =  AO_STATE_SOC_FINAL_EDITS;
     public static Map<String, TransitionGridYesNoEnum [][]> SOC_STATE_TO_AO_TRANSITION;
     static {
         SOC_STATE_TO_AO_TRANSITION = new HashMap<String, TransitionGridYesNoEnum [][]>();
