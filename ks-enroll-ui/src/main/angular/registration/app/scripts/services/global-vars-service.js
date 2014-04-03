@@ -83,4 +83,14 @@ angular.module('regCartApp')
 
         };
 
+        // In this method we pass in a status and it returns a message to display
+        this.getCorrespondingMessageFromStatus = function(status){
+            var statusMessage = '';
+            if(status == 'waitlisted'){
+                statusMessage = 'If a seat becomes available you will be registered automatically';
+            }
+
+            return statusMessage;
+        };
+
     });

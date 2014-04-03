@@ -214,7 +214,7 @@ angular.module('regCartApp')
             }, function () {
                 cartItem.status = 'success';
                 cartItem.waitlistedStatus = 'true';
-                cartItem.statusMessage = 'If a seat becomes available you will be registered automatically'
+                cartItem.statusMessage = GlobalVarsService.getCorrespondingMessageFromStatus('waitlisted');
             });
         };
 
