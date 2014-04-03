@@ -21,10 +21,14 @@
 
         <div id="${group.id}_tree">
             <ul>
-                <#include "ruleTreeNode.ftl" parse=true/>
-                <#list group.treeGroups.rootElement.children as node>
-                    <@ruleTreeNode node=node />
-                </#list>
+
+                <#-- only create node if root not null -->
+                <#if group.treeGroups.rootElement??>
+                    <#include "ruleTreeNode.ftl" parse=true/>
+                    <#list group.treeGroups.rootElement.children as node>
+                        <@ruleTreeNode node=node />
+                    </#list>
+                </#if>
             </ul>
         </div>
 
