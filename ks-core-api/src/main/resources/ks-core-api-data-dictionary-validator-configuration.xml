@@ -13,19 +13,19 @@
       This is used by the rice dictionary validation service
     -->
     <bean id="kualiModuleService" class="org.kuali.rice.krad.service.impl.KualiModuleServiceImpl" />
-    <bean id="riceDataDictionaryService" class="org.kuali.rice.krad.service.impl.DataDictionaryServiceImpl">
-        <constructor-arg>
-            <bean class="org.kuali.student.r2.common.datadictionary.SpringConfigurableDataDictionary" init-method="init">
-                <property name="dataDictionaryMapper">
-                    <bean class="org.kuali.rice.krad.datadictionary.DataDictionaryIndexMapper"/>
-                </property>
-            </bean>
-        </constructor-arg>
+    <bean id="riceDataDictionaryService" class="org.kuali.student.r2.common.datadictionary.StudentDataDictionaryServiceImpl" init-method="init">
         <property name="kualiModuleService" ref="kualiModuleService" />
         <property name="additionalDictionaryFiles">
             <map>
                 <entry key="http://student.kuali.org/wsdl/datadictionary">
                     <ref bean="allDictionaryFileLocations"/>
+                </entry>
+            </map>
+        </property>
+        <property name="uifAdditionalDictionaryFiles">
+            <map>
+                <entry key="http://student.kuali.org/wsdl/datadictionary">
+                    <ref bean="krad-uif-dictionary-file-locations"/>
                 </entry>
             </map>
         </property>
