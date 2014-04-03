@@ -2517,8 +2517,13 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         StateInfo state = getStateService().getState(examOfferingInfo.getStateKey(),
                 ContextUtils.createDefaultContextInfo());
         eoWrapper.setStateName(state.getName());
-        CourseOfferingManagementUtil.getExamOfferingScheduleHelper().loadScheduleRequests(eoWrapper, theForm, ContextUtils.createDefaultContextInfo());
+        CourseOfferingManagementUtil.getExamOfferingScheduleHelper().loadSchedules(eoWrapper, theForm, ContextUtils.createDefaultContextInfo());
 
+        //retrieve the EO matrix overriding attribute
+        AttributeInfo attributeInfo = CourseOfferingManagementUtil.getAttributeForKey(examOfferingInfo.getAttributes(), ExamOfferingServiceConstants.EXAM_OFFERING_MATRIX_OVERRIDE_ATTR);
+        if (attributeInfo != null) {
+            eoWrapper.setOverrideMatrix(Boolean.valueOf(attributeInfo.getValue()));
+        }
         return eoWrapper;
     }
 

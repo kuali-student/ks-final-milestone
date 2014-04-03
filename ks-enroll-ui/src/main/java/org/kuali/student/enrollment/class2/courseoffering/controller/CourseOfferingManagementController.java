@@ -1136,12 +1136,12 @@ public class CourseOfferingManagementController extends UifControllerBase {
     }
 
     private StatusInfo saveExamOfferingOverrideMatrixFlag (ExamOfferingWrapper eoWrapper) {
-        AttributeInfo attributeInfo = this.getExamOfferingAttributeForKey(eoWrapper.getEoInfo(), ExamOfferingServiceConstants.EXAM_OFFERING_MATRIX_OVERRIDE_ATTR);
+        AttributeInfo attributeInfo = CourseOfferingManagementUtil.getAttributeForKey(eoWrapper.getEoInfo().getAttributes(), ExamOfferingServiceConstants.EXAM_OFFERING_MATRIX_OVERRIDE_ATTR);
         ExamOfferingInfo eoInfo;
         if (attributeInfo != null) {
             attributeInfo.setValue(String.valueOf(eoWrapper.isOverrideMatrix()));
         } else {
-            attributeInfo = createAttribute(ExamOfferingServiceConstants.EXAM_OFFERING_MATRIX_OVERRIDE_ATTR, String.valueOf(eoWrapper.isOverrideMatrix()));
+            attributeInfo = CourseOfferingManagementUtil.createAttribute(ExamOfferingServiceConstants.EXAM_OFFERING_MATRIX_OVERRIDE_ATTR, String.valueOf(eoWrapper.isOverrideMatrix()));
             eoWrapper.getEoInfo().getAttributes().add(attributeInfo);
         }
 
@@ -1154,20 +1154,4 @@ public class CourseOfferingManagementController extends UifControllerBase {
         eoWrapper.setEoInfo(eoInfo);
         return new StatusInfo();
     }
-
-    private AttributeInfo getExamOfferingAttributeForKey(ExamOfferingInfo eoInfo, String key) {
-        for (AttributeInfo info : eoInfo.getAttributes()) {
-            if (info.getKey().equals(key)) {
-                return info;
-            }
-        }
-        return null;
-    }
-    private AttributeInfo createAttribute(String key, String value) {
-        AttributeInfo newAttr = new AttributeInfo();
-        newAttr.setKey(key);
-        newAttr.setValue(value);
-        return newAttr;
-    }
-
 }

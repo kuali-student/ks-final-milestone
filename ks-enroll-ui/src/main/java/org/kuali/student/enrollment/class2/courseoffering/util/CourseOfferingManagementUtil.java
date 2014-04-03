@@ -1003,5 +1003,21 @@ public class CourseOfferingManagementUtil {
         return result.toString();
     }
 
+    public static AttributeInfo createAttribute(String key, String value) {
+        AttributeInfo newAttr = new AttributeInfo();
+        newAttr.setKey(key);
+        newAttr.setValue(value);
+        return newAttr;
+    }
+
+    public static AttributeInfo getAttributeForKey (List<AttributeInfo> attributeInfos, String key) {
+        for (AttributeInfo info : attributeInfos) {
+            if (info.getKey().equals(key)) {
+                return info;
+            }
+        }
+        return null;
+    }
+
 
 }

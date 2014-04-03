@@ -216,7 +216,7 @@
                 <bean parent="Uif-VerticalFieldGroup" p:label="Override Matrix">
                     <property name="items">
                         <list>
-                            <bean id="eoOverrideMatrix" parent="Uif-InputField" p:propertyName="overrideMatrix" p:required="true">
+                            <bean id="eoOverrideMatrix" parent="Uif-InputField" p:propertyName="overrideMatrix">
                                 <property name="additionalCssClasses">
                                     <list merge="true">
                                         <value>off</value>
