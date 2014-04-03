@@ -33,26 +33,32 @@
 
                 <ref bean="KS-CrossListingEtcDisclosure-Section" /> <!-- Cross listings, etc -->
 
-                <bean id="KS-Instructors-Section" parent="Uif-StackedCollectionSection"
-                      p:headerText="Instructor(s)" p:propertyName="instructorWrappers"
-                      p:collectionObjectClass="org.kuali.student.cm.course.form.CluInstructorInfoWrapper">
-                    <property name="addLineLabel.messageText" value="Add An Instructor" />
-                    <property name="layoutManager.lineGroupPrototype.header.headerText" value="Instructor @{(#index + 1)}" />
+                <bean id="KS-Instructors-Section" parent="KS-TableCollectionSubSection-BottomAddLine"
+                      p:id="instructor-section" p:layoutManager.style="width: 100%;"
+                      p:headerText="Instructor(s)">
+                    <property name="collectionObjectClass" value="org.kuali.student.cm.course.form.CluInstructorInfoWrapper" />
+                    <property name="propertyName" value="instructorWrappers" />
+                    <property name="addBlankLineAction.actionLabel" value="Add Instructor"/>
+                    <property name="addBlankLineAction.id" value="addInstructor"/>
+                    <property name="addBlankLineAction.onDocumentReadyScript" value="reDisplayInstructor();"/>
+                    <property name="addBlankLineAction.dirtyOnAction" value="true" />
+                    <property name="validationMessages.displayMessages" value="false"/>
+                    <property name="layoutManager.renderSequenceField" value="false"/>
+                    <property name="layoutManager.generateAutoSequence" value="false"/>
+                    <property name="layoutManager.separateAddLine" value="false"/>
+                    <property name="layoutManager.richTable.disableTableSort" value="true"/>
+                    <property name="layoutManager.richTable.render" value="false"/>
+                    <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
                     <property name="header">
                         <bean parent="Uif-KS-IconHeader">
                             <property name="richHeaderMessage.iconToolTipText"
-                                value="This is not a restrictive list - names here will not determine who will eventually teach this course."/>
+                                      value="This is not a restrictive list - names here will not determine who will eventually teach this course."/>
                         </bean>
                     </property>
                     <property name="cssClasses">
                         <list merge="true">
                             <value>cm-collection-width</value>
                             <value>admin-not-required-field</value>
-                        </list>
-                    </property>
-                    <property name="addLineActions">
-                        <list>
-                            <bean parent="Uif-AddLineAction" p:actionLabel="Add" />
                         </list>
                     </property>
                     <property name="items">
@@ -71,9 +77,9 @@
                                                 <entry key="change">
                                                     <value>
                                                         function(event, ui) {
-                                                            if (ui.item==null) {
-                                                                jQuery(this).focus();
-                                                            }
+                                                        if (ui.item==null) {
+                                                        jQuery(this).focus();
+                                                        }
                                                         }
                                                     </value>
                                                 </entry>
@@ -85,32 +91,13 @@
                                         </property>
                                     </bean>
                                 </property>
-                                <property name="quickfinder">
-                                    <bean parent="Uif-QuickFinder">
-                                        <property name="quickfinderAction">
-                                            <bean parent="Uif-ActionLink">
-                                                <property name="methodToCall" value="performLookup" />
-                                                <property name="actionLabel" value="Advanced Search" />
-                                                <property name="cssClasses">
-                                                    <list merge="true">
-                                                        <value>uif-actionLink-block</value>
-                                                    </list>
-                                                </property>
-                                            </bean>
-                                        </property>
-                                        <property name="lightBoxLookup">
-                                            <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false" />
-                                        </property>
-                                        <property name="dataObjectClassName"
-                                                  value="org.kuali.student.cm.course.form.CluInstructorInfoWrapper" />
-                                        <property name="fieldConversions">
-                                            <map>
-                                                <entry key="displayName" value="displayName" />
-                                            </map>
-                                        </property>
-                                    </bean>
-                                </property>
                             </bean>
+                        </list>
+                    </property>
+                    <property name="lineActions">
+                        <list>
+                            <bean parent="KS-Uif-Delete-ActionLink" p:id="delete_instructor" p:methodToCall="deleteLine" p:actionLabel="Delete"
+                                  p:actionEvent="deleteLine" p:dirtyOnAction="true"/>
                         </list>
                     </property>
                 </bean>
