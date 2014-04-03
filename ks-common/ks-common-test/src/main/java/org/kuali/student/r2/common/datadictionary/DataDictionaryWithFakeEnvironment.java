@@ -46,10 +46,9 @@ public class DataDictionaryWithFakeEnvironment extends DataDictionary implements
     private static final String APPLICATION_VERSION = "application.version";
     private static final String RICE_VERSION = "rice.version";
     private static final String VERSION_ONE = "1.0";
-    // copied from org.kuali.rice.core.impl.datetime.DateTimeServiceImpl
-    private static final String STRING_TO_DATE_FORMATS = "MM/dd/yyyy hh:mm a;MM/dd/yy;MM/dd/yyyy;MM-dd-yy;MM-dd-yyyy;MMddyy;MMMM dd;yyyy;MM/dd/yy HH:mm:ss;MM/dd/yyyy HH:mm:ss;MM-dd-yy HH:mm:ss;MMddyy HH:mm:ss;MMMM dd HH:mm:ss;yyyy HH:mm:ss";
-    public static final String NAMESPACE_CODE = "http://student.kuali.org/wsdl/datadictionary";
-    public static final String ALL_DICTIONARY_FILE_LOCATIONS = "allDictionaryFileLocations";
+    private static final String NAMESPACE_CODE = "http://student.kuali.org/wsdl/datadictionary";
+    private static final String ALL_DICTIONARY_FILE_LOCATIONS = "allDictionaryFileLocations";
+    private static final String UIF_DICTIONARY_FILE_LOCATIONS = "krad-uif-dictionary-file-locations";
 
     private ApplicationContext applicationContext;
 
@@ -58,25 +57,15 @@ public class DataDictionaryWithFakeEnvironment extends DataDictionary implements
         config.putProperty(CoreConstants.Config.APPLICATION_ID, MOCK_APP_ID);
         config.putProperty(APPLICATION_VERSION, VERSION_ONE);
         config.putProperty(RICE_VERSION, VERSION_ONE);
-        config.putProperty(CoreConstants.STRING_TO_DATE_FORMATS, STRING_TO_DATE_FORMATS);
+        config.putProperty(CoreConstants.STRING_TO_DATE_FORMATS, CoreConstants.STRING_TO_DATE_FORMATS_DEFAULT);
         ConfigContext.init(config);
 
         DataDictionaryServiceImpl dataDictionaryService = new DataDictionaryServiceImpl();
         DataDictionary embeddedDataDictionary = dataDictionaryService.getDataDictionary();
 
         // UIF files for adding to the embedded DD (behind the scenes)
-        List<String> uifDictionaryLocations = Arrays.asList(
-                "classpath:org/kuali/rice/krad/uif/UifControlDefinitions.xml",
-                "classpath:org/kuali/rice/krad/uif/UifConfigurationDefinitions.xml",
-                "classpath:org/kuali/rice/krad/uif/UifWidgetDefinitions.xml",
-                "classpath:org/kuali/rice/krad/uif/UifFieldDefinitions.xml",
-                "classpath:org/kuali/rice/krad/uif/UifElementDefinitions.xml",
-                "classpath:org/kuali/rice/krad/uif/UifHeaderFooterDefinitions.xml",
-                "classpath:org/kuali/rice/krad/datadictionary/DataDictionaryBaseTypes.xml",
-                "classpath:org/kuali/rice/krad/uif/UifGroupDefinitions.xml",
-                "classpath:org/kuali/rice/krad/uif/UifLayoutManagerDefinitions.xml",
-                "classpath:org/kuali/rice/krad/uif/UifMenuDefinitions.xml",
-                "classpath:org/kuali/rice/krad/uif/UifActionDefinitions.xml");
+        @SuppressWarnings("unchecked")
+        List<String> uifDictionaryLocations = (List<String>) applicationContext.getBean(UIF_DICTIONARY_FILE_LOCATIONS);
 
         for (String location : uifDictionaryLocations) {
             embeddedDataDictionary.addConfigFileLocation(NAMESPACE_CODE, location);
