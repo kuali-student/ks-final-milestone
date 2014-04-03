@@ -540,8 +540,12 @@ function compareInstructorNameInput(value, element) {
     var successFunction = function (data) {
         var lastName = value.split(',')[0];
         var restVal =  value.split(',')[1];
-        var firstName = restVal.split('(')[0];
-        var nameID = restVal.split('(')[1];
+        var firstName = '';
+        var nameID = '';
+        if(restVal != null) {
+             firstName = restVal.split('(')[0];
+             nameID = restVal.split('(')[1];
+        }
         if(data == null || data.resultData == null)  {
             isValid = false;
         } else {
@@ -556,13 +560,13 @@ function compareInstructorNameInput(value, element) {
     };
 
     var queryData = {};
-
+    var qFieldId = element.parentElement.getAttribute('id');
     queryData.methodToCall = 'performFieldSuggest';
     queryData.ajaxRequest = true;
     queryData.ajaxReturnType = 'update-none';
     queryData.formKey = jQuery("input#formKey").val();
     queryData.queryTerm = queryVal;
-    queryData.queryFieldId = "KS-Instructor-displayName_add";
+    queryData.queryFieldId = qFieldId;
 
     jQuery.ajax({
         url: jQuery("form#kualiForm").attr("action"),
