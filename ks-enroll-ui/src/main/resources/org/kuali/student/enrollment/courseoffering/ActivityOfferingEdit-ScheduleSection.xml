@@ -242,7 +242,7 @@
                         <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="suggest" p:condition="#dp.authorizedToModifyEndTimeTS">
                             <property name="replacement">
                                 <bean parent="Uif-Suggest" p:render="true" p:retrieveAllSuggestions="true">
-                                    <property name="suggestOptions" value="@{#dp.newScheduleRequest.endTimesArray}"/>
+                                    <property name="suggestOptions" value="@{#dp.newScheduleRequest.endTimes}"/>
                                     <property name="templateOptions">
                                         <map>
                                           <entry key="minLength" value="0"/>
