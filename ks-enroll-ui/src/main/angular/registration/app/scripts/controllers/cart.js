@@ -213,7 +213,7 @@ angular.module('regCartApp')
                 allowWaitlist: true
             }, function () {
                 cartItem.status = 'success';
-                cartItem.waitlistedStatus = 'true';
+                cartItem.waitlistedStatus = true;
                 cartItem.statusMessage = GlobalVarsService.getCorrespondingMessageFromStatus('waitlisted');
             });
         };

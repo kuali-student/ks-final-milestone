@@ -100,7 +100,8 @@
 <div class="kscr-Card-Results panel-group">
     <div ng-repeat="cartResultItem in cartResults.items" is-open="isopen" class="panel cart-item-status-{{cartResultItem.status}}">
         <div class="kscr-cartResult-icon">&nbsp;</div>
-        <div class="kscr-cartResult-heading" ng-if="(cartResultItem.waitlistedStatus != 'true')">
+        <!-- Displays block with course info if course is not waitlisted -->
+        <div class="kscr-cartResult-heading" ng-if="!cartResultItem.waitlistedStatus">
             <!--Course Header Section-->
             <div class="ng-scope">
                 <span class="kscr-Card-title-alert kscr-Card-alert--{{cartResultItem.status}}" id="course_code_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}">{{cartResultItem.courseCode}} ({{cartResultItem.regGroupCode}}) {{getStatusMessageFromStatus(cartResultItem.status)}}</span>
@@ -118,7 +119,8 @@
                 </span>
             </div>
         </div>
-        <div class="kscr-cartResult-heading" ng-if="(cartResultItem.waitlistedStatus == 'true')">
+        <!-- Displays block with course info if course is waitlisted (even though it technically "failed" we display it as "success" that it was added to waitlist) -->
+        <div class="kscr-cartResult-heading" ng-if="cartResultItem.waitlistedStatus">
             <div class="ng-scope">
                 <span class="kscr-Card-title-alert kscr-Card-alert--{{cartResultItem.status}}" id="waitlisted_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}">Added to Waitlist</span>
             </div>
