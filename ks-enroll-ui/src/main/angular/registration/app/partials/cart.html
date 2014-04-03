@@ -108,7 +108,9 @@
             <!--Course Title and description-->
             <div class="kscr-Card-text-alert kscr-Card-alert--{{cartResultItem.status}}" id="title_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}">{{cartResultItem.courseTitle}}</div>
             <div ng-if="cartResultItem.statusMessage && (cartResultItem.status != 'success')" id="result_status_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}" class="kscr-CardResult-detailsText--{{cartResultItem.status}}">
-               <span class="kscr-Card-reason"> <strong>Reason:</strong> {{cartResultItem.statusMessage}}</span>
+                <span class="kscr-Card-reason">
+                    <span class="kscr-Card-reason-text"><strong>Reason:</strong></span><span class="kscr-Card-reason-message" ng-bind-html="cartResultItem.statusMessage"/>
+                </span>
             </div>
             <div class="kscr-Card-button" ng-if="cartResultItem.statusMessage && (cartResultItem.status == 'waitlist')">
                 <span>
