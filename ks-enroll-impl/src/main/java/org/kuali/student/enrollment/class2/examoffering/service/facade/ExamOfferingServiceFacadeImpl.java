@@ -3,6 +3,7 @@ package org.kuali.student.enrollment.class2.examoffering.service.facade;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.class2.courseofferingset.util.CourseOfferingSetUtil;
 import org.kuali.student.enrollment.class2.examoffering.krms.evaluator.ExamOfferingSlottingEvaluator;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
@@ -27,7 +28,6 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.ExamOfferingServiceConstants;
@@ -39,11 +39,8 @@ import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
-import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
-import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -481,6 +478,10 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
                     String eoState = this.getExamOfferingStateForActivityOffering(aoInfo);
                     eo = createFinalExamOfferingPerAO(foEntry.getKey().getId(), aoInfo, foEntry.getKey().getFinalExamLevelTypeKey(),
                             examPeriodId, eoState, termType, context);
+                }
+                else if (!useFinalExamMatrix) {
+                    //Remove RDL for Exam Offering
+                    removeExamOfferingRDL(eo, context);
                 }
 
                 if (this.getScheduleEvaluator() != null && useFinalExamMatrix) {

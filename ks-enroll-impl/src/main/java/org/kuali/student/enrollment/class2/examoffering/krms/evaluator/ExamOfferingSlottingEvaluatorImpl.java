@@ -440,22 +440,24 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
      */
     private void removeRDLForExamOffering(ScheduleRequestComponentInfo componentInfo, TimeSlotInfo timeSlot,
                                           String examOfferingId,ContextInfo context) {
+        List<ScheduleRequestSetInfo> scheduleRequestSetInfoList = null;
         try {
-            List<ScheduleRequestSetInfo> requestSetList = new ArrayList<ScheduleRequestSetInfo>();
-            try {
-                requestSetList = getSchedulingService().getScheduleRequestSetsByRefObject(ExamOfferingServiceConstants.REF_OBJECT_URI_EXAM_OFFERING, examOfferingId, context);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-            if (!requestSetList.isEmpty() || requestSetList.size() > 0) {
-                ScheduleRequestSetInfo schedulerequestSet = null;
-                for (ScheduleRequestSetInfo requestSet : requestSetList) {
-                    schedulerequestSet = requestSet;
-                }
-                this.getSchedulingService().deleteScheduleRequestSet(schedulerequestSet.getId(), context);
-            }
+            scheduleRequestSetInfoList = getSchedulingService().getScheduleRequestSetsByRefObject(ExamOfferingServiceConstants.REF_OBJECT_URI_EXAM_OFFERING, examOfferingId, context);
         } catch (Exception e) {
-            throw new RuntimeException("Error deleting ScheduleRequest: " + timeSlot, e);
+            throw new RuntimeException(e);
+        }
+        if (!scheduleRequestSetInfoList.isEmpty() || scheduleRequestSetInfoList != null) {
+            try {
+                for (ScheduleRequestSetInfo scheduleRequestSetInfo : scheduleRequestSetInfoList) {
+                    List<ScheduleRequestInfo> scheduleRequestInfoList = getSchedulingService().getScheduleRequestsByScheduleRequestSet(scheduleRequestSetInfo.getId(), context);
+                    for (ScheduleRequestInfo scheduleRequestInfo : scheduleRequestInfoList) {
+                        getSchedulingService().deleteScheduleRequest(scheduleRequestInfo.getId(), context);
+                    }
+                    getSchedulingService().deleteScheduleRequestSet(scheduleRequestSetInfo.getId(), context);
+                }
+            } catch (Exception e) {
+                throw new RuntimeException("Error deleting ScheduleRequest: " + timeSlot, e);
+            }
         }
     }
 
