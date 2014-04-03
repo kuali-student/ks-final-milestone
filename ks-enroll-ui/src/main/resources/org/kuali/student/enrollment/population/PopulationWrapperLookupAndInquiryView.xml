@@ -109,7 +109,7 @@
                 </bean>
                 <bean parent="Uif-ActionLink">
                   <property name="actionLabel" value="Return Value"/>
-                  <property name="finalizeMethodToCall" value="getReturnUrlForResults"/>
+                  <property name="finalizeMethodToCall" value="buildReturnUrlForResult"/>
                   <property name="render"
                             value="@{!#empty(returnFormKey) and !#empty(returnLocation) and !view.hideReturnLinks}"/>
                 </bean>
