@@ -118,4 +118,4 @@ VALUES
    'OR <br>',
    'KS-KRMS-NL-TMPL-ATTR-10003',
    'KS-KRMS-NL-TMPL-55756')
-   /di
+   /
