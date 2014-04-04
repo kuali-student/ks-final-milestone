@@ -129,6 +129,7 @@
 <div>
 
     <div>
+
         <span>
             <span class="kscr-Heading-sub">WAITLISTED</span>
             <span id="waitlisted_credit_count" class="kscr-Heading-support util-Grid--floatRight">{{registeredCredits()}} credits</span>
@@ -198,7 +199,7 @@
                                     </div>
                                 </span>
                             </div>
-                            <!--Course Registration Buttons-->
+                            <!--Waitlisted Edit, Remove Buttons-->
                             <div class="kscr-Card-buttons">
                               <span>
                                 <!--<button class="btn">Details</button>-->
@@ -209,7 +210,7 @@
                             </div>
                         </div>
 
-                        <!-- Schedule Item Change Section: Credits, Grading, and Save -->
+                        <!-- Waitlist Item Change Section: Credits, Registration Options, and Save -->
                         <div class="kscr-Card-detailsText" ng-show="course.editing">
                             <form ng-submit="updateScheduleItem(course, newCredits, newGrading)">
                                 <div class="util-Grid">
