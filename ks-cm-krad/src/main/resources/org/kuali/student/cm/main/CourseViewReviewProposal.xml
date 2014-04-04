@@ -51,6 +51,7 @@
           p:headerText="">
         <property name="items">
             <list>
+                <ref bean="KS-CourseView-ReviewErrorMessageLink" />
                 <ref bean="KS-CourseView-CourseInfo-ReviewWidgets"/>
                 <ref bean="KS-CourseView-Governance-ReviewWidgets"/>
                 <ref bean="KS-CourseView-CourseLogistics-ReviewWidgets"/>
@@ -60,6 +61,29 @@
                 <ref bean="KS-CourseView-Financials-ReviewWidgets"/>
                 <ref bean="KS-CourseView-AuthorsAndCollaborators-ReviewWidgets"/>
                 <ref bean="KS-CourseView-SupportingDocuments-ReviewWidgets"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-CourseView-ReviewErrorMessageLink" parent="Uif-VerticalBoxGroup" p:render="@{#dataObject.reviewProposalDisplay.missingRequiredElement}">
+        <property name="items">
+            <list>
+                <bean id="KS-CourseView-Admin-Message-TreeExpandCollapse" parent="Uif-HorizontalFieldGroup"
+                      p:showLabel="false"
+                      p:additionalCssClasses="uif-validationMessages,uif-groupValidationMessages,uif-pageValidationMessages-warning,ks-subSection">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-Message" p:id="ReviewProposal-Error-Message"
+                                  p:messageText="This proposal is incomplete."
+                                  p:style="margin-right: 0pt; margin-top: 5px;">
+                            </bean>
+                            <bean parent="KS-Uif-ActionLink" p:id="ReviewProposal-Error-Message-expand-optional-link"
+                                  p:actionScript="showHideReviewProposalErrorFields();"
+                                  p:actionLabel="Show what's missing." p:style="margin-right: 15pt; margin-top: 0px;">
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>
