@@ -1,1 +1,0 @@
-Original file added and removed as part of https://jira.kuali.org/browse/KSAP-1010 Removed from the repository due to github not allowing pushes of branches containing blobs of a size greater than 100 MB.
