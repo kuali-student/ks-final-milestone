@@ -1456,4 +1456,219 @@
     </bean>
 
     <!-- *********************** Adviser Message and Comment Data Object End ******************** -->
+
+    <!--*********************** Course Details Wrapper Data Object ******************** -->
+
+    <bean id="CourseDetailsWrapper" parent="CourseDetailsWrapper-parentBean"/>
+    <bean id="CourseDetailsWrapper-parentBean" abstract="true" parent="DataObjectEntry">
+        <property name="objectLabel" value="Course Details Wrapper"/>
+        <property name="dataObjectClass" value="org.kuali.student.ap.coursesearch.dataobject.CourseDetailsWrapper"/>
+        <property name="titleAttribute" value="courseId"/>
+        <property name="attributes">
+            <list>
+                <ref bean="CourseDetailsWrapper.courseCode"/>
+                <ref bean="CourseDetailsWrapper.subject"/>
+                <ref bean="CourseDetailsWrapper.courseTitle"/>
+                <ref bean="CourseDetailsWrapper.courseCredits"/>
+                <ref bean="CourseDetailsWrapper.courseDescription"/>
+                <ref bean="CourseDetailsWrapper.lastOffered"/>
+
+            </list>
+        </property>
+
+        <property name="collections">
+            <list>
+                <ref bean="CourseDetailsWrapper.projectedTerms"/>
+                <ref bean="CourseDetailsWrapper.courseRequisites"/>
+                <ref bean="CourseDetailsWrapper.courseGenEdRequirements"/>
+                <ref bean="CourseDetailsWrapper.scheduledTerms"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CourseDetailsWrapper.courseId" parent="CourseDetailsWrapper.courseId-parentBean"/>
+    <bean id="CourseDetailsWrapper.courseId-parentBean" abstract="true" parent="BaseKuali.idField">
+        <property name="name" value="courseId"/>
+        <property name="dataType" value="STRING"/>
+        <property name="label" value="Course ID"/>
+        <property name="shortLabel" value="ID"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="maxLength" value="100"/>
+        <property name="validCharactersConstraint">
+            <bean parent="NoWhitespacePatternConstraint"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="100"/>
+        </property>
+        <property name="controlField">
+            <bean parent="KS-Uif-TextControl" p:size="100"/>
+        </property>
+    </bean>
+
+    <bean id="CourseDetailsWrapper.subject" parent="CourseDetailsWrapper.subject-parentBean"/>
+    <bean id="CourseDetailsWrapper.subject-parentBean" abstract="true" parent="BaseKuali.string">
+        <property name="name" value="subject"/>
+        <property name="dataType" value="STRING"/>
+        <property name="label" value="Course Subject Area"/>
+        <property name="shortLabel" value="Course"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="maxLength" value="10"/>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="10"/>
+        </property>
+        <property name="controlField">
+            <bean parent="KS-Uif-TextControl" p:size="10"/>
+        </property>
+    </bean>
+
+    <bean id="CourseDetailsWrapper.courseCode" parent="CourseDetailsWrapper.courseCode-parentBean"/>
+    <bean id="CourseDetailsWrapper.courseCode-parentBean" abstract="true" parent="BaseKuali.string">
+        <property name="name" value="courseCode"/>
+        <property name="dataType" value="STRING"/>
+        <property name="label" value="Course Code"/>
+        <property name="shortLabel" value="Course"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="maxLength" value="10"/>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="10"/>
+        </property>
+        <property name="controlField">
+            <bean parent="KS-Uif-TextControl" p:size="10"/>
+        </property>
+    </bean>
+
+    <bean id="CourseDetailsWrapper.courseTitle" parent="CourseDetailsWrapper.courseTitle-parentBean"/>
+    <bean id="CourseDetailsWrapper.courseTitle-parentBean" abstract="true" parent="BaseKuali.string">
+        <property name="name" value="courseTitle"/>
+        <property name="dataType" value="STRING"/>
+        <property name="label" value="Course Title"/>
+        <property name="shortLabel" value="Course Title"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="maxLength" value="40"/>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+        <property name="controlField">
+            <bean parent="KS-Uif-TextControl" p:size="40"/>
+        </property>
+    </bean>
+
+    <bean id="CourseDetailsWrapper.courseCredits" parent="CourseDetailsWrapper.courseCredits-parentBean"/>
+    <bean id="CourseDetailsWrapper.courseCredits-parentBean" abstract="true" parent="BaseKuali.string">
+        <property name="name" value="courseCredits"/>
+        <property name="dataType" value="STRING"/>
+        <property name="label" value="Course Credit"/>
+        <property name="shortLabel" value="Credit"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="maxLength" value="20"/>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean parent="KS-Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="CourseDetailsWrapper.courseDescription" parent="CourseDetailsWrapper.courseDescription-parentBean"/>
+    <bean id="CourseDetailsWrapper.courseDescription-parentBean" abstract="true" parent="BaseKuali.stringLong">
+        <property name="name" value="courseDescription"/>
+        <property name="dataType" value="STRING"/>
+        <property name="label" value="Course Description"/>
+        <property name="shortLabel" value="Description"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="maxLength" value="200"/>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="200"/>
+        </property>
+        <property name="controlField">
+            <bean parent="KS-Uif-TextControl" p:size="200"/>
+        </property>
+    </bean>
+
+    <bean id="CourseDetailsWrapper.projectedTerms" parent="CourseDetailsWrapper.projectedTerms-parentBean"/>
+    <bean id="CourseDetailsWrapper.projectedTerms-parentBean" abstract="true" parent="CollectionDefinition">
+        <property name="name" value="projectedTerms"/>
+        <property name="shortLabel" value="Projected Term"/>
+        <property name="summary">
+            <value>Projected Term</value>
+        </property>
+        <property name="label" value="Projected Term"/>
+        <property name="minOccurs" value="0"/>
+        <property name="dataObjectClass" value="java.lang.String"/>
+    </bean>
+
+    <bean id="CourseDetailsWrapper.lastOffered" parent="CourseDetailsWrapper.lastOffered-parentBean"/>
+    <bean id="CourseDetailsWrapper.lastOffered-parentBean" abstract="true" parent="BaseKuali.stringLong">
+        <property name="name" value="lastOffered"/>
+        <property name="dataType" value="STRING"/>
+        <property name="label" value="Last Offered"/>
+        <property name="shortLabel" value="Last Offered"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="maxLength" value="200"/>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="200"/>
+        </property>
+        <property name="controlField">
+            <bean parent="KS-Uif-TextControl" p:size="200"/>
+        </property>
+    </bean>
+
+    <bean id="CourseDetailsWrapper.courseRequisites" parent="CourseDetailsWrapper.courseRequisites-parentBean"/>
+    <bean id="CourseDetailsWrapper.courseRequisites-parentBean" abstract="true" parent="CollectionDefinition">
+        <property name="name" value="courseRequisites"/>
+        <property name="shortLabel" value="Course Requisites"/>
+        <property name="summary">
+            <value>Course Requisites</value>
+        </property>
+        <property name="label" value="Course Requisites"/>
+        <property name="elementLabel" value="Course Requisites"/>
+        <property name="minOccurs" value="0"/>
+        <property name="dataObjectClass" value="java.lang.String"/>
+    </bean>
+
+    <bean id="CourseDetailsWrapper.courseGenEdRequirements" parent="CourseDetailsWrapper.courseGenEdRequirements-parentBean"/>
+    <bean id="CourseDetailsWrapper.courseGenEdRequirements-parentBean" abstract="true" parent="CollectionDefinition">
+        <property name="name" value="courseGenEdRequirements"/>
+        <property name="shortLabel" value="Gen Edu. Requirements"/>
+        <property name="summary">
+            <value>General Educational Requirements</value>
+        </property>
+        <property name="label" value="Gen Edu. Requirements"/>
+        <property name="elementLabel" value="Gen Edu. Requirements"/>
+        <property name="minOccurs" value="0"/>
+        <property name="dataObjectClass" value="java.lang.String"/>
+    </bean>
+
+    <bean id="CourseDetailsWrapper.scheduledTerms" parent="CourseDetailsWrapper.scheduledTerms-parentBean"/>
+    <bean id="CourseDetailsWrapper.scheduledTerms-parentBean" abstract="true" parent="CollectionDefinition">
+        <property name="name" value="scheduledTerms"/>
+        <property name="shortLabel" value="Scheduled Terms"/>
+        <property name="summary">
+            <value>Scheduled Terms</value>
+        </property>
+        <property name="label" value="Scheduled Terms"/>
+        <property name="elementLabel" value="Scheduled Terms"/>
+        <property name="minOccurs" value="0"/>
+        <property name="dataObjectClass" value="java.lang.String"/>
+    </bean>
+
+    <!-- ***********************Course Details Wrapper End******************** -->
 </beans>
