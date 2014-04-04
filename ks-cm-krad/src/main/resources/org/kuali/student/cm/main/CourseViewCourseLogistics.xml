@@ -69,7 +69,7 @@
                     </property>
                 </bean>
                 <bean id="KS-DurationTimeQuantity-Field" parent="KS-Uif-InputField-LabelTop"
-                      p:label="Durantion Count" p:propertyName="courseInfo.duration.timeQuantity">
+                      p:label="Duration Count" p:propertyName="courseInfo.duration.timeQuantity">
                     <property name="validCharactersConstraint">
                         <bean parent="NumericPatternConstraint" />
                     </property>
