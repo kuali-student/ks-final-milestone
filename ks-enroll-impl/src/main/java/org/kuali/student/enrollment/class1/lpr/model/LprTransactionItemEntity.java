@@ -147,11 +147,11 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
 		}
 		
 		this.requestOptions.clear();
-		
 		for (LprTransactionItemRequestOption requestOption : lprTransactionItem.getRequestOptions()) {
-		
-			this.requestOptions.add(new LprTransactionItemRequestOptionEntity(requestOption));
-			
+            //Add in options
+            LprTransactionItemRequestOptionEntity requestOptionEntity = new LprTransactionItemRequestOptionEntity(requestOption);
+            requestOptionEntity.setLprTransactionItem(this);
+            this.requestOptions.add(requestOptionEntity);
 		}
 		
 		this.resultValueGroupIds.clear();
