@@ -195,7 +195,7 @@ public class PlannerController extends KsapControllerBase {
      * Handles submissions from the term note dialog.
      * Formats and updates the term's note in the database.
      */
-	@RequestMapping(method = RequestMethod.POST, params = "view.currentPageId=" + EDIT_TERM_NOTE_PAGE)
+	@RequestMapping(method = RequestMethod.POST, params = "methodToCall=" + EDIT_TERM_NOTE_PAGE)
 	public ModelAndView editTermNote(@ModelAttribute("KualiForm") PlannerForm form, BindingResult result,
 			HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
@@ -320,7 +320,7 @@ public class PlannerController extends KsapControllerBase {
      * Handles submissions from the quick add course dialog.
      * Validates the course and addes it to the students plan.
      */
-	@RequestMapping(method = RequestMethod.POST, params = "view.currentPageId=" + QUICKADD_COURSE_PAGE)
+	@RequestMapping(method = RequestMethod.POST, params = "methodToCall=" + QUICKADD_COURSE_PAGE)
 	public ModelAndView addPlanItem(@ModelAttribute("KualiForm") PlannerForm form, BindingResult result,
 			HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
@@ -371,7 +371,7 @@ public class PlannerController extends KsapControllerBase {
      * Handles the submissions from the copy course dialog (when copying from a completed plan item).
      * Copies the course for a plan item into a new item under a new term.
      */
-	@RequestMapping(method = RequestMethod.POST, params = "view.currentPageId=" + COPY_COURSE_PAGE)
+	@RequestMapping(method = RequestMethod.POST, params = "methodToCall=" + COPY_COURSE_PAGE)
 	public ModelAndView copyCourse(@ModelAttribute("KualiForm") PlannerForm form, BindingResult result,
 			HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
@@ -398,7 +398,7 @@ public class PlannerController extends KsapControllerBase {
      * Handles the submissions from the edit plan item dialog.
      * Changes the information for a single plan item.
      */
-	@RequestMapping(method = RequestMethod.POST, params = "view.currentPageId=" + EDIT_PLAN_ITEM_PAGE)
+	@RequestMapping(method = RequestMethod.POST, params = "methodToCall=" + EDIT_PLAN_ITEM_PAGE)
 	public ModelAndView editPlanItem(@ModelAttribute("KualiForm") PlannerForm form, BindingResult result,
 			HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
@@ -511,7 +511,7 @@ public class PlannerController extends KsapControllerBase {
      * Handles the submissions from the copy plan item dialog.
      * Copies the course for a plan item into a new item under a new term.
      */
-	@RequestMapping(method = RequestMethod.POST, params = "view.currentPageId=" + COPY_PLAN_ITEM_PAGE)
+	@RequestMapping(method = RequestMethod.POST, params = "methodToCall=" + COPY_PLAN_ITEM_PAGE)
 	public ModelAndView copyPlanItem(@ModelAttribute("KualiForm") PlannerForm form, BindingResult result,
 			HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
@@ -547,7 +547,7 @@ public class PlannerController extends KsapControllerBase {
      * Handles the submissions from the move plan item dialog.
      * Changes the term that an existing plan item is in to another one.
      */
-	@RequestMapping(method = RequestMethod.POST, params = "view.currentPageId=" + MOVE_PLAN_ITEM_PAGE)
+	@RequestMapping(method = RequestMethod.POST, params = "methodToCall=" + MOVE_PLAN_ITEM_PAGE)
 	public ModelAndView movePlanItem(@ModelAttribute("KualiForm") PlannerForm form, BindingResult result,
 			HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
@@ -609,7 +609,7 @@ public class PlannerController extends KsapControllerBase {
      * Handles the submissions from the delete plan dialog.
      * Removes a plan item from a students plan and deletes it from the database.
      */
-	@RequestMapping(method = RequestMethod.POST, params = "view.currentPageId=" + DELETE_PLAN_ITEM_PAGE)
+	@RequestMapping(method = RequestMethod.POST, params = "methodToCall=" + DELETE_PLAN_ITEM_PAGE)
 	public ModelAndView deletePlanItem(@ModelAttribute("KualiForm") PlannerForm form, BindingResult result,
 			HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
@@ -815,7 +815,7 @@ public class PlannerController extends KsapControllerBase {
      * Handles submissions from the bookmark add dialog.
      * Validates the course and adds it to the students plan.
      */
-    @RequestMapping(method = RequestMethod.POST, params = "view.currentPageId=" + ADD_BOOKMARK_PAGE)
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=" + ADD_BOOKMARK_PAGE)
     public ModelAndView addBookmarkedCourse(@ModelAttribute("KualiForm") PlannerForm form, BindingResult result,
                                     HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
@@ -858,7 +858,7 @@ public class PlannerController extends KsapControllerBase {
      * Handles the submissions from the bookmark delete dialog.
      * Removes a plan item from a students bookmarks and deletes it from the database.
      */
-    @RequestMapping(method = RequestMethod.POST, params = "view.currentPageId=" + DELETE_BOOKMARK_PAGE)
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=" + DELETE_BOOKMARK_PAGE)
     public ModelAndView deleteBookmark(@ModelAttribute("KualiForm") PlannerForm form, BindingResult result,
                                        HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
@@ -949,7 +949,7 @@ public class PlannerController extends KsapControllerBase {
      * Handles submissions from the course add dialog.
      * Validates the course and adds it to the students plan.
      */
-    @RequestMapping(method = RequestMethod.POST, params = "view.currentPageId=" + ADD_COURSE_PAGE)
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=" + ADD_COURSE_PAGE)
     public ModelAndView addCourse(@ModelAttribute("KualiForm") PlannerForm form, BindingResult result,
                                             HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 

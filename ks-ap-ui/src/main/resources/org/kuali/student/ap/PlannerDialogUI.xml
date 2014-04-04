@@ -71,7 +71,8 @@
 									<bean parent="Uif-HorizontalBoxGroup">
 										<property name="items">
 											<list>
-												<bean parent="planner_submit_button" p:actionLabel="Add to Plan" />
+												<bean parent="planner_submit_button" p:actionLabel="Add to Plan"
+                                                      p:actionScript="ksapPlannerSubmitDialog('planner_add_course_page',e);"/>
 												<bean parent="planner_cancel_button" />
 											</list>
 										</property>
@@ -106,7 +107,8 @@
 									<bean parent="Uif-HorizontalBoxGroup">
 										<property name="items">
 											<list>
-												<bean parent="planner_submit_button" p:actionLabel="Save" />
+												<bean parent="planner_submit_button" p:actionLabel="Save"
+                                                      p:actionScript="ksapPlannerSubmitDialog('planner_edit_term_note_page',e);"/>
 												<bean parent="planner_cancel_button" />
 											</list>
 										</property>
@@ -262,7 +264,8 @@
 									<bean parent="Uif-HorizontalBoxGroup">
 										<property name="items">
 											<list>
-												<bean parent="planner_submit_button" p:actionLabel="Save" />
+												<bean parent="planner_submit_button" p:actionLabel="Save"
+                                                      p:actionScript="ksapPlannerSubmitDialog('planner_edit_plan_item_page',e);"/>
 												<bean parent="planner_cancel_button" />
 											</list>
 										</property>
@@ -299,7 +302,8 @@
 									<bean parent="Uif-HorizontalBoxGroup">
 										<property name="items">
 											<list>
-												<bean parent="planner_submit_button" p:actionLabel="Copy" />
+												<bean parent="planner_submit_button" p:actionLabel="Copy"
+                                                      p:actionScript="ksapPlannerSubmitDialog('planner_copy_course_page',e);"/>
 												<bean parent="planner_cancel_button" />
 											</list>
 										</property>
@@ -334,7 +338,8 @@
 									<bean parent="Uif-HorizontalBoxGroup">
 										<property name="items">
 											<list>
-												<bean parent="planner_submit_button" p:actionLabel="Copy" />
+												<bean parent="planner_submit_button" p:actionLabel="Copy"
+                                                      p:actionScript="ksapPlannerSubmitDialog('planner_copy_plan_item_page',e);"/>
 												<bean parent="planner_cancel_button" />
 											</list>
 										</property>
@@ -369,7 +374,8 @@
 									<bean parent="Uif-HorizontalBoxGroup">
 										<property name="items">
 											<list>
-												<bean parent="planner_submit_button" p:actionLabel="Move" />
+												<bean parent="planner_submit_button" p:actionLabel="Move"
+                                                      p:actionScript="ksapPlannerSubmitDialog('planner_move_plan_item_page',e);"/>
 												<bean parent="planner_cancel_button" />
 											</list>
 										</property>
@@ -405,7 +411,8 @@
 									<bean parent="Uif-HorizontalBoxGroup">
 										<property name="items">
 											<list>
-												<bean parent="planner_submit_button" p:actionLabel="Delete" />
+												<bean parent="planner_submit_button" p:actionLabel="Delete"
+                                                      p:actionScript="ksapPlannerSubmitDialog('planner_delete_plan_item_page',e);"/>
 												<bean parent="planner_cancel_button" />
 											</list>
 										</property>
@@ -451,7 +458,8 @@
                                     <bean parent="Uif-HorizontalBoxGroup">
                                         <property name="items">
                                             <list>
-                                                <bean parent="planner_submit_button" p:actionLabel="Add Course To Plan" />
+                                                <bean parent="planner_submit_button" p:actionLabel="Add Course To Plan"
+                                                      p:actionScript="ksapPlannerSubmitDialog('bookmark_add_course_page',e);"/>
                                                 <bean parent="planner_cancel_button" />
                                             </list>
                                         </property>
@@ -487,7 +495,8 @@
                                     <bean parent="Uif-HorizontalBoxGroup">
                                         <property name="items">
                                             <list>
-                                                <bean parent="planner_submit_button" p:actionLabel="Delete" />
+                                                <bean parent="planner_submit_button" p:actionLabel="Delete"
+                                                      p:actionScript="ksapPlannerSubmitDialog('bookmark_delete_course_page',e);"/>
                                                 <bean parent="planner_cancel_button" />
                                             </list>
                                         </property>
@@ -531,7 +540,8 @@
                                     <bean parent="Uif-HorizontalBoxGroup">
                                         <property name="items">
                                             <list>
-                                                <bean parent="planner_submit_button" p:actionLabel="Add Course To Plan" />
+                                                <bean parent="planner_submit_button" p:actionLabel="Add Course To Plan"
+                                                      p:actionScript="ksapPlannerSubmitDialog('course_add_course_page',e);"/>
                                                 <bean parent="planner_cancel_button" />
                                             </list>
                                         </property>
@@ -672,9 +682,7 @@
 			p:hidden="true" p:additionalCssClasses="ksap-feedback,error,ks-Popover-error" />
 
 	<bean id="planner_submit_button" parent="Uif-PrimaryActionButton"
-		p:additionalCssClasses="ks-Button ks-Button--primary">
-		<property name="actionScript" value="ksapPlannerSubmitDialog(e);" />
-	</bean>
+		p:additionalCssClasses="ks-Button ks-Button--primary"/>
 
 	<bean id="planner_cancel_button" parent="Uif-ActionLink"
 		p:actionLabel="Cancel" >
