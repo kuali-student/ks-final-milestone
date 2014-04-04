@@ -478,7 +478,7 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
 
     protected String getUsageId() {
         if (usageId == null) {
-            usageId = this.getRuleManagementService().getNaturalLanguageUsageByNameAndNamespace(KSKRMSServiceConstants.KRMS_NL_TYPE_CATALOG,
+            usageId = this.getRuleManagementService().getNaturalLanguageUsageByNameAndNamespace(KSKRMSServiceConstants.KRMS_NL_MATRIX,
                     PermissionServiceConstants.KS_SYS_NAMESPACE).getId();
         }
         return usageId;
