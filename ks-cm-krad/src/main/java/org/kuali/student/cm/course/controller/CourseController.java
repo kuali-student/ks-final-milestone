@@ -115,14 +115,6 @@ public class CourseController extends CourseRuleEditorController {
     private TypeService typeService;
 
     /**
-     * The bean ids of the pages within the view.
-     */
-    public static class PageNames {
-        public final static String REVIEW_PROPOSAL = "KS-CourseView-ReviewProposalPage";
-        public final static String CREATE_COURSE = "KS-CourseView-CoursePage";
-    }
-
-    /**
      * This method creates the form and in the case of a brand new proposal where this method is called after the user uses
      * the Initial Create Proposal screen, this method will also set the document type name based on the request parameter
      * #URL_PARAM_USE_CURRICULUM_REVIEW
@@ -202,11 +194,12 @@ public class CourseController extends CourseRuleEditorController {
             HttpServletResponse response) throws Exception {
         ModelAndView modelAndView = super.docHandler(formBase, result, request, response);
 
-        if (formBase.getPageId().equals(PageNames.REVIEW_PROPOSAL)) {
+        if (formBase.getPageId().equals(CurriculumManagementConstants.CourseViewPageIds.REVIEW_PROPOSAL)) {
             KRADServiceLocatorWeb.getViewValidationService().validateViewAgainstNextState(formBase.getView(), formBase);
         }
         return modelAndView;
     }
+
     @Override
     public ModelAndView route(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
         // manually call the view validation service as this validation cannot be run client-side in current setup
@@ -226,7 +219,7 @@ public class CourseController extends CourseRuleEditorController {
     public ModelAndView reviewCourseProposal(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
                                              HttpServletRequest request, HttpServletResponse response) throws Exception {
         ((CourseInfoMaintainable)((MaintenanceDocumentForm)form).getDocument().getNewMaintainableObject()).updateReview();
-        return getUIFModelAndView(form, PageNames.REVIEW_PROPOSAL);
+        return getUIFModelAndView(form, CurriculumManagementConstants.CourseViewPageIds.REVIEW_PROPOSAL);
     }
 
     /**
@@ -247,7 +240,7 @@ public class CourseController extends CourseRuleEditorController {
             wrapper.getUiHelper().setSelectedSection(section);
         }
 
-        return getUIFModelAndView(form, PageNames.CREATE_COURSE);
+        return getUIFModelAndView(form, CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE);
     }
 
     /**
@@ -454,7 +447,7 @@ public class CourseController extends CourseRuleEditorController {
             }
             return getUIFModelAndView(form);
         } else if (StringUtils.equalsIgnoreCase(nextOrCurrentPage, "KS-CourseView-ReviewProposalLink")) {
-            return getUIFModelAndView(form, PageNames.REVIEW_PROPOSAL);
+            return getUIFModelAndView(form, CurriculumManagementConstants.CourseViewPageIds.REVIEW_PROPOSAL);
         } else {
             return getUIFModelAndView(form);
         }

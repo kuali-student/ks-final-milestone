@@ -51,6 +51,14 @@ public class CurriculumManagementConstants {
     }
 
     /**
+     * The bean ids of the pages within the view.
+     */
+    public static class CourseViewPageIds {
+        public final static String REVIEW_PROPOSAL = "KS-CourseView-ReviewProposalPage";
+        public final static String CREATE_COURSE = "KS-CourseView-CoursePage";
+    }
+
+    /**
      * The bean ids of the tab sections.
      */
     public enum CourseViewSections {
