@@ -9,6 +9,8 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
         $scope.schedules = GlobalVarsService.getSchedule;
         $scope.registeredCredits = GlobalVarsService.getRegisteredCredits;
         $scope.registeredCourseCount = GlobalVarsService.getRegisteredCourseCount;
+        $scope.waitlistedCredits = GlobalVarsService.getWaitlistedCredits;
+        $scope.waitlistedCourseCount = GlobalVarsService.getWaitlistedCourseCount;
 
         if($scope.termId){
         ScheduleService.getScheduleFromServer().query({termId: $scope.termId }, function (result) {
