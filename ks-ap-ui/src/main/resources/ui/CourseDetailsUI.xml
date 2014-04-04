@@ -221,14 +221,9 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
     </bean>
 
     <bean id="course_details_overview" parent="course_details_overview-parent"/>
-    <bean id="course_details_overview-parent" abstract="true" parent="Uif-GridGroup" p:headerText="Course Overview">
+    <bean id="course_details_overview-parent" abstract="true" parent="Uif-VerticalBoxGroup" p:headerText="Course Overview">
         <property name="header">
             <bean parent="Uif-HeaderThree">
-                <property name="cssClasses">
-                    <list merge="true">
-                        <value>ksap-underline-header</value>
-                    </list>
-                </property>
             </bean>
         </property>
         <property name="header.rightGroup">
@@ -260,8 +255,6 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                 <value>ksap-course-details</value>
             </list>
         </property>
-        <property name="layoutManager.numberOfColumns" value="2"/>
-        <property name="layoutManager.applyDefaultCellWidths" value="false"/>
         <property name="items">
             <list>
                 <bean parent="Uif-VerticalBoxGroup">
@@ -294,8 +287,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                                             </property>
                                             <property name="items">
                                                 <list>
-                                                    <bean parent="Uif-Label" p:labelText="Course Description"
-                                                          p:renderColon="false"/>
+                                                    <bean parent="Uif-Message" p:messageText="Course Description"/>
                                                 </list>
                                             </property>
                                         </bean>
@@ -343,9 +335,16 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                                             </property>
                                             <property name="items">
                                                 <list>
-                                                    <bean parent="Uif-Label" p:labelText="Course Requisites"
-                                                          p:renderColon="false"/>
-                                                    <ref bean="course_requisite_help_icon"/>
+                                                    <bean p:id="courseReqPlaceholder" parent="Uif-HorizontalBoxGroup">
+                                                        <property name="items">
+                                                            <list>
+                                                                <bean parent="Uif-Message" p:messageText="Course Requisites"/>
+                                                            </list>
+                                                        </property>
+                                                        <property name="toolTip">
+                                                            <ref bean="details_course_req_tooltip"/>
+                                                        </property>
+                                                    </bean>
                                                 </list>
                                             </property>
                                         </bean>
@@ -370,14 +369,20 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                                                             </list>
                                                         </property>
                                                     </bean>
-                                                    <bean parent="Uif-Message" p:messageText="(Source: @{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_REQUISITE_SOURCE_NAME')})"/>
+                                                    <bean parent="Uif-Message" p:messageText="Source: @{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_REQUISITE_SOURCE_NAME')}">
+                                                        <property name="cssClasses">
+                                                            <list merge="true">
+                                                                <value>ksap-course-detail-source</value>
+                                                            </list>
+                                                        </property>
+                                                    </bean>
                                                 </list>
                                             </property>
                                         </bean>
                                     </list>
                                 </property>
                             </bean>
-                            <!--Quarters-->
+                            <!--Scheduled Terms-->
                             <bean parent="Uif-HorizontalFieldGroup">
                                 <property name="fieldLabel.renderColon" value="false"/>
                                 <property name="group.validationMessages">
@@ -396,86 +401,119 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                                             </property>
                                             <property name="items">
                                                 <list>
-                                                    <bean parent="Uif-Label" p:labelText="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_QUARTERS_HEADER')}"
-                                                          p:renderColon="false"/>
-                                                    <ref bean="course_quarter_help_icon"/>
+                                                    <bean p:id="courseScheduledTermsPlaceholder" parent="Uif-HorizontalBoxGroup">
+                                                        <property name="items">
+                                                            <list>
+                                                                <bean parent="Uif-Message" p:messageText="Scheduled Terms"/>
+                                                            </list>
+                                                        </property>
+                                                        <property name="toolTip">
+                                                            <ref bean="details_scheduled_terms_tooltip"/>
+                                                        </property>
+                                                    </bean>
                                                 </list>
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-VerticalBoxGroup">
+                                        <bean parent="Uif-HorizontalBoxGroup">
+                                            <property name="validationMessages">
+                                                <null/>
+                                            </property>
+                                            <property name="items">
+                                                <list>
+                                                     <bean parent="Uif-MessageField" p:messageText="
+                                                        @{dataObject.courseSummaryDetails.scheduledTerms.size() gt 0
+                                                            ? dataObject.courseSummaryDetailsEdited
+                                                            : 'Not Currently Scheduled'}" >
+                                                        <property name="cssClasses">
+                                                            <list merge="true">
+                                                                <value>ksap-data-list</value>
+                                                            </list>
+                                                        </property>
+                                                    </bean>
+                                                    <bean parent="Uif-Message"
+                                                          p:messageText="Source: @{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_TERMS_SCHEDULED_SOURCE_NAME')}">
+                                                        <property name="cssClasses">
+                                                            <list merge="true">
+                                                                <value>ksap-course-detail-source</value>
+                                                            </list>
+                                                        </property>
+                                                    </bean>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                            <!--Projected Terms-->
+                            <bean parent="Uif-HorizontalFieldGroup">
+                                <property name="fieldLabel.renderColon" value="false"/>
+                                <property name="group.validationMessages">
+                                    <null/>
+                                </property>
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-HorizontalBoxGroup">
                                             <property name="validationMessages">
                                                 <null/>
                                             </property>
                                             <property name="cssClasses">
                                                 <list merge="true">
-                                                    <value>ksap-course-detail-field</value>
+                                                    <value>ksap-course-detail-label</value>
                                                 </list>
                                             </property>
                                             <property name="items">
                                                 <list>
-                                                    <bean parent="Uif-HorizontalBoxGroup">
-                                                        <property name="validationMessages">
-                                                            <null/>
-                                                        </property>
+                                                    <bean p:id="courseProjectedTermsPlaceholder" parent="Uif-HorizontalBoxGroup">
                                                         <property name="items">
                                                             <list>
-                                                                <bean parent="Uif-Label" p:labelText="Scheduled For"  p:render="@{dataObject.courseSummaryDetails.scheduledTerms.size() gt 0}">
-                                                                    <property name="cssClasses" value="fl-text-gray ksap-text-normal"/>
-                                                                </bean>
-                                                                    <bean parent="Uif-MessageField" p:messageText="
-                                                                    @{dataObject.courseSummaryDetails.scheduledTerms.size() gt 0
-                                                                        ? dataObject.courseSummaryDetailsEdited
-                                                                        : 'Not Currently Scheduled'}" >
-                                                                    <property name="cssClasses">
-                                                                        <list merge="true">
-                                                                            <value>ksap-data-list</value>
-                                                                        </list>
-                                                                    </property>
-                                                                </bean>
-                                                                <bean parent="Uif-Message"
-                                                                      p:messageText="(Source: @{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_TERMS_SCHEDULED_SOURCE_NAME')})">
-                                                                </bean>
+                                                                <bean parent="Uif-Message" p:messageText="Projected Terms"/>
+                                                            </list>
+                                                        </property>
+                                                        <property name="toolTip">
+                                                            <ref bean="details_projected_terms_tooltip"/>
+                                                        </property>
+                                                    </bean>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                       <!-- <bean parent="Uif-VerticalBoxGroup"
+                                              p:render="@{dataObject.courseSummaryDetails.scheduledTerms.size() gt 0 ? false : true}">
+                                            <property name="validationMessages">
+                                                <null/>
+                                            </property>
+                                            <property name="items">
+                                                <list>
+                                                    <bean parent="KS-Uif-DataField"
+                                                          p:propertyName="courseSummaryDetails.lastOffered"
+                                                          p:label="Last Offered"
+                                                          p:render="@{dataObject.courseSummaryDetails.lastOffered ne null ? true : false}">
+                                                        <property name="fieldLabel.cssClasses"
+                                                                  value="ksap-text-normal"/>
+                                                    </bean>
+                                                </list>
+                                            </property>
+                                        </bean>-->
+                                        <bean parent="Uif-HorizontalBoxGroup" >
+                                            <property name="validationMessages">
+                                                <null/>
+                                            </property>
+                                            <property name="items">
+                                                <list>
+                                                    <bean parent="Uif-MessageField" p:messageText="
+                                                            @{dataObject.courseSummaryDetails.termsOffered.size() gt 0
+                                                                ? dataObject.courseSummaryDetails.termsOffered
+                                                                : 'Check with the department or your adviser for more information about this course.'}" >
+                                                        <property name="cssClasses">
+                                                            <list merge="true">
+                                                                <value>ksap-data-list</value>
                                                             </list>
                                                         </property>
                                                     </bean>
-                                                    <bean parent="Uif-VerticalBoxGroup" 
-                                                          p:render="@{dataObject.courseSummaryDetails.scheduledTerms.size() gt 0 ? false : true}">
-                                                        <property name="validationMessages">
-                                                            <null/>
-                                                        </property>
-                                                        <property name="items">
-                                                            <list>
-                                                                <bean parent="KS-Uif-DataField"
-                                                                      p:propertyName="courseSummaryDetails.lastOffered"
-                                                                      p:label="Last Offered"
-                                                                      p:render="@{dataObject.courseSummaryDetails.lastOffered ne null ? true : false}">
-                                                                    <property name="fieldLabel.cssClasses"
-                                                                              value="ksap-text-normal"/>
-                                                                </bean>
-                                                            </list>
-                                                        </property>
-                                                    </bean>
-                                                    <bean parent="Uif-HorizontalBoxGroup" >
-                                                        <property name="validationMessages">
-                                                            <null/>
-                                                        </property>
-                                                        <property name="items">
-                                                            <list>
-                                                                <bean parent="Uif-Label"
-                                                                      p:labelText="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_TERMSOFFERED_LABEL')}"
-                                                                      p:cssClasses="fl-text-gray ksap-text-normal"/>
-                                                                <bean parent="Uif-MessageField" p:messageText="
-                                                                        @{dataObject.courseSummaryDetails.termsOffered.size() gt 0
-                                                                            ? dataObject.courseSummaryDetails.termsOffered
-                                                                            : 'Check with the department or your adviser for more information about this course.'}" >
-                                                                    <property name="cssClasses">
-                                                                        <list merge="true">
-                                                                            <value>ksap-data-list</value>
-                                                                        </list>
-                                                                    </property>
-                                                                </bean>
-                                                                <bean parent="Uif-Message"
-                                                                      p:messageText="(Source: @{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_TERMS_TYPICALLYOFFERED_SOURCE_NAME')})"/>
+                                                    <bean parent="Uif-Message"
+                                                          p:messageText="Source: @{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_TERMS_TYPICALLYOFFERED_SOURCE_NAME')}">
+                                                        <property name="cssClasses">
+                                                            <list merge="true">
+                                                                <value>ksap-course-detail-source</value>
                                                             </list>
                                                         </property>
                                                     </bean>
@@ -505,9 +543,16 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                                             </property>
                                             <property name="items">
                                                 <list>
-                                                    <bean parent="Uif-Label" p:labelText="General Edu. Req."
-                                                          p:renderColon="false"/>
-                                                    <ref bean="course_gened_help_icon"/>
+                                                    <bean p:id="courseGenEdPlaceholder" parent="Uif-HorizontalBoxGroup">
+                                                        <property name="items">
+                                                            <list>
+                                                                <bean parent="Uif-Message" p:messageText="General Edu. Req."/>
+                                                            </list>
+                                                        </property>
+                                                        <property name="toolTip">
+                                                            <ref bean="details_gened_tooltip"/>
+                                                        </property>
+                                                    </bean>
                                                 </list>
                                             </property>
                                         </bean>
@@ -559,8 +604,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 						                    </property>
 						                    <property name="items">
 						                        <list>
-						                            <bean parent="Uif-Label" p:labelText="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_CURRICULUM_HEADER')}"
-						                                  p:renderColon="false"/>
+						                            <bean parent="Uif-Message" p:messageText="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_CURRICULUM_HEADER')}"/>
 						                        </list>
 						                    </property>
 						                </bean>

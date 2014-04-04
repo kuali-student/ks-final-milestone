@@ -51,9 +51,9 @@
 	Course Details
 */
 
-#course_details_section {
+/*#course_details_section {
   width: 73%;
-}
+}*/
 .ksap-view .ksap-underline-header {
   border-bottom: solid 2px #f2e4b7;
   margin-bottom: 20px;
@@ -63,9 +63,23 @@
   font-weight: 700;
 }
 
+#course_details_overview .uif-boxLayoutHorizontalItem {
+  margin: 0 10px 0 0;
+}
+
 .ksap-view .ksap-course-detail-label {
   width: 150px;
   margin-right: 20px;
+}
+
+#course_details_overview .uif-tooltip .uif-boxLayoutHorizontalItem {
+  margin:0;
+  cursor: pointer;
+}
+
+.ksap-course-detail-label .uif-message, .ksap-course-detail-label .uif-tooltip {
+  float:right;
+  font-weight:600;
 }
 
 .ksap-course-detail-label > .uif-verticalBoxLayout.uif-horizontalBoxLayout {
@@ -84,6 +98,22 @@
 .ksap-view .ksap-course-detail-field {
   width: 500px;
   margin: 0;
+}
+
+.ksap-course-detail-source {
+  font-size:11px;
+  color:#666;
+  clear:both;
+  margin: 0;
+}
+
+#course_details_overview .scheduled > span {
+  border-radius: 3px;
+  font-weight: bold;
+  font-size: 80%;
+  padding: 4px;
+  clear: none;
+  line-height: 1.8em;
 }
 
 .ksap-course-sections h5.uif-headerText {
