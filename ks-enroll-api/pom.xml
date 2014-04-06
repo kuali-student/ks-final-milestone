@@ -173,6 +173,24 @@
                             </sourceDirs>
                         </configuration>
                     </execution>
+                    <!-- This generates the jpa-implementation java code-->
+                    <execution>
+                        <id>generate-jpa-implementations</id>
+                        <phase>${ks.jpaimpl.phase}</phase>
+                        <goals>
+                            <goal>ks-create-jpa-impl</goal>
+                        </goals>
+                        <configuration>
+                            <!-- generate only on the kuali student api -->
+                            <sourceDirs>
+                                <sourceDir>${project.basedir}/src/main/java</sourceDir>
+                                <sourceDir>${project.basedir}/../ks-core-api/src/main/java</sourceDir>
+                                <sourceDir>${project.basedir}/../ks-common-api/src/main/java</sourceDir>
+                                <sourceDir>${project.basedir}/../ks-lum-api/src/main/java</sourceDir>
+                                <sourceDir>${project.basedir}/../ks-ap-api/src/main/java</sourceDir>
+                            </sourceDirs>
+                        </configuration>
+                    </execution>
                     <execution>
                         <id>generate-conformance-tests</id>
                         <phase>${ks.conftest.phase}</phase>
