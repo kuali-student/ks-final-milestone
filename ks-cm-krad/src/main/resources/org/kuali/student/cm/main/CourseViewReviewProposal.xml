@@ -225,7 +225,7 @@
                             <bean parent="KS-Uif-DataField" p:label="Administering Organization" p:colSpan="3"
                                   p:fieldLabel.renderColon="false"
                                   p:escapeHtmlInPropertyValue="false"
-                                  p:propertyName="reviewProposalDisplay.governanceSection.administeringOrganization"/>
+                                  p:propertyName="reviewProposalDisplay.governanceSection.administeringOrganization" p:readOnlyListDelimiter="; "/>
                         </list>
                     </property>
                 </bean>
