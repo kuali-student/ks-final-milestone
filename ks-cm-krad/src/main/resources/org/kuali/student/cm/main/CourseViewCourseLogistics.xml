@@ -259,6 +259,9 @@
                     <property name="validCharactersConstraint">
                         <bean parent="NumericPatternConstraint" />
                     </property>
+                    <property name="control">
+                        <bean parent="KS-Uif-TextControl" p:cssClasses="rangeMaxMinCheck" p:onBlurScript="verifyMaxRangeOnBlur();"/>
+                    </property>
                 </bean>
             </list>
         </property>
