@@ -748,6 +748,9 @@ function resetCheckboxes(containerId) {
  rows in datatables
  */
 jQuery(document).on("click", ".dataTable input[type=checkbox]", function() {
+    if(jQuery(this).parent('div.non-row-selector').length > 0){
+        return;
+    }
     jQuery(this).closest('tr').toggleClass('selected-row');
     handleEventforDisabledElements();
 });
@@ -849,7 +852,7 @@ jQuery(document).on("click", ".dataTable tbody tr", function (e) {
     } else {
         jQuery(this).find(':checkbox').each(function(){
             var $checkbox = jQuery(this);
-            if($checkbox.parent('div.non-row-selector').length){
+            if($checkbox.parent('div.non-row-selector').length > 0){
                 return;
             }
             $checkbox.attr('checked', !$checkbox.attr('checked'));
