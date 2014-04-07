@@ -28,12 +28,14 @@ import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.entity.Entity;
 import org.kuali.rice.kim.api.identity.name.EntityNameContract;
+import org.kuali.rice.krad.datadictionary.validation.result.DictionaryValidationResult;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.UrlFactory;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
@@ -91,6 +93,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
 
 /**
@@ -195,7 +198,42 @@ public class CourseController extends CourseRuleEditorController {
         ModelAndView modelAndView = super.docHandler(formBase, result, request, response);
 
         if (formBase.getPageId().equals(CurriculumManagementConstants.CourseViewPageIds.REVIEW_PROPOSAL)) {
-            KRADServiceLocatorWeb.getViewValidationService().validateViewAgainstNextState(formBase.getView(), formBase);
+            //  Redirect for validation
+            java.util.Map requestParameterMap = request.getParameterMap();
+            Properties urlParameters = new Properties();
+            for (Object p  : requestParameterMap.keySet()) {
+                urlParameters.put((String) p, ((String[]) requestParameterMap.get(p))[0]);
+            }
+            urlParameters.put("methodToCall", "reviewCourseProposal");
+            urlParameters.put("formKey", formBase.getFormKey());
+            return redirect(formBase, "courses", urlParameters);
+        }
+        return modelAndView;
+    }
+
+    /**
+     * This method is identical to UifControllerBase#performRedirect() except that it doesn't call
+     * form.setRequestRedirect(true). Setting that flag causes the postedView to be discarded in
+     * UifControllerHandlerInterceptor#afterCompletion(). If the postedView isn't available the validation
+     * in reviewCourseProposal handler method will fail.
+     *
+     * @param form The current form.
+     * @param baseUrl  The base URL in which to redirect.
+     * @param urlParameters The request parameters from which to build the full URL.
+     * @return A ModelAndView with redirect set.
+     */
+    protected ModelAndView redirect(DocumentFormBase form, String baseUrl, Properties urlParameters) {
+        String redirectUrl = UrlFactory.parameterizeUrl(baseUrl, urlParameters);
+
+        // Set the ajaxReturnType on the form this will override the return type requested by the client
+        form.setAjaxReturnType(UifConstants.AjaxReturnTypes.REDIRECT.getKey());
+
+        ModelAndView modelAndView;
+        if (form.isAjaxRequest()) {
+            modelAndView = getUIFModelAndView(form, form.getPageId());
+            modelAndView.addObject("redirectUrl", redirectUrl);
+        } else {
+            modelAndView = new ModelAndView(UifConstants.REDIRECT_PREFIX + redirectUrl);
         }
         return modelAndView;
     }
@@ -219,6 +257,14 @@ public class CourseController extends CourseRuleEditorController {
     public ModelAndView reviewCourseProposal(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
                                              HttpServletRequest request, HttpServletResponse response) throws Exception {
         ((CourseInfoMaintainable)((MaintenanceDocumentForm)form).getDocument().getNewMaintainableObject()).updateReview();
+
+        if (GlobalVariables.getMessageMap().hasErrors()) {
+            GlobalVariables.getMessageMap().clearErrorMessages();
+        }
+
+        //  Validate
+        DictionaryValidationResult o= KRADServiceLocatorWeb.getViewValidationService().validateViewAgainstNextState(form.getPostedView(), form);
+
         return getUIFModelAndView(form, CurriculumManagementConstants.CourseViewPageIds.REVIEW_PROPOSAL);
     }
 

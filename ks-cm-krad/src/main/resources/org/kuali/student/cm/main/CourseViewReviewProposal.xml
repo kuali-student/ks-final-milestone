@@ -51,8 +51,8 @@
           p:headerText="">
         <property name="items">
             <list>
+                <ref bean="CourseInfo-Review-section" />
                 <ref bean="KS-CourseView-ReviewErrorMessageLink" />
-                <ref bean="KS-CourseView-CourseInfo-ReviewWidgets"/>
                 <ref bean="KS-CourseView-Governance-ReviewWidgets"/>
                 <ref bean="KS-CourseView-CourseLogistics-ReviewWidgets"/>
                 <ref bean="KS-CourseView-LearningObjectives-ReviewWidgets"/>
@@ -88,6 +88,44 @@
         </property>
     </bean>
 
+    <bean id="CM-ReadOnlyInput" parent="KS-Uif-InputField" p:colSpan="3" p:escapeHtmlInPropertyValue="false" abstract="true">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>review_readonly</value>
+            </list>
+        </property>
+        <property name="control">
+           <bean parent="KS-Uif-TextControl" p:readOnly="false" />
+        </property>
+        <property name="fieldLabel.requiredMessagePlacement" value="LEFT"/>
+    </bean>
+
+    <bean id="CM-ReadOnlyInput-large" parent="CM-ReadOnlyInput" abstract="true">
+        <property name="control">
+            <bean parent="Uif-LargeTextAreaControl" p:readOnly="false" />
+        </property>
+        <!-- Shrink to fit the text area: jQuery("#u327_control").height(jQuery("#u327_control")[0].scrollHeight); -->
+    </bean>
+
+    <bean id="ReviewProposal-VerticalBoxSection" parent="Uif-VerticalBoxSection" abstract="true">
+        <property name="validationMessages.displayMessages" value="false" />
+        <property name="header">
+            <bean parent="Uif-HeaderTwo">
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>ks-dottedHeaderActions</value>
+                        <value>cm_dottedHeaderActions</value>
+                        <value>cm_reviewProposal_courseInfo</value>
+                    </list>
+                </property>
+                <property name="rightGroup">
+                    <bean parent="KS-CourseView-ReviewLink" />
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <!--
     <bean name="KS-CourseView-CourseInfo-ReviewWidgets" parent="Uif-Disclosure-VerticalBoxSection">
         <property name="items">
             <list>
@@ -116,27 +154,22 @@
             </list>
         </property>
     </bean>
+    -->
 
-    <bean id="CM-ReadOnlyInput" parent="KS-Uif-InputField" p:colSpan="3" p:escapeHtmlInPropertyValue="false" abstract="true">
-        <property name="cssClasses">
-            <list merge="true">
-                <value>review_readonly</value>
+    <bean id="CourseInfo-Review-section" parent="ReviewProposal-VerticalBoxSection">
+        <property name="headerText" value="Course Information" />
+        <property name="header.rightGroup.items">
+            <list>
+                <bean p:id="CourseInfo-Review-Edit-link" parent="Uif-ActionLink-Course-Proposal-Review-Page-Edit-Link">
+                    <property name="actionParameters">
+                        <map>
+                            <entry key="displaySection" value="KS-CourseView-CourseInfo-Section"/>
+                        </map>
+                    </property>
+                </bean>
             </list>
         </property>
-        <property name="control">
-           <bean parent="KS-Uif-TextControl" p:readOnly="true" />
-        </property>
-        <property name="fieldLabel.requiredMessagePlacement" value="LEFT"/>
-    </bean>
 
-    <bean id="CM-ReadOnlyInput-large" parent="CM-ReadOnlyInput" abstract="true">
-        <property name="control">
-            <bean parent="Uif-LargeTextAreaControl" p:readOnly="true" />
-        </property>
-        <!-- Shrink to fit the text area: jQuery("#u327_control").height(jQuery("#u327_control")[0].scrollHeight); -->
-    </bean>
-
-    <bean id="CourseInfo-Review-section" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
                 <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4">
