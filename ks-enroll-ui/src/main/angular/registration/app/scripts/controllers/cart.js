@@ -210,6 +210,8 @@ angular.module('regCartApp')
             ScheduleService.registerForRegistrationGroup().query({
                 courseCode: cartItem.courseCode,
                 regGroupId: cartItem.regGroupId,
+                gradingOption: cartItem.grading,
+                credits: cartItem.credits,
                 allowWaitlist: true
             }, function () {
                 cartItem.status = 'success';
