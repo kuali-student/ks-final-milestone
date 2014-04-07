@@ -971,7 +971,7 @@ function toggleInlineRow(event, saveInitialValues){
 }
 
 function editInlineRow(event){
-    //resetInlineEditChackboxReadonlyValue(event);
+    //resetInlineEditCheckboxReadonlyValue(event);
     toggleInlineRow(event, true);
 }
 
@@ -984,9 +984,9 @@ function cancelInlineRow(event){
     jQuery.each(initialValues, function(i, initialValue){
         //if(jQuery('#' + initialValue.id).is(':not(:checkbox)') && jQuery('#' + initialValue.id).parent('div.toggleable-element').parent('div').find(':checkbox').length > 0){
         if(jQuery('#' + initialValue.id).is(':checkbox')){
-            //setInlineEditChackboxReadonlyValue(jQuery('#' + initialValue.id).parent('div.toggleable-element').attr('id'), initialValue.value);
+            //setInlineEditCheckboxReadonlyValue(jQuery('#' + initialValue.id).parent('div.toggleable-element').attr('id'), initialValue.value);
             jQuery('#' + initialValue.id).prop("checked", initialValue.value);
-            //setInlineEditChackboxReadonlyValue(jQuery('#' + initialValue.id).parent('div.toggleable-element').attr('id'), initialValue.value);
+            //setInlineEditCheckboxReadonlyValue(jQuery('#' + initialValue.id).parent('div.toggleable-element').attr('id'), initialValue.value);
         }else{
             jQuery("#" + initialValue.id).val(initialValue.value);
         }
@@ -1098,8 +1098,8 @@ function updateInlineTableRow(event, baseUrl, data) {
                 var value = eval("data." + modelKey + "['" + readonlyId + "']");
                 jQuery(span).text(value);
                 if(jQuery('#' + id).parent().find('[name]').is(':checkbox')){
-//                    setInlineEditChackboxReadonlyValue(jQuery('#' + id).parent().attr('id'));
-                    setInlineEditChackboxReadonlyValue(id, JSON.parse(value));
+//                    setInlineEditCheckboxReadonlyValue(jQuery('#' + id).parent().attr('id'));
+                    setInlineEditCheckboxReadonlyValue(id, JSON.parse(value));
                 }
             }
         });
@@ -1124,7 +1124,7 @@ function getModelAttributeValue(id) {
     return modelKey.join('.');
 }
 
-function resetInlineEditChackboxReadonlyValue(event){
+function resetInlineEditCheckboxReadonlyValue(event){
     var row = jQuery(event.target).closest('tr');
     jQuery(row).find('input[type="checkbox"]').each(function(){
         var isChecked = jQuery(this).is(':checked');
@@ -1132,7 +1132,7 @@ function resetInlineEditChackboxReadonlyValue(event){
     });
 }
 
-function setInlineEditChackboxReadonlyValue(id, checked){
+function setInlineEditCheckboxReadonlyValue(id, checked){
     var className = jQuery.grep(jQuery('#' + id).attr('class').split(" "), function(v, i){
         return v.indexOf('ks-fontello-icon-') === 0;
     }).join();
