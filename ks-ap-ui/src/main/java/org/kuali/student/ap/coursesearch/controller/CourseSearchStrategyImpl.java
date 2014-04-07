@@ -943,6 +943,11 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 	public void addComponentSearches(List<String> divisions, List<String> codes,
 			List<String> levels, List<String> incompleteCodes,List<String> completeCodes,List<String> completeLevels, List<SearchRequestInfo> requests) {
 
+        Collections.sort(divisions);
+        Collections.sort(codes);
+        Collections.sort(levels);
+        Collections.sort(incompleteCodes);
+
         List<SearchRequestInfo> completedCodeSearches = addCompletedCodeSearches(completeCodes, divisions, codes);
 
         List<SearchRequestInfo> completedLevelSearches = addCompletedLevelSearches(completeLevels, divisions, levels);
