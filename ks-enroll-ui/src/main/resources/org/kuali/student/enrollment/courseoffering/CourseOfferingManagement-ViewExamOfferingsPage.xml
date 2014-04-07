@@ -143,7 +143,6 @@
             <map merge="true">
                 <entry key="sDom" value="opir"/>
                 <entry key="bPaginate" value="false"/>
-                <entry key="aaSorting" value="[[1,'asc'],[2,'asc']]"/>
                 <entry key="bAutoWidth" value="false"/>
             </map>
         </property>
@@ -167,6 +166,15 @@
                 </bean>
                 <bean parent="Uif-DataField-LabelTop" p:propertyName="typeName" p:label="Final Exam Driver Activity"
                       p:render="@{#lp.driverPerAO}"/>
+                <bean id="overrideMatrixUICancelled_id" parent="KS-Uif-DataField" p:label="Override Matrix" p:propertyName="overrideMatrixUI"
+                        p:render="@{(!#dp.examOfferingCancelledList.isEmpty() and #dp.currentCourseOfferingWrapper.matrixOveridableCODriven) or (!#dp.eoCancelClusterList.isEmpty() and #dp.currentCourseOfferingWrapper.matrixOveridableAODriven)}">
+                    <property name="onDocumentReadyScript" value="setInlineEditCheckboxReadonlyValue('@{#component.id}', @{#lp.overrideMatrix});"/>
+                    <property name="additionalCssClasses">
+                        <list merge="true">
+                            <value>ks-fontello-icon-ok</value>
+                        </list>
+                    </property>
+                </bean>
                 <bean parent="KS-Uif-DataField" p:label="Days" p:propertyName="requestedSchedule.daysUI"/>
                 <bean parent="KS-Uif-DataField" p:label="Start Time" p:propertyName="requestedSchedule.startTimeUI"/>
                 <bean parent="KS-Uif-DataField" p:label="End Time" p:propertyName="requestedSchedule.endTimeUI"/>
@@ -213,7 +221,8 @@
                 </bean>
                 <bean parent="Uif-DataField-LabelTop" p:propertyName="typeName" p:label="Final Exam Driver Activity" p:render="@{#lp.driverPerAO}"/>
 
-                <bean parent="Uif-VerticalFieldGroup" p:label="Override Matrix">
+                <bean parent="Uif-VerticalFieldGroup" p:label="Override Matrix"
+                      p:render="@{(!#dp.examOfferingWrapperList.isEmpty() and #dp.currentCourseOfferingWrapper.matrixOveridableCODriven) or (!#dp.eoClusterResultList.isEmpty() and #dp.currentCourseOfferingWrapper.matrixOveridableAODriven)}">
                     <property name="items">
                         <list>
                             <bean id="eoOverrideMatrix" parent="Uif-InputField" p:propertyName="overrideMatrix">
@@ -230,7 +239,7 @@
                                 </property>
                             </bean>
                             <bean id="overrideMatrixUI_id" parent="KS-Uif-DataField" p:propertyName="overrideMatrixUI">
-                                <property name="onDocumentReadyScript" value="setInlineEditChackboxReadonlyValue('@{#component.id}', @{#lp.overrideMatrix});"/>
+                                <property name="onDocumentReadyScript" value="setInlineEditCheckboxReadonlyValue('@{#component.id}', @{#lp.overrideMatrix});"/>
                                 <property name="additionalCssClasses">
                                     <list merge="true">
                                         <value>on</value>

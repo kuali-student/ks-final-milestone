@@ -18,6 +18,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krms.api.KrmsConstants;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
+import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
 import org.kuali.student.common.uif.form.KSUifForm;
 import org.kuali.student.enrollment.class2.acal.dto.ExamPeriodWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.controller.ActivityOfferingControllerTransactionHelper;
@@ -167,6 +168,7 @@ public class CourseOfferingManagementUtil {
     private static EnumerationManagementService enumerationManagementService;
     private static PersonService personService;
     private static CourseSeatCountService courseSeatCountService;
+    private static KrmsTypeRepositoryService krmsTypeRepositoryService;
 
     private static HashMap<String, String> scheduleStateHm = null;
 
@@ -485,6 +487,13 @@ public class CourseOfferingManagementUtil {
                             CourseSeatCountServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return courseSeatCountService;
+    }
+
+    public static KrmsTypeRepositoryService getKrmsTypeRepositoryService() {
+        if (krmsTypeRepositoryService == null) {
+            krmsTypeRepositoryService = GlobalResourceLoader.getService(new QName(KrmsConstants.Namespaces.KRMS_NAMESPACE_2_0, "krmsTypeRepositoryService"));
+        }
+        return krmsTypeRepositoryService;
     }
 
     public static boolean checkEditViewAuthz(CourseOfferingManagementForm theForm) {
