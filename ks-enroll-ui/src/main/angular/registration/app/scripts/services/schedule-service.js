@@ -29,8 +29,29 @@ angular.module('regCartApp')
             });
         };
 
+        this.updateWaitlistItem = function () {
+            return $resource(APP_URL + 'CourseRegistrationClientService/updateWaitlistEntry', {}, {
+                query: {headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
+                    method: 'PUT', cache: false, isArray: false, transformRequest: function(obj) {
+                        var str = [];
+                        for(var p in obj){
+                            if(obj[p]){
+                                str.push(encodeURIComponent(p) + '=' + encodeURIComponent(obj[p]));
+                            }
+                        }
+                        return str.join('&');
+                    }}
+            });
+        };
+
         this.dropRegistrationGroup = function () {
             return $resource(APP_URL + 'CourseRegistrationClientService/dropRegistrationGroup', {}, {
+                query: {method: 'DELETE', cache: false, isArray: false}
+            });
+        };
+
+        this.dropFromWaitlist = function () {
+            return $resource(APP_URL + 'CourseRegistrationClientService/dropFromWaitlistEntry', {}, {
                 query: {method: 'DELETE', cache: false, isArray: false}
             });
         };
