@@ -847,8 +847,11 @@ jQuery(document).on("click", ".dataTable tbody tr", function (e) {
         // stop the bubbling to prevent firing the row's click event
         e.stopPropagation();
     } else {
-        var $checkbox = jQuery(this).find(':checkbox');
-        if ($checkbox.length > 0) {
+        jQuery(this).find(':checkbox').each(function(){
+            var $checkbox = jQuery(this);
+            if($checkbox.parent('div.non-row-selector').length){
+                return;
+            }
             $checkbox.attr('checked', !$checkbox.attr('checked'));
             jQuery(this).closest('tr').toggleClass('selected-row', $checkbox.prop('checked'));
             $checkbox.trigger("change");
@@ -861,7 +864,7 @@ jQuery(document).on("click", ".dataTable tbody tr", function (e) {
                 var subComponentId = toggleCBId.split('_toggle_control_checkbox')[0];
                 controlCheckboxStatus(subComponentId, $checkbox);
             }
-        }
+        });
     }
 });
 
@@ -1036,16 +1039,6 @@ function saveInlineRSI(event, baseUrl){
     var row = jQuery(event.target).closest('tr');
 
     var selectedCollectionPathAndIndex = getSelectedCollectionPathAndIndex(row);
-
-//    var copiedForm = jQuery('<div/>');
-//    jQuery.extend(true,copiedForm,jQuery('#kualiForm'));
-//    jQuery(copiedForm).find('#kualiForm').attr('id', 'copiedKualiForm');
-//    jQuery(copiedForm).find('input[type="checkbox"]').each(function(){
-//        var cbName = '_' + jQuery(this).attr('name');
-//        jQuery(copiedForm).find('input[name="' + cbName + '"]').each(function(){
-//            this.remove();
-//        });
-//    });
 
     var formData = jQuery('#kualiForm').serialize() + '&' + jQuery.param(selectedCollectionPathAndIndex);
 
