@@ -1278,6 +1278,10 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         courseInfoWrapper.getCourseInfo().getUnitsContentOwner().clear();
         for (CourseCreateUnitsContentOwner wrapper : courseInfoWrapper.getUnitsContentOwner()) {
             courseInfoWrapper.getCourseInfo().getUnitsContentOwner().add(wrapper.getOrgId());
+            wrapper.getRenderHelper().setNewRow(false);
+            if (StringUtils.isBlank(wrapper.getRenderHelper().getOrgLongName())){
+                populateOrgName(courseInfoWrapper.getCourseInfo().getSubjectArea(), wrapper);
+            }
         }
 
         //Formats
