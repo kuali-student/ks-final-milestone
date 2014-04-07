@@ -48,6 +48,11 @@ import java.util.Map;
 public class MultiCourseComponentBuilder extends CluComponentBuilder {
 
     @Override
+    public void initialize(LUPropositionEditor propositionEditor) {
+        propositionEditor.setCluSet(new CluSetInformation());
+    }
+
+    @Override
     public List<String> getComponentIds() {
         return null;
     }

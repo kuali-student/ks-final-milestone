@@ -17,6 +17,7 @@ package org.kuali.student.lum.lu.ui.krms.builder;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krms.builder.ComponentBuilder;
+import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.student.lum.lu.ui.krms.dto.LUPropositionEditor;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
@@ -36,6 +37,10 @@ import java.util.Map;
 public class TestScoreComponentBuilder implements ComponentBuilder<LUPropositionEditor> {
 
     private CourseService courseService;
+
+    @Override
+    public void initialize(LUPropositionEditor propositionEditor) {
+    }
 
     @Override
     public List<String> getComponentIds() {
