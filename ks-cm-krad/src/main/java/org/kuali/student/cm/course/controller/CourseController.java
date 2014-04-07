@@ -245,7 +245,7 @@ public class CourseController extends CourseRuleEditorController {
         }
 
         //  Validate
-        DictionaryValidationResult o= KRADServiceLocatorWeb.getViewValidationService().validateViewAgainstNextState(form.getPostedView(), form);
+        KRADServiceLocatorWeb.getViewValidationService().validateViewAgainstNextState(form.getPostedView(), form);
 
         return getUIFModelAndView(form, CurriculumManagementConstants.CourseViewPageIds.REVIEW_PROPOSAL);
     }

@@ -88,7 +88,8 @@
         </property>
     </bean>
 
-    <bean id="CM-ReadOnlyInput" parent="KS-Uif-InputField" p:colSpan="3" p:escapeHtmlInPropertyValue="false" abstract="true">
+    <bean id="CM-ReadOnlyInput" parent="KS-Uif-InputField" p:colSpan="3" p:escapeHtmlInPropertyValue="false"
+          class="org.kuali.student.cm.uif.element.InputFieldWithNonClobberableFieldLabel" abstract="true">
         <property name="cssClasses">
             <list merge="true">
                 <value>review_readonly</value>
