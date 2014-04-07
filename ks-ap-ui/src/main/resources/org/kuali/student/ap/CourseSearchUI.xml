@@ -384,11 +384,11 @@
                 </bean>
 
 
-				<bean parent="Uif-Link" p:target="" p:href="#" p:linkText="Bookmark"
+				<bean parent="Uif-ActionLink" p:actionLabel="Bookmark"
                       p:title="Bookmark"
                       p:cssClasses="ksap-no-margin">
                     <!--@TODO: KSAP-254: Refactor this JS into ksap.search.js-->
-                    <property name="onClickScript" value="bookmarkCourse(jQuery(this).data('courseid'), e);"/>
+                    <property name="actionScript" value="bookmarkCourse(jQuery(this).data('courseid'), e);"/>
 				</bean>
 
 			</list>
