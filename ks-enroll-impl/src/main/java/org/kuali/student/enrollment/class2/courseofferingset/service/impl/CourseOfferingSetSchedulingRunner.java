@@ -15,8 +15,6 @@
 
 package org.kuali.student.enrollment.class2.courseofferingset.service.impl;
 
-import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingServiceFacade;
-import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingServiceFacadeImpl;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
@@ -30,7 +28,6 @@ import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -51,8 +48,6 @@ public class CourseOfferingSetSchedulingRunner implements Runnable {
     private SchedulingService schedulingService;
 
     private CourseOfferingService coService;
-
-    private ExamOfferingServiceFacade examOfferingServiceFacade;
 
     private ContextInfo contextInfo;
 
@@ -82,14 +77,6 @@ public class CourseOfferingSetSchedulingRunner implements Runnable {
 
     public void setSocService(CourseOfferingSetService socService) {
         this.socService = socService;
-    }
-
-    public ExamOfferingServiceFacade getExamOfferingServiceFacade() {
-        return examOfferingServiceFacade;
-    }
-
-    public void setExamOfferingServiceFacade(ExamOfferingServiceFacade examOfferingServiceFacade) {
-        this.examOfferingServiceFacade = examOfferingServiceFacade;
     }
 
     public ContextInfo getContextInfo() {
@@ -138,8 +125,6 @@ public class CourseOfferingSetSchedulingRunner implements Runnable {
                         logger.info("\t...Activity Offering not sent to scheduler, not in a valid state to schedule: {}", aoInfo.getStateKey());
                     }
                 }
-                examOfferingServiceFacade.generateFinalExamOffering(coInfo, coInfo.getTermId(), examOfferingServiceFacade.getExamPeriodId(coInfo.getTermId(), contextInfo), new ArrayList<String>(), contextInfo);
-                logger.info("Generating exam offerings for CO, id={} , coCode={}", coInfo.getId(), coInfo.getCourseOfferingCode());
             }
 
             // set the scheduling status of the SoC to completed
