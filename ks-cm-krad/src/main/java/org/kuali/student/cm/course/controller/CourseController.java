@@ -198,7 +198,7 @@ public class CourseController extends CourseRuleEditorController {
         ModelAndView modelAndView = super.docHandler(formBase, result, request, response);
 
         if (formBase.getPageId().equals(CurriculumManagementConstants.CourseViewPageIds.REVIEW_PROPOSAL)) {
-            //  Redirect for validation
+            //  Build a redirect to the reviewCourseProposal handler for validation.
             java.util.Map requestParameterMap = request.getParameterMap();
             Properties urlParameters = new Properties();
             for (Object p  : requestParameterMap.keySet()) {
@@ -206,34 +206,16 @@ public class CourseController extends CourseRuleEditorController {
             }
             urlParameters.put("methodToCall", "reviewCourseProposal");
             urlParameters.put("formKey", formBase.getFormKey());
-            return redirect(formBase, "courses", urlParameters);
-        }
-        return modelAndView;
-    }
 
-    /**
-     * This method is identical to UifControllerBase#performRedirect() except that it doesn't call
-     * form.setRequestRedirect(true). Setting that flag causes the postedView to be discarded in
-     * UifControllerHandlerInterceptor#afterCompletion(). If the postedView isn't available the validation
-     * in reviewCourseProposal handler method will fail.
-     *
-     * @param form The current form.
-     * @param baseUrl  The base URL in which to redirect.
-     * @param urlParameters The request parameters from which to build the full URL.
-     * @return A ModelAndView with redirect set.
-     */
-    protected ModelAndView redirect(DocumentFormBase form, String baseUrl, Properties urlParameters) {
-        String redirectUrl = UrlFactory.parameterizeUrl(baseUrl, urlParameters);
-
-        // Set the ajaxReturnType on the form this will override the return type requested by the client
-        form.setAjaxReturnType(UifConstants.AjaxReturnTypes.REDIRECT.getKey());
-
-        ModelAndView modelAndView;
-        if (form.isAjaxRequest()) {
-            modelAndView = getUIFModelAndView(form, form.getPageId());
-            modelAndView.addObject("redirectUrl", redirectUrl);
-        } else {
-            modelAndView = new ModelAndView(UifConstants.REDIRECT_PREFIX + redirectUrl);
+            /*
+             * Calling performRedirect() to build the response, but undoing the call to form.setRequestRedirect(true)
+             * that happens within performRedirect() before returning. Setting that flag causes the postedView to be
+             * discarded in UifControllerHandlerInterceptor#afterCompletion(). If the postedView isn't available the
+             * validation in the reviewCourseProposal handler method will fail.
+             */
+            ModelAndView mv = performRedirect(formBase, "courses", urlParameters);
+            formBase.setRequestRedirected(false);
+            return mv;
         }
         return modelAndView;
     }
