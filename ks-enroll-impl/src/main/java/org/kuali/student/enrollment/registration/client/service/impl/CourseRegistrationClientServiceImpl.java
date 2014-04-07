@@ -187,7 +187,8 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         statTypesToRequest.add(RegEngineMqStatisticsGenerator.RegistrationEngineStatsType.BROKER);
         statTypesToRequest.add(RegEngineMqStatisticsGenerator.RegistrationEngineStatsType.INITIALIZATION_QUEUE);
         statTypesToRequest.add(RegEngineMqStatisticsGenerator.RegistrationEngineStatsType.VERIFICATION_QUEUE);
-        statTypesToRequest.add(RegEngineMqStatisticsGenerator.RegistrationEngineStatsType.SEAT_CHECK_QUEUE);
+        statTypesToRequest.add(RegEngineMqStatisticsGenerator.RegistrationEngineStatsType.REQ_ITEM_SPLIT_QUEUE);
+        statTypesToRequest.add(RegEngineMqStatisticsGenerator.RegistrationEngineStatsType.LPR_ACTION_QUEUE);
         statTypesToRequest.add(RegEngineMqStatisticsGenerator.RegistrationEngineStatsType.REGISTRATION_ENGINE_STATS);
 
         // collect the stats
