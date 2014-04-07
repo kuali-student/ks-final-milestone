@@ -569,9 +569,9 @@ public class CourseSearchController extends UifControllerBase {
 			// Determine the number of facet columns - this should be uniform
 			// across the facet state table and the facet columns in each row
             Map<String, List<String>> facetCols;
-            try{
-                facetCols = KSCollectionUtils.getRequiredZeroElement(searchResults).facetColumns;
-            }catch (OperationFailedException e){
+            if(!(searchResults==null) && !searchResults.isEmpty()){
+                facetCols = searchResults.get(0).facetColumns;
+            }else{
                 return;
             }
 
