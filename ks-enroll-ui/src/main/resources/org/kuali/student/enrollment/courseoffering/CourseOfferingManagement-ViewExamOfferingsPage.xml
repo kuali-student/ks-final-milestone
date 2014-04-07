@@ -221,6 +221,7 @@
                                     <list merge="true">
                                         <value>off</value>
                                         <value>toggleable-element</value>
+                                        <value>non-row-selector</value>
                                     </list>
                                 </property>
                                 <property name="readOnly" value="false"/>
