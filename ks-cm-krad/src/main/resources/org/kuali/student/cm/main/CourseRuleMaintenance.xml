@@ -99,6 +99,32 @@ limitations under the License.
         </property>
     </bean>
 
+    <bean id="KRMS-ListItems-DataGroup-parent" parent="Uif-StackedCollectionGroup"
+          p:style="width: 600px; padding: 0; margin-bottom: 0px;">
+        <property name="layoutManager">
+            <bean parent="Uif-StackedCollectionLayout-WithBoxItems" p:additionalCssClasses="krms-stackedCollectionLayout">
+                <property name="lineGroupPrototype">
+                    <bean parent="Uif-CollectionHorizontalBoxItem" p:additionalCssClasses="krms-stackedPreviewItem">
+                        <property name="renderFooter" value="false"/>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+        <property name="lineActions">
+            <list></list>
+        </property>
+        <property name="renderAddLine" value="false"/>
+        <property name="propertyName" value="listItems"/>
+        <property name="collectionObjectClass" value="java.lang.String"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-MessageField" p:messageText="@{#line}"
+                      p:style="width: 290px; margin: 0px;"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="KRMS-ListItems-DataGroup" parent="KRMS-ListItems-DataGroup-parent"/>
+
     <bean id="KS-ListItems-DataGroup-parent" parent="KRMS-ListItems-DataGroup-parent" p:renderAddLine="false">
         <property name="layoutManager">
             <bean parent="Uif-StackedCollectionLayout-WithBoxItems" class="org.kuali.student.core.krms.HorizontalActionsStackedLayoutManager"
@@ -464,7 +490,7 @@ limitations under the License.
                       p:showLabel="true" p:label="Rule Statement Option" p:maxLength="40" p:required="true">
                     <property name="control">
                         <bean parent="KS-Uif-DropdownControl" p:cssClasses="categorySelect"
-                              p:onChangeScript="ajaxCallPropositionTypeUpdate(jQuery(this), 'updatePropositionType', 'KRMS-PropositionEdit-DetailSection');" />
+                              p:onChangeScript="ajaxCallPropositionTypeUpdate(jQuery(this), 'updatePropositionType');" />
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.KSCoursePropositionTypeValuesFinder"/>
@@ -475,98 +501,6 @@ limitations under the License.
         </property>
     </bean>
     
-    <!-- Copied from AORuleMaintenance.xml in Enrollment-trunk -->
-    <bean id="KSAO-ListItems-DataGroup-parent" parent="KRMS-ListItems-DataGroup-parent" p:renderAddLine="false">
-        <property name="layoutManager">
-            <bean parent="Uif-StackedCollectionLayout-WithBoxItems" class="org.kuali.student.core.krms.HorizontalActionsStackedLayoutManager">
-                <property name="actionsInLineGroup" value="true"/>
-                <property name="lineGroupPrototype">
-                    <bean parent="Uif-CollectionHorizontalBoxItem">
-                        <property name="cssClasses">
-                            <list merge="true">
-                                <value>krms-stackedPreviewItem</value>
-                            </list>
-                        </property>
-                        <property name="renderFooter" value="true"/>
-                    </bean>
-                </property>
-                <property name="subCollectionFieldGroupPrototype">
-                    <bean parent="Uif-VerticalFieldGroup" p:fieldLabel.render="false"
-                          p:cssClasses="uif-subCollection"/>
-                </property>
-                <property name="cssClasses">
-                    <list merge="true">
-                        <value>krms-stackedCollectionLayout</value>
-                    </list>
-                </property>
-            </bean>
-        </property>
-        <property name="collectionObjectClass" value="org.kuali.student.lum.lu.ui.krms.dto.CluGroup" />
-        <property name="items">
-            <list>
-                <bean parent="Uif-MessageField" p:messageText="@{#line.title}" p:render="@{#line.showTitle}"/>
-            </list>
-        </property>
-        <property name="lineActions">
-            <list>
-                <bean parent="KS-Uif-ActionLink" p:actionScript="show(e);" p:render="@{#line.showTitle}"
-                      p:actionLabel="Show Courses">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>showActionLink</value>
-                        </list>
-                    </property>
-                    <property name="actionImage">
-                        <null/>
-                    </property>
-                </bean>
-                <bean parent="KS-Uif-ActionLink" p:actionScript="hide(e);" p:render="@{#line.showTitle}"
-                      p:actionLabel="Hide Courses">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>hideActionLink</value>
-                        </list>
-                    </property>
-                    <property name="actionImage">
-                        <null/>
-                    </property>
-                </bean>
-            </list>
-        </property>
-        <property name="subCollections">
-            <list>
-                <bean parent="KSAO-ListItems-SubGroup" p:render="@{!#line.showTitle}"/>
-                <bean parent="KSAO-ListItems-SubGroup" p:render="@{#line.showTitle}">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>subGroup</value>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>
-    
-    <bean id="KSAO-ListItems-SubGroup" parent="Uif-TableCollectionGroup" p:style="width: 550px; padding: 0;" p:renderAddLine="false">
-        <property name="collectionObjectClass" value="org.kuali.student.lum.lu.ui.krms.dto.CluCore" />
-        <property name="propertyName" value="clus" />
-        <property name="collectionLookup">
-            <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false" />
-        </property>
-        <property name="layoutManager">
-            <ref bean="KS-SimpleTableCollectionLayout"/>
-        </property>
-        <property name="renderLineActions" value="false"/>
-        <property name="lineActions">
-            <list></list>
-        </property>
-        <property name="items">
-            <list>
-                <bean parent="KS-Uif-DataField" p:propertyName="code"/>
-                <bean parent="KS-Uif-DataField" p:propertyName="shortName"/>
-                <bean parent="KS-Uif-DataField" p:propertyName="credits"/>
-            </list>
-        </property>
-    </bean>
+
 
 </beans>

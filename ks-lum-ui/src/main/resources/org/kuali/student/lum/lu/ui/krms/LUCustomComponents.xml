@@ -285,10 +285,10 @@ limitations under the License.
         <property name="validationMessages.displayMessages" value="false"/>
         <property name="items">
             <list>
-                <ref bean="KS-CourseRange-TypeField"/>
-                <ref bean="KS-CourseNumber-RangeSection"/>
-                <ref bean="KS-LearningObjective-RangeSection"/>
-                <ref bean="KS-EffectiveDate-RangeSection"/>
+                <!--Rice 2.4 upgrade ref bean="KS-CourseRange-TypeField"/-->
+                <!--Rice 2.4 upgrade ref bean="KS-CourseNumber-RangeSection"/-->
+                <!--Rice 2.4 upgrade ref bean="KS-LearningObjective-RangeSection"/-->
+                <!--Rice 2.4 upgrade ref bean="KS-EffectiveDate-RangeSection"/-->
             </list>
         </property>
     </bean>

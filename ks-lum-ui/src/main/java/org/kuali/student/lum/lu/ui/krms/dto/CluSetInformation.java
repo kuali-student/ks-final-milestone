@@ -242,8 +242,8 @@ public class CluSetInformation implements Serializable {
         return cluIds;
     }
 
-    public List<Object> getCluViewers() {
-        List<Object> cluGroups = new ArrayList<Object>();
+    public List<CluGroup> getCluGroups() {
+        List<CluGroup> cluGroups = new ArrayList<CluGroup>();
         //Individual Clus
         if (this.getClus().size() > 0) {
             CluGroup indCourses = new CluGroup("INDIVIDUAL COURSE(S)");
@@ -258,7 +258,9 @@ public class CluSetInformation implements Serializable {
 
         //Course sets.
         for (CluSetInformation cluSet : this.getCluSets()) {
-            cluGroups.add(createCluGroupFromCluSet(cluSet));
+            CluGroup cluGroup = new CluGroup(cluSet.getCluSetInfo().getName());
+            cluGroup.setClus(cluSet.getClus());
+            cluGroups.add(cluGroup);
         }
 
         //CourseRange
@@ -271,17 +273,6 @@ public class CluSetInformation implements Serializable {
         }
 
         return cluGroups;
-    }
-
-    private CluGroup createCluGroupFromCluSet(CluSetInformation cluSet){
-        CluGroup cluGroup = new CluGroup(cluSet.getCluSetInfo().getName());
-        cluGroup.setClus(cluSet.getClus());
-        List<CluGroup> subCluSets = new ArrayList<CluGroup>();
-        for(CluSetInformation subCluSet : cluSet.getCluSets()){
-            subCluSets.add(createCluGroupFromCluSet(subCluSet));
-        }
-        cluGroup.setCluGroups(subCluSets);
-        return cluGroup;
     }
 
 }
