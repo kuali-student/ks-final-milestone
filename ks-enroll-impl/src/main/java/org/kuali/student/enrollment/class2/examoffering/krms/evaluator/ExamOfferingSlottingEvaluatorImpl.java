@@ -284,13 +284,15 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
         if (scheduleInfos != null) {
             for (ScheduleInfo schedule : scheduleInfos) {
                 for (ScheduleComponentInfo scheduleComponent : schedule.getScheduleComponents()) {
-                    eoComponentInfo.getRoomIds().add(scheduleComponent.getRoomId());
+                    if (scheduleComponent.getRoomId() != null && !scheduleComponent.getRoomId().isEmpty()) {
+                        eoComponentInfo.getRoomIds().add(scheduleComponent.getRoomId());
+                        try {
+                            RoomInfo room = this.getRoomService().getRoom(scheduleComponent.getRoomId(), context);
+                            eoComponentInfo.getBuildingIds().add(room.getBuildingId());
 
-                    try {
-                        RoomInfo room = this.getRoomService().getRoom(scheduleComponent.getRoomId(), context);
-                        eoComponentInfo.getBuildingIds().add(room.getBuildingId());
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                     return eoComponentInfo;
                 }
