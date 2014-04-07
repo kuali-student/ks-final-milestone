@@ -127,26 +127,23 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
         if (propEditor != null) {
             //Retrieve the name of the xml component to display for the proposition type.
             TemplateInfo template = this.getTemplateForType(propEditor.getType());
+            if (template != null) {
 
-            View view = ViewLifecycle.getView();
-
-            if (template != null && template.getComponentId() != null) {
-                Component component = ComponentFactory.getNewComponentInstance(template.getComponentId());
-                if(container.getId().equals(maintenanceDocumentForm.getUpdateComponentId())){
-                    String nodePath = view.getDefaultBindingObjectPath() + "." + propEditor.getBindingPath();
-                    ComponentUtils.pushObjectToContext(component, UifConstants.ContextVariableNames.NODE_PATH, nodePath);
-                    ComponentUtils.prefixBindingPathNested(component, propEditor.getBindingPath());
+                //Only set the objectpath on ajax component refresh.
+                String objectPath = null;
+                if (maintenanceDocumentForm.getUpdateComponentId().startsWith(container.getId())) {
+                    objectPath = ViewLifecycle.getView().getDefaultBindingObjectPath();
                 }
 
-                //Add Proposition Type FieldGroup to Tree Node
-                components.add(component);
-            }
+                //Add custom component
+                if (template.getComponentId() != null) {
+                    components.add(createComponent(objectPath, propEditor.getBindingPath(), template.getComponentId()));
+                }
 
-            if (template != null && template.getConstantComponentId() != null) {
-                Component component = ComponentFactory.getNewComponentInstance(template.getConstantComponentId());
-
-                //Add Proposition Type FieldGroup to Tree Node
-                components.add(component);
+                //Add constant component.
+                if (template.getConstantComponentId() != null) {
+                    components.add(createComponent(objectPath, propEditor.getBindingPath(), template.getConstantComponentId()));
+                }
             }
         }
 
@@ -156,6 +153,16 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
         }
 
         container.setItems(components);
+    }
+
+    private Component createComponent(String objectPath, String bindingPath, String componentId) {
+        Component component = ComponentFactory.getNewComponentInstance(componentId);
+        if (objectPath != null) {
+            String nodePath = objectPath + "." + bindingPath;
+            ComponentUtils.pushObjectToContext(component, UifConstants.ContextVariableNames.NODE_PATH, nodePath);
+        //    ComponentUtils.prefixBindingPathNested(component, bindingPath);
+        }
+        return component;
     }
 
     /**
@@ -385,6 +392,11 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
             String termSpecName = this.getTemplateRegistry().getTermSpecNameForType(proposition.getType());
             proposition.getTerm().setSpecification(getTermRepositoryService().getTermSpecificationByNameAndNamespace(termSpecName, KSKRMSServiceConstants.NAMESPACE_CODE));
 
+            ComponentBuilder builder = this.getTemplateRegistry().getComponentBuilderForType(proposition.getType());
+            if (builder != null) {
+                builder.initialize(proposition);
+            }
+
         }
     }
 
@@ -512,7 +524,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
         } else if (originalSize > 0) {
 
             //Compare the compound propositions.
-            BeanPropertyComparator termComparator = new BeanPropertyComparator(Arrays.asList("name","value"));
+            BeanPropertyComparator termComparator = new BeanPropertyComparator(Arrays.asList("name", "value"));
             for (int index = 0; index < originalSize; index++) {
                 if (termComparator.compare(original.get(index), compare.get(index)) != 0) {
                     return false;
@@ -601,14 +613,14 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
 
             TermEditor termEditor = new TermEditor();
             List<TermParameterEditor> termParameterEditors = new ArrayList<TermParameterEditor>();
-           if( oldProposition.getTerm() != null) {
-            BeanUtils.copyProperties(oldProposition.getTerm(), termEditor, new String[]{"id", "versionNumber", "parameters"});
-            for (TermParameterEditor termParm : oldProposition.getTerm().getEditorParameters()) {
-                TermParameterEditor newTermParm = new TermParameterEditor();
-                BeanUtils.copyProperties(termParm, newTermParm, new String[]{"id", "versionNumber"});
-                termParameterEditors.add(newTermParm);
+            if (oldProposition.getTerm() != null) {
+                BeanUtils.copyProperties(oldProposition.getTerm(), termEditor, new String[]{"id", "versionNumber", "parameters"});
+                for (TermParameterEditor termParm : oldProposition.getTerm().getEditorParameters()) {
+                    TermParameterEditor newTermParm = new TermParameterEditor();
+                    BeanUtils.copyProperties(termParm, newTermParm, new String[]{"id", "versionNumber"});
+                    termParameterEditors.add(newTermParm);
+                }
             }
-           }
             termEditor.setParameters(termParameterEditors);
 
             newProposition.setTerm(termEditor);
