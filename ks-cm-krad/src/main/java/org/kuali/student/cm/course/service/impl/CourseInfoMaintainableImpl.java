@@ -1302,7 +1302,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         courseInfoWrapper.setCourseInfo(calculateCourseDerivedFields(courseInfoWrapper.getCourseInfo()));
         courseInfoWrapper.setLastUpdated(DateFormatters.SIMPLE_TIMESTAMP_FORMATTER.format(new DateTime()));
 
-        courseInfoWrapper.getCourseInfo().setUnitsContentOwner(new ArrayList<String>());
+        courseInfoWrapper.getCourseInfo().getUnitsContentOwner().clear();
         for (CourseCreateUnitsContentOwner wrapper : courseInfoWrapper.getUnitsContentOwner()) {
             courseInfoWrapper.getCourseInfo().getUnitsContentOwner().add(wrapper.getOrgId());
         }
@@ -1635,6 +1635,13 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
            // dataObject.getCourseInfo().setStartTerm(course.getStartTerm());
             //dataObject.getCourseInfo().setEndTerm(course.getEndTerm());
            // dataObject.getCourseInfo().setPilotCourse(course.isPilotCourse());
+
+            for (String orgId : course.getUnitsContentOwner()) {
+                CourseCreateUnitsContentOwner orgWrapper = new CourseCreateUnitsContentOwner();
+                orgWrapper.setOrgId(orgId);
+                populateOrgName(course.getSubjectArea(), orgWrapper);
+                dataObject.getUnitsContentOwner().add(orgWrapper);
+            }
 
             populateAuditOnWrapper();
             populateFinalExamOnWrapper();
