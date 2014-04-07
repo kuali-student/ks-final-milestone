@@ -269,7 +269,8 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KSCO-ListItems-DataGroup-parent" parent="KRMS-ListItems-DataGroup-parent" p:renderAddLine="false">
+    <bean id="KSCO-ListItems-DataGroup-parent" parent="Uif-StackedCollectionGroup" p:renderAddLine="false"
+          p:style="width: 600px; padding: 0; margin-bottom: 0px;">
         <property name="layoutManager">
             <bean parent="Uif-StackedCollectionLayout-WithBoxItems"
                   class="org.kuali.student.core.krms.HorizontalActionsStackedLayoutManager"
@@ -286,6 +287,7 @@ limitations under the License.
                 </property>
             </bean>
         </property>
+        <property name="propertyName" value="cluGroups"/>
         <property name="collectionObjectClass" value="org.kuali.student.lum.lu.ui.krms.dto.CluGroup"/>
         <property name="items">
             <list>
@@ -316,16 +318,7 @@ limitations under the License.
             </list>
         </property>
     </bean>
-    <bean id="KSCO-ListItems-DataGroup" parent="KSCO-ListItems-DataGroup-parent">
-        <!-- Rice 2.4 upgrade, temp comment out, still need to be investigated, see KSENROLL-12424-->
-        <!--property name="subCollections">
-            <list merge="true">
-                <bean parent="KSCO-ListItems-DataGroup-parent" p:render="@{#line.cluGroups ne null}">
-                    <property name="propertyName" value="cluGroups"/>
-                </bean>
-            </list>
-        </property-->
-    </bean>
+    <bean id="KSCO-ListItems-DataGroup" parent="KSCO-ListItems-DataGroup-parent"/>
 
     <bean id="KSCO-ListItems-SubGroup" parent="Uif-TableCollectionGroup" p:style="width: 550px; padding: 0;"
           p:renderAddLine="false">
