@@ -10,6 +10,7 @@ import org.kuali.student.ap.coursesearch.dataobject.CourseDetailsWrapper;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.coursesearch.CreditsFormatter;
+import org.kuali.student.ap.framework.util.KsapHelperUtil;
 import org.kuali.student.ap.utils.CourseLinkBuilder;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -17,6 +18,9 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.infc.RichText;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.infc.SearchResult;
+import org.kuali.student.r2.core.search.infc.SearchResultRow;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.infc.Course;
 import org.slf4j.Logger;
@@ -152,7 +156,35 @@ public class CourseDetailsInquiryHelperImpl2 extends KualiInquirableImpl {
     protected List<String> getCourseGenEdRequirements(Course course){
         List<String> courseGenEdRequirements = new ArrayList<String>();
 
-        // empty
+        // Create search for requirements
+        String independentVersionId = course.getVersion().getVersionIndId();
+        SearchRequestInfo request = new SearchRequestInfo(
+                "ksap.course.info.gened");
+        request.addParam("courseIDs", independentVersionId);
+
+        // Search for the requirements
+        SearchResult result;
+        try {
+            result = KsapFrameworkServiceLocator.getCluService().search(
+                    request,
+                    KsapFrameworkServiceLocator.getContext().getContextInfo());
+        } catch (MissingParameterException e) {
+            throw new IllegalArgumentException(
+                    "Invalid course ID or CLU lookup error", e);
+        } catch (InvalidParameterException e) {
+            throw new IllegalArgumentException(
+                    "Invalid course ID or CLU lookup error", e);
+        } catch (OperationFailedException e) {
+            throw new IllegalStateException("CLU lookup error", e);
+        } catch (PermissionDeniedException e) {
+            throw new IllegalArgumentException("CLU lookup error", e);
+        }
+
+        for (SearchResultRow row : result.getRows()) {
+            String code = KsapHelperUtil.getCellValue(row, "gened.code");
+            String name = KsapHelperUtil.getCellValue(row, "gened.name");
+            courseGenEdRequirements.add(name+" ("+code+")");
+        }
 
         return courseGenEdRequirements;
     }

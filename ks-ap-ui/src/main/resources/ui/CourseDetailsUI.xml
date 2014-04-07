@@ -167,30 +167,6 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
             <bean parent="Uif-HeaderThree">
             </bean>
         </property>
-        <property name="header.rightGroup">
-            <bean parent="Uif-HorizontalBoxGroup">
-                <property name="validationMessages">
-                    <null/>
-                </property>
-                <property name="items">
-                    <list>
-                        <bean parent="Uif-MessageField" p:messageText="
-                            @{dataObject.courseGenEdRequirements.size() gt 0
-                                ? dataObject.courseGenEdRequirements
-                                : ''}">
-                            <property name="cssClasses">
-                                <list merge="true">
-                                    <value>ksap-data-list</value>
-                                    <value>ksap-text-normal</value>
-                                </list>
-                            </property>
-                        </bean>
-                    </list>
-                </property>
-            </bean>
-        </property>
-        <property name="header.rightGroup.render"
-                  value="@{dataObject.courseGenEdRequirements.size() gt 0 ? true : false}"/>
         <property name="cssClasses">
             <list merge="true">
                 <value>ksap-course-details</value>
@@ -511,7 +487,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                                                     <bean parent="Uif-MessageField"
                                                           p:messageText="
                                                               @{dataObject.courseGenEdRequirements.size() gt 0
-                                                                    ? dataObject.courseGenEdRequirements
+                                                                    ? dataObject.courseGenEdRequirementsForUI
                                                                     : 'None'}" >
                                                         <property name="cssClasses">
                                                             <list merge="true">

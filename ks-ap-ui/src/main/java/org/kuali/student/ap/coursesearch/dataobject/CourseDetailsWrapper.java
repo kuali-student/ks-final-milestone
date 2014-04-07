@@ -147,4 +147,10 @@ public class CourseDetailsWrapper {
         editor.setValue(this.getScheduledTerms());
         return editor.getAsText();
     }
+
+    public String getCourseGenEdRequirementsForUI() {
+        CollectionListPropertyEditor editor = new CollectionListPropertyEditor();
+        editor.setValue(this.getCourseGenEdRequirements());
+        return editor.getAsText();
+    }
 }

@@ -596,7 +596,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         // Create a map of the gen ed entries to its related course
         Map<String, List<String>> genEdResults = new HashMap<String,List<String>>();
 		for (SearchResultRow row : result.getRows()) {
-			String genEd = KsapHelperUtil.getCellValue(row, "gened.name");
+			String genEd = KsapHelperUtil.getCellValue(row, "gened.code");
 			String id = KsapHelperUtil.getCellValue(row, "course.owner");
             if(genEdResults.containsKey(id)){
                 genEdResults.get(id).add(genEd);
