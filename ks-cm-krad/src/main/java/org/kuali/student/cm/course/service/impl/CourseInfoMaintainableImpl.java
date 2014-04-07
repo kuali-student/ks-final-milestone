@@ -119,6 +119,7 @@ import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.service.SearchService;
+import org.kuali.student.r2.lum.clu.dto.CluInstructorInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo;
@@ -207,18 +208,15 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         return OrganizationSearchUtil.searchForOrganizations(organizationName, getOrganizationService());
     }
 
-    /**
-     * @see CourseInfoMaintainable#getInstructorsForSuggest(String)
-     */
-    public List<CluInstructorInfoWrapper> getInstructorsForSuggest(
-            String instructorName) {
-        List<CluInstructorInfoWrapper> cluInstructorInfoDisplays = new ArrayList<CluInstructorInfoWrapper>();
+    private SearchResultInfo getInstructorsSearchResult(String nameOrId, Boolean isName) throws Exception {
 
         List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
-
         SearchParamInfo displayNameParam = new SearchParamInfo();
-        displayNameParam.setKey(QuickViewByGivenName.NAME_PARAM);
-        displayNameParam.getValues().add(instructorName);
+        if (isName)
+            displayNameParam.setKey(QuickViewByGivenName.NAME_PARAM);
+        else
+            displayNameParam.setKey(QuickViewByGivenName.ID_PARAM);
+        displayNameParam.getValues().add(nameOrId);
         queryParamValueList.add(displayNameParam);
 
         SearchRequestInfo searchRequest = new SearchRequestInfo();
@@ -229,30 +227,62 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         searchRequest.setSortColumn(QuickViewByGivenName.DISPLAY_NAME_RESULT);
 
         SearchResultInfo searchResult = null;
-        try {
-            searchResult = getSearchService().search(searchRequest, ContextUtils.getContextInfo());
-            for (SearchResultRowInfo result : searchResult.getRows()) {
-                List<SearchResultCellInfo> cells = result.getCells();
-                CluInstructorInfoWrapper cluInstructorInfoDisplay = new CluInstructorInfoWrapper();
-                for (SearchResultCellInfo cell : cells) {
-                    if (QuickViewByGivenName.GIVEN_NAME_RESULT.equals(cell.getKey())) {
-                        cluInstructorInfoDisplay.setGivenName(cell.getValue());
-                    } else if (QuickViewByGivenName.PERSON_ID_RESULT.equals(cell.getKey())) {
-                        cluInstructorInfoDisplay.setPersonId(cell.getValue());
-                    } else if (QuickViewByGivenName.ENTITY_ID_RESULT.equals(cell.getKey())) {
-                        cluInstructorInfoDisplay.setId(cell.getValue());
-                    } else if (QuickViewByGivenName.PRINCIPAL_NAME_RESULT.equals(cell.getKey())) {
-                        cluInstructorInfoDisplay.setPrincipalName(cell.getValue());
-                    } else if (QuickViewByGivenName.DISPLAY_NAME_RESULT.equals(cell.getKey())) {
-                        cluInstructorInfoDisplay.setDisplayName(cell.getValue());
-                    }
+        searchResult = getSearchService().search(searchRequest, ContextUtils.getContextInfo());
+
+        return searchResult;
+    }
+
+    private List<CluInstructorInfoWrapper> getInstructorsFromSearchResult(SearchResultInfo searchResult) {
+
+        List<CluInstructorInfoWrapper> cluInstructorInfoDisplays = new ArrayList<CluInstructorInfoWrapper>();
+        for (SearchResultRowInfo result : searchResult.getRows()) {
+            List<SearchResultCellInfo> cells = result.getCells();
+            CluInstructorInfoWrapper cluInstructorInfoDisplay = new CluInstructorInfoWrapper();
+            for (SearchResultCellInfo cell : cells) {
+                if (QuickViewByGivenName.GIVEN_NAME_RESULT.equals(cell.getKey())) {
+                    cluInstructorInfoDisplay.setGivenName(cell.getValue());
+                } else if (QuickViewByGivenName.PERSON_ID_RESULT.equals(cell.getKey())) {
+                    cluInstructorInfoDisplay.setPersonId(cell.getValue());
+                } else if (QuickViewByGivenName.ENTITY_ID_RESULT.equals(cell.getKey())) {
+                    cluInstructorInfoDisplay.setId(cell.getValue());
+                } else if (QuickViewByGivenName.PRINCIPAL_NAME_RESULT.equals(cell.getKey())) {
+                    cluInstructorInfoDisplay.setPrincipalName(cell.getValue());
+                } else if (QuickViewByGivenName.DISPLAY_NAME_RESULT.equals(cell.getKey())) {
+                    cluInstructorInfoDisplay.setDisplayName(cell.getValue());
                 }
-                cluInstructorInfoDisplays.add(cluInstructorInfoDisplay);
             }
+            cluInstructorInfoDisplays.add(cluInstructorInfoDisplay);
+        }
+        return cluInstructorInfoDisplays;
+    }
+
+    public List<CluInstructorInfoWrapper> getInstructorsbyId(String id) {
+        List<CluInstructorInfoWrapper> cluInstructorInfoDisplays = new ArrayList<CluInstructorInfoWrapper>();
+        SearchResultInfo searchResult = null;
+        try {
+            searchResult = getInstructorsSearchResult(id, false);
+            cluInstructorInfoDisplays = getInstructorsFromSearchResult(searchResult);
         } catch (Exception e) {
             LOG.error("An error occurred in the getInstructorsForSuggest method", e);
         }
+        return cluInstructorInfoDisplays;
+    }
 
+
+    /**
+     * @see CourseInfoMaintainable#getInstructorsForSuggest(String)
+     */
+    public List<CluInstructorInfoWrapper> getInstructorsForSuggest(
+            String instructorName) {
+        List<CluInstructorInfoWrapper> cluInstructorInfoDisplays = new ArrayList<CluInstructorInfoWrapper>();
+
+        SearchResultInfo searchResult = null;
+        try {
+            searchResult = getInstructorsSearchResult(instructorName, true);
+            cluInstructorInfoDisplays = getInstructorsFromSearchResult(searchResult);
+        } catch (Exception e) {
+            LOG.error("An error occurred in the getInstructorsForSuggest method", e);
+        }
         return cluInstructorInfoDisplays;
     }
 
@@ -938,7 +968,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
     protected String populateOrgName(String subjectArea, CourseCreateUnitsContentOwner unitsContentOwner) {
 
-        if (StringUtils.isBlank(unitsContentOwner.getOrgId())){
+        if (StringUtils.isBlank(unitsContentOwner.getOrgId())) {
             return StringUtils.EMPTY;
         }
 
@@ -1279,7 +1309,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         for (CourseCreateUnitsContentOwner wrapper : courseInfoWrapper.getUnitsContentOwner()) {
             courseInfoWrapper.getCourseInfo().getUnitsContentOwner().add(wrapper.getOrgId());
             wrapper.getRenderHelper().setNewRow(false);
-            if (StringUtils.isBlank(wrapper.getRenderHelper().getOrgLongName())){
+            if (StringUtils.isBlank(wrapper.getRenderHelper().getOrgLongName())) {
                 populateOrgName(courseInfoWrapper.getCourseInfo().getSubjectArea(), wrapper);
             }
         }
@@ -1385,8 +1415,8 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                     rvgWrapper.getResultValueKeysDisplay().add(keysWrapper);
                 }
             } else if (StringUtils.equals(rvg.getTypeKey(), LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)) {
-                rvg.getResultValueRange().setMinValue( StringUtils.strip(rvg.getResultValueRange().getMinValue(),".0")); // This can be only be integer at ui.
-                rvg.getResultValueRange().setMaxValue( StringUtils.strip(rvg.getResultValueRange().getMaxValue(),".0")); // This can be only be integer at ui.
+                rvg.getResultValueRange().setMinValue(StringUtils.strip(rvg.getResultValueRange().getMinValue(), ".0")); // This can be only be integer at ui.
+                rvg.getResultValueRange().setMaxValue(StringUtils.strip(rvg.getResultValueRange().getMaxValue(), ".0")); // This can be only be integer at ui.
             }
             courseInfoWrapper.getCreditOptionWrappers().add(rvgWrapper);
         }
@@ -1612,15 +1642,20 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             CourseInfo course = getCourseService().getCourse(proposal.getProposalReference().get(0), createContextInfo());
             dataObject.setCourseInfo(course);
 
-           // dataObject.getCourseInfo().setStartTerm(course.getStartTerm());
+            // dataObject.getCourseInfo().setStartTerm(course.getStartTerm());
             //dataObject.getCourseInfo().setEndTerm(course.getEndTerm());
-           // dataObject.getCourseInfo().setPilotCourse(course.isPilotCourse());
+            // dataObject.getCourseInfo().setPilotCourse(course.isPilotCourse());
 
             for (String orgId : course.getUnitsContentOwner()) {
                 CourseCreateUnitsContentOwner orgWrapper = new CourseCreateUnitsContentOwner();
                 orgWrapper.setOrgId(orgId);
                 populateOrgName(course.getSubjectArea(), orgWrapper);
                 dataObject.getUnitsContentOwner().add(orgWrapper);
+            }
+
+            for (CluInstructorInfo instructorInfo : course.getInstructors()) {
+                CluInstructorInfoWrapper instructorInfoWrapper = new CluInstructorInfoWrapper();
+                dataObject.getInstructorWrappers().addAll(getInstructorsbyId(instructorInfo.getPersonId()));
             }
 
             populateAuditOnWrapper();

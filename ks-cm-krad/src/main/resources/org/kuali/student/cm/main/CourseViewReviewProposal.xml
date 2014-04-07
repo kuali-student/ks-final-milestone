@@ -51,8 +51,8 @@
           p:headerText="">
         <property name="items">
             <list>
-                <ref bean="KS-CourseView-ReviewErrorMessageLink" />
-                <ref bean="CourseInfo-Review-section" />
+                <ref bean="KS-CourseView-ReviewErrorMessageLink"/>
+                <ref bean="CourseInfo-Review-section"/>
                 <ref bean="Governance-Review-section"/>
                 <ref bean="CourseLogistics-Review-section"/>
                 <ref bean="LearningObjectives-Review-section"/>
@@ -65,7 +65,8 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseView-ReviewErrorMessageLink" parent="Uif-VerticalBoxGroup" p:render="@{#dataObject.reviewProposalDisplay.missingRequiredElement}">
+    <bean id="KS-CourseView-ReviewErrorMessageLink" parent="Uif-VerticalBoxGroup"
+          p:render="@{#dataObject.reviewProposalDisplay.missingRequiredElement}">
         <property name="items">
             <list>
                 <bean id="KS-CourseView-Admin-Message-TreeExpandCollapse" parent="Uif-HorizontalFieldGroup"
@@ -96,20 +97,20 @@
             </list>
         </property>
         <property name="control">
-           <bean parent="KS-Uif-TextControl" p:readOnly="true" />
+            <bean parent="KS-Uif-TextControl" p:readOnly="true"/>
         </property>
         <property name="fieldLabel.requiredMessagePlacement" value="LEFT"/>
     </bean>
 
     <bean id="CM-ReadOnlyInput-large" parent="CM-ReadOnlyInput" abstract="true">
         <property name="control">
-            <bean parent="Uif-LargeTextAreaControl" p:readOnly="false" />
+            <bean parent="Uif-LargeTextAreaControl" p:readOnly="false"/>
         </property>
         <!-- Shrink to fit the text area: jQuery("#u327_control").height(jQuery("#u327_control")[0].scrollHeight); -->
     </bean>
 
     <bean id="ReviewProposal-VerticalBoxSection" parent="Uif-VerticalBoxSection" abstract="true">
-        <property name="validationMessages.displayMessages" value="false" />
+        <property name="validationMessages.displayMessages" value="false"/>
         <property name="header">
             <bean parent="Uif-HeaderTwo">
                 <property name="cssClasses">
@@ -120,14 +121,14 @@
                     </list>
                 </property>
                 <property name="rightGroup">
-                    <bean parent="KS-CourseView-ReviewLink" />
+                    <bean parent="KS-CourseView-ReviewLink"/>
                 </property>
             </bean>
         </property>
     </bean>
 
     <bean id="CourseInfo-Review-section" parent="ReviewProposal-VerticalBoxSection">
-        <property name="headerText" value="Course Information" />
+        <property name="headerText" value="Course Information"/>
         <property name="header.rightGroup.items">
             <list>
                 <bean p:id="CourseInfo-Review-Edit-link" parent="Uif-ActionLink-Course-Proposal-Review-Page-Edit-Link">
@@ -153,27 +154,38 @@
                     </property>
                     <property name="items">
                         <list>
-                            <bean parent="CM-ReadOnlyInput" p:label="Proposal Title" p:propertyName="proposalInfo.name" p:control.size="105" />
-                            <bean parent="CM-ReadOnlyInput" p:label="Course Title" p:propertyName="courseInfo.courseTitle" p:control.size="105" />
-                            <bean parent="CM-ReadOnlyInput" p:label="Transcript Course Title" p:propertyName="courseInfo.transcriptTitle" />
-                            <bean parent="CM-ReadOnlyInput" p:label="Subject Code" p:propertyName="courseInfo.subjectArea" />
-                            <bean parent="CM-ReadOnlyInput" p:label="Course Number" p:propertyName="courseInfo.courseNumberSuffix" />
+                            <bean parent="CM-ReadOnlyInput" p:label="Proposal Title" p:propertyName="proposalInfo.name"
+                                  p:control.size="105"/>
+                            <bean parent="CM-ReadOnlyInput" p:label="Course Title"
+                                  p:propertyName="courseInfo.courseTitle" p:control.size="105"/>
+                            <bean parent="CM-ReadOnlyInput" p:label="Transcript Course Title"
+                                  p:propertyName="courseInfo.transcriptTitle"/>
+                            <bean parent="CM-ReadOnlyInput" p:label="Subject Code"
+                                  p:propertyName="courseInfo.subjectArea"/>
+                            <bean parent="CM-ReadOnlyInput" p:label="Course Number"
+                                  p:propertyName="courseInfo.courseNumberSuffix"/>
 
                             <bean parent="KS-Uif-DataField" p:label="Cross Listed Courses" p:colSpan="3"
                                   p:fieldLabel.renderColon="false"
-                                  p:propertyName="reviewProposalDisplay.courseSection.instructors"/>
+                                  p:propertyName="reviewProposalDisplay.courseSection.crossListings"
+                                  p:readOnlyListDelimiter="; "/>
                             <bean parent="KS-Uif-DataField" p:label="Jointly Offered Courses" p:colSpan="3"
                                   p:fieldLabel.renderColon="false"
-                                  p:propertyName="reviewProposalDisplay.courseSection.instructors"/>
+                                  p:propertyName="reviewProposalDisplay.courseSection.variations"
+                                  p:readOnlyListDelimiter="; "/>
                             <bean parent="KS-Uif-DataField" p:label="Version Codes" p:colSpan="3"
                                   p:fieldLabel.renderColon="false"
-                                  p:propertyName="reviewProposalDisplay.courseSection.instructors"/>
+                                  p:propertyName="reviewProposalDisplay.courseSection.variations"
+                                  p:readOnlyListDelimiter="; "/>
                             <bean parent="KS-Uif-DataField" p:label="Instructor(s)" p:colSpan="3"
                                   p:fieldLabel.renderColon="false"
-                                  p:propertyName="reviewProposalDisplay.courseSection.instructors"/>
+                                  p:propertyName="reviewProposalDisplay.courseSection.instructors"
+                                  p:readOnlyListDelimiter="; "/>
 
-                            <bean parent="CM-ReadOnlyInput-large" p:label="Description" p:propertyName="courseInfo.descr.plain" />
-                            <bean parent="CM-ReadOnlyInput-large" p:label="Proposal Rationale" p:propertyName="proposalInfo.rationale.plain" />
+                            <bean parent="CM-ReadOnlyInput-large" p:label="Description"
+                                  p:propertyName="courseInfo.descr.plain"/>
+                            <bean parent="CM-ReadOnlyInput-large" p:label="Proposal Rationale"
+                                  p:propertyName="proposalInfo.rationale.plain"/>
                         </list>
                     </property>
                 </bean>
@@ -182,7 +194,7 @@
     </bean>
 
     <bean id="Governance-Review-section" parent="ReviewProposal-VerticalBoxSection">
-        <property name="headerText" value="Governance" />
+        <property name="headerText" value="Governance"/>
         <property name="header.rightGroup.items">
             <list>
                 <bean p:id="Governance-Review-Edit-link" parent="Uif-ActionLink-Course-Proposal-Review-Page-Edit-Link">
@@ -212,7 +224,8 @@
                             <bean parent="KS-Uif-DataField" p:label="Administering Organization" p:colSpan="3"
                                   p:fieldLabel.renderColon="false"
                                   p:escapeHtmlInPropertyValue="false"
-                                  p:propertyName="reviewProposalDisplay.governanceSection.administeringOrganization" p:readOnlyListDelimiter="; "/>
+                                  p:propertyName="reviewProposalDisplay.governanceSection.administeringOrganization"
+                                  p:readOnlyListDelimiter="; "/>
                         </list>
                     </property>
                 </bean>
@@ -221,7 +234,7 @@
     </bean>
 
     <bean id="CourseLogistics-Review-section" parent="ReviewProposal-VerticalBoxSection">
-        <property name="headerText" value="Course Logistics" />
+        <property name="headerText" value="Course Logistics"/>
         <property name="header.rightGroup.items">
             <list>
                 <bean p:id="Governance-Review-Edit-link" parent="Uif-ActionLink-Course-Proposal-Review-Page-Edit-Link">
@@ -239,8 +252,10 @@
                       p:additionalCssClasses="course_review_details-panel, course_review_details-table, ks-no-margins,ks-subSection">
                     <property name="items">
                         <list>
-                            <bean parent="KS-Uif-DataField" p:label="Terms" p:colSpan="3" p:fieldLabel.renderColon="false"
-                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.terms"  p:readOnlyListDelimiter="; "/>
+                            <bean parent="KS-Uif-DataField" p:label="Terms" p:colSpan="3"
+                                  p:fieldLabel.renderColon="false"
+                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.terms"
+                                  p:readOnlyListDelimiter="; "/>
                             <bean parent="KS-Uif-DataField" p:label="Duration" p:colSpan="3"
                                   p:fieldLabel.renderColon="false"
                                   p:propertyName="reviewProposalDisplay.courseLogisticsSection.atpDurationType"/>
@@ -249,7 +264,8 @@
                                   p:escapeHtmlInPropertyValue="false"
                                   p:propertyName="reviewProposalDisplay.courseLogisticsSection.gradingOptions"
                                   p:required="true"/>
-                            <bean parent="KS-Uif-DataField" p:label="Audit" p:colSpan="3" p:fieldLabel.renderColon="false"
+                            <bean parent="KS-Uif-DataField" p:label="Audit" p:colSpan="3"
+                                  p:fieldLabel.renderColon="false"
                                   p:propertyName="reviewProposalDisplay.courseLogisticsSection.audit"/>
                             <bean parent="KS-Uif-DataField" p:label="Pass Fail Transcript Grade" p:colSpan="3"
                                   p:fieldLabel.renderColon="false"
@@ -338,7 +354,7 @@
     </bean>
 
     <bean id="LearningObjectives-Review-section" parent="ReviewProposal-VerticalBoxSection">
-        <property name="headerText" value="Learning Objectives" />
+        <property name="headerText" value="Learning Objectives"/>
         <property name="header.rightGroup.items">
             <list>
                 <bean p:id="Governance-Review-Edit-link" parent="Uif-ActionLink-Course-Proposal-Review-Page-Edit-Link">
@@ -368,7 +384,7 @@
     </bean>
 
     <bean id="CourseRequisitesPage-Review-section" parent="ReviewProposal-VerticalBoxSection">
-        <property name="headerText" value="Course Requisites" />
+        <property name="headerText" value="Course Requisites"/>
         <property name="header.rightGroup.items">
             <list>
                 <bean p:id="Governance-Review-Edit-link" parent="Uif-ActionLink-Course-Proposal-Review-Page-Edit-Link">
@@ -412,7 +428,7 @@
     </bean>
 
     <bean id="ActiveDates-Review-section" parent="ReviewProposal-VerticalBoxSection">
-        <property name="headerText" value="Active Dates" />
+        <property name="headerText" value="Active Dates"/>
         <property name="header.rightGroup.items">
             <list>
                 <bean p:id="Governance-Review-Edit-link" parent="Uif-ActionLink-Course-Proposal-Review-Page-Edit-Link">
@@ -448,7 +464,7 @@
     </bean>
 
     <bean id="Financials-Review-section" parent="ReviewProposal-VerticalBoxSection">
-        <property name="headerText" value="Financials" />
+        <property name="headerText" value="Financials"/>
         <property name="header.rightGroup.items">
             <list>
                 <bean p:id="Governance-Review-Edit-link" parent="Uif-ActionLink-Course-Proposal-Review-Page-Edit-Link">
@@ -478,7 +494,7 @@
     </bean>
 
     <bean id="AuthorsAndCollaborators-Review-section" parent="ReviewProposal-VerticalBoxSection">
-        <property name="headerText" value="Authors and Collaborators" />
+        <property name="headerText" value="Authors and Collaborators"/>
         <property name="header.rightGroup.items">
             <list>
                 <bean p:id="Governance-Review-Edit-link" parent="Uif-ActionLink-Course-Proposal-Review-Page-Edit-Link">
@@ -507,7 +523,7 @@
     </bean>
 
     <bean id="SupportingDocuments-Review-section" parent="ReviewProposal-VerticalBoxSection">
-        <property name="headerText" value="Supporting Documents" />
+        <property name="headerText" value="Supporting Documents"/>
         <property name="header.rightGroup.items">
             <list>
                 <bean p:id="Governance-Review-Edit-link" parent="Uif-ActionLink-Course-Proposal-Review-Page-Edit-Link">
