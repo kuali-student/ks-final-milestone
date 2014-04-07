@@ -213,7 +213,7 @@
                                 <property name="constraintText" value="Must be a 4 letter code"/>
                                 <property name="control">
                                     <bean parent="KS-Uif-TextControl" p:size="6" p:watermarkText="AAAA"
-                                          p:onChangeScript="removeCurrciulumOversight();" p:cssClasses="validSubjectCode" />
+                                         p:cssClasses="validSubjectCode" />
                                 </property>
                                 <property name="suggest">
                                     <bean parent="Uif-Suggest" p:render="true">
