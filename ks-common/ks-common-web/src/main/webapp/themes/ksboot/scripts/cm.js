@@ -716,3 +716,31 @@ function highlightMissingElements(showThem) {
         }
     });
 }
+
+jQuery.validator.addMethod("rangeMaxMinCheck",
+    function(value, element) {
+        return this.optional(element) || verifyMaxAndMinInput(value, element);
+    }, "Max value should be greater than Min Value");
+
+function verifyMaxAndMinInput(value, element){
+    var minValue = 0;
+    var maxValue = 0;
+
+    jQuery('#KS-CourseView-CourseLogisticsPage-Outcome-Widgets').find('table td').each(function(index){
+        var control = jQuery(this).find("*[data-role='Control']");
+        var value = control.val();
+        var label = jQuery("#" + control.data("control_for")).data("label");
+        if(label == "Minimum Credit Value") {
+            minValue = value;
+        }
+        if(label == "Maximum Credit Value") {
+            maxValue = value;
+        }
+    });
+    return (parseInt(minValue) < parseInt(maxValue))
+}
+
+function verifyMaxRangeOnBlur() {
+        validateFieldValue(jQuery("#MaxRangeCreditVale_add_control"));
+        return;
+}
