@@ -95,7 +95,7 @@
             </list>
         </property>
         <property name="control">
-           <bean parent="KS-Uif-TextControl" p:readOnly="false" />
+           <bean parent="KS-Uif-TextControl" p:readOnly="true" />
         </property>
         <property name="fieldLabel.requiredMessagePlacement" value="LEFT"/>
     </bean>
