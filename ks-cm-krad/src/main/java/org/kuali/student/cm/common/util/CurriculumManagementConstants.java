@@ -18,8 +18,6 @@
 package org.kuali.student.cm.common.util;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kew.api.KewApiConstants;
-import org.kuali.student.r2.lum.course.infc.Course;
 
 /**
  * This class defines constants used in the Curriculum Management UI
@@ -109,6 +107,7 @@ public class CurriculumManagementConstants {
 
         public final static String ERROR_COURSE_TITLE_REQUIRED = "error.course.title.required";
         public final static String ERROR_PROPOSAL_TITLE_REQUIRED = "error.proposal.title.required";
+        public final static String ERROR_COURSE_DURATION_COUNT_REQUIRED = "error.course.duration.count.required";
 
         public final static String UNABLE_TO_ADD_LINE = "unable.to.add.line";
         public final static String UNABLE_TO_DELETE_LINE = "unable.to.delete.line";

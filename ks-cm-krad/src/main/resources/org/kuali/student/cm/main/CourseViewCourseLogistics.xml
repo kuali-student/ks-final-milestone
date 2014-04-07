@@ -65,7 +65,7 @@
                       p:propertyName="courseInfo.duration.atpDurationTypeKey" p:label="Duration Type"
                       p:optionsFinderClass="org.kuali.student.lum.lu.ui.course.keyvalues.DurationTypeKeyValueFinder">
                     <property name="control">
-                        <bean parent="KS-Uif-DropdownControl" p:cssClasses="validDurationTypeAndCountInput" p:onBlurScript="durationTypeOnBlur();"/>
+                        <bean parent="KS-Uif-DropdownControl" />
                     </property>
                 </bean>
                 <bean id="KS-DurationTimeQuantity-Field" parent="KS-Uif-InputField-LabelTop"
@@ -393,7 +393,7 @@
                                 </property>
                             </bean>
                             <bean id="KS-Logistics-Format-DurationTimeQuantity-Field" parent="KS-Uif-InputField-LabelTop"
-                                  p:label="Durantion Count" p:propertyName="duration.timeQuantity">
+                                  p:label="Duration Count" p:propertyName="duration.timeQuantity">
                                 <property name="validCharactersConstraint">
                                     <bean parent="NumericPatternConstraint" />
                                 </property>
