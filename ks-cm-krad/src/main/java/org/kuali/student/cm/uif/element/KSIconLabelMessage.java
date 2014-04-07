@@ -16,7 +16,6 @@
  */
 package org.kuali.student.cm.uif.element;
 
-import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.datadictionary.parse.BeanTagAttribute;
 import org.kuali.rice.krad.datadictionary.validator.ValidationTrace;
@@ -25,7 +24,7 @@ import org.kuali.rice.krad.uif.element.Header;
 import org.kuali.rice.krad.uif.element.Label;
 import org.kuali.rice.krad.uif.element.Message;
 import org.kuali.rice.krad.uif.field.ImageField;
-import org.kuali.rice.krad.uif.field.InputField;
+import org.kuali.rice.krad.uif.util.ComponentUtils;
 import org.kuali.rice.krad.uif.view.View;
 
 /**
@@ -43,8 +42,9 @@ public class KSIconLabelMessage extends Message {
     private String iconToolTipText;
 
     /**
-     * If iconToolTipText is configured, it configures that text to be
-     * displayed as tooltip over the icon.
+     * If iconToolTipText is configured, it configures that text to be displayed as tooltip over the icon.
+     * Here, we're adding 2 inline components. The first one is a placement for required message component
+     * to be displayed. The second one is to display the icon
      *
      * @param view
      * @param model
@@ -54,20 +54,20 @@ public class KSIconLabelMessage extends Message {
     public void performApplyModel(View view, Object model, Component parent) {
 
         if (StringUtils.isNotBlank(iconToolTipText)){
-            Component component = (Component)parent.getContext().get("parent");
+
+            ImageField iconImageField = (ImageField)getInlineComponents().get(0);
+
             String label = "";
+
             if (parent instanceof Label){
 
-                label = ((Label)parent).getLabelText();
-                boolean isRequiredField = isParentRequiredField(component);
-
-                if (isRequiredField){
-                    label = label + " * [0]";
-                } else {
-                    label = label + " [0]";
-                }
-
+                label = ((Label)parent).getLabelText() + " [0] [1]";
                 ((Label)parent).setLabelText(label);
+
+                /**
+                 * Reference the Label's required message component as inline component.
+                 */
+                getInlineComponents().add(0, ((Label) parent).getRequiredMessage());
 
             } else if (parent instanceof Header){
                 label =  ((Header)parent).getHeaderText();
@@ -75,12 +75,30 @@ public class KSIconLabelMessage extends Message {
             }
 
             setMessageText(label);
-            ImageField iconImageField = (ImageField)getInlineComponents().get(0);
             iconImageField.getToolTip().setTooltipContent(iconToolTipText);
 
         }
 
         super.performApplyModel(view, model, parent);
+    }
+
+    @Override
+    public void performFinalize(View view, Object model, Component parent) {
+
+        super.performFinalize(view,model,parent);
+
+        if (StringUtils.isNotBlank(iconToolTipText)){
+            if (parent instanceof Label){
+                /**
+                 * Hide the Label's required message component. it's not needed to be displayed
+                 * as the Label's inline component will be displaying that.
+                 */
+                Message copy = ComponentUtils.copy(((Label) parent).getRequiredMessage());
+                ((Label) parent).setRequiredMessage(copy);
+                ((Label) parent).getRequiredMessage().setRender(false);
+            }
+        }
+
     }
 
     @BeanTagAttribute(name="iconToolTipText")
@@ -90,21 +108,6 @@ public class KSIconLabelMessage extends Message {
 
     public void setIconToolTipText(String iconToolTipText) {
         this.iconToolTipText = iconToolTipText;
-    }
-
-    /**
-     * Returns true if the parent component is a required field.
-     * If true, it appends an * in between the label and the icon.
-     *
-     * @param component
-     * @return
-     */
-    protected boolean isParentRequiredField(Component component){
-        if (component instanceof  InputField && ((InputField) component).getSimpleConstraint() != null && BooleanUtils.isTrue(((InputField) component).getSimpleConstraint().isRequired())){
-            return true;
-        } else {
-            return BooleanUtils.isTrue(component.getRequired());
-        }
     }
 
     @Override
