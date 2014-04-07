@@ -120,7 +120,7 @@
 </div>
 
 <!--Waitlisted section-->
-<div>
+<div  ng-hide="waitlistedCredits() == 0">
     <span>
         <span class="kscr-Heading-sub">WAITLISTED</span>
         <span id="waitlisted_credit_count" class="kscr-Heading-support util-Grid--floatRight">{{waitlistedCredits()}} credits</span>
