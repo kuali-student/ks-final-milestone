@@ -183,8 +183,8 @@
                     </property>
                     <property name="items">
                         <list>
-                            <bean parent="CM-ReadOnlyInput" p:label="Proposal Title" p:propertyName="proposalInfo.name" />
-                            <bean parent="CM-ReadOnlyInput" p:label="Course Title" p:propertyName="courseInfo.courseTitle" />
+                            <bean parent="CM-ReadOnlyInput" p:label="Proposal Title" p:propertyName="proposalInfo.name" p:control.size="105" />
+                            <bean parent="CM-ReadOnlyInput" p:label="Course Title" p:propertyName="courseInfo.courseTitle" p:control.size="105" />
                             <bean parent="CM-ReadOnlyInput" p:label="Transcript Course Title" p:propertyName="courseInfo.transcriptTitle" />
                             <bean parent="CM-ReadOnlyInput" p:label="Subject Code" p:propertyName="courseInfo.subjectArea" />
                             <bean parent="CM-ReadOnlyInput" p:label="Course Number" p:propertyName="courseInfo.courseNumberSuffix" />
