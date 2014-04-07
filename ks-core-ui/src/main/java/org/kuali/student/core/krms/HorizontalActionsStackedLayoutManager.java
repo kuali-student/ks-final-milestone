@@ -22,12 +22,17 @@ import org.kuali.rice.krad.uif.component.DataBinding;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.container.Group;
 import org.kuali.rice.krad.uif.container.collections.LineBuilderContext;
+import org.kuali.rice.krad.uif.element.Action;
+import org.kuali.rice.krad.uif.element.Message;
 import org.kuali.rice.krad.uif.field.Field;
 import org.kuali.rice.krad.uif.field.FieldGroup;
 import org.kuali.rice.krad.uif.layout.StackedLayoutManager;
 import org.kuali.rice.krad.uif.layout.StackedLayoutManagerBase;
+import org.kuali.rice.krad.uif.lifecycle.ViewLifecycleUtils;
 import org.kuali.rice.krad.uif.util.ComponentUtils;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
+import org.kuali.rice.krad.uif.view.ViewModel;
+import org.kuali.rice.krad.util.KRADUtils;
 import org.kuali.rice.krad.web.form.UifFormBase;
 
 import java.util.ArrayList;
@@ -48,11 +53,9 @@ public class HorizontalActionsStackedLayoutManager extends StackedLayoutManagerB
         Object currentLine = lineBuilderContext.getCurrentLine();
         List<? extends Component> actions = lineBuilderContext.getLineActions();
 
-        boolean isAddLine = lineIndex == -1;
-
         // construct new group
         Group lineGroup = null;
-        if (isAddLine) {
+        if (lineBuilderContext.isAddLine()) {
             setStackedGroups(new ArrayList<Group>());
 
             if (this.getAddLineGroup() == null) {
@@ -77,23 +80,34 @@ public class HorizontalActionsStackedLayoutManager extends StackedLayoutManagerB
         if (((UifFormBase) lineBuilderContext.getModel()).isAddedCollectionItem(currentLine)) {
             lineGroup.addStyleClass(collectionGroup.getNewItemsCssClass());
         }
+
+        // any actions that are attached to the group prototype (like the header) need to get action parameters
+        // and context set for the collection line
+        List<Action> lineGroupActions = ViewLifecycleUtils.getElementsOfTypeDeep(lineGroup, Action.class);
+        if (lineGroupActions != null) {
+            collectionGroup.getCollectionGroupBuilder().initializeActions(lineGroupActions, collectionGroup, lineIndex);
+            ComponentUtils.updateContextsForLine(lineGroupActions, collectionGroup, currentLine, lineIndex, idSuffix);
+        }
         ComponentUtils.updateContextForLine(lineGroup, collectionGroup, currentLine, lineIndex, idSuffix);
 
+
         // build header text for group
-        String headerText = "";
-        if (isAddLine) {
-            headerText = collectionGroup.getAddLabel();
+        if (lineBuilderContext.isAddLine()) {
+            if (lineGroup.getHeader() != null) {
+                Message headerMessage = ComponentUtils.copy(collectionGroup.getAddLineLabel());
+                lineGroup.getHeader().setRichHeaderMessage(headerMessage);
+            }
         } else {
             // get the collection for this group from the model
             List<Object> modelCollection = ObjectPropertyUtils.getPropertyValue(lineBuilderContext.getModel(),
                     ((DataBinding) collectionGroup).getBindingInfo().getBindingPath());
 
-            headerText = buildLineHeaderText(modelCollection.get(lineIndex), lineGroup);
-        }
+            String headerText = buildLineHeaderText(modelCollection.get(lineIndex), lineGroup);
 
-        // don't set header if text is blank (could already be set by other means)
-        if (StringUtils.isNotBlank(headerText) && lineGroup.getHeader() != null) {
-            lineGroup.getHeader().setHeaderText(headerText);
+            // don't set header if text is blank (could already be set by other means)
+            if (StringUtils.isNotBlank(headerText) && lineGroup.getHeader() != null) {
+                lineGroup.getHeader().setHeaderText(headerText);
+            }
         }
 
         // stack all fields (including sub-collections) for the group
@@ -106,17 +120,28 @@ public class HorizontalActionsStackedLayoutManager extends StackedLayoutManagerB
             // add the actions to the line group if isActionsInLineGroup flag is true
             if (isActionsInLineGroup()) {
                 groupFields.addAll(actions);
-                groupFields.addAll(lineBuilderContext.getSubCollectionFields());
+                if (lineBuilderContext.getSubCollectionFields() != null) {
+                    groupFields.addAll(lineBuilderContext.getSubCollectionFields());
+                }
                 lineGroup.setRenderFooter(false);
             }else{
                 List<Component> footerFields = new ArrayList<Component>();
                 footerFields.addAll(actions);
-                footerFields.addAll(lineBuilderContext.getSubCollectionFields());
+                if (lineBuilderContext.getSubCollectionFields() != null) {
+                    footerFields.addAll(lineBuilderContext.getSubCollectionFields());
+                }
                 lineGroup.getFooter().setItems(footerFields);
             }
         }
 
         lineGroup.setItems(groupFields);
+
+        // Must evaluate the client-side state on the lineGroup's disclosure for PlaceholderDisclosureGroup processing
+        if (lineBuilderContext.getModel() instanceof ViewModel){
+            KRADUtils.syncClientSideStateForComponent(lineGroup.getDisclosure(),
+                    ((ViewModel) lineBuilderContext.getModel()).getClientStateForSyncing());
+        }
+
         this.getStackedGroups().add(lineGroup);
 
         if (lineIndex == -1) {

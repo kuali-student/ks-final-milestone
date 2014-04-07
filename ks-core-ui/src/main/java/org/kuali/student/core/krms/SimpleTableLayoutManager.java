@@ -28,7 +28,6 @@ import org.kuali.rice.krad.uif.field.Field;
 import org.kuali.rice.krad.uif.field.FieldGroup;
 import org.kuali.rice.krad.uif.layout.CollectionLayoutManager;
 import org.kuali.rice.krad.uif.layout.CollectionLayoutUtils;
-import org.kuali.rice.krad.uif.layout.TableLayoutManager;
 import org.kuali.rice.krad.uif.layout.TableLayoutManagerBase;
 import org.kuali.rice.krad.uif.lifecycle.ViewLifecycle;
 import org.kuali.rice.krad.uif.util.ComponentUtils;
@@ -70,14 +69,14 @@ public class SimpleTableLayoutManager extends TableLayoutManagerBase {
      */
     @Override
     public void buildLine(LineBuilderContext lineBuilderContext) {
+        View view = ViewLifecycle.getView();
+
         List<Field> lineFields = lineBuilderContext.getLineFields();
         CollectionGroup collectionGroup = lineBuilderContext.getCollectionGroup();
         int lineIndex = lineBuilderContext.getLineIndex();
         String idSuffix = lineBuilderContext.getIdSuffix();
         Object currentLine = lineBuilderContext.getCurrentLine();
         String bindingPath = lineBuilderContext.getBindingPath();
-
-        View view = ViewLifecycle.getView();
 
         // since expressions are not evaluated on child components yet, we need to evaluate any properties
         // we are going to read for building the table
@@ -110,22 +109,16 @@ public class SimpleTableLayoutManager extends TableLayoutManagerBase {
 
         boolean isAddLine = false;
 
-        boolean renderActions = collectionGroup.isRenderLineActions() && !collectionGroup.isReadOnly();
-        int extraColumns = 0;
         String rowCss = "";
         boolean addLineInTable =
                 collectionGroup.isRenderAddLine() && !collectionGroup.isReadOnly() && !isSeparateAddLine();
 
-        if (collectionGroup.isHighlightNewItems() && ((UifFormBase) lineBuilderContext.getModel()).isAddedCollectionItem(currentLine)) {
+        if (collectionGroup.isHighlightNewItems() && ((UifFormBase) lineBuilderContext.getModel())
+                .isAddedCollectionItem(currentLine)) {
             rowCss = collectionGroup.getNewItemsCssClass();
         } else if (isAddLine && addLineInTable) {
             rowCss = collectionGroup.getAddItemCssClass();
             this.addStyleClass(CssConstants.Classes.HAS_ADD_LINE);
-        }
-
-        // do not allow null rowCss
-        if (rowCss == null) {
-            rowCss = "";
         }
 
         rowCss = StringUtils.removeStart(rowCss, " ");
@@ -152,15 +145,7 @@ public class SimpleTableLayoutManager extends TableLayoutManagerBase {
         }
 
         // now add the fields in the correct position
-        int cellPosition = 0;
-        int columnNumber = 0;
-
-        boolean insertActionField = false;
-
         for (Field lineField : lineFields) {
-
-            cellPosition += lineField.getColSpan();
-            columnNumber++;
 
             this.getAllRowFields().add(lineField);
 
@@ -179,4 +164,5 @@ public class SimpleTableLayoutManager extends TableLayoutManagerBase {
         // add sub-collection fields to end of data fields
         this.getAllRowFields().addAll(lineBuilderContext.getSubCollectionFields());
     }
+
 }
