@@ -1376,6 +1376,9 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                     keysWrapper.setCreditValueDisplay(value);
                     rvgWrapper.getResultValueKeysDisplay().add(keysWrapper);
                 }
+            } else if (StringUtils.equals(rvg.getTypeKey(), LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)) {
+                rvg.getResultValueRange().setMinValue( StringUtils.strip(rvg.getResultValueRange().getMinValue(),".0")); // This can be only be integer at ui.
+                rvg.getResultValueRange().setMaxValue( StringUtils.strip(rvg.getResultValueRange().getMaxValue(),".0")); // This can be only be integer at ui.
             }
             courseInfoWrapper.getCreditOptionWrappers().add(rvgWrapper);
         }
