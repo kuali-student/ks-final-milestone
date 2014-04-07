@@ -938,6 +938,10 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
     protected String populateOrgName(String subjectArea, CourseCreateUnitsContentOwner unitsContentOwner) {
 
+        if (StringUtils.isBlank(unitsContentOwner.getOrgId())){
+            return StringUtils.EMPTY;
+        }
+
         final SearchRequestInfo searchRequest = new SearchRequestInfo();
         searchRequest.setSearchKey("subjectCode.search.orgsForSubjectCode");
 
