@@ -1160,50 +1160,19 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         return result;
     }
 
-    private String getCurriculumOversightString() {
+    protected String getCurriculumOversightString() {
 
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
-        CourseInfo course = courseInfoWrapper.getCourseInfo();
-        List<String> orgIds = course.getUnitsContentOwner();
         StringBuilder builder = new StringBuilder();
-        List<String> oversights = new ArrayList<String>();
 
-        if (orgIds != null && !orgIds.isEmpty()) {
-
-            final SearchRequestInfo searchRequest = new SearchRequestInfo();
-            searchRequest.setSearchKey("subjectCode.search.orgsForSubjectCode");
-
-            for (String orgId : orgIds) {
-
-                searchRequest.getParams().clear();
-                searchRequest.addParam("subjectCode.queryParam.optionalOrgId", orgId);
-
-                try {
-
-                    for (final SearchResultRowInfo searchResult : getSubjectCodeService().search(searchRequest, ContextUtils.getContextInfo()).getRows()) {
-                        for (final SearchResultCellInfo resultCell : searchResult.getCells()) {
-
-                            if ("subjectCode.resultColumn.orgLongName".equals(resultCell.getKey())) {
-                                if (oversights.contains(resultCell.getValue())) {
-                                    break;
-                                }
-                                oversights.add(resultCell.getValue());
-                                builder.append(resultCell.getValue() + "; ");
-                                break;
-                            }
-                        }
-                    }
-
-                } catch (Exception e) {
-                    LOG.error("Error building KeyValues List", e);
-                    throw new RuntimeException(e);
-                }
+        for (CourseCreateUnitsContentOwner existing : courseInfoWrapper.getUnitsContentOwner()) {
+            if (StringUtils.isBlank(existing.getRenderHelper().getOrgLongName())) {
+                populateOrgName(courseInfoWrapper.getCourseInfo().getSubjectArea(), existing);
             }
+            builder.append(existing.getRenderHelper().getOrgLongName() + "; ");
         }
-        if (!builder.toString().isEmpty()) {
-            return StringUtils.removeEnd(builder.toString(), "; ");
-        }
-        return builder.toString();
+
+        return StringUtils.removeEnd(builder.toString(), "; ");
 
     }
 
