@@ -65,13 +65,13 @@ function ksapCourseSearchColumns() {
     },{
         'bSortable' : false,
         'bSearchable' : true,
-        'sTitle' : 'Terms Scheduled',
+        'sTitle' : 'Scheduled Terms',
         'sClass' : 'ksap-data-list',
         'sWidth' : '130px'
     },{
         'bSortable' : false,
         'bSearchable' : true,
-        'sTitle' : 'Terms Offered',
+        'sTitle' : 'Projected Terms',
         'sClass' : 'ksap-data-list',
         'sWidth' : '110px'
     }, {
@@ -222,7 +222,7 @@ function searchForCourses(id, parentId) {
 									ksapCourseSearchTableWidth());
 
                             var newheader = jQuery("#termsOfferedPlaceholder").clone(true);
-                            var oldheader = jQuery("[aria-label='Terms Offered']");
+                            var oldheader = jQuery("[aria-label='Projected Terms']");
                             oldheader.empty();
                             newheader.removeClass("ksap-hide");
                             oldheader.append(newheader);
