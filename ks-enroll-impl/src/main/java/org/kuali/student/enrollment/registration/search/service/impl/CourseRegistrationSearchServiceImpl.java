@@ -27,6 +27,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
+import org.kuali.student.r2.common.util.constants.CourseWaitListServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
@@ -379,14 +380,14 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "AND grading.RESULT_VAL_GRP_ID LIKE 'kuali.resultComponent.grade.%' " +
                         "WHERE " +
                         "    lpr.PERS_ID = :personId " +
-                        "AND lpr.LPR_STATE IN ('kuali.lpr.state.registered', " +
-                        "                      'kuali.lpr.state.active') " +
-                        "AND lpr.LPR_TYPE IN('kuali.lpr.type.registrant.registration.group', " +
-                        "                    'kuali.lpr.type.waitlist.registration.group') " +
+                        "AND lpr.LPR_STATE IN ('" + LprServiceConstants.REGISTERED_STATE_KEY + "', " +
+                        "                      '" + LprServiceConstants.ACTIVE_STATE_KEY + "') " +
+                        "AND lpr.LPR_TYPE IN('" + LprServiceConstants.REGISTRANT_RG_TYPE_KEY + "', " +
+                        "                    '" + LprServiceConstants.WAITLIST_RG_TYPE_KEY + "') " +
                         (!StringUtils.isEmpty(atpId) ? " AND lpr.ATP_ID = :atpId " : "") +
-                        "AND rg2ao.LUILUI_RELTN_TYPE='kuali.lui.lui.relation.type.registeredforvia.rg2ao' " +
-                        "AND fo2rg.LUILUI_RELTN_TYPE='kuali.lui.lui.relation.type.deliveredvia.fo2rg' " +
-                        "AND co2fo.LUILUI_RELTN_TYPE='kuali.lui.lui.relation.type.deliveredvia.co2fo' " +
+                        "AND rg2ao.LUILUI_RELTN_TYPE='" + LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY + "' " +
+                        "AND fo2rg.LUILUI_RELTN_TYPE='" + LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_RG_TYPE_KEY + "' " +
+                        "AND co2fo.LUILUI_RELTN_TYPE='" + LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_CO_TO_FO_TYPE_KEY + "' " +
                         "AND rg2ao.LUI_ID=lpr.LUI_ID " +
                         "AND fo2rg.RELATED_LUI_ID = lpr.LUI_ID " +
                         "AND co2fo.RELATED_LUI_ID = fo2rg.LUI_ID " +
@@ -463,8 +464,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "            KSEN_LPR lpr " +
                         "        WHERE " +
                         "            lpr.LUI_ID = ao.ID " +
-                        "        AND lpr.LPR_TYPE='kuali.lpr.type.registrant.activity.offering' " +
-                        "        AND lpr.LPR_STATE='kuali.lpr.state.registered') registered, " +
+                        "        AND lpr.LPR_TYPE='" + LprServiceConstants.REGISTRANT_AO_TYPE_KEY + "' " +
+                        "        AND lpr.LPR_STATE='" + LprServiceConstants.REGISTERED_STATE_KEY + "') registered, " +
                         "    ( " +
                         "        SELECT " +
                         "            COUNT(*) " +
@@ -472,8 +473,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "            KSEN_LPR lpr " +
                         "        WHERE " +
                         "            lpr.LUI_ID = ao.ID " +
-                        "        AND lpr.LPR_TYPE='kuali.lpr.type.waitlist.activity.offering' " +
-                        "        AND lpr.LPR_STATE='kuali.lpr.state.waitlisted') waitlisted " +
+                        "        AND lpr.LPR_TYPE='" + LprServiceConstants.WAITLIST_AO_TYPE_KEY + "' " +
+                        "        AND lpr.LPR_STATE='" + LprServiceConstants.ACTIVE_STATE_KEY + "') waitlisted " +
                         "FROM " +
                         "    KSEN_LUI ao " +
                         "LEFT OUTER JOIN " +
@@ -485,9 +486,9 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "ON " +
                         "    ( " +
                         "        cwl.id = cwl2ao.CWL_ID " +
-                        "    AND cwl.CWL_STATE='kuali.course.waitlist.state.active') " +
+                        "    AND cwl.CWL_STATE='" + CourseWaitListServiceConstants.COURSE_WAIT_LIST_ACTIVE_STATE_KEY + "') " +
                         "WHERE " +
-                        "    ao.ID IN(:activityOfferingIds)";
+                        "    ao.ID IN (:activityOfferingIds)";
 
 
         Query query = entityManager.createNativeQuery(queryStr);
@@ -539,7 +540,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "ON " +
                         "    rvgVal.ID = rvg2Val.RESULT_VALUE_ID " +
                         "WHERE " +
-                        "    lrvg.LUI_ID IN(:luiIds) " +
+                        "    lrvg.LUI_ID IN (:luiIds) " +
                         "AND lrvg.RESULT_VAL_GRP_ID=rvg.ID";
 
 
@@ -645,9 +646,9 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                 "     lprti.LPR_TRANS_ITEM_STATE = :lprtiProcessingState ) " +  // shows processing items
                 "AND lprt.ATP_ID = :atpId " +
                 "AND lprti.LPR_TRANS_ID=lprt.ID " +
-                "AND rg2ao.LUILUI_RELTN_TYPE='kuali.lui.lui.relation.type.registeredforvia.rg2ao' " +
-                "AND fo2rg.LUILUI_RELTN_TYPE='kuali.lui.lui.relation.type.deliveredvia.fo2rg' " +
-                "AND co2fo.LUILUI_RELTN_TYPE='kuali.lui.lui.relation.type.deliveredvia.co2fo' " +
+                "AND rg2ao.LUILUI_RELTN_TYPE='" + LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY + "' " +
+                "AND fo2rg.LUILUI_RELTN_TYPE='" + LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_RG_TYPE_KEY + "' " +
+                "AND co2fo.LUILUI_RELTN_TYPE='" + LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_CO_TO_FO_TYPE_KEY + "' " +
                 "AND rg2ao.LUI_ID=lprti.NEW_LUI_ID " +
                 "AND fo2rg.RELATED_LUI_ID = lprti.NEW_LUI_ID " +
                 "AND co2fo.RELATED_LUI_ID = fo2rg.LUI_ID " +
@@ -974,7 +975,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                 "SELECT lpr.ID, lpr.LPR_TYPE, lpr.LPR_STATE, lpr.LUI_ID, lpr.PERS_ID " +
                         "FROM KSEN_LPR lpr " +
                         "WHERE lpr.LUI_ID IN (:activityOfferingIds) " +
-                        "AND lpr.LPR_TYPE = 'kuali.lpr.type.registrant.activity.offering' ";
+                        "AND lpr.LPR_TYPE = '" + LprServiceConstants.REGISTRANT_AO_TYPE_KEY + "' ";
         boolean lprStateListIsNonEmpty = lprStateList != null && !lprStateList.isEmpty();
         if (lprStateListIsNonEmpty) {
             // If the list is empty or null, then pretend it doesn't exist, otherwise
