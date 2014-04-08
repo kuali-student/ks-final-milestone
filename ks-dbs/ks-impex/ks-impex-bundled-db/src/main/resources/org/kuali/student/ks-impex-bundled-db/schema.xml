@@ -1762,10 +1762,6 @@
         <foreignColumnNames>ID</foreignColumnNames>
         <localColumnNames>OWNER_ID</localColumnNames>
     </foreignKey>
-    <foreignKey foreignTableName="KSPL_LRNG_PLAN_RICH_TEXT" localTableName="KSPL_LRNG_PLAN" name="KSPL_LRNG_PLAN_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
-        <foreignColumnNames>ID</foreignColumnNames>
-        <localColumnNames>RT_DESCR_ID</localColumnNames>
-    </foreignKey>
     <foreignKey foreignTableName="KSPL_LRNG_PLAN_ITEM" localTableName="KSPL_LRNG_PLAN_ITEM_ATP_ID" name="KSPL_LRNG_PLAN_ITEM_ATP_ID_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
         <foreignColumnNames>ID</foreignColumnNames>
         <localColumnNames>PLAN_ITEM_ID</localColumnNames>
@@ -1777,10 +1773,6 @@
     <foreignKey foreignTableName="KSPL_LRNG_PLAN" localTableName="KSPL_LRNG_PLAN_ITEM" name="KSPL_LRNG_PLAN_ITEM_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
         <foreignColumnNames>ID</foreignColumnNames>
         <localColumnNames>PLAN_ID</localColumnNames>
-    </foreignKey>
-    <foreignKey foreignTableName="KSPL_LRNG_PI_RICH_TEXT" localTableName="KSPL_LRNG_PLAN_ITEM" name="KSPL_LRNG_PLAN_ITEM_FK3" onDelete="RESTRICT" onUpdate="RESTRICT">
-        <foreignColumnNames>ID</foreignColumnNames>
-        <localColumnNames>RT_DESCR_ID</localColumnNames>
     </foreignKey>
     <foreignKey foreignTableName="KSPR_PROPOSAL" localTableName="KSPR_PROPOSAL_ATTR" name="KSPR_PROPOSAL_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
         <foreignColumnNames>PROPOSAL_ID</foreignColumnNames>
@@ -18065,23 +18057,6 @@
             <column>ORG_TYPE_ID</column>
         </index>
     </table>
-    <table name="KSPL_LRNG_PI_RICH_TEXT">
-        <column name="FORMATTED" type="STRING">
-            <size value="2000"/>
-        </column>
-        <column name="ID" nullable="false" primaryKey="true" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="OBJ_ID" type="STRING">
-            <size value="36"/>
-        </column>
-        <column name="PLAIN" type="STRING">
-            <size value="2000"/>
-        </column>
-        <column name="VER_NBR" type="FLOAT">
-            <size value="19"/>
-        </column>
-    </table>
     <table name="KSPL_LRNG_PLAN">
         <column name="CREATEID" type="STRING">
             <size value="255"/>
@@ -18089,14 +18064,20 @@
         <column name="CREATETIME" type="TIMESTAMP">
             <size scale="6" scaleSet="true" value="11"/>
         </column>
+        <column name="DESCR_FORMATTED" type="STRING">
+            <size value="2000"/>
+        </column>
+        <column name="DESCR_PLAIN" type="STRING">
+            <size value="2000"/>
+        </column>
         <column name="ID" nullable="false" primaryKey="true" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="NAME" type="STRING">
             <size value="255"/>
         </column>
         <column name="OBJ_ID" type="STRING">
             <size value="36"/>
-        </column>
-        <column name="RT_DESCR_ID" type="STRING">
-            <size value="255"/>
         </column>
         <column name="SHARED" nullable="false" type="FLOAT">
             <defaultValue>1 </defaultValue>
@@ -18122,9 +18103,6 @@
         </column>
         <index name="KSPL_LRNG_PLAN_I1">
             <column>TYPE_ID</column>
-        </index>
-        <index name="KSPL_LRNG_PLAN_I2">
-            <column>RT_DESCR_ID</column>
         </index>
     </table>
     <table name="KSPL_LRNG_PLAN_ATTR">
@@ -18160,7 +18138,16 @@
         <column name="CREDIT" type="FLOAT">
             <size scale="2" scaleSet="true" value="5"/>
         </column>
+        <column name="DESCR_FORMATTED" type="STRING">
+            <size value="2000"/>
+        </column>
+        <column name="DESCR_PLAIN" type="STRING">
+            <size value="2000"/>
+        </column>
         <column name="ID" nullable="false" primaryKey="true" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="NAME" type="STRING">
             <size value="255"/>
         </column>
         <column name="OBJ_ID" type="STRING">
@@ -18173,9 +18160,6 @@
             <size value="255"/>
         </column>
         <column name="REF_OBJ_TYPE_KEY" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="RT_DESCR_ID" type="STRING">
             <size value="255"/>
         </column>
         <column name="STATE" type="STRING">
@@ -18198,9 +18182,6 @@
         </index>
         <index name="KSPL_LRNG_PLAN_ITEM_I2">
             <column>TYPE_ID</column>
-        </index>
-        <index name="KSPL_LRNG_PLAN_ITEM_I3">
-            <column>RT_DESCR_ID</column>
         </index>
     </table>
     <table name="KSPL_LRNG_PLAN_ITEM_ATP_ID">
@@ -18236,23 +18217,6 @@
         <index name="KSPL_LRNG_PLAN_ITEM_ATTR_I1">
             <column>OWNER_ID</column>
         </index>
-    </table>
-    <table name="KSPL_LRNG_PLAN_RICH_TEXT">
-        <column name="FORMATTED" type="STRING">
-            <size value="2000"/>
-        </column>
-        <column name="ID" nullable="false" primaryKey="true" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="OBJ_ID" type="STRING">
-            <size value="36"/>
-        </column>
-        <column name="PLAIN" type="STRING">
-            <size value="2000"/>
-        </column>
-        <column name="VER_NBR" type="FLOAT">
-            <size value="19"/>
-        </column>
     </table>
     <table name="KSPR_PROPOSAL">
         <column name="CREATEID" type="STRING">
