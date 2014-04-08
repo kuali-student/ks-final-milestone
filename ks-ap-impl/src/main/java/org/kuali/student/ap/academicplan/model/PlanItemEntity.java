@@ -4,12 +4,14 @@ import com.sun.istack.NotNull;
 import org.kuali.student.ap.academicplan.dao.LearningPlanDao;
 import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
+import org.kuali.student.r1.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.util.RichTextHelper;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -49,7 +51,7 @@ import java.util.Set;
             query = "SELECT pi FROM PlanItemEntity pi, LearningPlanEntity p WHERE " +
                     "pi.learningPlan = p " +
                     "and p.id =:learningPlanId " +
-                    "and pi.category =:category"),
+                    "and pi.category =:category")
 })
 public class PlanItemEntity extends MetaEntity implements AttributeOwner<PlanItemAttributeEntity> {
 
@@ -67,12 +69,12 @@ public class PlanItemEntity extends MetaEntity implements AttributeOwner<PlanIte
     @JoinColumn(name = "PLAN_ID")
     private LearningPlanEntity learningPlan;
 
-    //TODO: KSAP-1014 - Add 'name' attribute to LearningPlan and PlanItem
-    //TODO: KSAP-1015 - move description to LearningPlan & PlanItem
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "RT_DESCR_ID")
-    private PlanItemRichTextEntity descr;
+    @Column(name = "NAME")
+    private String name;
+    @Column(name = "DESCR_FORMATTED", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
+    private String formatted;
+    @Column(name = "DESCR_PLAIN", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
+    private String plain;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", orphanRemoval = true)
     private Set<PlanItemAttributeEntity> attributes;
@@ -131,6 +133,14 @@ public class PlanItemEntity extends MetaEntity implements AttributeOwner<PlanIte
         this.typeId = typeId;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public LearningPlanEntity getLearningPlan() {
         return learningPlan;
     }
@@ -139,12 +149,20 @@ public class PlanItemEntity extends MetaEntity implements AttributeOwner<PlanIte
         this.learningPlan = learningPlan;
     }
 
-    public PlanItemRichTextEntity getDescr() {
-        return descr;
+    public String getDescrFormatted() {
+        return formatted;
     }
 
-    public void setDescr(PlanItemRichTextEntity descr) {
-        this.descr = descr;
+    public void setDescrFormatted(String formatted) {
+        this.formatted = formatted;
+    }
+
+    public String getDescrPlain() {
+        return plain;
+    }
+
+    public void setDescrPlain(String plain) {
+        this.plain = plain;
     }
 
     public Set<String> getPlanTermIds() {
@@ -210,6 +228,7 @@ public class PlanItemEntity extends MetaEntity implements AttributeOwner<PlanIte
         PlanItemInfo dto = new PlanItemInfo();
 
         dto.setId(getId());
+        dto.setName(getName());
         dto.setLearningPlanId(this.getLearningPlan().getId());
         dto.setRefObjectId(this.getRefObjectId());
         dto.setRefObjectType(this.getRefObjectTypeKey());
@@ -218,11 +237,8 @@ public class PlanItemEntity extends MetaEntity implements AttributeOwner<PlanIte
         dto.setCredit(this.getCredit());
         dto.setCategory(AcademicPlanServiceConstants.ItemCategory.fromString(this.getCategory()));
 
-        if (this.getDescr() != null) {
-            dto.setDescr(this.getDescr().toDto());
-        }
-
         dto.setMeta(super.toDTO());
+        dto.setDescr(new RichTextHelper().toRichTextInfo(plain, formatted));
 
         //  Convert the Set to a List.
         dto.setPlanTermIds(new ArrayList<String>(this.getPlanTermIds()));
@@ -252,8 +268,7 @@ public class PlanItemEntity extends MetaEntity implements AttributeOwner<PlanIte
      */
     public void fromDto(PlanItemInfo planItem, LearningPlanDao learningPlanDao) throws InvalidParameterException {
         super.fromDTO(planItem);
-
-
+        this.setName(planItem.getName());
         setId(planItem.getId());
         setRefObjectId(planItem.getRefObjectId());
         setRefObjectTypeKey(planItem.getRefObjectType());
@@ -262,18 +277,12 @@ public class PlanItemEntity extends MetaEntity implements AttributeOwner<PlanIte
         setCredit(planItem.getCredits());
         setCategory(planItem.getCategory().toString());
 
-        //  Update text entity.
-        RichTextInfo descrInfo = planItem.getDescr();
-        if (descrInfo == null) {
-            setDescr(null);
+        if (planItem.getDescr() == null) {
+            this.setDescrFormatted(null);
+            this.setDescrPlain(null);
         } else {
-            PlanItemRichTextEntity descr = getDescr();
-            if (descr == null) {
-                setDescr(new PlanItemRichTextEntity(planItem.getDescr()));
-            } else {
-                descr.setPlain(descrInfo.getPlain());
-                descr.setFormatted(descrInfo.getFormatted());
-            }
+            this.setDescrFormatted(planItem.getDescr().getFormatted());
+            this.setDescrPlain(planItem.getDescr().getPlain());
         }
 
         //  Update plan term ids.

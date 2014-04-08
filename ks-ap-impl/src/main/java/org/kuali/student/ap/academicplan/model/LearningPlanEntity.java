@@ -1,6 +1,7 @@
 package org.kuali.student.ap.academicplan.model;
 
 import org.kuali.student.ap.academicplan.dto.LearningPlanInfo;
+import org.kuali.student.r1.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
@@ -10,6 +11,7 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.util.RichTextHelper;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -17,6 +19,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@SuppressWarnings({"JpaDataSourceORMInspection"})
 @Entity
 @Table(name = "KSPL_LRNG_PLAN")
 public class LearningPlanEntity extends MetaEntity implements AttributeOwner<LearningPlanAttributeEntity>, Comparable<LearningPlanEntity> {
@@ -24,12 +27,13 @@ public class LearningPlanEntity extends MetaEntity implements AttributeOwner<Lea
     @Column(name="STUDENT_ID")
 	private String studentId;
 
-    //TODO: KSAP-1014 - Add 'name' attribute to LearningPlan and PlanItem
-    //TODO: KSAP-1015 - move description to LearningPlan & PlanItem
+    @Column(name = "NAME")
+    private String name;
+    @Column(name = "DESCR_FORMATTED", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
+    private String formatted;
+    @Column(name = "DESCR_PLAIN", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
+    private String plain;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "RT_DESCR_ID")
-    private LearningPlanRichTextEntity descr;
 
     @Column(name = "TYPE_ID")
     private String typeId;
@@ -48,6 +52,14 @@ public class LearningPlanEntity extends MetaEntity implements AttributeOwner<Lea
         super();
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public void setAttributes(Set<LearningPlanAttributeEntity> attributes) {
         this.attributes = attributes;
     }
@@ -64,12 +76,20 @@ public class LearningPlanEntity extends MetaEntity implements AttributeOwner<Lea
         this.studentId = studentId;
     }
 
-    public LearningPlanRichTextEntity getDescr() {
-        return descr;
+    public String getDescrFormatted() {
+        return formatted;
     }
 
-    public void setDescr(LearningPlanRichTextEntity descr) {
-        this.descr = descr;
+    public void setDescrFormatted(String formatted) {
+        this.formatted = formatted;
+    }
+
+    public String getDescrPlain() {
+        return plain;
+    }
+
+    public void setDescrPlain(String plain) {
+        this.plain = plain;
     }
 
     public void setShared(Boolean shared) {
@@ -94,7 +114,7 @@ public class LearningPlanEntity extends MetaEntity implements AttributeOwner<Lea
 
     @Override
     public String toString() {
-        return String.format("LearningPlan [%s, %s]: %s", this.getId(), this.getObjectId(), this.getDescr().getPlain());
+        return String.format("LearningPlan [%s, %s]: %s", this.getId(), this.getObjectId(), this.getDescrPlain());
     }
 
     /**
@@ -105,16 +125,14 @@ public class LearningPlanEntity extends MetaEntity implements AttributeOwner<Lea
         LearningPlanInfo dto = new LearningPlanInfo();
 
         dto.setId(getId());
+        dto.setName(getName());
         dto.setStudentId(this.studentId);
         dto.setTypeKey(this.getTypeId());
         dto.setStateKey(this.getStateKey());
         dto.setShared(this.shared);
 
         dto.setMeta(super.toDTO());
-
-        if (this.getDescr() != null) {
-            dto.setDescr(this.getDescr().toDto());
-        }
+        dto.setDescr(new RichTextHelper().toRichTextInfo(plain, formatted));
 
         List<AttributeInfo> attributes = new ArrayList<AttributeInfo>();
         if (null != getAttributes()) {
@@ -144,8 +162,8 @@ public class LearningPlanEntity extends MetaEntity implements AttributeOwner<Lea
         //  Could check type here.
 
         //  Check description text
-        if (! this.getDescr().getPlain().equals(other.getDescr().getPlain())) {
-            return this.getDescr().getPlain().compareTo(other.getDescr().getPlain());
+        if (! this.getDescrPlain().equals(other.getDescrPlain())) {
+            return this.getDescrPlain().compareTo(other.getDescrPlain());
         }
 
         return 0;
@@ -160,27 +178,19 @@ public class LearningPlanEntity extends MetaEntity implements AttributeOwner<Lea
     public void fromDto(LearningPlanInfo learningPlan) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         super.fromDTO(learningPlan);
 
-        //TODO: KSAP-1014 Add 'name' attribute to LearningPlan and PlanItem
         setId(learningPlan.getId());
+        setName(learningPlan.getName());
         setTypeId(learningPlan.getTypeKey());
         setStateKey(learningPlan.getStateKey());
         setStudentId(learningPlan.getStudentId());
         setShared(learningPlan.getShared());
 
-        //TODO: KSAP-1015 - move description to LearningPlan & PlanItem
-
-        //  Update text entity.
-        RichTextInfo descrInfo = learningPlan.getDescr();
-        if (descrInfo == null) {
-            this.setDescr(null);
+        if (learningPlan.getDescr() == null) {
+            this.setDescrFormatted(null);
+            this.setDescrPlain(null);
         } else {
-            LearningPlanRichTextEntity descr = this.getDescr();
-            if (descr == null) {
-                this.setDescr(new LearningPlanRichTextEntity(descrInfo));
-            } else {
-                descr.setPlain(descrInfo.getPlain());
-                descr.setFormatted(descrInfo.getFormatted());
-            }
+            this.setDescrFormatted(learningPlan.getDescr().getFormatted());
+            this.setDescrPlain(learningPlan.getDescr().getPlain());
         }
 
         //  Load entity attributes

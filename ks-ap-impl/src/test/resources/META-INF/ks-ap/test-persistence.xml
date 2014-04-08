@@ -39,13 +39,8 @@
         <class>org.kuali.student.ap.academicplan.model.LearningPlanEntity</class>
         <class>org.kuali.student.ap.academicplan.model.LearningPlanAttributeEntity</class>
 
-        <class>org.kuali.student.ap.academicplan.model.LearningPlanRichTextEntity</class>
-
         <class>org.kuali.student.ap.academicplan.model.PlanItemEntity</class>
         <class>org.kuali.student.ap.academicplan.model.PlanItemAttributeEntity</class>
-
-        <class>org.kuali.student.ap.academicplan.model.PlanItemRichTextEntity</class>
-
 
         <class>org.kuali.student.r2.core.class1.enumerationmanagement.model.EnumerationEntity</class>
         <class>org.kuali.student.r2.core.class1.enumerationmanagement.model.EnumerationAttributeEntity</class>
