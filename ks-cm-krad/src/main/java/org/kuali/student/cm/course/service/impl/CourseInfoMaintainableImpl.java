@@ -1115,8 +1115,8 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             } else if (StringUtils.equals(rvg.getTypeKey(), LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE)) {
                 creditOptionType = "Multiple";
                 StringBuilder builder = new StringBuilder();
-                for (String rvKey : rvg.getResultValueKeys()) {
-                    builder.append(StringUtils.substringAfterLast(rvKey, "degree.") + ", ");
+                for (ResultValueKeysWrapper rvWrapper : rvg.getResultValueKeysDisplay()) {
+                    builder.append(Float.valueOf(rvWrapper.getCreditValueDisplay()) + ", ");
                 }
                 creditOptionValue = StringUtils.removeEnd(builder.toString(), ", ");
             } else if (StringUtils.equals(rvg.getTypeKey(), LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)) {
