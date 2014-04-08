@@ -36,8 +36,10 @@
     <alias name="populationServiceValidation" alias="PopulationService" />
     <alias name="roomServiceValidation" alias="RoomService"/>
     <alias name="holdServiceValidation" alias="HoldService" />
-    <alias name="courseRegistrationImpl" alias="CourseRegistrationService" />
+    <alias name="courseRegistrationServiceProcessCheckDecorator" alias="CourseRegistrationService" />
     <alias name="processServiceValidationDecorator" alias="ProcessService" />
+    <alias name="exemptionServiceMapImpl" alias="ExemptionService" />
+    <alias name="gesServiceDataLoadingDecorator" alias="GesService" />
     <alias name="schedulingServiceValidationDecorator" alias="SchedulingService" />
     <alias name="courseWaitListServiceImpl" alias="courseWaitListService" />
     <alias name="examServiceImpl" alias="ExamService" />
@@ -1034,6 +1036,7 @@
     </bean>
 
     <!-- Population Mock service (currently used by AppointmentService (see below for PopulationService) -->
+    <!--TODO: KSENROLL-12397 Remove PopulationServiceMockImpl from configuration for Appt Windows-->
     <bean id="populationServiceMock" class="org.kuali.student.r2.core.population.service.impl.mock.PopulationServiceMockImpl">
     </bean>
 
@@ -1041,7 +1044,7 @@
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
                 <property name="jaxWsService" value="true" />
-                <property name="service" ref="populationService" />
+                <property name="service" ref="populationServiceMock" />
                 <property name="serviceInterface" value="org.kuali.student.r2.core.population.service.PopulationService" />
                 <property name="localServiceName" value="PopulationMockService" />
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/population" />
@@ -1053,12 +1056,11 @@
 
     <!--- Population Service -->
     <bean id="populationServiceValidation" class="org.kuali.student.core.population.service.decorators.PopulationServiceValidatorDecorator">
-        <property name="nextDecorator" ref="populationService" />
+        <property name="nextDecorator" ref="populationServiceEvaluationDecorator" />
         <property name="validator" ref="validator" />
     </bean>
 
-    <!--<bean id="populationService" class="org.kuali.student.r2.core.population.service.impl.mock.PopulationServiceMockImpl">-->
-    <bean id="populationService" class="org.kuali.student.r2.core.population.service.impl.PopulationServiceImpl">
+    <bean id="populationServiceImpl" class="org.kuali.student.r2.core.population.service.impl.PopulationServiceImpl">
         <property name="populationDao" ref="populationDao" />
         <property name="populationRuleDao" ref="populationRuleDao" />
         <property name="criteriaLookupService" ref="defaultCriteriaLookupService" />
@@ -1583,6 +1585,87 @@
                 <property name="busSecurity" value="${ks.enroll.bus.security}" />
             </bean>
         </property>
+    </bean>
+
+   
+    <bean id="courseRegistrationServiceProcessCheckDecorator" class="org.kuali.student.enrollment.class2.courseregistration.service.decorators.CourseRegistrationServiceProcessCheckDecorator" >
+        <property name="nextDecorator" ref="courseRegistrationServiceLoadCalculationDecorator"/>
+        <property name="krmsEvaluator" ref="krmsEvaluator"/>
+    </bean>
+    <bean id="courseRegistrationServiceLoadCalculationDecorator" 
+          class="org.kuali.student.enrollment.class2.courseregistration.service.decorators.CourseRegistrationLoadCalculationDecorator" >
+        <property name="registrationRequestMerger" ref="mergerImpl"/>
+        <property name="loadCalculatorRuleFactory" ref="loadCalculatorRuleFactoryHardwiredImpl"/>
+        <property name="courseOfferingService" ref="CourseOfferingService"/>
+        <property name="gesService" ref="GesService"/>
+        <property name="nextDecorator" ref="courseRegistrationImpl"/>
+    </bean>
+    <bean id="krmsEvaluator" class="org.kuali.student.core.process.evaluator.KRMSEvaluator" >
+        <property name="defaultFacts">
+            <map>
+                <!--needed services-->
+                <entry key="atpService" value-ref="AtpService"/>
+                <entry key="processService" value-ref="processService"/>
+                <entry key="courseRegistrationService" value-ref="CourseRegistrationService"/>
+                <entry key="populationService" value-ref="PopulationService"/>
+                <entry key="exemptionService" value-ref="ExemptionService"/>
+                <entry key="identityService" value-ref="coreIdentityServiceClient"/>
+                <entry key="holdService" value-ref="HoldService"/>
+                <entry key="gesService" value-ref="GesService"/>
+                <entry key="registrationRequestMerger" value-ref="mergerImpl"/>
+                <entry key="loadCalculatorRuleFactory" value-ref="loadCalculatorRuleFactoryHardwiredImpl"/>
+                <!--factory to be replaced by someething not hardwired-->
+                <entry key="propositionFactory" value-ref="propositionFactoryHardwiredImpl"/>
+                <!--flag to tell if should log sucesses as well as failures-->
+                <entry key="shouldRecordInstructionSuccesses" > 
+                    <bean class="java.lang.Boolean">
+                        <constructor-arg value="true" />
+                    </bean>
+                </entry>
+            </map>
+        </property>
+        <property name="termResolvers">
+            <list>
+                <bean class="org.kuali.student.core.krms.termresolver.PersonId2DeceasedDateTermResolver" />
+                <bean class="org.kuali.student.core.krms.termresolver.ContextInfo2AsOfDateTermResolver" />
+                <bean class="org.kuali.student.enrollment.krms.termresolver.RegistrationRequest2PersonIdTermResolver" />
+                <bean class="org.kuali.student.enrollment.krms.termresolver.RegistrationRequest2AtpIdTermResolver" />
+                <bean class="org.kuali.student.enrollment.krms.termresolver.RegistrationRequestId2RegistrationRequestTermResolver" />
+                <bean class="org.kuali.student.core.krms.termresolver.AtpId2AtpTermResolver" />
+            </list>
+        </property>
+    </bean>
+    <!--TODO: KSENROLL-12395 Replace wiring to PropositionFactoryHardwiredImpl with a non-hardwired implementation-->
+    <bean id="propositionFactoryHardwiredImpl" class="org.kuali.student.enrollment.krms.proposition.PropositionFactoryHardwiredImpl" >  
+    </bean>
+    <!--TODO: KSENROLL-12396 Change wiring from LoadCalculatorRuleFactoryHardwiredImpl into a more configurable implementation-->
+    <bean id="loadCalculatorRuleFactoryHardwiredImpl" class="org.kuali.student.enrollment.rules.credit.limit.LoadCalculatorRuleFactoryHardwiredImpl" >
+        <property name="courseOfferingService" ref="CourseOfferingService" />  
+    </bean>
+    
+    <bean id="mergerImpl" class="org.kuali.student.enrollment.rules.credit.limit.RegistrationRequestMergerImpl" >   
+        <property name="courseOfferingService" ref="CourseOfferingService"/>          
+        <property name="courseRegistrationService" ref="CourseRegistrationService"/>        
+    </bean>   
+            
+    <bean id="populationServiceEvaluationDecorator" class="org.kuali.student.core.population.service.decorators.PopulationServiceIsMemberEvaluatorDecorator">
+        <property name="nextDecorator" ref="populationServiceImpl"/>
+    </bean>
+    
+    <!--TODO: KSENROLL-12393 Replace wiring to ExemptionServiceMapImpl once JPA impl is done-->
+    <bean id="exemptionServiceMapImpl" class="org.kuali.student.core.exemption.service.impl.ExemptionServiceMapImpl" />
+    
+    <!--TODO: KSENROLL-12394 replace data loading decorator with SQL inserts when JPA impl is done as well -->
+    <bean id="gesServiceDataLoadingDecorator" class="org.kuali.student.enrollment.process.service.integration.deprecate.GesServiceDataLoadingDecorator">
+        <constructor-arg ref="gesServiceEvaluationDecorator"/>
+    </bean>
+    <bean id="gesServiceEvaluationDecorator" class="org.kuali.student.core.ges.service.decorators.GesServiceEvaluationDecorator" >
+        <property name="populationService" ref="PopulationService" />
+        <property name="atpService" ref="AtpService" />
+        <property name="nextDecorator" ref="gesServiceMapImpl" />
+    </bean>    
+    <!--TODO: KSENROLL-12394 Replace wiring to GES Map Impl once JPA impl is done-->
+    <bean id="gesServiceMapImpl" class="org.kuali.student.core.ges.service.impl.GesServiceMapImpl" >
     </bean>
 
  </beans>

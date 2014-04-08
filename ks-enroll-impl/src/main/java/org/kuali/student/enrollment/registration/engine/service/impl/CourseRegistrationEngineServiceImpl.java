@@ -309,7 +309,7 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
         Map<String, RegistrationGroup> regGroupIdToRegGroupMap = getRegistrationGroupsForRequest(registrationRequestInfo, contextInfo);
 
         //Create a message to send through the registration engine
-        RegistrationRequestEngineMessage registrationMessage = new RegistrationRequestEngineMessage(registrationRequestInfo, regGroupIdToRegGroupMap);
+        RegistrationRequestEngineMessage registrationMessage = new RegistrationRequestEngineMessage(registrationRequestInfo, regGroupIdToRegGroupMap, contextInfo);
 
         //Set the status on the Request to processing. This leaves the message out of sync as far as state and
         getCourseRegistrationService().changeRegistrationRequestState(registrationRequestInfo.getId(), LprServiceConstants.LPRTRANS_PROCESSING_STATE_KEY, contextInfo);

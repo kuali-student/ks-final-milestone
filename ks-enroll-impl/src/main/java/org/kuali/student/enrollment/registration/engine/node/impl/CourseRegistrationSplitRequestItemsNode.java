@@ -17,7 +17,9 @@ public class CourseRegistrationSplitRequestItemsNode extends AbstractCourseRegis
     public List<RegistrationRequestItemEngineMessage> split(RegistrationRequestEngineMessage message) {
         List<RegistrationRequestItemEngineMessage> outputMessageList = new ArrayList<RegistrationRequestItemEngineMessage>();
         for (RegistrationRequestItem registrationRequestItem : message.getRegistrationRequest().getRegistrationRequestItems()) {
-            outputMessageList.add(new RegistrationRequestItemEngineMessage(registrationRequestItem, message.getRegistrationGroupMap().get(registrationRequestItem.getRegistrationGroupId())));
+            outputMessageList.add(new RegistrationRequestItemEngineMessage(registrationRequestItem,
+                    message.getRegistrationGroupMap().get(registrationRequestItem.getRegistrationGroupId()),
+                    message.getContextInfo()));
         }
         return outputMessageList;
     }
