@@ -201,6 +201,10 @@ public class KSTranslationUtility implements TranslateBusinessMethods {
 
             //Null check because newly created compound propositions should also be translateable.
             if(proposition.getCompoundComponents()!=null){
+                /*
+                  Take note when working in this part of the method. The same idea is carried out in FERuleViewHelperServiceImpl.getDescriptionForPropositionTree
+                  ln: 218 but that method is mainly used with data that is in memory whereas this method makes DB call.
+                 */
                 String operator = getCompoundSeperator(naturalLanguageTemplate, isRoot);
 
                 for (PropositionDefinition child : proposition.getCompoundComponents()) {
