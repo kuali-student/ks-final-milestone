@@ -234,17 +234,17 @@ public class FERuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl {
     private String getCompoundSeperator(PropositionEditor proposition, boolean isRoot) {
         String operator = getCompoundOperator(proposition);
         if (isRoot) {
-            return ". " + StringUtils.capitalize(operator) + " ";
+            return ". " + operator + " <br> ";
         }
-        return "; " + operator + " ";
+        return "; " + operator + " <br> ";
     }
 
     private String getCompoundOperator(PropositionEditor proposition) {
         String operator = null;
         if (LogicalOperator.AND.getCode().equalsIgnoreCase(proposition.getCompoundOpCode())) {
-            operator = "and";
+            operator = "AND";
         } else if (LogicalOperator.OR.getCode().equalsIgnoreCase(proposition.getCompoundOpCode())) {
-            operator = "or";
+            operator = "OR";
         }
         return operator;
     }
@@ -366,7 +366,7 @@ public class FERuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl {
     }
 
     public String getNaturalLanguageUsageKey() {
-        return KSKRMSServiceConstants.KRMS_NL_TYPE_CATALOG;
+        return KSKRMSServiceConstants.KRMS_NL_MATRIX;
     }
 
     public RoomService getRoomService() {

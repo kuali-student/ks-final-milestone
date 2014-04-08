@@ -339,7 +339,7 @@ limitations under the License.
         </property>
         <property name="items">
             <list>
-                <bean parent="KS-Uif-DataField" p:label="If course is:" p:propertyName="description"/>
+                <bean parent="Uif-MessageField" p:label="If course is:" p:messageText="@{#line.description}"/>
                 <bean parent="KS-Uif-DataField" p:label="Exam will be on:" p:propertyName="dayToDisplay"/>
                 <bean parent="KS-Uif-DataField" p:label="Time:" p:propertyName="timePeriodToDisplay"/>
                 <bean parent="KS-Uif-DataField" p:label="Facility:" p:propertyName="building.name"/>
