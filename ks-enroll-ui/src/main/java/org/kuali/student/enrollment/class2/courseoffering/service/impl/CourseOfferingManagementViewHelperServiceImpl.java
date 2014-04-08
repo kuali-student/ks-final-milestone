@@ -2414,6 +2414,9 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         List<ExamOfferingInfo> examOfferingInfos = CourseOfferingManagementUtil.getExamOfferingService().getExamOfferingsByIds(
                 new ArrayList<String>(examOfferingIds), ContextUtils.createDefaultContextInfo());
 
+        //set the EO matrix RSI Overidable flag for the current CO wrapper
+        setExamOfferingMatrixRSIOveridability(theForm);
+
         for (ExamOfferingInfo examOfferingInfo : examOfferingInfos) {
             ExamOfferingWrapper examOfferingWrapper = createWrapperFromExamOffering(examOfferingInfo, theForm);
 
@@ -2524,9 +2527,6 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                 ContextUtils.createDefaultContextInfo());
         eoWrapper.setStateName(state.getName());
         CourseOfferingManagementUtil.getExamOfferingScheduleHelper().loadSchedules(eoWrapper, theForm, ContextUtils.createDefaultContextInfo());
-
-        //set the EO matrix RSI Overidable flag for the current CO wrapper
-        setExamOfferingMatrixRSIOveridability(theForm);
 
         //retrieve the EO matrix overriding attribute
         AttributeInfo attributeInfo = CourseOfferingManagementUtil.getAttributeForKey(examOfferingInfo.getAttributes(), ExamOfferingServiceConstants.EXAM_OFFERING_MATRIX_OVERRIDE_ATTR);

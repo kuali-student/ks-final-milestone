@@ -127,7 +127,7 @@
 
     <bean id="KS-CourseOfferingManagement-ExamOfferingTableSection-Cancelled" parent="Uif-TableCollectionSection"
           p:renderAddLine="false" p:renderLineActions="false"
-          p:readOnly="false" abstract="true">
+          abstract="true">
         <property name="collectionObjectClass"
                   value="org.kuali.student.enrollment.class2.courseoffering.dto.ExamOfferingWrapper"/>
         <property name="collectionLookup">
@@ -166,14 +166,9 @@
                 </bean>
                 <bean parent="Uif-DataField-LabelTop" p:propertyName="typeName" p:label="Final Exam Driver Activity"
                       p:render="@{#lp.driverPerAO}"/>
-                <bean id="overrideMatrixUICancelled_id" parent="KS-Uif-DataField" p:label="Override Matrix" p:propertyName="overrideMatrixUI"
+                <bean parent="KS-Uif-DataField" p:label="Override Matrix" p:propertyName="overrideMatrixUI"
                         p:render="@{(!#dp.examOfferingCancelledList.isEmpty() and #dp.currentCourseOfferingWrapper.matrixOveridableCODriven) or (!#dp.eoCancelClusterList.isEmpty() and #dp.currentCourseOfferingWrapper.matrixOveridableAODriven)}">
-                    <property name="onDocumentReadyScript" value="setInlineEditCheckboxReadonlyValue('@{#component.id}', @{#lp.overrideMatrix});"/>
-                    <property name="additionalCssClasses">
-                        <list merge="true">
-                            <value>ks-fontello-icon-ok</value>
-                        </list>
-                    </property>
+                    <property name="onDocumentReadyScript" value="setMatrixOverrideReadonlyValue('@{#component.id}', @{#lp.overrideMatrix});"/>
                 </bean>
                 <bean parent="KS-Uif-DataField" p:label="Days" p:propertyName="requestedSchedule.daysUI"/>
                 <bean parent="KS-Uif-DataField" p:label="Start Time" p:propertyName="requestedSchedule.startTimeUI"/>
