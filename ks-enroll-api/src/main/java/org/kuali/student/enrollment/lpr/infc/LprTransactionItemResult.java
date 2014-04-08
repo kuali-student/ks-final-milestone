@@ -34,8 +34,9 @@ public interface LprTransactionItemResult {
     public String getResultingLprId();
 
     /**
-     * Returns a list of validation results
-     * @return See above
+     * Validation messages, errors and messages once submitted
+     * 
+     * @name Validation Results
      */
     public List<ValidationResultInfo> getValidationResults();
 }

@@ -17,6 +17,7 @@
 package org.kuali.student.enrollment.courseregistration.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -29,6 +30,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequestItem;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 
 import org.w3c.dom.Element;
 
@@ -42,7 +44,7 @@ import org.w3c.dom.Element;
                 "credits", 
                 "gradingOptionId", 
                 "okToWaitlist", 
-                "okToHoldUntilList", "validationResults"
+                "okToHoldUntilList", "validationResults",
                 "meta", "attributes", "_futureElements"})
 
 public class RegistrationRequestItemInfo 
@@ -109,8 +111,8 @@ public class RegistrationRequestItemInfo
             this.okToWaitlist = registrationRequestItem.getOkToWaitlist();
             this.okToHoldUntilList = registrationRequestItem.getOkToHoldUntilList();
             this.validationResults = new ArrayList<ValidationResultInfo>();
-            for(ValidationResultInfo validationResult:registrationRequest.getValidation){
-                this.getRegistrationRequestId().add(new ValidationResultInfo(validationResult));
+            for(ValidationResultInfo validationResult:registrationRequestItem.getValidationResults ()){
+                this.getValidationResults().add(new ValidationResultInfo(validationResult));
             }
         }
     }
