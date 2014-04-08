@@ -93,6 +93,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 
@@ -201,9 +202,11 @@ public class CourseController extends CourseRuleEditorController {
             //  Build a redirect to the reviewCourseProposal handler for validation.
             java.util.Map requestParameterMap = request.getParameterMap();
             Properties urlParameters = new Properties();
-            for (Object p  : requestParameterMap.keySet()) {
-                urlParameters.put((String) p, ((String[]) requestParameterMap.get(p))[0]);
+            for (Object p  : requestParameterMap.entrySet()) {
+                Map.Entry<String, String[]> entry = (Map.Entry<String, String[]>) p;
+                urlParameters.put((String) entry.getKey(), ((String[]) entry.getValue())[0]);
             }
+
             urlParameters.put("methodToCall", "reviewCourseProposal");
             urlParameters.put("formKey", formBase.getFormKey());
 
