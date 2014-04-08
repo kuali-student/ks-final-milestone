@@ -16,18 +16,11 @@
 
 package org.kuali.student.enrollment.lpr.infc;
 
-public interface LprTransactionItemResult {
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 
-    /**
-     * The status of the transaction.
-     *
-     * Returns true in case transaction item had a successful result,
-     * false otherwise.
-     *
-     * @name Status
-     * @return
-     */
-    public Boolean getStatus();
+import java.util.List;
+
+public interface LprTransactionItemResult {
 
     /**
      * The resulting LPR for this LPR transaction item if its
@@ -36,17 +29,14 @@ public interface LprTransactionItemResult {
      * Returns null if unsuccessful, a valid LPR Id in case of
      * success.
      *
-     * @name Resulting Lpr Id
-     * @return
+     * @return The resulting LPR Id stored in the object
      */
     public String getResultingLprId();
-	
+
     /**
-     * The message for the transaction.  In case of success, there may
-     * still be warning messages.
-     *
-     * @name Message
+     * Returns a list of validation results
+     * @return See above
      */
-    public String getMessage();
+    public List<ValidationResultInfo> getValidationResults();
 }
 
