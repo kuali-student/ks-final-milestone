@@ -73,8 +73,6 @@ public class CourseSearchConstants {
     public static final String COURSE_SEARCH_PARAM_TERMLIST = "termList";
     public static final String COURSE_SEARCH_PARAM_QUERYTEXT = "queryText";
 
-    // Message Keys
-    public static final String INFO_COURSE_SEARCH_LIMIT_EXCEED="ksap.course.search.search.limit.exceed";
 
 
 }

@@ -89,6 +89,43 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                         <list>
                             <ref bean="course_details_actions"/>
 							<!--<ref bean="course_details_page_messaging" />-->
+                            <bean p:id="planStatusMessages" parent="Uif-HorizontalBoxGroup">
+                                <property name="cssClasses">
+                                    <list>
+                                        <value>uif-validationMessages</value>
+                                        <value>uif-groupValidationMessages</value>
+                                        <value>uif-pageValidationMessages</value>
+                                        <value>uif-pageValidationMessages-info</value>
+                                        <value>@{!#empty(dataObject.bookmarkMessage) or !#empty(dataObject.plannedMessage)? '':'ksap-hide'}</value>
+                                    </list>
+                                </property>
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-Image"
+                                              p:source="../themes/ksboot/images/validation/info.png">
+                                            <property name="cssClasses">
+                                                <list merge="true">
+                                                    <value>uif-validationImage</value>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-VerticalBoxGroup">
+                                            <property name="items">
+                                            <list>
+                                                <bean p:id="plannedMessage" parent="Uif-Message">
+                                                    <property name="render" value="@{!#empty(dataObject.plannedMessage)}"/>
+                                                    <property name="messageText" value="@{dataObject.plannedMessage}"/>
+                                                </bean>
+                                                <bean p:id="bookmarkMessage" parent="Uif-Message">
+                                                    <property name="render" value="@{!#empty(dataObject.bookmarkMessage)}"/>
+                                                    <property name="messageText" value="@{dataObject.bookmarkMessage}"/>
+                                                </bean>
+                                            </list>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
                             <ref bean="course_details_overview"/>
                             <!--<ref bean="course_details_links"/>-->
                             <!-- <ref bean="course_details_sections"/>-->

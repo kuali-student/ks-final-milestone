@@ -39,6 +39,9 @@ public class CourseDetailsWrapper {
     private List<String> projectedTerms;
     private List<String> courseGenEdRequirements;
 
+    private String bookmarkMessage;
+    private String plannedMessage;
+
     private boolean isBookmarked;
 
     public String getCourseId() {
@@ -135,6 +138,22 @@ public class CourseDetailsWrapper {
 
     public void setBookmarked(boolean bookmarked) {
         isBookmarked = bookmarked;
+    }
+
+    public String getBookmarkMessage() {
+        return bookmarkMessage;
+    }
+
+    public void setBookmarkMessage(String bookmarkMessage) {
+        this.bookmarkMessage = bookmarkMessage;
+    }
+
+    public String getPlannedMessage() {
+        return plannedMessage;
+    }
+
+    public void setPlannedMessage(String plannedMessage) {
+        this.plannedMessage = plannedMessage;
     }
 
     public String getCourseIdXmlSafe(){
