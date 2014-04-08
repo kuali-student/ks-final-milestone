@@ -26,6 +26,8 @@ import org.kuali.rice.krad.uif.element.Message;
 import org.kuali.rice.krad.uif.field.ImageField;
 import org.kuali.rice.krad.uif.util.ComponentUtils;
 import org.kuali.rice.krad.uif.view.View;
+import org.kuali.student.common.collection.KSCollectionUtils;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
 
 /**
  *
@@ -55,7 +57,12 @@ public class KSIconLabelMessage extends Message {
 
         if (StringUtils.isNotBlank(iconToolTipText)){
 
-            ImageField iconImageField = (ImageField)getInlineComponents().get(0);
+            ImageField iconImageField = null;
+            try {
+                iconImageField = (ImageField) KSCollectionUtils.getRequiredZeroElement(getInlineComponents());
+            } catch (OperationFailedException e) {
+                throw new RuntimeException(e);
+            }
 
             String label = "";
 
