@@ -82,7 +82,7 @@
         <property name="items">
             <list>
                 <bean id="KS-Course-CurriculumOversight-input-field" parent="KS-Uif-InputField-LabelTop"
-                      p:propertyName="orgId" p:readOnly="@{!#lp.renderHelper.newRow}" p:readOnlyDisplayReplacementPropertyName="renderHelper.orgLongName">
+                      p:propertyName="orgId" p:readOnly="@{!#lp.renderHelper.newRow and !#empty(#lp.orgId)}" p:readOnlyDisplayReplacementPropertyName="renderHelper.orgLongName">
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.OrgsBySubjectCodeValuesFinder"
                               p:blankOption="true" />
