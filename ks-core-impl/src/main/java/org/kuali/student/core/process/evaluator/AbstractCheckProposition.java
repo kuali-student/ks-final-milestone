@@ -89,7 +89,7 @@ public abstract class AbstractCheckProposition extends AbstractLeafProposition {
             vr.setLevel(ValidationResult.ErrorLevel.OK);
             vr.setMessage("Failed but was exempted from check " + check.getName());
             executionDetails.put(RulesExecutionConstants.PROCESS_EVALUATION_RESULTS, vr);
-            executionDetails.put(RulesExecutionConstants.PROCESS_EVALUATION_RESULTS, vr);
+//            executionDetails.put(RulesExecutionConstants.PROCESS_EVALUATION_RESULTS, vr);
             result = new PropositionResult(true, executionDetails);
             br = new BasicResult(executionDetails, ResultEvent.PROPOSITION_EVALUATED, this,
                     environment, result.getResult());
