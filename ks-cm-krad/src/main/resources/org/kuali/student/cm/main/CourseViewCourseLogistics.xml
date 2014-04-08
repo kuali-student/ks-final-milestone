@@ -248,16 +248,14 @@
                 </bean>
                 <bean  id="MinRangeCreditVale" parent="KS-Uif-InputField-LabelTop"
                        p:render="@{#lp.typeKey eq 'kuali.result.values.group.type.range'}"
-                       p:label="Minimum Credit Value" p:propertyName="resultValueRange.minValue"
-                       p:cssClasses="rangeMaxMinCheck" p:onBlurScript="verifyMaxRangeOnBlur();">
+                       p:label="Minimum Credit Value" p:propertyName="resultValueRange.minValue">
                     <property name="validCharactersConstraint">
                         <bean parent="NumericPatternConstraint" />
                     </property>
                 </bean>
                 <bean id="MaxRangeCreditVale" parent="KS-Uif-InputField-LabelTop"
                        p:render="@{#lp.typeKey eq 'kuali.result.values.group.type.range'}"
-                       p:label="Maximum Credit Value" p:propertyName="resultValueRange.maxValue"
-                       p:cssClasses="rangeMaxMinCheck" p:onBlurScript="verifyMaxRangeOnBlur();">
+                       p:label="Maximum Credit Value" p:propertyName="resultValueRange.maxValue">
                     <property name="validCharactersConstraint">
                         <bean parent="NumericPatternConstraint" />
                     </property>
