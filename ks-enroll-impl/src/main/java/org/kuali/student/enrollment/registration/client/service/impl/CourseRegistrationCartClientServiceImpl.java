@@ -48,6 +48,7 @@ import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
@@ -662,7 +663,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
             locationTimeResult.setLocation(locationResult);
 
             ScheduleTimeResult scheduleTimeResult = new ScheduleTimeResult();
-            scheduleTimeResult.setDays(weekdays);
+            scheduleTimeResult.setDays(CourseRegistrationAndScheduleOfClassesUtil.dayDisplayHelper(weekdays));
             scheduleTimeResult.setStartTime(StringUtils.isEmpty(startTimeMs) ? "" : TimeOfDayHelper.formatTimeOfDay(TimeOfDayHelper.setMillis(Long.valueOf(startTimeMs))));
             scheduleTimeResult.setEndTime(StringUtils.isEmpty(endTimeMs) ? "" : TimeOfDayHelper.formatTimeOfDay(TimeOfDayHelper.setMillis(Long.valueOf(endTimeMs))));
             locationTimeResult.setTime(scheduleTimeResult);
@@ -685,6 +686,8 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
 
         return cartResult;
     }
+
+
 
     /**
      * The method populates the credit and grading options for a cart item
