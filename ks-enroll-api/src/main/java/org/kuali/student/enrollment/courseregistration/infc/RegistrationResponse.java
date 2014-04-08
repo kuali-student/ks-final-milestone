@@ -17,7 +17,7 @@
 package org.kuali.student.enrollment.courseregistration.infc;
 
 import java.util.List;
-
+@Deprecated //Response should live directly on the request
 public interface RegistrationResponse {
 
     /**

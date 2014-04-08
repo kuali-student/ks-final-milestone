@@ -18,6 +18,7 @@ package org.kuali.student.enrollment.courseregistration.infc;
 
 import java.util.List;
 
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.infc.IdEntity;
 
 /**
@@ -70,4 +71,10 @@ public interface RegistrationRequest
      * @impl LprTransaction.atpId
      */
     public String getTermId();
+
+    /**
+     *
+     * @return list of validation results
+     */
+    public List<ValidationResultInfo> getValidationResults();
 }

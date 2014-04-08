@@ -42,7 +42,7 @@ import org.w3c.dom.Element;
                 "credits", 
                 "gradingOptionId", 
                 "okToWaitlist", 
-                "okToHoldUntilList", 
+                "okToHoldUntilList", "validationResults"
                 "meta", "attributes", "_futureElements"})
 
 public class RegistrationRequestItemInfo 
@@ -75,6 +75,9 @@ public class RegistrationRequestItemInfo
     @XmlElement
     private Boolean okToHoldUntilList;
 
+    @XmlElement
+    private List<ValidationResultInfo> validationResults;
+
     @XmlAnyElement
     private List<Element> _futureElements;
 
@@ -105,6 +108,10 @@ public class RegistrationRequestItemInfo
             this.gradingOptionId = registrationRequestItem.getGradingOptionId();
             this.okToWaitlist = registrationRequestItem.getOkToWaitlist();
             this.okToHoldUntilList = registrationRequestItem.getOkToHoldUntilList();
+            this.validationResults = new ArrayList<ValidationResultInfo>();
+            for(ValidationResultInfo validationResult:registrationRequest.getValidation){
+                this.getRegistrationRequestId().add(new ValidationResultInfo(validationResult));
+            }
         }
     }
 
@@ -178,5 +185,18 @@ public class RegistrationRequestItemInfo
 
     public void setOkToHoldUntilList(Boolean okToHoldUntilList) {
         this.okToHoldUntilList = okToHoldUntilList;
+    }
+
+
+    @Override
+    public List<ValidationResultInfo> getValidationResults() {
+        if (validationResults == null) {
+            validationResults = new ArrayList<ValidationResultInfo>();
+        }
+        return validationResults;
+    }
+
+    public void setValidationResults(List<ValidationResultInfo> validationResults) {
+        this.validationResults = validationResults;
     }
 }

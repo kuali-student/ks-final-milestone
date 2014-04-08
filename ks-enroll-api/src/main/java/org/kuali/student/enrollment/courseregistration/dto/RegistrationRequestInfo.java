@@ -29,12 +29,13 @@ import javax.xml.bind.annotation.XmlType;
 import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequest;
 import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequestItem;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RegistrationRequestInfo", propOrder = {
                 "id", "name", "descr", "typeKey", "stateKey", 
-                "requestorId", "termId",
+                "requestorId", "termId","validationResults",
                 "meta", "attributes", "_futureElements"})
 
 public class RegistrationRequestInfo 
@@ -48,6 +49,9 @@ public class RegistrationRequestInfo
 
     @XmlElement
     private String termId;
+
+    @XmlElement
+    private List<ValidationResultInfo> validationResults;
 
     @XmlAnyElement
     private List<Element> _futureElements;
@@ -71,6 +75,11 @@ public class RegistrationRequestInfo
         if (registrationRequest != null) {
             this.requestorId = registrationRequest.getRequestorId();
             this.termId = registrationRequest.getTermId();
+
+            this.validationResults = new ArrayList<ValidationResultInfo>();
+            for(ValidationResultInfo validationResult: registrationRequest.getValidationResults()){
+                this.getValidationResults().add(new ValidationResultInfo(validationResult));
+            }
         }
     }
 
@@ -90,5 +99,17 @@ public class RegistrationRequestInfo
 
     public void setTermId(String termId) {
         this.termId = termId;
+    }
+
+    @Override
+    public List<ValidationResultInfo> getValidationResults() {
+        if (validationResults == null) {
+            validationResults = new ArrayList<ValidationResultInfo>();
+        }
+        return validationResults;
+    }
+
+    public void setValidationResults(List<ValidationResultInfo> validationResults) {
+        this.validationResults = validationResults;
     }
 }

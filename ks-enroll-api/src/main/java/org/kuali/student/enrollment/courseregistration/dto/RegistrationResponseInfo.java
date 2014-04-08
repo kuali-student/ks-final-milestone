@@ -17,6 +17,7 @@
 package org.kuali.student.enrollment.courseregistration.dto;
 
 import java.io.Serializable;
+import java.lang.Deprecated;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +35,7 @@ import org.w3c.dom.Element;
 @XmlType(name = "RegistrationResponseInfo", propOrder = {
                 "registrationRequestId", "hasFailed", "messages",
                 "registrationResponseItems", "_futureElements"})
-
+@Deprecated //Response should live directly on the request
 public class RegistrationResponseInfo 
     implements RegistrationResponse, Serializable {
 

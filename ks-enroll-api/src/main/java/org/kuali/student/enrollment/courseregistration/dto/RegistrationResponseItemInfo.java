@@ -34,7 +34,7 @@ import org.w3c.dom.Element;
                 "registrationRequestItemId", "operationStatus",
                 "courseRegistrationId", "courseWaitlistEntryId", "holdUntilListEntryId", 
                 "_futureElements"})
-
+@Deprecated //Response should live directly on the request item
 public class RegistrationResponseItemInfo 
     implements RegistrationResponseItem, Serializable {
 

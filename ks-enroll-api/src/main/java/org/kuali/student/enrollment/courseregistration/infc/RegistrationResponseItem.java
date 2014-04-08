@@ -25,7 +25,7 @@ import org.kuali.student.r2.common.infc.OperationStatus;
  * 
  * @author Kuali Student Team (sambit)
  */
-
+@Deprecated //Response should live directly on the request item
 public interface RegistrationResponseItem {
     
     /**

@@ -126,4 +126,11 @@ public interface RegistrationRequestItem
      * @name Ok To HoldUntillist
      */
     public Boolean getOkToHoldUntilList();
+
+    /**
+     *
+     * @return list of validation results
+     */
+    public List<ValidationResultInfo> getValidationResults();
+
 }
