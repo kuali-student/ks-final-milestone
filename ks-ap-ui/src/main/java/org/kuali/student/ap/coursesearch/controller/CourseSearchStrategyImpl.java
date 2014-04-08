@@ -1,5 +1,6 @@
 package org.kuali.student.ap.coursesearch.controller;
 
+import org.apache.cxf.common.util.StringUtils;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -218,6 +219,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 					String type = resultValuesGroupInfo.getTypeKey()
 							.toLowerCase();
 					String display = resultValuesGroupInfo.getName();
+                    if(StringUtils.isEmpty(display)) display = "0.0 Credits";  //Temp Fix for KSAP-1085 suggest refactor of code to use use credit formatter.
 					String min = null;
 					String max = null;
 
