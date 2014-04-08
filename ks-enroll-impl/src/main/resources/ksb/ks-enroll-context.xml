@@ -278,6 +278,7 @@
         <property name="coService" ref="CourseOfferingService" />
         <property name="schedulingService" ref="SchedulingService"/>
         <property name="rolloverAssist" ref="rolloverAssist"/>
+        <property name="examOfferingServiceFacade" ref="examOfferingServiceFacade" />
     </bean>
 
 
