@@ -20,6 +20,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.datadictionary.parse.BeanTagAttribute;
 import org.kuali.rice.krad.datadictionary.validator.ValidationTrace;
 import org.kuali.rice.krad.uif.component.Component;
+import org.kuali.rice.krad.uif.container.Group;
 import org.kuali.rice.krad.uif.element.Header;
 import org.kuali.rice.krad.uif.element.Label;
 import org.kuali.rice.krad.uif.element.Message;
@@ -41,7 +42,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 
 public class KSIconLabelMessage extends Message {
 
-    private String iconToolTipText;
+    protected String iconToolTipText;
 
     /**
      * If iconToolTipText is configured, it configures that text to be displayed as tooltip over the icon.
@@ -78,7 +79,23 @@ public class KSIconLabelMessage extends Message {
 
             } else if (parent instanceof Header){
                 label =  ((Header)parent).getHeaderText();
-                label = label + " [0]";
+                /** If there are any components configured to display as right group, move that
+                 * component to the middle sothat icon always display as last component.
+                 */
+                Group group = ((Header) parent).getRightGroup();
+
+                if (group != null){
+
+                    Group groupCopy = ComponentUtils.copy(group);
+                    group.setRender(false);
+
+                    label = label + " [0] [1]";
+
+                    getInlineComponents().add(0, groupCopy);
+                } else {
+                    label = label + " [0]";
+                }
+
             }
 
             setMessageText(label);
