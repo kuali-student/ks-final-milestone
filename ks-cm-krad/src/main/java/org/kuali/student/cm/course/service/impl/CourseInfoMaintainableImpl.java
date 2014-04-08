@@ -1271,6 +1271,10 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             }
         }
 
+        for(OrganizationInfoWrapper organizationInfoWrapper :courseInfoWrapper.getAdministeringOrganizations()) {
+            courseInfoWrapper.getCourseInfo().getUnitsDeployment().add(organizationInfoWrapper.getOrganizationName());
+        }
+
         if (courseInfoWrapper.getLoDisplayWrapperModel() != null && courseInfoWrapper.getLoDisplayWrapperModel().getLoWrappers() != null) {
             List<LoDisplayInfoWrapper> loWrappers = courseInfoWrapper.getLoDisplayWrapperModel().getLoWrappers();
             List<LoDisplayInfo> courseLos = courseInfoWrapper.getCourseInfo().getCourseSpecificLOs();
@@ -1656,6 +1660,12 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             for (CluInstructorInfo instructorInfo : course.getInstructors()) {
                 CluInstructorInfoWrapper instructorInfoWrapper = new CluInstructorInfoWrapper();
                 dataObject.getInstructorWrappers().addAll(getInstructorsbyId(instructorInfo.getPersonId()));
+            }
+
+            for(String unitDeployment : course.getUnitsDeployment()) {
+                OrganizationInfoWrapper organizationInfoWrapper = new OrganizationInfoWrapper();
+                organizationInfoWrapper.setOrganizationName(unitDeployment);
+                dataObject.getAdministeringOrganizations().add(organizationInfoWrapper) ;
             }
 
             populateAuditOnWrapper();
