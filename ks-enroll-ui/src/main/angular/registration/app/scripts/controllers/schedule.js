@@ -12,13 +12,25 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
         $scope.waitlistedCredits = GlobalVarsService.getWaitlistedCredits;
         $scope.waitlistedCourseCount = GlobalVarsService.getWaitlistedCourseCount;
 
-        if($scope.termId){
-        ScheduleService.getScheduleFromServer().query({termId: $scope.termId }, function (result) {
+        $scope.$watch('termId', function (newValue) {
+            console.log('term id has changed');
+            if($scope.userMessage){
+                if($scope.userMessage.txt){
+                    $scope.removeUserMessage();
+                }
+            }
+            if($scope.waitlistUserMessage){
+                if($scope.waitlistUserMessage.txt){
+                    $scope.removeWaitlistUserMessage();
+                }
+            }
+        ScheduleService.getScheduleFromServer().query({termId: newValue }, function (result) {
             console.log('called rest service to get schedule data - in schedule.js');
 
             GlobalVarsService.updateScheduleCounts(result);
         });
-        }
+        });
+
 
         $scope.openDropConfirmation = function (index, course) {
             console.log('Open drop confirmation');
@@ -88,7 +100,6 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
                 GlobalVarsService.updateScheduleCounts($scope.getSchedules());
                 course.editing = false;
                 course.statusMessage = {txt: 'Changes saved successfully', type: 'success'};
-                course.edited = true;
             }, function (error) {
                 //course.editing = false;
                 $scope.userMessage = {txt: error.data, type: 'error'};
@@ -112,7 +123,6 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
                 GlobalVarsService.updateScheduleCounts($scope.getSchedules());
                 course.editing = false;
                 course.statusMessage = {txt: 'Changes saved successfully', type: 'success'};
-                course.edited = true;
             }, function (error) {
                 //course.editing = false;
                 $scope.userMessage = {txt: error.data, type: 'error'};

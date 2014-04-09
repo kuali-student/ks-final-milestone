@@ -48,7 +48,6 @@ import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
-import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
@@ -142,6 +141,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
                     cartId, courseCode, regGroupCode, regGroupId, gradingOptionId, credits);
 
             userMessage.setConsoleMessage(technicalInfo);
+            userMessage.setType(UserMessageResult.MessageTypes.ERROR);
             response = getResponse(Response.Status.INTERNAL_SERVER_ERROR, userMessage);
         }
 

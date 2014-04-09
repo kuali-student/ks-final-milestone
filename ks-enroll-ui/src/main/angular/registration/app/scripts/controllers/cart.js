@@ -10,6 +10,13 @@ angular.module('regCartApp')
         //Add a watch so that when termId changes, the cart is reloaded with the new termId
         $scope.$watch('termId', function (newValue) {
             console.log('term id has changed');
+            $scope.cartResults.items.splice(0, $scope.cartResults.items.length);
+            if($scope.userMessage){
+                if($scope.userMessage.txt){
+                    $scope.removeUserMessage();
+                }
+            }
+
             if (newValue) {
                 hasCartBeenLoaded = true;
                 loadCart(newValue);
