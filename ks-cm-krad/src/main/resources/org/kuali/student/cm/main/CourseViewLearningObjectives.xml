@@ -98,7 +98,7 @@
                         </bean>
                     </property>
                     <property name="quickfinder">
-                        <bean parent="Uif-QuickFinder"  p:lightBoxLookup.lookupReturnByScript="true">
+                        <bean parent="Uif-QuickFinder" p:lightBox.lookupReturnByScript="true">
                             <property name="dataObjectClassName" value="org.kuali.student.cm.course.form.LoDisplayInfoWrapper"/>
                             <property name="quickfinderAction">
                                 <bean parent="Uif-ActionLink" p:actionLabel="Search for Learning Objectives" p:methodToCall="performLookup"/>

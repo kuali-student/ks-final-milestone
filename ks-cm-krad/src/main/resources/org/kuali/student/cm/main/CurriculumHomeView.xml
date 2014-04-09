@@ -128,8 +128,8 @@
             <list>
                 <bean parent="Uif-HeaderFive" p:headerText="Courses" />
                 <bean parent="Uif-Link" p:linkText="Find a Course"
-                      p:href="@{#ConfigProperties['application.url']}/kr-krad/lookup?viewId=KS-Course-FindACourse&amp;showMaintenanceLinks=true&amp;hideReturnLink=true" />
-                <bean parent="Uif-Link" p:linkText="Find a Course Proposal"  p:href="@{#ConfigProperties['application.url']}/kr-krad/lookup?viewId=ksCMProposalLookup&amp;showMaintenanceLinks=true&amp;hideReturnLink=true"/>
+                      p:href="@{#ConfigProperties['application.url']}/kr-krad/lookup?viewId=KS-Course-FindACourse&amp;renderMaintenanceLinks=true&amp;hideReturnLink=true" />
+                <bean parent="Uif-Link" p:linkText="Find a Course Proposal"  p:href="@{#ConfigProperties['application.url']}/kr-krad/lookup?viewId=ksCMProposalLookup&amp;renderMaintenanceLinks=true&amp;hideReturnLink=true"/>
             </list>
         </property>
     </bean>
