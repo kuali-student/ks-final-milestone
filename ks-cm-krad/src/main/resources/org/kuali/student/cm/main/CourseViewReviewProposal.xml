@@ -268,9 +268,17 @@
                             </bean>
 
                             <bean parent="CM-ReadOnlyInput" p:label="Audit"
-                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.audit"/>
+                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.audit">
+                                <property name="control">
+                                    <bean parent="KS-Uif-TextControl" p:cssClasses="ks-review-capitalise"/>
+                                </property>
+                            </bean>
                             <bean parent="CM-ReadOnlyInput" p:label="Pass Fail Transcript Grade"
-                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.passFail"/>
+                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.passFail">
+                                <property name="control">
+                                    <bean parent="KS-Uif-TextControl" p:cssClasses="ks-review-capitalise"/>
+                                </property>
+                             </bean>
                             <bean parent="CM-ReadOnlyInput" p:label="Final Exam Status"
                                   p:propertyName="reviewProposalDisplay.courseLogisticsSection.finalExamStatus"/>
                             <bean parent="CM-ReadOnlyInput-large" id="final_exam_rationale" p:label="Final Exam Rationale"
@@ -469,7 +477,11 @@
                             <bean parent="CM-ReadOnlyInput" p:label="End Term"
                                   p:propertyName="reviewProposalDisplay.activeDatesSection.endTerm"/>
                             <bean parent="CM-ReadOnlyInput" p:label="Pilot Course"
-                                  p:propertyName="reviewProposalDisplay.activeDatesSection.pilotCourse"/>
+                                  p:propertyName="reviewProposalDisplay.activeDatesSection.pilotCourse">
+                                <property name="control">
+                                    <bean parent="KS-Uif-TextControl" p:cssClasses="ks-review-capitalise"/>
+                                </property>
+                            </bean>
                         </list>
                     </property>
                 </bean>
