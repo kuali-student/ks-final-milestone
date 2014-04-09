@@ -112,6 +112,11 @@
           p:additionalCssClasses="ks-topGroup">
     </bean>
 
+    <bean id="KS-Uif-Lookup-MaintenanceReturnLink" parent="KS-Uif-Lookup-MaintenanceReturnLink-parentBean"/>
+    <bean id="KS-Uif-Lookup-MaintenanceReturnLink-parentBean" parent="Uif-Lookup-MaintenanceReturnLink">
+        <property name="linkText" value="Return Value"/>
+    </bean>
+
     <bean id="KS-Uif-LookupView" abstract="true"
           class="org.kuali.student.common.uif.view.KSLookupView" parent="Uif-LookupView" p:stickyFooter="true">
         <property name="theme">
@@ -128,12 +133,7 @@
         <!-- In KS, we need only the return value, not any other maintenance actions in lookup.-->
         <property name="resultsGroup.lineActions">
             <list>
-                <bean parent="Uif-ActionLink">
-                    <property name="actionLabel" value="Return Value"/>
-                    <property name="finalizeMethodToCall" value="buildReturnUrlForResult"/>
-                    <property name="render"
-                              value="@{!#empty(returnFormKey) and !#empty(returnLocation) and !view.hideReturnLinks}"/>
-                </bean>
+                <bean parent="KS-Uif-Lookup-MaintenanceReturnLink" p:order="20"/>
             </list>
         </property>
         <!-- Removing property. Looks like Rice no longer supports it: KULRICE-10618
