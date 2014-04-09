@@ -82,7 +82,7 @@
 
         <property name="items">
             <list>
-                <bean parent="Uif-VerticalBoxSection">
+                <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
                             <!--<ref bean="KS-CourseOffering-ContextBar"/>-->
@@ -127,7 +127,7 @@
 
     <bean id="KS-CourseOfferingManagement-ExamOfferingTableSection-Cancelled" parent="Uif-TableCollectionSection"
           p:renderAddLine="false" p:renderLineActions="false"
-          abstract="true">
+          p:readOnly="false" abstract="true">
         <property name="collectionObjectClass"
                   value="org.kuali.student.enrollment.class2.courseoffering.dto.ExamOfferingWrapper"/>
         <property name="collectionLookup">
@@ -143,6 +143,7 @@
             <map merge="true">
                 <entry key="sDom" value="opir"/>
                 <entry key="bPaginate" value="false"/>
+                <entry key="aaSorting" value="[[1,'asc'],[2,'asc']]"/>
                 <entry key="bAutoWidth" value="false"/>
             </map>
         </property>
@@ -166,10 +167,6 @@
                 </bean>
                 <bean parent="KS-Uif-DataField-LabelTop" p:propertyName="typeName" p:label="Final Exam Driver Activity"
                       p:render="@{#lp.driverPerAO}"/>
-                <bean parent="KS-Uif-DataField" p:label="Override Matrix" p:propertyName="overrideMatrixUI"
-                        p:render="@{(!#dp.examOfferingCancelledList.isEmpty() and #dp.currentCourseOfferingWrapper.matrixOveridableCODriven) or (!#dp.eoCancelClusterList.isEmpty() and #dp.currentCourseOfferingWrapper.matrixOveridableAODriven)}">
-                    <property name="onDocumentReadyScript" value="setMatrixOverrideReadonlyValue('@{#component.id}', @{#lp.overrideMatrix});"/>
-                </bean>
                 <bean parent="KS-Uif-DataField" p:label="Days" p:propertyName="requestedSchedule.daysUI"/>
                 <bean parent="KS-Uif-DataField" p:label="Start Time" p:propertyName="requestedSchedule.startTimeUI"/>
                 <bean parent="KS-Uif-DataField" p:label="End Time" p:propertyName="requestedSchedule.endTimeUI"/>
@@ -216,16 +213,14 @@
                 </bean>
                 <bean parent="KS-Uif-DataField-LabelTop" p:propertyName="typeName" p:label="Final Exam Driver Activity" p:render="@{#lp.driverPerAO}"/>
 
-                <bean parent="Uif-VerticalFieldGroup" p:label="Override Matrix"
-                      p:render="@{(!#dp.examOfferingWrapperList.isEmpty() and #dp.currentCourseOfferingWrapper.matrixOveridableCODriven) or (!#dp.eoClusterResultList.isEmpty() and #dp.currentCourseOfferingWrapper.matrixOveridableAODriven)}">
+                <bean parent="Uif-VerticalFieldGroup" p:label="Override Matrix">
                     <property name="items">
                         <list>
-                            <bean id="eoOverrideMatrix" parent="Uif-InputField" p:propertyName="overrideMatrix">
+                            <bean id="eoOverrideMatrix" parent="Uif-InputField" p:propertyName="overrideMatrix" p:required="true">
                                 <property name="additionalCssClasses">
                                     <list merge="true">
                                         <value>off</value>
                                         <value>toggleable-element</value>
-                                        <value>non-row-selector</value>
                                     </list>
                                 </property>
                                 <property name="readOnly" value="false"/>
@@ -233,16 +228,7 @@
                                     <bean parent="Uif-CheckboxControl"/>
                                 </property>
                             </bean>
-                            <bean id="overrideMatrixUI_id" parent="KS-Uif-DataField" p:propertyName="overrideMatrixUI">
-                                <property name="onDocumentReadyScript" value="setInlineEditCheckboxReadonlyValue('@{#component.id}', @{#lp.overrideMatrix});"/>
-                                <property name="additionalCssClasses">
-                                    <list merge="true">
-                                        <value>on</value>
-                                        <value>toggleable-element</value>
-                                        <value>ks-fontello-icon-ok</value>
-                                    </list>
-                                </property>
-                            </bean>
+
                         </list>
                     </property>
                 </bean>
@@ -459,19 +445,19 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean id="EO-toggleEditButton" parent="KS-Uif-ActionLink" p:actionLabel="" p:additionalCssClasses="toggleable-element on" p:actionScript="editInlineRow(e);">
+                <bean id="EO-toggleEditButton" parent="KS-Uif-ActionLink" p:actionLabel="" p:additionalCssClasses="toggleable-element on" p:actionScript="toggleRow(event);">
                     <property name="actionImage">
                         <bean parent="Uif-Image" p:altText="Edit" p:title="Edit"
                               p:source="" p:cssClasses="ks-fontello-icon-pencil"/>
                     </property>
                 </bean>
-                <bean id="EO-toggleUpdateButton" parent="KS-Uif-ActionLink" p:actionLabel="" p:additionalCssClasses="toggleable-element off" p:actionScript="saveInlineRSI(e, '@{#ConfigProperties['application.url']}');">
+                <bean id="EO-toggleUpdateButton" parent="KS-Uif-ActionLink" p:actionLabel="" p:additionalCssClasses="toggleable-element off" p:methodToCall="saveExamOfferingRSI">
                     <property name="actionImage">
                         <bean parent="Uif-Image" p:altText="Update" p:title="Update"
                               p:source="" p:cssClasses="ks-fontello-icon-floppy"/>
                     </property>
                 </bean>
-                <bean id="EO-toggleUpdateButton" parent="KS-Uif-ActionLink" p:actionLabel="" p:additionalCssClasses="toggleable-element off" p:actionScript="cancelInlineRow(e);">
+                <bean id="EO-toggleUpdateButton" parent="KS-Uif-ActionLink" p:actionLabel="" p:additionalCssClasses="toggleable-element off" p:actionScript="toggleRow(event);">
                     <property name="actionImage">
                         <bean parent="Uif-Image" p:altText="Cancel" p:title="Cancel"
                               p:source="" p:cssClasses="ks-fontello-icon-block-1"/>

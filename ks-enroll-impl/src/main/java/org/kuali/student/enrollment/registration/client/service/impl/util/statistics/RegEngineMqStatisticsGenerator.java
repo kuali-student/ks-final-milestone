@@ -44,8 +44,7 @@ public class RegEngineMqStatisticsGenerator {
     public static final String DESTINATION_QUEUE_NAME_PREFIX = "ActiveMQ.Statistics.Destination";
     public static final String INITIALIZATION_QUEUE_NAME = DESTINATION_QUEUE_NAME_PREFIX + "." + "org.kuali.student.enrollment.registration.initilizationListenerQueue";
     public static final String VERIFICATION_QUEUE_NAME = DESTINATION_QUEUE_NAME_PREFIX + "." + "org.kuali.student.enrollment.registration.verificationQueue";
-    public static final String REQ_ITEM_SPLIT_QUEUE_NAME = DESTINATION_QUEUE_NAME_PREFIX + "." + "org.kuali.student.enrollment.registration.splitByItemQueue";
-    public static final String LPR_ACTION_QUEUE_NAME = DESTINATION_QUEUE_NAME_PREFIX + "." + "org.kuali.student.enrollment.registration.lprActionQueue";
+    public static final String SEAT_CHECK_QUEUE_NAME = DESTINATION_QUEUE_NAME_PREFIX + "." + "org.kuali.student.enrollment.registration.seatCheckQueue";
     public static final String REGISTRATION_ENGINE_STATS_QUEUE_NAME = SimplePerformanceListener.QUEUE_NAME;
 
     private Map<RegistrationEngineStatsType, MapMessage> statsTypeMapMessageMap = null;
@@ -155,8 +154,7 @@ public class RegEngineMqStatisticsGenerator {
         BROKER(BROKER_QUEUE_NAME),
         INITIALIZATION_QUEUE(INITIALIZATION_QUEUE_NAME),
         VERIFICATION_QUEUE(VERIFICATION_QUEUE_NAME),
-        LPR_ACTION_QUEUE(LPR_ACTION_QUEUE_NAME),
-        REQ_ITEM_SPLIT_QUEUE(REQ_ITEM_SPLIT_QUEUE_NAME),
+        SEAT_CHECK_QUEUE(SEAT_CHECK_QUEUE_NAME),
         REGISTRATION_ENGINE_STATS(REGISTRATION_ENGINE_STATS_QUEUE_NAME);
 
         private final String queueName;

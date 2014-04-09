@@ -68,7 +68,6 @@ import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.SearchServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
-import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
@@ -191,7 +190,7 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
         ActivityOfferingScheduleComponentResult scheduleComponent = new ActivityOfferingScheduleComponentResult();
         scheduleComponent.setRoomCode(roomCode);
         scheduleComponent.setBuildingCode(buildingCode);
-        scheduleComponent.setDays(dayDisplayHelper(weekdays));
+        scheduleComponent.setDays(weekdays);
 
         if (StringUtils.equals(isTBA, "1")) {
             scheduleComponent.setIsTBA(true);
@@ -211,13 +210,13 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
         }
 
         if (!weekdays.isEmpty()) {
-            scheduleComponent.setMon(weekdays.contains(SchedulingServiceConstants.MONDAY_TIMESLOT_DISPLAY_DAY_CODE));
-            scheduleComponent.setTue(weekdays.contains(SchedulingServiceConstants.TUESDAY_TIMESLOT_DISPLAY_DAY_CODE));
-            scheduleComponent.setWed(weekdays.contains(SchedulingServiceConstants.WEDNESDAY_TIMESLOT_DISPLAY_DAY_CODE));
-            scheduleComponent.setThu(weekdays.contains(SchedulingServiceConstants.THURSDAY_TIMESLOT_DISPLAY_DAY_CODE));
-            scheduleComponent.setFri(weekdays.contains(SchedulingServiceConstants.FRIDAY_TIMESLOT_DISPLAY_DAY_CODE));
-            scheduleComponent.setSat(weekdays.contains(SchedulingServiceConstants.SATURDAY_TIMESLOT_DISPLAY_DAY_CODE));
-            scheduleComponent.setSun(weekdays.contains(SchedulingServiceConstants.SUNDAY_TIMESLOT_DISPLAY_DAY_CODE));
+            scheduleComponent.setMon(weekdays.contains("M"));
+            scheduleComponent.setTue(weekdays.contains("T"));
+            scheduleComponent.setWed(weekdays.contains("W"));
+            scheduleComponent.setThu(weekdays.contains("H"));
+            scheduleComponent.setFri(weekdays.contains("F"));
+            scheduleComponent.setSat(weekdays.contains("S"));
+            scheduleComponent.setSun(weekdays.contains("U"));
         }
 
         return scheduleComponent;
@@ -541,36 +540,6 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
             instructor.setFirstName(StringUtils.trim(entity.getName().getFirstName()));
             instructor.setLastName(StringUtils.trim(entity.getName().getLastName()));
         }
-    }
-
-    /**
-     * This method converts Timeslot Day Codes to Timeslot Day Display Codes
-     * @param day - Timeslot Day Code
-     * @return dayDisplay - Timeslot Day Display Code
-     */
-    public static String dayDisplayHelper(String day){
-        String dayDisplay="";
-        for(char c: day.toCharArray()){
-            switch(c){
-                case 'M': dayDisplay = dayDisplay + SchedulingServiceConstants.MONDAY_TIMESLOT_DISPLAY_DAY_CODE;
-                    break;
-                case 'T': dayDisplay = dayDisplay + SchedulingServiceConstants.TUESDAY_TIMESLOT_DISPLAY_DAY_CODE;
-                    break;
-                case 'W': dayDisplay = dayDisplay + SchedulingServiceConstants.WEDNESDAY_TIMESLOT_DISPLAY_DAY_CODE;
-                    break;
-                case 'H': dayDisplay = dayDisplay + SchedulingServiceConstants.THURSDAY_TIMESLOT_DISPLAY_DAY_CODE;
-                    break;
-                case 'F': dayDisplay = dayDisplay + SchedulingServiceConstants.FRIDAY_TIMESLOT_DISPLAY_DAY_CODE;
-                    break;
-                case 'S': dayDisplay = dayDisplay + SchedulingServiceConstants.SATURDAY_TIMESLOT_DISPLAY_DAY_CODE;
-                    break;
-                case 'U': dayDisplay = dayDisplay + SchedulingServiceConstants.SUNDAY_TIMESLOT_DISPLAY_DAY_CODE;
-                    break;
-                default:
-                    break;
-            }
-        }
-        return dayDisplay;
     }
 
 

@@ -118,7 +118,7 @@ public class RegistrationRequestTransformer {
             okToHoldUntilListOption.setOptionKey(OK_TO_HOLD_UNTIL_LIST);
             item.getRequestOptions().add(okToHoldUntilListOption);
         }
-        okToHoldUntilListOption.setOptionValue(convertBooleanToString(okToHoldUntilList));
+        okToWaitlistOption.setOptionValue(convertBooleanToString(okToHoldUntilList));
         return item;
     }
 
@@ -209,7 +209,7 @@ public class RegistrationRequestTransformer {
         } else if (value.equals(Boolean.TRUE.toString())) {
             return true;
         } else if (value.equals(Boolean.FALSE.toString())) {
-            return false;
+            return true;
         }
         return null; // May not be the best thing to do, perhaps throw exception?
     }

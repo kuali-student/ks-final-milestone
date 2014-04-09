@@ -18,6 +18,7 @@ package org.kuali.student.enrollment.class2.courseoffering.controller;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -27,7 +28,6 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.uif.util.GrowlIcon;
 import org.kuali.student.common.uif.util.KSUifUtils;
-import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.class2.acal.dto.ExamPeriodWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
@@ -39,7 +39,6 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.ExamOfferingWrappe
 import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
-import org.kuali.student.enrollment.class2.courseoffering.json.RSIJSONResponseData;
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementToolbarUtil;
@@ -47,12 +46,14 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingMan
 import org.kuali.student.enrollment.class2.courseoffering.util.RegistrationGroupConstants;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.examoffering.dto.ExamOfferingInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.util.TimeOfDayHelper;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.ExamOfferingServiceConstants;
 import org.kuali.student.r2.core.acal.dto.ExamPeriodInfo;
 import org.kuali.student.r2.core.class1.search.CourseOfferingManagementSearchImpl;
@@ -71,6 +72,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
@@ -1069,23 +1071,17 @@ public class CourseOfferingManagementController extends UifControllerBase {
      * @throws Exception
      */
     @RequestMapping(params = "methodToCall=saveExamOfferingRSIJSON")
-    public @ResponseBody
-    RSIJSONResponseData saveExamOfferingRSIJSON(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
+    public @ResponseBody ScheduleWrapper saveExamOfferingRSIJSON(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                                                  @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
-
-        RSIJSONResponseData jsonResponseDTO = new RSIJSONResponseData();
-        jsonResponseDTO.setHasErrors(false);
-
-        String selectedCollectionPath = request.getParameter(UifParameters.SELLECTED_COLLECTION_PATH);
-        theForm.getActionParameters().put(UifParameters.SELLECTED_COLLECTION_PATH, selectedCollectionPath);
+        String selectedCollectionPath = request.getParameter(UifParameters.SELECTED_COLLECTION_PATH);
+        theForm.getActionParameters().put(UifParameters.SELECTED_COLLECTION_PATH, selectedCollectionPath);
         String selectedLine = request.getParameter(UifParameters.SELECTED_LINE_INDEX);
         theForm.getActionParameters().put(UifParameters.SELECTED_LINE_INDEX, selectedLine);
         boolean success;
         ScheduleWrapper requestedSchedule = null;
-        ExamOfferingWrapper eoWrapper = null;
         Object selectedObject = CourseOfferingManagementUtil.getSelectedObject(theForm, "edit");
         if (selectedObject instanceof ExamOfferingWrapper) {
-            eoWrapper = (ExamOfferingWrapper)selectedObject;
+            ExamOfferingWrapper eoWrapper = (ExamOfferingWrapper)selectedObject;
             requestedSchedule = eoWrapper.getRequestedSchedule();
 
             success = CourseOfferingManagementUtil.getExamOfferingScheduleHelper().validateScheduleRequest(requestedSchedule, selectedCollectionPath,
@@ -1128,25 +1124,20 @@ public class CourseOfferingManagementController extends UifControllerBase {
                 if (days != null && days.size() > 0) {
                     scheduleWrapper.setDaysUI(CourseOfferingManagementUtil.examPeriodDaysDisplay(days, theForm.getExamPeriodWrapper()));
                 }
-            }else{
-                jsonResponseDTO.setHasErrors(true);
-                jsonResponseDTO.setMessageMap(GlobalVariables.getMessageMap());
             }
         } else {
             throw new RuntimeException("Invalid type. Does not support for now");
         }
-//        jsonResponseDTO.isCOOverridable(theForm.getCurrentCourseOfferingWrapper().isPerCOMatrixOveridable());
-//        jsonResponseDTO.isCOOverridable(theForm.getCurrentCourseOfferingWrapper().isPerAOMatrixOveridable());
-        jsonResponseDTO.setExamOfferingWrapper(eoWrapper);
-        return jsonResponseDTO;
+        return requestedSchedule;
     }
+
     private StatusInfo saveExamOfferingOverrideMatrixFlag (ExamOfferingWrapper eoWrapper) {
-        AttributeInfo attributeInfo = CourseOfferingManagementUtil.getAttributeForKey(eoWrapper.getEoInfo().getAttributes(), ExamOfferingServiceConstants.EXAM_OFFERING_MATRIX_OVERRIDE_ATTR);
+        AttributeInfo attributeInfo = this.getExamOfferingAttributeForKey(eoWrapper.getEoInfo(), ExamOfferingServiceConstants.EXAM_OFFERING_MATRIX_OVERRIDE_ATTR);
         ExamOfferingInfo eoInfo;
         if (attributeInfo != null) {
             attributeInfo.setValue(String.valueOf(eoWrapper.isOverrideMatrix()));
         } else {
-            attributeInfo = CourseOfferingManagementUtil.createAttribute(ExamOfferingServiceConstants.EXAM_OFFERING_MATRIX_OVERRIDE_ATTR, String.valueOf(eoWrapper.isOverrideMatrix()));
+            attributeInfo = createAttribute(ExamOfferingServiceConstants.EXAM_OFFERING_MATRIX_OVERRIDE_ATTR, String.valueOf(eoWrapper.isOverrideMatrix()));
             eoWrapper.getEoInfo().getAttributes().add(attributeInfo);
         }
 
@@ -1159,4 +1150,20 @@ public class CourseOfferingManagementController extends UifControllerBase {
         eoWrapper.setEoInfo(eoInfo);
         return new StatusInfo();
     }
+
+    private AttributeInfo getExamOfferingAttributeForKey(ExamOfferingInfo eoInfo, String key) {
+        for (AttributeInfo info : eoInfo.getAttributes()) {
+            if (info.getKey().equals(key)) {
+                return info;
+            }
+        }
+        return null;
+    }
+    private AttributeInfo createAttribute(String key, String value) {
+        AttributeInfo newAttr = new AttributeInfo();
+        newAttr.setKey(key);
+        newAttr.setValue(value);
+        return newAttr;
+    }
+
 }

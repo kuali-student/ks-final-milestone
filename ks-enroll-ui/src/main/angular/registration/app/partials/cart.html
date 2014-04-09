@@ -100,8 +100,7 @@
 <div class="kscr-Card-Results panel-group">
     <div ng-repeat="cartResultItem in cartResults.items" is-open="isopen" class="panel cart-item-status-{{cartResultItem.status}}">
         <div class="kscr-cartResult-icon">&nbsp;</div>
-        <!-- Displays block with course info if course is not waitlisted -->
-        <div class="kscr-cartResult-heading" ng-if="!cartResultItem.waitlistedStatus">
+        <div class="kscr-cartResult-heading" ng-if="(cartResultItem.waitlistedStatus != 'true')">
             <!--Course Header Section-->
             <div class="ng-scope">
                 <span class="kscr-Card-title-alert kscr-Card-alert--{{cartResultItem.status}}" id="course_code_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}">{{cartResultItem.courseCode}} ({{cartResultItem.regGroupCode}}) {{getStatusMessageFromStatus(cartResultItem.status)}}</span>
@@ -109,9 +108,7 @@
             <!--Course Title and description-->
             <div class="kscr-Card-text-alert kscr-Card-alert--{{cartResultItem.status}}" id="title_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}">{{cartResultItem.courseTitle}}</div>
             <div ng-if="cartResultItem.statusMessage && (cartResultItem.status != 'success')" id="result_status_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}" class="kscr-CardResult-detailsText--{{cartResultItem.status}}">
-                <span class="kscr-Card-reason">
-                    <span><strong>Reason:</strong></span><span class="kscr-Card-reason-message" ng-bind-html="cartResultItem.statusMessage"></span>
-                </span>
+               <span class="kscr-Card-reason"> <strong>Reason:</strong> {{cartResultItem.statusMessage}}</span>
             </div>
             <div class="kscr-Card-button" ng-if="cartResultItem.statusMessage && (cartResultItem.status == 'waitlist')">
                 <span>
@@ -119,8 +116,7 @@
                 </span>
             </div>
         </div>
-        <!-- Displays block with course info if course is waitlisted (even though it technically "failed" we display it as "success" that it was added to waitlist) -->
-        <div class="kscr-cartResult-heading" ng-if="cartResultItem.waitlistedStatus">
+        <div class="kscr-cartResult-heading" ng-if="(cartResultItem.waitlistedStatus == 'true')">
             <div class="ng-scope">
                 <span class="kscr-Card-title-alert kscr-Card-alert--{{cartResultItem.status}}" id="waitlisted_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}">Added to Waitlist</span>
             </div>
@@ -147,7 +143,7 @@
         <span class="kscr-Card-statusRemove"><a href="" ng-click="removeAlertMessage(cartItem)"><i class="glyphicon glyphicon-remove"></i></a></span>
     </div>
 <accordion close-others="oneAtATime">
-    <accordion-group is-open="isopen">
+    <accordion-group>
 
         <accordion-heading>
             <!--credits-->
@@ -172,12 +168,14 @@
                 <!--course time, day, building-->
                 <div ng-repeat="item in cartItem.schedule">
                       <span class="kscr-Card-courseTimes">
-                        <div id="ao_type_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}_{{$index}}" class="kscr-ao-type">{{item.activityOfferingType}}</div>
-                        <div ng-repeat="scheduleItem in item.activityOfferingLocationTime" id="schedule_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}_{{$parent.$index}}_{{$index}}">
-                            <span ng-hide="scheduleItem.isTBA" class="kscr-ao-time">{{scheduleItem.time.days}} {{scheduleItem.time.startTime}} - {{scheduleItem.time.endTime}}</span>
-                            <span ng-hide="scheduleItem.isTBA" class="kscr-ao-location">{{scheduleItem.location.building}} {{scheduleItem.location.room}}</span>
-                            <span ng-show="scheduleItem.isTBA"> TBA</span>
-                        </div>
+                        <div id="ao_type_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}_{{$index}}">{{item.activityOfferingType}} &nbsp;</div>
+                            <div ng-repeat="scheduleItem in item.activityOfferingLocationTime" id="schedule_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}_{{$parent.$index}}_{{$index}}">
+                                <span ng-hide="scheduleItem.isTBA">
+                                    {{scheduleItem.time.days}} {{scheduleItem.time.startTime}} - {{scheduleItem.time.endTime}}
+                                    {{scheduleItem.location.building}} {{scheduleItem.location.room}}
+                                </span>
+                                <span ng-show="scheduleItem.isTBA"> TBA</span>
+                            </div>
                       </span>
                 </div>
 

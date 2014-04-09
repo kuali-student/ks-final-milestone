@@ -5,10 +5,7 @@ angular.module('regCartApp')
 
         var registeredCredits = 0;
         var registeredCourseCount = 0;
-        var waitlistedCredits = 0;
-        var waitlistedCourseCount = 0;
         var schedule;
-        var showWaitlistedSection = false;
 
         var processingStates = ['kuali.lpr.trans.item.state.processing','kuali.lpr.trans.state.processing'];
         var successStates = ['kuali.lpr.trans.state.succeeded', 'kuali.lpr.trans.item.state.succeeded'];
@@ -30,30 +27,6 @@ angular.module('regCartApp')
 
         this.setRegisteredCourseCount = function (value) {
             registeredCourseCount = value;
-        };
-
-        this.getWaitlistedCredits = function () {
-            return waitlistedCredits;
-        };
-
-        this.setWaitlistedCredits = function (value) {
-            waitlistedCredits = value;
-        };
-
-        this.getShowWaitlistedSection = function () {
-            return showWaitlistedSection;
-        };
-
-        this.setShowWaitlistedSection = function (value) {
-            showWaitlistedSection = value;
-        };
-
-        this.getWaitlistedCourseCount = function () {
-            return waitlistedCourseCount;
-        };
-
-        this.setWaitlistedCourseCount = function (value) {
-            waitlistedCourseCount = value;
         };
 
         this.getSchedule = function () {
@@ -90,8 +63,6 @@ angular.module('regCartApp')
             //Calculate credit count, course count and grading option count
             var creditCount = 0;
             var courses = 0;
-            var waitlistCreditCount = 0;
-            var waitlistCourses =0;
 
             this.setSchedule(scheduleList);
             angular.forEach(scheduleList, function (schedule) {
@@ -105,37 +76,11 @@ angular.module('regCartApp')
                     });
                     course.gradingOptionCount = gradingOptionCount;
                 });
-                angular.forEach(schedule.waitlistCourseOfferings, function (course) {
-                    waitlistCreditCount += parseFloat(course.credits);
-                    waitlistCourses++;
-                    var gradingOptionCount = 0;
-                    //grading options are an object (map) so there's no easy way to get the object size without this code
-                    angular.forEach(course.gradingOptions, function(){
-                        gradingOptionCount++;
-                    });
-                    course.gradingOptionCount = gradingOptionCount;
-                });
             });
 
             this.setRegisteredCourseCount(courses);
             this.setRegisteredCredits(creditCount);
-            this.setWaitlistedCredits(waitlistCreditCount);
-            this.setWaitlistedCourseCount(waitlistCourses);
-            if (waitlistCourses > 0) {
-                this.setShowWaitlistedSection(true);
-            } else {
-                this.setShowWaitlistedSection(false);
-            }
-        };
 
-        // In this method we pass in a status and it returns a message to display
-        this.getCorrespondingMessageFromStatus = function(status){
-            var statusMessage = '';
-            if(status == 'waitlisted'){
-                statusMessage = 'If a seat becomes available you will be registered automatically';
-            }
-
-            return statusMessage;
         };
 
     });

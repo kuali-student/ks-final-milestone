@@ -42,7 +42,6 @@ public class ExamOfferingWrapper implements Serializable, ComparatorModel{
     private ScheduleRequestSetInfo scheduleRequestSetInfo;
     private boolean driverPerAO;
     private boolean overrideMatrix;
-    private String overrideMatrixUI;
 
     public ExamOfferingWrapper(){
         startTime = new ArrayList<String>();
@@ -259,13 +258,5 @@ public class ExamOfferingWrapper implements Serializable, ComparatorModel{
 
     public void setOverrideMatrix(boolean overrideMatrix) {
         this.overrideMatrix = overrideMatrix;
-    }
-
-    public String getOverrideMatrixUI() {
-        return String.valueOf(isOverrideMatrix());
-    }
-
-    public void setOverrideMatrixUI(String overrideMatrixUI) {
-        this.overrideMatrixUI = overrideMatrixUI;
     }
 }

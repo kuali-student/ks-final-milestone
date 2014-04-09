@@ -9,7 +9,6 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.enrollment.class2.courseofferingset.dao.SocDao;
 import org.kuali.student.enrollment.class2.courseofferingset.service.facade.RolloverAssist;
 import org.kuali.student.enrollment.class2.courseofferingset.util.CourseOfferingSetUtil;
-import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingServiceFacade;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
@@ -48,7 +47,6 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
     private CourseOfferingSetService socService;
     private RolloverAssist rolloverAssist;
     private SocDao socDao;
-    private ExamOfferingServiceFacade examOfferingServiceFacade;
 
     private SchedulingService schedulingService;
 
@@ -98,14 +96,6 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
 
     public void setRolloverAssist(RolloverAssist rolloverAssist) {
         this.rolloverAssist = rolloverAssist;
-    }
-
-    public ExamOfferingServiceFacade getExamOfferingServiceFacade() {
-        return examOfferingServiceFacade;
-    }
-
-    public void setExamOfferingServiceFacade(ExamOfferingServiceFacade examOfferingServiceFacade) {
-        this.examOfferingServiceFacade = examOfferingServiceFacade;
     }
 
     private CourseOfferingSetService _getSocService() {
@@ -461,7 +451,6 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
         schedulingRunner.setCoService(coService);
         schedulingRunner.setSchedulingService(schedulingService);
         schedulingRunner.setSocService(this._getSocService());
-        schedulingRunner.setExamOfferingServiceFacade(examOfferingServiceFacade);
 
         //Try to run this after the transaction completes
         KSThreadRunnerAfterTransactionSynchronization.runAfterTransactionCompletes(schedulingRunner);

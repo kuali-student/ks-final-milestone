@@ -4,14 +4,12 @@ import org.kuali.student.enrollment.courseoffering.infc.RegistrationGroup;
 import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequestItem;
 
 import java.io.Serializable;
-import org.kuali.student.r2.common.dto.ContextInfo;
 
 public class RegistrationRequestItemEngineMessage implements Serializable {
     private RegistrationRequestItem requestItem;
     private RegistrationGroup registrationGroup;
-    private ContextInfo contextInfo;
 
-    public RegistrationRequestItemEngineMessage(RegistrationRequestItem requestItem, RegistrationGroup registrationGroup, ContextInfo contextInfo) {
+    public RegistrationRequestItemEngineMessage(RegistrationRequestItem requestItem, RegistrationGroup registrationGroup) {
         this.requestItem = requestItem;
         this.registrationGroup = registrationGroup;
     }
@@ -30,13 +28,5 @@ public class RegistrationRequestItemEngineMessage implements Serializable {
 
     public void setRegistrationGroup(RegistrationGroup registrationGroup) {
         this.registrationGroup = registrationGroup;
-    }
-
-    public ContextInfo getContextInfo() {
-        return contextInfo;
-    }
-
-    public void setContextInfo(ContextInfo contextInfo) {
-        this.contextInfo = contextInfo;
     }
 }

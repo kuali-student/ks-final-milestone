@@ -67,11 +67,11 @@ public class CourseRegistrationLprActionProcessor {
                 //Handle Update
                 updateRegistration(message, contextInfo);
             } else if (registrationRequestItem.getTypeKey().equals(LprServiceConstants.REQ_ITEM_DROP_WAITLIST_TYPE_KEY)) {
-                //Handle WL Drop
-                dropWaitlist(message, contextInfo);
-            } else if (registrationRequestItem.getTypeKey().equals(LprServiceConstants.REQ_ITEM_UPDATE_WAITLIST_TYPE_KEY)) {
                 //Handle WL Update
                 updateWaitlist(message, contextInfo);
+            } else if (registrationRequestItem.getTypeKey().equals(LprServiceConstants.REQ_ITEM_UPDATE_WAITLIST_TYPE_KEY)) {
+                //Handle WL Drop
+                dropWaitlist(message, contextInfo);
             } else {
                 throw new UnsupportedOperationException("Unknown Registration Request Item Type: " + registrationRequestItem.getTypeKey());
             }

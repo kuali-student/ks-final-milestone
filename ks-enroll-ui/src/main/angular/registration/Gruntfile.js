@@ -131,7 +131,7 @@ module.exports = function (grunt) {
                 proxies: [
                     {
                         context: '/ks-with-rice-bundled-dev',
-                        host: '127.0.0.1',
+                        host: 'localhost',
                         port: '8081',
                         changeOrigin: true,
                         headers: {

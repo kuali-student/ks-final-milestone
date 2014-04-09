@@ -27,8 +27,8 @@ public class CourseRegistrationClientServiceConstants {
     public static final String LPRTRANS_ITEM_WAITLIST_STUDENT_REMOVED_MESSAGE = "Student removed from waitlist.";
     public static final String LPRTRANS_ITEM_WAITLIST_OPTIONS_UPDATED_MESSAGE = "Waitlist options were updated.";
     public static final String LPRTRANS_ITEM_WAITLIST_WAITLISTED_MESSAGE = "Waitlisted";
-    public static final String LPRTRANS_ITEM_WAITLIST_FULL_MESSAGE = "No seats available.<br/>(Waitlist full)";
-    public static final String LPRTRANS_ITEM_WAITLIST_NOT_OFFERED_MESSAGE = "No seats available.<br/>(Waitlist not offered)";
+    public static final String LPRTRANS_ITEM_WAITLIST_FULL_MESSAGE = "No seats available. (Waitlist full)";
+    public static final String LPRTRANS_ITEM_WAITLIST_NOT_OFFERED_MESSAGE = "No seats available. (Waitlist not offered)";
     public static final String LPRTRANS_ITEM_WAITLIST_AVAILABLE_MESSAGE = "No seats available.";
 
     // transaction item course action messages

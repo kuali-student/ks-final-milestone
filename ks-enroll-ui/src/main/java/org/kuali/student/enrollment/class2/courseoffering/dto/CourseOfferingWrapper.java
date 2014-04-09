@@ -65,10 +65,6 @@ public class CourseOfferingWrapper implements Serializable{
 
     private boolean isColocatedAoToDelete;
     private boolean isColocatedAoToCSR;
-
-    private boolean matrixOveridableAODriven;
-    private boolean matrixOveridableCODriven;
-
     /**
      * Usage of this property only in create and edit CO screens. Basically, this is whether to
      * allow the user to select cross lists or not. If it's false, then the cross
@@ -471,22 +467,6 @@ public class CourseOfferingWrapper implements Serializable{
 
     public void setExamPeriodId(String examPeriodId) {
         this.examPeriodId = examPeriodId;
-    }
-
-    public boolean isMatrixOveridableAODriven() {
-        return matrixOveridableAODriven;
-    }
-
-    public void setMatrixOveridableAODriven(boolean matrixOveridableAODriven) {
-        this.matrixOveridableAODriven = matrixOveridableAODriven;
-    }
-
-    public boolean isMatrixOveridableCODriven() {
-        return matrixOveridableCODriven;
-    }
-
-    public void setMatrixOveridableCODriven(boolean matrixOveridableCODriven) {
-        this.matrixOveridableCODriven = matrixOveridableCODriven;
     }
 
     public static boolean isDeleteCoValid(String stateKey) {

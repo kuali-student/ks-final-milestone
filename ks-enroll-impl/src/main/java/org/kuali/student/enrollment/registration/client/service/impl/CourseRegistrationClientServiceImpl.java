@@ -187,8 +187,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         statTypesToRequest.add(RegEngineMqStatisticsGenerator.RegistrationEngineStatsType.BROKER);
         statTypesToRequest.add(RegEngineMqStatisticsGenerator.RegistrationEngineStatsType.INITIALIZATION_QUEUE);
         statTypesToRequest.add(RegEngineMqStatisticsGenerator.RegistrationEngineStatsType.VERIFICATION_QUEUE);
-        statTypesToRequest.add(RegEngineMqStatisticsGenerator.RegistrationEngineStatsType.REQ_ITEM_SPLIT_QUEUE);
-        statTypesToRequest.add(RegEngineMqStatisticsGenerator.RegistrationEngineStatsType.LPR_ACTION_QUEUE);
+        statTypesToRequest.add(RegEngineMqStatisticsGenerator.RegistrationEngineStatsType.SEAT_CHECK_QUEUE);
         statTypesToRequest.add(RegEngineMqStatisticsGenerator.RegistrationEngineStatsType.REGISTRATION_ENGINE_STATS);
 
         // collect the stats
@@ -220,7 +219,6 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         } else {
             termId = CourseRegistrationAndScheduleOfClassesUtil.getTermId(termId, termCode);
         }
-
         return getRegistrationScheduleByPersonAndTerm(userId, termId, contextInfo);
     }
 
@@ -446,14 +444,14 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
             // running over the list of results returned. One CO can have multiple AOs
             if (hmCourseOffering.containsKey(masterLprId)) {
                 StudentScheduleCourseResult studentScheduleCourseResult = hmCourseOffering.get(masterLprId);
-                if (StringUtils.equals(personLuiType, LprServiceConstants.REGISTRANT_CO_TYPE_KEY) || StringUtils.equals(personLuiType, LprServiceConstants.WAITLIST_CO_TYPE_KEY)) {
+                if (StringUtils.equals(personLuiType, LprServiceConstants.REGISTRANT_CO_TYPE_KEY)) {
                     studentScheduleCourseResult.setCourseCode(luiCode);
                     studentScheduleCourseResult.setDescription(luiDesc);
                     studentScheduleCourseResult.setCredits(credits);
                     studentScheduleCourseResult.setGradingOptionId(gradingOptionId);
                     studentScheduleCourseResult.setLongName(luiLongName);
                     studentScheduleCourseResult.setMasterLprId(masterLprId);
-                    if (StringUtils.equals(personLuiType, LprServiceConstants.WAITLIST_CO_TYPE_KEY)) {
+                    if (lprState != null && StringUtils.equals(lprState, LprServiceConstants.ACTIVE_STATE_KEY)) {
                         studentScheduleCourseResult.setWaitlisted(true);
                     } else {
                         studentScheduleCourseResult.setWaitlisted(false);
@@ -468,9 +466,9 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                             }
                         }
                     }
-                } else if (StringUtils.equals(personLuiType, LprServiceConstants.REGISTRANT_RG_TYPE_KEY) || StringUtils.equals(personLuiType, LprServiceConstants.WAITLIST_RG_TYPE_KEY)) {
+                } else if (StringUtils.equals(personLuiType, LprServiceConstants.REGISTRANT_RG_TYPE_KEY)) {
                     studentScheduleCourseResult.setRegGroupCode(luiName);
-                } else if (StringUtils.equals(personLuiType, LprServiceConstants.REGISTRANT_AO_TYPE_KEY) || StringUtils.equals(personLuiType, LprServiceConstants.WAITLIST_AO_TYPE_KEY)) {
+                } else if (StringUtils.equals(personLuiType, LprServiceConstants.REGISTRANT_AO_TYPE_KEY)) {
                     // Scheduling info
                     ActivityOfferingScheduleComponentResult scheduleComponent = CourseRegistrationAndScheduleOfClassesUtil.getActivityOfferingScheduleComponent(isTBA, roomCode, buildingCode,
                             weekdays, startTimeMs, endTimeMs);
@@ -515,14 +513,14 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                 }
             } else {
                 StudentScheduleCourseResult studentScheduleCourseResult = new StudentScheduleCourseResult();
-                if (StringUtils.equals(personLuiType, LprServiceConstants.REGISTRANT_CO_TYPE_KEY) || StringUtils.equals(personLuiType, LprServiceConstants.WAITLIST_CO_TYPE_KEY)) {
+                if (StringUtils.equals(personLuiType, LprServiceConstants.REGISTRANT_CO_TYPE_KEY)) {
                     studentScheduleCourseResult.setCourseCode(luiCode);
                     studentScheduleCourseResult.setDescription(luiDesc);
                     studentScheduleCourseResult.setCredits(credits);
                     studentScheduleCourseResult.setGradingOptionId(gradingOptionId);
                     studentScheduleCourseResult.setLongName(luiLongName);
                     studentScheduleCourseResult.setMasterLprId(masterLprId);
-                    if (StringUtils.equals(personLuiType, LprServiceConstants.WAITLIST_CO_TYPE_KEY)) {
+                    if (lprState != null && StringUtils.equals(lprState, LprServiceConstants.ACTIVE_STATE_KEY)) {
                         studentScheduleCourseResult.setWaitlisted(true);
                     } else {
                         studentScheduleCourseResult.setWaitlisted(false);
@@ -537,10 +535,10 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                         }
                     }
                     hmCourseOffering.put(masterLprId, studentScheduleCourseResult);
-                } else if (StringUtils.equals(personLuiType, LprServiceConstants.REGISTRANT_RG_TYPE_KEY) || StringUtils.equals(personLuiType, LprServiceConstants.WAITLIST_RG_TYPE_KEY)) {
+                } else if (StringUtils.equals(personLuiType, LprServiceConstants.REGISTRANT_RG_TYPE_KEY)) {
                     studentScheduleCourseResult.setRegGroupCode(luiName);
                     hmCourseOffering.put(masterLprId, studentScheduleCourseResult);
-                } else if (StringUtils.equals(personLuiType, LprServiceConstants.REGISTRANT_AO_TYPE_KEY) || StringUtils.equals(personLuiType, LprServiceConstants.WAITLIST_AO_TYPE_KEY)) {
+                } else if (StringUtils.equals(personLuiType, LprServiceConstants.REGISTRANT_AO_TYPE_KEY)) {
                     List<StudentScheduleActivityOfferingResult> activityOfferings = new ArrayList<StudentScheduleActivityOfferingResult>();
                     StudentScheduleActivityOfferingResult activityOffering = new StudentScheduleActivityOfferingResult();
                     // AO basic info

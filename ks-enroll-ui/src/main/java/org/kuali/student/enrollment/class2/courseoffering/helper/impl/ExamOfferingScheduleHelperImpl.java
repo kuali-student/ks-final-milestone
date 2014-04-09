@@ -75,7 +75,6 @@ public class ExamOfferingScheduleHelperImpl implements ExamOfferingScheduleHelpe
      * @param eoWrappers  a list of ExamOfferingWrapper
      * @return StatusInfo
      */
-    @Override
     @Transactional
     // If it's already a part of transaction, it's ok.. Otherwise, create a new transaction boundary for all the changes.
     public StatusInfo saveScheduleRequestBulk(List<ExamOfferingWrapper> eoWrappers, ContextInfo defaultContextInfo){
@@ -106,7 +105,6 @@ public class ExamOfferingScheduleHelperImpl implements ExamOfferingScheduleHelpe
      * @param eoWrapper ExamOfferingWrapper
      * @return StatusInfo
      */
-    @Override
     @Transactional
     // If it's already a part of transaction, it's ok.. Otherwise, create a new transaction boundary for all the changes.
     public StatusInfo saveScheduleRequest(ExamOfferingWrapper eoWrapper, ContextInfo defaultContextInfo) {
@@ -278,7 +276,6 @@ public class ExamOfferingScheduleHelperImpl implements ExamOfferingScheduleHelpe
         return new StatusInfo();
     }
 
-    @Override
     public void loadSchedules(ExamOfferingWrapper eoWrapper, CourseOfferingManagementForm theForm, ContextInfo defaultContextInfo){
         loadScheduleRequests(eoWrapper, theForm, defaultContextInfo);
     }

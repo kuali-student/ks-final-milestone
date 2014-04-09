@@ -26,11 +26,7 @@ import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
 import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
-import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
-import org.kuali.rice.krms.framework.engine.Agenda;
-import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.uif.util.GrowlIcon;
 import org.kuali.student.common.uif.util.KSUifUtils;
@@ -47,7 +43,6 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleCalcContai
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleRequestCalcContainer;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingManagementViewHelperService;
-import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
 import org.kuali.student.enrollment.class2.courseoffering.service.facade.ActivityOfferingResult;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementToolbarUtil;
@@ -106,7 +101,6 @@ import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
-import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
@@ -2414,9 +2408,6 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         List<ExamOfferingInfo> examOfferingInfos = CourseOfferingManagementUtil.getExamOfferingService().getExamOfferingsByIds(
                 new ArrayList<String>(examOfferingIds), ContextUtils.createDefaultContextInfo());
 
-        //set the EO matrix RSI Overidable flag for the current CO wrapper
-        setExamOfferingMatrixRSIOveridability(theForm);
-
         for (ExamOfferingInfo examOfferingInfo : examOfferingInfos) {
             ExamOfferingWrapper examOfferingWrapper = createWrapperFromExamOffering(examOfferingInfo, theForm);
 
@@ -2526,13 +2517,8 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         StateInfo state = getStateService().getState(examOfferingInfo.getStateKey(),
                 ContextUtils.createDefaultContextInfo());
         eoWrapper.setStateName(state.getName());
-        CourseOfferingManagementUtil.getExamOfferingScheduleHelper().loadSchedules(eoWrapper, theForm, ContextUtils.createDefaultContextInfo());
+        CourseOfferingManagementUtil.getExamOfferingScheduleHelper().loadScheduleRequests(eoWrapper, theForm, ContextUtils.createDefaultContextInfo());
 
-        //retrieve the EO matrix overriding attribute
-        AttributeInfo attributeInfo = CourseOfferingManagementUtil.getAttributeForKey(examOfferingInfo.getAttributes(), ExamOfferingServiceConstants.EXAM_OFFERING_MATRIX_OVERRIDE_ATTR);
-        if (attributeInfo != null) {
-            eoWrapper.setOverrideMatrix(Boolean.valueOf(attributeInfo.getValue()));
-        }
         return eoWrapper;
     }
 
@@ -2631,58 +2617,5 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
      */
     public List<BuildingInfo> retrieveBuildingInfoByCode(String buildingCode) throws Exception {
         return CourseOfferingManagementUtil.getScheduleHelper().retrieveBuildingInfoByCode(buildingCode, false);
-    }
-
-    /**
-     * This method set the EO matrix RSI Overidable flag for the current CO wrapper
-     *
-     * @param theForm CourseOfferingManagementForm
-     */
-    private void setExamOfferingMatrixRSIOveridability(CourseOfferingManagementForm theForm) {
-        AttributeInfo attributeInfo = CourseOfferingManagementUtil.getAttributeForKey(theForm.getCurrentCourseOfferingWrapper().getCourseOfferingInfo().getAttributes(), CourseOfferingServiceConstants.FINAL_EXAM_USE_MATRIX);
-        if ((attributeInfo == null) || !Boolean.valueOf(attributeInfo.getValue())) {
-            theForm.getCurrentCourseOfferingWrapper().setMatrixOveridableAODriven(false);
-            theForm.getCurrentCourseOfferingWrapper().setMatrixOveridableCODriven(false);
-            return;
-        }
-
-        if (theForm.getTermInfo() != null && StringUtils.isNotBlank(theForm.getTermInfo().getTypeKey())) {
-            KrmsTypeDefinition typeDefinitionAODriven = CourseOfferingManagementUtil.getKrmsTypeRepositoryService().getTypeByName(
-                    PermissionServiceConstants.KS_SYS_NAMESPACE, KSKRMSServiceConstants.AGENDA_TYPE_FINAL_EXAM_AO_DRIVEN);
-            if (typeDefinitionAODriven != null) {
-                Agenda agendaAODriven = getAgendaForRefObjectId(theForm.getTermInfo().getTypeKey(), typeDefinitionAODriven);
-                if (agendaAODriven != null) {
-                    theForm.getCurrentCourseOfferingWrapper().setMatrixOveridableAODriven(true);
-                }
-            }
-
-            KrmsTypeDefinition typeDefinitionCODriven = CourseOfferingManagementUtil.getKrmsTypeRepositoryService().getTypeByName(
-                    PermissionServiceConstants.KS_SYS_NAMESPACE, KSKRMSServiceConstants.AGENDA_TYPE_FINAL_EXAM_CO_DRIVEN);
-            if (typeDefinitionCODriven != null) {
-                Agenda agendaCODriven = getAgendaForRefObjectId(theForm.getTermInfo().getTypeKey(), typeDefinitionCODriven);
-                if (agendaCODriven != null) {
-                    theForm.getCurrentCourseOfferingWrapper().setMatrixOveridableCODriven(true);
-                }
-            }
-
-        }
-    }
-
-    private Agenda getAgendaForRefObjectId(String refObjectId, KrmsTypeDefinition typeDefinition) {
-
-        //Retrieve bindings for this reference object id.
-        List<ReferenceObjectBinding> referenceObjectBindings = CourseOfferingManagementUtil.getRuleManagementService().findReferenceObjectBindingsByReferenceObject(
-                TypeServiceConstants.REF_OBJECT_URI_TYPE, refObjectId);
-        for (ReferenceObjectBinding referenceObjectBinding : referenceObjectBindings) {
-
-            //Retrieve the agenda and check the type.
-            AgendaDefinition agendaDefinition = CourseOfferingManagementUtil.getRuleManagementService().getAgenda(referenceObjectBinding.getKrmsObjectId());
-            if (agendaDefinition.getTypeId().equals(typeDefinition.getId())) {
-
-                //Only a single agenda for a specific type should exist in the matrix.
-                return KrmsRepositoryServiceLocator.getKrmsRepositoryToEngineTranslator().translateAgendaDefinition(agendaDefinition);
-            }
-        }
-        return null;
     }
 }
