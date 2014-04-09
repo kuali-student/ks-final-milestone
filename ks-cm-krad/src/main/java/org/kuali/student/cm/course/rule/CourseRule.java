@@ -30,6 +30,7 @@ import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.uif.rule.KsMaintenanceDocumentRuleBase;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -86,27 +87,38 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
 
     protected boolean validateInstructor(CourseInfoWrapper dataObject){
 
+        List<CluInstructorInfoWrapper> instructorToRemove = new ArrayList<CluInstructorInfoWrapper>();
+
         for (CluInstructorInfoWrapper instructorDisplay : dataObject.getInstructorWrappers()) {
 
-            String principalName = getInstructorSearchString(instructorDisplay.getDisplayName());
-            Map<String, String> searchCriteria = new HashMap<String, String>();
-            searchCriteria.put(KIMPropertyConstants.Person.PRINCIPAL_NAME, principalName);
-            List<Person> persons = getPersonService().findPeople(searchCriteria);
+            if (StringUtils.isBlank(instructorDisplay.getDisplayName())){
 
-            if (persons.isEmpty()){
-                GlobalVariables.getMessageMap().putErrorForSectionId("instructor-section", CurriculumManagementConstants.MessageKeys.INSTRUCTOR_NOT_FOUND, principalName);
-                return false;
-            } else if (persons.size() > 1){
-                GlobalVariables.getMessageMap().putErrorForSectionId("instructor-section", CurriculumManagementConstants.MessageKeys.INSTRUCTOR_MULTIPLE_MATCH_FOUND, principalName);
-                return false;
+                instructorToRemove.add(instructorDisplay);
+
             } else {
-                try {
-                    instructorDisplay.setPersonId(KSCollectionUtils.getOptionalZeroElement(persons).getPrincipalId());
-                } catch (OperationFailedException e) {
-                    throw new RuntimeException(e);
+
+                String principalName = getInstructorSearchString(instructorDisplay.getDisplayName());
+                Map<String, String> searchCriteria = new HashMap<String, String>();
+                searchCriteria.put(KIMPropertyConstants.Person.PRINCIPAL_NAME, principalName);
+                List<Person> persons = getPersonService().findPeople(searchCriteria);
+
+                if (persons.isEmpty()){
+                    GlobalVariables.getMessageMap().putErrorForSectionId("instructor-section", CurriculumManagementConstants.MessageKeys.ERROR_INSTRUCTOR_NOT_FOUND, principalName);
+                    return false;
+                } else if (persons.size() > 1){
+                    GlobalVariables.getMessageMap().putErrorForSectionId("instructor-section", CurriculumManagementConstants.MessageKeys.ERROR_INSTRUCTOR_MULTIPLE_MATCH_FOUND, principalName);
+                    return false;
+                } else {
+                    try {
+                        instructorDisplay.setPersonId(KSCollectionUtils.getOptionalZeroElement(persons).getPrincipalId());
+                    } catch (OperationFailedException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
         }
+
+        dataObject.getInstructorWrappers().removeAll(instructorToRemove);
 
         return true;
     }

@@ -114,8 +114,8 @@ public class CurriculumManagementConstants {
         public final static String ERROR_CREATE_COMMENT = "error.create.comment";
 
         public final static String ERROR_NO_RESULTS_FOUND = "error.search.result.notfound";
-        public final static String INSTRUCTOR_NOT_FOUND = "error.cm.course.instructor.notfound";
-        public final static String INSTRUCTOR_MULTIPLE_MATCH_FOUND = "error.cm.course.instructor.multiplematch";
+        public final static String ERROR_INSTRUCTOR_NOT_FOUND = "error.cm.course.instructor.notfound";
+        public final static String ERROR_INSTRUCTOR_MULTIPLE_MATCH_FOUND = "error.cm.course.instructor.multiplematch";
     }
 
     public static class OrganizationMessageKeys{

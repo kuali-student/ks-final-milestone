@@ -1824,7 +1824,4 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         return atpService;
     }
 
-    public static PersonService getPersonService() {
-            return KimApiServiceLocator.getPersonService();
-        }
 }
