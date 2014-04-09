@@ -1024,10 +1024,20 @@ function getSelectedCollectionPathAndIndex(row){
             var name = jQuery(this).attr("name");
             if(name != undefined){
                 var splitedName = name.split(".");
-                var clusterName = splitedName[0];
-                var wrapperName = splitedName[1].split('[')[0];
-                selectedCollectionPathAndIndex['selectedCollectionPath'] = clusterName + "." + wrapperName;
-                var index = splitedName[1].match(/\[(\d+)\]/)[1];
+                var numberOfLists = name.split("[").length;
+                var clusterName = "";
+                var wrapperName = "";
+                if(numberOfLists > 2){
+                    clusterName = splitedName[0];
+                    wrapperName = splitedName[1];
+                }else{
+                    wrapperName = splitedName[0];
+                }
+                if(clusterName){
+                    clusterName += ".";
+                }
+                selectedCollectionPathAndIndex['selectedCollectionPath'] = clusterName + wrapperName.split('[')[0];
+                var index = wrapperName.match(/\[(\d+)\]/)[1];
                 selectedCollectionPathAndIndex['selectedLineIndex'] = index;
                 found = true;
                 return false;
@@ -1037,6 +1047,7 @@ function getSelectedCollectionPathAndIndex(row){
     });
     return selectedCollectionPathAndIndex;
 }
+
 
 function saveInlineRSI(event, baseUrl){
     var row = jQuery(event.target).closest('tr');
