@@ -33,8 +33,10 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Calendar;
 
 import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
 import static org.kuali.rice.core.api.criteria.PredicateFactory.or;
@@ -417,29 +419,36 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
         return offerings;
     }
 
-	/*@Override
-	public String getLastOfferedTermIdForCourse(Course course) {
+    /*
+     *  - Only display Last Offered if it has been offered within the last 10 years.
+     *  - If the course has not been offered within the last 10 years, return null
+     */
+	@Override
+	public Term getLastOfferedTermForCourse(Course course) {
 		ContextInfo ctx = KsapFrameworkServiceLocator.getContext().getContextInfo();
-		List<CourseOfferingInfo> courseOfferingInfo = null;
+        Date currentDate = new Date();
+        Term lastOfferedTerm = null;
+        Term termInfo;
+
 		try {
             List<CourseOfferingInfo> offerings = KsapFrameworkServiceLocator.getCourseOfferingService().getCourseOfferingsByCourse(course.getId(),ctx);
-            String termId = KsapFrameworkServiceLocator.getTermHelper().getOldestHistoricalTerm().getId();
-
-            for(CourseOfferingInfo offering : offerings){
-                    if(offering.getTermId().equals(termId)){
-                        courseOfferingInfo.add(offering);
+            for (CourseOfferingInfo co: offerings){                
+                //check if the CO state is offered
+                if (co.getStateKey().equalsIgnoreCase(LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY)){            
+                    termInfo = KsapFrameworkServiceLocator.getAcademicCalendarService().getTerm(co.getTermId(), ctx);
+                    //check if the term is NOT a future or a current term
+                    if (termInfo.getEndDate().before(currentDate))   {
+                        if (lastOfferedTerm == null){
+                            lastOfferedTerm = termInfo;
+                        }
+                        else{
+                            if(lastOfferedTerm.getStartDate().before(termInfo.getStartDate()) && lastOfferedTerm.getEndDate().after(termInfo.getEndDate())) {
+                                lastOfferedTerm = termInfo;
+                            }
+                        }                         
                     }
+                }
             }
-            // Not supported
-//			List<String> courseIds = KsapFrameworkServiceLocator.getCourseService().searchForCourseIds(
-//					QueryByCriteria.Builder.fromPredicates(PredicateFactory.equal("officialIdentifier.code",
-//							course.getCode())), ctx);
-//			String termId = KsapFrameworkServiceLocator.getTermHelper().getOldestHistoricalTerm().getId();
-//			QueryByCriteria crit = QueryByCriteria.Builder.fromPredicates(PredicateFactory.and(
-//					PredicateFactory.in("cluId", courseIds.toArray(new String[courseIds.size()])),
-//					PredicateFactory.greaterThanOrEqual("atpId", termId)));
-//			courseOfferingInfo = KsapFrameworkServiceLocator.getCourseOfferingService().searchForCourseOfferings(crit,
-//					ctx);
 		} catch (InvalidParameterException e) {
 			throw new IllegalArgumentException("CO lookup failure", e);
 		} catch (MissingParameterException e) {
@@ -451,28 +460,23 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 		} catch (DoesNotExistException e){
             throw new IllegalStateException("CO lookup failure", e);
         }
-		if (courseOfferingInfo != null && courseOfferingInfo.size() > 0) {
-			TermInfo lo;
-			try {
-				lo = KsapFrameworkServiceLocator.getAcademicCalendarService().getTerm(
-                        KSCollectionUtils.getRequiredZeroElement(courseOfferingInfo).getTermId(),
-						KsapFrameworkServiceLocator.getContext().getContextInfo());
-			} catch (org.kuali.student.r2.common.exceptions.DoesNotExistException e) {
-				throw new IllegalArgumentException("AC lookup failure", e);
-			} catch (InvalidParameterException e) {
-				throw new IllegalArgumentException("AC lookup failure", e);
-			} catch (MissingParameterException e) {
-				throw new IllegalArgumentException("AC lookup failure", e);
-			} catch (OperationFailedException e) {
-				throw new IllegalStateException("AC lookup failure", e);
-			} catch (PermissionDeniedException e) {
-				throw new IllegalStateException("AC lookup failure", e);
-			}
-			return lo.getName();
-		} else
-			return null;
+
+        if (lastOfferedTerm != null) {
+            //check if the last Offered term is within the last 10 years.
+            Calendar oldCal = Calendar.getInstance();
+            Calendar currentCal = Calendar.getInstance();
+            currentCal.setTime(currentDate);
+            oldCal.set(currentCal.get(Calendar.YEAR)-10, currentCal.get(Calendar.MONTH), currentCal.get(Calendar.DAY_OF_MONTH));
+            Date oldDate = oldCal.getTime();
+            if(lastOfferedTerm.getEndDate().after(oldDate) && lastOfferedTerm.getEndDate().before(currentDate))
+                return lastOfferedTerm;
+            else
+                return null;
+        }
+        else
+            return null;
 	}
-     */
+
 
 	@Override
 	public List<Course> getCoursesByCode(String courseCd) {
