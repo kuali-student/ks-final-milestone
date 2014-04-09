@@ -19,7 +19,6 @@ import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
-import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.form.CourseInfoWrapper;
@@ -45,7 +44,7 @@ import java.util.Properties;
 
 @Controller
 @RequestMapping(value = CurriculumManagementConstants.ControllerRequestMappings.CREATE_COURSE_INITIAL)
-public class CreateCourseInitialController  extends UifControllerBase {
+public class CreateCourseInitialController extends UifControllerBase {
 
     private final String RETURN_LOCATION_PARAMETER = "cmHome?" + KRADConstants.DISPATCH_REQUEST_PARAMETER + "=" + KRADConstants.START_METHOD + "&" + UifConstants.UrlParams.VIEW_ID + "=curriculumHomeView";
     private final String PAGE_ID = "KS-CourseView-CoursePage";
@@ -63,17 +62,16 @@ public class CreateCourseInitialController  extends UifControllerBase {
      * setup the maintenance object
      */
     @RequestMapping(params = "methodToCall=continueCreateCourse")
-    public ModelAndView continueCreateCourse(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
+    public ModelAndView continueCreateCourse(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                              HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        final CourseInitialForm maintenanceDocForm = (CourseInitialForm) form;
         Properties urlParameters = new Properties();
         if (!CourseProposalUtil.isUserCurriculumSpecialist()) {
             // if user is not a CS user, then curriculum review must be used because only CS users can disable curriculum review
             urlParameters.put(CourseController.URL_PARAM_USE_CURRICULUM_REVIEW,Boolean.TRUE.toString());
         } else {
             // if user is a CS user, check the checkbox value
-            urlParameters.put(CourseController.URL_PARAM_USE_CURRICULUM_REVIEW,Boolean.toString(maintenanceDocForm.isUseReviewProcess()));
+            urlParameters.put(CourseController.URL_PARAM_USE_CURRICULUM_REVIEW,Boolean.toString(((CourseInitialForm) form).isUseReviewProcess()));
         }
         urlParameters.put(UifConstants.UrlParams.PAGE_ID, PAGE_ID);
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.DOC_HANDLER_METHOD);

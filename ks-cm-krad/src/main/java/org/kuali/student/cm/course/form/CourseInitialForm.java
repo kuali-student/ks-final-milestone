@@ -16,15 +16,12 @@
  */
 package org.kuali.student.cm.course.form;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
-import org.kuali.student.cm.common.util.CurriculumManagementConstants.CourseViewSections;
-import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
+import org.kuali.rice.krad.web.form.UifFormBase;
 
 /**
  * Form for create course.
  */
-public class CourseInitialForm extends MaintenanceDocumentForm {
+public class CourseInitialForm extends UifFormBase {
 
     private String createCourseInitialAction;
 
