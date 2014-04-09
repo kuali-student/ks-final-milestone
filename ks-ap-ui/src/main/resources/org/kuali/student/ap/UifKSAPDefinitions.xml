@@ -172,7 +172,6 @@
 
     <bean id="KSAPTheme" abstract="true" parent="KSAPTheme-parentBean"/>
     <bean id="KSAPTheme-parentBean" parent="Uif-BaseTheme">
-        <property name="usesThemeBuilder" value="false"/>
         <property name="cssFiles">
             <list merge="true">
                 <value>themes/ksboot/stylesheets/ksboot.css</value>
@@ -199,7 +198,6 @@
     <!--Base generic KS theme with no CSS or JS included-->
     <bean id="KSAPRetrievedTheme" abstract="true" parent="KSAPRetrievedTheme-parentBean"/>
     <bean id="KSAPRetrievedTheme-parentBean" parent="Uif-BaseTheme">
-        <property name="usesThemeBuilder" value="false"/>
         <property name="cssFiles">
             <list merge="false"/>
         </property>

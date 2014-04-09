@@ -16,6 +16,20 @@ public interface CourseSearchItem {
 		fixed, range, multiple, unknown
 	}
 
+	enum PlanState {
+		UNPLANNED(""), SAVED("Bookmarked"), IN_PLAN("Planned");
+
+		private final String label;
+
+		PlanState(String label) {
+			this.label = label;
+		}
+
+		public String getLabel() {
+			return this.label;
+		}
+	}
+
 	/**
 	 * Get the course ID (CLU ID) for the search item.
 	 * 

@@ -1,6 +1,5 @@
 package org.kuali.student.ap.coursesearch.controller;
 
-import org.apache.cxf.common.util.StringUtils;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -69,11 +68,6 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 
 	public static final String NO_CAMPUS = "-1";
     private boolean limitExceeded;
-
-    private final String NONE = "none";
-    private final String SAVED = "saved";
-    private final String PLANNED = "planned";
-    private final String SAVED_AND_PLANNED = "saved_and_planned";
 
 	static {
 		// Related to CourseSearchUI.xml definitions
@@ -224,7 +218,6 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 					String type = resultValuesGroupInfo.getTypeKey()
 							.toLowerCase();
 					String display = resultValuesGroupInfo.getName();
-                    if(StringUtils.isEmpty(display)) display = "0.0 Credits";  //Temp Fix for KSAP-1085 suggest refactor of code to use use credit formatter.
 					String min = null;
 					String max = null;
 
@@ -603,7 +596,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         // Create a map of the gen ed entries to its related course
         Map<String, List<String>> genEdResults = new HashMap<String,List<String>>();
 		for (SearchResultRow row : result.getRows()) {
-			String genEd = KsapHelperUtil.getCellValue(row, "gened.code");
+			String genEd = KsapHelperUtil.getCellValue(row, "gened.name");
 			String id = KsapHelperUtil.getCellValue(row, "course.owner");
             if(genEdResults.containsKey(id)){
                 genEdResults.get(id).add(genEd);
@@ -649,7 +642,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
      * @param studentID - Id of the user running the search
      * @return A map of the plan state for a course.
      */
-	private Map<String, String> getCourseStatusMap(
+	private Map<String, CourseSearchItem.PlanState> getCourseStatusMap(
 			String studentID) {
 		LOG.info("Start of method getCourseStatusMap of CourseSearchController: {}",
 				System.currentTimeMillis());
@@ -660,9 +653,9 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 
 		String planTypeKey = AcademicPlanServiceConstants.LEARNING_PLAN_TYPE_PLAN;
 
-		Map<String, String> savedCourseSet = new HashMap<String, String>();
+		Map<String, CourseSearchItem.PlanState> savedCourseSet = new HashMap<String, CourseSearchItem.PlanState>();
 
-        /*
+		/*
 		 * For each plan item in each plan set the state based on the type.
 		 */
         // Find list of learning plans
@@ -696,36 +689,24 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 
             // Process plan items in learning plan
 			for (PlanItem planItem : planItemList) {
-                String courseID = planItem.getRefObjectId();
-
-                //4 possible states: none, planned, saved, or both
-
-                String state = NONE; //initial default state
-
-				if (planItem.getCategory().equals(AcademicPlanServiceConstants.ItemCategory.WISHLIST)) {
-                    state = SAVED;
+				String courseID = planItem.getRefObjectId();
+				CourseSearchItem.PlanState state;
+				if (planItem.getCategory().equals(
+						AcademicPlanServiceConstants.ItemCategory.WISHLIST)) {
+					state = CourseSearchItem.PlanState.SAVED;
 				} else if (planItem.getCategory().equals(
 						AcademicPlanServiceConstants.ItemCategory.PLANNED)
 						|| planItem.getCategory().equals(
 								AcademicPlanServiceConstants.ItemCategory.BACKUP)
                         || planItem.getCategory().equals(
                                 AcademicPlanServiceConstants.ItemCategory.CART)) {
-                    state = PLANNED;
+					state = CourseSearchItem.PlanState.IN_PLAN;
 				} else {
-                    throw new RuntimeException("Unknown plan item type.");
+					throw new RuntimeException("Unknown plan item type.");
 				}
 
-                if (!savedCourseSet.containsKey(courseID)) {
-                    // First time through the loop, add state from above directly
-                    savedCourseSet.put(courseID, state);
-                } else if (savedCourseSet.get(courseID).equals(NONE)) {
-                    // Was through once already, didn't get saved or planned
-                    savedCourseSet.put(courseID, state);
-                } else if ( (savedCourseSet.get(courseID).equals(SAVED) && state.equals(PLANNED))
-                            || (savedCourseSet.get(courseID).equals(PLANNED) && state.equals(SAVED)) ) {
-                    //previously had saved OR planned... now it must have both
-                    savedCourseSet.put(courseID, SAVED_AND_PLANNED);
-                }
+                // Add entry to map
+				savedCourseSet.put(courseID, state);
 			}
 		}
 		LOG.info("End of method getCourseStatusMap of CourseSearchController: {}",
@@ -777,7 +758,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 		List<SearchRequestInfo> requests = queryToRequests(form);
 		List<Hit> hits = processSearchRequests(requests);
 		List<CourseSearchItem> courseList = new ArrayList<CourseSearchItem>();
-        Map<String, String> courseStatusMap = getCourseStatusMap(studentId);
+		Map<String, CourseSearchItem.PlanState> courseStatusMap = getCourseStatusMap(studentId);
 		List<String> courseIDs = new ArrayList<String>();
 		for (Hit hit : hits) {
             courseIDs.add(hit.courseID);
@@ -806,26 +787,9 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
             }
         }
 		for (CourseSearchItemImpl course : courses) {
-
             String courseId = course.getCourseId();
             if (courseStatusMap.containsKey(courseId)) {
-
-                String status = courseStatusMap.get(courseId);
-                if (status.equals(NONE)) {
-                    course.setSaved(false);
-                    course.setPlanned(false);
-                } else if (status.equals(SAVED)) {
-                    course.setSaved(true);
-                    course.setPlanned(false);
-                } else if (status.equals(PLANNED)) {
-                    course.setPlanned(true);
-                    course.setSaved(false);
-                } else if (status.equals(SAVED_AND_PLANNED)) {
-                    course.setPlanned(true);
-                    course.setSaved(true);
-                } else {
-                    LOG.debug("Unknown status in map. Unable to set status of course with ID: {}", courseId);
-                }
+                course.setStatus(courseStatusMap.get(courseId));
             }
             course.setSessionid(form.getSessionId());
             courseList.add(course);
@@ -978,11 +942,6 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
      */
 	public void addComponentSearches(List<String> divisions, List<String> codes,
 			List<String> levels, List<String> incompleteCodes,List<String> completeCodes,List<String> completeLevels, List<SearchRequestInfo> requests) {
-
-        Collections.sort(divisions);
-        Collections.sort(codes);
-        Collections.sort(levels);
-        Collections.sort(incompleteCodes);
 
         List<SearchRequestInfo> completedCodeSearches = addCompletedCodeSearches(completeCodes, divisions, codes);
 

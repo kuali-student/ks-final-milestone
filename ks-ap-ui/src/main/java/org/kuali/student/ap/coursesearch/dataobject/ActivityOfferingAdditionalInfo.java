@@ -9,7 +9,6 @@ import java.io.Serializable;
  * Time: 3:49 PM
  * To change this template use File | Settings | File Templates.
  */
-@Deprecated
 public class ActivityOfferingAdditionalInfo implements Serializable {
 
 	private static final long serialVersionUID = -8966240639502810074L;

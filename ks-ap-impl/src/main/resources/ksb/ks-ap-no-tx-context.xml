@@ -234,7 +234,15 @@
         <property name="em" ref="lpEntityManager"/>
     </bean>
 
+    <bean id="learningPlanRichTextDao" class="org.kuali.student.ap.academicplan.dao.LearningPlanRichTextDao">
+        <property name="em" ref="lpEntityManager"/>
+    </bean>
+
     <bean id="planItemDao" class="org.kuali.student.ap.academicplan.dao.PlanItemDao">
+        <property name="em" ref="lpEntityManager"/>
+    </bean>
+
+    <bean id="planItemRichTextDao" class="org.kuali.student.ap.academicplan.dao.PlanItemRichTextDao">
         <property name="em" ref="lpEntityManager"/>
     </bean>
 

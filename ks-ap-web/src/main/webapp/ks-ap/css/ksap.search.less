@@ -51,9 +51,9 @@
 	Course Details
 */
 
-/*#course_details_section {
+#course_details_section {
   width: 73%;
-}*/
+}
 .ksap-view .ksap-underline-header {
   border-bottom: solid 2px #f2e4b7;
   margin-bottom: 20px;
@@ -63,23 +63,9 @@
   font-weight: 700;
 }
 
-#course_details_overview .uif-boxLayoutHorizontalItem {
-  margin: 0 10px 0 0;
-}
-
 .ksap-view .ksap-course-detail-label {
   width: 150px;
   margin-right: 20px;
-}
-
-#course_details_overview .uif-tooltip .uif-boxLayoutHorizontalItem {
-  margin:0;
-  cursor: pointer;
-}
-
-.ksap-course-detail-label .uif-message, .ksap-course-detail-label .uif-tooltip {
-  float:right;
-  font-weight:600;
 }
 
 .ksap-course-detail-label > .uif-verticalBoxLayout.uif-horizontalBoxLayout {
@@ -98,22 +84,6 @@
 .ksap-view .ksap-course-detail-field {
   width: 500px;
   margin: 0;
-}
-
-.ksap-course-detail-source {
-  font-size:11px;
-  color:#666;
-  clear:both;
-  margin: 0;
-}
-
-#course_details_overview .scheduled > span {
-  border-radius: 3px;
-  font-weight: bold;
-  font-size: 80%;
-  padding: 4px;
-  clear: none;
-  line-height: 1.8em;
 }
 
 .ksap-course-sections h5.uif-headerText {
@@ -272,29 +242,45 @@ button img.rightArrowSmall {
 /*
 	Datatables for search results
 */
-.ksap-course-search-results-datatable .ksap-status-column {
-  padding:0;
-
-  span {
-    display: inline-block;
-
-    a {
-      font-size: 16px;
-
-      &:hover {text-decoration: none;}
-      &::before {margin:0;}
-      &.ks-fontello-icon-ok-circled {
-        color:green;
-        &:hover {cursor:default;}
-      }
-      &.ks-fontello-icon-star {
-        color:#0088cc;
-        &:hover {cursor:default;}
-      }
-    }
-
-  }
-
+.ksap-view table.dataTable thead th.sorting_disabled {cursor: default;}
+table.ksap-course-search-results-datatable tbody tr td.ksap-status-column {
+  padding: 0 0 0 20px;
+}
+.ksap-status-column span {
+  color: #0088cc;
+  font-size: 16px;
+  position: relative;
+  height: 16px;
+  width: 16px;
+}
+.ksap-status-column span:hover {
+  color: #005590;
+  cursor: pointer;
+}
+.ksap-status-column span.bookmarked, .ksap-status-column span.planned {
+  color: #ccc;
+  font-size:10px;
+  font-style: italic;
+  margin-left: -20px;
+}
+.ksap-status-column span.bookmarked:before, .ksap-status-column span.planned:before{
+  display:none;
+}
+.ksap-status-column input.ksap-add {
+  position: absolute;
+  left: 3px;
+  height: 30px;
+  width: 30px;
+}
+input.ksap-delete,
+.uif-imageField.ksap-delete img.uif-image {
+  width: 16px;
+  height: 16px;
+  /*
+      @TODO: ksap-961 fix path to point at ksboot provided validation message icon
+  */
+  background: url('../images/iconError16.png') no-repeat 0px 0px;
+  vertical-align: middle;
 }
 
 .ksap-stacked-list,

@@ -110,7 +110,7 @@
 			</bean>
 		</property>
 		<property name="validCharactersConstraint">
-			<bean parent="KS-BasicDatePatternConstraint" />
+			<bean parent="BasicDatePatternConstraint" />
 		</property>
 	</bean>
 

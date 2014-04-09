@@ -408,8 +408,8 @@
                                             <property name="group.validationMessages.displayMessages" value="false"/>
                                             <property name="items">
                                                 <list>
-                                                   <!-- <bean parent="current_section_status"
-                                                          p:actionLabel="@{#line.details}"/>-->
+                                                    <bean parent="current_section_status"
+                                                          p:actionLabel="@{#line.details}"/>
                                                 </list>
                                             </property>
                                         </bean>
@@ -453,7 +453,7 @@
                     <property name="group.validationMessages.displayMessages" value="false"/>
                     <property name="items">
                         <list>
-                            <!--<bean parent="current_section_status" p:actionLabel="@{#line.registrationCode}"/>-->
+                            <bean parent="current_section_status" p:actionLabel="@{#line.registrationCode}"/>
                         </list>
                     </property>
                 </bean>
@@ -463,8 +463,8 @@
                         <list>
                             <bean parent="Uif-Message" p:messageText="--" p:render="@{!#line.enrollRestriction}"
                                   p:style="margin:0;"/>
-                            <!--<bean parent="current_section_status" p:actionLabel="View restrictions"
-                                  p:render="@{#line.enrollRestriction}"/>-->
+                            <bean parent="current_section_status" p:actionLabel="View restrictions"
+                                  p:render="@{#line.enrollRestriction}"/>
                         </list>
                     </property>
                 </bean>

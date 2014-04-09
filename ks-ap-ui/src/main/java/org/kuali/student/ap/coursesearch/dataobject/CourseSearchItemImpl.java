@@ -54,8 +54,7 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 
 	private String genEduReq = EMPTY_RESULT_VALUE_KEY;
 
-    private boolean planned;
-    private boolean saved;
+	private PlanState status = PlanState.UNPLANNED;
 
 	/* Facet keys used for filtering in the view. */
 	private Set<String> curriculumFacetKeys = new HashSet<String>();
@@ -269,21 +268,25 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 		}
 	}
 
-    public boolean isPlanned() {
-        return planned;
-    }
+	public PlanState getStatus() {
+		return this.status;
+	}
 
-    public void setPlanned(boolean plannedValue) {
-        this.planned = plannedValue;
-    }
+	public void setStatus(PlanState status) {
+		this.status = status;
+	}
 
-    public boolean isSaved() {
-        return saved;
-    }
+	public boolean isStatusSaved() {
+		return status == PlanState.SAVED;
+	}
 
-    public void setSaved(boolean savedValue) {
-        this.saved = savedValue;
-    }
+	public boolean isStatusInPlan() {
+		return status == PlanState.IN_PLAN;
+	}
+
+	public boolean isStatusUnplanned() {
+		return status == PlanState.UNPLANNED;
+	}
 
 	public Set<String> getCurriculumFacetKeys() {
 		return curriculumFacetKeys;
@@ -468,59 +471,38 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 	 */
 	protected String getStatusColumn() {
 		assert getCourseId() != null;
+		String cid = getCourseId().replace('.', '_');
+		String statusLabel = getStatus().getLabel();
 
-        String cid = getCourseId().replace('.', '_');
-
-        Element actionDiv = DocumentHelper.createElement("div");
-        actionDiv.addAttribute("class", "actions");
-
-        Element bookmarkSpan = actionDiv.addElement("span");
-        Element plannedSpan = actionDiv.addElement("span");
-        Element addBookmarkLink = bookmarkSpan.addElement("a");
-        Element addToPlanLink = plannedSpan.addElement("a");
-
-        //Bookmark action or status "is bookmarked"
-        bookmarkSpan.addAttribute("id", cid + "_bookmark_status");
-        bookmarkSpan.addAttribute("class", "bookmark");
-
-
-        addBookmarkLink.addAttribute("id", cid + "_bookmark_anchor");
-        addBookmarkLink.addAttribute("class", "add-bookmark-link");
-        addBookmarkLink.addAttribute("title", "Bookmark");
-        addBookmarkLink.addAttribute("data-courseid", courseId);
-        addBookmarkLink.setText(" ");
-
-        if (isSaved()) {
-            //Currently bookmarked
-            addBookmarkLink.addAttribute("class", "ks-fontello-icon-star saved");
-        } else {
-            //Not bookmarked
-            addBookmarkLink.addAttribute("class", "ks-fontello-icon-star-empty");
-            addBookmarkLink.addAttribute("onclick", "bookmarkCourse(jQuery(this).data('courseid'), event);");
-        }
-
-        //Add to plan action or status "is planned"
-        plannedSpan.addAttribute("id", cid + "_planned_status");
-        plannedSpan.addAttribute("class", "plan");
-
-
-        addToPlanLink.addAttribute("id", cid + "_add_to_plan_anchor");
-        addToPlanLink.addAttribute("class", "add-to-plan-link");
-        addToPlanLink.addAttribute("title", "Add to Plan");
-        addToPlanLink.addAttribute("data-courseid", courseId);
-        addToPlanLink.addAttribute("data-coursexid", cid);
-        addToPlanLink.setText(" ");
-
-        if (isPlanned()) {
-            //Currently Added to planner, somewhere
-            addToPlanLink.addAttribute("class", "ks-fontello-icon-ok-circled planned");
-        } else {
-            //Not planned anywhere
-            addToPlanLink.addAttribute("class", "ks-fontello-icon-hollow-circled-plus");
-            addToPlanLink.addAttribute("onclick", "ksapPlannerOpenDialog('course_add_course','planner','startDialog', this, event);");
-        }
-
-		return actionDiv.asXML();
+		Element stsp = DocumentHelper.createElement("span");
+		stsp.addAttribute("id", cid + "_status");
+        stsp.addAttribute("class", "ks-fontello-icon-plus-circled");
+		if (statusLabel.length() > 0) {
+			stsp.addAttribute("class", statusLabel.toLowerCase());
+			stsp.setText(statusLabel);
+		} else if (KsapFrameworkServiceLocator.getUserSessionHelper()
+				.isAdviser()) {
+			stsp.setText(CourseSearchItem.EMPTY_RESULT_VALUE_KEY);
+		} else {
+			String imagePath = ConfigContext.getCurrentContextConfig()
+					.getProperty("ks.ap.externalizable.images.url");
+			Element addAnchor = stsp.addElement("input");
+			addAnchor.addAttribute("id", cid + "_add_anchor");
+			addAnchor.addAttribute("class",
+					"uif-field uif-imageField ksap-add");
+			addAnchor.addAttribute("type", "image");
+			addAnchor.addAttribute("title", "Bookmark or Add to Plan");
+			addAnchor.addAttribute("alt", "Bookmark or Add to Plan");
+			addAnchor.addAttribute("src", imagePath + "pixel.gif");
+			addAnchor.addAttribute("data-courseid", courseId);
+			addAnchor.addAttribute("data-coursexid", cid);
+			StringBuilder openMenu = new StringBuilder("openMenu('");
+			openMenu.append(cid);
+			openMenu.append("_add','add_course_items',null,event,'.ksap-status-column','ksap-container-75',");
+			openMenu.append("{tail:{align:'middle'},align:'middle',position:'right'},false)");
+			addAnchor.addAttribute("onclick", openMenu.toString());
+		}
+		return stsp.asXML();
 	}
 
 	/**

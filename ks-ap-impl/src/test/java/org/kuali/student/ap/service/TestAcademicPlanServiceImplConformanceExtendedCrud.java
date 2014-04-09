@@ -66,7 +66,6 @@ public abstract class TestAcademicPlanServiceImplConformanceExtendedCrud extends
         expected.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_TYPE_PLAN);
         expected.setStateKey(AcademicPlanServiceConstants.LEARNING_PLAN_ACTIVE_STATE_KEY);
         expected.setDescr(RichTextHelper.buildRichTextInfo("My Plan", "<span>My Plan</span>"));
-        expected.setName("Test Plan Name");
         expected.setMeta(new MetaInfo());
         expected.setShared(false);
 	}
@@ -83,7 +82,6 @@ public abstract class TestAcademicPlanServiceImplConformanceExtendedCrud extends
 		assertEquals (expected.getTypeKey(), actual.getTypeKey());
 		assertEquals (expected.getStateKey(), actual.getStateKey());
 		assertEquals (expected.getShared(), actual.getShared());
-        assertEquals (expected.getName(), actual.getName());
 		new RichTextTester().check(expected.getDescr(), actual.getDescr());
 	}
 	
@@ -94,7 +92,6 @@ public abstract class TestAcademicPlanServiceImplConformanceExtendedCrud extends
 	{
 		expected.setShared(false);
         expected.setDescr(RichTextHelper.buildRichTextInfo("My Plan updated", "<span>My Plan updated</span>"));
-        expected.setName("Test Plan Name updated");
 	}
 	
 	/*
@@ -108,7 +105,6 @@ public abstract class TestAcademicPlanServiceImplConformanceExtendedCrud extends
 		assertEquals (expected.getTypeKey(), actual.getTypeKey());
 		assertEquals (expected.getStateKey(), actual.getStateKey());
 		assertEquals (expected.getShared(), actual.getShared());
-        assertEquals (expected.getName(), actual.getName());
 		new RichTextTester().check(expected.getDescr(), actual.getDescr());
 	}
 	
@@ -120,7 +116,6 @@ public abstract class TestAcademicPlanServiceImplConformanceExtendedCrud extends
 	{
         expected.setShared(true);
         expected.setDescr(RichTextHelper.buildRichTextInfo("My Plan updated again", "<span>My Plan updated again</span>"));
-        expected.setName("Test Plan Name updated again");
 	}
 	
 	
@@ -143,8 +138,7 @@ public abstract class TestAcademicPlanServiceImplConformanceExtendedCrud extends
 		expected.setCategory(AcademicPlanServiceConstants.ItemCategory.PLANNED);
 		expected.setTypeKey("typeKey01");
 		expected.setStateKey("stateKey01");
-        expected.setName("item name 01");
-		expected.setDescr(RichTextHelper.buildRichTextInfo("descr01", "<span>descr01</span>"));
+		expected.setDescr(RichTextHelper.buildRichTextInfo("descr01", "descr01"));
 	}
 	
 	/*
@@ -165,7 +159,6 @@ public abstract class TestAcademicPlanServiceImplConformanceExtendedCrud extends
 		assertEquals(expected.getCategory(), actual.getCategory());
 		assertEquals (expected.getTypeKey(), actual.getTypeKey());
 		assertEquals (expected.getStateKey(), actual.getStateKey());
-        assertEquals (expected.getName(), actual.getName());
 		new RichTextTester().check(expected.getDescr(), actual.getDescr());
 	}
 	
@@ -181,8 +174,7 @@ public abstract class TestAcademicPlanServiceImplConformanceExtendedCrud extends
 		expected.setCredit(new BigDecimal("4.10"));
         expected.setCategory(AcademicPlanServiceConstants.ItemCategory.BACKUP);
 		expected.setStateKey("stateKey_Updated");
-        expected.setName("item name 01  updated");
-		expected.setDescr(RichTextHelper.buildRichTextInfo("descr_Updated", "<span>descr_Updated</span>"));
+		expected.setDescr(RichTextHelper.buildRichTextInfo("descr_Updated", "descr_Updated"));
 	}
 	
 	/*
@@ -202,7 +194,6 @@ public abstract class TestAcademicPlanServiceImplConformanceExtendedCrud extends
 		assertEquals (expected.getCategory(), actual.getCategory());
 		assertEquals (expected.getTypeKey(), actual.getTypeKey());
 		assertEquals (expected.getStateKey(), actual.getStateKey());
-        assertEquals (expected.getName(), actual.getName());
 		new RichTextTester().check(expected.getDescr(), actual.getDescr());
 	}
 	
@@ -218,8 +209,6 @@ public abstract class TestAcademicPlanServiceImplConformanceExtendedCrud extends
         expected.getPlanTermIds().add("planTermId02");
         expected.getPlanTermIds().add("planTermId03");
         expected.setCredit(new BigDecimal("4.10"));
-        expected.setName("item name 01 updated again");
-        expected.setDescr(RichTextHelper.buildRichTextInfo("descr_Updated2", "<span>descr_Updated2</span>"));
         expected.setCategory(AcademicPlanServiceConstants.ItemCategory.BACKUP);
 	}
 	

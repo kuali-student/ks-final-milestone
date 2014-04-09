@@ -39,9 +39,13 @@
         <class>org.kuali.student.ap.academicplan.model.LearningPlanEntity</class>
         <class>org.kuali.student.ap.academicplan.model.LearningPlanAttributeEntity</class>
 
+        <class>org.kuali.student.ap.academicplan.model.LearningPlanRichTextEntity</class>
+
         <class>org.kuali.student.ap.academicplan.model.PlanItemEntity</class>
         <class>org.kuali.student.ap.academicplan.model.PlanItemAttributeEntity</class>
 
+        <class>org.kuali.student.ap.academicplan.model.PlanItemRichTextEntity</class>
+        
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
 
     </persistence-unit>

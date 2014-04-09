@@ -13,6 +13,7 @@ import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.ap.academicplan.dao.LearningPlanDao;
 import org.kuali.student.ap.academicplan.model.LearningPlanEntity;
+import org.kuali.student.ap.academicplan.model.LearningPlanRichTextEntity;
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
 
 @PersistenceFileLocation("classpath:META-INF/lp-persistence.xml")
@@ -35,18 +36,21 @@ public class LearningPlanDaoTest extends AbstractTransactionalDaoTest {
         assertEquals(id, lp.getId());
         assertEquals("student1", lp.getStudentId());
 
-        assertEquals("Student 1 Learning Plan 1", lp.getDescrPlain());
+        assertEquals("Student 1 Learning Plan 1", lp.getDescr().getPlain());
     }
 
 	@Test
     public void testSaveLearningPlan() {
+        LearningPlanRichTextEntity lpDesc = new LearningPlanRichTextEntity();
+        lpDesc.setFormatted("<span>New Plan</span>");
+        lpDesc.setPlain("New Plan");
+
         String studentId = "new-student";
 
         LearningPlanEntity learningPlanEntity = new LearningPlanEntity();
         String id = UUIDHelper.genStringUUID();
         learningPlanEntity.setId(id);
-        learningPlanEntity.setDescrFormatted("<span>New Plan</span>");
-        learningPlanEntity.setDescrPlain("New Plan");
+        learningPlanEntity.setDescr(lpDesc);
         learningPlanEntity.setTypeId(AcademicPlanServiceConstants.LEARNING_PLAN_TYPE_PLAN);
         learningPlanEntity.setStudentId(studentId);
         learningPlanEntity.setCreateId(studentId);
@@ -61,8 +65,8 @@ public class LearningPlanDaoTest extends AbstractTransactionalDaoTest {
 
         LearningPlanEntity lpe = learningPlanDao.find(id);
         assertEquals(learningPlanEntity.getId(), lpe.getId());
-        assertEquals(learningPlanEntity.getDescrPlain(), lpe.getDescrPlain());
-        assertEquals(learningPlanEntity.getDescrFormatted(), lpe.getDescrFormatted());
+        assertEquals(learningPlanEntity.getDescr().getPlain(), lpe.getDescr().getPlain());
+        assertEquals(learningPlanEntity.getDescr().getFormatted(), lpe.getDescr().getFormatted());
         assertEquals(learningPlanEntity.getStudentId(), lpe.getStudentId());
         assertEquals(learningPlanEntity.getCreateId(), lpe.getCreateId());
         assertEquals(learningPlanEntity.getCreateTime(), lpe.getCreateTime());
