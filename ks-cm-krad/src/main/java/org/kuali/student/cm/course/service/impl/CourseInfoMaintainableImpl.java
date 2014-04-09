@@ -1046,36 +1046,36 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         }
         // add logic to set the missing required element correctly. The default is false
         reviewData.setMissingRequiredElement(false);
-        reviewData.getcourseSection().setProposalName(courseInfoWrapper.getProposalInfo().getName());
-        reviewData.getcourseSection().setCourseTitle(savedCourseInfo.getCourseTitle());
-        reviewData.getcourseSection().setTranscriptTitle(savedCourseInfo.getTranscriptTitle());
-        reviewData.getcourseSection().setSubjectArea(savedCourseInfo.getSubjectArea());
-        reviewData.getcourseSection().setCourseNumberSuffix(savedCourseInfo.getCourseNumberSuffix());
-        reviewData.getcourseSection().setDescription(savedCourseInfo.getDescr().getPlain());
+        reviewData.getCourseSection().setProposalName(courseInfoWrapper.getProposalInfo().getName());
+        reviewData.getCourseSection().setCourseTitle(savedCourseInfo.getCourseTitle());
+        reviewData.getCourseSection().setTranscriptTitle(savedCourseInfo.getTranscriptTitle());
+        reviewData.getCourseSection().setSubjectArea(savedCourseInfo.getSubjectArea());
+        reviewData.getCourseSection().setCourseNumberSuffix(savedCourseInfo.getCourseNumberSuffix());
+        reviewData.getCourseSection().setDescription(savedCourseInfo.getDescr().getPlain());
         if (proposalInfo.getRationale() != null) {
-            reviewData.getcourseSection().setRationale(proposalInfo.getRationale().getPlain());
+            reviewData.getCourseSection().setRationale(proposalInfo.getRationale().getPlain());
         }
 
         for (CluInstructorInfoWrapper insturctorWrappers : courseInfoWrapper.getInstructorWrappers()) {
-            reviewData.getcourseSection().getInstructors().add(insturctorWrappers.getDisplayName());
+            reviewData.getCourseSection().getInstructors().add(insturctorWrappers.getDisplayName());
         }
 
         // Update governance section
-        reviewData.getgovernanceSection().getCampusLocations().clear();
-        reviewData.getgovernanceSection().getCampusLocations().addAll(updateCampusLocations(savedCourseInfo.getCampusLocations()));
-        reviewData.getgovernanceSection().setCurriculumOversight(getCurriculumOversightString());
+        reviewData.getGovernanceSection().getCampusLocations().clear();
+        reviewData.getGovernanceSection().getCampusLocations().addAll(updateCampusLocations(savedCourseInfo.getCampusLocations()));
+        reviewData.getGovernanceSection().setCurriculumOversight(buildCurriculumOversightList());
 
-        reviewData.getgovernanceSection().getAdministeringOrganization().clear();
+        reviewData.getGovernanceSection().getAdministeringOrganization().clear();
         for (OrganizationInfoWrapper organizationInfoWrapper : courseInfoWrapper.getAdministeringOrganizations()) {
-            reviewData.getgovernanceSection().getAdministeringOrganization().add(organizationInfoWrapper.getOrganizationName());
+            reviewData.getGovernanceSection().getAdministeringOrganization().add(organizationInfoWrapper.getOrganizationName());
         }
 
         // update course logistics section
-        reviewData.getcourseLogisticsSection().getTerms().clear();
+        reviewData.getCourseLogisticsSection().getTerms().clear();
         try {
             for (String termType : savedCourseInfo.getTermsOffered()) {
                 TypeInfo term = getTypeService().getType(termType, ContextUtils.getContextInfo());
-                reviewData.getcourseLogisticsSection().getTerms().add(term.getName());
+                reviewData.getCourseLogisticsSection().getTerms().add(term.getName());
             }
         } catch (Exception e) {
             throw new RiceIllegalStateException(e);
@@ -1083,24 +1083,24 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
         if (savedCourseInfo.getDuration() != null && StringUtils.isNotBlank(savedCourseInfo.getDuration().getAtpDurationTypeKey())) {
             try {
-                TypeInfo term = getTypeService().getType(savedCourseInfo.getDuration().getAtpDurationTypeKey(), ContextUtils.getContextInfo());
-                reviewData.getcourseLogisticsSection().setAtpDurationType(term.getName());
+                TypeInfo type = getTypeService().getType(savedCourseInfo.getDuration().getAtpDurationTypeKey(), ContextUtils.getContextInfo());
+                reviewData.getCourseLogisticsSection().setAtpDurationType(type.getName());
             } catch (Exception e) {
                 throw new RiceIllegalStateException(e);
             }
         }
 
         if (savedCourseInfo.getDuration() != null) {
-            reviewData.getcourseLogisticsSection().setTimeQuantity(savedCourseInfo.getDuration().getTimeQuantity());
+            reviewData.getCourseLogisticsSection().setTimeQuantity(savedCourseInfo.getDuration().getTimeQuantity());
         }
 
-        reviewData.getcourseLogisticsSection().setAudit(BooleanUtils.toStringYesNo(courseInfoWrapper.isAudit()));
-        reviewData.getcourseLogisticsSection().setPassFail(BooleanUtils.toStringYesNo(courseInfoWrapper.isPassFail()));
-        reviewData.getcourseLogisticsSection().setGradingOptions(getGradingOptionString());
-        reviewData.getcourseLogisticsSection().setFinalExamStatus(getFinalExamString());
-        reviewData.getcourseLogisticsSection().setFinalExamStatusRationale(courseInfoWrapper.getFinalExamRationale());
+        reviewData.getCourseLogisticsSection().setAudit(BooleanUtils.toStringYesNo(courseInfoWrapper.isAudit()));
+        reviewData.getCourseLogisticsSection().setPassFail(BooleanUtils.toStringYesNo(courseInfoWrapper.isPassFail()));
+        reviewData.getCourseLogisticsSection().setGradingOptions(buildGradingOptionsList());
+        reviewData.getCourseLogisticsSection().setFinalExamStatus(getFinalExamString());
+        reviewData.getCourseLogisticsSection().setFinalExamStatusRationale(courseInfoWrapper.getFinalExamRationale());
 
-        reviewData.getcourseLogisticsSection().getOutComes().clear();
+        reviewData.getCourseLogisticsSection().getOutComes().clear();
 
         for (ResultValuesGroupInfoWrapper rvg : courseInfoWrapper.getCreditOptionWrappers()) {
             String creditOptionType = "";
@@ -1124,7 +1124,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 ResultValueRangeInfo range = rvg.getResultValueRange();
                 creditOptionValue = range.getMinValue() + " - " + range.getMaxValue();
             }
-            reviewData.getcourseLogisticsSection().getOutComes().add(new OutcomeReviewSection(creditOptionType, creditOptionValue));
+            reviewData.getCourseLogisticsSection().getOutComes().add(new OutcomeReviewSection(creditOptionType, creditOptionValue));
         }
 
         List<FormatInfoWrapper> formatInfoWrappers = new ArrayList<FormatInfoWrapper>();
@@ -1147,16 +1147,16 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             formatInfoWrappers.add(formatInfoWrapper);
         }
         if (!formatInfoWrappers.isEmpty())
-            reviewData.getcourseLogisticsSection().setFormatInfoWrappers(formatInfoWrappers);
+            reviewData.getCourseLogisticsSection().setFormatInfoWrappers(formatInfoWrappers);
 
         /**
          * Active Dates section
          */
-        reviewData.getactiveDatesSection().setStartTerm(getTermDesc(courseInfoWrapper.getCourseInfo().getStartTerm()));
-        reviewData.getactiveDatesSection().setEndTerm(getTermDesc(courseInfoWrapper.getCourseInfo().getEndTerm()));
-        reviewData.getactiveDatesSection().setPilotCourse(BooleanUtils.toStringYesNo(courseInfoWrapper.getCourseInfo().isPilotCourse()));
+        reviewData.getActiveDatesSection().setStartTerm(getTermDesc(courseInfoWrapper.getCourseInfo().getStartTerm()));
+        reviewData.getActiveDatesSection().setEndTerm(getTermDesc(courseInfoWrapper.getCourseInfo().getEndTerm()));
+        reviewData.getActiveDatesSection().setPilotCourse(BooleanUtils.toStringYesNo(courseInfoWrapper.getCourseInfo().isPilotCourse()));
 
-        reviewData.getfinancialsSection().setJustificationOfFees(savedCourseInfo.getFeeJustification().getPlain());
+        reviewData.getFinancialsSection().setJustificationOfFees(savedCourseInfo.getFeeJustification().getPlain());
 
         // update learning Objectives Section;
         // update  course Requisites Section;
@@ -1194,20 +1194,20 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         return result;
     }
 
-    protected String getCurriculumOversightString() {
-
+    /**
+     * Creates a List of curriculum oversight strings.
+     */
+    protected List<String> buildCurriculumOversightList() {
+        List<String> oversights = new ArrayList<String>();
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
-        StringBuilder builder = new StringBuilder();
 
         for (CourseCreateUnitsContentOwner existing : courseInfoWrapper.getUnitsContentOwner()) {
             if (StringUtils.isBlank(existing.getRenderHelper().getOrgLongName())) {
                 populateOrgName(courseInfoWrapper.getCourseInfo().getSubjectArea(), existing);
             }
-            builder.append(existing.getRenderHelper().getOrgLongName() + "; ");
+            oversights.add(existing.getRenderHelper().getOrgLongName());
         }
-
-        return StringUtils.removeEnd(builder.toString(), "; ");
-
+        return oversights;
     }
 
     protected List<String> updateCampusLocations(List<String> campusLocations) {
@@ -1545,24 +1545,26 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
     }
 
-    protected String getGradingOptionString() {
+    /**
+     * @return  List list of grading options.
+     */
+    protected List<String> buildGradingOptionsList() {
+        List<String> gradingOptions = new ArrayList<String>();
 
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
 
         if (!courseInfoWrapper.getCourseInfo().getGradingOptions().isEmpty()) {
-            StringBuilder builder = new StringBuilder();
-            try {
+           try {
                 List<ResultValuesGroupInfo> rvgs = getLRCService().getResultValuesGroupsByKeys(courseInfoWrapper.getCourseInfo().getGradingOptions(), createContextInfo());
                 for (ResultValuesGroupInfo rvg : rvgs) {
-                    builder.append(rvg.getName() + "; ");
+                    gradingOptions.add(rvg.getName());
                 }
-                return StringUtils.removeEnd(builder.toString(), "; ");
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         }
 
-        return "";
+        return gradingOptions;
     }
 
     protected String getFinalExamString() {

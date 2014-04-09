@@ -507,24 +507,24 @@ public class CourseController extends CourseRuleEditorController {
 
         // Update course section
         final ReviewProposalDisplay reviewData = courseInfoWrapper.getReviewProposalDisplay();
-        reviewData.getcourseSection().setProposalName(courseInfoWrapper.getProposalInfo().getName());
-        reviewData.getcourseSection().setCourseTitle(savedCourseInfo.getCourseTitle());
-        reviewData.getcourseSection().setTranscriptTitle(savedCourseInfo.getTranscriptTitle());
-        reviewData.getcourseSection().setSubjectArea(savedCourseInfo.getSubjectArea());
-        reviewData.getcourseSection().setCourseNumberSuffix(savedCourseInfo.getCourseNumberSuffix());
+        reviewData.getCourseSection().setProposalName(courseInfoWrapper.getProposalInfo().getName());
+        reviewData.getCourseSection().setCourseTitle(savedCourseInfo.getCourseTitle());
+        reviewData.getCourseSection().setTranscriptTitle(savedCourseInfo.getTranscriptTitle());
+        reviewData.getCourseSection().setSubjectArea(savedCourseInfo.getSubjectArea());
+        reviewData.getCourseSection().setCourseNumberSuffix(savedCourseInfo.getCourseNumberSuffix());
 
         // Update governance section
-        reviewData.getgovernanceSection().getCampusLocations().clear();
-        reviewData.getgovernanceSection().getCampusLocations().addAll(savedCourseInfo.getCampusLocations());
-        reviewData.getgovernanceSection().getCurriculumOversight().clear();
-        reviewData.getgovernanceSection().getCurriculumOversight().addAll(savedCourseInfo.getUnitsContentOwner());
+        reviewData.getGovernanceSection().getCampusLocations().clear();
+        reviewData.getGovernanceSection().getCampusLocations().addAll(savedCourseInfo.getCampusLocations());
+        reviewData.getGovernanceSection().getCurriculumOversight().clear();
+        reviewData.getGovernanceSection().getCurriculumOversight().addAll(savedCourseInfo.getUnitsContentOwner());
 
         // update course logistics section
-        reviewData.getcourseLogisticsSection().getTerms().clear();
+        reviewData.getCourseLogisticsSection().getTerms().clear();
         try {
             for(String termType : savedCourseInfo.getTermsOffered())  {
                 TypeInfo term = getTypeService().getType(termType, ContextUtils.getContextInfo());
-                reviewData.getcourseLogisticsSection().getTerms().add(term.getName());
+                reviewData.getCourseLogisticsSection().getTerms().add(term.getName());
             }
         } catch (Exception e) {
             throw new RiceIllegalStateException(e);
@@ -533,13 +533,13 @@ public class CourseController extends CourseRuleEditorController {
       if(savedCourseInfo.getDuration() != null &&  StringUtils.isNotBlank(savedCourseInfo.getDuration().getAtpDurationTypeKey())) {
         try{
                 TypeInfo term = getTypeService().getType(savedCourseInfo.getDuration().getAtpDurationTypeKey(), ContextUtils.getContextInfo());
-                reviewData.getcourseLogisticsSection().setAtpDurationType(term.getName());
+                reviewData.getCourseLogisticsSection().setAtpDurationType(term.getName());
             } catch (Exception e) {
                 throw new RiceIllegalStateException(e);
             }
       }
 
-        reviewData.getcourseLogisticsSection().setTimeQuantity(savedCourseInfo.getDuration().getTimeQuantity());
+        reviewData.getCourseLogisticsSection().setTimeQuantity(savedCourseInfo.getDuration().getTimeQuantity());
 
         // update learning Objectives Section;
         // update  course Requisites Section;
