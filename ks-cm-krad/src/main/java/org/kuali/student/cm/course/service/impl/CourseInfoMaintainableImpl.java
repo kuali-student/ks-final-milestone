@@ -303,64 +303,6 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     private LoDisplayWrapperModel loDisplayWrapperModel;
 
     /**
-     * Method should always return one and only one valid instructor
-     *
-     * @see CourseInfoMaintainable#getInstructor(String)
-     */
-    /*public CluInstructorInfoWrapper getInstructor(String instructorName) {
-        CluInstructorInfoWrapper instructor = null;
-        List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
-
-        if (instructorName == "") {
-            instructor = new CluInstructorInfoWrapper();
-            return instructor;
-        }
-
-        SearchParamInfo displayNameParam = new SearchParamInfo();
-        displayNameParam.setKey(QuickViewByGivenName.NAME_PARAM);
-        displayNameParam.getValues().add(instructorName);
-        queryParamValueList.add(displayNameParam);
-
-        SearchRequestInfo searchRequest = new SearchRequestInfo();
-        searchRequest.setSearchKey(QuickViewByGivenName.SEARCH_TYPE);
-        searchRequest.setParams(queryParamValueList);
-        searchRequest.setStartAt(0);
-        searchRequest.setNeededTotalResults(false);
-        searchRequest.setSortColumn(QuickViewByGivenName.DISPLAY_NAME_RESULT);
-
-        SearchResultInfo searchResult = null;
-        try {
-            searchResult = getSearchService().search(searchRequest,
-                    ContextUtils.getContextInfo());
-        } catch (Exception e) {
-            LOG.error("An error occurred searching for an instructor with name: " + instructorName, e);
-            throw new RuntimeException("An error occurred searching for an instructor with name: " + instructorName, e);
-        }
-        if (searchResult.getRows().size() == 1) {
-            SearchResultRowInfo result = searchResult.getRows().get(0);
-            List<SearchResultCellInfo> cells = result.getCells();
-            instructor = new CluInstructorInfoWrapper();
-            for (SearchResultCellInfo cell : cells) {
-                if (QuickViewByGivenName.GIVEN_NAME_RESULT.equals(cell.getKey())) {
-                    instructor.setGivenName(cell.getValue());
-                } else if (QuickViewByGivenName.PERSON_ID_RESULT.equals(cell.getKey())) {
-                    instructor.setPersonId(cell.getValue());
-                } else if (QuickViewByGivenName.ENTITY_ID_RESULT.equals(cell.getKey())) {
-                    instructor.setId(cell.getValue());
-                } else if (QuickViewByGivenName.PRINCIPAL_NAME_RESULT.equals(cell.getKey())) {
-                    instructor.setPrincipalName(cell.getValue());
-                } else if (QuickViewByGivenName.DISPLAY_NAME_RESULT.equals(cell.getKey())) {
-                    instructor.setDisplayName(cell.getValue());
-                }
-            }
-        } else {
-            throw new RuntimeException("The method getInstructor returned more than 1 search result for " + instructorName);
-        }
-
-        return instructor;
-    }*/
-
-    /**
      * @see CourseInfoMaintainable#getSubjectCodesForSuggest(String)
      */
     public List<SubjectCodeWrapper> getSubjectCodesForSuggest(String subjectCode) {
