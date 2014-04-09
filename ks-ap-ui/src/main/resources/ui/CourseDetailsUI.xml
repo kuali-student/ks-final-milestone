@@ -398,6 +398,24 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                                     </list>
                                 </property>
                             </bean>
+                            <!--Last Offerd Term-->
+                            <bean parent="Uif-VerticalBoxGroup"
+                                p:render="@{dataObject.scheduledTerms.size() gt 0 ? false : true}">
+                                <property name="validationMessages">
+                                    <null/>
+                                </property>
+                                <property name="items">
+                                    <list>
+                                        <bean parent="KS-Uif-DataField"
+                                              p:propertyName="lastOffered"
+                                              p:label="Last Offered"
+                                              p:render="@{dataObject.lastOffered ne null ? true : false}">
+                                            <property name="fieldLabel.cssClasses"
+                                                      value="ksap-text-normal"/>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
                             <!--Projected Terms-->
                             <bean parent="Uif-HorizontalFieldGroup">
                                 <property name="fieldLabel.renderColon" value="false"/>
@@ -430,23 +448,6 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                                                 </list>
                                             </property>
                                         </bean>
-                                       <!-- <bean parent="Uif-VerticalBoxGroup"
-                                              p:render="@{dataObject.courseSummaryDetails.scheduledTerms.size() gt 0 ? false : true}">
-                                            <property name="validationMessages">
-                                                <null/>
-                                            </property>
-                                            <property name="items">
-                                                <list>
-                                                    <bean parent="KS-Uif-DataField"
-                                                          p:propertyName="courseSummaryDetails.lastOffered"
-                                                          p:label="Last Offered"
-                                                          p:render="@{dataObject.courseSummaryDetails.lastOffered ne null ? true : false}">
-                                                        <property name="fieldLabel.cssClasses"
-                                                                  value="ksap-text-normal"/>
-                                                    </bean>
-                                                </list>
-                                            </property>
-                                        </bean>-->
                                         <bean parent="Uif-HorizontalBoxGroup" >
                                             <property name="validationMessages">
                                                 <null/>
