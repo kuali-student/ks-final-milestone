@@ -493,7 +493,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         query.setParameter("rgRegType", LprServiceConstants.REGISTRANT_RG_TYPE_KEY);
         query.setParameter("rgRegState", LprServiceConstants.REGISTERED_STATE_KEY);
         query.setParameter("rgWlType", LprServiceConstants.WAITLIST_RG_TYPE_KEY);
-        query.setParameter("rgWlState", LprServiceConstants.WAITLISTED_STATE_KEY);
+        query.setParameter("rgWlState", LprServiceConstants.ACTIVE_STATE_KEY);
 
         List<Object[]> results = query.getResultList();
 
