@@ -53,21 +53,21 @@ public class CreditsFacet extends AbstractFacet {
 
 		List<Integer> list = new ArrayList<Integer>();
 		switch (course.getCreditType()) {
-		case range:
+		case Range:
 			for (int x = min; x <= max; x++) {
 				if (x > DISPLAY_MAX)
 					continue;
 				list.add(x);
 			}
 			break;
-		case fixed:
+		case Fixed:
 			list.add(min);
 			break;
-		case multiple:
+		case Multiple:
 			list.add(min);
 			list.add(max);
 			break;
-		case unknown:
+		case Unknown:
 		default:
 			list.add(min);
 			break;
@@ -79,7 +79,7 @@ public class CreditsFacet extends AbstractFacet {
 		Set<String> facetKeys = new java.util.LinkedHashSet<String>();
 		for (Integer credit : list)
 			facetKeys.add(credit.toString());
-		if (CreditType.range.equals(course.getCreditType())
+		if (CreditType.Range.equals(course.getCreditType())
 				&& max > DISPLAY_MAX)
 			facetKeys.add("> " + DISPLAY_MAX);
 		((CourseSearchItemImpl) course).setCreditsFacetKeys(facetKeys);

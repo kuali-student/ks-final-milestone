@@ -15,6 +15,7 @@ import org.kuali.student.ap.framework.context.CourseSearchConstants;
 /**
  * Course details that comes from course catalog (KS CM)
  */
+@Deprecated
 public class CourseSummaryDetails implements Serializable {
 
 	private static final long serialVersionUID = 6869257353692530138L;

@@ -18,19 +18,19 @@ public class CreditsFacetTest {
         CourseSearchItemImpl multiple = new CourseSearchItemImpl();
         multiple.setCreditMin(1);
         multiple.setCreditMax(3);
-        multiple.setCreditType(CourseSearchItem.CreditType.multiple);
+        multiple.setCreditType(CourseSearchItem.CreditType.Multiple);
         facet.process(multiple);
 
         CourseSearchItemImpl range = new CourseSearchItemImpl();
         range.setCreditMin(4);
         range.setCreditMax(6);
-        range.setCreditType(CourseSearchItem.CreditType.range);
+        range.setCreditType(CourseSearchItem.CreditType.Range);
         facet.process(range);
 
         CourseSearchItemImpl fixed = new CourseSearchItemImpl();
         fixed.setCreditMin(7);
         fixed.setCreditMax(7);
-        fixed.setCreditType(CourseSearchItem.CreditType.fixed);
+        fixed.setCreditType(CourseSearchItem.CreditType.Fixed);
         facet.process(fixed);
 
         List<FacetItem> list = facet.getFacetItems();
@@ -44,7 +44,7 @@ public class CreditsFacetTest {
         CourseSearchItemImpl course = new CourseSearchItemImpl();
         course.setCreditMin(1);
         course.setCreditMax(3);
-        course.setCreditType(CourseSearchItem.CreditType.multiple);
+        course.setCreditType(CourseSearchItem.CreditType.Multiple);
 
         CreditsFacet facet = new CreditsFacet();
         facet.process(course);
@@ -58,7 +58,7 @@ public class CreditsFacetTest {
         CourseSearchItemImpl course = new CourseSearchItemImpl();
         course.setCreditMin(1);
         course.setCreditMax(3);
-        course.setCreditType(CourseSearchItem.CreditType.range);
+        course.setCreditType(CourseSearchItem.CreditType.Range);
 
         CreditsFacet facet = new CreditsFacet();
         facet.process(course);
@@ -73,7 +73,7 @@ public class CreditsFacetTest {
         CourseSearchItemImpl course = new CourseSearchItemImpl();
         course.setCreditMin(1);
         course.setCreditMax(1);
-        course.setCreditType(CourseSearchItem.CreditType.fixed);
+        course.setCreditType(CourseSearchItem.CreditType.Fixed);
 
         CreditsFacet facet = new CreditsFacet();
         facet.process(course);

@@ -1,6 +1,5 @@
 package org.kuali.student.ap.coursesearch.controller;
 
-import org.apache.cxf.common.util.StringUtils;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -10,6 +9,7 @@ import org.kuali.student.ap.academicplan.infc.LearningPlan;
 import org.kuali.student.ap.academicplan.infc.PlanItem;
 import org.kuali.student.ap.academicplan.service.AcademicPlanService;
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
+import org.kuali.student.ap.coursesearch.CreditsFormatter;
 import org.kuali.student.ap.coursesearch.dataobject.CourseSearchItemImpl;
 import org.kuali.student.ap.coursesearch.dataobject.FacetItem;
 import org.kuali.student.ap.coursesearch.form.CourseSearchFormImpl;
@@ -192,10 +192,6 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 				.get();
 		if (rv == null) {
 			Map<String, Credit> creditMap = new java.util.LinkedHashMap<String, Credit>();
-			// SearchRequestInfo searchRequest = new SearchRequestInfo(
-			// "ksap.course.info.credits.details");
-			// searchRequest.setParams(Collections.<SearchParamInfo>
-			// emptyList());
 			String resultScaleKey = CourseSearchConstants.COURSE_SEARCH_SCALE_CREDIT_DEGREE;
 			ContextInfo contextInfo = KsapFrameworkServiceLocator.getContext()
 					.getContextInfo();
@@ -217,67 +213,26 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 				throw new IllegalStateException("LRC lookup error", e);
 			}
 
+            Map<String,String> types = CreditsFormatter.getCreditType(resultValuesGroupInfos);
+
 			if ((resultValuesGroupInfos != null)
 					&& (resultValuesGroupInfos.size() > 0)) {
 				for (ResultValuesGroupInfo resultValuesGroupInfo : resultValuesGroupInfos) {
-					String id = resultValuesGroupInfo.getKey();
-					String type = resultValuesGroupInfo.getTypeKey()
-							.toLowerCase();
-					String display = resultValuesGroupInfo.getName();
-                    if(StringUtils.isEmpty(display)) display = "0.0 Credits";  //Temp Fix for KSAP-1085 suggest refactor of code to use use credit formatter.
-					String min = null;
-					String max = null;
-
-					String[] arraySplitType = type.split("\\.");
-					if ((arraySplitType != null) && (arraySplitType.length > 0)) {
-						type = arraySplitType[arraySplitType.length - 1];
-					}
-					if (resultValuesGroupInfo.getResultValueRange() != null) {
-						min = resultValuesGroupInfo.getResultValueRange()
-								.getMinValue();
-						max = resultValuesGroupInfo.getResultValueRange()
-								.getMaxValue();
-					} else { // if ("multiple".equals(type))
-						String[] tempArray = null;
-						if (id.toLowerCase().contains(
-								CourseSearchConstants.DEGREE_CREDIT_ID_SUFFIX
-										.toLowerCase())) {
-							tempArray = id
-									.toLowerCase()
-									.split(CourseSearchConstants.DEGREE_CREDIT_ID_SUFFIX
-											.toLowerCase());
-							if (tempArray != null) {
-								tempArray = tempArray[tempArray.length - 1]
-										.split(",");
-							}
-							if (tempArray != null) {
-								min = tempArray[0];
-								max = tempArray[tempArray.length - 1];
-								display = min + ", " + max;
-							}
-						}
-					}
-					// Currently, the types listed in the database are: fixed,
-					// range, multiple
-					if ((!"fixed".equals(type)) && (!"range".equals(type))
-							&& (!"multiple".equals(type))) {
-						type = "unknown";
-					}
+					CreditsFormatter.Range range = CreditsFormatter.getRange(resultValuesGroupInfo);
 					CreditImpl credit = new CreditImpl();
-					credit.id = id;
-					credit.display = display.replace("Credits","").replace(" ","").replace(".0", "");
-					credit.type = CourseSearchItem.CreditType.valueOf(type);
-
-					Float tempValueHolder = 0F;
-					try {
-						credit.min = Float.parseFloat(min);
-						credit.max = Float.parseFloat(max);
-					} catch (Exception e) {
-						credit.min = tempValueHolder;
-						credit.max = tempValueHolder;
-					}
-					creditMap.put(id, credit);
-				} // End for loop
+					credit.id = resultValuesGroupInfo.getKey();
+                    credit.type = CourseSearchItem.CreditType.valueOf(types.get(resultValuesGroupInfo.getKey()));
+                    if(range.getMin()!=null && range.getMax()!=null){
+					    credit.min = range.getMin().floatValue();
+                        credit.max = range.getMax().floatValue();
+                    }else{
+                        Float tempVlaueHolder = 0F;
+                        credit.min = tempVlaueHolder;
+                        credit.max = tempVlaueHolder;
+                    }
+                    credit.display= CreditsFormatter.formatCredits(range);
+					creditMap.put(credit.id, credit);
+				}
 			}
 			creditMapRef = new WeakReference<Map<String, Credit>>(
 					rv = Collections.unmodifiableMap(Collections

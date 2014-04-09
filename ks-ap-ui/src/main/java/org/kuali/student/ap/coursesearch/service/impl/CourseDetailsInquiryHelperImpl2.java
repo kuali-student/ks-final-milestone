@@ -2,14 +2,12 @@ package org.kuali.student.ap.coursesearch.service.impl;
 
 import org.apache.cxf.common.util.StringUtils;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.ap.academicplan.dto.LearningPlanInfo;
 import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
 import org.kuali.student.ap.academicplan.infc.PlanItem;
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
 import org.kuali.student.ap.coursesearch.dataobject.CourseDetailsWrapper;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
-import org.kuali.student.ap.framework.context.CourseSearchConstants;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.coursesearch.CreditsFormatter;
 import org.kuali.student.ap.framework.util.KsapHelperUtil;
