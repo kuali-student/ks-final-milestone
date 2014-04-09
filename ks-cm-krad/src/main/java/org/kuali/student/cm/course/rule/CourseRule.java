@@ -17,12 +17,15 @@
 package org.kuali.student.cm.course.rule;
 
 import org.apache.commons.lang.StringUtils;
+
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
+
 import org.kuali.rice.krad.util.KRADPropertyConstants;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.form.CourseInfoWrapper;
+
 import org.kuali.student.common.uif.rule.KsMaintenanceDocumentRuleBase;
 
 /**
@@ -57,17 +60,6 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
             GlobalVariables.getMessageMap().putError(DATA_OBJECT_PATH + ".courseInfo.courseTitle",
                     CurriculumManagementConstants.MessageKeys.ERROR_COURSE_TITLE_REQUIRED);
             success = false;
-        }
-
-        if(dataObject.getCourseInfo().getDuration() != null) {
-            if(dataObject.getCourseInfo().getDuration().getTimeQuantity() == null
-                || StringUtils.isBlank(dataObject.getCourseInfo().getDuration().getTimeQuantity().toString())) {
-                  if(StringUtils.isNotBlank(dataObject.getCourseInfo().getDuration().getAtpDurationTypeKey())) {
-                      GlobalVariables.getMessageMap().putError(DATA_OBJECT_PATH + ".courseInfo.duration.timeQuantity",
-                              CurriculumManagementConstants.MessageKeys.ERROR_COURSE_DURATION_COUNT_REQUIRED);
-                      success = false;
-                  }
-            }
         }
 
         return success;

@@ -2322,9 +2322,6 @@
                 <search:resultColumn id="gened.name">
                     <search:dataType>string</search:dataType>
                 </search:resultColumn>
-                <search:resultColumn id="gened.code">
-                    <search:dataType>string</search:dataType>
-                </search:resultColumn>
             </search:resultColumns>
         </search:searchResultTypeInfo>
         <search:searchCriteriaTypeInfo>
@@ -3017,7 +3014,6 @@
                     <value>NATIVE:
                         SELECT
                         setJnClu.CLU_VER_IND_ID,
-                        (SELECT cluSet.NAME FROM KSLU_CLU_SET cluSet WHERE cluSet.ID = setAttr.OWNER),
                         setAttr.ATTR_VALUE
                         FROM
                         KSLU_CLU_SET_ATTR setAttr,

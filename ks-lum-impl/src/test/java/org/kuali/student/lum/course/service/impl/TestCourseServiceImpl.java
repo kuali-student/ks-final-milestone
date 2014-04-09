@@ -644,12 +644,10 @@ public class TestCourseServiceImpl{
             if(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE.equals(rc.getTypeKey())){
                 if("kuali.creditType.credit.degree.1.0-5.0".equals(rc.getKey())) {
                     assertEquals(5, rc.getResultValueKeys().size());
-                    assertTrue(rc.getResultValueRange().getMinValue().contains("1.0"));
-                    assertTrue(rc.getResultValueRange().getMaxValue().contains("5.0"));
+                    assertTrue(rc.getResultValueKeys().contains("2.0"));
                 } else {
                     assertEquals(3, rc.getResultValueKeys().size());
-                    assertTrue(rc.getResultValueRange().getMinValue().contains("5.0"));
-                    assertTrue(rc.getResultValueRange().getMaxValue().contains("6.0"));
+                    assertTrue(rc.getResultValueKeys().contains("5.5"));
                 }
             }
             if(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED.equals(rc.getTypeKey())){

@@ -584,9 +584,8 @@
  <bean id="courseInfo.unitsDeployment-parent" abstract="true" parent="baseKualiOrgIdRepeating">
   <property name="name" value="unitsDeployment" />
  </bean>
- <bean id="courseInfo.unitsDeployment" parent="courseInfo.unitsDeployment-parent" >
-  <property name="maxLength" value="255" />
- </bean>
+ <bean id="courseInfo.unitsDeployment" parent="courseInfo.unitsDeployment-parent" />
+
  <bean id="courseInfo.descr-parent" abstract="true" parent="cluInfo.descr">
   <property name="name" value="descr" />
   <property name="dataObjectStructure" ref="courseInfo.descr.RichTextInfo" />

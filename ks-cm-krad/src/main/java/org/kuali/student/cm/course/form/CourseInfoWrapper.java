@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+
 /**
  * Base class for all the wrappers around CourseInfo.
  */
@@ -68,13 +69,25 @@ public class CourseInfoWrapper implements Serializable {
     private Boolean showAll;
     private LoDisplayWrapperModel loDisplayWrapperModel;
 
+    // duplicate variables which already available in courseInfo. these variables should either exist in CourseInfo.java or CourseInfoWrapper.java
+    private String endTerm;
     private Date effectiveDate;
     private Date expirationDate;
+    private boolean pilotCourse;
+    private String startTerm;
 
     // see KSCM-1803 for the details of adding this data member
     private String previousSubjectCode;
 
     private transient CreateCourseUIHelper uiHelper;
+
+    public String getEndTerm() {
+        return endTerm;
+    }
+
+    public void setEndTerm(String endTerm) {
+        this.endTerm = endTerm;
+    }
 
     public Date getEffectiveDate() {
         return effectiveDate;
@@ -90,6 +103,22 @@ public class CourseInfoWrapper implements Serializable {
 
     public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
+    }
+
+    public boolean isPilotCourse() {
+        return pilotCourse;
+    }
+
+    public void setPilotCourse(boolean pilotCourse) {
+        this.pilotCourse = pilotCourse;
+    }
+
+    public String getStartTerm() {
+        return startTerm;
+    }
+
+    public void setStartTerm(String startTerm) {
+        this.startTerm = startTerm;
     }
 
     public boolean isAudit() {
