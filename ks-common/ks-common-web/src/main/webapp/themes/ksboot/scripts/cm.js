@@ -744,3 +744,16 @@ function verifyMaxRangeOnBlur() {
         validateFieldValue(jQuery("#MaxRangeCreditVale_add_control"));
         return;
 }
+
+/**
+ * Shrinks a text area to the size of its contents.
+ * @param element
+ */
+function shrinkToFit(id) {
+    var controlId = "#" + id + "_control";
+    if (jQuery(controlId).val() == "") {
+        jQuery(controlId).height(20);
+    } else {
+        jQuery(controlId).height(jQuery(controlId)[0].scrollHeight);
+    }
+}
