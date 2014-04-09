@@ -1,8 +1,5 @@
 package org.kuali.student.enrollment.registration.engine.node.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.xml.namespace.QName;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequest;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
@@ -17,6 +14,10 @@ import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
+
+import javax.xml.namespace.QName;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegistrationNode<RegistrationRequestEngineMessage, RegistrationRequestEngineMessage> {
 
@@ -49,6 +50,13 @@ public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegist
 
     @Override
     public RegistrationRequestEngineMessage process(RegistrationRequestEngineMessage message) {
+        return message;
+    }
+
+    /**
+     * I've removed the call because it was breaking registration.
+     */
+    public RegistrationRequestEngineMessage processInternal(RegistrationRequestEngineMessage message) {
         RegistrationRequest regRequest = message.getRegistrationRequest();
         ContextInfo contextInfo = message.getContextInfo();
         contextInfo.setPrincipalId(regRequest.getRequestorId());
