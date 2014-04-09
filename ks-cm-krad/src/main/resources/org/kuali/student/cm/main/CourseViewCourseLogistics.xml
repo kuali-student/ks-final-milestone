@@ -65,11 +65,11 @@
                       p:propertyName="courseInfo.duration.atpDurationTypeKey" p:label="Duration Type"
                       p:optionsFinderClass="org.kuali.student.lum.lu.ui.course.keyvalues.DurationTypeKeyValueFinder">
                     <property name="control">
-                        <bean parent="KS-Uif-DropdownControl" />
+                        <bean parent="KS-Uif-DropdownControl" p:cssClasses="validDurationTypeAndCountInput" p:onBlurScript="durationTypeOnBlur();"/>
                     </property>
                 </bean>
                 <bean id="KS-DurationTimeQuantity-Field" parent="KS-Uif-InputField-LabelTop"
-                      p:label="Duration Count" p:propertyName="courseInfo.duration.timeQuantity">
+                      p:label="Durantion Count" p:propertyName="courseInfo.duration.timeQuantity">
                     <property name="validCharactersConstraint">
                         <bean parent="NumericPatternConstraint" />
                     </property>
@@ -201,16 +201,6 @@
     <bean id="KS-CourseView-CourseLogisticsPage-Outcome-Widgets"
           parent="Uif-StackedCollectionSection" p:headerText="Outcome" p:propertyName="creditOptionWrappers">
         <property name="validationMessages.displayMessages" value="false" />
-        <!-- Display the appropriate requiredness messaging -->
-        <property name="header.rightGroup">
-            <bean parent="Uif-VerticalBoxGroup">
-                <property name="items">
-                    <list>
-                        <bean parent="CM-StateAware-RequiredMessage" />
-                    </list>
-                </property>
-            </bean>
-        </property>
         <property name="cssClasses">
             <list merge="true">
                 <value>cm_requiredMessage_sectionHeader</value>
@@ -266,13 +256,10 @@
                     </property>
                 </bean>
                 <bean id="MaxRangeCreditVale" parent="KS-Uif-InputField-LabelTop"
-                       p:render="@{#lp.typeKey eq 'kuali.result.values.group.type.range'}"
-                       p:label="Maximum Credit Value" p:propertyName="resultValueRange.maxValue">
+                      p:render="@{#lp.typeKey eq 'kuali.result.values.group.type.range'}"
+                      p:label="Maximum Credit Value" p:propertyName="resultValueRange.maxValue">
                     <property name="validCharactersConstraint">
                         <bean parent="NumericPatternConstraint" />
-                    </property>
-                    <property name="control">
-                        <bean parent="KS-Uif-TextControl" p:cssClasses="rangeMaxMinCheck" p:onBlurScript="verifyMaxRangeOnBlur();"/>
                     </property>
                 </bean>
             </list>
@@ -408,7 +395,7 @@
                                 </property>
                             </bean>
                             <bean id="KS-Logistics-Format-DurationTimeQuantity-Field" parent="KS-Uif-InputField-LabelTop"
-                                  p:label="Duration Count" p:propertyName="duration.timeQuantity">
+                                  p:label="Durantion Count" p:propertyName="duration.timeQuantity">
                                 <property name="validCharactersConstraint">
                                     <bean parent="NumericPatternConstraint" />
                                 </property>

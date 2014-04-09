@@ -34,6 +34,63 @@
 
                     </property>
                 </bean>
+
+                <!--<bean id="KS-Course-CurriculumOversight-field" parent="Uif-HorizontalBoxSection"
+                      p:headerText="Curriculum Oversight"
+                      p:instructionalText="This is the organization(s) responsible for the content of the course. This selection will determine the workflow/approval process for this proposal.">
+                    <property name="refreshWhenChangedPropertyNames" value="#dp.dataObject.courseInfo.subjectArea"/>
+                    <property name="items">
+                        <list>
+                            <bean id="KS-Course-CurriculumOversight-input-field" parent="KS-Uif-InputField-LabelTop"
+                                  p:propertyName="unitsContentOwnerToAdd" >
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.OrgsBySubjectCodeValuesFinder"
+                                          p:blankOption="true" />
+                                </property>
+                                <property name="control">
+                                    <bean parent="KS-Uif-DropdownControl" />
+                                </property>
+                            </bean>
+                            <bean parent="Uif-SecondaryActionButton-Small" p:id="addCurriculumOversight" p:actionLabel="Add"
+                                  p:methodToCall="addUnitsContentOwner" />
+                        </list>
+                    </property>
+                </bean>
+
+                <bean id = "KS-Course-CurriculumOversight-Section" parent="Uif-StackedCollectionGroup"
+                      p:propertyName="unitsContentOwner"
+                      p:headerText="Curriculum Oversight"
+                      p:collectionObjectClass="org.kuali.rice.core.api.util.ConcreteKeyValue"
+                      p:instructionalText="">
+                    <property name="renderAddLine" value="false"/>
+                    <property name="includeLineSelectionField" value="false"/>
+                    &lt;!&ndash;
+                    <property name="renderLineActions" value="true"/>
+                    <property name="newItemsCssClass" value="uif-newCollectionItem"/>
+                    <property name="addItemCssClass" value="uif-collectionAddItem"/>
+                    <property name="layoutManager">
+                        <bean parent="Uif-StackedCollectionLayout-List"/>
+                    </property>
+                    <property name="template" value="/krad/WEB-INF/ftl/components/group/collectionGroup.ftl"/>
+                    <property name="templateName" value="uif_collectionGroup"/>
+                    <property name="cssClasses">
+                        <list>
+                            <value>uif-collectionGroup</value>
+                            <value>uif-listCollectionGroup</value>
+                        </list>
+                    </property>
+                    &ndash;&gt;
+                    <property name="lineActions">
+                        <list>
+                            <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="deleteLine" p:actionLabel="delete"/>
+                        </list>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <bean parent="KS-Uif-DataField" p:labelRendered="false" p:propertyName="key" />
+                        </list>
+                    </property>
+                </bean>-->
                 <ref bean="KS-Course-CurriculumOversight-Section" />
                 <ref bean="KS-AdministeringOrganization-Section" />
             </list>
@@ -62,27 +119,16 @@
                 <property name="richHeaderMessage.iconToolTipText" value="This is not a restrictive list - organizations here are additional organizations that can administer this course."/>
             </bean>
         </property>
-        <!-- Display the appropriate requiredness messaging -->
-        <property name="header.rightGroup">
-            <bean parent="Uif-VerticalBoxGroup">
-                <property name="items">
-                    <list>
-                        <bean parent="CM-StateAware-RequiredMessage" />
-                    </list>
-                </property>
-            </bean>
-        </property>
         <property name="cssClasses">
             <list merge="true">
                 <value>cm-collection-width</value>
                 <value>admin-not-required-field</value>
-                <value>cm_requiredMessage_sectionHeader</value>
             </list>
         </property>
         <property name="items">
             <list>
                 <bean id="KS-Course-CurriculumOversight-input-field" parent="KS-Uif-InputField-LabelTop"
-                      p:propertyName="orgId" p:readOnly="@{!#lp.renderHelper.newRow and !#empty(#lp.orgId)}" p:readOnlyDisplayReplacementPropertyName="renderHelper.orgLongName">
+                      p:propertyName="orgId" p:readOnly="@{!#lp.renderHelper.newRow}" p:readOnlyDisplayReplacementPropertyName="renderHelper.orgLongName">
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.OrgsBySubjectCodeValuesFinder"
                               p:blankOption="true" />
@@ -91,42 +137,6 @@
                         <bean parent="KS-Uif-DropdownControl" />
                     </property>
                 </bean>
-            </list>
-        </property>
-        <property name="lineActions">
-            <list>
-                <bean parent="KS-Uif-Delete-ActionLink" p:id="delete_administeringorganization" p:methodToCall="deleteLine" p:actionLabel="Delete"
-                                      p:actionEvent="deleteLine" p:dirtyOnAction="true"/>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="KS-AdministeringOrganization-Section" parent="KS-TableCollectionSubSection-BottomAddLine"
-                      p:id="administering-organization" p:layoutManager.style="width: 100%;"
-                      p:instructionalText="List the organization(s) that can administer, or offer, this course. In most cases this will be the same as the Curriculum Oversight organization, but additional and/or alternate organizations can also be listed as administering organizations."
-                      p:headerText="Administering Organization(s)">
-        <property name="collectionObjectClass" value="org.kuali.student.cm.course.form.OrganizationInfoWrapper" />
-        <property name="propertyName" value="administeringOrganizations" />
-        <property name="addBlankLineAction.actionLabel" value="Add Organization"/>
-        <property name="addBlankLineAction.id" value="addAdministeringOrganization"/>
-        <property name="addBlankLineAction.onDocumentReadyScript" value="reDisplayAdministeringOrganization();"/>
-        <property name="addBlankLineAction.dirtyOnAction" value="true" />
-        <property name="validationMessages.displayMessages" value="false"/>
-        <property name="layoutManager.renderSequenceField" value="false"/>
-        <property name="layoutManager.generateAutoSequence" value="false"/>
-        <property name="layoutManager.separateAddLine" value="false"/>
-        <property name="layoutManager.richTable.disableTableSort" value="true"/>
-        <property name="layoutManager.richTable.render" value="false"/>
-        <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
-        <property name="header">
-            <bean parent="Uif-KS-IconHeader">
-                <property name="richHeaderMessage.iconToolTipText" value="This is not a restrictive list - organizations here are additional organizations that can administer this course."/>
-            </bean>
-        </property>
-        <property name="cssClasses">
-            <list merge="true">
-                <value>cm-collection-width</value>
-                <value>admin-not-required-field</value>
             </list>
         </property>
         <property name="lineActions">

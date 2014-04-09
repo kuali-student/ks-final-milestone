@@ -15,20 +15,17 @@
  */
 package org.kuali.student.cm.course.form;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.student.cm.common.util.CurriculumManagementConstants;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Display data for review course proposal.
+ * Marker interface for having arbitrary course data in a collection displayed in stacks.
+ *
+ * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
  */
 public class ReviewProposalDisplay implements java.io.Serializable {
-
-    private boolean missingRequiredElement = false;
 
     private CourseSectionWrapper courseSection;
     private GovernanceSectionWrapper governanceSection;
@@ -40,14 +37,6 @@ public class ReviewProposalDisplay implements java.io.Serializable {
     private CollaboratorSectionWrapper collaboratorSection;
     private SupportingDocumentsSectionWrapper supportingDocumentsSection;
 
-    public boolean isMissingRequiredElement() {
-        return missingRequiredElement;
-    }
-
-    public void setMissingRequiredElement(boolean missingRequiredElement) {
-        this.missingRequiredElement = missingRequiredElement;
-    }
-
     public CourseSectionWrapper getcourseSection() {
         if (this.courseSection == null) {
             courseSection = new CourseSectionWrapper();
@@ -55,14 +44,14 @@ public class ReviewProposalDisplay implements java.io.Serializable {
         return courseSection;
     }
 
-    public GovernanceSectionWrapper getGovernanceSection() {
+    public GovernanceSectionWrapper getgovernanceSection() {
         if (this.governanceSection == null) {
             governanceSection = new GovernanceSectionWrapper();
         }
         return governanceSection;
     }
 
-    public CourseLogisticsSectionWrapper getCourseLogisticsSection() {
+    public CourseLogisticsSectionWrapper getcourseLogisticsSection() {
         if (this.courseLogisticsSection == null) {
             courseLogisticsSection = new CourseLogisticsSectionWrapper();
         }
@@ -70,21 +59,21 @@ public class ReviewProposalDisplay implements java.io.Serializable {
     }
 
 
-    public LearningObjectivesSectionWrapper getLearningObjectivesSection() {
+    public LearningObjectivesSectionWrapper getlearningObjectivesSection() {
         if (this.learningObjectivesSection == null) {
             learningObjectivesSection = new LearningObjectivesSectionWrapper();
         }
         return learningObjectivesSection;
     }
 
-    public ActiveDatesSectionWrapper getActiveDatesSection() {
+    public ActiveDatesSectionWrapper getactiveDatesSection() {
         if (this.activeDatesSection == null) {
             activeDatesSection = new ActiveDatesSectionWrapper();
         }
         return activeDatesSection;
     }
 
-    public CourseRequisitesSectionWrapper getCourseRequisitesSection() {
+    public CourseRequisitesSectionWrapper getcourseRequisitesSection() {
         if (this.courseRequisitesSection == null) {
             courseRequisitesSection = new CourseRequisitesSectionWrapper();
         }
@@ -92,7 +81,7 @@ public class ReviewProposalDisplay implements java.io.Serializable {
 
     }
 
-    public FinancialsSectionWrapper getFinancialsSection() {
+    public FinancialsSectionWrapper getfinancialsSection() {
         if (this.financialsSection == null) {
             financialsSection = new FinancialsSectionWrapper();
         }
@@ -100,23 +89,19 @@ public class ReviewProposalDisplay implements java.io.Serializable {
 
     }
 
-    public CollaboratorSectionWrapper getCollaboratorSection() {
+    public CollaboratorSectionWrapper getcollaboratorSection() {
         if (this.collaboratorSection == null) {
             collaboratorSection = new CollaboratorSectionWrapper();
         }
         return collaboratorSection;
     }
 
-    public SupportingDocumentsSectionWrapper getSupportingDocumentsSection() {
+    public SupportingDocumentsSectionWrapper getsupportingDocumentsSection() {
         if (this.supportingDocumentsSection == null) {
             supportingDocumentsSection = new SupportingDocumentsSectionWrapper();
         }
         return supportingDocumentsSection;
 
-    }
-
-    public String getEmptyString() {
-        return "";
     }
 
     public class CourseSectionWrapper implements java.io.Serializable {
@@ -179,10 +164,6 @@ public class ReviewProposalDisplay implements java.io.Serializable {
             return instructors;
         }
 
-        public String getInstructorsAsString() {
-            return StringUtils.join(getInstructors(), CurriculumManagementConstants.COLLECTION_ITEMS_DELIMITER);
-        }
-
         public List<String> getCrossListings() {
             if (this.crossListings == null) {
                 crossListings = new LinkedList<String>();
@@ -190,19 +171,11 @@ public class ReviewProposalDisplay implements java.io.Serializable {
             return crossListings;
         }
 
-        public String getCrossListingsAsString() {
-            return StringUtils.join(getCrossListings(), CurriculumManagementConstants.COLLECTION_ITEMS_DELIMITER);
-        }
-
         public List<String> getVariations() {
             if (this.variations == null) {
                 variations = new LinkedList<String>();
             }
             return variations;
-        }
-
-        public String getVariationsAsString() {
-            return StringUtils.join(getVariations(), CurriculumManagementConstants.COLLECTION_ITEMS_DELIMITER);
         }
 
         public String getDescription() {
@@ -224,7 +197,7 @@ public class ReviewProposalDisplay implements java.io.Serializable {
 
     public class GovernanceSectionWrapper implements java.io.Serializable {
         private List<String> campusLocations;
-        private List<String> curriculumOversight;
+        private String curriculumOversight;
         private List<String> administeringOrganization;
 
         public List<String> getCampusLocations() {
@@ -234,20 +207,12 @@ public class ReviewProposalDisplay implements java.io.Serializable {
             return campusLocations;
         }
 
-        public String getCampusLocationsAsString() {
-            return StringUtils.join(getCampusLocations(), CurriculumManagementConstants.COLLECTION_ITEMS_DELIMITER);
-        }
-
-        public void setCurriculumOversight(List<String> curriculumOversight) {
+        public void setCurriculumOversight(String curriculumOversight) {
             this.curriculumOversight = curriculumOversight;
         }
 
-        public List<String> getCurriculumOversight() {
+        public String getCurriculumOversight() {
             return curriculumOversight;
-        }
-
-        public String getCurriculumOversightAsString() {
-            return StringUtils.join(getCurriculumOversight(), CurriculumManagementConstants.COLLECTION_ITEMS_DELIMITER);
         }
 
         public List<String> getAdministeringOrganization() {
@@ -256,15 +221,11 @@ public class ReviewProposalDisplay implements java.io.Serializable {
             }
             return administeringOrganization;
         }
-
-        public String getAdministeringOrganizationAsString() {
-            return StringUtils.join(getAdministeringOrganization(), CurriculumManagementConstants.COLLECTION_ITEMS_DELIMITER);
-        }
     }
 
     public class CourseLogisticsSectionWrapper implements java.io.Serializable {
         private List<String> terms;
-        private List<String> gradingOptions;
+        private String gradingOptions;
         private String atpDurationType;
         private Integer timeQuantity;
         private String passFail;
@@ -295,29 +256,14 @@ public class ReviewProposalDisplay implements java.io.Serializable {
             return terms;
         }
 
-        public String getTermsAsString() {
-            return StringUtils.join(getTerms(), CurriculumManagementConstants.COLLECTION_ITEMS_DELIMITER);
-        }
-
-        public List<String> getGradingOptions() {
+        public String getGradingOptions() {
             return gradingOptions;
-        }
-
-        public String getGradingOptionsAsString() {
-            return StringUtils.join(getGradingOptions(), CurriculumManagementConstants.COLLECTION_ITEMS_DELIMITER);
-        }
-
-        public void setGradingOptions(List<String> gradingOptions) {
-            this.gradingOptions = gradingOptions;
         }
 
         public String getAtpDurationType() {
             return atpDurationType;
         }
 
-        public void setAtpDurationType(String atpDurationType) {
-            this.atpDurationType = atpDurationType;
-        }
 
         public String getPassFail() {
             return passFail;
@@ -329,6 +275,14 @@ public class ReviewProposalDisplay implements java.io.Serializable {
 
         public String getAudit() {
             return audit;
+        }
+
+        public void setGradingOptions(String gradingOptions) {
+            this.gradingOptions = gradingOptions;
+        }
+
+        public void setAtpDurationType(String atpDurationType) {
+            this.atpDurationType = atpDurationType;
         }
 
         public Integer getTimeQuantity() {
@@ -382,9 +336,6 @@ public class ReviewProposalDisplay implements java.io.Serializable {
             return learningObjectives;
         }
 
-        public String getLearningObjectivesAsString() {
-            return StringUtils.join(getLearningObjectives(), CurriculumManagementConstants.COLLECTION_ITEMS_DELIMITER);
-        }
     }
 
     public class CourseRequisitesSectionWrapper implements java.io.Serializable {
