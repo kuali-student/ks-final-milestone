@@ -168,7 +168,7 @@
             <div class="kscr-Card-text" id="title_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}">{{cartItem.courseTitle}}</div>
 
         </accordion-heading>
-            <div ng-hide="editing(cartItem)" class="kscr-Card-detailsText">
+            <div ng-hide="editing(cartItem)" class="kscr-Card-detailsText--edit">
                 <!--course time, day, building-->
                 <div ng-repeat="item in cartItem.schedule">
                       <span class="kscr-Card-courseTimes">

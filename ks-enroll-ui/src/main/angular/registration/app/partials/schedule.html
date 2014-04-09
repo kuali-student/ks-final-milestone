@@ -59,7 +59,7 @@
                         <div class="kscr-Card-text" id="title_{{course.courseCode}}_{{course.regGroupCode}}">{{course.longName}}</div>
                     </accordion-heading>
                     <!-- Course details: AO type, start-end dates, etc. -->
-                    <div ng-hide="course.editing" class="kscr-Card-detailsText">
+                    <div ng-hide="course.editing" class="kscr-Card-detailsText--edit">
                         <!--course time, day, building-->
                         <div ng-repeat="ao in course.activityOfferings">
                             <span class="kscr-Card-courseTimes">
