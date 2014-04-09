@@ -997,7 +997,9 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 }
             }
 
-            LOG.debug("Returning {}", departments);
+            if (LOG.isDebugEnabled()){
+                LOG.debug("Returning {}", departments);
+            }
 
             return StringUtils.EMPTY;
 
@@ -1022,15 +1024,6 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
         super.processAfterDeleteLine(view, collectionGroup, model, lineIndex);
     }
-
-   /* @Override
-    protected boolean performAddLineValidation(View view, CollectionGroup collectionGroup, Object model,Object addLine) {
-        super.processCollectionAddLine(view,model,collectionPath);
-
-        if (StringUtils.endsWith(collectionPath,"unitsContentOwner")){
-
-        }
-    }*/
 
     public void updateReview() {
 

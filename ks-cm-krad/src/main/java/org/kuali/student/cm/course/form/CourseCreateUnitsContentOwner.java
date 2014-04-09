@@ -20,6 +20,11 @@ import org.apache.commons.lang.StringUtils;
 
 /**
  *
+ * Model to handle displaying org widget at the ui. This class represents an individual org
+ * selected by the user at the ui. The <class>RenderHelper</class> provides convenience methods
+ * to know whether it's a new row added by the user as well as it has org name to be displayed
+ * at the ui instead of org id.
+ *
  * @author Kuali Student Team
  */
 public class CourseCreateUnitsContentOwner {

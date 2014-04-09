@@ -77,7 +77,9 @@ public class OrgsBySubjectCodeValuesFinder extends UifKeyValuesFinderBase {
             departments.addAll(returnedOrgs);
         }
 
-        LOG.debug("Returning {}", departments);
+        if (LOG.isDebugEnabled()){
+            LOG.debug("Returning {}", departments);
+        }
 
         return departments;
     }
@@ -136,39 +138,6 @@ public class OrgsBySubjectCodeValuesFinder extends UifKeyValuesFinderBase {
     public boolean getBlankOption() {
             return blankOption;
         }
-
-    /*
-    protected CourseCreateUnitsContentOwner getOrganizationBy(final String code, final String orgId) {
-        LOG.debug("Using code: {} and orgId: {} for the search", code, orgId);
-        final SearchRequestInfo searchRequest = new SearchRequestInfo();
-        searchRequest.setSearchKey("subjectCode.search.orgsForSubjectCode");
-        searchRequest.addParam("subjectCode.queryParam.code", code);
-        searchRequest.addParam("subjectCode.queryParam.optionalOrgId", orgId);
-
-        try {
-        	for (final SearchResultRowInfo result 
-                     : getSubjectCodeService().search(searchRequest, ContextUtils.getContextInfo()).getRows()) {
-
-                String subjectCodeId = "";
-                String subjectCodeOptionalLongName = "";
-
-                for (final SearchResultCellInfo resultCell : result.getCells()) {
-                    if ("subjectCode.resultColumn.orgId".equals(resultCell.getKey())) {
-                        subjectCodeId = resultCell.getValue();
-                    } else if ("subjectCode.resultColumn.orgLongName".equals(resultCell.getKey())) {
-                    	subjectCodeOptionalLongName = resultCell.getValue();
-                    }
-                }
-                return new CourseCreateUnitsContentOwner(subjectCodeOptionalLongName, subjectCodeId);
-            }
-        } catch (Exception e) {
-        	LOG.error("Error building KeyValues List", e);
-            throw new RuntimeException(e);
-        }
-        
-        LOG.info("Returning a null from org search");
-        return null;
-    }*/
 
 	protected SubjectCodeService getSubjectCodeService() {
 		if (subjectCodeService == null) {
