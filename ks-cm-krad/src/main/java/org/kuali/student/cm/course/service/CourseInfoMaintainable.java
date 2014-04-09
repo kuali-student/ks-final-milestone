@@ -43,9 +43,7 @@ public interface CourseInfoMaintainable {
 	List<OrganizationInfoWrapper> getOrganizationsForSuggest(final String organizationName);
 
 	List<CluInstructorInfoWrapper> getInstructorsForSuggest(String instructorName);
-	
-	CluInstructorInfoWrapper getInstructor(String instructorName);
-	
+
     List<SubjectCodeWrapper> getSubjectCodesForSuggest(String subjectCode);
 	
 	List<CourseJointInfoWrapper> searchForJointOfferingCourses(String courseNumber);

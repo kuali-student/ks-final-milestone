@@ -27,7 +27,9 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.IdentityService;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.identity.entity.EntityDefault;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.container.Container;
@@ -305,7 +307,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
      *
      * @see CourseInfoMaintainable#getInstructor(String)
      */
-    public CluInstructorInfoWrapper getInstructor(String instructorName) {
+    /*public CluInstructorInfoWrapper getInstructor(String instructorName) {
         CluInstructorInfoWrapper instructor = null;
         List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
 
@@ -352,11 +354,11 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 }
             }
         } else {
-            throw new RuntimeException("The method getInstructor returned more than 1 search result.");
+            throw new RuntimeException("The method getInstructor returned more than 1 search result for " + instructorName);
         }
 
         return instructor;
-    }
+    }*/
 
     /**
      * @see CourseInfoMaintainable#getSubjectCodesForSuggest(String)
@@ -1258,10 +1260,11 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             }
         }
 
+        courseInfoWrapper.getCourseInfo().getInstructors().clear();
+
         if (courseInfoWrapper.getInstructorWrappers() != null) {
             for (final CluInstructorInfoWrapper instructorDisplay : courseInfoWrapper.getInstructorWrappers()) {
-                final CluInstructorInfoWrapper retrievedInstructor = getInstructor(getInstructorSearchString(instructorDisplay.getDisplayName()));
-                courseInfoWrapper.getCourseInfo().getInstructors().add(retrievedInstructor);
+                courseInfoWrapper.getCourseInfo().getInstructors().add(instructorDisplay);
             }
         }
 
@@ -1878,4 +1881,8 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         }
         return atpService;
     }
+
+    public static PersonService getPersonService() {
+            return KimApiServiceLocator.getPersonService();
+        }
 }

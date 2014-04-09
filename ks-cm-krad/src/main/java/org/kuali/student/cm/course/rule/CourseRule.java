@@ -17,13 +17,22 @@
 package org.kuali.student.cm.course.rule;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.impl.KIMPropertyConstants;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADPropertyConstants;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
+import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
 import org.kuali.student.cm.course.form.CourseInfoWrapper;
+import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.uif.rule.KsMaintenanceDocumentRuleBase;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This class contains all the course creation business rules
@@ -70,7 +79,50 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
             }
         }
 
+        success = validateInstructor(dataObject);
+
         return success;
+    }
+
+    protected boolean validateInstructor(CourseInfoWrapper dataObject){
+
+        for (CluInstructorInfoWrapper instructorDisplay : dataObject.getInstructorWrappers()) {
+
+            String principalName = getInstructorSearchString(instructorDisplay.getDisplayName());
+            Map<String, String> searchCriteria = new HashMap<String, String>();
+            searchCriteria.put(KIMPropertyConstants.Person.PRINCIPAL_NAME, principalName);
+            List<Person> persons = getPersonService().findPeople(searchCriteria);
+
+            if (persons.isEmpty()){
+                GlobalVariables.getMessageMap().putErrorForSectionId("instructor-section", CurriculumManagementConstants.MessageKeys.INSTRUCTOR_NOT_FOUND, principalName);
+                return false;
+            } else if (persons.size() > 1){
+                GlobalVariables.getMessageMap().putErrorForSectionId("instructor-section", CurriculumManagementConstants.MessageKeys.INSTRUCTOR_MULTIPLE_MATCH_FOUND, principalName);
+                return false;
+            } else {
+                try {
+                    instructorDisplay.setPersonId(KSCollectionUtils.getOptionalZeroElement(persons).getPrincipalId());
+                } catch (OperationFailedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Converts the display name of the instructor into the plain user name (for use in a search query)
+     *
+     * @param displayName The display name of the instructor.
+     * @return The user name of the instructor.
+     */
+    protected String getInstructorSearchString(String displayName) {
+        String searchString = "";
+        if (displayName.contains("(") && displayName.contains(")")) {
+            searchString = displayName.substring(displayName.lastIndexOf('(') + 1, displayName.lastIndexOf(')'));
+        }
+        return searchString;
     }
 
     @Override
@@ -78,4 +130,6 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
         boolean success = super.processRouteDocument(document);
         return success;
     }
+
+
 }
