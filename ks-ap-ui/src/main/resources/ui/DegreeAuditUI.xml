@@ -121,7 +121,7 @@
         <!-- Not Displaying any criteria -->
         <property name="criteriaGroup">
             <bean parent="Uif-VerticalBoxGroup">
-                <property name="validationMessages.render" value="false"/>
+                <property name="validationMessages.displayMessages" value="false"/>
                 <property name="footer">
                     <bean parent="Uif-FooterBase"/>
                 </property>

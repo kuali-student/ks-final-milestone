@@ -22,12 +22,11 @@
 
     <context:annotation-config/>
 
-
-    <import resource="classpath:ks-core-api-dictionary-file-locations.xml"/>
-    <import resource="classpath:ks-academic-plan-data-dictionary-services-configuration.xml"/>
-    <import resource="classpath:ks-academic-plan-data-dictionary-validator-configuration.xml"/>
     <import resource="classpath:META-INF/default-property-config-context-test.xml"/>
     <import resource="classpath:testKsapFrameworkInit-context.xml"/>
+
+    <import resource="classpath:ks-academic-plan-dictionary-file-locations.xml" />
+    <import resource="classpath:ks-core-test-data-dictionary-configuration.xml" />
 
     <!--<bean id="systemPropertyConfigurer"-->
           <!--class="org.kuali.student.common.util.SystemPropertyConfigurer">-->
@@ -48,19 +47,6 @@
 
     </bean>
 
-    <!-- JPA EntityManagerFactory -->
-    <bean id="postProcessorList" class="java.util.ArrayList">
-        <constructor-arg index="0">
-            <list>
-                <bean id="ricePostProcessor"
-                      class="org.kuali.rice.krad.app.persistence.jpa.RicePersistenceUnitPostProcessor">
-                    <property name="jtaDataSource"
-                              ref="dataSource" />
-                </bean>
-            </list>
-        </constructor-arg>
-    </bean>
-
     <bean id="vendorAdapter" class="${jpa.vendorAdapter}" depends-on="propertyConfigurer">
         <property name="databasePlatform"
                   value="${jpa.databasePlatform}" />
@@ -74,7 +60,6 @@
         <property name="jpaVendorAdapter" ref="vendorAdapter" />
         <property name="dataSource" ref="dataSource" />
         <property name="jpaPropertyMap" value="${propertiesPrefix.jpa.properties}"/>
-        <property name="persistenceUnitPostProcessors" ref="postProcessorList" />
     </bean>
 
     <bean id="AtomikosTxMgr"

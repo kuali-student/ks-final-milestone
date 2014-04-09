@@ -1,6 +1,6 @@
 <#--
 
-    Copyright 2005-2013 The Kuali Foundation
+    Copyright 2005-2014 The Kuali Foundation
 
     Licensed under the Educational Community License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -20,34 +20,35 @@
 
 <#compress>
 
+    <#--<#if !KualiForm.ajaxRequest || (KualiForm.ajaxReturnType == "update-view")-->
+        <#--|| (KualiForm.ajaxReturnType == "update-page")>-->
+        <#global view=KualiForm.view!/>
+    <#--<#else>-->
+        <#--<#global view=KualiForm.postedView!/>-->
+    <#--</#if>-->
+
     <#if KualiForm.ajaxRequest && KualiForm.ajaxReturnType == "redirect">
         <div data-returntype="redirect">
             <#include "redirect.ftl" parse=true/>
         </div>
-    </#if>
-
-    <#if !KualiForm.ajaxRequest || (KualiForm.ajaxReturnType == "update-view")
-         || (KualiForm.ajaxReturnType == "update-page")>
-        <#global view=KualiForm.view/>
-    <#else>
-        <#global view=KualiForm.postedView/>
-    </#if>
-
-    <#-- include all templates needed for the view -->
-    <#if !(KualiForm.ajaxRequest && KualiForm.ajaxReturnType == "redirect")>
+    <#elseif view?? && view.viewTemplates??>
+        <#-- include all templates needed for the view -->
         <#list view.viewTemplates as viewTemplate>
             <#include "${viewTemplate}" parse=true/>
         </#list>
     </#if>
 
-    <#if KualiForm.ajaxRequest>
+    <#if KualiForm.jsonRequest>
+        <#include "${KualiForm.requestJsonTemplate}" parse=true/>
+    <#elseif KualiForm.ajaxRequest>
+
         <#if KualiForm.ajaxReturnType == "update-view">
             <div data-returntype="update-view">
                 <#include "ksapFullView.ftl" parse=true/>
             </div>
 
         <#elseif KualiForm.ajaxReturnType == "update-component">
-            <div data-returntype="update-component" data-updatecomponentid="${Component.id!}">
+            <div data-returntype="update-component" data-id="${KualiForm.updateComponentId!}">
                 <#include "updateComponent.ftl" parse=true/>
             </div>
 
@@ -55,17 +56,19 @@
             <div data-returntype="update-page">
                 <#include "updatePage.ftl" parse=true/>
             </div>
+            <div data-returntype="update-form">
+                ${KualiForm.formPostUrl}
+            </div>
 
-       <#elseif KualiForm.ajaxReturnType == "display-lightbox">
+        <#elseif KualiForm.ajaxReturnType == "display-lightbox">
             <div data-returntype="display-lightbox">
                 <#include "updateComponent.ftl" parse=true/>
             </div>
 
-       <#elseif KualiForm.ajaxReturnType == "update-dialog">
-            <div data-returntype="update-dialog" data-updatecomponentid="${Component.id!}">
+        <#elseif KualiForm.ajaxReturnType == "update-dialog">
+            <div data-returntype="update-dialog" data-updatecomponentid="${KualiForm.updateComponentId!}">
                 <#include "updateComponent.ftl" parse=true/>
             </div>
-
         </#if>
 
     <#else>

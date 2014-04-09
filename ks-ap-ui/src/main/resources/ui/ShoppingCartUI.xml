@@ -311,7 +311,7 @@
 		<property name="items">
 			<list>
 				<bean parent="Uif-HorizontalBoxGroup">
-					<property name="validationMessages.render" value="false" />
+					<property name="validationMessages.displayMessages" value="false" />
 					<property name="items">
 						<list>
 							<bean parent="Uif-Message" p:messageText="@{#line.registrationCode} @{#line.activityTypeDescription}"
