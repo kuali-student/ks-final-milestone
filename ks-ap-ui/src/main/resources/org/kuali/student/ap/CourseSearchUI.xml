@@ -338,7 +338,6 @@
 				<ref bean="facet_credits" />
 				<ref bean="facet_level" />
 				<ref bean="facet_curriculum" />
-				<ref bean="add_course_items" />
 				<ref bean="course_quick_detail" />
 			</list>
 		</property>
@@ -370,33 +369,7 @@
 	<bean id="facet_level" parent="facet-parent" p:headerText="Course Level" />
 	<bean id="facet_curriculum" parent="facet-parent" p:headerText="Course Prefix" />
 
-	<!--Add Course Menu -->
-    <bean id="add_course_items" parent="add_course_items-parent"/>
-	<bean id="add_course_items-parent" abstract="true" parent="Uif-VerticalBoxSubSection"
-		p:cssClasses="ksap-container-75 ksap-no-margin">
-		<property name="hidden" value="true" />
-		<property name="items">
-			<list>
-                <bean parent="Uif-ActionLink" p:actionLabel="Add to Plan"
-                      p:title="Add to Plan">
-                    <!--@TODO: KSAP-254: Refactor this JS into ksap.search.js-->
-                    <property name="actionScript"
-                              value="ksapPlannerOpenDialog('course_add_course','planner','startDialog', this, e);"/>
-                </bean>
-
-
-				<bean parent="Uif-Link" p:target="" p:href="#" p:linkText="Bookmark"
-                      p:title="Bookmark"
-                      p:cssClasses="ksap-no-margin">
-                    <!--@TODO: KSAP-254: Refactor this JS into ksap.search.js-->
-                    <property name="onClickScript" value="bookmarkCourse(jQuery(this).data('courseid'), e);"/>
-				</bean>
-
-			</list>
-		</property>
-	</bean>
-
-	<!-- Course Quick Details Menu NOTE: Text like "__KSAP__FOO__" will be replaced 
+	<!-- Course Quick Details Menu NOTE: Text like "__KSAP__FOO__" will be replaced
 		by openMenu() with data from the HTML5 data-foo attribute on the popup box 
 		element. This allows course details to be passed in statically instead of 
 		relying on a server call for "quick" details. -->
