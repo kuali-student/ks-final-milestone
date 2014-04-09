@@ -28,6 +28,8 @@ import java.util.List;
  */
 public class ReviewProposalDisplay implements java.io.Serializable {
 
+    private boolean missingRequiredElement = false;
+
     private CourseSectionWrapper courseSection;
     private GovernanceSectionWrapper governanceSection;
     private CourseLogisticsSectionWrapper courseLogisticsSection;
@@ -38,7 +40,15 @@ public class ReviewProposalDisplay implements java.io.Serializable {
     private CollaboratorSectionWrapper collaboratorSection;
     private SupportingDocumentsSectionWrapper supportingDocumentsSection;
 
-    public CourseSectionWrapper getCourseSection() {
+    public boolean isMissingRequiredElement() {
+        return missingRequiredElement;
+    }
+
+    public void setMissingRequiredElement(boolean missingRequiredElement) {
+        this.missingRequiredElement = missingRequiredElement;
+    }
+
+    public CourseSectionWrapper getcourseSection() {
         if (this.courseSection == null) {
             courseSection = new CourseSectionWrapper();
         }

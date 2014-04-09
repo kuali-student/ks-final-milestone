@@ -83,10 +83,10 @@ public class DatesKeyValuesFinder extends UifKeyValuesFinderBase {
         if (model instanceof MaintenanceDocumentForm) {
             MaintenanceDocumentForm courseForm = (MaintenanceDocumentForm) model;
             CourseInfoWrapper courseInfoWrapper = ((CourseInfoWrapper) courseForm.getDocument().getNewMaintainableObject().getDataObject());
-            if (courseInfoWrapper.isPilotCourse()) {
+            if (courseInfoWrapper.getCourseInfo().isPilotCourse()) {
 
                 for (int i = 0; i < searchResult.size(); i++) {
-                    if (courseInfoWrapper.getStartTerm().equals(searchResult.get(i).getId().toString())) {
+                    if (courseInfoWrapper.getCourseInfo().getStartTerm().equals(searchResult.get(i).getId().toString())) {
                         break;
                     }
                     else {
@@ -95,7 +95,7 @@ public class DatesKeyValuesFinder extends UifKeyValuesFinderBase {
                     }
                 }
             } else {
-                courseInfoWrapper.setEndTerm(null);
+                courseInfoWrapper.getCourseInfo().setEndTerm(null);
             }
             for (AtpInfo result : searchResult) {
                 keyValues.add(new ConcreteKeyValue(result.getId(), result.getName()));
