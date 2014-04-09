@@ -32,6 +32,9 @@ import org.kuali.rice.krad.datadictionary.validation.result.DictionaryValidation
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
+import org.kuali.rice.krad.uif.container.CollectionGroup;
+import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
+import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -46,8 +49,10 @@ import org.kuali.student.cm.course.form.LoDisplayInfoWrapper;
 import org.kuali.student.cm.course.form.LoDisplayWrapperModel;
 import org.kuali.student.cm.course.form.RecentlyViewedDocsUtil;
 import org.kuali.student.cm.course.form.SupportingDocumentInfoWrapper;
+import org.kuali.student.cm.course.form.CourseCreateUnitsContentOwner;
 import org.kuali.student.cm.course.service.CourseInfoMaintainable;
 import org.kuali.student.cm.course.util.CourseProposalUtil;
+import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.uif.util.GrowlIcon;
 import org.kuali.student.common.uif.util.KSUifUtils;
 import org.kuali.student.common.uif.util.KSViewAttributeValueReader;
@@ -70,6 +75,7 @@ import org.kuali.student.r2.core.document.service.DocumentService;
 import org.kuali.student.r2.core.proposal.service.ProposalService;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo;
@@ -95,6 +101,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.ArrayList;
 
 
 /**
@@ -322,6 +329,110 @@ public class CourseController extends CourseRuleEditorController {
         }
 
         return retval;
+    }
+
+
+    /**
+     * Called by the delete line action for a model collection. Method
+     * determines which collection the action was selected for and the line
+     * index that should be removed, then invokes the view helper service to
+     * process the action
+     */
+
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=removeOrganization")
+    public ModelAndView removeOrganization(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
+                                           HttpServletRequest request, HttpServletResponse response) {
+
+        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
+
+        String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        if (StringUtils.isBlank(selectedCollectionPath)) {
+            throw new RuntimeException("Selected collection was not set for delete line action, cannot delete line");
+        }
+
+        View view = form.getPostedView();
+
+        CollectionGroup collectionGroup = view.getViewIndex().getCollectionGroupByPath(selectedCollectionPath);
+        if (collectionGroup == null) {
+            logAndThrowRuntime("Unable to get collection group component for path: " + selectedCollectionPath);
+        }
+
+        try {
+
+            // get the collection instance for adding the new line
+            List<CourseCreateUnitsContentOwner> collection = ObjectPropertyUtils.getPropertyValue(form, selectedCollectionPath);
+            if (collection == null) {
+                logAndThrowRuntime("Unable to get collection property from model for path: " + selectedCollectionPath);
+            }
+
+            String subjectArea = courseInfoWrapper.getCourseInfo().getSubjectArea();
+
+            for(CourseCreateUnitsContentOwner unitsContentOwner :  collection) {
+
+                if(StringUtils.isNotEmpty(unitsContentOwner.getOrgId()) &&
+                    StringUtils.isEmpty(unitsContentOwner.getRenderHelper().getOrgLongName())) {
+
+                    populateOrgName(subjectArea,unitsContentOwner);
+
+                }
+            }
+
+        } catch(ClassCastException ex) {
+            logAndThrowRuntime("Only List collection implementations are supported for the delete by index method");
+        }
+
+        return deleteLine(form, result, request, response);
+    }
+
+    /**
+     * Log the error and throw a new runtime exception
+     *
+     * @param message - the error message (both to log and throw as a new exception)
+     */
+    protected void logAndThrowRuntime(String message) {
+        LOG.error(message);
+        throw new RuntimeException(message);
+    }
+
+
+    protected String populateOrgName(String subjectArea, CourseCreateUnitsContentOwner unitsContentOwner) {
+
+        if (StringUtils.isBlank(unitsContentOwner.getOrgId())) {
+            return StringUtils.EMPTY;
+        }
+
+        final SearchRequestInfo searchRequest = new SearchRequestInfo();
+        searchRequest.setSearchKey("subjectCode.search.orgsForSubjectCode");
+
+        searchRequest.addParam("subjectCode.queryParam.code", subjectArea);
+        searchRequest.addParam("subjectCode.queryParam.optionalOrgId", unitsContentOwner.getOrgId());
+
+        List<KeyValue> departments = new ArrayList<KeyValue>();
+
+        try {
+
+            SearchResultInfo result = getSubjectCodeService().search(searchRequest, ContextUtils.getContextInfo());
+
+            if (result.getRows().isEmpty()) {
+                throw new RuntimeException("Invalid Org Id");
+            }
+
+            SearchResultRowInfo row = KSCollectionUtils.getOptionalZeroElement(result.getRows(), true);
+
+            for (final SearchResultCellInfo resultCell : row.getCells()) {
+                if ("subjectCode.resultColumn.orgLongName".equals(resultCell.getKey())) {
+                    unitsContentOwner.getRenderHelper().setOrgLongName(resultCell.getValue());
+                    break;
+                }
+            }
+
+            LOG.debug("Returning {}", departments);
+
+            return StringUtils.EMPTY;
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**

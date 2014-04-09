@@ -95,7 +95,7 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="KS-Uif-Delete-ActionLink" p:id="delete_administeringorganization" p:methodToCall="deleteLine" p:actionLabel="Delete"
+                <bean parent="KS-Uif-Delete-ActionLink" p:id="delete_administeringorganization" p:methodToCall="removeOrganization" p:actionLabel="Delete"
                                       p:actionEvent="deleteLine" p:dirtyOnAction="true"/>
             </list>
         </property>
