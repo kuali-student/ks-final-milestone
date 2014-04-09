@@ -383,10 +383,10 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
         // Fetch the CO LPR
         // Comment out state fetches for now
         List<String> lprStates = new ArrayList<String>();
-        lprStates.add(LprServiceConstants.WAITLISTED_STATE_KEY);
-        List<String> foLprIds = getLprIdsByMasterLprId(masterLprId, LprServiceConstants.WAITLIST_FO_TYPE_KEY,
+        lprStates.add(LprServiceConstants.ACTIVE_STATE_KEY);
+        List<String> coLprIds = getLprIdsByMasterLprId(masterLprId, LprServiceConstants.WAITLIST_CO_TYPE_KEY,
                 lprStates, contextInfo);
-        String coLprId = KSCollectionUtils.getRequiredZeroElement(foLprIds);
+        String coLprId = KSCollectionUtils.getRequiredZeroElement(coLprIds);
         LprInfo origCoLpr = getLprService().getLpr(coLprId, contextInfo);
         LprInfo updatedCoLpr = new LprInfo(origCoLpr); // Make a copy
         updatedCoLpr.setId(null);

@@ -32,13 +32,14 @@ import java.util.List;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ScheduleItemResult", propOrder = {
-        "userId", "termId", "courseCode", "regGroupId", "credits", "gradingOptionId"})
+        "userId", "termId", "courseCode", "regGroupId", "regGroupCode", "credits", "gradingOptionId"})
 public class ScheduleItemResult {
 
     private String userId;
     private String courseCode;
     private String termId;
     private String regGroupId;
+    private String regGroupCode;
     private String credits;
     private String gradingOptionId;
 
@@ -72,6 +73,14 @@ public class ScheduleItemResult {
 
     public void setRegGroupId(String regGroupId) {
         this.regGroupId = regGroupId;
+    }
+
+    public String getRegGroupCode() {
+        return regGroupCode;
+    }
+
+    public void setRegGroupCode(String regGroupCode) {
+        this.regGroupCode = regGroupCode;
     }
 
     public String getCredits() {

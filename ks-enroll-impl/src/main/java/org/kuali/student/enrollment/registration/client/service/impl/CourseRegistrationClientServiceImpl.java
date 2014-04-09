@@ -763,7 +763,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         scheduleItemResult.setCourseCode(courseCode);
         scheduleItemResult.setCredits(credits);
         scheduleItemResult.setGradingOptions(gradingOptionId);
-        scheduleItemResult.setRegGroupId(regGroupCode);
+        scheduleItemResult.setRegGroupCode(regGroupCode);
         scheduleItemResult.setUserId(userId);
 
         return scheduleItemResult;
@@ -838,7 +838,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         scheduleItemResult.setCourseCode(courseCode);
         scheduleItemResult.setCredits(credits);
         scheduleItemResult.setGradingOptions(gradingOptionId);
-        scheduleItemResult.setRegGroupId(regGroupCode);
+        scheduleItemResult.setRegGroupCode(regGroupCode);
         scheduleItemResult.setUserId(userId);
 
         return scheduleItemResult;
