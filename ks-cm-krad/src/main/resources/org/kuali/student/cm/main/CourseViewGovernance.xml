@@ -175,6 +175,42 @@
                 <value>admin-not-required-field</value>
             </list>
         </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="KS-Uif-Delete-ActionLink" p:id="delete_administeringorganization" p:methodToCall="deleteLine" p:actionLabel="Delete"
+                                      p:actionEvent="deleteLine" p:dirtyOnAction="true"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-AdministeringOrganization-Section" parent="KS-TableCollectionSubSection-BottomAddLine"
+                      p:id="administering-organization" p:layoutManager.style="width: 100%;"
+                      p:instructionalText="List the organization(s) that can administer, or offer, this course. In most cases this will be the same as the Curriculum Oversight organization, but additional and/or alternate organizations can also be listed as administering organizations."
+                      p:headerText="Administering Organization(s)">
+        <property name="collectionObjectClass" value="org.kuali.student.cm.course.form.OrganizationInfoWrapper" />
+        <property name="propertyName" value="administeringOrganizations" />
+        <property name="addBlankLineAction.actionLabel" value="Add Organization"/>
+        <property name="addBlankLineAction.id" value="addAdministeringOrganization"/>
+        <property name="addBlankLineAction.onDocumentReadyScript" value="reDisplayAdministeringOrganization();"/>
+        <property name="addBlankLineAction.dirtyOnAction" value="true" />
+        <property name="validationMessages.displayMessages" value="false"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.generateAutoSequence" value="false"/>
+        <property name="layoutManager.separateAddLine" value="false"/>
+        <property name="layoutManager.richTable.disableTableSort" value="true"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
+        <property name="header">
+            <bean parent="Uif-KS-IconHeader">
+                <property name="richHeaderMessage.iconToolTipText" value="This is not a restrictive list - organizations here are additional organizations that can administer this course."/>
+            </bean>
+        </property>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>cm-collection-width</value>
+                <value>admin-not-required-field</value>
+            </list>
+        </property>
         <property name="items">
             <list>
                 <bean parent="KS-Uif-InputField" p:propertyName="organizationName" p:id="organizationName" >
