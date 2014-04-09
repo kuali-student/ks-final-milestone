@@ -115,7 +115,20 @@ public class ReviewProposalDisplay implements java.io.Serializable {
 
     }
 
-    public String getEmptyString() {
+    /**
+     * This is for the outcomes "empty collection" input field. KRAD needs a property name to bind the constraints.
+     * Using the same property name for two input fields causes the constraints to be overwritten.
+     * @return An empty string.
+     */
+    public String getEmptyStringOutcomes() {
+        return "";
+    }
+
+    /**
+     * Same as above, but for formats.
+     * @return An empty string.
+     */
+    public String getEmptyStringFormats() {
         return "";
     }
 

@@ -276,7 +276,9 @@
                             <bean parent="CM-ReadOnlyInput" p:label="Final Exam Rationale"
                                   p:propertyName="reviewProposalDisplay.courseLogisticsSection.finalExamStatusRationale"/>
 
-                            <bean parent="Uif-VerticalFieldGroup" p:label="Outcomes" p:colSpan="3" p:fieldLabel.renderColon="false">
+                            <!-- This bean gets rendered if the outComes collection has items. Otherwise, the one below does. -->
+                            <bean parent="Uif-VerticalFieldGroup" p:label="Outcomes" p:colSpan="3" p:fieldLabel.renderColon="false"
+                                    p:render="@{!#emptyList(#dataObject.reviewProposalDisplay.courseLogisticsSection.outComes)}">
                                 <property name="items">
                                     <list>
                                         <bean id="course_review_outcome_details" parent="Uif-StackedCollectionSection"
@@ -299,40 +301,26 @@
                                         </bean>
                                     </list>
                                 </property>
-                                <property name="propertyReplacers">
-                                    <list>
-                                        <!--
-                                            If the collection is empty then render a simple text field which is required
-
-                                        <bean parent="Uif-ConditionalBeanPropertyReplacer"
-                                            p:propertyName="items"
-                                            p:condition="@{#emptyList(#dataObject.reviewProposalDisplay.courseLogisticsSection.outComes)}" >
-                                            <property name="replacement">
-                                                <list>
-                                                    <bean parent="CM-ReadOnlyInput"
-                                                        p:propertyName="reviewProposalDisplay.emptyString">
-                                                        < ! - - Make required for state enroute  - - >
-
-                                                        <property name="simpleConstraint">
-                                                            <bean parent="RequiredConstraint">
-                                                                <property name="states">
-                                                                    <list>
-                                                                        <value>R+</value>
-                                                                    </list>
-                                                                </property>
-                                                            </bean>
-                                                        </property>
-
-                                                    </bean>
-                                                </list>
-                                            </property>
-                                        </bean>
-                                        -->
-                                    </list>
+                            </bean>
+                            <!-- This bean gets rendered if the outComes collection is empty. Otherwise, the one above does. -->
+                            <bean parent="CM-ReadOnlyInput" p:label="Outcomes"
+                                    p:propertyName="reviewProposalDisplay.emptyStringOutcomes"
+                                    p:render="@{#emptyList(#dataObject.reviewProposalDisplay.courseLogisticsSection.outComes)}">
+                                <!-- Make required for state enroute  -->
+                                <property name="simpleConstraint">
+                                    <bean parent="RequiredConstraint">
+                                        <property name="states">
+                                            <list>
+                                                <value>R+</value>
+                                            </list>
+                                        </property>
+                                    </bean>
                                 </property>
                             </bean>
 
-                            <bean parent="Uif-VerticalFieldGroup" p:label="Course Formats" p:colSpan="3">
+                            <!-- This bean gets rendered if the formats collection has items. Otherwise, the one below does. -->
+                            <bean parent="Uif-VerticalFieldGroup" p:label="Course Formats" p:colSpan="3"
+                                    p:render="@{!#emptyList(#dataObject.reviewProposalDisplay.courseLogisticsSection.formatInfoWrappers)}">
                                 <property name="items">
                                     <list>
                                         <bean id="course_review_format_details" parent="Uif-StackedCollectionSection"
@@ -371,6 +359,21 @@
                                             </property>
                                         </bean>
                                     </list>
+                                </property>
+                            </bean>
+                            <!-- This bean gets rendered if the outComes collection is empty. Otherwise, the one above does. -->
+                            <bean parent="CM-ReadOnlyInput" p:label="Course Formats"
+                                    p:propertyName="reviewProposalDisplay.emptyStringFormats"
+                                    p:render="@{#emptyList(#dataObject.reviewProposalDisplay.courseLogisticsSection.formatInfoWrappers)}">
+                                <!-- Make required for state enroute  -->
+                                <property name="simpleConstraint">
+                                    <bean parent="RequiredConstraint">
+                                        <property name="states">
+                                            <list>
+                                                <value>R+</value>
+                                            </list>
+                                        </property>
+                                    </bean>
                                 </property>
                             </bean>
                         </list>
