@@ -82,6 +82,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             "kuali.search.type.lui.searchForLprIdsByMasterLprId";
     public static final String SEAT_COUNT_INFO_BY_AOIDS_SEARCH_KEY =
             "kuali.search.type.lui.searchForSeatCountInfoByAOIds";
+    public static final String SEAT_COUNT_INFO_BY_REG_GROUPS_SEARCH_KEY =
+            "kuali.search.type.lui.searchForSeatCountsByRGIds";
 
     public static final TypeInfo REG_INFO_BY_PERSON_TERM_SEARCH_TYPE;
     public static final TypeInfo REG_CART_BY_PERSON_TERM_SEARCH_TYPE;
@@ -94,6 +96,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
     public static final TypeInfo LPRIDS_BY_MASTER_LPR_ID_SEARCH_TYPE;
     public static final TypeInfo SEAT_COUNT_INFO_BY_AOIDS_SEARCH_TYPE;
     public static final TypeInfo REG_AND_WL_INFO_BY_PERSON_TERM_SEARCH_TYPE;
+    public static final TypeInfo SEAT_COUNT_INFO_BY_REG_GROUPS_SEARCH_TYPE;
 
     public static final String DEFAULT_EFFECTIVE_DATE = "01/01/2012";
 
@@ -160,6 +163,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         public static final String AO_WAITLIST_COUNT = "waitlistCount";
         public static final String CWL_MAX_SIZE = "courseWaitlistMaxSize";
         public static final String CWL_ID = "courseWaitlistId";
+
+        public static final String SEAT_COUNT = "seatCount";
 
         public static final String LPR_ID = "lprId";
         public static final String LPR_TYPE = "lprType";
@@ -246,6 +251,11 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                 createTypeInfo(REG_AND_WL_INFO_BY_PERSON_TERM_SEARCH_KEY,
                         "Registration and waitlist info by person and term",
                         "Returns registration and waitlist info for given person and term");
+
+        SEAT_COUNT_INFO_BY_REG_GROUPS_SEARCH_TYPE =
+                createTypeInfo(SEAT_COUNT_INFO_BY_REG_GROUPS_SEARCH_KEY,
+                        "(regGroupId, registeredCount, waitlistedCount) for a list of reg group ids",
+                        "Returns (regGroupId, registeredCount, waitlistedCount) for a list of reg group ids");
     }
 
     @Override
@@ -302,7 +312,9 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             return searchForSeatCountInfoByAOIds(searchRequestInfo);
         } else if (REG_AND_WL_INFO_BY_PERSON_TERM_SEARCH_TYPE.getKey().equals(searchKey)) {
             return searchForCourseRegistrationAndWaitlistByStudentAndTerm(searchRequestInfo);
-        } else {
+        } else if (SEAT_COUNT_INFO_BY_REG_GROUPS_SEARCH_TYPE.getKey().equals(searchKey)) {
+            return searchForSeatCountsByRGIds(searchRequestInfo);
+        }else {
             throw new OperationFailedException("Unsupported search type: " + searchRequestInfo.getSearchKey());
         }
     }
@@ -431,6 +443,67 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             row.addCell(SearchResultColumns.END_TIME_MS, (endTimeMs == null) ? "" : endTimeMs.toString());
             row.addCell(SearchResultColumns.CREDITS, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.GRADING_OPTION_ID, (String) resultRow[i]);
+
+            resultInfo.getRows().add(row);
+        }
+
+        return resultInfo;
+    }
+
+
+    /**
+     * This method will return the registration counts for a list of regGroups. Right now it filters on the
+     * lpr_type and state. Right now the filters are:
+     * kuali.lpr.type.registrant.registration.group && kuali.lpr.state.registered // registered for a reg group
+     * or
+     * kuali.lpr.type.waitlist.registration.group && kuali.lpr.state.active // waitlisted for a reg group
+     * @param searchRequestInfo  Must have a list of LUI_IDS passed in.
+     * @return count, lui_id, and lpr_type
+     */
+    private SearchResultInfo searchForSeatCountsByRGIds(SearchRequestInfo searchRequestInfo) {
+        SearchResultInfo resultInfo = new SearchResultInfo();
+        SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
+        List<String> luiIds = requestHelper.getParamAsList(SearchParameters.LUI_IDS);
+
+        String queryStr =
+                "SELECT" +
+                        "    COUNT(*), " +
+                        "    lpr.lui_id, " +
+                        "    lpr.lpr_type " +
+                        "FROM " +
+                        "    KSEN_LPR lpr " +
+                        "WHERE " +
+                        " lpr.lui_id in (:luiIds) " +
+                        " AND   ( ( " +
+                        "            LPR_TYPE = :rgRegType " +
+                        "        AND lpr.lpr_state = :rgRegState) " +
+                        "    OR  (" +
+                        "            LPR_TYPE = :rgWlType " +
+                        "        AND lpr.lpr_state = :rgWlState) ) " +
+                        "GROUP BY" +
+                        "    lpr.lui_id, " +
+                        "    lpr.lpr_type ";
+
+
+
+        Query query = entityManager.createNativeQuery(queryStr);
+        query.setParameter(SearchParameters.LUI_IDS, luiIds);
+
+        // configure the types and states. One time use so there's no Search Param Const
+        query.setParameter("rgRegType", LprServiceConstants.REGISTRANT_RG_TYPE_KEY);
+        query.setParameter("rgRegState", LprServiceConstants.REGISTERED_STATE_KEY);
+        query.setParameter("rgWlType", LprServiceConstants.WAITLIST_RG_TYPE_KEY);
+        query.setParameter("rgWlState", LprServiceConstants.WAITLISTED_STATE_KEY);
+
+        List<Object[]> results = query.getResultList();
+
+        for (Object[] resultRow : results) {
+            int i = 0;
+            SearchResultRowInfo row = new SearchResultRowInfo();
+            row.addCell(SearchResultColumns.SEAT_COUNT, resultRow[i] == null ? null : ((BigDecimal) resultRow[i]).toString());
+            i++;
+            row.addCell(SearchResultColumns.LUI_ID, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.LPR_TYPE, (String) resultRow[i++]);
 
             resultInfo.getRows().add(row);
         }
