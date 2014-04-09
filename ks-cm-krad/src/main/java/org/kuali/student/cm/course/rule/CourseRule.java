@@ -79,7 +79,7 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
             }
         }
 
-        success = validateInstructor(dataObject);
+        success = success && validateInstructor(dataObject);
 
         return success;
     }
