@@ -20,7 +20,7 @@
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="KS-CourseView-ReviewProposalPage" parent="Uif-MaintenancePage" p:style="margin-left: -18px;"
-          p:headerText="Review Proposal HUH?"
+          p:headerText="Review Proposal"
           p:disclosure.render="false">
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <list>
@@ -108,16 +108,16 @@
             </list>
         </property>
         <property name="control">
-            <bean parent="KS-Uif-TextControl" p:readOnly="true"/>
+            <bean parent="Uif-LargeTextAreaControl" p:readOnly="true">
+                <property name="cssClasses">
+                    <list merge="true">
+                        <!-- This is really just used by the jQuery selector. -->
+                        <value>review_readonly_control</value>
+                    </list>
+                </property>
+            </bean>
         </property>
         <property name="fieldLabel.requiredMessagePlacement" value="LEFT"/>
-    </bean>
-
-    <!-- A read-only text area -->
-    <bean id="CM-ReadOnlyInput-large" parent="CM-ReadOnlyInput" abstract="true">
-        <property name="control">
-            <bean parent="Uif-LargeTextAreaControl" p:readOnly="true"/>
-        </property>
     </bean>
 
     <!-- The parent all of the vertical box sections -->
@@ -157,10 +157,10 @@
                 <bean parent="CM-ReviewProposal-GridGroup">
                     <property name="items">
                         <list>
-                            <bean parent="CM-ReadOnlyInput" p:label="Proposal Title" p:propertyName="proposalInfo.name"
-                                  p:control.size="105"/>
+                            <bean parent="CM-ReadOnlyInput" p:label="Proposal Title"
+                                  p:propertyName="proposalInfo.name"/>
                             <bean parent="CM-ReadOnlyInput" p:label="Course Title"
-                                  p:propertyName="courseInfo.courseTitle" p:control.size="105"/>
+                                  p:propertyName="courseInfo.courseTitle"/>
                             <bean parent="CM-ReadOnlyInput" p:label="Transcript Course Title"
                                   p:propertyName="courseInfo.transcriptTitle"/>
                             <bean parent="CM-ReadOnlyInput" p:label="Subject Code"
@@ -176,10 +176,10 @@
                                   p:propertyName="reviewProposalDisplay.courseSection.variationsAsString"/>
                             <bean parent="CM-ReadOnlyInput" p:label="Instructor(s)"
                                   p:propertyName="reviewProposalDisplay.courseSection.instructorsAsString"/>
-                            <bean parent="CM-ReadOnlyInput-large" id="courseInfo_description" p:label="Description"
-                                  p:propertyName="courseInfo.descr.plain" p:onDocumentReadyScript="shrinkToFit('courseInfo_description');"/>
-                            <bean parent="CM-ReadOnlyInput-large" id="proposalInfo_rationale" p:label="Proposal Rationale"
-                                  p:propertyName="proposalInfo.rationale.plain" p:onDocumentReadyScript="shrinkToFit('proposalInfo_rationale');"/>
+                            <bean parent="CM-ReadOnlyInput" p:label="Description"
+                                  p:propertyName="courseInfo.descr.plain"/>
+                            <bean parent="CM-ReadOnlyInput" p:label="Proposal Rationale"
+                                  p:propertyName="proposalInfo.rationale.plain"/>
                         </list>
                     </property>
                 </bean>
@@ -268,25 +268,15 @@
                             </bean>
 
                             <bean parent="CM-ReadOnlyInput" p:label="Audit"
-                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.audit">
-                                <property name="control">
-                                    <bean parent="KS-Uif-TextControl" p:cssClasses="ks-review-capitalise"/>
-                                </property>
-                            </bean>
+                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.audit"/>
                             <bean parent="CM-ReadOnlyInput" p:label="Pass Fail Transcript Grade"
-                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.passFail">
-                                <property name="control">
-                                    <bean parent="KS-Uif-TextControl" p:cssClasses="ks-review-capitalise"/>
-                                </property>
-                             </bean>
+                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.passFail"/>
                             <bean parent="CM-ReadOnlyInput" p:label="Final Exam Status"
                                   p:propertyName="reviewProposalDisplay.courseLogisticsSection.finalExamStatus"/>
-                            <bean parent="CM-ReadOnlyInput-large" id="final_exam_rationale" p:label="Final Exam Rationale"
-                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.finalExamStatusRationale"
-                                  p:onDocumentReadyScript="shrinkToFit('final_exam_rationale');"/>
+                            <bean parent="CM-ReadOnlyInput" p:label="Final Exam Rationale"
+                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.finalExamStatusRationale"/>
 
-                            <bean parent="Uif-VerticalFieldGroup" p:label="Outcomes" p:colSpan="3"
-                                  p:fieldLabel.renderColon="false">
+                            <bean parent="Uif-VerticalFieldGroup" p:label="Outcomes" p:colSpan="3" p:fieldLabel.renderColon="false">
                                 <property name="items">
                                     <list>
                                         <bean id="course_review_outcome_details" parent="Uif-StackedCollectionSection"
@@ -477,11 +467,7 @@
                             <bean parent="CM-ReadOnlyInput" p:label="End Term"
                                   p:propertyName="reviewProposalDisplay.activeDatesSection.endTerm"/>
                             <bean parent="CM-ReadOnlyInput" p:label="Pilot Course"
-                                  p:propertyName="reviewProposalDisplay.activeDatesSection.pilotCourse">
-                                <property name="control">
-                                    <bean parent="KS-Uif-TextControl" p:cssClasses="ks-review-capitalise"/>
-                                </property>
-                            </bean>
+                                  p:propertyName="reviewProposalDisplay.activeDatesSection.pilotCourse"/>
                         </list>
                     </property>
                 </bean>
@@ -507,9 +493,8 @@
                 <bean parent="CM-ReviewProposal-GridGroup">
                     <property name="items">
                         <list>
-                            <bean parent="CM-ReadOnlyInput-large" id="justification_of_fees" p:label="Justification of Fees"
-                                  p:propertyName="reviewProposalDisplay.financialsSection.justificationOfFees"
-                                  p:onDocumentReadyScript="shrinkToFit('justification_of_fees');"/>
+                            <bean parent="CM-ReadOnlyInput" p:label="Justification of Fees"
+                                  p:propertyName="reviewProposalDisplay.financialsSection.justificationOfFees"/>
                         </list>
                     </property>
                 </bean>
