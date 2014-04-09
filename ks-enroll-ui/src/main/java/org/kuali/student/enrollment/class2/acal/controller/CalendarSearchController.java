@@ -78,7 +78,7 @@ public class CalendarSearchController  extends UifControllerBase {
 
     @Override
     @RequestMapping(method = RequestMethod.GET, params = "methodToCall=start")
-    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form,
                               HttpServletRequest request, HttpServletResponse response) {
         CalendarSearchForm calendarSearchForm = (CalendarSearchForm)form;
 
@@ -113,7 +113,7 @@ public class CalendarSearchController  extends UifControllerBase {
             KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS, growlMessageKey, growlMessageParams);
         }
 
-        return super.start(form, result, request, response);
+        return super.start(form, request, response);
     }
 
     /**
@@ -193,17 +193,18 @@ public class CalendarSearchController  extends UifControllerBase {
         String controllerPath;
         CalendarSearchViewHelperService viewHelperService = (CalendarSearchViewHelperService) KSControllerHelper.getViewHelperService(searchForm);
 
+        String flowKey = searchForm.getFlowKey();
         if(CalendarConstants.HOLIDAYCALENDER.equals(atp.getAcalSearchTypeKey())){
             urlParameters = viewHelperService.buildHCalURLParameters(atp, CalendarConstants.HC_VIEW_METHOD, true, getContextInfo());
-            urlParameters.put("flow", searchForm.getFlowKey());
+            urlParameters.put("flow", flowKey == null ? "" : flowKey);
             controllerPath = CalendarConstants.HCAL_CONTROLLER_PATH;
         } else if(CalendarConstants.ACADEMICCALENDER.equals(atp.getAcalSearchTypeKey())) {
             urlParameters = viewHelperService.buildACalURLParameters(atp, CalendarConstants.AC_VIEW_METHOD, true, getContextInfo());
-            urlParameters.put("flow", searchForm.getFlowKey());
+            urlParameters.put("flow", flowKey == null ? "" : flowKey);
             controllerPath = CalendarConstants.ACAL_CONTROLLER_PATH;
         } else if(CalendarConstants.TERM.equals(atp.getAcalSearchTypeKey()) || CalendarConstants.SUBTERM.equals(atp.getAcalSearchTypeKey())){
             urlParameters = viewHelperService.buildTermURLParameters(atp, CalendarConstants.AC_VIEW_METHOD, true, getContextInfo());
-            urlParameters.put("flow", searchForm.getFlowKey());
+            urlParameters.put("flow", flowKey == null ? "" : flowKey);
             controllerPath = CalendarConstants.ACAL_CONTROLLER_PATH;
         } else {
             throw new RuntimeException("Invalid calendar type. This search supports Acal/HCal/Term/Subterm only");
@@ -231,17 +232,18 @@ public class CalendarSearchController  extends UifControllerBase {
         String controllerPath;
         CalendarSearchViewHelperService viewHelperService = (CalendarSearchViewHelperService) KSControllerHelper.getViewHelperService(searchForm);
 
+        String flowKey = searchForm.getFlowKey();
         if(CalendarConstants.HOLIDAYCALENDER.equals(atp.getAcalSearchTypeKey())){
             urlParameters = viewHelperService.buildHCalURLParameters(atp, CalendarConstants.HC_EDIT_METHOD, false, getContextInfo());
-            urlParameters.put("flow", searchForm.getFlowKey());
+            urlParameters.put("flow", flowKey == null ? "" : flowKey);
             controllerPath = CalendarConstants.HCAL_CONTROLLER_PATH;
         } else if(CalendarConstants.ACADEMICCALENDER.equals(atp.getAcalSearchTypeKey())) {
             urlParameters = viewHelperService.buildACalURLParameters(atp, CalendarConstants.AC_EDIT_METHOD, false, getContextInfo());
-            urlParameters.put("flow", searchForm.getFlowKey());
+            urlParameters.put("flow", flowKey == null ? "" : flowKey);
             controllerPath = CalendarConstants.ACAL_CONTROLLER_PATH;
         } else if(CalendarConstants.TERM.equals(atp.getAcalSearchTypeKey()) || CalendarConstants.SUBTERM.equals(atp.getAcalSearchTypeKey())){
             urlParameters = viewHelperService.buildTermURLParameters(atp, CalendarConstants.AC_EDIT_METHOD, false, getContextInfo());
-            urlParameters.put("flow", searchForm.getFlowKey());
+            urlParameters.put("flow", flowKey == null ? "" : flowKey);
             controllerPath = CalendarConstants.ACAL_CONTROLLER_PATH;
         } else {
             throw new RuntimeException("Invalid calendar type. This search supports Acal/HCal/Term only");
@@ -270,14 +272,15 @@ public class CalendarSearchController  extends UifControllerBase {
         String controllerPath;
         CalendarSearchViewHelperService viewHelperService = (CalendarSearchViewHelperService) KSControllerHelper.getViewHelperService(searchForm);
 
+        String flowKey = searchForm.getFlowKey();
         if(CalendarConstants.HOLIDAYCALENDER.equals(atp.getAcalSearchTypeKey())){
             controllerPath = CalendarConstants.HCAL_CONTROLLER_PATH;
             urlParameters = viewHelperService.buildHCalURLParameters(atp, CalendarConstants.HC_COPY_METHOD, false, getContextInfo());
-            urlParameters.put("flow", searchForm.getFlowKey());
+            urlParameters.put("flow", flowKey == null ? "" : flowKey);
         }else if(CalendarConstants.ACADEMICCALENDER.equals(atp.getAcalSearchTypeKey())){
             urlParameters = viewHelperService.buildACalURLParameters(atp, CalendarConstants.AC_COPY_METHOD, false, getContextInfo());
             controllerPath = CalendarConstants.ACAL_CONTROLLER_PATH;
-            urlParameters.put("flow", searchForm.getFlowKey());
+            urlParameters.put("flow", flowKey == null ? "" : flowKey);
         } else {
             throw new RuntimeException("Invalid calendar type. This search supports Acal and HCal only");
         }
@@ -292,11 +295,8 @@ public class CalendarSearchController  extends UifControllerBase {
 
         Properties urlParameters = new Properties();
         urlParameters.put(UifParameters.VIEW_ID, CalendarConstants.ACAL_VIEW);
-        // UrlParams.SHOW_HISTORY and SHOW_HOME no longer exist
-        // https://fisheye.kuali.org/changelog/rice?cs=39034
-        // TODO KSENROLL-8469
-        //urlParameters.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
-        urlParameters.put("flow", searchForm.getFlowKey());
+        String flowKey = searchForm.getFlowKey();
+        urlParameters.put("flow", flowKey == null ? "" : flowKey);
         urlParameters.put(CalendarConstants.PAGE_ID,CalendarConstants.ACADEMIC_CALENDAR_EDIT_PAGE);
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "startNew");
         String controllerPath = CalendarConstants.ACAL_CONTROLLER_PATH;
@@ -309,11 +309,8 @@ public class CalendarSearchController  extends UifControllerBase {
 
         Properties urlParameters = new Properties();
         urlParameters.put(UifParameters.VIEW_ID, CalendarConstants.HOLIDAYCALENDAR_FLOWVIEW);
-        // UrlParams.SHOW_HISTORY and SHOW_HOME no longer exist
-        // https://fisheye.kuali.org/changelog/rice?cs=39034
-        // TODO KSENROLL-8469
-        //urlParameters.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(true));
-        urlParameters.put("flow", searchForm.getFlowKey());
+        String flowKey = searchForm.getFlowKey();
+        urlParameters.put("flow", flowKey == null ? "" : flowKey);
         urlParameters.put(CalendarConstants.PAGE_ID,CalendarConstants.HOLIDAYCALENDAR_EDITPAGE);
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "startNew");
         String controllerPath = CalendarConstants.HCAL_CONTROLLER_PATH;
@@ -334,7 +331,7 @@ public class CalendarSearchController  extends UifControllerBase {
                                HttpServletRequest request, HttpServletResponse response) throws Exception {
         String dialog = CalendarConstants.SEARCH_DELETE_CONFIRMATION_DIALOG;
         if (!hasDialogBeenDisplayed(dialog, searchForm)) {
-            searchForm.setSelectedCollectionPath(searchForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH));
+            searchForm.setSelectedCollectionPath(searchForm.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH));
             searchForm.setSelectedLineIndex(searchForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
             //redirect back to client to display lightbox
             return showDialog(dialog, searchForm, request, response);
@@ -346,13 +343,13 @@ public class CalendarSearchController  extends UifControllerBase {
                     return getUIFModelAndView(searchForm);
                 }
             } else {
-                searchForm.setSelectedCollectionPath(searchForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH));
+                searchForm.setSelectedCollectionPath(searchForm.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH));
                 searchForm.setSelectedLineIndex(searchForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
                 //redirect back to client to display lightbox
                 return showDialog(dialog, searchForm, request, response);
             }
         }
-        searchForm.getActionParameters().put(UifParameters.SELLECTED_COLLECTION_PATH,searchForm.getSelectedCollectionPath());
+        searchForm.getActionParameters().put(UifParameters.SELECTED_COLLECTION_PATH,searchForm.getSelectedCollectionPath());
         searchForm.getActionParameters().put(UifParameters.SELECTED_LINE_INDEX,searchForm.getSelectedLineIndex());
 
         AcalSearchResult atp = getSelectedAtp(searchForm, "delete");
@@ -394,7 +391,7 @@ public class CalendarSearchController  extends UifControllerBase {
     }
 
     private AcalSearchResult getSelectedAtp(CalendarSearchForm searchForm, String actionLink){
-        String selectedCollectionPath = searchForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        String selectedCollectionPath = searchForm.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
             throw new RuntimeException("Selected collection was not set for " + actionLink);
         }

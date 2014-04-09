@@ -52,7 +52,7 @@ public class GradingController extends UifControllerBase {
             HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         String selectedCourse = gradingForm.getSelectedCourse();
-        List<GradeStudent> students = ((GradingViewHelperService) gradingForm.getView().getViewHelperService()).loadStudents(selectedCourse,gradingForm);
+        List<GradeStudent> students = ((GradingViewHelperService) gradingForm.getViewHelperService()).loadStudents(selectedCourse,gradingForm);
         gradingForm.setStudents(students);
 
         return getUIFModelAndView(gradingForm, GradingConstants.GRADE_ROSTER_PAGE);
@@ -78,7 +78,7 @@ public class GradingController extends UifControllerBase {
         //FIXME: Just a workaround as the propertyreplacer not working
         gradingForm.setTitle(selectedCourse.getCourseOfferingCode() + " - " + selectedCourse.getCourseOfferingTitle());
 
-        List<GradeStudent> students = ((GradingViewHelperService) gradingForm.getView().getViewHelperService()).loadStudents(courseId,gradingForm);
+        List<GradeStudent> students = ((GradingViewHelperService) gradingForm.getViewHelperService()).loadStudents(courseId,gradingForm);
 
         if (students == null || students.isEmpty()){
             //FIXME: Not sure how to set a global error instead of for a field. If no fields mentioned, KRAD throwing error
@@ -95,7 +95,7 @@ public class GradingController extends UifControllerBase {
     public ModelAndView unassignGrade(@ModelAttribute("KualiForm") GradingForm gradingForm, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) {
 
-        String selectedCollectionPath = gradingForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        String selectedCollectionPath = gradingForm.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
             throw new RuntimeException("Selected collection was not set for unassign action, cannot unassign grade");
         }
@@ -112,7 +112,7 @@ public class GradingController extends UifControllerBase {
         }
 
         // TODO: Needs to be a atpService side method instead of handling at server side
-        ((GradingViewHelperService) gradingForm.getView().getViewHelperService()).unAssignGrade(gradingForm.getView(),
+        ((GradingViewHelperService) gradingForm.getViewHelperService()).unAssignGrade(gradingForm.getView(),
                 gradingForm, selectedCollectionPath, selectedLineIndex);
 
         return getUIFModelAndView(gradingForm, GradingConstants.GRADE_ROSTER_PAGE);
@@ -134,7 +134,7 @@ public class GradingController extends UifControllerBase {
     public ModelAndView save(@ModelAttribute("KualiForm") GradingForm gradingForm, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        boolean success = ((GradingViewHelperService) gradingForm.getView().getViewHelperService()).saveGrades(gradingForm);
+        boolean success = ((GradingViewHelperService) gradingForm.getViewHelperService()).saveGrades(gradingForm);
 
         if (success){
             //FIXME: Not sure how to set a global error instead of for a field. If no fields mentioned, KRAD throwing error
@@ -150,7 +150,7 @@ public class GradingController extends UifControllerBase {
     public ModelAndView loadCourses(@ModelAttribute("KualiForm") GradingForm gradingForm, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        ((GradingViewHelperService) gradingForm.getView().getViewHelperService()).loadCourses(gradingForm);
+        ((GradingViewHelperService) gradingForm.getViewHelperService()).loadCourses(gradingForm);
         return getUIFModelAndView(gradingForm, GradingConstants.SELECT_COURSE_OFFERING_PAGE);
 
     }
@@ -159,7 +159,7 @@ public class GradingController extends UifControllerBase {
     public ModelAndView submit(@ModelAttribute("KualiForm") GradingForm gradingForm, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        boolean success = ((GradingViewHelperService) gradingForm.getView().getViewHelperService()).submitGradeRoster(gradingForm);
+        boolean success = ((GradingViewHelperService) gradingForm.getViewHelperService()).submitGradeRoster(gradingForm);
 
         if (success){
             //FIXME: Not sure how to set a global error instead of for a field. If no fields mentioned, KRAD throwing error
@@ -173,7 +173,7 @@ public class GradingController extends UifControllerBase {
     public ModelAndView viewGrades(@ModelAttribute("KualiForm") StudentGradeForm studentGradeForm,
             BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        ((GradingViewHelperService) studentGradeForm.getView().getViewHelperService()).loadStudentGrades(studentGradeForm);
+        ((GradingViewHelperService) studentGradeForm.getViewHelperService()).loadStudentGrades(studentGradeForm);
 
         return getUIFModelAndView(studentGradeForm, GradingConstants.STUDENT_CREDIT_DETAILS_PAGE);
     }

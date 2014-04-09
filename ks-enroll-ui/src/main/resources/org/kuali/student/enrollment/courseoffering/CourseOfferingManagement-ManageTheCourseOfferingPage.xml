@@ -102,7 +102,7 @@
     </bean>
 
     <bean id="KS-CourseOfferingManagement-ManageTheCourseOfferingSection" p:id="ActivityOfferingResultSection" parent="Uif-VerticalBoxSection">
-        <property name="componentSecurity.viewAuthz" value="true"/>
+        <property name="viewAuthz" value="true"/>
         <property name="validationMessages.displayMessages" value="false"/>
 <!--
         <property name="headerText" value="@{currentCourseOfferingWrapper.ownerCode} - @{currentCourseOfferingWrapper.courseOfferingDesc} (@{currentCourseOfferingWrapper.creditCnt} Credits, SOC State: @{socState})" />
@@ -131,9 +131,10 @@
         <property name="style" value="background-color: #f8f8f8; padding-left: 10px;"/>
         <property name="items">
             <list>
-                <bean parent="KS-Uif-DataField" p:label="Title" p:escapeHtmlInPropertyValue="false" p:propertyName="currentCourseOfferingWrapper.courseOfferingInfo.courseOfferingTitle"
-                      p:labelPlacement="LEFT" p:readOnly="true"/>
-                <bean parent="KS-Uif-DataField" p:label="Crosslisted as" p:labelPlacement="LEFT" p:propertyName="currentCourseOfferingWrapper.alternateCOCodes"
+                <bean parent="KS-Uif-DataField-LabelLeft" p:label="Title" p:escapeHtmlInPropertyValue="false" p:propertyName="currentCourseOfferingWrapper.courseOfferingInfo.courseOfferingTitle"
+                      p:readOnly="true"/>
+                <!-- Rice 2.4 upgrade : removing p:labelPlacement="LEFT" -->
+                <bean parent="KS-Uif-DataField-LabelLeft" p:label="Crosslisted as" p:propertyName="currentCourseOfferingWrapper.alternateCOCodes"
                       p:render="@{currentCourseOfferingWrapper.alternateCOCodes.size() > 0 }" p:readOnly="true"/>
             </list>
         </property>
@@ -155,12 +156,12 @@
                                         </bean>
                                         <!-- The ajaxSubmit="false" setting is to make the whole page refresh so that the "Loading... " message doesn't disappear prematurely. -->
                                         <bean id="edit_co" parent="Uif-ActionLink" p:methodToCall="editTheCO" p:actionLabel=" | Edit"
-                                              p:disabled="@{#parent.readOnly}" p:componentSecurity.performActionAuthz="true" p:actionEvent="editCO"
+                                              p:disabled="@{#parent.readOnly}" p:performActionAuthz="true" p:actionEvent="editCO"
                                               p:ajaxSubmit="false" />
                                         <bean id="delete_co" parent="Uif-ActionLink" p:id="ActivityOfferingResultSection-deleteOneCoWithLink" p:methodToCall="deleteOneCoWithLink"
                                               p:actionLabel=" | Delete" p:disabled="@{#parent.readOnly}"
                                               p:render = "@{currentCourseOfferingWrapper.isDeleteCoValid(currentCourseOfferingWrapper.stateKey)}"
-                                              p:componentSecurity.performActionAuthz="true" p:actionEvent="deleteCO" />
+                                              p:performActionAuthz="true" p:actionEvent="deleteCO" />
                                         <bean parent="Uif-ActionLink" p:actionLabel=" | View All Registration Groups (@{rgResultList.size()})"
                                               p:actionScript = "showLightboxComponent( 'KS-CourseOfferingManagement-AllRegistrationGroupsForACourseOffering' );"/>
                                         <bean parent="Uif-Link" p:linkText="| Course Offering Requisites "

@@ -374,7 +374,7 @@
     <bean id="KS-CourseOfferingEdit-GradingOptions" parent="Uif-HorizontalBoxSection">
         <property name="items">
             <list>
-                <bean parent="KS-Uif-InputField" p:propertyName="courseOfferingInfo.gradingOptionId" p:id="gradingOptionId" p:label="Grading Option" p:fieldLabel.renderColon="false" p:componentSecurity.editAuthz="true"
+                <bean parent="KS-Uif-InputField" p:propertyName="courseOfferingInfo.gradingOptionId" p:id="gradingOptionId" p:label="Grading Option" p:fieldLabel.renderColon="false" p:editAuthz="true"
                       p:onChangeScript="jQuery('#dirtyForm').val(true);" >
                     <property name="control">
                         <bean parent="Uif-HorizontalRadioControl"/>
@@ -401,18 +401,20 @@
                 <!--p:addBlankOption="false" />-->
                 <!--</property>-->
                 <!--</bean>-->
-                <bean parent="Uif-MessageField" p:label="Student Registration Options"
-                      p:labelPlacement="TOP" p:fieldLabel.renderColon="false"
+                <bean parent="KS-Uif-MessageField-LabelTop" p:label="Student Registration Options"
+                      p:fieldLabel.renderColon="false"
                       p:render="true"  />
                 <!-- List of checkboxes seem to break in KRAD 2.2M3 so had to replace with individual checkboxes -->
                 <bean parent="Uif-CheckboxInputField" p:id="is_pass_fail" p:label="Pass/Fail"
                       p:propertyName="passFailStudentRegOpts"
-                      p:labelPlacement="RIGHT" p:fieldLabel.renderColon="false"
+                      p:fieldLabel.renderColon="false"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and #dp.studentRegOptions.contains('kuali.resultComponent.grade.passFail')}"/>
+                <!-- Rice 2.4 upgrade : removing p:labelPlacement="RIGHT" -->
                 <bean parent="Uif-CheckboxInputField" p:id="is_audit" p:label="Audit"
                       p:propertyName="auditStudentRegOpts"
-                      p:labelPlacement="RIGHT" p:fieldLabel.renderColon="false"
+                      p:fieldLabel.renderColon="false"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and #dp.studentRegOptions.contains('kuali.resultComponent.grade.audit')}"/>
+                <!-- Rice 2.4 upgrade : removing p:labelPlacement="RIGHT" -->
                 <!-- For read only view show as message fields -->
                 <bean parent="Uif-MessageField"
                       p:messageText="Pass/Fail" p:render="@{!#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and #dp.passFailStudentRegOpts}"/>
@@ -497,7 +499,7 @@
 
     <bean id="KS-CourseOfferingEdit-DeliveryAndAssessment" p:id="delivery_and_assessment" parent="Uif-VerticalBoxSection" p:headerText="Delivery and Assessment">
         <property name="validationMessages.displayMessages" value="false"/>
-        <property name="componentSecurity.editAuthz" value="true"/>
+        <property name="editAuthz" value="true"/>
         <property name="items">
             <list>
                 <bean parent="Uif-VerticalBoxSection">
@@ -507,8 +509,8 @@
                     </property>
                     <property name="items">
                         <list>
-                            <bean parent="KS-Uif-InputField" p:propertyName="courseOfferingInfo.finalExamType" p:id="finalExamType" p:label="Exam Type"
-                                  p:fieldLabel.renderColon="false" p:labelPlacement="TOP" p:componentSecurity.editAuthz="true"
+                            <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="courseOfferingInfo.finalExamType" p:id="finalExamType" p:label="Exam Type"
+                                  p:fieldLabel.renderColon="false" p:editAuthz="true"
                                   p:onChangeScript="jQuery('#dirtyForm').val(true);"  >
                                 <property name="control">
                                     <bean parent="KS-Uif-VerticalRadioControl"/>
@@ -538,13 +540,14 @@
                                                 <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.FinalExamDriversKeyValues" p:addBlankOption="false"/>
                                             </property>
                                         </bean>
-                                        <bean parent="KS-Uif-InputField" p:id="finalExamMatrix" p:label="Use Final Exam Matrix" p:propertyName="useFinalExamMatrix" p:labelPlacement="RIGHT"
+                                        <bean parent="KS-Uif-InputField-LabelRight" p:id="finalExamMatrix" p:label="Use Final Exam Matrix" p:propertyName="useFinalExamMatrix"
                                             p:render="@{!#parent.readOnly}" p:defaultValue="true">
                                             <property name="control">
                                                 <bean parent="KS-Uif-CheckboxControl"/>
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-MessageField" p:label="Use Final Exam Matrix" p:labelPlacement="LEFT" p:fieldLabel.renderColon="false" p:messageText="@{#dp.useFinalExamMatrixUI}" p:render="@{#parent.readOnly}" />
+                                        <bean parent="Uif-MessageField" p:label="Use Final Exam Matrix" p:fieldLabel.renderColon="false" p:messageText="@{#dp.useFinalExamMatrixUI}" p:render="@{#parent.readOnly}" />
+                                        <!-- Rice 2.4 upgrade : removing p:labelPlacement="LEFT" -->
 
                                     </list>
                                 </property>
@@ -661,9 +664,8 @@
                       p:render="@{!#parent.readOnly and (#dp.courseOfferingInfo.finalExamType eq 'STANDARD')}"
                       p:label="Final Exam Driver"
                       p:additionalCssClasses="final_exam_course_offering"/>
-                <bean parent="Uif-MessageField"
-                      p:label="Final Exam Driver"
-                      p:labelPlacement="TOP" p:fieldLabel.renderColon="false"
+                <bean parent="KS-Uif-MessageField-LabelTop"
+                      p:label="Final Exam Driver" p:fieldLabel.renderColon="false"
                       p:messageText="@{#lp.courseOfferingWrapper.finalExamDriverUI}"
                       p:render="@{#parent.readOnly and (#dp.courseOfferingInfo.finalExamType eq 'STANDARD')}"
                       p:additionalCssClasses="final_exam_course_offering"/>
@@ -671,7 +673,6 @@
                 <bean id="edit_co_final_exam_type" parent="KS-Uif-InputField"
                       p:propertyName="formatOfferingInfo.finalExamLevelTypeKey"
                       p:label="Final Exam Driver Activity"
-                      p:labelPlacement="TOP"
                       p:required="true"
                       p:render="@{#dp.courseOfferingInfo.finalExamType eq 'STANDARD'}"
                       p:finalizeMethodToCall="populateFinalExamDriverTypes" p:forceSessionPersistence="true"
@@ -685,8 +686,8 @@
                         <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.DummyKeyValue"/>
                     </property>
                 </bean>
-                <bean parent="Uif-MessageField" p:label="Final Exam Driver" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:messageText="Alternate exam for this offering" p:render="@{#dp.courseOfferingInfo.finalExamType eq 'ALTERNATE'}" />
-                <bean parent="Uif-MessageField" p:label="Final Exam Driver" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:messageText="No final exam for this offering" p:render="@{#dp.courseOfferingInfo.finalExamType eq 'NONE'}" />
+                <bean parent="KS-Uif-MessageField-LabelTop" p:label="Final Exam Driver" p:fieldLabel.renderColon="false" p:messageText="Alternate exam for this offering" p:render="@{#dp.courseOfferingInfo.finalExamType eq 'ALTERNATE'}" />
+                <bean parent="KS-Uif-MessageField-LabelTop" p:label="Final Exam Driver" p:fieldLabel.renderColon="false" p:messageText="No final exam for this offering" p:render="@{#dp.courseOfferingInfo.finalExamType eq 'NONE'}" />
             </list>
         </property>
     </bean>
@@ -702,11 +703,12 @@
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean id="KS-CourseOfferingEdit-HasWaitlist" parent="Uif-InputField-LabelRight" p:propertyName="courseOfferingInfo.hasWaitlist" p:label="Waitlists Active" >
+                            <bean id="KS-CourseOfferingEdit-HasWaitlist" parent="KS-Uif-InputField" p:propertyName="courseOfferingInfo.hasWaitlist" >
                                 <property name="control">
                                     <!-- show dialog prompt if user deactivates waitlist -->
                                     <bean parent="KS-Uif-CheckboxControl"
-                                          p:onClickScript="jQuery('#dirtyForm').val(true); if (!jQuery('#KS-CourseOfferingEdit-HasWaitlist_control').attr('checked')) {showLightboxComponent('CourseOfferingEdit-Waitlist-Inactivate-Prompt'); }"/>
+                                          p:onClickScript="jQuery('#dirtyForm').val(true); if (!jQuery('#KS-CourseOfferingEdit-HasWaitlist_control').attr('checked')) {showLightboxComponent('CourseOfferingEdit-Waitlist-Inactivate-Prompt'); }"
+                                          p:checkboxLabel="Waitlists Active"/>
                                 </property>
                             </bean>
                             <ref bean="CourseOfferingEdit-Waitlist-Inactivate-Prompt"/>
@@ -787,8 +789,8 @@
                                             </map>
                                         </property>
                                         <property name="viewName" value="ks_simplePersonLookup" />
-                                        <property name="lightBoxLookup">
-                                            <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="true"/>
+                                        <property name="lightBox">
+                                            <bean parent="Uif-LightBox" p:lookupReturnByScript="true"/>
                                         </property>
                                     </bean>
                                 </property>
@@ -900,7 +902,7 @@
     <bean id="KS-CourseOfferingEdit-HonorsOffering" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
-                <bean parent="KS-Uif-InputField" p:id="isHonoursOffering" p:propertyName="courseOfferingInfo.isHonorsOffering" p:label="Honors Flag" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
+                <bean parent="KS-Uif-InputField-LabelTop" p:id="isHonoursOffering" p:propertyName="courseOfferingInfo.isHonorsOffering" p:label="Honors Flag" p:fieldLabel.renderColon="false">
                     <property name="control">
                         <bean parent="KS-Uif-CheckboxControl">
                             <property name="checkboxLabel" value="This is an Honors Course"/>

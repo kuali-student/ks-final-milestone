@@ -280,7 +280,7 @@
                                 </property>
                                 <property name="items">
                                     <list>
-                                        <bean id="term_start_date" parent="KS-Uif-InputField" p:labelPlacement="TOP"
+                                        <bean id="term_start_date" parent="KS-Uif-InputField-LabelTop"
                                               p:propertyName="startDate" p:label="Start Date" p:required="true">
                                             <property name="control">
                                                 <bean parent="KS-Uif-Default-DateControl"/>
@@ -306,7 +306,7 @@
                                                 </bean>
                                             </property>
                                         </bean>
-                                        <bean id="term_end_date" parent="KS-Uif-InputField" p:labelPlacement="TOP"
+                                        <bean id="term_end_date" parent="KS-Uif-InputField-LabelTop"
                                               p:propertyName="endDate" p:label="End Date" p:required="true">
                                             <property name="control">
                                                 <bean parent="KS-Uif-Default-DateControl"/>
@@ -315,7 +315,7 @@
                                                 <bean parent="KS-BasicDatePatternConstraint"/>
                                             </property>
                                         </bean>
-                                        <bean id="term_instructional_days" parent="KS-Uif-DataField" p:labelPlacement="TOP"
+                                        <bean id="term_instructional_days" parent="KS-Uif-DataField-LabelTop"
                                               p:propertyName="instructionalDays" p:label="Instructional Days"
                                               p:render="@{!#isAddLine}" p:fieldLabel.renderColon="false">
                                             <property name="toolTip">
@@ -420,10 +420,9 @@
         </property>
         <property name="items">
             <list>
-                <bean id="key_date_group_type" parent="KS-Uif-InputField" p:propertyName="keyDateGroupType"
+                <bean id="key_date_group_type" parent="KS-Uif-InputField-LabelTop" p:propertyName="keyDateGroupType"
                       p:render="@{#isAddLine}"
-                      p:label="Key Date Group Type *" p:labelPlacement="TOP"
-                      p:finalizeMethodToCall="populateKeyDateGroupTypes">
+                      p:label="Key Date Group Type *" p:finalizeMethodToCall="populateKeyDateGroupTypes">
                     <property name="onDocumentReadyScript"
                               value="window.setTimeout(removeNewItemHighlights(),5000); resetDirtyFields('AcalEdit-DirtyFields');"/>
                     <property name="control">
@@ -597,16 +596,16 @@
                 <bean parent="KS-Uif-DataField" p:propertyName="endDateUI" p:render="@{#view.readOnly}"
                       p:label="End Date"/>
 
-                <bean parent="KS-Uif-InputField" p:id="exclude_Saturday" p:label="Exclude Saturday"
-                      p:propertyName="excludeSaturday" p:labelPlacement="RIGHT">
+                <bean parent="KS-Uif-InputField" p:id="exclude_Saturday"
+                      p:propertyName="excludeSaturday">
                     <property name="control">
-                        <bean parent="KS-Uif-CheckboxControl"/>
+                        <bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="Exclude Saturday" />
                     </property>
                 </bean>
-                <bean parent="KS-Uif-InputField" p:id="exclude_Sunday" p:label="Exclude Sunday"
-                      p:propertyName="excludeSunday" p:labelPlacement="RIGHT">
+                <bean parent="KS-Uif-InputField" p:id="exclude_Sunday"
+                      p:propertyName="excludeSunday">
                     <property name="control">
-                        <bean parent="KS-Uif-CheckboxControl"/>
+                        <bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="Exclude Sunday" />
                     </property>
                 </bean>
             </list>
