@@ -260,8 +260,8 @@ function createErrorDiv(message, url, controlId) {
     var div = jQuery('<div id="' + controlId + '_messageDiv" class="uif-clientMessageItems uif-clientErrorDiv" style="display: none;"/>');
     var ul = jQuery("<ul/>");
     var li = jQuery("<li class='uif-errorMessageItem-field'/>");
-    var image = jQuery("<img class='uif-validationImage' src='" + url + "/themes/ksboot/images/validation/error.png' alt='Error'>" + message + "</img>");
-    //jQuery(image).text(message);
+    var image = jQuery("<img class='uif-validationImage' src='" + url + "/themes/ksboot/images/validation/error.png' alt='Error'/>");
+    jQuery(image).text(message);
     jQuery(li).append(image);
     jQuery(ul).append(li);
     jQuery(div).append(ul);
@@ -748,9 +748,6 @@ function resetCheckboxes(containerId) {
  rows in datatables
  */
 jQuery(document).on("click", ".dataTable input[type=checkbox]", function() {
-    if(jQuery(this).parent('div.non-row-selector').length > 0){
-        return;
-    }
     jQuery(this).closest('tr').toggleClass('selected-row');
     handleEventforDisabledElements();
 });
@@ -762,7 +759,7 @@ jQuery(document).on("click", ".dataTable input[type=checkbox]", function() {
 
 /* Set custom font icons for calendar datepickers */
 jQuery(document).on('DOMNodeInserted', 'button.ui-datepicker-trigger', function() {
-    jQuery(this).empty().addClass('btn-link ks-fontello-icon-calendar').attr('alt', 'Date picker').attr('value', 'Date picker');
+    jQuery(this).empty().addClass('btn-link ks-fontello-icon-calendar-1').attr('alt', 'Date picker').attr('value', 'Date picker');
 });
 
 /*
@@ -850,11 +847,8 @@ jQuery(document).on("click", ".dataTable tbody tr", function (e) {
         // stop the bubbling to prevent firing the row's click event
         e.stopPropagation();
     } else {
-        jQuery(this).find(':checkbox').each(function(){
-            var $checkbox = jQuery(this);
-            if($checkbox.parent('div.non-row-selector').length > 0){
-                return;
-            }
+        var $checkbox = jQuery(this).find(':checkbox');
+        if ($checkbox.length > 0) {
             $checkbox.attr('checked', !$checkbox.attr('checked'));
             jQuery(this).closest('tr').toggleClass('selected-row', $checkbox.prop('checked'));
             $checkbox.trigger("change");
@@ -867,7 +861,7 @@ jQuery(document).on("click", ".dataTable tbody tr", function (e) {
                 var subComponentId = toggleCBId.split('_toggle_control_checkbox')[0];
                 controlCheckboxStatus(subComponentId, $checkbox);
             }
-        });
+        }
     }
 });
 
@@ -935,81 +929,15 @@ function handleEventforDisabledElements() {
     });
 }
 
-var inlineTableInitialFields = {};
-var prefix = 'inline_field_index_';
-
-function toggleInlineRow(event, saveInitialValues){
+function toggleRow(event){
     var row = jQuery(event.target).closest('tr');
-    var index = jQuery(row).index();
-    var selectedIndex = prefix + index;
-    var initialValues = [];
     jQuery(row).find('.toggleable-element').each(function(){
         if(jQuery(this).hasClass("on")) {
             jQuery(this).switchClass("on", "off");
         } else {
             jQuery(this).switchClass("off", "on");
         };
-        if(saveInitialValues){
-            var id = jQuery(this).attr("id");
-            var controlId = id + '_control';
-            var control = jQuery("#" + controlId);
-            if(control.length){
-                var initialValue = {};
-                initialValue['id'] = controlId;
-                var value;
-                if(jQuery('#' + controlId).is(':checkbox')){
-                    value = control.is(':checked');
-                }else{
-                    value = control.val();
-                }
-                initialValue['value'] = value;
-                initialValues.push(initialValue);
-            }
-        }
     });
-    inlineTableInitialFields[selectedIndex] = initialValues;
-}
-
-function editInlineRow(event){
-    //resetInlineEditCheckboxReadonlyValue(event);
-    toggleInlineRow(event, true);
-}
-
-function cancelInlineRow(event){
-    // Reset the fields in the selected row
-    var row = jQuery(event.target).closest('tr');
-    var index = jQuery(row).index();
-    var selectedIndex = prefix + index;
-    var initialValues = inlineTableInitialFields[selectedIndex];
-    jQuery.each(initialValues, function(i, initialValue){
-        //if(jQuery('#' + initialValue.id).is(':not(:checkbox)') && jQuery('#' + initialValue.id).parent('div.toggleable-element').parent('div').find(':checkbox').length > 0){
-        if(jQuery('#' + initialValue.id).is(':checkbox')){
-            //setInlineEditCheckboxReadonlyValue(jQuery('#' + initialValue.id).parent('div.toggleable-element').attr('id'), initialValue.value);
-            jQuery('#' + initialValue.id).prop("checked", initialValue.value);
-            //setInlineEditCheckboxReadonlyValue(jQuery('#' + initialValue.id).parent('div.toggleable-element').attr('id'), initialValue.value);
-        }else{
-            jQuery("#" + initialValue.id).val(initialValue.value);
-        }
-    });
-
-    // Remove all error messages
-    jQuery(row).find('.toggleable-element').each(function(){
-        jQuery(this).removeClass('uif-hasError');
-        jQuery(this).removeAttr('data-has_messages');
-        jQuery(this).removeAttr('data-validation_messages');
-        var id = jQuery(this).attr('id');
-        var messageDivId = id + "_errors";
-        var messageDiv = jQuery("#" + messageDivId);
-        jQuery(messageDiv).html("");
-        var controlId = id + '_control';
-        var control = jQuery('#' + controlId);
-        if(control.length){
-            control.switchClass('error', 'valid');
-        }
-    });
-
-    // Make the row readonly
-    toggleInlineRow(event, false);
 }
 
 function getSelectedCollectionPathAndIndex(row){
@@ -1020,9 +948,9 @@ function getSelectedCollectionPathAndIndex(row){
     };
 
     jQuery(row).find('.toggleable-element.on').each(function(){
-        jQuery(this).find(':input:not(:hidden)').each(function(){
+        jQuery(this).find('input').each(function(){
             var name = jQuery(this).attr("name");
-            if(name != undefined){
+            if(name != undefined){console.log(name);
                 var splitedName = name.split(".");
                 var clusterName = splitedName[0];
                 var wrapperName = splitedName[1].split('[')[0];
@@ -1038,8 +966,9 @@ function getSelectedCollectionPathAndIndex(row){
     return selectedCollectionPathAndIndex;
 }
 
-function saveInlineRSI(event, baseUrl){
+function saveRSI(event, baseUrl){
     var row = jQuery(event.target).closest('tr');
+    var index = jQuery(row).parent().index() - 1;
 
     var selectedCollectionPathAndIndex = getSelectedCollectionPathAndIndex(row);
 
@@ -1051,108 +980,23 @@ function saveInlineRSI(event, baseUrl){
         type:"POST",
         data:formData,
         success:function (data, textStatus, jqXHR) {
-            updateInlineTableRow(event,baseUrl, data);
-        },
-        error: function (jqXHR, status, error) {
-            showInlineUnhandledExcption(jqXHR);
+            updateTable(event, data);
         }
     });
 }
 
-function showInlineUnhandledExcption(request){
-    // show exceptions
-    jQuery("html").html(request.responseText);
-    jQuery("#Uif-Application").show();
-}
-
-
-function processInlineRowError(row, data, baseUrl){
-    jQuery.each(data.translatedErrorMessages, function(key, value){
-        var input = jQuery(row).find('[name="' + key + '"]');
-        jQuery(input).switchClass('valid', 'error');
-        var parent = jQuery(input).closest('.toggleable-element.on');
-        jQuery(parent).addClass('uif-hasError');
-        jQuery(parent).attr('data-has_messages', 'true');
-        jQuery(parent).attr('data-validation_messages', "{&quot;hasOwnMessages&quot;:true,&quot;serverErrors&quot;:[&quot;" + value[0] + "&quot;]}");
-        var parentId = jQuery(parent).attr('id');
-        var messageDivId = parentId + "_errors";
-        var messageDiv = jQuery("#" + messageDivId);
-        var errorDiv = createErrorDiv(value[0], baseUrl, parentId);
-        jQuery(messageDiv).html(jQuery(errorDiv).html());
-    });
-}
-
-function updateInlineTableRow(event, baseUrl, data) {
+function updateTable(event, data){
     var row = jQuery(event.target).closest('tr');
-    if (data.hasErrors) {
-        if(data.messageMap.errorCount > 0){
-            processInlineRowError(row, data, baseUrl);
+    jQuery(row).find('.toggleable-element.off').each(function(){
+        var id = jQuery(this).attr("id");
+        if(id != undefined){
+            id = id.split("_id")[0];
+            var span = jQuery(this).find('span.uif-readOnlyContent');
+            var value = data[id];
+            jQuery(span).text(value);
         }
-    } else {
-        jQuery(row).find('.toggleable-element.off').each(function () {
-            var id = jQuery(this).attr("id");
-            if (id != undefined) {
-                var modelKey = getModelAttributeValue(id);
-                var readonlyId = id.split("_id")[0];
-                var span = jQuery(this).find('span.uif-readOnlyContent');
-                var value = eval("data." + modelKey + "['" + readonlyId + "']");
-                jQuery(span).text(value);
-                if(jQuery('#' + id).parent().find('[name]').is(':checkbox')){
-//                    setInlineEditCheckboxReadonlyValue(jQuery('#' + id).parent().attr('id'));
-                    setInlineEditCheckboxReadonlyValue(id, JSON.parse(value));
-                }
-            }
-        });
-        toggleInlineRow(event, false);
-    }
-}
-
-/*
- Assumptions: The read-only and it's corresponding form element have their correspond definition in the same java object.
- TODO: Find away to get rid of hard-coded examOfferingWrapper
- */
-function getModelAttributeValue(id) {
-    var modelKey = ["examOfferingWrapper"];
-    jQuery('#' + id).parent('div').find('[name]').each(function () {
-        var nameAttr = jQuery(this).attr('name').split('.');
-        jQuery.each(nameAttr, function (i) {
-            if(this.indexOf("[") < 0 && i < nameAttr.length -1 ){
-                modelKey.push(this);
-            }
-        });
     });
-    return modelKey.join('.');
-}
-
-function resetInlineEditCheckboxReadonlyValue(event){
-    var row = jQuery(event.target).closest('tr');
-    jQuery(row).find('input[type="checkbox"]').each(function(){
-        var isChecked = jQuery(this).is(':checked');
-        jQuery(this).parent('div.toggleable-element').parent('div').find('span.uif-readOnlyContent').val(isChecked);
-    });
-}
-
-function setInlineEditCheckboxReadonlyValue(id, checked){
-    var className = jQuery.grep(jQuery('#' + id).attr('class').split(" "), function(v, i){
-        return v.indexOf('ks-fontello-icon-') === 0;
-    }).join();
-    jQuery('#' + id).find('span.uif-readOnlyContent').each(function () {
-        if(checked){
-            jQuery(this).addClass(className);
-        }else{
-            jQuery(this).removeClass(className);
-        }
-        jQuery(this).text("");
-    });
-}
-
-function setMatrixOverrideReadonlyValue(id, checked){
-    jQuery('#' + id).find('span.uif-readOnlyContent').each(function () {
-        if(checked){
-            jQuery(this).addClass("ks-fontello-icon-ok");
-        }
-        jQuery(this).text("");
-    });
+    toggleRow(event);
 }
 
 /**

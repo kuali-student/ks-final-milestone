@@ -540,12 +540,8 @@ function compareInstructorNameInput(value, element) {
     var successFunction = function (data) {
         var lastName = value.split(',')[0];
         var restVal =  value.split(',')[1];
-        var firstName = '';
-        var nameID = '';
-        if(restVal != null) {
-             firstName = restVal.split('(')[0];
-             nameID = restVal.split('(')[1];
-        }
+        var firstName = restVal.split('(')[0];
+        var nameID = restVal.split('(')[1];
         if(data == null || data.resultData == null)  {
             isValid = false;
         } else {
@@ -560,13 +556,13 @@ function compareInstructorNameInput(value, element) {
     };
 
     var queryData = {};
-    var qFieldId = element.parentElement.getAttribute('id');
+
     queryData.methodToCall = 'performFieldSuggest';
     queryData.ajaxRequest = true;
     queryData.ajaxReturnType = 'update-none';
     queryData.formKey = jQuery("input#formKey").val();
     queryData.queryTerm = queryVal;
-    queryData.queryFieldId = qFieldId;
+    queryData.queryFieldId = "KS-Instructor-displayName_add";
 
     jQuery.ajax({
         url: jQuery("form#kualiForm").attr("action"),
@@ -662,98 +658,4 @@ function durationCountOnBlur() {
     validateFieldValue(jQuery("#KS-DurationTimeQuantity-Field_control"));
     validateFieldValue(jQuery("#KS-DurationTypeDropDown_control"));
     return;
-}
-
-function showHideReviewProposalErrorFields () {
-    var hideMissed = "Hide missing-fields indicator.";
-    var showMissed = "Show what's missing.";
-
-    var actualShowMsg = jQuery("#ReviewProposal-Error-Message-expand-optional-link").text();
-
-    if(actualShowMsg != null && actualShowMsg.toString().trim() == showMissed) {
-        jQuery("#ReviewProposal-Error-Message-expand-optional-link").text(hideMissed);
-        /* highlight the missing element rows */
-        highlightMissingElements(true);
-    }  else  {
-        jQuery("#ReviewProposal-Error-Message-expand-optional-link").text(showMissed);
-        highlightMissingElements(false);
-    }
-    jQuery("#CourseInfo-Review-Edit-link").focus();
-
-}
-
-function highlightMissingElements(showThem) {
-/*
-   Set up the correct logic after the validation frame work is done as in  KSCM-1727 (setting up the validation framework).
-   Also the rest of the data tables need to be validated and highlighted.
-*/
-
-    jQuery('#CourseInfo-Review-section').find('table th').each(function (index) {
-        var requiredContent = this.textContent.toString().trim().split('*');
-        var requiredItem = requiredContent[0];
-        if (requiredContent.length > 1) {
-            requiredItem = requiredContent[1];
-        }
-        var fund = true;
-        var innerTDs = jQuery('#CourseInfo-Review-section').find('table td');
-        for(var x in innerTDs) {
-            var control = innerTDs[x];
-            if (control != null && control.firstElementChild != null && control.firstElementChild.firstElementChild != null) {
-                var value = control.firstElementChild.firstElementChild.value;
-                var label =control.firstElementChild.dataset.label;
-                if (value != null && requiredItem.indexOf(label) >= 0) {
-                    fund = false;
-                }
-            }
-        }
-
-        if(fund) {
-            if (showThem && value == null) {
-                jQuery(this).attr("style", "background: rgb(255, 224, 233) !important").next("td").attr("style", "background: rgb(255, 224, 233) !important");
-            } else {
-                jQuery(this).attr("style", "").next("td").attr("style", "");
-            }
-        }
-    });
-}
-
-jQuery.validator.addMethod("rangeMaxMinCheck",
-    function(value, element) {
-        return this.optional(element) || verifyMaxAndMinInput(value, element);
-    }, "Max value should be greater than Min Value");
-
-function verifyMaxAndMinInput(value, element){
-    var minValue = 0;
-    var maxValue = 0;
-
-    jQuery('#KS-CourseView-CourseLogisticsPage-Outcome-Widgets').find('table td').each(function(index){
-        var control = jQuery(this).find("*[data-role='Control']");
-        var value = control.val();
-        var label = jQuery("#" + control.data("control_for")).data("label");
-        if(label == "Minimum Credit Value") {
-            minValue = value;
-        }
-        if(label == "Maximum Credit Value") {
-            maxValue = value;
-        }
-    });
-    return (parseInt(minValue) < parseInt(maxValue))
-}
-
-function verifyMaxRangeOnBlur() {
-        validateFieldValue(jQuery("#MaxRangeCreditVale_add_control"));
-        return;
-}
-
-/**
- * Shrinks a text area to the size of its contents.
- * @param element
- */
-function shrinkToFit(id) {
-    var controlId = "#" + id + "_control";
-    if (jQuery(controlId).val() == "") {
-        jQuery(controlId).height(20);
-    } else {
-        jQuery(controlId).height(jQuery(controlId)[0].scrollHeight);
-    }
 }

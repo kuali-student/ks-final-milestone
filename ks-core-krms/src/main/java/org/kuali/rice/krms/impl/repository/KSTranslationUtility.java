@@ -166,14 +166,6 @@ public class KSTranslationUtility implements TranslateBusinessMethods {
     }
 
     /**
-     * These constants declared here for Rice if they would like to move them
-     * to a constants class of their choice. Need to be able to add a
-     * blank template in the DB. Rice validations counter it.
-     */
-     private final String KRMS_NL_TEMP_BLANK = "kuali.krms.nl.template.blank";
-     private final String KRMS_NL_TEMP_ATTR_OPERATOR = "kuali.krms.nl.template.attribute.operator";
-
-    /**
      * This method is added because from a functional point of view the root proposition is ignored when it is a group
      * and therefore handled differently.
      *
@@ -193,20 +185,14 @@ public class KSTranslationUtility implements TranslateBusinessMethods {
             }
 
         } else if (proposition.getPropositionTypeCode().equals(PropositionType.COMPOUND.getCode())) {
-
-            if(naturalLanguageTemplate!=null && !naturalLanguageTemplate.getTemplate().equals(KRMS_NL_TEMP_BLANK)){
+            if(naturalLanguageTemplate!=null){
                 Map<String, Object> contextMap = this.buildCompoundPropositionContextMap(proposition, templateMap);
                 naturalLanguage.append(templater.translate(naturalLanguageTemplate, contextMap));
             }
 
             //Null check because newly created compound propositions should also be translateable.
             if(proposition.getCompoundComponents()!=null){
-                /*
-                  Take note when working in this part of the method. The same idea is carried out in FERuleViewHelperServiceImpl.getDescriptionForPropositionTree
-                  ln: 218 but that method is mainly used with data that is in memory whereas this method makes DB call.
-                 */
-                String operator = getCompoundSeperator(naturalLanguageTemplate, isRoot);
-
+                String operator = getCompoundSeperator(proposition, isRoot);
                 for (PropositionDefinition child : proposition.getCompoundComponents()) {
                     if(proposition.getCompoundComponents().indexOf(child)!=0){
                         naturalLanguage.append(operator);
@@ -222,14 +208,23 @@ public class KSTranslationUtility implements TranslateBusinessMethods {
         return naturalLanguage.toString();
     }
 
-    private String getCompoundSeperator(NaturalLanguageTemplate naturalLanguageTemplate, boolean isRoot) {
-        String operator = naturalLanguageTemplate.getAttributes().get(KRMS_NL_TEMP_ATTR_OPERATOR);
+    private String getCompoundSeperator(PropositionDefinition proposition, boolean isRoot) {
+        String operator = getCompoundOperator(proposition);
         if (isRoot){
-            return ". " + operator + " ";
+            return ". " + StringUtils.capitalize(operator) + " <br> ";
         }
         return "; " + operator + " ";
     }
 
+    private String getCompoundOperator(PropositionDefinition proposition) {
+        String operator = null;
+        if (LogicalOperator.AND.getCode().equalsIgnoreCase(proposition.getCompoundOpCode())) {
+            operator = "and";
+        } else if (LogicalOperator.OR.getCode().equalsIgnoreCase(proposition.getCompoundOpCode())) {
+            operator = "or";
+        }
+        return operator;
+    }
 
     @Override
     public NaturalLanguageTree translateNaturalLanguageTreeForProposition(String naturalLanguageUsageId,

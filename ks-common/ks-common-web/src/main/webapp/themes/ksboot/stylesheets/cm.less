@@ -372,24 +372,23 @@
 
 /*  The required message text on course details */
 .cm_requiredMessage_text {
-    color: #ABABAB;
+    color: #888888;
     font-style: italic;
-    font-size: 13px;
-    font-weight: normal;
+    font-size: 88%;
 }
 
-/*  Allow the required message to in the rightGroup to align adjacent to the header */
-.cm_requiredMessage_sectionHeader .uif-headerText {
+/*  Allow the section header instructional message to align beside the header  */
+.cm_requiredMessage_sectionHeader .uif-sectionHeader,
+.cm_requiredMessage_sectionHeader .uif-header-contentWrapper {
+    display: inline-block;
     float: left;
 }
 
-.cm_requiredMessage_sectionHeader .uif-requiredMessage {
-     margin-left: 10px;
-}
-
-.cm_requiredMessage_sectionHeader .uif-header-rightGroup {
-     position: static;
-     float: left;
+.cm_requiredMessage_sectionHeader > .uif-requiredMessage {
+    margin-left: 10px;
+    margin-top: 2px;
+    border: 1px solid green;
+    float: left;
 }
 
 #course_review_details-panel  {
