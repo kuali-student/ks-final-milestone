@@ -436,16 +436,20 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
                 //check if the CO state is offered
                 if (co.getStateKey().equalsIgnoreCase(LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY)){            
                     termInfo = KsapFrameworkServiceLocator.getAcademicCalendarService().getTerm(co.getTermId(), ctx);
-                    //check if the term is NOT a future or a current term
-                    if (termInfo.getEndDate().before(currentDate))   {
+                    //check if the term is NOT a future or a current term and within the last 10 years
+                    Calendar currentCal = Calendar.getInstance();
+                    currentCal.setTime(currentDate);
+                    Calendar oldCal = Calendar.getInstance();
+                    oldCal.set(currentCal.get(Calendar.YEAR)-10, currentCal.get(Calendar.MONTH), currentCal.get(Calendar.DAY_OF_MONTH));
+                    Date oldDate = oldCal.getTime();
+
+                    if (termInfo.getEndDate().before(currentDate) && termInfo.getEndDate().after(oldDate) )   {
                         if (lastOfferedTerm == null){
                             lastOfferedTerm = termInfo;
                         }
-                        else{
-                            if(lastOfferedTerm.getStartDate().before(termInfo.getStartDate()) && lastOfferedTerm.getEndDate().after(termInfo.getEndDate())) {
+                        else if(lastOfferedTerm.getStartDate().before(termInfo.getStartDate()) && lastOfferedTerm.getEndDate().after(termInfo.getEndDate())) {
                                 lastOfferedTerm = termInfo;
-                            }
-                        }                         
+                        }
                     }
                 }
             }
@@ -461,20 +465,8 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
             throw new IllegalStateException("CO lookup failure", e);
         }
 
-        if (lastOfferedTerm != null) {
-            //check if the last Offered term is within the last 10 years.
-            Calendar oldCal = Calendar.getInstance();
-            Calendar currentCal = Calendar.getInstance();
-            currentCal.setTime(currentDate);
-            oldCal.set(currentCal.get(Calendar.YEAR)-10, currentCal.get(Calendar.MONTH), currentCal.get(Calendar.DAY_OF_MONTH));
-            Date oldDate = oldCal.getTime();
-            if(lastOfferedTerm.getEndDate().after(oldDate) && lastOfferedTerm.getEndDate().before(currentDate))
-                return lastOfferedTerm;
-            else
-                return null;
-        }
-        else
-            return null;
+        return lastOfferedTerm;
+
 	}
 
 
