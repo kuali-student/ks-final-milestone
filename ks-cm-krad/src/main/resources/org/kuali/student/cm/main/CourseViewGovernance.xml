@@ -81,7 +81,7 @@
         </property>
         <property name="items">
             <list>
-                <bean id="KS-Course-CurriculumOversight-input-field" parent="KS-Uif-InputField-LabelTop"
+                <bean id="KS-Course-CurriculumOversight-input-field" parent="KS-Uif-InputField-LabelTop" p:label="Name"
                       p:propertyName="orgId" p:readOnly="@{!#lp.renderHelper.newRow and !#empty(#lp.orgId)}" p:readOnlyDisplayReplacementPropertyName="renderHelper.orgLongName">
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.OrgsBySubjectCodeValuesFinder"
