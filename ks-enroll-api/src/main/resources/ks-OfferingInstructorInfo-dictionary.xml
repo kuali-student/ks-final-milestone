@@ -54,8 +54,11 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 
 	<bean id="OfferingInstructorInfo.percentageEffort" parent="OfferingInstructorInfo.percentageEffort-parent"/>
 	<bean id="OfferingInstructorInfo.percentageEffort-parent" abstract="true" parent="OfferingInstructorInfo.percentageEffort-generated">
-    <!-- insert any overrides to the generated attribute definitions here -->
-    </bean>
+	    <property name="dataType" value="INTEGER" />
+        <property name="validCharactersConstraint">
+            <bean parent="NumericPatternConstraint" />
+        </property>
+	</bean>
 
 	<bean id="OfferingInstructorInfo.personName" parent="OfferingInstructorInfo.personName-parent"/>
 	<bean id="OfferingInstructorInfo.personName-parent" abstract="true" parent="OfferingInstructorInfo.personName-generated">
