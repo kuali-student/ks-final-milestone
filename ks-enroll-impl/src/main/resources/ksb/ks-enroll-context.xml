@@ -667,7 +667,7 @@
         <property name="typeService" ref="typeServiceCacheDecorator" />
         <property name="scheduleEvaluator" ref="examOfferingScheduleEvaluator" />
         <property name="schedulingService" ref="SchedulingService"/>
-        <property name="setLocation" value="false" />
+        <property name="setLocation" value="true" />
     </bean>
 
     <bean id="examOfferingScheduleEvaluator" class="org.kuali.student.enrollment.class2.examoffering.krms.evaluator.ExamOfferingSlottingEvaluatorImpl">
