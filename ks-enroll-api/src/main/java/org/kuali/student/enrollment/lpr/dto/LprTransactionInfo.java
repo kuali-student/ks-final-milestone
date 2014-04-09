@@ -27,8 +27,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.lpr.infc.LprTransaction;
-import org.kuali.student.enrollment.lpr.infc.LprTransactionItem;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.w3c.dom.Element;
 
 /**
@@ -38,6 +38,7 @@ import org.w3c.dom.Element;
 @XmlType(name = "LprTransactionInfo", propOrder = {
                 "id", "typeKey", "stateKey", "name", "descr",
                 "requestingPersonId", "atpId",
+                "validationResults",
                 "meta", "attributes", "_futureElements"})
 
 public class LprTransactionInfo 
@@ -51,6 +52,9 @@ public class LprTransactionInfo
 
     @XmlElement
     private String atpId;
+
+    @XmlElement
+    private List<ValidationResultInfo> validationResults;
 
     @XmlAnyElement
     private List<Element> _futureElements;
@@ -66,6 +70,13 @@ public class LprTransactionInfo
         }
         this.requestingPersonId = input.getRequestingPersonId();
         this.atpId = input.getAtpId();
+        this.validationResults = new ArrayList<ValidationResultInfo>();
+        if (input.getValidationResults() != null) {
+            // Make a deep copy
+            for (ValidationResultInfo info: input.getValidationResults()) {
+                this.validationResults.add(new ValidationResultInfo(info));
+            }
+        }
     }
 
     @Override
@@ -80,6 +91,15 @@ public class LprTransactionInfo
     @Override
     public String getAtpId() {
         return atpId;
+    }
+
+    @Override
+    public List<ValidationResultInfo> getValidationResults() {
+        return validationResults;
+    }
+
+    public void setValidationResults(List<ValidationResultInfo> validationResults) {
+        this.validationResults = validationResults;
     }
 
     public void setAtpId(String atpId) {

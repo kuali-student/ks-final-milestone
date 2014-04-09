@@ -30,6 +30,7 @@ import org.kuali.student.enrollment.lpr.infc.LprTransactionItem;
 import org.kuali.student.enrollment.lpr.infc.LprTransactionItemRequestOption;
 import org.kuali.student.enrollment.lpr.infc.LprTransactionItemResult;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -38,6 +39,7 @@ import org.w3c.dom.Element;
                 "transactionId", "personId", "luiId",
                 "existingLprId", "resultValuesGroupKeys",
                 "requestOptions", "lprTransactionItemResult",
+                "validationResults",
                 "meta", "attributes", "_futureElements"})
 
 public class LprTransactionItemInfo 
@@ -66,6 +68,9 @@ public class LprTransactionItemInfo
 
     @XmlElement
     private List<LprTransactionItemRequestOptionInfo> requestOptions;
+
+    @XmlElement
+    private List<ValidationResultInfo> validationResults;
 
     @XmlAnyElement
     private List<Element> _futureElements;
@@ -100,6 +105,14 @@ public class LprTransactionItemInfo
             this.resultValuesGroupKeys = new ArrayList<String>();
             if (null != lprTransactionItem.getResultValuesGroupKeys()) {
                 resultValuesGroupKeys.addAll(lprTransactionItem.getResultValuesGroupKeys());
+            }
+
+            this.validationResults = new ArrayList<ValidationResultInfo>();
+            if (lprTransactionItem.getValidationResults() != null) {
+                // Make a deep copy
+                for (ValidationResultInfo info: lprTransactionItem.getValidationResults()) {
+                    this.validationResults.add(new ValidationResultInfo(info));
+                }
             }
         }
     }
@@ -176,5 +189,14 @@ public class LprTransactionItemInfo
 
     public void setLprTransactionItemResult(LprTransactionItemResultInfo lprTransactionItemResult) {
         this.lprTransactionItemResult = lprTransactionItemResult;
+    }
+
+    @Override
+    public List<ValidationResultInfo> getValidationResults() {
+        return validationResults;
+    }
+
+    public void setValidationResults(List<ValidationResultInfo> validationResults) {
+        this.validationResults = validationResults;
     }
 }

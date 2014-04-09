@@ -18,6 +18,7 @@ package org.kuali.student.enrollment.lpr.infc;
 
 import java.util.List;
 
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.infc.IdEntity;
 
 /**
@@ -118,4 +119,15 @@ public interface LprTransactionItem
      * @name Result Values Group Keys
      */
     public List<String> getResultValuesGroupKeys();
+
+    /**
+     * During any kind of checks that may occur on the LprTransactionItem,
+     * these represent the results of that check.  The kinds of validation
+     * result items are defined by the implementation.
+     *
+     * @name Validation Results
+     *
+     * @return List of validation result items
+     */
+    public List<ValidationResultInfo> getValidationResults();
 }
