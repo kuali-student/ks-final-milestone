@@ -727,6 +727,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                         type = CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE;
                         resultValues = new ArrayList<String>();
                         for(float i = minCredits; i <= maxCredits; i+=increment){
+                            // TODO: Refer KSCM-1910
                             resultValues.add(LrcServiceConstants.RESULT_VALUE_KEY_CREDIT_DEGREE_PREFIX + String.valueOf(i));
                         }
                         resultValueRange = new ResultValueRangeInfo();
