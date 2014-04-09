@@ -16,6 +16,7 @@
 package org.kuali.rice.krms.builder;
 
 import org.kuali.rice.krms.dto.PropositionEditor;
+import org.kuali.student.core.krms.dto.KSPropositionEditor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,6 +32,11 @@ public class SimpleTextComponentBuilder implements ComponentBuilder<PropositionE
     private static final Logger LOG = LoggerFactory.getLogger(SimpleTextComponentBuilder.class);
 
     private static final String TEXT_KEY = "kuali.term.parameter.type.free.text";
+
+    @Override
+    public void initialize(PropositionEditor propositionEditor) {
+
+    }
 
     @Override
     public List<String> getComponentIds() {

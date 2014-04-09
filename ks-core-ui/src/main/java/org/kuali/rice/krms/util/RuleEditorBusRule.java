@@ -18,6 +18,7 @@ package org.kuali.rice.krms.util;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.bo.GlobalBusinessObject;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krms.dto.RuleManagementWrapper;
 import org.kuali.student.common.uif.rule.KsMaintenanceDocumentRuleBase;
@@ -51,7 +52,7 @@ public class RuleEditorBusRule extends KsMaintenanceDocumentRuleBase {
         // fail and complain if the person has changed the primary keys on
         // an EDIT maintenance document.
         if (document.isEdit()) {
-            if (!getDataObjectMetaDataService().equalsByPrimaryKeys(oldBo, newDataObject)) {
+            if (!KRADServiceLocatorWeb.getLegacyDataAdapter().equalsByPrimaryKeys(oldBo, newDataObject)) {
                 // add a complaint to the errors
                 putDocumentError(KRADConstants.DOCUMENT_ERRORS,
                         RiceKeyConstants.ERROR_DOCUMENT_MAINTENANCE_PRIMARY_KEYS_CHANGED_ON_EDIT,

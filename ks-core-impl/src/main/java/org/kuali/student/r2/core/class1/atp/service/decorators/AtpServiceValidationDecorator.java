@@ -4,11 +4,9 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
-import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
-import org.kuali.student.r2.common.infc.HoldsDataDictionaryService;
 import org.kuali.student.r2.common.infc.HoldsValidator;
 import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
@@ -22,9 +20,8 @@ import javax.xml.namespace.QName;
 import java.util.Date;
 import java.util.List;
 
-public class AtpServiceValidationDecorator extends AtpServiceDecorator implements HoldsValidator, HoldsDataDictionaryService {
+public class AtpServiceValidationDecorator extends AtpServiceDecorator implements HoldsValidator {
     private DataDictionaryValidator validator;
-    private DataDictionaryService dataDictionaryService;
 
     protected TypeService typeService;
 
@@ -36,16 +33,6 @@ public class AtpServiceValidationDecorator extends AtpServiceDecorator implement
     @Override
     public void setValidator(DataDictionaryValidator validator) {
         this.validator = validator;
-    }
-
-    @Override
-    public DataDictionaryService getDataDictionaryService() {
-        return dataDictionaryService;
-    }
-
-    @Override
-    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
-        this.dataDictionaryService = dataDictionaryService;
     }
 
     @Override

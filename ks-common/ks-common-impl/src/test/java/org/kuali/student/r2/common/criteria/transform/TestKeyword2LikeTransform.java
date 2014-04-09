@@ -14,7 +14,7 @@ import org.kuali.rice.core.api.criteria.PredicateFactory;
 import static org.junit.Assert.*;
 import org.junit.Test;
 import org.kuali.rice.core.api.criteria.OrPredicate;
-import org.kuali.rice.core.framework.persistence.jpa.criteria.Criteria;
+import org.kuali.student.r2.common.criteria.Criteria;
 
 /**
  *

@@ -66,19 +66,4 @@ public class KitchenSinkFooterLinkSection extends WidgetBase {
     public void setFooterLinkGroups(List<KitchenSinkFooterLinkGroup> footerLinkGroups) {
         this.footerLinkGroups = footerLinkGroups;
     }
-
-    /**
-     * @see org.kuali.rice.krad.uif.component.ComponentBase#copy()
-     */
-    @Override
-    protected <T> void copyProperties(T component) {
-        super.copyProperties(component);
-
-        KitchenSinkFooterLinkSection kitchenSinkFooterLinkSectionCopy = (KitchenSinkFooterLinkSection) component;
-
-        kitchenSinkFooterLinkSectionCopy.setFooterLinkGroups(this.footerLinkGroups);
-        kitchenSinkFooterLinkSectionCopy.setLinkDelimiterEnd(this.linkDelimiterEnd);
-        kitchenSinkFooterLinkSectionCopy.setLinkDelimiterMiddle(this.linkDelimiterMiddle);
-        kitchenSinkFooterLinkSectionCopy.setLinkDelimiterStart(this.linkDelimiterStart);
-    }
 }

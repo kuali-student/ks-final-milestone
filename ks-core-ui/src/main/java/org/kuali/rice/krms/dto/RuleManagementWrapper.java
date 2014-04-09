@@ -89,15 +89,24 @@ public class RuleManagementWrapper extends UifFormBase {
     }
 
     public Tree<RuleEditorTreeNode, String> getEditTree() {
+        if(this.getRuleEditor() == null){
+            return null;
+        }
         return this.getRuleEditor().getEditTree();
     }
 
     public Tree<TreeNode, String> getPreviewTree() {
+        if(this.getRuleEditor() == null){
+            return null;
+        }
         return this.getRuleEditor().getPreviewTree();
     }
 
     public Tree<TreeNode, String> getViewTree() {
-       return this.getRuleEditor().getViewTree();
+        if(this.getRuleEditor() == null){
+            return null;
+        }
+        return this.getRuleEditor().getViewTree();
     }
 
     public void setActiveSelections(List<String> activeSelections) {

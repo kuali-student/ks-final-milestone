@@ -15,64 +15,46 @@
  */
 package org.kuali.student.core.krms;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
-
-import com.google.common.collect.Lists;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.krad.datadictionary.parse.BeanTagAttribute;
 import org.kuali.rice.krad.uif.CssConstants;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifPropertyPaths;
 import org.kuali.rice.krad.uif.component.Component;
-import org.kuali.rice.krad.uif.component.DataBinding;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.container.Container;
-import org.kuali.rice.krad.uif.container.Group;
+import org.kuali.rice.krad.uif.container.collections.LineBuilderContext;
 import org.kuali.rice.krad.uif.element.Action;
-import org.kuali.rice.krad.uif.element.Label;
-import org.kuali.rice.krad.uif.element.Message;
-import org.kuali.rice.krad.uif.field.DataField;
 import org.kuali.rice.krad.uif.field.Field;
 import org.kuali.rice.krad.uif.field.FieldGroup;
-import org.kuali.rice.krad.uif.field.InputField;
-import org.kuali.rice.krad.uif.field.MessageField;
 import org.kuali.rice.krad.uif.layout.CollectionLayoutManager;
 import org.kuali.rice.krad.uif.layout.CollectionLayoutUtils;
-import org.kuali.rice.krad.uif.layout.GridLayoutManager;
-import org.kuali.rice.krad.uif.layout.TableLayoutManager;
-import org.kuali.rice.krad.uif.util.ColumnCalculationInfo;
-import org.kuali.rice.krad.uif.util.ComponentFactory;
+import org.kuali.rice.krad.uif.layout.TableLayoutManagerBase;
+import org.kuali.rice.krad.uif.lifecycle.ViewLifecycle;
 import org.kuali.rice.krad.uif.util.ComponentUtils;
 import org.kuali.rice.krad.uif.view.ExpressionEvaluator;
 import org.kuali.rice.krad.uif.view.View;
-import org.kuali.rice.krad.uif.widget.RichTable;
-import org.kuali.rice.krad.util.KRADUtils;
 import org.kuali.rice.krad.web.form.UifFormBase;
+
+import java.util.List;
 
 /**
  * This ia an override of the TableLayoutManager to not show the header and footer of the table.
  *
  * @author Kuali Student Team
  */
-public class SimpleTableLayoutManager extends TableLayoutManager {
+public class SimpleTableLayoutManager extends TableLayoutManagerBase {
 
     /**
      * Setup the column calculations functionality and components
      *
-     * @param view the view
      * @param model the model
      * @param container the parent container
      * @param totalColumns total number of columns in the table
      */
     @Override
-    protected void setupColumnCalculations(View view, Object model, Container container, int totalColumns) {
+    protected void setupColumnCalculations(Object model, Container container, int totalColumns) {
         if(this.getColumnCalculations().size()>0){
-            super.setupColumnCalculations(view, model, container, totalColumns);
+            super.setupColumnCalculations(model, container, totalColumns);
         }
     }
 
@@ -83,21 +65,28 @@ public class SimpleTableLayoutManager extends TableLayoutManager {
      * items for the action field. Finally the generated items are assembled
      * together into the allRowFields list with the given lineFields.
      *
-     * @see org.kuali.rice.krad.uif.layout.CollectionLayoutManager#buildLine(org.kuali.rice.krad.uif.view.View,
-     *      java.lang.Object, org.kuali.rice.krad.uif.container.CollectionGroup,
-     *      java.util.List, java.util.List, java.lang.String, java.util.List,
-     *      java.lang.String, java.lang.Object, int)
+     * @see CollectionLayoutManager#buildLine(org.kuali.rice.krad.uif.container.collections.LineBuilderContext)
      */
-    public void buildLine(View view, Object model, CollectionGroup collectionGroup, List<Field> lineFields,
-                          List<FieldGroup> subCollectionFields, String bindingPath, List<Action> actions, String idSuffix,
-                          Object currentLine, int lineIndex) {
+    @Override
+    public void buildLine(LineBuilderContext lineBuilderContext) {
+        View view = ViewLifecycle.getView();
+
+        List<Field> lineFields = lineBuilderContext.getLineFields();
+        CollectionGroup collectionGroup = lineBuilderContext.getCollectionGroup();
+        int lineIndex = lineBuilderContext.getLineIndex();
+        String idSuffix = lineBuilderContext.getIdSuffix();
+        Object currentLine = lineBuilderContext.getCurrentLine();
+        String bindingPath = lineBuilderContext.getBindingPath();
 
         // since expressions are not evaluated on child components yet, we need to evaluate any properties
         // we are going to read for building the table
-        ExpressionEvaluator expressionEvaluator = view.getViewHelperService().getExpressionEvaluator();
+        ExpressionEvaluator expressionEvaluator = ViewLifecycle.getHelper().getExpressionEvaluatorFactory().createExpressionEvaluator();
         for (Field lineField : lineFields) {
             lineField.pushObjectToContext(UifConstants.ContextVariableNames.PARENT, collectionGroup);
-            lineField.pushAllToContext(view.getViewHelperService().getCommonContext(view, lineField));
+            lineField.pushAllToContext(view.getContext());
+            lineField.pushObjectToContext(UifConstants.ContextVariableNames.THEME_IMAGES,
+                    view.getTheme().getImageDirectory());
+            lineField.pushObjectToContext(UifConstants.ContextVariableNames.COMPONENT, lineField);
 
             expressionEvaluator.evaluatePropertyExpression(view, lineField.getContext(), lineField,
                     UifPropertyPaths.ROW_SPAN, true);
@@ -120,22 +109,16 @@ public class SimpleTableLayoutManager extends TableLayoutManager {
 
         boolean isAddLine = false;
 
-        boolean renderActions = collectionGroup.isRenderLineActions() && !collectionGroup.isReadOnly();
-        int extraColumns = 0;
         String rowCss = "";
         boolean addLineInTable =
                 collectionGroup.isRenderAddLine() && !collectionGroup.isReadOnly() && !isSeparateAddLine();
 
-        if (collectionGroup.isHighlightNewItems() && ((UifFormBase) model).isAddedCollectionItem(currentLine)) {
+        if (collectionGroup.isHighlightNewItems() && ((UifFormBase) lineBuilderContext.getModel())
+                .isAddedCollectionItem(currentLine)) {
             rowCss = collectionGroup.getNewItemsCssClass();
         } else if (isAddLine && addLineInTable) {
             rowCss = collectionGroup.getAddItemCssClass();
             this.addStyleClass(CssConstants.Classes.HAS_ADD_LINE);
-        }
-
-        // do not allow null rowCss
-        if (rowCss == null) {
-            rowCss = "";
         }
 
         rowCss = StringUtils.removeStart(rowCss, " ");
@@ -149,32 +132,20 @@ public class SimpleTableLayoutManager extends TableLayoutManager {
             setCellAttributes(field);
         }
 
-        int rowCount = calculateNumberOfRows(lineFields);
-        int rowSpan = rowCount + subCollectionFields.size();
-
         // select field will come after sequence field (if enabled) or be first column
         if (collectionGroup.isIncludeLineSelectionField()) {
             Field selectField = ComponentUtils.copy(getSelectFieldPrototype(), idSuffix);
             CollectionLayoutUtils.prepareSelectFieldForLine(selectField, collectionGroup, bindingPath, currentLine);
 
-            ComponentUtils.updateContextForLine(selectField, currentLine, lineIndex, idSuffix);
+            ComponentUtils.updateContextForLine(selectField, collectionGroup, currentLine, lineIndex, idSuffix);
             setCellAttributes(selectField);
 
             this.getAllRowFields().add(selectField);
 
-            extraColumns++;
         }
 
         // now add the fields in the correct position
-        int cellPosition = 0;
-        int columnNumber = 0;
-
-        boolean insertActionField = false;
-
         for (Field lineField : lineFields) {
-
-            cellPosition += lineField.getColSpan();
-            columnNumber++;
 
             this.getAllRowFields().add(lineField);
 
@@ -191,6 +162,7 @@ public class SimpleTableLayoutManager extends TableLayoutManager {
         }
 
         // add sub-collection fields to end of data fields
-        this.getAllRowFields().addAll(subCollectionFields);
+        this.getAllRowFields().addAll(lineBuilderContext.getSubCollectionFields());
     }
+
 }

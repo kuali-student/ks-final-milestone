@@ -21,13 +21,22 @@
 
     <@krad.div component=field>
 
-        <@krad.fieldLbl field=field>
+            <#local renderLabel=field.label?has_content && !field.labelRendered/>
 
-            <#if field.renderFieldset>
-                <fieldset data-type="InputSet" aria-labelledby="${field.id}_label" id="${field.id}_fieldset">
-                    <legend style="display: none">${field.label!}</legend>
-            </#if>
-            <#-- render field value (if read-only) or control (if edit) -->
+            <#-- render field label -->
+            <#if renderLabel>
+                <@krad.template component=field.fieldLabel/>
+             </#if>
+
+            <#-- TODO: verify removal -->
+            <#--<#if field.renderFieldset>-->
+            <#--<fieldset data-type="InputSet" aria-labelledby="${field.id}_label" id="${field.id}_fieldset">-->
+            <#--<legend style="display: none">${field.label!}</legend>-->
+            <#--</#if>-->
+
+            <#local quickfinderInputOnly=(field.widgetInputOnly!false) && ((field.quickfinder.dataObjectClassName)!"")?has_content />
+
+            <#-- render field value (if read-only/quickfinder-input-only) or control (if edit) -->
             <#if readOnly>
 
                 <#local readOnlyDisplay>
@@ -108,8 +117,6 @@
             <#if field.renderFieldset>
                 </fieldset>
             </#if>
-
-        </@krad.fieldLbl>
 
     <!-- placeholder for dynamic field markers -->
     <span id="${field.id}_markers"></span>
