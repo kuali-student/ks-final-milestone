@@ -45,6 +45,8 @@ public class PlanItemInfo extends IdEntityInfo implements PlanItem {
 
  	private static final long serialVersionUID = 7795677206429530520L;
 
+    //TODO: KSAP-1014 - Add 'name' attribute to LearningPlan and PlanItem
+
     @XmlElement
     private String refObjectId;
 

@@ -36,6 +36,8 @@ public class LearningPlanInfo extends IdEntityInfo implements LearningPlan {
     @XmlElement
     private String studentId;
 
+    //TODO: KSAP-1014 - Add 'name' attribute to LearningPlan and PlanItem
+
     @XmlElement
     private Boolean shared;
 

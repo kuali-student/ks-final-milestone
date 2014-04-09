@@ -181,12 +181,12 @@
                             </sourceDirs>
                         </configuration>
                     </execution>
-                    <!-- This generates the jpa-implementation java code-->
+                    <!-- This generates the mock-implementation java code-->
                     <execution>
                         <id>generate-jpa-implementations</id>
                         <phase>${ks.jpaimpl.phase}</phase>
                         <goals>
-                            <goal>ks-create-jpa-impl</goal>
+                            <goal>kscreatejpaimpl</goal>
                         </goals>
                         <configuration>
                             <!-- generate only on the kuali student api -->
