@@ -66,7 +66,7 @@
             <map merge="true">
                 <entry key="viewName" value="Manage Populations"/>
                 <entry key="hideReturnLink" value="true"/>
-                <entry key="showMaintenanceLinks" value="true"/>
+                <entry key="renderMaintenanceLinks" value="true"/>
             </map>
         </property>
     </bean>

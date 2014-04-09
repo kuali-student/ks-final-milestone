@@ -96,23 +96,8 @@
         </property>
         <property name="resultsGroup.lineActions">
             <list>
-                <bean parent="Uif-ActionLink"  p:order="10">
-                    <property name="actionLabel" value="edit"/>
-                    <property name="finalizeMethodToCall" value="getMaintenanceActionLink"/>
-                    <property name="finalizeMethodAdditionalArguments">
-                        <list>
-                            <value>maintenanceEdit</value>
-                        </list>
-                    </property>
-                    <property name="render"
-                              value="@{#ViewHelper.allowsMaintenanceEditAction(#line) and view.showMaintenanceLinks}"/>
-                </bean>
-                <bean parent="Uif-ActionLink">
-                  <property name="actionLabel" value="Return Value"/>
-                  <property name="finalizeMethodToCall" value="buildReturnUrlForResult"/>
-                  <property name="render"
-                            value="@{!#empty(returnFormKey) and !#empty(returnLocation) and !view.hideReturnLinks}"/>
-                </bean>
+                <bean parent="Uif-Lookup-MaintenanceEditLink" p:order="10"/>
+                <bean parent="KS-Uif-Lookup-MaintenanceReturnLink"/>
             </list>
         </property>
     </bean>
@@ -180,7 +165,7 @@
     </bean>
 
     <bean id="Uif-CreateNewLink" parent="Uif-ActionLink" p:actionLabel="Create New"
-          p:render="@{!#view.suppressActions and #view.showMaintenanceLinks and #ViewHelper.allowsMaintenanceNewOrCopyAction()}">
+          p:render="@{!#view.suppressActions and #view.renderMaintenanceLinks and #ViewHelper.allowsMaintenanceNewOrCopyAction()}">
         <property name="cssClasses">
             <list merge="true">
                 <value>uif-createNewLink</value>
