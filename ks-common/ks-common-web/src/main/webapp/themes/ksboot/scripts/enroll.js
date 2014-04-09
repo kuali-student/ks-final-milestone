@@ -1157,15 +1157,6 @@ function setInlineEditCheckboxReadonlyValue(id, checked){
     });
 }
 
-function setMatrixOverrideReadonlyValue(id, checked){
-    jQuery('#' + id).find('span.uif-readOnlyContent').each(function () {
-        if(checked){
-            jQuery(this).addClass("ks-fontello-icon-ok");
-        }
-        jQuery(this).text("");
-    });
-}
-
 /**
  * auto finish the time field with the format hh:mm am
  */
