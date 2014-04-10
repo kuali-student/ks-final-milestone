@@ -18,9 +18,8 @@ package org.kuali.student.common.util;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
 
-import junit.framework.Assert;
-
 import org.apache.cxf.common.util.StringUtils;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class TestManifestInspector {

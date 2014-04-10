@@ -25,6 +25,7 @@ import org.kuali.rice.kim.impl.KIMPropertyConstants;
 import org.kuali.rice.krad.uif.field.LinkField;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.uif.view.View;
+import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.util.BeanPropertyComparator;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
@@ -109,29 +110,29 @@ public class KitchenSinkHelper extends ViewHelperServiceImpl {
     }
 
     @Override
-    public void processCollectionSaveLine(View view, Object model, String collectionPath, int lineIndex) {
+    public void processCollectionSaveLine(ViewModel model, String collectionId, String collectionPath, int lineIndex) {
         //
         // Code goes here to save existing collection line to database...
         //
 
-        if (view.getId().startsWith("KS-KitchenSink-CollectionAsForm-View")) {
+        if (collectionId.startsWith("KS-KitchenSink-CollectionAsForm-View")) {
             // only set growl for the Collection As Form example
             GlobalVariables.getMessageMap().addGrowlMessage("NOTE", "kitchensink.saveLine", String.valueOf(lineIndex));
         }
-        super.processCollectionSaveLine(view, model, collectionPath, lineIndex);
+        super.processCollectionSaveLine(model, collectionId, collectionPath, lineIndex);
     }
 
     @Override
-    public void processCollectionDeleteLine(View view, Object model, String collectionPath, int lineIndex) {
+    public void processCollectionDeleteLine(ViewModel model, String collectionId, String collectionPath, int lineIndex) {
         //
         // Code goes here to delete existing collection line from database...
         //
 
-        if (view.getId().startsWith("KS-KitchenSink-CollectionAsForm-View")) {
+        if (collectionId.startsWith("KS-KitchenSink-CollectionAsForm-View")) {
             // only set growl for the Collection As Form example
             GlobalVariables.getMessageMap().addGrowlMessage("NOTE", "kitchensink.deleteLine", String.valueOf(lineIndex));
         }
-        super.processCollectionDeleteLine(view, model, collectionPath, lineIndex);
+        super.processCollectionDeleteLine(model, collectionId, collectionPath, lineIndex);
     }
 
 

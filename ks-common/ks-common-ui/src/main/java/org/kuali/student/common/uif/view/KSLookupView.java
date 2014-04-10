@@ -15,7 +15,7 @@
  */
 package org.kuali.student.common.uif.view;
 
-import org.kuali.rice.krad.uif.view.LookupView;
+import org.kuali.rice.krad.lookup.LookupView;
 
 /**
  * <p>
@@ -23,7 +23,7 @@ import org.kuali.rice.krad.uif.view.LookupView;
  * </p>
  *
  */
-public class KSLookupView extends LookupView{
+public class KSLookupView extends LookupView {
 
     protected String defaultSingleLookupResultAction;
 
@@ -40,15 +40,5 @@ public class KSLookupView extends LookupView{
         this.defaultSingleLookupResultAction = defaultSingleLookupResultAction;
     }
 
-    /**
-     * @see org.kuali.rice.krad.uif.component.ComponentBase#copy()
-     */
-    @Override
-    protected <T> void copyProperties(T component) {
-        super.copyProperties(component);
 
-        KSLookupView ksLookupViewCopy = (KSLookupView) component;
-
-        ksLookupViewCopy.setDefaultSingleLookupResultAction(this.defaultSingleLookupResultAction);
-    }
 }

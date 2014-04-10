@@ -95,17 +95,16 @@ public class RuleViewTreeBuilder extends AbstractTreeBuilder {
                 }
             }
 
-            TreeNode tNode = new TreeNode(newNode.getNodeLabel());
-            tNode.setListItems(this.getListItems(prop));
-            tNode.setKey(prop.getKey());
-            newNode.setData(tNode);
+            newNode.setData(this.createTreeNode(rule, newNode.getNodeLabel(), prop));
             currentNode.getChildren().add(newNode);
 
         }
     }
 
-    public List<Object> getListItems(PropositionEditor propositionEditor) {
-        return null;
+    public TreeNode createTreeNode(RuleEditor rule, String data, PropositionEditor prop){
+        TreeNode tNode = new TreeNode(data);
+        tNode.setKey(prop.getKey());
+        return tNode;
     }
 
     @Override

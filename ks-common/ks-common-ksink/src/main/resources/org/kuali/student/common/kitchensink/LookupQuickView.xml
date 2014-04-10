@@ -24,7 +24,7 @@
 
     <!-- The Interesting Bits -->
 
-    <bean parent="Uif-InputField-LabelTop"  id="KS-KitchenSink-LookupQuickView">
+    <bean parent="KS-Uif-InputField-LabelTop"  id="KS-KitchenSink-LookupQuickView">
         <property name="label" value="Term"/>
         <property name="instructionalText"
                   value="Please enter a term to begin"/>

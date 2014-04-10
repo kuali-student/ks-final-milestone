@@ -271,7 +271,6 @@ public class TestRoleAndPermissionServiceMockImpl {
         assertEquals(namespaceCode, fromCreate.getNamespaceCode());
         assertEquals(name, fromCreate.getName());
         assertNotNull(fromCreate.getId());
-        assertNotNull(fromCreate.getVersionNumber());
         assertTrue(fromCreate.isActive());
         assertEquals(details, fromCreate.getAttributes());
         assertNull(fromCreate.getDescription());
@@ -282,7 +281,6 @@ public class TestRoleAndPermissionServiceMockImpl {
         assertEquals(fromCreate.getNamespaceCode(), fromUpdate.getNamespaceCode());
         assertEquals(fromCreate.getName(), fromUpdate.getName());
         assertEquals(fromCreate.getId(), fromUpdate.getId());
-        assertNotSame(fromCreate.getVersionNumber(), fromUpdate.getVersionNumber());
         assertEquals(fromCreate.isActive(), fromUpdate.isActive());
         assertEquals(fromCreate.getAttributes(), fromUpdate.getAttributes());
         assertEquals(bldr.getDescription(), fromUpdate.getDescription());

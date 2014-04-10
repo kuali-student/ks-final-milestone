@@ -36,15 +36,5 @@ public class KSUifFormView extends FormView {
         this.viewSourceFile = viewSourceFile;
     }
 
-    /**
-     * @see org.kuali.rice.krad.uif.component.ComponentBase#copy()
-     */
-    @Override
-    protected <T> void copyProperties(T component) {
-        super.copyProperties(component);
 
-        KSUifFormView ksUifFormViewCopy = (KSUifFormView) component;
-
-        ksUifFormViewCopy.setViewSourceFile(this.viewSourceFile);
-    }
 }

@@ -22,7 +22,7 @@
 
     <!-- The Interesting Bits -->
 
-    <bean parent="Uif-InputField-LabelTop"  id="KS-KitchenSink-DateField-Example1">
+    <bean parent="KS-Uif-InputField-LabelTop"  id="KS-KitchenSink-DateField-Example1">
         <property name="propertyName" value="dateField"/>
         <property name="label" value="Date Field"/>
         <property name="instructionalText" value="Please select a date"/>

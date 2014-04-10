@@ -1,7 +1,7 @@
 package org.kuali.student.common.uif.service.impl;
 
 import org.kuali.rice.krad.lookup.LookupableImpl;
-import org.kuali.rice.krad.uif.element.Action;
+import org.kuali.rice.krad.uif.element.Link;
 
 /**
  * Base class for the KS lookupable implementation.
@@ -18,8 +18,8 @@ public class KSLookupableImpl extends LookupableImpl {
      * @param model
      */
     @Override
-    public void getReturnUrlForResults(Action returnLink, Object model) {
-        super.getReturnUrlForResults(returnLink, model);
+    public void buildReturnUrlForResult(Link returnLink, Object model) {
+        super.buildReturnUrlForResult(returnLink, model);
         returnLink.setTitle(null);
     }
 

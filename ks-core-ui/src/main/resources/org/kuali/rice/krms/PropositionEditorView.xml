@@ -32,9 +32,8 @@ limitations under the License.
                 <bean parent="KRMS-PropKey-HiddenField"/>
 
                 <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="typeId"
-                      p:style="margin-left: 12pt" p:showLabel="true" p:label="Type" p:labelPlacement="TOP"
-                      p:maxLength="40">
-                    <property name="control">
+                      p:style="margin-left: 12pt" p:showLabel="true" p:label="Type" p:maxLength="40">
+                <property name="control">
                         <bean parent="KS-Uif-DropdownControl" p:cssClasses="categorySelect"/>
                     </property>
                     <property name="optionsFinder">
@@ -46,9 +45,8 @@ limitations under the License.
                 <bean parent="Uif-HorizontalBoxGroup">
                     <property name="items">
                         <list merge="true">
-
                             <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="typeId"
-                                  p:style="margin-left: 12pt" p:showLabel="true" p:label="Type" p:labelPlacement="TOP"
+                                  p:style="margin-left: 12pt" p:showLabel="true" p:label="Type"
                                   p:maxLength="40">
                                 <property name="control">
                                     <bean parent="KS-Uif-DropdownControl" p:cssClasses="categorySelect"/>
@@ -110,7 +108,7 @@ limitations under the License.
                       p:showLabel="true" p:label="Rule Statement Option" p:maxLength="40" p:required="true">
                     <property name="control">
                         <bean parent="KS-Uif-DropdownControl" p:cssClasses="categorySelect"
-                              p:onChangeScript="ajaxCallPropositionTypeUpdate(jQuery(this), 'updatePropositionType', 'KRMS-PropositionEdit-DetailSection');"/>
+                              p:onChangeScript="ajaxCallPropositionTypeUpdate(jQuery(this), 'updatePropositionType');"/>
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.rice.krms.keyvalues.PropositionTypeValuesFinder"/>
@@ -123,7 +121,7 @@ limitations under the License.
 
     <bean id="KRMS-PropositionEdit-DetailSection" parent="KRMS-PropositionEdit-DetailSection-parentBean"/>
     <bean id="KRMS-PropositionEdit-DetailSection-parentBean" abstract="true" parent="KRMS-VerticalBoxSubSection"
-          p:forceSessionPersistence="true">
+          p:forceSessionPersistence="true" p:additionalCssClasses="detailSection">
         <property name="headerText" value="Add Rule Statement Details"/>
         <property name="items">
             <list>
