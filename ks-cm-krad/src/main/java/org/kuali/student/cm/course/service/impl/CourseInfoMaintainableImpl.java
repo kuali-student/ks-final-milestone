@@ -112,6 +112,7 @@ import org.kuali.student.r2.core.constants.ProposalServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
 import org.kuali.student.r2.core.enumerationmanagement.service.EnumerationManagementService;
+import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r2.core.proposal.service.ProposalService;
@@ -1005,6 +1006,12 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
         reviewData.getGovernanceSection().getAdministeringOrganization().clear();
         for (OrganizationInfoWrapper organizationInfoWrapper : courseInfoWrapper.getAdministeringOrganizations()) {
+            List<OrganizationInfoWrapper> orgs = OrganizationSearchUtil.searchForOrganizations(organizationInfoWrapper.getOrganizationName(), getOrganizationService());
+            try {
+                organizationInfoWrapper.setOrganizationName(KSCollectionUtils.getOptionalZeroElement(orgs).getOrganizationName());
+            } catch (OperationFailedException e){
+                throw new RuntimeException(e);
+            }
             reviewData.getGovernanceSection().getAdministeringOrganization().add(organizationInfoWrapper.getOrganizationName());
         }
 
@@ -1198,7 +1205,6 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         //Clear collection fields (those with matching 'wrapper' collections)
         courseInfoWrapper.getCourseInfo().getJoints().clear();
         courseInfoWrapper.getCourseInfo().getInstructors().clear();
-        courseInfoWrapper.getCourseInfo().getUnitsDeployment().clear();
         courseInfoWrapper.getCourseInfo().getCourseSpecificLOs().clear();
 
         //Retrieve the collection display values and get the fully loaded object (containing all the IDs and related IDs)
@@ -1214,10 +1220,6 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             for (final CluInstructorInfoWrapper instructorDisplay : courseInfoWrapper.getInstructorWrappers()) {
                 courseInfoWrapper.getCourseInfo().getInstructors().add(instructorDisplay);
             }
-        }
-
-        for(OrganizationInfoWrapper organizationInfoWrapper :courseInfoWrapper.getAdministeringOrganizations()) {
-            courseInfoWrapper.getCourseInfo().getUnitsDeployment().add(organizationInfoWrapper.getOrganizationName());
         }
 
         if (courseInfoWrapper.getLoDisplayWrapperModel() != null && courseInfoWrapper.getLoDisplayWrapperModel().getLoWrappers() != null) {
@@ -1610,9 +1612,13 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             }
 
             for(String unitDeployment : course.getUnitsDeployment()) {
-                OrganizationInfoWrapper organizationInfoWrapper = new OrganizationInfoWrapper();
-                organizationInfoWrapper.setOrganizationName(unitDeployment);
+                OrgInfo org = getOrganizationService().getOrg(unitDeployment, createContextInfo());
+                OrganizationInfoWrapper organizationInfoWrapper = new OrganizationInfoWrapper(org);
                 dataObject.getAdministeringOrganizations().add(organizationInfoWrapper) ;
+            }
+
+            if (dataObject.getAdministeringOrganizations().isEmpty()){
+                dataObject.getAdministeringOrganizations().add(new OrganizationInfoWrapper());
             }
 
             populateAuditOnWrapper();

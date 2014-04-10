@@ -17,6 +17,7 @@
 package org.kuali.student.cm.course.rule;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.impl.KIMPropertyConstants;
 import org.kuali.rice.krad.document.Document;
@@ -26,10 +27,14 @@ import org.kuali.rice.krad.util.KRADPropertyConstants;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
 import org.kuali.student.cm.course.form.CourseInfoWrapper;
+import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
+import org.kuali.student.cm.course.service.util.OrganizationSearchUtil;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.uif.rule.KsMaintenanceDocumentRuleBase;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.core.organization.service.OrganizationService;
 
+import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -81,6 +86,7 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
         }
 
         success = success && validateInstructor(dataObject);
+        success = success && validateOrganization(dataObject);
 
         return success;
     }
@@ -121,6 +127,46 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
         dataObject.getInstructorWrappers().removeAll(instructorToRemove);
 
         return true;
+    }
+
+    /**
+     * Validate and populate org id.
+     *
+     * @param dataObject
+     * @return
+     */
+    protected boolean validateOrganization(CourseInfoWrapper dataObject){
+
+        dataObject.getCourseInfo().getUnitsDeployment().clear();
+
+        for(OrganizationInfoWrapper organizationInfoWrapper :dataObject.getAdministeringOrganizations()) {
+
+            if (StringUtils.isNotBlank(organizationInfoWrapper.getOrganizationName())){
+
+                List<OrganizationInfoWrapper> orgs = OrganizationSearchUtil.searchForOrganizations(organizationInfoWrapper.getOrganizationName(), getOrganizationService());
+
+                if (orgs.isEmpty()){
+                    GlobalVariables.getMessageMap().putErrorForSectionId("administering-organization", CurriculumManagementConstants.MessageKeys.ERROR_ORG_NOT_FOUND, organizationInfoWrapper.getOrganizationName());
+                    return false;
+                } else if (orgs.size() > 1){
+                    GlobalVariables.getMessageMap().putErrorForSectionId("administering-organization", CurriculumManagementConstants.MessageKeys.ERROR_ORG_MULTIPLE_MATCH_FOUND, organizationInfoWrapper.getOrganizationName());
+                    return false;
+                } else {
+                    try{
+                        dataObject.getCourseInfo().getUnitsDeployment().add(KSCollectionUtils.getOptionalZeroElement(orgs).getId());
+                    }catch (OperationFailedException e){
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        }
+
+        return true;
+
+    }
+
+    protected OrganizationService getOrganizationService() {
+           return (OrganizationService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/organization", "OrganizationService"));
     }
 
     /**
