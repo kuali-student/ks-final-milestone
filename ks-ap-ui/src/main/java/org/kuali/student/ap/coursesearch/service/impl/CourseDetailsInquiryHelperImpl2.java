@@ -157,7 +157,7 @@ public class CourseDetailsInquiryHelperImpl2 extends KualiInquirableImpl {
 
         // Compile segments into a single planned summary message
         StringBuilder plannedMessages = new StringBuilder();
-        plannedMessages.append("Added to");
+        plannedMessages.append("Added to ");
         for(int i=0;i<plannedStatus.size();i++){
             String message = plannedStatus.get(i);
             if(i==0){
