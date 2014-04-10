@@ -1073,12 +1073,18 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 String durationTypeKey = activityInfo.getContactHours().getUnitTypeKey();
                 Integer anticipatedClassSize = activityInfo.getDefaultEnrollmentEstimate();
                 String activityType = activityInfo.getTypeKey();
-                String durationCount = activityInfo.getDuration().getTimeQuantity().toString();
-                String contactHours = activityInfo.getContactHours().getUnitQuantity();
+
+                String durationCount = "";
+                if (activityInfo.getDuration() != null && activityInfo.getDuration().getTimeQuantity() != null){
+                    durationCount = activityInfo.getDuration().getTimeQuantity().toString();
+                }
+
+                String contactHours = "";
+                if (activityInfo.getContactHours() != null && activityInfo.getContactHours().getUnitQuantity() != null){
+                    contactHours = activityInfo.getContactHours().getUnitQuantity();
+                }
 
                 ActivityInfoWrapper activityInfoWrapper = new ActivityInfoWrapper(durationTypeKey, anticipatedClassSize, activityType, durationCount, contactHours);
-                activityInfoWrapper.setDuration(activityInfo.getContactHours().getUnitTypeKey());
-                activityInfoWrapper.setDurationCount(activityInfo.getDuration().getTimeQuantity().toString());
                 activityInfoWrapperList.add(activityInfoWrapper);
             }
             FormatInfoWrapper formatInfoWrapper = new FormatInfoWrapper(activityInfoWrapperList);
