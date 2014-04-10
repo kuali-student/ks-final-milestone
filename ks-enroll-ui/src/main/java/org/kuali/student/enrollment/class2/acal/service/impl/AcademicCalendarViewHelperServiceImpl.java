@@ -33,9 +33,7 @@ import org.kuali.rice.krad.uif.field.InputField;
 import org.kuali.rice.krad.uif.util.ComponentFactory;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.View;
-import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.GrowlMessage;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krms.api.KrmsConstants;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
@@ -54,7 +52,6 @@ import org.kuali.student.enrollment.class2.acal.keyvalue.AcalEventTypeKeyValues;
 import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
 import org.kuali.student.enrollment.class2.acal.util.AcalCommonUtils;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
-import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
@@ -1596,6 +1593,10 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
                         GlobalVariables.getMessageMap().putErrorForSectionId(finalExamSectionName, CalendarConstants.MessageKeys.ERROR_EXAM_PERIOD_DAYS_VALIDATION);
                     }
                 }
+            }
+           else
+            {
+                GlobalVariables.getMessageMap().putWarningForSectionId(finalExamSectionName, CalendarConstants.MessageKeys.ERROR_NO_EXAM_PEROID_FOR_TERM_LINKED_MATRIX);
             }
         }
     }
