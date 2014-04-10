@@ -50,14 +50,18 @@
 /*
 	Course Details
 */
+//back link on CDP
 #CourseDetails-InquiryView {
   .uif-header-upperGroup {
     padding-left:0;
     .cdp-back-link {
-      &:hover {text-decoration: none}
+      &:hover::before {text-decoration: none}
     }
   }
 }
+//CDP header
+#course_details_back_link {padding-left:0;}
+
 .ksap-view .ksap-underline-header {
   border-bottom: solid 2px #f2e4b7;
   margin-bottom: 20px;

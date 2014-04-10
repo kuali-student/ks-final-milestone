@@ -24,7 +24,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
     -->
     <bean id="CourseDetails-InquiryView" parent="CourseDetails-InquiryView-parent" />
     <bean id="CourseDetails-InquiryView-parent" abstract="true" parent="KSAPInquiryView">
-        <!--<property name="headerText" value="Course Details"/>-->
+        <property name="headerText" value="Course Details"/>
         <property name="dataObjectClassName" value="org.kuali.student.ap.coursesearch.dataobject.CourseDetailsWrapper"/>
         <property name="viewHelperServiceClass"
                   value="org.kuali.student.ap.coursesearch.service.impl.CourseDetailsInquiryHelperImpl2"/>
@@ -71,10 +71,9 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                 <property name="items">
                     <list>
                         <bean parent="Uif-Link" p:href="javascript:history.go(-1)">
-                            <property name="onDocumentReadyScript"
-                                      value="detectReferrerForBackLinkText();" />
+                            <property name="onDocumentReadyScript" value="detectReferrerForBackLinkText();" />
                             <property name="linkText">
-                                <value>Back to previous page</value>
+                                <value>Return to previous page</value>
                             </property>
                             <property name="cssClasses">
                                 <list merge="true">
