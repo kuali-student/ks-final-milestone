@@ -8,7 +8,6 @@ angular.module('regCartApp')
         var waitlistedCredits = 0;
         var waitlistedCourseCount = 0;
         var schedule;
-        var showWaitlistedSection = false;
 
         var processingStates = ['kuali.lpr.trans.item.state.processing','kuali.lpr.trans.state.processing'];
         var successStates = ['kuali.lpr.trans.state.succeeded', 'kuali.lpr.trans.item.state.succeeded'];
@@ -38,14 +37,6 @@ angular.module('regCartApp')
 
         this.setWaitlistedCredits = function (value) {
             waitlistedCredits = value;
-        };
-
-        this.getShowWaitlistedSection = function () {
-            return showWaitlistedSection;
-        };
-
-        this.setShowWaitlistedSection = function (value) {
-            showWaitlistedSection = value;
         };
 
         this.getWaitlistedCourseCount = function () {
@@ -123,11 +114,6 @@ angular.module('regCartApp')
             this.setRegisteredCredits(creditCount);
             this.setWaitlistedCredits(waitlistCreditCount);
             this.setWaitlistedCourseCount(waitlistCourses);
-            if (waitlistCourses > 0) {
-                this.setShowWaitlistedSection(true);
-            } else {
-                this.setShowWaitlistedSection(false);
-            }
         };
 
         // In this method we pass in a status and it returns a message to display
