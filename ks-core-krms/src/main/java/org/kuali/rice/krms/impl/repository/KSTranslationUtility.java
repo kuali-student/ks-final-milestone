@@ -202,7 +202,8 @@ public class KSTranslationUtility implements TranslateBusinessMethods {
             //Null check because newly created compound propositions should also be translateable.
             if(proposition.getCompoundComponents()!=null){
                 /*
-                  Take note when working in this part of the method. The same idea is carried out in FERuleViewHelperServiceImpl.getDescriptionForPropositionTree
+                  Take note when working in this part of the method AND only for Final Matrix Exam. The same idea is carried out in
+                  FERuleViewHelperServiceImpl.getDescriptionForPropositionTree
                   ln: 218 but that method is mainly used with data that is in memory whereas this method makes DB call.
                  */
                 String operator = getCompoundSeperator(naturalLanguageTemplate, isRoot);
@@ -225,7 +226,7 @@ public class KSTranslationUtility implements TranslateBusinessMethods {
     private String getCompoundSeperator(NaturalLanguageTemplate naturalLanguageTemplate, boolean isRoot) {
         String operator = naturalLanguageTemplate.getAttributes().get(KRMS_NL_TEMP_ATTR_OPERATOR);
         if (isRoot){
-            return ". " + operator + " ";
+            return ". " + StringUtils.capitalize(operator) + " ";
         }
         return "; " + operator + " ";
     }
