@@ -24,11 +24,11 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
     -->
     <bean id="CourseDetails-InquiryView" parent="CourseDetails-InquiryView-parent" />
     <bean id="CourseDetails-InquiryView-parent" abstract="true" parent="KSAPInquiryView">
-        <property name="headerText" value="Course Details"/>
+        <property name="headerText" value="&#160;"/>
         <property name="dataObjectClassName" value="org.kuali.student.ap.coursesearch.dataobject.CourseDetailsWrapper"/>
         <property name="viewHelperServiceClass"
                   value="org.kuali.student.ap.coursesearch.service.impl.CourseDetailsInquiryHelperImpl2"/>
-        <property name="page.header.render" value="false"/>
+        <property name="page.header.render" value="true"/>
         <property name="header.render" value="true"/>
         <property name="footer.render" value="false"/>
         <property name="singlePageView" value="true"/>

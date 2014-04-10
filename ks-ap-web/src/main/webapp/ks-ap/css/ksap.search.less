@@ -59,8 +59,26 @@
     }
   }
 }
+
 //CDP header
-#course_details_back_link {padding-left:0;}
+#course_details_back_link {
+  padding-left:0;
+  h1.uif-headerText {
+    span.uif-headerText-span {
+      //Using !important because ksboot is also, and we can't override
+      display:none !important;
+    }
+    span.uif-viewHeader-supportTitle {
+      padding-top:0;
+    }
+  }
+}
+
+//Hiding unused page header
+#course_details_page {
+  .uif-header-contentWrapper {display:none;}
+}
+#course_details_section {margin-top:0;}
 
 .ksap-view .ksap-underline-header {
   border-bottom: solid 2px #f2e4b7;
