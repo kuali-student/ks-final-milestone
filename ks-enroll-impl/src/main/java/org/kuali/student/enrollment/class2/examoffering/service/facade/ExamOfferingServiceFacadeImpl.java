@@ -18,6 +18,7 @@ import org.kuali.student.enrollment.examoffering.dto.ExamOfferingInfo;
 import org.kuali.student.enrollment.examoffering.dto.ExamOfferingRelationInfo;
 import org.kuali.student.enrollment.examoffering.service.ExamOfferingService;
 import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.dto.BulkStatusInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -28,6 +29,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.infc.BulkStatus;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.ExamOfferingServiceConstants;
@@ -76,7 +78,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
     private enum Driver {PER_CO, PER_FO, PER_AO, NONE}
 
     @Override
-    public StatusInfo generateFinalExamOffering(String courseOfferingId, String termId, String examPeriodId, List<String> optionKeys,
+    public ExamOfferingResult generateFinalExamOffering(String courseOfferingId, String termId, String examPeriodId, List<String> optionKeys,
                                                 ContextInfo context)
             throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException {
@@ -86,84 +88,76 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
 
         //Retrieve the course offering to create the exam offerings for.
         CourseOfferingInfo courseOfferingInfo = this.getCourseOfferingService().getCourseOffering(courseOfferingId, context);
-        return this.generateFinalExamOfferingOptimized(courseOfferingInfo, termId, examPeriodId, optionKeys, context, null);
+        return this.generateFinalExamOfferingOptimized(courseOfferingInfo, termId, optionKeys, context, null);
 
     }
 
     @Override
-    public StatusInfo generateFinalExamOffering(CourseOfferingInfo courseOfferingInfo, String termId, String examPeriodId, List<String> optionKeys,
+    public ExamOfferingResult generateFinalExamOffering(CourseOfferingInfo courseOfferingInfo, String termId, String examPeriodId, List<String> optionKeys,
                                                 ContextInfo context)
             throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        return generateFinalExamOfferingOptimized(courseOfferingInfo, termId, examPeriodId, optionKeys, context, null);
+        return generateFinalExamOfferingOptimized(courseOfferingInfo, termId, optionKeys, context, null);
     }
 
     @Override
-    public StatusInfo generateFinalExamOfferingOptimized(CourseOfferingInfo courseOfferingInfo, String termId, String examPeriodId, List<String> optionKeys,
+    public ExamOfferingResult generateFinalExamOfferingOptimized(CourseOfferingInfo courseOfferingInfo, String termId, List<String> optionKeys,
                                                 ContextInfo context, Map<String, List<ActivityOfferingInfo>> foIdToListOfAOs)
             throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException {
+
+        String examPeriodId = this.getExamPeriodId(termId, context);
         if (StringUtils.isEmpty(examPeriodId)) {
-            throw new MissingParameterException("Exam Period id is not provided.");
+            return new ExamOfferingResult(false);
         }
-        StatusInfo statusInfo = new StatusInfo();
+
         Driver driver = calculateEODriver(courseOfferingInfo);
         boolean  useFinalExamMatrix  = Boolean.parseBoolean(courseOfferingInfo.getAttributeValue(CourseOfferingServiceConstants.FINAL_EXAM_USE_MATRIX));
         if (driver.equals(Driver.PER_AO)) {
-            generateFinalExamOfferingsPerAOOptimized(courseOfferingInfo.getId(), termId, examPeriodId, optionKeys, context, foIdToListOfAOs, useFinalExamMatrix);
+            return generateFinalExamOfferingsPerAOOptimized(courseOfferingInfo.getId(), termId, examPeriodId, optionKeys, context, foIdToListOfAOs, useFinalExamMatrix);
         } else if (driver.equals(Driver.PER_FO)) {
-            generateFinalExamOfferingsPerFOOptimized(courseOfferingInfo.getId(), termId, examPeriodId, optionKeys, context, foIdToListOfAOs);
+            return generateFinalExamOfferingsPerFOOptimized(courseOfferingInfo.getId(), termId, examPeriodId, optionKeys, context, foIdToListOfAOs);
         } else if (driver.equals(Driver.PER_CO)) {
-            generateFinalExamOfferingsPerCOOptimized(courseOfferingInfo, termId, examPeriodId, optionKeys, context, foIdToListOfAOs, useFinalExamMatrix);
+            return generateFinalExamOfferingsPerCOOptimized(courseOfferingInfo, termId, examPeriodId, optionKeys, context, foIdToListOfAOs, useFinalExamMatrix);
         } else if (driver.equals(Driver.NONE)) {
             if ((!optionKeys.contains(ExamOfferingServiceFacade.RECREATE_OPTION_KEY)) && (isSocPublished(termId, context))) {
                 cancelFinalExamOfferings(courseOfferingInfo.getId(), context);
             } else {
                 removeFinalExamOfferingsFromCO(courseOfferingInfo.getId(), context);
             }
-            statusInfo.setSuccess(Boolean.FALSE);
         }
 
-        return statusInfo;
+        return new ExamOfferingResult(true);
     }
 
     @Override
-    public StatusInfo generateFinalExamOfferingForAO(ActivityOfferingInfo activityOfferingInfo, String termId, String examPeriodID, List<String> optionKeys, ContextInfo context)
+    public ExamOfferingResult generateFinalExamOfferingForAO(CourseOfferingInfo courseOfferingInfo, ActivityOfferingInfo activityOfferingInfo,
+                                                     String termId, String finalExamLevelTypeKey, List<String> optionKeys, ContextInfo context)
             throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-        if (StringUtils.isEmpty(examPeriodID)) {
-            throw new MissingParameterException("Exam Period id is not provided.");
+
+        String examPeriodId = this.getExamPeriodId(termId, context);
+        if (StringUtils.isEmpty(examPeriodId)) {
+            return new ExamOfferingResult(false);
         }
 
-        FormatOfferingInfo fo = this.getCourseOfferingService().getFormatOffering(activityOfferingInfo.getFormatOfferingId(), context);
-        CourseOfferingInfo co = this.getCourseOfferingService().getCourseOffering(fo.getCourseOfferingId(), context);
-        return this.generateFinalExamOfferingForAO(co, activityOfferingInfo, termId, examPeriodID, fo.getFinalExamLevelTypeKey(), optionKeys, context);
-    }
+        //Build up the map of AO for the methods so it does not have to make a DB call.
+        Map<String,List<ActivityOfferingInfo>> foIdToListOfAOs = new HashMap<String, List<ActivityOfferingInfo>>();
+        List<ActivityOfferingInfo> aoInfos = new ArrayList<ActivityOfferingInfo>();
+        aoInfos.add(activityOfferingInfo);
+        foIdToListOfAOs.put(activityOfferingInfo.getFormatOfferingId(),aoInfos);
 
-    @Override
-    public StatusInfo generateFinalExamOfferingForAO(CourseOfferingInfo courseOfferingInfo, ActivityOfferingInfo activityOfferingInfo,
-                                                     String termId, String examPeriodID, String finalExamLevelTypeKey, List<String> optionKeys, ContextInfo context)
-            throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-        if (StringUtils.isEmpty(examPeriodID)) {
-            throw new MissingParameterException("Exam Period id is not provided.");
-        }
-
-        String termType = this.getAtpService().getAtp(termId, context).getTypeKey();
-
-        StatusInfo statusInfo = new StatusInfo();
         Driver driver = calculateEODriver(courseOfferingInfo);
         boolean  useFinalExamMatrix  = Boolean.parseBoolean(courseOfferingInfo.getAttributeValue(CourseOfferingServiceConstants.FINAL_EXAM_USE_MATRIX));
         if (driver.equals(Driver.PER_AO)) {
-            generateFinalExamOfferingsPerAOOptimized(courseOfferingInfo.getId(), termId, examPeriodID, optionKeys, context, null, useFinalExamMatrix);
+            return generateFinalExamOfferingsPerAOOptimized(courseOfferingInfo.getId(), termId, examPeriodId, optionKeys, context, foIdToListOfAOs, useFinalExamMatrix);
         } else if (driver.equals(Driver.PER_CO)) {
-            generateFinalExamOfferingsPerCOOptimized(courseOfferingInfo, termId, examPeriodID, optionKeys, context, null, useFinalExamMatrix);
+            return generateFinalExamOfferingsPerCOOptimized(courseOfferingInfo, termId, examPeriodId, optionKeys, context, foIdToListOfAOs, useFinalExamMatrix);
         } else if (driver.equals(Driver.NONE)) {
             // Final exam type is not STANDARD or no exam driver was selected. No exam offerings are generated
-            statusInfo.setSuccess(Boolean.FALSE);
         }
 
-        return statusInfo;
+        return new ExamOfferingResult(true);
     }
 
     @Override
@@ -205,15 +199,15 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
     }
 
     @Override
-    public void generateFinalExamOfferingsPerCO(CourseOfferingInfo courseOffering, String termId, String examPeriodId, List<String> optionKeys,
+    public ExamOfferingResult generateFinalExamOfferingsPerCO(CourseOfferingInfo courseOffering, String termId, String examPeriodId, List<String> optionKeys,
                                                 ContextInfo context, boolean useFinalExamMatrix)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException {
-        generateFinalExamOfferingsPerCOOptimized(courseOffering, termId, examPeriodId, optionKeys, context, null, useFinalExamMatrix);
+        return generateFinalExamOfferingsPerCOOptimized(courseOffering, termId, examPeriodId, optionKeys, context, null, useFinalExamMatrix);
     }
 
     @Override
-    public void generateFinalExamOfferingsPerCOOptimized(CourseOfferingInfo courseOffering, String termId, String examPeriodId,
+    public ExamOfferingResult generateFinalExamOfferingsPerCOOptimized(CourseOfferingInfo courseOffering, String termId, String examPeriodId,
                                                          List<String> optionKeys,
                                                          ContextInfo context, Map<String,
                                                          List<ActivityOfferingInfo>> foIdToListOfAO, boolean useFinalExamMatrix)
@@ -222,6 +216,8 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
         if (StringUtils.isEmpty(examPeriodId)) {
             throw new MissingParameterException("Exam Period id is not provided.");
         }
+
+        ExamOfferingResult result = new ExamOfferingResult(true);
 
         Map<FormatOfferingInfo, List<ExamOfferingRelationInfo>> foToEoRelations = loadExamOfferingRelationships(courseOffering.getId(), context);
         if (optionKeys.contains(ExamOfferingServiceFacade.RECREATE_OPTION_KEY)) {
@@ -250,6 +246,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
                 //Create a new Exam Offering
                 eo = createExamOffering(examPeriodId, ExamOfferingServiceConstants.EXAM_OFFERING_DRAFT_STATE_KEY, Driver.PER_CO.name(),
                         context);
+                result.getExamOfferingsCreated().add(createSuccessStatusInfo(eo.getId()));
             } else if (!useFinalExamMatrix) {
                 //Remove RDL for Exam Offering
                 removeExamOfferingRDL(eo, context);
@@ -270,6 +267,15 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
             removeFinalExamOfferingsFromCO(foToEoRelations, context);
         }
 
+        return result;
+
+    }
+
+    private BulkStatusInfo createSuccessStatusInfo(String id) {
+        BulkStatusInfo status = new BulkStatusInfo();
+        status.setId(id);
+        status.setSuccess(Boolean.TRUE);
+        return status;
     }
 
     /** Removes all SheduleRequestInfoSets and ScheduleRequestInfos for given Exam Offering
@@ -319,16 +325,16 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
     }
 
     @Override
-    public void generateFinalExamOfferingsPerFO(String courseOfferingId, String termId, String examPeriodId, List<String> optionKeys,
+    public ExamOfferingResult generateFinalExamOfferingsPerFO(String courseOfferingId, String termId, String examPeriodId, List<String> optionKeys,
                                                 ContextInfo context)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException {
-        generateFinalExamOfferingsPerFOOptimized(courseOfferingId, termId, examPeriodId, optionKeys,
+        return generateFinalExamOfferingsPerFOOptimized(courseOfferingId, termId, examPeriodId, optionKeys,
                 context, null);
     }
 
     @Override
-    public void generateFinalExamOfferingsPerFOOptimized(String courseOfferingId, String termId, String examPeriodId,
+    public ExamOfferingResult generateFinalExamOfferingsPerFOOptimized(String courseOfferingId, String termId, String examPeriodId,
                                                          List<String> optionKeys,
                                                          ContextInfo context,
                                                          Map<String, List<ActivityOfferingInfo>> foIdToListOfAOs)
@@ -337,6 +343,8 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
         if (StringUtils.isEmpty(examPeriodId)) {
             throw new MissingParameterException("Exam Period id is not provided.");
         }
+
+        ExamOfferingResult result = new ExamOfferingResult(true);
 
         //Retrieve all format offerings linked to the course offering.
         Map<FormatOfferingInfo, List<ExamOfferingRelationInfo>> foToEoRelations = loadExamOfferingRelationships(courseOfferingId, context);
@@ -365,6 +373,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
                 //Create a new Exam Offering
                 ExamOfferingInfo eo = createExamOffering(examPeriodId, Driver.PER_FO.name(),
                         ExamOfferingServiceConstants.EXAM_OFFERING_DRAFT_STATE_KEY, context);
+                result.getExamOfferingsCreated().add(createSuccessStatusInfo(eo.getId()));
 
                 //Create new Exam Offering Relationship
                 createExamOfferingRelationPerFOOptimized(foEntry.getKey().getId(), eo.getId(), context, foIdToListOfAOs);
@@ -377,26 +386,30 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
         } else {
             removeFinalExamOfferingsFromCO(foToEoRelations, context);
         }
+
+        return result;
     }
 
     @Override
-    public void generateFinalExamOfferingsPerAO(String courseOfferingId, String termId, String examPeriodId, List<String> optionKeys,
+    public ExamOfferingResult generateFinalExamOfferingsPerAO(String courseOfferingId, String termId, String examPeriodId, List<String> optionKeys,
                                                          ContextInfo context,  boolean useFinalExamMatrix)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException {
 
         // Default to "optimized" with null parameter
-        generateFinalExamOfferingsPerAOOptimized(courseOfferingId, termId, examPeriodId, optionKeys, context, null, useFinalExamMatrix);
+        return generateFinalExamOfferingsPerAOOptimized(courseOfferingId, termId, examPeriodId, optionKeys, context, null, useFinalExamMatrix);
     }
 
     @Override
-    public void generateFinalExamOfferingsPerAOOptimized(String courseOfferingId, String termId, String examPeriodId, List<String> optionKeys,
+    public ExamOfferingResult generateFinalExamOfferingsPerAOOptimized(String courseOfferingId, String termId, String examPeriodId, List<String> optionKeys,
                                                         ContextInfo context, Map<String, List<ActivityOfferingInfo>> foIdToListOfAOs, boolean useFinalExamMatrix)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException {
         if (StringUtils.isEmpty(examPeriodId)) {
             throw new MissingParameterException("Exam Period id is not provided.");
         }
+
+        ExamOfferingResult result = new ExamOfferingResult(true);
 
         //Retrieve all format offerings linked to the course offering.
         Map<FormatOfferingInfo, List<ExamOfferingRelationInfo>> foToEoRelations = loadExamOfferingRelationships(courseOfferingId, context);
@@ -478,6 +491,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
                     String eoState = this.getExamOfferingStateForActivityOffering(aoInfo);
                     eo = createFinalExamOfferingPerAO(foEntry.getKey().getId(), aoInfo, foEntry.getKey().getFinalExamLevelTypeKey(),
                             examPeriodId, eoState, termType, context);
+                    result.getExamOfferingsCreated().add(createSuccessStatusInfo(eo.getId()));
                 }
                 else if (!useFinalExamMatrix) {
                     //Remove RDL for Exam Offering
@@ -491,7 +505,6 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
                     }
                     this.getScheduleEvaluator().executeRuleForAOSlotting(aoInfo, eo.getId(), termType, evaluatorOptions, context);
                 }
-
             }
         }
 
@@ -500,6 +513,8 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
         } else {
             removeFinalExamOfferingsFromCO(foToEoRelations, context);
         }
+
+        return result;
 
     }
 
