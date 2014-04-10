@@ -189,7 +189,7 @@
 						            <list>
 						            	<bean parent="Uif-HorizontalFieldGroup" p:id="@{#line.termId}">
 						                    <property name="fieldLabel.render" value="false"/>
-						                    <property name="group.validationMessages.render" value="false"/>
+						                    <property name="group.validationMessages.displayMessages" value="false"/>
 						                    <property name="items">
 						                        <list>
 						                        	<bean parent="Uif-MessageField" p:messageText="@{#parentLine.yearDisplay}" p:render="@{#index eq 0}"/>
@@ -307,7 +307,7 @@
 			<list>
 				<bean parent="Uif-HorizontalFieldGroup" p:id="@{#line.courseId}">
                     <property name="fieldLabel.render" value="false"/>
-                    <property name="group.validationMessages.render" value="false"/>
+                    <property name="group.validationMessages.displayMessages" value="false"/>
                     <property name="items">
                         <list>
 							<bean id="conversation_selected_course" parent="KS-Uif-InputField-LabelTop"

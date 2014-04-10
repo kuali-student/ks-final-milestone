@@ -10,7 +10,6 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -48,10 +47,10 @@ public class POCResourceBundleController extends KsapControllerBase {
      * Does not appear to be hit at any time.
      */
     @RequestMapping(method = RequestMethod.GET, params = "methodToCall=startRB")
-    public ModelAndView startRB(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+    public ModelAndView startRB(@ModelAttribute("KualiForm") UifFormBase form,
                                      HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         LOG.debug("In start()");
-        super.start(form, result, request, response);
+        super.start(form, request, response);
 
         form.setViewId(RB_FORM);
         form.setView(super.getViewService().getViewById(RB_FORM));

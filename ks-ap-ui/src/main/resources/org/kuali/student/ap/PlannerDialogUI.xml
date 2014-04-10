@@ -71,7 +71,8 @@
 									<bean parent="Uif-HorizontalBoxGroup">
 										<property name="items">
 											<list>
-												<bean parent="planner_submit_button" p:actionLabel="Add to Plan" />
+												<bean parent="planner_submit_button" p:actionLabel="Add to Plan"
+                                                      p:actionScript="ksapPlannerSubmitDialog('planner_add_course_page',e);"/>
 												<bean parent="planner_cancel_button" />
 											</list>
 										</property>
@@ -106,7 +107,8 @@
 									<bean parent="Uif-HorizontalBoxGroup">
 										<property name="items">
 											<list>
-												<bean parent="planner_submit_button" p:actionLabel="Save" />
+												<bean parent="planner_submit_button" p:actionLabel="Save"
+                                                      p:actionScript="ksapPlannerSubmitDialog('planner_edit_term_note_page',e);"/>
 												<bean parent="planner_cancel_button" />
 											</list>
 										</property>
@@ -161,7 +163,7 @@
 
     <bean id="planner_course_details_summary_info" parent="planner_course_details_summary_info-parent"/>
 	<bean id="planner_course_details_summary_info-parent" abstract="true" parent="Uif-VerticalBoxGroup">
-		<property name="validationMessages.render" value="false"/>
+		<property name="validationMessages.displayMessages" value="false"/>
 		<property name="items">
 			<list>
 				<ref bean="planner_course_summary_details_data" />
@@ -177,7 +179,7 @@
 
     <bean id="planner_course_summary_details_data" parent="planner_course_summary_details_data-parent"/>
 	<bean id="planner_course_summary_details_data-parent" abstract="true" parent="Uif-VerticalBoxGroup">
-		<property name="validationMessages.render" value="false"/>
+		<property name="validationMessages.displayMessages" value="false"/>
 		<property name="cssClasses">
 			<list merge="true">
 				<value>ksap-course-details</value>
@@ -191,8 +193,8 @@
             <!-- Issue with datafields and the property names causing a issue with opening the dialog -->
 			<list>
 				<!-- Scheduled Terms -->
-				<bean parent="KS-Uif-DataField" p:label="Scheduled for" p:propertyName="courseSummaryDetails.scheduledTermsNames"
-						p:fieldLabel.cssClasses="ksap-text-normal ks-Popover-detailLabel" p:labelPlacement="LEFT">
+				<bean parent="KS-Uif-DataField-LabelLeft" p:label="Scheduled for" p:propertyName="courseSummaryDetails.scheduledTermsNames"
+						p:fieldLabel.cssClasses="ksap-text-normal ks-Popover-detailLabel">
 					<property name="cssClasses">
 						<list merge="true">
 							<value>ksap-data-list</value>
@@ -209,13 +211,13 @@
 					</property>
 				</bean>
 				<!-- Last Offered -->
-				<bean parent="KS-Uif-DataField" p:label="Last Offered" p:propertyName="courseSummaryDetails.lastOffered" p:labelPlacement="LEFT">
+				<bean parent="KS-Uif-DataField-LabelLeft" p:label="Last Offered" p:propertyName="courseSummaryDetails.lastOffered">
 					<property name="fieldLabel.cssClasses" value="ksap-text-normal ks-Popover-detailLabel"/>
 					<property name="render" value="@{courseSummaryDetails.lastOffered ne null and courseSummaryDetails.scheduledTerms.size() eq 0}"/>
 				</bean>
 				<!-- Projected Terms -->
-                <bean parent="Uif-MessageField" p:label="Projected For" p:messageText="@{courseSummaryDetails.termsOfferedForUI}"
-                      p:labelPlacement="LEFT">
+                <bean parent="Uif-MessageField" p:label="Projected For" p:messageText="@{courseSummaryDetails.termsOfferedForUI}">
+                    <!-- Rice 2.4 upgrade : removing p:labelPlacement="LEFT" -->
                     <property name="fieldLabel.cssClasses" value="ksap-text-normal ks-Popover-detailLabel"/>
                     <property name="cssClasses">
                         <list merge="true">
@@ -226,8 +228,8 @@
                     <property name="render" value="@{courseSummaryDetails.scheduledTerms.size() eq 0}"/>
                 </bean>
 				<!-- Requisites -->
-                <bean parent="Uif-MessageField" p:label="Course Requisites" p:messageText="@{courseSummaryDetails.requisitesForUI}"
-                      p:labelPlacement="LEFT">
+                <bean parent="Uif-MessageField" p:label="Course Requisites" p:messageText="@{courseSummaryDetails.requisitesForUI}">
+                    <!-- Rice 2.4 upgrade : removing p:labelPlacement="LEFT" -->
                     <property name="fieldLabel.cssClasses" value="ksap-text-normal"/>
                     <property name="cssClasses">
                         <list merge="true">
@@ -262,7 +264,8 @@
 									<bean parent="Uif-HorizontalBoxGroup">
 										<property name="items">
 											<list>
-												<bean parent="planner_submit_button" p:actionLabel="Save" />
+												<bean parent="planner_submit_button" p:actionLabel="Save"
+                                                      p:actionScript="ksapPlannerSubmitDialog('planner_edit_plan_item_page',e);"/>
 												<bean parent="planner_cancel_button" />
 											</list>
 										</property>
@@ -299,7 +302,8 @@
 									<bean parent="Uif-HorizontalBoxGroup">
 										<property name="items">
 											<list>
-												<bean parent="planner_submit_button" p:actionLabel="Copy" />
+												<bean parent="planner_submit_button" p:actionLabel="Copy"
+                                                      p:actionScript="ksapPlannerSubmitDialog('planner_copy_course_page',e);"/>
 												<bean parent="planner_cancel_button" />
 											</list>
 										</property>
@@ -334,7 +338,8 @@
 									<bean parent="Uif-HorizontalBoxGroup">
 										<property name="items">
 											<list>
-												<bean parent="planner_submit_button" p:actionLabel="Copy" />
+												<bean parent="planner_submit_button" p:actionLabel="Copy"
+                                                      p:actionScript="ksapPlannerSubmitDialog('planner_copy_plan_item_page',e);"/>
 												<bean parent="planner_cancel_button" />
 											</list>
 										</property>
@@ -369,7 +374,8 @@
 									<bean parent="Uif-HorizontalBoxGroup">
 										<property name="items">
 											<list>
-												<bean parent="planner_submit_button" p:actionLabel="Move" />
+												<bean parent="planner_submit_button" p:actionLabel="Move"
+                                                      p:actionScript="ksapPlannerSubmitDialog('planner_move_plan_item_page',e);"/>
 												<bean parent="planner_cancel_button" />
 											</list>
 										</property>
@@ -405,7 +411,8 @@
 									<bean parent="Uif-HorizontalBoxGroup">
 										<property name="items">
 											<list>
-												<bean parent="planner_submit_button" p:actionLabel="Delete" />
+												<bean parent="planner_submit_button" p:actionLabel="Delete"
+                                                      p:actionScript="ksapPlannerSubmitDialog('planner_delete_plan_item_page',e);"/>
 												<bean parent="planner_cancel_button" />
 											</list>
 										</property>
@@ -451,7 +458,8 @@
                                     <bean parent="Uif-HorizontalBoxGroup">
                                         <property name="items">
                                             <list>
-                                                <bean parent="planner_submit_button" p:actionLabel="Add Course To Plan" />
+                                                <bean parent="planner_submit_button" p:actionLabel="Add Course To Plan"
+                                                      p:actionScript="ksapPlannerSubmitDialog('bookmark_add_course_page',e);"/>
                                                 <bean parent="planner_cancel_button" />
                                             </list>
                                         </property>
@@ -487,7 +495,8 @@
                                     <bean parent="Uif-HorizontalBoxGroup">
                                         <property name="items">
                                             <list>
-                                                <bean parent="planner_submit_button" p:actionLabel="Delete" />
+                                                <bean parent="planner_submit_button" p:actionLabel="Delete"
+                                                      p:actionScript="ksapPlannerSubmitDialog('bookmark_delete_course_page',e);"/>
                                                 <bean parent="planner_cancel_button" />
                                             </list>
                                         </property>
@@ -531,7 +540,8 @@
                                     <bean parent="Uif-HorizontalBoxGroup">
                                         <property name="items">
                                             <list>
-                                                <bean parent="planner_submit_button" p:actionLabel="Add Course To Plan" />
+                                                <bean parent="planner_submit_button" p:actionLabel="Add Course To Plan"
+                                                      p:actionScript="ksapPlannerSubmitDialog('course_add_course_page',e);"/>
                                                 <bean parent="planner_cancel_button" />
                                             </list>
                                         </property>
@@ -556,8 +566,7 @@
 		</property>
 	</bean>
 
-	<bean id="planner_dialog_input" parent="KS-Uif-InputField" abstract="true">
-		<property name="labelPlacement" value="TOP" />
+	<bean id="planner_dialog_input" parent="KS-Uif-InputField-LabelTop" abstract="true">
 		<property name="fieldLabel.render" value="true" />
 	</bean>
 
@@ -673,9 +682,7 @@
 			p:hidden="true" p:additionalCssClasses="ksap-feedback,error,ks-Popover-error" />
 
 	<bean id="planner_submit_button" parent="Uif-PrimaryActionButton"
-		p:additionalCssClasses="ks-Button ks-Button--primary">
-		<property name="actionScript" value="ksapPlannerSubmitDialog(e);" />
-	</bean>
+		p:additionalCssClasses="ks-Button ks-Button--primary"/>
 
 	<bean id="planner_cancel_button" parent="Uif-ActionLink"
 		p:actionLabel="Cancel" >

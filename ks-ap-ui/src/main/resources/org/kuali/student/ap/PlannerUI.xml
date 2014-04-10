@@ -93,7 +93,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-HorizontalBoxGroup">
-                    <property name="validationMessages.render" value="false" />
+                    <property name="validationMessages.displayMessages" value="false" />
                     <property name="cssClasses">
                         <list merge="true">
                             <value>ksap-plan-heading</value>
@@ -109,7 +109,7 @@
                                         <value>ks-plan-Header-buttonWrapper--previous</value>
                                     </list>
                                 </property>
-                                <property name="validationMessages.render" value="false" />
+                                <property name="validationMessages.displayMessages" value="false" />
                                 <property name="items">
                                     <list>
                                         <bean p:id="previous_year_button" parent="Uif-PrimaryActionButton"
@@ -155,7 +155,7 @@
                                         <value>ks-plan-Header-buttonWrapper--next</value>
                                     </list>
                                 </property>
-                                <property name="validationMessages.render" value="false" />
+                                <property name="validationMessages.displayMessages" value="false" />
                                 <property name="items">
                                     <list>
                                         <bean p:id="next_year_button" parent="Uif-PrimaryActionButton"
@@ -185,7 +185,7 @@
                     </property>
                 </bean>
                 <bean parent="Uif-HorizontalBoxGroup">
-                    <property name="validationMessages.render" value="false" />
+                    <property name="validationMessages.displayMessages" value="false" />
                     <property name="items">
                         <list>
                             <bean parent="Uif-Message"
@@ -205,7 +205,7 @@
 
     <bean id="planner_courses_detail_list" parent="planner_courses_detail_list-parent" />
     <bean id="planner_courses_detail_list-parent" parent="Uif-ListCollectionSection">
-        <property name="validationMessages.render" value="false" />
+        <property name="validationMessages.displayMessages" value="false" />
         <property name="propertyName" value="terms" />
         <property name="collectionObjectClass" value="org.kuali.student.ap.planner.PlannerTerm" />
         <property name="layoutManager.lineGroupPrototype.header.render"
@@ -215,7 +215,7 @@
                 value="ks-plan-TermsList-itemHeader" />
         <property name="layoutManager.lineGroupPrototype.headerText"
                   value="@{#line.termName}" />
-        <property name="layoutManager.lineGroupPrototype.validationMessages.render"
+        <property name="layoutManager.lineGroupPrototype.validationMessages.displayMessages"
                   value="false" />
         <property name="layoutManager.lineGroupPrototype.cssClasses">
             <list merge="true">
@@ -243,7 +243,7 @@
         </property>
         <property name="layoutManager.lineGroupPrototype.header.rightGroup">
             <bean parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="ks-plan-Bucket-headerStatusIcons">
-                <property name="validationMessages.render" value="false" />
+                <property name="validationMessages.displayMessages" value="false" />
                 <property name="items">
                     <list>
                         <bean p:id="@{#line.uniqueId}_termNote" parent="term_note_icon">
@@ -402,13 +402,13 @@
 
     <bean id="planner_item_collection" parent="planner_item_collection-parent" abstract="true"/>
     <bean id="planner_item_collection-parent" abstract="true" parent="Uif-StackedCollectionGroup">
-        <property name="validationMessages.render" value="false" />
+        <property name="validationMessages.displayMessages" value="false" />
         <property name="header">
             <bean parent="Uif-HeaderSix" p:additionalCssClasses="ks-plan-Bucket-header" />
         </property>
         <property name="layoutManager.lineGroupPrototype.footer.render"
                   value="false" />
-        <property name="layoutManager.lineGroupPrototype.validationMessages.render"
+        <property name="layoutManager.lineGroupPrototype.validationMessages.displayMessages"
                   value="false" />
         <property name="collectionLookup">
             <bean parent="Uif-QuickFinder">
@@ -442,7 +442,7 @@
             <list>
                 <bean p:id="@{#line.uniqueId}" parent="Uif-HorizontalFieldGroup"
                       p:title="@{#line.courseTitle}">
-                    <property name="group.validationMessages.render" value="false" />
+                    <property name="group.validationMessages.displayMessages" value="false" />
                     <property name="onDocumentReadyScript" value='ksapSetStaticCourseIDs("@{#line.uniqueId}_code", "@{#line.uniqueId}_courseNote")' />
                     <property name="onClickScript"
                               value="openMenu('@{#line.uniqueId}','planner_menu_@{#line.categoryString != null ? #line.categoryString : 'completed' }@{#line.menuSuffix}', null, e,
@@ -559,7 +559,7 @@
         </property>
         <property name="header.lowerGroup">
             <bean parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="ks-plan-Bucket-headerStatusIcons">
-                <property name="validationMessages.render" value="false" />
+                <property name="validationMessages.displayMessages" value="false" />
                 <property name="items">
                     <list>
                         <bean parent="Uif-Image"
@@ -579,7 +579,7 @@
         </property>
         <property name="layoutManager.lineGroupPrototype.footer.render"
                   value="false" />
-        <property name="layoutManager.lineGroupPrototype.validationMessages.render"
+        <property name="layoutManager.lineGroupPrototype.validationMessages.displayMessages"
                   value="false" />
         <property name="layoutManager">
             <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
@@ -619,7 +619,7 @@
     <bean id="planner_cart_collection" parent="planner_cart_collection-parent"/>
     <bean id="planner_cart_collection-parent" abstract="true" parent="planner_item_collection"
           p:headerText="Cart" p:render="@{#line.cartAvailable}">
-        <property name="validationMessages.render" value="false" />
+        <property name="validationMessages.displayMessages" value="false" />
         <property name="propertyName" value="cartList" />
         <property name="header.toolTip">
             <ref bean="cart_help_tooltip"/>
@@ -639,7 +639,7 @@
         </property>
         <property name="footer">
             <bean parent="Uif-VerticalBoxGroup">
-                <property name="validationMessages.render" value="false" />
+                <property name="validationMessages.displayMessages" value="false" />
                 <property name="items">
                     <list>
                         <bean p:id="@{#line.uniqueId}_cart_credits" parent="planner_credits_footer">
@@ -663,7 +663,7 @@
     <bean id="planner_planned_collection" parent="planner_planned_collection-parent"/>
     <bean id="planner_planned_collection-parent" abstract="true" parent="planner_item_collection" p:headerText="Planned">
         <property name="propertyName" value="plannedList" />
-        <property name="validationMessages.render" value="false" />
+        <property name="validationMessages.displayMessages" value="false" />
         <property name="header.toolTip">
             <ref bean="planned_help_tooltip"/>
         </property>
@@ -683,7 +683,7 @@
         </property>
         <property name="footer">
             <bean parent="Uif-VerticalBoxGroup">
-                <property name="validationMessages.render" value="false" />
+                <property name="validationMessages.displayMessages" value="false" />
                 <property name="items">
                     <list>
                         <bean p:id='@{#line.termId.replaceAll("kuali\.atp\.", "").replaceAll("\.","-")}_planned_add' parent="planner_quick_add">
@@ -714,7 +714,7 @@
     <bean id="planner_backup_collection" parent="planner_backup_collection-parent"/>
     <bean id="planner_backup_collection-parent" abstract="true" parent="planner_item_collection" p:headerText="Backup">
         <property name="propertyName" value="backupList" />
-        <property name="validationMessages.render" value="false" />
+        <property name="validationMessages.displayMessages" value="false" />
         <property name="header.toolTip">
             <ref bean="backup_help_tooltip"/>
         </property>
@@ -733,7 +733,7 @@
         </property>
         <property name="footer">
             <bean parent="Uif-VerticalBoxGroup">
-                <property name="validationMessages.render" value="false" />
+                <property name="validationMessages.displayMessages" value="false" />
                 <property name="items">
                     <list>
                         <bean p:id='@{#line.termId.replaceAll("\.","-")}_backup_add' parent="planner_quick_add">
@@ -751,7 +751,7 @@
 
     <bean abstract="true" id="planner_quick_add" parent="planner_quick_add-parent"/>
     <bean abstract="true" id="planner_quick_add-parent" parent="Uif-HorizontalBoxGroup">
-        <property name="validationMessages.render" value="false" />
+        <property name="validationMessages.displayMessages" value="false" />
         <property name="cssClasses">
             <list merge="true">
                 <value>quick-add-cell</value>
@@ -774,7 +774,7 @@
 
     <bean abstract="true" id="planner_credits_footer" parent="planner_credits_footer-parent"/>
     <bean abstract="true" id="planner_credits_footer-parent" parent="Uif-HorizontalBoxGroup">
-        <property name="validationMessages.render" value="false" />
+        <property name="validationMessages.displayMessages" value="false" />
         <property name="cssClasses">
             <list merge="true">
                 <value>ksap-carousel-term-total</value>
