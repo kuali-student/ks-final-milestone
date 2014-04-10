@@ -309,7 +309,9 @@ public class ReviewProposalDisplay implements java.io.Serializable {
         }
 
         public String getTermsAsString() {
-            return StringUtils.join(getTerms(), CurriculumManagementConstants.COLLECTION_ITEMS_DELIMITER);
+            // The below code should be uncommented when the course requisites user story comes into picture.
+            //return StringUtils.join(getTerms(), CurriculumManagementConstants.COLLECTION_ITEMS_DELIMITER);
+            return null;
         }
 
         public List<String> getGradingOptions() {
