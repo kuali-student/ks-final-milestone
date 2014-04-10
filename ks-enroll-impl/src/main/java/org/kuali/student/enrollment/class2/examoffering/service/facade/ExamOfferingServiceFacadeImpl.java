@@ -20,7 +20,6 @@ import org.kuali.student.enrollment.examoffering.service.ExamOfferingService;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.BulkStatusInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -29,7 +28,6 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.infc.BulkStatus;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.ExamOfferingServiceConstants;
@@ -106,8 +104,10 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
             throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException {
 
-        String examPeriodId = this.getExamPeriodId(termId, context);
-        if (StringUtils.isEmpty(examPeriodId)) {
+        String examPeriodId = null;
+        try{
+            examPeriodId = this.getExamPeriodId(termId, context);
+        } catch (DoesNotExistException e) {
             return new ExamOfferingResult(false);
         }
 
@@ -136,8 +136,10 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
             throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
 
-        String examPeriodId = this.getExamPeriodId(termId, context);
-        if (StringUtils.isEmpty(examPeriodId)) {
+        String examPeriodId = null;
+        try{
+            examPeriodId = this.getExamPeriodId(termId, context);
+        } catch (DoesNotExistException e) {
             return new ExamOfferingResult(false);
         }
 
