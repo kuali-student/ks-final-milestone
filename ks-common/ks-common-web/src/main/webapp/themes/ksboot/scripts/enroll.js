@@ -53,7 +53,7 @@ function removeCheckboxColumns(column, componentId, functionToCall) {
             var div = jQuery(this).parent('div');
             if (jQuery(div).is(":visible")) {
                 foundCheckBox = true;
-                return foundCheckBox;
+                return false;   // exit .each() loop early
             }
         });
 
