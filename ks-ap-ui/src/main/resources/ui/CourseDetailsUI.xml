@@ -172,10 +172,8 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 
 	<bean id="ksapAddSavedCourse" parent="ksapAddSavedCourse-parent" />
 	<bean id="ksapAddSavedCourse-parent" abstract="true" parent="Uif-SecondaryActionButton"
-		p:actionLabel="Bookmark Course" p:render="@{!dataObject.bookmarked}">
-        <property name="actionScript" value="
-                        bookmarkCourse('@{dataObject.courseId}', e);
-                    "/>
+		p:actionLabel="@{dataObject.bookmarked ? 'Remove Bookmark' : 'Bookmark'}">
+        <property name="actionScript" value="bookmarkCourse('@{dataObject.courseId}', e);"/>
 	</bean>
 
 
