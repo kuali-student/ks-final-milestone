@@ -282,20 +282,21 @@
                                 <property name="items">
                                     <list>
                                         <bean id="course_review_outcome_details" parent="Uif-StackedCollectionSection"
-                                              p:readOnly="true"
                                               p:propertyName="reviewProposalDisplay.courseLogisticsSection.outComes"
                                               p:collectionObjectClass="org.kuali.student.cm.course.form.OutcomeReviewSection">
                                             <property name="layoutManager.lineGroupPrototype.header.headerText"
                                                       value="Outcome @{(#index + 1)}"/>
                                             <property name="layoutManager.lineGroupPrototype.header.style"
                                                       value="border-bottom : 1px solid black;"/>
+                                            <property name="renderLineActions" value="false"/>
+                                            <property name="renderAddLine" value="false"/>
                                             <property name="items">
                                                 <list>
-                                                    <bean parent="KS-Uif-DataField" p:label="Type"
-                                                          p:propertyName="outComeType"/>
-                                                    <bean parent="KS-Uif-DataField" p:label="Credit Value"
+                                                    <bean parent="CM-ReadOnlyInput" p:label="Type"
+                                                          p:propertyName="outComeType" p:colSpan="1"/>
+                                                    <bean parent="CM-ReadOnlyInput" p:label="Credit Value"
                                                           p:fieldLabel.style="white-space : nowrap; margin-left : -4px;"
-                                                          p:propertyName="outComeValue"/>
+                                                          p:propertyName="outComeValue" p:colSpan="1"/>
                                                 </list>
                                             </property>
                                         </bean>
@@ -324,7 +325,6 @@
                                 <property name="items">
                                     <list>
                                         <bean id="course_review_format_details" parent="Uif-StackedCollectionSection"
-                                              p:readOnly="true"
                                               p:propertyName="reviewProposalDisplay.courseLogisticsSection.formatInfoWrappers"
                                               p:collectionObjectClass="org.kuali.student.cm.course.form.FormatInfoWrapper"
                                               p:colSpan="3">
@@ -332,10 +332,11 @@
                                                       value="Format @{(#index + 1)}"/>
                                             <property name="layoutManager.lineGroupPrototype.header.style"
                                                       value="border-bottom : 1px solid black;"/>
-
+                                            <property name="renderLineActions" value="false"/>
+                                            <property name="renderAddLine" value="false"/>
                                             <property name="subCollections">
                                                 <list>
-                                                    <bean parent="Uif-StackedSubCollection-WithinSection"
+                                                    <bean id="course_review_format_details" parent="Uif-StackedSubCollection-WithinSection"
                                                           p:collectionObjectClass="org.kuali.student.cm.course.form.ActivityInfoWrapper"
                                                           p:propertyName="activities" p:colSpan="3" p:align="left">
                                                         <property
@@ -343,15 +344,19 @@
                                                                 value="Activity @{(#index + 1)} (@{#line.activityType}) "/>
                                                         <property name="layoutManager.lineGroupPrototype.header.style"
                                                                   value="border-bottom : 0.5px dotted black;"/>
+                                                        <property name="renderLineActions" value="false"/>
+                                                        <property name="renderAddLine" value="false"/>
                                                         <property name="items">
                                                             <list>
-                                                                <bean parent="KS-Uif-DataField" p:label="Contact Hours"
-                                                                      p:propertyName="duration"/>
-                                                                <bean parent="KS-Uif-DataField" p:label="Duration"
-                                                                      p:propertyName="durationCount"/>
-                                                                <bean parent="KS-Uif-DataField"
+                                                                <bean parent="CM-ReadOnlyInput" p:label="Contact Hours"
+                                                                      p:fieldLabel.style="white-space : nowrap; margin-left : -4px;"
+                                                                      p:propertyName="duration" p:colSpan="1"/>
+                                                                <bean parent="CM-ReadOnlyInput" p:label="Duration"
+                                                                      p:propertyName="durationCount" p:colSpan="1"/>
+                                                                <bean parent="CM-ReadOnlyInput"
                                                                       p:label="Anticipated Class Size"
-                                                                      p:propertyName="anticipatedClassSize"/>
+                                                                      p:fieldLabel.style="white-space : nowrap; margin-left : -4px;"
+                                                                      p:propertyName="anticipatedClassSize" p:colSpan="1"/>
                                                             </list>
                                                         </property>
                                                     </bean>

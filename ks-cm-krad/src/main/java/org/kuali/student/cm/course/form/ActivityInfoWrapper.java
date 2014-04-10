@@ -28,11 +28,16 @@ public class ActivityInfoWrapper {
     private String activityType;
     private Integer anticipatedClassSize;
 
+    public ActivityInfoWrapper(){
+
+    }
+
     public ActivityInfoWrapper(String duration, Integer anticipatedClassSize, String activityType, String durationCount, String contactHours) {
-        this.duration = duration;
+        this.durationCount = durationCount;
+        setDurationCount(durationCount);
+        setDuration(duration);
         this.anticipatedClassSize = anticipatedClassSize;
         this.activityType = activityType;
-        this.durationCount = durationCount;
         this.contactHours = contactHours;
     }
 

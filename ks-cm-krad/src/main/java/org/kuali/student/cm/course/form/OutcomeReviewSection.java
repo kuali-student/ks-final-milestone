@@ -24,6 +24,9 @@ public class OutcomeReviewSection {
     protected String outComeType;
     protected String outComeValue;
 
+    public OutcomeReviewSection(){
+    }
+
     public OutcomeReviewSection(String outComeType, String outComeValue){
         this.outComeType = outComeType;
         this.outComeValue = outComeValue;

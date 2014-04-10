@@ -9,6 +9,9 @@ import java.util.List;
 public class FormatInfoWrapper {
     private List<ActivityInfoWrapper> activities;
 
+    public FormatInfoWrapper(){
+    }
+
     public FormatInfoWrapper(List<ActivityInfoWrapper> activities) {
 
         this.activities = activities;
