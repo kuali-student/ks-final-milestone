@@ -148,18 +148,8 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
     </bean>
 
 	<bean id="ksapAddPlannedCourse" parent="ksapAddPlannedCourse-parent" />
-	<bean id="ksapAddPlannedCourse-parent" abstract="true" parent="Uif-PrimaryActionButton"
-		p:actionLabel="Add to Plan" p:actionImagePlacement="RIGHT">
-		<property name="actionImage">
-			<bean parent="Uif-Image"
-				p:source="@{#ConfigProperties['ks.ap.externalizable.images.url']}pixel.gif">
-				<property name="cssClasses">
-					<list merge="true">
-						<value>rightArrowLarge</value>
-					</list>
-				</property>
-			</bean>
-		</property>
+	<bean id="ksapAddPlannedCourse-parent" abstract="true" parent="Uif-SecondaryActionButton"
+		p:actionLabel="Add to Plan">
 		<property name="actionScript" value="
                         ksapPlannerOpenDialog('course_add_course','planner','startDialog', this, e);
                     "/>
