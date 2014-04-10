@@ -31,6 +31,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequestItem;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.infc.ValidationResult;
 
 import org.w3c.dom.Element;
 
@@ -111,7 +112,7 @@ public class RegistrationRequestItemInfo
             this.okToWaitlist = registrationRequestItem.getOkToWaitlist();
             this.okToHoldUntilList = registrationRequestItem.getOkToHoldUntilList();
             this.validationResults = new ArrayList<ValidationResultInfo>();
-            for(ValidationResultInfo validationResult:registrationRequestItem.getValidationResults ()){
+            for(ValidationResult validationResult:registrationRequestItem.getValidationResults ()){
                 this.getValidationResults().add(new ValidationResultInfo(validationResult));
             }
         }

@@ -133,19 +133,10 @@ public class LprServiceDecorator implements LprService {
     }
 
     @Override
-    public LprTransactionItemInfo createLprTransactionItem(String lprTransactionItemTypeKey, LprTransactionItemInfo lprTransactionItemInfo, String lprTransactionId, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        return getNextDecorator().createLprTransactionItem(lprTransactionItemTypeKey, lprTransactionItemInfo, lprTransactionId, contextInfo);
+    public LprTransactionItemInfo changeLprTransactionItem(String lprTransactionItemId, LprTransactionItemInfo lprTransactionItemInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+        return getNextDecorator().changeLprTransactionItem(lprTransactionItemId, lprTransactionItemInfo, contextInfo);
     }
 
-    @Override
-    public LprTransactionItemInfo updateLprTransactionItem(String lprTransactionItemId, LprTransactionItemInfo lprTransactionItemInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-        return getNextDecorator().updateLprTransactionItem(lprTransactionItemId, lprTransactionItemInfo, contextInfo);
-    }
-
-    @Override
-    public StatusInfo deleteLprTransactionItem(String lprTransactionItemId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().deleteLprTransactionItem(lprTransactionItemId, contextInfo);
-    }
 
     @Override
     public List<String> getPersonIdsByLuiAndTypeAndState(String luiId, String lprTypeKey, String relationState, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {

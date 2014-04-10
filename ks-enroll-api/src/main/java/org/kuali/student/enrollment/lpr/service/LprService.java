@@ -1307,35 +1307,16 @@ public interface LprService {
             OperationFailedException,
             PermissionDeniedException;
 
-    /**
-     * Creates a new LprTransactionItem. The LprTransactionItem Id, Type, and Meta information may not be set in the supplied data object.
-     * @param lprTransactionItemTypeKey the identifier for the Type of LprTransactionItem to be created
-     * @param lprTransactionItemInfo the data with which to create the LprTransactionItem
-     * @param lprTransactionId the lprTransactionId
-     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
-     * @return the new LprTransactionItem
-     * @throws DataValidationErrorException supplied data is invalid
-     * @throws DoesNotExistException lprTransactionItemTypeKey does not exist or is not supported
-     * @throws InvalidParameterException lprTransactionItemInfo or contextInfo is not valid
-     * @throws MissingParameterException lprTransactionItemTypeKey, lprTransactionItemInfo, or contextInfo is missing or null
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     * @throws ReadOnlyException an attempt at supplying information designated as read only
-     */
-    public LprTransactionItemInfo createLprTransactionItem(@WebParam(name = "lprTransactionItemTypeKey") String lprTransactionItemTypeKey,
-                                                           @WebParam(name = "lprTransactionItemInfo") LprTransactionItemInfo lprTransactionItemInfo,
-                                                           @WebParam(name = "lprTransactionId") String lprTransactionId,
-                                                           @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws DataValidationErrorException,
-            DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException,
-            ReadOnlyException;
+    
 
     /**
-     * Updates an existing LprTransactionItem. The LprTransactionItem Id, Type, and Meta information may not be changed.
+     * Directly changes an existing LprTransactionItem.
+     * 
+     * This is a convenience operation designed so the data fields on an item can be updated without having issue an
+     * update to the entire LprTransaction.     * 
+     * 
+     * The LprTransactionItem Id, Type, and Meta information may not be changed.
+     *  
      * @param lprTransactionItemId the identifier for the LprTransactionItem to be updated
      * @param lprTransactionItemInfo the new data for the LprTransactionItem
      * @param contextInfo information containing the principalId and locale information about the caller of the service operation
@@ -1348,7 +1329,7 @@ public interface LprService {
      * @throws PermissionDeniedException an authorization failure occurred
      * @throws ReadOnlyException an attempt at supplying information designated as read only
      */
-    public LprTransactionItemInfo updateLprTransactionItem(@WebParam(name = "lprTransactionItemId") String lprTransactionItemId,
+    public LprTransactionItemInfo changeLprTransactionItem(@WebParam(name = "lprTransactionItemId") String lprTransactionItemId,
                                                            @WebParam(name = "lprTransactionItemInfo") LprTransactionItemInfo lprTransactionItemInfo,
                                                            @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DataValidationErrorException,
@@ -1359,24 +1340,5 @@ public interface LprService {
             PermissionDeniedException,
             ReadOnlyException,
             VersionMismatchException;
-
-    /**
-     * Deletes an existing LprTransactionItem.
-     * @param lprTransactionItemId the identifier for the LprTransactionItem to be deleted
-     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
-     * @return the status of the delete operation. This must always be true.
-     * @throws DoesNotExistException lprTransactionItemId is not found
-     * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException lprTransactionItemId or contextInfo is missing or null
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public StatusInfo deleteLprTransactionItem(@WebParam(name = "lprTransactionItemId") String lprTransactionItemId,
-                                               @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
-
+    
 }

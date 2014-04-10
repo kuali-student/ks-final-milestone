@@ -18,9 +18,9 @@ package org.kuali.student.enrollment.courseregistration.infc;
 
 import java.util.List;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
 
 import org.kuali.student.r2.common.infc.IdEntity;
+import org.kuali.student.r2.common.infc.ValidationResult;
 
 /**
  * Represents a single transaction item for a Student and Registration
@@ -134,6 +134,6 @@ public interface RegistrationRequestItem
      * 
      * @return list of validation results
      */
-    public List<ValidationResultInfo> getValidationResults();
+    public List<? extends ValidationResult> getValidationResults();
 
 }

@@ -83,11 +83,11 @@ public interface LprTransactionItem
      * 
      * @name New LUI Id
      */
-    public String getLuiId();
+    public String getNewLuiId();
 
     /**
      * The existing Lpr id for an existing relation for delete or
-     * updaterequests.
+     * update requests.
      * 
      * @name Existing LPR Id
      */
@@ -102,12 +102,11 @@ public interface LprTransactionItem
     public List<? extends LprTransactionItemRequestOption> getRequestOptions();
 
     /**
-     * Returns the result for this transaction item once it has been
-     * processed.
+     * The LPR that resulted from processing this transaction item.
      * 
-     * @name LPR Transaction Item Result
+     * @name Resulting LPR Id
      */
-    public LprTransactionItemResult getLprTransactionItemResult();
+    public String getResultingLprId();
 
     /**
      * The keys of the result values groups to be applied to the LPR

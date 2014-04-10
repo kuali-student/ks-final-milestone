@@ -28,7 +28,6 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.lpr.infc.LprTransactionItem;
 import org.kuali.student.enrollment.lpr.infc.LprTransactionItemRequestOption;
-import org.kuali.student.enrollment.lpr.infc.LprTransactionItemResult;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.w3c.dom.Element;
@@ -36,9 +35,11 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "LprTransactionItemInfo", propOrder = {
                 "id", "typeKey", "stateKey", "name", "descr",
-                "transactionId", "personId", "luiId",
+                "transactionId", "personId", 
+                "newLuiId",
                 "existingLprId", "resultValuesGroupKeys",
-                "requestOptions", "lprTransactionItemResult",
+                "requestOptions", 
+                "resultingLprId",
                 "validationResults",
                 "meta", "attributes", "_futureElements"})
 
@@ -52,13 +53,10 @@ public class LprTransactionItemInfo
     private String transactionId;
 
     @XmlElement
-    private LprTransactionItemResultInfo lprTransactionItemResult;
-
-    @XmlElement
     private String personId;
 
     @XmlElement
-    private String luiId;
+    private String newLuiId;
 
     @XmlElement
     private String existingLprId;
@@ -69,6 +67,9 @@ public class LprTransactionItemInfo
     @XmlElement
     private List<LprTransactionItemRequestOptionInfo> requestOptions;
 
+    @XmlElement
+    private String resultingLprId;
+    
     @XmlElement
     private List<ValidationResultInfo> validationResults;
 
@@ -85,14 +86,10 @@ public class LprTransactionItemInfo
         super(lprTransactionItem);
         if (null != lprTransactionItem) {
             this.transactionId = lprTransactionItem.getTransactionId();
-            LprTransactionItemResult result = lprTransactionItem.getLprTransactionItemResult();
-            if (result != null) {
-            	// only set the result if there is a result in the item.
-            	this.lprTransactionItemResult = new LprTransactionItemResultInfo(result);	
-            }
+            this.newLuiId = lprTransactionItem.getResultingLprId();
 
             this.personId = lprTransactionItem.getPersonId();
-            this.luiId = lprTransactionItem.getLuiId();
+            this.newLuiId = lprTransactionItem.getNewLuiId();
             this.existingLprId = lprTransactionItem.getExistingLprId();
             
             this.requestOptions = new ArrayList<LprTransactionItemRequestOptionInfo>();
@@ -108,7 +105,7 @@ public class LprTransactionItemInfo
             }
 
             this.validationResults = new ArrayList<ValidationResultInfo>();
-            if (lprTransactionItem.getValidationResults() != null) {
+            if (null != lprTransactionItem.getValidationResults()) {
                 // Make a deep copy
                 for (ValidationResultInfo info: lprTransactionItem.getValidationResults()) {
                     this.validationResults.add(new ValidationResultInfo(info));
@@ -127,21 +124,21 @@ public class LprTransactionItemInfo
     }
 
     @Override
-    public LprTransactionItemResultInfo getLprTransactionItemResult() {
-        return lprTransactionItemResult;
+    public String getResultingLprId() {
+        return resultingLprId;
     }
 
-    public void setLprTransactionResult(LprTransactionItemResultInfo lprTransactionResult) {
-        this.lprTransactionItemResult = lprTransactionResult;
+    public void setResultingLprId(String resultingLprId) {
+        this.resultingLprId = resultingLprId;
     }
 
     @Override
-    public String getLuiId() {
-        return luiId;
+    public String getNewLuiId() {
+        return newLuiId;
     }
 
-    public void setLuiId(String luiId) {
-        this.luiId = luiId;
+    public void setNewLuiId(String luiId) {
+        this.newLuiId = luiId;
     }
 
     @Override
@@ -185,10 +182,6 @@ public class LprTransactionItemInfo
 
     public void setResultValuesGroupKeys(List<String> resultValuesGroupKeys) {
         this.resultValuesGroupKeys = resultValuesGroupKeys;
-    }
-
-    public void setLprTransactionItemResult(LprTransactionItemResultInfo lprTransactionItemResult) {
-        this.lprTransactionItemResult = lprTransactionItemResult;
     }
 
     @Override

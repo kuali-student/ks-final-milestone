@@ -29,7 +29,6 @@ import org.kuali.student.enrollment.courseregistration.dto.ActivityRegistrationI
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
-import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
 import org.kuali.student.enrollment.courseregistration.dto.CreditLoadInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 
@@ -642,7 +641,7 @@ public interface CourseRegistrationService  {
      * Gets a list of unsubmitted RegistrationRequests by requesting
      * person Id and Term.
      *
-     * @param personId an identifier for a Person
+     * @param requestorId an identifier for the person who is authoring the request
      * @param termId an identifier for a Term
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of the service
@@ -819,7 +818,7 @@ public interface CourseRegistrationService  {
                PermissionDeniedException;
 
     /**
-     * Updates an existing RegistrationRequest. The
+     * Updates an existing Registration Request. The
      * RegistrationRequest Id, Type, and Meta information may not be
      * changed.
      *
@@ -926,7 +925,7 @@ public interface CourseRegistrationService  {
      * @throws DoesNotExistException registrationRequestId
      *         is not found
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException, registrationRequestId or
+     * @throws MissingParameterException registrationRequestId or
      *         contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
@@ -940,25 +939,30 @@ public interface CourseRegistrationService  {
                PermissionDeniedException;
 
     /**
-     * Submits a RegsitrationRequest. This method is transactional and
-     * for multiple items, each RegistrationRequestItem must succeed
-     * or the entireregistration transaction fails.
+     * Submits a RegsitrationRequest. 
+     * 
+     * This method is transactional in that the processing for all items 
+     * must complete or all the items must be rolled back.
+     * 
+     * Note: "complete" does not mean the student got into the class.  She could have been
+     * denied because the class was full or some other reason.  Complete means all of the items were
+     * successfully processed and the results (whether successfully or not) happen as a single unit.
      *
      * @param registrationRequestId an identifier for a RegistrationRequest
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of the service
      *        operation
-     * @return a RegistrationResponse
+     * @return the registration request updated based on the submit
      * @throws AlreadyExistsException When the reg request is already submitted
      * @throws DoesNotExistException registrationRequestId
      *         is not found
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException, registrationRequestId or
+     * @throws MissingParameterException registrationRequestId or
      *         contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public RegistrationResponseInfo submitRegistrationRequest(@WebParam(name = "registrationRequestId") String registrationRequestId, 
+    public RegistrationRequestInfo submitRegistrationRequest(@WebParam(name = "registrationRequestId") String registrationRequestId, 
                                                               @WebParam(name = "contextInfo") ContextInfo contextInfo) 
         throws AlreadyExistsException,
                DoesNotExistException,
@@ -1109,36 +1113,14 @@ public interface CourseRegistrationService  {
             OperationFailedException,
             PermissionDeniedException;
 
+   
     /**
-     * Creates a new registrationRequestItem. The registrationRequestItem Id, Type, and Meta information may not be set
-     * in the supplied data object.
-     * @param registrationRequestItemTypeKey the identifier for the Type of RegistrationRequestItem to be created
-     * @param registrationRequestItemInfo the data with which to create the RegistrationRequestItem
-     * @param registrationRequestId the registrationRequestId
-     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
-     * @return the new RegistrationRequestItem
-     * @throws DataValidationErrorException supplied data is invalid
-     * @throws DoesNotExistException registrationRequestItemTypeKey does not exist or is not supported
-     * @throws InvalidParameterException registrationRequestItemInfo or contextInfo is not valid
-     * @throws MissingParameterException registrationRequestItemTypeKey, registrationRequestItemInfo, or contextInfo is missing or null
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     * @throws ReadOnlyException an attempt at supplying information designated as read only
-     */
-    public RegistrationRequestItemInfo createRegistrationRequestItem(@WebParam(name = "registrationRequestItemTypeKey") String registrationRequestItemTypeKey,
-                                                                     @WebParam(name = "registrationRequestItemInfo") RegistrationRequestItem registrationRequestItemInfo,
-                                                                     @WebParam(name = "registrationRequestId") String registrationRequestId,
-                                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws DataValidationErrorException,
-            DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException,
-            ReadOnlyException;
-
-    /**
-     * Updates an existing RegistrationRequestItem. The RegistrationRequestItem Id, Type, and Meta information may not be changed.
+     * Changes an existing Registration Request Item. 
+     * 
+     * This is a convenience operation so that the data associated with a single item may be changed without having to 
+     * resubmit the entire registration request.
+     * 
+     * The RegistrationRequestItem Id, Type, and Meta information may not be changed.
      * @param registrationRequestItemId the identifier for the RegistrationRequestItem to be updated
      * @param registrationRequestItemInfo the new data for the RegistrationRequestItem
      * @param contextInfo information containing the principalId and locale information about the caller of the service operation
@@ -1152,7 +1134,7 @@ public interface CourseRegistrationService  {
      * @throws ReadOnlyException an attempt at supplying information designated as read only
      * @throws VersionMismatchException an optimistic locking failure or the action was attempted on an out of date version
      */
-    public RegistrationRequestItemInfo updateRegistrationRequestItem(@WebParam(name = "registrationRequestItemId") String registrationRequestItemId,
+    public RegistrationRequestItemInfo changeRegistrationRequestItem(@WebParam(name = "registrationRequestItemId") String registrationRequestItemId,
                                                                      @WebParam(name = "registrationRequestItemInfo") RegistrationRequestItem registrationRequestItemInfo,
                                                                      @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DataValidationErrorException,
@@ -1164,24 +1146,7 @@ public interface CourseRegistrationService  {
             ReadOnlyException,
             VersionMismatchException;
 
-    /**
-     * Deletes an existing RegistrationRequestItem.
-     * @param registrationRequestItemId the identifier for the RegistrationRequestItem to be deleted
-     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
-     * @return the status of the delete operation. This must always be true.
-     * @throws DoesNotExistException registrationRequestItemId is not found
-     * @throws InvalidParameterException registrationRequestItemInfo or contextInfo is not valid
-     * @throws MissingParameterException registrationRequestItemInfo, or contextInfo is missing or null
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public StatusInfo deleteRegistrationRequestItem(@WebParam(name = "registrationRequestItemId") String registrationRequestItemId,
-                                                    @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
+   
 
     /**
      * Gets list of RegistrationRequestItems resulting in or impacting

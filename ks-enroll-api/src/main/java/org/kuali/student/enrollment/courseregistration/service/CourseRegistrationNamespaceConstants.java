@@ -19,8 +19,6 @@ import org.kuali.student.enrollment.courseregistration.dto.ActivityRegistrationI
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
-import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
-import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseItemInfo;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
@@ -39,6 +37,4 @@ public class CourseRegistrationNamespaceConstants {
     public static final String REF_OBJECT_URI_ACTIVITY_REGISTRATION = NAMESPACE + "/" + ActivityRegistrationInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_REGISTRATION_REQUEST = NAMESPACE + "/" + RegistrationRequestInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_REGISTRATION_REQUEST_ITEM = NAMESPACE + "/" + RegistrationRequestItemInfo.class.getSimpleName();
-    public static final String REF_OBJECT_URI_REGISTRATION_RESPONSE = NAMESPACE + "/" + RegistrationResponseInfo.class.getSimpleName();
-    public static final String REF_OBJECT_URI_REGISTRATION_RESPONSE_ITEM = NAMESPACE + "/" + RegistrationResponseItemInfo.class.getSimpleName();
-}
+   }

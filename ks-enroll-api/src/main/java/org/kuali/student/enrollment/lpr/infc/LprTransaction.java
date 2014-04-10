@@ -18,8 +18,8 @@ package org.kuali.student.enrollment.lpr.infc;
 
 import java.util.List;
 
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.infc.IdEntity;
+import org.kuali.student.r2.common.infc.ValidationResult;
 
 /**
  * The LprTransaction represents an object to capture an overall
@@ -58,10 +58,22 @@ public interface LprTransaction
      * During any kind of checks that may occur on the LprTransaction,
      * these represent the results of that check.  The kinds of validation
      * result items are defined by the implementation.
+     * 
+     * These represent "global" messages that apply to the overall transaction and not to 
+     * a particular item.  For example: exceeded credit limit check
      *
      * @name Validation Results
      *
      * @return List of validation result items
      */
-    public List<ValidationResultInfo> getValidationResults();
+    public List<? extends ValidationResult> getValidationResults();
+    
+    /**
+     * The transaction items that compose this request.     * 
+     *
+     * @name Lpr Transaction Items
+     *
+     * @return List of transaction items
+     */
+    public List<? extends LprTransactionItem> getLprTransactionItems();
 }

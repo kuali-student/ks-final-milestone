@@ -79,7 +79,6 @@ public interface ValidationResult {
      *
      * @name Element
      * @readOnly
-     * @required
      */
     public String getElement();
 

@@ -35,7 +35,9 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RegistrationRequestInfo", propOrder = {
                 "id", "name", "descr", "typeKey", "stateKey", 
-                "requestorId", "termId","validationResults",
+                "requestorId", "termId", 
+                "registrationRequestItems",
+                "validationResults",
                 "meta", "attributes", "_futureElements"})
 
 public class RegistrationRequestInfo 
@@ -50,6 +52,9 @@ public class RegistrationRequestInfo
     @XmlElement
     private String termId;
 
+    @XmlElement
+    private List<RegistrationRequestItemInfo> registrationRequestItems;
+    
     @XmlElement
     private List<ValidationResultInfo> validationResults;
 
@@ -76,9 +81,13 @@ public class RegistrationRequestInfo
             this.requestorId = registrationRequest.getRequestorId();
             this.termId = registrationRequest.getTermId();
 
+            this.registrationRequestItems = new ArrayList<RegistrationRequestItemInfo>();
+            for(RegistrationRequestItem info: registrationRequest.getRegistrationRequestItems()){
+                this.registrationRequestItems.add(new RegistrationRequestItemInfo(info));
+            }
             this.validationResults = new ArrayList<ValidationResultInfo>();
             for(ValidationResultInfo validationResult: registrationRequest.getValidationResults()){
-                this.getValidationResults().add(new ValidationResultInfo(validationResult));
+                this.validationResults.add(new ValidationResultInfo(validationResult));
             }
         }
     }
@@ -102,6 +111,20 @@ public class RegistrationRequestInfo
     }
 
     @Override
+    public List<RegistrationRequestItemInfo> getRegistrationRequestItems() {
+        if (registrationRequestItems == null) {
+            registrationRequestItems = new ArrayList<RegistrationRequestItemInfo>();
+        }
+        return registrationRequestItems;
+    }
+
+    public void setRegistrationRequestItems(List<RegistrationRequestItemInfo> registrationRequestItems) {
+        this.registrationRequestItems = registrationRequestItems;
+    }
+
+
+    
+    @Override
     public List<ValidationResultInfo> getValidationResults() {
         if (validationResults == null) {
             validationResults = new ArrayList<ValidationResultInfo>();
@@ -112,4 +135,5 @@ public class RegistrationRequestInfo
     public void setValidationResults(List<ValidationResultInfo> validationResults) {
         this.validationResults = validationResults;
     }
+    
 }
