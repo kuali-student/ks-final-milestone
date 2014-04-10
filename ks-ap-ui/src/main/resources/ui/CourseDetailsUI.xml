@@ -52,7 +52,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 
 	<bean id="course_details_page" parent="course_details_page-parent" />
 	<bean id="course_details_page-parent" abstract="true" parent="Uif-Page" p:id="course_details_page"
-		p:headerText="@{dataObject.courseCode} @{dataObject.courseTitle} (@{dataObject.courseCredits})">
+		p:headerText="@{dataObject.courseCode} @{dataObject.courseTitle} (@{dataObject.courseCredits} cr)">
 		<property name="layoutManager">
 			<bean parent="Uif-HorizontalBoxLayout" />
 		</property>
