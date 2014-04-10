@@ -157,28 +157,28 @@
                 <bean parent="CM-ReviewProposal-GridGroup">
                     <property name="items">
                         <list>
-                            <bean parent="CM-ReadOnlyInput" p:label="Proposal Title"
+                            <bean parent="CM-ReadOnlyInput" p:label="Proposal Title" id="proposalInfo_name"
                                   p:propertyName="proposalInfo.name"/>
-                            <bean parent="CM-ReadOnlyInput" p:label="Course Title"
+                            <bean parent="CM-ReadOnlyInput" p:label="Course Title" id="courseInfo_courseTitle"
                                   p:propertyName="courseInfo.courseTitle"/>
                             <bean parent="CM-ReadOnlyInput" p:label="Transcript Course Title"
                                   p:propertyName="courseInfo.transcriptTitle"/>
-                            <bean parent="CM-ReadOnlyInput" p:label="Subject Code"
+                            <bean parent="CM-ReadOnlyInput" p:label="Subject Code" id="courseInfo_subjectArea"
                                   p:propertyName="courseInfo.subjectArea"/>
-                            <bean parent="CM-ReadOnlyInput" p:label="Course Number"
+                            <bean parent="CM-ReadOnlyInput" p:label="Course Number" id="courseInfo_courseNumberSuffix"
                                   p:propertyName="courseInfo.courseNumberSuffix"/>
-                            <bean parent="CM-ReadOnlyInput" p:label="Cross Listed Courses"
+                            <bean parent="CM-ReadOnlyInput" p:label="Cross Listed Courses" id="courseSection_crossListings"
                                   p:propertyName="reviewProposalDisplay.courseSection.crossListingsAsString"/>
-                            <bean parent="CM-ReadOnlyInput" p:label="Jointly Offered Courses"
+                            <bean parent="CM-ReadOnlyInput" p:label="Jointly Offered Courses" id="courseSection_variations"
                                   p:propertyName="reviewProposalDisplay.courseSection.variationsAsString"/>
                             <!-- Unclear why this one is using the variations data. Will sort out later. -->
-                            <bean parent="CM-ReadOnlyInput" p:label="Version Codes"
+                            <bean parent="CM-ReadOnlyInput" p:label="Version Codes" id="courseSection_variations_CHANGEME"
                                   p:propertyName="reviewProposalDisplay.courseSection.variationsAsString"/>
-                            <bean parent="CM-ReadOnlyInput" p:label="Instructor(s)"
+                            <bean parent="CM-ReadOnlyInput" p:label="Instructor(s)" id="courseSection_instructors"
                                   p:propertyName="reviewProposalDisplay.courseSection.instructorsAsString"/>
-                            <bean parent="CM-ReadOnlyInput" p:label="Description"
+                            <bean parent="CM-ReadOnlyInput" p:label="Description" id="courseInfo_descr"
                                   p:propertyName="courseInfo.descr.plain"/>
-                            <bean parent="CM-ReadOnlyInput" p:label="Proposal Rationale"
+                            <bean parent="CM-ReadOnlyInput" p:label="Proposal Rationale" id="proposalInfo_rationale"
                                   p:propertyName="proposalInfo.rationale.plain"/>
                         </list>
                     </property>
@@ -205,10 +205,10 @@
                 <bean parent="CM-ReviewProposal-GridGroup">
                     <property name="items">
                         <list>
-                            <bean parent="CM-ReadOnlyInput" p:label="Campus Locations"
+                            <bean parent="CM-ReadOnlyInput" p:label="Campus Locations" id="governanceSection_campusLocations"
                                   p:propertyName="reviewProposalDisplay.governanceSection.campusLocationsAsString" />
 
-                            <bean parent="CM-ReadOnlyInput" p:label="Curriculum Oversight"
+                            <bean parent="CM-ReadOnlyInput" p:label="Curriculum Oversight" id="governanceSection_curriculumOversightAsString"
                                   p:propertyName="reviewProposalDisplay.governanceSection.curriculumOversightAsString">
                                 <!-- Make required for state enroute -->
                                 <property name="simpleConstraint">
@@ -222,7 +222,7 @@
                                 </property>
                             </bean>
 
-                            <bean parent="CM-ReadOnlyInput" p:label="Administering Organization"
+                            <bean parent="CM-ReadOnlyInput" p:label="Administering Organization" id="governanceSection_administeringOrganization"
                                 p:propertyName="reviewProposalDisplay.governanceSection.administeringOrganizationAsString"/>
                         </list>
                     </property>
@@ -249,11 +249,11 @@
                 <bean parent="CM-ReviewProposal-GridGroup">
                     <property name="items">
                         <list>
-                            <bean parent="CM-ReadOnlyInput" p:label="Terms"
+                            <bean parent="CM-ReadOnlyInput" p:label="Terms" id="courseLogisticsSection_terms"
                                   p:propertyName="reviewProposalDisplay.courseLogisticsSection.termsAsString"/>
-                            <bean parent="CM-ReadOnlyInput" p:label="Duration"
+                            <bean parent="CM-ReadOnlyInput" p:label="Duration" id="courseLogisticsSection_atpDurationType"
                                   p:propertyName="reviewProposalDisplay.courseLogisticsSection.atpDurationType"/>
-                            <bean parent="CM-ReadOnlyInput" p:label="Assessment Scale"
+                            <bean parent="CM-ReadOnlyInput" p:label="Assessment Scale" id="courseLogisticsSection_gradingOptions"
                                 p:propertyName="reviewProposalDisplay.courseLogisticsSection.gradingOptionsAsString">
                                 <!-- Make required for state enroute -->
                                 <property name="simpleConstraint">
@@ -267,13 +267,13 @@
                                 </property>
                             </bean>
 
-                            <bean parent="CM-ReadOnlyInput" p:label="Audit"
+                            <bean parent="CM-ReadOnlyInput" p:label="Audit" id="courseLogisticsSection_audit"
                                   p:propertyName="reviewProposalDisplay.courseLogisticsSection.audit"/>
-                            <bean parent="CM-ReadOnlyInput" p:label="Pass Fail Transcript Grade"
+                            <bean parent="CM-ReadOnlyInput" p:label="Pass Fail Transcript Grade" id="courseLogisticsSection_passFail"
                                   p:propertyName="reviewProposalDisplay.courseLogisticsSection.passFail"/>
-                            <bean parent="CM-ReadOnlyInput" p:label="Final Exam Status"
+                            <bean parent="CM-ReadOnlyInput" p:label="Final Exam Status"  id="courseLogisticsSection_finalExamStatus"
                                   p:propertyName="reviewProposalDisplay.courseLogisticsSection.finalExamStatus"/>
-                            <bean parent="CM-ReadOnlyInput" p:label="Final Exam Rationale"
+                            <bean parent="CM-ReadOnlyInput" p:label="Final Exam Rationale"  id="courseLogisticsSection_finalExamStatusRationale"
                                   p:propertyName="reviewProposalDisplay.courseLogisticsSection.finalExamStatusRationale"/>
 
                             <!-- This bean gets rendered if the outComes collection has items. Otherwise, the one below does. -->
@@ -319,8 +319,8 @@
                                 </property>
                             </bean>
 
-                            <!-- This bean gets rendered if the formats collection has items. Otherwise, the one below does. -->
-                            <bean parent="Uif-VerticalFieldGroup" p:label="Course Formats" p:colSpan="3"
+                            <!-- This bean gets rendered if the formats collection has items. Otherwise, the one below does.
+                            <bean parent="Uif-VerticalFieldGroup" p:label="Course Formats" p:colSpan="3" p:fieldLabel.renderColon="false"
                                     p:render="@{!#emptyList(#dataObject.reviewProposalDisplay.courseLogisticsSection.formatInfoWrappers)}">
                                 <property name="items">
                                     <list>
@@ -365,8 +365,9 @@
                                     </list>
                                 </property>
                             </bean>
+                            -->
                             <!-- This bean gets rendered if the outComes collection is empty. Otherwise, the one above does. -->
-                            <bean parent="CM-ReadOnlyInput" p:label="Course Formats"
+                            <bean parent="CM-ReadOnlyInput" p:label="Course Formats" id="emptyStringFormats"
                                     p:propertyName="reviewProposalDisplay.emptyStringFormats"
                                     p:render="@{#emptyList(#dataObject.reviewProposalDisplay.courseLogisticsSection.formatInfoWrappers)}">
                                 <!-- Make required for state enroute  -->
@@ -405,7 +406,7 @@
                 <bean parent="CM-ReviewProposal-GridGroup">
                     <property name="items">
                         <list>
-                             <bean parent="CM-ReadOnlyInput" p:label="Terms"
+                             <bean parent="CM-ReadOnlyInput" p:label="Terms" id="learningObjectivesSection_learningObjectives"
                                   p:propertyName="reviewProposalDisplay.learningObjectivesSection.learningObjectivesAsString"/>
                         </list>
                     </property>
@@ -432,18 +433,18 @@
                 <bean parent="CM-ReviewProposal-GridGroup">
                     <property name="items">
                         <list>
-                            <bean parent="CM-ReadOnlyInput" p:label="Student Eligibility + Prerequisite"
-                                  p:propertyName="reviewProposalDisplay.courseRequisitesSection.dummyString"/>
-                            <bean parent="CM-ReadOnlyInput" p:label="Corequisite"
-                                  p:propertyName="reviewProposalDisplay.courseRequisitesSection.dummyString"/>
-                            <bean parent="CM-ReadOnlyInput" p:label="Recommended Preparation"
-                                  p:propertyName="reviewProposalDisplay.courseRequisitesSection.dummyString"/>
-                            <bean parent="CM-ReadOnlyInput" p:label="Antirequisite"
-                                  p:propertyName="reviewProposalDisplay.courseRequisitesSection.dummyString"/>
-                            <bean parent="CM-ReadOnlyInput" p:label="Course that Restricts Credits"
-                                  p:propertyName="reviewProposalDisplay.courseRequisitesSection.dummyString"/>
-                            <bean parent="CM-ReadOnlyInput" p:label="Repeatable for Credit"
-                                  p:propertyName="reviewProposalDisplay.courseRequisitesSection.dummyString"/>
+                            <bean parent="CM-ReadOnlyInput" p:label="Student Eligibility + Prerequisite"  id="courseLogisticsSection.terms_1"
+                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.termsAsString"/>
+                            <bean parent="CM-ReadOnlyInput" p:label="Corequisite"  id="courseLogisticsSection.terms_2"
+                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.termsAsString"/>
+                            <bean parent="CM-ReadOnlyInput" p:label="Recommended Preparation"  id="courseLogisticsSection.terms_3"
+                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.termsAsString"/>
+                            <bean parent="CM-ReadOnlyInput" p:label="Antirequisite" id="courseLogisticsSection.terms_4"
+                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.termsAsString"/>
+                            <bean parent="CM-ReadOnlyInput" p:label="Course that Restricts Credits" id="courseLogisticsSection.terms_5"
+                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.termsAsString"/>
+                            <bean parent="CM-ReadOnlyInput" p:label="Repeatable for Credit" id="courseLogisticsSection.terms_6"
+                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.termsAsString"/>
                         </list>
                     </property>
                 </bean>
@@ -469,11 +470,11 @@
                 <bean parent="CM-ReviewProposal-GridGroup">
                     <property name="items">
                         <list>
-                            <bean parent="CM-ReadOnlyInput" p:label="Start Term"
+                            <bean parent="CM-ReadOnlyInput" p:label="Start Term" id="activeDatesSection_startTerm"
                                   p:propertyName="reviewProposalDisplay.activeDatesSection.startTerm"/>
-                            <bean parent="CM-ReadOnlyInput" p:label="End Term"
+                            <bean parent="CM-ReadOnlyInput" p:label="End Term" id="activeDatesSection_endTerm"
                                   p:propertyName="reviewProposalDisplay.activeDatesSection.endTerm"/>
-                            <bean parent="CM-ReadOnlyInput" p:label="Pilot Course"
+                            <bean parent="CM-ReadOnlyInput" p:label="Pilot Course" id="activeDatesSection_pilotCourse"
                                   p:propertyName="reviewProposalDisplay.activeDatesSection.pilotCourse"/>
                         </list>
                     </property>
@@ -500,7 +501,7 @@
                 <bean parent="CM-ReviewProposal-GridGroup">
                     <property name="items">
                         <list>
-                            <bean parent="CM-ReadOnlyInput" p:label="Justification of Fees"
+                            <bean parent="CM-ReadOnlyInput" p:label="Justification of Fees" id="financialsSection_justificationOfFees"
                                   p:propertyName="reviewProposalDisplay.financialsSection.justificationOfFees"/>
                         </list>
                     </property>
@@ -527,7 +528,7 @@
                 <bean parent="CM-ReviewProposal-GridGroup">
                     <property name="items">
                         <list>
-                            <bean parent="CM-ReadOnlyInput" p:label="Authors and Collaborators"
+                            <bean parent="CM-ReadOnlyInput" p:label="Authors and Collaborators"  id="collaboratorSection_name"
                                   p:propertyName="reviewProposalDisplay.collaboratorSection.name"/>
                         </list>
                     </property>
@@ -554,7 +555,7 @@
                 <bean parent="CM-ReviewProposal-GridGroup">
                     <property name="items">
                         <list>
-                            <bean parent="CM-ReadOnlyInput" p:label="Supporting Documents"
+                            <bean parent="CM-ReadOnlyInput" p:label="Supporting Documents"  id="supportingDocumentsSection_supportingDoc"
                                   p:propertyName="reviewProposalDisplay.supportingDocumentsSection.supportingDoc"/>
                         </list>
                     </property>

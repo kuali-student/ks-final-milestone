@@ -29,6 +29,9 @@
         <property name="attributes">
             <list/>
         </property>
+        <property name="complexAttributes">
+            <list/>
+        </property>
         <property name="objectLabel" value="CourseInfo Wrapper"/>
         <property name="primaryKeys">
             <list>
