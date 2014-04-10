@@ -1580,7 +1580,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         List<ReferenceObjectBinding> refObjectsBindings = this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject(TypeServiceConstants.REF_OBJECT_URI_TYPE, termWrapperToValidate.getTypeInfo().getKey());
         if(refObjectsBindings.size() > 0){
             String finalExamSectionName="acal-term-examdates_line"+afterSortingIndex;
-
+            String termSectionName="term_section_line"+afterSortingIndex;
             SelectControl select = (SelectControl) ComponentFactory.getNewComponentInstance("KSFE-FinalExam-ExamDaysDropdown");
             int maxday = 0;
             for(KeyValue value : select.getOptions()){
@@ -1596,7 +1596,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
             }
            else
             {
-                GlobalVariables.getMessageMap().putWarningForSectionId(finalExamSectionName, CalendarConstants.MessageKeys.ERROR_NO_EXAM_PEROID_FOR_TERM_LINKED_MATRIX);
+                GlobalVariables.getMessageMap().putWarningForSectionId(termSectionName, CalendarConstants.MessageKeys.ERROR_NO_EXAM_PEROID_FOR_TERM_LINKED_MATRIX);
             }
         }
     }
