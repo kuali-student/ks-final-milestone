@@ -47,7 +47,6 @@ import java.util.Properties;
 public class CreateCourseInitialController extends UifControllerBase {
 
     private final String RETURN_LOCATION_PARAMETER = "cmHome?" + KRADConstants.DISPATCH_REQUEST_PARAMETER + "=" + KRADConstants.START_METHOD + "&" + UifConstants.UrlParams.VIEW_ID + "=curriculumHomeView";
-    private final String PAGE_ID = "KS-CourseView-CoursePage";
 
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest httpServletRequest) {
@@ -73,7 +72,7 @@ public class CreateCourseInitialController extends UifControllerBase {
             // if user is a CS user, check the checkbox value
             urlParameters.put(CourseController.URL_PARAM_USE_CURRICULUM_REVIEW,Boolean.toString(((CourseInitialForm) form).isUseReviewProcess()));
         }
-        urlParameters.put(UifConstants.UrlParams.PAGE_ID, PAGE_ID);
+        urlParameters.put(UifConstants.UrlParams.PAGE_ID, CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE);
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.DOC_HANDLER_METHOD);
         urlParameters.put(KRADConstants.PARAMETER_COMMAND, KewApiConstants.INITIATE_COMMAND);
         urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, CourseInfoWrapper.class.getName());

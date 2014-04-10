@@ -18,8 +18,6 @@
 package org.kuali.student.cm.common.util;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kew.api.KewApiConstants;
-import org.kuali.student.r2.lum.course.infc.Course;
 
 /**
  * This class defines constants used in the Curriculum Management UI
@@ -48,6 +46,14 @@ public class CurriculumManagementConstants {
             public final static String MAJOR_DISCIPLINE_CREATE = "kuali.proposal.type.majorDiscipline.create";
             public final static String MAJOR_DISCIPLINE_MODIFY = "kuali.proposal.type.majorDiscipline.modify";
         }
+    }
+
+    /**
+     * The bean ids of the pages within the view.
+     */
+    public static class CourseViewPageIds {
+        public final static String REVIEW_PROPOSAL = "KS-CourseView-ReviewProposalPage";
+        public final static String CREATE_COURSE = "KS-CourseView-CoursePage";
     }
 
     /**
@@ -101,6 +107,7 @@ public class CurriculumManagementConstants {
 
         public final static String ERROR_COURSE_TITLE_REQUIRED = "error.course.title.required";
         public final static String ERROR_PROPOSAL_TITLE_REQUIRED = "error.proposal.title.required";
+        public final static String ERROR_COURSE_DURATION_COUNT_REQUIRED = "error.course.duration.count.required";
 
         public final static String UNABLE_TO_ADD_LINE = "unable.to.add.line";
         public final static String UNABLE_TO_DELETE_LINE = "unable.to.delete.line";
@@ -126,4 +133,9 @@ public class CurriculumManagementConstants {
     public final static String KUALI_LO_REPOSITORY_KEY_SINGLE_USE = "kuali.loRepository.key.singleUse";
 
     public final static String KS_LO_CAT_TABLE = "KS-LoCatTable";
+
+    /**
+     * This delimiter to use when rendering collections as a String.
+     */
+    public static String COLLECTION_ITEMS_DELIMITER = "; ";
 }

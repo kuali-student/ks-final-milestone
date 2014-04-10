@@ -87,6 +87,13 @@
         </property>
     </bean>
 
+    <bean id="CourseInfo.startTerm-override" parent="DataDictionaryBeanOverride">
+        <property name="beanName" value="CourseInfo.startTerm" />
+        <property name="fieldOverrides">
+            <bean parent="DDValueReplacer-Enroute" />
+        </property>
+    </bean>
+
 
     <!--
         Per property overrides for workflow doc state P (Processed).
