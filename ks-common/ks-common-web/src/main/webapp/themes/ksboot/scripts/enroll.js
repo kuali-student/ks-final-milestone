@@ -937,6 +937,7 @@ function handleEventforDisabledElements() {
 
 var inlineTableInitialFields = {};
 var prefix = 'inline_field_index_';
+var responseData;
 
 function toggleInlineRow(event, saveInitialValues){
     var row = jQuery(event.target).closest('tr');
@@ -1062,6 +1063,7 @@ function saveInlineRSI(event, baseUrl){
         type:"POST",
         data:formData,
         success:function (data, textStatus, jqXHR) {
+            responseData = data;
             updateInlineTableRow(event,baseUrl, data);
         },
         error: function (jqXHR, status, error) {
@@ -1106,7 +1108,7 @@ function updateInlineTableRow(event, baseUrl, data) {
                 var modelKey = getModelAttributeValue(id);
                 var readonlyId = id.split("_id")[0];
                 var span = jQuery(this).find('span.uif-readOnlyContent');
-                var value = eval("data." + modelKey + "['" + readonlyId + "']");
+                var value = eval("responseData." + modelKey + "['" + readonlyId + "']");
                 jQuery(span).text(value);
                 if(jQuery('#' + id).parent().find('[name]').is(':checkbox')){
 //                    setInlineEditCheckboxReadonlyValue(jQuery('#' + id).parent().attr('id'));
