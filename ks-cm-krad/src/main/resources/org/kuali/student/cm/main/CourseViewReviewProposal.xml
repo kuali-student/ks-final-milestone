@@ -336,14 +336,13 @@
                                             <property name="renderAddLine" value="false"/>
                                             <property name="subCollections">
                                                 <list>
-                                                    <bean id="course_review_format_details" parent="Uif-StackedSubCollection-WithinSection"
+                                                    <bean id="course_review_activity_details" parent="Uif-StackedSubCollection-WithinSection"
                                                           p:collectionObjectClass="org.kuali.student.cm.course.form.ActivityInfoWrapper"
-                                                          p:propertyName="activities" p:colSpan="3" p:align="left">
-                                                        <property
-                                                                name="layoutManager.lineGroupPrototype.header.headerText"
+                                                          p:propertyName="activities" p:colSpan="3" p:align="left" p:layoutManager.style="padding-left:0px;">
+                                                        <property name="layoutManager.lineGroupPrototype.header.headerText"
                                                                 value="Activity @{(#index + 1)} (@{#line.activityType}) "/>
                                                         <property name="layoutManager.lineGroupPrototype.header.style"
-                                                                  value="border-bottom : 0.5px dotted black;"/>
+                                                                  value="border-bottom : 1px dotted black;"/>
                                                         <property name="renderLineActions" value="false"/>
                                                         <property name="renderAddLine" value="false"/>
                                                         <property name="items">
