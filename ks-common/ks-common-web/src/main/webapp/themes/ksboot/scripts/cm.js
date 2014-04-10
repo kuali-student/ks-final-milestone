@@ -348,6 +348,7 @@ function showLightbox(componentId, url) {
             if (href.indexOf('rice-portal/css/portal.css') > -1) {
                 link.remove();
                 isPortal = true;
+                return false;   // exit .each() loop early
             }
         }
     );
