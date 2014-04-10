@@ -423,7 +423,9 @@ public class ExamOfferingScheduleHelperImpl implements ExamOfferingScheduleHelpe
         }
 
         //validate start/end time
-        success = validateTime(requestedSchedule, examOfferingPath);
+        if (!validateTime(requestedSchedule, examOfferingPath)) {
+            success = false;
+        }
 
         // if a room or a building were entered, ensure the building and room code are valid
         try {
@@ -499,7 +501,9 @@ public class ExamOfferingScheduleHelperImpl implements ExamOfferingScheduleHelpe
         }
 
         //validate start/end time
-        success = validateTime(requestedSchedule, examOfferingPath);
+        if (!validateTime(requestedSchedule, examOfferingPath)) {
+            success = false;
+        }
 
         // if a room or a building were entered, ensure the building and room code are valid
         try {
@@ -631,9 +635,10 @@ public class ExamOfferingScheduleHelperImpl implements ExamOfferingScheduleHelpe
      *
      * @return ScheduleRequestSetInfo
      */
-    public boolean validateTime (ScheduleWrapper requestedSchedule, String examOfferingPath) {
+    private boolean validateTime (ScheduleWrapper requestedSchedule, String examOfferingPath) {
         DateTime startTime = null;
         DateTime endTime = null;
+        boolean success = true;
 
         KSDateTimeFormatter timeFormatter = new KSDateTimeFormatter("hh:mm aa");
 
@@ -642,11 +647,11 @@ public class ExamOfferingScheduleHelperImpl implements ExamOfferingScheduleHelpe
                 startTime = timeFormatter.getFormatter().parseDateTime(requestedSchedule.getStartTime());
             } catch (Exception e) {
                 GlobalVariables.getMessageMap().putError(examOfferingPath + ".requestedSchedule.startTime", ExamOfferingConstants.EXAM_OFFERING_MSG_ERROR_SCHEDULING_INVALID_START_TIME);
-                return false;
+                success = false;
             }
         } else {
             GlobalVariables.getMessageMap().putError(examOfferingPath + ".requestedSchedule.startTime", ExamOfferingConstants.EXAM_OFFERING_MSG_ERROR_SCHEDULING_REQUIRED_FIELD_EMPTY);
-            return false;
+            success = false;
         }
 
         if (StringUtils.isNotBlank(requestedSchedule.getEndTime())) {
@@ -654,18 +659,18 @@ public class ExamOfferingScheduleHelperImpl implements ExamOfferingScheduleHelpe
                 endTime = timeFormatter.getFormatter().parseDateTime(requestedSchedule.getEndTime());
             } catch (Exception e) {
                 GlobalVariables.getMessageMap().putError(examOfferingPath + ".requestedSchedule.endTime", ExamOfferingConstants.EXAM_OFFERING_MSG_ERROR_SCHEDULING_INVALID_END_TIME);
-                return false;
+                success = false;
             }
         } else {
             GlobalVariables.getMessageMap().putError(examOfferingPath + ".requestedSchedule.endTime", ExamOfferingConstants.EXAM_OFFERING_MSG_ERROR_SCHEDULING_REQUIRED_FIELD_EMPTY);
-            return false;
+            success = false;
         }
 
         if (DateTimeComparator.getInstance().compare(startTime, endTime) > 0 ) {
             GlobalVariables.getMessageMap().putError(examOfferingPath + ".requestedSchedule.startTime", ExamOfferingConstants.EXAM_OFFERING_MSG_ERROR_SCHEDULING_INVALID_START_END_TIME);
-            return false;
+            success = false;
         }
 
-        return true;
+        return success;
     }
 }
