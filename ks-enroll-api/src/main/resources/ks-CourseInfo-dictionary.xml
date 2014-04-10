@@ -324,6 +324,16 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<bean id="CourseInfo.startTerm" parent="CourseInfo.startTerm-parent"/>
 	<bean id="CourseInfo.startTerm-parent" abstract="true" parent="CourseInfo.startTerm-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
+        <!-- There is a lookup constraint on the ATP in the old DD -->
+        <property name="simpleConstraint">
+            <bean parent="RequiredConstraint">
+                <property name="states">
+                    <list>
+                        <value>ACTIVE</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
 	</bean>
 
 	<bean id="CourseInfo.endTerm" parent="CourseInfo.endTerm-parent"/>

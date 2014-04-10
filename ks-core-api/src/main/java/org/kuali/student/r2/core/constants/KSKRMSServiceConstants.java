@@ -276,6 +276,7 @@ public class KSKRMSServiceConstants {
     public static final String KRMS_NL_TYPE_DESCRIPTION = "kuali.krms.type.description";
     public static final String KRMS_NL_TYPE_CATALOG = "kuali.krms.catalog";
     public static final String KRMS_NL_TYPE_INSTRUCTION = "kuali.krms.type.instruction";
+    public static final String KRMS_NL_MATRIX = "kuali.krms.matrix";
 
     // term prerequisite
     public static final String TERM_PREREQUISITE_CONTEXTINFO = "kuali.term.prerequisite.contextInfo";

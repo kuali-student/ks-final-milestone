@@ -35,9 +35,9 @@ import java.util.List;
  * It designed to allow the student to:
  * <p/>
  * <ul>
- * <li>Search for courses [requirements, certifications, etc.] by subject course code, keyword, and to selective narrow
- *      a search result by a plethora of categories (e.g. subj code, course # level, gen-end rqmts,....</li>
- * <li>Select courses and add them to a "bookmark" list</li>
+ * <li>Search for courses [...or, requirements, certifications, etc.] by subject course code, keyword, and to selective
+ *      narrow a search result by a plethora of categories (e.g. subj code, course # level, gen-end rqmts,....)</li>
+ * <li>Select courses and add to their plan, or to a "bookmark" list</li>
  * <li>Adopt a learning template plan</li>
  * <li>View of courses already taken and credits/grade recieved for each, directly within their plan</li>
  * <li>Share a plan (...or part thereof) with an Advisor for review/comment/recommendation</li>
