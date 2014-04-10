@@ -49,7 +49,6 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.jms.JMSException;
 import javax.security.auth.login.LoginException;
@@ -927,6 +926,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
             resultItem.setState(lprTransactionItemInfo.getStateKey());
             resultItem.setStatus(lprTransactionItemInfo.getStateKey()); // we should be useing the result state, but that is currently a boolean and not useful
             resultItem.setNewLuiId(lprTransactionItemInfo.getLuiId());
+            resultItem.setType(lprTransactionItemInfo.getTypeKey());
 
             if (lprTransactionItemResultInfo != null) {
                 //resultItem.setStatus(lprTransactionItemResultInfo.getStatus()); // the status is currently boolean. not usable. use state for now
@@ -934,7 +934,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                 if (lprTransactionItemResultInfo.getMessage() != null) {
                     if (StringUtils.equals(lprTransactionItemResultInfo.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_MESSAGE_KEY)) {
                         resultItem.setMessage(CourseRegistrationClientServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_MESSAGE);
-                        resultItem.setState(LprServiceConstants.LPRTRANS_ITEM_WAITLIST_STATE_KEY);
+                        resultItem.setState("kuali.lpr.trans.item.state.waitlistActionAvailable");
                     } else if (StringUtils.equals(lprTransactionItemResultInfo.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_STUDENT_REMOVED_MESSAGE_KEY)) {
                         resultItem.setMessage(CourseRegistrationClientServiceConstants.LPRTRANS_ITEM_WAITLIST_STUDENT_REMOVED_MESSAGE);
                     } else if (StringUtils.equals(lprTransactionItemResultInfo.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_OPTIONS_UPDATED_MESSAGE_KEY)) {

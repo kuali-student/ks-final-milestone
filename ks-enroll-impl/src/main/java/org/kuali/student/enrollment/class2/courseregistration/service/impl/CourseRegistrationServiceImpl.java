@@ -7,6 +7,7 @@ import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
+import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseItemInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
@@ -59,25 +60,34 @@ public class CourseRegistrationServiceImpl extends AbstractCourseRegistrationSer
     public RegistrationResponseInfo submitRegistrationRequest(String registrationRequestId, ContextInfo contextInfo)
             throws AlreadyExistsException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // If registration request ID refers to a reg cart, then
-        RegistrationResponseInfo result = submitRegistrationCart(registrationRequestId, contextInfo);
-        if (result != null) { // If it's null, then it's a normal submit request
-            return result;
+
+
+        RegistrationRequestInfo regRequestInfo =
+                getRegistrationRequest(registrationRequestId, contextInfo);
+
+        String regReqId = regRequestInfo.getId();
+
+        if (LprServiceConstants.LPRTRANS_REG_CART_TYPE_KEY.equals(regRequestInfo.getTypeKey())) {
+            regReqId = convertRegCartToRegRequest(regRequestInfo, contextInfo);
         }
 
-        // Back to the main code if reg request is not a cart
         try {
             MapMessage mapMessage = new ActiveMQMapMessage();
             mapMessage.setString(CourseRegistrationConstants.REGISTRATION_QUEUE_MESSAGE_USER_ID, contextInfo.getPrincipalId());
-            mapMessage.setString(CourseRegistrationConstants.REGISTRATION_QUEUE_MESSAGE_REG_REQ_ID, registrationRequestId);
+            mapMessage.setString(CourseRegistrationConstants.REGISTRATION_QUEUE_MESSAGE_REG_REQ_ID, regReqId);
             jmsTemplate.convertAndSend(CourseRegistrationConstants.REGISTRATION_INITILIZATION_QUEUE, mapMessage);
         } catch (JMSException jmsEx) {
             throw new RuntimeException("Error submitting registration request.", jmsEx);
         }
 
         RegistrationResponseInfo regResp = new RegistrationResponseInfo();
-        regResp.setRegistrationRequestId(registrationRequestId);
+        regResp.setRegistrationRequestId(regReqId);
         regResp.getMessages().add("Request Submitted");
+        for(RegistrationRequestItemInfo reqItem : regRequestInfo.getRegistrationRequestItems()){
+            RegistrationResponseItemInfo respItem = new RegistrationResponseItemInfo();
+            respItem.setRegistrationRequestItemId(reqItem.getId());
+            regResp.getRegistrationResponseItems().add(respItem);
+        }
 
         return regResp;
     }
@@ -88,16 +98,11 @@ public class CourseRegistrationServiceImpl extends AbstractCourseRegistrationSer
      *                           object (with type
      * @param contextInfo The context info
      */
-    private RegistrationResponseInfo submitRegistrationCart(String registrationCartId, ContextInfo contextInfo)
+    private String convertRegCartToRegRequest(RegistrationRequestInfo cartInfo, ContextInfo contextInfo)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException, AlreadyExistsException {
 
         try {
-            RegistrationRequestInfo cartInfo =
-                    getRegistrationRequest(registrationCartId, contextInfo);
-            if (!LprServiceConstants.LPRTRANS_REG_CART_TYPE_KEY.equals(cartInfo.getTypeKey())) {
-                return null; // This bails out back to the original method if the type is something else
-            }
             // Create a copy of the registration request
             RegistrationRequestInfo copy = new RegistrationRequestInfo(cartInfo);
             // Change the type to standard
@@ -118,8 +123,8 @@ public class CourseRegistrationServiceImpl extends AbstractCourseRegistrationSer
             RegistrationRequestInfo updated =
                     createRegistrationRequest(copy.getTypeKey(), copy, contextInfo);
 
-            // Submit the copy
-            return submitRegistrationRequest(updated.getId(), contextInfo);
+            // return the copy id
+            return updated.getId();
         } catch (ReadOnlyException ex) {
             throw new OperationFailedException("Exception: " + ex.getMessage(), ex);
         } catch (DataValidationErrorException ex) {

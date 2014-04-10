@@ -12,10 +12,11 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RegistrationResponseItemResult", propOrder = {
         "registrationRequestId", "registrationRequestItemId","state", "status",
-        "resultingLprId","message", "newLuiId"})
+        "resultingLprId","message", "newLuiId", "type"})
 public class RegistrationResponseItemResult {
     String state;  // current state of the lprTransaction
     String status; // human readable message, typically based on the state
+    String type; // we might need this information
     String registrationRequestId;
     String registrationRequestItemId;
 
@@ -81,5 +82,13 @@ public class RegistrationResponseItemResult {
 
     public void setNewLuiId(String newLuiId) {
         this.newLuiId = newLuiId;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

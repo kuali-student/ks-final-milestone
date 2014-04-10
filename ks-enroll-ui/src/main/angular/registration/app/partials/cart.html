@@ -105,7 +105,7 @@
     <div ng-repeat="cartResultItem in cartResults.items" is-open="isopen" class="panel cart-item-status-{{cartResultItem.status}}">
         <div class="kscr-cartResult-icon">&nbsp;</div>
         <!-- Displays block with course info if course is not waitlisted -->
-        <div class="kscr-cartResult-heading" ng-if="!cartResultItem.waitlistedStatus">
+        <div class="kscr-cartResult-heading" ng-if="cartResultItem.status != 'waitlist'">
             <!--Course Header Section-->
             <div class="ng-scope">
                 <span class="kscr-Card-title-alert kscr-Card-alert--{{cartResultItem.status}}" id="course_code_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}">{{cartResultItem.courseCode}} ({{cartResultItem.regGroupCode}}) {{getStatusMessageFromStatus(cartResultItem.status)}}</span>
@@ -117,14 +117,14 @@
                     <span><strong>Reason:</strong></span><span class="kscr-Card-reason-message" ng-bind-html="cartResultItem.statusMessage"></span>
                 </span>
             </div>
-            <div class="kscr-Card-button" ng-if="cartResultItem.statusMessage && (cartResultItem.status == 'waitlist')">
+            <div class="kscr-Card-button" ng-if="cartResultItem.statusMessage && (cartResultItem.status == 'action')">
                 <span>
                     <button class="kscr-Button" id="waitlist_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}" ng-click="addCartItemToWaitlist(cartResultItem)">Add to Waitlist</button>
                 </span>
             </div>
         </div>
         <!-- Displays block with course info if course is waitlisted (even though it technically "failed" we display it as "success" that it was added to waitlist) -->
-        <div class="kscr-cartResult-heading" ng-if="cartResultItem.waitlistedStatus">
+        <div class="kscr-cartResult-heading" ng-if="cartResultItem.status == 'waitlist'">
             <div class="ng-scope">
                 <span class="kscr-Card-title-alert kscr-Card-alert--{{cartResultItem.status}}" id="waitlisted_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}">Added to Waitlist</span>
             </div>

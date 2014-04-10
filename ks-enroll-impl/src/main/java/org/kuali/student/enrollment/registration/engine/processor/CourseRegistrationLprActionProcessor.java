@@ -123,7 +123,7 @@ public class CourseRegistrationLprActionProcessor {
         String masterLprId = registeredLprs.get(0).getMasterLprId();
         courseRegistrationEngineService.updateLprTransactionItemResult(requestItemEngineMessage.getRequestItem().getRegistrationRequestId(),
                 requestItemEngineMessage.getRequestItem().getId(),
-                LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY,
+                LprServiceConstants.LPRTRANS_ITEM_WAITLIST_STATE_KEY,
                 masterLprId,
                 LprServiceConstants.LPRTRANS_ITEM_WAITLIST_WAITLISTED_MESSAGE_KEY,
                 true,
