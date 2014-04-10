@@ -23,10 +23,10 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.maintenance.Maintainable;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.uif.UifConstants;
-import org.kuali.rice.krad.uif.container.CollectionGroup;
+import org.kuali.rice.krad.uif.component.BindingInfo;
 import org.kuali.rice.krad.uif.control.SelectControl;
 import org.kuali.rice.krad.uif.field.InputField;
-import org.kuali.rice.krad.uif.view.View;
+import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.common.uif.service.impl.KSMaintainableImpl;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper;
@@ -96,7 +96,7 @@ public abstract class CourseOfferingMaintainableImpl extends KSMaintainableImpl 
     }
 
     @Override
-    public void processCollectionAddBlankLine(View view, Object model, String collectionPath) {
+    public void processCollectionAddBlankLine(ViewModel model, String collectionId, String collectionPath) {
 
         if (StringUtils.endsWith(collectionPath,"formatOfferingList")){
             MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) model;
@@ -116,12 +116,16 @@ public abstract class CourseOfferingMaintainableImpl extends KSMaintainableImpl 
             }
         }
 
-        super.processCollectionAddBlankLine(view,model,collectionPath);
+        super.processCollectionAddBlankLine(model, collectionId, collectionPath);
     }
 
     @Override
-    protected void processAfterDeleteLine(View view, CollectionGroup collectionGroup, Object model, int lineIndex) {
-        if (StringUtils.equals(collectionGroup.getPropertyName(),"formatOfferingList")){
+    public void processAfterDeleteLine(ViewModel model, String collectionId, String collectionPath, int lineIndex) {
+
+        BindingInfo bindingInfo = (BindingInfo) model.getViewPostMetadata().getComponentPostData(collectionId,
+                UifConstants.PostMetadata.BINDING_INFO);
+
+        if (StringUtils.equals(bindingInfo.getBindingName(),"formatOfferingList")){
             MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) model;
             MaintenanceDocument document = maintenanceForm.getDocument();
 

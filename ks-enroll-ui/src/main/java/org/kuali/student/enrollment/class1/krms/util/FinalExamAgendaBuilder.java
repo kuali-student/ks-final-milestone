@@ -20,10 +20,9 @@ import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.container.Group;
 import org.kuali.rice.krad.uif.element.Action;
+import org.kuali.rice.krad.uif.lifecycle.ViewLifecycleUtils;
 import org.kuali.rice.krad.uif.util.ComponentUtils;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krms.dto.AgendaEditor;
-import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.util.AgendaBuilder;
 import org.kuali.rice.krms.util.AgendaSection;
 
@@ -49,13 +48,13 @@ public class FinalExamAgendaBuilder extends AgendaBuilder {
         group.setHeaderText(agenda.getAgendaTypeInfo().getDescription());
 
         String bindingPrefix = "agendas[" + index + "]";
-        List<CollectionGroup> components = ComponentUtils.getComponentsOfTypeDeep(group, CollectionGroup.class);
+        List<CollectionGroup> components = ViewLifecycleUtils.getElementsOfTypeDeep(group, CollectionGroup.class);
         for (CollectionGroup fieldCollectionGroup : components) {
             ComponentUtils.prefixBindingPath(fieldCollectionGroup, bindingPrefix);
             fieldCollectionGroup.setSubCollectionSuffix(agendaSuffix);
         }
 
-        List<Action> actionLinks = ComponentUtils.getComponentsOfTypeDeep(group, Action.class);
+        List<Action> actionLinks = ViewLifecycleUtils.getElementsOfTypeDeep(group, Action.class);
         for (Action actionLink : actionLinks) {
             actionLink.getActionParameters().put(UifParameters.SELECTED_LINE_INDEX, "" + index);
         }

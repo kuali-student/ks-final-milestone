@@ -248,10 +248,6 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
             urlParameters.put(ActivityOfferingConstants.ACTIVITY_OFFERING_WRAPPER_ID, loadNewAO);
             urlParameters.put(ActivityOfferingConstants.ACTIVITYOFFERING_COURSE_OFFERING_ID, activityOfferingWrapper.getAoInfo().getCourseOfferingId());
             urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, ActivityOfferingWrapper.class.getName());
-            // UrlParams.SHOW_HISTORY and SHOW_HOME no longer exist
-            // https://fisheye.kuali.org/changelog/rice?cs=39034
-            // TODO KSENROLL-8469
-            //urlParameters.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
             urlParameters.put(EnrollConstants.GROWL_MESSAGE, ActivityOfferingConstants.MSG_INFO_AO_MODIFIED);
             urlParameters.put("returnLocation", url);
 
@@ -299,10 +295,6 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
             urlParameters.put(ActivityOfferingConstants.ACTIVITY_OFFERING_WRAPPER_ID, loadNewAO);
             urlParameters.put(ActivityOfferingConstants.ACTIVITYOFFERING_COURSE_OFFERING_ID, activityOfferingWrapper.getAoInfo().getCourseOfferingId());
             urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, ActivityOfferingWrapper.class.getName());
-            // UrlParams.SHOW_HISTORY and SHOW_HOME no longer exist
-            // https://fisheye.kuali.org/changelog/rice?cs=39034
-            // TODO KSENROLL-8469
-            //urlParameters.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
             urlParameters.put("returnLocation", url);
 
             GlobalVariables.getUifFormManager().removeSessionForm(form);
@@ -336,7 +328,7 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
     }
 
     private Object getSelectedObject(MaintenanceDocumentForm form){
-        String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
             throw new RuntimeException("Selected collection was not set");
         }

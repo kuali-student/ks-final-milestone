@@ -42,9 +42,9 @@
     <bean id="Batch-DateTime-Section" parent="Uif-HorizontalBoxSubSection">
         <property name="items">
             <list>
-                <bean id="startDate" parent="KS-Uif-InputField" p:propertyName="startDate"
-                      p:label="Start Date" p:labelPlacement="TOP"
-                      p:required="true">
+                <bean id="startDate" parent="KS-Uif-InputField-LabelTop" p:propertyName="startDate"
+                      p:label="Start Date" p:required="true">
+                    <!-- Rice 2.4 upgrade : removing p:labelPlacement="TOP" -->
                     <property name="control">
                         <bean parent="KS-Uif-Default-DateControl"/>
                     </property>

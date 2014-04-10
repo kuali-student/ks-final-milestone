@@ -55,7 +55,7 @@
                                         <bean parent="Uif-HorizontalBoxSubSection" p:colSpan="1">
                                             <property name="items">
                                                 <list>
-                                                    <bean parent="Uif-HorizontalFieldGroup" p:required="true" p:label="Source Term and CO Code" p:labelPlacement="TOP">
+                                                    <bean parent="Uif-HorizontalFieldGroup" p:required="true" p:label="Source Term and CO Code">
                                                         <property name="items">
                                                             <list>
                                                                 <bean parent="KS-Uif-InputField" p:propertyName="sourceTermCode" p:required="true">
@@ -107,7 +107,7 @@
                                         <bean parent="Uif-HorizontalBoxSubSection" p:colSpan="1">
                                             <property name="items">
                                                 <list>
-                                                    <bean parent="Uif-HorizontalFieldGroup" p:required="true" p:label="Target Term" p:labelPlacement="TOP">
+                                                    <bean parent="Uif-HorizontalFieldGroup" p:required="true" p:label="Target Term">
                                                         <property name="items">
                                                             <list>
                                                                 <bean parent="KS-Uif-InputField" p:propertyName="targetTermCode"

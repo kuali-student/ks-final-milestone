@@ -19,8 +19,8 @@ package org.kuali.student.enrollment.class2.appointment.service.impl;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.krad.lookup.LookupForm;
 import org.kuali.rice.krad.lookup.LookupableImpl;
-import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.enrollment.class2.appointment.dto.StudentGroupWrapper;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -45,7 +45,7 @@ public class StudentGroupWrapperLookupableImpl extends LookupableImpl {
     private transient PopulationService populationService;
     private static final long serialVersionUID = 1L;
     @Override
-    protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
+    public List<?> performSearch(LookupForm lookupForm, Map<String, String> searchCriteria, boolean bounded) {
         List<StudentGroupWrapper> results = new ArrayList<StudentGroupWrapper>();
         ContextInfo context = new ContextInfo();
 
@@ -54,7 +54,7 @@ public class StudentGroupWrapperLookupableImpl extends LookupableImpl {
         qBuilder.setPredicates();
         // create predicates for search parameters
         //Code Changed for JIRA-8997 - SONAR Critical issues - Performance - Inefficient use of keySet iterator instead of entrySet iterator
-        for(Map.Entry<String,String> entry:fieldValues.entrySet()){
+        for(Map.Entry<String,String> entry:searchCriteria.entrySet()){
             Predicate words = like(entry.getKey(),entry.getValue());
             pList.add(words);
         }

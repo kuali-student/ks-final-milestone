@@ -21,8 +21,7 @@
 
 	<!-- This is an override to default the kimIdentityDelegateService to fix encrypted passwords in rice db -->
 	<bean id="kimIdentityDelegateService" class="org.kuali.student.lum.kim.StudentIdentityServiceImpl"
-          p:businessObjectService-ref="rice.kim.import.businessObjectService"
-          p:criteriaLookupService-ref="rice.kim.import.criteriaLookupService" />
+          p:dataObjectService-ref="dataObjectService"/>
 
     <!-- OrgAdmin Derived role (AdministrativeOfficer of this org) -->
     <bean id="ksOrgAdminRoleTypeService"

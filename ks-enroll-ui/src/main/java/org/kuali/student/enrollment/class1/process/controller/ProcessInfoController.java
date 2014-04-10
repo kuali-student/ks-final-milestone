@@ -76,13 +76,13 @@ public class ProcessInfoController extends UifControllerBase {
 
     @Override
     @RequestMapping(method = RequestMethod.GET, params = "methodToCall=start")
-    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form,
                               HttpServletRequest request, HttpServletResponse response) {
         ProcessInfoForm processInfoForm = (ProcessInfoForm)form;
         processInfoForm.setIsSaveSuccess(false);
         processInfoForm.setIsInstructionActive(false);
 
-        return super.start(form, result, request, response);
+        return super.start(form, request, response);
     }
 
     @RequestMapping(params = "methodToCall=save")
@@ -119,11 +119,8 @@ public class ProcessInfoController extends UifControllerBase {
             return getUIFModelAndView(form);
         }
 
-        if (form.getView() != null){
-            form.getView().setApplyDirtyCheck(false);
-        } else if (form.getPostedView() != null){
-            form.getView().setApplyDirtyCheck(false);
-        }
+        form.getView().setApplyDirtyCheck(false);
+
         GlobalVariables.getMessageMap().putInfo("Process", "info.enroll.save.success");
         form.setIsSaveSuccess(true);
 
@@ -157,8 +154,7 @@ public class ProcessInfoController extends UifControllerBase {
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=search")
-    public ModelAndView search(@ModelAttribute("KualiForm") ProcessInfoForm form, BindingResult result,
-                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView search(@ModelAttribute("KualiForm") ProcessInfoForm form) throws Exception {
         List<ProcessInfo> results = new ArrayList<ProcessInfo>();
         String name = form.getName();
         String type = form.getTypeKey();
@@ -186,23 +182,20 @@ public class ProcessInfoController extends UifControllerBase {
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=clear")
-    public ModelAndView clear(@ModelAttribute("KualiForm") ProcessInfoForm form, BindingResult result,
-                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView clear(@ModelAttribute("KualiForm") ProcessInfoForm form) throws Exception {
         clearValues(form);
         return getUIFModelAndView(form);
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=back")
-    public ModelAndView back(@ModelAttribute("KualiForm") ProcessInfoForm form, BindingResult result,
-                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView back(@ModelAttribute("KualiForm") ProcessInfoForm form) throws Exception {
         clearValues(form);
         resetForm(form);
         return getUIFModelAndView(form, "processInfoSearch-SearchPage");
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=edit")
-    public ModelAndView edit(@ModelAttribute("KualiForm") ProcessInfoForm form, BindingResult result,
-                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView edit(@ModelAttribute("KualiForm") ProcessInfoForm form) throws Exception {
         ProcessInfo processInfo = getSelectedProcessInfo(form, "edit");
         form.setIsSaveSuccess(false);
 
@@ -281,7 +274,7 @@ public class ProcessInfoController extends UifControllerBase {
     }
 
     private ProcessInfo getSelectedProcessInfo(ProcessInfoForm form, String actionLink){
-        String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
             throw new RuntimeException("Selected collection was not set for " + actionLink);
         }

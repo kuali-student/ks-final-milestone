@@ -41,7 +41,7 @@
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean parent="KS-Uif-InputField" p:propertyName="termCode" p:id="term_code" p:label="Term" p:labelPlacement="TOP"
+                            <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="termCode" p:id="term_code" p:label="Term"
                                   p:fieldLabel.renderColon="false" p:required="true" p:onChangeScript="toggleShowButton();">
                                 <property name="control">
                                     <bean parent="KS-Uif-DropdownControl"/>
@@ -50,7 +50,7 @@
                                     <bean class="org.kuali.student.enrollment.class2.scheduleofclasses.keyvalue.ScheduleOfClassesTermKeyValues"/>
                                 </property>
                             </bean>
-                            <bean parent="KS-Uif-InputField" p:propertyName="searchType" p:id="searchType" p:label="Type of Search" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:required="true" p:onChangeScript="toggleShowButton();">
+                            <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="searchType" p:id="searchType" p:label="Type of Search" p:fieldLabel.renderColon="false" p:required="true" p:onChangeScript="toggleShowButton();">
                                 <property name="control">
                                     <bean parent="KS-Uif-DropdownControl"/>
                                 </property>
@@ -71,12 +71,12 @@
                                                 <entry key="code" value="course"/>
                                             </map>
                                         </property>
-                                        <property name="readOnlySearchFields" value="courseInfo.courseTitle" />
+                                        <property name="readOnlyLookupFields" value="courseInfo.courseTitle" />
                                         <property name="quickfinderAction">
                                             <bean parent="KS-Uif-ActionLink" p:methodToCall="performLookup" p:id="lookup_searchCourseCode" p:actionLabel="Find a Course" />
                                         </property>
-                                        <property name="lightBoxLookup">
-                                            <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
+                                        <property name="lightBox">
+                                            <bean parent="Uif-LightBox" p:lookupReturnByScript="false"/>
                                         </property>
                                     </bean>
                                 </property>
@@ -97,8 +97,8 @@
                                         <property name="quickfinderAction">
                                             <bean parent="KS-Uif-ActionLink" p:methodToCall="performLookup" p:id="lookup_searchDepartment" p:actionLabel="Find a Department" />
                                         </property>
-                                        <property name="lightBoxLookup">
-                                            <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
+                                        <property name="lightBox">
+                                            <bean parent="Uif-LightBox" p:lookupReturnByScript="false"/>
                                         </property>
                                     </bean>
                                 </property>
@@ -120,8 +120,8 @@
                                         <property name="quickfinderAction">
                                             <bean parent="KS-Uif-ActionLink" p:methodToCall="performLookup" p:id="lookup_searchInstructor" p:actionLabel="Find an Instructor" />
                                         </property>
-                                        <property name="lightBoxLookup">
-                                            <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="true"/>
+                                        <property name="lightBox">
+                                            <bean parent="Uif-LightBox" p:lookupReturnByScript="true"/>
                                         </property>
                                     </bean>
                                 </property>

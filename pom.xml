@@ -4,11 +4,11 @@
     <parent>
         <groupId>org.kuali.student</groupId>
         <artifactId>student</artifactId>
-        <version>2.1.1-FR2-M1-SNAPSHOT</version>
+        <version>2.0.0-rice24upgrade-SNAPSHOT</version>
     </parent>
     <groupId>org.kuali.student.enroll</groupId>
     <artifactId>ks-enroll</artifactId>
-    <version>0.2.0-FR2-M1-SNAPSHOT</version>
+    <version>1.0.0-rice24upgrade-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>KS Enroll</name>
     <description>KS Enrollment</description>
@@ -36,6 +36,14 @@
             <id>skip-all-wars</id>
             <modules>
                 <module>ks-enroll-sql</module>
+                <module>ks-enroll-impl</module>
+                <module>ks-enroll-ui</module>
+                <module>ks-enroll-rice</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>test-only</id>
+            <modules>
                 <module>ks-enroll-impl</module>
                 <module>ks-enroll-ui</module>
                 <module>ks-enroll-rice</module>

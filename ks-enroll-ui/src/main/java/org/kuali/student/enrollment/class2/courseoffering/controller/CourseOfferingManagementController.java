@@ -93,7 +93,7 @@ public class CourseOfferingManagementController extends UifControllerBase {
 
     @Override
     @RequestMapping(params = "methodToCall=start")
-    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase uifForm, @SuppressWarnings("unused") BindingResult result,
+    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase uifForm,
                               @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
 
         if (!(uifForm instanceof CourseOfferingManagementForm)) {
@@ -249,10 +249,6 @@ public class CourseOfferingManagementController extends UifControllerBase {
         urlParameters.put("coInfo.id", theCourseOfferingInfo.getId());
         urlParameters.put(UifParameters.VIEW_ID, RegistrationGroupConstants.RG_VIEW);
         urlParameters.put(UifParameters.PAGE_ID, RegistrationGroupConstants.RG_PAGE);
-        // UrlParams.SHOW_HISTORY and SHOW_HOME no longer exist
-        // https://fisheye.kuali.org/changelog/rice?cs=39034
-        // TODO KSENROLL-8469
-        //urlParameters.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
         urlParameters.put("withinPortal", BooleanUtils.toStringTrueFalse(theForm.isWithinPortal()));
         String controllerPath = RegistrationGroupConstants.RG_CONTROLLER_PATH;
 
@@ -1006,7 +1002,7 @@ public class CourseOfferingManagementController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=saveExamOfferingRSI")
     public ModelAndView saveExamOfferingRSI(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                                 @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
-        String selectedCollectionPath = theForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        String selectedCollectionPath = theForm.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
         String selectedLine = theForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
         boolean success;
         Object selectedObject = CourseOfferingManagementUtil.getSelectedObject(theForm, "edit");
@@ -1080,8 +1076,8 @@ public class CourseOfferingManagementController extends UifControllerBase {
         RSIJSONResponseData jsonResponseDTO = new RSIJSONResponseData();
         jsonResponseDTO.setHasErrors(false);
 
-        String selectedCollectionPath = request.getParameter(UifParameters.SELLECTED_COLLECTION_PATH);
-        theForm.getActionParameters().put(UifParameters.SELLECTED_COLLECTION_PATH, selectedCollectionPath);
+        String selectedCollectionPath = request.getParameter(UifParameters.SELECTED_COLLECTION_PATH);
+        theForm.getActionParameters().put(UifParameters.SELECTED_COLLECTION_PATH, selectedCollectionPath);
         String selectedLine = request.getParameter(UifParameters.SELECTED_LINE_INDEX);
         theForm.getActionParameters().put(UifParameters.SELECTED_LINE_INDEX, selectedLine);
         boolean success;
