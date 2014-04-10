@@ -434,17 +434,17 @@
                     <property name="items">
                         <list>
                             <bean parent="CM-ReadOnlyInput" p:label="Student Eligibility + Prerequisite"
-                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.termsAsString"/>
+                                  p:propertyName="reviewProposalDisplay.courseRequisitesSection.dummyString"/>
                             <bean parent="CM-ReadOnlyInput" p:label="Corequisite"
-                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.termsAsString"/>
+                                  p:propertyName="reviewProposalDisplay.courseRequisitesSection.dummyString"/>
                             <bean parent="CM-ReadOnlyInput" p:label="Recommended Preparation"
-                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.termsAsString"/>
+                                  p:propertyName="reviewProposalDisplay.courseRequisitesSection.dummyString"/>
                             <bean parent="CM-ReadOnlyInput" p:label="Antirequisite"
-                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.termsAsString"/>
+                                  p:propertyName="reviewProposalDisplay.courseRequisitesSection.dummyString"/>
                             <bean parent="CM-ReadOnlyInput" p:label="Course that Restricts Credits"
-                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.termsAsString"/>
+                                  p:propertyName="reviewProposalDisplay.courseRequisitesSection.dummyString"/>
                             <bean parent="CM-ReadOnlyInput" p:label="Repeatable for Credit"
-                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.termsAsString"/>
+                                  p:propertyName="reviewProposalDisplay.courseRequisitesSection.dummyString"/>
                         </list>
                     </property>
                 </bean>

@@ -118,6 +118,7 @@ public class ReviewProposalDisplay implements java.io.Serializable {
     /**
      * This is for the outcomes "empty collection" input field. KRAD needs a property name to bind the constraints.
      * Using the same property name for two input fields causes the constraints to be overwritten.
+     *
      * @return An empty string.
      */
     public String getEmptyStringOutcomes() {
@@ -126,6 +127,7 @@ public class ReviewProposalDisplay implements java.io.Serializable {
 
     /**
      * Same as above, but for formats.
+     *
      * @return An empty string.
      */
     public String getEmptyStringFormats() {
@@ -309,9 +311,7 @@ public class ReviewProposalDisplay implements java.io.Serializable {
         }
 
         public String getTermsAsString() {
-            // The below code should be uncommented when the course requisites user story comes into picture.
-            //return StringUtils.join(getTerms(), CurriculumManagementConstants.COLLECTION_ITEMS_DELIMITER);
-            return null;
+            return StringUtils.join(getTerms(), CurriculumManagementConstants.COLLECTION_ITEMS_DELIMITER);
         }
 
         public List<String> getGradingOptions() {
@@ -404,6 +404,17 @@ public class ReviewProposalDisplay implements java.io.Serializable {
 
     public class CourseRequisitesSectionWrapper implements java.io.Serializable {
 
+        //This method can be removed once the course requisites section is implemented.
+
+        public void setDummyString(String dummyString) {
+            this.dummyString = dummyString;
+        }
+
+        public String dummyString;
+
+        public String getDummyString() {
+            return null;
+        }
     }
 
     public class ActiveDatesSectionWrapper implements java.io.Serializable {
