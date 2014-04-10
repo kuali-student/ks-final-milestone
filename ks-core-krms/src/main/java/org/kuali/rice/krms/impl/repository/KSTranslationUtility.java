@@ -226,7 +226,7 @@ public class KSTranslationUtility implements TranslateBusinessMethods {
     private String getCompoundSeperator(NaturalLanguageTemplate naturalLanguageTemplate, boolean isRoot) {
         String operator = naturalLanguageTemplate.getAttributes().get(KRMS_NL_TEMP_ATTR_OPERATOR);
         if (isRoot){
-            return ". " + StringUtils.capitalize(operator) + " ";
+            return ". " + operator + " ";
         }
         return "; " + operator + " ";
     }
