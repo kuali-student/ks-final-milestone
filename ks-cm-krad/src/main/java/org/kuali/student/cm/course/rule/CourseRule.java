@@ -32,6 +32,7 @@ import org.kuali.student.cm.course.service.util.OrganizationSearchUtil;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.uif.rule.KsMaintenanceDocumentRuleBase;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.core.constants.OrganizationServiceConstants;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 
 import javax.xml.namespace.QName;
@@ -109,10 +110,10 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
                 List<Person> persons = getPersonService().findPeople(searchCriteria);
 
                 if (persons.isEmpty()){
-                    GlobalVariables.getMessageMap().putErrorForSectionId("instructor-section", CurriculumManagementConstants.MessageKeys.ERROR_INSTRUCTOR_NOT_FOUND, principalName);
+                    GlobalVariables.getMessageMap().putErrorForSectionId("instructor-section", CurriculumManagementConstants.MessageKeys.ERROR_DATA_NOT_FOUND, "Instructor", principalName);
                     return false;
                 } else if (persons.size() > 1){
-                    GlobalVariables.getMessageMap().putErrorForSectionId("instructor-section", CurriculumManagementConstants.MessageKeys.ERROR_INSTRUCTOR_MULTIPLE_MATCH_FOUND, principalName);
+                    GlobalVariables.getMessageMap().putErrorForSectionId("instructor-section", CurriculumManagementConstants.MessageKeys.ERROR_DATA_MULTIPLE_MATCH_FOUND, "Instructor", principalName);
                     return false;
                 } else {
                     try {
@@ -146,10 +147,10 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
                 List<OrganizationInfoWrapper> orgs = OrganizationSearchUtil.searchForOrganizations(organizationInfoWrapper.getOrganizationName(), getOrganizationService());
 
                 if (orgs.isEmpty()){
-                    GlobalVariables.getMessageMap().putErrorForSectionId("administering-organization", CurriculumManagementConstants.MessageKeys.ERROR_ORG_NOT_FOUND, organizationInfoWrapper.getOrganizationName());
+                    GlobalVariables.getMessageMap().putErrorForSectionId("administering-organization", CurriculumManagementConstants.MessageKeys.ERROR_DATA_NOT_FOUND, "Org", organizationInfoWrapper.getOrganizationName());
                     return false;
                 } else if (orgs.size() > 1){
-                    GlobalVariables.getMessageMap().putErrorForSectionId("administering-organization", CurriculumManagementConstants.MessageKeys.ERROR_ORG_MULTIPLE_MATCH_FOUND, organizationInfoWrapper.getOrganizationName());
+                    GlobalVariables.getMessageMap().putErrorForSectionId("administering-organization", CurriculumManagementConstants.MessageKeys.ERROR_DATA_MULTIPLE_MATCH_FOUND, "Org", organizationInfoWrapper.getOrganizationName());
                     return false;
                 } else {
                     try{
@@ -166,7 +167,7 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
     }
 
     protected OrganizationService getOrganizationService() {
-           return (OrganizationService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/organization", "OrganizationService"));
+           return (OrganizationService) GlobalResourceLoader.getService(new QName(OrganizationServiceConstants.NAMESPACE, OrganizationServiceConstants.SERVICE_NAME_LOCAL_PART));
     }
 
     /**

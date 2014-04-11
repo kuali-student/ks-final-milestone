@@ -16,13 +16,13 @@
  */
 package org.kuali.student.cm.course.form;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
-import org.kuali.student.cm.common.util.CurriculumManagementConstants.CourseViewSections;
-import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 
 /**
- * Form for create course.
+ * This form is being used at the initial create course screen view. This captures
+ * data related to course and based on the user selection displays the create course
+ * maintenace document.
+ *
  */
 public class CourseInitialForm extends MaintenanceDocumentForm {
 
