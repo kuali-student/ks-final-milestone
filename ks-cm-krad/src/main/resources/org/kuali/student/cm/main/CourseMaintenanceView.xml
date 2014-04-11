@@ -378,11 +378,23 @@
                     </property>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-ActionLink"
-                                  p:methodToCall="reviewCourseProposal"
-                                  p:actionLabel="Review Proposal"
-                                  p:performDirtyValidation="true"
-                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_EDIT]}" />
+                            <bean parent="Uif-NavigationActionLink">
+                                <property name="id" value="course_details_review_proposal_link"/>
+                                <property name="actionLabel" value="Review Proposal"/>
+                                <property name="finalizeMethodToCall" value="buildProposalActionLink"/>
+                                <property name="finalizeMethodAdditionalArguments">
+                                    <list>
+                                        <value>docHandler</value>
+                                        <value>KS-CourseView-ReviewProposalPage</value>
+                                    </list>
+                                </property>
+                                <property name="actionParameters">
+                                    <map>
+                                        <entry key="pageId" value="KS-CourseView-ReviewProposalPage"/>
+                                    </map>
+                                </property>
+                                <property name="render" value="@{#actionFlags[#Constants.KUALI_ACTION_CAN_EDIT]}"/>
+                            </bean>
                         </list>
                     </property>
                 </bean>

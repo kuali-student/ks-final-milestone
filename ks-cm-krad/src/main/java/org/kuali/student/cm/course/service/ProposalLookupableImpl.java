@@ -37,6 +37,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
+import org.kuali.student.cm.common.util.ProposalLinkBuilder;
 import org.kuali.student.cm.course.form.CourseInfoWrapper;
 import org.kuali.student.cm.maintenance.CMMaintenanceDocument;
 import org.kuali.student.common.uif.service.impl.KSLookupableImpl;
@@ -242,13 +243,18 @@ public class ProposalLookupableImpl extends KSLookupableImpl {
         return BooleanUtils.toBoolean(proposalInfo.getAttributeValue(CAN_OPEN_PROPOSAL_KEY));
     }
 
+    /**
+     * This is the finalizeMethodToCall which builds the action links.
+     */
+    public void buildProposalActionLink(Action actionLink, Object model, String maintenanceMethodToCall, String pageId) {
 
-    public void getProposalActionLink(Action actionLink, Object model, String maintenanceMethodToCall,String pageId) {
         LookupForm lookupForm = (LookupForm) model;
+
         Object dataObject = actionLink.getContext().get(UifConstants.ContextVariableNames.LINE);
 
-        // build maintenance link href
-        String href = getProposalUrl(lookupForm, dataObject, maintenanceMethodToCall, pageId);
+        String workflowDocId = ((ProposalInfo)dataObject).getWorkflowId();
+
+        String href = ProposalLinkBuilder.buildCourseProposalUrl(maintenanceMethodToCall, pageId, workflowDocId);
 
         if (StringUtils.isBlank(href)) {
             actionLink.setRender(false);
@@ -258,26 +264,6 @@ public class ProposalLookupableImpl extends KSLookupableImpl {
         actionLink.setActionScript("window.open('" + href + "', '_self');");
 
         lookupForm.setAtLeastOneRowHasActions(true);
-    }
-
-    protected String getProposalUrl(LookupForm lookupForm, Object dataObject, String methodToCall, String pageId) {
-
-        if (dataObject == null){
-            return "";
-        }
-
-        Properties props = new Properties();
-        props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
-        props.put(KRADConstants.PARAMETER_COMMAND, KRADConstants.METHOD_DISPLAY_DOC_SEARCH_VIEW);
-        props.put(KRADConstants.RETURN_LOCATION_PARAMETER, "cmHome?methodToCall=start&viewId=curriculumHomeView");
-
-        props.put(UifParameters.DATA_OBJECT_CLASS_NAME,  CourseInfoWrapper.class.getCanonicalName());
-        if (StringUtils.isNotBlank(pageId)){
-            props.put(UifParameters.PAGE_ID, pageId);
-        }
-        props.put(KRADConstants.PARAMETER_DOC_ID, ((ProposalInfo)dataObject).getWorkflowId());
-
-        return UrlFactory.parameterizeUrl("courses", props);
     }
 
     protected ProposalService getProposalService() {

@@ -31,9 +31,14 @@ import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
+import org.kuali.rice.krad.uif.UifConstants;
+import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.container.Container;
 import org.kuali.rice.krad.uif.view.View;
+import org.kuali.rice.krad.uif.element.Action;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.UrlFactory;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
 import org.kuali.rice.krms.api.repository.agenda.AgendaItemDefinition;
@@ -51,6 +56,7 @@ import org.kuali.rice.krms.tree.node.CompareTreeNode;
 import org.kuali.rice.krms.tree.node.RuleEditorTreeNode;
 import org.kuali.rice.krms.tree.node.TreeNode;
 import org.kuali.rice.krms.util.NaturalLanguageHelper;
+import org.kuali.student.cm.common.util.ProposalLinkBuilder;
 import org.kuali.student.cm.course.controller.CourseController;
 import org.kuali.student.cm.course.form.ActivityInfoWrapper;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
@@ -150,6 +156,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 /**
  * Base view helper service for both create and edit course info presentations.
@@ -1784,6 +1791,24 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         dataObjectDetails.put("id",courseId);
         return dataObjectDetails;
     }*/
+
+    /**
+     * The finalizeMethodToCall for the Review Proposal link. Populates the given action link with the URL for the
+     * document.
+     */
+    protected void buildProposalActionLink(Action actionLink, MaintenanceDocumentForm form, String methodToCall, String pageId) {
+        String docId = form.getDocument().getDocumentNumber();
+
+        String href = ProposalLinkBuilder.buildCourseProposalUrl(methodToCall, pageId, docId);
+
+        if (StringUtils.isBlank(href)) {
+            actionLink.setRender(false);
+            return;
+        }
+
+        actionLink.setActionScript("window.open('" + href + "', '_self');");
+    }
+
 
     protected CommentService getCommentService() {
         if (commentService == null) {

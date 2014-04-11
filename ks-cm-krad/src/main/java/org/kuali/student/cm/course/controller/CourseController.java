@@ -223,7 +223,8 @@ public class CourseController extends CourseRuleEditorController {
              * discarded in UifControllerHandlerInterceptor#afterCompletion(). If the postedView isn't available the
              * validation in the reviewCourseProposal handler method will fail.
              */
-            ModelAndView mv = performRedirect(formBase, "courses", urlParameters);
+            String courseBaseUrl = CurriculumManagementConstants.ControllerRequestMappings.CREATE_COURSE.replaceFirst("/", "");
+            ModelAndView mv = performRedirect(formBase, courseBaseUrl, urlParameters);
             formBase.setRequestRedirected(false);
             return mv;
         }

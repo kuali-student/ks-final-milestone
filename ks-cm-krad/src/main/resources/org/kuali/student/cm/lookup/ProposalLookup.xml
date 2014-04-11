@@ -101,8 +101,7 @@ limitations under the License.
         <property name="resultsGroup.layoutManager.richTable.templateOptions">
             <map merge="true">
                 <entry key="aoColumnDefs"
-                   value="[ {'aTargets':[0,1], 'bSortable':true}
-                        ]"/>
+                   value="[ {'aTargets':[0,1], 'bSortable':true} ]"/>
             </map>
         </property>
 
@@ -111,7 +110,7 @@ limitations under the License.
               <bean parent="KS-Uif-View-NavigationActionLink">
                 <property name="id" value="@{#lp.name}_view"/>
                 <property name="actionLabel" value="Review Proposal"/>
-                <property name="finalizeMethodToCall" value="getProposalActionLink"/>
+                <property name="finalizeMethodToCall" value="buildProposalActionLink"/>
                 <property name="finalizeMethodAdditionalArguments">
                   <list>
                     <value>docHandler</value>
@@ -128,7 +127,7 @@ limitations under the License.
               <bean parent="KS-Uif-Edit-NavigationActionLink">
                 <property name="id" value="@{#lp.name}_edit"/>
                 <property name="actionLabel" value="Edit"/>
-                <property name="finalizeMethodToCall" value="getProposalActionLink"/>
+                <property name="finalizeMethodToCall" value="buildProposalActionLink"/>
                 <property name="finalizeMethodAdditionalArguments">
                   <list>
                     <value>docHandler</value>
