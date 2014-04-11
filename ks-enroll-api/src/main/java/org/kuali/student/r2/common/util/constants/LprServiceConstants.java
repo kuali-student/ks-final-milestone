@@ -43,13 +43,13 @@ public class LprServiceConstants {
     public static final String INSTRUCTOR_ASSISTANT_TYPE_KEY = "kuali.lpr.type.instructor.assistant";
     public static final String INSTRUCTOR_SUPPORT_TYPE_KEY = "kuali.lpr.type.instructor.support";
 
-    public static final String REGISTRANT_CO_TYPE_KEY = "kuali.lpr.type.registrant.course.offering";
-    public static final String REGISTRANT_AO_TYPE_KEY = "kuali.lpr.type.registrant.activity.offering";
-    public static final String REGISTRANT_RG_TYPE_KEY = "kuali.lpr.type.registrant.registration.group";
-    public static final String WAITLIST_CO_TYPE_KEY = "kuali.lpr.type.waitlist.course.offering";
-    public static final String WAITLIST_FO_TYPE_KEY = "kuali.lpr.type.waitlist.format.offering";
-    public static final String WAITLIST_AO_TYPE_KEY = "kuali.lpr.type.waitlist.activity.offering";
-    public static final String WAITLIST_RG_TYPE_KEY = "kuali.lpr.type.waitlist.registration.group";
+    public static final String REGISTRANT_CO_LPR_TYPE_KEY = "kuali.lpr.type.registrant.course.offering";
+    public static final String REGISTRANT_AO_LPR_TYPE_KEY = "kuali.lpr.type.registrant.activity.offering";
+    public static final String REGISTRANT_RG_LPR_TYPE_KEY = "kuali.lpr.type.registrant.registration.group";
+    public static final String WAITLIST_CO_LPR_TYPE_KEY = "kuali.lpr.type.waitlist.course.offering";
+//    public static final String WAITLIST_FO_TYPE_KEY = "kuali.lpr.type.waitlist.format.offering";
+    public static final String WAITLIST_AO_LPR_TYPE_KEY = "kuali.lpr.type.waitlist.activity.offering";
+    public static final String WAITLIST_RG_LPR_TYPE_KEY = "kuali.lpr.type.waitlist.registration.group";
     public static final String ENROLLEE_TYPE_KEY = "kuali.lpr.type.enrollee";
     public static final String ADVISOR_TYPE_KEY = "kuali.lpr.type.advisor";
 
@@ -103,8 +103,8 @@ public class LprServiceConstants {
 
     public static final String[] COURSE_INSTRUCTOR_TYPE_KEYS = {INSTRUCTOR_MAIN_TYPE_KEY,
         INSTRUCTOR_ASSISTANT_TYPE_KEY, INSTRUCTOR_SUPPORT_TYPE_KEY};
-    public static final String[] COURSE_STUDENT_TYPE_KEYS = {REGISTRANT_AO_TYPE_KEY,
-            REGISTRANT_CO_TYPE_KEY, REGISTRANT_RG_TYPE_KEY};
+    public static final String[] COURSE_STUDENT_TYPE_KEYS = {REGISTRANT_AO_LPR_TYPE_KEY,
+            REGISTRANT_CO_LPR_TYPE_KEY, REGISTRANT_RG_LPR_TYPE_KEY};
 
     
       // lpr transaction item types (operations)
@@ -156,8 +156,9 @@ public class LprServiceConstants {
     /**
      * Student states to courses
      */
+    // the active state is also used
     public static final String PLANNED_STATE_KEY = "kuali.lpr.state.planned";
-    public static final String REGISTERED_STATE_KEY = "kuali.lpr.state.registered";
+//    public static final String REGISTERED_STATE_KEY = "kuali.lpr.state.registered"; // No longer used
     public static final String WAITLISTED_STATE_KEY = "kuali.lpr.state.waitlisted";
     public static final String DROPPED_STATE_KEY = "kuali.lpr.state.dropped.early";
     public static final String DROPPED_LATE_STATE_KEY = "kuali.lpr.state.dropped.late";
@@ -201,8 +202,8 @@ public class LprServiceConstants {
      * States used for students in courses
      */
     public static final String STUDENT_COURSE_REGISTRATION_PROCESS_KEY = "kuali.lpr.process.student.course.registration";
-    public static final String[] STUDENT_COURSE_REGISTRATION_STATE_KEYS = {PLANNED_STATE_KEY, REGISTERED_STATE_KEY,
-        WAITLISTED_STATE_KEY, DROPPED_STATE_KEY, DROPPED_LATE_STATE_KEY};
+    public static final String[] STUDENT_COURSE_REGISTRATION_STATE_KEYS = {PLANNED_STATE_KEY, ACTIVE_STATE_KEY,
+        DROPPED_STATE_KEY, DROPPED_LATE_STATE_KEY};
 
     /**
      * States used for instructors of PROGRAMS
