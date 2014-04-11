@@ -13,6 +13,7 @@
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="KS-CourseView-Logistics-Section" parent="KS-CourseView-VerticalBoxSection">
+        <property name="validationMessages.displayMessages" value="false"/>
         <property name="headerText" value="Course Logistics"/>
         <property name="items">
             <list>
@@ -59,6 +60,7 @@
                 <value>admin-not-required-field</value>
             </list>
         </property>
+        <property name="validationMessages.displayMessages" value="false"/>
         <property name="items">
             <list>
                 <bean id="KS-DurationTypeDropDown" parent="KS-Uif-InputField-LabelTop"
