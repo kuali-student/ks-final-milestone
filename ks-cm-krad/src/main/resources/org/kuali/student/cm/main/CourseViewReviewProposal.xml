@@ -22,21 +22,42 @@
     <bean id="KS-CourseView-ReviewProposalPage" parent="Uif-MaintenancePage" p:style="margin-left: -18px;"
           p:headerText="Review Proposal"
           p:disclosure.render="false">
+        <!-- Instead of validation messages at the top of the page we want the yellow bar.
+
+             Turns out that even with validationMessages.displayMessages=false (which sets style="display: none;" on the
+             client), krad-intialize.js still attempts to give the validation messages header focus which fires an event
+             which causes the page to attempt to scroll to the message header. This causes a JS exception in scrollTo()
+             because the top of the validation messages header is calculated at a negative number (if it is display=none)
+             and scrollTo() doesn't handle negative numbers.
+
+             This is a KRAD bug.
+
+             So, instead of just setting validationMessages.displayMessages=false we'll hide the validation messages
+             under the view header.
+             -->
+
+        <property name="validationMessages.id" value="review_course_validation_messages"/>
+        <property name="validationMessages.onDocumentReadyScript">
+            <value>jQuery('#review_course_validation_messages').css({'position':'fixed', 'top':'300px', 'left':'200px', 'z-index':'-1'});</value>
+        </property>
+
+        <!-- Initialize the page -->
+        <property name="onDocumentReadyScript" value="onProposalReviewLoad();"/>
+
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <list>
                 <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
                 <ref bean="KS-HomewardPathBreadcrumbs-CurriculumManagement"/>
                 <ref bean="KS-HomewardPathBreadcrumbs-NewCourse"/>
             </list>
-        </property>
+            </property>
         <property name="breadcrumbOptions.breadcrumbOverrides">
             <list>
                 <ref bean="KS-HomewardPathBreadcrumbs-ReviewProposal-Page"/>
             </list>
         </property>
-        <property name="onDocumentReadyScript" value="onProposalReviewLoad();"/>
         <property name="header">
-            <bean id="KS-CourseView-ReviewProposal-Header" parent="Uif-HeaderOne" p:style="margin-bottom: 20px;" p:render="false"/>
+            <bean id="KS-CourseView-ReviewProposal-Header" parent="Uif-HeaderOne" p:style="margin-bottom: 20px;" p:render="true"/>
         </property>
         <property name="items">
             <list>
@@ -66,8 +87,7 @@
     <bean id="CM-ReviewProposal-GridGroup" parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4" abstract="true">
         <property name="cssClasses">
             <list merge="true">
-                <value>course_review_details-panel</value>
-                <value>course_review_details-table</value>
+                <value>review_proposal_details-grid</value>
                 <value>ks-no-margins</value>
                 <value>ks-subSection</value>
             </list>
@@ -123,13 +143,17 @@
     <!-- The parent all of the vertical box sections -->
     <bean id="ReviewProposal-VerticalBoxSection" parent="Uif-VerticalBoxSection" abstract="true">
         <property name="validationMessages.displayMessages" value="false"/>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>review_proposal-section</value>
+            </list>
+        </property>
         <property name="header">
             <bean parent="Uif-HeaderTwo">
                 <property name="cssClasses">
                     <list merge="true">
                         <value>ks-dottedHeaderActions</value>
                         <value>cm_dottedHeaderActions</value>
-                        <value>cm_reviewProposal_courseInfo</value>
                     </list>
                 </property>
                 <property name="rightGroup">
@@ -221,7 +245,6 @@
                                     </bean>
                                 </property>
                             </bean>
-
                             <bean parent="CM-ReadOnlyInput" p:label="Administering Organization" id="governanceSection_administeringOrganization"
                                 p:propertyName="reviewProposalDisplay.governanceSection.administeringOrganizationAsString"/>
                         </list>
@@ -319,7 +342,7 @@
                                 </property>
                             </bean>
 
-                            <!-- This bean gets rendered if the formats collection has items. Otherwise, the one below does.
+                            <!-- This bean gets rendered if the formats collection has items. Otherwise, the one below does. -->
                             <bean parent="Uif-VerticalFieldGroup" p:label="Course Formats" p:colSpan="3" p:fieldLabel.renderColon="false"
                                     p:render="@{!#emptyList(#dataObject.reviewProposalDisplay.courseLogisticsSection.formatInfoWrappers)}">
                                 <property name="items">
@@ -365,7 +388,7 @@
                                     </list>
                                 </property>
                             </bean>
-                            -->
+
                             <!-- This bean gets rendered if the outComes collection is empty. Otherwise, the one above does. -->
                             <bean parent="CM-ReadOnlyInput" p:label="Course Formats" id="emptyStringFormats"
                                     p:propertyName="reviewProposalDisplay.emptyStringFormats"
@@ -375,7 +398,7 @@
                                     <bean parent="RequiredConstraint">
                                         <property name="states">
                                             <list>
-                                                <value>R+</value>
+                                                <value>P</value>
                                             </list>
                                         </property>
                                     </bean>

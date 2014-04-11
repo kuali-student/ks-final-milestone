@@ -26,7 +26,6 @@ limitations under the License.
             class="org.kuali.student.cm.uif.view.ProposalLookupView" parent="KS-Uif-LookupView">
     </bean>
 
-
     <bean id="KS-CM-ProposalLookup" parent="Uif-ProposalLookupView">
         <property name="id" value="ksCMProposalLookup"/>
         <property name="viewName" value="ProposalLookup"/>

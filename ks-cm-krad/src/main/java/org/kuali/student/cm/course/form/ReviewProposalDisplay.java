@@ -26,7 +26,7 @@ import java.util.List;
 /**
  * Display data for review course proposal.
  */
-public class ReviewProposalDisplay implements java.io.Serializable {
+public class ReviewProposalDisplay {
 
     private boolean missingRequiredElement = false;
 
@@ -134,7 +134,7 @@ public class ReviewProposalDisplay implements java.io.Serializable {
         return "";
     }
 
-    public class CourseSectionWrapper implements java.io.Serializable {
+    public class CourseSectionWrapper {
         private String proposalName;
         private String courseTitle;
         private String transcriptTitle;
@@ -237,7 +237,7 @@ public class ReviewProposalDisplay implements java.io.Serializable {
         }
     }
 
-    public class GovernanceSectionWrapper implements java.io.Serializable {
+    public class GovernanceSectionWrapper {
         private List<String> campusLocations;
         private List<String> curriculumOversight;
         private List<String> administeringOrganization;
@@ -277,7 +277,7 @@ public class ReviewProposalDisplay implements java.io.Serializable {
         }
     }
 
-    public class CourseLogisticsSectionWrapper implements java.io.Serializable {
+    public class CourseLogisticsSectionWrapper {
         private List<String> terms;
         private List<String> gradingOptions;
         private String atpDurationType;
@@ -387,7 +387,7 @@ public class ReviewProposalDisplay implements java.io.Serializable {
 
     }
 
-    public class LearningObjectivesSectionWrapper implements java.io.Serializable {
+    public class LearningObjectivesSectionWrapper {
         private List<String> learningObjectives;
 
         public List<String> getLearningObjectives() {
@@ -402,7 +402,7 @@ public class ReviewProposalDisplay implements java.io.Serializable {
         }
     }
 
-    public class CourseRequisitesSectionWrapper implements java.io.Serializable {
+    public class CourseRequisitesSectionWrapper {
 
         //This method can be removed once the course requisites section is implemented.
 
@@ -417,7 +417,7 @@ public class ReviewProposalDisplay implements java.io.Serializable {
         }
     }
 
-    public class ActiveDatesSectionWrapper implements java.io.Serializable {
+    public class ActiveDatesSectionWrapper {
         private String startTerm;
         private String endTerm;
         private String pilotCourse;
@@ -448,7 +448,7 @@ public class ReviewProposalDisplay implements java.io.Serializable {
 
     }
 
-    public class FinancialsSectionWrapper implements java.io.Serializable {
+    public class FinancialsSectionWrapper {
         private String justificationOfFees;
         private String fee;
         private String revenueSource;
@@ -488,7 +488,7 @@ public class ReviewProposalDisplay implements java.io.Serializable {
         }
     }
 
-    public class SupportingDocumentsSectionWrapper implements java.io.Serializable {
+    public class SupportingDocumentsSectionWrapper {
         private String supportingDoc;
 
         public String getSupportingDoc() {
@@ -500,7 +500,7 @@ public class ReviewProposalDisplay implements java.io.Serializable {
         }
     }
 
-    public class CollaboratorSectionWrapper implements Serializable {
+    public class CollaboratorSectionWrapper {
         private String name;
 
         public String getName() {
