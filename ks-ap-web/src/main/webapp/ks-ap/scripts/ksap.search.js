@@ -402,11 +402,6 @@ function fnGenerateFacetGroup(obj) {
 			continue;
 		else if (oData.hasOwnProperty(key))
 			bMore = !(bOne = !bOne);
-    if (bOne){
-        obj.addClass("ksap-hide");
-        return;
-    }
-    obj.removeClass("ksap-hide");
     var bAll = true;
     for ( var key in oData)
         if (!bAll)
