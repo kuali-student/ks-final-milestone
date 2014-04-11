@@ -14,15 +14,11 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
 
         $scope.$watch('termId', function (newValue) {
             console.log('term id has changed');
-            if($scope.userMessage){
-                if($scope.userMessage.txt){
+            if($scope.userMessage && $scope.userMessage.txt){
                     $scope.removeUserMessage();
-                }
             }
-            if($scope.waitlistUserMessage){
-                if($scope.waitlistUserMessage.txt){
+            if($scope.waitlistUserMessage && $scope.waitlistUserMessage.txt){
                     $scope.removeWaitlistUserMessage();
-                }
             }
             ScheduleService.getScheduleFromServer().query({termId: newValue }, function (result) {
                 console.log('called rest service to get schedule data - in schedule.js');

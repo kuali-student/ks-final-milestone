@@ -11,10 +11,8 @@ angular.module('regCartApp')
         $scope.$watch('termId', function (newValue) {
             console.log('term id has changed');
             $scope.cartResults.items.splice(0, $scope.cartResults.items.length);
-            if($scope.userMessage){
-                if($scope.userMessage.txt){
+            if($scope.userMessage && $scope.userMessage.txt){
                     $scope.removeUserMessage();
-                }
             }
 
             if (newValue) {
