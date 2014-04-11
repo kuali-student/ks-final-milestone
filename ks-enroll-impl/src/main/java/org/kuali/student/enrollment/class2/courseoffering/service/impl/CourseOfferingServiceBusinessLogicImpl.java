@@ -515,7 +515,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         }
         //process final exam offerings for target course offering
         getExamOfferingServiceFacade().generateFinalExamOfferingOptimized(targetCo, targetCo.getTermId(),
-                    optionKeys, context, foIdsToAOList);
+                optionKeys, foIdsToAOList, context);
 
         SocRolloverResultItemInfo item = new SocRolloverResultItemInfo();
         item.setSourceCourseOfferingId(sourceCoId);

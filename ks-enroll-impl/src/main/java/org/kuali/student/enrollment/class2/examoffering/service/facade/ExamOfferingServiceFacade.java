@@ -36,32 +36,6 @@ public interface ExamOfferingServiceFacade {
      * If the Final Exam Driver changes, the existing offerings will be cancelled and new offerings created based on
      * new driver, or cancelled exam offerings for the current driver will be reinstated if they do exist.
      *
-     * @param courseOfferingId
-     * @param termId
-     * @param examPeriodId
-     * @param optionKeys
-     * @param context
-     * @throws DoesNotExistException
-     * @throws DataValidationErrorException
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
-     * @throws ReadOnlyException
-     */
-    ExamOfferingResult generateFinalExamOffering(String courseOfferingId, String termId, String examPeriodId, List<String> optionKeys, ContextInfo context)
-            throws DoesNotExistException, DataValidationErrorException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
-
-    /**
-     * This method generates new Exam Offerings for the Course Offering for the given Course Offering Id based on
-     * the exam drivers.
-     *
-     * If the Final Exam Status is not STANDARD, then all Exam Offerings will be cancelled
-     *
-     * If the Final Exam Driver changes, the existing offerings will be cancelled and new offerings created based on
-     * new driver, or cancelled exam offerings for the current driver will be reinstated if they do exist.
-     *
      * @param courseOfferingInfo
      * @param termId
      * @param examPeriodId
@@ -101,7 +75,7 @@ public interface ExamOfferingServiceFacade {
      * @throws ReadOnlyException
      */
     ExamOfferingResult generateFinalExamOfferingOptimized(CourseOfferingInfo courseOfferingInfo, String termId, List<String> optionKeys,
-                                          ContextInfo context, Map<String, List<ActivityOfferingInfo>> foIdToListOfAOs)
+                                          Map<String, List<ActivityOfferingInfo>> foIdToListOfAOs, ContextInfo context)
             throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
@@ -160,9 +134,9 @@ public interface ExamOfferingServiceFacade {
      * @param courseOfferingId
      * @param termId
      * @param examPeriodId
-     * @param context
      * @param foIdToListOfAOs For the courseOfferingId, this is a map from FO Ids (of the CO) to the AO
      *                        Infos belonging to the FO.  Saves a service call by passing this info in.
+     * @param context
      * @throws PermissionDeniedException
      * @throws MissingParameterException
      * @throws InvalidParameterException
@@ -170,7 +144,7 @@ public interface ExamOfferingServiceFacade {
      * @throws DoesNotExistException
      */
     ExamOfferingResult generateFinalExamOfferingsPerFOOptimized(String courseOfferingId, String termId, String examPeriodId, List<String> optionKeys,
-                                         ContextInfo context, Map<String, List<ActivityOfferingInfo>> foIdToListOfAOs)
+                                         Map<String, List<ActivityOfferingInfo>> foIdToListOfAOs, ContextInfo context)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException;
 
@@ -191,7 +165,7 @@ public interface ExamOfferingServiceFacade {
      * @throws DoesNotExistException
      */
     ExamOfferingResult generateFinalExamOfferingsPerAO(String courseOfferingId, String termId, String examPeriodId,
-                                         List<String> optionKeys, ContextInfo context, boolean useFinalExamMatrix)
+                                         List<String> optionKeys, boolean useFinalExamMatrix, ContextInfo context)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException;
 
@@ -202,9 +176,9 @@ public interface ExamOfferingServiceFacade {
      * @param courseOfferingId
      * @param termId
      * @param examPeriodId
-     * @param context
      * @param foIdToListOfAOs For the courseOfferingId, this is a map from FO Ids (of the CO) to the AO
      *                        Infos belonging to the FO.  Saves a service call by passing this info in.
+     * @param context
      * @throws PermissionDeniedException
      * @throws MissingParameterException
      * @throws InvalidParameterException
@@ -212,9 +186,8 @@ public interface ExamOfferingServiceFacade {
      * @throws DoesNotExistException
      */
     ExamOfferingResult generateFinalExamOfferingsPerAOOptimized(String courseOfferingId, String termId, String examPeriodId,
-                                                                List<String> optionKeys,
-                                                                ContextInfo context,
-                                                                Map<String, List<ActivityOfferingInfo>> foIdToListOfAOs, boolean useFinalExamMatrix)
+                                                                List<String> optionKeys, Map<String, List<ActivityOfferingInfo>> foIdToListOfAOs,
+                                                                boolean useFinalExamMatrix, ContextInfo context)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException;
     /**
@@ -283,7 +256,7 @@ public interface ExamOfferingServiceFacade {
      * @throws DataValidationErrorException
      */
     ExamOfferingResult generateFinalExamOfferingsPerCO(CourseOfferingInfo courseOffering, String termId, String examPeriodId, List<String> optionKeys,
-                                         ContextInfo context, boolean useFinalExamMatrix)
+                                         ContextInfo context)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException;
 
@@ -295,9 +268,9 @@ public interface ExamOfferingServiceFacade {
      * @param termId
      * @param examPeriodId
      * @param optionKeys
-     * @param context
      * @param foIdToListOfAOs For the courseOfferingId, this is a map from FO Ids (of the CO) to the AO
      *                        Infos belonging to the FO.  Saves a service call by passing this info in.
+     * @param context
      * @throws PermissionDeniedException
      * @throws MissingParameterException
      * @throws InvalidParameterException
@@ -307,7 +280,7 @@ public interface ExamOfferingServiceFacade {
      * @throws DataValidationErrorException
      */
     ExamOfferingResult generateFinalExamOfferingsPerCOOptimized(CourseOfferingInfo courseOffering, String termId, String examPeriodId, List<String> optionKeys,
-                                         ContextInfo context, Map<String, List<ActivityOfferingInfo>> foIdToListOfAOs, boolean useFinalExamMatrix)
+                                         Map<String, List<ActivityOfferingInfo>> foIdToListOfAOs, ContextInfo context)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException;
 
