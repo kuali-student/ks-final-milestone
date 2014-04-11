@@ -39,6 +39,7 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
+import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -208,28 +209,23 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                     activityOfferingWrapper.setCourseWaitListInfo(courseWaitListInfo);
                 }
 
-                //To retrieve the ExamPeriodId that is on CourseOffering
-                String examPeriodId = null;
-                try {
-                    examPeriodId = CourseOfferingManagementUtil.getExamOfferingServiceFacade().getExamPeriodId(activityOfferingInfo.getTermId(), contextInfo);
-                } catch (DoesNotExistException e) {
-                    LOGGER.info("The term {} doesn't have an exam period.", activityOfferingInfo.getTermId());
-                }
-
-                // generate exam offerings if exam period exists
-                if (!StringUtils.isEmpty(examPeriodId) ) {
-                    if ( !activityOfferingWrapper.isColocatedAO() ) {
-                        CourseOfferingManagementUtil.getExamOfferingServiceFacade().generateFinalExamOfferingForAO(activityOfferingWrapper.getAoInfo(),
-                            activityOfferingWrapper.getAoInfo().getTermId(), examPeriodId, new ArrayList<String>(), contextInfo);
-                    } else {  //Co-located > generate if the AO does not have an EO
-                        List <String> eoRels =  CourseOfferingManagementUtil.getExamOfferingService().getExamOfferingRelationIdsByActivityOffering(
+                boolean generateEOs = false;
+                if ( !activityOfferingWrapper.isColocatedAO() ) {
+                    generateEOs = true;
+                } else {  //Co-located > generate if the AO does not have an EO
+                    List <String> eoRels =  CourseOfferingManagementUtil.getExamOfferingService().getExamOfferingRelationIdsByActivityOffering(
                                                                                            activityOfferingWrapper.getAoInfo().getId(), contextInfo);
-                        if (eoRels == null || eoRels.size() < 1 ) {
-                            CourseOfferingManagementUtil.getExamOfferingServiceFacade().generateFinalExamOfferingForAO(activityOfferingWrapper.getAoInfo(),
-                                activityOfferingWrapper.getAoInfo().getTermId(), examPeriodId, new ArrayList<String>(), contextInfo);
-                        }
+                    if (eoRels == null || eoRels.size() < 1 ) {
+                        generateEOs = true;
                     }
                 }
+
+                if(generateEOs){
+                    CourseOfferingInfo courseOfferingInfo = CourseOfferingManagementUtil.getCourseOfferingService().getCourseOffering(activityOfferingInfo.getCourseOfferingId(), contextInfo);
+                    CourseOfferingManagementUtil.getExamOfferingServiceFacade().generateFinalExamOfferingForAO(courseOfferingInfo, activityOfferingWrapper.getAoInfo(),
+                        activityOfferingWrapper.getAoInfo().getTermId(), activityOfferingWrapper.getFormatOffering().getFinalExamLevelTypeKey(), new ArrayList<String>(), contextInfo);
+                }
+
             } catch (Exception e) {
                 throw convertServiceExceptionsToUI(e);
             }

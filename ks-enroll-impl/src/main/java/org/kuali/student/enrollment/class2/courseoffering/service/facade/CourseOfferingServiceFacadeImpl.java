@@ -32,6 +32,7 @@ import org.kuali.student.enrollment.class2.courseoffering.service.facade.issue.F
 import org.kuali.student.enrollment.class2.courseoffering.service.facade.issue.InvalidRegGroupSubissue;
 import org.kuali.student.enrollment.class2.courseoffering.service.facade.issue.RegGroupNotGeneratedByAocSubissue;
 import org.kuali.student.enrollment.class2.coursewaitlist.service.facade.CourseWaitListServiceFacade;
+import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingResult;
 import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingServiceFacade;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
@@ -91,22 +92,21 @@ import java.util.Set;
  * Implementation of the Application Service Layer to provide the functionally specified functionality
  * using several service calls. (Used to be AutogenRegGroupServiceAdapterImpl)
  *
- *
  * @author Kuali Student Team
  */
 public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFacade {
     private static final Logger LOGGER = LoggerFactory.getLogger(CourseOfferingServiceFacadeImpl.class);
 
-    @Resource (name="CourseOfferingService")
+    @Resource(name = "CourseOfferingService")
     private CourseOfferingService coService;
-    
-    @Resource (name="SearchService")
+
+    @Resource(name = "SearchService")
     private SearchService searchService;
 
     private TypeService typeService;
 
     private CourseService courseService;
-    
+
     private CourseWaitListService courseWaitListService;
 
     private ActivityOfferingClusterDaoApi activityOfferingClusterDao;
@@ -138,7 +138,7 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
         try {
             //retrieve all the FOs associated with the given CO
             List<FormatOfferingInfo> formatOfferingList = coService.getFormatOfferingsByCourseOffering(courseOfferingId, context);
-            for(FormatOfferingInfo foInfo:formatOfferingList){
+            for (FormatOfferingInfo foInfo : formatOfferingList) {
                 foIds.add(foInfo.getId());
             }
 
@@ -175,7 +175,7 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
     public int getAoClusterCountByFoId(String foId, ContextInfo contextInfo) throws MissingParameterException,
             InvalidParameterException,
             OperationFailedException,
-            PermissionDeniedException{
+            PermissionDeniedException {
 
         int iRet = 0;
 
@@ -189,7 +189,7 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
                 if (ActivityOfferingSearchServiceImpl.SearchResultColumns.AO_CLUSTER_COUNT.equals(cell.getKey())) {
                     String aoClusterCount = cell.getValue();
 
-                    if(aoClusterCount != null){
+                    if (aoClusterCount != null) {
                         iRet = Integer.valueOf(aoClusterCount);
                     }
                 }
@@ -204,7 +204,7 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
     public List<KeyValue> getAoIdAndAoTypeByFO(String foId, ContextInfo contextInfo) throws MissingParameterException,
             InvalidParameterException,
             OperationFailedException,
-            PermissionDeniedException{
+            PermissionDeniedException {
 
         List<KeyValue> lRet = new ArrayList<KeyValue>();
 
@@ -221,12 +221,12 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
 
                 if (ActivityOfferingSearchServiceImpl.SearchResultColumns.AO_ID.equals(cell.getKey())) {
                     aoId = cell.getValue();
-                }  else  if (ActivityOfferingSearchServiceImpl.SearchResultColumns.AO_TYPE.equals(cell.getKey())) {
+                } else if (ActivityOfferingSearchServiceImpl.SearchResultColumns.AO_TYPE.equals(cell.getKey())) {
                     aoType = cell.getValue();
                 }
             }
 
-            if(aoId != null && aoType != null ){
+            if (aoId != null && aoType != null) {
                 KeyValue kv = new ConcreteKeyValue(aoId, aoType);
                 lRet.add(kv);
             }
@@ -247,7 +247,7 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
             DataValidationErrorException {
 
         int clusterCount = getAoClusterCountByFoId(foId, context);
-        if (clusterCount != 0 ) {
+        if (clusterCount != 0) {
             throw new OperationFailedException("Cluster already exists");
         }
         FormatOfferingInfo fo = coService.getFormatOffering(foId, context);
@@ -268,9 +268,9 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
         // Now we're good...create the AOC
         ActivityOfferingClusterInfo clusterInfo = new ActivityOfferingClusterInfo();
         clusterInfo.setFormatOfferingId(foId);
-        
+
         String defaultClusterName = getDefaultClusterNamePerCO(coId, context);
-        
+
         clusterInfo.setPrivateName(defaultClusterName);
         clusterInfo.setName(defaultClusterName);
         clusterInfo.setStateKey(CourseOfferingServiceConstants.AOC_ACTIVE_STATE_KEY);
@@ -281,12 +281,12 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
             List<ActivityOfferingSetInfo> sets = aoc.getActivityOfferingSets();
             // Put stray AOs into this cluster (considered a problem)
             LOGGER.warn("Adding stray AOs to this cluster--shouldn't happen");
-            for (KeyValue aoIdType: aoKVList) {
+            for (KeyValue aoIdType : aoKVList) {
                 boolean added = false;
                 String aoId = aoIdType.getKey();
                 String aoType = aoIdType.getValue();
                 // Iterate over each set to find a matching AO set to put the stray AOs into
-                for (ActivityOfferingSetInfo set: sets) {
+                for (ActivityOfferingSetInfo set : sets) {
                     if (set.getActivityOfferingType().equals(aoType)) {
                         // Add AO ID to correct AO set
                         set.getActivityOfferingIds().add(aoId);
@@ -325,7 +325,7 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
         // Use type service to find corresponding AO types--assumes 1-1 mapping of Activity types to AO types
         TypeService typeService = getTypeService();
         List<String> aoTypeKeys = new ArrayList<String>();
-        for (String activityType: activityTypes) {
+        for (String activityType : activityTypes) {
             List<TypeTypeRelationInfo> typeTypeRels =
                     typeService.getTypeTypeRelationsByOwnerAndType(activityType,
                             TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY,
@@ -350,15 +350,15 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
      * User Story 2: I need the system to automatically create reg group(s) when I add a CO via Copy to eliminate
      * the need to manually create them
      * Note: this only handles copying an existing CO to a term, not creating from canonical which will
-     *       be a separate method (not written as of now).
+     * be a separate method (not written as of now).
      * Note: not yet unit tested
      * Note: rollover will handle generation of RGs (not yet implemented)
      */
     @Override
     public CourseOfferingInfo copyCourseOfferingToTargetTerm(CourseOfferingInfo coInfo, TermInfo targetTerm, List<String> optionKeys, ContextInfo context)
             throws InvalidParameterException, PermissionDeniedException, DataValidationErrorException,
-                   AlreadyExistsException, ReadOnlyException, OperationFailedException, MissingParameterException,
-                   DoesNotExistException {
+            AlreadyExistsException, ReadOnlyException, OperationFailedException, MissingParameterException,
+            DoesNotExistException {
         // Impl based on CourseOfferingManagementController::copyCourseOfferingCreateCopy
         if (optionKeys == null) {
             optionKeys = new ArrayList<String>();
@@ -394,29 +394,10 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
         ActivityOfferingResult aoResult = _addActivityOfferingToClusterCommon(created, cluster, context);
 
         //generate final exam offerings if the exam period exists
-        String examPeriodID = null;
-        try {
-            examPeriodID = this.getExamOfferingServiceFacade().getExamPeriodId(aoInfo.getTermId(), context);
-        } catch (DoesNotExistException e) {
-            LOGGER.warn("The Term {} doesn't have an exam period to create exam offerings.", aoInfo.getTermId());
-        }
-        if (examPeriodID != null) {
-            //create if Final Exam Driver has been selected for the FO
-            TypeInfo typeAO = getTypeService().getType(created.getTypeKey(), context);
-            FormatOfferingInfo fo = getCoService().getFormatOffering(aoInfo.getFormatOfferingId(), context);
-            if (fo.getFinalExamLevelTypeKey() != null) {
-                TypeInfo typeFEO = getTypeService().getType(fo.getFinalExamLevelTypeKey(), context);
-                if (typeAO.getName().equals(typeFEO.getName())){
-                    this.getExamOfferingServiceFacade().generateFinalExamOfferingForAO(created, aoInfo.getTermId(), examPeriodID, new ArrayList<String>(), context);
-                } else {
-                    aoResult.getExamOfferingsGenerated().setSuccess(Boolean.FALSE);
-                }
-            } else {
-                aoResult.getExamOfferingsGenerated().setSuccess(Boolean.FALSE);
-            }
-        } else{
-            aoResult.getExamPeriodStatus().setSuccess(Boolean.FALSE);
-        }
+        FormatOfferingInfo fo = getCoService().getFormatOffering(aoInfo.getFormatOfferingId(), context);
+        CourseOfferingInfo co = getCoService().getCourseOffering(fo.getCourseOfferingId(), context);
+        aoResult.setExamOfferingResult(this.getExamOfferingServiceFacade().generateFinalExamOfferingForAO(co, created,
+                aoInfo.getTermId(), fo.getFinalExamLevelTypeKey(), new ArrayList<String>(), context));
 
 
         //create and persist a WaitlistInfo for AO
@@ -430,7 +411,8 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
 
     /**
      * Used by both createActivityOffering and copyActivityOfferingToCluster
-     * @param aoInfo AO info just created/copied
+     *
+     * @param aoInfo  AO info just created/copied
      * @param cluster The cluster to place it in
      * @param context context of service call
      * @return A result with RGs generated
@@ -441,7 +423,7 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
 
         // Now add the AO ID to the correct AOC set
         boolean checkType = false;
-        for (ActivityOfferingSetInfo set: cluster.getActivityOfferingSets()) {
+        for (ActivityOfferingSetInfo set : cluster.getActivityOfferingSets()) {
             if (set.getActivityOfferingType().equals(aoInfo.getTypeKey())) {
                 set.getActivityOfferingIds().add(aoInfo.getId()); // Found set, add the ID
                 checkType = true;
@@ -475,7 +457,7 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
     }
 
     private boolean _clusterCanGenerateRgs(ActivityOfferingClusterInfo updated) {
-        for (ActivityOfferingSetInfo set: updated.getActivityOfferingSets()) {
+        for (ActivityOfferingSetInfo set : updated.getActivityOfferingSets()) {
             if (set.getActivityOfferingIds().isEmpty()) {
                 return false;
             }
@@ -502,51 +484,32 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
 
         ActivityOfferingResult aoResult = _addActivityOfferingToClusterCommon(copyAoInfo, cluster, context);
 
-        //generate final exam offerings if the exam period exists
-        String examPeriodID = null;
-        try {
-            examPeriodID = this.getExamOfferingServiceFacade().getExamPeriodId(copyAoInfo.getTermId(), context);
-        } catch (DoesNotExistException e) {
-            LOGGER.warn("The Term {} doesn't have an exam period to create exam offerings.", copyAoInfo.getTermId());
-        }
-        if (examPeriodID != null) {
-            //create if Final Exam Driver has been selected for the FO
-            TypeInfo typeAO = getTypeService().getType(copyAoInfo.getTypeKey(), context);
-            FormatOfferingInfo fo = getCoService().getFormatOffering(copyAoInfo.getFormatOfferingId(), context);
-            if (fo.getFinalExamLevelTypeKey() != null) {
-                TypeInfo typeFEO = getTypeService().getType(fo.getFinalExamLevelTypeKey(), context);
-                if (typeAO.getName().equals(typeFEO.getName())){
-                    this.getExamOfferingServiceFacade().generateFinalExamOfferingForAO(copyAoInfo, copyAoInfo.getTermId(), examPeriodID, new ArrayList<String>(), context);
-                    aoResult.getExamOfferingsGenerated().setSuccess(Boolean.TRUE);
-                } else {
-                    aoResult.getExamOfferingsGenerated().setSuccess(Boolean.FALSE);
-                }
-            } else {
-                aoResult.getExamOfferingsGenerated().setSuccess(Boolean.FALSE);
-            }
-        } else{
-            aoResult.getExamPeriodStatus().setSuccess(Boolean.FALSE);
-        }
+        //create if Final Exam Driver has been selected for the FO
+        FormatOfferingInfo fo = getCoService().getFormatOffering(copyAoInfo.getFormatOfferingId(), context);
+        CourseOfferingInfo co = getCoService().getCourseOffering(fo.getCourseOfferingId(), context);
+        ExamOfferingResult result = this.getExamOfferingServiceFacade().generateFinalExamOfferingForAO(co, copyAoInfo, copyAoInfo.getTermId(),
+                fo.getFinalExamLevelTypeKey(), new ArrayList<String>(), context);
+        aoResult.setExamOfferingResult(result);
 
         return aoResult;
     }
 
     private CourseWaitListInfo copyToCreateWL(ActivityOfferingInfo newAOInfo, String origAoId, ContextInfo context)
-                        throws InvalidParameterException, MissingParameterException, OperationFailedException,
-                               PermissionDeniedException, DoesNotExistException, DataValidationErrorException,
-                               ReadOnlyException{
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException, DoesNotExistException, DataValidationErrorException,
+            ReadOnlyException {
 
         List<CourseWaitListInfo> waitListInfos = getCourseWaitListService().getCourseWaitListsByActivityOffering(origAoId, context);
-        CourseWaitListInfo origWaitListInfo, newWaitListInfo;        
-        if (!waitListInfos.isEmpty()){
+        CourseWaitListInfo origWaitListInfo, newWaitListInfo;
+        if (!waitListInfos.isEmpty()) {
 
             // waitListInfos can return more than two values
             origWaitListInfo = KSCollectionUtils.getRequiredZeroElement(waitListInfos);
             newWaitListInfo = new CourseWaitListInfo(origWaitListInfo);
-            if(origWaitListInfo.getActivityOfferingIds().size()>1){
+            if (origWaitListInfo.getActivityOfferingIds().size() > 1) {
                 origWaitListInfo.getActivityOfferingIds().add(newAOInfo.getId());
                 try {
-                    origWaitListInfo=getCourseWaitListService().updateCourseWaitList(origWaitListInfo.getId(), origWaitListInfo, context);
+                    origWaitListInfo = getCourseWaitListService().updateCourseWaitList(origWaitListInfo.getId(), origWaitListInfo, context);
                 } catch (VersionMismatchException e) {
                     throw new OperationFailedException(e);
                 }
@@ -562,8 +525,7 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
                         newWaitListInfo, context);
             }
 
-        }
-        else{
+        } else {
             // Assume that every AO should have an associated WL. if not, treat it as a reference data problem.
             // We will just create a new WL
             newWaitListInfo = getWaitListServiceFacade().createDefaultCourseWaitlist(newAOInfo, context);
@@ -577,7 +539,7 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
         setAutoProcConfReq(courseWaitListInfo, waitlistType, hasWaitlist, limitWaitlistSize);
 
         try {
-            if(courseWaitListInfo.getActivityOfferingIds().size() == 1) {   // only current AO - meaning no sharing of WL
+            if (courseWaitListInfo.getActivityOfferingIds().size() == 1) {   // only current AO - meaning no sharing of WL
                 courseWaitListInfo = getCourseWaitListService().updateCourseWaitList(courseWaitListInfo.getId(), courseWaitListInfo, context);
             } else {
                 // remove un-colocated AO from shared WL, do NOT want to save new parameters
@@ -603,7 +565,7 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
     }
 
     public CourseWaitListInfo createColocatedWaitList(CourseWaitListInfo courseWaitListInfo, String waitlistType, boolean hasWaitlist, boolean limitWaitlistSize, boolean isColocatedAO, boolean isMaxEnrollmentShared,
-                                        HashMap<String, String> aoIdfoIdMap, ContextInfo context) {
+                                                      HashMap<String, String> aoIdfoIdMap, ContextInfo context) {
 
         setAutoProcConfReq(courseWaitListInfo, waitlistType, hasWaitlist, limitWaitlistSize);
 
@@ -611,19 +573,19 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
             // whether co-locating or already existing colos
             if (!aoIdfoIdMap.isEmpty() && isColocatedAO) {
                 CourseWaitListInfo courseWaitListInfoShared = new CourseWaitListInfo();
-                if (!isMaxEnrollmentShared){ // want to keep old params for the new WLs for the rest of AOs
+                if (!isMaxEnrollmentShared) { // want to keep old params for the new WLs for the rest of AOs
                     courseWaitListInfoShared = getCourseWaitListService().getCourseWaitList(courseWaitListInfo.getId(), context);
                 }
 
-                for (Map.Entry<String, String> entry : aoIdfoIdMap.entrySet()){
+                for (Map.Entry<String, String> entry : aoIdfoIdMap.entrySet()) {
                     String aoId = entry.getKey();
                     String foId = entry.getValue();
-                    if (isMaxEnrollmentShared){   // create shared WL
+                    if (isMaxEnrollmentShared) {   // create shared WL
                         // Put WL logic in. Shared WL ONLY when max enrollement is shared. Adding new aoID and foID(s)
                         if (!courseWaitListInfo.getActivityOfferingIds().contains(aoId)) {
                             courseWaitListInfo.getActivityOfferingIds().add(aoId);
                             // Delete WL for other AO
-                            List<CourseWaitListInfo> courseWaitLists  = getCourseWaitListService().getCourseWaitListsByActivityOffering(aoId, context);
+                            List<CourseWaitListInfo> courseWaitLists = getCourseWaitListService().getCourseWaitListsByActivityOffering(aoId, context);
                             for (CourseWaitListInfo courseWaitlist : courseWaitLists) {
                                 if (!StringUtils.equals(courseWaitlist.getId(), courseWaitListInfo.getId())) {
                                     getCourseWaitListService().deleteCourseWaitList(courseWaitlist.getId(), context);
@@ -655,40 +617,40 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
 
             courseWaitListInfo = getCourseWaitListService().updateCourseWaitList(courseWaitListInfo.getId(), courseWaitListInfo, context);
         } catch (Exception e) {
-                throw new RuntimeException(e);
+            throw new RuntimeException(e);
         }
 
         return courseWaitListInfo;
     }
 
-    private void setAutoProcConfReq(CourseWaitListInfo courseWaitListInfo, String waitlistType, boolean hasWaitlist, boolean limitWaitlistSize){
+    private void setAutoProcConfReq(CourseWaitListInfo courseWaitListInfo, String waitlistType, boolean hasWaitlist, boolean limitWaitlistSize) {
 
-        if(waitlistType != null) {
-            if(waitlistType.equals(LuiServiceConstants.AUTOMATIC_WAITLIST_TYPE_KEY)) {
+        if (waitlistType != null) {
+            if (waitlistType.equals(LuiServiceConstants.AUTOMATIC_WAITLIST_TYPE_KEY)) {
                 courseWaitListInfo.setAutomaticallyProcessed(true);
                 courseWaitListInfo.setConfirmationRequired(false);
-            } else if(waitlistType.equals(LuiServiceConstants.CONFIRMATION_WAITLIST_TYPE_KEY)){
+            } else if (waitlistType.equals(LuiServiceConstants.CONFIRMATION_WAITLIST_TYPE_KEY)) {
                 courseWaitListInfo.setAutomaticallyProcessed(true);
                 courseWaitListInfo.setConfirmationRequired(true);
-            } else if(waitlistType.equals(LuiServiceConstants.MANUAL_WAITLIST_TYPE_KEY)) {
+            } else if (waitlistType.equals(LuiServiceConstants.MANUAL_WAITLIST_TYPE_KEY)) {
                 courseWaitListInfo.setAutomaticallyProcessed(false);
                 courseWaitListInfo.setConfirmationRequired(false);
             }
         }
 
-        if(hasWaitlist) {
+        if (hasWaitlist) {
             courseWaitListInfo.setStateKey(CourseWaitListServiceConstants.COURSE_WAIT_LIST_ACTIVE_STATE_KEY);
         } else {
             courseWaitListInfo.setStateKey(CourseWaitListServiceConstants.COURSE_WAIT_LIST_INACTIVE_STATE_KEY);
         }
 
-        if(!limitWaitlistSize) {
+        if (!limitWaitlistSize) {
             courseWaitListInfo.setMaxSize(null);
         }
     }
 
-    public  ActivityOfferingResult updateRegistrationGroups(ActivityOfferingInfo activityOfferingInfo, ContextInfo context) throws PermissionDeniedException, DataValidationErrorException, InvalidParameterException, ReadOnlyException, OperationFailedException, MissingParameterException, DoesNotExistException, VersionMismatchException {
-        try{
+    public ActivityOfferingResult updateRegistrationGroups(ActivityOfferingInfo activityOfferingInfo, ContextInfo context) throws PermissionDeniedException, DataValidationErrorException, InvalidParameterException, ReadOnlyException, OperationFailedException, MissingParameterException, DoesNotExistException, VersionMismatchException {
+        try {
             ActivityOfferingResult aoResult = new ActivityOfferingResult();
             aoResult.setCreatedActivityOffering(activityOfferingInfo);
 
@@ -759,7 +721,7 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
             return aoResult;
 
         } catch (Exception e) {
-        throw new RuntimeException(e);
+            throw new RuntimeException(e);
         }
 
     }
@@ -769,7 +731,7 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
         try {
             //update AO
             ActivityOfferingInfo activityOfferingInfo = coService.updateActivityOffering(aoInfo.getId(), aoInfo, context);
-            return this.updateRegistrationGroups(activityOfferingInfo,context);
+            return this.updateRegistrationGroups(activityOfferingInfo, context);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -801,13 +763,13 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
 
     @Override
     public List<BulkStatusInfo> moveActivityOffering(String aoId,
-                                                            String sourceAocId,
-                                                            String targetAocId,
-                                                            ContextInfo context)
+                                                     String sourceAocId,
+                                                     String targetAocId,
+                                                     ContextInfo context)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException,
             VersionMismatchException {
-        if(coService == null) {
+        if (coService == null) {
             coService = getCoService();
         }
         // Fetch the AOInfo
@@ -816,7 +778,7 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
         ActivityOfferingClusterInfo sourceAoc = coService.getActivityOfferingCluster(sourceAocId, context);
         // Verify that aoId is in this AOC
         ActivityOfferingSetInfo setWithAoId = null;
-        for (ActivityOfferingSetInfo set: sourceAoc.getActivityOfferingSets()) {
+        for (ActivityOfferingSetInfo set : sourceAoc.getActivityOfferingSets()) {
             if (set.getActivityOfferingType().equals(aoInfo.getTypeKey()) &&
                     set.getActivityOfferingIds().contains(aoId)) {
                 setWithAoId = set;
@@ -842,7 +804,7 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
         coService.updateActivityOfferingCluster(aoInfo.getFormatOfferingId(), sourceAocId, sourceAoc, context);
         // Now, add the AO ID to the target AOC
         boolean inserted = false;
-        for (ActivityOfferingSetInfo set: targetAoc.getActivityOfferingSets()) {
+        for (ActivityOfferingSetInfo set : targetAoc.getActivityOfferingSets()) {
             // Pick first AO set with matching type
             if (set.getActivityOfferingType().equals(aoInfo.getTypeKey())) {
                 if (set.getActivityOfferingIds().contains(aoId)) {
@@ -877,7 +839,7 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
         List<ActivityOfferingInfo> aoInfos = coService.getActivityOfferingsByCluster(aocId, context);
         coService.deleteActivityOfferingClusterCascaded(aocId, context);
         // Delete each AO
-        for (ActivityOfferingInfo aoInfo: aoInfos) {
+        for (ActivityOfferingInfo aoInfo : aoInfos) {
             // get seat pools to delete
             List<SeatPoolDefinitionInfo> seatPools = coService.getSeatPoolDefinitionsForActivityOffering(aoInfo.getId(), context);
 
@@ -897,11 +859,11 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
      */
     @Override
     public Integer getSeatCountByCourseOffering(String courseOfferingId,
-            ContextInfo contextInfo) throws OperationFailedException, PermissionDeniedException {
-        
+                                                ContextInfo contextInfo) throws OperationFailedException, PermissionDeniedException {
+
         try {
             CourseOfferingInfo co = coService.getCourseOffering(courseOfferingId, contextInfo);
-            
+
             return co.getMaximumEnrollment();
         } catch (DoesNotExistException e) {
             throw new OperationFailedException("getSeatCountByCourseOffering (courseOfferingId=" + courseOfferingId + "): failed", e);
@@ -910,7 +872,7 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
         } catch (MissingParameterException e) {
             throw new OperationFailedException("getSeatCountByCourseOffering (courseOfferingId=" + courseOfferingId + "): failed", e);
         }
-        
+
 //        try {
 //            List<ActivityOfferingInfo> aos = coService.getActivityOfferingsByCourseOffering(courseOfferingId, contextInfo);
 //            
@@ -924,57 +886,57 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
 //            throw new OperationFailedException("getSeatCountByCourseOffering (courseOfferingId=" + courseOfferingId + "): failed", e);
 //        }
     }
-    
-   
+
+
     /* (non-Javadoc)
      * @see org.kuali.student.enrollment.class2.courseoffering.service.applayer.CourseOfferingServiceFacade#getMaxEnrollmentByActivityOfferingCluster(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
      */
     @Override
     public Integer getSeatCountByActivityOfferingCluster(String aocId,
-            ContextInfo contextInfo) throws OperationFailedException, PermissionDeniedException {
-        
+                                                         ContextInfo contextInfo) throws OperationFailedException, PermissionDeniedException {
+
         try {
             List<ActivityOfferingInfo> aos = coService.getActivityOfferingsByCluster(aocId, contextInfo);
-            
-            Map<String, ActivityOfferingInfo>aoMap = new HashMap<String, ActivityOfferingInfo>();
-            
+
+            Map<String, ActivityOfferingInfo> aoMap = new HashMap<String, ActivityOfferingInfo>();
+
             for (ActivityOfferingInfo activityOfferingInfo : aos) {
                 aoMap.put(activityOfferingInfo.getId(), activityOfferingInfo);
             }
-            
+
             ActivityOfferingClusterInfo aoc = coService.getActivityOfferingCluster(aocId, contextInfo);
             List<ActivityOfferingSetInfo> aoSets = aoc.getActivityOfferingSets();
             int maxAOCEnrollment = Integer.MAX_VALUE;
-            
+
             for (ActivityOfferingSetInfo activityOfferingSetInfo : aoSets) {
                 int maxActivityTypeEnrollment =
                         _computeMaxEnrollment(activityOfferingSetInfo.getActivityOfferingIds(), aoMap);
-                
+
                 if (maxActivityTypeEnrollment < maxAOCEnrollment) {
                     maxAOCEnrollment = maxActivityTypeEnrollment;
                 }
             }
-            
+
             FormatOfferingInfo fo = coService.getFormatOffering(aoc.getFormatOfferingId(), contextInfo);
             CourseOfferingInfo co = coService.getCourseOffering(fo.getCourseOfferingId(), contextInfo);
             int maxCOEnrollment = co.getMaximumEnrollment();
-            
+
             // This assumes that the seat count for an aoc is the smallest ao.maxEnrollment number in this cluster.
             List<RegistrationGroupInfo> rgs = coService.getRegistrationGroupsByActivityOfferingCluster(aocId, contextInfo);
 
             int maxAOEnrollment = _computeMaxEnrollment(aos);
-            
+
             // cap is the smaller of the CO or AO or AOC enrollment limit
             int maxEnrollment = Math.min(Math.min(maxCOEnrollment, maxAOEnrollment), maxAOCEnrollment);
             int minEnrollment = Integer.MAX_VALUE;
-            
+
             for (RegistrationGroupInfo registrationGroupInfo : rgs) {
-                List<ActivityOfferingInfo>rgAOList = new ArrayList<ActivityOfferingInfo>();
-                
+                List<ActivityOfferingInfo> rgAOList = new ArrayList<ActivityOfferingInfo>();
+
                 for (String aoId : registrationGroupInfo.getActivityOfferingIds()) {
                     rgAOList.add(aoMap.get(aoId));
                 }
-                
+
                 int currentSeats = _computeMaxEnrollment(rgAOList);
                 if (minEnrollment > currentSeats) {
                     minEnrollment = currentSeats;
@@ -991,19 +953,20 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
         } catch (MissingParameterException e) {
             throw new OperationFailedException("getSeatCountByActivityOfferingCluster (aocId=" + aocId + "): failed", e);
         }
-        
+
     }
 
 
     private Integer _computeMaxEnrollment(List<String> aoIds, Map<String, ActivityOfferingInfo> aoMap) {
-        
-        List<ActivityOfferingInfo>aoList = new ArrayList<ActivityOfferingInfo>();
+
+        List<ActivityOfferingInfo> aoList = new ArrayList<ActivityOfferingInfo>();
         for (String aoId : aoIds) {
             aoList.add(aoMap.get(aoId));
         }
         return _computeMaxEnrollment(aoList);
-        
+
     }
+
     /*
      * The maxEnrollment of a list of Activity Offering's is the smallest max enrollment number.
      * 
@@ -1011,9 +974,9 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
      * 
      */
     private Integer _computeMaxEnrollment(List<ActivityOfferingInfo> aos) {
-        
+
         int minEnrollment = Integer.MAX_VALUE;
-        
+
         for (ActivityOfferingInfo activityOfferingInfo : aos) {
             Integer maxEnrollment = activityOfferingInfo.getMaximumEnrollment();
             if (maxEnrollment != null) {
@@ -1022,16 +985,16 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
                 }
             }
         }
-        
+
         if (minEnrollment == Integer.MAX_VALUE) {
             // a data error that none of the AO's have a max enrollment specified
             return null;
-        }
-        else {
+        } else {
             return minEnrollment;
         }
 
     }
+
     /* (non-Javadoc)
      * @see org.kuali.student.enrollment.class2.courseoffering.service.applayer.CourseOfferingServiceFacade#getMaxEnrollmentByRegistrationGroup(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
      */
@@ -1039,10 +1002,10 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
     public Integer getSeatCountByRegistrationGroup(
             String registrationGroupId, ContextInfo contextInfo)
             throws OperationFailedException, PermissionDeniedException {
-        
+
         try {
             RegistrationGroupInfo rg = coService.getRegistrationGroup(registrationGroupId, contextInfo);
-            
+
             List<ActivityOfferingInfo> aos = coService.getActivityOfferingsByIds(rg.getActivityOfferingIds(), contextInfo);
 
             return _computeMaxEnrollment(aos);
@@ -1057,7 +1020,7 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
 
     private Set<Set<String>> _convertToSetOfSetOfStrings(Set<List<String>> setOfRgAoIdLists) {
         Set<Set<String>> rgAoIdSets = new HashSet<Set<String>>();
-        for (List<String> rgAoIds: setOfRgAoIdLists) {
+        for (List<String> rgAoIds : setOfRgAoIdLists) {
             rgAoIdSets.add(new HashSet<String>(rgAoIds));
         }
         return rgAoIdSets;
@@ -1078,10 +1041,10 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
     @Override
     public List<CourseOfferingAutogenIssue> findAutogenIssuesByTerm(String termId, ContextInfo context)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
-                   OperationFailedException, DoesNotExistException {
+            OperationFailedException, DoesNotExistException {
         List<String> coIds = coService.getCourseOfferingIdsByTerm(termId, Boolean.TRUE, context);
         List<CourseOfferingAutogenIssue> termCoIssues = new ArrayList<CourseOfferingAutogenIssue>();
-        for (String coId: coIds) {
+        for (String coId : coIds) {
             CourseOfferingAutogenIssue coIssue = findAutogenIssuesByCourseOffering(coId, context);
             if (coIssue != null) {
                 termCoIssues.add(coIssue);
@@ -1094,13 +1057,13 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
     public CourseOfferingAutogenIssue findAutogenIssuesByCourseOffering(String courseOfferingId, ContextInfo context) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
         List<FormatOfferingInfo> fos = coService.getFormatOfferingsByCourseOffering(courseOfferingId, context);
         CourseOfferingAutogenIssue coIssue = new CourseOfferingAutogenIssue(courseOfferingId);
-        for (FormatOfferingInfo fo: fos) {
+        for (FormatOfferingInfo fo : fos) {
             String foId = fo.getId();
             FormatOfferingAutogenIssue foIssue = new FormatOfferingAutogenIssue(foId);
             List<ActivityOfferingInfo> aoInfos =
                     coService.getActivityOfferingsByFormatOffering(fo.getId(), context);
             Set<String> aoIdSet = new HashSet<String>();
-            for (ActivityOfferingInfo ao: aoInfos) {
+            for (ActivityOfferingInfo ao : aoInfos) {
                 aoIdSet.add(ao.getId());
             }
             // Find AOs without clusters
@@ -1108,7 +1071,7 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
                     coService.getActivityOfferingsWithoutClusterByFormatOffering(foId, context);
             // Gather only the IDs
             Set<String> aoIdsWoClusters = new HashSet<String>();
-            for (ActivityOfferingInfo aoInfo: aosWoClusters) {
+            for (ActivityOfferingInfo aoInfo : aosWoClusters) {
                 aoIdsWoClusters.add(aoInfo.getId());
             }
             // Then create issues associated with it
@@ -1125,9 +1088,9 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
                     coService.getActivityOfferingClustersByFormatOffering(foId, context);
             Set<Set<String>> possibleRgAOIds = new HashSet<Set<String>>();
             Set<Set<String>> actualRgAOIds = new HashSet<Set<String>>();
-            for (ActivityOfferingClusterInfo cluster: clusters) {
+            for (ActivityOfferingClusterInfo cluster : clusters) {
                 Set<String> clusterAoIds = new HashSet<String>();
-                for (ActivityOfferingSetInfo set: cluster.getActivityOfferingSets()) {
+                for (ActivityOfferingSetInfo set : cluster.getActivityOfferingSets()) {
                     clusterAoIds.addAll(set.getActivityOfferingIds());
                 }
                 aocAoIdList.add(clusterAoIds);
@@ -1139,10 +1102,10 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
             // Now go through the RGs to check for invalid ones
             List<RegistrationGroupInfo> rgInfos =
                     coService.getRegistrationGroupsByFormatOffering(fo.getId(), context);
-            for (RegistrationGroupInfo rg: rgInfos) {
+            for (RegistrationGroupInfo rg : rgInfos) {
                 boolean found = false;
                 List<String> rgAoIds = rg.getActivityOfferingIds();
-                for (Set<String> aocAoIds: aocAoIdList) {
+                for (Set<String> aocAoIds : aocAoIdList) {
                     if (aocAoIds.containsAll(rgAoIds)) {
                         found = true;
                         break;
@@ -1162,7 +1125,7 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
             possibleRgAOIds.removeAll(actualRgAOIds);
             Set<Set<String>> missingRgAOIds // renaming to make it easier to see what's going on
                     = new HashSet<Set<String>>(possibleRgAOIds);
-            for (Set<String> rgAoIdSet: missingRgAOIds) {
+            for (Set<String> rgAoIdSet : missingRgAOIds) {
                 // Create an issue
                 RegGroupNotGeneratedByAocSubissue subissue =
                         new RegGroupNotGeneratedByAocSubissue(courseOfferingId, foId);
@@ -1186,12 +1149,12 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
     @Override
     public AutogenCount getAutogenCountByCourseOffering(
             String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        
+
         SearchRequestInfo request = new SearchRequestInfo(CourseOfferingServiceConstants.AUTOGEN_COUNTS_BY_CO);
-        
+
         request.addParam(CourseOfferingServiceConstants.AUTOGEN_COUNTS_BY_CO_ID_PARAM, courseOfferingId);
-        
-        return runAutogenCountSearch (request, context); 
+
+        return runAutogenCountSearch(request, context);
     }
 
     /*
@@ -1217,7 +1180,7 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
         count.setNumberOfActivityOfferings(0);
         count.setNumberOfInvalidRegistrationGroups(0);
         count.setNumberOfRegistrationGroups(0);
-        
+
         List<SearchResultCellInfo> cells = row.getCells();
 
         for (SearchResultCellInfo cellInfo : cells) {
@@ -1244,18 +1207,19 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
 
         return count;
     }
+
     /* (non-Javadoc)
      * @see org.kuali.student.enrollment.class2.courseoffering.service.adapter.CourseOfferingServiceFacade#getAutogenCountByFormatOffering(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
      */
     @Override
     public AutogenCount getAutogenCountByFormatOffering(
             String formatOfferingId, ContextInfo context) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
-       
+
         SearchRequestInfo request = new SearchRequestInfo(CourseOfferingServiceConstants.AUTOGEN_COUNTS_BY_FO);
-        
+
         request.addParam(CourseOfferingServiceConstants.AUTOGEN_COUNTS_BY_FO_ID_PARAM, formatOfferingId);
-        
-        return runAutogenCountSearch (request, context); 
+
+        return runAutogenCountSearch(request, context);
     }
 
     /* (non-Javadoc)
@@ -1264,13 +1228,13 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
     @Override
     public AutogenCount getAutogenCountByActivtyOfferingCluster(
             String activiyOfferingClusterId, ContextInfo context) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
-        
+
         SearchRequestInfo request = new SearchRequestInfo(CourseOfferingServiceConstants.AUTOGEN_COUNTS_BY_AOC);
-        
+
         request.addParam(CourseOfferingServiceConstants.AUTOGEN_COUNTS_BY_AOC_ID_PARAM, activiyOfferingClusterId);
-        
-        return runAutogenCountSearch (request, context); 
-        
+
+        return runAutogenCountSearch(request, context);
+
     }
 
     /**
@@ -1285,15 +1249,15 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
         List<ActivityOfferingClusterInfo> lRet = new ArrayList<ActivityOfferingClusterInfo>();
         List<ActivityOfferingClusterEntity> aoClusters = getActivityOfferingClusterDao().getByCourseOffering(courseOfferingId);
 
-        for(ActivityOfferingClusterEntity aoc : aoClusters){
+        for (ActivityOfferingClusterEntity aoc : aoClusters) {
             lRet.add(aoc.toDto());
         }
         return lRet;
     }
 
     public CourseOfferingService getCoService() {
-        if(coService == null) {
-            coService =  GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE,
+        if (coService == null) {
+            coService = GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE,
                     CourseOfferingServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
 
@@ -1301,8 +1265,8 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
     }
 
     public CourseWaitListService getCourseWaitListService() {
-        if(courseWaitListService == null) {
-            courseWaitListService =  GlobalResourceLoader.getService(new QName(CourseWaitListServiceConstants.NAMESPACE,
+        if (courseWaitListService == null) {
+            courseWaitListService = GlobalResourceLoader.getService(new QName(CourseWaitListServiceConstants.NAMESPACE,
                     CourseWaitListServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
 
@@ -1320,8 +1284,8 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
     public TypeService getTypeService() {
         if (typeService == null) {
             QName qname = new QName(TypeServiceConstants.NAMESPACE,
-                                    TypeServiceConstants.SERVICE_NAME_LOCAL_PART);
-            typeService =  GlobalResourceLoader.getService(qname);
+                    TypeServiceConstants.SERVICE_NAME_LOCAL_PART);
+            typeService = GlobalResourceLoader.getService(qname);
         }
         return typeService;
     }

@@ -1891,7 +1891,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             throw new RuntimeException(e);
         }
 
-        BulkStatusInfo examsGenerated = null;
+        List<BulkStatusInfo> examsGenerated = new ArrayList<BulkStatusInfo>();
         BulkStatusInfo examPeriodStatus = null;
         //create and persist AO
         for (int i = 0; i < noOfActivityOfferings; i++) {
@@ -1917,11 +1917,9 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                 ActivityOfferingResult aoResult = CourseOfferingManagementUtil.getCourseOfferingServiceFacade().createActivityOffering(aoInfo, clusterId, contextInfo);
                 activityOfferingInfo = aoResult.getCreatedActivityOffering();
                 theWaitListInfo = aoResult.getWaitListInfo();
-                if (examsGenerated == null) {//the exam period either exists or not, first result is all we need
-                    examsGenerated = aoResult.getExamOfferingsGenerated();
-                }
+                examsGenerated.addAll(aoResult.getExamOfferingResult().getExamOfferingsCreated());
                 if (examPeriodStatus == null) {
-                    examPeriodStatus = aoResult.getExamPeriodStatus();
+                    examPeriodStatus = aoResult.getExamOfferingResult().getExamPeriodStatus();
                 }
 
                 ActivityOfferingWrapper wrapper = new ActivityOfferingWrapper(activityOfferingInfo);
@@ -1942,7 +1940,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             //determine which growl message to display
             if (!examPeriodStatus.getIsSuccess()) {
                 KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_ADD_1_SUCCESS_WITH_MISSING_EXAMPERIOD);
-            } else if (!examsGenerated.getIsSuccess()) {
+            } else if (examsGenerated.isEmpty()) {
                 KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_ADD_1_SUCCESS);
             } else {
                 KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_ADD_1_SUCCESS_WITH_EXAMOFFERING_GENERATED);
@@ -1951,7 +1949,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             //determine which growl message to display
             if (!examPeriodStatus.getIsSuccess()) {
                 KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_ADD_N_SUCCESS_WITH_MISSING_EXAMPERIOD);
-            } else if (!examsGenerated.getIsSuccess()) {
+            } else if (examsGenerated.isEmpty()) {
                 KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_ADD_N_SUCCESS);
             } else {
                 KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_ADD_N_SUCCESS_WITH_EXAMOFFERING_GENERATED);
