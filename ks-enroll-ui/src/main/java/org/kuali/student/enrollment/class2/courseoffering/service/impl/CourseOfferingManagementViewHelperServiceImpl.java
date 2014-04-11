@@ -2415,6 +2415,20 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         //set the EO matrix RSI Overidable flag for the current CO wrapper
         setExamOfferingMatrixRSIOveridability(theForm);
 
+        //reset wrapper lists before adding back eoWrappers
+        theForm.getExamOfferingWrapperList().clear();
+        if (theForm.getEoClusterResultList().size() > 0) {
+            for (ExamOfferingClusterWrapper eoCluster : theForm.getEoClusterResultList()) {
+                eoCluster.getEoWrapperList().clear();
+            }
+        }
+        theForm.getExamOfferingCancelledList().clear();
+        if (theForm.getEoCancelClusterList().size() > 0) {
+            for (ExamOfferingClusterWrapper eoCancelCluster : theForm.getEoCancelClusterList()) {
+                eoCancelCluster.getEoWrapperList().clear();
+            }
+        }
+
         for (ExamOfferingInfo examOfferingInfo : examOfferingInfos) {
             ExamOfferingWrapper examOfferingWrapper = createWrapperFromExamOffering(examOfferingInfo, theForm);
 
