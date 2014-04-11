@@ -191,8 +191,9 @@
             <!-- Issue with datafields and the property names causing a issue with opening the dialog -->
 			<list>
 				<!-- Scheduled Terms -->
-				<bean parent="KS-Uif-DataField" p:label="Scheduled for" p:propertyName="courseSummaryDetails.scheduledTermsNames"
+				<bean parent="KS-Uif-DataField" p:label="Scheduled Terms" p:propertyName="courseSummaryDetails.scheduledTermsNames"
 						p:fieldLabel.cssClasses="ksap-text-normal ks-Popover-detailLabel" p:labelPlacement="LEFT">
+                    <property name="fieldLabel.renderColon" value="false"/>
 					<property name="cssClasses">
 						<list merge="true">
 							<value>ksap-data-list</value>
@@ -201,20 +202,27 @@
 					</property>
 					<property name="render" value="@{courseSummaryDetails.scheduledTerms.size() gt 0}"/>
 				</bean>
-				<bean parent="Uif-MessageField" p:label="Scheduled for"
+				<bean parent="Uif-MessageField" p:label="Scheduled Terms"
 						p:fieldLabel.cssClasses="ksap-text-normal ks-Popover-detailLabel"
 						p:render="@{courseSummaryDetails.scheduledTerms.size() eq 0}">
+                    <property name="fieldLabel.renderColon" value="false"/>
 					<property name="message">
 						<bean parent="Uif-Message" p:messageText="Not currently scheduled"/>
 					</property>
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ksap-data-list</value>
+                        </list>
+                    </property>
 				</bean>
 				<!-- Last Offered -->
 				<bean parent="KS-Uif-DataField" p:label="Last Offered" p:propertyName="courseSummaryDetails.lastOffered" p:labelPlacement="LEFT">
+                    <property name="fieldLabel.renderColon" value="false"/>
 					<property name="fieldLabel.cssClasses" value="ksap-text-normal ks-Popover-detailLabel"/>
 					<property name="render" value="@{courseSummaryDetails.lastOffered ne null and courseSummaryDetails.scheduledTerms.size() eq 0}"/>
 				</bean>
 				<!-- Projected Terms -->
-                <bean parent="Uif-MessageField" p:label="Projected For" p:messageText="@{courseSummaryDetails.termsOfferedForUI}"
+                <bean parent="Uif-MessageField" p:label="Projected Terms" p:messageText="@{courseSummaryDetails.termsOfferedForUI}"
                       p:labelPlacement="LEFT">
                     <property name="fieldLabel.cssClasses" value="ksap-text-normal ks-Popover-detailLabel"/>
                     <property name="cssClasses">
@@ -229,6 +237,7 @@
                 <bean parent="Uif-MessageField" p:label="Course Requisites" p:messageText="@{courseSummaryDetails.requisitesForUI}"
                       p:labelPlacement="LEFT">
                     <property name="fieldLabel.cssClasses" value="ksap-text-normal"/>
+                    <property name="fieldLabel.renderColon" value="false"/>
                     <property name="cssClasses">
                         <list merge="true">
                             <value>ksap-data-list</value>
@@ -429,7 +438,7 @@
         <property name="headerText" value="Add Bookmark Course" />
         <property name="items">
             <list merge="true">
-                <bean parent="Uif-Message" p:messageText="@{course.code} @{course.courseTitle} (@{creditString})" p:cssClasses="bold"/>
+                <bean parent="Uif-Message" p:messageText="@{course.code} @{course.courseTitle} (@{creditString})"  p:cssClasses="bold"/>
                 <ref bean="planner_course_summary_details_data"/>
                 <bean parent="planner_term_input">
                     <property name="propertyName" value="termId" />
@@ -451,7 +460,7 @@
                                     <bean parent="Uif-HorizontalBoxGroup">
                                         <property name="items">
                                             <list>
-                                                <bean parent="planner_submit_button" p:actionLabel="Add Course To Plan" />
+                                                <bean parent="planner_submit_button" p:actionLabel="Add to Plan" />
                                                 <bean parent="planner_cancel_button" />
                                             </list>
                                         </property>
@@ -509,7 +518,7 @@
         <property name="headerText" value="Add to Plan" />
         <property name="items">
             <list merge="true">
-                <bean parent="Uif-Message" p:messageText="@{course.code} @{course.courseTitle} (@{creditString})" p:cssClasses="bold"/>
+                <bean parent="Uif-Message" p:messageText="@{course.code} @{course.courseTitle} (@{creditString} cr)"/>
                 <ref bean="planner_course_summary_details_data"/>
                 <bean parent="planner_term_input">
                     <property name="propertyName" value="termId" />
@@ -531,7 +540,7 @@
                                     <bean parent="Uif-HorizontalBoxGroup">
                                         <property name="items">
                                             <list>
-                                                <bean parent="planner_submit_button" p:actionLabel="Add Course To Plan" />
+                                                <bean parent="planner_submit_button" p:actionLabel="Add to Plan" />
                                                 <bean parent="planner_cancel_button" />
                                             </list>
                                         </property>
@@ -565,6 +574,7 @@
 	<bean id="planner_term_input-parent" abstract="true" parent="planner_dialog_input">
 		<property name="propertyName" value="targetTermId" />
 		<property name="label" value="Term &amp; Year" />
+        <property name="fieldLabel.renderColon" value="false"/>
 		<property name="instructionalText" value="Note: This course MAY NOT be offered in your selected term. Check back after the schedule of classes has been released." />
 		<property name="control">
 			<bean parent="KS-Uif-DropdownControl"/>
@@ -592,12 +602,14 @@
  	<bean id="planner_course_credit_input-parent" abstract="true" parent="planner_dialog_input">
  		<property name="propertyName" value="courseCredit" />
  		<property name="label" value="Credits" />
- 		<property name="instructionalText" value="Optional, for courses with a variable number of credits." />
- 		<property name="control">
- 			<bean parent="KS-Uif-TextControl">
- 				<property name="size" value="3" />
- 			</bean>
- 		</property>
+        <property name="fieldLabel.renderColon" value="false"/>
+        <property name="control">
+            <bean parent="KS-Uif-DropdownControl"/>
+        </property>
+        <property name="optionsFinder">
+            <!-- Using Terms dropdown. Do we have credits dropdown? -->
+            <bean class="org.kuali.student.ap.planner.util.TermsListBuilder"/>
+        </property>
  	</bean>
 
     <bean id="planner_course_note_input" parent="planner_course_note_input-parent"/>
@@ -605,8 +617,9 @@
 		<property name="additionalCssClasses" value="ks-plan-Note" />
 		<property name="propertyName" value="courseNote" />
 		<property name="label" value="Notes" />
+        <property name="fieldLabel.renderColon" value="false"/>
 		<property name="control">
-			<bean parent="Uif-TextAreaControl" p:watermarkText="Enter a short note (500 characters max)"
+			<bean parent="Uif-TextAreaControl" p:watermarkText="Optional notes"
 				p:maxLength="500">
 				<property name="cssClasses">
 					<list merge="true">
@@ -663,7 +676,7 @@
 	</bean>
 
     <bean id="planner_backup_input" parent="planner_dialog_input" p:propertyName="backup" p:defaultValue="false">
-        <property name="label" value="Mark as &lt;strong&gt;'Backup'&lt;/strong&gt; course. (Optional)"/>
+        <property name="label" value="Mark as Backup"/>
         <property name="control">
             <bean parent="KS-Uif-CheckboxControl"/>
         </property>
