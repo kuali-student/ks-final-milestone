@@ -1006,13 +1006,15 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
         reviewData.getGovernanceSection().getAdministeringOrganization().clear();
         for (OrganizationInfoWrapper organizationInfoWrapper : courseInfoWrapper.getAdministeringOrganizations()) {
-            List<OrganizationInfoWrapper> orgs = OrganizationSearchUtil.searchForOrganizations(organizationInfoWrapper.getOrganizationName(), getOrganizationService());
-            try {
-                organizationInfoWrapper.setOrganizationName(KSCollectionUtils.getOptionalZeroElement(orgs).getOrganizationName());
-            } catch (OperationFailedException e){
-                throw new RuntimeException(e);
+            if (StringUtils.isNotBlank(organizationInfoWrapper.getOrganizationName())) {
+                List<OrganizationInfoWrapper> orgs = OrganizationSearchUtil.searchForOrganizations(organizationInfoWrapper.getOrganizationName(), getOrganizationService());
+                try {
+                    organizationInfoWrapper.setOrganizationName(KSCollectionUtils.getOptionalZeroElement(orgs).getOrganizationName());
+                } catch (OperationFailedException e){
+                    throw new RuntimeException(e);
+                }
+                reviewData.getGovernanceSection().getAdministeringOrganization().add(organizationInfoWrapper.getOrganizationName());
             }
-            reviewData.getGovernanceSection().getAdministeringOrganization().add(organizationInfoWrapper.getOrganizationName());
         }
 
         // update course logistics section
