@@ -10030,6 +10030,9 @@
         <index name="KSEN_APPT_SLOT_IF1">
             <column>APPT_WINDOW_ID</column>
         </index>
+        <index name="KSPRF16">
+            <column>APPT_SLOT_TYPE</column>
+        </index>
     </table>
     <table name="KSEN_APPT_SLOT_ATTR">
         <column name="ATTR_KEY" type="STRING">
@@ -10135,6 +10138,15 @@
         </index>
         <index name="KSEN_APPT_WINDOW_I3">
             <column>PRD_MSTONE_ID</column>
+        </index>
+        <index name="KSPRF17">
+            <column>ASSIGNED_ORDER_TYPE</column>
+        </index>
+        <index name="KSPRF18">
+            <column>SR_DUR_TYPE</column>
+        </index>
+        <index name="KSPRF19">
+            <column>SR_START_INTVL_DUR_TYPE</column>
         </index>
     </table>
     <table name="KSEN_APPT_WINDOW_ATTR">
@@ -10486,6 +10498,9 @@
         <index name="KSEN_CO_AO_CLUSTER_I1">
             <column>FORMAT_OFFERING_ID</column>
         </index>
+        <index name="KSPRF20">
+            <column>AO_CLUSTER_TYPE</column>
+        </index>
     </table>
     <table name="KSEN_CO_AO_CLUSTER_ATTR">
         <column name="ATTR_KEY" type="STRING">
@@ -10522,6 +10537,9 @@
         </column>
         <index name="KSEN_CO_AO_CLISTER_SET_IF1">
             <column>AO_CLUSTER_ID</column>
+        </index>
+        <index name="KSPRF21">
+            <column>ACTIVITY_OFFERING_TYPE</column>
         </index>
     </table>
     <table name="KSEN_CO_AO_CLUSTER_SET_AO">
@@ -10586,6 +10604,12 @@
         </column>
         <index name="KSEN_CO_SEAT_POOL_DEFN_I1">
             <column>ACTIVITY_OFFERING_ID</column>
+        </index>
+        <index name="KSPRF22">
+            <column>EXPIR_MSTONE_TYPE</column>
+        </index>
+        <index name="KSPRF23">
+            <column>SEAT_POOL_DEFN_TYPE</column>
         </index>
     </table>
     <table name="KSEN_CO_SEAT_POOL_DEFN_ATTR">
@@ -10668,6 +10692,9 @@
         </column>
         <index name="KSEN_CWL_I1">
             <column>CWL_TYPE</column>
+        </index>
+        <index name="KSPRF24">
+            <column>STD_DUR_TYPE</column>
         </index>
     </table>
     <table name="KSEN_CWL_ACTIV_OFFER">
@@ -10845,6 +10872,9 @@
         </index>
         <index name="KSEN_ENRL_FEE_I2">
             <column>REF_OBJECT_URI</column>
+        </index>
+        <index name="KSPRF25">
+            <column>CURRENCY_TYPE</column>
         </index>
     </table>
     <table name="KSEN_ENROLLMENT_FEE_ATTR">
@@ -11171,6 +11201,9 @@
         <index name="KSEN_LPR_ROSTER_I1">
             <column>LPR_ROSTER_TYPE</column>
         </index>
+        <index name="KSPRF7">
+            <column>CHECK_IN_FREQ_DUR_TYPE</column>
+        </index>
     </table>
     <table name="KSEN_LPR_ROSTER_ASSO_LUI_ID">
         <column name="ID" nullable="false" primaryKey="true" type="STRING">
@@ -11262,6 +11295,9 @@
         <index name="KSEN_LPR_ROSTER_ENTRY_IF2">
             <column>LPR_ROSTER_ID</column>
         </index>
+        <index name="KSPRF8">
+            <column>LPR_ROSTER_ENTRY_TYPE</column>
+        </index>
     </table>
     <table name="KSEN_LPR_ROSTER_ENTRY_ATTR">
         <column name="ATTR_KEY" type="STRING">
@@ -11332,6 +11368,9 @@
         <index name="KSEN_LPR_TRANS_I2">
             <column>REQUESTING_PERS_ID</column>
             <column>ATP_ID</column>
+        </index>
+        <index name="KSPRF9">
+            <column>LPR_TRANS_TYPE</column>
         </index>
     </table>
     <table name="KSEN_LPR_TRANS_ATTR">
@@ -11429,6 +11468,9 @@
         </index>
         <index name="KSEN_LPR_TRANS_ITEM_IF1">
             <column>LPR_TRANS_ID</column>
+        </index>
+        <index name="KSPRF10">
+            <column>LPR_TRANS_ITEM_TYPE</column>
         </index>
     </table>
     <table name="KSEN_LPR_TRANS_ITEM_ATTR">
@@ -11534,6 +11576,9 @@
         <column name="VER_NBR" nullable="false" type="FLOAT">
             <size value="19"/>
         </column>
+        <index name="KSPRF11">
+            <column>RESULT_SCALE_TYPE</column>
+        </index>
     </table>
     <table name="KSEN_LRC_RESULT_SCALE_ATTR">
         <column name="ATTR_KEY" type="STRING">
@@ -11772,6 +11817,12 @@
         <column name="VER_NBR" type="FLOAT">
             <size value="19"/>
         </column>
+        <index name="KSPRF36">
+            <column>RT_DESCR_ID</column>
+        </index>
+        <index name="KSPRF37">
+            <column>TYPE_ID</column>
+        </index>
     </table>
     <table name="KSEN_LRR_ATTR">
         <column name="ATTR_KEY" type="STRING">
@@ -11789,6 +11840,9 @@
         <column name="OWNER_ID" type="STRING">
             <size value="255"/>
         </column>
+        <index name="KSPRF38">
+            <column>OWNER_ID</column>
+        </index>
     </table>
     <table name="KSEN_LRR_RES_SOURCE">
         <column name="ARTICULATE_ID" type="STRING">
@@ -11941,6 +11995,9 @@
             <column>CLU_ID</column>
             <column>ATP_ID</column>
         </index>
+        <index name="KSPRF12">
+            <column>LUI_TYPE</column>
+        </index>
     </table>
     <table name="KSEN_LUICAPACITY_RELTN">
         <column name="CREATEID" nullable="false" type="STRING">
@@ -12051,6 +12108,9 @@
         <column name="OWNER_ID" type="STRING">
             <size value="255"/>
         </column>
+        <index name="KSPRF39">
+            <column>OWNER_ID</column>
+        </index>
     </table>
     <table name="KSEN_LUI_ATTR">
         <column name="ATTR_KEY" type="STRING">
@@ -12242,6 +12302,9 @@
         <index name="KSEN_LUI_IDENT_IX2">
             <column>DIVISION</column>
         </index>
+        <index name="KSPRF13">
+            <column>LUI_ID_TYPE</column>
+        </index>
     </table>
     <table name="KSEN_LUI_IDENT_ATTR">
         <column name="ATTR_KEY" type="STRING">
@@ -12302,6 +12365,9 @@
         </column>
         <index name="KSEN_LUI_LU_CD_IF1">
             <column>LUI_ID</column>
+        </index>
+        <index name="KSPRF14">
+            <column>LUI_LUCD_TYPE</column>
         </index>
     </table>
     <table name="KSEN_LUI_LU_CD_ATTR">
@@ -13036,6 +13102,9 @@
         <index name="KSEN_PROCE_CHECK_I1">
             <column>PROCESS_CHECK_TYPE</column>
         </index>
+        <index name="KSPRF15">
+            <column>MSTONE_TYPE</column>
+        </index>
     </table>
     <table name="KSEN_PROCESS_CHECK_ATTR">
         <column name="ATTR_KEY" type="STRING">
@@ -13329,6 +13398,9 @@
         <index name="KSEN_ROOM_BUILDING_I1">
             <column>CAMPUS_KEY</column>
         </index>
+        <index name="KSPRF0">
+            <column>BUILDING_TYPE</column>
+        </index>
         <uniqueConstraint name="KSEN_ROOM_BUILDING_I2">
             <column>BUILDING_CD</column>
         </uniqueConstraint>
@@ -13386,6 +13458,9 @@
         </column>
         <index name="KSEN_ROOM_FIXED_RSRC_IF1">
             <column>ROOM_ID</column>
+        </index>
+        <index name="KSPRF1">
+            <column>FIXED_RSRC_TYPE</column>
         </index>
     </table>
     <table name="KSEN_ROOM_FIXED_RSRC_ATTR">
@@ -13517,6 +13592,9 @@
         </index>
         <index name="KSEN_ROOM_USAGE_IF1">
             <column>ROOM_ID</column>
+        </index>
+        <index name="KSPRF2">
+            <column>LAYOUT_TYPE</column>
         </index>
     </table>
     <table name="KSEN_ROOM_USAGE_ATTR">
@@ -13696,6 +13774,9 @@
         </column>
         <index name="KSEN_SCHED_RQST_IX1">
             <column>SCHED_RQST_SET_ID</column>
+        </index>
+        <index name="KSPRF3">
+            <column>SCHED_RQST_TYPE</column>
         </index>
     </table>
     <table name="KSEN_SCHED_RQST_ATTR">
@@ -13967,6 +14048,9 @@
         <column name="OWNER_ID" type="STRING">
             <size value="255"/>
         </column>
+        <index name="KSPRF35">
+            <column>OWNER_ID</column>
+        </index>
     </table>
     <table name="KSEN_SOC">
         <column name="CREATEID" nullable="false" type="STRING">
@@ -14101,6 +14185,9 @@
         <index name="KSEN_SOC_ROR_IF2">
             <column>TARGET_SOC_ID</column>
         </index>
+        <index name="KSPRF4">
+            <column>SOC_ROR_TYPE</column>
+        </index>
     </table>
     <table name="KSEN_SOC_ROR_ATTR">
         <column name="ATTR_KEY" type="STRING">
@@ -14173,6 +14260,9 @@
         </index>
         <index name="KSEN_SOC_ROR_ITEM_IF1">
             <column>ROR_ID</column>
+        </index>
+        <index name="KSPRF5">
+            <column>SOC_ROR_TYPE</column>
         </index>
     </table>
     <table name="KSEN_SOC_ROR_ITEM_ATTR">
@@ -14593,6 +14683,9 @@
         <column name="OWNER_ID" type="STRING">
             <size value="255"/>
         </column>
+        <index name="KSPRF34">
+            <column>OWNER_ID</column>
+        </index>
     </table>
     <table name="KSEN_STATE_PROPAGT_CNSTRNT">
         <column name="STATE_CNSTRNT_ID" nullable="false" primaryKey="true" type="STRING">
@@ -14703,6 +14796,9 @@
         </index>
         <index name="KSEN_TYPETYPE_RELTN_IF2">
             <column>RELATED_TYPE_ID</column>
+        </index>
+        <index name="KSPRF6">
+            <column>TYPETYPE_RELTN_TYPE</column>
         </index>
     </table>
     <table name="KSEN_TYPETYPE_RELTN_ATTR">
@@ -15414,6 +15510,9 @@
         <index name="KSLU_CLU_I6">
             <column>ACCT_ID</column>
         </index>
+        <index name="KSPRF26">
+            <column>CLU_INTSTY_TYPE</column>
+        </index>
         <uniqueConstraint name="KSLU_CLU_U1">
             <column>VER_IND_ID</column>
             <column>SEQ_NUM</column>
@@ -15637,6 +15736,9 @@
         <index name="KSLU_CLU_ADMIN_ORG_I1">
             <column>CLU_ID</column>
         </index>
+        <index name="KSPRF27">
+            <column>TYPE</column>
+        </index>
     </table>
     <table name="KSLU_CLU_ADMIN_ORG_ATTR">
         <column name="ATTR_NAME" type="STRING">
@@ -15848,6 +15950,9 @@
         <index name="KSLU_CLU_FEE_AMOUNT_I1">
             <column>CLUE_FEE_REC_ID</column>
         </index>
+        <index name="KSPRF28">
+            <column>CURRENCY_TYPE</column>
+        </index>
     </table>
     <table name="KSLU_CLU_FEE_ATTR">
         <column name="ATTR_NAME" type="STRING">
@@ -15920,6 +16025,12 @@
         <index name="KSLU_CLU_FEE_REC_I1">
             <column>RT_DESCR_ID</column>
         </index>
+        <index name="KSPRF29">
+            <column>FEE_TYPE</column>
+        </index>
+        <index name="KSPRF30">
+            <column>RATE_TYPE</column>
+        </index>
     </table>
     <table name="KSLU_CLU_FEE_REC_ATTR">
         <column name="ATTR_NAME" type="STRING">
@@ -15984,6 +16095,9 @@
         <column name="VER_NBR" type="FLOAT">
             <size value="19"/>
         </column>
+        <index name="KSPRF31">
+            <column>TYPE</column>
+        </index>
     </table>
     <table name="KSLU_CLU_IDENT_ATTR">
         <column name="ATTR_NAME" type="STRING">
@@ -16679,6 +16793,9 @@
         <index name="KSLU_CLU_SET_I2">
             <column>RT_DESCR_ID</column>
         </index>
+        <index name="KSPRF32">
+            <column>TYPE</column>
+        </index>
     </table>
     <table name="KSLU_CLU_SET_ATTR">
         <column name="ATTR_NAME" type="STRING">
@@ -17065,6 +17182,9 @@
         </column>
         <index name="KSLU_LU_CODE_I1">
             <column>CLU_ID</column>
+        </index>
+        <index name="KSPRF33">
+            <column>TYPE</column>
         </index>
     </table>
     <table name="KSLU_LU_CODE_ATTR">
