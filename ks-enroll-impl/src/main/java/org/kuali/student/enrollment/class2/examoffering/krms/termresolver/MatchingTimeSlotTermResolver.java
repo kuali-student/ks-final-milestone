@@ -23,6 +23,7 @@ import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -74,19 +75,33 @@ public class MatchingTimeSlotTermResolver implements TermResolver<Boolean> {
 
         try {
             List<TimeSlotInfo> timeSlots = (List<TimeSlotInfo>) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_TIMESLOTS);
-            for (TimeSlotInfo timeSlot : timeSlots) {
-                if (weekdays.equals(SchedulingServiceUtil.weekdaysList2WeekdaysString(timeSlot.getWeekdays()))
-                        && Long.valueOf(startTime).equals(TimeOfDayHelper.getMillis(timeSlot.getStartTime()))) {
+            List<Integer> timeSlotDays = getTimeSlotDays(timeSlots, Long.valueOf(startTime));
+            if (timeSlotDays != null) {
+                if (weekdays.equals(SchedulingServiceUtil.weekdaysList2WeekdaysString(timeSlotDays))) {
                     return true;
                 }
             }
-
 
         } catch (Exception e) {
             KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
         }
 
         return false;
+    }
+
+    private List<Integer> getTimeSlotDays(List<TimeSlotInfo> timeSlots, Long startTime) {
+        List<Integer> timeSlotDays = new ArrayList<Integer>();
+
+        for (TimeSlotInfo timeSlotInfo : timeSlots) {
+            if (startTime.equals(TimeOfDayHelper.getMillis(timeSlotInfo.getStartTime()))) {
+                for (Integer weekday : timeSlotInfo.getWeekdays()) {
+                    if (!timeSlotDays.contains(weekday)) {
+                        timeSlotDays.add(weekday);
+                    }
+                }
+            }
+        }
+        return timeSlotDays;
     }
 
 }
