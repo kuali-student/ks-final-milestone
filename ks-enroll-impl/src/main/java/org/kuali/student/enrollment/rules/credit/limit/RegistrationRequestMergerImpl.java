@@ -176,7 +176,7 @@ public class RegistrationRequestMergerImpl implements RegistrationRequestMerger 
      * @return
      */
     protected boolean isActive(String stateKey) {
-        if (stateKey.equals(LprServiceConstants.REGISTERED_STATE_KEY)) {
+        if (stateKey.equals(LprServiceConstants.ACTIVE_STATE_KEY)) {
             return true;
         }
         return false;
@@ -244,8 +244,8 @@ public class RegistrationRequestMergerImpl implements RegistrationRequestMerger 
         CourseRegistrationInfo reg = new CourseRegistrationInfo();
         RegistrationGroupInfo regGroup = this.getRegGroup(item.getRegistrationGroupId(), contextInfo);
         reg.setPersonId(item.getPersonId());
-        reg.setTypeKey(LprServiceConstants.REGISTRANT_CO_TYPE_KEY);
-        reg.setStateKey(LprServiceConstants.REGISTERED_STATE_KEY);
+        reg.setTypeKey(LprServiceConstants.REGISTRANT_CO_LPR_TYPE_KEY);
+        reg.setStateKey(LprServiceConstants.ACTIVE_STATE_KEY);
         reg.setCourseOfferingId(regGroup.getCourseOfferingId());
         reg.setCredits(item.getCredits());
         reg.setGradingOptionId(item.getGradingOptionId());
@@ -262,8 +262,8 @@ public class RegistrationRequestMergerImpl implements RegistrationRequestMerger 
             throws OperationFailedException {
         ActivityRegistrationInfo reg = new ActivityRegistrationInfo();
         reg.setPersonId(item.getPersonId());
-        reg.setTypeKey(LprServiceConstants.REGISTRANT_AO_TYPE_KEY);
-        reg.setStateKey(LprServiceConstants.REGISTERED_STATE_KEY);
+        reg.setTypeKey(LprServiceConstants.REGISTRANT_AO_LPR_TYPE_KEY);
+        reg.setStateKey(LprServiceConstants.ACTIVE_STATE_KEY);
         reg.setActivityOfferingId(activityOfferingId);
         reg.setEffectiveDate(contextInfo.getCurrentDate());
         reg.setExpirationDate(null);

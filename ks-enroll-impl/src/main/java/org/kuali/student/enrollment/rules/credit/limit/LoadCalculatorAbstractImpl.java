@@ -74,7 +74,7 @@ public abstract class LoadCalculatorAbstractImpl implements LoadCalculator {
             String loadLevelTypeKey,
             ContextInfo contextInfo)
             throws OperationFailedException {
-        if (action.getStateKey().equals(LprServiceConstants.REGISTERED_STATE_KEY)) {
+        if (action.getStateKey().equals(LprServiceConstants.ACTIVE_STATE_KEY)) {
             return true;
         }
         return false;

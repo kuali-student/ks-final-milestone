@@ -79,7 +79,7 @@ public class TestRiceDataDictionaryValidatorImplAgainstLpr {
         LprInfo lpri = new LprInfo();
         lpri.setPersonId("personId.1");
         lpri.setLuiId("luiId.1");
-        lpri.setTypeKey(LprServiceConstants.REGISTRANT_CO_TYPE_KEY);
+        lpri.setTypeKey(LprServiceConstants.REGISTRANT_CO_LPR_TYPE_KEY);
         lpri.setStateKey(LprServiceConstants.APPLIED_STATE_KEY);
         lpri.setEffectiveDate(parseDate("2010-01-01"));
 

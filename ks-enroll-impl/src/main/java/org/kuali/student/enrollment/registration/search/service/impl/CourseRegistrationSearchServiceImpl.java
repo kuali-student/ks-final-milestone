@@ -392,10 +392,9 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "AND grading.RESULT_VAL_GRP_ID LIKE 'kuali.resultComponent.grade.%' " +
                         "WHERE " +
                         "    lpr.PERS_ID = :personId " +
-                        "AND lpr.LPR_STATE IN ('" + LprServiceConstants.REGISTERED_STATE_KEY + "', " +
-                        "                      '" + LprServiceConstants.ACTIVE_STATE_KEY + "') " +
-                        "AND lpr.LPR_TYPE IN('" + LprServiceConstants.REGISTRANT_RG_TYPE_KEY + "', " +
-                        "                    '" + LprServiceConstants.WAITLIST_RG_TYPE_KEY + "') " +
+                        "AND lpr.LPR_STATE IN ('" + LprServiceConstants.ACTIVE_STATE_KEY + "') " +
+                        "AND lpr.LPR_TYPE IN('" + LprServiceConstants.REGISTRANT_RG_LPR_TYPE_KEY + "', " +
+                        "                    '" + LprServiceConstants.WAITLIST_RG_LPR_TYPE_KEY + "') " +
                         (!StringUtils.isEmpty(atpId) ? " AND lpr.ATP_ID = :atpId " : "") +
                         "AND rg2ao.LUILUI_RELTN_TYPE='" + LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY + "' " +
                         "AND fo2rg.LUILUI_RELTN_TYPE='" + LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_RG_TYPE_KEY + "' " +
@@ -490,9 +489,9 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         query.setParameter(SearchParameters.LUI_IDS, luiIds);
 
         // configure the types and states. One time use so there's no Search Param Const
-        query.setParameter("rgRegType", LprServiceConstants.REGISTRANT_RG_TYPE_KEY);
-        query.setParameter("rgRegState", LprServiceConstants.REGISTERED_STATE_KEY);
-        query.setParameter("rgWlType", LprServiceConstants.WAITLIST_RG_TYPE_KEY);
+        query.setParameter("rgRegType", LprServiceConstants.REGISTRANT_RG_LPR_TYPE_KEY);
+        query.setParameter("rgRegState", LprServiceConstants.ACTIVE_STATE_KEY);
+        query.setParameter("rgWlType", LprServiceConstants.WAITLIST_RG_LPR_TYPE_KEY);
         query.setParameter("rgWlState", LprServiceConstants.ACTIVE_STATE_KEY);
 
         List<Object[]> results = query.getResultList();
@@ -537,8 +536,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "            KSEN_LPR lpr " +
                         "        WHERE " +
                         "            lpr.LUI_ID = ao.ID " +
-                        "        AND lpr.LPR_TYPE='" + LprServiceConstants.REGISTRANT_AO_TYPE_KEY + "' " +
-                        "        AND lpr.LPR_STATE='" + LprServiceConstants.REGISTERED_STATE_KEY + "') registered, " +
+                        "        AND lpr.LPR_TYPE='" + LprServiceConstants.REGISTRANT_AO_LPR_TYPE_KEY + "' " +
+                        "        AND lpr.LPR_STATE='" + LprServiceConstants.ACTIVE_STATE_KEY + "') registered, " +
                         "    ( " +
                         "        SELECT " +
                         "            COUNT(*) " +
@@ -546,7 +545,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "            KSEN_LPR lpr " +
                         "        WHERE " +
                         "            lpr.LUI_ID = ao.ID " +
-                        "        AND lpr.LPR_TYPE='" + LprServiceConstants.WAITLIST_AO_TYPE_KEY + "' " +
+                        "        AND lpr.LPR_TYPE='" + LprServiceConstants.WAITLIST_AO_LPR_TYPE_KEY + "' " +
                         "        AND lpr.LPR_STATE='" + LprServiceConstants.ACTIVE_STATE_KEY + "') waitlisted " +
                         "FROM " +
                         "    KSEN_LUI ao " +
@@ -828,7 +827,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "  AND lui.ID = lpr.LUI_ID " +
                         "  AND lui.ATP_ID = lpr.ATP_ID " +
                         "  AND luiId.LUI_ID = lui.ID " +
-                        "  AND lpr.LPR_STATE in ('" + LprServiceConstants.REGISTERED_STATE_KEY + "', '" + LprServiceConstants.ACTIVE_STATE_KEY + "') ";
+                        "  AND lpr.LPR_STATE in ('" + LprServiceConstants.ACTIVE_STATE_KEY + "') ";
 
         if (!StringUtils.isEmpty(atpId)) {
             queryStr = queryStr + " AND lpr.ATP_ID = :atpId ";
@@ -1048,7 +1047,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                 "SELECT lpr.ID, lpr.LPR_TYPE, lpr.LPR_STATE, lpr.LUI_ID, lpr.PERS_ID " +
                         "FROM KSEN_LPR lpr " +
                         "WHERE lpr.LUI_ID IN (:activityOfferingIds) " +
-                        "AND lpr.LPR_TYPE = '" + LprServiceConstants.REGISTRANT_AO_TYPE_KEY + "' ";
+                        "AND lpr.LPR_TYPE = '" + LprServiceConstants.REGISTRANT_AO_LPR_TYPE_KEY + "' ";
         boolean lprStateListIsNonEmpty = lprStateList != null && !lprStateList.isEmpty();
         if (lprStateListIsNonEmpty) {
             // If the list is empty or null, then pretend it doesn't exist, otherwise
