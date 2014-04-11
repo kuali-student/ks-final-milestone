@@ -884,7 +884,7 @@ jQuery(function () {
  */
 jQuery(document).on('DOMNodeInserted', function (e) {
     var element = e.target;
-    if (jQuery(element).is('div.uif-page')) {
+    if (jQuery(element).is('main.uif-page')) {
         handleEventforDisabledElements();
         addBootstrapImageToLink();
     } else if (jQuery(element).is('div.uif-tableCollectionSection')) {
