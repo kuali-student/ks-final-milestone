@@ -4,7 +4,9 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krms.dto.AgendaTypeInfo;
@@ -37,6 +39,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 /**
  * Override of RuleEditorController for Student
@@ -74,6 +77,28 @@ public class FERuleEditorController extends EnrolRuleEditorController {
 
         form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, EnrolKRMSConstants.KSKRMS_AGENDA_FE_MAINTENANCE_PAGE_ID);
         return super.navigate(form, result, request, response);
+    }
+
+    /**
+     *
+     * @param form
+     * @param result
+     * @param request
+     * @param response
+     * @return
+     */
+    @Override
+    @RequestMapping(params = "methodToCall=route")
+    public ModelAndView route(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
+                              HttpServletRequest request, HttpServletResponse response) {
+        super.route(form, result, request, response);
+
+        Properties urlParameters = new Properties();
+        urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.START_METHOD);
+        urlParameters.put("viewId", "enrollmentHomeView");
+
+        GlobalVariables.getUifFormManager().removeSessionForm(form);
+        return performRedirect(form, "launch", urlParameters);
     }
 
     /**
