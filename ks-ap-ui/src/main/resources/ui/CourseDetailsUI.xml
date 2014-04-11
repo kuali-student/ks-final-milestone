@@ -62,6 +62,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 			</list>
 		</property>
         <property name="stickyFooter" value="false"/>
+        <property name="onDocumentReadyScript" value="registerClosePopups();"/>
 	</bean>
 
     <bean id="course_details_back_link" parent="course_details_back_link-parent"/>
