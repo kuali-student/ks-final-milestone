@@ -2,6 +2,7 @@ package org.kuali.student.ap.framework.config;
 
 import javax.ejb.EJB;
 
+import org.kuali.rice.krms.api.repository.RuleManagementService;
 import org.kuali.student.ap.framework.context.CourseHelper;
 import org.kuali.student.ap.framework.context.EnrollmentStatusHelper;
 import org.kuali.student.ap.framework.context.EnumerationHelper;
@@ -402,7 +403,15 @@ public final class KsapFrameworkServiceLocator {
 
 
     public void setCourseRegistrationService(CourseRegistrationService courseRegistrationService) {
-        this.courseRegistrationService = courseRegistrationService;
+        getInstance().courseRegistrationService = courseRegistrationService;
+    }
+
+    public static RuleManagementService getRuleManagementService() {
+        return getInstance().ruleManagementService;
+    }
+
+    public void setRuleManagementService(RuleManagementService ruleManagementService) {
+        getInstance().ruleManagementService = ruleManagementService;
     }
 
     public void setKsapContext(KsapContext ksapContext) {
@@ -497,6 +506,8 @@ public final class KsapFrameworkServiceLocator {
 	private transient LRCService lrcService;
     @EJB
     private transient CourseRegistrationService courseRegistrationService;
+    @EJB
+    private transient RuleManagementService ruleManagementService;
 	@EJB
 	private transient KsapContext ksapContext;
 	@EJB

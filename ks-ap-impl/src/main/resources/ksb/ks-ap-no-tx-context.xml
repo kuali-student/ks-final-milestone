@@ -42,6 +42,7 @@
         <property name="typeService" ref="typeClient"/>
         <property name="atpService" ref="atpServiceCache"/>
         <property name="academicPlanService" ref="academicPlanService"/>
+        <property name="ruleManagementService" ref="rulesManagementService"/>
         <property name="enrollmentStatusHelper" ref="enrollStatusHelper"/>
         <property name="learningPlanReviewStrategy" ref="learningPlanReviewStrategy"/>
         <property name="scheduleBuildStrategy" ref="scheduleBuildStrategy"/>
@@ -109,6 +110,12 @@
                   value="org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService" />
         <property name="serviceQName"
                   value="{http://student.kuali.org/wsdl/courseOfferingSet}CourseOfferingSetService" />
+    </bean>
+    <bean id="rulesManagementService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface"
+                  value="org.kuali.rice.krms.api.repository.RuleManagementService" />
+        <property name="serviceQName"
+                  value="{http://rice.kuali.org/krms/v2_0}ruleManagementService" />
     </bean>
     <!--<bean id="ksEnrollAcademicRecordService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">-->
         <!--<property name="serviceEndpointInterface"-->

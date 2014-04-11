@@ -314,7 +314,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                                                 <list>
                                                     <bean parent="Uif-MessageField" p:messageText=
                                                             "@{dataObject.courseRequisites.size() gt 0
-                                                                ? dataObject.courseRequisites
+                                                                ? dataObject.courseRequisitesForUI
                                                                 : 'None'}" >
                                                         <property name="cssClasses">
                                                             <list merge="true">

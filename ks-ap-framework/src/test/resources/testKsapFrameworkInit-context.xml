@@ -48,6 +48,7 @@
         <property name="shoppingCartStrategy" ref="shoppingCartStrategy"/>
         <property name="courseOfferingSetService" ref="courseOfferingSetService"/>
         <property name="courseRegistrationService" ref="courseRegistrationMockImpl"/>
+        <property name="ruleManagementService" ref="ruleManagementService"/>
     </bean>
     <bean id="ksapContext" class="org.kuali.student.ap.framework.context.support.DefaultKsapContext" />
     <bean id="ksapTextHelper" class="org.kuali.student.ap.framework.context.support.DefaultTextHelper">
@@ -83,7 +84,7 @@
     <bean id="scheduleBuildStrategy" class="org.kuali.student.ap.test.mock.ScheduleBuildStrategyMockTest" />
     <bean id="shoppingCartStrategy" class="org.kuali.student.ap.test.mock.ShoppingCartStrategyMockTest" />
     <bean id="courseOfferingSetService" class="org.kuali.student.ap.test.mock.CourseOfferingSetServiceMockTest"/>
-
+    <bean id="ruleManagementService" class="org.kuali.rice.krms.impl.repository.KSRuleManagementServiceImpl"/>
     <bean id="termAssembler"
           class="org.kuali.student.r2.core.acal.service.assembler.TermAssembler">
         <property name="termCodeGenerator" ref="termCodeGenerator" />
