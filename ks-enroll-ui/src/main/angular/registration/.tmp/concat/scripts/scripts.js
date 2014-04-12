@@ -94,10 +94,8 @@ angular.module('regCartApp').controller('CartCtrl', [
     $scope.$watch('termId', function (newValue) {
       console.log('term id has changed');
       $scope.cartResults.items.splice(0, $scope.cartResults.items.length);
-      if ($scope.userMessage) {
-        if ($scope.userMessage.txt) {
-          $scope.removeUserMessage();
-        }
+      if ($scope.userMessage && $scope.userMessage.txt) {
+        $scope.removeUserMessage();
       }
       if (newValue) {
         hasCartBeenLoaded = true;
@@ -448,15 +446,11 @@ cartServiceModule.controller('ScheduleCtrl', [
     $scope.numberOfDroppedWailistedCourses = 0;
     $scope.$watch('termId', function (newValue) {
       console.log('term id has changed');
-      if ($scope.userMessage) {
-        if ($scope.userMessage.txt) {
-          $scope.removeUserMessage();
-        }
+      if ($scope.userMessage && $scope.userMessage.txt) {
+        $scope.removeUserMessage();
       }
-      if ($scope.waitlistUserMessage) {
-        if ($scope.waitlistUserMessage.txt) {
-          $scope.removeWaitlistUserMessage();
-        }
+      if ($scope.waitlistUserMessage && $scope.waitlistUserMessage.txt) {
+        $scope.removeWaitlistUserMessage();
       }
       ScheduleService.getScheduleFromServer().query({ termId: newValue }, function (result) {
         console.log('called rest service to get schedule data - in schedule.js');
@@ -477,6 +471,7 @@ cartServiceModule.controller('ScheduleCtrl', [
       ScheduleService.dropRegistrationGroup().query({ masterLprId: course.masterLprId }, function () {
         course.dropping = false;
         course.dropped = true;
+        course.droppedCss = '--dropped';
         //                $scope.getSchedules()[0].registeredCourseOfferings.splice(index, 1);
         //                GlobalVarsService.updateScheduleCounts($scope.getSchedules());
         GlobalVarsService.setRegisteredCredits(parseFloat(GlobalVarsService.getRegisteredCredits()) - parseFloat(course.credits));
@@ -498,9 +493,9 @@ cartServiceModule.controller('ScheduleCtrl', [
       ScheduleService.dropFromWaitlist().query({ masterLprId: course.masterLprId }, function () {
         $scope.numberOfDroppedWailistedCourses = $scope.numberOfDroppedWailistedCourses + 1;
         $scope.showWaitlistMessages = true;
-        console.log('TEST ' + $scope.numberOfDroppedWailistedCourses);
         course.dropping = false;
         course.dropped = true;
+        course.droppedCss = '--dropped';
         //                $scope.getSchedules()[0].waitlistCourseOfferings.splice(index, 1);
         //                GlobalVarsService.updateScheduleCounts($scope.getSchedules());
         GlobalVarsService.setWaitlistedCredits(parseFloat(GlobalVarsService.getWaitlistedCredits()) - parseFloat(course.credits));

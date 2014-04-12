@@ -15,7 +15,7 @@
 <div class="kscr-Card">
     <div ng-repeat="schedule in getSchedules()">
         <div ng-repeat="course in schedule.registeredCourseOfferings" class="kscr-course-container">
-            <div id="course_status_message" class="util-Alert--card util-Alert--{{course.statusMessage.type}}" ng-if="course.statusMessage.txt">
+            <div id="course_status_message" class="util-Alert--card{{course.droppedCss}} util-Alert--{{course.statusMessage.type}}" ng-if="course.statusMessage.txt">
                 <span ng-bind-html="course.statusMessage.txt"></span>
                 <span class="kscr-Card-statusRemove"><a href="" ng-click="removeStatusMessage(course)"><i class="glyphicon glyphicon-remove"></i></a></span>
             </div>
@@ -126,7 +126,7 @@
 <div class="kscr-Card">
     <div ng-repeat="schedule in getSchedules()">
         <div ng-repeat="course in schedule.waitlistCourseOfferings" class="kscr-course-container">
-            <div id="waitlist_course_status_message" class="util-Alert--card util-Alert--{{course.statusMessage.type}}" ng-if="course.statusMessage.txt">
+            <div id="waitlist_course_status_message" class="util-Alert--card{{course.droppedCss}} util-Alert--{{course.statusMessage.type}}" ng-if="course.statusMessage.txt">
                 <span ng-bind-html="course.statusMessage.txt"></span>
                 <span class="kscr-Card-statusRemove"><a href="" ng-click="removeWaitlistStatusMessage(course)"><i class="glyphicon glyphicon-remove"></i></a></span>
             </div>

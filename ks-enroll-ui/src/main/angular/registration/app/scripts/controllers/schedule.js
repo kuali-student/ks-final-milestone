@@ -45,6 +45,7 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
             }, function () {
                 course.dropping = false;
                 course.dropped = true;
+                course.droppedCss = '--dropped';
 //                $scope.getSchedules()[0].registeredCourseOfferings.splice(index, 1);
 //                GlobalVarsService.updateScheduleCounts($scope.getSchedules());
                 GlobalVarsService.setRegisteredCredits(parseFloat(GlobalVarsService.getRegisteredCredits()) - parseFloat(course.credits));
@@ -63,9 +64,9 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
             }, function () {
                 $scope.numberOfDroppedWailistedCourses = $scope.numberOfDroppedWailistedCourses + 1;
                 $scope.showWaitlistMessages = true;
-                console.log('TEST ' + $scope.numberOfDroppedWailistedCourses);
                 course.dropping = false;
                 course.dropped = true;
+                course.droppedCss = '--dropped';
 //                $scope.getSchedules()[0].waitlistCourseOfferings.splice(index, 1);
 //                GlobalVarsService.updateScheduleCounts($scope.getSchedules());
                 GlobalVarsService.setWaitlistedCredits(parseFloat(GlobalVarsService.getWaitlistedCredits()) - parseFloat(course.credits));
