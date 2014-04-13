@@ -248,67 +248,8 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
             throws OperationFailedException, PermissionDeniedException, DataValidationErrorException, VersionMismatchException,
             InvalidParameterException, ReadOnlyException, MissingParameterException, DoesNotExistException {
         // KSENROLL-12144
-        // Record the current time
-        Date now = new Date();
-        // Fetch the CO LPR
-        // Comment out state fetches for now
-        List<String> lprStates = new ArrayList<String>();
-        lprStates.add(LprServiceConstants.ACTIVE_STATE_KEY);
-        List<String> coLprIds = getLprIdsByMasterLprId(masterLprId, LprServiceConstants.REGISTRANT_CO_LPR_TYPE_KEY,
-                lprStates, contextInfo);
-        String coLprId = KSCollectionUtils.getRequiredZeroElement(coLprIds);
-        LprInfo origCoLpr = getLprService().getLpr(coLprId, contextInfo);
-        LprInfo updatedCoLpr = new LprInfo(origCoLpr); // Make a copy
-        updatedCoLpr.setId(null);
-        updatedCoLpr.setMeta(null);
-        updatedCoLpr.setEffectiveDate(now);
-        origCoLpr.setExpirationDate(now);
-        origCoLpr.setStateKey(LprServiceConstants.EXPIRED_LPR_STATE_KEY);
-        updatedCoLpr.setResultValuesGroupKeys(new ArrayList<String>());
-        if (!StringUtils.isEmpty(credits)) {
-            updatedCoLpr.getResultValuesGroupKeys().add(LrcServiceConstants.RESULT_VALUE_KEY_CREDIT_DEGREE_PREFIX + credits);
-        }
-        if (!StringUtils.isEmpty(gradingOptionId)) {
-            updatedCoLpr.getResultValuesGroupKeys().add(gradingOptionId);
-        }
-        // Update the orig
-        getLprService().updateLpr(coLprId, origCoLpr, contextInfo);
-        // Create the new one
-        getLprService().createLpr(updatedCoLpr.getPersonId(), updatedCoLpr.getLuiId(), updatedCoLpr.getTypeKey(), updatedCoLpr, contextInfo);
-
-        // Also update the master LPR since this is updating credit/reg options
-        LprInfo masterLpr = getLprService().getLpr(masterLprId, contextInfo);
-        if (masterLpr.getExpirationDate() != null) {
-            throw new OperationFailedException("Master LPR should have null expiration date");
-
-        }
-        // Make a copy of the original master LPR.  This copy will store the original master LPR's info
-        // while the original master LPR will be updated.  This is a "trick" to avoid creating new master LPR
-        // IDs whenever the master LPR is updated.
-        LprInfo masterLprCopy = new LprInfo(masterLpr);
-        // Clear out the IDs and meta from copy (so it can save properly)
-        masterLprCopy.setId(null);
-        masterLprCopy.setMeta(null);
-        masterLprCopy.setExpirationDate(now); // Set its expiration date
-        masterLprCopy.setStateKey(LprServiceConstants.EXPIRED_LPR_STATE_KEY); // Put it expired state
-
-        masterLpr.setResultValuesGroupKeys(new ArrayList<String>());
-        if (!StringUtils.isEmpty(credits)) {
-            masterLpr.getResultValuesGroupKeys().add(LrcServiceConstants.RESULT_VALUE_KEY_CREDIT_DEGREE_PREFIX + credits);
-        }
-        if (!StringUtils.isEmpty(gradingOptionId)) {
-            masterLpr.getResultValuesGroupKeys().add(gradingOptionId);
-        }
-        // Set effective date
-        masterLpr.setEffectiveDate(now);
-        // Update the master LPR
-        masterLpr = getLprService().updateLpr(masterLpr.getId(), masterLpr, contextInfo);
-        // Then, create the copy LPR
-        getLprService().createLpr(masterLprCopy.getPersonId(),
-                masterLprCopy.getLuiId(), masterLprCopy.getTypeKey(), masterLprCopy, contextInfo);
-
-        List<LprInfo> updatedLprInfos = new ArrayList<LprInfo>();
-        updatedLprInfos.add(masterLpr);
+        List<LprInfo> updatedLprInfos = updateLprInfosCommon(KEYNAME_TO_REGISTERED_LPR_TYPES_MAP,
+                masterLprId, credits, gradingOptionId, contextInfo);
 
         return updatedLprInfos;
     }
@@ -317,7 +258,9 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
     public List<LprInfo> dropLprInfos(String masterLprId, ContextInfo contextInfo)
             throws OperationFailedException, PermissionDeniedException, DataValidationErrorException, VersionMismatchException,
             InvalidParameterException, ReadOnlyException, MissingParameterException, DoesNotExistException {
-        //get lpr ids based on master lpr id
+        // Note: this is used on registrant LPRs and waitlist LPRs
+
+        // get lpr ids based on master lpr id
         List<String> lprIds = getLprIdsByMasterLprId(masterLprId, contextInfo);
 
         List<LprInfo> lprInfos = getLprService().getLprsByIds(lprIds, contextInfo);
@@ -374,19 +317,44 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
     }
 
     @Override
-    public List<LprInfo> updateCourseWaitlistEntry(String masterLprId, String credits, String gradingOptionId,
-                                                   ContextInfo contextInfo)
+    public List<LprInfo> updateCourseWaitlistLprs(String masterLprId, String credits, String gradingOptionId,
+                                                  ContextInfo contextInfo)
             throws OperationFailedException, PermissionDeniedException, MissingParameterException,
             InvalidParameterException, DoesNotExistException, ReadOnlyException, DataValidationErrorException,
             VersionMismatchException {
         // KSENROLL-12144
+
+        List<LprInfo> updatedLprInfos = updateLprInfosCommon(KEYNAME_TO_WAITLIST_LPR_TYPES_MAP,
+                masterLprId, credits, gradingOptionId, contextInfo);
+
+        return updatedLprInfos;
+    }
+
+    /**
+     * Common code to update LPRs (registrant and waitlists)
+     *
+     * @param keynameToLprTypesMap
+     * @param masterLprId
+     * @param credits
+     * @param gradingOptionId
+     * @param contextInfo
+     * @return List of update LprInfos
+     */
+    protected List<LprInfo> updateLprInfosCommon(Map<String, String> keynameToLprTypesMap,
+                                                 String masterLprId, String credits, String gradingOptionId,
+                                                 ContextInfo contextInfo)
+            throws OperationFailedException, PermissionDeniedException, MissingParameterException,
+            InvalidParameterException, DoesNotExistException, ReadOnlyException, DataValidationErrorException,
+            VersionMismatchException {
+        String coLprType = keynameToLprTypesMap.get(CO_LPR_KEYNAME);
         // Record the current time
         Date now = new Date();
         // Fetch the CO LPR
         // Comment out state fetches for now
         List<String> lprStates = new ArrayList<String>();
         lprStates.add(LprServiceConstants.ACTIVE_STATE_KEY);
-        List<String> coLprIds = getLprIdsByMasterLprId(masterLprId, LprServiceConstants.WAITLIST_CO_LPR_TYPE_KEY,
+        // This is the only place keynameToLprTypesMap is used to look up the Course offering LPR type.
+        List<String> coLprIds = getLprIdsByMasterLprId(masterLprId, coLprType,
                 lprStates, contextInfo);
         String coLprId = KSCollectionUtils.getRequiredZeroElement(coLprIds);
         LprInfo origCoLpr = getLprService().getLpr(coLprId, contextInfo);
@@ -406,7 +374,8 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
         // Update the orig
         getLprService().updateLpr(coLprId, origCoLpr, contextInfo);
         // Create the new one
-        getLprService().createLpr(updatedCoLpr.getPersonId(), updatedCoLpr.getLuiId(), updatedCoLpr.getTypeKey(), updatedCoLpr, contextInfo);
+        getLprService().createLpr(updatedCoLpr.getPersonId(), updatedCoLpr.getLuiId(),
+                updatedCoLpr.getTypeKey(), updatedCoLpr, contextInfo);
 
         // Also update the master LPR since this is updating credit/reg options
         LprInfo masterLpr = getLprService().getLpr(masterLprId, contextInfo);
@@ -444,7 +413,6 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
 
         return updatedLprInfos;
     }
-
     @Override
     public List<LprInfo> removeCourseWaitlistEntry(String masterLprId, ContextInfo contextInfo) throws OperationFailedException, PermissionDeniedException, MissingParameterException, InvalidParameterException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
         return dropLprInfos(masterLprId, contextInfo);
