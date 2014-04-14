@@ -27,18 +27,12 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.IdentityService;
-import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.identity.entity.EntityDefault;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
-import org.kuali.rice.krad.uif.UifConstants;
-import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.container.Container;
-import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.uif.element.Action;
-import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.util.UrlFactory;
+import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
 import org.kuali.rice.krms.api.repository.agenda.AgendaItemDefinition;
@@ -156,7 +150,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 /**
  * Base view helper service for both create and edit course info presentations.
@@ -218,16 +211,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         return OrganizationSearchUtil.searchForOrganizations(organizationName, getOrganizationService());
     }
 
-    private SearchResultInfo getInstructorsSearchResult(String nameOrId, Boolean isName) throws Exception {
-
-        List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
-        SearchParamInfo displayNameParam = new SearchParamInfo();
-        if (isName)
-            displayNameParam.setKey(QuickViewByGivenName.NAME_PARAM);
-        else
-            displayNameParam.setKey(QuickViewByGivenName.ID_PARAM);
-        displayNameParam.getValues().add(nameOrId);
-        queryParamValueList.add(displayNameParam);
+    protected SearchResultInfo getInstructorsSearchResult(List<SearchParamInfo> queryParamValueList) throws Exception {
 
         SearchRequestInfo searchRequest = new SearchRequestInfo();
         searchRequest.setSearchKey(QuickViewByGivenName.SEARCH_TYPE);
@@ -266,11 +250,18 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         return cluInstructorInfoDisplays;
     }
 
-    public List<CluInstructorInfoWrapper> getInstructorsbyId(String id) {
+    public List<CluInstructorInfoWrapper> getInstructorsById(String id) {
         List<CluInstructorInfoWrapper> cluInstructorInfoDisplays = new ArrayList<CluInstructorInfoWrapper>();
         SearchResultInfo searchResult = null;
+        List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
+        SearchParamInfo displayNameParam = new SearchParamInfo();
+
         try {
-            searchResult = getInstructorsSearchResult(id, false);
+            displayNameParam.setKey(QuickViewByGivenName.ID_PARAM);
+            displayNameParam.getValues().add(id);
+            queryParamValueList.add(displayNameParam);
+
+            searchResult = getInstructorsSearchResult(queryParamValueList);
             cluInstructorInfoDisplays = getInstructorsFromSearchResult(searchResult);
         } catch (Exception e) {
             LOG.error("An error occurred in the getInstructorsForSuggest method", e);
@@ -285,10 +276,14 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     public List<CluInstructorInfoWrapper> getInstructorsForSuggest(
             String instructorName) {
         List<CluInstructorInfoWrapper> cluInstructorInfoDisplays = new ArrayList<CluInstructorInfoWrapper>();
-
+        List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
+        SearchParamInfo displayNameParam = new SearchParamInfo();
         SearchResultInfo searchResult = null;
         try {
-            searchResult = getInstructorsSearchResult(instructorName, true);
+            displayNameParam.setKey(QuickViewByGivenName.NAME_PARAM);
+            displayNameParam.getValues().add(instructorName);
+            queryParamValueList.add(displayNameParam);
+            searchResult = getInstructorsSearchResult(queryParamValueList);
             cluInstructorInfoDisplays = getInstructorsFromSearchResult(searchResult);
         } catch (Exception e) {
             LOG.error("An error occurred in the getInstructorsForSuggest method", e);
@@ -949,7 +944,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 }
             }
 
-            if (LOG.isDebugEnabled()){
+            if (LOG.isDebugEnabled()) {
                 LOG.debug("Returning {}", departments);
             }
 
@@ -1017,7 +1012,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 List<OrganizationInfoWrapper> orgs = OrganizationSearchUtil.searchForOrganizations(organizationInfoWrapper.getOrganizationName(), getOrganizationService());
                 try {
                     organizationInfoWrapper.setOrganizationName(KSCollectionUtils.getOptionalZeroElement(orgs).getOrganizationName());
-                } catch (OperationFailedException e){
+                } catch (OperationFailedException e) {
                     throw new RuntimeException(e);
                 }
                 reviewData.getGovernanceSection().getAdministeringOrganization().add(organizationInfoWrapper.getOrganizationName());
@@ -1091,12 +1086,12 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 String activityType = activityInfo.getTypeKey();
 
                 String durationCount = "";
-                if (activityInfo.getDuration() != null && activityInfo.getDuration().getTimeQuantity() != null){
+                if (activityInfo.getDuration() != null && activityInfo.getDuration().getTimeQuantity() != null) {
                     durationCount = activityInfo.getDuration().getTimeQuantity().toString();
                 }
 
                 String contactHours = "";
-                if (activityInfo.getContactHours() != null && activityInfo.getContactHours().getUnitQuantity() != null){
+                if (activityInfo.getContactHours() != null && activityInfo.getContactHours().getUnitQuantity() != null) {
                     contactHours = activityInfo.getContactHours().getUnitQuantity();
                 }
 
@@ -1502,7 +1497,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     }
 
     /**
-     * @return  List list of grading options.
+     * @return List list of grading options.
      */
     protected List<String> buildGradingOptionsList() {
         List<String> gradingOptions = new ArrayList<String>();
@@ -1510,7 +1505,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
 
         if (!courseInfoWrapper.getCourseInfo().getGradingOptions().isEmpty()) {
-           try {
+            try {
                 List<ResultValuesGroupInfo> rvgs = getLRCService().getResultValuesGroupsByKeys(courseInfoWrapper.getCourseInfo().getGradingOptions(), createContextInfo());
                 for (ResultValuesGroupInfo rvg : rvgs) {
                     gradingOptions.add(rvg.getName());
@@ -1617,16 +1612,16 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
             for (CluInstructorInfo instructorInfo : course.getInstructors()) {
                 CluInstructorInfoWrapper instructorInfoWrapper = new CluInstructorInfoWrapper();
-                dataObject.getInstructorWrappers().addAll(getInstructorsbyId(instructorInfo.getPersonId()));
+                dataObject.getInstructorWrappers().addAll(getInstructorsById(instructorInfo.getPersonId()));
             }
 
-            for(String unitDeployment : course.getUnitsDeployment()) {
+            for (String unitDeployment : course.getUnitsDeployment()) {
                 OrgInfo org = getOrganizationService().getOrg(unitDeployment, createContextInfo());
                 OrganizationInfoWrapper organizationInfoWrapper = new OrganizationInfoWrapper(org);
-                dataObject.getAdministeringOrganizations().add(organizationInfoWrapper) ;
+                dataObject.getAdministeringOrganizations().add(organizationInfoWrapper);
             }
 
-            if (dataObject.getAdministeringOrganizations().isEmpty()){
+            if (dataObject.getAdministeringOrganizations().isEmpty()) {
                 dataObject.getAdministeringOrganizations().add(new OrganizationInfoWrapper());
             }
 
