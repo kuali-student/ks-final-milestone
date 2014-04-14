@@ -43,16 +43,14 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
             ScheduleService.dropRegistrationGroup().query({
                 masterLprId: course.masterLprId
             }, function () {
+                // "dropping" is used to display confirmation popup, "dropped" to display course details vs success to drop message
                 course.dropping = false;
                 course.dropped = true;
-                course.droppedCss = '--dropped';
-//                $scope.getSchedules()[0].registeredCourseOfferings.splice(index, 1);
-//                GlobalVarsService.updateScheduleCounts($scope.getSchedules());
+                // can't use splice (which would remove the success message, so updating counts manually
                 GlobalVarsService.setRegisteredCredits(parseFloat(GlobalVarsService.getRegisteredCredits()) - parseFloat(course.credits));
                 GlobalVarsService.setRegisteredCourseCount(parseInt(GlobalVarsService.getRegisteredCourseCount()) - 1);
                 course.statusMessage = {txt: '<strong>' + course.courseCode + ' (' + course.regGroupCode + ')</strong> dropped successfully', type: 'success'};
             }, function (error) {
-                //course.dropping = false;
                 $scope.userMessage = {txt: error.data, type: 'error'};
             });
         };
@@ -62,13 +60,13 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
             ScheduleService.dropFromWaitlist().query({
                 masterLprId: course.masterLprId
             }, function () {
+                // need a count on how many success drop message for WL are opened. So if there are no WL courses when we "X" the last success drop message the "Waitlisted" section name would disappear
                 $scope.numberOfDroppedWailistedCourses = $scope.numberOfDroppedWailistedCourses + 1;
                 $scope.showWaitlistMessages = true;
+                // "dropping" is used to display confirmation popup, "dropped" to display course details vs success to drop message
                 course.dropping = false;
                 course.dropped = true;
-                course.droppedCss = '--dropped';
-//                $scope.getSchedules()[0].waitlistCourseOfferings.splice(index, 1);
-//                GlobalVarsService.updateScheduleCounts($scope.getSchedules());
+                // can't use splice (which would remove the success message, so updating counts manually
                 GlobalVarsService.setWaitlistedCredits(parseFloat(GlobalVarsService.getWaitlistedCredits()) - parseFloat(course.credits));
                 GlobalVarsService.setWaitlistedCourseCount(parseInt(GlobalVarsService.getWaitlistedCourseCount()) - 1);
                 course.statusMessage = {txt: 'Removed from waitlist for <strong>' + course.courseCode + ' (' + course.regGroupCode + ')</strong> successfully', type: 'success'};
@@ -102,11 +100,9 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
                 GlobalVarsService.setRegisteredCredits(parseFloat(GlobalVarsService.getRegisteredCredits()) - parseFloat(course.credits) + parseFloat(scheduleItemResult.credits));
                 course.credits = scheduleItemResult.credits;
                 course.gradingOptionId = scheduleItemResult.gradingOptionId;
-//                GlobalVarsService.updateScheduleCounts($scope.getSchedules());
                 course.editing = false;
                 course.statusMessage = {txt: 'Changes saved successfully', type: 'success'};
             }, function (error) {
-                //course.editing = false;
                 course.statusMessage = {txt: error.data, type: 'error'};
             });
         };
@@ -126,11 +122,9 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
                 GlobalVarsService.setRegisteredCredits(parseFloat(GlobalVarsService.getRegisteredCredits()) - parseFloat(course.credits) + parseFloat(scheduleItemResult.credits));
                 course.credits = scheduleItemResult.credits;
                 course.gradingOptionId = scheduleItemResult.gradingOptionId;
-//                GlobalVarsService.updateScheduleCounts($scope.getSchedules());
                 course.editing = false;
                 course.statusMessage = {txt: 'Changes saved successfully', type: 'success'};
             }, function (error) {
-                //course.editing = false;
                 course.statusMessage = {txt: error.data, type: 'error'};
             });
         };

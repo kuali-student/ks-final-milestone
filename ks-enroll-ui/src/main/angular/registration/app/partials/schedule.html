@@ -15,7 +15,7 @@
 <div class="kscr-Card">
     <div ng-repeat="schedule in getSchedules()">
         <div ng-repeat="course in schedule.registeredCourseOfferings" class="kscr-course-container">
-            <div id="course_status_message" class="util-Alert--card{{course.droppedCss}} util-Alert--{{course.statusMessage.type}}" ng-if="course.statusMessage.txt">
+            <div id="course_status_message" ng-class="(course.dropped) ? 'util-Alert--card--dropped util-Alert--{{course.statusMessage.type}}' : 'util-Alert--card util-Alert--{{course.statusMessage.type}}'" ng-if="course.statusMessage.txt">
                 <span ng-bind-html="course.statusMessage.txt"></span>
                 <span class="kscr-Card-statusRemove"><a href="" ng-click="removeStatusMessage(course)"><i class="glyphicon glyphicon-remove"></i></a></span>
             </div>
@@ -126,9 +126,9 @@
 <div class="kscr-Card">
     <div ng-repeat="schedule in getSchedules()">
         <div ng-repeat="course in schedule.waitlistCourseOfferings" class="kscr-course-container">
-            <div id="waitlist_course_status_message" class="util-Alert--card{{course.droppedCss}} util-Alert--{{course.statusMessage.type}}" ng-if="course.statusMessage.txt">
+            <div id="waitlist_course_status_message" ng-class="(course.dropped) ? 'util-Alert--card--dropped util-Alert--{{course.statusMessage.type}}' : 'util-Alert--card util-Alert--{{course.statusMessage.type}}'" ng-if="course.statusMessage.txt">
                 <span ng-bind-html="course.statusMessage.txt"></span>
-                <span class="kscr-Card-statusRemove"><a href="" ng-click="removeWaitlistStatusMessage(course)"><i class="glyphicon glyphicon-remove"></i></a></span>
+                <span class="kscr-Card-statusRemove"><a href="" ng-click="(course.dropped) ? removeWaitlistStatusMessage(course) : removeStatusMessage(course)"><i class="glyphicon glyphicon-remove"></i></a></span>
             </div>
             <div class="kscr-dropCourse-container" ng-show="course.dropping">
                 <div class="kscr-dropCourse-background"></div>
