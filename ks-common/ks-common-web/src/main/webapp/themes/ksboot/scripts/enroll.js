@@ -51,9 +51,13 @@ function removeCheckboxColumns(column, componentId, functionToCall) {
 
         jQuery('#' + tableId + ' tbody > tr > td:nth-child(' + column + ')').find('[type=checkbox]').each(function () {
             var div = jQuery(this).parent('div');
-            if (jQuery(div).is(":visible")) {
+            //Did something set this checkbox's parent to display:none?
+            //If so, later, we're dropping the entire column of checkboxes
+            //Do not use .is(':visible') because ANY ancestor
+            // that is hidden will also trigger this false, too broad
+            if (jQuery(div).css("display") != 'hidden') {
                 foundCheckBox = true;
-                return false;   // exit .each() loop early
+                return false;   // exit .each() loop early (DOES THIS ACTUALLY EXIT??)
             }
         });
 
