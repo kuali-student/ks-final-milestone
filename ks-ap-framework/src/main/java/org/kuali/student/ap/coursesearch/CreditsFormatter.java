@@ -14,12 +14,6 @@
  */
 package org.kuali.student.ap.coursesearch;
 
-import java.math.BigDecimal;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
@@ -38,6 +32,12 @@ import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.math.BigDecimal;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
 import static org.kuali.rice.core.api.criteria.PredicateFactory.or;
@@ -260,7 +260,7 @@ public class CreditsFormatter {
         try{
             Predicate typePredicate[] = new Predicate[creditGroups.size()];
             for(int i=0;i<creditGroups.size();i++){
-                typePredicate[i]=equal("id", creditGroups.get(i).getKey());
+                typePredicate[i]=equal("id", creditGroups.get(i).getTypeKey());
             }
             QueryByCriteria query = QueryByCriteria.Builder.fromPredicates(or(typePredicate));
             List<TypeInfo> typeInfos = KsapFrameworkServiceLocator.getTypeService().searchForTypes(query,
@@ -279,7 +279,7 @@ public class CreditsFormatter {
         }
 
         for(ResultValuesGroupInfo resultValue : creditGroups){
-            if(!types.containsKey(resultValue.getKey())){
+            if(!types.containsKey(resultValue.getTypeKey())){
                 types.put(resultValue.getKey(),"Unknown");
             }
         }
