@@ -95,7 +95,7 @@
     </bean>
 
     <bean id="KS-CourseView-ReviewErrorMessageLink" parent="Uif-VerticalBoxGroup"
-          p:render="@{#dataObject.reviewProposalDisplay.missingRequiredElement}">
+          p:render="@{#dataObject.missingRequiredFields}">
         <property name="items">
             <list>
                 <bean id="KS-CourseView-Admin-Message-TreeExpandCollapse" parent="Uif-HorizontalFieldGroup"
