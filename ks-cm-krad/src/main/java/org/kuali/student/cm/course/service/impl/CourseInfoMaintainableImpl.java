@@ -127,6 +127,7 @@ import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.dto.CourseJointInfo;
 import org.kuali.student.r2.lum.course.dto.CourseVariationInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
@@ -1008,9 +1009,9 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         }
 
         reviewData.getCourseSection().getJointlyOfferedCourses().clear();
-        if(!courseInfoWrapper.getCourseJointWrappers().isEmpty()) {
-            for(CourseJointInfoWrapper jointInfoWrapper : courseInfoWrapper.getCourseJointWrappers()) {
-                reviewData.getCourseSection().getJointlyOfferedCourses().add(jointInfoWrapper.getCourseCode());
+        if(!savedCourseInfo.getJoints().isEmpty()) {
+            for(CourseJointInfo jointInfo : savedCourseInfo.getJoints()) {
+                reviewData.getCourseSection().getJointlyOfferedCourses().add(jointInfo.getSubjectArea() + jointInfo.getCourseNumberSuffix());
             }
         }
 
