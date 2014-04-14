@@ -13,7 +13,7 @@ public interface CourseSearchItem {
 	static final String EMPTY_RESULT_VALUE_KEY = "&mdash;";
 
 	enum CreditType {
-		fixed, range, multiple, unknown
+		Fixed, Range, Multiple, Unknown
 	}
 
 	/**

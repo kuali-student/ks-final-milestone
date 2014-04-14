@@ -8,6 +8,7 @@ import java.util.List;
  * Created with IntelliJ IDEA. User: jasonosgood Date: 12/5/12 Time: 10:58 AM To
  * change this template use File | Settings | File Templates.
  */
+@Deprecated
 public class CourseOfferingInstitution implements
 		Comparable<CourseOfferingInstitution>, Serializable {
 

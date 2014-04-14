@@ -39,12 +39,12 @@ public interface CourseHelper {
 	List<ActivityOfferingDisplayInfo> getActivityOfferingDisplaysByCourseAndTerm(String courseId, String term);
 
     /**
-     * temporarily comment it out
+     * Get the last/latest offered term in the past for a course
      * @param course
-     * @return
-
-	String getLastOfferedTermIdForCourse(Course course);
+     * @return  the last offered term
      */
+	Term getLastOfferedTermForCourse(Course course);
+
 
     /**
      * Get a list of term ids where the given course is scheduled

@@ -397,16 +397,15 @@ function fnGenerateFacetGroup(obj) {
 	jFacets.empty();
 	var bOne = false; // exactly one facet value
 	var bMore = false; // more than one facet value
-	for (key in oData)
+    if(fcol == "facet_genedureq" || fcol == "facet_quarter"){
+        delete oData["None"];
+    }
+	for (key in oData){
 		if (bMore)
 			continue;
 		else if (oData.hasOwnProperty(key))
 			bMore = !(bOne = !bOne);
-    if (bOne){
-        obj.addClass("ksap-hide");
-        return;
     }
-    obj.removeClass("ksap-hide");
     var bAll = true;
     for ( var key in oData)
         if (!bAll)

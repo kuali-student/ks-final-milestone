@@ -11,6 +11,7 @@ import java.util.List;
  * Time: 10:58 AM
  * To change this template use File | Settings | File Templates.
  */
+@Deprecated
 public class CourseOfferingTerm implements Serializable {
 
 	private static final long serialVersionUID = 7057613732672051148L;

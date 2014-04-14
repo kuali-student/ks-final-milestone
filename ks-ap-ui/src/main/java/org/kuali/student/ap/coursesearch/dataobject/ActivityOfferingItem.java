@@ -13,6 +13,7 @@ import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
  * 
  *
  */
+@Deprecated
 public class ActivityOfferingItem implements Serializable {
 
 	private static final long serialVersionUID = -5761634338639381397L;

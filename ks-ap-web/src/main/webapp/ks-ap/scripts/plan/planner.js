@@ -286,11 +286,6 @@ function ksapPlannerAddPlanItem (data) {
         item.addClass("planned").html("Planned");
     }
 
-    // Hide add to plan button on the course details page
-    if(jQuery("#"+data.courseId+"_addPlannedCourse").length){
-        var item = jQuery("#"+data.courseId+"_addPlannedCourse");
-        item.hide();
-    }
 }
 
 /**
@@ -415,11 +410,6 @@ function ksapBookmarkAddItem (data) {
         item.addClass("bookmarked").html("Bookmarked");
     }
 
-    // Hide bookmark button on course detail page
-    if(jQuery("#"+data.courseId+"_addSavedCourse").length){
-        var item = jQuery("#"+data.courseId+"_addSavedCourse");
-        item.hide();
-    }
 }
 
 /**

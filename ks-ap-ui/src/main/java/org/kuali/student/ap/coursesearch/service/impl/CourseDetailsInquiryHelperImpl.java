@@ -56,7 +56,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+@Deprecated
 public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 
 	private static final long serialVersionUID = 4933435913745621395L;
@@ -217,8 +217,14 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 		if (courseDetails.getScheduledTerms() == null)
 			courseDetails.setScheduledTerms(new ArrayList<String>());
         //when a course does not have a scheduled term, it tries to fine last offered term
-//		if (courseDetails.getScheduledTerms().size() == 0)
-//			courseDetails.setLastOffered(KsapFrameworkServiceLocator.getCourseHelper().getLastOfferedTermIdForCourse(course));
+		if (courseDetails.getScheduledTerms().size() == 0) {
+            Term lastOfferedTerm = KsapFrameworkServiceLocator.getCourseHelper().getLastOfferedTermForCourse(course);
+            if (lastOfferedTerm != null){
+			    courseDetails.setLastOffered(lastOfferedTerm.getName());
+            }
+            else
+                courseDetails.setLastOffered(null);
+        }
 
 		return courseDetails;
 

@@ -12,6 +12,7 @@ import org.kuali.student.myplan.plan.dataobject.PlannedCourseSummary;
  * This data object records all instances where the course has been planned,
  * bookmarked, recommended or present in academic records of the student
  */
+@Deprecated
 public class CourseDetails {
 
 	private String searchTerm;

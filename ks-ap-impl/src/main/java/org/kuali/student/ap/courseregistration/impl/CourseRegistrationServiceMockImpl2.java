@@ -120,8 +120,8 @@ public class CourseRegistrationServiceMockImpl2
         regInfo.setGradingOptionId("def");
         try { regInfo.setEffectiveDate(new KSDateTimeFormatter("dd/MM/yyyy").parse("01/01/2001")); } catch(Exception e) {}
         regInfo.setId(UUID.randomUUID().toString()); //uuid generated via. oracle sql: select SYS_GUID() from dual;
-        regInfo.setTypeKey(LprServiceConstants.REGISTRANT_CO_TYPE_KEY);  //seems wrong...but copied from existing code below
-        regInfo.setStateKey(LprServiceConstants.REGISTERED_STATE_KEY);
+        regInfo.setTypeKey(LprServiceConstants.REGISTRANT_CO_LPR_TYPE_KEY);  //seems wrong...but copied from existing code below
+        regInfo.setStateKey(LprServiceConstants.ACTIVE_STATE_KEY);
         regInfo.setMeta(newMeta(contextInfo));
         crMap.put(regInfo.getCourseOfferingId(), regInfo);
     }
@@ -724,8 +724,8 @@ public class CourseRegistrationServiceMockImpl2
                 /* create the course registration */
                 CourseRegistrationInfo cr = new CourseRegistrationInfo();
                 cr.setId(newId());
-                cr.setTypeKey(LprServiceConstants.REGISTRANT_CO_TYPE_KEY);
-                cr.setStateKey(LprServiceConstants.REGISTERED_STATE_KEY);
+                cr.setTypeKey(LprServiceConstants.REGISTRANT_CO_LPR_TYPE_KEY);
+                cr.setStateKey(LprServiceConstants.ACTIVE_STATE_KEY);
                 cr.setMeta(newMeta(contextInfo));
                 cr.setPersonId(item.getPersonId());
                 cr.setCourseOfferingId(newrg.getCourseOfferingId());
@@ -754,8 +754,8 @@ public class CourseRegistrationServiceMockImpl2
                 for (String activityId : newrg.getActivityOfferingIds()) {
                     ActivityRegistrationInfo ar = new ActivityRegistrationInfo();
                     ar.setId(newId());
-                    ar.setTypeKey(LprServiceConstants.REGISTRANT_AO_TYPE_KEY);
-                    ar.setStateKey(LprServiceConstants.REGISTERED_STATE_KEY);
+                    ar.setTypeKey(LprServiceConstants.REGISTRANT_AO_LPR_TYPE_KEY);
+                    ar.setStateKey(LprServiceConstants.ACTIVE_STATE_KEY);
                     ar.setMeta(newMeta(contextInfo));
                     ar.setPersonId(item.getPersonId());
                     ar.setActivityOfferingId(activityId);

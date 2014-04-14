@@ -50,13 +50,70 @@
 /*
 	Course Details
 */
+//back link on CDP
+#CourseDetails-InquiryView {
+  .uif-header-upperGroup {
+    padding-left:0;
+    .cdp-back-link {
+      &:hover::before {text-decoration: none}
+    }
+  }
+}
 
-/*#course_details_section {
-  width: 73%;
-}*/
+//CDP header
+#course_details_back_link {
+  padding-left:0;
+  h1.uif-headerText {
+    font-size: 1.8467em;
+    line-height: 1.6667em;
+
+    span.uif-headerText-span {
+      //Using !important because ksboot is also, and we can't override
+      display:none !important;
+    }
+    span.uif-viewHeader-supportTitle {
+      padding-top:0;
+      color: #000;
+    }
+  }
+}
+
+//Hiding unused page header
+#course_details_page {
+  .uif-header-contentWrapper {display:none;}
+}
+#course_details_section {margin-top:0;}
+
 .ksap-view .ksap-underline-header {
   border-bottom: solid 2px #f2e4b7;
   margin-bottom: 20px;
+}
+
+//CDP Messaging
+#planStatusMessages {
+  display:table;
+
+  &.ksap-hide {display:none;}
+  div.uif-horizontalBoxLayout {
+    display:table-cell;
+    vertical-align: middle;
+
+    img.uif-image.uif-validationImage {
+      padding-top:0;
+      padding-bottom:0;
+      margin-top:2px;
+      margin-bottom:0;
+      vertical-align: inherit;
+    }
+    div.uif-verticalBoxGroup.uif-boxLayoutHorizontalItem {
+      margin-top:0;
+      margin-bottom:0;
+
+      span.uif-message {
+        margin:0;
+      }
+    }
+  }
 }
 
 .ksap-view .ksap-underline-header .uif-headerText {

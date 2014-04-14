@@ -1,15 +1,7 @@
 /* Academic Plan types */
 INSERT INTO KSEN_TYPE (CREATEID,CREATETIME,DESCR_FORMATTED,DESCR_PLAIN,NAME,REF_OBJECT_URI,SERVICE_URI,TYPE_KEY,VER_NBR) VALUES ('SYSTEMLOADER',{ts '2013-11-07 00:00:00.0'},'Student learning plan type.','Student learning plan type.','Learning Plan','http://student.kuali.org/wsdl/acadplan/LearningPlanInfo','http://student.kuali.org/wsdl/acadplan/AcademicPlanService','kuali.academicplan.type.plan',0)
-
 INSERT INTO KSEN_TYPE (CREATEID,CREATETIME,DESCR_FORMATTED,DESCR_PLAIN,NAME,REF_OBJECT_URI,SERVICE_URI,TYPE_KEY,VER_NBR) VALUES ('SYSTEMLOADER',{ts '2013-11-07 00:00:00.0'},'Student learning plan template type.','Student learning plan template type.','Learning Plan Template','http://student.kuali.org/wsdl/acadplan/LearningPlanInfo','http://student.kuali.org/wsdl/acadplan/AcademicPlanService','kuali.academicplan.type.plan.template',0)
-
 INSERT INTO KSEN_TYPE (CREATEID,CREATETIME,DESCR_FORMATTED,DESCR_PLAIN,NAME,REF_OBJECT_URI,SERVICE_URI,TYPE_KEY,VER_NBR) VALUES ('SYSTEMLOADER',{ts '2013-11-07 00:00:00.0'},'Student learning plan review type.','Student learning plan review type.','Learning Plan Review','http://student.kuali.org/wsdl/acadplan/LearningPlanInfo','http://student.kuali.org/wsdl/acadplan/AcademicPlanService','kuali.academicplan.type.plan.review',0)
-
-
--- INSERT INTO KSPL_LRNG_PLAN_RICH_TEXT (ID, FORMATTED, PLAIN, VER_NBR) VALUES ('lp1-Desc', '<p>Student 1 Learning Plan 1</p>',  'Student 1 Learning Plan 1', 0);
--- INSERT INTO KSPL_LRNG_PLAN_RICH_TEXT (ID, FORMATTED, PLAIN, VER_NBR) VALUES ('lp2-Desc', '<p>Student 1 Learning Plan 2</p>',  'Student 1 Learning Plan 2', 0);
--- INSERT INTO KSPL_LRNG_PLAN_RICH_TEXT (ID, FORMATTED, PLAIN, VER_NBR) VALUES ('lp3-Desc', '<p>Student 2 Learning Plan 1</p>',  'Student 2 Learning Plan 1', 0);
--- INSERT INTO KSPL_LRNG_PLAN_RICH_TEXT (ID, FORMATTED, PLAIN, VER_NBR) VALUES ('lp4-Desc', '<p>Student 2 Learning Plan 2</p>',  'Student 2 Learning Plan 2', 0);
 
 INSERT INTO KSPL_LRNG_PLAN (ID, OBJ_ID, VER_NBR, STUDENT_ID,  TYPE_ID, CREATEID, CREATETIME, DESCR_FORMATTED, DESCR_PLAIN,NAME ) values ('lp1', 'obj-lp1', 0, 'student1', 'kuali.academicplan.type.plan', 'student1', {ts '2012-01-01 00:00:00.0'}, '<p>Student 1 Learning Plan 1</p>',  'Student 1 Learning Plan 1','plan1 name');
 INSERT INTO KSPL_LRNG_PLAN (ID, OBJ_ID, VER_NBR, STUDENT_ID,  TYPE_ID, CREATEID, CREATETIME, DESCR_FORMATTED, DESCR_PLAIN,NAME ) values ('lp2', 'obj-lp2', 0, 'student1', 'kuali.academicplan.type.plan', 'student1', {ts '2012-02-01 00:00:00.0'}, '<p>Student 1 Learning Plan 2</p>',  'Student 1 Learning Plan 2','plan2 name');
