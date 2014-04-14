@@ -14,10 +14,12 @@ import org.kuali.student.enrollment.registration.client.service.dto.ActivityType
 import org.kuali.student.enrollment.registration.client.service.dto.CourseAndPrimaryAOSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.CourseSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.InstructorSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.RegistrationCountResult;
 import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.ScheduleSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.TermSearchResult;
 import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
+import org.kuali.student.enrollment.registration.search.service.impl.CourseRegistrationSearchServiceImpl;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -341,8 +343,62 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
             retList =  getRegGroupList(courseOfferingId, regGroupName);
         }
 
+        // We want to add registration counts to the results
+        if(retList != null && !retList.isEmpty()){
+            List<String> rgIds = new ArrayList<String>();
+            Map<String, RegGroupSearchResult> tmpMap = new HashMap<String, RegGroupSearchResult>(); // used for performance
+            for(RegGroupSearchResult sr : retList){
+               rgIds.add(sr.getRegGroupId()); // build list of ids to pass into search
+               tmpMap.put(sr.getRegGroupId(), sr); // create mapping so we can update in O(n) time
+            }
+
+            List<RegistrationCountResult> countResults = getRegGroupCounts(rgIds); // perform search
+
+            for(RegistrationCountResult rgCount : countResults){ // for each rg, update corresponding map value
+                tmpMap.get(rgCount.getLuiId()).getRegistrationCounts().add(rgCount);
+            }
+        }
+
         return emptyIfNull(retList);
 
+    }
+
+    private List<RegistrationCountResult>  getRegGroupCounts(List<String> regGroupIds) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException {
+
+        List<RegistrationCountResult> retList = new ArrayList<RegistrationCountResult>();
+        SearchRequestInfo searchRequest = new SearchRequestInfo(CourseRegistrationSearchServiceImpl.SEAT_COUNT_INFO_BY_REG_GROUPS_SEARCH_KEY);
+        searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.LUI_IDS, regGroupIds);
+
+        SearchResultInfo searchResult = CourseRegistrationAndScheduleOfClassesUtil.getSearchService().search(searchRequest, ContextUtils.createDefaultContextInfo());
+
+        Map<String, RegGroupSearchResult> regGroupResultMap = new HashMap<String, RegGroupSearchResult>();
+
+
+        for (SearchResultRowInfo row : searchResult.getRows()) {
+
+
+            int seatCount = 0;
+            String luiId = null;
+            String lprType = null;
+
+            for (SearchResultCellInfo cellInfo : row.getCells()) {
+
+                String value = StringUtils.EMPTY;
+                if (cellInfo.getValue() != null) {
+                    value = cellInfo.getValue();
+                }
+
+                if (CourseRegistrationSearchServiceImpl.SearchResultColumns.SEAT_COUNT.equals(cellInfo.getKey())) {
+                    seatCount = Integer.parseInt(value);
+                } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_ID.equals(cellInfo.getKey())) {
+                    luiId = value;
+                } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.LPR_TYPE.equals(cellInfo.getKey())) {
+                    lprType = value;
+                }
+            }
+            retList.add(new RegistrationCountResult(luiId, seatCount, lprType));
+        }
+        return retList;
     }
 
     private List<RegGroupSearchResult> getRegGroupList(String courseOfferingId, String regGroupName) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {

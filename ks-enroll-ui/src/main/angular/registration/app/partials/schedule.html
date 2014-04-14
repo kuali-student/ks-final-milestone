@@ -7,16 +7,16 @@
     </span>
 </div>
 <!--Alert message-->
-<div id="user_message" class="util-Alert util-Alert--{{userMessage.type}}" ng-if="userMessage.txt">
+<!-- div id="user_message" class="util-Alert util-Alert--{{userMessage.type}}" ng-if="userMessage.txt">
     {{userMessage.txt}}
     <a id="userMessageInvoke" ng-click="invokeActionLink(userMessage.actionLink);" ng-if="userMessage.linkText">{{userMessage.linkText}}</a>
     <span class="kscr-Card-statusRemove" ng-if="!userMessage.linkText"><a href="" ng-click="removeUserMessage()"><i class="glyphicon glyphicon-remove"></i></a></span>
-</div>
+</div -->
 <div class="kscr-Card">
-    <div ng-repeat="schedule in schedules()">
+    <div ng-repeat="schedule in getSchedules()">
         <div ng-repeat="course in schedule.registeredCourseOfferings" class="kscr-course-container">
-            <div id="course_status_message" class="util-Alert--card util-Alert--{{course.statusMessage.type}}"  ng-if="course.statusMessage.txt">
-                {{course.statusMessage.txt}}
+            <div id="course_status_message" class="util-Alert--card{{course.droppedCss}} util-Alert--{{course.statusMessage.type}}" ng-if="course.statusMessage.txt">
+                <span ng-bind-html="course.statusMessage.txt"></span>
                 <span class="kscr-Card-statusRemove"><a href="" ng-click="removeStatusMessage(course)"><i class="glyphicon glyphicon-remove"></i></a></span>
             </div>
             <div class="kscr-dropCourse-container" ng-show="course.dropping">
@@ -39,7 +39,7 @@
                     </div>
                 </div>
             </div>
-            <accordion close-others="oneAtATime">
+            <accordion close-others="oneAtATime" ng-if="!course.dropped">
                 <accordion-group is-open="isopen">
                     <accordion-heading>
                         <!--credits-->
@@ -59,16 +59,14 @@
                         <div class="kscr-Card-text" id="title_{{course.courseCode}}_{{course.regGroupCode}}">{{course.longName}}</div>
                     </accordion-heading>
                     <!-- Course details: AO type, start-end dates, etc. -->
-                    <div ng-hide="course.editing" class="kscr-Card-detailsText">
+                    <div ng-hide="course.editing" class="kscr-Card-detailsText--edit">
                         <!--course time, day, building-->
                         <div ng-repeat="ao in course.activityOfferings">
                             <span class="kscr-Card-courseTimes">
-                                <div id="ao_type_{{course.courseCode}}_{{course.regGroupCode}}_{{$index}}" >{{ao.activityOfferingTypeShortName}} &nbsp;</div>
+                                <div id="ao_type_{{course.courseCode}}_{{course.regGroupCode}}_{{$index}}" class="kscr-ao-type">{{ao.activityOfferingTypeShortName}}</div>
                                 <div ng-repeat='scheduleComponent in ao.scheduleComponents' id="schedule_{{course.courseCode}}_{{course.regGroupCode}}_{{$parent.$index}}_{{$index}}">
-                                    <span ng-hide="scheduleComponent.isTBA">
-                                        {{scheduleComponent.days}} {{scheduleComponent.startTime}} - {{scheduleComponent.endTime}}
-                                        {{scheduleComponent.buildingCode}} {{scheduleComponent.roomCode}}
-                                    </span>
+                                   <span ng-hide="scheduleComponent.isTBA" class="kscr-ao-time">{{scheduleComponent.days}} {{scheduleComponent.startTime}} - {{scheduleComponent.endTime}}</span>
+                                    <span ng-hide="scheduleComponent.isTBA" class="kscr-ao-location">{{scheduleComponent.buildingCode}} {{scheduleComponent.roomCode}}</span>
                                     <span ng-show="scheduleComponent.isTBA">TBA</span>
                                 </div>
                             </span>
@@ -83,7 +81,6 @@
                           </span>
                         </div>
                     </div>
-
                     <!-- Schedule Item Change Section: Credits, Grading, and Save -->
                     <div class="kscr-Card-detailsText" ng-show="course.editing">
                         <form ng-submit="updateScheduleItem(course, newCredits, newGrading)">
@@ -120,21 +117,19 @@
 </div>
 
 <!--Waitlisted section-->
-<div ng-show="showWaitlistedSection() || waitlistUserMessage.txt">
+<div ng-show="waitlistedCourseCount() || showWaitlistMessages">
     <span>
         <span class="kscr-Heading-sub">WAITLISTED</span>
         <span id="waitlisted_credit_count" class="kscr-Heading-support util-Grid--floatRight">{{waitlistedCredits()}} credits</span>
     </span>
 </div>
-<!--Alert message-->
-<div id="waitlist_user_message" class="util-Alert util-Alert--{{waitlistUserMessage.type}}" ng-if="waitlistUserMessage.txt">
-    <span ng-bind-html="waitlistUserMessage.txt"></span>
-    <a id="waitlist_userMessageInvoke" ng-click="invokeActionLink(waitlistUserMessage.actionLink);" ng-if="waitlistUserMessage.linkText">{{waitlistUserMessage.linkText}}</a>
-    <span class="kscr-Card-statusRemove" ng-if="!waitlistUserMessage.linkText"><a href="" ng-click="removeWaitlistUserMessage()"><i class="glyphicon glyphicon-remove"></i></a></span>
-</div>
 <div class="kscr-Card">
-    <div ng-repeat="schedule in schedules()">
+    <div ng-repeat="schedule in getSchedules()">
         <div ng-repeat="course in schedule.waitlistCourseOfferings" class="kscr-course-container">
+            <div id="waitlist_course_status_message" class="util-Alert--card{{course.droppedCss}} util-Alert--{{course.statusMessage.type}}" ng-if="course.statusMessage.txt">
+                <span ng-bind-html="course.statusMessage.txt"></span>
+                <span class="kscr-Card-statusRemove"><a href="" ng-click="removeWaitlistStatusMessage(course)"><i class="glyphicon glyphicon-remove"></i></a></span>
+            </div>
             <div class="kscr-dropCourse-container" ng-show="course.dropping">
                 <div class="kscr-dropCourse-background"></div>
                 <div class="kscr-dropCourse-content">
@@ -155,7 +150,7 @@
                     </div>
                 </div>
             </div>
-            <accordion close-others="oneAtATime">
+            <accordion close-others="oneAtATime" ng-if="!course.dropped">
                 <accordion-group is-open="isopen">
                     <accordion-heading>
                         <!--credits-->
@@ -177,16 +172,14 @@
                     <div class="kscr-Waitlisted-details">
                        <i class="glyphicon glyphicon-time kscr-Waitlisted-clockIcon"> </i> Waitlisted for this course
                     </div>
-                    <div ng-hide="course.editing" class="kscr-Card-detailsText">
+                    <div ng-hide="course.editing" class="kscr-Card-detailsText--edit">
                         <!--course time, day, building-->
                         <div ng-repeat="ao in course.activityOfferings">
                             <span class="kscr-Card-courseTimes">
-                                <div id="waitlist_ao_type_{{course.courseCode}}_{{course.regGroupCode}}_{{$index}}" >{{ao.activityOfferingTypeShortName}} &nbsp;</div>
+                                <div id="waitlist_ao_type_{{course.courseCode}}_{{course.regGroupCode}}_{{$index}}" class="kscr-ao-type">{{ao.activityOfferingTypeShortName}} &nbsp;</div>
                                 <div ng-repeat='scheduleComponent in ao.scheduleComponents' id="waitlist_schedule_{{course.courseCode}}_{{course.regGroupCode}}_{{$parent.$index}}_{{$index}}">
-                                    <span ng-hide="scheduleComponent.isTBA">
-                                        {{scheduleComponent.days}} {{scheduleComponent.startTime}} - {{scheduleComponent.endTime}}
-                                        {{scheduleComponent.buildingCode}} {{scheduleComponent.roomCode}}
-                                    </span>
+                                    <span ng-hide="scheduleComponent.isTBA" class="kscr-ao-time">{{scheduleComponent.days}} {{scheduleComponent.startTime}} - {{scheduleComponent.endTime}}</span>
+                                    <span ng-hide="scheduleComponent.isTBA" class="kscr-ao-location">{{scheduleComponent.buildingCode}} {{scheduleComponent.roomCode}}</span>
                                     <span ng-show="scheduleComponent.isTBA">TBA</span>
                                 </div>
                             </span>

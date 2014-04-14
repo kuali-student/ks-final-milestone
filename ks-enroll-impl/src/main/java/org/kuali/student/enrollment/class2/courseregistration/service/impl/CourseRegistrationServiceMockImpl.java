@@ -16,7 +16,6 @@
 
 package org.kuali.student.enrollment.class2.courseregistration.service.impl;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -54,7 +53,6 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.ValidationResult;
-import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -640,8 +638,8 @@ public class CourseRegistrationServiceMockImpl
                 /* create the course registration */
                 CourseRegistrationInfo cr = new CourseRegistrationInfo();
                 cr.setId(newId());
-                cr.setTypeKey(LprServiceConstants.REGISTRANT_CO_TYPE_KEY); // May need fixing
-                cr.setStateKey(LprServiceConstants.REGISTERED_STATE_KEY);
+                cr.setTypeKey(LprServiceConstants.REGISTRANT_CO_LPR_TYPE_KEY); // May need fixing
+                cr.setStateKey(LprServiceConstants.ACTIVE_STATE_KEY);
                 cr.setMeta(newMeta(contextInfo));
                 cr.setPersonId(item.getPersonId());
                 cr.setCourseOfferingId(newrg.getCourseOfferingId());
@@ -670,8 +668,8 @@ public class CourseRegistrationServiceMockImpl
                 for (String activityId : newrg.getActivityOfferingIds()) {
                     ActivityRegistrationInfo ar = new ActivityRegistrationInfo();
                     ar.setId(newId());
-                    ar.setTypeKey(LprServiceConstants.REGISTRANT_AO_TYPE_KEY); // May need fixing
-                    ar.setStateKey(LprServiceConstants.REGISTERED_STATE_KEY);
+                    ar.setTypeKey(LprServiceConstants.REGISTRANT_AO_LPR_TYPE_KEY); // May need fixing
+                    ar.setStateKey(LprServiceConstants.ACTIVE_STATE_KEY);
                     ar.setMeta(newMeta(contextInfo));
                     ar.setPersonId(item.getPersonId());
                     ar.setActivityOfferingId(activityId);

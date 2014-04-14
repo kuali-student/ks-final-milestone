@@ -9,6 +9,24 @@
     padding-top: 0px;
 }
 
+
+.kscr-MainHeading.ng-hide-remove {
+      -webkit-transition: @transition;
+      -moz-transition: @transition;
+      -o-transition: @transition;
+      transition: @transition;
+}
+
+.kscr-MainHeading.ng-hide-add.ng-hide-add-active,
+.kscr-MainHeading.ng-hide-remove {
+   opacity:1;
+}
+
+.kscr-MainHeading.ng-hide-add,
+.kscr-MainHeading.ng-hide-remove.ng-hide-remove-active {
+   opacity:0.8;
+}
+
 .kscr-MainHeading-header{
     color: @primaryTextColor;
     font-family: @primaryFontFamily;
@@ -50,3 +68,4 @@
         font-weight: bold;
     };
 }
+

@@ -5,20 +5,27 @@ var cartServiceModule = angular.module('regCartApp');
 cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleService', 'GlobalVarsService',
     function ($scope, $modal, ScheduleService, GlobalVarsService) {
 
-
-        $scope.schedules = GlobalVarsService.getSchedule;
+        $scope.getSchedules = GlobalVarsService.getSchedule;
         $scope.registeredCredits = GlobalVarsService.getRegisteredCredits;
         $scope.registeredCourseCount = GlobalVarsService.getRegisteredCourseCount;
         $scope.waitlistedCredits = GlobalVarsService.getWaitlistedCredits;
         $scope.waitlistedCourseCount = GlobalVarsService.getWaitlistedCourseCount;
+        $scope.numberOfDroppedWailistedCourses = 0;
 
-        if($scope.termId){
-        ScheduleService.getScheduleFromServer().query({termId: $scope.termId }, function (result) {
-            console.log('called rest service to get schedule data - in schedule.js');
-
-            GlobalVarsService.updateScheduleCounts(result);
+        $scope.$watch('termId', function (newValue) {
+            console.log('term id has changed');
+            if($scope.userMessage && $scope.userMessage.txt){
+                    $scope.removeUserMessage();
+            }
+            if($scope.waitlistUserMessage && $scope.waitlistUserMessage.txt){
+                    $scope.removeWaitlistUserMessage();
+            }
+            ScheduleService.getScheduleFromServer().query({termId: newValue }, function (result) {
+                console.log('called rest service to get schedule data - in schedule.js');
+                GlobalVarsService.updateScheduleCounts(result);
+            });
         });
-        }
+
 
         $scope.openDropConfirmation = function (index, course) {
             console.log('Open drop confirmation');
@@ -37,10 +44,13 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
                 masterLprId: course.masterLprId
             }, function () {
                 course.dropping = false;
-                $scope.schedules()[0].registeredCourseOfferings.splice(index, 1);
-                GlobalVarsService.updateScheduleCounts($scope.schedules());
-                //ScheduleService.setRegisteredCredits(parseFloat(ScheduleService.getRegisteredCredits()) - parseFloat(course.credits));
-                $scope.userMessage = {txt:course.courseCode + ' dropped successfully', type:'success'};
+                course.dropped = true;
+                course.droppedCss = '--dropped';
+//                $scope.getSchedules()[0].registeredCourseOfferings.splice(index, 1);
+//                GlobalVarsService.updateScheduleCounts($scope.getSchedules());
+                GlobalVarsService.setRegisteredCredits(parseFloat(GlobalVarsService.getRegisteredCredits()) - parseFloat(course.credits));
+                GlobalVarsService.setRegisteredCourseCount(parseInt(GlobalVarsService.getRegisteredCourseCount()) - 1);
+                course.statusMessage = {txt: '<strong>' + course.courseCode + ' (' + course.regGroupCode + ')</strong> dropped successfully', type: 'success'};
             }, function (error) {
                 //course.dropping = false;
                 $scope.userMessage = {txt: error.data, type: 'error'};
@@ -52,12 +62,18 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
             ScheduleService.dropFromWaitlist().query({
                 masterLprId: course.masterLprId
             }, function () {
+                $scope.numberOfDroppedWailistedCourses = $scope.numberOfDroppedWailistedCourses + 1;
+                $scope.showWaitlistMessages = true;
                 course.dropping = false;
-                $scope.schedules()[0].waitlistCourseOfferings.splice(index, 1);
-                GlobalVarsService.updateScheduleCounts($scope.schedules());
-                $scope.waitlistUserMessage = {txt: 'Removed from waitlist for <strong>' + course.courseCode + ' (' + course.regGroupCode + ')</strong> successfully', type: 'success'};
+                course.dropped = true;
+                course.droppedCss = '--dropped';
+//                $scope.getSchedules()[0].waitlistCourseOfferings.splice(index, 1);
+//                GlobalVarsService.updateScheduleCounts($scope.getSchedules());
+                GlobalVarsService.setWaitlistedCredits(parseFloat(GlobalVarsService.getWaitlistedCredits()) - parseFloat(course.credits));
+                GlobalVarsService.setWaitlistedCourseCount(parseInt(GlobalVarsService.getWaitlistedCourseCount()) - 1);
+                course.statusMessage = {txt: 'Removed from waitlist for <strong>' + course.courseCode + ' (' + course.regGroupCode + ')</strong> successfully', type: 'success'};
             }, function (error) {
-                $scope.waitlistUserMessage = {txt: error.data, type: 'error'};
+                course.statusMessage = {txt: error.data, type: 'error'};
             });
         };
 
@@ -83,15 +99,15 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
                 gradingOptionId: newGrading
             }, function (scheduleItemResult) {
                 console.log(scheduleItemResult);
+                GlobalVarsService.setRegisteredCredits(parseFloat(GlobalVarsService.getRegisteredCredits()) - parseFloat(course.credits) + parseFloat(scheduleItemResult.credits));
                 course.credits = scheduleItemResult.credits;
                 course.gradingOptionId = scheduleItemResult.gradingOptionId;
-                GlobalVarsService.updateScheduleCounts($scope.schedules());
+//                GlobalVarsService.updateScheduleCounts($scope.getSchedules());
                 course.editing = false;
                 course.statusMessage = {txt: 'Changes saved successfully', type: 'success'};
-                course.edited = true;
             }, function (error) {
                 //course.editing = false;
-                $scope.userMessage = {txt: error.data, type: 'error'};
+                course.statusMessage = {txt: error.data, type: 'error'};
             });
         };
 
@@ -107,15 +123,15 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
                 gradingOptionId: newGrading
             }, function (scheduleItemResult) {
                 console.log(scheduleItemResult);
+                GlobalVarsService.setRegisteredCredits(parseFloat(GlobalVarsService.getRegisteredCredits()) - parseFloat(course.credits) + parseFloat(scheduleItemResult.credits));
                 course.credits = scheduleItemResult.credits;
                 course.gradingOptionId = scheduleItemResult.gradingOptionId;
-                GlobalVarsService.updateScheduleCounts($scope.schedules());
+//                GlobalVarsService.updateScheduleCounts($scope.getSchedules());
                 course.editing = false;
                 course.statusMessage = {txt: 'Changes saved successfully', type: 'success'};
-                course.edited = true;
             }, function (error) {
                 //course.editing = false;
-                $scope.userMessage = {txt: error.data, type: 'error'};
+                course.statusMessage = {txt: error.data, type: 'error'};
             });
         };
 
@@ -128,9 +144,12 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
             $scope.userMessage.linkText = null;
         }
 
-        $scope.removeWaitlistUserMessage = function() {
-            $scope.waitlistUserMessage.txt = null;
-            $scope.waitlistUserMessage.linkText = null;
+        $scope.removeWaitlistStatusMessage = function(course) {
+            course.statusMessage = null;
+            $scope.numberOfDroppedWailistedCourses = $scope.numberOfDroppedWailistedCourses - 1;
+            if ($scope.numberOfDroppedWailistedCourses == 0) {
+                $scope.showWaitlistMessages = false;
+            }
         }
 
         $scope.showBadge = function (course) {

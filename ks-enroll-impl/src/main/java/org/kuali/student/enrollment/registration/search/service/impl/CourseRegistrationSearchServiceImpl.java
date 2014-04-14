@@ -82,6 +82,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             "kuali.search.type.lui.searchForLprIdsByMasterLprId";
     public static final String SEAT_COUNT_INFO_BY_AOIDS_SEARCH_KEY =
             "kuali.search.type.lui.searchForSeatCountInfoByAOIds";
+    public static final String SEAT_COUNT_INFO_BY_REG_GROUPS_SEARCH_KEY =
+            "kuali.search.type.lui.searchForSeatCountsByRGIds";
 
     public static final TypeInfo REG_INFO_BY_PERSON_TERM_SEARCH_TYPE;
     public static final TypeInfo REG_CART_BY_PERSON_TERM_SEARCH_TYPE;
@@ -94,6 +96,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
     public static final TypeInfo LPRIDS_BY_MASTER_LPR_ID_SEARCH_TYPE;
     public static final TypeInfo SEAT_COUNT_INFO_BY_AOIDS_SEARCH_TYPE;
     public static final TypeInfo REG_AND_WL_INFO_BY_PERSON_TERM_SEARCH_TYPE;
+    public static final TypeInfo SEAT_COUNT_INFO_BY_REG_GROUPS_SEARCH_TYPE;
 
     public static final String DEFAULT_EFFECTIVE_DATE = "01/01/2012";
 
@@ -160,6 +163,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         public static final String AO_WAITLIST_COUNT = "waitlistCount";
         public static final String CWL_MAX_SIZE = "courseWaitlistMaxSize";
         public static final String CWL_ID = "courseWaitlistId";
+
+        public static final String SEAT_COUNT = "seatCount";
 
         public static final String LPR_ID = "lprId";
         public static final String LPR_TYPE = "lprType";
@@ -246,6 +251,11 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                 createTypeInfo(REG_AND_WL_INFO_BY_PERSON_TERM_SEARCH_KEY,
                         "Registration and waitlist info by person and term",
                         "Returns registration and waitlist info for given person and term");
+
+        SEAT_COUNT_INFO_BY_REG_GROUPS_SEARCH_TYPE =
+                createTypeInfo(SEAT_COUNT_INFO_BY_REG_GROUPS_SEARCH_KEY,
+                        "(regGroupId, registeredCount, waitlistedCount) for a list of reg group ids",
+                        "Returns (regGroupId, registeredCount, waitlistedCount) for a list of reg group ids");
     }
 
     @Override
@@ -302,7 +312,9 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             return searchForSeatCountInfoByAOIds(searchRequestInfo);
         } else if (REG_AND_WL_INFO_BY_PERSON_TERM_SEARCH_TYPE.getKey().equals(searchKey)) {
             return searchForCourseRegistrationAndWaitlistByStudentAndTerm(searchRequestInfo);
-        } else {
+        } else if (SEAT_COUNT_INFO_BY_REG_GROUPS_SEARCH_TYPE.getKey().equals(searchKey)) {
+            return searchForSeatCountsByRGIds(searchRequestInfo);
+        }else {
             throw new OperationFailedException("Unsupported search type: " + searchRequestInfo.getSearchKey());
         }
     }
@@ -380,10 +392,9 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "AND grading.RESULT_VAL_GRP_ID LIKE 'kuali.resultComponent.grade.%' " +
                         "WHERE " +
                         "    lpr.PERS_ID = :personId " +
-                        "AND lpr.LPR_STATE IN ('" + LprServiceConstants.REGISTERED_STATE_KEY + "', " +
-                        "                      '" + LprServiceConstants.ACTIVE_STATE_KEY + "') " +
-                        "AND lpr.LPR_TYPE IN('" + LprServiceConstants.REGISTRANT_RG_TYPE_KEY + "', " +
-                        "                    '" + LprServiceConstants.WAITLIST_RG_TYPE_KEY + "') " +
+                        "AND lpr.LPR_STATE IN ('" + LprServiceConstants.ACTIVE_STATE_KEY + "') " +
+                        "AND lpr.LPR_TYPE IN('" + LprServiceConstants.REGISTRANT_RG_LPR_TYPE_KEY + "', " +
+                        "                    '" + LprServiceConstants.WAITLIST_RG_LPR_TYPE_KEY + "') " +
                         (!StringUtils.isEmpty(atpId) ? " AND lpr.ATP_ID = :atpId " : "") +
                         "AND rg2ao.LUILUI_RELTN_TYPE='" + LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY + "' " +
                         "AND fo2rg.LUILUI_RELTN_TYPE='" + LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_RG_TYPE_KEY + "' " +
@@ -438,6 +449,67 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         return resultInfo;
     }
 
+
+    /**
+     * This method will return the registration counts for a list of regGroups. Right now it filters on the
+     * lpr_type and state. Right now the filters are:
+     * kuali.lpr.type.registrant.registration.group && kuali.lpr.state.registered // registered for a reg group
+     * or
+     * kuali.lpr.type.waitlist.registration.group && kuali.lpr.state.active // waitlisted for a reg group
+     * @param searchRequestInfo  Must have a list of LUI_IDS passed in.
+     * @return count, lui_id, and lpr_type
+     */
+    private SearchResultInfo searchForSeatCountsByRGIds(SearchRequestInfo searchRequestInfo) {
+        SearchResultInfo resultInfo = new SearchResultInfo();
+        SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
+        List<String> luiIds = requestHelper.getParamAsList(SearchParameters.LUI_IDS);
+
+        String queryStr =
+                "SELECT" +
+                        "    COUNT(*), " +
+                        "    lpr.lui_id, " +
+                        "    lpr.lpr_type " +
+                        "FROM " +
+                        "    KSEN_LPR lpr " +
+                        "WHERE " +
+                        " lpr.lui_id in (:luiIds) " +
+                        " AND   ( ( " +
+                        "            LPR_TYPE = :rgRegType " +
+                        "        AND lpr.lpr_state = :rgRegState) " +
+                        "    OR  (" +
+                        "            LPR_TYPE = :rgWlType " +
+                        "        AND lpr.lpr_state = :rgWlState) ) " +
+                        "GROUP BY" +
+                        "    lpr.lui_id, " +
+                        "    lpr.lpr_type ";
+
+
+
+        Query query = entityManager.createNativeQuery(queryStr);
+        query.setParameter(SearchParameters.LUI_IDS, luiIds);
+
+        // configure the types and states. One time use so there's no Search Param Const
+        query.setParameter("rgRegType", LprServiceConstants.REGISTRANT_RG_LPR_TYPE_KEY);
+        query.setParameter("rgRegState", LprServiceConstants.ACTIVE_STATE_KEY);
+        query.setParameter("rgWlType", LprServiceConstants.WAITLIST_RG_LPR_TYPE_KEY);
+        query.setParameter("rgWlState", LprServiceConstants.ACTIVE_STATE_KEY);
+
+        List<Object[]> results = query.getResultList();
+
+        for (Object[] resultRow : results) {
+            int i = 0;
+            SearchResultRowInfo row = new SearchResultRowInfo();
+            row.addCell(SearchResultColumns.SEAT_COUNT, resultRow[i] == null ? null : ((BigDecimal) resultRow[i]).toString());
+            i++;
+            row.addCell(SearchResultColumns.LUI_ID, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.LPR_TYPE, (String) resultRow[i++]);
+
+            resultInfo.getRows().add(row);
+        }
+
+        return resultInfo;
+    }
+
     /**
      * Searches for seat counts and waitlist counts for the given AO ids
      * Note this implementation assumes that there is one course waitlist per AO.
@@ -464,8 +536,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "            KSEN_LPR lpr " +
                         "        WHERE " +
                         "            lpr.LUI_ID = ao.ID " +
-                        "        AND lpr.LPR_TYPE='" + LprServiceConstants.REGISTRANT_AO_TYPE_KEY + "' " +
-                        "        AND lpr.LPR_STATE='" + LprServiceConstants.REGISTERED_STATE_KEY + "') registered, " +
+                        "        AND lpr.LPR_TYPE='" + LprServiceConstants.REGISTRANT_AO_LPR_TYPE_KEY + "' " +
+                        "        AND lpr.LPR_STATE='" + LprServiceConstants.ACTIVE_STATE_KEY + "') registered, " +
                         "    ( " +
                         "        SELECT " +
                         "            COUNT(*) " +
@@ -473,7 +545,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "            KSEN_LPR lpr " +
                         "        WHERE " +
                         "            lpr.LUI_ID = ao.ID " +
-                        "        AND lpr.LPR_TYPE='" + LprServiceConstants.WAITLIST_AO_TYPE_KEY + "' " +
+                        "        AND lpr.LPR_TYPE='" + LprServiceConstants.WAITLIST_AO_LPR_TYPE_KEY + "' " +
                         "        AND lpr.LPR_STATE='" + LprServiceConstants.ACTIVE_STATE_KEY + "') waitlisted " +
                         "FROM " +
                         "    KSEN_LUI ao " +
@@ -755,7 +827,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "  AND lui.ID = lpr.LUI_ID " +
                         "  AND lui.ATP_ID = lpr.ATP_ID " +
                         "  AND luiId.LUI_ID = lui.ID " +
-                        "  AND lpr.LPR_STATE in ('" + LprServiceConstants.REGISTERED_STATE_KEY + "', '" + LprServiceConstants.ACTIVE_STATE_KEY + "') ";
+                        "  AND lpr.LPR_STATE in ('" + LprServiceConstants.ACTIVE_STATE_KEY + "') ";
 
         if (!StringUtils.isEmpty(atpId)) {
             queryStr = queryStr + " AND lpr.ATP_ID = :atpId ";
@@ -975,7 +1047,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                 "SELECT lpr.ID, lpr.LPR_TYPE, lpr.LPR_STATE, lpr.LUI_ID, lpr.PERS_ID " +
                         "FROM KSEN_LPR lpr " +
                         "WHERE lpr.LUI_ID IN (:activityOfferingIds) " +
-                        "AND lpr.LPR_TYPE = '" + LprServiceConstants.REGISTRANT_AO_TYPE_KEY + "' ";
+                        "AND lpr.LPR_TYPE = '" + LprServiceConstants.REGISTRANT_AO_LPR_TYPE_KEY + "' ";
         boolean lprStateListIsNonEmpty = lprStateList != null && !lprStateList.isEmpty();
         if (lprStateListIsNonEmpty) {
             // If the list is empty or null, then pretend it doesn't exist, otherwise

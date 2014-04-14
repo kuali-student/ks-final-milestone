@@ -8,13 +8,12 @@ angular.module('regCartApp')
         var waitlistedCredits = 0;
         var waitlistedCourseCount = 0;
         var schedule;
-        var showWaitlistedSection = false;
 
         var processingStates = ['kuali.lpr.trans.item.state.processing','kuali.lpr.trans.state.processing'];
         var successStates = ['kuali.lpr.trans.state.succeeded', 'kuali.lpr.trans.item.state.succeeded'];
-        var errorStates = ['kuali.lpr.trans.state.failed', 'kuali.lpr.trans.item.state.failed'];
         var waitlistStates = ['kuali.lpr.trans.item.state.waitlist'];
-        //var actionStates = ["", ""];
+        var errorStates = ['kuali.lpr.trans.state.failed', 'kuali.lpr.trans.item.state.failed'];
+        var actionStates = ["kuali.lpr.trans.item.state.waitlistActionAvailable"];
 
         this.getRegisteredCredits = function () {
             return registeredCredits;
@@ -38,14 +37,6 @@ angular.module('regCartApp')
 
         this.setWaitlistedCredits = function (value) {
             waitlistedCredits = value;
-        };
-
-        this.getShowWaitlistedSection = function () {
-            return showWaitlistedSection;
-        };
-
-        this.setShowWaitlistedSection = function (value) {
-            showWaitlistedSection = value;
         };
 
         this.getWaitlistedCourseCount = function () {
@@ -75,6 +66,8 @@ angular.module('regCartApp')
                 retStatus = 'error';
             } else if(waitlistStates.indexOf(state) >= 0){
                 retStatus = 'waitlist';
+            } else if(actionStates.indexOf(state) >= 0){
+                retStatus = 'action';
             }
 
             return retStatus;
@@ -121,17 +114,12 @@ angular.module('regCartApp')
             this.setRegisteredCredits(creditCount);
             this.setWaitlistedCredits(waitlistCreditCount);
             this.setWaitlistedCourseCount(waitlistCourses);
-            if (waitlistCourses > 0) {
-                this.setShowWaitlistedSection(true);
-            } else {
-                this.setShowWaitlistedSection(false);
-            }
         };
 
         // In this method we pass in a status and it returns a message to display
         this.getCorrespondingMessageFromStatus = function(status){
             var statusMessage = '';
-            if(status == 'waitlisted'){
+            if(status == 'waitlist'){
                 statusMessage = 'If a seat becomes available you will be registered automatically';
             }
 

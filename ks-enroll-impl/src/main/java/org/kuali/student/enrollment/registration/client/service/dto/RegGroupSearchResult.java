@@ -11,7 +11,7 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CourseSearchResult", propOrder = {
         "courseOfferingId", "activityOfferingIds", "regGroupId", "regGroupName",
-        "regGroupState", "termId"})
+        "regGroupState", "termId", "registrationCounts"})
 public class RegGroupSearchResult {
 
     private String courseOfferingId;
@@ -20,6 +20,7 @@ public class RegGroupSearchResult {
     private String regGroupName;
     private String regGroupState;
     private String termId;
+    private List<RegistrationCountResult> registrationCounts;
 
     public String getCourseOfferingId() {
         return courseOfferingId;
@@ -71,5 +72,16 @@ public class RegGroupSearchResult {
 
     public void setTermId(String termId) {
         this.termId = termId;
+    }
+
+    public List<RegistrationCountResult> getRegistrationCounts() {
+        if(registrationCounts == null){
+            registrationCounts = new ArrayList<RegistrationCountResult>();
+        }
+        return registrationCounts;
+    }
+
+    public void setRegistrationCounts(List<RegistrationCountResult> registrationCounts) {
+        this.registrationCounts = registrationCounts;
     }
 }

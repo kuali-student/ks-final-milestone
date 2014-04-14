@@ -54,7 +54,6 @@ import org.kuali.student.enrollment.class2.acal.keyvalue.AcalEventTypeKeyValues;
 import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
 import org.kuali.student.enrollment.class2.acal.util.AcalCommonUtils;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
-import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
@@ -1576,7 +1575,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         List<ReferenceObjectBinding> refObjectsBindings = this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject(TypeServiceConstants.REF_OBJECT_URI_TYPE, termWrapperToValidate.getTypeInfo().getKey());
         if(refObjectsBindings.size() > 0){
             String finalExamSectionName="acal-term-examdates_line"+afterSortingIndex;
-
+            String termSectionName="term_section_line"+afterSortingIndex;
             SelectControl select = (SelectControl) ComponentFactory.getNewComponentInstance("KSFE-FinalExam-ExamDaysDropdown");
             int maxday = 0;
             for(KeyValue value : select.getOptions()){
@@ -1589,6 +1588,10 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
                         GlobalVariables.getMessageMap().putErrorForSectionId(finalExamSectionName, CalendarConstants.MessageKeys.ERROR_EXAM_PERIOD_DAYS_VALIDATION);
                     }
                 }
+            }
+           else
+            {
+                GlobalVariables.getMessageMap().putWarningForSectionId(termSectionName, CalendarConstants.MessageKeys.ERROR_NO_EXAM_PEROID_FOR_TERM_LINKED_MATRIX);
             }
         }
     }

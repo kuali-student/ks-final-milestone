@@ -10,6 +10,11 @@ angular.module('regCartApp')
         //Add a watch so that when termId changes, the cart is reloaded with the new termId
         $scope.$watch('termId', function (newValue) {
             console.log('term id has changed');
+            $scope.cartResults.items.splice(0, $scope.cartResults.items.length);
+            if($scope.userMessage && $scope.userMessage.txt){
+                    $scope.removeUserMessage();
+            }
+
             if (newValue) {
                 hasCartBeenLoaded = true;
                 loadCart(newValue);
@@ -54,7 +59,7 @@ angular.module('regCartApp')
             var retStatus = '';
             if(status === 'success'){
                 retStatus = ' - Success!';
-            } if(status === 'error' || status === 'waitlist'){
+            } if(status === 'error' || status === 'action'){
                 retStatus = ' - Failed!';
             }
 
@@ -213,10 +218,19 @@ angular.module('regCartApp')
                 gradingOption: cartItem.grading,
                 credits: cartItem.credits,
                 allowWaitlist: true
-            }, function () {
-                cartItem.status = 'success';
-                cartItem.waitlistedStatus = true;
-                cartItem.statusMessage = GlobalVarsService.getCorrespondingMessageFromStatus('waitlisted');
+            }, function (registrationResponseInfo) {
+                cartItem.state = 'kuali.lpr.trans.item.state.processing';
+                cartItem.status = 'processing';
+                cartItem.cartItemId = registrationResponseInfo.registrationResponseItems[0].registrationRequestItemId;
+
+                //cartItem.waitlistedStatus = true;
+                //cartItem.statusMessage = GlobalVarsService.getCorrespondingMessageFromStatus('waitlisted');
+
+                $timeout(function(){}, 250);    // delay for 250 milliseconds
+                console.log('Just waited 250, now start the polling');
+                cartPoller(registrationResponseInfo.registrationRequestId);
+
+
             });
         };
 
@@ -264,6 +278,7 @@ angular.module('regCartApp')
                         angular.forEach($scope.cartResults.items, function (item) {
                             if (item.cartItemId === responseItem.registrationRequestItemId) {
                                 item.state = responseItem.state;
+                                item.type = responseItem.type;
                                 // we need to update the status, which is used to controll css
                                 item.status = GlobalVarsService.getCorrespondingStatusFromState(responseItem.state);
                                 item.statusMessage = responseItem.message;
@@ -291,6 +306,7 @@ angular.module('regCartApp')
                                     break;
                                 case 'waitlist':
                                     $scope.cartResults.waitlistCount++;
+                                    item.statusMessage = GlobalVarsService.getCorrespondingMessageFromStatus(item.status);
                                     break;
                                 case 'error':
                                     $scope.cartResults.errorCount++;

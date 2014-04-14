@@ -49,7 +49,6 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.jms.JMSException;
 import javax.security.auth.login.LoginException;
@@ -446,14 +445,14 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
             // running over the list of results returned. One CO can have multiple AOs
             if (hmCourseOffering.containsKey(masterLprId)) {
                 StudentScheduleCourseResult studentScheduleCourseResult = hmCourseOffering.get(masterLprId);
-                if (StringUtils.equals(personLuiType, LprServiceConstants.REGISTRANT_CO_TYPE_KEY) || StringUtils.equals(personLuiType, LprServiceConstants.WAITLIST_CO_TYPE_KEY)) {
+                if (StringUtils.equals(personLuiType, LprServiceConstants.REGISTRANT_CO_LPR_TYPE_KEY) || StringUtils.equals(personLuiType, LprServiceConstants.WAITLIST_CO_LPR_TYPE_KEY)) {
                     studentScheduleCourseResult.setCourseCode(luiCode);
                     studentScheduleCourseResult.setDescription(luiDesc);
                     studentScheduleCourseResult.setCredits(credits);
                     studentScheduleCourseResult.setGradingOptionId(gradingOptionId);
                     studentScheduleCourseResult.setLongName(luiLongName);
                     studentScheduleCourseResult.setMasterLprId(masterLprId);
-                    if (StringUtils.equals(personLuiType, LprServiceConstants.WAITLIST_CO_TYPE_KEY)) {
+                    if (StringUtils.equals(personLuiType, LprServiceConstants.WAITLIST_CO_LPR_TYPE_KEY)) {
                         studentScheduleCourseResult.setWaitlisted(true);
                     } else {
                         studentScheduleCourseResult.setWaitlisted(false);
@@ -468,9 +467,9 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                             }
                         }
                     }
-                } else if (StringUtils.equals(personLuiType, LprServiceConstants.REGISTRANT_RG_TYPE_KEY) || StringUtils.equals(personLuiType, LprServiceConstants.WAITLIST_RG_TYPE_KEY)) {
+                } else if (StringUtils.equals(personLuiType, LprServiceConstants.REGISTRANT_RG_LPR_TYPE_KEY) || StringUtils.equals(personLuiType, LprServiceConstants.WAITLIST_RG_LPR_TYPE_KEY)) {
                     studentScheduleCourseResult.setRegGroupCode(luiName);
-                } else if (StringUtils.equals(personLuiType, LprServiceConstants.REGISTRANT_AO_TYPE_KEY) || StringUtils.equals(personLuiType, LprServiceConstants.WAITLIST_AO_TYPE_KEY)) {
+                } else if (StringUtils.equals(personLuiType, LprServiceConstants.REGISTRANT_AO_LPR_TYPE_KEY) || StringUtils.equals(personLuiType, LprServiceConstants.WAITLIST_AO_LPR_TYPE_KEY)) {
                     // Scheduling info
                     ActivityOfferingScheduleComponentResult scheduleComponent = CourseRegistrationAndScheduleOfClassesUtil.getActivityOfferingScheduleComponent(isTBA, roomCode, buildingCode,
                             weekdays, startTimeMs, endTimeMs);
@@ -515,14 +514,14 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                 }
             } else {
                 StudentScheduleCourseResult studentScheduleCourseResult = new StudentScheduleCourseResult();
-                if (StringUtils.equals(personLuiType, LprServiceConstants.REGISTRANT_CO_TYPE_KEY) || StringUtils.equals(personLuiType, LprServiceConstants.WAITLIST_CO_TYPE_KEY)) {
+                if (StringUtils.equals(personLuiType, LprServiceConstants.REGISTRANT_CO_LPR_TYPE_KEY) || StringUtils.equals(personLuiType, LprServiceConstants.WAITLIST_CO_LPR_TYPE_KEY)) {
                     studentScheduleCourseResult.setCourseCode(luiCode);
                     studentScheduleCourseResult.setDescription(luiDesc);
                     studentScheduleCourseResult.setCredits(credits);
                     studentScheduleCourseResult.setGradingOptionId(gradingOptionId);
                     studentScheduleCourseResult.setLongName(luiLongName);
                     studentScheduleCourseResult.setMasterLprId(masterLprId);
-                    if (StringUtils.equals(personLuiType, LprServiceConstants.WAITLIST_CO_TYPE_KEY)) {
+                    if (StringUtils.equals(personLuiType, LprServiceConstants.WAITLIST_CO_LPR_TYPE_KEY)) {
                         studentScheduleCourseResult.setWaitlisted(true);
                     } else {
                         studentScheduleCourseResult.setWaitlisted(false);
@@ -537,10 +536,10 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                         }
                     }
                     hmCourseOffering.put(masterLprId, studentScheduleCourseResult);
-                } else if (StringUtils.equals(personLuiType, LprServiceConstants.REGISTRANT_RG_TYPE_KEY) || StringUtils.equals(personLuiType, LprServiceConstants.WAITLIST_RG_TYPE_KEY)) {
+                } else if (StringUtils.equals(personLuiType, LprServiceConstants.REGISTRANT_RG_LPR_TYPE_KEY) || StringUtils.equals(personLuiType, LprServiceConstants.WAITLIST_RG_LPR_TYPE_KEY)) {
                     studentScheduleCourseResult.setRegGroupCode(luiName);
                     hmCourseOffering.put(masterLprId, studentScheduleCourseResult);
-                } else if (StringUtils.equals(personLuiType, LprServiceConstants.REGISTRANT_AO_TYPE_KEY) || StringUtils.equals(personLuiType, LprServiceConstants.WAITLIST_AO_TYPE_KEY)) {
+                } else if (StringUtils.equals(personLuiType, LprServiceConstants.REGISTRANT_AO_LPR_TYPE_KEY) || StringUtils.equals(personLuiType, LprServiceConstants.WAITLIST_AO_LPR_TYPE_KEY)) {
                     List<StudentScheduleActivityOfferingResult> activityOfferings = new ArrayList<StudentScheduleActivityOfferingResult>();
                     StudentScheduleActivityOfferingResult activityOffering = new StudentScheduleActivityOfferingResult();
                     // AO basic info
@@ -763,7 +762,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         scheduleItemResult.setCourseCode(courseCode);
         scheduleItemResult.setCredits(credits);
         scheduleItemResult.setGradingOptions(gradingOptionId);
-        scheduleItemResult.setRegGroupId(regGroupCode);
+        scheduleItemResult.setRegGroupCode(regGroupCode);
         scheduleItemResult.setUserId(userId);
 
         return scheduleItemResult;
@@ -838,7 +837,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         scheduleItemResult.setCourseCode(courseCode);
         scheduleItemResult.setCredits(credits);
         scheduleItemResult.setGradingOptions(gradingOptionId);
-        scheduleItemResult.setRegGroupId(regGroupCode);
+        scheduleItemResult.setRegGroupCode(regGroupCode);
         scheduleItemResult.setUserId(userId);
 
         return scheduleItemResult;
@@ -927,6 +926,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
             resultItem.setState(lprTransactionItemInfo.getStateKey());
             resultItem.setStatus(lprTransactionItemInfo.getStateKey()); // we should be useing the result state, but that is currently a boolean and not useful
             resultItem.setNewLuiId(lprTransactionItemInfo.getLuiId());
+            resultItem.setType(lprTransactionItemInfo.getTypeKey());
 
             if (lprTransactionItemResultInfo != null) {
                 //resultItem.setStatus(lprTransactionItemResultInfo.getStatus()); // the status is currently boolean. not usable. use state for now
@@ -934,7 +934,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                 if (lprTransactionItemResultInfo.getMessage() != null) {
                     if (StringUtils.equals(lprTransactionItemResultInfo.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_MESSAGE_KEY)) {
                         resultItem.setMessage(CourseRegistrationClientServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_MESSAGE);
-                        resultItem.setState(LprServiceConstants.LPRTRANS_ITEM_WAITLIST_STATE_KEY);
+                        resultItem.setState("kuali.lpr.trans.item.state.waitlistActionAvailable");
                     } else if (StringUtils.equals(lprTransactionItemResultInfo.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_STUDENT_REMOVED_MESSAGE_KEY)) {
                         resultItem.setMessage(CourseRegistrationClientServiceConstants.LPRTRANS_ITEM_WAITLIST_STUDENT_REMOVED_MESSAGE);
                     } else if (StringUtils.equals(lprTransactionItemResultInfo.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_OPTIONS_UPDATED_MESSAGE_KEY)) {

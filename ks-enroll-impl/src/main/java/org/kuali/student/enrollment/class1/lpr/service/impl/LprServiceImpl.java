@@ -532,7 +532,8 @@ public class LprServiceImpl implements LprService {
                 List<LprInfo> toBeDroppedLPRs;
                 try {
                     toBeDroppedLPRs = getLprsByLuiPersonAndState(lprTransactionItemInfo.getPersonId(),
-                            lprTransactionItemInfo.getExistingLprId(), LprServiceConstants.REGISTERED_STATE_KEY, context);
+                            lprTransactionItemInfo.getExistingLprId(),
+                            LprServiceConstants.ACTIVE_STATE_KEY, context);
                 } catch (DisabledIdentifierException ex) {
                     throw new OperationFailedException("unexpected", ex);
                 }
@@ -558,7 +559,7 @@ public class LprServiceImpl implements LprService {
                 List<LprInfo> toBeDroppedLPRs;
                 try {
                     toBeDroppedLPRs = getLprsByLuiPersonAndState(lprTransactionItemInfo.getPersonId(),
-                            lprTransactionItemInfo.getExistingLprId(), LprServiceConstants.REGISTERED_STATE_KEY, context);
+                            lprTransactionItemInfo.getExistingLprId(), LprServiceConstants.ACTIVE_STATE_KEY, context);
                 } catch (DisabledIdentifierException ex) {
                     throw new OperationFailedException("unexpected", ex);
                 }

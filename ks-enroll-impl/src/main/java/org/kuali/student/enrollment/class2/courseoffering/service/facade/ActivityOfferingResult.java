@@ -16,6 +16,7 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.facade;
 
+import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingResult;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListInfo;
 import org.kuali.student.r2.common.dto.BulkStatusInfo;
@@ -33,17 +34,11 @@ public class ActivityOfferingResult {
     private List<BulkStatusInfo> generatedRegistrationGroups;
     private BulkStatusInfo clusterstatus;
     private CourseWaitListInfo waitListInfo;
-    private BulkStatusInfo examOfferingsGenerated; //status for whether or not exam offerings are generated
-    private BulkStatusInfo examPeriodStatus; //status for whether or not exam period exists
+    private ExamOfferingResult examOfferingResult;
 
     public ActivityOfferingResult() {
         clusterstatus = new BulkStatusInfo();
         clusterstatus.setSuccess(Boolean.TRUE); // By default, set it true
-
-        examOfferingsGenerated = new BulkStatusInfo();
-        examOfferingsGenerated.setSuccess(Boolean.TRUE); // By default, set it true
-        examPeriodStatus = new BulkStatusInfo();
-        examPeriodStatus.setSuccess(Boolean.TRUE);
     }
 
     public ActivityOfferingInfo getCreatedActivityOffering() {
@@ -78,19 +73,11 @@ public class ActivityOfferingResult {
         this.waitListInfo = waitListInfo;
     }
 
-    public BulkStatusInfo getExamOfferingsGenerated() {
-        return examOfferingsGenerated;
+    public ExamOfferingResult getExamOfferingResult() {
+        return examOfferingResult;
     }
 
-    public void setExamOfferingsGenerated(BulkStatusInfo examOfferingsGenerated) {
-        this.examOfferingsGenerated = examOfferingsGenerated;
-    }
-
-    public BulkStatusInfo getExamPeriodStatus() {
-        return examPeriodStatus;
-    }
-
-    public void setExamPeriodStatus(BulkStatusInfo examPeriodStatus) {
-        this.examPeriodStatus = examPeriodStatus;
+    public void setExamOfferingResult(ExamOfferingResult examOfferingResult) {
+        this.examOfferingResult = examOfferingResult;
     }
 }
