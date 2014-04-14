@@ -1064,9 +1064,9 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 creditOptionType = "Multiple";
                 StringBuilder builder = new StringBuilder();
                 for (ResultValueKeysWrapper rvWrapper : rvg.getResultValueKeysDisplay()) {
-                    builder.append(Float.valueOf(rvWrapper.getCreditValueDisplay()) + ", ");
+                    builder.append(Float.valueOf(rvWrapper.getCreditValueDisplay()) + LrcServiceConstants.COMMA_DELIMITER);
                 }
-                creditOptionValue = StringUtils.removeEnd(builder.toString(), ", ");
+                creditOptionValue = StringUtils.removeEnd(builder.toString(), LrcServiceConstants.COMMA_DELIMITER);
             } else if (StringUtils.equals(rvg.getTypeKey(), LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)) {
                 creditOptionType = "Range";
                 ResultValueRangeInfo range = rvg.getResultValueRange();
