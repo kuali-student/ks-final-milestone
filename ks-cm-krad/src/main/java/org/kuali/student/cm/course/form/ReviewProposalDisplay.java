@@ -115,6 +115,7 @@ public class ReviewProposalDisplay {
         private String description;
         private String rationale;
         private List<String> crossListings;
+        private List<String> jointlyOfferedCourses;
         private List<String> variations;
 
         public String getProposalName() {
@@ -187,7 +188,7 @@ public class ReviewProposalDisplay {
         }
 
         public String getVariationsAsString() {
-            return StringUtils.join(getVariations(), CurriculumManagementConstants.COLLECTION_ITEMS_DELIMITER);
+            return StringUtils.join(getVariations(), CurriculumManagementConstants.COLLECTION_ITEMS_NEWLINE_DELIMITER);
         }
 
         public String getDescription() {
@@ -204,6 +205,17 @@ public class ReviewProposalDisplay {
 
         public void setRationale(String rationale) {
             this.rationale = rationale;
+        }
+
+        public List<String> getJointlyOfferedCourses() {
+            if (this.jointlyOfferedCourses == null) {
+                jointlyOfferedCourses = new LinkedList<String>();
+            }
+            return jointlyOfferedCourses;
+        }
+
+        public String getJointlyOfferedCoursesAsString() {
+            return StringUtils.join(getJointlyOfferedCourses(), CurriculumManagementConstants.COLLECTION_ITEMS_DELIMITER);
         }
     }
 

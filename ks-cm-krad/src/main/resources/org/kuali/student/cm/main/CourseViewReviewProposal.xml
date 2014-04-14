@@ -193,9 +193,8 @@
                                   p:propertyName="courseInfo.courseNumberSuffix"/>
                             <bean parent="CM-ReadOnlyInput" p:label="Cross Listed Courses" id="courseSection_crossListings"
                                   p:propertyName="reviewProposalDisplay.courseSection.crossListingsAsString"/>
-                            <bean parent="CM-ReadOnlyInput" p:label="Jointly Offered Courses" id="courseSection_variations"
-                                  p:propertyName="reviewProposalDisplay.courseSection.variationsAsString"/>
-                            <!-- Unclear why this one is using the variations data. Will sort out later. -->
+                            <bean parent="CM-ReadOnlyInput" p:label="Jointly Offered Courses" id="courseSection_jointly_offered_courses"
+                                  p:propertyName="reviewProposalDisplay.courseSection.jointlyOfferedCoursesAsString"/>
                              <bean parent="CM-ReadOnlyInput" p:label="Version Codes" id="courseSection_variations_CHANGEME"
                                   p:propertyName="reviewProposalDisplay.courseSection.variationsAsString"/>
                             <bean parent="CM-ReadOnlyInput" p:label="Instructor(s)" id="courseSection_instructors"
@@ -299,7 +298,7 @@
                             <bean parent="CM-ReadOnlyInput" p:label="Final Exam Rationale"  id="courseLogisticsSection_finalExamStatusRationale"
                                   p:propertyName="reviewProposalDisplay.courseLogisticsSection.finalExamStatusRationale"/>
 
-                            <!-- This bean gets rendered if the outcomes collection has items. Otherwise, the one below does. -->
+                            <!-- This bean gets rendered if the outComes collection has items. Otherwise, the one below does. -->
                             <bean parent="Uif-VerticalFieldGroup" p:label="Outcomes" p:colSpan="3" p:fieldLabel.renderColon="false"
                                     p:render="@{!#emptyList(#dataObject.reviewProposalDisplay.courseLogisticsSection.outcomes)}">
                                 <property name="items">
@@ -327,7 +326,7 @@
                                 </property>
                             </bean>
                             <!-- This bean gets rendered if the outComes collection is empty. Otherwise, the one above does. -->
-                            <bean parent="CM-ReadOnlyInput" p:label="Outcomes" id="emptyStringOutcomes"
+                            <bean parent="CM-ReadOnlyInput" p:label="Outcomes"
                                     p:propertyName="reviewProposalDisplay.courseLogisticsSection.emptyStringOutcomes"
                                     p:render="@{#emptyList(#dataObject.reviewProposalDisplay.courseLogisticsSection.outcomes)}">
                                 <!-- Make required for state enroute  -->
@@ -389,7 +388,7 @@
                                 </property>
                             </bean>
 
-                            <!-- This bean gets rendered if the formats collection is empty. Otherwise, the one above does. -->
+                            <!-- This bean gets rendered if the outComes collection is empty. Otherwise, the one above does. -->
                             <bean parent="CM-ReadOnlyInput" p:label="Course Formats" id="emptyStringFormats"
                                     p:propertyName="reviewProposalDisplay.courseLogisticsSection.emptyStringFormats"
                                     p:render="@{#emptyList(#dataObject.reviewProposalDisplay.courseLogisticsSection.formatInfoWrappers)}">

@@ -1000,6 +1000,27 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             reviewData.getCourseSection().getInstructors().add(insturctorWrappers.getDisplayName());
         }
 
+        reviewData.getCourseSection().getCrossListings().clear();
+        if(!savedCourseInfo.getCrossListings().isEmpty()) {
+           for(CourseCrossListingInfo crossListingInfo : savedCourseInfo.getCrossListings()) {
+               reviewData.getCourseSection().getCrossListings().add(crossListingInfo.getCode());
+           }
+        }
+
+        reviewData.getCourseSection().getJointlyOfferedCourses().clear();
+        if(!courseInfoWrapper.getCourseJointWrappers().isEmpty()) {
+            for(CourseJointInfoWrapper jointInfoWrapper : courseInfoWrapper.getCourseJointWrappers()) {
+                reviewData.getCourseSection().getJointlyOfferedCourses().add(jointInfoWrapper.getCourseCode());
+            }
+        }
+
+        reviewData.getCourseSection().getVariations().clear();
+        if(!savedCourseInfo.getVariations().isEmpty()) {
+            for(CourseVariationInfo variationInfo : savedCourseInfo.getVariations()) {
+                reviewData.getCourseSection().getVariations().add(variationInfo.getVariationCode()+": " + variationInfo.getVariationTitle());
+            }
+        }
+
         // Update governance section
         reviewData.getGovernanceSection().getCampusLocations().clear();
         reviewData.getGovernanceSection().getCampusLocations().addAll(updateCampusLocations(savedCourseInfo.getCampusLocations()));
