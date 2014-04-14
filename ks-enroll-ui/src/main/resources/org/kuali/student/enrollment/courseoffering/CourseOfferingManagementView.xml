@@ -91,6 +91,7 @@
                 <ref bean="deletingColocationNotSupportedForCoDialog"/>
                 <ref bean="deletingColocationNotSupportedForMultipleAosDialog"/>
                 <ref bean="deletingColocationNotSupportedForAoDialog"/>
+                <ref bean="examOfferingRemoveMatrixOverrideConfirmDialog"/>
             </list>
         </property>
     </bean>

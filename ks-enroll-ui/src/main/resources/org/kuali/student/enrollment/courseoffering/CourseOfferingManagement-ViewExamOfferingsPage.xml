@@ -228,6 +228,7 @@
                     <property name="items">
                         <list>
                             <bean id="eoOverrideMatrix" parent="Uif-InputField" p:propertyName="overrideMatrix">
+                                <property name="onChangeScript" value="removeMatrixOverrideConfirm('@{#component.id}', 'examOfferingRemoveMatrixOverrideConfirmDialog'); writeHiddenToForm(&quot;matrixOverrideCheckBoxId&quot;, &quot;@{#component.id}&quot;);"/>
                                 <property name="additionalCssClasses">
                                     <list merge="true">
                                         <value>off</value>
@@ -543,6 +544,29 @@
             </list>
         </property>
 
+    </bean>
+
+    <bean id="examOfferingRemoveMatrixOverrideConfirmDialog" parent="Uif-VerticalBoxSection">
+        <property name="headerText" value=""/>
+        <property name="hidden" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Message" p:messageText="Removing the override will cause exam matrix rules to be applied to[br]this Exam Offering and will result in changes to the Requested[br]Scheduling Information. Do you want to proceed?[br][br][br]"/>
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean id="remove_matrix_override_yes_button" parent="Uif-PrimaryActionButton"
+                                  p:actionLabel="Yes"
+                                  p:actionScript="closeLightbox();"/>
+
+                            <bean id="remove_matrix_override_no_button" parent="Uif-PrimaryActionButton"
+                                  p:actionLabel="No"
+                                  p:actionScript="keepMatrixOverrideChecked('matrixOverrideCheckBoxId');"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
     </bean>
 
     <util:list id="hctime-options">
