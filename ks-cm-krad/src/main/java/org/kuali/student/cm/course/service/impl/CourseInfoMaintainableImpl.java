@@ -1225,6 +1225,10 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             }
         }
 
+        for (int count = 0; count < (courseInfoWrapper.getCourseInfo().getCrossListings().size()); count++) {
+            courseInfoWrapper.getCourseInfo().getCrossListings().get(count).setTypeKey(CourseAssemblerConstants.COURSE_CROSSLISTING_IDENT_TYPE);
+        }
+
         if (courseInfoWrapper.getLoDisplayWrapperModel() != null && courseInfoWrapper.getLoDisplayWrapperModel().getLoWrappers() != null) {
             List<LoDisplayInfoWrapper> loWrappers = courseInfoWrapper.getLoDisplayWrapperModel().getLoWrappers();
             List<LoDisplayInfo> courseLos = courseInfoWrapper.getCourseInfo().getCourseSpecificLOs();
