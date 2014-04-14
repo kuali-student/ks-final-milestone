@@ -65,13 +65,13 @@ function onProposalReviewLoad() {
  * Examines all of the read-only text areas on the page and shrink the height to fit the content.
  */
 function fixReadOnlyInputSizes() {
+    var textAreaEmptyHeight = 18;
     jQuery( ".review_readonly_control" ).each(function(index) {
         var element = jQuery(this);
         if (element.is("textarea")) {
-            if (element.val() == "") {
-                element.height(20);
-            } else {
-                element.height(20);
+            element.height(textAreaEmptyHeight);
+            if (element.val() != "") {
+                // Set the height of the text area to the scroll height.
                 element.height(jQuery(element)[0].scrollHeight);
             }
         }
