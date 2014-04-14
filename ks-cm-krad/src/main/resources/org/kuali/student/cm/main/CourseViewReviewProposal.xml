@@ -109,7 +109,7 @@
                             </bean>
                             <bean parent="KS-Uif-ActionLink" p:id="ReviewProposal-Error-Message-expand-optional-link"
                                   p:actionScript="showHideReviewProposalErrorFields();"
-                                  p:actionLabel="Show what's missing." p:style="margin-right: 15pt; margin-top: 0px;">
+                                  p:actionLabel="Hide missing-fields indicator." p:style="margin-right: 15pt; margin-top: 0px;">
                             </bean>
                         </list>
                     </property>
@@ -196,7 +196,7 @@
                             <bean parent="CM-ReadOnlyInput" p:label="Jointly Offered Courses" id="courseSection_variations"
                                   p:propertyName="reviewProposalDisplay.courseSection.variationsAsString"/>
                             <!-- Unclear why this one is using the variations data. Will sort out later. -->
-                            <bean parent="CM-ReadOnlyInput" p:label="Version Codes" id="courseSection_variations_CHANGEME"
+                             <bean parent="CM-ReadOnlyInput" p:label="Version Codes" id="courseSection_variations_CHANGEME"
                                   p:propertyName="reviewProposalDisplay.courseSection.variationsAsString"/>
                             <bean parent="CM-ReadOnlyInput" p:label="Instructor(s)" id="courseSection_instructors"
                                   p:propertyName="reviewProposalDisplay.courseSection.instructorsAsString"/>
