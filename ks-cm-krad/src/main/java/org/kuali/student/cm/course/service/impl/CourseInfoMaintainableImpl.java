@@ -1048,7 +1048,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         reviewData.getCourseLogisticsSection().setFinalExamStatus(getFinalExamString());
         reviewData.getCourseLogisticsSection().setFinalExamStatusRationale(courseInfoWrapper.getFinalExamRationale());
 
-        reviewData.getCourseLogisticsSection().getOutComes().clear();
+        reviewData.getCourseLogisticsSection().getOutcomes().clear();
 
         for (ResultValuesGroupInfoWrapper rvg : courseInfoWrapper.getCreditOptionWrappers()) {
             String creditOptionType = "";
@@ -1072,7 +1072,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 ResultValueRangeInfo range = rvg.getResultValueRange();
                 creditOptionValue = range.getMinValue() + " - " + range.getMaxValue();
             }
-            reviewData.getCourseLogisticsSection().getOutComes().add(new OutcomeReviewSection(creditOptionType, creditOptionValue));
+            reviewData.getCourseLogisticsSection().getOutcomes().add(new OutcomeReviewSection(creditOptionType, creditOptionValue));
         }
 
         List<FormatInfoWrapper> formatInfoWrappers = new ArrayList<FormatInfoWrapper>();

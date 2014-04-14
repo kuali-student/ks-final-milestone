@@ -299,13 +299,13 @@
                             <bean parent="CM-ReadOnlyInput" p:label="Final Exam Rationale"  id="courseLogisticsSection_finalExamStatusRationale"
                                   p:propertyName="reviewProposalDisplay.courseLogisticsSection.finalExamStatusRationale"/>
 
-                            <!-- This bean gets rendered if the outComes collection has items. Otherwise, the one below does. -->
+                            <!-- This bean gets rendered if the outcomes collection has items. Otherwise, the one below does. -->
                             <bean parent="Uif-VerticalFieldGroup" p:label="Outcomes" p:colSpan="3" p:fieldLabel.renderColon="false"
-                                    p:render="@{!#emptyList(#dataObject.reviewProposalDisplay.courseLogisticsSection.outComes)}">
+                                    p:render="@{!#emptyList(#dataObject.reviewProposalDisplay.courseLogisticsSection.outcomes)}">
                                 <property name="items">
                                     <list>
                                         <bean id="course_review_outcome_details" parent="Uif-StackedCollectionSection"
-                                              p:propertyName="reviewProposalDisplay.courseLogisticsSection.outComes"
+                                              p:propertyName="reviewProposalDisplay.courseLogisticsSection.outcomes"
                                               p:collectionObjectClass="org.kuali.student.cm.course.form.OutcomeReviewSection">
                                             <property name="layoutManager.lineGroupPrototype.header.headerText"
                                                       value="Outcome @{(#index + 1)}"/>
@@ -327,9 +327,9 @@
                                 </property>
                             </bean>
                             <!-- This bean gets rendered if the outComes collection is empty. Otherwise, the one above does. -->
-                            <bean parent="CM-ReadOnlyInput" p:label="Outcomes"
-                                    p:propertyName="reviewProposalDisplay.emptyStringOutcomes"
-                                    p:render="@{#emptyList(#dataObject.reviewProposalDisplay.courseLogisticsSection.outComes)}">
+                            <bean parent="CM-ReadOnlyInput" p:label="Outcomes" id="emptyStringOutcomes"
+                                    p:propertyName="reviewProposalDisplay.courseLogisticsSection.emptyStringOutcomes"
+                                    p:render="@{#emptyList(#dataObject.reviewProposalDisplay.courseLogisticsSection.outcomes)}">
                                 <!-- Make required for state enroute  -->
                                 <property name="simpleConstraint">
                                     <bean parent="RequiredConstraint">
@@ -389,9 +389,9 @@
                                 </property>
                             </bean>
 
-                            <!-- This bean gets rendered if the outComes collection is empty. Otherwise, the one above does. -->
+                            <!-- This bean gets rendered if the formats collection is empty. Otherwise, the one above does. -->
                             <bean parent="CM-ReadOnlyInput" p:label="Course Formats" id="emptyStringFormats"
-                                    p:propertyName="reviewProposalDisplay.emptyStringFormats"
+                                    p:propertyName="reviewProposalDisplay.courseLogisticsSection.emptyStringFormats"
                                     p:render="@{#emptyList(#dataObject.reviewProposalDisplay.courseLogisticsSection.formatInfoWrappers)}">
                                 <!-- Make required for state enroute  -->
                                 <property name="simpleConstraint">

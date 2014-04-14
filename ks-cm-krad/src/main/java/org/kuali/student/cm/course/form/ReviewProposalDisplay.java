@@ -18,7 +18,6 @@ package org.kuali.student.cm.course.form;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -103,25 +102,6 @@ public class ReviewProposalDisplay {
         }
         return supportingDocumentsSection;
 
-    }
-
-    /**
-     * This is for the outcomes "empty collection" input field. KRAD needs a property name to bind the constraints.
-     * Using the same property name for two input fields causes the constraints to be overwritten.
-     *
-     * @return An empty string.
-     */
-    public String getEmptyStringOutcomes() {
-        return "";
-    }
-
-    /**
-     * Same as above, but for formats.
-     *
-     * @return An empty string.
-     */
-    public String getEmptyStringFormats() {
-        return "";
     }
 
     public class CourseSectionWrapper {
@@ -276,7 +256,7 @@ public class ReviewProposalDisplay {
         private String audit;
         private String finalExamStatus;
         private String finalExamStatusRationale;
-        private List<OutcomeReviewSection> outComes;
+        private List<OutcomeReviewSection> outcomes;
         private List<FormatInfoWrapper> formatInfoWrappers;
 
         public CourseLogisticsSectionWrapper() {
@@ -291,6 +271,18 @@ public class ReviewProposalDisplay {
 
         public void setFormatInfoWrappers(List<FormatInfoWrapper> formatInfoWrapper) {
             this.formatInfoWrappers = formatInfoWrapper;
+        }
+
+        /**
+         * This is for the formats "empty collection" input field. KRAD needs a property name to bind the constraints.
+         * Using the same property name for two input fields causes the constraints to be overwritten. Simply setting a
+         * KRAD component render=false doesn't prevent it from being considered during validation, so if formats are
+         * defined there needs to be some text in the input field.
+         *
+         * @return An empty String if no formats have been defined. Otherwise, returns some text.
+         */
+        public String getEmptyStringFormats() {
+          return formatInfoWrappers.isEmpty() ? "" : "Has Formats";
         }
 
         public List<String> getTerms() {
@@ -364,17 +356,28 @@ public class ReviewProposalDisplay {
             this.finalExamStatusRationale = finalExamStatusRationale;
         }
 
-        public List<OutcomeReviewSection> getOutComes() {
-            if (outComes == null) {
-                outComes = new ArrayList<OutcomeReviewSection>();
+        public List<OutcomeReviewSection> getOutcomes() {
+            if (outcomes == null) {
+                outcomes = new ArrayList<OutcomeReviewSection>();
             }
-            return outComes;
+            return outcomes;
         }
 
-        public void setOutComes(List<OutcomeReviewSection> outComes) {
-            this.outComes = outComes;
+        public void setOutcomes(List<OutcomeReviewSection> outComes) {
+            this.outcomes = outComes;
         }
 
+        /**
+         * This is for the outcomes "empty collection" input field. KRAD needs a property name to bind the constraints.
+         * Using the same property name for two input fields causes the constraints to be overwritten. Simply setting a
+         * KRAD component render=false doens't prevent it from being considered during validation, so if outcomes are
+         * defined there needs to be some text in the input field.
+         *
+         * @return An empty String if no outcomes have been defined. Otherwise, returns some text.
+         */
+        public String getEmptyStringOutcomes() {
+            return outcomes.isEmpty() ? "" : "Has Outcomes";
+        }
     }
 
     public class LearningObjectivesSectionWrapper {
