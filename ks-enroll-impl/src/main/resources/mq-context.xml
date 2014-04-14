@@ -142,10 +142,14 @@
     <bean id="regEnginePerfPojo" class="org.kuali.student.enrollment.registration.engine.processor.RegEnginePerformanceProcessor">  <!-- very simple aggregator that takes the ao results and combines them into a list. Should return a more complex object in future -->
         <property name="jmsTemplate" ref="jmsTemplate"/>
     </bean>
-    <bean id="regEngineImpl" class="org.kuali.student.enrollment.registration.engine.service.impl.CourseRegistrationEngineServiceImpl" />
+    <bean id="regEngineImpl" class="org.kuali.student.enrollment.registration.engine.service.impl.CourseRegistrationEngineServiceImpl" >
+        <property name="waitlistManagerService" ref="waitlistManagerService"/>
+    </bean>
     <bean id="courseRegistrationLprActionProcessor" class="org.kuali.student.enrollment.registration.engine.processor.CourseRegistrationLprActionProcessor">
         <property name="courseRegistrationEngineService" ref="courseRegistrationEngineService"/>
     </bean>
+    <bean id="waitlistManagerService" class="org.kuali.student.enrollment.registration.engine.service.impl.WaitlistManagerServiceImpl"/>
+
 
 
     <!-- splits the reg request into multiple queues, one for each item, with a group id of the item's FO -->
@@ -179,7 +183,9 @@
     -->
 
     <!-- Groups common registration functions into a single service -->
-    <bean id="courseRegistrationEngineService" class="org.kuali.student.enrollment.registration.engine.service.impl.CourseRegistrationEngineServiceImpl"/>
+    <bean id="courseRegistrationEngineService" class="org.kuali.student.enrollment.registration.engine.service.impl.CourseRegistrationEngineServiceImpl">
+        <property name="waitlistManagerService" ref="waitlistManagerService"/>
+    </bean>
 
     <bean id="userMessenger" class="org.kuali.student.r2.common.messenger.impl.JMSMessengerImpl">
         <property name="jmsTemplate" ref="jmsTemplate"/>

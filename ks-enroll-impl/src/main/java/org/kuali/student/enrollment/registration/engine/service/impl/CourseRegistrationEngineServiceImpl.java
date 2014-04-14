@@ -20,8 +20,8 @@ import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.enrollment.registration.client.service.impl.util.SearchResultHelper;
 import org.kuali.student.enrollment.registration.engine.dto.RegistrationRequestEngineMessage;
-import org.kuali.student.enrollment.registration.engine.dto.RegistrationRequestItemEngineMessage;
 import org.kuali.student.enrollment.registration.engine.service.CourseRegistrationEngineService;
+import org.kuali.student.enrollment.registration.engine.service.WaitlistManagerService;
 import org.kuali.student.enrollment.registration.search.service.impl.CourseRegistrationSearchServiceImpl;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -61,6 +61,7 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
     public static final String AO_LPR_KEYNAME = "aoLprKey";
     public static final Map<String, String> KEYNAME_TO_REGISTERED_LPR_TYPES_MAP;
     public static final Map<String, String> KEYNAME_TO_WAITLIST_LPR_TYPES_MAP;
+
     static {
         KEYNAME_TO_REGISTERED_LPR_TYPES_MAP = new HashMap<String, String>();
         KEYNAME_TO_REGISTERED_LPR_TYPES_MAP.put(CO_LPR_KEYNAME, LprServiceConstants.REGISTRANT_CO_LPR_TYPE_KEY);
@@ -72,6 +73,7 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
         KEYNAME_TO_WAITLIST_LPR_TYPES_MAP.put(RG_LPR_KEYNAME, LprServiceConstants.WAITLIST_RG_LPR_TYPE_KEY);
         KEYNAME_TO_WAITLIST_LPR_TYPES_MAP.put(AO_LPR_KEYNAME, LprServiceConstants.WAITLIST_AO_LPR_TYPE_KEY);
     }
+
     // -------------------------------------
     private CourseRegistrationService courseRegistrationService;
     private LuiService luiService;
@@ -79,19 +81,7 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
     private SearchService searchService;
     private CourseSeatCountService courseSeatCountService;
     private CourseOfferingService courseOfferingService;
-
-    @Override
-    public boolean areSeatsAvailable(RegistrationRequestItemEngineMessage requestItemEngineMessage, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
-
-        List<SeatCount> seatCounts = getCourseSeatCountService().getSeatCountsForActivityOfferings(requestItemEngineMessage.getRegistrationGroup().getActivityOfferingIds(), contextInfo);
-
-        for (SeatCount seatCount : seatCounts) {
-            if (seatCount.getAvailableSeats() <= 0) {
-                return false;
-            }
-        }
-        return true;
-    }
+    private WaitlistManagerService waitlistManagerService;
 
     @Override
     public void updateLprTransactionItemResult(String lprTransactionId, String lprTransactionItemId, String lprTransactionItemStateKey, String resultingLprId, String message, boolean status, ContextInfo contextInfo) throws DoesNotExistException, PermissionDeniedException, OperationFailedException, VersionMismatchException, InvalidParameterException, MissingParameterException, DataValidationErrorException {
@@ -426,6 +416,7 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
 
         return updatedLprInfos;
     }
+
     @Override
     public List<LprInfo> removeCourseWaitlistEntry(String masterLprId, ContextInfo contextInfo) throws OperationFailedException, PermissionDeniedException, MissingParameterException, InvalidParameterException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
         return dropLprInfos(masterLprId, contextInfo);
@@ -437,12 +428,25 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
     }
 
     @Override
-    public boolean areSeatsAvailable(List<SeatCount> seatCounts, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
+    public boolean areSeatsAvailable(List<SeatCount> seatCounts, List<String> aoIds, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
+
         for (SeatCount seatCount : seatCounts) {
             if (seatCount.getAvailableSeats() <= 0) {
                 return false;
             }
         }
+
+        //Simulate getting people off the waitlist
+        Map<String, Integer> aoSeatCountsClaimedFromWL = new HashMap<String, Integer>();
+        waitlistManagerService.getPeopleToProcessFromWaitlist(aoIds, aoSeatCountsClaimedFromWL, contextInfo);
+
+        //Check that no one on the waitlist is about to claim these seats
+        for (String aoId : aoIds) {
+            if (aoSeatCountsClaimedFromWL.get(aoId) != null && aoSeatCountsClaimedFromWL.get(aoId) <= 0) {
+                return false;
+            }
+        }
+
         return true;
     }
 
@@ -558,4 +562,9 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
     public void setCourseSeatCountService(CourseSeatCountService courseRegistrationService) {
         this.courseSeatCountService = courseRegistrationService;
     }
+
+    public void setWaitlistManagerService(WaitlistManagerService waitlistManagerService) {
+        this.waitlistManagerService = waitlistManagerService;
+    }
+
 }

@@ -37,7 +37,7 @@ public class CourseRegistrationLprActionProcessor {
                 //Do a seat check & waitlist check
                 List<SeatCount> seatCounts = getSeatCountsForActivityOfferings(message, contextInfo);
 
-                if (areSeatsAvailable(seatCounts, contextInfo)) {
+                if (areSeatsAvailable(seatCounts, message, contextInfo)) {
                     //Register person
                     registerPersonForCourse(message, contextInfo);
                 } else {
@@ -159,8 +159,8 @@ public class CourseRegistrationLprActionProcessor {
         return courseRegistrationEngineService.isThereAWaitlist(seatCounts, contextInfo);
     }
 
-    private boolean areSeatsAvailable(List<SeatCount> seatCounts, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, InvalidParameterException, OperationFailedException, DoesNotExistException {
-        return courseRegistrationEngineService.areSeatsAvailable(seatCounts, contextInfo);
+    private boolean areSeatsAvailable(List<SeatCount> seatCounts, RegistrationRequestItemEngineMessage message, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, InvalidParameterException, OperationFailedException, DoesNotExistException {
+        return courseRegistrationEngineService.areSeatsAvailable(seatCounts, message.getRegistrationGroup().getActivityOfferingIds(), contextInfo);
     }
 
     public void updateRegistrationRequestStatus(List<RegistrationRequestItemEngineMessage> regItems) throws PermissionDeniedException, OperationFailedException, VersionMismatchException, InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException {

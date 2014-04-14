@@ -42,7 +42,9 @@ import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -84,6 +86,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             "kuali.search.type.lui.searchForSeatCountInfoByAOIds";
     public static final String SEAT_COUNT_INFO_BY_REG_GROUPS_SEARCH_KEY =
             "kuali.search.type.lui.searchForSeatCountsByRGIds";
+    public static final String WL_BY_AO_IDS_SEARCH_KEY =
+            "kuali.search.type.lui.searchForWaitlistByAoIds";
 
     public static final TypeInfo REG_INFO_BY_PERSON_TERM_SEARCH_TYPE;
     public static final TypeInfo REG_CART_BY_PERSON_TERM_SEARCH_TYPE;
@@ -97,6 +101,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
     public static final TypeInfo SEAT_COUNT_INFO_BY_AOIDS_SEARCH_TYPE;
     public static final TypeInfo REG_AND_WL_INFO_BY_PERSON_TERM_SEARCH_TYPE;
     public static final TypeInfo SEAT_COUNT_INFO_BY_REG_GROUPS_SEARCH_TYPE;
+    public static final TypeInfo WL_BY_AO_IDS_SEARCH_TYPE;
 
     public static final String DEFAULT_EFFECTIVE_DATE = "01/01/2012";
 
@@ -170,6 +175,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         public static final String LPR_TYPE = "lprType";
         public static final String LPR_STATE = "lprState";
         public static final String PERSON_ID = "personId";
+
+        public static final String EFF_DATE = "effectiveDate";
     }
 
     /**
@@ -256,6 +263,10 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                 createTypeInfo(SEAT_COUNT_INFO_BY_REG_GROUPS_SEARCH_KEY,
                         "(regGroupId, registeredCount, waitlistedCount) for a list of reg group ids",
                         "Returns (regGroupId, registeredCount, waitlistedCount) for a list of reg group ids");
+        WL_BY_AO_IDS_SEARCH_TYPE =
+                createTypeInfo(WL_BY_AO_IDS_SEARCH_KEY,
+                        "waitlist information for a list of activity offering ids",
+                        "Returns waitlist information for a list of activity offering ids");
     }
 
     @Override
@@ -314,9 +325,89 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             return searchForCourseRegistrationAndWaitlistByStudentAndTerm(searchRequestInfo);
         } else if (SEAT_COUNT_INFO_BY_REG_GROUPS_SEARCH_TYPE.getKey().equals(searchKey)) {
             return searchForSeatCountsByRGIds(searchRequestInfo);
-        }else {
+        } else if (WL_BY_AO_IDS_SEARCH_TYPE.getKey().equals(searchKey)) {
+            return searchForWaitlistByAoIds(searchRequestInfo);
+        } else {
             throw new OperationFailedException("Unsupported search type: " + searchRequestInfo.getSearchKey());
         }
+    }
+
+    private SearchResultInfo searchForWaitlistByAoIds(SearchRequestInfo searchRequestInfo) throws OperationFailedException {
+        SearchResultInfo resultInfo = new SearchResultInfo();
+        SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
+        List<String> aoIds = requestHelper.getParamAsList(SearchParameters.AO_IDS);
+        String queryStr =
+                "SELECT DISTINCT " +
+                        "    rg2ao.related_lui_id, " +
+                        "    waitlistRgLpr.Lui_Id, " +
+                        "    waitlistAoLpr.id, " +
+                        "    waitlistAoLpr.PERS_ID, " +
+                        "    waitlistAoLpr.EFF_DT, " +
+                        "    ( " +
+                        "        SELECT " +
+                        "            COUNT(*) " +
+                        "        FROM " +
+                        "            KSEN_LPR lpr " +
+                        "        WHERE " +
+                        "            lpr.LUI_ID = rg2ao.related_lui_id " +
+                        "        AND lpr.LPR_TYPE='" + LprServiceConstants.REGISTRANT_AO_LPR_TYPE_KEY + "' " +
+                        "        AND lpr.LPR_STATE='" + LprServiceConstants.ACTIVE_STATE_KEY + "') registered, " +
+                        "    aolui.max_seats " +
+                        "FROM " +
+                        "    KSEN_LPR waitlistAoLpr, " +
+                        "    KSEN_LPR waitlistRgLpr, " +
+                        "    KSEN_LUI aolui, " +
+                        "    KSEN_LUILUI_RELTN sourceAos2rg, " +
+                        "    KSEN_LUILUI_RELTN rg2ao " +
+                        "WHERE " +
+                        "    sourceAos2rg.LUILUI_RELTN_TYPE='" + LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY + "' " +
+                        "AND rg2ao.LUILUI_RELTN_TYPE='" + LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY + "' " +
+                        "AND sourceAos2rg.RELATED_LUI_ID IN(:activityOfferingIds) " +
+                        "AND rg2ao.LUI_ID=sourceAos2rg.LUI_ID " +
+                        "AND waitlistRgLpr.LPR_TYPE ='" + LprServiceConstants.WAITLIST_RG_LPR_TYPE_KEY + "' " +
+                        "AND waitlistAoLpr.LPR_TYPE ='" + LprServiceConstants.WAITLIST_AO_LPR_TYPE_KEY + "' " +
+                        "AND waitlistRgLpr.LPR_STATE ='" + LprServiceConstants.ACTIVE_STATE_KEY + "' " +
+                        "AND waitlistAoLpr.LPR_STATE ='" + LprServiceConstants.ACTIVE_STATE_KEY + "' " +
+                        "AND waitlistAoLpr.LUI_ID=rg2ao.related_lui_id " +
+                        "AND waitlistRgLpr.MASTER_LPR_ID=waitlistAoLpr.MASTER_LPR_ID " +
+                        "AND aolui.id=rg2ao.related_lui_id " +
+                        "ORDER BY waitlistAoLpr.EFF_DT, waitlistAoLpr.PERS_ID, waitlistRgLpr.Lui_Id ASC";
+
+        Query query = entityManager.createNativeQuery(queryStr);
+        query.setParameter(SearchParameters.AO_IDS, aoIds);
+
+        List<Object[]> results = query.getResultList();
+
+        for (Object[] resultRow : results) {
+            int i = 0;
+            SearchResultRowInfo row = new SearchResultRowInfo();
+            row.addCell(SearchResultColumns.AO_ID, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.RG_ID, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.LPR_ID, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.PERSON_ID, (String) resultRow[i++]);
+            Date effectiveDate = (Date) resultRow[i++];
+            if (effectiveDate != null) {
+                row.addCell(SearchResultColumns.EFF_DATE, DateFormatters.DEFAULT_DATE_FORMATTER.format(effectiveDate));
+            } else {
+                row.addCell(SearchResultColumns.EFF_DATE, null);
+            }
+            BigDecimal seatCount = (BigDecimal) resultRow[i++];
+            if (seatCount != null) {
+                row.addCell(SearchResultColumns.SEAT_COUNT, String.valueOf(seatCount.intValue()));
+            } else {
+                row.addCell(SearchResultColumns.SEAT_COUNT, null);
+            }
+            BigDecimal maxSeats = (BigDecimal) resultRow[i];
+            if (maxSeats != null) {
+                row.addCell(SearchResultColumns.AO_MAX_SEATS, String.valueOf(maxSeats.intValue()));
+            } else {
+                row.addCell(SearchResultColumns.AO_MAX_SEATS, null);
+            }
+            resultInfo.getRows().add(row);
+        }
+
+        return resultInfo;
+
     }
 
     private SearchResultInfo searchForCourseRegistrationAndWaitlistByStudentAndTerm(SearchRequestInfo searchRequestInfo) throws OperationFailedException {
