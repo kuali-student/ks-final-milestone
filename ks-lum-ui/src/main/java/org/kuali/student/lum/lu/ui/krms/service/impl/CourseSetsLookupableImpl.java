@@ -17,7 +17,7 @@ package org.kuali.student.lum.lu.ui.krms.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.krad.web.form.LookupForm;
+import org.kuali.rice.krad.lookup.LookupForm;
 import org.kuali.student.common.uif.service.impl.KSLookupableImpl;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.common.util.security.ContextUtils;
@@ -45,11 +45,11 @@ public class CourseSetsLookupableImpl extends KSLookupableImpl {
     private CluService cluService;
 
     @Override
-    protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
+    public List<?> performSearch(LookupForm lookupForm, Map<String, String> searchCriteria, boolean bounded) {
         List<CluSetInfo> cluSetInfos = new ArrayList<CluSetInfo>();
         List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
-        String name = fieldValues.get("name");
-        String description = fieldValues.get("descr");
+        String name = searchCriteria.get("name");
+        String description = searchCriteria.get("descr");
         if (StringUtils.isNotBlank(name) && !name.isEmpty()) {
             SearchParamInfo nameParam = new SearchParamInfo();
             nameParam.setKey("cluset.queryParam.optionalName");

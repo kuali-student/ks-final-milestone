@@ -7,7 +7,7 @@ import javax.xml.namespace.QName;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupableImpl;
-import org.kuali.rice.krad.web.form.LookupForm;
+import org.kuali.rice.krad.lookup.LookupForm;
 import org.kuali.student.cm.course.form.LoCategoryInfoWrapper;
 import org.kuali.student.cm.course.service.util.LoCategorySearchUtil;
 import org.kuali.student.r2.common.util.constants.LearningObjectiveServiceConstants;
@@ -25,7 +25,7 @@ public class LoCategoryInfoLookupableImpl extends LookupableImpl {
     private LearningObjectiveService learningObjectiveService;
     
     @Override
-    protected List<?> getSearchResults(LookupForm form, Map<String, String> searchCriteria, boolean unbounded) {
+    public List<?> performSearch(LookupForm form, Map<String, String> searchCriteria, boolean bounded) {
         return LoCategorySearchUtil.searchForLoCategories(null, getLearningObjectiveService());
     }   
     

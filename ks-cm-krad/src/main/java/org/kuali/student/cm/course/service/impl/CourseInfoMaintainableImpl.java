@@ -35,7 +35,7 @@ import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.container.Container;
-import org.kuali.rice.krad.uif.view.View;
+import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
@@ -509,12 +509,13 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     }
 
     @Override
-    protected boolean performAddLineValidation(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
-        if (addLine instanceof CluInstructorInfoWrapper) {
-            CluInstructorInfoWrapper instructorWrapper = (CluInstructorInfoWrapper) addLine;
+    protected boolean performAddLineValidation(ViewModel viewModel, Object newLine, String collectionId,
+                                               String collectionPath) {
+        if (newLine instanceof CluInstructorInfoWrapper) {
+            CluInstructorInfoWrapper instructorWrapper = (CluInstructorInfoWrapper) newLine;
 
-            if (model instanceof MaintenanceDocumentForm) {
-                MaintenanceDocumentForm modelForm = (MaintenanceDocumentForm) model;
+            if (viewModel instanceof MaintenanceDocumentForm) {
+                MaintenanceDocumentForm modelForm = (MaintenanceDocumentForm) viewModel;
                 CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) modelForm.getDocument().getNewMaintainableObject().getDataObject();
                 CourseInfoMaintainable courseInfoMaintainable = (CourseInfoMaintainable) modelForm.getDocument().getNewMaintainableObject();
                 for (CluInstructorInfoWrapper instructor : courseInfoWrapper.getInstructorWrappers()) {
@@ -525,11 +526,11 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             }
             return StringUtils.isNotEmpty(instructorWrapper.getDisplayName()) ? true : false;
         }
-        if (addLine instanceof CollaboratorWrapper) {
-            CollaboratorWrapper collaboratorWrapper = (CollaboratorWrapper) addLine;
+        if (newLine instanceof CollaboratorWrapper) {
+            CollaboratorWrapper collaboratorWrapper = (CollaboratorWrapper) newLine;
 
-            if (model instanceof MaintenanceDocumentForm) {
-                MaintenanceDocumentForm modelForm = (MaintenanceDocumentForm) model;
+            if (viewModel instanceof MaintenanceDocumentForm) {
+                MaintenanceDocumentForm modelForm = (MaintenanceDocumentForm) viewModel;
                 CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) modelForm.getDocument().getNewMaintainableObject().getDataObject();
                 CourseInfoMaintainable courseInfoMaintainable = (CourseInfoMaintainable) modelForm.getDocument().getNewMaintainableObject();
                 for (CollaboratorWrapper collaboratorAuthor : courseInfoWrapper.getCollaboratorWrappers()) {
@@ -539,8 +540,8 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 }
             }
             return StringUtils.isNotEmpty(collaboratorWrapper.getDisplayName()) ? true : false;
-        } else if (addLine instanceof CourseCreateUnitsContentOwner) {
-            MaintenanceDocumentForm modelForm = (MaintenanceDocumentForm) model;
+        } else if (newLine instanceof CourseCreateUnitsContentOwner) {
+            MaintenanceDocumentForm modelForm = (MaintenanceDocumentForm) viewModel;
             CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) modelForm.getDocument().getNewMaintainableObject().getDataObject();
 
             for (CourseCreateUnitsContentOwner unitsContentOwner : courseInfoWrapper.getUnitsContentOwner()) {
@@ -549,19 +550,19 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 }
             }
         }
-        return ((CourseRuleViewHelperServiceImpl) getRuleViewHelperService()).performAddLineValidation(view, collectionGroup, model, addLine);
+        return ((CourseRuleViewHelperServiceImpl) getRuleViewHelperService()).performAddLineValidation(viewModel, newLine, collectionId, collectionPath);
     }
 
     @Override
-    protected void processAfterAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine,
-                                       boolean isValidLine) {
-        ((CourseRuleViewHelperServiceImpl) getRuleViewHelperService()).processAfterAddLine(view, collectionGroup, model, addLine, isValidLine);
+    public void processAfterAddLine(ViewModel model, Object lineObject, String collectionId, String collectionPath,
+                                    boolean isValidLine) {
+        ((CourseRuleViewHelperServiceImpl) getRuleViewHelperService()).processAfterAddLine(model, lineObject, collectionId, collectionPath, isValidLine);
     }
 
 
     @Override
-    protected void addCustomContainerComponents(View view, Object model, Container container) {
-        ((CourseRuleViewHelperServiceImpl) getRuleViewHelperService()).addCustomContainerComponents(view, model, container);
+    public void addCustomContainerComponents(ViewModel model, Container container) {
+        ((CourseRuleViewHelperServiceImpl) getRuleViewHelperService()).addCustomContainerComponents(model, container);
     }
 
     @Override
@@ -886,7 +887,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     }
 
     @Override
-    public void processCollectionAddBlankLine(View view, Object model, String collectionPath) {
+    public void processCollectionAddBlankLine(ViewModel model, String collectionId, String collectionPath) {
 
         if (StringUtils.endsWith(collectionPath, "unitsContentOwner")) {
             MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) model;
@@ -915,7 +916,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             return;
         }
 
-        super.processCollectionAddBlankLine(view, model, collectionPath);
+        super.processCollectionAddBlankLine(model, collectionId, collectionPath);
     }
 
     protected String populateOrgName(String subjectArea, CourseCreateUnitsContentOwner unitsContentOwner) {
@@ -961,7 +962,8 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     }
 
     @Override
-    protected void processAfterDeleteLine(View view, CollectionGroup collectionGroup, Object model, int lineIndex) {
+    public void processAfterDeleteLine(ViewModel model, String collectionId, String collectionPath, int lineIndex) {
+        CollectionGroup collectionGroup = model.getView().getViewIndex().getCollectionGroupByPath(collectionPath);
         if (StringUtils.endsWith(collectionGroup.getPropertyName(), "unitsContentOwner")) {
             MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) model;
             MaintenanceDocument document = maintenanceForm.getDocument();
@@ -974,7 +976,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
         }
 
-        super.processAfterDeleteLine(view, collectionGroup, model, lineIndex);
+        super.processAfterDeleteLine(model, collectionId, collectionPath, lineIndex);
     }
 
     public void updateReview() {

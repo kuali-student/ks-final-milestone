@@ -17,6 +17,7 @@ package org.kuali.student.lum.lu.ui.krms.builder;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krms.builder.ComponentBuilder;
+import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.student.lum.lu.ui.krms.dto.CluSetInformation;
 import org.kuali.student.lum.lu.ui.krms.dto.LUPropositionEditor;
 import org.kuali.student.lum.lu.ui.krms.util.CluInformationHelper;
@@ -38,6 +39,10 @@ public abstract class CluComponentBuilder implements ComponentBuilder<LUProposit
     private LRCService lrcService;
 
     private CluInformationHelper cluInfoHelper;
+
+    @Override
+    public void initialize(LUPropositionEditor propositionEditor) {
+    }
 
     /**
      * This method build the CluSetInfo object based on the CluSetInformation wrapper object.

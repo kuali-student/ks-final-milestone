@@ -33,7 +33,7 @@ limitations under the License.
         <property name="dataObjectClassName" value="org.kuali.student.r2.core.proposal.dto.ProposalInfo" />
         <property name="viewHelperServiceClass" value="org.kuali.student.cm.course.service.ProposalLookupableImpl" />
         <property name="authorizerClass" value="org.kuali.student.cm.course.auth.ProposalLookupViewAuthorizerBase"/>
-        <property name="showMaintenanceLinks" value="true"/>
+        <property name="renderMaintenanceLinks" value="true"/>
 
         <property name="applicationHeader">
             <bean parent="KS-Uif-FormView-ApplicationHeader"/>
@@ -134,7 +134,7 @@ limitations under the License.
                     <value>KS-CourseView-CoursePage</value>
                   </list>
                 </property>
-                <property name="render" value="@{#ViewHelper.allowsProposalEditAction(#line) and view.showMaintenanceLinks}"/>
+                <property name="render" value="@{#ViewHelper.allowsProposalEditAction(#line) and view.renderMaintenanceLinks}"/>
               </bean>
             </list>
           </property>

@@ -15,10 +15,15 @@
  */
 package org.kuali.student.lum.lu.ui.krms.tree;
 
+import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.krms.dto.PropositionEditor;
+import org.kuali.rice.krms.dto.RuleEditor;
+import org.kuali.rice.krms.tree.node.TreeNode;
 import org.kuali.student.core.krms.tree.KSRuleViewTreeBuilder;
+import org.kuali.student.lum.lu.ui.krms.dto.CluGroup;
 import org.kuali.student.lum.lu.ui.krms.dto.LUPropositionEditor;
 import org.kuali.student.lum.lu.ui.krms.dto.CluSetInformation;
+import org.kuali.student.lum.lu.ui.krms.tree.node.LUTreeNode;
 
 import java.util.List;
 
@@ -33,12 +38,19 @@ public class LURuleViewTreeBuilder extends KSRuleViewTreeBuilder {
     private static final long serialVersionUID = 1L;
 
     @Override
-    public List<Object> getListItems(PropositionEditor propositionEditor) {
+    public TreeNode createTreeNode(RuleEditor rule, String data, PropositionEditor prop){
+        LUTreeNode tNode = new LUTreeNode(data);
+        tNode.setKey(prop.getKey());
+        tNode.setCluGroups(this.getCluGroups(prop));
+        return tNode;
+    }
+
+    public List<CluGroup> getCluGroups(PropositionEditor propositionEditor) {
         if (propositionEditor instanceof LUPropositionEditor) {
             CluSetInformation cluSetInfo = ((LUPropositionEditor) propositionEditor).getCluSet();
 
             if (cluSetInfo != null) {
-                return cluSetInfo.getCluViewers();
+                return cluSetInfo.getCluGroups();
             }
         }
         return null;

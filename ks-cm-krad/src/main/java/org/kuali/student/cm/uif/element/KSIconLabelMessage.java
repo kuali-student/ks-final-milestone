@@ -19,14 +19,13 @@ package org.kuali.student.cm.uif.element;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.datadictionary.parse.BeanTagAttribute;
 import org.kuali.rice.krad.datadictionary.validator.ValidationTrace;
-import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.Group;
 import org.kuali.rice.krad.uif.element.Header;
 import org.kuali.rice.krad.uif.element.Label;
 import org.kuali.rice.krad.uif.element.Message;
 import org.kuali.rice.krad.uif.field.ImageField;
 import org.kuali.rice.krad.uif.util.ComponentUtils;
-import org.kuali.rice.krad.uif.view.View;
+import org.kuali.rice.krad.uif.util.LifecycleElement;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 
@@ -49,12 +48,11 @@ public class KSIconLabelMessage extends Message {
      * Here, we're adding 2 inline components. The first one is a placement for required message component
      * to be displayed. The second one is to display the icon
      *
-     * @param view
      * @param model
      * @param parent
      */
     @Override
-    public void performApplyModel(View view, Object model, Component parent) {
+    public void performApplyModel(Object model, LifecycleElement parent) {
 
         if (StringUtils.isNotBlank(iconToolTipText)){
 
@@ -75,7 +73,8 @@ public class KSIconLabelMessage extends Message {
                 /**
                  * Reference the Label's required message component as inline component.
                  */
-                getInlineComponents().add(0, ((Label) parent).getRequiredMessage());
+                // rice 2.4 upgrade: label does not have requiredMessage any more
+//                getInlineComponents().add(0, ((Label) parent).getRequiredMessage());
 
             } else if (parent instanceof Header){
                 label =  ((Header)parent).getHeaderText();
@@ -103,13 +102,13 @@ public class KSIconLabelMessage extends Message {
 
         }
 
-        super.performApplyModel(view, model, parent);
+        super.performApplyModel(model, parent);
     }
 
     @Override
-    public void performFinalize(View view, Object model, Component parent) {
+    public void performFinalize(Object model, LifecycleElement parent) {
 
-        super.performFinalize(view,model,parent);
+        super.performFinalize(model, parent);
 
         if (StringUtils.isNotBlank(iconToolTipText)){
             if (parent instanceof Label){
@@ -117,9 +116,12 @@ public class KSIconLabelMessage extends Message {
                  * Hide the Label's required message component. it's not needed to be displayed
                  * as the Label's inline component will be displaying that.
                  */
+                // rice 2.4 upgrade: label does not have requiredMessage any more
+/*
                 Message copy = ComponentUtils.copy(((Label) parent).getRequiredMessage());
                 ((Label) parent).setRequiredMessage(copy);
                 ((Label) parent).getRequiredMessage().setRender(false);
+*/
             }
         }
 
@@ -159,16 +161,4 @@ public class KSIconLabelMessage extends Message {
 
         super.completeValidation(tracer.getCopy());
     }
-
-    /**
-     * @see org.kuali.rice.krad.uif.component.ComponentBase#copy()
-     */
-    @Override
-    protected <T> void copyProperties(T component) {
-        super.copyProperties(component);
-
-        KSIconLabelMessage inputFieldCopy = (KSIconLabelMessage) component;
-        inputFieldCopy.setIconToolTipText(getIconToolTipText());
-    }
-
 }

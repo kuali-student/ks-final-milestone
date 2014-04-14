@@ -95,7 +95,7 @@
         <property name="validationMessages.displayMessages" value="false" />
         <property name="items">
             <list>
-                <bean id="KS-CourseView-gradingOptions" parent="Uif-InputField-LabelTop" p:propertyName="courseInfo.gradingOptions" >
+                <bean id="KS-CourseView-gradingOptions" parent="KS-Uif-InputField-LabelTop" p:propertyName="courseInfo.gradingOptions" >
                     <property name="control">
                         <bean parent="Uif-VerticalCheckboxesControl" />
                     </property>
@@ -126,9 +126,12 @@
                             </property>
                         </bean>
                     </property>
+                    <!-- Rice 2.4 upgrade : removing fieldLabel.requiredMessage -->
+<!--
                     <property name="fieldLabel.requiredMessage">
                         <bean parent="CM-StateAware-RequiredMessage" />
                     </property>
+-->
                 </bean>
             </list>
         </property>
@@ -179,9 +182,12 @@
                             </property>
                         </bean>
                     </property>
+                    <!-- Rice 2.4 upgrade : removing fieldLabel.requiredMessage -->
+<!--
                     <property name="fieldLabel.requiredMessage">
                         <bean parent="CM-StateAware-RequiredMessage" />
                     </property>
+-->
                 </bean>
                 <bean id="KS-FinalExamRationale" parent="KS-Uif-InputField-LabelTop"
                       p:label="Final Exam Rationale" p:required="true"
@@ -202,7 +208,8 @@
             <bean parent="Uif-VerticalBoxGroup">
                 <property name="items">
                     <list>
-                        <bean parent="CM-StateAware-RequiredMessage" />
+                        <!-- Rice 2.4 upgrade : removing commented out bean -->
+                        <!--<bean parent="CM-StateAware-RequiredMessage" />-->
                     </list>
                 </property>
             </bean>

@@ -167,14 +167,16 @@
                 <property name="items">
                     <list>
                         <bean parent="KS-Uif-DataField" p:label="Proposal Status"
-                              p:shortLabel="Status" p:labelPlacement="LEFT" p:propertyName="proposalInfo.stateKey" />
+                              p:shortLabel="Status" p:propertyName="proposalInfo.stateKey" />
+                        <!-- Rice 2.4 upgrade : removing p:labelPlacement="LEFT" -->
                         <bean parent="Uif-ActionLink" p:actionLabel="Comments"
                               p:methodToCall="showComment" />
                         <bean parent="Uif-ActionLink" p:actionLabel="Decisions"
                               p:methodToCall="showDecisions" />
                         <bean parent="Uif-Space" />
                         <bean parent="KS-Uif-DataField" p:label="Last Updated"
-                              p:shortLabel="Updated" p:labelPlacement="LEFT" p:propertyName="lastUpdated" />
+                              p:shortLabel="Updated" p:propertyName="lastUpdated" />
+                        <!-- Rice 2.4 upgrade : removing p:labelPlacement="LEFT" -->
                     </list>
                 </property>
             </bean>
@@ -238,6 +240,8 @@
         This can be used for any input (not just required ones) because it doesn't get displayed unless requiredness
         in simpleConstraint is turned on for the field.
     -->
+    <!-- Rice 2.4 upgrade : Uif-RequiredMessage was replaced by requiredIndicator" -->
+<!--
     <bean id="CM-StateAware-RequiredMessage" parent="CM-StateAware-RequiredMessage-parent" abstract="true" />
     <bean id="CM-StateAware-RequiredMessage-parent" parent="Uif-RequiredMessage"  abstract="true">
         <property name="messageText" value="" />
@@ -252,7 +256,7 @@
                     p:propertyName="messageText"
                     p:condition="@{#workflowDoc.saved}" >
                     <property name="replacement">
-                        <!-- This should be read from the message service -->
+                        &lt;!&ndash; This should be read from the message service &ndash;&gt;
                         <value>Required on Submit</value>
                     </property>
                 </bean>
@@ -260,13 +264,14 @@
                      p:propertyName="messageText"
                      p:condition="@{#workflowDoc.enroute}" >
                     <property name="replacement">
-                        <!-- This should be read from the message service -->
+                        &lt;!&ndash; This should be read from the message service &ndash;&gt;
                         <value>Required for Approval</value>
                     </property>
                 </bean>
             </list>
         </property>
     </bean>
+-->
 
 
     <bean id="CourseInfoMaintenanceDocument" parent="uifMaintenanceDocumentEntry">

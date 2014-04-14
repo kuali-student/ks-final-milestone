@@ -16,15 +16,19 @@
 package org.kuali.student.lum.lu.ui.krms.tree;
 
 import org.kuali.rice.krms.dto.PropositionEditor;
+import org.kuali.rice.krms.dto.RuleEditor;
+import org.kuali.rice.krms.tree.node.TreeNode;
 import org.kuali.student.core.krms.tree.KSRulePreviewTreeBuilder;
+import org.kuali.student.lum.lu.ui.krms.dto.CluGroup;
 import org.kuali.student.lum.lu.ui.krms.dto.LUPropositionEditor;
 import org.kuali.student.lum.lu.ui.krms.dto.CluSetInformation;
+import org.kuali.student.lum.lu.ui.krms.tree.node.LUTreeNode;
 
 import java.util.List;
 
 /**
  * Overridden class to add items to be displayed in the view trees that are not converted
- * by the natural language translater on the rule management service.
+ * by the natural language translator on the rule management service.
  *
  * @author Kuali Student Team
  */
@@ -33,12 +37,20 @@ public class LURulePreviewTreeBuilder extends KSRulePreviewTreeBuilder {
     private static final long serialVersionUID = 1L;
 
     @Override
-    public List<Object> getListItems(PropositionEditor propositionEditor) {
+    public TreeNode createTreeNode(RuleEditor rule, String data, PropositionEditor prop, boolean compound){
+        LUTreeNode tNode = new LUTreeNode(data);
+        tNode.setKey(prop.getKey());
+        tNode.setCompound(compound);
+        tNode.setCluGroups(this.getCluGroups(prop));
+        return tNode;
+    }
+
+    public List<CluGroup> getCluGroups(PropositionEditor propositionEditor) {
         if (propositionEditor instanceof LUPropositionEditor) {
             CluSetInformation cluSetInfo = ((LUPropositionEditor) propositionEditor).getCluSet();
 
             if (cluSetInfo != null) {
-                return cluSetInfo.getCluViewers();
+                return cluSetInfo.getCluGroups();
             }
         }
         return null;

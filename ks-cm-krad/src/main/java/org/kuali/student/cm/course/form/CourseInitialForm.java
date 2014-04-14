@@ -17,6 +17,7 @@
 package org.kuali.student.cm.course.form;
 
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
+import org.kuali.rice.krad.web.form.UifFormBase;
 
 /**
  * This form is being used at the initial create course screen view. This captures
@@ -24,7 +25,7 @@ import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
  * maintenace document.
  *
  */
-public class CourseInitialForm extends MaintenanceDocumentForm {
+public class CourseInitialForm extends UifFormBase {
 
     private String createCourseInitialAction;
 

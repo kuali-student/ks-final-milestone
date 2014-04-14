@@ -137,7 +137,9 @@
                 </property>
             </bean>
         </property>
+        <!-- Rice 2.4 Upgrade: we can no longer customize the location of the required message
         <property name="fieldLabel.requiredMessagePlacement" value="LEFT"/>
+        -->
     </bean>
 
     <!-- The parent all of the vertical box sections -->

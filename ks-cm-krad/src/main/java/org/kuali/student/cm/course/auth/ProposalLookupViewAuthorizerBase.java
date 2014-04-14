@@ -22,7 +22,6 @@ import org.kuali.rice.krad.lookup.LookupViewAuthorizerBase;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.web.form.LookupForm;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -69,7 +68,7 @@ public class ProposalLookupViewAuthorizerBase extends LookupViewAuthorizerBase {
      * @return will always return false
      */
     @Override
-    public boolean canInitiateDocument(LookupForm lookupForm, Person user) {
+    public boolean canInitiateMaintenanceDocument(String dataObjectClassName, Person user) {
         return false;
     }
 

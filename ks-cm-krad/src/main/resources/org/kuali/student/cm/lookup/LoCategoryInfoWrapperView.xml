@@ -33,7 +33,9 @@
             value="org.kuali.student.cm.course.service.impl.LoCategoryInfoLookupableImpl" />
         <property name="multipleValuesSelect" value="true" />    
         <property name="criteriaGroup.render" value="false" />
+        <!-- Removing property. Looks like Rice no longer supports it: KULRICE-10618
         <property name="resultsGroup.layoutManager.richTable.showSearchAndExportOptions" value="true" />
+        -->
         <property name="resultsGroup.layoutManager.richTable.templateOptions">
             <map>
                  <entry key="sDom" value="frtip"/>

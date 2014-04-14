@@ -86,7 +86,6 @@ import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.AutoPopulatingList;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -235,8 +234,8 @@ public class CourseController extends CourseRuleEditorController {
     public ModelAndView route(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
         // manually call the view validation service as this validation cannot be run client-side in current setup
 //        KRADServiceLocatorWeb.getViewValidationService().validateView(form.getPostedView(), form, KewApiConstants.ROUTE_HEADER_ENROUTE_CD);
-        KSViewAttributeValueReader reader = new KSViewAttributeValueReader(form.getPostedView(), form);
-        KRADServiceLocatorWeb.getDictionaryValidationService().validate(reader, true, KewApiConstants.ROUTE_HEADER_ENROUTE_CD, form.getPostedView().getStateMapping());
+        KSViewAttributeValueReader reader = new KSViewAttributeValueReader(form);
+        KRADServiceLocatorWeb.getDictionaryValidationService().validate(reader, true, KewApiConstants.ROUTE_HEADER_ENROUTE_CD, form.getView().getStateMapping());
         if (!GlobalVariables.getMessageMap().hasErrors()) {
             return super.route(form, result, request, response);    //To change body of overridden methods use File | Settings | File Templates.
         }
@@ -256,7 +255,7 @@ public class CourseController extends CourseRuleEditorController {
         }
 
         //  Validate
-        KRADServiceLocatorWeb.getViewValidationService().validateViewAgainstNextState(form.getPostedView(), form);
+        KRADServiceLocatorWeb.getViewValidationService().validateViewAgainstNextState(form);
 
         return getUIFModelAndView(form, CurriculumManagementConstants.CourseViewPageIds.REVIEW_PROPOSAL);
     }
@@ -346,12 +345,12 @@ public class CourseController extends CourseRuleEditorController {
 
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
 
-        String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
             throw new RuntimeException("Selected collection was not set for delete line action, cannot delete line");
         }
 
-        View view = form.getPostedView();
+        View view = form.getView();
 
         CollectionGroup collectionGroup = view.getViewIndex().getCollectionGroupByPath(selectedCollectionPath);
         if (collectionGroup == null) {
@@ -454,7 +453,7 @@ public class CourseController extends CourseRuleEditorController {
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
         // final ModelAndView retval = super.deleteLine(form, result, request, response);
 
-        final String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        final String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
             GlobalVariables.getMessageMap().putErrorForSectionId(CourseViewSections.SUPPORTING_DOCUMENTS.getSectionId(), CurriculumManagementConstants.MessageKeys.UNABLE_TO_ADD_LINE);
             return getUIFModelAndView(form);
@@ -539,7 +538,7 @@ public class CourseController extends CourseRuleEditorController {
     protected void performWorkflowAction(DocumentFormBase form, UifConstants.WorkflowAction action, boolean checkSensitiveData) {
         CourseControllerTransactionHelper helper = GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "courseControllerTransactionHelper", CourseControllerTransactionHelper.class.getSimpleName()));
         helper.performWorkflowActionSuper(form, action, checkSensitiveData, this);
-        AutoPopulatingList<ErrorMessage> infoMessages = GlobalVariables.getMessageMap().getInfoMessagesForProperty(KRADConstants.GLOBAL_MESSAGES);
+        List<ErrorMessage> infoMessages = GlobalVariables.getMessageMap().getInfoMessagesForProperty(KRADConstants.GLOBAL_MESSAGES);
         if (infoMessages != null) {
             for (ErrorMessage message : infoMessages) {
                 KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS, message.getErrorKey(), message.getMessageParameters());

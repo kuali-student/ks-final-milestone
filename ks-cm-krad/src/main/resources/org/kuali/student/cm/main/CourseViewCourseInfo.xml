@@ -121,9 +121,10 @@
                                         </property>
                                     </bean>
                                 </property>
-                                <property name="fieldLabel.requiredMessage">
+                                <!-- Rice 2.4 upgrade : removing fieldLabel.requiredMessage -->
+                                <!--property name="fieldLabel.requiredMessage">
                                     <bean parent="CM-StateAware-RequiredMessage" />
-                                </property>
+                                </property-->
                             </bean>
 
                             <bean id="KS-ProposalRationale" parent="KS-Uif-InputField-LabelTop"
@@ -139,9 +140,10 @@
                                         </property>
                                     </bean>
                                 </property>
-                                <property name="fieldLabel.requiredMessage">
-                                    <bean parent="CM-StateAware-RequiredMessage" />
-                                </property>
+                                <!-- Rice 2.4 upgrade : removing fieldLabel.requiredMessage -->
+                                <!--<property name="fieldLabel.requiredMessage">-->
+                                    <!--<bean parent="CM-StateAware-RequiredMessage" />-->
+                                <!--</property>-->
                             </bean>
                         </list>
                     </property>
@@ -165,7 +167,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-KS-IconInputField-LabelTop" p:label="Proposal Title"   p:id="CreateCourseProposalTitleInputField"
+                <bean parent="Uif-KS-IconInputField" p:label="Proposal Title"   p:id="CreateCourseProposalTitleInputField"
                       p:propertyName="proposalInfo.name">
                     <property name="instructionalText"
                               value="This title is used for identifying the proposal through the approval process. It is highly recommended that you use the same name for the course and proposal title."/>
@@ -206,9 +208,10 @@
                             <bean  id="KS-SubjectArea-Field" parent="KS-Uif-InputField-LabelTop"
                                 p:label="Subject Code" p:propertyName="courseInfo.subjectArea" >
 
-                                <property name="fieldLabel.requiredMessage">
+                                <!-- Rice 2.4 upgrade : removing fieldLabel.requiredMessage -->
+                                <!--property name="fieldLabel.requiredMessage">
                                     <bean parent="CM-StateAware-RequiredMessage" />
-                                </property>
+                                </property-->
 
                                 <property name="constraintText" value="Must be a 4 letter code"/>
                                 <property name="control">
@@ -227,15 +230,16 @@
                                 </property>
                             </bean>
 
-                            <bean id="KS-CourseNumberSuffix-Field" parent="Uif-KS-IconInputField-LabelTop"
+                            <bean id="KS-CourseNumberSuffix-Field" parent="Uif-KS-IconInputField"
                                   p:label="Course Number" p:propertyName="courseInfo.courseNumberSuffix" >
                                 <property name="constraintText" value="Must be a 3 digit number"/>
                                 <property name="control">
                                     <bean parent="KS-Uif-TextControl" p:size="3" p:watermarkText="111"/>
                                 </property>
-                                <property name="fieldLabel.requiredMessage">
-                                    <bean parent="CM-StateAware-RequiredMessage" />
-                                </property>
+                                <!-- Rice 2.4 upgrade : removing fieldLabel.requiredMessage -->
+                                <!--<property name="fieldLabel.requiredMessage">-->
+                                    <!--<bean parent="CM-StateAware-RequiredMessage" />-->
+                                <!--</property>-->
 
                                 <property name="fieldLabel.richLabelMessage.iconToolTipText"
                                           value="The department will determine the course number based on: course format, restrictions, available numbers, and other factors."/>
@@ -288,7 +292,7 @@
                     </property>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-KS-IconInputField-LabelTop" p:label="Course Number or Title"
+                            <bean parent="Uif-KS-IconInputField" p:label="Course Number or Title"
                                   p:propertyName="courseCode">
                                 <property name="instructionalText" value="Enter an existing course or proposal." />
                                 <property name="control">
@@ -318,8 +322,8 @@
                                                 </property>
                                             </bean>
                                         </property>
-                                        <property name="lightBoxLookup">
-                                            <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
+                                        <property name="lightBox">
+                                            <bean parent="Uif-LightBox" p:lookupReturnByScript="false"/>
                                         </property>
                                         <property name="dataObjectClassName" value="org.kuali.student.cm.course.form.CourseJointInfoWrapper"/>
                                         <property name="fieldConversions">
