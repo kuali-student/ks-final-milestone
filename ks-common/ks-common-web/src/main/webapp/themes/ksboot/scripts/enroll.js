@@ -1159,6 +1159,30 @@ function setInlineEditCheckboxReadonlyValue(id, checked){
     });
 }
 
+function removeMatrixOverrideConfirm(checkbox_id, dialog_id){
+    var checkBoxId = '#' + checkbox_id + '_control';
+    var checkBox = jQuery(checkBoxId);
+
+    if( !checkBox.is(":checked")) {
+        //overrideOptions = { autoDimensions:false, width:500, afterClose:breakColoWarningHasClosed };
+        showLightboxComponent(dialog_id);
+    }
+
+
+}
+
+function keepMatrixOverrideChecked (matrixOverrideCheckBoxId) {
+    var checkBoxId = '#' + jQuery("input[name='" + matrixOverrideCheckBoxId +"']").val() + '_control';
+    var checkBox = jQuery(checkBoxId);
+
+    if( !checkBox.is(":checked")) {
+        checkBox.prop('checked', true);
+    }
+
+    closeLightbox();
+}
+
+
 /**
  * auto finish the time field with the format hh:mm am
  */
