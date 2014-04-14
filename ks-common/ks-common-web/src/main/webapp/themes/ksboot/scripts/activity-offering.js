@@ -281,7 +281,7 @@ function validatePopulationForSP(field, populationsJSONString) {
         var pos = 0;
         jQuery.each(populationsObj.populations, function (key, value) {
             if (populationName.toLowerCase() === value.toLowerCase()) {
-                return;
+                return false;
             }
             pos++;
         });
@@ -312,7 +312,7 @@ function validatePopulationForSP(field, populationsJSONString) {
         rows.each(function () {
             var id = jQuery(this).attr('id');
             if ((populationName.toLowerCase() === jQuery(this).val().toLowerCase()) && (fieldId != id)) {
-                return;
+                return false;
             }
             posPopDupCheck++;
         });

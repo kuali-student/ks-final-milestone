@@ -117,6 +117,12 @@
             "src": "fontawesome"
         },
         {
+            "uid": "9dc654095085167524602c9acc0c5570",
+            "css": "left-dir",
+            "code": 59444,
+            "src": "fontawesome"
+        },
+        {
             "uid": "f3f90c8c89795da30f7444634476ea4f",
             "css": "angle-left",
             "code": 59404,

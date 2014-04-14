@@ -57,7 +57,27 @@ function onProposalReviewLoad() {
     if (hasScrollEvent(leftNavPositioningEventNamespace)) {
         jQuery(window).off('scroll.' + leftNavPositioningEventNamespace);
     }
+
+    fixReadOnlyInputSizes();
 }
+
+/**
+ * Examines all of the read-only text areas on the page and shrink the height to fit the content.
+ */
+function fixReadOnlyInputSizes() {
+    jQuery( ".review_readonly_control" ).each(function(index) {
+        var element = jQuery(this);
+        if (element.is("textarea")) {
+            if (element.val() == "") {
+                element.height(20);
+            } else {
+                element.height(20);
+                element.height(jQuery(element)[0].scrollHeight);
+            }
+        }
+    });
+}
+
 
 var previousAnchorBottom = 0;
 /**
@@ -328,6 +348,7 @@ function showLightbox(componentId, url) {
             if (href.indexOf('rice-portal/css/portal.css') > -1) {
                 link.remove();
                 isPortal = true;
+                return false;   // exit .each() loop early
             }
         }
     );
@@ -743,17 +764,4 @@ function verifyMaxAndMinInput(value, element){
 function verifyMaxRangeOnBlur() {
         validateFieldValue(jQuery("#MaxRangeCreditVale_add_control"));
         return;
-}
-
-/**
- * Shrinks a text area to the size of its contents.
- * @param element
- */
-function shrinkToFit(id) {
-    var controlId = "#" + id + "_control";
-    if (jQuery(controlId).val() == "") {
-        jQuery(controlId).height(20);
-    } else {
-        jQuery(controlId).height(jQuery(controlId)[0].scrollHeight);
-    }
 }

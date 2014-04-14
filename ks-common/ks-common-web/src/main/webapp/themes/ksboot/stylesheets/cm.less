@@ -29,6 +29,10 @@
   margin-top: 10px;
 }
 
+.ks-review-capitalise
+{
+  text-transform:capitalize;
+}
 
 /*
  * Styling for the course lookup page.
@@ -378,7 +382,7 @@
     font-weight: normal;
 }
 
-/*  Allow the required message to in the rightGroup to align adjacent to the header */
+/*  Allow the required message to in the rightGroup to align adjacent to the section header text */
 .cm_requiredMessage_sectionHeader .uif-headerText {
     float: left;
 }
@@ -392,21 +396,38 @@
      float: left;
 }
 
-#course_review_details-panel  {
+/* Review section styling */
+
+/* This is mainly to conceal the validation messages when they have fixed placement under the sections (See the hack
+   described in the review course proposal page definition), though it may prove useful in other ways. */
+.review_proposal-section {
+    background: white;
+}
+
+.review_proposal_details-grid  {
     border: none;
     padding: 10px;
 }
 
-.course_review_details-table table, .course_review_details-table table th, .course_review_details-table table td {
+.review_proposal_details-grid table,
+.review_proposal_details-grid table th,
+.review_proposal_details-grid table td {
     background-color: #ffffff !important;
     border: none;
 }
 
-#cm_dottedHeaderActions {
+/* This is applied to the headers with each major section */
+.cm_dottedHeaderActions {
     margin-bottom: 10px;
 }
+/* end */
 
 #course_review_outcome_details table tr {
+    float : left;
+    clear : both;
+}
+
+#course_review_format_details table tr {
     float : left;
     clear : both;
 }
@@ -416,8 +437,7 @@
  */
 
 /* Remove the input styling */
-.review_readonly textarea:focus,
-.review_readonly input[type="text"]:focus {
+.review_readonly textarea:focus {
     outline: none;
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
@@ -425,8 +445,7 @@
     color: black;
 }
 
-.review_readonly textarea,
-.review_readonly input[type="text"] {
+.review_readonly textarea {
     background: none;
     border: none;
     -webkit-box-shadow: none;
@@ -439,11 +458,11 @@
 
 .review_readonly textarea {
     resize: none;
+    cursor: pointer;
 }
 
 .course_review_details-table th,
-.course_review_details-table td,
-.course_review_details-table input {
+.course_review_details-table td {
     padding: 2px 5px 0px 5px;
 }
 
@@ -451,4 +470,10 @@
 .course_review_details-table .uif-gridLayout th[scope="row"] {
     padding-top: 5px;
 }
+
+#course_review_outcome_details .uif-gridLayout td {
+  padding-top: 5px;
+}
+
+
 /* End */

@@ -937,6 +937,7 @@ function handleEventforDisabledElements() {
 
 var inlineTableInitialFields = {};
 var prefix = 'inline_field_index_';
+var responseData;
 
 function toggleInlineRow(event, saveInitialValues){
     var row = jQuery(event.target).closest('tr');
@@ -1024,10 +1025,20 @@ function getSelectedCollectionPathAndIndex(row){
             var name = jQuery(this).attr("name");
             if(name != undefined){
                 var splitedName = name.split(".");
-                var clusterName = splitedName[0];
-                var wrapperName = splitedName[1].split('[')[0];
-                selectedCollectionPathAndIndex['selectedCollectionPath'] = clusterName + "." + wrapperName;
-                var index = splitedName[1].match(/\[(\d+)\]/)[1];
+                var numberOfLists = name.split("[").length;
+                var clusterName = "";
+                var wrapperName = "";
+                if(numberOfLists > 2){
+                    clusterName = splitedName[0];
+                    wrapperName = splitedName[1];
+                }else{
+                    wrapperName = splitedName[0];
+                }
+                if(clusterName){
+                    clusterName += ".";
+                }
+                selectedCollectionPathAndIndex['selectedCollectionPath'] = clusterName + wrapperName.split('[')[0];
+                var index = wrapperName.match(/\[(\d+)\]/)[1];
                 selectedCollectionPathAndIndex['selectedLineIndex'] = index;
                 found = true;
                 return false;
@@ -1037,6 +1048,7 @@ function getSelectedCollectionPathAndIndex(row){
     });
     return selectedCollectionPathAndIndex;
 }
+
 
 function saveInlineRSI(event, baseUrl){
     var row = jQuery(event.target).closest('tr');
@@ -1051,6 +1063,7 @@ function saveInlineRSI(event, baseUrl){
         type:"POST",
         data:formData,
         success:function (data, textStatus, jqXHR) {
+            responseData = data;
             updateInlineTableRow(event,baseUrl, data);
         },
         error: function (jqXHR, status, error) {
@@ -1095,7 +1108,7 @@ function updateInlineTableRow(event, baseUrl, data) {
                 var modelKey = getModelAttributeValue(id);
                 var readonlyId = id.split("_id")[0];
                 var span = jQuery(this).find('span.uif-readOnlyContent');
-                var value = eval("data." + modelKey + "['" + readonlyId + "']");
+                var value = eval("responseData." + modelKey + "['" + readonlyId + "']");
                 jQuery(span).text(value);
                 if(jQuery('#' + id).parent().find('[name]').is(':checkbox')){
 //                    setInlineEditCheckboxReadonlyValue(jQuery('#' + id).parent().attr('id'));
@@ -1141,15 +1154,6 @@ function setInlineEditCheckboxReadonlyValue(id, checked){
             jQuery(this).addClass(className);
         }else{
             jQuery(this).removeClass(className);
-        }
-        jQuery(this).text("");
-    });
-}
-
-function setMatrixOverrideReadonlyValue(id, checked){
-    jQuery('#' + id).find('span.uif-readOnlyContent').each(function () {
-        if(checked){
-            jQuery(this).addClass("ks-fontello-icon-ok");
         }
         jQuery(this).text("");
     });

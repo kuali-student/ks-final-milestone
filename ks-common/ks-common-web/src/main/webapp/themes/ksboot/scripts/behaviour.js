@@ -5,7 +5,7 @@ function initAMQListener() {
         uri: 'amq',
         logging: true,
         timeout: 1,
-        pollDelay: 1000,
+        pollDelay: 2000,
         counter: 5,
         clientId: kualiSessionId
     });
