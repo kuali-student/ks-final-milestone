@@ -852,10 +852,8 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         newCourseCreateUnitsContentOwner.getRenderHelper().setNewRow(true);
         courseInfoWrapper.getUnitsContentOwner().add(newCourseCreateUnitsContentOwner);
 
-        // Initialize formats
-        if (courseInfoWrapper.getCourseInfo().getFormats().isEmpty()) {
-            courseInfoWrapper.getCourseInfo().getFormats().add(new FormatInfo());
-        }
+        //Initialize formats/activities
+        initializeFormat(courseInfoWrapper);
 
         // Administering Organizations
         if (courseInfoWrapper.getAdministeringOrganizations().isEmpty()) {
@@ -881,14 +879,24 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
     }
 
+    protected void initializeFormat(CourseInfoWrapper dataObject){
+        if (dataObject.getCourseInfo().getFormats().isEmpty()){
+            FormatInfo format = new FormatInfo();
+            ActivityInfo activity = new ActivityInfo();
+            format.getActivities().add(activity);
+            dataObject.getCourseInfo().getFormats().add(format);
+        }
+    }
+
     @Override
     public void processCollectionAddBlankLine(View view, Object model, String collectionPath) {
 
-        if (StringUtils.endsWith(collectionPath, "unitsContentOwner")) {
-            MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) model;
-            MaintenanceDocument document = maintenanceForm.getDocument();
+        MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) model;
+        MaintenanceDocument document = maintenanceForm.getDocument();
 
-            CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) document.getNewMaintainableObject().getDataObject();
+        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) document.getNewMaintainableObject().getDataObject();
+
+        if (StringUtils.endsWith(collectionPath, "unitsContentOwner")) {
 
             //Before adding a new row, just make sure all the existing rows are not editable.
             for (CourseCreateUnitsContentOwner existing : courseInfoWrapper.getUnitsContentOwner()) {
@@ -908,6 +916,12 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 courseInfoWrapper.getUnitsContentOwner().add(newCourseCreateUnitsContentOwner);
             }
 
+            return;
+        } if (StringUtils.endsWith(collectionPath, "courseInfo.formats")) {
+            FormatInfo format = new FormatInfo();
+            ActivityInfo activity = new ActivityInfo();
+            format.getActivities().add(activity);
+            courseInfoWrapper.getCourseInfo().getFormats().add(format);
             return;
         }
 
@@ -1102,7 +1116,12 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
             List<ActivityInfoWrapper> activityInfoWrapperList = new ArrayList<ActivityInfoWrapper>();
             for (ActivityInfo activityInfo : formatInfo.getActivities()) {
-                String durationTypeKey = activityInfo.getContactHours().getUnitTypeKey();
+
+                String durationTypeKey = "";
+                if (activityInfo.getContactHours() != null){
+                    durationTypeKey = activityInfo.getContactHours().getUnitTypeKey();
+                }
+
                 Integer anticipatedClassSize = activityInfo.getDefaultEnrollmentEstimate();
                 String activityType = activityInfo.getTypeKey();
 
@@ -1655,8 +1674,11 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             populatePassFailOnWrapper();
             populateOutComesOnWrapper();
 
+            initializeFormat(dataObject);
+
             redrawDecisionTable();
             updateReview();
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
