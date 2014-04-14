@@ -392,7 +392,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "AND grading.RESULT_VAL_GRP_ID LIKE 'kuali.resultComponent.grade.%' " +
                         "WHERE " +
                         "    lpr.PERS_ID = :personId " +
-                        "AND lpr.LPR_STATE IN ('" + LprServiceConstants.ACTIVE_STATE_KEY + "') " +
+                        "AND lpr.LPR_STATE = '" + LprServiceConstants.ACTIVE_STATE_KEY + "' " +
                         "AND lpr.LPR_TYPE IN('" + LprServiceConstants.REGISTRANT_RG_LPR_TYPE_KEY + "', " +
                         "                    '" + LprServiceConstants.WAITLIST_RG_LPR_TYPE_KEY + "') " +
                         (!StringUtils.isEmpty(atpId) ? " AND lpr.ATP_ID = :atpId " : "") +
@@ -536,8 +536,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "            KSEN_LPR lpr " +
                         "        WHERE " +
                         "            lpr.LUI_ID = ao.ID " +
-                        "        AND lpr.LPR_TYPE='" + LprServiceConstants.REGISTRANT_AO_LPR_TYPE_KEY + "' " +
-                        "        AND lpr.LPR_STATE='" + LprServiceConstants.ACTIVE_STATE_KEY + "') registered, " +
+                        "        AND lpr.LPR_TYPE = '" + LprServiceConstants.REGISTRANT_AO_LPR_TYPE_KEY + "' " +
+                        "        AND lpr.LPR_STATE = '" + LprServiceConstants.ACTIVE_STATE_KEY + "') registered, " +
                         "    ( " +
                         "        SELECT " +
                         "            COUNT(*) " +
@@ -545,8 +545,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "            KSEN_LPR lpr " +
                         "        WHERE " +
                         "            lpr.LUI_ID = ao.ID " +
-                        "        AND lpr.LPR_TYPE='" + LprServiceConstants.WAITLIST_AO_LPR_TYPE_KEY + "' " +
-                        "        AND lpr.LPR_STATE='" + LprServiceConstants.ACTIVE_STATE_KEY + "') waitlisted " +
+                        "        AND lpr.LPR_TYPE = '" + LprServiceConstants.WAITLIST_AO_LPR_TYPE_KEY + "' " +
+                        "        AND lpr.LPR_STATE = '" + LprServiceConstants.ACTIVE_STATE_KEY + "') waitlisted " +
                         "FROM " +
                         "    KSEN_LUI ao " +
                         "LEFT OUTER JOIN " +
@@ -558,7 +558,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "ON " +
                         "    ( " +
                         "        cwl.id = cwl2ao.CWL_ID " +
-                        "    AND cwl.CWL_STATE='" + CourseWaitListServiceConstants.COURSE_WAIT_LIST_ACTIVE_STATE_KEY + "') " +
+                        "    AND cwl.CWL_STATE = '" + CourseWaitListServiceConstants.COURSE_WAIT_LIST_ACTIVE_STATE_KEY + "') " +
                         "WHERE " +
                         "    ao.ID IN (:activityOfferingIds)";
 
@@ -827,7 +827,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "  AND lui.ID = lpr.LUI_ID " +
                         "  AND lui.ATP_ID = lpr.ATP_ID " +
                         "  AND luiId.LUI_ID = lui.ID " +
-                        "  AND lpr.LPR_STATE in ('" + LprServiceConstants.ACTIVE_STATE_KEY + "') ";
+                        "  AND lpr.LPR_STATE = '" + LprServiceConstants.ACTIVE_STATE_KEY + "' ";
 
         if (!StringUtils.isEmpty(atpId)) {
             queryStr = queryStr + " AND lpr.ATP_ID = :atpId ";
