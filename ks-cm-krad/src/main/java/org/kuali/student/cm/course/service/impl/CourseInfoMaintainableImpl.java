@@ -985,7 +985,6 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             courseInfoWrapper.setReviewProposalDisplay(reviewData);
         }
         // add logic to set the missing required element correctly. The default is false
-        reviewData.setMissingRequiredElement(false);
         reviewData.getCourseSection().setProposalName(courseInfoWrapper.getProposalInfo().getName());
         reviewData.getCourseSection().setCourseTitle(savedCourseInfo.getCourseTitle());
         reviewData.getCourseSection().setTranscriptTitle(savedCourseInfo.getTranscriptTitle());
