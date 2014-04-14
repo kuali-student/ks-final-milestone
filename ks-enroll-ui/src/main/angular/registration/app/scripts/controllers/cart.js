@@ -254,6 +254,7 @@ angular.module('regCartApp')
                 $scope.cart.items.splice(0, $scope.cart.items.length);
 
                 // set cart and all items in cart to processing
+                $scope.showConfirmation = false;
                 $scope.cartResults.state = 'kuali.lpr.trans.state.processing';
                 $scope.cartResults.status = 'processing';  // set the overall status to processing
                 $scope.creditTotal = 0; // your cart will always update to zero upon submit
