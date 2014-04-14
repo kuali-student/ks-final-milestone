@@ -87,7 +87,7 @@ angular.module('regCartApp')
                 credits: credits
             }, function (response) {
                 console.log('Searched for course: ' + $scope.courseCode + ', Term: ' + $scope.termId);
-                $scope.userMessage = {txt: 'Course Added Successfully', type: 'success'};
+                $scope.userMessage = {txt: 'Course Added to Cart', type: 'success'};
                 $scope.courseCode = '';
                 $scope.regCode = '';
                 $scope.cart.items.unshift(response);
