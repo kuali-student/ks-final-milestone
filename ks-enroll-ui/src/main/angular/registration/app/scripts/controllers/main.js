@@ -25,11 +25,11 @@ angular.module('regCartApp')
             }
         });
 
-        $scope.terms = TermsService.getTermsFromServer().query(({active: true}, function (result) {
-            $scope.termId = 'kuali.atp.2012Spring';
+        $scope.terms = TermsService.getTermsFromServer().query({termCode: null, active: true}, function (result) {
+            $scope.termId = 'kuali.atp.2012Fall';
             TermsService.setTermId($scope.termId);//FIXME Term service is just a service handle, don't put business logic in it!!!
             $scope.termName = TermsService.getTermNameForTermId(result, $scope.termId);
-        }));
+        });
 
 
 

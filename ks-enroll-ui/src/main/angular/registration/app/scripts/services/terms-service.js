@@ -4,7 +4,7 @@ angular.module('regCartApp')
     .service('TermsService', ['$resource', 'APP_URL', function TermsService($resource, APP_URL) {
 
 
-        var termId = 'kuali.atp.2012Spring';   // default value
+        var termId = 'kuali.atp.2012Fall';   // default value
 
         this.getTermId = function () {
             return termId;
