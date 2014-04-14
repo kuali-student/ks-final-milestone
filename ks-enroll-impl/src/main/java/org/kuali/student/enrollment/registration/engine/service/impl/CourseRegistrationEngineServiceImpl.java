@@ -330,6 +330,19 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
         return updatedLprInfos;
     }
 
+    @Override
+    public List<LprInfo> addLprsFromWaitlist(String regGroupId, String personId, String termId, ContextInfo contextInfo)
+            throws OperationFailedException, PermissionDeniedException, MissingParameterException,
+            InvalidParameterException, DoesNotExistException, ReadOnlyException, DataValidationErrorException,
+            VersionMismatchException {
+
+//        List<LprInfo> updatedLprInfos = updateLprInfosCommon(KEYNAME_TO_WAITLIST_LPR_TYPES_MAP,
+//                masterLprId, credits, gradingOptionId, contextInfo);
+        List<LprInfo> lprsAddFromWaitlist = new ArrayList<LprInfo>();
+
+        return lprsAddFromWaitlist;
+    }
+
     /**
      * Common code to update LPRs (registrant and waitlists)
      *

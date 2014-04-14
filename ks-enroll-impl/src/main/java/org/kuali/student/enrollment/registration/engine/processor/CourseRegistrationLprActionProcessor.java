@@ -72,6 +72,9 @@ public class CourseRegistrationLprActionProcessor {
             } else if (registrationRequestItem.getTypeKey().equals(LprServiceConstants.REQ_ITEM_UPDATE_WAITLIST_TYPE_KEY)) {
                 //Handle WL Update
                 updateWaitlist(message, contextInfo);
+            } else if (registrationRequestItem.getTypeKey().equals(LprServiceConstants.REQ_ITEM_ADD_FROM_WAITLIST_TYPE_KEY)) {
+                //Handle autoWL (request is coming back to add course from WL to registered ones)
+                addFromWaitlist(message, contextInfo);
             } else {
                 throw new UnsupportedOperationException("Unknown Registration Request Item Type: " + registrationRequestItem.getTypeKey());
             }
@@ -82,11 +85,11 @@ public class CourseRegistrationLprActionProcessor {
         }
     }
 
-    private void dropWaitlist(RegistrationRequestItemEngineMessage requestItemEngineMessage, ContextInfo contextInfo) throws PermissionDeniedException, OperationFailedException, VersionMismatchException, InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException, ReadOnlyException {
-        RegistrationRequestItem registrationRequestItem = requestItemEngineMessage.getRequestItem();
+    private void dropWaitlist(RegistrationRequestItemEngineMessage message, ContextInfo contextInfo) throws PermissionDeniedException, OperationFailedException, VersionMismatchException, InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException, ReadOnlyException {
+        RegistrationRequestItem registrationRequestItem = message.getRequestItem();
         courseRegistrationEngineService.removeCourseWaitlistEntry(registrationRequestItem.getExistingCourseRegistrationId(), contextInfo);
-        courseRegistrationEngineService.updateLprTransactionItemResult(requestItemEngineMessage.getRequestItem().getRegistrationRequestId(),
-                requestItemEngineMessage.getRequestItem().getId(),
+        courseRegistrationEngineService.updateLprTransactionItemResult(message.getRequestItem().getRegistrationRequestId(),
+                message.getRequestItem().getId(),
                 LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY,
                 registrationRequestItem.getExistingCourseRegistrationId(),
                 LprServiceConstants.LPRTRANS_ITEM_WAITLIST_STUDENT_REMOVED_MESSAGE_KEY,
@@ -94,12 +97,12 @@ public class CourseRegistrationLprActionProcessor {
                 contextInfo);
     }
 
-    private void updateWaitlist(RegistrationRequestItemEngineMessage requestItemEngineMessage, ContextInfo contextInfo) throws DataValidationErrorException, PermissionDeniedException, OperationFailedException, VersionMismatchException, InvalidParameterException, ReadOnlyException, MissingParameterException, DoesNotExistException {
-        RegistrationRequestItem registrationRequestItem = requestItemEngineMessage.getRequestItem();
-        String creditStr = requestItemEngineMessage.getRequestItem().getCredits() == null ? "" : requestItemEngineMessage.getRequestItem().getCredits().bigDecimalValue().setScale(1).toPlainString();
+    private void updateWaitlist(RegistrationRequestItemEngineMessage message, ContextInfo contextInfo) throws DataValidationErrorException, PermissionDeniedException, OperationFailedException, VersionMismatchException, InvalidParameterException, ReadOnlyException, MissingParameterException, DoesNotExistException {
+        RegistrationRequestItem registrationRequestItem = message.getRequestItem();
+        String creditStr = message.getRequestItem().getCredits() == null ? "" : message.getRequestItem().getCredits().bigDecimalValue().setScale(1).toPlainString();
         courseRegistrationEngineService.updateCourseWaitlistLprs(registrationRequestItem.getExistingCourseRegistrationId(), creditStr, registrationRequestItem.getGradingOptionId(), contextInfo);
-        courseRegistrationEngineService.updateLprTransactionItemResult(requestItemEngineMessage.getRequestItem().getRegistrationRequestId(),
-                requestItemEngineMessage.getRequestItem().getId(),
+        courseRegistrationEngineService.updateLprTransactionItemResult(message.getRequestItem().getRegistrationRequestId(),
+                message.getRequestItem().getId(),
                 LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY,
                 registrationRequestItem.getExistingCourseRegistrationId(),
                 LprServiceConstants.LPRTRANS_ITEM_WAITLIST_OPTIONS_UPDATED_MESSAGE_KEY,
@@ -117,12 +120,12 @@ public class CourseRegistrationLprActionProcessor {
                 contextInfo);
     }
 
-    private void addStudentToWaitList(RegistrationRequestItemEngineMessage requestItemEngineMessage, ContextInfo contextInfo) throws PermissionDeniedException, OperationFailedException, VersionMismatchException, InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException {
-        String creditStr = requestItemEngineMessage.getRequestItem().getCredits() == null ? "" : requestItemEngineMessage.getRequestItem().getCredits().bigDecimalValue().setScale(1).toPlainString();
-        List<LprInfo> registeredLprs = courseRegistrationEngineService.addCourseWaitlistEntry(requestItemEngineMessage.getRequestItem().getRegistrationGroupId(), requestItemEngineMessage.getRegistrationGroup().getTermId(), creditStr, requestItemEngineMessage.getRequestItem().getGradingOptionId(), contextInfo);
+    private void addStudentToWaitList(RegistrationRequestItemEngineMessage message, ContextInfo contextInfo) throws PermissionDeniedException, OperationFailedException, VersionMismatchException, InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException {
+        String creditStr = message.getRequestItem().getCredits() == null ? "" : message.getRequestItem().getCredits().bigDecimalValue().setScale(1).toPlainString();
+        List<LprInfo> registeredLprs = courseRegistrationEngineService.addCourseWaitlistEntry(message.getRequestItem().getRegistrationGroupId(), message.getRegistrationGroup().getTermId(), creditStr, message.getRequestItem().getGradingOptionId(), contextInfo);
         String masterLprId = registeredLprs.get(0).getMasterLprId();
-        courseRegistrationEngineService.updateLprTransactionItemResult(requestItemEngineMessage.getRequestItem().getRegistrationRequestId(),
-                requestItemEngineMessage.getRequestItem().getId(),
+        courseRegistrationEngineService.updateLprTransactionItemResult(message.getRequestItem().getRegistrationRequestId(),
+                message.getRequestItem().getId(),
                 LprServiceConstants.LPRTRANS_ITEM_WAITLIST_STATE_KEY,
                 masterLprId,
                 LprServiceConstants.LPRTRANS_ITEM_WAITLIST_WAITLISTED_MESSAGE_KEY,
@@ -226,6 +229,30 @@ public class CourseRegistrationLprActionProcessor {
                 LprServiceConstants.LPRTRANS_ITEM_PERSON_REGISTERED_MESSAGE_KEY,
                 true,
                 contextInfo);
+    }
+
+    private void addFromWaitlist(RegistrationRequestItemEngineMessage message, ContextInfo contextInfo) throws DataValidationErrorException, PermissionDeniedException, OperationFailedException, VersionMismatchException, InvalidParameterException, ReadOnlyException, MissingParameterException, DoesNotExistException {
+        RegistrationRequestItem registrationRequestItem = message.getRequestItem();
+        courseRegistrationEngineService.addLprsFromWaitlist(message.getRequestItem().getRegistrationGroupId(), message.getRequestItem().getPersonId(), message.getRegistrationGroup().getTermId(), contextInfo);
+        // registrationRequestItem.getExistingCourseRegistrationId()         ???? Do we want to set it to masterLPR after new ones are created? YES!
+        courseRegistrationEngineService.updateLprTransactionItemResult(message.getRequestItem().getRegistrationRequestId(),
+                message.getRequestItem().getId(),
+                LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY,
+                registrationRequestItem.getExistingCourseRegistrationId(),
+                LprServiceConstants.LPRTRANS_ITEM_ADD_FROM_WAITLIST_MESSAGE_KEY,
+                true,
+                contextInfo);
+
+/*        courseRegistrationEngineService.updateLprInfos(registrationRequestItem.getExistingCourseRegistrationId(), creditStr, registrationRequestItem.getGradingOptionId(), contextInfo);
+        courseRegistrationEngineService.updateLprTransactionItemResult(message.getRequestItem().getRegistrationRequestId(),
+                message.getRequestItem().getId(),
+                LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY,
+                registrationRequestItem.getExistingCourseRegistrationId(),
+                LprServiceConstants.LPRTRANS_ITEM_COURSE_UPDATED_MESSAGE_KEY,
+                true,
+                contextInfo);                */
+
+
     }
 
     public void setCourseRegistrationEngineService(CourseRegistrationEngineService courseRegistrationEngineService) {
