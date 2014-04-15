@@ -40,62 +40,42 @@ function submitMoveAoOnEnterKeyIfValid() {
 
 }
 
-function removeCheckboxColumns(column, componentId, functionToCall) {
+function addCheckboxToColumnHeader(column, componentId, functionToCall) {
     var components = jQuery('div[id^="' + componentId + '"]');
     jQuery.each(components, function (index) {
         var subComponentId = jQuery(this).attr('id');
         var table = jQuery(this).find('table');
         var tableId = jQuery(table).attr('id');
 
-        var foundCheckBox = false;
+        var th = jQuery('#' + tableId + ' thead tr').find('th:nth-child(' + column + ')');
+        // a checkbox for the header row
+        var toggleCheckbox = jQuery("<input type='checkbox' id='" + subComponentId + "_toggle_control_checkbox'/>");
+        // add the toggle checkbox to the header row
+        jQuery(th).append(toggleCheckbox);
 
-        jQuery('#' + tableId + ' tbody > tr > td:nth-child(' + column + ')').find('[type=checkbox]').each(function () {
-            var div = jQuery(this).parent('div');
-            //Did something set this checkbox's parent to display:none?
-            //If so, later, we're dropping the entire column of checkboxes
-            //Do not use .is(':visible') because ANY ancestor
-            // that is hidden will also trigger this false, too broad
-            if (jQuery(div).css("display") != 'hidden') {
-                foundCheckBox = true;
-                return false;   // exit .each() loop early (DOES THIS ACTUALLY EXIT??)
+        var allCheckboxesInColumn = jQuery('#' + tableId + ' tbody > tr > td:nth-child(' + column + ')').find('[type=checkbox]');
+        toggleCheckbox.click(function (e) {
+            // clicking on the checkbox in the header row toggles
+            // the checkbox values and style class in all the checkboxes in that column
+            allCheckboxesInColumn.each(function () {
+                jQuery(this).prop('checked', jQuery(toggleCheckbox).prop('checked'));
+                jQuery(this).closest('tr').toggleClass('selected-row', jQuery(this).prop('checked') );
+            });
+            if (functionToCall) {
+                var target = jQuery.makeArray(functionToCall);
+                var clickFn = new Function(functionToCall);
+                clickFn.call(target);
             }
         });
 
-        if (!foundCheckBox) {
-            var th = jQuery('#' + tableId + ' thead tr').find('th:nth-child(' + column + ')');
-            jQuery(th).remove();
-            jQuery('#' + tableId + ' tbody tr').find('td:nth-child(' + column + ')').each(function () {
-                jQuery(this).remove();
+        var clickName;
+        allCheckboxesInColumn.each(function(ndx,ctl) {
+            clickName = "click." + subComponentId + "_row_" + ndx;
+            // attach an event handler function for the click event
+            jQuery(this).on(clickName, function(){
+                controlCheckboxStatus(subComponentId,this);
             });
-            var tf = jQuery('#' + tableId + ' tfoot tr').find('th:nth-child(' + column + ')');
-            jQuery(tf).remove();
-        } else {
-            var toggleCheckbox = jQuery("<input type='checkbox' id='" + subComponentId + "_toggle_control_checkbox'/>");
-            var isChecked = toggleCheckbox.prop('checked');
-            toggleCheckbox.click(function (e) {
-                jQuery('#' + tableId + ' tbody > tr > td:nth-child(' + column + ')').find('[type=checkbox]').each(function () {
-                    //jQuery(this).trigger( "click" );
-                    jQuery(this).prop('checked', jQuery(toggleCheckbox).prop('checked'));
-                    jQuery(this).closest('tr').toggleClass('selected-row', jQuery(this).prop('checked') );
-                });
-                if (functionToCall) {
-                    var target = jQuery.makeArray(functionToCall);
-                    var clickFn = new Function(functionToCall)
-                    clickFn.call(target);
-                }
-            });
-            var th = jQuery('#' + tableId + ' thead tr').find('th:nth-child(' + column + ')');
-            jQuery(th).append(toggleCheckbox);
-
-            var collectionCheckboxes = jQuery('div#'+ subComponentId +' tbody > tr').find('td:first input[type="checkbox"]');
-            var clickName;
-            collectionCheckboxes.each(function(ndx,ctl) {
-                clickName = "click." + subComponentId + "_row_" + ndx;
-                jQuery(this).on(clickName, function(){
-                    controlCheckboxStatus(subComponentId,this);
-                });
-            });
-        }
+        });
 
     });
 }
