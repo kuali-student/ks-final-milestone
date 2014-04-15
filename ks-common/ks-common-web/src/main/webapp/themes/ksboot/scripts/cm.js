@@ -655,15 +655,19 @@ function compareOrganizationNameInput(value, element) {
 
 jQuery.validator.addMethod("validDurationTypeAndCountInput",
     function(value, element) {
-        return this.optional(element) || verifyTypeAndCountInput(value, element);
+        var durationType = jQuery('#KS-DurationTypeDropDown_control').val();
+        var durationCount = jQuery('#KS-DurationTimeQuantity-Field_control').val();
+
+        if(durationCount == '') {
+            if(durationType !='') {
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        return durationType != '' && durationCount != '';
     }, "Must provide a duration type and a duration count")
-
-function verifyTypeAndCountInput(value, element) {
-    var durationType = jQuery('#KS-DurationTypeDropDown_control').val();
-    var durationCount = jQuery('#KS-DurationTimeQuantity-Field_control').val();
-
-    return durationType != '' && durationCount != '';
-}
 
 function durationTypeOnBlur() {
     var durationType = jQuery('#KS-DurationTypeDropDown_control').val();
