@@ -46,6 +46,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Properties;
+import java.util.HashMap;
 
 
 /**
@@ -334,7 +335,14 @@ public class ActivityOfferingClusterHandler {
          * match of the course code rather than the usual "like" criteria. Otherwise, if the course code matches multiple
          * items (e.g. CHEM100, CHEM100A, CHEM100B) then the Manage multiple COs page will be displayed rather than Manage
          * individual CO page. */
-        theForm.getViewRequestParameters().put(CourseOfferingManagementSearchImpl.SearchParameters.IS_EXACT_MATCH_CO_CODE_SEARCH, Boolean.TRUE.toString());
+        if(theForm.getViewRequestParameters().getClass().getName().contains("Unmodifiable")){
+            HashMap<String, String> map = new HashMap<String, String>(theForm.getViewRequestParameters());
+            map.put(CourseOfferingManagementSearchImpl.SearchParameters.IS_EXACT_MATCH_CO_CODE_SEARCH, Boolean.TRUE.toString());
+            theForm.setViewRequestParameters(map);
+        }else{
+            theForm.getViewRequestParameters().put(CourseOfferingManagementSearchImpl.SearchParameters.IS_EXACT_MATCH_CO_CODE_SEARCH, Boolean.TRUE.toString());
+        }
+//         theForm.getViewRequestParameters().put(CourseOfferingManagementSearchImpl.SearchParameters.IS_EXACT_MATCH_CO_CODE_SEARCH, Boolean.TRUE.toString());
 
         String growlPrivateName;
         String growlPublicName;
