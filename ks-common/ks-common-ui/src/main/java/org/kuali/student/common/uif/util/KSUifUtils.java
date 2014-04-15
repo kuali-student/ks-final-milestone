@@ -191,4 +191,16 @@ public class KSUifUtils {
 
         return null;
     }
+
+    public static Messenger getMessengerFromUserSession() {
+
+        Messenger messenger = (Messenger) GlobalVariables.getUserSession().retrieveObject(KSGrowlMessenger.MESSENGER_KEY);
+        if (messenger == null) {
+            messenger = new KSGrowlMessenger();
+            GlobalVariables.getUserSession().addObject(KSGrowlMessenger.MESSENGER_KEY, messenger);
+        }
+
+        return messenger;
+    }
+
 }

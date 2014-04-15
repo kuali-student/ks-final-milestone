@@ -21,7 +21,9 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.GrowlMessage;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.uif.util.GrowlIcon;
+import org.kuali.student.common.uif.util.KSGrowlMessenger;
 import org.kuali.student.common.uif.util.KSUifUtils;
+import org.kuali.student.common.uif.util.Messenger;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.r2.common.dto.MetaInfo;
@@ -30,6 +32,7 @@ import org.kuali.student.r2.common.util.date.KSDateTimeFormatter;
 
 import javax.jms.JMSException;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -108,18 +111,9 @@ public class KSUifForm extends UifFormBase {
     @Override
     public void postBind(HttpServletRequest request) {
 
-        String growlMessage = request.getParameter("growl.message");
-        String temp = request.getParameter("growl.message.params");
-        String[] growlMessageParams;
-        if(temp!=null){
-            growlMessageParams = temp.split(",");
-        }
-        else{
-            growlMessageParams=new String[0];
-        }
-
-        if (growlMessage != null) {
-              KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS, growlMessage, growlMessageParams);
+        Messenger messenger = (Messenger) GlobalVariables.getUserSession().retrieveObject(KSGrowlMessenger.MESSENGER_KEY);
+        if (messenger!=null){
+            messenger.publishMessages();
         }
 
         super.postBind(request);
