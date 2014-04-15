@@ -312,6 +312,7 @@
                 <property name="actionLabel" value="Add Format"/>
                 <property name="id" value="format-addline"/>
                 <property name="dirtyOnAction" value="true" />
+                <property name="style" value="margin-top:1em;" />
             </bean>
         </property>
         <property name="addLinePlacement" value="BOTTOM" />
@@ -319,6 +320,8 @@
         <property name="validationMessages.displayMessages" value="false"/>
         <property name="renderLineActions" value="false" />
         <property name="layoutManager.lineGroupPrototype.header.headerText" value="Format @{(#index + 1)}" />
+        <property name="layoutManager.lineGroupPrototype.additionalCssClasses" value="course_format_line"/>
+        <property name="layoutManager.lineGroupPrototype.header.style" value="course_format_line_header" />
         <property name="layoutManager.lineGroupPrototype.header.rightGroup">
             <bean parent="Uif-HorizontalBoxGroup">
                     <property name="additionalCssClasses">
@@ -342,7 +345,7 @@
         </property>
         <property name="subCollections">
             <list>
-                <bean parent="KS-TableCollectionSubSection-BottomAddLine"
+                <bean id="KS-CourseView-CourseLogisticsPage-CourseFormatActivities-Widgets" parent="KS-TableCollectionSubSection-BottomAddLine"
                       p:collectionObjectClass="org.kuali.student.r2.lum.course.dto.ActivityInfo"
                       p:propertyName="activities">
                     <property name="layoutManager.richTable.render" value="false"/>
