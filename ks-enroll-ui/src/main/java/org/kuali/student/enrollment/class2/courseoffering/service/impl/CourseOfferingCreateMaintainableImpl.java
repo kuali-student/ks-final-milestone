@@ -35,6 +35,7 @@ import org.kuali.student.enrollment.class2.courseoffering.service.decorators.Per
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
+import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingResult;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
@@ -184,10 +185,14 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
         }
 
         CourseOfferingInfo info = CourseOfferingManagementUtil.getCourseOfferingService().createCourseOffering(courseInfo.getId(), termId, LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, courseOffering, optionKeys, context);
+        String[] parameters = {info.getCourseOfferingCode() + info.getCourseNumberSuffix()};
+        KSUifUtils.getMessengerFromUserSession().addSuccessMessage(CourseOfferingConstants.COURSE_OFFERING_CREATE_SUCCESS, parameters);
 
         try {
             String examPeriodID = CourseOfferingManagementUtil.getExamOfferingServiceFacade().getExamPeriodId(info.getTermId(), context);
-            CourseOfferingManagementUtil.getExamOfferingServiceFacade().generateFinalExamOffering(info, info.getTermId(), examPeriodID, new ArrayList<String>(), context);
+            ExamOfferingResult result = CourseOfferingManagementUtil.getExamOfferingServiceFacade().generateFinalExamOffering(info,
+                    info.getTermId(), examPeriodID, new ArrayList<String>(), context);
+            CourseOfferingManagementUtil.processExamOfferingResultSet(result);
         }  catch (Exception e){
             KSUifUtils.addGrowlMessageIcon(GrowlIcon.ERROR, CourseOfferingConstants.COURSEOFFERING_EXAMPERIOD_MISSING);
         }

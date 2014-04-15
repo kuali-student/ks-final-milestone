@@ -31,7 +31,6 @@ import org.kuali.student.enrollment.class2.acal.dto.AcalSearchResult;
 import org.kuali.student.enrollment.class2.acal.form.CalendarSearchForm;
 import org.kuali.student.enrollment.class2.acal.service.CalendarSearchViewHelperService;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
-import org.kuali.student.enrollment.common.util.EnrollConstants;
 import org.kuali.student.mock.utilities.TestHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -85,32 +84,6 @@ public class CalendarSearchController  extends UifControllerBase {
         String calendarSearchType = request.getParameter(CalendarConstants.CALENDAR_SEARCH_TYPE);
         if (null != calendarSearchType) {
             calendarSearchForm.setCalendarType(calendarSearchType);
-        }
-
-
-        // Retrieve growl message key
-        String growlMessageKey = request.getParameter(EnrollConstants.GROWL_MESSAGE);
-
-        // Check if growl message key is present
-        if(growlMessageKey!=null){
-            // If message key is present gather parameters and repopulate growl message
-            // This is used when page is a redirect from another as messages are lost when redirecting
-            String growlTitle = request.getParameter(EnrollConstants.GROWL_TITLE);
-            String temp = request.getParameter(EnrollConstants.GROWL_MESSAGE_PARAMS);
-            String[] growlMessageParams;
-
-            // Message paramters are passed as csv to allow for multiple paramters to be pasted at once.
-            // Check that a paramters string was found
-            if(temp!=null){
-                // If parameters' string found seperate into an array of values from csv
-                growlMessageParams = temp.split(",");
-            }
-            else{
-                // If no parameters' string found initialize empty string
-                growlMessageParams=new String[0];
-            }
-            // After gathering and decoding message add it to the growl message map
-            KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS, growlMessageKey, growlMessageParams);
         }
 
         return super.start(form, result, request, response);

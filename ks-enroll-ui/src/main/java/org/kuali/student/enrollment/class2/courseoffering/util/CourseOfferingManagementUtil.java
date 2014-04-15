@@ -20,6 +20,8 @@ import org.kuali.rice.krms.api.KrmsConstants;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
 import org.kuali.student.common.uif.form.KSUifForm;
+import org.kuali.student.common.uif.util.KSGrowlMessenger;
+import org.kuali.student.common.uif.util.Messenger;
 import org.kuali.student.enrollment.class2.acal.dto.ExamPeriodWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.controller.ActivityOfferingControllerTransactionHelper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
@@ -49,6 +51,7 @@ import org.kuali.student.enrollment.class2.courseoffering.service.impl.DefaultOp
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.SeatPoolUtilityServiceImpl;
 import org.kuali.student.enrollment.class2.coursewaitlist.service.facade.CourseWaitListServiceFacade;
 import org.kuali.student.enrollment.class2.coursewaitlist.service.facade.CourseWaitListServiceFacadeConstants;
+import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingResult;
 import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingServiceFacade;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingSetInfo;
@@ -116,6 +119,7 @@ import java.util.Formatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Properties;
 
 import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
@@ -177,7 +181,7 @@ public class CourseOfferingManagementUtil {
     }
 
     public static EnumerationManagementService getEnumerationManagementService() {
-        if(enumerationManagementService == null) {
+        if (enumerationManagementService == null) {
             enumerationManagementService = (EnumerationManagementService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/enumerationmanagement", "EnumerationManagementService"));
         }
         return enumerationManagementService;
@@ -191,7 +195,7 @@ public class CourseOfferingManagementUtil {
     }
 
     public static ActivityOfferingControllerTransactionHelper getActivityOfferingControllerTransactionHelper() {
-        if(activityOfferingControllerTransactionHelper == null){
+        if (activityOfferingControllerTransactionHelper == null) {
             activityOfferingControllerTransactionHelper = GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "activityOfferingControllerTransactionHelper", ActivityOfferingControllerTransactionHelper.class.getSimpleName()));
         }
 
@@ -207,8 +211,8 @@ public class CourseOfferingManagementUtil {
     }
 
     public static CluFixer getCluFixer() {
-        if(cluFixer == null){
-            cluFixer = (CluFixer) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/cluFixer","CluFixer"));
+        if (cluFixer == null) {
+            cluFixer = (CluFixer) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/cluFixer", "CluFixer"));
         }
         return cluFixer;
     }
@@ -244,7 +248,7 @@ public class CourseOfferingManagementUtil {
     }
 
     public static CacheManager getCacheManager() {
-        if(cacheManager == null){
+        if (cacheManager == null) {
             // "ks-ehcache" is the parent bean in ks-ehcache.xml file. This should probably be a constant.
             cacheManager = CacheManager.getCacheManager("ks-ehcache");
         }
@@ -252,28 +256,28 @@ public class CourseOfferingManagementUtil {
     }
 
     public static PermissionService getPermissionService() {
-        if(permissionService==null){
+        if (permissionService == null) {
             permissionService = KimApiServiceLocator.getPermissionService();
         }
         return permissionService;
     }
 
-    public static RoomService getRoomService(){
-        if (roomService == null){
+    public static RoomService getRoomService() {
+        if (roomService == null) {
             roomService = CourseOfferingResourceLoader.loadRoomService();
         }
         return roomService;
     }
 
-    public static ActivityOfferingScheduleHelperImpl getScheduleHelper(){
+    public static ActivityOfferingScheduleHelperImpl getScheduleHelper() {
         return new ActivityOfferingScheduleHelperImpl();
     }
 
-    public static ExamOfferingScheduleHelperImpl getExamOfferingScheduleHelper(){
+    public static ExamOfferingScheduleHelperImpl getExamOfferingScheduleHelper() {
         return new ExamOfferingScheduleHelperImpl();
     }
 
-    public static SeatPoolUtilityService getSeatPoolUtilityService(){
+    public static SeatPoolUtilityService getSeatPoolUtilityService() {
         return new SeatPoolUtilityServiceImpl();
     }
 
@@ -404,7 +408,7 @@ public class CourseOfferingManagementUtil {
 
 
     public static CourseService getCourseService() {
-        if(courseService == null) {
+        if (courseService == null) {
             courseService = CourseOfferingResourceLoader.loadCourseService();
         }
         return courseService;
@@ -418,7 +422,7 @@ public class CourseOfferingManagementUtil {
     }
 
     public static AtpService getAtpService() {
-        if(atpService == null){
+        if (atpService == null) {
             atpService = CourseOfferingResourceLoader.loadAtpService();
         }
         return atpService;
@@ -438,8 +442,8 @@ public class CourseOfferingManagementUtil {
         return courseOfferingService;
     }
 
-    public static CourseOfferingSetService getCourseOfferingSetService(){
-        if (courseOfferingSetService == null){
+    public static CourseOfferingSetService getCourseOfferingSetService() {
+        if (courseOfferingSetService == null) {
             courseOfferingSetService = (CourseOfferingSetService) GlobalResourceLoader.getService(new QName(CourseOfferingSetServiceConstants.NAMESPACE, CourseOfferingSetServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return courseOfferingSetService;
@@ -453,21 +457,21 @@ public class CourseOfferingManagementUtil {
     }
 
     public static SchedulingService getSchedulingService() {
-        if(schedulingService == null) {
+        if (schedulingService == null) {
             schedulingService = CourseOfferingResourceLoader.loadSchedulingService();
         }
         return schedulingService;
     }
 
     public static PopulationService getPopulationService() {
-        if(populationService == null) {
+        if (populationService == null) {
             populationService = (PopulationService) GlobalResourceLoader.getService(new QName(PopulationServiceConstants.NAMESPACE, PopulationServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return populationService;
     }
 
     public static CourseWaitListService getCourseWaitListService() {
-        if(courseWaitListService == null) {
+        if (courseWaitListService == null) {
             courseWaitListService = CourseOfferingResourceLoader.loadCourseWaitlistService();
         }
         return courseWaitListService;
@@ -503,38 +507,38 @@ public class CourseOfferingManagementUtil {
 
     public static void prepareManageAOsModelAndView(CourseOfferingManagementForm form, CourseOfferingListSectionWrapper selectedCO) throws Exception {
 
-        CourseOfferingWrapper currentCOWrapper = new CourseOfferingWrapper(selectedCO.isCrossListed(),selectedCO.getCourseOfferingCode(),selectedCO.getCourseOfferingDesc(),selectedCO.getAlternateCOCodes(),selectedCO.getCourseOfferingId());
+        CourseOfferingWrapper currentCOWrapper = new CourseOfferingWrapper(selectedCO.isCrossListed(), selectedCO.getCourseOfferingCode(), selectedCO.getCourseOfferingDesc(), selectedCO.getAlternateCOCodes(), selectedCO.getCourseOfferingId());
         currentCOWrapper.setOwnerAliases(selectedCO.getOwnerAliases());
         form.setSubjectCode(selectedCO.getSubjectArea());
         prepare_AOs_RGs_AOCs_Lists(form, currentCOWrapper);
     }
 
-    public static void prepare_AOs_RGs_AOCs_Lists (CourseOfferingManagementForm form, CourseOfferingWrapper currentCOWrapper) throws Exception {
+    public static void prepare_AOs_RGs_AOCs_Lists(CourseOfferingManagementForm form, CourseOfferingWrapper currentCOWrapper) throws Exception {
 
         //Set exam period id
-        try{
+        try {
             currentCOWrapper.setExamPeriodId(getExamOfferingServiceFacade().getExamPeriodId(form.getTermInfo().getId(), ContextUtils.createDefaultContextInfo()));
-        }catch (DoesNotExistException e){
+        } catch (DoesNotExistException e) {
         }
 
-        currentCOWrapper.setTerm( form.getTermInfo() );
+        currentCOWrapper.setTerm(form.getTermInfo());
 
-        CourseOfferingInfo coInfo = getCourseOfferingService().getCourseOffering(currentCOWrapper.getCourseOfferingId(),ContextUtils.createDefaultContextInfo());
+        CourseOfferingInfo coInfo = getCourseOfferingService().getCourseOffering(currentCOWrapper.getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
         currentCOWrapper.setCourseOfferingInfo(coInfo);
 
         //set the ownerCode if not set
-        if (currentCOWrapper.getOwnerCode()==null ||currentCOWrapper.getOwnerCode().equals("") ) {
+        if (currentCOWrapper.getOwnerCode() == null || currentCOWrapper.getOwnerCode().equals("")) {
             for (CourseOfferingListSectionWrapper courseOfferingListSectionWrapper : form.getCourseOfferingResultList()) {
-               if (courseOfferingListSectionWrapper.getCourseOfferingCode().equals(currentCOWrapper.getCourseOfferingCode())) {
-                   currentCOWrapper.setOwnerCode(courseOfferingListSectionWrapper.getOwnerCode());
-                   break;
-               }
+                if (courseOfferingListSectionWrapper.getCourseOfferingCode().equals(currentCOWrapper.getCourseOfferingCode())) {
+                    currentCOWrapper.setOwnerCode(courseOfferingListSectionWrapper.getOwnerCode());
+                    break;
+                }
             }
         }
 
-        ContextInfo contextInfo =  ContextUtils.createDefaultContextInfo();
+        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
         List<String> orgIds = coInfo.getUnitsDeploymentOrgIds();
-        if(orgIds !=null && !orgIds.isEmpty()){
+        if (orgIds != null && !orgIds.isEmpty()) {
             OrgInfo org = getOrganizationService().getOrg(orgIds.get(0), contextInfo);
             currentCOWrapper.setCoOwningDeptName(org.getShortName());
             // managing multiple orgs
@@ -544,7 +548,7 @@ public class CourseOfferingManagementUtil {
             }
             String orgIDs = sb.toString();
             if (orgIDs.length() > 0) {
-                form.setAdminOrg(orgIDs.substring(0, orgIDs.length()- 1));
+                form.setAdminOrg(orgIDs.substring(0, orgIDs.length() - 1));
             }
         }
 
@@ -664,13 +668,13 @@ public class CourseOfferingManagementUtil {
         return props;
     }
 
-    public static boolean _isClusterUniqueWithinCO(CourseOfferingManagementForm form, String courseOfferingId, String privateName) throws Exception{
+    public static boolean _isClusterUniqueWithinCO(CourseOfferingManagementForm form, String courseOfferingId, String privateName) throws Exception {
         List<String> foIds = new ArrayList<String>();
         //fetch all the formatOfferingIds associated with the given courseOfferingId
         //For performance, if FOIds are already in the form, use it (most likely it is). Otherwise, fetch FOs by COId
-        if (form.getFoId2aoTypeMap()==null || form.getFoId2aoTypeMap().isEmpty()) {
-            List<FormatOfferingInfo> formatOfferingList = getCourseOfferingService().getFormatOfferingsByCourseOffering(courseOfferingId,ContextUtils.createDefaultContextInfo());
-            for(FormatOfferingInfo foInfo:formatOfferingList){
+        if (form.getFoId2aoTypeMap() == null || form.getFoId2aoTypeMap().isEmpty()) {
+            List<FormatOfferingInfo> formatOfferingList = getCourseOfferingService().getFormatOfferingsByCourseOffering(courseOfferingId, ContextUtils.createDefaultContextInfo());
+            for (FormatOfferingInfo foInfo : formatOfferingList) {
                 foIds.add(foInfo.getId());
             }
         } else {
@@ -693,7 +697,7 @@ public class CourseOfferingManagementUtil {
     }
 
 
-    public static ActivityOfferingClusterInfo _buildEmptyAOCluster (String formatOfferingId, String privateName, String publishedName){
+    public static ActivityOfferingClusterInfo _buildEmptyAOCluster(String formatOfferingId, String privateName, String publishedName) {
         ActivityOfferingClusterInfo emptyCluster = new ActivityOfferingClusterInfo();
         emptyCluster.setTypeKey(CourseOfferingServiceConstants.AOC_ROOT_TYPE_KEY);
         emptyCluster.setStateKey(CourseOfferingServiceConstants.AOC_ACTIVE_STATE_KEY);
@@ -705,17 +709,17 @@ public class CourseOfferingManagementUtil {
         return emptyCluster;
     }
 
-    public static boolean _clusterForFormatOfferingValidation (FormatOfferingInfo formatOfferingInfo, ContextInfo context) {
+    public static boolean _clusterForFormatOfferingValidation(FormatOfferingInfo formatOfferingInfo, ContextInfo context) {
         try {
-            if (formatOfferingInfo.getActivityOfferingTypeKeys()!=null && formatOfferingInfo.getActivityOfferingTypeKeys().size()>1) {
+            if (formatOfferingInfo.getActivityOfferingTypeKeys() != null && formatOfferingInfo.getActivityOfferingTypeKeys().size() > 1) {
                 return true;
-            } else if (formatOfferingInfo.getActivityOfferingTypeKeys()!=null && formatOfferingInfo.getActivityOfferingTypeKeys().size()==1) {
+            } else if (formatOfferingInfo.getActivityOfferingTypeKeys() != null && formatOfferingInfo.getActivityOfferingTypeKeys().size() == 1) {
                 QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
                 qbcBuilder.setPredicates(PredicateFactory.equal("formatOfferingId", formatOfferingInfo.getId()));
                 QueryByCriteria criteria = qbcBuilder.build();
 
                 List<String> aoClusterIds = getCourseOfferingService().searchForActivityOfferingClusterIds(criteria, context);
-                if (aoClusterIds!=null && aoClusterIds.size()>=1) {
+                if (aoClusterIds != null && aoClusterIds.size() >= 1) {
                     return false;
                 } else {
                     return true;
@@ -729,7 +733,7 @@ public class CourseOfferingManagementUtil {
 
     }
 
-    public static void clearForm (CourseOfferingManagementForm form) throws Exception {
+    public static void clearForm(CourseOfferingManagementForm form) throws Exception {
         form.setAdminOrg(null);
         form.setCourseOfferingResultList(new ArrayList<CourseOfferingListSectionWrapper>());
         form.setActivityWrapperList(new ArrayList<ActivityOfferingWrapper>());
@@ -816,27 +820,27 @@ public class CourseOfferingManagementUtil {
         courseOffering.setCourseOfferingCode(courseInfo.getCode());
 
         //Copy grading and credit options
-        if(!courseInfo.getCreditOptions().isEmpty()){
+        if (!courseInfo.getCreditOptions().isEmpty()) {
             courseOffering.setCreditOptionId(courseInfo.getCreditOptions().get(firstGradingOption).getKey());
         }
         //Remove these two special student registration options and set them on the CO
         List<String> courseGradingOptions = new ArrayList<String>(courseInfo.getGradingOptions());
-        if(courseGradingOptions.remove(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL) ){
+        if (courseGradingOptions.remove(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL)) {
             courseOffering.getStudentRegistrationGradingOptions().add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL);
         }
-        if(courseGradingOptions.remove(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT) ){
+        if (courseGradingOptions.remove(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT)) {
             courseOffering.getStudentRegistrationGradingOptions().add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT);
         }
         //set the first remaining grading option on the CO
-        if(!courseGradingOptions.isEmpty()){
+        if (!courseGradingOptions.isEmpty()) {
             courseOffering.setGradingOptionId(courseGradingOptions.get(firstGradingOption));
         }
 
         // make sure we set attribute information from the course
-        if(!courseInfo.getAttributes().isEmpty()){
-            for(AttributeInfo info: courseInfo.getAttributes()){
+        if (!courseInfo.getAttributes().isEmpty()) {
+            for (AttributeInfo info : courseInfo.getAttributes()) {
                 // Default the CourseOffering Final Exam Type to the Final Exam type in the Course
-                if(info.getKey().equals("finalExamStatus")){
+                if (info.getKey().equals("finalExamStatus")) {
                     courseOffering.setFinalExamType(convertCourseFinalExamTypeToCourseOfferingFinalExamType(info.getValue()));
                 }
             }
@@ -845,11 +849,11 @@ public class CourseOfferingManagementUtil {
         return courseOffering;
     }
 
-    private static String convertCourseFinalExamTypeToCourseOfferingFinalExamType(String courseFinalExamType){
+    private static String convertCourseFinalExamTypeToCourseOfferingFinalExamType(String courseFinalExamType) {
         String sRet = null;
-        if("STD".equals(courseFinalExamType))   {
+        if ("STD".equals(courseFinalExamType)) {
             sRet = CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_TYPE_STANDARD;
-        } else if("ALT".equals(courseFinalExamType)) {
+        } else if ("ALT".equals(courseFinalExamType)) {
             sRet = CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_TYPE_ALTERNATE;
         } else {
             sRet = CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_TYPE_NONE;
@@ -1003,8 +1007,8 @@ public class CourseOfferingManagementUtil {
         StringBuilder result = new StringBuilder();
         List<Date> dates = new ArrayList<Date>();
         dates.addAll(examPeriodWrapper.getExamPeriodDates());
-        for(Integer weekday : weekdaysList) {
-            result.append("Day "+weekday);
+        for (Integer weekday : weekdaysList) {
+            result.append("Day " + weekday);
             result.append(" - ");
             result.append(DateFormatters.EXAM_OFFERING_VIEW_EXAM_OFFERING_DATE_FORMATTER.format(dates.get(weekday - 1)));
         }
@@ -1019,7 +1023,7 @@ public class CourseOfferingManagementUtil {
         return newAttr;
     }
 
-    public static AttributeInfo getAttributeForKey (List<AttributeInfo> attributeInfos, String key) {
+    public static AttributeInfo getAttributeForKey(List<AttributeInfo> attributeInfos, String key) {
         for (AttributeInfo info : attributeInfos) {
             if (info.getKey().equals(key)) {
                 return info;
@@ -1028,5 +1032,98 @@ public class CourseOfferingManagementUtil {
         return null;
     }
 
+    public static void processExamOfferingResultSet(ExamOfferingResult result) {
 
+        Messenger messenger = (Messenger) GlobalVariables.getUserSession().retrieveObject(KSGrowlMessenger.MESSENGER_KEY);
+        if (messenger == null) {
+            messenger = new KSGrowlMessenger();
+            GlobalVariables.getUserSession().addObject(KSGrowlMessenger.MESSENGER_KEY, messenger);
+        }
+
+        processExamOfferingResult(result, messenger);
+    }
+
+    public static String[] contextMapToParameters(Map<String, String> context){
+        List<String> parameters = new ArrayList<String>();
+        if(context.containsKey(CourseOfferingServiceConstants.CONTEXT_ELEMENT_COURSE_OFFERING_CODE)){
+            parameters.add(context.get(CourseOfferingServiceConstants.CONTEXT_ELEMENT_COURSE_OFFERING_CODE));
+        }
+        if(context.containsKey(CourseOfferingServiceConstants.CONTEXT_ELEMENT_ACTIVITY_OFFERING_CODE)){
+            parameters.add(context.get(CourseOfferingServiceConstants.CONTEXT_ELEMENT_ACTIVITY_OFFERING_CODE));
+        }
+        return parameters.toArray(new String[parameters.size()]);
+    }
+
+    public static void processExamOfferingResult(ExamOfferingResult result, Messenger messenger) {
+
+        if (ExamOfferingServiceConstants.EXAM_OFFERING_CREATED.equals(result.getKey())) {
+            if (!processExamOfferingSubResult(result.getChildren(), result, messenger)) {
+                if(result.getContext().containsKey(CourseOfferingServiceConstants.CONTEXT_ELEMENT_ACTIVITY_OFFERING_CODE)){
+                    messenger.addSuccessMessage(ExamOfferingConstants.EXAM_OFFERING_AO_CREATE_SUCCESS, contextMapToParameters(result.getContext()));
+                } else {
+                    messenger.addSuccessMessage(ExamOfferingConstants.EXAM_OFFERING_CO_CREATE_SUCCESS, contextMapToParameters(result.getContext()));
+                }
+            }
+            return;
+        } else if (ExamOfferingServiceConstants.EXAM_OFFERING_UPDATED.equals(result.getKey())) {
+            if (!processExamOfferingSubResult(result.getChildren(), result, messenger)) {
+                if(result.getContext().containsKey(CourseOfferingServiceConstants.CONTEXT_ELEMENT_ACTIVITY_OFFERING_CODE)){
+                    messenger.addSuccessMessage(ExamOfferingConstants.EXAM_OFFERING_AO_EDIT_SUCCESS, contextMapToParameters(result.getContext()));
+                } else {
+                    messenger.addSuccessMessage(ExamOfferingConstants.EXAM_OFFERING_CO_EDIT_SUCCESS, contextMapToParameters(result.getContext()));
+                }
+            }
+            return;
+        } else if (ExamOfferingServiceConstants.EXAM_OFFERING_EXAM_PERIOD_NOT_FOUND.equals(result.getKey())) {
+            messenger.addErrorMessage(ExamOfferingConstants.EXAM_OFFERING_EXAM_PERIOD_NOT_FOUND, contextMapToParameters(result.getContext()));
+        }
+
+        for (ExamOfferingResult child : result.getChildren()) {
+            processExamOfferingResult(child, messenger);
+        }
+
+    }
+
+    public static boolean processExamOfferingSubResult(List<ExamOfferingResult> results, ExamOfferingResult parent, Messenger messenger) {
+
+        boolean isMessageAdded = false;
+        for (ExamOfferingResult result : results) {
+            if (ExamOfferingServiceConstants.EXAM_OFFERING_CREATED.equals(parent.getKey())) {
+                if (ExamOfferingServiceConstants.EXAM_OFFERING_AO_MATRIX_MATCH_NOT_FOUND.equals(result.getKey())) {
+                    messenger.addWarningMessage(ExamOfferingConstants.EXAM_OFFERING_CREATED_AO_MATRIX_MATCH_NOT_FOUND, contextMapToParameters(result.getContext()));
+                    isMessageAdded = true;
+                } else if (ExamOfferingServiceConstants.EXAM_OFFERING_CO_MATRIX_MATCH_NOT_FOUND.equals(result.getKey())) {
+                    messenger.addWarningMessage(ExamOfferingConstants.EXAM_OFFERING_CREATED_CO_MATRIX_MATCH_NOT_FOUND, contextMapToParameters(result.getContext()));
+                    isMessageAdded = true;
+                } else if (ExamOfferingServiceConstants.EXAM_OFFERING_MATRIX_NOT_FOUND.equals(result.getKey())) {
+                    messenger.addWarningMessage(ExamOfferingConstants.EXAM_OFFERING_CREATED_MATRIX_NOT_FOUND, contextMapToParameters(result.getContext()));
+                    isMessageAdded = true;
+                } else if (ExamOfferingServiceConstants.EXAM_OFFERING_ACTIVITY_OFFERING_TIMESLOTS_NOT_FOUND.equals(result.getKey())) {
+                    messenger.addWarningMessage(ExamOfferingConstants.EXAM_OFFERING_CREATED_ACTIVITY_OFFERING_TIMESLOTS_NOT_FOUND, contextMapToParameters(result.getContext()));
+                    isMessageAdded = true;
+                }
+            } else if (ExamOfferingServiceConstants.EXAM_OFFERING_UPDATED.equals(parent.getKey())) {
+                if (ExamOfferingServiceConstants.EXAM_OFFERING_AO_MATRIX_MATCH_NOT_FOUND.equals(result.getKey())) {
+                    messenger.addWarningMessage(ExamOfferingConstants.EXAM_OFFERING_UPDATED_AO_MATRIX_MATCH_NOT_FOUND, contextMapToParameters(result.getContext()));
+                    isMessageAdded = true;
+                } else if (ExamOfferingServiceConstants.EXAM_OFFERING_CO_MATRIX_MATCH_NOT_FOUND.equals(result.getKey())) {
+                    messenger.addWarningMessage(ExamOfferingConstants.EXAM_OFFERING_UPDATED_CO_MATRIX_MATCH_NOT_FOUND, contextMapToParameters(result.getContext()));
+                    isMessageAdded = true;
+                } else if (ExamOfferingServiceConstants.EXAM_OFFERING_MATRIX_NOT_FOUND.equals(result.getKey())) {
+                    messenger.addWarningMessage(ExamOfferingConstants.EXAM_OFFERING_UPDATED_MATRIX_NOT_FOUND, contextMapToParameters(result.getContext()));
+                    isMessageAdded = true;
+                } else if (ExamOfferingServiceConstants.EXAM_OFFERING_ACTIVITY_OFFERING_TIMESLOTS_NOT_FOUND.equals(result.getKey())) {
+                    messenger.addWarningMessage(ExamOfferingConstants.EXAM_OFFERING_UPDATED_ACTIVITY_OFFERING_TIMESLOTS_NOT_FOUND, contextMapToParameters(result.getContext()));
+                    isMessageAdded = true;
+                }
+            }
+
+            for (ExamOfferingResult child : result.getChildren()) {
+                processExamOfferingResult(child, messenger);
+            }
+        }
+
+        return isMessageAdded;
+
+    }
 }

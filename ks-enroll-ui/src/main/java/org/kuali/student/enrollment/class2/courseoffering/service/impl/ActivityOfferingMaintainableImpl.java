@@ -19,6 +19,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.uif.service.impl.KSMaintainableImpl;
+import org.kuali.student.common.uif.util.KSUifUtils;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ColocatedActivity;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
@@ -32,6 +33,7 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingCon
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
 import org.kuali.student.enrollment.class2.courseofferingset.util.CourseOfferingSetUtil;
+import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingResult;
 import org.kuali.student.enrollment.class2.population.util.PopulationConstants;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListingInfo;
@@ -126,6 +128,8 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 }
                 activityOfferingInfo = CourseOfferingManagementUtil.getCourseOfferingService().updateActivityOffering(activityOfferingWrapper.getAoInfo().getId(), activityOfferingWrapper.getAoInfo(), contextInfo);
                 activityOfferingWrapper.setAoInfo(activityOfferingInfo);
+
+                KSUifUtils.getMessengerFromUserSession().addSuccessMessage(ActivityOfferingConstants.MSG_INFO_AO_MODIFIED, null);
 
             } catch (Exception e) {
                 throw convertServiceExceptionsToUI(e);
@@ -222,8 +226,9 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
 
                 if(generateEOs){
                     CourseOfferingInfo courseOfferingInfo = CourseOfferingManagementUtil.getCourseOfferingService().getCourseOffering(activityOfferingInfo.getCourseOfferingId(), contextInfo);
-                    CourseOfferingManagementUtil.getExamOfferingServiceFacade().generateFinalExamOfferingForAO(courseOfferingInfo, activityOfferingWrapper.getAoInfo(),
+                    ExamOfferingResult result = CourseOfferingManagementUtil.getExamOfferingServiceFacade().generateFinalExamOfferingForAO(courseOfferingInfo, activityOfferingWrapper.getAoInfo(),
                         activityOfferingWrapper.getAoInfo().getTermId(), activityOfferingWrapper.getFormatOffering().getFinalExamLevelTypeKey(), new ArrayList<String>(), contextInfo);
+                    CourseOfferingManagementUtil.processExamOfferingResultSet(result);
                 }
 
             } catch (Exception e) {

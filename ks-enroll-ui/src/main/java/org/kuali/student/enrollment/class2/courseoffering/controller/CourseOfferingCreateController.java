@@ -31,7 +31,6 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingCon
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.ManageSocConstants;
 import org.kuali.student.enrollment.class2.courseofferingset.util.CourseOfferingSetUtil;
-import org.kuali.student.enrollment.common.util.EnrollConstants;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
@@ -39,7 +38,6 @@ import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.util.security.ContextUtils;
-import org.kuali.student.r2.common.messenger.util.MessengerConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
@@ -133,25 +131,9 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
     /* Returns a ModelAndView for the route()-method to return a new view if we are creating a CO */
     private ModelAndView handleRouteForCoCreate( DocumentFormBase form ) {
 
-        Properties urlParameters = new Properties();
-
         CourseOfferingEditWrapper dataObject = (CourseOfferingEditWrapper)((MaintenanceDocumentForm)form).getDocument().getNewMaintainableObject().getDataObject();
 
-        //display the correct growl message based on the availability of exam period and final exam type
-        if (StringUtils.equals(dataObject.getFinalExamDriver(), LuServiceConstants.LU_EXAM_DRIVER_CO_KEY)) {
-            if (StringUtils.isEmpty(dataObject.getExamPeriodId())) {
-                urlParameters.put(EnrollConstants.GROWL_MESSAGE, CourseOfferingConstants.COURSE_OFFERING_CREATE_SUCCESS_WITH_MISSING_EXAMPERIOD);
-            } else if (!StringUtils.equals(dataObject.getCourseOfferingInfo().getFinalExamType(), CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_TYPE_STANDARD)) {
-                urlParameters.put(EnrollConstants.GROWL_MESSAGE, CourseOfferingConstants.COURSE_OFFERING_CREATE_SUCCESS);
-            } else {
-                urlParameters.put(EnrollConstants.GROWL_MESSAGE, CourseOfferingConstants.COURSE_OFFERING_CREATE_SUCCESS_WITH_EXAMOFFERING_GENERATED);
-            }
-        } else {
-            urlParameters.put(EnrollConstants.GROWL_MESSAGE, CourseOfferingConstants.COURSE_OFFERING_CREATE_SUCCESS);
-        }
-
-        urlParameters.put(EnrollConstants.GROWL_MESSAGE_PARAMS, dataObject.getCourseOfferingCode() + dataObject.getCourseOfferingInfo().getCourseNumberSuffix());
-
+        Properties urlParameters = new Properties();
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "show");
         urlParameters.put("termCode", dataObject.getTerm().getCode());
         if (dataObject.getCourseOfferingInfo().getCourseNumberSuffix() != null && !StringUtils.isBlank(dataObject.getCourseOfferingInfo().getCourseNumberSuffix())) {
@@ -388,7 +370,6 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
 
         CourseOfferingCreateWrapper createWrapper = (CourseOfferingCreateWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
         CourseOfferingInfo existingCO = null;
-        String examPeriodId = null;
 
         //the first CO that is selected or if there is only one, grab that one
         for(CourseOfferingEditWrapper eco : createWrapper.getExistingTermOfferings()){
@@ -406,36 +387,11 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
         List<String> optionKeys = CourseOfferingControllerPopulateUIForm.getOptionKeys(createWrapper, existingCO);
         optionKeys.add(CourseOfferingSetServiceConstants.CONTINUE_WITHOUT_EXAM_OFFERINGS_OPTION_KEY);
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
-        AttributeInfo attr = new AttributeInfo();
-        attr.setKey(MessengerConstants.USER_MESSAGE_PROCESS_ID);
-        attr.setValue(GlobalVariables.getUserSession().getKualiSessionId());
-        contextInfo.getAttributes().add(attr);
         SocRolloverResultItemInfo item = CourseOfferingManagementUtil.getCourseOfferingService().rolloverCourseOffering(existingCO.getId(),
-                createWrapper.getTerm().getId(),
-                optionKeys,
-                contextInfo);
+                createWrapper.getTerm().getId(), optionKeys, contextInfo);
         CourseOfferingInfo courseOfferingInfo = CourseOfferingManagementUtil.getCourseOfferingService().getCourseOffering(item.getTargetCourseOfferingId(), contextInfo);
 
-        // retrieve the exam period id
-        try {
-            examPeriodId = CourseOfferingManagementUtil.getExamOfferingServiceFacade().getExamPeriodId(courseOfferingInfo.getTermId(), contextInfo);
-        } catch (DoesNotExistException e) {
-            LOG.warn("The Term " + courseOfferingInfo.getTermId() + " that the course offering " + courseOfferingInfo.getCourseOfferingCode() + " is attached to doesn't have an exam period to create exam offerings.");
-        }
-
-        Properties urlParameters;
-        urlParameters = new Properties();
-
-        //display the correct growl message based on the availability of exam period and final exam type
-        if (StringUtils.isEmpty(examPeriodId)) {
-            urlParameters.put(EnrollConstants.GROWL_MESSAGE, CourseOfferingConstants.COURSE_OFFERING_CREATE_SUCCESS_WITH_MISSING_EXAMPERIOD);
-        } else if (!StringUtils.equals(courseOfferingInfo.getFinalExamType(), CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_TYPE_STANDARD)) {
-            urlParameters.put(EnrollConstants.GROWL_MESSAGE, CourseOfferingConstants.COURSE_OFFERING_CREATE_SUCCESS);
-        } else {
-            urlParameters.put(EnrollConstants.GROWL_MESSAGE, CourseOfferingConstants.COURSE_OFFERING_CREATE_SUCCESS_WITH_EXAMOFFERING_GENERATED);
-        }
-        urlParameters.put(EnrollConstants.GROWL_MESSAGE_PARAMS, courseOfferingInfo.getCourseOfferingCode());
-
+        Properties urlParameters = new Properties();
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "show");
         urlParameters.put("termCode",createWrapper.getTargetTermCode());
         urlParameters.put("inputCode",courseOfferingInfo.getCourseOfferingCode());

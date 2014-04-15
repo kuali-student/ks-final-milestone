@@ -31,6 +31,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.uif.util.KSControllerHelper;
+import org.kuali.student.common.uif.util.KSUifUtils;
 import org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.AcalEventWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.ExamPeriodWrapper;
@@ -42,7 +43,6 @@ import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
 import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 import org.kuali.student.enrollment.class2.acal.util.AcalCommonUtils;
-import org.kuali.student.enrollment.common.util.EnrollConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -396,10 +396,9 @@ public class AcademicCalendarController extends UifControllerBase {
 
         if (statusInfo.getIsSuccess()){
             // If delete successful, populate growl message parameters and redirect to the search page.
+            String[] parameters = {acalForm.getAcademicCalendarInfo().getName()};
+            KSUifUtils.getMessengerFromUserSession().addSuccessMessage(CalendarConstants.MessageKeys.INFO_ACADEMIC_CALENDAR_DELETED, parameters);
             Properties urlParameters = new Properties();
-            urlParameters.put(EnrollConstants.GROWL_TITLE,"");
-            urlParameters.put(EnrollConstants.GROWL_MESSAGE, CalendarConstants.MessageKeys.INFO_ACADEMIC_CALENDAR_DELETED);
-            urlParameters.put(EnrollConstants.GROWL_MESSAGE_PARAMS,acalForm.getAcademicCalendarInfo().getName());
             return redirectToSearch(acalForm,request,urlParameters);
         } else {
             GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.ERROR_DELETING, acalForm.getAcademicCalendarInfo().getName(),statusInfo.getMessage());

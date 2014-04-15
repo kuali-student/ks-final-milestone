@@ -15,6 +15,7 @@
 
 package org.kuali.student.enrollment.class2.examoffering.krms.evaluator;
 
+import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingResult;
 import org.kuali.student.enrollment.courseoffering.infc.ActivityOffering;
 import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -42,7 +43,7 @@ public interface ExamOfferingSlottingEvaluator {
      * @param context
      * @throws OperationFailedException
      */
-    public void executeRuleForAOSlotting(ActivityOffering activityOffering, String examOfferingId, String termType,
+    public ExamOfferingResult executeRuleForAOSlotting(ActivityOffering activityOffering, String examOfferingId, String termType,
                                          List<String> optionKeys, ContextInfo context) throws OperationFailedException;
 
     /**
@@ -55,6 +56,6 @@ public interface ExamOfferingSlottingEvaluator {
      * @param context
      * @throws OperationFailedException
      */
-    public void executeRuleForCOSlotting(CourseOffering courseOffering,String examOfferingId, String termType,
+    public ExamOfferingResult executeRuleForCOSlotting(CourseOffering courseOffering,String examOfferingId, String termType,
                                          List<String> optionKeys, ContextInfo context) throws OperationFailedException;
 }

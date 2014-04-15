@@ -18,7 +18,9 @@ package org.kuali.rice.krad.web.form;
 
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.common.uif.util.GrowlIcon;
+import org.kuali.student.common.uif.util.KSGrowlMessenger;
 import org.kuali.student.common.uif.util.KSUifUtils;
+import org.kuali.student.common.uif.util.Messenger;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -32,25 +34,9 @@ public class KsUifFormBase extends UifFormBase {
     @Override
     public void postBind(HttpServletRequest request) {
 
-        String growlMessage = request.getParameter("growl.message");
-        String temp = request.getParameter("growl.message.params");
-        String[] growlMessageParams;
-        if(temp!=null){
-            growlMessageParams = temp.split(",");
-        }
-        else{
-            growlMessageParams=new String[0];
-        }
-
-        if (growlMessage != null) {
-              KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS, growlMessage, growlMessageParams);
-        }
-        String sectionKey = request.getParameter("warning.message.section.id");
-        String warningMessage = request.getParameter("warning.message");
-
-        if (warningMessage != null)
-        {
-            GlobalVariables.getMessageMap().putWarningForSectionId(sectionKey,warningMessage);
+        Messenger messenger = (Messenger) GlobalVariables.getUserSession().retrieveObject(KSGrowlMessenger.MESSENGER_KEY);
+        if (messenger!=null){
+            messenger.publishMessages();
         }
 
         super.postBind(request);

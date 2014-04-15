@@ -47,8 +47,6 @@
         <!--<property name="header.style" value="width:60%"/>-->
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper"/>
 
-        <property name="onDocumentReadyScript" value="initAMQListener();"/>
-        <property name="onSubmitScript" value="deactivateAMQListener();"/>
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <util:list id="KS-Enrollment-HomewardPathBreadcrumbs">
                 <ref bean="KS-HomewardPathBreadcrumbs-Home"/>

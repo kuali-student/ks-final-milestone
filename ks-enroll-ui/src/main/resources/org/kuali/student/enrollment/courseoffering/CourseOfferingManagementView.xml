@@ -38,8 +38,6 @@
             </bean>
         </property>
 
-        <property name="onDocumentReadyScript" value="initAMQListener();"/>
-        <property name="onSubmitScript" value="deactivateAMQListener();"/>
         <property name="viewSourceFile" value="CourseOfferingManagementView.xml" /> <!-- Shows up in HTML so devs can find the code -->
 
         <property name="authorizer">

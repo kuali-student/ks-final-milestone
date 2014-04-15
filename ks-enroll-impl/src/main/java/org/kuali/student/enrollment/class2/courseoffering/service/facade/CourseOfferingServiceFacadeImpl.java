@@ -399,7 +399,6 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
         aoResult.setExamOfferingResult(this.getExamOfferingServiceFacade().generateFinalExamOfferingForAO(co, created,
                 aoInfo.getTermId(), fo.getFinalExamLevelTypeKey(), new ArrayList<String>(), context));
 
-
         //create and persist a WaitlistInfo for AO
         CourseWaitListInfo theWaitListInfo = getWaitListServiceFacade().createDefaultCourseWaitlist(created, context);
 

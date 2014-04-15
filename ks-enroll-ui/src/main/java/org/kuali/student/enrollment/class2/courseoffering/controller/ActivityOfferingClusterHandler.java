@@ -95,13 +95,7 @@ public class ActivityOfferingClusterHandler {
             CourseOfferingManagementUtil.reloadTheCourseOfferingWithAOs_RGs_Clusters(form);
 
             //determine which growl message to display
-            if (!aoResult.getExamOfferingResult().getExamPeriodStatus().getIsSuccess()) {
-                KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_ADD_1_SUCCESS_WITH_MISSING_EXAMPERIOD);
-            } else if (aoResult.getExamOfferingResult().getExamOfferingsCreated().isEmpty()) {
-                KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_ADD_1_SUCCESS);
-            } else {
-                KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_ADD_1_SUCCESS_WITH_EXAMOFFERING_GENERATED);
-            }
+            KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_ADD_1_SUCCESS);
 
         } catch (Exception e) {
             throw new RuntimeException(e);

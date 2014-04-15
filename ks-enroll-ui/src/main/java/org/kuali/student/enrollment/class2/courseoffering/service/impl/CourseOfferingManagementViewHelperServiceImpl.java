@@ -56,6 +56,7 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingVie
 import org.kuali.student.enrollment.class2.courseoffering.util.ManageSocConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.RegistrationGroupConstants;
 import org.kuali.student.enrollment.class2.courseofferingset.util.CourseOfferingSetUtil;
+import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingResult;
 import org.kuali.student.enrollment.class2.scheduleofclasses.dto.ActivityOfferingDisplayWrapper;
 import org.kuali.student.enrollment.class2.scheduleofclasses.dto.CourseOfferingDisplayWrapper;
 import org.kuali.student.enrollment.class2.scheduleofclasses.form.ActivityOfferingDisplayUI;
@@ -126,6 +127,7 @@ import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.CourseJointInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
+import org.kuali.student.r2.lum.course.infc.Course;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -1891,6 +1893,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             throw new RuntimeException(e);
         }
 
+        ExamOfferingResult result = new ExamOfferingResult();
         List<BulkStatusInfo> examsGenerated = new ArrayList<BulkStatusInfo>();
         BulkStatusInfo examPeriodStatus = null;
         //create and persist AO
@@ -1917,10 +1920,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                 ActivityOfferingResult aoResult = CourseOfferingManagementUtil.getCourseOfferingServiceFacade().createActivityOffering(aoInfo, clusterId, contextInfo);
                 activityOfferingInfo = aoResult.getCreatedActivityOffering();
                 theWaitListInfo = aoResult.getWaitListInfo();
-                examsGenerated.addAll(aoResult.getExamOfferingResult().getExamOfferingsCreated());
-                if (examPeriodStatus == null) {
-                    examPeriodStatus = aoResult.getExamOfferingResult().getExamPeriodStatus();
-                }
+                result.getChildren().add(aoResult.getExamOfferingResult());
 
                 ActivityOfferingWrapper wrapper = new ActivityOfferingWrapper(activityOfferingInfo);
                 StateInfo state = getStateService().getState(wrapper.getAoInfo().getStateKey(), contextInfo);
@@ -1937,24 +1937,13 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
 
         CourseOfferingManagementToolbarUtil.processAoToolbarForUser(form.getActivityWrapperList(), form);
         if (noOfActivityOfferings == 1) {
-            //determine which growl message to display
-            if (!examPeriodStatus.getIsSuccess()) {
-                KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_ADD_1_SUCCESS_WITH_MISSING_EXAMPERIOD);
-            } else if (examsGenerated.isEmpty()) {
-                KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_ADD_1_SUCCESS);
-            } else {
-                KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_ADD_1_SUCCESS_WITH_EXAMOFFERING_GENERATED);
-            }
+            KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_ADD_1_SUCCESS);
         } else {
-            //determine which growl message to display
-            if (!examPeriodStatus.getIsSuccess()) {
-                KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_ADD_N_SUCCESS_WITH_MISSING_EXAMPERIOD);
-            } else if (examsGenerated.isEmpty()) {
-                KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_ADD_N_SUCCESS);
-            } else {
-                KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_ADD_N_SUCCESS_WITH_EXAMOFFERING_GENERATED);
-            }
+            KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_ADD_N_SUCCESS);
         }
+
+        CourseOfferingManagementUtil.processExamOfferingResultSet(result);
+        KSUifUtils.getMessengerFromUserSession().publishMessages();
     }
 
     public void loadActivityOfferingsByCourseOffering(CourseOfferingInfo theCourseOfferingInfo, CourseOfferingManagementForm form) throws Exception {

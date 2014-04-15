@@ -32,7 +32,6 @@ import org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm;
 import org.kuali.student.enrollment.class2.acal.service.HolidayCalendarViewHelperService;
 import org.kuali.student.enrollment.class2.acal.util.AcalCommonUtils;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
-import org.kuali.student.enrollment.common.util.EnrollConstants;
 import org.kuali.student.r2.core.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
@@ -435,8 +434,9 @@ public class HolidayCalendarController extends UifControllerBase {
         // TODO KSENROLL-8469
         //urlParameters.put(UifConstants.UrlParams.SHOW_HISTORY, BooleanUtils.toStringTrueFalse(false));
         HolidayCalendarInfo hCalInfo = hcForm.getHolidayCalendarInfo();
-        urlParameters.put(EnrollConstants.GROWL_MESSAGE, CalendarConstants.MessageKeys.INFO_HOLIDAY_CALENDAR_DELETED);
-        urlParameters.put(EnrollConstants.GROWL_MESSAGE_PARAMS, hCalInfo.getName());
+
+        String[] parameters = {hCalInfo.getName()};
+        KSUifUtils.getMessengerFromUserSession().addSuccessMessage(CalendarConstants.MessageKeys.INFO_HOLIDAY_CALENDAR_DELETED, parameters);
 
         return performRedirect(hcForm, CalendarConstants.CALENDAR_SEARCH_CONTROLLER_PATH, urlParameters);
     }
