@@ -9,6 +9,7 @@ import org.apache.commons.lang.StringUtils;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.kuali.student.ap.coursesearch.util.CollectionListPropertyEditor;
+import org.kuali.student.ap.coursesearch.util.ScheduledTermsPropertyEditor;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.CourseSearchConstants;
 
@@ -242,9 +243,9 @@ public class CourseSummaryDetails implements Serializable {
 	}
 
     public String getRequisitesForUI(){
+        if(this.getRequisites()==null || this.getRequisites().isEmpty()) return "None";
         CollectionListPropertyEditor editor = new CollectionListPropertyEditor();
-        editor.setValue(getRequisites());
-        editor.setEmptyListMessage("None");
+        editor.setValue(this.getRequisites());
         return editor.getAsText();
     }
 
@@ -267,4 +268,9 @@ public class CourseSummaryDetails implements Serializable {
 				+ ", courseNumber=" + courseNumber + ", courseTitle=" + courseTitle + "]";
 	}
 
+    public String getScheduledTermsForUI() {
+        ScheduledTermsPropertyEditor editor = new ScheduledTermsPropertyEditor();
+        editor.setValue(this.getScheduledTerms());
+        return editor.getAsText();
+    }
 }
