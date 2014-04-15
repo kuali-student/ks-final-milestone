@@ -46,7 +46,7 @@ public class ScheduledTermsPropertyEditor extends PropertyEditorSupport {
             for (String termId : scheduledTerms) {
 
                 if (counter > 0) {
-                    formattedText.append(", ");
+                    formattedText.append(" ");
                 }
 
                 YearTerm yt = th.getYearTerm(termId);
