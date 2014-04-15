@@ -55,25 +55,6 @@ import java.util.Map;
 public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEngineService {
     public static final Logger LOGGER = LoggerFactory.getLogger(CourseRegistrationInitilizationServiceImpl.class);
 
-    // ------------------------------------ Used to create common code for building Lpr items
-    public static final String CO_LPR_KEYNAME = "coLprKey";
-    public static final String RG_LPR_KEYNAME = "rgLprKey";
-    public static final String AO_LPR_KEYNAME = "aoLprKey";
-    public static final Map<String, String> KEYNAME_TO_REGISTERED_LPR_TYPES_MAP;
-    public static final Map<String, String> KEYNAME_TO_WAITLIST_LPR_TYPES_MAP;
-
-    static {
-        KEYNAME_TO_REGISTERED_LPR_TYPES_MAP = new HashMap<String, String>();
-        KEYNAME_TO_REGISTERED_LPR_TYPES_MAP.put(CO_LPR_KEYNAME, LprServiceConstants.REGISTRANT_CO_LPR_TYPE_KEY);
-        KEYNAME_TO_REGISTERED_LPR_TYPES_MAP.put(RG_LPR_KEYNAME, LprServiceConstants.REGISTRANT_RG_LPR_TYPE_KEY);
-        KEYNAME_TO_REGISTERED_LPR_TYPES_MAP.put(AO_LPR_KEYNAME, LprServiceConstants.REGISTRANT_AO_LPR_TYPE_KEY);
-
-        KEYNAME_TO_WAITLIST_LPR_TYPES_MAP = new HashMap<String, String>();
-        KEYNAME_TO_WAITLIST_LPR_TYPES_MAP.put(CO_LPR_KEYNAME, LprServiceConstants.WAITLIST_CO_LPR_TYPE_KEY);
-        KEYNAME_TO_WAITLIST_LPR_TYPES_MAP.put(RG_LPR_KEYNAME, LprServiceConstants.WAITLIST_RG_LPR_TYPE_KEY);
-        KEYNAME_TO_WAITLIST_LPR_TYPES_MAP.put(AO_LPR_KEYNAME, LprServiceConstants.WAITLIST_AO_LPR_TYPE_KEY);
-    }
-
     // -------------------------------------
     private CourseRegistrationService courseRegistrationService;
     private LuiService luiService;
@@ -111,16 +92,21 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
      * @param regGroupId Registration Group Id
      * @return List of Learning Person Relationships corresponding to the Reg Group, Course, and Activities
      */
-    protected List<LprInfo> buildLprItems(String regGroupId, String termId, String credits,
-                                          String gradingOptionKey, ContextInfo context) {
-        List<LprInfo> result = buildLprItemsCommon(KEYNAME_TO_REGISTERED_LPR_TYPES_MAP, regGroupId, termId,
+    protected List<LprInfo> buildRegisteredLprs(String regGroupId, String termId, String credits,
+                                                String gradingOptionKey, ContextInfo context) {
+        // RG LPR type key, CO LPR type key, and AO LPR type key (in that order)
+        List<LprInfo> result = buildLprsCommon(LprServiceConstants.REGISTRANT_RG_LPR_TYPE_KEY,
+                LprServiceConstants.REGISTRANT_CO_LPR_TYPE_KEY,
+                LprServiceConstants.REGISTRANT_AO_LPR_TYPE_KEY, regGroupId, termId,
                 credits, gradingOptionKey, context);
         return result;
     }
 
-    protected List<LprInfo> buildLprItemsCommon(Map<String, String> keynameToLprTypesMap,
-                                                String regGroupId, String termId, String credits,
-                                                String gradingOptionKey, ContextInfo context) {
+    protected List<LprInfo> buildLprsCommon(String regGroupLprType,
+                                            String courseOfferingLprType,
+                                            String activityOfferingLprType,
+                                            String regGroupId, String termId, String credits,
+                                            String gradingOptionKey, ContextInfo context) {
         List<LprInfo> result = new ArrayList<LprInfo>();
         // Get AO Lui's by reg grup
         //List<LuiInfo> ao1List = getLuiService().getLuisByRelatedLuiAndRelationType(registrationRequestInfo.get);
@@ -135,18 +121,14 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
                     LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_CO_TO_FO_TYPE_KEY, context);
             String coId = KSCollectionUtils.getRequiredZeroElement(coIds);
 
-            // Get types
-            String rgLprType = keynameToLprTypesMap.get(RG_LPR_KEYNAME);
-            String coLprType = keynameToLprTypesMap.get(CO_LPR_KEYNAME);
-            String aoLprType = keynameToLprTypesMap.get(AO_LPR_KEYNAME);
             String activeStateKey = LprServiceConstants.ACTIVE_STATE_KEY;
             // Create RG LPR
-            LprInfo rgLprCreated = makeLpr(rgLprType, regGroupId,
+            LprInfo rgLprCreated = makeLpr(regGroupLprType, regGroupId,
                     null, effDate, termId, credits, gradingOptionKey, activeStateKey, context);
             result.add(rgLprCreated);
 
             // Create CO LPR
-            LprInfo coLprCreated = makeLpr(coLprType, coId, rgLprCreated.getMasterLprId(),
+            LprInfo coLprCreated = makeLpr(courseOfferingLprType, coId, rgLprCreated.getMasterLprId(),
                     effDate, termId, credits, gradingOptionKey, activeStateKey, context);
             result.add(coLprCreated);
 
@@ -158,7 +140,7 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
             List<String> aoIds = luiServiceLocal.getLuiIdsByLuiAndRelationType(regGroupId,
                     LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY, context);
             for (String aoId : aoIds) {
-                LprInfo aoLprCreated = makeLpr(aoLprType, aoId, rgLprCreated.getMasterLprId(),
+                LprInfo aoLprCreated = makeLpr(activityOfferingLprType, aoId, rgLprCreated.getMasterLprId(),
                         effDate, termId, credits, gradingOptionKey, activeStateKey, context);
                 result.add(aoLprCreated);
             }
@@ -225,27 +207,27 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
     }
 
     @Override
-    public List<LprInfo> addLprInfo(String regGroupId, String termId, String credits, String gradingOptionId,
-                                    ContextInfo contextInfo) {
+    public List<LprInfo> addRegisteredLprs(String regGroupId, String termId, String credits, String gradingOptionId,
+                                           ContextInfo contextInfo) {
         List<LprInfo> lprInfos =
-                buildLprItems(regGroupId, termId, credits, gradingOptionId, contextInfo);
+                buildRegisteredLprs(regGroupId, termId, credits, gradingOptionId, contextInfo);
         return lprInfos;
     }
 
     @Override
-    public List<LprInfo> updateLprInfos(String masterLprId, String credits, String gradingOptionId,
-                                        ContextInfo contextInfo)
+    public List<LprInfo> updateOptionsOnRegisteredLprs(String masterLprId, String credits, String gradingOptionId,
+                                                       ContextInfo contextInfo)
             throws OperationFailedException, PermissionDeniedException, DataValidationErrorException, VersionMismatchException,
             InvalidParameterException, ReadOnlyException, MissingParameterException, DoesNotExistException {
         // KSENROLL-12144
-        List<LprInfo> updatedLprInfos = updateLprInfosCommon(KEYNAME_TO_REGISTERED_LPR_TYPES_MAP,
+        List<LprInfo> updatedLprInfos = updateOptionsOnLprsCommon(LprServiceConstants.REGISTRANT_CO_LPR_TYPE_KEY,
                 masterLprId, credits, gradingOptionId, contextInfo);
 
         return updatedLprInfos;
     }
 
     @Override
-    public List<LprInfo> dropLprInfos(String masterLprId, ContextInfo contextInfo)
+    public List<LprInfo> dropLprs(String masterLprId, ContextInfo contextInfo)
             throws OperationFailedException, PermissionDeniedException, DataValidationErrorException, VersionMismatchException,
             InvalidParameterException, ReadOnlyException, MissingParameterException, DoesNotExistException {
         // Note: this is used on registrant LPRs and waitlist LPRs
@@ -287,8 +269,8 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
     }
 
     @Override
-    public List<LprInfo> addCourseWaitlistEntry(String regGroupId, String termId, String credits, String gradingOptionId, ContextInfo contextInfo) {
-        List<LprInfo> lprInfos = buildLprWaitlistItems(regGroupId, termId, credits, gradingOptionId, contextInfo);
+    public List<LprInfo> addWaitlistLprs(String regGroupId, String termId, String credits, String gradingOptionId, ContextInfo contextInfo) {
+        List<LprInfo> lprInfos = buildWaitlistLprs(regGroupId, termId, credits, gradingOptionId, contextInfo);
         return lprInfos;
     }
 
@@ -299,22 +281,25 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
      * @param regGroupId Registration Group Id
      * @return List of Learning Person Relationships corresponding to the Reg Group, Course, and Activities
      */
-    protected List<LprInfo> buildLprWaitlistItems(String regGroupId, String termId, String credits,
-                                                  String gradingOptionKey, ContextInfo context) {
-        List<LprInfo> result = buildLprItemsCommon(KEYNAME_TO_WAITLIST_LPR_TYPES_MAP, regGroupId, termId,
+    protected List<LprInfo> buildWaitlistLprs(String regGroupId, String termId, String credits,
+                                              String gradingOptionKey, ContextInfo context) {
+        // RG LPR type key, CO LPR type key, and AO LPR type key (in that order)
+        List<LprInfo> result = buildLprsCommon(LprServiceConstants.WAITLIST_RG_LPR_TYPE_KEY,
+                LprServiceConstants.WAITLIST_CO_LPR_TYPE_KEY,
+                LprServiceConstants.WAITLIST_AO_LPR_TYPE_KEY,
+                regGroupId, termId,
                 credits, gradingOptionKey, context);
         return result;
     }
 
     @Override
-    public List<LprInfo> updateCourseWaitlistLprs(String masterLprId, String credits, String gradingOptionId,
-                                                  ContextInfo contextInfo)
+    public List<LprInfo> updateOptionsOnWaitlistLprs(String masterLprId, String credits, String gradingOptionId,
+                                                     ContextInfo contextInfo)
             throws OperationFailedException, PermissionDeniedException, MissingParameterException,
             InvalidParameterException, DoesNotExistException, ReadOnlyException, DataValidationErrorException,
             VersionMismatchException {
         // KSENROLL-12144
-
-        List<LprInfo> updatedLprInfos = updateLprInfosCommon(KEYNAME_TO_WAITLIST_LPR_TYPES_MAP,
+        List<LprInfo> updatedLprInfos = updateOptionsOnLprsCommon(LprServiceConstants.WAITLIST_CO_LPR_TYPE_KEY,
                 masterLprId, credits, gradingOptionId, contextInfo);
 
         return updatedLprInfos;
@@ -326,7 +311,7 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
             InvalidParameterException, DoesNotExistException, ReadOnlyException, DataValidationErrorException,
             VersionMismatchException {
 
-//        List<LprInfo> updatedLprInfos = updateLprInfosCommon(KEYNAME_TO_WAITLIST_LPR_TYPES_MAP,
+//        List<LprInfo> updatedLprInfos = updateOptionsOnLprsCommon(KEYNAME_TO_WAITLIST_LPR_TYPES_MAP,
 //                masterLprId, credits, gradingOptionId, contextInfo);
         List<LprInfo> lprsAddFromWaitlist = new ArrayList<LprInfo>();
 
@@ -336,20 +321,20 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
     /**
      * Common code to update LPRs (registrant and waitlists)
      *
-     * @param keynameToLprTypesMap
-     * @param masterLprId
-     * @param credits
-     * @param gradingOptionId
-     * @param contextInfo
+     * @param courseOfferingLprType Either LprServiceConstants.REGISTRANT_CO_LPR_TYPE_KEY
+     *                              or LprServiceConstants.WAITLIST_CO_LPR_TYPE_KEY
+     * @param masterLprId The RG LPR for either registrant/waitlist LPR
+     * @param credits RVG credit
+     * @param gradingOptionId RVG grading option
+     * @param contextInfo The context
      * @return List of update LprInfos
      */
-    protected List<LprInfo> updateLprInfosCommon(Map<String, String> keynameToLprTypesMap,
-                                                 String masterLprId, String credits, String gradingOptionId,
-                                                 ContextInfo contextInfo)
+    protected List<LprInfo> updateOptionsOnLprsCommon(String courseOfferingLprType,
+                                                      String masterLprId, String credits, String gradingOptionId,
+                                                      ContextInfo contextInfo)
             throws OperationFailedException, PermissionDeniedException, MissingParameterException,
             InvalidParameterException, DoesNotExistException, ReadOnlyException, DataValidationErrorException,
             VersionMismatchException {
-        String coLprType = keynameToLprTypesMap.get(CO_LPR_KEYNAME);
         // Record the current time
         Date now = new Date();
         // Fetch the CO LPR
@@ -357,7 +342,7 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
         List<String> lprStates = new ArrayList<String>();
         lprStates.add(LprServiceConstants.ACTIVE_STATE_KEY);
         // This is the only place keynameToLprTypesMap is used to look up the Course offering LPR type.
-        List<String> coLprIds = getLprIdsByMasterLprId(masterLprId, coLprType,
+        List<String> coLprIds = getLprIdsByMasterLprId(masterLprId, courseOfferingLprType,
                 lprStates, contextInfo);
         String coLprId = KSCollectionUtils.getRequiredZeroElement(coLprIds);
         LprInfo origCoLpr = getLprService().getLpr(coLprId, contextInfo);
@@ -419,7 +404,7 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
 
     @Override
     public List<LprInfo> removeCourseWaitlistEntry(String masterLprId, ContextInfo contextInfo) throws OperationFailedException, PermissionDeniedException, MissingParameterException, InvalidParameterException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
-        return dropLprInfos(masterLprId, contextInfo);
+        return dropLprs(masterLprId, contextInfo);
     }
 
     @Override

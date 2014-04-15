@@ -25,20 +25,20 @@ public interface CourseRegistrationEngineService {
 
     public LprTransactionInfo updateLprTransaction(String lprTransactionId, String state, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, VersionMismatchException, DataValidationErrorException;
 
-    public List<LprInfo> addLprInfo(String regGroupId, String termId, String credits, String gradingOptionId, ContextInfo contextInfo);
+    public List<LprInfo> addRegisteredLprs(String regGroupId, String termId, String credits, String gradingOptionId, ContextInfo contextInfo);
 
-    public List<LprInfo> updateLprInfos(String masterLprId, String credits, String gradingOptionId, ContextInfo contextInfo)
+    public List<LprInfo> updateOptionsOnRegisteredLprs(String masterLprId, String credits, String gradingOptionId, ContextInfo contextInfo)
             throws OperationFailedException, PermissionDeniedException, DataValidationErrorException, VersionMismatchException,
             InvalidParameterException, ReadOnlyException, MissingParameterException, DoesNotExistException;
 
-    public List<LprInfo> dropLprInfos(String masterLprId, ContextInfo contextInfo) throws OperationFailedException,
+    public List<LprInfo> dropLprs(String masterLprId, ContextInfo contextInfo) throws OperationFailedException,
             PermissionDeniedException, DataValidationErrorException, VersionMismatchException,
             InvalidParameterException, ReadOnlyException, MissingParameterException, DoesNotExistException;
 
     public RegistrationRequestEngineMessage initializeRegistrationRequest(String regReqId, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException;
 
-    public List<LprInfo> addCourseWaitlistEntry(String regGroupId, String termId, String credits, String gradingOptionId, ContextInfo contextInfo);
-    public List<LprInfo> updateCourseWaitlistLprs(String masterLprId, String credits, String gradingOptionId, ContextInfo contextInfo) throws OperationFailedException, PermissionDeniedException, MissingParameterException, InvalidParameterException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException;
+    public List<LprInfo> addWaitlistLprs(String regGroupId, String termId, String credits, String gradingOptionId, ContextInfo contextInfo);
+    public List<LprInfo> updateOptionsOnWaitlistLprs(String masterLprId, String credits, String gradingOptionId, ContextInfo contextInfo) throws OperationFailedException, PermissionDeniedException, MissingParameterException, InvalidParameterException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException;
     public List<LprInfo> removeCourseWaitlistEntry(String masterLprId, ContextInfo contextInfo) throws OperationFailedException, PermissionDeniedException, MissingParameterException, InvalidParameterException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException;
 
     public List<LprInfo> addLprsFromWaitlist(String regGroupId, String personId, String termId, ContextInfo contextInfo) throws OperationFailedException, PermissionDeniedException, MissingParameterException, InvalidParameterException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException;
