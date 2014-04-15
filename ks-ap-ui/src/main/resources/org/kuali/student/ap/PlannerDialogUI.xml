@@ -867,7 +867,7 @@
     </bean>    -->
 
     <bean id="planner_backup_input"  parent="Uif-CheckboxInputField"
-          p:label="Mark as Backup"  p:propertyName="backup"
+          p:label="Mark as backup"  p:propertyName="backup"
           p:labelPlacement="RIGHT" p:fieldLabel.renderColon="false" />
 
 	<bean id="planner_error_placeholder" parent="Uif-HorizontalBoxGroup"
