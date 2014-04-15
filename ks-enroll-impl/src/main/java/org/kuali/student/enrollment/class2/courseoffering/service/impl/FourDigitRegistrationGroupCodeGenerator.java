@@ -118,7 +118,7 @@ public class FourDigitRegistrationGroupCodeGenerator implements RegistrationGrou
                                     Map<String, Object> keyValues) {
         if (keyValues != null && keyValues.containsKey(CourseOfferingServiceBusinessLogicImpl.FIRST_REG_GROUP_CODE)) {
             // Should be an integer version of a code like "0101" (which would be 101)
-            int val = (Integer) keyValues.get(CourseOfferingServiceBusinessLogicImpl.FIRST_REG_GROUP_CODE);
+            int val = Integer.parseInt(keyValues.get(CourseOfferingServiceBusinessLogicImpl.FIRST_REG_GROUP_CODE).toString());
             if (val < 1000 || val > 9999) {
                 throw new RuntimeException("Val should be exactly 4 digits long");
             }

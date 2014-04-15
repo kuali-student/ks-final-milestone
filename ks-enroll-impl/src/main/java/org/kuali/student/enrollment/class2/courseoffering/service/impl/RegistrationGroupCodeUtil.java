@@ -42,7 +42,7 @@ import java.util.Set;
  */
 public class RegistrationGroupCodeUtil {
     public static final String REG_CODE_PREFIX_DYN_ATTR = "regCodePrefix";
-    public static int computeRegCodePrefixForFo(List<FormatOfferingInfo> existingFos, CourseOfferingService coService, ContextInfo context)
+    public static String computeRegCodePrefixForFo(List<FormatOfferingInfo> existingFos, CourseOfferingService coService, ContextInfo context)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException,
             VersionMismatchException {
@@ -93,7 +93,7 @@ public class RegistrationGroupCodeUtil {
         // Finally, return smallest unused number to use as a prefix
         for (int i = 1; i < 10; i++) {
             if (!usedPrefixes.contains(i)) {
-                return i;
+                return Integer.toString(i);
             }
         }
         // All prefixes used up, so throw exception
@@ -115,10 +115,10 @@ public class RegistrationGroupCodeUtil {
         fo.getAttributes().add(newAttr);
     }
 
-    public static int getRegCodePrefixFromFo(FormatOfferingInfo fetched) throws OperationFailedException {
+    public static String getRegCodePrefixFromFo(FormatOfferingInfo fetched) throws OperationFailedException {
         for (AttributeInfo attr: fetched.getAttributes()) {
             if (REG_CODE_PREFIX_DYN_ATTR.equals(attr.getKey())) {
-                return Integer.parseInt(attr.getValue());
+                return attr.getValue();
             }
         }
         throw new OperationFailedException("Unable to find dynamic attribute for: " + REG_CODE_PREFIX_DYN_ATTR);

@@ -900,7 +900,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             throw new OperationFailedException("Error creating format offering. Format does not exist with id " + formatId);
         }
         // Use dynamic attributes to set a prefix for the reg code generation (KSENROLL-6222)
-        int prefix = 1;
+        String prefix = "1";
         try {
             prefix = RegistrationGroupCodeUtil.computeRegCodePrefixForFo(existingFos, this, context);
         } catch (VersionMismatchException e) {

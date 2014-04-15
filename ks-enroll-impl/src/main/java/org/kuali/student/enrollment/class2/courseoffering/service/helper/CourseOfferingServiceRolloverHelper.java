@@ -55,207 +55,20 @@ import java.util.Set;
  *
  * @author Kuali Student Team
  */
-public class CourseOfferingServiceRolloverHelper {
+public abstract class CourseOfferingServiceRolloverHelper {
+
     public static final String FIRST_REG_GROUP_CODE = "firstRegGroupCode";
 
-    public static List<BulkStatusInfo> generateRegGroupsForClusterHelper(String activityOfferingClusterId,
-                                                                         ContextInfo contextInfo,
-                                                                         CourseOfferingService coService,
-                                                                         RegistrationGroupCodeGeneratorFactory registrationCodeGeneratorFactory)
-            throws PermissionDeniedException, DataValidationErrorException, InvalidParameterException,
-            OperationFailedException, MissingParameterException, DoesNotExistException {
-        return generateRegGroupsForClusterHelper(activityOfferingClusterId, contextInfo, coService, registrationCodeGeneratorFactory,
-                false, new ArrayList<RegistrationGroupInfo>(), null, null, null);
-    }
-
-
-    public static List<BulkStatusInfo> generateRegGroupsForClusterHelper(String activityOfferingClusterId,
-                                                                         ContextInfo contextInfo,
-                                                                         CourseOfferingService coService,
-                                                                         RegistrationGroupCodeGeneratorFactory registrationCodeGeneratorFactory,
-                                                                         boolean useCaching,
-                                                                         List<RegistrationGroupInfo> regGroupCache,
-                                                                         ActivityOfferingClusterInfo clusterCache,
-                                                                         FormatOfferingInfo foForCluster,
-                                                                         List<ActivityOfferingInfo> aosInClusterCache)
-            throws DoesNotExistException, DataValidationErrorException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<BulkStatusInfo> rgChanges = new ArrayList<BulkStatusInfo>();
-        ActivityOfferingClusterInfo cluster = clusterCache;
-        if (clusterCache == null) {
-            cluster = coService.getActivityOfferingCluster(activityOfferingClusterId, contextInfo);
-        }
-        // If any of the AO sets is empty, we'll bail out and not generate.  This is more the expected behavior.
-        if (_hasEmptyAoSets(cluster)) {
-            return new ArrayList<BulkStatusInfo>(); // KSENROLL-6193, KSENROLL-6181
-        }
-
-        List<RegistrationGroupInfo> existingRegistrationGroups = regGroupCache;
-        if (!useCaching) {
-            // Pass in an empty list if you have no existing reg groups
-            existingRegistrationGroups = coService.getRegistrationGroupsByFormatOffering(cluster.getFormatOfferingId(), contextInfo);
-        }
-        int prefix = 1;
-        if (useCaching) {
-            // Assume if useCaching == true, then prefix exists for FO (due to rollover setting it)
-            // Throws an exception if it can't be found
-            prefix = RegistrationGroupCodeUtil.getRegCodePrefixFromFo(foForCluster);
-        } else if (existingRegistrationGroups.isEmpty()) {
-            // Default case for setting FOs to have a prefix used to generate reg codes
-            // A bit tedious to fetch all the FOs
-            String foId = cluster.getFormatOfferingId();
-            FormatOfferingInfo clusterFo = coService.getFormatOffering(foId, contextInfo);
-            CourseOfferingInfo co = coService.getCourseOffering(clusterFo.getCourseOfferingId(), contextInfo);
-            List<FormatOfferingInfo> foInfos = coService.getFormatOfferingsByCourseOffering(co.getId(), contextInfo);
-
-            try {
-                RegistrationGroupCodeUtil.computeRegCodePrefixForFo(foInfos, coService, contextInfo);
-                // Refetch the FO
-                FormatOfferingInfo fetched = coService.getFormatOffering(foId, contextInfo);
-                prefix = RegistrationGroupCodeUtil.getRegCodePrefixFromFo(fetched);
-            } catch (ReadOnlyException e) {
-                throw new OperationFailedException("ERROR in generating reg groups (ReadOnlyException) " + e.getMessage());
-            } catch (VersionMismatchException e) {
-                throw new OperationFailedException("ERROR in generating reg groups (VersionMismatchException) " + e.getMessage());
-            }
-        }
-        Integer firstRegGroupCode = _gRGFC_computeFirstRegGroupCode(existingRegistrationGroups, prefix);
-
-        // Calculate the set of "set of AO IDs" from which to generate reg groups.
-
-        Set<List<String>> regGroupAoIds =
-                PermutationCounter.computeMissingRegGroupAoIdsInCluster(cluster, existingRegistrationGroups);
-
-        FormatOfferingInfo fo = foForCluster;
-        if (!useCaching) {
-            fo = coService.getFormatOffering(cluster.getFormatOfferingId(), contextInfo);
-        }
-        List<ActivityOfferingInfo> aoList = aosInClusterCache;
-        if (!useCaching) {
-            aoList = coService.getActivityOfferingsByCluster(activityOfferingClusterId, contextInfo);
-        }
-        // New instance created each time if desired
-        RegistrationGroupCodeGenerator generator =
-                registrationCodeGeneratorFactory.makeCodeGenerator();
+    public static Map<String, Object> getKeyValues(String firstRegGroupCode) {
         Map<String, Object> keyValues = null;
         if (firstRegGroupCode != null) {
             keyValues = new HashMap<String, Object>();
             keyValues.put(FIRST_REG_GROUP_CODE, firstRegGroupCode);
         }
-        generator.initializeGenerator(coService, fo, contextInfo, keyValues);
-
-        //Sort the lists in order to be in sequence with RGIDs when generating
-        //Sort aoList
-
-        Collections.sort(aoList, new Comparator<ActivityOfferingInfo>() {
-            @Override
-            public int compare(ActivityOfferingInfo o1, ActivityOfferingInfo o2) {
-                if (o1.getActivityCode() != null && o2.getActivityCode() != null
-                        && !o1.getActivityCode().equals("") && !o2.getActivityCode().equals("")) {
-                    return o1.getActivityCode().compareTo(o2.getActivityCode());
-                } else {
-                    return -1;
-                }
-            }
-        });
-
-        //Sort AO IDs within the regGroupAoIds list's arrays
-        ArrayList<List<ActivityOfferingInfo>> regGroupAoInfosSorted = new ArrayList<List<ActivityOfferingInfo>>();
-        for (List<String> aoIDs : regGroupAoIds) {
-            List<ActivityOfferingInfo> aoListSorted = new ArrayList<ActivityOfferingInfo>();
-            //loop aoIDs and find the related AO that will store the activityCode to be sorted on
-            for (String aoIDinaoIDs: aoIDs) {
-                //find the matching ID and associate it to the AOInfo
-                for (ActivityOfferingInfo aoInfo :  aoList) {
-                    if (aoInfo.getId().equals(aoIDinaoIDs)) {
-                        aoListSorted.add(aoInfo); //create a list of AOInfos to be sorted
-                        break;
-                    }
-                }
-            }
-
-            //Sort aoListSorted based on activityCode
-            Collections.sort(aoListSorted, new Comparator<ActivityOfferingInfo>() {
-                @Override
-                public int compare(ActivityOfferingInfo o1, ActivityOfferingInfo o2) {
-                    if (o1.getActivityCode() != null && o2.getActivityCode() != null
-                            && !o1.getActivityCode().equals("") && !o2.getActivityCode().equals("")){
-                        return o1.getActivityCode().compareTo(o2.getActivityCode());
-                    } else {
-                        return -1;
-                    }
-                }
-            });
-
-            regGroupAoInfosSorted.add(aoListSorted);
-        }
-        //Sort regGroupAoInfosSorted
-        Collections.sort(regGroupAoInfosSorted, new Comparator <List<ActivityOfferingInfo>>() {
-            @Override
-            public int compare(List<ActivityOfferingInfo> o1, List<ActivityOfferingInfo> o2) {
-                StringBuilder sb1 = new StringBuilder();
-                StringBuilder sb2 = new StringBuilder();
-                for (ActivityOfferingInfo aoInfo1 : o1) { //build o1 code
-                    sb1.append(aoInfo1.getActivityCode());
-                }
-                for (ActivityOfferingInfo aoInfo2 : o2) { //build o2 code
-                    sb2.append(aoInfo2.getActivityCode());
-                }
-                if (!sb1.toString().equals("") && !sb2.toString().equals("")){
-                    return sb1.toString().compareTo(sb2.toString());
-                } else {
-                    return -1;
-                }
-            }
-        });
-
-        // Loop through each set of AO Ids and create a reg group.
-        for (List<ActivityOfferingInfo> aoInfoList : regGroupAoInfosSorted) {
-            List<String> activityOfferingPermutation = new ArrayList<String>();
-            for (ActivityOfferingInfo aoInfo : aoInfoList) {
-                activityOfferingPermutation.add(aoInfo.getId());
-            }
-
-            if (!_isValidActivityOfferingPermutation(activityOfferingPermutation)) {
-                continue;
-            }
-            String regGroupCode = generator.generateRegistrationGroupCode(fo, aoList, null);
-            RegistrationGroupInfo rg = _gRGFC_makeRegGroup(regGroupCode, activityOfferingPermutation, fo, cluster.getId());
-
-            try {
-                RegistrationGroupInfo rgInfo = coService.createRegistrationGroup(cluster.getFormatOfferingId(), cluster.getId(), LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, rg, contextInfo);
-                BulkStatusInfo status  = new BulkStatusInfo();
-                status.setId(rgInfo.getId());
-                status.setSuccess(Boolean.TRUE);
-                status.setMessage("Created Registration Group");
-                rgChanges.add(status);
-                regGroupCache.add(rgInfo);
-
-                // Now determine if this registration group is in a valid state
-                List<ValidationResultInfo> validations =
-                        coService.verifyRegistrationGroup(rgInfo.getId(), contextInfo);
-
-                for (ValidationResultInfo validation: validations) {
-                    if (validation.isWarn()) {
-                        // If any validation is an error, then make this invalid
-                        coService.changeRegistrationGroupState(rgInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY, contextInfo);
-                        break;
-                    }
-                }
-                Map<String, ActivityOfferingInfo> aoIdToAoMap = _makeAoIdToAoMap(aosInClusterCache);
-                changeClusterRegistrationGroupState(rgInfo, aoIdToAoMap, coService, contextInfo);
-
-            } catch (DataValidationErrorException e) {
-                throw new OperationFailedException("Failed to validate registration group", e);
-            } catch (ReadOnlyException e) {
-                throw new OperationFailedException("Failed to write registration group", e);
-            }
-        }
-
-        return rgChanges;
+        return keyValues;
     }
 
-    private static Map<String, ActivityOfferingInfo> _makeAoIdToAoMap(List<ActivityOfferingInfo> aoInfos) {
+    public static Map<String, ActivityOfferingInfo> _makeAoIdToAoMap(List<ActivityOfferingInfo> aoInfos) {
         Map<String, ActivityOfferingInfo> aoIdToAoMap = new HashMap<String, ActivityOfferingInfo>();
         if (aoInfos == null || aoInfos.isEmpty()) {
             return null; // Can either return null or empty list to indicate there is no map
@@ -267,7 +80,7 @@ public class CourseOfferingServiceRolloverHelper {
     }
 
     // Returns true if a cluster has one (or more) AO sets that is empty.
-    private static boolean _hasEmptyAoSets(ActivityOfferingClusterInfo cluster) {
+    public static boolean _hasEmptyAoSets(ActivityOfferingClusterInfo cluster) {
         for (ActivityOfferingSetInfo set: cluster.getActivityOfferingSets()) {
             if (set.getActivityOfferingIds().isEmpty()) {
                 return true;
@@ -276,22 +89,22 @@ public class CourseOfferingServiceRolloverHelper {
         return false;
     }
 
-    private static Integer _gRGFC_computeFirstRegGroupCode(List<RegistrationGroupInfo> regGroups, int prefix) {
-        List<Integer> rgCodesUsed = new ArrayList<Integer>();
+    public static String _gRGFC_computeFirstRegGroupCode(List<RegistrationGroupInfo> regGroups, String prefix) {
+        List<String> rgCodesUsed = new ArrayList<String>();
         if (regGroups.isEmpty()) {
             // If no RGs then multiply prefix by 1000 and add 1.  This creates codes like 1001, 2001, 3001, etc.
             // The prefix identifies the reg group
-            return prefix * 1000 + 1;
+            return Integer.toString(Integer.parseInt(prefix) * 1000 + 1);
         }
         for (RegistrationGroupInfo rg: regGroups) {
             String regGroupCode = rg.getName(); // The name field stores
-            Integer regGroupNum = Integer.parseInt(regGroupCode);
+            String regGroupNum = regGroupCode;
             rgCodesUsed.add(regGroupNum);
         }
-        return Collections.max(rgCodesUsed) + 1;
+        return Integer.toString(Integer.parseInt(Collections.max(rgCodesUsed)) + 1);
     }
 
-    protected static boolean _isValidActivityOfferingPermutation(List<String> activityOfferingPermutation) {
+    public static boolean _isValidActivityOfferingPermutation(List<String> activityOfferingPermutation) {
         // Needs to be fixed?
         return true;
     }
@@ -305,7 +118,7 @@ public class CourseOfferingServiceRolloverHelper {
      * @param activityOfferingClusterId The cluster id which the AO IDs were selected from
      * @return A reg group (to be perssisted via services)
      */
-    private static RegistrationGroupInfo _gRGFC_makeRegGroup(String regGroupCode, List<String> activityOfferingPermutation,
+    public static RegistrationGroupInfo _gRGFC_makeRegGroup(String regGroupCode, List<String> activityOfferingPermutation,
                                                       FormatOfferingInfo formatOffering, String activityOfferingClusterId) {
         RegistrationGroupInfo rg = new RegistrationGroupInfo();
 
@@ -324,7 +137,7 @@ public class CourseOfferingServiceRolloverHelper {
         return rg;
     }
 
-    private static void changeClusterRegistrationGroupState( RegistrationGroupInfo regGroupInfo,
+    public static void changeClusterRegistrationGroupState( RegistrationGroupInfo regGroupInfo,
                                                              Map<String, ActivityOfferingInfo> aoIdToAoMap,
                                                              CourseOfferingService coService,
                                                              ContextInfo contextInfo )
@@ -348,7 +161,7 @@ public class CourseOfferingServiceRolloverHelper {
 
     }
 
-    private static ActivityOfferingInfo getAoFromServiceIfNotFoundInMap( String targetAoId,
+    protected static ActivityOfferingInfo getAoFromServiceIfNotFoundInMap( String targetAoId,
                                                          CourseOfferingService courseOfferingService,
                                                          Map<String, ActivityOfferingInfo> aoIdToAoMap,
                                                          ContextInfo contextInfo ) {
@@ -376,4 +189,40 @@ public class CourseOfferingServiceRolloverHelper {
         return activityOfferingInfo;
     }
 
+    public static void sortActivityOfferingInfoByActivityCode(List<ActivityOfferingInfo> activityOfferingInfoList) {
+
+        Collections.sort(activityOfferingInfoList, new Comparator<ActivityOfferingInfo>() {
+            @Override
+            public int compare(ActivityOfferingInfo o1, ActivityOfferingInfo o2) {
+                if (o1.getActivityCode() != null && o2.getActivityCode() != null
+                        && !o1.getActivityCode().equals("") && !o2.getActivityCode().equals("")){
+                    return o1.getActivityCode().compareTo(o2.getActivityCode());
+                } else {
+                    return -1;
+                }
+            }
+        });
+    }
+
+    public static void sortRegGroupAOInfosByActivityCode(ArrayList<List<ActivityOfferingInfo>> regGroupAOInfos) {
+
+        Collections.sort(regGroupAOInfos, new Comparator<List<ActivityOfferingInfo>>() {
+            @Override
+            public int compare(List<ActivityOfferingInfo> o1, List<ActivityOfferingInfo> o2) {
+                StringBuilder sb1 = new StringBuilder();
+                StringBuilder sb2 = new StringBuilder();
+                for (ActivityOfferingInfo aoInfo1 : o1) { //build o1 code
+                    sb1.append(aoInfo1.getActivityCode());
+                }
+                for (ActivityOfferingInfo aoInfo2 : o2) { //build o2 code
+                    sb2.append(aoInfo2.getActivityCode());
+                }
+                if (!sb1.toString().equals("") && !sb2.toString().equals("")){
+                    return sb1.toString().compareTo(sb2.toString());
+                } else {
+                    return -1;
+                }
+            }
+        });
+    }
 }
