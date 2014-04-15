@@ -269,7 +269,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
         RuleViewHelperService viewHelper = this.getViewHelper(form);
 
         //Special case when only one proposition in tree or no proposition selected
-        if (selectedPropKey.isEmpty() && parent == null && root.getChildren().size() > 0) {
+        if ((selectedPropKey == null || selectedPropKey.isEmpty()) && parent == null && root.getChildren().size() > 0) {
             //Special case when now proposition selected and more than one proposition in tree
             if (root.getChildren().get(root.getChildren().size() - 1).getNodeType().contains("compoundNode")) {
                 parent = root.getChildren().get(root.getChildren().size() - 1);
