@@ -40,26 +40,49 @@ function submitMoveAoOnEnterKeyIfValid() {
 
 }
 
+/**
+ * Add a select-all checkbox to the table header
+ *      and register checkbox events to toggle toolbar buttons
+ *
+ * @param int column            The column number in the datatable containing checkboxes
+ * @param string componentId    ID of the datatable(s) with checkboxes
+ * @param string functionToCall The function, or functions, to register for each checkbox
+ */
 function addCheckboxToColumnHeader(column, componentId, functionToCall) {
     var components = jQuery('div[id^="' + componentId + '"]');
+
     jQuery.each(components, function (index) {
         var subComponentId = jQuery(this).attr('id');
         var table = jQuery(this).find('table');
         var tableId = jQuery(table).attr('id');
+        var th = jQuery('#' + tableId)
+            .find('thead')
+            .find('tr')
+            .find('th:nth-child(' + column + ')');
 
-        var th = jQuery('#' + tableId + ' thead tr').find('th:nth-child(' + column + ')');
-        // a checkbox for the header row
-        var toggleCheckbox = jQuery("<input type='checkbox' id='" + subComponentId + "_toggle_control_checkbox'/>");
+        // Create a new checkbox for the header row for select-all functionality
+        var toggleCheckbox = jQuery("<input type='checkbox' id='"
+            + subComponentId
+            + "_toggle_control_checkbox'/>");
+
         // add the toggle checkbox to the header row
-        jQuery(th).append(toggleCheckbox);
+        th.append(toggleCheckbox);
 
-        var allCheckboxesInColumn = jQuery('#' + tableId + ' tbody > tr > td:nth-child(' + column + ')').find('[type=checkbox]');
+        var allCheckboxesInColumn = jQuery('#' + tableId)
+            .find('tbody')
+            .find('tr')
+            .find('td:nth-child(' + column + ')')
+            .find('[type=checkbox]');
+
         toggleCheckbox.click(function (e) {
             // clicking on the checkbox in the header row toggles
             // the checkbox values and style class in all the checkboxes in that column
             allCheckboxesInColumn.each(function () {
-                jQuery(this).prop('checked', jQuery(toggleCheckbox).prop('checked'));
-                jQuery(this).closest('tr').toggleClass('selected-row', jQuery(this).prop('checked') );
+                jQuery(this)
+                    .prop('checked', jQuery(toggleCheckbox).prop('checked'));
+                jQuery(this)
+                    .closest('tr')
+                    .toggleClass('selected-row', jQuery(this).prop('checked') );
             });
             if (functionToCall) {
                 var target = jQuery.makeArray(functionToCall);
@@ -69,15 +92,16 @@ function addCheckboxToColumnHeader(column, componentId, functionToCall) {
         });
 
         var clickName;
-        allCheckboxesInColumn.each(function(ndx,ctl) {
-            clickName = "click." + subComponentId + "_row_" + ndx;
+
+        allCheckboxesInColumn.each(function(index) {
+            clickName = "click." + subComponentId + "_row_" + index;
             // attach an event handler function for the click event
             jQuery(this).on(clickName, function(){
                 controlCheckboxStatus(subComponentId,this);
             });
         });
 
-    });
+    }); //end each loop
 }
 
 /*
