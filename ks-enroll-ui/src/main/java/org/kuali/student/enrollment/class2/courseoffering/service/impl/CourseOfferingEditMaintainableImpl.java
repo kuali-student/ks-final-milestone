@@ -198,7 +198,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
             setUseFinalExamMatrix(coInfo, coEditWrapper);
 
             CourseOfferingManagementUtil.getCourseOfferingService().updateCourseOffering(coInfo.getId(), coInfo, contextInfo);
-            String[] parameters = {coInfo.getCourseOfferingCode() + coInfo.getCourseNumberSuffix()};
+            String[] parameters = {coInfo.getCourseOfferingCode()};
             KSUifUtils.getMessengerFromUserSession().addSuccessMessage(CourseOfferingConstants.COURSE_OFFERING_CREATE_SUCCESS, parameters);
 
             // generate exam offerings if exam period exists
@@ -296,7 +296,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
 
             CourseOfferingInfo info = CourseOfferingManagementUtil.getCourseOfferingService().createCourseOffering(coInfo.getCourseId(),
                     coInfo.getTermId(), LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, coInfo, optionKeys, contextInfo);
-            String[] parameters = {coInfo.getCourseOfferingCode() + coInfo.getCourseNumberSuffix()};
+            String[] parameters = {coInfo.getCourseOfferingCode()};
             KSUifUtils.getMessengerFromUserSession().addSuccessMessage(CourseOfferingConstants.COURSE_OFFERING_CREATE_SUCCESS, parameters);
 
             coCreateWrapper.setCourseOfferingInfo(info);

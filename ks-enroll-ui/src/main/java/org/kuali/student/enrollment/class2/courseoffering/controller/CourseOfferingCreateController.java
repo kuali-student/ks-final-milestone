@@ -394,7 +394,7 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
 
         //Display success message for co copy.
         CourseOfferingInfo courseOfferingInfo = CourseOfferingManagementUtil.getCourseOfferingService().getCourseOffering(item.getTargetCourseOfferingId(), contextInfo);
-        String[] parameters = {courseOfferingInfo.getCourseOfferingCode() + courseOfferingInfo.getCourseNumberSuffix()};
+        String[] parameters = {courseOfferingInfo.getCourseOfferingCode()};
         KSUifUtils.getMessengerFromUserSession().addSuccessMessage(CourseOfferingConstants.COURSE_OFFERING_CREATE_SUCCESS, parameters);
 
         //Perform Exam Offering Generation directly from UI to get handel on result set that can be visible to user.
