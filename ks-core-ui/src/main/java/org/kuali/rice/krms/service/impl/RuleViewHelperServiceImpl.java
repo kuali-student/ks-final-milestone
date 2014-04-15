@@ -131,7 +131,8 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
 
                 //Only set the objectpath on ajax component refresh.
                 String objectPath = null;
-                if (maintenanceDocumentForm.getUpdateComponentId().startsWith(container.getId())) {
+                if ((maintenanceDocumentForm.getUpdateComponentId() != null) &&
+                        maintenanceDocumentForm.getUpdateComponentId().startsWith(container.getId())) {
                     objectPath = ViewLifecycle.getView().getDefaultBindingObjectPath();
                 }
 
@@ -160,7 +161,6 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
         if (objectPath != null) {
             String nodePath = objectPath + "." + bindingPath;
             ComponentUtils.pushObjectToContext(component, UifConstants.ContextVariableNames.NODE_PATH, nodePath);
-        //    ComponentUtils.prefixBindingPathNested(component, bindingPath);
         }
         return component;
     }
