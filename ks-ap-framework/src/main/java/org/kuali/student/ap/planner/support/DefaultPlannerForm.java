@@ -538,6 +538,7 @@ public class DefaultPlannerForm extends AbstractPlanItemForm implements
 
 	public boolean isVariableCredit() {
 		Range range = CreditsFormatter.getRange(getCourse());
+        if(range.getMultiple()!=null && !range.getMultiple().isEmpty()) return true;
 		return !range.getMax().equals(range.getMin());
 	}
 

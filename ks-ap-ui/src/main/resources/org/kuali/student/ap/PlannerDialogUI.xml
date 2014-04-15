@@ -600,15 +600,19 @@
 
     <bean id="planner_course_credit_input" parent="planner_course_credit_input-parent"/>
  	<bean id="planner_course_credit_input-parent" abstract="true" parent="planner_dialog_input">
+        <property name="render" value="@{variableCredit}"/>
  		<property name="propertyName" value="courseCredit" />
  		<property name="label" value="Credits" />
         <property name="fieldLabel.renderColon" value="false"/>
+        <property name="labelPlacement" value="LEFT"/>
         <property name="control">
             <bean parent="KS-Uif-DropdownControl"/>
         </property>
         <property name="optionsFinder">
             <!-- Using Terms dropdown. Do we have credits dropdown? -->
-            <bean class="org.kuali.student.ap.planner.util.TermsListBuilder"/>
+            <bean class="org.kuali.student.ap.planner.util.CourseCreditListBuilder">
+                <property name="addBlankOption" value="false"/>
+            </bean>
         </property>
  	</bean>
 
