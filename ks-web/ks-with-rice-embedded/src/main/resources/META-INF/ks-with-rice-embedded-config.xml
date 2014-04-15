@@ -120,7 +120,8 @@
     <!-- additional context files -->
     <param name="rice.kim.additionalSpringFiles">classpath:ks-kim-context.xml</param>
     <param name="rice.krms.additionalSpringFiles">classpath:ks-krms-context.xml</param>
-    
+    <param name="rice.kr.additionalSpringFiles">classpath:ks-krad-context.xml</param>
+
     <param name="ks.rice.label">RICE</param>
     <param name="ks.rice.url">http://localhost:8080/ks-rice-standalone-${environment}</param>
     <param name="rice.server.url">${ks.rice.url}</param>
