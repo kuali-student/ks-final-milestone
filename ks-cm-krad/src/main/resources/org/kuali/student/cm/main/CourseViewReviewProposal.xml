@@ -195,7 +195,7 @@
                                   p:propertyName="reviewProposalDisplay.courseSection.crossListingsAsString"/>
                             <bean parent="CM-ReadOnlyInput" p:label="Jointly Offered Courses" id="courseSection_jointly_offered_courses"
                                   p:propertyName="reviewProposalDisplay.courseSection.jointlyOfferedCoursesAsString"/>
-                             <bean parent="CM-ReadOnlyInput" p:label="Version Codes" id="courseSection_variations_CHANGEME"
+                             <bean parent="CM-ReadOnlyInput" p:label="Version Codes" id="courseSection_Version_Codes"
                                   p:propertyName="reviewProposalDisplay.courseSection.variationsAsString"/>
                             <bean parent="CM-ReadOnlyInput" p:label="Instructor(s)" id="courseSection_instructors"
                                   p:propertyName="reviewProposalDisplay.courseSection.instructorsAsString"/>
