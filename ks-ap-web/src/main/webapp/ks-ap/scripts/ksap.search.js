@@ -397,6 +397,8 @@ function fnGenerateFacetGroup(obj) {
 	jFacets.empty();
 	var bOne = false; // exactly one facet value
 	var bMore = false; // more than one facet value
+    if (oData == null)
+        return
     if(fcol == "facet_genedureq" || fcol == "facet_quarter"){
         delete oData["None"];
     }
