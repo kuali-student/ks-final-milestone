@@ -513,7 +513,7 @@
                             <property name="items">
                                 <list>
                                     <bean parent="KS-Uif-PrimaryActionButton" p:id="createFromCopy_btn" p:methodToCall="createFromCopy" p:actionLabel="Create" p:render="@{!#view.readOnly}"
-                                            p:onClickScript="jQuery('#validateDirty')[0].value=false;"/>
+                                            p:onClickScript="if(jQuery('#validateDirty').length > 0){jQuery('#validateDirty')[0].value=false;}"/>
                                     <bean parent="KS-Uif-ActionLink" p:methodToCall="cancel" p:actionLabel="Cancel"
                                           p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
                                 </list>
