@@ -18,7 +18,7 @@
     </bean>
 
     <bean id="KS-CourseOfferingManagement-AOClustersCollection" parent="KS-Uif-StackedCollectionSection-HorizontalSubCollectionFieldGroup" p:renderAddLine="false"  p:renderLineActions="false"
-          p:onDocumentReadyScript="removeCheckboxColumns(1, 'activityOfferingsPerCluster',
+          p:onDocumentReadyScript="addCheckboxToColumnHeader(1, 'activityOfferingsPerCluster',
                                                         &quot;handleToolbar('KS-CourseOfferingManagement-AOClustersCollection div[id^=activityOfferingsPerCluster]',
                                                         ['enableCancelButton', 'enableSuspendButton', 'enableReinstateButton', 'enableApproveButton', 'enableDeleteButton', 'enableDraftButton', 'enableMoveToButton'],
                                                         ['KS-CourseOfferingManagement-ToolBar-Cancel-AO-ClusterTab', 'KS-CourseOfferingManagement-ToolBar-Suspend-AO-ClusterTab',

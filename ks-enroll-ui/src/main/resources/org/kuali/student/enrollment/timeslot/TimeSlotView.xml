@@ -155,7 +155,7 @@
     </bean>
 
     <bean id="TimeSlotSearchResults-TableCollectionSection" parent="Uif-TableCollectionSection" p:renderAddLine="false"
-        p:onDocumentReadyScript="removeCheckboxColumns(1, 'TimeSlotSearchResultsDisplayTable',&quot;handleToolbar('TimeSlotSearchResultsDisplayTable',['enableDeleteButton'], ['TimeSlot-ToolBar-Delete-TimeSlot'])&quot;), addActionColumn(@{#parent.readOnly}, 'TimeSlotSearchResultsDisplayTable');"
+        p:onDocumentReadyScript="addCheckboxToColumnHeader(1, 'TimeSlotSearchResultsDisplayTable', &quot;handleToolbar('TimeSlotSearchResultsDisplayTable',['enableDeleteButton'], ['TimeSlot-ToolBar-Delete-TimeSlot'])&quot;), addActionColumn(@{#parent.readOnly}, 'TimeSlotSearchResultsDisplayTable');"
             p:style="width:800px;">
 
         <property name="id" value="TimeSlotSearchResultsDisplayTable" />
