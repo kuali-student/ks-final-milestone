@@ -152,7 +152,8 @@ public class AcademicCalendarController extends UifControllerBase {
 
         Properties urlParameters = new Properties();
         urlParameters.put(UifParameters.VIEW_ID, CalendarConstants.ACAL_VIEW);
-        urlParameters.put("flow", acalForm.getFlowKey());
+        String flowKey = acalForm.getFlowKey();
+        urlParameters.put("flow", flowKey == null ? "" : flowKey);
         urlParameters.put(CalendarConstants.PAGE_ID,CalendarConstants.ACADEMIC_CALENDAR_EDIT_PAGE);
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "startNew");
         String controllerPath = CalendarConstants.ACAL_CONTROLLER_PATH;
