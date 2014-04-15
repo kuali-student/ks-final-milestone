@@ -317,6 +317,7 @@
 						<value>primary</value>
 					</list>
 				</property>
+                <property name="render" value="false"/>
 			</bean>
 		</property>
 		<property name="cssClasses">
