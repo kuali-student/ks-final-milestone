@@ -89,13 +89,18 @@ public class ActivityOfferingClusterHandler {
         try {
             String aoIdToCopy = selectedAO.getAoInfo().getId(); // Create a copy of this AO
             String clusterId = selectedAO.getAoClusterID();
-            ActivityOfferingResult aoResult = CourseOfferingManagementUtil.getCourseOfferingServiceFacade().copyActivityOfferingToCluster(aoIdToCopy, clusterId, ContextBuilder.loadContextInfo());
+            ActivityOfferingResult aoResult = CourseOfferingManagementUtil.getCourseOfferingServiceFacade().copyActivityOfferingToCluster(
+                    aoIdToCopy, clusterId, ContextBuilder.loadContextInfo());
 
             // reload AOs including the new one just created
             CourseOfferingManagementUtil.reloadTheCourseOfferingWithAOs_RGs_Clusters(form);
 
             //determine which growl message to display
             KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_ADD_1_SUCCESS);
+
+            //Display the Exam Offering generation results.
+            CourseOfferingManagementUtil.processExamOfferingResultSet(aoResult.getExamOfferingResult());
+            KSUifUtils.getMessengerFromUserSession().publishMessages();
 
         } catch (Exception e) {
             throw new RuntimeException(e);

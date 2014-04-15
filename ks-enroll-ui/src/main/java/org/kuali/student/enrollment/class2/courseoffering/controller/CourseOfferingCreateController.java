@@ -23,6 +23,7 @@ import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.uif.util.KSControllerHelper;
+import org.kuali.student.common.uif.util.KSUifUtils;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.JointCourseWrapper;
@@ -31,6 +32,7 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingCon
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.ManageSocConstants;
 import org.kuali.student.enrollment.class2.courseofferingset.util.CourseOfferingSetUtil;
+import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingResult;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
@@ -389,7 +391,16 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
         SocRolloverResultItemInfo item = CourseOfferingManagementUtil.getCourseOfferingService().rolloverCourseOffering(existingCO.getId(),
                 createWrapper.getTerm().getId(), optionKeys, contextInfo);
+
+        //Display success message for co copy.
         CourseOfferingInfo courseOfferingInfo = CourseOfferingManagementUtil.getCourseOfferingService().getCourseOffering(item.getTargetCourseOfferingId(), contextInfo);
+        String[] parameters = {courseOfferingInfo.getCourseOfferingCode() + courseOfferingInfo.getCourseNumberSuffix()};
+        KSUifUtils.getMessengerFromUserSession().addSuccessMessage(CourseOfferingConstants.COURSE_OFFERING_CREATE_SUCCESS, parameters);
+
+        //Perform Exam Offering Generation directly from UI to get handel on result set that can be visible to user.
+        ExamOfferingResult eoResult = CourseOfferingManagementUtil.getExamOfferingServiceFacade().generateFinalExamOfferingOptimized(courseOfferingInfo, courseOfferingInfo.getTermId(),
+                optionKeys, null, contextInfo);
+        CourseOfferingManagementUtil.processExamOfferingResultSet(eoResult);
 
         Properties urlParameters = new Properties();
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "show");

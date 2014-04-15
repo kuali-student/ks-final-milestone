@@ -514,8 +514,10 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             }
         }
         //process final exam offerings for target course offering
-        getExamOfferingServiceFacade().generateFinalExamOfferingOptimized(targetCo, targetCo.getTermId(),
-                optionKeys, foIdsToAOList, context);
+        if (!optionKeys.contains(CourseOfferingSetServiceConstants.CONTINUE_WITHOUT_EXAM_OFFERINGS_OPTION_KEY)) {
+            getExamOfferingServiceFacade().generateFinalExamOfferingOptimized(targetCo, targetCo.getTermId(),
+                    optionKeys, foIdsToAOList, context);
+        }
 
         SocRolloverResultItemInfo item = new SocRolloverResultItemInfo();
         item.setSourceCourseOfferingId(sourceCoId);
