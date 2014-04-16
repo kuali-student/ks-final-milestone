@@ -210,13 +210,6 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
 
 		LearningPlanEntity lpe = new LearningPlanEntity();
 
-        TypeInfo type = null;
-        try {
-            type = KsapFrameworkServiceLocator.getTypeService().getType(learningPlan.getTypeKey(), context);
-        } catch (DoesNotExistException e) {
-            throw new InvalidParameterException(String.format("Unknown type [%s].", learningPlan.getTypeKey()));
-        }
-
         lpe.setId(UUIDHelper.genStringUUID());
         lpe.fromDto(learningPlan);
         lpe.setEntityCreated(context);
@@ -252,10 +245,6 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
 			@WebParam(name = "learningPlan") LearningPlanInfo learningPlan,
 			@WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, VersionMismatchException {
 
-        if (!learningPlanId.equals(learningPlan.getId())) {
-            throw new InvalidParameterException(learningPlanId + " does not match the id on the object " + learningPlan.getId());
-        }
-
 		LearningPlanEntity lpe = learningPlanDao.find(learningPlanId);
 		if (lpe == null) {
 			throw new DoesNotExistException(learningPlanId);
@@ -278,10 +267,6 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
 			@WebParam(name = "planItem") PlanItemInfo planItem, @WebParam(name = "context") ContextInfo context)
     throws DataValidationErrorException, InvalidParameterException, MissingParameterException,
     OperationFailedException, PermissionDeniedException, DoesNotExistException, VersionMismatchException {
-
-        if (!planItemId.equals(planItem.getId())) {
-            throw new InvalidParameterException(planItemId + " does not match the id on the object " + planItem.getId());
-        }
 
         //  See if the plan item exists before trying to update it.
         PlanItemEntity planItemEntity = planItemDao.find(planItemId);

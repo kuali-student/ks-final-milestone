@@ -43,7 +43,6 @@ import static org.junit.Assert.assertEquals;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:ks-ap-test-context.xml" })
 @TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
 @Transactional
 public abstract class TestAcademicPlanServiceImplConformanceExtendedCrud extends TestAcademicPlanServiceImplConformanceBaseCrud

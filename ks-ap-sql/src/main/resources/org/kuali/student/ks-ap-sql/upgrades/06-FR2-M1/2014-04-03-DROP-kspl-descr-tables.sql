@@ -1,4 +1,4 @@
-/* Drop rich text description tables and add columns to base entity tables */
+/* Drop rich text description tables and add columns to base entity tables, and add NAME column */
 
 alter table KSPL_LRNG_PLAN add
 ( DESCR_FORMATTED VARCHAR2(2000)

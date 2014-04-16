@@ -11,9 +11,12 @@ import java.util.Date;
 import java.util.List;
 
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kuali.student.ap.academicplan.infc.PlanItem;
+import org.kuali.student.ap.academicplan.service.AcademicPlanServiceDecorator;
+import org.kuali.student.ap.academicplan.service.AcademicPlanServiceImpl;
+import org.kuali.student.ap.academicplan.service.mock.AcademicPlanServiceMockImpl;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.support.DefaultKsapContext;
 import org.kuali.student.ap.academicplan.dto.LearningPlanInfo;
@@ -41,30 +44,46 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class AcademicPlanServiceImplTest extends TestAcademicPlanServiceImplConformanceExtendedCrud {
 
+    /**
+     *  This subclass is intended to Run AcademicPlanService Plan & Item Entity CRUD tests defined in generated
+     *  class pair:
+     *      TestAcademicPlanServiceImplConformanceBaseCrud (defines CRUD test methods)
+     *      TestAcademicPlanServiceImplConformanceExtendedCrud (defines methods to set & test entity values
+     */
 
     private final AcademicPlanServiceTstHelper testHelper = new AcademicPlanServiceTstHelper();
 
-//    @Before
-//	public void setUp() throws Exception {
-//		DefaultKsapContext.before("student1");
-//
+    @Before
+    public void setUp() throws Exception {
+        DefaultKsapContext.before("student1");
+        contextInfo=KsapFrameworkServiceLocator.getContext().getContextInfo();
+        testService= KsapFrameworkServiceLocator.getAcademicPlanService();
+        principalId = "student1";
+        contextInfo.setPrincipalId(principalId);
+
+        testHelper.createKsapTypes();
+
+        testServiceNoValidator=testService;
+        while (testServiceNoValidator!=null &&
+                !(testServiceNoValidator instanceof AcademicPlanServiceImpl
+                        ||testServiceNoValidator instanceof AcademicPlanServiceMockImpl)) {
+            testServiceNoValidator = ((AcademicPlanServiceDecorator)testService).getNextDecorator();
+        }
+
+        contextInfo.setPrincipalId(principalId); //reset context principalId...after loading plans
 
 //TODO:  KSAP-1016 - Setup Course MapImpl to sppt KSAP service tests
-
+//        this is a clu loader helper that I found, but it may not be what we need
+//        we also need tp inject a Course / CLU mapimpl..
+//
 //        CluDataLoader cluDataLoader = new CluDataLoader();
 //        cluDataLoader.setCluService(KsapFrameworkServiceLocator.getCluService());
-//        cluDataLoader.setCluService(KsapFrameworkServiceLocator.getCluService());
-//
-//        //the following actually returns the context of current thread
 //        cluDataLoader.setContextInfo(new DefaultKsapContext().getContextInfo());
-//
 //        cluDataLoader.load();
 //
-////        TermAndCalDataLoader termAndCalDataLoader = new TermAndCalDataLoader();
-////        termAndCalDataLoader.loadData();
-////
-//        testHelper.createKsapTypes();
-//    }
+//        TermAndCalDataLoader termAndCalDataLoader = new TermAndCalDataLoader();
+//        termAndCalDataLoader.loadData();
+    }
 
     @After
 	public void tearDown() {
@@ -80,19 +99,7 @@ public class AcademicPlanServiceImplTest extends TestAcademicPlanServiceImplConf
 	}
 
 	@Test
-	public void getLearningPlan() throws Throwable {
-		String planId = "lp1";
-		LearningPlan learningPlan = KsapFrameworkServiceLocator.getAcademicPlanService().getLearningPlan(planId,
-				KsapFrameworkServiceLocator.getContext().getContextInfo());
-		assertNotNull(learningPlan);
-		assertEquals(planId, learningPlan.getId());
-		assertEquals("student1", learningPlan.getStudentId());
-		assertEquals("Student 1 Learning Plan 1", learningPlan.getDescr()
-				.getPlain());
-	}
-
-	@Test
-	public void getLearningPlans() throws Throwable {
+	public void test_getLearningPlansForStudentByType() throws Throwable {
 		String studentId = "student1";
 		List<LearningPlanInfo> learningPlans;
 		learningPlans = KsapFrameworkServiceLocator.getAcademicPlanService().getLearningPlansForStudentByType(
@@ -109,121 +116,9 @@ public class AcademicPlanServiceImplTest extends TestAcademicPlanServiceImplConf
 		assertEquals("lp2", lp.getId());
 	}
 
+    @Override
 	@Test
-	public void addLearningPlan() throws Throwable {
-		LearningPlanInfo learningPlan = new LearningPlanInfo();
-		learningPlan
-				.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_TYPE_PLAN);
-		learningPlan.setStudentId("student1");
-		RichTextInfo desc = new RichTextInfo();
-		String formattedDesc = "<span>My Plan</span>";
-		String planDesc = "My Plan";
-		desc.setFormatted(formattedDesc);
-		desc.setPlain(planDesc);
-		learningPlan.setDescr(desc);
-
-		// Set meta data object.
-		learningPlan.setMeta(new MetaInfo());
-
-		learningPlan
-				.setStateKey(AcademicPlanServiceConstants.LEARNING_PLAN_ACTIVE_STATE_KEY);
-
-		LearningPlanInfo newLearningPlan = KsapFrameworkServiceLocator.getAcademicPlanService()
-				.createLearningPlan(learningPlan, KsapFrameworkServiceLocator
-						.getContext().getContextInfo());
-
-		assertNotNull(newLearningPlan);
-		assertEquals(AcademicPlanServiceConstants.LEARNING_PLAN_TYPE_PLAN,
-				newLearningPlan.getTypeKey());
-		assertEquals("student1", newLearningPlan.getStudentId());
-		assertEquals(formattedDesc, newLearningPlan.getDescr().getFormatted());
-		assertEquals(planDesc, newLearningPlan.getDescr().getPlain());
-
-		// Validate metadata was set.
-		assertEquals("student1", newLearningPlan.getMeta().getCreateId());
-		assertNotNull(newLearningPlan.getMeta().getCreateTime());
-		assertEquals("student1", newLearningPlan.getMeta().getUpdateId());
-		assertNotNull(newLearningPlan.getMeta().getUpdateTime());
-	}
-
-	@Test
-	public void updateLearningPlanTimestamp() throws Throwable {
-
-		// Create a new learning plan so that all the meta data is properly
-		// initialized.
-		LearningPlanInfo learningPlan = new LearningPlanInfo();
-		learningPlan
-				.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_TYPE_PLAN);
-		learningPlan.setStudentId("student1");
-		RichTextInfo desc = new RichTextInfo();
-		String formattedDesc = "<span>My Plan</span>";
-		String planDesc = "My Plan";
-		desc.setFormatted(formattedDesc);
-		desc.setPlain(planDesc);
-		learningPlan.setDescr(desc);
-
-		learningPlan
-				.setStateKey(AcademicPlanServiceConstants.LEARNING_PLAN_ACTIVE_STATE_KEY);
-
-		LearningPlanInfo plan;
-        plan = KsapFrameworkServiceLocator.getAcademicPlanService().createLearningPlan(learningPlan,
-                KsapFrameworkServiceLocator.getContext().getContextInfo());
-
-		assertNotNull(plan);
-
-		Date updated1 = plan.getMeta().getUpdateTime();
-		assertNotNull(updated1);
-
-		// FIXME: Implement state.
-		plan.setStateKey("fixme");
-		Thread.sleep(2000L);
-
-        // NOTE: the following stmt is required to change the date in contextInfo...otherwise it is always the same
-        //        for ea transaction  (it is used to set the updateDateTime)
-        KsapFrameworkServiceLocator.getContext().getContextInfo().setCurrentDate(new Date());
-		plan = KsapFrameworkServiceLocator.getAcademicPlanService().updateLearningPlan(plan.getId(), plan,
-				KsapFrameworkServiceLocator.getContext().getContextInfo());
-		Date updated2 = plan.getMeta().getUpdateTime();
-		assertNotNull(updated2);
-
-		assertFalse(updated1.equals(updated2));
-	}
-
-	@Test
-	public void deleteLearningPlan() throws Exception {
-		String id = "lp1";
-
-		// Make sure the plan exists and has some plan items.
-        KsapFrameworkServiceLocator.getAcademicPlanService().getLearningPlan(id, KsapFrameworkServiceLocator
-                .getContext().getContextInfo());
-
-		int itemCount = KsapFrameworkServiceLocator.getAcademicPlanService().getPlanItemsInPlan(id,
-				KsapFrameworkServiceLocator.getContext().getContextInfo())
-				.size();
-		assertEquals(8, itemCount);
-
-		// Delete the plan
-        KsapFrameworkServiceLocator.getAcademicPlanService().deleteLearningPlan(id,
-                KsapFrameworkServiceLocator.getContext().getContextInfo());
-
-		// Make sure the plan items were cleaned up.
-		itemCount = KsapFrameworkServiceLocator.getAcademicPlanService().getPlanItemsInPlan(id,
-				KsapFrameworkServiceLocator.getContext().getContextInfo())
-				.size();
-		assertEquals(0, itemCount);
-
-        try {
-            KsapFrameworkServiceLocator.getAcademicPlanService().getLearningPlan(id, KsapFrameworkServiceLocator
-                    .getContext().getContextInfo());
-            fail("DoesNotExistException should have been thrown");
-        } catch(DoesNotExistException dnee) {
-            assertNotNull(dnee.getMessage());
-            assertEquals(id, dnee.getMessage());
-        }
-	}
-
-	@Test
-	public void getPlanItemsByPlanIdByRefObjectIdByRefObjectType()
+	public void test_getPlanItemsInPlanByRefObjectIdByRefObjectType()
 			throws InvalidParameterException, MissingParameterException,
 			DoesNotExistException, OperationFailedException {
 
@@ -239,122 +134,6 @@ public class AcademicPlanServiceImplTest extends TestAcademicPlanServiceImplConf
 		assertEquals(planId, planItems.get(0).getLearningPlanId());
 		assertEquals(refObjectId, planItems.get(0).getRefObjectId());
 		assertEquals(refObjectType, planItems.get(0).getRefObjectType());
-	}
-
-	@Test
-	public void addAndGetPlanItemWishlist() throws Throwable {
-		String planId = "lp1";
-
-		// Create a new plan item.
-		PlanItemInfo planItem = new PlanItemInfo();
-
-		RichTextInfo desc = new RichTextInfo();
-		String formattedDesc = "<span>My Comment</span>";
-		String planDesc = "My Comment";
-		desc.setFormatted(formattedDesc);
-		desc.setPlain(planDesc);
-		planItem.setDescr(desc);
-
-		planItem.setLearningPlanId(planId);
-		planItem.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE);
-        planItem.setCategory(AcademicPlanServiceConstants.ItemCategory.WISHLIST);
-		String courseId = "c796aecc-7234-4482-993c-bf00b8088e84";
-		String courseType = CLUConstants.CLU_TYPE_CREDIT_COURSE;
-
-		planItem.setRefObjectId(courseId);
-		planItem.setRefObjectType(courseType);
-
-		// Type wishlist has no ATP associated with it so leave plan terms
-		// null.
-
-		planItem.setStateKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_ACTIVE_STATE_KEY);
-
-		PlanItem newPlanItem = testServiceNoValidator.createPlanItem(planItem,
-                KsapFrameworkServiceLocator.getContext().getContextInfo());
-		assertNotNull(newPlanItem);
-		assertNotNull(newPlanItem.getId());
-		assertEquals(planId, newPlanItem.getLearningPlanId());
-		assertEquals(formattedDesc, newPlanItem.getDescr().getFormatted());
-		assertEquals(planDesc, newPlanItem.getDescr().getPlain());
-		assertEquals(courseId, newPlanItem.getRefObjectId());
-		assertEquals(courseType, newPlanItem.getRefObjectType());
-
-		// Test getPlanItem
-		PlanItem fetchedPlanItem = KsapFrameworkServiceLocator.getAcademicPlanService().getPlanItem(newPlanItem
-				.getId(), KsapFrameworkServiceLocator.getContext()
-				.getContextInfo());
-
-		assertNotNull(fetchedPlanItem);
-		assertNotNull(fetchedPlanItem.getId());
-		assertEquals(planId, fetchedPlanItem.getLearningPlanId());
-		assertEquals(formattedDesc, fetchedPlanItem.getDescr().getFormatted());
-		assertEquals(planDesc, fetchedPlanItem.getDescr().getPlain());
-		assertEquals(courseId, fetchedPlanItem.getRefObjectId());
-		assertEquals(courseType, fetchedPlanItem.getRefObjectType());
-	}
-
-	@Test
-	public void addAndGetPlanItemPlannedCourse() throws Throwable {
-		String planId = "lp1";
-
-		// Create a new plan item.
-		PlanItemInfo planItem = new PlanItemInfo();
-
-		RichTextInfo desc = new RichTextInfo();
-		String formattedDesc = "<span>My Comment</span>";
-		String planDesc = "My Comment";
-		desc.setFormatted(formattedDesc);
-		desc.setPlain(planDesc);
-		planItem.setDescr(desc);
-
-		planItem.setLearningPlanId(planId);
-		planItem.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE);
-        AcademicPlanServiceConstants.ItemCategory category = AcademicPlanServiceConstants.ItemCategory.PLANNED;
-        planItem.setCategory(category);
-
-		// Set some ATP info since this is a planned course.
-		List<String> planTermIds = new ArrayList<String>();
-		planTermIds.add("20111");
-		planTermIds.add("20114");
-		planItem.setPlanTermIds(planTermIds);
-
-		String courseId = "COURSE5";
-		String courseType = CLUConstants.CLU_TYPE_CREDIT_COURSE;
-
-		planItem.setRefObjectId(courseId);
-		planItem.setRefObjectType(courseType);
-
-		planItem.setStateKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_ACTIVE_STATE_KEY);
-
-		// Verify the object returned by createPlanItem.
-		PlanItem newPlanItem = testServiceNoValidator.createPlanItem(planItem,
-				KsapFrameworkServiceLocator.getContext().getContextInfo());
-		assertNotNull(newPlanItem);
-		assertNotNull(newPlanItem.getId());
-		assertEquals(planId, newPlanItem.getLearningPlanId());
-		assertEquals(formattedDesc, newPlanItem.getDescr().getFormatted());
-		assertEquals(planDesc, newPlanItem.getDescr().getPlain());
-		assertEquals(courseId, newPlanItem.getRefObjectId());
-		assertEquals(courseType, newPlanItem.getRefObjectType());
-        assertEquals(category  , newPlanItem.getCategory());
-
-		assertEquals(2, newPlanItem.getPlanTermIds().size());
-
-		// Verify the object returned by getPlanItem().
-		PlanItem fetchedPlanItem = KsapFrameworkServiceLocator.getAcademicPlanService().getPlanItem(newPlanItem
-				.getId(), KsapFrameworkServiceLocator.getContext()
-				.getContextInfo());
-
-		assertNotNull(fetchedPlanItem);
-		assertNotNull(fetchedPlanItem.getId());
-		assertEquals(planId, fetchedPlanItem.getLearningPlanId());
-		assertEquals(formattedDesc, fetchedPlanItem.getDescr().getFormatted());
-		assertEquals(planDesc, fetchedPlanItem.getDescr().getPlain());
-		assertEquals(courseId, fetchedPlanItem.getRefObjectId());
-		assertEquals(courseType, fetchedPlanItem.getRefObjectType());
-        assertEquals(category  , fetchedPlanItem.getCategory());
-
-		assertEquals(2, fetchedPlanItem.getPlanTermIds().size());
 	}
 
 	@Test
@@ -425,6 +204,7 @@ public class AcademicPlanServiceImplTest extends TestAcademicPlanServiceImplConf
 
         // NOTE: the following stmt is required to change the date in contextInfo...otherwise it is always the same
         //        for ea transaction  (it is used to set the updateDateTime)
+        Thread.sleep(5);
         KsapFrameworkServiceLocator.getContext().getContextInfo().setCurrentDate(new Date());
 
         PlanItemInfo updatedPlanItem = testServiceNoValidator.updatePlanItem(
@@ -554,30 +334,6 @@ public class AcademicPlanServiceImplTest extends TestAcademicPlanServiceImplConf
             assertEquals("error.required", resultInfo.getMessage());
         }
     }
-
-	@Test
-	public void deletePlanItem() throws Exception {
-		String id = "lp1";
-
-		// Make sure the plan exists and has some plan items.
-        KsapFrameworkServiceLocator.getAcademicPlanService().getLearningPlan(id, KsapFrameworkServiceLocator
-                .getContext().getContextInfo());
-
-		List<PlanItemInfo> planItems;
-        planItems = KsapFrameworkServiceLocator.getAcademicPlanService().getPlanItemsInPlan(id,
-                KsapFrameworkServiceLocator.getContext().getContextInfo());
-		assertEquals(8, planItems.size());
-
-		// Delete a plan item.
-		String planItemId = planItems.get(0).getId();
-        KsapFrameworkServiceLocator.getAcademicPlanService().deletePlanItem(planItemId,
-                KsapFrameworkServiceLocator.getContext().getContextInfo());
-
-		// Make sure the plan items were cleaned up.
-        planItems = KsapFrameworkServiceLocator.getAcademicPlanService().getPlanItemsInPlan(id,
-                KsapFrameworkServiceLocator.getContext().getContextInfo());
-		assertEquals(7, planItems.size());
-	}
 
 	@Test
 	public void validatePlanItemForCourse() throws InvalidParameterException,

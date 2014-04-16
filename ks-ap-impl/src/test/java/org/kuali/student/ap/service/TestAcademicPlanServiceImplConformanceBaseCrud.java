@@ -26,6 +26,8 @@ import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
 import org.kuali.student.ap.academicplan.service.AcademicPlanService;
 import org.kuali.student.ap.academicplan.service.AcademicPlanServiceDecorator;
 import org.kuali.student.ap.academicplan.service.AcademicPlanServiceImpl;
+import org.kuali.student.ap.academicplan.service.mock.AcademicPlanDataLoader;
+import org.kuali.student.ap.academicplan.service.mock.AcademicPlanServiceMockImpl;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.support.DefaultKsapContext;
 import org.kuali.student.common.test.util.AttributeTester;
@@ -64,7 +66,6 @@ import static org.junit.Assert.fail;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:ks-ap-test-context.xml"})
 public abstract class TestAcademicPlanServiceImplConformanceBaseCrud {
 
 	// ====================
@@ -86,22 +87,7 @@ public abstract class TestAcademicPlanServiceImplConformanceBaseCrud {
 
     private final AcademicPlanServiceTstHelper testHelper = new AcademicPlanServiceTstHelper();
 
-	@Before
-	public void setUp() throws Exception {
-        DefaultKsapContext.before("student1");
-        contextInfo=KsapFrameworkServiceLocator.getContext().getContextInfo();
-        testService= KsapFrameworkServiceLocator.getAcademicPlanService();
-		principalId = "student1";
-		contextInfo.setPrincipalId(principalId);
 
-        testHelper.createKsapTypes();
-
-        testServiceNoValidator=testService;
-        while (testServiceNoValidator!=null && !(testServiceNoValidator instanceof AcademicPlanServiceImpl)) {
-            testServiceNoValidator = ((AcademicPlanServiceDecorator)testService).getNextDecorator();
-        }
-    }
-	
 	// ====================
 	// TESTING
 	// ====================
