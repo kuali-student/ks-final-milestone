@@ -390,7 +390,7 @@
                             <property name="items">
                                 <list>
                                     <bean parent="KS-Uif-PrimaryActionButton" p:id="continueFromCreate_btn" p:methodToCall="continueFromCreate" p:actionLabel="Continue" p:render="@{!#view.readOnly}"
-                                          p:onClickScript="jQuery('#validateDirty')[0].value=false;"/>
+                                          p:onClickScript="if(jQuery('#validateDirty').length > 0){jQuery('#validateDirty')[0].value=false;}"/>
                                     <bean parent="KS-Uif-ActionLink" p:methodToCall="cancel" p:actionLabel="Cancel"/>
                                 </list>
                             </property>
