@@ -357,7 +357,7 @@ public class FERuleEditorController extends EnrolRuleEditorController {
     }
 
     private RuleEditor getSelectedRule(MaintenanceDocumentForm form, String actionLink) {
-        String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
             throw new RuntimeException("Selected collection was not set for " + actionLink);
         }
@@ -379,7 +379,7 @@ public class FERuleEditorController extends EnrolRuleEditorController {
     }
 
     private FEAgendaEditor getSelectedAgenda(MaintenanceDocumentForm form, String actionLink) {
-        String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
             throw new RuntimeException("Selected collection was not set for " + actionLink);
         }

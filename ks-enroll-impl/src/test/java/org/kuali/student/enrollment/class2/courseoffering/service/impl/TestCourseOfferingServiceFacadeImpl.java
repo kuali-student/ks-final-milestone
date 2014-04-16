@@ -16,7 +16,6 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -316,14 +315,14 @@ public class TestCourseOfferingServiceFacadeImpl {
         
         List<FormatOfferingInfo> formats = coService.getFormatOfferingsByCourseOffering(courseOfferingId, contextInfo);
         
-        Assert.assertNotNull(formats);
-        Assert.assertEquals(1, formats.size());
+        assertNotNull(formats);
+        assertEquals(1, formats.size());
         
         FormatOfferingInfo fo = formats.get(0);
         
         List<ActivityOfferingClusterInfo> aocs = coService.getActivityOfferingClustersByFormatOffering(fo.getId(), contextInfo);
         
-        Assert.assertEquals(1, aocs.size());
+        assertEquals(1, aocs.size());
         
         ActivityOfferingClusterInfo aoc = aocs.get(0);
         
@@ -340,9 +339,9 @@ public class TestCourseOfferingServiceFacadeImpl {
         
         ActivityOfferingResult results = coServiceFacade.createActivityOffering(aoInfo, aoc.getId(), contextInfo);
       
-        Assert.assertNotNull(results);
+        assertNotNull(results);
         
-        Assert.assertTrue(!results.getGeneratedRegistrationGroups().isEmpty());
+        assertTrue(!results.getGeneratedRegistrationGroups().isEmpty());
     }
     @Test
     public void testUserStoryEight () throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException, VersionMismatchException, AlreadyExistsException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException {
@@ -367,14 +366,14 @@ public class TestCourseOfferingServiceFacadeImpl {
         
         List<FormatOfferingInfo> formats = coService.getFormatOfferingsByCourseOffering(courseOfferingId, contextInfo);
         
-        Assert.assertNotNull(formats);
-        Assert.assertEquals(1, formats.size());
+        assertNotNull(formats);
+        assertEquals(1, formats.size());
         
         FormatOfferingInfo fo = formats.get(0);
         
         List<ActivityOfferingClusterInfo> aocs = coService.getActivityOfferingClustersByFormatOffering(fo.getId(), contextInfo);
         
-        Assert.assertEquals(1, aocs.size());
+        assertEquals(1, aocs.size());
         
         ActivityOfferingClusterInfo aoc = aocs.get(0);
         
@@ -391,14 +390,14 @@ public class TestCourseOfferingServiceFacadeImpl {
         
         ActivityOfferingResult results = coServiceFacade.createActivityOffering(aoInfo, aoc.getId(), contextInfo);
       
-        Assert.assertNotNull(results);
+        assertNotNull(results);
         
-        Assert.assertTrue(!results.getGeneratedRegistrationGroups().isEmpty());
-        
+        assertTrue(!results.getGeneratedRegistrationGroups().isEmpty());
+
         
         Integer aocSeatCount = coServiceFacade.getSeatCountByActivityOfferingCluster(aoc.getId(), contextInfo);
         
-        Assert.assertNotNull(aocSeatCount);
+        assertNotNull(aocSeatCount);
         
         // this is not correct
 //        Assert.assertEquals(25, aocSeatCount.intValue());

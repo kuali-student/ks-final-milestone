@@ -306,6 +306,7 @@ public class TestLuiServiceImpl {
         rt.setPlain("fee.plain");
         rt.setFormatted("fee.formatted");
         luCode.setDescr(rt);
+        luCode.setTypeKey("kuali.someKindOfLuCode");
         orig.getLuiCodes().add(luCode);
 
         LuiInfo info = luiService.createLui(orig.getCluId(), orig.getAtpId(), orig.getTypeKey(), orig, callContext);
@@ -421,6 +422,7 @@ public class TestLuiServiceImpl {
         rt.setFormatted("fee.formatted");
         luCode.setDescr(rt);
         luCode.setId("Modified Lu Code");
+        luCode.setTypeKey("kuali.someKindOfLuCode");
         modified.getLuiCodes().clear();
         modified.getLuiCodes().add(luCode);
 

@@ -111,14 +111,14 @@
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>
-                 <bean parent="KS-Uif-InputField" p:label="Holiday Calendar Name"
-					p:labelPlacement="TOP" p:fieldLabel.renderColon="false"
+                 <bean parent="KS-Uif-InputField-LabelTop" p:label="Holiday Calendar Name"
+					p:fieldLabel.renderColon="false"
 					p:propertyName="holidayCalendarInfo.name" p:required="true">
 					<property name="control">
 						<bean parent="KS-Uif-TextControl" p:size="30" />
 					</property>
 				</bean>
-                <bean parent="KS-Uif-InputField" p:label="Start Date" p:labelPlacement="TOP" p:required="true"
+                <bean parent="KS-Uif-InputField-LabelTop" p:label="Start Date" p:required="true"
 				     p:fieldLabel.renderColon="false" p:fieldLabel.cssClasses="labelTop"
 					p:propertyName="holidayCalendarInfo.startDate">
                     <property name="validCharactersConstraint">
@@ -128,7 +128,7 @@
 						<bean parent="KS-Uif-Default-DateControl" />
 					</property>
 				</bean>
-                <bean parent="KS-Uif-InputField" p:label="End Date" p:labelPlacement="TOP" p:required="true"
+                <bean parent="KS-Uif-InputField-LabelTop" p:label="End Date" p:required="true"
 					p:fieldLabel.cssClasses="labelTop" p:fieldLabel.renderColon="false"
 					p:propertyName="holidayCalendarInfo.endDate">
                     <property name="validCharactersConstraint">

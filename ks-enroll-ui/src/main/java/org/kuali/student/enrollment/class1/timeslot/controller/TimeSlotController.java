@@ -53,9 +53,9 @@ public class TimeSlotController extends UifControllerBase {
     @Override
     @RequestMapping(method = RequestMethod.GET, params = "methodToCall=start")
     public ModelAndView start( @ModelAttribute( MODEL_ATTRIBUTE_FORM ) UifFormBase form,
-                               BindingResult result, HttpServletRequest request, HttpServletResponse response) {
+                               HttpServletRequest request, HttpServletResponse response) {
 
-        super.start(form, result, request, response);
+        super.start(form, request, response);
         return  getUIFModelAndView(form);
     }
 
@@ -201,12 +201,9 @@ public class TimeSlotController extends UifControllerBase {
     }
 
     private TimeSlotViewHelperService getViewHelperService(UifFormBase form) {
-        if (viewHelperService == null) {
-            if (form.getView().getViewHelperService() != null) {
-                viewHelperService = (TimeSlotViewHelperService) form.getView().getViewHelperService();
-            } else {
-                viewHelperService = (TimeSlotViewHelperService) form.getPostedView().getViewHelperService();
-            }
+        if (viewHelperService == null && form.getViewHelperService() != null) {
+            viewHelperService = (TimeSlotViewHelperService) form.getViewHelperService();
+
         }
         return viewHelperService;
     }

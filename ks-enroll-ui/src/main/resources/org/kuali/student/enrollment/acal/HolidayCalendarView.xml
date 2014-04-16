@@ -89,7 +89,7 @@
           p:onDocumentReadyScript="updateHeaderRightGroup('KS-HolidayCalendarView-Header-Right-Group', 'KS-View-Hcal-Header-RightGroup-PlaceHolder'); updateViewHeader('Hcal-View-HeaderText-SourceHolder');">
         <property name="items">
             <list>
-                <bean parent="KS-Unified-Header-Action-Group" p:id="copyEditDeleteHeader" p:componentSecurity.viewAuthz="true">
+                <bean parent="KS-Unified-Header-Action-Group" p:id="copyEditDeleteHeader" p:viewAuthz="true">
                     <property name="render" value="@{!newCalendar}"/>
                     <property name="items">
                         <list>

@@ -20,7 +20,6 @@ import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ExamOfferingWrapper;
-import org.springframework.util.AutoPopulatingList;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -57,7 +56,7 @@ public class RSIJSONResponseData {
     public void setMessageMap(MessageMap messageMap) {
         this.messageMap = messageMap;
         if(messageMap != null){
-            for(Map.Entry<String, AutoPopulatingList<ErrorMessage>> entry : messageMap.getErrorMessages().entrySet()) {
+            for(Map.Entry<String, List<ErrorMessage>> entry : messageMap.getErrorMessages().entrySet()) {
                 List<String> messageList = new ArrayList<String>();
                 for(ErrorMessage errorMesage : entry.getValue()) {
                     String message = KRADServiceLocatorWeb.getMessageService().getMessageText(errorMesage.getErrorKey());

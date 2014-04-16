@@ -155,7 +155,7 @@
     </bean>
 
     <bean id="TimeSlotSearchResults-TableCollectionSection" parent="Uif-TableCollectionSection" p:renderAddLine="false"
-        p:onDocumentReadyScript="removeCheckboxColumns(1, 'TimeSlotSearchResultsDisplayTable',&quot;handleToolbar('TimeSlotSearchResultsDisplayTable',['enableDeleteButton'], ['TimeSlot-ToolBar-Delete-TimeSlot'])&quot;), addActionColumn(@{#parent.readOnly}, 'TimeSlotSearchResultsDisplayTable');"
+        p:onDocumentReadyScript="addCheckboxToColumnHeader(1, 'TimeSlotSearchResultsDisplayTable', &quot;handleToolbar('TimeSlotSearchResultsDisplayTable',['enableDeleteButton'], ['TimeSlot-ToolBar-Delete-TimeSlot'])&quot;), addActionColumn(@{#parent.readOnly}, 'TimeSlotSearchResultsDisplayTable');"
             p:style="width:800px;">
 
         <property name="id" value="TimeSlotSearchResultsDisplayTable" />
@@ -301,7 +301,8 @@
                                 </property>-->
                             </bean>
                             <bean id="addOrEditStartTimeAmPm" parent="KS-Uif-InputField-LabelTop" p:label="&lt;br&gt;" p:propertyName="editStartTimeAmPm" p:cssClasses="edit_ts" >
-                                <property name="fieldLabel.requiredMessage.messageText" value=""/>
+                                <!-- Rice 2.4 upgrade : removing fieldLabel.requiredMessage -->
+                                <!--<property name="fieldLabel.requiredMessage.messageText" value=""/>-->
                                 <property name="control">
                                     <bean parent="KS-Uif-VerticalRadioControl" p:options-ref="hctime-options" p:cssClasses="edit_ts_control"/>
                                 </property>
@@ -316,7 +317,8 @@
                                 </property>-->
                             </bean>
                             <bean id="addOrEditEndTimeAmPm" parent="KS-Uif-InputField-LabelTop" p:label="&lt;br&gt;" p:propertyName="editEndTimeAmPm" p:cssClasses="edit_ts" >
-                                <property name="fieldLabel.requiredMessage.messageText" value=""/>
+                                <!-- Rice 2.4 upgrade : removing fieldLabel.requiredMessage -->
+                                <!--<property name="fieldLabel.requiredMessage.messageText" value=""/>-->
                                 <property name="control">
                                     <bean parent="KS-Uif-VerticalRadioControl" p:options-ref="hctime-options" p:cssClasses="edit_ts_control"/>
                                 </property>
@@ -378,7 +380,8 @@
                     </property>-->
                 </bean>
                 <bean id="addOrEditStartTimeAmPm" parent="KS-Uif-InputField-LabelTop" p:label="&lt;br&gt;" p:propertyName="addStartTimeAmPm" p:cssClasses="new_ts" >
-                    <property name="fieldLabel.requiredMessage.messageText" value=""/>
+                    <!-- Rice 2.4 upgrade : removing fieldLabel.requiredMessage -->
+                    <!--<property name="fieldLabel.requiredMessage.messageText" value=""/>-->
                     <property name="control">
                         <bean parent="KS-Uif-VerticalRadioControl" p:options-ref="hctime-options" p:cssClasses="new_ts_control"/>
                     </property>
@@ -393,7 +396,8 @@
                     </property>-->
                 </bean>
                 <bean id="addOrEditEndTimeAmPm" parent="KS-Uif-InputField-LabelTop" p:label="&lt;br&gt;" p:propertyName="addEndTimeAmPm" p:cssClasses="new_ts" >
-                    <property name="fieldLabel.requiredMessage.messageText" value=""/>
+                    <!-- Rice 2.4 upgrade : removing fieldLabel.requiredMessage -->
+                    <!--<property name="fieldLabel.requiredMessage.messageText" value=""/>-->
                     <property name="control">
                         <bean parent="KS-Uif-VerticalRadioControl" p:options-ref="hctime-options" p:cssClasses="new_ts_control"/>
                     </property>

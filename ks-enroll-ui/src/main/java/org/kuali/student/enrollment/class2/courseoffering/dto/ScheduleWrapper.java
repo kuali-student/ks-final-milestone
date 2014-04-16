@@ -395,6 +395,8 @@ public class ScheduleWrapper implements Serializable{
     }
 
     public List<String> getEndTimes() {
+        if(endTimes == null) endTimes = new ArrayList<String>();
+
         return endTimes;
     }
 
@@ -440,14 +442,5 @@ public class ScheduleWrapper implements Serializable{
 
     public void setDayInExamPeriod(String dayInExamPeriod) {
         this.dayInExamPeriod = dayInExamPeriod;
-    }
-
-    public String[] getEndTimesArray(){
-        if (!endTimes.isEmpty()){
-            String[] array = endTimes.toArray(new String[endTimes.size()]);
-            return array;
-        } else{
-            return new String[0];
-        }
     }
 }

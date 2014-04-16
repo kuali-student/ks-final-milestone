@@ -27,12 +27,14 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.UifConstants;
+import org.kuali.rice.krad.uif.component.BindingInfo;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.control.SelectControl;
 import org.kuali.rice.krad.uif.field.InputField;
 import org.kuali.rice.krad.uif.util.ComponentFactory;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.View;
+import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krms.api.KrmsConstants;
@@ -461,23 +463,24 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
     /**
      * Override default handling of adding blank line to add custom validation and custom functions on added lines
      *
-     * @param view
-     * @param model
-     * @param collectionPath
      */
     @Override
-    public void processCollectionAddBlankLine(View view, Object model, String collectionPath) {
-        CollectionGroup collectionGroup = view.getViewIndex().getCollectionGroupByPath(collectionPath);
+    public void processCollectionAddBlankLine(ViewModel model, String collectionId, String collectionPath) {
 
-        //Execute custom funtions on added lines for Academic Calendars
+        BindingInfo bindingInfo = (BindingInfo) model.getViewPostMetadata().getComponentPostData(collectionId,
+                UifConstants.PostMetadata.BINDING_INFO);
+        Class<?> collectionObjectClass = (Class<?>) model.getViewPostMetadata().getComponentPostData(collectionId,
+                UifConstants.PostMetadata.COLL_OBJECT_CLASS);
+
+        //Execute custom functions on added lines for Academic Calendars
         if (model instanceof AcademicCalendarForm) {
             processAddBlankLines(model);
         }
 
         //If collection is a KeyDate, check if types are available to add
-        if (collectionGroup.getCollectionObjectClass().equals(KeyDateWrapper.class)) {
+        if (collectionObjectClass.equals(KeyDateWrapper.class)) {
             AcademicCalendarForm form = (AcademicCalendarForm) model;
-            KeyDatesGroupWrapper groupWrapper = ObjectPropertyUtils.getPropertyValue(form,collectionGroup.getBindingInfo().getBindByNamePrefix());
+            KeyDatesGroupWrapper groupWrapper = ObjectPropertyUtils.getPropertyValue(form, bindingInfo.getBindByNamePrefix());
 
             boolean isValid = false;
             //Loop through types and already added KeyDates to determine if type is available to add
@@ -496,7 +499,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
 
             //If type is available to add, create new line
             if (isValid) {
-                super.processCollectionAddBlankLine(view, model, collectionPath);
+                super.processCollectionAddBlankLine(model, collectionId, collectionPath);
             }
             //else display growl message stating no more types are available to add
             else {
@@ -504,7 +507,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
             }
         }
         //If collection is a Event, check if types are available to add
-        else if (collectionGroup.getCollectionObjectClass().equals(AcalEventWrapper.class)) {
+        else if (collectionObjectClass.equals(AcalEventWrapper.class)) {
             AcademicCalendarForm form = (AcademicCalendarForm) model;
 
             //If previous events exist, check if types exist to add new line
@@ -525,7 +528,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
 
                 //If type is available to add, create new line
                 if (isValid) {
-                    super.processCollectionAddBlankLine(view, model, collectionPath);
+                    super.processCollectionAddBlankLine(model, collectionId, collectionPath);
                 }
                 //else display growl message stating no more types are available to add
                 else {
@@ -534,12 +537,12 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
             }
             //else add new line
             else {
-                super.processCollectionAddBlankLine(view, model, collectionPath);
+                super.processCollectionAddBlankLine(model, collectionId, collectionPath);
             }
         }
         //else add new line
         else {
-            super.processCollectionAddBlankLine(view, model, collectionPath);
+            super.processCollectionAddBlankLine(model, collectionId, collectionPath);
         }
     }
 
@@ -583,32 +586,27 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
     /**
      * Performs validation on adding holiday calendar, key date groups, key date or event.
      *
-     * @param view
-     * @param collectionGroup
-     * @param model
-     * @param addLine
-     * @return
      */
-    protected boolean performAddLineValidation(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
+    @Override
+    protected boolean performAddLineValidation(ViewModel model, Object newLine, String collectionId, String collectionPath) {
 
-        if (addLine instanceof HolidayCalendarWrapper) {
+        if (newLine instanceof HolidayCalendarWrapper) {
             AcademicCalendarForm form = (AcademicCalendarForm) model;
             for (HolidayCalendarWrapper holidayCalendarWrapper : form.getHolidayCalendarList()) {
-                String holidayCalendarId = holidayCalendarWrapper.getId();
-                if (StringUtils.equals(holidayCalendarWrapper.getId(), ((HolidayCalendarWrapper) addLine).getId())) {
+                if (StringUtils.equals(holidayCalendarWrapper.getId(), ((HolidayCalendarWrapper) newLine).getId())) {
                     GlobalVariables.getMessageMap().putError("newCollectionLines['holidayCalendarList'].id",
                             CalendarConstants.MessageKeys.ERROR_DUPLICATE_HCAL,
                             holidayCalendarWrapper.getHolidayCalendarInfo().getName());
                     return false;
                 }
             }
-        } else if (addLine instanceof KeyDatesGroupWrapper) {
+        } else if (newLine instanceof KeyDatesGroupWrapper) {
             AcademicCalendarForm form = (AcademicCalendarForm) model;
             form.setAddLineValid(true);
             form.setValidationJSONString("{}");
-            KeyDatesGroupWrapper keydateGroup = (KeyDatesGroupWrapper) addLine;
+            KeyDatesGroupWrapper keydateGroup = (KeyDatesGroupWrapper) newLine;
             if(StringUtils.isEmpty(keydateGroup.getKeyDateGroupType())) {
-                GlobalVariables.getMessageMap().putErrorForSectionId(collectionGroup.getId(), CalendarConstants.MessageKeys.ERROR_KEY_DATE_GROUP_TYPE_REQUIRED);
+                GlobalVariables.getMessageMap().putErrorForSectionId(collectionId, CalendarConstants.MessageKeys.ERROR_KEY_DATE_GROUP_TYPE_REQUIRED);
                 StringBuilder sb = new StringBuilder();
                 sb.append("\"key_date_group_type\":\"Required\"");
                 form.setValidationJSONString("{"+sb.toString()+"}");
@@ -616,9 +614,9 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
                 return false;
             }
         }
-        else if (addLine instanceof AcademicTermWrapper) {
+        else if (newLine instanceof AcademicTermWrapper) {
             //if tries to add a Subterm, the parent term has to exist in the Form
-            AcademicTermWrapper term = (AcademicTermWrapper) addLine;
+            AcademicTermWrapper term = (AcademicTermWrapper) newLine;
             AcademicCalendarForm acalForm = (AcademicCalendarForm) model;
             acalForm.setValidationJSONString("{}");
             if (term.getParentTerm() != null &&
@@ -642,7 +640,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
 
                 if (!AcalCommonUtils.isDateWithinRange(parentTerm.getStartDate(), parentTerm.getEndDate(), term.getStartDate()) ||
                         !AcalCommonUtils.isDateWithinRange(parentTerm.getStartDate(), parentTerm.getEndDate(), term.getEndDate())){
-                    GlobalVariables.getMessageMap().putWarningForSectionId(collectionGroup.getId(), CalendarConstants.MessageKeys.ERROR_TERM_NOT_IN_TERM_RANGE,term.getName(),parentTerm.getName());
+                    GlobalVariables.getMessageMap().putWarningForSectionId(collectionId, CalendarConstants.MessageKeys.ERROR_TERM_NOT_IN_TERM_RANGE,term.getName(),parentTerm.getName());
                 }
             }
 
@@ -659,7 +657,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
             }
         }
 
-        return super.performAddLineValidation(view, collectionGroup, model, addLine);
+        return super.performAddLineValidation(model, newLine, collectionId, collectionPath);
     }
 
     /**
@@ -1196,12 +1194,9 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
     /**
      * Process before adding a term, key date group, holiday calendar or event
      *
-     * @param view
-     * @param collectionGroup
-     * @param model
-     * @param addLine
      */
-    protected void processBeforeAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
+    @Override
+    public void processBeforeAddLine(ViewModel model, Object addLine, String collectionId, String collectionPath) {
 
         processAddBlankLines(model);
 
@@ -1300,7 +1295,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
                 GlobalVariables.getMessageMap().putWarningForSectionId("KS-HolidayCalendar-HolidaySection", CalendarConstants.MessageKeys.ERROR_INVALID_DATE_RANGE,holiday.getTypeName(), AcalCommonUtils.formatDate(holiday.getStartDate()), AcalCommonUtils.formatDate(holiday.getEndDate()));
             }
         } else {
-            super.processBeforeAddLine(view, collectionGroup, model, addLine);
+            super.processBeforeAddLine(model, addLine, collectionId, collectionPath);
         }
     }
 

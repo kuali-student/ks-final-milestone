@@ -21,6 +21,7 @@ import org.kuali.rice.krms.builder.ComponentBuilder;
 import org.kuali.rice.krms.util.KRMSConstants;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.enrollment.class1.krms.dto.FEPropositionEditor;
+import org.kuali.student.lum.lu.ui.krms.dto.LUPropositionEditor;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.util.TimeOfDayHelper;
 import org.kuali.student.r2.common.util.date.DateFormatters;
@@ -36,6 +37,11 @@ import java.util.Map;
  * @author Kuali Student Team
  */
 public class TimeSlotsComponentBuilder implements ComponentBuilder<FEPropositionEditor> {
+
+
+    @Override
+    public void initialize(FEPropositionEditor propositionEditor) {
+    }
 
     @Override
     public List<String> getComponentIds() {

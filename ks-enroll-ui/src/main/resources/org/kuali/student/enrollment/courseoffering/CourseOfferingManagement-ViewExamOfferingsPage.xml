@@ -23,7 +23,7 @@
 
     <bean id="KS-CourseOfferingManagement-ExamOfferingPage" parent="KS-Uif-Page" p:disclosure.render="false"
           p:id="viewExamOfferingsPage">
-        <property name="componentSecurity.editAuthz" value="true"/>
+        <property name="editAuthz" value="true"/>
         <!-- <property name="onDocumentReadyScript" value="updateContextBar( 'ManageCourseOfferingManagement-ContextBar', 'KS-CourseOffering-View-ContextBar-PlaceHolder', @{#dp.contextBar.termDayOfYear}, '@{#ConfigProperties['application.url']}' );" /> -->
         <property name="onDocumentReadyScript" value="setSeasonalColor('ManageCourseOfferingManagement-ContextBar', '@{#dp.contextBar.termDayOfYear}', '@{#ConfigProperties['application.url']}'); updateViewHeaderText('@{currentCourseOfferingWrapper.courseOfferingCode}');" />
         <property name="pageSourceFile" value="CourseOfferingManagement-ManageCourseOfferingsPage.xml" /> <!-- Shows up in HTML so devs can find the code -->
@@ -164,7 +164,7 @@
                         </list>
                     </property>
                 </bean>
-                <bean parent="Uif-DataField-LabelTop" p:propertyName="typeName" p:label="Final Exam Driver Activity"
+                <bean parent="KS-Uif-DataField-LabelTop" p:propertyName="typeName" p:label="Final Exam Driver Activity"
                       p:render="@{#lp.driverPerAO}"/>
                 <bean id="cancelledEoOverrideMatrix" parent="KS-Uif-DataField" p:label="Override Matrix" p:propertyName="overrideMatrixUI"
                       p:render="@{(!#dp.examOfferingCancelledList.isEmpty() and #dp.currentCourseOfferingWrapper.matrixOveridableCODriven) or (!#dp.eoCancelClusterList.isEmpty() and #dp.currentCourseOfferingWrapper.matrixOveridableAODriven)}">
@@ -221,7 +221,7 @@
                         </list>
                     </property>
                 </bean>
-                <bean parent="Uif-DataField-LabelTop" p:propertyName="typeName" p:label="Final Exam Driver Activity" p:render="@{#lp.driverPerAO}"/>
+                <bean parent="KS-Uif-DataField-LabelTop" p:propertyName="typeName" p:label="Final Exam Driver Activity" p:render="@{#lp.driverPerAO}"/>
 
                 <bean parent="Uif-VerticalFieldGroup" p:label="Override Matrix"
                       p:render="@{(!#dp.examOfferingWrapperList.isEmpty() and #dp.currentCourseOfferingWrapper.matrixOveridableCODriven) or (!#dp.eoClusterResultList.isEmpty() and #dp.currentCourseOfferingWrapper.matrixOveridableAODriven)}">
@@ -352,8 +352,9 @@
                 <bean parent="Uif-VerticalFieldGroup" p:label="Facility">
                     <property name="items">
                         <list>
-                            <bean id="eoRsiBuilding" parent="KS-Uif-InputField" p:labelPlacement="TOP"
+                            <bean id="eoRsiBuilding" parent="KS-Uif-InputField-LabelTop"
                                   p:propertyName="requestedSchedule.buildingCode" p:uppercaseValue="true">
+                                <!-- Rice 2.4 upgrade : removing p:labelPlacement="TOP" -->
                                 <property name="additionalCssClasses">
                                     <list merge="true">
                                         <value>off</value>
@@ -366,8 +367,8 @@
                                 <!-- The facility code quick finder -->
                                 <property name="quickfinder">
                                     <bean parent="Uif-QuickFinder">
-                                        <property name="lightBoxLookup">
-                                            <bean parent="Uif-LightBoxPost">
+                                        <property name="lightBox">
+                                            <bean parent="Uif-LightBox">
                                                 <property name="lookupReturnByScript" value="true" />
                                             </bean>
                                         </property>
@@ -425,8 +426,8 @@
                                 </property>
                                 <property name="quickfinder">
                                     <bean parent="Uif-QuickFinder">
-                                        <property name="lightBoxLookup">
-                                            <bean parent="Uif-LightBoxPost">
+                                        <property name="lightBox">
+                                            <bean parent="Uif-LightBox">
                                                 <property name="lookupReturnByScript" value="true" />
                                             </bean>
                                         </property>

@@ -45,7 +45,7 @@
             https://wiki.kuali.org/display/STUDENT/KS+ENR+HLDS+-+Manage+Complex+Course+Offerings+%28Part+1%29
     -->
 
-    <bean id="KS-CourseOffering-Create-MaintenanceView" parent="KS-CourseOffering-MaintenanceViewWithTermContextBarPlaceholder" p:componentSecurity.viewAuthz="true">
+    <bean id="KS-CourseOffering-Create-MaintenanceView" parent="KS-CourseOffering-MaintenanceViewWithTermContextBarPlaceholder" p:viewAuthz="true">
         <property name="id" value="createCourseOfferingPage"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper"/>
         <property name="formClass" value="org.kuali.rice.krad.web.form.MaintenanceDocumentForm"/>
@@ -278,8 +278,8 @@
                         <bean parent="KS-Uif-DropdownControl"/>
                     </property>
                 </bean>
-                <bean parent="KS-Uif-InputField" p:propertyName="formatOfferingInfo.finalExamLevelTypeKey"
-                      p:label="Final Exam Driver Activity" p:required="true" p:labelPlacement="TOP" p:finalizeMethodToCall="populateFinalExamDriverTypes">
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="formatOfferingInfo.finalExamLevelTypeKey"
+                      p:label="Final Exam Driver Activity" p:required="true" p:finalizeMethodToCall="populateFinalExamDriverTypes">
                     <property name="control">
                         <bean parent="KS-Uif-DropdownControl"/>
                     </property>
@@ -390,7 +390,7 @@
                             <property name="items">
                                 <list>
                                     <bean parent="KS-Uif-PrimaryActionButton" p:id="continueFromCreate_btn" p:methodToCall="continueFromCreate" p:actionLabel="Continue" p:render="@{!#view.readOnly}"
-                                          p:onClickScript="jQuery('#validateDirty')[0].value=false;"/>
+                                          p:onClickScript="if(jQuery(&#34;input[name='view.applyDirtyCheck']&#34;).length > 0){jQuery(&#34;input[name='view.applyDirtyCheck']&#34;)[0].value=false;}"/>
                                     <bean parent="KS-Uif-ActionLink" p:methodToCall="cancel" p:actionLabel="Cancel"/>
                                 </list>
                             </property>
@@ -404,8 +404,8 @@
     <bean id="KS-CourseOffering-CodeTargetSection" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
-                <bean parent="KS-Uif-InputField" p:propertyName="targetTermCode" p:required="true" p:id="targetTermCode"
-                      p:label="Target Term" p:labelPlacement="TOP" p:fieldLabel.renderColon="false">
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="targetTermCode" p:required="true" p:id="targetTermCode"
+                      p:label="Target Term" p:fieldLabel.renderColon="false">
                     <property name="control">
                         <bean parent="KS-Uif-TextControl" p:size="10" p:watermarkText="201301" p:onClickScript="toggleTextBoxes(this);"/>
                     </property>
@@ -413,8 +413,8 @@
                         <bean parent="Uif-Help" p:tooltipHelpContent="Term is required to retrieve the correct version of the Catalog Course"/>
                     </property>
                 </bean>
-                <bean parent="KS-Uif-InputField" p:propertyName="catalogCourseCode" p:id="catalogCourseCode"
-                      p:label="Catalog Course Code" p:labelPlacement="TOP" p:required="true" p:fieldLabel.renderColon="false" p:additionalCssClasses="ks-uif-quickFinder">
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="catalogCourseCode" p:id="catalogCourseCode"
+                      p:label="Catalog Course Code" p:required="true" p:fieldLabel.renderColon="false" p:additionalCssClasses="ks-uif-quickFinder">
                     <property name="refreshWhenChangedPropertyNames" value="targetTermCode"/>
                     <property name="control">
                         <bean parent="KS-Uif-TextControl" p:size="10" p:watermarkText="ENGL237">
@@ -441,8 +441,8 @@
                                 <bean parent="Uif-ActionLink" p:actionLabel="Find a Course" p:style="display:block" p:methodToCall="performLookup" p:disabled="@{#dp.targetTermCode eq null}"
                                       p:evaluateDisabledOnKeyUp="true" />
                             </property>
-                            <property name="lightBoxLookup">
-                                <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
+                            <property name="lightBox">
+                                <bean parent="Uif-LightBox" p:lookupReturnByScript="false"/>
                             </property>
                         </bean>
                     </property>
@@ -513,7 +513,7 @@
                             <property name="items">
                                 <list>
                                     <bean parent="KS-Uif-PrimaryActionButton" p:id="createFromCopy_btn" p:methodToCall="createFromCopy" p:actionLabel="Create" p:render="@{!#view.readOnly}"
-                                            p:onClickScript="jQuery('#validateDirty')[0].value=false;"/>
+                                            p:onClickScript="if(jQuery(&#34;input[name='view.applyDirtyCheck']&#34;).length > 0){jQuery(&#34;input[name='view.applyDirtyCheck']&#34;)[0].value=false;}"/>
                                     <bean parent="KS-Uif-ActionLink" p:methodToCall="cancel" p:actionLabel="Cancel"
                                           p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
                                 </list>
