@@ -356,7 +356,7 @@
         </property>
         <property name="lineGroupPrototype">
             <bean parent="Uif-CollectionHorizontalBoxItem">
-                <property name="validationMessages.render" value="false"/>
+                <property name="validationMessages.displayMessages" value="false"/>
                 <property name="footer.render" value="false"/>
             </bean>
         </property>
@@ -672,13 +672,13 @@
 
     <bean id="KSAP-Message" parent="KSAP-Message-parentBean"/>
     <bean id="KSAP-Message-parentBean" abstract="true" parent="Uif-Message-parentBean" scope="prototype">
-        <property name="generateSpan" value="true"/>
+        <property name="renderWrapperTag" value="true"/>
         <property name="readOnly" value="true"/>
     </bean>
 
     <bean id="KSAP-NoSpanMessage" parent="KSAP-NoSpanMessage-parentBean"/>
     <bean id="KSAP-NoSpanMessage-parentBean" abstract="true" parent="Uif-Message-parentBean" scope="prototype">
-        <property name="generateSpan" value="false"/>
+        <property name="renderWrapperTag" value="false"/>
     </bean>
 
 

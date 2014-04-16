@@ -114,7 +114,7 @@
             <list>
             	<bean parent="Uif-VerticalFieldGroup">
                     <property name="fieldLabel.render" value="false"/>
-                    <property name="group.validationMessages.render" value="false"/>
+                    <property name="group.validationMessages.displayMessages" value="false"/>
                     <property name="items">
                         <list>
 		                </list>
@@ -139,7 +139,7 @@
         <property name="layoutManager.lineGroupPrototype.header.render" value="false"/>
         <property name="disclosure.render" value="@{#index eq 0 ? false : true}"/>
         <property name="disclosure.defaultOpen" value="@{#index eq 0 ? true : false}"/>
-        <property name="disclosure.renderImage" value="false"/>
+        <property name="disclosure.renderIcon" value="false"/>
         <property name="headerText" value="@{#index eq 0 ? #line.headerOpenText : #line.headerClosedText}" />
         <property name="header.onClickScript" value="
         		replaceDisclosureWithText(jQuery(this).attr('id'), '@{#line.headerOpenText}');
@@ -149,7 +149,7 @@
             <list>
             	<bean id="conversationrow" parent="Uif-VerticalFieldGroup">
                     <property name="fieldLabel.render" value="false"/>
-                    <property name="group.validationMessages.render" value="false"/>
+                    <property name="group.validationMessages.displayMessages" value="false"/>
                     <property name="cssClasses">
 	            		<list merge="true">
 	                		<value>@{#line.closed ? '' : 'openConversation'}</value>
@@ -164,7 +164,7 @@
                         <list>
                         	<bean parent="Uif-VerticalFieldGroup" p:additionalCssClasses="indentedConversationData">
 			                    <property name="fieldLabel.render" value="false"/>
-			                    <property name="group.validationMessages.render" value="false"/>
+			                    <property name="group.validationMessages.displayMessages" value="false"/>
 			                    <property name="items">
 			                        <list>
 			                        	<bean id="conversation_topic" parent="Uif-MessageField" p:messageText="[strong]@{#line.topic}[/strong]"
@@ -172,7 +172,7 @@
 			                        
 			                        	 <bean parent="Uif-HorizontalFieldGroup" p:id="@{#line.learningPlanId}">
 						                    <property name="fieldLabel.render" value="false"/>
-						                    <property name="group.validationMessages.render" value="false"/>
+						                    <property name="group.validationMessages.displayMessages" value="false"/>
 						                    <property name="items">
 						                        <list>
 						                            <bean id="conversation_advisor_id" parent="Uif-MessageField" p:messageText="@{#line.advisor.name}"/>

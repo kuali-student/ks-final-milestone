@@ -3,7 +3,7 @@ package org.kuali.rice.krad.uif.container.extension;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.type.TypeUtils;
 import org.kuali.rice.krad.uif.UifConstants;
-import org.kuali.rice.krad.uif.field.DataField;
+import org.kuali.rice.krad.uif.field.DataFieldBase;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ import java.util.List;
  * @Author KSAP Team
  * Date: 3/22/13
  */
-public class ListDataField extends DataField {
+public class ListDataField extends DataFieldBase {
 
 
     private static final String DL = "DL";
