@@ -29,6 +29,8 @@ public class AcademicPlanServiceValidationDecorator extends
 
 	private DataDictionaryService dataDictionaryService;
 
+    private PlanItemDao planItemDao;
+
 	@Override
 	public DataDictionaryService getDataDictionaryService() {
 		return dataDictionaryService;
@@ -50,7 +52,15 @@ public class AcademicPlanServiceValidationDecorator extends
 		this.validator = validator;
 	}
 
-	@Override
+    public PlanItemDao getPlanItemDao() {
+        return planItemDao;
+    }
+
+    public void setPlanItemDao(PlanItemDao planItemDao) {
+        this.planItemDao = planItemDao;
+    }
+
+    @Override
 	public LearningPlanInfo getLearningPlan(String learningPlanId,
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
