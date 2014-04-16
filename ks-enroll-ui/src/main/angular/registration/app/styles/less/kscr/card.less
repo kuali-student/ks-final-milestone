@@ -36,10 +36,7 @@
 
 .kscr-Card-detailsText--edit.ng-hide-remove,
  .kscr-Card-detailsText.ng-hide-remove{
-      -webkit-transition: @transition;
-      -moz-transition: @transition;
-      -o-transition: @transition;
-      transition: @transition;
+    &:extend(.util-transitions-browserHelper);
     display:block!important;
 }
 
@@ -198,8 +195,7 @@
 .panel-group  .panel{
     margin-bottom: 10px;
     border-width: 1px 1px 2px 1px;
-    -webkit-transition:  @transition;
-    transition:  @transition;
+    &:extend(.util-transitions-browserHelper);
     opacity:1;
 
 }
@@ -217,8 +213,7 @@
 .kscr-course-container {
     position:relative;
     width:100%;
-    -webkit-transition:  @transition;
-    transition:  @transition;
+    &:extend(.util-transitions-browserHelper);
     opacity:1;
 }
 
@@ -252,8 +247,7 @@
     color: @successText; // #3B723B;
     text-shadow: 0 .5px #fff;
 
-  -webkit-transition: @transition;
-  transition: @transition;
+    &:extend(.util-transitions-browserHelper);
 
     .kscr-cartResult-icon {
         background-image: url("../images/validation/success.png");
@@ -283,8 +277,7 @@
     color: @errorText; //#A3403C;
     text-shadow: 0 .5px #fff;
 
-  -webkit-transition: @transition;
-  transition: @transition;
+    &:extend(.util-transitions-browserHelper);
 
     .kscr-cartResult-icon {
         background-image: url("../images/validation/error.png");
@@ -300,8 +293,7 @@
   color: @warningText; //#A3403C;
   text-shadow: 0 .5px #fff;
 
-  -webkit-transition: @transition;
-  transition: @transition;
+    &:extend(.util-transitions-browserHelper);
 
   .kscr-cartResult-icon {
     background-image: url("../images/validation/warning.png");
