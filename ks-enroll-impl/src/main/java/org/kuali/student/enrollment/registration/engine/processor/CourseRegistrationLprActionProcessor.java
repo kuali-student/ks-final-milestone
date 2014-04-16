@@ -232,27 +232,15 @@ public class CourseRegistrationLprActionProcessor {
     }
 
     private void addFromWaitlist(RegistrationRequestItemEngineMessage message, ContextInfo contextInfo) throws DataValidationErrorException, PermissionDeniedException, OperationFailedException, VersionMismatchException, InvalidParameterException, ReadOnlyException, MissingParameterException, DoesNotExistException {
-        RegistrationRequestItem registrationRequestItem = message.getRequestItem();
-        courseRegistrationEngineService.addLprsFromWaitlist(message.getRequestItem().getRegistrationGroupId(), message.getRequestItem().getPersonId(), message.getRegistrationGroup().getTermId(), contextInfo);
-        // registrationRequestItem.getExistingCourseRegistrationId()         ???? Do we want to set it to masterLPR after new ones are created? YES!
+        List<LprInfo> registeredLprs = courseRegistrationEngineService.addLprsFromWaitlist(message.getRequestItem().getExistingCourseRegistrationId(), contextInfo);
+        String masterLprId = registeredLprs.get(0).getMasterLprId();
         courseRegistrationEngineService.updateLprTransactionItemResult(message.getRequestItem().getRegistrationRequestId(),
                 message.getRequestItem().getId(),
                 LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY,
-                registrationRequestItem.getExistingCourseRegistrationId(),
+                masterLprId,
                 LprServiceConstants.LPRTRANS_ITEM_ADD_FROM_WAITLIST_MESSAGE_KEY,
                 true,
                 contextInfo);
-
-/*        courseRegistrationEngineService.updateOptionsOnRegisteredLprs(registrationRequestItem.getExistingCourseRegistrationId(), creditStr, registrationRequestItem.getGradingOptionId(), contextInfo);
-        courseRegistrationEngineService.updateLprTransactionItemResult(message.getRequestItem().getRegistrationRequestId(),
-                message.getRequestItem().getId(),
-                LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY,
-                registrationRequestItem.getExistingCourseRegistrationId(),
-                LprServiceConstants.LPRTRANS_ITEM_COURSE_UPDATED_MESSAGE_KEY,
-                true,
-                contextInfo);                */
-
-
     }
 
     public void setCourseRegistrationEngineService(CourseRegistrationEngineService courseRegistrationEngineService) {

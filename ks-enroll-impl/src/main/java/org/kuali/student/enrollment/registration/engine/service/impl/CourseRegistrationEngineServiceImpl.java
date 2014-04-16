@@ -306,16 +306,33 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
     }
 
     @Override
-    public List<LprInfo> addLprsFromWaitlist(String regGroupId, String personId, String termId, ContextInfo contextInfo)
+    public List<LprInfo> addLprsFromWaitlist(String masterLprId, ContextInfo contextInfo)
             throws OperationFailedException, PermissionDeniedException, MissingParameterException,
             InvalidParameterException, DoesNotExistException, ReadOnlyException, DataValidationErrorException,
             VersionMismatchException {
 
-//        List<LprInfo> updatedLprInfos = updateOptionsOnLprsCommon(KEYNAME_TO_WAITLIST_LPR_TYPES_MAP,
-//                masterLprId, credits, gradingOptionId, contextInfo);
-        List<LprInfo> lprsAddFromWaitlist = new ArrayList<LprInfo>();
+        List<String> waitlistLprIds = getLprIdsByMasterLprId(masterLprId, contextInfo);
+        List<LprInfo> waitlistLprs = getLprService().getLprsByIds(waitlistLprIds, contextInfo);
+        List<LprInfo> registeredLprs = new ArrayList<LprInfo>();
+        Date now = new Date();
 
-        return lprsAddFromWaitlist;
+        for (LprInfo waitlistLpr : waitlistLprs) {
+            LprInfo registeredLpr = new LprInfo(waitlistLpr); // Make a copy
+            registeredLpr.setId(null);
+            registeredLpr.setMeta(null);
+            registeredLpr.setEffectiveDate(now);
+            waitlistLpr.setExpirationDate(now);
+            waitlistLpr.setStateKey(LprServiceConstants.RECEIVED_LPR_STATE_KEY);
+            registeredLpr.setResultValuesGroupKeys(waitlistLpr.getResultValuesGroupKeys());
+            // Update the orig
+            getLprService().updateLpr(waitlistLpr.getId(), waitlistLpr, contextInfo);
+            // Create the new one
+            LprInfo newRegisteredLpr = getLprService().createLpr(registeredLpr.getPersonId(), registeredLpr.getLuiId(),
+                    registeredLpr.getTypeKey(), registeredLpr, contextInfo);
+            registeredLprs.add(newRegisteredLpr);
+        }
+
+        return registeredLprs;
     }
 
     /**
