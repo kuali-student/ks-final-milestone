@@ -887,7 +887,7 @@ jQuery(document).on('DOMNodeInserted', function (e) {
     if (jQuery(element).is('div.uif-page')) {
         handleEventforDisabledElements();
         addBootstrapImageToLink();
-    } else if (jQuery(element).is('div.uif-tableCollectionSection')) {
+    } else if (jQuery(element).is('div.uif-tableCollectionSection') || jQuery(element).is('div.uif-stackedCollectionSection')) {
         addBootstrapImageToLink();
     }
 });
