@@ -724,11 +724,25 @@ function highlightMissingElements(showThem) {
 }
 
 function highlightOneSection(sectionId, showError) {
-        if (showError) {
-            jQuery('#' + sectionId).find('table td textarea').attr("style", "height: 18px;");
-        } else {
-            jQuery('#' + sectionId).find('table td textarea').attr("style", "border: rgb(255,255,255) !important; height: 18px;");
+    var style = jQuery('#' + sectionId).find('table td textarea').attr("style");
+    var items = style.split(';');
+    var whiteBorderStyle = "border: rgb(255,255,255) !important; ";
+    var height = " ";
+
+    for(var i in items) {
+        var n = items[i].indexOf("height");
+        if(n >= 0 ) {
+            var heightText = items[i];
+            height = heightText.concat(";");
         }
+    }
+
+    var whiteBorder = whiteBorderStyle.concat(height);
+    if (showError) {
+        jQuery('#' + sectionId).find('table td textarea').attr("style", height);
+    } else {
+        jQuery('#' + sectionId).find('table td textarea').attr("style", whiteBorder);
+    }
 }
 
 jQuery.validator.addMethod("rangeMaxMinCheck",
