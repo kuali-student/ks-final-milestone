@@ -5,6 +5,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <!-- override KRADLegacyDataAdapterImpl with our own -->
+    <!-- TODO: KSENROLL-12567 remove workaround bean -->
     <bean id="kradLegacyDataAdapter" class="org.kuali.rice.krad.service.impl.KSKRADLegacyDataAdapterImpl"
           p:dataObjectService-ref="dataObjectService"
           p:lookupCriteriaGenerator-ref="lookupCriteriaGenerator"

@@ -11,6 +11,7 @@ import java.util.Map;
 
 /**
  * An extension of {@link KRADLegacyDataAdapterImpl} to work around rice bug
+ * TODO: KSENROLL-12567 remove class KSKRADLegacyDataAdapterImpl
  */
 public class KSKRADLegacyDataAdapterImpl extends KRADLegacyDataAdapterImpl {
     @Override
