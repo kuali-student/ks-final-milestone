@@ -65,13 +65,13 @@ function onProposalReviewLoad() {
  * Examines all of the read-only text areas on the page and shrink the height to fit the content.
  */
 function fixReadOnlyInputSizes() {
+    var textAreaEmptyHeight = 18;
     jQuery( ".review_readonly_control" ).each(function(index) {
         var element = jQuery(this);
         if (element.is("textarea")) {
-            if (element.val() == "") {
-                element.height(20);
-            } else {
-                element.height(20);
+            element.height(textAreaEmptyHeight);
+            if (element.val() != "") {
+                // Set the height of the text area to the scroll height.
                 element.height(jQuery(element)[0].scrollHeight);
             }
         }
@@ -655,15 +655,19 @@ function compareOrganizationNameInput(value, element) {
 
 jQuery.validator.addMethod("validDurationTypeAndCountInput",
     function(value, element) {
-        return this.optional(element) || verifyTypeAndCountInput(value, element);
+        var durationType = jQuery('#KS-DurationTypeDropDown_control').val();
+        var durationCount = jQuery('#KS-DurationTimeQuantity-Field_control').val();
+
+        if(durationCount == '') {
+            if(durationType !='') {
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        return durationType != '' && durationCount != '';
     }, "Must provide a duration type and a duration count")
-
-function verifyTypeAndCountInput(value, element) {
-    var durationType = jQuery('#KS-DurationTypeDropDown_control').val();
-    var durationCount = jQuery('#KS-DurationTimeQuantity-Field_control').val();
-
-    return durationType != '' && durationCount != '';
-}
 
 function durationTypeOnBlur() {
     var durationType = jQuery('#KS-DurationTypeDropDown_control').val();

@@ -25,7 +25,6 @@ import org.kuali.student.common.uif.service.KSMaintainable;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
-import org.kuali.student.r2.common.messenger.util.MessengerConstants;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.state.service.StateService;
@@ -64,12 +63,7 @@ public class KSMaintainableImpl extends MaintainableImpl implements KSMaintainab
      * @return a new ContextInfo
      */
     public ContextInfo createContextInfo(){
-        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
-        AttributeInfo attr = new AttributeInfo();
-        attr.setKey(MessengerConstants.USER_MESSAGE_PROCESS_ID);
-        attr.setValue(GlobalVariables.getUserSession().getKualiSessionId());
-        contextInfo.getAttributes().add(attr);
-        return contextInfo;
+        return ContextUtils.createDefaultContextInfo();
     }
 
     /**

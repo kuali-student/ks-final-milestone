@@ -416,6 +416,22 @@
     border: none;
 }
 
+
+.review_proposal_details-grid table th,
+.review_proposal_details-grid td {
+    padding: 2px 5px 0px 5px;
+}
+
+/* Move the labels down a smidge */
+.review_proposal_details-grid .uif-gridLayout th[scope="row"] {
+    padding-top: 5px;
+}
+
+#course_review_outcome_details .uif-gridLayout td {
+  padding-top: 5px;
+}
+
+
 /* This is applied to the headers with each major section */
 .cm_dottedHeaderActions {
     margin-bottom: 10px;
@@ -431,10 +447,6 @@
     float : left;
     clear : both;
 }
-
-/*
- *  Review Proposal styling
- */
 
 /* Remove the input styling */
 .review_readonly textarea:focus {
@@ -453,27 +465,33 @@
     -moz-transition: none;
     -o-transition: none;
     transition: none;
-	color: black;
-}
 
-.review_readonly textarea {
     resize: none;
     cursor: pointer;
+
+    padding: 0px 6px;
+    margin-top: 4px;
 }
 
-.course_review_details-table th,
-.course_review_details-table td {
-    padding: 2px 5px 0px 5px;
+#KS-CourseView-CourseLogisticsPage-CourseFormats-Widgets table td{
+  background: lightgray;
 }
 
-/* Move the labels down a smidge */
-.course_review_details-table .uif-gridLayout th[scope="row"] {
-    padding-top: 5px;
+.course_format_line {
+  background:lightgrey;
+  float:left;
+  margin-top:1em;
+  margin-left:1em;
+}
+
+.course_format_line_header{
+  margin-top:1em;
+  margin-left:1em;
+  border-bottom: 1px dotted gray;
 }
 
 #course_review_outcome_details .uif-gridLayout td {
   padding-top: 5px;
 }
-
 
 /* End */

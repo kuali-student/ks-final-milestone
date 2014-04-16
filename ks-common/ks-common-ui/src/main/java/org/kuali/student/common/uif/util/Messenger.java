@@ -1,6 +1,8 @@
-package org.kuali.student.r2.common.messenger;
+package org.kuali.student.common.uif.util;
 
 import org.kuali.student.r2.common.dto.ContextInfo;
+
+import java.util.List;
 
 /**
  * This is a messenger interface that can be implemented to send messages from a service to the user.
@@ -15,36 +17,37 @@ public interface Messenger {
      *
      * @param key
      * @param parameters
-     * @param contextInfo
      */
-    public void sendWarningMessage(String key, String[] parameters, ContextInfo contextInfo);
+    public void addWarningMessage(String key, String[] parameters);
 
     /**
      * Send an info message to the queue for the specific user.
      *
      * @param key
      * @param parameters
-     * @param contextInfo
      */
-    public void sendInfoMessage(String key, String[] parameters, ContextInfo contextInfo);
+    public void addInfoMessage(String key, String[] parameters);
 
     /**
      * Send an error message to the queue for the specific user.
      *
      * @param key
      * @param parameters
-     * @param contextInfo
      */
-    public void sendErrorMessage(String key, String[] parameters, ContextInfo contextInfo);
+    public void addErrorMessage(String key, String[] parameters);
 
     /**
      * Send a success message to the queue for the specific user.
      *
      * @param key
      * @param parameters
-     * @param contextInfo
      */
-    public void sendSuccessMessage(String key, String[] parameters, ContextInfo contextInfo);
+    public void addSuccessMessage(String key, String[] parameters);
+
+    /**
+     * Retrieve messages for this context.
+     */
+    public void publishMessages();
 
 }
 

@@ -16,9 +16,12 @@
  */
 package org.kuali.student.common.uif.form;
 
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.common.uif.util.GrowlIcon;
+import org.kuali.student.common.uif.util.KSGrowlMessenger;
 import org.kuali.student.common.uif.util.KSUifUtils;
+import org.kuali.student.common.uif.util.Messenger;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
@@ -33,18 +36,9 @@ public class KSUifMaintenanceDocumentForm extends MaintenanceDocumentForm {
     @Override
     public void postBind(HttpServletRequest request) {
 
-        String growlMessage = request.getParameter("growl.message");
-        String temp = request.getParameter("growl.message.params");
-        String[] growlMessageParams;
-        if(temp!=null){
-            growlMessageParams = temp.split(",");
-        }
-        else{
-            growlMessageParams=new String[0];
-        }
-
-        if (growlMessage != null) {
-              KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS, growlMessage, growlMessageParams);
+        Messenger messenger = (Messenger) GlobalVariables.getUserSession().retrieveObject(KSGrowlMessenger.MESSENGER_KEY);
+        if (messenger!=null){
+            messenger.publishMessages();
         }
 
         super.postBind(request);

@@ -895,7 +895,7 @@ jQuery(document).on('DOMNodeInserted', function (e) {
     if (jQuery(element).is('main.uif-page')) {
         handleEventforDisabledElements();
         addBootstrapImageToLink();
-    } else if (jQuery(element).is('div.uif-tableCollectionSection')) {
+    } else if (jQuery(element).is('div.uif-tableCollectionSection') || jQuery(element).is('div.uif-stackedCollectionSection')) {
         addBootstrapImageToLink();
     }
 });
@@ -1166,6 +1166,30 @@ function setInlineEditCheckboxReadonlyValue(id, checked){
         jQuery(this).text("");
     });
 }
+
+function removeMatrixOverrideConfirm(checkbox_id, dialog_id){
+    var checkBoxId = '#' + checkbox_id + '_control';
+    var checkBox = jQuery(checkBoxId);
+
+    if( !checkBox.is(":checked")) {
+        //overrideOptions = { autoDimensions:false, width:500, afterClose:breakColoWarningHasClosed };
+        showLightboxComponent(dialog_id);
+    }
+
+
+}
+
+function keepMatrixOverrideChecked (matrixOverrideCheckBoxId) {
+    var checkBoxId = '#' + jQuery("input[name='" + matrixOverrideCheckBoxId +"']").val() + '_control';
+    var checkBox = jQuery(checkBoxId);
+
+    if( !checkBox.is(":checked")) {
+        checkBox.prop('checked', true);
+    }
+
+    closeLightbox();
+}
+
 
 /**
  * auto finish the time field with the format hh:mm am
