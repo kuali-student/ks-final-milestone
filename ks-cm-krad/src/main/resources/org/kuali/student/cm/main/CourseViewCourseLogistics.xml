@@ -373,8 +373,7 @@
                     </property>
                     <property name="items">
                         <list>
-                            <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="typeKey"
-                                  p:required="true" p:label="Type"
+                            <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="typeKey" p:label="Type"
                                   p:optionsFinderClass="org.kuali.student.lum.lu.ui.course.keyvalues.ActivityTypeKeyValueFinder" >
                                 <property name="control">
                                     <bean parent="KS-Uif-DropdownControl" />

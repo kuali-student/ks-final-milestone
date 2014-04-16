@@ -49,6 +49,7 @@
 
                 <value>classpath:ks-CourseInfo-dictionary.xml</value>
                 <value>classpath:ks-ProposalInfo-dictionary.xml</value>
+                <value>classpath:ks-ActivityInfo-dictionary.xml</value>
                 <value>classpath:org/kuali/student/cm/UifKsCmDefinitions.xml</value>
 
                 <!-- <value>classpath:org/kuali/student/cm/CMFunctionalHomeView.xml</value>  This file currently doesn't exist -->

@@ -97,6 +97,13 @@
         </property>
     </bean>
 
+    <bean id="ActivityInfo.typeKey-override" parent="DataDictionaryBeanOverride">
+        <property name="beanName" value="ActivityInfo.typeKey" />
+        <property name="fieldOverrides">
+            <bean parent="DDValueReplacer-Enroute" />
+        </property>
+    </bean>
+
 
     <!--
         Per property overrides for workflow doc state P (Processed).
