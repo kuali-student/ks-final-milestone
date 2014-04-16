@@ -346,7 +346,7 @@ function fnClickFacet(sFilter, fcol, e) {
 	jQuery.ajax({
 		dataType : 'json',
 		type : "GET",
-		url : 'course/facetValues' + ksapGetSearchParams() + '&fclick=' + sFilter + '&fcol=' + fcol,
+		url : 'course/facetValues' + ksapGetSearchParams() + '&fclick=' + encodeURIComponent(sFilter) + '&fcol=' + fcol,
 		success : function(data, textStatus, jqXHR) {
 			var i = data.oSearchColumn[fcol];
 			oFacets = data;

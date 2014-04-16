@@ -58,6 +58,12 @@ public interface CourseSearchItem {
 	 */
 	float getCreditMax();
 
+    /**
+     * Get the multiple values of credits, for use with CreditsFacet
+     * @return The array of credit values
+     */
+    float[] getMultipleCredits();
+
 	/**
 	 * Get the credit type for use with CreditsFacet.
 	 * 

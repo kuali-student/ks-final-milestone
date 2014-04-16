@@ -10,6 +10,8 @@ public interface Credit {
 
 	float getMax();
 
+    float[] getMultiple();
+
 	CourseSearchItem.CreditType getType();
 	
 }

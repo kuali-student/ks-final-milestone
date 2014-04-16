@@ -1,5 +1,24 @@
 package org.kuali.student.ap.coursesearch.dataobject;
 
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
+import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.student.ap.coursesearch.CourseSearchItem;
+import org.kuali.student.ap.coursesearch.FacetIndex;
+import org.kuali.student.ap.coursesearch.FacetIndexBuilder;
+import org.kuali.student.ap.coursesearch.util.CollectionListPropertyEditorHtmlListType;
+import org.kuali.student.ap.coursesearch.util.FacetKeyFormatter;
+import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.acal.infc.Term;
+import org.springframework.util.StringUtils;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -11,25 +30,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-
-import org.dom4j.DocumentHelper;
-import org.dom4j.Element;
-import org.kuali.rice.core.api.config.property.ConfigContext;
-import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
-import org.kuali.student.ap.coursesearch.CourseSearchItem;
-import org.kuali.student.ap.coursesearch.FacetIndex;
-import org.kuali.student.ap.coursesearch.FacetIndexBuilder;
-import org.kuali.student.ap.coursesearch.util.CollectionListPropertyEditorHtmlListType;
-import org.kuali.student.ap.coursesearch.util.FacetKeyFormatter;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.core.acal.dto.TermInfo;
-import org.kuali.student.r2.core.acal.infc.Term;
-import org.springframework.util.StringUtils;
 
 /**
  * Created by IntelliJ IDEA. User: kmuthu Date: 11/3/11 Time: 11:08 AM
@@ -50,6 +50,7 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 	private String credit;
 	private float creditMin;
 	private float creditMax;
+    private float[] multipleCredits;
 	private CreditType creditType;
 
 	private String genEduReq = EMPTY_RESULT_VALUE_KEY;
@@ -158,6 +159,14 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 	public void setCreditMax(float creditMax) {
 		this.creditMax = creditMax;
 	}
+
+    public float[] getMultipleCredits() {
+        return multipleCredits;
+    }
+
+    public void setMultipleCredits(float[] multipleCredits) {
+        this.multipleCredits = multipleCredits;
+    }
 
 	public CreditType getCreditType() {
 		return creditType;

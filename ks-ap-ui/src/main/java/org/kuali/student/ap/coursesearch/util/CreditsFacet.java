@@ -1,24 +1,24 @@
 package org.kuali.student.ap.coursesearch.util;
 
+import org.kuali.student.ap.coursesearch.CourseSearchItem;
+import org.kuali.student.ap.coursesearch.CourseSearchItem.CreditType;
+import org.kuali.student.ap.coursesearch.dataobject.CourseSearchItemImpl;
+import org.kuali.student.ap.coursesearch.dataobject.FacetItem;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.kuali.student.ap.coursesearch.CourseSearchItem;
-import org.kuali.student.ap.coursesearch.CourseSearchItem.CreditType;
-import org.kuali.student.ap.coursesearch.dataobject.CourseSearchItemImpl;
-import org.kuali.student.ap.coursesearch.dataobject.FacetItem;
-
 /**
  * Logic for building list of FacetItems and coding CourseSearchItems.
  */
 public class CreditsFacet extends AbstractFacet {
 
-	private static final int DISPLAY_MAX = 25;
+	private static final int DISPLAY_MAX = 5;
 
-	private HashSet<Integer> creditFacetSet = new HashSet<Integer>();
+	private HashSet<Float> creditFacetSet = new HashSet<Float>();
 
 	public CreditsFacet() {
 		super();
@@ -32,12 +32,12 @@ public class CreditsFacet extends AbstractFacet {
 	 */
 	@Override
 	public List<FacetItem> getFacetItems() {
-		Integer[] list = creditFacetSet.toArray(new Integer[0]);
+		Float[] list = creditFacetSet.toArray(new Float[0]);
 		Arrays.sort(list);
 
-		for (Integer credit : list) {
+		for (Float credit : list) {
 			String display = credit.toString();
-			facetItems.add(new FacetItem(display, display));
+			facetItems.add(new FacetItem(display, display.replace(".0", "")));
 		}
 
 		return facetItems;
@@ -48,15 +48,13 @@ public class CreditsFacet extends AbstractFacet {
 	 */
 	@Override
 	public void process(CourseSearchItem course) {
-		int min = (int) course.getCreditMin();
-		int max = (int) course.getCreditMax();
+		float min = course.getCreditMin();
+        float max = course.getCreditMax();
 
-		List<Integer> list = new ArrayList<Integer>();
+		List<Float> list = new ArrayList<Float>();
 		switch (course.getCreditType()) {
 		case Range:
-			for (int x = min; x <= max; x++) {
-				if (x > DISPLAY_MAX)
-					continue;
+			for (float x = min; x <= max; x++) {
 				list.add(x);
 			}
 			break;
@@ -64,12 +62,18 @@ public class CreditsFacet extends AbstractFacet {
 			list.add(min);
 			break;
 		case Multiple:
-			list.add(min);
-			list.add(max);
+            if (course.getMultipleCredits() != null) {
+                for (float credit : course.getMultipleCredits()) {
+                    list.add(credit);
+                }
+            }
+            else {
+                list.add(min);
+            }
 			break;
 		case Unknown:
 		default:
-			list.add(min);
+            list.add(min);
 			break;
 
 		}
@@ -77,11 +81,15 @@ public class CreditsFacet extends AbstractFacet {
 		creditFacetSet.addAll(list);
 
 		Set<String> facetKeys = new java.util.LinkedHashSet<String>();
-		for (Integer credit : list)
-			facetKeys.add(credit.toString());
+		for (Float credit : list) {
+		    if (credit <= DISPLAY_MAX)
+			    facetKeys.add(credit.toString());
+            else
+                facetKeys.add(DISPLAY_MAX+1 + "+");
+        }
 		if (CreditType.Range.equals(course.getCreditType())
 				&& max > DISPLAY_MAX)
-			facetKeys.add("> " + DISPLAY_MAX);
+			facetKeys.add(DISPLAY_MAX+1 + "+");
 		((CourseSearchItemImpl) course).setCreditsFacetKeys(facetKeys);
 	}
 }

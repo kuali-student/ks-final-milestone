@@ -81,7 +81,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 				5);
 		l.put("facet_quarter", TERMS);
 		l.put("facet_genedureq", ALPHA);
-		l.put("facet_credits", NUMERIC);
+		l.put("facet_credits", CREDIT);
 		l.put("facet_level", NUMERIC);
 		l.put("facet_curriculum", ALPHA);
 		FACET_SORT = Collections
@@ -163,6 +163,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 		private String display;
 		private float min;
 		private float max;
+        private float[] multiple;
 		private CourseSearchItem.CreditType type;
 
 		public String getId() {
@@ -180,6 +181,10 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 		public float getMax() {
 			return max;
 		}
+
+        public float[] getMultiple() {
+            return multiple;
+        }
 
 		public CourseSearchItem.CreditType getType() {
 			return type;
@@ -222,13 +227,18 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 					CreditImpl credit = new CreditImpl();
 					credit.id = resultValuesGroupInfo.getKey();
                     credit.type = CourseSearchItem.CreditType.valueOf(types.get(resultValuesGroupInfo.getTypeKey()));
+                    Float tempVlaueHolder = 0F;
+                    credit.min = tempVlaueHolder;
+                    credit.max = tempVlaueHolder;
                     if(range.getMin()!=null && range.getMax()!=null){
 					    credit.min = range.getMin().floatValue();
                         credit.max = range.getMax().floatValue();
-                    }else{
-                        Float tempVlaueHolder = 0F;
-                        credit.min = tempVlaueHolder;
-                        credit.max = tempVlaueHolder;
+                    }
+                    if (range.getMultiple() != null && range.getMultiple().size() > 0) {
+                        credit.multiple = new float[range.getMultiple().size()];
+                        for (int i=0; i< range.getMultiple().size(); i++) {
+                            credit.multiple[i] = range.getMultiple().get(i).floatValue();
+                        }
                     }
                     credit.display= CreditsFormatter.formatCredits(range);
 					creditMap.put(credit.id, credit);
@@ -288,6 +298,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
                             course.setCreditMin(credit.getMin());
                             course.setCreditMax(credit.getMax());
                             course.setCreditType(credit.getType());
+                            course.setMultipleCredits(credit.getMultiple());
                             course.setCredit(credit.getDisplay());
                         }
                         listOfCourses.add(course);
