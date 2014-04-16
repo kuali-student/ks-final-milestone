@@ -712,34 +712,23 @@ function highlightMissingElements(showThem) {
    Set up the correct logic after the validation frame work is done as in  KSCM-1727 (setting up the validation framework).
    Also the rest of the data tables need to be validated and highlighted.
 */
+    highlightOneSection('CourseInfo-Review-section', showThem);
+    highlightOneSection('Governance-Review-section', showThem);
+    highlightOneSection('CourseLogistics-Review-section', showThem);
+    highlightOneSection('LearningObjectives-Review-section', showThem);
+    highlightOneSection('CourseRequisitesPage-Review-section', showThem);
+    highlightOneSection('ActiveDates-Review-section', showThem);
+    highlightOneSection('Financials-Review-section', showThem);
+    highlightOneSection('AuthorsAndCollaborators-Review-section', showThem);
+    highlightOneSection('SupportingDocuments-Review-section', showThem);
+}
 
-    jQuery('#CourseInfo-Review-section').find('table th').each(function (index) {
-        var requiredContent = this.textContent.toString().trim().split('*');
-        var requiredItem = requiredContent[0];
-        if (requiredContent.length > 1) {
-            requiredItem = requiredContent[1];
+function highlightOneSection(sectionId, showError) {
+        if (showError) {
+            jQuery('#' + sectionId).find('table td textarea').attr("style", "height: 18px;");
+        } else {
+            jQuery('#' + sectionId).find('table td textarea').attr("style", "border: rgb(255,255,255) !important; height: 18px;");
         }
-        var fund = true;
-        var innerTDs = jQuery('#CourseInfo-Review-section').find('table td');
-        for(var x in innerTDs) {
-            var control = innerTDs[x];
-            if (control != null && control.firstElementChild != null && control.firstElementChild.firstElementChild != null) {
-                var value = control.firstElementChild.firstElementChild.value;
-                var label =control.firstElementChild.dataset.label;
-                if (value != null && requiredItem.indexOf(label) >= 0) {
-                    fund = false;
-                }
-            }
-        }
-
-        if(fund) {
-            if (showThem && value == null) {
-                jQuery(this).attr("style", "background: rgb(255, 224, 233) !important").next("td").attr("style", "background: rgb(255, 224, 233) !important");
-            } else {
-                jQuery(this).attr("style", "").next("td").attr("style", "");
-            }
-        }
-    });
 }
 
 jQuery.validator.addMethod("rangeMaxMinCheck",
