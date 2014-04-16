@@ -35,6 +35,7 @@ public class LrcServiceConstants {
     public static final String RESULT_VALUES_GROUP_TYPE_KEY_FIXED = "kuali.result.values.group.type.fixed";
     public static final String RESULT_VALUES_GROUP_TYPE_KEY_RANGE = "kuali.result.values.group.type.range";
     public static final String RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE = "kuali.result.values.group.type.multiple";
+    public static final String COMMA_DELIMITER = ", ";
 
     //R1 Result component types //todo get rid of these when r1 is refactored out
     public static final String R1_RESULT_COMPONENT_TYPE_KEY_FIXED = "kuali.resultComponentType.credit.degree.fixed";
@@ -56,7 +57,7 @@ public class LrcServiceConstants {
     public static final String RESULT_SCALE_TYPE_KEY_GPA = "kuali.result.scale.type.gpa";
     public static final String RESULT_SCALE_TYPE_KEY_STUDENT_YEAR = "kuali.result.scale.type.student.year";
     public static final String RESULT_SCALE_TYPE_KEY_HONOR = "kuali.result.scale.type.honor";
-// known scale keys
+    // known scale keys
     public static final String RESULT_SCALE_KEY_GRADE_LETTER = "kuali.result.scale.grade.letter";
     public static final String RESULT_SCALE_KEY_GRADE_PF = "kuali.result.scale.grade.pf";
     public static final String RESULT_SCALE_KEY_GRADE_PNP = "kuali.result.scale.grade.pnp";
