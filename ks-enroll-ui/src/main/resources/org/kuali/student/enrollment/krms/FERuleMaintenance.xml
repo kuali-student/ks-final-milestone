@@ -586,7 +586,7 @@ limitations under the License.
                     </property>
                 </bean>
                 <bean id="FinalExam_building" parent="KS-Uif-InputField-LabelTop" p:label="Facility"
-                      p:render="@{#dp.ruleEditor.ruleTypeInfo.type ne 'kuali.krms.rule.type.final.exam.standard'}"
+                      p:render="@{#dp.ruleEditor.ruleTypeInfo.type ne 'kuali.krms.rule.type.final.exam.activity.offering.driven'}"
                       p:propertyName="ruleEditor.building.buildingCode" p:uppercaseValue="true">
                     <property name="fieldLabel.requiredMessage.messageText" value=""/>
                     <property name="control">
@@ -606,7 +606,7 @@ limitations under the License.
                     </property>
                 </bean>
                 <bean id="FinalExam_room" parent="KS-Uif-InputField-LabelTop" p:label="Room"
-                      p:render="@{#dp.ruleEditor.ruleTypeInfo.type ne 'kuali.krms.rule.type.final.exam.standard'}"
+                      p:render="@{#dp.ruleEditor.ruleTypeInfo.type ne 'kuali.krms.rule.type.final.exam.activity.offering.driven'}"
                       p:propertyName="ruleEditor.room.roomCode">
                     <property name="control">
                         <bean parent="KS-Uif-TextControl" p:size="20" p:cssClasses="new_rdl_components"/>
