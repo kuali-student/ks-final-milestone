@@ -38,6 +38,13 @@
                     <property name="control">
                         <bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="Yes, this is a one-time/pilot course" />
                     </property>
+                    <property name="dependencyConstraints">
+                        <list>
+                            <bean parent="PrerequisiteConstraint" p:propertyName="courseInfo.endTerm">
+                                <property name="messageKey" value="End term must be selected for a pilot course"/>
+                            </bean>
+                        </list>
+                    </property>
                     <property name="fieldLabel.richLabelMessage.iconToolTipText" value="If this is a pilot course, you must select an End Term"/>
                 </bean>
 
