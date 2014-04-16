@@ -145,7 +145,7 @@ INSERT INTO KSMG_MESSAGE (GRP_NAME,ID,LOCALE,MSG_ID,MSG_VALUE,OBJ_ID,VER_NBR)
 	        SUBSTR(sys_guid(),9,4) || '-' ||
 	        SUBSTR(sys_guid(),13,4) || '-' ||
 	        SUBSTR(sys_guid(),17,4) || '-' ||
-	        SUBSTR(sys_guid(),21),'en','DETAILS_TERMS_SCHEDULED_SOURCE_NAME','Time Schedule',
+	        SUBSTR(sys_guid(),21),'en','DETAILS_TERMS_SCHEDULED_SOURCE_NAME','Schedule of Classes',
 	        SUBSTR(sys_guid(),1,8) || '-' ||
 	        SUBSTR(sys_guid(),9,4) || '-' ||
 	        SUBSTR(sys_guid(),13,4) || '-' ||
