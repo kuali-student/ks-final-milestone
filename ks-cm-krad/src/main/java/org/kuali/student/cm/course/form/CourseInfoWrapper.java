@@ -25,6 +25,7 @@ import org.kuali.student.r2.core.comment.dto.DecisionInfo;
 import org.kuali.student.r2.core.document.dto.DocumentInfo;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.dto.FormatInfo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -50,6 +51,7 @@ public class CourseInfoWrapper implements Serializable {
     private List<DocumentInfo> supportingDocuments;
     private ReviewProposalDisplay reviewProposalDisplay;
     private CourseInfo courseInfo;
+    private List<FormatInfo> formats;
 
     private String crossListingDisclosureSection;
     private String userId;
@@ -177,6 +179,7 @@ public class CourseInfoWrapper implements Serializable {
         unitsContentOwner = new ArrayList<CourseCreateUnitsContentOwner>();
         loDisplayWrapperModel = new LoDisplayWrapperModel();
         uiHelper = new CreateCourseUIHelper();
+        formats = new ArrayList<FormatInfo>();
     }
 
     /**
@@ -405,6 +408,14 @@ public class CourseInfoWrapper implements Serializable {
 
     public void setUiHelper(CreateCourseUIHelper uiHelper) {
         this.uiHelper = uiHelper;
+    }
+
+    public List<FormatInfo> getFormats() {
+        return formats;
+    }
+
+    public void setFormats(List<FormatInfo> formats) {
+        this.formats = formats;
     }
 
     /**

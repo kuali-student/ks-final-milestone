@@ -299,7 +299,7 @@
 
     <bean id="KS-CourseView-CourseLogisticsPage-CourseFormats-Widgets"
           parent="Uif-StackedCollectionSection" p:headerText="Course Format(s)"
-          p:propertyName="courseInfo.formats" p:collectionObjectClass="org.kuali.student.r2.lum.course.dto.FormatInfo">
+          p:propertyName="formats" p:collectionObjectClass="org.kuali.student.r2.lum.course.dto.FormatInfo">
         <property name="instructionalText"
                   value="Each course format can consist of any number of activities, and you may have more than one course format for this course." />
         <property name="header">
@@ -321,34 +321,42 @@
         <property name="renderLineActions" value="false" />
         <property name="layoutManager.lineGroupPrototype.header.headerText" value="Format @{(#index + 1)}" />
         <property name="layoutManager.lineGroupPrototype.additionalCssClasses" value="course_format_line"/>
-        <property name="layoutManager.lineGroupPrototype.header.style" value="course_format_line_header" />
+        <property name="layoutManager.lineGroupPrototype.header.additionalCssClasses" value="course_format_line_header" />
+        <property name="layoutManager.id" value="course_format_table"/>
+        <property name="layoutManager.lineGroupPrototype.layoutManager.id" value="course_format_table_@{#index}"/>
+        <property name="layoutManager.lineGroupPrototype.id" value="course_format_row_@{#index}"/>
+        <!-- Display the appropriate requiredness messaging -->
+        <property name="header.rightGroup">
+            <bean parent="Uif-VerticalBoxGroup">
+                <property name="items">
+                    <list>
+                        <bean parent="CM-StateAware-RequiredMessage" />
+                    </list>
+                </property>
+            </bean>
+        </property>
         <property name="layoutManager.lineGroupPrototype.header.rightGroup">
-            <bean parent="Uif-HorizontalBoxGroup">
-                    <property name="additionalCssClasses">
-                        <list merge="true">
-                            <value>right-aligned</value>
-                        </list>
-                    </property>
-                    <property name="items">
-                        <list>
-                            <bean parent="KS-Uif-Delete-ActionLink" p:id="delete_format" p:methodToCall="deleteLine" p:actionLabel="Delete" p:ajaxSubmit="true"
-                                  p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"
-                                  p:actionScript="actionInvokeHandler(this);"
-                                  p:render="@{!#view.readOnly}"
-                                  p:additionalCssClasses="right-aligned"
-                                  p:ajaxReturnType="update-component"
-                                  p:refreshId="KS-CourseView-CourseLogisticsPage-CourseFormats-Widgets"
-                                  p:actionEvent="deleteLine" p:dirtyOnAction="true"/>
-                        </list>
-                    </property>
+            <bean parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="right-aligned,course-format-right-group">
+                <property name="items">
+                    <list>
+                        <bean parent="KS-Uif-Delete-ActionLink" p:id="delete_format" p:methodToCall="deleteLine" p:actionLabel="Delete" p:ajaxSubmit="true"
+                              p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"
+                              p:actionScript="actionInvokeHandler(this);"
+                              p:render="@{!#view.readOnly}"
+                              p:ajaxReturnType="update-component"
+                              p:refreshId="KS-CourseView-CourseLogisticsPage-CourseFormats-Widgets"
+                              p:actionEvent="deleteLine" p:dirtyOnAction="true"/>
+                    </list>
+                </property>
             </bean>
         </property>
         <property name="subCollections">
             <list>
                 <bean id="KS-CourseView-CourseLogisticsPage-CourseFormatActivities-Widgets" parent="KS-TableCollectionSubSection-BottomAddLine"
                       p:collectionObjectClass="org.kuali.student.r2.lum.course.dto.ActivityInfo"
-                      p:propertyName="activities">
+                      p:propertyName="activities" p:additionalCssClasses="course_format_activity_collection">
                     <property name="layoutManager.richTable.render" value="false"/>
+                    <property name="layoutManager.id" value="course_format_activities_table"/>
                     <property name="addLinePlacement" value="BOTTOM" />
                     <property name="addBlankLineAction.actionLabel" value="Add Activity"/>
                     <property name="addBlankLineAction.id" value="activity-addline"/>
@@ -361,6 +369,7 @@
                             <property name="richHeaderMessage.iconToolTipText" value="&lt;b&gt;Contacted Hours:&lt;/b&gt; Sum of contact hours will validate with credits(from learning results)&lt;br&gt;
                             &lt;b&gt;Duration Type:&lt;/b&gt; First select the duration type(term,month,week,weekend,day) then select the count of the duration for the course. Most courses will have 1 or 2 terms,for example &lt;br&gt;
                             &lt;b&gt;Anticipated Class Size:&lt;/b&gt; This does not have to be exact - it will be used as an estimate for evaluation purposes only."/>
+                            <property name="headerLevel" value="h5"/>
                         </bean>
                     </property>
                     <property name="headerText" value="Activities"/>
@@ -368,7 +377,7 @@
                     <property name="lineActions">
                         <list>
                             <bean parent="KS-Uif-Delete-ActionLink" p:id="delete_activity" p:methodToCall="deleteLine" p:actionLabel="Delete"
-                                  p:actionEvent="deleteLine" p:dirtyOnAction="true"/>
+                                  p:actionEvent="deleteLine" p:dirtyOnAction="true" p:additionalCssClasses="course-format-right-group"/>
                         </list>
                     </property>
                     <property name="items">
@@ -377,6 +386,15 @@
                                   p:optionsFinderClass="org.kuali.student.lum.lu.ui.course.keyvalues.ActivityTypeKeyValueFinder" >
                                 <property name="control">
                                     <bean parent="KS-Uif-DropdownControl" />
+                                </property>
+                                <property name="simpleConstraint">
+                                    <bean parent="RequiredConstraint">
+                                        <property name="states">
+                                            <list>
+                                                <value>R+</value>
+                                            </list>
+                                        </property>
+                                    </bean>
                                 </property>
                             </bean>
                             <bean parent="KS-Uif-InputField-LabelTop" p:label="Contact Hours"

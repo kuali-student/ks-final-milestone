@@ -879,12 +879,18 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
     }
 
+    /**
+     * This method adds an empty Format if the format list is empty. This is needed to display a
+     * blank row at format section at the ui.
+     *
+     * @param dataObject
+     */
     protected void initializeFormat(CourseInfoWrapper dataObject){
-        if (dataObject.getCourseInfo().getFormats().isEmpty()){
+        if (dataObject.getFormats().isEmpty()){
             FormatInfo format = new FormatInfo();
             ActivityInfo activity = new ActivityInfo();
             format.getActivities().add(activity);
-            dataObject.getCourseInfo().getFormats().add(format);
+            dataObject.getFormats().add(format);
         }
     }
 
@@ -917,11 +923,11 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             }
 
             return;
-        } if (StringUtils.endsWith(collectionPath, "courseInfo.formats")) {
+        } if (StringUtils.endsWith(collectionPath, "formats")) {
             FormatInfo format = new FormatInfo();
             ActivityInfo activity = new ActivityInfo();
             format.getActivities().add(activity);
-            courseInfoWrapper.getCourseInfo().getFormats().add(format);
+            courseInfoWrapper.getFormats().add(format);
             return;
         }
 
@@ -1313,21 +1319,6 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             }
         }
 
-        //Formats
-        for (FormatInfo format : courseInfoWrapper.getCourseInfo().getFormats()) {
-            if (StringUtils.isBlank(format.getId())) { // If it's new
-                format.setState(DtoConstants.STATE_DRAFT);
-                if (StringUtils.isBlank(format.getTypeKey())) {
-                    format.setTypeKey(CluServiceConstants.COURSE_FORMAT_TYPE_KEY);
-                }
-            }
-            for (ActivityInfo activity : format.getActivities()) {
-                if (StringUtils.isBlank(activity.getId())) { // If it's new
-                    activity.setState(DtoConstants.STATE_DRAFT);
-                }
-            }
-        }
-
         courseInfoWrapper.getCourseInfo().getCreditOptions().clear();
 
         //Credit Options
@@ -1347,6 +1338,8 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         populateFinalExamOnDTO();
 
         populateOutComesOnDTO();
+
+        populateFormatOnDTO();
 
         courseInfoWrapper.getCourseInfo().setStartTerm(courseInfoWrapper.getCourseInfo().getStartTerm());
         courseInfoWrapper.getCourseInfo().setEndTerm(courseInfoWrapper.getCourseInfo().getEndTerm());
@@ -1396,6 +1389,52 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
     }
 
+    /**
+     * Populates format/activity to course dto to save
+     */
+    protected void populateFormatOnDTO(){
+
+        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
+        courseInfoWrapper.getCourseInfo().getFormats().clear();
+
+        for (FormatInfo format : courseInfoWrapper.getFormats()) {
+
+            if (!isEmptyFormat(format)){
+
+                if (StringUtils.isBlank(format.getId())) { // If it's new
+                    format.setState(DtoConstants.STATE_DRAFT);
+                    if (StringUtils.isBlank(format.getTypeKey())) {
+                        format.setTypeKey(CluServiceConstants.COURSE_FORMAT_TYPE_KEY);
+                    }
+                }
+                for (ActivityInfo activity : format.getActivities()) {
+                    if (StringUtils.isBlank(activity.getId())) { // If it's new
+                        activity.setState(DtoConstants.STATE_DRAFT);
+                    }
+                }
+
+                courseInfoWrapper.getCourseInfo().getFormats().add(format);
+
+            }
+        }
+    }
+
+    /**
+     * This method checks whether a format is empty or not by checking all the activities type.
+     *
+     * @param format
+     * @return
+     */
+    protected boolean isEmptyFormat(FormatInfo format){
+
+        for (ActivityInfo activity : format.getActivities()){
+            if (StringUtils.isNotBlank(activity.getTypeKey())){
+                return false;
+            }
+        }
+
+        return true;
+    }
 
     protected void populateOutComesOnWrapper() {
 
@@ -1419,6 +1458,15 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             }
             courseInfoWrapper.getCreditOptionWrappers().add(rvgWrapper);
         }
+
+    }
+
+    protected void populateFormatOnWrapper(){
+
+        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
+        courseInfoWrapper.getFormats().addAll(courseInfoWrapper.getCourseInfo().getFormats());
+
+        initializeFormat(courseInfoWrapper);
 
     }
 
@@ -1673,8 +1721,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             populateFinalExamOnWrapper();
             populatePassFailOnWrapper();
             populateOutComesOnWrapper();
-
-            initializeFormat(dataObject);
+            populateFormatOnWrapper();
 
             redrawDecisionTable();
             updateReview();
