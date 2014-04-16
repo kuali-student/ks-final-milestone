@@ -28,7 +28,6 @@ import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.entity.Entity;
 import org.kuali.rice.kim.api.identity.name.EntityNameContract;
-import org.kuali.rice.krad.datadictionary.validation.result.DictionaryValidationResult;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
@@ -38,7 +37,6 @@ import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.util.UrlFactory;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
@@ -150,6 +148,15 @@ public class CourseController extends CourseRuleEditorController {
     }
 
     /**
+     * Digs the CourseInfoWrapper out of a DocumentFormBase.
+     * @param form The DocumentFormBase.
+     * @return The CourseInfoWrapper.
+     */
+    protected CourseInfoWrapper getCourseInfoWrapper(DocumentFormBase form) {
+        return ((CourseInfoWrapper)((MaintenanceDocumentForm) form).getDocument().getNewMaintainableObject().getDataObject());
+    }
+
+    /**
      * Overridden because we needed a point at which the form is loaded with the document before we can initialize some
      * form fields. This method is used for when a new document is created.
      *
@@ -186,7 +193,7 @@ public class CourseController extends CourseRuleEditorController {
      * @param form the DocumentFormBase object to update
      */
     protected void updateCourseForm(DocumentFormBase form) {
-        CourseInfoWrapper wrapper = ((CourseInfoWrapper)((MaintenanceDocumentForm)form).getDocument().getNewMaintainableObject().getDataObject());
+        CourseInfoWrapper wrapper = getCourseInfoWrapper(form);
         wrapper.getUiHelper()
                 .setUseReviewProcess(!ArrayUtils.contains(CurriculumManagementConstants.DocumentTypeNames.ADMIN_DOC_TYPE_NAMES, form.getDocTypeName()));
         wrapper.getUiHelper()
@@ -248,15 +255,15 @@ public class CourseController extends CourseRuleEditorController {
     @RequestMapping(params = "methodToCall=reviewCourseProposal")
     public ModelAndView reviewCourseProposal(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
                                              HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ((CourseInfoMaintainable)((MaintenanceDocumentForm)form).getDocument().getNewMaintainableObject()).updateReview();
 
-        if (GlobalVariables.getMessageMap().hasErrors()) {
-            GlobalVariables.getMessageMap().clearErrorMessages();
-        }
+        ((CourseInfoMaintainable)((MaintenanceDocumentForm)form).getDocument().getNewMaintainableObject()).updateReview();
 
         //  Validate
         KRADServiceLocatorWeb.getViewValidationService().validateViewAgainstNextState(form);
-
+        if (GlobalVariables.getMessageMap().hasErrors()) {
+            CourseInfoWrapper wrapper = getCourseInfoWrapper(form);
+            wrapper.setMissingRequiredFields(true);
+        }
         return getUIFModelAndView(form, CurriculumManagementConstants.CourseViewPageIds.REVIEW_PROPOSAL);
     }
 
@@ -269,7 +276,7 @@ public class CourseController extends CourseRuleEditorController {
 
 
         String displaySectionId = form.getActionParameters().get("displaySection");
-        CourseInfoWrapper wrapper = ((CourseInfoWrapper)((MaintenanceDocumentForm)form).getDocument().getNewMaintainableObject().getDataObject());
+        CourseInfoWrapper wrapper = getCourseInfoWrapper(form);
 
         if (displaySectionId == null) {
             wrapper.getUiHelper().setSelectedSection(CourseViewSections.COURSE_INFO);
@@ -297,8 +304,7 @@ public class CourseController extends CourseRuleEditorController {
         final CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
         final ModelAndView retval = addLine(form, result, request, response);
 
-        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
-
+        CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
 
         // Resulting Add Line is at the bottom
         final SupportingDocumentInfoWrapper addLineResult = courseInfoWrapper.getDocumentsToAdd().get(courseInfoWrapper.getDocumentsToAdd().size() - 1);
@@ -343,7 +349,7 @@ public class CourseController extends CourseRuleEditorController {
     public ModelAndView removeOrganization(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
                                            HttpServletRequest request, HttpServletResponse response) {
 
-        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
+        CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
 
         String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
@@ -450,7 +456,7 @@ public class CourseController extends CourseRuleEditorController {
                                 HttpServletRequest request, HttpServletResponse response) {
         final CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
 
-        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
+        CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
         // final ModelAndView retval = super.deleteLine(form, result, request, response);
 
         final String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
@@ -564,7 +570,7 @@ public class CourseController extends CourseRuleEditorController {
 //
 //
 
-        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
+        CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
         form.getDocument().getDocumentHeader().setDocumentDescription(courseInfoWrapper.getProposalInfo().getName());
 
         ModelAndView modelAndView;
@@ -613,7 +619,7 @@ public class CourseController extends CourseRuleEditorController {
      * @param form
      */
     /*protected void updateReview(final DocumentFormBase form) {
-        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper)((MaintenanceDocumentForm)form).getDocument().getNewMaintainableObject().getDataObject();
+        CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
         CourseInfo savedCourseInfo = courseInfoWrapper.getCourseInfo();
 
         // Update course section
@@ -777,7 +783,7 @@ public class CourseController extends CourseRuleEditorController {
         String tempRefTypeKey = "referenceType.clu.proposal";
         
         final CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
-        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
+        CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
         
         final String dateStr = DateFormatters.MONTH_DATE_YEAR_HOUR_MIN_CONCAT_AMPM_FORMATTER.format(new DateTime());
         final Date date = new Date();
@@ -894,7 +900,7 @@ public class CourseController extends CourseRuleEditorController {
                                                 final HttpServletRequest request,
                                                 final HttpServletResponse response) {
         LOG.info("Adding a unitsContentOwner");
-        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
+        CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
         if(StringUtils.isBlank(courseInfoWrapper.getPreviousSubjectCode()) ||
                 !StringUtils.equals(courseInfoWrapper.getPreviousSubjectCode(), courseInfoWrapper.getCourseInfo().getSubjectArea())) {
             courseInfoWrapper.getUnitsContentOwner().clear();

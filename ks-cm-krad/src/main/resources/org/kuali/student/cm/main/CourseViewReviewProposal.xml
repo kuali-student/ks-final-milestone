@@ -95,7 +95,7 @@
     </bean>
 
     <bean id="KS-CourseView-ReviewErrorMessageLink" parent="Uif-VerticalBoxGroup"
-          p:render="@{#dataObject.reviewProposalDisplay.missingRequiredElement}">
+          p:render="@{#dataObject.missingRequiredFields}">
         <property name="items">
             <list>
                 <bean id="KS-CourseView-Admin-Message-TreeExpandCollapse" parent="Uif-HorizontalFieldGroup"
@@ -109,7 +109,7 @@
                             </bean>
                             <bean parent="KS-Uif-ActionLink" p:id="ReviewProposal-Error-Message-expand-optional-link"
                                   p:actionScript="showHideReviewProposalErrorFields();"
-                                  p:actionLabel="Show what's missing." p:style="margin-right: 15pt; margin-top: 0px;">
+                                  p:actionLabel="Hide missing-fields indicator." p:style="margin-right: 15pt; margin-top: 0px;">
                             </bean>
                         </list>
                     </property>
@@ -195,10 +195,9 @@
                                   p:propertyName="courseInfo.courseNumberSuffix"/>
                             <bean parent="CM-ReadOnlyInput" p:label="Cross Listed Courses" id="courseSection_crossListings"
                                   p:propertyName="reviewProposalDisplay.courseSection.crossListingsAsString"/>
-                            <bean parent="CM-ReadOnlyInput" p:label="Jointly Offered Courses" id="courseSection_variations"
-                                  p:propertyName="reviewProposalDisplay.courseSection.variationsAsString"/>
-                            <!-- Unclear why this one is using the variations data. Will sort out later. -->
-                            <bean parent="CM-ReadOnlyInput" p:label="Version Codes" id="courseSection_variations_CHANGEME"
+                            <bean parent="CM-ReadOnlyInput" p:label="Jointly Offered Courses" id="courseSection_jointly_offered_courses"
+                                  p:propertyName="reviewProposalDisplay.courseSection.jointlyOfferedCoursesAsString"/>
+                             <bean parent="CM-ReadOnlyInput" p:label="Version Codes" id="courseSection_Version_Codes"
                                   p:propertyName="reviewProposalDisplay.courseSection.variationsAsString"/>
                             <bean parent="CM-ReadOnlyInput" p:label="Instructor(s)" id="courseSection_instructors"
                                   p:propertyName="reviewProposalDisplay.courseSection.instructorsAsString"/>
@@ -303,11 +302,11 @@
 
                             <!-- This bean gets rendered if the outComes collection has items. Otherwise, the one below does. -->
                             <bean parent="Uif-VerticalFieldGroup" p:label="Outcomes" p:colSpan="3" p:fieldLabel.renderColon="false"
-                                    p:render="@{!#emptyList(#dataObject.reviewProposalDisplay.courseLogisticsSection.outComes)}">
+                                    p:render="@{!#emptyList(#dataObject.reviewProposalDisplay.courseLogisticsSection.outcomes)}">
                                 <property name="items">
                                     <list>
                                         <bean id="course_review_outcome_details" parent="Uif-StackedCollectionSection"
-                                              p:propertyName="reviewProposalDisplay.courseLogisticsSection.outComes"
+                                              p:propertyName="reviewProposalDisplay.courseLogisticsSection.outcomes"
                                               p:collectionObjectClass="org.kuali.student.cm.course.form.OutcomeReviewSection">
                                             <property name="layoutManager.lineGroupPrototype.header.headerText"
                                                       value="Outcome @{(#index + 1)}"/>
@@ -330,8 +329,8 @@
                             </bean>
                             <!-- This bean gets rendered if the outComes collection is empty. Otherwise, the one above does. -->
                             <bean parent="CM-ReadOnlyInput" p:label="Outcomes"
-                                    p:propertyName="reviewProposalDisplay.emptyStringOutcomes"
-                                    p:render="@{#emptyList(#dataObject.reviewProposalDisplay.courseLogisticsSection.outComes)}">
+                                    p:propertyName="reviewProposalDisplay.courseLogisticsSection.emptyStringOutcomes"
+                                    p:render="@{#emptyList(#dataObject.reviewProposalDisplay.courseLogisticsSection.outcomes)}">
                                 <!-- Make required for state enroute  -->
                                 <property name="simpleConstraint">
                                     <bean parent="RequiredConstraint">
@@ -393,7 +392,7 @@
 
                             <!-- This bean gets rendered if the outComes collection is empty. Otherwise, the one above does. -->
                             <bean parent="CM-ReadOnlyInput" p:label="Course Formats" id="emptyStringFormats"
-                                    p:propertyName="reviewProposalDisplay.emptyStringFormats"
+                                    p:propertyName="reviewProposalDisplay.courseLogisticsSection.emptyStringFormats"
                                     p:render="@{#emptyList(#dataObject.reviewProposalDisplay.courseLogisticsSection.formatInfoWrappers)}">
                                 <!-- Make required for state enroute  -->
                                 <property name="simpleConstraint">
@@ -459,17 +458,17 @@
                     <property name="items">
                         <list>
                             <bean parent="CM-ReadOnlyInput" p:label="Student Eligibility + Prerequisite"  id="courseLogisticsSection.terms_1"
-                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.termsAsString"/>
+                                  p:propertyName="reviewProposalDisplay.courseRequisitesSection.dummyString"/>
                             <bean parent="CM-ReadOnlyInput" p:label="Corequisite"  id="courseLogisticsSection.terms_2"
-                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.termsAsString"/>
+                                  p:propertyName="reviewProposalDisplay.courseRequisitesSection.dummyString"/>
                             <bean parent="CM-ReadOnlyInput" p:label="Recommended Preparation"  id="courseLogisticsSection.terms_3"
-                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.termsAsString"/>
+                                  p:propertyName="reviewProposalDisplay.courseRequisitesSection.dummyString"/>
                             <bean parent="CM-ReadOnlyInput" p:label="Antirequisite" id="courseLogisticsSection.terms_4"
-                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.termsAsString"/>
+                                  p:propertyName="reviewProposalDisplay.courseRequisitesSection.dummyString"/>
                             <bean parent="CM-ReadOnlyInput" p:label="Course that Restricts Credits" id="courseLogisticsSection.terms_5"
-                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.termsAsString"/>
+                                  p:propertyName="reviewProposalDisplay.courseRequisitesSection.dummyString"/>
                             <bean parent="CM-ReadOnlyInput" p:label="Repeatable for Credit" id="courseLogisticsSection.terms_6"
-                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.termsAsString"/>
+                                  p:propertyName="reviewProposalDisplay.courseRequisitesSection.dummyString"/>
                         </list>
                     </property>
                 </bean>

@@ -18,14 +18,10 @@
 package org.kuali.student.cm.course.form;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.util.CourseProposalUtil;
-import org.kuali.student.r1.core.proposal.ProposalConstants;
-import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
 import org.kuali.student.r2.core.comment.dto.DecisionInfo;
-import org.kuali.student.r2.core.constants.ProposalServiceConstants;
 import org.kuali.student.r2.core.document.dto.DocumentInfo;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
@@ -71,8 +67,21 @@ public class CourseInfoWrapper implements Serializable {
     private Date effectiveDate;
     private Date expirationDate;
 
-    // see KSCM-1803 for the details of adding this data member
     private String previousSubjectCode;
+
+    private boolean missingRequiredFields;
+
+    /**
+     * Flag used on the Review Course Proposal page to indicate whether the "yellow bar" should be displayed.
+     * @return True if the course is missing required fields for the next state or routing node. Otherwise, false.
+     */
+    public boolean isMissingRequiredFields() {
+        return missingRequiredFields;
+    }
+
+    public void setMissingRequiredFields(boolean missingRequiredFields) {
+        this.missingRequiredFields = missingRequiredFields;
+    }
 
     private transient CreateCourseUIHelper uiHelper;
 
@@ -124,6 +133,10 @@ public class CourseInfoWrapper implements Serializable {
         this.showAll = showAll;
     }
 
+    /**
+     * Since only one organization can be added for the Curriculum Oversight, a newly added one should replace the
+     * existing one. This property is used to remember which was the old one when the time comes to persist.
+     */
     public String getPreviousSubjectCode() {
         return previousSubjectCode;
     }
@@ -184,8 +197,6 @@ public class CourseInfoWrapper implements Serializable {
         this.finalExamStatus = argFinalExamStatus;
     }
 
-
-
     public String getCrossListingDisclosureSection() {
         this.crossListingDisclosureSection = "true";
 
@@ -195,12 +206,9 @@ public class CourseInfoWrapper implements Serializable {
         return this.crossListingDisclosureSection;
     }
 
-
     public void setCrossListingDisclosureSection(String argCrossListingDisclosureSection) {
         this.crossListingDisclosureSection = argCrossListingDisclosureSection;
     }
-
-
 
     public String getRequiredWorkflowMode() {
         if (requiredWorkflowMode == null) {
@@ -223,8 +231,6 @@ public class CourseInfoWrapper implements Serializable {
         }
         return unitsContentOwner;
     }
-
-
 
     public void setUnitsContentOwnerToAdd(final String unitsContentOwnerToAdd) {
         this.unitsContentOwnerToAdd = unitsContentOwnerToAdd;
