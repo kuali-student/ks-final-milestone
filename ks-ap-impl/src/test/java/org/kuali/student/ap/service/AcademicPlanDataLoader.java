@@ -193,7 +193,7 @@ public class AcademicPlanDataLoader {
             Date date = df.parse(str);
             return date;
         } catch (ParseException ex) {
-            throw new IllegalArgumentException("Bad date " + str + " in " + context);
+            throw new IllegalArgumentException("Bad date " + str + " in " + context,ex);
         }
     }
 }

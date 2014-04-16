@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.ap.academicplan.service.mock;
+package org.kuali.student.ap.service.mock;
 
 
 import java.util.ArrayList;
@@ -86,7 +86,7 @@ public class AcademicPlanServiceMockImpl implements MockService, AcademicPlanSer
             try {
                 list.add (this.getLearningPlan(id, context));
             } catch (DoesNotExistException e) {
-                throw new InvalidParameterException("plan id="+id+" does not exist");
+                throw new InvalidParameterException("plan id="+id+" does not exist",e);
             }
         }
 		return list;
@@ -118,7 +118,7 @@ public class AcademicPlanServiceMockImpl implements MockService, AcademicPlanSer
             try {
                 list.add (this.getPlanItem(id, context));
             } catch (DoesNotExistException e) {
-                throw new InvalidParameterException("plan item id="+id+" does not exist");
+                throw new InvalidParameterException("plan item id="+id+" does not exist",e);
             }
 		}
 		return list;

@@ -12,5 +12,5 @@
 
     <import resource="classpath:ks-ap-test-context.xml"/>
 
-    <bean id="academicPlanServiceImpl" class="org.kuali.student.ap.academicplan.service.mock.AcademicPlanServiceMockImpl"/>
+    <bean id="academicPlanServiceImpl" class="org.kuali.student.ap.service.mock.AcademicPlanServiceMockImpl"/>
 </beans>

@@ -264,7 +264,7 @@ public class AcademicPlanServiceValidationDecorator extends
         try {
             type = KsapFrameworkServiceLocator.getTypeService().getType(learningPlanInfo.getTypeKey(), context);
         } catch (DoesNotExistException e) {
-            throw new InvalidParameterException(String.format("Unknown type [%s].", learningPlanInfo.getTypeKey()));
+            throw new InvalidParameterException(String.format("Unknown type [%s].", learningPlanInfo.getTypeKey()),e);
         } catch (PermissionDeniedException e) {
             throw new OperationFailedException(
                     "Error validating learning plan type.", e);

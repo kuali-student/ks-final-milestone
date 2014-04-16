@@ -3,7 +3,7 @@ package org.kuali.student.ap.service;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.kuali.student.ap.academicplan.service.AcademicPlanServiceDecorator;
-import org.kuali.student.ap.academicplan.service.mock.AcademicPlanServiceMockImpl;
+import org.kuali.student.ap.service.mock.AcademicPlanServiceMockImpl;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
