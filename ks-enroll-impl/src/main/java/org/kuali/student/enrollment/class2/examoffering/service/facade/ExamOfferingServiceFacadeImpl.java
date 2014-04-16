@@ -275,6 +275,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
             //Create new Exam Offering Relationship
             List<ActivityOfferingInfo> aoInfos = getAOsForFoId(foEntry.getKey().getId(), foIdToListOfAO, context);
             createExamOfferingRelationPerFO(foEntry.getKey().getId(), eo.getId(), aoInfos, context);
+            foResult.setContext(contextParms);
             result.getChildren().add(foResult);
 
         }
@@ -511,7 +512,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
                     aoResult.getChildren().add(this.getScheduleEvaluator().executeRuleForAOSlotting(aoInfo, eo.getId(),
                             termType, evaluatorOptions, context));
                 }
-
+                aoResult.setContext(contextParms);
                 result.getChildren().add(aoResult);
 
             }
