@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.kuali.student.ap.academicplan.service.mock;
+package org.kuali.student.ap.service;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
