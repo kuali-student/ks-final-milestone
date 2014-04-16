@@ -491,6 +491,16 @@
     <bean id="KS-CourseOfferingManagement-ExamOfferingByCOTableSection" parent="KS-CourseOfferingManagement-ExamOfferingTableSection"
           p:render="@{!#dp.examOfferingWrapperList.isEmpty()}">
         <property name="headerText" value="Exam Offering for Course Offering"/>
+        <property name="header.lowerGroup">
+            <bean parent="Uif-VerticalBoxGroup">
+                <property name="items">
+                    <list>
+                        <bean parent="KS-Uif-DataField" p:label="Crosslisted as" p:labelPlacement="LEFT" p:propertyName="currentCourseOfferingWrapper.alternateCOCodes"
+                                              p:render="@{currentCourseOfferingWrapper.alternateCOCodes.size() > 0 }" p:readOnly="true"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
         <property name="propertyName" value="examOfferingWrapperList"/>
     </bean>
 
@@ -518,6 +528,16 @@
         <property name="additionalCssClasses" value="aoc_disclosure,ks-uif-diclosureContent-noIndent"/>
         <property name="validationMessages.displayMessages" value="false"/>
         <property name="headerText" value="Exam Offerings for Activity Offerings"/>
+        <property name="header.lowerGroup">
+            <bean parent="Uif-VerticalBoxGroup">
+                <property name="items">
+                    <list>
+                        <bean parent="KS-Uif-DataField" p:label="Crosslisted as" p:labelPlacement="LEFT" p:propertyName="currentCourseOfferingWrapper.alternateCOCodes"
+                                              p:render="@{currentCourseOfferingWrapper.alternateCOCodes.size() > 0 }" p:readOnly="true"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
         <property name="collectionLookup">
             <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false" />
         </property>
