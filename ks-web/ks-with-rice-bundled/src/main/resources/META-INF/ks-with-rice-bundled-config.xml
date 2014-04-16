@@ -109,6 +109,7 @@
 
 	<param name="rice.kim.additionalSpringFiles">classpath:ks-kim-context.xml</param>
     <param name="rice.krms.additionalSpringFiles">classpath:ks-krms-context.xml</param>
+    <!-- TODO: KSENROLL-12567 remove workaround param -->
     <param name="rice.kr.additionalSpringFiles">classpath:ks-krad-context.xml</param>
 
     <param name="ks.rice.label">RICE</param>
