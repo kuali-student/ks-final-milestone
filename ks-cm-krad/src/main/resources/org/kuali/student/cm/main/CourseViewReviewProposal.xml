@@ -290,9 +290,21 @@
                             </bean>
 
                             <bean parent="CM-ReadOnlyInput" p:label="Audit" id="courseLogisticsSection_audit"
-                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.audit"/>
+                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.audit">
+                                <property name="control.cssClasses">
+                                    <list merge="true">
+                                        <value>ks-review-captialize</value>
+                                    </list>
+                                </property>
+                            </bean>
                             <bean parent="CM-ReadOnlyInput" p:label="Pass Fail Transcript Grade" id="courseLogisticsSection_passFail"
-                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.passFail"/>
+                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.passFail">
+                                <property name="control.cssClasses">
+                                    <list merge="true">
+                                        <value>ks-review-captialize</value>
+                                    </list>
+                                </property>
+                            </bean>
                             <bean parent="CM-ReadOnlyInput" p:label="Final Exam Status"  id="courseLogisticsSection_finalExamStatus"
                                   p:propertyName="reviewProposalDisplay.courseLogisticsSection.finalExamStatus"/>
                             <bean parent="CM-ReadOnlyInput" p:label="Final Exam Rationale"  id="courseLogisticsSection_finalExamStatusRationale"
@@ -497,7 +509,13 @@
                             <bean parent="CM-ReadOnlyInput" p:label="End Term" id="activeDatesSection_endTerm"
                                   p:propertyName="reviewProposalDisplay.activeDatesSection.endTerm"/>
                             <bean parent="CM-ReadOnlyInput" p:label="Pilot Course" id="activeDatesSection_pilotCourse"
-                                  p:propertyName="reviewProposalDisplay.activeDatesSection.pilotCourse"/>
+                                  p:propertyName="reviewProposalDisplay.activeDatesSection.pilotCourse">
+                                <property name="control.cssClasses">
+                                    <list merge="true">
+                                        <value>ks-review-captialize</value>
+                                    </list>
+                                </property>
+                            </bean>
                         </list>
                     </property>
                 </bean>
