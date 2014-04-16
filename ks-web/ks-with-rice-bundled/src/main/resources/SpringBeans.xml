@@ -49,7 +49,7 @@
 	<import resource="classpath:org/kuali/rice/core/RiceDataSourceSpringBeans.xml"/>
 	<import resource="classpath:org/kuali/rice/config/RiceSpringBeans.xml"/>
         
-	<import resource="classpath:org/kuali/rice/core/KSCommonSpringBeans.xml"/>
+	<import resource="classpath:org/kuali/rice/core/CommonSpringBeans.xml"/>
 
 	<bean id="allDictionaryFileLocations" class="org.kuali.student.common.spring.CollectionAggregatingFactoryBean">
                 <property name="collectionBeanReferences" >
