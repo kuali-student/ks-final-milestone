@@ -724,22 +724,20 @@ function highlightMissingElements(showThem) {
 }
 
 function highlightOneSection(sectionId, showError) {
+    var whiteBorderStyle = "border: rgb(255,255,255) !important;";
     var style = jQuery('#' + sectionId).find('table td textarea').attr("style");
-    var items = style.split(';');
-    var whiteBorderStyle = "border: rgb(255,255,255) !important; ";
-    var height = " ";
+    var hasBorderStyle = style.indexOf(whiteBorderStyle);
+    var otherStyle = " ";
 
-    for(var i in items) {
-        var n = items[i].indexOf("height");
-        if(n >= 0 ) {
-            var heightText = items[i];
-            height = heightText.concat(";");
-        }
+    if(hasBorderStyle >= 0) {
+        otherStyle = style.replace(whiteBorderStyle,"");
+    } else {
+        otherStyle = style;
     }
 
-    var whiteBorder = whiteBorderStyle.concat(height);
+    var whiteBorder = whiteBorderStyle.concat(otherStyle);
     if (showError) {
-        jQuery('#' + sectionId).find('table td textarea').attr("style", height);
+        jQuery('#' + sectionId).find('table td textarea').attr("style", otherStyle);
     } else {
         jQuery('#' + sectionId).find('table td textarea').attr("style", whiteBorder);
     }
