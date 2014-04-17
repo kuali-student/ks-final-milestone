@@ -79,8 +79,8 @@ public class CreditsFacetTest {
         CourseSearchItemImpl course = new CourseSearchItemImpl();
 //        course.setCreditMin(1);
 //        course.setCreditMax(3);
-        course.setCredit("1, 3, 3.5, 7, 7.5");
-        course.setMultipleCredits(new float[]{1, 3, (float)3.5, 7, (float)7.5});
+        course.setCredit("1, 3, 3.5, 5.5, 6, 7, 7.5");
+        course.setMultipleCredits(new float[]{1, 3, (float)3.5, (float)5.5, 6, 7, (float)7.5});
         course.setCreditType(CourseSearchItem.CreditType.Multiple);
 
         CreditsFacet facet = new CreditsFacet();
@@ -88,8 +88,10 @@ public class CreditsFacetTest {
         assertTrue(course.getCreditsFacetKeys().contains("1.0"));
         assertTrue(course.getCreditsFacetKeys().contains("3.0"));
         assertTrue(course.getCreditsFacetKeys().contains("3.5"));
+        assertTrue(course.getCreditsFacetKeys().contains("5.5"));
+        assertTrue(!course.getCreditsFacetKeys().contains("6.0"));
         assertTrue(course.getCreditsFacetKeys().contains("6+"));
-        assertTrue(course.getCreditsFacetKeys().size() == 4);
+        assertEquals(5, course.getCreditsFacetKeys().size());
     }
 
     @Test

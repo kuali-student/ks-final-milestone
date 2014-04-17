@@ -16,7 +16,10 @@ import java.util.Set;
  */
 public class CreditsFacet extends AbstractFacet {
 
-	private static final int DISPLAY_MAX = 5;
+    /**
+     * DISPLAY_MAX will be the cutoff for when we switch to 6+
+     */
+	private static final int DISPLAY_MAX = 6;
 
 	private HashSet<Float> creditFacetSet = new HashSet<Float>();
 
@@ -82,14 +85,14 @@ public class CreditsFacet extends AbstractFacet {
 
 		Set<String> facetKeys = new java.util.LinkedHashSet<String>();
 		for (Float credit : list) {
-		    if (credit <= DISPLAY_MAX)
+		    if (credit < DISPLAY_MAX)
 			    facetKeys.add(credit.toString());
             else
-                facetKeys.add(DISPLAY_MAX+1 + "+");
+                facetKeys.add(DISPLAY_MAX + "+");
         }
 		if (CreditType.Range.equals(course.getCreditType())
-				&& max > DISPLAY_MAX)
-			facetKeys.add(DISPLAY_MAX+1 + "+");
+				&& max >= DISPLAY_MAX)
+			facetKeys.add(DISPLAY_MAX + "+");
 		((CourseSearchItemImpl) course).setCreditsFacetKeys(facetKeys);
 	}
 }
