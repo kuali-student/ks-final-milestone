@@ -22,6 +22,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.infc.RichText;
 import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
@@ -108,8 +109,21 @@ public class CourseDetailsInquiryHelperImpl2 extends KualiInquirableImpl {
         courseDetails.setScheduledTerms(KsapFrameworkServiceLocator.getCourseHelper()
                 .getScheduledTermsForCourse(course));
         courseDetails.setProjectedTerms(getProjectedTerms(course));
+        // Requirement from KSAP-1030
+        //- If the course is not scheduled for any terms, then display “Not currently scheduled” and add a field for
+        // “Last Offered: (term last offered)” - The Last Offered term should be the most recently offered, this
+        // includes the current term if the Registration Key Date: "Last Day to Add Classes"  has passed.
+        //-Only display Last Offered if it has been offered within the last 10 years.
+        //      -If the course is not scheduled and has not been offered within the last 10 years, then only the
+        // “Not currently scheduled” message should display beside Scheduled For.
         if(courseDetails.getScheduledTerms().isEmpty()){
-            courseDetails.setLastOffered(KsapFrameworkServiceLocator.getCourseHelper().getLastOfferedTermForCourse(course).getName());
+            Term lastOfferedTerm = KsapFrameworkServiceLocator.getCourseHelper().getLastOfferedTermForCourse(course);
+            if (lastOfferedTerm != null){
+                courseDetails.setLastOffered(lastOfferedTerm.getName());
+            }
+            else {
+                courseDetails.setLastOffered(null);
+            }
         }else{
             courseDetails.setLastOffered(null);
         }
