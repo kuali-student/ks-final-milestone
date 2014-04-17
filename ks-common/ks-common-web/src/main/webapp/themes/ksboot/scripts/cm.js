@@ -727,19 +727,26 @@ function highlightOneSection(sectionId, showError) {
     var whiteBorderStyle = "border: rgb(255,255,255) !important;";
     var style = jQuery('#' + sectionId).find('table td textarea').attr("style");
     var hasBorderStyle = style.indexOf(whiteBorderStyle);
-    var otherStyle = " ";
+    var originalStyle = " ";
 
     if(hasBorderStyle >= 0) {
-        otherStyle = style.replace(whiteBorderStyle,"");
+        originalStyle = style.replace(whiteBorderStyle,"");
     } else {
-        otherStyle = style;
+        originalStyle = style;
     }
 
-    var whiteBorder = whiteBorderStyle.concat(otherStyle);
+    var whiteBorder = whiteBorderStyle.concat(originalStyle);
+
     if (showError) {
-        jQuery('#' + sectionId).find('table td textarea').attr("style", otherStyle);
+        jQuery('#' + sectionId).find('table td textarea').each(function(index) {
+            jQuery(this).attr("style", originalStyle);
+            jQuery('#' + jQuery(this).GetBubblePopupID()).removeClass("alwaysHide");
+        });
     } else {
-        jQuery('#' + sectionId).find('table td textarea').attr("style", whiteBorder);
+        jQuery('#' + sectionId).find('table td textarea').each(function(index) {
+            jQuery(this).attr("style", whiteBorder);
+            jQuery('#' + jQuery(this).GetBubblePopupID()).addClass("alwaysHide");
+        });
     }
 }
 
