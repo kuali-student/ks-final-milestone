@@ -855,6 +855,10 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         //Initialize formats/activities
         initializeFormat(courseInfoWrapper);
 
+        //Initialize outcomes
+        initializeOutcome(courseInfoWrapper);
+
+
         // Administering Organizations
         if (courseInfoWrapper.getAdministeringOrganizations().isEmpty()) {
             courseInfoWrapper.getAdministeringOrganizations().add(new OrganizationInfoWrapper());
@@ -894,6 +898,18 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         }
     }
 
+    protected void initializeOutcome(CourseInfoWrapper dataObject){
+        if (dataObject.getCreditOptionWrappers().isEmpty()){
+            ResultValuesGroupInfoWrapper resultValuesGroupInfoWrapper = new ResultValuesGroupInfoWrapper();
+            ResultValuesGroupInfo resultValuesGroupInfo = new ResultValuesGroupInfo();
+            ResultValueKeysWrapper resultValueKeysWrapper = new ResultValueKeysWrapper();
+            resultValuesGroupInfoWrapper.getResultValueKeysDisplay().add(resultValueKeysWrapper);
+            resultValuesGroupInfoWrapper.setResultValuesGroupInfo(resultValuesGroupInfo);
+            dataObject.getCreditOptionWrappers().add(resultValuesGroupInfoWrapper);
+        }
+    }
+
+
     @Override
     public void processCollectionAddBlankLine(View view, Object model, String collectionPath) {
 
@@ -928,6 +944,14 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             ActivityInfo activity = new ActivityInfo();
             format.getActivities().add(activity);
             courseInfoWrapper.getFormats().add(format);
+            return;
+        } if (StringUtils.endsWith(collectionPath, "creditOptionWrappers")) {
+            ResultValuesGroupInfoWrapper resultValuesGroupInfoWrapper = new ResultValuesGroupInfoWrapper();
+            ResultValuesGroupInfo resultValuesGroupInfo = new ResultValuesGroupInfo();
+            ResultValueKeysWrapper resultValueKeysWrapper = new ResultValueKeysWrapper();
+            resultValuesGroupInfoWrapper.getResultValueKeysDisplay().add(resultValueKeysWrapper);
+            resultValuesGroupInfoWrapper.setResultValuesGroupInfo(resultValuesGroupInfo);
+            courseInfoWrapper.getCreditOptionWrappers().add(resultValuesGroupInfoWrapper);
             return;
         }
 
