@@ -54,6 +54,11 @@ public class KSControllerHelper {
         int selectedLineIndex = -1;
         String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
         if (StringUtils.isNotBlank(selectedLine)) {
+            // This is a quick fix to continue with the rest of the AFTs
+            // I am checking to see why the name parameters are duplicated and will revert part.
+            if(selectedLine.contains(",")){
+                selectedLine = selectedLine.split(",")[0];
+            }
             selectedLineIndex = Integer.parseInt(selectedLine);
         } else {
             selectedLine = form.getActionParamaterValue("lineIndex");
