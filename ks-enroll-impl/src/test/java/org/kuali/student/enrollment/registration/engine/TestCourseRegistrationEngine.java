@@ -79,6 +79,12 @@ public class TestCourseRegistrationEngine {
         assertNotNull(courseRegistrationService);
     }
 
+    /**
+     * This tests creating an add reg request and submitting it to the registration engine. It then checks to make sure
+     * the request was successfully processed.
+     *
+     * @throws Exception
+     */
     @Test
     public void testSimpleCourseRegistration() throws Exception {
 
@@ -106,6 +112,12 @@ public class TestCourseRegistrationEngine {
 
     }
 
+    /**
+     * The registration engine is asynchronous so there are times when we would want to wait.
+     *
+     * In production we're polling for responses.
+     * @param waitTimeMS
+     */
     private void waitFor(long waitTimeMS){
         try {
             System.err.println("Waiting for [" + waitTimeMS + "ms ]");
@@ -122,7 +134,7 @@ public class TestCourseRegistrationEngine {
             DataValidationErrorException, AlreadyExistsException {
         RegistrationRequestItemInfo itemInfo = new RegistrationRequestItemInfo();
         itemInfo.setPersonId(personId);
-        itemInfo.setRegistrationGroupId("RG-1");
+        itemInfo.setRegistrationGroupId(LuiServiceDataLoader.RG_ID_1);    // this must match a value from LuiServiceDataLoader.java
         itemInfo.setTypeKey(LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY);
         itemInfo.setStateKey(LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
         itemInfo.setCredits(new KualiDecimal("3.5"));
