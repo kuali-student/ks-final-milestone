@@ -161,7 +161,7 @@ function updateExamDriverInFOTable(finalExamDropDownId, finalExamTableCellId, pa
             finalExamDriverUI = "Activity Offering";
         }
 
-        var finalExamTableCells = jQuery('[id^="' + finalExamTableCellId + '_line"][id$="_control"]');
+        var finalExamTableCells = jQuery('[id^="' + finalExamTableCellId + '_line"]');
         finalExamTableCells.each(function () {
             jQuery(this).text(finalExamDriverUI);
         });
