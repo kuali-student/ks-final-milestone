@@ -84,26 +84,6 @@ public class CourseRegistrationServiceImpl extends AbstractCourseRegistrationSer
             mapMessage.setString(CourseRegistrationConstants.REGISTRATION_QUEUE_MESSAGE_USER_ID, contextInfo.getPrincipalId());
             mapMessage.setString(CourseRegistrationConstants.REGISTRATION_QUEUE_MESSAGE_REG_REQ_ID, regReqId);
             jmsTemplate.convertAndSend(CourseRegistrationConstants.REGISTRATION_INITILIZATION_QUEUE, mapMessage);
-
-            // checking if event is removing course from waitlist = open seat(s)
-            if (!regRequestInfo.getRegistrationRequestItems().isEmpty()) {
-                RegistrationRequestItem regRequestItem = regRequestInfo.getRegistrationRequestItems().get(0);
-                if (StringUtils.equals(regRequestItem.getTypeKey(), LprServiceConstants.REQ_ITEM_DROP_WAITLIST_TYPE_KEY)) {
-                    // Getting list of AO IDs for the given Waitlist to pass it to the listener
-                    List<LprInfo> waitlistLprInfos = getLprService().getLprsByMasterLprId(regRequestItem.getExistingCourseRegistrationId(), contextInfo);
-                    ArrayList<String> aoIDs = new ArrayList<String>();
-                    for (LprInfo lprInfo : waitlistLprInfos) {
-                        if (StringUtils.equals(lprInfo.getTypeKey(), LprServiceConstants.WAITLIST_AO_LPR_TYPE_KEY)) {
-                            aoIDs.add(lprInfo.getLuiId());
-                        }
-                    }
-                    // Passing event and AO IDs
-                    ObjectMessage objectMessage = new ActiveMQObjectMessage();
-                    objectMessage.setObject(aoIDs);
-                    jmsTemplate.convertAndSend(CourseRegistrationConstants.SEAT_OPEN_QUEUE, objectMessage);
-                }
-            }
-
         } catch (JMSException jmsEx) {
             throw new RuntimeException("Error submitting registration request.", jmsEx);
         }

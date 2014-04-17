@@ -1,11 +1,16 @@
 package org.kuali.student.enrollment.registration.engine.processor;
 
+import org.apache.activemq.command.ActiveMQObjectMessage;
 import org.apache.commons.lang.BooleanUtils;
+import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequestItem;
 import org.kuali.student.enrollment.courseseatcount.infc.SeatCount;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
+import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.registration.engine.dto.RegistrationRequestItemEngineMessage;
+import org.kuali.student.enrollment.registration.engine.service.CourseRegistrationConstants;
 import org.kuali.student.enrollment.registration.engine.service.CourseRegistrationEngineService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -17,12 +22,20 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
+import org.springframework.jms.core.JmsTemplate;
 
+import javax.jms.JMSException;
+import javax.jms.ObjectMessage;
+import javax.xml.namespace.QName;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CourseRegistrationLprActionProcessor {
 
     private CourseRegistrationEngineService courseRegistrationEngineService;
+    private LprService lprService;
+
+    private JmsTemplate jmsTemplate;  // needed to call ActiveMQ based Registration Engine
 
     public RegistrationRequestItemEngineMessage process(RegistrationRequestItemEngineMessage message) {
         try {
@@ -206,6 +219,25 @@ public class CourseRegistrationLprActionProcessor {
                 LprServiceConstants.LPRTRANS_ITEM_COURSE_DROPPED_MESSAGE_KEY,
                 true,
                 contextInfo);
+        // checking if event is removing student from the course = open seat(s)
+        if (StringUtils.equals(registrationRequestItem.getTypeKey(), LprServiceConstants.REQ_ITEM_DROP_TYPE_KEY)) {
+            // Getting list of AO IDs for the given Waitlist to pass it to the listener
+            List<LprInfo> lprInfos = getLprService().getLprsByMasterLprId(registrationRequestItem.getExistingCourseRegistrationId(), contextInfo);
+            ArrayList<String> aoIDs = new ArrayList<String>();
+            for (LprInfo lprInfo : lprInfos) {
+                if (StringUtils.equals(lprInfo.getTypeKey(), LprServiceConstants.REGISTRANT_AO_LPR_TYPE_KEY)) {
+                    aoIDs.add(lprInfo.getLuiId());
+                }
+            }
+            // Passing event and AO IDs
+            try {
+                ObjectMessage objectMessage = new ActiveMQObjectMessage();
+                objectMessage.setObject(aoIDs);
+                jmsTemplate.convertAndSend(CourseRegistrationConstants.SEAT_OPEN_QUEUE, objectMessage);
+            } catch (JMSException jmsEx) {
+                throw new RuntimeException("Error submitting open seat request.", jmsEx);
+            }
+        }
     }
 
     private void notifyNoSeatsNoWaitlistAvailable(RegistrationRequestItemEngineMessage message, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, VersionMismatchException, DataValidationErrorException {
@@ -247,4 +279,22 @@ public class CourseRegistrationLprActionProcessor {
         this.courseRegistrationEngineService = courseRegistrationEngineService;
     }
 
+    public JmsTemplate getJmsTemplate() {
+        return jmsTemplate;
+    }
+
+    public void setJmsTemplate(JmsTemplate jmsTemplate) {
+        this.jmsTemplate = jmsTemplate;
+    }
+
+    public LprService getLprService() {
+        if (lprService == null) {
+            lprService = (LprService) GlobalResourceLoader.getService(new QName(LprServiceConstants.NAMESPACE, LprServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return lprService;
+    }
+
+    public void setLprService(LprService lprService) {
+        this.lprService = lprService;
+    }
 }

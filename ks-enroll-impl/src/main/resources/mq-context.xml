@@ -145,6 +145,7 @@
     </bean>
     <bean id="courseRegistrationLprActionProcessor" class="org.kuali.student.enrollment.registration.engine.processor.CourseRegistrationLprActionProcessor">
         <property name="courseRegistrationEngineService" ref="courseRegistrationEngineService"/>
+        <property name="jmsTemplate" ref="jmsTemplate"/>
     </bean>
     <bean id="waitlistManagerService" class="org.kuali.student.enrollment.registration.engine.service.impl.WaitlistManagerServiceImpl"/>
 
