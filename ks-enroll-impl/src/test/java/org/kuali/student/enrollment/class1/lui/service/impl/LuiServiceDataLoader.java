@@ -62,6 +62,7 @@ public class LuiServiceDataLoader {
         loadLui("Lui-9", "Lui nine", "cluId9", "atpId9", "kuali.lui.type.exam.offering.final", LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY, "<p>Lui Desc 901</p>", "Lui Desc 901", "2011-01-01 00:00:00.0", "2011-12-31 00:00:00.0", 200, 50, "ref.url");
         loadLui("Lui-10", "Lui ten", "cluId10", "atpId10", "kuali.lui.type.exam.offering.final", LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY, "<p>Lui Desc 1001</p>", "Lui Desc 1001", "2011-01-01 00:00:00.0", "2011-12-31 00:00:00.0", 200, 50, "ref.url");
         loadLui("Lui-EO-1", "Lui EO one", "cluId10", "examPeriod100", "kuali.lui.type.exam.offering.final", "kuali.lui.exam.offering.state.draft", "<p>Lui Desc 901</p>", "Lui Desc 901", "2011-01-01 00:00:00.0", "2011-12-31 00:00:00.0", 200, 50, "ref.url");
+        loadLui("RG-1", "Lui RG one", "cluId10", "examPeriod100", LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY, "<p>REG GROUP DESC</p>", "REG GROUP DESC", "2011-01-01 00:00:00.0", "2011-12-31 00:00:00.0", 200, 50, "ref.url");
         
         loadLuiLuiRel("LUILUIREL-1", "2011-01-01 00:00:00.0", "2100-01-01 00:00:00.0", "kuali.lui.lui.relation.state.active", "<p>LUILUIREL-1 Formatted</p>", "LUILUIREL-1 Plain", "Lui-1", "kuali.lui.lui.relation.associated", "Lui-2");
         loadLuiLuiRel("LUILUIREL-2", "2011-01-01 00:00:00.0", "2100-01-01 00:00:00.0", "kuali.lui.lui.relation.state.active", "<p>LUILUIREL-2 Formatted</p>", "LUILUIREL-2 Plain", "Lui-3", "kuali.lui.lui.relation.associated", "Lui-4");
@@ -73,6 +74,10 @@ public class LuiServiceDataLoader {
         loadLuiLuiRel("LUILUIREL-8", "2011-01-01 00:00:00.0", "2100-01-01 00:00:00.0", "kuali.lui.lui.relation.state.active", "<p>LUILUIREL-6 Formatted</p>", "LUILUIREL-6 Plain", "Lui-7", "kuali.lui.lui.relation.type.deliveredvia.fo2ao", "Lui-Lab2");
         loadLuiLuiRel("LUILUIREL-9", "2011-01-01 00:00:00.0", "2100-01-01 00:00:00.0", "kuali.lui.lui.relation.state.active", "<p>LUILUIREL-6 Formatted</p>", "LUILUIREL-6 Plain", "Lui-1", "kuali.lui.lui.relation.type.deliveredvia.co2fo", "Lui-7");
         loadLuiLuiRel("LUILUIREL-10", "2011-01-01 00:00:00.0", "2100-01-01 00:00:00.0", "kuali.lui.lui.relation.state.active", "<p>LUILUIREL-10 Formatted</p>", "LUILUIREL-10 Plain", "Lui-6", "kuali.lui.lui.relation.type.deliveredvia.fo2ao", "Lui-8");
+        loadLuiLuiRel("LUILUIREL-11", "2011-01-01 00:00:00.0", "2100-01-01 00:00:00.0", "kuali.lui.lui.relation.state.active", "<p>LUILUIREL-10 Formatted</p>", "LUILUIREL-10 Plain", "RG-1", LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY, "Lui-2");
+        loadLuiLuiRel("LUILUIREL-12", "2011-01-01 00:00:00.0", "2100-01-01 00:00:00.0", "kuali.lui.lui.relation.state.active", "<p>LUILUIREL-10 Formatted</p>", "LUILUIREL-10 Plain", "Lui-6", LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_RG_TYPE_KEY, "RG-1");
+
+
 //        loadLuiLuiRel("LUILUIREL-11", "2011-01-01 00:00:00.0", "2100-01-01 00:00:00.0", "kuali.lui.lui.relation.state.active", "<p>LUILUIREL-10 Formatted</p>", "LUILUIREL-10 Plain", "Lui-7", "kuali.lui.lui.relation.type.deliveredvia.fo2ao", "Lui-8");
     }
 

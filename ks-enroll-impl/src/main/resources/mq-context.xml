@@ -143,9 +143,6 @@
     <bean id="regEnginePerfPojo" class="org.kuali.student.enrollment.registration.engine.processor.RegEnginePerformanceProcessor">  <!-- very simple aggregator that takes the ao results and combines them into a list. Should return a more complex object in future -->
         <property name="jmsTemplate" ref="jmsTemplate"/>
     </bean>
-    <bean id="regEngineImpl" class="org.kuali.student.enrollment.registration.engine.service.impl.CourseRegistrationEngineServiceImpl" >
-        <property name="waitlistManagerService" ref="waitlistManagerService"/>
-    </bean>
     <bean id="courseRegistrationLprActionProcessor" class="org.kuali.student.enrollment.registration.engine.processor.CourseRegistrationLprActionProcessor">
         <property name="courseRegistrationEngineService" ref="courseRegistrationEngineService"/>
     </bean>

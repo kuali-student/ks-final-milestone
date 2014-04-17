@@ -664,14 +664,14 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             SearchResultRowInfo row = new SearchResultRowInfo();
             row.addCell(SearchResultColumns.AO_ID, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.AO_TYPE, (String) resultRow[i++]);
-            row.addCell(SearchResultColumns.AO_MAX_SEATS, resultRow[i] == null ? null : ((BigDecimal) resultRow[i]).toString());
+            row.addCell(SearchResultColumns.AO_MAX_SEATS, resultRow[i] == null ? null : resultRow[i].toString());
             i++;
-            row.addCell(SearchResultColumns.CWL_MAX_SIZE, resultRow[i] == null ? null : ((BigDecimal) resultRow[i]).toString());
+            row.addCell(SearchResultColumns.CWL_MAX_SIZE, resultRow[i] == null ? null : resultRow[i].toString());
             i++;
             row.addCell(SearchResultColumns.CWL_ID, (String) resultRow[i++]);
-            row.addCell(SearchResultColumns.AO_IDS_ACTUAL_COUNT, resultRow[i] == null ? null : ((BigDecimal) resultRow[i]).toString());
+            row.addCell(SearchResultColumns.AO_IDS_ACTUAL_COUNT, resultRow[i] == null ? null : resultRow[i].toString());
             i++;
-            row.addCell(SearchResultColumns.AO_WAITLIST_COUNT, resultRow[i] == null ? null : ((BigDecimal) resultRow[i]).toString());
+            row.addCell(SearchResultColumns.AO_WAITLIST_COUNT, resultRow[i] == null ? null : resultRow[i].toString());
 
             resultInfo.getRows().add(row);
         }

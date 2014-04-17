@@ -37,6 +37,8 @@ public class CourseRegistrationServiceImpl extends AbstractCourseRegistrationSer
 
     private LprService lprService;
     private CourseOfferingService courseOfferingService;
+    private RegistrationRequestTransformer registrationRequestTransformer;
+
 
     private JmsTemplate jmsTemplate;  // needed to call ActiveMQ based Registration Engine
 
@@ -162,11 +164,11 @@ public class CourseRegistrationServiceImpl extends AbstractCourseRegistrationSer
         // Check reg request of type "cart" only has add items
         verifyRegRequestCartTypeKey(registrationRequestTypeKey, registrationRequestInfo);
         // There is no Reg Request table. the reg request is converted to an LPR and stored.
-        LprTransactionInfo lprTransactionInfo = RegistrationRequestTransformer.regRequest2LprTransaction(registrationRequestInfo, contextInfo);
+        LprTransactionInfo lprTransactionInfo = getRegistrationRequestTransformer().regRequest2LprTransaction(registrationRequestInfo, contextInfo);
 
         LprTransactionInfo newLprTransaction = getLprService().createLprTransaction(lprTransactionInfo.getTypeKey(), lprTransactionInfo, contextInfo);
 
-        return RegistrationRequestTransformer.lprTransaction2RegRequest(newLprTransaction, contextInfo);
+        return getRegistrationRequestTransformer().lprTransaction2RegRequest(newLprTransaction, contextInfo);
 
     }
 
@@ -180,10 +182,10 @@ public class CourseRegistrationServiceImpl extends AbstractCourseRegistrationSer
         verifyRegRequestCartTypeKey(registrationRequestInfo.getTypeKey(), registrationRequestInfo);
         // There is no Reg Request table. the reg request is converted to an LPR and stored.
         LprTransactionInfo lprTransactionInfo
-                = RegistrationRequestTransformer.regRequest2LprTransaction(registrationRequestInfo, contextInfo);
+                = getRegistrationRequestTransformer().regRequest2LprTransaction(registrationRequestInfo, contextInfo);
         LprTransactionInfo updated
             = getLprService().updateLprTransaction(lprTransactionInfo.getId(), lprTransactionInfo, contextInfo);
-        return RegistrationRequestTransformer.lprTransaction2RegRequest(updated, contextInfo);
+        return getRegistrationRequestTransformer().lprTransaction2RegRequest(updated, contextInfo);
     }
 
     @Override
@@ -192,7 +194,7 @@ public class CourseRegistrationServiceImpl extends AbstractCourseRegistrationSer
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         LprTransactionInfo lprTransaction = getLprService().getLprTransaction(registrationRequestId, contextInfo);
-        RegistrationRequestInfo result = RegistrationRequestTransformer.lprTransaction2RegRequest(lprTransaction, contextInfo);
+        RegistrationRequestInfo result = getRegistrationRequestTransformer().lprTransaction2RegRequest(lprTransaction, contextInfo);
         return result;
     }
 
@@ -237,5 +239,13 @@ public class CourseRegistrationServiceImpl extends AbstractCourseRegistrationSer
 
     public void setCourseOfferingService(CourseOfferingService courseOfferingService) {
         this.courseOfferingService = courseOfferingService;
+    }
+
+    public RegistrationRequestTransformer getRegistrationRequestTransformer() {
+        return registrationRequestTransformer;
+    }
+
+    public void setRegistrationRequestTransformer(RegistrationRequestTransformer registrationRequestTransformer) {
+        this.registrationRequestTransformer = registrationRequestTransformer;
     }
 }

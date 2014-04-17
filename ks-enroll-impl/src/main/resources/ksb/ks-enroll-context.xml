@@ -788,10 +788,10 @@
     </bean>
 
     <bean id="lrcServiceValidation"
-          class="org.kuali.student.r2.lum.lrc.service.impl.LRCServiceValidationDecorator">
-        <property name="nextDecorator" ref="lrcServiceCache" />
-        <property name="validator" ref="validator" />
-    </bean>
+    class="org.kuali.student.r2.lum.lrc.service.impl.LRCServiceValidationDecorator">
+    <property name="nextDecorator" ref="lrcServiceCache" />
+    <property name="validator" ref="validator" />
+</bean>
 
     <bean id="lrcServiceCache" class="org.kuali.student.r2.lum.lrc.service.impl.LRCServiceCacheDecorator">
         <property name="nextDecorator" ref="lrcPersistenceService" />
@@ -926,8 +926,12 @@
         <property name="lprService" ref="LprService" />
         <property name="courseOfferingService" ref="CourseOfferingService" />
         <property name="jmsTemplate" ref="jmsTemplate"/>
+        <property name="registrationRequestTransformer" ref="registrationRequestTransformer"/>
     </bean>
 
+    <bean id="registrationRequestTransformer" class="org.kuali.student.enrollment.class2.courseregistration.service.transformer.RegistrationRequestTransformer">
+        <property name="lrcService" ref="LRCService"/>
+    </bean>
     <bean id="completedCoursesResolver" class="org.kuali.student.enrollment.class1.lrr.termresolver.CompletedCoursesResolver">
         <property name="lprService" ref="LprService" />
         <property name="lrrService" ref="lrrPersistenceService" />
@@ -1666,6 +1670,8 @@
     <!--TODO: KSENROLL-12394 Replace wiring to GES Map Impl once JPA impl is done-->
     <bean id="gesServiceMapImpl" class="org.kuali.student.core.ges.service.impl.GesServiceMapImpl" >
     </bean>
+
+
 
  </beans>
 

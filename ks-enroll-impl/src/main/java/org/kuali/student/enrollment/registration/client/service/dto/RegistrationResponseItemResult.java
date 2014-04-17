@@ -91,4 +91,18 @@ public class RegistrationResponseItemResult {
     public void setType(String type) {
         this.type = type;
     }
+
+    @Override
+    public String toString() {
+        return "RegistrationResponseItemResult{" +
+                "state='" + state + '\'' +
+                ", status='" + status + '\'' +
+                ", type='" + type + '\'' +
+                ", registrationRequestId='" + registrationRequestId + '\'' +
+                ", registrationRequestItemId='" + registrationRequestItemId + '\'' +
+                ", resultingLprId='" + resultingLprId + '\'' +
+                ", message='" + message + '\'' +
+                ", newLuiId='" + newLuiId + '\'' +
+                '}';
+    }
 }
