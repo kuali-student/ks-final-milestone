@@ -10,6 +10,5 @@ public class CourseRegistrationConstants {
 
     public static final String REGISTRATION_QUEUE_MESSAGE_USER_ID = "userId";
     public static final String REGISTRATION_QUEUE_MESSAGE_REG_REQ_ID = "regReqId";
-    public static final String SEAT_OPEN_QUEUE_MESSAGE_AO_IDS = "aoIds";
 
 }
