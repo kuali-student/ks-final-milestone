@@ -326,6 +326,7 @@ public class CourseSearchController extends UifControllerBase {
 		private final KeyValue value;
 		private boolean checked = true;
 		private int count;
+        private String description;
 	}
 
 	/**
@@ -502,9 +503,12 @@ public class CourseSearchController extends UifControllerBase {
                                         .getKey();
                                 String facetKey = fe.getKey();
                                 FacetState fs = fm.get(facetKey);
-                                if (fs == null)
-                                    fm.put(facetKey,
-                                            fs = new FacetState(fv));
+                                if (fs == null) {
+                                    fm.put(facetKey, fs = new FacetState(fv));
+                                    if (fce.getKey().equals("facet_genedureq")) {
+                                        fs.description = searcher.getGenEdMap().get(fv.getKey());
+                                    }
+                                }
                                 fs.count++;
                             }
                 }
@@ -1282,6 +1286,8 @@ public class CourseSearchController extends UifControllerBase {
 				ofs.put("value", fse.getValue().value.getValue());
 				ofs.put("checked", fse.getValue().checked);
 				ofs.put("count", fse.getValue().count);
+                if (fse.getValue().description != null)
+                    ofs.put("description", fse.getValue().description);
 			}
 		}
 

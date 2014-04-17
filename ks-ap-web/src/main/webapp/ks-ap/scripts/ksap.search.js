@@ -430,7 +430,7 @@ function fnGenerateFacetGroup(obj) {
 	jFacets.append(jQuery('<div class="facets"><ul /></div>'));
 	var ful = jFacets.find(".facets ul");
 	for (key in oData) {
-		var jItem = jQuery('<li />').data("facetkey", key)
+		var jItem = jQuery('<li />').attr('title', oData[key].description).data("facetkey", key)
 				.data("facetid", fcol).html(
 						'<a href="#">' + oData[key].value + '</a><span>(' + oData[key].count
 								+ ')</span>').click(function(e) {

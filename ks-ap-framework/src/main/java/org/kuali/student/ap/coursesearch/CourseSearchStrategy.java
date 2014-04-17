@@ -202,6 +202,8 @@ public interface CourseSearchStrategy {
 	 */
 	CourseSearchForm createSearchForm();
 
+    Map<String, String> getGenEdMap();
+
 	Map<String, Credit> getCreditMap();
 
 	Credit getCreditByID(String id);

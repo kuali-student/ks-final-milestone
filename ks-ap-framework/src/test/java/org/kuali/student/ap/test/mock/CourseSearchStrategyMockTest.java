@@ -28,6 +28,11 @@ public class CourseSearchStrategyMockTest implements CourseSearchStrategy {
     }
 
     @Override
+    public Map<String, String> getGenEdMap() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
     public Map<String, Credit> getCreditMap() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }

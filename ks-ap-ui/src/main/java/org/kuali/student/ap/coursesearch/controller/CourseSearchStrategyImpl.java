@@ -66,6 +66,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 	private static final Map<String, Comparator<String>> FACET_SORT;
 
 	private static WeakReference<Map<String, Credit>> creditMapRef;
+    private static WeakReference<Map<String, String>> genEdMapRef;
 
 	public static final String NO_CAMPUS = "-1";
     private boolean limitExceeded;
@@ -191,6 +192,17 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 		}
 
 	}
+
+    public Map<String, String> getGenEdMap() {
+        Map<String, String> rv = genEdMapRef == null ? null : genEdMapRef
+                .get();
+        if (rv == null) {
+            Map<String, String> genEdMap = new java.util.LinkedHashMap<String, String>();
+            genEdMapRef = new WeakReference<Map<String, String>>(
+                    rv = Collections.synchronizedMap(genEdMap));
+        }
+        return rv;
+    }
 
 	public Map<String, Credit> getCreditMap() {
 		Map<String, Credit> rv = creditMapRef == null ? null : creditMapRef
@@ -571,6 +583,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 		for (SearchResultRow row : result.getRows()) {
 			String genEd = KsapHelperUtil.getCellValue(row, "gened.code");
 			String id = KsapHelperUtil.getCellValue(row, "course.owner");
+            String genEdName = KsapHelperUtil.getCellValue(row, "gened.name");
             if(genEdResults.containsKey(id)){
                 genEdResults.get(id).add(genEd);
             }else{
@@ -578,6 +591,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
                 newEntry.add(genEd);
                 genEdResults.put(id,newEntry);
             }
+            getGenEdMap().put(genEd, genEdName);
 		}
 
         // Fill in the course information
