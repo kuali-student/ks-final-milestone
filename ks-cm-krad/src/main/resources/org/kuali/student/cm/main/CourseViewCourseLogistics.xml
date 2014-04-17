@@ -336,7 +336,7 @@
             </bean>
         </property>
         <property name="layoutManager.lineGroupPrototype.header.rightGroup">
-            <bean parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="right-aligned,course-format-right-group">
+            <bean parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="right-aligned">
                 <property name="items">
                     <list>
                         <bean parent="KS-Uif-Delete-ActionLink" p:id="delete_format" p:methodToCall="deleteLine" p:actionLabel="Delete" p:ajaxSubmit="true"
@@ -345,6 +345,7 @@
                               p:render="@{!#view.readOnly}"
                               p:ajaxReturnType="update-component"
                               p:refreshId="KS-CourseView-CourseLogisticsPage-CourseFormats-Widgets"
+                              p:additionalCssClasses="course-format-right-group"
                               p:actionEvent="deleteLine" p:dirtyOnAction="true"/>
                     </list>
                 </property>
@@ -377,7 +378,7 @@
                     <property name="lineActions">
                         <list>
                             <bean parent="KS-Uif-Delete-ActionLink" p:id="delete_activity" p:methodToCall="deleteLine" p:actionLabel="Delete"
-                                  p:actionEvent="deleteLine" p:dirtyOnAction="true" p:additionalCssClasses="course-format-right-group"/>
+                                  p:actionEvent="deleteLine" p:dirtyOnAction="true"/>
                         </list>
                     </property>
                     <property name="items">
