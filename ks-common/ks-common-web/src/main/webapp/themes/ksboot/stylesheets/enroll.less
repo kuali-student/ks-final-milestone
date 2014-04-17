@@ -35,10 +35,10 @@
 
 /* Tabs */
 .ui-widget-content a {
-  color: @linkColor;
+  color: @link-color;
 }
 .ui-widget-content a:hover {
-  color: @linkColorHover;
+  color: @link-hover-color;
   text-decoration: underline;
 }
 
@@ -119,9 +119,9 @@ div.jstree-editrule ul.uif-validationMessagesList a {
 .uif-validationMessages.uif-groupValidationMessages.uif-pageValidationMessages-warning.ks-subSection {
   background: url("../images/validation/warning.png") no-repeat;
   background-position: 10px 8px;
-  background-color: @warningBackground;
-  border: 1px solid @warningBorder;
-  color: @warningText;
+  background-color: @state-warning-bg;
+  border: 1px solid @state-warning-border;
+  color: @state-warning-text;
   padding-left: 30px;
   width: 96%;
 }
@@ -131,9 +131,9 @@ div.jstree-editrule ul.uif-validationMessagesList a {
   padding: 8px 14px 8px 14px;
   margin-bottom: 18px;
   display: inline-block;
-  background-color:@infoBackground;
-  border: 1px solid @infoBorder;
-  color: @infoText;
+  background-color:@state-info-bg;
+  border: 1px solid @state-info-border;
+  color: @state-info-text;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
@@ -1016,7 +1016,7 @@ cursor:auto;
 /************************************** BOOTSTRAP OVERRIDES **********************/
 /* Overriding the 14px font size */
 body {
-  font-size: @baseFontSize;
+  font-size: @font-size-base;
 }
 
 /* Overriding from bottom as this was affecting headers items - Student text & user image */
@@ -1257,55 +1257,55 @@ div#Uif-ApplicationHeader-Wrapper{
 
 /************************************** Growl message customization ******************/
 div.jGrowl div.ERROR {
-  background-color: @errorBackground;
+  background-color: @state-error-bg;
   opacity: 1;
 }
 div.jGrowl div.ERROR div.jGrowl-close {
-  color: @errorText;
+  color: @state-error-text;
 }
 
 div.jGrowl div.INFORMATION {
-  background-color: @infoBackground;
+  background-color: @state-info-bg;
   opacity: 1;
 }
 div.jGrowl div.INFORMATION div.jGrowl-close {
-  color: @infoText;
+  color: @state-info-text;
 }
 
 div.jGrowl div.SUCCESS {
-  background-color: @successBackground;
+  background-color: @state-success-bg;
   opacity: 1;
 }
 div.jGrowl div.SUCCESS div.jGrowl-close {
-  color: @successText;
+  color: @state-success-text;
 }
 
 div.jGrowl div.WARNING {
-  background-color: @warningBackground;
+  background-color: @state-warning-bg;
   opacity: 1;
 }
 div.jGrowl div.WARNING div.jGrowl-close {
-  color: @warningText;
+  color: @state-warning-text;
 }
 
 div.jGrowl div.ERROR div.jGrowl-message {
   background: url("../images/validation/error.png") no-repeat;
-  color: @errorText;
+  color: @state-error-text;
   padding-left: 25px;
 }
 div.jGrowl div.INFORMATION div.jGrowl-message {
   background: url("../images/validation/info.png") no-repeat;
-  color: @infoText;
+  color: @state-info-text;
   padding-left: 25px;
 }
 div.jGrowl div.SUCCESS div.jGrowl-message {
   background: url("../images/validation/success.png") no-repeat;
-  color: @successText;
+  color: @state-success-text;
   padding-left: 25px;
 }
 div.jGrowl div.WARNING div.jGrowl-message {
   background: url("../images/validation/warning.png") no-repeat;
-  color: @warningText;
+  color: @state-warning-text;
   padding-left: 25px;
 }
 

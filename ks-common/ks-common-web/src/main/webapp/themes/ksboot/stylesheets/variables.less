@@ -4,42 +4,42 @@
 // --------------------------------------------------
 @import "../../kboot/stylesheets/variables.less";
 
-
 /*------------------- BEGIN KBOOT OVERRIDES ---------------------------*/
+//Theme Override
+@body_background: #FFF;
+
 // Text
 @black: #000;
-@textColor: @black;
-@selectedText: @textColor;
-
-@baseFontSize:          13px; //overrideds kboot and boostrap baseFontSize setting of 14px
+@font-size-base:          13px; //overrideds kboot and boostrap baseFontSize setting of 14px
 
 // Links
-@linkColor:             #08c;
-@linkColorHover:        darken(@linkColor, 15%);
+@link-color:             #08c;
+@link-hover-color:        darken(@link-color, 15%);
 
 // Buttons
-@btnPrimaryBackground:              @linkColor;
-@btnPrimaryBackgroundHighlight:     spin(@btnPrimaryBackground, 20%);
+@btn-primary-bg:              @link-color;
+/*Removed in Rice 2.4 update
+@btnPrimaryBackgroundHighlight:     spin(@btn-primary-bg, 20%);
 @btnBackground:                     @white_background;
 @btnBackgroundHighlight:            #E6E6E6;
-@btnBorder:                         #CCC;
+@btnBorder:                         #CCC;*/
 
 // System Messages
-@successText:             #3B723B;
-@successBackground:       #dff0d8;
-@successBorder:           #D6E9C6;
+@state-success-text:      #3B723B;
+@state-success-bg:        #dff0d8;
+@state-success-border:    #D6E9C6;
 
-@infoText:                #2A617D;
-@infoBackground:          #D9EDF7;
-@infoBorder:              #BCE8F1;
+@state-info-text:         #2A617D;
+@state-info-bg:           #D9EDF7;
+@state-info-border:       #BCE8F1;
 
-@warningText:             #83652E;
-@warningBackground:       #FCF8E3;
-@warningBorder:           #FBEED5;
+@state-warning-text:      #83652E;
+@state-warning-bg:        #FCF8E3;
+@state-warning-border:    #FBEED5;
 
-@errorText:               #A3403C;
-@errorBackground:         #F2DEDE;
-@errorBorder:             #EFD3D7;
+@state-error-text:        #A3403C;
+@state-error-bg:          #F2DEDE;
+@state-error-border:      #EFD3D7;
 
 // Tables
 @tableSelectedBackground: #EFF7FD;
@@ -67,8 +67,8 @@
 @addedStateBackground: #FFF9DC;
 
 //Font Icon States (when using glyphicons icon fonts instead of images)
-@iconColor: @linkColor;
-@iconHoverColor: @linkColorHover;
+@iconColor: @link-color;
+@iconHoverColor: @link-hover-color;
 @toolbarIconColor: @black;
 @toolbarIconInactiveColor: lighten(@toolbarIconColor, 40%);
 
