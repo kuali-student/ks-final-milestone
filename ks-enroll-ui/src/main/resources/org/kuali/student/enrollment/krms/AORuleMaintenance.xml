@@ -327,37 +327,12 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-ListItems-DataGroup-parent" parent="Uif-StackedCollectionGroup"
+    <bean id="KSAO-ListItems-DataGroup-parent" parent="Uif-StackedCollectionGroup" p:renderAddLine="false"
           p:style="width: 600px; padding: 0; margin-bottom: 0px;">
         <property name="layoutManager">
-            <bean parent="Uif-StackedCollectionLayout-WithBoxItems" p:additionalCssClasses="krms-stackedCollectionLayout">
-                <property name="lineGroupPrototype">
-                    <bean parent="Uif-CollectionHorizontalBoxItem" p:additionalCssClasses="krms-stackedPreviewItem">
-                        <property name="renderFooter" value="false"/>
-                    </bean>
-                </property>
-            </bean>
-        </property>
-        <property name="lineActions">
-            <list></list>
-        </property>
-        <property name="renderAddLine" value="false"/>
-        <property name="propertyName" value="listItems"/>
-        <property name="collectionObjectClass" value="java.lang.String"/>
-        <property name="items">
-            <list>
-                <bean parent="Uif-MessageField" p:messageText="@{#line}"
-                      p:style="width: 290px; margin: 0px;"/>
-            </list>
-        </property>
-    </bean>
-    <bean id="KRMS-ListItems-DataGroup" parent="KRMS-ListItems-DataGroup-parent"/>
-
-    <bean id="KSAO-ListItems-DataGroup-parent" parent="KRMS-ListItems-DataGroup-parent" p:renderAddLine="false">
-        <property name="layoutManager">
             <bean parent="Uif-StackedCollectionLayout-WithBoxItems"
+                  class="org.kuali.student.core.krms.HorizontalActionsStackedLayoutManager"
                   p:additionalCssClasses="krms-stackedCollectionLayout">
-                <!--class="org.kuali.student.core.krms.HorizontalActionsStackedLayoutManager"-->
                 <property name="actionsInLineGroup" value="true"/>
                 <property name="lineGroupPrototype">
                     <bean parent="Uif-CollectionHorizontalBoxItem" p:additionalCssClasses="krms-stackedPreviewItem">
@@ -370,6 +345,7 @@ limitations under the License.
                 </property>
             </bean>
         </property>
+        <property name="propertyName" value="cluGroups"/>
         <property name="collectionObjectClass" value="org.kuali.student.lum.lu.ui.krms.dto.CluGroup"/>
         <property name="items">
             <list>
@@ -400,15 +376,7 @@ limitations under the License.
             </list>
         </property>
     </bean>
-    <bean id="KSAO-ListItems-DataGroup" parent="KSAO-ListItems-DataGroup-parent">
-        <property name="subCollections">
-            <list merge="true">
-                <bean parent="KSAO-ListItems-DataGroup-parent" p:render="@{#line.cluGroups ne null}">
-                    <property name="propertyName" value="cluGroups"/>
-                </bean>
-            </list>
-        </property>
-    </bean>
+    <bean id="KSAO-ListItems-DataGroup" parent="KSAO-ListItems-DataGroup-parent"/>
 
     <bean id="KSAO-ListItems-SubGroup" parent="Uif-TableCollectionGroup" p:style="width: 550px; padding: 0;"
           p:renderAddLine="false">
