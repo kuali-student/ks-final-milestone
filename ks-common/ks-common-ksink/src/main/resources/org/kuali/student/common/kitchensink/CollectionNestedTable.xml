@@ -57,13 +57,13 @@
         <!--</property>-->
         <property name="items">
             <list>
-                <bean parent="Uif-DataField"
+                <bean parent="KS-Uif-DataField"
                       p:label="COURSE ID"
                       p:propertyName="courseId"/>
-                <bean parent="Uif-DataField"
+                <bean parent="KS-Uif-DataField"
                       p:label="TITLE"
                       p:propertyName="title"/>
-                <bean parent="Uif-DataField"
+                <bean parent="KS-Uif-DataField"
                       p:label="CREDITS"
                       p:propertyName="credits"/>
             </list>

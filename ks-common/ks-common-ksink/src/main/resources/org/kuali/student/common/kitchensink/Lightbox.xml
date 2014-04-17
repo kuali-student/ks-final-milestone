@@ -30,7 +30,7 @@
     <bean id="KS-KitchenSink-Lightbox" parent="KS-KitchenSink-VerticalBoxSection">
         <property name="items">
             <list>
-                <bean parent="Uif-DataField" p:label="Field #1" p:propertyName="stringField1"/>
+                <bean parent="KS-Uif-DataField" p:label="Field #1" p:propertyName="stringField1"/>
                 <bean parent="Uif-PrimaryActionButton">
                     <property name="actionLabel" value="Form In A Lightbox"/>
                     <property name="actionScript" value="showLightboxComponent('lightboxDialog1');"/>
@@ -88,10 +88,10 @@
                     </property>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField-LabelTop" p:label="Field 1" p:propertyName="stringField1"/>
-                            <bean parent="Uif-InputField-LabelTop" p:label="Field 2" p:propertyName="stringField2"/>
-                            <bean parent="Uif-InputField-LabelTop" p:label="Field 3" p:propertyName="stringField3"/>
-                            <bean parent="Uif-InputField-LabelTop" p:label="Field 4" p:propertyName="stringField4"/>
+                            <bean parent="KS-Uif-InputField-LabelTop" p:label="Field 1" p:propertyName="stringField1"/>
+                            <bean parent="KS-Uif-InputField-LabelTop" p:label="Field 2" p:propertyName="stringField2"/>
+                            <bean parent="KS-Uif-InputField-LabelTop" p:label="Field 3" p:propertyName="stringField3"/>
+                            <bean parent="KS-Uif-InputField-LabelTop" p:label="Field 4" p:propertyName="stringField4"/>
                         </list>
                     </property>
                 </bean>
@@ -123,8 +123,8 @@
         <property name="header.render" value="false"/>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField-LabelTop" p:label="Field 3" p:propertyName="stringField3"/>
-                <bean parent="Uif-InputField-LabelTop" p:label="Field 4" p:propertyName="stringField4"/>
+                <bean parent="KS-Uif-InputField-LabelTop" p:label="Field 3" p:propertyName="stringField3"/>
+                <bean parent="KS-Uif-InputField-LabelTop" p:label="Field 4" p:propertyName="stringField4"/>
                 <bean parent="Uif-PrimaryActionButton-Small">
                     <property name="actionScript" value="jQuery.fancybox.close();ajaxSubmitForm('saveLightboxForm')"/>
                     <property name="actionLabel" value="Save"/>

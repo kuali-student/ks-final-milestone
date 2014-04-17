@@ -36,27 +36,27 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-DataField">
+                <bean parent="KS-Uif-DataField">
                     <property name="propertyName" value="id"/>
                     <property name="label" value="ID"/>
                 </bean>
-                <bean parent="Uif-InputField">
+                <bean parent="KS-Uif-InputField">
                     <property name="propertyName" value="name"/>
                     <property name="label" value="overwrite-me"/>
                     <property name="control">
                         <bean parent="Uif-MediumTextControl"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField">
+                <bean parent="KS-Uif-InputField">
                     <property name="propertyName" value="description"/>
                     <property name="label" value="Description"/>
                     <property name="control">
-                        <bean parent="Uif-TextControl">
+                        <bean parent="KS-Uif-TextControl">
                             <property name="size" value="75"/>
                         </bean>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField">
+                <bean parent="KS-Uif-InputField">
                     <property name="propertyName" value="date"/>
                     <property name="label" value="Date"/>
                     <property name="control">

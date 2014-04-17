@@ -37,11 +37,11 @@
                         </list>
                     </property>
                 </bean>
-                <bean id="dropDown" parent="Uif-InputField" p:propertyName="stringField2" p:width="auto"
+                <bean id="dropDown" parent="KS-Uif-InputField" p:propertyName="stringField2" p:width="auto"
                       p:defaultValue="1" p:style="display: none">
                     <property name="readOnly" value="false"/>
                     <property name="control">
-                        <bean parent="Uif-DropdownControl"
+                        <bean parent="KS-Uif-DropdownControl"
                               p:onChangeScript="setFilterBox('dropDown_control', 'filterTextBox_control', 'dropDownTarget');">
                             <property name="cssClasses">
                                 <list merge="false">
@@ -67,10 +67,10 @@
     <bean id="UifCompView-HorizontalTextBox" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
-                <bean id="filterTextBox" parent="Uif-InputField" p:propertyName="stringField2" p:label="Select Language"
+                <bean id="filterTextBox" parent="KS-Uif-InputField" p:propertyName="stringField2" p:label="Select Language"
                       p:labelPlacement="TOP">
                     <property name="control">
-                        <bean parent="Uif-TextControl">
+                        <bean parent="KS-Uif-TextControl">
                             <property name="onKeyUpScript"
                                       value="filterSelectBox('dropDown_control', 'filterTextBox_control', 'dropDownTarget');"/>
                         </bean>
@@ -100,11 +100,11 @@
         </property>
     </bean>
 
-    <bean id="GenericTextField" parent="Uif-InputField" abstract="true"
+    <bean id="GenericTextField" parent="KS-Uif-InputField" abstract="true"
           p:label="Field Label" p:labelPlacement="TOP"
           p:fieldLabel.cssClasses="labelTop" p:fieldLabel.renderColon="false">
         <property name="control">
-            <bean parent="Uif-TextControl" p:size="30"/>
+            <bean parent="KS-Uif-TextControl" p:size="30"/>
         </property>
     </bean>
 

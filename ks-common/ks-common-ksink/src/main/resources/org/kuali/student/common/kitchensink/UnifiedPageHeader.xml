@@ -58,7 +58,7 @@
                 <bean id="Demo-StandardLayout-CollectionSectionsPage" parent="KS-Uif-Page" p:headerText="Page Title" >
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField-LabelTop"  id="KS-KitchenSink-TextField-Example5">
+                            <bean parent="KS-Uif-InputField-LabelTop"  id="KS-KitchenSink-TextField-Example5">
                                 <property name="propertyName" value="stringField1"/>
                                 <property name="label" value="Field Label"/>
                                 <!-- the following two properties are the default for Uif-InputField-LabelTop:
@@ -67,10 +67,9 @@
                                 -->
                                 <property name="instructionalText" value="Instructional text can go here"/>
                                 <property name="constraintText" value="Constraint text can go here"/>
-                                <property name="helpSummary" value="Additional help or information for this field can go here."/>
                                 <!--<property name="uppercaseValue" value="true"/>-->
                                 <property name="control">
-                                    <bean parent="Uif-TextControl">
+                                    <bean parent="KS-Uif-TextControl">
                                         <property name="size" value="25"/>
                                         <property name="maxLength" value="10"/>
                                         <property name="watermarkText" value="watermark can go here"/>
@@ -110,12 +109,11 @@
         </property>
     </bean>
 
-    <bean parent="Uif-InputField-LabelTop"  id="KS-KitchenSink-TextAreaField-Example-Holder-Future">
+    <bean parent="KS-Uif-InputField-LabelTop"  id="KS-KitchenSink-TextAreaField-Example-Holder-Future">
         <property name="propertyName" value="stringField1"/>
         <property name="label" value="Field Label"/>
         <property name="instructionalText" value="Instructional text can go here"/>
         <property name="constraintText" value="Constraint text can go here"/>
-        <property name="helpSummary" value="Additional help or information for this field can go here."/>
         <property name="control">
             <bean parent="Uif-TextAreaControl">
                 <property name="style" value="resize:none;"/>

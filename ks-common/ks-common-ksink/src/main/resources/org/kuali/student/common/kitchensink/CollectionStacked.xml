@@ -37,22 +37,22 @@
         -->
         <property name="items">
             <list>
-                <bean parent="Uif-DataField">
+                <bean parent="KS-Uif-DataField">
                     <property name="propertyName" value="id"/>
                     <property name="label" value="ID"/>
                     <property name="render" value="@{!#isAddLine}"/>
                 </bean>
-                <bean parent="Uif-InputField">
+                <bean parent="KS-Uif-InputField">
                     <property name="propertyName" value="name"/>
                     <property name="label" value="Name"/>
                     <property name="required" value="true"/>
                 </bean>
-                <bean parent="Uif-InputField">
+                <bean parent="KS-Uif-InputField">
                     <property name="propertyName" value="description"/>
                     <property name="label" value="Description"/>
                     <property name="required" value="true"/>
                 </bean>
-                <bean parent="Uif-InputField">
+                <bean parent="KS-Uif-InputField">
                     <property name="propertyName" value="date"/>
                     <property name="label" value="Date"/>
                     <property name="required" value="true"/>

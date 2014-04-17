@@ -26,17 +26,15 @@
 
     <!-- The Interesting Bits -->
 
-    <bean parent="Uif-InputField"  id="KS-KitchenSink-MultiSelect-Example1">
+    <bean parent="KS-Uif-InputField"  id="KS-KitchenSink-MultiSelect-Example1">
         <property name="propertyName" value="multiSelections"/>
         <property name="label" value="Multi-Select Label"/>
         <property name="width" value="auto"/>
         <property name="instructionalText"
                   value="Please select one or more items. To select multiple items, hold the control key while selecting items."/>
-        <property name="helpSummary" value="Additional help or information for this field can go here."/>
         <property name="control">
-            <bean parent="Uif-DropdownControl"
-                  p:multiple="true" p:size="3" p:options-ref="KS-KitchenSink-MultiSelect-Example1-Options"
-                  p:toolTip.tooltipContent="Additional text can go here as well."/>
+            <bean parent="KS-Uif-DropdownControl"
+                  p:multiple="true" p:size="3" p:options-ref="KS-KitchenSink-MultiSelect-Example1-Options" />
         </property>
     </bean>
 
@@ -48,18 +46,16 @@
         <bean parent="Uif-KeyLabelPair" p:key="5" p:value="Select option #5"/>
     </util:list>
 
-    <bean parent="Uif-InputField"  id="KS-KitchenSink-MultiSelect-Example2">
+    <bean parent="KS-Uif-InputField"  id="KS-KitchenSink-MultiSelect-Example2">
         <property name="propertyName" value="multiSelections"/>
         <property name="label" value="Multi-Select Label"/>
         <!--<property name="labelPlacement" value="RIGHT"/>-->
         <property name="width" value="auto"/>
         <property name="instructionalText"
                   value="Please select one or more items. To select multiple items, hold the control key while selecting items."/>
-        <property name="helpSummary" value="Additional help or information for this field can go here."/>
         <property name="control">
-            <bean parent="Uif-DropdownControl"
-                  p:multiple="true" p:size="4"
-                  p:toolTip.tooltipContent="Additional text can go here as well."/>
+            <bean parent="KS-Uif-DropdownControl"
+                  p:multiple="true" p:size="4" />
         </property>
         <property name="optionsFinder">
             <bean class="org.kuali.student.common.kitchensink.KitchenSinkMockDwarfKeyValues"/>

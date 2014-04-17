@@ -32,7 +32,7 @@
     </bean>
 
     <!-- in 2.2.0 see ConfigurationTestView-Quickfinder.xml for Suggest examples -->
-    <bean parent="Uif-InputField-LabelTop"  id="KS-KitchenSink-LookupSuggest">
+    <bean parent="KS-Uif-InputField-LabelTop"  id="KS-KitchenSink-LookupSuggest">
         <property name="propertyName" value="stringField1"/>
         <property name="label" value="Suggest Field"/>
         <property name="instructionalText" value="Start typing a last name to begin a Person search (try &quot;AV&quot;)"/>

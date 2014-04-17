@@ -109,17 +109,17 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-DataField">
+                <bean parent="KS-Uif-DataField">
                     <property name="propertyName" value="id"/>
                     <property name="label" value="ID"/>
                     <property name="width" value="5"/>
                 </bean>
-                <bean parent="Uif-InputField">
+                <bean parent="KS-Uif-InputField">
                     <property name="propertyName" value="name"/>
                     <property name="label" value="Name"/>
                     <property name="required" value="true"/>
                     <property name="control">
-                        <bean parent="Uif-TextControl">
+                        <bean parent="KS-Uif-TextControl">
                             <property name="size" value="15"/>
                         </bean>
                     </property>
@@ -131,7 +131,7 @@
                     <property name="required" value="true"/>
                 </bean>
                 -->
-                <bean parent="Uif-InputField">
+                <bean parent="KS-Uif-InputField">
                     <property name="propertyName" value="date"/>
                     <property name="label" value="Date"/>
                     <property name="required" value="true"/>
@@ -154,10 +154,10 @@
         <property name="layoutManager.richTable.render" value="false" />
         <property name="items">
             <list>
-                <bean parent="Uif-DataField" p:propertyName="id" p:label="ID"/>
-                <bean parent="Uif-DataField" p:propertyName="name" p:label="Name"/>
-                <bean parent="Uif-DataField" p:propertyName="description" p:label="Description"/>
-                <bean parent="Uif-DataField" p:propertyName="date" p:label="Date"/>
+                <bean parent="KS-Uif-DataField" p:propertyName="id" p:label="ID"/>
+                <bean parent="KS-Uif-DataField" p:propertyName="name" p:label="Name"/>
+                <bean parent="KS-Uif-DataField" p:propertyName="description" p:label="Description"/>
+                <bean parent="KS-Uif-DataField" p:propertyName="date" p:label="Date"/>
             </list>
         </property>
         <property name="lineActions">

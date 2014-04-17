@@ -26,7 +26,7 @@
           p:headerText="Expandable TextArea" p:header.render="false">
         <property name="items">
             <list>
-                <bean parent="Uif-DataField">
+                <bean parent="KS-Uif-DataField">
                     <property name="propertyName" value="stringField1"/>
                     <property name="label" value="Field #1"/>
                 </bean>
@@ -152,32 +152,30 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField-LabelTop">
+                <bean parent="KS-Uif-InputField-LabelTop">
                     <property name="forceSessionPersistence" value="true"/>
                     <property name="propertyName" value="dropdownSelection"/>
                     <property name="label" value="Dropdown #1"/>
-                    <property name="helpSummary" value="Standard KRAD 'helpSummary' property"/>
                     <property name="control">
-                        <bean parent="Uif-DropdownControl"
+                        <bean parent="KS-Uif-DropdownControl"
                               p:options-ref="KS-KitchenSink-Select-Example1-Options"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField-LabelTop">
+                <bean parent="KS-Uif-InputField-LabelTop">
                     <property name="propertyName" value="dropdownSelection2"/>
                     <property name="label" value="Dropdown #2"/>
                     <property name="refreshWhenChangedPropertyNames" value="dropdownSelection"/>
                     <property name="control">
-                        <bean parent="Uif-DropdownControl"
+                        <bean parent="KS-Uif-DropdownControl"
                               p:options-ref="KS-KitchenSink-Select-Example1-Options"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField-LabelTop">
+                <bean parent="KS-Uif-InputField-LabelTop">
                     <property name="propertyName" value="stringField1"/>
                     <property name="label" value="Field #1"/>
-                    <property name="helpSummary" value="Standard KRAD 'helpSummary' property"/>
                     <property name="required" value="true"/>
                     <property name="control">
-                        <bean parent="Uif-TextControl">
+                        <bean parent="KS-Uif-TextControl">
                             <property name="size" value="10"/>
                             <property name="watermarkText" value="Try &quot;error&quot;"/>
                         </bean>
@@ -220,7 +218,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField-LabelTop">
+                <bean parent="KS-Uif-InputField-LabelTop">
                     <property name="propertyName" value="stringField2"/>
                     <property name="label" value="Preset Text"/>
                     <property name="control">
@@ -252,7 +250,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-DataField">
+                <bean parent="KS-Uif-DataField">
                     <property name="propertyName" value="stringField3"/>
                     <property name="label" value="Popover display count"/>
                 </bean>
@@ -286,12 +284,12 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField">
+                <bean parent="KS-Uif-InputField">
                     <property name="propertyName" value="dropdownSelection"/>
                     <property name="label" value="Selection"/>
                     <property name="width" value="auto"/>
                     <property name="control">
-                        <bean parent="Uif-DropdownControl"/>
+                        <bean parent="KS-Uif-DropdownControl"/>
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.common.kitchensink.KitchenSinkMockDwarfKeyValues">

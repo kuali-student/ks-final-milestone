@@ -34,7 +34,7 @@
                     <property name="layoutManager.actionFieldPrototype.label" value=""/>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField">
+                            <bean parent="KS-Uif-InputField">
                                 <property name="propertyName" value="name"/>
                                 <property name="label" value="Term Name"/>
                                 
@@ -58,7 +58,7 @@
                             	    </bean>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField">
+                            <bean parent="KS-Uif-InputField">
                                 <property name="propertyName" value="description"/>
                                 <property name="label" value="Type Key"/>
                             </bean>

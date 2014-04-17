@@ -57,13 +57,13 @@
                     <property name="layoutManager.applyDefaultCellWidths" value="false" />
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="name" p:label="Name"/>
-                            <bean parent="Uif-InputField" p:propertyName="descr.plain" p:label="Description">
+                            <bean parent="KS-Uif-InputField" p:propertyName="name" p:label="Name"/>
+                            <bean parent="KS-Uif-InputField" p:propertyName="descr.plain" p:label="Description">
                                 <property name="control">
                                     <bean parent="Uif-TextAreaControl" p:rows="5" p:cols="40" />
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="stateKey" p:label="State">
+                            <bean parent="KS-Uif-InputField" p:propertyName="stateKey" p:label="State">
                                 <property name="control">
                                     <bean parent="Uif-HorizontalRadioControl">
                                         <property name="options">
@@ -153,8 +153,8 @@
         </property>
         <property name="resultFields">
             <list>
-                <bean parent="Uif-DataField" p:propertyName="name" p:label="Name"/>
-                <bean parent="Uif-DataField" p:propertyName="descr.plain" p:label="Description"/>
+                <bean parent="KS-Uif-DataField" p:propertyName="name" p:label="Name"/>
+                <bean parent="KS-Uif-DataField" p:propertyName="descr.plain" p:label="Description"/>
             </list>
         </property>
     </bean>

@@ -22,20 +22,19 @@
 
     <!-- The Interesting Bits -->
 
-    <bean parent="Uif-InputField"  id="KS-KitchenSink-RadioButtons-Example1">
+    <bean parent="KS-Uif-InputField"  id="KS-KitchenSink-RadioButtons-Example1">
         <property name="propertyName" value="radioButtonSelection"/>
         <property name="label" value="Radio Buttons"/>
         <property name="instructionalText" value="Instructional text goes here."/>
-        <property name="helpSummary" value="Additional help or information for this field can go here."/>
         <property name="control">
-            <bean parent="Uif-VerticalRadioControl"/>
+            <bean parent="KS-Uif-VerticalRadioControl"/>
         </property>
         <property name="optionsFinder">
             <bean class="org.kuali.student.common.kitchensink.KitchenSinkMockDwarfKeyValues"/>
         </property>
     </bean>
 
-    <bean parent="Uif-InputField"  id="KS-KitchenSink-RadioButtons-Example2">
+    <bean parent="KS-Uif-InputField"  id="KS-KitchenSink-RadioButtons-Example2">
         <!-- NOTE:
             If "radioButtonSelection" is pre-filled with an option key value, the corresponding checkbox
             (if it exists) will be checked by default.  For this example, KitchenSinkController.start()
@@ -44,10 +43,8 @@
         <property name="propertyName" value="radioButtonSelection"/>
         <property name="label" value="Checkbox Group"/>
         <property name="instructionalText" value="Instructional text goes here."/>
-        <property name="helpSummary" value="Additional help or information for this field can go here."/>
         <property name="control">
-            <bean parent="Uif-VerticalRadioControl"
-                  p:toolTip.tooltipContent="Additional text can go here as well.">
+            <bean parent="KS-Uif-VerticalRadioControl">
                 <property name="options">
                     <list>
                         <!-- See the Multi-Select Control for a different way of defining a list -->

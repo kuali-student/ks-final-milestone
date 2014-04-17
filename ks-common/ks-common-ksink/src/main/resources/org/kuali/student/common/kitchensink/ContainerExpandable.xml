@@ -35,7 +35,7 @@
         <property name="items">
             <list>
                 <!-- Contents of disclosure container -->
-                <bean parent="Uif-InputField">
+                <bean parent="KS-Uif-InputField">
                     <property name="propertyName" value="checkboxSelections"/>
                     <property name="control">
                         <bean parent="Uif-VerticalCheckboxesControl">

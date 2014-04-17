@@ -22,7 +22,7 @@
 
     <!-- The Interesting Bits -->
 
-    <bean parent="Uif-InputField-LabelTop"  id="KS-KitchenSink-Spinner-Example1">
+    <bean parent="KS-Uif-InputField-LabelTop"  id="KS-KitchenSink-Spinner-Example1">
         <property name="propertyName" value="integerField1"/>
         <property name="label" value="Spinner Label"/>
         <property name="instructionalText" value="Click the arrows or press the up, down, page-up or page-down keys"/>

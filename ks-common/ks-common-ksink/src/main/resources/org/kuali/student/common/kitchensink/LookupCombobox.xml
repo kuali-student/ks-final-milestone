@@ -32,7 +32,7 @@
     </bean>
 
     <!-- in 2.2.0 see ConfigurationTestView-Quickfinder.xml for Suggest examples -->
-    <bean parent="Uif-InputField-LabelTop"  id="KS-KitchenSink-LookupCombobox">
+    <bean parent="KS-Uif-InputField-LabelTop"  id="KS-KitchenSink-LookupCombobox">
         <property name="propertyName" value="stringField1"/>
         <property name="label" value="Suggest Field with Combobox"/>
         <property name="instructionalText">

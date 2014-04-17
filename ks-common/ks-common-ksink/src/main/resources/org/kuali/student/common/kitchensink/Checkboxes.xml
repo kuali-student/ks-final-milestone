@@ -22,7 +22,7 @@
 
     <!-- The Interesting Bits -->
 
-    <bean id="KS-KitchenSink-Checkbox-Overview" parent="Uif-InputField">
+    <bean id="KS-KitchenSink-Checkbox-Overview" parent="KS-Uif-InputField">
         <!-- NOTE:
              If "checkboxSelections" list is pre-filled with option key values, the corresponding checkboxes
              (if any) will be checked by default.  For this example, KitchenSinkController.start() fills
@@ -39,7 +39,7 @@
         </property>
     </bean>
 
-    <bean id="KS-KitchenSink-Checkbox-Group" parent="Uif-InputField">
+    <bean id="KS-KitchenSink-Checkbox-Group" parent="KS-Uif-InputField">
         <property name="propertyName" value="checkboxSelections"/>
         <property name="label" value="Checkbox Group"/>
         <property name="instructionalText"
@@ -65,12 +65,12 @@
                   value="Single CheckboxControl with defaultValue=&quot;true&quot; so checkbox is checked by default."/>
     </bean>
     <!--TODO: KSENROLL-11286 remove this workournd once krad jira is fixed.-->
-    <bean id="KS-KitchenSink-Checkbox-Disabled-Parent" parent="Uif-InputField"
+    <bean id="KS-KitchenSink-Checkbox-Disabled-Parent" parent="KS-Uif-InputField"
           p:label="Disabled checkbox" p:propertyName="disabledSelectedCheckbox"
           p:labelPlacement="LEFT"
           p:uppercaseValue="false">
         <property name="control">
-            <bean parent="Uif-CheckboxControl" p:disabled="true"/>
+            <bean parent="KS-Uif-CheckboxControl" p:disabled="true"/>
         </property>
     </bean>
     <bean id="KS-KitchenSink-Checkbox-Disabled" parent="KS-KitchenSink-Checkbox-Disabled-Parent"/>

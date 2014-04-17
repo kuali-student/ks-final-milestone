@@ -79,8 +79,8 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="key" p:label="Config Key"/>
-                <bean parent="Uif-InputField" p:propertyName="value" p:label="Config Value"/>
+                <bean parent="KS-Uif-InputField" p:propertyName="key" p:label="Config Key"/>
+                <bean parent="KS-Uif-InputField" p:propertyName="value" p:label="Config Value"/>
             </list>
         </property>
     </bean>

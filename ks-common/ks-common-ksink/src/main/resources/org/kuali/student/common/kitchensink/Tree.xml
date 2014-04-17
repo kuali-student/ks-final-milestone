@@ -30,7 +30,7 @@
                     <property name="propertyName" value="tree1"/>
                 </bean>
 
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="dateField" p:label="Effective From">
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="dateField" p:label="Effective From">
                     <property name="control">
                         <bean parent="Uif-DateControl" />
                     </property>
@@ -50,17 +50,17 @@
                                             <bean parent="Uif-HorizontalFieldGroup">
                                                 <property name="items">
                                                     <list>
-                                                        <bean parent="Uif-InputField-LabelTop" p:propertyName="field4" p:label="Effective From">
+                                                        <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="field4" p:label="Effective From">
                                                             <property name="control">
                                                                 <bean parent="Uif-DateControl" />
                                                             </property>
                                                         </bean>
 
-                                                        <bean id="UifCompView-OtherField5" parent="Uif-InputField" p:propertyName="field2"
+                                                        <bean id="UifCompView-OtherField5" parent="KS-Uif-InputField" p:propertyName="field2"
                                                               p:required="true" p:labelPlacement="TOP" p:fieldLabel.cssClasses="labelTop"/>
-                                                        <bean id="UifCompView-OtherField6" parent="Uif-InputField" p:propertyName="field3"
+                                                        <bean id="UifCompView-OtherField6" parent="KS-Uif-InputField" p:propertyName="field3"
                                                               p:required="true" p:labelPlacement="TOP" p:fieldLabel.cssClasses="labelTop"/>
-                                                        <bean id="UifCompView-OtherField7" parent="Uif-InputField" p:propertyName="field4"
+                                                        <bean id="UifCompView-OtherField7" parent="KS-Uif-InputField" p:propertyName="field4"
                                                               p:required="true" p:labelPlacement="TOP" p:fieldLabel.cssClasses="labelTop"/>
                                                     </list>
                                                 </property>

@@ -36,7 +36,7 @@
     <!-- Suggest (Auto-Complete) example -->
 
     <!-- in 2.2.0 see ConfigurationTestView-Quickfinder.xml for Suggest examples -->
-    <bean parent="Uif-InputField-LabelTop"  id="KS-KitchenSink-LookupOverview-Suggest">
+    <bean parent="KS-Uif-InputField-LabelTop"  id="KS-KitchenSink-LookupOverview-Suggest">
         <property name="propertyName" value="stringField1"/>
         <property name="label" value="Suggest Field"/>
         <property name="instructionalText" value="Start typing a last name to begin a Person search (try &quot;AV&quot;)"/>
@@ -57,7 +57,7 @@
 
     <!-- Advanced Select lookup example -->
 
-    <bean parent="Uif-InputField-LabelTop"  id="KS-KitchenSink-LookupOverview-Lookup">
+    <bean parent="KS-Uif-InputField-LabelTop"  id="KS-KitchenSink-LookupOverview-Lookup">
         <property name="propertyName" value="stringField2"/>
         <property name="label" value="Basic Lookup"/>
         <property name="instructionalText" value="Use the &quot;Advanced Select&quot; link to perform a Term lookup"/>
@@ -95,18 +95,18 @@
         </property>
         <property name="resultFields">
             <list>
-                <bean parent="Uif-DataField" p:propertyName="descr.plain" p:label="Name" />
-                <bean parent="Uif-DataField" p:propertyName="startDate" />
-                <bean parent="Uif-DataField" p:propertyName="endDate" />
-                <bean parent="Uif-DataField" p:propertyName="typeKey" p:label="Type Key" />
-                <bean parent="Uif-DataField" p:propertyName="stateKey" p:label="State Key" />
+                <bean parent="KS-Uif-DataField" p:propertyName="descr.plain" p:label="Name" />
+                <bean parent="KS-Uif-DataField" p:propertyName="startDate" />
+                <bean parent="KS-Uif-DataField" p:propertyName="endDate" />
+                <bean parent="KS-Uif-DataField" p:propertyName="typeKey" p:label="Type Key" />
+                <bean parent="KS-Uif-DataField" p:propertyName="stateKey" p:label="State Key" />
             </list>
         </property>
     </bean>
 
     <!-- Date Picker example -->
 
-    <bean parent="Uif-InputField-LabelTop"  id="KS-KitchenSink-LookupOverview-DateField">
+    <bean parent="KS-Uif-InputField-LabelTop"  id="KS-KitchenSink-LookupOverview-DateField">
         <property name="propertyName" value="dateField"/>
         <property name="label" value="Date Picker"/>
         <property name="instructionalText" value="Please select a date"/>

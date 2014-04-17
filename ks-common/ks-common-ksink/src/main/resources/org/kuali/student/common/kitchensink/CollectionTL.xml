@@ -47,8 +47,8 @@
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:label="Field 1" p:propertyName="field1" p:required="true"/>
-                <bean parent="Uif-InputField" p:label="Field 2" p:propertyName="field2" p:required="true"
+                <bean parent="KS-Uif-InputField" p:label="Field 1" p:propertyName="field1" p:required="true"/>
+                <bean parent="KS-Uif-InputField" p:label="Field 2" p:propertyName="field2" p:required="true"
                       p:constraintText="Requires Field 1 be filled out">
                     <property name="dependencyConstraints">
                         <list>
@@ -56,8 +56,8 @@
                         </list>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:label="Field 3" p:propertyName="field3" p:required="true"/>
-                <bean parent="Uif-InputField" p:propertyName="bfield" p:label="SubField 4"
+                <bean parent="KS-Uif-InputField" p:label="Field 3" p:propertyName="field3" p:required="true"/>
+                <bean parent="KS-Uif-InputField" p:propertyName="bfield" p:label="SubField 4"
                       p:required="true">
                 </bean>
             </list>
