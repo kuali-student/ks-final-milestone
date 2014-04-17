@@ -1610,7 +1610,10 @@ public class AcademicCalendarController extends UifControllerBase {
      * @return List of diry fields passed from the screen.
      */
     private List<String> processDirtyFields(AcademicCalendarForm academicCalendarForm){
-        String[] tempFields = academicCalendarForm.getDirtyFields().split(",");
+        String[] tempFields = new String[0];
+        if(academicCalendarForm.getDirtyFields() != null){
+            tempFields = academicCalendarForm.getDirtyFields().split(",");
+        }
         List<String> dirtyFields = academicCalendarForm.getFieldsToSave();
         StringBuilder completeDirtyFields = new StringBuilder("");
         for(String field : tempFields){
