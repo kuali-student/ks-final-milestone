@@ -327,10 +327,12 @@
                                             <property name="items">
                                                 <list>
                                                     <bean parent="CM-ReadOnlyInput" p:label="Type"
-                                                          p:propertyName="outComeType" p:colSpan="1"/>
+                                                          p:propertyName="outComeType" p:colSpan="1"
+                                                          p:additionalCssClasses="ks-stackedcollection-table-outcome" />
                                                     <bean parent="CM-ReadOnlyInput" p:label="Credit Value"
                                                           p:fieldLabel.style="white-space : nowrap; margin-left : -4px;"
-                                                          p:propertyName="outComeValue" p:colSpan="1"/>
+                                                          p:propertyName="outComeValue" p:colSpan="1"
+                                                          p:additionalCssClasses="ks-stackedcollection-table-outcome" />
                                                 </list>
                                             </property>
                                         </bean>
