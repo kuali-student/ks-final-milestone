@@ -38,6 +38,7 @@ import org.kuali.student.r2.common.util.constants.CourseSeatCountServiceConstant
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.constants.SearchServiceConstants;
+import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.service.SearchService;
@@ -321,9 +322,12 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
             registeredLpr.setId(null);
             registeredLpr.setMeta(null);
             registeredLpr.setEffectiveDate(now);
+            registeredLpr.setResultValuesGroupKeys(waitlistLpr.getResultValuesGroupKeys());
+            registeredLpr.setTypeKey(this.convertWaitlistTypesToRegisteredTypes(waitlistLpr.getTypeKey()));
+
             waitlistLpr.setExpirationDate(now);
             waitlistLpr.setStateKey(LprServiceConstants.RECEIVED_LPR_STATE_KEY);
-            registeredLpr.setResultValuesGroupKeys(waitlistLpr.getResultValuesGroupKeys());
+
             // Update the orig
             getLprService().updateLpr(waitlistLpr.getId(), waitlistLpr, contextInfo);
             // Create the new one
@@ -333,6 +337,22 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
         }
 
         return registeredLprs;
+    }
+
+    private static String convertWaitlistTypesToRegisteredTypes(String waitlistType){
+       String registeredType = null;
+
+        if (waitlistType.equals(LprServiceConstants.WAITLIST_AO_LPR_TYPE_KEY)) {
+            registeredType = LprServiceConstants.REGISTRANT_AO_LPR_TYPE_KEY;
+
+        } else if (waitlistType.equals(LprServiceConstants.WAITLIST_CO_LPR_TYPE_KEY)) {
+            registeredType = LprServiceConstants.REGISTRANT_CO_LPR_TYPE_KEY;
+
+        } else if (waitlistType.equals(LprServiceConstants.WAITLIST_RG_LPR_TYPE_KEY)) {
+            registeredType = LprServiceConstants.REGISTRANT_RG_LPR_TYPE_KEY;
+
+        }
+       return registeredType;
     }
 
     /**
