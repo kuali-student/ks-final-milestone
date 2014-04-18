@@ -745,18 +745,14 @@ table.ksap-course-search-results-datatable .blockUI {
   text-transform: none;
 }
 
-.ksap-facets-panel .ksap-facets-group div.facets {
-  max-height: 72px;
-  overflow-y: auto;
+.ksap-facets-panel .ksap-facets-group div.facets ul li:hover {
+  background-color: #eee;
 }
 
-.ksap-facets-panel .ksap-facets-group div.facets ul {
-  overflow: hidden;
-}
-
-.ksap-facets-panel .ksap-facets-group div.all,
-.ksap-facets-panel .ksap-facets-group div.facets {
-  padding: 0 0 0 10px;
+.ksap-facets-group .uif-disclosureContent{
+    margin-left: 0px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .ksap-facets-panel .ksap-facets-group ul li.all.checked {
@@ -782,11 +778,11 @@ table.ksap-course-search-results-datatable .blockUI {
 }
 
 .ksap-facets-panel .ksap-facets-group ul li {
-  padding: 0 0 0 19px;
+  padding: 0 0 0 24px;
   /*
       @TODO ksap-961 use icon font instead of images
   */
-  background: url('../images/ksap_icon_sprites.png') no-repeat 0px -64px transparent;
+  background: url('../images/ksap_icon_sprites.png') no-repeat 5px -64px transparent;
   min-height: 18px;
   line-height: 18px;
   display: block;
@@ -794,8 +790,10 @@ table.ksap-course-search-results-datatable .blockUI {
   opacity: 1;
 }
 
+
+
 .ksap-facets-panel .ksap-facets-group ul li.checked {
-  background-position: 0px -82px;
+  background-position: 5px -82px;
 }
 
 .ksap-facets-panel .ksap-facets-group ul li span {
@@ -806,7 +804,7 @@ table.ksap-course-search-results-datatable .blockUI {
 }
 
 .ksap-facets-panel .ksap-facets-group ul li:hover a {
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 .ksap-facets-panel .ksap-facets-group ul li.disabled,
