@@ -35,6 +35,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
+import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.infc.SearchResult;
@@ -51,6 +52,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -67,6 +69,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 
 	private static WeakReference<Map<String, Credit>> creditMapRef;
     private static WeakReference<Map<String, String>> genEdMapRef;
+    private static WeakReference<Map<String, String>> curriculumMapRef = null;
 
 	public static final String NO_CAMPUS = "-1";
     private boolean limitExceeded;
@@ -192,6 +195,43 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 		}
 
 	}
+
+    public Map<String, String> getCurriculumMap(Set<String> orgIds) {
+        Map<String, String> rv = curriculumMapRef == null ? null : curriculumMapRef
+                .get();
+        if (rv == null) {
+            Map<String, String> curriculumMap = new java.util.LinkedHashMap<String, String>();
+            ContextInfo contextInfo = KsapFrameworkServiceLocator.getContext()
+                    .getContextInfo();
+            List<OrgInfo> orgs = new ArrayList<OrgInfo>();
+
+            try {
+                if (orgIds != null && orgIds.size() > 0) {
+                    orgs = KsapFrameworkServiceLocator.getOrganizationService().getOrgsByIds(new ArrayList<String>(orgIds),
+                            contextInfo);
+                }
+            } catch (DoesNotExistException e) {
+                throw new IllegalArgumentException("Org lookup error", e);
+            } catch (InvalidParameterException e) {
+                throw new IllegalArgumentException("Org lookup error", e);
+            } catch (MissingParameterException e) {
+                throw new IllegalArgumentException("Org lookup error", e);
+            } catch (OperationFailedException e) {
+                throw new IllegalStateException("Org lookup error", e);
+            } catch (PermissionDeniedException e) {
+                throw new IllegalStateException("Org lookup error", e);
+            }
+
+            for (OrgInfo org : orgs) {
+                curriculumMap.put(org.getShortName(), org.getLongName());
+            }
+
+            curriculumMapRef = new WeakReference<Map<String, String>>(
+                    rv = Collections.unmodifiableMap(Collections
+                            .synchronizedMap(curriculumMap)));
+        }
+        return rv;
+    }
 
     public Map<String, String> getGenEdMap() {
         Map<String, String> rv = genEdMapRef == null ? null : genEdMapRef
@@ -785,9 +825,12 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
                 loadGenEduReqs(courses);
             }
         }
+        Set<String> orgIds = new HashSet<String>();
 		for (CourseSearchItemImpl course : courses) {
 
             String courseId = course.getCourseId();
+            String orgId = "ORGID-" + course.getSubject();
+            orgIds.add(orgId);
             if (courseStatusMap.containsKey(courseId)) {
 
                 String status = courseStatusMap.get(courseId);
@@ -810,7 +853,8 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
             course.setSessionid(form.getSessionId());
             courseList.add(course);
 		}
-		populateFacets(form, courseList);
+        getCurriculumMap(orgIds);
+        populateFacets(form, courseList);
 
 		return courseList;
 	}

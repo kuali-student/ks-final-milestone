@@ -3,6 +3,7 @@ package org.kuali.student.ap.coursesearch;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Strategy interface for specifying course search behavior.
@@ -201,6 +202,8 @@ public interface CourseSearchStrategy {
 	 * @return A new instance of the course search form.
 	 */
 	CourseSearchForm createSearchForm();
+
+    Map<String, String> getCurriculumMap(Set<String> orgIds);
 
     Map<String, String> getGenEdMap();
 

@@ -507,6 +507,8 @@ public class CourseSearchController extends UifControllerBase {
                                     fm.put(facetKey, fs = new FacetState(fv));
                                     if (fce.getKey().equals("facet_genedureq")) {
                                         fs.description = searcher.getGenEdMap().get(fv.getKey());
+                                    } else if (fce.getKey().equals("facet_curriculum")) {
+                                        fs.description = searcher.getCurriculumMap(null).get(fv.getKey());
                                     }
                                 }
                                 fs.count++;
