@@ -228,7 +228,8 @@
                             </bean>
 
                             <bean id="KS-CourseNumberSuffix-Field" parent="Uif-KS-IconInputField-LabelTop"
-                                  p:label="Course Number" p:propertyName="courseInfo.courseNumberSuffix" >
+                                  p:label="Course Number" p:propertyName="courseInfo.courseNumberSuffix"
+                                  p:minLength="3">
                                 <property name="constraintText" value="Must be a 3 digit number"/>
                                 <property name="control">
                                     <bean parent="KS-Uif-TextControl" p:size="3" p:watermarkText="111"/>
@@ -266,6 +267,8 @@
                       p:headerText="Cross Listed Courses" p:propertyName="courseInfo.crossListings"
                       p:collectionObjectClass="org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo">
                     <property name="layoutManager.lineGroupPrototype.header.headerText" value="Course Listing @{(#index + 1)}" />
+                    <property name="layoutManager.lineGroupPrototype.validationMessages.displayMessages" value="false" />
+                    <property name="validationMessages.displayMessages" value="false"/>
                     <property name="renderAddBlankLineButton" value="true" />
                     <property name="addLinePlacement" value="BOTTOM" />
                     <property name="addBlankLineAction">
