@@ -700,7 +700,7 @@ function durationCountOnBlur() {
     return;
 }
 
-function showHideReviewProposalErrorFields () {
+function showHideReviewProposalErrorFields (sectionId) {
     var hideMissed = "Hide missing-fields indicator.";
     var showMissed = "Show what's missing.";
 
@@ -709,32 +709,16 @@ function showHideReviewProposalErrorFields () {
     if(actualShowMsg != null && actualShowMsg.toString().trim() == showMissed) {
         jQuery("#ReviewProposal-Error-Message-expand-optional-link").text(hideMissed);
         /* highlight the missing element rows */
-        highlightMissingElements(true);
+        highlightMissingElements(sectionId, true);
     }  else  {
         jQuery("#ReviewProposal-Error-Message-expand-optional-link").text(showMissed);
-        highlightMissingElements(false);
+        highlightMissingElements(sectionId, false);
     }
     jQuery("#CourseInfo-Review-Edit-link").focus();
 
 }
 
-function highlightMissingElements(showThem) {
-/*
-   Set up the correct logic after the validation frame work is done as in  KSCM-1727 (setting up the validation framework).
-   Also the rest of the data tables need to be validated and highlighted.
-*/
-    highlightOneSection('CourseInfo-Review-section', showThem);
-    highlightOneSection('Governance-Review-section', showThem);
-    highlightOneSection('CourseLogistics-Review-section', showThem);
-    highlightOneSection('LearningObjectives-Review-section', showThem);
-    highlightOneSection('CourseRequisitesPage-Review-section', showThem);
-    highlightOneSection('ActiveDates-Review-section', showThem);
-    highlightOneSection('Financials-Review-section', showThem);
-    highlightOneSection('AuthorsAndCollaborators-Review-section', showThem);
-    highlightOneSection('SupportingDocuments-Review-section', showThem);
-}
-
-function highlightOneSection(sectionId, showError) {
+function highlightMissingElements(sectionId, showError) {
     var whiteBorderStyle = "border: rgb(255,255,255) !important;";
     var style = jQuery('#' + sectionId).find('table td textarea').attr("style");
     var hasBorderStyle = style.indexOf(whiteBorderStyle);
