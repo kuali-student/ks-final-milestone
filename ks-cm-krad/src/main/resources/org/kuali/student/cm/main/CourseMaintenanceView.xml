@@ -171,7 +171,7 @@
         <property name="breadcrumbOptions.breadcrumbOverrides">
             <list>
                 <ref bean="KS-HomewardPathBreadcrumbs-ProposalName"/>
-                <ref bean="KS-HomewardPathBreadcrumbs-CreateCourseInitial-Page"/>
+                <ref bean="KS-HomewardPathBreadcrumbs-CreateCourse"/>
             </list>
         </property>
         <property name="header.id" value="KS-CourseView-Header"/>
@@ -247,6 +247,10 @@
 
     <bean id="KS-HomewardPathBreadcrumbs-ProposalName" parent="Uif-BreadcrumbItem">
         <property name="label" value="@{#uiHelper.headerText}"></property>
+    </bean>
+
+    <bean id="KS-HomewardPathBreadcrumbs-CreateCourse" parent="Uif-BreadcrumbItem">
+        <property name="label" value="Create Course"></property>
     </bean>
 
     <!--
