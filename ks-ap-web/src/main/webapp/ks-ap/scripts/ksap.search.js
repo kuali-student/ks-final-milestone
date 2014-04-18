@@ -234,6 +234,8 @@ function searchForCourses(id, parentId) {
                             } else {
                                 jQuery('#course_search_results_length').removeClass('invisible');
                             }
+
+                            results.removeClass("ksap-hide");
 						},
 						fnServerData : function(sSource, aoData, fnCallback) {
 							jQuery
@@ -399,9 +401,6 @@ function fnGenerateFacetGroup(obj) {
 	var bMore = false; // more than one facet value
     if (oData == null)
         return
-    if(fcol == "facet_genedureq" || fcol == "facet_quarter"){
-        delete oData["None"];
-    }
 	for (key in oData){
 		if (bMore)
 			continue;
@@ -437,6 +436,11 @@ function fnGenerateFacetGroup(obj) {
 					var t = jQuery(this);
 					fnClickFacet(t.data("facetkey"), t.data("facetid"), e);
 				});
+        if(fcol == "facet_genedureq" || fcol == "facet_quarter"){
+            if(key=="None"){
+                jQuery(jItem).addClass("ksap-hide");
+            }
+        }
         if (!bAll && oData[key].checked)
             jQuery(jItem).addClass("checked");
         else

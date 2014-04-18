@@ -686,9 +686,10 @@ table.ksap-course-search-results-datatable .blockUI {
   border-radius: 5px;
 }
 
-.ksap-facets-panel a, .ksap-facets-panel a:hover {
+.ksap-facets-panel a, .ksap-facets-panel a:hover, .ksap-facets-panel a:focus {
   color: #333;
   vertical-align: bottom;
+  text-decoration: none;
 }
 
 .ksap-facets-panel .uif-boxLayoutVerticalItem,
@@ -700,7 +701,6 @@ table.ksap-course-search-results-datatable .blockUI {
 }
 
 .ksap-facets-group a[id$='_toggle'] {
-  text-decoration: none;
   line-height: 2.5em;
 }
 
@@ -768,14 +768,10 @@ table.ksap-course-search-results-datatable .blockUI {
   cursor: pointer;
   opacity: 1;
 }
+.ksap-facets-panel .ksap-facets-group ul li.all a,
 .ksap-facets-panel .ksap-facets-group ul li.all:hover a {
-   text-decoration: none;
    color: #0088cc;
  }
-.ksap-facets-panel .ksap-facets-group ul li.all a {
-  text-decoration: none;
-  color: #0088cc;
-}
 
 .ksap-facets-panel .ksap-facets-group ul li {
   padding: 0 0 0 24px;
@@ -803,13 +799,8 @@ table.ksap-course-search-results-datatable .blockUI {
   line-height: 11px;
 }
 
-.ksap-facets-panel .ksap-facets-group ul li:hover a {
-  text-decoration: none;
-}
-
 .ksap-facets-panel .ksap-facets-group ul li.disabled,
 .ksap-facets-panel .ksap-facets-group ul li.disabled:hover {
-  text-decoration: none;
   cursor: default;
   opacity: 0.33;
 }
@@ -819,6 +810,5 @@ table.ksap-course-search-results-datatable .blockUI {
 .ksap-facets-panel .ksap-facets-group ul li.static a:hover {
   background-position: 5px -82px;
   cursor: default;
-  text-decoration: none;
 }
 
