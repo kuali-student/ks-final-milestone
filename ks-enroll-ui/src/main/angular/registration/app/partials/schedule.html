@@ -3,7 +3,12 @@
 <div>
     <span>
         <span class="kscr-Heading-sub">REGISTERED</span>
-        <span id="reg_credit_count" class="kscr-Heading-support util-Grid--floatRight">{{registeredCredits()}} credits</span>
+        <span id="reg_credit_count" class="kscr-Heading-support util-Grid--floatRight">
+            <ng-pluralize count="registeredCredits()"
+                when="{'1' : '{} CREDIT',
+                'other': '{} CREDITS'}">
+            </ng-pluralize>
+         </span>
     </span>
 </div>
 <!--Alert message-->
@@ -46,8 +51,8 @@
                         <!--credits-->
                         <div id="course_info_{{course.courseCode}}_{{course.regGroupCode}}" class="kscr-Card-supportText" ng-hide="cartItem.editing">
                             <ng-pluralize count="course.credits"
-                                          when="{'1'    : '{} credit',
-                                                 'other': '{} credits'}">
+                                          when="{'1'    : '{} cr',
+                                                 'other': '{} cr'}">
                             </ng-pluralize>
                         </div>
                         <!--Course Header Section-->
@@ -121,7 +126,12 @@
 <div ng-show="waitlistedCourseCount() || showWaitlistMessages">
     <span>
         <span class="kscr-Heading-sub">WAITLISTED</span>
-        <span id="waitlisted_credit_count" class="kscr-Heading-support util-Grid--floatRight">{{waitlistedCredits()}} credits</span>
+        <span id="waitlisted_credit_count" class="kscr-Heading-support util-Grid--floatRight">
+            <ng-pluralize count="waitlistedCredits()"
+                when="{'1' : '{} CREDIT',
+                'other': '{} CREDITS'}">
+            </ng-pluralize>
+        </span>
     </span>
 </div>
 <div class="kscr-Card">
@@ -158,8 +168,8 @@
                         <!--credits-->
                         <div id="waitlist_course_info_{{course.courseCode}}_{{course.regGroupCode}}" class="kscr-Card-supportText" ng-hide="cartItem.editing">
                             <ng-pluralize count="course.credits"
-                                          when="{'1'    : '{} credit',
-                                                 'other': '{} credits'}">
+                                          when="{'1'    : '{} cr',
+                                                 'other': '{} cr'}">
                             </ng-pluralize>
                         </div>
                         <!--Course Header Section-->
