@@ -761,6 +761,7 @@ function highlightOneSection(sectionId, showError) {
     }
 }
 
+/*
 jQuery.validator.addMethod("rangeMaxMinCheck",
     function(value, element) {
         return this.optional(element) || verifyMaxAndMinInput(value, element);
@@ -787,4 +788,4 @@ function verifyMaxAndMinInput(value, element){
 function verifyMaxRangeOnBlur() {
         validateFieldValue(jQuery("#MaxRangeCreditVale_add_control"));
         return;
-}
+}*/
