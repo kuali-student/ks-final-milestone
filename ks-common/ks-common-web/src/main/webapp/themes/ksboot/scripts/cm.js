@@ -512,7 +512,9 @@ function compareSubjectCodeInput(value, element) {
         } else {
             jQuery("#"+element.id).attr('value', data.resultData[0].value);
             isValid = true;
-            retrieveComponent('KS-Course-CurriculumOversight-Section');
+            if(element.id.indexOf('KS-SubjectArea-Field') == 0) {
+                retrieveComponent('KS-Course-CurriculumOversight-Section');
+            }
         }
     };
 
@@ -523,7 +525,11 @@ function compareSubjectCodeInput(value, element) {
     queryData.ajaxReturnType = 'update-none';
     queryData.formKey = jQuery("input#formKey").val();
     queryData.queryTerm = value;
-    queryData.queryFieldId = "KS-SubjectArea-Field";
+    if (element.id.indexOf('KS-CourseCode-Field') == 0) {
+        queryData.queryFieldId = element.parentElement.parentElement.getAttribute('id');
+    } else {
+        queryData.queryFieldId = element.parentElement.getAttribute('id');
+    }
 
     jQuery.ajax({
         url: jQuery("form#kualiForm").attr("action"),
@@ -543,6 +549,11 @@ jQuery.validator.addMethod("validSubjectCode",
     function(value, element) {
          return this.optional(element) || compareSubjectCodeInput(value, element);
     }, "Subject code is invalid")
+
+jQuery.validator.addMethod("validCourseCode",
+    function(value, element) {
+        return this.optional(element) || compareSubjectCodeInput(value, element);
+    }, "Course code is invalid")
 
 jQuery.validator.addMethod("validInstructorNameAndID",
     function(value, element) {
