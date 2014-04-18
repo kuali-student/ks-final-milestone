@@ -106,8 +106,8 @@ public class DefaultOrgHelper implements OrgHelper{
             logger.error("Search Failed to get the Organization Data ", e);
         }
         for (SearchResultRow row : searchResult.getRows()) {
-            subjects.put(KsapHelperUtil.getCellValue(row, "org.resultColumn.attrValue"),
-                    KsapHelperUtil.getCellValue(row, "org.resultColumn.name"));
+            subjects.put(KsapHelperUtil.getCellValue(row, "org.resultColumn.shortName"),
+                    KsapHelperUtil.getCellValue(row, "org.resultColumn.shortDescription"));
         }
         return subjects;
     }
@@ -135,8 +135,8 @@ public class DefaultOrgHelper implements OrgHelper{
         }
         for (SearchResultRow row : searchResult.getRows()) {
             subjects.put(
-                    KsapHelperUtil.getCellValue(row, "org.resultColumn.attrValue").trim(),
-                    KsapHelperUtil.getCellValue(row, "org.resultColumn.orgLongName"));
+                    KsapHelperUtil.getCellValue(row, "org.resultColumn.shortName").trim(),
+                    KsapHelperUtil.getCellValue(row, "org.resultColumn.shortDescription"));
 
         }
         return subjects;
