@@ -759,13 +759,30 @@ table.ksap-course-search-results-datatable .blockUI {
   padding: 0 0 0 10px;
 }
 
-.ksap-facets-panel .ksap-facets-group div.all {
-  border-bottom: dotted 1px #cfcfcf;
+.ksap-facets-panel .ksap-facets-group ul li.all.checked {
+  display:none;
+}
+
+.ksap-facets-panel .ksap-facets-group ul li.all {
+  padding: 0 0 0 0px;
+  background: none;
+  min-height: 18px;
+  line-height: 18px;
+  display: block;
+  cursor: pointer;
+  opacity: 1;
+}
+.ksap-facets-panel .ksap-facets-group ul li.all:hover a {
+   text-decoration: none;
+   color: #0088cc;
+ }
+.ksap-facets-panel .ksap-facets-group ul li.all a {
+  text-decoration: none;
+  color: #0088cc;
 }
 
 .ksap-facets-panel .ksap-facets-group ul li {
   padding: 0 0 0 19px;
-  margin: 4px 0 4px 0;
   /*
       @TODO ksap-961 use icon font instead of images
   */

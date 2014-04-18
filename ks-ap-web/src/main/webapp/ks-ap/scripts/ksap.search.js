@@ -417,7 +417,7 @@ function fnGenerateFacetGroup(obj) {
 	if (bMore) {
 		jFacets.append(jQuery('<div class="all"><ul /></div>'));
 		var jAll = jQuery('<li />').attr("title", "All").data("facetid", fcol)
-            .addClass("all").html('<a href="#">All</a>').click(
+            .addClass("all").html('<a href="#">Clear</a>').click(
 						function(e) {
 							var t = jQuery(this);
 							fnClickFacet('All', t.data("facetid"), e);
