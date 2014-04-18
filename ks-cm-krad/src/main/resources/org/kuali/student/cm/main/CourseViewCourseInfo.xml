@@ -253,6 +253,7 @@
         <property name="header">
             <bean parent="Uif-HeaderThree" />
         </property>
+        <property name="validationMessages.displayMessages" value="false"/>
         <property name="cssClasses">
             <list merge="true">
                 <value>cm-collection-width</value>
@@ -281,18 +282,20 @@
                       p:headerText="Jointly Offered Courses" p:propertyName="courseJointWrappers"
                       p:collectionObjectClass="org.kuali.student.cm.course.form.CourseJointInfoWrapper">
                     <property name="layoutManager.lineGroupPrototype.header.headerText" value="Joint Offering @{(#index + 1)}" />
+                    <property name="layoutManager.lineGroupPrototype.validationMessages.displayMessages" value="false" />
                     <property name="renderAddBlankLineButton" value="true" />
                     <property name="addLinePlacement" value="BOTTOM" />
                     <property name="addBlankLineAction">
                         <bean parent="Uif-AddBlankLineAction" p:actionLabel="Add Another Course" />
                     </property>
+                    <property name="validationMessages.displayMessages" value="false"/>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-KS-IconInputField-LabelTop" p:label="Course Number or Title"
+                            <bean id="KS-CourseCode-Field" parent="Uif-KS-IconInputField-LabelTop" p:label="Course Number or Title"
                                   p:propertyName="courseCode">
                                 <property name="instructionalText" value="Enter an existing course or proposal." />
                                 <property name="control">
-                                    <bean parent="KS-Uif-TextControl" />
+                                    <bean parent="KS-Uif-TextControl" p:cssClasses="validCourseCode"/>
                                 </property>
                                 <property name="suggest">
                                     <!-- <bean parent="Uif-Suggest" p:render="true" p:sourceQueryMethodResults="true"> -->
