@@ -77,6 +77,7 @@ public class WaitlistManagerServiceImpl implements WaitlistManagerService {
             String rgId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.RG_ID);
             String masterLprId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.MASTER_LPR_ID);
             String personId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.PERSON_ID);
+            String atpId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.ATP_ID);
             int seatCount = Integer.parseInt(row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.SEAT_COUNT));
             int maxSeats = Integer.parseInt(row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_MAX_SEATS));
 
@@ -97,7 +98,7 @@ public class WaitlistManagerServiceImpl implements WaitlistManagerService {
             //Only add one WL record for each Master LPR otherwise we would have a record per AO
             if(!alreadyProcessedLprIds.contains(masterLprId)){
                 //Store an ordered list of people and the rg they are waiting on
-                waitlist.add(new WaitlistInfo(rgId, personId, masterLprId));
+                waitlist.add(new WaitlistInfo(rgId, personId, masterLprId, atpId));
             }
             alreadyProcessedLprIds.add(masterLprId);
         }
@@ -147,6 +148,7 @@ public class WaitlistManagerServiceImpl implements WaitlistManagerService {
                     regRequest = new RegistrationRequestInfo();
                     regRequest.setTypeKey(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY);
                     regRequest.setStateKey(LprServiceConstants.LPRTRANS_NEW_STATE_KEY);
+                    regRequest.setTermId(waitlistInfo.atpId);
                     regRequest.setRequestorId(contextInfo.getPrincipalId());//Not sure if this is the correct id to set here
                     person2RegRequest.put(waitlistInfo.personId, regRequest);
                 }

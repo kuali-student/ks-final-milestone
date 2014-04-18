@@ -339,7 +339,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         String queryStr =
                 "SELECT DISTINCT " +
                         "    rg2ao.related_lui_id, " +
-                        "    waitlistRgLpr.Lui_Id, " +
+                        "    waitlistRgLpr.lui_Id, " +
+                        "    waitlistRgLpr.atp_Id, " +
                         "    waitlistAoLpr.MASTER_LPR_ID, " +
                         "    waitlistAoLpr.PERS_ID, " +
                         "    waitlistAoLpr.EFF_DT, " +
@@ -383,6 +384,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             SearchResultRowInfo row = new SearchResultRowInfo();
             row.addCell(SearchResultColumns.AO_ID, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.RG_ID, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.ATP_ID, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.MASTER_LPR_ID, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.PERSON_ID, (String) resultRow[i++]);
             Date effectiveDate = (Date) resultRow[i++];

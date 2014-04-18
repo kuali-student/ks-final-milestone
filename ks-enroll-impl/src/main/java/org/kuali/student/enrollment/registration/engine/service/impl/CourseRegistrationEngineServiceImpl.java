@@ -38,7 +38,6 @@ import org.kuali.student.r2.common.util.constants.CourseSeatCountServiceConstant
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.constants.SearchServiceConstants;
-import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.service.SearchService;
@@ -318,22 +317,25 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
         Date now = new Date();
 
         for (LprInfo waitlistLpr : waitlistLprs) {
-            LprInfo registeredLpr = new LprInfo(waitlistLpr); // Make a copy
-            registeredLpr.setId(null);
-            registeredLpr.setMeta(null);
-            registeredLpr.setEffectiveDate(now);
-            registeredLpr.setResultValuesGroupKeys(waitlistLpr.getResultValuesGroupKeys());
-            registeredLpr.setTypeKey(this.convertWaitlistTypesToRegisteredTypes(waitlistLpr.getTypeKey()));
+            //Only process active waitlists
+            if(LprServiceConstants.ACTIVE_STATE_KEY.equals(waitlistLpr.getStateKey())){
+                LprInfo registeredLpr = new LprInfo(waitlistLpr); // Make a copy
+                registeredLpr.setId(null);
+                registeredLpr.setMeta(null);
+                registeredLpr.setEffectiveDate(now);
+                registeredLpr.setResultValuesGroupKeys(waitlistLpr.getResultValuesGroupKeys());
+                registeredLpr.setTypeKey(this.convertWaitlistTypesToRegisteredTypes(waitlistLpr.getTypeKey()));
 
-            waitlistLpr.setExpirationDate(now);
-            waitlistLpr.setStateKey(LprServiceConstants.RECEIVED_LPR_STATE_KEY);
+                waitlistLpr.setExpirationDate(now);
+                waitlistLpr.setStateKey(LprServiceConstants.RECEIVED_LPR_STATE_KEY);
 
-            // Update the orig
-            getLprService().updateLpr(waitlistLpr.getId(), waitlistLpr, contextInfo);
-            // Create the new one
-            LprInfo newRegisteredLpr = getLprService().createLpr(registeredLpr.getPersonId(), registeredLpr.getLuiId(),
-                    registeredLpr.getTypeKey(), registeredLpr, contextInfo);
-            registeredLprs.add(newRegisteredLpr);
+                // Update the orig
+                getLprService().updateLpr(waitlistLpr.getId(), waitlistLpr, contextInfo);
+                // Create the new one
+                LprInfo newRegisteredLpr = getLprService().createLpr(registeredLpr.getPersonId(), registeredLpr.getLuiId(),
+                        registeredLpr.getTypeKey(), registeredLpr, contextInfo);
+                registeredLprs.add(newRegisteredLpr);
+            }
         }
 
         return registeredLprs;

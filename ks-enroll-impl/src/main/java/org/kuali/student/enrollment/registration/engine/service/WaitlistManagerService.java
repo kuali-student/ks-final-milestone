@@ -26,15 +26,17 @@ public interface WaitlistManagerService {
      * Structure to store waitlist information
      */
     public class WaitlistInfo {
-        public WaitlistInfo(String rgId, String personId, String masterLprId) {
+        public WaitlistInfo(String rgId, String personId, String masterLprId, String atpId) {
             super();
             this.rgId = rgId;
             this.personId = personId;
             this.masterLprId = masterLprId;
+            this.atpId = atpId;
         }
 
         public String rgId;
         public String personId;
         public String masterLprId;
+        public String atpId;
     }
 }
