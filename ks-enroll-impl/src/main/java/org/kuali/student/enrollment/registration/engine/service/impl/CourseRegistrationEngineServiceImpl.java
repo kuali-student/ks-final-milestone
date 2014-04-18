@@ -314,35 +314,58 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
         List<String> waitlistLprIds = getLprIdsByMasterLprId(masterLprId, contextInfo);
         List<LprInfo> waitlistLprs = getLprService().getLprsByIds(waitlistLprIds, contextInfo);
         List<LprInfo> registeredLprs = new ArrayList<LprInfo>();
+        List<LprInfo> newRegisteredLprs = new ArrayList<LprInfo>();
+        LprInfo newRegisteredMasterLpr = null;
         Date now = new Date();
 
         for (LprInfo waitlistLpr : waitlistLprs) {
             //Only process active waitlists
-            if(LprServiceConstants.ACTIVE_STATE_KEY.equals(waitlistLpr.getStateKey())){
+            if (LprServiceConstants.ACTIVE_STATE_KEY.equals(waitlistLpr.getStateKey())) {
                 LprInfo registeredLpr = new LprInfo(waitlistLpr); // Make a copy
                 registeredLpr.setId(null);
                 registeredLpr.setMeta(null);
+                registeredLpr.setMasterLprId(null);
                 registeredLpr.setEffectiveDate(now);
                 registeredLpr.setResultValuesGroupKeys(waitlistLpr.getResultValuesGroupKeys());
                 registeredLpr.setTypeKey(this.convertWaitlistTypesToRegisteredTypes(waitlistLpr.getTypeKey()));
 
+                //Expire the waitlisted record
                 waitlistLpr.setExpirationDate(now);
                 waitlistLpr.setStateKey(LprServiceConstants.RECEIVED_LPR_STATE_KEY);
 
                 // Update the orig
                 getLprService().updateLpr(waitlistLpr.getId(), waitlistLpr, contextInfo);
-                // Create the new one
-                LprInfo newRegisteredLpr = getLprService().createLpr(registeredLpr.getPersonId(), registeredLpr.getLuiId(),
-                        registeredLpr.getTypeKey(), registeredLpr, contextInfo);
-                registeredLprs.add(newRegisteredLpr);
+
+                //Get a handle to the RG lpr since this wil lbe the "master" lpr
+                if (LprServiceConstants.REGISTRANT_RG_LPR_TYPE_KEY.equals(registeredLpr.getTypeKey())) {
+                    newRegisteredMasterLpr = registeredLpr;
+                } else {
+                    newRegisteredLprs.add(registeredLpr);
+                }
             }
+        }
+
+        //If a new master LPR was found create the new registration records
+        if (newRegisteredMasterLpr != null) {
+            // Create the new one
+            newRegisteredMasterLpr = getLprService().createLpr(newRegisteredMasterLpr.getPersonId(), newRegisteredMasterLpr.getLuiId(),
+                    newRegisteredMasterLpr.getTypeKey(), newRegisteredMasterLpr, contextInfo);
+            registeredLprs.add(newRegisteredMasterLpr);
+
+            for (LprInfo newRegisteredLpr : newRegisteredLprs) {
+                //Set the master lpr id on subsequent Lprs
+                newRegisteredLpr.setMasterLprId(newRegisteredMasterLpr.getId());
+                registeredLprs.add(getLprService().createLpr(newRegisteredLpr.getPersonId(), newRegisteredLpr.getLuiId(),
+                        newRegisteredLpr.getTypeKey(), newRegisteredLpr, contextInfo));
+            }
+
         }
 
         return registeredLprs;
     }
 
-    private static String convertWaitlistTypesToRegisteredTypes(String waitlistType){
-       String registeredType = null;
+    private static String convertWaitlistTypesToRegisteredTypes(String waitlistType) {
+        String registeredType = null;
 
         if (waitlistType.equals(LprServiceConstants.WAITLIST_AO_LPR_TYPE_KEY)) {
             registeredType = LprServiceConstants.REGISTRANT_AO_LPR_TYPE_KEY;
@@ -354,7 +377,7 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
             registeredType = LprServiceConstants.REGISTRANT_RG_LPR_TYPE_KEY;
 
         }
-       return registeredType;
+        return registeredType;
     }
 
     /**
@@ -362,10 +385,10 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
      *
      * @param courseOfferingLprType Either LprServiceConstants.REGISTRANT_CO_LPR_TYPE_KEY
      *                              or LprServiceConstants.WAITLIST_CO_LPR_TYPE_KEY
-     * @param masterLprId The RG LPR for either registrant/waitlist LPR
-     * @param credits RVG credit
-     * @param gradingOptionId RVG grading option
-     * @param contextInfo The context
+     * @param masterLprId           The RG LPR for either registrant/waitlist LPR
+     * @param credits               RVG credit
+     * @param gradingOptionId       RVG grading option
+     * @param contextInfo           The context
      * @return List of update LprInfos
      */
     protected List<LprInfo> updateOptionsOnLprsCommon(String courseOfferingLprType,
