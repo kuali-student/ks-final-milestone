@@ -163,9 +163,25 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 
 	<bean id="ksapAddSavedCourse" parent="ksapAddSavedCourse-parent" />
 	<bean id="ksapAddSavedCourse-parent" abstract="true" parent="Uif-SecondaryActionButton"
-		p:actionLabel="@{dataObject.bookmarked ? 'Remove Bookmark' : 'Bookmark'}">
+		p:actionLabel="Bookmark">
+        <property name="cssClasses">
+            <list>
+                <value>@{dataObject.bookmarked ? 'ksap-hide' : ''}</value>
+            </list>
+        </property>
         <property name="actionScript" value="bookmarkCourse('@{dataObject.courseId}', e);"/>
 	</bean>
+
+    <bean id="ksapDeleteSavedCourse" parent="ksapDeleteSavedCourse-parent" />
+    <bean id="ksapDeleteSavedCourse-parent" abstract="true" parent="Uif-SecondaryActionButton"
+          p:actionLabel="Remove Bookmark">
+        <property name="cssClasses">
+            <list>
+                <value>@{dataObject.bookmarked ? '' : 'ksap-hide'}</value>
+            </list>
+        </property>
+        <property name="actionScript" value=""/>
+    </bean>
 
 
 
@@ -180,6 +196,8 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                     p:id="@{dataObject.courseIdXmlSafe}_addPlannedCourse" />
                 <bean parent="ksapAddSavedCourse"
                     p:id="@{dataObject.courseIdXmlSafe}_addSavedCourse" />
+                <bean parent="ksapDeleteSavedCourse"
+                      p:id="@{dataObject.courseIdXmlSafe}_deleteSavedCourse" />
                 <!--<bean parent="ksapBookmarked"
 					p:id="@{dataObject.courseIdXmlSafe}_bookmarked" />-->
             </list>
