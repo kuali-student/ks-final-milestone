@@ -210,6 +210,7 @@
         <property name="cssClasses">
             <list merge="true">
                 <value>cm_requiredMessage_sectionHeader</value>
+                <value>course_outcome</value>
             </list>
         </property>
         <property name="collectionObjectClass" value="org.kuali.student.cm.course.form.ResultValuesGroupInfoWrapper" />
@@ -218,7 +219,7 @@
                 <property name="actionLabel" value="Add Outcome"/>
                 <property name="id" value="outcome-addline"/>
                 <property name="dirtyOnAction" value="true" />
-                <property name="style" value="margin-top:11em;" />
+                <property name="style" value="margin-top:1em;margin-left:15px;" />
             </bean>
         </property>
         <property name="renderAddBlankLineButton" value="true" />
@@ -226,7 +227,7 @@
         <property name="layoutManager.addLineGroup.header.render" value="false" />
         <property name="layoutManager.lineGroupPrototype.header.headerText" value="Outcome @{(#index + 1)}" />
         <property name="layoutManager.lineGroupPrototype.additionalCssClasses" value="course_format_line"/>
-        <property name="layoutManager.lineGroupPrototype.header.additionalCssClasses" value="ks-dottedHeaderActions,cm_dottedHeaderActions" />
+        <property name="layoutManager.lineGroupPrototype.header.style" value="margin-left:10px;margin-top:10px;"/>
         <property name="layoutManager.id" value="course_outcome_table"/>
         <property name="layoutManager.lineGroupPrototype.layoutManager.id" value="course_outcome_table_@{#index}"/>
         <property name="layoutManager.lineGroupPrototype.id" value="course_outcome_row_@{#index}"/>
@@ -246,10 +247,10 @@
                 </property>
             </bean>
         </property>
-        <property name="addLinePlacement" value="BOTTOM" />
+        <property name="addLinePlacement" value="TOP" />
         <property name="items">
             <list>
-                <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false">
+                <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false" p:style="margin-left=10px;">
                     <property name="items">
                         <list>
                             <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="typeKey" p:label="Type" p:required="true" >
@@ -268,26 +269,23 @@
                             </bean>
                             <bean id="fixedCreditVale" parent="KS-Uif-InputField-LabelTop"
                                   p:render="@{#lp.typeKey eq 'kuali.result.values.group.type.fixed'}"
-                                  p:label="Credit Value" p:propertyName="resultValueRange.minValue">
+                                  p:label="Credits" p:propertyName="resultValueRange.minValue">
                                 <property name="validCharactersConstraint">
                                     <bean parent="NumericPatternConstraint" />
                                 </property>
                             </bean>
                             <bean  id="MinRangeCreditVale" parent="KS-Uif-InputField-LabelTop"
                                    p:render="@{#lp.typeKey eq 'kuali.result.values.group.type.range'}"
-                                   p:label="Minimum Credit Value" p:propertyName="resultValueRange.minValue">
+                                   p:label="Min. Credits" p:propertyName="resultValueRange.minValue">
                                 <property name="validCharactersConstraint">
                                     <bean parent="NumericPatternConstraint" />
                                 </property>
                             </bean>
                             <bean id="MaxRangeCreditVale" parent="KS-Uif-InputField-LabelTop"
-                                   p:render="@{#lp.typeKey eq 'kuali.result.values.group.type.range'}"
-                                   p:label="Maximum Credit Value" p:propertyName="resultValueRange.maxValue">
+                                  p:render="@{#lp.typeKey eq 'kuali.result.values.group.type.range'}"
+                                  p:label="Max. Credits" p:propertyName="resultValueRange.maxValue">
                                 <property name="validCharactersConstraint">
                                     <bean parent="NumericPatternConstraint" />
-                                </property>
-                                <property name="control">
-                                    <bean parent="KS-Uif-TextControl" p:cssClasses="rangeMaxMinCheck" p:onBlurScript="verifyMaxRangeOnBlur();"/>
                                 </property>
                             </bean>
                         </list>
@@ -316,7 +314,7 @@
                     <property name="addLineLabel.messageText" value=" " />
                     <property name="items">
                         <list>
-                            <bean id="outcome-multiple-credit" parent="KS-Uif-InputField-LabelTop" p:label="Credit Value"
+                            <bean id="outcome-multiple-credit" parent="KS-Uif-InputField-LabelTop" p:label="Credits"
                                   p:propertyName="creditValueDisplay">
                                 <property name="validCharactersConstraint">
                                     <bean parent="NumericPatternConstraint" />
@@ -349,7 +347,7 @@
                 <property name="style" value="margin-top:1em;" />
             </bean>
         </property>
-        <property name="addLinePlacement" value="LEFT" />
+        <property name="addLinePlacement" value="BOTTOM" />
         <property name="renderAddBlankLineButton" value="true" />
         <property name="validationMessages.displayMessages" value="false"/>
         <property name="renderLineActions" value="false" />

@@ -46,6 +46,8 @@ import org.kuali.student.cm.course.form.CourseInfoWrapper;
 import org.kuali.student.cm.course.form.LoDisplayInfoWrapper;
 import org.kuali.student.cm.course.form.LoDisplayWrapperModel;
 import org.kuali.student.cm.course.form.RecentlyViewedDocsUtil;
+import org.kuali.student.cm.course.form.ResultValueKeysWrapper;
+import org.kuali.student.cm.course.form.ResultValuesGroupInfoWrapper;
 import org.kuali.student.cm.course.form.SupportingDocumentInfoWrapper;
 import org.kuali.student.cm.course.form.CourseCreateUnitsContentOwner;
 import org.kuali.student.cm.course.service.CourseInfoMaintainable;
@@ -615,6 +617,35 @@ public class CourseController extends CourseRuleEditorController {
         return getUIFModelAndView(form);
     }
 
+
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=addMultipleActivity")
+    public ModelAndView addMultipleActivity(@ModelAttribute("KualiForm") MaintenanceDocumentForm form) {
+
+        String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        if (StringUtils.isBlank(selectedCollectionPath)) {
+            throw new RuntimeException("Selected collection was not set for add line action, cannot add new line");
+        }
+
+        String selectedCollectionIndex = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
+        int selectedIndex = 0;
+        
+        if (StringUtils.isBlank(selectedCollectionIndex)) {
+            selectedIndex = Integer.parseInt(selectedCollectionIndex);    
+        }
+
+        CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
+
+        ResultValuesGroupInfoWrapper rvg = courseInfoWrapper.getCreditOptionWrappers().get(selectedIndex);
+        String newMultipleValue = rvg.getResultValueRange().getMinValue();
+        rvg.getResultValueRange().setMinValue("");
+
+        ResultValueKeysWrapper newValue = new ResultValueKeysWrapper();
+        newValue.setCreditValueDisplay(newMultipleValue);
+
+        rvg.getResultValueKeysDisplay().add(newValue);
+
+        return getUIFModelAndView(form);
+    }
     /**
      *
      * @param form
