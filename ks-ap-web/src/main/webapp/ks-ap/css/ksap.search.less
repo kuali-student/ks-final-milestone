@@ -692,6 +692,7 @@ table.ksap-course-search-results-datatable .blockUI {
 }
 
 .ksap-facets-panel .uif-boxLayoutVerticalItem,
+.ksap-facets-panel .ksap-facets-group.uif-boxLayoutVerticalItem,
 .ksap-facets-panel .ksap-facets-group ul,
 .ksap-facets-panel .ksap-facets-group ul li {
   margin: 0;
@@ -700,12 +701,12 @@ table.ksap-course-search-results-datatable .blockUI {
 
 .ksap-facets-group a[id$='_toggle'] {
   text-decoration: none;
+  line-height: 2.5em;
 }
 
 .ksap-facets-panel .uif-header {
-  background: #f5f2e8;
-  padding: 7px 10px;
-  border: none;
+  background: #eee;
+  border: 1px solid #ddd;
 }
 
 .ksap-facets-panel .uif-header.primary {
@@ -726,10 +727,12 @@ table.ksap-course-search-results-datatable .blockUI {
 
 .ksap-facets-panel .uif-headerText {
   font-size: 13px;
-  font-weight: normal;
+  font-weight: bold;
   vertical-align: middle;
-  display: inline-block;
   padding: 0px;
+}
+.ksap-facets-panel .uif-headerText-span {
+  display: block !important;
 }
 
 .ksap-facets-panel h5.uif-headerText {
@@ -740,36 +743,6 @@ table.ksap-course-search-results-datatable .blockUI {
 .ksap-facets-panel h6.uif-headerText {
   color: #323232;
   text-transform: none;
-}
-
-.ksap-facets-panel .ksap-facets-group .uif-header img.uif-disclosure-image {
-  position: absolute;
-  top: 9px;
-  right: 10px;
-  /*
-      @TODO ksap-961 use icon font instead of images
-  */
-  background: url('../images/ksap_icon_sprites.png') no-repeat 0px -16px;
-  margin: 0;
-  padding: 0;
-  width: 16px;
-  height: 16px;
-
-}
-.ksap-facets-panel .ksap-facets-group .uif-header img.uif-disclosure-image[alt="expand"] {
-  background-position: 0px -16px;
-}
-
-.ksap-facets-panel .ksap-facets-group .uif-header img.uif-disclosure-image[alt="expand"]:hover {
-  background-position: -16px -16px;
-}
-
-.ksap-facets-panel .ksap-facets-group .uif-header img.uif-disclosure-image[alt="collapse"] {
-  background-position: 0px -32px;
-}
-
-.ksap-facets-panel .ksap-facets-group .uif-header img.uif-disclosure-image[alt="collapse"]:hover {
-  background-position: -16px -32px;
 }
 
 .ksap-facets-panel .ksap-facets-group div.facets {

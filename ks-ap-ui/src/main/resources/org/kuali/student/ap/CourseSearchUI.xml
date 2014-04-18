@@ -355,13 +355,6 @@
 				<value>ksap-facets-group</value>
 			</list>
 		</property>
-        <property name="disclosure">
-            <bean parent="Uif-Disclosure">
-                <!-- Blank images, real ones are set by css-->
-                <property name="collapseImageSrc" value="@{#ConfigProperties['ks.ap.externalizable.images.url']}pixel.gif"/>
-                <property name="expandImageSrc" value="@{#ConfigProperties['ks.ap.externalizable.images.url']}pixel.gif"/>
-            </bean>
-        </property>
 	</bean>
 
 	<bean id="facet_quarter" parent="facet-parent" p:headerText="Scheduled Terms"/>
