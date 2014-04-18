@@ -1147,25 +1147,37 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             List<ActivityInfoWrapper> activityInfoWrapperList = new ArrayList<ActivityInfoWrapper>();
             for (ActivityInfo activityInfo : formatInfo.getActivities()) {
 
-                String durationTypeKey = "";
-                if (activityInfo.getContactHours() != null){
-                    durationTypeKey = activityInfo.getContactHours().getUnitTypeKey();
-                }
-
                 Integer anticipatedClassSize = activityInfo.getDefaultEnrollmentEstimate();
                 String activityType = activityInfo.getTypeKey();
 
-                String durationCount = "";
-                if (activityInfo.getDuration() != null && activityInfo.getDuration().getTimeQuantity() != null) {
-                    durationCount = activityInfo.getDuration().getTimeQuantity().toString();
-                }
-
                 String contactHours = "";
-                if (activityInfo.getContactHours() != null && activityInfo.getContactHours().getUnitQuantity() != null) {
-                    contactHours = activityInfo.getContactHours().getUnitQuantity();
+                String durationCount = "";
+
+                if (activityInfo.getDuration() != null){
+                    String durationType = activityInfo.getDuration().getAtpDurationTypeKey();
+                    durationType = StringUtils.substringAfterLast(durationType,".");
+
+                    if (activityInfo.getDuration().getTimeQuantity() != null) {
+                        durationCount = activityInfo.getDuration().getTimeQuantity().toString();
+                    }
+                    durationCount = durationCount + " per " + durationType;
                 }
 
-                ActivityInfoWrapper activityInfoWrapper = new ActivityInfoWrapper(durationTypeKey, anticipatedClassSize, activityType, durationCount, contactHours);
+                if (activityInfo.getContactHours() != null){
+
+                    String contactType = activityInfo.getContactHours().getUnitTypeKey();
+                    contactType = StringUtils.substringAfterLast(contactType,".");
+
+                    if (activityInfo.getContactHours().getUnitQuantity() != null) {
+                        contactHours = activityInfo.getContactHours().getUnitQuantity();
+                    }
+
+                    contactHours = contactHours + " per " + contactType;
+
+                }
+
+
+                ActivityInfoWrapper activityInfoWrapper = new ActivityInfoWrapper(anticipatedClassSize, activityType, durationCount, contactHours);
                 activityInfoWrapperList.add(activityInfoWrapper);
             }
             FormatInfoWrapper formatInfoWrapper = new FormatInfoWrapper(activityInfoWrapperList);

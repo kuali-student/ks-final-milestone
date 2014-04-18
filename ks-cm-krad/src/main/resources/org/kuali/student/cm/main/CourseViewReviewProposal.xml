@@ -385,7 +385,7 @@
                                                             <list>
                                                                 <bean parent="CM-ReadOnlyInput" p:label="Contact Hours"
                                                                       p:fieldLabel.style="white-space : nowrap; margin-left : -4px;"
-                                                                      p:propertyName="duration" p:colSpan="1"/>
+                                                                      p:propertyName="contactHours" p:colSpan="1"/>
                                                                 <bean parent="CM-ReadOnlyInput" p:label="Duration"
                                                                       p:propertyName="durationCount" p:colSpan="1"/>
                                                                 <bean parent="CM-ReadOnlyInput"

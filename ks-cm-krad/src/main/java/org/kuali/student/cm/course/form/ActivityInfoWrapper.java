@@ -17,30 +17,31 @@
 
 package org.kuali.student.cm.course.form;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * Wrapper for Activities for Review Proposal page.
  */
 public class ActivityInfoWrapper {
 
-    private String duration;
-    private String durationCount;
-    private String contactHours;
     private String activityType;
     private Integer anticipatedClassSize;
+    private String durationCount;
+    private String contactHours;
 
+    @SuppressWarnings("unused")
     public ActivityInfoWrapper(){
 
     }
 
-    public ActivityInfoWrapper(String duration, Integer anticipatedClassSize, String activityType, String durationCount, String contactHours) {
+    public ActivityInfoWrapper(Integer anticipatedClassSize, String activityType, String durationCount, String contactHours) {
         this.durationCount = durationCount;
-        setDuration(duration);
-        setDurationCount(durationCount);
         this.anticipatedClassSize = anticipatedClassSize;
         this.activityType = activityType;
         this.contactHours = contactHours;
     }
 
+    @SuppressWarnings("unused")
     public String getActivityType() {
         if (activityType == null)
             return "";
@@ -50,48 +51,19 @@ public class ActivityInfoWrapper {
         return activityType.substring(activityType.lastIndexOf(".") + 1);
     }
 
-    public void setActivityType(String activityType) {
-        activityType = activityType;
-    }
-
+    @SuppressWarnings("unused")
     public String getContactHours() {
-        if (contactHours == null)
-            return "";
-        return contactHours;
+        return StringUtils.defaultIfEmpty(contactHours,"");
     }
 
-    public void setContactHours(String contactHours) {
-        this.contactHours = contactHours;
-    }
-
+    @SuppressWarnings("unused")
     public Integer getAnticipatedClassSize() {
         return anticipatedClassSize;
     }
 
-    public void setAnticipatedClassSize(Integer anticipatedClassSize) {
-        this.anticipatedClassSize = anticipatedClassSize;
-    }
-
+    @SuppressWarnings("unused")
     public String getDurationCount() {
-        if (durationCount == null)
-            return "";
-        return durationCount;
+        return StringUtils.defaultIfEmpty(durationCount,"");
     }
 
-    public void setDurationCount(String durationCount) {
-        this.durationCount = durationCount + " Term(s)";
-    }
-
-    public String getDuration() {
-        return duration;
-    }
-
-    public void setDuration(String durationTypeKey) {
-        if (durationTypeKey.contains("Month"))
-            this.duration = durationCount + " per month";
-        else if (durationTypeKey.contains("Week"))
-            this.duration = durationCount + " per week";
-        else if (durationTypeKey.contains("Day"))
-            this.duration = durationCount + " per day";
-    }
 }
