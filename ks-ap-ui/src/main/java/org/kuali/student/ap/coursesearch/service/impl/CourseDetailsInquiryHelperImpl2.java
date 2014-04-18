@@ -111,19 +111,15 @@ public class CourseDetailsInquiryHelperImpl2 extends KualiInquirableImpl {
         courseDetails.setScheduledTerms(KsapFrameworkServiceLocator.getCourseHelper()
                 .getScheduledTermsForCourse(course));
         courseDetails.setProjectedTerms(getProjectedTerms(course));
-        // Requirement from KSAP-1030
-        //- If the course is not scheduled for any terms, then display “Not currently scheduled” and add a field for
-        // “Last Offered: (term last offered)” - The Last Offered term should be the most recently offered, this
-        // includes the current term if the Registration Key Date: "Last Day to Add Classes"  has passed.
-        //-Only display Last Offered if it has been offered within the last 10 years.
-        //      -If the course is not scheduled and has not been offered within the last 10 years, then only the
-        // “Not currently scheduled” message should display beside Scheduled For.
+
+        // Load Last Offered Term information if course is not scheduled
         if(courseDetails.getScheduledTerms().isEmpty()){
             Term lastOfferedTerm = KsapFrameworkServiceLocator.getCourseHelper().getLastOfferedTermForCourse(course);
             if (lastOfferedTerm != null){
                 courseDetails.setLastOffered(lastOfferedTerm.getName());
             }
             else {
+                // If no last offered is found set as null
                 courseDetails.setLastOffered(null);
             }
         }else{
