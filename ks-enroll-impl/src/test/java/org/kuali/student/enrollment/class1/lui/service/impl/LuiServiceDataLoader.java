@@ -76,7 +76,7 @@ public class LuiServiceDataLoader {
         loadLui("Lui-18", "Lui eight", "cluId8", "atpId8", "kuali.lui.type.activity.offering.lecture", LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY, "<p>Lui Desc 701</p>", "Lui Desc 701", "2011-01-01 00:00:00.0", "2011-12-31 00:00:00.0", 200, 50, "ref.url");
         loadLui("Lui-19", "Lui nine", "cluId9", "atpId9", "kuali.lui.type.exam.offering.final", LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY, "<p>Lui Desc 901</p>", "Lui Desc 901", "2011-01-01 00:00:00.0", "2011-12-31 00:00:00.0", 200, 50, "ref.url");
         loadLui("Lui-20", "Lui ten", "cluId10", "atpId10", "kuali.lui.type.exam.offering.final", LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY, "<p>Lui Desc 1001</p>", "Lui Desc 1001", "2011-01-01 00:00:00.0", "2011-12-31 00:00:00.0", 200, 50, "ref.url");
-        loadLui("Lui-EO-2", "Lui EO one", "cluId10", "examPeriod100", "kuali.lui.type.exam.offering.final", "kuali.lui.exam.offering.state.draft", "<p>Lui Desc 901</p>", "Lui Desc 901", "2011-01-01 00:00:00.0", "2011-12-31 00:00:00.0", 200, 50, "ref.url");
+        loadLui("Lui-EO-2", "Lui EO two", "cluIdEO2", "examPeriod100", "kuali.lui.type.exam.offering.final", "kuali.lui.exam.offering.state.draft", "<p>Lui Desc 901</p>", "Lui Desc 901", "2011-01-01 00:00:00.0", "2011-12-31 00:00:00.0", 200, 50, "ref.url");
 
 
         
@@ -191,6 +191,7 @@ public class LuiServiceDataLoader {
         addIdentifier("LUI-IDENT-7", "MATH123", "MATH", "456", "Mathematics 456", "Math 456", "kuali.lui.identifier.type.cross-listed", null, "Lui-4");
         addIdentifier("LUI-IDENT-9", "EXAMOFFERING9", "MATH", "123", "Exam Offering 9", "Exam Offering 9", "kuali.lui.identifier.type.official", null, "Lui-9");
         addIdentifier("LUI-IDENT-10", "EXAMOFFERING1", "MATH", "456", "Exam Offering 1", "Exam Offering 1", "kuali.lui.identifier.type.official", null, "Lui-EO-1");
+        addIdentifier("LUI-IDENT-11", "EXAMOFFERING2", "MATH", "466", "Exam Offering 2", "Exam Offering 2", "kuali.lui.identifier.type.official", null, "Lui-EO-2");
     }
 
     private void addIdentifier(String id,

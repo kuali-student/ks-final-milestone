@@ -55,7 +55,6 @@ import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -154,7 +153,7 @@ public class TestExamOfferingServiceImpl {
     {
         List<ExamOfferingInfo> examOfferingInfos = examOfferingService.getExamOfferingsByExamPeriod("examPeriod100", callContext);
         assertNotNull(examOfferingInfos);
-        assertEquals(1, examOfferingInfos.size());
+        assertEquals(2, examOfferingInfos.size());
         assertEquals(examOfferingInfos.get(0).getId(), "Lui-EO-1");
 
     }
@@ -292,7 +291,7 @@ public class TestExamOfferingServiceImpl {
         createTypes();
         List<String> examOfferingIds = examOfferingService.getExamOfferingIdsByType ("kuali.lu.type.exam.final", callContext);
         assertNotNull(examOfferingIds);
-        assertEquals(3, examOfferingIds.size());
+        assertEquals(6, examOfferingIds.size());
     }
 
     private void createTypes () throws InvalidParameterException, DataValidationErrorException, MissingParameterException, AlreadyExistsException, ReadOnlyException, PermissionDeniedException, OperationFailedException, DoesNotExistException {
