@@ -800,16 +800,16 @@
         </search:searchCriteriaTypeInfo>
     </search:searchType>
 
-    <search:searchType id="org.search.orgCurriculum" parent="org.search.orgCurriculum-parent"/>
-    <search:searchType id="org.search.orgCurriculum-parent" abstract="true">
+    <search:searchType id="org.search.orgSubjectAreas" parent="org.search.orgSubjectAreas-parent"/>
+    <search:searchType id="org.search.orgSubjectAreas-parent" abstract="true">
         <search:searchResultTypeInfo>
             <search:name/>
             <search:desc/>
             <search:resultColumns>
-                <search:resultColumn id="org.resultColumn.attrValue">
+                <search:resultColumn id="org.resultColumn.shortName">
                     <search:dataType>string</search:dataType>
                 </search:resultColumn>
-                <search:resultColumn id="org.resultColumn.name">
+                <search:resultColumn id="org.resultColumn.shortDescription">
                     <search:dataType>string</search:dataType>
                 </search:resultColumn>
             </search:resultColumns>
@@ -946,11 +946,11 @@
                         org.type.id = :org_queryParam_orgType
                     </value>
                 </entry>
-                <entry key="org.search.orgCurriculum">
+                <entry key="org.search.orgSubjectAreas">
                     <value>NATIVE:
-                        SELECT attr.ATTR_VALUE,org.SHRT_DESCR
-                        from KSOR_ORG org JOIN KSOR_ORG_ATTR attr on attr.OWNER=org.ID
-                        where TYPE='kuali.org.type.curriculum' and attr.ATTR_NAME='org.abbreviation'
+                        SELECT org.SHRT_NAME, org.SHRT_DESCR
+                        from KSOR_ORG org
+                        where org.TYPE ='kuali.org.SubjectCode'
                     </value>
                 </entry>
 			</map>
