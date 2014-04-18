@@ -34,6 +34,7 @@ import org.kuali.student.common.uif.rule.KsMaintenanceDocumentRuleBase;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.core.constants.OrganizationServiceConstants;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
+import org.kuali.student.r2.lum.course.dto.CourseVariationInfo;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -56,35 +57,49 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
 
         boolean success = super.processSaveDocument(document);
 
-        if (!success){
+        if (!success) {
             return success;
         }
 
         MaintenanceDocument maintenanceDocument = (MaintenanceDocument) document;
         CourseInfoWrapper dataObject = (CourseInfoWrapper) maintenanceDocument.getNewMaintainableObject().getDataObject();
 
-        if (StringUtils.isBlank(dataObject.getProposalInfo().getName())){
+        if (StringUtils.isBlank(dataObject.getProposalInfo().getName())) {
             GlobalVariables.getMessageMap().putError(DATA_OBJECT_PATH + ".proposalInfo.name",
                     CurriculumManagementConstants.MessageKeys.ERROR_PROPOSAL_TITLE_REQUIRED);
             success = false;
         }
 
-        if (StringUtils.isBlank(dataObject.getCourseInfo().getCourseTitle())){
+        if (StringUtils.isBlank(dataObject.getCourseInfo().getCourseTitle())) {
             GlobalVariables.getMessageMap().putError(DATA_OBJECT_PATH + ".courseInfo.courseTitle",
                     CurriculumManagementConstants.MessageKeys.ERROR_COURSE_TITLE_REQUIRED);
             success = false;
         }
 
-        if(dataObject.getCourseInfo().getDuration() != null) {
-            if(dataObject.getCourseInfo().getDuration().getTimeQuantity() == null
-                || StringUtils.isBlank(dataObject.getCourseInfo().getDuration().getTimeQuantity().toString())) {
-                  if(StringUtils.isNotBlank(dataObject.getCourseInfo().getDuration().getAtpDurationTypeKey())) {
-                      GlobalVariables.getMessageMap().putError(DATA_OBJECT_PATH + ".courseInfo.duration.timeQuantity",
-                              CurriculumManagementConstants.MessageKeys.ERROR_COURSE_DURATION_COUNT_REQUIRED);
-                      success = false;
-                  }
+        if (dataObject.getCourseInfo().getDuration() != null) {
+            if (dataObject.getCourseInfo().getDuration().getTimeQuantity() == null
+                    || StringUtils.isBlank(dataObject.getCourseInfo().getDuration().getTimeQuantity().toString())) {
+                if (StringUtils.isNotBlank(dataObject.getCourseInfo().getDuration().getAtpDurationTypeKey())) {
+                    GlobalVariables.getMessageMap().putError(DATA_OBJECT_PATH + ".courseInfo.duration.timeQuantity",
+                            CurriculumManagementConstants.MessageKeys.ERROR_COURSE_DURATION_COUNT_REQUIRED);
+                    success = false;
+                }
             }
         }
+
+        if (dataObject.getCourseInfo().getVariations() != null) {
+
+            for (CourseVariationInfo courseVariationInfo : dataObject.getCourseInfo().getVariations())
+                if (courseVariationInfo.getVariationCode() != null && courseVariationInfo.getVariationTitle() != null) {
+                    if ((StringUtils.isBlank(courseVariationInfo.getVariationCode()) && StringUtils.isNotBlank(courseVariationInfo.getVariationTitle())) ||
+                            StringUtils.isNotBlank(courseVariationInfo.getVariationCode()) && StringUtils.isBlank(courseVariationInfo.getVariationTitle())) {
+                        GlobalVariables.getMessageMap().putError(DATA_OBJECT_PATH + ".courseInfo.CourseVariationInfo",
+                                CurriculumManagementConstants.MessageKeys.ERROR_COURSE_VERSION_CODE_AND_TITLE_REQUIRED);
+                        success = false;
+                    }
+                }
+        }
+
 
         success = success && validateInstructor(dataObject);
         success = success && validateOrganization(dataObject);
@@ -92,13 +107,13 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
         return success;
     }
 
-    protected boolean validateInstructor(CourseInfoWrapper dataObject){
+    protected boolean validateInstructor(CourseInfoWrapper dataObject) {
 
         List<CluInstructorInfoWrapper> instructorToRemove = new ArrayList<CluInstructorInfoWrapper>();
 
         for (CluInstructorInfoWrapper instructorDisplay : dataObject.getInstructorWrappers()) {
 
-            if (StringUtils.isBlank(instructorDisplay.getDisplayName())){
+            if (StringUtils.isBlank(instructorDisplay.getDisplayName())) {
 
                 instructorToRemove.add(instructorDisplay);
 
@@ -109,10 +124,10 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
                 searchCriteria.put(KIMPropertyConstants.Person.PRINCIPAL_NAME, principalName);
                 List<Person> persons = getPersonService().findPeople(searchCriteria);
 
-                if (persons.isEmpty()){
+                if (persons.isEmpty()) {
                     GlobalVariables.getMessageMap().putErrorForSectionId("instructor-section", CurriculumManagementConstants.MessageKeys.ERROR_DATA_NOT_FOUND, "Instructor", principalName);
                     return false;
-                } else if (persons.size() > 1){
+                } else if (persons.size() > 1) {
                     GlobalVariables.getMessageMap().putErrorForSectionId("instructor-section", CurriculumManagementConstants.MessageKeys.ERROR_DATA_MULTIPLE_MATCH_FOUND, "Instructor", principalName);
                     return false;
                 } else {
@@ -136,26 +151,26 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
      * @param dataObject
      * @return
      */
-    protected boolean validateOrganization(CourseInfoWrapper dataObject){
+    protected boolean validateOrganization(CourseInfoWrapper dataObject) {
 
         dataObject.getCourseInfo().getUnitsDeployment().clear();
 
-        for(OrganizationInfoWrapper organizationInfoWrapper :dataObject.getAdministeringOrganizations()) {
+        for (OrganizationInfoWrapper organizationInfoWrapper : dataObject.getAdministeringOrganizations()) {
 
-            if (StringUtils.isNotBlank(organizationInfoWrapper.getOrganizationName())){
+            if (StringUtils.isNotBlank(organizationInfoWrapper.getOrganizationName())) {
 
                 List<OrganizationInfoWrapper> orgs = OrganizationSearchUtil.searchForOrganizations(organizationInfoWrapper.getOrganizationName(), getOrganizationService());
 
-                if (orgs.isEmpty()){
+                if (orgs.isEmpty()) {
                     GlobalVariables.getMessageMap().putErrorForSectionId("administering-organization", CurriculumManagementConstants.MessageKeys.ERROR_DATA_NOT_FOUND, "Org", organizationInfoWrapper.getOrganizationName());
                     return false;
-                } else if (orgs.size() > 1){
+                } else if (orgs.size() > 1) {
                     GlobalVariables.getMessageMap().putErrorForSectionId("administering-organization", CurriculumManagementConstants.MessageKeys.ERROR_DATA_MULTIPLE_MATCH_FOUND, "Org", organizationInfoWrapper.getOrganizationName());
                     return false;
                 } else {
-                    try{
+                    try {
                         dataObject.getCourseInfo().getUnitsDeployment().add(KSCollectionUtils.getOptionalZeroElement(orgs).getId());
-                    }catch (OperationFailedException e){
+                    } catch (OperationFailedException e) {
                         throw new RuntimeException(e);
                     }
                 }
@@ -167,7 +182,7 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
     }
 
     protected OrganizationService getOrganizationService() {
-           return (OrganizationService) GlobalResourceLoader.getService(new QName(OrganizationServiceConstants.NAMESPACE, OrganizationServiceConstants.SERVICE_NAME_LOCAL_PART));
+        return (OrganizationService) GlobalResourceLoader.getService(new QName(OrganizationServiceConstants.NAMESPACE, OrganizationServiceConstants.SERVICE_NAME_LOCAL_PART));
     }
 
     /**
