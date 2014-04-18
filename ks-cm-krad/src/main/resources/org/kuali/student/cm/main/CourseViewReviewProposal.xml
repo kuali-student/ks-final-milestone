@@ -274,7 +274,7 @@
                             <bean parent="CM-ReadOnlyInput" p:label="Terms" id="courseLogisticsSection_terms"
                                   p:propertyName="reviewProposalDisplay.courseLogisticsSection.termsAsString"/>
                             <bean parent="CM-ReadOnlyInput" p:label="Duration" id="courseLogisticsSection_atpDurationType"
-                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.atpDurationType"/>
+                                  p:propertyName="reviewProposalDisplay.courseLogisticsSection.durationAsString"/>
                             <bean parent="CM-ReadOnlyInput" p:label="Assessment Scale" id="courseLogisticsSection_gradingOptions"
                                 p:propertyName="reviewProposalDisplay.courseLogisticsSection.gradingOptionsAsString">
                                 <!-- Make required for state enroute -->

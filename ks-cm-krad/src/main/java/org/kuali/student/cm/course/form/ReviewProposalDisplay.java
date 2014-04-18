@@ -348,6 +348,15 @@ public class ReviewProposalDisplay {
             this.timeQuantity = timeQuantity;
         }
 
+        public String getDurationAsString() {
+            String quatity = StringUtils.EMPTY;
+            if(timeQuantity != null && timeQuantity.intValue() > 0 ) {
+                quatity = timeQuantity.toString() + " ";
+            }
+
+            return quatity + atpDurationType + "(s)";
+        }
+
         public void setPassFail(String passFail) {
             this.passFail = passFail;
         }
