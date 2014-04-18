@@ -1,5 +1,6 @@
 package org.kuali.student.ap.test.mock;
 
+import org.kuali.student.ap.academicplan.infc.PlanItem;
 import org.kuali.student.ap.framework.context.CourseHelper;
 import org.kuali.student.ap.coursesearch.CourseSearchItem;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
@@ -81,6 +82,11 @@ public class CourseHelperMockTest implements CourseHelper {
 
     @Override
     public boolean isCourseOffered(Term term, Course course) {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public boolean isCourseBookmarked(Course course, List<PlanItem> planItems){
         return false;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }

@@ -127,10 +127,10 @@ public class CourseDetailsInquiryHelperImpl2 extends KualiInquirableImpl {
         }
 
         //Load plan status information
-        List<PlanItem> planItems = loadStudentsPlanItemsForCourse(course);
+        List<PlanItem> planItems = KsapFrameworkServiceLocator.getPlanHelper().loadStudentsPlanItemsForCourse(course);
         courseDetails.setPlannedMessage(createPlanningStatusMessages(planItems));
         courseDetails.setBookmarkMessage(createBookmarkStatusMessages(planItems));
-        courseDetails.setBookmarked(isBookmarked(course, planItems));
+        courseDetails.setBookmarked(KsapFrameworkServiceLocator.getCourseHelper().isCourseBookmarked(course, planItems));
 
         return courseDetails;
     }
@@ -342,54 +342,4 @@ public class CourseDetailsInquiryHelperImpl2 extends KualiInquirableImpl {
         return projectedTerms;
     }
 
-    /**
-     * Determine if the course is already bookmarked in the student's plan
-     *
-     * @param course - Course that is being displayed
-     * @param planItems - The list of plan items for the course
-     * @return True if the course is already bookmarked for the plan
-     */
-    protected boolean isBookmarked(Course course, List<PlanItem> planItems){
-        for(PlanItem item : planItems){
-            if(item.getCategory().equals(AcademicPlanServiceConstants.ItemCategory.WISHLIST)){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Retrieve the list of plan items for this course in the student's plan
-     *
-     * @param course - Course that is being displayed
-     * @return A List of plan items related to the course.
-     */
-    protected List<PlanItem> loadStudentsPlanItemsForCourse(Course course) {
-        String studentId = KsapFrameworkServiceLocator.getUserSessionHelper().getStudentId();
-        if (studentId == null)
-            return new ArrayList<PlanItem>();
-
-        try {
-            // Retrieve plan items for the student's default plan
-            LearningPlanInfo learningPlan = KsapFrameworkServiceLocator.getPlanHelper().getDefaultLearningPlan();
-            List<PlanItemInfo> planItems = KsapFrameworkServiceLocator.getAcademicPlanService().getPlanItemsInPlan(
-                    learningPlan.getId(), KsapFrameworkServiceLocator.getContext().getContextInfo());
-            List<PlanItem> planItemsForCourse = new ArrayList<PlanItem>();
-
-            // Filter plan items by the course
-            for(PlanItem item : planItems){
-                if(item.getRefObjectId().equals(course.getId())){
-                    planItemsForCourse.add(new PlanItemInfo(item));
-                }
-            }
-
-            return planItemsForCourse;
-        } catch (InvalidParameterException e) {
-            throw new IllegalArgumentException("LP lookup failure ", e);
-        } catch (MissingParameterException e) {
-            throw new IllegalStateException("LP lookup failure ", e);
-        } catch (OperationFailedException e) {
-            throw new IllegalStateException("LP lookup failure ", e);
-        }
-    }
 }

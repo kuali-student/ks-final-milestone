@@ -184,6 +184,11 @@ public class PlannerController extends KsapControllerBase {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing course for summary " + pageId);
 			return null;
 		}
+        else{
+            //Load course related planItems to identify if the course has been bookmarked
+            List<PlanItem> planItems = KsapFrameworkServiceLocator.getPlanHelper().loadStudentsPlanItemsForCourse(course);
+            form.setBookmarked(KsapFrameworkServiceLocator.getCourseHelper().isCourseBookmarked(course, planItems));
+        }
 
 		uifForm.setViewId(DIALOG_FORM);
 		uifForm.setView(super.getViewService().getViewById(DIALOG_FORM));

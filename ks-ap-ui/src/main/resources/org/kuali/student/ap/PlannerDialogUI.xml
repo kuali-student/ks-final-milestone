@@ -620,6 +620,7 @@
                 <bean parent="planner_course_credit_input_field" />
                 <bean parent="planner_course_note_input" />
                 <bean parent="planner_backup_input"/>
+                <bean parent="planner_bookmark_input"/>
                 <bean parent="planner_hidden_input" p:propertyName="courseId" />
                 <bean parent="planner_hidden_input" p:propertyName="uniqueId" />
             </list>
@@ -869,6 +870,10 @@
     <bean id="planner_backup_input"  parent="Uif-CheckboxInputField"
           p:label="Mark as backup"  p:propertyName="backup"
           p:labelPlacement="RIGHT" p:fieldLabel.renderColon="false" />
+
+    <bean id="planner_bookmark_input"  parent="Uif-CheckboxInputField"
+          p:label="Keep the course bookmarked"  p:propertyName="keepBookmarked"
+          p:labelPlacement="RIGHT" p:fieldLabel.renderColon="false" p:defaultValue="false" p:render="@{bookmarked}"/>
 
 	<bean id="planner_error_placeholder" parent="Uif-HorizontalBoxGroup"
 			p:hidden="true" p:additionalCssClasses="ksap-feedback,error,ks-Popover-error" />

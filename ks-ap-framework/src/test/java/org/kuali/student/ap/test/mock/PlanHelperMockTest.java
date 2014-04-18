@@ -1,8 +1,10 @@
 package org.kuali.student.ap.test.mock;
 
 import org.kuali.student.ap.academicplan.dto.LearningPlanInfo;
+import org.kuali.student.ap.academicplan.infc.PlanItem;
 import org.kuali.student.ap.framework.context.PlanHelper;
 import org.kuali.student.r2.core.acal.infc.Term;
+import org.kuali.student.r2.lum.course.infc.Course;
 
 import java.util.List;
 
@@ -44,4 +46,16 @@ public class PlanHelperMockTest implements PlanHelper{
     public List<Term> getPlannerCalendarTerms(Term startTerm) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
+
+    /**
+     * Retrieve the list of plan items for this course in the student's plan
+     *
+     * @param course - Course that is being displayed
+     * @return A List of plan items related to the course.
+     */
+    @Override
+    public List<PlanItem> loadStudentsPlanItemsForCourse(Course course){
+        return null; //To change body of implemented methods use File | Settings | File Templates.
+    }
+
 }

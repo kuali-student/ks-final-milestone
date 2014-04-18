@@ -67,6 +67,13 @@ public class DefaultPlannerForm extends AbstractPlanItemForm implements
 	private String courseNote;
 	private String termNote;
 	private boolean backup;
+    //used to indicated if the course has been bookmarked in KSAP
+    //Note: because when bookmarked is true, we need to display
+    //      the checkbox of keepBookmarked and leave it as unchecked by default,
+    //      we have to define two separate fields
+    private boolean bookmarked;
+    //used to hold the checkbox value in "Add to Plan" popover form
+    private boolean keepBookmarked;
 
 	private AcademicPlanServiceConstants.ItemCategory expectedPlanItemCategory;
 	private AcademicPlanServiceConstants.ItemCategory targetPlanItemCategory;
@@ -100,7 +107,23 @@ public class DefaultPlannerForm extends AbstractPlanItemForm implements
 		this.backup = backup;
 	}
 
-	@Override
+    public boolean isBookmarked() {
+        return bookmarked;
+    }
+
+    public void setBookmarked(boolean bookmarked) {
+        this.bookmarked = bookmarked;
+    }
+
+    public boolean isKeepBookmarked() {
+        return keepBookmarked;
+    }
+
+    public void setKeepBookmarked(boolean keepBookmarked) {
+        this.keepBookmarked = keepBookmarked;
+    }
+
+    @Override
 	public void setCourseId(String courseId) {
 		super.setCourseId(courseId);
 		this.creditString = null;

@@ -1,5 +1,6 @@
 package org.kuali.student.ap.framework.context;
 
+import org.kuali.student.ap.academicplan.infc.PlanItem;
 import org.kuali.student.ap.coursesearch.CourseSearchItem;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -118,5 +119,14 @@ public interface CourseHelper {
      * @return True if found, false if not
      */
     boolean isCourseOffered(Term term, Course course);
+
+    /**
+     * Determine if the course is already bookmarked in the student's plan
+     *
+     * @param course - Course that is being displayed
+     * @param planItems - The list of plan items for the course
+     * @return True if the course is already bookmarked for the plan
+     */
+    boolean isCourseBookmarked(Course course, List<PlanItem> planItems);
 
 }
