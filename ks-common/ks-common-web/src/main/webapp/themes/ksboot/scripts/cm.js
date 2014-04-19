@@ -59,6 +59,16 @@ function onProposalReviewLoad() {
     }
 
     fixReadOnlyInputSizes();
+
+    /*
+     * Remove validation error popups. It doesn't work to simply call .Remove here because it causes an error in the
+     * initialization that happens after this method completes. Putting it in ready() executes it near the end.
+     */
+    jQuery(document).ready(
+        function() {
+            jQuery("[id$=_control]").RemoveBubblePopup();
+        }
+    );
 }
 
 /**
