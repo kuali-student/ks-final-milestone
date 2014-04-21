@@ -354,7 +354,7 @@ public class ReviewProposalDisplay {
                 quatity = timeQuantity.toString() + CurriculumManagementConstants.COLLECTION_ITEMS_WHITESPACE_DELIMITER;
             }
 
-            return quatity + atpDurationType + "(s)";
+            return quatity + atpDurationType + CurriculumManagementConstants.COLLECTION_ITEM_PLURAL_END;
         }
 
         public void setPassFail(String passFail) {
