@@ -127,18 +127,18 @@ function fixLeftNavElementPositioning(initial) {
 
     //  If the header text for the tab exists then position it.
     if (tabPanelHeader.length != 0) {
-        tabPanelHeader.css({ top: anchorBottom });
+        tabPanelHeader.css({ top:anchorBottom });
         anchorElement = tabPanelHeader;
         anchorBottom = getBottom(anchorElement);
     }
 
     //  Position the tab panel.
-    tabPanel.css({top: anchorBottom});
+    tabPanel.css({top:anchorBottom});
 
     //  Position the text under the tab panel if it exists.
     if (tabPanelFooter.length != 0) {
         anchorBottom = getBottom(tabPanel);
-        tabPanelFooter.css({ top: anchorBottom });
+        tabPanelFooter.css({ top:anchorBottom });
     }
 }
 
@@ -266,11 +266,11 @@ function scrollToSection(sectionId, focus) {
 
     //  Scroll to the selected tab.
     jQuery('html body').animate(
-        { scrollTop: (jQuery(sectionId).offset().top - jQuery(".uif-viewHeader-contentWrapper").outerHeight(true))},
+        { scrollTop:(jQuery(sectionId).offset().top - jQuery(".uif-viewHeader-contentWrapper").outerHeight(true))},
         {
-            duration: 750,
-            queue: false,
-            complete: function () {
+            duration:750,
+            queue:false,
+            complete:function () {
                 //  Re-bind window scroll handler for active tab.
                 jQuery(window).on('scroll.' + activateTabEventNamespace, handleActiveTabOnWindowScroll);
                 //  Give focus to the first input widget.
@@ -377,7 +377,7 @@ function showLightbox(componentId, url) {
     parent.jQuery('head').append('<link href="' + url + '/ks-enroll/css/acal.css" rel="stylesheet" type="text/css">');
     parent.jQuery('head').append('<link href="' + url + '/ks-enroll/css/ks-jquery.css" rel="stylesheet" type="text/css">');
 
-    var overrideOptions = { afterClose: function () {
+    var overrideOptions = { afterClose:function () {
         // Remove the following css files before the lightbox appearing
         parent.jQuery('link[href="' + url + '/kr-dev/rice-portal/css/lightbox.css"]').remove();
         parent.jQuery('link[href="' + url + '/krad/css/global/fss-reset.css"]').remove();
@@ -400,10 +400,10 @@ function showLightbox(componentId, url) {
 }
 
 function setupCharCounters() {
-    jQuery(".cm-charcount-max-24").jqEasyCounter({'maxChars': 24, 'maxCharsWarning': 14, 'msgTextAlign': 'left'});
-    jQuery(".cm-charcount-max-255").jqEasyCounter({'maxChars': 255, 'maxCharsWarning': 220, 'msgTextAlign': 'left'});
-    jQuery(".cm-charcount-max-500").jqEasyCounter({'maxChars': 500, 'maxCharsWarning': 450, 'msgTextAlign': 'left'});
-    jQuery(".cm-charcount-max-1000").jqEasyCounter({'maxChars': 1000, 'maxCharsWarning': 950, 'msgTextAlign': 'left'});
+    jQuery(".cm-charcount-max-24").jqEasyCounter({'maxChars':24, 'maxCharsWarning':14, 'msgTextAlign':'left'});
+    jQuery(".cm-charcount-max-255").jqEasyCounter({'maxChars':255, 'maxCharsWarning':220, 'msgTextAlign':'left'});
+    jQuery(".cm-charcount-max-500").jqEasyCounter({'maxChars':500, 'maxCharsWarning':450, 'msgTextAlign':'left'});
+    jQuery(".cm-charcount-max-1000").jqEasyCounter({'maxChars':1000, 'maxCharsWarning':950, 'msgTextAlign':'left'});
 }
 
 /*Learning Objective functionality*/
@@ -497,7 +497,7 @@ function showHideCreateCourseOptionalElements() {
 }
 
 function setupCharCoutnersForVersionCodes() {
-    jQuery(".cm-charcount-max-150").jqEasyCounter({'maxChars': 150, 'maxCharsWarning': 125, 'msgTextAlign': 'left'});
+    jQuery(".cm-charcount-max-150").jqEasyCounter({'maxChars':150, 'maxCharsWarning':125, 'msgTextAlign':'left'});
 }
 
 
@@ -528,7 +528,7 @@ function compareSubjectCodeInput(value, element) {
             jQuery("#" + element.id).attr('value', data.resultData[0].value);
             isValid = true;
             if (element.id.indexOf('KS-SubjectArea-Field') == 0) {
-                retrieveComponent('KS-Course-CurriculumOversight-Section');
+                retrieveComponent('KS-Course-CurriculumOversight-Section', 'refreshOversightSection');
             }
         }
     };
@@ -547,14 +547,14 @@ function compareSubjectCodeInput(value, element) {
     }
 
     jQuery.ajax({
-        url: jQuery("form#kualiForm").attr("action"),
-        dataType: "json",
-        async: false,
-        beforeSend: null,
-        complete: null,
-        error: null,
-        data: queryData,
-        success: successFunction
+        url:jQuery("form#kualiForm").attr("action"),
+        dataType:"json",
+        async:false,
+        beforeSend:null,
+        complete:null,
+        error:null,
+        data:queryData,
+        success:successFunction
     });
 
     return isValid;
@@ -616,14 +616,14 @@ function compareInstructorNameInput(value, element) {
     queryData.queryFieldId = qFieldId;
 
     jQuery.ajax({
-        url: jQuery("form#kualiForm").attr("action"),
-        dataType: "json",
-        async: false,
-        beforeSend: null,
-        complete: null,
-        error: null,
-        data: queryData,
-        success: successFunction
+        url:jQuery("form#kualiForm").attr("action"),
+        dataType:"json",
+        async:false,
+        beforeSend:null,
+        complete:null,
+        error:null,
+        data:queryData,
+        success:successFunction
     });
 
     return isValid;
@@ -666,14 +666,14 @@ function compareOrganizationNameInput(value, element) {
     queryData.queryFieldId = qFieldId;
 
     jQuery.ajax({
-        url: jQuery("form#kualiForm").attr("action"),
-        dataType: "json",
-        async: false,
-        beforeSend: null,
-        complete: null,
-        error: null,
-        data: queryData,
-        success: successFunction
+        url:jQuery("form#kualiForm").attr("action"),
+        dataType:"json",
+        async:false,
+        beforeSend:null,
+        complete:null,
+        error:null,
+        data:queryData,
+        success:successFunction
     });
 
     return isValid;
