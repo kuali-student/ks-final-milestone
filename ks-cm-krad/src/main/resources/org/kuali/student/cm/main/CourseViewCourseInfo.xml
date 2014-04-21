@@ -26,22 +26,25 @@
              But since the validation messaging is weird in the sub-section without a header we are actually
              displaying this header in the sub-section. -->
         <property name="headerText" value="Course Information"/>
-        <property name="header.render" value="false" />
+        <property name="header.render" value="false"/>
         <property name="items">
             <list>
-                <ref bean="KS-CourseInfoData-Section" /> <!-- Course Information -->
+                <ref bean="KS-CourseInfoData-Section"/>
+                <!-- Course Information -->
 
-                <ref bean="KS-CrossListingEtcDisclosure-Section" /> <!-- Cross listings, etc -->
+                <ref bean="KS-CrossListingEtcDisclosure-Section"/>
+                <!-- Cross listings, etc -->
 
                 <bean id="KS-Instructors-Section" parent="KS-TableCollectionSubSection-BottomAddLine"
                       p:id="instructor-section" p:layoutManager.style="width: 100%;"
                       p:headerText="Instructor(s)">
-                    <property name="collectionObjectClass" value="org.kuali.student.cm.course.form.CluInstructorInfoWrapper" />
-                    <property name="propertyName" value="instructorWrappers" />
+                    <property name="collectionObjectClass"
+                              value="org.kuali.student.cm.course.form.CluInstructorInfoWrapper"/>
+                    <property name="propertyName" value="instructorWrappers"/>
                     <property name="addBlankLineAction.actionLabel" value="Add Instructor"/>
                     <property name="addBlankLineAction.id" value="addInstructor"/>
                     <property name="addBlankLineAction.onDocumentReadyScript" value="reDisplayInstructor();"/>
-                    <property name="addBlankLineAction.dirtyOnAction" value="true" />
+                    <property name="addBlankLineAction.dirtyOnAction" value="true"/>
                     <property name="validationMessages.displayMessages" value="false"/>
                     <property name="layoutManager.renderSequenceField" value="false"/>
                     <property name="layoutManager.generateAutoSequence" value="false"/>
@@ -63,17 +66,19 @@
                     </property>
                     <property name="items">
                         <list>
-                            <bean id="KS-Instructor-displayName" parent="KS-Uif-InputField" p:propertyName="displayName">
+                            <bean id="KS-Instructor-displayName" parent="KS-Uif-InputField"
+                                  p:propertyName="displayName">
                                 <property name="control">
-                                    <bean parent="KS-Uif-TextControl" p:size="50" p:cssClasses="validInstructorNameAndID" />
+                                    <bean parent="KS-Uif-TextControl" p:size="50"
+                                          p:cssClasses="validInstructorNameAndID"/>
                                 </property>
                                 <property name="suggest">
                                     <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true">
-                                        <property name="valuePropertyName" value="displayName" />
+                                        <property name="valuePropertyName" value="displayName"/>
                                         <property name="templateOptions">
                                             <map>
-                                                <entry key="minLength" value="1" />
-                                                <entry key="delay" value="0" />
+                                                <entry key="minLength" value="1"/>
+                                                <entry key="delay" value="0"/>
                                                 <entry key="change">
                                                     <value>
                                                         function(event, ui) {
@@ -86,8 +91,9 @@
                                             </map>
                                         </property>
                                         <property name="suggestQuery">
-                                            <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="getInstructorsForSuggest"
-                                                  p:queryMethodArgumentFieldList="" />
+                                            <bean parent="Uif-AttributeQueryConfig"
+                                                  p:queryMethodToCall="getInstructorsForSuggest"
+                                                  p:queryMethodArgumentFieldList=""/>
                                         </property>
                                     </bean>
                                 </property>
@@ -96,7 +102,8 @@
                     </property>
                     <property name="lineActions">
                         <list>
-                            <bean parent="KS-Uif-Delete-ActionLink" p:id="delete_instructor" p:methodToCall="deleteLine" p:actionLabel="Delete"
+                            <bean parent="KS-Uif-Delete-ActionLink" p:id="delete_instructor" p:methodToCall="deleteLine"
+                                  p:actionLabel="Delete"
                                   p:actionEvent="deleteLine" p:dirtyOnAction="true"/>
                         </list>
                     </property>
@@ -104,14 +111,15 @@
 
                 <bean parent="Uif-VerticalBoxSubSection" p:headerText="Description and Rationale">
                     <property name="header">
-                        <bean parent="Uif-HeaderThree" />
+                        <bean parent="Uif-HeaderThree"/>
                     </property>
-                    <property name="validationMessages.displayMessages" value="false" />
+                    <property name="validationMessages.displayMessages" value="false"/>
                     <property name="items">
                         <list>
                             <bean id="KS-CourseDescription" parent="KS-Uif-InputField-LabelTop"
-                                p:label="Description" p:propertyName="courseInfo.descr.plain" >
-                                <property name="instructionalText" value="This description will appear in the catalog." />
+                                  p:label="Description" p:propertyName="courseInfo.descr.plain">
+                                <property name="instructionalText"
+                                          value="This description will appear in the catalog."/>
                                 <property name="control">
                                     <bean parent="Uif-LargeTextAreaControl">
                                         <property name="cssClasses">
@@ -122,14 +130,14 @@
                                     </bean>
                                 </property>
                                 <property name="fieldLabel.requiredMessage">
-                                    <bean parent="CM-StateAware-RequiredMessage" />
+                                    <bean parent="CM-StateAware-RequiredMessage"/>
                                 </property>
                             </bean>
 
                             <bean id="KS-ProposalRationale" parent="KS-Uif-InputField-LabelTop"
-                                p:label="Proposal Rationale" p:propertyName="proposalInfo.rationale.plain">
+                                  p:label="Proposal Rationale" p:propertyName="proposalInfo.rationale.plain">
                                 <property name="instructionalText"
-                                          value="This will be used in evaluating the proposal. It will not be published in the catalog." />
+                                          value="This will be used in evaluating the proposal. It will not be published in the catalog."/>
                                 <property name="control">
                                     <bean parent="Uif-LargeTextAreaControl">
                                         <property name="cssClasses">
@@ -140,7 +148,7 @@
                                     </bean>
                                 </property>
                                 <property name="fieldLabel.requiredMessage">
-                                    <bean parent="CM-StateAware-RequiredMessage" />
+                                    <bean parent="CM-StateAware-RequiredMessage"/>
                                 </property>
                             </bean>
                         </list>
@@ -153,9 +161,9 @@
     <bean id="KS-CourseInfoData-Section" parent="Uif-VerticalBoxSubSection">
         <!-- The validation messaging is weird if this sub-section doesn't have a header, so we are displaying the
              tab/section header here. -->
-        <property name="headerText" value="Course Information" />
+        <property name="headerText" value="Course Information"/>
         <property name="header">
-            <bean parent="Uif-HeaderTwo" />
+            <bean parent="Uif-HeaderTwo"/>
         </property>
         <property name="validationMessages.displayMessages" value="false"/>
         <property name="cssClasses">
@@ -165,12 +173,13 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-KS-IconInputField-LabelTop" p:label="Proposal Title"   p:id="CreateCourseProposalTitleInputField"
+                <bean parent="Uif-KS-IconInputField-LabelTop" p:label="Proposal Title"
+                      p:id="CreateCourseProposalTitleInputField"
                       p:propertyName="proposalInfo.name">
                     <property name="instructionalText"
                               value="This title is used for identifying the proposal through the approval process. It is highly recommended that you use the same name for the course and proposal title."/>
                     <property name="control">
-                        <bean parent="KS-Uif-TextControl" p:size="70" />
+                        <bean parent="KS-Uif-TextControl" p:size="70"/>
                     </property>
                     <property name="fieldLabel.richLabelMessage.iconToolTipText"
                               value="Avoid naming your proposal &quot;my proposal&quot; or &quot;Sarah's Proposal&quot; so that it can be easily identified later."/>
@@ -181,16 +190,16 @@
                     <property name="instructionalText"
                               value="It is highly recommended that you use the same name for the course and proposal title."/>
                     <property name="control">
-                        <bean parent="KS-Uif-TextControl" p:size="70" />
+                        <bean parent="KS-Uif-TextControl" p:size="70"/>
                     </property>
                 </bean>
 
                 <bean id="KS-TranscriptTitle" parent="KS-Uif-InputField-LabelTop" p:label="Transcript Course Title"
-                      p:propertyName="courseInfo.transcriptTitle" >
+                      p:propertyName="courseInfo.transcriptTitle">
                     <property name="instructionalText"
                               value="This is the truncated title that will appear on the printed transcript."/>
                     <property name="control">
-                        <bean parent="KS-Uif-TextControl" p:size="24" >
+                        <bean parent="KS-Uif-TextControl" p:size="24">
                             <property name="cssClasses">
                                 <list merge="true">
                                     <value>cm-charcount-max-24</value>
@@ -200,20 +209,20 @@
                     </property>
                 </bean>
 
-                <bean id="KS-CM-SubjectCode-CourseNumberSuffix" parent="Uif-HorizontalBoxSection" >
+                <bean id="KS-CM-SubjectCode-CourseNumberSuffix" parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean  id="KS-SubjectArea-Field" parent="KS-Uif-InputField-LabelTop"
-                                p:label="Subject Code" p:propertyName="courseInfo.subjectArea" >
+                            <bean id="KS-SubjectArea-Field" parent="KS-Uif-InputField-LabelTop"
+                                  p:label="Subject Code" p:propertyName="courseInfo.subjectArea">
 
                                 <property name="fieldLabel.requiredMessage">
-                                    <bean parent="CM-StateAware-RequiredMessage" />
+                                    <bean parent="CM-StateAware-RequiredMessage"/>
                                 </property>
 
                                 <property name="constraintText" value="Must be a 4 letter code"/>
                                 <property name="control">
                                     <bean parent="KS-Uif-TextControl" p:size="6" p:watermarkText="AAAA"
-                                         p:cssClasses="validSubjectCode" />
+                                          p:cssClasses="validSubjectCode"/>
                                 </property>
                                 <property name="suggest">
                                     <bean parent="Uif-Suggest" p:render="true">
@@ -235,7 +244,7 @@
                                     <bean parent="KS-Uif-TextControl" p:size="3" p:watermarkText="111"/>
                                 </property>
                                 <property name="fieldLabel.requiredMessage">
-                                    <bean parent="CM-StateAware-RequiredMessage" />
+                                    <bean parent="CM-StateAware-RequiredMessage"/>
                                 </property>
 
                                 <property name="fieldLabel.richLabelMessage.iconToolTipText"
@@ -249,10 +258,11 @@
     </bean>
 
     <bean id="KS-CrossListingEtcDisclosure-Section" parent="Uif-Disclosure-VerticalBoxSubSection">
-        <property name="disclosure.defaultOpen" value="@{document.newMaintainableObject.dataObject.crossListingDisclosureSection}"/>
-        <property name="headerText" value="Cross List, Offer Jointly, Add Version Codes" />
+        <property name="disclosure.defaultOpen"
+                  value="@{document.newMaintainableObject.dataObject.crossListingDisclosureSection}"/>
+        <property name="headerText" value="Cross List, Offer Jointly, Add Version Codes"/>
         <property name="header">
-            <bean parent="Uif-HeaderThree" />
+            <bean parent="Uif-HeaderThree"/>
         </property>
         <property name="validationMessages.displayMessages" value="false"/>
         <property name="cssClasses">
@@ -266,37 +276,42 @@
                 <bean id="KS-CrossListed-Section" parent="Uif-StackedCollectionSubSection"
                       p:headerText="Cross Listed Courses" p:propertyName="courseInfo.crossListings"
                       p:collectionObjectClass="org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo">
-                    <property name="layoutManager.lineGroupPrototype.header.headerText" value="Course Listing @{(#index + 1)}" />
-                    <property name="layoutManager.lineGroupPrototype.validationMessages.displayMessages" value="false" />
+                    <property name="layoutManager.lineGroupPrototype.header.headerText"
+                              value="Course Listing @{(#index + 1)}"/>
+                    <property name="layoutManager.lineGroupPrototype.validationMessages.displayMessages" value="false"/>
                     <property name="validationMessages.displayMessages" value="false"/>
-                    <property name="renderAddBlankLineButton" value="true" />
-                    <property name="addLinePlacement" value="BOTTOM" />
+                    <property name="renderAddBlankLineButton" value="true"/>
+                    <property name="addLinePlacement" value="BOTTOM"/>
                     <property name="addBlankLineAction">
-                        <bean parent="Uif-AddBlankLineAction" p:actionLabel="Add Another Cross Listing" />
+                        <bean parent="Uif-AddBlankLineAction" p:actionLabel="Add Another Cross Listing"/>
                     </property>
                     <property name="items">
                         <list>
-                            <bean id="KS-CrossList-SubjectArea-Field" parent="KS-SubjectArea-Field" p:propertyName="subjectArea" />
-                            <bean id="KS-CrossList-CourseNumberSuffix-Field" parent="KS-CourseNumberSuffix-Field" p:propertyName="courseNumberSuffix" />
+                            <bean id="KS-CrossList-SubjectArea-Field" parent="KS-SubjectArea-Field"
+                                  p:propertyName="subjectArea"/>
+                            <bean id="KS-CrossList-CourseNumberSuffix-Field" parent="KS-CourseNumberSuffix-Field"
+                                  p:propertyName="courseNumberSuffix"/>
                         </list>
                     </property>
                 </bean>
                 <bean id="KS-JointlyOffered-Section" parent="Uif-StackedCollectionSubSection"
                       p:headerText="Jointly Offered Courses" p:propertyName="courseJointWrappers"
                       p:collectionObjectClass="org.kuali.student.cm.course.form.CourseJointInfoWrapper">
-                    <property name="layoutManager.lineGroupPrototype.header.headerText" value="Joint Offering @{(#index + 1)}" />
-                    <property name="layoutManager.lineGroupPrototype.validationMessages.displayMessages" value="false" />
-                    <property name="renderAddBlankLineButton" value="true" />
-                    <property name="addLinePlacement" value="BOTTOM" />
+                    <property name="layoutManager.lineGroupPrototype.header.headerText"
+                              value="Joint Offering @{(#index + 1)}"/>
+                    <property name="layoutManager.lineGroupPrototype.validationMessages.displayMessages" value="false"/>
+                    <property name="renderAddBlankLineButton" value="true"/>
+                    <property name="addLinePlacement" value="BOTTOM"/>
                     <property name="addBlankLineAction">
-                        <bean parent="Uif-AddBlankLineAction" p:actionLabel="Add Another Course" />
+                        <bean parent="Uif-AddBlankLineAction" p:actionLabel="Add Another Course"/>
                     </property>
                     <property name="validationMessages.displayMessages" value="false"/>
                     <property name="items">
                         <list>
-                            <bean id="KS-CourseCode-Field" parent="Uif-KS-IconInputField-LabelTop" p:label="Course Number or Title"
+                            <bean id="KS-CourseCode-Field" parent="Uif-KS-IconInputField-LabelTop"
+                                  p:label="Course Number or Title"
                                   p:propertyName="courseCode">
-                                <property name="instructionalText" value="Enter an existing course or proposal." />
+                                <property name="instructionalText" value="Enter an existing course or proposal."/>
                                 <property name="control">
                                     <bean parent="KS-Uif-TextControl" p:cssClasses="validCourseCode"/>
                                 </property>
@@ -304,11 +319,11 @@
                                     <!-- <bean parent="Uif-Suggest" p:render="true" p:sourceQueryMethodResults="true"> -->
                                     <bean parent="Uif-Suggest" p:render="true">
                                         <property name="valuePropertyName" value="courseCode"/>
-                                        <property name="templateOptions" value="minLength:1,delay:0" />
+                                        <property name="templateOptions" value="minLength:1,delay:0"/>
                                         <property name="suggestQuery">
                                             <bean parent="Uif-AttributeQueryConfig"
-                                                p:queryMethodToCall="searchForJointOfferingCourses" />
-                                         </property>
+                                                  p:queryMethodToCall="searchForJointOfferingCourses"/>
+                                        </property>
                                     </bean>
                                 </property>
                                 <property name="quickfinder">
@@ -327,7 +342,8 @@
                                         <property name="lightBoxLookup">
                                             <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
                                         </property>
-                                        <property name="dataObjectClassName" value="org.kuali.student.cm.course.form.CourseJointInfoWrapper"/>
+                                        <property name="dataObjectClassName"
+                                                  value="org.kuali.student.cm.course.form.CourseJointInfoWrapper"/>
                                         <property name="fieldConversions">
                                             <map>
                                                 <entry key="courseCode" value="courseCode"/>
@@ -335,7 +351,8 @@
                                         </property>
                                     </bean>
                                 </property>
-                                <property name="fieldLabel.richLabelMessage.iconToolTipText" value="Can't find the course? If a course is still in proposal (pre-approval) stage, you may not be able to find it without being designated as a collaborator on that proposal. If you can't find a proposal you know exists, contact the author and ask them to make you a collaborator."/>
+                                <property name="fieldLabel.richLabelMessage.iconToolTipText"
+                                          value="Can't find the course? If a course is still in proposal (pre-approval) stage, you may not be able to find it without being designated as a collaborator on that proposal. If you can't find a proposal you know exists, contact the author and ask them to make you a collaborator."/>
                             </bean>
                         </list>
                     </property>
@@ -343,28 +360,50 @@
                 <bean id="KS-VersionCodes-Section" parent="Uif-StackedCollectionSubSection"
                       p:headerText="Version Codes" p:propertyName="courseInfo.variations"
                       p:collectionObjectClass="org.kuali.student.r2.lum.course.dto.CourseVariationInfo">
-                    <property name="layoutManager.lineGroupPrototype.header.headerText" value="Version Code @{(#index + 1)}" />
-                    <property name="renderAddBlankLineButton" value="true" />
-                    <property name="addLinePlacement" value="BOTTOM" />
+                    <property name="layoutManager.lineGroupPrototype.header.headerText"
+                              value="Version Code @{(#index + 1)}"/>
+                    <property name="renderAddBlankLineButton" value="true"/>
+                    <property name="onDocumentReadyScript" value="setupCharCounters(); applyIndentationStyling();"/>
+                    <property name="addLinePlacement" value="BOTTOM"/>
                     <property name="addBlankLineAction">
-                        <bean parent="Uif-AddBlankLineAction" p:actionLabel="Add a Version Code" />
+                        <bean parent="Uif-AddBlankLineAction" p:actionLabel="Add a Version Code"/>
                     </property>
                     <property name="items">
                         <list>
-                            <bean parent="KS-Uif-InputField-LabelTop" p:label="Version Code"
-                                  p:propertyName="variationCode" p:uppercaseValue="true" >
-                                <property name="constraintText" value="Code must be a capital letter." />
+                            <bean id="KS-VersionCode-Field" parent="KS-Uif-InputField-LabelTop" p:label="Version Code"
+                                  p:propertyName="variationCode" p:uppercaseValue="true">
+                                <property name="constraintText" value="Code must be a capital letter."/>
                                 <property name="control">
-                                    <bean parent="KS-Uif-TextControl" p:size="1" p:maxLength="1" />
+                                    <bean parent="KS-Uif-TextControl" p:size="1" p:maxLength="1"/>
+                                </property>
+                                <property name="dependencyConstraints">
+                                    <list>
+                                        <bean parent="PrerequisiteConstraint" p:propertyName="variationTitle">
+                                            <property name="messageKey" value="Must provide Version Code and Title"/>
+                                        </bean>
+                                    </list>
                                 </property>
                                 <property name="validCharactersConstraint">
                                     <bean parent="AlphaPatternConstraint"/>
                                 </property>
                             </bean>
-                            <bean parent="KS-Uif-InputField-LabelTop" p:label="Course Title"
-                                  p:propertyName="variationTitle" p:required="true" >
+                            <bean id="KS-CourseTitle-Field" parent="KS-Uif-InputField-LabelTop" p:label="Course Title"
+                                  p:propertyName="variationTitle">
                                 <property name="control">
-                                    <bean parent="KS-Uif-TextControl" />
+                                    <bean parent="KS-Uif-TextControl">
+                                        <property name="cssClasses">
+                                            <list>
+                                                <value>cm-charcount-max-150</value>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                                <property name="dependencyConstraints">
+                                    <list>
+                                        <bean parent="PrerequisiteConstraint" p:propertyName="variationCode">
+                                            <property name="messageKey" value="Must provide Version Code and Title"/>
+                                        </bean>
+                                    </list>
                                 </property>
                             </bean>
                         </list>
