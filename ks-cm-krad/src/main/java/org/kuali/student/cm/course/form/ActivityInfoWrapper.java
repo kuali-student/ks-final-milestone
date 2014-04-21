@@ -20,7 +20,9 @@ package org.kuali.student.cm.course.form;
 import org.apache.commons.lang.StringUtils;
 
 /**
- * Wrapper for Activities for Review Proposal page.
+ * Wrapper for Activities for Review Proposal page. All the getters are being referenced from the krad
+ * markup xml at CourseViewReviewProposal.xml
+ *
  */
 public class ActivityInfoWrapper {
 
@@ -29,6 +31,10 @@ public class ActivityInfoWrapper {
     private String durationCount;
     private String contactHours;
 
+    /**
+     * Not being used from any other java classes. It's here for Spring/krad to
+     * create new objects for the collection we defined for course maintenace view
+     */
     @SuppressWarnings("unused")
     public ActivityInfoWrapper(){
 
@@ -41,6 +47,10 @@ public class ActivityInfoWrapper {
         this.contactHours = contactHours;
     }
 
+    /**
+     * Reference only at KRAD markup xml
+     * @return
+     */
     @SuppressWarnings("unused")
     public String getActivityType() {
         if (activityType == null)
@@ -51,16 +61,28 @@ public class ActivityInfoWrapper {
         return activityType.substring(activityType.lastIndexOf(".") + 1);
     }
 
+    /**
+     * Reference only at KRAD markup xml
+     * @return
+     */
     @SuppressWarnings("unused")
     public String getContactHours() {
         return StringUtils.defaultIfEmpty(contactHours,"");
     }
 
+    /**
+     * Reference only at KRAD markup xml
+     * @return
+     */
     @SuppressWarnings("unused")
     public Integer getAnticipatedClassSize() {
         return anticipatedClassSize;
     }
 
+    /**
+     * Reference only at KRAD markup xml
+     * @return
+     */
     @SuppressWarnings("unused")
     public String getDurationCount() {
         return StringUtils.defaultIfEmpty(durationCount,"");
