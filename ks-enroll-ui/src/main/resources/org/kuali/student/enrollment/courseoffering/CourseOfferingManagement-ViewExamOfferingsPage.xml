@@ -478,7 +478,7 @@
                               p:source="" p:cssClasses="ks-fontello-icon-floppy"/>
                     </property>
                 </bean>
-                <bean id="EO-toggleUpdateButton" parent="KS-Uif-ActionLink" p:actionLabel="" p:additionalCssClasses="toggleable-element off" p:actionScript="cancelInlineRow(e);">
+                <bean id="EO-toggleCancelButton" parent="KS-Uif-ActionLink" p:actionLabel="" p:additionalCssClasses="toggleable-element off" p:actionScript="cancelInlineRow(e);">
                     <property name="actionImage">
                         <bean parent="Uif-Image" p:altText="Cancel" p:title="Cancel"
                               p:source="" p:cssClasses="ks-fontello-icon-block-1"/>
