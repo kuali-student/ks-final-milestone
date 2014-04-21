@@ -237,8 +237,7 @@
                             </bean>
 
                             <bean id="KS-CourseNumberSuffix-Field" parent="Uif-KS-IconInputField-LabelTop"
-                                  p:label="Course Number" p:propertyName="courseInfo.courseNumberSuffix"
-                                  p:minLength="3">
+                                  p:label="Course Number" p:propertyName="courseInfo.courseNumberSuffix" >
                                 <property name="constraintText" value="Must be a 3 digit number"/>
                                 <property name="control">
                                     <bean parent="KS-Uif-TextControl" p:size="3" p:watermarkText="111"/>

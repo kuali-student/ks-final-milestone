@@ -124,6 +124,7 @@
                 <property name="value">
                     <bean parent="SimpleConstraint">
                         <property name="maxLength" value="3" />
+                        <property name="minLength" value="3" />
                         <property name="required" value="false" />
                         <property name="states">
                             <list>
@@ -134,6 +135,7 @@
                             <list>
                                 <bean parent="RequiredConstraint">
                                     <property name="maxLength" value="3" />
+                                    <property name="minLength" value="3" />
                                     <property name="states">
                                         <list>
                                             <value>P</value>
