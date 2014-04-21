@@ -772,6 +772,16 @@ Skip dirty check
  dirtyFormState.skipDirtyChecks=true;
  }
 
+
+function enableDirtyCheck() {
+    dirtyFormState.skipDirtyChecks=false;
+    jQuery("#validateDirty").val(true);
+}
+function resetDirty() {
+    dirtyFormState.dirtyFormInput.val(false);
+    dirtyFormState.dirtyFieldCount=0;
+}
+
 function retrieveFinalExamMatrix (id, methodToCall, dropdownId) {
     var dropDownElement = jQuery('#' + dropdownId + '_control');
     if (dropDownElement.val() != 'na') {
@@ -1117,6 +1127,7 @@ function updateInlineTableRow(event, baseUrl, data) {
             }
         });
         toggleInlineRow(event, false);
+        resetDirty();
     }
 }
 
