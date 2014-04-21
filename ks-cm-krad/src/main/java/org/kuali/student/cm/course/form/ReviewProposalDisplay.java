@@ -352,6 +352,8 @@ public class ReviewProposalDisplay {
             String quatity = StringUtils.EMPTY;
             if(timeQuantity != null && timeQuantity.intValue() > 0 ) {
                 quatity = timeQuantity.toString() + CurriculumManagementConstants.COLLECTION_ITEMS_WHITESPACE_DELIMITER;
+            }  else {
+                return null;
             }
 
             return quatity + atpDurationType + CurriculumManagementConstants.COLLECTION_ITEM_PLURAL_END;
