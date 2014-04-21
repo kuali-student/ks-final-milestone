@@ -363,7 +363,7 @@
                     <property name="layoutManager.lineGroupPrototype.header.headerText"
                               value="Version Code @{(#index + 1)}"/>
                     <property name="renderAddBlankLineButton" value="true"/>
-                    <property name="onDocumentReadyScript" value="setupCharCounters(); applyIndentationStyling();"/>
+                    <property name="onDocumentReadyScript" value="setupCharCoutnersForVersionCodes(); applyIndentationStyling();"/>
                     <property name="addLinePlacement" value="BOTTOM"/>
                     <property name="addBlankLineAction">
                         <bean parent="Uif-AddBlankLineAction" p:actionLabel="Add a Version Code"/>
@@ -392,7 +392,7 @@
                                 <property name="control">
                                     <bean parent="KS-Uif-TextControl">
                                         <property name="cssClasses">
-                                            <list>
+                                            <list merge="false">
                                                 <value>cm-charcount-max-150</value>
                                             </list>
                                         </property>
