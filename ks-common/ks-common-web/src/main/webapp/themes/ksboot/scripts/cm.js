@@ -404,7 +404,6 @@ function setupCharCounters() {
     jQuery(".cm-charcount-max-255").jqEasyCounter({'maxChars': 255, 'maxCharsWarning': 220, 'msgTextAlign': 'left'});
     jQuery(".cm-charcount-max-500").jqEasyCounter({'maxChars': 500, 'maxCharsWarning': 450, 'msgTextAlign': 'left'});
     jQuery(".cm-charcount-max-1000").jqEasyCounter({'maxChars': 1000, 'maxCharsWarning': 950, 'msgTextAlign': 'left'});
-    jQuery(".cm-charcount-max-150").jqEasyCounter({'maxChars': 150, 'maxCharsWarning': 125, 'msgTextAlign': 'left'});
 }
 
 /*Learning Objective functionality*/
@@ -496,6 +495,11 @@ function showHideCreateCourseOptionalElements() {
     jQuery("#CreateCourseProposalTitleInputField_control").focus();
 
 }
+
+function setupCharCoutnersForVersionCodes() {
+    jQuery(".cm-charcount-max-150").jqEasyCounter({'maxChars': 150, 'maxCharsWarning': 125, 'msgTextAlign': 'left'});
+}
+
 
 function createCourseShowHideObjectiveElements(hideId, showId) {
     jQuery("#" + hideId).hide();
