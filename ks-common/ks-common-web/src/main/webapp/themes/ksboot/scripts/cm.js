@@ -32,8 +32,8 @@ function onCourseLoad(isCurriculumSpecialist, currentSectionId) {
      * Handler for fixing nav position when the window is scrolled (because the sticky header changes).
      *
      */
-    if (! hasScrollEvent(leftNavPositioningEventNamespace)) {
-       jQuery(window).on('scroll.' + leftNavPositioningEventNamespace, handleNavPanelRepositioningOnWindowScroll);
+    if (!hasScrollEvent(leftNavPositioningEventNamespace)) {
+        jQuery(window).on('scroll.' + leftNavPositioningEventNamespace, handleNavPanelRepositioningOnWindowScroll);
     }
 
     if (isCurriculumSpecialist) {
@@ -65,7 +65,7 @@ function onProposalReviewLoad() {
      * initialization that happens after this method completes. Putting it in ready() executes it near the end.
      */
     jQuery(document).ready(
-        function() {
+        function () {
             jQuery("[id$=_control]").RemoveBubblePopup();
         }
     );
@@ -76,7 +76,7 @@ function onProposalReviewLoad() {
  */
 function fixReadOnlyInputSizes() {
     var textAreaEmptyHeight = 18;
-    jQuery( ".review_readonly_control" ).each(function(index) {
+    jQuery(".review_readonly_control").each(function (index) {
         var element = jQuery(this);
         if (element.is("textarea")) {
             element.height(textAreaEmptyHeight);
@@ -99,17 +99,17 @@ var previousAnchorBottom = 0;
  */
 function fixLeftNavElementPositioning(initial) {
     //  Get the position of the element that the nav components need to align under.
-    var anchorElement = jQuery( "#KS-CourseView > div.uif-viewHeader-contentWrapper" );
+    var anchorElement = jQuery("#KS-CourseView > div.uif-viewHeader-contentWrapper");
     if (anchorElement.length == 0) {
         console.error('Unable to find an anchor element. Nav elements were not positioned correctly.');
         return;
     }
 
     var anchorBottom = getBottom(anchorElement);
-    if (! initial) {
+    if (!initial) {
         //  If we are repositioning then see if the view header has moved. If it hasn't then no need to proceed.
         if (anchorBottom != previousAnchorBottom) {
-             previousAnchorBottom = anchorBottom;
+            previousAnchorBottom = anchorBottom;
         } else {
             return;
         }
@@ -146,7 +146,7 @@ function fixLeftNavElementPositioning(initial) {
 
 function removeCurrciulumOversight() {
     var oversightComponent = jQuery("#KS-Course-CurriculumOversight-Section");
-    if(oversightComponent!=null){
+    if (oversightComponent != null) {
         oversightComponent.remove();
     }
 }
@@ -173,7 +173,7 @@ function reDisplayInstructor() {
 function hasScrollEvent(namespace) {
     var scrollEvents = jQuery._data(jQuery(window)[0], 'events').scroll;
     var rVal = false;
-    jQuery.each(scrollEvents, function(index, event) {
+    jQuery.each(scrollEvents, function (index, event) {
         if (event.namespace == namespace) {
             rVal = true;
             return false; // Break the each loop
@@ -206,13 +206,13 @@ function initializeForCurriculumSpecialist(currentSectionId) {
     jQuery("div[data-type='TabWrapper']").addClass('never_hide');
 
     //  Register a handler for tab clicks.
-    jQuery(tabPanelId).on( "tabsactivate",
-        function(event, ui) {
+    jQuery(tabPanelId).on("tabsactivate",
+        function (event, ui) {
             //  Checking the event type to make sure it's a click.
             if (typeof event.originalEvent.originalEvent !== 'undefined'
                 && event.originalEvent.originalEvent.type == "click") {
                 //  Scroll to the section corresponding to the clicked tab.
-                scrollToSection("#" + ui.newPanel.attr('id').replace('_tab',''), true);
+                scrollToSection("#" + ui.newPanel.attr('id').replace('_tab', ''), true);
             }
         }
     );
@@ -245,7 +245,7 @@ function handleActiveTabOnWindowScroll() {
      * When the window is scrolled, once a tab has a "focus point" in the window select/activate it.
      * This will cause the 'tabsactivate' handler above to get called.
      */
-    jQuery("div[data-type='TabWrapper']").each(function() {
+    jQuery("div[data-type='TabWrapper']").each(function () {
         var tab = this;
         if (isOnFocusPoint(tab) && focusedTab !== tab) {
             focusedTab = tab;
@@ -267,19 +267,19 @@ function scrollToSection(sectionId, focus) {
     //  Scroll to the selected tab.
     jQuery('html body').animate(
         { scrollTop: (jQuery(sectionId).offset().top - jQuery(".uif-viewHeader-contentWrapper").outerHeight(true))},
-		{
+        {
             duration: 750,
             queue: false,
-            complete: function() {
+            complete: function () {
                 //  Re-bind window scroll handler for active tab.
-            	jQuery(window).on('scroll.' + activateTabEventNamespace, handleActiveTabOnWindowScroll);
+                jQuery(window).on('scroll.' + activateTabEventNamespace, handleActiveTabOnWindowScroll);
                 //  Give focus to the first input widget.
                 if (focus) {
                     jQuery(sectionId).find("input[type!='hidden'],textarea,button,select,a").first().focusWithoutScrolling();
                 }
-        	}
-    	}
-	);
+            }
+        }
+    );
 }
 
 /**
@@ -300,7 +300,7 @@ function isOnFocusPoint(e) {
  *
  * @returns {jQuery.fn} 'this' for chaining.
  */
-jQuery.fn.focusWithoutScrolling = function() {
+jQuery.fn.focusWithoutScrolling = function () {
     var x = window.scrollX, y = window.scrollY;
     this.focus();
     window.scrollTo(x, y);
@@ -377,7 +377,7 @@ function showLightbox(componentId, url) {
     parent.jQuery('head').append('<link href="' + url + '/ks-enroll/css/acal.css" rel="stylesheet" type="text/css">');
     parent.jQuery('head').append('<link href="' + url + '/ks-enroll/css/ks-jquery.css" rel="stylesheet" type="text/css">');
 
-    var overrideOptions = { afterClose:function () {
+    var overrideOptions = { afterClose: function () {
         // Remove the following css files before the lightbox appearing
         parent.jQuery('link[href="' + url + '/kr-dev/rice-portal/css/lightbox.css"]').remove();
         parent.jQuery('link[href="' + url + '/krad/css/global/fss-reset.css"]').remove();
@@ -392,7 +392,7 @@ function showLightbox(componentId, url) {
         parent.jQuery('link[href="' + url + '/ks-enroll/css/enroll.css"]').remove();
         parent.jQuery('link[href="' + url + '/ks-enroll/css/acal.css"]').remove();
         parent.jQuery('link[href="' + url + '/ks-enroll/css/ks-jquery.css"]').remove();
-        if(isPortal){
+        if (isPortal) {
             parent.jQuery('head').append('<link href="' + url + '/rice-portal/css/portal.css" rel="stylesheet" type="text/css">');
         }
     }};
@@ -400,80 +400,81 @@ function showLightbox(componentId, url) {
 }
 
 function setupCharCounters() {
-	jQuery(".cm-charcount-max-24").jqEasyCounter({'maxChars': 24, 'maxCharsWarning': 14, 'msgTextAlign': 'left'});
-	jQuery(".cm-charcount-max-255").jqEasyCounter({'maxChars': 255, 'maxCharsWarning': 220, 'msgTextAlign': 'left'});
-	jQuery(".cm-charcount-max-500").jqEasyCounter({'maxChars': 500, 'maxCharsWarning': 450, 'msgTextAlign': 'left'});
+    jQuery(".cm-charcount-max-24").jqEasyCounter({'maxChars': 24, 'maxCharsWarning': 14, 'msgTextAlign': 'left'});
+    jQuery(".cm-charcount-max-255").jqEasyCounter({'maxChars': 255, 'maxCharsWarning': 220, 'msgTextAlign': 'left'});
+    jQuery(".cm-charcount-max-500").jqEasyCounter({'maxChars': 500, 'maxCharsWarning': 450, 'msgTextAlign': 'left'});
     jQuery(".cm-charcount-max-1000").jqEasyCounter({'maxChars': 1000, 'maxCharsWarning': 950, 'msgTextAlign': 'left'});
+    jQuery(".cm-charcount-max-150").jqEasyCounter({'maxChars': 150, 'maxCharsWarning': 125, 'msgTextAlign': 'left'});
 }
 
 /*Learning Objective functionality*/
 
 function moveLo(button, collectionGroupId, controllerMethod) {
-	performLOToolbarAction(button, collectionGroupId, controllerMethod);
-	retrieveComponent(collectionGroupId, controllerMethod);
+    performLOToolbarAction(button, collectionGroupId, controllerMethod);
+    retrieveComponent(collectionGroupId, controllerMethod);
 }
 
 function performLOToolbarAction(button, collectionGroupId, controllerMethod) {
-	var id = button.id;
-	var lineSuffixIndex = id.lastIndexOf("_line");
-	var lineNumberIndex = lineSuffixIndex + "_line".length;
-	var index = id.substr(lineNumberIndex);
-	/* Set the 'selected' property on the LoItem */
-	jQuery('#KS-LoDisplayInfoWrapper-selected_line' + index + '_control').prop('value', true);
+    var id = button.id;
+    var lineSuffixIndex = id.lastIndexOf("_line");
+    var lineNumberIndex = lineSuffixIndex + "_line".length;
+    var index = id.substr(lineNumberIndex);
+    /* Set the 'selected' property on the LoItem */
+    jQuery('#KS-LoDisplayInfoWrapper-selected_line' + index + '_control').prop('value', true);
 }
 
 function applyIndentationStyling() {
-	 jQuery(".uif-collectionItem[data-parent='LearningObjective-CollectionSection']").each(function(index) {
-		 var indentString = jQuery('#KS-LoDisplayInfoWrapper-indentLevel_line' + index + '_control').prop('value');
-		 var indentLevel = parseInt(indentString);
+    jQuery(".uif-collectionItem[data-parent='LearningObjective-CollectionSection']").each(function (index) {
+        var indentString = jQuery('#KS-LoDisplayInfoWrapper-indentLevel_line' + index + '_control').prop('value');
+        var indentLevel = parseInt(indentString);
 
-		 var collectionItem = jQuery(this);
-		 collectionItem.removeClass("cm-lo-indent-0 cm-lo-indent-50 cm-lo-indent-100 cm-lo-indent-150 cm-lo-indent-200 cm-lo-indent-250 cm-lo-indent-300 cm-lo-indent-350 cm-lo-indent-400 cm-lo-indent-450 cm-lo-indent-500");
-		 collectionItem.addClass(getIndentationClass(indentLevel));
-	 });
+        var collectionItem = jQuery(this);
+        collectionItem.removeClass("cm-lo-indent-0 cm-lo-indent-50 cm-lo-indent-100 cm-lo-indent-150 cm-lo-indent-200 cm-lo-indent-250 cm-lo-indent-300 cm-lo-indent-350 cm-lo-indent-400 cm-lo-indent-450 cm-lo-indent-500");
+        collectionItem.addClass(getIndentationClass(indentLevel));
+    });
 }
 
 function getIndentationClass(indentLevel) {
-	var indentationClass;
-	switch (indentLevel) {
-		case 0:
-			indentationClass = "cm-lo-indent-0";
-			break;
-		case 1:
-			indentationClass = "cm-lo-indent-50";
-			break;
-		case 2:
-			indentationClass = "cm-lo-indent-100";
-			break;
-		case 3:
-			indentationClass = "cm-lo-indent-150";
-			break;
-		case 4:
-			indentationClass = "cm-lo-indent-200";
-			break;
-		case 5:
-			indentationClass = "cm-lo-indent-250";
-			break;
-		case 6:
-			indentationClass = "cm-lo-indent-300";
-			break;
-		case 7:
-			indentationClass = "cm-lo-indent-350";
-			break;
-		case 8:
-			indentationClass = "cm-lo-indent-400";
-			break;
-		case 9:
-			indentationClass = "cm-lo-indent-450";
-			break;
-		case 10:
-			indentationClass = "cm-lo-indent-500";
-			break;
-	}
-	return indentationClass;
+    var indentationClass;
+    switch (indentLevel) {
+        case 0:
+            indentationClass = "cm-lo-indent-0";
+            break;
+        case 1:
+            indentationClass = "cm-lo-indent-50";
+            break;
+        case 2:
+            indentationClass = "cm-lo-indent-100";
+            break;
+        case 3:
+            indentationClass = "cm-lo-indent-150";
+            break;
+        case 4:
+            indentationClass = "cm-lo-indent-200";
+            break;
+        case 5:
+            indentationClass = "cm-lo-indent-250";
+            break;
+        case 6:
+            indentationClass = "cm-lo-indent-300";
+            break;
+        case 7:
+            indentationClass = "cm-lo-indent-350";
+            break;
+        case 8:
+            indentationClass = "cm-lo-indent-400";
+            break;
+        case 9:
+            indentationClass = "cm-lo-indent-450";
+            break;
+        case 10:
+            indentationClass = "cm-lo-indent-500";
+            break;
+    }
+    return indentationClass;
 }
 
-function showHideCreateCourseOptionalElements () {
+function showHideCreateCourseOptionalElements() {
     var showingAll = "Showing required and optional fields";
     var showAll = "Show all fields."
     var showingRequired = "Showing only required fields.";
@@ -481,12 +482,12 @@ function showHideCreateCourseOptionalElements () {
 
     var actualShowMsg = jQuery("#Create-CourseView-Admin-Message_span").text();
 
-    if(actualShowMsg != null && actualShowMsg == showingRequired) {    // display all
+    if (actualShowMsg != null && actualShowMsg == showingRequired) {    // display all
         jQuery("#Create-CourseView-Admin-Message_span").text(showingAll);
         jQuery("#Create-CourseView-Admin-Message-expand-optional-link").text(showRequired);
         jQuery(".admin-not-required-field").show();
         jQuery(".hide-when-show-all-fields").hide();
-    }  else  {
+    } else {
         jQuery("#Create-CourseView-Admin-Message_span").text(showingRequired);
         jQuery("#Create-CourseView-Admin-Message-expand-optional-link").text(showAll);
         jQuery(".admin-not-required-field").hide();
@@ -497,8 +498,8 @@ function showHideCreateCourseOptionalElements () {
 }
 
 function createCourseShowHideObjectiveElements(hideId, showId) {
-    jQuery("#"+hideId).hide();
-    jQuery("#"+showId).show();
+    jQuery("#" + hideId).hide();
+    jQuery("#" + showId).show();
 
 }
 
@@ -512,17 +513,17 @@ function reDrawOutcomeComponent() {
 
 function compareSubjectCodeInput(value, element) {
     var isValid;
-    if(value == null || value.length < 2) {
+    if (value == null || value.length < 2) {
         isValid = false;
     }
 
     var successFunction = function (data) {
-        if(data == null || data.resultData == null || data.resultData.length != 1)  {
+        if (data == null || data.resultData == null || data.resultData.length != 1) {
             isValid = false;
         } else {
-            jQuery("#"+element.id).attr('value', data.resultData[0].value);
+            jQuery("#" + element.id).attr('value', data.resultData[0].value);
             isValid = true;
-            if(element.id.indexOf('KS-SubjectArea-Field') == 0) {
+            if (element.id.indexOf('KS-SubjectArea-Field') == 0) {
                 retrieveComponent('KS-Course-CurriculumOversight-Section');
             }
         }
@@ -556,17 +557,17 @@ function compareSubjectCodeInput(value, element) {
 }
 
 jQuery.validator.addMethod("validSubjectCode",
-    function(value, element) {
-         return this.optional(element) || compareSubjectCodeInput(value, element);
+    function (value, element) {
+        return this.optional(element) || compareSubjectCodeInput(value, element);
     }, "Subject code is invalid")
 
 jQuery.validator.addMethod("validCourseCode",
-    function(value, element) {
+    function (value, element) {
         return this.optional(element) || compareSubjectCodeInput(value, element);
     }, "Course code is invalid")
 
 jQuery.validator.addMethod("validInstructorNameAndID",
-    function(value, element) {
+    function (value, element) {
         return this.optional(element) || compareInstructorNameInput(value, element);
     }, "Instructor name/ID combo is invalid")
 
@@ -574,26 +575,26 @@ jQuery.validator.addMethod("validInstructorNameAndID",
  it is valid input instructor */
 function compareInstructorNameInput(value, element) {
     var isValid = false;
-    if(value == null || value.length < 2) {
+    if (value == null || value.length < 2) {
         return isValid;
     }
     var queryVal = value.split(',')[0];
 
     var successFunction = function (data) {
         var lastName = value.split(',')[0];
-        var restVal =  value.split(',')[1];
+        var restVal = value.split(',')[1];
         var firstName = '';
         var nameID = '';
-        if(restVal != null) {
-             firstName = restVal.split('(')[0];
-             nameID = restVal.split('(')[1];
+        if (restVal != null) {
+            firstName = restVal.split('(')[0];
+            nameID = restVal.split('(')[1];
         }
-        if(data == null || data.resultData == null)  {
+        if (data == null || data.resultData == null) {
             isValid = false;
         } else {
-            for(var i=0; len= data.resultData.length, i<len; i++)  {
+            for (var i = 0; len = data.resultData.length, i < len; i++) {
                 var correctName = data.resultData[i].displayName;
-                if(correctName.indexOf(lastName) >= 0 && correctName.indexOf(firstName) >1 && correctName.indexOf(nameID) >2) {
+                if (correctName.indexOf(lastName) >= 0 && correctName.indexOf(firstName) > 1 && correctName.indexOf(nameID) > 2) {
                     isValid = true;
                     break;
                 }
@@ -625,7 +626,7 @@ function compareInstructorNameInput(value, element) {
 }
 
 jQuery.validator.addMethod("validOrganizationName",
-    function(value, element) {
+    function (value, element) {
         return this.optional(element) || compareOrganizationNameInput(value, element);
     }, "Invalid administering organization")
 
@@ -633,16 +634,16 @@ jQuery.validator.addMethod("validOrganizationName",
  it is valid input Organization */
 function compareOrganizationNameInput(value, element) {
     var isValid;
-    if(value == null || value.length < 2) {
+    if (value == null || value.length < 2) {
         return false;
     }
 
     var successFunction = function (data) {
-        if(data == null || data.resultData == null)  {
+        if (data == null || data.resultData == null) {
             isValid = false;
         } else {
-            for(var i=0; len= data.resultData.length, i<len; i++)  {
-                if(data.resultData[i].organizationName == value) {
+            for (var i = 0; len = data.resultData.length, i < len; i++) {
+                if (data.resultData[i].organizationName == value) {
                     isValid = true;
                     break;
                 }
@@ -675,12 +676,12 @@ function compareOrganizationNameInput(value, element) {
 }
 
 jQuery.validator.addMethod("validDurationTypeAndCountInput",
-    function(value, element) {
+    function (value, element) {
         var durationType = jQuery('#KS-DurationTypeDropDown_control').val();
         var durationCount = jQuery('#KS-DurationTimeQuantity-Field_control').val();
 
-        if(durationCount == '') {
-            if(durationType !='') {
+        if (durationCount == '') {
+            if (durationType != '') {
                 return false;
             } else {
                 return true;
@@ -693,7 +694,7 @@ jQuery.validator.addMethod("validDurationTypeAndCountInput",
 function durationTypeOnBlur() {
     var durationType = jQuery('#KS-DurationTypeDropDown_control').val();
     var durationCount = jQuery('#KS-DurationTimeQuantity-Field_control').val();
-    if (durationType == '' &&  durationCount == '') {
+    if (durationType == '' && durationCount == '') {
         return;
     }
     if (event.relatedTarget == null || event.relatedTarget.id != "KS-DurationTimeQuantity-Field_control") {
@@ -710,17 +711,17 @@ function durationCountOnBlur() {
     return;
 }
 
-function showHideReviewProposalErrorFields (sectionId) {
+function showHideReviewProposalErrorFields(sectionId) {
     var hideMissed = "Hide missing-fields indicator.";
     var showMissed = "Show what's missing.";
 
     var actualShowMsg = jQuery("#ReviewProposal-Error-Message-expand-optional-link").text();
 
-    if(actualShowMsg != null && actualShowMsg.toString().trim() == showMissed) {
+    if (actualShowMsg != null && actualShowMsg.toString().trim() == showMissed) {
         jQuery("#ReviewProposal-Error-Message-expand-optional-link").text(hideMissed);
         /* highlight the missing element rows */
         highlightMissingElements(sectionId, true);
-    }  else  {
+    } else {
         jQuery("#ReviewProposal-Error-Message-expand-optional-link").text(showMissed);
         highlightMissingElements(sectionId, false);
     }
@@ -734,8 +735,8 @@ function highlightMissingElements(sectionId, showError) {
     var hasBorderStyle = style.indexOf(whiteBorderStyle);
     var originalStyle = " ";
 
-    if(hasBorderStyle >= 0) {
-        originalStyle = style.replace(whiteBorderStyle,"");
+    if (hasBorderStyle >= 0) {
+        originalStyle = style.replace(whiteBorderStyle, "");
     } else {
         originalStyle = style;
     }
@@ -743,12 +744,12 @@ function highlightMissingElements(sectionId, showError) {
     var whiteBorder = whiteBorderStyle.concat(originalStyle);
 
     if (showError) {
-        jQuery('#' + sectionId).find('table td textarea').each(function(index) {
+        jQuery('#' + sectionId).find('table td textarea').each(function (index) {
             jQuery(this).attr("style", originalStyle);
             jQuery('#' + jQuery(this).GetBubblePopupID()).removeClass("alwaysHide");
         });
     } else {
-        jQuery('#' + sectionId).find('table td textarea').each(function(index) {
+        jQuery('#' + sectionId).find('table td textarea').each(function (index) {
             jQuery(this).attr("style", whiteBorder);
             jQuery('#' + jQuery(this).GetBubblePopupID()).addClass("alwaysHide");
         });
@@ -756,30 +757,30 @@ function highlightMissingElements(sectionId, showError) {
 }
 
 /*
-jQuery.validator.addMethod("rangeMaxMinCheck",
-    function(value, element) {
-        return this.optional(element) || verifyMaxAndMinInput(value, element);
-    }, "Max value should be greater than Min Value");
+ jQuery.validator.addMethod("rangeMaxMinCheck",
+ function(value, element) {
+ return this.optional(element) || verifyMaxAndMinInput(value, element);
+ }, "Max value should be greater than Min Value");
 
-function verifyMaxAndMinInput(value, element){
-    var minValue = 0;
-    var maxValue = 0;
+ function verifyMaxAndMinInput(value, element){
+ var minValue = 0;
+ var maxValue = 0;
 
-    jQuery('#KS-CourseView-CourseLogisticsPage-Outcome-Widgets').find('table td').each(function(index){
-        var control = jQuery(this).find("*[data-role='Control']");
-        var value = control.val();
-        var label = jQuery("#" + control.data("control_for")).data("label");
-        if(label == "Minimum Credit Value") {
-            minValue = value;
-        }
-        if(label == "Maximum Credit Value") {
-            maxValue = value;
-        }
-    });
-    return (parseInt(minValue) < parseInt(maxValue))
-}
+ jQuery('#KS-CourseView-CourseLogisticsPage-Outcome-Widgets').find('table td').each(function(index){
+ var control = jQuery(this).find("*[data-role='Control']");
+ var value = control.val();
+ var label = jQuery("#" + control.data("control_for")).data("label");
+ if(label == "Minimum Credit Value") {
+ minValue = value;
+ }
+ if(label == "Maximum Credit Value") {
+ maxValue = value;
+ }
+ });
+ return (parseInt(minValue) < parseInt(maxValue))
+ }
 
-function verifyMaxRangeOnBlur() {
-        validateFieldValue(jQuery("#MaxRangeCreditVale_add_control"));
-        return;
-}*/
+ function verifyMaxRangeOnBlur() {
+ validateFieldValue(jQuery("#MaxRangeCreditVale_add_control"));
+ return;
+ }*/
