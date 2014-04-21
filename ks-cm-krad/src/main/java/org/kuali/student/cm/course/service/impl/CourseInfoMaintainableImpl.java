@@ -890,8 +890,8 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
      *
      * @param dataObject
      */
-    protected void initializeFormat(CourseInfoWrapper dataObject){
-        if (dataObject.getFormats().isEmpty()){
+    protected void initializeFormat(CourseInfoWrapper dataObject) {
+        if (dataObject.getFormats().isEmpty()) {
             FormatInfo format = new FormatInfo();
             ActivityInfo activity = new ActivityInfo();
             format.getActivities().add(activity);
@@ -899,8 +899,8 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         }
     }
 
-    protected void initializeOutcome(CourseInfoWrapper dataObject){
-        if (dataObject.getCreditOptionWrappers().isEmpty()){
+    protected void initializeOutcome(CourseInfoWrapper dataObject) {
+        if (dataObject.getCreditOptionWrappers().isEmpty()) {
             ResultValuesGroupInfoWrapper resultValuesGroupInfoWrapper = new ResultValuesGroupInfoWrapper();
             ResultValuesGroupInfo resultValuesGroupInfo = new ResultValuesGroupInfo();
             ResultValueKeysWrapper resultValueKeysWrapper = new ResultValueKeysWrapper();
@@ -940,13 +940,15 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             }
 
             return;
-        } if (StringUtils.endsWith(collectionPath, "formats")) {
+        }
+        if (StringUtils.endsWith(collectionPath, "formats")) {
             FormatInfo format = new FormatInfo();
             ActivityInfo activity = new ActivityInfo();
             format.getActivities().add(activity);
             courseInfoWrapper.getFormats().add(format);
             return;
-        } if (StringUtils.endsWith(collectionPath, "creditOptionWrappers")) {
+        }
+        if (StringUtils.endsWith(collectionPath, "creditOptionWrappers")) {
             ResultValuesGroupInfoWrapper resultValuesGroupInfoWrapper = new ResultValuesGroupInfoWrapper();
             ResultValuesGroupInfo resultValuesGroupInfo = new ResultValuesGroupInfo();
             ResultValueKeysWrapper resultValueKeysWrapper = new ResultValueKeysWrapper();
@@ -1030,6 +1032,9 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             reviewData = new ReviewProposalDisplay();
             courseInfoWrapper.setReviewProposalDisplay(reviewData);
         }
+        if (StringUtils.isBlank(courseInfoWrapper.getPreviousSubjectCode()) && StringUtils.isNotBlank(savedCourseInfo.getSubjectArea())) {
+            courseInfoWrapper.setPreviousSubjectCode(savedCourseInfo.getSubjectArea());
+        }
         // add logic to set the missing required element correctly. The default is false
         reviewData.getCourseSection().setProposalName(courseInfoWrapper.getProposalInfo().getName());
         reviewData.getCourseSection().setCourseTitle(savedCourseInfo.getCourseTitle());
@@ -1047,23 +1052,23 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         }
 
         reviewData.getCourseSection().getCrossListings().clear();
-        if(!savedCourseInfo.getCrossListings().isEmpty()) {
-           for(CourseCrossListingInfo crossListingInfo : savedCourseInfo.getCrossListings()) {
-               reviewData.getCourseSection().getCrossListings().add(crossListingInfo.getCode());
-           }
+        if (!savedCourseInfo.getCrossListings().isEmpty()) {
+            for (CourseCrossListingInfo crossListingInfo : savedCourseInfo.getCrossListings()) {
+                reviewData.getCourseSection().getCrossListings().add(crossListingInfo.getCode());
+            }
         }
 
         reviewData.getCourseSection().getJointlyOfferedCourses().clear();
-        if(!savedCourseInfo.getJoints().isEmpty()) {
-            for(CourseJointInfo jointInfo : savedCourseInfo.getJoints()) {
+        if (!savedCourseInfo.getJoints().isEmpty()) {
+            for (CourseJointInfo jointInfo : savedCourseInfo.getJoints()) {
                 reviewData.getCourseSection().getJointlyOfferedCourses().add(jointInfo.getSubjectArea() + jointInfo.getCourseNumberSuffix());
             }
         }
 
         reviewData.getCourseSection().getVariations().clear();
-        if(!savedCourseInfo.getVariations().isEmpty()) {
-            for(CourseVariationInfo variationInfo : savedCourseInfo.getVariations()) {
-                reviewData.getCourseSection().getVariations().add(variationInfo.getVariationCode()+": " + variationInfo.getVariationTitle());
+        if (!savedCourseInfo.getVariations().isEmpty()) {
+            for (CourseVariationInfo variationInfo : savedCourseInfo.getVariations()) {
+                reviewData.getCourseSection().getVariations().add(variationInfo.getVariationCode() + ": " + variationInfo.getVariationTitle());
             }
         }
 
@@ -1154,9 +1159,9 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 String contactHours = "";
                 String durationCount = "";
 
-                if (activityInfo.getDuration() != null){
+                if (activityInfo.getDuration() != null) {
                     String durationType = activityInfo.getDuration().getAtpDurationTypeKey();
-                    durationType = StringUtils.substringAfterLast(durationType,".");
+                    durationType = StringUtils.substringAfterLast(durationType, ".");
 
                     if (activityInfo.getDuration().getTimeQuantity() != null) {
                         durationCount = activityInfo.getDuration().getTimeQuantity().toString();
@@ -1164,10 +1169,10 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                     durationCount = durationCount + " " + durationType + CurriculumManagementConstants.COLLECTION_ITEM_PLURAL_END;
                 }
 
-                if (activityInfo.getContactHours() != null){
+                if (activityInfo.getContactHours() != null) {
 
                     String contactType = activityInfo.getContactHours().getUnitTypeKey();
-                    contactType = StringUtils.substringAfterLast(contactType,".");
+                    contactType = StringUtils.substringAfterLast(contactType, ".");
 
                     if (activityInfo.getContactHours().getUnitQuantity() != null) {
                         contactHours = activityInfo.getContactHours().getUnitQuantity();
@@ -1429,14 +1434,14 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     /**
      * Populates format/activity to course dto to save
      */
-    protected void populateFormatOnDTO(){
+    protected void populateFormatOnDTO() {
 
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
         courseInfoWrapper.getCourseInfo().getFormats().clear();
 
         for (FormatInfo format : courseInfoWrapper.getFormats()) {
 
-            if (!isEmptyFormat(format)){
+            if (!isEmptyFormat(format)) {
 
                 if (StringUtils.isBlank(format.getId())) { // If it's new
                     format.setState(DtoConstants.STATE_DRAFT);
@@ -1462,10 +1467,10 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
      * @param format
      * @return
      */
-    protected boolean isEmptyFormat(FormatInfo format){
+    protected boolean isEmptyFormat(FormatInfo format) {
 
-        for (ActivityInfo activity : format.getActivities()){
-            if (StringUtils.isNotBlank(activity.getTypeKey())){
+        for (ActivityInfo activity : format.getActivities()) {
+            if (StringUtils.isNotBlank(activity.getTypeKey())) {
                 return false;
             }
         }
@@ -1498,7 +1503,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
     }
 
-    protected void populateFormatOnWrapper(){
+    protected void populateFormatOnWrapper() {
 
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
         courseInfoWrapper.getFormats().addAll(courseInfoWrapper.getCourseInfo().getFormats());
