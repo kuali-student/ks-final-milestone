@@ -62,7 +62,16 @@
                             <span class="kscr-Card-badge" id="grading_badge_{{course.courseCode}}_{{course.regGroupCode}}" ng-show="showBadge(course)">{{course.gradingOptions[course.gradingOptionId]}}</span>
                         </div>
                         <!--Course Title and description-->
-                        <div class="kscr-Card-text" id="title_{{course.courseCode}}_{{course.regGroupCode}}">{{course.longName}}</div>
+                        <div ng-repeat="ao in course.activityOfferings" class="kscr-Card-detailsText--show" ng-show="!isopen">
+                            <span class="kscr-Card-courseTimes">
+                                <div id="ao_type_{{course.courseCode}}_{{course.regGroupCode}}_{{$index}}" class="kscr-ao-type">{{ao.activityOfferingTypeShortName}}</div>
+                                <div ng-repeat='scheduleComponent in ao.scheduleComponents' id="schedule_{{course.courseCode}}_{{course.regGroupCode}}_{{$parent.$index}}_{{$index}}">
+                                    <span ng-hide="scheduleComponent.isTBA" class="kscr-ao-time">{{scheduleComponent.days}} {{scheduleComponent.startTime}} - {{scheduleComponent.endTime}}</span>
+                                    <span ng-hide="scheduleComponent.isTBA" class="kscr-ao-location">{{scheduleComponent.buildingCode}} {{scheduleComponent.roomCode}}</span>
+                                    <span ng-show="scheduleComponent.isTBA">TBA</span>
+                                </div>
+                            </span>
+                        </div>
                     </accordion-heading>
                     <!-- Course details: AO type, start-end dates, etc. -->
                     <div ng-hide="course.editing" class="kscr-Card-detailsText--edit">

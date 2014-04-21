@@ -440,7 +440,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
             String startTimeMs = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.START_TIME_MS);
             String endTimeMs = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.END_TIME_MS);
             String resultValuesGroupKey = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.RES_VAL_GROUP_KEY);
-            String aoName = (luiName != null && luiName.length() >= 3 ? luiName.substring(0, 3).toUpperCase() : "");
+            String aoName = (luiName != null && luiName.length() >= 3 ? luiName.substring(0, 1).toUpperCase() + luiName.substring(1,3).toLowerCase() : "");
 
             // running over the list of results returned. One CO can have multiple AOs
             if (hmCourseOffering.containsKey(masterLprId)) {
