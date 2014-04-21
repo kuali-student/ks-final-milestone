@@ -96,6 +96,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
         <property name="simpleConstraint">
             <bean parent="RequiredConstraint">
                 <property name="maxLength" value="3" />
+                <property name="minLength" value="3" />
                 <property name="states">
                     <list>
                         <value>ACTIVE</value>
