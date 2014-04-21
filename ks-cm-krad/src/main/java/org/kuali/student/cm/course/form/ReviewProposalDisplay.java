@@ -351,7 +351,7 @@ public class ReviewProposalDisplay {
         public String getDurationAsString() {
             String quatity = StringUtils.EMPTY;
             if(timeQuantity != null && timeQuantity.intValue() > 0 ) {
-                quatity = timeQuantity.toString() + " ";
+                quatity = timeQuantity.toString() + CurriculumManagementConstants.COLLECTION_ITEMS_WHITESPACE_DELIMITER;
             }
 
             return quatity + atpDurationType + "(s)";
