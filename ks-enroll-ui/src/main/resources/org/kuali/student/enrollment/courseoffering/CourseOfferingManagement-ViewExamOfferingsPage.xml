@@ -22,10 +22,10 @@
     -->
 
     <bean id="KS-CourseOfferingManagement-ExamOfferingPage" parent="KS-Uif-Page" p:disclosure.render="false"
-          p:id="viewExamOfferingsPage">
+          p:id="viewExamOfferingsPage" >
         <property name="componentSecurity.editAuthz" value="true"/>
         <!-- <property name="onDocumentReadyScript" value="updateContextBar( 'ManageCourseOfferingManagement-ContextBar', 'KS-CourseOffering-View-ContextBar-PlaceHolder', @{#dp.contextBar.termDayOfYear}, '@{#ConfigProperties['application.url']}' );" /> -->
-        <property name="onDocumentReadyScript" value="setSeasonalColor('ManageCourseOfferingManagement-ContextBar', '@{#dp.contextBar.termDayOfYear}', '@{#ConfigProperties['application.url']}'); updateViewHeaderText('@{currentCourseOfferingWrapper.courseOfferingCode}');" />
+        <property name="onDocumentReadyScript" value="setSeasonalColor('ManageCourseOfferingManagement-ContextBar', '@{#dp.contextBar.termDayOfYear}', '@{#ConfigProperties['application.url']}'); updateViewHeaderText('@{currentCourseOfferingWrapper.courseOfferingCode}'); enableDirtyCheck()" />
         <property name="pageSourceFile" value="CourseOfferingManagement-ManageCourseOfferingsPage.xml" /> <!-- Shows up in HTML so devs can find the code -->
 
         <property name="headerText" value="Exam Offerings"/>
@@ -228,7 +228,7 @@
                     <property name="items">
                         <list>
                             <bean id="eoOverrideMatrix" parent="Uif-InputField" p:propertyName="overrideMatrix">
-                                <property name="onChangeScript" value="removeMatrixOverrideConfirm('@{#component.id}', 'examOfferingRemoveMatrixOverrideConfirmDialog'); writeHiddenToForm(&quot;matrixOverrideCheckBoxId&quot;, &quot;@{#component.id}&quot;);"/>
+                                <property name="onChangeScript" value="removeMatrixOverrideConfirm('@{#component.id}', 'examOfferingRemoveMatrixOverrideConfirmDialog'); writeHiddenToForm(&quot;matrixOverrideCheckBoxId&quot;, &quot;@{#component.id}&quot;); jQuery('#dirtyForm').val(true);"/>
                                 <property name="additionalCssClasses">
                                     <list merge="true">
                                         <value>off</value>
@@ -258,7 +258,7 @@
                 <bean parent="Uif-VerticalFieldGroup" p:label="Day">
                     <property name="items">
                         <list>
-                            <bean id="eoRsiDayInExamPeriod" parent="KS-Uif-InputField" p:propertyName="requestedSchedule.dayInExamPeriod" p:required="true">
+                            <bean id="eoRsiDayInExamPeriod" parent="KS-Uif-InputField" p:propertyName="requestedSchedule.dayInExamPeriod" p:required="true" p:onChangeScript="jQuery('#dirtyForm').val(true);">
                                 <property name="additionalCssClasses">
                                     <list merge="true">
                                         <value>off</value>
@@ -290,7 +290,7 @@
                         <list>
                             <bean id="eoRsiStartTime" parent="KS-Uif-InputField"
                                   p:propertyName="requestedSchedule.startTime" p:cssClasses="new_ts"
-                                  p:required="true" p:disableNativeAutocomplete="true" >
+                                  p:required="true" p:disableNativeAutocomplete="true" p:onChangeScript="jQuery('#dirtyForm').val(true);">
                                 <property name="additionalCssClasses">
                                     <list merge="true">
                                         <value>off</value>
@@ -322,7 +322,7 @@
                         <list>
                             <bean id="eoRsiEndTime" parent="KS-Uif-InputField"
                                   p:propertyName="requestedSchedule.endTime" p:cssClasses="new_ts"
-                                  p:required="true" p:disableNativeAutocomplete="true">
+                                  p:required="true" p:disableNativeAutocomplete="true" p:onChangeScript="jQuery('#dirtyForm').val(true);">
                                 <property name="additionalCssClasses">
                                     <list merge="true">
                                         <value>off</value>
@@ -353,7 +353,7 @@
                     <property name="items">
                         <list>
                             <bean id="eoRsiBuilding" parent="KS-Uif-InputField" p:labelPlacement="TOP"
-                                  p:propertyName="requestedSchedule.buildingCode" p:uppercaseValue="true">
+                                  p:propertyName="requestedSchedule.buildingCode" p:uppercaseValue="true" p:onChangeScript="jQuery('#dirtyForm').val(true);">
                                 <property name="additionalCssClasses">
                                     <list merge="true">
                                         <value>off</value>
@@ -413,7 +413,7 @@
                     <property name="items">
                         <list>
                             <bean id="eoRsiRoom" parent="KS-Uif-InputField"
-                                  p:propertyName="requestedSchedule.roomCode">
+                                  p:propertyName="requestedSchedule.roomCode" p:onChangeScript="jQuery('#dirtyForm').val(true);">
                                 <property name="control">
                                     <bean parent="KS-Uif-TextControl" p:size="20" p:cssClasses="new_rdl_components"/>
                                 </property>
