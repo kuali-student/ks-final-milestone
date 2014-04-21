@@ -50,6 +50,7 @@ import org.kuali.rice.krms.tree.node.CompareTreeNode;
 import org.kuali.rice.krms.tree.node.RuleEditorTreeNode;
 import org.kuali.rice.krms.tree.node.TreeNode;
 import org.kuali.rice.krms.util.NaturalLanguageHelper;
+import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.common.util.ProposalLinkBuilder;
 import org.kuali.student.cm.course.controller.CourseController;
 import org.kuali.student.cm.course.form.ActivityInfoWrapper;
@@ -1160,7 +1161,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                     if (activityInfo.getDuration().getTimeQuantity() != null) {
                         durationCount = activityInfo.getDuration().getTimeQuantity().toString();
                     }
-                    durationCount = durationCount + " per " + durationType;
+                    durationCount = durationCount + " " + durationType + CurriculumManagementConstants.COLLECTION_ITEM_PLURAL_END;
                 }
 
                 if (activityInfo.getContactHours() != null){
@@ -1172,7 +1173,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                         contactHours = activityInfo.getContactHours().getUnitQuantity();
                     }
 
-                    contactHours = contactHours + " per " + contactType;
+                    contactHours = contactHours + " per " + StringUtils.lowerCase(contactType);
 
                 }
 
