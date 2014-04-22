@@ -22,6 +22,7 @@ import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.collection.KSCollectionUtils;
@@ -176,6 +177,7 @@ public class CourseOfferingManagementController extends UifControllerBase {
      * @return ModelAndView
      * @throws Exception
      */
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=show")
     public ModelAndView show(@ModelAttribute("KualiForm") CourseOfferingManagementForm form) throws Exception {
 
