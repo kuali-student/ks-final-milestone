@@ -28,6 +28,8 @@ import org.kuali.rice.krad.uif.util.UifKeyValue;
 import org.kuali.rice.krad.uif.view.DialogManager;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.web.bind.RequestAccessible;
+import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.uif.util.KSControllerHelper;
@@ -166,9 +168,10 @@ public class AcademicCalendarController extends UifControllerBase {
      *
      * It fills in the original Acal for the form with the latest calendar found, by default
      */
+    @MethodAccessible
     @RequestMapping(method = RequestMethod.GET, params = "methodToCall=startNew")
-    public ModelAndView startNew( @ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
-                                  HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView startNew(@ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
+                                 HttpServletRequest request, HttpServletResponse response) {
 
         try {
             AcademicCalendarInfo acalInfo = getAcalViewHelperService(acalForm).getLatestAcademicCalendar();
