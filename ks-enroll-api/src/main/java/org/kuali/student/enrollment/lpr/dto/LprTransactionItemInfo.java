@@ -115,6 +115,9 @@ public class LprTransactionItemInfo
 
     @Override
     public LprTransactionItemResultInfo getLprTransactionItemResult() {
+        if(lprTransactionItemResult == null){
+            lprTransactionItemResult = new LprTransactionItemResultInfo();
+        }
         return lprTransactionItemResult;
     }
 
