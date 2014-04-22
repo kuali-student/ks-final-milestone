@@ -422,7 +422,7 @@ public class TestBaseValidCharsDictionary {
         // also add a unit test for new valid chars definition that you must have added into the base dictionary!
         // TODO: KSENROLL-11999 need more assertions now that org/kuali/rice/krad/datadictionary/DataDictionaryBaseTypes.xml
         // has exposed more prototype-scoped beans
-        assertEquals(38, vccs.size());
+        assertEquals(39, vccs.size());
     }
 }
 
