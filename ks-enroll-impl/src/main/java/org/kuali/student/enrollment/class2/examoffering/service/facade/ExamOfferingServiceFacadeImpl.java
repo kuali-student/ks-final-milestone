@@ -502,9 +502,11 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
 
                     //Remove RDL for Exam Offering if use fe matrix toggle was deselected and user did not override timeslot.
                     if(!userOverride && !useFinalExamMatrix){
+                        aoResult = new ExamOfferingResult(ExamOfferingServiceConstants.EXAM_OFFERING_UPDATED, contextParms);
                         removeExamOfferingRDL(eo, context);
+                    } else {
+                        aoResult = new ExamOfferingResult(ExamOfferingServiceConstants.EXAM_OFFERING_UNCHANGED, contextParms);
                     }
-                    aoResult = new ExamOfferingResult(ExamOfferingServiceConstants.EXAM_OFFERING_UPDATED, contextParms);
                 }
 
                 //(re)perform slotting if use fe matrix toggle is selected and use did not override timeslot.
@@ -512,7 +514,6 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
                     aoResult.getChildren().add(this.getScheduleEvaluator().executeRuleForAOSlotting(aoInfo, eo.getId(),
                             termType, evaluatorOptions, context));
                 }
-                aoResult.setContext(contextParms);
                 result.getChildren().add(aoResult);
 
             }
