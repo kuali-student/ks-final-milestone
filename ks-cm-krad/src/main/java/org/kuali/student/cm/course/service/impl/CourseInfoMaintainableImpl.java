@@ -1417,16 +1417,20 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
             if (StringUtils.equals(rvgWrapper.getTypeKey(), LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)) {
                 rvg.setResultValueRange(rvgWrapper.getResultValueRange());
+                rvg.setTypeKey(rvgWrapper.getTypeKey());
             } else if (StringUtils.equals(rvgWrapper.getTypeKey(), LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE)) {
                 for (ResultValueKeysWrapper rvKeys : rvgWrapper.getResultValueKeysDisplay()) {
                     StringBuilder builder = new StringBuilder(LrcServiceConstants.RESULT_VALUE_KEY_CREDIT_DEGREE_PREFIX);
                     float floatValue = Float.valueOf(rvKeys.getCreditValueDisplay());
                     builder.append(floatValue);
                     rvg.getResultValueKeys().add(builder.toString());
+                    rvg.setTypeKey(rvgWrapper.getTypeKey());
                 }
             } else if (StringUtils.equals(rvgWrapper.getTypeKey(), LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)) {
                 rvg.setResultValueRange(rvgWrapper.getResultValueRange());
+                rvg.setTypeKey(rvgWrapper.getTypeKey());
             }
+            courseInfoWrapper.getCourseInfo().getCreditOptions().add(rvg);
         }
 
     }
