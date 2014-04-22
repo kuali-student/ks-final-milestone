@@ -193,7 +193,7 @@
     <span>RESULTS</span>
 </div>
 <div class="kscr-Card-Results panel-group">
-    <div ng-repeat="cartResultItem in cartResults.items" is-open="isopen" class="panel cart-item-status-{{cartResultItem.status}}">
+    <div ng-repeat="cartResultItem in cartResults.items" is-open="isopen" class="panel kscr-cartItem-status--{{cartResultItem.status}}">
         <div class="kscr-cartResult-icon">&nbsp;</div>
         <!-- Displays block with course info if course is not waitlisted -->
         <div class="kscr-cartResult-heading" ng-if="cartResultItem.status != 'waitlist'">

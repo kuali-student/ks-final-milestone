@@ -265,7 +265,7 @@
     height: 30px;
 }
 
-.cart-item-status-success,.cart-item-status-waitlist{
+.kscr-cartItem-status--success,.kscr-cartItem-status--waitlist{
     background-color: @successBackground;   // #dff0d8;
     border-color: @successBorder;  //#D6E9C6;
     color: @successText; // #3B723B;
@@ -282,14 +282,14 @@
     }
 }
 
-.cart-item-status-success-add-active, .cart-item-status-error-add-active, .cart-item-status-action-add-active, .cart-item-status-waitlist-add-active {
+.kscr-cartItem-status--success-add-active, .kscr-cartItem-status--error-add-active, .kscr-cartItem-status--action-add-active, .kscr-cartItem-status--waitlist-add-active {
     background-color: @cardBackgroundColor;
     border-color: @cardBorderColor;
     color: @cardTextColor;
 
 }
 
-.cart-item-status-processing {
+.kscr-cartItem-status--processing {
     .kscr-cartResult-icon {
         background-image: url("../images/validation/spinner_small.gif");
         background-color: inherit;
@@ -302,7 +302,7 @@
     }
 }
 
-.cart-item-status-error {
+.kscr-cartItem-status--error {
     background-color: @errorBackground; //#F2DEDE;
     border-color: @errorBorder;  //#EFD3D7;
     color: @errorText; //#A3403C;
@@ -318,7 +318,7 @@
     }
 }
 
-.cart-item-status-action {
+.kscr-cartItem-status--action {
   background-color: @warningBackground; //#F2DEDE;
   border-color: @warningBorder;  //#EFD3D7;
   color: @warningText; //#A3403C;
@@ -333,11 +333,7 @@
     display: none;
   }
 }
-/*
-.panel.cart-item-status- .panel-heading .kscr-Card-icon {
-    display:block;
-}
-*/
+
 /**** End ****/
 
 .kscr-Card-reason{
