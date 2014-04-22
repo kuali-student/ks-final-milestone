@@ -47,7 +47,6 @@ import org.kuali.student.cm.course.form.CourseInfoWrapper;
 import org.kuali.student.cm.course.form.LoDisplayInfoWrapper;
 import org.kuali.student.cm.course.form.LoDisplayWrapperModel;
 import org.kuali.student.cm.course.form.RecentlyViewedDocsUtil;
-import org.kuali.student.cm.course.form.ResultValueKeysWrapper;
 import org.kuali.student.cm.course.form.ResultValuesGroupInfoWrapper;
 import org.kuali.student.cm.course.form.SupportingDocumentInfoWrapper;
 import org.kuali.student.cm.course.service.CourseInfoMaintainable;
@@ -614,87 +613,6 @@ public class CourseController extends CourseRuleEditorController {
     public ModelAndView previousPage(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, HttpServletRequest request) {
         return getUIFModelAndView(form);
     }
-
-
-    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=addMultipleActivity")
-    public ModelAndView addMultipleActivity(@ModelAttribute("KualiForm") MaintenanceDocumentForm form) {
-
-        String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
-        if (StringUtils.isBlank(selectedCollectionPath)) {
-            throw new RuntimeException("Selected collection was not set for add line action, cannot add new line");
-        }
-
-        String selectedCollectionIndex = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
-        int selectedIndex = 0;
-
-        if (StringUtils.isBlank(selectedCollectionIndex)) {
-            selectedIndex = Integer.parseInt(selectedCollectionIndex);
-        }
-
-        CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
-
-        ResultValuesGroupInfoWrapper rvg = courseInfoWrapper.getCreditOptionWrappers().get(selectedIndex);
-        String newMultipleValue = rvg.getResultValueRange().getMinValue();
-        rvg.getResultValueRange().setMinValue("");
-
-        ResultValueKeysWrapper newValue = new ResultValueKeysWrapper();
-        newValue.setCreditValueDisplay(newMultipleValue);
-
-        rvg.getResultValueKeysDisplay().add(newValue);
-
-        return getUIFModelAndView(form);
-    }
-    /**
-     *
-     * @param form
-     */
-    /*protected void updateReview(final DocumentFormBase form) {
-        CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
-        CourseInfo savedCourseInfo = courseInfoWrapper.getCourseInfo();
-
-        // Update course section
-        final ReviewProposalDisplay reviewData = courseInfoWrapper.getReviewProposalDisplay();
-        reviewData.getCourseSection().setProposalName(courseInfoWrapper.getProposalInfo().getName());
-        reviewData.getCourseSection().setCourseTitle(savedCourseInfo.getCourseTitle());
-        reviewData.getCourseSection().setTranscriptTitle(savedCourseInfo.getTranscriptTitle());
-        reviewData.getCourseSection().setSubjectArea(savedCourseInfo.getSubjectArea());
-        reviewData.getCourseSection().setCourseNumberSuffix(savedCourseInfo.getCourseNumberSuffix());
-
-        // Update governance section
-        reviewData.getGovernanceSection().getCampusLocations().clear();
-        reviewData.getGovernanceSection().getCampusLocations().addAll(savedCourseInfo.getCampusLocations());
-        reviewData.getGovernanceSection().getCurriculumOversight().clear();
-        reviewData.getGovernanceSection().getCurriculumOversight().addAll(savedCourseInfo.getUnitsContentOwner());
-
-        // update course logistics section
-        reviewData.getCourseLogisticsSection().getTerms().clear();
-        try {
-            for(String termType : savedCourseInfo.getTermsOffered())  {
-                TypeInfo term = getTypeService().getType(termType, ContextUtils.getContextInfo());
-                reviewData.getCourseLogisticsSection().getTerms().add(term.getName());
-            }
-        } catch (Exception e) {
-            throw new RiceIllegalStateException(e);
-        }
-
-      if(savedCourseInfo.getDuration() != null &&  StringUtils.isNotBlank(savedCourseInfo.getDuration().getAtpDurationTypeKey())) {
-        try{
-                TypeInfo term = getTypeService().getType(savedCourseInfo.getDuration().getAtpDurationTypeKey(), ContextUtils.getContextInfo());
-                reviewData.getCourseLogisticsSection().setAtpDurationType(term.getName());
-            } catch (Exception e) {
-                throw new RiceIllegalStateException(e);
-            }
-      }
-
-        reviewData.getCourseLogisticsSection().setTimeQuantity(savedCourseInfo.getDuration().getTimeQuantity());
-
-        // update learning Objectives Section;
-        // update  course Requisites Section;
-        // update  active Dates Section;
-        // update  financials Section;
-        // update  collaborator Section;
-        // update  supporting Documents Section;
-    }*/
 
     /**
      * Copied this method from CourseDataService.

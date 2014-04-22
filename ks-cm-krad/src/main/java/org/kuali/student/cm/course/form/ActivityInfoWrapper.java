@@ -33,7 +33,7 @@ public class ActivityInfoWrapper {
 
     /**
      * Not being used from any other java classes. It's here for Spring/krad to
-     * create new objects for the collection we defined for course maintenace view
+     * create new objects for the collection we defined for course maintenance view
      */
     @SuppressWarnings("unused")
     public ActivityInfoWrapper(){

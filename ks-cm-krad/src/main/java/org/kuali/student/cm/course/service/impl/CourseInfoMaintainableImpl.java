@@ -66,7 +66,6 @@ import org.kuali.student.cm.course.form.LoDisplayInfoWrapper;
 import org.kuali.student.cm.course.form.LoDisplayWrapperModel;
 import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
 import org.kuali.student.cm.course.form.OutcomeReviewSection;
-import org.kuali.student.cm.course.form.ResultValueKeysWrapper;
 import org.kuali.student.cm.course.form.ResultValuesGroupInfoWrapper;
 import org.kuali.student.cm.course.form.ReviewProposalDisplay;
 import org.kuali.student.cm.course.form.SubjectCodeWrapper;
@@ -902,10 +901,6 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     protected void initializeOutcome(CourseInfoWrapper dataObject) {
         if (dataObject.getCreditOptionWrappers().isEmpty()) {
             ResultValuesGroupInfoWrapper resultValuesGroupInfoWrapper = new ResultValuesGroupInfoWrapper();
-            ResultValuesGroupInfo resultValuesGroupInfo = new ResultValuesGroupInfo();
-            ResultValueKeysWrapper resultValueKeysWrapper = new ResultValueKeysWrapper();
-            resultValuesGroupInfoWrapper.getResultValueKeysDisplay().add(resultValueKeysWrapper);
-            resultValuesGroupInfoWrapper.setResultValuesGroupInfo(resultValuesGroupInfo);
             dataObject.getCreditOptionWrappers().add(resultValuesGroupInfoWrapper);
         }
     }
@@ -946,15 +941,6 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             ActivityInfo activity = new ActivityInfo();
             format.getActivities().add(activity);
             courseInfoWrapper.getFormats().add(format);
-            return;
-        }
-        if (StringUtils.endsWith(collectionPath, "creditOptionWrappers")) {
-            ResultValuesGroupInfoWrapper resultValuesGroupInfoWrapper = new ResultValuesGroupInfoWrapper();
-            ResultValuesGroupInfo resultValuesGroupInfo = new ResultValuesGroupInfo();
-            ResultValueKeysWrapper resultValueKeysWrapper = new ResultValueKeysWrapper();
-            resultValuesGroupInfoWrapper.getResultValueKeysDisplay().add(resultValueKeysWrapper);
-            resultValuesGroupInfoWrapper.setResultValuesGroupInfo(resultValuesGroupInfo);
-            courseInfoWrapper.getCreditOptionWrappers().add(resultValuesGroupInfoWrapper);
             return;
         }
 
@@ -1124,25 +1110,18 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
         for (ResultValuesGroupInfoWrapper rvg : courseInfoWrapper.getCreditOptionWrappers()) {
             String creditOptionType = "";
-            String creditOptionValue = "";
+            String creditOptionValue = rvg.getUiHelper().getResultValue();
             if (StringUtils.equals(rvg.getTypeKey(), LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)) {
                 creditOptionType = "Fixed";
                 if (StringUtils.contains(rvg.getResultValueRange().getMinValue(), "degree.")) {
-                    creditOptionValue = StringUtils.substringAfterLast(rvg.getResultValueRange().getMinValue(), "degree.");
+                    creditOptionValue = StringUtils.substringAfterLast(rvg.getUiHelper().getResultValue(), "degree.");
                 } else {
-                    creditOptionValue = rvg.getResultValueRange().getMinValue();
+                    creditOptionValue = rvg.getUiHelper().getResultValue();
                 }
             } else if (StringUtils.equals(rvg.getTypeKey(), LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE)) {
                 creditOptionType = "Multiple";
-                StringBuilder builder = new StringBuilder();
-                for (ResultValueKeysWrapper rvWrapper : rvg.getResultValueKeysDisplay()) {
-                    builder.append(Float.valueOf(rvWrapper.getCreditValueDisplay()) + LrcServiceConstants.COMMA_DELIMITER);
-                }
-                creditOptionValue = StringUtils.removeEnd(builder.toString(), LrcServiceConstants.COMMA_DELIMITER);
             } else if (StringUtils.equals(rvg.getTypeKey(), LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)) {
                 creditOptionType = "Range";
-                ResultValueRangeInfo range = rvg.getResultValueRange();
-                creditOptionValue = range.getMinValue() + " - " + range.getMaxValue();
             }
             reviewData.getCourseLogisticsSection().getOutcomes().add(new OutcomeReviewSection(creditOptionType, creditOptionValue));
         }
@@ -1160,8 +1139,13 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 String durationCount = "";
 
                 if (activityInfo.getDuration() != null) {
-                    String durationType = activityInfo.getDuration().getAtpDurationTypeKey();
-                    durationType = StringUtils.substringAfterLast(durationType, ".");
+                    String durationType;
+                    try {
+                        TypeInfo duration = getTypeService().getType(activityInfo.getDuration().getAtpDurationTypeKey(),createContextInfo());
+                        durationType = duration.getName();
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
 
                     if (activityInfo.getDuration().getTimeQuantity() != null) {
                         durationCount = activityInfo.getDuration().getTimeQuantity().toString();
@@ -1402,36 +1386,49 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
 
-        courseInfoWrapper.getCourseInfo().getCreditOptions().clear();
-
         for (ResultValuesGroupInfoWrapper rvgWrapper : courseInfoWrapper.getCreditOptionWrappers()) {
+
+            if (StringUtils.isBlank(rvgWrapper.getUiHelper().getResultValue())){
+                continue;
+            }
 
             ResultValuesGroupInfo rvg = rvgWrapper.getResultValuesGroupInfo();
 
             if (rvg == null) {
                 rvg = new ResultValuesGroupInfo();
-                courseInfoWrapper.getCourseInfo().getCreditOptions().add(rvg);
-                rvg.setTypeKey(rvgWrapper.getTypeKey());
-                rvg.setStateKey(LrcServiceConstants.RESULT_GROUPS_STATE_DRAFT);
+                rvgWrapper.setResultValuesGroupInfo(rvg);
             }
 
+            rvg.setTypeKey(rvgWrapper.getTypeKey());
+            rvg.setStateKey(LrcServiceConstants.RESULT_GROUPS_STATE_DRAFT);
+            courseInfoWrapper.getCourseInfo().getCreditOptions().add(rvg);
+
             if (StringUtils.equals(rvgWrapper.getTypeKey(), LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)) {
-                rvg.setResultValueRange(rvgWrapper.getResultValueRange());
+                ResultValueRangeInfo range = new ResultValueRangeInfo();
+                range.setMinValue(rvgWrapper.getUiHelper().getResultValue());
+                rvg.setResultValueRange(range);
                 rvg.setTypeKey(rvgWrapper.getTypeKey());
             } else if (StringUtils.equals(rvgWrapper.getTypeKey(), LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE)) {
-                for (ResultValueKeysWrapper rvKeys : rvgWrapper.getResultValueKeysDisplay()) {
+                String[] resultValues = StringUtils.split(rvgWrapper.getUiHelper().getResultValue(),",");
+                rvg.getResultValueKeys().clear();
+                for (String result : resultValues) {
                     StringBuilder builder = new StringBuilder(LrcServiceConstants.RESULT_VALUE_KEY_CREDIT_DEGREE_PREFIX);
-                    float floatValue = Float.valueOf(rvKeys.getCreditValueDisplay());
+                    float floatValue = Float.valueOf(result);
                     builder.append(floatValue);
                     rvg.getResultValueKeys().add(builder.toString());
                     rvg.setTypeKey(rvgWrapper.getTypeKey());
                 }
             } else if (StringUtils.equals(rvgWrapper.getTypeKey(), LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)) {
-                rvg.setResultValueRange(rvgWrapper.getResultValueRange());
+                ResultValueRangeInfo range = new ResultValueRangeInfo();
+                range.setMinValue(StringUtils.substringBefore(rvgWrapper.getUiHelper().getResultValue(),"-"));
+                range.setMaxValue(StringUtils.substringAfter(rvgWrapper.getUiHelper().getResultValue(), "-"));
+                rvg.setResultValueRange(range);
                 rvg.setTypeKey(rvgWrapper.getTypeKey());
             }
             courseInfoWrapper.getCourseInfo().getCreditOptions().add(rvg);
         }
+
+        initializeOutcome(courseInfoWrapper);
 
     }
 
@@ -1485,22 +1482,33 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     protected void populateOutComesOnWrapper() {
 
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
+        courseInfoWrapper.getCreditOptionWrappers().clear();
 
         for (ResultValuesGroupInfo rvg : courseInfoWrapper.getCourseInfo().getCreditOptions()) {
+
             ResultValuesGroupInfoWrapper rvgWrapper = new ResultValuesGroupInfoWrapper();
             BeanUtils.copyProperties(rvg, rvgWrapper);
             rvgWrapper.setResultValuesGroupInfo(rvg);
+
             if (StringUtils.equals(rvg.getTypeKey(), LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE)) {
+
+                StringBuilder resultValue = new StringBuilder("");
+
                 for (String rvKey : rvg.getResultValueKeys()) {
-                    ResultValueKeysWrapper keysWrapper = new ResultValueKeysWrapper();
                     String value = StringUtils.strip(rvKey, LrcServiceConstants.RESULT_VALUE_KEY_CREDIT_DEGREE_PREFIX);
                     value = StringUtils.strip(value, ".0"); // This can be only be integer at ui.
-                    keysWrapper.setCreditValueDisplay(value);
-                    rvgWrapper.getResultValueKeysDisplay().add(keysWrapper);
+                    resultValue.append(value + ",");
                 }
+                rvgWrapper.getUiHelper().setResultValue(StringUtils.removeEnd(resultValue.toString(),","));
+
             } else if (StringUtils.equals(rvg.getTypeKey(), LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)) {
-                rvg.getResultValueRange().setMinValue(StringUtils.strip(rvg.getResultValueRange().getMinValue(), ".0")); // This can be only be integer at ui.
-                rvg.getResultValueRange().setMaxValue(StringUtils.strip(rvg.getResultValueRange().getMaxValue(), ".0")); // This can be only be integer at ui.
+
+                String minValue = StringUtils.strip(rvg.getResultValueRange().getMinValue(), ".0"); // This can be only be integer at ui.
+                String maxValue = StringUtils.strip(rvg.getResultValueRange().getMaxValue(), ".0"); // This can be only be integer at ui.
+
+                rvgWrapper.getUiHelper().setResultValue(minValue + "-" + maxValue);
+            } else if (StringUtils.equals(rvg.getTypeKey(), LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)) {
+                rvgWrapper.getUiHelper().setResultValue(rvg.getResultValueRange().getMinValue());
             }
             courseInfoWrapper.getCreditOptionWrappers().add(rvgWrapper);
         }

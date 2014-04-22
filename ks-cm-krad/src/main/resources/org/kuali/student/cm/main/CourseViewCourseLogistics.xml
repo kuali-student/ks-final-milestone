@@ -194,10 +194,22 @@
             </list>
         </property>
     </bean>
-    <bean id="KS-CourseView-CourseLogisticsPage-Outcome-Widgets"
-          parent="Uif-StackedCollectionSection" p:headerText="Outcome" p:propertyName="creditOptionWrappers">
-        <property name="validationMessages.displayMessages" value="false" />
-        <!-- Display the appropriate requiredness messaging -->
+
+    <bean id="KS-CourseView-CourseLogisticsPage-Outcome-Widgets" parent="KS-TableCollectionSubSection-BottomAddLine" p:forceSessionPersistence="true"
+                      p:layoutManager.style="width: 100%;"
+                      p:headerText="Outcome">
+        <property name="collectionObjectClass" value="org.kuali.student.cm.course.form.ResultValuesGroupInfoWrapper" />
+        <property name="propertyName" value="creditOptionWrappers" />
+        <property name="addBlankLineAction.actionLabel" value="Add Outcome"/>
+        <property name="addBlankLineAction.additionalCssClasses" value="outcome-addline" />
+        <property name="addBlankLineAction.id" value="outcome-addline"/>
+        <property name="addBlankLineAction.dirtyOnAction" value="true" />
+        <property name="validationMessages.displayMessages" value="false"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.generateAutoSequence" value="false"/>
+        <property name="layoutManager.separateAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
         <property name="header.rightGroup">
             <bean parent="Uif-VerticalBoxGroup">
                 <property name="items">
@@ -213,124 +225,89 @@
                 <value>course_outcome</value>
             </list>
         </property>
-        <property name="collectionObjectClass" value="org.kuali.student.cm.course.form.ResultValuesGroupInfoWrapper" />
-        <property name="addBlankLineAction">
-            <bean parent="KS-BottomAddLine">
-                <property name="actionLabel" value="Add Outcome"/>
-                <property name="id" value="outcome-addline"/>
-                <property name="dirtyOnAction" value="true" />
-                <property name="style" value="margin-top:1em;margin-left:15px;" />
-            </bean>
-        </property>
-        <property name="renderAddBlankLineButton" value="true" />
-        <property name="renderLineActions" value="false" />
-        <property name="layoutManager.addLineGroup.header.render" value="false" />
-        <property name="layoutManager.lineGroupPrototype.header.headerText" value="Outcome @{(#index + 1)}" />
-        <property name="layoutManager.lineGroupPrototype.additionalCssClasses" value="course_format_line"/>
-        <property name="layoutManager.lineGroupPrototype.header.style" value="margin-left:10px;margin-top:10px;"/>
-        <property name="layoutManager.id" value="course_outcome_table"/>
-        <property name="layoutManager.lineGroupPrototype.layoutManager.id" value="course_outcome_table_@{#index}"/>
-        <property name="layoutManager.lineGroupPrototype.id" value="course_outcome_row_@{#index}"/>
-        <property name="layoutManager.lineGroupPrototype.header.rightGroup">
-            <bean parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="right-aligned">
-                <property name="items">
-                    <list>
-                        <bean parent="KS-Uif-Delete-ActionLink" p:id="delete_outcome" p:methodToCall="deleteLine" p:actionLabel="Delete" p:ajaxSubmit="true"
-                              p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"
-                              p:actionScript="actionInvokeHandler(this);"
-                              p:render="@{!#view.readOnly}"
-                              p:additionalCssClasses="right-aligned"
-                              p:ajaxReturnType="update-component"
-                              p:refreshId="KS-CourseView-CourseLogisticsPage-Outcome-Widgets"
-                              p:actionEvent="deleteLine" p:dirtyOnAction="true"/>
-                    </list>
-                </property>
-            </bean>
-        </property>
-        <property name="addLinePlacement" value="TOP" />
         <property name="items">
             <list>
-                <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false" p:style="margin-left=10px;">
-                    <property name="items">
+                <bean id="typeKey" parent="KS-Uif-InputField-LabelTop" p:propertyName="typeKey" p:label="Type" p:required="true" >
+                    <property name="control">
+                        <bean parent="KS-Uif-DropdownControl" p:onChangeScript="clearOutcomeValue('creditValue_line@{#index}_control');">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="1" p:value="" />
+                                    <bean parent="Uif-KeyLabelPair" p:key="kuali.result.values.group.type.fixed" p:value="Fixed" />
+                                    <bean parent="Uif-KeyLabelPair" p:key="kuali.result.values.group.type.multiple" p:value="Multiple" />
+                                    <bean parent="Uif-KeyLabelPair" p:key="kuali.result.values.group.type.range" p:value="Range" />
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="creditValue" parent="KS-Uif-InputField-LabelTop"
+                      p:label="Credits" p:propertyName="uiHelper.resultValue">
+                    <property name="constraintText" value=""/>
+                    <property name="constraintMessage">
+                        <bean parent="Uif-ConstraintMessage"/>
+                    </property>
+                    <property name="propertyReplacers">
                         <list>
-                            <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="typeKey" p:label="Type" p:required="true" >
-                                <property name="control">
-                                    <bean parent="KS-Uif-DropdownControl" p:onChangeScript="reDrawOutcomeComponent();">
-                                        <property name="options">
-                                            <list>
-                                                <bean parent="Uif-KeyLabelPair" p:key="1" p:value="" />
-                                                <bean parent="Uif-KeyLabelPair" p:key="kuali.result.values.group.type.fixed" p:value="Fixed" />
-                                                <bean parent="Uif-KeyLabelPair" p:key="kuali.result.values.group.type.multiple" p:value="Multiple" />
-                                                <bean parent="Uif-KeyLabelPair" p:key="kuali.result.values.group.type.range" p:value="Range" />
-                                            </list>
-                                        </property>
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                                p:propertyName="constraintText"
+                                p:condition="@{#lp.typeKey eq 'kuali.result.values.group.type.multiple'}" >
+                                <property name="replacement">
+                                    <value>Must be a comma-separated list of values (ex. 1,3,5)</value>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                                p:propertyName="constraintText"
+                                p:condition="@{#lp.typeKey eq 'kuali.result.values.group.type.range'}" >
+                                <property name="replacement">
+                                    <value>Must be a hyphen-separated range (ex. 1-3)</value>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                                p:propertyName="constraintText"
+                                p:condition="@{#lp.typeKey eq 'kuali.result.values.group.type.fixed'}" >
+                                <property name="replacement">
+                                    <value>Must be a numerical value (ex. 3)</value>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                                p:propertyName="validCharactersConstraint"
+                                p:condition="@{#lp.typeKey eq 'kuali.result.values.group.type.multiple'}" >
+                                <property name="replacement">
+                                    <bean parent="NumericPatternConstraint">
+                                        <property name="allowComma" value="true"/>
                                     </bean>
                                 </property>
                             </bean>
-                            <bean id="fixedCreditVale" parent="KS-Uif-InputField-LabelTop"
-                                  p:render="@{#lp.typeKey eq 'kuali.result.values.group.type.fixed'}"
-                                  p:label="Credits" p:propertyName="resultValueRange.minValue">
-                                <property name="validCharactersConstraint">
-                                    <bean parent="NumericPatternConstraint" />
-                                </property>
-                            </bean>
-                            <bean  id="MinRangeCreditVale" parent="KS-Uif-InputField-LabelTop"
-                                   p:render="@{#lp.typeKey eq 'kuali.result.values.group.type.range'}"
-                                   p:label="Min. Credits" p:propertyName="resultValueRange.minValue">
-                                <property name="validCharactersConstraint">
-                                    <bean parent="NumericPatternConstraint" />
-                                </property>
-                            </bean>
-                            <bean id="MaxRangeCreditVale" parent="KS-Uif-InputField-LabelTop"
-                                  p:render="@{#lp.typeKey eq 'kuali.result.values.group.type.range'}"
-                                  p:label="Max. Credits" p:propertyName="resultValueRange.maxValue">
-                                <property name="validCharactersConstraint">
-                                    <bean parent="NumericPatternConstraint" />
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                                p:propertyName="validCharactersConstraint"
+                                p:condition="@{#lp.typeKey eq 'kuali.result.values.group.type.range'}" >
+                                <property name="replacement">
+                                    <bean parent="NumericPatternConstraint">
+                                        <property name="allowDash" value="true"/>
+                                    </bean>
                                 </property>
                             </bean>
                         </list>
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="NumericPatternConstraint"/>
                     </property>
                 </bean>
             </list>
         </property>
-        <!--<property name="subCollections">
+        <property name="lineActions">
             <list>
-                <bean parent="KS-TableCollectionSubSection-BottomAddLine"
-                      p:collectionObjectClass="org.kuali.student.cm.course.form.ResultValueKeysWrapper"
-                      p:progressiveRender="#lp.typeKey eq 'kuali.result.values.group.type.multiple'"
-                      p:progressiveRenderViaAJAX="true" p:propertyName="resultValueKeysDisplay">
-                     <property name="addLineActions">
-                        <list>
-                            <bean id="addBlankLine-outcome-multiple" parent="KSCM-Uif-AddBlankLineAction"/>
-                        </list>
-                    </property>
-                    <property name="lineActions">
-                        <list>
-                            <bean parent="KS-Uif-Delete-ActionLink" p:id="delete_activity" p:methodToCall="deleteLine" p:actionLabel="Delete"
-                                  p:actionEvent="deleteLine" p:dirtyOnAction="true"/>
-                        </list>
-                    </property>
-                    <property name="addLinePlacement" value="BOTTOM" />
-                    <property name="addLineLabel.messageText" value=" " />
-                    <property name="items">
-                        <list>
-                            <bean id="outcome-multiple-credit" parent="KS-Uif-InputField-LabelTop" p:label="Credits"
-                                  p:propertyName="creditValueDisplay">
-                                <property name="validCharactersConstraint">
-                                    <bean parent="NumericPatternConstraint" />
-                                </property>
-                            </bean>
-                        </list>
-                    </property>
-                </bean>
+                <bean parent="KS-Uif-Delete-ActionLink" p:id="delete_outcome" p:methodToCall="deleteLine" p:actionLabel="Delete"
+                      p:actionEvent="deleteLine" p:dirtyOnAction="true"/>
             </list>
-        </property>-->
+        </property>
     </bean>
 
     <bean id="KSCM-Uif-AddBlankLineAction" parent="Uif-PrimaryActionButton-Small" p:methodToCall="addBlankLine" p:actionLabel="Add" p:actionEvent="addBlankLine" p:id="addBlankLine-outcome-multiple"/>
 
     <bean id="KS-CourseView-CourseLogisticsPage-CourseFormats-Widgets"
-          parent="Uif-StackedCollectionSection" p:headerText="Course Format(s)"
+              parent="Uif-StackedCollectionSection" p:headerText="Course Format(s)"
           p:propertyName="formats" p:collectionObjectClass="org.kuali.student.r2.lum.course.dto.FormatInfo">
         <property name="instructionalText"
                   value="Each course format can consist of any number of activities, and you may have more than one course format for this course." />
