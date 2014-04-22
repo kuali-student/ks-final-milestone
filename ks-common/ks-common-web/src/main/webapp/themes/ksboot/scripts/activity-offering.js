@@ -384,6 +384,7 @@ function preSubmitCheck(){
 function preSubmitNewRDL(){
     var components = jQuery('.new_rdl_components');
     var isTba = jQuery('#rdl_tba_control').is(':checked');
+    jQuery('#dirtyForm').val(true);
     if (!isTba){
         var valid = validateLineFields(components);
         if (!valid) {
