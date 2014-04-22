@@ -511,8 +511,15 @@ function updateStickyHeaderText() {
     jQuery("#KS-CourseView").find('.uif-viewHeader-supportTitle').text("Review Proposal");
 }
 
-function reDrawOutcomeComponent() {
-    retrieveComponent('KS-CourseView-CourseLogisticsPage-Outcome-Widgets');
+/**
+ * This method clears the result value from a specific result value group.
+ *
+ * Usage at CourseViewCourseLogistics.xml
+ *
+ * @param index index of the result value group row
+ */
+function clearOutcomeValue(id) {
+    jQuery("#" + id).val('');
 }
 
 function compareSubjectCodeInput(value, element) {
