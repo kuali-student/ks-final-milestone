@@ -105,7 +105,7 @@ public abstract class AbstractCheckProposition extends AbstractLeafProposition {
     private PropositionResult recordFailureResult(ExecutionEnvironment environment) {
         // report error (or warning)
         ValidationResultInfo vr = new ValidationResultInfo();
-        vr.setElement(instruction.getId());
+        vr.setElement("instructionId:" + instruction.getId() +"/checkId:" + instruction.getCheckId());
         if (instruction.getIsWarning()) {
             vr.setLevel(ValidationResult.ErrorLevel.WARN);
         } else {

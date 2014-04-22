@@ -830,25 +830,22 @@ public class ProcessServiceImpl implements ProcessService {
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         List<InstructionInfo> instructions = getInstructionsByProcess(processKey, contextInfo);
+        List<InstructionInfo> copyOfInstructions = new ArrayList<InstructionInfo>();
         for (InstructionInfo instruction : instructions) {
-            if (!ProcessServiceConstants.PROCESS_ACTIVE_STATE_KEY.equals(instruction.getStateKey())) {
-                // remove non-active
-                instructions.remove(instruction);
-            } else if (!isInstructionCurrent(instruction, contextInfo)) {
-                // remove non-current
-                instructions.remove(instruction);
+            if (ProcessServiceConstants.INSTRUCTION_ACTIVE_STATE_KEY.equals(instruction.getStateKey())&& isInstructionCurrent(instruction, contextInfo)) {
+                copyOfInstructions.add(instruction);
             }
         }
 
         // order instructions
-        Collections.sort(instructions, new Comparator<InstructionInfo>() {
+        Collections.sort(copyOfInstructions, new Comparator<InstructionInfo>() {
             @Override
             public int compare(InstructionInfo instruction1, InstructionInfo instruction2) {
                 return instruction1.getPosition().compareTo(instruction2.getPosition());
             }
         });
 
-        return instructions;
+        return copyOfInstructions;
     }
 
     /*private StateEntity findState(String processKey, String stateKey, ContextInfo context)
