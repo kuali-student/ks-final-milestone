@@ -8,14 +8,12 @@ import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequestI
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
-import org.kuali.student.enrollment.lpr.dto.LprTransactionItemResultInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.registration.engine.dto.RegistrationRequestEngineMessage;
 import org.kuali.student.enrollment.registration.engine.node.AbstractCourseRegistrationNode;
 import org.kuali.student.enrollment.registration.engine.service.CourseRegistrationEngineService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 
@@ -59,10 +57,12 @@ public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegist
         RegistrationRequest regRequest = message.getRegistrationRequest();
         ContextInfo contextInfo = message.getContextInfo();
         contextInfo.setPrincipalId(regRequest.getRequestorId());
-        List<ValidationResultInfo> validationResults;
+        List<ValidationResultInfo> validationResults = new ArrayList<ValidationResultInfo>();
         try {
-            validationResults = this.getCourseRegistrationService().verifyRegistrationRequestForSubmission(message.
-                    getRegistrationRequest().getId(), contextInfo);
+            if(shouldValidate(regRequest)){
+                validationResults.addAll(this.getCourseRegistrationService().verifyRegistrationRequestForSubmission(message.
+                        getRegistrationRequest().getId(), contextInfo));
+            }
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
@@ -130,6 +130,16 @@ public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegist
 //            throw new RuntimeException(ex);
 //        }
 //        return message;
+    }
+
+    private boolean shouldValidate(RegistrationRequest regRequest) {
+        //Check if this is only a drop from waitlist request (if so no need to validate).
+        for(RegistrationRequestItem item:regRequest.getRegistrationRequestItems()){
+            if(!LprServiceConstants.REQ_ITEM_DROP_WAITLIST_TYPE_KEY.equals(item.getTypeKey())){
+                return true;
+            }
+        }
+        return false;
     }
 
     private List<ValidationResultInfo> getErrors(List<ValidationResultInfo> results) {
