@@ -64,11 +64,11 @@
                         <!--Course Title and description-->
                         <div ng-repeat="ao in course.activityOfferings" class="kscr-Card-detailsText--show" ng-show="!isopen">
                             <span class="kscr-Card-courseTimes">
-                                <div id="ao_type_{{course.courseCode}}_{{course.regGroupCode}}_{{$index}}" class="kscr-ao-type">{{ao.activityOfferingTypeShortName}}</div>
-                                <div ng-repeat='scheduleComponent in ao.scheduleComponents' id="schedule_{{course.courseCode}}_{{course.regGroupCode}}_{{$parent.$index}}_{{$index}}">
-                                    <span ng-hide="scheduleComponent.isTBA" class="kscr-ao-time">{{scheduleComponent.days}} {{scheduleComponent.startTime}} - {{scheduleComponent.endTime}}</span>
-                                    <span ng-hide="scheduleComponent.isTBA" class="kscr-ao-location">{{scheduleComponent.buildingCode}} {{scheduleComponent.roomCode}}</span>
-                                    <span ng-show="scheduleComponent.isTBA">TBA</span>
+                                <div id="ao_type_{{course.courseCode}}_{{course.regGroupCode}}_{{$index}}" class="kscr-ao-type-short">{{ao.activityOfferingTypeName | limitTo : 3}}</div>
+                                <div ng-repeat='scheduleComponent in ao.scheduleComponents' id="schedule_{{course.courseCode}}_{{course.regGroupCode}}_{{$parent.$index}}_{{$index}}" class="kscr-Card-scheduleComponent">
+                                    <span ng-hide="scheduleComponent.isTBA" class="kscr-ao-time-short">{{scheduleComponent.days}} {{scheduleComponent.startTime}} - {{scheduleComponent.endTime}}</span>
+                                    <span ng-hide="scheduleComponent.isTBA" class="kscr-ao-location-short">{{scheduleComponent.buildingCode}} {{scheduleComponent.roomCode}}</span>
+                                    <span ng-show="scheduleComponent.isTBA" class="kscr-ao-location-short">TBA</span>
                                 </div>
                             </span>
                         </div>
@@ -78,8 +78,8 @@
                         <!--course time, day, building-->
                         <div ng-repeat="ao in course.activityOfferings">
                             <span class="kscr-Card-courseTimes">
-                                <div id="ao_type_{{course.courseCode}}_{{course.regGroupCode}}_{{$index}}" class="kscr-ao-type">{{ao.activityOfferingTypeShortName}}</div>
-                                <div ng-repeat='scheduleComponent in ao.scheduleComponents' id="schedule_{{course.courseCode}}_{{course.regGroupCode}}_{{$parent.$index}}_{{$index}}">
+                                <div id="ao_type_{{course.courseCode}}_{{course.regGroupCode}}_{{$index}}1" class="kscr-ao-type">{{ao.activityOfferingTypeName}}</div>
+                                <div ng-repeat='scheduleComponent in ao.scheduleComponents' id="schedule_{{course.courseCode}}_{{course.regGroupCode}}_{{$parent.$index}}_{{$index}}1">
                                    <span ng-hide="scheduleComponent.isTBA" class="kscr-ao-time">{{scheduleComponent.days}} {{scheduleComponent.startTime}} - {{scheduleComponent.endTime}}</span>
                                     <span ng-hide="scheduleComponent.isTBA" class="kscr-ao-location">{{scheduleComponent.buildingCode}} {{scheduleComponent.roomCode}}</span>
                                     <span ng-show="scheduleComponent.isTBA">TBA</span>
@@ -197,7 +197,7 @@
                         <!--course time, day, building-->
                         <div ng-repeat="ao in course.activityOfferings">
                             <span class="kscr-Card-courseTimes">
-                                <div id="waitlist_ao_type_{{course.courseCode}}_{{course.regGroupCode}}_{{$index}}" class="kscr-ao-type">{{ao.activityOfferingTypeShortName}} &nbsp;</div>
+                                <div id="waitlist_ao_type_{{course.courseCode}}_{{course.regGroupCode}}_{{$index}}" class="kscr-ao-type">{{ao.activityOfferingTypeName}} &nbsp;</div>
                                 <div ng-repeat='scheduleComponent in ao.scheduleComponents' id="waitlist_schedule_{{course.courseCode}}_{{course.regGroupCode}}_{{$parent.$index}}_{{$index}}">
                                     <span ng-hide="scheduleComponent.isTBA" class="kscr-ao-time">{{scheduleComponent.days}} {{scheduleComponent.startTime}} - {{scheduleComponent.endTime}}</span>
                                     <span ng-hide="scheduleComponent.isTBA" class="kscr-ao-location">{{scheduleComponent.buildingCode}} {{scheduleComponent.roomCode}}</span>

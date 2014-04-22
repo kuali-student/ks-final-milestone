@@ -259,7 +259,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                     for (ActivityOfferingScheduleComponentResult component : ao.getScheduleComponents()) {
                         if (component.getStartTime() != null) {
                             //Calculate the text and start time/end time in minutes
-                            String text = course.getCourseCode() + " " + (ao.getActivityOfferingTypeShortName() != null && ao.getActivityOfferingTypeShortName().length() >= 3 ? ao.getActivityOfferingTypeShortName().substring(0, 3).toUpperCase() : "");
+                            String text = course.getCourseCode() + " " + (ao.getActivityOfferingTypeName() != null && ao.getActivityOfferingTypeName().length() >= 3 ? ao.getActivityOfferingTypeName().substring(0, 3).toUpperCase() : "");
                             int startTimeMin = toMins(component.getStartTime());
                             int duration = toMins(component.getEndTime()) - startTimeMin;
                             if (component.isMon()) {
@@ -442,7 +442,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
             String startTimeMs = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.START_TIME_MS);
             String endTimeMs = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.END_TIME_MS);
             String resultValuesGroupKey = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.RES_VAL_GROUP_KEY);
-            String aoName = (luiName != null && luiName.length() >= 3 ? luiName.substring(0, 1).toUpperCase() + luiName.substring(1,3).toLowerCase() : "");
+            String aoName = (luiName != null && luiName.length() >= 3 ? luiName.substring(0, 1).toUpperCase() + luiName.substring(1).toLowerCase() : "");
 
             // running over the list of results returned. One CO can have multiple AOs
             if (hmCourseOffering.containsKey(masterLprId)) {
@@ -486,7 +486,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
 
                         // AO basic info
                         activityOffering.setActivityOfferingId(luiId);
-                        activityOffering.setActivityOfferingTypeShortName(aoName);
+                        activityOffering.setActivityOfferingTypeName(aoName);
                         activityOffering.setActivityOfferingType(luiType);  // to sort over priorities
 
                         // adding schedule to AO
@@ -546,7 +546,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                     StudentScheduleActivityOfferingResult activityOffering = new StudentScheduleActivityOfferingResult();
                     // AO basic info
                     activityOffering.setActivityOfferingId(luiId);
-                    activityOffering.setActivityOfferingTypeShortName(aoName);
+                    activityOffering.setActivityOfferingTypeName(aoName);
                     activityOffering.setActivityOfferingType(luiType);  // to sort over priorities
 
                     // Scheduling info
