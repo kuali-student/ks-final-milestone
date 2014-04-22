@@ -22,6 +22,7 @@ import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.uif.form.KSUifForm;
@@ -152,6 +153,7 @@ public class HolidayCalendarController extends UifControllerBase {
      * @return
      */
 
+    @MethodAccessible
     @RequestMapping(method = RequestMethod.GET, params = "methodToCall=startNew")
     public ModelAndView startNew( @ModelAttribute("KualiForm") HolidayCalendarForm form, BindingResult result,
                                   HttpServletRequest request, HttpServletResponse response) {
@@ -213,6 +215,7 @@ public class HolidayCalendarController extends UifControllerBase {
      * @return
      */
 
+    @MethodAccessible
     @RequestMapping(method = RequestMethod.GET, params = "methodToCall=copyForNew")
     public ModelAndView copyForNew( @ModelAttribute("KualiForm") HolidayCalendarForm form, BindingResult result,
                                   HttpServletRequest request, HttpServletResponse response) {
