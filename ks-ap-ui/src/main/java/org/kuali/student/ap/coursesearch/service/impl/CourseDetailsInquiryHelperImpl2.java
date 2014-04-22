@@ -253,7 +253,8 @@ public class CourseDetailsInquiryHelperImpl2 extends KualiInquirableImpl {
                 String description = rms.translateNaturalLanguageForObject(
                         nlu.getId(),referenceObjectBinding.getKrmsDiscriminatorType().toLowerCase(),
                         referenceObjectBinding.getKrmsObjectId(),language);
-                courseRequisites.add(description);
+                String formattedDescription = CourseLinkBuilder.makeLinks(description,KsapFrameworkServiceLocator.getContext().getContextInfo());
+                courseRequisites.add(formattedDescription);
 
             }
         } catch (PermissionDeniedException e) {
