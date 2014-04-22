@@ -24,6 +24,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 public class CourseOfferingBaseController extends MaintenanceDocumentController {
@@ -66,12 +68,16 @@ public class CourseOfferingBaseController extends MaintenanceDocumentController 
         if( StringUtils.contains( returnLocationFromForm,"viewId=courseOfferingManagementView" )
                 || StringUtils.contains( returnLocationFromForm,"pageId=manageTheCourseOfferingPage" ) )
         {
+            // wrap with HashMap since viewRequestParameters is set with Collections.unmodifiableMap()
+            // in org.kuali.rice.krad.uif.view.View.setViewRequestParameters()
+            Map<String, String> additionalParameters = new HashMap<String, String>(form.getViewRequestParameters());
             if ( !returnLocationFromForm.contains("methodToCall=") ) {  // This happens when we display a list of COs and then user click on Manage action
-                form.getViewRequestParameters().put(CourseOfferingManagementSearchImpl.SearchParameters.IS_EXACT_MATCH_CO_CODE_SEARCH, Boolean.TRUE.toString());
+                additionalParameters.put(CourseOfferingManagementSearchImpl.SearchParameters.IS_EXACT_MATCH_CO_CODE_SEARCH, Boolean.TRUE.toString());
             }
             else {
-                form.getViewRequestParameters().put(CourseOfferingManagementSearchImpl.SearchParameters.IS_EXACT_MATCH_CO_CODE_SEARCH, Boolean.FALSE.toString());
+                additionalParameters.put(CourseOfferingManagementSearchImpl.SearchParameters.IS_EXACT_MATCH_CO_CODE_SEARCH, Boolean.FALSE.toString());
             }
+            form.setViewRequestParameters(additionalParameters);
             urlToRedirectTo = returnLocationFromForm.replaceFirst("methodToCall=[a-zA-Z0-9]+","methodToCall=show");
         }
         else {

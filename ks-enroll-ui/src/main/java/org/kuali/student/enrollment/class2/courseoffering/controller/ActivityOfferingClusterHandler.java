@@ -334,14 +334,12 @@ public class ActivityOfferingClusterHandler {
          * match of the course code rather than the usual "like" criteria. Otherwise, if the course code matches multiple
          * items (e.g. CHEM100, CHEM100A, CHEM100B) then the Manage multiple COs page will be displayed rather than Manage
          * individual CO page. */
-        if(theForm.getViewRequestParameters().getClass().getName().contains("Unmodifiable")){
-            HashMap<String, String> map = new HashMap<String, String>(theForm.getViewRequestParameters());
-            map.put(CourseOfferingManagementSearchImpl.SearchParameters.IS_EXACT_MATCH_CO_CODE_SEARCH, Boolean.TRUE.toString());
-            theForm.setViewRequestParameters(map);
-        }else{
-            theForm.getViewRequestParameters().put(CourseOfferingManagementSearchImpl.SearchParameters.IS_EXACT_MATCH_CO_CODE_SEARCH, Boolean.TRUE.toString());
-        }
-//         theForm.getViewRequestParameters().put(CourseOfferingManagementSearchImpl.SearchParameters.IS_EXACT_MATCH_CO_CODE_SEARCH, Boolean.TRUE.toString());
+
+        // wrap with HashMap since viewRequestParameters is set with Collections.unmodifiableMap()
+        // in org.kuali.rice.krad.uif.view.View.setViewRequestParameters()
+        HashMap<String, String> additionalParameters = new HashMap<String, String>(theForm.getViewRequestParameters());
+        additionalParameters.put(CourseOfferingManagementSearchImpl.SearchParameters.IS_EXACT_MATCH_CO_CODE_SEARCH, Boolean.TRUE.toString());
+        theForm.setViewRequestParameters(additionalParameters);
 
         String growlPrivateName;
         String growlPublicName;
