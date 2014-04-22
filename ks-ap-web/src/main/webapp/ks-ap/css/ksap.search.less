@@ -374,11 +374,16 @@ button img.rightArrowSmall {
 }
 
 .ksap-data-list dl,
-.ksap-data-list dl dd {
-  margin: 0;
-  padding: 0;
-  display: inline;
-}
+ .ksap-data-list dl dd {
+   margin: 0;
+   padding: 0;
+   display: inline;
+ }
+
+ .ksap-data-list dl dd.projected dl dd{
+   display: inline-block;
+ }
+
 .ksap-data-list dd.scheduled,
 .ksap-data-list dd.projected {
   clear: both;
@@ -570,16 +575,20 @@ table.ksap-course-search-results-datatable tbody tr td.ksap-data-list dd.project
   border: 1px solid black;
   padding: 1px 3px;
   background: #ffffff;
-  border-right: none;
   color:#A3A2A2;
   font-weight: normal;
+  width:13px;
+  text-align:center;
 }
-.ksap-data-list dl dd.projected dl dd.termHighlight {
-  background: #c4c4c4;
-  color:#000000;
+
+.ksap-data-list dl dd.projected dl dd.ks-ProjectedTerms-term {
+  color:#333333;
+  border-color: #999999;
 }
-.ksap-data-list dl dd.projected dl dd:last-child {
-  border-right: 1px solid black;
+
+.ksap-data-list dl dd.projected dl dd.ks-ProjectedTerms-term--empty {
+  color:#e4e4e4;
+  border-color: #e4e4e4;
 }
 
 table.ksap-course-search-results-datatable tbody tr td.ksap-status-column {

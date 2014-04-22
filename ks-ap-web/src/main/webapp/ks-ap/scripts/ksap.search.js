@@ -564,6 +564,10 @@ function registerCourseSearchResultsFacetsEvents(jqObjects){
 	});
 }
 
+/**
+ * Sets up the Projected terms display on the search results data table
+ * @param jqObject - The field in the table being setup
+ */
 function updateTermsOfferedDisplay(jqObject){
     var terms = jQuery('#course_search_results_panel').data('terms-abbrev').split(",");
     var baseDL = jqObject.find('td:nth-child(6) dl');
@@ -577,7 +581,10 @@ function updateTermsOfferedDisplay(jqObject){
     for (var i = 0; i < terms.length; i++) {
         var newDD = jQuery('<dd/>').text(terms[i]);
         if (jQuery.inArray(terms[i],baseArray) !== -1) {
-            newDD.addClass("termHighlight");
+            newDD.addClass("ks-ProjectedTerms-term");
+        }else{
+            newDD.text("--");
+            newDD.addClass("ks-ProjectedTerms-term--empty");
         }
         newList.append(newDD);
     }
