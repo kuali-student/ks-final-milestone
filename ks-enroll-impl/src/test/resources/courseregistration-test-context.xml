@@ -18,7 +18,7 @@
 
     <alias name="luiService" alias="LuiService" />
     <alias name="SearchService" alias="searchService" />
-    <alias name="courseRegistrationServiceImpl" alias="CourseRegistrationService" />
+    <alias name="courseRegistrationValidatorServiceImpl" alias="CourseRegistrationService" />
 
 
     <!--  Preloaded data -->
@@ -49,7 +49,9 @@
         <property name="searchService" ref="SearchService" />
         <property name="waitlistManagerService" ref="waitlistManagerService"/>
     </bean>
-
+    <bean id="courseRegistrationValidatorServiceImpl" class="org.kuali.student.enrollment.class2.courseregistration.service.impl.TestCourseRegistrationValidationDecoratorMock">
+        <property name="nextDecorator" ref="courseRegistrationServiceImpl"/>
+    </bean>
     <bean id="courseRegistrationServiceImpl" class="org.kuali.student.enrollment.class2.courseregistration.service.impl.CourseRegistrationServiceImpl">
         <property name="lprService" ref="lprService" />
         <property name="courseOfferingService" ref="CourseOfferingService" />
