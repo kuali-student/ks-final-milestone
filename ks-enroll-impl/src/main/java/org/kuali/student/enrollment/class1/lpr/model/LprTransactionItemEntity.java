@@ -15,6 +15,7 @@
  */
 package org.kuali.student.enrollment.class1.lpr.model;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemRequestOptionInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemResultInfo;
@@ -133,8 +134,7 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
 		if (lprTransactionItem.getLprTransactionItemResult() != null) {
 			this.setResultingLprId(lprTransactionItem
 					.getLprTransactionItemResult().getResultingLprId());
-			this.setStatus(lprTransactionItem.getLprTransactionItemResult()
-					.getStatus() ? "Y" : "N");
+			this.setStatus(BooleanUtils.toString(lprTransactionItem.getLprTransactionItemResult().getStatus(), "Y", "N", "N"));
             this.setResultMessage(lprTransactionItem.getLprTransactionItemResult().getMessage());
 		}
 
@@ -212,8 +212,7 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
             LprTransactionItemResultInfo lprItemResult = new LprTransactionItemResultInfo();
             lprItemResult.setResultingLprId(this.getResultingLprId());
             lprItemResult.setMessage(this.getResultMessage());
-            lprItemResult.setStatus(Boolean.valueOf(
-                    "Y".equals(this.getStatus()) ? true : false));
+            lprItemResult.setStatus(BooleanUtils.toBoolean(this.getStatus()));
             lprTransItemInfo.setLprTransactionItemResult(lprItemResult);
         }
 

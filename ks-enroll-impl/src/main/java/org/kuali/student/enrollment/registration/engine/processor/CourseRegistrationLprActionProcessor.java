@@ -43,6 +43,11 @@ public class CourseRegistrationLprActionProcessor {
             contextInfo.setPrincipalId(message.getRequestItem().getPersonId());
             RegistrationRequestItem registrationRequestItem = message.getRequestItem();
 
+            if(LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY.equals(registrationRequestItem.getStateKey())){
+                //Don't process this if it has failed.
+                return message;
+            }
+
             //Select the request type
             if (registrationRequestItem.getTypeKey().equals(LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY)) {
 

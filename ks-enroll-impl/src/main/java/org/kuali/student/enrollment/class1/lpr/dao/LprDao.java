@@ -84,4 +84,9 @@ public class LprDao extends GenericEntityDao<LprEntity> {
         luiIdSet.addAll(luiIds);
         return (List<LprEntity>) em.createNamedQuery("Lpr.getLprsByLuis").setParameter("luiIds", luiIdSet).getResultList();
     }
+
+
+    public List<LprEntity> getLprsByPersonAndAtp(String personId, String atpId) {
+        return (List<LprEntity>) em.createNamedQuery("Lpr.getLprsByPersonAndAtp").setParameter("personId", personId).setParameter("atpId", atpId).getResultList();
+    }
 }

@@ -36,7 +36,8 @@ import java.util.Set;
 @Entity
 @Table(name = "KSEN_LPR")
 @NamedQueries({
-        @NamedQuery(name = "Lpr.getLprsByLuis", query = "Select lpr from LprEntity lpr where lpr.luiId in (:luiIds)")
+        @NamedQuery(name = "Lpr.getLprsByLuis", query = "Select lpr from LprEntity lpr where lpr.luiId in (:luiIds)"),
+        @NamedQuery(name = "Lpr.getLprsByPersonAndAtp", query = "SELECT lpr FROM LprEntity lpr WHERE lpr.personId = :personId AND lpr.atpId = :atpId")
 })
 public class LprEntity extends MetaEntity implements AttributeOwner<LprAttributeEntity> {
 
