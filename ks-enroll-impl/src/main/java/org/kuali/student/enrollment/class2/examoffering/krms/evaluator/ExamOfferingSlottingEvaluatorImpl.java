@@ -114,6 +114,7 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
         //Get all timeslots from ASI and RSI.
         List<TimeSlotInfo> timeSlotsForAO = this.getTimeSlotsForAO(scheduleInfos, scheduleRequestInfos, contextInfo);
         if (timeSlotsForAO == null || timeSlotsForAO.isEmpty()) {
+            removeRDLForExamOffering(examOfferingId, contextInfo);
             return new ExamOfferingResult(ExamOfferingServiceConstants.EXAM_OFFERING_ACTIVITY_OFFERING_TIMESLOTS_NOT_FOUND);
         }
 
@@ -136,7 +137,7 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
             }
             createRDLForExamOffering(componentInfo, timeslot, examOfferingId, contextInfo);
         } else {
-            removeRDLForExamOffering(null, timeslot, examOfferingId, contextInfo);
+            removeRDLForExamOffering(examOfferingId, contextInfo);
             return new ExamOfferingResult(ExamOfferingServiceConstants.EXAM_OFFERING_AO_MATRIX_MATCH_NOT_FOUND);
         }
 
@@ -211,7 +212,7 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
                 ScheduleRequestComponentInfo componentInfo = createScheduleRequestFromResults(results);
                 createRDLForExamOffering(componentInfo, timeslot, examOfferingId, contextInfo);
             } else {
-                removeRDLForExamOffering(null, timeslot, examOfferingId, contextInfo);
+                removeRDLForExamOffering(examOfferingId, contextInfo);
                 return new ExamOfferingResult(ExamOfferingServiceConstants.EXAM_OFFERING_CO_MATRIX_MATCH_NOT_FOUND);
             }
 
@@ -230,8 +231,6 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
      * @param agenda
      * @param typeId
      * @param executionFacts
-     * @param examOfferingId
-     * @param context
      */
     private EngineResults executeRuleForSlotting(Agenda agenda, String typeId, Map<String, Object> executionFacts) {
 
@@ -436,8 +435,7 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
      * @param examOfferingId
      * @param context
      */
-    private void removeRDLForExamOffering(ScheduleRequestComponentInfo componentInfo, TimeSlotInfo timeSlot,
-                                          String examOfferingId,ContextInfo context) {
+    private void removeRDLForExamOffering(String examOfferingId, ContextInfo context) {
         List<ScheduleRequestSetInfo> scheduleRequestSetInfoList = null;
         try {
             scheduleRequestSetInfoList = getSchedulingService().getScheduleRequestSetsByRefObject(ExamOfferingServiceConstants.REF_OBJECT_URI_EXAM_OFFERING, examOfferingId, context);
@@ -454,7 +452,7 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
                     getSchedulingService().deleteScheduleRequestSet(scheduleRequestSetInfo.getId(), context);
                 }
             } catch (Exception e) {
-                throw new RuntimeException("Error deleting ScheduleRequest: " + timeSlot, e);
+                throw new RuntimeException("Error deleting ScheduleRequest for " + examOfferingId, e);
             }
         }
     }
