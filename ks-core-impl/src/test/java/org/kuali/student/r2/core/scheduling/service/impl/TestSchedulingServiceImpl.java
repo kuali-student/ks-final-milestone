@@ -152,26 +152,26 @@ public class TestSchedulingServiceImpl {
 
         TypeInfo info =  createTypeInfo(requestType, "testType", "This is a test", SchedulingServiceConstants.REF_OBJECT_URI_SCHEDULE_REQUEST);
 
-       typeService.createType(info.getKey(), info, contextInfo);
+        typeService.createType(info.getKey(), info, contextInfo);
 
         info =  createTypeInfo(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD_FULLTERM_FALL,
-               "Fall Full", "Fall Full Time Slot for testing", SchedulingServiceConstants.REF_OBJECT_URI_SCHEDULE_TIME_SLOT);
-       typeService.createType(info.getKey(), info, contextInfo);
+                "Fall Full", "Fall Full Time Slot for testing", SchedulingServiceConstants.REF_OBJECT_URI_SCHEDULE_TIME_SLOT);
+        typeService.createType(info.getKey(), info, contextInfo);
 
         info =  createTypeInfo(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD_FULLTERM_SPRING,
-               "Spring Full", "Spring Full Time Slot for testing", SchedulingServiceConstants.REF_OBJECT_URI_SCHEDULE_TIME_SLOT);
-       typeService.createType(info.getKey(), info, contextInfo);
+                "Spring Full", "Spring Full Time Slot for testing", SchedulingServiceConstants.REF_OBJECT_URI_SCHEDULE_TIME_SLOT);
+        typeService.createType(info.getKey(), info, contextInfo);
 
         info =  createTypeInfo(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_ADHOC,
-               "Ad Hoc",  "Ad Hoc Time Slot for testing", SchedulingServiceConstants.REF_OBJECT_URI_SCHEDULE_TIME_SLOT);
-       typeService.createType(info.getKey(), info, contextInfo);
+                "Ad Hoc",  "Ad Hoc Time Slot for testing", SchedulingServiceConstants.REF_OBJECT_URI_SCHEDULE_TIME_SLOT);
+        typeService.createType(info.getKey(), info, contextInfo);
 
         info =  createTypeInfo(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_TBA,
-               "TBA", "TBA Time Slot for testing", SchedulingServiceConstants.REF_OBJECT_URI_SCHEDULE_TIME_SLOT);
-       typeService.createType(info.getKey(), info, contextInfo);
+                "TBA", "TBA Time Slot for testing", SchedulingServiceConstants.REF_OBJECT_URI_SCHEDULE_TIME_SLOT);
+        typeService.createType(info.getKey(), info, contextInfo);
 
         info =  createTypeInfo(SchedulingServiceConstants.SCHEDULE_TYPE_SCHEDULE, "testType", "This is a test", SchedulingServiceConstants.REF_OBJECT_URI_SCHEDULE);
-       typeService.createType(info.getKey(), info, contextInfo);
+        typeService.createType(info.getKey(), info, contextInfo);
 
         // Create type type relationships.
         String tsGroupingType = SchedulingServiceConstants.TIME_SLOT_TYPE_GROUPING;
@@ -507,7 +507,7 @@ public class TestSchedulingServiceImpl {
         TimeOfDayInfo startTime;
         startTime = SchedulingServiceDataLoader.TOD_8_00_AM;
         List<TimeSlotInfo> tsi = schedulingService
-            .getTimeSlotsByDaysAndStartTime(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD_FULLTERM_FALL, dow, startTime, contextInfo);
+                .getTimeSlotsByDaysAndStartTime(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD_FULLTERM_FALL, dow, startTime, contextInfo);
         assertEquals(3, tsi.size());
 
         assertEquals("ts103", tsi.get(0).getId());
@@ -556,7 +556,7 @@ public class TestSchedulingServiceImpl {
         TimeOfDayInfo startTime = SchedulingServiceDataLoader.TOD_8_00_AM;
         TimeOfDayInfo endTime  = SchedulingServiceDataLoader.TOD_8_50_AM;
         List<TimeSlotInfo> tsi = schedulingService
-            .getTimeSlotsByDaysAndStartTimeAndEndTime(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD_FULLTERM_FALL, dow, startTime, endTime, contextInfo);
+                .getTimeSlotsByDaysAndStartTimeAndEndTime(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD_FULLTERM_FALL, dow, startTime, endTime, contextInfo);
         assertEquals(1, tsi.size());
         assertEquals("ts103", tsi.get(0).getId());
         TimeSlot ts = tsi.get(0);
@@ -602,8 +602,8 @@ public class TestSchedulingServiceImpl {
         ScheduleRequestSetInfo srsInfo = SchedulingServiceDataLoader.setupScheduleRequestSetInfo(scheduleRequestSetId, refObjectIds, refObjectType, false, null);
 
         ScheduleRequestSetInfo returnSrsInfo = schedulingService
-            .createScheduleRequestSet(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET,
-                refObjectType, srsInfo, contextInfo);
+                .createScheduleRequestSet(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET,
+                        refObjectType, srsInfo, contextInfo);
 
         assertNotNull(returnSrsInfo);
     }
@@ -616,7 +616,7 @@ public class TestSchedulingServiceImpl {
         String scheduleRequestComponentInfoId = "scheduleRequest-ComponentInfoId";
         String scheduleRequestInfoName = "testCreateScheduleRequest";
         ScheduleRequestInfo scheduleRequestInfo = SchedulingServiceDataLoader.setupScheduleRequestInfo(scheduleRequestInfoId,
-            scheduleRequestComponentInfoId, scheduleId, scheduleRequestSetInfoId, scheduleRequestInfoName);
+                scheduleRequestComponentInfoId, scheduleId, scheduleRequestSetInfoId, scheduleRequestInfoName);
 
         // add one AttributeInfo into ScheduleRequestInfo to test ScheduleRequestInfo
         AttributeInfo attributeInfo = new AttributeInfo();
@@ -900,10 +900,10 @@ public class TestSchedulingServiceImpl {
         Integer maxEnr = 10;
 
         ScheduleRequestSetInfo scheduleRequestSetInfo = SchedulingServiceDataLoader.setupScheduleRequestSetInfo(scheduleRequestSetInfoId,
-                                                                                                                    refObjectIds,
-                                                                                                                    refObjectType,
-                                                                                                                    maxEnrFlag,
-                                                                                                                    maxEnr);
+                refObjectIds,
+                refObjectType,
+                maxEnrFlag,
+                maxEnr);
 
         schedulingService.createScheduleRequestSet(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET,
                 refObjectType, scheduleRequestSetInfo, contextInfo);
@@ -1017,7 +1017,7 @@ public class TestSchedulingServiceImpl {
         assertEquals(true, status.getIsSuccess());
 
         try{
-           schedulingService.getSchedule(scheduleId,contextInfo);
+            schedulingService.getSchedule(scheduleId,contextInfo);
             fail("Found a schedule after deleting it.");
         } catch(DoesNotExistException e){
 
@@ -1035,7 +1035,7 @@ public class TestSchedulingServiceImpl {
         //  Search for TimeSlots of type Fall Full.
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
         qbcBuilder.setPredicates(
-            PredicateFactory.in("timeSlotType", fallFull)
+                PredicateFactory.in("timeSlotType", fallFull)
         );
 
         QueryByCriteria criteria = qbcBuilder.build();
@@ -1075,7 +1075,7 @@ public class TestSchedulingServiceImpl {
         //  Search for TimeSlots of type Fall Full.
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
         qbcBuilder.setPredicates(
-            PredicateFactory.in("timeSlotType", fallFull)
+                PredicateFactory.in("timeSlotType", fallFull)
         );
 
         QueryByCriteria criteria = qbcBuilder.build();
@@ -1090,10 +1090,10 @@ public class TestSchedulingServiceImpl {
         String terms[] = {fallFull, springFull};
         qbcBuilder = QueryByCriteria.Builder.create();
         qbcBuilder.setPredicates(
-            PredicateFactory.and(
-                    PredicateFactory.in("timeSlotType", terms),
-                    PredicateFactory.equal("weekdays", days)
-            )
+                PredicateFactory.and(
+                        PredicateFactory.in("timeSlotType", terms),
+                        PredicateFactory.equal("weekdays", days)
+                )
         );
         criteria = qbcBuilder.build();
         timeSlotInfos = schedulingService.searchForTimeSlots(criteria, contextInfo);
@@ -1118,12 +1118,12 @@ public class TestSchedulingServiceImpl {
         //  Search for TimeSlots of type Fall Full and days MWF, and start time 8am
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
         qbcBuilder.setPredicates(
-            PredicateFactory.and(
-                    PredicateFactory.equal("timeSlotType", fallFull),
-                    PredicateFactory.equal("weekdays", days),
-                    PredicateFactory.equal("startTimeMillis",
-                            TimeOfDayHelper.getMillis(SchedulingServiceDataLoader.TOD_8_00_AM))
-            )
+                PredicateFactory.and(
+                        PredicateFactory.equal("timeSlotType", fallFull),
+                        PredicateFactory.equal("weekdays", days),
+                        PredicateFactory.equal("startTimeMillis",
+                                TimeOfDayHelper.getMillis(SchedulingServiceDataLoader.TOD_8_00_AM))
+                )
         );
         QueryByCriteria criteria = qbcBuilder.build();
         List<TimeSlotInfo> timeSlotInfos = schedulingService.searchForTimeSlots(criteria, contextInfo);
@@ -1289,7 +1289,17 @@ public class TestSchedulingServiceImpl {
 
         assertNotNull(returnedInfo);
 
-        ScheduleDisplayInfo displayInfo = schedulingService.getScheduleDisplay(scheduleId,contextInfo);
+        ScheduleDisplayInfo displayInfo = null;
+        for(int i=0 ; i<5 ; i++) {
+
+            long start = System.currentTimeMillis();
+
+            displayInfo = schedulingService.getScheduleDisplay(scheduleId,contextInfo);
+
+            System.out.println("[TestSchedulingServiceImpl][testGetScheduleDisplay] Time elapsed = " + (System.currentTimeMillis()-start));
+
+        }
+
         assertNotNull(displayInfo);
 
         assertEquals(scheduleId,displayInfo.getId());
@@ -1298,6 +1308,50 @@ public class TestSchedulingServiceImpl {
         assertNotNull(displayInfo.getScheduleComponentDisplays().get(0).getBuilding());
 
     }
+
+
+    @Test
+    public void testGetScheduleDisplaysByIds() throws Exception {
+
+        List<String> scheduleIds = new ArrayList<String>();
+        scheduleIds.add("1");
+        scheduleIds.add("2");
+
+        String atpId = SchedulingServiceDataLoader.ATP_ID;
+        String roomId = SchedulingServiceDataLoader.ROOM_ID;
+
+        ScheduleInfo scheduleInfo = null;
+        ScheduleInfo returnedInfo = null;
+
+        for(String scheduleId : scheduleIds) {
+
+            scheduleInfo = SchedulingServiceDataLoader.setupScheduleInfo(scheduleId,atpId,false,roomId);
+            returnedInfo = schedulingService.createSchedule(scheduleInfo.getTypeKey(),scheduleInfo,contextInfo);
+            assertNotNull(returnedInfo);
+
+        }
+
+        List<ScheduleDisplayInfo> displayInfos = null;
+        for(int i=0 ; i<5 ; i++) {
+            long start = System.currentTimeMillis();
+            displayInfos = schedulingService.getScheduleDisplaysByIds(scheduleIds,contextInfo);
+            System.out.println("[TestSchedulingServiceImpl][testGetScheduleDisplaysByIds] Time Elapsed = " + (System.currentTimeMillis()-start));
+        }
+
+        for(ScheduleDisplayInfo displayInfo : displayInfos) {
+
+            assertNotNull(displayInfo);
+            assertTrue(scheduleIds.contains(displayInfo.getId()));
+            assertNotNull(displayInfo.getAtp());
+            assertNotNull(displayInfo.getScheduleComponentDisplays().get(0).getRoom());
+            assertNotNull(displayInfo.getScheduleComponentDisplays().get(0).getBuilding());
+
+        }
+
+    }
+
+
+
 
     @Test
     public void testSearchForScheduleDisplays() throws Exception {

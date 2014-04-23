@@ -14,6 +14,14 @@
     <import resource="classpath:META-INF/default-property-config-context-test.xml"/>
     <import resource="classpath:ks-core-test-data-dictionary-configuration.xml"/>
 
+    <alias name="typeServiceImpl" alias="TypeService" />
+    <alias name="mockRoomService" alias="RoomService" />
+
+    <bean id="systemPropertyConfigurer"
+          class="org.kuali.student.common.util.SystemPropertyConfigurer">
+        <property name="properties" value="$[system.properties]"/>
+    </bean>
+
     <bean id="AtomikosTxMgr"
           class="com.atomikos.icatch.jta.UserTransactionManager"
           init-method="init" destroy-method="close" depends-on="systemPropertyConfigurer" autowire-candidate="false" autowire="no">
@@ -173,6 +181,15 @@
         <property name="nextDecorator" ref="schedulingServiceImpl"/>
         <property name="validator" ref="validator" />
         <property name="typeService" ref="typeServiceImpl"/>
+    </bean>
+
+    <bean id="schedulingServiceCache" class="org.kuali.student.r2.core.scheduling.service.decorators.SchedulingServiceCacheDecorator">
+        <property name="cacheManager" ref="ksCacheManager"/>
+        <property name="nextDecorator" ref="schedulingServiceImpl"/>
+    </bean>
+
+    <bean id="ksCacheManager" class="net.sf.ehcache.CacheManager">
+        <constructor-arg index="0" type="java.net.URL" value="classpath:ks-test-ehcache.xml"/>
     </bean>
 
     <bean id="scheduleRequestTestDataLoader" class="org.kuali.student.r2.core.scheduling.service.impl.ScheduleRequestTestDataLoader"/>

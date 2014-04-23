@@ -39,10 +39,8 @@ import java.util.List;
  */
 public class SchedulingServiceCacheDecorator extends SchedulingServiceDecorator {
     private static String cacheName = "scheduleCache";
-    private static String displayCacheName = "scheduleDisplayCache";
     public static final String SCHEDULE_KEY = "schedule";
     public static final String SCHEDULE_REQUEST_KEY = "scheduleRequest";
-    public static final String DISPLAY_SCHEDULE_REQUEST_KEY = "displayScheduleRequest";
     private CacheManager cacheManager;
     private static final String TIMESLOT_KEY = "timeslot";
 
@@ -299,8 +297,8 @@ public class SchedulingServiceCacheDecorator extends SchedulingServiceDecorator 
     @Override
     public ScheduleDisplayInfo getScheduleDisplay(String scheduleId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        Cache cache = getCacheManager().getCache(displayCacheName);
-        MultiKey cacheKey = new MultiKey(DISPLAY_SCHEDULE_REQUEST_KEY,scheduleId);
+        Cache cache = getCacheManager().getCache(cacheName);
+        MultiKey cacheKey = new MultiKey(SCHEDULE_REQUEST_KEY,scheduleId);
         ScheduleDisplayInfo scheduleDisplayInfo = null;
 
         // Check the cache for the id
@@ -321,13 +319,13 @@ public class SchedulingServiceCacheDecorator extends SchedulingServiceDecorator 
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
-        Cache cache = getCacheManager().getCache(displayCacheName);
+        Cache cache = getCacheManager().getCache(cacheName);
         List<ScheduleDisplayInfo>  displayInfoList = new ArrayList<ScheduleDisplayInfo>(scheduleIds.size());
         List<String> uncachedScheduleIds = new ArrayList<String>(scheduleIds.size());
 
         // Check the cache for the ids
         for(String scheduleId : scheduleIds) {
-            MultiKey cacheKey = new MultiKey(DISPLAY_SCHEDULE_REQUEST_KEY,scheduleId);
+            MultiKey cacheKey = new MultiKey(SCHEDULE_REQUEST_KEY,scheduleId);
             Element cachedResult = cache.get(cacheKey);
             if(cachedResult!=null) {
                 //If the id was found in the cache then use it
@@ -344,7 +342,7 @@ public class SchedulingServiceCacheDecorator extends SchedulingServiceDecorator 
             List<ScheduleDisplayInfo> uncachedDisplayInfoList = getNextDecorator().getScheduleDisplaysByIds(uncachedScheduleIds,contextInfo);
 
             for(ScheduleDisplayInfo scheduleDisplayInfo : uncachedDisplayInfoList) {
-                MultiKey cacheKey = new MultiKey(DISPLAY_SCHEDULE_REQUEST_KEY,scheduleDisplayInfo.getId());
+                MultiKey cacheKey = new MultiKey(SCHEDULE_REQUEST_KEY,scheduleDisplayInfo.getId());
                 cache.put(new Element(cacheKey,scheduleDisplayInfo));
             }
 
