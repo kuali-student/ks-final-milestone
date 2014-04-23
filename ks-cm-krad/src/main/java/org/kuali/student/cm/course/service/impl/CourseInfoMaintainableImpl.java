@@ -1425,7 +1425,6 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 rvg.setResultValueRange(range);
                 rvg.setTypeKey(rvgWrapper.getTypeKey());
             }
-            courseInfoWrapper.getCourseInfo().getCreditOptions().add(rvg);
         }
 
         initializeOutcome(courseInfoWrapper);
