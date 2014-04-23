@@ -38,10 +38,10 @@ public interface Building extends IdEntity {
     public String getBuildingCode();
 
     /**
-     * Unique key for the campus, the building is part of
+     * Unique identifier for the campus, the building is part of
      *
-     * @name Campus Key
+     * @name Campus Id
      * @required
      */
-    public String getCampusKey();
+    public String getCampusId();
 }
