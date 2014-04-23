@@ -378,7 +378,7 @@
                                 <property name="dependencyConstraints">
                                     <list>
                                         <bean parent="PrerequisiteConstraint" p:propertyName="variationTitle">
-                                            <property name="messageKey" value="Must provide Version Code and Title"/>
+                                            <property name="messageKey" value="validation.VersionCodes.Section"/>
                                         </bean>
                                     </list>
                                 </property>
@@ -400,7 +400,7 @@
                                 <property name="dependencyConstraints">
                                     <list>
                                         <bean parent="PrerequisiteConstraint" p:propertyName="variationCode">
-                                            <property name="messageKey" value="Must provide Version Code and Title"/>
+                                            <property name="messageKey" value="validation.VersionCodes.Section"/>
                                         </bean>
                                     </list>
                                 </property>

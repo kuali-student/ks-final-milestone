@@ -88,8 +88,7 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
         }
 
         if (dataObject.getCourseInfo().getVariations() != null) {
-
-            for (CourseVariationInfo courseVariationInfo : dataObject.getCourseInfo().getVariations())
+            for (CourseVariationInfo courseVariationInfo : dataObject.getCourseInfo().getVariations())   {
                 if (courseVariationInfo.getVariationCode() != null && courseVariationInfo.getVariationTitle() != null) {
                     if ((StringUtils.isBlank(courseVariationInfo.getVariationCode()) && StringUtils.isNotBlank(courseVariationInfo.getVariationTitle())) ||
                             StringUtils.isNotBlank(courseVariationInfo.getVariationCode()) && StringUtils.isBlank(courseVariationInfo.getVariationTitle())) {
@@ -98,8 +97,8 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
                         success = false;
                     }
                 }
+            }
         }
-
 
         success = success && validateInstructor(dataObject);
         success = success && validateOrganization(dataObject);
