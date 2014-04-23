@@ -229,7 +229,7 @@
             <list>
                 <bean id="typeKey" parent="KS-Uif-InputField-LabelTop" p:propertyName="typeKey" p:label="Type" p:required="true" >
                     <property name="control">
-                        <bean parent="KS-Uif-DropdownControl" p:onChangeScript="clearOutcomeValue('creditValue_line@{#index}_control');">
+                        <bean parent="KS-Uif-DropdownControl" p:onChangeScript="refreshOutcome(@{#index});">
                             <property name="options">
                                 <list>
                                     <bean parent="Uif-KeyLabelPair" p:key="1" p:value="" />

@@ -859,6 +859,21 @@ public class CourseController extends CourseRuleEditorController {
         return getUIFModelAndView(form);
     }
 
+    @RequestMapping(params = "methodToCall=refreshCourseLogistics")
+    protected ModelAndView refreshCourseLogistics(final @ModelAttribute("KualiForm") MaintenanceDocumentForm form,
+                                                   final BindingResult result,
+                                                   final HttpServletRequest request,
+                                                   final HttpServletResponse response) {
+        LOG.info("Adding a unitsContentOwner");
+        CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
+
+        String outComeIndex = request.getParameter("outComeIndex");
+        ResultValuesGroupInfoWrapper rvg = courseInfoWrapper.getCreditOptionWrappers().get(Integer.parseInt(outComeIndex));
+        rvg.getUiHelper().setResultValue("");
+
+        return getUIFModelAndView(form);
+    }
+
 
     /**
      * Lookup Organization by subject area and organization id
