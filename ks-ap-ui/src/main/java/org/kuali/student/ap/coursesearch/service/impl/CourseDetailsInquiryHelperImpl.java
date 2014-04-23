@@ -687,7 +687,7 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 				if (LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY.equals(activity.getStateKey())) {
 					Building building = scdi.getBuilding();
 					if (building != null) {
-						meeting.setCampus(building.getCampusKey());
+						meeting.setCampus(building.getCampusId());
 						meeting.setBuilding(building.getBuildingCode());
 					}
 					Room roomInfo = scdi.getRoom();
