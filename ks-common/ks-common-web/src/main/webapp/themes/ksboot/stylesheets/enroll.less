@@ -1920,8 +1920,12 @@ table.dataTable tr.even td.sorting_1 {
   background-color: #eff7fd;
 }
 
-.uif-tableCollectionLayout th,
-.uif-tableCollectionLayout td {
+.uif-tableCollectionLayout > thead > tr > th,
+.uif-tableCollectionLayout > tbody > tr > th,
+.uif-tableCollectionLayout > tfoot > tr > th,
+.uif-tableCollectionLayout > thead > tr > td,
+.uif-tableCollectionLayout > tbody > tr > td,
+.uif-tableCollectionLayout > tfoot > tr > td {
   border-left: none;
   border-right: none;
   padding: 10px 15px 5px 15px;
