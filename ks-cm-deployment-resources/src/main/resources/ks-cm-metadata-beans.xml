@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2005-2014 The Kuali Foundation Licensed under the Educational 
+	Community License, Version 2.0 (the "License"); you may not use this file 
+	except in compliance with the License. You may obtain a copy of the License 
+	at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+	law or agreed to in writing, software distributed under the License is distributed 
+	on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+	express or implied. See the License for the specific language governing permissions 
+	and limitations under the License. -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<!-- Only ks-cm-krad defined KRAD data objects should be defined here as metadata -->
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.cm.course.form.ActivityInfoWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.cm.course.form.CluInstructorInfoWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.cm.course.form.CollaboratorWrapper" />
+
+	<bean parent="DataObjectMetadata" p:typeClassName="org.kuali.student.cm.course.form.CourseInfoWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.cm.course.form.CourseJointInfoWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.cm.course.form.CourseRuleManagementWrapper" />
+
+	<bean parent="DataObjectMetadata" p:typeClassName="org.kuali.student.cm.course.form.FormatInfoWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.cm.course.form.GenericStringForCollectionWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.cm.course.form.LoCategoryInfoWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.cm.course.form.LoDisplayInfoWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.cm.course.form.OrganizationInfoWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.cm.course.form.ResultValueKeysWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.cm.course.form.ResultValuesGroupInfoWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.cm.course.form.ReviewProposalDisplay" />
+		
+		<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.cm.course.form.ReviewProposalDisplay$ActiveDatesSectionWrapper" />
+
+<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.cm.course.form.ReviewProposalDisplay$CollaboratorSectionWrapper" />
+
+<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.cm.course.form.ReviewProposalDisplay$CourseLogisticsSectionWrapper" />
+
+<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.cm.course.form.ReviewProposalDisplay$CourseRequisitesSectionWrapper" />
+
+<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.cm.course.form.ReviewProposalDisplay$CourseSectionWrapper" />
+
+<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.cm.course.form.ReviewProposalDisplay$FinancialsSectionWrapper" />
+
+<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.cm.course.form.ReviewProposalDisplay$GovernanceSectionWrapper" />
+
+<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.cm.course.form.ReviewProposalDisplay$LearningObjectivesSectionWrapper" />
+
+<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.cm.course.form.ReviewProposalDisplay$SupportingDocumentsSectionWrapper" />
+
+	<bean parent="DataObjectMetadata" p:typeClassName="org.kuali.student.cm.course.form.SubjectCodeWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.cm.course.form.SupportingDocumentInfoWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.cm.course.service.util.CourseCodeSearchWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.lum.lu.ui.krms.dto.LURuleManagementWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.lum.lu.ui.krms.util.CluSetRangeWrapper" />
+
+</beans>

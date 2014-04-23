@@ -20,6 +20,11 @@
                            http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
 	<beans profile="ks-cm">
+	
+		<bean id="ks-cm-krad-data-dictionary-metadata-config-file" class="java.lang.String">
+				<constructor-arg index="0" value="classpath:ks-cm-metadata-beans.xml" />
+		</bean>
+	
 		<bean id="ks-cm-krad-data-dictionary-config"  class="java.util.ArrayList">
 		<constructor-arg index="0">	
 			<list>
