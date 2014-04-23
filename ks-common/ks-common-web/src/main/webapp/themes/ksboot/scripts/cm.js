@@ -512,14 +512,12 @@ function updateStickyHeaderText() {
 }
 
 /**
- * This method clears the result value from a specific result value group.
- *
- * Usage at CourseViewCourseLogistics.xml
- *
- * @param index index of the result value group row
+ * This method retrieves/refreshes the outcome component sothat the result value clears out for the specific
+ * index row
+ * @param index
  */
-function clearOutcomeValue(id) {
-    jQuery("#" + id).val('');
+function refreshOutcome(index) {
+    retrieveComponent('KS-CourseView-CourseLogisticsPage-Outcome-Widgets','refreshCourseLogistics','',{outComeIndex:index});
 }
 
 function compareSubjectCodeInput(value, element) {
