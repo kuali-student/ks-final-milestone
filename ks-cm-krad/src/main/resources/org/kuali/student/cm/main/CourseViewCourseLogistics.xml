@@ -247,6 +247,7 @@
                     <property name="constraintMessage">
                         <bean parent="Uif-ConstraintMessage"/>
                     </property>
+                    <property name="refreshWhenChangedPropertyNames" value="typeKey"/>
                     <property name="propertyReplacers">
                         <list>
                             <bean parent="Uif-ConditionalBeanPropertyReplacer"
