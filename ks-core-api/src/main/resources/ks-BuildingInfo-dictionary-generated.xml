@@ -55,7 +55,7 @@ Building information
 				<ref bean="BuildingInfo.stateKey"/>
 				<ref bean="BuildingInfo.name"/>
 				<ref bean="BuildingInfo.buildingCode"/>
-				<ref bean="BuildingInfo.campusKey"/>
+				<ref bean="BuildingInfo.campusId"/>
 			</list>
 		</property>
 
@@ -165,18 +165,18 @@ Must be unique.
 		<property name="required" value="true"/>
 	</bean>
 
-	<bean id="BuildingInfo.campusKey-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="campusKey"/>
-		<property name="shortLabel" value="Campus Key"/>
+	<bean id="BuildingInfo.campusId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="campusId"/>
+		<property name="shortLabel" value="Campus Id"/>
 		<property name="summary">
 			<value>
-Unique key for the campus, the building is part of
+Unique id for the campus, the building is part of
 			</value>
 		</property>
-		<property name="label" value="Campus Key"/>
+		<property name="label" value="Campus Id"/>
 		<property name="description">
 			<value>
-Unique key for the campus, the building is part of
+Unique id for the campus, the building is part of
 			</value>
 		</property>
 		<property name="required" value="true"/>
