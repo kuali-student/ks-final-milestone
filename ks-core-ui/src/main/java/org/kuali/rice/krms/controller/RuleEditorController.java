@@ -438,9 +438,9 @@ public class RuleEditorController extends MaintenanceDocumentController {
                 // if our selected node is a simple proposition, add a new one after
                 if (propKeyMatches(child, selectedPropKey) &&
                         (isSimpleNode(child.getNodeType()) ||
-                                (RuleEditorTreeNode.COMPOUND_NODE_TYPE.equalsIgnoreCase(child.getNodeType())) ||
-                                (child.getNodeType().contains(RuleEditorTreeNode.FIRST_IN_GROUP)) ||
-                                (child.getNodeType().contains(RuleEditorTreeNode.LAST_IN_GROUP)))) {
+                                (KRMSConstants.COMPOUND_NODE_TYPE.equalsIgnoreCase(child.getNodeType())) ||
+                                (child.getNodeType().contains(KRMSConstants.FIRST_IN_GROUP)) ||
+                                (child.getNodeType().contains(KRMSConstants.LAST_IN_GROUP)))) {
 
                     //remove it from its current spot
                     PropositionEditor parentProp = parent.getData().getProposition();
@@ -473,8 +473,8 @@ public class RuleEditorController extends MaintenanceDocumentController {
      * @return if node is of type simple; <code>false</code> otherwise
      */
     public boolean isSimpleNode(String nodeType) {
-        if (nodeType.contains(SimplePropositionNode.NODE_TYPE) ||
-                SimplePropositionEditNode.NODE_TYPE.equalsIgnoreCase(nodeType)) {
+        if (nodeType.contains(KRMSConstants.SIMPLE_NODE_TYPE) ||
+                KRMSConstants.EDIT_NODE_TYPE.equalsIgnoreCase(nodeType)) {
             return true;
         }
         return false;
@@ -506,7 +506,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
         // find agendaEditor.getAgendaItemLine().getRule().getPropositionTree().getRootElement()parent
         Node<RuleEditorTreeNode, String> root = ruleEditor.getEditTree().getRootElement();
         Node<RuleEditorTreeNode, String> parent = PropositionTreeUtil.findParentPropositionNode(root, selectedpropKey);
-        if ((parent != null) && (!parent.getNodeType().contains(RuleEditorTreeNode.ROOT_TYPE))) {
+        if ((parent != null) && (!parent.getNodeType().contains(KRMSConstants.ROOT_TYPE))) {
             Node<RuleEditorTreeNode, String> granny = PropositionTreeUtil.findParentPropositionNode(root, parent.getData().getProposition().getKey());
             if (!granny.equals(root)) {
                 int oldIndex = findChildIndex(parent, selectedpropKey);
@@ -564,7 +564,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
             if (index >= 0 && index + 1 < parent.getChildren().size()) {
                 Node<RuleEditorTreeNode, String> nextSibling = parent.getChildren().get(index + 2);
                 // if selected node above a compound node, move it into it as first child
-                if (nextSibling.getNodeType().contains(RuleEditorTreeNode.COMPOUND_NODE_TYPE)) {
+                if (nextSibling.getNodeType().contains(KRMSConstants.COMPOUND_NODE_TYPE)) {
                     // remove selected node from it's current spot
                     PropositionEditor prop = parent.getData().getProposition().getCompoundEditors().remove(index / 2);
                     // add it to it's siblings children

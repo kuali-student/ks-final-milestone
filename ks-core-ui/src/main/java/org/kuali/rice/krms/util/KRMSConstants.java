@@ -65,4 +65,17 @@ public class KRMSConstants {
     public static final String KRMS_MSG_ERROR_RDL_FACILITY = "error.krms.rule.rdl.facility";
     public static final String KRMS_MSG_ERROR_RDL_ROOM = "error.krms.rule.rdl.room";
 
+    //Node constants
+    public static final String ROOT_TYPE = "treeRoot";
+    public static final String NODE_TYPE = "ruleTreeNode";
+    public static final String COMPOUND_NODE_TYPE = NODE_TYPE + " compoundNode";
+    public static final String COMPOUND_OP_NODE_TYPE = NODE_TYPE + " compoundOpCodeNode";
+    public static final String FIRST_IN_GROUP = "firstInGroup";
+    public static final String LAST_IN_GROUP = "lastInGroup";
+    public static final String DISABLE_MOVE_IN = "disableMoveRight";
+    public static final String DISABLE_MOVE_OUT = "disableMoveLeft";
+
+    public static final String EDIT_NODE_TYPE = NODE_TYPE + "EditNode";
+    public static final String SIMPLE_NODE_TYPE = NODE_TYPE + " simple";
+
 }

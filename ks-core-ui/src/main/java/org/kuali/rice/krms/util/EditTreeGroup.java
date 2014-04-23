@@ -60,15 +60,6 @@ public class EditTreeGroup extends TreeGroup {
             proposition.setBindingPath(bindingPrefix + ".data");
         }
 
-        // Removing this may cause issues
-//        // Reset this id to a static id, can only have one proposition in edit mode at a time.
-//        if(node.getData().getId().startsWith("KRMS-PropositionEdit-BoxSection")){
-//            node.getData().setId(node.getData().getBaseId());
-//            for(Component component : node.getData().getItems()){
-//                component.setId(component.getBaseId());
-//            }
-//        }
-
         return node;
     }
 }
