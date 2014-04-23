@@ -251,8 +251,12 @@ limitations under the License.
         </property>
         <property name="addLineItems">
             <list>
-                <bean parent="KS-Uif-InputField-LabelTop" p:style="width: 280px;">
+                <bean id="courseCode" parent="KS-Uif-InputField-LabelTop" p:style="width: 280px;">
                     <property name="propertyName" value="code"/>
+                    <property name="control">
+                        <bean parent="KS-Uif-TextControl">
+                        </bean>
+                    </property>
                     <property name="label" value="Course Code"/>
                     <property name="quickfinder">
                         <bean parent="KRMS-ApprovedCourses-QuickFinder"/>
