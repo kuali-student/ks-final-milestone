@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2005-2014 The Kuali Foundation Licensed under the Educational 
+	Community License, Version 2.0 (the "License"); you may not use this file 
+	except in compliance with the License. You may obtain a copy of the License 
+	at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+	law or agreed to in writing, software distributed under the License is distributed 
+	on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+	express or implied. See the License for the specific language governing permissions 
+	and limitations under the License. -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<!-- Only ks-enroll-ui defined KRAD data objects should be defined here as metadata -->
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.enrollment.class1.krms.dto.AORuleManagementWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.enrollment.class1.krms.dto.CORuleManagementWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.enrollment.class1.krms.dto.FERuleManagementWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.enrollment.class1.timeslot.dto.TimeSlotWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.enrollment.class2.acal.dto.AcalEventWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.enrollment.class2.acal.dto.ExamPeriodWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.enrollment.class2.acal.dto.HolidayWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.enrollment.class2.acal.dto.KeyDatesGroupWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.enrollment.class2.acal.dto.KeyDateWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.enrollment.class2.acal.dto.TimeSetWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarViewHelperServiceImpl$SimplifiedAcademicTermWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.enrollment.class2.appointment.dto.StudentGroupWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCopyWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.enrollment.class2.courseoffering.dto.ExamOfferingClusterWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.enrollment.class2.courseoffering.dto.ExamOfferingWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.enrollment.class2.courseoffering.dto.JointCourseWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.enrollment.class2.courseoffering.dto.OrganizationInfoWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.enrollment.class2.courseoffering.dto.RGStateWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleComponentWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.enrollment.class2.courseoffering.dto.SeatPoolWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.enrollment.class2.courseoffering.dto.SocRolloverResultItemWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.enrollment.class2.courseoffering.dto.StatePropagationWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.enrollment.class2.population.util.PopulationConstants$PopulationWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.enrollment.class2.registration.dto.ActivityOfferingWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.enrollment.class2.registration.dto.CourseOfferingWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.enrollment.class2.registration.dto.MeetingScheduleWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.enrollment.class2.registration.dto.RegistrationGroupWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.enrollment.class2.scheduleofclasses.dto.ActivityOfferingDisplayWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.enrollment.class2.scheduleofclasses.dto.CourseOfferingDisplayWrapper" />
+
+	<bean parent="DataObjectMetadata"
+		p:typeClassName="org.kuali.student.enrollment.class2.scheduleofclasses.util.SOCRequisiteWrapper" />
+
+
+</beans>

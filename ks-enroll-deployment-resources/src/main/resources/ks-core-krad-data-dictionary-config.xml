@@ -22,6 +22,14 @@
 
 	<beans profile="ks-core">
 	
+	<bean id="ks-core-krad-data-dictionary-metadata-config-file" class="java.lang.String">
+			<constructor-arg index="0" value="classpath:ks-core-metadata-beans.xml" />
+	</bean>
+	
+	<bean id="ks-enroll-krad-data-dictionary-metadata-config-file" class="java.lang.String">
+			<constructor-arg index="0" value="classpath:ks-enroll-metadata-beans.xml" />
+	</bean>
+	
 		<bean id="ks-core-krad-data-dictionary-config" class="java.util.ArrayList">
 			<constructor-arg index="0">	
 			<list>
