@@ -1109,21 +1109,23 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         reviewData.getCourseLogisticsSection().getOutcomes().clear();
 
         for (ResultValuesGroupInfoWrapper rvg : courseInfoWrapper.getCreditOptionWrappers()) {
-            String creditOptionType = "";
-            String creditOptionValue = rvg.getUiHelper().getResultValue();
-            if (StringUtils.equals(rvg.getTypeKey(), LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)) {
-                creditOptionType = "Fixed";
-                if (StringUtils.contains(rvg.getResultValueRange().getMinValue(), "degree.")) {
-                    creditOptionValue = StringUtils.substringAfterLast(rvg.getUiHelper().getResultValue(), "degree.");
-                } else {
-                    creditOptionValue = rvg.getUiHelper().getResultValue();
+            if (StringUtils.isNotBlank(rvg.getTypeKey())){
+                String creditOptionType = "";
+                String creditOptionValue = rvg.getUiHelper().getResultValue();
+                if (StringUtils.equals(rvg.getTypeKey(), LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)) {
+                    creditOptionType = "Fixed";
+                    if (StringUtils.contains(rvg.getResultValueRange().getMinValue(), "degree.")) {
+                        creditOptionValue = StringUtils.substringAfterLast(rvg.getUiHelper().getResultValue(), "degree.");
+                    } else {
+                        creditOptionValue = rvg.getUiHelper().getResultValue();
+                    }
+                } else if (StringUtils.equals(rvg.getTypeKey(), LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE)) {
+                    creditOptionType = "Multiple";
+                } else if (StringUtils.equals(rvg.getTypeKey(), LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)) {
+                    creditOptionType = "Range";
                 }
-            } else if (StringUtils.equals(rvg.getTypeKey(), LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE)) {
-                creditOptionType = "Multiple";
-            } else if (StringUtils.equals(rvg.getTypeKey(), LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)) {
-                creditOptionType = "Range";
+                reviewData.getCourseLogisticsSection().getOutcomes().add(new OutcomeReviewSection(creditOptionType, creditOptionValue));
             }
-            reviewData.getCourseLogisticsSection().getOutcomes().add(new OutcomeReviewSection(creditOptionType, creditOptionValue));
         }
 
         List<FormatInfoWrapper> formatInfoWrappers = new ArrayList<FormatInfoWrapper>();
@@ -1511,6 +1513,8 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             }
             courseInfoWrapper.getCreditOptionWrappers().add(rvgWrapper);
         }
+
+        initializeOutcome(courseInfoWrapper);
 
     }
 
