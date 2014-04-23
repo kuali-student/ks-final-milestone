@@ -1,4 +1,4 @@
---KSAP-
+-- KSAP-966 (add authz chck to all AcademicServicePlan methods... via. AcademicPlanServiceAuthorizationDecorator
 
 --setup simple AcademicPlanService permissions...
 
