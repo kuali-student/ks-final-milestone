@@ -54,7 +54,9 @@
         <property name="items">
             <list>
                 <ref bean="ManageSOCView-termSelection-Section"/>
-                <ref bean="ManageSOCView-DetailsSection"/>
+                <ref bean="ManageSOCView-ManageLockButtonSection"/>
+                <ref bean="ManageSOCView-DetailsSection-1"/>
+                <ref bean="ManageSOCView-DetailsSection-2"/>
             </list>
         </property>
         <property name="additionalCssFiles">
@@ -171,10 +173,26 @@
 
     <!--p:onClickScript="updateContextBar( null, 'KS-CourseOffering-View-ContextBar-PlaceHolder' );"-->
 
-    <bean id="ManageSOCView-DetailsSection" parent="Uif-HorizontalBoxSection" p:render="@{renderDetailsSection}">
+    <bean id="ManageSOCView-ManageLockButtonSection" parent="Uif-HorizontalBoxSection" p:render="@{renderDetailsSection}">
+        <property name="items">
+            <list>
+                <ref bean="ManageSOCView-SchedulingDetails-ManageCOButton"/>
+                <ref bean="ManageSOCView-SchedulingDetails-LockSetButton"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ManageSOCView-DetailsSection-1" parent="Uif-HorizontalBoxSection" p:render="@{renderDetailsSection}">
         <property name="items">
             <list>
                 <ref bean="ManageSOCView-StatusHistory-Section"/>
+                <ref bean="ManageSOCView-EOBatchSchedule-Section"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="ManageSOCView-DetailsSection-2" parent="Uif-HorizontalBoxSection" p:render="@{renderDetailsSection}">
+        <property name="items">
+            <list>
                 <ref bean="ManageSOCView-SchedulingDetails-Section"/>
             </list>
         </property>
@@ -183,16 +201,8 @@
     <bean id="ManageSOCView-StatusHistory-Section" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
-                <ref bean="ManageSOCView-StatusHistory-SubSection1"/>
+               <!-- <ref bean="ManageSOCView-StatusHistory-SubSection1"/> -->
                 <ref bean="ManageSOCView-StatusHistory-SubSection2"/>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="ManageSOCView-StatusHistory-SubSection1" parent="Uif-VerticalBoxSubSection">
-        <property name="items">
-            <list>
-                <ref bean="ManageSOCView-SchedulingDetails-ManageCOButton"/>
             </list>
         </property>
     </bean>
@@ -245,7 +255,6 @@
                 <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false">
                     <property name="items">
                         <list>
-                            <ref bean="ManageSOCView-SchedulingDetails-LockSetButton"/>
                             <ref bean="ManageSOCView-SchedulingDetails-FinalEditButton"/>
                             <ref bean="ManageSOCView-SchedulingDetails-PublishButton"/>
                             <ref bean="ManageSOCView-SchedulingDetails-CloseButton"/>
@@ -309,4 +318,35 @@
     <bean id="ManageSOCView-SchedulingDetails-ManageCOButton" parent="Uif-Link" p:linkText="Manage Course Offerings" p:style="margin-top:5px;"
           p:href="@{#ConfigProperties['application.url']}/kr-krad/courseOfferingManagement?viewId=courseOfferingManagementView&amp;pageId=searchInputPage&amp;methodToCall=start"/>
     <bean id="ManageSOCView-SchedulingDetails-SendToSchedulerButton" parent="Uif-PrimaryActionButton" p:methodToCall="sendApprovedActivitiesToScheduler" p:actionLabel="Send Approved Activities to Scheduler" p:render="@{enableMSEButton}"/>
+    <bean id="ManageSOCView-Batch-CreateBatchSchedulerButton" parent="Uif-PrimaryActionButton" p:methodToCall="createEOBatchScheduler" p:actionLabel="Create" />
+
+    <bean id="ManageSOCView-EOBatchSchedule-Section" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="ManageSOCView-EOBatchSchedulingDetails-SubSection" parent="Uif-VerticalBoxSubSection">
+                    <property name="headerText" value="Exam Offerings"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="KS-Uif-DataField" p:colSpan="3" id="batchSchedulingStatus"
+                                              p:label="Creation Status" p:propertyName="batchSchedulingStatus"/>
+                                        <bean parent="KS-Uif-DataField" p:colSpan="3" id="batchSchedule_initiated_date"
+                                              p:label="Initiated" p:propertyName="batchScheduleInitiatedDate"/>
+                                        <bean parent="KS-Uif-DataField" p:colSpan="3" id="batchSchedule_completed_date"
+                                              p:label="Completed" p:propertyName="batchScheduleCompleteDate"/>
+                                        <bean parent="KS-Uif-DataField" p:colSpan="3" id="batchSchedule_duration"
+                                              p:label="Scheduling Duration" p:propertyName="batchScheduleDuration"/>
+                                    </list>
+                                </property>
+                            </bean>
+                            <ref bean="ManageSOCView-Batch-CreateBatchSchedulerButton"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
 </beans>

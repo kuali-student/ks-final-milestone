@@ -55,6 +55,11 @@ public class ManageSOCForm extends UifFormBase {
 
     private CourseOfferingContextBar contextBar = CourseOfferingContextBar.NULL_SAFE_INSTANCE;
 
+    private String batchSchedulingStatus;
+    private String batchScheduleInitiatedDate;
+    private String batchScheduleCompleteDate;
+    private String batchScheduleDuration;
+
     public ManageSOCForm()  {
         statusHistory = new ArrayList<ManageSOCStatusHistory> ();
     }
@@ -339,5 +344,35 @@ public class ManageSOCForm extends UifFormBase {
         this.contextBar = contextBar;
     }
 
+    public String getBatchSchedulingStatus() {
+        return batchSchedulingStatus;
+    }
 
+    public void setBatchSchedulingStatus(String batchSchedulingStatus) {
+        this.batchSchedulingStatus = batchSchedulingStatus;
+    }
+
+    public String getBatchScheduleInitiatedDate() {
+        return batchScheduleInitiatedDate;
+    }
+
+    public void setBatchScheduleInitiatedDate(String batchScheduleInitiatedDate) {
+        this.batchScheduleInitiatedDate = batchScheduleInitiatedDate;
+    }
+
+    public String getBatchScheduleCompleteDate() {
+        return batchScheduleCompleteDate;
+    }
+
+    public void setBatchScheduleCompleteDate(String batchScheduleCompleteDate) {
+        this.batchScheduleCompleteDate = batchScheduleCompleteDate;
+    }
+
+    public String getBatchScheduleDuration() {
+        return batchScheduleDuration;
+    }
+
+    public void setBatchScheduleDuration(String batchScheduleDuration) {
+        this.batchScheduleDuration = batchScheduleDuration;
+    }
 }
