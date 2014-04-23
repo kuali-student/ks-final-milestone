@@ -594,17 +594,17 @@ public class RoomServiceImpl implements RoomService {
     /**
      * Retrieves a list of Buildings corresponding to the Campus id
      *
-     * @param campusKey   a unique Id of a Building
+     * @param campusId   a unique Id of a Building
      * @param contextInfo Context information containing the
      *                    principalId and locale information about the caller of
      *                    service operation
      * @return a list of Building Ids
      * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException
-     *          campusKey not found
+     *          campusId not found
      * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException
      *          invalid contextInfo
      * @throws org.kuali.student.r2.common.exceptions.MissingParameterException
-     *          missing campusKey or contextInfo
+     *          missing campusId or contextInfo
      * @throws org.kuali.student.r2.common.exceptions.OperationFailedException
      *          unable to complete request
      * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException
@@ -612,10 +612,10 @@ public class RoomServiceImpl implements RoomService {
      */
     @Override
     @Transactional(readOnly = true)
-    public List<String> getBuildingIdsByCampus(String campusKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        checkValid("campusKey", campusKey, contextInfo);
+    public List<String> getBuildingIdsByCampus(String campusId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        checkValid("campusKey", campusId, contextInfo);
 
-        return buildingServiceDao.findBuildingIdsByCampus(campusKey);
+        return buildingServiceDao.findBuildingIdsByCampus(campusId);
     }
 
     /**

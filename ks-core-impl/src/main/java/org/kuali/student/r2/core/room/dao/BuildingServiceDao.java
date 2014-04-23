@@ -44,8 +44,8 @@ public class BuildingServiceDao extends GenericEntityDao<RoomBuildingEntity> {
         return buildings;
     }
 
-    public List<String> findBuildingIdsByCampus(String campusKey) {
-        return em.createNamedQuery("Building.findBuildingIdsByCampus").setParameter("campusKey", campusKey).getResultList();
+    public List<String> findBuildingIdsByCampus(String campusId) {
+        return em.createNamedQuery("Building.findBuildingIdsByCampus").setParameter("campusId", campusId).getResultList();
     }
 
     public List<RoomBuildingEntity> findBuildingsByBuildingCode(String buildingCode) {

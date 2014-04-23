@@ -330,17 +330,17 @@ public class RoomServiceMockImpl implements RoomService {
     }
 
     @Override
-    public List<String> getBuildingIdsByCampus(String campusKey,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> getBuildingIdsByCampus(String campusId,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String> idList = new ArrayList<String>();
         boolean found = false;
         for(BuildingInfo info : buildingList) {
-            if(info.getCampusKey().equalsIgnoreCase(campusKey)) {
+            if(info.getCampusId().equalsIgnoreCase(campusId)) {
                 found = true;
                 idList.add(info.getId());
             }
         }
         if(!found) {
-            throw new DoesNotExistException("No building exists for campusKey: " + campusKey);
+            throw new DoesNotExistException("No building exists for campusId: " + campusId);
         }
 
         return idList;
@@ -409,7 +409,7 @@ public class RoomServiceMockImpl implements RoomService {
         BuildingInfo  info = new BuildingInfo();
         info.setId(buildingId);
         info.setBuildingCode(buildingInfo.getBuildingCode());
-        info.setCampusKey(buildingInfo.getCampusKey());
+        info.setCampusId(buildingInfo.getCampusId());
         info.setAttributes(buildingInfo.getAttributes());
         info.setDescr(buildingInfo.getDescr());
         info.setMeta(buildingInfo.getMeta());
@@ -652,7 +652,7 @@ public class RoomServiceMockImpl implements RoomService {
     private BuildingInfo createBuildingInfo (String buildingId, String buildingCode, String compusKey, String buildingName, String desc) {
         BuildingInfo info = new BuildingInfo();
         info.setBuildingCode(buildingCode);
-        info.setCampusKey(compusKey);
+        info.setCampusId(compusKey);
         info.setId(buildingId);
         info.setName(buildingName);
         RichTextInfo descr = new RichTextInfo();
@@ -704,22 +704,22 @@ public class RoomServiceMockImpl implements RoomService {
     private void createBuildings() {
         String buildingId = "097";
         String buildingCode = "CCC";
-        String campusKey = "MAIN";
+        String campusId = "MAIN";
         String buildingName = "CAMBRIDGE COMMUNITY CENTER";
         String desc = "CCC - CAMBRIDGE COMMUNITY CENTER";
-        BuildingInfo building1 = createBuildingInfo(buildingId, buildingCode, campusKey, buildingName, desc);
+        BuildingInfo building1 = createBuildingInfo(buildingId, buildingCode, campusId, buildingName, desc);
         buildingId = "406";
         buildingCode = "CSI";
-        campusKey = "MAIN";
+        campusId = "MAIN";
         buildingName = "COMPUTER SCIENCE INSTRUCTIONAL";
         desc = "CSI - COMPUTER SCIENCE INSTRUCTIONAL";
-        BuildingInfo building2 = createBuildingInfo(buildingId, buildingCode, campusKey, buildingName, desc);
+        BuildingInfo building2 = createBuildingInfo(buildingId, buildingCode, campusId, buildingName, desc);
         buildingId = "039";
         buildingCode = "VMH";
-        campusKey = "MAIN";
+        campusId = "MAIN";
         buildingName = "VAN MUNCHING HALL";
         desc = "VMH - VAN MUNCHING HALL";
-        BuildingInfo building3 = createBuildingInfo(buildingId, buildingCode, campusKey, buildingName, desc);
+        BuildingInfo building3 = createBuildingInfo(buildingId, buildingCode, campusId, buildingName, desc);
         buildingList = new ArrayList<BuildingInfo>();
         buildingList.add(building1);
         buildingList.add(building2);

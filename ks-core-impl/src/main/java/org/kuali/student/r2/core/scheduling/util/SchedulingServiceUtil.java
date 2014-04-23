@@ -266,7 +266,7 @@ public final class SchedulingServiceUtil {
                 requestComponentInfo.getBuildingIds().add(room.getBuildingId());
 
                 BuildingInfo building = roomService.getBuilding(room.getBuildingId(), callContext);
-                requestComponentInfo.getCampusIds().add(building.getCampusKey());
+                requestComponentInfo.getCampusIds().add(building.getCampusId());
 
                 List<String> responsibleOrgIdList = roomService.getRoomResponsibleOrgIdsByRoom(schedComp.getRoomId(), callContext);
                 if(responsibleOrgIdList != null) {

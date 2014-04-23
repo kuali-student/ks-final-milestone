@@ -48,7 +48,7 @@ import java.util.Set;
 @Table(name = "KSEN_ROOM_BUILDING")
 @NamedQueries(value={
         @NamedQuery(name = "Building.findBuildingsByIds", query = "FROM RoomBuildingEntity WHERE id in (:ids)"),
-        @NamedQuery(name = "Building.findBuildingIdsByCampus", query = "SELECT id FROM RoomBuildingEntity WHERE campusKey = :campusKey"),
+        @NamedQuery(name = "Building.findBuildingIdsByCampus", query = "SELECT id FROM RoomBuildingEntity WHERE campusId = :campusId"),
         @NamedQuery(name = "Building.findBuildingsByBuildingCode", query = "FROM RoomBuildingEntity WHERE buildingCode = :buildingCode"),
         @NamedQuery(name = "Building.findBuildingIdsByBuildingCode", query = "SELECT id FROM RoomBuildingEntity WHERE buildingCode = :buildingCode")
 })
@@ -75,8 +75,8 @@ public class RoomBuildingEntity extends MetaEntity implements AttributeOwner<Roo
     @Column(name = "BUILDING_CD")
     private String buildingCode;
 
-    @Column(name = "CAMPUS_KEY")
-    private String campusKey;
+    @Column(name = "CAMPUS_ID")
+    private String campusId;
 
     /*
    BaseVersionEntity defines and handles the VER_NBR field
@@ -112,7 +112,7 @@ public class RoomBuildingEntity extends MetaEntity implements AttributeOwner<Roo
             this.setDescrFormatted( building.getDescr().getFormatted() );
         }
 
-        this.setCampusKey(building.getCampusKey());
+        this.setCampusId(building.getCampusId());
 
         this.setAttributes( new HashSet<RoomBuildingAttributeEntity>(building.getAttributes().size()) );
         for(Attribute attribute : building.getAttributes()) {
@@ -125,7 +125,7 @@ public class RoomBuildingEntity extends MetaEntity implements AttributeOwner<Roo
 
         buildingInfo.setId( this.getId() );
         buildingInfo.setBuildingCode( this.getBuildingCode() );
-        buildingInfo.setCampusKey(this.getCampusKey());
+        buildingInfo.setCampusId(this.getCampusId());
         buildingInfo.setDescr( new RichTextInfo(this.getDescrPlain(), this.getDescrFormatted()) );
         buildingInfo.setMeta( super.toDTO() );
         buildingInfo.setName( this.getName() );
@@ -180,12 +180,12 @@ public class RoomBuildingEntity extends MetaEntity implements AttributeOwner<Roo
         this.buildingCode = buildingCode;
     }
 
-    public String getCampusKey() {
-        return campusKey;
+    public String getCampusId() {
+        return campusId;
     }
 
-    public void setCampusKey(String campusKey) {
-        this.campusKey = campusKey;
+    public void setCampusId(String campusId) {
+        this.campusId = campusId;
     }
 
     @Override

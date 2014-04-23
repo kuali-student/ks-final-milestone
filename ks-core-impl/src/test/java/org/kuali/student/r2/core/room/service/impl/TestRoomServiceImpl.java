@@ -60,11 +60,11 @@ public class TestRoomServiceImpl {
         return createBuildingInfo("ARM", "1", "Armory", "org.kuali.building.state.Active", "org.kuali.building.type.Miscellaneous", "plain description", "formatted description");
     }
 
-    private BuildingInfo createBuildingInfo(String buildingCode, String campusKey, String name, String stateKey, String typeKey, String plain, String formatted) {
+    private BuildingInfo createBuildingInfo(String buildingCode, String campusId, String name, String stateKey, String typeKey, String plain, String formatted) {
         BuildingInfo buildingInfo = new BuildingInfo();
 
         buildingInfo.setBuildingCode(buildingCode);
-        buildingInfo.setCampusKey(campusKey);
+        buildingInfo.setCampusId(campusId);
         buildingInfo.setDescr(new RichTextInfo(plain, formatted));
         buildingInfo.setName(name);
         buildingInfo.setStateKey(stateKey);
@@ -112,7 +112,7 @@ public class TestRoomServiceImpl {
 
     public boolean equals(BuildingInfo b1, BuildingInfo b2) {
         assertEquals(b1.getBuildingCode(), b2.getBuildingCode());
-        assertEquals(b1.getCampusKey(), b2.getCampusKey());
+        assertEquals(b1.getCampusId(), b2.getCampusId());
         assertEquals(b1.getId(), b2.getId());
         assertEquals(b1.getName(), b2.getName());
         assertEquals(b1.getStateKey(), b2.getStateKey());
@@ -298,7 +298,7 @@ public class TestRoomServiceImpl {
 
         //test 5, an actual update
         buildingInfo.setBuildingCode( buildingInfo.getBuildingCode() + "_new");
-        buildingInfo.setCampusKey( buildingInfo.getCampusKey() + "_new");
+        buildingInfo.setCampusId( buildingInfo.getCampusId() + "_new");
         buildingInfo.setDescr( new RichTextInfo(buildingInfo.getDescr().getPlain() + "_new", buildingInfo.getDescr().getFormatted() + "_new"));
         buildingInfo.setName( buildingInfo.getName() + "_new");
         buildingInfo.setStateKey("org.kuali.building.state.Inactive");
@@ -323,7 +323,7 @@ public class TestRoomServiceImpl {
         assertFalse(newMetaInfo.getUpdateTime().equals(metaInfo.getUpdateTime()));
 
         assertFalse(originalBuildingInfo.getBuildingCode().equals(buildingInfo.getBuildingCode()));
-        assertFalse(originalBuildingInfo.getCampusKey().equals(buildingInfo.getCampusKey()));
+        assertFalse(originalBuildingInfo.getCampusId().equals(buildingInfo.getCampusId()));
         assertFalse(originalBuildingInfo.getDescr().getFormatted().equals(buildingInfo.getDescr().getFormatted()));
         assertFalse(originalBuildingInfo.getDescr().getPlain().equals(buildingInfo.getDescr().getPlain()));
         assertFalse(originalBuildingInfo.getName().equals(buildingInfo.getName()));
