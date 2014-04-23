@@ -1,0 +1,15 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+          http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+    <bean id="cluService" class="org.kuali.student.r2.lum.lu.service.impl.CluServiceMockImpl">
+        <property name="searchService" ref="searchService" />
+    </bean>
+
+    <bean id="searchService" class="org.kuali.student.r2.common.class1.search.SearchServiceMockImpl" />
+
+    <bean id="searchServiceDataLoader" class="org.kuali.student.ap.test.mock.SearchServiceDataLoader">
+        <constructor-arg ref="searchService" />
+    </bean>
+
+</beans>

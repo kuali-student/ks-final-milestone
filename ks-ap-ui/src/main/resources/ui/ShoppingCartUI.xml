@@ -1,0 +1,476 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	<!-- Copyright 2007-2009 The Kuali Foundation Licensed under the Educational 
+		Community License, Version 2.0 (the "License"); you may not use this file 
+		except in compliance with the License. You may obtain a copy of the License 
+		at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+		law or agreed to in writing, software distributed under the License is distributed 
+		on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+		express or implied. See the License for the specific language governing permissions 
+		and limitations under the License. -->
+
+	<bean id="ShoppingCart-FormView" parent="ShoppingCart-FormView-parent" />
+	<bean abstract="true" id="ShoppingCart-FormView-parent" parent="KSAPBaseFormView">
+		<property name="id" value="ShoppingCart-FormView" />
+		<property name="entryPageId" value="sb_cart_add_page" />
+		<property name="items">
+			<list>
+				<ref bean="sb_cart_add_page" />
+				<ref bean="sb_cart_add_from_plan_page" />
+				<ref bean="sb_cart_add_from_sb_page" />
+				<ref bean="sb_cart_add_from_search_page" />
+				<ref bean="sb_cart_remove_page" />
+			</list>
+		</property>
+		<property name="header.render" value="false" />
+		<property name="footer.render" value="false" />
+	</bean>
+
+	<bean id="sb_cart_add_page" parent="sb_cart_add_page-parent" />
+	<bean abstract="true" id="sb_cart_add_page-parent" parent="KSAP-PopoverPage" p:innerViewWrapperId="sb_cart_add_inner">
+		<property name="headerText" value="Update Shopping Cart" />
+		<property name="cssClasses">
+			<list merge="true">
+				<value>ksap-sb-cart-Popover</value>
+			</list>
+		</property>
+		<property name="items">
+			<list>
+				<bean parent="Uif-Message" p:messageText="TODO: add to shopping cart main dialog" />
+			</list>
+		</property>
+		<property name="footer" ref="sb_cart_controls" />
+	</bean>
+
+	<bean abstract="true" id="sb_cart_radio" parent="Uif-ContentElementBase" scope="prototype"
+			p:template="/WEB-INF/ftl/sb/sb_cart_radio.ftl" p:templateName="sb_cart_radio"
+			class="org.kuali.rice.krad.uif.element.extension.ShoppingCartRadioComponent" />
+
+    <bean id="sb_cart_course_options" parent="sb_cart_course_options-parent"/>
+	<bean id="sb_cart_course_options-parent" abstract="true" parent="Uif-StackedCollectionGroup" p:id="sb_cart_course_options"
+			p:renderAddLine="false" p:renderSaveLineActions="false" p:renderLineActions="false">
+		<property name="propertyName" value="courseOptions" />
+		<property name="collectionObjectClass" value="org.kuali.student.ap.schedulebuilder.infc.CourseOption" />
+    	<property name="layoutManager">
+			<bean parent="Uif-StackedCollectionLayout-WithBoxItems">
+				<property name="lineGroupPrototype">
+					<bean parent="Uif-CollectionVerticalBoxItem" p:footer.render="false" />
+				</property>
+			</bean>
+		</property>
+		<property name="items">
+			<list>
+				<bean parent="Uif-VerticalFieldGroup">
+					<property name="items">
+						<list>
+							<bean parent="Uif-VerticalBoxGroup">
+								<property name="items">
+									<list>
+										<bean parent="Uif-Message" p:messageText="@{#line.courseCode} @{#line.courseTitle}"
+												p:additionalCssClasses="ksap-sb-cart-course-title" />
+									</list>
+								</property>
+							</bean>
+							<bean parent="Uif-VerticalBoxGroup" p:additionalCssClasses="ksap-sb-cart-course-instruction">
+								<property name="items">
+									<list>
+										<bean parent="Uif-Message" p:messageText="Choose a @{#line.activityOptions[0].activityTypeDescription.toLowerCase()}" />
+									</list>
+								</property>
+							</bean>
+							<bean parent="sb_cart_activity_options" p:propertyName="activityOptions"
+									p:additionalCssClasses="ksap-sb-cart-primary-options" p:id="sb_cart_activity_options_@{#line.uniqueId}">
+								<property name="items">
+									<list>
+										<bean parent="Uif-VerticalFieldGroup">
+											<property name="items">
+												<list>
+													<bean parent="Uif-VerticalBoxGroup" p:id="sb_cart_primary_activity_header_@{#line.uniqueId}"
+															p:additionalCssClasses="ksap-sb-cart-primary-@{#line.selected? '' : 'de'}selected">
+														<property name="items">
+															<list>
+																<bean parent="sb_cart_radio" p:id="sb_cart_primary_radio_@{#line.uniqueId}"
+																		p:additionalCssClasses="ksap-sb-cart-primary-activity-radio"
+																		p:propertyName="shoppingCartRequests[@{#line.courseIndex}].primaryRegistrationCode"
+																		p:optionValue="@{#line.registrationCode}"
+																		p:optionLabel="#@{#line.registrationCode} @{#line.closed?'Closed':'Open'} - @{#line.openSeats}/@{#line.totalSeats} seats available"
+																		p:selected="@{#line.registrationCode eq shoppingCartRequests[#line.courseIndex].primaryRegistrationCode}"
+																		p:onChangeScript="cartPrimarySelect('@{#line.uniqueId}')">
+																	<property name="dataAttributes">
+																		<map>
+																			<entry key="uid" value="@{#line.uniqueId}" />
+																			<entry key="enrollmentgroup" value="@{#line.enrollmentGroup}" />
+																		</map>
+																	</property>
+																</bean>
+																<bean parent="Uif-Message" p:messageText="Permission required to enroll"
+																		p:additionalCssClasses="ksap-sb-cart-primary-subtext" p:render="@{#line.requiresPermission}" />
+																<bean parent="sb_cart_classtimes" p:render="@{!#line.enrollmentGroup}"
+																		p:additionalCssClasses="ksap-sb-cart-classtimes-with-radio" />
+															</list>
+														</property>
+													</bean>
+													<bean parent="sb_cart_secondary_options" p:propertyName="secondaryOptions"
+															p:render="@{#line.secondaryOptions ne null and !#line.secondaryOptions.empty}"
+															p:additionalCssClasses="ksap-sb-cart-secondary-@{#line.selected or #line.enrollmentGroup ? '' : 'de'}selected,ksap-sb-cart-secondary-options-wrapper"
+															p:id="sb_cart_secondary_options_@{#line.uniqueId}" />
+												</list>
+											</property>
+										</bean>
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+    <bean id="sb_cart_classtimes" abstract="true" parent="sb_cart_classtimes-parent"/>
+	<bean id="sb_cart_classtimes-parent" abstract="true" parent="Uif-StackedCollectionGroup"
+ 			p:id="sb_cart_activity_classtimes_@{#line.uniqueId}" p:renderAddLine="false"
+			p:renderSaveLineActions="false" p:renderLineActions="false">
+		<property name="propertyName" value="classMeetingTimes" />
+		<property name="collectionObjectClass" value="org.kuali.student.ap.schedulebuilder.infc.ClassMeetingTime" />
+		<property name="cssClasses">
+			<list merge="true">
+				<value>ksap-sb-cart-classtimes-group</value>
+			</list>
+		</property>
+		<property name="layoutManager">
+			<bean parent="Uif-StackedCollectionLayout-WithBoxItems">
+				<property name="lineGroupPrototype">
+					<bean parent="Uif-CollectionVerticalBoxItem" p:additionalCssClasses="ksap-sb-cart-activity-classtimes-row" />
+				</property>
+			</bean>
+		</property>
+		<property name="items">
+			<list>
+				<bean parent="Uif-VerticalFieldGroup">
+					<property name="items">
+						<list>
+							<bean parent="Uif-Message" p:messageText="@{#line.instructorName}@{#line.instructorName ne null and #line.arranged?' &amp;bull; ':''}@{#line.arranged?#line.location:''}"
+									p:additionalCssClasses="ksap-sb-classtimes-location" />
+							<bean parent="Uif-Message" p:messageText="@{#line.arranged?#line.daysAndTimes:'Meeting time to be arranged'}"
+									p:additionalCssClasses="ksap-sb-cart-classtimes-daystimes" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+    <bean id="sb_cart_activity_options" parent="sb_cart_activity_options-parent"/>
+	<bean id="sb_cart_activity_options-parent" parent="Uif-StackedCollectionGroup" p:id="sb_cart_activity_options"
+			p:renderAddLine="false" p:renderSaveLineActions="false" p:renderLineActions="false" abstract="true">
+		<property name="propertyName" value="activityOptions" />
+		<property name="collectionObjectClass" value="org.kuali.student.ap.schedulebuilder.infc.ActivityOption" />
+    <property name="layoutManager">
+			<bean parent="Uif-StackedCollectionLayout-WithBoxItems">
+				<property name="lineGroupPrototype">
+					<bean parent="Uif-CollectionVerticalBoxItem" p:footer.render="false">
+						<property name="cssClasses">
+							<list merge="true">
+								<value>ksap-sb-cart-activity-group</value>
+							</list>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+    <bean id="sb_cart_secondary_options" parent="sb_cart_secondary_options-parent"/>
+	<bean id="sb_cart_secondary_options-parent" abstract="true" parent="Uif-StackedCollectionGroup" p:id="sb_cart_secondary_options"
+			p:renderAddLine="false" p:renderSaveLineActions="false" p:renderLineActions="false">
+		<property name="propertyName" value="secondaryOptions" />
+		<property name="collectionObjectClass" value="org.kuali.student.ap.schedulebuilder.infc.SecondaryActivityOptions" />
+    <property name="layoutManager">
+			<bean parent="Uif-StackedCollectionLayout-WithBoxItems">
+				<property name="lineGroupPrototype">
+					<bean parent="Uif-CollectionVerticalBoxItem" p:footer.render="false" />
+				</property>
+			</bean>
+		</property>
+		<property name="items">
+			<list>
+				<bean parent="Uif-VerticalFieldGroup">
+					<property name="items">
+						<list>
+							<bean parent="Uif-HorizontalBoxGroup" p:id="sb-secondary-row-@{#line.uniqueId}" p:additionalCssClasses="ksap-sb-cart-secondary-header-row">
+								<property name="items">
+									<list>
+										<bean parent="Uif-Message" p:messageText="@{#line.getActivityCount(true)} included"
+												p:render="@{#line.enrollmentGroup}" p:additionalCssClasses="ksap-sb-cart-secondary-title" />
+										<bean parent="Uif-Message" p:messageText="Choose a @{#line.activityTypeDescription.toLowerCase()}" p:render="@{!#line.enrollmentGroup}" p:additionalCssClasses="ksap-sb-cart-secondary-title" />
+									</list>
+								</property>
+							</bean>
+							<bean parent="sb_cart_activity_options" p:propertyName="activityOptions"
+									p:additionalCssClasses="ksap-sb-cart-secondary-options" p:id="sb_cart_activity_options_@{#line.uniqueId}">
+								<property name="layoutManager.lineGroupPrototype.cssClasses">
+									<list merge="true">
+										<value>ksap-sb-cart-secondary-activity-group</value>
+										<value>ksap-sb-cart-secondary-activity-group-@{#line.lockedIn or (shoppingCartRequests[#line.courseIndex].secondaryRegistrationCodes eq null or #line.registrationCode ne shoppingCartRequests[#line.courseIndex].secondaryRegistrationCodes[#line.parentIndex])?'de':''}selected</value>
+									</list>
+								</property>
+								<property name="items">
+									<list>
+										<bean parent="Uif-VerticalFieldGroup" p:onClickScript="cartSecondarySelect('@{#line.uniqueId}')">
+											<property name="items">
+												<list>
+													<bean parent="sb_cart_radio" p:id="sb_cart_secondary_radio_@{#line.uniqueId}" p:render="@{!#line.lockedIn}"
+															p:additionalCssClasses="ksap-sb-cart-secondary-activity-radio"
+															p:propertyName="shoppingCartRequests[@{#line.courseIndex}].secondaryRegistrationCodes[@{#line.parentIndex}]"
+															p:optionValue="@{#line.registrationCode}"
+															p:optionLabel="#@{#line.registrationCode} @{#line.closed?'Closed':'Open'}"
+															p:selected="@{shoppingCartRequests[#line.courseIndex].secondaryRegistrationCodes ne null and #line.registrationCode eq shoppingCartRequests[#line.courseIndex].secondaryRegistrationCodes[#line.parentIndex]}">
+														<property name="dataAttributes">
+															<map>
+																<entry key="uid" value="@{#line.uniqueId}" />
+															</map>
+														</property>
+													</bean>
+ 													<bean parent="Uif-Message" p:messageText="@{#line.courseOfferingCode} #@{#line.registrationCode}" p:render="@{#line.lockedIn}" />
+ 													<bean parent="Uif-Message" p:messageText="@{#line.openSeats}/@{#line.totalSeats} seats available" p:render="@{!#line.lockedIn}" />
+													<bean parent="sb_cart_classtimes" p:additionalCssClasses="ksap-sb-cart-classtimes-secondary" />
+												</list>
+											</property>
+										</bean>
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+    <bean id="sb_cart_remove_page" parent="sb_cart_remove_page-parent"/>
+	<bean id="sb_cart_remove_page-parent" abstract="true" parent="KSAP-PopoverPage">
+		<property name="id" value="sb_cart_remove_page" />
+		<property name="innerViewWrapperId" value="sb_cart_remove_inner" />
+		<property name="headerText" value="Remove @{shoppingCartRequests[0].course.code} from @{shoppingCartRequests[0].term.name}?" />
+		<property name="cssClasses">
+			<list merge="true">
+				<value>ksap-sb-cart-Popover</value>
+			</list>
+		</property>
+		<property name="items">
+			<list merge="true">
+				<bean parent="Uif-Message" p:cssClasses="ks-Popover-bodyLabel"
+						p:messageText="Are you sure that you want to remove &lt;strong&gt;@{shoppingCartRequests[0].course.code} #@{shoppingCartRequests[0].primaryRegistrationCode}&lt;/strong&gt; from the shopping cart? Once removed, you cannot undo."/>
+			</list>
+		</property>
+		<property name="footer">
+			<bean parent="Uif-FooterBase">
+				<property name="items">
+					<list>
+						<bean parent="Uif-VerticalBoxGroup">
+							<property name="items">
+								<list>
+									<bean parent="Uif-HorizontalBoxGroup">
+										<property name="items">
+											<list>
+												<bean parent="Uif-PrimaryActionButton-Small" p:additionalCssClasses="ks-Button,ks-Button--primary"
+														p:actionLabel="Remove from cart" p:actionScript="ksapCartSubmitDialog(e);" />
+												<bean parent="Uif-SecondaryActionButton-Small" p:additionalCssClasses="ks-Button"
+														p:actionLabel="Cancel" p:actionScript="fnClosePopup();" />
+											</list>
+										</property>
+									</bean>
+									<bean parent="Uif-HorizontalBoxGroup"
+										p:hidden="true" p:additionalCssClasses="ksap-feedback,error,ks-Popover-error" />
+								</list>
+							</property>
+						</bean>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="sb_cart_add_from_plan_page" parent="sb_cart_add_from_plan_page-parent" />
+	<bean abstract="true" id="sb_cart_add_from_plan_page-parent" parent="sb_cart_add_page-parent" p:innerViewWrapperId="sb_cart_add_from_plan_inner">
+		<property name="items">
+			<list>
+				<bean parent="sb_cart_course_options" p:render="@{!courseOptions[0].activityOptions.empty}" />
+				<bean parent="Uif-Message" p:messageText="No classes available for @{term.name}" 
+					p:render="@{courseOptions[0].activityOptions.empty}" />
+			</list>
+		</property>
+	</bean>
+
+    <bean id="sb_activity_table_row" abstract="true" parent="sb_activity_table_row-parent" />
+	<bean id="sb_activity_table_row-parent" abstract="true" parent="Uif-VerticalFieldGroup" p:additionalCssClasses="ksap-sb-cart-activity-row,ksap-sb-cart-primary-selected">
+		<property name="items">
+			<list>
+				<bean parent="Uif-HorizontalBoxGroup">
+					<property name="validationMessages.render" value="false" />
+					<property name="items">
+						<list>
+							<bean parent="Uif-Message" p:messageText="@{#line.registrationCode} @{#line.activityTypeDescription}"
+									p:additionalCssClasses="ksap-sb-cart-activity-title" />
+							<bean parent="Uif-Message" p:messageText="@{#line.academicSessionDescr}" p:render="@{!#line.enrollmentGroup || #line.secondaryOptions.empty}"
+									p:additionalCssClasses="ksap-sb-cart-session" />
+							<bean parent="Uif-Message" p:messageText="@{#line.closed?'Closed ':'Open '}@{#line.openSeats}/@{#line.totalSeats}"
+									p:additionalCssClasses="ksap-sb-cart-seats"
+									p:title="@{#line.openSeats} seat@{#line.openSeats ne 1?'s':''} available out of @{#line.totalSeats}" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="Uif-Message" p:messageText="Permission Required" p:render="@{#line.requiresPermission}" />
+				<bean parent="Uif-StackedCollectionGroup" p:id="sb_activity_classtimes_@{#line.uniqueId}"
+						p:renderAddLine="false" p:renderSaveLineActions="false" p:renderLineActions="false" p:render="@{!#line.enrollmentGroup || #line.secondaryOptions.empty}">
+					<property name="propertyName" value="classMeetingTimes" />
+					<property name="collectionObjectClass" value="org.kuali.student.ap.schedulebuilder.infc.ClassMeetingTime" />
+					<property name="layoutManager">
+						<bean parent="Uif-StackedCollectionLayout-WithBoxItems">
+							<property name="lineGroupPrototype">
+								<bean parent="Uif-CollectionVerticalBoxItem" />
+							</property>
+						</bean>
+					</property>
+					<property name="items">
+						<list>
+							<bean parent="Uif-HorizontalFieldGroup" p:additionalCssClasses="ksap-sb-cart-primary-selected">
+								<property name="items">
+									<list>
+										<bean parent="Uif-Message" p:messageText="@{!#line.allDay?#line.daysAndTimes:'Meeting time to be arranged'} &amp;bull; @{#line.instructorName}@{#line.instructorName ne null?' &amp;bull; ':''}@{#line.arranged?#line.location:'ARR'}" p:additionalCssClasses="ksap-sb-cart-meetingtime" />
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean parent="Uif-Message" p:id="sb_cart_request_@{#line.uniqueId}" p:messageText="." p:hidden="true" />
+			</list>
+		</property>
+	</bean>
+
+    <bean abstract="true" id="sb_cart_activities" parent="sb_cart_activities-parent"/>
+	<bean abstract="true" id="sb_cart_activities-parent" parent="Uif-Disclosure-StackedCollectionSection"
+			p:renderAddLine="false" p:renderSaveLineActions="false" p:renderLineActions="false" p:includeLineSelectionField="false">
+		<property name="collectionObjectClass" value="org.kuali.student.ap.schedulebuilder.infc.ActivityOption" />
+    <property name="layoutManager">
+			<bean parent="Uif-StackedCollectionLayout-WithBoxItems">
+				<property name="lineGroupPrototype">
+					<bean parent="Uif-CollectionVerticalBoxItem" p:footer.render="false" />
+				</property>
+			</bean>
+		</property>
+		<property name="items">
+			<list>
+				<bean parent="sb_activity_table_row" p:id="sb_cart_activity_row_@{#line.uniqueId}" />
+			</list>
+		</property>
+	</bean>
+
+    <bean abstract="true" id="sb_cart_courses" parent="sb_cart_courses-parent"/>
+	<bean abstract="true" id="sb_cart_courses-parent" parent="Uif-StackedCollectionSection" p:additionalCssClasses="ksap-sb-cart-courses"
+			p:renderAddLine="false" p:renderSaveLineActions="false" p:renderLineActions="false" p:includeLineSelectionField="false">
+		<property name="collectionObjectClass" value="org.kuali.student.ap.schedulebuilder.infc.CourseOption" />
+    <property name="layoutManager">
+			<bean parent="Uif-StackedCollectionLayout-WithBoxItems">
+				<property name="lineGroupPrototype">
+					<bean parent="Uif-CollectionVerticalBoxItem" p:footer.render="false" />
+				</property>
+			</bean>
+		</property>
+		<property name="items">
+			<list>
+				<bean parent="Uif-VerticalFieldGroup" p:id="sb-cart-course-row-@{#line.uniqueId}" p:additionalCssClasses="ksap-sb-cart-course-row">
+					<property name="items">
+						<list>
+							<bean parent="sb_cart_activities" p:headerText="@{#line.courseCode} @{#line.courseTitle}" p:propertyName="activityOptions" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="sb_cart_add_from_sb_page" parent="sb_cart_add_from_sb_page-parent" />
+	<bean abstract="true" id="sb_cart_add_from_sb_page-parent" parent="sb_cart_add_page-parent" p:innerViewWrapperId="sb_cart_add_from_sb_inner">
+		<property name="items">
+			<list>
+				<bean parent="sb_cart_courses" p:headerText="Classes to remove from cart" p:id="sb_remove_from_cart" p:propertyName="removeFromCart" />
+				<bean parent="sb_cart_courses" p:headerText="Classes to add to cart" p:id="sb_add_to_cart" p:propertyName="addToCart" />
+				<bean parent="sb_cart_courses" p:headerText="Already registered or keep in cart" p:id="sb_keep_in_cart" p:propertyName="keepInCart">
+					<property name="items[0].items[0].disclosure.defaultOpen" value="false" />
+				</bean>
+			</list>
+		</property>
+		<property name="footer">
+			<bean parent="Uif-FooterBase">
+				<property name="items">
+					<list>
+						<bean parent="Uif-VerticalBoxGroup">
+							<property name="items">
+								<list>
+									<bean parent="Uif-HorizontalBoxGroup">
+										<property name="items">
+											<list>
+												<bean p:id="sb_cart_update_cart_button" parent="Uif-PrimaryActionButton" p:additionalCssClasses="ks-Button,ks-Button--primary"
+														p:actionLabel="Update Cart" p:actionScript="ksapCartSubmitDialog(e);" />
+												<bean p:id="sb_cart_go_to_cart_button" parent="Uif-PrimaryActionButton" p:additionalCssClasses="ks-Button,ks-Button--primary"
+                            p:actionScript="window.location='@{shoppingCartUrl}'+ksapAddGetParametersExternal()"
+														p:actionLabel="Go To Cart" p:hidden="true" />
+												<bean parent="Uif-SecondaryActionButton" p:additionalCssClasses="ks-Button"
+														p:actionLabel="Cancel" p:actionScript="fnClosePopup();" />
+											</list>
+										</property>
+									</bean>
+									<bean parent="Uif-HorizontalBoxGroup"
+										p:hidden="true" p:additionalCssClasses="ksap-feedback,error,ks-Popover-error" />
+								</list>
+							</property>
+						</bean>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="sb_cart_add_from_search_page" parent="sb_cart_add_from_search_page-parent" />
+	<bean abstract="true" id="sb_cart_add_from_search_page-parent" parent="sb_cart_add_page-parent" p:innerViewWrapperId="sb_cart_add_from_search_inner">
+		<property name="items">
+			<list>
+				<bean parent="Uif-Message" p:messageText="TODO: add to shopping cart from search dialog" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="sb_cart_controls" parent="sb_cart_controls-parent" />
+	<bean abstract="true" id="sb_cart_controls-parent" parent="Uif-FooterBase">
+		<property name="items">
+			<list>
+				<bean parent="Uif-VerticalBoxGroup">
+					<property name="items">
+						<list>
+							<bean parent="Uif-HorizontalBoxGroup">
+								<property name="items">
+									<list>
+										<bean parent="Uif-PrimaryActionButton-Small" p:additionalCssClasses="ks-Button,ks-Button--primary"
+												p:actionLabel="Add to cart" p:actionScript="ksapCartSubmitDialog(e);"
+												p:render="@{courseOptions ne null and !courseOptions[0].activityOptions.empty}" />
+										<bean parent="Uif-SecondaryActionButton-Small" p:additionalCssClasses="ks-Button"
+												p:actionLabel="Cancel" p:actionScript="fnClosePopup();" />
+									</list>
+								</property>
+							</bean>
+							<bean parent="Uif-HorizontalBoxGroup"
+								p:hidden="true" p:additionalCssClasses="ksap-feedback,error,ks-Popover-error" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+</beans>

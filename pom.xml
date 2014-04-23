@@ -6,12 +6,12 @@
         <artifactId>student</artifactId>
         <version>2.1.1-FR2-M1-SNAPSHOT</version>
     </parent>
-    <groupId>org.kuali.student.enroll</groupId>
-    <artifactId>ks-enroll</artifactId>
-    <version>0.2.0-FR2-M1-SNAPSHOT</version>
+    <groupId>org.kuali.student.ap</groupId>
+    <artifactId>ks-ap</artifactId>
+    <version>0.8.0-FR2-M1-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>KS Enroll</name>
-    <description>KS Enrollment</description>
+    <name>KSAP</name>
+    <description>Kuali Student Academic Planning Module</description>
     <profiles>
         <profile>
             <id>default</id>
@@ -19,33 +19,34 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <modules>
-                <module>ks-enroll-sql</module>
-                <module>ks-enroll-impl</module>
-                <module>ks-enroll-ui</module>
-                <module>ks-enroll-rice</module>
-                <module>ks-enroll-deployment-resources</module>
+                <module>ks-ap-sql</module>
+                <module>ks-ap-framework</module>
+                <module>ks-ap-impl</module>
+                <module>ks-ap-ui</module>
+                <module>ks-ap-web</module>
+                <module>ks-ap-deployment-resources</module>
             </modules>
         </profile>
         <profile>
             <id>sql-only</id>
             <modules>
-                <module>ks-enroll-sql</module>
+                <module>ks-ap-sql</module>
             </modules>
         </profile>
         <profile>
             <id>skip-all-wars</id>
             <modules>
-                <module>ks-enroll-sql</module>
-                <module>ks-enroll-impl</module>
-                <module>ks-enroll-ui</module>
-                <module>ks-enroll-rice</module>
+                <module>ks-ap-sql</module>
+                <module>ks-ap-impl</module>
+                <module>ks-ap-framework</module>
+                <module>ks-ap-ui</module>
             </modules>
         </profile>
         <profile>
             <id>skip-surefire-tests</id>
             <activation>
                 <property>
-                    <name>skip.enroll.tests</name>
+                    <name>skip.ap.tests</name>
                 </property>
             </activation>
             <build>
@@ -58,12 +59,12 @@
                     </plugin>
                 </plugins>
             </build>
-            <!-- include all the modules from the default profile (except SQL and Web modules) -->
+            <!-- include all the modules from the default profile (except SQL modules and Web modules) -->
             <modules>
-                <module>ks-enroll-impl</module>
-                <module>ks-enroll-ui</module>
-                <module>ks-enroll-rice</module>
-                <module>ks-enroll-deployment-resources</module>
+                <module>ks-ap-framework</module>
+                <module>ks-ap-impl</module>
+                <module>ks-ap-ui</module>
+                <module>ks-ap-deployment-resources</module>
             </modules>
         </profile>
     </profiles>

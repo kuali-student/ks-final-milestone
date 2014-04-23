@@ -1,4 +1,0 @@
-<ehcache name="ks-ehcache">
-    <defaultCache maxElementsInMemory="10" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="300" />
-    <cache name="luiCache" maxElementsInMemory="500" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="600" />
-</ehcache>

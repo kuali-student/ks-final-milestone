@@ -1,0 +1,339 @@
+@import "ksap.variables.less";
+@import "ksap.mixins.less";
+@import "ksap.fonts.less";
+@import "ksap.modals.less";
+
+@import "ksap.search.less";
+@import "ksap.planner.less";
+@import "ksap.yourstuff.less";
+
+:active, :focus {outline: 0;}
+::-moz-focus-inner {border: 0;}
+/*Link Defaults*/
+a {
+  &:active,
+  &:hover,
+  &:visited,
+  &:focus {
+    outline: 0;
+    border: none;
+  }
+}
+
+/* Common and utility Styles */
+.ksap-section         { width: 230px;}
+.ksap-no-margin       { margin: 0; }
+.ksap-hide            { display:none !important;}
+.invisible            { visibility: hidden !important;}
+
+
+.uif-progressiveDisclosure-highlight {
+  background: transparent !important;
+}
+
+#applicationHeading,
+#applicationNavigation,
+.ksap-view,
+#applicationFooterSection {
+  margin: 0 auto;
+  width: 950px;
+}
+
+#applicationHeader {
+  position: relative;
+  margin: 0 0 10px 0;
+}
+
+#applicationHeading {
+  position: relative;
+  height: 127px;
+}
+/*Header Title*/
+#applicationLogo {
+  font-style: normal;
+  font-size: 38px;
+  text-shadow: 0px 1px 2px #cfcabf;
+  position: absolute;
+  top: 40px;
+  left: 0px;
+}
+
+/*App navigation styles*/
+#applicationNavigation {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  ul, ul li {
+    list-style: none;
+  }
+  ul li {
+    display: inline-block;
+    margin: 0 0 0 60px;
+
+    &:first-child { margin: 0; }
+    a {
+      font-size: 1.3846em;
+      border-bottom: solid 4px transparent;
+      padding: 5px;
+      text-decoration: none;
+      display: block;
+
+      &:hover {
+        text-decoration: none;
+        border-bottom-color: #000000;
+      }
+      &.active {
+        border-bottom-color: #000000;
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+/*Footer background*/
+#applicationFooter {
+  color: #000;
+  font-size: 1em;
+  background: #fff;
+  width: 100%;
+  min-width: 960px;
+
+  .smaller {
+    font-size: 0.84615384615385em;
+  }
+}
+
+#applicationFooterSection {
+  position: relative;
+  min-height: 90px;
+
+  .links {
+    position: absolute;
+    width: 100%;
+    top: 0px;
+    left: 0px;
+  }
+  .version {
+    position: absolute;
+    white-space: nowrap;
+    top: 20px;
+    right: 0px;
+    color: #555;
+  }
+  .host {
+    position: absolute;
+    white-space: nowrap;
+    top: 40px;
+    right: 0px;
+    color: #555;
+  }
+  ul {
+    list-style: none;
+    margin: 20px auto;
+    display: block;
+    text-align: center;
+
+    li {
+      list-style: none;
+      display: inline-block;
+      margin: 0 0 0 10px;
+      padding: 0 0 0 10px;
+      border-left: solid 1px #7e7e7e;
+
+      &:first-child {
+        margin: 0;
+        padding: 0;
+        border: none;
+      }
+    }
+  }
+}
+
+.backdoor, .adviser-banner {
+  width: 930px;
+  margin: 20px auto;
+  color: #333;
+  background-color: #f4f8fd;
+  padding: 8px;
+  border-radius: 3px;
+  text-shadow: 1px 1px 1px #ffffff;
+  display: block;
+  border: solid 1px #daeaff;
+  line-height: 18px;
+  position: relative;
+}
+
+.backdoor a, .adviser-banner a {
+  text-decoration: underline;
+}
+
+/* Overwrite KRAD Styles ########################################################################### */
+.ksap-view {
+  min-height: 600px;
+
+  .uif-boxLayoutVerticalItem {
+    margin: 0 0 10px 0;
+
+    &.bold {font-weight: bold;}
+    &.uif-link {display:inline;}
+  }
+  .uif-boxLayoutHorizontalItem {
+    &.uif-tooltip { border-bottom: 1px dotted @ksapDarkGrey; }
+  }
+  .uif-pageHeader {
+    margin: 0 0 1em 0;
+  }
+  .uif-viewHeader-contentWrapper {
+    padding-bottom: 0px;
+    box-shadow: none;
+  }
+  .uif-pageContentWrapper {
+    padding: 0;
+    width: auto;
+    clear: both;
+  }
+  .uif-pageContentWrapper,.uif-viewHeader,.uif-header {
+    margin: 0;
+  }
+  .uif-collectionGroup > div:nth-child(2) {
+    padding: 0;
+    margin: 0;
+  }
+  .uif-stackedCollectionLayout,
+  .uif-stackedCollectionLayout > .uif-collectionItem {
+    padding: 0;
+    margin: 0;
+    background: none;
+  }
+  .uif-instructionalMessage {
+    max-width: none;
+    font-size: 1em;
+  }
+
+}
+
+/* Layout styles ########################################################################### */
+.ksap-container-75 {
+  width: 75px;
+}
+.ksap-audit-info-panel {
+  background: #ffffff;
+  border: solid 1px #a9a9a9;
+  padding: 10px 0 0 10px;
+  overflow: hidden;
+}
+
+.ksap-remove-margin .uif-boxLayoutVerticalItem,
+.ksap-remove-margin .uif-boxLayoutHorizontalItem {
+  margin: 0;
+  padding: 0;
+}
+
+.ksap-feedback,
+.ksap-status {
+  padding: 4px 0px;
+  display: block;
+  float: left;
+  border: solid 1px transparent;
+  background-color: #ffffff;
+  width:100%;
+  line-height: 18px;
+  position: relative;
+}
+
+.ksap-status {
+  border-radius: 3px;
+  text-shadow: 1px 1px 1px #ffffff;
+  &.success {
+    border-color: #d9ffde;
+    background-color: #f4fdf5;
+  }
+  &.info {
+    border-color: #daeaff;
+    background-color: #f4f8fd;
+  }
+  &.error {
+    border-color: #fcd5e4;
+    background-color: #fce9f1;
+  }
+  &.alert {
+    border-color: #feea49;
+    background-color: #faf5ca;
+  }
+  .message {
+    margin-left: 26px;
+  }
+}
+
+.ksap-feedback {
+  &.success {
+    color: #006600;
+  }
+  &.info {
+    color: #333;
+  }
+  &.error {
+    color: #cc0000;
+  }
+  &.alert {
+    color: #333;
+  }
+  .message {
+    margin-left: 23px;
+  }
+}
+
+.ksap-feedback img.icon,
+.ksap-status img.icon,
+.ksap-feedback .icon .uif-image,
+.ksap-status .icon .uif-image {
+  /*
+      @TODO ksap-961 use icon font instead of images
+  */
+  background: url('../images/ksap_icon_sprites.png') no-repeat -1000px -1000px;
+  width: 18px;
+  height: 18px;
+  position: absolute;
+  top: 8px;
+  left: 8px;
+}
+
+.ksap-feedback img.icon,
+.ksap-feedback .icon .uif-image {
+  top: 4px;
+  left: 0px;
+}
+
+.ksap-feedback.success img.icon,
+.ksap-status.success img.icon,
+.ksap-feedback.success .icon .uif-image,
+.ksap-status.success .icon .uif-image {
+  background-position: 0px -115px;
+}
+
+.ksap-feedback.info img.icon,
+.ksap-status.info img.icon,
+.ksap-feedback.info .icon .uif-image,
+.ksap-status.info .icon .uif-image {
+  background-position: -18px -115px;
+}
+
+.ksap-feedback.error img.icon,
+.ksap-status.error img.icon,
+.ksap-feedback.error .icon .uif-image,
+.ksap-status.error .icon .uif-image {
+  background-position: -36px -115px;
+}
+
+.ksap-feedback.alert img.icon,
+.ksap-status.alert img.icon,
+.ksap-feedback.alert .icon .uif-image,
+.ksap-status.alert .icon .uif-image {
+  background-position: -54px -115px;
+}
+
+.ksap-audit-message-info {
+  /*@TODO: ksap-961 convert to icon font instead of image*/
+  background: #F4F8FD url('../images/iconInfo.png') no-repeat 5px center;
+  padding-left: 26px !important;
+}
