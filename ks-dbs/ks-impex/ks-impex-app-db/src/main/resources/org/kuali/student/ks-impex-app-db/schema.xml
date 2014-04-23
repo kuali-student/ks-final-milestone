@@ -5401,7 +5401,7 @@
         <column name="BUILDING_TYPE" nullable="false" type="STRING">
             <size value="255"/>
         </column>
-        <column name="CAMPUS_KEY" nullable="false" type="STRING">
+        <column name="CAMPUS_ID" nullable="false" type="STRING">
             <size value="255"/>
         </column>
         <column name="CREATEID" nullable="false" type="STRING">
@@ -5435,7 +5435,7 @@
             <size value="19"/>
         </column>
         <index name="KSEN_ROOM_BUILDING_I1">
-            <column>CAMPUS_KEY</column>
+            <column>CAMPUS_ID</column>
         </index>
         <index name="KSPRF0">
             <column>BUILDING_TYPE</column>
