@@ -123,12 +123,15 @@ function openCourse(courseId, e) {
     stopEvent(e);
     var target = (e.currentTarget) ? e.currentTarget : e.srcElement;
     if (jQuery(target).parents(".jquerypopover.jquerypopover-ksap").length > 0) {
+        // if already in popup go to course details page instead
         window.location = "inquiry?methodToCall=start&viewId=CourseDetails-InquiryView&courseId=" + courseId;
     } else {
-        var retrieveData = {action: "plan", viewId: "PlannedCourse-FormView", methodToCall: "startAddPlannedCourseForm", courseId: courseId};
+        var retrieveData = {action: "inquiry", viewId: "CourseDetailsPopover-InquiryView", methodToCall: "start", courseId: courseId};
         var popupStyle = {width: "300px", height: "16px"};
         var popupOptions = {tail: {align: "left"}, align: "left", position: "bottom", close: true};
-        openPopup("add_remove_course_popover_page", retrieveData, "plan", popupStyle, popupOptions, e);
+        jQuery("#popupForm").remove();
+        fnClosePopup();
+        openPopup("course_details_popover_page", retrieveData, "inquiry", popupStyle, popupOptions, e);
     }
 }
 

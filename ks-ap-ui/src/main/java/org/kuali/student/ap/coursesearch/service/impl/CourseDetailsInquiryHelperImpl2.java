@@ -9,6 +9,7 @@ import org.kuali.student.ap.academicplan.dto.LearningPlanInfo;
 import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
 import org.kuali.student.ap.academicplan.infc.PlanItem;
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
+import org.kuali.student.ap.coursesearch.dataobject.CourseDetailsPopoverWrapper;
 import org.kuali.student.ap.coursesearch.dataobject.CourseDetailsWrapper;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
@@ -45,20 +46,29 @@ public class CourseDetailsInquiryHelperImpl2 extends KualiInquirableImpl {
 
     private static final long serialVersionUID = 4933435913745621395L;
 
-    private static final Logger LOG = LoggerFactory.getLogger(CourseDetailsInquiryHelperImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CourseDetailsInquiryHelperImpl2.class);
+
+    private final String COURSE_DETAILS_INQUIRY_VIEW = "CourseDetails-InquiryView";
+    private final String COURSE_DETAILS_POPOVER_INQUIRY_VIEW = "CourseDetailsPopover-InquiryView";
 
     /**
      * @see org.kuali.rice.kns.inquiry.KualiInquirableImpl#retrieveDataObject(java.util.Map)
      */
     @Override
-    public CourseDetailsWrapper retrieveDataObject(@SuppressWarnings("rawtypes") Map fieldValues) {
+    public Object retrieveDataObject(@SuppressWarnings("rawtypes") Map fieldValues) {
         String studentId = KsapFrameworkServiceLocator.getUserSessionHelper().getStudentId();
-        return retrieveCourseDetails(
-                (String) fieldValues.get(PlanConstants.PARAM_COURSE_ID),
-                (String) fieldValues.get(PlanConstants.PARAM_TERM_ID),
-                studentId,
-                fieldValues.get(PlanConstants.PARAM_OFFERINGS_FLAG) != null
-                        && Boolean.valueOf(fieldValues.get(PlanConstants.PARAM_OFFERINGS_FLAG).toString()));
+        String viewId = (String) fieldValues.get(PlanConstants.PARAM_VIEW_ID);
+        String courseId = (String) fieldValues.get(PlanConstants.PARAM_COURSE_ID);
+        String termId = (String) fieldValues.get(PlanConstants.PARAM_TERM_ID);
+        boolean loadActivityOfferings = fieldValues.get(PlanConstants.PARAM_OFFERINGS_FLAG) != null
+                && Boolean.valueOf(fieldValues.get(PlanConstants.PARAM_OFFERINGS_FLAG).toString());
+
+        if(viewId.equals(COURSE_DETAILS_INQUIRY_VIEW)){
+            return retrieveCourseDetails(courseId,termId,studentId,loadActivityOfferings);
+        }else if(viewId.equals(COURSE_DETAILS_POPOVER_INQUIRY_VIEW)){
+            return retrieveCoursePopoverDetails(courseId);
+        }
+        return null;
     }
 
     /**
@@ -75,6 +85,53 @@ public class CourseDetailsInquiryHelperImpl2 extends KualiInquirableImpl {
         final CourseInfo course = KsapFrameworkServiceLocator.getCourseHelper().getCourseInfo(courseId);
 
         CourseDetailsWrapper courseDetails = retrieveCourseSummary(course);
+
+        return courseDetails;
+    }
+
+    /**
+     * Retriece and compile data needed for the course popover on the course details page.
+     *
+     * @param courseId - Id of the course being displayed in popover
+     * @return Compiled data object for popover
+     */
+    public CourseDetailsPopoverWrapper retrieveCoursePopoverDetails(String courseId){
+        final CourseInfo course = KsapFrameworkServiceLocator.getCourseHelper().getCourseInfo(courseId);
+
+        if(course == null) return null;
+
+        CourseDetailsPopoverWrapper courseDetails = new CourseDetailsPopoverWrapper();
+
+        courseDetails.setCourseId(course.getId());
+        courseDetails.setCourseCode(course.getCode());
+        courseDetails.setCourseCredits(CreditsFormatter.formatCredits(course));
+        courseDetails.setCourseTitle(course.getCourseTitle());
+
+        courseDetails.setCourseRequisites(getCourseRequisites(course));
+
+        // Load Term information
+        courseDetails.setScheduledTerms(KsapFrameworkServiceLocator.getCourseHelper()
+                .getScheduledTermsForCourse(course));
+        courseDetails.setProjectedTerms(getProjectedTerms(course));
+
+        // Load Last Offered Term information if course is not scheduled
+        if(courseDetails.getScheduledTerms().isEmpty()){
+            Term lastOfferedTerm = KsapFrameworkServiceLocator.getCourseHelper().getLastOfferedTermForCourse(course);
+            if (lastOfferedTerm != null){
+                courseDetails.setLastOffered(lastOfferedTerm.getName());
+            }
+            else {
+                // If no last offered is found set as null
+                courseDetails.setLastOffered(null);
+            }
+        }else{
+            courseDetails.setLastOffered(null);
+        }
+
+        //Load plan status information
+        List<PlanItem> planItems = KsapFrameworkServiceLocator.getPlanHelper().loadStudentsPlanItemsForCourse(course);
+        courseDetails.setPlanStatusMessage(createPlanningStatusMessages(planItems));
+        courseDetails.setBookmarkStatusMessage(createBookmarkStatusMessages(planItems));
 
         return courseDetails;
     }
