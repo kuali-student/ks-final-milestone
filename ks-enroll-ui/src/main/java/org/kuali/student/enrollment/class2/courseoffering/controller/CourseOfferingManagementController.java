@@ -39,20 +39,25 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.ExamOfferingWrappe
 import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
+import org.kuali.student.enrollment.class2.courseoffering.helper.ExamOfferingScheduleHelper;
 import org.kuali.student.enrollment.class2.courseoffering.json.RSIJSONResponseData;
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementToolbarUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.RegistrationGroupConstants;
+import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingResult;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.examoffering.dto.ExamOfferingInfo;
+import org.kuali.student.enrollment.examoffering.infc.ExamOffering;
 import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.util.TimeOfDayHelper;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.ExamOfferingServiceConstants;
 import org.kuali.student.r2.core.acal.dto.ExamPeriodInfo;
 import org.kuali.student.r2.core.class1.search.CourseOfferingManagementSearchImpl;
@@ -1008,53 +1013,18 @@ public class CourseOfferingManagementController extends UifControllerBase {
                                                 @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         String selectedCollectionPath = theForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
         String selectedLine = theForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
-        boolean success;
+
         Object selectedObject = CourseOfferingManagementUtil.getSelectedObject(theForm, "edit");
         if (selectedObject instanceof ExamOfferingWrapper) {
+
+            //save exam offering override information
             ExamOfferingWrapper eoWrapper = (ExamOfferingWrapper)selectedObject;
-            ScheduleWrapper requestedSchedule = eoWrapper.getRequestedSchedule();
-
-            success = CourseOfferingManagementUtil.getExamOfferingScheduleHelper().validateScheduleRequest(requestedSchedule, selectedCollectionPath,
-                    selectedLine, ContextUtils.createDefaultContextInfo());
-            if (success) {
-                if (requestedSchedule.getScheduleRequestComponentInfo() != null) {
-                    requestedSchedule.setModified(true);
-                } else {
-                    requestedSchedule.setToBeCreated(true);
-                }
-                eoWrapper.getRequestedScheduleComponents().clear();
-                eoWrapper.getRequestedScheduleComponents().add(requestedSchedule);
-                StatusInfo statusInfo = CourseOfferingManagementUtil.getExamOfferingScheduleHelper().saveScheduleRequest(eoWrapper, ContextUtils.createDefaultContextInfo());
-
-                if (!statusInfo.getIsSuccess()){
-                    throw new OperationFailedException("Error updating Exam Offering Request Scheduling Information" + " " + statusInfo);
-                }
-
-                //save exam offering matrix overriding flag
-                statusInfo = saveExamOfferingOverrideMatrixFlag(eoWrapper);
-                if (!statusInfo.getIsSuccess()){
-                    throw new OperationFailedException("Error saving Exam Offering Matrix Overriding flag" + " " + statusInfo);
-                }
-
+            StatusInfo statusInfo = saveExamOfferingOverride(theForm, eoWrapper, selectedCollectionPath, selectedLine);
+            if (statusInfo.getIsSuccess()){
                 // reset the UI fields in the wrapper so that they will be refreshed after update
-                int firstScheduleComponentIndex = 0;
-                ScheduleWrapper scheduleWrapper = eoWrapper.getRequestedScheduleComponents().get(firstScheduleComponentIndex);
-                TimeSlotInfo timeSlot = scheduleWrapper.getTimeSlot();
-                List<Integer> days = timeSlot.getWeekdays();
-                TimeOfDayInfo startTime = timeSlot.getStartTime();
-                TimeOfDayInfo endTime = timeSlot.getEndTime();
-                if (startTime != null && startTime.getHour() != null) {
-                    String startTimeUI = TimeOfDayHelper.makeFormattedTimeForAOSchedules(startTime);
-                    scheduleWrapper.setStartTimeUI(startTimeUI);
-                }
-                if (endTime != null && endTime.getHour() != null) {
-                    String endTimeUI = TimeOfDayHelper.makeFormattedTimeForAOSchedules(endTime);
-                    scheduleWrapper.setEndTimeUI(endTimeUI);
-                }
-                if (days != null && days.size() > 0) {
-                    scheduleWrapper.setDaysUI(CourseOfferingManagementUtil.examPeriodDaysDisplay(days, theForm.getExamPeriodWrapper()));
-                }
+                resetExamOfferingInformation(theForm, eoWrapper);
             }
+
         } else {
             throw new RuntimeException("Invalid type. Does not support for now");
         }
@@ -1084,83 +1054,123 @@ public class CourseOfferingManagementController extends UifControllerBase {
         theForm.getActionParameters().put(UifParameters.SELLECTED_COLLECTION_PATH, selectedCollectionPath);
         String selectedLine = request.getParameter(UifParameters.SELECTED_LINE_INDEX);
         theForm.getActionParameters().put(UifParameters.SELECTED_LINE_INDEX, selectedLine);
-        boolean success;
-        ScheduleWrapper requestedSchedule = null;
-        ExamOfferingWrapper eoWrapper = null;
+
         Object selectedObject = CourseOfferingManagementUtil.getSelectedObject(theForm, "edit");
         if (selectedObject instanceof ExamOfferingWrapper) {
-            eoWrapper = (ExamOfferingWrapper)selectedObject;
-            requestedSchedule = eoWrapper.getRequestedSchedule();
 
-            success = CourseOfferingManagementUtil.getExamOfferingScheduleHelper().validateScheduleRequest(requestedSchedule, selectedCollectionPath,
-                    selectedLine, ContextUtils.createDefaultContextInfo());
-            if (success) {
-                if (requestedSchedule.getScheduleRequestComponentInfo() != null) {
-                    requestedSchedule.setModified(true);
-                } else {
-                    requestedSchedule.setToBeCreated(true);
-                }
-                eoWrapper.getRequestedScheduleComponents().clear();
-                eoWrapper.getRequestedScheduleComponents().add(requestedSchedule);
-                StatusInfo statusInfo = CourseOfferingManagementUtil.getExamOfferingScheduleHelper().saveScheduleRequest(eoWrapper, ContextUtils.createDefaultContextInfo());
+            ExamOfferingWrapper eoWrapper = (ExamOfferingWrapper)selectedObject;
+            jsonResponseDTO.setExamOfferingWrapper(eoWrapper);
 
-                if (!statusInfo.getIsSuccess()){
-                    throw new OperationFailedException("Error updating Exam Offering Request Scheduling Information" + " " + statusInfo);
-                }
-
-                //save exam offering matrix overriding flag
-                statusInfo = saveExamOfferingOverrideMatrixFlag(eoWrapper);
-                if (!statusInfo.getIsSuccess()){
-                    throw new OperationFailedException("Error saving Exam Offering Matrix Overriding flag" + " " + statusInfo);
-                }
-
-                // reset the UI fields in the wrapper so that they will be refreshed after update
-                int firstScheduleComponentIndex = 0;
-                ScheduleWrapper scheduleWrapper = eoWrapper.getRequestedScheduleComponents().get(firstScheduleComponentIndex);
-                TimeSlotInfo timeSlot = scheduleWrapper.getTimeSlot();
-                List<Integer> days = timeSlot.getWeekdays();
-                TimeOfDayInfo startTime = timeSlot.getStartTime();
-                TimeOfDayInfo endTime = timeSlot.getEndTime();
-                if (startTime != null && startTime.getHour() != null) {
-                    String startTimeUI = TimeOfDayHelper.makeFormattedTimeForAOSchedules(startTime);
-                    scheduleWrapper.setStartTimeUI(startTimeUI);
-                }
-                if (endTime != null && endTime.getHour() != null) {
-                    String endTimeUI = TimeOfDayHelper.makeFormattedTimeForAOSchedules(endTime);
-                    scheduleWrapper.setEndTimeUI(endTimeUI);
-                }
-                if (days != null && days.size() > 0) {
-                    scheduleWrapper.setDaysUI(CourseOfferingManagementUtil.examPeriodDaysDisplay(days, theForm.getExamPeriodWrapper()));
-                }
-            }else{
+            //save exam offering override information
+            StatusInfo statusInfo = saveExamOfferingOverride(theForm, eoWrapper, selectedCollectionPath, selectedLine);
+            if (!statusInfo.getIsSuccess()){
                 jsonResponseDTO.setHasErrors(true);
                 jsonResponseDTO.setMessageMap(GlobalVariables.getMessageMap());
+            } else {
+                // reset the UI fields in the wrapper so that they will be refreshed after update
+                resetExamOfferingInformation(theForm, eoWrapper);
             }
+
         } else {
             throw new RuntimeException("Invalid type. Does not support for now");
         }
 //        jsonResponseDTO.isCOOverridable(theForm.getCurrentCourseOfferingWrapper().isPerCOMatrixOveridable());
 //        jsonResponseDTO.isCOOverridable(theForm.getCurrentCourseOfferingWrapper().isPerAOMatrixOveridable());
-        jsonResponseDTO.setExamOfferingWrapper(eoWrapper);
         return jsonResponseDTO;
     }
-    private StatusInfo saveExamOfferingOverrideMatrixFlag (ExamOfferingWrapper eoWrapper) {
-        AttributeInfo attributeInfo = CourseOfferingManagementUtil.getAttributeForKey(eoWrapper.getEoInfo().getAttributes(), ExamOfferingServiceConstants.EXAM_OFFERING_MATRIX_OVERRIDE_ATTR);
-        ExamOfferingInfo eoInfo;
+
+    private void resetExamOfferingInformation(CourseOfferingManagementForm theForm, ExamOfferingWrapper eoWrapper) {
+        int firstScheduleComponentIndex = 0;
+        ScheduleWrapper scheduleWrapper = eoWrapper.getRequestedScheduleComponents().get(firstScheduleComponentIndex);
+
+        try {
+            CourseOfferingManagementUtil.getExamOfferingScheduleHelper().setScheduleTimeSlotInfo(scheduleWrapper, theForm.getExamPeriodWrapper());
+        } catch (OperationFailedException ofe){
+            throw new RuntimeException(ofe);
+        }
+    }
+
+    private StatusInfo saveExamOfferingOverride(CourseOfferingManagementForm theForm, ExamOfferingWrapper eoWrapper,
+                                                String selectedCollectionPath, String selectedLine) {
+
+        //Retrieve the existing attribute if it exist.
+        AttributeInfo attributeInfo = CourseOfferingManagementUtil.getAttributeForKey(eoWrapper.getEoInfo().getAttributes(),
+                ExamOfferingServiceConstants.EXAM_OFFERING_MATRIX_OVERRIDE_ATTR);
+
         if (attributeInfo != null) {
             attributeInfo.setValue(String.valueOf(eoWrapper.isOverrideMatrix()));
         } else {
-            attributeInfo = CourseOfferingManagementUtil.createAttribute(ExamOfferingServiceConstants.EXAM_OFFERING_MATRIX_OVERRIDE_ATTR, String.valueOf(eoWrapper.isOverrideMatrix()));
+            attributeInfo = CourseOfferingManagementUtil.createAttribute(ExamOfferingServiceConstants.EXAM_OFFERING_MATRIX_OVERRIDE_ATTR,
+                    String.valueOf(eoWrapper.isOverrideMatrix()));
             eoWrapper.getEoInfo().getAttributes().add(attributeInfo);
         }
 
         try {
-            eoInfo = CourseOfferingManagementUtil.getExamOfferingService().updateExamOffering(eoWrapper.getEoInfo().getId(), eoWrapper.getEoInfo(), ContextUtils.createDefaultContextInfo());
+            ContextInfo context = ContextUtils.createDefaultContextInfo();
+
+            //Update the attribute on the exam offering.
+            ExamOfferingInfo eoInfo = CourseOfferingManagementUtil.getExamOfferingService().updateExamOffering(eoWrapper.getEoInfo().getId(),
+                    eoWrapper.getEoInfo(), context);
+            eoWrapper.setEoInfo(eoInfo);
+
+            //Only reslot when override matrix is set to false.
+            boolean slotted = false;
+            if(!eoWrapper.isOverrideMatrix()){
+                CourseOfferingInfo courseOfferingInfo = theForm.getCurrentCourseOfferingWrapper().getCourseOfferingInfo();
+                //Only call matrix if course offering is set to use matrix.
+                if(Boolean.parseBoolean(courseOfferingInfo.getAttributeValue(CourseOfferingServiceConstants.FINAL_EXAM_USE_MATRIX))){
+                    ExamOfferingResult result = CourseOfferingManagementUtil.getExamOfferingServiceFacade().reslotExamOffering(
+                            courseOfferingInfo, eoWrapper.getAoInfo(), eoWrapper.getEoInfo(), courseOfferingInfo.getTermId(), context);
+                    CourseOfferingManagementUtil.processExamOfferingResultSet(result);
+                    slotted = true;
+                }
+            }
+
+            if (!slotted) {
+                //Only do this if exam offering is not reslotted!!
+                return saveExamOfferingSchedule(eoWrapper, selectedCollectionPath, selectedLine, context);
+            } else {
+                //Reload the new schedule requests created by matrix.
+                eoWrapper.getRequestedScheduleComponents().clear();
+                CourseOfferingManagementUtil.getExamOfferingScheduleHelper().loadScheduleRequests(eoWrapper, theForm, context);
+            }
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
-        eoWrapper.setEoInfo(eoInfo);
-        return new StatusInfo();
+        StatusInfo statusInfo = new StatusInfo();
+        statusInfo.setSuccess(true);
+        return statusInfo;
+    }
+
+    private StatusInfo saveExamOfferingSchedule(ExamOfferingWrapper eoWrapper, String selectedCollectionPath, String selectedLine,
+                                                ContextInfo context) throws OperationFailedException {
+
+        StatusInfo statusInfo = new StatusInfo();
+        ScheduleWrapper requestedSchedule = eoWrapper.getRequestedSchedule();
+        boolean success = CourseOfferingManagementUtil.getExamOfferingScheduleHelper().validateScheduleRequest(requestedSchedule,
+                selectedCollectionPath, selectedLine, context);
+
+        if (success) {
+            if (requestedSchedule.getScheduleRequestComponentInfo() != null) {
+                requestedSchedule.setModified(true);
+            } else {
+                requestedSchedule.setToBeCreated(true);
+            }
+            eoWrapper.getRequestedScheduleComponents().clear();
+            eoWrapper.getRequestedScheduleComponents().add(requestedSchedule);
+
+            statusInfo = CourseOfferingManagementUtil.getExamOfferingScheduleHelper().saveScheduleRequest(eoWrapper, context);
+            if (!statusInfo.getIsSuccess()) {
+                throw new OperationFailedException("Error updating Exam Offering Request Scheduling Information" + " " + statusInfo);
+            }
+
+            statusInfo.setSuccess(true);
+        } else {
+            statusInfo.setSuccess(false);
+        }
+
+        return statusInfo;
     }
 }

@@ -24,6 +24,7 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.util.security.ContextUtils;
+import org.kuali.student.enrollment.class2.acal.dto.ExamPeriodWrapper;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ExamOfferingWrapper;
@@ -37,6 +38,8 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.TimeOfDayHelper;
@@ -300,7 +303,7 @@ public class ExamOfferingScheduleHelperImpl implements ExamOfferingScheduleHelpe
                 for (ScheduleRequestInfo scheduleRequestInfo : scheduleRequestInfos){
                     for (ScheduleRequestComponentInfo componentInfo : scheduleRequestInfo.getScheduleRequestComponents()) {
                         ScheduleWrapper scheduleWrapper = new ScheduleWrapper(scheduleRequestInfo,componentInfo);
-                        buildScheduleWrapper(eoWrapper, scheduleWrapper, componentInfo, theForm, defaultContextInfo);
+                        buildScheduleWrapper(scheduleWrapper, componentInfo, theForm, defaultContextInfo);
 
                         eoWrapper.getRequestedScheduleComponents().add(scheduleWrapper);
                     }
@@ -323,73 +326,99 @@ public class ExamOfferingScheduleHelperImpl implements ExamOfferingScheduleHelpe
     /**
      * This method constructs the ScheduleWrapper for a given exam offering
      *
-     * @param eoWrapper  ExamOfferingWrapper
      * @param scheduleWrapper ScheduleWrapper that contains request scheduling information
      * @param componentInfo ScheduleRequestComponentInfo
      * @param theForm CourseOfferingManagementForm
      */
-    protected void buildScheduleWrapper(ExamOfferingWrapper eoWrapper, ScheduleWrapper scheduleWrapper, ScheduleRequestComponentInfo componentInfo, CourseOfferingManagementForm theForm, ContextInfo defaultContextInfo){
+    public void buildScheduleWrapper(ScheduleWrapper scheduleWrapper, ScheduleRequestComponentInfo componentInfo,
+                                        CourseOfferingManagementForm theForm, ContextInfo defaultContextInfo){
+
         try {
             //There should be only one timeslot per ScheduleRequestComponentInfo
             String timeSlotId = KSCollectionUtils.getOptionalZeroElement(componentInfo.getTimeSlotIds());
             TimeSlotInfo timeSlot = CourseOfferingManagementUtil.getSchedulingService().getTimeSlot(timeSlotId, defaultContextInfo);
             scheduleWrapper.setTimeSlot(timeSlot);
 
-            TimeOfDayInfo startTime = timeSlot.getStartTime();
-            TimeOfDayInfo endTime = timeSlot.getEndTime();
-            List<Integer> days = timeSlot.getWeekdays();
-
-            if (startTime != null && startTime.getHour() != null) {
-                String startTimeUI = TimeOfDayHelper.makeFormattedTimeForAOSchedules(startTime);
-                scheduleWrapper.setStartTimeUI(startTimeUI);
-                scheduleWrapper.setStartTime(startTimeUI);
-                //scheduleWrapper.setStartTimeAmPm(org.apache.commons.lang.StringUtils.substringAfter(startTimeUI, " "));
-            }
-            if (endTime != null && endTime.getHour() != null) {
-                String endTimeUI = TimeOfDayHelper.makeFormattedTimeForAOSchedules(endTime);
-                scheduleWrapper.setEndTimeUI(endTimeUI);
-                scheduleWrapper.setEndTime(endTimeUI);
-                //scheduleWrapper.setEndTimeAmPm(org.apache.commons.lang.StringUtils.substringAfter(endTimeUI, " "));
-            }
-
-            if (days != null && days.size() > 0) {
-                scheduleWrapper.setDaysUI(CourseOfferingManagementUtil.examPeriodDaysDisplay(days, theForm.getExamPeriodWrapper()));
-                scheduleWrapper.setDayInExamPeriod(KSCollectionUtils.getOptionalZeroElement(days).toString());
-            }
-
-            if (!componentInfo.getRoomIds().isEmpty()){
-                int firstRoomIndex = 0;
-                String roomId = componentInfo.getRoomIds().get(firstRoomIndex);
-                if (StringUtils.isNotBlank(roomId)) {
-                    RoomInfo room = CourseOfferingManagementUtil.getRoomService().getRoom(roomId, defaultContextInfo);
-                    scheduleWrapper.setRoom(room);
-                    scheduleWrapper.setRoomCode(room.getRoomCode());
-                    if (!room.getRoomUsages().isEmpty()){
-                        int firstRoomUsagesIndex = 0;
-                        scheduleWrapper.setRoomCapacity(room.getRoomUsages().get(firstRoomUsagesIndex).getHardCapacity());
-                    }
-
-                    BuildingInfo buildingInfo = CourseOfferingManagementUtil.getRoomService().getBuilding(room.getBuildingId(), defaultContextInfo);
-                    scheduleWrapper.setBuilding(buildingInfo);
-                    scheduleWrapper.setBuildingCode(buildingInfo.getBuildingCode());
-                    scheduleWrapper.setBuildingId(room.getBuildingId());
-                }
-
-            } else if (!componentInfo.getBuildingIds().isEmpty()){
-                int firstBuildingIndex = 0;
-                String buildingId = componentInfo.getBuildingIds().get(firstBuildingIndex);
-
-                if (StringUtils.isNotBlank(buildingId)) {
-                    BuildingInfo buildingInfo = CourseOfferingManagementUtil.getRoomService().getBuilding(buildingId, defaultContextInfo);
-                    scheduleWrapper.setBuilding(buildingInfo);
-                    scheduleWrapper.setBuildingCode(buildingInfo.getBuildingCode());
-                    scheduleWrapper.setBuildingId(buildingId);
-                }
-
-            }
+            setScheduleTimeSlotInfo(scheduleWrapper, theForm.getExamPeriodWrapper());
+            setScheduleRoomAndBuilding(scheduleWrapper, componentInfo, defaultContextInfo);
 
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * This method constructs timeslot part of the ScheduleWrapper for a given exam offering
+     *
+     * @param scheduleWrapper ScheduleWrapper that contains request scheduling information
+     * @param examPeriodWrapper ExamPeriodWrapper
+     */
+    public void setScheduleTimeSlotInfo(ScheduleWrapper scheduleWrapper, ExamPeriodWrapper examPeriodWrapper)
+            throws OperationFailedException {
+
+        TimeOfDayInfo startTime = scheduleWrapper.getTimeSlot().getStartTime();
+        if (startTime != null && startTime.getHour() != null) {
+            String startTimeUI = TimeOfDayHelper.makeFormattedTimeForAOSchedules(startTime);
+            scheduleWrapper.setStartTimeUI(startTimeUI);
+            scheduleWrapper.setStartTime(startTimeUI);
+            //scheduleWrapper.setStartTimeAmPm(org.apache.commons.lang.StringUtils.substringAfter(startTimeUI, " "));
+        }
+
+        TimeOfDayInfo endTime = scheduleWrapper.getTimeSlot().getEndTime();
+        if (endTime != null && endTime.getHour() != null) {
+            String endTimeUI = TimeOfDayHelper.makeFormattedTimeForAOSchedules(endTime);
+            scheduleWrapper.setEndTimeUI(endTimeUI);
+            scheduleWrapper.setEndTime(endTimeUI);
+            //scheduleWrapper.setEndTimeAmPm(org.apache.commons.lang.StringUtils.substringAfter(endTimeUI, " "));
+        }
+
+        List<Integer> days = scheduleWrapper.getTimeSlot().getWeekdays();
+        if (days != null && days.size() > 0) {
+            scheduleWrapper.setDaysUI(CourseOfferingManagementUtil.examPeriodDaysDisplay(days, examPeriodWrapper));
+            scheduleWrapper.setDayInExamPeriod(KSCollectionUtils.getOptionalZeroElement(days).toString());
+        }
+    }
+
+    /**
+     * This method constructs facility part of the ScheduleWrapper for a given exam offering
+     *
+     * @param scheduleWrapper ScheduleWrapper that contains request scheduling information
+     * @param componentInfo ScheduleRequestComponentInfo
+     */
+    public void setScheduleRoomAndBuilding(ScheduleWrapper scheduleWrapper, ScheduleRequestComponentInfo componentInfo,
+                                            ContextInfo defaultContextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+
+        if (!componentInfo.getRoomIds().isEmpty()){
+            int firstRoomIndex = 0;
+            String roomId = componentInfo.getRoomIds().get(firstRoomIndex);
+            if (StringUtils.isNotBlank(roomId)) {
+                RoomInfo room = CourseOfferingManagementUtil.getRoomService().getRoom(roomId, defaultContextInfo);
+                scheduleWrapper.setRoom(room);
+                scheduleWrapper.setRoomCode(room.getRoomCode());
+                if (!room.getRoomUsages().isEmpty()){
+                    int firstRoomUsagesIndex = 0;
+                    scheduleWrapper.setRoomCapacity(room.getRoomUsages().get(firstRoomUsagesIndex).getHardCapacity());
+                }
+
+                BuildingInfo buildingInfo = CourseOfferingManagementUtil.getRoomService().getBuilding(room.getBuildingId(), defaultContextInfo);
+                scheduleWrapper.setBuilding(buildingInfo);
+                scheduleWrapper.setBuildingCode(buildingInfo.getBuildingCode());
+                scheduleWrapper.setBuildingId(room.getBuildingId());
+            }
+
+        } else if (!componentInfo.getBuildingIds().isEmpty()){
+            int firstBuildingIndex = 0;
+            String buildingId = componentInfo.getBuildingIds().get(firstBuildingIndex);
+
+            if (StringUtils.isNotBlank(buildingId)) {
+                BuildingInfo buildingInfo = CourseOfferingManagementUtil.getRoomService().getBuilding(buildingId, defaultContextInfo);
+                scheduleWrapper.setBuilding(buildingInfo);
+                scheduleWrapper.setBuildingCode(buildingInfo.getBuildingCode());
+                scheduleWrapper.setBuildingId(buildingId);
+            }
+
         }
     }
 
