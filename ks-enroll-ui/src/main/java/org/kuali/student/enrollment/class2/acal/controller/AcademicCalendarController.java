@@ -219,6 +219,7 @@ public class AcademicCalendarController extends UifControllerBase {
      * @param response
      * @return
      */
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=toCopy")
     public ModelAndView toCopy(@ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
                                HttpServletRequest request, HttpServletResponse response){
