@@ -94,6 +94,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
      * @param response
      * @return
      */
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=deleteRule")
     public ModelAndView deleteRule(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
                                    @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
@@ -197,6 +198,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
      * @return
      * @throws Exception
      */
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=copyRule")
     public ModelAndView copyRule(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                  HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -212,6 +214,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
      * @param response
      * @return
      */
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=goToEditProposition")
     public ModelAndView goToEditProposition(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                             HttpServletRequest request, HttpServletResponse response) {
@@ -383,6 +386,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
      * @param response
      * @return
      */
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=movePropositionUp")
     public ModelAndView movePropositionUp(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                           HttpServletRequest request, HttpServletResponse response) {
@@ -400,6 +404,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
      * @param response
      * @return
      */
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=movePropositionDown")
     public ModelAndView movePropositionDown(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                             HttpServletRequest request, HttpServletResponse response) {
@@ -496,6 +501,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
      * @param response
      * @return
      */
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=movePropositionLeft")
     public ModelAndView movePropositionLeft(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                             HttpServletRequest request, HttpServletResponse response) {
@@ -548,6 +554,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
      * @param response
      * @return
      */
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=movePropositionRight")
     public ModelAndView movePropositionRight(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                              HttpServletRequest request, HttpServletResponse response) {
@@ -592,6 +599,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
      * @return
      * @throws Exception
      */
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=togglePropositionSimpleCompound")
     public ModelAndView togglePropositionSimpleCompound(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                                         HttpServletRequest request, HttpServletResponse response) {
@@ -651,6 +659,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
      * @return
      * @throws Exception
      */
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=pasteProposition")
     public ModelAndView pasteProposition(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                          HttpServletRequest request, HttpServletResponse response) {
@@ -763,6 +772,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
      * @param response
      * @return
      */
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=deleteProposition")
     public ModelAndView deleteProposition(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                           HttpServletRequest request, HttpServletResponse response) {
@@ -806,6 +816,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
      * @param response
      * @return
      */
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=updateCompoundOperator")
     public ModelAndView updateCompoundOperator(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                                HttpServletRequest request, HttpServletResponse response) {
@@ -1078,6 +1089,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
      * @param response
      * @return
      */
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=cancelEditProposition")
     public ModelAndView cancelEditProposition(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                               HttpServletRequest request, HttpServletResponse response) {
@@ -1246,6 +1258,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
      * @param response
      * @return
      */
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=refreshLogicArea")
     public ModelAndView refreshLogicArea(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                        HttpServletRequest request, HttpServletResponse response) {
