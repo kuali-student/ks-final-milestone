@@ -273,8 +273,8 @@ limitations under the License.
           p:style="width: 600px; padding: 0; margin-bottom: 0px;">
         <property name="layoutManager">
             <bean parent="Uif-StackedCollectionLayout-WithBoxItems"
-                  class="org.kuali.student.core.krms.HorizontalActionsStackedLayoutManager"
                   p:additionalCssClasses="krms-stackedCollectionLayout">
+                <!-- Rice 2.4 upgrade class="org.kuali.student.core.krms.HorizontalActionsStackedLayoutManager" -->
                 <property name="actionsInLineGroup" value="true"/>
                 <property name="lineGroupPrototype">
                     <bean parent="Uif-CollectionHorizontalBoxItem" p:additionalCssClasses="krms-stackedPreviewItem">
@@ -504,6 +504,41 @@ limitations under the License.
                     </property>
                 </bean>
             </list>
+        </property>
+    </bean>
+
+    <!-- Note: this bean id is important, it is used for component matching in an ajax refresh -->
+    <!-- also, the bogus refreshWhenChanged is important because it puts a RuleEditorView-TreeGroup_refreshWrapper around the group that
+        is needed for the javascript hack that is refreshing -->
+    <bean id="KRMS-RuleEditor-TreeGroup" parent="Uif-VerticalBoxGroup"
+          p:style="margin-bottom: 5pt; margin-top: 0em;" p:forceSessionPersistence="true">
+        <property name="layoutManager.orientation" value="VERTICAL"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Message" p:messageText="Click on rule statement to move or modify"
+                      p:style="font-weight:bold;margin-left: 2em;"/>
+                <bean parent="KSCO-RulerEditor-TreeSection"/>
+                <bean id="proposition_selected" parent="KRMS-Rules-HiddenField"
+                      p:propertyName="selectedKey"/>
+                <bean id="proposition_copy" parent="KRMS-Rules-HiddenField" p:propertyName="copyKey"/>
+                <bean id="proposition_cut" parent="KRMS-Rules-HiddenField" p:propertyName="cutKey"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KSCO-RulerEditor-TreeSection" parent="KRMS-RulerEditor-TreeSection-parent">
+        <property name="nodePrototypeMap">
+            <map key-type="java.lang.Class">
+                <entry key="#{ T(org.kuali.rice.krms.tree.node.SimplePropositionNode) }">
+                    <bean parent="KRMS-SimplePropositionNodePrototype"/>
+                </entry>
+                <entry key="#{ T(org.kuali.student.lum.lu.ui.krms.tree.node.LUPropositionEditNode) }">
+                    <bean parent="KRMS-SimplePropositionEditNodePrototype"/>
+                </entry>
+                <entry key="#{ T(org.kuali.rice.krms.tree.node.CompoundOpCodeNode) }">
+                    <bean parent="KRMS-CompoundOpCodeNodePrototype"/>
+                </entry>
+            </map>
         </property>
     </bean>
 

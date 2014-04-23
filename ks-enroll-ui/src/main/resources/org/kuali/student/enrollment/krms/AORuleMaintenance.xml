@@ -331,8 +331,8 @@ limitations under the License.
           p:style="width: 600px; padding: 0; margin-bottom: 0px;">
         <property name="layoutManager">
             <bean parent="Uif-StackedCollectionLayout-WithBoxItems"
-                  class="org.kuali.student.core.krms.HorizontalActionsStackedLayoutManager"
                   p:additionalCssClasses="krms-stackedCollectionLayout">
+                <!-- Rice 2.4 upgrade class="org.kuali.student.core.krms.HorizontalActionsStackedLayoutManager" -->
                 <property name="actionsInLineGroup" value="true"/>
                 <property name="lineGroupPrototype">
                     <bean parent="Uif-CollectionHorizontalBoxItem" p:additionalCssClasses="krms-stackedPreviewItem">

@@ -65,9 +65,9 @@ public class CORuleCompareTreeBuilder extends KSRuleCompareTreeBuilder {
         if (propositionEditor instanceof LUPropositionEditor) {
             LUPropositionEditor enrolProp = (LUPropositionEditor) propositionEditor;
             List<String> listItems = new ArrayList<String>();
-            if (enrolProp.getCluSet() != null) {
-                if (enrolProp.getCluSet().getClus() != null) {
-                    for (CluInformation clu : enrolProp.getCluSet().getClus()) {
+            if (enrolProp.getCourseSet() != null) {
+                if (enrolProp.getCourseSet().getClus() != null) {
+                    for (CluInformation clu : enrolProp.getCourseSet().getClus()) {
                         String description = clu.getCode() + " " + clu.getTitle() + " " + clu.getCredits();
                         listItems.add(description);
                     }
