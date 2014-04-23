@@ -19,7 +19,7 @@ import org.kuali.student.r2.common.constants.CommonServiceConstants;
 /**
  * Constant for the AcademicPlanService api
  *
- * @Author Kuali Student Team
+ * @Author Kuali Student Team  (ks-collab@kuali.org)
  * @version 1.0 (Dev)
  */
 public class AcademicPlanServiceConstants {

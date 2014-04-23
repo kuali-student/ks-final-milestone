@@ -50,7 +50,7 @@ import java.util.List;
  *      they are enrolled, or for which they may wish to consider in a "what if" planning scenario (e.g. when running
  *      degree audit)</li>
  * </ul>
- * @author Kuali Student Team
+ * @author Kuali Student Team (ks-collab@kuali.org)
  * @version 1.0 (Dev)
  */
 @WebService(name = "AcademicPlanService", serviceName = "AcademicPlanService", portName = "AcademicPlanService",

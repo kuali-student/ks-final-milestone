@@ -22,7 +22,7 @@ import org.kuali.student.r2.common.infc.TypeStateEntity;
 /**
  * Student's Learning Plan that contains a list of plan items
  *
- * @author Kuali Student Team
+ * @author Kuali Student Team (ks-collab@kuali.org)
  * @version 1.0 (Dev)
  */
 public interface LearningPlan extends IdEntity {

@@ -24,7 +24,7 @@ import org.kuali.student.r2.common.infc.RichText;
 /**
  * A single plan item. Plan items can link to different entities in the system based on the refObjectType.
  *
- * @author Kuali Student Team
+ * @author Kuali Student Team  (ks-collab@kuali.org)
  * @version 1.0 (Dev)
  */
 public interface PlanItem extends IdEntity {
