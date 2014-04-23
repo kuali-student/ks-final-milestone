@@ -15,45 +15,38 @@
  */
 package org.kuali.student.lum.lu.ui.krms.tree;
 
+import org.kuali.rice.core.api.util.tree.Node;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
+import org.kuali.rice.krms.tree.node.RuleEditorTreeNode;
+import org.kuali.rice.krms.tree.node.SimplePropositionEditNode;
 import org.kuali.rice.krms.tree.node.TreeNode;
-import org.kuali.student.core.krms.tree.KSRulePreviewTreeBuilder;
+import org.kuali.rice.krms.util.KRMSConstants;
+import org.kuali.student.core.krms.tree.KSRuleEditTreeBuilder;
+import org.kuali.student.core.krms.tree.KSRuleViewTreeBuilder;
 import org.kuali.student.lum.lu.ui.krms.dto.CluGroup;
-import org.kuali.student.lum.lu.ui.krms.dto.LUPropositionEditor;
 import org.kuali.student.lum.lu.ui.krms.dto.CluSetInformation;
+import org.kuali.student.lum.lu.ui.krms.dto.LUPropositionEditor;
+import org.kuali.student.lum.lu.ui.krms.tree.node.LUPropositionEditNode;
 import org.kuali.student.lum.lu.ui.krms.tree.node.LUTreeNode;
 
 import java.util.List;
 
 /**
  * Overridden class to add items to be displayed in the view trees that are not converted
- * by the natural language translator on the rule management service.
+ * by the natural language translater on the rule management service.
  *
  * @author Kuali Student Team
  */
-public class LURulePreviewTreeBuilder extends KSRulePreviewTreeBuilder {
+public class LURuleEditTreeBuilder extends KSRuleEditTreeBuilder {
 
     private static final long serialVersionUID = 1L;
 
-    @Override
-    public TreeNode createTreeNode(RuleEditor rule, String data, PropositionEditor prop, boolean compound){
-        LUTreeNode tNode = new LUTreeNode(data);
-        tNode.setKey(prop.getKey());
-        tNode.setCompound(compound);
-        tNode.setCluGroups(this.getCluGroups(prop));
-        return tNode;
-    }
-
-    public List<CluGroup> getCluGroups(PropositionEditor propositionEditor) {
-        if (propositionEditor instanceof LUPropositionEditor) {
-            CluSetInformation cluSetInfo = ((LUPropositionEditor) propositionEditor).getCourseSet();
-
-            if (cluSetInfo != null) {
-                return cluSetInfo.getCluGroups();
-            }
-        }
-        return null;
+    protected void setupEditNode(RuleEditor rule, PropositionEditor prop, Node<RuleEditorTreeNode, String> leaf) {
+        leaf.setNodeType(KRMSConstants.EDIT_NODE_TYPE);
+        LUPropositionEditor copy = (LUPropositionEditor) ObjectUtils.deepCopy(prop);
+        leaf.setData(new LUPropositionEditNode(copy));
     }
 
 }

@@ -47,7 +47,7 @@ public class LURuleViewTreeBuilder extends KSRuleViewTreeBuilder {
 
     public List<CluGroup> getCluGroups(PropositionEditor propositionEditor) {
         if (propositionEditor instanceof LUPropositionEditor) {
-            CluSetInformation cluSetInfo = ((LUPropositionEditor) propositionEditor).getCluSet();
+            CluSetInformation cluSetInfo = ((LUPropositionEditor) propositionEditor).getCourseSet();
 
             if (cluSetInfo != null) {
                 return cluSetInfo.getCluGroups();

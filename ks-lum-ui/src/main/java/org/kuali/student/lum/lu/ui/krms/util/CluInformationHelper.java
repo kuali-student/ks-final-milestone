@@ -145,7 +145,7 @@ public class CluInformationHelper {
         CluSetRangeInformation cluSetRange = new CluSetRangeInformation();
         cluSetRange.setMembershipQueryInfo(mqInfo);
         cluSetRange.setClusInRange(this.getCluInfosWithDetailForQuery(mqInfo));
-        cluSetRange.setCluSetRangeLabel(clusetInfo.getRangeHelper().buildLabelFromQuery(mqInfo));
+        cluSetRange.setCluSetRangeLabel(CluSetRangeHelper.buildLabelFromQuery(mqInfo));
 
         clusetInfo.getCluSetRanges().add(cluSetRange);
     }

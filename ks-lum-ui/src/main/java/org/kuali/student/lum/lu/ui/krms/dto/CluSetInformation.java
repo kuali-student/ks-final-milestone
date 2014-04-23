@@ -15,7 +15,8 @@
  */
 package org.kuali.student.lum.lu.ui.krms.dto;
 
-import org.kuali.student.lum.lu.ui.krms.util.CluSetRangeHelper;
+import org.kuali.student.lum.lu.ui.krms.util.CluSetRangeWrapper;
+import org.kuali.student.lum.lu.ui.krms.util.CluSetRangeWrapper;
 import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 import org.springframework.util.StringUtils;
@@ -42,9 +43,6 @@ public class CluSetInformation implements Serializable {
     private List<CluSetRangeInformation> cluSetRanges;
 
     private Map<String, CluSetInformation> subCluSetInformations;
-    private CluSetInformation parent;
-
-    private CluSetRangeHelper rangeHelper = new CluSetRangeHelper();
 
     public CluSetInformation() {
         super();
@@ -108,20 +106,20 @@ public class CluSetInformation implements Serializable {
         this.subCluSetInformations = subCluSetInformations;
     }
 
-    public CluSetInformation getParent() {
-        return parent;
+    public String getId() {
+        return cluSetInfo.getId();
     }
 
-    public void setParent(CluSetInformation parent) {
-        this.parent = parent;
+    public void setId(String id) {
+        this.cluSetInfo.setId(id);
     }
 
-    public CluSetRangeHelper getRangeHelper() {
-        return rangeHelper;
+    public String getName() {
+        return cluSetInfo.getName();
     }
 
-    public void setRangeHelper(CluSetRangeHelper rangeHelper) {
-        this.rangeHelper = rangeHelper;
+    public void setName(String name) {
+        this.cluSetInfo.setName(name);
     }
 
     public int getCluListSize(){

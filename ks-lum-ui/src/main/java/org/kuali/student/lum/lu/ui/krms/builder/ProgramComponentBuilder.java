@@ -49,7 +49,7 @@ public class ProgramComponentBuilder extends CluComponentBuilder {
         if (cluSetId != null) {
             try {
                 CluSetInformation cluSetInfo = this.getCluInfoHelper().getCluSetInformation(cluSetId);
-                propositionEditor.setProgCluSet(cluSetInfo);
+                propositionEditor.setProgramSet(cluSetInfo);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -60,9 +60,9 @@ public class ProgramComponentBuilder extends CluComponentBuilder {
     @Override
     public Map<String, String> buildTermParameters(LUPropositionEditor propositionEditor) {
         Map<String, String> termParameters = new HashMap<String, String>();
-        if (propositionEditor.getProgCluSet() != null) {
-            if (propositionEditor.getProgCluSet().getCluSetInfo() != null) {
-                termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_PROGRAM_CLUSET_KEY, propositionEditor.getProgCluSet().getCluSetInfo().getId());
+        if (propositionEditor.getProgramSet() != null) {
+            if (propositionEditor.getProgramSet().getCluSetInfo() != null) {
+                termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_PROGRAM_CLUSET_KEY, propositionEditor.getProgramSet().getCluSetInfo().getId());
             } else {
                 termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_PROGRAM_CLUSET_KEY, null);
             }
@@ -75,9 +75,9 @@ public class ProgramComponentBuilder extends CluComponentBuilder {
     public void onSubmit(LUPropositionEditor propositionEditor) {
         //Create the courseset
         try {
-            if (propositionEditor.getProgCluSet()!= null) {
-                propositionEditor.getProgCluSet().setCluSetInfo(this.buildCourseSet(propositionEditor.getProgCluSet()));
-                CluSetInfo cluSetInfo = propositionEditor.getProgCluSet().getCluSetInfo();
+            if (propositionEditor.getProgramSet()!= null) {
+                propositionEditor.getProgramSet().setCluSetInfo(this.buildCourseSet(propositionEditor.getProgramSet()));
+                CluSetInfo cluSetInfo = propositionEditor.getProgramSet().getCluSetInfo();
                 if (cluSetInfo.getId() == null) {
                     cluSetInfo = this.getCluService().createCluSet(cluSetInfo.getTypeKey(), cluSetInfo, ContextUtils.getContextInfo());
 
@@ -101,7 +101,7 @@ public class ProgramComponentBuilder extends CluComponentBuilder {
 
     @Override
     public void validate(LUPropositionEditor propositionEditor) {
-        CluSetInformation progCluSet = propositionEditor.getProgCluSet();
+        CluSetInformation progCluSet = propositionEditor.getProgramSet();
         if(progCluSet != null){
             if(!progCluSet.hasClus() && progCluSet.getCluSets().size()==0 ){
                 String propName = PropositionTreeUtil.getBindingPath(propositionEditor, "programType");

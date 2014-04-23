@@ -18,10 +18,10 @@ package org.kuali.student.lum.lu.ui.krms.dto;
 import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.student.core.krms.dto.KSPropositionEditor;
+import org.kuali.student.lum.lu.ui.krms.util.CluSetRangeWrapper;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
-//import org.kuali.student.enrollment.class2.population.dto.PopulationWrapper;
 
 import java.util.Map;
 
@@ -33,19 +33,24 @@ public class LUPropositionEditor extends KSPropositionEditor {
     private static final long serialVersionUID = 1L;
 
     private CourseInfo courseInfo;
-    private CluSetInformation cluSet;
-    private String multipleCourseType;
+    private CluSetInformation courseSet;
+    private CluSetInformation courseSetParent;
+    private String multipleCourseType = new String();
 
     private String programType;
     private String gradeScale;
     private OrgInfo orgInfo;
-    private CluSetInformation progCluSet;
+    private CluSetInformation programSet;
+    private CluSetInformation programSetParent;
     private String termCode;
     private String termCode2;
     private TermInfo termInfo;
     private TermInfo termInfo2;
 
-    private static final String CLULIST_KEY = "kuali.term.parameter.type.course.nl.clu.list";
+    private CluSetInformation cluSets;
+    private CluSetRangeWrapper cluSetRange = new CluSetRangeWrapper();
+
+        private static final String CLULIST_KEY = "kuali.term.parameter.type.course.nl.clu.list";
     private static final String CLUSETLIST_KEY = "kuali.term.parameter.type.course.nl.cluset.list";
 
     public LUPropositionEditor(){
@@ -59,12 +64,12 @@ public class LUPropositionEditor extends KSPropositionEditor {
     public void clear(){
         super.clear();
         this.courseInfo = null;
-        this.cluSet = null;
-        this.multipleCourseType = null;
+        this.courseSet = null;
+        this.multipleCourseType = new String();
         this.programType = null;
         this.gradeScale = null;
         this.orgInfo = null;
-        this.progCluSet = null;
+        this.programSet = null;
         this.termCode = null;
         this.termCode2 = null;
         this.termInfo = null;
@@ -95,6 +100,21 @@ public class LUPropositionEditor extends KSPropositionEditor {
         this.programType = programType;
     }
 
+    public CluSetInformation getCourseSet() {
+        return courseSet;
+    }
+
+    public void setCourseSet(CluSetInformation courseSet) {
+        this.courseSet = courseSet;
+    }
+
+    public CluSetInformation getCourseSetParent() {
+        return courseSetParent;
+    }
+
+    public void setCourseSetParent(CluSetInformation courseSetParent) {
+        this.courseSetParent = courseSetParent;
+    }
 
     public String getGradeScale() {
         return gradeScale;
@@ -102,14 +122,6 @@ public class LUPropositionEditor extends KSPropositionEditor {
 
     public void setGradeScale(String gradeScale) {
         this.gradeScale = gradeScale;
-    }
-
-    public CluSetInformation getCluSet() {
-        return cluSet;
-    }
-
-    public void setCluSet(CluSetInformation cluSet) {
-        this.cluSet = cluSet;
     }
 
     public OrgInfo getOrgInfo() {
@@ -120,12 +132,20 @@ public class LUPropositionEditor extends KSPropositionEditor {
         this.orgInfo = orgInfo;
     }
 
-    public CluSetInformation getProgCluSet() {
-        return progCluSet;
+    public CluSetInformation getProgramSet() {
+        return programSet;
     }
 
-    public void setProgCluSet(CluSetInformation progCluSet) {
-        this.progCluSet = progCluSet;
+    public void setProgramSet(CluSetInformation programSet) {
+        this.programSet = programSet;
+    }
+
+    public CluSetInformation getProgramSetParent() {
+        return programSetParent;
+    }
+
+    public void setProgramSetParent(CluSetInformation programSetParent) {
+        this.programSetParent = programSetParent;
     }
 
     public String getTermCode() {
@@ -160,6 +180,22 @@ public class LUPropositionEditor extends KSPropositionEditor {
         this.termCode2 = termCode2;
     }
 
+    public CluSetInformation getCluSets() {
+        return cluSets;
+    }
+
+    public void setCluSets(CluSetInformation cluSets) {
+        this.cluSets = cluSets;
+    }
+
+    public CluSetRangeWrapper getCluSetRange() {
+        return cluSetRange;
+    }
+
+    public void setCluSetRange(CluSetRangeWrapper cluSetRange) {
+        this.cluSetRange = cluSetRange;
+    }
+
     @Override
     protected PropositionEditor createPropositionEditor(PropositionDefinitionContract definition){
         return new LUPropositionEditor(definition);
@@ -168,13 +204,13 @@ public class LUPropositionEditor extends KSPropositionEditor {
     @Override
     public Map<String, String> getNlParameters() {
         Map<String, String> nlParameters = super.getNlParameters();
-        if (this.getCluSet() != null){
-            nlParameters.put(CLULIST_KEY, this.getCluSet().getCluDelimitedString());
-            nlParameters.put(CLUSETLIST_KEY, this.getCluSet().getCluSetDelimitedString());
+        if (this.getCourseSet() != null){
+            nlParameters.put(CLULIST_KEY, this.getCourseSet().getCluDelimitedString());
+            nlParameters.put(CLUSETLIST_KEY, this.getCourseSet().getCluSetDelimitedString());
         }
-        else if (this.getProgCluSet() != null)   {
-            nlParameters.put(CLULIST_KEY, this.getProgCluSet().getCluDelimitedString());
-            nlParameters.put(CLUSETLIST_KEY, this.getProgCluSet().getCluSetDelimitedString());
+        else if (this.getProgramSet() != null)   {
+            nlParameters.put(CLULIST_KEY, this.getProgramSet().getCluDelimitedString());
+            nlParameters.put(CLUSETLIST_KEY, this.getProgramSet().getCluSetDelimitedString());
         }
         return nlParameters;
     }

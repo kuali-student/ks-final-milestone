@@ -26,6 +26,8 @@ import org.kuali.student.lum.lu.ui.krms.dto.CluSetInformation;
 import org.kuali.student.lum.lu.ui.krms.dto.CluSetRangeInformation;
 import org.kuali.student.lum.lu.ui.krms.dto.LUPropositionEditor;
 import org.kuali.student.lum.lu.ui.krms.util.CluSetRangeHelper;
+import org.kuali.student.lum.lu.ui.krms.util.CluSetRangeWrapper;
+import org.kuali.student.lum.lu.ui.krms.util.CluSetRangeWrapper;
 import org.kuali.student.lum.lu.ui.krms.util.LUKRMSConstants;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.common.util.security.ContextUtils;
@@ -49,7 +51,7 @@ public class MultiCourseComponentBuilder extends CluComponentBuilder {
 
     @Override
     public void initialize(LUPropositionEditor propositionEditor) {
-        propositionEditor.setCluSet(new CluSetInformation());
+        propositionEditor.setCourseSet(new CluSetInformation());
     }
 
     @Override
@@ -63,7 +65,7 @@ public class MultiCourseComponentBuilder extends CluComponentBuilder {
         if (cluSetId != null) {
             try {
                 CluSetInformation cluSetInfo = this.getCluInfoHelper().getCluSetInformation(cluSetId);
-                propositionEditor.setCluSet(cluSetInfo);
+                propositionEditor.setCourseSet(cluSetInfo);
                 populatePropositionWrapper(propositionEditor);
 
             } catch (Exception e) {
@@ -76,9 +78,9 @@ public class MultiCourseComponentBuilder extends CluComponentBuilder {
     @Override
     public Map<String, String> buildTermParameters(LUPropositionEditor propositionEditor) {
         Map<String, String> termParameters = new HashMap<String, String>();
-        if (propositionEditor.getCluSet() != null) {
-            if (propositionEditor.getCluSet().getCluSetInfo() != null) {
-                termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_COURSE_CLUSET_KEY, propositionEditor.getCluSet().getCluSetInfo().getId());
+        if (propositionEditor.getCourseSet() != null) {
+            if (propositionEditor.getCourseSet().getCluSetInfo() != null) {
+                termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_COURSE_CLUSET_KEY, propositionEditor.getCourseSet().getCluSetInfo().getId());
             } else {
                 termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_COURSE_CLUSET_KEY, null);
             }
@@ -94,8 +96,8 @@ public class MultiCourseComponentBuilder extends CluComponentBuilder {
     public void onSubmit(LUPropositionEditor propositionEditor) {
         //Create the courseset
         try {
-            propositionEditor.getCluSet().setCluSetInfo(this.buildCourseSet(propositionEditor.getCluSet()));
-            CluSetInfo cluSetInfo = propositionEditor.getCluSet().getCluSetInfo();
+            propositionEditor.getCourseSet().setCluSetInfo(this.buildCourseSet(propositionEditor.getCourseSet()));
+            CluSetInfo cluSetInfo = propositionEditor.getCourseSet().getCluSetInfo();
             if (cluSetInfo.getId() == null) {
                 cluSetInfo = this.getCluService().createCluSet(cluSetInfo.getTypeKey(), cluSetInfo, ContextUtils.getContextInfo());
 
@@ -118,7 +120,7 @@ public class MultiCourseComponentBuilder extends CluComponentBuilder {
 
     @Override
     public void validate(LUPropositionEditor propositionEditor) {
-        CluSetInformation cluSet = propositionEditor.getCluSet();
+        CluSetInformation cluSet = propositionEditor.getCourseSet();
         if(!cluSet.hasClus() && !cluSet.hasMembershipQuery() && cluSet.getCluSets().size()==0){
             String propName = PropositionTreeUtil.getBindingPath(propositionEditor, "multipleCourseType");
             GlobalVariables.getMessageMap().putError(propName, LUKRMSConstants.KSKRMS_MSG_ERROR_MULTICOURSE_REQUIRED);
@@ -226,42 +228,6 @@ public class MultiCourseComponentBuilder extends CluComponentBuilder {
         }
 
         return wrapperCluSet.getId();
-    }
-
-    /**
-     * Build a new Effective Date Query.
-     *
-     * @param membershipQueryInfo
-     * @param cluSetInformation
-     * @return
-     */
-    private MembershipQueryInfo convertDates(MembershipQueryInfo membershipQueryInfo, CluSetInformation cluSetInformation) {
-
-        List<SearchParamInfo> queryParams = new ArrayList<SearchParamInfo>();
-
-        Date firstDate = DateFormatters.DEFAULT_DATE_FORMATTER.parse(cluSetInformation.getRangeHelper().getEffectiveFrom().toString());
-        Date secondDate = DateFormatters.DEFAULT_DATE_FORMATTER.parse(cluSetInformation.getRangeHelper().getEffectiveTo().toString());
-
-        queryParams.add(createSearchParam(CluSetRangeHelper.CLU_SEARCH_PARM_DATE1, firstDate.toString()));
-        queryParams.add(createSearchParam(CluSetRangeHelper.CLU_SEARCH_PARM_DATE2, secondDate.toString()));
-        membershipQueryInfo.setQueryParamValues(queryParams);
-        return membershipQueryInfo;
-    }
-
-    /**
-     * @param key
-     * @param value
-     * @return
-     */
-    private SearchParamInfo createSearchParam(String key, String value) {
-        SearchParamInfo param = new SearchParamInfo();
-        param.setKey(key);
-
-        List<String> values = new ArrayList<String>();
-        values.add(value);
-        param.setValues(values);
-
-        return param;
     }
 
 }

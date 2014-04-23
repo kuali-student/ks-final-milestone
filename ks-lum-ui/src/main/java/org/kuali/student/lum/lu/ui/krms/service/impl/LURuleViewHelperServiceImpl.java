@@ -48,6 +48,7 @@ import org.kuali.student.lum.lu.ui.krms.dto.CluInformation;
 import org.kuali.student.lum.lu.ui.krms.dto.CluSetInformation;
 import org.kuali.student.lum.lu.ui.krms.dto.KrmsSuggestDisplay;
 import org.kuali.student.lum.lu.ui.krms.dto.LUPropositionEditor;
+import org.kuali.student.lum.lu.ui.krms.tree.LURuleEditTreeBuilder;
 import org.kuali.student.lum.lu.ui.krms.tree.LURulePreviewTreeBuilder;
 import org.kuali.student.lum.lu.ui.krms.tree.LURuleViewTreeBuilder;
 import org.kuali.student.lum.lu.ui.krms.util.CluInformationHelper;
@@ -165,13 +166,13 @@ public class LURuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
     protected void nullifyCluSetInfo(LUPropositionEditor propositionEditor) {
 
         //Set cluSetInfo recursively to null to force builder to create new cluset.
-        if(propositionEditor.getCluSet()!=null){
-            propositionEditor.getCluSet().setCluSetInfo(null);
+        if(propositionEditor.getCourseSet()!=null){
+            propositionEditor.getCourseSet().setCluSetInfo(null);
         } else if(propositionEditor.getPropositionTypeCode().equals(PropositionType.COMPOUND.getCode())) {
             for(int i = 0; i < propositionEditor.getCompoundEditors().size(); i++) {
                 LUPropositionEditor prop = (LUPropositionEditor) propositionEditor.getCompoundEditors().get(i);
-                if(prop.getCluSet() != null) {
-                    prop.getCluSet().setCluSetInfo(null);
+                if(prop.getCourseSet() != null) {
+                    prop.getCourseSet().setCluSetInfo(null);
                 } else if(prop.getPropositionTypeCode().equals(PropositionType.COMPOUND.getCode())) {
                     nullifyCluSetInfo(prop);
                 }
@@ -198,7 +199,7 @@ public class LURuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
     @Override
     public Boolean compareProposition(PropositionEditor original, PropositionEditor compare) {
         //If proposition contains cluset or programCluset, skip super compare method else use super compare method for all simple propositions
-        if(((LUPropositionEditor) original).getCluSet() == null && ((LUPropositionEditor) original).getProgCluSet() == null) {
+        if(((LUPropositionEditor) original).getCourseSet() == null && ((LUPropositionEditor) original).getProgramSet() == null) {
             if(!super.compareProposition(original, compare)) {
                 return false;
             }
@@ -210,48 +211,48 @@ public class LURuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
             LUPropositionEditor enrolOriginal = (LUPropositionEditor) original;
 
             //Populate compare proposition cluSetInformation for comparison
-            if(enrolOriginal.getCluSet() != null) {
-                if(enrolOriginal.getCluSet().getParent() == null) {
+            if(enrolOriginal.getCourseSet() != null) {
+                if(enrolOriginal.getCourseSetParent() == null) {
                     TermEditor term = new TermEditor(PropositionTreeUtil.getTermParameter(compare.getParameters()).getTermValue());
                     for(TermParameterEditor termParameterEditor : term.getEditorParameters()) {
                         if(termParameterEditor.getName().equals(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_COURSE_CLUSET_KEY)) {
-                            enrolOriginal.getCluSet().setParent(this.getCluInfoHelper().getCluSetInformation(termParameterEditor.getValue()));
+                            enrolOriginal.setCourseSetParent(this.getCluInfoHelper().getCluSetInformation(termParameterEditor.getValue()));
                             break;
                         }
                     }
                 }
                 //If compare and original propositions are not null compare CluSetInformation
-                if(enrolOriginal.getCluSet() != null && enrolOriginal.getCluSet().getParent() != null) {
+                if(enrolOriginal.getCourseSetParent() != null) {
                     //Compare propositions CluSetInformation clu's
-                    if(!enrolOriginal.getCluSet().getCluDelimitedString().equals(enrolOriginal.getCluSet().getParent().getCluDelimitedString())) {
+                    if(!enrolOriginal.getCourseSet().getCluDelimitedString().equals(enrolOriginal.getCourseSetParent().getCluDelimitedString())) {
                         return false;
                     }
                     //Compare propositions CluSetInformation cluSets
-                    if(!enrolOriginal.getCluSet().getCluSetDelimitedString().equals(enrolOriginal.getCluSet().getParent().getCluSetDelimitedString())) {
+                    if(!enrolOriginal.getCourseSet().getCluSetDelimitedString().equals(enrolOriginal.getCourseSetParent().getCluSetDelimitedString())) {
                         return false;
                     }
                 }
             }
 
             //Populate compare proposition Program CluSetInformation for comparison
-            if(enrolOriginal.getProgCluSet() != null) {
-                if(enrolOriginal.getProgCluSet().getParent() == null) {
+            if(enrolOriginal.getProgramSet() != null) {
+                if(enrolOriginal.getProgramSetParent() == null) {
                     TermEditor term = new TermEditor(PropositionTreeUtil.getTermParameter(compare.getParameters()).getTermValue());
                     for(TermParameterEditor termParameterEditor : term.getEditorParameters()) {
                         if(termParameterEditor.getName().equals(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_COURSE_CLUSET_KEY)) {
-                            enrolOriginal.getProgCluSet().setParent(this.getCluInfoHelper().getCluSetInformation(termParameterEditor.getValue()));
+                            enrolOriginal.setProgramSetParent(this.getCluInfoHelper().getCluSetInformation(termParameterEditor.getValue()));
                             break;
                         }
                     }
                 }
                 //If compare and original propositions are not null compare ProgramCluSetInformation
-                if(enrolOriginal.getProgCluSet() != null && enrolOriginal.getProgCluSet().getParent() != null) {
+                if(enrolOriginal.getProgramSetParent() != null) {
                     //Compare propositions ProgramCluSetInformation clu's
-                    if(!enrolOriginal.getProgCluSet().getCluDelimitedString().equals(enrolOriginal.getProgCluSet().getParent().getCluDelimitedString())) {
+                    if(!enrolOriginal.getProgramSet().getCluDelimitedString().equals(enrolOriginal.getProgramSetParent().getCluDelimitedString())) {
                         return false;
                     }
                     //Compare propositions ProgramCluSetInformation cluSets
-                    if(!enrolOriginal.getProgCluSet().getCluSetDelimitedString().equals(enrolOriginal.getProgCluSet().getParent().getCluSetDelimitedString())) {
+                    if(!enrolOriginal.getProgramSet().getCluSetDelimitedString().equals(enrolOriginal.getProgramSetParent().getCluSetDelimitedString())) {
                         return false;
                     }
                 }
@@ -292,7 +293,7 @@ public class LURuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
             //Check if this clu is not already in the collection
             RuleEditor ruleEditor = this.getRuleEditor(viewModel);
             LUPropositionEditor propEditor = (LUPropositionEditor)PropositionTreeUtil.getProposition(ruleEditor);
-            for(CluInformation cluInformation : propEditor.getCluSet().getClus()){
+            for(CluInformation cluInformation : propEditor.getCourseSet().getClus()){
                 if(cluInformation.getCluId().equals(clu.getCluId())){
                     collectionGroup.initializeNewCollectionLine(null, viewModel, collectionGroup, true);
                     return false;
@@ -318,7 +319,7 @@ public class LURuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
             //Check if this clu is not already in the collection
             RuleEditor ruleEditor = this.getRuleEditor(viewModel);
             LUPropositionEditor propEditor = (LUPropositionEditor)PropositionTreeUtil.getProposition(ruleEditor);
-            for(CluSetInformation cluSetInfo : propEditor.getCluSet().getCluSets()){
+            for(CluSetInformation cluSetInfo : propEditor.getCourseSet().getCluSets()){
                 if(cluSetInfo.getCluSetInfo().getId().equals(cluSet.getCluSetInfo().getId())){
                     return false;
                 }
@@ -351,7 +352,7 @@ public class LURuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
             //Check if this clu is not already in the collection
             RuleEditor ruleEditor = this.getRuleEditor(viewModel);
             LUPropositionEditor propEditor = (LUPropositionEditor)PropositionTreeUtil.getProposition(ruleEditor);
-            for(CluInformation cluInformation : propEditor.getProgCluSet().getClus()){
+            for(CluInformation cluInformation : propEditor.getProgramSet().getClus()){
                 if(cluInformation.getCluId().equals(clu.getCluId())){
                     collectionGroup.initializeNewCollectionLine(viewModel.getView(), viewModel, collectionGroup, true);
                     return false;
@@ -374,7 +375,7 @@ public class LURuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
             CluInformation clu = (CluInformation) lineObject;
             if(clu.getCluId() != null){
             clu.setCredits(this.getCluInfoHelper().getCreditInfo(clu.getCluId()));
-            Collections.sort(propEditor.getCluSet().getClus());
+            Collections.sort(propEditor.getCourseSet().getClus());
 
             }
         } else if (LUKRMSConstants.KSKRMS_PROPERTY_NAME_CLUSETS.equals(collectionGroup.getPropertyName())){
@@ -386,7 +387,7 @@ public class LURuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
                 //Sort the clus.
                 RuleEditor ruleEditor = this.getRuleEditor(model);
                     LUPropositionEditor propEditor = (LUPropositionEditor)PropositionTreeUtil.getProposition(ruleEditor);
-                Collections.sort(propEditor.getCluSet().getCluSets(), new Comparator<CluSetInformation>(){
+                Collections.sort(propEditor.getCourseSet().getCluSets(), new Comparator<CluSetInformation>(){
 
                 @Override
                 public int compare(CluSetInformation o1, CluSetInformation o2) {
@@ -403,7 +404,7 @@ public class LURuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
             CluInformation clu = (CluInformation) lineObject;
             if(clu.getCluId() != null){
                 clu.setCredits(this.getCluInfoHelper().getCreditInfo(clu.getCluId()));
-                Collections.sort(propEditor.getProgCluSet().getClus());
+                Collections.sort(propEditor.getProgramSet().getClus());
             }
         }
     }
@@ -516,7 +517,7 @@ public class LURuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
     @Override
     protected RuleEditTreeBuilder getEditTreeBuilder() {
         if (editTreeBuilder == null) {
-            editTreeBuilder = new KSRuleEditTreeBuilder();
+            editTreeBuilder = new LURuleEditTreeBuilder();
             editTreeBuilder.setNlHelper(this.getNaturalLanguageHelper());
         }
         return editTreeBuilder;

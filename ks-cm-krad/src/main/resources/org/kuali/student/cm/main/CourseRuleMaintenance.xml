@@ -127,8 +127,9 @@ limitations under the License.
 
     <bean id="KS-ListItems-DataGroup-parent" parent="KRMS-ListItems-DataGroup-parent" p:renderAddLine="false">
         <property name="layoutManager">
-            <bean parent="Uif-StackedCollectionLayout-WithBoxItems" class="org.kuali.student.core.krms.HorizontalActionsStackedLayoutManager"
+            <bean parent="Uif-StackedCollectionLayout-WithBoxItems"
                   p:additionalCssClasses="krms-stackedCollectionLayout">
+                <!-- Rice 2.4 upgrade class="org.kuali.student.core.krms.HorizontalActionsStackedLayoutManager" -->
                 <property name="actionsInLineGroup" value="true"/>
                 <property name="lineGroupPrototype">
                     <bean parent="Uif-CollectionHorizontalBoxItem" p:additionalCssClasses="krms-stackedPreviewItem">
@@ -428,9 +429,6 @@ limitations under the License.
     <bean id="KS-RulerEditor-TreeSection" parent="KRMS-RulerEditor-TreeSection-parent">
         <property name="nodePrototypeMap">
             <map key-type="java.lang.Class">
-                <entry key="#{ T(org.kuali.rice.krms.tree.node.RuleEditorTreeNode) }">
-                    <bean parent="KRMS-RuleTreeNodePrototype"/>
-                </entry>
                 <entry key="#{ T(org.kuali.rice.krms.tree.node.SimplePropositionNode) }">
                     <bean parent="KRMS-SimplePropositionNodePrototype"/>
                 </entry>

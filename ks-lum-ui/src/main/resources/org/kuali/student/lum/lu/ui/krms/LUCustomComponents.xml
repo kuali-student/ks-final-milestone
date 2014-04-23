@@ -72,7 +72,7 @@ limitations under the License.
                 <bean parent="Uif-VerticalBoxGroup" p:additionalCssClasses="ks-multiSelectItem">
                     <property name="validationMessages.displayMessages" value="false"/>
                     <property name="header">
-                        <bean parent="Uif-HeaderSix" p:headerText="Course Range" p:progressiveRender="#np.proposition.cluSet.cluRangeListSize gt 0"/>
+                        <bean parent="Uif-HeaderSix" p:headerText="Course Range" p:progressiveRender="#np.proposition.courseSet.cluRangeListSize gt 0"/>
                     </property>
                     <property name="items">
                         <list>
@@ -140,8 +140,7 @@ limitations under the License.
             <bean parent="KRMS-StackedCollectionLayout-WithBoxItems">
                 <property name="summaryFields" value="cluSetInfo.name"/>
                 <property name="addLineGroup">
-                    <bean parent="KRMS-CollectionGridItem"
-                          p:progressiveRender="#np.proposition.multipleCourseType eq '2'"/>
+                    <bean parent="KRMS-CollectionGridItem" p:progressiveRender="#np.proposition.multipleCourseType eq '2'"/>
                 </property>
             </bean>
         </property>
@@ -155,11 +154,10 @@ limitations under the License.
                 <bean parent="KS-Uif-DeleteLineAction"/>
             </list>
         </property>
-        <property name="propertyName" value="proposition.cluSet.cluSets"/>
-        <property name="collectionObjectClass"
-                  value="org.kuali.student.lum.lu.ui.krms.dto.CluSetInformation"/>
+        <property name="propertyName" value="cluSets"/>
+        <property name="collectionObjectClass" value="org.kuali.student.lum.lu.ui.krms.dto.CluSetInformation"/>
         <property name="header">
-            <bean parent="Uif-HeaderSix" p:progressiveRender="#np.proposition.cluSet.cluSetListSize gt 0">
+            <bean parent="Uif-HeaderSix" p:progressiveRender="#np.proposition.courseSet.cluSetListSize gt 0">
                 <property name="lowerGroup">
                     <bean parent="Uif-InactiveItemsActionsGroup"/>
                 </property>
@@ -173,7 +171,7 @@ limitations under the License.
         <property name="addLineItems">
             <list>
                 <bean id="cluSetId" parent="KS-Uif-InputField" p:showLabel="false">
-                    <property name="propertyName" value="cluSetInfo.id"/>
+                    <property name="propertyName" value="id"/>
                     <property name="control">
                         <bean parent="KS-Uif-HiddenControl"/>
                     </property>
@@ -182,7 +180,7 @@ limitations under the License.
                     </property>
                 </bean>
                 <bean id="cluSetName" parent="KS-Uif-InputField-LabelTop" p:style="width: 500px;">
-                    <property name="propertyName" value="cluSetInfo.name"/>
+                    <property name="propertyName" value="name"/>
                     <property name="control">
                         <bean parent="KS-Uif-TextControl" p:disabled="true"
                               p:style="background-color: #DDDDDD;width:370px; margin-top:null 2px;">
@@ -221,8 +219,7 @@ limitations under the License.
             <bean parent="KRMS-StackedCollectionLayout-WithBoxItems">
                 <property name="summaryFields" value="code"/>
                 <property name="addLineGroup">
-                    <bean parent="KRMS-CollectionGridItem"
-                          p:progressiveRender="#np.proposition.multipleCourseType eq '1'"/>
+                    <bean parent="KRMS-CollectionGridItem" p:progressiveRender="#np.proposition.multipleCourseType eq '1'"/>
                 </property>
             </bean>
         </property>
@@ -237,11 +234,11 @@ limitations under the License.
                 </bean>
             </list>
         </property>
-        <property name="propertyName" value="proposition.cluSet.clus"/>
+        <property name="propertyName" value="proposition.courseSet.clus"/>
         <property name="collectionObjectClass"
                   value="org.kuali.student.lum.lu.ui.krms.dto.CluInformation"/>
         <property name="header">
-            <bean parent="Uif-HeaderSix" p:progressiveRender="#np.proposition.cluSet.cluListSize gt 0">
+            <bean parent="Uif-HeaderSix" p:progressiveRender="#np.proposition.courseSet.cluListSize gt 0">
                 <property name="lowerGroup">
                     <bean parent="Uif-InactiveItemsActionsGroup"/>
                 </property>
@@ -281,21 +278,21 @@ limitations under the License.
     </bean>
 
     <bean id="KS-CourseRange-BoxSection-parent" parent="Uif-VerticalBoxSection" p:style="background-color: transparent"
-          p:progressiveRender="#np.proposition.multipleCourseType eq '3'">
+        p:progressiveRender="#np.proposition.multipleCourseType eq '3'">
         <property name="validationMessages.displayMessages" value="false"/>
         <property name="items">
             <list>
-                <!--Rice 2.4 upgrade ref bean="KS-CourseRange-TypeField"/-->
-                <!--Rice 2.4 upgrade ref bean="KS-CourseNumber-RangeSection"/-->
-                <!--Rice 2.4 upgrade ref bean="KS-LearningObjective-RangeSection"/-->
-                <!--Rice 2.4 upgrade ref bean="KS-EffectiveDate-RangeSection"/-->
+                <ref bean="KS-CourseRange-TypeField"/>
+                <ref bean="KS-CourseNumber-RangeSection"/>
+                <ref bean="KS-LearningObjective-RangeSection"/>
+                <ref bean="KS-EffectiveDate-RangeSection"/>
             </list>
         </property>
     </bean>
     <bean id="KS-CourseRange-BoxSection" parent="KS-CourseRange-BoxSection-parent"/>
 
     <bean id="KS-CourseRange-TypeField-parent" parent="KS-Uif-InputField-LabelTop" p:label="Select Course Range Type"
-          p:width="auto" p:propertyName="proposition.cluSet.rangeHelper.searchByCourseRange">
+          p:width="auto" p:propertyName="proposition.cluSetRange.searchByCourseRange">
         <property name="control">
             <bean parent="Uif-HorizontalRadioControl">
                 <property name="options">
@@ -314,16 +311,16 @@ limitations under the License.
     <bean id="KS-CourseRange-TypeField" parent="KS-CourseRange-TypeField-parent"/>
 
     <bean id="KS-CourseNumber-RangeSection" parent="Uif-HorizontalBoxSection" p:style="background-color: transparent"
-          p:progressiveRender="#np.proposition.cluSet.rangeHelper.searchByCourseRange eq '1'">
+        p:progressiveRender="#np.proposition.cluSetRange.searchByCourseRange eq '1'">
         <property name="items">
             <list>
-                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="proposition.cluSet.rangeHelper.subjectCode" p:label="Subject Code">
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="proposition.cluSetRange.subjectCode" p:label="Subject Code">
                     <property name="control">
                         <bean parent="KS-Uif-TextControl" />
                     </property>
                 </bean>
 
-                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="proposition.cluSet.rangeHelper.courseNumberRange" p:label="Course Number Range">
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="proposition.cluSetRange.courseNumberRange" p:label="Course Number Range">
                     <property name="control">
                         <bean parent="KS-Uif-TextControl" />
                     </property>
@@ -335,11 +332,11 @@ limitations under the License.
     </bean>
 
     <bean id="KS-LearningObjective-RangeSection" parent="Uif-HorizontalBoxSection" p:style="background-color: transparent"
-          p:progressiveRender="#np.proposition.cluSet.rangeHelper.searchByCourseRange eq '2'">
+          p:progressiveRender="#np.proposition.cluSetRange.searchByCourseRange eq '2'">
         <property name="validationMessages.displayMessages" value="false"/>
         <property name="items">
             <list>
-                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="proposition.cluSet.rangeHelper.learningObjective" p:label="Description">
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="proposition.cluSetRange.learningObjective" p:label="Description">
                     <property name="control">
                         <bean parent="KS-Uif-TextControl" />
                     </property>
@@ -352,16 +349,16 @@ limitations under the License.
     </bean>
 
     <bean id="KS-EffectiveDate-RangeSection" parent="Uif-HorizontalBoxSection" p:style="background-color: transparent"
-          p:progressiveRender="#np.proposition.cluSet.rangeHelper.searchByCourseRange eq '3'">
+          p:progressiveRender="#np.proposition.cluSetRange.searchByCourseRange eq '3'">
         <property name="items">
             <list>
-                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="proposition.cluSet.rangeHelper.effectiveFrom" p:label="Effective From">
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="proposition.cluSetRange.effectiveFrom" p:label="Effective From">
                     <property name="control">
                         <bean parent="KS-Uif-Default-DateControl" />
                     </property>
                 </bean>
 
-                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="proposition.cluSet.rangeHelper.effectiveTo" p:label="Effective To">
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="proposition.cluSetRange.effectiveTo" p:label="Effective To">
                     <property name="control">
                         <bean parent="KS-Uif-Default-DateControl" />
                     </property>
@@ -376,13 +373,13 @@ limitations under the License.
             p:style="margin-top: 22.5px;" p:methodToCall="addRange">
     </bean>
 
-    <bean id="KS-CourseRangeStackedCollectionGroup" parent="KRMS-StackedCollectionGroup" p:render="@{#np.proposition.cluSet.cluRangeListSize gt 0}" p:additionalCssClasses="ks-multiSelectItem">
+    <bean id="KS-CourseRangeStackedCollectionGroup" parent="KRMS-StackedCollectionGroup" p:render="@{#np.proposition.courseSet.cluRangeListSize gt 0}" p:additionalCssClasses="ks-multiSelectItem">
         <property name="layoutManager">
             <bean parent="KRMS-StackedCollectionLayout-WithBoxItems">
                 <property name="summaryFields" value="cluSetRangeLabel"/>
             </bean>
         </property>
-        <property name="propertyName" value="proposition.cluSet.cluSetRanges"/>
+        <property name="propertyName" value="proposition.courseSet.cluSetRanges"/>
         <property name="collectionObjectClass"
                   value="org.kuali.student.lum.lu.ui.krms.dto.CluSetRangeInformation"/>
         <property name="header">
@@ -789,11 +786,11 @@ limitations under the License.
                 <bean parent="KS-Uif-DeleteLineAction"/>
             </list>
         </property>
-        <property name="propertyName" value="proposition.progCluSet.clus" />
+        <property name="propertyName" value="proposition.programSet.clus" />
         <property name="collectionObjectClass"
                   value="org.kuali.student.lum.lu.ui.krms.dto.CluInformation"/>
         <property name="header">
-            <bean parent="Uif-HeaderSix" p:progressiveRender="#np.proposition.progCluSet.cluListSize gt 0">
+            <bean parent="Uif-HeaderSix" p:progressiveRender="#np.proposition.programSet.cluListSize gt 0">
                 <property name="lowerGroup">
                     <bean parent="Uif-InactiveItemsActionsGroup"/>
                 </property>
