@@ -20,6 +20,7 @@ import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
+import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
@@ -30,10 +31,8 @@ import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.dto.RuleManagementWrapper;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.rice.krms.service.RuleViewHelperService;
-import org.kuali.rice.krms.util.AgendaUtilities;
-import org.kuali.rice.krms.tree.node.SimplePropositionEditNode;
-import org.kuali.rice.krms.tree.node.SimplePropositionNode;
 import org.kuali.rice.krms.tree.node.RuleEditorTreeNode;
+import org.kuali.rice.krms.util.AgendaUtilities;
 import org.kuali.rice.krms.util.KRMSConstants;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.rice.krms.util.RuleLogicExpressionParser;
@@ -254,6 +253,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
      * @param response
      * @return
      */
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=addProposition")
     public ModelAndView addProposition(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                        HttpServletRequest request, HttpServletResponse response) {
@@ -838,6 +838,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
      * @return
      * @throws Exception
      */
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=updateProposition")
     public ModelAndView updateProposition(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                           HttpServletRequest request, HttpServletResponse response) {
@@ -1150,6 +1151,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
      * @param response
      * @return
      */
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=updatePropositionType")
     public ModelAndView updatePropositionType(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                               HttpServletRequest request, HttpServletResponse response) {
