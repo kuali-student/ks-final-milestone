@@ -876,6 +876,33 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
         return null;
     }
 
+    @Override
+    public ExamOfferingResult reslotExamOffering(CourseOfferingInfo courseOfferingInfo, ActivityOfferingInfo activityOfferingInfo,
+                                                 ExamOfferingInfo examOfferingInfo, String termId, ContextInfo context)
+            throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
+
+        String termType = this.getAtpService().getAtp(termId, context).getTypeKey();
+
+        Driver driver = calculateEODriver(courseOfferingInfo);
+        if (driver.equals(Driver.PER_AO)) {
+            if(activityOfferingInfo==null){
+                throw new MissingParameterException("Activity Offering is null.");
+            }
+
+            List<String> evaluatorOptions = new ArrayList<String>();
+            if(this.isSetLocation()){
+                evaluatorOptions.add(ExamOfferingSlottingEvaluator.USE_AO_LOCATION_OPTION_KEY);
+            }
+
+            return this.getScheduleEvaluator().executeRuleForAOSlotting(activityOfferingInfo, examOfferingInfo.getId(), termType, evaluatorOptions, context);
+        } else if (driver.equals(Driver.PER_CO)) {
+            return this.getScheduleEvaluator().executeRuleForCOSlotting(courseOfferingInfo, examOfferingInfo.getId(), termType, new ArrayList<String>(), context);
+        } else if (driver.equals(Driver.NONE)) {
+            // Final exam type is not STANDARD or no exam driver was selected. No exam offerings are generated
+        }
+        return null;
+    }
+
     public AtpService getAtpService() {
         return atpService;
     }
