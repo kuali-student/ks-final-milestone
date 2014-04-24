@@ -539,7 +539,7 @@ function updateStickyHeaderText() {
  * @param index
  */
 function refreshOutcome(index) {
-    retrieveComponent('KS-CourseView-CourseLogisticsPage-Outcome-Widgets','refreshCourseLogistics','',{outComeIndex:index});
+    retrieveComponent('KS-CourseView-CourseLogisticsPage-Outcome-Widgets', 'refreshCourseLogistics', '', {outComeIndex:index});
 }
 
 function compareSubjectCodeInput(value, element) {
@@ -776,29 +776,43 @@ function highlightMissingElements(sectionId, showError) {
 
     if (showError) {
         jQuery('#' + sectionId).find('table td textarea').each(function (index) {
-            jQuery(this).attr("style", originalStyle);
-            jQuery('#' + jQuery(this).GetBubblePopupID()).removeClass("alwaysHide");
+            var inputLength = 0;
+            var inputVal = jQuery('#' + this.id).val();
+            if (inputVal != null) {
+                inputLength = inputVal.length;
+            }
+            if (inputLength < 1) {
+                jQuery(this).attr("style", originalStyle);
+                jQuery('#' + jQuery(this).GetBubblePopupID()).removeClass("alwaysHide");
+            }
         });
     } else {
         jQuery('#' + sectionId).find('table td textarea').each(function (index) {
-            jQuery(this).attr("style", whiteBorder);
-            jQuery('#' + jQuery(this).GetBubblePopupID()).addClass("alwaysHide");
+            var inputLength = 0;
+            var inputVal = jQuery('#' + this.id).val();
+            if (inputVal != null) {
+                inputLength = inputVal.length;
+            }
+            if (inputLength < 1) {
+                jQuery(this).attr("style", whiteBorder);
+                jQuery('#' + jQuery(this).GetBubblePopupID()).addClass("alwaysHide");
+            }
         });
     }
 }
 
- jQuery.validator.addMethod("rangeMaxMinCheck",
-     function(value, element) {
-         return this.optional(element) || verifyMaxAndMinInput(value, element);
-     },
-     "Invalid range"
- );
+jQuery.validator.addMethod("rangeMaxMinCheck",
+    function (value, element) {
+        return this.optional(element) || verifyMaxAndMinInput(value, element);
+    },
+    "Invalid range"
+);
 
- function verifyMaxAndMinInput(value, element){
-     var res = value.split("-");
-     if (res.length != 2){
+function verifyMaxAndMinInput(value, element) {
+    var res = value.split("-");
+    if (res.length != 2) {
         return false;
-     }
-     return res[0] != '' && res[1] != '' && res[0] < res[1];
+    }
+    return res[0] != '' && res[1] != '' && res[0] < res[1];
 
- }
+}
