@@ -17,9 +17,6 @@
 		p:typeClassName="org.kuali.student.enrollment.class1.krms.dto.AORuleManagementWrapper" />
 
 	<bean parent="DataObjectMetadata"
-		p:typeClassName="org.kuali.student.enrollment.class1.krms.dto.CORuleManagementWrapper" />
-
-	<bean parent="DataObjectMetadata"
 		p:typeClassName="org.kuali.student.enrollment.class1.krms.dto.FERuleManagementWrapper" />
 
 	<bean parent="DataObjectMetadata"
@@ -144,6 +141,5 @@
 
 	<bean parent="DataObjectMetadata"
 		p:typeClassName="org.kuali.student.enrollment.class2.scheduleofclasses.util.SOCRequisiteWrapper" />
-
 
 </beans>
