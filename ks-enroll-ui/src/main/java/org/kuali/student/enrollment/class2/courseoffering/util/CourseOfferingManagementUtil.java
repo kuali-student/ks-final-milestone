@@ -1056,6 +1056,22 @@ public class CourseOfferingManagementUtil {
         processExamOfferingResult(result, messenger);
     }
 
+    public static void processExamOfferingResultSetForAO(ExamOfferingResult result) {
+        if (ExamOfferingServiceConstants.EXAM_OFFERING_GENERATED_PER_CO.equals(result.getKey())) {
+            Messenger messenger = (Messenger) GlobalVariables.getUserSession().retrieveObject(KSGrowlMessenger.MESSENGER_KEY);
+            if (messenger == null) {
+                messenger = new KSGrowlMessenger();
+                GlobalVariables.getUserSession().addObject(KSGrowlMessenger.MESSENGER_KEY, messenger);
+            }
+            for (ExamOfferingResult examOfferingResult : result.getChildren()) {
+                messenger.addSuccessMessage(ExamOfferingConstants.EXAM_OFFERING_CO_EDIT_SUCCESS, contextMapToParameters(examOfferingResult.getContext()));
+                break;
+            }
+            return;
+        }
+        processExamOfferingResultSet(result);
+    }
+
     public static String[] contextMapToParameters(Map<String, String> context){
         List<String> parameters = new ArrayList<String>();
         if(context.containsKey(CourseOfferingServiceConstants.CONTEXT_ELEMENT_COURSE_OFFERING_CODE)){

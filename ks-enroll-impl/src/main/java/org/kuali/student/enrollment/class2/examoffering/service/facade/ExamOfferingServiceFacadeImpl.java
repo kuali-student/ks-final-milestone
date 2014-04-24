@@ -156,6 +156,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
         if (driver.equals(Driver.PER_AO)) {
             return generateFinalExamOfferingsPerAOOptimized(courseOfferingInfo.getId(), termId, examPeriodId, optionKeys, foIdToListOfAOs, useFinalExamMatrix, context);
         } else if (driver.equals(Driver.PER_CO)) {
+            optionKeys.add(ExamOfferingServiceFacade.EXCLUDE_SLOTTING_OPTION_KEY);
             return generateFinalExamOfferingsPerCOOptimized(courseOfferingInfo, termId, examPeriodId, optionKeys, foIdToListOfAOs, context);
         } else if (driver.equals(Driver.NONE)) {
             // Final exam type is not STANDARD or no exam driver was selected. No exam offerings are generated
@@ -267,7 +268,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
             }
 
             //(re)perform slotting if use fe matrix toggle is selected and use did not override timeslot.
-            if (!userOverride && useFinalExamMatrix) {
+            if (!userOverride && useFinalExamMatrix && !optionKeys.contains(ExamOfferingServiceFacade.EXCLUDE_SLOTTING_OPTION_KEY)) {
                 foResult.getChildren().add(this.getScheduleEvaluator().executeRuleForCOSlotting(courseOffering, eo.getId(),
                         termType, new ArrayList<String>(), context));
             }
@@ -510,7 +511,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
                 }
 
                 //(re)perform slotting if use fe matrix toggle is selected and use did not override timeslot.
-                if (!userOverride && useFinalExamMatrix) {
+                if (!userOverride && useFinalExamMatrix && !optionKeys.contains(ExamOfferingServiceFacade.EXCLUDE_SLOTTING_OPTION_KEY)) {
                     aoResult.getChildren().add(this.getScheduleEvaluator().executeRuleForAOSlotting(aoInfo, eo.getId(),
                             termType, evaluatorOptions, context));
                 }
