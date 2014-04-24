@@ -1,6 +1,7 @@
 package org.kuali.student.ap.planner.controller;
 
 import org.kuali.rice.krad.uif.view.ViewAuthorizerBase;
+import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.controller.extension.KsapControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
@@ -109,7 +110,8 @@ public class PlannerController extends KsapControllerBase {
      * The second stage refreshes the calendar with js retreiveComponent(componentId, methodToCall) which hits here
      * to load the calendar term data.
      */
-	@RequestMapping(params = "methodToCall=load")
+    @MethodAccessible
+    @RequestMapping(params = "methodToCall=load")
 	public ModelAndView loadPlanner(@ModelAttribute("KualiForm") PlannerForm form,
 			HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		if (PlanItemControllerHelper.getAuthorizedLearningPlan(form, request, response) == null)
@@ -134,7 +136,8 @@ public class PlannerController extends KsapControllerBase {
     /**
      * Loads the initial information for any dialog screen opened in the planner.
      */
-	@RequestMapping(params = "methodToCall=startDialog")
+    @MethodAccessible
+    @RequestMapping(params = "methodToCall=startDialog")
 	public ModelAndView startDialog(@ModelAttribute("KualiForm") PlannerForm form,
 			HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
@@ -895,6 +898,7 @@ public class PlannerController extends KsapControllerBase {
      * Handles the additions of items to the bookmark list.
      * Creates a plan item for a course and adds it as a bookmarrk.
      */
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=addBookmark")
     public ModelAndView addBookmark(@ModelAttribute("KualiForm") PlannerForm form, BindingResult result,
                                        HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
