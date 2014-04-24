@@ -195,15 +195,19 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseView-CourseLogisticsPage-Outcome-Widgets" parent="KS-TableCollectionSubSection-BottomAddLine" p:forceSessionPersistence="true"
+    <bean id="KS-CourseView-CourseLogisticsPage-Outcome-Widgets" parent="KS-TableCollectionSubSection-BottomAddLine"
                       p:layoutManager.style="width: 100%;"
                       p:headerText="Outcome">
         <property name="collectionObjectClass" value="org.kuali.student.cm.course.form.ResultValuesGroupInfoWrapper" />
         <property name="propertyName" value="creditOptionWrappers" />
-        <property name="addBlankLineAction.actionLabel" value="Add Outcome"/>
-        <property name="addBlankLineAction.additionalCssClasses" value="outcome-addline" />
-        <property name="addBlankLineAction.id" value="outcome-addline"/>
-        <property name="addBlankLineAction.dirtyOnAction" value="true" />
+        <property name="addBlankLineAction">
+            <bean parent="KS-BottomAddLine">
+                <property name="actionLabel" value="Add Outcome"/>
+                <property name="additionalCssClasses" value="outcome-addline" />
+                <property name="id" value="outcome-addline"/>
+                <property name="dirtyOnAction" value="true" />
+            </bean>
+        </property>
         <property name="validationMessages.displayMessages" value="false"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
         <property name="layoutManager.generateAutoSequence" value="false"/>
@@ -248,6 +252,11 @@
                         <bean parent="Uif-ConstraintMessage"/>
                     </property>
                     <property name="refreshWhenChangedPropertyNames" value="typeKey"/>
+                    <property name="control">
+                        <bean parent="Uif-TextControl">
+                            <property name="cssClasses" value="rangeMaxMinCheck"/>
+                        </bean>
+                    </property>
                     <property name="propertyReplacers">
                         <list>
                             <bean parent="Uif-ConditionalBeanPropertyReplacer"
