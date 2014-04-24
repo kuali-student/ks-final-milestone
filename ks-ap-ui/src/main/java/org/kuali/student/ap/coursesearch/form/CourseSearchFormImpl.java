@@ -17,6 +17,7 @@ package org.kuali.student.ap.coursesearch.form;
 import java.util.Collections;
 import java.util.List;
 
+import org.kuali.rice.krad.web.bind.RequestAccessible;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.ap.coursesearch.CourseSearchForm;
 import org.kuali.student.common.collection.KSCollectionUtils;
@@ -28,10 +29,14 @@ public class CourseSearchFormImpl extends UifFormBase implements
 	private static final long serialVersionUID = 4898118410378641665L;
 
 	// original course search properties
+    @RequestAccessible
 	private String searchQuery;
-	private String searchTerm = SEARCH_TERM_ANY_ITEM;
-	private List<String> campusSelect;
-	private boolean savedCourses;
+    @RequestAccessible
+    private String searchTerm = SEARCH_TERM_ANY_ITEM;
+    @RequestAccessible
+    private List<String> campusSelect;
+    @RequestAccessible
+    private boolean savedCourses;
 
 	@Override
 	public String getSearchQuery() {
