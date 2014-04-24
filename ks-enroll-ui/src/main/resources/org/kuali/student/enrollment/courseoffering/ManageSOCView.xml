@@ -182,7 +182,7 @@
         </property>
     </bean>
 
-    <bean id="ManageSOCView-DetailsSection-1" parent="Uif-HorizontalBoxSection" p:render="@{renderDetailsSection}">
+    <bean id="ManageSOCView-DetailsSection-1" parent="Uif-HorizontalBoxSection" p:render="@{renderDetailsSection}" >
         <property name="items">
             <list>
                 <ref bean="ManageSOCView-StatusHistory-Section"/>
@@ -320,10 +320,11 @@
     <bean id="ManageSOCView-SchedulingDetails-SendToSchedulerButton" parent="Uif-PrimaryActionButton" p:methodToCall="sendApprovedActivitiesToScheduler" p:actionLabel="Send Approved Activities to Scheduler" p:render="@{enableMSEButton}"/>
     <bean id="ManageSOCView-Batch-CreateBatchSchedulerButton" parent="Uif-PrimaryActionButton" p:methodToCall="createEOBatchScheduler" p:actionLabel="Create" />
 
-    <bean id="ManageSOCView-EOBatchSchedule-Section" parent="Uif-VerticalBoxSection">
+    <bean id="ManageSOCView-EOBatchSchedule-Section" parent="Uif-VerticalBoxSection" p:additionalCssClasses="ks-ExamOfferingBatchSection-gridSection">
         <property name="items">
             <list>
-                <bean id="ManageSOCView-EOBatchSchedulingDetails-SubSection" parent="Uif-VerticalBoxSubSection">
+                <bean id="ManageSOCView-EOBatchSchedulingDetails-SubSection" parent="Uif-VerticalBoxSubSection"
+                      p:additionalCssClasses="ks-ExamOfferingBatchSection-gridSubsection">
                     <property name="headerText" value="Exam Offerings"/>
                     <property name="items">
                         <list>
