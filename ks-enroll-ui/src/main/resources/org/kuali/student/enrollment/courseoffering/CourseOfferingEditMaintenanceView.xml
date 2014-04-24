@@ -635,7 +635,7 @@
                       p:required="true"
                       p:additionalCssClasses="format_course_offering">
                     <property name="control">
-                        <bean parent="KS-Uif-DropdownControl" p:onChangeScript="retrieveDeliveryFormatsComponent('edit_co_grade_roster_level_line@{#index}','edit_co_final_exam_type_line@{#index}', '@{#dp.courseOfferingInfo.finalExamType}');"/>
+                        <bean parent="KS-Uif-DropdownControl" p:onChangeScript="retrieveDeliveryFormatsComponent('edit_co_grade_roster_level_line@{#index}','edit_co_final_exam_type_line@{#index}', '@{#dp.courseOfferingInfo.finalExamType}', @{#parent.readOnly}, 'KS-CourseOfferingEdit-FinalExamDriver', 'final_exam_driver_ui');"/>
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.FormatOfferingTypeForEditCOTypeKeyValues" p:addBlankOption="false"/>
