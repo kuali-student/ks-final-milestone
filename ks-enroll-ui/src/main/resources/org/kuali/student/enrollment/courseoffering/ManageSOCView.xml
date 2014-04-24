@@ -201,7 +201,6 @@
     <bean id="ManageSOCView-StatusHistory-Section" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
-               <!-- <ref bean="ManageSOCView-StatusHistory-SubSection1"/> -->
                 <ref bean="ManageSOCView-StatusHistory-SubSection2"/>
             </list>
         </property>
@@ -326,14 +325,14 @@
                 <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4">
                     <property name="items">
                         <list>
-                            <bean parent="KS-Uif-DataField" p:colSpan="3" id="batchSchedulingStatus"
-                                  p:label="Creation Status" p:propertyName="batchSchedulingStatus"/>
-                            <bean parent="KS-Uif-DataField" p:colSpan="3" id="batchSchedule_initiated_date"
-                                  p:label="Initiated" p:propertyName="batchScheduleInitiatedDate"/>
-                            <bean parent="KS-Uif-DataField" p:colSpan="3" id="batchSchedule_completed_date"
-                                  p:label="Completed" p:propertyName="batchScheduleCompleteDate"/>
-                            <bean parent="KS-Uif-DataField" p:colSpan="3" id="batchSchedule_duration"
-                                  p:label="Scheduling Duration" p:propertyName="batchScheduleDuration"/>
+                            <bean parent="KS-Uif-DataField" p:colSpan="3" id="bulkSchedulingStatus"
+                                  p:label="Creation Status" p:propertyName="bulkSchedulingStatus"/>
+                            <bean parent="KS-Uif-DataField" p:colSpan="3" id="bulkSchedule_initiated_date"
+                                  p:label="Initiated" p:propertyName="bulkScheduleInitiatedDate"/>
+                            <bean parent="KS-Uif-DataField" p:colSpan="3" id="bulkSchedule_completed_date"
+                                  p:label="Completed" p:propertyName="bulkScheduleCompleteDate"/>
+                            <bean parent="KS-Uif-DataField" p:colSpan="3" id="bulkSchedule_duration"
+                                  p:label="Scheduling Duration" p:propertyName="bulkScheduleDuration"/>
                         </list>
                     </property>
                 </bean>
@@ -341,6 +340,6 @@
             </list>
         </property>
     </bean>
-    <bean id="ManageSOCView-CreateEOBulk-SchedulerButton" parent="Uif-PrimaryActionButton" p:methodToCall="createEOBatchScheduler" p:actionLabel="Create" />
+    <bean id="ManageSOCView-CreateEOBulk-SchedulerButton" parent="Uif-PrimaryActionButton" p:methodToCall="createEOBulkScheduler" p:actionLabel="Create" />
 
 </beans>

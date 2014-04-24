@@ -248,8 +248,8 @@ public class ManageSOCController extends UifControllerBase {
         }
     }
 
-    @RequestMapping(params = "methodToCall=createEOBatchScheduler")
-    public ModelAndView createEOBatchScheduler(@ModelAttribute("KualiForm") ManageSOCForm socForm, @SuppressWarnings("unused") BindingResult result,
+    @RequestMapping(params = "methodToCall=createEOBulkScheduler")
+    public ModelAndView createEOBulkScheduler(@ModelAttribute("KualiForm") ManageSOCForm socForm, @SuppressWarnings("unused") BindingResult result,
                                                           @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
         KSDateTimeFormatter dateFormatter = DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER;

@@ -55,10 +55,10 @@ public class ManageSOCForm extends UifFormBase {
 
     private CourseOfferingContextBar contextBar = CourseOfferingContextBar.NULL_SAFE_INSTANCE;
 
-    private String batchSchedulingStatus;
-    private String batchScheduleInitiatedDate;
-    private String batchScheduleCompleteDate;
-    private String batchScheduleDuration;
+    private String bulkSchedulingStatus;
+    private String bulkScheduleInitiatedDate;
+    private String bulkScheduleCompleteDate;
+    private String bulkScheduleDuration;
 
     public ManageSOCForm()  {
         statusHistory = new ArrayList<ManageSOCStatusHistory> ();
@@ -344,35 +344,35 @@ public class ManageSOCForm extends UifFormBase {
         this.contextBar = contextBar;
     }
 
-    public String getBatchSchedulingStatus() {
-        return batchSchedulingStatus;
+    public String getbulkSchedulingStatus() {
+        return bulkSchedulingStatus;
     }
 
-    public void setBatchSchedulingStatus(String batchSchedulingStatus) {
-        this.batchSchedulingStatus = batchSchedulingStatus;
+    public void setBulkSchedulingStatus(String bulkSchedulingStatus) {
+        this.bulkSchedulingStatus = bulkSchedulingStatus;
     }
 
-    public String getBatchScheduleInitiatedDate() {
-        return batchScheduleInitiatedDate;
+    public String getBulkScheduleInitiatedDate() {
+        return bulkScheduleInitiatedDate;
     }
 
-    public void setBatchScheduleInitiatedDate(String batchScheduleInitiatedDate) {
-        this.batchScheduleInitiatedDate = batchScheduleInitiatedDate;
+    public void setBulkScheduleInitiatedDate(String bulkScheduleInitiatedDate) {
+        this.bulkScheduleInitiatedDate = bulkScheduleInitiatedDate;
     }
 
-    public String getBatchScheduleCompleteDate() {
-        return batchScheduleCompleteDate;
+    public String getBulkScheduleCompleteDate() {
+        return bulkScheduleCompleteDate;
     }
 
-    public void setBatchScheduleCompleteDate(String batchScheduleCompleteDate) {
-        this.batchScheduleCompleteDate = batchScheduleCompleteDate;
+    public void setBulkScheduleCompleteDate(String bulkScheduleCompleteDate) {
+        this.bulkScheduleCompleteDate = bulkScheduleCompleteDate;
     }
 
-    public String getBatchScheduleDuration() {
-        return batchScheduleDuration;
+    public String getBulkScheduleDuration() {
+        return bulkScheduleDuration;
     }
 
-    public void setBatchScheduleDuration(String batchScheduleDuration) {
-        this.batchScheduleDuration = batchScheduleDuration;
+    public void setBulkScheduleDuration(String bulkScheduleDuration) {
+        this.bulkScheduleDuration = bulkScheduleDuration;
     }
 }
