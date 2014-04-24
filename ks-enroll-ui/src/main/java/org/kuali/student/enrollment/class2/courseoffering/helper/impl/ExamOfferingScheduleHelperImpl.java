@@ -213,7 +213,7 @@ public class ExamOfferingScheduleHelperImpl implements ExamOfferingScheduleHelpe
         TimeOfDayInfo endTimeOfDayInfo = new TimeOfDayInfo();
 
         List<Integer> days = new ArrayList<Integer>();
-        days.add(new Integer(scheduleWrapper.getDayInExamPeriod()));
+        days.add(Integer.valueOf(scheduleWrapper.getDayInExamPeriod()));
 
         String startTimeString = scheduleWrapper.getStartTime();
         if (StringUtils.isNotBlank(startTimeString)) {

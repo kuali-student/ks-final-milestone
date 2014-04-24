@@ -549,28 +549,28 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
      * @return dayDisplay - Timeslot Day Display Code
      */
     public static String dayDisplayHelper(String day){
-        String dayDisplay="";
+        StringBuffer dayDisplay= new StringBuffer();
         for(char c: day.toCharArray()){
             switch(c){
-                case 'M': dayDisplay = dayDisplay + SchedulingServiceConstants.MONDAY_TIMESLOT_DISPLAY_DAY_CODE;
+                case 'M': dayDisplay.append(SchedulingServiceConstants.MONDAY_TIMESLOT_DISPLAY_DAY_CODE);
                     break;
-                case 'T': dayDisplay = dayDisplay + SchedulingServiceConstants.TUESDAY_TIMESLOT_DISPLAY_DAY_CODE;
+                case 'T': dayDisplay.append(SchedulingServiceConstants.TUESDAY_TIMESLOT_DISPLAY_DAY_CODE);
                     break;
-                case 'W': dayDisplay = dayDisplay + SchedulingServiceConstants.WEDNESDAY_TIMESLOT_DISPLAY_DAY_CODE;
+                case 'W': dayDisplay.append(SchedulingServiceConstants.WEDNESDAY_TIMESLOT_DISPLAY_DAY_CODE);
                     break;
-                case 'H': dayDisplay = dayDisplay + SchedulingServiceConstants.THURSDAY_TIMESLOT_DISPLAY_DAY_CODE;
+                case 'H': dayDisplay.append(SchedulingServiceConstants.THURSDAY_TIMESLOT_DISPLAY_DAY_CODE);
                     break;
-                case 'F': dayDisplay = dayDisplay + SchedulingServiceConstants.FRIDAY_TIMESLOT_DISPLAY_DAY_CODE;
+                case 'F': dayDisplay.append(SchedulingServiceConstants.FRIDAY_TIMESLOT_DISPLAY_DAY_CODE);
                     break;
-                case 'S': dayDisplay = dayDisplay + SchedulingServiceConstants.SATURDAY_TIMESLOT_DISPLAY_DAY_CODE;
+                case 'S': dayDisplay.append(SchedulingServiceConstants.SATURDAY_TIMESLOT_DISPLAY_DAY_CODE);
                     break;
-                case 'U': dayDisplay = dayDisplay + SchedulingServiceConstants.SUNDAY_TIMESLOT_DISPLAY_DAY_CODE;
+                case 'U': dayDisplay.append(SchedulingServiceConstants.SUNDAY_TIMESLOT_DISPLAY_DAY_CODE);
                     break;
                 default:
                     break;
             }
         }
-        return dayDisplay;
+        return dayDisplay.toString();
     }
 
 
