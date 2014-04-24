@@ -1008,10 +1008,14 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
      * @param completeLevels  - The list of completed (division+level) course codes found in the query string
      * @param requests        - The list of search requests to be ran
      */
-    public void addComponentSearches(List<String> divisions, List<String> codes,
-                                     List<String> levels, List<String> incompleteCodes, List<String> completeCodes, List<String> completeLevels, List<SearchRequestInfo> requests) {
+    public void addComponentSearches(List<String> divisions, List<String> keywordDivisions, List<String> codes,
+                                     List<String> levels, List<String> incompleteCodes, List<String> completeCodes,
+                                     List<String> completeLevels, List<SearchRequestInfo> requests) {
 
         Collections.sort(divisions);
+        // Add keyword divisions after sort to maintain order of keyword divisions
+        divisions.addAll(keywordDivisions);
+
         Collections.sort(codes);
         Collections.sort(levels);
         Collections.sort(incompleteCodes);
@@ -1231,85 +1235,11 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         //find all tokens in the query string
         List<QueryTokenizer.Token> tokens = QueryTokenizer.tokenize(query);
 
-        List<SearchRequestInfo> divisionSearches = addTextToDivisionMappingSearches(tokens, searchTerm);
         List<SearchRequestInfo> titleSearches = addTitleSearches(tokens, searchTerm);
         List<SearchRequestInfo> descriptionSearches = addDescriptionSearches(tokens, searchTerm);
 
-        requests.addAll(divisionSearches);
         requests.addAll(titleSearches);
         requests.addAll(descriptionSearches);
-    }
-
-    // Convert token to its correct text, remove quote if any
-    private String cleanToken(QueryTokenizer.Token token) {
-        String queryText = null;
-        switch (token.rule) {
-            case WORD:
-                queryText = token.value;
-                break;
-            case QUOTED:
-                queryText = token.value;
-                queryText = queryText.substring(1, queryText.length() - 1);
-                break;
-            default:
-                break;
-        }
-        return queryText;
-    }
-
-    /*
-    * The implementation details of mapping text to division code:
-    * 1) Use KSOR_ORG table, grab all records with type as ks.org.subjectcode
-    * 2) Perform text searching on KSOR_ORG.SHRT_DESCR column and then use search result from KSOR_ORG.SHRT_NAME to
-    *    conduct subject code/division searching. Onlu call this org search once and then store the org search result in a map
-    * 3) sort the relevant order of the org search results (subject codes) as follows:
-    *   3a) an exact match with shrt descr,
-    *   3b) starts with,
-    *   3c) contains
-    */
-    private List<SearchRequestInfo> addTextToDivisionMappingSearches(List<QueryTokenizer.Token> tokens, String searchTerm) {
-
-        List<SearchRequestInfo> searches = new ArrayList<SearchRequestInfo>();
-
-        for (QueryTokenizer.Token token : tokens) {
-            List<String> exactMatchDivisions = new ArrayList<String>();
-            List<String> startMatchDivisions = new ArrayList<String>();
-            List<String> partialMatchDivisions = new ArrayList<String>();
-
-            // Convert token to its correct text
-            String queryText = cleanToken(token);
-            // Skip if query is less than 3 characters
-            if (queryText != null && queryText.length() < 3) continue;
-
-            if (subjectAreaMap == null || subjectAreaMap.size() == 0) {
-                subjectAreaMap = KsapFrameworkServiceLocator.getOrgHelper().getSubjectAreas();
-            }
-
-            //  Look to see if the query text is present in any subject area descriptions
-            String divisionKey = queryText.trim().toUpperCase();
-            for (Map.Entry<String, String> entry : subjectAreaMap.entrySet()) {
-                if (entry.getValue().trim().toUpperCase().equals(divisionKey)) {
-                    exactMatchDivisions.add(entry.getKey());
-                } else if (entry.getValue().toUpperCase().startsWith(divisionKey)) {
-                    startMatchDivisions.add(entry.getKey());
-                } else if (entry.getValue().toUpperCase().contains(divisionKey)) {
-                    partialMatchDivisions.add(entry.getKey());
-                }
-            }
-
-            if (!CollectionUtils.isEmpty(startMatchDivisions)) {
-                exactMatchDivisions.addAll(startMatchDivisions);
-            }
-            if (!CollectionUtils.isEmpty(partialMatchDivisions)) {
-                exactMatchDivisions.addAll(partialMatchDivisions);
-            }
-
-            List<SearchRequestInfo> divisionSearches = addDivisionSearches(exactMatchDivisions);
-            searches.addAll(divisionSearches);
-        }
-
-
-        return searches;
     }
 
     private List<SearchRequestInfo> addTitleSearches(List<QueryTokenizer.Token> tokens, String searchTerm) {
@@ -1317,7 +1247,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 
         for (QueryTokenizer.Token token : tokens) {
             // Convert token to its correct text
-            String queryText = cleanToken(token);
+            String queryText = QueryTokenizer.cleanToken(token);
 
             // Skip if query is less than 3 characters
             if (queryText != null && queryText.length() < 3) continue;
@@ -1344,7 +1274,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 
         for (QueryTokenizer.Token token : tokens) {
             // Convert token to its correct text
-            String queryText = cleanToken(token);
+            String queryText = QueryTokenizer.cleanToken(token);
 
             // Skip if query is less than 3 characters
             if (queryText != null && queryText.length() < 3) continue;
@@ -1389,6 +1319,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         List<String> incompleteCodes;
         List<String> completedCodes;
         List<String> completedLevels;
+        List<String> keywordDivisions;
 
         //Search queries
         List<SearchRequestInfo> requests = new ArrayList<SearchRequestInfo>();
@@ -1398,6 +1329,13 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         codes = QueryTokenizer.extractCourseCodes(query);
         extractDivisions(fetchCourseDivisions(), query, divisions, Boolean.parseBoolean(
                 ConfigContext.getCurrentContextConfig().getProperty(CourseSearchConstants.COURSE_SEARCH_DIVISION_SPACEALLOWED)));
+
+        // Extract divisions using their keywords.
+        if (subjectAreaMap == null || subjectAreaMap.size() == 0) {
+            subjectAreaMap = KsapFrameworkServiceLocator.getOrgHelper().getSubjectAreas();
+        }
+        keywordDivisions = QueryTokenizer.extractDivisionsFromSubjectKeywords(query,subjectAreaMap);
+
         // remove found levels and codes to find incomplete code components
         for (String level : levels) query = query.replace(level, "");
         for (String code : codes) query = query.replace(code, "");
@@ -1423,7 +1361,8 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 
         LOG.info("Start of method addComponentSearches of CourseSearchStrategy: {}",
                 System.currentTimeMillis());
-        addComponentSearches(divisions, codes, levels, incompleteCodes, completedCodes, completedLevels, requests);
+        addComponentSearches(divisions, keywordDivisions, codes, levels, incompleteCodes, completedCodes,
+                completedLevels, requests);
         LOG.info("End of method addComponentSearches of CourseSearchStrategy: {}",
                 System.currentTimeMillis());
 
