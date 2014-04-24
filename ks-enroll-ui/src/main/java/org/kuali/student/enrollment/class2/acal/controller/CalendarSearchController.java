@@ -22,6 +22,7 @@ import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.uif.util.GrowlIcon;
@@ -92,6 +93,7 @@ public class CalendarSearchController  extends UifControllerBase {
     /**
      * Method used to search atps
      */
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=search")
     public ModelAndView search(@ModelAttribute("KualiForm") CalendarSearchForm searchForm, BindingResult result,
                                HttpServletRequest request, HttpServletResponse response) throws Exception {
