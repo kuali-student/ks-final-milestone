@@ -253,12 +253,17 @@
                     </property>
                     <property name="refreshWhenChangedPropertyNames" value="typeKey"/>
                     <property name="control">
-                        <bean parent="Uif-TextControl">
-                            <property name="cssClasses" value="rangeMaxMinCheck"/>
-                        </bean>
+                        <bean parent="Uif-TextControl"/>
                     </property>
                     <property name="propertyReplacers">
                         <list>
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                                p:propertyName="control.cssClasses"
+                                p:condition="@{#lp.typeKey eq 'kuali.result.values.group.type.range'}" >
+                                <property name="replacement">
+                                    <value>rangeMaxMinCheck</value>
+                                </property>
+                            </bean>
                             <bean parent="Uif-ConditionalBeanPropertyReplacer"
                                 p:propertyName="constraintText"
                                 p:condition="@{#lp.typeKey eq 'kuali.result.values.group.type.multiple'}" >
