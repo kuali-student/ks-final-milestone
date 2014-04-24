@@ -760,6 +760,11 @@ function showHideReviewProposalErrorFields(sectionId) {
 
 }
 
+/*Tried using jQuery("#kualiForm").validate().resetForm() to remove the validation results so that we can have the
+ page contents displayed without the validation results. But There is no effect after ran the method.
+ Then looping through all text areas and according to it has value or not to toggle the default border from the
+ validated result border.
+ */
 function highlightMissingElements(sectionId, showError) {
     var whiteBorderStyle = "border: rgb(255,255,255) !important;";
     var style = jQuery('#' + sectionId).find('table td textarea').attr("style");
