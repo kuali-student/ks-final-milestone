@@ -165,6 +165,28 @@ function reDisplayInstructor() {
     }
 }
 
+function reDisplayCrosslistedCourse() {
+    var crosslistComponent = jQuery("#crosslisted-course");
+    if (crosslistComponent.css('display') == "none") {
+        crosslistComponent.show();
+    }
+}
+
+function reDisplayJointlyOfferedCourse() {
+    var jointlyOfferedComponent = jQuery("#jointlyOffered-section");
+    if (jointlyOfferedComponent.css('display') == "none") {
+        jointlyOfferedComponent.show();
+    }
+}
+
+function reDisplayVersionCode() {
+    var versionComponent = jQuery("#version-code");
+    if (versionComponent.css('display') == "none") {
+        versionComponent.show();
+    }
+}
+
+
 /**
  * Checks if a particular scroll event handler has been bound to the window.
  * @param namespace The scroll event namespace.
