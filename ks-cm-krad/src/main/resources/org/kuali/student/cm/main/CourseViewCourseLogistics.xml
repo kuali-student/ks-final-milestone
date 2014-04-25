@@ -361,7 +361,8 @@
             <bean parent="Uif-VerticalBoxGroup">
                 <property name="items">
                     <list>
-                        <bean parent="CM-StateAware-RequiredMessage" />
+                        <!-- Rice 2.4 upgrade : removing commented out bean -->
+                        <!--<bean parent="CM-StateAware-RequiredMessage" />-->
                     </list>
                 </property>
             </bean>
