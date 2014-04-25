@@ -31,7 +31,7 @@ import org.kuali.rice.krms.tree.node.RuleEditorTreeNode;
  */
 public class EditTreeGroup extends TreeGroup {
 
-    protected void buildTreeGroups(View view, Object model) {
+    protected void buildTreeGroups(Object model) {
         // get Tree data property
         Tree<Object, String> treeData = ObjectPropertyUtils.getPropertyValue(model, getBindingInfo().getBindingPath());
 
@@ -58,14 +58,6 @@ public class EditTreeGroup extends TreeGroup {
         if(nodeData.getData() instanceof RuleEditorTreeNode){
             PropositionEditor proposition = ((RuleEditorTreeNode) nodeData.getData()).getProposition();
             proposition.setBindingPath(bindingPrefix + ".data");
-        }
-
-        // Reset this id to a static id, can only have one proposition in edit mode at a time.
-        if(node.getData().getId().startsWith("KRMS-PropositionEdit-BoxSection")){
-            node.getData().setId(node.getData().getBaseId());
-            for(Component component : node.getData().getItems()){
-                component.setId(component.getBaseId());
-            }
         }
 
         return node;

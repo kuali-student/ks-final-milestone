@@ -161,7 +161,7 @@ function updateExamDriverInFOTable(finalExamDropDownId, finalExamTableCellId, pa
             finalExamDriverUI = "Activity Offering";
         }
 
-        var finalExamTableCells = jQuery('[id^="' + finalExamTableCellId + '_line"][id$="_control"]');
+        var finalExamTableCells = jQuery('[id^="' + finalExamTableCellId + '_line"]');
         finalExamTableCells.each(function () {
             jQuery(this).text(finalExamDriverUI);
         });
@@ -177,10 +177,13 @@ function updateExamDriverInFOTable(finalExamDropDownId, finalExamTableCellId, pa
     }
 }
 
-function retrieveDeliveryFormatsComponent(id1, id2, finalExamType) {
-     retrieveComponent(id1, undefined);
-     if (finalExamType == "STANDARD") {
-        retrieveComponent(id2, undefined);
-      }
-
+/*
+    Workaround for RICE jira
+ */
+function retrieveDeliveryFormatsComponent(id1, id2, finalExamType, parentReadOnly, finalExamDriverId, finalExamDriverUI) {
+    retrieveComponent(id1, undefined);
+    if (finalExamType == "STANDARD") {
+        //retrieveComponent(id2, undefined);
+        updateExamDriverInFOTable(finalExamDriverId, finalExamDriverUI, parentReadOnly);
+    }
 }

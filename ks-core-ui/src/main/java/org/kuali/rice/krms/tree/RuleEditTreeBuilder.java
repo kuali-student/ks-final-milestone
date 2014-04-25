@@ -15,7 +15,6 @@
  */
 package org.kuali.rice.krms.tree;
 
-import org.apache.commons.lang.StringEscapeUtils;
 import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -41,13 +40,13 @@ public class RuleEditTreeBuilder extends AbstractTreeBuilder{
         Tree myTree = new Tree<RuleEditorTreeNode, String>();
 
         Node<RuleEditorTreeNode, String> rootNode = new Node<RuleEditorTreeNode, String>();
-        rootNode.setNodeType(RuleEditorTreeNode.ROOT_TYPE);
+        rootNode.setNodeType(KRMSConstants.ROOT_TYPE);
 
         myTree.setRootElement(rootNode);
 
         if (rule.getPropositionEditor() != null){
             Node firstNode = addChildNode(rule, rootNode, rule.getPropositionEditor());
-            firstNode.setNodeType(firstNode.getNodeType() + " " + RuleEditorTreeNode.ROOT_TYPE);
+            firstNode.setNodeType(firstNode.getNodeType() + " " + KRMSConstants.ROOT_TYPE);
         }
 
         return myTree;
@@ -68,65 +67,15 @@ public class RuleEditTreeBuilder extends AbstractTreeBuilder{
             // add a node for the description display with a child proposition node
             Node<RuleEditorTreeNode, String> leaf = new Node<RuleEditorTreeNode, String>();
             if (PropositionType.SIMPLE.getCode().equalsIgnoreCase(prop.getPropositionTypeCode())) {
-                //Add the proposition with alpha code in the map if it doesn't already exist.
-                if (null == prop.getKey()) {
-                    prop.setKey((String) rule.getSimpleKeys().next());
-                }
-                // Simple Proposition: add a node for the description display with a child proposition node
-                if (prop.isEditMode()) {
-                    leaf.setNodeType(SimplePropositionEditNode.NODE_TYPE);
-                    PropositionEditor copy = (PropositionEditor) ObjectUtils.deepCopy(prop);
-                    leaf.setData(new SimplePropositionEditNode(copy));
-                } else {
-                    leaf.setNodeLabel(this.buildNodeLabel(rule, prop));
-                    leaf.setNodeType(SimplePropositionNode.NODE_TYPE);
-                    addNodeType(leaf, KRMSConstants.NODE_TYPE_SUBRULEELEMENT);
-                    leaf.setData(new SimplePropositionNode(prop));
-                }
-
-                sprout.getChildren().add(leaf);
+                handleSimpleNode(rule, sprout, prop, leaf);
             } else if (PropositionType.COMPOUND.getCode().equalsIgnoreCase(prop.getPropositionTypeCode())) {
-                //Add the proposition with alpha code in the map if it doesn't already exist.
-                if (null == prop.getKey()) {
-                    prop.setKey((String) rule.getCompoundKeys().next());
-                }
-                // Compound Proposition: editMode has description as an editable field
-                leaf.setNodeLabel(this.getDescription(prop));
-                leaf.setNodeType(RuleEditorTreeNode.COMPOUND_NODE_TYPE);
-                leaf.setData(new RuleEditorTreeNode(prop));
-
-                sprout.getChildren().add(leaf);
-
-                int counter = 0;
-                for (PropositionEditor child : prop.getCompoundEditors()) {
-                    // add an opcode node in between each of the children.
-                    if (counter > 0) {
-                        addOpCodeNode(leaf, prop, counter);
-                    }
-                    // call to build the childs node
-                    Node childNode = addChildNode(rule, leaf, child);
-                    if (counter==0){
-                        addNodeType(childNode, RuleEditorTreeNode.FIRST_IN_GROUP);
-                    }
-                    if (counter==prop.getCompoundEditors().size()-1){
-                        addNodeType(childNode, RuleEditorTreeNode.LAST_IN_GROUP);
-                    }
-                    //Add flag to identify if child can move right, if child has sibling after it
-                    if((leaf.getData().getProposition().getCompoundEditors().size() - 1) != counter) {
-                        if(!leaf.getData().getProposition().getCompoundEditors().get(leaf.getData().getProposition().getCompoundEditors().indexOf(child) + 1).getPropositionTypeCode().equals("C")) {
-                            addNodeType(childNode, RuleEditorTreeNode.DISABLE_MOVE_IN);
-                        }
-                    } //Set flag for last child in leaf
-                    else {
-                        addNodeType(childNode, RuleEditorTreeNode.DISABLE_MOVE_IN);
-                    }
-                    counter++;
-                }
+                handleCompoundNode(rule, sprout, prop, leaf);
             }
+
             //Set move left disabled flag if simple proposition in the root compound
             if(sprout.getData() != null) {
                 if(((RuleEditorTreeNode) sprout.getData()).getProposition().equals(rule.getProposition())) {
-                    addNodeType(leaf, RuleEditorTreeNode.DISABLE_MOVE_OUT);
+                    addNodeType(leaf, KRMSConstants.DISABLE_MOVE_OUT);
                 }
             }
             return leaf;
@@ -134,7 +83,77 @@ public class RuleEditTreeBuilder extends AbstractTreeBuilder{
         return null;
     }
 
-    private String buildNodeLabel(RuleEditor rule, PropositionEditor prop) {
+    protected void handleCompoundNode(RuleEditor rule, Node sprout, PropositionEditor prop, Node<RuleEditorTreeNode, String> leaf) {
+        //Add the proposition with alpha code in the map if it doesn't already exist.
+        if (null == prop.getKey()) {
+            prop.setKey((String) rule.getCompoundKeys().next());
+        }
+        setupCompoundNode(rule, prop, leaf);
+        sprout.getChildren().add(leaf);
+
+        int counter = 0;
+        for (PropositionEditor child : prop.getCompoundEditors()) {
+            // add an opcode node in between each of the children.
+            if (counter > 0) {
+                addOpCodeNode(leaf, prop, counter);
+            }
+            // call to build the childs node
+            Node childNode = addChildNode(rule, leaf, child);
+            if (counter==0){
+                addNodeType(childNode, KRMSConstants.FIRST_IN_GROUP);
+            }
+            if (counter==prop.getCompoundEditors().size()-1){
+                addNodeType(childNode, KRMSConstants.LAST_IN_GROUP);
+            }
+            //Add flag to identify if child can move right, if child has sibling after it
+            if((leaf.getData().getProposition().getCompoundEditors().size() - 1) != counter) {
+                if(!leaf.getData().getProposition().getCompoundEditors().get(leaf.getData().getProposition().getCompoundEditors().indexOf(child) + 1).getPropositionTypeCode().equals("C")) {
+                    addNodeType(childNode, KRMSConstants.DISABLE_MOVE_IN);
+                }
+            } //Set flag for last child in leaf
+            else {
+                addNodeType(childNode, KRMSConstants.DISABLE_MOVE_IN);
+            }
+            counter++;
+        }
+    }
+
+    protected void setupCompoundNode(RuleEditor rule, PropositionEditor prop, Node<RuleEditorTreeNode, String> leaf) {
+        // Compound Proposition: editMode has description as an editable field
+        leaf.setNodeLabel(this.getDescription(prop));
+        leaf.setNodeType(KRMSConstants.COMPOUND_NODE_TYPE);
+        leaf.setData(new SimplePropositionNode(prop));
+    }
+
+    protected void handleSimpleNode(RuleEditor rule, Node sprout, PropositionEditor prop, Node<RuleEditorTreeNode, String> leaf) {
+        //Add the proposition with alpha code in the map if it doesn't already exist.
+        if (null == prop.getKey()) {
+            prop.setKey((String) rule.getSimpleKeys().next());
+        }
+        // Simple Proposition: add a node for the description display with a child proposition node
+        if (prop.isEditMode()) {
+            setupEditNode(rule, prop, leaf);
+        } else {
+            setupSimpleNode(rule, prop, leaf);
+        }
+
+        sprout.getChildren().add(leaf);
+    }
+
+    protected void setupEditNode(RuleEditor rule, PropositionEditor prop, Node<RuleEditorTreeNode, String> leaf) {
+        leaf.setNodeType(KRMSConstants.EDIT_NODE_TYPE);
+        PropositionEditor copy = (PropositionEditor) ObjectUtils.deepCopy(prop);
+        leaf.setData(new SimplePropositionEditNode(copy));
+    }
+
+    protected void setupSimpleNode(RuleEditor rule, PropositionEditor prop, Node<RuleEditorTreeNode, String> leaf) {
+        leaf.setNodeLabel(this.buildNodeLabel(rule, prop));
+        leaf.setNodeType(KRMSConstants.SIMPLE_NODE_TYPE);
+        addNodeType(leaf, KRMSConstants.NODE_TYPE_SUBRULEELEMENT);
+        leaf.setData(new SimplePropositionNode(prop));
+    }
+
+    protected String buildNodeLabel(RuleEditor rule, PropositionEditor prop) {
         //Build the node label.
         String prefix = this.getPropositionPrefix(prop);
         return prefix + this.getDescription(prop);
@@ -147,10 +166,10 @@ public class RuleEditTreeBuilder extends AbstractTreeBuilder{
      * @param prop
      * @return
      */
-    private void addOpCodeNode(Node currentNode, PropositionEditor prop, int counter) {
+    protected void addOpCodeNode(Node currentNode, PropositionEditor prop, int counter) {
         //Create the node.
         Node<CompoundOpCodeNode, String> aNode = new Node<CompoundOpCodeNode, String>();
-        aNode.setNodeType(RuleEditorTreeNode.COMPOUND_OP_NODE_TYPE);
+        aNode.setNodeType(KRMSConstants.COMPOUND_OP_NODE_TYPE);
 
         //Add a dummy editor.
         PropositionEditor editor = new PropositionEditor();

@@ -90,11 +90,6 @@
 
     <bean id="typeService" class="org.kuali.student.r2.core.class1.type.service.impl.TypeServiceMockImpl"/>
 
-    <bean id="validator" class="org.kuali.student.r2.common.datadictionary.RiceDataDictionaryValidatorImpl">
-        <property name="riceDataDictionaryService" ref="dataDictionaryServiceForAllUsedByRice" />
-        <property name="riceDictionaryValidationService" ref="riceDictionaryValidationService" />
-    </bean>
-
     <bean id="populationDao" class="org.kuali.student.r2.core.population.dao.PopulationDao"/>
     <bean id="populationRuleDao" class="org.kuali.student.r2.core.population.dao.PopulationRuleDao"/>
     <bean id="criteriaLookupService" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">

@@ -121,7 +121,7 @@
         <property name="footer.render" value="false"/>
         <property name="viewHelperServiceClass" value="org.kuali.student.common.kitchensink.KitchenSinkPopulationInfoLookupableImpl" />
         <property name="maintenanceUrlMapping" value="population"/>
-        <property name="showMaintenanceLinks" value="true"/>
+        <property name="renderMaintenanceLinks" value="true"/>
         <property name="applyDirtyCheck" value="false"/>
         <property name="additionalCssFiles">
             <list merge="true">

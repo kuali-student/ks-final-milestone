@@ -15,18 +15,17 @@
  */
 package org.kuali.rice.krms.util;
 
+import org.kuali.rice.krad.datadictionary.parse.BeanTagAttribute;
+import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.component.BindingInfo;
 import org.kuali.rice.krad.uif.component.Component;
-import org.kuali.rice.krad.uif.container.CollectionFilter;
 import org.kuali.rice.krad.uif.container.Group;
-import org.kuali.rice.krad.uif.container.TreeGroup;
-import org.kuali.rice.krad.uif.element.Action;
-import org.kuali.rice.krad.uif.element.Message;
-import org.kuali.rice.krad.uif.field.DataField;
-import org.kuali.rice.krad.uif.util.ComponentUtils;
+import org.kuali.rice.krad.uif.container.GroupBase;
+import org.kuali.rice.krad.uif.lifecycle.ViewLifecycle;
+import org.kuali.rice.krad.uif.lifecycle.ViewLifecycleRestriction;
+import org.kuali.rice.krad.uif.util.LifecycleElement;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.View;
-import org.kuali.rice.krad.uif.widget.QuickFinder;
 import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.rice.krms.service.RuleViewHelperService;
 
@@ -36,7 +35,7 @@ import java.util.List;
 /**
  * @author Kuali Student Team
  */
-public class AgendaSection extends Group {
+public class AgendaSection extends GroupBase {
 
     private String propertyName;
     private BindingInfo bindingInfo;
@@ -51,10 +50,12 @@ public class AgendaSection extends Group {
     }
 
     @Override
-    public void performInitialization(View view, Object model) {
+    public void performInitialization(Object model) {
         setFieldBindingObjectPath(getBindingInfo().getBindingObjectPath());
 
-        super.performInitialization(view, model);
+        super.performInitialization(model);
+
+        View view = ViewLifecycle.getView();
 
         if (bindingInfo != null) {
             bindingInfo.setDefaults(view, getPropertyName());
@@ -63,10 +64,12 @@ public class AgendaSection extends Group {
     }
 
     @Override
-    public void performApplyModel(View view, Object model, Component parent) {
+    public void performApplyModel(Object model, LifecycleElement parent) {
         // get the collection for this group from the model
         List<Object> modelCollection = ObjectPropertyUtils.getPropertyValue(model,
                 this.getBindingInfo().getBindingPath());
+
+        View view = ViewLifecycle.getView();
 
         //Set the ruleviewhelperservice on the agendabuilder.
         this.getAgendaBuilder().setViewHelperService((RuleViewHelperService) view.getViewHelperService());
@@ -79,42 +82,9 @@ public class AgendaSection extends Group {
         }
         this.setItems(items);
 
-        super.performApplyModel(view, model, parent);
+        super.performApplyModel(model, parent);
     }
 
-    @Override
-    public List<Component> getComponentsForLifecycle() {
-        return super.getComponentsForLifecycle();
-    }
-
-    @Override
-    public List<Component> getComponentPrototypes() {
-        List<Component> components = super.getComponentPrototypes();
-        components.add(this.getAgendaPrototype());
-        components.add(this.getRulePrototype());
-
-        return components;
-    }
-
-    /**
-     * @see org.kuali.rice.krad.uif.component.ComponentBase#copy()
-     */
-    @Override
-    protected <T> void copyProperties(T component) {
-        super.copyProperties(component);
-
-        AgendaSection agendaSectionCopy = (AgendaSection) component;
-        agendaSectionCopy.setPropertyName(this.propertyName);
-        if (this.agendaPrototype != null){
-            agendaSectionCopy.setAgendaPrototype((Group) this.agendaPrototype.copy());
-        }
-        if (this.rulePrototype != null){
-            agendaSectionCopy.setRulePrototype((Group) this.rulePrototype.copy());
-        }
-        if (this.bindingInfo != null) {
-            agendaSectionCopy.setBindingInfo((BindingInfo) this.bindingInfo.copy());
-        }
-    }
 
     public AgendaBuilder getAgendaBuilder() {
         if (this.agendaBuilder == null) {
@@ -139,6 +109,8 @@ public class AgendaSection extends Group {
         this.bindingInfo = bindingInfo;
     }
 
+    @ViewLifecycleRestriction(UifConstants.ViewPhases.INITIALIZE)
+    @BeanTagAttribute(name = "agendaPrototype", type = BeanTagAttribute.AttributeType.SINGLEBEAN)
     public Group getAgendaPrototype() {
         return agendaPrototype;
     }
@@ -147,6 +119,8 @@ public class AgendaSection extends Group {
         this.agendaPrototype = agendaPrototype;
     }
 
+    @ViewLifecycleRestriction(UifConstants.ViewPhases.INITIALIZE)
+    @BeanTagAttribute(name = "rulePrototype", type = BeanTagAttribute.AttributeType.SINGLEBEAN)
     public Group getRulePrototype() {
         return rulePrototype;
     }

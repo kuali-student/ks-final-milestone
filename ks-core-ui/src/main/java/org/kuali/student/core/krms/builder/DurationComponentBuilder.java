@@ -29,6 +29,11 @@ import java.util.Map;
 public class DurationComponentBuilder implements ComponentBuilder<KSPropositionEditor> {
 
     @Override
+    public void initialize(KSPropositionEditor propositionEditor) {
+
+    }
+
+    @Override
     public List<String> getComponentIds() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }

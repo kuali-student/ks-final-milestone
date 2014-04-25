@@ -28,6 +28,7 @@
                            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 
     <!-- This context requires that a spring Transaction Manager named 'transactionManager' be defined -->
+    <import resource="classpath:ks-core-api-dictionary-file-locations.xml" />
     <import resource="classpath:ks-core-api-data-dictionary-validator-configuration.xml" />
 
     <bean id="ksCacheManager" class="net.sf.ehcache.CacheManager">

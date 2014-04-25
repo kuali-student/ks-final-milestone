@@ -162,7 +162,6 @@
 
     <bean id="acalServiceValidation" class="org.kuali.student.r2.core.acal.service.decorators.AcademicCalendarServiceValidationDecorator">
         <property name="nextDecorator" ref="acalServiceCalculation" />
-        <property name="dataDictionaryService" ref="dataDictionaryServiceForAcal" />
         <property name="validator" ref="validator" />
     </bean>
     -->

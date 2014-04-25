@@ -235,9 +235,12 @@ function ajaxCallPropositionTree(controllerMethod, collectionGroupId) {
     retrieveComponent(collectionGroupId, controllerMethod, actionRevealCallBack, {selectedItemInputName: selectedItemId});
 }
 
-function ajaxCallPropositionTypeUpdate(dropDown, controllerMethod, collectionGroupId) {
+function ajaxCallPropositionTypeUpdate(dropDown, controllerMethod) {
     handleEditNodeClick(jq(dropDown).closest('li'));
-    ajaxCallPropositionTree(controllerMethod, collectionGroupId);
+    jq('.detailSection').each(function () {
+        var collectionGroupId = this.id;
+        ajaxCallPropositionTree(controllerMethod, collectionGroupId);
+    });
 }
 
 function ajaxCallOnTabSelect(event, ui, editwithgroup, editwithlogic, controllerMethod, logicAreaField) {

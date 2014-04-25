@@ -25,7 +25,7 @@
     <bean parent="KS-Uif-InputField-LabelTop"  id="KS-KitchenSink-TextField-Example1">
         <property name="propertyName" value="stringField1"/>
         <property name="label" value="Field Label"/>
-        <!-- the following two properties are the default for Uif-InputField-LabelTop:
+        <!-- the following two properties are the default for KS-Uif-InputField-LabelTop:
             <property name="labelPlacement" value="TOP"/>
             <property name="fieldLabel.renderColon" value="false"/>
         -->

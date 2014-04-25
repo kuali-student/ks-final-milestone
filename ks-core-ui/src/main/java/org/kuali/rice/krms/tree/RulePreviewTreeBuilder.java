@@ -76,12 +76,13 @@ public class RulePreviewTreeBuilder extends AbstractTreeBuilder{
             newNode.setNodeType(KRMSConstants.NODE_TYPE_SUBRULEELEMENT);
             addNodeType(newNode, KRMSConstants.NODE_TYPE_VIEWELEMENT);
 
-            TreeNode tNode = null;
+            String data = null;
+            boolean compound = false;
             if (PropositionType.SIMPLE.getCode().equalsIgnoreCase(prop.getPropositionTypeCode())) {
-                tNode = new TreeNode(this.buildNodeLabel(prop));
+                data = this.buildNodeLabel(prop);
             } else if (PropositionType.COMPOUND.getCode().equalsIgnoreCase(prop.getPropositionTypeCode())) {
-                tNode = new TreeNode(this.getDescription(prop));
-                tNode.setCompound(true);
+                data = this.getDescription(prop);
+                compound = true;
                 boolean first = true;
                 for (PropositionEditor child : prop.getCompoundEditors()) {
                     // add an opcode node in between each of the children.
@@ -98,12 +99,16 @@ public class RulePreviewTreeBuilder extends AbstractTreeBuilder{
                 }
             }
 
-            tNode.setListItems(this.getListItems(prop));
-            newNode.setData(tNode);
-            tNode.setKey(prop.getKey());
+            newNode.setData(this.createTreeNode(rule, data, prop, compound));
             currentNode.getChildren().add(newNode);
 
         }
+    }
+
+    public TreeNode createTreeNode(RuleEditor rule, String data, PropositionEditor prop, boolean compound){
+        TreeNode tNode = new TreeNode(data);
+        tNode.setKey(prop.getKey());
+        return tNode;
     }
 
     @Override
@@ -118,7 +123,4 @@ public class RulePreviewTreeBuilder extends AbstractTreeBuilder{
         return null;
     }
 
-    public List<Object> getListItems(PropositionEditor propositionEditor) {
-        return null;
-    }
 }
