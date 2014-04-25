@@ -43,7 +43,6 @@
         <property name="id" value="createCourseInitialView"/>
         <property name="headerText"  value="Create Course " />
         <property name="formClass" value="org.kuali.student.cm.course.form.CourseInitialForm"/>
-        <property name="viewHelperServiceClass" value="org.kuali.student.cm.course.service.impl.CourseInfoMaintainableImpl" />
         <property name="viewSourceFile" value="CreateCourseInitialView.xml" /> <!-- Shows up in HTML so devs can find the code -->
         <property name="items">
             <list>
@@ -119,7 +118,7 @@
                       p:propertyName="useReviewProcess" p:bindingInfo.bindToForm="true"
                       p:required="false">
                     <property name="control">
-                        <bean parent="KS-Uif-CheckboxControl" p:style="margin-left: 6px;"/>
+                        <bean parent="KS-Uif-CheckboxControl" p:style="margin-left: 6px;" p:checkboxLabel="Use curriculum review process"/>
                     </property>
                 </bean>
             </list>

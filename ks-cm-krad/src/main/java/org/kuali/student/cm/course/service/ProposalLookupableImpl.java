@@ -107,14 +107,13 @@ public class ProposalLookupableImpl extends KSLookupableImpl {
         return proposalInfos;
     }
 
-    public List<ProposalInfo> resolveProposalSearchResultSet(SearchResultInfo searchResult) {
+    protected List<ProposalInfo> resolveProposalSearchResultSet(SearchResultInfo searchResult) throws Exception {
         List<ProposalInfo> proposals = new ArrayList<ProposalInfo>();
         List<SearchResultRowInfo> rows = searchResult.getRows();
         List<String> proposalIds = new ArrayList<String>();
 
         for (SearchResultRowInfo row : rows) {
             List<SearchResultCellInfo> cells = row.getCells();
-            ProposalInfo proposalInfo = new ProposalInfo();
             for (SearchResultCellInfo cell : cells) {
                 if (cell.getKey().equals(PROPOSAL_ID_KEY)) {
                     proposalIds.add(cell.getValue());
@@ -123,13 +122,9 @@ public class ProposalLookupableImpl extends KSLookupableImpl {
         }
 
         if (!proposalIds.isEmpty()){
-            try {
-                proposals = getProposalService().getProposalsByIds(proposalIds,ContextUtils.getContextInfo());
-                populateProposalCreatorName(proposals);
-                populateProposalAllowedActions(proposals);
-            } catch (Exception e) {
-                throw new RuntimeException("Error searching for proposal",e);
-            }
+            proposals = getProposalService().getProposalsByIds(proposalIds,ContextUtils.getContextInfo());
+            populateProposalCreatorName(proposals);
+            populateProposalAllowedActions(proposals);
         }
 
         return Collections.unmodifiableList(proposals);

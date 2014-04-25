@@ -887,7 +887,6 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             courseInfoWrapper.getCourseJointWrappers().add(new CourseJointInfoWrapper());
         }
 
-
         if (requestParameters.get(CourseController.URL_PARAM_USE_CURRICULUM_REVIEW) != null &&
                 requestParameters.get(CourseController.URL_PARAM_USE_CURRICULUM_REVIEW).length != 0) {
             Boolean isUseReviewProcess = BooleanUtils.toBoolean(requestParameters.get(CourseController.URL_PARAM_USE_CURRICULUM_REVIEW)[0]);
@@ -949,8 +948,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             }
 
             return;
-        }
-        if (StringUtils.endsWith(collectionPath, "formats")) {
+        } else if (StringUtils.endsWith(collectionPath, "courseInfo.formats")) {
             FormatInfo format = new FormatInfo();
             ActivityInfo activity = new ActivityInfo();
             format.getActivities().add(activity);
@@ -1042,7 +1040,9 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         reviewData.getCourseSection().setTranscriptTitle(savedCourseInfo.getTranscriptTitle());
         reviewData.getCourseSection().setSubjectArea(savedCourseInfo.getSubjectArea());
         reviewData.getCourseSection().setCourseNumberSuffix(savedCourseInfo.getCourseNumberSuffix());
-        reviewData.getCourseSection().setDescription(savedCourseInfo.getDescr().getPlain());
+        if (savedCourseInfo.getDescr() != null) {
+            reviewData.getCourseSection().setDescription(savedCourseInfo.getDescr().getPlain());
+        }
         if (proposalInfo.getRationale() != null) {
             reviewData.getCourseSection().setRationale(proposalInfo.getRationale().getPlain());
         }
@@ -1183,7 +1183,6 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
                 }
 
-
                 ActivityInfoWrapper activityInfoWrapper = new ActivityInfoWrapper(anticipatedClassSize, activityType, durationCount, contactHours);
                 activityInfoWrapperList.add(activityInfoWrapper);
             }
@@ -1200,7 +1199,9 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         reviewData.getActiveDatesSection().setEndTerm(getTermDesc(courseInfoWrapper.getCourseInfo().getEndTerm()));
         reviewData.getActiveDatesSection().setPilotCourse(BooleanUtils.toStringYesNo(courseInfoWrapper.getCourseInfo().isPilotCourse()));
 
-        reviewData.getFinancialsSection().setJustificationOfFees(savedCourseInfo.getFeeJustification().getPlain());
+        if (savedCourseInfo.getFeeJustification() != null) {
+            reviewData.getFinancialsSection().setJustificationOfFees(savedCourseInfo.getFeeJustification().getPlain());
+        }
 
         // update learning Objectives Section;
         // update  course Requisites Section;
@@ -1712,6 +1713,9 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
      * @return The user name of the instructor.
      */
     protected String getInstructorSearchString(String displayName) {
+        if (displayName == null) {
+            return StringUtils.EMPTY;
+        }
         String searchString = "";
         if (displayName.contains("(") && displayName.contains(")")) {
             searchString = displayName.substring(displayName.lastIndexOf('(') + 1, displayName.lastIndexOf(')'));
@@ -1775,7 +1779,6 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             }
 
             for (CluInstructorInfo instructorInfo : course.getInstructors()) {
-                CluInstructorInfoWrapper instructorInfoWrapper = new CluInstructorInfoWrapper();
                 dataObject.getInstructorWrappers().addAll(getInstructorsById(instructorInfo.getPersonId()));
             }
 
