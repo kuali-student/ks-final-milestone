@@ -294,7 +294,7 @@ public class ReviewProposalDisplay {
          * @return An empty String if no formats have been defined. Otherwise, returns some text.
          */
         public String getEmptyStringFormats() {
-          return formatInfoWrappers.isEmpty() ? "" : "Has Formats";
+            return formatInfoWrappers.isEmpty() ? "" : "Has Formats";
         }
 
         public List<String> getTerms() {
@@ -346,6 +346,17 @@ public class ReviewProposalDisplay {
 
         public void setTimeQuantity(Integer timeQuantity) {
             this.timeQuantity = timeQuantity;
+        }
+
+        public String getDurationDisplay() {
+            String quatity = StringUtils.EMPTY;
+            if (timeQuantity != null && timeQuantity.intValue() > 0) {
+                quatity = timeQuantity.toString() + CurriculumManagementConstants.COLLECTION_ITEMS_WHITESPACE_DELIMITER;
+            } else {
+                return null;
+            }
+
+            return quatity + atpDurationType + CurriculumManagementConstants.COLLECTION_ITEM_PLURAL_END;
         }
 
         public void setPassFail(String passFail) {

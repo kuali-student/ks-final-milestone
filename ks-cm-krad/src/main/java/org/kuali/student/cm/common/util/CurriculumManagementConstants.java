@@ -108,6 +108,7 @@ public class CurriculumManagementConstants {
         public final static String ERROR_COURSE_TITLE_REQUIRED = "error.course.title.required";
         public final static String ERROR_PROPOSAL_TITLE_REQUIRED = "error.proposal.title.required";
         public final static String ERROR_COURSE_DURATION_COUNT_REQUIRED = "error.course.duration.count.required";
+        public final static String ERROR_COURSE_VERSION_CODE_AND_TITLE_REQUIRED = "error.course.version.code.and.title.required";
 
         public final static String UNABLE_TO_ADD_LINE = "unable.to.add.line";
         public final static String UNABLE_TO_DELETE_LINE = "unable.to.delete.line";
@@ -142,4 +143,6 @@ public class CurriculumManagementConstants {
      */
     public static String COLLECTION_ITEMS_DELIMITER = "; ";
     public static String COLLECTION_ITEMS_NEWLINE_DELIMITER = "\n";
+    public static String COLLECTION_ITEMS_WHITESPACE_DELIMITER = " ";
+    public static String COLLECTION_ITEM_PLURAL_END = "(s)";
 }

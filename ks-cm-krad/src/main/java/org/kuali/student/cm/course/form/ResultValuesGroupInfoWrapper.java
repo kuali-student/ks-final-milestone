@@ -29,20 +29,12 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 public class ResultValuesGroupInfoWrapper extends ResultValuesGroupInfo{
     
     private static final long serialVersionUID = 8595074563846388089L;
-    private List<ResultValueKeysWrapper> resultValueKeysDisplay;
 
+    private CreateCourseUIHelper uiHelper;
     private ResultValuesGroupInfo resultValuesGroupInfo;
-    
+
     public ResultValuesGroupInfoWrapper() {
-        this.resultValueKeysDisplay = new ArrayList<ResultValueKeysWrapper>();
-    }
-
-    public List<ResultValueKeysWrapper> getResultValueKeysDisplay() {
-        return resultValueKeysDisplay;
-    }
-
-    public void setResultValueKeysDisplay(List<ResultValueKeysWrapper> resultValueKeysDisplay) {
-        this.resultValueKeysDisplay = resultValueKeysDisplay;
+        this.uiHelper = new CreateCourseUIHelper();
     }
 
     public ResultValuesGroupInfo getResultValuesGroupInfo() {
@@ -52,4 +44,33 @@ public class ResultValuesGroupInfoWrapper extends ResultValuesGroupInfo{
     public void setResultValuesGroupInfo(ResultValuesGroupInfo resultValuesGroupInfo) {
         this.resultValuesGroupInfo = resultValuesGroupInfo;
     }
+
+    public CreateCourseUIHelper getUiHelper() {
+        return uiHelper;
+    }
+
+    public void setUiHelper(CreateCourseUIHelper uiHelper) {
+        this.uiHelper = uiHelper;
+    }
+
+    /**
+     * Helper class to handle result value at the ui.
+     */
+    public class CreateCourseUIHelper {
+
+        /**
+         * Maintain a single property to store fixed, multiple and range result value group types.
+         */
+        private String resultValue;
+
+        public String getResultValue() {
+                return resultValue;
+            }
+
+        public void setResultValue(String resultValue) {
+                this.resultValue = resultValue;
+        }
+
+    }
+
 }

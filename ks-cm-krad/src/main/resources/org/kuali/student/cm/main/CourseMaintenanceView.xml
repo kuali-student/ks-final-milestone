@@ -97,6 +97,13 @@
         </property>
     </bean>
 
+    <bean id="ActivityInfo.typeKey-override" parent="DataDictionaryBeanOverride">
+        <property name="beanName" value="ActivityInfo.typeKey" />
+        <property name="fieldOverrides">
+            <bean parent="DDValueReplacer-Enroute" />
+        </property>
+    </bean>
+
 
     <!--
         Per property overrides for workflow doc state P (Processed).
@@ -117,6 +124,7 @@
                 <property name="value">
                     <bean parent="SimpleConstraint">
                         <property name="maxLength" value="3" />
+                        <property name="minLength" value="3" />
                         <property name="required" value="false" />
                         <property name="states">
                             <list>
@@ -127,6 +135,7 @@
                             <list>
                                 <bean parent="RequiredConstraint">
                                     <property name="maxLength" value="3" />
+                                    <property name="minLength" value="3" />
                                     <property name="states">
                                         <list>
                                             <value>P</value>
@@ -164,7 +173,7 @@
         <property name="breadcrumbOptions.breadcrumbOverrides">
             <list>
                 <ref bean="KS-HomewardPathBreadcrumbs-ProposalName"/>
-                <ref bean="KS-HomewardPathBreadcrumbs-CreateCourseInitial-Page"/>
+                <ref bean="KS-HomewardPathBreadcrumbs-CreateCourse"/>
             </list>
         </property>
         <property name="header.id" value="KS-CourseView-Header"/>
@@ -242,6 +251,10 @@
 
     <bean id="KS-HomewardPathBreadcrumbs-ProposalName" parent="Uif-BreadcrumbItem">
         <property name="label" value="@{#uiHelper.headerText}"></property>
+    </bean>
+
+    <bean id="KS-HomewardPathBreadcrumbs-CreateCourse" parent="Uif-BreadcrumbItem">
+        <property name="label" value="Create Course"></property>
     </bean>
 
     <!--
