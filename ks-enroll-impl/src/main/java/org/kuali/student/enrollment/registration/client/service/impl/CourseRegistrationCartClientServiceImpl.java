@@ -19,6 +19,7 @@ import org.kuali.student.enrollment.registration.client.service.dto.ActivityOffe
 import org.kuali.student.enrollment.registration.client.service.dto.CartItemResult;
 import org.kuali.student.enrollment.registration.client.service.dto.CartResult;
 import org.kuali.student.enrollment.registration.client.service.dto.CourseSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.InstructorSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.Link;
 import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.RegistrationOptionResult;
@@ -563,7 +564,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
      * @throws OperationFailedException
      * @throws InvalidParameterException
      */
-    private CartResult getCartForUserAndTerm(String userId, String termId, String cartIdParam, String cartItemIdParam, boolean populateOptions, ContextInfo contextInfo) throws OperationFailedException, InvalidParameterException {
+    private CartResult getCartForUserAndTerm(String userId, String termId, String cartIdParam, String cartItemIdParam, boolean populateOptions, ContextInfo contextInfo) throws OperationFailedException, InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException {
         //Create a search request that finds cart information for a given user and term, or alternatively for a single specific cart item.
         SearchRequestInfo searchRequest = new SearchRequestInfo(CourseRegistrationSearchServiceImpl.REG_CART_BY_PERSON_TERM_SEARCH_TYPE.getKey());
         searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.ATP_ID, termId);
@@ -606,6 +607,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
             String courseId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.COURSE_ID);
             String rgCode = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.RG_CODE);
             String rgId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.RG_ID);
+            String aoId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_ID);
             String aoName = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_NAME);
             String aoType = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_TYPE);
             //String courseDescription = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_DESC);
@@ -645,7 +647,9 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
             //Check if this is a new AO and create a new object if so
             if (!lastAoName.equals(aoName)) {
                 aoSched = new ActivityOfferingScheduleResult();
-                aoSched.setActivityOfferingType(aoType.substring(aoType.lastIndexOf(".") + 1, aoType.lastIndexOf(".") + 4).toUpperCase());
+                aoSched.setActivityOfferingId(aoId);
+                String aoTypeName = aoType.substring(aoType.lastIndexOf(".") + 1);
+                aoSched.setActivityOfferingType(aoTypeName.length() >= 3 ? aoTypeName.substring(0, 1).toUpperCase() + aoTypeName.substring(1).toLowerCase() : "");
                 currentCartItem.getSchedule().add(aoSched);
             }
 
@@ -664,8 +668,13 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
 
             ScheduleTimeResult scheduleTimeResult = new ScheduleTimeResult();
             scheduleTimeResult.setDays(CourseRegistrationAndScheduleOfClassesUtil.dayDisplayHelper(weekdays));
-            scheduleTimeResult.setStartTime(StringUtils.isEmpty(startTimeMs) ? "" : TimeOfDayHelper.formatTimeOfDay(TimeOfDayHelper.setMillis(Long.valueOf(startTimeMs))));
-            scheduleTimeResult.setEndTime(StringUtils.isEmpty(endTimeMs) ? "" : TimeOfDayHelper.formatTimeOfDay(TimeOfDayHelper.setMillis(Long.valueOf(endTimeMs))));
+            String startTime = StringUtils.isEmpty(startTimeMs) ? "" : TimeOfDayHelper.formatTimeOfDay(TimeOfDayHelper.setMillis(Long.valueOf(startTimeMs)));
+            String endTime = StringUtils.isEmpty(endTimeMs) ? "" : TimeOfDayHelper.formatTimeOfDay(TimeOfDayHelper.setMillis(Long.valueOf(endTimeMs)));
+            scheduleTimeResult.setStartTime(startTime);
+            scheduleTimeResult.setEndTime(endTime);
+            if (!StringUtils.isEmpty(startTime) && !StringUtils.isEmpty(endTime)) {
+                scheduleTimeResult.setDisplayTime(startTime.substring(0, startTime.length() - 3) + "-" + endTime.substring(0, endTime.length() - 3) + endTime.substring(endTime.length() - 2).toLowerCase());
+            }
             locationTimeResult.setTime(scheduleTimeResult);
 
             aoSched.getActivityOfferingLocationTime().add(locationTimeResult);
@@ -683,6 +692,20 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
         cartResult.setCartId(lastCartId);
         cartResult.setTermId(termId);
         cartResult.setState(lastCartState);
+
+        //Populating instructors for AOs
+        for (CartItemResult cartItemResult : cartResult.getItems()) {
+            List<String> aoIds = new ArrayList<String>();
+            for (ActivityOfferingScheduleResult aoScheduleResult : cartItemResult.getSchedule()) {
+                aoIds.add(aoScheduleResult.getActivityOfferingId());
+            }
+            Map<String, List<InstructorSearchResult>> hmAOInstructors = CourseRegistrationAndScheduleOfClassesUtil.searchForInstructorsByAoIds(aoIds, contextInfo);
+            for (ActivityOfferingScheduleResult aoScheduleResult : cartItemResult.getSchedule()) {
+                if (hmAOInstructors.containsKey(aoScheduleResult.getActivityOfferingId())) {
+                    aoScheduleResult.setInstructors(hmAOInstructors.get(aoScheduleResult.getActivityOfferingId()));
+                }
+            }
+        }
 
         return cartResult;
     }

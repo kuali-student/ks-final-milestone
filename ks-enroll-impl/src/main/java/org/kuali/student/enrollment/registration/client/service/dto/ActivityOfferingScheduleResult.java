@@ -9,10 +9,17 @@ import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ActivityOfferingLocationTimeResult", propOrder = {
-        "activityOfferingType", "activityOfferingLocationTime"})
+        "activityOfferingId", "activityOfferingType", "activityOfferingLocationTime", "instructors"})
 public class ActivityOfferingScheduleResult {
+
+    private String activityOfferingId;
     private String activityOfferingType;
     private List<ActivityOfferingLocationTimeResult> activityOfferingLocationTime;
+    private List<InstructorSearchResult> instructors;
+
+    public String getActivityOfferingId() { return activityOfferingId; }
+
+    public void setActivityOfferingId(String activityOfferingId) { this.activityOfferingId = activityOfferingId; }
 
     public String getActivityOfferingType() {
         return activityOfferingType;
@@ -32,4 +39,16 @@ public class ActivityOfferingScheduleResult {
     public void setActivityOfferingLocationTime(List<ActivityOfferingLocationTimeResult> activityOfferingLocationTime) {
         this.activityOfferingLocationTime = activityOfferingLocationTime;
     }
+
+    public List<InstructorSearchResult> getInstructors() {
+        if (instructors == null) {
+            instructors = new ArrayList<InstructorSearchResult>();
+        }
+        return instructors;
+    }
+
+    public void setInstructors(List<InstructorSearchResult> instructors) {
+        this.instructors = instructors;
+    }
+
 }

@@ -749,6 +749,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                 "    co.ID                     courseId, " +
                 "    rg.NAME                   rgName, " +
                 "    rg.ID                     rgId, " +
+                "    ao.ID                     aoId, " +
                 "    ao.NAME                   aoName, " +
                 "    ao.LUI_TYPE               luiType, " +
                 "    coId.LNG_NAME             coTitle, " +
@@ -854,6 +855,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             row.addCell(SearchResultColumns.COURSE_ID, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.RG_CODE, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.RG_ID, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.AO_ID, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.AO_NAME, (String) resultRow[i++]);
 //            row.addCell(SearchResultColumns.LUI_DESC, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.AO_TYPE, (String) resultRow[i++]);

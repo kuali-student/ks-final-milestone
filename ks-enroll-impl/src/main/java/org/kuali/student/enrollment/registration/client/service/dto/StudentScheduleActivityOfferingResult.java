@@ -8,7 +8,7 @@ import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "StudentScheduleActivityOfferingResult", propOrder = {
-        "activityOfferingId", "activityOfferingTypeName", "activityOfferingType", "scheduleComponents"})
+        "activityOfferingId", "activityOfferingTypeName", "activityOfferingType", "scheduleComponents", "instructors"})
 public class StudentScheduleActivityOfferingResult {
     private String activityOfferingId;
     private String activityOfferingTypeName;
