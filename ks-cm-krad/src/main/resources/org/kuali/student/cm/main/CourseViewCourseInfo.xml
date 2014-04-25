@@ -384,7 +384,7 @@
                                     </bean>
                                 </property>
                                 <property name="quickfinder">
-                                    <bean parent="Uif-QuickFinder" p:lightBoxLookup.lookupReturnByScript="true">
+                                    <bean parent="Uif-QuickFinder" p:returnByScript="true">
                                         <property name="dataObjectClassName" value="org.kuali.student.cm.course.form.CourseJointInfoWrapper"/>
                                         <property name="fieldConversions">
                                             <map>
