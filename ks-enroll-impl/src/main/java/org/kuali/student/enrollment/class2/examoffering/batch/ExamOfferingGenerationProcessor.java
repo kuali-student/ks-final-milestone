@@ -41,8 +41,8 @@ public class ExamOfferingGenerationProcessor implements
      * @see org.springframework.batch.item.ItemProcessor#process(Object)
      */
     public ExamOfferingResult process(CourseOfferingInfo courseOfferingInfo) throws Exception {
-        return examOfferingServiceFacade.generateFinalExamOffering(courseOfferingInfo, new ArrayList<String>(),
-                ContextUtils.createDefaultContextInfo());
+        return examOfferingServiceFacade.generateFinalExamOffering(courseOfferingInfo, courseOfferingInfo.getTermId(),null,
+                new ArrayList<String>(), ContextUtils.createDefaultContextInfo());
     }
 
     public ExamOfferingServiceFacade getExamOfferingServiceFacade() {

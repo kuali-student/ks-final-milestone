@@ -32,7 +32,6 @@ import org.kuali.student.enrollment.class2.courseoffering.service.facade.issue.F
 import org.kuali.student.enrollment.class2.courseoffering.service.facade.issue.InvalidRegGroupSubissue;
 import org.kuali.student.enrollment.class2.courseoffering.service.facade.issue.RegGroupNotGeneratedByAocSubissue;
 import org.kuali.student.enrollment.class2.coursewaitlist.service.facade.CourseWaitListServiceFacade;
-import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingContext;
 import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingResult;
 import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingServiceFacade;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
@@ -394,6 +393,12 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
 
         ActivityOfferingResult aoResult = _addActivityOfferingToClusterCommon(created, cluster, context);
 
+        //generate final exam offerings if the exam period exists
+        FormatOfferingInfo fo = getCoService().getFormatOffering(aoInfo.getFormatOfferingId(), context);
+        CourseOfferingInfo co = getCoService().getCourseOffering(fo.getCourseOfferingId(), context);
+        aoResult.setExamOfferingResult(this.getExamOfferingServiceFacade().generateFinalExamOfferingForAO(co, created,
+                aoInfo.getTermId(), fo.getFinalExamLevelTypeKey(), new ArrayList<String>(), context));
+
         //create and persist a WaitlistInfo for AO
         CourseWaitListInfo theWaitListInfo = getWaitListServiceFacade().createDefaultCourseWaitlist(created, context);
 
@@ -477,6 +482,13 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
         }
 
         ActivityOfferingResult aoResult = _addActivityOfferingToClusterCommon(copyAoInfo, cluster, context);
+
+        //create if Final Exam Driver has been selected for the FO
+        FormatOfferingInfo fo = getCoService().getFormatOffering(copyAoInfo.getFormatOfferingId(), context);
+        CourseOfferingInfo co = getCoService().getCourseOffering(fo.getCourseOfferingId(), context);
+        ExamOfferingResult result = this.getExamOfferingServiceFacade().generateFinalExamOfferingForAO(co, copyAoInfo, copyAoInfo.getTermId(),
+                fo.getFinalExamLevelTypeKey(), new ArrayList<String>(), context);
+        aoResult.setExamOfferingResult(result);
 
         return aoResult;
     }

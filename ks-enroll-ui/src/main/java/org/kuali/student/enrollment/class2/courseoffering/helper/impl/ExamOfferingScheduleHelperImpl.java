@@ -33,7 +33,6 @@ import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingMan
 import org.kuali.student.enrollment.class2.courseoffering.helper.ExamOfferingScheduleHelper;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.ExamOfferingConstants;
-import org.kuali.student.enrollment.class2.courseoffering.util.ExamOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseofferingset.util.CourseOfferingSetUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -375,7 +374,7 @@ public class ExamOfferingScheduleHelperImpl implements ExamOfferingScheduleHelpe
 
         List<Integer> days = scheduleWrapper.getTimeSlot().getWeekdays();
         if (days != null && days.size() > 0) {
-            scheduleWrapper.setDaysUI(ExamOfferingManagementUtil.examPeriodDaysDisplay(days, examPeriodWrapper));
+            scheduleWrapper.setDaysUI(CourseOfferingManagementUtil.examPeriodDaysDisplay(days, examPeriodWrapper));
             scheduleWrapper.setDayInExamPeriod(KSCollectionUtils.getOptionalZeroElement(days).toString());
         }
     }

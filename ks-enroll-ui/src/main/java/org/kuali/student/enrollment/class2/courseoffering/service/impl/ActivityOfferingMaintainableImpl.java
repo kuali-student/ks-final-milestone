@@ -32,9 +32,7 @@ import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingC
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
-import org.kuali.student.enrollment.class2.courseoffering.util.ExamOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseofferingset.util.CourseOfferingSetUtil;
-import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingContext;
 import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingResult;
 import org.kuali.student.enrollment.class2.population.util.PopulationConstants;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
@@ -227,9 +225,10 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 }
 
                 if(generateEOs){
-                    ExamOfferingResult result = CourseOfferingManagementUtil.getExamOfferingServiceFacade().generateFinalExamOffering(
-                            ExamOfferingManagementUtil.createExamOfferingContext(activityOfferingWrapper.getAoInfo()), new ArrayList<String>(), contextInfo);
-                    ExamOfferingManagementUtil.processExamOfferingResultSetForAO(result);
+                    CourseOfferingInfo courseOfferingInfo = CourseOfferingManagementUtil.getCourseOfferingService().getCourseOffering(activityOfferingInfo.getCourseOfferingId(), contextInfo);
+                    ExamOfferingResult result = CourseOfferingManagementUtil.getExamOfferingServiceFacade().generateFinalExamOfferingForAO(courseOfferingInfo, activityOfferingWrapper.getAoInfo(),
+                        activityOfferingWrapper.getAoInfo().getTermId(), activityOfferingWrapper.getFormatOffering().getFinalExamLevelTypeKey(), new ArrayList<String>(), contextInfo);
+                    CourseOfferingManagementUtil.processExamOfferingResultSetForAO(result);
                 }
 
             } catch (Exception e) {

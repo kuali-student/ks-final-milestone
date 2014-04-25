@@ -38,9 +38,7 @@ import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingC
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
-import org.kuali.student.enrollment.class2.courseoffering.util.ExamOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseofferingset.util.CourseOfferingSetUtil;
-import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingContext;
 import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingResult;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -205,9 +203,9 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
 
             // generate exam offerings if exam period exists
             if (!StringUtils.isEmpty(coEditWrapper.getExamPeriodId())) {
-                ExamOfferingResult result = CourseOfferingManagementUtil.getExamOfferingServiceFacade().generateFinalExamOffering(
-                        ExamOfferingManagementUtil.createExamOfferingContext(coInfo, coEditWrapper.getExamPeriodId()), new ArrayList<String>(), contextInfo);
-                ExamOfferingManagementUtil.processExamOfferingResultSet(result);
+                ExamOfferingResult result = CourseOfferingManagementUtil.getExamOfferingServiceFacade().generateFinalExamOffering(coInfo,
+                        coInfo.getTermId(), coEditWrapper.getExamPeriodId(), new ArrayList<String>(), contextInfo);
+                CourseOfferingManagementUtil.processExamOfferingResultSet(result);
             }
 
             // check for changes to states in CO and related FOs (may happen in the case of deleted FOs)
@@ -306,9 +304,9 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
             this.updateFormatOfferings(coCreateWrapper);
             // generate exam offerings if exam period exists
             if (!StringUtils.isEmpty(coCreateWrapper.getExamPeriodId())) {
-                ExamOfferingResult result = CourseOfferingManagementUtil.getExamOfferingServiceFacade().generateFinalExamOffering(
-                        ExamOfferingManagementUtil.createExamOfferingContext(info, coCreateWrapper.getExamPeriodId()), new ArrayList<String>(), contextInfo);
-                ExamOfferingManagementUtil.processExamOfferingResultSet(result);
+                ExamOfferingResult result = CourseOfferingManagementUtil.getExamOfferingServiceFacade().generateFinalExamOffering(info,info.getTermId(),
+                        coCreateWrapper.getExamPeriodId(), new ArrayList<String>(), contextInfo);
+                CourseOfferingManagementUtil.processExamOfferingResultSet(result);
             }
 
             return info;

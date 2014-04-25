@@ -34,6 +34,7 @@ public class ActivityOfferingResult {
     private List<BulkStatusInfo> generatedRegistrationGroups;
     private BulkStatusInfo clusterstatus;
     private CourseWaitListInfo waitListInfo;
+    private ExamOfferingResult examOfferingResult;
 
     public ActivityOfferingResult() {
         clusterstatus = new BulkStatusInfo();
@@ -72,4 +73,11 @@ public class ActivityOfferingResult {
         this.waitListInfo = waitListInfo;
     }
 
+    public ExamOfferingResult getExamOfferingResult() {
+        return examOfferingResult;
+    }
+
+    public void setExamOfferingResult(ExamOfferingResult examOfferingResult) {
+        this.examOfferingResult = examOfferingResult;
+    }
 }

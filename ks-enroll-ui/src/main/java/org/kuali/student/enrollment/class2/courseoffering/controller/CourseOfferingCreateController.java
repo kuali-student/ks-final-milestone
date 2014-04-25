@@ -30,7 +30,6 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.JointCourseWrapper
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCreateMaintainableImpl;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
-import org.kuali.student.enrollment.class2.courseoffering.util.ExamOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.ManageSocConstants;
 import org.kuali.student.enrollment.class2.courseofferingset.util.CourseOfferingSetUtil;
 import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingResult;
@@ -399,9 +398,9 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
         KSUifUtils.getMessengerFromUserSession().addSuccessMessage(CourseOfferingConstants.COURSE_OFFERING_CREATE_SUCCESS, parameters);
 
         //Perform Exam Offering Generation directly from UI to get handel on result set that can be visible to user.
-        ExamOfferingResult eoResult = CourseOfferingManagementUtil.getExamOfferingServiceFacade().generateFinalExamOffering(courseOfferingInfo,
-                optionKeys, contextInfo);
-        ExamOfferingManagementUtil.processExamOfferingResultSet(eoResult);
+        ExamOfferingResult eoResult = CourseOfferingManagementUtil.getExamOfferingServiceFacade().generateFinalExamOfferingOptimized(courseOfferingInfo, courseOfferingInfo.getTermId(),
+                optionKeys, null, contextInfo);
+        CourseOfferingManagementUtil.processExamOfferingResultSet(eoResult);
 
         Properties urlParameters = new Properties();
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "show");

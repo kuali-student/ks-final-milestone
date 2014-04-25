@@ -141,7 +141,7 @@ public class CourseOfferingSetSchedulingRunner implements Runnable {
                 }
 
                 try {
-                    examOfferingServiceFacade.generateFinalExamOffering(coInfo, new ArrayList<String>(), contextInfo);
+                    examOfferingServiceFacade.generateFinalExamOffering(coInfo, coInfo.getTermId(), examOfferingServiceFacade.getExamPeriodId(coInfo.getTermId(), contextInfo), new ArrayList<String>(), contextInfo);
                     logger.info("Generating exam offerings for CO, id={} , coCode={}", coInfo.getId(), coInfo.getCourseOfferingCode());
                 } catch (DoesNotExistException ex) {
                     logger.error("", ex);
