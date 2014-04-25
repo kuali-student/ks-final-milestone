@@ -874,7 +874,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         if (courseInfoWrapper.getCollaboratorWrappers().isEmpty()) {
             courseInfoWrapper.getCollaboratorWrappers().add(new CollaboratorWrapper());
         }
-        // Initialize CrossListings
+        /* // Initialize CrossListings
         if (courseInfoWrapper.getCourseInfo().getCrossListings().isEmpty()) {
             courseInfoWrapper.getCourseInfo().getCrossListings().add(new CourseCrossListingInfo());
         }
@@ -887,6 +887,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             courseInfoWrapper.getCourseJointWrappers().add(new CourseJointInfoWrapper());
         }
 
+        */
         if (requestParameters.get(CourseController.URL_PARAM_USE_CURRICULUM_REVIEW) != null &&
                 requestParameters.get(CourseController.URL_PARAM_USE_CURRICULUM_REVIEW).length != 0) {
             Boolean isUseReviewProcess = BooleanUtils.toBoolean(requestParameters.get(CourseController.URL_PARAM_USE_CURRICULUM_REVIEW)[0]);
