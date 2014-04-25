@@ -164,9 +164,11 @@ public class LprServiceConstants {
     public static final String WAITLISTED_STATE_KEY = "kuali.lpr.state.waitlisted";
     public static final String DROPPED_STATE_KEY = "kuali.lpr.state.dropped.early";
     public static final String DROPPED_LATE_STATE_KEY = "kuali.lpr.state.dropped.late";
-
+    // To handle transition from "waitlist" to "registered"
+    public static final String RECEIVED_LPR_STATE_KEY = "kuali.lpr.state.received";
     // To handle updates (which causes the expiration date to be set).
     public static final String EXPIRED_LPR_STATE_KEY = "kuali.lpr.state.expired";
+
     /**
      * Instructor states
      */

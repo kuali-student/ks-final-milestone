@@ -511,7 +511,7 @@ public interface RoomService {
     /**
      * Retrieves a list of Buildings corresponding to the Campus id
      *
-     * @param campusKey    a unique Id of a Building
+     * @param campusId    a unique Id of a Building
      * @param contextInfo Context information containing the
      *                    principalId and locale information about the caller of
      *                    service operation
@@ -522,7 +522,7 @@ public interface RoomService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<String> getBuildingIdsByCampus(@WebParam(name = "campusKey") String campusKey, @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public List<String> getBuildingIdsByCampus(@WebParam(name = "campusId") String campusId, @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,

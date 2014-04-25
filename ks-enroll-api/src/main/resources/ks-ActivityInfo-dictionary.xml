@@ -49,7 +49,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 
 	<bean id="ActivityInfo.typeKey" parent="ActivityInfo.typeKey-parent"/>
 	<bean id="ActivityInfo.typeKey-parent" abstract="true" parent="ActivityInfo.typeKey-generated">
-	<!-- insert any overrides to the generated attribute definitions here -->
+	    <!-- insert any overrides to the generated attribute definitions here -->
+        <property name="required" value="true" />
 	</bean>
 
 	<bean id="ActivityInfo.stateKey" parent="ActivityInfo.stateKey-parent"/>

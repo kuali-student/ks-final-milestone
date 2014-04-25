@@ -2,6 +2,7 @@ package org.kuali.student.r2.common.util.constants;
 
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.messages.dto.MessageInfo;
+import org.kuali.student.r2.common.messages.service.MessageService;
 
 
 /**
@@ -17,5 +18,7 @@ public class MessageServiceConstants {
      */
     public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "message";
     public static final String REF_OBJECT_URI_MESSAGE = NAMESPACE + "/" + MessageInfo.class.getSimpleName();
+
+    public static final String SERVICE_NAME_LOCAL_PART = MessageService.class.getSimpleName();
 
 }

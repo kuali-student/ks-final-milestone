@@ -59,6 +59,7 @@ public class ExamOfferingServiceConstants {
     /////////////////
     public static final String EXAM_OFFERING_CREATED = "success.enroll.examoffering.finalexam.created";
     public static final String EXAM_OFFERING_UPDATED = "success.enroll.examoffering.finalexam.updated";
+    public static final String EXAM_OFFERING_UNCHANGED = "success.enroll.examoffering.finalexam.unchanged";
     public static final String EXAM_OFFERING_MATRIX_NOT_FOUND = "warning.enroll.examoffering.finalexam.matrix.not.found";
     public static final String EXAM_OFFERING_AO_MATRIX_MATCH_NOT_FOUND = "warning.enroll.examoffering.finalexam.ao.matrix.match.not.found";
     public static final String EXAM_OFFERING_CO_MATRIX_MATCH_NOT_FOUND = "warning.enroll.examoffering.finalexam.co.matrix.match.not.found";

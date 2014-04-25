@@ -19,17 +19,33 @@ import org.kuali.student.r2.common.constants.CommonServiceConstants;
 /**
  * Constant for the AcademicPlanService api
  *
- * @Author Kuali Student Team
+ * @Author Kuali Student Team  (ks-collab@kuali.org)
  * @version 1.0 (Dev)
  */
 public class AcademicPlanServiceConstants {
     public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "acadplan";
     public static final String SERVICE_NAME = "AcademicPlanService";
+    /**
+     * Namespaces
+     */
+    public static final String KS_AP_NAMESPACE = "KS-AP";
+
+
+    /**
+     * Attribute definition
+     */
+    public static final String SUBJECT_AREA_ATTR_DEFINITION = "subjectArea";
+    public static final String DEPARTMENT_ATTR_DEFINITION = "department";
+
+
+    public static final String EXEC_SERVICE_METHOD = "Exec ";
+
 
     public static final String LEARNING_PLAN_TYPE_PLAN = "kuali.academicplan.type.plan";
     public static final String LEARNING_PLAN_TYPE_PLAN_TEMPLATE = "kuali.academicplan.type.plan.template";
     public static final String LEARNING_PLAN_TYPE_PLAN_REVIEW = "kuali.academicplan.type.plan.review";
     public static final String LEARNING_PLAN_ACTIVE_STATE_KEY  = "kuali.academicplan.plan.state.active";
+    public static final String ADVISOR_AFFILIATION_TYPE_KEY = "ADVSR";
 
     public static enum ItemCategory {
         PLANNED, BACKUP, WISHLIST, WHATIF, CART, COMPLETE;

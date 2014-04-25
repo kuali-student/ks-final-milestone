@@ -50,7 +50,7 @@ import java.util.List;
  *      they are enrolled, or for which they may wish to consider in a "what if" planning scenario (e.g. when running
  *      degree audit)</li>
  * </ul>
- * @author Kuali Student Team
+ * @author Kuali Student Team (ks-collab@kuali.org)
  * @version 1.0 (Dev)
  */
 @WebService(name = "AcademicPlanService", serviceName = "AcademicPlanService", portName = "AcademicPlanService",
@@ -72,7 +72,8 @@ public interface AcademicPlanService {
      */
     public LearningPlanInfo getLearningPlan(@WebParam(name = "learningPlanId") String learningPlanId,
             @WebParam(name = "context") ContextInfo context)
-    throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+                   OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieve a set of learning plans that match the passed in list of plan ids
@@ -104,7 +105,8 @@ public interface AcademicPlanService {
      */
     public PlanItemInfo getPlanItem(@WebParam(name = "planItemId") String planItemId,
             @WebParam(name = "context") ContextInfo context)
-    throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+                   OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieve a list of plan items matching the passed in ids
@@ -118,7 +120,8 @@ public interface AcademicPlanService {
      */
     public List<PlanItemInfo> getPlanItemsByIds(@WebParam(name = "planItemIds") List<String> planItemIds,
             @WebParam(name = "context") ContextInfo context)
-    throws InvalidParameterException, MissingParameterException, OperationFailedException;
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+                   PermissionDeniedException;
 
     /**
      * Retrieve a list of plan items in a specific plan, by plan item type
@@ -134,7 +137,8 @@ public interface AcademicPlanService {
     public List<PlanItemInfo> getPlanItemsInPlanByType(@WebParam(name = "learningPlanId") String learningPlanId,
             @WebParam(name = "planItemTypeKey") String planItemTypeKey,
             @WebParam(name = "context") ContextInfo context)
-    throws InvalidParameterException, MissingParameterException, OperationFailedException;
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+                   PermissionDeniedException;
 
     /**
      * Retrieve a list of plan items in a specific plan, by item category
@@ -150,7 +154,8 @@ public interface AcademicPlanService {
     public List<PlanItemInfo> getPlanItemsInPlanByCategory(@WebParam(name = "learningPlanId") String learningPlanId,
             @WebParam(name = "category") AcademicPlanServiceConstants.ItemCategory category,
             @WebParam(name = "context") ContextInfo context)
-    throws InvalidParameterException, MissingParameterException, OperationFailedException;
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+                   PermissionDeniedException;
 
     /**
      * retrieve all items for the indicated plan
@@ -164,7 +169,8 @@ public interface AcademicPlanService {
      */
     public List<PlanItemInfo> getPlanItemsInPlan(@WebParam(name = "learningPlanId") String learningPlanId,
             @WebParam(name = "context") ContextInfo context)
-    throws InvalidParameterException, MissingParameterException, OperationFailedException;
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+                   PermissionDeniedException;
 
     /**
      * Retrieve a list of plan items that are planned for the indicated academic term and in the indicated category
@@ -184,7 +190,8 @@ public interface AcademicPlanService {
             @WebParam(name = "termId") String termId,
             @WebParam(name = "category") AcademicPlanServiceConstants.ItemCategory category,
             @WebParam(name = "context") ContextInfo context)
-    throws InvalidParameterException, MissingParameterException, OperationFailedException;
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+                   PermissionDeniedException;
 
     /**
      * Gets plan items for the indicated reference object id and reference object type
@@ -203,7 +210,8 @@ public interface AcademicPlanService {
             @WebParam(name = "refObjectId") String refObjectId,
             @WebParam(name = "refObjectType") String refObjectType,
             @WebParam(name = "context") ContextInfo context)
-    throws InvalidParameterException, MissingParameterException, OperationFailedException;
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+                   PermissionDeniedException;
 
     /**
      * Get learning plans for the indicated student and of the indicated plan type
@@ -220,7 +228,8 @@ public interface AcademicPlanService {
             @WebParam(name = "planTypeKey") String
                     planTypeKey,
             @WebParam(name = "context") ContextInfo context)
-    throws InvalidParameterException, MissingParameterException, OperationFailedException;
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+                   PermissionDeniedException;
 
     /**
      * create learning plan
@@ -348,7 +357,8 @@ public interface AcademicPlanService {
     public List<ValidationResultInfo> validateLearningPlan(@WebParam(name = "validationType") String validationType,
             @WebParam(name = "learningPlanInfo") LearningPlanInfo learningPlanInfo,
             @WebParam(name = "context") ContextInfo context)
-    throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+                   OperationFailedException, PermissionDeniedException;
 
     /**
      * validate the passed in plan item
@@ -365,6 +375,7 @@ public interface AcademicPlanService {
     public List<ValidationResultInfo> validatePlanItem(@WebParam(name = "validationType") String validationType,
             @WebParam(name = "planItemInfo") PlanItemInfo planItemInfo,
             @WebParam(name = "context") ContextInfo context)
-    throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
-            AlreadyExistsException;
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+                   OperationFailedException,
+                   AlreadyExistsException, PermissionDeniedException;
 }
