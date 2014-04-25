@@ -36,12 +36,15 @@
              under the view header.
              -->
 
+        <!-- Rice 2.4 Upgrade - ValidationMessages now extend UifDictionaryBeanBase which has no id or onDocumentReadyScript
+         TODO: KSCM-2000 Required Message Changes
         <property name="validationMessages.id" value="review_course_validation_messages"/>
         <property name="validationMessages.onDocumentReadyScript">
             <value>jQuery('#review_course_validation_messages').css({'position':'fixed', 'top':'300px', 'left':'200px',
                 'z-index':'-1'});
             </value>
         </property>
+        -->
 
         <!-- Initialize the page -->
         <property name="onDocumentReadyScript" value="onProposalReviewLoad();"/>
@@ -143,6 +146,7 @@
             </bean>
         </property>
         <!-- Rice 2.4 Upgrade: we can no longer customize the location of the required message
+         TODO: KSCM-2000 Required Message Changes
         <property name="fieldLabel.requiredMessagePlacement" value="LEFT"/>
         -->
     </bean>

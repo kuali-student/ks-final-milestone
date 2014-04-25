@@ -16,7 +16,7 @@
             <list>
                 <bean parent="Uif-KS-IconInputField-LabelTop" p:propertyName="courseInfo.startTerm" p:label="Start Term">
                     <!-- Rice 2.4 upgrade : removing fieldLabel.requiredMessage -->
-<!--
+<!--                TODO: KSCM-2000 Required Message Changes
                     <property name="fieldLabel.requiredMessage">
                         <bean parent="CM-StateAware-RequiredMessage" />
                     </property>

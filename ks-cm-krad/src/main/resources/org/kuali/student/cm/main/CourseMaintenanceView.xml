@@ -262,7 +262,8 @@
         This can be used for any input (not just required ones) because it doesn't get displayed unless requiredness
         in simpleConstraint is turned on for the field.
     -->
-    <!-- Rice 2.4 upgrade : Uif-RequiredMessage was replaced by requiredIndicator" -->
+    <!-- Rice 2.4 upgrade : Uif-RequiredMessage was replaced by requiredIndicator" TODO: KSCM-2000 Required Message Changes -->
+
 <!--
     <bean id="CM-StateAware-RequiredMessage" parent="CM-StateAware-RequiredMessage-parent" abstract="true" />
     <bean id="CM-StateAware-RequiredMessage-parent" parent="Uif-RequiredMessage"  abstract="true">

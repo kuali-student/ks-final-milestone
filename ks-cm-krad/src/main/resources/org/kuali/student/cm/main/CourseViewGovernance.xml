@@ -67,7 +67,7 @@
             <bean parent="Uif-VerticalBoxGroup">
                 <property name="items">
                     <list>
-                        <!-- Rice 2.4 upgrade : removing commented out bean -->
+                        <!-- Rice 2.4 upgrade : removing commented out bean TODO: KSCM-2000 Required Message Changes -->
                         <!--<bean parent="CM-StateAware-RequiredMessage" />-->
                     </list>
                 </property>

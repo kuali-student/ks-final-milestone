@@ -126,7 +126,7 @@
                             </property>
                         </bean>
                     </property>
-                    <!-- Rice 2.4 upgrade : removing fieldLabel.requiredMessage -->
+                    <!-- Rice 2.4 upgrade : removing fieldLabel.requiredMessage TODO: KSCM-2000 Required Message Changes -->
 <!--
                     <property name="fieldLabel.requiredMessage">
                         <bean parent="CM-StateAware-RequiredMessage" />
@@ -182,7 +182,7 @@
                             </property>
                         </bean>
                     </property>
-                    <!-- Rice 2.4 upgrade : removing fieldLabel.requiredMessage -->
+                    <!-- Rice 2.4 upgrade : removing fieldLabel.requiredMessage TODO: KSCM-2000 Required Message Changes -->
 <!--
                     <property name="fieldLabel.requiredMessage">
                         <bean parent="CM-StateAware-RequiredMessage" />

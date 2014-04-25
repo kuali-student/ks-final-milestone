@@ -66,15 +66,15 @@ public class KSIconLabelMessage extends Message {
             String label = "";
 
             if (parent instanceof Label){
-
-                label = ((Label)parent).getLabelText() + " [0] [1]";
-                ((Label)parent).setLabelText(label);
-
+                label = ((Label) parent).getLabelText();
                 /**
-                 * Reference the Label's required message component as inline component.
+                 * Rice 2.4 Upgrade: alteration made here TODO: KSCM-2000 Required Message Changes
+                 *
+                 * Manually add in the required indicator (is this necessary now?)
                  */
-                // rice 2.4 upgrade: label does not have requiredMessage any more
-//                getInlineComponents().add(0, ((Label) parent).getRequiredMessage());
+//                Label parentObject = (Label)parent;
+//                label = parentObject.getLabelText() + " " + parentObject.getRequiredIndicator() + " [0]";
+//                parentObject.setLabelText(label);
 
             } else if (parent instanceof Header){
                 label =  ((Header)parent).getHeaderText();
@@ -116,7 +116,7 @@ public class KSIconLabelMessage extends Message {
                  * Hide the Label's required message component. it's not needed to be displayed
                  * as the Label's inline component will be displaying that.
                  */
-                // rice 2.4 upgrade: label does not have requiredMessage any more
+                // rice 2.4 upgrade: label does not have requiredMessage any more TODO: KSCM-2000 Required Message Changes
 /*
                 Message copy = ComponentUtils.copy(((Label) parent).getRequiredMessage());
                 ((Label) parent).setRequiredMessage(copy);
