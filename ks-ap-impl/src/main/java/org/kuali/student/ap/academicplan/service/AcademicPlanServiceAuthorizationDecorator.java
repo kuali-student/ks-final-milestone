@@ -9,7 +9,14 @@ import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.HoldsPermissionService;
 import org.kuali.student.r2.common.util.constants.KimIdentityServiceConstants;
 
@@ -17,8 +24,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * {@inheritDoc}
+ * This service decorator simply adds authorization logic to each service method.
+ * <p/>
+ * IMPORTANT NOTE: this is a first cut, somewhat crude implementation of authorization for KSAP, but it does set up a
+ * good framework in which a more rich authz design for KSAP can be applied.  A more rich design could, IMO, include a
+ * rich set of hierarachical roles, such as:  PlanMaintainer, PlanReviewer, KSAPAdmin.  PlanMaintainer could be granted
+ * PLAN CREATE/UPDATE/DELETE permissions,and could be granted to the Student role, but would need to be qualified by
+ * planOwnerPrincipalId=studentPrincipalId, PlanMaintainer could be granted to a new Advisor [derived] role,
+ * but would be perhaps qualified by planType='TEMPLATE' (note: something more complex might be need to allow an
+ * adivisor to add recommended courses to a shared plan).PlanReviewer would give READ permissions to
+ * plans/items, and could be granted to the Advisor role qualified by plan.shared='T' (& perhaps something different,
+ * or more specific for plan snapshots) or planType='TEMPLATE', and to the Student role qualified [again] by
+ * planOwnerPrincipalId=studentPrincipalId.
+ */
 public class AcademicPlanServiceAuthorizationDecorator
-        extends AcademicPlanServiceDecorator
+extends AcademicPlanServiceDecorator
         implements HoldsPermissionService {
 
     private PermissionService permissionService;

@@ -166,7 +166,8 @@ public class AcademicPlanServiceValidationDecorator extends
 			throw new OperationFailedException(
 					"Error validating learning plan.", ex);
 		} catch (PermissionDeniedException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            throw new OperationFailedException(
+                    "Permission denied error while validating learning plan.", e);
         }
         return errors;
 	}
