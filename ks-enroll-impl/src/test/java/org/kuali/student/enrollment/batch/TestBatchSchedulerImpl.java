@@ -31,7 +31,7 @@ import static org.junit.Assert.assertTrue;
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:ks-enroll-batch-context.xml"})
+@ContextConfiguration(locations = {"classpath:ks-enroll-batch-test-context.xml"})
 public class TestBatchSchedulerImpl {
 
     @Resource(name = "batchScheduler")

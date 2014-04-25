@@ -1,0 +1,88 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:batch="http://www.springframework.org/schema/batch"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                            http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd
+                            http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+    <!-- stored job-meta in memory -->
+    <!--
+    <bean id="jobRepository"
+        class="org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean">
+        <property name="transactionManager" ref="transactionManager" />
+    </bean>
+      -->
+
+    <!-- stored job-meta in database -->
+    <!--bean id="jobRepository"
+        class="org.springframework.batch.core.repository.support.JobRepositoryFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="transactionManager" ref="transactionManager" />
+        <property name="databaseType" value="mysql" />
+    </bean-->
+
+    <bean id="jobRepository"
+          class="org.springframework.batch.core.repository.support.SimpleJobRepository">
+        <constructor-arg>
+            <bean
+                    class="org.springframework.batch.core.repository.dao.MapJobInstanceDao"/>
+        </constructor-arg>
+        <constructor-arg>
+            <bean
+                    class="org.springframework.batch.core.repository.dao.MapJobExecutionDao"/>
+        </constructor-arg>
+        <constructor-arg>
+            <bean
+                    class="org.springframework.batch.core.repository.dao.MapStepExecutionDao"/>
+        </constructor-arg>
+        <constructor-arg>
+            <bean
+                    class="org.springframework.batch.core.repository.dao.MapExecutionContextDao"/>
+        </constructor-arg>
+    </bean>
+
+    <!-- Transaction manager -->
+    <bean id="jobRepository-transactionManager"
+          class="org.springframework.batch.support.transaction.ResourcelessTransactionManager"/>
+    <!-- Simple launcher for job -->
+    <bean id="jobLauncher"
+          class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+        <property name="jobRepository" ref="jobRepository"/>
+    </bean>
+
+    <!-- Job step 1 -->
+    <bean id="jobTaskletStep1"
+          class="org.kuali.student.enrollment.class2.examoffering.batch.ExamOfferingSlottingTasklet">
+        <property name="message" value="Hello..."/>
+    </bean>
+    <!-- Job step 2 -->
+    <bean id="jobTaskletStep2"
+          class="org.kuali.student.enrollment.class2.examoffering.batch.ExamOfferingSlottingTasklet">
+        <property name="message" value="world!"/>
+    </bean>
+    <!-- Define a job with two steps -->
+    <batch:job id="examOfferingSlottingJob" job-repository="jobRepository">
+        <batch:step id="step0" next="step1">
+            <batch:tasklet ref="jobTaskletStep1"
+                           transaction-manager="jobRepository-transactionManager"/>
+        </batch:step>
+        <batch:step id="step1">
+            <batch:tasklet ref="jobTaskletStep2"
+                           transaction-manager="jobRepository-transactionManager"/>
+        </batch:step>
+    </batch:job>
+
+    <!-- Scheduler definition -->
+    <task:scheduler id="scheduler" pool-size="5"/>
+
+    <bean id="batchScheduler" class="org.kuali.student.enrollment.batch.impl.BatchSchedulerImpl">
+        <property name="scheduler" ref="scheduler"/>
+        <property name="jobLauncher" ref="jobLauncher"/>
+        <property name="jobMap">
+            <map>
+                <entry key="kuali.batch.job.examOffering.slotting" value-ref="examOfferingSlottingJob"/>
+            </map>
+        </property>
+    </bean>
+
+</beans>

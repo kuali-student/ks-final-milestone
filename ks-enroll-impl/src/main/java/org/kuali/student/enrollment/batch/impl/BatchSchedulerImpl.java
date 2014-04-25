@@ -7,6 +7,7 @@ import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobParameter;
 import org.springframework.batch.core.JobParameters;
+import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.scheduling.TaskScheduler;
 
@@ -35,19 +36,18 @@ public class BatchSchedulerImpl implements BatchScheduler {
             public void run() {
                 Job job = jobMap.get(key);
 
-                Map<String, JobParameter> parameterMap = new HashMap<String, JobParameter>();
+                JobParametersBuilder builder = new JobParametersBuilder();
                 if(parameters!=null){
                     for(BatchParameter parameter : parameters){
-                        parameterMap.put(parameter.getKey(), new JobParameter(parameter.getValue()));
+                        builder.addString(parameter.getKey(), parameter.getValue());
                     }
                 }
 
-                parameterMap.put("kuali.batch.startTime", new JobParameter(startTime.getTime()));
-                JobParameters jobParameters = new JobParameters(parameterMap);
+                builder.addDate("kuali.batch.startTime", startTime);
 
                 try {
 
-                    JobExecution execution = jobLauncher.run(job, jobParameters);
+                    JobExecution execution = jobLauncher.run(job, builder.toJobParameters());
                     System.out.println("Exit Status : " + execution.getStatus());
 
                 } catch (Exception e) {

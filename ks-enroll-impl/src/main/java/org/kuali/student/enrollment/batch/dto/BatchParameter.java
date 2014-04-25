@@ -6,8 +6,12 @@ package org.kuali.student.enrollment.batch.dto;
 public class BatchParameter {
 
     private String key;
-
     private String value;
+
+    public BatchParameter(String key, String value){
+        this.key = key;
+        this.value = value;
+    }
 
     public String getKey() {
         return key;

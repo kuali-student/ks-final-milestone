@@ -24,6 +24,7 @@ import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.uif.util.KSControllerHelper;
 import org.kuali.student.enrollment.batch.BatchScheduler;
+import org.kuali.student.enrollment.batch.dto.BatchParameter;
 import org.kuali.student.enrollment.batch.util.BatchSchedulerConstants;
 import org.kuali.student.enrollment.class2.courseoffering.form.ManageSOCForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.ManageSOCViewHelperService;
@@ -43,7 +44,9 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * This class handles all the request for Managing SOC. This handles requests from ManageSOCView for different SOC state
@@ -259,7 +262,9 @@ public class ManageSOCController extends UifControllerBase {
         KSDateTimeFormatter dateTimeFormatter = DateFormatters.MONTH_DAY_YEAR_TIME_DATE_FORMATTER;
         Date dateAndTime = dateTimeFormatter.parse(date + " " + "02:52"  + " " + "AM");
 
-        this.getBatchScheduler().schedule("kuali.batch.job.examOffering.slotting", null, dateAndTime);
+        List<BatchParameter> parameters = new ArrayList<BatchParameter>();
+        parameters.add(new BatchParameter("kuali.batch.socId", socForm.getSocInfo().getId()));
+        this.getBatchScheduler().schedule("kuali.batch.job.examOffering.slotting", parameters, dateAndTime);
         return super.navigate(socForm, result, request, response);
     }
 
