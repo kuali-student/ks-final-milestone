@@ -272,8 +272,9 @@
             <list>
                  <bean parent="KS-Uif-DataField" p:label="CODE" p:propertyName="courseCode"/>
                  <bean parent="KS-Uif-DataField" p:propertyName="activitesUI" p:label="Format"/>
+                 <!-- Rice 2.4 upgrade removed p:labelPlacement="TOP" -->
                  <bean parent="KS-Uif-InputField" p:propertyName="formatOfferingInfo.gradeRosterLevelTypeKey"
-                      p:label="Grade Roster Level" p:required="true" p:labelPlacement="TOP" p:finalizeMethodToCall="populateGradeRosterLevelTypes">
+                      p:label="Grade Roster Level" p:required="true" p:finalizeMethodToCall="populateGradeRosterLevelTypes">
                     <property name="control">
                         <bean parent="KS-Uif-DropdownControl"/>
                     </property>
