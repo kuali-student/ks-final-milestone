@@ -114,8 +114,9 @@ public class TestExamOfferingServiceFacadeImpl {
         co = this.getCourseOfferingService().updateCourseOffering(co.getId(), co, contextInfo);
 
         List<String> optionKeys = new ArrayList<String>();
-        String ePID = this.getExamOfferingBusinessLogic().getExamPeriodId(co.getTermId(),contextInfo);
-        this.getExamOfferingBusinessLogic().generateFinalExamOffering(co, co.getTermId(), ePID, optionKeys, contextInfo);
+        ExamOfferingContext context = new ExamOfferingContext(co);
+        context.setExamPeriodId(this.getExamOfferingBusinessLogic().getExamPeriodId(co.getTermId(), contextInfo));
+        this.getExamOfferingBusinessLogic().generateFinalExamOffering(context, optionKeys, contextInfo);
 
         List<ExamOfferingRelationInfo> eoRelations = this.getExamOfferingService().getExamOfferingRelationsByFormatOffering(
                 CourseOfferingServiceTestDataLoader.CHEM123_LEC_AND_LAB_FORMAT_OFFERING_ID, contextInfo);
@@ -127,7 +128,9 @@ public class TestExamOfferingServiceFacadeImpl {
         co.getAttributes().get(0).setValue(LuServiceConstants.LU_EXAM_DRIVER_CO_KEY);
         this.getCourseOfferingService().updateCourseOffering(co.getId(), co, contextInfo);
 
-        this.getExamOfferingBusinessLogic().generateFinalExamOffering(co, co.getTermId(), ePID, optionKeys, contextInfo);
+        context = new ExamOfferingContext(co);
+        context.setExamPeriodId(this.getExamOfferingBusinessLogic().getExamPeriodId(co.getTermId(), contextInfo));
+        this.getExamOfferingBusinessLogic().generateFinalExamOffering(context, optionKeys, contextInfo);
 
         eoRelations = this.getExamOfferingService().getExamOfferingRelationsByFormatOffering(
                 CourseOfferingServiceTestDataLoader.CHEM123_LEC_AND_LAB_FORMAT_OFFERING_ID, contextInfo);
@@ -149,8 +152,11 @@ public class TestExamOfferingServiceFacadeImpl {
             InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException {
 
         List<String> optionKeys = new ArrayList<String>();
-        this.getExamOfferingBusinessLogic().generateFinalExamOfferingsPerFO(CourseOfferingServiceTestDataLoader.CHEM123_COURSE_OFFERING_ID,
-                ExamOfferingServiceTestDataLoader.TERM_ONE_ID, ExamOfferingServiceTestDataLoader.PERIOD_ONE_ID, optionKeys, contextInfo);
+        CourseOfferingInfo co = this.getCourseOfferingService().getCourseOffering(CourseOfferingServiceTestDataLoader.CHEM123_COURSE_OFFERING_ID, contextInfo);
+        ExamOfferingContext context = new ExamOfferingContext(co);
+        context.setExamPeriodId(ExamOfferingServiceTestDataLoader.PERIOD_ONE_ID);
+        //context.setTermId(ExamOfferingServiceTestDataLoader.TERM_ONE_ID);
+        this.getExamOfferingBusinessLogic().generateFinalExamOfferingsPerFO(context, optionKeys, contextInfo);
 
         List<ExamOfferingRelationInfo> eoRelations = this.getExamOfferingService().getExamOfferingRelationsByFormatOffering(
                 CourseOfferingServiceTestDataLoader.CHEM123_LEC_AND_LAB_FORMAT_OFFERING_ID, contextInfo);
@@ -188,8 +194,11 @@ public class TestExamOfferingServiceFacadeImpl {
             InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException {
 
         List<String> optionKeys = new ArrayList<String>();
-        this.getExamOfferingBusinessLogic().generateFinalExamOfferingsPerAO(CourseOfferingServiceTestDataLoader.CHEM123_COURSE_OFFERING_ID,
-                ExamOfferingServiceTestDataLoader.TERM_ONE_ID, ExamOfferingServiceTestDataLoader.PERIOD_ONE_ID, optionKeys, true, contextInfo);
+        CourseOfferingInfo co = this.getCourseOfferingService().getCourseOffering(CourseOfferingServiceTestDataLoader.CHEM123_COURSE_OFFERING_ID, contextInfo);
+        ExamOfferingContext context = new ExamOfferingContext(co);
+        context.setExamPeriodId(ExamOfferingServiceTestDataLoader.PERIOD_ONE_ID);
+        //context.setTermId(ExamOfferingServiceTestDataLoader.TERM_ONE_ID);
+        this.getExamOfferingBusinessLogic().generateFinalExamOfferingsPerAO(context, optionKeys, contextInfo);
 
         List<ExamOfferingRelationInfo> eoRelations = this.getExamOfferingService().getExamOfferingRelationsByFormatOffering(
                 CourseOfferingServiceTestDataLoader.CHEM123_LEC_AND_LAB_FORMAT_OFFERING_ID, contextInfo);

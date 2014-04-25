@@ -18,6 +18,7 @@ import org.kuali.student.enrollment.class2.courseoffering.service.transformer.Re
 import org.kuali.student.enrollment.class2.courseofferingset.service.facade.RolloverAssist;
 import org.kuali.student.enrollment.class2.coursewaitlist.service.facade.CourseWaitListServiceFacade;
 import org.kuali.student.enrollment.class2.coursewaitlist.service.facade.CourseWaitListServiceFacadeConstants;
+import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingContext;
 import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingServiceFacade;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
@@ -517,8 +518,10 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         }
         //process final exam offerings for target course offering
         if (!optionKeys.contains(CourseOfferingSetServiceConstants.CONTINUE_WITHOUT_EXAM_OFFERINGS_OPTION_KEY)) {
-            getExamOfferingServiceFacade().generateFinalExamOfferingOptimized(targetCo, targetCo.getTermId(),
-                    optionKeys, foIdsToAOList, context);
+            ExamOfferingContext examOfferingContext = new ExamOfferingContext(targetCo);
+            examOfferingContext.setFoIdToListOfAOs(foIdsToAOList);
+            examOfferingContext.setExamPeriodId(getExamOfferingServiceFacade().getExamPeriodId(targetCo.getTermId(), context));
+            getExamOfferingServiceFacade().generateFinalExamOffering(examOfferingContext, optionKeys, context);
         }
 
         SocRolloverResultItemInfo item = new SocRolloverResultItemInfo();

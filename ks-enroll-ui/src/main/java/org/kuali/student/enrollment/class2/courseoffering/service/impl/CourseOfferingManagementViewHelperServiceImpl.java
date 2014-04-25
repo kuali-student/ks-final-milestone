@@ -53,9 +53,11 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingCon
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementToolbarUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
+import org.kuali.student.enrollment.class2.courseoffering.util.ExamOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.ManageSocConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.RegistrationGroupConstants;
 import org.kuali.student.enrollment.class2.courseofferingset.util.CourseOfferingSetUtil;
+import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingContext;
 import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingResult;
 import org.kuali.student.enrollment.class2.scheduleofclasses.dto.ActivityOfferingDisplayWrapper;
 import org.kuali.student.enrollment.class2.scheduleofclasses.dto.CourseOfferingDisplayWrapper;
@@ -1893,9 +1895,6 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             throw new RuntimeException(e);
         }
 
-        ExamOfferingResult result = new ExamOfferingResult();
-        List<BulkStatusInfo> examsGenerated = new ArrayList<BulkStatusInfo>();
-        BulkStatusInfo examPeriodStatus = null;
         //create and persist AO
         for (int i = 0; i < noOfActivityOfferings; i++) {
             ActivityOfferingInfo aoInfo = new ActivityOfferingInfo();
@@ -1917,10 +1916,10 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
 
                 // This is the "business" type call that will create the AO and link the appropiate objects.
                 // This will also create + add any needed Waitlists
-                ActivityOfferingResult aoResult = CourseOfferingManagementUtil.getCourseOfferingServiceFacade().createActivityOffering(aoInfo, clusterId, contextInfo);
+                ActivityOfferingResult aoResult = CourseOfferingManagementUtil.getCourseOfferingServiceFacade().createActivityOffering(
+                        aoInfo, clusterId, contextInfo);
                 activityOfferingInfo = aoResult.getCreatedActivityOffering();
                 theWaitListInfo = aoResult.getWaitListInfo();
-                result.getChildren().add(aoResult.getExamOfferingResult());
 
                 ActivityOfferingWrapper wrapper = new ActivityOfferingWrapper(activityOfferingInfo);
                 StateInfo state = getStateService().getState(wrapper.getAoInfo().getStateKey(), contextInfo);
@@ -1930,6 +1929,13 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                 wrapper.setCourseWaitListInfo(theWaitListInfo);
 
                 form.getActivityWrapperList().add(wrapper);
+
+                //generate final exam offerings if the exam period exists
+                ExamOfferingContext examOfferingContext = ExamOfferingManagementUtil.createExamOfferingContext(courseOffering, activityOfferingInfo);
+                ExamOfferingResult eoresult = ExamOfferingManagementUtil.getExamOfferingServiceFacade().generateFinalExamOffering(
+                        examOfferingContext, new ArrayList<String>(), contextInfo);
+                ExamOfferingManagementUtil.processExamOfferingResultSet(eoresult);
+
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -1942,7 +1948,6 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_ADD_N_SUCCESS);
         }
 
-        CourseOfferingManagementUtil.processExamOfferingResultSet(result);
         KSUifUtils.getMessengerFromUserSession().publishMessages();
     }
 
@@ -2531,7 +2536,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         CourseOfferingManagementUtil.getExamOfferingScheduleHelper().loadSchedules(eoWrapper, theForm, ContextUtils.createDefaultContextInfo());
 
         //retrieve the EO matrix overriding attribute
-        AttributeInfo attributeInfo = CourseOfferingManagementUtil.getAttributeForKey(examOfferingInfo.getAttributes(), ExamOfferingServiceConstants.EXAM_OFFERING_MATRIX_OVERRIDE_ATTR);
+        AttributeInfo attributeInfo = ExamOfferingManagementUtil.getAttributeForKey(examOfferingInfo.getAttributes(), ExamOfferingServiceConstants.EXAM_OFFERING_MATRIX_OVERRIDE_ATTR);
         if (attributeInfo != null) {
             eoWrapper.setOverrideMatrix(Boolean.valueOf(attributeInfo.getValue()));
         }
@@ -2641,7 +2646,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
      * @param theForm CourseOfferingManagementForm
      */
     private void setExamOfferingMatrixRSIOveridability(CourseOfferingManagementForm theForm) {
-        AttributeInfo attributeInfo = CourseOfferingManagementUtil.getAttributeForKey(theForm.getCurrentCourseOfferingWrapper().getCourseOfferingInfo().getAttributes(), CourseOfferingServiceConstants.FINAL_EXAM_USE_MATRIX);
+        AttributeInfo attributeInfo = ExamOfferingManagementUtil.getAttributeForKey(theForm.getCurrentCourseOfferingWrapper().getCourseOfferingInfo().getAttributes(), CourseOfferingServiceConstants.FINAL_EXAM_USE_MATRIX);
         if ((attributeInfo == null) || !Boolean.valueOf(attributeInfo.getValue())) {
             theForm.getCurrentCourseOfferingWrapper().setMatrixOveridableAODriven(false);
             theForm.getCurrentCourseOfferingWrapper().setMatrixOveridableCODriven(false);
