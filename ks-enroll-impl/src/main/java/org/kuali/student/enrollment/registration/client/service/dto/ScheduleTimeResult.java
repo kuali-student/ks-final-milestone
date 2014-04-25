@@ -9,11 +9,12 @@ import javax.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ScheduleTimeResult", propOrder = {
-        "days", "startTime", "endTime"})
+        "days", "startTime", "endTime", "displayTime"})
 public class ScheduleTimeResult {
     private String days;
     private String startTime;
     private String endTime;
+    private String displayTime;
 
     public String getDays() { return days; }
 
@@ -32,4 +33,9 @@ public class ScheduleTimeResult {
     }
 
     public void setEndTime(String endTime) { this.endTime = endTime; }
+
+    public String getDisplayTime() { return displayTime; }
+
+    public void setDisplayTime(String displayTime) { this.displayTime = displayTime; }
 }
+

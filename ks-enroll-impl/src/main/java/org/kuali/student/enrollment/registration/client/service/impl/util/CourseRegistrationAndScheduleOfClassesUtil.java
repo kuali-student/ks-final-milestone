@@ -199,15 +199,12 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
             scheduleComponent.setIsTBA(false);
         }
 
-        List<TimeOfDayFormattingEnum> options = new ArrayList<TimeOfDayFormattingEnum>();
-        options.add(TimeOfDayFormattingEnum.USE_MILITARY_TIME);
-        if (!startTimeMs.isEmpty()) {
-            TimeOfDayInfo startTime = TimeOfDayHelper.setMillis(Long.valueOf(startTimeMs));
-            scheduleComponent.setStartTime(TimeOfDayHelper.formatTimeOfDay(startTime, options));
-        }
-        if (!endTimeMs.isEmpty()) {
-            TimeOfDayInfo endTime = TimeOfDayHelper.setMillis(Long.valueOf(endTimeMs));
-            scheduleComponent.setEndTime(TimeOfDayHelper.formatTimeOfDay(endTime, options));
+        String startTime = StringUtils.isEmpty(startTimeMs) ? "" : TimeOfDayHelper.formatTimeOfDay(TimeOfDayHelper.setMillis(Long.valueOf(startTimeMs)));
+        String endTime = StringUtils.isEmpty(endTimeMs) ? "" : TimeOfDayHelper.formatTimeOfDay(TimeOfDayHelper.setMillis(Long.valueOf(endTimeMs)));
+        scheduleComponent.setStartTime(startTime);
+        scheduleComponent.setEndTime(endTime);
+        if (!StringUtils.isEmpty(startTime) && !StringUtils.isEmpty(endTime)) {
+            scheduleComponent.setDisplayTime(startTime.substring(0, startTime.length() - 3) + "-" + endTime.substring(0, endTime.length() - 3) + endTime.substring(endTime.length() - 2).toLowerCase());
         }
 
         if (!weekdays.isEmpty()) {

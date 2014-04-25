@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ActivityOfferingScheduleComponentResult", propOrder = {
-        "sun", "mon", "tue", "wed", "thu", "fri", "sat", "startTime", "endTime", "buildingCode", "roomCode"})
+        "sun", "mon", "tue", "wed", "thu", "fri", "sat", "startTime", "endTime", "displayTime", "buildingCode", "roomCode"})
 public class ActivityOfferingScheduleComponentResult {
     private boolean sun;
     private boolean mon;
@@ -20,6 +20,7 @@ public class ActivityOfferingScheduleComponentResult {
     private boolean sat;
     private String startTime;
     private String endTime;
+    private String displayTime;
     private String days;
     private String buildingCode;
     private String roomCode;
@@ -84,6 +85,10 @@ public class ActivityOfferingScheduleComponentResult {
     public void setStartTime(String startTime) {
         this.startTime = startTime;
     }
+
+    public String getDisplayTime() { return displayTime; }
+
+    public void setDisplayTime(String displayTime) { this.displayTime = displayTime; }
 
     public boolean isSun() {
         return sun;
