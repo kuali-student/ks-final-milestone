@@ -874,13 +874,15 @@
         </property>
     </bean>    -->
 
+	<!-- Rice 2.4 upgrade removed p:labelPlacement="RIGHT" -->
     <bean id="planner_backup_input"  parent="Uif-CheckboxInputField"
           p:label="Mark as backup"  p:propertyName="backup"
-          p:labelPlacement="RIGHT" p:fieldLabel.renderColon="false" />
+           p:fieldLabel.renderColon="false" />
 
+	<!-- Rice 2.4 upgrade removed p:labelPlacement="RIGHT" -->
     <bean id="planner_bookmark_input"  parent="Uif-CheckboxInputField"
           p:label="Keep the course bookmarked"  p:propertyName="keepBookmarked"
-          p:labelPlacement="RIGHT" p:fieldLabel.renderColon="false" p:defaultValue="false" p:render="@{bookmarked}"/>
+          p:fieldLabel.renderColon="false" p:defaultValue="false" p:render="@{bookmarked}"/>
 
 	<bean id="planner_error_placeholder" parent="Uif-HorizontalBoxGroup"
 			p:hidden="true" p:additionalCssClasses="ksap-feedback,error,ks-Popover-error" />
