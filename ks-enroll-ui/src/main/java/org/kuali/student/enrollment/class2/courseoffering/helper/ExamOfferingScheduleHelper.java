@@ -16,10 +16,18 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.helper;
 
+import org.kuali.student.enrollment.class2.acal.dto.ExamPeriodWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ExamOfferingWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
 
 import java.util.List;
 
@@ -29,7 +37,19 @@ import java.util.List;
  * @author Kuali Student Team
  */
 public interface ExamOfferingScheduleHelper {
+
     public StatusInfo saveScheduleRequestBulk(List<ExamOfferingWrapper> eoWrappers, ContextInfo defaultContextInfo);
+
     public StatusInfo saveScheduleRequest(ExamOfferingWrapper eoWrapper, ContextInfo defaultContextInfo);
+
     public void loadSchedules(ExamOfferingWrapper eoWrapper, CourseOfferingManagementForm theForm, ContextInfo defaultContextInfo);
+
+    public void setScheduleTimeSlotInfo(ScheduleWrapper scheduleWrapper, ExamPeriodWrapper examPeriodWrapper)
+            throws OperationFailedException;
+
+    public void setScheduleRoomAndBuilding(ScheduleWrapper scheduleWrapper, ScheduleRequestComponentInfo componentInfo,
+                                           ContextInfo defaultContextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException;
+
 }

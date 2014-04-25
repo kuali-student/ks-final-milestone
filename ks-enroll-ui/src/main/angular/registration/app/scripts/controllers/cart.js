@@ -4,6 +4,7 @@ angular.module('regCartApp')
     .controller('CartCtrl',
     function ($scope, $modal, CartService, ScheduleService, GlobalVarsService, $timeout) {
         $scope.oneAtATime = false;
+        $scope.isCollapsed = true;
         var hasCartBeenLoaded = false;
         $scope.cartResults = {items : []};
 

@@ -8,10 +8,10 @@ import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "StudentScheduleActivityOfferingResult", propOrder = {
-        "activityOfferingId", "activityOfferingTypeShortName", "activityOfferingType", "scheduleComponents"})
+        "activityOfferingId", "activityOfferingTypeName", "activityOfferingType", "scheduleComponents"})
 public class StudentScheduleActivityOfferingResult {
     private String activityOfferingId;
-    private String activityOfferingTypeShortName;
+    private String activityOfferingTypeName;
     private String activityOfferingType;
     private List<ActivityOfferingScheduleComponentResult> scheduleComponents;
     private List<InstructorSearchResult> instructors;
@@ -24,12 +24,12 @@ public class StudentScheduleActivityOfferingResult {
         this.activityOfferingId = activityOfferingId;
     }
 
-    public String getActivityOfferingTypeShortName() {
-        return activityOfferingTypeShortName;
+    public String getActivityOfferingTypeName() {
+        return activityOfferingTypeName;
     }
 
-    public void setActivityOfferingTypeShortName(String activityOfferingTypeShortName) {
-        this.activityOfferingTypeShortName = activityOfferingTypeShortName;
+    public void setActivityOfferingTypeName(String activityOfferingTypeName) {
+        this.activityOfferingTypeName = activityOfferingTypeName;
     }
 
     public String getActivityOfferingType() {

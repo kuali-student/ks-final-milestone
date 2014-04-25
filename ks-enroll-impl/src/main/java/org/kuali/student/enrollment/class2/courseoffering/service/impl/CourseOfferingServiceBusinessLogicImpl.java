@@ -1011,9 +1011,9 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                 FormatOfferingInfo fetched = coService.getFormatOffering(foId, contextInfo);
                 prefix = RegistrationGroupCodeUtil.getRegCodePrefixFromFo(fetched);
             } catch (ReadOnlyException e) {
-                throw new OperationFailedException("ERROR in generating reg groups (ReadOnlyException) " + e.getMessage());
+                throw new OperationFailedException("ERROR in generating reg groups (ReadOnlyException) " + e);
             } catch (VersionMismatchException e) {
-                throw new OperationFailedException("ERROR in generating reg groups (VersionMismatchException) " + e.getMessage());
+                throw new OperationFailedException("ERROR in generating reg groups (VersionMismatchException) " + e);
             }
         }
         String firstRegGroupCode = CourseOfferingServiceRolloverHelper._gRGFC_computeFirstRegGroupCode(existingRegistrationGroups, prefix);

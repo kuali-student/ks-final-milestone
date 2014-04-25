@@ -22,6 +22,10 @@ public class ExamOfferingConstants {
     public static final String EXAM_OFFERING_UPDATED_CO_MATRIX_MATCH_NOT_FOUND = "warning.enroll.examoffering.finalexam.updated.co.matrix.match.not.found";
     public static final String EXAM_OFFERING_UPDATED_MATRIX_NOT_FOUND = "warning.enroll.examoffering.finalexam.updated.matrix.not.found";
     public static final String EXAM_OFFERING_UPDATED_ACTIVITY_OFFERING_TIMESLOTS_NOT_FOUND = "warning.enroll.examoffering.finalexam.updated.activity.offering.timeslots.not.found";
+    public static final String EXAM_OFFERING_AO_MATRIX_MATCH_NOT_FOUND = "warning.enroll.examoffering.finalexam.ao.matrix.match.not.found";
+    public static final String EXAM_OFFERING_CO_MATRIX_MATCH_NOT_FOUND = "warning.enroll.examoffering.finalexam.co.matrix.match.not.found";
+    public static final String EXAM_OFFERING_MATRIX_NOT_FOUND = "warning.enroll.examoffering.finalexam.matrix.not.found";
+    public static final String EXAM_OFFERING_ACTIVITY_OFFERING_TIMESLOTS_NOT_FOUND = "warning.enroll.examoffering.finalexam.activity.offering.timeslots.not.found";
     public static final String EXAM_OFFERING_EXAM_PERIOD_NOT_FOUND = "error.enroll.examoffering.finalexam.exam.period.not.found";
 
     //Message Keys

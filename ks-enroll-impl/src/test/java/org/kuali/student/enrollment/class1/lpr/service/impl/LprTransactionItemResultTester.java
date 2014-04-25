@@ -5,6 +5,8 @@
 package org.kuali.student.enrollment.class1.lpr.service.impl;
 
 import static org.junit.Assert.*;
+
+import org.apache.commons.lang.BooleanUtils;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemResultInfo;
 
 /**
@@ -25,7 +27,7 @@ public class LprTransactionItemResultTester {
         if (actual == null) {
             fail ("expected was not null but expected was null");
         }
-        assertEquals(expected.getStatus(), actual.getStatus());
+        assertEquals(BooleanUtils.toBoolean(expected.getStatus()), BooleanUtils.toBoolean(actual.getStatus()));
         assertEquals(expected.getResultingLprId(), actual.getResultingLprId());
         assertEquals(expected.getMessage(), actual.getMessage());        
     }

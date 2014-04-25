@@ -200,7 +200,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
 
             CourseOfferingManagementUtil.getCourseOfferingService().updateCourseOffering(coInfo.getId(), coInfo, contextInfo);
             String[] parameters = {coInfo.getCourseOfferingCode()};
-            KSUifUtils.getMessengerFromUserSession().addSuccessMessage(CourseOfferingConstants.COURSE_OFFERING_CREATE_SUCCESS, parameters);
+            KSUifUtils.getMessengerFromUserSession().addSuccessMessage(CourseOfferingConstants.COURSE_OFFERING_EDIT_SUCCESS, parameters);
 
             // generate exam offerings if exam period exists
             if (!StringUtils.isEmpty(coEditWrapper.getExamPeriodId())) {

@@ -58,4 +58,14 @@ public class RegistrationResponseResult {
     public void setResponseItemResults(List<RegistrationResponseItemResult> responseItemResults) {
         this.responseItemResults = responseItemResults;
     }
+
+    @Override
+    public String toString() {
+        return "RegistrationResponseResult{" +
+                "state='" + state + '\'' +
+                ", status='" + status + '\'' +
+                ", registrationRequestId='" + registrationRequestId + '\'' +
+                ", responseItemResults=" + responseItemResults +
+                '}';
+    }
 }

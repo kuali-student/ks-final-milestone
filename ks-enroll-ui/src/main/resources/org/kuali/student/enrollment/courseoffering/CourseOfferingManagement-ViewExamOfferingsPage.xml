@@ -22,10 +22,10 @@
     -->
 
     <bean id="KS-CourseOfferingManagement-ExamOfferingPage" parent="KS-Uif-Page" p:disclosure.render="false"
-          p:id="viewExamOfferingsPage">
+          p:id="viewExamOfferingsPage" >
         <property name="editAuthz" value="true"/>
         <!-- <property name="onDocumentReadyScript" value="updateContextBar( 'ManageCourseOfferingManagement-ContextBar', 'KS-CourseOffering-View-ContextBar-PlaceHolder', @{#dp.contextBar.termDayOfYear}, '@{#ConfigProperties['application.url']}' );" /> -->
-        <property name="onDocumentReadyScript" value="setSeasonalColor('ManageCourseOfferingManagement-ContextBar', '@{#dp.contextBar.termDayOfYear}', '@{#ConfigProperties['application.url']}'); updateViewHeaderText('@{currentCourseOfferingWrapper.courseOfferingCode}');" />
+        <property name="onDocumentReadyScript" value="setSeasonalColor('ManageCourseOfferingManagement-ContextBar', '@{#dp.contextBar.termDayOfYear}', '@{#ConfigProperties['application.url']}'); updateViewHeaderText('@{currentCourseOfferingWrapper.courseOfferingCode}'); enableDirtyCheck()" />
         <property name="pageSourceFile" value="CourseOfferingManagement-ManageCourseOfferingsPage.xml" /> <!-- Shows up in HTML so devs can find the code -->
 
         <property name="headerText" value="Exam Offerings"/>
@@ -290,7 +290,7 @@
                         <list>
                             <bean id="eoRsiStartTime" parent="KS-Uif-InputField"
                                   p:propertyName="requestedSchedule.startTime" p:cssClasses="new_ts"
-                                  p:required="true" p:disableNativeAutocomplete="true" >
+                                  p:required="true" p:disableNativeAutocomplete="true">
                                 <property name="additionalCssClasses">
                                     <list merge="true">
                                         <value>off</value>
@@ -479,7 +479,7 @@
                               p:source="" p:cssClasses="ks-fontello-icon-floppy"/>
                     </property>
                 </bean>
-                <bean id="EO-toggleUpdateButton" parent="KS-Uif-ActionLink" p:actionLabel="" p:additionalCssClasses="toggleable-element off" p:actionScript="cancelInlineRow(e);">
+                <bean id="EO-toggleCancelButton" parent="KS-Uif-ActionLink" p:actionLabel="" p:additionalCssClasses="toggleable-element off" p:actionScript="cancelInlineRow(e);">
                     <property name="actionImage">
                         <bean parent="Uif-Image" p:altText="Cancel" p:title="Cancel"
                               p:source="" p:cssClasses="ks-fontello-icon-block-1"/>
@@ -492,6 +492,16 @@
     <bean id="KS-CourseOfferingManagement-ExamOfferingByCOTableSection" parent="KS-CourseOfferingManagement-ExamOfferingTableSection"
           p:render="@{!#dp.examOfferingWrapperList.isEmpty()}">
         <property name="headerText" value="Exam Offering for Course Offering"/>
+        <property name="header.lowerGroup">
+            <bean parent="Uif-VerticalBoxGroup">
+                <property name="items">
+                    <list>
+                        <bean parent="KS-Uif-DataField" p:label="Crosslisted as" p:labelPlacement="LEFT" p:propertyName="currentCourseOfferingWrapper.alternateCOCodes"
+                                              p:render="@{currentCourseOfferingWrapper.alternateCOCodes.size() > 0 }" p:readOnly="true"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
         <property name="propertyName" value="examOfferingWrapperList"/>
     </bean>
 
@@ -519,6 +529,16 @@
         <property name="additionalCssClasses" value="aoc_disclosure,ks-uif-diclosureContent-noIndent"/>
         <property name="validationMessages.displayMessages" value="false"/>
         <property name="headerText" value="Exam Offerings for Activity Offerings"/>
+        <property name="header.lowerGroup">
+            <bean parent="Uif-VerticalBoxGroup">
+                <property name="items">
+                    <list>
+                        <bean parent="KS-Uif-DataField" p:label="Crosslisted as" p:labelPlacement="LEFT" p:propertyName="currentCourseOfferingWrapper.alternateCOCodes"
+                                              p:render="@{currentCourseOfferingWrapper.alternateCOCodes.size() > 0 }" p:readOnly="true"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
         <property name="collectionLookup">
             <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false" />
         </property>

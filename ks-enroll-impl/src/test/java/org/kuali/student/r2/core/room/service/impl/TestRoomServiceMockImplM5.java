@@ -181,11 +181,11 @@ public class TestRoomServiceMockImplM5 {
         // ----------------
         BuildingInfo expected = new BuildingInfo() ;
         crudInfoTester.initializeInfoForTestCreate(expected, TEST_TYPE, TEST_STATE);
-        expected.setCampusKey("111");
+        expected.setCampusId("111");
         BuildingInfo actual = roomService.createBuilding(expected.getTypeKey(), expected, callContext);
         crudInfoTester.testCreate(expected, actual);
-        assertEquals(expected.getCampusKey(), actual.getCampusKey());
-        assertEquals("111", actual.getCampusKey());
+        assertEquals(expected.getCampusId(), actual.getCampusId());
+        assertEquals("111", actual.getCampusId());
 
         // test read
         // ----------------
@@ -193,24 +193,24 @@ public class TestRoomServiceMockImplM5 {
         actual = roomService.getBuilding(expected.getId(), callContext);
         crudInfoTester.initializeInfoForTestRead(expected);
         crudInfoTester.testRead(expected, actual);
-        assertEquals(expected.getCampusKey(), actual.getCampusKey());
-        assertEquals("111", actual.getCampusKey());
+        assertEquals(expected.getCampusId(), actual.getCampusId());
+        assertEquals("111", actual.getCampusId());
 
         // test update
         // ----------------
         expected = actual;
         crudInfoTester.initializeInfoForTestUpdate(expected, TEST_STATE);
-        expected.setCampusKey("100");
+        expected.setCampusId("100");
         actual = roomService.updateBuilding(actual.getId(), expected, callContext);
         crudInfoTester.testUpdate(expected, actual);
-        assertEquals(expected.getCampusKey(), actual.getCampusKey());
-        assertEquals("100", actual.getCampusKey());
+        assertEquals(expected.getCampusId(), actual.getCampusId());
+        assertEquals("100", actual.getCampusId());
 
         // create a 2nd BuildingInfo
         // -------------------------------
         BuildingInfo expected2 = new BuildingInfo() ;
         crudInfoTester.initializeInfoForTestCreate(expected2, TEST_TYPE2, TEST_STATE);
-        expected2.setCampusKey("200");
+        expected2.setCampusId("200");
         BuildingInfo actual2 = roomService.createBuilding(expected2.getTypeKey(), expected2, callContext);
 
         // test bulk get
@@ -229,8 +229,8 @@ public class TestRoomServiceMockImplM5 {
 
         // test get by campus key
         // -------------------
-        assertEquals(actual.getCampusKey(), "100");
-        assertEquals(actual2.getCampusKey(), "200");
+        assertEquals(actual.getCampusId(), "100");
+        assertEquals(actual2.getCampusId(), "200");
         IDS = roomService.getBuildingIdsByCampus("100", callContext);
         assertEquals(1, IDS.size());
         assertEquals(actual.getId(), IDS.get(0));

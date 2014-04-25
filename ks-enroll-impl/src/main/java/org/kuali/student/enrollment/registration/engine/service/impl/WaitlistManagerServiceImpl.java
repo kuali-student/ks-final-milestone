@@ -9,6 +9,7 @@ import org.kuali.student.enrollment.registration.client.service.impl.util.Search
 import org.kuali.student.enrollment.registration.engine.service.WaitlistManagerService;
 import org.kuali.student.enrollment.registration.search.service.impl.CourseRegistrationSearchServiceImpl;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -69,13 +70,14 @@ public class WaitlistManagerServiceImpl implements WaitlistManagerService {
         }
         Map<String, Set<String>> rg2aoIds = new HashMap<String, Set<String>>();
         List<WaitlistInfo> waitlist = new ArrayList<WaitlistInfo>();
-
+        Set<String> alreadyProcessedLprIds = new HashSet<String>();
         //Loop through the search results
         for (SearchResultHelper.KeyValue row : SearchResultHelper.wrap(searchResult)) {
             String aoId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_ID);
             String rgId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.RG_ID);
             String masterLprId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.MASTER_LPR_ID);
             String personId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.PERSON_ID);
+            String atpId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.ATP_ID);
             int seatCount = Integer.parseInt(row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.SEAT_COUNT));
             int maxSeats = Integer.parseInt(row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_MAX_SEATS));
 
@@ -93,8 +95,12 @@ public class WaitlistManagerServiceImpl implements WaitlistManagerService {
             }
             aoidsInRg.add(aoId);
 
-            //Store an ordered list of people and the rg they are waiting on
-            waitlist.add(new WaitlistInfo(rgId, personId, masterLprId));
+            //Only add one WL record for each Master LPR otherwise we would have a record per AO
+            if(!alreadyProcessedLprIds.contains(masterLprId)){
+                //Store an ordered list of people and the rg they are waiting on
+                waitlist.add(new WaitlistInfo(rgId, personId, masterLprId, atpId));
+            }
+            alreadyProcessedLprIds.add(masterLprId);
         }
 
         //Process the waitlist
@@ -126,14 +132,28 @@ public class WaitlistManagerServiceImpl implements WaitlistManagerService {
     }
 
     @Override
-    public RegistrationRequest processPeopleOffOfWaitlist(List<String> aoIds, ContextInfo contextInfo) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DataValidationErrorException, ReadOnlyException {
-        List<WaitlistInfo> waitlistInfos = getPeopleToProcessFromWaitlist (aoIds, null, contextInfo);
-        if(!waitlistInfos.isEmpty()){
-            RegistrationRequestInfo regRequest = new RegistrationRequestInfo();
+    public List<RegistrationRequest> processPeopleOffOfWaitlist(List<String> aoIds, ContextInfo contextInfo) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DataValidationErrorException, ReadOnlyException, AlreadyExistsException {
 
-            regRequest.setTypeKey(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY);
-            regRequest.setStateKey(LprServiceConstants.LPRTRANS_NEW_STATE_KEY);
+        List<RegistrationRequest> createdRegRequests = new ArrayList<RegistrationRequest>();
+
+        //Get an ordered list of people to process off of the waitlist
+        List<WaitlistInfo> waitlistInfos = getPeopleToProcessFromWaitlist (aoIds, null, contextInfo);
+        Map<String, RegistrationRequestInfo> person2RegRequest = new HashMap<String, RegistrationRequestInfo>();
+
+        if(!waitlistInfos.isEmpty()){
             for(WaitlistInfo waitlistInfo : waitlistInfos){
+                //Make a new reg request for each person being processed off of the waitlist
+                RegistrationRequestInfo regRequest = person2RegRequest.get(waitlistInfo.personId);
+                if(regRequest == null){
+                    regRequest = new RegistrationRequestInfo();
+                    regRequest.setTypeKey(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY);
+                    regRequest.setStateKey(LprServiceConstants.LPRTRANS_NEW_STATE_KEY);
+                    regRequest.setTermId(waitlistInfo.atpId);
+                    regRequest.setRequestorId(contextInfo.getPrincipalId());//Not sure if this is the correct id to set here
+                    person2RegRequest.put(waitlistInfo.personId, regRequest);
+                }
+
+                //Add a reg request item to process the person off of the waitlist
                 RegistrationRequestItemInfo item = new RegistrationRequestItemInfo();
                 item.setExistingCourseRegistrationId(waitlistInfo.masterLprId);
                 item.setRegistrationGroupId(waitlistInfo.rgId);
@@ -142,9 +162,16 @@ public class WaitlistManagerServiceImpl implements WaitlistManagerService {
                 item.setStateKey(LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
                 regRequest.getRegistrationRequestItems().add(item);
             }
-            return getCourseRegistrationService().createRegistrationRequest(regRequest.getTypeKey(), regRequest, contextInfo);
+
+            //Use the CourseRegistrationService to create and submit the requests
+            for(RegistrationRequestInfo regRequest:person2RegRequest.values()){
+                RegistrationRequest createdRegRequest = getCourseRegistrationService().createRegistrationRequest(regRequest.getTypeKey(), regRequest, contextInfo);
+                getCourseRegistrationService().submitRegistrationRequest(createdRegRequest.getId(), contextInfo);
+                createdRegRequests.add(createdRegRequest);
+            }
         }
-        return null;
+
+        return createdRegRequests;
     }
 
     public SearchService getSearchService() {

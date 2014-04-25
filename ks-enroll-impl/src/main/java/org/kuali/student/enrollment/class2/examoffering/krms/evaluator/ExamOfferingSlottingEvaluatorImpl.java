@@ -87,16 +87,12 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
     public ExamOfferingResult executeRuleForAOSlotting(ActivityOffering activityOffering, String examOfferingId, String termType,
                                          List<String> optionKeys, ContextInfo contextInfo) throws OperationFailedException {
 
-        Map<String, String> contextParms = new HashMap<String, String>();
-        contextParms.put(CourseOfferingServiceConstants.CONTEXT_ELEMENT_COURSE_OFFERING_CODE, activityOffering.getCourseOfferingCode());
-        contextParms.put(CourseOfferingServiceConstants.CONTEXT_ELEMENT_ACTIVITY_OFFERING_CODE, activityOffering.getActivityCode());
-
         //Retrieve the matrix for the specific term type.
         KrmsTypeDefinition typeDefinition = this.getKrmsTypeRepositoryService().getTypeByName(
                 PermissionServiceConstants.KS_SYS_NAMESPACE, KSKRMSServiceConstants.AGENDA_TYPE_FINAL_EXAM_AO_DRIVEN);
         Agenda agenda = getAgendaForRefObjectId(termType, typeDefinition);
         if (agenda == null) {
-            return new ExamOfferingResult(ExamOfferingServiceConstants.EXAM_OFFERING_MATRIX_NOT_FOUND, contextParms);
+            return new ExamOfferingResult(ExamOfferingServiceConstants.EXAM_OFFERING_MATRIX_NOT_FOUND);
         }
 
         //Retrieve the timeslots for the specific activity offering.
@@ -118,7 +114,8 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
         //Get all timeslots from ASI and RSI.
         List<TimeSlotInfo> timeSlotsForAO = this.getTimeSlotsForAO(scheduleInfos, scheduleRequestInfos, contextInfo);
         if (timeSlotsForAO == null || timeSlotsForAO.isEmpty()) {
-            return new ExamOfferingResult(ExamOfferingServiceConstants.EXAM_OFFERING_ACTIVITY_OFFERING_TIMESLOTS_NOT_FOUND, contextParms);
+            removeRDLForExamOffering(examOfferingId, contextInfo);
+            return new ExamOfferingResult(ExamOfferingServiceConstants.EXAM_OFFERING_ACTIVITY_OFFERING_TIMESLOTS_NOT_FOUND);
         }
 
         //Execute the matrix.
@@ -140,11 +137,11 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
             }
             createRDLForExamOffering(componentInfo, timeslot, examOfferingId, contextInfo);
         } else {
-            removeRDLForExamOffering(null, timeslot, examOfferingId, contextInfo);
-            return new ExamOfferingResult(ExamOfferingServiceConstants.EXAM_OFFERING_AO_MATRIX_MATCH_NOT_FOUND, contextParms);
+            removeRDLForExamOffering(examOfferingId, contextInfo);
+            return new ExamOfferingResult(ExamOfferingServiceConstants.EXAM_OFFERING_AO_MATRIX_MATCH_NOT_FOUND);
         }
 
-        return new ExamOfferingResult(ExamOfferingServiceConstants.EXAM_OFFERING_SLOTTED_SUCCESS, contextParms);
+        return new ExamOfferingResult(ExamOfferingServiceConstants.EXAM_OFFERING_SLOTTED_SUCCESS);
     }
 
     /**
@@ -192,9 +189,6 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
     public ExamOfferingResult executeRuleForCOSlotting(CourseOffering courseOffering, String examOfferingId, String termType,
                                          List<String> optionKeys, ContextInfo contextInfo) throws OperationFailedException {
 
-        Map<String, String> contextParms = new HashMap<String, String>();
-        contextParms.put(CourseOfferingServiceConstants.CONTEXT_ELEMENT_COURSE_OFFERING_CODE, courseOffering.getCourseOfferingCode());
-
         KrmsTypeDefinition typeDefinition = this.getKrmsTypeRepositoryService().getTypeByName(
                 PermissionServiceConstants.KS_SYS_NAMESPACE, KSKRMSServiceConstants.AGENDA_TYPE_FINAL_EXAM_CO_DRIVEN);
         Agenda agenda = getAgendaForRefObjectId(termType, typeDefinition);
@@ -218,15 +212,15 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
                 ScheduleRequestComponentInfo componentInfo = createScheduleRequestFromResults(results);
                 createRDLForExamOffering(componentInfo, timeslot, examOfferingId, contextInfo);
             } else {
-                removeRDLForExamOffering(null, timeslot, examOfferingId, contextInfo);
-                return new ExamOfferingResult(ExamOfferingServiceConstants.EXAM_OFFERING_CO_MATRIX_MATCH_NOT_FOUND, contextParms);
+                removeRDLForExamOffering(examOfferingId, contextInfo);
+                return new ExamOfferingResult(ExamOfferingServiceConstants.EXAM_OFFERING_CO_MATRIX_MATCH_NOT_FOUND);
             }
 
         } else {
-            return new ExamOfferingResult(ExamOfferingServiceConstants.EXAM_OFFERING_MATRIX_NOT_FOUND, contextParms);
+            return new ExamOfferingResult(ExamOfferingServiceConstants.EXAM_OFFERING_MATRIX_NOT_FOUND);
         }
 
-        return new ExamOfferingResult(ExamOfferingServiceConstants.EXAM_OFFERING_SLOTTED_SUCCESS, contextParms);
+        return new ExamOfferingResult(ExamOfferingServiceConstants.EXAM_OFFERING_SLOTTED_SUCCESS);
     }
 
     /**
@@ -237,8 +231,6 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
      * @param agenda
      * @param typeId
      * @param executionFacts
-     * @param examOfferingId
-     * @param context
      */
     private EngineResults executeRuleForSlotting(Agenda agenda, String typeId, Map<String, Object> executionFacts) {
 
@@ -443,8 +435,7 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
      * @param examOfferingId
      * @param context
      */
-    private void removeRDLForExamOffering(ScheduleRequestComponentInfo componentInfo, TimeSlotInfo timeSlot,
-                                          String examOfferingId,ContextInfo context) {
+    private void removeRDLForExamOffering(String examOfferingId, ContextInfo context) {
         List<ScheduleRequestSetInfo> scheduleRequestSetInfoList = null;
         try {
             scheduleRequestSetInfoList = getSchedulingService().getScheduleRequestSetsByRefObject(ExamOfferingServiceConstants.REF_OBJECT_URI_EXAM_OFFERING, examOfferingId, context);
@@ -461,7 +452,7 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
                     getSchedulingService().deleteScheduleRequestSet(scheduleRequestSetInfo.getId(), context);
                 }
             } catch (Exception e) {
-                throw new RuntimeException("Error deleting ScheduleRequest: " + timeSlot, e);
+                throw new RuntimeException("Error deleting ScheduleRequest for " + examOfferingId, e);
             }
         }
     }

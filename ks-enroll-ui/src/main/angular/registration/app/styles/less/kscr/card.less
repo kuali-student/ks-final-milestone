@@ -32,14 +32,16 @@
     padding-top:10px;
 }
 
+.kscr-Card-detailsText--show{
+  padding-left: 0.5em;
+  padding-top: 0.3em;
+}
+
  /* Transitions for fade effect in Card Edit */
 
 .kscr-Card-detailsText--edit.ng-hide-remove,
  .kscr-Card-detailsText.ng-hide-remove{
-      -webkit-transition: @transition;
-      -moz-transition: @transition;
-      -o-transition: @transition;
-      transition: @transition;
+    &:extend(.util-transitions-browserHelper);
     display:block!important;
 }
 
@@ -84,6 +86,11 @@
 .kscr-Card-courseTimes{
    display: inline-flex;
    padding-left: 1em;
+   width: 100%;
+}
+
+.kscr-Card-scheduleComponent{
+  width: 100%;
 }
 
 .kscr-ao-type {
@@ -94,6 +101,19 @@
 .kscr-ao-time, .kscr-ao-location {
     float: left;
     width: 200px;
+}
+
+.kscr-ao-type-short {
+  float: left;
+  width: 35px;
+}
+
+.kscr-ao-time-short {
+  float: left;
+}
+
+.kscr-ao-location-short {
+  float: right;
 }
 
 .kscr-Card-supportText{
@@ -129,7 +149,8 @@
 
 .kscr-Card-icon{
    position: absolute;
-   padding-top: 0.4em;
+   font-size: 13px;
+   color:  @secondaryTextColor;
 }
 
 
@@ -198,8 +219,7 @@
 .panel-group  .panel{
     margin-bottom: 10px;
     border-width: 1px 1px 2px 1px;
-    -webkit-transition:  @transition;
-    transition:  @transition;
+    &:extend(.util-transitions-browserHelper);
     opacity:1;
 
 }
@@ -217,8 +237,7 @@
 .kscr-course-container {
     position:relative;
     width:100%;
-    -webkit-transition:  @transition;
-    transition:  @transition;
+    &:extend(.util-transitions-browserHelper);
     opacity:1;
 }
 
@@ -246,14 +265,13 @@
     height: 30px;
 }
 
-.cart-item-status-success,.cart-item-status-waitlist{
+.kscr-cartItem-status--success,.kscr-cartItem-status--waitlist{
     background-color: @successBackground;   // #dff0d8;
     border-color: @successBorder;  //#D6E9C6;
     color: @successText; // #3B723B;
     text-shadow: 0 .5px #fff;
 
-  -webkit-transition: @transition;
-  transition: @transition;
+    &:extend(.util-transitions-browserHelper);
 
     .kscr-cartResult-icon {
         background-image: url("../images/validation/success.png");
@@ -264,7 +282,14 @@
     }
 }
 
-.cart-item-status-processing {
+.kscr-cartItem-status--success-add-active, .kscr-cartItem-status--error-add-active, .kscr-cartItem-status--action-add-active, .kscr-cartItem-status--waitlist-add-active {
+    background-color: @cardBackgroundColor;
+    border-color: @cardBorderColor;
+    color: @cardTextColor;
+
+}
+
+.kscr-cartItem-status--processing {
     .kscr-cartResult-icon {
         background-image: url("../images/validation/spinner_small.gif");
         background-color: inherit;
@@ -277,14 +302,13 @@
     }
 }
 
-.cart-item-status-error {
+.kscr-cartItem-status--error {
     background-color: @errorBackground; //#F2DEDE;
     border-color: @errorBorder;  //#EFD3D7;
     color: @errorText; //#A3403C;
     text-shadow: 0 .5px #fff;
 
-  -webkit-transition: @transition;
-  transition: @transition;
+    &:extend(.util-transitions-browserHelper);
 
     .kscr-cartResult-icon {
         background-image: url("../images/validation/error.png");
@@ -294,14 +318,13 @@
     }
 }
 
-.cart-item-status-action {
+.kscr-cartItem-status--action {
   background-color: @warningBackground; //#F2DEDE;
   border-color: @warningBorder;  //#EFD3D7;
   color: @warningText; //#A3403C;
   text-shadow: 0 .5px #fff;
 
-  -webkit-transition: @transition;
-  transition: @transition;
+    &:extend(.util-transitions-browserHelper);
 
   .kscr-cartResult-icon {
     background-image: url("../images/validation/warning.png");
@@ -310,11 +333,7 @@
     display: none;
   }
 }
-/*
-.panel.cart-item-status- .panel-heading .kscr-Card-icon {
-    display:block;
-}
-*/
+
 /**** End ****/
 
 .kscr-Card-reason{
@@ -327,14 +346,15 @@
 
 .kscr-Card-title-alert{
     font-weight: bold;
-    //padding-left: 1.5em;
-
 }
 
 .kscr-Card-text-alert{
-    //padding-left: 1.5em;
     padding: 3px 0 10px 0;
 }
+
+.kscr-Card-alert-spacing{
+    width: 78%;
+ }
 
 .kscr-Card-alert--success{
    color: @successText; // #3B723B;

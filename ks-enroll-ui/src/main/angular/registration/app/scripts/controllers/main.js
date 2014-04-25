@@ -2,7 +2,7 @@
 
 angular.module('regCartApp')
     .controller('MainCtrl',
-    function ($scope, TermsService, ScheduleService, GlobalVarsService, APP_URL) {
+    function ($scope, TermsService, ScheduleService, GlobalVarsService, APP_URL, LoginService) {
         console.log('In Main Controller');
 
         $scope.appUrl = APP_URL.replace('/services/', '/');
@@ -42,5 +42,12 @@ angular.module('regCartApp')
             $scope.registeredCourseCount = GlobalVarsService.getRegisteredCourseCount; // notice that i didn't put the (). in the ui call: {{registeredCourseCount()}}
         });
          **/
+        $scope.logout = function(){
+            LoginService.logout().query({}, function () {
+                //After logging in, reload the page.
+                console.log('Logging out');
+                location.reload();
+            });
+        };
 
     });

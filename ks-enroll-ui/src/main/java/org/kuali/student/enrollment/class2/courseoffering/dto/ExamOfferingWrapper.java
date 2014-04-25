@@ -22,13 +22,6 @@ public class ExamOfferingWrapper implements Serializable, ComparatorModel{
     private String stateName;
     private String typeName;
     private String typeKey;
-    private String startTimeDisplay = "";
-    private String endTimeDisplay = "";
-    private String daysDisplayName = "";
-    private String buildingName = "";
-    private String buildingCode = "";
-    private String bldgCodeSimple = "";
-    private String roomName = "";
     private ExamOfferingInfo eoInfo;
     private List<String> startTime;
     private List<String> endTime;
@@ -100,30 +93,6 @@ public class ExamOfferingWrapper implements Serializable, ComparatorModel{
         this.typeName = typeName;
     }
 
-    public String getStartTimeDisplay() {
-        return startTimeDisplay;
-    }
-
-    public void setStartTimeDisplay(String startTimeDisplay) {
-       this.startTimeDisplay = StringUtils.defaultString(startTimeDisplay);
-    }
-
-    public String getEndTimeDisplay() {
-        return endTimeDisplay;
-    }
-
-    public void setEndTimeDisplay(String endTimeDisplay) {
-        this.endTimeDisplay = StringUtils.defaultString(endTimeDisplay);
-    }
-
-    public String getDaysDisplayName() {
-        return daysDisplayName;
-    }
-
-    public void setDaysDisplayName(String daysDisplayName) {
-        this.daysDisplayName = StringUtils.defaultString(daysDisplayName);
-    }
-
     public List<String> getStartTime() {
         return startTime;
     }
@@ -146,39 +115,6 @@ public class ExamOfferingWrapper implements Serializable, ComparatorModel{
 
     public void setWeekDays(List<String> weekDays) {
         this.weekDays = weekDays;
-    }
-
-    public String getBuildingName() {
-        return buildingName;
-    }
-
-    public void setBuildingName(String buildingName) {
-        this.buildingName = buildingName;
-    }
-
-    public String getBldgCodeSimple() {
-        return bldgCodeSimple;
-    }
-
-    public void setBldgCodeSimple(String bldgCodeSimple) {
-        this.bldgCodeSimple = bldgCodeSimple;
-    }
-
-    public String getBuildingCode() {
-        return buildingCode;
-    }
-
-    public void setBuildingCode(String buildingCode) {
-        String cssClass = "style=\"border-bottom: 1px dotted;\"";
-        this.buildingCode = "<span " + cssClass + " >" + StringUtils.defaultString(buildingCode) + "</span>";
-    }
-
-    public String getRoomName() {
-        return roomName;
-    }
-
-    public void setRoomName(String roomName) {
-        this.roomName = StringUtils.defaultString(roomName);
     }
 
     public String getTypeKey() {

@@ -43,12 +43,12 @@ import java.util.List;
  * @author Kuali Student Team
  */
 public class RegistrationRequestTransformer {
-    private static LRCService lrcService;
+    private LRCService lrcService;
 
     public static final String OK_TO_WAITLIST = "kuali.lpr.trans.item.option.oktowaitlist";
     public static final String OK_TO_HOLD_UNTIL_LIST = "kuali.lpr.trans.item.option.oktoholduntillist";
 
-    public static LprTransactionInfo regRequest2LprTransaction(RegistrationRequestInfo request, ContextInfo context)
+    public LprTransactionInfo regRequest2LprTransaction(RegistrationRequestInfo request, ContextInfo context)
             throws OperationFailedException, MissingParameterException, PermissionDeniedException, InvalidParameterException, DoesNotExistException {
         LprTransactionInfo lprTransaction = new LprTransactionInfo();
         lprTransaction.setId(request.getId());
@@ -67,7 +67,7 @@ public class RegistrationRequestTransformer {
         return lprTransaction;
     }
 
-    public static LprTransactionItemInfo regRequestItem2LprTransactionItem(RegistrationRequestItemInfo requestItem,
+    public  LprTransactionItemInfo regRequestItem2LprTransactionItem(RegistrationRequestItemInfo requestItem,
                                                                            ContextInfo context) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
         // Currently, attributes not saved.
         LprTransactionItemInfo item = new LprTransactionItemInfo();
@@ -122,7 +122,7 @@ public class RegistrationRequestTransformer {
         return item;
     }
 
-    public static RegistrationRequestInfo  lprTransaction2RegRequest(LprTransactionInfo lprTransaction,
+    public  RegistrationRequestInfo  lprTransaction2RegRequest(LprTransactionInfo lprTransaction,
                                                                      ContextInfo context)
             throws OperationFailedException, MissingParameterException, PermissionDeniedException,
             InvalidParameterException, DoesNotExistException {
@@ -145,7 +145,7 @@ public class RegistrationRequestTransformer {
         return request;
     }
 
-    public static RegistrationRequestItemInfo lprTransactionItem2regRequestItem(LprTransactionItemInfo item,
+    public  RegistrationRequestItemInfo lprTransactionItem2regRequestItem(LprTransactionItemInfo item,
                                                                                 ContextInfo context)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException {
@@ -226,11 +226,15 @@ public class RegistrationRequestTransformer {
     }
 
 
-    protected static LRCService getLrcService() {
+    protected  LRCService getLrcService() {
         if (lrcService == null) {
             lrcService = (LRCService) GlobalResourceLoader.getService(new QName(LrcServiceConstants.NAMESPACE,
                     LrcServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return lrcService;
+    }
+
+    public void setLrcService(LRCService lrcService) {
+        this.lrcService = lrcService;
     }
 }

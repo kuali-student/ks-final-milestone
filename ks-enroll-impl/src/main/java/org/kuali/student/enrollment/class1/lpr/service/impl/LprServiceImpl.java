@@ -960,7 +960,12 @@ public class LprServiceImpl implements LprService {
                                                ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        throw new UnsupportedOperationException("not implemented");
+        List<LprEntity> lprEntities = lprDao.getLprsByPersonAndAtp(personId, atpId);
+        List<LprInfo> lprInfos = new ArrayList<LprInfo>(lprEntities.size());
+        for (LprEntity entity : lprEntities) {
+            lprInfos.add(entity.toDto());
+        }
+        return lprInfos;
     }
 
     @Override

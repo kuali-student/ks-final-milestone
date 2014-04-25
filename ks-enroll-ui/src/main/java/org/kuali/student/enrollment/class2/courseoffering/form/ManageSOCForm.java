@@ -55,6 +55,11 @@ public class ManageSOCForm extends UifFormBase {
 
     private CourseOfferingContextBar contextBar = CourseOfferingContextBar.NULL_SAFE_INSTANCE;
 
+    private String bulkSchedulingStatus;
+    private String bulkScheduleInitiatedDate;
+    private String bulkScheduleCompleteDate;
+    private String bulkScheduleDuration;
+
     public ManageSOCForm()  {
         statusHistory = new ArrayList<ManageSOCStatusHistory> ();
     }
@@ -339,5 +344,35 @@ public class ManageSOCForm extends UifFormBase {
         this.contextBar = contextBar;
     }
 
+    public String getbulkSchedulingStatus() {
+        return bulkSchedulingStatus;
+    }
 
+    public void setBulkSchedulingStatus(String bulkSchedulingStatus) {
+        this.bulkSchedulingStatus = bulkSchedulingStatus;
+    }
+
+    public String getBulkScheduleInitiatedDate() {
+        return bulkScheduleInitiatedDate;
+    }
+
+    public void setBulkScheduleInitiatedDate(String bulkScheduleInitiatedDate) {
+        this.bulkScheduleInitiatedDate = bulkScheduleInitiatedDate;
+    }
+
+    public String getBulkScheduleCompleteDate() {
+        return bulkScheduleCompleteDate;
+    }
+
+    public void setBulkScheduleCompleteDate(String bulkScheduleCompleteDate) {
+        this.bulkScheduleCompleteDate = bulkScheduleCompleteDate;
+    }
+
+    public String getBulkScheduleDuration() {
+        return bulkScheduleDuration;
+    }
+
+    public void setBulkScheduleDuration(String bulkScheduleDuration) {
+        this.bulkScheduleDuration = bulkScheduleDuration;
+    }
 }

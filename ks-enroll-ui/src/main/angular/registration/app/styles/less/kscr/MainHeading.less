@@ -7,18 +7,12 @@
     border-bottom: 2px @cardBorderColor solid;
     border-top: none;
     padding-top: 0px;
-     -webkit-transition: @transition;
-     -moz-transition: @transition;
-     -o-transition: @transition;
-    transition: @transition;
+    &:extend(.util-transitions-browserHelper);
 }
 
 
 .kscr-MainHeading.ng-hide-remove {
-      -webkit-transition: @transition;
-      -moz-transition: @transition;
-      -o-transition: @transition;
-      transition: @transition;
+    &:extend(.util-transitions-browserHelper);
 }
 
 .kscr-MainHeading.ng-hide-add.ng-hide-add-active,

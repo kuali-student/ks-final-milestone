@@ -156,6 +156,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
         if (driver.equals(Driver.PER_AO)) {
             return generateFinalExamOfferingsPerAOOptimized(courseOfferingInfo.getId(), termId, examPeriodId, optionKeys, foIdToListOfAOs, useFinalExamMatrix, context);
         } else if (driver.equals(Driver.PER_CO)) {
+            optionKeys.add(ExamOfferingServiceFacade.EXCLUDE_SLOTTING_OPTION_KEY);
             return generateFinalExamOfferingsPerCOOptimized(courseOfferingInfo, termId, examPeriodId, optionKeys, foIdToListOfAOs, context);
         } else if (driver.equals(Driver.NONE)) {
             // Final exam type is not STANDARD or no exam driver was selected. No exam offerings are generated
@@ -267,7 +268,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
             }
 
             //(re)perform slotting if use fe matrix toggle is selected and use did not override timeslot.
-            if (!userOverride && useFinalExamMatrix) {
+            if (!userOverride && useFinalExamMatrix && !optionKeys.contains(ExamOfferingServiceFacade.EXCLUDE_SLOTTING_OPTION_KEY)) {
                 foResult.getChildren().add(this.getScheduleEvaluator().executeRuleForCOSlotting(courseOffering, eo.getId(),
                         termType, new ArrayList<String>(), context));
             }
@@ -502,17 +503,18 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
 
                     //Remove RDL for Exam Offering if use fe matrix toggle was deselected and user did not override timeslot.
                     if(!userOverride && !useFinalExamMatrix){
+                        aoResult = new ExamOfferingResult(ExamOfferingServiceConstants.EXAM_OFFERING_UPDATED, contextParms);
                         removeExamOfferingRDL(eo, context);
+                    } else {
+                        aoResult = new ExamOfferingResult(ExamOfferingServiceConstants.EXAM_OFFERING_UNCHANGED, contextParms);
                     }
-                    aoResult = new ExamOfferingResult(ExamOfferingServiceConstants.EXAM_OFFERING_UPDATED, contextParms);
                 }
 
                 //(re)perform slotting if use fe matrix toggle is selected and use did not override timeslot.
-                if (!userOverride && useFinalExamMatrix) {
+                if (!userOverride && useFinalExamMatrix && !optionKeys.contains(ExamOfferingServiceFacade.EXCLUDE_SLOTTING_OPTION_KEY)) {
                     aoResult.getChildren().add(this.getScheduleEvaluator().executeRuleForAOSlotting(aoInfo, eo.getId(),
                             termType, evaluatorOptions, context));
                 }
-                aoResult.setContext(contextParms);
                 result.getChildren().add(aoResult);
 
             }
@@ -871,6 +873,33 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
             if (key.equals(attr.getKey())) {
                 return attr.getValue();
             }
+        }
+        return null;
+    }
+
+    @Override
+    public ExamOfferingResult reslotExamOffering(CourseOfferingInfo courseOfferingInfo, ActivityOfferingInfo activityOfferingInfo,
+                                                 ExamOfferingInfo examOfferingInfo, String termId, ContextInfo context)
+            throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
+
+        String termType = this.getAtpService().getAtp(termId, context).getTypeKey();
+
+        Driver driver = calculateEODriver(courseOfferingInfo);
+        if (driver.equals(Driver.PER_AO)) {
+            if(activityOfferingInfo==null){
+                throw new MissingParameterException("Activity Offering is null.");
+            }
+
+            List<String> evaluatorOptions = new ArrayList<String>();
+            if(this.isSetLocation()){
+                evaluatorOptions.add(ExamOfferingSlottingEvaluator.USE_AO_LOCATION_OPTION_KEY);
+            }
+
+            return this.getScheduleEvaluator().executeRuleForAOSlotting(activityOfferingInfo, examOfferingInfo.getId(), termType, evaluatorOptions, context);
+        } else if (driver.equals(Driver.PER_CO)) {
+            return this.getScheduleEvaluator().executeRuleForCOSlotting(courseOfferingInfo, examOfferingInfo.getId(), termType, new ArrayList<String>(), context);
+        } else if (driver.equals(Driver.NONE)) {
+            // Final exam type is not STANDARD or no exam driver was selected. No exam offerings are generated
         }
         return null;
     }

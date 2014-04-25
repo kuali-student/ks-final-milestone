@@ -11,6 +11,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.util.constants.LprRosterServiceConstants;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -329,7 +330,7 @@ public class ProcessIntegrationTest {
 
         RegistrationRequestItemInfo item = new RegistrationRequestItemInfo();
         item.setPersonId(ProcessIntegrationTestConstants.PERSON_ID_BARBARA_HARRIS_2016);
-        item.setTypeKey(CourseRegistrationServiceTypeStateConstants.REQ_ITEM_ADD_TYPE_KEY);
+        item.setTypeKey(LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY);
         item.setStateKey(LprServiceConstants.LPRTRANS_NEW_STATE_KEY);
         item.setRegistrationGroupId("ENGL101-FA2011");
         req.getRegistrationRequestItems().add(item);

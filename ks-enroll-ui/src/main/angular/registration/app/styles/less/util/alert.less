@@ -23,8 +23,7 @@
 
 .util-Alert.ng-enter,
 .util-Alert.ng-leave {
-    -webkit-transition: @transition;
-    transition: @transition;
+    &:extend(.util-transitions-browserHelper);
 }
 
 .util-Alert.ng-enter,
@@ -64,7 +63,7 @@
 
 .util-Alert--card--dropped {
     margin-bottom: 0.7em;
-    .util-Alert--card;
+    &:extend(.util-Alert--card);
 }
 .util-Alert--information {
     background-image: url("../images/validation/info.png");

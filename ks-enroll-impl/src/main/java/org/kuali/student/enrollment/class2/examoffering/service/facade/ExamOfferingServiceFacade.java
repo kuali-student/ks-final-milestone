@@ -2,6 +2,7 @@ package org.kuali.student.enrollment.class2.examoffering.service.facade;
 
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.examoffering.dto.ExamOfferingInfo;
 import org.kuali.student.enrollment.examoffering.dto.ExamOfferingRelationInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -26,6 +27,7 @@ import java.util.Map;
 public interface ExamOfferingServiceFacade {
 
     public static final String RECREATE_OPTION_KEY = "kuali.option.key.exam.offering.recreate";
+    public static final String EXCLUDE_SLOTTING_OPTION_KEY = "kuali.option.key.exam.offering.exclude.slotting";
 
     /**
      * This method generates new Exam Offerings for the Course Offering for the given Course Offering Id based on
@@ -300,6 +302,19 @@ public interface ExamOfferingServiceFacade {
                                                                                    @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, DoesNotExistException,
             PermissionDeniedException;
+
+    /**
+     * Resend the examoffering to the slotting process.
+     *
+     * @param courseOffering
+     * @param activityOfferingInfo
+     * @param examOfferingInfo
+     * @param termId
+     * @param context
+     */
+    ExamOfferingResult reslotExamOffering(CourseOfferingInfo courseOfferingInfo, ActivityOfferingInfo activityOfferingInfo,
+                                                 ExamOfferingInfo examOfferingInfo, String termId, ContextInfo context)
+            throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException;
 
     /**
      * This method retrieves the boolea value to indicate if the execution process should or not set the location on the RDL.

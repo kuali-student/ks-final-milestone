@@ -1,14 +1,23 @@
 package org.kuali.student.enrollment.class2.courseregistration.service.impl;
 
 import org.apache.activemq.command.ActiveMQMapMessage;
+import org.apache.activemq.command.ActiveMQObjectMessage;
+import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.student.enrollment.class2.courseregistration.service.transformer.RegistrationRequestTransformer;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.enrollment.courseregistration.dto.ActivityRegistrationInfo;
+import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseItemInfo;
+import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequestItem;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
+import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.registration.engine.service.CourseRegistrationConstants;
@@ -25,18 +34,25 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
+import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.jms.JMSException;
 import javax.jms.MapMessage;
+import javax.jms.ObjectMessage;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class CourseRegistrationServiceImpl extends AbstractCourseRegistrationService implements CourseRegistrationService {
 
     private LprService lprService;
     private CourseOfferingService courseOfferingService;
+    private RegistrationRequestTransformer registrationRequestTransformer;
+
 
     private JmsTemplate jmsTemplate;  // needed to call ActiveMQ based Registration Engine
 
@@ -94,7 +110,7 @@ public class CourseRegistrationServiceImpl extends AbstractCourseRegistrationSer
 
     /**
      *
-     * @param registrationCartId Same as a reg request ID.  Refers to a RegistrationRequestInfo/LPRTransactionInfo
+     * @param cartInfo Same as a reg request ID.  Refers to a RegistrationRequestInfo/LPRTransactionInfo
      *                           object (with type
      * @param contextInfo The context info
      */
@@ -162,11 +178,11 @@ public class CourseRegistrationServiceImpl extends AbstractCourseRegistrationSer
         // Check reg request of type "cart" only has add items
         verifyRegRequestCartTypeKey(registrationRequestTypeKey, registrationRequestInfo);
         // There is no Reg Request table. the reg request is converted to an LPR and stored.
-        LprTransactionInfo lprTransactionInfo = RegistrationRequestTransformer.regRequest2LprTransaction(registrationRequestInfo, contextInfo);
+        LprTransactionInfo lprTransactionInfo = getRegistrationRequestTransformer().regRequest2LprTransaction(registrationRequestInfo, contextInfo);
 
         LprTransactionInfo newLprTransaction = getLprService().createLprTransaction(lprTransactionInfo.getTypeKey(), lprTransactionInfo, contextInfo);
 
-        return RegistrationRequestTransformer.lprTransaction2RegRequest(newLprTransaction, contextInfo);
+        return getRegistrationRequestTransformer().lprTransaction2RegRequest(newLprTransaction, contextInfo);
 
     }
 
@@ -180,10 +196,10 @@ public class CourseRegistrationServiceImpl extends AbstractCourseRegistrationSer
         verifyRegRequestCartTypeKey(registrationRequestInfo.getTypeKey(), registrationRequestInfo);
         // There is no Reg Request table. the reg request is converted to an LPR and stored.
         LprTransactionInfo lprTransactionInfo
-                = RegistrationRequestTransformer.regRequest2LprTransaction(registrationRequestInfo, contextInfo);
+                = getRegistrationRequestTransformer().regRequest2LprTransaction(registrationRequestInfo, contextInfo);
         LprTransactionInfo updated
             = getLprService().updateLprTransaction(lprTransactionInfo.getId(), lprTransactionInfo, contextInfo);
-        return RegistrationRequestTransformer.lprTransaction2RegRequest(updated, contextInfo);
+        return getRegistrationRequestTransformer().lprTransaction2RegRequest(updated, contextInfo);
     }
 
     @Override
@@ -192,7 +208,7 @@ public class CourseRegistrationServiceImpl extends AbstractCourseRegistrationSer
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         LprTransactionInfo lprTransaction = getLprService().getLprTransaction(registrationRequestId, contextInfo);
-        RegistrationRequestInfo result = RegistrationRequestTransformer.lprTransaction2RegRequest(lprTransaction, contextInfo);
+        RegistrationRequestInfo result = getRegistrationRequestTransformer().lprTransaction2RegRequest(lprTransaction, contextInfo);
         return result;
     }
 
@@ -207,6 +223,93 @@ public class CourseRegistrationServiceImpl extends AbstractCourseRegistrationSer
         StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
         return status;
+    }
+
+    @Override
+    public List<CourseRegistrationInfo> getCourseRegistrationsByStudentAndTerm(String studentId, String termId, ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        //Do a query for all lprs that have matching person and atp ids. Limit to RG and CO Lprs that are in state
+        // registrant(might want to change to active in future)
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.equal("personId", studentId),
+                PredicateFactory.equal("atpId", termId),
+                PredicateFactory.in("personRelationTypeId", LprServiceConstants.REGISTRANT_CO_LPR_TYPE_KEY, LprServiceConstants.REGISTRANT_RG_LPR_TYPE_KEY),
+                PredicateFactory.equal("personRelationStateId", LprServiceConstants.ACTIVE_STATE_KEY));
+        QueryByCriteria lprCriteria = qbcBuilder.build();
+        List<LprInfo> lprs = getLprService().searchForLprs(lprCriteria, contextInfo);
+
+        //Get a mapping from the master lprid to the COid since CourseRegistrationInfo has both CO and RG ids
+        Map<String,String> masterLprIdToCoIdMap = new HashMap<String, String>();
+        for(LprInfo lpr:lprs){
+            if(LprServiceConstants.REGISTRANT_CO_LPR_TYPE_KEY.equals(lpr.getTypeKey())){
+                masterLprIdToCoIdMap.put(lpr.getMasterLprId(), lpr.getLuiId());
+            }
+        }
+
+        //FOr each RG lpr, greate a new courseRegistrationInfo and lookup the corresponding CO id
+        List<CourseRegistrationInfo> courseRegistrations = new ArrayList<CourseRegistrationInfo>(lprs.size());
+        for(LprInfo lpr:lprs){
+            if(LprServiceConstants.REGISTRANT_RG_LPR_TYPE_KEY.equals(lpr.getTypeKey())){
+                courseRegistrations.add(toCourseRegistration(lpr, masterLprIdToCoIdMap.get(lpr.getMasterLprId())));
+            }
+        }
+        return courseRegistrations;
+    }
+
+    @Override
+    public List<ActivityRegistrationInfo> getActivityRegistrationsForCourseRegistration(String courseRegistrationId, ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        //Do a search for AO lprs with the masterLPR matching the course registration
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.equal("masterLprId", courseRegistrationId),
+                PredicateFactory.in("personRelationTypeId", LprServiceConstants.REGISTRANT_AO_LPR_TYPE_KEY),
+                PredicateFactory.equal("personRelationStateId", LprServiceConstants.ACTIVE_STATE_KEY));
+        QueryByCriteria lprCriteria = qbcBuilder.build();
+        List<LprInfo> lprs = getLprService().searchForLprs(lprCriteria, contextInfo);
+
+        //Convert these lprs to ActivityRegistrationInfos
+        List<ActivityRegistrationInfo> activityRegistrations = new ArrayList<ActivityRegistrationInfo>(lprs.size());
+        for(LprInfo lpr:lprs){
+            ActivityRegistrationInfo activityRegistration = new ActivityRegistrationInfo();
+            activityRegistration.setTypeKey(lpr.getTypeKey());
+            activityRegistration.setStateKey(lpr.getStateKey());
+            activityRegistration.setId(lpr.getId());
+            activityRegistration.setEffectiveDate(lpr.getEffectiveDate());
+            activityRegistration.setExpirationDate(lpr.getExpirationDate());
+            activityRegistration.setTermId(lpr.getAtpId());
+            activityRegistration.setAttributes(lpr.getAttributes());
+            activityRegistration.setActivityOfferingId(lpr.getLuiId());
+            activityRegistration.setPersonId(lpr.getPersonId());
+            activityRegistration.setCourseRegistrationId(lpr.getMasterLprId());
+            activityRegistration.setMeta(lpr.getMeta());
+            activityRegistrations.add(activityRegistration);
+        }
+        return activityRegistrations;
+    }
+
+    private CourseRegistrationInfo toCourseRegistration(LprInfo rgLpr, String courseOfferingId) {
+        CourseRegistrationInfo courseRegistration = new CourseRegistrationInfo();
+        for(String rvgKey:rgLpr.getResultValuesGroupKeys()){
+            if (rvgKey.startsWith(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_BASE)) {
+                courseRegistration.setGradingOptionId(rvgKey);
+            } else if (rvgKey.startsWith(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE)) {
+                //This will be replaced with just the key in the future
+                courseRegistration.setCredits(new KualiDecimal(rvgKey.substring(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE.length() + 1)));
+            }
+        }
+        courseRegistration.setId(rgLpr.getId());
+        courseRegistration.setStateKey(rgLpr.getStateKey());
+        courseRegistration.setTypeKey(rgLpr.getTypeKey());
+        courseRegistration.setRegistrationGroupId(rgLpr.getLuiId());
+        courseRegistration.setCourseOfferingId(courseOfferingId);
+        courseRegistration.setPersonId(rgLpr.getPersonId());
+        courseRegistration.setTermId(rgLpr.getAtpId());
+        courseRegistration.setAttributes(rgLpr.getAttributes());
+        courseRegistration.setMeta(rgLpr.getMeta());
+        courseRegistration.setEffectiveDate(rgLpr.getEffectiveDate());
+        courseRegistration.setExpirationDate(rgLpr.getExpirationDate());
+        return courseRegistration;
     }
 
     public JmsTemplate getJmsTemplate() {
@@ -237,5 +340,13 @@ public class CourseRegistrationServiceImpl extends AbstractCourseRegistrationSer
 
     public void setCourseOfferingService(CourseOfferingService courseOfferingService) {
         this.courseOfferingService = courseOfferingService;
+    }
+
+    public RegistrationRequestTransformer getRegistrationRequestTransformer() {
+        return registrationRequestTransformer;
+    }
+
+    public void setRegistrationRequestTransformer(RegistrationRequestTransformer registrationRequestTransformer) {
+        this.registrationRequestTransformer = registrationRequestTransformer;
     }
 }

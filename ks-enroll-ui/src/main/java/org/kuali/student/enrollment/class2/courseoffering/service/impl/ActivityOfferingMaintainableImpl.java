@@ -229,7 +229,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                     CourseOfferingInfo courseOfferingInfo = CourseOfferingManagementUtil.getCourseOfferingService().getCourseOffering(activityOfferingInfo.getCourseOfferingId(), contextInfo);
                     ExamOfferingResult result = CourseOfferingManagementUtil.getExamOfferingServiceFacade().generateFinalExamOfferingForAO(courseOfferingInfo, activityOfferingWrapper.getAoInfo(),
                         activityOfferingWrapper.getAoInfo().getTermId(), activityOfferingWrapper.getFormatOffering().getFinalExamLevelTypeKey(), new ArrayList<String>(), contextInfo);
-                    CourseOfferingManagementUtil.processExamOfferingResultSet(result);
+                    CourseOfferingManagementUtil.processExamOfferingResultSetForAO(result);
                 }
 
             } catch (Exception e) {

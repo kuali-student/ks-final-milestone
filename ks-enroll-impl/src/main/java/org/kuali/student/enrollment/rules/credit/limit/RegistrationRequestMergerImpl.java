@@ -90,13 +90,13 @@ public class RegistrationRequestMergerImpl implements RegistrationRequestMerger 
         for (RegistrationRequestItemInfo item : request.getRegistrationRequestItems()) {
             // Should change these if statemens to a SWITCH statement once we move to java 7
             // Adds
-            if (item.getTypeKey().equals(CourseRegistrationServiceTypeStateConstants.REQ_ITEM_ADD_TYPE_KEY)) {
+            if (item.getTypeKey().equals(LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY)) {
                 CourseRegistrationTransaction rt = this.createNewCourseRegistrationTransaction(item, skipActivities, contextInfo);
                 list.add(rt);
                 continue;
             }
             // drops
-            if (item.getTypeKey().equals(CourseRegistrationServiceTypeStateConstants.REQ_ITEM_DROP_TYPE_KEY)) {
+            if (item.getTypeKey().equals(LprServiceConstants.REQ_ITEM_DROP_TYPE_KEY)) {
                 CourseRegistrationTransaction rt = this.findMatchingActiveCourseRegistration(item, contextInfo, list);
                 if (rt == null) {
                     throw new OperationFailedException("Cannot drop non-existent or non-active course registration");
@@ -105,7 +105,7 @@ public class RegistrationRequestMergerImpl implements RegistrationRequestMerger 
                 continue;
             }
             // just updating data bits 
-            if (item.getTypeKey().equals(CourseRegistrationServiceTypeStateConstants.REQ_ITEM_UPDATE_TYPE_KEY)) {
+            if (item.getTypeKey().equals(LprServiceConstants.REQ_ITEM_UPDATE_TYPE_KEY)) {
                 CourseRegistrationTransaction rt = this.findMatchingActiveCourseRegistration(item, contextInfo, list);
                 if (rt == null) {
                     throw new OperationFailedException("Cannot update a non-existent or non-active course registration");
@@ -114,7 +114,7 @@ public class RegistrationRequestMergerImpl implements RegistrationRequestMerger 
                 continue;
             }
             // swap
-            if (item.getTypeKey().equals(CourseRegistrationServiceTypeStateConstants.REQ_ITEM_SWAP_TYPE_KEY)) {
+            if (item.getTypeKey().equals(LprServiceConstants.REQ_ITEM_SWAP_TYPE_KEY)) {
                 CourseRegistrationTransaction rt1 = this.findMatchingActiveCourseRegistration(item, contextInfo, list);
                 if (rt1 == null) {
                     throw new OperationFailedException("Cannot swap non-existent or non-active course registration");

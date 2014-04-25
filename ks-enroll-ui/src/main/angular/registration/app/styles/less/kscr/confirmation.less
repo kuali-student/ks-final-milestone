@@ -5,10 +5,7 @@
     padding: 5px 10px;
     border: 1px @cardBorderColor solid;
     border-bottom-width: 2px;
-     -webkit-transition: @transition;
-     -moz-transition: @transition;
-     -o-transition: @transition;
-    transition: @transition;
+    &:extend(.util-transitions-browserHelper);
 }
 
 .kscr-Confirmation-header{
@@ -27,10 +24,7 @@
 
 
 .kscr-Confirmation-container.ng-hide-remove {
-    -webkit-transition: @transition;
-    -moz-transition: @transition;
-    -o-transition: @transition;
-    transition: @transition;
+    &:extend(.util-transitions-browserHelper);
    display:block!important;
    opacity: 0;
  }

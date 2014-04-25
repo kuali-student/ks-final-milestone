@@ -60,6 +60,7 @@
         <!-- These listeners are the nodes in the registration engine -->
         <jms:listener id="regInitListener" destination="org.kuali.student.enrollment.registration.initilizationListenerQueue" ref="registrationInitilizationListener" />
         <jms:listener id="regVerificationListener" destination="org.kuali.student.enrollment.registration.verificationQueue" ref="registrationVerificationListener" />
+        <jms:listener id="waitlistManagerListener" destination="org.kuali.student.enrollment.registration.seatOpenEventQueue" ref="waitlistManagerNode" />
         <!-- The following have been overridden by camel.
         <jms:listener id="regSplitByItemListener" destination="org.kuali.student.enrollment.registration.splitByItemQueue" ref="registrationSplitByItemListener" />
         <jms:listener id="regLprActionListener" destination="org.kuali.student.enrollment.registration.lprActionQueue" ref="registrationLprActionListener" />
@@ -142,15 +143,15 @@
     <bean id="regEnginePerfPojo" class="org.kuali.student.enrollment.registration.engine.processor.RegEnginePerformanceProcessor">  <!-- very simple aggregator that takes the ao results and combines them into a list. Should return a more complex object in future -->
         <property name="jmsTemplate" ref="jmsTemplate"/>
     </bean>
-    <bean id="regEngineImpl" class="org.kuali.student.enrollment.registration.engine.service.impl.CourseRegistrationEngineServiceImpl" >
-        <property name="waitlistManagerService" ref="waitlistManagerService"/>
-    </bean>
     <bean id="courseRegistrationLprActionProcessor" class="org.kuali.student.enrollment.registration.engine.processor.CourseRegistrationLprActionProcessor">
         <property name="courseRegistrationEngineService" ref="courseRegistrationEngineService"/>
+        <property name="jmsTemplate" ref="jmsTemplate"/>
     </bean>
     <bean id="waitlistManagerService" class="org.kuali.student.enrollment.registration.engine.service.impl.WaitlistManagerServiceImpl"/>
 
-
+    <bean id="waitlistManagerNode" class="org.kuali.student.enrollment.registration.engine.node.impl.CourseRegistrationWaitlistManagerNode">
+        <property name="waitlistManagerService" ref="waitlistManagerService"/>
+    </bean>
 
     <!-- splits the reg request into multiple queues, one for each item, with a group id of the item's FO -->
     <!-- overwritten to use camel

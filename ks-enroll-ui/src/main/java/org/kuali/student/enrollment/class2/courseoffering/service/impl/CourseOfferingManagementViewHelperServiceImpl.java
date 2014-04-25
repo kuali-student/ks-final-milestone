@@ -1995,6 +1995,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                     enabled++;
                     List<ActivityOfferingWrapper> aos = getActivityOfferingsByCourseOfferingId(co.getCourseOfferingId(), form);
                     if (aos != null && !aos.isEmpty()) {
+                        form.setAdminOrg(co.getAdminOrg());
                         CourseOfferingManagementToolbarUtil.processAoToolbarForUser(aos, form);
                         for (ActivityOfferingWrapper ao : aos) {
                             if (ao.isEnableApproveButton()) {

@@ -47,9 +47,9 @@ public class GesServiceDataLoadingDecorator extends GesServiceDecorator {
                 "The Load Calculation to use for credit limit checks", ValueType.STRING, contextInfo);
 
         _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT, 1, "6",
-                "kuali.population.everyone", "kuali.atp.type.Summer", contextInfo);
-        _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT, 2, "9",
-                "kuali.population.everyone", "kuali.atp.type.Fall, kuali.atp.type.Spring", contextInfo);
+                "kuali.population.student.key.everyone", "kuali.atp.type.Summer", contextInfo);
+        _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT, 2, "21",
+                "kuali.population.student.key.everyone", "kuali.atp.type.Fall, kuali.atp.type.Spring", contextInfo);
 //        _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT, 3, "15",
 //                "kuali.population.freshman", "kuali.atp.type.Fall, kuali.atp.type.Spring", contextInfo);
 //        _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT, 4, "18",
@@ -64,13 +64,13 @@ public class GesServiceDataLoadingDecorator extends GesServiceDecorator {
 //        _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_MINIMUM, 2, "9",
 //                "kuali.population.fin.aid.recipients", "kuali.atp.type.Fall, kuali.atp.type.Spring", contextInfo);
 //        _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_MINIMUM, 3, "1",
-//                "kuali.population.everyone", "kuali.atp.type.Fall, kuali.atp.type.Spring", contextInfo);
+//                "kuali.population.student.key.everyone", "kuali.atp.type.Fall, kuali.atp.type.Spring", contextInfo);
 //        _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_MINIMUM, 4, "0",
-//                "kuali.population.everyone", "kuali.atp.type.Summer", contextInfo);
+//                "kuali.population.student.key.everyone", "kuali.atp.type.Summer", contextInfo);
 
         _createValue(GesServiceConstants.PARAMETER_KEY_LOAD_CALCULATION_FOR_CREDIT_CHECKS,
                  1, "kuali.academic.record.calculation.type.load.credit.decimal",
-                "kuali.population.everyone", "", contextInfo);
+                "kuali.population.student.key.everyone", "", contextInfo);
     }
 
     private ParameterInfo _createParam(String key, String name, String descr, ValueType valueType, ContextInfo context) {

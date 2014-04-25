@@ -222,7 +222,13 @@
     <bean id="AutogenCountSearchServiceImpl" class="org.kuali.student.enrollment.class2.courseoffering.service.search.CourseOfferingServiceAutogenCountSearchServiceImpl" autowire="autodetect">
     </bean>
 
-    <bean id="ActivityOfferingSearchServiceImpl" class="org.kuali.student.r2.core.class1.search.ActivityOfferingSearchServiceImpl" autowire="autodetect" />
+    <bean id="ActivityOfferingSearchServiceImpl" class="org.kuali.student.r2.core.class1.search.ActivityOfferingSearchServiceImpl" autowire="autodetect" >
+        <property name="entityManager" ref="entityManager"/>
+    </bean>
+
+    <bean id="CourseRegistrationSearchServiceImpl" class="org.kuali.student.enrollment.registration.search.service.impl.CourseRegistrationSearchServiceImpl">
+        <property name="entityManager" ref="entityManager"/>
+    </bean>
 
     <bean id="SearchService" class="org.kuali.student.r2.common.class1.search.SearchServiceDispatcherImpl">
         <property name="searchServices">
@@ -232,6 +238,7 @@
                 <bean id="CoreSearchServiceImpl" class="org.kuali.student.r2.core.class1.search.CoreSearchServiceImpl">
                     <property name="entityManager" ref="entityManager"/>
                 </bean>
+                <ref bean="CourseRegistrationSearchServiceImpl"/>
             </list>
         </property>
     </bean>

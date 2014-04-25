@@ -10,7 +10,6 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 public class RegistrationRequestEngineMessage implements Serializable {
     private RegistrationRequest registrationRequest;
     private ContextInfo contextInfo;
-    private boolean stopProcessing = false;
     private Map<String, RegistrationGroup> registrationGroupMap;
 
     public RegistrationRequestEngineMessage(RegistrationRequest registrationRequest, Map<String, RegistrationGroup> registrationGroupMap, ContextInfo contextInfo) {
@@ -33,14 +32,6 @@ public class RegistrationRequestEngineMessage implements Serializable {
 
     public void setRegistrationGroupMap(Map<String, RegistrationGroup> registrationGroupMap) {
         this.registrationGroupMap = registrationGroupMap;
-    }
-
-    public boolean isStopProcessing() {
-        return stopProcessing;
-    }
-
-    public void setStopProcessing(boolean stopProcessing) {
-        this.stopProcessing = stopProcessing;
     }
 
     public ContextInfo getContextInfo() {

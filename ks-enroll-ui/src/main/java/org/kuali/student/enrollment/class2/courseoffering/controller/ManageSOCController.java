@@ -17,15 +17,20 @@
 package org.kuali.student.enrollment.class2.courseoffering.controller;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.uif.util.KSControllerHelper;
+import org.kuali.student.enrollment.batch.BatchScheduler;
+import org.kuali.student.enrollment.batch.util.BatchSchedulerConstants;
 import org.kuali.student.enrollment.class2.courseoffering.form.ManageSOCForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.ManageSOCViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.util.ManageSocConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.common.util.date.KSDateTimeFormatter;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,6 +42,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.namespace.QName;
+import java.util.Date;
 
 /**
  * This class handles all the request for Managing SOC. This handles requests from ManageSOCView for different SOC state
@@ -50,6 +57,7 @@ import javax.servlet.http.HttpServletResponse;
 public class ManageSOCController extends UifControllerBase {
 
     private final static Logger LOG = LoggerFactory.getLogger(ManageSOCController.class);
+    private BatchScheduler batchScheduler;
 
     @Override
     protected UifFormBase createInitialForm(@SuppressWarnings("unused") HttpServletRequest request) {
@@ -238,6 +246,28 @@ public class ManageSOCController extends UifControllerBase {
         } else {
             return getUIFModelAndView(socForm);
         }
+    }
+
+    @RequestMapping(params = "methodToCall=createEOBulkScheduler")
+    public ModelAndView createEOBulkScheduler(@ModelAttribute("KualiForm") ManageSOCForm socForm, @SuppressWarnings("unused") BindingResult result,
+                                                          @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+
+        KSDateTimeFormatter dateFormatter = DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER;
+        String date = dateFormatter.format(new Date());
+
+        //03/26/2014 02:14 PM
+        KSDateTimeFormatter dateTimeFormatter = DateFormatters.MONTH_DAY_YEAR_TIME_DATE_FORMATTER;
+        Date dateAndTime = dateTimeFormatter.parse(date + " " + "02:52"  + " " + "AM");
+
+        this.getBatchScheduler().schedule("kuali.batch.job.examOffering.slotting", null, dateAndTime);
+        return super.navigate(socForm, result, request, response);
+    }
+
+    private BatchScheduler getBatchScheduler() {
+        if (batchScheduler == null) {
+            batchScheduler = GlobalResourceLoader.getService(new QName(BatchSchedulerConstants.NAMESPACE, BatchSchedulerConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return batchScheduler;
     }
 
 
