@@ -17,19 +17,12 @@ package org.kuali.student.ap.service;
 
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
 import org.kuali.student.ap.academicplan.dto.LearningPlanInfo;
 import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
 import org.kuali.student.ap.academicplan.service.AcademicPlanService;
-import org.kuali.student.ap.academicplan.service.AcademicPlanServiceDecorator;
-import org.kuali.student.ap.academicplan.service.AcademicPlanServiceImpl;
-import org.kuali.student.ap.academicplan.service.mock.AcademicPlanDataLoader;
-import org.kuali.student.ap.academicplan.service.mock.AcademicPlanServiceMockImpl;
-import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
-import org.kuali.student.ap.framework.context.support.DefaultKsapContext;
 import org.kuali.student.common.test.util.AttributeTester;
 import org.kuali.student.common.test.util.IdEntityTester;
 import org.kuali.student.common.test.util.MetaTester;
@@ -45,7 +38,6 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.ArrayList;
@@ -577,8 +569,9 @@ public abstract class TestAcademicPlanServiceImplConformanceBaseCrud {
 
 	/* Method Name: getPlanItemsInPlanByRefObjectIdByRefObjectType */
 	@Test
-	public abstract void test_getPlanItemsInPlanByRefObjectIdByRefObjectType() 
-	throws 	DoesNotExistException	,InvalidParameterException	,MissingParameterException	,OperationFailedException	;
+	public abstract void test_getPlanItemsInPlanByRefObjectIdByRefObjectType()
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+                   OperationFailedException, PermissionDeniedException;
 	
 	/* Method Name: validateLearningPlan */
 	@Test

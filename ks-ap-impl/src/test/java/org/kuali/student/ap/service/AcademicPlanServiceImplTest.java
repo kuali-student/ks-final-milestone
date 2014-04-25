@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,22 +15,20 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.ap.academicplan.service.AcademicPlanServiceDecorator;
 import org.kuali.student.ap.academicplan.service.AcademicPlanServiceImpl;
-import org.kuali.student.ap.academicplan.service.mock.AcademicPlanServiceMockImpl;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.support.DefaultKsapContext;
 import org.kuali.student.ap.academicplan.dto.LearningPlanInfo;
 import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
 import org.kuali.student.ap.academicplan.infc.LearningPlan;
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
+import org.kuali.student.ap.service.mock.AcademicPlanServiceMockImpl;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.lum.clu.CLUConstants;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -91,9 +88,10 @@ public class AcademicPlanServiceImplTest extends TestAcademicPlanServiceImplConf
 	}
 
 	@Test(expected = DoesNotExistException.class)
-	public void getUnknownLearningPlan() throws InvalidParameterException,
-			MissingParameterException, DoesNotExistException,
-			OperationFailedException {
+	public void getUnknownLearningPlan()
+            throws InvalidParameterException,
+                   MissingParameterException, DoesNotExistException,
+                   OperationFailedException, PermissionDeniedException {
 		KsapFrameworkServiceLocator.getAcademicPlanService().getLearningPlan("unknown_plan",
 				KsapFrameworkServiceLocator.getContext().getContextInfo());
 	}
@@ -119,8 +117,8 @@ public class AcademicPlanServiceImplTest extends TestAcademicPlanServiceImplConf
     @Override
 	@Test
 	public void test_getPlanItemsInPlanByRefObjectIdByRefObjectType()
-			throws InvalidParameterException, MissingParameterException,
-			DoesNotExistException, OperationFailedException {
+            throws InvalidParameterException, MissingParameterException,
+                   DoesNotExistException, OperationFailedException, PermissionDeniedException {
 
 		String planId = "lp1";
 		String refObjectId = "006476b5-18d8-4830-bbb6-2bb9e79600fb";
@@ -225,197 +223,4 @@ public class AcademicPlanServiceImplTest extends TestAcademicPlanServiceImplConf
 				.getUpdateTime()));
 	}
 
-	@Test
-	public void addPlanItemNullCourseType() throws Throwable {
-		String planId = "lp1";
-
-		PlanItemInfo planItem = new PlanItemInfo();
-
-		RichTextInfo desc = new RichTextInfo();
-		String formattedDesc = "<span>My Comment</span>";
-		String planDesc = "My Comment";
-		desc.setFormatted(formattedDesc);
-		desc.setPlain(planDesc);
-		planItem.setDescr(desc);
-
-		planItem.setLearningPlanId(planId);
-        planItem.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE);
-        planItem.setCategory(AcademicPlanServiceConstants.ItemCategory.WISHLIST);
-		String courseId = "c796aecc-7234-4482-993c-bf00b8088e84";
-		String courseType = null;
-
-		planItem.setRefObjectId(courseId);
-		planItem.setRefObjectType(courseType);
-		planItem.setStateKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_ACTIVE_STATE_KEY);
-
-        try {
-            KsapFrameworkServiceLocator.getAcademicPlanService().createPlanItem(planItem,
-                    KsapFrameworkServiceLocator.getContext().getContextInfo());
-            fail("DataValidationErrorException should have been thrown");
-        } catch (DataValidationErrorException dvee) {
-            dvee.printStackTrace();
-            assertTrue("validation messages should not be empty", !dvee.getValidationResults().isEmpty());
-            ValidationResultInfo resultInfo = dvee.getValidationResults().get(0);
-            assertEquals("refObjectType", resultInfo.getElement());
-            assertEquals("error.required", resultInfo.getMessage());
-        }
-    }
-
-	@Test
-	public void addPlanItemNullLearningPlan() throws Throwable {
-		String planId = null;
-
-		PlanItemInfo planItem = new PlanItemInfo();
-
-		RichTextInfo desc = new RichTextInfo();
-		String formattedDesc = "<span>My Comment</span>";
-		String planDesc = "My Comment";
-		desc.setFormatted(formattedDesc);
-		desc.setPlain(planDesc);
-		planItem.setDescr(desc);
-
-		planItem.setLearningPlanId(planId);
-        planItem.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE);
-        planItem.setCategory(AcademicPlanServiceConstants.ItemCategory.WISHLIST);
-
-		String courseId = "c796aecc-7234-4482-993c-bf00b8088e84";
-		String courseType = CLUConstants.CLU_TYPE_CREDIT_COURSE;
-
-		planItem.setRefObjectId(courseId);
-		planItem.setRefObjectType(courseType);
-		planItem.setStateKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_ACTIVE_STATE_KEY);
-
-		try {
-			KsapFrameworkServiceLocator.getAcademicPlanService().createPlanItem(planItem,
-					KsapFrameworkServiceLocator.getContext().getContextInfo());
-            fail("InvalidParameterException should have been thrown as learning plan id was null");
-        } catch (DataValidationErrorException dvee) {
-            dvee.printStackTrace();
-            assertTrue("validation messages should not be empty", !dvee.getValidationResults().isEmpty());
-            ValidationResultInfo resultInfo = dvee.getValidationResults().get(0);
-            assertEquals("learningPlanId", resultInfo.getElement());
-            assertEquals("error.required", resultInfo.getMessage());
-        }
-	}
-
-	@Test
-	public void addPlanItemNullCourseId() throws Exception {
-		String planId = "lp1";
-
-		PlanItemInfo planItem = new PlanItemInfo();
-
-		RichTextInfo desc = new RichTextInfo();
-		String formattedDesc = "<span>My Comment</span>";
-		String planDesc = "My Comment";
-		desc.setFormatted(formattedDesc);
-		desc.setPlain(planDesc);
-		planItem.setDescr(desc);
-
-		planItem.setLearningPlanId(planId);
-        planItem.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE);
-		planItem.setCategory(AcademicPlanServiceConstants.ItemCategory.WISHLIST);
-		String courseId = null;
-		String courseType = CLUConstants.CLU_TYPE_CREDIT_COURSE;
-
-		planItem.setRefObjectId(courseId);
-		planItem.setRefObjectType(courseType);
-		planItem.setStateKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_ACTIVE_STATE_KEY);
-
-        try {
-            KsapFrameworkServiceLocator.getAcademicPlanService().createPlanItem(planItem,
-                    KsapFrameworkServiceLocator.getContext().getContextInfo());
-            fail("DataValidationErrorException should have been thrown");
-        } catch (DataValidationErrorException dvee) {
-            dvee.printStackTrace();
-            assertEquals("Error(s) validating plan item.",dvee.getMessage());
-            ValidationResultInfo resultInfo = dvee.getValidationResults().get(0);
-            assertTrue("validation results should not be empty", !dvee.getValidationResults().isEmpty());
-            assertEquals("refObjectId", resultInfo.getElement());
-            assertEquals("error.required", resultInfo.getMessage());
-        }
-    }
-
-	@Test
-	public void validatePlanItemForCourse() throws InvalidParameterException,
-			MissingParameterException, AlreadyExistsException,
-			DoesNotExistException, OperationFailedException {
-
-        String planId = "lp1";
-
-        PlanItemInfo planItem = new PlanItemInfo();
-
-        RichTextInfo desc = new RichTextInfo();
-        String formattedDesc = "<span>My Comment</span>";
-        String planDesc = "My Comment";
-        desc.setFormatted(formattedDesc);
-        desc.setPlain(planDesc);
-        planItem.setDescr(desc);
-
-        planItem.setLearningPlanId(planId);
-
-//        String courseId = "c796aecc-7234-4482-993c-bf00b8088e84";
-//        String courseType = CLUConstants.CLU_TYPE_CREDIT_COURSE;
-
-        planItem.setRefObjectId("XX");
-        planItem.setRefObjectType(CLUConstants.CLU_TYPE_CREDIT_COURSE);
-        planItem.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE);
-        planItem.setStateKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_ACTIVE_STATE_KEY);
-        planItem.setCategory(AcademicPlanServiceConstants.ItemCategory.PLANNED);
-		List<ValidationResultInfo> validationResultInfos;
-        validationResultInfos = KsapFrameworkServiceLocator.getAcademicPlanService().validatePlanItem(
-                "FULL_VALIDATION", planItem,
-                KsapFrameworkServiceLocator.getContext().getContextInfo());
-        assertTrue("validationResultsInfos should not be empty", !validationResultInfos.isEmpty());
-        assertEquals("Could not find course with ID [XX].",validationResultInfos.get(0).getMessage());
-	}
-
-	@Test
-	public void validatePlanItemForPlannedItem() throws Throwable {
-		PlanItemInfo planItemInfo = new PlanItemInfo();
-        planItemInfo.setLearningPlanId("lp1");
-		planItemInfo.setRefObjectId("XX");
-        planItemInfo.setRefObjectType(CLUConstants.CLU_TYPE_CREDIT_COURSE);
-        planItemInfo.setStateKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_ACTIVE_STATE_KEY);
-        planItemInfo.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE);
-        planItemInfo.setCategory(AcademicPlanServiceConstants.ItemCategory.PLANNED);
-		List<ValidationResultInfo> validationResultInfos = KsapFrameworkServiceLocator.getAcademicPlanService()
-				.validatePlanItem("FULL_VALIDATION", planItemInfo,
-						KsapFrameworkServiceLocator.getContext()
-								.getContextInfo());
-		assertEquals("Could not find course with ID [XX].",
-				validationResultInfos.get(0).getMessage());
-		assertEquals("refObjectId", validationResultInfos.get(0).getElement());
-		assertEquals(
-				"Plan Item category was ["+AcademicPlanServiceConstants.ItemCategory.PLANNED+"], " +
-                        "but no plan terms were defined.",
-				validationResultInfos.get(1).getMessage());
-		assertEquals("category", validationResultInfos.get(1).getElement());
-	}
-
-	@Test
-	public void validatePlanItemForBackupPlanItem()
-			throws InvalidParameterException, MissingParameterException,
-			AlreadyExistsException, DoesNotExistException,
-			OperationFailedException {
-		PlanItemInfo planItemInfo = new PlanItemInfo();
-        planItemInfo.setLearningPlanId("lp1");
-        planItemInfo.setRefObjectId("XX");
-        planItemInfo.setRefObjectType(CLUConstants.CLU_TYPE_CREDIT_COURSE);
-        planItemInfo.setStateKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_ACTIVE_STATE_KEY);
-        planItemInfo.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE);
-        planItemInfo.setCategory(AcademicPlanServiceConstants.ItemCategory.BACKUP);
-		List<ValidationResultInfo> validationResultInfos = KsapFrameworkServiceLocator
-				.getAcademicPlanService()
-				.validatePlanItem("FULL_VALIDATION", planItemInfo,
-						KsapFrameworkServiceLocator.getContext()
-								.getContextInfo());
-		assertEquals("Could not find course with ID [XX].",
-				validationResultInfos.get(0).getMessage());
-		assertEquals("refObjectId", validationResultInfos.get(0).getElement());
-		assertEquals(
-				"Plan Item category was ["+ AcademicPlanServiceConstants.ItemCategory.BACKUP +"], " +
-                        "but no plan terms were defined.",
-				validationResultInfos.get(1).getMessage());
-		assertEquals("category", validationResultInfos.get(1).getElement());
-	}
 }

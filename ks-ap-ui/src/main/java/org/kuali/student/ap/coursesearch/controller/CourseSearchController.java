@@ -25,6 +25,10 @@ import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.ap.coursesearch.CourseSearchForm;
+import org.kuali.student.ap.coursesearch.CourseSearchItem;
+import org.kuali.student.ap.coursesearch.CourseSearchStrategy;
+import org.kuali.student.ap.coursesearch.FacetKeyValue;
 import org.kuali.student.ap.coursesearch.dataobject.CourseSummaryDetails;
 import org.kuali.student.ap.coursesearch.form.CourseSearchFormImpl;
 import org.kuali.student.ap.coursesearch.service.impl.CourseDetailsInquiryHelperImpl;
@@ -32,10 +36,6 @@ import org.kuali.student.ap.coursesearch.util.CampusSearch;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.CourseHelper;
 import org.kuali.student.ap.framework.context.CourseSearchConstants;
-import org.kuali.student.ap.coursesearch.CourseSearchForm;
-import org.kuali.student.ap.coursesearch.CourseSearchItem;
-import org.kuali.student.ap.coursesearch.CourseSearchStrategy;
-import org.kuali.student.ap.coursesearch.FacetKeyValue;
 import org.kuali.student.ap.framework.util.KsapHelperUtil;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
@@ -193,7 +193,8 @@ public class CourseSearchController extends UifControllerBase {
 		private final String sSearch;
 		private final Pattern patSearch;
 		private final boolean bRegex;
-		private final boolean[] bSearchable_, bRegex_, bSortable_;
+        private final boolean bSmart;
+		private final boolean[] bSearchable_, bRegex_, bSortable_, bSmart_;
 		private final String[] sSearch_, sSortDir_, mDataProp_;
 		private final Pattern[] patSearch_;
 		private final int[] iSortCol_;
@@ -208,20 +209,25 @@ public class CourseSearchController extends UifControllerBase {
 					: Integer.parseInt(s);
 			bRegex = (s = request.getParameter("bRegex")) == null ? false
 					: new Boolean(s);
-			patSearch = (sSearch = request.getParameter("sSearch")) == null
+            bSmart = (s = request.getParameter("bSmart")) == null ? false
+                    : new Boolean(s);
+			patSearch = (sSearch = escape(request.getParameter("sSearch"), "+")) == null
 					|| !bRegex ? null : Pattern.compile(sSearch);
 			bSearchable_ = new boolean[iColumns];
 			sSearch_ = new String[iColumns];
 			patSearch_ = new Pattern[iColumns];
 			bRegex_ = new boolean[iColumns];
+            bSmart_ = new boolean[iColumns];
 			bSortable_ = new boolean[iColumns];
 			for (int i = 0; i < iColumns; i++) {
 				bSearchable_[i] = (s = request.getParameter("bSearchable_" + i)) == null ? false
 						: new Boolean(s);
 				bRegex_[i] = (s = request.getParameter("bRegex_" + i)) == null ? false
 						: new Boolean(s);
-				patSearch_[i] = (sSearch_[i] = request.getParameter("sSearch_"
-						+ i)) == null
+                bSmart_[i] = (s = request.getParameter("bSmart_" + i)) == null ? false
+                        : new Boolean(s);
+				patSearch_[i] = (sSearch_[i] = escape(request.getParameter("sSearch_"
+						+ i), "+")) == null
 						|| !bRegex_[i] ? null : Pattern.compile(sSearch_[i]);
 				bSortable_[i] = (s = request.getParameter("bSortable_" + i)) == null ? false
 						: new Boolean(s);
@@ -242,6 +248,19 @@ public class CourseSearchController extends UifControllerBase {
 					.parseInt(s);
 		}
 
+        /**
+         * Look through the input string for occurrences of escapeVal and escape them
+         * @param input Input string to search
+         * @param escapeVal Value to look for in the input
+         * @return The string, with the escapeVal character escaped
+         */
+        private String escape(String input, String escapeVal) {
+            String retVal = input;
+            if (input != null && escapeVal != null && input.contains(escapeVal))
+                retVal = input.replace(escapeVal, "\\".concat(escapeVal));
+            return retVal;
+        }
+
 		@Override
 		public String toString() {
 			StringBuilder sb = new StringBuilder(super.toString());
@@ -255,6 +274,10 @@ public class CourseSearchController extends UifControllerBase {
 			sb.append(sSearch);
 			sb.append("\n\tbRegex = ");
 			sb.append(bRegex);
+            sb.append("\n\tbSmart = ");
+            sb.append(bSmart);
+            sb.append("\n\tpatSearch = ");
+            sb.append(patSearch);
 			for (int i = 0; i < iColumns; i++) {
 				sb.append("\n\tbSearchable_").append(i).append(" = ");
 				sb.append(bSearchable_[i]);
@@ -262,8 +285,12 @@ public class CourseSearchController extends UifControllerBase {
 				sb.append(sSearch_[i]);
 				sb.append("\n\tbRegex_").append(i).append(" = ");
 				sb.append(bRegex_[i]);
-				sb.append("\n\tbSortable_").append(i).append(" = ");
-				sb.append(bSortable_[i]);
+                sb.append("\n\tbSmart_").append(i).append(" = ");
+                sb.append(bSmart_[i]);
+				sb.append("\n\tpatSearch_").append(i).append(" = ");
+				sb.append(patSearch_[i]);
+                sb.append("\n\tbSortable_").append(i).append(" = ");
+                sb.append(bSortable_[i]);
 			}
 			sb.append("\n\tiSortingCols = ");
 			sb.append(iSortingCols);
@@ -298,6 +325,7 @@ public class CourseSearchController extends UifControllerBase {
 		private final KeyValue value;
 		private boolean checked = true;
 		private int count;
+        private String description;
 	}
 
 	/**
@@ -474,9 +502,14 @@ public class CourseSearchController extends UifControllerBase {
                                         .getKey();
                                 String facetKey = fe.getKey();
                                 FacetState fs = fm.get(facetKey);
-                                if (fs == null)
-                                    fm.put(facetKey,
-                                            fs = new FacetState(fv));
+                                if (fs == null) {
+                                    fm.put(facetKey, fs = new FacetState(fv));
+                                    if (fce.getKey().equals("facet_genedureq")) {
+                                        fs.description = searcher.getGenEdMap().get(fv.getKey());
+                                    } else if (fce.getKey().equals("facet_curriculum")) {
+                                        fs.description = searcher.getCurriculumMap(null).get(fv.getKey());
+                                    }
+                                }
                                 fs.count++;
                             }
                 }
@@ -1254,6 +1287,8 @@ public class CourseSearchController extends UifControllerBase {
 				ofs.put("value", fse.getValue().value.getValue());
 				ofs.put("checked", fse.getValue().checked);
 				ofs.put("count", fse.getValue().count);
+                if (fse.getValue().description != null)
+                    ofs.put("description", fse.getValue().description);
 			}
 		}
 

@@ -13,6 +13,7 @@ import org.kuali.student.ap.schedulebuilder.infc.ActivityOption;
 import org.kuali.student.ap.schedulebuilder.infc.CourseOption;
 import org.kuali.student.ap.schedulebuilder.infc.PossibleScheduleOption;
 import org.kuali.student.ap.schedulebuilder.infc.SecondaryActivityOptions;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
@@ -167,9 +168,11 @@ public class DefaultShoppingCartStrategy implements ShoppingCartStrategy,
 			throw new IllegalArgumentException("CO lookup failure", e);
 		} catch (OperationFailedException e) {
 			throw new IllegalArgumentException("CO lookup failure", e);
-		}
+        } catch (PermissionDeniedException e) {
+            throw new IllegalArgumentException("CO lookup permission falure", e);
+        }
 
-		for (PlanItemInfo planItem : planItems) {
+        for (PlanItemInfo planItem : planItems) {
 			if (!PlanConstants.COURSE_TYPE.equals(planItem.getRefObjectType()))
 				continue;
 

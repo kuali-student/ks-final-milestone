@@ -1,7 +1,9 @@
 package org.kuali.student.ap.framework.context;
 
 import org.kuali.student.ap.academicplan.dto.LearningPlanInfo;
+import org.kuali.student.ap.academicplan.infc.PlanItem;
 import org.kuali.student.r2.core.acal.infc.Term;
+import org.kuali.student.r2.lum.course.infc.Course;
 
 import java.util.List;
 
@@ -31,5 +33,15 @@ public interface PlanHelper {
      * @return A full List of terms to display in the calendar.
      */
     public List<Term> getPlannerCalendarTerms(Term startTerm);
+
+
+    /**
+     * Retrieve the list of plan items for this course in the student's plan
+     *
+     * @param course - Course that is being displayed
+     * @return A List of plan items related to the course.
+     */
+    public List<PlanItem> loadStudentsPlanItemsForCourse(Course course);
+
 
 }

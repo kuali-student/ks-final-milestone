@@ -4,6 +4,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
+import org.kuali.student.ap.academicplan.infc.PlanItem;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.CourseHelper;
 import org.kuali.student.ap.coursesearch.CourseSearchItem;
@@ -606,5 +608,15 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
         } catch (PermissionDeniedException e) {
             throw new IllegalStateException("CO lookup failure", e);
         }
+    }
+
+    @Override
+    public boolean isCourseBookmarked(Course course, List<PlanItem> planItems){
+        for(PlanItem item : planItems){
+            if(item.getCategory().equals(AcademicPlanServiceConstants.ItemCategory.WISHLIST)){
+                return true;
+            }
+        }
+        return false;
     }
 }

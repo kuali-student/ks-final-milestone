@@ -7,6 +7,11 @@ import org.kuali.student.r2.lum.course.infc.Course;
 public interface PlannerForm extends PlanItemForm {
 
 	boolean isBackup();
+    boolean isBookmarked();
+    void setBookmarked(boolean bookmarked);
+
+    boolean isKeepBookmarked();
+    void setKeepBookmarked(boolean keepBookmarked);
 
 	String getCourseNote();
 

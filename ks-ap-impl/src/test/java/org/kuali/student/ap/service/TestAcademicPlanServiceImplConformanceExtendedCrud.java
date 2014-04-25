@@ -28,6 +28,7 @@ import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -247,8 +248,9 @@ public abstract class TestAcademicPlanServiceImplConformanceExtendedCrud extends
 	
 	/* Method Name: getPlanItemsInPlanByRefObjectIdByRefObjectType */
 	@Test
-	public void test_getPlanItemsInPlanByRefObjectIdByRefObjectType() 
-	throws 	DoesNotExistException	,InvalidParameterException	,MissingParameterException	,OperationFailedException	{
+	public void test_getPlanItemsInPlanByRefObjectIdByRefObjectType()
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+                   OperationFailedException, PermissionDeniedException {
 	}
 	
 	/* Method Name: validateLearningPlan */

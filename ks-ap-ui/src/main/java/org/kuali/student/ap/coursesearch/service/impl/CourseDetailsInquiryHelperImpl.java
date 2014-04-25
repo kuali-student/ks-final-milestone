@@ -420,8 +420,10 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 			throw new IllegalStateException("LP lookup failure ", e);
 		} catch (OperationFailedException e) {
 			throw new IllegalStateException("LP lookup failure ", e);
-		}
-		return planItemsByTerm;
+		} catch (PermissionDeniedException e) {
+            throw new IllegalStateException("LP lookup oermission failure ", e);
+        }
+        return planItemsByTerm;
 	}
 
 	/**
@@ -685,7 +687,7 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 				if (LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY.equals(activity.getStateKey())) {
 					Building building = scdi.getBuilding();
 					if (building != null) {
-						meeting.setCampus(building.getCampusKey());
+						meeting.setCampus(building.getCampusId());
 						meeting.setBuilding(building.getBuildingCode());
 					}
 					Room roomInfo = scdi.getRoom();

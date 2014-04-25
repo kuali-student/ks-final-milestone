@@ -27,7 +27,7 @@ public class CourseSearchConstants {
 
     public static final String ORG_QUERY_SEARCH_BY_TYPE_REQUEST = "org.search.orgInfoByType";
 
-    public static final String ORG_QUERY_SEARCH_SUBJECT_AREAS = "org.search.orgCurriculum";
+    public static final String ORG_QUERY_SEARCH_SUBJECT_AREAS = "org.search.orgSubjectAreas";
 
     public static final String ORG_TYPE_PARAM = "org_queryParam_orgType";
 

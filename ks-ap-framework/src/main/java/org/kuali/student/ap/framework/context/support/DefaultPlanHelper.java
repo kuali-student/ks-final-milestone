@@ -3,6 +3,8 @@ package org.kuali.student.ap.framework.context.support;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.student.ap.academicplan.dto.LearningPlanInfo;
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
+import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
+import org.kuali.student.ap.academicplan.infc.PlanItem;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.framework.context.PlanHelper;
@@ -15,7 +17,9 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.acal.infc.Term;
+import org.kuali.student.r2.lum.course.infc.Course;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
@@ -144,4 +148,35 @@ public class DefaultPlanHelper implements PlanHelper {
         return calendarTerms;
     }
 
+    @Override
+    public List<PlanItem> loadStudentsPlanItemsForCourse(Course course) {
+        String studentId = KsapFrameworkServiceLocator.getUserSessionHelper().getStudentId();
+        if (studentId == null)
+            return new ArrayList<PlanItem>();
+
+        try {
+            // Retrieve plan items for the student's default plan
+            LearningPlanInfo learningPlan = KsapFrameworkServiceLocator.getPlanHelper().getDefaultLearningPlan();
+            List<PlanItemInfo> planItems = KsapFrameworkServiceLocator.getAcademicPlanService().getPlanItemsInPlan(
+                    learningPlan.getId(), KsapFrameworkServiceLocator.getContext().getContextInfo());
+            List<PlanItem> planItemsForCourse = new ArrayList<PlanItem>();
+
+            // Filter plan items by the course
+            for(PlanItem item : planItems){
+                if(item.getRefObjectId().equals(course.getId())){
+                    planItemsForCourse.add(new PlanItemInfo(item));
+                }
+            }
+
+            return planItemsForCourse;
+        } catch (InvalidParameterException e) {
+            throw new IllegalArgumentException("LP lookup failure ", e);
+        } catch (MissingParameterException e) {
+            throw new IllegalStateException("LP lookup failure ", e);
+        } catch (OperationFailedException e) {
+            throw new IllegalStateException("LP lookup failure ", e);
+        } catch (PermissionDeniedException e) {
+            throw new IllegalStateException("LP lookup permission failure ", e);
+        }
+    }
 }

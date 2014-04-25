@@ -743,9 +743,11 @@ public class DefaultScheduleBuildStrategy implements ScheduleBuildStrategy,
 			throw new IllegalArgumentException("CO lookup failure", e);
 		} catch (OperationFailedException e) {
 			throw new IllegalArgumentException("CO lookup failure", e);
-		}
+		} catch (PermissionDeniedException e) {
+            throw new IllegalArgumentException("CO lookup permission failure", e);
+        }
 
-		List<StudentCourseRecordInfo> completedRecords;
+        List<StudentCourseRecordInfo> completedRecords;
 		try {
 			completedRecords = KsapFrameworkServiceLocator
 					.getAcademicRecordService().getCompletedCourseRecords(

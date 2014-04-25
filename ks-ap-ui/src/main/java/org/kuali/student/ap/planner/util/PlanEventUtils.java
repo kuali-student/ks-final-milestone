@@ -25,6 +25,7 @@ import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.r2.lum.course.infc.Course;
@@ -78,9 +79,11 @@ public class PlanEventUtils {
 			throw new IllegalArgumentException("LP lookup error", e);
 		} catch (OperationFailedException e) {
 			throw new IllegalStateException("LP lookup error", e);
-		}
+		} catch (PermissionDeniedException e) {
+            throw new IllegalStateException("LP lookup error", e);
+        }
 
-		for (PlanItemInfo planItem : planItems) {
+        for (PlanItemInfo planItem : planItems) {
 			if (!PlanConstants.COURSE_TYPE.equals(planItem.getRefObjectType()))
 				continue;
 

@@ -5,6 +5,7 @@ import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.planner.PlanItemForm;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.ap.academicplan.infc.LearningPlan;
 import org.kuali.student.ap.academicplan.infc.PlanItem;
@@ -73,8 +74,10 @@ public abstract class AbstractPlanItemForm extends UifFormBase implements PlanIt
 					throw new IllegalStateException("LP lookup failure", e);
 				} catch (OperationFailedException e) {
 					throw new IllegalStateException("LP lookup failure", e);
-				}
-			}
+				} catch (PermissionDeniedException e) {
+                    throw new IllegalStateException("LP lookup permission failure", e);
+                }
+            }
 
 		}
 
@@ -133,8 +136,10 @@ public abstract class AbstractPlanItemForm extends UifFormBase implements PlanIt
 				throw new IllegalStateException("LP lookup failure", e);
 			} catch (OperationFailedException e) {
 				throw new IllegalStateException("LP lookup failure", e);
-			}
-		}
+            } catch (PermissionDeniedException e) {
+                throw new IllegalStateException("LP lookup permission failure", e);
+            }
+        }
 		return planItem;
 	}
 
@@ -188,8 +193,10 @@ public abstract class AbstractPlanItemForm extends UifFormBase implements PlanIt
 					throw new IllegalArgumentException("LP lookup error", e);
 				} catch (OperationFailedException e) {
 					throw new IllegalStateException("LP lookup error", e);
-				}
-		}
+                } catch (PermissionDeniedException e) {
+                    throw new IllegalStateException("LP lookup permission failure", e);
+                }
+        }
 		return existingPlanItems;
 	}
 

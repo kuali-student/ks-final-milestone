@@ -234,6 +234,8 @@ function searchForCourses(id, parentId) {
                             } else {
                                 jQuery('#course_search_results_length').removeClass('invisible');
                             }
+
+                            results.removeClass("ksap-hide");
 						},
 						fnServerData : function(sSource, aoData, fnCallback) {
 							jQuery
@@ -346,7 +348,7 @@ function fnClickFacet(sFilter, fcol, e) {
 	jQuery.ajax({
 		dataType : 'json',
 		type : "GET",
-		url : 'course/facetValues' + ksapGetSearchParams() + '&fclick=' + sFilter + '&fcol=' + fcol,
+		url : 'course/facetValues' + ksapGetSearchParams() + '&fclick=' + encodeURIComponent(sFilter) + '&fcol=' + fcol,
 		success : function(data, textStatus, jqXHR) {
 			var i = data.oSearchColumn[fcol];
 			oFacets = data;
@@ -399,9 +401,6 @@ function fnGenerateFacetGroup(obj) {
 	var bMore = false; // more than one facet value
     if (oData == null)
         return
-    if(fcol == "facet_genedureq" || fcol == "facet_quarter"){
-        delete oData["None"];
-    }
 	for (key in oData){
 		if (bMore)
 			continue;
@@ -417,7 +416,7 @@ function fnGenerateFacetGroup(obj) {
 	if (bMore) {
 		jFacets.append(jQuery('<div class="all"><ul /></div>'));
 		var jAll = jQuery('<li />').attr("title", "All").data("facetid", fcol)
-            .addClass("all").html('<a href="#">All</a>').click(
+            .addClass("all").html('<a href="#">Clear</a>').click(
 						function(e) {
 							var t = jQuery(this);
 							fnClickFacet('All', t.data("facetid"), e);
@@ -430,13 +429,18 @@ function fnGenerateFacetGroup(obj) {
 	jFacets.append(jQuery('<div class="facets"><ul /></div>'));
 	var ful = jFacets.find(".facets ul");
 	for (key in oData) {
-		var jItem = jQuery('<li />').data("facetkey", key)
+		var jItem = jQuery('<li />').attr('title', oData[key].description).data("facetkey", key)
 				.data("facetid", fcol).html(
 						'<a href="#">' + oData[key].value + '</a><span>(' + oData[key].count
 								+ ')</span>').click(function(e) {
 					var t = jQuery(this);
 					fnClickFacet(t.data("facetkey"), t.data("facetid"), e);
 				});
+        if(fcol == "facet_genedureq" || fcol == "facet_quarter"){
+            if(key=="None"){
+                jQuery(jItem).addClass("ksap-hide");
+            }
+        }
         if (!bAll && oData[key].checked)
             jQuery(jItem).addClass("checked");
         else
@@ -560,6 +564,10 @@ function registerCourseSearchResultsFacetsEvents(jqObjects){
 	});
 }
 
+/**
+ * Sets up the Projected terms display on the search results data table
+ * @param jqObject - The field in the table being setup
+ */
 function updateTermsOfferedDisplay(jqObject){
     var terms = jQuery('#course_search_results_panel').data('terms-abbrev').split(",");
     var baseDL = jqObject.find('td:nth-child(6) dl');
@@ -573,7 +581,10 @@ function updateTermsOfferedDisplay(jqObject){
     for (var i = 0; i < terms.length; i++) {
         var newDD = jQuery('<dd/>').text(terms[i]);
         if (jQuery.inArray(terms[i],baseArray) !== -1) {
-            newDD.addClass("termHighlight");
+            newDD.addClass("ks-ProjectedTerms-term");
+        }else{
+            newDD.text("--");
+            newDD.addClass("ks-ProjectedTerms-term--empty");
         }
         newList.append(newDD);
     }

@@ -453,10 +453,12 @@ public class ConversationCreateController extends ConversationControllerBase {
 			throw new IllegalArgumentException("LP lookup failure", e);
 		} catch (OperationFailedException e) {
 			throw new IllegalStateException("LP lookup failure", e);
-		}
+		} catch (PermissionDeniedException e) {
+            throw new IllegalStateException("LP lookup permission failure", e);
+        }
 
 
-		form.setLearningPlanId(planId);
+        form.setLearningPlanId(planId);
 		List<PlanItemInfo> planItems;
 		try {
 			planItems = getAcademicPlanService().getPlanItemsInPlan(planId,
@@ -467,9 +469,11 @@ public class ConversationCreateController extends ConversationControllerBase {
 			throw new IllegalArgumentException("LP lookup failure", e);
 		} catch (OperationFailedException e) {
 			throw new IllegalStateException("LP lookup failure", e);
-		}
+		} catch (PermissionDeniedException e) {
+            throw new IllegalStateException("LP lookup permission failure", e);
+        }
 
-		for (PlanItemInfo planItem : planItems) {
+        for (PlanItemInfo planItem : planItems) {
 			PlannedCourseDataObject plannedCourseDO = new PlannedCourseDataObject();
 			String courseID = planItem.getRefObjectId();
 			// Only create a data object for the specified type.

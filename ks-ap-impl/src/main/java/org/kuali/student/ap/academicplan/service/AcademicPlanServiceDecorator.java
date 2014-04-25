@@ -28,7 +28,8 @@ public class AcademicPlanServiceDecorator implements AcademicPlanService {
 
     @Override
     public LearningPlanInfo getLearningPlan(String learningPlanId, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+                   OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getLearningPlan(learningPlanId, context);
     }
 
@@ -39,50 +40,59 @@ public class AcademicPlanServiceDecorator implements AcademicPlanService {
 
     @Override
     public PlanItemInfo getPlanItem(String planItemId, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+                   OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getPlanItem(planItemId, context);
     }
 
     @Override
-    public List<PlanItemInfo> getPlanItemsByIds(List<String> planItemIds,ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<PlanItemInfo> getPlanItemsByIds(List<String> planItemIds,ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+                   PermissionDeniedException {
         return getNextDecorator().getPlanItemsByIds(planItemIds, context);
     }
 
     @Override
     public List<PlanItemInfo> getPlanItemsInPlanByType(String learningPlanId,String planItemTypeKey,ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException {
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+                   PermissionDeniedException {
         return getNextDecorator().getPlanItemsInPlanByType(learningPlanId, planItemTypeKey, context);
     }
 
     @Override
     public List<PlanItemInfo> getPlanItemsInPlanByCategory(String learningPlanId,
                            AcademicPlanServiceConstants.ItemCategory category, ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException {
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+                   PermissionDeniedException {
         return getNextDecorator().getPlanItemsInPlanByCategory(learningPlanId, category, context);
     }
     @Override
     public List<PlanItemInfo> getPlanItemsInPlan(String learningPlanId, ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException {
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+                   PermissionDeniedException {
         return getNextDecorator().getPlanItemsInPlan(learningPlanId, context);
     }
 
     @Override
     public List<PlanItemInfo> getPlanItemsInPlanByTermIdByCategory(String learningPlanId, String termId,
                                                                    AcademicPlanServiceConstants.ItemCategory category, ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException {
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+                   PermissionDeniedException {
         return getNextDecorator().getPlanItemsInPlanByTermIdByCategory(learningPlanId, termId, category, context);
     }
 
     @Override
     public List<PlanItemInfo> getPlanItemsInPlanByRefObjectIdByRefObjectType(String learningPlanId,String refObjectId,
                                                                              String refObjectType,ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException {
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+                   PermissionDeniedException {
         return getNextDecorator().getPlanItemsInPlanByRefObjectIdByRefObjectType(learningPlanId, refObjectId, refObjectType, context);
     }
 
     @Override
     public List<LearningPlanInfo> getLearningPlansForStudentByType(String studentId,String planTypeKey,ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException {
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+                   PermissionDeniedException {
         return getNextDecorator().getLearningPlansForStudentByType(studentId, planTypeKey, context);
     }
 
@@ -130,14 +140,16 @@ public class AcademicPlanServiceDecorator implements AcademicPlanService {
     @Override
     public List<ValidationResultInfo> validateLearningPlan(String validationType, LearningPlanInfo learningPlanInfo,
                                                            ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+                   OperationFailedException, PermissionDeniedException {
         return getNextDecorator().validateLearningPlan(validationType, learningPlanInfo, context);
     }
 
     @Override
     public List<ValidationResultInfo> validatePlanItem(String validationType, PlanItemInfo planItemInfo,
                                                        ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, AlreadyExistsException {
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+                   OperationFailedException, AlreadyExistsException, PermissionDeniedException {
         return getNextDecorator().validatePlanItem(validationType, planItemInfo, context);
     }
 

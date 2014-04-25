@@ -1,16 +1,35 @@
+/*
+ * Copyright 2014 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
 package org.kuali.student.ap.coursesearch.controller;
 
 import java.util.*;
 import java.util.regex.*;
 
+/**
+ *  Handles the parsing and extracting of query text into components and tokens
+ */
 public class QueryTokenizer
 {
 
     public static Pattern LEVEL = Pattern.compile( "[0-9][Xx][Xx]" );
     public static Pattern NUMBER = Pattern.compile( "[0-9]+" );
 
-	enum Rule
-	{
+    /**
+     * Rules for parsing strings into tokens
+     */
+	enum Rule{
         // Order significant. See matcher's foreach loop below.
 		WORD( "[A-Za-z0-9&-_]+" ),
 		QUOTED( "\"[^\"]*\"" );
@@ -22,9 +41,11 @@ public class QueryTokenizer
 			pattern = Pattern.compile( regex );
 		}
 	}
-	
-	public static class Token
-	{
+
+    /**
+     * A container for a specific string token
+     */
+	public static class Token{
 		Rule rule;
 		String value;
 		public Token( Rule rule, String value )
@@ -33,9 +54,14 @@ public class QueryTokenizer
 			this.value = value;
 		}
 	}
-	
-	public static List<Token> tokenize( String source )
-	{
+
+    /**
+     * Parse a string into the list of individual tokens that comprise it
+     *
+     * @param source - The string to parse
+     * @return A list of tokens that made up the string
+     */
+	public static List<Token> tokenize( String source ){
 		ArrayList<Token> tokens = new ArrayList<Token>();
 		int pos = 0;
 		final int len = source.length();
@@ -44,7 +70,7 @@ public class QueryTokenizer
 		m.useTransparentBounds( true );
 		m.useAnchoringBounds( false );
 
-		loop:
+        loop:
 		while( pos < len )
 		{
 			m.region( pos, len );
@@ -66,8 +92,13 @@ public class QueryTokenizer
 		return tokens;
 	}
 
-    public static List<String> toStringList( List<Token> tokens )
-    {
+    /**
+     * Create a list of token's string values
+     *
+     * @param tokens - List of tokens to compile
+     * @return List of string values
+     */
+    public static List<String> toStringList( List<Token> tokens ){
         ArrayList<String> list = new ArrayList<String>();
         for( Token token : tokens )
         {
@@ -76,8 +107,13 @@ public class QueryTokenizer
         return list;
     }
 
-    public static List<String> extractCourseLevels(String source)
-    {
+    /**
+     * Extract a list of levels found in a string
+     *
+     * @param source - String to parse
+     * @return A list of levels
+     */
+    public static List<String> extractCourseLevels(String source){
         ArrayList<String> tokens = new ArrayList<String>();
         int pos = 0;
         final int len = source.length();
@@ -103,8 +139,13 @@ public class QueryTokenizer
         return tokens;
     }
 
-    public static List<String> extractCourseCodes(String source)
-    {
+    /**
+     * Extract a list of codes found in a string
+     *
+     * @param source - String to parse
+     * @return A list of codes
+     */
+    public static List<String> extractCourseCodes(String source){
         ArrayList<String> tokens = new ArrayList<String>();
         int pos = 0;
         final int len = source.length();
@@ -131,8 +172,15 @@ public class QueryTokenizer
 
         return tokens;
     }
-    public static List<String> extractIncompleteCourseCodes(String source, List<String> divisions)
-    {
+
+    /**
+     * Extract a list of incomplete course codes (Division+Partial Code) found in a string
+     *
+     * @param source - String to parse
+     * @param divisions - list of found divisions
+     * @return A list of incomplete course codes
+     */
+    public static List<String> extractIncompleteCourseCodes(String source, List<String> divisions){
         ArrayList<String> tokens = new ArrayList<String>();
         int pos = 0;
         final int len = source.length();
@@ -245,6 +293,7 @@ public class QueryTokenizer
      */
     public static List<String> extractDivisionsSpaces(String source, Map<String, String> divisionMap){
         List<String> divisions = new ArrayList<String>();
+
         boolean match = true;
         while (match) {
             match = false;
@@ -269,5 +318,69 @@ public class QueryTokenizer
         return divisions;
     }
 
+    /**
+     * Extract a list of divisions found in a string based on keywords related to that division.
+     *
+     * @param source - String to parse
+     * @param subjectAreaMap - Map of keywords to related division
+     * @return A list of valid divisions found
+     */
+    public static List<String> extractDivisionsFromSubjectKeywords(String source, Map<String,String> subjectAreaMap){
+        List<String> exactMatchDivisions = new ArrayList<String>();
+        List<String> startMatchDivisions = new ArrayList<String>();
+        List<String> partialMatchDivisions = new ArrayList<String>();
+        List<Token> tokens = QueryTokenizer.tokenize(source);
+
+        for (QueryTokenizer.Token token : tokens) {
+
+            // Convert token to its correct text
+            String queryText = cleanToken(token);
+
+            // Skip if query is less than 3 characters
+            if (queryText != null && queryText.length() < 3) continue;
+
+            //  Look to see if the query text is present in any subject area descriptions
+            String divisionKey = queryText.trim().toUpperCase();
+            for (Map.Entry<String, String> entry : subjectAreaMap.entrySet()) {
+                if (entry.getValue().trim().toUpperCase().equals(divisionKey)) {
+                    exactMatchDivisions.add(entry.getKey());
+                } else if (entry.getValue().toUpperCase().startsWith(divisionKey)) {
+                    startMatchDivisions.add(entry.getKey());
+                } else if (entry.getValue().toUpperCase().contains(divisionKey)) {
+                    partialMatchDivisions.add(entry.getKey());
+                }
+            }
+        }
+
+        // Build final list in specific order
+        List<String> divisions = new ArrayList<String>();
+        divisions.addAll(exactMatchDivisions);
+        divisions.addAll(startMatchDivisions);
+        divisions.addAll(partialMatchDivisions);
+
+        return divisions;
+    }
+
+    /**
+     * Convert token to its correct text, remove quote if any
+     *
+     * @param token - The token to be cleaned up
+     * @return Formatted token text
+     */
+    public static String cleanToken(Token token) {
+        String queryText = null;
+        switch (token.rule) {
+            case WORD:
+                queryText = token.value;
+                break;
+            case QUOTED:
+                queryText = token.value;
+                queryText = queryText.substring(1, queryText.length() - 1);
+                break;
+            default:
+                break;
+        }
+        return queryText;
+    }
 
 }

@@ -8,6 +8,7 @@ import org.kuali.student.ap.coursesearch.Credit;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created with IntelliJ IDEA.
@@ -24,6 +25,16 @@ public class CourseSearchStrategyMockTest implements CourseSearchStrategy {
      */
     @Override
     public CourseSearchForm createSearchForm() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public Map<String, String> getCurriculumMap(Set<String> orgIds) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public Map<String, String> getGenEdMap() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 

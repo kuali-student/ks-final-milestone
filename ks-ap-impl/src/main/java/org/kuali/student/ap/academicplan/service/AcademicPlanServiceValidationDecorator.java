@@ -24,8 +24,6 @@ public class AcademicPlanServiceValidationDecorator extends
 
 	private DataDictionaryValidator validator;
 
-    private PlanItemDao planItemDao;
-
 	@Override
 	public DataDictionaryValidator getValidator() {
 		return validator;
@@ -36,19 +34,12 @@ public class AcademicPlanServiceValidationDecorator extends
 		this.validator = validator;
 	}
 
-    public PlanItemDao getPlanItemDao() {
-        return planItemDao;
-    }
-
-    public void setPlanItemDao(PlanItemDao planItemDao) {
-        this.planItemDao = planItemDao;
-    }
-
-    @Override
+	@Override
 	public LearningPlanInfo getLearningPlan(String learningPlanId,
-			ContextInfo context) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
+			ContextInfo context)
+            throws DoesNotExistException,
+                   InvalidParameterException, MissingParameterException,
+                   OperationFailedException, PermissionDeniedException {
 		return getNextDecorator().getLearningPlan(learningPlanId, context);
 	}
 
@@ -58,20 +49,26 @@ public class AcademicPlanServiceValidationDecorator extends
     }
 
     @Override
-    public List<PlanItemInfo> getPlanItemsByIds(@WebParam(name = "planItemIds") List<String> planItemIds, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<PlanItemInfo> getPlanItemsByIds(@WebParam(name = "planItemIds") List<String> planItemIds, @WebParam(name = "context") ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+                   PermissionDeniedException {
         return getNextDecorator().getPlanItemsByIds(planItemIds, context);
     }
 
     @Override
     public List<PlanItemInfo> getPlanItemsInPlan(String learningPlanId,
-			ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+			ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+                   PermissionDeniedException {
 		return getNextDecorator().getPlanItemsInPlan(learningPlanId, context);
 	}
 
 	@Override
     public List<PlanItemInfo> getPlanItemsInPlanByRefObjectIdByRefObjectType(
 			String learningPlanId, String refObjectId, String refObjectType,
-			ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+			ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+                   PermissionDeniedException {
 		return getNextDecorator()
 				.getPlanItemsInPlanByRefObjectIdByRefObjectType(learningPlanId,
 						refObjectId, refObjectType, context);
@@ -80,7 +77,8 @@ public class AcademicPlanServiceValidationDecorator extends
     @Override
     public List<LearningPlanInfo> getLearningPlansForStudentByType(
 			String studentId, String planTypeKey, ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException {
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+                   PermissionDeniedException {
 		return getNextDecorator().getLearningPlansForStudentByType(studentId,
                 planTypeKey, context);
 	}
@@ -151,16 +149,18 @@ public class AcademicPlanServiceValidationDecorator extends
 		} catch (DoesNotExistException ex) {
 			throw new OperationFailedException(
 					"Error validating learning plan.", ex);
-		}
-		return errors;
+		} catch (PermissionDeniedException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+        return errors;
 	}
 
 	@Override
 	public List<ValidationResultInfo> validatePlanItem(String validationType,
 			PlanItemInfo planItemInfo, ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			AlreadyExistsException {
+            throws DoesNotExistException, InvalidParameterException,
+                   MissingParameterException, OperationFailedException,
+                   AlreadyExistsException, PermissionDeniedException {
 
         List<ValidationResultInfo> validationResultInfos = validateInfo(validator, validationType,
             planItemInfo, context);
@@ -258,7 +258,7 @@ public class AcademicPlanServiceValidationDecorator extends
         try {
             type = KsapFrameworkServiceLocator.getTypeService().getType(learningPlanInfo.getTypeKey(), context);
         } catch (DoesNotExistException e) {
-            throw new InvalidParameterException(String.format("Unknown type [%s].", learningPlanInfo.getTypeKey()));
+            throw new InvalidParameterException(String.format("Unknown type [%s].", learningPlanInfo.getTypeKey()),e);
         } catch (PermissionDeniedException e) {
             throw new OperationFailedException(
                     "Error validating learning plan type.", e);
@@ -285,9 +285,9 @@ public class AcademicPlanServiceValidationDecorator extends
 	 * Data dictionary validation for PlanItemInfo.
 	 */
 	private void fullValidation(PlanItemInfo planItemInfo, ContextInfo context)
-			throws DataValidationErrorException, OperationFailedException,
-			InvalidParameterException, MissingParameterException,
-			AlreadyExistsException {
+            throws DataValidationErrorException, OperationFailedException,
+                   InvalidParameterException, MissingParameterException,
+                   AlreadyExistsException, PermissionDeniedException {
 
 		if (planItemInfo == null) {
 			throw new MissingParameterException("planItemInfo was null.");

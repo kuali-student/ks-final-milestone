@@ -25,6 +25,7 @@ import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
 import org.kuali.student.r2.core.comment.service.CommentService;
 import org.slf4j.Logger;
@@ -43,8 +44,8 @@ public class PlanItemLookupableHelperBase extends MyPlanLookupableImpl {
     private transient CourseDetailsInquiryHelperImpl courseDetailsInquiryHelper;
 
 	protected List<PlannedCourseDataObject> getPlanItems(AcademicPlanServiceConstants.ItemCategory planItemCategory, String studentId)
-			throws InvalidParameterException, MissingParameterException, DoesNotExistException,
-			OperationFailedException {
+            throws InvalidParameterException, MissingParameterException, DoesNotExistException,
+                   OperationFailedException, PermissionDeniedException {
 
 		List<PlannedCourseDataObject> plannedCoursesList = new ArrayList<PlannedCourseDataObject>();
 
@@ -99,7 +100,8 @@ public class PlanItemLookupableHelperBase extends MyPlanLookupableImpl {
 	}
 
     protected List<TermNoteDataObject> getTermNotes(String studentId)
-            throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException {
+            throws InvalidParameterException, MissingParameterException, DoesNotExistException,
+                   OperationFailedException, PermissionDeniedException {
 
         List<TermNoteDataObject> termNoteList = new ArrayList<TermNoteDataObject>();
 

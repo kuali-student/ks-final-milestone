@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.kuali.student.ap.academicplan.service.mock;
+package org.kuali.student.ap.service;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
@@ -193,7 +193,7 @@ public class AcademicPlanDataLoader {
             Date date = df.parse(str);
             return date;
         } catch (ParseException ex) {
-            throw new IllegalArgumentException("Bad date " + str + " in " + context);
+            throw new IllegalArgumentException("Bad date " + str + " in " + context,ex);
         }
     }
 }

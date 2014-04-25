@@ -201,8 +201,8 @@ public class SingleQuarterInquiryHelperImpl extends KualiInquirableImpl {
 
 	protected List<PlannedCourseDataObject> getPlanItemListByTermId(
 			AcademicPlanServiceConstants.ItemCategory planItemCategory, String studentId, String termId)
-			throws InvalidParameterException, MissingParameterException,
-			DoesNotExistException, OperationFailedException {
+            throws InvalidParameterException, MissingParameterException,
+                   DoesNotExistException, OperationFailedException, PermissionDeniedException {
 
 		List<PlannedCourseDataObject> plannedCoursesList = new ArrayList<PlannedCourseDataObject>();
 

@@ -14,6 +14,7 @@ import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.lum.course.infc.Course;
 
 import java.math.BigDecimal;
@@ -44,7 +45,7 @@ public class BookmarkSideBarLookupableHelper extends
     }
     protected List<BookmarkSideBarWrapper> getPlanItemsWishList(String studentId)
             throws InvalidParameterException, MissingParameterException, DoesNotExistException,
-            OperationFailedException {
+                   OperationFailedException, PermissionDeniedException {
         AcademicPlanServiceConstants.ItemCategory planItemCategory = AcademicPlanServiceConstants.ItemCategory.WISHLIST;
         List<BookmarkSideBarWrapper> bookmarkList = new ArrayList<BookmarkSideBarWrapper>();
 

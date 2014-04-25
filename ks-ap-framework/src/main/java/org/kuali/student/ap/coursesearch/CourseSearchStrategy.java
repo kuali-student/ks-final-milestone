@@ -3,6 +3,7 @@ package org.kuali.student.ap.coursesearch;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Strategy interface for specifying course search behavior.
@@ -47,6 +48,40 @@ public interface CourseSearchStrategy {
 			return i1 == i2 ? 0 : i1 < i2 ? -1 : 1;
 		}
 	};
+
+    /**
+     * Comparator used specifically for the credit facet.  We used to have only integers in there
+     * but switched to floats so that we could support partial credits (3.5) and the addition of a
+     * value that wraps up all values larger than some limit (6+)
+     */
+    static final Comparator<String> CREDIT = new Comparator<String>() {
+        @Override
+        public int compare(String o1, String o2) {
+            if (o1 == null && o2 == null)
+                return 0;
+            if (o1 == null)
+                return -1;
+            if (o2 == null)
+                return 1;
+            if (o1.endsWith("+") && !o2.endsWith("+"))
+                return 1;
+            if (o2.endsWith("+") && !o1.endsWith("+"))
+                return -1;
+            float i1;
+            try {
+                i1 = Float.parseFloat(o1);
+            } catch (NumberFormatException e) {
+                i1 = Float.MAX_VALUE;
+            }
+            float i2;
+            try {
+                i2 = Float.parseFloat(o2);
+            } catch (NumberFormatException e) {
+                i2 = Float.MAX_VALUE;
+            }
+            return i1 == i2 ? 0 : i1 < i2 ? -1 : 1;
+        }
+    };
 
 	static final Comparator<String> ALPHA = new Comparator<String>() {
 		@Override
@@ -167,6 +202,10 @@ public interface CourseSearchStrategy {
 	 * @return A new instance of the course search form.
 	 */
 	CourseSearchForm createSearchForm();
+
+    Map<String, String> getCurriculumMap(Set<String> orgIds);
+
+    Map<String, String> getGenEdMap();
 
 	Map<String, Credit> getCreditMap();
 

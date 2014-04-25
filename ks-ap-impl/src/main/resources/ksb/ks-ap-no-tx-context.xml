@@ -185,12 +185,23 @@
     </bean>
 
     <bean id="academicPlanServiceValidator" class="org.kuali.student.ap.academicplan.service.AcademicPlanServiceValidationDecorator">
-        <property name="planItemDao" ref="planItemDao"/>
         <property name="nextDecorator" ref="academicPlanServicePersistence"/>
         <property name="validator" ref="validator"/>
     </bean>
 
-    <alias name="academicPlanServiceValidator" alias="academicPlanService" />
+    <bean id="academicPlanServiceAuthorizor" class="org.kuali.student.ap.academicplan.service.AcademicPlanServiceAuthorizationDecorator">
+        <property name="nextDecorator" ref="academicPlanServiceValidator"/>
+        <property name="permissionService" ref="permissionService"/>
+    </bean>
+
+    <!--<bean id="permissionService" class="org.kuali.student.kim.permission.mock.PermissionServiceMockImpl"/>-->
+    <bean id="permissionServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface" value="org.kuali.rice.kim.api.permission.PermissionService" />
+        <property name="serviceQName" value="{http://rice.kuali.org/kim/v2_0}permissionService" />
+    </bean>
+    <alias name="permissionServiceClient" alias="permissionService" />
+
+    <alias name="academicPlanServiceAuthorizor" alias="academicPlanService" />
 
     <bean id="ks.exp.academicPlanService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
