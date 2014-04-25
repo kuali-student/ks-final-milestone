@@ -20,16 +20,27 @@
     padding-top: 0.3em;
 }
 
-.kscr-Card-detailsText,
+.kscr-Card-detailsText-common{
+  border-bottom:@horizontalLineBorder;
+  border-top:@horizontalLineBorder;
+  color: @primaryTextColor;
+  font-size: 14px;
+  font-family: @secondaryFontFamily;
+  font-weight: normal;
+}
+
+.kscr-Card-detailsText{
+  .kscr-Card-detailsText-common;
+  padding-bottom:10px;
+  padding-top:10px;
+}
+
 .kscr-Card-detailsText--edit{
-    border-bottom:@horizontalLineBorder;
-    border-top:@horizontalLineBorder;
-    color: @primaryTextColor;
-    font-size: 14px;
-    font-family: @secondaryFontFamily;
-    font-weight: normal;
-    padding-bottom:10px;
-    padding-top:10px;
+  .kscr-Card-detailsText-common;
+  padding-top: 0.5em;
+  padding-bottom: 2em;
+  margin-right: -0.7em;
+  padding-left: .9em;
 }
 
 .kscr-Card-detailsText--show{
@@ -93,27 +104,18 @@
   width: 100%;
 }
 
-.kscr-ao-type {
-    float: left;
-    width: 75px;
-}
-
-.kscr-ao-time, .kscr-ao-location {
-    float: left;
-    width: 200px;
-}
-
-.kscr-ao-type-short {
+.kscr-Card-ao-type {
   float: left;
   width: 35px;
 }
 
-.kscr-ao-time-short {
-  float: left;
+.kscr-Card-ao-instructor {
+  float: right;
+  text-align: right;
 }
 
-.kscr-ao-location-short {
-  float: right;
+.kscr-Card-ao-schedule {
+  clear: both;
 }
 
 .kscr-Card-supportText{

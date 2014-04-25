@@ -110,7 +110,6 @@
         </div>
         <accordion close-others="oneAtATime">
             <accordion-group is-open="isopen">
-
                 <accordion-heading>
                     <!--credits-->
                     <div id="course_info_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" class="kscr-Card-supportText" ng-hide="editing(cartItem)">
@@ -119,7 +118,6 @@
                                      'other': '{} cr'}">
                         </ng-pluralize>
                     </div>
-
                     <!--Course Header Section-->
                     <div>
                         <span class="kscr-Card-icon"><i class="glyphicon" ng-class="{'glyphicon-chevron-down': isopen, 'glyphicon-chevron-right': !isopen}"></i></span>
@@ -127,22 +125,34 @@
                         <span class="kscr-Card-badge" id="grading_badge_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" ng-show="showBadge(cartItem)">{{cartItem.gradingOptions[cartItem.grading]}}</span>
                     </div>
                     <!--Course Title and description-->
-                    <div class="kscr-Card-text" id="title_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}">{{cartItem.courseTitle}}</div>
-
+                    <div class="kscr-Card-text" id="title_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" ng-show="isopen">{{cartItem.courseTitle}}</div>
+                    <!--AO info: type, time, location-->
+                    <div ng-repeat="item in cartItem.schedule" class="kscr-Card-detailsText--show" ng-show="!isopen">
+                            <span class="kscr-Card-courseTimes">
+                                <div id="ao_type_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}_{{$index}}" class="kscr-Card-ao-type">{{item.activityOfferingType | limitTo : 3}}</div>
+                                <div ng-repeat="scheduleItem in item.activityOfferingLocationTime" id="schedule_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}_{{$parent.$index}}_{{$index}}" class="kscr-Card-scheduleComponent">
+                                    <span ng-hide="scheduleItem.isTBA" class="util-Grid--floatLeft">{{scheduleItem.time.days}} {{scheduleItem.time.displayTime}}</span>
+                                    <span ng-hide="scheduleItem.isTBA" class="util-Grid--floatRight">{{scheduleItem.location.building}} {{scheduleItem.location.room}}</span>
+                                    <span ng-show="scheduleItem.isTBA" class="util-Grid--floatRight">TBA</span>
+                                </div>
+                            </span>
+                    </div>
                 </accordion-heading>
-                <div ng-hide="editing(cartItem)" class="kscr-Card-detailsText--edit">
+                <div ng-hide="editing(cartItem)">
                     <!--course time, day, building-->
-                    <div ng-repeat="item in cartItem.schedule">
-                      <span class="kscr-Card-courseTimes">
-                        <div id="ao_type_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}_{{$index}}" class="kscr-ao-type">{{item.activityOfferingType}}</div>
-                        <div ng-repeat="scheduleItem in item.activityOfferingLocationTime" id="schedule_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}_{{$parent.$index}}_{{$index}}">
-                            <span ng-hide="scheduleItem.isTBA" class="kscr-ao-time">{{scheduleItem.time.days}} {{scheduleItem.time.startTime}} - {{scheduleItem.time.endTime}}</span>
-                            <span ng-hide="scheduleItem.isTBA" class="kscr-ao-location">{{scheduleItem.location.building}} {{scheduleItem.location.room}}</span>
+                    <div ng-repeat="item in cartItem.schedule" class="kscr-Card-detailsText--edit">
+                        <div>
+                            <span id="ao_type_long_{{course.courseCode}}_{{course.regGroupCode}}_{{$index}}">{{item.activityOfferingType}}</span>
+                                <span class="kscr-Card-ao-instructor">
+                                    <div ng-repeat="instructor in item.instructors">{{instructor.firstName}} {{instructor.lastName}}</div>
+                                </span>
+                        </div>
+                        <div ng-repeat="scheduleItem in item.activityOfferingLocationTime" id="schedule_long_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}_{{$parent.$index}}_{{$index}}" class="kscr-Card-ao-schedule">
+                            <span ng-hide="scheduleItem.isTBA" class="util-Grid--floatLeft">{{scheduleItem.time.days}} {{scheduleItem.time.displayTime}}</span>
+                            <span ng-hide="scheduleItem.isTBA" class="util-Grid--floatRight">{{scheduleItem.location.building}} {{scheduleItem.location.room}}</span>
                             <span ng-show="scheduleItem.isTBA"> TBA</span>
                         </div>
-                      </span>
                     </div>
-
                     <!--Course Registration Buttons-->
                     <div class="kscr-Card-buttons">
                       <span>
