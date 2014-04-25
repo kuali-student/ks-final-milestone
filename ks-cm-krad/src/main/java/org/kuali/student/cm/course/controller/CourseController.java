@@ -37,6 +37,7 @@ import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
@@ -138,9 +139,9 @@ public class CourseController extends CourseRuleEditorController {
         // only do the manually setup of the MaintenanceDocumentForm fields if the URL_PARAM_USE_CURRICULUM_REVIEW param was passed in from initial view
         if (StringUtils.isNotBlank(useReviewProcessParam)) {
             Boolean isUseReviewProcess = new Boolean(useReviewProcessParam);
-            // throw an exception if the user is not a CS use but attempts to disable Curriculum Review for a proposal
+            // throw an exception if the user is not a CS user but attempts to disable Curriculum Review for a proposal
             if (!isUseReviewProcess && !CourseProposalUtil.isUserCurriculumSpecialist()) {
-                throw new RuntimeException("A user " + GlobalVariables.getUserSession().getPerson().getPrincipalName() + " who is not allowed to disable Curriculum Review (Workflow Approval) has attempted to.");
+                throw new RuntimeException("A user (" + GlobalVariables.getUserSession().getPerson().getPrincipalName() + ") who is not allowed to disable Curriculum Review (Workflow Approval) has attempted to.");
             }
             // set the doc type name based on the whether the user is CS and if they have chosen to use curriculum review
             form.setDocTypeName((!isUseReviewProcess) ? CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_CREATE_ADMIN : CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_CREATE);
@@ -254,6 +255,7 @@ public class CourseController extends CourseRuleEditorController {
     /**
      * load the course proposal review page
      */
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=reviewCourseProposal")
     public ModelAndView reviewCourseProposal(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
                                              HttpServletRequest request, HttpServletResponse response) throws Exception {

@@ -16,7 +16,7 @@
  */
 package org.kuali.student.cm.course.form;
 
-import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
+import org.kuali.rice.krad.web.bind.RequestProtected;
 import org.kuali.rice.krad.web.form.UifFormBase;
 
 /**
@@ -31,6 +31,8 @@ public class CourseInitialForm extends UifFormBase {
 
     private boolean useReviewProcess;
 
+    // disallow the curriculumSpecialistUser property to be set by the request
+    @RequestProtected
     private boolean curriculumSpecialistUser;
 
     public CourseInitialForm() {

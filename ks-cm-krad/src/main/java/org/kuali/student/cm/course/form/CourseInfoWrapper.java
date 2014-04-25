@@ -18,6 +18,7 @@
 package org.kuali.student.cm.course.form;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.krad.web.bind.RequestProtected;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.util.CourseProposalUtil;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
@@ -433,7 +434,13 @@ public class CourseInfoWrapper implements Serializable {
     public class CreateCourseUIHelper{
 
         CurriculumManagementConstants.CourseViewSections selectedSection;
+
+        // disallow the curriculumSpecialistUser property to be set by the request
+        @RequestProtected
         boolean curriculumSpecialistUser;
+
+        // disallow the useReviewProcess property to be set by the request
+        @RequestProtected
         boolean useReviewProcess;
 
         public CreateCourseUIHelper(){
