@@ -400,6 +400,7 @@ public class CourseOfferingManagementController extends UifControllerBase {
     /*
      * Method used to refresh Manage CO page (e.g. after edit AO)
      */
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=reloadManageCO")
     public ModelAndView reloadManageCO(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm) throws Exception {
         theForm.setFormatOfferingIdForNewAO(null);
