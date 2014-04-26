@@ -703,44 +703,17 @@ function displayAOsubTerm(subTermNameId, subTermTypeId, popoverId, dirtyId, subT
     jQuery("#"+popoverId).HideBubblePopup();
 }
 
-
 function handleAOSelection(component){
-    var aoId = jQuery("#edit_ao_select_control").val();
-    handleAONavigation(component,aoId);
+    var aoId = jQuery(component).val();
+    handleAONavigation(aoId);
 }
 
-/*
-  This is the method which handles AO navigation.
- */
-function handleAONavigation(component, aoId) {
+function handleAONavigation(aoId) {
+    // "Save and Continue"
+    injectValueInDataAttribute('#edit_ao_save_and_continue', aoId, 'aoId');
+    // "Continue Without Saving"
+    injectValueInDataAttribute('#edit_ao_cancel', aoId, 'aoId');
 
-    var saveAndContinue = jQuery("#edit_ao_save_and_continue").attr("data-submit_data");
-    var cancelSaveAndLoad = jQuery("#edit_ao_cancel").attr("data-submit_data");
-    var submit_data_array = saveAndContinue.split(',');
-    var i = 0;
-    for (; i < submit_data_array.length;) {
-        var data = submit_data_array[i].split(':');
-        if (data[0] == '"actionParameters[aoId]"') {
-            data[1] = '"' + aoId + '"';
-            submit_data_array[i] = data[0] + ":" + data[1];
-            break;
-        }
-        i++;
-    }
-    jQuery("#edit_ao_save_and_continue").attr("data-submit_data", submit_data_array.join());
-
-    var cancel_data_array = cancelSaveAndLoad.split(',');
-    i = 0;
-    for (; i < cancel_data_array.length;) {
-        var data = cancel_data_array[i].split(':');
-        if (data[0] == '"actionParameters[aoId]"') {
-            data[1] = '"' + aoId + '"';
-            cancel_data_array[i] = data[0] + ":" + data[1];
-            break;
-        }
-        i++;
-    }
-    jQuery("#edit_ao_cancel").attr("data-submit_data", cancel_data_array.join());
     if(!dirtyFormState.isDirty()) {
         jQuery("#edit_ao_cancel").click();
         return;

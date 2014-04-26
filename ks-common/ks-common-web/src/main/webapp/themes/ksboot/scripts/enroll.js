@@ -452,6 +452,39 @@ function updateViewHeader(newHeaderTextSource){
 }
 
 /*
+ Modifies the data-submit_data attribute with supplied value for an action parameter
+ */
+function injectValueInDataAttribute(id, valueToInject, keyToMatch) {
+    const attributeName = 'data-submit_data';
+    // get data attribute value
+    var attributeData = jQuery(id).attr(attributeName);
+    // parse into JSON
+    var data = jQuery.parseJSON(attributeData);
+    var fullKeyToMatch = 'actionParameters[' + keyToMatch + ']';
+
+    // iterate over key/value pairs
+    jQuery.each(data, function(key, value) {
+        if (key === fullKeyToMatch) {
+            // substitute the aoId with real value
+            data[key] = valueToInject;
+            return false;  // exit early from each loop
+        }
+    });
+
+    // poor man's stringification of JavaScript object.
+    // Consider using JSON.stringify when http://caniuse.com/#feat=json
+    // shows 100% coverage (e.g., Safari 6 does not have JSON.stringify).
+    // We can get away with this simple implementation since the data is flat and
+    // does not contain quoted strings
+    var array = [];
+    jQuery.each(data, function(key, value) {
+        array.push('"' + key + '":"' + value + '"');
+    });
+    // set data attribute value as a String
+    jQuery(id).attr(attributeName, '{' + array.join(',') + '}');
+}
+
+/*
  The users wanted to have a small strip of color that coincides with the term. If the user hasn't configured
  an explicit color then use the default coloring from a gradient.
 
