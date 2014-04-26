@@ -177,13 +177,10 @@ function updateExamDriverInFOTable(finalExamDropDownId, finalExamTableCellId, pa
     }
 }
 
-/*
-    Workaround for RICE jira
- */
-function retrieveDeliveryFormatsComponent(id1, id2, finalExamType, parentReadOnly, finalExamDriverId, finalExamDriverUI) {
-    retrieveComponent(id1, undefined);
-    if (finalExamType == "STANDARD") {
-        //retrieveComponent(id2, undefined);
-        updateExamDriverInFOTable(finalExamDriverId, finalExamDriverUI, parentReadOnly);
-    }
+function retrieveDeliveryFormatsComponent(id1, id2, finalExamType) {
+     retrieveComponent(id1, undefined);
+     if (finalExamType == "STANDARD") {
+        retrieveComponent(id2, undefined);
+      }
+
 }
