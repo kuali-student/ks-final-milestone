@@ -548,3 +548,59 @@
 }
 
 /* End */
+
+
+
+/* TODO: KSCM-2003 Rice workaround - sudduth */
+
+/* This is our overrides followed by the stuff we needed from the parent
+.ui-tabs-vertical-left .ui-tabs-nav {*/
+.ui-tabs-vertical-left .nav-tabs {
+    width: 15em;
+    margin-left: 2px;
+    font-family: 'ralewayregular', sans-serif;
+
+    padding: .2em .1em .2em .2em;
+    float: left;
+}
+
+/* .ui-tabs-vertical-left .ui-tabs-panel { */
+.ui-tabs-vertical-left > div {
+  clear: none !important;
+}
+
+
+/* .ui-tabs-vertical-left .ui-tabs-nav li { */
+.ui-tabs-vertical-left .nav-tabs li {
+  clear: left;
+  width: 100%;
+  border-bottom-width: 1px !important;
+  border-bottom: 1px solid black !important;
+  border-right-width: 0 !important;
+  margin: 0 -1px .2em 0;
+}
+
+/* .ui-tabs-vertical .ui-tabs-panel { */
+.ui-tabs-vertical > div {
+    width: 67em;
+}
+
+
+/*#course_tabs_tabs .ui-tabs-panel {*/
+#course_tabs_tabs > div {
+    border: 0; /* Remove the border/line from the top of the sections */
+
+    padding: 1em !important;
+    float: right;
+    width: 70em;
+}
+
+/* .ui-tabs-vertical-left .ui-tabs-nav li.ui-state-active { */
+.ui-tabs-vertical-left .nav-tabs li.active {
+  padding-bottom: 0;
+  padding-right: .1em;
+  border-right-width: 1px;
+  border-right-width: 1px;
+}
+
+/* END Rice workaround WIP */
