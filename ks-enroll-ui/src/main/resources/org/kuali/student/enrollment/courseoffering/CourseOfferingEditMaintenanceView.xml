@@ -121,7 +121,7 @@
                                           p:methodToCall="route"
                                           p:actionLabel="@{#dp.renderHelper.prevCO==null?'':#dp.renderHelper.prevCO.courseOfferingCode}"
                                           p:render="@{#dp.renderHelper.prevCO==null?false:#dp.renderHelper.prevCO.id != null}"
-                                          p:actionScript="handleCONavigation( this, &quot;@{#dp.renderHelper.prevCO==null?null:#dp.renderHelper.prevCO.id}&quot; );" >
+                                          p:actionScript="handleCONavigation(&quot;@{#dp.renderHelper.prevCO==null?null:#dp.renderHelper.prevCO.id}&quot;);" >
                                         <property name="actionParameters">
                                             <map>
                                                 <entry key="coId" value="@{#dp.renderHelper.prevCO==null?null:#dp.renderHelper.prevCO.id}" />
@@ -151,7 +151,7 @@
                                           p:methodToCall="route"
                                           p:actionLabel="@{#dp.renderHelper.nextCO==null?'':#dp.renderHelper.nextCO.courseOfferingCode}"
                                           p:render="@{#dp.renderHelper.nextCO==null?false:#dp.renderHelper.nextCO.id != null}"
-                                          p:actionScript="handleCONavigation( this, &quot;@{#dp.renderHelper.nextCO==null?null:#dp.renderHelper.nextCO.id}&quot; );" >
+                                          p:actionScript="handleCONavigation(&quot;@{#dp.renderHelper.nextCO==null?null:#dp.renderHelper.nextCO.id}&quot;);" >
                                         <property name="actionParameters">
                                             <map>
                                                 <entry key="coId" value="@{#dp.renderHelper.nextCO==null?null:#dp.renderHelper.nextCO.id}" />

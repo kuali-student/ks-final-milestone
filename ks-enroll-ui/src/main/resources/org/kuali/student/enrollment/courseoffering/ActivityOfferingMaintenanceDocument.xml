@@ -200,7 +200,7 @@
         <property name="items">
             <list>
                 <bean id="edit_ao_prev" parent="KS-Uif-ActionLink" p:render="@{#dp.editRenderHelper.prevAO.id != null}"
-                      p:actionScript="handleAONavigation(this,&quot;@{#dp.editRenderHelper.prevAO.id}&quot;);" p:actionImagePlacement="LEFT"
+                      p:actionScript="handleAONavigation(&quot;@{#dp.editRenderHelper.prevAO.id}&quot;);" p:actionImagePlacement="LEFT"
                       p:actionLabel="@{#dp.editRenderHelper.prevAOTypeName} @{#dp.editRenderHelper.prevAO.activityCode}" p:methodToCall="route">
                     <property name="actionParameters">
                       <map>
@@ -220,7 +220,7 @@
                     </property>
                 </bean>
                 <bean id="edit_ao_next" parent="KS-Uif-ActionLink" p:render="@{#dp.editRenderHelper.nextAO.id != null}"
-                      p:actionScript="handleAONavigation(this,&quot;@{#dp.editRenderHelper.nextAO.id}&quot;);" p:actionImagePlacement="RIGHT"
+                      p:actionScript="handleAONavigation(&quot;@{#dp.editRenderHelper.nextAO.id}&quot;);" p:actionImagePlacement="RIGHT"
                       p:actionLabel="@{#dp.editRenderHelper.nextAOTypeName} @{#dp.editRenderHelper.nextAO.activityCode}" p:methodToCall="route">
                     <property name="actionParameters">
                       <map>
