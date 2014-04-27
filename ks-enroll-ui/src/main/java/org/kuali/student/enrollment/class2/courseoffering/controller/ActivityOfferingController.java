@@ -10,6 +10,7 @@ import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
+import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
@@ -92,6 +93,7 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
         return getUIFModelAndView(form);
     }
 
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=resetNewRDLTime")
     public ModelAndView resetNewRDLTime(@ModelAttribute("KualiForm") MaintenanceDocumentForm form) throws Exception {
 
