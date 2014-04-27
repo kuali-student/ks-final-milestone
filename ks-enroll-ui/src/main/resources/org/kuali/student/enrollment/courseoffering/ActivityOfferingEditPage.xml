@@ -138,6 +138,7 @@
                         <bean parent="KS-Uif-CheckboxControl">
                             <property name="disabled" value="@{#dp.aoInfo.stateKey eq 'kuali.lui.activity.offering.state.canceled'}"/>
                             <property name="onChangeScript" value="handleColocation();"/>
+                            <property name="checkboxLabel" value="This activity is co-located"/>
                         </bean>
                     </property>
                 </bean>
