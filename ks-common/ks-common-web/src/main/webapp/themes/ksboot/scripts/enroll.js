@@ -460,16 +460,7 @@ function injectValueInDataAttribute(id, valueToInject, keyToMatch) {
     var attributeData = jQuery(id).attr(attributeName);
     // parse into JSON
     var data = jQuery.parseJSON(attributeData);
-    var fullKeyToMatch = 'actionParameters[' + keyToMatch + ']';
-
-    // iterate over key/value pairs
-    jQuery.each(data, function(key, value) {
-        if (key === fullKeyToMatch) {
-            // substitute the aoId with real value
-            data[key] = valueToInject;
-            return false;  // exit early from each loop
-        }
-    });
+    data['actionParameters[' + keyToMatch + ']'] = valueToInject;
 
     // poor man's stringification of JavaScript object.
     // Consider using JSON.stringify when http://caniuse.com/#feat=json
