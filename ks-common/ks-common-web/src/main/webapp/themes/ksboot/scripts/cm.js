@@ -611,7 +611,7 @@ function compareInstructorNameInput(value, element) {
         }
     };
 
-    compareInputWithAutosuggestFromAjax(value, element, successFunction);
+    compareInputWithAutosuggestFromAjax(queryVal, element, successFunction);
 
     return isValid;
 }
