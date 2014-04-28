@@ -312,6 +312,7 @@
                                 <property name="control.cssClasses">
                                     <list merge="true">
                                         <value>ks-review-captialize</value>
+                                        <value>review_readonly_control</value>
                                     </list>
                                 </property>
                             </bean>
@@ -321,6 +322,7 @@
                                 <property name="control.cssClasses">
                                     <list merge="true">
                                         <value>ks-review-captialize</value>
+                                        <value>review_readonly_control</value>
                                     </list>
                                 </property>
                             </bean>
@@ -547,6 +549,7 @@
                                 <property name="control.cssClasses">
                                     <list merge="true">
                                         <value>ks-review-captialize</value>
+                                        <value>review_readonly_control</value>
                                     </list>
                                 </property>
                             </bean>
