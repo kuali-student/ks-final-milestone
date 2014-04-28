@@ -119,6 +119,10 @@
             <artifactId>hibernate-entitymanager</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.apache.openejb</groupId>
+            <artifactId>javaee-api</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.kuali.student.api</groupId>
             <artifactId>ks-enroll-api</artifactId>
             <version>${ks.api.version}</version>
