@@ -165,7 +165,7 @@ public class ProposalLookupView extends LookupView {
                     expressionEvaluator.evaluatePropertyExpression(view, criteriaField.getContext(), criteriaField,
                             "required", true);
                     rangeFieldGroup.setRequired(criteriaField.getRequired());
-                    // rice 2.4 upgrade: label does not have requiredMessage any more
+                    // rice 2.4 upgrade: label does not have requiredMessage any more TODO: KSCM-2000 Required Message Changes
 //                    ((LookupInputField) criteriaField).getFieldLabel().setRequiredMessage(new Message());
 
                     // Evaluate and set the render property
