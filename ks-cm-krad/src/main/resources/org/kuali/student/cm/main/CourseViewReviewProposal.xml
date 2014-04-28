@@ -22,29 +22,9 @@
     <bean id="KS-CourseView-ReviewProposalPage" parent="Uif-MaintenancePage" p:style="margin-left: -18px;"
           p:headerText="Review Proposal"
           p:disclosure.render="false">
-        <!-- Instead of validation messages at the top of the page we want the yellow bar.
 
-             Turns out that even with validationMessages.displayMessages=false (which sets style="display: none;" on the
-             client), krad-intialize.js still attempts to give the validation messages header focus which fires an event
-             which causes the page to attempt to scroll to the message header. This causes a JS exception in scrollTo()
-             because the top of the validation messages header is calculated at a negative number (if it is display=none)
-             and scrollTo() doesn't handle negative numbers.
-
-             This is a KRAD bug.
-
-             So, instead of just setting validationMessages.displayMessages=false we'll hide the validation messages
-             under the view header.
-             -->
-
-        <!-- Rice 2.4 Upgrade - ValidationMessages now extend UifDictionaryBeanBase which has no id or onDocumentReadyScript
-         TODO: KSCM-2000 Required Message Changes
-        <property name="validationMessages.id" value="review_course_validation_messages"/>
-        <property name="validationMessages.onDocumentReadyScript">
-            <value>jQuery('#review_course_validation_messages').css({'position':'fixed', 'top':'300px', 'left':'200px',
-                'z-index':'-1'});
-            </value>
-        </property>
-        -->
+        <!-- Don't how validation messages at the top of the page. Instead we want the yellow bar. -->
+        <property name="validationMessages.displayMessages" value="false"/>
 
         <!-- Initialize the page -->
         <property name="onDocumentReadyScript" value="onProposalReviewLoad();"/>
