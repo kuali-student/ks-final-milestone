@@ -228,6 +228,11 @@
             <version>${ks.lum.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.kuali.student.lum</groupId>
+            <artifactId>ks-cm-krad</artifactId>
+            <version>${ks.lum.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-rice-lessdep</artifactId>
             <version>${ks.core.version}</version>
