@@ -15,12 +15,8 @@
                               http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 
     <!-- This context requires that a spring Transaction Manager named 'transactionManager' be defined -->
-
-
-    <import resource="classpath:ks-core-api-data-dictionary-services-configuration.xml" />
     <import resource="classpath:ks-core-api-data-dictionary-validator-configuration.xml" />
-    <import resource="classpath:ks-enroll-api-data-dictionary-services-configuration.xml" />
-    <import resource="classpath:ks-enroll-api-data-dictionary-validator-configuration.xml" />
+
     <import resource="classpath:enrollDao.xml" />
     <import resource="classpath:statement-context.xml" />
     <import resource="classpath:mq-context.xml" />

@@ -17,12 +17,12 @@ package org.kuali.student.enrollment.class1.check.controller;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.datadictionary.DataObjectEntry;
+import org.kuali.rice.krad.lookup.LookupController;
+import org.kuali.rice.krad.lookup.LookupForm;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.web.controller.LookupController;
-import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.common.uif.view.KSLookupView;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -48,13 +48,12 @@ public class CheckInfolookupController extends LookupController {
          * Overrides the KRAD search functionality to perform redirect on single search result.
          */
         @RequestMapping(params = "methodToCall=search")
-        public ModelAndView search(@ModelAttribute("KualiForm") LookupForm lookupForm, BindingResult result,
-                                   HttpServletRequest request, HttpServletResponse response) {
+        public ModelAndView search(@ModelAttribute("KualiForm") LookupForm lookupForm) {
             lookupForm.setRenderedInLightBox(true);
-            ModelAndView modelAndView = super.search(lookupForm,result,request,response);
+            ModelAndView modelAndView = super.search(lookupForm);
 
-            if(lookupForm.getPostedView() instanceof KSLookupView){
-                KSLookupView ksLookupView = (KSLookupView)lookupForm.getPostedView();
+            if(lookupForm.getView() instanceof KSLookupView){
+                KSLookupView ksLookupView = (KSLookupView)lookupForm.getView();
                 String defaultAction = ksLookupView.getDefaultSingleLookupResultAction();
                 if (StringUtils.isNotBlank(defaultAction) && lookupForm.getLookupResults() != null && lookupForm.getLookupResults().size() == 1){
                     Object object = lookupForm.getLookupResults().iterator().next();
@@ -73,11 +72,6 @@ public class CheckInfolookupController extends LookupController {
                     }  else{
                         props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, UifConstants.MethodToCallNames.START);
                     }
-                    // UrlParams.SHOW_HISTORY and SHOW_HOME no longer exist
-                    // https://fisheye.kuali.org/changelog/rice?cs=39034
-                    // TODO KSENROLL-8469
-                    //props.put(UifConstants.UrlParams.SHOW_HISTORY, BooleanUtils.toStringTrueFalse(false));
-                    //props.put(UifConstants.UrlParams.SHOW_HOME,BooleanUtils.toStringTrueFalse(false));
                     props.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE,lookupForm.getDataObjectClassName());
 
                     return performRedirect(lookupForm,defaultAction,props );

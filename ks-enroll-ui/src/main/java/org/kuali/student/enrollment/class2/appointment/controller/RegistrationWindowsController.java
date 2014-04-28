@@ -74,7 +74,7 @@ public class RegistrationWindowsController extends UifControllerBase {
 
     @Override
     @RequestMapping(method = RequestMethod.GET, params = "methodToCall=start")
-    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
+    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form,
                               @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
 
         if (!(form instanceof RegistrationWindowsManagementForm)) {
@@ -93,7 +93,7 @@ public class RegistrationWindowsController extends UifControllerBase {
             }
         }
 
-        return super.start(theForm, result, request, response);
+        return super.start(theForm, request, response);
     }
 
     /**
@@ -180,10 +180,6 @@ public class RegistrationWindowsController extends UifControllerBase {
         urlParameters.put("periodId", uifForm.getPeriodId());
         urlParameters.put("termType", uifForm.getTermType());
         urlParameters.put("termYear", uifForm.getTermYear());
-        // UrlParams.SHOW_HISTORY and SHOW_HOME no longer exist
-        // https://fisheye.kuali.org/changelog/rice?cs=39034
-        // TODO KSENROLL-8469
-        //urlParameters.put(UifConstants.UrlParams.SHOW_HISTORY, BooleanUtils.toStringTrueFalse(false));
         String controllerPath = AppointmentConstants.REGISTRATION_WINDOWS_CONTROLLER_PATH;
 
         try {
@@ -236,10 +232,6 @@ public class RegistrationWindowsController extends UifControllerBase {
         urlParameters.put("periodId", uifForm.getPeriodId());
         urlParameters.put("termType", uifForm.getTermType());
         urlParameters.put("termYear", uifForm.getTermYear());
-        // UrlParams.SHOW_HISTORY and SHOW_HOME no longer exist
-        // https://fisheye.kuali.org/changelog/rice?cs=39034
-        // TODO KSENROLL-8469
-        //urlParameters.put(UifConstants.UrlParams.SHOW_HISTORY, BooleanUtils.toStringTrueFalse(false));
         String controllerPath = AppointmentConstants.REGISTRATION_WINDOWS_CONTROLLER_PATH;
 
 //        TODO: KSENROLL-9721: Need to create a confirmation dialog in browser as opposed to make a server side round trip
@@ -387,7 +379,7 @@ public class RegistrationWindowsController extends UifControllerBase {
 
     // this is a more generic way to get a selected window when the form contains more than one collection
     private AppointmentWindowWrapper _getSelectedWindow(RegistrationWindowsManagementForm theForm, String actionLink) {
-        String selectedCollectionPath = theForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        String selectedCollectionPath = theForm.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
             throw new RuntimeException("Selected collection was not set for " + actionLink);
         }
@@ -466,11 +458,7 @@ public class RegistrationWindowsController extends UifControllerBase {
 
     public AppointmentViewHelperService getViewHelperService(RegistrationWindowsManagementForm appointmentForm) {
         if (viewHelperService == null) {
-            if (appointmentForm.getView().getViewHelperServiceClass() != null) {
-                viewHelperService = (AppointmentViewHelperService) appointmentForm.getView().getViewHelperService();
-            } else {
-                viewHelperService = (AppointmentViewHelperService) appointmentForm.getPostedView().getViewHelperService();
-            }
+            viewHelperService = (AppointmentViewHelperService) appointmentForm.getViewHelperService();
         }
         return viewHelperService;
     }

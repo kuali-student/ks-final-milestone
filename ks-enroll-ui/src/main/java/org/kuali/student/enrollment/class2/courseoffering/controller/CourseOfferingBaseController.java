@@ -24,6 +24,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 public class CourseOfferingBaseController extends MaintenanceDocumentController {
@@ -66,12 +68,16 @@ public class CourseOfferingBaseController extends MaintenanceDocumentController 
         if( StringUtils.contains( returnLocationFromForm,"viewId=courseOfferingManagementView" )
                 || StringUtils.contains( returnLocationFromForm,"pageId=manageTheCourseOfferingPage" ) )
         {
+            // wrap with HashMap since viewRequestParameters is set with Collections.unmodifiableMap()
+            // in org.kuali.rice.krad.uif.view.View.setViewRequestParameters()
+            Map<String, String> additionalParameters = new HashMap<String, String>(form.getViewRequestParameters());
             if ( !returnLocationFromForm.contains("methodToCall=") ) {  // This happens when we display a list of COs and then user click on Manage action
-                form.getViewRequestParameters().put(CourseOfferingManagementSearchImpl.SearchParameters.IS_EXACT_MATCH_CO_CODE_SEARCH, Boolean.TRUE.toString());
+                additionalParameters.put(CourseOfferingManagementSearchImpl.SearchParameters.IS_EXACT_MATCH_CO_CODE_SEARCH, Boolean.TRUE.toString());
             }
             else {
-                form.getViewRequestParameters().put(CourseOfferingManagementSearchImpl.SearchParameters.IS_EXACT_MATCH_CO_CODE_SEARCH, Boolean.FALSE.toString());
+                additionalParameters.put(CourseOfferingManagementSearchImpl.SearchParameters.IS_EXACT_MATCH_CO_CODE_SEARCH, Boolean.FALSE.toString());
             }
+            form.setViewRequestParameters(additionalParameters);
             urlToRedirectTo = returnLocationFromForm.replaceFirst("methodToCall=[a-zA-Z0-9]+","methodToCall=show");
         }
         else {
@@ -102,12 +108,14 @@ public class CourseOfferingBaseController extends MaintenanceDocumentController 
      * util method available at view helper).
      */
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=addBlankLine")
-    public ModelAndView addBlankLine(@ModelAttribute("KualiForm") UifFormBase form) {
+    @Override
+    public ModelAndView addBlankLine(@ModelAttribute("KualiForm") final UifFormBase form,
+            HttpServletRequest request, HttpServletResponse response) {
 
         boolean validAction = true;
         if (((MaintenanceDocumentForm)form).getDocument().getNewMaintainableObject().getDataObject() instanceof CourseOfferingEditWrapper){
             CourseOfferingEditWrapper dataObject = (CourseOfferingEditWrapper)((MaintenanceDocumentForm)form).getDocument().getNewMaintainableObject().getDataObject();
-            String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+            String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
             if (StringUtils.endsWith(selectedCollectionPath, "formatOfferingList")) {
                 for (FormatOfferingWrapper foWrapper : dataObject.getFormatOfferingList()){
                     if (StringUtils.isBlank(foWrapper.getFormatOfferingInfo().getFormatId())){
@@ -120,7 +128,7 @@ public class CourseOfferingBaseController extends MaintenanceDocumentController 
         }
 
         if (validAction){
-            return super.addBlankLine(form);
+            return super.addBlankLine(form, request, response);
         } else {
             return getUIFModelAndView(form);
         }

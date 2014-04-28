@@ -18,7 +18,7 @@
     </bean>
 
     <bean id="KS-CourseOfferingManagement-AOClustersCollection" parent="KS-Uif-StackedCollectionSection-HorizontalSubCollectionFieldGroup" p:renderAddLine="false"  p:renderLineActions="false"
-          p:onDocumentReadyScript="removeCheckboxColumns(1, 'activityOfferingsPerCluster',
+          p:onDocumentReadyScript="addCheckboxToColumnHeader(1, 'activityOfferingsPerCluster',
                                                         &quot;handleToolbar('KS-CourseOfferingManagement-AOClustersCollection div[id^=activityOfferingsPerCluster]',
                                                         ['enableCancelButton', 'enableSuspendButton', 'enableReinstateButton', 'enableApproveButton', 'enableDeleteButton', 'enableDraftButton', 'enableMoveToButton'],
                                                         ['KS-CourseOfferingManagement-ToolBar-Cancel-AO-ClusterTab', 'KS-CourseOfferingManagement-ToolBar-Suspend-AO-ClusterTab',
@@ -74,7 +74,7 @@
                       p:actionScript="openPopupContent(e,'KS-CourseOfferingManagement-RenameAOCPopupForm',{align:'right',tail:{align:'right'}});" p:style="float:right"
                       p:successCallback="jQuery('div[id=KS-CourseOfferingManagement-RenameAOCPopupForm]:gt(0)').detach();"
                       p:errorCallback="jQuery('div[id=KS-CourseOfferingManagement-RenameAOCPopupForm]:gt(0)').detach();"
-                      p:componentSecurity.performActionAuthz="true" p:actionEvent="renameCluster">
+                      p:performActionAuthz="true" p:actionEvent="renameCluster">
                     <property name="actionImage">
                         <bean parent="Uif-Image" p:source="" p:cssClasses="ks-fontello-icon-pencil"/>
                     </property>
@@ -84,7 +84,7 @@
                 <bean parent="Uif-NavigationActionLink" p:methodToCall="showDeleteClusterConfirmPage"
                       p:onClickScript="jQuery('input.required[value=]').removeClass('required');writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"
                       p:actionLabel="Delete"  p:style="float:right;"
-                      p:componentSecurity.performActionAuthz="true" p:actionEvent="deleteCluster">
+                      p:performActionAuthz="true" p:actionEvent="deleteCluster">
                     <property name="actionImage">
                         <bean parent="Uif-Image" p:source="" p:cssClasses="ks-fontello-icon-cancel"/>
                     </property>

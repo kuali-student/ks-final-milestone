@@ -147,8 +147,7 @@ limitations under the License.
                     <property name="items">
                         <list>
 
-                            <bean parent="KS-Uif-InputField" p:propertyName="type.key" p:label="Term"
-                                  p:labelPlacement="LEFT"
+                            <bean parent="KS-Uif-InputField-LabelLeft" p:propertyName="type.key" p:label="Term"
                                   p:required="true" p:readOnly="false" p:id="termType"
                                   p:onChangeScript="toggleButtonOnInput('termType', 'show_button');">
                                 <property name="control">
@@ -180,8 +179,8 @@ limitations under the License.
                             <bean parent="Uif-HorizontalBoxSection">
                                 <property name="items">
                                     <list>
-                                        <bean parent="KS-Uif-InputField" p:id="ksfeTermType" p:propertyName="termToUse"
-                                              p:label="Term Type" p:labelPlacement="LEFT" p:readOnly="false"
+                                        <bean parent="KS-Uif-InputField-LabelLeft" p:id="ksfeTermType" p:propertyName="termToUse"
+                                              p:label="Term Type" p:readOnly="false"
                                               p:onChangeScript="retrieveFinalExamMatrix('KSFE-AgendaManage-Section', 'loadTermType', 'ksfeTermType');">
                                             <property name="control">
                                                 <bean parent="KS-Uif-DropdownControl"/>
@@ -222,7 +221,7 @@ limitations under the License.
                 <bean parent="KS-Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route"
                       p:actionLabel="Save" p:performClientSideValidation="true"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"
-                      p:componentSecurity.performActionAuthz="true" p:actionEvent="useActions"/>
+                      p:performActionAuthz="true" p:actionEvent="useActions"/>
                 <bean parent="KS-Uif-NavigationActionLink" p:ajaxSubmit="false" p:methodToCall="cancelEditMatrix"
                       p:actionLabel="Cancel"/>
             </list>
@@ -244,7 +243,7 @@ limitations under the License.
                         <property name="items">
                             <list>
                                 <bean parent="KS-Uif-NavigationActionLink" p:methodToCall="addRule" p:actionLabel="Add"
-                                      p:componentSecurity.performActionAuthz="true" p:actionEvent="useActions"/>
+                                      p:performActionAuthz="true" p:actionEvent="useActions"/>
                             </list>
                         </property>
                     </bean>
@@ -283,9 +282,9 @@ limitations under the License.
         <property name="lineActions">
             <list>
                 <bean parent="KS-Uif-Edit-NavigationActionLink" p:id="edit_rule" p:methodToCall="goToRuleView" p:actionLabel="Edit"
-                      p:componentSecurity.performActionAuthz="true" p:actionEvent="useActions"/>
+                      p:performActionAuthz="true" p:actionEvent="useActions"/>
                 <bean parent="KS-Uif-Delete-NavigationActionLink" p:id="delete_rule" p:methodToCall="deleteRule" p:actionLabel="Delete"
-                      p:componentSecurity.performActionAuthz="true" p:actionEvent="useActions"/>
+                      p:performActionAuthz="true" p:actionEvent="useActions"/>
             </list>
         </property>
     </bean>
@@ -299,7 +298,7 @@ limitations under the License.
                         <property name="items">
                             <list>
                                 <bean parent="KS-Uif-NavigationActionLink" p:methodToCall="addRule" p:actionLabel="Add"
-                                      p:componentSecurity.performActionAuthz="true" p:actionEvent="useActions"/>
+                                      p:performActionAuthz="true" p:actionEvent="useActions"/>
                             </list>
                         </property>
                     </bean>
@@ -517,7 +516,7 @@ limitations under the License.
     <bean id="FinalExam-DeliveryLogistic-New-Section" parent="Uif-HorizontalBoxSubSection">
         <property name="items">
             <list>
-                <bean id="FinalExam_tba" parent="Uif-InputField-LabelRight" p:propertyName="ruleEditor.tba"
+                <bean id="FinalExam_tba" parent="KS-Uif-InputField" p:propertyName="ruleEditor.tba"
                       p:label="TBA" p:style="margin-top:15px">
                     <property name="control">
                         <bean parent="KS-Uif-CheckboxControl"/>
@@ -541,7 +540,8 @@ limitations under the License.
                                     <list>
                                         <bean id="FinalExam_starttime" parent="KS-Uif-InputField-LabelTop"
                                               p:label="Start Time" p:propertyName="ruleEditor.startTime">
-                                            <property name="fieldLabel.requiredMessage.messageText" value=""/>
+                                            <!-- Rice 2.4 upgrade : removing fieldLabel.requiredMessage -->
+                                            <!--<property name="fieldLabel.requiredMessage.messageText" value=""/>-->
                                             <property name="constraintText" value="HH:MM"/>
                                             <property name="control">
                                                 <bean parent="KS-Uif-TextControl" p:size="5"
@@ -553,7 +553,8 @@ limitations under the License.
                                         </bean>
                                         <bean id="FinalExam_starttime_ampm" parent="KS-Uif-InputField-LabelTop"
                                               p:label="&lt;br&gt;" p:propertyName="ruleEditor.startTimeAMPM">
-                                            <property name="fieldLabel.requiredMessage.messageText" value=""/>
+                                            <!-- Rice 2.4 upgrade : removing fieldLabel.requiredMessage -->
+                                            <!--<property name="fieldLabel.requiredMessage.messageText" value=""/>-->
                                             <property name="control">
                                                 <bean parent="KS-Uif-DropdownControl" p:options-ref="AmPm-Options"
                                                       p:cssClasses="new_rdl_components"/>
@@ -561,7 +562,8 @@ limitations under the License.
                                         </bean>
                                         <bean id="FinalExam_endtime" parent="KS-Uif-InputField-LabelTop" p:label="End Time"
                                               p:propertyName="ruleEditor.endTime">
-                                            <property name="fieldLabel.requiredMessage.messageText" value=""/>
+                                            <!-- Rice 2.4 upgrade : removing fieldLabel.requiredMessage -->
+                                            <!--<property name="fieldLabel.requiredMessage.messageText" value=""/>-->
                                             <property name="constraintText" value="HH:MM"/>
                                             <property name="control">
                                                 <bean parent="KS-Uif-TextControl" p:size="5"
@@ -573,7 +575,8 @@ limitations under the License.
                                         </bean>
                                         <bean id="FinalExam_endtime_ampm" parent="KS-Uif-InputField-LabelTop"
                                               p:label="&lt;br&gt;" p:propertyName="ruleEditor.endTimeAMPM">
-                                            <property name="fieldLabel.requiredMessage.messageText" value=""/>
+                                            <!-- Rice 2.4 upgrade : removing fieldLabel.requiredMessage -->
+                                            <!--<property name="fieldLabel.requiredMessage.messageText" value=""/>-->
                                             <property name="control">
                                                 <bean parent="KS-Uif-DropdownControl" p:options-ref="AmPm-Options"
                                                       p:cssClasses="new_rdl_components"/>
@@ -588,12 +591,13 @@ limitations under the License.
                 <bean id="FinalExam_building" parent="KS-Uif-InputField-LabelTop" p:label="Facility"
                       p:render="@{#dp.ruleEditor.ruleTypeInfo.type ne 'kuali.krms.rule.type.final.exam.activity.offering.driven'}"
                       p:propertyName="ruleEditor.building.buildingCode" p:uppercaseValue="true">
-                    <property name="fieldLabel.requiredMessage.messageText" value=""/>
+                    <!-- Rice 2.4 upgrade : removing fieldLabel.requiredMessage -->
+                    <!--<property name="fieldLabel.requiredMessage.messageText" value=""/>-->
                     <property name="control">
                         <bean parent="KS-Uif-TextControl" p:size="20" p:cssClasses="new_rdl_components"/>
                     </property>
                     <property name="quickfinder">
-                        <bean parent="Uif-QuickFinder" p:lightBoxLookup.lookupReturnByScript="true">
+                        <bean parent="Uif-QuickFinder" p:lightBox.lookupReturnByScript="true">
                             <property name="dataObjectClassName"
                                       value="org.kuali.student.r2.core.room.dto.BuildingInfo"/>
                             <property name="fieldConversions">
@@ -612,7 +616,7 @@ limitations under the License.
                         <bean parent="KS-Uif-TextControl" p:size="20" p:cssClasses="new_rdl_components"/>
                     </property>
                     <property name="quickfinder">
-                        <bean parent="Uif-QuickFinder" p:lightBoxLookup.lookupReturnByScript="true">
+                        <bean parent="Uif-QuickFinder" p:lightBox.lookupReturnByScript="true">
                             <property name="dataObjectClassName" value="org.kuali.student.r2.core.room.dto.RoomInfo"/>
                             <property name="autoSearch" value="true"/>
                             <property name="fieldConversions">
@@ -742,9 +746,8 @@ limitations under the License.
     </bean>
     <bean id="KSFE-endtime_ampm-Section" parent="KSFE-endtime_ampm-Section-Parent"/>
 
-    <bean id="KSFE_location-Parent" parent="KS-Uif-InputField"
+    <bean id="KSFE_location-Parent" parent="KS-Uif-InputField-LabelLeft"
           p:label="Standard Final Exam location determined by Activity Offering location" p:propertyName="location"
-          p:labelPlacement="LEFT"
           p:uppercaseValue="false">
         <property name="control">
             <bean parent="KS-Uif-CheckboxControl" p:disabled="true"/>

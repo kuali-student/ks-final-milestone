@@ -55,7 +55,7 @@ public class KitchenSinkPerformanceController extends UifControllerBase {
 
     @Override
     @RequestMapping(params = "methodToCall=start")
-    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form,
                               HttpServletRequest request, HttpServletResponse response) {
         KitchenSinkPerformanceForm perfForm = (KitchenSinkPerformanceForm) form;
 

@@ -28,6 +28,8 @@ import org.kuali.rice.krad.uif.util.UifKeyValue;
 import org.kuali.rice.krad.uif.view.DialogManager;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.web.bind.RequestAccessible;
+import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.uif.util.KSControllerHelper;
@@ -114,7 +116,7 @@ public class AcademicCalendarController extends UifControllerBase {
      */
     @Override
     @RequestMapping(method = RequestMethod.GET, params = "methodToCall=start")
-    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form,
                               HttpServletRequest request, HttpServletResponse response) {
         AcademicCalendarForm acalForm = (AcademicCalendarForm) form;
 
@@ -152,7 +154,8 @@ public class AcademicCalendarController extends UifControllerBase {
 
         Properties urlParameters = new Properties();
         urlParameters.put(UifParameters.VIEW_ID, CalendarConstants.ACAL_VIEW);
-        urlParameters.put("flow", acalForm.getFlowKey());
+        String flowKey = acalForm.getFlowKey();
+        urlParameters.put("flow", flowKey == null ? "" : flowKey);
         urlParameters.put(CalendarConstants.PAGE_ID,CalendarConstants.ACADEMIC_CALENDAR_EDIT_PAGE);
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "startNew");
         String controllerPath = CalendarConstants.ACAL_CONTROLLER_PATH;
@@ -165,9 +168,10 @@ public class AcademicCalendarController extends UifControllerBase {
      *
      * It fills in the original Acal for the form with the latest calendar found, by default
      */
+    @MethodAccessible
     @RequestMapping(method = RequestMethod.GET, params = "methodToCall=startNew")
-    public ModelAndView startNew( @ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
-                                  HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView startNew(@ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
+                                 HttpServletRequest request, HttpServletResponse response) {
 
         try {
             AcademicCalendarInfo acalInfo = getAcalViewHelperService(acalForm).getLatestAcademicCalendar();
@@ -177,7 +181,7 @@ public class AcademicCalendarController extends UifControllerBase {
             throw getAcalViewHelperService(acalForm).convertServiceExceptionsToUI(e);
         }
 
-        return super.start(acalForm, result, request, response);
+        return super.start(acalForm, request, response);
     }
 
     /**
@@ -215,6 +219,7 @@ public class AcademicCalendarController extends UifControllerBase {
      * @param response
      * @return
      */
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=toCopy")
     public ModelAndView toCopy(@ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
                                HttpServletRequest request, HttpServletResponse response){
@@ -281,7 +286,7 @@ public class AcademicCalendarController extends UifControllerBase {
     public ModelAndView editHolidayCalendar( @ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
                                             HttpServletRequest request, HttpServletResponse response) {
 
-        String selectedCollectionPath = acalForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        String selectedCollectionPath = acalForm.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
             throw new RuntimeException("unable to determine the selected collection path");
         }
@@ -332,10 +337,6 @@ public class AcademicCalendarController extends UifControllerBase {
         Properties urlParameters = new Properties();
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.START_METHOD);
         urlParameters.put(UifParameters.VIEW_ID, CalendarConstants.CALENDAR_SEARCH_VIEW);
-        // UrlParams.SHOW_HISTORY and SHOW_HOME no longer exist
-        // https://fisheye.kuali.org/changelog/rice?cs=39034
-        // TODO KSENROLL-8469
-        //urlParameters.put(UifConstants.UrlParams.SHOW_HISTORY, BooleanUtils.toStringTrueFalse(false));
         return super.performRedirect(acalForm,controllerPath, urlParameters);
     }
 
@@ -479,7 +480,7 @@ public class AcademicCalendarController extends UifControllerBase {
         if (!hasDialogBeenDisplayed(dialog, academicCalendarForm)) {
             selectedLineIndex= KSControllerHelper.getSelectedCollectionLineIndex(academicCalendarForm);
             termWrapper= academicCalendarForm.getTermWrapperList().get(selectedLineIndex);
-            academicCalendarForm.setSelectedCollectionPath(academicCalendarForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH));
+            academicCalendarForm.setSelectedCollectionPath(academicCalendarForm.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH));
             academicCalendarForm.setSelectedLineIndex(academicCalendarForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
             academicCalendarForm.setMakeOfficialName(termWrapper.getName());
             academicCalendarForm.setMakeOfficialIsSubterm(termWrapper.isSubTerm());
@@ -505,7 +506,7 @@ public class AcademicCalendarController extends UifControllerBase {
             } else {
                 selectedLineIndex= KSControllerHelper.getSelectedCollectionLineIndex(academicCalendarForm);
                 termWrapper= academicCalendarForm.getTermWrapperList().get(selectedLineIndex);
-                academicCalendarForm.setSelectedCollectionPath(academicCalendarForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH));
+                academicCalendarForm.setSelectedCollectionPath(academicCalendarForm.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH));
                 academicCalendarForm.setSelectedLineIndex(academicCalendarForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
                 academicCalendarForm.setMakeOfficialName(termWrapper.getName());
                 academicCalendarForm.setMakeOfficialIsSubterm(termWrapper.isSubTerm());
@@ -525,7 +526,7 @@ public class AcademicCalendarController extends UifControllerBase {
             }
         }
 
-        academicCalendarForm.getActionParameters().put(UifParameters.SELLECTED_COLLECTION_PATH, academicCalendarForm.getSelectedCollectionPath());
+        academicCalendarForm.getActionParameters().put(UifParameters.SELECTED_COLLECTION_PATH, academicCalendarForm.getSelectedCollectionPath());
         if (academicCalendarForm.getSelectedLineIndex() != null && academicCalendarForm.getSelectedLineIndex().indexOf(",") > -1) {
             academicCalendarForm.getActionParameters().put(UifParameters.SELECTED_LINE_INDEX, academicCalendarForm.getSelectedLineIndex().substring(0,academicCalendarForm.getSelectedLineIndex().indexOf(",")));
         } else {
@@ -568,9 +569,9 @@ public class AcademicCalendarController extends UifControllerBase {
     }
 
     private void setDeleteTermMessageWithContext(AcademicCalendarForm academicCalendarForm){
-        academicCalendarForm.setSelectedCollectionPath(academicCalendarForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH));
+        academicCalendarForm.setSelectedCollectionPath(academicCalendarForm.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH));
         academicCalendarForm.setSelectedLineIndex(academicCalendarForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
-        academicCalendarForm.getActionParameters().put(UifParameters.SELLECTED_COLLECTION_PATH, academicCalendarForm.getSelectedCollectionPath());
+        academicCalendarForm.getActionParameters().put(UifParameters.SELECTED_COLLECTION_PATH, academicCalendarForm.getSelectedCollectionPath());
         if (academicCalendarForm.getSelectedLineIndex() != null && academicCalendarForm.getSelectedLineIndex().indexOf(",") > -1) {
             academicCalendarForm.getActionParameters().put(UifParameters.SELECTED_LINE_INDEX, academicCalendarForm.getSelectedLineIndex().substring(0,academicCalendarForm.getSelectedLineIndex().indexOf(",")));
         } else {
@@ -623,7 +624,7 @@ public class AcademicCalendarController extends UifControllerBase {
             }
         }
 
-        academicCalendarForm.getActionParameters().put(UifParameters.SELLECTED_COLLECTION_PATH, academicCalendarForm.getSelectedCollectionPath());
+        academicCalendarForm.getActionParameters().put(UifParameters.SELECTED_COLLECTION_PATH, academicCalendarForm.getSelectedCollectionPath());
         if (academicCalendarForm.getSelectedLineIndex() != null && academicCalendarForm.getSelectedLineIndex().indexOf(",") > -1) {
             academicCalendarForm.getActionParameters().put(UifParameters.SELECTED_LINE_INDEX, academicCalendarForm.getSelectedLineIndex().substring(0,academicCalendarForm.getSelectedLineIndex().indexOf(",")));
         } else {
@@ -661,7 +662,7 @@ public class AcademicCalendarController extends UifControllerBase {
     public ModelAndView deleteKeyDate(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
                                       HttpServletRequest request, HttpServletResponse response) {
         academicCalendarForm.setFieldsToSave(processDirtyFields(academicCalendarForm));
-        String selectedCollectionPath = academicCalendarForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        String selectedCollectionPath = academicCalendarForm.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
             throw new RuntimeException("unable to determine the selected collection path");
         }
@@ -700,7 +701,7 @@ public class AcademicCalendarController extends UifControllerBase {
     public ModelAndView markExamPeriodtoDelete(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
                                       HttpServletRequest request, HttpServletResponse response) {
         academicCalendarForm.setFieldsToSave(processDirtyFields(academicCalendarForm));
-        String selectedCollectionPath = academicCalendarForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        String selectedCollectionPath = academicCalendarForm.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
             throw new RuntimeException("unable to determine the selected collection path");
         }
@@ -724,7 +725,7 @@ public class AcademicCalendarController extends UifControllerBase {
     public ModelAndView deleteKeyDateGroup(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
                                            HttpServletRequest request, HttpServletResponse response) {
         academicCalendarForm.setFieldsToSave(processDirtyFields(academicCalendarForm));
-        String selectedCollectionPath = academicCalendarForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        String selectedCollectionPath = academicCalendarForm.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
             throw new RuntimeException("unable to determine the selected collection path");
         }
@@ -761,7 +762,7 @@ public class AcademicCalendarController extends UifControllerBase {
     public ModelAndView deleteHolidayCalendar(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
                                               HttpServletRequest request, HttpServletResponse response) {
         academicCalendarForm.setFieldsToSave(processDirtyFields(academicCalendarForm));
-        String selectedCollectionPath = academicCalendarForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        String selectedCollectionPath = academicCalendarForm.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
             throw new RuntimeException("unable to determine the selected collection path");
         }
@@ -789,7 +790,7 @@ public class AcademicCalendarController extends UifControllerBase {
     public ModelAndView deleteAcalEvent(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
                                         HttpServletRequest request, HttpServletResponse response) {
         academicCalendarForm.setFieldsToSave(processDirtyFields(academicCalendarForm));
-        String selectedCollectionPath = academicCalendarForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        String selectedCollectionPath = academicCalendarForm.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
             throw new RuntimeException("unable to determine the selected collection path");
         }
@@ -868,10 +869,6 @@ public class AcademicCalendarController extends UifControllerBase {
     private ModelAndView redirectToSearch(AcademicCalendarForm academicCalendarForm,HttpServletRequest request, Properties urlParameters){
         urlParameters.put("viewId", CalendarConstants.CALENDAR_SEARCH_VIEW);
         urlParameters.put("methodToCall", KRADConstants.SEARCH_METHOD);
-        // UrlParams.SHOW_HISTORY and SHOW_HOME no longer exist
-        // https://fisheye.kuali.org/changelog/rice?cs=39034
-        // TODO KSENROLL-8469
-        //urlParameters.put(UifConstants.UrlParams.SHOW_HISTORY, BooleanUtils.toStringTrueFalse(false));
         String uri = request.getRequestURL().toString().replace("academicCalendar","calendarSearch");
         return performRedirect(academicCalendarForm, uri, urlParameters);
     }
@@ -1617,7 +1614,10 @@ public class AcademicCalendarController extends UifControllerBase {
      * @return List of diry fields passed from the screen.
      */
     private List<String> processDirtyFields(AcademicCalendarForm academicCalendarForm){
-        String[] tempFields = academicCalendarForm.getDirtyFields().split(",");
+        String[] tempFields = new String[0];
+        if(academicCalendarForm.getDirtyFields() != null){
+            tempFields = academicCalendarForm.getDirtyFields().split(",");
+        }
         List<String> dirtyFields = academicCalendarForm.getFieldsToSave();
         StringBuilder completeDirtyFields = new StringBuilder("");
         for(String field : tempFields){

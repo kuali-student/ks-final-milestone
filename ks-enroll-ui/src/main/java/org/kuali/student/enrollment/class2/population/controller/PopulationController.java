@@ -1,6 +1,7 @@
 package org.kuali.student.enrollment.class2.population.controller;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
@@ -56,9 +57,9 @@ public class PopulationController extends MaintenanceDocumentController {
 
         Properties urlParameters = new Properties();
 
-        urlParameters.put("viewId", PopulationConstants.POPULATION_LOOKUP_VIEW_ID);
-        urlParameters.put("hideReturnLink", "true");
-        urlParameters.put("showMaintenanceLinks", "true");
+        urlParameters.put(UifConstants.UrlParams.VIEW_ID, PopulationConstants.POPULATION_LOOKUP_VIEW_ID);
+        urlParameters.put(KRADConstants.HIDE_LOOKUP_RETURN_LINK, "true");
+        urlParameters.put("renderMaintenanceLinks", "true");
         urlParameters.put("viewName", PopulationConstants.POPULATION_LOOKUP_VIEW_NAME);
 
         return super.performRedirect(form, "lookup", urlParameters);

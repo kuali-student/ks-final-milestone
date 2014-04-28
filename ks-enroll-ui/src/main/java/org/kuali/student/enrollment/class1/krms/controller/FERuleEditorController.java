@@ -6,6 +6,7 @@ import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
@@ -224,6 +225,7 @@ public class FERuleEditorController extends EnrolRuleEditorController {
      * @param response
      * @return
      */
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=loadTermType")
     public ModelAndView loadTermType(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                      HttpServletRequest request, HttpServletResponse response) {
@@ -357,7 +359,7 @@ public class FERuleEditorController extends EnrolRuleEditorController {
     }
 
     private RuleEditor getSelectedRule(MaintenanceDocumentForm form, String actionLink) {
-        String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
             throw new RuntimeException("Selected collection was not set for " + actionLink);
         }
@@ -379,7 +381,7 @@ public class FERuleEditorController extends EnrolRuleEditorController {
     }
 
     private FEAgendaEditor getSelectedAgenda(MaintenanceDocumentForm form, String actionLink) {
-        String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
             throw new RuntimeException("Selected collection was not set for " + actionLink);
         }

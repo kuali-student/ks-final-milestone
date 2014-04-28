@@ -9,7 +9,7 @@ import org.kuali.rice.krad.lookup.Lookupable;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.web.form.LookupForm;
+import org.kuali.rice.krad.lookup.LookupForm;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.core.room.dto.BuildingInfo;
@@ -28,13 +28,13 @@ public class BuildingInfoLookupableImpl extends LookupableImpl implements Lookup
     private static final Logger LOGGER = LoggerFactory.getLogger(BuildingInfoLookupableImpl.class);
 
     @Override
-    protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
+    public List<?> performSearch(LookupForm lookupForm, Map<String, String> searchCriteria, boolean bounded) {
 
         List<BuildingInfo> buildingInfos = null;
 
         try {
             //  Get the (potentially partial) name from the fieldValues.
-            String nameString = fieldValues.get("name");
+            String nameString = searchCriteria.get("name");
             //  Getting all rows is quite fast so not checking for an empty query.
             //  Put some wildcards around it so that it matches anywhere in the field.
             String name = "*" + StringUtils.upperCase(nameString) + "*";

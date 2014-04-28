@@ -17,6 +17,7 @@
 package org.kuali.student.enrollment.class2.courseoffering.form;
 
 import org.apache.commons.lang.StringEscapeUtils;
+import org.kuali.rice.krad.web.bind.RequestAccessible;
 import org.kuali.student.common.uif.form.KSUifForm;
 import org.kuali.student.enrollment.class2.acal.dto.ExamPeriodWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ExamOfferingClusterWrapper;
@@ -50,168 +51,246 @@ public class CourseOfferingManagementForm extends KSUifForm implements ActivityO
     /**
      * This is for authorization purpose of manageTheCO page
      */
+    @RequestAccessible
     private String adminOrg;
 
     /**
      * Search input field with the label of *Term
      */
+    @RequestAccessible
     private String termCode;
     /**
      * Search input filed with the label of *Course
      * This is the user entered field data when they search for Course/Activity Offerings.
      * For a term and subjectArea/CourseOffering code, search will be performed.        *
      */
+    @RequestAccessible
     private String inputCode;
     /**
      * This is used to display CO search result list in manage COs page
      */
+    @RequestAccessible
     private List<CourseOfferingListSectionWrapper> courseOfferingResultList;
     /**
      * This is used to display AO list under a specified CO in manage the CO page
      */
+    @RequestAccessible
     private List<ActivityOfferingWrapper> activityWrapperList;
     /**
      * This is used to display cluster list under a specified CO in manage the CO page
      * was filteredAOClusterWrapperList in RGManagementForm
      */
+    @RequestAccessible
     private List<ActivityOfferingClusterWrapper> clusterResultList;
     /**
      * This is used to display all registration group list under a specified CO in
      * manage the CO page.
      */
+    @RequestAccessible
     private List<RegistrationGroupWrapper> rgResultList;
 
+    @RequestAccessible
     private boolean hasMoreThanOneFormat = false;
+    @RequestAccessible
     private boolean hasMoreThanOneCluster = false;
 
+    @RequestAccessible
     private TermInfo termInfo;
 
     /**
      * @see #setSubjectCode(String)
      */
+    @RequestAccessible
     private String subjectCode;
 
     /**
      * @see #setSubjectCodeDescription(String)
      */
+    @RequestAccessible
     private String subjectCodeDescription;
 
 
     //For Adding Activity
+    @RequestAccessible
     private String formatIdForNewAO;
+    @RequestAccessible
     private String formatOfferingIdForNewAO;
+    @RequestAccessible
     private String activityIdForNewAO;
+    @RequestAccessible
     private String clusterIdForNewAO;
+    @RequestAccessible
     private String noOfActivityOfferings;
 
     //TODO: why do we need wrapper objects here. why can't be COInfo.id?
     /**
      * This is used to hold the Course Offering for mange the CO page
      */
+    @RequestAccessible
     private CourseOfferingWrapper currentCourseOfferingWrapper;
+    @RequestAccessible
     private CourseOfferingWrapper previousCourseOfferingWrapper;
+    @RequestAccessible
     private CourseOfferingWrapper nextCourseOfferingWrapper;
 
     //TODO: do we need them?
+    @RequestAccessible
     private String selectedOfferingAction;
+    @RequestAccessible
     private String coViewLinkWrapper = "View"; // temp var to hold/store the View Details Link
 
     /**
      * To display the soc state
      */
+    @RequestAccessible
     private String socState;
 
     /**
      * This is being used in authz to decide the toolbar permissions.
      */
+    @RequestAccessible
     private String socStateKey;
 
     /**
      * FIXME: Dont think we're using this property at view xml
      */
+    @RequestAccessible
     private String socSchedulingStateKey;
 
     /**
      * FIXME: Cant we have a flag at the ActivityOfferingWrapper to handle whether the AO is selected to delete or not?
      * I dont think we need a seperate list to handle that - courseOfferingCopyWrapper
      */
+    @RequestAccessible
     private List<ActivityOfferingWrapper> selectedToDeleteList;
+    @RequestAccessible
     private List<ActivityOfferingWrapper> selectedToCSRList;
+    @RequestAccessible
     private CourseOfferingCopyWrapper courseOfferingCopyWrapper;
 
+    @RequestAccessible
     private boolean isCrossListedCO;
+    @RequestAccessible
     private int numOfCrossListedCosToDelete=0;
+    @RequestAccessible
     private boolean isColocatedCO;
+    @RequestAccessible
     private boolean isColocatedCoOnly;
+    @RequestAccessible
     private Integer numOfColocatedCosToDelete = 0;
+    @RequestAccessible
     private Integer numOfColocatedAosToDelete = 0;
+    @RequestAccessible
     private boolean isJointDefinedCo;
+    @RequestAccessible
     private boolean isJointDefinedCoOnly;
+    @RequestAccessible
     private Integer numOfJointDefinedCosToDelete = 0;
+    @RequestAccessible
     private int numIneligibleAOsForCSR=0;
 
     //TODO: do we need this one?
+    @RequestAccessible
     private boolean readOnly;
     //TODO: do we need this one?
+    @RequestAccessible
     private List<CourseOfferingListSectionWrapper> selectedCoToDeleteList;
+    @RequestAccessible
     private int totalAOsToBeDeleted = 0;
 
+    @RequestAccessible
     private String toBeScheduledCourseOfferingsUI;
+    @RequestAccessible
     private int toBeScheduledCourseOfferingsCount;
+    @RequestAccessible
     private boolean selectedIllegalAOInDeletion = false;
+    @RequestAccessible
     private boolean selectedIllegalAOInCSR = false;
+    @RequestAccessible
     private String actionCSR = "";
 
+    @RequestAccessible
     private boolean withinPortal = true;
 
+    @RequestAccessible
     private boolean editAuthz;
 
+    @RequestAccessible
     private boolean enableAddButton = false;
+    @RequestAccessible
     private boolean enableMoveAOButton = false;
+    @RequestAccessible
     private boolean enableAddClusterButton = false;
 
+    @RequestAccessible
     private Date termClassStartDate;
 
     //for manage AOs, Clusters, and RGs under a CO
+    @RequestAccessible
     private String privateClusterNamePopover;
+    @RequestAccessible
     private String publishedClusterNamePopover;
+    @RequestAccessible
     private String privateClusterNameForRenamePopover;
+    @RequestAccessible
     private String publishedClusterNameForRenamePopover;
+    @RequestAccessible
     private String privateClusterNameForMovePopover;
+    @RequestAccessible
     private String publishedClusterNameForMovePopover;
+    @RequestAccessible
     private String formatOfferingIdForViewRG;
+    @RequestAccessible
     private String formatOfferingName;
+    @RequestAccessible
     private Map<String,FormatOfferingInfo> foId2aoTypeMap;
-    
+
+    @RequestAccessible
     private boolean disableMoveButtonForMoveAOCPopOver;
+    @RequestAccessible
     private String clusterIdForAOMove;
+    @RequestAccessible
     private String selectedFOIDForAOMove;
+    @RequestAccessible
     private String selectedFONameForAOMove;
+    @RequestAccessible
     private String csrLabel;
-            
+
+    @RequestAccessible
     private ActivityOfferingClusterWrapper selectedCluster;
+    @RequestAccessible
     private int aoCount=0;
 
+    @RequestAccessible
     private String selectedTabId; //Which tab was selected
 
     //TODO: do we still need this parameter?
+    @RequestAccessible
     private boolean hasAOCluster;
 
+    @RequestAccessible
     private CourseOfferingContextBar contextBar = CourseOfferingContextBar.NULL_SAFE_INSTANCE;
 
     //Requisite link read only flag
+    @RequestAccessible
     private boolean requisiteLink;
 
     /**
      * This is used to display EOs list under a specified CO in view ExamOfferings
      */
+    @RequestAccessible
     private List<ExamOfferingRelationInfo> eoRelations;
+    @RequestAccessible
     private List<ExamOfferingWrapper> examOfferingWrapperList;
+    @RequestAccessible
     private List<ExamOfferingWrapper> examOfferingCancelledList;
 
+    @RequestAccessible
     private List<ExamOfferingClusterWrapper> eoClusterResultList;
+    @RequestAccessible
     private List<ExamOfferingClusterWrapper> eoCancelClusterList;
 
+    @RequestAccessible
     private ExamPeriodWrapper examPeriodWrapper;
 
     public boolean getHasAOCluster() {

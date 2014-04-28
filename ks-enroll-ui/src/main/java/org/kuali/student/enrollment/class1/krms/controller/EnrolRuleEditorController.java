@@ -35,6 +35,8 @@ import org.kuali.student.lum.lu.ui.krms.dto.LUPropositionEditor;
 import org.kuali.student.lum.lu.ui.krms.dto.LURuleEditor;
 import org.kuali.student.lum.lu.ui.krms.service.impl.LURuleViewHelperServiceImpl;
 import org.kuali.student.lum.lu.ui.krms.util.CluSetRangeHelper;
+import org.kuali.student.lum.lu.ui.krms.util.CluSetRangeWrapper;
+import org.kuali.student.lum.lu.ui.krms.util.CluSetRangeWrapper;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -147,8 +149,8 @@ public class EnrolRuleEditorController extends RuleEditorController {
         LUPropositionEditor proposition = (LUPropositionEditor) PropositionTreeUtil.getProposition(ruleWrapper.getRuleEditor());
 
         String index = form.getActionParameters().get("selectedIndex");
-        if ((proposition.getCluSet() != null) && (proposition.getCluSet().getCluSetRanges()!=null)){
-            ruleWrapper.setClusInRange(proposition.getCluSet().getCluSetRanges().get(Integer.valueOf(index)).getClusInRange());
+        if ((proposition.getCourseSet() != null) && (proposition.getCourseSet().getCluSetRanges()!=null)){
+            ruleWrapper.setClusInRange(proposition.getCourseSet().getCluSetRanges().get(Integer.valueOf(index)).getClusInRange());
         }
 
         return showDialog(EnrolKRMSConstants.KSKRMS_DIALOG_COURSERANGE_LOOKUP, form, request, response);
@@ -170,32 +172,28 @@ public class EnrolRuleEditorController extends RuleEditorController {
         LURuleEditor rule = (LURuleEditor) getRuleEditor(form);
         LUPropositionEditor prop = (LUPropositionEditor) PropositionTreeUtil.getProposition(rule);
 
-        if(prop.getCluSet()==null){
-            prop.setCluSet(new CluSetInformation());
-        }
-
         //Build the membershipquery
-        CluSetRangeHelper rangeHelper = prop.getCluSet().getRangeHelper();
-        if(!rangeHelper.validateCourseRange(prop)){
+        CluSetRangeWrapper range = prop.getCluSetRange();
+        if(!CluSetRangeHelper.validateCourseRange(prop, range)){
             return getUIFModelAndView(form);
         }
 
-        MembershipQueryInfo membershipQueryInfo = rangeHelper.buildMembershipQuery();
+        MembershipQueryInfo membershipQueryInfo = CluSetRangeHelper.buildMembershipQuery(range);
 
         //Build the cluset range wrapper object
         CluSetRangeInformation cluSetRange = new CluSetRangeInformation();
-        cluSetRange.setCluSetRangeLabel(rangeHelper.buildLabelFromQuery(membershipQueryInfo));
+        cluSetRange.setCluSetRangeLabel(CluSetRangeHelper.buildLabelFromQuery(membershipQueryInfo));
         cluSetRange.setMembershipQueryInfo(membershipQueryInfo);
         cluSetRange.setClusInRange(this.getViewHelper(form).getCoursesInRange(membershipQueryInfo));
 
-        if(!rangeHelper.validateCoursesInRange(prop, cluSetRange)) {
+        if(!CluSetRangeHelper.validateCoursesInRange(prop, range, cluSetRange)) {
             return getUIFModelAndView(form);
         }
 
-        prop.getCluSet().getCluSetRanges().add(cluSetRange);
+        prop.getCourseSet().getCluSetRanges().add(cluSetRange);
 
         //Reset range helper to clear values on screen.
-        rangeHelper.reset();
+        range.reset();
 
         return getUIFModelAndView(form);
     }

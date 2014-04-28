@@ -22,6 +22,7 @@ import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.uif.form.KSUifForm;
@@ -115,7 +116,6 @@ public class HolidayCalendarController extends UifControllerBase {
      * This is starting page before we enter any Holiday management activities.
      *
      * @param form
-     * @param result
      * @param request
      * @param response
      * @return
@@ -123,7 +123,7 @@ public class HolidayCalendarController extends UifControllerBase {
 
     @Override
     @RequestMapping(method = RequestMethod.GET, params = "methodToCall=start")
-    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form,
             HttpServletRequest request, HttpServletResponse response) {
         HolidayCalendarForm hcForm = (HolidayCalendarForm) form;
 
@@ -153,6 +153,7 @@ public class HolidayCalendarController extends UifControllerBase {
      * @return
      */
 
+    @MethodAccessible
     @RequestMapping(method = RequestMethod.GET, params = "methodToCall=startNew")
     public ModelAndView startNew( @ModelAttribute("KualiForm") HolidayCalendarForm form, BindingResult result,
                                   HttpServletRequest request, HttpServletResponse response) {
@@ -201,7 +202,7 @@ public class HolidayCalendarController extends UifControllerBase {
             form.setHolidayCalendarInfo(new HolidayCalendarInfo());
         }
 
-        return super.start(form, result, request, response);
+        return super.start(form, request, response);
     }
 
     /**
@@ -214,6 +215,7 @@ public class HolidayCalendarController extends UifControllerBase {
      * @return
      */
 
+    @MethodAccessible
     @RequestMapping(method = RequestMethod.GET, params = "methodToCall=copyForNew")
     public ModelAndView copyForNew( @ModelAttribute("KualiForm") HolidayCalendarForm form, BindingResult result,
                                   HttpServletRequest request, HttpServletResponse response) {
@@ -308,11 +310,6 @@ public class HolidayCalendarController extends UifControllerBase {
         Properties urlParameters = new Properties();
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.START_METHOD);
         urlParameters.put(UifParameters.VIEW_ID, CalendarConstants.CALENDAR_SEARCH_VIEW);
-
-        // UrlParams.SHOW_HISTORY and SHOW_HOME no longer exist
-        // https://fisheye.kuali.org/changelog/rice?cs=39034
-        // TODO KSENROLL-8469
-        //urlParameters.put(UifConstants.UrlParams.SHOW_HISTORY, BooleanUtils.toStringTrueFalse(false));
         urlParameters.put(CalendarConstants.CALENDAR_SEARCH_TYPE, CalendarConstants.HOLIDAYCALENDER);
         return super.performRedirect(form,controllerPath, urlParameters);
     }
@@ -338,7 +335,8 @@ public class HolidayCalendarController extends UifControllerBase {
         // Made this consistent with the rest of the controllers for creating blank acal/hcal
         Properties urlParameters = new Properties();
         urlParameters.put(UifParameters.VIEW_ID, CalendarConstants.HOLIDAYCALENDAR_FLOWVIEW);
-        urlParameters.put("flow", hcForm.getFlowKey());
+        String flowKey = hcForm.getFlowKey();
+        urlParameters.put("flow", flowKey == null ? "" : flowKey);
         urlParameters.put(CalendarConstants.PAGE_ID,CalendarConstants.HOLIDAYCALENDAR_EDITPAGE);
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "startNew");
         String controllerPath = CalendarConstants.HCAL_CONTROLLER_PATH;
@@ -428,11 +426,6 @@ public class HolidayCalendarController extends UifControllerBase {
         Properties urlParameters = new  Properties();
         urlParameters.put("viewId", CalendarConstants.CALENDAR_SEARCH_VIEW);
         urlParameters.put("methodToCall", KRADConstants.SEARCH_METHOD);
-
-        // UrlParams.SHOW_HISTORY and SHOW_HOME no longer exist
-        // https://fisheye.kuali.org/changelog/rice?cs=39034
-        // TODO KSENROLL-8469
-        //urlParameters.put(UifConstants.UrlParams.SHOW_HISTORY, BooleanUtils.toStringTrueFalse(false));
         HolidayCalendarInfo hCalInfo = hcForm.getHolidayCalendarInfo();
 
         String[] parameters = {hCalInfo.getName()};
@@ -472,7 +465,7 @@ public class HolidayCalendarController extends UifControllerBase {
     public ModelAndView deleteHoliday(@ModelAttribute("KualiForm") HolidayCalendarForm hcForm, BindingResult result,
                                       HttpServletRequest request, HttpServletResponse response) {
 
-        String selectedCollectionPath = hcForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        String selectedCollectionPath = hcForm.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
             throw new RuntimeException("unable to determine the selected collection path");
         }
@@ -573,11 +566,7 @@ public class HolidayCalendarController extends UifControllerBase {
     }
 
     private HolidayCalendarViewHelperService getHolidayCalendarFormHelper(HolidayCalendarForm hcForm) {
-        if (hcForm.getView() != null && hcForm.getView().getViewHelperServiceClass() != null){
-            return (HolidayCalendarViewHelperService)hcForm.getView().getViewHelperService();
-        } else {
-            return (HolidayCalendarViewHelperService)hcForm.getPostedView().getViewHelperService();
-        }
+        return (HolidayCalendarViewHelperService)hcForm.getViewHelperService();
     }
 
 }

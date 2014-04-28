@@ -22,6 +22,7 @@ import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.collection.KSCollectionUtils;
@@ -76,6 +77,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 
@@ -98,7 +100,7 @@ public class CourseOfferingManagementController extends UifControllerBase {
 
     @Override
     @RequestMapping(params = "methodToCall=start")
-    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase uifForm, @SuppressWarnings("unused") BindingResult result,
+    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase uifForm,
                               @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
 
         if (!(uifForm instanceof CourseOfferingManagementForm)) {
@@ -180,6 +182,7 @@ public class CourseOfferingManagementController extends UifControllerBase {
      * @return ModelAndView
      * @throws Exception
      */
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=show")
     public ModelAndView show(@ModelAttribute("KualiForm") CourseOfferingManagementForm form) throws Exception {
 
@@ -254,10 +257,6 @@ public class CourseOfferingManagementController extends UifControllerBase {
         urlParameters.put("coInfo.id", theCourseOfferingInfo.getId());
         urlParameters.put(UifParameters.VIEW_ID, RegistrationGroupConstants.RG_VIEW);
         urlParameters.put(UifParameters.PAGE_ID, RegistrationGroupConstants.RG_PAGE);
-        // UrlParams.SHOW_HISTORY and SHOW_HOME no longer exist
-        // https://fisheye.kuali.org/changelog/rice?cs=39034
-        // TODO KSENROLL-8469
-        //urlParameters.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
         urlParameters.put("withinPortal", BooleanUtils.toStringTrueFalse(theForm.isWithinPortal()));
         String controllerPath = RegistrationGroupConstants.RG_CONTROLLER_PATH;
 
@@ -401,6 +400,7 @@ public class CourseOfferingManagementController extends UifControllerBase {
     /*
      * Method used to refresh Manage CO page (e.g. after edit AO)
      */
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=reloadManageCO")
     public ModelAndView reloadManageCO(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm) throws Exception {
         theForm.setFormatOfferingIdForNewAO(null);
@@ -806,7 +806,12 @@ public class CourseOfferingManagementController extends UifControllerBase {
          * match of the course code rather than the usual "like" criteria. Otherwise, if the course code matches multiple
          * items (e.g. CHEM100, CHEM100A, CHEM100B) then the Manage multiple COs page will be displayed rather than Manage
          * individual CO page. */
-        theForm.getViewRequestParameters().put(CourseOfferingManagementSearchImpl.SearchParameters.IS_EXACT_MATCH_CO_CODE_SEARCH, Boolean.TRUE.toString());
+
+        // wrap with HashMap since viewRequestParameters is set with Collections.unmodifiableMap()
+        // in org.kuali.rice.krad.uif.view.View.setViewRequestParameters()
+        HashMap<String, String> additionalParameters = new HashMap<String, String>(theForm.getViewRequestParameters());
+        additionalParameters.put(CourseOfferingManagementSearchImpl.SearchParameters.IS_EXACT_MATCH_CO_CODE_SEARCH, Boolean.TRUE.toString());
+        theForm.setViewRequestParameters(additionalParameters);
 
         //  Test for required private name.
         String requestedPrivateName = theForm.getPrivateClusterNameForRenamePopover();
@@ -1011,7 +1016,7 @@ public class CourseOfferingManagementController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=saveExamOfferingRSI")
     public ModelAndView saveExamOfferingRSI(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                                 @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
-        String selectedCollectionPath = theForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        String selectedCollectionPath = theForm.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
         String selectedLine = theForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
 
         Object selectedObject = CourseOfferingManagementUtil.getSelectedObject(theForm, "edit");
@@ -1050,8 +1055,8 @@ public class CourseOfferingManagementController extends UifControllerBase {
         RSIJSONResponseData jsonResponseDTO = new RSIJSONResponseData();
         jsonResponseDTO.setHasErrors(false);
 
-        String selectedCollectionPath = request.getParameter(UifParameters.SELLECTED_COLLECTION_PATH);
-        theForm.getActionParameters().put(UifParameters.SELLECTED_COLLECTION_PATH, selectedCollectionPath);
+        String selectedCollectionPath = request.getParameter(UifParameters.SELECTED_COLLECTION_PATH);
+        theForm.getActionParameters().put(UifParameters.SELECTED_COLLECTION_PATH, selectedCollectionPath);
         String selectedLine = request.getParameter(UifParameters.SELECTED_LINE_INDEX);
         theForm.getActionParameters().put(UifParameters.SELECTED_LINE_INDEX, selectedLine);
 
