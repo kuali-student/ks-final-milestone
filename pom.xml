@@ -74,7 +74,7 @@
         <jta.version>1.1</jta.version>
         <junit.version>4.11</junit.version>
         <ks-contract-docs.plugin.version>1.0.9</ks-contract-docs.plugin.version>
-        <kuali.rice.version>2.3.2</kuali.rice.version>
+        <kuali.rice.version>2.4.0</kuali.rice.version>
         <lesscss.version>1.3.3</lesscss.version>
         <log4j.version>1.2.16</log4j.version>
         <log4j.javadoc.version>1.2</log4j.javadoc.version>
@@ -175,6 +175,16 @@
                 <module>ks-lum</module>
                 <module>ks-enroll</module>
                 <module>ks-ap</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>test-only</id>
+            <modules>
+                <module>ks-ap</module>
+                <module>ks-api</module>
+                <module>ks-core</module>
+                <module>ks-lum</module>
+                <module>ks-enroll</module>
             </modules>
         </profile>
         <profile>
@@ -621,6 +631,11 @@
                 <version>${spring.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-instrument</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>${junit.version}</version>
@@ -683,6 +698,10 @@
                     <exclusion>
                         <groupId>mysql</groupId>
                         <artifactId>mysql-connector-java</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>javax.validation</groupId>
+                        <artifactId>validation-api</artifactId>
                     </exclusion>
                     <exclusion>
                         <groupId>org.apache.geronimo.specs</groupId>
@@ -1088,7 +1107,6 @@
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-validator</artifactId>
                 <version>${hibernate.validator.version}</version>
-                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>cglib</groupId>
