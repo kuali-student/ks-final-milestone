@@ -265,7 +265,7 @@ public class LURuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
     @Override
     protected boolean performAddLineValidation(ViewModel viewModel, Object newLine, String collectionId,
                                                String collectionPath) {
-        CollectionGroup collectionGroup = ObjectPropertyUtils.getPropertyValue(viewModel, collectionPath);
+        /*CollectionGroup collectionGroup = ObjectPropertyUtils.getPropertyValue(viewModel, collectionPath);
         if(LUKRMSConstants.KSKRMS_PROPERTY_NAME_CLUS.equals(collectionGroup.getPropertyName())){
             //Check if this is a valid clu.
             CluInformation clu = (CluInformation) newLine;
@@ -358,7 +358,7 @@ public class LURuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
                     return false;
                 }
             }
-        }
+        }*/
 
         return true;
     }
@@ -366,7 +366,7 @@ public class LURuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
     @Override
     public void processAfterAddLine(ViewModel model, Object lineObject, String collectionId, String collectionPath,
                                     boolean isValidLine) {
-        CollectionGroup collectionGroup = ObjectPropertyUtils.getPropertyValue(model, collectionPath);
+        /*CollectionGroup collectionGroup = ObjectPropertyUtils.getPropertyValue(model, collectionPath);
         if(LUKRMSConstants.KSKRMS_PROPERTY_NAME_CLUS.equals(collectionGroup.getPropertyName())){
             //Sort the clus.
             RuleEditor ruleEditor = this.getRuleEditor(model);
@@ -406,7 +406,7 @@ public class LURuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
                 clu.setCredits(this.getCluInfoHelper().getCreditInfo(clu.getCluId()));
                 Collections.sort(propEditor.getProgramSet().getClus());
             }
-        }
+        }*/
     }
 
     private void completeCluSetInformation(CluSetInformation cluSet) {

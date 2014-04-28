@@ -39,30 +39,24 @@
     <bean id="KS-SupportingDocuments-Section" parent="Uif-StackedCollectionSection"
           p:propertyName="documentsToAdd"
           p:collectionObjectClass="org.kuali.student.cm.course.form.SupportingDocumentInfoWrapper">
-        <!--
-          <property name="renderAddBlankLineButton" value="true" />
-          <property name="addLinePlacement" value="BOTTOM" />
-          <property name="addBlankLineAction">
-              <bean parent="Uif-AddBlankLineAction" p:actionLabel="Add a Supporting Document" />
 
-          </property> -->
-        <property name="addLineLabel.messageText" value="Add a Supporting Document" />
+        <property name="addBlankLineAction">
+            <bean parent="KS-BottomAddLine">
+                <property name="actionLabel" value="Add a Supporting Document"/>
+                <property name="id" value="document-addline"/>
+                <property name="dirtyOnAction" value="true" />
+                <property name="style" value="margin-top:1em;" />
+            </bean>
+        </property>
+        <property name="renderAddBlankLineButton" value="true" />
+        <property name="validationMessages.displayMessages" value="false"/>
+        <property name="renderLineActions" value="false" />
         <property name="layoutManager.lineGroupPrototype.header.headerText"
                   value="Document @{(#index + 1)}" />
-        <!--<property name="help">
-            <bean parent="Uif-KS-Help"
-                  p:tooltipHelpContent="Files that will be submitted
-				  with the Course Proposal that support it." />
-        </property> -->
         <property name="cssClasses">
             <list merge="true">
                 <value>cm-collection-width</value>
                 <value>admin-not-required-field</value>
-            </list>
-        </property>
-        <property name="addLineActions">
-            <list>
-                <bean parent="Uif-ActionLink" p:methodToCall="addLine2" p:actionLabel="add" />
             </list>
         </property>
         <property name="lineActions">
