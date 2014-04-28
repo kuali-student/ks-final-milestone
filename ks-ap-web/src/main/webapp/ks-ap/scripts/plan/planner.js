@@ -107,9 +107,10 @@ function ksapPlannerOpenDialog(pageId, action, methodToCall, target, e) {
 
 /**
  * Sets up and submits a dialog to the controller.
- * @param e - Current even going on
+ * @param methodToCall
+ * @param e - Current event going on
  */
-function ksapPlannerSubmitDialog(e) {
+function ksapPlannerSubmitDialog(methodToCall, e) {
 	var button = jQuery(e.currentTarget);
 
 	button.block({
@@ -129,8 +130,10 @@ function ksapPlannerSubmitDialog(e) {
 
 	var form = jQuery("#popupForm");
 	form.ajaxSubmit({
-		data : ksapAdditionalFormData(),
-		dataType : 'json',
+		data : ksapAdditionalFormData({
+            methodToCall: methodToCall
+        }),
+        dataType : 'json',
 		success : ksapPlannerUpdateEvent,
 		error : function(jqXHR, textStatus, errorThrown) {
 			if (textStatus == "parsererror")
@@ -261,7 +264,7 @@ function ksapPlannerAddPlanItem (data) {
         itemElement
                 .attr("id", data.uid+"_wrap")
                 .attr("class", "uif-group uif-boxGroup uif-verticalBoxGroup ks-plan-Bucket-collection uif-collectionItem uif-boxCollectionItem uif-boxLayoutHorizontalItem")
-                .prependTo("." + termUid + ".ksap-term-" + data.category + " .uif-stackedCollectionLayout")
+                .prependTo("." + termUid + ".ksap-term-" + data.category + " .uif-verticalBoxGroup")
                 .css({backgroundColor:"#ffffcc"})
                 .hide()
                 .fadeIn(250, function() {

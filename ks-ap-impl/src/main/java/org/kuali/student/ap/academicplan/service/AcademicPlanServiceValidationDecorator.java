@@ -7,12 +7,10 @@ import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
 import org.kuali.student.ap.academicplan.model.PlanItemEntity;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
-import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
-import org.kuali.student.r2.common.infc.HoldsDataDictionaryService;
 import org.kuali.student.r2.common.infc.HoldsValidator;
 import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
@@ -21,24 +19,10 @@ import javax.jws.WebParam;
 import java.util.List;
 
 public class AcademicPlanServiceValidationDecorator extends
-		AcademicPlanServiceDecorator implements HoldsValidator,
-		HoldsDataDictionaryService {
+		AcademicPlanServiceDecorator implements HoldsValidator {
 
 
 	private DataDictionaryValidator validator;
-
-	private DataDictionaryService dataDictionaryService;
-
-	@Override
-	public DataDictionaryService getDataDictionaryService() {
-		return dataDictionaryService;
-	}
-
-	@Override
-	public void setDataDictionaryService(
-			DataDictionaryService dataDictionaryService) {
-		this.dataDictionaryService = dataDictionaryService;
-	}
 
 	@Override
 	public DataDictionaryValidator getValidator() {

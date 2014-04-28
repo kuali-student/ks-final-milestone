@@ -5,10 +5,11 @@ import org.kuali.student.ap.coursesearch.CourseSearchItem;
 import org.kuali.student.ap.coursesearch.dataobject.CourseSearchItemImpl;
 import org.kuali.student.ap.coursesearch.dataobject.FacetItem;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.util.List;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
 
 public class CreditsFacetTest {
     @Test

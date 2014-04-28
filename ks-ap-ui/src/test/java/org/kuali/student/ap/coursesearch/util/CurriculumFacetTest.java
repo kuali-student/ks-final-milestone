@@ -1,9 +1,5 @@
 package org.kuali.student.ap.coursesearch.util;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
-
 import java.util.List;
 import java.util.Set;
 
@@ -13,6 +9,9 @@ import org.kuali.student.ap.coursesearch.dataobject.CourseSearchItemImpl;
 import org.kuali.student.ap.coursesearch.dataobject.FacetItem;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:ks-ap-test-context.xml"})
@@ -52,7 +51,7 @@ public class CurriculumFacetTest {
 
         Set<String> keys = course.getCurriculumFacetKeys();
 
-        assertFalse(keys.isEmpty());
+        assertTrue(!keys.isEmpty());
         assertEquals(1, keys.size());
         assertTrue(keys.contains("MATH"));
     }

@@ -382,7 +382,7 @@
                     <property name="items">
                         <list>
                             <bean id="select_programParam" parent="KS-Uif-InputField"
-                                  p:propertyName="programParam" p:validationMessages.render="false"
+                                  p:propertyName="programParam" p:validationMessages.displayMessages="false"
                                   p:width="auto"
                                   p:refreshWhenChangedPropertyNames="#dp.campusParam">
                                 <property name="control">
@@ -422,7 +422,7 @@
         "/>
     </bean>
 
-    <bean id="audit_instruction" parent="Uif-HorizontalBoxGroup" p:validationMessages.render="false">
+    <bean id="audit_instruction" parent="Uif-HorizontalBoxGroup" p:validationMessages.displayMessages="false">
         <property name="items">
             <list>
                 <bean parent="Uif-Message">

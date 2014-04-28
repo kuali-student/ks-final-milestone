@@ -494,10 +494,10 @@ function fnUpdateFacetList(obj) {
 }
 
 //Handle search criteria input and button actions
-//Refactored from KSAP-254 - Remove JS from Bean xml files
-function setupCourseSearchCriteriaActions(jqInputObject, jqSubmitButtonObject) {
-    var sb = jqSubmitButtonObject;
-    var ip = jqInputObject;
+jQuery(document).on(kradVariables.PAGE_LOAD_EVENT, function(e ) {
+    // content of setupCourseSearchCriteriaActions function
+    var sb = jQuery('#searchForCourses');
+    var ip = jQuery('#text_searchQuery_control');
 
     //immediate actions and tests
     ip.focus();
@@ -522,7 +522,7 @@ function setupCourseSearchCriteriaActions(jqInputObject, jqSubmitButtonObject) {
             jQuery(sb).click();
         }
     });
-}
+});
 
 // Registering Course Search Results events
 //Refactored from KSAP-254 - Remove JS from Bean xml files
