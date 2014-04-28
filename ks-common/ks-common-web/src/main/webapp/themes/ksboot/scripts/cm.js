@@ -560,25 +560,7 @@ function compareSubjectCodeInput(value, element) {
         }
     };
 
-    var queryData = {};
-
-    queryData.methodToCall = 'performFieldSuggest';
-    queryData.ajaxRequest = true;
-    queryData.ajaxReturnType = 'update-none';
-    queryData.formKey = jQuery("input[name='" + kradVariables.FORM_KEY + "']").val();
-    queryData.queryTerm = value;
-    queryData.queryFieldId = element.parentElement.getAttribute('id');
-
-    jQuery.ajax({
-        url:jQuery("form#kualiForm").attr("action"),
-        dataType:"json",
-        async:false,
-        beforeSend:null,
-        complete:null,
-        error:null,
-        data:queryData,
-        success:successFunction
-    });
+    compareInputWithAutosuggestFromAjax(value, element, successFunction);
 
     return isValid;
 }
@@ -629,25 +611,7 @@ function compareInstructorNameInput(value, element) {
         }
     };
 
-    var queryData = {};
-    var qFieldId = element.parentElement.getAttribute('id');
-    queryData.methodToCall = 'performFieldSuggest';
-    queryData.ajaxRequest = true;
-    queryData.ajaxReturnType = 'update-none';
-    queryData.formKey = jQuery("input#formKey").val();
-    queryData.queryTerm = queryVal;
-    queryData.queryFieldId = qFieldId;
-
-    jQuery.ajax({
-        url:jQuery("form#kualiForm").attr("action"),
-        dataType:"json",
-        async:false,
-        beforeSend:null,
-        complete:null,
-        error:null,
-        data:queryData,
-        success:successFunction
-    });
+    compareInputWithAutosuggestFromAjax(value, element, successFunction);
 
     return isValid;
 }
@@ -678,26 +642,7 @@ function compareOrganizationNameInput(value, element) {
         }
     };
 
-    var queryData = {};
-
-    var qFieldId = element.parentElement.getAttribute('id');
-    queryData.methodToCall = 'performFieldSuggest';
-    queryData.ajaxRequest = true;
-    queryData.ajaxReturnType = 'update-none';
-    queryData.formKey = jQuery("input#formKey").val();
-    queryData.queryTerm = value;
-    queryData.queryFieldId = qFieldId;
-
-    jQuery.ajax({
-        url:jQuery("form#kualiForm").attr("action"),
-        dataType:"json",
-        async:false,
-        beforeSend:null,
-        complete:null,
-        error:null,
-        data:queryData,
-        success:successFunction
-    });
+    compareInputWithAutosuggestFromAjax(value, element, successFunction);
 
     return isValid;
 }
@@ -815,5 +760,30 @@ function verifyMaxAndMinInput(value, element) {
         return false;
     }
     return res[0] != '' && res[1] != '' && res[0] < res[1];
+
+}
+
+
+function compareInputWithAutosuggestFromAjax(value, element, successFunction) {
+    var queryData = {};
+
+    var qFieldId = element.parentElement.getAttribute('id');
+    queryData.methodToCall = 'performFieldSuggest';
+    queryData.ajaxRequest = true;
+    queryData.ajaxReturnType = 'update-none';
+    queryData.formKey = jQuery("input[name='" + kradVariables.FORM_KEY + "']").val();
+    queryData.queryTerm = value;
+    queryData.queryFieldId = qFieldId;
+
+    jQuery.ajax({
+        url:jQuery("form#kualiForm").attr("action"),
+        dataType:"json",
+        async:false,
+        beforeSend:null,
+        complete:null,
+        error:null,
+        data:queryData,
+        success:successFunction
+    });
 
 }
