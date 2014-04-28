@@ -139,7 +139,7 @@ limitations under the License.
                     <bean parent="Uif-Message"/>
                 </property>
                 <property name="dataGroupPrototype">
-                    <ref bean="KRMS-ListItems-DataGroup"/>
+                    <bean parent="Uif-VerticalBoxSection"/>
                 </property>
             </bean>
         </property>
@@ -149,31 +149,7 @@ limitations under the License.
     </bean>
     <bean id="KRMS-ViewTree-Section" parent="KRMS-ViewTree-Section-parent"/>
 
-    <bean id="KRMS-ListItems-DataGroup-parent" parent="Uif-StackedCollectionGroup"
-          p:style="width: 600px; padding: 0; margin-bottom: 0px;">
-        <property name="layoutManager">
-            <bean parent="Uif-StackedCollectionLayout-WithBoxItems" p:additionalCssClasses="krms-stackedCollectionLayout">
-                <property name="lineGroupPrototype">
-                    <bean parent="Uif-CollectionHorizontalBoxItem" p:additionalCssClasses="krms-stackedPreviewItem">
-                        <property name="renderFooter" value="false"/>
-                    </bean>
-                </property>
-            </bean>
-        </property>
-        <property name="lineActions">
-            <list></list>
-        </property>
-        <property name="renderAddLine" value="false"/>
-        <property name="propertyName" value="listItems"/>
-        <property name="collectionObjectClass" value="java.lang.String"/>
-        <property name="items">
-            <list>
-                <bean parent="Uif-MessageField" p:messageText="@{#line}"
-                      p:style="width: 290px; margin: 0px;"/>
-            </list>
-        </property>
-    </bean>
-    <bean id="KRMS-ListItems-DataGroup" parent="KRMS-ListItems-DataGroup-parent"/>
+
 
     <bean id="KRMS-View-Section-parent" parent="KRMS-ViewTree-Section">
         <property name="propertyName" value="viewTree"/>

@@ -18,24 +18,29 @@ package org.kuali.rice.krms.tree.node;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.tree.node.RuleEditorTreeNode;
 
+import java.io.Serializable;
+
 /**
  * abstract data class for the rule tree {@link}s
  * 
  * @author Kuali Rice Team (rice.collab@kuali.org)
  *
  */
-public class SimplePropositionNode extends RuleEditorTreeNode {
+public class SimplePropositionNode implements Serializable, RuleEditorTreeNode {
 
     private static final long serialVersionUID = -629088492909384804L;
 
-    public static final String NODE_TYPE = RuleEditorTreeNode.NODE_TYPE + " simple";
-
-    // needed for inquiry view
-    public SimplePropositionNode() {
-    }
+    private PropositionEditor proposition;
 
     public SimplePropositionNode(PropositionEditor proposition){
-        super(proposition);
+        this.proposition = proposition;
     }
-    
+
+    public PropositionEditor getProposition() {
+        return proposition;
+    }
+
+    public void setProposition(PropositionEditor proposition) {
+        this.proposition = proposition;
+    }
 }

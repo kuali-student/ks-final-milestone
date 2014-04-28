@@ -54,43 +54,19 @@ function selectAllAOs(){
 
 
 function handleCOSelection(component) {
-    var coId = jQuery("#edit_co_select_control").val();
-    handleCONavigation(component, coId);
+    var coId = jQuery(component).val();
+    handleCONavigation(coId);
 }
 
-function handleCONavigation(component, coId) {
+function handleCONavigation(coId) {
 
     var isValidForm = validateForm();
 
     // "Save and Continue"
-    var saveAndContinue = jQuery("#edit_co_save_and_continue").attr("data-submit_data");
-    var submit_data_array = saveAndContinue.split(',');
-    var i = 0;
-    for (; i<submit_data_array.length; ) {
-        var data = submit_data_array[i].split(':');
-        if( data[0] == '"actionParameters[coId]"') {
-            data[1] = '"' + coId + '"';
-            submit_data_array[i] = data[0] + ":" + data[1];
-            break;
-        }
-        i++;
-    }
-    jQuery("#edit_co_save_and_continue").attr("data-submit_data", submit_data_array.join());
-
+    injectValueInDataAttribute("#edit_co_save_and_continue", coId, 'coId');
     // "Continue Without Saving"
-    var cancelSaveAndLoad = jQuery("#edit_co_cancel").attr("data-submit_data");
-    var cancel_data_array = cancelSaveAndLoad.split(',');
-    i = 0;
-    for(; i<cancel_data_array.length; ) {
-        var data = cancel_data_array[i].split(':');
-        if( data[0] == '"actionParameters[coId]"') {
-            data[1] = '"' + coId + '"';
-            cancel_data_array[i] = data[0] + ":" + data[1];
-            break;
-        }
-        i++;
-    }
-    jQuery("#edit_co_cancel").attr("data-submit_data", cancel_data_array.join());
+    injectValueInDataAttribute("#edit_co_cancel", coId, 'coId');
+
     if(!dirtyFormState.isDirty()) {
         jQuery("#edit_co_cancel").click();
         return;
@@ -161,7 +137,7 @@ function updateExamDriverInFOTable(finalExamDropDownId, finalExamTableCellId, pa
             finalExamDriverUI = "Activity Offering";
         }
 
-        var finalExamTableCells = jQuery('[id^="' + finalExamTableCellId + '_line"][id$="_control"]');
+        var finalExamTableCells = jQuery('[id^="' + finalExamTableCellId + '_line"]');
         finalExamTableCells.each(function () {
             jQuery(this).text(finalExamDriverUI);
         });

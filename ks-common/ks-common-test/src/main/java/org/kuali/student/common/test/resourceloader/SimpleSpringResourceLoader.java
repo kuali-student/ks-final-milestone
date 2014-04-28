@@ -21,8 +21,15 @@ import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.resourceloader.ServiceLocator;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.krad.data.provider.ProviderRegistry;
+import org.kuali.rice.krad.data.provider.impl.ProviderRegistryImpl;
+import org.kuali.rice.krad.service.DataDictionaryService;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.service.impl.KualiModuleServiceImpl;
+import org.kuali.rice.krad.uif.service.impl.UifDefaultingServiceImpl;
+import org.kuali.rice.krad.uif.view.DefaultExpressionEvaluatorFactory;
+import org.kuali.rice.krad.uif.view.ExpressionEvaluatorFactory;
 import org.kuali.student.kim.permission.mock.IdentityServiceMockImpl;
 import org.kuali.student.kim.permission.mock.RoleServiceMockImpl;
 import org.springframework.context.ApplicationContext;
@@ -45,14 +52,20 @@ public class SimpleSpringResourceLoader implements ServiceLocator {
     };
 
     private static final KualiModuleServiceImpl kualiModuleService = new KualiModuleServiceImpl();
+    private static final UifDefaultingServiceImpl uifDefaultingService = new UifDefaultingServiceImpl();
     private static final IdentityService identityService = new IdentityServiceMockImpl();
     private static final RoleService roleService = new RoleServiceMockImpl();
+    private static final ExpressionEvaluatorFactory expressionEvaluatorFactory = new DefaultExpressionEvaluatorFactory();
+    private static final ProviderRegistry providerRegistry = new ProviderRegistryImpl();
 
     private ApplicationContext applicationContext;
+    private DataDictionaryService dataDictionaryService;
 
-    public SimpleSpringResourceLoader(ApplicationContext applicationContext) {
+    public SimpleSpringResourceLoader(ApplicationContext applicationContext, DataDictionaryService dataDictionaryService) {
         this.applicationContext = applicationContext;
-        
+        this.dataDictionaryService = dataDictionaryService;
+
+        uifDefaultingService.setDataDictionaryService(dataDictionaryService);
         kualiModuleService.setApplicationContext(applicationContext);
     }
 
@@ -67,18 +80,23 @@ public class SimpleSpringResourceLoader implements ServiceLocator {
             return configurationService;
         } else if (KRADServiceLocatorWeb.KUALI_MODULE_SERVICE.equals(qualifiedServiceName)) {
             return kualiModuleService;
+        } else if (KRADServiceLocatorWeb.DATA_DICTIONARY_SERVICE.equals(qualifiedServiceName)) {
+            return dataDictionaryService;
+        } else if (KRADServiceLocator.KD_PROVIDER_REGISTRY.equals(qualifiedServiceName)) {
+            return providerRegistry;
+        } else if (KRADServiceLocatorWeb.UIF_DEFAULTING_SERVICE.equals(qualifiedServiceName)) {
+            return uifDefaultingService;
+        } else if (KRADServiceLocatorWeb.EXPRESSION_EVALUATOR_FACTORY.equals(qualifiedServiceName)) {
+            return expressionEvaluatorFactory;
         } else if ("{http://rice.kuali.org/kim/v2_0}identityService".equals(qualifiedServiceName)) {
             return identityService;
         } else if ("{http://rice.kuali.org/kim/v2_0}roleService".equals(qualifiedServiceName)) {
             return roleService;
         } else {
-            
             String localBeanName = qname.getLocalPart();
             return applicationContext.getBean(localBeanName);
         }
     }
-
-   
 
     @Override
     public String getContents(String indent, boolean servicePerLine) {

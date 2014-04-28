@@ -26,6 +26,8 @@ import java.util.Map;
  */
 public interface ComponentBuilder<T extends PropositionEditor> {
 
+    public void initialize(T propositionEditor);
+
     public List<String> getComponentIds();
 
     public void resolveTermParameters(T propositionEditor, Map<String, String> termParameters);

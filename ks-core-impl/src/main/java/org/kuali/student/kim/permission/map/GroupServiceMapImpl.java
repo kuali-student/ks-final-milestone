@@ -21,6 +21,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
+import org.joda.time.DateTime;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 
@@ -183,6 +185,11 @@ public class GroupServiceMapImpl implements GroupService, MockService {
             }
         }
         return infos;
+    }
+
+    @Override
+    public List<GroupMember> getMembersOfGroupWithDate(String groupId, DateTime asOfDate) throws RiceIllegalArgumentException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -366,6 +373,31 @@ public class GroupServiceMapImpl implements GroupService, MockService {
                 groupMembershipCache.remove(info.getMemberId());
             }
         }
+    }
+
+    @Override
+    public boolean isGroupMemberOfGroupWithDate(String groupMemberId, String groupId, DateTime asOfDate) throws RiceIllegalArgumentException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public boolean isMemberOfGroupWithDate(String principalId, String groupId, DateTime asOfDate) throws RiceIllegalArgumentException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<String> getDirectMemberGroupIdsWithDate(String groupId) throws RiceIllegalArgumentException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<String> getDirectParentGroupIdsWithDate(String groupId, DateTime asOfDate) throws RiceIllegalArgumentException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<GroupMember> getMembersWithDate(List<String> groupIds, DateTime asOfDate) throws RiceIllegalArgumentException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override

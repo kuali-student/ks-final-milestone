@@ -1,5 +1,5 @@
-@import "variables";
-@import "mixins";
+@import "variables.less";
+@import "mixins.less";
 
 @import "ks-fonts";
 
@@ -35,10 +35,10 @@
 
 /* Tabs */
 .ui-widget-content a {
-  color: @linkColor;
+  color: @link-color;
 }
 .ui-widget-content a:hover {
-  color: @linkColorHover;
+  color: @link-hover-color;
   text-decoration: underline;
 }
 
@@ -119,9 +119,9 @@ div.jstree-editrule ul.uif-validationMessagesList a {
 .uif-validationMessages.uif-groupValidationMessages.uif-pageValidationMessages-warning.ks-subSection {
   background: url("../images/validation/warning.png") no-repeat;
   background-position: 10px 8px;
-  background-color: @warningBackground;
-  border: 1px solid @warningBorder;
-  color: @warningText;
+  background-color: @state-warning-bg;
+  border: 1px solid @state-warning-border;
+  color: @state-warning-text;
   padding-left: 30px;
   width: 96%;
 }
@@ -131,9 +131,9 @@ div.jstree-editrule ul.uif-validationMessagesList a {
   padding: 8px 14px 8px 14px;
   margin-bottom: 18px;
   display: inline-block;
-  background-color:@infoBackground;
-  border: 1px solid @infoBorder;
-  color: @infoText;
+  background-color:@state-info-bg;
+  border: 1px solid @state-info-border;
+  color: @state-info-text;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
@@ -732,7 +732,7 @@ cursor:auto;
 
 /* Kuali Logo  */
 .ks-logo-image {
-  padding: 13px 0 0 17px;
+  margin: 13px 0 0 17px;
 }
 
 /* Student Text  */
@@ -992,11 +992,11 @@ cursor:auto;
 }
 
 /* Setting a drop shadow on the entire header */
-.uif-viewHeader-contentWrapper {
-  padding-bottom: 1px;
-  -webkit-box-shadow: 0px 6px 6px -5px rgba(0, 0, 0, 0.5);
-  -moz-box-shadow: 0px 6px 6px -5px rgba(0, 0, 0, 0.5);
+header.uif-sticky {
+  background-color: white;
   box-shadow: 0px 6px 6px -5px rgba(0, 0, 0, 0.5);
+  padding-bottom: 1px;
+  min-height:70px;
 }
 /************************************** END UNIFIED PAGE HEADER **********************/
 
@@ -1016,7 +1016,7 @@ cursor:auto;
 /************************************** BOOTSTRAP OVERRIDES **********************/
 /* Overriding the 14px font size */
 body {
-  font-size: @baseFontSize;
+  font-size: @font-size-base;
 }
 
 /* Overriding from bottom as this was affecting headers items - Student text & user image */
@@ -1254,55 +1254,55 @@ div#Uif-ApplicationHeader-Wrapper{
 
 /************************************** Growl message customization ******************/
 div.jGrowl div.ERROR {
-  background-color: @errorBackground;
+  background-color: @state-error-bg;
   opacity: 1;
 }
 div.jGrowl div.ERROR div.jGrowl-close {
-  color: @errorText;
+  color: @state-error-text;
 }
 
 div.jGrowl div.INFORMATION {
-  background-color: @infoBackground;
+  background-color: @state-info-bg;
   opacity: 1;
 }
 div.jGrowl div.INFORMATION div.jGrowl-close {
-  color: @infoText;
+  color: @state-info-text;
 }
 
 div.jGrowl div.SUCCESS {
-  background-color: @successBackground;
+  background-color: @state-success-bg;
   opacity: 1;
 }
 div.jGrowl div.SUCCESS div.jGrowl-close {
-  color: @successText;
+  color: @state-success-text;
 }
 
 div.jGrowl div.WARNING {
-  background-color: @warningBackground;
+  background-color: @state-warning-bg;
   opacity: 1;
 }
 div.jGrowl div.WARNING div.jGrowl-close {
-  color: @warningText;
+  color: @state-warning-text;
 }
 
 div.jGrowl div.ERROR div.jGrowl-message {
   background: url("../images/validation/error.png") no-repeat;
-  color: @errorText;
+  color: @state-error-text;
   padding-left: 25px;
 }
 div.jGrowl div.INFORMATION div.jGrowl-message {
   background: url("../images/validation/info.png") no-repeat;
-  color: @infoText;
+  color: @state-info-text;
   padding-left: 25px;
 }
 div.jGrowl div.SUCCESS div.jGrowl-message {
   background: url("../images/validation/success.png") no-repeat;
-  color: @successText;
+  color: @state-success-text;
   padding-left: 25px;
 }
 div.jGrowl div.WARNING div.jGrowl-message {
   background: url("../images/validation/warning.png") no-repeat;
-  color: @warningText;
+  color: @state-warning-text;
   padding-left: 25px;
 }
 
@@ -1338,7 +1338,7 @@ div.blockPage {
 Styles for highlighting selected rows in a data table
 */
 .dataTable td {
-  background-color: @bodyBackground;
+  background-color: @body_background;
 }
 .dataTable .selected-row td, .dataTable .selected-row:hover td {
   background-color: @tableSelectedBackground;
@@ -1364,7 +1364,7 @@ table.dataTable tr.uif-newCollectionItem td.sorting_1 {
   -o-transition: background 3s linear;
   -ms-transition: background 3s linear;
   transition: background 3s linear;
-  background-color: @addedStateBackground; background-color: @bodyBackground;
+  background-color: @addedStateBackground; background-color: @body_background;
 }
 
 /*
@@ -1378,7 +1378,7 @@ table.dataTable tr.uif-newCollectionItem td.sorting_1 {
   .border-radius-individual(5px, 5px, 0, 0);
 }
 .ui-tabs .ui-tabs-nav .ui-tabs-active .ui-tabs-anchor {
-  background-color: @bodyBackground;
+  background-color: @body_background;
 }
 
 //home page and dynamic breadcrumb start
@@ -1502,7 +1502,7 @@ input[type="color"],
 */
 .jquerybubblepopup-all-black  .jquerybubblepopup-innerHtml {
   font-size: 0.9em;
-  font-family: @baseFontFamily;
+  font-family: @font-family-base;
 }
 
 /*
@@ -1949,8 +1949,12 @@ table.dataTable tr.even td.sorting_1 {
   background-color: #eff7fd;
 }
 
-.uif-tableCollectionLayout th,
-.uif-tableCollectionLayout td {
+.uif-tableCollectionLayout > thead > tr > th,
+.uif-tableCollectionLayout > tbody > tr > th,
+.uif-tableCollectionLayout > tfoot > tr > th,
+.uif-tableCollectionLayout > thead > tr > td,
+.uif-tableCollectionLayout > tbody > tr > td,
+.uif-tableCollectionLayout > tfoot > tr > td {
   border-left: none;
   border-right: none;
   padding: 10px 15px 5px 15px;

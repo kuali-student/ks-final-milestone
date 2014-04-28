@@ -15,7 +15,6 @@
  */
 package org.kuali.student.r2.core.process.krms;
 
-import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -37,7 +36,9 @@ import org.kuali.student.r2.core.process.krms.sample.TermResolverMock;
 
 import java.util.*;
 
-import static junit.framework.Assert.assertNotNull;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * This test is used to test the Rice Krms integration for KS.
@@ -103,9 +104,9 @@ public class TestKRMSAgendasExecution extends KSKRMSTestCase {
 
         evaluator.evaluateAgenda(agenda, this.buildExecutionFacts(), Collections.singletonMap(AgendaDefinition.Constants.EVENT, "GEOG123 Course Requirements"));
 
-        Assert.assertFalse(ActionMock.actionFired("a1"));
-        Assert.assertTrue(ActionMock.actionFired("a2"));
-        Assert.assertTrue(ActionMock.actionFired("a3"));
+        assertFalse(ActionMock.actionFired("a1"));
+        assertTrue(ActionMock.actionFired("a2"));
+        assertTrue(ActionMock.actionFired("a3"));
     }
 
     @Test

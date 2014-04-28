@@ -13,7 +13,6 @@ import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.dto.HolidayInfo;
 import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
-import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -24,13 +23,11 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.infc.HoldsDataDictionaryService;
 import org.kuali.student.r2.common.infc.HoldsValidator;
 import org.kuali.student.r2.core.class1.util.ValidationUtils;
 
-public class AcademicCalendarServiceValidationDecorator extends AcademicCalendarServiceDecorator implements HoldsValidator, HoldsDataDictionaryService {
+public class AcademicCalendarServiceValidationDecorator extends AcademicCalendarServiceDecorator implements HoldsValidator {
     private DataDictionaryValidator validator;
-    private DataDictionaryService dataDictionaryService;
 
     @Override
     public DataDictionaryValidator getValidator() {
@@ -40,16 +37,6 @@ public class AcademicCalendarServiceValidationDecorator extends AcademicCalendar
     @Override
     public void setValidator(DataDictionaryValidator validator) {
         this.validator = validator;
-    }
-
-    @Override
-    public DataDictionaryService getDataDictionaryService() {
-        return dataDictionaryService;
-    }
-
-    @Override
-    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
-        this.dataDictionaryService = dataDictionaryService;
     }
 
     @Override

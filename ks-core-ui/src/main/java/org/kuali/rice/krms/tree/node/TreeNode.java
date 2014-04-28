@@ -28,7 +28,6 @@ public class TreeNode implements Serializable {
     private String key;
     private String data;
     private boolean compound;
-    private List<Object> listItems;
 
     public TreeNode(){
     }
@@ -59,14 +58,6 @@ public class TreeNode implements Serializable {
 
     public void setCompound(boolean compound) {
         this.compound = compound;
-    }
-
-    public List<Object> getListItems() {
-        return listItems;
-    }
-
-    public void setListItems(List<Object> listItems) {
-        this.listItems = listItems;
     }
 
 }

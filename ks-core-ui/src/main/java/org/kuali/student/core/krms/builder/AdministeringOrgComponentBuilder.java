@@ -17,6 +17,7 @@ package org.kuali.student.core.krms.builder;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krms.builder.ComponentBuilder;
+import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.student.core.krms.dto.KSPropositionEditor;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
@@ -35,6 +36,10 @@ import java.util.Map;
 public class AdministeringOrgComponentBuilder implements ComponentBuilder<KSPropositionEditor> {
 
     private OrganizationService organizationService;
+
+    @Override
+    public void initialize(KSPropositionEditor propositionEditor) {
+    }
 
     @Override
     public List<String> getComponentIds() {

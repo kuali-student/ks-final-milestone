@@ -310,9 +310,6 @@ limitations under the License.
         </property>
         <property name="nodePrototypeMap">
             <map key-type="java.lang.Class">
-                <entry key="#{ T(org.kuali.rice.krms.tree.node.RuleEditorTreeNode) }">
-                    <bean parent="KRMS-RuleTreeNodePrototype"/>
-                </entry>
                 <entry key="#{ T(org.kuali.rice.krms.tree.node.SimplePropositionNode) }">
                     <bean parent="KRMS-SimplePropositionNodePrototype"/>
                 </entry>

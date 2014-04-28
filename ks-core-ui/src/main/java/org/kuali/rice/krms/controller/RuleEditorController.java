@@ -20,6 +20,7 @@ import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
+import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
@@ -30,10 +31,8 @@ import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.dto.RuleManagementWrapper;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.rice.krms.service.RuleViewHelperService;
-import org.kuali.rice.krms.util.AgendaUtilities;
-import org.kuali.rice.krms.tree.node.SimplePropositionEditNode;
-import org.kuali.rice.krms.tree.node.SimplePropositionNode;
 import org.kuali.rice.krms.tree.node.RuleEditorTreeNode;
+import org.kuali.rice.krms.util.AgendaUtilities;
 import org.kuali.rice.krms.util.KRMSConstants;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.rice.krms.util.RuleLogicExpressionParser;
@@ -95,6 +94,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
      * @param response
      * @return
      */
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=deleteRule")
     public ModelAndView deleteRule(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
                                    @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
@@ -198,6 +198,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
      * @return
      * @throws Exception
      */
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=copyRule")
     public ModelAndView copyRule(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                  HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -213,6 +214,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
      * @param response
      * @return
      */
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=goToEditProposition")
     public ModelAndView goToEditProposition(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                             HttpServletRequest request, HttpServletResponse response) {
@@ -254,6 +256,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
      * @param response
      * @return
      */
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=addProposition")
     public ModelAndView addProposition(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                        HttpServletRequest request, HttpServletResponse response) {
@@ -269,7 +272,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
         RuleViewHelperService viewHelper = this.getViewHelper(form);
 
         //Special case when only one proposition in tree or no proposition selected
-        if (selectedPropKey.isEmpty() && parent == null && root.getChildren().size() > 0) {
+        if ((selectedPropKey == null || selectedPropKey.isEmpty()) && parent == null && root.getChildren().size() > 0) {
             //Special case when now proposition selected and more than one proposition in tree
             if (root.getChildren().get(root.getChildren().size() - 1).getNodeType().contains("compoundNode")) {
                 parent = root.getChildren().get(root.getChildren().size() - 1);
@@ -383,6 +386,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
      * @param response
      * @return
      */
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=movePropositionUp")
     public ModelAndView movePropositionUp(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                           HttpServletRequest request, HttpServletResponse response) {
@@ -400,6 +404,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
      * @param response
      * @return
      */
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=movePropositionDown")
     public ModelAndView movePropositionDown(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                             HttpServletRequest request, HttpServletResponse response) {
@@ -438,9 +443,9 @@ public class RuleEditorController extends MaintenanceDocumentController {
                 // if our selected node is a simple proposition, add a new one after
                 if (propKeyMatches(child, selectedPropKey) &&
                         (isSimpleNode(child.getNodeType()) ||
-                                (RuleEditorTreeNode.COMPOUND_NODE_TYPE.equalsIgnoreCase(child.getNodeType())) ||
-                                (child.getNodeType().contains(RuleEditorTreeNode.FIRST_IN_GROUP)) ||
-                                (child.getNodeType().contains(RuleEditorTreeNode.LAST_IN_GROUP)))) {
+                                (KRMSConstants.COMPOUND_NODE_TYPE.equalsIgnoreCase(child.getNodeType())) ||
+                                (child.getNodeType().contains(KRMSConstants.FIRST_IN_GROUP)) ||
+                                (child.getNodeType().contains(KRMSConstants.LAST_IN_GROUP)))) {
 
                     //remove it from its current spot
                     PropositionEditor parentProp = parent.getData().getProposition();
@@ -473,8 +478,8 @@ public class RuleEditorController extends MaintenanceDocumentController {
      * @return if node is of type simple; <code>false</code> otherwise
      */
     public boolean isSimpleNode(String nodeType) {
-        if (nodeType.contains(SimplePropositionNode.NODE_TYPE) ||
-                SimplePropositionEditNode.NODE_TYPE.equalsIgnoreCase(nodeType)) {
+        if (nodeType.contains(KRMSConstants.SIMPLE_NODE_TYPE) ||
+                KRMSConstants.EDIT_NODE_TYPE.equalsIgnoreCase(nodeType)) {
             return true;
         }
         return false;
@@ -496,6 +501,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
      * @param response
      * @return
      */
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=movePropositionLeft")
     public ModelAndView movePropositionLeft(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                             HttpServletRequest request, HttpServletResponse response) {
@@ -506,7 +512,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
         // find agendaEditor.getAgendaItemLine().getRule().getPropositionTree().getRootElement()parent
         Node<RuleEditorTreeNode, String> root = ruleEditor.getEditTree().getRootElement();
         Node<RuleEditorTreeNode, String> parent = PropositionTreeUtil.findParentPropositionNode(root, selectedpropKey);
-        if ((parent != null) && (!parent.getNodeType().contains(RuleEditorTreeNode.ROOT_TYPE))) {
+        if ((parent != null) && (!parent.getNodeType().contains(KRMSConstants.ROOT_TYPE))) {
             Node<RuleEditorTreeNode, String> granny = PropositionTreeUtil.findParentPropositionNode(root, parent.getData().getProposition().getKey());
             if (!granny.equals(root)) {
                 int oldIndex = findChildIndex(parent, selectedpropKey);
@@ -548,6 +554,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
      * @param response
      * @return
      */
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=movePropositionRight")
     public ModelAndView movePropositionRight(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                              HttpServletRequest request, HttpServletResponse response) {
@@ -564,7 +571,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
             if (index >= 0 && index + 1 < parent.getChildren().size()) {
                 Node<RuleEditorTreeNode, String> nextSibling = parent.getChildren().get(index + 2);
                 // if selected node above a compound node, move it into it as first child
-                if (nextSibling.getNodeType().contains(RuleEditorTreeNode.COMPOUND_NODE_TYPE)) {
+                if (nextSibling.getNodeType().contains(KRMSConstants.COMPOUND_NODE_TYPE)) {
                     // remove selected node from it's current spot
                     PropositionEditor prop = parent.getData().getProposition().getCompoundEditors().remove(index / 2);
                     // add it to it's siblings children
@@ -592,6 +599,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
      * @return
      * @throws Exception
      */
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=togglePropositionSimpleCompound")
     public ModelAndView togglePropositionSimpleCompound(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                                         HttpServletRequest request, HttpServletResponse response) {
@@ -651,6 +659,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
      * @return
      * @throws Exception
      */
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=pasteProposition")
     public ModelAndView pasteProposition(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                          HttpServletRequest request, HttpServletResponse response) {
@@ -763,6 +772,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
      * @param response
      * @return
      */
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=deleteProposition")
     public ModelAndView deleteProposition(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                           HttpServletRequest request, HttpServletResponse response) {
@@ -806,6 +816,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
      * @param response
      * @return
      */
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=updateCompoundOperator")
     public ModelAndView updateCompoundOperator(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                                HttpServletRequest request, HttpServletResponse response) {
@@ -838,6 +849,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
      * @return
      * @throws Exception
      */
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=updateProposition")
     public ModelAndView updateProposition(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                           HttpServletRequest request, HttpServletResponse response) {
@@ -1077,6 +1089,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
      * @param response
      * @return
      */
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=cancelEditProposition")
     public ModelAndView cancelEditProposition(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                               HttpServletRequest request, HttpServletResponse response) {
@@ -1150,6 +1163,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
      * @param response
      * @return
      */
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=updatePropositionType")
     public ModelAndView updatePropositionType(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                               HttpServletRequest request, HttpServletResponse response) {
@@ -1244,6 +1258,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
      * @param response
      * @return
      */
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=refreshLogicArea")
     public ModelAndView refreshLogicArea(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                        HttpServletRequest request, HttpServletResponse response) {

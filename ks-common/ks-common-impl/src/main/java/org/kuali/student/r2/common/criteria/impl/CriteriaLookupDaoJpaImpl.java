@@ -44,7 +44,7 @@ import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PropertyPathPredicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.criteria.SingleValuedPredicate;
-import org.kuali.rice.core.framework.persistence.jpa.criteria.Criteria;
+import org.kuali.student.r2.common.criteria.Criteria;
 import org.kuali.student.r2.common.criteria.LookupCustomizer;
 
 import javax.persistence.EntityManager;
@@ -186,7 +186,7 @@ public class CriteriaLookupDaoJpaImpl {
 
     /** gets results where the actual rows are requested. */
     private <T> GenericQueryResults<T> forRowResults(final Class<T> queryClass, final QueryByCriteria criteria, final Criteria jpaCriteria, CountFlag flag, LookupCustomizer.Transform<T, T> transform) {
-        final Query jpaQuery = new org.kuali.rice.core.framework.persistence.jpa.criteria.QueryByCriteria(entityManager, jpaCriteria).toQuery();
+        final Query jpaQuery = new org.kuali.student.r2.common.criteria.QueryByCriteria(entityManager, jpaCriteria).toQuery();
         final GenericQueryResults.Builder<T> results = GenericQueryResults.Builder.<T>create();
 
         //ojb's is 1 based, our query api is zero based
@@ -224,7 +224,7 @@ public class CriteriaLookupDaoJpaImpl {
 
     /** gets results where only the count is requested. */
     private <T> GenericQueryResults<T> forCountOnly(final Class<T> queryClass, final QueryByCriteria criteria, final Criteria jpaCriteria) {
-        final Query jpaQuery = new org.kuali.rice.core.framework.persistence.jpa.criteria.QueryByCriteria(entityManager, jpaCriteria).toQuery();
+        final Query jpaQuery = new org.kuali.student.r2.common.criteria.QueryByCriteria(entityManager, jpaCriteria).toQuery();
         final GenericQueryResults.Builder<T> results = GenericQueryResults.Builder.<T>create();
         // TODO : There has to be a better way to do this.
         results.setTotalRowCount(jpaQuery.getResultList().size());

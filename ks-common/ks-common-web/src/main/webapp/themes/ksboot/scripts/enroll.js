@@ -40,60 +40,68 @@ function submitMoveAoOnEnterKeyIfValid() {
 
 }
 
-function removeCheckboxColumns(column, componentId, functionToCall) {
+/**
+ * Add a select-all checkbox to the table header
+ *      and register checkbox events to toggle toolbar buttons
+ *
+ * @param int column            The column number in the datatable containing checkboxes
+ * @param string componentId    ID of the datatable(s) with checkboxes
+ * @param string functionToCall The function, or functions, to register for each checkbox
+ */
+function addCheckboxToColumnHeader(column, componentId, functionToCall) {
     var components = jQuery('div[id^="' + componentId + '"]');
+
     jQuery.each(components, function (index) {
         var subComponentId = jQuery(this).attr('id');
         var table = jQuery(this).find('table');
         var tableId = jQuery(table).attr('id');
+        var th = jQuery('#' + tableId)
+            .find('thead')
+            .find('tr')
+            .find('th:nth-child(' + column + ')');
 
-        var foundCheckBox = false;
+        // Create a new checkbox for the header row for select-all functionality
+        var toggleCheckbox = jQuery("<input type='checkbox' id='"
+            + subComponentId
+            + "_toggle_control_checkbox'/>");
 
-        jQuery('#' + tableId + ' tbody > tr > td:nth-child(' + column + ')').find('[type=checkbox]').each(function () {
-            var div = jQuery(this).parent('div');
-            if (jQuery(div).is(":visible")) {
-                foundCheckBox = true;
-                return false;   // exit .each() loop early
+        // add the toggle checkbox to the header row
+        th.append(toggleCheckbox);
+
+        var allCheckboxesInColumn = jQuery('#' + tableId)
+            .find('tbody')
+            .find('tr')
+            .find('td:nth-child(' + column + ')')
+            .find('[type=checkbox]');
+
+        toggleCheckbox.click(function (e) {
+            // clicking on the checkbox in the header row toggles
+            // the checkbox values and style class in all the checkboxes in that column
+            allCheckboxesInColumn.each(function () {
+                jQuery(this)
+                    .prop('checked', jQuery(toggleCheckbox).prop('checked'));
+                jQuery(this)
+                    .closest('tr')
+                    .toggleClass('selected-row', jQuery(this).prop('checked') );
+            });
+            if (functionToCall) {
+                var target = jQuery.makeArray(functionToCall);
+                var clickFn = new Function(functionToCall);
+                clickFn.call(target);
             }
         });
 
-        if (!foundCheckBox) {
-            var th = jQuery('#' + tableId + ' thead tr').find('th:nth-child(' + column + ')');
-            jQuery(th).remove();
-            jQuery('#' + tableId + ' tbody tr').find('td:nth-child(' + column + ')').each(function () {
-                jQuery(this).remove();
-            });
-            var tf = jQuery('#' + tableId + ' tfoot tr').find('th:nth-child(' + column + ')');
-            jQuery(tf).remove();
-        } else {
-            var toggleCheckbox = jQuery("<input type='checkbox' id='" + subComponentId + "_toggle_control_checkbox'/>");
-            var isChecked = toggleCheckbox.prop('checked');
-            toggleCheckbox.click(function (e) {
-                jQuery('#' + tableId + ' tbody > tr > td:nth-child(' + column + ')').find('[type=checkbox]').each(function () {
-                    //jQuery(this).trigger( "click" );
-                    jQuery(this).prop('checked', jQuery(toggleCheckbox).prop('checked'));
-                    jQuery(this).closest('tr').toggleClass('selected-row', jQuery(this).prop('checked') );
-                });
-                if (functionToCall) {
-                    var target = jQuery.makeArray(functionToCall);
-                    var clickFn = new Function(functionToCall)
-                    clickFn.call(target);
-                }
-            });
-            var th = jQuery('#' + tableId + ' thead tr').find('th:nth-child(' + column + ')');
-            jQuery(th).append(toggleCheckbox);
+        var clickName;
 
-            var collectionCheckboxes = jQuery('div#'+ subComponentId +' tbody > tr').find('td:first input[type="checkbox"]');
-            var clickName;
-            collectionCheckboxes.each(function(ndx,ctl) {
-                clickName = "click." + subComponentId + "_row_" + ndx;
-                jQuery(this).on(clickName, function(){
-                    controlCheckboxStatus(subComponentId,this);
-                });
+        allCheckboxesInColumn.each(function(index) {
+            clickName = "click." + subComponentId + "_row_" + index;
+            // attach an event handler function for the click event
+            jQuery(this).on(clickName, function(){
+                controlCheckboxStatus(subComponentId,this);
             });
-        }
+        });
 
-    });
+    }); //end each loop
 }
 
 /*
@@ -441,6 +449,30 @@ function updateViewHeader(newHeaderTextSource){
     var newHeaderText = source.html();
     // Update header text
     header.html(newHeaderText);
+}
+
+/*
+ Modifies the data-submit_data attribute with supplied value for an action parameter
+ */
+function injectValueInDataAttribute(id, valueToInject, keyToMatch) {
+    const attributeName = 'data-submit_data';
+    // get data attribute value
+    var attributeData = jQuery(id).attr(attributeName);
+    // parse into JSON
+    var data = jQuery.parseJSON(attributeData);
+    data['actionParameters[' + keyToMatch + ']'] = valueToInject;
+
+    // poor man's stringification of JavaScript object.
+    // Consider using JSON.stringify when http://caniuse.com/#feat=json
+    // shows 100% coverage (e.g., Safari 6 does not have JSON.stringify).
+    // We can get away with this simple implementation since the data is flat and
+    // does not contain quoted strings
+    var array = [];
+    jQuery.each(data, function(key, value) {
+        array.push('"' + key + '":"' + value + '"');
+    });
+    // set data attribute value as a String
+    jQuery(id).attr(attributeName, '{' + array.join(',') + '}');
 }
 
 /*
@@ -894,7 +926,7 @@ jQuery(function () {
  */
 jQuery(document).on('DOMNodeInserted', function (e) {
     var element = e.target;
-    if (jQuery(element).is('div.uif-page')) {
+    if (jQuery(element).is('main.uif-page')) {
         handleEventforDisabledElements();
         addBootstrapImageToLink();
     } else if (jQuery(element).is('div.uif-tableCollectionSection') || jQuery(element).is('div.uif-stackedCollectionSection')) {

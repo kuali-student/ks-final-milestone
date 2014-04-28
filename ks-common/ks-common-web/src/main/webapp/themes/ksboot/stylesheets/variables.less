@@ -4,41 +4,47 @@
 // --------------------------------------------------
 @import "../../kboot/stylesheets/variables.less";
 
-
 /*------------------- BEGIN KBOOT OVERRIDES ---------------------------*/
-// Text
-@textColor: #000;
-@selectedText: @textColor;
+//Theme Override
+@body_background: #FFF;
 
-@baseFontSize:          13px; //overrideds kboot and boostrap baseFontSize setting of 14px
+// Text
+@black: #000;
+@font-size-base:          13px; //overrideds kboot and boostrap baseFontSize setting of 14px
 
 // Links
-@linkColor:             #08c;
-@linkColorHover:        darken(@linkColor, 15%);
+@link-color:             #08c;
+@link-hover-color:        darken(@link-color, 15%);
 
 // Buttons
-@btnPrimaryBackground:              @linkColor;
-@btnPrimaryBackgroundHighlight:     spin(@btnPrimaryBackground, 20%);
-@btnBackground:                     @white;
+/*Removed in Rice 2.4 update. See https://jira.kuali.org/browse/KSENROLL-12636
+@btn-primary-bg:              @link-color;
+@btnPrimaryBackgroundHighlight:     spin(@btn-primary-bg, 20%);
+@btnBackground:                     @white_background;
 @btnBackgroundHighlight:            #E6E6E6;
-@btnBorder:                         #CCC;
+@btnBorder:                         #CCC;*/
+
+// Components
+@border-radius-base:             4px;
+@border-radius-large:            6px;
+@border-radius-small:            3px;
 
 // System Messages
-@successText:             #3B723B;
-@successBackground:       #dff0d8;
-@successBorder:           #D6E9C6;
+@state-success-text:      #3B723B;
+@state-success-bg:        #dff0d8;
+@state-success-border:    #D6E9C6;
 
-@infoText:                #2A617D;
-@infoBackground:          #D9EDF7;
-@infoBorder:              #BCE8F1;
+@state-info-text:         #2A617D;
+@state-info-bg:           #D9EDF7;
+@state-info-border:       #BCE8F1;
 
-@warningText:             #83652E;
-@warningBackground:       #FCF8E3;
-@warningBorder:           #FBEED5;
+@state-warning-text:      #83652E;
+@state-warning-bg:        #FCF8E3;
+@state-warning-border:    #FBEED5;
 
-@errorText:               #A3403C;
-@errorBackground:         #F2DEDE;
-@errorBorder:             #EFD3D7;
+@state-error-text:        #A3403C;
+@state-error-bg:          #F2DEDE;
+@state-error-border:      #EFD3D7;
 
 // Tables
 @tableSelectedBackground: #EFF7FD;
@@ -54,8 +60,8 @@
 @summerColor: #FEF200;
 
 // States
-@stateTextColor: @white;
-@draftStateBackground: @grayLight;
+@stateTextColor: @white_background;
+@draftStateBackground: @gray-light;
 @readyStateBackground: #3A87AD;
 @completedStateBackground: #468847;
 @canceledStateBackground: #B94A48;
@@ -66,8 +72,8 @@
 @addedStateBackground: #FFF9DC;
 
 //Font Icon States (when using glyphicons icon fonts instead of images)
-@iconColor: @linkColor;
-@iconHoverColor: @linkColorHover;
+@iconColor: @link-color;
+@iconHoverColor: @link-hover-color;
 @toolbarIconColor: @black;
 @toolbarIconInactiveColor: lighten(@toolbarIconColor, 40%);
 

@@ -99,7 +99,7 @@ var previousAnchorBottom = 0;
  */
 function fixLeftNavElementPositioning(initial) {
     //  Get the position of the element that the nav components need to align under.
-    var anchorElement = jQuery("#KS-CourseView > div.uif-viewHeader-contentWrapper");
+    var anchorElement = jQuery("#KS-CourseView > header.uif-viewHeader-contentWrapper");
     if (anchorElement.length == 0) {
         console.error('Unable to find an anchor element. Nav elements were not positioned correctly.');
         return;
@@ -565,13 +565,9 @@ function compareSubjectCodeInput(value, element) {
     queryData.methodToCall = 'performFieldSuggest';
     queryData.ajaxRequest = true;
     queryData.ajaxReturnType = 'update-none';
-    queryData.formKey = jQuery("input#formKey").val();
+    queryData.formKey = jQuery("input[name='" + kradVariables.FORM_KEY + "']").val();
     queryData.queryTerm = value;
-    if (element.id.indexOf('KS-CourseCode-Field') == 0) {
-        queryData.queryFieldId = element.parentElement.parentElement.getAttribute('id');
-    } else {
-        queryData.queryFieldId = element.parentElement.getAttribute('id');
-    }
+    queryData.queryFieldId = element.parentElement.getAttribute('id');
 
     jQuery.ajax({
         url:jQuery("form#kualiForm").attr("action"),

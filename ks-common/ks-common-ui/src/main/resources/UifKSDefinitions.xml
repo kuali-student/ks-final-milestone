@@ -109,6 +109,11 @@
           p:additionalCssClasses="ks-topGroup">
     </bean>
 
+    <bean id="KS-Uif-Lookup-MaintenanceReturnLink" parent="KS-Uif-Lookup-MaintenanceReturnLink-parentBean"/>
+    <bean id="KS-Uif-Lookup-MaintenanceReturnLink-parentBean" parent="Uif-Lookup-MaintenanceReturnLink">
+        <property name="linkText" value="Return Value"/>
+    </bean>
+
     <bean id="KS-Uif-LookupView" abstract="true"
           class="org.kuali.student.common.uif.view.KSLookupView" parent="Uif-LookupView" p:stickyFooter="true">
         <property name="theme">
@@ -125,15 +130,12 @@
         <!-- In KS, we need only the return value, not any other maintenance actions in lookup.-->
         <property name="resultsGroup.lineActions">
             <list>
-                <bean parent="Uif-ActionLink">
-                    <property name="actionLabel" value="Return Value"/>
-                    <property name="finalizeMethodToCall" value="getReturnUrlForResults"/>
-                    <property name="render"
-                              value="@{!#empty(returnFormKey) and !#empty(returnLocation) and !view.hideReturnLinks}"/>
-                </bean>
+                <bean parent="KS-Uif-Lookup-MaintenanceReturnLink" p:order="20"/>
             </list>
         </property>
-        <property name="resultsGroup.layoutManager.richTable.showSearchAndExportOptions" value="true"/>
+        <!-- Removing property. Looks like Rice no longer supports it: KULRICE-10618
+        <property name="resultsGroup.layoutManager.richTable.showSearchAndExportOptions" value="true" />
+        -->
         <property name="resultsGroup.layoutManager.richTable.templateOptions">
             <map merge="true">
                 <entry key="sDom" value="iltp"/>
@@ -248,10 +250,8 @@
     </bean>
 
     <bean id="KS-Uif-Disclosure" abstract="true" parent="Uif-Disclosure">
-        <property name="collapseImageSrc"
-                  value="@{#ConfigProperties['krad.externalizable.images.url']}h3_collapse-back-ks.png"/>
-        <property name="expandImageSrc"
-                  value="@{#ConfigProperties['krad.externalizable.images.url']}h3_expand-back-ks.png"/>
+        <property name="collapsedIconClass" value="icon-angle-right"/>
+        <property name="expandedIconClass" value="icon-angle-down"/>
     </bean>
 
     <!--Note by bonnie: Not used in any code -->
@@ -453,8 +453,9 @@
 
     <bean id="KS-Lozenge-Grey-Uif-InputField" parent="Uif-InputField" p:additionalCssClasses="state-draft"
           p:fieldLabel.renderColon="false" p:fieldLabel.cssClasses="labelTop"
-          p:labelPlacement="TOP" p:fieldLabel.requiredMessagePlacement="LEFT"
           p:instructionalMessage.render="false">
+        <!-- Rice 2.4 upgrade : removing p:fieldLabel.requiredMessagePlacement="LEFT" -->
+        <!-- Rice 2.4 upgrade : removing p:labelPlacement="TOP" -->
         <property name="instructionalMessage">
             <bean parent="Uif-InstructionalMessage"/>
         </property>
@@ -804,7 +805,30 @@
     </bean>
 
     <bean id="KS-Uif-InputField-LabelTop" parent="KS-Uif-InputField-LabelTop-parent"/>
-    <bean id="KS-Uif-InputField-LabelTop-parent" parent="Uif-InputField-LabelTop">
+    <!-- Rice 2.4 upgrade: Uif-InputField-LabelTop was removed by KULRICE-11750-->
+    <bean id="KS-Uif-InputField-LabelTop-parent" parent="Uif-InputField"
+          p:fieldLabel.renderColon="false">
+        <!-- Rice 2.4 upgrade : removing p:labelPlacement="TOP" -->
+        <property name="help">
+            <null/>
+        </property>
+    </bean>
+
+    <bean id="KS-Uif-InputField-LabelRight" parent="KS-Uif-InputField-LabelRight-parent"/>
+    <!-- Rice 2.4 upgrade: Uif-InputField-LabelTop was removed by KULRICE-11750-->
+    <bean id="KS-Uif-InputField-LabelRight-parent" parent="Uif-InputField"
+          p:fieldLabel.renderColon="false">
+        <!-- Rice 2.4 upgrade : removing p:labelPlacement="RIGHT" -->
+        <property name="help">
+            <null/>
+        </property>
+    </bean>
+
+    <bean id="KS-Uif-InputField-LabelLeft" parent="KS-Uif-InputField-LabelLeft-parent"/>
+    <!-- Rice 2.4 upgrade: Uif-InputField-LabelTop was removed by KULRICE-11750-->
+    <bean id="KS-Uif-InputField-LabelLeft-parent" parent="Uif-InputField"
+          p:fieldLabel.renderColon="false">
+        <!-- Rice 2.4 upgrade : removing p:labelPlacement="LEFT" -->
         <property name="help">
             <null/>
         </property>
@@ -815,6 +839,32 @@
         <property name="help">
             <null/>
         </property>
+    </bean>
+
+    <bean id="KS-Uif-DataField-LabelTop" parent="KS-Uif-DataField-LabelTop-parent"/>
+    <!-- Rice 2.4 upgrade: Uif-InputField-LabelTop was removed by KULRICE-11750-->
+    <bean id="KS-Uif-DataField-LabelTop-parent" parent="Uif-DataField"
+          p:fieldLabel.renderColon="false">
+        <!-- Rice 2.4 upgrade : removing p:labelPlacement="TOP" -->
+        <property name="help">
+            <null/>
+        </property>
+    </bean>
+
+    <bean id="KS-Uif-DataField-LabelLeft" parent="KS-Uif-DataField-LabelLeft-parent"/>
+    <!-- Rice 2.4 upgrade: Uif-InputField-LabelTop was removed by KULRICE-11750-->
+    <bean id="KS-Uif-DataField-LabelLeft-parent" parent="Uif-DataField"
+          p:fieldLabel.renderColon="false">
+        <!-- Rice 2.4 upgrade : removing p:labelPlacement="LEFT" -->
+        <property name="help">
+            <null/>
+        </property>
+    </bean>
+
+    <bean id="KS-Uif-MessageField-LabelTop" parent="KS-Uif-MessageField-LabelTop-parent"/>
+    <!-- Rice 2.4 upgrade: Uif-MessageField-LabelTop was removed by KULRICE-11750-->
+    <bean id="KS-Uif-MessageField-LabelTop-parent" parent="Uif-MessageField">
+        <!-- Rice 2.4 upgrade : removing p:labelPlacement="TOP" -->
     </bean>
 
     <bean id="KS-Uif-DropdownControl" parent="KS-Uif-DropdownControl-parent"/>

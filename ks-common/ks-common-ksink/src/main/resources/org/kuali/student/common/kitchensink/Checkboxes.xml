@@ -65,9 +65,8 @@
                   value="Single CheckboxControl with defaultValue=&quot;true&quot; so checkbox is checked by default."/>
     </bean>
     <!--TODO: KSENROLL-11286 remove this workournd once krad jira is fixed.-->
-    <bean id="KS-KitchenSink-Checkbox-Disabled-Parent" parent="KS-Uif-InputField"
+    <bean id="KS-KitchenSink-Checkbox-Disabled-Parent" parent="KS-Uif-InputField-LabelLeft"
           p:label="Disabled checkbox" p:propertyName="disabledSelectedCheckbox"
-          p:labelPlacement="LEFT"
           p:uppercaseValue="false">
         <property name="control">
             <bean parent="KS-Uif-CheckboxControl" p:disabled="true"/>
