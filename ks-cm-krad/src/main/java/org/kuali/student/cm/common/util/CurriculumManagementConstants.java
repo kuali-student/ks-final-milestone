@@ -117,6 +117,7 @@ public class CurriculumManagementConstants {
         public final static String ERROR_NO_RESULTS_FOUND = "error.search.result.notfound";
         public final static String ERROR_DATA_NOT_FOUND = "error.cm.course.data.notfound";
         public final static String ERROR_DATA_MULTIPLE_MATCH_FOUND = "error.cm.course.data.multiplematch";
+        public final static String ERROR_NO_RESULT_FOUND           = "error.no.result.found";
 
     }
 
