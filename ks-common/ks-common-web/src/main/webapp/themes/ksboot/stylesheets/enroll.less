@@ -743,19 +743,9 @@ cursor:auto;
   padding-left: 2px;
 }
 
-/* Alignment of the Right Content Area  */
-.header-right-group{
-  float: right;
-}
-
 .ks-header-list {
   list-style: none;
   float: right;
-}
-
-.navbar .nav > li > a {
-  padding: 10px 7px 10px;
-  text-transform: capitalize;
 }
 
 .ks-header-action-list {
@@ -765,6 +755,11 @@ cursor:auto;
 .ks-header-list li{
   float: left;
   padding-top: 5px;
+}
+
+.open > .dropdown-menu {
+  left: -75px;
+  margin-top: 5px;
 }
 
 /* Adjusting the padding issues of the logout highlight */
@@ -777,7 +772,7 @@ cursor:auto;
 /* Adjusting the colour of the user icon */
 .ks-header-list li a i {
   padding-right: .2em;
-  opacity: .5;
+  color: inherit;
 }
 
 .ks-header-list li a:hover i {
@@ -786,22 +781,24 @@ cursor:auto;
 
 /* Centering the drop down arrow beside the username */
 .ks-header-list li a b {
-  margin-top: 9px;
+  margin-top: 0;
 }
 
-.header-right-group {
+/* Alignment of the Right Content Area  */
+.header-right-group{
+  float: right;
   padding-right: 13px;
 }
 
-/* Altering the Default Link Colour */
+/* Altering the Default Link Colour in Header Navigation */
 .header-right-group a {
-  color: #999999;
+  color: @navText;
   font-size: 1em;
 }
 
 /* Altering the Default Hover Treatment */
 .header-right-group a:hover {
-  color: white;
+  color: @navText--hover;
   text-decoration: none;
 }
 
@@ -812,6 +809,26 @@ cursor:auto;
 
 .navbar {
   margin-bottom: 0px;
+}
+
+.navbar .nav > li > a {
+  padding: 10px 7px 10px;
+  text-transform: capitalize;
+}
+
+.nav .caret{
+    border-bottom-color: @navText;
+    border-top-color: @navText;
+}
+
+.nav a:hover .caret{
+    border-bottom-color: @navText--hover;
+    border-top-color:  @navText--hover;
+}
+
+.nav > li > a:hover, .nav > li > a:focus,
+.nav .open > a, .nav .open > a:hover, .nav .open > a:focus{
+    background-color: inherit;
 }
 /************************************** END APPLICATION HEADER **************************************/
 
@@ -1113,11 +1130,6 @@ input[disabled].acal_term_code{
 div#Uif-ApplicationHeader-Wrapper{
   z-index: 100;
 }
-
-.open > .dropdown-menu {
-  left: -100px;
-}
-
 
 /*define a gray box as background. This is basically the "info grid" styling. */
 .ks-details-panel  {
