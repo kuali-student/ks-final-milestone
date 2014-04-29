@@ -562,7 +562,8 @@
                                     <bean parent="Uif-HorizontalBoxGroup">
                                         <property name="items">
                                             <list>
-                                                <bean parent="planner_submit_button" p:actionLabel="Add to Plan" />
+                                                <bean parent="planner_submit_button" p:actionLabel="Add to Plan"
+                                                      p:actionScript="ksapPlannerSubmitDialog('bookmark_add_course_page',e);"/>
                                                 <bean parent="planner_cancel_button" />
                                             </list>
                                         </property>
@@ -643,7 +644,8 @@
                                     <bean parent="Uif-HorizontalBoxGroup">
                                         <property name="items">
                                             <list>
-                                                <bean parent="planner_submit_button" p:actionLabel="Add to Plan" />
+                                                <bean parent="planner_submit_button" p:actionLabel="Add to Plan"
+                                                      p:actionScript="ksapPlannerSubmitDialog('course_add_course_page',e);"/>
                                                 <bean parent="planner_cancel_button" />
                                             </list>
                                         </property>
@@ -725,7 +727,6 @@
 		<property name="propertyName" value="targetTermId" />
 		<property name="label" value="Term &amp; Year" />
         <property name="fieldLabel.renderColon" value="false"/>
-        <!-- rice 2.4 upgrade removed property name="labelPlacement" value="LEFT"/>-->
 		<property name="instructionalText" value="Note: This course MAY NOT be offered in your selected term. Check back after the schedule of classes has been released." />
 		<property name="control">
 			<bean parent="KS-Uif-DropdownControl"/>
