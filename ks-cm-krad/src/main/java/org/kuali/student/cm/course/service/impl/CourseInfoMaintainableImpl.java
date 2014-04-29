@@ -507,24 +507,6 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     @Override
     protected boolean performAddLineValidation(ViewModel viewModel, Object newLine, String collectionId,
                                                String collectionPath) {
-        if (newLine instanceof CluInstructorInfoWrapper) {
-            CluInstructorInfoWrapper instructorWrapper = (CluInstructorInfoWrapper) newLine;
-
-            if (viewModel instanceof MaintenanceDocumentForm) {
-                MaintenanceDocumentForm modelForm = (MaintenanceDocumentForm) viewModel;
-                CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) modelForm.getDocument().getNewMaintainableObject().getDataObject();
-                CourseInfoMaintainable courseInfoMaintainable = (CourseInfoMaintainable) modelForm.getDocument().getNewMaintainableObject();
-                if(courseInfoWrapper.getInstructorWrappers().size() == 0) {
-                    return true;
-                }
-                for (CluInstructorInfoWrapper instructor : courseInfoWrapper.getInstructorWrappers()) {
-                    if (StringUtils.isNotEmpty(instructorWrapper.getDisplayName()) && instructor.getDisplayName().equals(instructorWrapper.getDisplayName())) {
-                        return false; //already in the list
-                    }
-                }
-            }
-            return StringUtils.isEmpty(instructorWrapper.getDisplayName()) ? true : false;
-        }
         if (newLine instanceof CollaboratorWrapper) {
             CollaboratorWrapper collaboratorWrapper = (CollaboratorWrapper) newLine;
 
