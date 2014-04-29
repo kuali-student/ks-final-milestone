@@ -97,7 +97,7 @@
                             <bean parent="KS-Uif-ActionLink" p:id="ReviewProposal-Error-Message-expand-optional-link"
                                   p:actionScript="showHideReviewProposalErrorFields('KS-CourseView-ReviewProposal-Section');"
                                   p:actionLabel="Hide missing-fields indicator."
-                                  p:style="margin-right: 15pt; margin-top: 0px;">
+                                  p:style="margin-right: 15pt; margin-top: 0px; box-shadow: none;">
                             </bean>
                         </list>
                     </property>
