@@ -62,12 +62,6 @@ limitations under the License.
             </bean>
         </property>
 
-        <property name="criteriaFields">
-            <list>
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="title" p:label="Title" p:fieldLabel.renderColon="true"/>
-            </list>
-        </property>
-
         <property name="criteriaGroup">
             <bean parent="Uif-HorizontalBoxSection">
                 <property name="fieldBindingObjectPath" value="lookupCriteria"/>
@@ -76,9 +70,10 @@ limitations under the License.
                 </property>
                 <property name="items">
                     <list>
-                        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="title" p:label="Title" p:required="true"/>
-                        <bean parent="Uif-SecondaryActionButton" p:methodToCall="search" p:actionLabel="Find Course Proposal" p:performClientSideValidation="true">
-                        </bean>
+                        <bean id="courseProposalLookup_title" parent="Uif-LookupCriteriaInputField" p:propertyName="title"
+                              p:label="Title" p:required="true"/>
+                        <bean id="courseProposalLookup_searchButton" parent="Uif-SecondaryActionButton" p:methodToCall="search"
+                              p:actionLabel="Find Course Proposal" p:performClientSideValidation="true"/>
                     </list>
                 </property>
             </bean>
