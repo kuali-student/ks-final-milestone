@@ -444,8 +444,8 @@ function updateHeaderRightGroup(srcId, rightGroupId){
 // note: this seems to only apply to views that use the unified-header; maybe this should be named more explicitly?
 function updateViewHeader(newHeaderTextSource){
     // Get Header node
-    var header = jQuery("div.ks-unified-header h1.uif-headerText span.uif-headerText-span");
-    var source = jQuery("#"+newHeaderTextSource+"_span");
+    var header = jQuery("div.uif-formView h1.uif-headerText span.uif-headerText-span");
+    var source = jQuery("#"+newHeaderTextSource);
     var newHeaderText = source.html();
     // Update header text
     header.html(newHeaderText);
