@@ -142,7 +142,7 @@
                     <!--course time, day, building-->
                     <div ng-repeat="item in cartItem.schedule" class="kscr-Card-detailsText--edit">
                         <div>
-                            <span id="ao_type_long_{{course.courseCode}}_{{course.regGroupCode}}_{{$index}}">{{item.activityOfferingType}}</span>
+                            <span id="ao_type_long_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}_{{$index}}">{{item.activityOfferingType}}</span>
                                 <span class="kscr-Card-ao-instructor">
                                     <div ng-repeat="instructor in item.instructors">{{instructor.firstName}} {{instructor.lastName}}</div>
                                 </span>
