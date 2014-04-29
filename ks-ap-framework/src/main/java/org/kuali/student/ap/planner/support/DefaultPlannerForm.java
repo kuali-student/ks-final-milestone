@@ -1,5 +1,6 @@
 package org.kuali.student.ap.planner.support;
 
+import org.kuali.rice.krad.web.bind.RequestAccessible;
 import org.kuali.student.ap.academicplan.infc.LearningPlan;
 import org.kuali.student.ap.academicplan.infc.PlanItem;
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
@@ -62,29 +63,43 @@ public class DefaultPlannerForm extends AbstractPlanItemForm implements
 
 	private static final BigDecimal ONE_HUNDRED = new BigDecimal("100");
 
-	private String courseCd;
+    @RequestAccessible
+    private String courseCd;
+    @RequestAccessible
 	private BigDecimal courseCredit;
+    @RequestAccessible
 	private String courseNote;
+    @RequestAccessible
 	private String termNote;
+    @RequestAccessible
 	private boolean backup;
     //used to indicated if the course has been bookmarked in KSAP
     //Note: because when bookmarked is true, we need to display
     //      the checkbox of keepBookmarked and leave it as unchecked by default,
     //      we have to define two separate fields
+    @RequestAccessible
     private boolean bookmarked;
     //used to hold the checkbox value in "Add to Plan" popover form
+    @RequestAccessible
     private boolean keepBookmarked;
 
+    @RequestAccessible
 	private AcademicPlanServiceConstants.ItemCategory expectedPlanItemCategory;
+    @RequestAccessible
 	private AcademicPlanServiceConstants.ItemCategory targetPlanItemCategory;
 
+    @RequestAccessible
 	private String targetTermId;
 
+    @RequestAccessible
 	private int focusTermIndex;
 
+    @RequestAccessible
 	private transient boolean termNoteInitialized;
+    @RequestAccessible
 	private transient BigDecimal creditsForPlanItem;
 	private transient List<PlannerTerm> terms;
+    @RequestAccessible
 	private transient String creditString;
 
 	@Override

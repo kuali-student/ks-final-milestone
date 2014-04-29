@@ -202,6 +202,7 @@ public class PlannerController extends KsapControllerBase {
      * Handles submissions from the term note dialog.
      * Formats and updates the term's note in the database.
      */
+    @MethodAccessible
 	@RequestMapping(method = RequestMethod.POST, params = "methodToCall=" + EDIT_TERM_NOTE_PAGE)
 	public ModelAndView editTermNote(@ModelAttribute("KualiForm") PlannerForm form, BindingResult result,
 			HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {

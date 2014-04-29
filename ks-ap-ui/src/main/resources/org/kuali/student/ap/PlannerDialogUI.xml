@@ -725,6 +725,7 @@
 		<property name="propertyName" value="targetTermId" />
 		<property name="label" value="Term &amp; Year" />
         <property name="fieldLabel.renderColon" value="false"/>
+        <!-- rice 2.4 upgrade removed property name="labelPlacement" value="LEFT"/>-->
 		<property name="instructionalText" value="Note: This course MAY NOT be offered in your selected term. Check back after the schedule of classes has been released." />
 		<property name="control">
 			<bean parent="KS-Uif-DropdownControl"/>
