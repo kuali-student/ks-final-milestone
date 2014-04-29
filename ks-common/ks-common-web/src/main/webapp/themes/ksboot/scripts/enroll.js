@@ -455,7 +455,7 @@ function updateViewHeader(newHeaderTextSource){
  Modifies the data-submit_data attribute with supplied value for an action parameter
  */
 function injectValueInDataAttribute(id, valueToInject, keyToMatch) {
-    const attributeName = 'data-submit_data';
+    var attributeName = 'data-submit_data';
     // get data attribute value
     var attributeData = jQuery(id).attr(attributeName);
     // parse into JSON
