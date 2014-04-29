@@ -23,7 +23,7 @@
           p:headerText="Review Proposal"
           p:disclosure.render="false">
 
-        <!-- Don't how validation messages at the top of the page. Instead we want the yellow bar. -->
+        <!-- Don't show validation messages at the top of the page. Instead we want the yellow bar. -->
         <property name="validationMessages.displayMessages" value="false"/>
 
         <!-- Initialize the page -->
