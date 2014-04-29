@@ -181,7 +181,7 @@ public class CourseOfferingEditRule extends KsMaintenanceDocumentRuleBase {
 
     protected boolean validateDuplicateSuffixCreate(CourseOfferingEditWrapper coWrapper){
         String courseCode = coWrapper.getCourse().getCode().toUpperCase();
-        String newCoCode = courseCode + coWrapper.getCourseOfferingInfo().getCourseNumberSuffix().toUpperCase();
+        String newCoCode = courseCode + StringUtils.trimToEmpty(coWrapper.getCourseOfferingInfo().getCourseNumberSuffix()).toUpperCase();
         try {
             List<CourseOfferingInfo> wrapperList =
                     _findCourseOfferingsByTermAndCourseCode(coWrapper.getTerm().getId(), newCoCode);
