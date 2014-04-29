@@ -298,7 +298,7 @@
                                     </list>
                                 </property>
                                 <property name="control">
-                                    <bean parent="KS-Uif-TextControl" p:size="8" p:maxLength="8" p:cssClasses="validTimeAMPMPattern" p:onBlurScript="timeFieldOnBlur(event);"/>
+                                    <bean parent="KS-Uif-TextControl" p:size="8" p:maxLength="8" p:cssClasses="validTimeAMPMPattern" p:onBlurScript="timeFieldOnBlur(e);"/>
                                 </property>
                                 <!--<property name="constraintText" value="HH:MM"/>-->
                                 <!--<property name="validCharactersConstraint">
@@ -330,7 +330,7 @@
                                     </list>
                                 </property>
                                 <property name="control">
-                                    <bean parent="KS-Uif-TextControl" p:size="8" p:maxLength="8" p:cssClasses="validTimeAMPMPattern" p:onBlurScript="timeFieldOnBlur(event);"/>
+                                    <bean parent="KS-Uif-TextControl" p:size="8" p:maxLength="8" p:cssClasses="validTimeAMPMPattern" p:onBlurScript="timeFieldOnBlur(e);"/>
                                 </property>
                                 <!--<property name="constraintText" value="HH:MM"/>-->
                                 <!--<property name="validCharactersConstraint">

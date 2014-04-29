@@ -70,6 +70,7 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
         return getUIFModelAndView(form);
     }
 
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=loadTSEndTimes")
     public ModelAndView loadTSEndTimes(@ModelAttribute("KualiForm") MaintenanceDocumentForm form) throws Exception {
 
