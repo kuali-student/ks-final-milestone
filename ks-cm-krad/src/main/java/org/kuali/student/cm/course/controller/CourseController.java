@@ -578,6 +578,10 @@ public class CourseController extends CourseRuleEditorController {
 
         modelAndView = save(form, result, request, response);
 
+        getCourseInfoWrapper(form).getUiHelper().setCurriculumSpecialistUser(courseInfoWrapper.getUiHelper().isCurriculumSpecialistUser());
+        getCourseInfoWrapper(form).getUiHelper().setUseReviewProcess(courseInfoWrapper.getUiHelper().isUseReviewProcess());
+        getCourseInfoWrapper(form).getUiHelper().setSelectedSection(courseInfoWrapper.getUiHelper().getSelectedSection());
+
         if (GlobalVariables.getMessageMap().hasErrors()) {
             return modelAndView;
         }
