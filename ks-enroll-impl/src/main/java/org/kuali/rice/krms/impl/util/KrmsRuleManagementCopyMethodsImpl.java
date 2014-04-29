@@ -156,9 +156,11 @@ public class KrmsRuleManagementCopyMethodsImpl implements KrmsRuleManagementCopy
     private void deepUpdateForProposition(PropositionDefinition.Builder propBldr) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException {
         propBldr.setId(null);
         propBldr.setRuleId(null);
+        propBldr.setVersionNumber(null);
         for (PropositionParameter.Builder propParmBldr : propBldr.getParameters()) {
             propParmBldr.setId(null);
             propParmBldr.setPropId(null);
+            propParmBldr.setVersionNumber(null);
             if (PropositionParameterType.TERM.getCode().equals(propParmBldr.getParameterType())) {
                 TermDefinition termDef = null;
                 if (propParmBldr.getTermValue() != null) {
@@ -169,9 +171,11 @@ public class KrmsRuleManagementCopyMethodsImpl implements KrmsRuleManagementCopy
                 propParmBldr.setValue(null);
                 TermDefinition.Builder termBldr = TermDefinition.Builder.create(termDef);
                 termBldr.setId(null);
+                termBldr.setVersionNumber(null);
                 for (TermParameterDefinition.Builder termParmBldr : termBldr.getParameters()) {
                     termParmBldr.setId(null);
                     termParmBldr.setTermId(null);
+                    termParmBldr.setVersionNumber(null);
                     if (TermParameterTypes.COURSE_CLUSET_KEY.getId().equals(termParmBldr.getName()) || TermParameterTypes.PROGRAM_CLUSET_KEY.getId().equals(termParmBldr.getName()) || TermParameterTypes.CLUSET_KEY.getId().equals(termParmBldr.getName())) {
                         termParmBldr.setValue(createAdhocCluSet(termParmBldr.getValue()));
                     }

@@ -445,6 +445,7 @@
     <bean id="ruleManagementService" class="org.kuali.rice.krms.impl.repository.KSRuleManagementServiceImpl">
         <property name="templater" ref="propositionTemplater"/>
         <property name="dataObjectService" ref="dataObjectService"/>
+        <property name="dataSource" ref="krmsDataSource"/>
     </bean>
 
 </beans>
