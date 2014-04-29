@@ -187,9 +187,11 @@ public class PlannerController extends KsapControllerBase {
 			return null;
 		}
         else{
-            //Load course related planItems to identify if the course has been bookmarked
-            List<PlanItem> planItems = KsapFrameworkServiceLocator.getPlanHelper().loadStudentsPlanItemsForCourse(course);
-            form.setBookmarked(KsapFrameworkServiceLocator.getCourseHelper().isCourseBookmarked(course, planItems));
+            if (course!=null) {
+                //Load course related planItems to identify if the course has been bookmarked
+                List<PlanItem> planItems = KsapFrameworkServiceLocator.getPlanHelper().loadStudentsPlanItemsForCourse(course);
+                form.setBookmarked(KsapFrameworkServiceLocator.getCourseHelper().isCourseBookmarked(course, planItems));
+            }
         }
 
 		uifForm.setViewId(DIALOG_FORM);
