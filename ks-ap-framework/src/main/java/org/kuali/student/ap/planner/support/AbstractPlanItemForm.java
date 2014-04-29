@@ -14,6 +14,7 @@
  */
 package org.kuali.student.ap.planner.support;
 
+import org.kuali.rice.krad.web.bind.RequestAccessible;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
@@ -43,12 +44,17 @@ public abstract class AbstractPlanItemForm extends UifFormBase implements PlanIt
 
 	private static final Logger LOG = LoggerFactory.getLogger(AbstractPlanItemForm.class);
 
+    @RequestAccessible
 	private String uniqueId;
-
+    @RequestAccessible
 	private String learningPlanId;
+    @RequestAccessible
 	private String termId;
+    @RequestAccessible
 	private String planItemId;
+    @RequestAccessible
 	private String courseId;
+    @RequestAccessible
 	private AcademicPlanServiceConstants.ItemCategory expectedPlanItemCategory;
 
 	private transient LearningPlan learningPlan;
@@ -154,17 +160,6 @@ public abstract class AbstractPlanItemForm extends UifFormBase implements PlanIt
      */
 	@Override
 	public PlanItem getPlanItem() {
-        if(planItemId==null){
-            try{
-                if(this.getInitialRequestParameters().containsKey("planItemId")){
-                    setPlanItemId(KSCollectionUtils.getOptionalZeroElement(Arrays.asList(this.getInitialRequestParameters().get("planItemId"))));
-                }else{
-                    LOG.warn("Unable to set plan item id, plan item id not found");
-                }
-            }catch(OperationFailedException e){
-                LOG.warn("Unable to set plan item id",e);
-            }
-        }
 		if (planItem == null && planItemId != null) {
 			try {
 				planItem = KsapFrameworkServiceLocator.getAcademicPlanService().getPlanItem(planItemId,
@@ -220,18 +215,6 @@ public abstract class AbstractPlanItemForm extends UifFormBase implements PlanIt
 				course = KsapFrameworkServiceLocator.getCourseHelper().getCourseInfo(planItem.getRefObjectId());
 			} else{
                 // Retrieve course using the course id
-                if(courseId==null){
-                    // Manually set course id if not set already
-                    try{
-                        if(this.getInitialRequestParameters().containsKey("courseId")){
-                            setCourseId(KSCollectionUtils.getOptionalZeroElement(Arrays.asList(this.getInitialRequestParameters().get("courseId"))));
-                        }else{
-                            LOG.warn("Unable to set course id, course id not found");
-                        }
-                    }catch(OperationFailedException e){
-                        LOG.warn("Unable to set course id",e);
-                    }
-                }
                 if (courseId != null) {
                     course = KsapFrameworkServiceLocator.getCourseHelper().getCourseInfo(courseId);
                 }
