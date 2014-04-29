@@ -54,7 +54,7 @@ a {
   font-size: 38px;
   text-shadow: 0px 1px 2px #cfcabf;
   position: absolute;
-  top: 40px;
+  top: 20px;
   left: 0px;
 }
 
@@ -170,6 +170,8 @@ a {
 /* Overwrite KRAD Styles ########################################################################### */
 .ksap-view {
   min-height: 600px;
+
+  .container-fluid {padding-left: 0;}  /* container-fluid class added to Uif-ViewContentWrapper div in Rice upgrade. Caused extra padding. */
 
   .uif-boxLayoutVerticalItem {
     margin: 0 0 10px 0;
