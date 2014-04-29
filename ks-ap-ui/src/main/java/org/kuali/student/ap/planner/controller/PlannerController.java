@@ -153,10 +153,9 @@ public class PlannerController extends KsapControllerBase {
         // If screen is add course or edit term note valid term information is needed
 		boolean termRequired = QUICKADD_COURSE_PAGE.equals(pageId) || EDIT_TERM_NOTE_PAGE.equals(pageId);
 		if (termRequired) {
-			String termId = form.getTermId();
 			Term term = form.getTerm();
 			if (term == null) {
-				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid term ID " + termId);
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid term (ID=" + form.getTermId()+")");
 				return null;
 			}
 		}
