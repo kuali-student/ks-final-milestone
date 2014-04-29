@@ -514,13 +514,16 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 MaintenanceDocumentForm modelForm = (MaintenanceDocumentForm) viewModel;
                 CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) modelForm.getDocument().getNewMaintainableObject().getDataObject();
                 CourseInfoMaintainable courseInfoMaintainable = (CourseInfoMaintainable) modelForm.getDocument().getNewMaintainableObject();
+                if(courseInfoWrapper.getInstructorWrappers().size() == 0) {
+                    return true;
+                }
                 for (CluInstructorInfoWrapper instructor : courseInfoWrapper.getInstructorWrappers()) {
-                    if (instructor.getDisplayName().equals(instructorWrapper.getDisplayName())) {
+                    if (StringUtils.isNotEmpty(instructorWrapper.getDisplayName()) && instructor.getDisplayName().equals(instructorWrapper.getDisplayName())) {
                         return false; //already in the list
                     }
                 }
             }
-            return StringUtils.isNotEmpty(instructorWrapper.getDisplayName()) ? true : false;
+            return StringUtils.isEmpty(instructorWrapper.getDisplayName()) ? true : false;
         }
         if (newLine instanceof CollaboratorWrapper) {
             CollaboratorWrapper collaboratorWrapper = (CollaboratorWrapper) newLine;
@@ -1005,7 +1008,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     @Override
     public void processAfterDeleteLine(ViewModel model, String collectionId, String collectionPath, int lineIndex) {
         CollectionGroup collectionGroup = model.getView().getViewIndex().getCollectionGroupByPath(collectionPath);
-        if (StringUtils.endsWith(collectionGroup.getPropertyName(), "unitsContentOwner")) {
+        if (collectionGroup != null && StringUtils.endsWith(collectionGroup.getPropertyName(), "unitsContentOwner")) {
             MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) model;
             MaintenanceDocument document = maintenanceForm.getDocument();
 

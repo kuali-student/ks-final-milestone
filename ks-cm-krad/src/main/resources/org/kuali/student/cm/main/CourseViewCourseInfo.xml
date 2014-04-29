@@ -34,7 +34,7 @@
                 <ref bean="KS-CrossListingEtcDisclosure-Section" /> <!-- Cross listings, etc -->
 
                 <bean id="KS-Instructors-Section" parent="KS-TableCollectionSubSection-BottomAddLine"
-                      p:id="instructor-section" p:layoutManager.style="width: 100%;"
+                      p:layoutManager.style="width: 100%;"
                       p:headerText="Instructor(s)">
                     <property name="collectionObjectClass" value="org.kuali.student.cm.course.form.CluInstructorInfoWrapper" />
                     <property name="propertyName" value="instructorWrappers" />
