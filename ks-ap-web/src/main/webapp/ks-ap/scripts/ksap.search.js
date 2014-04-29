@@ -246,10 +246,10 @@ function searchForCourses(id, parentId) {
 										data : aoData,
                                         success : function(data, textStatus, jqXHR){
                                             if(data.LimitExceeded>0){
-                                                var message = jQuery('#searchValidationMessages div span');
+                                                var message = jQuery('#searchValidationMessages p');
                                                 var text = message.html();
                                                 var formatted = text.replace('__KSAP_SEARCH_LIMIT__',data.LimitExceeded+'');
-                                                jQuery('#searchValidationMessages div span').html(formatted);
+                                                jQuery('#searchValidationMessages p').html(formatted);
                                                 jQuery('#searchValidationMessages').removeClass("ksap-hide");
                                             }else{
                                                 jQuery('#searchValidationMessages').addClass("ksap-hide");
