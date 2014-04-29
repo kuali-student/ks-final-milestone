@@ -1,3 +1,17 @@
+/*
+ * Copyright 2014 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
 package org.kuali.student.ap.planner.support;
 
 import org.kuali.rice.krad.web.form.UifFormBase;
@@ -132,8 +146,25 @@ public abstract class AbstractPlanItemForm extends UifFormBase implements PlanIt
 		this.existingPlanItems = null;
 	}
 
+    /**
+     * Retrieve the plan item using the plan item id.
+     *
+     * @see org.kuali.student.ap.planner.PlanItemForm#getPlanItem()
+     * @return Plan Item being worked on by the form.
+     */
 	@Override
 	public PlanItem getPlanItem() {
+        if(planItemId==null){
+            try{
+                if(this.getInitialRequestParameters().containsKey("planItemId")){
+                    setPlanItemId(KSCollectionUtils.getOptionalZeroElement(Arrays.asList(this.getInitialRequestParameters().get("planItemId"))));
+                }else{
+                    LOG.warn("Unable to set plan item id, plan item id not found");
+                }
+            }catch(OperationFailedException e){
+                LOG.warn("Unable to set plan item id",e);
+            }
+        }
 		if (planItem == null && planItemId != null) {
 			try {
 				planItem = KsapFrameworkServiceLocator.getAcademicPlanService().getPlanItem(planItemId,
@@ -173,15 +204,38 @@ public abstract class AbstractPlanItemForm extends UifFormBase implements PlanIt
 		this.existingPlanItems = null;
 	}
 
+    /**
+     * Retrieve the course using either the plan item or the course id.
+     *
+     * @see org.kuali.student.ap.planner.PlanItemForm#getCourse()
+     * @return Course being worked on by the form.
+     */
 	@Override
 	public Course getCourse() {
 		if (course == null) {
+            // Attempt to retrieve the course
 			PlanItem planItem = getPlanItem();
 			if (planItem != null) {
+                // Retrieve course using the id referenced in the plan item
 				course = KsapFrameworkServiceLocator.getCourseHelper().getCourseInfo(planItem.getRefObjectId());
-			} else if (courseId != null) {
-				course = KsapFrameworkServiceLocator.getCourseHelper().getCourseInfo(courseId);
-			}
+			} else{
+                // Retrieve course using the course id
+                if(courseId==null){
+                    // Manually set course id if not set already
+                    try{
+                        if(this.getInitialRequestParameters().containsKey("courseId")){
+                            setCourseId(KSCollectionUtils.getOptionalZeroElement(Arrays.asList(this.getInitialRequestParameters().get("courseId"))));
+                        }else{
+                            LOG.warn("Unable to set course id, course id not found");
+                        }
+                    }catch(OperationFailedException e){
+                        LOG.warn("Unable to set course id",e);
+                    }
+                }
+                if (courseId != null) {
+                    course = KsapFrameworkServiceLocator.getCourseHelper().getCourseInfo(courseId);
+                }
+            }
 		}
 		return course;
 	}

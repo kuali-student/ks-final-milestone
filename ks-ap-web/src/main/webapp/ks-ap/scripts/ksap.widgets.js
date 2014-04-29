@@ -780,6 +780,7 @@ function openPopup(getId, retrieveData, formAction, popupStyle, popupOptions, e)
                 fnCloseAllPopups();
             });
         }
+        skipPageSetup = true; // Ajax return, set true to prevent reload of whole page.
         runHiddenScripts(getId);
         elementToBlock.unblock();
     };

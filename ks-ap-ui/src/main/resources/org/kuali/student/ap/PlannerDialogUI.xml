@@ -725,7 +725,6 @@
 		<property name="propertyName" value="targetTermId" />
 		<property name="label" value="Term &amp; Year" />
         <property name="fieldLabel.renderColon" value="false"/>
-        <property name="labelPlacement" value="LEFT"/>
 		<property name="instructionalText" value="Note: This course MAY NOT be offered in your selected term. Check back after the schedule of classes has been released." />
 		<property name="control">
 			<bean parent="KS-Uif-DropdownControl"/>
@@ -793,7 +792,6 @@
  		<property name="propertyName" value="courseCredit" />
  		<property name="label" value="Credits" />
         <property name="fieldLabel.renderColon" value="false"/>
-        <property name="labelPlacement" value="LEFT"/>
         <property name="control">
             <bean parent="KS-Uif-DropdownControl"/>
         </property>
@@ -874,12 +872,11 @@
         </property>
     </bean>    -->
 
-	<!-- Rice 2.4 upgrade removed p:labelPlacement="RIGHT" -->
+
     <bean id="planner_backup_input"  parent="Uif-CheckboxInputField"
           p:label="Mark as backup"  p:propertyName="backup"
            p:fieldLabel.renderColon="false" />
 
-	<!-- Rice 2.4 upgrade removed p:labelPlacement="RIGHT" -->
     <bean id="planner_bookmark_input"  parent="Uif-CheckboxInputField"
           p:label="Keep the course bookmarked"  p:propertyName="keepBookmarked"
           p:fieldLabel.renderColon="false" p:defaultValue="false" p:render="@{bookmarked}"/>
