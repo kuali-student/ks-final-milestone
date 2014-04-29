@@ -326,6 +326,25 @@
     -webkit-border-bottom-right-radius: 0px;
     -webkit-border-top-right-radius: 0px;
 }
+/* Rice tabs workaround. Replaces above rule. */
+#course_tabs_tabs .nav-tabs li {
+    /* Make the left corners round and the right ones square*/
+    -moz-border-radius-bottomleft: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-bottomright: 0px;
+    -moz-border-radius-topright: 0px;
+
+    -webkit-border-bottom-left-radius: 5px;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-bottom-right-radius: 0px;
+    -webkit-border-top-right-radius: 0px;
+}
+
+/*  Rice tabs workaround.  */
+.nav-tabs .ui-tabs-anchor {
+    background-color: #ededed;
+}
+
 
 #course_tabs_tabs .ui-tabs-nav li.ui-state-active a,
 #course_tabs_tabs .ui-tabs-nav li.ui-state-default a {
@@ -347,9 +366,36 @@
     -webkit-border-bottom-right-radius: 0px;
     -webkit-border-top-right-radius: 0px;
 }
+/* Rice tabs workaround. Replaces the rule above */
+#course_tabs_tabs .nav-tabs li a {
+    width: 100%; /* Make the action links in the tab panel extend all the way across */
+    color: #000000;
+    padding-top: 6px;
+    padding-right: 0;
+    padding-bottom: 6px;
+    padding-left: 15px;
+
+     /* Make the left corners round and the right ones square*/
+    -moz-border-radius-bottomleft: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-bottomright: 0px;
+    -moz-border-radius-topright: 0px;
+
+    -webkit-border-bottom-left-radius: 5px;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-bottom-right-radius: 0px;
+    -webkit-border-top-right-radius: 0px;
+}
+
 
 /* Make the bottom border of the last tab item more substantial */
 #course_tabs_tabs .ui-tabs-nav li:last-child a {
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-color: #bbbbbb;
+}
+/* Rice tabs Workaround. Replaces the rule above.  */
+#course_tabs_tabs .nav-tabs li:last-child a {
     border-bottom-style: solid;
     border-bottom-width: 1px;
     border-color: #bbbbbb;
@@ -551,7 +597,7 @@
 
 
 
-/* TODO: KSCM-2003 Rice workaround - sudduth */
+/* TODO: KSCM-2003 Rice tabs workaround - sudduth */
 
 /* This is our overrides followed by the stuff we needed from the parent
 .ui-tabs-vertical-left .ui-tabs-nav {*/
@@ -603,4 +649,4 @@
   border-right-width: 1px;
 }
 
-/* END Rice workaround WIP */
+/* END Rice tabs workaround WIP */
