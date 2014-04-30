@@ -940,6 +940,11 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
         if (newLine instanceof OfferingInstructorWrapper) {   //Personnel
             OfferingInstructorWrapper instructor = (OfferingInstructorWrapper) newLine;
 
+            if (instructor.getOfferingInstructorInfo().getPersonId() == null){
+                //Short circuit addline so blank added line is valid... KSENROLL-12606
+                return true;
+            }
+
             //check duplication
             List<OfferingInstructorWrapper> instructors = activityOfferingWrapper.getInstructors();
             if (instructors != null && !instructors.isEmpty()) {
