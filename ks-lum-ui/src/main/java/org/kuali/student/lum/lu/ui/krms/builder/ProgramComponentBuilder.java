@@ -38,6 +38,11 @@ import java.util.Map;
  */
 public class ProgramComponentBuilder extends CluComponentBuilder {
 
+
+    @Override
+    public void initialize(LUPropositionEditor propositionEditor) {
+        propositionEditor.setProgramSet(new CluSetInformation());
+    }
     @Override
     public List<String> getComponentIds() {
         return null;
