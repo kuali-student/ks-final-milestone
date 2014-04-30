@@ -372,7 +372,6 @@
                 <property name="items">
                     <list>
                         <bean parent="KS-Uif-Delete-ActionLink" p:id="delete_format" p:methodToCall="deleteLine" p:actionLabel="Delete" p:ajaxSubmit="true"
-                              p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"
                               p:actionScript="actionInvokeHandler(this);"
                               p:render="@{!#view.readOnly}"
                               p:ajaxReturnType="update-component"

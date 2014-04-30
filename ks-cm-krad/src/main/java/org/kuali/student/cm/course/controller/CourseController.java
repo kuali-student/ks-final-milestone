@@ -348,7 +348,7 @@ public class CourseController extends CourseRuleEditorController {
      * process the action
      */
 
-    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=removeOrganization")
+    /*@RequestMapping(method = RequestMethod.POST, params = "methodToCall=removeOrganization")
     public ModelAndView removeOrganization(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
                                            HttpServletRequest request, HttpServletResponse response) {
 
@@ -360,11 +360,6 @@ public class CourseController extends CourseRuleEditorController {
         }
 
         View view = form.getView();
-
-        CollectionGroup collectionGroup = view.getViewIndex().getCollectionGroupByPath(selectedCollectionPath);
-        if (collectionGroup == null) {
-            logAndThrowRuntime("Unable to get collection group component for path: " + selectedCollectionPath);
-        }
 
         try {
 
@@ -391,7 +386,7 @@ public class CourseController extends CourseRuleEditorController {
         }
 
         return deleteLine(form, result, request, response);
-    }
+    }*/
 
     /**
      * Log the error and throw a new runtime exception
@@ -404,7 +399,7 @@ public class CourseController extends CourseRuleEditorController {
     }
 
 
-    protected String populateOrgName(String subjectArea, CourseCreateUnitsContentOwner unitsContentOwner) {
+    /*protected String populateOrgName(String subjectArea, CourseCreateUnitsContentOwner unitsContentOwner) {
 
         if (StringUtils.isBlank(unitsContentOwner.getOrgId())) {
             return StringUtils.EMPTY;
@@ -442,7 +437,7 @@ public class CourseController extends CourseRuleEditorController {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-    }
+    }*/
 
     /**
      * Delete a Supporting Document line
