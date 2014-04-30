@@ -154,7 +154,8 @@ limitations under the License.
                 <bean parent="KS-Uif-DeleteLineAction"/>
             </list>
         </property>
-        <property name="propertyName" value="cluSets"/>
+        <!--property name="propertyName" value="proposition.courseSet.cluSets"/-->
+        <property name="propertyName" value="cluSets"/> <!-- Rice 2.4 upgrade hack for now, should by proposition.courseSet.cluSets-->
         <property name="collectionObjectClass" value="org.kuali.student.lum.lu.ui.krms.dto.CluSetInformation"/>
         <property name="header">
             <bean parent="Uif-HeaderSix" p:progressiveRender="#np.proposition.courseSet.cluSetListSize gt 0">
@@ -191,6 +192,11 @@ limitations under the License.
                         <bean parent="KRMS-CourseSet-QuickFinder"/>
                     </property>
                 </bean>
+            </list>
+        </property>
+        <property name="duplicateLinePropertyNames">
+            <list>
+                <value>name</value>
             </list>
         </property>
         <!-- Replace with other bean for the multi select search-->
@@ -262,6 +268,11 @@ limitations under the License.
                         <bean parent="KRMS-ApprovedCourses-QuickFinder"/>
                     </property>
                 </bean>
+            </list>
+        </property>
+        <property name="duplicateLinePropertyNames">
+            <list>
+                <value>code</value>
             </list>
         </property>
         <!-- Replace with other bean for the multi select search-->

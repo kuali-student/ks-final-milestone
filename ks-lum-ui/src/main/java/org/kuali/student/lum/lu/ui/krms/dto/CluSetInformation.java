@@ -42,8 +42,6 @@ public class CluSetInformation implements Serializable {
     private List<CluSetInformation> cluSets;
     private List<CluSetRangeInformation> cluSetRanges;
 
-    private Map<String, CluSetInformation> subCluSetInformations;
-
     public CluSetInformation() {
         super();
         this.cluSetInfo = new CluSetInfo();
@@ -93,17 +91,6 @@ public class CluSetInformation implements Serializable {
 
     public void setCluSetRanges(List<CluSetRangeInformation> cluSetRanges) {
         this.cluSetRanges = cluSetRanges;
-    }
-
-    public Map<String, CluSetInformation> getSubCluSetInformations() {
-        if (subCluSetInformations == null) {
-            subCluSetInformations = new HashMap<String, CluSetInformation>();
-        }
-        return subCluSetInformations;
-    }
-
-    public void setSubCluSetInformations(Map<String, CluSetInformation> subCluSetInformations) {
-        this.subCluSetInformations = subCluSetInformations;
     }
 
     public String getId() {

@@ -265,100 +265,88 @@ public class LURuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
     @Override
     protected boolean performAddLineValidation(ViewModel viewModel, Object newLine, String collectionId,
                                                String collectionPath) {
-        /*CollectionGroup collectionGroup = ObjectPropertyUtils.getPropertyValue(viewModel, collectionPath);
-        if(LUKRMSConstants.KSKRMS_PROPERTY_NAME_CLUS.equals(collectionGroup.getPropertyName())){
-            //Check if this is a valid clu.
-            CluInformation clu = (CluInformation) newLine;
-            if((clu.getCode()==null)||(clu.getCode().isEmpty())){
-                collectionGroup.initializeNewCollectionLine(viewModel.getView(), viewModel, collectionGroup, true);
-                GlobalVariables.getMessageMap().putErrorForSectionId(collectionGroup.getId(), LUKRMSConstants.KSKRMS_MSG_ERROR_APPROVED_COURSE_REQUIRED);
-                return false;
-            } else {
-                // convert term-code to UPPERCASE
-                clu.setCode(clu.getCode().toUpperCase());
-            }
 
-            CluInformation searchClu = this.getCluInfoHelper().getCluInfoForCodeAndType(clu.getCode(), CluSearchUtil.getCluTypesForCourse());
-            if(searchClu==null){
-                collectionGroup.initializeNewCollectionLine(viewModel.getView(), viewModel, collectionGroup, true);
-                GlobalVariables.getMessageMap().putErrorForSectionId(collectionGroup.getId(), LUKRMSConstants.KSKRMS_MSG_ERROR_APPROVED_COURSE_CODE_INVALID);
-                return false;
-            } else {
-                clu.setCluId(searchClu.getCluId());
-                clu.setVerIndependentId(searchClu.getVerIndependentId());
-                clu.setShortName(searchClu.getShortName());
-                clu.setDescription(searchClu.getDescription());
-            }
-
-            //Check if this clu is not already in the collection
-            RuleEditor ruleEditor = this.getRuleEditor(viewModel);
-            LUPropositionEditor propEditor = (LUPropositionEditor)PropositionTreeUtil.getProposition(ruleEditor);
-            for(CluInformation cluInformation : propEditor.getCourseSet().getClus()){
-                if(cluInformation.getCluId().equals(clu.getCluId())){
-                    collectionGroup.initializeNewCollectionLine(null, viewModel, collectionGroup, true);
-                    return false;
-                }
-            }
-        } else if (LUKRMSConstants.KSKRMS_PROPERTY_NAME_CLUSETS.equals(collectionGroup.getPropertyName())){
-            //Check if this is a valid clu.
-            CluSetInformation cluSet = (CluSetInformation) newLine;
-            if((cluSet.getCluSetInfo().getId() == null)||(cluSet.getCluSetInfo().getId().isEmpty())){
-                GlobalVariables.getMessageMap().putErrorForSectionId(collectionGroup.getId(), LUKRMSConstants.KSKRMS_MSG_ERROR_COURSESETS_REQUIRED);
-                return false;
-            }
-
-            CluSetInfo searchCluSet = this.getCluInfoHelper().getCluSetForId(cluSet.getCluSetInfo().getId());
-            if(searchCluSet==null){
-                collectionGroup.initializeNewCollectionLine(viewModel.getView(), viewModel, collectionGroup, true);
-                GlobalVariables.getMessageMap().putErrorForSectionId(collectionGroup.getId(), LUKRMSConstants.KSKRMS_MSG_ERROR_APPROVED_COURSE_CODE_INVALID);
-                return false;
-            } else {
-                cluSet.setCluSetInfo(searchCluSet);
-            }
-
-            //Check if this clu is not already in the collection
-            RuleEditor ruleEditor = this.getRuleEditor(viewModel);
-            LUPropositionEditor propEditor = (LUPropositionEditor)PropositionTreeUtil.getProposition(ruleEditor);
-            for(CluSetInformation cluSetInfo : propEditor.getCourseSet().getCluSets()){
-                if(cluSetInfo.getCluSetInfo().getId().equals(cluSet.getCluSetInfo().getId())){
-                    return false;
-                }
-            }
+        if(!super.performAddLineValidation(viewModel, newLine, collectionId, collectionPath)) {
+            return false;
         }
-        else if(LUKRMSConstants.KSKRMS_PROPERTY_NAME_PROG_CLUS.equals(collectionGroup.getPropertyName())){
-            //Check if this is a valid clu.
+
+        if(newLine instanceof  CluInformation) {
             CluInformation clu = (CluInformation) newLine;
-            if((clu.getCode()==null)||(clu.getCode().isEmpty())){
-                collectionGroup.initializeNewCollectionLine(viewModel.getView(), viewModel, collectionGroup, true);
-                GlobalVariables.getMessageMap().putErrorForSectionId(collectionGroup.getId(), LUKRMSConstants.KSKRMS_MSG_ERROR_APPROVED_PROGRAM_REQUIRED);
+            if(!validateNewClu(viewModel, clu, collectionId)){
                 return false;
-            } else {
-                // convert term-code to UPPERCASE
-                clu.setCode(clu.getCode().toUpperCase());
             }
 
-            CluInformation searchClu = this.getCluInfoHelper().getCluInfoForCodeAndType(clu.getCode(), CluSearchUtil.getCluTypesForProgram());
-            if(searchClu==null){
-                collectionGroup.initializeNewCollectionLine(viewModel.getView(), viewModel, collectionGroup, true);
-                GlobalVariables.getMessageMap().putErrorForSectionId(collectionGroup.getId(), LUKRMSConstants.KSKRMS_MSG_ERROR_APPROVED_PROGRAM_CODE_INVALID);
-                return false;
-            } else {
-                clu.setCluId(searchClu.getCluId());
-                clu.setVerIndependentId(searchClu.getVerIndependentId());
-                clu.setShortName(searchClu.getShortName());
-                clu.setDescription(searchClu.getDescription());
+            if(collectionPath.endsWith(LUKRMSConstants.KSKRMS_PROPERTY_NAME_CLUS)) {
+                return validateNewCourse(viewModel, (CluInformation) newLine, collectionId);
+            } else if (collectionPath.endsWith(LUKRMSConstants.KSKRMS_PROPERTY_NAME_PROG_CLUS)) {
+                return validateNewProgram(viewModel, (CluInformation) newLine, collectionId);
             }
+        } else if (newLine instanceof CluSetInformation){
+            return validateNewCluSet(viewModel, (CluSetInformation) newLine, collectionId);
+        }
 
-            //Check if this clu is not already in the collection
-            RuleEditor ruleEditor = this.getRuleEditor(viewModel);
-            LUPropositionEditor propEditor = (LUPropositionEditor)PropositionTreeUtil.getProposition(ruleEditor);
-            for(CluInformation cluInformation : propEditor.getProgramSet().getClus()){
-                if(cluInformation.getCluId().equals(clu.getCluId())){
-                    collectionGroup.initializeNewCollectionLine(viewModel.getView(), viewModel, collectionGroup, true);
-                    return false;
-                }
-            }
-        }*/
+        return true;
+    }
+
+    protected boolean validateNewClu(ViewModel viewModel, CluInformation clu, String collectionId) {
+        //Check if this is a valid clu code.
+        if((clu.getCode()==null)||(clu.getCode().isEmpty())){
+            GlobalVariables.getMessageMap().putErrorForSectionId(collectionId, LUKRMSConstants.KSKRMS_MSG_ERROR_APPROVED_COURSE_REQUIRED);
+            return false;
+        } else {
+            // convert term-code to UPPERCASE
+            clu.setCode(clu.getCode().toUpperCase());
+        }
+
+        return true;
+    }
+
+    protected boolean validateNewCourse(ViewModel viewModel, CluInformation clu, String collectionId) {
+        //Check if this is a valid course.
+        CluInformation searchClu = this.getCluInfoHelper().getCluInfoForCodeAndType(clu.getCode(), CluSearchUtil.getCluTypesForCourse());
+        if(searchClu==null){
+            GlobalVariables.getMessageMap().putErrorForSectionId(collectionId, LUKRMSConstants.KSKRMS_MSG_ERROR_APPROVED_COURSE_CODE_INVALID);
+            return false;
+        } else {
+            clu.setCluId(searchClu.getCluId());
+            clu.setVerIndependentId(searchClu.getVerIndependentId());
+            clu.setShortName(searchClu.getShortName());
+            clu.setDescription(searchClu.getDescription());
+        }
+
+        return true;
+    }
+
+    protected boolean validateNewCluSet(ViewModel viewModel, CluSetInformation cluSet, String collectionId) {
+        //Check if this is a valid clu.
+        if((cluSet.getCluSetInfo().getId() == null)||(cluSet.getCluSetInfo().getId().isEmpty())){
+            GlobalVariables.getMessageMap().putErrorForSectionId(collectionId, LUKRMSConstants.KSKRMS_MSG_ERROR_COURSESETS_REQUIRED);
+            return false;
+        }
+
+        CluSetInfo searchCluSet = this.getCluInfoHelper().getCluSetForId(cluSet.getCluSetInfo().getId());
+        if(searchCluSet==null){
+            GlobalVariables.getMessageMap().putErrorForSectionId(collectionId, LUKRMSConstants.KSKRMS_MSG_ERROR_APPROVED_COURSE_CODE_INVALID);
+            return false;
+        } else {
+            cluSet.setCluSetInfo(searchCluSet);
+        }
+
+        return true;
+    }
+
+    protected boolean validateNewProgram(ViewModel viewModel, CluInformation clu, String collectionId) {
+        //Check if this is a valid program.
+        CluInformation searchClu = this.getCluInfoHelper().getCluInfoForCodeAndType(clu.getCode(), CluSearchUtil.getCluTypesForProgram());
+        if(searchClu==null){
+            GlobalVariables.getMessageMap().putErrorForSectionId(collectionId, LUKRMSConstants.KSKRMS_MSG_ERROR_APPROVED_PROGRAM_CODE_INVALID);
+            return false;
+        } else {
+            clu.setCluId(searchClu.getCluId());
+            clu.setVerIndependentId(searchClu.getVerIndependentId());
+            clu.setShortName(searchClu.getShortName());
+            clu.setDescription(searchClu.getDescription());
+        }
 
         return true;
     }
@@ -366,47 +354,47 @@ public class LURuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
     @Override
     public void processAfterAddLine(ViewModel model, Object lineObject, String collectionId, String collectionPath,
                                     boolean isValidLine) {
-        /*CollectionGroup collectionGroup = ObjectPropertyUtils.getPropertyValue(model, collectionPath);
-        if(LUKRMSConstants.KSKRMS_PROPERTY_NAME_CLUS.equals(collectionGroup.getPropertyName())){
+
+        if ((lineObject instanceof CluInformation) && (collectionPath.endsWith(LUKRMSConstants.KSKRMS_PROPERTY_NAME_CLUS))) {
             //Sort the clus.
             RuleEditor ruleEditor = this.getRuleEditor(model);
-            LUPropositionEditor propEditor = (LUPropositionEditor)PropositionTreeUtil.getProposition(ruleEditor);
+            LUPropositionEditor propEditor = (LUPropositionEditor) PropositionTreeUtil.getProposition(ruleEditor);
 
             CluInformation clu = (CluInformation) lineObject;
-            if(clu.getCluId() != null){
-            clu.setCredits(this.getCluInfoHelper().getCreditInfo(clu.getCluId()));
-            Collections.sort(propEditor.getCourseSet().getClus());
+            if (clu.getCluId() != null) {
+                clu.setCredits(this.getCluInfoHelper().getCreditInfo(clu.getCluId()));
+                Collections.sort(propEditor.getCourseSet().getClus());
 
             }
-        } else if (LUKRMSConstants.KSKRMS_PROPERTY_NAME_CLUSETS.equals(collectionGroup.getPropertyName())){
+        } else if (lineObject instanceof CluSetInformation) {
             //Set the clus on the wrapper object.
             CluSetInformation cluSet = (CluSetInformation) lineObject;
-            if(cluSet.getCluSetInfo().getId() != null) {
+            if (cluSet.getCluSetInfo().getId() != null) {
                 completeCluSetInformation(cluSet);
 
                 //Sort the clus.
                 RuleEditor ruleEditor = this.getRuleEditor(model);
-                    LUPropositionEditor propEditor = (LUPropositionEditor)PropositionTreeUtil.getProposition(ruleEditor);
-                Collections.sort(propEditor.getCourseSet().getCluSets(), new Comparator<CluSetInformation>(){
+                LUPropositionEditor propEditor = (LUPropositionEditor) PropositionTreeUtil.getProposition(ruleEditor);
+                Collections.sort(propEditor.getCourseSet().getCluSets(), new Comparator<CluSetInformation>() {
 
-                @Override
-                public int compare(CluSetInformation o1, CluSetInformation o2) {
+                    @Override
+                    public int compare(CluSetInformation o1, CluSetInformation o2) {
                         return o1.getCluSetInfo().getName().compareTo(o2.getCluSetInfo().getName());
                     }
                 });
             }
-        }
-        else if(LUKRMSConstants.KSKRMS_PROPERTY_NAME_PROG_CLUS.equals(collectionGroup.getPropertyName())){
+        } else if ((lineObject instanceof CluInformation) && (collectionPath.endsWith(LUKRMSConstants.KSKRMS_PROPERTY_NAME_PROG_CLUS))) {
             //Sort the clus.
             RuleEditor ruleEditor = this.getRuleEditor(model);
-            LUPropositionEditor propEditor = (LUPropositionEditor)PropositionTreeUtil.getProposition(ruleEditor);
+            LUPropositionEditor propEditor = (LUPropositionEditor) PropositionTreeUtil.getProposition(ruleEditor);
 
             CluInformation clu = (CluInformation) lineObject;
-            if(clu.getCluId() != null){
+            if (clu.getCluId() != null) {
                 clu.setCredits(this.getCluInfoHelper().getCreditInfo(clu.getCluId()));
                 Collections.sort(propEditor.getProgramSet().getClus());
             }
-        }*/
+        }
+
     }
 
     private void completeCluSetInformation(CluSetInformation cluSet) {

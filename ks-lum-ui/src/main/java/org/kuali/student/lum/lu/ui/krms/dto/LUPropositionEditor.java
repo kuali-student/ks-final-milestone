@@ -47,7 +47,6 @@ public class LUPropositionEditor extends KSPropositionEditor {
     private TermInfo termInfo;
     private TermInfo termInfo2;
 
-    private CluSetInformation cluSets;
     private CluSetRangeWrapper cluSetRange = new CluSetRangeWrapper();
 
         private static final String CLULIST_KEY = "kuali.term.parameter.type.course.nl.clu.list";
@@ -178,14 +177,6 @@ public class LUPropositionEditor extends KSPropositionEditor {
 
     public void setTermCode2(String termCode2) {
         this.termCode2 = termCode2;
-    }
-
-    public CluSetInformation getCluSets() {
-        return cluSets;
-    }
-
-    public void setCluSets(CluSetInformation cluSets) {
-        this.cluSets = cluSets;
     }
 
     public CluSetRangeWrapper getCluSetRange() {

@@ -18,9 +18,9 @@ public class LUKRMSConstants {
     public static final String KSKRMS_DIALOG_COURSERANGE_LOOKUP = "courseRangeLookup";
 
     // Property Names
-    public static final String KSKRMS_PROPERTY_NAME_CLUS = "proposition.cluSet.clus";
-    public static final String KSKRMS_PROPERTY_NAME_CLUSETS = "proposition.cluSet.cluSets";
-    public static final String KSKRMS_PROPERTY_NAME_PROG_CLUS = "proposition.progCluSet.clus";
+    public static final String KSKRMS_PROPERTY_NAME_CLUS = "proposition.courseSet.clus";
+    public static final String KSKRMS_PROPERTY_NAME_CLUSETS = "proposition.courseSet.cluSets";
+    public static final String KSKRMS_PROPERTY_NAME_PROG_CLUS = "proposition.programSet.clus";
 
     // message keys
     public static final String KSKRMS_MSG_ERROR_APPROVED_PROGRAM_REQUIRED = "error.krms.approved.program.required";
