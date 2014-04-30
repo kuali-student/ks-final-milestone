@@ -1762,6 +1762,8 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             //dataObject.getCourseInfo().setEndTerm(course.getEndTerm());
             // dataObject.getCourseInfo().setPilotCourse(course.isPilotCourse());
 
+            dataObject.getUnitsContentOwner().clear();
+
             for (String orgId : course.getUnitsContentOwner()) {
                 CourseCreateUnitsContentOwner orgWrapper = new CourseCreateUnitsContentOwner();
                 orgWrapper.setOrgId(orgId);
@@ -1769,9 +1771,13 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 dataObject.getUnitsContentOwner().add(orgWrapper);
             }
 
+            dataObject.getInstructorWrappers().clear();
+
             for (CluInstructorInfo instructorInfo : course.getInstructors()) {
                 dataObject.getInstructorWrappers().addAll(getInstructorsById(instructorInfo.getPersonId()));
             }
+
+            dataObject.getAdministeringOrganizations().clear();
 
             for (String unitDeployment : course.getUnitsDeployment()) {
                 OrgInfo org = getOrganizationService().getOrg(unitDeployment, createContextInfo());

@@ -62,15 +62,25 @@ public class CMMaintenanceDocument extends MaintenanceDocumentBase {
         }
 
         try {
-            oldMaintainableObject = (CMMaintainable) clazz.newInstance();
-            newMaintainableObject = (CMMaintainable) clazz.newInstance();
 
-            // initialize maintainable with a data object
             Class<?> dataObjectClazz = getDocumentDictionaryService().getMaintenanceDataObjectClass(documentTypeName);
-            oldMaintainableObject.setDataObject(dataObjectClazz.newInstance());
-            oldMaintainableObject.setDataObjectClass(dataObjectClazz);
-            newMaintainableObject.setDataObject(dataObjectClazz.newInstance());
-            newMaintainableObject.setDataObjectClass(dataObjectClazz);
+
+            /**
+             * Null check needed here as DocumentServiceImpl.validateAndPersistDocument() calls this method after
+             * save. In that case, it's not needed to create a new instance.
+             */
+            if (oldMaintainableObject == null){
+                oldMaintainableObject = (CMMaintainable) clazz.newInstance();
+                oldMaintainableObject.setDataObject(dataObjectClazz.newInstance());
+                oldMaintainableObject.setDataObjectClass(dataObjectClazz);
+            }
+
+            if (newMaintainableObject == null){
+                newMaintainableObject = (CMMaintainable) clazz.newInstance();
+                newMaintainableObject.setDataObject(dataObjectClazz.newInstance());
+                newMaintainableObject.setDataObjectClass(dataObjectClazz);
+            }
+
         } catch (InstantiationException e) {
             throw new RuntimeException("Unable to initialize maintainables of type " + clazz.getName(),e);
         } catch (IllegalAccessException e) {

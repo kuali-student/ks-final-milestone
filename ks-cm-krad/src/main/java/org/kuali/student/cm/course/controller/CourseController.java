@@ -566,10 +566,6 @@ public class CourseController extends CourseRuleEditorController {
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=saveProposal")
     public ModelAndView saveProposal(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
-//        final CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
-//        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
-//
-//
 
         CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
         form.getDocument().getDocumentHeader().setDocumentDescription(courseInfoWrapper.getProposalInfo().getName());
@@ -577,15 +573,6 @@ public class CourseController extends CourseRuleEditorController {
         ModelAndView modelAndView;
 
         modelAndView = save(form, result, request, response);
-
-        /**
-         * After the save step, the uiHelper data in the CourseInfoWrapper of the form are changed.
-         * The courseInfoWrapper has the original passed in uiHelper data. We assign them to the form
-         * to have the correct uiHelper.
-         */
-        getCourseInfoWrapper(form).getUiHelper().setCurriculumSpecialistUser(courseInfoWrapper.getUiHelper().isCurriculumSpecialistUser());
-        getCourseInfoWrapper(form).getUiHelper().setUseReviewProcess(courseInfoWrapper.getUiHelper().isUseReviewProcess());
-        getCourseInfoWrapper(form).getUiHelper().setSelectedSection(courseInfoWrapper.getUiHelper().getSelectedSection());
 
         if (GlobalVariables.getMessageMap().hasErrors()) {
             return modelAndView;
