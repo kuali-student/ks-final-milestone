@@ -111,7 +111,7 @@
 
     <bean id="KS-Uif-Lookup-MaintenanceReturnLink" parent="KS-Uif-Lookup-MaintenanceReturnLink-parentBean"/>
     <bean id="KS-Uif-Lookup-MaintenanceReturnLink-parentBean" parent="Uif-Lookup-MaintenanceReturnLink">
-        <property name="linkText" value="Return Value"/>
+        <property name="linkText" value="Select"/>
     </bean>
 
     <bean id="KS-Uif-LookupView" abstract="true"
