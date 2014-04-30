@@ -29,7 +29,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <property name="dataObjectClassName" value="org.kuali.student.ap.coursesearch.dataobject.CourseDetailsWrapper"/>
         <property name="viewHelperServiceClass"
                   value="org.kuali.student.ap.coursesearch.service.impl.CourseDetailsInquiryHelperImpl2"/>
-        <property name="page.header.render" value="true"/>
+        <property name="page.header.render" value="false"/>
         <property name="header.render" value="true"/>
         <property name="footer.render" value="false"/>
         <property name="singlePageView" value="true"/>
