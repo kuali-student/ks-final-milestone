@@ -537,6 +537,11 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     @Override
     public void processAfterAddLine(ViewModel model, Object lineObject, String collectionId, String collectionPath,
                                     boolean isValidLine) {
+        if (lineObject instanceof FormatInfo) {
+            FormatInfo formatInfo = (FormatInfo)lineObject;
+            ActivityInfo activityInfo = new ActivityInfo();
+            formatInfo.getActivities().add(activityInfo);
+        }
         ((CourseRuleViewHelperServiceImpl) getRuleViewHelperService()).processAfterAddLine(model, lineObject, collectionId, collectionPath, isValidLine);
     }
 
