@@ -63,13 +63,6 @@
         <property name="cssClasses" value="ks-uif-footer" />
     </bean>
 
-    <!-- All input fields in KS should have their required Message Placement on the right. This is the '*'. Also, we should never render the colon. -->
-    <bean id="KS-Uif-InputField" parent="Uif-InputField-parentBean"
-          p:fieldLabel.renderColon="false">
-        <!-- Rice 2.4 upgrade : removing p:fieldLabel.requiredMessagePlacement="RIGHT" -->
-    </bean>
-
-
     <!-- We're overriding the KRAD bean just to add ids to it for AFT purpose. I think We have a jira
     out there at rice to seperate out the inner beans so that we can avoid copying bean defs at client apps-->
    <bean id="Uif-LookupCriteriaFooter" parent="Uif-FooterBase">
