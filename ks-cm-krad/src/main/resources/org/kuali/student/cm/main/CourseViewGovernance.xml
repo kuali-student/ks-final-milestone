@@ -78,6 +78,7 @@
                 <value>cm-collection-width</value>
                 <value>admin-not-required-field</value>
                 <value>cm_requiredMessage_sectionHeader</value>
+                <value>cm-CurriculumOversight-subtext</value>
             </list>
         </property>
         <property name="items">
