@@ -46,7 +46,9 @@ import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingC
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementToolbarUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
+import org.kuali.student.enrollment.class2.courseoffering.util.ExamOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.RegistrationGroupConstants;
+import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingContext;
 import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingResult;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -1099,13 +1101,13 @@ public class CourseOfferingManagementController extends UifControllerBase {
                                                 String selectedCollectionPath, String selectedLine) {
 
         //Retrieve the existing attribute if it exist.
-        AttributeInfo attributeInfo = CourseOfferingManagementUtil.getAttributeForKey(eoWrapper.getEoInfo().getAttributes(),
+        AttributeInfo attributeInfo = ExamOfferingManagementUtil.getAttributeForKey(eoWrapper.getEoInfo().getAttributes(),
                 ExamOfferingServiceConstants.EXAM_OFFERING_MATRIX_OVERRIDE_ATTR);
 
         if (attributeInfo != null) {
             attributeInfo.setValue(String.valueOf(eoWrapper.isOverrideMatrix()));
         } else {
-            attributeInfo = CourseOfferingManagementUtil.createAttribute(ExamOfferingServiceConstants.EXAM_OFFERING_MATRIX_OVERRIDE_ATTR,
+            attributeInfo = ExamOfferingManagementUtil.createAttribute(ExamOfferingServiceConstants.EXAM_OFFERING_MATRIX_OVERRIDE_ATTR,
                     String.valueOf(eoWrapper.isOverrideMatrix()));
             eoWrapper.getEoInfo().getAttributes().add(attributeInfo);
         }
@@ -1124,9 +1126,10 @@ public class CourseOfferingManagementController extends UifControllerBase {
                 CourseOfferingInfo courseOfferingInfo = theForm.getCurrentCourseOfferingWrapper().getCourseOfferingInfo();
                 //Only call matrix if course offering is set to use matrix.
                 if(Boolean.parseBoolean(courseOfferingInfo.getAttributeValue(CourseOfferingServiceConstants.FINAL_EXAM_USE_MATRIX))){
+                    ExamOfferingContext examOfferingContext = ExamOfferingManagementUtil.createExamOfferingContext(courseOfferingInfo, eoWrapper.getAoInfo());
                     ExamOfferingResult result = CourseOfferingManagementUtil.getExamOfferingServiceFacade().reslotExamOffering(
-                            courseOfferingInfo, eoWrapper.getAoInfo(), eoWrapper.getEoInfo(), courseOfferingInfo.getTermId(), context);
-                    CourseOfferingManagementUtil.processExamOfferingResultSet(result);
+                            eoWrapper.getEoInfo(), examOfferingContext, context);
+                    ExamOfferingManagementUtil.processExamOfferingResultSet(result);
                     slotted = true;
                 }
             }

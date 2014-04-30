@@ -108,6 +108,7 @@ public class CourseOfferingServiceTestDataLoader extends AbstractMockServicesAwa
     public static final String ENG101_LEC_ONLY_FORMAT_OFFERING_ID = "CO-2:LEC-ONLY";
     
     public static final String FALL_2012_TERM_ID = "2012FA";
+    public static final String SPRING_2012_TERM_ID = "2012SP";
     
     @Resource
     protected AcademicCalendarService acalService;
@@ -243,7 +244,7 @@ public class CourseOfferingServiceTestDataLoader extends AbstractMockServicesAwa
         // load in custom dates for use in the courses
         fall2012 = createTerm(FALL_2012_TERM_ID, "Fall 2012", AtpServiceConstants.ATP_FALL_TYPE_KEY, new DateTime().withDate(2012, 9, 1).toDate(), new DateTime().withDate(2012, 12, 31).toDate(), context);
 
-        spring2012 = createTerm("2012SP", "Spring 2012", AtpServiceConstants.ATP_SPRING_TYPE_KEY, new DateTime().withDate(2012, 1, 1).toDate(), new DateTime().withDate(2012, 4, 30).toDate(), context);
+        spring2012 = createTerm(SPRING_2012_TERM_ID, "Spring 2012", AtpServiceConstants.ATP_SPRING_TYPE_KEY, new DateTime().withDate(2012, 1, 1).toDate(), new DateTime().withDate(2012, 4, 30).toDate(), context);
     }
 
    

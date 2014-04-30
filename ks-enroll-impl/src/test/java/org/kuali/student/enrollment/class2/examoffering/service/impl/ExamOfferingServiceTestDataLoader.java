@@ -18,6 +18,7 @@ package org.kuali.student.enrollment.class2.examoffering.service.impl;
 import org.kuali.student.common.test.mock.data.AbstractMockServicesAwareDataLoader;
 import org.kuali.student.common.test.spring.log4j.KSLog4JConfigurer;
 import org.kuali.student.common.test.util.AttributeTester;
+import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceTestDataLoader;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -63,6 +64,8 @@ public class ExamOfferingServiceTestDataLoader extends AbstractMockServicesAware
 
     public static final String TERM_ONE_ID = "term1";
     public static final String PERIOD_ONE_ID = "period1";
+    public static final String PERIOD_TWO_ID = "period2";
+    public static final String PERIOD_THREE_ID = "period3";
 
     /**
      */
@@ -107,7 +110,7 @@ public class ExamOfferingServiceTestDataLoader extends AbstractMockServicesAware
             ReadOnlyException, AlreadyExistsException {
 
         //Create ExamPeriod
-        AtpInfo examPeriod = populateExamPeriod();
+        AtpInfo examPeriod = populateExamPeriod(PERIOD_ONE_ID);
         AtpInfo createdExam = atpService.createAtp(AtpServiceConstants.ATP_EXAM_PERIOD_TYPE_KEY, examPeriod, context);
 
         //Create Term
@@ -115,13 +118,32 @@ public class ExamOfferingServiceTestDataLoader extends AbstractMockServicesAware
         AtpInfo createdTerm = atpService.createAtp(AtpServiceConstants.ATP_FALL_TYPE_KEY, term, context);
 
         //Add
+        addExamPeriod(createdExam.getId(), createdTerm.getId());
+
+        AtpInfo term2012FA = atpService.getAtp(CourseOfferingServiceTestDataLoader.FALL_2012_TERM_ID, context);
+        if(term2012FA != null){
+            AtpInfo period2 = populateExamPeriod(PERIOD_TWO_ID);
+            AtpInfo created2 = atpService.createAtp(AtpServiceConstants.ATP_EXAM_PERIOD_TYPE_KEY, examPeriod, context);
+            addExamPeriod(created2.getId(), term2012FA.getId());
+        }
+
+        AtpInfo term2012SP = atpService.getAtp(CourseOfferingServiceTestDataLoader.SPRING_2012_TERM_ID, context);
+        if(term2012SP != null){
+            AtpInfo period2 = populateExamPeriod(PERIOD_THREE_ID);
+            AtpInfo created2 = atpService.createAtp(AtpServiceConstants.ATP_EXAM_PERIOD_TYPE_KEY, examPeriod, context);
+            addExamPeriod(created2.getId(), term2012SP.getId());
+        }
+    }
+
+    private void addExamPeriod(String examId, String termId) throws DoesNotExistException, DataValidationErrorException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         AtpAtpRelationInfo atpRel = new AtpAtpRelationInfo();
-        atpRel.setAtpId(createdTerm.getId());
-        atpRel.setRelatedAtpId(createdExam.getId());
+        atpRel.setAtpId(termId);
+        atpRel.setRelatedAtpId(examId);
         atpRel.setTypeKey(AtpServiceConstants.ATP_ATP_RELATION_ASSOCIATED_TERM2EXAMPERIOD_TYPE_KEY);
         atpRel.setStateKey(AtpServiceConstants.ATP_ATP_RELATION_ACTIVE_STATE_KEY);
         atpRel.setEffectiveDate(new Date());
-        atpService.createAtpAtpRelation(createdTerm.getId(), createdExam.getId(), AtpServiceConstants.ATP_ATP_RELATION_ASSOCIATED_TERM2EXAMPERIOD_TYPE_KEY,atpRel,context);
+        atpService.createAtpAtpRelation(termId, examId, AtpServiceConstants.ATP_ATP_RELATION_ASSOCIATED_TERM2EXAMPERIOD_TYPE_KEY,atpRel,context);
     }
 
     private AtpInfo populateTerm() {
@@ -139,9 +161,9 @@ public class ExamOfferingServiceTestDataLoader extends AbstractMockServicesAware
         return term;
     }
 
-    private AtpInfo populateExamPeriod (){
+    private AtpInfo populateExamPeriod (String id){
         AtpInfo examPeriod = new AtpInfo();
-        examPeriod.setId(PERIOD_ONE_ID);
+        examPeriod.setId(id);
         examPeriod.setName("testCreate");
 
         Calendar cal = Calendar.getInstance();

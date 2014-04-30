@@ -23,6 +23,7 @@ import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOffer
 import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingServiceFacade;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.mail.SimpleMailMessage;
 
@@ -35,14 +36,23 @@ import org.springframework.mail.SimpleMailMessage;
 public class ExamOfferingGenerationProcessor implements
         ItemProcessor<CourseOfferingInfo, ExamOfferingResult> {
 
+    private ContextInfo context;
+
     private ExamOfferingServiceFacade examOfferingServiceFacade;
 
     /**
      * @see org.springframework.batch.item.ItemProcessor#process(Object)
      */
     public ExamOfferingResult process(CourseOfferingInfo courseOfferingInfo) throws Exception {
-        return examOfferingServiceFacade.generateFinalExamOffering(courseOfferingInfo, courseOfferingInfo.getTermId(),null,
-                new ArrayList<String>(), ContextUtils.createDefaultContextInfo());
+        return examOfferingServiceFacade.generateFinalExamOffering(courseOfferingInfo, new ArrayList<String>(), context);
+    }
+
+    public ContextInfo getContext() {
+        return context;
+    }
+
+    public void setContext(ContextInfo context) {
+        this.context = context;
     }
 
     public ExamOfferingServiceFacade getExamOfferingServiceFacade() {

@@ -5,21 +5,7 @@
                             http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd
                             http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
 
-    <!-- stored job-meta in memory -->
-    <!--
-    <bean id="jobRepository"
-        class="org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean">
-        <property name="transactionManager" ref="transactionManager" />
-    </bean>
-      -->
-
-    <!-- stored job-meta in database -->
-    <!--bean id="jobRepository"
-        class="org.springframework.batch.core.repository.support.JobRepositoryFactoryBean">
-        <property name="dataSource" ref="dataSource" />
-        <property name="transactionManager" ref="transactionManager" />
-        <property name="databaseType" value="mysql" />
-    </bean-->
+    <import resource="eo-businesslogic-test-with-mocks-context.xml"/>
 
     <bean id="jobRepository"
           class="org.springframework.batch.core.repository.support.SimpleJobRepository">
@@ -50,7 +36,32 @@
         <property name="jobRepository" ref="jobRepository"/>
     </bean>
 
-    <!-- Job step 1 -->
+    <!-- Define a job -->
+    <job id="examOfferingSlottingJob" xmlns="http://www.springframework.org/schema/batch"
+         job-repository="jobRepository">
+        <step id="step1">
+            <tasklet transaction-manager="jobRepository-transactionManager">
+                <chunk reader="coItemReader" processor="eoGenerationProcessor" writer="eoResultWriter"
+                       commit-interval="1">
+                </chunk>
+                <listeners>
+                    <listener ref="executionListener"/>
+                </listeners>
+            </tasklet>
+        </step>
+    </job>
+    <bean id="coItemReader" class="org.kuali.student.enrollment.class2.examoffering.service.batch.CourseOfferingMockItemReader" scope="step">
+        <property name="courseOfferingService" ref="courseOfferingService"/>
+    </bean>
+
+    <bean id="eoGenerationProcessor" class="org.kuali.student.enrollment.class2.examoffering.batch.ExamOfferingGenerationProcessor" scope="step">
+        <property name="examOfferingServiceFacade" ref="examOfferingBusinessLogic"/>
+    </bean>
+
+    <bean id="eoResultWriter" class="org.kuali.student.enrollment.class2.examoffering.batch.ExamOfferingResultWriter" scope="step"/>
+
+    <bean id="executionListener" class="org.kuali.student.enrollment.class2.examoffering.batch.ContextInfoExecutionListener" scope="step"/>
+
     <bean id="jobTaskletStep1"
           class="org.kuali.student.enrollment.class2.examoffering.batch.ExamOfferingSlottingTasklet">
         <property name="message" value="Hello..."/>
@@ -60,17 +71,6 @@
           class="org.kuali.student.enrollment.class2.examoffering.batch.ExamOfferingSlottingTasklet">
         <property name="message" value="world!"/>
     </bean>
-    <!-- Define a job with two steps -->
-    <batch:job id="examOfferingSlottingJob" job-repository="jobRepository">
-        <batch:step id="step0" next="step1">
-            <batch:tasklet ref="jobTaskletStep1"
-                           transaction-manager="jobRepository-transactionManager"/>
-        </batch:step>
-        <batch:step id="step1">
-            <batch:tasklet ref="jobTaskletStep2"
-                           transaction-manager="jobRepository-transactionManager"/>
-        </batch:step>
-    </batch:job>
 
     <!-- Scheduler definition -->
     <task:scheduler id="scheduler" pool-size="5"/>

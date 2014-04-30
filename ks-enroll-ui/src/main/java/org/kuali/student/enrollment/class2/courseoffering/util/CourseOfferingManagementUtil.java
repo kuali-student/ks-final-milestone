@@ -177,7 +177,6 @@ public class CourseOfferingManagementUtil {
     private static PersonService personService;
     private static CourseSeatCountService courseSeatCountService;
     private static KrmsTypeRepositoryService krmsTypeRepositoryService;
-    private static MessageService messageService;
 
     private static HashMap<String, String> scheduleStateHm = null;
 
@@ -496,13 +495,6 @@ public class CourseOfferingManagementUtil {
         currentCOWrapper.setOwnerAliases(selectedCO.getOwnerAliases());
         form.setSubjectCode(selectedCO.getSubjectArea());
         prepare_AOs_RGs_AOCs_Lists(form, currentCOWrapper);
-    }
-
-    public static MessageService getMessageService() {
-        if (messageService == null) {
-            messageService = GlobalResourceLoader.getService("messageService");
-        }
-        return messageService;
     }
 
     public static void prepare_AOs_RGs_AOCs_Lists(CourseOfferingManagementForm form, CourseOfferingWrapper currentCOWrapper) throws Exception {
@@ -990,152 +982,4 @@ public class CourseOfferingManagementUtil {
         return scheduleStateHm;
     }
 
-    public static String examPeriodDaysDisplay(List<Integer> weekdaysList, ExamPeriodWrapper examPeriodWrapper) {
-        StringBuilder result = new StringBuilder();
-        List<Date> dates = new ArrayList<Date>();
-        dates.addAll(examPeriodWrapper.getExamPeriodDates());
-        for (Integer weekday : weekdaysList) {
-            result.append("Day " + weekday);
-            result.append(" - ");
-            result.append(DateFormatters.EXAM_OFFERING_VIEW_EXAM_OFFERING_DATE_FORMATTER.format(dates.get(weekday - 1)));
-        }
-
-        return result.toString();
-    }
-
-    public static AttributeInfo createAttribute(String key, String value) {
-        AttributeInfo newAttr = new AttributeInfo();
-        newAttr.setKey(key);
-        newAttr.setValue(value);
-        return newAttr;
-    }
-
-    public static AttributeInfo getAttributeForKey(List<AttributeInfo> attributeInfos, String key) {
-        for (AttributeInfo info : attributeInfos) {
-            if (info.getKey().equals(key)) {
-                return info;
-            }
-        }
-        return null;
-    }
-
-    public static void processExamOfferingResultSet(ExamOfferingResult result) {
-
-        Messenger messenger = (Messenger) GlobalVariables.getUserSession().retrieveObject(KSGrowlMessenger.MESSENGER_KEY);
-        if (messenger == null) {
-            messenger = new KSGrowlMessenger();
-            GlobalVariables.getUserSession().addObject(KSGrowlMessenger.MESSENGER_KEY, messenger);
-        }
-
-        processExamOfferingResult(result, messenger);
-    }
-
-    public static void processExamOfferingResultSetForAO(ExamOfferingResult result) {
-        if (ExamOfferingServiceConstants.EXAM_OFFERING_GENERATED_PER_CO.equals(result.getKey())) {
-            Messenger messenger = (Messenger) GlobalVariables.getUserSession().retrieveObject(KSGrowlMessenger.MESSENGER_KEY);
-            if (messenger == null) {
-                messenger = new KSGrowlMessenger();
-                GlobalVariables.getUserSession().addObject(KSGrowlMessenger.MESSENGER_KEY, messenger);
-            }
-            for (ExamOfferingResult examOfferingResult : result.getChildren()) {
-                messenger.addSuccessMessage(ExamOfferingConstants.EXAM_OFFERING_CO_EDIT_SUCCESS, contextMapToParameters(examOfferingResult.getContext()));
-                break;
-            }
-            return;
-        }
-        processExamOfferingResultSet(result);
-    }
-
-    public static String[] contextMapToParameters(Map<String, String> context){
-        List<String> parameters = new ArrayList<String>();
-        if(context.containsKey(CourseOfferingServiceConstants.CONTEXT_ELEMENT_COURSE_OFFERING_CODE)){
-            parameters.add(context.get(CourseOfferingServiceConstants.CONTEXT_ELEMENT_COURSE_OFFERING_CODE));
-        }
-        if(context.containsKey(CourseOfferingServiceConstants.CONTEXT_ELEMENT_ACTIVITY_OFFERING_CODE)){
-            parameters.add(context.get(CourseOfferingServiceConstants.CONTEXT_ELEMENT_ACTIVITY_OFFERING_CODE));
-        }
-        return parameters.toArray(new String[parameters.size()]);
-    }
-
-    public static void processExamOfferingResult(ExamOfferingResult result, Messenger messenger) {
-
-        if (ExamOfferingServiceConstants.EXAM_OFFERING_CREATED.equals(result.getKey())) {
-            if (!processExamOfferingSubResult(result.getChildren(), result, messenger)) {
-                if(result.getContext().containsKey(CourseOfferingServiceConstants.CONTEXT_ELEMENT_ACTIVITY_OFFERING_CODE)){
-                    messenger.addSuccessMessage(ExamOfferingConstants.EXAM_OFFERING_AO_CREATE_SUCCESS, contextMapToParameters(result.getContext()));
-                } else {
-                    messenger.addSuccessMessage(ExamOfferingConstants.EXAM_OFFERING_CO_CREATE_SUCCESS, contextMapToParameters(result.getContext()));
-                }
-            }
-            return;
-        } else if (ExamOfferingServiceConstants.EXAM_OFFERING_UPDATED.equals(result.getKey())) {
-            if (processExamOfferingSubResult(result.getChildren(), result, messenger)) {
-                if(result.getContext().containsKey(CourseOfferingServiceConstants.CONTEXT_ELEMENT_ACTIVITY_OFFERING_CODE)){
-                    messenger.addSuccessMessage(ExamOfferingConstants.EXAM_OFFERING_AO_EDIT_SUCCESS, contextMapToParameters(result.getContext()));
-                } else {
-                    messenger.addSuccessMessage(ExamOfferingConstants.EXAM_OFFERING_CO_EDIT_SUCCESS, contextMapToParameters(result.getContext()));
-                }
-            }
-            return;
-        } else if (ExamOfferingServiceConstants.EXAM_OFFERING_UNCHANGED.equals(result.getKey())) {
-            processExamOfferingSubResult(result.getChildren(), result, messenger);
-        } else if (ExamOfferingServiceConstants.EXAM_OFFERING_EXAM_PERIOD_NOT_FOUND.equals(result.getKey())) {
-            messenger.addErrorMessage(ExamOfferingConstants.EXAM_OFFERING_EXAM_PERIOD_NOT_FOUND, contextMapToParameters(result.getContext()));
-        }
-
-        for (ExamOfferingResult child : result.getChildren()) {
-            processExamOfferingResult(child, messenger);
-        }
-
-    }
-
-    public static boolean processExamOfferingSubResult(List<ExamOfferingResult> results, ExamOfferingResult parent, Messenger messenger) {
-        String subResultKey = getExamOfferingSubResultKey(results, parent, messenger);
-        if(subResultKey!=null){
-            messenger.addWarningMessage(subResultKey, contextMapToParameters(parent.getContext()));
-            return true;
-        }
-        return false;
-    }
-
-    public static String getExamOfferingSubResultKey(List<ExamOfferingResult> results, ExamOfferingResult parent, Messenger messenger) {
-
-        for (ExamOfferingResult result : results) {
-            if (ExamOfferingServiceConstants.EXAM_OFFERING_CREATED.equals(parent.getKey())) {
-                if (ExamOfferingServiceConstants.EXAM_OFFERING_AO_MATRIX_MATCH_NOT_FOUND.equals(result.getKey())) {
-                    return ExamOfferingConstants.EXAM_OFFERING_CREATED_AO_MATRIX_MATCH_NOT_FOUND;
-                } else if (ExamOfferingServiceConstants.EXAM_OFFERING_CO_MATRIX_MATCH_NOT_FOUND.equals(result.getKey())) {
-                    return ExamOfferingConstants.EXAM_OFFERING_CREATED_CO_MATRIX_MATCH_NOT_FOUND;
-                } else if (ExamOfferingServiceConstants.EXAM_OFFERING_MATRIX_NOT_FOUND.equals(result.getKey())) {
-                    return ExamOfferingConstants.EXAM_OFFERING_CREATED_MATRIX_NOT_FOUND;
-                } else if (ExamOfferingServiceConstants.EXAM_OFFERING_ACTIVITY_OFFERING_TIMESLOTS_NOT_FOUND.equals(result.getKey())) {
-                    return ExamOfferingConstants.EXAM_OFFERING_CREATED_ACTIVITY_OFFERING_TIMESLOTS_NOT_FOUND;
-                }
-            } else if (ExamOfferingServiceConstants.EXAM_OFFERING_UPDATED.equals(parent.getKey())) {
-                if (ExamOfferingServiceConstants.EXAM_OFFERING_AO_MATRIX_MATCH_NOT_FOUND.equals(result.getKey())) {
-                    return ExamOfferingConstants.EXAM_OFFERING_UPDATED_AO_MATRIX_MATCH_NOT_FOUND;
-                } else if (ExamOfferingServiceConstants.EXAM_OFFERING_CO_MATRIX_MATCH_NOT_FOUND.equals(result.getKey())) {
-                    return ExamOfferingConstants.EXAM_OFFERING_UPDATED_CO_MATRIX_MATCH_NOT_FOUND;
-                } else if (ExamOfferingServiceConstants.EXAM_OFFERING_MATRIX_NOT_FOUND.equals(result.getKey())) {
-                    return ExamOfferingConstants.EXAM_OFFERING_UPDATED_MATRIX_NOT_FOUND;
-                } else if (ExamOfferingServiceConstants.EXAM_OFFERING_ACTIVITY_OFFERING_TIMESLOTS_NOT_FOUND.equals(result.getKey())) {
-                    return ExamOfferingConstants.EXAM_OFFERING_UPDATED_ACTIVITY_OFFERING_TIMESLOTS_NOT_FOUND;
-                }
-            } else {
-                if (ExamOfferingServiceConstants.EXAM_OFFERING_AO_MATRIX_MATCH_NOT_FOUND.equals(result.getKey())) {
-                    return ExamOfferingConstants.EXAM_OFFERING_AO_MATRIX_MATCH_NOT_FOUND;
-                } else if (ExamOfferingServiceConstants.EXAM_OFFERING_CO_MATRIX_MATCH_NOT_FOUND.equals(result.getKey())) {
-                    return ExamOfferingConstants.EXAM_OFFERING_CO_MATRIX_MATCH_NOT_FOUND;
-                } else if (ExamOfferingServiceConstants.EXAM_OFFERING_MATRIX_NOT_FOUND.equals(result.getKey())) {
-                    return ExamOfferingConstants.EXAM_OFFERING_MATRIX_NOT_FOUND;
-                } else if (ExamOfferingServiceConstants.EXAM_OFFERING_ACTIVITY_OFFERING_TIMESLOTS_NOT_FOUND.equals(result.getKey())) {
-                    return ExamOfferingConstants.EXAM_OFFERING_ACTIVITY_OFFERING_TIMESLOTS_NOT_FOUND;
-                }
-            }
-
-        }
-
-        return null;
-
-    }
 }

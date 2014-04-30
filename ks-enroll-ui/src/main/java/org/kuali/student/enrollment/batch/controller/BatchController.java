@@ -18,6 +18,7 @@ package org.kuali.student.enrollment.batch.controller;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.batch.BatchScheduler;
 import org.kuali.student.enrollment.batch.util.BatchSchedulerConstants;
 import org.kuali.student.enrollment.batch.form.BatchForm;
@@ -62,7 +63,7 @@ public class BatchController extends UifControllerBase {
         KSDateTimeFormatter dateTimeFormatter = DateFormatters.MONTH_DAY_YEAR_TIME_DATE_FORMATTER;
         Date dateAndTime = dateTimeFormatter.parse(date + " " + form.getStartTime() + " " + form.getStartTimeAmPm());
 
-        this.getBatchScheduler().schedule("kuali.batch.job.examOffering.slotting", null, dateAndTime);
+        this.getBatchScheduler().schedule("kuali.batch.job.examOffering.slotting", null, dateAndTime, ContextUtils.createDefaultContextInfo());
         return super.navigate(form, result, request, response);
     }
 

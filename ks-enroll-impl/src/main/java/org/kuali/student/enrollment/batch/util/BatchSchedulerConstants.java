@@ -13,7 +13,11 @@ public class BatchSchedulerConstants {
     public static final String SERVICE_NAME_LOCAL_PART = "BatchScheduler";
     public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "batch";
 
-    public static final String BATCH_PARAMETER_START_TIME = "kuali.batch.startTime";
+    public static final String BATCH_PARAMETER_CONTEXT = "kuali.batch.context";
+    public static final String BATCH_PARAMETER_START_TIME = "kuali.batch.start.time";
+    public static final String BATCH_PARAMETER_USER_ID = "kuali.batch.user.id";
+    public static final String BATCH_PARAMETER_LANGUAGE = "kuali.batch.language";
+    public static final String BATCH_PARAMETER_COUNTRY = "kuali.batch.country";
 
     //Exam Offering slotting batch.
     public static final String BATCH_JOB_EXAM_OFFERING_SLOTTING = "kuali.batch.job.examOffering.slotting";

@@ -5,14 +5,6 @@
                             http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd
                             http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
 
-    <!-- stored job-meta in memory -->
-    <!--
-    <bean id="jobRepository"
-        class="org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean">
-        <property name="transactionManager" ref="transactionManager" />
-    </bean>
-      -->
-
     <!-- stored job-meta in database -->
     <!--bean id="jobRepository"
         class="org.springframework.batch.core.repository.support.JobRepositoryFactoryBean">
@@ -21,23 +13,40 @@
         <property name="databaseType" value="mysql" />
     </bean-->
 
+    <bean id="jobInstanceDao" class="org.springframework.batch.core.repository.dao.MapJobInstanceDao"/>
+    <bean id="jobExecutionDao" class="org.springframework.batch.core.repository.dao.MapJobExecutionDao"/>
+    <bean id="stepExecutionDao" class="org.springframework.batch.core.repository.dao.MapStepExecutionDao"/>
+    <bean id="executionContextDao" class="org.springframework.batch.core.repository.dao.MapExecutionContextDao"/>
+
     <bean id="jobRepository"
           class="org.springframework.batch.core.repository.support.SimpleJobRepository">
         <constructor-arg>
-            <bean
-                    class="org.springframework.batch.core.repository.dao.MapJobInstanceDao"/>
+            <ref bean="jobInstanceDao"/>
         </constructor-arg>
         <constructor-arg>
-            <bean
-                    class="org.springframework.batch.core.repository.dao.MapJobExecutionDao"/>
+            <ref bean="jobExecutionDao"/>
         </constructor-arg>
         <constructor-arg>
-            <bean
-                    class="org.springframework.batch.core.repository.dao.MapStepExecutionDao"/>
+            <ref bean="stepExecutionDao"/>
         </constructor-arg>
         <constructor-arg>
-            <bean
-                    class="org.springframework.batch.core.repository.dao.MapExecutionContextDao"/>
+            <ref bean="executionContextDao"/>
+        </constructor-arg>
+    </bean>
+
+    <bean id="jobExplorer"
+          class="org.springframework.batch.core.explore.support.SimpleJobExplorer">
+        <constructor-arg>
+            <ref bean="jobInstanceDao"/>
+        </constructor-arg>
+        <constructor-arg>
+            <ref bean="jobExecutionDao"/>
+        </constructor-arg>
+        <constructor-arg>
+            <ref bean="stepExecutionDao"/>
+        </constructor-arg>
+        <constructor-arg>
+            <ref bean="executionContextDao"/>
         </constructor-arg>
     </bean>
 
@@ -54,7 +63,7 @@
     <job id="examOfferingSlottingJob" xmlns="http://www.springframework.org/schema/batch"
          job-repository="jobRepository">
         <step id="step1">
-            <tasklet>
+            <tasklet transaction-manager="jobRepository-transactionManager">
                 <chunk reader="coItemReader" processor="eoGenerationProcessor" writer="eoResultWriter"
                     commit-interval="1">
                 </chunk>
@@ -72,12 +81,17 @@
     </bean>
 
     <bean id="eoGenerationProcessor" class="org.kuali.student.enrollment.class2.examoffering.batch.ExamOfferingGenerationProcessor" scope="step">
+        <property name="context" value="#{stepExecutionContext['kuali.batch.context']}" />
         <property name="examOfferingServiceFacade" ref="examOfferingServiceFacade"/>
     </bean>
 
     <bean id="eoResultWriter" class="org.kuali.student.enrollment.class2.examoffering.batch.ExamOfferingResultWriter" scope="step"/>
 
-    <bean id="executionListener" class="org.kuali.student.enrollment.class2.examoffering.batch.StepExecutionListener" />
+    <bean id="executionListener" class="org.kuali.student.enrollment.class2.examoffering.batch.ContextInfoExecutionListener" scope="step">
+        <property name="userId" value="#{jobParameters['kuali.batch.user.id']}" />
+        <property name="language" value="#{jobParameters['kuali.batch.language']}" />
+        <property name="country" value="#{jobParameters['kuali.batch.country']}" />
+    </bean>
 
     <!-- Scheduler definition -->
     <task:scheduler id="scheduler" pool-size="5"/>
@@ -85,6 +99,7 @@
     <bean id="batchScheduler" class="org.kuali.student.enrollment.batch.impl.BatchSchedulerImpl">
         <property name="scheduler" ref="scheduler"/>
         <property name="jobLauncher" ref="jobLauncher"/>
+        <property name="jobExplorer" ref="jobExplorer"/>
         <property name="jobMap">
             <map>
                 <entry key="kuali.batch.job.examOffering.slotting" value-ref="examOfferingSlottingJob"/>

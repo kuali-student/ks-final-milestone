@@ -32,6 +32,8 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrap
 import org.kuali.student.enrollment.class2.courseoffering.service.facade.ActivityOfferingResult;
 import org.kuali.student.enrollment.class2.courseoffering.util.*;
 import org.kuali.student.common.util.ContextBuilder;
+import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingContext;
+import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingResult;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -41,6 +43,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.core.class1.search.CourseOfferingManagementSearchImpl;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -99,8 +102,14 @@ public class ActivityOfferingClusterHandler {
             //determine which growl message to display
             KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_ADD_1_SUCCESS);
 
+            //create if Final Exam Driver has been selected for the FO
+            ExamOfferingContext examOfferingContext = ExamOfferingManagementUtil.createExamOfferingContext(form.getCurrentCourseOfferingWrapper().getCourseOfferingInfo(),
+                    aoResult.getCreatedActivityOffering());
+            ExamOfferingResult result = CourseOfferingManagementUtil.getExamOfferingServiceFacade().generateFinalExamOffering(examOfferingContext,
+                    new ArrayList<String>(), ContextUtils.createDefaultContextInfo());
+
             //Display the Exam Offering generation results.
-            CourseOfferingManagementUtil.processExamOfferingResultSet(aoResult.getExamOfferingResult());
+            ExamOfferingManagementUtil.processExamOfferingResultSetForAO(result);
             KSUifUtils.getMessengerFromUserSession().publishMessages();
 
         } catch (Exception e) {

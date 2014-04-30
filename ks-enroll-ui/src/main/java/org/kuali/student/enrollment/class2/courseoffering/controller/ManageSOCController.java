@@ -23,6 +23,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.uif.util.KSControllerHelper;
+import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.batch.BatchScheduler;
 import org.kuali.student.enrollment.batch.dto.BatchParameter;
 import org.kuali.student.enrollment.batch.util.BatchSchedulerConstants;
@@ -264,7 +265,7 @@ public class ManageSOCController extends UifControllerBase {
 
         List<BatchParameter> parameters = new ArrayList<BatchParameter>();
         parameters.add(new BatchParameter("kuali.batch.socId", socForm.getSocInfo().getId()));
-        this.getBatchScheduler().schedule("kuali.batch.job.examOffering.slotting", parameters, dateAndTime);
+        this.getBatchScheduler().schedule("kuali.batch.job.examOffering.slotting", parameters, dateAndTime, ContextUtils.createDefaultContextInfo());
         return super.navigate(socForm, result, request, response);
     }
 
