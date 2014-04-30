@@ -864,11 +864,12 @@ public class CourseController extends CourseRuleEditorController {
         return getUIFModelAndView(form);
     }
 
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=refreshCourseLogistics")
     protected ModelAndView refreshCourseLogistics(final @ModelAttribute("KualiForm") MaintenanceDocumentForm form,
-                                                   final BindingResult result,
-                                                   final HttpServletRequest request,
-                                                   final HttpServletResponse response) {
+                                                  final BindingResult result,
+                                                  final HttpServletRequest request,
+                                                  final HttpServletResponse response) {
         LOG.info("Adding a unitsContentOwner");
         CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
 
