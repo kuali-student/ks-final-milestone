@@ -153,10 +153,43 @@ function updateExamDriverInFOTable(finalExamDropDownId, finalExamTableCellId, pa
     }
 }
 
-function retrieveDeliveryFormatsComponent(id1, id2, finalExamType) {
-     retrieveComponent(id1, undefined);
-     if (finalExamType == "STANDARD") {
-        retrieveComponent(id2, undefined);
-      }
+function retrieveDeliveryFormatsComponent(event, baseUrl, id1, id2, finalExamType, readOnly) {
+    //retrieveComponent(id1, undefined);
+    if(!readOnly){
+        ajaxGetValuePair(event, baseUrl, id1, 'ajaxGetGradeRosterLevelTypes');
+    }
+    if (finalExamType == "STANDARD") {
+        //retrieveComponent(id2, undefined);
+        updateExamDriverInFOTable('KS-CourseOfferingEdit-FinalExamDriver', 'final_exam_driver_ui', readOnly);
+        if(!readOnly){
+            ajaxGetValuePair(event, baseUrl, id2, 'ajaxGetFinalExamDriverTypes');
+        }
+    }
 
+}
+
+function ajaxGetValuePair(event, baseUrl, selectToUpdate, methodToCall) {
+    var selectedFormat = jQuery(event.target).val();
+    var formData = jQuery('#kualiForm').serialize() + '&' + jQuery.param({formatId: selectedFormat});
+    var targetUrl = baseUrl + "/kr-krad/courseOfferingCreate?methodToCall=" + methodToCall;
+    jQuery.ajax({
+        dataType: "json",
+        url: targetUrl,
+        type: "POST",
+        data: formData,
+        success: function (data, textStatus, jqXHR) {
+            jQuery('#' + selectToUpdate + '_control').find('option').remove().end();
+            jQuery('#' + selectToUpdate + '_control').removeAttr("disabled");
+            for (var i = 0; i < data.length; i++ ) {
+                var newOption = jQuery('<option>' + data[i].value + '</option>');
+                newOption.attr('value', data[i].key);
+                jQuery('#' + selectToUpdate + '_control').append(newOption);
+            }
+        },
+        error: function (jqXHR, status, error) {
+            if (console) {
+                console.log("Error Occured...............");
+            }
+        }
+    });
 }
