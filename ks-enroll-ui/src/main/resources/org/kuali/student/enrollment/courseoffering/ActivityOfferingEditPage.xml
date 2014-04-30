@@ -466,7 +466,7 @@
                         <list>
                             <bean id="ActivityOfferingEdit-HasWaitlist" parent="KS-Uif-InputField" p:propertyName="hasWaitlist">
                                 <property name="control">
-                                    <bean parent="KS-Uif-CheckboxControl" />
+                                    <bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="Waitlist Active" />
                                 </property>
                             </bean>
                         </list>
@@ -513,7 +513,7 @@
                                                 <list>
                                                     <bean parent="KS-Uif-InputField" p:propertyName="limitWaitlistSize">
                                                         <property name="control">
-                                                            <bean parent="KS-Uif-CheckboxControl" />
+                                                            <bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="Limit Waitlist Size" />
                                                         </property>
                                                     </bean>
                                                     <bean  id="limit_waitlist_size_text" parent="KS-Uif-InputField" p:required="true" p:inclusiveMax="999" p:exclusiveMin="0" p:dataType="INTEGER"
@@ -527,7 +527,7 @@
                                         </bean>
                                         <bean parent="KS-Uif-InputField" p:id="allow-hold-list-checkbox" p:propertyName="courseWaitListInfo.allowHoldUntilEntries">
                                             <property name="control">
-                                                <bean parent="KS-Uif-CheckboxControl" />
+                                                <bean parent="KS-Uif-CheckboxControl"  p:checkboxLabel="Allow Hold List" />
                                             </property>
                                         </bean>
                                     </list>
@@ -677,7 +677,7 @@
                                   p:propertyName="aoInfo.isEvaluated"
                                   p:required="false">
                                 <property name="control">
-                                    <bean parent="KS-Uif-CheckboxControl"/>
+                                    <bean parent="KS-Uif-CheckboxControl"  p:checkboxLabel="This lecture requires an evaluation" />
                                 </property>
                             </bean>
                         </list>
@@ -694,7 +694,7 @@
                                   p:propertyName="aoInfo.isHonorsOffering"
                                   p:required="false">
                                 <property name="control">
-                                    <bean parent="KS-Uif-CheckboxControl"/>
+                                    <bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="This is an honors course" />
                                 </property>
                             </bean>
                         </list>

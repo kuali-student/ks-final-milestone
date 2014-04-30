@@ -151,7 +151,7 @@
                                       p:render="@{#dp.canNonStandardTimeslotsBeApproved}">
 
                                     <property name="control">
-                                        <bean parent="KS-Uif-CheckboxControl"/>
+                                        <bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="Approved for non-standard time slots" />
                                     </property>
                                 </bean>
                             </list>
@@ -202,7 +202,7 @@
             <list>
                 <bean id="rdl_tba" parent="KS-Uif-InputField" p:propertyName="newScheduleRequest.tba" p:onClickScript="tbaOnClick();" p:additionalCssClasses="ks-manage-scheduling-request-form-field-top-aligned">
                     <property name="control">
-                        <bean parent="KS-Uif-CheckboxControl"/>
+                        <bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="TBA" />
                     </property>
                 </bean>
                 <bean id="rdl_days" parent="KS-Uif-InputField-LabelTop" p:label="Days" p:propertyName="newScheduleRequest.days" p:uppercaseValue="true">
