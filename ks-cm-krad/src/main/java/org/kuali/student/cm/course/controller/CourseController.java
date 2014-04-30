@@ -578,6 +578,11 @@ public class CourseController extends CourseRuleEditorController {
 
         modelAndView = save(form, result, request, response);
 
+        /**
+         * After the save step, the uiHelper data in the CourseInfoWrapper of the form are changed.
+         * The courseInfoWrapper has the original passed in uiHelper data. We assign them to the form
+         * to have the correct uiHelper.
+         */
         getCourseInfoWrapper(form).getUiHelper().setCurriculumSpecialistUser(courseInfoWrapper.getUiHelper().isCurriculumSpecialistUser());
         getCourseInfoWrapper(form).getUiHelper().setUseReviewProcess(courseInfoWrapper.getUiHelper().isUseReviewProcess());
         getCourseInfoWrapper(form).getUiHelper().setSelectedSection(courseInfoWrapper.getUiHelper().getSelectedSection());
