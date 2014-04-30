@@ -56,7 +56,15 @@
 		<property name="items">
 			<list merge="true">
 				<bean parent="planner_course_code_input" />
- 				<bean parent="planner_course_credit_input" />
+ 				<bean parent="planner_course_credit_input">
+                     <property name="render" value="true"/>
+                     <property name="control">
+                         <bean parent="Uif-TextControl"/>
+                     </property>
+                     <property name="optionsFinder">
+                         <null/>
+                     </property>
+ 				</bean>
 				<bean parent="planner_course_note_input" />
                 <bean parent="planner_hidden_input" p:propertyName="backup" />
 			</list>
