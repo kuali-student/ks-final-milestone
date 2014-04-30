@@ -157,6 +157,9 @@ public abstract class AbstractPlanItemForm extends UifFormBase implements PlanIt
 
 	@Override
 	public String getUniqueId() {
+        if(this.uniqueId==null){
+            this.setUniqueId("");
+        }
 		return uniqueId;
 	}
 
