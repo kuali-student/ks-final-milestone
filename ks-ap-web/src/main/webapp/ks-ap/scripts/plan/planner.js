@@ -52,7 +52,6 @@ function ksapInitializePlannerItems(pageSize) {
 			}
 		});
 	}
-    registerClosePopups();
 }
 
 /**
@@ -356,18 +355,6 @@ function ksapPlannerUpdateTermNote (data) {
         jQuery("#"+data.uniqueId+"_termNote").attr("src","../ks-ap/images/iconInfo.png");
     }
 
-}
-
-/**
- * Registers an event handler clicking on the page to close tooltips unless the target is suppose to open one instead.
- */
-function registerClosePopups(){
-    jQuery(document).on('click', function (e) {
-        var tempTarget = (e.target) ? e.target : e.srcElement;
-        if (jQuery(tempTarget).parents("div.uif-tooltip").length === 0) {
-            hideBubblePopups();
-        }
-    });
 }
 
 /**

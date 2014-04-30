@@ -71,20 +71,16 @@
         </property>
     </bean>
 
-    <bean id="KSAP-Planner-Tooltip" parent="KSAP-Tooltip">
-        <property name="onFocus" value="false"/>
-        <property name="onMouseHover" value="false"/>
-    </bean>
-    <bean id="academic_record_help_tooltip" parent="KSAP-Planner-Tooltip" p:tooltipContent="@{#line.completed ? 'A completed term you registered for.' : 'A course you have enrolled in for current or future academic term(s).'}"/>
-    <bean id="cart_help_tooltip" parent="KSAP-Planner-Tooltip" p:tooltipContent="Items in the cart are those you have selected to register for but have not been submitted for registration yet."/>
-    <bean id="planned_help_tooltip" parent="KSAP-Planner-Tooltip" p:tooltipContent="A course you added to your plan for a specific term, but have not or cannot yet register for. KSAP allows you to create an academic plan, but does not register you.  Check the Time Schedule to verify that your planned courses will be offered that term."/>
-    <bean id="backup_help_tooltip" parent="KSAP-Planner-Tooltip" p:tooltipContent="A course you&#39;re considering in case a planned course is not available or is full."/>
-    <bean id="total_credits_help_tooltip" parent="KSAP-Planner-Tooltip" p:tooltipContent="The total number of credits attempted for a completed term. Check your transcript to verify earned credits."/>
-    <bean id="recent_audits_help_tooltip" parent="KSAP-Planner-Tooltip" p:tooltipContent="Displays the last seven audits run through KSAP. Audits are cleared at the end of each term."/>
-    <bean id="bookmarks_help_tooltip" parent="KSAP-Planner-Tooltip" p:tooltipContent="Bookmark a course to save it for future planning. The course remains in your bookmarks until you've added it to your Plan or deleted it."/>
-    <bean id="quarter_facet_help_tooltip" parent="KSAP-Planner-Tooltip" p:tooltipContent="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_TERMS_TOOLTIP_TEXT')}"/>
-    <bean id="details_course_req_tooltip" parent="KSAP-Planner-Tooltip" p:tooltipContent="Restrictions or conditions that may limit your ability to enroll in a course."/>
-    <bean id="details_scheduled_terms_tooltip" parent="KSAP-Planner-Tooltip" p:tooltipContent="Current and all future terms for which the course is offered."/>
-    <bean id="details_projected_terms_tooltip" parent="KSAP-Planner-Tooltip" p:tooltipContent="Terms when a course may be offered. This is not a guarantee that the course will be offered within the specified terms."/>
-    <bean id="details_gened_tooltip" parent="KSAP-Planner-Tooltip" p:tooltipContent="Foundational courses defined by the university that you must complete in order to fulfill your degree."/>
+    <bean id="academic_record_help_tooltip" parent="KSAP-Tooltip" p:tooltipContent="@{#line.completed ? 'A completed term you registered for.' : 'A course you have enrolled in for current or future academic term(s).'}"/>
+    <bean id="cart_help_tooltip" parent="KSAP-Tooltip" p:tooltipContent="Items in the cart are those you have selected to register for but have not been submitted for registration yet."/>
+    <bean id="planned_help_tooltip" parent="KSAP-Tooltip" p:tooltipContent="A course you added to your plan for a specific term, but have not or cannot yet register for. KSAP allows you to create an academic plan, but does not register you.  Check the Time Schedule to verify that your planned courses will be offered that term."/>
+    <bean id="backup_help_tooltip" parent="KSAP-Tooltip" p:tooltipContent="A course you&#39;re considering in case a planned course is not available or is full."/>
+    <bean id="total_credits_help_tooltip" parent="KSAP-Tooltip" p:tooltipContent="The total number of credits attempted for a completed term. Check your transcript to verify earned credits."/>
+    <bean id="recent_audits_help_tooltip" parent="KSAP-Tooltip" p:tooltipContent="Displays the last seven audits run through KSAP. Audits are cleared at the end of each term."/>
+    <bean id="bookmarks_help_tooltip" parent="KSAP-Tooltip" p:tooltipContent="Bookmark a course to save it for future planning. The course remains in your bookmarks until you've added it to your Plan or deleted it."/>
+    <bean id="quarter_facet_help_tooltip" parent="KSAP-Tooltip" p:tooltipContent="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_TERMS_TOOLTIP_TEXT')}"/>
+    <bean id="details_course_req_tooltip" parent="KSAP-Tooltip" p:tooltipContent="Restrictions or conditions that may limit your ability to enroll in a course."/>
+    <bean id="details_scheduled_terms_tooltip" parent="KSAP-Tooltip" p:tooltipContent="Current and all future terms for which the course is offered."/>
+    <bean id="details_projected_terms_tooltip" parent="KSAP-Tooltip" p:tooltipContent="Terms when a course may be offered. This is not a guarantee that the course will be offered within the specified terms."/>
+    <bean id="details_gened_tooltip" parent="KSAP-Tooltip" p:tooltipContent="Foundational courses defined by the university that you must complete in order to fulfill your degree."/>
 </beans>

@@ -46,7 +46,6 @@
 		<property name="layoutManager">
 			<bean parent="Uif-HorizontalBoxLayout" />
 		</property>
-        <property name="onDocumentReadyScript" value="registerClosePopups();"/>
 		<property name="items">
 			<list>
                 <bean p:id="searchValidationMessages" parent="Uif-HorizontalBoxGroup">

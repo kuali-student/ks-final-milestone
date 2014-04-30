@@ -628,18 +628,6 @@ function buildHoverText(obj) {
 }
 
 /**
- * Registers event to close tooltip popup when clicking on something other than a toolips
- */
-function registerClosePopups(){
-    jQuery(document).on('click', function (e) {
-        var tempTarget = (e.target) ? e.target : e.srcElement;
-        if (jQuery(tempTarget).parents("div.uif-tooltip").length === 0) {
-            hideBubblePopups();
-        }
-    });
-}
-
-/**
  * Bookmarks a course using an ajax call to the controller and growl message response
  *
  * @param courseid - Id of the course being bookmarked
