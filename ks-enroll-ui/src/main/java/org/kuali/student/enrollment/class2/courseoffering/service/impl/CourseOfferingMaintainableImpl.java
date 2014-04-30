@@ -27,12 +27,15 @@ import org.kuali.rice.krad.uif.component.BindingInfo;
 import org.kuali.rice.krad.uif.control.SelectControl;
 import org.kuali.rice.krad.uif.field.InputField;
 import org.kuali.rice.krad.uif.view.ViewModel;
+import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
+import org.kuali.student.common.uif.form.KSUifMaintenanceDocumentForm;
 import org.kuali.student.common.uif.service.impl.KSMaintainableImpl;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -206,6 +209,21 @@ public abstract class CourseOfferingMaintainableImpl extends KSMaintainableImpl 
 
     }
 
+    @SuppressWarnings("unused")
+    public  List<KeyValue> getGradeRosterLevelTypes(String formatId, MaintenanceDocumentForm form){
+        CourseOfferingWrapper wrapper = (CourseOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
+        CourseInfo courseInfo = wrapper.getCourse();
+
+        List<KeyValue> gradeKeyValues = new ArrayList<KeyValue>();
+
+        if (StringUtils.isNotBlank(formatId) && courseInfo != null){
+            gradeKeyValues.addAll(collectActivityTypeKeyValues(courseInfo, formatId, CourseOfferingManagementUtil.getTypeService(), ContextUtils.createDefaultContextInfo()));
+            // Always include an option for Course as last option
+            gradeKeyValues.add(new ConcreteKeyValue(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, getTypeName(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY)));
+        }
+        return gradeKeyValues;
+    }
+
     /**
      * This method is being called by KRAD to populate final exam driver types drop down.
      *
@@ -267,6 +285,19 @@ public abstract class CourseOfferingMaintainableImpl extends KSMaintainableImpl 
 
         control.setOptions(keyValues);
 
+    }
+
+    public List<KeyValue> getFinalExamDriverTypes(String formatId, MaintenanceDocumentForm form) throws Exception {
+        CourseOfferingWrapper wrapper = (CourseOfferingWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
+        CourseInfo courseInfo = wrapper.getCourse();
+
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        CourseOfferingEditWrapper courseOfferingEditWrapper;
+        if (StringUtils.isNotBlank(formatId) && courseInfo != null) {
+            keyValues.addAll(collectActivityTypeKeyValues(courseInfo, formatId, CourseOfferingManagementUtil.getTypeService(), ContextUtils.createDefaultContextInfo()));
+       }
+
+        return keyValues;
     }
 
     protected List<KeyValue> collectActivityTypeKeyValues(CourseInfo course, String formatId, TypeService typeService, ContextInfo contextInfo) {

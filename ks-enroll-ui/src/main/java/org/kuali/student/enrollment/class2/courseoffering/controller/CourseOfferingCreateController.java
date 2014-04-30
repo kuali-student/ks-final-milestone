@@ -16,20 +16,26 @@
 package org.kuali.student.enrollment.class2.courseoffering.controller;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.common.uif.form.KSUifMaintenanceDocumentForm;
 import org.kuali.student.common.uif.util.KSControllerHelper;
 import org.kuali.student.common.uif.util.KSUifUtils;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.JointCourseWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCreateMaintainableImpl;
+import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingEditMaintainableImpl;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.ExamOfferingManagementUtil;
@@ -37,20 +43,24 @@ import org.kuali.student.enrollment.class2.courseoffering.util.ManageSocConstant
 import org.kuali.student.enrollment.class2.courseofferingset.util.CourseOfferingSetUtil;
 import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingResult;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -128,6 +138,42 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
         }
 
         return handleRouteForCoCreate( form );
+    }
+
+    @MethodAccessible
+    @RequestMapping(params = "methodToCall=ajaxGetFinalExamDriverTypes")
+    public
+    @ResponseBody
+    List<KeyValue> ajaxGetFinalExamDriverTypes(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
+                                    HttpServletRequest request, HttpServletResponse response) {
+
+        List<KeyValue> keyValueList = null;
+        try {
+            String formatId = request.getParameter("formatId");
+            CourseOfferingEditMaintainableImpl maintainable = (CourseOfferingEditMaintainableImpl) KSControllerHelper.getViewHelperService(form);
+            keyValueList = maintainable.getFinalExamDriverTypes(formatId, form);
+        } catch (Exception e) {
+            // add error handling to the code
+        }
+        return keyValueList;
+    }
+
+    @MethodAccessible
+    @RequestMapping(params = "methodToCall=ajaxGetGradeRosterLevelTypes")
+    public
+    @ResponseBody
+    List<KeyValue> ajaxGetGradeRosterLevelTypes(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
+                                    HttpServletRequest request, HttpServletResponse response) {
+
+        List<KeyValue> keyValueList = null;
+        try {
+            String formatId = request.getParameter("formatId");
+            CourseOfferingEditMaintainableImpl maintainable = (CourseOfferingEditMaintainableImpl) KSControllerHelper.getViewHelperService(form);
+            keyValueList = maintainable.getGradeRosterLevelTypes(formatId, form);
+        } catch (Exception e) {
+            // add error handling to the code
+        }
+        return keyValueList;
     }
 
     /* Returns a ModelAndView for the route()-method to return a new view if we are creating a CO */
