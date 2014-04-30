@@ -58,7 +58,7 @@ public class KSPersonLookupableImpl extends PersonLookupableImpl{
         }
 
         //Search result should be only PERSON, not any other types (SYSTEM etc.)
-        searchCriteria.put(KIMPropertyConstants.Entity.ENTITY_TYPE_CODE, "PERSON");
+        searchCriteria.put("entityTypeContactInfos.entityTypeCode", "PERSON");
         searchCriteria.put(KIMPropertyConstants.Person.ACTIVE,"Y");
 
         List<Person> persons = getPersonService().findPeople(searchCriteria, !bounded);
