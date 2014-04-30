@@ -17,10 +17,10 @@ package org.kuali.student.cm.course.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.lookup.LookupForm;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.lum.lu.ui.course.keyvalues.CourseJointKeyValuesFinder.SearchByKeys;
@@ -38,6 +38,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -143,15 +144,20 @@ public class CourseJointInfoLookupableImpl extends LookupableImpl {
                 }
                 courseJointInfoDisplays.add(courseJointInfoDisplay);
             }
-            if (courseJointInfoDisplays.size() == 0) {
-                GlobalVariables.getMessageMap().putError("Jointly-offered-courses", CurriculumManagementConstants.MessageKeys.ERROR_NO_RESULT_FOUND);
-            }
-
+            generateLookupResultsMessages(searchCriteria,courseJointInfoDisplays,bounded,Integer.MAX_VALUE);
         } catch (Exception e) {
             LOG.error("An error occurred retrieving the courseJointInfoDisplay", e);
         }
         return courseJointInfoDisplays;
     }
+
+    @Override
+    protected void generateLookupResultsMessages(Map<String, String> searchCriteria, Collection<?> searchResults, boolean bounded, Integer searchResultsLimit) {
+        if (searchResults.size() == 0) {
+            GlobalVariables.getMessageMap().putError("Jointly-offered-courses", RiceKeyConstants.INFO_LOOKUP_RESULTS_NONE_FOUND);
+        }
+    }
+
 
     private CluService getCluService() {
         if (cluService == null) {
