@@ -538,10 +538,10 @@
                                                 <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.FinalExamDriversKeyValues" p:addBlankOption="false"/>
                                             </property>
                                         </bean>
-                                        <bean parent="KS-Uif-InputField-LabelRight" p:id="finalExamMatrix" p:label="Use Final Exam Matrix" p:propertyName="useFinalExamMatrix"
+                                        <bean parent="KS-Uif-InputField" p:id="finalExamMatrix" p:propertyName="useFinalExamMatrix"
                                             p:render="@{!#parent.readOnly}" p:defaultValue="true">
                                             <property name="control">
-                                                <bean parent="KS-Uif-CheckboxControl"/>
+                                                <bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="Use Final Exam Matrix" />
                                             </property>
                                         </bean>
                                         <bean parent="Uif-MessageField" p:label="Use Final Exam Matrix" p:fieldLabel.renderColon="false" p:messageText="@{#dp.useFinalExamMatrixUI}" p:render="@{#parent.readOnly}" />

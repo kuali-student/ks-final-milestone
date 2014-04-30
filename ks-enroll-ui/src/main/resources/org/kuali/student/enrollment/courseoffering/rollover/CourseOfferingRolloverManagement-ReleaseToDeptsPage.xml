@@ -31,9 +31,9 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-Message" p:messageText="Currently, only central administrators are able to make changes to course offering information in this term's course schedule. To grant departmental administrators access to copy and edit functions, you must first release the term. Doing so will disable future Rollovers to this term."/>
-                            <bean parent="KS-Uif-InputField-LabelRight" p:propertyName="acceptIndicator" p:id="approveCheckbox" p:label="I understand that this action cannot be reversed.">
+                            <bean parent="KS-Uif-InputField" p:propertyName="acceptIndicator" p:id="approveCheckbox">
                                 <property name="control">
-                                    <bean parent="KS-Uif-CheckboxControl"/>
+                                    <bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="I understand that this action cannot be reversed." />
                                 </property>
                             </bean>
                             <bean parent="Uif-Message" p:messageText="Can't release to departments without a valid term" p:style="font-style:italic" p:render="@{releaseToDeptsInvalidTerm}"/>
