@@ -14,7 +14,7 @@
         <property name="validationMessages.displayMessages" value="false" />
         <property name="items">
             <list>
-                <bean parent="Uif-KS-IconInputField-LabelTop" p:propertyName="courseInfo.startTerm" p:label="Start Term">
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="courseInfo.startTerm" p:label="Start Term">
                     <!-- Rice 2.4 upgrade : removing fieldLabel.requiredMessage -->
 <!--                TODO: KSCM-2000 Required Message Changes
                     <property name="fieldLabel.requiredMessage">
@@ -27,11 +27,11 @@
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.DatesKeyValuesFinder" p:addBlankOption="true" />
                     </property>
-                    <property name="fieldLabel.richLabelMessage.iconToolTipText"
-                              value="New Courses: This course will not necessarily be activated or offered this term, but will be eligible for scheduling on or after this term. Course Modifications: Any instances of the course offered on or after this term will reflect modifications."/>
+                    <!--<property name="fieldLabel.richLabelMessage.iconToolTipText"
+                              value="New Courses: This course will not necessarily be activated or offered this term, but will be eligible for scheduling on or after this term. Course Modifications: Any instances of the course offered on or after this term will reflect modifications."/>-->
                 </bean>
 
-                <bean parent="Uif-KS-IconInputField-LabelTop" p:propertyName="courseInfo.pilotCourse" p:label="Pilot Course"
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="courseInfo.pilotCourse" p:label="Pilot Course"
                       p:id="CourseView-ActiveDatesPage-PilotCourse" >
                     <property name="cssClasses">
                         <list merge="true">
@@ -48,10 +48,10 @@
                             </bean>
                         </list>
                     </property>
-                    <property name="fieldLabel.richLabelMessage.iconToolTipText" value="If this is a pilot course, you must select an End Term"/>
+                   <!-- <property name="fieldLabel.richLabelMessage.iconToolTipText" value="If this is a pilot course, you must select an End Term"/>-->
                 </bean>
 
-                <bean parent="Uif-KS-IconInputField-LabelTop" p:propertyName="courseInfo.endTerm" p:label="End Term"
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="courseInfo.endTerm" p:label="End Term"
                       p:id="CourseView-ActiveDatesPage-EndTerm" >
                     <property name="cssClasses">
                         <list merge="true">
@@ -72,8 +72,8 @@
                         <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.DatesKeyValuesFinder"
                               p:addBlankOption="true" />
                     </property>
-                    <property name="fieldLabel.richLabelMessage.iconToolTipText"
-                              value="Most courses will not have an explicit end date. Exceptions are pilot courses or visiting instructor specific courses"/>
+                    <!--<property name="fieldLabel.richLabelMessage.iconToolTipText"
+                              value="Most courses will not have an explicit end date. Exceptions are pilot courses or visiting instructor specific courses"/>-->
                 </bean>
             </list>
         </property>

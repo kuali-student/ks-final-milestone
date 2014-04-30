@@ -103,7 +103,7 @@
                         <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.AssesmentKeyValueFinder" />
                     </property>
 
-                    <property name="fieldLabel">
+                    <!--<property name="fieldLabel">
                          <bean parent="Uif-Label" p:labelText="Assessment Scale" p:renderColon="false">
                                 <property name="richLabelMessage">
                                     <bean parent="Uif-KS-IconLabelMessage">
@@ -116,7 +116,7 @@
                                     </bean>
                                 </property>
                             </bean>
-                    </property>
+                    </property>-->
                     <property name="simpleConstraint">
                         <bean parent="RequiredConstraint">
                             <property name="states">
