@@ -393,7 +393,7 @@
                 </bean>
 
                 <!-- The text and link below the tab panel. This gets fixed positioning via JS. -->
-                <bean id="KS-CourseView-ReviewProposalLink" parent="Uif-VerticalBoxGroup" p:render="@{!#uiHelper.curriculumSpecialistUser or #uiHelper.useReviewProcess}">
+                <bean id="KS-CourseView-ReviewProposalLink" parent="Uif-VerticalBoxGroup" p:render="@{(!#uiHelper.curriculumSpecialistUser or #uiHelper.useReviewProcess) and !#workflowDoc.initiated}">
                     <property name="header">
                         <bean id="course_tabs_footer_header" parent="Uif-HeaderFour">
                             <property name="cssClasses">
