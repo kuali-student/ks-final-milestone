@@ -34,15 +34,9 @@ public class ActivityOfferingConstants {
     public static final String MSG_INFO_AO_MOVED = "info.enroll.ao.moved";
     public static final String MSG_INFO_AO_MODIFIED = "info.enroll.ao.modified";
 
-    public final static String MSG_ERROR_COLOCATED_NOTFOUND = "error.enroll.ao.colocated.notfound";
-    public static final String MSG_ERROR_INSTRUCTOR_NOTFOUND = "error.enroll.ao.instructor.notfound";
-    public static final String MSG_ERROR_INSTRUCTOR_OVERFLOW = "error.enroll.ao.instructor.overflow";
-    public static final String MSG_ERROR_INSTRUCTOR_DUPLICATE = "error.enroll.ao.instructor.duplicate";
-    public static final String MSG_ERROR_SEATPOOL_DUPLICATE = "error.enroll.ao.seatpool.duplicate";
+    public static final String MSG_ERROR_COLOCATED_NOTFOUND = "error.enroll.ao.colocated.notfound";
     public static final String MSG_ERROR_INVALID_START_TIME = "error.enroll.ao.starttime.invalid";
     public static final String MSG_ERROR_INVALID_END_TIME = "error.enroll.ao.endtime.invalid";
-    public static final String MSG_ERROR_TBA_VALIDATION_ERROR = "error.enroll.ao.tba.invalid";
-    public static final String MSG_ERROR_ORGANIZATION_ID_REQUIRED = "error.enroll.ao.organization.id.required";
     public static final String MSG_ERROR_AO_PART_COLOCATE = "error.enroll.ao.part.colocate";
     public static final String MSG_ERROR_AO_CURRENT_COLOCATE = "error.enroll.ao.current.colocate";
     public static final String MSG_ERROR_AO_CANCEL_STATE_COLOCATE = "error.enroll.ao.cancel.state.colocate";

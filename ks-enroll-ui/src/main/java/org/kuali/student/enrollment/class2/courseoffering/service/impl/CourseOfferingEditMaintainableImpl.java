@@ -30,18 +30,17 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.common.uif.util.KSUifUtils;
+import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.OrganizationInfoWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.ExamOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseofferingset.util.CourseOfferingSetUtil;
-import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingContext;
 import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingResult;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -50,7 +49,6 @@ import org.kuali.student.enrollment.courseoffering.dto.FinalExam;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
-import org.kuali.student.lum.common.client.helpers.RecentDocInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -58,7 +56,6 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuServiceConstants;
@@ -72,7 +69,6 @@ import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
-import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstants;
@@ -444,91 +440,6 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
         }
 
         return formatOfferingIds;
-    }
-
-    @Override
-    protected boolean performAddLineValidation(ViewModel viewModel, Object newLine, String collectionId, String collectionPath) {
-        if (newLine instanceof OfferingInstructorInfo) {
-            OfferingInstructorInfo instructorInfo = (OfferingInstructorInfo) newLine;
-
-            //check duplication
-            MaintenanceDocumentForm form = (MaintenanceDocumentForm) viewModel;
-            CourseOfferingEditWrapper coEditWrapper = (CourseOfferingEditWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
-            List<OfferingInstructorInfo> instructors = coEditWrapper.getCourseOfferingInfo().getInstructors();
-            if (instructors != null && !instructors.isEmpty()) {
-                for (OfferingInstructorInfo thisInst : instructors) {
-                    if (instructorInfo.getPersonId().equals(thisInst.getPersonId())) {
-                        GlobalVariables.getMessageMap().putErrorForSectionId("KS-CourseOfferingEdit-PersonnelTableSection", ActivityOfferingConstants.MSG_ERROR_INSTRUCTOR_DUPLICATE, instructorInfo.getPersonId());
-                        return false;
-                    }
-                }
-            }
-
-            //validate ID
-            List<Person> lstPerson = CourseOfferingViewHelperUtil.getInstructorByPersonId(instructorInfo.getPersonId());
-            if (lstPerson == null || lstPerson.isEmpty()) {
-                GlobalVariables.getMessageMap().putErrorForSectionId("KS-CourseOfferingEdit-PersonnelSection", ActivityOfferingConstants.MSG_ERROR_INSTRUCTOR_NOTFOUND, instructorInfo.getPersonId());
-                return false;
-            }
-        } else if (newLine instanceof OrganizationInfoWrapper) {
-            OrganizationInfoWrapper org = (OrganizationInfoWrapper) newLine;
-            if (StringUtils.isEmpty(org.getId())) {
-                GlobalVariables.getMessageMap().putErrorForSectionId(collectionId, ActivityOfferingConstants.MSG_ERROR_ORGANIZATION_ID_REQUIRED);
-                return false;
-            }
-        }
-
-        return super.performAddLineValidation(viewModel, newLine, collectionId, collectionPath);
-    }
-
-    @Override
-    public void processBeforeAddLine(ViewModel model, Object addLine, String collectionId, String collectionPath) {
-        if (addLine instanceof FormatOfferingInfo) {
-            FormatOfferingInfo newLine = (FormatOfferingInfo) addLine;
-            String formatId = newLine.getFormatId();
-            MaintenanceDocumentForm form = (MaintenanceDocumentForm) model;
-            CourseOfferingEditWrapper coEditWrapper = (CourseOfferingEditWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
-            FormatInfo formatInfo = getFormatInfo(coEditWrapper, formatId);
-            // TODO: fix R2 Format to include name and short name
-            StringBuilder sb = new StringBuilder();
-            for (ActivityInfo activityInfo : formatInfo.getActivities()) {
-                String activityTypeKey = activityInfo.getTypeKey();
-                String activityName = "";
-                try {
-                    if (!activityTypeKey.isEmpty()) {
-                        activityName = CourseOfferingManagementUtil.getTypeService().getType(activityTypeKey, ContextUtils.createDefaultContextInfo()).getName();
-                    }
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-
-                sb.append(activityName);
-                sb.append("/");
-            }
-            String tempName = sb.toString().substring(0, sb.toString().length() - 1);
-            newLine.setName(tempName);
-            newLine.setShortName(tempName);
-        }
-    }
-
-    @Override
-    public void processAfterAddLine(ViewModel viewModel, Object addLine, String collectionId, String collectionPath, boolean isValidLine) {
-        if (addLine instanceof OfferingInstructorInfo) {
-            // set the person name if it's null, in the case of user-input personell id
-            OfferingInstructorInfo instructorInfo = (OfferingInstructorInfo) addLine;
-            if (instructorInfo.getPersonName() == null && instructorInfo.getPersonId() != null) {
-                List<Person> personList = CourseOfferingViewHelperUtil.getInstructorByPersonId(instructorInfo.getPersonId());
-                if (personList.size() == 1) {
-                    int firstperson = 0;
-                    instructorInfo.setPersonName(personList.get(firstperson).getName());
-                }
-            }
-
-            // make sure state is not null
-            if (instructorInfo.getStateKey() == null) {
-                instructorInfo.setStateKey(LprServiceConstants.TENTATIVE_STATE_KEY);
-            }
-        }
     }
 
     @Override

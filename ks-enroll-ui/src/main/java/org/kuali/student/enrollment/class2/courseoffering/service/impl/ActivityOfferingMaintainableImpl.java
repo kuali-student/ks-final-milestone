@@ -37,7 +37,6 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingVie
 import org.kuali.student.enrollment.class2.courseoffering.util.ExamOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseofferingset.util.CourseOfferingSetUtil;
 import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingResult;
-import org.kuali.student.enrollment.class2.population.util.PopulationConstants;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -902,16 +901,6 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             MaintenanceDocumentForm form = (MaintenanceDocumentForm)model;
             ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
             activityOfferingWrapper.setSchedulesModified(true);
-        } else if (addLine instanceof OfferingInstructorWrapper) {
-            // set the person name if it's null, in the case of user-input personnel id
-            OfferingInstructorWrapper instructor = (OfferingInstructorWrapper) addLine;
-            if (instructor.getOfferingInstructorInfo().getPersonName() == null && instructor.getOfferingInstructorInfo().getPersonId() != null) {
-                List<Person> personList = CourseOfferingViewHelperUtil.getInstructorByPersonId(instructor.getOfferingInstructorInfo().getPersonId());
-                int firstPerson = 0;
-                if (personList.size() == 1) {
-                    instructor.getOfferingInstructorInfo().setPersonName(personList.get(firstPerson).getName());
-                }
-            }
         } else if (addLine instanceof ColocatedActivity && isValidLine) {
             ColocatedActivity colo = (ColocatedActivity)addLine;
             MaintenanceDocumentForm form = (MaintenanceDocumentForm)model;
@@ -930,66 +919,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
         MaintenanceDocumentForm form = (MaintenanceDocumentForm)model;
         ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
 
-        if (newLine instanceof OfferingInstructorWrapper) {   //Personnel
-            OfferingInstructorWrapper instructor = (OfferingInstructorWrapper) newLine;
-
-            if (instructor.getOfferingInstructorInfo().getPersonId() == null){
-                //Short circuit addline so blank added line is valid... KSENROLL-12606
-                return true;
-            }
-
-            //check duplication
-            List<OfferingInstructorWrapper> instructors = activityOfferingWrapper.getInstructors();
-            if (instructors != null && !instructors.isEmpty()) {
-                for (OfferingInstructorWrapper thisInst : instructors) {
-                    if (instructor.getOfferingInstructorInfo().getPersonId().equals(thisInst.getOfferingInstructorInfo().getPersonId())) {
-                        GlobalVariables.getMessageMap().putErrorForSectionId("ao-personnelgroup", ActivityOfferingConstants.MSG_ERROR_INSTRUCTOR_DUPLICATE, instructor.getOfferingInstructorInfo().getPersonId());
-                        return false;
-                    }
-                }
-            }
-
-            //validate ID
-            List<Person> lstPerson = CourseOfferingViewHelperUtil.getInstructorByPersonId(instructor.getOfferingInstructorInfo().getPersonId());
-            if (lstPerson == null || lstPerson.isEmpty()) {
-                GlobalVariables.getMessageMap().putErrorForSectionId("ao-personnelgroup", ActivityOfferingConstants.MSG_ERROR_INSTRUCTOR_NOTFOUND, instructor.getOfferingInstructorInfo().getPersonId());
-                return false;
-            }
-        } else if (newLine instanceof SeatPoolWrapper) {   //Seat Pool
-            SeatPoolWrapper seatPool = (SeatPoolWrapper) newLine;
-
-            //check if a valid population is entered
-            QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-            qbcBuilder.setPredicates(PredicateFactory.and(
-                    PredicateFactory.equal("populationState", PopulationServiceConstants.POPULATION_ACTIVE_STATE_KEY),
-                    PredicateFactory.equalIgnoreCase("name", seatPool.getSeatPoolPopulation().getName())));
-            QueryByCriteria criteria = qbcBuilder.build();
-            int firstPopulationInfo = 0;
-
-            try {
-                List<PopulationInfo> populationInfoList = CourseOfferingManagementUtil.getPopulationService().searchForPopulations(criteria, createContextInfo());
-                if(populationInfoList == null || populationInfoList.isEmpty()){
-                    GlobalVariables.getMessageMap().putErrorForSectionId("ao-seatpoolgroup", PopulationConstants.POPULATION_MSG_ERROR_POPULATION_NOT_FOUND, seatPool.getSeatPoolPopulation().getName());
-                    return false;
-                } else {
-                    seatPool.getSeatPoolPopulation().setName(populationInfoList.get(firstPopulationInfo).getName());
-                    seatPool.getSeatPoolPopulation().setId(populationInfoList.get(firstPopulationInfo).getId());
-                }
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-
-            //check duplication
-            List<SeatPoolWrapper> pools = activityOfferingWrapper.getSeatpools();
-            if (pools != null && !pools.isEmpty()) {
-                for (SeatPoolWrapper pool : pools) {
-                    if (seatPool.getSeatPoolPopulation().getId().equals(pool.getSeatPoolPopulation().getId())) {
-                        GlobalVariables.getMessageMap().putErrorForSectionId("ao-seatpoolgroup", ActivityOfferingConstants.MSG_ERROR_SEATPOOL_DUPLICATE, pool.getSeatPoolPopulation().getName());
-                        return false;
-                    }
-                }
-            }
-        } else if (newLine instanceof ColocatedActivity){
+        if (newLine instanceof ColocatedActivity){
             ColocatedActivity colo = (ColocatedActivity)newLine;
 
             return validateNewColocatedActivity(colo,activityOfferingWrapper);
@@ -1076,14 +1006,6 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
         }
 
         return true;
-    }
-
-    @Override
-    public void processBeforeAddLine(ViewModel model, Object addLine, String collectionId, String collectionPath) {
-        if (addLine instanceof OfferingInstructorWrapper) {
-            OfferingInstructorWrapper instructor = (OfferingInstructorWrapper) addLine;
-            instructor.setOfferingInstructorInfo(disassembleInstructorWrapper(instructor));
-        }
     }
 
     @Override
