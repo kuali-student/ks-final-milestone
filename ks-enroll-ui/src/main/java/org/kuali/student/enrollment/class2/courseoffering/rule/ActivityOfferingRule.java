@@ -30,6 +30,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static org.apache.commons.lang.StringUtils.isEmpty;
+import static org.apache.commons.lang.StringUtils.isNotEmpty;
+
 public class ActivityOfferingRule extends KsMaintenanceDocumentRuleBase {
 
     @Override
@@ -177,19 +180,18 @@ public class ActivityOfferingRule extends KsMaintenanceDocumentRuleBase {
                 if (instructorWrapper != null) {
                     OfferingInstructorInfo info = instructorWrapper.getOfferingInstructorInfo();
                     if(info == null ) {
-                        if(instructorWrapper.getsEffort() != null && !instructorWrapper.getsEffort().isEmpty()) {
+                        if(isNotEmpty(instructorWrapper.getsEffort())) {
                             GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.instructors[" + index + "].offeringInstructorInfo.personId",
-                                    CourseOfferingConstants.COURSEOFFERING_ERROR_INVALID_PERSONNEL_ID, info.getPersonId());
+                                    CourseOfferingConstants.COURSEOFFERING_ERROR_INVALID_PERSONNEL_ID, "null");
                             noError &= false;
                         }
-                    } else if(info.getPersonId().isEmpty() && (!info.getTypeKey().isEmpty() || !info.getPersonName().isEmpty()
-                            ||  ((instructorWrapper.getsEffort() != null && !instructorWrapper.getsEffort().isEmpty()))
-                            )) {
+                    } else if(isEmpty(info.getPersonId()) && (isNotEmpty(info.getTypeKey()) || isNotEmpty(info.getPersonName())
+                            ||  isNotEmpty(instructorWrapper.getsEffort()))) {
                         GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.instructors[" + index + "].offeringInstructorInfo.personId",
                                 CourseOfferingConstants.COURSEOFFERING_ERROR_INVALID_PERSONNEL_ID, info.getPersonId());
                         noError &= false;
                     }
-                    if ((info != null) && (info.getPersonId() != null) && !info.getPersonId().isEmpty()) {
+                    if (info != null && info.getPersonId() != null && !info.getPersonId().isEmpty()) {
                         // verify this is a legal personId
                         List<Person> personList = CourseOfferingViewHelperUtil.getInstructorByPersonId(info.getPersonId());
                         if (personList.isEmpty()) {

@@ -20,8 +20,8 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.uif.service.impl.KSMaintainableImpl;
-import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.common.uif.util.KSUifUtils;
+import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ColocatedActivity;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
@@ -36,7 +36,6 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingMan
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.ExamOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseofferingset.util.CourseOfferingSetUtil;
-import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingContext;
 import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingResult;
 import org.kuali.student.enrollment.class2.population.util.PopulationConstants;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
@@ -45,11 +44,9 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
-import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseWaitListServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
@@ -74,10 +71,7 @@ import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -93,7 +87,6 @@ import java.util.Map;
 public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl implements ActivityOfferingMaintainable {
 
     private static final long serialVersionUID = 1L;
-    private static final Logger LOGGER = LoggerFactory.getLogger(ActivityOfferingMaintainableImpl.class);
 
     @Override
     public void saveDataObject() {
@@ -816,7 +809,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
         aoInfo.setInstructors(new ArrayList<OfferingInstructorInfo>());
         if (instructors != null && !instructors.isEmpty()) {
             for (OfferingInstructorWrapper instructor : instructors) {
-                if(instructor.getOfferingInstructorInfo() != null && !instructor.getOfferingInstructorInfo().getPersonId().isEmpty())  {
+                if(instructor.getOfferingInstructorInfo() != null && StringUtils.isNotEmpty(instructor.getOfferingInstructorInfo().getPersonId()))  {
                     aoInfo.getInstructors().add(disassembleInstructorWrapper(instructor));
                 }
             }
@@ -1120,17 +1113,6 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
         }
     }
 
-    private static class SubtermComparator implements Comparator<TypeTypeRelationInfo>, Serializable {
-        @Override
-        public int compare(TypeTypeRelationInfo o1, TypeTypeRelationInfo o2) {
-            String value1 = o1.getId();
-            String value2 = o2.getId();
-
-            int result = value1.compareToIgnoreCase(value2);
-            return result;
-        }
-    }
-
     private String getTermStartEndDate(TermInfo term) {
         // Return Term as String display like 'FALL 2020 (9/26/2020-12/26/2020)'
         StringBuilder stringBuilder = new StringBuilder();
@@ -1164,7 +1146,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
         searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.ATP_ID, termId);
         searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.CROSS_LIST_SEARCH_ENABLED, BooleanUtils.toStringTrueFalse(false));
 
-        SearchResultInfo searchResult = null;
+        SearchResultInfo searchResult;
         try {
             searchResult = CourseOfferingManagementUtil.getSearchService().search(searchRequest, ContextUtils.createDefaultContextInfo());
         } catch (Exception e) {
