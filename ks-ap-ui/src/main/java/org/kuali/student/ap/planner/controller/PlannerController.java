@@ -181,17 +181,16 @@ public class PlannerController extends KsapControllerBase {
 
         // Retrieve course information if possible
 		Course course = form.getCourse();
-		if (course == null && courseRequired) {
-			LOG.warn("Missing course for summary {}", pageId);
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing course for summary " + pageId);
-			return null;
-		}
-        else{
-            if (course!=null) {
-                //Load course related planItems to identify if the course has been bookmarked
-                List<PlanItem> planItems = KsapFrameworkServiceLocator.getPlanHelper().loadStudentsPlanItemsForCourse(course);
-                form.setBookmarked(KsapFrameworkServiceLocator.getCourseHelper().isCourseBookmarked(course, planItems));
+		if (course == null) {
+            if (courseRequired) {
+                LOG.warn("Missing course for summary {}", pageId);
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing course for summary " + pageId);
+                return null;
             }
+		} else {
+            //Load course related planItems to identify if the course has been bookmarked
+            List<PlanItem> planItems = KsapFrameworkServiceLocator.getPlanHelper().loadStudentsPlanItemsForCourse(course);
+            form.setBookmarked(KsapFrameworkServiceLocator.getCourseHelper().isCourseBookmarked(course, planItems));
         }
 
 		uifForm.setViewId(DIALOG_FORM);
