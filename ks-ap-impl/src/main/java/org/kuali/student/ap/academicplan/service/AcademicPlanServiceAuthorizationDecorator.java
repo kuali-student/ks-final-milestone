@@ -304,19 +304,13 @@ extends AcademicPlanServiceDecorator
 
     private LearningPlanInfo checkPlanAccess(LearningPlanInfo plan,String principalId)
             throws PermissionDeniedException {
-        if (isStudent(principalId))  {
-            if  (!principalId.equals(plan.getStudentId())) {
-                throw new PermissionDeniedException ("Students may retrieve only their own academic plans.");
-            }
-        } else if (isAdvisor(principalId)) {
-            if (!plan.getShared()) {
-                throw new PermissionDeniedException ("Plan (id="+plan.getId()+", name="+plan.getName()+
-                        " for studentId="+plan.getStudentId()+") is not marked a shared. Permission Denied. ");
-            }
+        if (isStudent(principalId)&& principalId.equals(plan.getStudentId())) {
+                return plan;
+        } else if (isAdvisor(principalId) && plan.getShared()) {
+                return plan;
         } else {
             throw new PermissionDeniedException("Permission Denied.");
         }
-        return plan;
     }
 
     private List<LearningPlanInfo> checkPlanListAccess(List<LearningPlanInfo> learningPlans, String principalId)
