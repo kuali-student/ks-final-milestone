@@ -29,6 +29,7 @@ import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.dto.PopulationRuleInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
+import org.springframework.util.StringUtils;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -86,7 +87,9 @@ public class PopulationWrapperLookupableImpl extends LookupableImpl {
         String keyword = searchCriteria.get("keyword");
         String stateKey = searchCriteria.get("populationInfo.stateKey");
 
-        keyword = keyword.isEmpty()?"*":keyword; //search for all if empty
+        if (StringUtils.isEmpty(keyword)) {
+            keyword = "*";      // search for all if empty
+        }
 
         List<Predicate> predicates = new ArrayList<Predicate>();
         predicates.add(PredicateFactory.or(PredicateFactory.like("name", "%"+keyword+"%"),
