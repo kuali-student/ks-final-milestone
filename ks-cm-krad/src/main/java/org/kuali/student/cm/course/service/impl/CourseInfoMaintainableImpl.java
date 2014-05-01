@@ -1556,6 +1556,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     protected void populateFormatOnWrapper() {
 
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
+        courseInfoWrapper.getFormats().clear();
         courseInfoWrapper.getFormats().addAll(courseInfoWrapper.getCourseInfo().getFormats());
 
         initializeFormat(courseInfoWrapper);
