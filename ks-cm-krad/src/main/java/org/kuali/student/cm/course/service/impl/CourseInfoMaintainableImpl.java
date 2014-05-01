@@ -1786,10 +1786,6 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             CourseInfo course = getCourseService().getCourse(proposal.getProposalReference().get(0), createContextInfo());
             dataObject.setCourseInfo(course);
 
-            // dataObject.getCourseInfo().setStartTerm(course.getStartTerm());
-            //dataObject.getCourseInfo().setEndTerm(course.getEndTerm());
-            // dataObject.getCourseInfo().setPilotCourse(course.isPilotCourse());
-
             dataObject.getUnitsContentOwner().clear();
 
             for (String orgId : course.getUnitsContentOwner()) {
