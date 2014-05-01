@@ -246,42 +246,6 @@
 }
 
 /*
- *   Create Course tab styling
- */
-.ui-tabs-vertical-left .ui-tabs-nav {
-    width: 15em;
-    margin-left: 2px;
-    font-family: 'ralewayregular', sans-serif;
-}
-
-.ui-tabs-vertical .ui-tabs-panel {
-    width: 67em;
-}
-
-#course_tabs_tabs .ui-tabs-panel {
-    border: 0; /* Remove the border/line from the top of the sections */
-}
-
-/* The words at the top of the tab panel */
-#course_tabs_header {
-    position: fixed;
-    margin-top: 15px;
-}
-
-#course_tabs_header h4 {
-    padding: 0px;
-}
-
-/* Arrange the words at the bottom of the tab panel */
-#course_tabs_footer_header {
-    margin-top: 20px;
-}
-
-#KS-CourseView-ReviewProposalLink a {
-    margin-left: 22px;
-}
-
-/*
  * Make the yellow bar that the CS gets and the validation messages only extend across the top of the tap and
  * not the tab panel itself.
  */
@@ -302,134 +266,6 @@
 
 #KS-CourseView-Admin-Message-TreeExpandCollapse {
     margin-bottom: 8px;
-}
-
-#course_tabs .ks-uif-footer div {
-    float: none;
-}
-
-/*
- * Fix positions of nav elements
- */
-#KS-CourseView-ReviewProposalLink {
-    position: fixed;
-}
-
-#course_tabs_tabList {
-    position: fixed;
-    margin-top: 12px;
-}
-
-/* The background hides the TabGroup Header when it's position: fixed; */
-#course_tabs_tabs {
-    background: none;
-}
-
-#course_tabs_tabs .ui-tabs-nav li {
-/* Make the left corners round and the right ones square*/
-    -moz-border-radius-bottomleft: 5px;
-    -moz-border-radius-topleft: 5px;
-    -moz-border-radius-bottomright: 0px;
-    -moz-border-radius-topright: 0px;
-
-    -webkit-border-bottom-left-radius: 5px;
-    -webkit-border-top-left-radius: 5px;
-    -webkit-border-bottom-right-radius: 0px;
-    -webkit-border-top-right-radius: 0px;
-}
-/* Rice tabs workaround. Replaces above rule. */
-#course_tabs_tabs .nav-tabs li {
-    /* Make the left corners round and the right ones square*/
-    -moz-border-radius-bottomleft: 5px;
-    -moz-border-radius-topleft: 5px;
-    -moz-border-radius-bottomright: 0px;
-    -moz-border-radius-topright: 0px;
-
-    -webkit-border-bottom-left-radius: 5px;
-    -webkit-border-top-left-radius: 5px;
-    -webkit-border-bottom-right-radius: 0px;
-    -webkit-border-top-right-radius: 0px;
-}
-
-/*  Rice tabs workaround.  */
-.nav-tabs .ui-tabs-anchor {
-    background-color: #ededed;
-}
-
-
-#course_tabs_tabs .ui-tabs-nav li.ui-state-active a,
-#course_tabs_tabs .ui-tabs-nav li.ui-state-default a {
-    width: 91%; /* Make the action links in the tab panel extend all the way across */
-    color: #000000;
-    padding-top: 6px;
-    padding-right: 0;
-    padding-bottom: 6px;
-    padding-left: 15px;
-
-/* Make the left corners round and the right ones square*/
-    -moz-border-radius-bottomleft: 5px;
-    -moz-border-radius-topleft: 5px;
-    -moz-border-radius-bottomright: 0px;
-    -moz-border-radius-topright: 0px;
-
-    -webkit-border-bottom-left-radius: 5px;
-    -webkit-border-top-left-radius: 5px;
-    -webkit-border-bottom-right-radius: 0px;
-    -webkit-border-top-right-radius: 0px;
-}
-/* Rice tabs workaround. Replaces the rule above */
-#course_tabs_tabs .nav-tabs li a {
-    width: 100%; /* Make the action links in the tab panel extend all the way across */
-    color: #000000;
-    padding-top: 6px;
-    padding-right: 0;
-    padding-bottom: 6px;
-    padding-left: 15px;
-
-     /* Make the left corners round and the right ones square*/
-    -moz-border-radius-bottomleft: 5px;
-    -moz-border-radius-topleft: 5px;
-    -moz-border-radius-bottomright: 0px;
-    -moz-border-radius-topright: 0px;
-
-    -webkit-border-bottom-left-radius: 5px;
-    -webkit-border-top-left-radius: 5px;
-    -webkit-border-bottom-right-radius: 0px;
-    -webkit-border-top-right-radius: 0px;
-}
-
-
-/* Make the bottom border of the last tab item more substantial */
-#course_tabs_tabs .ui-tabs-nav li:last-child a {
-    border-bottom-style: solid;
-    border-bottom-width: 1px;
-    border-color: #bbbbbb;
-}
-/* Rice tabs Workaround. Replaces the rule above.  */
-#course_tabs_tabs .nav-tabs li:last-child a {
-    border-bottom-style: solid;
-    border-bottom-width: 1px;
-    border-color: #bbbbbb;
-}
-
-/* The tab content sections have this class */
-.course_details_tab_section {
-    padding: 0 0 10px 10px;
-}
-
-#course_tabs_tabs a {
-    cursor: pointer;
-}
-
-/*  Used to keep all of the tabs/sections visible in Curriculum Specialist mode */
-.never_hide {
-    display: block !important;
-}
-
-/* Validations icons on the tab items need to float right. */
-#course_tabs_tabs .uif-validationImage {
-    float: right;
-    padding-right: 5px;
 }
 
 /*  The required message text on course details */
@@ -455,12 +291,6 @@
 }
 
 /* Review section styling */
-
-/* This is mainly to conceal the validation messages when they have fixed placement under the sections (See the hack
-   described in the review course proposal page definition), though it may prove useful in other ways. */
-.review_proposal-section {
-    background: white;
-}
 
 .review_proposal_details-grid {
     border: none;
@@ -605,18 +435,31 @@
     margin-bottom: 1em;
 }
 
+.cm-CurriculumOversight-subtext .uif-instructionalMessage {
+    display: inline-block;
+}
+
 /* End */
 
 
 
-/* TODO: KSCM-2003 Rice tabs workaround - sudduth */
+/*
+ * TODO: KSCM-2058 This section contains workarounds for breakage that come in with the Rice 2.4 upgrade. The KRAD team
+ * is probably going to replace the jQuery tab implemention with the one from Bootstrap. When that happens the left nav
+ * panel will need to be completely reworked.
+ */
+/*
+ *   Create Course tab styling
+ */
 
-/* This is our overrides followed by the stuff we needed from the parent
-.ui-tabs-vertical-left .ui-tabs-nav {*/
+/* Remove the bottom border of the nav ul */
+.nav-tabs {
+  border-bottom: 0px solid #dddddd;
+}
+
 .ui-tabs-vertical-left .nav-tabs {
     width: 15em;
     margin-left: 2px;
-    font-family: 'ralewayregular', sans-serif;
 
     padding: .2em .1em .2em .2em;
     float: left;
@@ -624,25 +467,44 @@
 
 /* .ui-tabs-vertical-left .ui-tabs-panel { */
 .ui-tabs-vertical-left > div {
-  clear: none !important;
+    clear: none !important;
 }
 
 
 /* .ui-tabs-vertical-left .ui-tabs-nav li { */
 .ui-tabs-vertical-left .nav-tabs li {
-  clear: left;
-  width: 100%;
-  border-bottom-width: 1px !important;
-  border-bottom: 1px solid black !important;
-  border-right-width: 0 !important;
-  margin: 0 -1px .2em 0;
+    clear: left;
+    width: 100%;
+    border-bottom-width: 1px !important;
+    border-bottom: 1px solid black !important;
+    border-right-width: 0 !important;
+    margin: 0 -1px .2em 0;
+}
+
+.nav-tabs > li > a {
+    border-radius: 5px 0px 0px 5px !important;
+}
+
+/* Get rid of the focus outline on the active tab item. */
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus {
+    outline: 0px !important;
+}
+
+/* Darkens the top item's top border */
+#course_tabs_tabs .nav-tabs li:first-child {
+    border-top: 1px solid #888888;
+}
+
+.nav-tabs > li {
+  border: 1px solid #888888;
 }
 
 /* .ui-tabs-vertical .ui-tabs-panel { */
 .ui-tabs-vertical > div {
     width: 67em;
 }
-
 
 /*#course_tabs_tabs .ui-tabs-panel {*/
 #course_tabs_tabs > div {
@@ -653,17 +515,124 @@
     width: 70em;
 }
 
-/* .ui-tabs-vertical-left .ui-tabs-nav li.ui-state-active { */
-.ui-tabs-vertical-left .nav-tabs li.active {
+/* .ui-tabs-vertical-left .ui-tabs-nav li { */
+.ui-tabs-vertical-left .nav-tabs li {
+  clear: left;
+  width: 100%;
+  border-bottom-width: 1px;
+  border-bottom: 1px solid #888888 !important;
+  border-right-width: 0px !important;
+  border-top-width: 0px;
+  border-left-width: 1px;
+  margin: 0px;
+
+  -moz-border-radius-bottomleft: 5px;
+  -moz-border-radius-topleft: 5px;
+  -moz-border-radius-bottomright: 0px;
+  -moz-border-radius-topright: 0px;
+  -webkit-border-bottom-left-radius: 5px;
+  -webkit-border-top-left-radius: 5px;
+  -webkit-border-bottom-right-radius: 0px;
+  -webkit-border-top-right-radius: 0px;
+}
+
+
+
+.ui-tabs-vertical-left .nav-tabs li.active a {
   padding-bottom: 0;
   padding-right: .1em;
-  border-right-width: 1px;
-  border-right-width: 1px;
-}
-/* END Rice tabs workaround WIP */
-
-
-.cm-CurriculumOversight-subtext .uif-instructionalMessage{
-    display: inline-block;
+  border-right-width: 0px;
+  border-top: 0px;
 }
 
+
+/* The words at the top of the tab panel */
+#course_tabs_header {
+    position: fixed;
+    margin-top: 15px;
+}
+
+/* Arrange the words at the bottom of the tab panel */
+#course_tabs_footer_header {
+    margin-top: 20px;
+}
+
+#KS-CourseView-ReviewProposalLink a {
+    margin-left: 22px;
+}
+
+/* Fix positions of nav elements */
+#KS-CourseView-ReviewProposalLink {
+    position: fixed;
+}
+
+#course_tabs_tabList {
+    position: fixed;
+    margin-top: 12px;
+}
+
+/* The background hides the TabGroup Header when it's position: fixed; */
+#course_tabs_tabs {
+    background: none;
+}
+
+#course_tabs_tabs .nav-tabs li {
+    /* Make the left corners round and the right ones square*/
+    -moz-border-radius-bottomleft: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-bottomright: 0px;
+    -moz-border-radius-topright: 0px;
+
+    -webkit-border-bottom-left-radius: 5px;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-bottom-right-radius: 0px;
+    -webkit-border-top-right-radius: 0px;
+}
+
+.nav-tabs .ui-tabs-anchor {
+    background-color: #ededed;
+}
+
+#course_tabs_tabs .nav-tabs li a {
+    width: 100%; /* Make the action links in the tab panel extend all the way across */
+    color: #000000;
+    padding-top: 6px;
+    padding-right: 0;
+    padding-bottom: 6px;
+    padding-left: 15px;
+
+     /* Make the left corners round and the right ones square*/
+    -moz-border-radius-bottomleft: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-bottomright: 0px;
+    -moz-border-radius-topright: 0px;
+
+    -webkit-border-bottom-left-radius: 5px;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-bottom-right-radius: 0px;
+    -webkit-border-top-right-radius: 0px;
+}
+
+/* The tab content sections have this class */
+.course_details_tab_section {
+    padding: 0 0 10px 10px;
+}
+
+#course_tabs_tabs a {
+    cursor: pointer;
+}
+
+/*  Used to keep all of the tabs/sections visible in Curriculum Specialist mode */
+.never_hide {
+    display: block !important;
+}
+
+/* Validations icons on the tab items need to float right. */
+#course_tabs_tabs .uif-validationImage {
+    float: right;
+    padding-right: 5px;
+}
+
+/*
+ * This is the end of the KRAD tabs workaround.
+ */
