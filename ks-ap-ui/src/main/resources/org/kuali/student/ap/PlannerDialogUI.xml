@@ -677,6 +677,11 @@
 	<!-- Dialog Input Components-->
 
     <bean id="planner_hidden_input" parent="KS-Uif-InputField" abstract="true">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-hide</value>
+            </list>
+        </property>
 		<property name="hidden" value="true" />
 		<property name="control">
 			<bean parent="KS-Uif-HiddenControl" />

@@ -291,16 +291,6 @@
                       p:propertyName="termName" p:cssClasses="ksap-hide">
                     <property name="fieldLabel.render" value="false" />
                 </bean>
-
-                <!--
-                <bean p:id="@{#line.uniqueId}_plan_status" parent="KS-Uif-InputField"
-                    p:propertyName="planning">
-                    <property name="control">
-                        <bean parent="KS-Uif-HiddenControl" />
-                    </property>
-                </bean>
-                 -->
-
                 <bean parent="Uif-VerticalFieldGroup">
                     <property name="items">
                         <list>
