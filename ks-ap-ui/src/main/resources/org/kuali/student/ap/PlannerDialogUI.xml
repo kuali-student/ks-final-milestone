@@ -6,10 +6,15 @@
 
     <bean id="PlannerDialog-FormView" parent="PlannerDialog-FormView-parent"/>
     <bean id="PlannerDialog-FormView-parent" abstract="true" parent="KSAPBaseFormView">
-		<property name="headerText" value="Plan" />
+
 		<property name="id" value="PlannerDialog-FormView" />
+        <property name="header">
+            <bean parent="Uif-HeaderFour">
+                <property name="headerText" value="&#160;" />
+                <property name="render" value="false" />
+            </bean>
+        </property>
 		<property name="footer.render" value="false" />
-		<property name="header.render" value="false" />
 		<property name="formClass" value="org.kuali.student.ap.planner.form.PlannerFormImpl" />
 		<property name="onSubmitScript" value="ksapPlannerSubmitDialog(e);" />
 		<property name="cssClasses">
