@@ -461,16 +461,13 @@ function validateSeatsForSP(jqObject) {
     var liId = 'seatpool_validation_errorMessageLiSeatCheck';
     var li;
 
-    var seatpoolCount = jQuery('#seatpoolCount span[class=uif-message]');
-    var seatsRemaining = jQuery('#seatsRemaining span[class=uif-message]');
+    var seatpoolCount = jQuery('#seatpoolCount p[class=uif-message]');
+    var seatsRemaining = jQuery('#seatsRemaining p[class=uif-message]');
     var count = 0;
     var seatsTotal = 0;
     var maxEnrollValue = 0;
 
-    var maxEnrollView = jQuery('span[id=maximumEnrollment]');
-    var maxEnroll =  jQuery('#maximumEnrollment_control');
-
-    maxEnrollValue = maxEnroll.val();
+    maxEnrollValue = jQuery('#maximumEnrollment_control').val();
     var rows = jQuery("[id^='seatLimit_line']");
     rows.each(function () {
         var id = jQuery(this).attr('id');
@@ -556,8 +553,8 @@ function calculatePercent(jqObject){
 
 //    var seatLimitAdd =  jQuery('#seatLimit_add_control');
 //    var seatLimitPercentAdd =  jQuery('#seatLimitPercent_add #_span');
-    var seatpoolCount = jQuery('#seatpoolCount span[class=uif-message]');
-    var seatsRemaining = jQuery('#seatsRemaining span[class=uif-message]');
+    var seatpoolCount = jQuery('#seatpoolCount p[class=uif-message]');
+    var seatsRemaining = jQuery('#seatsRemaining p[class=uif-message]');
     var count = 0;
     var seatsTotal = 0;
     var maxEnrollValue = 0;
