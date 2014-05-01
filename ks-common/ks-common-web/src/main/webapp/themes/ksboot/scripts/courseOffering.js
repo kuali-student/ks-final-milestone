@@ -169,6 +169,7 @@ function retrieveDeliveryFormatsComponent(event, baseUrl, id1, id2, finalExamTyp
 }
 
 function ajaxGetValuePair(event, baseUrl, selectToUpdate, methodToCall) {
+    var spinner = jQuery('<div id="spiner_' + selectToUpdate + '" class="blockUI blockMsg blockElement"><img src="' + baseUrl + '/themes/ksboot/images/loader.gif" alt="Loading..."> Loading...</div>');
     var selectedFormat = jQuery(event.target).val();
     var formData = jQuery('#kualiForm').serialize() + '&' + jQuery.param({formatId: selectedFormat});
     var targetUrl = baseUrl + "/kr-krad/courseOfferingCreate?methodToCall=" + methodToCall;
@@ -177,13 +178,23 @@ function ajaxGetValuePair(event, baseUrl, selectToUpdate, methodToCall) {
         url: targetUrl,
         type: "POST",
         data: formData,
+        beforeSend: function () {
+            var dropDownElement = jQuery('#' + selectToUpdate + '_control');
+            spinner.attr('style', 'position: absolute; top: ' + dropDownElement.offset().top + 'px; left:' + dropDownElement.offset().left + 'px !important; width: ' +  dropDownElement.outerWidth() + 'px;');
+            //spinner.width(dropDownElement.width);
+            jQuery('#' + selectToUpdate).append(spinner).show();
+        },
+        complete: function () {
+            jQuery('#spiner_' + selectToUpdate).remove();
+        },
         success: function (data, textStatus, jqXHR) {
-            jQuery('#' + selectToUpdate + '_control').find('option').remove().end();
-            jQuery('#' + selectToUpdate + '_control').removeAttr("disabled");
-            for (var i = 0; i < data.length; i++ ) {
+            var dropDownElement = jQuery('#' + selectToUpdate + '_control');
+            dropDownElement.find('option').remove().end();
+            dropDownElement.removeAttr("disabled");
+            for (var i = 0; i < data.length; i++) {
                 var newOption = jQuery('<option>' + data[i].value + '</option>');
                 newOption.attr('value', data[i].key);
-                jQuery('#' + selectToUpdate + '_control').append(newOption);
+                dropDownElement.append(newOption);
             }
         },
         error: function (jqXHR, status, error) {
@@ -193,3 +204,4 @@ function ajaxGetValuePair(event, baseUrl, selectToUpdate, methodToCall) {
         }
     });
 }
+
