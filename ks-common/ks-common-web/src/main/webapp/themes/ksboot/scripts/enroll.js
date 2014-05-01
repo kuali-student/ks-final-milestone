@@ -929,7 +929,7 @@ jQuery(document).on('DOMNodeInserted', function (e) {
     if (jQuery(element).is('main.uif-page')) {
         handleEventforDisabledElements();
         addBootstrapImageToLink();
-    } else if (jQuery(element).is('div.uif-tableCollectionSection') || jQuery(element).is('div.uif-stackedCollectionSection')) {
+    } else if (jQuery(element).is('section.uif-tableCollectionSection') || jQuery(element).is('section.uif-stackedCollectionSection')) {
         addBootstrapImageToLink();
     }
 });
