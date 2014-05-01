@@ -56,10 +56,6 @@ public class OrgsBySubjectCodeValuesFinder extends UifKeyValuesFinderBase {
     public List<KeyValue> getKeyValues(ViewModel model) {
         List<KeyValue> departments = new ArrayList<KeyValue>();
 
-        if (blankOption) {
-            departments.add(new ConcreteKeyValue("", ""));
-        }
-        
         final MaintenanceDocumentForm form = (MaintenanceDocumentForm) model;
 
         final SearchRequestInfo searchRequest = new SearchRequestInfo();

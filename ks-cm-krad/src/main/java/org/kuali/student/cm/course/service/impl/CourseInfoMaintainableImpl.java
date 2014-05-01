@@ -1409,7 +1409,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         courseInfoWrapper.getCourseInfo().setPilotCourse(courseInfoWrapper.getCourseInfo().isPilotCourse());
 
         try {
-            handleFirstTimeSave();
+            saveProposal();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -1832,7 +1832,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     /**
      * Handles functionality that should only happen when the document is first saved.
      */
-    protected void handleFirstTimeSave() throws Exception {
+    protected void saveProposal() throws Exception {
 
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
 
