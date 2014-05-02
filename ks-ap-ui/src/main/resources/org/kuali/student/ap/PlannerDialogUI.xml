@@ -919,7 +919,15 @@
     </bean>
 
 	<bean id="planner_error_placeholder" parent="Uif-HorizontalBoxGroup"
-			p:hidden="true" p:additionalCssClasses="ksap-feedback,error,ks-Popover-error" />
+			p:hidden="true" p:additionalCssClasses="ksap-feedback,error,ks-Popover-error">
+        <!-- Adding some content here since as of Rice 2.4, KRAD seems to purge empty elements from the DOM.
+            Since we were adding content later via javascript, we needed the element to be present -->
+        <property name="items">
+            <list>
+                <bean parent="Uif-Message" p:messageText=""/>
+            </list>
+        </property>
+    </bean>
 
 	<bean id="planner_submit_button" parent="Uif-PrimaryActionButton"
 		p:additionalCssClasses="ks-Button ks-Button--primary"/>
