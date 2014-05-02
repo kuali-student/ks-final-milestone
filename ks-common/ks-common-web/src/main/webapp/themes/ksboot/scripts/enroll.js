@@ -807,7 +807,7 @@ Skip dirty check
 
 function enableDirtyCheck() {
     dirtyFormState.skipDirtyChecks=false;
-    jQuery("#validateDirty").val(true);
+    jQuery("input[name='" + kradVariables.VALIDATE_DIRTY + "']").val(true);
 }
 function resetDirty() {
     dirtyFormState.dirtyFormInput.val(false);
@@ -1132,6 +1132,13 @@ function processInlineRowError(row, data, baseUrl){
         var parentId = jQuery(parent).attr('id');
         var messageDivId = parentId + "_errors";
         var messageDiv = jQuery("#" + messageDivId);
+
+        //if messageDiv doesn't exist, create it
+        if ((messageDiv.length == 0) && ((parentId.indexOf('eoRsiBuilding') === 0) || (parentId.indexOf('eoRsiRoom') === 0))) {
+            messageDiv = jQuery('<div id="' + messageDivId + '" class="uif-validationMessages" style="display: none;" data-messages_for="' + parentId + '" />');
+            jQuery("#" + parentId).append(messageDiv);
+        }
+
         var errorDiv = createErrorDiv(value[0], baseUrl, parentId);
         jQuery(messageDiv).html(jQuery(errorDiv).html());
     });
@@ -1139,22 +1146,47 @@ function processInlineRowError(row, data, baseUrl){
 
 function updateInlineTableRow(event, baseUrl, data) {
     var row = jQuery(event.target).closest('tr');
+    var overrideMatrix;
+
     if (data.hasErrors) {
         if(data.messageMap.errorCount > 0){
             processInlineRowError(row, data, baseUrl);
         }
     } else {
-        jQuery(row).find('.toggleable-element.off').each(function () {
+        // there should be only one checkbox one row
+        jQuery(row).find("input:checkbox").each(function () {
+            overrideMatrix = jQuery(this).is(':checked');
+        });
+
+        jQuery(row).find('.toggleable-element').each(function () {
             var id = jQuery(this).attr("id");
             if (id != undefined) {
                 var modelKey = getModelAttributeValue(id);
-                var readonlyId = id.split("_id")[0];
-                var span = jQuery(this).find('span.uif-readOnlyContent');
-                var value = eval("responseData." + modelKey + "['" + readonlyId + "']");
-                jQuery(span).text(value);
-                if(jQuery('#' + id).parent().find('[name]').is(':checkbox')){
+
+                //if this is an editable field and override matrix unchecked, reset the field value from matrix
+                if(jQuery(this).hasClass("on") && !overrideMatrix && !jQuery(this).hasClass("btn-link")) {
+                    var controlId = id + "_control";
+                    var propertyNameArray = jQuery('#' + controlId).attr("name").split(".");
+                    var propertyName = propertyNameArray[propertyNameArray.length-1];
+                    var value = eval("responseData." + modelKey + "['" + propertyName + "']");
+
+                    if (jQuery('#' + controlId).is(':checkbox')) {
+                        jQuery('#' + controlId).prop( "checked", false );
+                    } else {
+                        jQuery('#' + controlId).val(value);
+                    }
+
+                } else if (jQuery(this).hasClass("off")) {
+                    var readonlyId = id.split("_id")[0];
+                    var valueReadOnly = eval("responseData." + modelKey + "['" + readonlyId + "']");
+                    if (!jQuery(this).hasClass("btn-link")) {
+                        jQuery(this).text(jQuery.trim(valueReadOnly));
+                    }
+
+                    if(jQuery('#' + id).parent().find('[name]').is(':checkbox')){
 //                    setInlineEditCheckboxReadonlyValue(jQuery('#' + id).parent().attr('id'));
-                    setInlineEditCheckboxReadonlyValue(id, JSON.parse(value));
+                        setInlineEditCheckboxReadonlyValue(id, JSON.parse(valueReadOnly));
+                    }
                 }
             }
         });
@@ -1188,18 +1220,14 @@ function resetInlineEditCheckboxReadonlyValue(event){
     });
 }
 
-function setInlineEditCheckboxReadonlyValue(id, checked){
-    var className = jQuery.grep(jQuery('#' + id).attr('class').split(" "), function(v, i){
-        return v.indexOf('ks-fontello-icon-') === 0;
-    }).join();
-    jQuery('#' + id).find('span.uif-readOnlyContent').each(function () {
-        if(checked){
-            jQuery(this).addClass(className);
-        }else{
-            jQuery(this).removeClass(className);
-        }
-        jQuery(this).text("");
-    });
+function setInlineEditCheckboxReadonlyValue(id, checked) {
+    var checkBoxDiv = jQuery('#' + id);
+    checkBoxDiv.text("");
+    if (checked) {
+        checkBoxDiv.addClass("ks-fontello-icon-ok");
+    } else {
+        checkBoxDiv.removeClass("ks-fontello-icon-ok");
+    }
 }
 
 function removeMatrixOverrideConfirm(checkbox_id, dialog_id){
