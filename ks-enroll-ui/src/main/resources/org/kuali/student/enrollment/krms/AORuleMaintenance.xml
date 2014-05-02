@@ -47,6 +47,7 @@ limitations under the License.
 
     <bean id="KSAO-AgendaManagement-View" parent="KS-CourseOffering-MaintenanceViewWithTermContextBarPlaceholder">
         <property name="viewName" value="AOAgendaManagementView"/>
+        <property name="formClass" value="org.kuali.rice.krad.web.form.MaintenanceDocumentForm"/>
         <property name="dataObjectClassName"
                   value="org.kuali.student.enrollment.class1.krms.dto.AORuleManagementWrapper"/>
         <property name="viewHelperServiceClass"

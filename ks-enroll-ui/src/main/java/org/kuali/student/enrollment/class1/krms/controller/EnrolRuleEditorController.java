@@ -26,6 +26,7 @@ import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.util.AgendaUtilities;
 import org.kuali.rice.krms.util.KRMSConstants;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
+import org.kuali.student.common.uif.form.KSUifMaintenanceDocumentForm;
 import org.kuali.student.common.uif.util.KSControllerHelper;
 import org.kuali.student.enrollment.class1.krms.dto.CORuleManagementWrapper;
 import org.kuali.student.enrollment.class1.krms.util.EnrolKRMSConstants;
@@ -52,6 +53,11 @@ import javax.servlet.http.HttpServletResponse;
  * @author Kuali Student Team
  */
 public class EnrolRuleEditorController extends RuleEditorController {
+
+    @Override
+    protected MaintenanceDocumentForm createInitialForm(HttpServletRequest request) {
+        return new KSUifMaintenanceDocumentForm();
+    }
 
     /**
      * Setups a new <code>MaintenanceDocumentView</code> with the edit maintenance

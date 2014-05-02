@@ -40,6 +40,7 @@ limitations under the License.
     <bean id="KSFE-AgendaManagement-View" parent="KS-Uif-MaintenanceView">
 
         <property name="viewName" value="FEAgendaManagementView"/>
+        <property name="formClass" value="org.kuali.rice.krad.web.form.MaintenanceDocumentForm"/>
         <property name="dataObjectClassName"
                   value="org.kuali.student.enrollment.class1.krms.dto.FERuleManagementWrapper"/>
         <property name="viewHelperServiceClass"
