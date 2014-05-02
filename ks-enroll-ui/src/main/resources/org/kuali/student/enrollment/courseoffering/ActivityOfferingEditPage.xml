@@ -757,6 +757,7 @@
                                     <map>
                                         <entry key="actionType" value="addLine"/>
                                         <entry key="selectedCollectionPath" value="document.newMaintainableObject.dataObject.colocatedActivities"/>
+                                        <entry key="selectedCollectionId" value="ActivityOfferingEdit-CoLocatedActivities"/>
                                         <entry key="actionEvent" value="addLine"/>
                                     </map>
                                 </property>
