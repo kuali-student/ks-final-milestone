@@ -656,40 +656,37 @@
     <bean id="planner_term_input_field-parent" parent="Uif-HorizontalBoxGroup">
         <property name="items">
             <list>
-                <bean parent="Uif-HorizontalBoxGroup">
-                    <property name="validationMessages">
-                        <null/>
-                    </property>
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>ksap-popup-detail-label</value>
-                        </list>
-                    </property>
+                <!-- Term & Year -->
+                <bean parent="Uif-CssGridGroup">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-Message" p:messageText="Term &amp; Year"/>
-                        </list>
-                    </property>
-                </bean>
-                <bean parent="Uif-HorizontalBoxGroup">
-                    <property name="validationMessages">
-                        <null/>
-                    </property>
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>ksap-popup-detail-field</value>
-                        </list>
-                    </property>
-                    <property name="items">
-                        <list>
-                            <bean parent="planner_term_input" p:fieldLabel.render="false">
-                                <property name="propertyName" value="termId" />
-                                <property name="instructionalText" value="" />
+                            <bean parent="Uif-VerticalBoxSection" p:colSpan="5">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-Message" p:messageText="Term &amp; Year">
+                                            <property name="cssClasses">
+                                                <list merge="true">
+                                                    <value>ksap-course-detail-label</value>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
                             </bean>
-                            <bean parent="Uif-Message" p:messageText="Note: Not all courses are offered every term.">
-                                <property name="cssClasses">
-                                    <list merge="true">
-                                        <value>ksap-course-detail-source</value>
+                            <bean parent="Uif-VerticalBoxSection" p:colSpan="7">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="planner_term_input" p:fieldLabel.render="false">
+                                            <property name="propertyName" value="termId" />
+                                            <property name="instructionalText" value="" />
+                                        </bean>
+                                        <bean parent="Uif-Message" p:messageText="Note: Not all courses are offered every term.">
+                                            <property name="cssClasses">
+                                                <list merge="true">
+                                                    <value>ksap-course-detail-source</value>
+                                                </list>
+                                            </property>
+                                        </bean>
                                     </list>
                                 </property>
                             </bean>
