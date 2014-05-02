@@ -140,18 +140,17 @@
                         <!-- Whether or not this widget is active depends on it's related institutional-configuration
                          (ie: "kuali.ks.enrollment.timeslots.adhoc_creation_mode"); the widget appears when the config is
                          set to "NEEDS_APPROVAL" and is not shown when set to "APPROVED" or "NOT_APPROVED". -->
-                        <!--p:render="@{#dp.canNonStandardTimeslotsBeApproved}"-->
                         <property name="items">
                             <list>
                                 <bean p:id="isApprovedForNonStandardTimeSlots"
                                       parent="KS-Uif-InputField"
                                       p:propertyName="aoInfo.isApprovedForNonStandardTimeSlots"
                                       p:forceSessionPersistence="true"
+                                      p:render="@{#dp.canNonStandardTimeslotsBeApproved}"
                                       p:editAuthz="true"
-                                      p:render="@{#dp.canNonStandardTimeslotsBeApproved}">
-
+                                      p:readOnlyDisplayReplacement="@{document.newMaintainableObject.dataObject.aoInfo.isApprovedForNonStandardTimeSlots ? '' : 'Not'} Approved for non-standard time slots">
                                     <property name="control">
-                                        <bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="Approved for non-standard time slots" />
+                                        <bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="Approved for non-standard time slots"/>
                                     </property>
                                 </bean>
                             </list>
