@@ -202,38 +202,27 @@
 				<value>ks-Popover-item--secondary</value>
 			</list>
 		</property>
-		<property name="items">
-            <!-- Issue with datafields and the property names causing a issue with opening the dialog -->
-			<list>
-				<!-- Scheduled Terms -->
-                <bean parent="Uif-HorizontalBoxGroup">
+        <property name="items">
+            <list>
+                <!-- Scheduled Terms -->
+                <bean parent="Uif-CssGridGroup">
                     <property name="render" value="@{courseSummaryDetails.scheduledTerms.size() gt 0}"/>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-HorizontalBoxGroup">
-                                <property name="validationMessages">
-                                    <null/>
-                                </property>
-                                <property name="cssClasses">
-                                    <list merge="true">
-                                        <value>ksap-popup-detail-label</value>
-                                    </list>
-                                </property>
+                            <bean parent="Uif-VerticalBoxSection" p:colSpan="5">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-Message" p:messageText="Scheduled Terms"/>
+                                        <bean parent="Uif-Message" p:messageText="Scheduled Terms">
+                                            <property name="cssClasses">
+                                                <list merge="true">
+                                                    <value>ksap-course-detail-label</value>
+                                                </list>
+                                            </property>
+                                        </bean>
                                     </list>
                                 </property>
                             </bean>
-                            <bean parent="Uif-HorizontalBoxGroup">
-                                <property name="validationMessages">
-                                    <null/>
-                                </property>
-                                <property name="cssClasses">
-                                    <list merge="true">
-                                        <value>ksap-popup-detail-field</value>
-                                    </list>
-                                </property>
+                            <bean parent="Uif-VerticalBoxSection" p:colSpan="7">
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-Message" p:messageText="@{courseSummaryDetails.scheduledTermsForUI}"/>
@@ -243,35 +232,25 @@
                         </list>
                     </property>
                 </bean>
-				<!-- Last Offered -->
-                <bean parent="Uif-HorizontalBoxGroup">
+                <!-- Last Offered -->
+                <bean parent="Uif-CssGridGroup">
                     <property name="render" value="@{courseSummaryDetails.lastOffered ne null and courseSummaryDetails.scheduledTerms.size() eq 0}"/>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-HorizontalBoxGroup">
-                                <property name="validationMessages">
-                                    <null/>
-                                </property>
-                                <property name="cssClasses">
-                                    <list merge="true">
-                                        <value>ksap-popup-detail-label</value>
-                                    </list>
-                                </property>
+                            <bean parent="Uif-VerticalBoxSection" p:colSpan="5">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-Message" p:messageText="Last Offered"/>
+                                        <bean parent="Uif-Message" p:messageText="Last Offered">
+                                            <property name="cssClasses">
+                                                <list merge="true">
+                                                    <value>ksap-course-detail-label</value>
+                                                </list>
+                                            </property>
+                                        </bean>
                                     </list>
                                 </property>
                             </bean>
-                            <bean parent="Uif-HorizontalBoxGroup">
-                                <property name="validationMessages">
-                                    <null/>
-                                </property>
-                                <property name="cssClasses">
-                                    <list merge="true">
-                                        <value>ksap-popup-detail-field</value>
-                                    </list>
-                                </property>
+                            <bean parent="Uif-VerticalBoxSection" p:colSpan="7">
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-Message" p:messageText="@{courseSummaryDetails.lastOffered}"/>
@@ -281,35 +260,25 @@
                         </list>
                     </property>
                 </bean>
-				<!-- Projected Terms -->
-                <bean parent="Uif-HorizontalBoxGroup">
+                <!-- Projected Terms -->
+                <bean parent="Uif-CssGridGroup">
                     <property name="render" value="@{courseSummaryDetails.scheduledTerms.size() eq 0}"/>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-HorizontalBoxGroup">
-                                <property name="validationMessages">
-                                    <null/>
-                                </property>
-                                <property name="cssClasses">
-                                    <list merge="true">
-                                        <value>ksap-popup-detail-label</value>
-                                    </list>
-                                </property>
+                            <bean parent="Uif-VerticalBoxSection" p:colSpan="5">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-Message" p:messageText="Projected Terms"/>
+                                        <bean parent="Uif-Message" p:messageText="Projected Terms">
+                                            <property name="cssClasses">
+                                                <list merge="true">
+                                                    <value>ksap-course-detail-label</value>
+                                                </list>
+                                            </property>
+                                        </bean>
                                     </list>
                                 </property>
                             </bean>
-                            <bean parent="Uif-HorizontalBoxGroup">
-                                <property name="validationMessages">
-                                    <null/>
-                                </property>
-                                <property name="cssClasses">
-                                    <list merge="true">
-                                        <value>ksap-popup-detail-field</value>
-                                    </list>
-                                </property>
+                            <bean parent="Uif-VerticalBoxSection" p:colSpan="7">
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-Message" p:messageText="@{courseSummaryDetails.termsOfferedForUI}"/>
@@ -319,34 +288,24 @@
                         </list>
                     </property>
                 </bean>
-				<!-- Requisites -->
-                <bean parent="Uif-HorizontalBoxGroup">
+                <!-- Course Requisites -->
+                <bean parent="Uif-CssGridGroup">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-HorizontalBoxGroup">
-                                <property name="validationMessages">
-                                    <null/>
-                                </property>
-                                <property name="cssClasses">
-                                    <list merge="true">
-                                        <value>ksap-popup-detail-label</value>
-                                    </list>
-                                </property>
+                            <bean parent="Uif-VerticalBoxSection" p:colSpan="5">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-Message" p:messageText="Course Requisites"/>
+                                        <bean parent="Uif-Message" p:messageText="Course Requisites">
+                                            <property name="cssClasses">
+                                                <list merge="true">
+                                                    <value>ksap-course-detail-label</value>
+                                                </list>
+                                            </property>
+                                        </bean>
                                     </list>
                                 </property>
                             </bean>
-                            <bean parent="Uif-HorizontalBoxGroup">
-                                <property name="validationMessages">
-                                    <null/>
-                                </property>
-                                <property name="cssClasses">
-                                    <list merge="true">
-                                        <value>ksap-popup-detail-field</value>
-                                    </list>
-                                </property>
+                            <bean parent="Uif-VerticalBoxSection" p:colSpan="7">
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-Message" p:messageText="@{courseSummaryDetails.requisitesForUI}"/>
@@ -356,8 +315,8 @@
                         </list>
                     </property>
                 </bean>
-			</list>
-		</property>
+            </list>
+        </property>
 	</bean>
 
     <bean id="planner_edit_plan_item_page" parent="planner_edit_plan_item_page-parent"/>

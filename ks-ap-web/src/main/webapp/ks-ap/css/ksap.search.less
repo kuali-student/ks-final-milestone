@@ -71,7 +71,7 @@
       //Using !important because ksboot is also, and we can't override
       display:none !important;
     }
-    span.uif-viewHeader-supportTitle {
+    p.uif-viewHeader-supportTitle {
       padding-top:0;
       color: #000;
     }
@@ -119,8 +119,8 @@
   }
 }
 
-//CDP Overview, Details Popover
-#course_details_overview, #course_details_popover_section {
+//CDP Overview, Details Popover, Planner Popover
+#course_details_overview, #course_details_popover_section, #planner_course_summary_details_data {
 
   .uif-boxLayoutVerticalItem {
     margin:0; //reset class margin for CDP overview section
@@ -133,6 +133,7 @@
   .ksap-course-detail-label {
     float:right;
     font-weight:bold;
+    text-align: right;
   }
 
   .uif-tooltip .ksap-course-detail-label {
