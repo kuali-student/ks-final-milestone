@@ -672,6 +672,7 @@
                             <bean id="is_evaluated"
                                   parent="KS-Uif-InputField"
                                   p:propertyName="aoInfo.isEvaluated"
+                                  p:fieldLabel.render="false"
                                   p:required="false">
                                 <property name="control">
                                     <bean parent="KS-Uif-CheckboxControl"  p:checkboxLabel="This lecture requires an evaluation" />
@@ -689,6 +690,7 @@
                             <bean id="is_honors_offering"
                                   parent="KS-Uif-InputField"
                                   p:propertyName="aoInfo.isHonorsOffering"
+                                  p:fieldLabel.render="false"
                                   p:required="false">
                                 <property name="control">
                                     <bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="This is an honors course" />
