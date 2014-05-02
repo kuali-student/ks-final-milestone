@@ -24,15 +24,17 @@ import org.kuali.rice.krms.tree.node.CompareTreeNode;
 import org.kuali.rice.krms.tree.node.RuleEditorTreeNode;
 import org.kuali.rice.krms.tree.node.TreeNode;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author Kuali Student Team
  */
-public class RuleManagementWrapper extends UifFormBase {
+public class RuleManagementWrapper implements Serializable {
 
     private String refObjectId;
+    private String viewId;
     private String namespace;
     private String refDiscriminatorType;
 
@@ -51,6 +53,14 @@ public class RuleManagementWrapper extends UifFormBase {
 
     public void setRefObjectId(String refObjectId) {
         this.refObjectId = refObjectId;
+    }
+
+    public String getViewId() {
+        return viewId;
+    }
+
+    public void setViewId(String viewId) {
+        this.viewId = viewId;
     }
 
     public List<AgendaEditor> getAgendas() {
