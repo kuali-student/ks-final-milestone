@@ -258,7 +258,7 @@
                         <bean parent="KS-Uif-TextControl" p:size="4" p:watermarkText="A"/>
                     </property>
                     <property name="quickfinder">
-                        <bean parent="Uif-QuickFinder"  p:lightBox.lookupReturnByScript="true">
+                        <bean parent="Uif-QuickFinderByScript">
                             <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper"/>
                             <property name="quickfinderAction">
                                 <bean parent="Uif-ActionLink" p:actionLabel="Find an Activity Offering" p:methodToCall="performLookup"/>
@@ -382,7 +382,7 @@
                             <bean parent="KS-Uif-InputField" p:id="personnel_id" p:propertyName="offeringInstructorInfo.personId"
                                   p:label="ID" p:required="false" p:cssClasses="col_5">
                                 <property name="quickfinder">
-                                    <bean parent="Uif-QuickFinder">
+                                    <bean parent="Uif-QuickFinderByScript">
                                         <property name="dataObjectClassName" value="org.kuali.student.rice.kim.impl.KSPersonImpl"/>
                                         <property name="fieldConversions">
                                             <map>
@@ -391,9 +391,6 @@
                                             </map>
                                         </property>
                                         <property name="viewName" value="ks_simplePersonLookup" />
-                                        <property name="lightBox">
-                                            <bean parent="Uif-LightBox" p:lookupReturnByScript="true"/>
-                                        </property>
                                     </bean>
                                 </property>
                             </bean>
@@ -613,7 +610,7 @@
                                           p:cssClasses="this, validSeatsAndPopulationName"/>
                                 </property>
                                 <property name="quickfinder">
-                                    <bean parent="Uif-QuickFinder" p:lightBox.lookupReturnByScript="true">
+                                    <bean parent="Uif-QuickFinderByScript">
                                         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
                                         <property name="fieldConversions">
                                             <map>

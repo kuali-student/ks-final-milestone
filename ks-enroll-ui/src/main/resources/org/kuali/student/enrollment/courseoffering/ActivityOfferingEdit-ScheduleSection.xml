@@ -262,7 +262,7 @@
                     </property>
                     <!-- The facility code quick finder -->
                     <property name="quickfinder">
-                        <bean parent="Uif-QuickFinder" p:lightBox.lookupReturnByScript="true">
+                        <bean parent="Uif-QuickFinderByScript">
                             <property name="dataObjectClassName" value="org.kuali.student.r2.core.room.dto.BuildingInfo"/>
                             <property name="fieldConversions">
                                 <map>
@@ -291,12 +291,11 @@
                         <bean parent="KS-Uif-TextControl" p:size="20" p:cssClasses="new_rdl_components"/>
                     </property>
                     <property name="quickfinder">
-                        <bean parent="Uif-QuickFinder">
+                        <bean parent="Uif-QuickFinderByScript">
                             <!-- Tried using this syntax ... lightBox.templateOptions ... set the callback, but even with 'merge'
                                  set the other options were overwritten. -->
                             <property name="lightBox">
                                 <bean parent="Uif-LightBox">
-                                    <property name="lookupReturnByScript" value="true" />
                                     <property name="templateOptions">
                                         <map merge="true">
                                             <!-- When the lightbox closes trigger a blur event on the room number text field to clear any field validation messages -->

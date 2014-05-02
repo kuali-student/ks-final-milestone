@@ -80,15 +80,12 @@
                                     <bean parent="KS-Uif-TextControl" p:size="30" p:watermarkText="ENGL or ENGL1 or ENGL101"/>
                                 </property>
                                 <property name="quickfinder">
-                                    <bean parent="Uif-QuickFinder"
+                                    <bean parent="Uif-QuickFinderByScript"
                                           p:dataObjectClassName="org.kuali.student.r2.lum.course.dto.CourseInfo"
                                           p:fieldConversions="code:inputCode">
                                         <property name="readOnlyLookupFields" value="courseInfo.courseTitle" />
                                         <property name="quickfinderAction">
                                             <bean parent="KS-Uif-ActionLink" p:methodToCall="performLookup" p:id="lookup_searchCourseCode" p:actionLabel="Find a Course" />
-                                        </property>
-                                        <property name="lightBox">
-                                            <bean parent="Uif-LightBox" p:lookupReturnByScript="true"/>
                                         </property>
                                     </bean>
                                 </property>

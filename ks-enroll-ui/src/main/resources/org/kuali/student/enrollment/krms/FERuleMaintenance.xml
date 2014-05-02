@@ -598,7 +598,7 @@ limitations under the License.
                         <bean parent="KS-Uif-TextControl" p:size="20" p:cssClasses="new_rdl_components"/>
                     </property>
                     <property name="quickfinder">
-                        <bean parent="Uif-QuickFinder" p:lightBox.lookupReturnByScript="true">
+                        <bean parent="Uif-QuickFinderByScript">
                             <property name="dataObjectClassName"
                                       value="org.kuali.student.r2.core.room.dto.BuildingInfo"/>
                             <property name="fieldConversions">
@@ -617,7 +617,7 @@ limitations under the License.
                         <bean parent="KS-Uif-TextControl" p:size="20" p:cssClasses="new_rdl_components"/>
                     </property>
                     <property name="quickfinder">
-                        <bean parent="Uif-QuickFinder" p:lightBox.lookupReturnByScript="true">
+                        <bean parent="Uif-QuickFinderByScript">
                             <property name="dataObjectClassName" value="org.kuali.student.r2.core.room.dto.RoomInfo"/>
                             <property name="autoSearch" value="true"/>
                             <property name="fieldConversions">

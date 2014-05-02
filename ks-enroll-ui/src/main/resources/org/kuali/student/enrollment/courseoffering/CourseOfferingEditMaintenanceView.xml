@@ -773,7 +773,7 @@
                                   p:required="false"
                                   p:additionalCssClasses="id_search_course_offering">
                                 <property name="quickfinder">
-                                    <bean parent="Uif-QuickFinder">
+                                    <bean parent="Uif-QuickFinderByScript">
                                         <property name="dataObjectClassName" value="org.kuali.student.rice.kim.impl.KSPersonImpl"/>
                                         <property name="fieldConversions">
                                             <map>
@@ -782,9 +782,6 @@
                                             </map>
                                         </property>
                                         <property name="viewName" value="ks_simplePersonLookup" />
-                                        <property name="lightBox">
-                                            <bean parent="Uif-LightBox" p:lookupReturnByScript="true"/>
-                                        </property>
                                     </bean>
                                 </property>
                             </bean>

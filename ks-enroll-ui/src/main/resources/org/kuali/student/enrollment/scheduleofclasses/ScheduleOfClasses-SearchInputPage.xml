@@ -108,7 +108,7 @@
                                     <bean parent="KS-Uif-TextControl" p:size="40" p:ReadOnly="false" p:watermarkText="Type principal name or use search"/>
                                 </property>
                                 <property name="quickfinder">
-                                    <bean parent="Uif-QuickFinder">
+                                    <bean parent="Uif-QuickFinderByScript">
                                         <property name="dataObjectClassName" value="org.kuali.student.rice.kim.impl.KSPersonImpl"/>
                                         <property name="viewName" value="ks_simplePersonLookup" />
                                         <property name="fieldConversions">
@@ -119,9 +119,6 @@
                                         </property>
                                         <property name="quickfinderAction">
                                             <bean parent="KS-Uif-ActionLink" p:methodToCall="performLookup" p:id="lookup_searchInstructor" p:actionLabel="Find an Instructor" />
-                                        </property>
-                                        <property name="lightBox">
-                                            <bean parent="Uif-LightBox" p:lookupReturnByScript="true"/>
                                         </property>
                                     </bean>
                                 </property>
