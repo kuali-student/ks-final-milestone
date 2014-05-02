@@ -164,7 +164,7 @@
                       p:progressiveRender="@{#dp.operationType eq 'kuali.population.rule.type.exclusion'}"
                       p:additionalCssClasses="ks-uif-quickFinder">
                     <property name="control">
-                        <bean parent="KS-Uif-TextControl" p:size="40" p:ReadOnly="true" />
+                        <bean parent="KS-Uif-TextControl" p:size="40" p:readOnly="true" />
                     </property>
 
                     <property name="quickfinder">
@@ -221,7 +221,7 @@
                             <bean parent="KS-Uif-InputField" p:fieldLabel.render="false" p:propertyName="name"
                                   p:additionalCssClasses="ks-uif-quickFinder" p:required="true">
                                 <property name="control">
-                                    <bean parent="KS-Uif-TextControl" p:size="40" p:ReadOnly="false" />
+                                    <bean parent="KS-Uif-TextControl" p:size="40" p:readOnly="false" />
                                 </property>
                                 <property name="quickfinder">
                                     <bean parent="Uif-QuickFinder">

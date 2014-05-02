@@ -170,7 +170,7 @@
                       p:render="@{#isAddLine or (!#isAddLine and #line.appointmentWindowInfo.stateKey!='kuali.appointment.window.state.assigned')}"
                       p:readOnly="@{!#isAddLine or #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}">
                     <property name="control">
-                        <bean parent="KS-Uif-TextControl" p:size="30" p:ReadOnly="false" />
+                        <bean parent="KS-Uif-TextControl" p:size="30" p:readOnly="false" />
                     </property>
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper">
@@ -197,7 +197,7 @@
                       p:render="@{!#isAddLine and #line.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}"
                       p:readOnly="@{!#isAddLine or #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}">
                      <property name="control">
-                        <bean parent="KS-Uif-TextControl" p:size="40" p:ReadOnly="true" />
+                        <bean parent="KS-Uif-TextControl" p:size="40" p:readOnly="true" />
                     </property>
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper">

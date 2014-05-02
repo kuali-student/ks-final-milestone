@@ -856,7 +856,7 @@
                       p:style="font-weight:bold;white-space:nowrap;"
                       p:additionalCssClasses="organization_id_course_offering">
                     <property name="control">
-                        <bean parent="KS-Uif-TextControl" p:size="16" p:ReadOnly="true" />
+                        <bean parent="KS-Uif-TextControl" p:size="16" p:readOnly="true" />
                     </property>
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinder">
