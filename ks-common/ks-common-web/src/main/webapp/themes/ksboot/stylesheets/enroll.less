@@ -938,10 +938,12 @@ cursor:auto;
 
 /************************************** UNIFIED PAGE HEADER **********************/
 /* Attributes of the right side */
-.uif-viewHeader-supportTitle{
-  display: inline-block;
-  padding-top: 12px;
-  color:#000;
+/* This is overriding the krad styling for supportTitle with header KSCM-2056 */
+.uif-viewHeader-supportTitle {
+    color: @secondaryText;
+    display: block;
+    font-size: 0.75em;
+    padding-top: 12px;
 }
 
 #edit_co_next.uif-actionLink {
