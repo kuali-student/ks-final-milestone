@@ -366,12 +366,7 @@
                                 </property>
                                 <!-- The facility code quick finder -->
                                 <property name="quickfinder">
-                                    <bean parent="Uif-QuickFinder">
-                                        <property name="lightBox">
-                                            <bean parent="Uif-LightBox">
-                                                <property name="lookupReturnByScript" value="true" />
-                                            </bean>
-                                        </property>
+                                    <bean parent="Uif-QuickFinderByScript">
                                         <property name="dataObjectClassName" value="org.kuali.student.r2.core.room.dto.BuildingInfo"/>
                                         <property name="fieldConversions">
                                             <map>
@@ -398,7 +393,7 @@
                                     </bean>
                                 </property>
                             </bean>
-                            <bean id="buildingName_id" parent="KS-Uif-DataField" p:propertyName="requestedSchedule.building.name">
+                            <bean id="buildingName_id" parent="KS-Uif-DataField" p:propertyName="requestedSchedule.building.name" p:fieldLabel.render="false" >
                                 <property name="additionalCssClasses">
                                     <list merge="true">
                                         <value>on</value>
@@ -425,12 +420,7 @@
                                     </list>
                                 </property>
                                 <property name="quickfinder">
-                                    <bean parent="Uif-QuickFinder">
-                                        <property name="lightBox">
-                                            <bean parent="Uif-LightBox">
-                                                <property name="lookupReturnByScript" value="true" />
-                                            </bean>
-                                        </property>
+                                    <bean parent="Uif-QuickFinderByScript">
                                         <property name="dataObjectClassName" value="org.kuali.student.r2.core.room.dto.RoomInfo"/>
                                         <property name="autoSearch" value="true"/>
                                         <property name="fieldConversions">

@@ -1049,6 +1049,7 @@ public class CourseOfferingManagementController extends UifControllerBase {
      * @return ModelAndView
      * @throws Exception
      */
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=saveExamOfferingRSIJSON")
     public @ResponseBody
     RSIJSONResponseData saveExamOfferingRSIJSON(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
@@ -1088,12 +1089,14 @@ public class CourseOfferingManagementController extends UifControllerBase {
 
     private void resetExamOfferingInformation(CourseOfferingManagementForm theForm, ExamOfferingWrapper eoWrapper) {
         int firstScheduleComponentIndex = 0;
-        ScheduleWrapper scheduleWrapper = eoWrapper.getRequestedScheduleComponents().get(firstScheduleComponentIndex);
+        if (eoWrapper.getRequestedScheduleComponents() != null && !eoWrapper.getRequestedScheduleComponents().isEmpty()) {
+            ScheduleWrapper scheduleWrapper = eoWrapper.getRequestedScheduleComponents().get(firstScheduleComponentIndex);
 
-        try {
-            CourseOfferingManagementUtil.getExamOfferingScheduleHelper().setScheduleTimeSlotInfo(scheduleWrapper, theForm.getExamPeriodWrapper());
-        } catch (OperationFailedException ofe){
-            throw new RuntimeException(ofe);
+            try {
+                CourseOfferingManagementUtil.getExamOfferingScheduleHelper().setScheduleTimeSlotInfo(scheduleWrapper, theForm.getExamPeriodWrapper());
+            } catch (OperationFailedException ofe){
+                throw new RuntimeException(ofe);
+            }
         }
     }
 
