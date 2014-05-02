@@ -80,7 +80,7 @@ public class ExamOfferingContext {
 
     public void setActivityOffering(ActivityOfferingInfo activityOffering){
         //Build up the map of AO for the methods so it does not have to make a DB call.
-        Map<String,List<ActivityOfferingInfo>> foIdToListOfAOs = new HashMap<String, List<ActivityOfferingInfo>>();
+        foIdToListOfAOs = new HashMap<String, List<ActivityOfferingInfo>>();
         List<ActivityOfferingInfo> aoInfos = new ArrayList<ActivityOfferingInfo>();
         aoInfos.add(activityOffering);
         foIdToListOfAOs.put(activityOffering.getFormatOfferingId(),aoInfos);
