@@ -17,9 +17,6 @@ import org.kuali.student.r2.core.search.service.SearchService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * This class provides some utility methods that a CacheDecorator can use to easily implement a search cache
  */
@@ -46,28 +43,27 @@ public class SearchCacheDecoratorUtil {
         if (!invalidateSearchCacheOnly) {
             LOG.debug("Clearing entire cache ({})", cache.getName());
             cache.removeAll();
-        }
-        else {
-            List<MultiKey> keys = new ArrayList<MultiKey>();
-            for(Object key  : cache.getKeys()) {
-                if(key instanceof MultiKey) {
+        } else {
+             for (Object key : cache.getKeys()) {
+                if (key instanceof MultiKey) {
                     MultiKey cacheKey = (MultiKey) key;
-                    if(cacheKey.size() > 1 && cacheSearchKeyPrefix.equals(cacheKey.getKey(0))) {
+                    if (cacheKey.size() > 1 && cacheSearchKeyPrefix.equals(cacheKey.getKey(0))) {
                         if (!verifyResultsBeforeInvalidate || id == null) {
-                            keys.add(cacheKey);
+                            cache.remove(cacheKey);
                             LOG.debug("Clearing key {} from cache ({})", key, cache.getName());
-                        }
-                        else {
+                        } else {
                             Element cachedResult = cache.get(cacheKey);
                             if (cachedResult != null) {
-                                SearchResultInfo sri = (SearchResultInfo)cachedResult.getValue();
+                                SearchResultInfo sri = (SearchResultInfo) cachedResult.getValue();
                                 for (SearchResultRow row : sri.getRows()) {
                                     String resultId = getCellValue(row, cellKey);
-                                    if (id.equals(resultId)) {
-                                        // Remove result from the cache
-                                        keys.add(cacheKey);
-                                        LOG.debug("Clearing key {} from cache ({})", key, cache.getName());
-                                        break;
+                                    if (resultId != null) {
+                                        if (id.equals(resultId)) {
+                                            // Remove result from the cache
+                                            cache.remove(cacheKey);
+                                            LOG.debug("Clearing key {} from cache ({})", key, cache.getName());
+                                            break;
+                                        }
                                     }
                                 }
                             }
@@ -75,8 +71,7 @@ public class SearchCacheDecoratorUtil {
                     }
                 }
             }
-            cache.removeAll(keys);
-        }
+         }
     }
 
     /**
@@ -125,7 +120,10 @@ public class SearchCacheDecoratorUtil {
                 return cell.getValue();
             }
         }
-        throw new RuntimeException("cell result '" + key + "' not found");
+        /*
+         * If the key isn't found in the cell the cached cell is invalidated then return null
+         */
+        return null;
     }
 
 }
