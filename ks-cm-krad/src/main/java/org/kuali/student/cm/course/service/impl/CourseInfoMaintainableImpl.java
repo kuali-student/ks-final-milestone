@@ -29,7 +29,6 @@ import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
-import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.container.Container;
 import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.view.ViewModel;
@@ -538,7 +537,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     public void processAfterAddLine(ViewModel model, Object lineObject, String collectionId, String collectionPath,
                                     boolean isValidLine) {
         if (lineObject instanceof FormatInfo) {
-            FormatInfo formatInfo = (FormatInfo)lineObject;
+            FormatInfo formatInfo = (FormatInfo) lineObject;
             ActivityInfo activityInfo = new ActivityInfo();
             formatInfo.getActivities().add(activityInfo);
         }
@@ -1100,12 +1099,6 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         reviewData.getGovernanceSection().getAdministeringOrganization().clear();
         for (OrganizationInfoWrapper organizationInfoWrapper : courseInfoWrapper.getAdministeringOrganizations()) {
             if (StringUtils.isNotBlank(organizationInfoWrapper.getOrganizationName())) {
-                List<OrganizationInfoWrapper> orgs = OrganizationSearchUtil.searchForOrganizations(organizationInfoWrapper.getOrganizationName(), getOrganizationService());
-                try {
-                    organizationInfoWrapper.setOrganizationName(KSCollectionUtils.getOptionalZeroElement(orgs).getOrganizationName());
-                } catch (OperationFailedException e) {
-                    throw new RuntimeException(e);
-                }
                 reviewData.getGovernanceSection().getAdministeringOrganization().add(organizationInfoWrapper.getOrganizationName());
             }
         }
@@ -1143,7 +1136,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         reviewData.getCourseLogisticsSection().getOutcomes().clear();
 
         for (ResultValuesGroupInfoWrapper rvg : courseInfoWrapper.getCreditOptionWrappers()) {
-            if (StringUtils.isNotBlank(rvg.getTypeKey())){
+            if (StringUtils.isNotBlank(rvg.getTypeKey())) {
                 String creditOptionType = "";
                 String creditOptionValue = rvg.getUiHelper().getResultValue();
                 if (StringUtils.equals(rvg.getTypeKey(), LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)) {
@@ -1177,7 +1170,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 if (activityInfo.getDuration() != null) {
                     String durationType;
                     try {
-                        TypeInfo duration = getTypeService().getType(activityInfo.getDuration().getAtpDurationTypeKey(),createContextInfo());
+                        TypeInfo duration = getTypeService().getType(activityInfo.getDuration().getAtpDurationTypeKey(), createContextInfo());
                         durationType = duration.getName();
                     } catch (Exception e) {
                         throw new RuntimeException(e);
@@ -1425,7 +1418,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
         for (ResultValuesGroupInfoWrapper rvgWrapper : courseInfoWrapper.getCreditOptionWrappers()) {
 
-            if (StringUtils.isBlank(rvgWrapper.getUiHelper().getResultValue())){
+            if (StringUtils.isBlank(rvgWrapper.getUiHelper().getResultValue())) {
                 continue;
             }
 
@@ -1446,7 +1439,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 rvg.setResultValueRange(range);
                 rvg.setTypeKey(rvgWrapper.getTypeKey());
             } else if (StringUtils.equals(rvgWrapper.getTypeKey(), LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE)) {
-                String[] resultValues = StringUtils.split(rvgWrapper.getUiHelper().getResultValue(),",");
+                String[] resultValues = StringUtils.split(rvgWrapper.getUiHelper().getResultValue(), ",");
                 rvg.getResultValueKeys().clear();
                 for (String result : resultValues) {
                     StringBuilder builder = new StringBuilder(LrcServiceConstants.RESULT_VALUE_KEY_CREDIT_DEGREE_PREFIX);
@@ -1457,7 +1450,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 }
             } else if (StringUtils.equals(rvgWrapper.getTypeKey(), LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)) {
                 ResultValueRangeInfo range = new ResultValueRangeInfo();
-                range.setMinValue(StringUtils.substringBefore(rvgWrapper.getUiHelper().getResultValue(),"-"));
+                range.setMinValue(StringUtils.substringBefore(rvgWrapper.getUiHelper().getResultValue(), "-"));
                 range.setMaxValue(StringUtils.substringAfter(rvgWrapper.getUiHelper().getResultValue(), "-"));
                 rvg.setResultValueRange(range);
                 rvg.setTypeKey(rvgWrapper.getTypeKey());
@@ -1535,7 +1528,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                     value = StringUtils.strip(value, ".0"); // This can be only be integer at ui.
                     resultValue.append(value + ",");
                 }
-                rvgWrapper.getUiHelper().setResultValue(StringUtils.removeEnd(resultValue.toString(),","));
+                rvgWrapper.getUiHelper().setResultValue(StringUtils.removeEnd(resultValue.toString(), ","));
 
             } else if (StringUtils.equals(rvg.getTypeKey(), LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)) {
 

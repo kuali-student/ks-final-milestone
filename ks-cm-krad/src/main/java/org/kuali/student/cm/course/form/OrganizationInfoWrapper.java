@@ -63,4 +63,18 @@ public class OrganizationInfoWrapper extends OrgInfo implements Serializable {
     public void setId(String id) {
         this.id = id;
     }
+
+    @Override
+    public boolean equals(Object object) {
+        OrganizationInfoWrapper organizationInfoWrapper = (OrganizationInfoWrapper) object;
+        if (this.getOrganizationName().equals(organizationInfoWrapper.getOrganizationName()) && (this.getId().equals(organizationInfoWrapper.getId()))) {
+            return true;
+        } else
+            return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return (31 * (this.getOrganizationName().hashCode() + this.getId().hashCode()));
+    }
 }

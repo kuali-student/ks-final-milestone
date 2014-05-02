@@ -39,8 +39,10 @@ import org.kuali.student.r2.lum.course.dto.CourseVariationInfo;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * This class contains all the course creation business rules
@@ -88,7 +90,7 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
         }
 
         if (dataObject.getCourseInfo().getVariations() != null) {
-            for (CourseVariationInfo courseVariationInfo : dataObject.getCourseInfo().getVariations())   {
+            for (CourseVariationInfo courseVariationInfo : dataObject.getCourseInfo().getVariations()) {
                 if (courseVariationInfo.getVariationCode() != null && courseVariationInfo.getVariationTitle() != null) {
                     if ((StringUtils.isBlank(courseVariationInfo.getVariationCode()) && StringUtils.isNotBlank(courseVariationInfo.getVariationTitle())) ||
                             StringUtils.isNotBlank(courseVariationInfo.getVariationCode()) && StringUtils.isBlank(courseVariationInfo.getVariationTitle())) {
@@ -163,21 +165,33 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
                 if (orgs.isEmpty()) {
                     GlobalVariables.getMessageMap().putErrorForSectionId("administering-organization", CurriculumManagementConstants.MessageKeys.ERROR_DATA_NOT_FOUND, "Org", organizationInfoWrapper.getOrganizationName());
                     return false;
-                } else if (orgs.size() > 1) {
+                } else if (isMultipleOrganizationInfoFound(orgs)) {
                     GlobalVariables.getMessageMap().putErrorForSectionId("administering-organization", CurriculumManagementConstants.MessageKeys.ERROR_DATA_MULTIPLE_MATCH_FOUND, "Org", organizationInfoWrapper.getOrganizationName());
                     return false;
                 } else {
-                    try {
-                        dataObject.getCourseInfo().getUnitsDeployment().add(KSCollectionUtils.getOptionalZeroElement(orgs).getId());
-                    } catch (OperationFailedException e) {
-                        throw new RuntimeException(e);
-                    }
+                    dataObject.getCourseInfo().getUnitsDeployment().add(getOrganizationInfoWrapper(orgs, organizationInfoWrapper.getOrganizationName()).getId());
                 }
             }
         }
-
         return true;
+    }
 
+    protected boolean isMultipleOrganizationInfoFound(List<OrganizationInfoWrapper> orgs) {
+        Set<OrganizationInfoWrapper> nonDuplicateOrgs = new HashSet<OrganizationInfoWrapper>();
+        for (OrganizationInfoWrapper organizationInfoWrapper : orgs) {
+            if (!nonDuplicateOrgs.add(organizationInfoWrapper)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    protected OrganizationInfoWrapper getOrganizationInfoWrapper(List<OrganizationInfoWrapper> orgs, String organizationName) {
+        for (OrganizationInfoWrapper organizationInfoWrapper : orgs) {
+            if (organizationInfoWrapper.getOrganizationName().equals(organizationName))
+                return organizationInfoWrapper;
+        }
+        return new OrganizationInfoWrapper(); // always orgs will contain organizationName, therefore this part of the code will never be called.
     }
 
     protected OrganizationService getOrganizationService() {
