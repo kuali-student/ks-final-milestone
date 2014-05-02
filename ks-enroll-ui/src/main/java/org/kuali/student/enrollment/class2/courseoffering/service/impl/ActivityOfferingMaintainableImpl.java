@@ -86,6 +86,8 @@ import java.util.Map;
 public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl implements ActivityOfferingMaintainable {
 
     private static final long serialVersionUID = 1L;
+    private static final String CO_CODE_PROPERTY_PATH = "newCollectionLines['document.newMaintainableObject.dataObject.colocatedActivities'].courseOfferingCode";
+    private static final String AO_CODE_PROPERTY_PATH = "newCollectionLines['document.newMaintainableObject.dataObject.colocatedActivities'].activityOfferingCode";
 
     @Override
     public void saveDataObject() {
@@ -930,12 +932,23 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
     protected boolean validateNewColocatedActivity(ColocatedActivity colo,ActivityOfferingWrapper activityOfferingWrapper){
 
         String groupId = "ActivityOfferingEditPage";
-        String coCodePropertyPath = "newCollectionLines['document.newMaintainableObject.dataObject.colocatedActivities'].courseOfferingCode";
-        String aoCodePropertyPath = "newCollectionLines['document.newMaintainableObject.dataObject.colocatedActivities'].activityOfferingCode";
+
+        String coloCourseOfferingCode = StringUtils.trimToEmpty(colo.getCourseOfferingCode());
+        String coloActivityOfferingCode = StringUtils.trimToEmpty(colo.getActivityOfferingCode());
+
+        if ("".equals(coloCourseOfferingCode)) {
+            GlobalVariables.getMessageMap().putError(CO_CODE_PROPERTY_PATH, ActivityOfferingConstants.MSG_ERROR_AO_INVALID_CO_CODE_COLOCATE);
+            return false;
+        }
+
+        if ("".equals(coloActivityOfferingCode)) {
+            GlobalVariables.getMessageMap().putError(AO_CODE_PROPERTY_PATH, ActivityOfferingConstants.MSG_ERROR_AO_INVALID_AO_CODE_COLOCATE);
+            return false;
+        }
 
         for (ColocatedActivity activity : activityOfferingWrapper.getColocatedActivities()){
-            if (StringUtils.equals(activity.getCourseOfferingCode(),colo.getCourseOfferingCode()) &&
-                    StringUtils.equals(activity.getActivityOfferingCode(),colo.getActivityOfferingCode())){
+            if (StringUtils.equals(activity.getCourseOfferingCode(), coloCourseOfferingCode) &&
+                    StringUtils.equals(activity.getActivityOfferingCode(), coloActivityOfferingCode)){
                 GlobalVariables.getMessageMap().putError(groupId, ActivityOfferingConstants.MSG_ERROR_AO_DUPLICATE_COLOCATE);
                 return false;
             }
@@ -943,7 +956,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
 
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
         qbcBuilder.setPredicates(PredicateFactory.and(
-                PredicateFactory.equal("courseOfferingCode", colo.getCourseOfferingCode()),
+                PredicateFactory.equal("courseOfferingCode", coloCourseOfferingCode),
                 PredicateFactory.equalIgnoreCase("atpId", activityOfferingWrapper.getTermId())));
         QueryByCriteria criteria = qbcBuilder.build();
         int firstCOInfo = 0;
@@ -952,10 +965,10 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
         try {
             List<CourseOfferingInfo> courseOfferings = CourseOfferingManagementUtil.getCourseOfferingService().searchForCourseOfferings(criteria, createContextInfo());
             if (courseOfferings.isEmpty()){
-                GlobalVariables.getMessageMap().putError(coCodePropertyPath, ActivityOfferingConstants.MSG_ERROR_AO_INVALID_CO_CODE_COLOCATE);
+                GlobalVariables.getMessageMap().putError(CO_CODE_PROPERTY_PATH, ActivityOfferingConstants.MSG_ERROR_AO_INVALID_CO_CODE_COLOCATE);
                 return false;
             } else if (courseOfferings.size() > 1){
-                GlobalVariables.getMessageMap().putError(coCodePropertyPath, ActivityOfferingConstants.MSG_ERROR_AO_MULTIPLE_CO_COLOCATE, colo.getCourseOfferingCode());
+                GlobalVariables.getMessageMap().putError(CO_CODE_PROPERTY_PATH, ActivityOfferingConstants.MSG_ERROR_AO_MULTIPLE_CO_COLOCATE, coloCourseOfferingCode);
                 return false;
             } else {
                 colo.setCoId(courseOfferings.get(firstCOInfo).getId());
@@ -964,13 +977,13 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             List<ActivityOfferingInfo> activityOfferingInfos = CourseOfferingManagementUtil.getCourseOfferingService().getActivityOfferingsByCourseOffering(courseOfferings.get(firstCOInfo).getId(),createContextInfo());
 
             if (activityOfferingInfos.isEmpty()){
-                GlobalVariables.getMessageMap().putError(aoCodePropertyPath, ActivityOfferingConstants.MSG_ERROR_AO_NOT_EXIST_CO_COLOCATE, colo.getCourseOfferingCode());
+                GlobalVariables.getMessageMap().putError(AO_CODE_PROPERTY_PATH, ActivityOfferingConstants.MSG_ERROR_AO_NOT_EXIST_CO_COLOCATE, coloCourseOfferingCode);
                 return false;
             }
 
             boolean isAOMatchFound = false;
             for (ActivityOfferingInfo ao : activityOfferingInfos){
-                if (StringUtils.equalsIgnoreCase(ao.getActivityCode(), colo.getActivityOfferingCode())){
+                if (StringUtils.equalsIgnoreCase(ao.getActivityCode(), coloActivityOfferingCode)){
                     if (ao.getIsColocated()){
                         GlobalVariables.getMessageMap().putError(groupId, ActivityOfferingConstants.MSG_ERROR_AO_PART_COLOCATE);
                         return false;
@@ -978,7 +991,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                         GlobalVariables.getMessageMap().putError(groupId, ActivityOfferingConstants.MSG_ERROR_AO_CURRENT_COLOCATE);
                         return false;
                     } else if (StringUtils.equals(ao.getStateKey(), LuiServiceConstants.LUI_AO_STATE_CANCELED_KEY)){
-                        GlobalVariables.getMessageMap().putError(aoCodePropertyPath, ActivityOfferingConstants.MSG_ERROR_AO_CANCEL_STATE_COLOCATE);
+                        GlobalVariables.getMessageMap().putError(AO_CODE_PROPERTY_PATH, ActivityOfferingConstants.MSG_ERROR_AO_CANCEL_STATE_COLOCATE);
                         return false;
                     }
 
@@ -992,7 +1005,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             }
 
             if (!isAOMatchFound){
-                GlobalVariables.getMessageMap().putError(aoCodePropertyPath, ActivityOfferingConstants.MSG_ERROR_AO_INVALID_AO_CODE_COLOCATE);
+                GlobalVariables.getMessageMap().putError(AO_CODE_PROPERTY_PATH, ActivityOfferingConstants.MSG_ERROR_AO_INVALID_AO_CODE_COLOCATE);
                 return false;
             }
 
