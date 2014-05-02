@@ -70,15 +70,13 @@
 		</property>
 		<property name="renderAddBlankLineButton" value="true" />
         <property name="addBlankLineAction">
-            <bean parent="Uif-AddBlankLineAction">
+            <bean parent="KS-BottomAddLine">
                 <property name="methodToCall" value="addBlankLine"/>
                 <property name="actionEvent" value="addBlankLine"/>
                 <property name="id" value="uif-addBlankLine-outcome"/>
+                <property name="dirtyOnAction" value="true" />
                 <property name="actionLabel" value="Add Learning Objective"/>
                 <property name="actionImagePlacement" value="LEFT"/>
-                <property name="actionImage">
-                    <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']+'/plus_grey.png'}"/>
-                </property>
                 <property name="style" value="margin-top:5px;"/>
             </bean>
         </property>
