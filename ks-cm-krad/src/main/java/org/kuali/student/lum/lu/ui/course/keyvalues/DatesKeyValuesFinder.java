@@ -15,6 +15,7 @@
  */
 package org.kuali.student.lum.lu.ui.course.keyvalues;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -83,10 +84,10 @@ public class DatesKeyValuesFinder extends UifKeyValuesFinderBase {
         if (model instanceof MaintenanceDocumentForm) {
             MaintenanceDocumentForm courseForm = (MaintenanceDocumentForm) model;
             CourseInfoWrapper courseInfoWrapper = ((CourseInfoWrapper) courseForm.getDocument().getNewMaintainableObject().getDataObject());
-            if (courseInfoWrapper.getCourseInfo().isPilotCourse()) {
+            if (courseInfoWrapper.getCourseInfo().isPilotCourse() && StringUtils.isNotEmpty(courseInfoWrapper.getCourseInfo().getStartTerm())) {
 
                 for (int i = 0; i < searchResult.size(); i++) {
-                    if (courseInfoWrapper.getCourseInfo().getStartTerm().equals(searchResult.get(i).getId().toString())) {
+                        if (courseInfoWrapper.getCourseInfo().getStartTerm().equals(searchResult.get(i).getId().toString())) {
                         break;
                     }
                     else {
