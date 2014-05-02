@@ -82,7 +82,10 @@
 #course_details_page {
   .uif-header-contentWrapper {display:none;}
 }
-#course_details_section {margin-top:0;}
+#course_details_section {
+  margin-top:0;
+  width:100%;
+}
 
 .ksap-view .ksap-underline-header {
   border-bottom: solid 2px #f2e4b7;
@@ -116,52 +119,33 @@
   }
 }
 
-.ksap-view .ksap-underline-header .uif-headerText {
-  font-weight: 700;
-}
+//CDP Overview
+#course_details_overview {
 
-#course_details_overview .uif-boxLayoutHorizontalItem {
-  margin: 0 10px 0 0;
-}
+  .uif-boxLayoutVerticalItem {
+    margin:0; //reset class margin for CDP overview section
+  }
 
-.ksap-view .ksap-course-detail-label {
-  width: 150px;
-  margin-right: 20px;
-}
+  .uif-cssGridGroup {
+    margin: 0 0 10px 0;
+  }
 
-#course_details_overview .uif-tooltip .uif-boxLayoutHorizontalItem {
-  margin:0;
-  cursor: pointer;
-}
+  .ksap-course-detail-label {
+    float:right;
+    font-weight:bold;
+  }
 
-.ksap-course-detail-label .uif-message, .ksap-course-detail-label .uif-tooltip {
-  float:right;
-  font-weight:bold;
-}
+  .uif-tooltip .ksap-course-detail-label {
+    cursor: pointer;
+    border-bottom: 1px dotted #777;
+  }
 
-.ksap-course-detail-label > .uif-verticalBoxLayout.uif-horizontalBoxLayout {
-  float: right;
-}
-
-.ksap-course-detail-label > .uif-verticalBoxLayout.uif-horizontalBoxLayout span {
-  vertical-align: middle;
-  margin: 0;
-}
-
-.ksap-course-detail-label > .uif-verticalBoxLayout.uif-horizontalBoxLayout img {
-  margin: 0 0 0 10px;
-}
-
-.ksap-view .ksap-course-detail-field {
-  width: 500px;
-  margin: 0;
-}
-
-.ksap-course-detail-source {
-  font-size:.846em;
-  color:#666;
-  clear:both;
-  margin: 0;
+  .ksap-course-detail-source {
+    font-size:.846em;
+    color:#666;
+    clear:both;
+    margin-top: 3px;
+  }
 }
 
 .scheduled > span {
