@@ -269,6 +269,7 @@
                 <bean id="KS-CrossListed-Section" parent="KS-TableCollectionSubSection-BottomAddLine"
                       p:id="crosslisted-course" p:layoutManager.style="width: 100%;"
                       p:headerText="Cross Listed Courses">
+                    <property name="header.headerLevel" value="h4"/>
                     <property name="collectionObjectClass" value="org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo" />
                     <property name="propertyName" value="courseInfo.crossListings" />
                     <property name="addBlankLineAction.actionLabel" value="Add Course"/>
@@ -338,6 +339,7 @@
                 <bean id="KS-JointlyOffered-Section" parent="KS-TableCollectionSubSection-BottomAddLine"
                       p:id="jointlyOffered-section" p:layoutManager.style="width: 100%;"
                       p:headerText="Jointly Offered Courses">
+                    <property name="header.headerLevel" value="h4"/>
                     <property name="collectionObjectClass" value="org.kuali.student.cm.course.form.CourseJointInfoWrapper" />
                     <property name="propertyName" value="courseJointWrappers" />
                     <property name="addBlankLineAction.actionLabel" value="Add Course"/>
@@ -406,6 +408,7 @@
                 <bean id="KS-VersionCode-Section" parent="KS-TableCollectionSubSection-BottomAddLine"
                       p:id="version-code" p:layoutManager.style="width: 100%;"
                       p:headerText="Version Codes">
+                    <property name="header.headerLevel" value="h4"/>
                     <property name="collectionObjectClass" value="org.kuali.student.r2.lum.course.dto.CourseVariationInfo" />
                     <property name="propertyName" value="courseInfo.variations" />
                     <property name="addBlankLineAction.actionLabel" value="Add Version Code"/>
