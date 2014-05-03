@@ -120,6 +120,8 @@
             <bean parent="KSTheme"/>
         </property>
 
+        <property name="help"><null/></property>
+
         <!-- Need Krad Fix to work see KULRICE-9578, work around inplace-->
         <!--<property name="page.breadcrumbOptions.renderHomewardPathBreadcrumbs" value="@{!#form.renderedInLightBox}"/>-->
         <property name="onLoadScript"
