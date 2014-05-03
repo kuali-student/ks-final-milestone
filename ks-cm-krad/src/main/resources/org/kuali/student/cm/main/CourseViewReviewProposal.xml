@@ -81,8 +81,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseView-ReviewErrorMessageLink" parent="Uif-VerticalBoxGroup"
-          p:render="@{#dataObject.missingRequiredFields}">
+    <bean id="KS-CourseView-ReviewErrorMessageLink" parent="Uif-VerticalBoxGroup" p:render="@{#dataObject.missingRequiredFields}">
         <property name="items">
             <list>
                 <bean id="KS-CourseView-Admin-Message-TreeExpandCollapse" parent="Uif-HorizontalFieldGroup"
@@ -125,15 +124,12 @@
                 </property>
             </bean>
         </property>
-        <!-- Rice 2.4 Upgrade: we can no longer customize the location of the required message
-         TODO: KSCM-2000 Required Message Changes
-        <property name="fieldLabel.requiredMessagePlacement" value="LEFT"/>
-        -->
     </bean>
 
     <!-- The parent all of the vertical box sections -->
     <bean id="ReviewProposal-VerticalBoxSection" parent="Uif-VerticalBoxSection" abstract="true">
         <property name="validationMessages.displayMessages" value="false"/>
+        <property name="validationMessages.displayHeaderMessageSummary" value="false"/>
         <property name="cssClasses">
             <list merge="true">
                 <value>review_proposal-section</value>
