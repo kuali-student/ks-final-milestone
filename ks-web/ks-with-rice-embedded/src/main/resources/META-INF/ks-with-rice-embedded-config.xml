@@ -164,4 +164,7 @@
     
      <param name="ks.ignore.rice.login">true</param>
 
+    <!-- Rice 2.4 upgrade - KSENROLL-12761 - KRAD defaults to "cleanup" javascript which was removing needed js content -->
+    <param name="rice.krad.script.cleanup" override="true">${rice.krad.script.cleanup}</param>
+
 </config>
