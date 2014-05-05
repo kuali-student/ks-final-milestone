@@ -34,7 +34,7 @@ limitations under the License.
         <property name="viewHelperServiceClass" value="org.kuali.student.cm.course.service.ProposalLookupableImpl" />
         <property name="authorizerClass" value="org.kuali.student.cm.course.auth.ProposalLookupViewAuthorizerBase"/>
         <property name="renderMaintenanceLinks" value="true"/>
-
+        <property name="help"><null/></property>
         <property name="applicationHeader">
             <bean parent="KS-Uif-FormView-ApplicationHeader"/>
         </property>
