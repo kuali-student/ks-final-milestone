@@ -16,11 +16,14 @@
 package org.kuali.student.enrollment.class1.krms.util;
 
 import com.google.common.collect.Maps;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.uif.component.BindingInfo;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.container.Group;
 import org.kuali.rice.krad.uif.container.NodePrototype;
+import org.kuali.rice.krad.uif.field.DataField;
+import org.kuali.rice.krad.uif.lifecycle.ViewLifecycleUtils;
 import org.kuali.rice.krad.uif.util.ComponentUtils;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.View;
@@ -33,6 +36,9 @@ import org.kuali.rice.krms.util.AgendaSection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import static java.util.Map.Entry;
 
 /**
  * @author Kuali Student Team
@@ -47,6 +53,30 @@ public class FinalExamAgendaSection extends AgendaSection {
             this.agendaBuilder = new FinalExamAgendaBuilder();
         }
         return this.agendaBuilder;
+    }
+
+    protected void setCollectionPath() {
+        // set static collection path on items
+        String collectionPath = "";
+        if (StringUtils.isNotBlank(getBindingInfo().getCollectionPath())) {
+            collectionPath += getBindingInfo().getCollectionPath() + ".";
+        }
+        if (StringUtils.isNotBlank(getBindingInfo().getBindByNamePrefix())) {
+            collectionPath += getBindingInfo().getBindByNamePrefix() + ".";
+        }
+        collectionPath += getBindingInfo().getBindingName();
+
+        List<DataField> fields = new ArrayList<DataField>();
+        for(Map.Entry<String, Group> entry : agendaPrototypeMap.entrySet()){
+            Group group = entry.getValue();
+            fields.addAll(ViewLifecycleUtils.getElementsOfTypeDeep(entry.getValue(), DataField.class));
+            if(group instanceof CollectionGroup){
+                ((CollectionGroup)group).getBindingInfo().setCollectionPath(collectionPath);
+            }
+        }
+        for (DataField collectionField : fields) {
+            collectionField.getBindingInfo().setCollectionPath(collectionPath);
+        }
     }
 
     public Map<String, Group> getAgendaPrototypeMap() {
