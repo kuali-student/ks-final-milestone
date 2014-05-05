@@ -254,15 +254,18 @@
     margin-left: 224px;
 }
 
-/* Fixes the spacing around the validation message ul */
-#KS-CourseView-CoursePage_messages > .uif-validationMessagesList {
-  margin: 0;
-  padding: 0 0 5px 15px;
+/*
+ * Validation messages and the yellow bars
+ */
+/* Position validation message h3 */
+.uif-pageValidationHeader {
+  margin: 0 !important;
+  padding: 8px 0 0 8px;
 }
-/* Position validation message contents */
-#KS-CourseView-CoursePage_messages > .uif-pageValidationHeader {
-  margin: 0;
-  padding: 8px 0 4px 8px;
+/* Fixes the spacing around the validation message ul */
+.uif-validationMessagesList {
+  margin: 0 !important;
+  padding: 5px 0 5px 15px;
 }
 
 /* Position the contents of the yellow bars */
@@ -311,18 +314,10 @@ section.uif-disclosure .uif-headerText .uif-headerText-span [class*='icon-caret-
     font-weight: normal;
 }
 
-/*  Allow the required message to in the rightGroup to align adjacent to the section header text */
-.cm_requiredMessage_sectionHeader .uif-headerText {
+ /*  Allow the required message to in the rightGroup to align adjacent to the label text */
+.cm_requiredMessage_text > div {
     float: left;
-}
-
-.cm_requiredMessage_sectionHeader .uif-requiredMessage {
-    margin-left: 10px;
-}
-
-.cm_requiredMessage_sectionHeader .uif-header-rightGroup {
-    position: static;
-    float: left;
+    margin-right: 5px;
 }
 
 /* Review section styling */
@@ -390,7 +385,7 @@ section.uif-disclosure .uif-headerText .uif-headerText-span [class*='icon-caret-
     transition: none;
 
     resize: none;
-    cursor: pointer;
+    cursor: arrow;
 
     padding: 0px 6px;
     margin-top: 4px;
@@ -480,7 +475,7 @@ section.uif-disclosure .uif-headerText .uif-headerText-span [class*='icon-caret-
 
 /*
  * TODO: KSCM-2058 This section contains workarounds for breakage that come in with the Rice 2.4 upgrade. The KRAD team
- * is probably going to replace the jQuery tab implemention with the one from Bootstrap. When that happens the left nav
+ * is probably going to replace the jQuery tab implementation with the one from Bootstrap. When that happens the left nav
  * panel will need to be completely reworked.
  */
 /*
