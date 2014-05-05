@@ -129,7 +129,7 @@ button.uif-primaryActionButton.ksap-carousel-next.disabled img {
   border-top: none;
   border-radius: 0px 0px 5px 5px;
 }
-.ksap-carousel-list ul li .uif-group .uif-stackedCollectionLayout {
+.ksap-carousel-list ul li .uif-group {
   overflow: hidden;
   background: none;
   padding: 0px;
@@ -205,62 +205,64 @@ button.uif-primaryActionButton.ksap-carousel-next.disabled img {
   background-position: -12px -134px;
 }
 
-.ksap-carousel-list ul li .ksap-carousel-term.ksap-term-fixed-height .uif-stackedCollectionLayout {
+.ksap-carousel-list ul li .ksap-carousel-term.ksap-term-fixed-height {
   height: 208px;
 }
 
-.ksap-carousel-list ul li .ksap-carousel-term .uif-stackedCollectionLayout .uif-collectionItem {
+.ksap-carousel-list ul li .ksap-carousel-term .uif-collectionItem {
   margin: 1px 0 0 0;
   font-size: 0.8462em;
   padding: 0px;
   background: none;
+  border: none;
+  box-shadow: none;
 }
 
-.ksap-carousel-list ul li .ksap-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .code {
+.ksap-carousel-list ul li .ksap-carousel-term .uif-collectionItem .code {
   color: #000;
 }
 
-.ksap-carousel-list ul li .ksap-term-past .uif-stackedCollectionLayout .uif-collectionItem .code {
+.ksap-carousel-list ul li .ksap-term-past .uif-collectionItem .code {
   color: #555;
 }
 
-.ksap-carousel-list ul li .ksap-term-past .uif-stackedCollectionLayout .uif-collectionItem .ksap-course-invalid .code {
+.ksap-course-invalid .code {
   color: #666;
 }
 
-.ksap-carousel-list ul li .ksap-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .credit {
+.ksap-carousel-list ul li .ksap-carousel-term .uif-collectionItem .credit {
   color: #888;
   margin-left: 5px;
 }
 
-.ksap-carousel-list ul li .ksap-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .grade {
+.ksap-carousel-list ul li .ksap-carousel-term .uif-collectionItem .grade {
   color: #777;
   font-weight: bold;
   float: right;
 }
 
-.ksap-carousel-list ul li .ksap-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .ksap-course-valid,
-.ksap-carousel-list ul li .ksap-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .ksap-course-invalid,
+.ksap-course-valid,
+.ksap-course-invalid,
 .quick-add-cell {
   height: 25px;
   line-height: 25px;
   padding: 0 5px 0 26px;
 }
 
-.ksap-carousel-list ul li .ksap-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .schedule {
+.ksap-carousel-list ul li .ksap-carousel-term .uif-collectionItem .schedule {
   padding: 0 5px 0 4px;
 }
-.ksap-carousel-list ul li .ksap-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .ksap-course-valid.not-scheduled,
-.ksap-carousel-list ul li .ksap-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .ksap-course-invalid.not-scheduled {
+.ksap-course-valid.not-scheduled,
+.ksap-course-invalid.not-scheduled {
   /*@TODO: ksap-961 Use icon font or point to ksboot resource instead*/
   background: url('../images/iconWarning.png') no-repeat 4px;
 }
 
-.ksap-carousel-list ul li .ksap-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .schedule .schedule-status {
+.ksap-carousel-list ul li .ksap-carousel-term .uif-collectionItem .schedule .schedule-status {
   margin-right: 4px;
 }
 
-.ksap-carousel-list ul li .ksap-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .schedule-status img {
+.ksap-carousel-list ul li .ksap-carousel-term .uif-collectionItem .schedule-status img {
   width: 18px;
   height: 18px;
   vertical-align: middle;
@@ -270,7 +272,7 @@ button.uif-primaryActionButton.ksap-carousel-next.disabled img {
   background: url('../images/ksap_icon_sprites.png') no-repeat -1000px -1000px;
 }
 
-.ksap-carousel-list ul li .ksap-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .schedule-status.not-scheduled img {
+.ksap-carousel-list ul li .ksap-carousel-term .uif-collectionItem .schedule-status.not-scheduled img {
   background-position: -54px -115px;
 }
 
@@ -337,8 +339,8 @@ label.scheduled {
 .ksap-full-plan-detail table th,
 .ksap-full-plan-detail ul,
 .ksap-full-plan-detail ul li,
-.ksap-full-plan-detail .uif-stackedCollectionLayout,
-.ksap-full-plan-detail .uif-stackedCollectionLayout > .uif-collectionItem {
+.ksap-full-plan-detail,
+.ksap-full-plan-detail > .uif-collectionItem {
   padding: 0;
   margin: 0;
   background: none;
@@ -359,7 +361,7 @@ label.scheduled {
   color: #999;
 }
 
-.ksap-full-plan-detail .uif-stackedCollectionLayout > .uif-collectionItem.ksap-term{
+.ksap-full-plan-detail > .uif-collectionItem.ksap-term{
   display: inline-block;
   float: left;
 }
@@ -395,8 +397,8 @@ label.scheduled {
 }
 
 /* Quarter Detail View ######################################################################################### */
-.ksap-quarter-detail .uif-stackedCollectionLayout,
-.ksap-quarter-detail .uif-stackedCollectionLayout > .uif-collectionItem {
+.ksap-quarter-detail,
+.ksap-quarter-detail > .uif-collectionItem {
   padding: 0;
   margin: 0;
   background: none;
@@ -448,11 +450,11 @@ label.scheduled {
   padding-left: 20px !important;
 }
 
-.ks-plan-Bucket-itemCreditCount::before {
+.ks-plan-Bucket-itemCreditCount p::before {
   content: '(' !important;
 }
 
-.ks-plan-Bucket-itemCreditCount::after {
+.ks-plan-Bucket-itemCreditCount p::after {
   content: ')' !important;
 }
 
