@@ -18,7 +18,6 @@ package org.kuali.student.lum.lu.ui.krms.dto;
 import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.student.core.krms.dto.KSPropositionEditor;
-import org.kuali.student.lum.lu.ui.krms.util.CluSetRangeWrapper;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
@@ -33,15 +32,15 @@ public class LUPropositionEditor extends KSPropositionEditor {
     private static final long serialVersionUID = 1L;
 
     private CourseInfo courseInfo;
-    private CluSetInformation courseSet;
-    private CluSetInformation courseSetParent;
+    private CluSetWrapper courseSet;
+    private CluSetWrapper courseSetParent;
     private String multipleCourseType = new String();
 
     private String programType;
     private String gradeScale;
     private OrgInfo orgInfo;
-    private CluSetInformation programSet;
-    private CluSetInformation programSetParent;
+    private CluSetWrapper programSet;
+    private CluSetWrapper programSetParent;
     private String termCode;
     private String termCode2;
     private TermInfo termInfo;
@@ -49,7 +48,7 @@ public class LUPropositionEditor extends KSPropositionEditor {
 
     private CluSetRangeWrapper cluSetRange = new CluSetRangeWrapper();
 
-        private static final String CLULIST_KEY = "kuali.term.parameter.type.course.nl.clu.list";
+    private static final String CLULIST_KEY = "kuali.term.parameter.type.course.nl.clu.list";
     private static final String CLUSETLIST_KEY = "kuali.term.parameter.type.course.nl.cluset.list";
 
     public LUPropositionEditor(){
@@ -99,19 +98,19 @@ public class LUPropositionEditor extends KSPropositionEditor {
         this.programType = programType;
     }
 
-    public CluSetInformation getCourseSet() {
+    public CluSetWrapper getCourseSet() {
         return courseSet;
     }
 
-    public void setCourseSet(CluSetInformation courseSet) {
+    public void setCourseSet(CluSetWrapper courseSet) {
         this.courseSet = courseSet;
     }
 
-    public CluSetInformation getCourseSetParent() {
+    public CluSetWrapper getCourseSetParent() {
         return courseSetParent;
     }
 
-    public void setCourseSetParent(CluSetInformation courseSetParent) {
+    public void setCourseSetParent(CluSetWrapper courseSetParent) {
         this.courseSetParent = courseSetParent;
     }
 
@@ -131,19 +130,19 @@ public class LUPropositionEditor extends KSPropositionEditor {
         this.orgInfo = orgInfo;
     }
 
-    public CluSetInformation getProgramSet() {
+    public CluSetWrapper getProgramSet() {
         return programSet;
     }
 
-    public void setProgramSet(CluSetInformation programSet) {
+    public void setProgramSet(CluSetWrapper programSet) {
         this.programSet = programSet;
     }
 
-    public CluSetInformation getProgramSetParent() {
+    public CluSetWrapper getProgramSetParent() {
         return programSetParent;
     }
 
-    public void setProgramSetParent(CluSetInformation programSetParent) {
+    public void setProgramSetParent(CluSetWrapper programSetParent) {
         this.programSetParent = programSetParent;
     }
 

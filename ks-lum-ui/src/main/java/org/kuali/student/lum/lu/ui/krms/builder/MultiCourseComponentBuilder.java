@@ -22,24 +22,16 @@ import org.kuali.rice.krms.dto.TermParameterEditor;
 import org.kuali.rice.krms.util.KRMSConstants;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.common.krms.exceptions.KRMSOptimisticLockingException;
-import org.kuali.student.lum.lu.ui.krms.dto.CluSetInformation;
 import org.kuali.student.lum.lu.ui.krms.dto.CluSetRangeInformation;
+import org.kuali.student.lum.lu.ui.krms.dto.CluSetWrapper;
 import org.kuali.student.lum.lu.ui.krms.dto.LUPropositionEditor;
-import org.kuali.student.lum.lu.ui.krms.util.CluSetRangeHelper;
-import org.kuali.student.lum.lu.ui.krms.util.CluSetRangeWrapper;
-import org.kuali.student.lum.lu.ui.krms.util.CluSetRangeWrapper;
 import org.kuali.student.lum.lu.ui.krms.util.LUKRMSConstants;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
-import org.kuali.student.r2.common.util.date.DateFormatters;
-import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
-import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,7 +43,7 @@ public class MultiCourseComponentBuilder extends CluComponentBuilder {
 
     @Override
     public void initialize(LUPropositionEditor propositionEditor) {
-        propositionEditor.setCourseSet(new CluSetInformation());
+        propositionEditor.setCourseSet(new CluSetWrapper());
     }
 
     @Override
@@ -64,8 +56,7 @@ public class MultiCourseComponentBuilder extends CluComponentBuilder {
         String cluSetId = termParameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_COURSE_CLUSET_KEY);
         if (cluSetId != null) {
             try {
-                CluSetInformation cluSetInfo = this.getCluInfoHelper().getCluSetInformation(cluSetId);
-                propositionEditor.setCourseSet(cluSetInfo);
+                propositionEditor.setCourseSet(this.getCluInfoHelper().getCluSetWrapper(cluSetId));
                 populatePropositionWrapper(propositionEditor);
 
             } catch (Exception e) {
@@ -115,7 +106,7 @@ public class MultiCourseComponentBuilder extends CluComponentBuilder {
 
     @Override
     public void validate(LUPropositionEditor propositionEditor) {
-        CluSetInformation cluSet = propositionEditor.getCourseSet();
+        CluSetWrapper cluSet = propositionEditor.getCourseSet();
         if(!cluSet.hasClus() && !cluSet.hasMembershipQuery() && cluSet.getCluSets().size()==0){
             String propName = PropositionTreeUtil.getBindingPath(propositionEditor, "multipleCourseType");
             GlobalVariables.getMessageMap().putError(propName, LUKRMSConstants.KSKRMS_MSG_ERROR_MULTICOURSE_REQUIRED);
@@ -144,30 +135,30 @@ public class MultiCourseComponentBuilder extends CluComponentBuilder {
      * Calculates if we require a wrapper cluset or not and the create sub clusets for the different types
      * of clusets required to save the individual courses of membershipqueries.
      *
-     * @param cluSetInformation
+     * @param cluSet
      * @return
      */
-    public CluSetInfo buildCourseSet(CluSetInformation cluSetInformation) {
+    public CluSetInfo buildCourseSet(CluSetWrapper cluSet) {
 
-        CluSetInfo cluSetInfo = super.buildCluSet(cluSetInformation);
+        CluSetInfo cluSetInfo = super.buildCluSet(cluSet);
         if (cluSetInfo.getTypeKey() == null) {
             cluSetInfo.setTypeKey(CluServiceConstants.CLUSET_TYPE_CREDIT_COURSE);
         }
 
-        boolean hasCluIds = cluSetInformation.hasClus();
-        int nrOfMembershipQueries = cluSetInformation.getCluSetRanges().size();
+        boolean hasCluIds = cluSet.hasClus();
+        int nrOfMembershipQueries = cluSet.getCluSetRanges().size();
 
         //Check if we require a wrapper cluset, if not set the information and return.
-        if ((cluSetInformation.getCluSets() == null) && (cluSetInformation.getCluSets().isEmpty())) {
+        if ((cluSet.getCluSets() == null) && (cluSet.getCluSets().isEmpty())) {
             if (hasCluIds && nrOfMembershipQueries==0) {
-                cluSetInfo.setCluIds(cluSetInformation.getCluIds());
+                cluSetInfo.setCluIds(cluSet.getCluIds());
                 return cluSetInfo;
             } else if (!hasCluIds && nrOfMembershipQueries==1) {
-                cluSetInfo.setMembershipQuery(cluSetInformation.getCluSetRanges().get(0).getMembershipQueryInfo());
+                cluSetInfo.setMembershipQuery(cluSet.getCluSetRanges().get(0).getMembershipQueryInfo());
                 return cluSetInfo;
             }
         } else {
-            for (CluSetInformation cluset : cluSetInformation.getCluSets()) {
+            for (CluSetWrapper cluset : cluSet.getCluSets()) {
                 cluSetInfo.getCluSetIds().add(cluset.getId());
             }
         }
@@ -175,13 +166,13 @@ public class MultiCourseComponentBuilder extends CluComponentBuilder {
         // Add the individual courses to its own cluset and set the cluset on the wrapper cluset.
         if (hasCluIds) {
             CluSetInfo wrapperCluSet = new CluSetInfo();
-            wrapperCluSet.setCluIds(cluSetInformation.getCluIds());
+            wrapperCluSet.setCluIds(cluSet.getCluIds());
             cluSetInfo.getCluSetIds().add(saveWrapperCluSet(wrapperCluSet, cluSetInfo));
         }
 
         // Add the course ranges to the wrapper cluset.
         if (nrOfMembershipQueries>0) {
-            for(CluSetRangeInformation cluSetRange : cluSetInformation.getCluSetRanges()){
+            for(CluSetRangeInformation cluSetRange : cluSet.getCluSetRanges()){
                 CluSetInfo wrapperCluSet = new CluSetInfo();
                 wrapperCluSet.setMembershipQuery(cluSetRange.getMembershipQueryInfo()); //this.convertDates(cluSetRange.getMembershipQueryInfo(),cluSetInformation ));
                 cluSetInfo.getCluSetIds().add(saveWrapperCluSet(wrapperCluSet, cluSetInfo));

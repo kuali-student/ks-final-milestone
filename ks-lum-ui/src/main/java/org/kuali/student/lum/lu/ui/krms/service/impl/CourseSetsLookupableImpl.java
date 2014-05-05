@@ -19,6 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupForm;
 import org.kuali.student.common.uif.service.impl.KSLookupableImpl;
+import org.kuali.student.lum.lu.ui.krms.dto.CluSetWrapper;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
@@ -46,17 +47,19 @@ public class CourseSetsLookupableImpl extends KSLookupableImpl {
 
     @Override
     public List<?> performSearch(LookupForm lookupForm, Map<String, String> searchCriteria, boolean bounded) {
-        List<CluSetInfo> cluSetInfos = new ArrayList<CluSetInfo>();
+
         List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
+
         String name = searchCriteria.get("name");
-        String description = searchCriteria.get("descr");
         if (StringUtils.isNotBlank(name) && !name.isEmpty()) {
             SearchParamInfo nameParam = new SearchParamInfo();
             nameParam.setKey("cluset.queryParam.optionalName");
             nameParam.getValues().add(name);
             queryParamValueList.add(nameParam);
         }
-        else if (StringUtils.isNotBlank(description) && !description.isEmpty()){
+
+        String description = searchCriteria.get("descr");
+        if (StringUtils.isNotBlank(description) && !description.isEmpty()){
             SearchParamInfo descriptionParam = new SearchParamInfo();
             descriptionParam.setKey("cluset.queryParam.optionalDescription");
             descriptionParam.getValues().add(description);
@@ -74,23 +77,21 @@ public class CourseSetsLookupableImpl extends KSLookupableImpl {
         SearchRequestInfo searchRequest = new SearchRequestInfo();
         searchRequest.setSearchKey("cluset.search.generic");
         searchRequest.setParams(queryParamValueList);
-        SearchResultInfo clus = null;
+
+        List<CluSetWrapper> cluSetInfos = new ArrayList<CluSetWrapper>();
         try {
-            clus = getCluService().search(searchRequest, ContextUtils.createDefaultContextInfo());
+            SearchResultInfo clus = getCluService().search(searchRequest, ContextUtils.createDefaultContextInfo());
             for (SearchResultRowInfo result : clus.getRows()) {
                 List<SearchResultCellInfo> cells = result.getCells();
-                CluSetInfo cluSetInfo = new CluSetInfo();
+                CluSetWrapper cluSetInfo = new CluSetWrapper();
                 for (SearchResultCellInfo cell : cells) {
                     if ("cluset.resultColumn.cluSetId".equals(cell.getKey())) {
                         cluSetInfo.setId(cell.getValue());
                     } else if ("cluset.resultColumn.name".equals(cell.getKey())) {
                         cluSetInfo.setName(cell.getValue());
                     } else if ("cluset.resultColumn.description".equals(cell.getKey())) {
-                        RichTextInfo richTextInfo = new RichTextInfo();
-                        richTextInfo.setPlain(cell.getValue());
-                        cluSetInfo.setDescr(richTextInfo);
-                    }
-                    else if ("cluset.resultColumn.type".equals(cell.getKey())) {
+                        cluSetInfo.setDescr(cell.getValue());
+                    } else if ("cluset.resultColumn.type".equals(cell.getKey())) {
                         cluSetInfo.setTypeKey(cell.getValue());
                     }
                 }

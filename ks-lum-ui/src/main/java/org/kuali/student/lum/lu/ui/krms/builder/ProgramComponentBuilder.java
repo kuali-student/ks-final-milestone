@@ -20,7 +20,7 @@ import org.kuali.rice.krms.api.repository.term.TermDefinition;
 import org.kuali.rice.krms.builder.ComponentBuilderUtils;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.common.krms.exceptions.KRMSOptimisticLockingException;
-import org.kuali.student.lum.lu.ui.krms.dto.CluSetInformation;
+import org.kuali.student.lum.lu.ui.krms.dto.CluSetWrapper;
 import org.kuali.student.lum.lu.ui.krms.dto.LUPropositionEditor;
 import org.kuali.student.lum.lu.ui.krms.util.LUKRMSConstants;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
@@ -41,8 +41,9 @@ public class ProgramComponentBuilder extends CluComponentBuilder {
 
     @Override
     public void initialize(LUPropositionEditor propositionEditor) {
-        propositionEditor.setProgramSet(new CluSetInformation());
+        propositionEditor.setProgramSet(new CluSetWrapper());
     }
+
     @Override
     public List<String> getComponentIds() {
         return null;
@@ -53,8 +54,7 @@ public class ProgramComponentBuilder extends CluComponentBuilder {
         String cluSetId = termParameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_PROGRAM_CLUSET_KEY);
         if (cluSetId != null) {
             try {
-                CluSetInformation cluSetInfo = this.getCluInfoHelper().getCluSetInformation(cluSetId);
-                propositionEditor.setProgramSet(cluSetInfo);
+                propositionEditor.setProgramSet(this.getCluInfoHelper().getCluSetWrapper(cluSetId));
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -101,7 +101,7 @@ public class ProgramComponentBuilder extends CluComponentBuilder {
 
     @Override
     public void validate(LUPropositionEditor propositionEditor) {
-        CluSetInformation progCluSet = propositionEditor.getProgramSet();
+        CluSetWrapper progCluSet = propositionEditor.getProgramSet();
         if(progCluSet != null){
             if(!progCluSet.hasClus() && progCluSet.getCluSets().size()==0 ){
                 String propName = PropositionTreeUtil.getBindingPath(propositionEditor, "programType");
@@ -119,7 +119,7 @@ public class ProgramComponentBuilder extends CluComponentBuilder {
      * @param programSetInformation
      * @return
      */
-    public CluSetInfo buildProgramSet(CluSetInformation programSetInformation) {
+    public CluSetInfo buildProgramSet(CluSetWrapper programSetInformation) {
 
         CluSetInfo cluSetInfo = super.buildCluSet(programSetInformation);
         if (cluSetInfo.getTypeKey() == null) {
@@ -135,7 +135,7 @@ public class ProgramComponentBuilder extends CluComponentBuilder {
                 return cluSetInfo;
             }
         } else {
-            for (CluSetInformation cluset : programSetInformation.getCluSets()) {
+            for (CluSetWrapper cluset : programSetInformation.getCluSets()) {
                 cluSetInfo.getCluSetIds().add(cluset.getId());
             }
         }

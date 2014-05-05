@@ -20,17 +20,16 @@ limitations under the License.
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="CluSetInfo" parent="CluSetInfo-parentBean"/>
-    <bean id="CluSetInfo-parentBean" abstract="true" parent="DataObjectEntry">
+    <bean id="CluSetWrapper" parent="CluSetWrapper-parentBean"/>
+    <bean id="CluSetWrapper-parentBean" abstract="true" parent="DataObjectEntry">
         <property name="objectLabel" value="Course Sets"/>
-        <property name="dataObjectClass" value="org.kuali.student.r2.lum.clu.dto.CluSetInfo"/>
+        <property name="dataObjectClass" value="org.kuali.student.lum.lu.ui.krms.dto.CluSetWrapper"/>
         <property name="titleAttribute" value="id"/>
         <property name="attributes">
             <list>
-                <ref bean="cluSetInfo.id"/>
-                <ref bean="cluSetInfo.name"/>
-                <ref bean="cluSetInfo.descr"/>
-
+                <ref bean="cluSet.id"/>
+                <ref bean="cluSet.name"/>
+                <ref bean="cluSet.descr"/>
             </list>
         </property>
         <property name="primaryKeys">
@@ -40,8 +39,8 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="cluSetInfo.id" parent="cluSetInfo.id-parentBean"/>
-    <bean id="cluSetInfo.id-parentBean" abstract="true" parent="AttributeDefinition">
+    <bean id="cluSet.id" parent="cluSet.id-parentBean"/>
+    <bean id="cluSet.id-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="id"/>
         <property name="dataType" value="STRING" />
         <property name="label" value="ID"/>
@@ -56,8 +55,8 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="cluSetInfo.name" parent="cluSetInfo.name-parentBean"/>
-    <bean id="cluSetInfo.name-parentBean" abstract="true" parent="AttributeDefinition">
+    <bean id="cluSet.name" parent="cluSet.name-parentBean"/>
+    <bean id="cluSet.name-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="name"/>
         <property name="dataType" value="STRING" />
         <property name="label" value="Name"/>
@@ -72,8 +71,8 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="cluSetInfo.descr" parent="cluSetInfo.descr-parentBean"/>
-    <bean id="cluSetInfo.descr-parentBean" abstract="true" parent="AttributeDefinition">
+    <bean id="cluSet.descr" parent="cluSet.descr-parentBean"/>
+    <bean id="cluSet.descr-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="descr"/>
         <property name="dataType" value="STRING" />
         <property name="label" value="Description"/>
@@ -92,7 +91,7 @@ limitations under the License.
 
         <property name="viewName" value="krmsCourseSetsInfoView" />
         <property name="headerText" value="Advanced Search: Course Sets" />
-        <property name="dataObjectClassName" value="org.kuali.student.r2.lum.clu.dto.CluSetInfo" />
+        <property name="dataObjectClassName" value="org.kuali.student.lum.lu.ui.krms.dto.CluSetWrapper" />
         <property name="viewHelperServiceClass" value="org.kuali.student.lum.lu.ui.krms.service.impl.CourseSetsLookupableImpl" />
         <property name="criteriaFields">
             <list>

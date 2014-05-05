@@ -17,7 +17,6 @@ package org.kuali.student.lum.lu.ui.krms.tree.node;
 
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.tree.node.RuleEditorTreeNode;
-import org.kuali.student.lum.lu.ui.krms.dto.CluSetInformation;
 import org.kuali.student.lum.lu.ui.krms.dto.LUPropositionEditor;
 
 import java.io.Serializable;

@@ -20,8 +20,8 @@ import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.tree.node.TreeNode;
 import org.kuali.student.core.krms.tree.KSRulePreviewTreeBuilder;
 import org.kuali.student.lum.lu.ui.krms.dto.CluGroup;
+import org.kuali.student.lum.lu.ui.krms.dto.CluSetWrapper;
 import org.kuali.student.lum.lu.ui.krms.dto.LUPropositionEditor;
-import org.kuali.student.lum.lu.ui.krms.dto.CluSetInformation;
 import org.kuali.student.lum.lu.ui.krms.tree.node.LUTreeNode;
 
 import java.util.List;
@@ -47,10 +47,10 @@ public class LURulePreviewTreeBuilder extends KSRulePreviewTreeBuilder {
 
     public List<CluGroup> getCluGroups(PropositionEditor propositionEditor) {
         if (propositionEditor instanceof LUPropositionEditor) {
-            CluSetInformation cluSetInfo = ((LUPropositionEditor) propositionEditor).getCourseSet();
+            CluSetWrapper cluSet = ((LUPropositionEditor) propositionEditor).getCourseSet();
 
-            if (cluSetInfo != null) {
-                return cluSetInfo.getCluGroups();
+            if (cluSet != null) {
+                return cluSet.getCluGroups();
             }
         }
         return null;

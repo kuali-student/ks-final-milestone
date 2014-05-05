@@ -20,16 +20,15 @@ package org.kuali.student.lum.lu.ui.krms.dto;
  *
  * @author Kuali Student Team
  */
-public class KrmsSuggestDisplay {
+public class TestWrapper {
 
     private String id;
-
     private String displayName;
 
-    public KrmsSuggestDisplay() {
+    public TestWrapper() {
     }
 
-    public KrmsSuggestDisplay(String id, String displayName) {
+    public TestWrapper(String id, String displayName) {
         this.id = id;
         this.displayName = displayName;
     }

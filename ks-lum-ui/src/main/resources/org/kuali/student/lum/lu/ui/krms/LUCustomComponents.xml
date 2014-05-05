@@ -125,7 +125,7 @@ limitations under the License.
     </bean>
 
     <bean id="KRMS-CourseSet-QuickFinder" parent="KRMS-QuickFinder">
-        <property name="dataObjectClassName" value="org.kuali.student.r2.lum.clu.dto.CluSetInfo"/>
+        <property name="dataObjectClassName" value="org.kuali.student.lum.lu.ui.krms.dto.CluSetWrapper"/>
         <property name="viewName" value="krmsCourseSetsInfoView"/>
         <property name="fieldConversions">
             <map>
@@ -154,9 +154,8 @@ limitations under the License.
                 <bean parent="KS-Uif-DeleteLineAction"/>
             </list>
         </property>
-        <!--property name="propertyName" value="proposition.courseSet.cluSets"/-->
-        <property name="propertyName" value="cluSets"/> <!-- Rice 2.4 upgrade hack for now, should by proposition.courseSet.cluSets-->
-        <property name="collectionObjectClass" value="org.kuali.student.lum.lu.ui.krms.dto.CluSetInformation"/>
+        <property name="propertyName" value="proposition.courseSet.cluSets"/>
+        <property name="collectionObjectClass" value="org.kuali.student.lum.lu.ui.krms.dto.CluSetWrapper"/>
         <property name="header">
             <bean parent="Uif-HeaderSix" p:progressiveRender="#np.proposition.courseSet.cluSetListSize gt 0">
                 <property name="lowerGroup">

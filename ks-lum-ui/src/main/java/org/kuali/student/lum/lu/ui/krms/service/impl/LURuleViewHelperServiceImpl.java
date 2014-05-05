@@ -45,9 +45,9 @@ import org.kuali.student.core.krms.tree.KSRuleEditTreeBuilder;
 import org.kuali.student.core.krms.tree.KSRulePreviewTreeBuilder;
 import org.kuali.student.core.krms.tree.KSRuleViewTreeBuilder;
 import org.kuali.student.lum.lu.ui.krms.dto.CluInformation;
-import org.kuali.student.lum.lu.ui.krms.dto.CluSetInformation;
-import org.kuali.student.lum.lu.ui.krms.dto.KrmsSuggestDisplay;
+import org.kuali.student.lum.lu.ui.krms.dto.CluSetWrapper;
 import org.kuali.student.lum.lu.ui.krms.dto.LUPropositionEditor;
+import org.kuali.student.lum.lu.ui.krms.dto.TestWrapper;
 import org.kuali.student.lum.lu.ui.krms.tree.LURuleEditTreeBuilder;
 import org.kuali.student.lum.lu.ui.krms.tree.LURulePreviewTreeBuilder;
 import org.kuali.student.lum.lu.ui.krms.tree.LURuleViewTreeBuilder;
@@ -216,7 +216,7 @@ public class LURuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
                     TermEditor term = new TermEditor(PropositionTreeUtil.getTermParameter(compare.getParameters()).getTermValue());
                     for(TermParameterEditor termParameterEditor : term.getEditorParameters()) {
                         if(termParameterEditor.getName().equals(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_COURSE_CLUSET_KEY)) {
-                            enrolOriginal.setCourseSetParent(this.getCluInfoHelper().getCluSetInformation(termParameterEditor.getValue()));
+                            enrolOriginal.setCourseSetParent(this.getCluInfoHelper().getCluSetWrapper(termParameterEditor.getValue()));
                             break;
                         }
                     }
@@ -240,7 +240,7 @@ public class LURuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
                     TermEditor term = new TermEditor(PropositionTreeUtil.getTermParameter(compare.getParameters()).getTermValue());
                     for(TermParameterEditor termParameterEditor : term.getEditorParameters()) {
                         if(termParameterEditor.getName().equals(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_COURSE_CLUSET_KEY)) {
-                            enrolOriginal.setProgramSetParent(this.getCluInfoHelper().getCluSetInformation(termParameterEditor.getValue()));
+                            enrolOriginal.setProgramSetParent(this.getCluInfoHelper().getCluSetWrapper(termParameterEditor.getValue()));
                             break;
                         }
                     }
@@ -281,8 +281,8 @@ public class LURuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
             } else if (collectionPath.endsWith(LUKRMSConstants.KSKRMS_PROPERTY_NAME_PROG_CLUS)) {
                 return validateNewProgram(viewModel, (CluInformation) newLine, collectionId);
             }
-        } else if (newLine instanceof CluSetInformation){
-            return validateNewCluSet(viewModel, (CluSetInformation) newLine, collectionId);
+        } else if (newLine instanceof CluSetWrapper){
+            return validateNewCluSet(viewModel, (CluSetWrapper) newLine, collectionId);
         }
 
         return true;
@@ -317,7 +317,7 @@ public class LURuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
         return true;
     }
 
-    protected boolean validateNewCluSet(ViewModel viewModel, CluSetInformation cluSet, String collectionId) {
+    protected boolean validateNewCluSet(ViewModel viewModel, CluSetWrapper cluSet, String collectionId) {
         //Check if this is a valid clu.
         if((cluSet.getId() == null)||(cluSet.getId().isEmpty())){
             GlobalVariables.getMessageMap().putErrorForSectionId(collectionId, LUKRMSConstants.KSKRMS_MSG_ERROR_COURSESETS_REQUIRED);
@@ -329,15 +329,7 @@ public class LURuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
             GlobalVariables.getMessageMap().putErrorForSectionId(collectionId, LUKRMSConstants.KSKRMS_MSG_ERROR_APPROVED_COURSE_CODE_INVALID);
             return false;
         } else {
-            try {
-                for (String subCluSetId : searchCluSet.getCluSetIds()) {
-                    cluSet.getCluSets().add(this.getCluInfoHelper().getCluSetInformation(subCluSetId));
-                }
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
             cluSet.setClus(this.getCluInfoHelper().getCluInfos(searchCluSet.getCluIds()));
-
         }
 
         return true;
@@ -374,18 +366,18 @@ public class LURuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
                 Collections.sort(propEditor.getCourseSet().getClus());
 
             }
-        } else if (lineObject instanceof CluSetInformation) {
+        } else if (lineObject instanceof CluSetWrapper) {
             //Set the clus on the wrapper object.
-            CluSetInformation cluSet = (CluSetInformation) lineObject;
+            CluSetWrapper cluSet = (CluSetWrapper) lineObject;
             if (cluSet.getId() != null) {
 
                 //Sort the clus.
                 RuleEditor ruleEditor = this.getRuleEditor(model);
                 LUPropositionEditor propEditor = (LUPropositionEditor) PropositionTreeUtil.getProposition(ruleEditor);
-                Collections.sort(propEditor.getCourseSet().getCluSets(), new Comparator<CluSetInformation>() {
+                Collections.sort(propEditor.getCourseSet().getCluSets(), new Comparator<CluSetWrapper>() {
 
                     @Override
-                    public int compare(CluSetInformation o1, CluSetInformation o2) {
+                    public int compare(CluSetWrapper o1, CluSetWrapper o2) {
                         return o1.getName().compareTo(o2.getName());
                     }
                 });
@@ -408,9 +400,9 @@ public class LURuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
         return this.getCluInfoHelper().getCluInfosWithDetailForQuery(membershipQuery);
     }
 
-    public List<KrmsSuggestDisplay> getTestNamesForSuggest(String testName) {
+    public List<TestWrapper> getTestNamesForSuggest(String testName) {
 
-        List<KrmsSuggestDisplay> displays = new ArrayList<KrmsSuggestDisplay>();
+        List<TestWrapper> displays = new ArrayList<TestWrapper>();
         List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
         SearchParamInfo testNameParam = new SearchParamInfo();
         testNameParam.setKey("cluset.queryParam.optionalName");
@@ -433,7 +425,7 @@ public class LURuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
             SearchResultInfo clus = getCluService().search(searchRequest, getContextInfo());
             for (SearchResultRowInfo result : clus.getRows()) {
                 List<SearchResultCellInfo> cells = result.getCells();
-                KrmsSuggestDisplay display = new KrmsSuggestDisplay();
+                TestWrapper display = new TestWrapper();
                 for (SearchResultCellInfo cell : cells) {
                     if ("cluset.resultColumn.cluSetId".equals(cell.getKey())) {
                         display.setId(cell.getValue());

@@ -20,9 +20,9 @@ import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.lum.lu.ui.krms.dto.CluInformation;
-import org.kuali.student.lum.lu.ui.krms.dto.CluSetInformation;
 import org.kuali.student.lum.lu.ui.krms.dto.CluSetRangeInformation;
 import org.kuali.student.common.util.security.ContextUtils;
+import org.kuali.student.lum.lu.ui.krms.dto.CluSetWrapper;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
@@ -87,35 +87,32 @@ public class CluInformationHelper {
      * @param cluSetId
      * @return
      */
-    public CluSetInformation getCluSetInformation(String cluSetId) {
+    public CluSetWrapper getCluSetWrapper(String cluSetId) {
 
         CluSetInfo cluSetInfo = this.getCluSetInfo(cluSetId);
-        CluSetInformation result = new CluSetInformation(cluSetInfo);
+        CluSetWrapper result = new CluSetWrapper(cluSetInfo);
 
-        List<String> cluIds = cluSetInfo.getCluIds();
-        this.createCluSetRange(result, cluSetInfo.getMembershipQuery());
+        if(cluSetInfo.getMembershipQuery() != null){
+            result.getCluSetRanges().add(this.createCluSetRange(cluSetInfo.getMembershipQuery()));
+        }
 
         // goes through the list of sub clusets and ignore the ones that are not reusable
         List<CluSetInfo> cluSetInfos = this.getCluSetInfos(cluSetInfo.getCluSetIds());
         if (cluSetInfos != null) {
-            List<CluSetInformation> unWrappedCluSets = new ArrayList<CluSetInformation>();
+            List<String> cluIds = cluSetInfo.getCluIds();
+            List<CluSetWrapper> unWrappedCluSets = new ArrayList<CluSetWrapper>();
             for (CluSetInfo subCluSet : cluSetInfos) {
                 if (subCluSet.getIsReusable()) {
-
                     //Handle predefined clusets.
-                    CluSetInformation cluSetInformation = new CluSetInformation(subCluSet);
+                    CluSetWrapper cluSetInformation = new CluSetWrapper(subCluSet);
                     cluSetInformation.setClus(this.getCluInfos(subCluSet.getCluIds()));
-                    for (String subCluSetId : subCluSet.getCluSetIds()) {
-                        cluSetInformation.getCluSets().add(this.getCluSetInformation(subCluSetId));
-                    }
                     unWrappedCluSets.add(cluSetInformation);
                 } else {
 
                     //Retrieve the information from the wrapped membership cluset.
                     if (subCluSet.getMembershipQuery() != null) {
-                        this.createCluSetRange(result, subCluSet.getMembershipQuery());
+                        result.getCluSetRanges().add(this.createCluSetRange(cluSetInfo.getMembershipQuery()));
                     } else {
-
                         //Retrieve the information from the wrapped clu cluset.
                         if (subCluSet.getCluIds() != null && !subCluSet.getCluIds().isEmpty()) {
                             cluIds = subCluSet.getCluIds();
@@ -124,9 +121,8 @@ public class CluInformationHelper {
                 }
             }
             result.setCluSets(unWrappedCluSets);
+            result.setClus(this.getCluInfos(cluIds));
         }
-
-        result.setClus(this.getCluInfos(cluIds));
 
         return result;
     }
@@ -138,16 +134,14 @@ public class CluInformationHelper {
      * @param clusetInfo
      * @param mqInfo
      */
-    private void createCluSetRange(CluSetInformation clusetInfo, MembershipQueryInfo mqInfo) {
-        if (mqInfo == null || mqInfo.getSearchTypeKey() == null || mqInfo.getSearchTypeKey().isEmpty()) {
-            return;
-        }
+    private CluSetRangeInformation createCluSetRange(MembershipQueryInfo mqInfo) {
+
         CluSetRangeInformation cluSetRange = new CluSetRangeInformation();
         cluSetRange.setMembershipQueryInfo(mqInfo);
         cluSetRange.setClusInRange(this.getCluInfosWithDetailForQuery(mqInfo));
         cluSetRange.setCluSetRangeLabel(CluSetRangeHelper.buildLabelFromQuery(mqInfo));
+        return cluSetRange;
 
-        clusetInfo.getCluSetRanges().add(cluSetRange);
     }
 
     public List<CluInformation> getCluInfos(List<String> cluIds) {

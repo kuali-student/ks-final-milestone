@@ -18,7 +18,7 @@ package org.kuali.student.lum.lu.ui.krms.builder;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krms.builder.ComponentBuilder;
 import org.kuali.rice.krms.dto.PropositionEditor;
-import org.kuali.student.lum.lu.ui.krms.dto.CluSetInformation;
+import org.kuali.student.lum.lu.ui.krms.dto.CluSetWrapper;
 import org.kuali.student.lum.lu.ui.krms.dto.LUPropositionEditor;
 import org.kuali.student.lum.lu.ui.krms.util.CluInformationHelper;
 import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
@@ -53,11 +53,11 @@ public abstract class CluComponentBuilder implements ComponentBuilder<LUProposit
      * @param cluSetInformation
      * @return
      */
-    public CluSetInfo buildCluSet(CluSetInformation cluSetInformation) {
+    public CluSetInfo buildCluSet(CluSetWrapper cluSet) {
 
         // Set default properties.
         CluSetInfo cluSetInfo = new CluSetInfo();
-        cluSetInfo.setId(cluSetInformation.getId());
+        cluSetInfo.setId(cluSet.getId());
         cluSetInfo.setStateKey("Active");
 
         cluSetInfo.setName("AdHock");

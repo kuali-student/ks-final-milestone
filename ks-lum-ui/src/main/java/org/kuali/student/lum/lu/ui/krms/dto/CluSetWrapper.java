@@ -15,8 +15,6 @@
  */
 package org.kuali.student.lum.lu.ui.krms.dto;
 
-import org.kuali.student.lum.lu.ui.krms.util.CluSetRangeWrapper;
-import org.kuali.student.lum.lu.ui.krms.util.CluSetRangeWrapper;
 import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 import org.springframework.util.StringUtils;
@@ -24,30 +22,30 @@ import org.springframework.util.StringUtils;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * This is a lightweight wrapper for Clu Set Information used in the KRMS UI.
  *
  * @author Kuali Student Team
  */
-public class CluSetInformation implements Serializable {
+public class CluSetWrapper implements Serializable {
 
     private static final long serialVersionUID = 1123124L;
     private String id;
     private String name;
+    private String descr;
+    private String typeKey;
 
     private List<CluInformation> clus;
-    private List<CluSetInformation> cluSets;
+    private List<CluSetWrapper> cluSets;
     private List<CluSetRangeInformation> cluSetRanges;
 
-    public CluSetInformation() {
+    public CluSetWrapper() {
         super();
     }
 
-    public CluSetInformation(CluSetInfo cluSetInfo) {
+    public CluSetWrapper(CluSetInfo cluSetInfo) {
         super();
         this.id = cluSetInfo.getId();
         this.name = cluSetInfo.getName();
@@ -69,6 +67,22 @@ public class CluSetInformation implements Serializable {
         this.name = name;
     }
 
+    public String getDescr() {
+        return descr;
+    }
+
+    public void setDescr(String descr) {
+        this.descr = descr;
+    }
+
+    public String getTypeKey() {
+        return typeKey;
+    }
+
+    public void setTypeKey(String typeKey) {
+        this.typeKey = typeKey;
+    }
+
     public List<CluInformation> getClus() {
         if (clus == null) {
             this.clus = new ArrayList<CluInformation>();
@@ -80,14 +94,14 @@ public class CluSetInformation implements Serializable {
         this.clus = clus;
     }
 
-    public List<CluSetInformation> getCluSets() {
+    public List<CluSetWrapper> getCluSets() {
         if (this.cluSets == null) {
-            this.cluSets = new ArrayList<CluSetInformation>();
+            this.cluSets = new ArrayList<CluSetWrapper>();
         }
         return this.cluSets;
     }
 
-    public void setCluSets(List<CluSetInformation> cluSets) {
+    public void setCluSets(List<CluSetWrapper> cluSets) {
         this.cluSets = cluSets;
     }
 
@@ -179,7 +193,7 @@ public class CluSetInformation implements Serializable {
     public String getCluSetDelimitedString() {
 
         List<String> cluSetIds = new ArrayList<String>();
-        for (CluSetInformation cluSet : this.getCluSets()) {
+        for (CluSetWrapper cluSet : this.getCluSets()) {
             cluSetIds.add(cluSet.getId());
         }
 
@@ -243,7 +257,7 @@ public class CluSetInformation implements Serializable {
         }
 
         //Course sets.
-        for (CluSetInformation cluSet : this.getCluSets()) {
+        for (CluSetWrapper cluSet : this.getCluSets()) {
             CluGroup cluGroup = new CluGroup(cluSet.getName());
             cluGroup.setClus(cluSet.getClus());
             cluGroups.add(cluGroup);

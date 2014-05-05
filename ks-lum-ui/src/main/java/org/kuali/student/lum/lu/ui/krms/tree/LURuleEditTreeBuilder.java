@@ -26,7 +26,6 @@ import org.kuali.rice.krms.util.KRMSConstants;
 import org.kuali.student.core.krms.tree.KSRuleEditTreeBuilder;
 import org.kuali.student.core.krms.tree.KSRuleViewTreeBuilder;
 import org.kuali.student.lum.lu.ui.krms.dto.CluGroup;
-import org.kuali.student.lum.lu.ui.krms.dto.CluSetInformation;
 import org.kuali.student.lum.lu.ui.krms.dto.LUPropositionEditor;
 import org.kuali.student.lum.lu.ui.krms.tree.node.LUPropositionEditNode;
 import org.kuali.student.lum.lu.ui.krms.tree.node.LUTreeNode;
