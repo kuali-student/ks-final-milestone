@@ -72,8 +72,8 @@
                                         <property name="valuePropertyName" value="displayName" />
                                         <property name="templateOptions">
                                             <map>
-                                                <entry key="minLength" value="1" />
-                                                <entry key="delay" value="0" />
+                                                <entry key="minLength" value="3" />
+                                                <entry key="delay" value="3" />
                                                 <entry key="change">
                                                     <value>
                                                         function(event, ui) {
