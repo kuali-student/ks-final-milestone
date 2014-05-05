@@ -369,7 +369,7 @@
                 <bean parent="Uif-AddLineAction-SecondaryButton" p:actionLabel="Add Key Date Group" p:focusOnIdAfterSubmit="SELF">
                     <property name="disabled" value="@{(#lp.keyDateGroupType == null) or (#lp.keyDateGroupType == '')}"/>
                     <property name="additionalCssClasses" value="ks-fontello-icon-plus-1"/>
-                    <property name="refreshWhenChangedPropertyNames" value="@{#lp.keyDateGroupType}"/>
+                    <property name="refreshWhenChangedPropertyNames" value="#lp.keyDateGroupType"/>
                 </bean>
             </list>
         </property>
