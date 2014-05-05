@@ -249,16 +249,35 @@
  * Make the yellow bar that the CS gets and the validation messages only extend across the top of the tap and
  * not the tab panel itself.
  */
-#KS-CourseView-AdminMessageGroup, #KS-CourseView-CoursePage > .uif-validationMessages {
-    margin-left: 240px;
+#KS-CourseView-AdminMessageGroup,
+#KS-CourseView-CoursePage_messages {
+    margin-left: 224px;
 }
 
-#KS-CourseView-CoursePage > .uif-validationMessages
-
-{
-    margin-bottom: 8px
-;
+/* Fixes the spacing around the validation message ul */
+#KS-CourseView-CoursePage_messages > .uif-validationMessagesList {
+  margin: 0;
+  padding: 0 0 5px 15px;
 }
+/* Position validation message contents */
+#KS-CourseView-CoursePage_messages > .uif-pageValidationHeader {
+  margin: 0;
+  padding: 8px 0 4px 8px;
+}
+
+/* Position the contents of the yellow bars */
+.uif-validationMessages.uif-groupValidationMessages.uif-pageValidationMessages-warning.ks-subSection {
+  background-position: 8px 12px;
+  width: 100%;
+  padding: 5px;
+}
+.uif-validationMessages.uif-groupValidationMessages.uif-pageValidationMessages-warning.ks-subSection a {
+  box-shadow: none;
+}
+.uif-validationMessages.uif-groupValidationMessages.uif-pageValidationMessages-warning.ks-subSection p {
+  margin: 7px  5px 8px 30px;
+}
+
 #KS-CourseView-AdminMessageGroup {
     margin-top: 12px;
     margin-bottom: 0px;
