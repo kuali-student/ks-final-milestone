@@ -53,16 +53,13 @@ public abstract class CluComponentBuilder implements ComponentBuilder<LUProposit
      * @param cluSetInformation
      * @return
      */
-    public CluSetInfo buildCourseSet(CluSetInformation cluSetInformation) {
-
-        // Create a Cluset if not exist.
-        if (cluSetInformation.getCluSetInfo() == null) {
-            cluSetInformation.setCluSetInfo(new CluSetInfo());
-        }
+    public CluSetInfo buildCluSet(CluSetInformation cluSetInformation) {
 
         // Set default properties.
-        CluSetInfo cluSetInfo = cluSetInformation.getCluSetInfo();
+        CluSetInfo cluSetInfo = new CluSetInfo();
+        cluSetInfo.setId(cluSetInformation.getId());
         cluSetInfo.setStateKey("Active");
+
         cluSetInfo.setName("AdHock");
         cluSetInfo.setEffectiveDate(new Date());
         cluSetInfo.setIsReferenceable(Boolean.TRUE);

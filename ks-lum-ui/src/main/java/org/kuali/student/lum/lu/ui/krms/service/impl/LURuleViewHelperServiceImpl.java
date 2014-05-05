@@ -167,12 +167,12 @@ public class LURuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
 
         //Set cluSetInfo recursively to null to force builder to create new cluset.
         if(propositionEditor.getCourseSet()!=null){
-            propositionEditor.getCourseSet().setCluSetInfo(null);
+            propositionEditor.getCourseSet().clear();
         } else if(propositionEditor.getPropositionTypeCode().equals(PropositionType.COMPOUND.getCode())) {
             for(int i = 0; i < propositionEditor.getCompoundEditors().size(); i++) {
                 LUPropositionEditor prop = (LUPropositionEditor) propositionEditor.getCompoundEditors().get(i);
                 if(prop.getCourseSet() != null) {
-                    prop.getCourseSet().setCluSetInfo(null);
+                    prop.getCourseSet().clear();
                 } else if(prop.getPropositionTypeCode().equals(PropositionType.COMPOUND.getCode())) {
                     nullifyCluSetInfo(prop);
                 }
@@ -319,17 +319,25 @@ public class LURuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
 
     protected boolean validateNewCluSet(ViewModel viewModel, CluSetInformation cluSet, String collectionId) {
         //Check if this is a valid clu.
-        if((cluSet.getCluSetInfo().getId() == null)||(cluSet.getCluSetInfo().getId().isEmpty())){
+        if((cluSet.getId() == null)||(cluSet.getId().isEmpty())){
             GlobalVariables.getMessageMap().putErrorForSectionId(collectionId, LUKRMSConstants.KSKRMS_MSG_ERROR_COURSESETS_REQUIRED);
             return false;
         }
 
-        CluSetInfo searchCluSet = this.getCluInfoHelper().getCluSetForId(cluSet.getCluSetInfo().getId());
-        if(searchCluSet==null){
+        CluSetInfo searchCluSet = this.getCluInfoHelper().getCluSetForId(cluSet.getId());
+        if (searchCluSet == null) {
             GlobalVariables.getMessageMap().putErrorForSectionId(collectionId, LUKRMSConstants.KSKRMS_MSG_ERROR_APPROVED_COURSE_CODE_INVALID);
             return false;
         } else {
-            cluSet.setCluSetInfo(searchCluSet);
+            try {
+                for (String subCluSetId : searchCluSet.getCluSetIds()) {
+                    cluSet.getCluSets().add(this.getCluInfoHelper().getCluSetInformation(subCluSetId));
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            cluSet.setClus(this.getCluInfoHelper().getCluInfos(searchCluSet.getCluIds()));
+
         }
 
         return true;
@@ -369,8 +377,7 @@ public class LURuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
         } else if (lineObject instanceof CluSetInformation) {
             //Set the clus on the wrapper object.
             CluSetInformation cluSet = (CluSetInformation) lineObject;
-            if (cluSet.getCluSetInfo().getId() != null) {
-                completeCluSetInformation(cluSet);
+            if (cluSet.getId() != null) {
 
                 //Sort the clus.
                 RuleEditor ruleEditor = this.getRuleEditor(model);
@@ -379,7 +386,7 @@ public class LURuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
 
                     @Override
                     public int compare(CluSetInformation o1, CluSetInformation o2) {
-                        return o1.getCluSetInfo().getName().compareTo(o2.getCluSetInfo().getName());
+                        return o1.getName().compareTo(o2.getName());
                     }
                 });
             }
@@ -395,17 +402,6 @@ public class LURuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
             }
         }
 
-    }
-
-    private void completeCluSetInformation(CluSetInformation cluSet) {
-        try {
-            for(String subCluSetId : cluSet.getCluSetInfo().getCluSetIds()){
-                cluSet.getCluSets().add(this.getCluInfoHelper().getCluSetInformation(subCluSetId));
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        cluSet.setClus(this.getCluInfoHelper().getCluInfos(cluSet.getCluSetInfo().getCluIds()));
     }
 
     public List<CluInformation> getCoursesInRange(MembershipQueryInfo membershipQuery) {

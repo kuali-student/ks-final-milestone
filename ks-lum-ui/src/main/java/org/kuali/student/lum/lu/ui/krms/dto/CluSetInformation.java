@@ -36,7 +36,8 @@ import java.util.Map;
 public class CluSetInformation implements Serializable {
 
     private static final long serialVersionUID = 1123124L;
-    private CluSetInfo cluSetInfo;
+    private String id;
+    private String name;
 
     private List<CluInformation> clus;
     private List<CluSetInformation> cluSets;
@@ -44,20 +45,28 @@ public class CluSetInformation implements Serializable {
 
     public CluSetInformation() {
         super();
-        this.cluSetInfo = new CluSetInfo();
     }
 
     public CluSetInformation(CluSetInfo cluSetInfo) {
         super();
-        this.cluSetInfo = cluSetInfo;
+        this.id = cluSetInfo.getId();
+        this.name = cluSetInfo.getName();
     }
 
-    public CluSetInfo getCluSetInfo() {
-        return cluSetInfo;
+    public String getId() {
+        return id;
     }
 
-    public void setCluSetInfo(CluSetInfo cluSetInfo) {
-        this.cluSetInfo = cluSetInfo;
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public List<CluInformation> getClus() {
@@ -93,20 +102,12 @@ public class CluSetInformation implements Serializable {
         this.cluSetRanges = cluSetRanges;
     }
 
-    public String getId() {
-        return cluSetInfo.getId();
-    }
-
-    public void setId(String id) {
-        this.cluSetInfo.setId(id);
-    }
-
-    public String getName() {
-        return cluSetInfo.getName();
-    }
-
-    public void setName(String name) {
-        this.cluSetInfo.setName(name);
+    public void clear(){
+        this.id = null;
+        this.name = null;
+        this.clus = null;
+        this.cluSets = null;
+        this.cluSetRanges = null;
     }
 
     public int getCluListSize(){
@@ -179,7 +180,7 @@ public class CluSetInformation implements Serializable {
 
         List<String> cluSetIds = new ArrayList<String>();
         for (CluSetInformation cluSet : this.getCluSets()) {
-            cluSetIds.add(cluSet.getCluSetInfo().getId());
+            cluSetIds.add(cluSet.getId());
         }
 
         Collections.sort(cluSetIds);
@@ -243,7 +244,7 @@ public class CluSetInformation implements Serializable {
 
         //Course sets.
         for (CluSetInformation cluSet : this.getCluSets()) {
-            CluGroup cluGroup = new CluGroup(cluSet.getCluSetInfo().getName());
+            CluGroup cluGroup = new CluGroup(cluSet.getName());
             cluGroup.setClus(cluSet.getClus());
             cluGroups.add(cluGroup);
         }

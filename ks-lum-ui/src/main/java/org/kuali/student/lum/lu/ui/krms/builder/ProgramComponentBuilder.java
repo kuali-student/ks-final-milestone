@@ -66,11 +66,7 @@ public class ProgramComponentBuilder extends CluComponentBuilder {
     public Map<String, String> buildTermParameters(LUPropositionEditor propositionEditor) {
         Map<String, String> termParameters = new HashMap<String, String>();
         if (propositionEditor.getProgramSet() != null) {
-            if (propositionEditor.getProgramSet().getCluSetInfo() != null) {
-                termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_PROGRAM_CLUSET_KEY, propositionEditor.getProgramSet().getCluSetInfo().getId());
-            } else {
-                termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_PROGRAM_CLUSET_KEY, null);
-            }
+            termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_PROGRAM_CLUSET_KEY, propositionEditor.getProgramSet().getId());
         }
 
         return termParameters;
@@ -81,8 +77,7 @@ public class ProgramComponentBuilder extends CluComponentBuilder {
         //Create the courseset
         try {
             if (propositionEditor.getProgramSet()!= null) {
-                propositionEditor.getProgramSet().setCluSetInfo(this.buildCourseSet(propositionEditor.getProgramSet()));
-                CluSetInfo cluSetInfo = propositionEditor.getProgramSet().getCluSetInfo();
+                CluSetInfo cluSetInfo = this.buildProgramSet(propositionEditor.getProgramSet());
                 if (cluSetInfo.getId() == null) {
                     cluSetInfo = this.getCluService().createCluSet(cluSetInfo.getTypeKey(), cluSetInfo, ContextUtils.getContextInfo());
 
@@ -121,35 +116,34 @@ public class ProgramComponentBuilder extends CluComponentBuilder {
      * Calculates if we require a wrapper cluset or not and the create sub clusets for the different types
      * of clusets required to save the individual courses of membershipqueries.
      *
-     * @param programCluSetInformation
+     * @param programSetInformation
      * @return
      */
-    @Override
-    public CluSetInfo buildCourseSet(CluSetInformation programCluSetInformation) {
+    public CluSetInfo buildProgramSet(CluSetInformation programSetInformation) {
 
-        CluSetInfo cluSetInfo = super.buildCourseSet(programCluSetInformation);
+        CluSetInfo cluSetInfo = super.buildCluSet(programSetInformation);
         if (cluSetInfo.getTypeKey() == null) {
             cluSetInfo.setTypeKey(CluServiceConstants.CLUSET_TYPE_CREDIT_COURSE);
         }
 
-        boolean hasCluIds = programCluSetInformation.hasClus();
+        boolean hasCluIds = programSetInformation.hasClus();
 
         //Set the cluset ids on the cluset
-        if ((programCluSetInformation.getCluSets() == null) && (programCluSetInformation.getCluSets().isEmpty())) {
+        if ((programSetInformation.getCluSets() == null) && (programSetInformation.getCluSets().isEmpty())) {
             if (hasCluIds) {
-                cluSetInfo.setCluIds(programCluSetInformation.getCluIds());
+                cluSetInfo.setCluIds(programSetInformation.getCluIds());
                 return cluSetInfo;
             }
         } else {
-            for (CluSetInformation cluset : programCluSetInformation.getCluSets()) {
-                cluSetInfo.getCluSetIds().add(cluset.getCluSetInfo().getId());
+            for (CluSetInformation cluset : programSetInformation.getCluSets()) {
+                cluSetInfo.getCluSetIds().add(cluset.getId());
             }
         }
 
         if (hasCluIds) {
             CluSetInfo wrapperCluSet = new CluSetInfo();
-            wrapperCluSet.setCluIds(programCluSetInformation.getCluIds());
-            cluSetInfo.getCluSetIds().add(saveWrapperCluSet(wrapperCluSet, programCluSetInformation.getCluSetInfo()));
+            wrapperCluSet.setCluIds(programSetInformation.getCluIds());
+            cluSetInfo.getCluSetIds().add(saveWrapperCluSet(wrapperCluSet, cluSetInfo));
         }
         return cluSetInfo;
     }

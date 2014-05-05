@@ -89,14 +89,14 @@ public class CluInformationHelper {
      */
     public CluSetInformation getCluSetInformation(String cluSetId) {
 
-        CluSetInformation result = new CluSetInformation();
-        result.setCluSetInfo(this.getCluSetInfo(cluSetId));
+        CluSetInfo cluSetInfo = this.getCluSetInfo(cluSetId);
+        CluSetInformation result = new CluSetInformation(cluSetInfo);
 
-        List<String> cluIds = result.getCluSetInfo().getCluIds();
-        this.createCluSetRange(result, result.getCluSetInfo().getMembershipQuery());
+        List<String> cluIds = cluSetInfo.getCluIds();
+        this.createCluSetRange(result, cluSetInfo.getMembershipQuery());
 
         // goes through the list of sub clusets and ignore the ones that are not reusable
-        List<CluSetInfo> cluSetInfos = this.getCluSetInfos(result.getCluSetInfo().getCluSetIds());
+        List<CluSetInfo> cluSetInfos = this.getCluSetInfos(cluSetInfo.getCluSetIds());
         if (cluSetInfos != null) {
             List<CluSetInformation> unWrappedCluSets = new ArrayList<CluSetInformation>();
             for (CluSetInfo subCluSet : cluSetInfos) {

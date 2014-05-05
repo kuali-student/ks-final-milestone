@@ -129,8 +129,8 @@ limitations under the License.
         <property name="viewName" value="krmsCourseSetsInfoView"/>
         <property name="fieldConversions">
             <map>
-                <entry key="name" value="cluSetInfo.name"/>
-                <entry key="id" value="cluSetInfo.id"/>
+                <entry key="name" value="name"/>
+                <entry key="id" value="id"/>
             </map>
         </property>
     </bean>
@@ -166,12 +166,12 @@ limitations under the License.
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-MessageField" p:messageText="@{#line.cluSetInfo.name}" p:style="width: 500px; margin: 0px;"/>
+                <bean parent="Uif-MessageField" p:messageText="@{#line.name}" p:style="width: 500px; margin: 0px;"/>
             </list>
         </property>
         <property name="addLineItems">
             <list>
-                <bean id="cluSetId" parent="KS-Uif-InputField" p:showLabel="false">
+                <bean id="id" parent="KS-Uif-InputField" p:showLabel="false">
                     <property name="propertyName" value="id"/>
                     <property name="control">
                         <bean parent="KS-Uif-HiddenControl"/>
@@ -180,7 +180,7 @@ limitations under the License.
                         <bean parent="AnyCharacterPatternConstraint" p:applyClientSide="false"/>
                     </property>
                 </bean>
-                <bean id="cluSetName" parent="KS-Uif-InputField-LabelTop" p:style="width: 500px;">
+                <bean id="name" parent="KS-Uif-InputField-LabelTop" p:style="width: 500px;">
                     <property name="propertyName" value="name"/>
                     <property name="control">
                         <bean parent="KS-Uif-TextControl" p:disabled="true"

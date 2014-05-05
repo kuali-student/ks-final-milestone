@@ -79,11 +79,7 @@ public class MultiCourseComponentBuilder extends CluComponentBuilder {
     public Map<String, String> buildTermParameters(LUPropositionEditor propositionEditor) {
         Map<String, String> termParameters = new HashMap<String, String>();
         if (propositionEditor.getCourseSet() != null) {
-            if (propositionEditor.getCourseSet().getCluSetInfo() != null) {
-                termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_COURSE_CLUSET_KEY, propositionEditor.getCourseSet().getCluSetInfo().getId());
-            } else {
-                termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_COURSE_CLUSET_KEY, null);
-            }
+            termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_COURSE_CLUSET_KEY, propositionEditor.getCourseSet().getId());
         }
         if (propositionEditor.getGradeScale() != null) {
             termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_GRADE_TYPE_KEY, propositionEditor.getGradeScale());
@@ -96,8 +92,7 @@ public class MultiCourseComponentBuilder extends CluComponentBuilder {
     public void onSubmit(LUPropositionEditor propositionEditor) {
         //Create the courseset
         try {
-            propositionEditor.getCourseSet().setCluSetInfo(this.buildCourseSet(propositionEditor.getCourseSet()));
-            CluSetInfo cluSetInfo = propositionEditor.getCourseSet().getCluSetInfo();
+            CluSetInfo cluSetInfo = this.buildCourseSet(propositionEditor.getCourseSet());
             if (cluSetInfo.getId() == null) {
                 cluSetInfo = this.getCluService().createCluSet(cluSetInfo.getTypeKey(), cluSetInfo, ContextUtils.getContextInfo());
 
@@ -152,10 +147,9 @@ public class MultiCourseComponentBuilder extends CluComponentBuilder {
      * @param cluSetInformation
      * @return
      */
-    @Override
     public CluSetInfo buildCourseSet(CluSetInformation cluSetInformation) {
 
-        CluSetInfo cluSetInfo = super.buildCourseSet(cluSetInformation);
+        CluSetInfo cluSetInfo = super.buildCluSet(cluSetInformation);
         if (cluSetInfo.getTypeKey() == null) {
             cluSetInfo.setTypeKey(CluServiceConstants.CLUSET_TYPE_CREDIT_COURSE);
         }
@@ -174,7 +168,7 @@ public class MultiCourseComponentBuilder extends CluComponentBuilder {
             }
         } else {
             for (CluSetInformation cluset : cluSetInformation.getCluSets()) {
-                cluSetInfo.getCluSetIds().add(cluset.getCluSetInfo().getId());
+                cluSetInfo.getCluSetIds().add(cluset.getId());
             }
         }
 
@@ -182,7 +176,7 @@ public class MultiCourseComponentBuilder extends CluComponentBuilder {
         if (hasCluIds) {
             CluSetInfo wrapperCluSet = new CluSetInfo();
             wrapperCluSet.setCluIds(cluSetInformation.getCluIds());
-            cluSetInfo.getCluSetIds().add(saveWrapperCluSet(wrapperCluSet, cluSetInformation.getCluSetInfo()));
+            cluSetInfo.getCluSetIds().add(saveWrapperCluSet(wrapperCluSet, cluSetInfo));
         }
 
         // Add the course ranges to the wrapper cluset.
@@ -190,7 +184,7 @@ public class MultiCourseComponentBuilder extends CluComponentBuilder {
             for(CluSetRangeInformation cluSetRange : cluSetInformation.getCluSetRanges()){
                 CluSetInfo wrapperCluSet = new CluSetInfo();
                 wrapperCluSet.setMembershipQuery(cluSetRange.getMembershipQueryInfo()); //this.convertDates(cluSetRange.getMembershipQueryInfo(),cluSetInformation ));
-                cluSetInfo.getCluSetIds().add(saveWrapperCluSet(wrapperCluSet, cluSetInformation.getCluSetInfo()));
+                cluSetInfo.getCluSetIds().add(saveWrapperCluSet(wrapperCluSet, cluSetInfo));
             }
         }
 
