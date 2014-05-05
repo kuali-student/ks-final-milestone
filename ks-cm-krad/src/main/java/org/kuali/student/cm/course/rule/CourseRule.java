@@ -38,11 +38,10 @@ import org.kuali.student.r2.lum.course.dto.CourseVariationInfo;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * This class contains all the course creation business rules
@@ -177,13 +176,28 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
     }
 
     protected boolean isMultipleOrganizationInfoFound(List<OrganizationInfoWrapper> orgs) {
-        Set<OrganizationInfoWrapper> nonDuplicateOrgs = new HashSet<OrganizationInfoWrapper>();
-        for (OrganizationInfoWrapper organizationInfoWrapper : orgs) {
-            if (!nonDuplicateOrgs.add(organizationInfoWrapper)) {
-                return true;
-            }
+        boolean isEquals = true;
+        try {
+            isEquals = KSCollectionUtils.hasDuplicates(orgs, new Comparator<OrganizationInfoWrapper>() {
+                @Override
+                public int compare(OrganizationInfoWrapper organizationInfoWrapper1, OrganizationInfoWrapper organizationInfoWrapper2) {
+                    if (organizationInfoWrapper1 == null && organizationInfoWrapper2 == null) {
+                        return 0;
+                    } else if (organizationInfoWrapper1 == null || organizationInfoWrapper2 == null) { // any one object is not null
+                        return 1;
+                    } else {
+                        if (organizationInfoWrapper1.getOrganizationName().equals(organizationInfoWrapper2.getOrganizationName()) &&
+                                (organizationInfoWrapper1.getId().equals(organizationInfoWrapper2.getId())))
+                            return 0;
+                        else
+                            return 1;
+                    }
+                }
+            });
+        } catch (OperationFailedException e) {
+            throw new RuntimeException(e);
         }
-        return false;
+        return isEquals;
     }
 
     protected OrganizationInfoWrapper getOrganizationInfoWrapper(List<OrganizationInfoWrapper> orgs, String organizationName) {
