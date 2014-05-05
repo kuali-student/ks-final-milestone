@@ -617,7 +617,7 @@ function compareCourseCode(value, element) {
  it is valid input instructor */
 function compareInstructorNameInput(value, element) {
     var isValid = false;
-    if (value == null || value.length < 2) {
+    if (value == null || value.length < 6) {
         return isValid;
     }
     var queryVal = value.split(',')[0];
@@ -752,16 +752,6 @@ function highlightMissingElements(sectionId, showError) {
     }
 
     var whiteBorder = whiteBorderStyle.concat(originalStyle);
-
-    /*
-     * Remove the validation errors on sections
-     */
-    jQuery('#' + sectionId).find('div').each(function (index) {
-        var classData = jQuery(this).attr('class');
-        if(classData.toString().trim() == "uif-messageCount") {
-            jQuery(this).attr('style', 'display: none;');
-        }
-    });
 
     if (showError) {
         jQuery('#' + sectionId).find('table td textarea').each(function (index) {
