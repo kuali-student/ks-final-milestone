@@ -15,14 +15,18 @@
  */
 package org.kuali.rice.krms.util;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.datadictionary.parse.BeanTagAttribute;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.component.BindingInfo;
 import org.kuali.rice.krad.uif.component.Component;
+import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.container.Group;
 import org.kuali.rice.krad.uif.container.GroupBase;
+import org.kuali.rice.krad.uif.field.DataField;
 import org.kuali.rice.krad.uif.lifecycle.ViewLifecycle;
 import org.kuali.rice.krad.uif.lifecycle.ViewLifecycleRestriction;
+import org.kuali.rice.krad.uif.lifecycle.ViewLifecycleUtils;
 import org.kuali.rice.krad.uif.util.LifecycleElement;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.View;
@@ -61,6 +65,30 @@ public class AgendaSection extends GroupBase {
             bindingInfo.setDefaults(view, getPropertyName());
         }
 
+        setCollectionPath();
+
+    }
+
+    protected void setCollectionPath() {
+        // set static collection path on items
+        String collectionPath = "";
+        if (StringUtils.isNotBlank(getBindingInfo().getCollectionPath())) {
+            collectionPath += getBindingInfo().getCollectionPath() + ".";
+        }
+        if (StringUtils.isNotBlank(getBindingInfo().getBindByNamePrefix())) {
+            collectionPath += getBindingInfo().getBindByNamePrefix() + ".";
+        }
+        collectionPath += getBindingInfo().getBindingName();
+
+        List<DataField> agendafields = ViewLifecycleUtils.getElementsOfTypeDeep(agendaPrototype, DataField.class);
+        for (DataField collectionField : agendafields) {
+            collectionField.getBindingInfo().setCollectionPath(collectionPath);
+        }
+
+        List<DataField> rulefields = ViewLifecycleUtils.getElementsOfTypeDeep(rulePrototype, DataField.class);
+        for (DataField collectionField : rulefields) {
+            collectionField.getBindingInfo().setCollectionPath(collectionPath);
+        }
     }
 
     @Override
