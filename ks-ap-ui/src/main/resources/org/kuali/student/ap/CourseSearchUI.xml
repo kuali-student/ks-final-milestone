@@ -354,6 +354,12 @@
 				<value>ksap-facets-group</value>
 			</list>
 		</property>
+        <property name="disclosure">
+            <bean parent="Uif-Disclosure">
+                <property name="collapsedIconClass" value="icon-chevron-right"/>
+                <property name="expandedIconClass" value="icon-chevron-down"/>
+            </bean>
+        </property>
 	</bean>
 
 	<bean id="facet_quarter" parent="facet-parent" p:headerText="Scheduled Terms"/>
