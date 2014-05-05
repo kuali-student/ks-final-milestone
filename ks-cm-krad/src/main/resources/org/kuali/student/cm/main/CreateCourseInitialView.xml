@@ -36,7 +36,6 @@
         <property name="footer">
             <bean parent="KS-CourseCreate-InitialView-Footer"/>
         </property>
-
     </bean>
 
     <bean id="KS-CourseView-createCourseInitialView" parent="KS-Uif-FormView">
@@ -49,10 +48,9 @@
                 <ref bean="KS-CourseView-createCourseInitialPage"/>
             </list>
         </property>
-
     </bean>
 
-    <bean id="KS-CourseCreate-InitialView-Page-Widgets" parent="Uif-VerticalBoxSection"  p:style="margin-left: 18px;">
+    <bean id="KS-CourseCreate-InitialView-Page-Widgets" parent="Uif-VerticalBoxSection">
         <property name="header">  <bean parent="Uif-HeaderThree"/>  </property>
         <property name="headerText" value="How would you like to start?"/>
         <property name="instructionalMessage">
@@ -69,8 +67,7 @@
         <property name="items">
             <list>
                 <bean parent="KS-Uif-InputField" id="KS-createCourseInitialPage-CMStartOptions" p:propertyName="createCourseInitialAction"
-                      p:required="true" p:bindingInfo.bindToForm="true"
-                      p:style="padding-top: 18px;" p:defaultValue="startBlankProposal">
+                      p:required="true" p:bindingInfo.bindToForm="true" p:defaultValue="startBlankProposal">
                     <property name="control">
                         <bean parent="KS-Uif-VerticalRadioControl">
                             <property name="options">
@@ -83,8 +80,8 @@
                 </bean>
 
                 <bean parent="KS-Uif-InputField" id="KS-createCourseInitialPage-StartOptions" p:propertyName="createCourseInitialAction"
-                      p:required="true" p:bindingInfo.bindToForm="true"    p:render="false"
-                      p:style="padding-top: 18px;" p:defaultValue="startBlankProposal">
+                      p:required="true" p:bindingInfo.bindToForm="true" p:render="false"
+                      p:defaultValue="startBlankProposal">
                     <property name="control">
                         <bean parent="KS-Uif-VerticalRadioControl">
                             <property name="options">
@@ -118,7 +115,7 @@
                       p:propertyName="useReviewProcess" p:bindingInfo.bindToForm="true"
                       p:required="false">
                     <property name="control">
-                        <bean parent="KS-Uif-CheckboxControl" p:style="margin-left: 6px;" p:checkboxLabel="Use curriculum review process"/>
+                        <bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="Use curriculum review process"/>
                     </property>
                 </bean>
             </list>
@@ -128,16 +125,15 @@
     <bean id="KS-CourseCreate-InitialView-Footer" parent="Uif-FooterBase">
         <property name="items">
             <list>
+                <bean id="createCourseInitial-cancel"
+                      parent="Uif-CancelAction"
+                      p:ajaxSubmit="false"
+                      p:methodToCall="cancel"/>
                 <bean id="createCourseInitial-continueCreate"
                       parent="Uif-PrimaryActionButton"
                       p:ajaxSubmit="false"
                       p:methodToCall="continueCreateCourse"
                       p:actionLabel="Continue"
-                        />
-                <bean id="createCourseInitial-cancel"
-                      parent="Uif-CancelAction"
-                      p:ajaxSubmit="false"
-                      p:methodToCall="cancel"  p:style="margin-right: 100px;"
                         />
             </list>
         </property>

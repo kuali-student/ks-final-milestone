@@ -51,12 +51,12 @@
         <property name="addBlankLineAction.actionLabel" value="Add Organization"/>
         <property name="addBlankLineAction.id" value="KS-Course-CurriculumOversight-input-field"/>
         <property name="addBlankLineAction.dirtyOnAction" value="true" />
-        <property name="validationMessages.displayMessages" value="false"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
         <property name="layoutManager.generateAutoSequence" value="false"/>
         <property name="layoutManager.separateAddLine" value="false"/>
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
+        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
         <property name="header">
             <bean parent="Uif-KS-IconHeader">
                 <property name="richHeaderMessage.iconToolTipText" value="This is not a restrictive list - organizations here are additional organizations that can administer this course."/>
@@ -113,13 +113,13 @@
         <property name="addBlankLineAction.id" value="addAdministeringOrganization"/>
         <property name="addBlankLineAction.onDocumentReadyScript" value="reDisplayAdministeringOrganization();"/>
         <property name="addBlankLineAction.dirtyOnAction" value="true" />
-        <property name="validationMessages.displayMessages" value="false"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
         <property name="layoutManager.generateAutoSequence" value="false"/>
         <property name="layoutManager.separateAddLine" value="false"/>
         <property name="layoutManager.richTable.disableTableSort" value="true"/>
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
+        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
         <property name="header">
             <bean parent="Uif-KS-IconHeader">
                 <property name="richHeaderMessage.iconToolTipText" value="This is not a restrictive list - organizations here are additional organizations that can administer this course."/>

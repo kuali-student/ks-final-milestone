@@ -32,6 +32,12 @@
     <bean id="Uif-CancelAction" parent="Uif-CancelActionButton" p:methodToCall="cancel"
           p:actionLabel="Cancel" p:performDirtyValidation="true" p:id="cancel"/>
 
+    <!-- Validation messages and message counts turned off. -->
+    <bean id="KS-ValidationMessages-Off" parent="Uif-GroupValidationMessages">
+        <property name="displayMessages" value="false" />
+        <property name="displayHeaderMessageSummary" value="false"/>
+    </bean>
+
     <bean id="Uif-KS-IconInputField" parent="Uif-KS-IconInputField-parentBean" abstract="true"/>
   <bean id="Uif-KS-IconInputField-parentBean" abstract="true" parent="Uif-InputField-parentBean" scope="prototype">
         <!--<property name="requiredMessage.messageText" value="?"/> -->
@@ -88,5 +94,4 @@
             </list>
         </property>
     </bean>
-
 </beans>

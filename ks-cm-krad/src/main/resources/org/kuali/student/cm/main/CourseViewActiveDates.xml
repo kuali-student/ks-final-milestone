@@ -11,7 +11,7 @@
 
     <bean id="KS-CourseView-ActiveDates-Section" parent="KS-CourseView-VerticalBoxSection">
         <property name="headerText" value="Active Dates"/>
-        <property name="validationMessages.displayMessages" value="false" />
+        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
         <property name="items">
             <list>
                 <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="courseInfo.startTerm" p:label="Start Term">

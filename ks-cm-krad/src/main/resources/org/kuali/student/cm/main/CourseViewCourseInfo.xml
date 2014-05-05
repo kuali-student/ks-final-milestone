@@ -42,13 +42,13 @@
                     <property name="addBlankLineAction.id" value="addInstructor"/>
                     <property name="addBlankLineAction.onDocumentReadyScript" value="reDisplayInstructor();"/>
                     <property name="addBlankLineAction.dirtyOnAction" value="true" />
-                    <property name="validationMessages.displayMessages" value="false"/>
                     <property name="layoutManager.renderSequenceField" value="false"/>
                     <property name="layoutManager.generateAutoSequence" value="false"/>
                     <property name="layoutManager.separateAddLine" value="false"/>
                     <property name="layoutManager.richTable.disableTableSort" value="true"/>
                     <property name="layoutManager.richTable.render" value="false"/>
                     <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
+                    <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
                     <property name="header">
                         <bean parent="Uif-KS-IconHeader">
                             <property name="richHeaderMessage.iconToolTipText"
@@ -77,9 +77,9 @@
                                                 <entry key="change">
                                                     <value>
                                                         function(event, ui) {
-                                                        if (ui.item==null) {
-                                                        jQuery(this).focus();
-                                                        }
+                                                            if (ui.item==null) {
+                                                                jQuery(this).focus();
+                                                            }
                                                         }
                                                     </value>
                                                 </entry>
@@ -106,11 +106,17 @@
                     <property name="header">
                         <bean parent="Uif-HeaderThree" />
                     </property>
-                    <property name="validationMessages.displayMessages" value="false" />
+                    <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
                     <property name="items">
                         <list>
                             <bean id="KS-CourseDescription" parent="KS-Uif-InputField-LabelTop"
                                 p:label="Description" p:propertyName="courseInfo.descr.plain" >
+
+                                <!-- Use the state-aware label since this field is sometimes required. -->
+                                <property name="fieldLabel">
+                                    <bean parent="CM-StateAware-Label" />
+                                </property>
+
                                 <property name="instructionalText" value="This description will appear in the catalog." />
                                 <property name="control">
                                     <bean parent="Uif-LargeTextAreaControl">
@@ -121,14 +127,16 @@
                                         </property>
                                     </bean>
                                 </property>
-                                <!-- Rice 2.4 upgrade : removing fieldLabel.requiredMessage TODO: KSCM-2000 Required Message Changes -->
-                                <!--property name="fieldLabel.requiredMessage">
-                                    <bean parent="CM-StateAware-RequiredMessage" />
-                                </property-->
                             </bean>
 
                             <bean id="KS-ProposalRationale" parent="KS-Uif-InputField-LabelTop"
                                 p:label="Proposal Rationale" p:propertyName="proposalInfo.rationale.plain">
+
+                                <!-- Use the state-aware label since this field is sometimes required. -->
+                                <property name="fieldLabel">
+                                    <bean parent="CM-StateAware-Label" />
+                                </property>
+
                                 <property name="instructionalText"
                                           value="This will be used in evaluating the proposal. It will not be published in the catalog." />
                                 <property name="control">
@@ -140,10 +148,6 @@
                                         </property>
                                     </bean>
                                 </property>
-                                <!-- Rice 2.4 upgrade : removing fieldLabel.requiredMessage TODO: KSCM-2000 Required Message Changes -->
-                                <!--<property name="fieldLabel.requiredMessage">-->
-                                    <!--<bean parent="CM-StateAware-RequiredMessage" />-->
-                                <!--</property>-->
                             </bean>
                         </list>
                     </property>
@@ -159,7 +163,7 @@
         <property name="header">
             <bean parent="Uif-HeaderTwo" />
         </property>
-        <property name="validationMessages.displayMessages" value="false"/>
+        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
         <property name="cssClasses">
             <list merge="true">
                 <value>cm-collection-width</value>
@@ -206,10 +210,10 @@
                             <bean  id="KS-SubjectArea-Field" parent="KS-Uif-InputField-LabelTop"
                                 p:label="Subject Code" p:propertyName="courseInfo.subjectArea" >
 
-                                <!-- Rice 2.4 upgrade : removing fieldLabel.requiredMessage -->
-                                <!--property name="fieldLabel.requiredMessage">
-                                    <bean parent="CM-StateAware-RequiredMessage" />
-                                </property-->
+                                <!-- Use the state-aware label since this field is sometimes required. -->
+                                <property name="fieldLabel">
+                                    <bean parent="CM-StateAware-Label" />
+                                </property>
 
                                 <property name="constraintText" value="Must be a 4 letter code"/>
                                 <property name="control">
@@ -235,10 +239,11 @@
                                 <property name="control">
                                     <bean parent="KS-Uif-TextControl" p:size="3" p:watermarkText="111"/>
                                 </property>
-                                <!-- Rice 2.4 upgrade : removing fieldLabel.requiredMessage -->
-                                <!--<property name="fieldLabel.requiredMessage">-->
-                                    <!--<bean parent="CM-StateAware-RequiredMessage" />-->
-                                <!--</property>-->
+
+                                <!-- Use the state-aware label since this field is sometimes required. -->
+                                <property name="fieldLabel">
+                                    <bean parent="CM-StateAware-Label" />
+                                </property>
 
                                 <!--<property name="fieldLabel.richLabelMessage.iconToolTipText"
                                           value="The department will determine the course number based on: course format, restrictions, available numbers, and other factors."/>-->
@@ -257,7 +262,9 @@
         <property name="header">
             <bean parent="Uif-HeaderThree"/>
         </property>
-        <property name="validationMessages.displayMessages" value="false"/>
+
+        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
+
         <property name="cssClasses">
             <list merge="true">
                 <value>cm-collection-width</value>
@@ -276,13 +283,13 @@
                     <property name="addBlankLineAction.id" value="addCrosslistedCourse"/>
                     <property name="addBlankLineAction.onDocumentReadyScript" value="reDisplayCrosslistedCourse();"/>
                     <property name="addBlankLineAction.dirtyOnAction" value="true" />
-                    <property name="validationMessages.displayMessages" value="false"/>
                     <property name="layoutManager.renderSequenceField" value="false"/>
                     <property name="layoutManager.generateAutoSequence" value="false"/>
                     <property name="layoutManager.separateAddLine" value="false"/>
                     <property name="layoutManager.richTable.disableTableSort" value="true"/>
                     <property name="layoutManager.richTable.render" value="false"/>
                     <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
+                    <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
                     <property name="header">
                         <bean parent="Uif-KS-IconHeader">
                             <property name="richHeaderMessage.iconToolTipText" value="This is not a restrictive list - Courses here are crosslisted."/>
@@ -346,13 +353,13 @@
                     <property name="addBlankLineAction.id" value="addJointlyOfferedCourse"/>
                     <property name="addBlankLineAction.onDocumentReadyScript" value="reDisplayJointlyOfferedCourse();"/>
                     <property name="addBlankLineAction.dirtyOnAction" value="true" />
-                    <property name="validationMessages.displayMessages" value="false"/>
                     <property name="layoutManager.renderSequenceField" value="false"/>
                     <property name="layoutManager.generateAutoSequence" value="false"/>
                     <property name="layoutManager.separateAddLine" value="false"/>
                     <property name="layoutManager.richTable.disableTableSort" value="true"/>
                     <property name="layoutManager.richTable.render" value="false"/>
                     <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
+                    <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
                     <property name="header">
                         <bean parent="Uif-KS-IconHeader">
                             <property name="richHeaderMessage.iconToolTipText" value="Can't find the course? If a course is still in proposal (pre-approval) stage, you may not be able to find it without being designated as a collaborator on that proposal. If you can't find a proposal you know exists, contact the author and ask them to make you a collaborator."/>
@@ -373,7 +380,6 @@
                                     <bean parent="KS-Uif-TextControl" p:cssClasses="validCourseCode"/>
                                 </property>
                                 <property name="suggest">
-                                    <!-- <bean parent="Uif-Suggest" p:render="true" p:sourceQueryMethodResults="true"> -->
                                     <bean parent="Uif-Suggest" p:render="true">
                                         <property name="valuePropertyName" value="courseCode"/>
                                         <property name="templateOptions" value="minLength:1,delay:0"/>
@@ -415,13 +421,13 @@
                     <property name="addBlankLineAction.id" value="addVersionCode"/>
                     <property name="addBlankLineAction.onDocumentReadyScript" value="reDisplayVersionCode();"/>
                     <property name="addBlankLineAction.dirtyOnAction" value="true" />
-                    <property name="validationMessages.displayMessages" value="false"/>
                     <property name="layoutManager.renderSequenceField" value="false"/>
                     <property name="layoutManager.generateAutoSequence" value="false"/>
                     <property name="layoutManager.separateAddLine" value="false"/>
                     <property name="layoutManager.richTable.disableTableSort" value="true"/>
                     <property name="layoutManager.richTable.render" value="false"/>
                     <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
+                    <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
                     <property name="header">
                         <bean parent="Uif-KS-IconHeader">
                             <property name="richHeaderMessage.iconToolTipText" value="This is not a restrictive list."/>
@@ -435,8 +441,6 @@
                     </property>
                     <property name="items">
                         <list>
-
-
                             <bean parent="KS-Uif-InputField" p:propertyName="variationCode" p:id="variationCode" p:label="Version Code" >
                                 <property name="refreshWhenChangedPropertyNames" value="subjectArea"/>
                                 <property name="constraintText" value="Code must be a capital letter."/>
@@ -453,7 +457,6 @@
                                 <property name="validCharactersConstraint">
                                     <bean parent="AlphaPatternConstraint"/>
                                 </property>
-
                             </bean>
 
                             <bean parent="KS-Uif-InputField" p:propertyName="variationTitle" p:id="variationTitle" p:label="Course Title" p:required="true">
@@ -470,7 +473,6 @@
                         </list>
                     </property>
                 </bean>
-
             </list>
         </property>
     </bean>

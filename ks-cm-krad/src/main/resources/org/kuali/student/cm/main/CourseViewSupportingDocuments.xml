@@ -49,7 +49,7 @@
             </bean>
         </property>
         <property name="renderAddBlankLineButton" value="true" />
-        <property name="validationMessages.displayMessages" value="false"/>
+        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
         <property name="renderLineActions" value="false" />
         <property name="layoutManager.lineGroupPrototype.header.headerText"
                   value="Document @{(#index + 1)}" />

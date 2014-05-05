@@ -183,7 +183,6 @@
                     <list>
                         <bean parent="KS-Uif-DataField" p:label="Proposal Status"
                               p:shortLabel="Status" p:propertyName="proposalInfo.stateKey" />
-                        <!-- Rice 2.4 upgrade : removing p:labelPlacement="LEFT" -->
                         <bean parent="Uif-ActionLink" p:actionLabel="Comments"
                               p:methodToCall="showComment" />
                         <bean parent="Uif-ActionLink" p:actionLabel="Decisions"
@@ -191,7 +190,6 @@
                         <bean parent="Uif-Space" />
                         <bean parent="KS-Uif-DataField" p:label="Last Updated"
                               p:shortLabel="Updated" p:propertyName="lastUpdated" />
-                        <!-- Rice 2.4 upgrade : removing p:labelPlacement="LEFT" -->
                     </list>
                 </property>
             </bean>
@@ -258,16 +256,13 @@
     </bean>
 
     <!--
-        An extended Uif-RequiredMessage which conditionally replaces the message text based on workflow state.
+        An extended Uif-Label which conditionally replaces the requiredIndicator text based on workflow state.
         This can be used for any input (not just required ones) because it doesn't get displayed unless requiredness
         in simpleConstraint is turned on for the field.
     -->
-    <!-- Rice 2.4 upgrade : Uif-RequiredMessage was replaced by requiredIndicator" TODO: KSCM-2000 Required Message Changes -->
-
-<!--
-    <bean id="CM-StateAware-RequiredMessage" parent="CM-StateAware-RequiredMessage-parent" abstract="true" />
-    <bean id="CM-StateAware-RequiredMessage-parent" parent="Uif-RequiredMessage"  abstract="true">
-        <property name="messageText" value="" />
+    <bean id="CM-StateAware-Label" parent="CM-StateAware-Label-parent" abstract="true" />
+    <bean id="CM-StateAware-Label-parent" parent="Uif-Label" abstract="true">
+        <property name="requiredIndicator" value="" /> <!-- Leave empty by default -->
         <property name="cssClasses">
             <list merge="true">
                 <value>cm_requiredMessage_text</value>
@@ -276,25 +271,24 @@
         <property name="propertyReplacers">
             <list>
                 <bean parent="Uif-ConditionalBeanPropertyReplacer"
-                    p:propertyName="messageText"
+                    p:propertyName="requiredIndicator"
                     p:condition="@{#workflowDoc.saved}" >
                     <property name="replacement">
-                        &lt;!&ndash; This should be read from the message service &ndash;&gt;
+                        <!-- This should be read from the message service -->
                         <value>Required on Submit</value>
                     </property>
                 </bean>
                 <bean parent="Uif-ConditionalBeanPropertyReplacer"
-                     p:propertyName="messageText"
+                     p:propertyName="requiredIndicator"
                      p:condition="@{#workflowDoc.enroute}" >
                     <property name="replacement">
-                        &lt;!&ndash; This should be read from the message service &ndash;&gt;
+                        <!-- This should be read from the message service -->
                         <value>Required for Approval</value>
                     </property>
                 </bean>
             </list>
         </property>
     </bean>
--->
 
 
     <bean id="CourseInfoMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
@@ -338,7 +332,8 @@
             <bean parent="Uif-HeaderTwo" />
         </property>
         <!--  Turn off validation messages for the tab sections -->
-        <property name="validationMessages.displayMessages" value="false" />
+        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
+
     </bean>
 
     <bean id="KS-CourseView-HorizontalBoxSection" parent="Uif-HorizontalBoxSection" abstract="true" />
@@ -357,6 +352,7 @@
             <list>
                 <bean parent="Uif-TabGroup" p:id="course_tabs">
                     <property name="validationMessages.displayMessages" value="false" />
+                    <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
                     <property name="items">
                         <list>
                             <ref bean="KS-CourseView-CourseInfo-Section"/>
@@ -452,12 +448,11 @@
                             <property name="items">
                                 <list>
                                     <bean parent="Uif-Message" p:id="Create-CourseView-Admin-Message"
-                                          p:messageText="Showing required and optional fields."
-                                          p:style="margin-right: 0pt; margin-top: 5px;">
+                                          p:messageText="Showing required and optional fields.">
                                     </bean>
                                     <bean parent="KS-Uif-ActionLink" p:id="Create-CourseView-Admin-Message-expand-optional-link"
                                           p:actionScript="showHideCreateCourseOptionalElements();"
-                                          p:actionLabel="Show only required fields" p:style="margin-right: 15pt; margin-top: 0px;">
+                                          p:actionLabel="Show only required fields">
                                     </bean>
                                 </list>
                             </property>

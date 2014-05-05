@@ -13,7 +13,7 @@
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="KS-CourseView-Logistics-Section" parent="KS-CourseView-VerticalBoxSection">
-        <property name="validationMessages.displayMessages" value="false"/>
+        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
         <property name="headerText" value="Course Logistics"/>
         <property name="items">
             <list>
@@ -60,7 +60,7 @@
                 <value>admin-not-required-field</value>
             </list>
         </property>
-        <property name="validationMessages.displayMessages" value="false"/>
+        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
         <property name="items">
             <list>
                 <bean id="KS-DurationTypeDropDown" parent="KS-Uif-InputField-LabelTop"
@@ -92,7 +92,7 @@
 
     <bean id="KS-CourseView-CourseLogisticsPage-GradesAssessments-Widgets" parent="Uif-VerticalBoxSection"
           p:headerText="Grades/Assessments">
-        <property name="validationMessages.displayMessages" value="false" />
+        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
         <property name="items">
             <list>
                 <bean id="KS-CourseView-gradingOptions" parent="KS-Uif-InputField-LabelTop" p:propertyName="courseInfo.gradingOptions" >
@@ -103,7 +103,24 @@
                         <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.AssesmentKeyValueFinder" />
                     </property>
 
-                    <!--<property name="fieldLabel">
+                    <property name="fieldLabel">
+                        <!-- Use the state-aware label since this field is sometimes required. -->
+                        <bean id="assessment_scale_label" parent="CM-StateAware-Label" p:labelText="Assessment Scale">
+                            <property name="richLabelMessage">
+                                <bean id="assessment_scale_label_rich_message" parent="Uif-KS-IconLabelMessage">
+                                    <property name="iconToolTipText" value="&lt;b&gt;Letter, Standard Values&lt;b&gt;&lt;br&gt;
+                                                            A,B,C,D,F&lt;br&gt;&lt;br&gt;&lt;b&gt;Satisfactory, unsatisfactory&lt;br&gt;&lt;br&gt;&lt;b&gt;Recital
+                                                            Values&lt;b&gt; >60% pass&lt;br&gt;&lt;br&gt;&lt;b&gt;Recital Review&lt;b&gt;&lt;br&gt;Lorem
+                                                            ipsum description of recital review&lt;br&gt;&lt;br&gt;&lt;b&gt;Design Review&lt;b&gt;&lt;br&gt;Lorem
+                                                            ipsum description of design review&lt;br&gt;&lt;br&gt;&lt;b&gt;Completed
+                                                            Notation&lt;b&gt;&lt;br&gt;complete,incomplete "/>
+                                </bean>
+                            </property>
+                        </bean>
+                    </property>
+
+                    <!--
+                    <property name="fieldLabel">
                          <bean parent="Uif-Label" p:labelText="Assessment Scale" p:renderColon="false">
                                 <property name="richLabelMessage">
                                     <bean parent="Uif-KS-IconLabelMessage">
@@ -116,7 +133,8 @@
                                     </bean>
                                 </property>
                             </bean>
-                    </property>-->
+                    </property>
+                    -->
                     <property name="simpleConstraint">
                         <bean parent="RequiredConstraint">
                             <property name="states">
@@ -126,12 +144,6 @@
                             </property>
                         </bean>
                     </property>
-                    <!-- Rice 2.4 upgrade : removing fieldLabel.requiredMessage TODO: KSCM-2000 Required Message Changes -->
-<!--
-                    <property name="fieldLabel.requiredMessage">
-                        <bean parent="CM-StateAware-RequiredMessage" />
-                    </property>
--->
                 </bean>
             </list>
         </property>
@@ -162,7 +174,7 @@
 
     <bean id="KS-CourseView-CourseLogisticsPage-FinalExam-Widgets"
           parent="Uif-VerticalBoxSection" p:headerText="Final Exam">
-        <property name="validationMessages.displayMessages" value="false" />
+        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
         <property name="items">
             <list>
                 <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="finalExamStatus" p:label="Final Exam Status" >
@@ -214,12 +226,12 @@
                 <property name="dirtyOnAction" value="true" />
             </bean>
         </property>
-        <property name="validationMessages.displayMessages" value="false"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
         <property name="layoutManager.generateAutoSequence" value="false"/>
         <property name="layoutManager.separateAddLine" value="false"/>
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
+        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
         <property name="header.rightGroup">
             <bean parent="Uif-VerticalBoxGroup">
                 <property name="items">
@@ -348,7 +360,6 @@
         </property>
         <property name="addLinePlacement" value="BOTTOM" />
         <property name="renderAddBlankLineButton" value="true" />
-        <property name="validationMessages.displayMessages" value="false"/>
         <property name="renderLineActions" value="false" />
         <property name="layoutManager.lineGroupPrototype.header.headerText" value="Format @{(#index + 1)}" />
         <property name="layoutManager.lineGroupPrototype.additionalCssClasses" value="course_format_line"/>
@@ -356,6 +367,8 @@
         <property name="layoutManager.id" value="course_format_table"/>
         <property name="layoutManager.lineGroupPrototype.layoutManager.id" value="course_format_table_@{#index}"/>
         <property name="layoutManager.lineGroupPrototype.id" value="course_format_row_@{#index}"/>
+        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
+
         <!-- Display the appropriate requiredness messaging -->
         <property name="header.rightGroup">
             <bean parent="Uif-VerticalBoxGroup">
@@ -394,8 +407,8 @@
                     <property name="addBlankLineAction.id" value="activity-addline"/>
                     <property name="addBlankLineAction.dirtyOnAction" value="true"/>
                     <property name="renderAddBlankLineButton" value="true" />
-                    <property name="validationMessages.displayMessages" value="false"/>
                     <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
+                    <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
                     <property name="header">
                         <bean parent="Uif-KS-IconHeader">
                             <property name="richHeaderMessage.iconToolTipText" value="&lt;b&gt;Contacted Hours:&lt;/b&gt; Sum of contact hours will validate with credits(from learning results)&lt;br&gt;

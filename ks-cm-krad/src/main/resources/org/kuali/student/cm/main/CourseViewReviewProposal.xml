@@ -24,7 +24,7 @@
           p:disclosure.render="false">
 
         <!-- Don't show validation messages at the top of the page. Instead we want the yellow bar. -->
-        <property name="validationMessages.displayMessages" value="false"/>
+        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
 
         <!-- Initialize the page -->
         <property name="onDocumentReadyScript" value="onProposalReviewLoad();"/>
@@ -128,8 +128,7 @@
 
     <!-- The parent all of the vertical box sections -->
     <bean id="ReviewProposal-VerticalBoxSection" parent="Uif-VerticalBoxSection" abstract="true">
-        <property name="validationMessages.displayMessages" value="false"/>
-        <property name="validationMessages.displayHeaderMessageSummary" value="false"/>
+        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
         <property name="cssClasses">
             <list merge="true">
                 <value>review_proposal-section</value>
