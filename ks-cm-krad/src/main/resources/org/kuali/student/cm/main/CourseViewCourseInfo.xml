@@ -351,7 +351,6 @@
                     <property name="propertyName" value="courseJointWrappers" />
                     <property name="addBlankLineAction.actionLabel" value="Add Course"/>
                     <property name="addBlankLineAction.id" value="addJointlyOfferedCourse"/>
-                    <property name="addBlankLineAction.onDocumentReadyScript" value="reDisplayJointlyOfferedCourse();"/>
                     <property name="addBlankLineAction.dirtyOnAction" value="true" />
                     <property name="layoutManager.renderSequenceField" value="false"/>
                     <property name="layoutManager.generateAutoSequence" value="false"/>
@@ -373,7 +372,7 @@
                     </property>
                     <property name="items">
                         <list>
-                            <bean id="KS-CourseCode-Field" parent="Uif-KS-IconInputField-LabelTop" p:label="Subject Code"
+                            <bean id="KS-CourseCode-Field" parent="Uif-KS-IconInputField-LabelTop" p:label="Course Code"
                                   p:propertyName="courseCode">
                                 <property name="instructionalText" value="Enter an existing course or proposal."/>
                                 <property name="control">
