@@ -33,7 +33,6 @@ import org.kuali.rice.krad.uif.control.SelectControl;
 import org.kuali.rice.krad.uif.field.InputField;
 import org.kuali.rice.krad.uif.util.ComponentFactory;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
-import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -1443,7 +1442,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
      */
     public void sortTermWrappers(List<AcademicTermWrapper> termWrappers) {
         //Sort the termWrappers by start date
-        if (termWrappers != null & !termWrappers.isEmpty()) {
+        if (termWrappers != null && !termWrappers.isEmpty()) {
             Collections.sort(termWrappers, new Comparator<AcademicTermWrapper>() {
                 @Override
                 public int compare(AcademicTermWrapper termWrapper1, AcademicTermWrapper termWrapper2) {
@@ -1486,7 +1485,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
      */
     private void sortSimplifiedAcademicTermWrappers(List<SimplifiedAcademicTermWrapper> simplifiedAcademicTermWrappers) {
         //Sort the termWrappers by start date
-        if (simplifiedAcademicTermWrappers != null & !simplifiedAcademicTermWrappers.isEmpty()) {
+        if (simplifiedAcademicTermWrappers != null && !simplifiedAcademicTermWrappers.isEmpty()) {
             Collections.sort(simplifiedAcademicTermWrappers, new Comparator<SimplifiedAcademicTermWrapper>() {
                 @Override
                 public int compare(SimplifiedAcademicTermWrapper simplifiedAcademicTermWrapper1, SimplifiedAcademicTermWrapper simplifiedAcademicTermWrapper2) {
