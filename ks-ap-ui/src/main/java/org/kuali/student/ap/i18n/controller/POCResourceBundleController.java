@@ -1,5 +1,6 @@
 package org.kuali.student.ap.i18n.controller;
 
+import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.controller.extension.KsapControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
@@ -46,6 +47,7 @@ public class POCResourceBundleController extends KsapControllerBase {
      *
      * Does not appear to be hit at any time.
      */
+    @MethodAccessible
     @RequestMapping(method = RequestMethod.GET, params = "methodToCall=startRB")
     public ModelAndView startRB(@ModelAttribute("KualiForm") UifFormBase form,
                                      HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
