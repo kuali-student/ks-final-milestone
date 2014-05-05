@@ -397,7 +397,7 @@ function ksapRetrieveComponent(id, getId, methodToCall, action, retrieveOptions,
  */
 function truncateField(id, floated) {
     jQuery("#" + id + " .uif-horizontalFieldGroup").each(function () {
-        var itemSelector = ".uif-horizontalBoxGroup > .uif-horizontalBoxLayout > .uif-boxLayoutHorizontalItem";
+        var itemSelector = ".uif-horizontalBoxGroup > .uif-boxLayoutHorizontalItem";
         var ellipsisItem = jQuery(this).find(itemSelector + ".ksap-text-ellipsis");
         if (ellipsisItem.length != 0) {
             jQuery(this).css("display", "block");
