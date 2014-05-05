@@ -572,13 +572,46 @@ jQuery.validator.addMethod("validSubjectCode",
 
 jQuery.validator.addMethod("validCourseCode",
     function (value, element) {
-        return this.optional(element) || compareSubjectCodeInput(value, element);
+        return this.optional(element) || compareCourseCode(value, element);
     }, "Course code is invalid")
 
 jQuery.validator.addMethod("validInstructorNameAndID",
     function (value, element) {
         return this.optional(element) || compareInstructorNameInput(value, element);
     }, "Instructor name/ID combo is invalid")
+
+
+/**
+ * This method validates on blur from the joint course code field. This validates whether the user
+ * entered a valid course code or not.
+ *
+ * @param value
+ * @param element
+ * @returns {*}
+ */
+function compareCourseCode(value, element) {
+    var isValid;
+    if (value == null || value.length < 2) {
+        return false;
+    }
+
+    var successFunction = function (data) {
+        if (data == null || data.resultData == null) {
+            isValid = false;
+        } else {
+            for (var i = 0; len = data.resultData.length, i < len; i++) {
+                if (data.resultData[i].value == value) {
+                    isValid = true;
+                    break;
+                }
+            }
+        }
+    };
+
+    compareInputWithAutosuggestFromAjax(value, element, successFunction);
+
+    return isValid;
+}
 
 /*Compare the input instructor from the autofill suggest results: data. If the input is in the result data
  it is valid input instructor */
@@ -623,7 +656,7 @@ jQuery.validator.addMethod("validOrganizationName",
 
 /*Compare the input Organization Name from the autofill suggest results: data. If the input is in the result data
  it is valid input Organization */
-function compareOrganizationNameInput(value, element) {
+    function compareOrganizationNameInput(value, element) {
     var isValid;
     if (value == null || value.length < 2) {
         return false;
@@ -777,7 +810,7 @@ function verifyMaxAndMinInput(value, element) {
 function compareInputWithAutosuggestFromAjax(value, element, successFunction) {
     var queryData = {};
 
-    var qFieldId = element.parentElement.getAttribute('id');
+    var qFieldId = jQuery('#' + element.id).data('control_for');
     queryData.methodToCall = 'performFieldSuggest';
     queryData.ajaxRequest = true;
     queryData.ajaxReturnType = 'update-none';
