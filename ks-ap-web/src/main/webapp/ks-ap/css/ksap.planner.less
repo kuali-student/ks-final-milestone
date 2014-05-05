@@ -78,6 +78,7 @@ button.uif-primaryActionButton.ksap-carousel-next.disabled img {
 
 .ksap-carousel-list ul li {
   float: left;
+  height:100% !important; // Set as important to override carousel library auto set on element.
 }
 
 .ksap-carousel-list ul li > .uif-group > .uif-header {
@@ -119,7 +120,7 @@ button.uif-primaryActionButton.ksap-carousel-next.disabled img {
   text-shadow: 0px 1px 0px #000;
 }
 
-.ksap-carousel-list ul li > .uif-group > .uif-verticalBoxLayout {
+.ksap-carousel-list ul li > .uif-group{
   /*
       @TODO KSAP-961 Convert to a border style instead of an image
   */
