@@ -125,10 +125,10 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
                 List<Person> persons = getPersonService().findPeople(searchCriteria);
 
                 if (persons.isEmpty()) {
-                    GlobalVariables.getMessageMap().putErrorForSectionId("instructor-section", CurriculumManagementConstants.MessageKeys.ERROR_DATA_NOT_FOUND, "Instructor", principalName);
+                    GlobalVariables.getMessageMap().putErrorForSectionId(CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE, CurriculumManagementConstants.MessageKeys.ERROR_DATA_NOT_FOUND, "Instructor", principalName);
                     return false;
                 } else if (persons.size() > 1) {
-                    GlobalVariables.getMessageMap().putErrorForSectionId("instructor-section", CurriculumManagementConstants.MessageKeys.ERROR_DATA_MULTIPLE_MATCH_FOUND, "Instructor", principalName);
+                    GlobalVariables.getMessageMap().putErrorForSectionId(CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE, CurriculumManagementConstants.MessageKeys.ERROR_DATA_MULTIPLE_MATCH_FOUND, "Instructor", principalName);
                     return false;
                 } else {
                     try {
@@ -162,10 +162,10 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
                 List<OrganizationInfoWrapper> orgs = OrganizationSearchUtil.searchForOrganizations(organizationInfoWrapper.getOrganizationName(), getOrganizationService());
 
                 if (orgs.isEmpty()) {
-                    GlobalVariables.getMessageMap().putErrorForSectionId("administering-organization", CurriculumManagementConstants.MessageKeys.ERROR_DATA_NOT_FOUND, "Org", organizationInfoWrapper.getOrganizationName());
+                    GlobalVariables.getMessageMap().putErrorForSectionId(CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE, CurriculumManagementConstants.MessageKeys.ERROR_DATA_NOT_FOUND, "Org", organizationInfoWrapper.getOrganizationName());
                     return false;
                 } else if (isMultipleOrganizationInfoFound(orgs)) {
-                    GlobalVariables.getMessageMap().putErrorForSectionId("administering-organization", CurriculumManagementConstants.MessageKeys.ERROR_DATA_MULTIPLE_MATCH_FOUND, "Org", organizationInfoWrapper.getOrganizationName());
+                    GlobalVariables.getMessageMap().putErrorForSectionId(CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE, CurriculumManagementConstants.MessageKeys.ERROR_DATA_MULTIPLE_MATCH_FOUND, "Org", organizationInfoWrapper.getOrganizationName());
                     return false;
                 } else {
                     dataObject.getCourseInfo().getUnitsDeployment().add(getOrganizationInfoWrapper(orgs, organizationInfoWrapper.getOrganizationName()).getId());
