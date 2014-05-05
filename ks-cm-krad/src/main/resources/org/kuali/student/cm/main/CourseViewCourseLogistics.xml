@@ -37,7 +37,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="courseInfo.termsOffered"
+                <bean parent="CM-InputField" p:propertyName="courseInfo.termsOffered"
                       p:label="Term"
                       p:instructionalText="Selecting a single term will restrict this course to only that term. Any will allow the
 								course to be offered in any term that matches the duration selected below.">
@@ -85,9 +85,8 @@
     </bean>
     <bean id="KS-CourseView-CourseLogisticsPage-LearningResults-Widgets"
           parent="Uif-HorizontalBoxSection" p:headerText="Learning Results">
-        <property name="instructionalText"
-                  value="There are two types of learning results, Grades/Assessments and Credits/Outcomes. You can add multiple options
-			for either type, which can be used for multiple course formats, or to account for variations in course offerings." />
+        <property name="instructionalText" value="There are two types of learning results, Grades/Assessments and Credits/Outcomes. You can add multiple options
+			    for either type, which can be used for multiple course formats, or to account for variations in course offerings."/>
     </bean>
 
     <bean id="KS-CourseView-CourseLogisticsPage-GradesAssessments-Widgets" parent="Uif-VerticalBoxSection"
@@ -95,7 +94,8 @@
         <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
         <property name="items">
             <list>
-                <bean id="KS-CourseView-gradingOptions" parent="KS-Uif-InputField-LabelTop" p:propertyName="courseInfo.gradingOptions" >
+                <bean id="KS-CourseView-gradingOptions" parent="CM-InputField" p:label="Assessment Scale"
+                      p:propertyName="courseInfo.gradingOptions" >
                     <property name="control">
                         <bean parent="Uif-VerticalCheckboxesControl" />
                     </property>
@@ -103,38 +103,17 @@
                         <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.AssesmentKeyValueFinder" />
                     </property>
 
-                    <property name="fieldLabel">
-                        <!-- Use the state-aware label since this field is sometimes required. -->
-                        <bean id="assessment_scale_label" parent="CM-StateAware-Label" p:labelText="Assessment Scale">
-                            <property name="richLabelMessage">
-                                <bean id="assessment_scale_label_rich_message" parent="Uif-KS-IconLabelMessage">
-                                    <property name="iconToolTipText" value="&lt;b&gt;Letter, Standard Values&lt;b&gt;&lt;br&gt;
-                                                            A,B,C,D,F&lt;br&gt;&lt;br&gt;&lt;b&gt;Satisfactory, unsatisfactory&lt;br&gt;&lt;br&gt;&lt;b&gt;Recital
-                                                            Values&lt;b&gt; >60% pass&lt;br&gt;&lt;br&gt;&lt;b&gt;Recital Review&lt;b&gt;&lt;br&gt;Lorem
-                                                            ipsum description of recital review&lt;br&gt;&lt;br&gt;&lt;b&gt;Design Review&lt;b&gt;&lt;br&gt;Lorem
-                                                            ipsum description of design review&lt;br&gt;&lt;br&gt;&lt;b&gt;Completed
-                                                            Notation&lt;b&gt;&lt;br&gt;complete,incomplete "/>
-                                </bean>
-                            </property>
+                    <property name="fieldLabel.richLabelMessage">
+                        <bean parent="Uif-KS-IconLabelMessage">
+                            <property name="iconToolTipText" value="&lt;b&gt;Letter, Standard Values&lt;b&gt;&lt;br&gt;
+                                    A,B,C,D,F&lt;br&gt;&lt;br&gt;&lt;b&gt;Satisfactory, unsatisfactory&lt;br&gt;&lt;br&gt;&lt;b&gt;Recital
+                                    Values&lt;b&gt; >60% pass&lt;br&gt;&lt;br&gt;&lt;b&gt;Recital Review&lt;b&gt;&lt;br&gt;Lorem
+                                    ipsum description of recital review&lt;br&gt;&lt;br&gt;&lt;b&gt;Design Review&lt;b&gt;&lt;br&gt;Lorem
+                                    ipsum description of design review&lt;br&gt;&lt;br&gt;&lt;b&gt;Completed
+                                    Notation&lt;b&gt;&lt;br&gt;complete,incomplete"/>
                         </bean>
                     </property>
 
-                    <!--
-                    <property name="fieldLabel">
-                         <bean parent="Uif-Label" p:labelText="Assessment Scale" p:renderColon="false">
-                                <property name="richLabelMessage">
-                                    <bean parent="Uif-KS-IconLabelMessage">
-                                        <property name="iconToolTipText" value="&lt;b&gt;Letter, Standard Values&lt;b&gt;&lt;br&gt;
-                                                                A,B,C,D,F&lt;br&gt;&lt;br&gt;&lt;b&gt;Satisfactory, unsatisfactory&lt;br&gt;&lt;br&gt;&lt;b&gt;Recital
-                                                                Values&lt;b&gt; >60% pass&lt;br&gt;&lt;br&gt;&lt;b&gt;Recital Review&lt;b&gt;&lt;br&gt;Lorem
-                                                                ipsum description of recital review&lt;br&gt;&lt;br&gt;&lt;b&gt;Design Review&lt;b&gt;&lt;br&gt;Lorem
-                                                                ipsum description of design review&lt;br&gt;&lt;br&gt;&lt;b&gt;Completed
-                                                                Notation&lt;b&gt;&lt;br&gt;complete,incomplete "/>
-                                    </bean>
-                                </property>
-                            </bean>
-                    </property>
-                    -->
                     <property name="simpleConstraint">
                         <bean parent="RequiredConstraint">
                             <property name="states">
@@ -157,13 +136,12 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="audit"
-                      p:label="Audit" >
+                <bean parent="CM-InputField" p:propertyName="audit" p:label="Audit" >
                     <property name="control">
                         <bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="This course can be audited" />
                     </property>
                 </bean>
-                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="passFail" p:label="Pass Fail Transcript Grade" >
+                <bean parent="CM-InputField" p:propertyName="passFail" p:label="Pass Fail Transcript Grade" >
                     <property name="control">
                         <bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="This course will have a student selectable pass/fail option" />
                     </property>
@@ -177,7 +155,7 @@
         <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
         <property name="items">
             <list>
-                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="finalExamStatus" p:label="Final Exam Status" >
+                <bean parent="CM-InputField" p:propertyName="finalExamStatus" p:label="Final Exam Status" >
                     <property name="control">
                         <bean parent="KS-Uif-VerticalRadioControl" />
                     </property>
@@ -194,15 +172,8 @@
                             </property>
                         </bean>
                     </property>
-                    <!-- Rice 2.4 upgrade : removing fieldLabel.requiredMessage TODO: KSCM-2000 Required Message Changes -->
-<!--
-                    <property name="fieldLabel.requiredMessage">
-                        <bean parent="CM-StateAware-RequiredMessage" />
-                    </property>
--->
                 </bean>
-                <bean id="KS-FinalExamRationale" parent="KS-Uif-InputField-LabelTop"
-                      p:label="Final Exam Rationale" p:required="true"
+                <bean id="KS-FinalExamRationale" parent="CM-InputField" p:label="Final Exam Rationale" p:required="true"
                       p:progressiveRender="#dp.finalExamStatus eq 'None' or #dp.finalExamStatus eq 'ALT'"
                       p:propertyName="finalExamRationale">
                     <property name="control">
@@ -236,8 +207,7 @@
             <bean parent="Uif-VerticalBoxGroup">
                 <property name="items">
                     <list>
-                        <!-- Rice 2.4 upgrade : removing commented out bean -->
-                        <!--<bean parent="CM-StateAware-RequiredMessage" />-->
+                        <bean parent="CM-StateAware-Label" />
                     </list>
                 </property>
             </bean>
@@ -264,8 +234,7 @@
                         </bean>
                     </property>
                 </bean>
-                <bean id="creditValue" parent="KS-Uif-InputField-LabelTop"
-                      p:label="Credits" p:propertyName="uiHelper.resultValue">
+                <bean id="creditValue" parent="KS-Uif-InputField-LabelTop" p:label="Credits" p:propertyName="uiHelper.resultValue">
                     <property name="constraintText" value=""/>
                     <property name="constraintMessage">
                         <bean parent="Uif-ConstraintMessage"/>
@@ -338,7 +307,8 @@
         </property>
     </bean>
 
-    <bean id="KSCM-Uif-AddBlankLineAction" parent="Uif-PrimaryActionButton-Small" p:methodToCall="addBlankLine" p:actionLabel="Add" p:actionEvent="addBlankLine" p:id="addBlankLine-outcome-multiple"/>
+    <bean id="KSCM-Uif-AddBlankLineAction" parent="Uif-PrimaryActionButton-Small" p:methodToCall="addBlankLine" p:actionLabel="Add"
+          p:actionEvent="addBlankLine" p:id="addBlankLine-outcome-multiple"/>
 
     <bean id="KS-CourseView-CourseLogisticsPage-CourseFormats-Widgets"
               parent="Uif-StackedCollectionSection" p:headerText="Course Format(s)"
@@ -347,7 +317,8 @@
                   value="Each course format can consist of any number of activities, and you may have more than one course format for this course." />
         <property name="header">
             <bean parent="Uif-KS-IconHeader">
-                <property name="richHeaderMessage.iconToolTipText" value="Is your course taught differently in the school&lt;br&gt;year than it is in the summer? For example,&lt;br&gt;online in the summer, lecture/lab in the fall. If&lt;br&gt;so, you will need two course formats."/>
+                <property name="richHeaderMessage.iconToolTipText"
+                          value=" Is your course taught differently in the school&lt;br&gt;year than it is in the summer? For example,&lt;br&gt;online in the summer, lecture/lab in the fall. If&lt;br&gt;so, you will need two course formats."/>
             </bean>
         </property>
         <property name="addBlankLineAction">
@@ -374,8 +345,7 @@
             <bean parent="Uif-VerticalBoxGroup">
                 <property name="items">
                     <list>
-                        <!-- Rice 2.4 upgrade : removing commented out bean -->
-                        <!--<bean parent="CM-StateAware-RequiredMessage" />-->
+                        <bean parent="CM-StateAware-Label"/>
                     </list>
                 </property>
             </bean>

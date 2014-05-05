@@ -109,14 +109,8 @@
                     <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
                     <property name="items">
                         <list>
-                            <bean id="KS-CourseDescription" parent="KS-Uif-InputField-LabelTop"
+                            <bean id="KS-CourseDescription" parent="CM-InputField"
                                 p:label="Description" p:propertyName="courseInfo.descr.plain" >
-
-                                <!-- Use the state-aware label since this field is sometimes required. -->
-                                <property name="fieldLabel">
-                                    <bean parent="CM-StateAware-Label" />
-                                </property>
-
                                 <property name="instructionalText" value="This description will appear in the catalog." />
                                 <property name="control">
                                     <bean parent="Uif-LargeTextAreaControl">
@@ -129,13 +123,8 @@
                                 </property>
                             </bean>
 
-                            <bean id="KS-ProposalRationale" parent="KS-Uif-InputField-LabelTop"
+                            <bean id="KS-ProposalRationale" parent="CM-InputField"
                                 p:label="Proposal Rationale" p:propertyName="proposalInfo.rationale.plain">
-
-                                <!-- Use the state-aware label since this field is sometimes required. -->
-                                <property name="fieldLabel">
-                                    <bean parent="CM-StateAware-Label" />
-                                </property>
 
                                 <property name="instructionalText"
                                           value="This will be used in evaluating the proposal. It will not be published in the catalog." />
@@ -171,7 +160,8 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="KS-Uif-InputField-LabelTop" p:label="Proposal Title"   p:id="CreateCourseProposalTitleInputField"
+                <!-- Not using CM-InputField here because this one is always required and doesn't get the custom requiredness indicator. -->
+                <bean parent="KS-Uif-InputField" p:label="Proposal Title" p:id="CreateCourseProposalTitleInputField"
                       p:propertyName="proposalInfo.name">
                     <property name="instructionalText"
                               value="This title is used for identifying the proposal through the approval process. It is highly recommended that you use the same name for the course and proposal title."/>
@@ -179,9 +169,8 @@
                         <bean parent="KS-Uif-TextControl" p:size="70" />
                     </property>
                 </bean>
-
-                <bean parent="KS-Uif-InputField-LabelTop" p:label="Course Title"
-                      p:propertyName="courseInfo.courseTitle">
+                <!-- Not using CM-InputField here because this one is always required and doesn't get the custom requiredness indicator. -->
+                <bean parent="KS-Uif-InputField" p:label="Course Title" p:propertyName="courseInfo.courseTitle">
                     <property name="instructionalText"
                               value="It is highly recommended that you use the same name for the course and proposal title."/>
                     <property name="control">
@@ -189,7 +178,7 @@
                     </property>
                 </bean>
 
-                <bean id="KS-TranscriptTitle" parent="KS-Uif-InputField-LabelTop" p:label="Transcript Course Title"
+                <bean id="KS-TranscriptTitle" parent="CM-InputField" p:label="Transcript Course Title"
                       p:propertyName="courseInfo.transcriptTitle" >
                     <property name="instructionalText"
                               value="This is the truncated title that will appear on the printed transcript."/>
@@ -207,13 +196,8 @@
                 <bean id="KS-CM-SubjectCode-CourseNumberSuffix" parent="Uif-HorizontalBoxSection" >
                     <property name="items">
                         <list>
-                            <bean  id="KS-SubjectArea-Field" parent="KS-Uif-InputField-LabelTop"
+                            <bean  id="KS-SubjectArea-Field" parent="CM-InputField"
                                 p:label="Subject Code" p:propertyName="courseInfo.subjectArea" >
-
-                                <!-- Use the state-aware label since this field is sometimes required. -->
-                                <property name="fieldLabel">
-                                    <bean parent="CM-StateAware-Label" />
-                                </property>
 
                                 <property name="constraintText" value="Must be a 4 letter code"/>
                                 <property name="control">
@@ -232,7 +216,7 @@
                                 </property>
                             </bean>
 
-                            <bean id="KS-CourseNumberSuffix-Field" parent="KS-Uif-InputField-LabelTop"
+                            <bean id="KS-CourseNumberSuffix-Field" parent="CM-InputField"
                                   p:label="Course Number" p:propertyName="courseInfo.courseNumberSuffix"
                                   p:minLength="3">
                                 <property name="constraintText" value="Must be a 3 digit number"/>
@@ -240,13 +224,11 @@
                                     <bean parent="KS-Uif-TextControl" p:size="3" p:watermarkText="111"/>
                                 </property>
 
-                                <!-- Use the state-aware label since this field is sometimes required. -->
-                                <property name="fieldLabel">
-                                    <bean parent="CM-StateAware-Label" />
+                                <property name="fieldLabel.richLabelMessage">
+                                    <bean parent="Uif-KS-IconLabelMessage">
+                                        <property name="iconToolTipText" value="The department will determine the course number based on: course format, restrictions, available numbers, and other factors"/>
+                                    </bean>
                                 </property>
-
-                                <!--<property name="fieldLabel.richLabelMessage.iconToolTipText"
-                                          value="The department will determine the course number based on: course format, restrictions, available numbers, and other factors."/>-->
                             </bean>
                         </list>
                     </property>
@@ -372,7 +354,7 @@
                     </property>
                     <property name="items">
                         <list>
-                            <bean id="KS-CourseCode-Field" parent="Uif-KS-IconInputField-LabelTop" p:label="Course Code"
+                            <bean id="KS-CourseCode-Field" parent="CM-InputField" p:label="Course Code"
                                   p:propertyName="courseCode">
                                 <property name="instructionalText" value="Enter an existing course or proposal."/>
                                 <property name="control">

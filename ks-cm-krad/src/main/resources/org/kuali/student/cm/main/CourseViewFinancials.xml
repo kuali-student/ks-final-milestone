@@ -60,12 +60,8 @@
     <bean id="KS-CourseView-Financials-Widgets" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
-                <bean parent="KS-Uif-InputField-LabelTop" p:label="Justification of Fees" p:propertyName="courseInfo.feeJustification.plain">
+                <bean parent="CM-InputField" p:label="Justification of Fees" p:propertyName="courseInfo.feeJustification.plain">
                     <property name="instructionalText" value="This is for internal use only and will not be seen by students." />
-                    <!-- Rice 2.4 upgrade : removing fieldLabel.requiredMessage TODO: KSCM-2000 Required Message Changes -->
-                    <!--property name="fieldLabel.requiredMessage">
-                        <bean parent="Uif-RequiredMessage" p:messageText="Required on @{document.newMaintainableObject.dataObject.requiredWorkflowMode}" />
-                    </property-->
                     <property name="cssClasses">
                         <list>
                             <value>uif-label</value>

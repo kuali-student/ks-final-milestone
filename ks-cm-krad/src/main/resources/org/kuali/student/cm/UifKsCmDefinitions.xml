@@ -34,23 +34,74 @@
 
     <!-- Validation messages and message counts turned off. -->
     <bean id="KS-ValidationMessages-Off" parent="Uif-GroupValidationMessages">
-        <property name="displayMessages" value="false" />
+        <property name="displayMessages" value="false"/>
         <property name="displayHeaderMessageSummary" value="false"/>
     </bean>
 
+    <!-- InputField with a state aware label which should be the parent of all CM input fields that need (or potentially
+         might need) a custom required indicator. If the input has a required constraint which evaluates to true the
+         required indicator will be displayed. Otherwise, it will remain hidden. -->
+    <bean id="CM-InputField" parent="CM-InputField-parentBean"/>
+    <bean id="CM-InputField-parentBean" abstract="true" parent="Uif-InputField">
+        <property name="help">
+            <null/>
+        </property>
+        <property name="fieldLabel">
+            <bean parent="CM-StateAware-Label"/>
+        </property>
+    </bean>
+
+    <!--
+        An extended Uif-Label which conditionally replaces the requiredIndicator text based on workflow state.
+        This can be used for any input (not just required ones) because it doesn't get displayed unless requiredness
+        in simpleConstraint is turned on for the field.
+    -->
+    <bean id="CM-StateAware-Label" parent="CM-StateAware-Label-parent" abstract="true" />
+    <bean id="CM-StateAware-Label-parent" parent="Uif-Label" abstract="true">
+        <property name="requiredIndicator" value="" /> <!-- Leave empty by default -->
+        <property name="renderColon" value="false"/>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>cm_requiredMessage_text</value>
+            </list>
+        </property>
+        <property name="propertyReplacers">
+            <list>
+                <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                    p:propertyName="requiredIndicator"
+                    p:condition="@{#workflowDoc.saved}" >
+                    <property name="replacement">
+                        <!-- This should be read from the message service -->
+                        <value>Required on Submit</value>
+                    </property>
+                </bean>
+                <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                     p:propertyName="requiredIndicator"
+                     p:condition="@{#workflowDoc.enroute}" >
+                    <property name="replacement">
+                        <!-- This should be read from the message service -->
+                        <value>Required for Approval</value>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
     <bean id="Uif-KS-IconInputField" parent="Uif-KS-IconInputField-parentBean" abstract="true"/>
-  <bean id="Uif-KS-IconInputField-parentBean" abstract="true" parent="Uif-InputField-parentBean" scope="prototype">
+    <bean id="Uif-KS-IconInputField-parentBean" abstract="true" parent="Uif-InputField-parentBean" scope="prototype">
         <!--<property name="requiredMessage.messageText" value="?"/> -->
-        <property name="fieldLabel.labelText" value="test"/> <!-- TODO: This is a workaround needed as KRAD not rendering the label if this is empty -->
+        <property name="fieldLabel.labelText" value="test"/>
+        <!-- TODO: This is a workaround needed as KRAD not rendering the label if this is empty -->
         <property name="fieldLabel.richLabelMessage">
             <bean parent="Uif-KS-IconLabelMessage"/>
         </property>
     </bean>
 
     <bean id="Uif-KS-IconInputField-LabelTop" parent="Uif-KS-IconInputField-LabelTop-parentBean" abstract="true"/>
-    <bean id="Uif-KS-IconInputField-LabelTop-parentBean" abstract="true" parent="Uif-InputField-parentBean" scope="prototype">
-        <!--<property name="fieldLabel.requiredMessage.messageText" value="?"/>   -->
-        <property name="fieldLabel.labelText" value="test"/> <!-- TODO: (KSCM-) This is a workaround needed as KRAD not rendering the label if it is empty -->
+    <bean id="Uif-KS-IconInputField-LabelTop-parentBean" abstract="true" parent="Uif-InputField-parentBean"
+          scope="prototype">
+        <property name="fieldLabel.labelText" value="test"/>
+        <!-- TODO: (KSCM-) This is a workaround needed as KRAD not rendering the label if it is empty -->
         <property name="fieldLabel.richLabelMessage">
             <bean parent="Uif-KS-IconLabelMessage"/>
         </property>
@@ -76,8 +127,9 @@
         </property>
     </bean>
 
-    <!-- Override the default theme to include all the cm specific css/js.
-         This will load only if ks-cm profile is active.
+    <!--
+        Override the default theme to include all the cm specific css/js.
+        This will load only if ks-cm profile is active.
     -->
     <bean id="KSTheme" abstract="true" parent="KSTheme-CM-parentBean"/>
 

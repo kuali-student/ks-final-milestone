@@ -66,20 +66,13 @@ public class KSIconLabelMessage extends Message {
             String label = "";
 
             if (parent instanceof Label){
-                label = ((Label) parent).getLabelText();
-                /**
-                 * Rice 2.4 Upgrade: alteration made here TODO: KSCM-2000 Required Message Changes
-                 *
-                 * Manually add in the required indicator (is this necessary now?)
-                 */
-//                Label parentObject = (Label)parent;
-//                label = parentObject.getLabelText() + " " + parentObject.getRequiredIndicator() + " [0]";
-//                parentObject.setLabelText(label);
-
+                Label parentObject = (Label) parent;
+                label = parentObject.getLabelText() + "[0]";
+                parentObject.setLabelText(label);
             } else if (parent instanceof Header){
                 label =  ((Header)parent).getHeaderText();
                 /** If there are any components configured to display as right group, move that
-                 * component to the middle sothat icon always display as last component.
+                 * component to the middle so that icon always display as last component.
                  */
                 Group group = ((Header) parent).getRightGroup();
 
@@ -99,7 +92,6 @@ public class KSIconLabelMessage extends Message {
 
             setMessageText(label);
             iconImageField.getToolTip().setTooltipContent(iconToolTipText);
-
         }
 
         super.performApplyModel(model, parent);

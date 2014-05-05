@@ -62,10 +62,10 @@
                                                 <entry key="change">
                                                     <value>
                                                         function(event, ui) {
-                                                        if (ui.item==null) {
-                                                        jQuery(this).val('');
-                                                        jQuery(this).focus();
-                                                        }
+                                                            if (ui.item==null) {
+                                                                jQuery(this).val('');
+                                                                jQuery(this).focus();
+                                                            }
                                                         }
                                                     </value>
                                                 </entry>
