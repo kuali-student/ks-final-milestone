@@ -589,27 +589,33 @@ fieldset .uif-smallActionButton {
   margin: 0;
 }
 
+.ks-toolbar-borderMixin{
+    border: 1px solid #cccccc;
+    border-color: #e6e6e6 #e6e6e6 #bfbfbf;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    border-bottom-color: #b3b3b3;
+    border-left:0;
+}
+
 .ks-toolbar button.tree-bar-button {
-  font-size: 0.9em;
-  color: black;
-  background-color: #f5f5f5;
-  #gradient.vertical(#ffffff, #e6e6e6); /*-- LESS gradient mixin --*/
-border: 1px solid #cccccc;
-border-left:0;
-border-color: #e6e6e6 #e6e6e6 #bfbfbf;
-border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-border-bottom-color: #b3b3b3;
--webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
--moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
-  .border-radius(0);
-min-width: 98px;
-height: 48px;
-padding-left: 0;
-padding-right: 0;
-text-align: center;
-white-space: normal;
-  }
+    font-size: 0.9em;
+    color: black;
+    background-color: #f5f5f5;
+    #gradient.vertical(#ffffff, #e6e6e6); /*-- LESS gradient mixin --*/
+    background-image: none;
+     .ks-toolbar-borderMixin;
+    -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+    -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+      .border-radius(0);
+    min-width: 98px;
+    height: 48px;
+    padding-left: 0;
+    padding-right: 0;
+    text-align: center;
+    white-space: normal;
+}
+
 .ks-toolbar .uif-horizontalBoxLayout button.tree-bar-button:first-child {
   border-left: 1px solid #ccc;
   border-color: #e6e6e6 #e6e6e6 #bfbfbf;
@@ -620,11 +626,7 @@ white-space: normal;
 .ks-toolbar button.tree-bar-button:hover {
   background: #e6e6e6;
   color: black;
-  border: 1px solid #cccccc;
-  border-color: #e6e6e6 #e6e6e6 #bfbfbf;
-  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  border-bottom-color: #b3b3b3;
-  border-left:0;
+      .ks-toolbar-borderMixin;
 }
 .ks-toolbar button.tree-bar-button:active {
   #gradient.vertical(#e6e6e6, #ffffff); /*-- LESS gradient mixin --*/
@@ -636,13 +638,10 @@ white-space: normal;
 .ks-toolbar button.tree-bar-button[disabled],
 .ks-toolbar button.tree-bar-button[disabled]:hover {
   #gradient.vertical(#ffffff, #e6e6e6); /*-- LESS gradient mixin --*/
-  border: 1px solid #cccccc;
-  border-color: #e6e6e6 #e6e6e6 #bfbfbf;
-  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  border-bottom-color: #b3b3b3;
+  background-image: none;
+    .ks-toolbar-borderMixin;
   color: #636363;
-  border-left:0;
-cursor:auto;
+  cursor:auto;
 }
 .ks-toolbar .uif-horizontalBoxLayout button.tree-bar-button[disabled]:hover:first-child {
   border-left: 1px solid #cccccc;
@@ -651,21 +650,14 @@ cursor:auto;
 }
 
 /* When a disabled button becomes active, this class is called to remove the border from the left side */
-.ks-toolbar-no-left-border {
-  border: 1px solid #cccccc;
-  border-color: #e6e6e6 #e6e6e6 #bfbfbf;
-  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  border-bottom-color: #b3b3b3;
+.ks-toolbar-no-left-border{
+    .ks-toolbar-borderMixin;
   border-left: 0px !important;
 }
 
 /* When a disabled button becomes active, this class is called to remove the border from the left side */
-.ks-toolbar-no-left-border[disabled] {
-  border: 1px solid #cccccc;
-  border-color: #e6e6e6 #e6e6e6 #bfbfbf;
-  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  border-bottom-color: #b3b3b3;
-  border-left: 0px;
+    .ks-toolbar-no-left-border[disabled] {
+    .ks-toolbar-borderMixin;
 }
 
 /* When a disabled button becomes active and is in focus, this class is called to remove the border from the left side */
