@@ -18,9 +18,15 @@ package org.kuali.student.lum.lu.ui.krms.builder;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krms.builder.ComponentBuilder;
 import org.kuali.rice.krms.dto.PropositionEditor;
+import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.lum.lu.ui.krms.dto.CluSetWrapper;
 import org.kuali.student.lum.lu.ui.krms.dto.LUPropositionEditor;
 import org.kuali.student.lum.lu.ui.krms.util.CluInformationHelper;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
@@ -55,15 +61,22 @@ public abstract class CluComponentBuilder implements ComponentBuilder<LUProposit
      */
     public CluSetInfo buildCluSet(CluSetWrapper cluSet) {
 
-        // Set default properties.
-        CluSetInfo cluSetInfo = new CluSetInfo();
-        cluSetInfo.setId(cluSet.getId());
-        cluSetInfo.setStateKey("Active");
-
-        cluSetInfo.setName("AdHock");
-        cluSetInfo.setEffectiveDate(new Date());
-        cluSetInfo.setIsReferenceable(Boolean.TRUE);
-        cluSetInfo.setIsReusable(Boolean.FALSE);
+        CluSetInfo cluSetInfo = null;
+        if(cluSet.getId() == null) {
+            // Set default properties.
+            cluSetInfo = new CluSetInfo();
+            cluSetInfo.setStateKey("Active");
+            cluSetInfo.setName("AdHock");
+            cluSetInfo.setEffectiveDate(new Date());
+            cluSetInfo.setIsReferenceable(Boolean.TRUE);
+            cluSetInfo.setIsReusable(Boolean.FALSE);
+        } else {
+            try {
+                cluSetInfo = cluService.getCluSet(cluSet.getId(), ContextUtils.createDefaultContextInfo());
+            } catch (Exception e) {
+                throw new IllegalArgumentException(e);
+            }
+        }
 
         //Clear all current values
         cluSetInfo.getCluSetIds().clear();
