@@ -15,70 +15,70 @@
  */
 package org.kuali.student.common.collection;
 
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-
 /**
  * @author Kuali Student Team
- * 
- * This is a common utility class for the KS project.
- *
+ *         <p/>
+ *         This is a common utility class for the KS project.
  */
 public class KSCollectionUtils {
 
     /**
      * Cardinality of one
-     *
+     * <p/>
      * This is a generic method so you will not need to worry about casting when using this method
-     *
+     * <p/>
      * Using get(0) in a non-test class will result in a critical sonar issue being reported which will result in a JIRA issue.
      * Correcting get(0) depends on the cardinality constraints on the list.
      * If a list constraint is changed, get(0) might not be the right answer anymore and we would prefer to expose that problem
      * at the source rather than requiring implementers to track down the cardinality constraint enforcement in java.
      * This is handled via OperationFailedException being thrown in the examples belowCardinality of one and only one element:
      *
-     * @param list   Typed list passed into method. Cannot be null.
-     * @param <T>    Type of element to return
-     * @return       the get(0) element in the list.
+     * @param list Typed list passed into method. Cannot be null.
+     * @param <T>  Type of element to return
+     * @return the get(0) element in the list.
      * @throws OperationFailedException
      */
-    public static <T> T getRequiredZeroElement(List<T> list) throws OperationFailedException{
+    public static <T> T getRequiredZeroElement(List<T> list) throws OperationFailedException {
 
-    	return getRequiredZeroElement(list, true, true);
+        return getRequiredZeroElement(list, true, true);
     }
-    
+
     /**
      * Cardinality of one
-     *
+     * <p/>
      * This is a generic method so you will not need to worry about casting when using this method
-     *
+     * <p/>
      * Using get(0) in a non-test class will result in a critical sonar issue being reported which will result in a JIRA issue.
      * Correcting get(0) depends on the cardinality constraints on the list.
      * If a list constraint is changed, get(0) might not be the right answer anymore and we would prefer to expose that problem
      * at the source rather than requiring implementers to track down the cardinality constraint enforcement in java.
      * This is handled via OperationFailedException being thrown in the examples belowCardinality of one and only one element:
      *
-     * @param list   Typed list passed into method. Cannot be null.
-     * @param throwOnNullList true if an OperationFailedException should be thrown if the list is null.  If false it will allow null to be returned in the list is null case.
+     * @param list             Typed list passed into method. Cannot be null.
+     * @param throwOnNullList  true if an OperationFailedException should be thrown if the list is null.  If false it will allow null to be returned in the list is null case.
      * @param throwOnEmptyList true if an OperationFailedException should be thrown if the list is empty. If false it will allow null to be returned in the list is empty case.
-     * @param <T>    Type of element to return
-     * @return       the get(0) element in the list.
+     * @param <T>              Type of element to return
+     * @return the get(0) element in the list.
      * @throws OperationFailedException
      */
-    public static <T> T getRequiredZeroElement(List<T> list, boolean throwOnNullList, boolean throwOnEmptyList) throws OperationFailedException{
-        
-    	if (isListNull(list, throwOnNullList))
-    		return null;
-    	
-    	if (isListEmpty(list, throwOnEmptyList))
-    		return null;
-    	
+    public static <T> T getRequiredZeroElement(List<T> list, boolean throwOnNullList, boolean throwOnEmptyList) throws OperationFailedException {
+
+        if (isListNull(list, throwOnNullList))
+            return null;
+
+        if (isListEmpty(list, throwOnEmptyList))
+            return null;
+
         T t;
         if (list.size() == 1) {
             t = list.get(0);
@@ -94,85 +94,84 @@ public class KSCollectionUtils {
      * 
      * a return value of true indicates that null should be returned; a value of false means the list has contents.
      */
-    
-    private static <T> boolean isListNull (List<T>list, boolean throwOnNullList) throws OperationFailedException {
-    	if(list == null){
-        	
-        	if (throwOnNullList)
-        		throw new OperationFailedException("list cannot be null");
-        	else
-        		return true;
-        }
-    	else
-    		return false;
+
+    private static <T> boolean isListNull(List<T> list, boolean throwOnNullList) throws OperationFailedException {
+        if (list == null) {
+
+            if (throwOnNullList)
+                throw new OperationFailedException("list cannot be null");
+            else
+                return true;
+        } else
+            return false;
     }
+
     /*
      * Helper code for validating that the list is not empty and also whether to throw an exception or indicate null should be returned.
      * 
      * a return value of true indicates that null should be returned; a value of false means the list has contents.
      */
-    private static <T> boolean isListEmpty (List<T>list, boolean throwOnEmptyList) throws OperationFailedException {
-    	
-    	if (list.isEmpty()) {
-    		if (throwOnEmptyList)
-    			throw new OperationFailedException("list cannot be empty");
-    		else
-    			return true;
-    	}
-    	else
-    		return false;
+    private static <T> boolean isListEmpty(List<T> list, boolean throwOnEmptyList) throws OperationFailedException {
+
+        if (list.isEmpty()) {
+            if (throwOnEmptyList)
+                throw new OperationFailedException("list cannot be empty");
+            else
+                return true;
+        } else
+            return false;
     }
+
     /**
      * Cardinality of zero or one. Will return the value or null depending on what's in the list.
-     *
+     * <p/>
      * List has 1 element, return element.
      * List has 0 elements, return null.
      * else throw exception.
-     *
+     * <p/>
      * This is a generic method so you will not need to worry about casting when using this method
-     *
+     * <p/>
      * Using get(0) in a non-test class will result in a critical sonar issue being reported which will result in a JIRA issue.
      * Correcting get(0) depends on the cardinality constraints on the list.
      * If a list constraint is changed, get(0) might not be the right answer anymore and we would prefer to expose that problem
      * at the source rather than requiring implementers to track down the cardinality constraint enforcement in java.
      * This is handled via OperationFailedException being thrown in the examples belowCardinality of one and only one element:
      *
-     *
-     * @param list   Typed list passed into method. Cannot be null.
-     * @param <T>    Type of element to return
-     * @return       the get(0) element in the list. If there are no elements, return null.
+     * @param list Typed list passed into method. Cannot be null.
+     * @param <T>  Type of element to return
+     * @return the get(0) element in the list. If there are no elements, return null.
      * @throws OperationFailedException
      */
-    public static <T> T getOptionalZeroElement(List<T> list) throws OperationFailedException{
-    	return getOptionalZeroElement(list, true);
+    public static <T> T getOptionalZeroElement(List<T> list) throws OperationFailedException {
+        return getOptionalZeroElement(list, true);
     }
+
     /**
      * Cardinality of zero or one. Will return the value or null depending on what's in the list.
-     *
+     * <p/>
      * List has 1 element, return element.
      * List has 0 elements, return null.
      * else throw exception.
-     *
+     * <p/>
      * This is a generic method so you will not need to worry about casting when using this method
-     *
+     * <p/>
      * Using get(0) in a non-test class will result in a critical sonar issue being reported which will result in a JIRA issue.
      * Correcting get(0) depends on the cardinality constraints on the list.
      * If a list constraint is changed, get(0) might not be the right answer anymore and we would prefer to expose that problem
      * at the source rather than requiring implementers to track down the cardinality constraint enforcement in java.
      * This is handled via OperationFailedException being thrown in the examples belowCardinality of one and only one element:
      *
-     *
-     * @param list   Typed list passed into method. 
-     * @param throwOnNullList true if an OperationFailedException should be thrown if the list is null.  If false it will allow null to be returned in the list is null case.
+     * @param list             Typed list passed into method.
+     * @param throwOnNullList  true if an OperationFailedException should be thrown if the list is null.  If false it will allow null to be returned in the list is null case.
      * @param throwOnEmptyList true if an OperationFailedException should be thrown if the list is empty. If false it will allow null to be returned in the list is empty case.
-     * @param <T>    Type of element to return
-     * @return       the get(0) element in the list. If there are no elements, return null.
+     * @param <T>              Type of element to return
+     * @return the get(0) element in the list. If there are no elements, return null.
      * @throws OperationFailedException
-     */ 
+     */
     public static <T> T getOptionalZeroElement(List<T> list, boolean throwOnNullList) throws OperationFailedException {
-    	
-    	if (isListNull(list, throwOnNullList))
-    		return null;
+
+        if (isListNull(list, throwOnNullList))
+            return null;
 
         T t;
         if (list.size() == 1) {
@@ -185,84 +184,113 @@ public class KSCollectionUtils {
 
         return t;
     }
-    
+
     /*
      * Compute a mapping of items and the number of counts in the source collection.
      */
-    private static <T> Map<T, AtomicInteger>computeFrequencyMap(Collection<T>source) {
-    
-    	Map<T, AtomicInteger>frequencyMap = new HashMap<T, AtomicInteger>();
-    	
-    	Iterator<T> it = source.iterator();
-    	
-    	while (it.hasNext()) {
+    private static <T> Map<T, AtomicInteger> computeFrequencyMap(Collection<T> source) {
 
-    		T element = it.next();
-		
-    		AtomicInteger counter = frequencyMap.get(element);
-    		
-    		if (counter == null) {
-    			counter = new AtomicInteger(0);
-    			frequencyMap.put(element, counter);
-    		}
-    		
-    		counter.addAndGet(1);
-    	}
-    	
-    	return frequencyMap;
-    	
+        Map<T, AtomicInteger> frequencyMap = new HashMap<T, AtomicInteger>();
+
+        Iterator<T> it = source.iterator();
+
+        while (it.hasNext()) {
+
+            T element = it.next();
+
+            AtomicInteger counter = frequencyMap.get(element);
+
+            if (counter == null) {
+                counter = new AtomicInteger(0);
+                frequencyMap.put(element, counter);
+            }
+
+            counter.addAndGet(1);
+        }
+
+        return frequencyMap;
+
     }
-    
-    /**
-	 * A Null-safe test of the contents of each list that returns true if they are identical using bag semantics.  
-	 * <p/>
-	 * With the same collection size and the frequency of values are equal between the collections.
-	 * <p/>
-	 * The type T needs to implement Object.hashCode and Object.equals since we need to compute the frequency of each 
-	 * occurrence in the collection using a java.util.Map. 
-	 * 
-	 * @param source the first collection in the comparison
-	 * @param target the second collection in the comparison
-	 * @return true if the source and target list are of the same size and each element within them are equal.
-	 */
-	public static <T> boolean areCollectionContentsEqual (Collection<T>source, Collection<T>target) {
-		if (source == null && target == null)
-			return true;
-		else if (source == null || target == null)
-			return false;
-		else {
-			// both are not null
-			
-			if (source.size() != target.size())
-				return false;
-			else {
-				// collections are both the same size
-				
-				Map<T, AtomicInteger>sourceFreqMap = computeFrequencyMap(source);
-				
-				Map<T, AtomicInteger>targetFreqMap = computeFrequencyMap(target);
-				
-				if (sourceFreqMap.size() != targetFreqMap.size())
-					return false;
-				
-				for (Map.Entry<T, AtomicInteger> sourceItemEntry : sourceFreqMap.entrySet()) {
-					
-					T sourceItem = sourceItemEntry.getKey();
-					
-					AtomicInteger sourceItemFrequency = sourceItemEntry.getValue();
-					
-					AtomicInteger targetItemFrequency = targetFreqMap.get(sourceItem);
-					
-					// AtomicInteger.equals is not implemented so we need to convert to ints and test those instead.
-					if (targetItemFrequency == null || sourceItemFrequency.intValue() != targetItemFrequency.intValue())
-						return false;
-				}
-				
-			}
-		}
-		
-		// at this point we've tested the contents of both lists and they are equal.
-		return true;
-	}
 
+    /**
+     * A Null-safe test of the contents of each list that returns true if they are identical using bag semantics.
+     * <p/>
+     * With the same collection size and the frequency of values are equal between the collections.
+     * <p/>
+     * The type T needs to implement Object.hashCode and Object.equals since we need to compute the frequency of each
+     * occurrence in the collection using a java.util.Map.
+     *
+     * @param source the first collection in the comparison
+     * @param target the second collection in the comparison
+     * @return true if the source and target list are of the same size and each element within them are equal.
+     */
+    public static <T> boolean areCollectionContentsEqual(Collection<T> source, Collection<T> target) {
+        if (source == null && target == null)
+            return true;
+        else if (source == null || target == null)
+            return false;
+        else {
+            // both are not null
+
+            if (source.size() != target.size())
+                return false;
+            else {
+                // collections are both the same size
+
+                Map<T, AtomicInteger> sourceFreqMap = computeFrequencyMap(source);
+
+                Map<T, AtomicInteger> targetFreqMap = computeFrequencyMap(target);
+
+                if (sourceFreqMap.size() != targetFreqMap.size())
+                    return false;
+
+                for (Map.Entry<T, AtomicInteger> sourceItemEntry : sourceFreqMap.entrySet()) {
+
+                    T sourceItem = sourceItemEntry.getKey();
+
+                    AtomicInteger sourceItemFrequency = sourceItemEntry.getValue();
+
+                    AtomicInteger targetItemFrequency = targetFreqMap.get(sourceItem);
+
+                    // AtomicInteger.equals is not implemented so we need to convert to ints and test those instead.
+                    if (targetItemFrequency == null || sourceItemFrequency.intValue() != targetItemFrequency.intValue())
+                        return false;
+                }
+
+            }
+        }
+
+        // at this point we've tested the contents of both lists and they are equal.
+        return true;
+    }
+
+    /**
+     * A null safe test of the contents of list that returns true if they have duplicate elements.
+     * <p/>
+     * override compare method of Comparator interface and Do whatever comparison and set result to zero if object1 and object2 are equal
+     *
+     * @param list
+     * @param comparator
+     * @param <T>
+     * @return true if list has duplicate else false.
+     * @throws OperationFailedException
+     */
+
+    public static <T> boolean hasDuplicates(List<T> list, Comparator<? super T> comparator) throws OperationFailedException {
+        if (list == null)
+            return false;
+        if (KSCollectionUtils.isListEmpty(list, false))
+            return false;
+        for (int i = 0; i < list.size(); i++) {
+            T object1 = list.get(i);
+            for (int j = (i + 1); j < list.size(); j++) {
+                T object2 = list.get(j);
+                if (object1 == object2
+                        || (comparator.compare(object1, object2) == 0 ? true : false)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }
