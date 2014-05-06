@@ -2074,24 +2074,3 @@ table.dataTable tr.even td.sorting_1 {
 .uif-validationMessages .uif-verticalBoxGroup {
   margin:0;
 }
-
-//Override krad bug created in Rice 2.4 upgrade that left out pseudo property for the new icon- class
-[class*="icon-"] {
-  font-family:inherit;
-  speak:inherit;
-  font-style: inherit;
-  font-weight: inherit;
-  font-variant: inherit;
-  text-transform: inherit;
-  line-height: inherit;
-}
-
-[class*="icon-"]:before {
-  font-family: 'krad-icons';
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-}

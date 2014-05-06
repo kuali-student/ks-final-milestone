@@ -1,0 +1,21 @@
+//Override krad bug created in Rice 2.4 upgrade that left out pseudo property for the new icon- class. Remove when bug is fixed.
+[class*="icon-"] {
+  font-family: inherit;
+  speak: inherit;
+  font-style: inherit;
+  font-weight: inherit;
+  font-variant: inherit;
+  text-transform: inherit;
+  line-height: inherit;
+}
+[class*="icon-"] {
+  font-family: 'krad-icons';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
