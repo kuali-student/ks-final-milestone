@@ -128,15 +128,15 @@
                 <bean parent="Uif-HorizontalBoxGroup">
                     <property name="items">
                         <list>
-                            <bean id="createCourseInitial-cancel"
-                                  parent="Uif-CancelAction"
-                                  p:ajaxSubmit="false"
-                                  p:methodToCall="cancel"/>
                             <bean id="createCourseInitial-continueCreate"
                                   parent="Uif-PrimaryActionButton"
                                   p:ajaxSubmit="false"
                                   p:methodToCall="continueCreateCourse"
                                   p:actionLabel="Continue"/>
+                            <bean id="createCourseInitial-cancel"
+                                  parent="Uif-CancelAction"
+                                  p:ajaxSubmit="false"
+                                  p:methodToCall="cancel"/>
                         </list>
                     </property>
                 </bean>
