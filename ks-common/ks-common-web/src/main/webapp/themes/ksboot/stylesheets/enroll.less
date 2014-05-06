@@ -2059,3 +2059,17 @@ table.dataTable tr.even td.sorting_1 {
      display: inline-flex;
      margin-top: 10px;
  }
+
+
+//Override krad bug that leaves off the "alert" class to add Bootstrap (http://getbootstrap.com/components/#alerts) styling to alert messages
+.alert-success, .alert-info, .alert-warning, .alert-variant, .alert-danger {
+  padding: @alert-padding;
+  margin-bottom: @line-height-computed;
+  border: 1px solid transparent;
+  border-radius: @alert-border-radius;
+}
+
+// Ensure .uif-validationMessages have same styling as alerts
+.uif-validationMessages .uif-verticalBoxGroup {
+  margin:0;
+}
