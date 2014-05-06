@@ -65,13 +65,13 @@ public class CourseOfferingEditRule extends KsMaintenanceDocumentRuleBase {
                     valid = validateDuplicateSuffixCreate(newCOWrapper);
                 }
             } else { // for Edit CO page
-                String newSuffix = newCOWrapper.getCourseOfferingInfo().getCourseNumberSuffix();
-                String oldSuffix = oldCOWrapper.getCourseOfferingInfo().getCourseNumberSuffix();
-                if (!((oldSuffix == null || oldSuffix.isEmpty()) &&
-                    (newSuffix == null || newSuffix.isEmpty()))) {
-                   if ((newSuffix != null) && !newSuffix.equals(oldSuffix) ) {
+                String newSuffix = StringUtils.trimToEmpty(newCOWrapper.getCourseOfferingInfo().getCourseNumberSuffix());
+                String oldSuffix = StringUtils.trimToEmpty(oldCOWrapper.getCourseOfferingInfo().getCourseNumberSuffix());
+
+                if (StringUtils.isNotEmpty(oldSuffix) || StringUtils.isNotEmpty(newSuffix)) {
+                    if (!StringUtils.equals(newSuffix, oldSuffix)) {
                         valid &= validateDuplicateSuffix(newCOWrapper);
-                   }
+                    }
                 }
 
                 // if no duplicate suffix then we validate the personnel ID
@@ -86,7 +86,7 @@ public class CourseOfferingEditRule extends KsMaintenanceDocumentRuleBase {
             }
 
             if (valid){
-                if (!StringUtils.isAlphanumeric(newCOWrapper.getCourseOfferingInfo().getCourseNumberSuffix())){
+                if (!StringUtils.isEmpty(newCOWrapper.getCourseOfferingInfo().getCourseNumberSuffix()) && !StringUtils.isAlphanumeric(newCOWrapper.getCourseOfferingInfo().getCourseNumberSuffix())){
                     valid = false;
                     GlobalVariables.getMessageMap().putError(
                                         "document.newMaintainableObject.dataObject.courseOfferingInfo.courseNumberSuffix",
@@ -111,7 +111,7 @@ public class CourseOfferingEditRule extends KsMaintenanceDocumentRuleBase {
     protected boolean validateDuplicateSuffix(CourseOfferingEditWrapper coWrapper){
         // Catalog course code is case INSENSITIVE, but the suffix is case SENSITIVE
         String courseCode = coWrapper.getCourse().getCode().toUpperCase();
-        String newCoCode = courseCode + coWrapper.getCourseOfferingInfo().getCourseNumberSuffix();
+        String newCoCode = courseCode + StringUtils.trimToEmpty(coWrapper.getCourseOfferingInfo().getCourseNumberSuffix()).toUpperCase();
 
         try {
             List<CourseOfferingInfo> wrapperList = CourseOfferingManagementUtil.getCourseOfferingService().getCourseOfferingsByCourseAndTerm(coWrapper.getCourse().getId(), coWrapper.getCourseOfferingInfo().getTermId(), ContextUtils.createDefaultContextInfo());
