@@ -98,17 +98,17 @@ public class CourseCodeSearchUtil {
      * @param cluService
      * @return The exact match for the 'courseNumber' parameter.
      */
-    public static CourseJointInfoWrapper getCourseJointInfoWrapper(String courseNumber, CluService cluService) {
+    public static void getCourseJointInfoWrapper(String courseNumber, CluService cluService,CourseJointInfoWrapper jointInfoWrapper) {
+
         List<CourseCodeSearchWrapper> searchWrappers = searchForCourseNumbers(courseNumber, cluService);
-        CourseJointInfoWrapper courseJointInfoWrapper = null;
-        try {
-            if (searchWrappers != null) {
-                courseJointInfoWrapper = convertToCourseJointInfoWrapper(KSCollectionUtils.getRequiredZeroElement(searchWrappers));
+
+        if (searchWrappers != null) {
+            try {
+                BeanUtils.copyProperties(jointInfoWrapper, KSCollectionUtils.getRequiredZeroElement(searchWrappers));
+            } catch (Exception e) {
+                LOG.error("An error occurred while converting from the CouresCodeSearchWrapper to a CourseJointInfoWrapper: ", e);
             }
-        } catch(OperationFailedException e){
-            return courseJointInfoWrapper;
         }
-        return courseJointInfoWrapper;
     }
     
     /**
@@ -117,27 +117,23 @@ public class CourseCodeSearchUtil {
      * @see #searchForCourseNumbers
      */
     public static List<CourseJointInfoWrapper> searchForCourseJointInfos(String courseNumber, CluService cluService) {
-        return convertListToCourseJointInfoWrappers(searchForCourseNumbers(courseNumber, cluService));
-    }
-    
-    private static CourseJointInfoWrapper convertToCourseJointInfoWrapper(CourseCodeSearchWrapper searchWrapper) {
-        CourseJointInfoWrapper instance = new CourseJointInfoWrapper();
-        try {
-            BeanUtils.copyProperties(instance, searchWrapper);
-        } catch (Exception e) {
-            LOG.error("An error occurred while converting from the CouresCodeSearchWrapper to a CourseJointInfoWrapper: ", e);
-        }
-        return instance;
-    }
-    
-    private static List<CourseJointInfoWrapper> convertListToCourseJointInfoWrappers(List<CourseCodeSearchWrapper> searchWrappers) {
+
         List<CourseJointInfoWrapper> courseJointWrappers = new ArrayList<CourseJointInfoWrapper>();
-        if (searchWrappers != null) {
-            for (CourseCodeSearchWrapper searchWrapper : searchWrappers) {
-                courseJointWrappers.add(convertToCourseJointInfoWrapper(searchWrapper));
+
+        List<CourseCodeSearchWrapper> matchFound = searchForCourseNumbers(courseNumber, cluService);
+
+        for (CourseCodeSearchWrapper searchWrapper : matchFound) {
+            CourseJointInfoWrapper jointInfoWrapper = new CourseJointInfoWrapper();
+            try {
+                BeanUtils.copyProperties(jointInfoWrapper, searchWrapper);
+            } catch (Exception e) {
+                LOG.error("An error occurred while converting from the CouresCodeSearchWrapper to a CourseJointInfoWrapper: ", e);
             }
+            courseJointWrappers.add(jointInfoWrapper);
         }
+
         return courseJointWrappers;
+
     }
     
 }

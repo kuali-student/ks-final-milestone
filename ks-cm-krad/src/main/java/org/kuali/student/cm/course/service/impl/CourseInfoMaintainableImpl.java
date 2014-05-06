@@ -1309,16 +1309,8 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
 
         //Clear collection fields (those with matching 'wrapper' collections)
-        courseInfoWrapper.getCourseInfo().getJoints().clear();
         courseInfoWrapper.getCourseInfo().getInstructors().clear();
         courseInfoWrapper.getCourseInfo().getCourseSpecificLOs().clear();
-
-        //Retrieve the collection display values and get the fully loaded object (containing all the IDs and related IDs)
-        if (courseInfoWrapper.getCourseJointWrappers() != null) {
-            for (final CourseJointInfoWrapper jointInfoDisplay : courseInfoWrapper.getCourseJointWrappers()) {
-                courseInfoWrapper.getCourseInfo().getJoints().add(CourseCodeSearchUtil.getCourseJointInfoWrapper(jointInfoDisplay.getCourseCode(), getCluService()));
-            }
-        }
 
         courseInfoWrapper.getCourseInfo().getInstructors().clear();
 
@@ -1397,6 +1389,8 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
         populateFormatOnDTO();
 
+        populateJointCourseOnDTO();
+
         courseInfoWrapper.getCourseInfo().setStartTerm(courseInfoWrapper.getCourseInfo().getStartTerm());
         courseInfoWrapper.getCourseInfo().setEndTerm(courseInfoWrapper.getCourseInfo().getEndTerm());
         courseInfoWrapper.getCourseInfo().setPilotCourse(courseInfoWrapper.getCourseInfo().isPilotCourse());
@@ -1411,6 +1405,25 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
     }
 
+    /**
+     * This method creates <class>CourseJointInfoWrapper</class> instances from <class>CourseJointInfo</class> instance
+     *
+     */
+    protected void populateJointCourseOnDTO(){
+
+        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
+        courseInfoWrapper.getCourseInfo().getJoints().clear();
+
+        for (final CourseJointInfoWrapper jointInfoDisplay : courseInfoWrapper.getCourseJointWrappers()) {
+
+            if (StringUtils.isNotBlank(jointInfoDisplay.getCourseCode())){
+                CourseCodeSearchUtil.getCourseJointInfoWrapper(jointInfoDisplay.getCourseCode(), getCluService(),jointInfoDisplay);
+                courseInfoWrapper.getCourseInfo().getJoints().add(jointInfoDisplay);
+            }
+
+        }
+
+    }
 
     protected void populateOutComesOnDTO() {
 
@@ -1812,12 +1825,31 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             populatePassFailOnWrapper();
             populateOutComesOnWrapper();
             populateFormatOnWrapper();
+            populateJointCourseOnWrapper();
 
             redrawDecisionTable();
             updateReview();
 
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+
+    }
+
+    /**
+     * This method creates <class>CourseJointInfoWrapper</class> instances from <class>CourseJointInfo</class> instance
+     *
+     */
+    protected void populateJointCourseOnWrapper(){
+
+        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
+        courseInfoWrapper.getCourseJointWrappers().clear();
+
+        for (final CourseJointInfo jointInfo : courseInfoWrapper.getCourseInfo().getJoints()) {
+            CourseJointInfoWrapper jointInfoWrapper = new CourseJointInfoWrapper();
+            BeanUtils.copyProperties(jointInfo,jointInfoWrapper);
+            jointInfoWrapper.setCourseCode(jointInfo.getSubjectArea() + jointInfo.getCourseNumberSuffix());
+            courseInfoWrapper.getCourseJointWrappers().add(jointInfoWrapper);
         }
 
     }
