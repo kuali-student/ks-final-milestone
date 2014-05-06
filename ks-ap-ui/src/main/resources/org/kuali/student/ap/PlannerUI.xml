@@ -684,11 +684,11 @@
                             </property>
                         </bean>
                         <bean p:id="@{#line.uniqueId}_planned_credits" parent="planner_credits_footer">
-                            <property name="cssClasses">
+                            <!--<property name="cssClasses">
                                 <list merge="true">
                                     <value>ks-plan-Bucket-footer-@{#line.plannedList.size() gt 0 ? 'show' : 'hide'}"</value>
                                 </list>
-                            </property>
+                            </property>-->
                             <property name="items">
                                 <list merge="true">
                                     <bean parent="planner_term_total_credits_text" p:messageText="@{#line.plannedCreditString}" />
