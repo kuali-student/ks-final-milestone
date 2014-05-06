@@ -70,7 +70,7 @@
                     </property>
                     <property name="instructionalText" value="Last term in which the course can be offered" />
                     <property name="control">
-                        <bean parent="KS-Uif-DropdownControl" p:disabled="@{!#dataObject.courseInfo.pilotCourse}" />
+                        <bean parent="KS-Uif-DropdownControl" p:disabled="@{(#dataObject.courseInfo.startTerm == null)}" />
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.DatesKeyValuesFinder"
