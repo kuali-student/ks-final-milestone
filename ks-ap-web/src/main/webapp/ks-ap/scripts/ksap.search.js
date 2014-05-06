@@ -72,8 +72,7 @@ function ksapCourseSearchColumns() {
         'bSortable' : false,
         'bSearchable' : true,
         'sTitle' : 'Projected Terms',
-        'sClass' : 'ksap-data-list',
-        'sWidth' : '110px'
+        'sClass' : 'ksap-data-list'
     }, {
         'bSortable' : false,
         'bSearchable' : true,
