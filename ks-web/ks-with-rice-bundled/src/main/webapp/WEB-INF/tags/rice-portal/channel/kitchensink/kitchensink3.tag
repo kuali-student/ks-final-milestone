@@ -38,6 +38,8 @@
                                url="${ConfigProperties.lum.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-Popovers-View&methodToCall=start" /></li>
         <li><portal:portalLink displayTitle="true" title="Message Box"
                                url="${ConfigProperties.lum.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-MessageBox-View&methodToCall=start" /></li>
+        <li><portal:portalLink displayTitle="true" title="Css Grid Layout Manager Demo"
+                               url="${ConfigProperties.lum.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-CssGridLayoutManager-View&methodToCall=start" /></li>
     </ul>
 
     <strong>Event Examples</strong>
