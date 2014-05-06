@@ -294,7 +294,6 @@
 
                                 <property name="suggest">
                                     <bean parent="Uif-Suggest" p:render="true" p:valuePropertyName="code">
-                                        <property name="returnFullQueryObject" value="true"/>
                                         <property name="suggestQuery">
                                             <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="getSubjectCodesForSuggest"/>
                                         </property>
