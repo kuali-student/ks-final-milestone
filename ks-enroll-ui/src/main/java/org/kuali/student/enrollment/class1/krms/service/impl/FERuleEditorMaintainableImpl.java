@@ -22,12 +22,14 @@ import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krms.api.repository.NaturalLanguage;
 import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
 import org.kuali.rice.krms.api.repository.agenda.AgendaItemDefinition;
+import org.kuali.rice.krms.api.repository.context.ContextDefinition;
 import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
 import org.kuali.rice.krms.dto.ActionEditor;
 import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.rice.krms.dto.AgendaTypeInfo;
 import org.kuali.rice.krms.dto.RuleEditor;
+import org.kuali.rice.krms.dto.RuleManagementWrapper;
 import org.kuali.rice.krms.dto.RuleTypeInfo;
 import org.kuali.rice.krms.service.impl.RuleEditorMaintainableImpl;
 import org.kuali.rice.krms.util.AlphaIterator;
@@ -396,29 +398,37 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
             }
         }
 
-        // Clear the first item and update.
-        AgendaItemDefinition firstItem = manageFirstItem(agenda);
-
-        //Delete rules
-        for (RuleEditor deletedRule : agenda.getDeletedRules()) {
-            this.getRuleManagementService().deleteRule(deletedRule.getId());
+        AgendaItemDefinition.Builder rootItemBuilder;
+        if(agenda.getFirstItemId()!=null) {
+            AgendaItemDefinition firstItem = this.getRuleManagementService().getAgendaItem(agenda.getFirstItemId());
+            rootItemBuilder = AgendaItemDefinition.Builder.create(firstItem);
+        } else {
+            rootItemBuilder = AgendaItemDefinition.Builder.create(null, agenda.getId());
         }
 
-        AgendaItemDefinition.Builder rootItemBuilder = AgendaItemDefinition.Builder.create(firstItem);
         AgendaItemDefinition.Builder itemBuilder = rootItemBuilder;
         while (rules.peek() != null) {
             itemBuilder.setRule(rules.poll());
             itemBuilder.setRuleId(itemBuilder.getRule().getId());
             if (rules.peek() != null) {
-                itemBuilder.setWhenFalse(AgendaItemDefinition.Builder.create(null, agenda.getId()));
+                if(itemBuilder.getWhenFalse()==null){
+                    itemBuilder.setWhenFalse(AgendaItemDefinition.Builder.create(null, agenda.getId()));
+                }
                 itemBuilder = itemBuilder.getWhenFalse();
             }
         }
 
         //Update the root item.
-        AgendaItemDefinition updateItem = rootItemBuilder.build();
+        AgendaItemDefinition agendaItem = rootItemBuilder.build();
         try {
-            this.getRuleManagementService().updateAgendaItem(updateItem);
+            if(agendaItem.getId()==null){
+                agendaItem = this.getRuleManagementService().createAgendaItem(agendaItem);
+                agenda.setFirstItemId(agendaItem.getId());
+                AgendaDefinition.Builder agendaBldr = AgendaDefinition.Builder.create(agenda);
+                this.getRuleManagementService().updateAgenda(agendaBldr.build());
+            } else {
+                this.getRuleManagementService().updateAgendaItem(agendaItem);
+            }
         } catch (OjbOperationException e) {
             //OptimisticLockException
             if (e.getCause() instanceof OptimisticLockException) {
@@ -428,7 +438,7 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
             }
         }
 
-        return updateItem;
+        return agendaItem;
     }
 
     @Override
