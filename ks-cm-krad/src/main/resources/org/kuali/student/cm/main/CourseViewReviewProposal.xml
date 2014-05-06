@@ -81,7 +81,8 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseView-ReviewErrorMessageLink" parent="Uif-VerticalBoxGroup" p:render="@{#dataObject.missingRequiredFields}">
+    <bean id="KS-CourseView-ReviewErrorMessageLink" parent="Uif-VerticalBoxGroup"
+          p:render="@{#dataObject.missingRequiredFields}">
         <property name="items">
             <list>
                 <bean id="KS-CourseView-Admin-Message-TreeExpandCollapse" parent="Uif-HorizontalFieldGroup"
@@ -95,7 +96,7 @@
                             </bean>
                             <bean parent="KS-Uif-ActionLink" p:id="ReviewProposal-Error-Message-expand-optional-link"
                                   p:actionScript="showHideReviewProposalErrorFields('KS-CourseView-ReviewProposal-Section');"
-                                  p:actionLabel="Hide missing-fields indicator." >
+                                  p:actionLabel="Hide missing-fields indicator.">
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>review_proposal_ReviewErrorMessageActionLink</value>
@@ -626,23 +627,30 @@
     <bean id="KS-CourseView-ReviewProposal-Footer" parent="Uif-FooterBase">
         <property name="items">
             <list>
-                <!--
-                                <bean parent="Uif-PrimaryActionButton"
-                                      p:ajaxSubmit="false"
-                                      p:methodToCall="route"
-                                      p:actionLabel="Submit"
-                                      p:performClientSideValidation="true"
-                                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
-                -->
-                <bean id="CourseView-ReviewProposal-cancel"
-                      parent="Uif-ActionLink"
-                      p:actionLabel="Cancel"
-                      p:methodToCall="back"
-                      p:style="margin-right: 100px;"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE]}"/>
+                <bean parent="Uif-HorizontalBoxGroup">
+                    <property name="items">
+                        <list>
+                            <!--
+                                            <bean parent="Uif-PrimaryActionButton"
+                                                  p:ajaxSubmit="false"
+                                                  p:methodToCall="route"
+                                                  p:actionLabel="Submit"
+                                                  p:performClientSideValidation="true"
+                                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
+                            -->
+                            <bean id="CourseView-ReviewProposal-cancel"
+                                  parent="Uif-ActionLink"
+                                  p:actionLabel="Cancel"
+                                  p:methodToCall="back"
+                                  p:style="margin-right: 100px;"
+                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE]}"/>
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>
+
 
     <bean id="KS-HomewardPathBreadcrumbs-ReviewProposal-Page" parent="Uif-BreadcrumbItem">
         <property name="label" value="@{#uiHelper.proposalName}: Review Proposal"></property>
