@@ -433,15 +433,6 @@
         </constructor-arg>
     </bean>
 
-    <bean id="krmsOjbConfigurer" class="org.kuali.rice.core.framework.persistence.ojb.BaseOjbConfigurer">
-        <property name="jcdAliases">
-            <list>
-                <value>krmsDataSource</value>
-            </list>
-        </property>
-        <property name="metadataLocation" value="classpath:org/kuali/student/enrollment/krms/OJB-repository-krms.xml" />
-    </bean>
-
     <bean id="ruleManagementService" class="org.kuali.rice.krms.impl.repository.KSRuleManagementServiceImpl">
         <property name="templater" ref="propositionTemplater"/>
         <property name="dataObjectService" ref="dataObjectService"/>
