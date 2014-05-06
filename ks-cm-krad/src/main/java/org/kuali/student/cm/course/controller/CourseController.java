@@ -31,9 +31,6 @@ import org.kuali.rice.kim.api.identity.name.EntityNameContract;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
-import org.kuali.rice.krad.uif.container.CollectionGroup;
-import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
-import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -43,6 +40,8 @@ import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants.CourseViewSections;
+import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
+import org.kuali.student.cm.course.form.CollaboratorWrapper;
 import org.kuali.student.cm.course.form.CourseCreateUnitsContentOwner;
 import org.kuali.student.cm.course.form.CourseInfoWrapper;
 import org.kuali.student.cm.course.form.LoDisplayInfoWrapper;
@@ -52,7 +51,6 @@ import org.kuali.student.cm.course.form.ResultValuesGroupInfoWrapper;
 import org.kuali.student.cm.course.form.SupportingDocumentInfoWrapper;
 import org.kuali.student.cm.course.service.CourseInfoMaintainable;
 import org.kuali.student.cm.course.util.CourseProposalUtil;
-import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.uif.util.GrowlIcon;
 import org.kuali.student.common.uif.util.KSUifUtils;
 import org.kuali.student.common.uif.util.KSViewAttributeValueReader;
@@ -75,7 +73,6 @@ import org.kuali.student.r2.core.document.service.DocumentService;
 import org.kuali.student.r2.core.proposal.service.ProposalService;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
-import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo;
@@ -96,7 +93,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -281,7 +277,12 @@ public class CourseController extends CourseRuleEditorController {
 
         String displaySectionId = form.getActionParameters().get("displaySection");
         CourseInfoWrapper wrapper = getCourseInfoWrapper(form);
-
+        if(wrapper.getInstructorWrappers().size() == 0) {
+            wrapper.getInstructorWrappers().add( new CluInstructorInfoWrapper());
+        }
+        if(wrapper.getCollaboratorWrappers().size() == 0) {
+            wrapper.getCollaboratorWrappers().add(new CollaboratorWrapper());
+        }
         if (displaySectionId == null) {
             wrapper.getUiHelper().setSelectedSection(CourseViewSections.COURSE_INFO);
         } else {

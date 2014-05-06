@@ -281,7 +281,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         SearchResultInfo searchResult = null;
         try {
             displayNameParam.setKey(QuickViewByGivenName.NAME_PARAM);
-            displayNameParam.getValues().add(instructorName);
+            displayNameParam.getValues().add(instructorName.toUpperCase());
             queryParamValueList.add(displayNameParam);
             searchResult = getInstructorsSearchResult(queryParamValueList);
             cluInstructorInfoDisplays = getInstructorsFromSearchResult(searchResult);
@@ -368,7 +368,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
         SearchParamInfo displayNameParam = new SearchParamInfo();
         displayNameParam.setKey(QuickViewByGivenName.NAME_PARAM);
-        displayNameParam.getValues().add(principalId);
+        displayNameParam.getValues().add(principalId.toUpperCase());
         queryParamValueList.add(displayNameParam);
 
         SearchRequestInfo searchRequest = new SearchRequestInfo();
