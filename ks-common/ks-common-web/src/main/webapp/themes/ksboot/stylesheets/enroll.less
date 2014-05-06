@@ -76,6 +76,9 @@ li.uif-errorMessageItem:before
   font-weight: bold;
 }
 
+.uif-validationMessages .uif-boxLayoutHorizontalItem {
+  margin:0;
+}
 /* Attributes of the Title */
 .uif-validationMessages > h3 {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -2059,3 +2062,34 @@ table.dataTable tr.even td.sorting_1 {
      display: inline-flex;
      margin-top: 10px;
  }
+
+
+.alert-success, .alert-info, .alert-warning, .alert-variant, .alert-danger {
+  .alert;
+  padding:8px 35px 8px 14px;
+}
+
+//Override krad bug created in Rice 2.3 upgrade that left out pseudo property for the new icon- class
+[class*="icon-"] {
+  font-family:inherit;
+  speak:inherit;
+  font-style: inherit;
+  font-weight: inherit;
+  font-variant: inherit;
+  text-transform: inherit;
+  line-height: inherit;
+}
+
+[class*="icon-"]:before {
+  font-family: 'krad-icons';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
