@@ -18,8 +18,11 @@ package org.kuali.rice.krms.impl.repository;
 import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
 import org.kuali.rice.krms.api.repository.NaturalLanguage;
+import org.kuali.rice.krms.api.repository.TranslateBusinessMethods;
 import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
+import org.kuali.rice.krms.api.repository.language.NaturalLanguageTemplaterContract;
 import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
+import org.kuali.rice.krms.impl.repository.language.SimpleNaturalLanguageTemplater;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +37,9 @@ import static org.kuali.rice.core.api.criteria.PredicateFactory.in;
  * @author Kuali Rice Team (rice.collab@kuali.org)
  */
 public class KSRuleManagementServiceImpl extends RuleManagementServiceImpl implements RuleManagementService {
+
+    private TranslateBusinessMethods translationBusinessMethods;
+    private NaturalLanguageTemplaterContract templater = new SimpleNaturalLanguageTemplater();
 
     private boolean isSame(AgendaDefinition agenda, AgendaDefinition existing) {
         if (!this.isSame(agenda.isActive(), existing.isActive())) {
@@ -139,6 +145,33 @@ public class KSRuleManagementServiceImpl extends RuleManagementServiceImpl imple
         }
 
         return nlList;
+    }
+
+    /**
+     * get the {@link NaturalLanguageTemplaterContract}
+     * @return the {@link NaturalLanguageTemplaterContract}
+     */
+    public NaturalLanguageTemplaterContract getTemplater() {
+        return templater;
+    }
+
+    /**
+     * set the {@link NaturalLanguageTemplaterContract}
+     * @param templater the {@link NaturalLanguageTemplaterContract} to set
+     */
+    public void setTemplater(NaturalLanguageTemplaterContract templater) {
+        this.templater = templater;
+    }
+
+    /**
+     * get the {@link TranslateBusinessMethods}
+     * @return the current {@link TranslateBusinessMethods}
+     */
+    public TranslateBusinessMethods getTranslateBusinessMethods() {
+        if(translationBusinessMethods  == null) {
+            this.translationBusinessMethods  = new KSTranslationUtility(this, getTermRepositoryService(), this.templater);
+        }
+        return this.translationBusinessMethods ;
     }
 
 }
