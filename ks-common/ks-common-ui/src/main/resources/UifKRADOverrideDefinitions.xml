@@ -24,7 +24,7 @@
         <property name="buttonSize" value="default"/>
         <property name="cssClasses">
             <list merge="false">
-                <!--<value>btn</value>-->
+                <value>btn</value>
                 <value>btn-primary</value>
             </list>
         </property>
@@ -34,7 +34,7 @@
         <property name="buttonSize" value="default"/>
         <property name="cssClasses">
             <list merge="false">
-                <!--<value>btn</value>-->
+                <value>btn</value>
             </list>
         </property>
     </bean>
