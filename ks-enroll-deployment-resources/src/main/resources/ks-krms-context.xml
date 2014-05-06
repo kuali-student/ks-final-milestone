@@ -437,6 +437,13 @@
         <property name="templater" ref="propositionTemplater"/>
         <property name="dataObjectService" ref="dataObjectService"/>
         <property name="dataSource" ref="krmsDataSource"/>
+        <property name="termRepositoryService" ref="tempFixTermBoServiceImpl"/><!-- KSENROLL-12746 workaround to fix bad hardcoded constant in rice -->
     </bean>
+
+    <!-- START KSENROLL-12746 workaround to fix bad hardcoded constant in rice -->
+    <bean id="tempFixTermBoServiceImpl" class="org.kuali.rice.krms.impl.repository.TempFixTermBoServiceImpl">
+        <property name="dataObjectService" ref="dataObjectService"/>
+    </bean>
+    <!-- END KSENROLL-12746 workaround to fix bad hardcoded constant in rice -->
 
 </beans>
