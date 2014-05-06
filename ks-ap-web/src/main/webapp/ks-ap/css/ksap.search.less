@@ -16,12 +16,15 @@
     Vertically center "max result" warning message and icon
 */
 .uif-pageValidationMessages .uif-validationImage {
-  margin-top: 5px;
-}
-.uif-boxLayoutHorizontalItem {
-  margin-top: 5px;
+  margin-top: 2px;
 }
 /* --end KSAP-1050-- */
+
+
+// Fix spacing on info messages in KSAP
+.uif-validationMessages .uif-verticalBoxGroup {
+  margin:0;
+}
 
 /*
     Course Search
@@ -92,6 +95,11 @@
   margin-bottom: 20px;
 }
 
+//CDP action button margin
+#course_details_actions {
+  margin-bottom:10px;
+}
+
 //CDP Messaging
 #planStatusMessages {
   display:table;
@@ -108,7 +116,7 @@
       margin-bottom:0;
       vertical-align: inherit;
     }
-    div.uif-verticalBoxGroup.uif-boxLayoutHorizontalItem {
+    div.uif-verticalBoxGroup.uif-boxLayoutVerticalItem {
       margin-top:0;
       margin-bottom:0;
 
@@ -631,6 +639,7 @@ table.ksap-course-search-results-datatable .blockUI {
 
 /*Course Search, Search Box*/
 .ksap-course-search-panel {
+  margin: 10px 0 20px 0;
   padding: 20px 10px 10px 20px;
   border-radius: 5px;
   overflow: hidden;
