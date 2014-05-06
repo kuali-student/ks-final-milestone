@@ -454,66 +454,49 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
             }
         }
 
-        // Clear the first item and update.
-        AgendaItemDefinition firstItem = manageFirstItem(agenda);
-
-        //Delete rules
-        for (RuleEditor deletedRule : agenda.getDeletedRules()) {
-            this.getRuleManagementService().deleteRule(deletedRule.getId());
+        AgendaItemDefinition.Builder rootItemBuilder;
+        if(agenda.getFirstItemId()!=null) {
+            AgendaItemDefinition firstItem = this.getRuleManagementService().getAgendaItem(agenda.getFirstItemId());
+            rootItemBuilder = AgendaItemDefinition.Builder.create(firstItem);
+        } else {
+            rootItemBuilder = AgendaItemDefinition.Builder.create(null, agenda.getId());
         }
 
-        AgendaItemDefinition.Builder rootItemBuilder = AgendaItemDefinition.Builder.create(firstItem);
         AgendaItemDefinition.Builder itemBuilder = rootItemBuilder;
         while (rules.peek() != null) {
             itemBuilder.setRule(rules.poll());
             itemBuilder.setRuleId(itemBuilder.getRule().getId());
             if (rules.peek() != null) {
-                itemBuilder.setWhenTrue(AgendaItemDefinition.Builder.create(null, agenda.getId()));
+                if(itemBuilder.getWhenTrue()==null){
+                    itemBuilder.setWhenTrue(AgendaItemDefinition.Builder.create(null, agenda.getId()));
+                }
                 itemBuilder = itemBuilder.getWhenTrue();
             }
         }
 
         //Update the root item.
-        AgendaItemDefinition updateItem = rootItemBuilder.build();
-        this.getRuleManagementService().updateAgendaItem(updateItem);
-
-        return updateItem;
-    }
-
-    protected AgendaItemDefinition manageFirstItem(AgendaEditor agenda) {
-        AgendaItemDefinition firstItem;
-        AgendaItemDefinition.Builder firstItemBuilder = AgendaItemDefinition.Builder.create(agenda.getFirstItemId(), agenda.getId());
-        if (agenda.getFirstItemId() != null) {
-            //Retrieve the first item from the database.
-            firstItem = this.getRuleManagementService().getAgendaItem(agenda.getFirstItemId());
-            if(firstItem==null){
-                throw new KRMSOptimisticLockingException("Rule was deleted by another user.");
+        AgendaItemDefinition agendaItem = rootItemBuilder.build();
+        try {
+            if(agendaItem.getId()==null){
+                agendaItem = this.getRuleManagementService().createAgendaItem(agendaItem);
+                agenda.setFirstItemId(agendaItem.getId());
+                AgendaDefinition.Builder agendaBldr = AgendaDefinition.Builder.create(agenda);
+                this.getRuleManagementService().updateAgenda(agendaBldr.build());
+            } else {
+                this.getRuleManagementService().updateAgendaItem(agendaItem);
             }
-
-            firstItemBuilder.setVersionNumber(firstItem.getVersionNumber());
-            this.getRuleManagementService().updateAgendaItem(firstItemBuilder.build());
-
-            //Delete current agenda items to rebuild the tree.
-            this.deleteAgendaItems(firstItem.getWhenTrue());
-            this.deleteAgendaItems(firstItem.getWhenFalse());
-            this.deleteAgendaItems(firstItem.getAlways());
-        } else {
-            firstItem = this.getRuleManagementService().createAgendaItem(firstItemBuilder.build());
-            agenda.setFirstItemId(firstItem.getId());
-            AgendaDefinition.Builder agendaBldr = AgendaDefinition.Builder.create(agenda);
-            this.getRuleManagementService().updateAgenda(agendaBldr.build());
+        } catch (OjbOperationException e) {
+            //OptimisticLockException
+            if (e.getCause() instanceof OptimisticLockException) {
+                throw new KRMSOptimisticLockingException("Could not obtain OjbOperation ",e);
+            } else {
+                throw e;
+            }
         }
-        return this.getRuleManagementService().getAgendaItem(agenda.getFirstItemId());
+
+        return agendaItem;
     }
 
-    public void deleteAgendaItems(AgendaItemDefinition agendaItem) {
-        if (agendaItem != null) {
-            this.getRuleManagementService().deleteAgendaItem(agendaItem.getId());
-            deleteAgendaItems(agendaItem.getWhenFalse());
-            deleteAgendaItems(agendaItem.getWhenTrue());
-            deleteAgendaItems(agendaItem.getAlways());
-        }
-    }
 
     public RuleDefinition.Builder finRule(RuleEditor rule, String rulePrefix, String namespace) {
         // handle saving new parameterized terms
