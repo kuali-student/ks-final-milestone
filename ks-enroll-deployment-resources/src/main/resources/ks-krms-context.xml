@@ -438,6 +438,7 @@
         <property name="dataObjectService" ref="dataObjectService"/>
         <property name="dataSource" ref="krmsDataSource"/>
         <property name="termRepositoryService" ref="tempFixTermBoServiceImpl"/><!-- KSENROLL-12746 workaround to fix bad hardcoded constant in rice -->
+        <property name="agendaBoService" ref="agendaBoServiceImpl"/>
     </bean>
 
     <!-- START KSENROLL-12746 workaround to fix bad hardcoded constant in rice -->
@@ -445,5 +446,11 @@
         <property name="dataObjectService" ref="dataObjectService"/>
     </bean>
     <!-- END KSENROLL-12746 workaround to fix bad hardcoded constant in rice -->
+
+    <!-- START KSENROLL-12777 workaround -->
+    <bean id="agendaBoServiceImpl" class="org.kuali.rice.krms.impl.repository.KSAgendaBoServiceImpl">
+        <property name="dataObjectService" ref="dataObjectService"/>
+    </bean>
+    <!-- END KSENROLL-12777 workaround -->
 
 </beans>
