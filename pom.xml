@@ -61,7 +61,7 @@
         <gwt.codehaus.plugin.version>2.3.0-1</gwt.codehaus.plugin.version>
         <gwt.incubator.version>2.3.0</gwt.incubator.version>
         <gwt.version>2.3.0</gwt.version>
-        <hibernate.jpa.version>1.0.1.Final</hibernate.jpa.version>
+        <hibernate.jpa.version>1.0.0.Final</hibernate.jpa.version>
         <hibernate.validator.version>4.3.1.Final</hibernate.validator.version>
         <hibernate.version>3.6.9.Final</hibernate.version>
         <jackson.mapper.asl.version>1.9.13</jackson.mapper.asl.version>
@@ -850,7 +850,7 @@
             </dependency>
             <dependency>
                 <groupId>org.hibernate.javax.persistence</groupId>
-                <artifactId>hibernate-jpa-2.0-api</artifactId>
+                <artifactId>hibernate-jpa-2.1-api</artifactId>
                 <version>${hibernate.jpa.version}</version>
             </dependency>
             <dependency>
@@ -1100,6 +1100,10 @@
                     <exclusion>
                         <groupId>org.slf4j</groupId>
                         <artifactId>slf4j-api</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.hibernate.javax.persistence</groupId>
+                        <artifactId>hibernate-jpa-2.0-api</artifactId>
                     </exclusion>
                 </exclusions>
             </dependency>
