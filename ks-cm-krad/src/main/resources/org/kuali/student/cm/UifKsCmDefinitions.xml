@@ -87,26 +87,6 @@
         </property>
     </bean>
 
-    <bean id="Uif-KS-IconInputField" parent="Uif-KS-IconInputField-parentBean" abstract="true"/>
-    <bean id="Uif-KS-IconInputField-parentBean" abstract="true" parent="Uif-InputField-parentBean" scope="prototype">
-        <!--<property name="requiredMessage.messageText" value="?"/> -->
-        <property name="fieldLabel.labelText" value="test"/>
-        <!-- TODO: This is a workaround needed as KRAD not rendering the label if this is empty -->
-        <property name="fieldLabel.richLabelMessage">
-            <bean parent="Uif-KS-IconLabelMessage"/>
-        </property>
-    </bean>
-
-    <bean id="Uif-KS-IconInputField-LabelTop" parent="Uif-KS-IconInputField-LabelTop-parentBean" abstract="true"/>
-    <bean id="Uif-KS-IconInputField-LabelTop-parentBean" abstract="true" parent="Uif-InputField-parentBean"
-          scope="prototype">
-        <property name="fieldLabel.labelText" value="test"/>
-        <!-- TODO: (KSCM-) This is a workaround needed as KRAD not rendering the label if it is empty -->
-        <property name="fieldLabel.richLabelMessage">
-            <bean parent="Uif-KS-IconLabelMessage"/>
-        </property>
-    </bean>
-
     <bean id="Uif-KS-IconHeader" parent="Uif-SectionHeader">
         <property name="richHeaderMessage">
             <bean parent="Uif-KS-IconLabelMessage"/>

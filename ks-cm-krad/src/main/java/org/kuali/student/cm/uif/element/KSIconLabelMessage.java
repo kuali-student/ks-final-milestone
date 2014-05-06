@@ -44,9 +44,7 @@ public class KSIconLabelMessage extends Message {
     protected String iconToolTipText;
 
     /**
-     * If iconToolTipText is configured, it configures that text to be displayed as tooltip over the icon.
-     * Here, we're adding 2 inline components. The first one is a placement for required message component
-     * to be displayed. The second one is to display the icon
+     * If iconToolTipText is configured that text is displayed as tooltip over the icon.
      *
      * @param model
      * @param parent
@@ -71,7 +69,8 @@ public class KSIconLabelMessage extends Message {
                 parentObject.setLabelText(label);
             } else if (parent instanceof Header){
                 label =  ((Header)parent).getHeaderText();
-                /** If there are any components configured to display as right group, move that
+                /*
+                 * If there are any components configured to display as right group, move that
                  * component to the middle so that icon always display as last component.
                  */
                 Group group = ((Header) parent).getRightGroup();

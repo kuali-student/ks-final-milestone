@@ -318,7 +318,7 @@
         <property name="header">
             <bean parent="Uif-KS-IconHeader">
                 <property name="richHeaderMessage.iconToolTipText"
-                          value=" Is your course taught differently in the school&lt;br&gt;year than it is in the summer? For example,&lt;br&gt;online in the summer, lecture/lab in the fall. If&lt;br&gt;so, you will need two course formats."/>
+                          value="Is your course taught differently in the school&lt;br&gt;year than it is in the summer? For example,&lt;br&gt;online in the summer, lecture/lab in the fall. If&lt;br&gt;so, you will need two course formats."/>
             </bean>
         </property>
         <property name="addBlankLineAction">
