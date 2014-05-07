@@ -333,9 +333,9 @@
                                                 <list>
                                                     <bean parent="CM-ReadOnlyInput" p:label="Type"
                                                           p:propertyName="outComeType" p:colSpan="1"
-                                                          p:additionalCssClasses="ks-stackedcollection-table-outcome"/>
+                                                          p:fieldLabel.style="margin-left:-4px;"/>
                                                     <bean parent="CM-ReadOnlyInput" p:label="Credit Value"
-                                                          p:fieldLabel.style="white-space : nowrap; margin-left : -4px;"
+                                                          p:fieldLabel.style="white-space : nowrap;margin-top:-9px;"
                                                           p:propertyName="outComeValue" p:colSpan="1"
                                                           p:additionalCssClasses="ks-stackedcollection-table-outcome"/>
                                                 </list>
