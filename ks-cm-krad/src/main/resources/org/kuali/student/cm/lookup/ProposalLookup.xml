@@ -38,6 +38,13 @@ limitations under the License.
         <property name="applicationHeader">
             <bean parent="KS-Uif-FormView-ApplicationHeader"/>
         </property>
+        <!-- Rice 2.4 fix - The stickyHeader cannot be added in definitions xml since it impacts lookups everywhere -->
+        <property name="stickyHeader" value="true"/>
+        <property name="header.cssClasses">
+            <list merge="true">
+                <value>ks-unified-header</value>
+            </list>
+        </property>
 
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <list>
