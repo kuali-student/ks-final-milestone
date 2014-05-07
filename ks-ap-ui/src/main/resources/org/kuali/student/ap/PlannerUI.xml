@@ -676,7 +676,29 @@
                 <entry key="plantype" value="planned" />
             </map>
         </property>
-        <property name="footer">
+    </bean>
+
+    <bean id="planner_backup_collection" parent="planner_backup_collection-parent"/>
+    <bean id="planner_backup_collection-parent" abstract="true" parent="planner_item_collection" p:headerText="Backup">
+        <property name="propertyName" value="backupList" />
+        <property name="validationMessages.displayMessages" value="false" />
+        <property name="header.toolTip">
+            <ref bean="backup_help_tooltip"/>
+        </property>
+        <property name="dataAttributes">
+            <map merge="true">
+                <entry key="plantype" value="backup" />
+            </map>
+        </property>
+        <property name="cssClasses">
+            <list merge="false">
+                <value>ksap-carousel-term</value>
+                <value>@{#line.termId.replaceAll("\.","-")}</value>
+                <value>ksap-term-backup</value>
+                <value>ks-plan-Bucket</value>
+            </list>
+        </property>
+        <property name="header.upperGroup">
             <bean parent="Uif-VerticalBoxGroup">
                 <property name="validationMessages.displayMessages" value="false" />
                 <property name="items">
@@ -703,28 +725,6 @@
                     </list>
                 </property>
             </bean>
-        </property>
-    </bean>
-
-    <bean id="planner_backup_collection" parent="planner_backup_collection-parent"/>
-    <bean id="planner_backup_collection-parent" abstract="true" parent="planner_item_collection" p:headerText="Backup">
-        <property name="propertyName" value="backupList" />
-        <property name="validationMessages.displayMessages" value="false" />
-        <property name="header.toolTip">
-            <ref bean="backup_help_tooltip"/>
-        </property>
-        <property name="dataAttributes">
-            <map merge="true">
-                <entry key="plantype" value="backup" />
-            </map>
-        </property>
-        <property name="cssClasses">
-            <list merge="false">
-                <value>ksap-carousel-term</value>
-                <value>@{#line.termId.replaceAll("\.","-")}</value>
-                <value>ksap-term-backup</value>
-                <value>ks-plan-Bucket</value>
-            </list>
         </property>
         <property name="footer">
             <bean parent="Uif-VerticalBoxGroup">
