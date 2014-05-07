@@ -37,7 +37,7 @@ public class OrganizationSearchUtil {
         
         final SearchParamInfo displayNameParam = new SearchParamInfo();
         displayNameParam.setKey(CurriculumManagementConstants.OrganizationMessageKeys.ORG_QUERY_PARAM_OPTIONAL_LONG_NAME);
-        displayNameParam.getValues().add(organizationName);
+        displayNameParam.getValues().add("%" + organizationName);
         queryParamValueList.add(displayNameParam);
 
         final SearchParamInfo orgOptionalTypeParam = new SearchParamInfo();
