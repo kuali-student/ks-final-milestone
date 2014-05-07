@@ -653,6 +653,7 @@ section.uif-disclosure .uif-headerText .uif-headerText-span [class*='icon-caret-
 
 #course_tabs_tabs a {
     cursor: pointer;
+    box-shadow: none;
 }
 
 /*  Used to keep all of the tabs/sections visible in Curriculum Specialist mode */
@@ -664,6 +665,11 @@ section.uif-disclosure .uif-headerText .uif-headerText-span [class*='icon-caret-
 #course_tabs_tabs .uif-validationImage {
     float: right;
     padding-right: 5px;
+}
+
+/* Take the grid layout tables enclose their contents (e.g. other tables, the formats widgets). */
+#course_tabs_tabs table.uif-gridLayout {
+    display: inherit;
 }
 
 /*
