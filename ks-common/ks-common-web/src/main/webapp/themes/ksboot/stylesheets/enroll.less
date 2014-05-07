@@ -1136,6 +1136,7 @@ div#Uif-ApplicationHeader-Wrapper{
 .ks-details-panel table {
   width: auto !important;
   border: none;
+  vertical-align: bottom;
 }
 
 .ks-details-panel th,
@@ -1143,6 +1144,20 @@ div#Uif-ApplicationHeader-Wrapper{
   background-color: #ebebeb !important;
   padding: 1px 6px;
   border: none;
+}
+
+/* Removing borders and fixing alignment for KSENROLL-12692 */
+.ks-details-panel pre{
+    margin: 0px;
+}
+.ks-details-panel .table thead > tr > th,
+.ks-details-panel .table tbody > tr > th,
+.ks-details-panel .table tfoot > tr > th,
+.ks-details-panel.table thead > tr > td,
+.ks-details-panel .table tbody > tr > td,
+.ks-details-panel .table tfoot > tr > td {
+    vertical-align: bottom;
+    border: none;
 }
 
 //Override paddings from .uif-boxSubSection uif-boxLayoutVerticalItem
