@@ -314,6 +314,11 @@
                 <value>uif-boxCollectionItem</value>
             </list>
         </property>
+        <property name="dataAttributes">
+            <map>
+                <entry key="open" value="false" />
+            </map>
+        </property>
         <property name="items">
             <list>
                 <bean p:id="__KSAP__UID__" parent="Uif-HorizontalFieldGroup" p:title="__KSAP__COURSETITLE__">
