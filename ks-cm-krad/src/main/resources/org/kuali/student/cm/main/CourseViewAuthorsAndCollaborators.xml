@@ -30,93 +30,97 @@
     </bean>
 
 
+    <bean id="KS-CourseView-AuthorsAndCollaboratorsSubSection"  parent="KS-CourseView-AuthorsAndCollaboratorsSubSection-parent"/>
+    <bean id="KS-CourseView-AuthorsAndCollaboratorsSubSection-parent" parent="KS-TableCollectionSubSection-BottomAddLine"
+          p:layoutManager.id="cc-authorsandcollaboratorsgroup-table" p:layoutManager.style="width: 60em;">
+        <property name="collectionObjectClass" value="org.kuali.student.cm.course.form.CollaboratorWrapper"/>
+        <property name="propertyName" value="collaboratorWrappers"/>
+        <property name="addBlankLineAction.actionLabel" value="Add Person"/>
+        <property name="addBlankLineAction.render" value="true"/>
+        <property name="addBlankLineAction.id" value="KS-CourseView-AuthorsAndCollaborators-Section_add"/>
+        <property name="addBlankLineAction.dirtyOnAction" value="true"/>
 
-    <bean id="KS-CourseView-AuthorsAndCollaboratorsSubSection" parent="KS-CourseView-AuthorsAndCollaboratorsSubSection-parent"/>
-     <bean id="KS-CourseView-AuthorsAndCollaboratorsSubSection-parent" parent="KS-TableCollectionSubSection-BottomAddLine"   abstract="true"
-           p:layoutManager.id="cc-authorsandcollaboratorsgroup-table" p:layoutManager.style="width: 60em;" >
-                    <property name="addBlankLineAction.actionLabel" value="Add Person"/>
-                    <property name="addBlankLineAction.render" value="true"/>
-                    <property name="addBlankLineAction.id" value="KS-CourseView-AuthorsAndCollaborators-Section_add"/>
-                    <property name="collectionObjectClass" value="org.kuali.student.cm.course.form.CollaboratorWrapper" />
-                    <property name="propertyName" value="collaboratorWrappers" />
-                    <property name="lineActions">
-                         <list>
-                             <bean parent="KS-Uif-Delete-ActionLink"
-                                   p:methodToCall="deleteLine"
-                                   p:actionLabel="Delete"
-                                   p:actionEvent="deleteLine"
-                                   p:dirtyOnAction="true"
-                                   p:additionalCssClasses="delete_course_offering"  />
-                         </list>
+        <property name="lineActions">
+            <list>
+                <bean parent="KS-Uif-Delete-ActionLink"
+                      p:methodToCall="deleteLine"
+                      p:actionLabel="Delete"
+                      p:actionEvent="deleteLine"
+                      p:dirtyOnAction="true"
+                      p:additionalCssClasses="delete_course_offering"/>
+            </list>
+        </property>
+        <property name="Items">
+            <list>
+                <bean parent="KS-Uif-InputField" p:label="Name" p:propertyName="displayName"
+                      p:additionalCssClasses="id_search_course_offering">
+                    <property name="suggest">
+                        <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true">
+                            <property name="valuePropertyName" value="displayName"/>
+                            <property name="templateOptions">
+                                <map>
+                                    <entry key="minLength" value="3"/>
+                                    <entry key="delay" value="3"/>
+                                    <entry key="change">
+                                        <value>
+                                            function(event, ui) {
+                                            if (ui.item==null) {
+                                            jQuery(this).val('');
+                                            jQuery(this).focus();
+                                            }
+                                            }
+                                        </value>
+                                    </entry>
+                                </map>
+                            </property>
+                            <property name="suggestQuery">
+                                <bean parent="Uif-AttributeQueryConfig"
+                                      p:queryMethodToCall="getCollaboratorWrappersSuggest"
+                                      p:queryMethodArgumentFieldList=""/>
+                            </property>
+                        </bean>
                     </property>
-                    <property name="Items">
-                        <list>
-                            <bean parent="KS-Uif-InputField" p:label="Name" p:propertyName="displayName" p:additionalCssClasses="id_search_course_offering" >
-                                <property name="suggest">
-                                    <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true">
-                                        <property name="valuePropertyName" value="displayName" />
-                                        <property name="templateOptions">
-                                            <map>
-                                                <entry key="minLength" value="3" />
-                                                <entry key="delay" value="3" />
-                                                <entry key="change">
-                                                    <value>
-                                                        function(event, ui) {
-                                                            if (ui.item==null) {
-                                                                jQuery(this).val('');
-                                                                jQuery(this).focus();
-                                                            }
-                                                        }
-                                                    </value>
-                                                </entry>
-                                            </map>
-                                        </property>
-                                        <property name="suggestQuery">
-                                            <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="getCollaboratorWrappersSuggest"
-                                                  p:queryMethodArgumentFieldList="" />
-                                        </property>
-                                    </bean>
-                                </property>
-                            </bean>
-                            <bean id="KS-PermissionDropDown" parent="KS-Uif-InputField-LabelTop" p:propertyName="permission"
-                                  p:label="Permission" p:required="true" >
-                                <property name="control">
-                                    <bean parent="KS-Uif-DropdownControl" >
-                                        <property name="options">
-                                            <list>
-                                                <bean parent="Uif-KeyLabelPair" p:key="view" p:value="View" />
-                                                <bean parent="Uif-KeyLabelPair" p:key="comment" p:value="Comments, View" />
-                                                <bean parent="Uif-KeyLabelPair" p:key="edit" p:value="Edit, Comments, View" />
-                                            </list>
-                                        </property>
-                                    </bean>
-                                </property>
-                            </bean>
-                            <bean id="KS-ActionRequestDropDown" parent="KS-Uif-InputField-LabelTop" p:propertyName="action"
-                                  p:label="Action Required" p:required="true" p:style="width:10em" >
-                                <property name="control">
-                                    <bean parent="KS-Uif-DropdownControl"  >
-                                        <property name="options">
-                                            <list>
-                                                <bean parent="Uif-KeyLabelPair" p:key="fyi" p:value="FYI"  />
-                                            </list>
-                                        </property>
-                                    </bean>
-                                </property>
-                            </bean>
-                            <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="author" p:label="Author Notation" p:style="width:9em">
-                                <property name="control">
-                                    <bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="Add Author Notation" />
-                                </property>
-                            </bean>
-                        </list>
-                    </property>
-
                 </bean>
+                <bean id="KS-PermissionDropDown" parent="KS-Uif-InputField-LabelTop" p:propertyName="permission"
+                      p:label="Permission" p:required="true">
+                    <property name="control">
+                        <bean parent="KS-Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="view" p:value="View"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="comment" p:value="Comments, View"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="edit" p:value="Edit, Comments, View"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="KS-ActionRequestDropDown" parent="KS-Uif-InputField-LabelTop" p:propertyName="action"
+                      p:label="Action Required" p:required="true" p:style="width:10em">
+                    <property name="control">
+                        <bean parent="KS-Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="fyi" p:value="FYI"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="author" p:label="Author Notation"
+                      p:style="width:9em">
+                    <property name="control">
+                        <bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="Add Author Notation"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+
+    </bean>
 
 
-    <bean id="AuthorsAndCollaborators-NoRequiredMessageLink" parent="Uif-HorizontalFieldGroup" >
-        <property name="style" value="display: none;" />
+    <bean id="AuthorsAndCollaborators-NoRequiredMessageLink" parent="Uif-HorizontalFieldGroup">
+        <property name="style" value="display: none;"/>
         <property name="cssClasses">
             <list merge="true">
                 <value>hide-when-show-all-fields</value>

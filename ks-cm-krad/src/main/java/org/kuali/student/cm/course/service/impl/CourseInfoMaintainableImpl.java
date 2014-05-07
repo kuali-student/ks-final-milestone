@@ -513,13 +513,16 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 MaintenanceDocumentForm modelForm = (MaintenanceDocumentForm) viewModel;
                 CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) modelForm.getDocument().getNewMaintainableObject().getDataObject();
                 CourseInfoMaintainable courseInfoMaintainable = (CourseInfoMaintainable) modelForm.getDocument().getNewMaintainableObject();
+                if(courseInfoWrapper.getCollaboratorWrappers().size() == 0) {
+                    return true;
+                }
                 for (CollaboratorWrapper collaboratorAuthor : courseInfoWrapper.getCollaboratorWrappers()) {
-                    if (collaboratorAuthor.getDisplayName().equals(collaboratorWrapper.getDisplayName())) {
-                        return false; //already in the list
+                    if(StringUtils.isBlank(collaboratorAuthor.getDisplayName()) ) {
+                        return false; //already have a blank line
                     }
                 }
             }
-            return StringUtils.isNotEmpty(collaboratorWrapper.getDisplayName()) ? true : false;
+            return true;
         } else if (newLine instanceof CourseCreateUnitsContentOwner) {
             MaintenanceDocumentForm modelForm = (MaintenanceDocumentForm) viewModel;
             CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) modelForm.getDocument().getNewMaintainableObject().getDataObject();
@@ -1818,6 +1821,11 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
             if (dataObject.getAdministeringOrganizations().isEmpty()) {
                 dataObject.getAdministeringOrganizations().add(new OrganizationInfoWrapper());
+            }
+
+            // Initialize Author & Collaborator
+            if (dataObject.getCollaboratorWrappers().isEmpty()) {
+                dataObject.getCollaboratorWrappers().add(new CollaboratorWrapper());
             }
 
             populateAuditOnWrapper();
