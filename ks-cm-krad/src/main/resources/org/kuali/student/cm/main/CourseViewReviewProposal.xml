@@ -154,7 +154,8 @@
         </property>
     </bean>
 
-    <bean id="CourseInfo-Review-section" parent="ReviewProposal-VerticalBoxSection">
+    <bean id="CourseInfo-Review-section" parent="ReviewProposal-VerticalBoxSection"
+          p:additionalCssClasses="ks-cm-reviewproposal-validation">
         <property name="headerText" value="Course Information"/>
         <property name="header.rightGroup.items">
             <list>
