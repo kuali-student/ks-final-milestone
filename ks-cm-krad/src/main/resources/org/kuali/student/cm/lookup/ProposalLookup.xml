@@ -71,7 +71,7 @@ limitations under the License.
                 <property name="items">
                     <list>
                         <bean id="courseProposalLookup_title" parent="Uif-LookupCriteriaInputField" p:propertyName="title"
-                              p:label="Title" p:required="true"/>
+                              p:label="Title" p:required="true" p:fieldLabel.renderColon="false"/>
                         <bean id="courseProposalLookup_searchButton" parent="Uif-SecondaryActionButton" p:methodToCall="search"
                               p:actionLabel="Find Course Proposal" p:performClientSideValidation="true"/>
                     </list>
