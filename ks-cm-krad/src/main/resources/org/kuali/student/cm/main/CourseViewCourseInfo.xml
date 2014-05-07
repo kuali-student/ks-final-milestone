@@ -59,6 +59,7 @@
                         <list merge="true">
                             <value>cm-collection-width</value>
                             <value>admin-not-required-field</value>
+                            <value>ks-cm-course-instructor</value>
                         </list>
                     </property>
                     <property name="items">
