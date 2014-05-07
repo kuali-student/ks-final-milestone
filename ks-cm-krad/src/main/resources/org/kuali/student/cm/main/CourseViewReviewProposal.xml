@@ -194,9 +194,19 @@
                             <bean parent="CM-ReadOnlyInput" p:label="Instructor(s)" id="courseSection_instructors"
                                   p:propertyName="reviewProposalDisplay.courseSection.instructorsAsString"/>
                             <bean parent="CM-ReadOnlyInput" p:label="Description" id="courseInfo_descr"
-                                  p:propertyName="courseInfo.descr.plain"/>
+                                  p:propertyName="courseInfo.descr.plain">
+                                <!-- TODO:KSCM-2099 This is a temporary fix till the KRAD Data Dictionary works properly -->
+                                <property name="simpleConstraint">
+                                    <bean parent="CM-RequiredConstraints-Enroute" p:maxLength="1000"/>
+                                </property>
+                            </bean>
                             <bean parent="CM-ReadOnlyInput" p:label="Proposal Rationale" id="proposalInfo_rationale"
-                                  p:propertyName="proposalInfo.rationale.plain"/>
+                                  p:propertyName="proposalInfo.rationale.plain">
+                                <!-- TODO:KSCM-2099 This is a temporary fix till the KRAD Data Dictionary works properly -->
+                                <property name="simpleConstraint">
+                                    <bean parent="CM-RequiredConstraints-Enroute" p:maxLength="1000"/>
+                                </property>
+                            </bean>
                         </list>
                     </property>
                 </bean>
@@ -231,13 +241,7 @@
                                   p:propertyName="reviewProposalDisplay.governanceSection.curriculumOversightAsString">
                                 <!-- Make required for state enroute -->
                                 <property name="simpleConstraint">
-                                    <bean parent="RequiredConstraint">
-                                        <property name="states">
-                                            <list>
-                                                <value>R+</value>
-                                            </list>
-                                        </property>
-                                    </bean>
+                                    <bean parent="CM-RequiredConstraints-Enroute"/>
                                 </property>
                             </bean>
                             <bean parent="CM-ReadOnlyInput" p:label="Administering Organization"
@@ -278,13 +282,7 @@
                                   p:propertyName="reviewProposalDisplay.courseLogisticsSection.gradingOptionsAsString">
                                 <!-- Make required for state enroute -->
                                 <property name="simpleConstraint">
-                                    <bean parent="RequiredConstraint">
-                                        <property name="states">
-                                            <list>
-                                                <value>R+</value>
-                                            </list>
-                                        </property>
-                                    </bean>
+                                    <bean parent="CM-RequiredConstraints-Enroute"/>
                                 </property>
                             </bean>
 
@@ -350,13 +348,7 @@
                                   p:render="@{#emptyList(#dataObject.reviewProposalDisplay.courseLogisticsSection.outcomes)}">
                                 <!-- Make required for state enroute  -->
                                 <property name="simpleConstraint">
-                                    <bean parent="RequiredConstraint">
-                                        <property name="states">
-                                            <list>
-                                                <value>R+</value>
-                                            </list>
-                                        </property>
-                                    </bean>
+                                    <bean parent="CM-RequiredConstraints-Enroute"/>
                                 </property>
                             </bean>
 

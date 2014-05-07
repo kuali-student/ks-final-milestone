@@ -113,6 +113,10 @@
                             <bean id="KS-CourseDescription" parent="CM-InputField"
                                 p:label="Description" p:propertyName="courseInfo.descr.plain" >
                                 <property name="instructionalText" value="This description will appear in the catalog." />
+                                <!-- TODO:KSCM-2099 This is a temporary fix till the KRAD Data Dictionary works properly -->
+                                <property name="simpleConstraint">
+                                    <bean parent="CM-RequiredConstraints-Enroute" p:maxLength="1000"/>
+                                </property>
                                 <property name="control">
                                     <bean parent="Uif-LargeTextAreaControl">
                                         <property name="cssClasses">
@@ -129,6 +133,10 @@
 
                                 <property name="instructionalText"
                                           value="This will be used in evaluating the proposal. It will not be published in the catalog." />
+                                <!-- TODO:KSCM-2099 This is a temporary fix till the KRAD Data Dictionary works properly -->
+                                <property name="simpleConstraint">
+                                    <bean parent="CM-RequiredConstraints-Enroute" p:maxLength="255"/>
+                                </property>
                                 <property name="control">
                                     <bean parent="Uif-LargeTextAreaControl">
                                         <property name="cssClasses">

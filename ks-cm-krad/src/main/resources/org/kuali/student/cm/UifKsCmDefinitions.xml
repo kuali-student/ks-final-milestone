@@ -19,6 +19,16 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd"
         >
+
+    <!-- Used by beans which are required for states Enroute and beyond -->
+    <bean id="CM-RequiredConstraints-Enroute" parent="RequiredConstraint" abstract="true">
+        <property name="states">
+            <list>
+                <value>R+</value>
+            </list>
+        </property>
+    </bean>
+
     <bean id="Uif-CancelActionButton" parent="Uif-CancelActionButton-parentBean"/>
     <bean id="Uif-CancelActionButton-parentBean" abstract="true" parent="Uif-Action">
         <property name="cssClasses">
@@ -127,3 +137,5 @@
         </property>
     </bean>
 </beans>
+
+
