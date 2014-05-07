@@ -300,6 +300,7 @@
         <property name="headerText" value="Course Offering Information"/>
         <property name="disclosure.render" value="false"/>
         <property name="validationMessages.displayMessages" value="false"/>
+        <property name="validationMessages.displayHeaderMessageSummary" value="false"/>
         <property name="additionalCssClasses">
             <list merge="true">
                 <value>ks-section</value>
