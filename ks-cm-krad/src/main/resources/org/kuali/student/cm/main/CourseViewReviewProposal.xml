@@ -388,6 +388,7 @@
                                                                       p:fieldLabel.style="white-space : nowrap; margin-left : -4px;"
                                                                       p:propertyName="contactHours" p:colSpan="1"/>
                                                                 <bean parent="CM-ReadOnlyInput" p:label="Duration"
+                                                                      p:fieldLabel.style="white-space : nowrap; margin-left : -4px;"
                                                                       p:propertyName="durationCount" p:colSpan="1"/>
                                                                 <bean parent="CM-ReadOnlyInput"
                                                                       p:label="Anticipated Class Size"
