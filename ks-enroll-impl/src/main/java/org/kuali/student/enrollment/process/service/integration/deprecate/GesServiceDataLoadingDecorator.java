@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.kuali.student.core.constants.GesServiceConstants;
-import org.kuali.student.core.ges.service.ValueType;
+import org.kuali.student.core.ges.infc.GesValueTypeEnum;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.core.ges.dto.ParameterInfo;
 import org.kuali.student.core.ges.dto.ValueInfo;
@@ -42,9 +42,9 @@ public class GesServiceDataLoadingDecorator extends GesServiceDecorator {
 //                ValueType.KUALI_DECIMAL, contextInfo);
         _createParam(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT, "Credit Limit",
                 "Maximum number of credits that a student can register for in a given term",
-                ValueType.KUALI_DECIMAL, contextInfo);
+                GesValueTypeEnum.KUALI_DECIMAL, contextInfo);
         _createParam(GesServiceConstants.PARAMETER_KEY_LOAD_CALCULATION_FOR_CREDIT_CHECKS, "Load Calculation for Credit Checks",
-                "The Load Calculation to use for credit limit checks", ValueType.STRING, contextInfo);
+                "The Load Calculation to use for credit limit checks", GesValueTypeEnum.STRING, contextInfo);
 
         _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT, 1, "6",
                 "kuali.population.student.key.everyone", "kuali.atp.type.Summer", contextInfo);
@@ -73,13 +73,13 @@ public class GesServiceDataLoadingDecorator extends GesServiceDecorator {
                 "kuali.population.student.key.everyone", "", contextInfo);
     }
 
-    private ParameterInfo _createParam(String key, String name, String descr, ValueType valueType, ContextInfo context) {
+    private ParameterInfo _createParam(String key, String name, String descr, GesValueTypeEnum gesValueTypeEnum, ContextInfo context) {
 
         ParameterInfo info = new ParameterInfo();
         info.setKey(key);
         info.setName(name);
         info.setDescr(RichTextHelper.buildRichTextInfo(descr, descr));
-        info.setGesValueType(valueType);
+        info.setGesGesValueTypeEnum(gesValueTypeEnum);
         info.setTypeKey(GesServiceConstants.GES_PARAMETER_TYPE_KEY);
         info.setStateKey(GesServiceConstants.GES_PARAMETER_ACTIVE_STATE_KEY);
         info.setRequireUniquePriorities(true);
