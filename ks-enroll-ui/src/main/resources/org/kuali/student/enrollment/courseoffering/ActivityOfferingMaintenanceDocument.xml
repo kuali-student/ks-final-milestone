@@ -122,12 +122,13 @@
                                             <bean id="send_RDLs_to_scheduler_control"
                                                   parent="KS-Uif-CheckboxControl"
                                                   p:onClickScript="showRemoveAllOfferingsFromSchedulerConfirmation();"
-                                                  p:checkboxLabel="@{#dp.aoInfo.stateKey eq 'kuali.lui.activity.offering.state.canceled' ? 'Scheduling information cannot be sent to the scheduler for this activity offering because it is canceled.' : 'Send revised scheduling information to the scheduler for processing upon save.'}">
+                                                  p:checkboxLabel="Send revised scheduling information to the scheduler for processing upon save.">
                                                 <property name="render" value="@{#dp.aoInfo.stateKey ne 'kuali.lui.activity.offering.state.canceled'}"/>
                                             </bean>
                                         </property>
                                     </bean>
-
+                                    <bean parent="Uif-Message" p:messageText="Scheduling information cannot be sent to the scheduler for this activity offering because it is canceled."
+                                          p:render="@{(#dp.aoInfo.stateKey eq 'kuali.lui.activity.offering.state.canceled') and #dp.schedulingCompleted}" p:style="font-weight:bold;"/>
                                     <ref bean="ActivityOfferingEdit_SubmitCancel"/>
                                 </list>
                             </property>
