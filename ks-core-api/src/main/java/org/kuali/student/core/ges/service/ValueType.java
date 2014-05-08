@@ -12,18 +12,17 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-package org.kuali.student.core.ges.infc;
+package org.kuali.student.core.ges.service;
 
 
-public enum GesValueTypeEnum {
+public enum ValueType {
     STRING,
     BOOLEAN,
     NUMERIC,
-    DATE,
     KUALI_DECIMAL,
     AMOUNT,
     CURRENCY_AMOUNT,
     TIME_AMOUNT,
     TIME_OF_DAY,
-    GES_CUSTOM_VALUE
+    GES_Custom_Value
 }
