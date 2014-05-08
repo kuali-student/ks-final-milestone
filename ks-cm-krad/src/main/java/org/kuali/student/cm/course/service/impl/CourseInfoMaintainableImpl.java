@@ -994,52 +994,6 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         }
     }
 
-    /*@Override
-    public void processAfterDeleteLine(ViewModel model, String collectionId, String collectionPath, int lineIndex) {
-        CollectionGroup collectionGroup = model.getView().getViewIndex().getCollectionGroupByPath(collectionPath);
-        if (collectionGroup != null && StringUtils.endsWith(collectionGroup.getPropertyName(), "unitsContentOwner")) {
-            MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) model;
-            MaintenanceDocument document = maintenanceForm.getDocument();
-
-            CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) document.getNewMaintainableObject().getDataObject();
-
-            for (CourseCreateUnitsContentOwner existing : courseInfoWrapper.getUnitsContentOwner()) {
-                existing.getRenderHelper().setNewRow(false);
-            }
-
-        }
-
-        if (StringUtils.endsWith(collectionPath, "unitsContentOwner")) {
-
-            MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) model;
-            MaintenanceDocument document = maintenanceForm.getDocument();
-
-            CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) document.getNewMaintainableObject().getDataObject();
-
-            //Before adding a new row, just make sure all the existing rows are not editable.
-            for (CourseCreateUnitsContentOwner existing : courseInfoWrapper.getUnitsContentOwner()) {
-                existing.getRenderHelper().setNewRow(false);
-                if (StringUtils.isBlank(existing.getRenderHelper().getOrgLongName())) {
-                    populateOrgName(courseInfoWrapper.getCourseInfo().getSubjectArea(), existing);
-                }
-            }
-
-            OrgsBySubjectCodeValuesFinder optionsFinder = new OrgsBySubjectCodeValuesFinder();
-            List<KeyValue> availableOptions = optionsFinder.getAvailableOrgs(courseInfoWrapper);
-
-            if (!availableOptions.isEmpty()) {
-                CourseCreateUnitsContentOwner newCourseCreateUnitsContentOwner = new CourseCreateUnitsContentOwner();
-                newCourseCreateUnitsContentOwner.getRenderHelper().setNewRow(true);
-
-                courseInfoWrapper.getUnitsContentOwner().add(newCourseCreateUnitsContentOwner);
-            }
-
-            return;
-        }
-
-        super.processAfterDeleteLine(model, collectionId, collectionPath, lineIndex);
-    }*/
-
     public void updateReview() {
 
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();

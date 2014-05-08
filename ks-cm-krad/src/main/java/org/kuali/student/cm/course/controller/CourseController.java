@@ -341,56 +341,7 @@ public class CourseController extends CourseRuleEditorController {
         return retval;
     }
 
-
     /**
-     * Called by the delete line action for a model collection. Method
-     * determines which collection the action was selected for and the line
-     * index that should be removed, then invokes the view helper service to
-     * process the action
-     */
-
-    /*@RequestMapping(method = RequestMethod.POST, params = "methodToCall=removeOrganization")
-    public ModelAndView removeOrganization(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
-                                           HttpServletRequest request, HttpServletResponse response) {
-
-        CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
-
-        String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
-        if (StringUtils.isBlank(selectedCollectionPath)) {
-            throw new RuntimeException("Selected collection was not set for delete line action, cannot delete line");
-        }
-
-        View view = form.getView();
-
-        try {
-
-            // get the collection instance for adding the new line
-            List<CourseCreateUnitsContentOwner> collection = ObjectPropertyUtils.getPropertyValue(form, selectedCollectionPath);
-            if (collection == null) {
-                logAndThrowRuntime("Unable to get collection property from model for path: " + selectedCollectionPath);
-            }
-
-            String subjectArea = courseInfoWrapper.getCourseInfo().getSubjectArea();
-
-            for (CourseCreateUnitsContentOwner unitsContentOwner : collection) {
-
-                if (StringUtils.isNotEmpty(unitsContentOwner.getOrgId()) &&
-                        StringUtils.isEmpty(unitsContentOwner.getRenderHelper().getOrgLongName())) {
-
-                    populateOrgName(subjectArea, unitsContentOwner);
-
-                }
-            }
-
-        } catch (ClassCastException ex) {
-            logAndThrowRuntime("Only List collection implementations are supported for the delete by index method");
-        }
-
-        return deleteLine(form, result, request, response);
-    }*/
-
-    /**
-     * Log the error and throw a new runtime exception
      *
      * @param message - the error message (both to log and throw as a new exception)
      */
@@ -398,47 +349,6 @@ public class CourseController extends CourseRuleEditorController {
         LOG.error(message);
         throw new RuntimeException(message);
     }
-
-
-    /*protected String populateOrgName(String subjectArea, CourseCreateUnitsContentOwner unitsContentOwner) {
-
-        if (StringUtils.isBlank(unitsContentOwner.getOrgId())) {
-            return StringUtils.EMPTY;
-        }
-
-        final SearchRequestInfo searchRequest = new SearchRequestInfo();
-        searchRequest.setSearchKey("subjectCode.search.orgsForSubjectCode");
-
-        searchRequest.addParam("subjectCode.queryParam.code", subjectArea);
-        searchRequest.addParam("subjectCode.queryParam.optionalOrgId", unitsContentOwner.getOrgId());
-
-        List<KeyValue> departments = new ArrayList<KeyValue>();
-
-        try {
-
-            SearchResultInfo result = getSubjectCodeService().search(searchRequest, ContextUtils.getContextInfo());
-
-            if (result.getRows().isEmpty()) {
-                throw new RuntimeException("Invalid Org Id");
-            }
-
-            SearchResultRowInfo row = KSCollectionUtils.getOptionalZeroElement(result.getRows(), true);
-
-            for (final SearchResultCellInfo resultCell : row.getCells()) {
-                if ("subjectCode.resultColumn.orgLongName".equals(resultCell.getKey())) {
-                    unitsContentOwner.getRenderHelper().setOrgLongName(resultCell.getValue());
-                    break;
-                }
-            }
-
-            LOG.debug("Returning {}", departments);
-
-            return StringUtils.EMPTY;
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }*/
 
     /**
      * Delete a Supporting Document line
