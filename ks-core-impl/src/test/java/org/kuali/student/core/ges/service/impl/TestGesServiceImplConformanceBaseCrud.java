@@ -20,13 +20,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
 import org.kuali.student.common.test.util.AttributeTester;
-import org.kuali.student.common.test.util.KeyEntityTester;
 import org.kuali.student.common.test.util.MetaTester;
-import org.kuali.student.core.ges.dto.ParameterInfo;
-import org.kuali.student.core.ges.dto.ValueInfo;
-import org.kuali.student.core.ges.service.GesService;
+import org.kuali.student.common.test.util.KeyEntityTester;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -39,19 +35,23 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.core.ges.dto.ParameterInfo;
+import org.kuali.student.core.ges.dto.ValueInfo;
+import org.kuali.student.core.ges.service.GesService;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import org.kuali.student.core.ges.service.GesService;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-@Transactional
+
+@RunWith(SpringJUnit4ClassRunner.class)
 public abstract class TestGesServiceImplConformanceBaseCrud {
 	
 	// ====================
@@ -107,7 +107,7 @@ public abstract class TestGesServiceImplConformanceBaseCrud {
 			ParameterInfo actual = testService.createParameter ( expected.getKey(), expected.getTypeKey(), expected, contextInfo);
 			
 			assertNotNull(actual.getKey());
-            new KeyEntityTester().check(expected, actual);
+        new KeyEntityTester().check(expected, actual);
 			
 			// METHOD TO TEST DTO FIELDS HERE FOR TEST CREATE
 			testCrudParameter_testDTOFieldsForTestCreateUpdate (expected, actual);
@@ -152,7 +152,17 @@ public abstract class TestGesServiceImplConformanceBaseCrud {
 			
 			new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
 			new MetaTester().checkAfterUpdate(expected.getMeta(), actual.getMeta());
-
+			
+			// Test that VersionMissmatchException's are being detected
+			boolean exception = false;
+			try {
+   			testService.updateParameter ( original.getKey(), original, contextInfo);
+			}
+			catch (VersionMismatchException e) {
+   			exception = true;			}
+			
+			Assert.assertTrue("VersionMissmatchException was not detected!", exception);
+			
 			// -------------------------------------
 			// test read after update
 			// -------------------------------------
@@ -180,7 +190,7 @@ public abstract class TestGesServiceImplConformanceBaseCrud {
 			
 			betaDTO.setTypeKey("typeKeyBeta");
 			betaDTO.setStateKey("stateKeyBeta");
-            betaDTO = testService.createParameter (betaDTO.getKey(), betaDTO.getTypeKey(), betaDTO, contextInfo);
+			betaDTO = testService.createParameter (betaDTO.getKey(), betaDTO.getTypeKey(), betaDTO, contextInfo);
 			
 			// -------------------------------------
 			// test bulk get with no ids supplied
@@ -191,7 +201,7 @@ public abstract class TestGesServiceImplConformanceBaseCrud {
 			List<ParameterInfo> records = testService.getParametersByKeys ( parameterIds, contextInfo);
 			
 			assertEquals(parameterIds.size(), records.size());
-			assertEquals(0, parameterIds.size());
+			assertTrue(parameterIds.isEmpty());
 			
 			// -------------------------------------
 			// test bulk get
@@ -210,7 +220,7 @@ public abstract class TestGesServiceImplConformanceBaseCrud {
 							fail(record.getKey());
 					}
 			}
-			assertEquals(0, parameterIds.size());
+        assertTrue(parameterIds.isEmpty());
 			
 			// -------------------------------------
 			// test get by type
@@ -232,27 +242,21 @@ public abstract class TestGesServiceImplConformanceBaseCrud {
 			// test delete
 			// -------------------------------------
 			
-			StatusInfo status = testService.deleteParameter ( betaDTO.getKey(), contextInfo);
+			StatusInfo status = testService.deleteParameter ( actual.getKey(), contextInfo);
 			
 			assertNotNull(status);
 			assertTrue(status.getIsSuccess());
 			try
 			{
-					ParameterInfo record = testService.getParameter ( betaDTO.getKey(), contextInfo);
+					ParameterInfo record = testService.getParameter ( actual.getKey(), contextInfo);
 					fail("Did not receive DoesNotExistException when attempting to get already-deleted entity");
 			}
 			catch (DoesNotExistException dnee)
 			{
 					// expected
+                assertNotNull(dnee.getMessage());
+                assertEquals(actual.getKey(), dnee.getMessage());
 			}
-        // Test that VersionMissmatchException's are being detected
-        try {
-            testService.updateParameter ( original.getKey(), original, contextInfo);
-            fail("VersionMissmatchException was not detected!");
-
-        }
-        catch (VersionMismatchException e) {
-        }
 			
 	}
 	
@@ -362,7 +366,15 @@ public abstract class TestGesServiceImplConformanceBaseCrud {
 			new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
 			new MetaTester().checkAfterUpdate(expected.getMeta(), actual.getMeta());
 			
-
+			// Test that VersionMissmatchException's are being detected
+			boolean exception = false;
+			try {
+   			testService.updateValue ( original.getId(), original, contextInfo);
+			}
+			catch (VersionMismatchException e) {
+   			exception = true;			}
+			
+			Assert.assertTrue("VersionMissmatchException was not detected!", exception);
 			
 			// -------------------------------------
 			// test read after update
@@ -402,7 +414,7 @@ public abstract class TestGesServiceImplConformanceBaseCrud {
 			List<ValueInfo> records = testService.getValuesByIds ( valueIds, contextInfo);
 			
 			assertEquals(valueIds.size(), records.size());
-			assertEquals(0, valueIds.size());
+			assertTrue(valueIds.isEmpty());
 			
 			// -------------------------------------
 			// test bulk get
@@ -421,7 +433,7 @@ public abstract class TestGesServiceImplConformanceBaseCrud {
 							fail(record.getId());
 					}
 			}
-			assertEquals(0, valueIds.size());
+			assertTrue(valueIds.isEmpty());
 			
 			// -------------------------------------
 			// test get by type
@@ -443,28 +455,21 @@ public abstract class TestGesServiceImplConformanceBaseCrud {
 			// test delete
 			// -------------------------------------
 			
-			StatusInfo status = testService.deleteValue ( betaDTO.getId(), contextInfo);
+			StatusInfo status = testService.deleteValue ( actual.getId(), contextInfo);
 			
 			assertNotNull(status);
 			assertTrue(status.getIsSuccess());
 			try
 			{
-					ValueInfo record = testService.getValue ( betaDTO.getId(), contextInfo);
+					ValueInfo record = testService.getValue ( actual.getId(), contextInfo);
 					fail("Did not receive DoesNotExistException when attempting to get already-deleted entity");
 			}
 			catch (DoesNotExistException dnee)
 			{
 					// expected
+                assertNotNull(dnee.getMessage());
+                assertEquals(actual.getId(), dnee.getMessage());
 			}
-
-
-        // Test that VersionMissmatchException's are being detected
-        try {
-            testService.updateValue ( original.getId(), original, contextInfo);
-            fail("VersionMissmatchException was not detected!");
-        }
-        catch (VersionMismatchException e) {
-        }
 			
 	}
 

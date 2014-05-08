@@ -3,10 +3,6 @@ package org.kuali.student.core.ges.service.impl;
 
 import org.kuali.student.common.test.mock.data.AbstractMockServicesAwareDataLoader;
 import org.kuali.student.core.constants.GesServiceConstants;
-import org.kuali.student.core.ges.dto.ParameterInfo;
-import org.kuali.student.core.ges.dto.ValueInfo;
-import org.kuali.student.core.ges.infc.GesValueTypeEnum;
-import org.kuali.student.core.ges.service.GesService;
 import org.kuali.student.core.population.service.impl.PopulationServiceDataLoader;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -20,12 +16,16 @@ import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.core.ges.dto.ParameterInfo;
+import org.kuali.student.core.ges.dto.ValueInfo;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import org.kuali.student.core.ges.service.GesService;
+import org.kuali.student.core.ges.service.ValueType;
 
 public class GesServiceDataLoader extends AbstractMockServicesAwareDataLoader {
 
@@ -89,11 +89,11 @@ public class GesServiceDataLoader extends AbstractMockServicesAwareDataLoader {
     private void createParameters() throws PermissionDeniedException, DataValidationErrorException, InvalidParameterException, ReadOnlyException,
             OperationFailedException, MissingParameterException, DoesNotExistException {
         ParameterInfo param = generateParameter(GesServiceConstants.GES_PARAMETER_TYPE_KEY, GesServiceConstants.GES_PARAMETER_ACTIVE_STATE_KEY,
-                GesValueTypeEnum.NUMERIC, PARAM_KEY_MAX_CREDITS, true);
+                ValueType.NUMERIC, PARAM_KEY_MAX_CREDITS, true);
         maxCreditsParameter = gesService.createParameter(param.getKey(), param.getTypeKey(), param, context);
 
         param = generateParameter(GesServiceConstants.GES_PARAMETER_TYPE_KEY, GesServiceConstants.GES_PARAMETER_ACTIVE_STATE_KEY,
-                GesValueTypeEnum.NUMERIC, PARAM_KEY_MIN_CREDITS_REQUIRED_FOR_PROGRAM, true);
+                ValueType.NUMERIC, PARAM_KEY_MIN_CREDITS_REQUIRED_FOR_PROGRAM, true);
         minCreditsForProgramParameter = gesService.createParameter(param.getKey(), param.getTypeKey(), param, context);
     }
 
@@ -136,7 +136,7 @@ public class GesServiceDataLoader extends AbstractMockServicesAwareDataLoader {
         PopulationInfo populationInfo = new PopulationInfo();
         populationInfo.setTypeKey(typeKey);
         populationInfo.setSupportsGetMembers(true);
-        populationInfo.setDescr(RichTextHelper.buildRichTextInfo(name, name + " formatted"));
+        populationInfo.setDescr(RichTextHelper.buildRichTextInfo(name , name + " formatted"));
         populationInfo.setName(name);
         populationInfo.setStateKey(stateKey);
 
@@ -157,22 +157,22 @@ public class GesServiceDataLoader extends AbstractMockServicesAwareDataLoader {
         return info;
     }
 
-    public ParameterInfo generateParameter(String typeKey, String stateKey, GesValueTypeEnum gesValueTypeEnum, String key, Boolean requireUniquePriorities) {
+    public ParameterInfo generateParameter(String typeKey, String stateKey, ValueType gesValueType, String key, Boolean requireUniquePriorities) {
         ParameterInfo info = new ParameterInfo();
         info.setKey(key);
         info.setTypeKey(typeKey);
-        info.setGesGesValueTypeEnum(gesValueTypeEnum);
+        info.setGesValueType(gesValueType);
         info.setStateKey(stateKey);
         info.setRequireUniquePriorities(requireUniquePriorities);
 
         return info;
     }
     private void createAtps() throws PermissionDeniedException, OperationFailedException, InvalidParameterException, ReadOnlyException, MissingParameterException, DataValidationErrorException {
-        AtpInfo atpInfo = generateAtp(AtpServiceConstants.ATP_FALL_TYPE_KEY, AtpServiceConstants.ATP_OFFICIAL_STATE_KEY,"6","fallcode", DateFormatters.DEFAULT_DATE_FORMATTER.parse("2010-05-12"), DateFormatters.DEFAULT_DATE_FORMATTER.parse("2100-05-12"));
+        AtpInfo atpInfo = generateAtp(AtpServiceConstants.ATP_FALL_TYPE_KEY, AtpServiceConstants.ATP_OFFICIAL_STATE_KEY,"6","fallcode",DateFormatters.DEFAULT_DATE_FORMATTER.parse("2010-05-12"),DateFormatters.DEFAULT_DATE_FORMATTER.parse("2100-05-12"));
         fallAtp = atpService.createAtp(atpInfo.getTypeKey(),atpInfo,context);
 
 
-        atpInfo = generateAtp(AtpServiceConstants.ATP_SPRING_TYPE_KEY, AtpServiceConstants.ATP_OFFICIAL_STATE_KEY,"5","springcode", DateFormatters.DEFAULT_DATE_FORMATTER.parse("2010-06-12"), DateFormatters.DEFAULT_DATE_FORMATTER.parse("2100-06-12"));
+        atpInfo = generateAtp(AtpServiceConstants.ATP_SPRING_TYPE_KEY, AtpServiceConstants.ATP_OFFICIAL_STATE_KEY,"5","springcode",DateFormatters.DEFAULT_DATE_FORMATTER.parse("2010-06-12"),DateFormatters.DEFAULT_DATE_FORMATTER.parse("2100-06-12"));
         springAtp = atpService.createAtp(atpInfo.getTypeKey(),atpInfo,context);
     }
 
@@ -181,7 +181,7 @@ public class GesServiceDataLoader extends AbstractMockServicesAwareDataLoader {
         info.setTypeKey(typeKey);
         info.setStateKey(stateKey);
         info.setName("name: " + typeKey);
-        info.setDescr((RichTextHelper.buildRichTextInfo("name: " + typeKey, "name: " + typeKey + " formatted")));
+        info.setDescr((RichTextHelper.buildRichTextInfo("name: " + typeKey , "name: " + typeKey + " formatted")));
         info.setAdminOrgId(orgId);
         info.setCode(code);
         info.setEndDate(startDate);
