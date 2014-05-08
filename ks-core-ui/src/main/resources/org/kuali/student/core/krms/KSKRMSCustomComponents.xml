@@ -35,16 +35,13 @@ limitations under the License.
 
     <bean id="KRMS-Minutes-ConstantValue" parent="KRMS-Integer-ConstantValue-Parent" p:label="Minutes"/>
 
-    <bean id="KRMS-QuickFinder" parent="Uif-QuickFinder">
+    <bean id="KRMS-QuickFinder" parent="Uif-QuickFinderByScript">
         <property name="quickfinderAction">
             <bean parent="Uif-ActionLink">
                 <property name="methodToCall" value="performLookup"/>
                 <property name="actionLabel" value="Advanced Search"/>
                 <property name="style" value="display:block"/>
             </bean>
-        </property>
-        <property name="lightBox">
-            <bean parent="Uif-LightBox" p:lookupReturnByScript="true"/>
         </property>
     </bean>
 
