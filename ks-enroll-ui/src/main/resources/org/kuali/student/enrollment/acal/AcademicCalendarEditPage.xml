@@ -102,6 +102,7 @@ limitations under the License.
                 <property name="items">
                     <list>
                         <bean parent="Uif-HorizontalBoxGroup">
+                            <property name="additionalCssClasses" value="ks-calendar-footer-button"/>
                             <property name="items">
                                 <list>
                                     <bean parent="KS-Uif-PrimaryActionButton" p:methodToCall="save" p:actionLabel="Save"
