@@ -656,7 +656,7 @@ jQuery.validator.addMethod("validOrganizationName",
 
 /*Compare the input Organization Name from the autofill suggest results: data. If the input is in the result data
  it is valid input Organization */
-    function compareOrganizationNameInput(value, element) {
+function compareOrganizationNameInput(value, element) {
     var isValid;
     if (value == null || value.length < 2) {
         return false;
