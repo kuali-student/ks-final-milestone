@@ -239,7 +239,7 @@
                         </bean>
                     </property>
                 </bean>
-
+                <bean parent="KS-Uif-InputField" p:propertyName="editRenderHelper.termId" p:defaultValue="@{#dp.termId}" p:hidden="true" /> <!-- Need this property to do the lookup on termId -->
                 <!-- AO Input Field -->
                 <bean parent="KS-Uif-InputField"
                       p:id="ActivityOfferingEdit-CoLocatedActivities-AoInputField"

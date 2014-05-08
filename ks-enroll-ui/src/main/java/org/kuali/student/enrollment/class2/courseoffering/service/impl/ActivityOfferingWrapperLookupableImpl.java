@@ -53,6 +53,11 @@ public class ActivityOfferingWrapperLookupableImpl extends LookupableImpl {
 
     @Override
     public List<?> performSearch(LookupForm lookupForm, Map<String, String> searchCriteria, boolean bounded) {
+        boolean isValidCriteria = validateSearchParameters(lookupForm, searchCriteria);
+        if (!isValidCriteria) {
+            return new ArrayList<Object>();
+        }
+
         List<ActivityOfferingWrapper> activityOfferingWrappers = new ArrayList<ActivityOfferingWrapper>();
 
         String termId = searchCriteria.get("termId");
