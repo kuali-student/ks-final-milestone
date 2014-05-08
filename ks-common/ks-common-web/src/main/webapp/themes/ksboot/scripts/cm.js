@@ -820,3 +820,9 @@ function compareInputWithAutosuggestFromAjax(value, element, successFunction) {
     });
 
 }
+
+function refreshEndTerm() {
+    if(jQuery('#CourseView-ActiveDatesPage-PilotCourse_control').prop('checked')) {
+        retrieveComponent('CourseView-ActiveDatesPage-EndTerm');
+    }
+}
