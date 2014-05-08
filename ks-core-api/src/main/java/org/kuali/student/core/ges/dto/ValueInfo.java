@@ -15,18 +15,13 @@
 package org.kuali.student.core.ges.dto;
 
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.student.r2.common.dto.AmountInfo;
-import org.kuali.student.r2.common.dto.CurrencyAmountInfo;
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
-import org.kuali.student.r2.common.dto.TimeAmountInfo;
-import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.infc.Amount;
 import org.kuali.student.r2.common.infc.CurrencyAmount;
 import org.kuali.student.r2.common.infc.HasEffectiveDates;
 import org.kuali.student.r2.common.infc.TimeAmount;
 import org.kuali.student.r2.common.infc.TimeOfDay;
-import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.core.ges.infc.Value;
 
 
@@ -41,7 +36,8 @@ import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ValueInfo", propOrder = {"id", "typeKey", "stateKey", "effectiveDate", "expirationDate",
-        "parameterKey","priority","atpTypeKeys","populationId","ruleId", "value", "meta", "attributes", "_futureElements" })
+        "parameterKey","priority","atpTypeKeys","populationId","ruleId","stringValue","numericValue","dateValue","booleanValue",
+        "decimalValue","amountValue","currencyAmountValue","timeAmountValue","timeOfDayValue","customValue", "meta", "attributes", "_futureElements" })
 public class ValueInfo extends IdNamelessEntityInfo implements Value, HasEffectiveDates {
     @XmlElement
     private Date effectiveDate;
@@ -58,7 +54,23 @@ public class ValueInfo extends IdNamelessEntityInfo implements Value, HasEffecti
     @XmlElement
     private String ruleId;
     @XmlElement
-    private String value;
+    private String stringValue;
+    @XmlElement
+    private Long numericValue;
+    @XmlElement
+    private Date dateValue;
+    @XmlElement
+    private boolean booleanValue;
+    @XmlElement
+    private KualiDecimal decimalValue;
+    @XmlElement
+    private Amount amountValue;
+    @XmlElement
+    private CurrencyAmount currencyAmountValue;
+    @XmlElement
+    private TimeAmount timeAmountValue;
+    @XmlElement
+    private TimeOfDay timeOfDayValue;
     @XmlElement
     private GesCustomValueInfo customValue;
     @XmlAnyElement
@@ -83,10 +95,28 @@ public class ValueInfo extends IdNamelessEntityInfo implements Value, HasEffecti
             if(value.getExpirationDate() != null) {
                 expirationDate = new Date(value.getExpirationDate().getTime());
             }
-            this.value = value.getStringValue();
+            stringValue = value.getStringValue();
+
+            numericValue = value.getNumericValue();
+
+            dateValue = value.getDateValue();
+
+            booleanValue = value.getBooleanValue();
+
+            decimalValue = value.getDecimalValue();
+
+            amountValue = value.getAmountValue();
+
+            currencyAmountValue = value.getCurrencyAmountValue();
+
+            timeAmountValue = value.getTimeAmountValue();
+
+            timeOfDayValue = value.getTimeOfDayValue();
+
             if(value.getCustomValue() != null) {
                 customValue = new GesCustomValueInfo(value.getCustomValue());
             }
+
         }
     }
 
@@ -157,18 +187,11 @@ public class ValueInfo extends IdNamelessEntityInfo implements Value, HasEffecti
 
     @Override
     public Boolean getBooleanValue() {
-        if(value != null) {
-            return Boolean.parseBoolean(value);
-        }
-        return null;
+        return booleanValue;
     }
 
     public void setBooleanValue(Boolean booleanValue) {
-        if(booleanValue != null) {
-            value = booleanValue.toString();
-        } else {
-            value = null;
-        }
+        this.booleanValue = booleanValue;
     }
 
     @Override
@@ -182,140 +205,74 @@ public class ValueInfo extends IdNamelessEntityInfo implements Value, HasEffecti
 
     @Override
     public Date getDateValue() {
-        if(value != null) {
-            return DateFormatters.SERVER_DATE_PARSER_FORMATTER.parse(value);
-        }
-        return null;
+        return dateValue;
     }
 
     public void setDateValue(Date dateValue) {
-        if(dateValue != null) {
-            value = DateFormatters.SERVER_DATE_PARSER_FORMATTER.format(dateValue);
-        } else {
-            value = null;
-        }
+        this.dateValue = dateValue;
     }
 
     @Override
     public Long getNumericValue() {
-        if(value != null) {
-            return Long.parseLong(value);
-        }
-        return null;
+        return numericValue;
     }
 
     public void setNumericValue(Long numericValue) {
-        if(numericValue != null) {
-            value = numericValue.toString();
-        }
-        else {
-            value = null;
-        }
+        this.numericValue = numericValue;
     }
 
     @Override
     public KualiDecimal getDecimalValue() {
-        if(value != null) {
-            return new KualiDecimal(value);
-        }
-        return null;
+        return decimalValue;
     }
 
     public void setDecimalValue(KualiDecimal decimalValue) {
-        if(decimalValue != null) {
-            value = decimalValue.toString();
-        } else {
-            value = null;
-        }
+        this.decimalValue = decimalValue;
     }
 
     @Override
     public String getStringValue() {
-        return value;
+        return stringValue;
     }
 
     public void setStringValue(String stringValue) {
-        value = stringValue;
+        this.stringValue = stringValue;
     }
 
     @Override
     public Amount getAmountValue() {
-        if(value != null) {
-            AmountInfo amount = new AmountInfo();
-            String[] parts = value.split(":");
-            amount.setUnitQuantity(parts[0]);
-            amount.setUnitTypeKey(parts[1]);
-
-            return amount;
-        }
-        return null;
+        return amountValue;
     }
 
     public void setAmountValue(Amount amountValue) {
-        if(amountValue != null) {
-            value = amountValue.getUnitQuantity() + ":" + amountValue.getUnitTypeKey();
-        } else {
-            value = null;
-        }
+        this.amountValue = amountValue;
     }
 
     @Override
     public CurrencyAmount getCurrencyAmountValue() {
-        if(value != null) {
-            CurrencyAmountInfo currencyAmountInfo = new CurrencyAmountInfo();
-            String[] parts = value.split(":");
-            currencyAmountInfo.setCurrencyQuantity(Integer.parseInt(parts[0]));
-            currencyAmountInfo.setCurrencyTypeKey(parts[1]);
-            return currencyAmountInfo;
-        }
-        return null;
+        return currencyAmountValue;
     }
 
     public void setCurrencyAmountValue(CurrencyAmount currencyAmountValue) {
-        if(currencyAmountValue != null) {
-           value = currencyAmountValue.getCurrencyQuantity() + ":" + currencyAmountValue.getCurrencyTypeKey();
-        } else {
-            value = null;
-        }
+        this.currencyAmountValue = currencyAmountValue;
     }
 
     @Override
     public TimeAmount getTimeAmountValue() {
-        if(value != null) {
-            TimeAmountInfo timeAmountInfo = new TimeAmountInfo();
-            String[] parts = value.split(":");
-            timeAmountInfo.setTimeQuantity(Integer.parseInt(parts[0]));
-            timeAmountInfo.setAtpDurationTypeKey(parts[1]);
-            return timeAmountInfo;
-        }
-        return null;
+        return timeAmountValue;
     }
 
     public void setTimeAmountValue(TimeAmount timeAmountValue) {
-        if(timeAmountValue != null) {
-            value = timeAmountValue.getTimeQuantity() + ":" + timeAmountValue.getAtpDurationTypeKey();
-        } else {
-            value = null;
-        }
+        this.timeAmountValue = timeAmountValue;
     }
 
     @Override
     public TimeOfDay getTimeOfDayValue() {
-        if(value != null) {
-            String[] parts = value.split(":");
-            return new TimeOfDayInfo(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
-        }
-        return null;
+        return timeOfDayValue;
     }
 
     public void setTimeOfDayValue(TimeOfDay timeOfDayValue) {
-        if(timeOfDayValue != null) {
-            value = pullSafeValue(timeOfDayValue.getHour()) + ":" +
-                    pullSafeValue(timeOfDayValue.getMinute()) + ":" +
-                    pullSafeValue(timeOfDayValue.getSecond());
-        } else {
-            value = null;
-        }
+        this.timeOfDayValue = timeOfDayValue;
     }
 
     public List<Object> get_futureElements() {
@@ -326,10 +283,5 @@ public class ValueInfo extends IdNamelessEntityInfo implements Value, HasEffecti
         this._futureElements = _futureElements;
     }
 
-    private String pullSafeValue(Integer input) {
-        if(input == null) {
-            return "0";
-        }
-        return input.toString();
-    }
+
 }
