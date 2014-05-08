@@ -24,7 +24,7 @@
                     </property>
 
                     <property name="control">
-                        <bean parent="KS-Uif-DropdownControl" />
+                        <bean parent="KS-Uif-DropdownControl" p:onChangeScript="refreshEndTerm();"/>
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.DatesKeyValuesFinder" p:addBlankOption="true" />
