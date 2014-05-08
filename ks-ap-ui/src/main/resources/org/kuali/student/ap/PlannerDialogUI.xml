@@ -842,21 +842,11 @@
 		</property>
 	</bean>
 
-  <!--  <bean id="planner_backup_input" parent="planner_dialog_input" p:propertyName="backup" p:defaultValue="false">
-        <property name="label" value="Mark as Backup"/>
-        <property name="control">
-            <bean parent="KS-Uif-CheckboxControl"/>
-        </property>
-    </bean>    -->
-
-
     <bean id="planner_backup_input"  parent="Uif-HorizontalBoxGroup">
         <property name="items">
             <list>
-                <bean parent="Uif-CheckboxInputField"
-                      p:labelRendered="true"  p:propertyName="backup"
-                      p:fieldLabel.renderColon="false"/>
-                <bean parent="Uif-Message" p:messageText="Mark as backup"/>
+                <bean parent="Uif-CheckboxInputField" p:propertyName="backup"
+                      p:fieldLabel.renderColon="false" p:control.checkboxLabel="Mark as backup"/>
             </list>
         </property>
     </bean>
@@ -866,10 +856,9 @@
         <property name="render" value="@{bookmarked}"/>
         <property name="items">
             <list>
-                <bean parent="Uif-CheckboxInputField"
-                      p:labelRendered="true"  p:propertyName="keepBookmarked"
-                      p:fieldLabel.renderColon="false" p:defaultValue="false"/>
-                <bean parent="Uif-Message" p:messageText="Keep the course bookmarked"/>
+                <bean parent="Uif-CheckboxInputField" p:propertyName="keepBookmarked"
+                      p:fieldLabel.renderColon="false" p:defaultValue="false"
+                      p:control.checkboxLabel="Keep the course bookmarked"/>
             </list>
         </property>
     </bean>
