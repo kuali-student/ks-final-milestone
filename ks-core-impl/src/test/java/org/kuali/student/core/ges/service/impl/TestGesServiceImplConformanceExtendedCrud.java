@@ -16,11 +16,16 @@
 package org.kuali.student.core.ges.service.impl;
 
 
+import net.sf.ehcache.Cache;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.common.test.util.RichTextTester;
-import org.kuali.student.core.ges.service.ValueType;
+import org.kuali.student.core.ges.dto.GesCriteriaInfo;
+import org.kuali.student.core.ges.dto.ParameterInfo;
+import org.kuali.student.core.ges.dto.ValueInfo;
+import org.kuali.student.core.ges.infc.GesValueTypeEnum;
+import org.kuali.student.core.ges.service.decorators.GesServiceCacheDecorator;
 import org.kuali.student.core.population.service.impl.PopulationTestStudentEnum;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -29,28 +34,35 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.date.DateFormatters;
-import org.kuali.student.core.ges.dto.GesCriteriaInfo;
-import org.kuali.student.core.ges.dto.ParameterInfo;
-import org.kuali.student.core.ges.dto.ValueInfo;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import javax.annotation.Resource;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import org.kuali.student.core.ges.service.ValueType;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-
-@RunWith(SpringJUnit4ClassRunner.class)
+@Transactional
 public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesServiceImplConformanceBaseCrud
 {
 
     @Resource(name = "gesDataLoader")
     private GesServiceDataLoader dataLoader;
+    //@Resource(name = "gesServiceImpl")
+    private GesServiceCacheDecorator cacheDecorator;
+
+    public GesServiceCacheDecorator getCacheDecorator() {
+        return cacheDecorator;
+    }
+
+    public void setCacheDecorator(GesServiceCacheDecorator cacheDecorator) {
+        this.cacheDecorator = cacheDecorator;
+    }
 
     @After
     public void cleanup() throws Exception {
@@ -74,7 +86,7 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
 		expected.setTypeKey("typeKey01");
 		expected.setStateKey("stateKey01");
 		expected.setKey("key01");
-        expected.setGesValueType(ValueType.STRING);
+        expected.setGesGesValueTypeEnum(GesValueTypeEnum.STRING);
         expected.setName("Max Credit");
         expected.setDescr((RichTextHelper.buildRichTextInfo("The max credit student can take in a period of time.", "formatted descr")));
         expected.setRequireUniquePriorities(true);
@@ -91,7 +103,7 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
 		assertEquals (expected.getTypeKey(), actual.getTypeKey());
 		assertEquals (expected.getStateKey(), actual.getStateKey());
 		assertEquals (expected.getKey(), actual.getKey());
-        assertEquals(expected.getGesValueType(), actual.getGesValueType());
+        assertEquals(expected.getGesGesValueTypeEnum(),actual.getGesGesValueTypeEnum());
         assertEquals (expected.getName(), actual.getName());
         new RichTextTester().check(expected.getDescr(),actual.getDescr());
         assertEquals(expected.getRequireUniquePriorities(), actual.getRequireUniquePriorities());
@@ -104,8 +116,8 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
 	{
 		expected.setStateKey("stateKey_Updated");
         expected.setName("My Max Credit");
-        expected.setGesValueType(ValueType.BOOLEAN);
-        expected.setDescr((RichTextHelper.buildRichTextInfo("My max credit student can take in a period of time." ,"formatted descr")));
+        expected.setGesGesValueTypeEnum(GesValueTypeEnum.BOOLEAN);
+        expected.setDescr((RichTextHelper.buildRichTextInfo("My max credit student can take in a period of time.", "formatted descr")));
         expected.setRequireUniquePriorities(false);
 	}
 	
@@ -119,7 +131,7 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
 		assertEquals (expected.getTypeKey(), actual.getTypeKey());
 		assertEquals (expected.getStateKey(), actual.getStateKey());
 		assertEquals (expected.getKey(), actual.getKey());
-        assertEquals(expected.getGesValueType(), actual.getGesValueType());
+        assertEquals(expected.getGesGesValueTypeEnum(), actual.getGesGesValueTypeEnum());
         assertEquals (expected.getName(), actual.getName());
         new RichTextTester().check(expected.getDescr(),actual.getDescr());
         assertEquals (expected.getRequireUniquePriorities(), actual.getRequireUniquePriorities());
@@ -132,9 +144,9 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
 	public void testCrudParameter_setDTOFieldsForTestReadAfterUpdate(ParameterInfo expected)
 	{
 		expected.setKey("key_Updated");
-        expected.setGesValueType(ValueType.NUMERIC);
-        expected.setName("Max Credit Limit");
-        expected.setDescr((RichTextHelper.buildRichTextInfo("Limit max credit student can take in a period of time." ,"formatted descr")));
+        expected.setGesGesValueTypeEnum(GesValueTypeEnum.NUMERIC);
+        expected.setName("MaxCreditLimit");
+        expected.setDescr((RichTextHelper.buildRichTextInfo("Limit max credit student can take in a period of time.", "formatted descr")));
         expected.setRequireUniquePriorities(false);
 	}
 	
@@ -289,7 +301,7 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
         assertTrue(containsValue(122L, values));
 
         values = testService.getValuesByParameter("A_BAD_PARAMETER_ID", contextInfo);
-        assertTrue(values.isEmpty());
+        assertEquals(0, values.size());
 	}
 	
 	/* Method Name: evaluateValuesByParameterAndPerson */
@@ -322,7 +334,7 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
         criteriaInfo.setPersonId("SOME_RANDOM_ID_THAT_DOES_NOT_EXIST");
         criteriaInfo.setAtpId(null);
         values = testService.evaluateValues(dataLoader.getMaxCreditsParameter().getKey(), criteriaInfo, contextInfo);
-        assertTrue(values.isEmpty());
+        assertEquals(0, values.size());
 	}
 
 
@@ -336,10 +348,10 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
         criteriaInfo.setPersonId(PopulationTestStudentEnum.STUDENT1.getPersonId());
         criteriaInfo.setAtpId(dataLoader.getFallAtp().getId());
         List<ValueInfo> values = testService.evaluateValuesOnDate(dataLoader.getMaxCreditsParameter().getKey(), criteriaInfo, DateFormatters.DEFAULT_DATE_FORMATTER.parse("2051-01-01"), contextInfo);
-        assertTrue(values.isEmpty());
+        assertEquals(0, values.size());
 
         values = testService.evaluateValuesOnDate(dataLoader.getMaxCreditsParameter().getKey(), criteriaInfo, DateFormatters.DEFAULT_DATE_FORMATTER.parse("2010-06-11"), contextInfo);
-        assertTrue(values.isEmpty());
+        assertEquals(0, values.size());
 
         values = testService.evaluateValuesOnDate(dataLoader.getMaxCreditsParameter().getKey(), criteriaInfo, DateFormatters.DEFAULT_DATE_FORMATTER.parse("2010-06-12"), contextInfo);
         assertEquals(2, values.size());
@@ -389,6 +401,9 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
         }catch (DoesNotExistException e){
 
         }
+
+
+
     }
     /* Method Name: evaluateValuesByParameterAndPersonAndAtpAndOnDate */
     @Test
@@ -421,6 +436,24 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
         value = testService.evaluateValueOnDate(dataLoader.getMaxCreditsParameter().getKey(), criteriaInfo, DateFormatters.DEFAULT_DATE_FORMATTER.parse("2050-01-01"), contextInfo);
         assertEquals(15, (long)value.getNumericValue());
     }
+/*    @Test
+    public void test_cachePut() throws OperationFailedException, PermissionDeniedException, MissingParameterException, InvalidParameterException, DoesNotExistException {
+
+        loadData();
+        Cache cache = cacheDecorator.getCache();
+
+
+        GesCriteriaInfo criteriaInfo = new GesCriteriaInfo();
+        criteriaInfo.setPersonId(PopulationTestStudentEnum.STUDENT1.getPersonId());
+        criteriaInfo.setAtpId(dataLoader.getFallAtp().getId());
+        ValueInfo value = testService.evaluateValue(dataLoader.getMaxCreditsParameter().getKey(), criteriaInfo, contextInfo);
+
+        assertNotNull(cache);
+        assertEquals(15, (long) value.getNumericValue());
+
+
+
+    }*/
 
     private void loadData() throws OperationFailedException {
         try {

@@ -167,6 +167,12 @@
         <class>org.kuali.student.r2.core.scheduling.model.ScheduleAttributeEntity</class>
         <class>org.kuali.student.r2.core.scheduling.model.ScheduleComponentEntity</class>
 
+        <!-- Ges -->
+        <class>org.kuali.student.core.ges.service.model.ParameterEntity</class>
+        <class>org.kuali.student.core.ges.service.model.ParameterAttributeEntity</class>
+        <class>org.kuali.student.core.ges.service.model.ValueEntity</class>
+        <class>org.kuali.student.core.ges.service.model.ValueAttributeEntity</class>
+
         <!--class>org.kuali.student.r2.core.population.model.PopulationEntity</class -->
 
         <!-- RoomService Room and Building entities -->
