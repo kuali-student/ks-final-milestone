@@ -320,8 +320,8 @@ limitations under the License.
     <!--p:render="@{!#view.readOnly ? 'true' : !#form.events.empty ?  'true' : 'false'}"-->
     <bean id="KS-AcademicCalendar-EventSubSection" parent="KS-TableCollectionSubSection-BottomAddLine"
           p:layoutManager.numberOfColumns="@{#view.readOnly ? 3 : 7}" p:id="acal-info-event"
-          p:layoutManager.id="acal-events-table"
-          >
+          p:layoutManager.id="acal-events-table">
+
         <property name="headerText" value="Events"/>
         <property name="disclosure.defaultOpen" value="@{!#form.events.empty}"/>
         <property name="cssClasses">
