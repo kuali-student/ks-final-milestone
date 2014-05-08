@@ -612,7 +612,7 @@ limitations under the License.
                 </bean>
                 <bean id="FinalExam_room" parent="KS-Uif-InputField-LabelTop" p:label="Room"
                       p:render="@{#dp.ruleEditor.ruleTypeInfo.type ne 'kuali.krms.rule.type.final.exam.activity.offering.driven'}"
-                      p:propertyName="ruleEditor.room.roomCode">
+                      p:propertyName="ruleEditor.room.roomCode" p:required="false">
                     <property name="control">
                         <bean parent="KS-Uif-TextControl" p:size="20" p:cssClasses="new_rdl_components"/>
                     </property>
