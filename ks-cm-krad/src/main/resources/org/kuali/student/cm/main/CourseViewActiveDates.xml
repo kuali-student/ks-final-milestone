@@ -62,15 +62,14 @@
                             <value>admin-not-required-field</value>
                         </list>
                     </property>
-                    <property name="refreshWhenChangedPropertyNames">
+                  <property name="refreshWhenChangedPropertyNames">
                         <list>
-                            <value>document.newMaintainableObject.dataObject.courseInfo.startTerm</value>
                             <value>document.newMaintainableObject.dataObject.courseInfo.pilotCourse</value>
                         </list>
                     </property>
                     <property name="instructionalText" value="Last term in which the course can be offered" />
                     <property name="control">
-                        <bean parent="KS-Uif-DropdownControl" p:disabled="@{(#dataObject.courseInfo.startTerm == null)}" />
+                        <bean parent="KS-Uif-DropdownControl" p:disabled="@{!(#dataObject.courseInfo.pilotCourse)}" />
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.DatesKeyValuesFinder"
