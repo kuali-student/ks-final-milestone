@@ -1825,7 +1825,7 @@ fieldset[data-type="InputSet"] {
 .ks-manage-scheduling-request-form-field-top-aligned{
   display: inline-block;
   vertical-align: top;
-  margin: 24px 17px 0 0;
+  margin: 17px 17px 0 0;
 }
 
 /*
@@ -2004,6 +2004,28 @@ table.dataTable tr.even td.sorting_1 {
 .uif-tableCollectionLayout tfoot th {
   padding: 0 !important;
   border: 0;
+}
+
+/*removing unneeded borders and shadows */
+.uif-collectionItem.uif-boxCollectionItem,
+.uif-collectionItem.uif-boxCollectionItem{
+     border: none;
+     box-shadow: none;
+}
+
+.uif-collectionItem.uif-boxCollectionItem > .uif-header-contentWrapper {
+    background-color: inherit;
+    border-bottom: none;
+    padding: 0;
+}
+
+.uif-headerText {
+    font-size: 1.7em;
+}
+
+/*Removing Shadow on disclosure section.*/
+section.uif-disclosure {
+    box-shadow: none;
 }
 
 /*
