@@ -459,6 +459,7 @@ function fnClosePopup() {
         jQuery("body").RemovePopOver();
     }
     jQuery("div.jquerypopover").remove();
+    jQuery("div.jquerybubblepopup").remove();
     jQuery("body").off("click");
 }
 

@@ -656,91 +656,101 @@
     </bean>
 
     <bean id="planner_planned_collection" parent="planner_planned_collection-parent"/>
-    <bean id="planner_planned_collection-parent" abstract="true" parent="planner_item_collection" p:headerText="Planned">
-        <property name="propertyName" value="plannedList" />
-        <property name="validationMessages.displayMessages" value="false" />
-        <property name="header.toolTip">
-            <ref bean="planned_help_tooltip"/>
-        </property>
-        <property name="cssClasses">
-            <list merge="false">
-                <value>ksap-carousel-term</value>
-                <value>@{#line.termId.replaceAll("\.","-")}</value>
-                <value>ksap-term-planned</value>
-                <value>@{#line.planning ? 'ksap-term-fixed-height' : ''}</value>
-                <value>ks-plan-Bucket</value>
+    <bean id="planner_planned_collection-parent" abstract="true" parent="Uif-VerticalBoxGroup">
+        <property name="items">
+            <list>
+                <bean parent="planner_item_collection" p:headerText="Planned">
+                    <property name="propertyName" value="plannedList" />
+                    <property name="validationMessages.displayMessages" value="false" />
+                    <property name="header.toolTip">
+                        <ref bean="planned_help_tooltip"/>
+                    </property>
+                    <property name="cssClasses">
+                        <list merge="false">
+                            <value>ksap-carousel-term</value>
+                            <value>@{#line.termId.replaceAll("\.","-")}</value>
+                            <value>ksap-term-planned</value>
+                            <value>@{#line.planning ? 'ksap-term-fixed-height' : ''}</value>
+                            <value>ks-plan-Bucket</value>
+                        </list>
+                    </property>
+                    <property name="dataAttributes">
+                        <map merge="true">
+                            <entry key="plantype" value="planned" />
+                        </map>
+                    </property>
+                </bean>
+                <bean parent="Uif-VerticalBoxGroup">
+                    <property name="cssClasses">
+                        <list merge="false">
+                            <value>@{#line.termId.replaceAll("\.","-")}</value>
+                            <value>ksap-term-planned</value>
+                            <value>ks-plan-Bucket-Footer</value>
+                        </list>
+                    </property>
+                    <property name="validationMessages.displayMessages" value="false" />
+                    <property name="items">
+                        <list>
+                            <bean p:id='@{#line.termId.replaceAll("kuali\.atp\.", "").replaceAll("\.","-")}_planned_add' parent="planner_quick_add">
+                                <property name="items[0].dataAttributes">
+                                    <map merge="true">
+                                        <entry key="backup" value="false" />
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean p:id="@{#line.uniqueId}_planned_credits" parent="planner_credits_footer">
+                                <property name="items">
+                                    <list merge="true">
+                                        <bean parent="planner_term_total_credits_text" p:messageText="@{#line.plannedCreditString}" />
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
             </list>
-        </property>
-        <property name="dataAttributes">
-            <map merge="true">
-                <entry key="plantype" value="planned" />
-            </map>
         </property>
     </bean>
 
     <bean id="planner_backup_collection" parent="planner_backup_collection-parent"/>
-    <bean id="planner_backup_collection-parent" abstract="true" parent="planner_item_collection" p:headerText="Backup">
-        <property name="propertyName" value="backupList" />
-        <property name="validationMessages.displayMessages" value="false" />
-        <property name="header.toolTip">
-            <ref bean="backup_help_tooltip"/>
-        </property>
-        <property name="dataAttributes">
-            <map merge="true">
-                <entry key="plantype" value="backup" />
-            </map>
-        </property>
-        <property name="cssClasses">
-            <list merge="false">
-                <value>ksap-carousel-term</value>
-                <value>@{#line.termId.replaceAll("\.","-")}</value>
-                <value>ksap-term-backup</value>
-                <value>ks-plan-Bucket</value>
+    <bean id="planner_backup_collection-parent" abstract="true" parent="Uif-VerticalBoxGroup">
+        <property name="items">
+            <list>
+                <bean  parent="planner_item_collection" p:headerText="Backup">
+                    <property name="propertyName" value="backupList" />
+                    <property name="validationMessages.displayMessages" value="false" />
+                    <property name="header.toolTip">
+                        <ref bean="backup_help_tooltip"/>
+                    </property>
+                    <property name="dataAttributes">
+                        <map merge="true">
+                            <entry key="plantype" value="backup" />
+                        </map>
+                    </property>
+                    <property name="cssClasses">
+                        <list merge="false">
+                            <value>ksap-carousel-term</value>
+                            <value>@{#line.termId.replaceAll("\.","-")}</value>
+                            <value>ksap-term-backup</value>
+                            <value>ks-plan-Bucket</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-VerticalBoxGroup">
+                    <property name="validationMessages.displayMessages" value="false" />
+                    <property name="items">
+                        <list>
+                            <bean p:id='@{#line.termId.replaceAll("\.","-")}_backup_add' parent="planner_quick_add">
+                                <property name="items[0].dataAttributes">
+                                    <map merge="true">
+                                        <entry key="backup" value="true" />
+                                    </map>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
             </list>
-        </property>
-        <property name="header.upperGroup">
-            <bean parent="Uif-VerticalBoxGroup">
-                <property name="validationMessages.displayMessages" value="false" />
-                <property name="items">
-                    <list>
-                        <bean p:id='@{#line.termId.replaceAll("kuali\.atp\.", "").replaceAll("\.","-")}_planned_add' parent="planner_quick_add">
-                            <property name="items[0].dataAttributes">
-                                <map merge="true">
-                                    <entry key="backup" value="false" />
-                                </map>
-                            </property>
-                        </bean>
-                        <bean p:id="@{#line.uniqueId}_planned_credits" parent="planner_credits_footer">
-                            <!--<property name="cssClasses">
-                                <list merge="true">
-                                    <value>ks-plan-Bucket-footer-@{#line.plannedList.size() gt 0 ? 'show' : 'hide'}"</value>
-                                </list>
-                            </property>-->
-                            <property name="items">
-                                <list merge="true">
-                                    <bean parent="planner_term_total_credits_text" p:messageText="@{#line.plannedCreditString}" />
-                                </list>
-                            </property>
-                        </bean>
-                    </list>
-                </property>
-            </bean>
-        </property>
-        <property name="footer">
-            <bean parent="Uif-VerticalBoxGroup">
-                <property name="validationMessages.displayMessages" value="false" />
-                <property name="items">
-                    <list>
-                        <bean p:id='@{#line.termId.replaceAll("\.","-")}_backup_add' parent="planner_quick_add">
-                            <property name="items[0].dataAttributes">
-                                <map merge="true">
-                                    <entry key="backup" value="true" />
-                                </map>
-                            </property>
-                        </bean>
-                    </list>
-                </property>
-            </bean>
         </property>
     </bean>
 

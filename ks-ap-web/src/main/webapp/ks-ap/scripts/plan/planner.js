@@ -262,17 +262,18 @@ function ksapPlannerAddPlanItem (data) {
             .attr("name", "script");
         itemElement
                 .attr("id", data.uid+"_wrap")
-                .attr("class", "uif-group uif-boxGroup uif-verticalBoxGroup ks-plan-Bucket-collection uif-collectionItem uif-boxCollectionItem uif-boxLayoutHorizontalItem")
-                .prependTo("." + termUid + ".ksap-term-" + data.category + " .uif-verticalBoxGroup")
+                .attr("class", "uif-collectionItem uif-boxCollectionItem")
+                .appendTo(".ksap-carousel-term." + termUid + ".ksap-term-" + data.category)
                 .css({backgroundColor:"#ffffcc"})
                 .hide()
                 .fadeIn(250, function() {
-                    var bucket = jQuery(".ksap-term-" + data.category + "." + termUid);
+                    var bucket = jQuery("ks-plan-Bucket-Footer.ksap-term-" + data.category + "." + termUid);
                     var unitcell = bucket.find(".ksap-carousel-term-total");
                     unitcell.addClass("ks-plan-Bucket-footer-show");
                     unitcell.removeClass("ks-plan-Bucket-footer-hide");
                 })
                 .animate({backgroundColor:"#ffffff"}, 1500, function() {
+                    itemElement.css({background: "none"});
                     runHiddenScripts(data.uid);
                 });
         //Set static ids on some element for AFTs
@@ -311,6 +312,7 @@ function ksapPlannerUpdatePlanItem (data) {
 function ksapPlannerRemovePlanItem (data) {
     jQuery("#" + data.uid).fadeOut(250, function(){
         jQuery(this).remove();
+        jQuery("#" + data.uid+"_wrap").remove();
         var bucket = jQuery(".ksap-term-" + data.category + "." + data.termId);
         var unitcell = bucket.find(".ksap-carousel-term-total");
         if (bucket.find(".ks-plan-Bucket-item").length == 0) {
