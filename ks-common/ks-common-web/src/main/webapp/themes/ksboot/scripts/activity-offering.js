@@ -745,53 +745,63 @@ function endTimeOnBlur(){
  * This will be called on start time focus lost. Here, we load matching endtimes for the
  * days and start time.
  */
-function rdlStartTimeOnBlur(){
-
+function rdlStartTimeOnBlur(baseUrl) {
     var startTime = jQuery("#rdl_starttime_control").val();
     var isMozilla = jQuery.browser.mozilla != null;
-
-    //Mozilla supports relatedTarget only for mouse event.
-    //relatedTarget may be null when the user just navigates to some other window and comes back
-    if (isMozilla == false && (event.relatedTarget == null || event.relatedTarget.id != "rdl_endtime_control")){
-        if (startTime != ''){
-            parseAndReplaceTimeClause(jQuery("#rdl_starttime_control"), jQuery("#rdl_days_control"));
-        }
-        validateFieldValue(jQuery("#rdl_starttime_control"));
-        return;
-    }
 
     var days = jQuery("#rdl_days_control").val();
     var tbaChecked = document.getElementById('rdl_tba_control').checked;
 
     jQuery("#rdl_endtime_control").val('');
 
-    if (startTime != ''){
+    if (startTime != '') {
         parseAndReplaceTimeClause(jQuery("#rdl_starttime_control"), jQuery("#rdl_days_control"));
-    }
-
-    if (!tbaChecked && (startTime == '' || days == '' || (jQuery("#rdl_starttime_control").val() == jQuery("#rdl_starttime_control").data("starttime")
-        && jQuery("#rdl_days_control").val() == jQuery("#rdl_days_control").data("days"))) ) {
-        jQuery("#rdl_endtime").show();
-        if (isMozilla == false){
-            jQuery("#rdl_endtime_control").focus();
-        }
-        return;
     }
 
     jQuery("#rdl_starttime_control").data("starttime", jQuery("#rdl_starttime_control").val());
     jQuery("#rdl_days_control").data("days", jQuery("#rdl_days_control").val());
 
     if (validateFieldValue(jQuery("#rdl_starttime_control")) == false ||
-        validateFieldValue(jQuery("#rdl_days_control")) == false){
+        validateFieldValue(jQuery("#rdl_days_control")) == false) {
         return;
     }
 
-    retrieveComponent('rdl_endtime','loadTSEndTimes',function () {
-        jQuery("#rdl_endtime").show();
-        if (isMozilla == false){
-            jQuery("#rdl_endtime_control").focus();
+    ajaxGetValues(baseUrl, 'getAjaxSEndTimes', function (options) {
+
+        if (jQuery('#rdl_endtime_control.ui-autocomplete-input').length) {
+            jQuery('#rdl_endtime_control').autocomplete("option", "source", options);
+        } else {
+            if (options.length > 0) {
+                jQuery('#rdl_endtime_control').val(options[0]);
+                jQuery('#rdl_endtime_control').autocomplete({
+                    source: options,
+                    minLength: 0
+                }).focus(function () {
+                    jQuery(this).autocomplete("option", "minLength", 0);
+                    jQuery(this).autocomplete("search");
+                });
+            }
         }
-        validateFieldValue(jQuery("#rdl_endtime_control"));
+    });
+}
+
+
+function ajaxGetValues(baseUrl, methodToCall, callbackFunction) {
+    var formData = jQuery('#kualiForm').serialize();
+    var targetUrl = baseUrl + "/kr-krad/activityOffering?methodToCall=" + methodToCall;
+    jQuery.ajax({
+        dataType: "json",
+        url: targetUrl,
+        type: "POST",
+        data: formData,
+        success: function (data, textStatus, jqXHR) {
+            callbackFunction(data);
+        },
+        error: function (jqXHR, status, error) {
+            if (console) {
+                console.log("Error Occured...............");
+            }
+        }
     });
 }
 
