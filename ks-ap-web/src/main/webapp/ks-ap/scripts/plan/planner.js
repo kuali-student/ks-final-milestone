@@ -311,8 +311,7 @@ function ksapPlannerUpdatePlanItem (data) {
  */
 function ksapPlannerRemovePlanItem (data) {
     jQuery("#" + data.uid).fadeOut(250, function(){
-        jQuery(this).remove();
-        jQuery("#" + data.uid+"_wrap").remove();
+        jQuery(this).parent().remove();
         var bucket = jQuery(".ksap-term-" + data.category + "." + data.termId);
         var unitcell = bucket.find(".ksap-carousel-term-total");
         if (bucket.find(".ks-plan-Bucket-item").length == 0) {
