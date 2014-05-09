@@ -1501,10 +1501,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
                 // Sort the values to be displayed at ui
                 Collections.sort(resultValueList);
-                for(Integer value : resultValueList) {
-                    resultValue.append(value.toString() + ",");
-                }
-                rvgWrapper.getUiHelper().setResultValue(StringUtils.removeEnd(resultValue.toString(), ","));
+                rvgWrapper.getUiHelper().setResultValue(StringUtils.join(resultValueList, ","));
 
             } else if (StringUtils.equals(rvg.getTypeKey(), LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)) {
 
