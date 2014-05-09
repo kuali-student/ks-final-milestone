@@ -111,10 +111,10 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
-        	<artifactId>rice-krad-theme-builder</artifactId>
-    		<groupId>org.kuali.rice</groupId>
-    		<version>${kuali.rice.version}</version>
-    		<scope>provided</scope>
+            <artifactId>rice-krad-theme-builder</artifactId>
+            <groupId>org.kuali.rice</groupId>
+            <version>${kuali.rice.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.kuali.rice</groupId>
