@@ -218,7 +218,7 @@
                     <!-- Rice 2.4 upgrade : removing fieldLabel.requiredMessage -->
                     <!--<property name="fieldLabel.requiredMessage.messageText" value=""/>-->
                     <property name="control">
-                        <bean parent="KS-Uif-TextControl" p:size="8" p:maxLength="8" p:cssClasses="new_rdl_components, validTimeAMPMPattern" p:onBlurScript="timeFieldOnBlur(e); rdlStartTimeOnBlur();"/>
+                        <bean parent="KS-Uif-TextControl" p:size="8" p:maxLength="8" p:cssClasses="new_rdl_components, validTimeAMPMPattern" p:onBlurScript="timeFieldOnBlur(e); rdlStartTimeOnBlur('@{#ConfigProperties['application.url']}');"/>
                     </property>
                 </bean>
                 <bean id="rdl_endtime" parent="KS-Uif-InputField-LabelTop" p:label="End Time@{#dp.newScheduleRequest.tba ? '' : ' *'}"  p:propertyName="newScheduleRequest.endTime"  p:additionalCssClasses="uif-boxLayoutHorizontalItem"
@@ -238,19 +238,19 @@
                               <bean parent="KS-Uif-TextControl" p:size="10" p:cssClasses="new_rdl_components, validTimeAMPMPattern" p:onBlurScript="timeFieldOnBlur(e); endTimeOnBlur();"/>
                           </property>
                         </bean>
-                        <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="suggest" p:condition="#dp.authorizedToModifyEndTimeTS">
-                            <property name="replacement">
-                                <bean parent="Uif-Suggest" p:render="true" p:retrieveAllSuggestions="true">
-                                    <property name="suggestOptions" value="@{#dp.newScheduleRequest.endTimes}"/>
-                                    <property name="templateOptions">
-                                        <map>
-                                          <entry key="minLength" value="0"/>
-                                          <entry key="delay" value="0"/>
-                                        </map>
-                                    </property>
-                                </bean>
-                            </property>
-                        </bean>
+                        <!--<bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="suggest" p:condition="#dp.authorizedToModifyEndTimeTS">-->
+                            <!--<property name="replacement">-->
+                                <!--<bean parent="Uif-Suggest" p:render="true" p:retrieveAllSuggestions="true">-->
+                                    <!--<property name="suggestOptions" value="@{#dp.newScheduleRequest.endTimes}"/>-->
+                                    <!--<property name="templateOptions">-->
+                                        <!--<map>-->
+                                          <!--<entry key="minLength" value="0"/>-->
+                                          <!--<entry key="delay" value="0"/>-->
+                                        <!--</map>-->
+                                    <!--</property>-->
+                                <!--</bean>-->
+                            <!--</property>-->
+                        <!--</bean>-->
                       </list>
                     </property>
                 </bean>

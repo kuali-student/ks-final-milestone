@@ -30,10 +30,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
@@ -92,6 +94,24 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
         }
 
         return getUIFModelAndView(form);
+    }
+
+    @MethodAccessible
+    @RequestMapping(params = "methodToCall=getAjaxSEndTimes")
+    public @ResponseBody List<String> getAjaxSEndTimes(@ModelAttribute("KualiForm") MaintenanceDocumentForm form) throws Exception {
+
+        ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
+
+        String startTime = activityOfferingWrapper.getNewScheduleRequest().getStartTime();
+        String days = activityOfferingWrapper.getNewScheduleRequest().getDays();
+
+        if (!StringUtils.isBlank(startTime) && !StringUtils.isBlank(days)) {
+            ActivityOfferingMaintainable viewHelper = (ActivityOfferingMaintainable) KSControllerHelper.getViewHelperService(form);
+
+            return viewHelper.getEndTimes(days, startTime, activityOfferingWrapper.getTimeSlotType());
+        }
+
+        return new ArrayList<String>();
     }
 
     @MethodAccessible
