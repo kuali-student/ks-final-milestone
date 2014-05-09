@@ -131,7 +131,7 @@
         <property name="style" value="background-color: #f8f8f8; padding-left: 10px;"/>
         <property name="items">
             <list>
-                <bean parent="KS-Uif-DataField-LabelLeft" p:label="Title" p:escapeHtmlInPropertyValue="false" p:propertyName="currentCourseOfferingWrapper.courseOfferingInfo.courseOfferingTitle"
+                <bean id="KS-CourseOffering-Title" parent="KS-Uif-DataField-LabelLeft" p:label="Title:" p:escapeHtmlInPropertyValue="false" p:propertyName="currentCourseOfferingWrapper.courseOfferingInfo.courseOfferingTitle"
                       p:readOnly="true"/>
                 <!-- Rice 2.4 upgrade : removing p:labelPlacement="LEFT" -->
                 <bean parent="KS-Uif-DataField-LabelLeft" p:label="Crosslisted as" p:propertyName="currentCourseOfferingWrapper.alternateCOCodes"
