@@ -10,7 +10,7 @@
         <property name="header.render" value="false"/>
         <property name="cssClasses" value="ac_disclosure"/>
         <property name="header.style" value="margin-bottom:0"/>
-        <property name="validationMessages.displayMessages" value="false"/>
+        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
         <property name="items">
             <list>
                 <ref bean="KS-AcademicCalendar-Overview-WithoutTerms"/>
@@ -55,7 +55,7 @@
         </property>
         <property name="onDocumentReadyScript"
                   value="window.setTimeout(removeNewItemHighlights(),5000); resetDirtyFields('AcalEdit-DirtyFields'); initAddExamPeriodButtons('acal-term-examdates', 'exam_date_type', 'acal-term-examdates-add', '@{#ConfigProperties['application.url']}');"/>
-        <property name="validationMessages.displayMessages" value="false"/>
+        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
         <property name="headerText" value="&#160;"/>
         <property name="layoutManager.addLineGroup.header.render" value="true"/>
         <property name="layoutManager.addLineGroup.layoutManager.additionalCssClasses" value="ks-search-group-section"/>

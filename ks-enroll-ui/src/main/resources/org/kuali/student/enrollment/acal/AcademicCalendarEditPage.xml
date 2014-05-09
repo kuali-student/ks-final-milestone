@@ -133,7 +133,7 @@ limitations under the License.
         <property name="headerText" value="Calendar"/>
         <property name="header.render" value="false"/>
         <property name="cssClasses" value="ac_disclosure"/>
-        <property name="validationMessages.displayMessages" value="false"/>
+        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
         <property name="items">
             <list>
                 <ref bean="KS-AcademicCalendar-Overview"/>

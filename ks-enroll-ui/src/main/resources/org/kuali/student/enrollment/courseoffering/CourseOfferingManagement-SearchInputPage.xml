@@ -48,7 +48,7 @@
         p:id="courseOfferingManagementCriteriaSection">
         <!--<property name="editAuthz" value="true" />-->
         <property name="disclosure.render" value="false"/>
-        <property name="validationMessages.displayMessages" value="false"/>
+        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
         <property name="items">
             <list>
                 <bean parent="Uif-HorizontalBoxSection">

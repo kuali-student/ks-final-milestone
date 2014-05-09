@@ -25,7 +25,7 @@
             <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false" />
         </property>
         <property name="layoutManager.renderSequenceField" value="false" />
-        <property name="validationMessages.displayMessages" value="false"/>
+        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
         <property name="layoutManager.applyDefaultCellWidths" value="false" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
         <property name="layoutManager.richTable.templateOptions">

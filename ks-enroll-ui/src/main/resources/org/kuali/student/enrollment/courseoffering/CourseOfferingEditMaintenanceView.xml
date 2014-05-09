@@ -299,7 +299,7 @@
     <bean id="KS-CourseOfferingEdit-CourseOfferingInformation" parent="Uif-VerticalBoxSection">
         <property name="headerText" value="Course Offering Information"/>
         <property name="disclosure.render" value="false"/>
-        <property name="validationMessages.displayMessages" value="false"/>
+        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
         <property name="validationMessages.displayHeaderMessageSummary" value="false"/>
         <property name="additionalCssClasses">
             <list merge="true">
@@ -497,7 +497,7 @@
     </bean>
 
     <bean id="KS-CourseOfferingEdit-DeliveryAndAssessment" p:id="delivery_and_assessment" parent="Uif-VerticalBoxSection" p:headerText="Delivery and Assessment">
-        <property name="validationMessages.displayMessages" value="false"/>
+        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
         <property name="editAuthz" value="true"/>
         <property name="items">
             <list>
@@ -522,7 +522,7 @@
                     </property>
                 </bean>
                 <bean parent="Uif-VerticalBoxSection">
-                    <property name="validationMessages.displayMessages" value="false"/>
+                    <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
                     <property name="refreshWhenChangedPropertyNames" value="#dp.courseOfferingInfo.finalExamType"/>
                     <property name="items">
                         <list>
@@ -746,7 +746,7 @@
                 <value>ks-section</value>
             </list>
         </property>
-        <property name="validationMessages.displayMessages" value="false"/>
+        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
         <property name="items">
             <list>
                 <bean id="KS-CourseOfferingEdit-PersonnelTableSection" parent="KS-TableCollectionSubSection-BottomAddLine"
@@ -764,7 +764,7 @@
                     <property name="addBlankLineAction.actionLabel" value="Add Personnel"/>
                     <property name="addBlankLineAction.id" value="KS-CourseOfferingEdit-PersonnelSection_add"/>
                     <property name="addBlankLineAction.dirtyOnAction" value="true"/>
-                    <property name="validationMessages.displayMessages" value="false"/>
+                    <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
                     <property name="Items">
                         <list>
                             <bean parent="KS-Uif-InputField"
@@ -811,7 +811,7 @@
     </bean>
 
     <bean id="KS-CourseOfferingEdit-OrganizationSectionHeader" parent="Uif-VerticalBoxSection" p:style="margin-top: 2em;">
-        <property name="validationMessages.displayMessages" value="false"/>
+        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
         <property name="additionalCssClasses">
             <list merge="true">
                 <value>ks-section</value>
@@ -825,7 +825,7 @@
     </bean>
 
     <bean id="KS-CourseOfferingEdit-MiscSection" parent="Uif-VerticalBoxSection" p:headerText="Miscellaneous">
-        <property name="validationMessages.displayMessages" value="false"/>
+        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
         <property name="items">
             <list>
                 <ref bean="KS-CourseOfferingEdit-HonorsOffering"/>

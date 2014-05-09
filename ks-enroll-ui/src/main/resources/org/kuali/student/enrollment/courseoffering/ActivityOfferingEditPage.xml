@@ -102,7 +102,7 @@
     </bean>
 
     <bean id="ActivityOfferingEdit-section2" parent="Uif-VerticalBoxSection" p:onDocumentReadyScript="calculatePercent()">
-        <property name="validationMessages.displayMessages" value="false"/>
+        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
         <property name="headerText" value="Activity Offering Information"/>
         <property name="additionalCssClasses">
             <list merge="true">
@@ -188,7 +188,7 @@
         <property name="propertyName" value="colocatedActivities"/>
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="layoutManager.renderSequenceField" value="false" />
-        <property name="validationMessages.displayMessages" value="false"/>
+        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
         <property name="additionalCssClasses">
             <list merge="true">
                 <value>ks-subSection</value>
@@ -315,7 +315,7 @@
             <list>
                 <bean parent="Uif-Message" p:messageText="Combined Max Enr"/>
                 <bean id="enr_shared_table" parent="Uif-TableCollectionSection" p:forceSessionPersistence="true" >
-                    <property name="validationMessages.displayMessages" value="false"/>
+                    <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
                     <property name="headerText" value=""/>
                     <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ColocatedActivity" />
                     <property name="propertyName" value="editRenderHelper.manageSeperateEnrollmentList"/>
@@ -354,7 +354,7 @@
 
     <bean id="ActivityOfferingEdit-PersonnelSection" parent="Uif-VerticalBoxSection">
         <property name="headerText" value="Personnel"/>
-        <property name="validationMessages.displayMessages" value="false"/>
+        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
         <property name="additionalCssClasses">
             <list merge="true">
                 <value>ks-section</value>
@@ -370,7 +370,7 @@
                     <property name="addBlankLineAction.id" value="ao-personnelgroup-addline"/>
                     <property name="addBlankLineAction.onDocumentReadyScript" value="reDisplayPersonnelSection();"/>
                     <property name="addBlankLineAction.dirtyOnAction" value="true" />
-                    <property name="validationMessages.displayMessages" value="false"/>
+                    <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
                     <property name="layoutManager.renderSequenceField" value="false"/>
                     <property name="layoutManager.generateAutoSequence" value="false"/>
                     <property name="layoutManager.separateAddLine" value="false"/>
@@ -449,7 +449,7 @@
     </bean>
 
     <bean id="ActivityOfferingEdit-Waitlist" parent="Uif-VerticalBoxSection" p:headerText="Waitlist" p:render="@{#dp.hasWaitlistCO}">
-        <property name="validationMessages.displayMessages" value="false"/>
+        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
         <property name="viewAuthz" value="true"/>
         <property name="additionalCssClasses">
             <list merge="true">
@@ -560,7 +560,7 @@
     </bean>
 
     <bean id="ActivityOfferingEdit-SeatPool" parent="Uif-VerticalBoxSection" p:additionalCssClasses="ks-seatpools,ks-section">
-        <property name="validationMessages.displayMessages" value="false"/>
+        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
         <property name="headerText" value="Seat Pools"/>
         <property name="editAuthz" value="true"/>
         <property name="items">
@@ -648,7 +648,7 @@
     </bean>
 
     <bean id="ActivityOfferingEdit-Miscellaneous" parent="Uif-VerticalBoxSection" p:headerText="Miscellaneous" p:id="aoInfo.Miscellaneous">
-        <property name="validationMessages.displayMessages" value="false"/>
+        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
         <property name="additionalCssClasses">
             <list merge="true">
                 <value>ks-section</value>
