@@ -717,7 +717,7 @@
 		<property name="label" value="Enter subject and catalog number" />
 		<property name="control">
 			<bean parent="KS-Uif-TextControl" p:additionalCssClasses="ksap-planner-courseCode">
-                <property name="onDocumentReadyScript" value="focusOnElement(jQuery('#courseCode_control'));" />
+                <property name="onDocumentReadyScript" value="jQuery('.ksap-planner-courseCode').focus();" />
 				<property name="watermarkText" value="e.g. BL MATH-M 119" />
 				<property name="maxLength" value="50" />
 				 <property name="size" value ="25"/>
