@@ -295,7 +295,7 @@ function ksapPlannerAddPlanItem (data) {
  */
 function ksapPlannerUpdatePlanItem (data) {
     var item = jQuery("#" + data.uniqueId);
-    item.find(".credit span").text(data.credit);
+    item.find(".credit p").text(data.credit);
     item.find(".coursenote").attr("title",data.courseNote);
     if(data.courseNoteRender == 'false'){
         item.find(".coursenote").addClass("invisible");
@@ -312,12 +312,6 @@ function ksapPlannerUpdatePlanItem (data) {
 function ksapPlannerRemovePlanItem (data) {
     jQuery("#" + data.uid).fadeOut(250, function(){
         jQuery(this).parent().remove();
-        var bucket = jQuery(".ksap-term-" + data.category + "." + data.termId);
-        var unitcell = bucket.find(".ksap-carousel-term-total");
-        if (bucket.find(".ks-plan-Bucket-item").length == 0) {
-        	unitcell.removeClass("ks-plan-Bucket-footer-show");
-        	unitcell.addClass("ks-plan-Bucket-footer-hide");
-        }
     });
 }
 
@@ -329,13 +323,13 @@ function ksapPlannerRemovePlanItem (data) {
 function ksapPlannerUpdateCredits (data) {
     var planbucket = jQuery(".ksap-term-planned." + data.termId);
     var planunitcell = planbucket.find(".ksap-carousel-term-total");
-    planunitcell.find(".credits span.uif-message").fadeOut(250, function() {
+    planunitcell.find(".credits p.uif-message").fadeOut(250, function() {
         jQuery(this).text(data.totalCredits).fadeIn(250);
     });
 
     var cartbucket = jQuery(".ksap-term-cart." + data.termId);
     var cartunitcell = cartbucket.find(".ksap-carousel-term-total");
-    cartunitcell.find(".credits span.uif-message").fadeOut(250, function() {
+    cartunitcell.find(".credits p.uif-message").fadeOut(250, function() {
         jQuery(this).text(data.cartCredits).fadeIn(250);
     });
 }
