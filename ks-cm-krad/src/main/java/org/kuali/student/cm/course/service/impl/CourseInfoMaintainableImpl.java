@@ -539,11 +539,6 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     @Override
     public void processAfterAddLine(ViewModel model, Object lineObject, String collectionId, String collectionPath,
                                     boolean isValidLine) {
-        if (lineObject instanceof FormatInfo) {
-            FormatInfo formatInfo = (FormatInfo) lineObject;
-            ActivityInfo activityInfo = new ActivityInfo();
-            formatInfo.getActivities().add(activityInfo);
-        }
         ((CourseRuleViewHelperServiceImpl) getRuleViewHelperService()).processAfterAddLine(model, lineObject, collectionId, collectionPath, isValidLine);
     }
 
@@ -941,7 +936,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             }
 
             return;
-        } else if (StringUtils.endsWith(collectionPath, "courseInfo.formats")) {
+        } else if (StringUtils.endsWith(collectionPath, "formats")) {
             FormatInfo format = new FormatInfo();
             ActivityInfo activity = new ActivityInfo();
             format.getActivities().add(activity);
