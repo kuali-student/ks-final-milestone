@@ -16,7 +16,6 @@
  */
 package org.kuali.student.enrollment.class2.scheduleofclasses.dto;
 
-import org.apache.commons.lang.StringEscapeUtils;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
@@ -36,6 +35,7 @@ public class CourseOfferingDisplayWrapper extends CourseOfferingListSectionWrapp
 
     private String information;
     private String requisites;
+    private String requisite;
     private List<ActivityOfferingClusterWrapper> aoClusterWrapperList;
     private List<ActivityOfferingWrapper> activityWrapperList;
 
@@ -58,6 +58,14 @@ public class CourseOfferingDisplayWrapper extends CourseOfferingListSectionWrapp
 
     public void setRequisites(String requisites) {
         this.requisites = requisites;
+    }
+
+    public String getRequisite() {
+        return requisite;
+    }
+
+    public void setRequisite(String requisite) {
+        this.requisite = requisite;
     }
 
     public List<ActivityOfferingWrapper> getActivityWrapperList() {
