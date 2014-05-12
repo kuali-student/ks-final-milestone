@@ -213,18 +213,19 @@
 						<bean parent="CharsetPatternConstraint" p:validChars="MTWHFSUmtwhfsu" p:messageKey="validation.enroll.ao.scheduleValidChars"/>
 					</property>
                 </bean>
-                <bean id="rdl_starttime" parent="KS-Uif-InputField-LabelTop" p:label="Start Time@{#dp.newScheduleRequest.tba ? '' : ' *'}" p:propertyName="newScheduleRequest.startTime"   p:additionalCssClasses="uif-boxLayoutHorizontalItem"
-                      p:disableNativeAutocomplete="true" p:required="@{(!#dp.newScheduleRequest.tba or (#dp.newScheduleRequest.tba and (#dp.newScheduleRequest.endTime ne null or #dp.newScheduleRequest.endTime ne '')))}" p:refreshWhenChangedPropertyNames="#dp.newScheduleRequest.tba, #dp.newScheduleRequest.endTime">
-                    <!-- Rice 2.4 upgrade : removing fieldLabel.requiredMessage -->
-                    <!--<property name="fieldLabel.requiredMessage.messageText" value=""/>-->
+                <bean id="rdl_starttime" parent="KS-Uif-InputField-LabelTop" p:label="Start Time" p:propertyName="newScheduleRequest.startTime"
+                      p:additionalCssClasses="uif-boxLayoutHorizontalItem" p:disableNativeAutocomplete="true"
+                      p:required="@{(!#dp.newScheduleRequest.tba or (#dp.newScheduleRequest.tba and #dp.newScheduleRequest.endTime ne null))}"
+                      p:refreshWhenChangedPropertyNames="#dp.newScheduleRequest.tba,#dp.newScheduleRequest.endTime">
                     <property name="control">
-                        <bean parent="KS-Uif-TextControl" p:size="8" p:maxLength="8" p:cssClasses="new_rdl_components, validTimeAMPMPattern" p:onBlurScript="timeFieldOnBlur(e); rdlStartTimeOnBlur('@{#ConfigProperties['application.url']}');"/>
+                        <bean parent="KS-Uif-TextControl" p:size="8" p:maxLength="8" p:cssClasses="new_rdl_components, validTimeAMPMPattern"
+                              p:onBlurScript="timeFieldOnBlur(e); rdlStartTimeOnBlur('@{#ConfigProperties['application.url']}');"/>
                     </property>
                 </bean>
-                <bean id="rdl_endtime" parent="KS-Uif-InputField-LabelTop" p:label="End Time@{#dp.newScheduleRequest.tba ? '' : ' *'}"  p:propertyName="newScheduleRequest.endTime"  p:additionalCssClasses="uif-boxLayoutHorizontalItem"
-                                       p:disableNativeAutocomplete="true" p:forceSessionPersistence="true" p:required="@{(!#dp.newScheduleRequest.tba or (#dp.newScheduleRequest.tba and (#dp.newScheduleRequest.startTime ne null or #dp.newScheduleRequest.startTime ne '')))}" p:refreshWhenChangedPropertyNames="#dp.newScheduleRequest.tba, #dp.newScheduleRequest.startTime">
-                    <!-- Rice 2.4 upgrade : removing fieldLabel.requiredMessage -->
-                    <!--<property name="fieldLabel.requiredMessage.messageText" value=""/>-->
+                <bean id="rdl_endtime" parent="KS-Uif-InputField-LabelTop" p:label="End Time"  p:propertyName="newScheduleRequest.endTime"  p:additionalCssClasses="uif-boxLayoutHorizontalItem"
+                                       p:disableNativeAutocomplete="true" p:forceSessionPersistence="true"
+                                       p:required="@{(!#dp.newScheduleRequest.tba or (#dp.newScheduleRequest.tba and #dp.newScheduleRequest.startTime ne null))}"
+                                       p:refreshWhenChangedPropertyNames="#dp.newScheduleRequest.tba,#dp.newScheduleRequest.startTime">
                      <property name="control">
                          <bean parent="KS-Uif-DropdownControl" p:cssClasses="new_rdl_components, validDaysStartimeComboForStandardTimeSlot"/>
                     </property>
