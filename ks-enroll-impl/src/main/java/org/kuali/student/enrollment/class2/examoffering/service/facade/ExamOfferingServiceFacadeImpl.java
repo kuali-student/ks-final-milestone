@@ -366,58 +366,59 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
 
             //Create new exam offerings per AO
             List<ActivityOfferingInfo> aoInfos = this.getAOsForFoId(foEntry.getKey().getId(), examOfferingContext.getFoIdToListOfAOs(), context);
-            for (ActivityOfferingInfo aoInfo : aoInfos) {
-                //Do not create exam offerings for canceled activity offerings.
-                if (LuiServiceConstants.LUI_AO_STATE_CANCELED_KEY.equals(aoInfo.getStateKey())) continue;
+            if (aoInfos != null && !aoInfos.isEmpty()) {
+                for (ActivityOfferingInfo aoInfo : aoInfos) {
+                    //Do not create exam offerings for canceled activity offerings.
+                    if (LuiServiceConstants.LUI_AO_STATE_CANCELED_KEY.equals(aoInfo.getStateKey())) continue;
 
-                //Check and Update EO type according to allowed FO
-                if (!checkDriverActivity(aoInfo, eors, finalExamLevelType, socPublished, context)) {
-                    continue; //next aoInfo if driver activity does not match.
-                }
+                    //Check and Update EO type according to allowed FO
+                    if (!checkDriverActivity(aoInfo, eors, finalExamLevelType, socPublished, context)) {
+                        continue; //next aoInfo if driver activity does not match.
+                    }
 
-                ExamOfferingInfo eo = null;
-                for (ExamOfferingRelationInfo eoRelation : eors) {
-                    if (eoRelation.getActivityOfferingIds().contains(aoInfo.getId())) {
-                        eo = eos.get(eoRelation.getExamOfferingId());
-                        if (eo.getStateKey().equals(ExamOfferingServiceConstants.EXAM_OFFERING_CANCELED_STATE_KEY)) {
-                            this.getExamOfferingService().changeExamOfferingState(eoRelation.getExamOfferingId(),
-                                    ExamOfferingServiceConstants.EXAM_OFFERING_DRAFT_STATE_KEY, context);
+                    ExamOfferingInfo eo = null;
+                    for (ExamOfferingRelationInfo eoRelation : eors) {
+                        if (eoRelation.getActivityOfferingIds().contains(aoInfo.getId())) {
+                            eo = eos.get(eoRelation.getExamOfferingId());
+                            if (eo.getStateKey().equals(ExamOfferingServiceConstants.EXAM_OFFERING_CANCELED_STATE_KEY)) {
+                                this.getExamOfferingService().changeExamOfferingState(eoRelation.getExamOfferingId(),
+                                        ExamOfferingServiceConstants.EXAM_OFFERING_DRAFT_STATE_KEY, context);
+                            }
+                            break;
                         }
-                        break;
                     }
-                }
 
-                boolean userOverride = false;
-                ExamOfferingResult aoResult = null;
-                Map<String, String> contextParms = new HashMap<String, String>();
-                contextParms.put(CourseOfferingServiceConstants.CONTEXT_ELEMENT_COURSE_OFFERING_CODE, aoInfo.getCourseOfferingCode());
-                contextParms.put(CourseOfferingServiceConstants.CONTEXT_ELEMENT_ACTIVITY_OFFERING_CODE, aoInfo.getActivityCode());
+                    boolean userOverride = false;
+                    ExamOfferingResult aoResult = null;
+                    Map<String, String> contextParms = new HashMap<String, String>();
+                    contextParms.put(CourseOfferingServiceConstants.CONTEXT_ELEMENT_COURSE_OFFERING_CODE, aoInfo.getCourseOfferingCode());
+                    contextParms.put(CourseOfferingServiceConstants.CONTEXT_ELEMENT_ACTIVITY_OFFERING_CODE, aoInfo.getActivityCode());
 
-                if (eo == null) {
-                    //Retrieve corresponding eo state for ao.
-                    String eoState = this.getExamOfferingStateForActivityOffering(aoInfo);
-                    eo = createFinalExamOfferingPerAO(foEntry.getKey().getId(), aoInfo, foEntry.getKey().getFinalExamLevelTypeKey(),
-                            examOfferingContext.getExamPeriodId(), eoState, termType, context);
-                    aoResult = new ExamOfferingResult(ExamOfferingServiceConstants.EXAM_OFFERING_CREATED, contextParms);
-                } else {
-                    userOverride = this.userOverride(eo);
-
-                    //Remove RDL for Exam Offering if use fe matrix toggle was deselected and user did not override timeslot.
-                    if(!userOverride && !examOfferingContext.useFinalExamMatrix()){
-                        aoResult = new ExamOfferingResult(ExamOfferingServiceConstants.EXAM_OFFERING_UPDATED, contextParms);
-                        removeExamOfferingRDL(eo, context);
+                    if (eo == null) {
+                        //Retrieve corresponding eo state for ao.
+                        String eoState = this.getExamOfferingStateForActivityOffering(aoInfo);
+                        eo = createFinalExamOfferingPerAO(foEntry.getKey().getId(), aoInfo, foEntry.getKey().getFinalExamLevelTypeKey(),
+                                examOfferingContext.getExamPeriodId(), eoState, termType, context);
+                        aoResult = new ExamOfferingResult(ExamOfferingServiceConstants.EXAM_OFFERING_CREATED, contextParms);
                     } else {
-                        aoResult = new ExamOfferingResult(ExamOfferingServiceConstants.EXAM_OFFERING_UNCHANGED, contextParms);
+                        userOverride = this.userOverride(eo);
+
+                        //Remove RDL for Exam Offering if use fe matrix toggle was deselected and user did not override timeslot.
+                        if(!userOverride && !examOfferingContext.useFinalExamMatrix()){
+                            aoResult = new ExamOfferingResult(ExamOfferingServiceConstants.EXAM_OFFERING_UPDATED, contextParms);
+                            removeExamOfferingRDL(eo, context);
+                        } else {
+                            aoResult = new ExamOfferingResult(ExamOfferingServiceConstants.EXAM_OFFERING_UNCHANGED, contextParms);
+                        }
                     }
-                }
 
-                //(re)perform slotting if use fe matrix toggle is selected and use did not override timeslot.
-                if (!userOverride && examOfferingContext.useFinalExamMatrix()) {
-                    aoResult.getChildren().add(this.getScheduleEvaluator().executeRuleForAOSlotting(aoInfo, eo.getId(),
-                            termType, evaluatorOptions, context));
+                    //(re)perform slotting if use fe matrix toggle is selected and use did not override timeslot.
+                    if (!userOverride && examOfferingContext.useFinalExamMatrix()) {
+                        aoResult.getChildren().add(this.getScheduleEvaluator().executeRuleForAOSlotting(aoInfo, eo.getId(),
+                                termType, evaluatorOptions, context));
+                    }
+                    result.getChildren().add(aoResult);
                 }
-                result.getChildren().add(aoResult);
-
             }
         }
 
