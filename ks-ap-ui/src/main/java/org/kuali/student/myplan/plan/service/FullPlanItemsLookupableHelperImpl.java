@@ -19,6 +19,7 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.core.acal.infc.Term;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -81,37 +82,62 @@ public class FullPlanItemsLookupableHelperImpl extends
 			FullPlanItemsDataObject fullPlanItemsDataObject = new FullPlanItemsDataObject();
 			List<PlannedTerm> plannedTermList = new ArrayList<PlannedTerm>();
 
+            YearTerm startYear=null;
+            YearTerm endYear = startYear;
+            List<Term> termsInYear=null;
             for (int j = 0; j < numberOfTerms; j++){
+                PlannedTerm pluckedTerm=null;
                 if(perfectPlannedTerms.size()>0){
-                    plannedTermList.add(perfectPlannedTerms.remove(0));
-                }else{
+                    pluckedTerm = perfectPlannedTerms.get(0);
+                    if (startYear==null) {
+                        startYear = getStartYearOfAcadYearHavingTerm(pluckedTerm.getAtpId());
+                        endYear=getEndYearOfAcadYearHavingTerm(pluckedTerm.getAtpId());
+                        termsInYear=KsapFrameworkServiceLocator.getTermHelper().getTermsInAcademicYear(startYear);
+                    }
+                }
+                if (pluckedTerm!=null && termsInYear!=null
+                        && termsInYear.get(j).getId().equals(pluckedTerm.getAtpId())
+                        ) {
+                    plannedTermList.add(pluckedTerm);
+                    perfectPlannedTerms.remove(0);
+                } else {
                     plannedTermList.add(new PlannedTerm());
                 }
             }
-            YearTerm minYear;
-			try{
-                minYear= KsapFrameworkServiceLocator.getTermHelper()
-                        .getYearTerm(KSCollectionUtils.getRequiredZeroElement(plannedTermList).getAtpId());
-            }catch (OperationFailedException e){
-                minYear=KsapFrameworkServiceLocator.getTermHelper()
-                        .getYearTerm(KsapFrameworkServiceLocator.getTermHelper().getCurrentTerm());
-            }
-            YearTerm maxYear = minYear;
-            if(!StringUtils.isEmpty(plannedTermList.get(plannedTermList.size() - 1)
-                    .getAtpId())){
-			    maxYear = KsapFrameworkServiceLocator.getTermHelper()
-					.getYearTerm(
-							plannedTermList.get(plannedTermList.size() - 1)
-									.getAtpId());
-            }
+
 			StringBuilder yearRange = new StringBuilder();
-			yearRange = yearRange.append(minYear.getYear()).append("-")
-					.append(maxYear.getYear());
+			yearRange = yearRange.append(startYear.getYear()).append("-")
+					.append(endYear.getYear());
 			fullPlanItemsDataObject.setYearRange(yearRange.toString());
 			fullPlanItemsDataObject.setTerms(plannedTermList);
 			fullPlanItemsDataObjectList.add(fullPlanItemsDataObject);
 		}
 		return fullPlanItemsDataObjectList;
 	}
+    private YearTerm getEndYearOfAcadYearHavingTerm(String termAtpId) {
+        YearTerm startYear=getStartYearOfAcadYearHavingTerm(termAtpId);
+        YearTerm endYear=null;
+        if (startYear!=null){
+            List<Term> termsInYear =KsapFrameworkServiceLocator.getTermHelper().getTermsInAcademicYear(startYear);
+            endYear=KsapFrameworkServiceLocator.getTermHelper().getYearTerm(termsInYear.get(termsInYear.size() - 1));
+        } else {
+            endYear=KsapFrameworkServiceLocator.getTermHelper()
+                    .getYearTerm(KsapFrameworkServiceLocator.getTermHelper().getCurrentTerm());
+        }
+        return endYear;
+    }
+
+
+    private YearTerm getStartYearOfAcadYearHavingTerm(String termAtpId) {
+        YearTerm startYear=KsapFrameworkServiceLocator.getTermHelper().getYearTerm(termAtpId);
+        if (startYear!=null){
+            startYear=KsapFrameworkServiceLocator.getTermHelper().getYearTerm(KsapFrameworkServiceLocator.getTermHelper()
+                    .getFirstTermOfAcademicYear(startYear));
+        } else {
+            startYear=KsapFrameworkServiceLocator.getTermHelper()
+                    .getYearTerm(KsapFrameworkServiceLocator.getTermHelper().getCurrentTerm());
+        }
+        return startYear;
+    }
 
 }

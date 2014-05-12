@@ -87,21 +87,39 @@
                     <property name="validationMessages.displayMessages" value="false"/>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-MessageField" p:label="Prepared for"
-                                  p:messageText="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getUserSessionHelper().getStudentName()} (@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getUserSessionHelper().getStudentNumber() ne null ? T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getUserSessionHelper().getStudentNumber() : 'No student number'})">
-                                <property name="fieldLabel.cssClasses">
-                                    <list merge="true">
-                                        <value>ksap-text-normal</value>
+                            <bean parent="Uif-HorizontalFieldGroup">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-Label" p:labelText="Prepared for"
+                                              p:labelForComponentId="studentName">
+                                            <property name="additionalCssClasses">
+                                                <list merge="true">
+                                                    <value>ksap-text-normal</value>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-MessageField" p:id="studentName"   p:showLabel="false"
+                                              p:messageText="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getUserSessionHelper().getStudentName()} (@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getUserSessionHelper().getStudentNumber() ne null ? T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getUserSessionHelper().getStudentNumber() : 'No student number'})">
+                                        </bean>
                                     </list>
                                 </property>
                             </bean>
-
-                            <bean parent="Uif-MessageField" p:label="Document is accurate at the time of creation"
-                                  p:messageText="@{T(org.kuali.rice.core.api.CoreApiServiceLocator).getDateTimeService().toDateTimeString(new java.util.Date())}">
-                                <property name="style" value="margin:0;"/>
-                                <property name="fieldLabel.cssClasses">
-                                    <list merge="true">
-                                        <value>ksap-text-normal</value>
+                            <bean parent="Uif-HorizontalFieldGroup">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-Label" p:labelText="Document is accurate at the time of creation"
+                                              p:labelForComponentId="studentName">
+                                            <property name="additionalCssClasses">
+                                                <list merge="true">
+                                                    <value>ksap-text-normal</value>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-MessageField"
+                                              p:label="Document is accurate at the time of creation" p:showLabel="false"
+                                              p:messageText="@{T(org.kuali.rice.core.api.CoreApiServiceLocator).getDateTimeService().toDateTimeString(new java.util.Date())}">
+                                            <property name="style" value="margin:0;"/>
+                                        </bean>
                                     </list>
                                 </property>
                             </bean>
@@ -142,13 +160,18 @@
     <bean id="full_planned_courses_detail-parent" abstract="true" parent="Uif-VerticalBoxSubSection" p:headerText="Entire Academic Plan">
         <property name="style" value="padding:10px;"/>
         <property name="onDocumentReadyScript" value="
+            jQuery('table').removeClass('uif-table-fixed');
             jQuery('th, td').removeAttr('width');
-            jQuery('div.uif-subCollection').each(function() {
+            jQuery('div.uif-collectionItem.uif-boxCollectionItem.ksap-term').removeClass('clearfix');
+            jQuery('div.uif-collectionItem').each(function() {
                 var maxHeight = 0;
-                jQuery(this).find('.ksap-term > .uif-horizontalBoxLayout').each(function() {
-                    if (jQuery(this).height() > maxHeight) maxHeight = jQuery(this).height();
+                jQuery(this).find('.uif-boxCollectionItem.ksap-term').each(function() {
+                    if (jQuery(this).height() > maxHeight) {
+                        maxHeight = jQuery(this).height();
+                    }
+                    jQuery(this).height(maxHeight);
                 });
-                jQuery(this).find('.ksap-term > .uif-horizontalBoxLayout').each(function() {
+                jQuery(this).find('.uif-boxCollectionItem.ksap-term').each(function() {
                     jQuery(this).height(maxHeight);
                 });
             });
@@ -275,7 +298,8 @@
                                 <value>@{#line.currentTermForView ? 'ksap-current-term':''}</value>
                             </list>
                         </property>
-                        <property name="style" value="width:@{535/T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getNumberOfTermsInAcademicYear()}px;"/>
+                        <property name="style" value="width:@{535/T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getNumberOfTermsInAcademicYear()}px;
+                                                      display: block; float: left; margin: 0px; border: none;"/>
                     </bean>
                 </property>
             </bean>
