@@ -316,7 +316,7 @@ function fnLoadFacets() {
 							.each(function() {
 								jQuery(this).empty();
 							});
-					jQuery.publish("GENERATE_FACETS");
+                    jQuery.event.trigger("GENERATE_FACETS");
 					hideLoading(jQuery("#course_search_results_facets"));
 				},
 				error : function(jqXHR, textStatus, errorThrown) {
@@ -351,7 +351,7 @@ function fnClickFacet(sFilter, fcol, e) {
 		success : function(data, textStatus, jqXHR) {
 			var i = data.oSearchColumn[fcol];
 			oFacets = data;
-			jQuery.publish("UPDATE_FACETS");
+			jQuery.event.trigger("UPDATE_FACETS");
 			if (sFilter === 'All')
 				oTable.fnFilter('', i, true, false);
 			else {
@@ -391,7 +391,8 @@ function fnClickFacet(sFilter, fcol, e) {
  * @param sorter
  *            Function to use for sorting facet keys.
  */
-function fnGenerateFacetGroup(obj) {
+function fnGenerateFacetGroup(domObj) {
+    var obj = jQuery(domObj);
 	var fcol = obj.attr("id");
 	var oData = oFacets.oFacetState[fcol];
 	var jFacets = obj.find(".uif-disclosureContent");
@@ -463,9 +464,10 @@ function fnGenerateFacetGroup(obj) {
  * @param obj
  *            A handle to the facet group div element.
  */
-function fnUpdateFacetList(obj) {
+function fnUpdateFacetList(domObj) {
 	// Update the style on the 'All' facet option (checked if none in the group
 	// are selected, not checked if any are selected)
+    var obj = jQuery(domObj);
 	var bAll = true;
 	var oData = oFacets.oFacetState[obj.attr("id")];
 	for ( var key in oData)
@@ -554,10 +556,10 @@ function registerCourseSearchResultsEvents(jqObject) {
 function registerCourseSearchResultsFacetsEvents(jqObjects){
     jQuery(jqObjects).each(function() {
         jQuery(this)
-            .subscribe('GENERATE_FACETS', function() {
+            .on('GENERATE_FACETS', function() {
                 fnGenerateFacetGroup(this);
             })
-            .subscribe('UPDATE_FACETS', function() {
+            .on('UPDATE_FACETS', function() {
                 fnUpdateFacetList(this);
             });
 	});

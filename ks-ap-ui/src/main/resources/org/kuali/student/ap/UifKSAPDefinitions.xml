@@ -189,7 +189,6 @@
                 <value>ks-ap/scripts/KradOverrides.js</value>
                 <value>ks-ap/scripts/plan/planner.js</value>
                 <value>ks-ap/scripts/ksap.widgets.js?@{#ConfigProperties['ksap.version']}</value>
-                <value>ks-ap/plugins/jquery.subscribe.js?@{#ConfigProperties['ksap.version']}</value>
                 <value>ks-ap/scripts/jquery-popover/jquery.popover.js?@{#ConfigProperties['ksap.version']}</value>
                 <value>themes/bootstrap/scripts/bootstrap.js</value>
             </list>
