@@ -462,6 +462,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
             rootItemBuilder = AgendaItemDefinition.Builder.create(null, agenda.getId());
         }
 
+        AgendaItemDefinition.Builder itemToDelete = null;
         AgendaItemDefinition.Builder itemBuilder = rootItemBuilder;
         while (rules.peek() != null) {
             itemBuilder.setRule(rules.poll());
@@ -471,9 +472,16 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
                     itemBuilder.setWhenTrue(AgendaItemDefinition.Builder.create(null, agenda.getId()));
                 }
                 itemBuilder = itemBuilder.getWhenTrue();
+            } else {
+                itemToDelete = itemBuilder.getWhenTrue();
+                itemBuilder.setWhenTrue(null);
             }
         }
 
+        return manageAgendaItems(agenda, rootItemBuilder, itemToDelete);
+    }
+
+    protected AgendaItemDefinition manageAgendaItems(AgendaEditor agenda, AgendaItemDefinition.Builder rootItemBuilder, AgendaItemDefinition.Builder itemToDelete) {
         //Update the root item.
         AgendaItemDefinition agendaItem = rootItemBuilder.build();
         try {
@@ -485,6 +493,11 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
             } else {
                 this.getRuleManagementService().updateAgendaItem(agendaItem);
             }
+
+            //delete agendaitems not used.
+            if(itemToDelete!=null){
+                this.deleteAgendaItems(itemToDelete.build());
+            }
         } catch (OjbOperationException e) {
             //OptimisticLockException
             if (e.getCause() instanceof OptimisticLockException) {
@@ -494,9 +507,27 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
             }
         }
 
+        //Delete orhpan rules
+        for (RuleEditor deletedRule : agenda.getDeletedRules()) {
+            this.getRuleManagementService().deleteRule(deletedRule.getId());
+        }
         return agendaItem;
     }
 
+    public void deleteAgendaItems(AgendaItemDefinition agendaItem) {
+        if (agendaItem != null) {
+            //Update the agenda (hack so that it does not delete the rule.)
+            AgendaItemDefinition.Builder itemBuilder = AgendaItemDefinition.Builder.create(agendaItem.getId(), agendaItem.getAgendaId());
+            itemBuilder.setVersionNumber(agendaItem.getVersionNumber());
+            this.getRuleManagementService().updateAgendaItem(itemBuilder.build());
+
+            //Delete the agenda item
+            this.getRuleManagementService().deleteAgendaItem(agendaItem.getId());
+            deleteAgendaItems(agendaItem.getWhenFalse());
+            deleteAgendaItems(agendaItem.getWhenTrue());
+            deleteAgendaItems(agendaItem.getAlways());
+        }
+    }
 
     public RuleDefinition.Builder finRule(RuleEditor rule, String rulePrefix, String namespace) {
         // handle saving new parameterized terms
