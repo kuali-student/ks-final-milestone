@@ -93,7 +93,7 @@ limitations under the License.
                 <!--TODO KSENROLL-10558: remove this once krad jira is fixed.-->
                 <property name="onChangeScript">
                     <value>
-                        jQuery("input[id='cluSetId_add_control']").removeAttr("disabled");
+                        jQuery("input[id='id_add_control']").removeAttr("disabled");
                     </value>
                 </property>
             </bean>
