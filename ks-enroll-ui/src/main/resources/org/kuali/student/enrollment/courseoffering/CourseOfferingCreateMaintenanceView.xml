@@ -392,7 +392,10 @@
                                 <list>
                                     <bean parent="KS-Uif-PrimaryActionButton" p:id="continueFromCreate_btn" p:methodToCall="continueFromCreate" p:actionLabel="Continue" p:render="@{!#view.readOnly}"
                                           p:onClickScript="if(jQuery(&#34;input[name='view.applyDirtyCheck']&#34;).length > 0){jQuery(&#34;input[name='view.applyDirtyCheck']&#34;)[0].value=false;}"/>
-                                    <bean parent="KS-Uif-ActionLink" p:methodToCall="cancel" p:actionLabel="Cancel"/>
+                                    <bean parent="Uif-ActionLink"
+                                          p:actionLabel="Cancel"
+                                          p:methodToCall="cancel"
+                                          p:additionalCssClasses="cancel_link"/>
                                 </list>
                             </property>
                         </bean>
