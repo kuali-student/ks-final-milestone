@@ -926,10 +926,10 @@ jQuery(function () {
  */
 jQuery(document).on('DOMNodeInserted', function (e) {
     var element = e.target;
-    if (jQuery(element).is('main.uif-page')) {
+    if (jQuery(element).is('main.uif-page') || jQuery(element).is('main.uif-maintenancePage')) {
         handleEventforDisabledElements();
         addBootstrapImageToLink();
-    } else if (jQuery(element).is('section.uif-tableCollectionSection') || jQuery(element).is('section.uif-stackedCollectionSection')) {
+    } else if (jQuery(element).is('section.uif-tableCollectionSection') || jQuery(element).is('section.uif-stackedCollectionSection') || jQuery(element).is('section.uif-boxSection')) {
         addBootstrapImageToLink();
     }
 });
