@@ -602,7 +602,7 @@
                                     <bean parent="IntegerPatternConstraint" />
                                 </property>
                             </bean>
-                            <bean parent="Uif-MessageField" p:messageText="%" p:label="Percent" p:id="seatLimitPercent" />
+                            <bean parent="Uif-MessageField" p:messageText="%" p:label="Percent" p:id="seatLimitPercent" p:style="padding-left: 15px;"/>
                             <bean parent="KS-Uif-InputField" p:label="Population Name" p:id="ao-seatpoolgroup-population-name" p:propertyName="seatPoolPopulation.name"
                                   p:onChangeScript="jQuery('#dirtyForm').val(true);" p:cssClasses="col_6">
                                 <property name="control">
