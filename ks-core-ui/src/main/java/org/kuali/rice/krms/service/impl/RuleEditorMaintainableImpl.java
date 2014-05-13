@@ -454,13 +454,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
             }
         }
 
-        AgendaItemDefinition.Builder rootItemBuilder;
-        if(agenda.getFirstItemId()!=null) {
-            AgendaItemDefinition firstItem = this.getRuleManagementService().getAgendaItem(agenda.getFirstItemId());
-            rootItemBuilder = AgendaItemDefinition.Builder.create(firstItem);
-        } else {
-            rootItemBuilder = AgendaItemDefinition.Builder.create(null, agenda.getId());
-        }
+        AgendaItemDefinition.Builder rootItemBuilder = manageFirstItem(agenda);
 
         AgendaItemDefinition.Builder itemToDelete = null;
         AgendaItemDefinition.Builder itemBuilder = rootItemBuilder;
@@ -479,6 +473,19 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
         }
 
         return manageAgendaItems(agenda, rootItemBuilder, itemToDelete);
+    }
+
+    protected AgendaItemDefinition.Builder manageFirstItem(AgendaEditor agenda) {
+        AgendaItemDefinition.Builder rootItemBuilder;
+        if(agenda.getFirstItemId()!=null) {
+            AgendaItemDefinition firstItem = this.getRuleManagementService().getAgendaItem(agenda.getFirstItemId());
+            rootItemBuilder = AgendaItemDefinition.Builder.create(firstItem);
+            rootItemBuilder.setRule(null);
+            rootItemBuilder.setRuleId(null);
+        } else {
+            rootItemBuilder = AgendaItemDefinition.Builder.create(null, agenda.getId());
+        }
+        return rootItemBuilder;
     }
 
     protected AgendaItemDefinition manageAgendaItems(AgendaEditor agenda, AgendaItemDefinition.Builder rootItemBuilder, AgendaItemDefinition.Builder itemToDelete) {
