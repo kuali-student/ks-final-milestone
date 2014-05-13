@@ -967,7 +967,8 @@ public class RuleEditorController extends MaintenanceDocumentController {
         //Return with error message if user is currently editing a proposition.
         PropositionEditor proposition = PropositionTreeUtil.getProposition(ruleEditor);
         if ((proposition!=null) && (proposition.isEditMode())) {
-            GlobalVariables.getMessageMap().putErrorForSectionId(KRMSConstants.KRMS_PROPOSITION_DETAILSECTION_ID, KRMSConstants.KRMS_MSG_ERROR_RULE_PREVIEW);
+            GlobalVariables.getMessageMap().putErrorForSectionId(KRMSConstants.KRMS_PROPOSITION_DETAILSECTION_ID+proposition.getIdSuffix(),
+                    KRMSConstants.KRMS_MSG_ERROR_RULE_PREVIEW);
             return getUIFModelAndView(form);
         }
 

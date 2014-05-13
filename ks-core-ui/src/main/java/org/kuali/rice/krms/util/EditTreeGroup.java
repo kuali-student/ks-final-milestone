@@ -58,6 +58,7 @@ public class EditTreeGroup extends TreeGroup {
         if(nodeData.getData() instanceof RuleEditorTreeNode){
             PropositionEditor proposition = ((RuleEditorTreeNode) nodeData.getData()).getProposition();
             proposition.setBindingPath(bindingPrefix + ".data");
+            proposition.setIdSuffix(parentNode);
         }
 
         return node;

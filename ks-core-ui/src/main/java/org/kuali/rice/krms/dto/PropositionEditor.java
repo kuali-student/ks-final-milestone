@@ -68,6 +68,7 @@ public class PropositionEditor implements PropositionDefinitionContract, Seriali
     private boolean newProp = false;
 
     private String bindingPath;
+    private String idSuffix;
     private String newTermDescription = "new term " + UUID.randomUUID().toString();
 
     public PropositionEditor() {
@@ -328,6 +329,14 @@ public class PropositionEditor implements PropositionDefinitionContract, Seriali
 
     public void setBindingPath(String bindingPath) {
         this.bindingPath = bindingPath;
+    }
+
+    public String getIdSuffix() {
+        return idSuffix;
+    }
+
+    public void setIdSuffix(String idSuffix) {
+        this.idSuffix = idSuffix;
     }
 
     protected String getDefaultNlKey(){
