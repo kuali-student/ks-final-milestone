@@ -406,6 +406,7 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
             rootItemBuilder = AgendaItemDefinition.Builder.create(null, agenda.getId());
         }
 
+        AgendaItemDefinition.Builder itemToDelete = null;
         AgendaItemDefinition.Builder itemBuilder = rootItemBuilder;
         while (rules.peek() != null) {
             itemBuilder.setRule(rules.poll());
@@ -415,30 +416,13 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
                     itemBuilder.setWhenFalse(AgendaItemDefinition.Builder.create(null, agenda.getId()));
                 }
                 itemBuilder = itemBuilder.getWhenFalse();
+            } else {
+                itemToDelete = itemBuilder.getWhenFalse();
+                itemBuilder.setWhenFalse(null);
             }
         }
 
-        //Update the root item.
-        AgendaItemDefinition agendaItem = rootItemBuilder.build();
-        try {
-            if(agendaItem.getId()==null){
-                agendaItem = this.getRuleManagementService().createAgendaItem(agendaItem);
-                agenda.setFirstItemId(agendaItem.getId());
-                AgendaDefinition.Builder agendaBldr = AgendaDefinition.Builder.create(agenda);
-                this.getRuleManagementService().updateAgenda(agendaBldr.build());
-            } else {
-                this.getRuleManagementService().updateAgendaItem(agendaItem);
-            }
-        } catch (OjbOperationException e) {
-            //OptimisticLockException
-            if (e.getCause() instanceof OptimisticLockException) {
-                throw new KRMSOptimisticLockingException("Could not obtain OjbOperation ",e);
-            } else {
-                throw e;
-            }
-        }
-
-        return agendaItem;
+        return manageAgendaItems(agenda, rootItemBuilder, itemToDelete);
     }
 
     @Override
