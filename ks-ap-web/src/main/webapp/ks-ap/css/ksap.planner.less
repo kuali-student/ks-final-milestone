@@ -331,71 +331,108 @@ label.scheduled {
   display: inline-block;
 }
 
-.ksap-full-plan-detail {
-  margin: 0 auto !important;
-}
+/* Printer Friendly - Full Plan */
+#full_planned_courses_detail_page {
+  //Reset these ksboot styles
+  table td,
+  table th,
+  ul,
+  ul li,
+  .uif-collectionItem,
+  .uif-boxLayoutVerticalItem,
+  .Uif-HorizontalBoxGroup,
+  .uif-boxLayoutHorizontalItem,
+  .uif-gridLayout {
+    background: none;
+    border:0;
+    border-radius:0;
+    margin: 0;
+    padding:0;
+  }
 
-.ksap-full-plan-detail > .uif-verticalBoxLayout {
-  border: 1px solid #a9a9a9;
-  border-radius: 5px;
-  font-size: 90%;
-  width: 618px;
-  margin: 0 20px;
-}
+  // Wrapper
+  #full_planned_courses {
+    border:solid 1px #a9a9a9;
+    border-radius:5px;
+    margin-top:20px;
+  }
 
-.ksap-full-plan-detail table td,
-.ksap-full-plan-detail table th,
-.ksap-full-plan-detail ul,
-.ksap-full-plan-detail ul li,
-.ksap-full-plan-detail,
-.ksap-full-plan-detail > .uif-collectionItem {
-  padding: 0 !important;
-  margin: 0 !important;
-  background: none;
-}
+  // Print Header Sections
+  .ksap-print-header {
+    border-bottom:solid 1px #a9a9a9;
+    padding:10px;
+  }
 
-.ksap-full-plan-detail table th {
-  text-align: left;
-  padding: 5px 0 0 10px;
-  display: block;
-  width: 77px;
-  font-weight: bold;
-  line-height: 1.25em;
-  border: medium none !important;
-}
+  // Entire Academic Plan Section
 
-.ksap-full-plan-detail h4.uif-headerText {
-  font-size: 85%;
-  text-transform: uppercase;
-  color: #999;
-}
+  .ksap-full-plan-detail {
+    font-size:90%;
+    padding:10px;
 
+    // First row styling
+    .ksap-full-plan-headerRow {
+      border: 1px solid #a9a9a9;
+      border-radius: 10px 10px 0 0;
+    }
+    .ksap-full-plan-headerRow  .uif-header{
+      border-left:solid 1px #a9a9a9;
+    }
+
+    // "Planned" styling
+    h4.uif-headerText {
+      font-size: 90%;
+      text-transform: uppercase;
+      color: #999;
+    }
+
+    table th {
+      text-align: right;
+      display: block;
+      width: 71px;
+      font-weight: bold;
+      line-height: 1.25em;
+    }
+    table tr {
+      border: 1px solid #a9a9a9;
+      border-top:0;
+    }
+
+    .ksap-term {
+      border-left: 1px solid #A9A9A9;
+      float:left;
+      padding:0;
+    }
+
+    .ksap-term > .uif-verticalBoxLayout {
+      padding: 5px 10px;
+      min-height: 100px;
+    }
+
+    //"Credits" styling
+    .ksap-term-credits {
+      border-top: dotted 1px #A9A9A9;
+      color: #999;
+      font-size: 90%;
+      padding: 0 5px;
+      text-align: right;
+    }
+  } // End Entire Academic Plan Section
+} /* End Printer Friendly - Full Plan */
+
+
+/* Is this needed?*/
 .ksap-full-plan-detail > .uif-collectionItem.ksap-term{
   display: inline-block;
   float: left;
 }
 
-.ksap-full-plan-detail table.uif-gridLayout {
-  margin: 0;
-  border-top: solid 1px #a9a9a9;
-}
 
-.ksap-full-plan-detail .ksap-term {
-  border-left: solid 1px #a9a9a9 !important;
-  width: 135px;
-  padding: 0 !important;
-}
-
-.ksap-full-plan-detail .ksap-term > .uif-verticalBoxLayout {
-  padding: 5px 10px;
-  min-height: 100px;
-}
-
+/* Is this needed?*/
 .ksap-full-plan-detail .ksap-term.ksap-current-term > .uif-verticalBoxLayout {
   font-weight: bold;
 }
 
-.ksap-full-plan-detail .ksap-term .ksap-term-footer,
+/*.ksap-full-plan-detail .ksap-term .ksap-term-footer,
 .ksap-full-plan-detail .ksap-term .ksap-term-footer-blank {
   border-top: dotted 1px #a9a9a9;
   padding: 0 10px;
@@ -404,7 +441,7 @@ label.scheduled {
 
 .ksap-full-plan-detail .ksap-term .ksap-term-footer-blank {
   border-top-color: transparent;
-}
+}  */
 
 /* Quarter Detail View ######################################################################################### */
 .ksap-quarter-detail,

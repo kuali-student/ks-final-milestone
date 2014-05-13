@@ -95,7 +95,8 @@ public class FullPlanItemsLookupableHelperImpl extends
                         termsInYear=KsapFrameworkServiceLocator.getTermHelper().getTermsInAcademicYear(startYear);
                     }
                 }
-                if (pluckedTerm!=null && termsInYear!=null
+                if (pluckedTerm!=null && termsInYear!=null && termsInYear.get(j)!= null
+                        && termsInYear.get(j).getId() !=null
                         && termsInYear.get(j).getId().equals(pluckedTerm.getAtpId())
                         ) {
                     plannedTermList.add(pluckedTerm);
