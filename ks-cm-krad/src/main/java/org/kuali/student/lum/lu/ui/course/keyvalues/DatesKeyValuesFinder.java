@@ -95,9 +95,9 @@ public class DatesKeyValuesFinder extends UifKeyValuesFinderBase {
                         i--;
                     }
                 }
-            } else {
+            } /*else {
                 courseInfoWrapper.getCourseInfo().setEndTerm(null);
-            }
+            }*/
             for (AtpInfo result : searchResult) {
                 keyValues.add(new ConcreteKeyValue(result.getId(), result.getName()));
             }
