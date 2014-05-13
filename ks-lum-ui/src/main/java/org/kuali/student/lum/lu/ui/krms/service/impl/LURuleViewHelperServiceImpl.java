@@ -330,6 +330,7 @@ public class LURuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
             return false;
         } else {
             cluSet.setClus(this.getCluInfoHelper().getCluInfos(searchCluSet.getCluIds()));
+            cluSet.setName(searchCluSet.getName());
         }
 
         return true;
