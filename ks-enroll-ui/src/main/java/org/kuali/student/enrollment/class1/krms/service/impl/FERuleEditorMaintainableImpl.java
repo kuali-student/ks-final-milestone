@@ -398,13 +398,7 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
             }
         }
 
-        AgendaItemDefinition.Builder rootItemBuilder;
-        if(agenda.getFirstItemId()!=null) {
-            AgendaItemDefinition firstItem = this.getRuleManagementService().getAgendaItem(agenda.getFirstItemId());
-            rootItemBuilder = AgendaItemDefinition.Builder.create(firstItem);
-        } else {
-            rootItemBuilder = AgendaItemDefinition.Builder.create(null, agenda.getId());
-        }
+        AgendaItemDefinition.Builder rootItemBuilder = manageFirstItem(agenda);
 
         AgendaItemDefinition.Builder itemToDelete = null;
         AgendaItemDefinition.Builder itemBuilder = rootItemBuilder;
