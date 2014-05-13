@@ -692,7 +692,7 @@ jQuery.fn.dataTableExt.oSort['time-sort-asc'] = function (x, y) {
 function parseTime(timeDiv) {
 
     //Retrieve only the time
-    var t = jq(timeDiv).find('span').text();
+    var t = jq(timeDiv).text();
     t = t.substring(0, t.search(/m/i) + 1);
     t = t.replace(/ /g, '');
     var d1 = new Date();
