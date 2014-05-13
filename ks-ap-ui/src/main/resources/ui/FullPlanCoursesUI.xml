@@ -340,17 +340,19 @@
             <list>
                 <ref bean="academicRecordDOCollection"/>
                 <ref bean="plannedCourseDOCollection"/>
+                <ref bean="backupCourseDOCollection"/>
             </list>
         </property>
     </bean>
 
     <bean id="academicRecordDOCollection" parent="academicRecordDOCollection-parent"/>
-    <bean id="academicRecordDOCollection-parent" abstract="true" parent="Uif-StackedCollectionGroup" p:headerText="Registered">
+    <bean id="academicRecordDOCollection-parent" abstract="true" parent="Uif-StackedCollectionGroup"
+          p:headerText="Completed">
         <property name="validationMessages.displayMessages" value="false"/>
         <property name="header">
             <bean parent="Uif-HeaderFour"/>
         </property>
-        <property name="header.render" value="@{#line.openForPlanning and #line.academicRecord.size() gt 0}"/>
+        <property name="header.render" value="@{(!#line.openForPlanning) and #line.academicRecord.size() gt 0}"/>
         <property name="collectionLookup">
             <bean parent="Uif-QuickFinder">
                 <property name="render" value="false"/>
@@ -429,5 +431,43 @@
         <property name="collectionLookup.render" value="false"/>
         <property name="collectionLookup.quickfinderAction.render" value="false"/>
     </bean>
-
+    <bean id="backupCourseDOCollection" parent="backupCourseDOCollection-parent"/>
+    <bean id="backupCourseDOCollection-parent" abstract="true" parent="Uif-StackedCollectionGroup"
+          p:headerText="Backup">
+        <property name="validationMessages.displayMessages" value="false"/>
+        <property name="header">
+            <bean parent="Uif-HeaderFour"/>
+        </property>
+        <property name="header.render" value="@{#line.backupList.size() gt 0}"/>
+        <property name="collectionLookup">
+            <bean parent="Uif-QuickFinder">
+                <property name="render" value="false"/>
+            </bean>
+        </property>
+        <property name="layoutManager">
+            <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
+                <property name="lineGroupPrototype">
+                    <bean parent="Uif-CollectionVerticalBoxItem">
+                        <property name="footer.render" value="false"/>
+                        <property name="validationMessages.displayMessages" value="false"/>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+        <property name="collectionObjectClass"
+                  value="org.kuali.student.myplan.plan.dataobject.PlannedCourseDataObject"/>
+        <property name="propertyName" value="backupList"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="bindingInfo.bindToForm" value="true"/>
+        <property name="disclosure.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-MessageField"
+                      p:messageText="@{#line.CourseDetails.code} (@{#line.courseDetails.credit})"/>
+            </list>
+        </property>
+        <property name="collectionLookup.render" value="false"/>
+        <property name="collectionLookup.quickfinderAction.render" value="false"/>
+    </bean>
 </beans>

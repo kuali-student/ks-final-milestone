@@ -43,9 +43,12 @@ public class FullPlanItemsLookupableHelperImpl extends
 				.getStudentId();
 		/************* PlannedCourseList **************/
 		List<PlannedCourseDataObject> plannedCoursesList = new ArrayList<PlannedCourseDataObject>();
+        List<PlannedCourseDataObject> backupCoursesList = new ArrayList<PlannedCourseDataObject>();
 		try {
 			plannedCoursesList = getPlanItems(
 					AcademicPlanServiceConstants.ItemCategory.PLANNED, studentId);
+            backupCoursesList = getPlanItems(
+                    AcademicPlanServiceConstants.ItemCategory.BACKUP, studentId);
 		} catch (Exception e) {
 			LOG.error("Could not load plannedCourseslist", e);
 
@@ -72,7 +75,7 @@ public class FullPlanItemsLookupableHelperImpl extends
 		}
 
 		List<PlannedTerm> perfectPlannedTerms = PlannedTermsHelperBase
-				.populatePlannedTerms(plannedCoursesList, null,
+				.populatePlannedTerms(plannedCoursesList, backupCoursesList,
 						studentCourseRecordInfos,null, null,"", true);
         int numberOfTerms =KsapFrameworkServiceLocator.getTermHelper().getNumberOfTermsInAcademicYear();
 
