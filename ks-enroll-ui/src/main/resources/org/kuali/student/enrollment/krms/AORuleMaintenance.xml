@@ -665,12 +665,18 @@ limitations under the License.
                         </property>
                         <property name="items">
                             <list>
-                                <bean parent="Uif-MessageField" p:messageText="@{#np.firstElement}"
-                                      p:style="display: table-cell; width: @{#np.width}px;"/>
-                                <bean parent="Uif-MessageField" p:messageText="@{#np.secondElement}"
-                                      p:style="display: table-cell; width: @{#np.width}px; margin-left: @{350-#np.width}px;"/>
-                                <bean parent="Uif-MessageField" p:messageText="@{#np.thirdElement}"
-                                      p:style="display: table-cell; width: @{#np.width}px; margin-left: @{350-#np.width}px;"/>
+                                <bean parent="Uif-HorizontalBoxSection">
+                                    <property name="items">
+                                        <list>
+                                            <bean parent="Uif-MessageField" p:messageText="@{#np.firstElement}"
+                                                  p:style="display: table-cell; width: @{#np.width}px;"/>
+                                            <bean parent="Uif-MessageField" p:messageText="@{#np.secondElement}"
+                                                  p:style="display: table-cell; width: @{#np.width}px; margin-left: @{350-#np.width}px;"/>
+                                            <bean parent="Uif-MessageField" p:messageText="@{#np.thirdElement}"
+                                                  p:style="display: table-cell; width: @{#np.width}px; margin-left: @{350-#np.width}px;"/>
+                                        </list>
+                                    </property>
+                                </bean>
                             </list>
                         </property>
                     </bean>
