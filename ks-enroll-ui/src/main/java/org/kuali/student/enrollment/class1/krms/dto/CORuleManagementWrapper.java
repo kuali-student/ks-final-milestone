@@ -25,6 +25,7 @@ public class CORuleManagementWrapper extends LURuleManagementWrapper {
 
     private CourseOfferingContextBar contextBar = CourseOfferingContextBar.NULL_SAFE_INSTANCE;
     private boolean renderSubmit = false;
+    private boolean agendaDirty;
 
     public CourseOfferingContextBar getContextBar() {
         return contextBar;
@@ -40,5 +41,13 @@ public class CORuleManagementWrapper extends LURuleManagementWrapper {
 
     public void setRenderSubmit(boolean renderSubmit) {
         this.renderSubmit = renderSubmit;
+    }
+
+    public boolean isAgendaDirty() {
+        return agendaDirty;
+    }
+
+    public void setAgendaDirty(boolean agendaDirty) {
+        this.agendaDirty = agendaDirty;
     }
 }

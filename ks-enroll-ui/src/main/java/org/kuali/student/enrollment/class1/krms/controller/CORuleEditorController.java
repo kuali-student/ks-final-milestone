@@ -6,7 +6,9 @@ import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.dto.RuleManagementWrapper;
+import org.kuali.rice.krms.util.AgendaUtilities;
 import org.kuali.rice.krms.util.KRMSConstants;
+import org.kuali.student.enrollment.class1.krms.dto.CORuleManagementWrapper;
 import org.kuali.student.enrollment.class1.krms.util.EnrolKRMSConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -93,8 +95,34 @@ public class CORuleEditorController extends EnrolRuleEditorController {
                                    HttpServletRequest request, HttpServletResponse response) {
 
         form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, EnrolKRMSConstants.KSKRMS_AGENDA_CO_MAINTENANCE_PAGE_ID);
+        MaintenanceDocumentForm ruleMaintenanceForm = (MaintenanceDocumentForm) form;
+        CORuleManagementWrapper coRuleMgtWrapper = (CORuleManagementWrapper) AgendaUtilities.getRuleWrapper(ruleMaintenanceForm);
+
+        coRuleMgtWrapper.setAgendaDirty(true);
         return super.updateRule(form, result, request, response);
     }
+
+    /**
+     * Delete rule and redirects to agenda maintenance page.
+     *
+     * @param form
+     * @param result
+     * @param request
+     * @param response
+     * @return
+     */
+    @Override
+    @RequestMapping(params = "methodToCall=deleteRule")
+    public ModelAndView deleteRule(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                   HttpServletRequest request, HttpServletResponse response) {
+
+        MaintenanceDocumentForm ruleMaintenanceForm = (MaintenanceDocumentForm) form;
+        CORuleManagementWrapper coRuleMgtWrapper = (CORuleManagementWrapper) AgendaUtilities.getRuleWrapper(ruleMaintenanceForm);
+
+        coRuleMgtWrapper.setAgendaDirty(true);
+        return super.deleteRule(form, result, request, response);
+    }
+
 
     /**
      * Retrieves selected proposition key and initializes edit on propostion.

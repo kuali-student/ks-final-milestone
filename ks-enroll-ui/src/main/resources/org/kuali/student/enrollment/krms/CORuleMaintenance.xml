@@ -148,6 +148,7 @@ limitations under the License.
 
     <bean name="KSCO-AgendaMaintenance-Page-parent" parent="KRMS-AgendaMaintenance-Page-Parent">
         <property name="headerText" value="Course Offering Requisites"/>
+        <property name="onDocumentReadyScript" value="setDirtyManully(@{#dp.agendaDirty});" />
         <property name="items">
             <list>
                 <bean parent="KRMS-AgendaMaintenance-DisclosureLinks"/>
@@ -241,7 +242,7 @@ limitations under the License.
                     </property>
                 </bean>
                 <bean parent="KS-Uif-NavigationActionLink" p:actionLabel="Edit Rule" p:methodToCall="goToRuleView"
-                      p:performActionAuthz="true" p:actionEvent="addEditRequisite"/>
+                      p:performActionAuthz="true" p:actionEvent="addEditRequisite" p:performDirtyValidation="false"/>
                 <bean parent="KS-Uif-ActionLink" p:actionLabel="Delete Rule" p:methodToCall="deleteRule"
                       p:performActionAuthz="true" p:actionEvent="deleteRequisite"/>
             </list>
