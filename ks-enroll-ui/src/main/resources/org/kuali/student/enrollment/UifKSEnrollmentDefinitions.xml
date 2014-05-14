@@ -65,6 +65,7 @@
 
     <bean id="KS-CourseOffering-View-ContextBar-PlaceHolder" parent="KS-Uif-HorizontalBoxGroup-TopGroup" />
 
+    <!-- Validation messages and message counts turned off. -->
     <bean id="KS-ValidationMessages-Off" parent="Uif-GroupValidationMessages">
         <property name="displayMessages" value="false"/>
         <property name="displayHeaderMessageSummary" value="false"/>
