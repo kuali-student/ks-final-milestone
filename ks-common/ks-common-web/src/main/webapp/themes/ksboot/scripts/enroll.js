@@ -1272,3 +1272,7 @@ function timeFieldOnBlur(event){
     timeField.val(formattedTimeFieldVal);
     validateFieldValue(timeField);
 }
+
+function setDirtyManully (dirtyFlag) {
+    dirtyFormState.dirtyFormInput.val(dirtyFlag);
+}
