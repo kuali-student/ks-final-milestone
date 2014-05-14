@@ -19,6 +19,8 @@ public class ActivityOfferingClusterWrapper implements Serializable {
     private String rgMessageStyle = "";
     private String clusterNameForDisplay = "";
     private String formatNameForDisplay ="";
+    private String requisite;
+    private String commonRequisite;
 
     private String formatOfferingId;
 
@@ -133,6 +135,22 @@ public class ActivityOfferingClusterWrapper implements Serializable {
                 this.clusterNameForDisplay = "Cluster: "+aoCluster.getPrivateName();
             }
         }
+    }
+
+    public String getRequisite(){
+        return requisite;
+    }
+
+    public void setRequisite(String requisite){
+        this.requisite = requisite;
+    }
+
+    public String getCommonRequisite(){
+        return commonRequisite;
+    }
+
+    public void setCommonRequisite(String commonRequisite){
+        this.commonRequisite = commonRequisite;
     }
 
     public String getFormatNameForDisplay() {
