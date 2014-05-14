@@ -1120,18 +1120,22 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 String durationCount = "";
 
                 if (activityInfo.getDuration() != null) {
-                    String durationType;
-                    try {
-                        TypeInfo duration = getTypeService().getType(activityInfo.getDuration().getAtpDurationTypeKey(), createContextInfo());
-                        durationType = duration.getName();
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
+                    String durationType = null;
+                    if(StringUtils.isNotEmpty(activityInfo.getDuration().getAtpDurationTypeKey())) {
+                        try {
+                            TypeInfo duration = getTypeService().getType(activityInfo.getDuration().getAtpDurationTypeKey(), createContextInfo());
+                            durationType = duration.getName();
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
                     }
 
                     if (activityInfo.getDuration().getTimeQuantity() != null) {
                         durationCount = activityInfo.getDuration().getTimeQuantity().toString();
+                        if(StringUtils.isNotEmpty(durationType)) {
+                            durationCount = durationCount + " " + durationType + CurriculumManagementConstants.COLLECTION_ITEM_PLURAL_END;
+                        }
                     }
-                    durationCount = durationCount + " " + durationType + CurriculumManagementConstants.COLLECTION_ITEM_PLURAL_END;
                 }
 
                 if (activityInfo.getContactHours() != null) {
