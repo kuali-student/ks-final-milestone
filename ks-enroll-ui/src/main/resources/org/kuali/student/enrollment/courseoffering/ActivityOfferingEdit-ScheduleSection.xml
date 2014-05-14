@@ -334,7 +334,7 @@
     <!--
       A confirmation dialog which is displayed when colocation is being broken.
      -->
-    <bean id="ActivityOfferingEdit-BreakColocateConfirmation" parent="Uif-VerticalBoxSection" p:style="margin: 10px;">
+    <bean id="ActivityOfferingEdit-BreakColocateConfirmation" parent="Uif-VerticalBoxSection">
         <property name="headerText" value="Breaking Colocation"/>
         <property name="hidden" value="true"/>
         <property name="items">
