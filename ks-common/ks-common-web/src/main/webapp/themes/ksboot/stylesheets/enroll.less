@@ -566,16 +566,19 @@ fieldset .uif-smallActionButton {
 */
 
 /* The background area which extends the full width of the table where the toolbar buttons sit on top of */
-.ks-toolbar {
-  padding: 6px 0 1px 6px;
-  background-color: #f1f1f1;
-  margin-bottom: 10px;
-}
-
 /* Work-arounds to prevent buttons from wrapping when screen is sized too narrow
  * KSENROLL-9694 KSENROLL-9703
  */
 .ks-toolbar {
+  padding: 6px 0 1px 6px;
+  background-color: #f1f1f1;
+  margin-bottom: 10px;
+  display: flex;
+
+  .btn span {
+    margin-left: 0;
+    margin-right: 0;
+  }
   #manageTheCourseOfferingPage & {
     min-width: 950px;
   }
@@ -2152,11 +2155,6 @@ section.uif-disclosure {
     display: none;
 }
 
-.uif-requiredMessage{
-   // float: left;
-}
-
-
 //Override krad bug that leaves off the "alert" class to add Bootstrap (http://getbootstrap.com/components/#alerts) styling to alert messages
 .alert-success, .alert-info, .alert-warning, .alert-variant, .alert-danger {
   padding: @alert-padding;
@@ -2172,8 +2170,8 @@ section.uif-disclosure {
 
 // Ensure the search magnifying glass have the correct style
 .input-group-btn > a {
-    border: none !important;
-    background: none !important;
+    border: none;
+    background: none;
 }
 
 .fancybox-outer, .fancybox-inner {
