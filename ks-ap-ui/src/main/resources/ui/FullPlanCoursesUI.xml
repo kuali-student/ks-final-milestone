@@ -170,6 +170,9 @@
 
     <bean id="full_planned_courses_detail" parent="full_planned_courses_detail-parent"/>
     <bean id="full_planned_courses_detail-parent" abstract="true" parent="Uif-VerticalBoxSubSection" p:headerText="Entire Academic Plan">
+        <!--NOTE!!: We were going to move the below jscript to ksap.planner.js, but i decided-->
+        <!--to leave it here as a reminder that this needs to be done in a different way...-->
+        <!--thru less styling only.-->
         <property name="onDocumentReadyScript" value="
             jQuery('table').removeClass('uif-table-fixed');
             jQuery('th, td').removeAttr('width');
