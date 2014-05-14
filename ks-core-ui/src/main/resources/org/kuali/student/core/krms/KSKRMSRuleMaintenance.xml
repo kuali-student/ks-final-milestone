@@ -102,9 +102,15 @@ limitations under the License.
                             <ref bean="KRMS-CompareTree-Section"/>
                         </list>
                     </property>
+                </bean>
+            </list>
+        </property>
 
-                    <property name="footer">
-                        <bean parent="Uif-FooterBase">
+        <property name="footer">
+            <bean parent="KS-Uif-FooterBase">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-HorizontalBoxGroup">
                             <property name="items">
                                 <list>
                                     <bean parent="KS-Uif-PrimaryActionButton" p:actionLabel="Close"
@@ -112,9 +118,9 @@ limitations under the License.
                                 </list>
                             </property>
                         </bean>
-                    </property>
-                </bean>
-            </list>
+                    </list>
+                </property>
+            </bean>
         </property>
     </bean>
 

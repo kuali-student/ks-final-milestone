@@ -172,10 +172,16 @@ limitations under the License.
                         </property>
                         <property name="items">
                             <list>
-                                <bean p:id="left_compare_msg" parent="Uif-MessageField" p:messageText="@{#np.firstElement}"
-                                      p:style="display: table-cell; width: @{#np.width}px;"/>
-                                <bean p:id="right_compare_msg" parent="Uif-MessageField" p:messageText="@{#np.secondElement}"
-                                      p:style="display: table-cell; width: @{#np.width}px; margin-left: @{350-#np.width}px;"/>
+                                <bean parent="Uif-HorizontalBoxSection">
+                                    <property name="items">
+                                        <list>
+                                        <bean p:id="left_compare_msg" parent="Uif-MessageField" p:messageText="@{#np.firstElement}"
+                                              p:style="display: table-cell; width: @{#np.width}px;"/>
+                                        <bean p:id="right_compare_msg" parent="Uif-MessageField" p:messageText="@{#np.secondElement}"
+                                              p:style="display: table-cell; width: @{#np.width}px; margin-left: @{350-#np.width}px;"/>
+                                        </list>
+                                    </property>
+                                </bean>
                             </list>
                         </property>
                     </bean>
@@ -197,19 +203,24 @@ limitations under the License.
                             <ref bean="KRMS-CompareTree-Section"/>
                         </list>
                     </property>
-
-                    <property name="footer">
-                        <bean parent="Uif-FooterBase">
+                </bean>
+            </list>
+        </property>
+        <property name="footer">
+            <bean parent="KS-Uif-FooterBase">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-HorizontalBoxGroup">
                             <property name="items">
                                 <list>
-                                    <bean parent="Uif-ActionLink" p:actionLabel="Close"
+                                    <bean parent="KS-Uif-PrimaryActionButton" p:actionLabel="Close"
                                           p:actionScript="jQuery.fancybox.close();"/>
                                 </list>
                             </property>
                         </bean>
-                    </property>
-                </bean>
-            </list>
+                    </list>
+                </property>
+            </bean>
         </property>
     </bean>
     <bean id="KRMS-CompareRule" parent="KRMS-CompareRule-parent"/>
