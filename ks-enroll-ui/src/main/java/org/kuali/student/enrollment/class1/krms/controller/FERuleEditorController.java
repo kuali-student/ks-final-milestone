@@ -176,7 +176,7 @@ public class FERuleEditorController extends EnrolRuleEditorController {
             agenda.getRules().remove(ruleEditor);
 
         }
-
+        ruleWrapper.setAgendaDirty(true);
         return getUIFModelAndView(document);
     }
 
@@ -299,6 +299,8 @@ public class FERuleEditorController extends EnrolRuleEditorController {
         FERuleEditor ruleEditor = (FERuleEditor) getRuleEditor(form);
         RuleManagementWrapper ruleWrapper = AgendaUtilities.getRuleWrapper((MaintenanceDocumentForm) form);
 
+        MaintenanceDocumentForm feRuleMaintenanceForm = (MaintenanceDocumentForm) form;
+        FERuleManagementWrapper feRuleMgtWrapper = (FERuleManagementWrapper)AgendaUtilities.getRuleWrapper(feRuleMaintenanceForm);
         if (this.getViewHelper(form).validateRule(ruleEditor)) {
             return getUIFModelAndView(form);
         } else {
@@ -330,6 +332,7 @@ public class FERuleEditorController extends EnrolRuleEditorController {
         this.getViewHelper(form).refreshViewTree(ruleWrapper.getRuleEditor());
 
         form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, EnrolKRMSConstants.KSKRMS_AGENDA_FE_MAINTENANCE_PAGE_ID);
+        feRuleMgtWrapper.setAgendaDirty(true);
         return super.navigate(form, result, request, response);
     }
 

@@ -30,6 +30,7 @@ public class FERuleManagementWrapper extends RuleManagementWrapper {
     private TypeInfo type;
     private String termToUse;
     private boolean location;
+    private boolean agendaDirty;
     private List<String> linkedTermTypes;
 
     public FERuleManagementWrapper() {
@@ -59,6 +60,14 @@ public class FERuleManagementWrapper extends RuleManagementWrapper {
 
     public void setLocation(boolean location) {
         this.location = location;
+    }
+
+    public boolean isAgendaDirty() {
+        return agendaDirty;
+    }
+
+    public void setAgendaDirty(boolean agendaDirty) {
+        this.agendaDirty = agendaDirty;
     }
 
     public List<String> getLinkedTermTypes() {
