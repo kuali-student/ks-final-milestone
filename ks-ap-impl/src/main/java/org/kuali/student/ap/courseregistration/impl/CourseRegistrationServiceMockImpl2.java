@@ -20,6 +20,7 @@ package org.kuali.student.ap.courseregistration.impl;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.student.ap.framework.util.KsapHelperUtil;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.mock.MockService;
 import org.kuali.student.enrollment.class2.courseregistration.service.impl.AbstractCourseRegistrationService;
@@ -918,7 +919,7 @@ public class CourseRegistrationServiceMockImpl2
     private static MetaInfo newMeta(ContextInfo contextInfo) {
         MetaInfo meta = new MetaInfo();
         meta.setCreateId(contextInfo.getPrincipalId());
-        meta.setCreateTime(new Date());
+        meta.setCreateTime(KsapHelperUtil.getCurrentDate());
         meta.setUpdateId(contextInfo.getPrincipalId());
         meta.setUpdateTime(meta.getCreateTime());
         meta.setVersionInd("0");
@@ -934,7 +935,7 @@ public class CourseRegistrationServiceMockImpl2
     private static MetaInfo updateMeta(MetaInfo old, ContextInfo contextInfo) {
         MetaInfo meta = new MetaInfo(old);
         meta.setUpdateId(contextInfo.getPrincipalId());
-        meta.setUpdateTime(new Date());
+        meta.setUpdateTime(KsapHelperUtil.getCurrentDate());
         meta.setVersionInd((Integer.parseInt(meta.getVersionInd()) + 1) + "");
         return meta;
     }

@@ -10,6 +10,7 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.support.DefaultYearTerm;
+import org.kuali.student.ap.framework.util.KsapHelperUtil;
 import org.kuali.student.r2.core.acal.infc.Term;
 
 /**
@@ -48,7 +49,7 @@ public class TermsListBuilder extends KeyValuesBase {
      * @return A full List of terms to display in the calendar.
      */
     private List<Term> getCalendarTerms(Term startTerm) {
-        Date startDate = new Date();
+        Date startDate = KsapHelperUtil.getCurrentDate();
         Calendar c = Calendar.getInstance();
         if (startTerm != null) {
             startDate = startTerm.getStartDate();

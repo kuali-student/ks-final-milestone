@@ -2,6 +2,7 @@ package org.kuali.student.ap.framework.context.support;
 
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.student.ap.framework.context.KsapContext;
+import org.kuali.student.ap.framework.util.KsapHelperUtil;
 import org.kuali.student.ap.i18n.LocaleUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
@@ -84,7 +85,7 @@ public class DefaultKsapContext implements KsapContext {
         ContextInfo ksctx = ContextUtils.createDefaultContextInfo();
         ksctx.setAuthenticatedPrincipalId(principalId);
         ksctx.setPrincipalId(principalId);
-        ksctx.setCurrentDate(new Date());
+        ksctx.setCurrentDate(KsapHelperUtil.getCurrentDate());
         ksctx.getAttributes().clear();
         if (locale != null) ksctx.setLocale(locale);
         TL_CTX.set(ksctx);

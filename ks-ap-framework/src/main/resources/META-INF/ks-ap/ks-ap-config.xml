@@ -76,6 +76,8 @@
 
     <param name="ks.ap.TextHelper.resourceBundleNames" override="true">org.kuali.student.ap.bundles.POCResourceBundleUI</param>
 
+    <param name="ks.ap.current.date.override" override="true">02/01/2014</param>
+
     <!-- TTL in milliseconds -->
     <param name="ks.ap.ResourceBundle.DB.ttl">3600000</param>
 </config>

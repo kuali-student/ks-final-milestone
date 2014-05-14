@@ -10,6 +10,7 @@ import org.kuali.student.ap.academicplan.infc.PlanItem;
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
+import org.kuali.student.ap.framework.util.KsapHelperUtil;
 import org.kuali.student.ap.framework.util.KsapStringUtil;
 import org.kuali.student.ap.planner.PlannerForm;
 import org.kuali.student.ap.planner.form.PlannerFormImpl;
@@ -288,7 +289,7 @@ public class PlannerController extends KsapControllerBase {
 		if (!found && !StringUtils.isEmpty(termNote)) {
 			CommentInfo newComment = new CommentInfo();
 			newComment.setCommentText(newNote);
-			newComment.setEffectiveDate(new Date());
+			newComment.setEffectiveDate(KsapHelperUtil.getCurrentDate());
 			newComment.setReferenceId(plan.getId());
 			newComment.setReferenceTypeKey(PlanConstants.TERM_NOTE_COMMENT_TYPE);
 			newComment.setTypeKey(PlanConstants.TERM_NOTE_COMMENT_TYPE);

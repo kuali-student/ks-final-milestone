@@ -254,7 +254,7 @@ public class DefaultTermHelper implements TermHelper {
         if(getTermMarker().currentTerms == null){
             try {
                 QueryByCriteria query = QueryByCriteria.Builder.fromPredicates(equal("atpStatus", PlanConstants.PUBLISHED),
-                        or(KsapHelperUtil.getTermPredicates()), lessThanOrEqual("startDate", new Date()),greaterThanOrEqual("endDate",new Date()));
+                        or(KsapHelperUtil.getTermPredicates()), lessThanOrEqual("startDate", KsapHelperUtil.getCurrentDate()),greaterThanOrEqual("endDate",KsapHelperUtil.getCurrentDate()));
                 List<TermInfo> rv = KsapFrameworkServiceLocator.getAcademicCalendarService().searchForTerms(query,
                         KsapFrameworkServiceLocator.getContext().getContextInfo());
                 if (rv == null)
@@ -396,7 +396,7 @@ public class DefaultTermHelper implements TermHelper {
         if(getTermMarker().planningTerms == null){
             try {
                 QueryByCriteria query = QueryByCriteria.Builder.fromPredicates(equal("atpStatus", PlanConstants.PUBLISHED),
-                        or(KsapHelperUtil.getTermPredicates()), greaterThanOrEqual("endDate",new Date()));
+                        or(KsapHelperUtil.getTermPredicates()), greaterThanOrEqual("endDate",KsapHelperUtil.getCurrentDate()));
                 List<TermInfo> rl = KsapFrameworkServiceLocator.getAcademicCalendarService().searchForTerms(query,
                         KsapFrameworkServiceLocator.getContext().getContextInfo());
                 if (rl == null || rl.isEmpty())
@@ -461,7 +461,7 @@ public class DefaultTermHelper implements TermHelper {
 
 	@Override
 	public boolean isCompleted(String atpId) {
-		return getTerm(atpId).getEndDate().before(new Date());
+		return getTerm(atpId).getEndDate().before(KsapHelperUtil.getCurrentDate());
 	}
 
 
@@ -535,7 +535,7 @@ public class DefaultTermHelper implements TermHelper {
     public AcademicCalendar getCurrentAcademicCalendar() {
         try{
             QueryByCriteria query = QueryByCriteria.Builder.fromPredicates(equal("atpStatus", PlanConstants.PUBLISHED),
-                    or(equal("typeKey", "kuali.atp.type.AcademicCalendar")), lessThanOrEqual("startDate", new Date()),greaterThanOrEqual("endDate",new Date()));
+                    or(equal("typeKey", "kuali.atp.type.AcademicCalendar")), lessThanOrEqual("startDate", KsapHelperUtil.getCurrentDate()),greaterThanOrEqual("endDate",KsapHelperUtil.getCurrentDate()));
             List<AcademicCalendarInfo> rv = KsapFrameworkServiceLocator.getAcademicCalendarService().searchForAcademicCalendars(query,
                     KsapFrameworkServiceLocator.getContext().getContextInfo());
             AcademicCalendarInfo acal =null;
@@ -633,7 +633,7 @@ public class DefaultTermHelper implements TermHelper {
                     if(lastDayToAddClasses == null || lastDayToAddClasses.getStartDate() == null){
                         currentTermsForCourseSearch.add(term);
                     }else{
-                        if ( lastDayToAddClasses.getStartDate().before(new Date())){
+                        if ( lastDayToAddClasses.getStartDate().before(KsapHelperUtil.getCurrentDate())){
                             continue;
                         }else{
                             currentTermsForCourseSearch.add(term);
@@ -687,7 +687,7 @@ public class DefaultTermHelper implements TermHelper {
             List<Term> futureTerms = new ArrayList<Term>();
             try {
                 QueryByCriteria query = QueryByCriteria.Builder.fromPredicates(equal("atpStatus", AtpServiceConstants.ATP_OFFICIAL_STATE_KEY),
-                        or(KsapHelperUtil.getTermPredicates()), greaterThan("startDate", new Date()));
+                        or(KsapHelperUtil.getTermPredicates()), greaterThan("startDate", KsapHelperUtil.getCurrentDate()));
                 List<TermInfo> rl = KsapFrameworkServiceLocator.getAcademicCalendarService().searchForTerms(query,
                         KsapFrameworkServiceLocator.getContext().getContextInfo());
                 if (rl == null || rl.isEmpty()) {

@@ -1,5 +1,6 @@
 package org.kuali.student.ap.framework.util;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -7,6 +8,7 @@ import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.coursesearch.CourseSearchItem;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.r2.core.search.infc.SearchResultCell;
 import org.kuali.student.r2.core.search.infc.SearchResultRow;
@@ -14,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
@@ -27,8 +30,10 @@ import static org.kuali.rice.core.api.criteria.PredicateFactory.or;
 public class KsapHelperUtil {
 
     private static final Logger LOG = LoggerFactory.getLogger(KsapHelperUtil.class);
+    private static final String CURRENT_DATE_OVERRIDE = "ks.ap.current.date.override";
 
     static List<String> termTypes;
+    private static Date currentDate = null;
 
     /**
      * Gets the list of term types used by the ksap application when looking for and handling atp terms.  This includes
@@ -133,5 +138,23 @@ public class KsapHelperUtil {
         }
         LOG.warn("cell result '" + key + "' not found...returning ");
         return "";
+    }
+
+    public static Date getCurrentDate(){
+        if(currentDate == null){
+            String override = ConfigContext.getCurrentContextConfig().getProperty(CURRENT_DATE_OVERRIDE);
+            if(StringUtils.isEmpty(override)){
+                currentDate = new Date();
+            }else{
+                try{
+                    currentDate = DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(override);
+                }catch (IllegalArgumentException e){
+                    LOG.error("Unable to set override date using actual date instead.", e);
+                    currentDate = new Date();
+                }
+            }
+        }
+
+        return currentDate;
     }
 }

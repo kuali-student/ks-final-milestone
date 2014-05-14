@@ -428,7 +428,7 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 	@Override
 	public Term getLastOfferedTermForCourse(Course course) {
 		ContextInfo ctx = KsapFrameworkServiceLocator.getContext().getContextInfo();
-        Date currentDate = new Date();
+        Date currentDate = KsapHelperUtil.getCurrentDate();
         Term lastOfferedTerm = null;
         Term termInfo;
 

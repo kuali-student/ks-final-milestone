@@ -2,6 +2,7 @@ package org.kuali.student.ap.plannerreview.support;
 
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.student.ap.framework.util.KsapHelperUtil;
 import org.kuali.student.ap.plannerreview.dto.ConversationAdvisorInfo;
 import org.kuali.student.ap.plannerreview.dto.ConversationCommentInfo;
 import org.kuali.student.ap.plannerreview.dto.ConversationInfo;
@@ -64,7 +65,7 @@ public class MockLearningPlanReviewStrategy implements
 		ConversationCommentInfo comment = new ConversationCommentInfo();
 		comment.setId(String.valueOf(commentSequence++));
 		String userId = getUserId();
-		Date now = new Date();
+		Date now = KsapHelperUtil.getCurrentDate();
 		MetaInfo meta = new MetaInfo();
 		meta.setCreateId(userId);
 		meta.setCreateTime(now);
@@ -102,7 +103,7 @@ public class MockLearningPlanReviewStrategy implements
 		
 		String userId = getUserId();
 		
-		Date now = new Date();
+		Date now = KsapHelperUtil.getCurrentDate();
 		MetaInfo meta = new MetaInfo();
 		meta.setCreateId(userId);
 		meta.setCreateTime(now);
@@ -160,7 +161,7 @@ public class MockLearningPlanReviewStrategy implements
 	 */
 	private void initConversations() {
 		String userId = getUserId();
-		Date now = new Date();
+		Date now = KsapHelperUtil.getCurrentDate();
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(now);
 		cal.add(Calendar.DATE, -1);
@@ -297,7 +298,7 @@ public class MockLearningPlanReviewStrategy implements
 				if (conversationCommentId.equals(comment.getId())) {
 					cci.setReadOnce(true);
 					MetaInfo meta = (MetaInfo)cci.getMeta();
-					meta.setUpdateTime(new Date());
+					meta.setUpdateTime(KsapHelperUtil.getCurrentDate());
 					meta.setUpdateId(getUserId());
 					return true;
 				}
@@ -313,7 +314,7 @@ public class MockLearningPlanReviewStrategy implements
 			ConversationCommentInfo cci = (ConversationCommentInfo) comment;
 			cci.setReadOnce(true);
 			MetaInfo meta = (MetaInfo)cci.getMeta();
-			meta.setUpdateTime(new Date());
+			meta.setUpdateTime(KsapHelperUtil.getCurrentDate());
 			meta.setUpdateId(getUserId());
 		}
 		
