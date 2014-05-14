@@ -340,9 +340,9 @@ label.scheduled {
   ul li,
   .uif-collectionItem,
   .uif-boxLayoutVerticalItem,
-  .Uif-HorizontalBoxGroup,
-  .uif-boxLayoutHorizontalItem,
-  .uif-gridLayout {
+  .uif-horizontalBoxGroup,
+  .uif-gridLayout,
+  .ksap-full-plan-detail .uif-boxLayoutHorizontalItem {
     background: none;
     border:0;
     border-radius:0;
@@ -364,7 +364,6 @@ label.scheduled {
   }
 
   // Entire Academic Plan Section
-
   .ksap-full-plan-detail {
     font-size:90%;
     padding:10px;
@@ -372,19 +371,21 @@ label.scheduled {
     // First row styling
     .ksap-full-plan-headerRow {
       border: 1px solid #a9a9a9;
-      border-radius: 10px 10px 0 0;
+      border-radius: 5px 5px 0 0;
     }
+
     .ksap-full-plan-headerRow  .uif-header{
       border-left:solid 1px #a9a9a9;
     }
 
-    // "Planned" styling
+    // "Planned, Backup and Completed" styling
     h4.uif-headerText {
       font-size: 90%;
       text-transform: uppercase;
       color: #999;
     }
 
+    // Term grid styling
     table th {
       text-align: right;
       display: block;
@@ -392,9 +393,14 @@ label.scheduled {
       font-weight: bold;
       line-height: 1.25em;
     }
-    table tr {
+
+    .uif-gridCollectionItem {
       border: 1px solid #a9a9a9;
       border-top:0;
+    }
+
+    .uif-gridCollectionItem:last-child {
+      border-radius:0 0 5px 5px;
     }
 
     .ksap-term {
@@ -417,31 +423,9 @@ label.scheduled {
       text-align: right;
     }
   } // End Entire Academic Plan Section
-} /* End Printer Friendly - Full Plan */
-
-
-/* Is this needed?*/
-.ksap-full-plan-detail > .uif-collectionItem.ksap-term{
-  display: inline-block;
-  float: left;
 }
+/* End Printer Friendly - Full Plan */
 
-
-/* Is this needed?*/
-.ksap-full-plan-detail .ksap-term.ksap-current-term > .uif-verticalBoxLayout {
-  font-weight: bold;
-}
-
-/*.ksap-full-plan-detail .ksap-term .ksap-term-footer,
-.ksap-full-plan-detail .ksap-term .ksap-term-footer-blank {
-  border-top: dotted 1px #a9a9a9;
-  padding: 0 10px;
-  font-size: 90%;
-}
-
-.ksap-full-plan-detail .ksap-term .ksap-term-footer-blank {
-  border-top-color: transparent;
-}  */
 
 /* Quarter Detail View ######################################################################################### */
 .ksap-quarter-detail,
