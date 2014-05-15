@@ -107,6 +107,12 @@ public class AORuleEditorController extends EnrolRuleEditorController {
                                    HttpServletRequest request, HttpServletResponse response) {
 
         form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, EnrolKRMSConstants.KSKRMS_AGENDA_AO_MAINTENANCE_PAGE_ID);
+
+        //KSENROLL-7267: workaround to display browser warning when leaving AO requisite screen without saving
+        MaintenanceDocumentForm ruleMaintenanceForm = (MaintenanceDocumentForm) form;
+        AORuleManagementWrapper aoRuleMgtWrapper = (AORuleManagementWrapper) AgendaUtilities.getRuleWrapper(ruleMaintenanceForm);
+        aoRuleMgtWrapper.setAgendaDirty(true);
+
         return super.updateRule(form, result, request, response);
     }
 
@@ -309,6 +315,10 @@ public class AORuleEditorController extends EnrolRuleEditorController {
             dummyRule.setCluEditor(ruleEditor.getCluEditor());
             agenda.getRuleEditors().put(ruleEditor.getKey(), dummyRule);
         }
+
+        //KSENROLL-7267: workaround to display browser warning when leaving AO requisite screen without saving
+        AORuleManagementWrapper aoRuleMgtWrapper = (AORuleManagementWrapper) ruleWrapper;
+        aoRuleMgtWrapper.setAgendaDirty(true);
 
         return getUIFModelAndView(document);
     }

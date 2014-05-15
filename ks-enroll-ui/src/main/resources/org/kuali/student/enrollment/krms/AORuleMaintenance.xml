@@ -165,6 +165,7 @@ limitations under the License.
 
     <bean name="KSAO-AgendaMaintenance-Page-parent" parent="KRMS-AgendaMaintenance-Page-Parent">
         <property name="headerText" value="Activity Offering Requisites"/>
+        <property name="onDocumentReadyScript" value="setDirtyManully(@{#dp.agendaDirty});" />
         <property name="items">
             <list>
                 <bean parent="KRMS-AgendaMaintenance-DisclosureLinks"/>
@@ -235,7 +236,7 @@ limitations under the License.
                 </bean>
                 <bean parent="KSAO-RuleView-Link" p:render="@{#line.dummy}"/>
                 <bean parent="KS-Uif-NavigationActionLink" p:actionLabel="Edit Rule" p:methodToCall="goToRuleView"
-                      p:performActionAuthz="true" p:actionEvent="addEditRequisite">
+                      p:performActionAuthz="true" p:actionEvent="addEditRequisite" p:performDirtyValidation="false">
                     <property name="toolTip">
                         <bean parent="Uif-KS-Tooltip"
                               p:tooltipContent="Modify existing rule to apply to this Activity Offering"/>
