@@ -411,22 +411,8 @@ limitations under the License.
                         <list>
                             <bean parent="KRMS-RuleEditorView-AddButton"/>
                             <bean parent="KRMS-RuleEditorView-EditButton"/>
-                        </list>
-                    </property>
-                </bean>
-
-                <bean parent="KS-HorizontalBoxGroup-WithRPadding">
-                    <property name="items">
-                        <list>
                             <bean parent="KRMS-RuleEditorView-UpButton"/>
                             <bean parent="KRMS-RuleEditorView-DownButton"/>
-                        </list>
-                    </property>
-                </bean>
-
-                <bean parent="KS-HorizontalBoxGroup-WithRPadding">
-                    <property name="items">
-                        <list>
                             <bean parent="KRMS-RuleEditorView-CopyButton" p:hidden="true"/>
                             <bean parent="KRMS-RuleEditorView-CutButton" p:hidden="true"/>
                             <bean parent="KRMS-RuleEditorView-PasteButton" p:hidden="true"/>
@@ -519,9 +505,9 @@ limitations under the License.
         <property name="items">
             <list>
                 <bean id="FinalExam_tba" parent="KS-Uif-InputField" p:propertyName="ruleEditor.tba"
-                      p:label="TBA" p:style="margin-top:15px">
+                      p:style="margin-top:15px">
                     <property name="control">
-                        <bean parent="KS-Uif-CheckboxControl"/>
+                        <bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="TBA"/>
                     </property>
                 </bean>
                 <bean id="FinalExam_days" parent="KS-Uif-InputField-LabelTop" p:label="Days"
@@ -530,64 +516,51 @@ limitations under the License.
                         <ref bean="KSFE-FinalExam-ExamDaysDropdown"/>
                     </property>
                 </bean>
-                <bean id="FinalExam-DeliveryLogistic-Time-Section-place-holder"
-                      parent="Uif-Disclosure-HorizontalBoxSubSection"
-                      p:header.render="false" p:style="margin-top:0px">
-                    <property name="items">
-                        <list>
-                            <bean id="FinalExam-DeliveryLogistic-Time-Section"
-                                  parent="Uif-Disclosure-HorizontalBoxSubSection" p:header.render="false"
-                                  p:progressiveRender="@{#dp.ruleEditor.tba eq false}">
-                                <property name="items">
-                                    <list>
-                                        <bean id="FinalExam_starttime" parent="KS-Uif-InputField-LabelTop"
-                                              p:label="Start Time" p:propertyName="ruleEditor.startTime">
-                                            <!-- Rice 2.4 upgrade : removing fieldLabel.requiredMessage -->
-                                            <!--<property name="fieldLabel.requiredMessage.messageText" value=""/>-->
-                                            <property name="constraintText" value="HH:MM"/>
-                                            <property name="control">
-                                                <bean parent="KS-Uif-TextControl" p:size="5"
-                                                      p:cssClasses="new_rdl_components"/>
-                                            </property>
-                                            <property name="validCharactersConstraint">
-                                                <bean parent="TimePatternConstraint"/>
-                                            </property>
-                                        </bean>
-                                        <bean id="FinalExam_starttime_ampm" parent="KS-Uif-InputField-LabelTop"
-                                              p:label="&lt;br&gt;" p:propertyName="ruleEditor.startTimeAMPM">
-                                            <!-- Rice 2.4 upgrade : removing fieldLabel.requiredMessage -->
-                                            <!--<property name="fieldLabel.requiredMessage.messageText" value=""/>-->
-                                            <property name="control">
-                                                <bean parent="KS-Uif-DropdownControl" p:options-ref="AmPm-Options"
-                                                      p:cssClasses="new_rdl_components"/>
-                                            </property>
-                                        </bean>
-                                        <bean id="FinalExam_endtime" parent="KS-Uif-InputField-LabelTop" p:label="End Time"
-                                              p:propertyName="ruleEditor.endTime">
-                                            <!-- Rice 2.4 upgrade : removing fieldLabel.requiredMessage -->
-                                            <!--<property name="fieldLabel.requiredMessage.messageText" value=""/>-->
-                                            <property name="constraintText" value="HH:MM"/>
-                                            <property name="control">
-                                                <bean parent="KS-Uif-TextControl" p:size="5"
-                                                      p:cssClasses="new_rdl_components"/>
-                                            </property>
-                                            <property name="validCharactersConstraint">
-                                                <bean parent="TimePatternConstraint"/>
-                                            </property>
-                                        </bean>
-                                        <bean id="FinalExam_endtime_ampm" parent="KS-Uif-InputField-LabelTop"
-                                              p:label="&lt;br&gt;" p:propertyName="ruleEditor.endTimeAMPM">
-                                            <!-- Rice 2.4 upgrade : removing fieldLabel.requiredMessage -->
-                                            <!--<property name="fieldLabel.requiredMessage.messageText" value=""/>-->
-                                            <property name="control">
-                                                <bean parent="KS-Uif-DropdownControl" p:options-ref="AmPm-Options"
-                                                      p:cssClasses="new_rdl_components"/>
-                                            </property>
-                                        </bean>
-                                    </list>
-                                </property>
-                            </bean>
-                        </list>
+                <bean id="FinalExam_starttime" parent="KS-Uif-InputField-LabelTop"
+                      p:label="Start Time" p:propertyName="ruleEditor.startTime"
+                      p:progressiveRender="@{#dp.ruleEditor.tba eq false}">
+                    <!-- Rice 2.4 upgrade : removing fieldLabel.requiredMessage -->
+                    <!--<property name="fieldLabel.requiredMessage.messageText" value=""/>-->
+                    <property name="constraintText" value="HH:MM"/>
+                    <property name="control">
+                        <bean parent="KS-Uif-TextControl" p:size="5"
+                              p:cssClasses="new_rdl_components"/>
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="TimePatternConstraint"/>
+                    </property>
+                </bean>
+                <bean id="FinalExam_starttime_ampm" parent="KS-Uif-InputField-LabelTop"
+                      p:label="&lt;br&gt;" p:propertyName="ruleEditor.startTimeAMPM"
+                      p:progressiveRender="@{#dp.ruleEditor.tba eq false}">
+                    <!-- Rice 2.4 upgrade : removing fieldLabel.requiredMessage -->
+                    <!--<property name="fieldLabel.requiredMessage.messageText" value=""/>-->
+                    <property name="control">
+                        <bean parent="KS-Uif-DropdownControl" p:options-ref="AmPm-Options"
+                              p:cssClasses="new_rdl_components"/>
+                    </property>
+                </bean>
+                <bean id="FinalExam_endtime" parent="KS-Uif-InputField-LabelTop" p:label="End Time"
+                      p:propertyName="ruleEditor.endTime" p:progressiveRender="@{#dp.ruleEditor.tba eq false}">
+                    <!-- Rice 2.4 upgrade : removing fieldLabel.requiredMessage -->
+                    <!--<property name="fieldLabel.requiredMessage.messageText" value=""/>-->
+                    <property name="constraintText" value="HH:MM"/>
+                    <property name="control">
+                        <bean parent="KS-Uif-TextControl" p:size="5"
+                              p:cssClasses="new_rdl_components"/>
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="TimePatternConstraint"/>
+                    </property>
+                </bean>
+                <bean id="FinalExam_endtime_ampm" parent="KS-Uif-InputField-LabelTop"
+                      p:label="&lt;br&gt;" p:propertyName="ruleEditor.endTimeAMPM"
+                      p:progressiveRender="@{#dp.ruleEditor.tba eq false}">
+                    <!-- Rice 2.4 upgrade : removing fieldLabel.requiredMessage -->
+                    <!--<property name="fieldLabel.requiredMessage.messageText" value=""/>-->
+                    <property name="control">
+                        <bean parent="KS-Uif-DropdownControl" p:options-ref="AmPm-Options"
+                              p:cssClasses="new_rdl_components"/>
                     </property>
                 </bean>
                 <bean id="FinalExam_building" parent="KS-Uif-InputField-LabelTop" p:label="Facility"
