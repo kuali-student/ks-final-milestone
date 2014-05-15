@@ -599,7 +599,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
         } catch (Exception e) {
             newProposition = new PropositionEditor();
         }
-        BeanUtils.copyProperties(oldProposition, newProposition, new String[]{"key", "id", "term", "parameters"});
+        BeanUtils.copyProperties(oldProposition, newProposition, new String[]{"key", "id", "term", "parameters", "versionNumber"});
 
         if (!oldProposition.getPropositionTypeCode().equals("C")) {
             List<PropositionParameterEditor> propositionParameterEditors = new ArrayList<PropositionParameterEditor>();
