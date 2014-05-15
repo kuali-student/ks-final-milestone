@@ -641,7 +641,7 @@ function calculatePercent(jqObject){
         seatpoolCount.text(count);
     }
 
-    if (maxEnrollValue != "") {
+    if (maxEnrollValue != null && maxEnrollValue != "") {
         var seatsRemain = (maxEnrollValue > seatsTotal) ? (maxEnrollValue - seatsTotal) : 0;
         var percTotal = Math.round((seatsTotal / maxEnrollValue) * 100);
         var percRemain = (seatsRemain > 0) ? (100 - percTotal) : 0;
