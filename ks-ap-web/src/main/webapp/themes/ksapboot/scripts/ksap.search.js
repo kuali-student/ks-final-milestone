@@ -45,45 +45,53 @@ function ksapCourseSearchColumns() {
         'sTitle' : 'Code',
         'sClass' : 'ksap-text-nowrap sortable',
         'sWidth' : '78px',
-        'sType' : 'string'
+        'sType' : 'string',
+        'sKsapColIdSuffix' : '_code'
     }, {
         'bSortable' : true,
         'bSearchable' : true,
         'sTitle' : 'Title',
         'sClass' : 'sortable details_link',
-        'sWidth' : '170px'
+        'sWidth' : '170px',
+        'sKsapColIdSuffix' : '_title'
     }, {
         'bSortable' : false,
         'bSearchable' : true,
         'sTitle' : 'Credits',
-        'sWidth' : '43px'
+        'sWidth' : '43px',
+        'sKsapColIdSuffix' : '_credits'
     }, {
         'bSortable' : false,
         'bSearchable' : true,
         'sTitle' : 'Campus',
-        'sWidth' : '47px'
+        'sWidth' : '47px',
+        'sKsapColIdSuffix' : '_campus'
     },{
         'bSortable' : false,
         'bSearchable' : true,
         'sTitle' : 'Scheduled Terms',
         'sClass' : 'ksap-data-list',
-        'sWidth' : '130px'
+        'sWidth' : '130px',
+        'sKsapColIdSuffix' : '_scheduledTerms'
     },{
         'bSortable' : false,
         'bSearchable' : true,
         'sTitle' : 'Projected Terms',
-        'sClass' : 'ksap-data-list'
+        'sClass' : 'ksap-data-list',
+        'sKsapColIdSuffix' : '_projectedTerms'
     }, {
         'bSortable' : false,
         'bSearchable' : true,
         'sTitle' : 'Gen Ed',
-        'sWidth' : '55px'
+        'sWidth' : '55px',
+        'sKsapColIdSuffix' : '_gened'
     }, {
         'bSortable' : false,
         'bSearchable' : true,
         'sTitle' : '',
         'sClass' : 'ksap-status-column',
-        'sWidth' : '41px'
+        'sWidth' : '41px',
+        'sKsapColIdSuffix' : '_status'
     } ];
 }
 
@@ -183,6 +191,12 @@ function searchForCourses(id, parentId) {
 						iDisplayLength : 20,
                         fnCreatedRow : function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
                             jQuery(nRow).attr("id", aData[0]).attr("data-display-index", iDisplayIndex);
+                            for (var i = 0; i < aData.length; i++) {
+                                var idSuffix = ksapCourseSearchColumns()[i].sKsapColIdSuffix;
+                                if (idSuffix) {
+                                    jQuery(jQuery(nRow).find('td').get(i)).attr("id", aData[0] + idSuffix)
+                                }
+                            }
                             updateTermsOfferedDisplay(jQuery(nRow));
                             return nRow;
                         },
