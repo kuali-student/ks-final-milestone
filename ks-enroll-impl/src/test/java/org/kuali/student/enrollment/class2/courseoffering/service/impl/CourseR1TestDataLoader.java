@@ -58,6 +58,20 @@ public class CourseR1TestDataLoader {
                                  String formatId,
                                  String activityTypeKey1,
                                  String activityTypeKey2) {
+
+        return loadCourse(id,startTermId,subjectArea,code,title,description,formatId,activityTypeKey1,activityTypeKey2,"Active");
+    }
+
+    public CourseInfo loadCourse(String id,
+                                 String startTermId,
+                                 String subjectArea,
+                                 String code,
+                                 String title,
+                                 String description,
+                                 String formatId,
+                                 String activityTypeKey1,
+                                 String activityTypeKey2,
+                                 String stateKey) {
         List<String> activityTypeKeys = new ArrayList();
         if (activityTypeKey1 != null) {
             activityTypeKeys.add(activityTypeKey1);
@@ -65,7 +79,7 @@ public class CourseR1TestDataLoader {
         if (activityTypeKey1 != null) {
             activityTypeKeys.add(activityTypeKey2);
         }
-        return this.loadCourseInternal(id, startTermId, subjectArea, code, title, description, formatId, activityTypeKeys);
+        return this.loadCourseInternal(id, startTermId, subjectArea, code, title, description, formatId, activityTypeKeys,stateKey);
     }
 
     private CourseInfo loadCourseInternal(String id,
@@ -75,7 +89,8 @@ public class CourseR1TestDataLoader {
                                           String title,
                                           String description,
                                           String formatId,
-                                          List<String> activityTypeKeys) {
+                                          List<String> activityTypeKeys,
+                                          String stateKey) {
         CourseInfo info = new CourseInfo();
         info.setStartTerm(startTermId);
         info.setEffectiveDate(calcEffectiveDateForTerm(startTermId, id));
@@ -92,20 +107,20 @@ public class CourseR1TestDataLoader {
         rt.setPlain(description);
         info.setDescr(rt);
         info.setType(LuServiceConstants.CREDIT_COURSE_LU_TYPE_KEY);
-        info.setState("Active");
+        info.setState(stateKey);
         info.setFormats(new ArrayList<FormatInfo>());
         FormatInfo format = new FormatInfo();
         info.getFormats().add(format);
         format.setId(formatId);
         format.setType(LuServiceConstants.COURSE_FORMAT_TYPE_KEY);
-        format.setState("Active");
+        format.setState(stateKey);
         format.setActivities(new ArrayList<ActivityInfo>());
         for (String activityTypeKey : activityTypeKeys) {
             ActivityInfo activity = new ActivityInfo();
             format.getActivities().add(activity);
             activity.setId(format.getId() + "-" + activityTypeKey);
             activity.setTypeKey(activityTypeKey);
-            activity.setState("Active");
+            activity.setState(stateKey);
         }
         try {
             return this.courseService.createCourse(info, ContextUtils.getContextInfo());
