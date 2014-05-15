@@ -141,9 +141,9 @@
         <property name="label" value="Curriculum Management KRAD"/>
         <property name="url.baseUrl" value="cmHome"/>
         <property name="url.viewId" value="curriculumHomeView"/>
-        <!--<property name="siblingBreadcrumbComponent">
+        <property name="siblingBreadcrumbComponent">
            <bean parent="KS-Uif-Dynamic-BreadCrumb"/>
-       </property>-->
+       </property>
     </bean>
 
 </beans>
