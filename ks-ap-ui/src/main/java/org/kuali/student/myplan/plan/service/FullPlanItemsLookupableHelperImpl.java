@@ -19,6 +19,7 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -98,8 +99,21 @@ public class FullPlanItemsLookupableHelperImpl extends
                         termsInYear=KsapFrameworkServiceLocator.getTermHelper().getTermsInAcademicYear(startYear);
                     }
                 }
-                if (pluckedTerm!=null && termsInYear!=null && termsInYear.get(j)!= null
-                        && termsInYear.get(j).getId() !=null
+                //TODO: KSAP-1329 remove this "debugging" if stmt after we figure out what is going on here
+                if (pluckedTerm!=null && termsInYear!=null && termsInYear.size() < j) {
+                    //log debugging info...to figure out why termsInYear.size() < j !!!!!
+                    LOG.error("strange year/terms error (termsInYear.size() < j): numberOfTerms="+numberOfTerms
+                            +" termsInYear.size()="+termsInYear.size()+" pluckedTerm.getAtpId()="+pluckedTerm
+                            .getAtpId()+" startYear="+startYear);
+                    for (Term termInYear : termsInYear) {
+                        LOG.error("termInYear.name="+termInYear.getName()+" termInYear.code="+termInYear.getCode()+
+                                " termInYear.startDate="+termInYear.getStartDate()+
+                                " termInYear.endDate="+termInYear.getEndDate());
+                    }
+                }
+
+                if (pluckedTerm != null && termsInYear != null && termsInYear.size() > j
+                        && termsInYear.get(j) != null && termsInYear.get(j).getId() != null
                         && termsInYear.get(j).getId().equals(pluckedTerm.getAtpId())
                         ) {
                     plannedTermList.add(pluckedTerm);
