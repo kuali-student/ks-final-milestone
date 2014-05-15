@@ -16,6 +16,8 @@
 -->
 
 <config>
+    <param name="config.location">classpath:META-INF/ks-ap-version-config.xml</param>
+
     <param name="module.name">ks-ap</param>
     <param name="ksap.version">0.8.0-m0</param>
 
@@ -70,7 +72,7 @@
     <param name="ksap.search.results.max">200</param>
 
 
-    <param name="ks.ap.externalizable.images.url">../ks-ap/images/</param>
+    <param name="ks.ap.externalizable.images.url">../themes/ksapboot/images/</param>
 
     <param name="ks.ap.search.division.parse.allowspace">true</param>
 

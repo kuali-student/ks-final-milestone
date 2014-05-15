@@ -6,7 +6,7 @@
     * */
     var s = document.createElement("script");
     s.type = "text/javascript";
-    s.src = "${request.contextPath}/ks-ap/scripts/devmode/live_less_loading.js";
+    s.src = "${request.contextPath}/themes/ksapboot/scripts/devmode/live_less_loading.js";
     document.body.appendChild(s);
     //Global variable for less processing in the browser
     var less = {
@@ -20,6 +20,6 @@
     //Include less.js processing script for live in-browser processing
     var s = document.createElement("script");
     s.type = "text/javascript";
-    s.src = "${request.contextPath}/ks-ap/scripts/vendor/less-1.7.0.min.js";
+    s.src = "${request.contextPath}/themes/ksapboot/scripts/vendor/less-1.7.0.min.js";
     document.body.appendChild(s);
 </script>

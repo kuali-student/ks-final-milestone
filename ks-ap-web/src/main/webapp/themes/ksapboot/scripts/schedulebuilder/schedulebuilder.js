@@ -535,7 +535,7 @@ function ksapSbSubmitDialog(methodToCall, e) {
 	var button = jQuery(e.currentTarget);
 
 	button.block({
-		message : '<img src="../ks-ap/images/ajaxLoader.gif"/>',
+		message : '<img src="../themes/ksapboot/images/ajaxLoader.gif"/>',
 		css : {
 			width : '100%',
 			border : 'none',

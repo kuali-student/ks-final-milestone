@@ -173,7 +173,7 @@ function openMenu(id, getId, atpId, e, selector, popupClasses, popupOptions, clo
 
     var popupOptionsDefault = {
         innerHtml:popupHtml,
-        themePath:getConfigParam("kradUrl")+"/../ks-ap/scripts/jquery-popover/jquerypopover-theme/",
+        themePath:getConfigParam("kradUrl")+"/../plugins/jquery-popover/jquerypopover-theme/",
         manageMouseEvents:false,
         selectable:true,
         tail:{align:'middle', hidden:false},
@@ -216,7 +216,7 @@ function openMenu(id, getId, atpId, e, selector, popupClasses, popupOptions, clo
     });
 
     //@TODO: ksap-961 Convert to icon font instead of image
-    if (close || typeof close === 'undefined') jQuery("#" + popupBoxId + " .jquerybubblepopup-innerHtml").append('<img src="../ks-ap/images/btnClose.png" class="ksap-popup-close"/>');
+    if (close || typeof close === 'undefined') jQuery("#" + popupBoxId + " .jquerybubblepopup-innerHtml").append('<img src="../themes/ksapboot/images/btnClose.png" class="ksap-popup-close"/>');
 
     runHiddenScripts(id + "_popup");
 
@@ -281,7 +281,7 @@ function ksapAjaxSubmitForm(data, successCallback, elementToBlock, formId, block
                 else {
                     var elementBlockingDefaults = {
                         baseZ:500,
-                        message:'<img src="../ks-ap/images/ajaxLoader.gif" alt="loading..." />',
+                        message:'<img src="../themes/ksapboot/images/ajaxLoader.gif" alt="loading..." />',
                         fadeIn:0,
                         fadeOut:0,
                         overlayCSS:{
@@ -478,7 +478,7 @@ function ksapGetSectionEnrollment(url, retrieveOptions, componentId) {
         dataType:"json",
         beforeSend:function () {
             elementToBlock.block({
-                message:'<img src="../ks-ap/images/ajaxLoader.gif" alt="Fetching enrollment data..." />',
+                message:'<img src="../themes/ksapboot/images/ajaxLoader.gif" alt="Fetching enrollment data..." />',
                 fadeIn:0,
                 fadeOut:0,
                 overlayCSS:{
@@ -701,7 +701,7 @@ function openPopup(getId, retrieveData, formAction, popupStyle, popupOptions, e)
     fnCloseAllPopups();
 
     var popupOptionsDefault = {
-        themePath:getConfigParam("kradUrl")+"/../ks-ap/scripts/jquery-popover/jquerypopover-theme/",
+        themePath:getConfigParam("kradUrl")+"/../plugins/jquery-popover/jquerypopover-theme/",
         manageMouseEvents:true,
         selectable:true,
         tail:{align:"middle", hidden:false},
@@ -763,7 +763,7 @@ function openPopup(getId, retrieveData, formAction, popupStyle, popupOptions, e)
             popupItem.SetPopOverInnerHtml(component);
             fnPositionPopUp(popupId);
             //@TODO ksap-961 Convert to icon font instead of image
-            if (popupOptions.close || typeof popupOptions.close === 'undefined') jQuery("#" + popupId + " .jquerypopover-innerHtml").append('<img src="../ks-ap/images/btnClose.png" class="ksap-popup-close"/>');
+            if (popupOptions.close || typeof popupOptions.close === 'undefined') jQuery("#" + popupId + " .jquerypopover-innerHtml").append('<img src="../themes/ksapboot/images/btnClose.png" class="ksap-popup-close"/>');
             jQuery("#" + popupId + " img.ksap-popup-close").on('click', function () {
                 popupItem.HidePopOver();
                 fnCloseAllPopups();

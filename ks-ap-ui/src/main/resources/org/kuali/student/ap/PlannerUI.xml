@@ -15,8 +15,8 @@
 		</property>
 		<property name="additionalScriptFiles">
 			<list>
-				<value>ks-ap/plugins/jcarousellite.js</value>
-				<value>ks-ap/scripts/plan/planner.js</value>
+				<value>plugins/jcarousellite/jcarousellite.js</value>
+				<value>themes/ksapboot/scripts/plan/planner.js</value>
 			</list>
 		</property>
 		<property name="items">

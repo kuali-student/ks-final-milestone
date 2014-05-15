@@ -28,7 +28,7 @@
 		</property>
 		<property name="additionalScriptFiles">
 			<list>
-				<value>ks-ap/scripts/ksap.search.js</value>
+				<value>themes/ksapboot/scripts/ksap.search.js</value>
 			</list>
 		</property>
 		<property name="items">
