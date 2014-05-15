@@ -19,6 +19,7 @@ package org.kuali.student.cm.uif.element;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.datadictionary.parse.BeanTagAttribute;
 import org.kuali.rice.krad.datadictionary.validator.ValidationTrace;
+import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.Group;
 import org.kuali.rice.krad.uif.element.Header;
 import org.kuali.rice.krad.uif.element.Label;
@@ -28,6 +29,9 @@ import org.kuali.rice.krad.uif.util.ComponentUtils;
 import org.kuali.rice.krad.uif.util.LifecycleElement;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -54,18 +58,12 @@ public class KSIconLabelMessage extends Message {
 
         if (StringUtils.isNotBlank(iconToolTipText)){
 
-            ImageField iconImageField = null;
-            try {
-                iconImageField = (ImageField) KSCollectionUtils.getRequiredZeroElement(getInlineComponents());
-            } catch (OperationFailedException e) {
-                throw new RuntimeException(e);
-            }
-
             String label = "";
+            List<Component> inlineComponents = null;
 
             if (parent instanceof Label){
                 Label parentObject = (Label) parent;
-                label = parentObject.getLabelText() + "[0]";
+                label = parentObject.getLabelText() + "[id=Uif-KS-IconImage]";
                 parentObject.setLabelText(label);
             } else if (parent instanceof Header){
                 label =  ((Header)parent).getHeaderText();
@@ -76,21 +74,21 @@ public class KSIconLabelMessage extends Message {
                 Group group = ((Header) parent).getRightGroup();
 
                 if (group != null){
-
+                    inlineComponents = new ArrayList<Component>();
                     Group groupCopy = ComponentUtils.copy(group);
                     group.setRender(false);
 
-                    label = label + " [0] [1]";
+                    label = label + " [0] [id=Uif-KS-IconImage]";
+                    inlineComponents.add(groupCopy);
+                    setInlineComponents(inlineComponents);
 
-                    getInlineComponents().add(0, groupCopy);
                 } else {
-                    label = label + " [0]";
+                    label = label + " [id=Uif-KS-IconImage]";
                 }
 
             }
 
             setMessageText(label);
-            iconImageField.getToolTip().setTooltipContent(iconToolTipText);
         }
 
         super.performApplyModel(model, parent);
@@ -99,9 +97,19 @@ public class KSIconLabelMessage extends Message {
     @Override
     public void performFinalize(Object model, LifecycleElement parent) {
 
-        super.performFinalize(model, parent);
 
         if (StringUtils.isNotBlank(iconToolTipText)){
+            ImageField iconImageField = null;
+            if(getMessageComponentStructure() != null) {
+                for (Component component : getMessageComponentStructure()) {
+                    if (component instanceof ImageField) {
+                        iconImageField = (ImageField) component;
+                        iconImageField.getToolTip().setTooltipContent(iconToolTipText);
+                        break;
+                    }
+                }
+            }
+
             if (parent instanceof Label){
                 /**
                  * Hide the Label's required message component. it's not needed to be displayed
@@ -115,6 +123,7 @@ public class KSIconLabelMessage extends Message {
 */
             }
         }
+        super.performFinalize(model, parent);
 
     }
 
