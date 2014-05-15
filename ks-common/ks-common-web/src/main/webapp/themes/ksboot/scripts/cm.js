@@ -539,7 +539,11 @@ function updateStickyHeaderText() {
  * @param index
  */
 function refreshOutcome(index) {
-    retrieveComponent('KS-CourseView-CourseLogisticsPage-Outcome-Widgets', 'refreshCourseLogistics', '', {outComeIndex:index});
+    var successFunction = function () {
+        jQuery('#typeKey_line' + index +'_control').focus();
+    };
+    retrieveComponent('KS-CourseView-CourseLogisticsPage-Outcome-Widgets', 'refreshCourseLogistics', successFunction, {outComeIndex:index});
+
 }
 
 function compareSubjectCodeInput(value, element) {
