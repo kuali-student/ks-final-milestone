@@ -326,6 +326,7 @@ section.uif-disclosure {
 
 section.uif-disclosure .uif-headerText .uif-headerText-span [class*='icon-caret-'] {
   border-right : none;
+  padding : 0px;
 }
 
 /*  The required message text on course details */
@@ -369,11 +370,6 @@ section.uif-disclosure .uif-headerText .uif-headerText-span [class*='icon-caret-
 /* Move the labels down a smidge */
 .review_proposal_details-grid .uif-gridLayout th[scope="row"] {
     padding-top: 1px;
-}
-
-
-section.uif-disclosure .uif-headerText .uif-headerText-span [class*='icon-caret-'] {
-  padding : 0px;
 }
 
 #course_review_outcome_details .uif-gridLayout td {
@@ -515,7 +511,7 @@ section.uif-disclosure .uif-headerText .uif-headerText-span [class*='icon-caret-
  */
 
 /* Remove the bottom border of the nav ul */
-.nav-tabs {
+#course_tabs_tabs .nav-tabs {
   border-bottom: 0px solid #dddddd;
 }
 
@@ -542,15 +538,15 @@ section.uif-disclosure .uif-headerText .uif-headerText-span [class*='icon-caret-
     margin: 0 -1px .2em 0;
 }
 
-.nav-tabs > li > a {
-    border-radius: 5px 0px 0px 5px !important;
+#course_tabs_tabs .nav-tabs > li > a {
+    border-radius: 5px 0px 0px 5px;
 }
 
 /* Get rid of the focus outline on the active tab item. */
-.nav-tabs > li.active > a,
-.nav-tabs > li.active > a:hover,
-.nav-tabs > li.active > a:focus {
-    outline: 0px !important;
+#course_tabs_tabs .nav-tabs > li.active > a,
+#course_tabs_tabs .nav-tabs > li.active > a:hover,
+#course_tabs_tabs .nav-tabs > li.active > a:focus {
+    outline: 0px;
 }
 
 /* Darkens the top item's top border */
@@ -558,7 +554,7 @@ section.uif-disclosure .uif-headerText .uif-headerText-span [class*='icon-caret-
     border-top: 1px solid #888888;
 }
 
-.nav-tabs > li {
+#course_tabs_tabs .nav-tabs > li {
   border: 1px solid #888888;
 }
 
