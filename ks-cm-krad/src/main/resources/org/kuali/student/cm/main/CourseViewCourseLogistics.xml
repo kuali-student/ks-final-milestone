@@ -229,7 +229,7 @@
                     </property>
                     <property name="refreshWhenChangedPropertyNames" value="typeKey"/>
                     <property name="control">
-                        <bean parent="Uif-TextControl"/>
+                        <bean parent="Uif-TextControl" p:disabled="@{#lp.typeKey eq null or #lp.typeKey eq '1'}"/>
                     </property>
                     <property name="propertyReplacers">
                         <list>
