@@ -70,7 +70,7 @@
               onDocumentReady the section that contains the action link is in a disclosure and onDocumentReady isn't generated
               until the disclosure is expanded. I thought that might confuse the AFTs.
         -->
-        <property name="onDocumentReadyScript" value="reDisplayRDLSection();"/>
+        <property name="onDocumentReadyScript" value="reDisplayRDLSection();fixActionLinkJumpToIds('edit_schedule_request_action_link', 'activityCode_label');"/>
 
         <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
         <property name="items">
@@ -109,8 +109,9 @@
         </property>
         <property name="lineActions">
               <list>
+                  <!-- TODO: KSENROLL-11002. See the onDocumentReadyScript comment in ActivityOffering-ManageSchedulingInformationSection. -->
                   <bean id="edit_schedule_request_action_link" parent="KS-Uif-Edit-NavigationActionLink"
-                        p:methodToCall="editScheduleComponent" p:actionLabel="Edit" p:jumpToIdAfterSubmit="activityCode_label"
+                        p:methodToCall="editScheduleComponent" p:actionLabel="Edit"
                         p:preSubmitCall="return checkAOEditWIP();" p:performDirtyValidation="false" />
                   <bean id="delete_schedule_request" parent="KS-Uif-Delete-ActionLink"
                         p:methodToCall="deleteScheduleComponent"
