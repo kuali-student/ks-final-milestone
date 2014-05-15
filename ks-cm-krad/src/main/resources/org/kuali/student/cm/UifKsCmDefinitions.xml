@@ -134,6 +134,18 @@
             </list>
         </property>
     </bean>
+
+    <bean id="KS-HomewardPathBreadcrumbs-CurriculumManagement" parent="KS-HomewardPathBreadcrumbs-CurriculumManagement-parent"/>
+
+    <bean id="KS-HomewardPathBreadcrumbs-CurriculumManagement-parent" parent="Uif-BreadcrumbItem" abstract="true">
+        <property name="label" value="Curriculum Management KRAD"/>
+        <property name="url.baseUrl" value="cmHome"/>
+        <property name="url.viewId" value="curriculumHomeView"/>
+        <!--<property name="siblingBreadcrumbComponent">
+           <bean parent="KS-Uif-Dynamic-BreadCrumb"/>
+       </property>-->
+    </bean>
+
 </beans>
 
 

@@ -249,7 +249,15 @@
     </bean>
 
     <bean id="KS-HomewardPathBreadcrumbs-ProposalName" parent="Uif-BreadcrumbItem">
-        <property name="label" value="@{#uiHelper.headerText}"></property>
+        <property name="label" value="@{#uiHelper.headerText}"/>
+        <property name="url.viewId" value="createCourseInitialView"/>
+        <property name="url.controllerMapping" value="createcourse_initial"/>
+        <property name="url.requestParameters">
+            <map key-type="java.lang.String" merge="true">
+                <entry key="methodToCall" value="start"/>
+                <entry key="hideReturnLink" value="true"/>
+            </map>
+        </property>
     </bean>
 
     <bean id="KS-HomewardPathBreadcrumbs-CreateCourse" parent="Uif-BreadcrumbItem">
