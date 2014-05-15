@@ -124,7 +124,8 @@
                             <bean parent="KS-Uif-InquiryLink"
                                   p:propertyName="courseOfferingCode" p:id="view_co_@{#line.courseOfferingCode}"
                                   p:inquiry.dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper"
-                                  p:inquiry.inquiryParameters="courseOfferingId" />
+                                  p:inquiry.inquiryParameters="courseOfferingId"
+                                  p:inquiry.title="View Details"/>
 
                             <bean parent="Uif-ImageField" p:hidden="@{#lp.alternateCOCodes.isEmpty()}" p:image.altText="@{#lp.crossListedCodesUI}" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/cross-listed.png">
                                 <property name="toolTip">

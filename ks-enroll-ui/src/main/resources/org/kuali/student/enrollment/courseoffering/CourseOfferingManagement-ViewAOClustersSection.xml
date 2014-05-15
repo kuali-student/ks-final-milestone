@@ -164,7 +164,8 @@
                                   p:propertyName="aoInfo.activityCode"
                                   p:fieldLabel.render="false"
                                   p:inquiry.dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper"
-                                  p:inquiry.inquiryParameters="aoInfo.id" />
+                                  p:inquiry.inquiryParameters="aoInfo.id"
+                                  p:inquiry.title="View Details"/>
 
                             <bean parent="Uif-ImageField" p:hidden="@{#lp.hasRule eq false}"
                                   p:source="@{#ConfigProperties['ks.externalizable.images.url']}/ActivityRuleIcon6px.png">
