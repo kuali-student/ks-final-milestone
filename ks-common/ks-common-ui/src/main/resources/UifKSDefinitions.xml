@@ -368,7 +368,7 @@
     <bean id="KS-Uif-InquiryLink-parentBean" abstract="true" parent="KS-Uif-DataField-Simple" scope="prototype">
         <property name="inquiry">
             <!-- Children need to provide dataObjectClassName and inquiryParameters values -->
-            <bean parent="KS-Uif-Inquiry"/>
+            <bean parent="Uif-Inquiry"/>
         </property>
     </bean>
 
@@ -730,12 +730,6 @@
         <property name="actionEvent" value="addBlankLine"/>
         <property name="additionalCssClasses" value="ks-fontello-icon-plus-1"/>
     </bean>
-
-    <!-- TODO: KSENROLL-8478 temporarily overriding KRAD's Inquiry as it was messing up the hover over. should be resolved in Rice 2.3.1 -->
-    <bean id="KS-Uif-Inquiry" parent="KS-Uif-Inquiry-parent"/>
-    <bean id="KS-Uif-Inquiry-parent" parent="Uif-Inquiry" abstract="true" scope="prototype"
-          class="org.kuali.student.common.uif.element.KSUifInquiry"/>
-
 
     <bean id="KS-Uif-RichTable" parent="KS-Uif-RichTable-parent"/>
     <bean id="KS-Uif-RichTable-parent" parent="Uif-RichTable-parentBean" abstract="true"
