@@ -539,6 +539,11 @@ function updateStickyHeaderText() {
  * @param index
  */
 function refreshOutcome(index) {
+
+    if(event.type == 'blur') {
+        return;
+    }
+
     var successFunction = function () {
         jQuery('#typeKey_line' + index +'_control').focus();
     };
