@@ -141,7 +141,7 @@
         <property name="collectionLookup">
             <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false" />
         </property>
-        <property name="layoutManager.rowDetailsOpen" value="true" />
+        <property name="layoutManager.rowDetailsOpen" value="false" />
         <property name="layoutManager.renderSequenceField" value="false"/>
         <property name="layoutManager.applyDefaultCellWidths" value="false"/>
         <property name="layoutManager.richTable">
