@@ -58,6 +58,9 @@ public class ScheduleOfClassesTableLayoutManager extends TableLayoutManagerBase 
                 }
 
                 requisites.setColSpan(this.getNumberOfDataColumns() - 1);
+
+                //This line was needed after the rice upgrade since the binding path was not set correctly
+                requisites.getContext().put(UifConstants.ContextVariableNames.LINE, currentLine);
                 this.getAllRowFields().add(requisites);
             }
         } else {
