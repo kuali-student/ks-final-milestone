@@ -63,13 +63,6 @@
                 <value>ks-section</value>
             </list>
         </property>
-        <!--  TODO: KSENROLL-11002. If an action is in a CollectionGroup KRAD v2.3.2 overwrites Action#jumpToIdAfterSubmit
-              with the id of the of the CollectionGroup which prevents the/this page from being scrolled/positioned correctly.
-              fixActionLinkJumpToIds is a hack to "fix" the jumpToId. Once we get Rice v2.4-m3 or better it can go away and
-              a p:jumpToIdAfterSubmit can be added to the action link below. I set onDocumentReadyScript call here because
-              onDocumentReady the section that contains the action link is in a disclosure and onDocumentReady isn't generated
-              until the disclosure is expanded. I thought that might confuse the AFTs.
-        -->
         <property name="onDocumentReadyScript" value="reDisplayRDLSection();"/>
 
         <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
