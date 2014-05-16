@@ -108,7 +108,8 @@
           class="org.kuali.student.cm.uif.element.KSIconLabelMessage" scope="prototype" />
 
     <!-- This is used within org.kuali.student.cm.uif.element.KSIconLabelMessage -->
-    <bean id="Uif-KS-IconImage" parent="Uif-ImageField" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/validation/info.png">
+    <bean id="Uif-KS-IconImage" parent="Uif-KS-IconImage-parentBean"/>
+    <bean id="Uif-KS-IconImage-parentBean" parent="Uif-ImageField" abstract="true" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/validation/info.png">
         <property name="image.style" value="vertical-align:top;"/>
         <property name="toolTip">
             <bean parent="Uif-KS-Tooltip"/>

@@ -27,6 +27,7 @@ import org.kuali.rice.krad.uif.element.Message;
 import org.kuali.rice.krad.uif.field.ImageField;
 import org.kuali.rice.krad.uif.util.ComponentUtils;
 import org.kuali.rice.krad.uif.util.LifecycleElement;
+import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 
@@ -58,15 +59,15 @@ public class KSIconLabelMessage extends Message {
 
         if (StringUtils.isNotBlank(iconToolTipText)){
 
-            String label = "";
+            StringBuilder label = new StringBuilder();
             List<Component> inlineComponents = null;
 
             if (parent instanceof Label){
                 Label parentObject = (Label) parent;
-                label = parentObject.getLabelText() + "[id=Uif-KS-IconImage]";
-                parentObject.setLabelText(label);
+                label.append(parentObject.getLabelText()).append(CurriculumManagementConstants.KS_MESSAGE_ICON_IMAGE_ID);
+                parentObject.setLabelText(label.toString());
             } else if (parent instanceof Header){
-                label =  ((Header)parent).getHeaderText();
+                label.append(((Header)parent).getHeaderText());
                 /*
                  * If there are any components configured to display as right group, move that
                  * component to the middle so that icon always display as last component.
@@ -78,17 +79,17 @@ public class KSIconLabelMessage extends Message {
                     Group groupCopy = ComponentUtils.copy(group);
                     group.setRender(false);
 
-                    label = label + " [0] [id=Uif-KS-IconImage]";
+                    label.append(label).append(" [0] ").append(CurriculumManagementConstants.KS_MESSAGE_ICON_IMAGE_ID);
                     inlineComponents.add(groupCopy);
                     setInlineComponents(inlineComponents);
 
                 } else {
-                    label = label + " [id=Uif-KS-IconImage]";
+                    label.append(label).append(CurriculumManagementConstants.KS_MESSAGE_ICON_IMAGE_ID);
                 }
 
             }
 
-            setMessageText(label);
+            setMessageText(label.toString());
         }
 
         super.performApplyModel(model, parent);
@@ -96,7 +97,6 @@ public class KSIconLabelMessage extends Message {
 
     @Override
     public void performFinalize(Object model, LifecycleElement parent) {
-
 
         if (StringUtils.isNotBlank(iconToolTipText)){
             ImageField iconImageField = null;
@@ -109,22 +109,9 @@ public class KSIconLabelMessage extends Message {
                     }
                 }
             }
-
-            if (parent instanceof Label){
-                /**
-                 * Hide the Label's required message component. it's not needed to be displayed
-                 * as the Label's inline component will be displaying that.
-                 */
-                // rice 2.4 upgrade: label does not have requiredMessage any more TODO: KSCM-2000 Required Message Changes
-/*
-                Message copy = ComponentUtils.copy(((Label) parent).getRequiredMessage());
-                ((Label) parent).setRequiredMessage(copy);
-                ((Label) parent).getRequiredMessage().setRender(false);
-*/
-            }
         }
-        super.performFinalize(model, parent);
 
+        super.performFinalize(model, parent);
     }
 
     @BeanTagAttribute(name="iconToolTipText")

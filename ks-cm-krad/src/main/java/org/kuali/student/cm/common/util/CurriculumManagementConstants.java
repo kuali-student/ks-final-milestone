@@ -137,6 +137,7 @@ public class CurriculumManagementConstants {
 
     public final static String KS_LO_CAT_TABLE = "KS-LoCatTable";
 
+    public final static String KS_MESSAGE_ICON_IMAGE_ID = "[id=Uif-KS-IconImage]";
     /**
      * This delimiter to use when rendering collections as a String.
      */
