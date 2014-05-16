@@ -166,22 +166,13 @@ limitations under the License.
                     <bean parent="Uif-Message"/>
                 </property>
                 <property name="dataGroupPrototype">
-                    <bean parent="Uif-GroupBase" p:style="margin-left: 2em;">
-                        <property name="layoutManager">
-                            <bean p:id="compare_msgs" parent="Uif-BoxLayoutBase" p:style="display: table; width: 760px; margin: 1px;"/>
-                        </property>
+                    <bean parent="Uif-HorizontalBoxGroup" p:style="margin-left: 2em; display: table; width: 760px;">
                         <property name="items">
                             <list>
-                                <bean parent="Uif-HorizontalBoxSection">
-                                    <property name="items">
-                                        <list>
-                                        <bean p:id="left_compare_msg" parent="Uif-MessageField" p:messageText="@{#np.firstElement}"
+                                <bean p:id="left_compare_msg" parent="Uif-MessageField" p:messageText="@{#np.firstElement}"
                                               p:style="display: table-cell; width: @{#np.width}px;"/>
-                                        <bean p:id="right_compare_msg" parent="Uif-MessageField" p:messageText="@{#np.secondElement}"
+                                <bean p:id="right_compare_msg" parent="Uif-MessageField" p:messageText="@{#np.secondElement}"
                                               p:style="display: table-cell; width: @{#np.width}px; margin-left: @{350-#np.width}px;"/>
-                                        </list>
-                                    </property>
-                                </bean>
                             </list>
                         </property>
                     </bean>
