@@ -28,6 +28,7 @@ import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
 import org.kuali.student.cm.course.form.CourseInfoWrapper;
 import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
+import org.kuali.student.cm.course.form.ResultValuesGroupInfoWrapper;
 import org.kuali.student.cm.course.service.util.OrganizationSearchUtil;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.uif.rule.KsMaintenanceDocumentRuleBase;
@@ -101,10 +102,29 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
             }
         }
 
+        success = success && validateOutcomes(dataObject);
         success = success && validateInstructor(dataObject);
         success = success && validateOrganization(dataObject);
 
         return success;
+    }
+
+    protected  boolean validateOutcomes(CourseInfoWrapper dataObject) {
+        boolean returnVal = true;
+        Integer item = 0;
+        for (ResultValuesGroupInfoWrapper rvg : dataObject.getCreditOptionWrappers()) {
+            if (StringUtils.isNotBlank(rvg.getTypeKey()) && rvg.getTypeKey().length() > 1) {
+                if(StringUtils.isBlank(rvg.getUiHelper().getResultValue())) {
+                    String propertyKey = DATA_OBJECT_PATH + ".creditOptionWrappers[" + item.intValue() + "]" + ".uiHelper.resultValue";
+                    GlobalVariables.getMessageMap().putError(propertyKey,
+                            CurriculumManagementConstants.MessageKeys.ERROR_OUTCOME_CREDIT_VALUE_REQUIRED);
+                    returnVal = false;
+                }
+            }
+            item++;
+        }
+
+        return returnVal;
     }
 
     protected boolean validateInstructor(CourseInfoWrapper dataObject) {
