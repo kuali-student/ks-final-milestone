@@ -652,7 +652,9 @@ limitations under the License.
 
     <bean id="KRMS-AoCompareTree-Section-parent" parent="KRMS-Tree-Section" p:style="width: 1200px;"
           p:additionalCssClasses="compareTree">
-        <property name="tree"><null/></property>
+        <property name="tree">
+            <null/>
+        </property>
         <property name="propertyName" value="compareTree"/>
         <property name="defaultNodePrototype">
             <bean class="org.kuali.rice.krad.uif.container.NodePrototype">
@@ -660,24 +662,16 @@ limitations under the License.
                     <bean parent="Uif-Message"/>
                 </property>
                 <property name="dataGroupPrototype">
-                    <bean parent="Uif-GroupBase" p:style="margin-left: 2em;">
-                        <property name="layoutManager">
-                            <bean parent="Uif-BoxLayoutBase" p:style="display: table; width: 1150px; margin: 1px;"/>
-                        </property>
+                    <bean parent="Uif-HorizontalBoxGroup" p:style="margin-left: 2em; display: table; width: 1150px;">
                         <property name="items">
                             <list>
-                                <bean parent="Uif-HorizontalBoxSection">
-                                    <property name="items">
-                                        <list>
-                                            <bean parent="Uif-MessageField" p:messageText="@{#np.firstElement}"
-                                                  p:style="display: table-cell; width: @{#np.width}px;"/>
-                                            <bean parent="Uif-MessageField" p:messageText="@{#np.secondElement}"
-                                                  p:style="display: table-cell; width: @{#np.width}px; margin-left: @{350-#np.width}px;"/>
-                                            <bean parent="Uif-MessageField" p:messageText="@{#np.thirdElement}"
-                                                  p:style="display: table-cell; width: @{#np.width}px; margin-left: @{350-#np.width}px;"/>
-                                        </list>
-                                    </property>
-                                </bean>
+                                <bean parent="Uif-MessageField" p:messageText="@{#np.firstElement}"
+                                      p:style="display: table-cell; width: @{#np.width}px;"/>
+                                <bean parent="Uif-MessageField" p:messageText="@{#np.secondElement}"
+                                      p:style="display: table-cell; width: @{#np.width}px; margin-left: @{350-#np.width}px;"/>
+                                <bean parent="Uif-MessageField" p:messageText="@{#np.thirdElement}"
+                                      p:style="display: table-cell; width: @{#np.width}px; margin-left: @{350-#np.width}px;"/>
+
                             </list>
                         </property>
                     </bean>
