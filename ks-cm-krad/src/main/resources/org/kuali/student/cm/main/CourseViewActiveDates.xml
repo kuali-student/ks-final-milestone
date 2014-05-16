@@ -62,9 +62,25 @@
                             <value>admin-not-required-field</value>
                         </list>
                     </property>
-                  <property name="refreshWhenChangedPropertyNames">
+                    <property name="refreshWhenChangedPropertyNames">
                         <list>
                             <value>document.newMaintainableObject.dataObject.courseInfo.pilotCourse</value>
+                        </list>
+                    </property>
+
+                    <!-- This is a workaround for a problem (KRAD bug? Browser bug?) where the required indicator isn't
+                         displayed when this widget is progressively disclosed until the browser window looses focus or
+                         the page is clicked. This could also be used to give a widget focus after it is progressively
+                         disclosed. -->
+                    <property name="propertyReplacers">
+                        <list>
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                                  p:propertyName="onDocumentReadyScript"
+                                  p:condition="@{#form.updateComponentRequest}">
+                                <property name="replacement">
+                                    <value>jQuery('#CourseView-ActiveDatesPage-EndTerm_control').focus();</value>
+                                </property>
+                            </bean>
                         </list>
                     </property>
                     <property name="instructionalText" value="Last term in which the course can be offered" />
@@ -80,7 +96,7 @@
                             <property name="iconToolTipText" value="Most courses will not have an explicit end date. Exceptions are pilot courses or visiting instructor specific courses"/>
                         </bean>
                     </property>
-                </bean>
+                    </bean>
             </list>
         </property>
     </bean>
