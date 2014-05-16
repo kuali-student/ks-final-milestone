@@ -79,12 +79,12 @@ public class KSIconLabelMessage extends Message {
                     Group groupCopy = ComponentUtils.copy(group);
                     group.setRender(false);
 
-                    label.append(label).append(" [0] ").append(CurriculumManagementConstants.KS_MESSAGE_ICON_IMAGE_ID);
+                    label.append(" [0] ").append(CurriculumManagementConstants.KS_MESSAGE_ICON_IMAGE_ID);
                     inlineComponents.add(groupCopy);
                     setInlineComponents(inlineComponents);
 
                 } else {
-                    label.append(label).append(CurriculumManagementConstants.KS_MESSAGE_ICON_IMAGE_ID);
+                    label.append(CurriculumManagementConstants.KS_MESSAGE_ICON_IMAGE_ID);
                 }
 
             }
