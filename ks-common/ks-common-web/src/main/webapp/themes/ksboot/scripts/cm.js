@@ -287,7 +287,7 @@ function scrollToSection(sectionId, focus) {
     jQuery(window).off('scroll.' + activateTabEventNamespace);
 
     //  Scroll to the selected tab.
-    jQuery('html body').animate(
+    jQuery('body, html').animate(
         { scrollTop:(jQuery(sectionId).offset().top - jQuery(".uif-viewHeader-contentWrapper").outerHeight(true))},
         {
             duration:750,
