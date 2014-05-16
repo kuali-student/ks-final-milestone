@@ -300,7 +300,7 @@ limitations under the License.
                         <property name="items">
                             <list>
                                 <bean parent="KS-Uif-NavigationActionLink" p:methodToCall="addRule" p:actionLabel="Add"
-                                      p:performActionAuthz="true" p:actionEvent="useActions"/>
+                                      p:performActionAuthz="true" p:actionEvent="useActions" p:performDirtyValidation="false"/>
                             </list>
                         </property>
                     </bean>
