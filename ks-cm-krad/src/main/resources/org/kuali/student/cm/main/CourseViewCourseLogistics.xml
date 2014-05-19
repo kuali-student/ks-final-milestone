@@ -405,11 +405,11 @@
                                     <list>
                                         <bean parent="PrerequisiteConstraint" p:propertyName="contactHours.unitTypeKey">
                                             <!-- cm_3.0_refactor, there should be some standards with our cm resource keys-->
-                                            <property name="messageKey" value="error.frequency.required.for.contact.hours"/>
+                                            <property name="messageKey" value="error.cm.course.format.activities.frequency.requiredForContactHours"/>
                                         </bean>
                                         <bean parent="PrerequisiteConstraint" p:propertyName="typeKey">
                                             <!-- cm_3.0_refactor, there should be some standards with our cm resource keys-->
-                                            <property name="messageKey" value="error.activity.type.required"/>
+                                            <property name="messageKey" value="error.cm.course.format.activities.type.required"/>
                                         </bean>
 
                                     </list>
@@ -427,7 +427,7 @@
                                     <list>
                                         <bean parent="PrerequisiteConstraint" p:propertyName="typeKey">
                                             <!-- cm_3.0_refactor, there should be some standards with our cm resource keys-->
-                                            <property name="messageKey" value="error.activity.type.required"/>
+                                            <property name="messageKey" value="error.cm.course.format.activities.type.required"/>
                                         </bean>
                                     </list>
                                 </property>
@@ -443,7 +443,7 @@
                                     <list>
                                         <bean parent="PrerequisiteConstraint" p:propertyName="typeKey">
                                             <!-- cm_3.0_refactor, there should be some standards with our cm resource keys-->
-                                            <property name="messageKey" value="error.activity.type.required"/>
+                                            <property name="messageKey" value="error.cm.course.format.activities.type.required"/>
                                         </bean>
                                     </list>
                                 </property>
@@ -460,11 +460,11 @@
                                     <list>
                                         <bean parent="PrerequisiteConstraint" p:propertyName="duration.atpDurationTypeKey">
                                             <!-- cm_3.0_refactor, there should be some standards with our cm resource keys-->
-                                            <property name="messageKey" value="error.duration.type.required.for.duration.count"/>
+                                            <property name="messageKey" value="error.cm.course.format.activities.durationType.requiredForDurationCount"/>
                                         </bean>
                                         <bean parent="PrerequisiteConstraint" p:propertyName="typeKey">
                                             <!-- cm_3.0_refactor, there should be some standards with our cm resource keys-->
-                                            <property name="messageKey" value="error.activity.type.required"/>
+                                            <property name="messageKey" value="error.cm.course.format.activities.type.required"/>
                                         </bean>
                                     </list>
                                 </property>
@@ -483,7 +483,7 @@
                                     <list>
                                         <bean parent="PrerequisiteConstraint" p:propertyName="typeKey">
                                                 <!-- cm_3.0_refactor, there should be some standards with our cm resource keys-->
-                                            <property name="messageKey" value="error.activity.type.required"/>
+                                            <property name="messageKey" value="error.cm.course.format.activities.type.required"/>
                                         </bean>
                                     </list>
                                 </property>
