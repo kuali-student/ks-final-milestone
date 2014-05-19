@@ -409,10 +409,11 @@
                       p:fieldLabel.renderColon="false"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and #dp.studentRegOptions.contains('kuali.resultComponent.grade.passFail')}"/>
                 <!-- Rice 2.4 upgrade : removing p:labelPlacement="RIGHT" -->
-                <bean parent="Uif-CheckboxInputField" p:id="is_audit" p:label="Audit"
-                      p:propertyName="auditStudentRegOpts"
-                      p:fieldLabel.renderColon="false"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and #dp.studentRegOptions.contains('kuali.resultComponent.grade.audit')}"/>
+                <bean id="is_audit" parent="Uif-InputField" p:propertyName="auditStudentRegOpts">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl" p:checkboxLabel="Audit" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and #dp.studentRegOptions.contains('kuali.resultComponent.grade.audit')}"/>
+                    </property>
+                </bean>
                 <!-- Rice 2.4 upgrade : removing p:labelPlacement="RIGHT" -->
                 <!-- For read only view show as message fields -->
                 <bean parent="Uif-MessageField"
