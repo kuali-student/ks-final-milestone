@@ -69,7 +69,7 @@
                     </property>
 
                     <!-- This is a workaround for a problem (KRAD bug? Browser bug?) where the required indicator isn't
-                         displayed when this widget is progressively disclosed until the browser window looses focus or
+                         displayed when this widget is progressively disclosed until the browser window loses focus or
                          the page is clicked. This could also be used to give a widget focus after it is progressively
                          disclosed. -->
                     <property name="propertyReplacers">
