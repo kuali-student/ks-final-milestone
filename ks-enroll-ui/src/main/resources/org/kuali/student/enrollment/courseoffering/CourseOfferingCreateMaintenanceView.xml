@@ -411,7 +411,7 @@
                 <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="targetTermCode" p:required="true" p:id="targetTermCode"
                       p:label="Target Term" p:fieldLabel.renderColon="false">
                     <property name="control">
-                        <bean parent="KS-Uif-TextControl" p:size="10" p:watermarkText="201301" p:onClickScript="toggleTextBoxes(this);"/>
+                        <bean parent="KS-Uif-TextControl" p:size="10" p:watermarkText="201301"/>
                     </property>
                     <property name="help">
                         <bean parent="Uif-Help" p:tooltipHelpContent="Term is required to retrieve the correct version of the Catalog Course"/>
