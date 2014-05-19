@@ -1437,9 +1437,9 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
         courseInfoWrapper.getCourseInfo().getFormats().clear();
-
+        List<ActivityInfo> activities;
         for (FormatInfo format : courseInfoWrapper.getFormats()) {
-
+            activities  = new ArrayList<ActivityInfo>();
             if (!isEmptyFormat(format)) {
 
                 if (StringUtils.isBlank(format.getId())) { // If it's new
@@ -1452,8 +1452,13 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                     if (StringUtils.isBlank(activity.getId())) { // If it's new
                         activity.setState(DtoConstants.STATE_DRAFT);
                     }
+                    if(activity.getId() == null && (activity.getTypeKey() == null)) {
+                        continue;
+                    }
+                    activities.add(activity);
                 }
-
+                format.getActivities().clear();
+                format.setActivities(activities);
                 courseInfoWrapper.getCourseInfo().getFormats().add(format);
 
             }
