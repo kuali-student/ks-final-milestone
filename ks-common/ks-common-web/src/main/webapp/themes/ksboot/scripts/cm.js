@@ -540,12 +540,8 @@ function updateStickyHeaderText() {
  */
 function refreshOutcome(index) {
 
-    if(event.type == 'blur') {
-        return;
-    }
-
     var successFunction = function () {
-        jQuery('#typeKey_line' + index +'_control').focus();
+        jQuery('#creditValue_line' + index + '_control').focus();
     };
     retrieveComponent('KS-CourseView-CourseLogisticsPage-Outcome-Widgets', 'refreshCourseLogistics', successFunction, {outComeIndex:index});
 
@@ -831,7 +827,7 @@ function compareInputWithAutosuggestFromAjax(value, element, successFunction) {
 }
 
 function refreshEndTerm() {
-    if(jQuery('#CourseView-ActiveDatesPage-PilotCourse_control').prop('checked')) {
+    if (jQuery('#CourseView-ActiveDatesPage-PilotCourse_control').prop('checked')) {
         retrieveComponent('CourseView-ActiveDatesPage-EndTerm');
     }
 }
