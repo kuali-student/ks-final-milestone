@@ -489,16 +489,37 @@ limitations under the License.
                                   p:actionEvent="addEditGroupRule"/>
                             <bean parent="KRMS-RuleEditorView-EditButton" p:performActionAuthz="true"
                                   p:actionEvent="addEditGroupRule"/>
+                        </list>
+                    </property>
+                </bean>
+
+                <bean parent="KS-Uif-HorizontalBoxGroup-ToolbarGroup">
+                    <property name="items">
+                        <list>
                             <bean parent="KRMS-RuleEditorView-GroupButton" p:performActionAuthz="true"
                                   p:actionEvent="addEditGroupRule"/>
                             <bean parent="KRMS-RuleEditorView-LeftButton" p:performActionAuthz="true"
                                   p:actionEvent="moveRule"/>
                             <bean parent="KRMS-RuleEditorView-RightButton" p:performActionAuthz="true"
                                   p:actionEvent="moveRule"/>
+                        </list>
+                    </property>
+                </bean>
+
+                <bean parent="KS-Uif-HorizontalBoxGroup-ToolbarGroup">
+                    <property name="items">
+                        <list>
                             <bean parent="KRMS-RuleEditorView-UpButton" p:performActionAuthz="true"
                                   p:actionEvent="moveRule"/>
                             <bean parent="KRMS-RuleEditorView-DownButton" p:performActionAuthz="true"
                                   p:actionEvent="moveRule"/>
+                        </list>
+                    </property>
+                </bean>
+
+                <bean parent="KS-Uif-HorizontalBoxGroup-ToolbarGroup">
+                    <property name="items">
+                        <list>
                             <bean parent="KRMS-RuleEditorView-CopyButton" p:performActionAuthz="true"
                                   p:actionEvent="copyCutRule"/>
                             <bean parent="KRMS-RuleEditorView-CutButton" p:performActionAuthz="true"
