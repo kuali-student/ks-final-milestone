@@ -711,12 +711,6 @@ function initAddExamPeriodButtons(examPeriodSectionId, lineIdPrefix, addExamPeri
 
 }
 
-function toggleTextBoxes(textBox){
-    jQuery(textBox).bind('input', function(event) {
-        jQuery(textBox).keyup();
-    });
-}
-
 /* new function to display calendar information (title and dates) on fly (when someone type it in)
  called from AcademicCalendarEditPage.xml
  KSENROLL-8189
