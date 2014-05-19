@@ -30,7 +30,7 @@
                     <property name="propertyName" value="tree1"/>
                 </bean>
 
-                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="dateField" p:label="Effective From">
+                <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="dateField" p:label="Effective From" p:required="true">
                     <property name="control">
                         <bean parent="Uif-DateControl" />
                     </property>
@@ -50,7 +50,7 @@
                                             <bean parent="Uif-HorizontalFieldGroup">
                                                 <property name="items">
                                                     <list>
-                                                        <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="field4" p:label="Effective From">
+                                                        <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="field4" p:label="Effective From" p:required="true">
                                                             <property name="control">
                                                                 <bean parent="Uif-DateControl" />
                                                             </property>
@@ -79,7 +79,7 @@
                 <bean parent="Uif-FooterBase" p:style="margin-bottom:0;">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-PrimaryActionButton-Small">
+                            <bean parent="Uif-PrimaryActionButton-Small" p:performClientSideValidation="true">
                                 <!-- method saveForm() defined in KitchenSinkController.java: -->
                                 <property name="methodToCall" value="saveForm"/>
                                 <property name="actionLabel" value="Save Changes"/>
