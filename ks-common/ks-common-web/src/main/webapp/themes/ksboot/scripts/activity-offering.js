@@ -560,17 +560,17 @@ function calculatePercent(jqObject){
     var maxEnrollValue = 0;
 
     // 3 different calculations: when on Edit page and when on View page, unfortunately IDs set up differently by KRAD
-    var maxEnrollView = jQuery('span[id=maximumEnrollment]');
+    var maxEnrollView = jQuery('div[id=maximumEnrollment]');
     var maxEnroll =  jQuery('#maximumEnrollment_control');
 
     if (maxEnrollView.length > 0) { // View page
-        maxEnrollValue = maxEnrollView.text().trim();
-        var rows = jQuery('span[id^=seatLimit_line]');
+        maxEnrollValue = maxEnrollView.clone().children().remove().end().text().trim();
+        var rows = jQuery('div[id^=seatLimit_line]');
         rows.each(function () {
             var id = jQuery(this).attr('id');
             if(id.match(/_/g).length == 1) {
                 var num = id.substring(14);
-                var elemPct = jQuery('#seatLimitPercent_line' + num + ' span[class=uif-message]');
+                var elemPct = jQuery('#seatLimitPercent_line' + num + ' p[class=uif-message]');
                 var seatsNum = jQuery(this).text().trim();
                 if(seatsNum != ""){
                     count += 1;
@@ -586,16 +586,13 @@ function calculatePercent(jqObject){
         });
         seatpoolCount.text(count);
     } else if ( maxEnrollView.length == 0 && maxEnroll.hasClass("uif-readOnlyContent") ) { // View page
-        maxEnrollValue = maxEnrollView.text().trim();
-        if (maxEnrollValue == "") {
-            maxEnrollValue = maxEnroll.text().trim();
-        }
-        var rows = jQuery('span[id^=seatLimit_line]');
+        maxEnrollValue = maxEnrollView.clone().children().remove().end().text().trim();
+        var rows = jQuery('div[id^=seatLimit_line]');
         rows.each(function () {
             var id = jQuery(this).attr('id');
             if(id.indexOf("_control") != -1) {
                 var num = id.substring(14,15);
-                var elemPct = jQuery('#seatLimitPercent_line' + num + ' span[class=uif-message]');
+                var elemPct = jQuery('#seatLimitPercent_line' + num + ' p[class=uif-message]');
                 var seatsNum = jQuery(this).text().trim();
                 count += 1;
                 if (maxEnrollValue != "" && maxEnrollValue != 0 && seatsNum != "") {
