@@ -26,6 +26,7 @@ import java.util.List;
 public class AORuleManagementWrapper extends CORuleManagementWrapper {
 
     private String aoDescription;
+    private boolean copyEditCORuleDirty;
 
     public String getAoDescription() {
         return aoDescription;
@@ -33,5 +34,13 @@ public class AORuleManagementWrapper extends CORuleManagementWrapper {
 
     public void setAoDescription(String aoDescription) {
         this.aoDescription = aoDescription;
+    }
+
+    public boolean isCopyEditCORuleDirty() {
+        return copyEditCORuleDirty;
+    }
+
+    public void setCopyEditCORuleDirty(boolean copyEditCORuleDirty) {
+        this.copyEditCORuleDirty = copyEditCORuleDirty;
     }
 }

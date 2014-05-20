@@ -233,7 +233,7 @@ public class AORuleEditorController extends EnrolRuleEditorController {
         if (agenda != null) {
             RuleEditor ruleEditor = agenda.getRuleEditors().get(ruleKey);
             if(ruleEditor.getProposition() != null){
-            ruleEditor.setProposition(null);
+                ruleEditor.setProposition(null);
             }
             else{
                 form.getClientStateForSyncing().clear();
@@ -258,7 +258,7 @@ public class AORuleEditorController extends EnrolRuleEditorController {
      */
     @RequestMapping(params = "methodToCall=copyEditCoRule")
     public ModelAndView copyEditCoRule(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
-                                     @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
+                                       @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
 
         //Clear the client state on new edit rule.
         form.getClientStateForSyncing().clear();
@@ -278,6 +278,10 @@ public class AORuleEditorController extends EnrolRuleEditorController {
 
         this.getViewHelper(form).refreshInitTrees(enrolRuleEditor);
         form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, EnrolKRMSConstants.KSKRMS_RULE_AO_MAINTENANCE_PAGE_ID);
+
+        //KSENROLL-7267: workaround to display browser warning when leaving AO requisite screen without saving
+        AORuleManagementWrapper aoRuleMgtWrapper = (AORuleManagementWrapper) AgendaUtilities.getRuleWrapper(document);
+        aoRuleMgtWrapper.setCopyEditCORuleDirty(true);
 
         return super.navigate(form, result, request, response);
 

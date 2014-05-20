@@ -286,9 +286,9 @@ limitations under the License.
           p:methodToCall="viewCoAndCluRules" p:performActionAuthz="true" p:actionEvent="compare"/>
 
     <bean id="KSAO-RuleCopyEdit-Link" parent="KS-Uif-NavigationActionLink"
-          p:actionLabel="Copy and  Edit Course Offering Rule"
+          p:actionLabel="Copy and Edit Course Offering Rule"
           p:methodToCall="copyEditCoRule" p:performActionAuthz="true"
-          p:actionEvent="addEditRequisite">
+          p:actionEvent="addEditRequisite" p:performDirtyValidation="false">
         <property name="toolTip">
             <bean parent="Uif-KS-Tooltip" p:tooltipContent="Modify existing rule to apply to this Activity Offering"/>
         </property>
@@ -406,6 +406,7 @@ limitations under the License.
     <bean name="KSAO-RuleMaintenance-Page-Parent" parent="KRMS-RuleMaintenance-Page-Parent">
         <property name="headerText"
                   value="@{#dp.ruleEditor.dummy == true ? 'Add' : 'Edit'} @{#dp.ruleEditor.ruleTypeInfo.description}"/>
+        <property name="onDocumentReadyScript" value="setDirtyManully(@{#dp.copyEditCORuleDirty});" />
         <property name="breadcrumbOptions.breadcrumbOverrides">
             <list>
                 <bean parent="Uif-BreadcrumbItem">
