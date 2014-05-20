@@ -27,12 +27,16 @@
                 <bean parent="Uif-HorizontalBoxGroup">
                     <property name="items">
                         <list>
-                            <bean parent="KS-Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route" p:actionLabel="Update"
-                                p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}" p:preSubmitCall="return preSubmitCheck();"
-                                p:jumpToIdAfterSubmit="TOP"/>
-                            <bean parent="KS-Uif-SecondaryActionButton" p:ajaxSubmit="false" p:methodToCall="route" p:actionLabel="Save Progress"
-                                p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}" p:preSubmitCall="return preSubmitCheck();"
-                                p:jumpToIdAfterSubmit="TOP">
+                            <bean parent="KS-Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route"
+                                  p:actionLabel="Update"
+                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"
+                                  p:preSubmitCall="return preSubmitCheck();"
+                                  p:jumpToIdAfterSubmit="TOP"/>
+                            <bean parent="KS-Uif-SecondaryActionButton" p:ajaxSubmit="false" p:methodToCall="route"
+                                  p:actionLabel="Save Progress"
+                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"
+                                  p:preSubmitCall="return preSubmitCheck();"
+                                  p:jumpToIdAfterSubmit="TOP">
                                 <property name="actionParameters">
                                     <map>
                                         <entry key="aoId" value="@{#dp.aoInfo.id}"/>
@@ -52,28 +56,38 @@
         </property>
     </bean>
 
-    <bean id="ActivityOfferingEdit-section1" parent="Uif-VerticalBoxSection" p:onDocumentReadyScript="rePositionChangeLink('subterm_name', 'change_link')">
+    <bean id="ActivityOfferingEdit-section1" parent="Uif-VerticalBoxSection"
+          p:onDocumentReadyScript="rePositionChangeLink('subterm_name', 'change_link')">
         <property name="items">
             <list>
-                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4" p:additionalCssClasses="ks-details-panel,ks-no-margins,ks-subSection">
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4"
+                      p:additionalCssClasses="ks-details-panel,ks-no-margins,ks-subSection">
                     <property name="items">
                         <list>
-                            <bean parent="KS-Uif-DataField" p:colSpan="3" id="status" p:label="Status" p:fieldLabel.renderColon ="false" p:propertyName="stateName"/>
-                            <bean parent="KS-Uif-DataField" p:colSpan="3" id="term" p:label="Term" p:fieldLabel.renderColon="false" p:propertyName="termName"/>
-                            <bean parent="KS-Uif-DataField" id="subterm_name" p:label="Sub Term" p:fieldLabel.renderColon="false" p:propertyName="subTermName"/>
-                            <bean parent="Uif-HorizontalBoxSection" id="aoEdit_subTerm_change"  p:colSpan="2">
+                            <bean parent="KS-Uif-DataField" p:colSpan="3" id="status" p:label="Status"
+                                  p:fieldLabel.renderColon="false" p:propertyName="stateName"/>
+                            <bean parent="KS-Uif-DataField" p:colSpan="3" id="term" p:label="Term"
+                                  p:fieldLabel.renderColon="false" p:propertyName="termName"/>
+                            <bean parent="KS-Uif-DataField" id="subterm_name" p:label="Sub Term"
+                                  p:fieldLabel.renderColon="false" p:propertyName="subTermName"/>
+                            <bean parent="Uif-HorizontalBoxSection" id="aoEdit_subTerm_change" p:colSpan="2">
                                 <property name="header.render" value="false"/>
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-NavigationActionLink" id="change_link" p:actionLabel="Change" p:render="@{#dp.hasSubTerms and !#parent.readOnly}"
-                                            p:performDirtyValidation="false" p:actionScript="openPopupContent(e,'KS-ActivityOfferingEdit-SubtermsPopupForm');"
-                                            p:performActionAuthz="true" p:actionEvent="changeSubtermAO"/>
+                                        <bean parent="Uif-NavigationActionLink" id="change_link" p:actionLabel="Change"
+                                              p:render="@{#dp.hasSubTerms and !#parent.readOnly}"
+                                              p:performDirtyValidation="false"
+                                              p:actionScript="openPopupContent(e,'KS-ActivityOfferingEdit-SubtermsPopupForm');"
+                                              p:performActionAuthz="true" p:actionEvent="changeSubtermAO"/>
                                     </list>
                                 </property>
                             </bean>
-                            <bean parent="KS-Uif-DataField" p:colSpan="3" id="start_end_date" p:label="Start/End" p:fieldLabel.renderColon="false" p:propertyName="termStartEndDate" />
-                            <bean parent="KS-Uif-DataField" id="type_name" p:label="Activity Type" p:fieldLabel.renderColon="false" p:propertyName="typeName" />
-                            <bean parent="KS-Uif-DataField"  id="format_offering_name" p:label="Format" p:fieldLabel.renderColon="false" p:propertyName="aoInfo.formatOfferingName" />
+                            <bean parent="KS-Uif-DataField" p:colSpan="3" id="start_end_date" p:label="Start/End"
+                                  p:fieldLabel.renderColon="false" p:propertyName="termStartEndDate"/>
+                            <bean parent="KS-Uif-DataField" id="type_name" p:label="Activity Type"
+                                  p:fieldLabel.renderColon="false" p:propertyName="typeName"/>
+                            <bean parent="KS-Uif-DataField" id="format_offering_name" p:label="Format"
+                                  p:fieldLabel.renderColon="false" p:propertyName="aoInfo.formatOfferingName"/>
                         </list>
                     </property>
                 </bean>
@@ -86,12 +100,15 @@
                     </property>
                     <property name="items">
                         <list>
-                            <bean id="subterm_type" parent="KS-Uif-InputField-LabelTop" p:propertyName="subTermId" p:label="Choose a subterm">
+                            <bean id="subterm_type" parent="KS-Uif-InputField-LabelTop" p:propertyName="subTermId"
+                                  p:label="Choose a subterm">
                                 <property name="control">
-                                    <bean parent="KS-Uif-DropdownControl" p:onChangeScript="displayAOsubTerm('subterm_name','subterm_type','change_link','activityCode','@{#dp.subTermDatesJsonString}');"/>
+                                    <bean parent="KS-Uif-DropdownControl"
+                                          p:onChangeScript="displayAOsubTerm('subterm_name','subterm_type','change_link','activityCode','@{#dp.subTermDatesJsonString}');"/>
                                 </property>
                                 <property name="optionsFinder">
-                                    <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.ActivityOfferingSubtermKeyValues" p:addBlankOption="false"/>
+                                    <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.ActivityOfferingSubtermKeyValues"
+                                          p:addBlankOption="false"/>
                                 </property>
                             </bean>
                         </list>
@@ -101,7 +118,8 @@
         </property>
     </bean>
 
-    <bean id="ActivityOfferingEdit-section2" parent="Uif-VerticalBoxSection" p:onDocumentReadyScript="calculatePercent()">
+    <bean id="ActivityOfferingEdit-section2" parent="Uif-VerticalBoxSection"
+          p:onDocumentReadyScript="calculatePercent()">
         <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
         <property name="headerText" value="Activity Offering Information"/>
         <property name="additionalCssClasses">
@@ -112,23 +130,30 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="KS-Uif-InputField" id="activity_code" p:label="Activity Code " p:fieldLabel.renderColon="false" p:propertyName="aoInfo.activityCode"
+                <bean parent="KS-Uif-InputField" id="activity_code" p:label="Activity Code "
+                      p:fieldLabel.renderColon="false" p:propertyName="aoInfo.activityCode"
                       p:onChangeScript="jQuery('#dirtyForm').val(true);" p:id="activityCode" p:editAuthz="true">
                     <property name="control">
-                        <bean parent="KS-Uif-TextControl" p:size="1" p:disabled="@{!#dp.editActivityCodeAllowed}" />
+                        <bean parent="KS-Uif-TextControl" p:size="1" p:disabled="@{!#dp.editActivityCodeAllowed}"/>
                     </property>
                 </bean>
-                <bean parent="KS-Uif-InputField" p:propertyName="partOfColoSetOnLoadAlready" p:onChangeScript="jQuery('#dirtyForm').val(true);" p:id="colocatedAO_value" p:readOnlyDisplayReplacement=" ">
+                <bean parent="KS-Uif-InputField" p:propertyName="partOfColoSetOnLoadAlready"
+                      p:onChangeScript="jQuery('#dirtyForm').val(true);" p:id="colocatedAO_value"
+                      p:readOnlyDisplayReplacement=" ">
                     <property name="control">
                         <bean parent="KS-Uif-HiddenControl"/>
                     </property>
                 </bean>
-                <bean parent="KS-Uif-InputField" p:propertyName="hiddenMaxEnrollmentShared" p:onChangeScript="jQuery('#dirtyForm').val(true);" p:id="maxEnrollmentShared_value" p:readOnlyDisplayReplacement=" ">
+                <bean parent="KS-Uif-InputField" p:propertyName="hiddenMaxEnrollmentShared"
+                      p:onChangeScript="jQuery('#dirtyForm').val(true);" p:id="maxEnrollmentShared_value"
+                      p:readOnlyDisplayReplacement=" ">
                     <property name="control">
                         <bean parent="KS-Uif-HiddenControl"/>
                     </property>
                 </bean>
-                <bean parent="KS-Uif-InputField" p:id="infoColoStatus" p:propertyName="aoInfo.isColocated" p:hidden="true" />  <!-- keeps track of whether or not the colocation has been persisted to the db -->
+                <bean parent="KS-Uif-InputField" p:id="infoColoStatus" p:propertyName="aoInfo.isColocated"
+                      p:hidden="true"/>
+                <!-- keeps track of whether or not the colocation has been persisted to the db -->
                 <bean parent="KS-Uif-InputField"
                       p:fieldLabel.renderColon="false"
                       p:onChangeScript="jQuery('#dirtyForm').val(true);"
@@ -136,14 +161,18 @@
                       p:id="is_co_located" p:viewAuthz="true">
                     <property name="control">
                         <bean parent="KS-Uif-CheckboxControl">
-                            <property name="disabled" value="@{#dp.aoInfo.stateKey eq 'kuali.lui.activity.offering.state.canceled'}"/>
+                            <property name="disabled"
+                                      value="@{#dp.aoInfo.stateKey eq 'kuali.lui.activity.offering.state.canceled'}"/>
                             <property name="onChangeScript" value="handleColocation();"/>
                             <property name="checkboxLabel" value="This activity is co-located"/>
                         </bean>
                     </property>
                 </bean>
-                <bean parent="KS-Uif-InputField" id="max_enrollment" p:label="Total Maximum Enrollment" p:fieldLabel.renderColon="false" p:propertyName="aoInfo.maximumEnrollment"
-                      p:id="maximumEnrollment" p:onChangeScript="jQuery('#dirtyForm').val(true); calculatePercent(jQuery(this))" p:editAuthz="true">
+                <bean parent="KS-Uif-InputField" id="max_enrollment" p:label="Total Maximum Enrollment"
+                      p:fieldLabel.renderColon="false" p:propertyName="aoInfo.maximumEnrollment"
+                      p:id="maximumEnrollment"
+                      p:onChangeScript="jQuery('#dirtyForm').val(true); calculatePercent(jQuery(this))"
+                      p:editAuthz="true">
                     <property name="control">
                         <bean parent="KS-Uif-TextControl" p:size="3"/>
                     </property>
@@ -152,7 +181,7 @@
         </property>
     </bean>
 
-    <bean id="ActivityOfferingEdit-CoLocation" parent="Uif-VerticalBoxSection"  p:viewAuthz="true">
+    <bean id="ActivityOfferingEdit-CoLocation" parent="Uif-VerticalBoxSection" p:viewAuthz="true">
         <property name="additionalCssClasses">
             <list merge="true">
                 <value>ks-activity-offering-coLocation-form</value>
@@ -169,8 +198,10 @@
                         <bean parent="Uif-HorizontalRadioControl">
                             <property name="options">
                                 <list>
-                                    <bean parent="Uif-KeyLabelPair" p:key="true" p:value="Share max enrollment across all activities"/>
-                                    <bean parent="Uif-KeyLabelPair" p:key="false" p:value="Manage Enrollments separately"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="true"
+                                          p:value="Share max enrollment across all activities"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="false"
+                                          p:value="Manage Enrollments separately"/>
                                 </list>
                             </property>
                         </bean>
@@ -184,10 +215,11 @@
 
     <bean id="ActivityOfferingEdit-CoLocatedActivities" parent="Uif-TableCollectionSection">
         <property name="headerText" value=" "/>
-        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ColocatedActivity" />
+        <property name="collectionObjectClass"
+                  value="org.kuali.student.enrollment.class2.courseoffering.dto.ColocatedActivity"/>
         <property name="propertyName" value="colocatedActivities"/>
         <property name="layoutManager.richTable.render" value="false"/>
-        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.renderSequenceField" value="false"/>
         <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
         <property name="additionalCssClasses">
             <list merge="true">
@@ -205,7 +237,8 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="KS-Uif-Delete-ActionLink" p:methodToCall="deleteLine" p:actionLabel="delete" p:successCallback="addColocatedAOSuccessCallBack();"
+                <bean parent="KS-Uif-Delete-ActionLink" p:methodToCall="deleteLine" p:actionLabel="delete"
+                      p:successCallback="addColocatedAOSuccessCallBack();"
                       p:render="@{#dp.requestedScheduleComponents.isEmpty()}" p:dirtyOnAction="true"/>
             </list>
         </property>
@@ -220,7 +253,7 @@
                       p:required="true"
                       p:readOnly="@{!#isAddLine}">
                     <property name="validCharactersConstraint">
-                        <bean parent="AlphaNumericPatternConstraint" />
+                        <bean parent="AlphaNumericPatternConstraint"/>
                     </property>
                     <property name="control">
                         <bean parent="KS-Uif-TextControl" p:size="10" p:watermarkText="ENGL101"/>
@@ -228,7 +261,8 @@
                     <property name="suggest">
                         <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true">
                             <property name="suggestQuery">
-                                <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="retrieveCourseOfferingCodes"
+                                <bean parent="Uif-AttributeQueryConfig"
+                                      p:queryMethodToCall="retrieveCourseOfferingCodes"
                                       p:queryMethodArgumentFieldList="document.newMaintainableObject.dataObject.termId"/>
                             </property>
                             <property name="templateOptions">
@@ -239,7 +273,9 @@
                         </bean>
                     </property>
                 </bean>
-                <bean parent="KS-Uif-InputField" p:propertyName="editRenderHelper.termId" p:defaultValue="@{#dp.termId}" p:hidden="true" /> <!-- Need this property to do the lookup on termId -->
+                <bean parent="KS-Uif-InputField" p:propertyName="editRenderHelper.termId" p:defaultValue="@{#dp.termId}"
+                      p:hidden="true"/>
+                <!-- Need this property to do the lookup on termId -->
                 <!-- AO Input Field -->
                 <bean parent="KS-Uif-InputField"
                       p:id="ActivityOfferingEdit-CoLocatedActivities-AoInputField"
@@ -259,9 +295,11 @@
                     </property>
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinderByScript">
-                            <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper"/>
+                            <property name="dataObjectClassName"
+                                      value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper"/>
                             <property name="quickfinderAction">
-                                <bean parent="Uif-ActionLink" p:actionLabel="Find an Activity Offering" p:methodToCall="performLookup"/>
+                                <bean parent="Uif-ActionLink" p:actionLabel="Find an Activity Offering"
+                                      p:methodToCall="performLookup"/>
                             </property>
                             <property name="autoSearch" value="true"/>
                             <property name="fieldConversions">
@@ -287,10 +325,11 @@
     <bean id="ActivityOfferingEdit-CoLocatedEnrollmentShared" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
-                <bean id="shared_max_enr" parent="KS-Uif-InputField" p:propertyName="sharedMaxEnrollment" p:label="Shared Maximum Enrollment"
-                       p:required="true" p:exclusiveMin="0">
+                <bean id="shared_max_enr" parent="KS-Uif-InputField" p:propertyName="sharedMaxEnrollment"
+                      p:label="Shared Maximum Enrollment"
+                      p:required="true" p:exclusiveMin="0">
                     <property name="control">
-                        <bean parent="KS-Uif-TextControl" p:size="4" />
+                        <bean parent="KS-Uif-TextControl" p:size="4"/>
                     </property>
                     <property name="additionalCssClasses">
                         <list merge="true">
@@ -305,7 +344,7 @@
                             <value>ks-informational-message-for-field</value>
                         </list>
                     </property>
-                      </bean>
+                </bean>
             </list>
         </property>
     </bean>
@@ -314,15 +353,16 @@
         <property name="items">
             <list>
                 <bean parent="Uif-Message" p:messageText="Combined Max Enr"/>
-                <bean id="enr_shared_table" parent="Uif-TableCollectionSection" p:forceSessionPersistence="true" >
+                <bean id="enr_shared_table" parent="Uif-TableCollectionSection" p:forceSessionPersistence="true">
                     <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
                     <property name="headerText" value=""/>
-                    <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ColocatedActivity" />
+                    <property name="collectionObjectClass"
+                              value="org.kuali.student.enrollment.class2.courseoffering.dto.ColocatedActivity"/>
                     <property name="propertyName" value="editRenderHelper.manageSeperateEnrollmentList"/>
                     <property name="renderAddLine" value="false"/>
                     <property name="renderLineActions" value="false"/>
                     <property name="layoutManager.renderSequenceField" value="false"/>
-                    <property name="layoutManager.richTable.render" value="false" />
+                    <property name="layoutManager.richTable.render" value="false"/>
                     <property name="additionalCssClasses">
                         <list merge="true">
                             <value>ks-subSection</value>
@@ -330,11 +370,13 @@
                     </property>
                     <property name="items">
                         <list>
-                            <bean parent="KS-Uif-DataField" p:propertyName="editRenderHelper.code" p:label="Colocated Activities"/>
-                            <bean parent="KS-Uif-InputField" p:propertyName="maxEnrollmentCount" p:label="Max Enr" p:readOnly="@{!#lp.editRenderHelper.allowEnrollmentEdit}"
+                            <bean parent="KS-Uif-DataField" p:propertyName="editRenderHelper.code"
+                                  p:label="Colocated Activities"/>
+                            <bean parent="KS-Uif-InputField" p:propertyName="maxEnrollmentCount" p:label="Max Enr"
+                                  p:readOnly="@{!#lp.editRenderHelper.allowEnrollmentEdit}"
                                   p:required="true" p:exclusiveMin="0">
                                 <property name="control">
-                                    <bean parent="KS-Uif-TextControl" p:size="4" />
+                                    <bean parent="KS-Uif-TextControl" p:size="4"/>
                                 </property>
                             </bean>
                         </list>
@@ -364,12 +406,13 @@
             <list>
                 <bean id="ActivityOffering-PersonnelSection" parent="KS-TableCollectionSubSection-BottomAddLine"
                       p:id="ao-personnelgroup" p:layoutManager.style="width: 100%;">
-                    <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper" />
-                    <property name="propertyName" value="instructors" />
+                    <property name="collectionObjectClass"
+                              value="org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper"/>
+                    <property name="propertyName" value="instructors"/>
                     <property name="addBlankLineAction.actionLabel" value="Add Personnel"/>
                     <property name="addBlankLineAction.id" value="ao-personnelgroup-addline"/>
                     <property name="addBlankLineAction.onDocumentReadyScript" value="reDisplayPersonnelSection();"/>
-                    <property name="addBlankLineAction.dirtyOnAction" value="true" />
+                    <property name="addBlankLineAction.dirtyOnAction" value="true"/>
                     <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
                     <property name="layoutManager.renderSequenceField" value="false"/>
                     <property name="layoutManager.generateAutoSequence" value="false"/>
@@ -379,46 +422,59 @@
                     <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
                     <property name="items">
                         <list>
-                            <bean parent="KS-Uif-InputField" p:id="personnel_id" p:propertyName="offeringInstructorInfo.personId"
+                            <bean parent="KS-Uif-InputField" p:id="personnel_id"
+                                  p:propertyName="offeringInstructorInfo.personId"
                                   p:label="ID" p:required="false" p:cssClasses="col_5">
                                 <property name="quickfinder">
                                     <bean parent="Uif-QuickFinderByScript">
-                                        <property name="dataObjectClassName" value="org.kuali.student.rice.kim.impl.KSPersonImpl"/>
+                                        <property name="dataObjectClassName"
+                                                  value="org.kuali.student.rice.kim.impl.KSPersonImpl"/>
                                         <property name="fieldConversions">
                                             <map>
                                                 <entry key="name" value="offeringInstructorInfo.personName"/>
                                                 <entry key="principalId" value="offeringInstructorInfo.personId"/>
                                             </map>
                                         </property>
-                                        <property name="viewName" value="ks_simplePersonLookup" />
+                                        <property name="viewName" value="ks_simplePersonLookup"/>
                                     </bean>
                                 </property>
                             </bean>
-                            <bean parent="KS-Uif-InputField" p:id="personnel_name" p:propertyName="offeringInstructorInfo.personName" p:label="Name" p:required="false"/>
-                            <bean parent="KS-Uif-InputField" p:id="personnel_affiliation" p:propertyName="offeringInstructorInfo.typeKey" p:label="Affiliation" p:required="false">
+                            <bean parent="KS-Uif-InputField" p:id="personnel_name"
+                                  p:propertyName="offeringInstructorInfo.personName" p:label="Name" p:required="false"/>
+                            <bean parent="KS-Uif-InputField" p:id="personnel_affiliation"
+                                  p:propertyName="offeringInstructorInfo.typeKey" p:label="Affiliation"
+                                  p:required="false">
                                 <property name="control">
-                                    <bean parent="KS-Uif-DropdownControl" p:options-ref="aoInstructors-options" />
+                                    <bean parent="KS-Uif-DropdownControl" p:options-ref="aoInstructors-options"/>
                                 </property>
                             </bean>
-                            <bean parent="KS-Uif-InputField" p:id="personnel_allocation" p:propertyName="sEffort" p:label="Inst.Effort" p:refreshWhenChangedPropertyNames="#lp.offeringInstructorInfo.typeKey" p:required="false" p:inclusiveMax="100">
-                                  <property name="validCharactersConstraint">
-                                        <bean parent="IntegerPatternConstraint" />
-                                  </property>
+                            <bean parent="KS-Uif-InputField" p:id="personnel_allocation" p:propertyName="sEffort"
+                                  p:label="Inst.Effort"
+                                  p:refreshWhenChangedPropertyNames="#lp.offeringInstructorInfo.typeKey"
+                                  p:required="false" p:inclusiveMax="100">
+                                <property name="validCharactersConstraint">
+                                    <bean parent="IntegerPatternConstraint"/>
+                                </property>
                                 <property name="control">
-                                    <bean parent="KS-Uif-TextControl" p:size="10" />
+                                    <bean parent="KS-Uif-TextControl" p:size="10"/>
                                 </property>
                                 <property name="propertyReplacers">
-                                  <list>
-                                     <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="exclusiveMin" p:replacement="0" p:condition="#lp.offeringInstructorInfo.typeKey == 'kuali.lpr.type.instructor.main'"/>
-                                     <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="exclusiveMin" p:replacement="-1" p:condition="#lp.offeringInstructorInfo.typeKey == 'kuali.lpr.type.instructor.assistant'"/>
-                                  </list>
+                                    <list>
+                                        <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="exclusiveMin"
+                                              p:replacement="0"
+                                              p:condition="#lp.offeringInstructorInfo.typeKey == 'kuali.lpr.type.instructor.main'"/>
+                                        <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="exclusiveMin"
+                                              p:replacement="-1"
+                                              p:condition="#lp.offeringInstructorInfo.typeKey == 'kuali.lpr.type.instructor.assistant'"/>
+                                    </list>
                                 </property>
                             </bean>
                         </list>
                     </property>
                     <property name="lineActions">
                         <list>
-                            <bean parent="KS-Uif-Delete-ActionLink" p:id="delete_personnel" p:methodToCall="deleteLine" p:actionLabel="Delete"
+                            <bean parent="KS-Uif-Delete-ActionLink" p:id="delete_personnel" p:methodToCall="deleteLine"
+                                  p:actionLabel="Delete"
                                   p:actionEvent="deleteLine" p:dirtyOnAction="true"/>
                         </list>
                     </property>
@@ -427,7 +483,8 @@
         </property>
     </bean>
 
-    <bean id="ActivityOfferingEdit-NoWaitlist" parent="Uif-VerticalBoxSection" p:headerText="Waitlist" p:render="@{!#dp.hasWaitlistCO and !#dp.colocatedAO}">
+    <bean id="ActivityOfferingEdit-NoWaitlist" parent="Uif-VerticalBoxSection" p:headerText="Waitlist"
+          p:render="@{!#dp.hasWaitlistCO and !#dp.colocatedAO}">
         <property name="additionalCssClasses">
             <list merge="true">
                 <value>ks-section</value>
@@ -440,15 +497,18 @@
         </property>
     </bean>
 
-    <bean id="ActivityOfferingEdit-NoWaitlistColo" parent="Uif-VerticalBoxSection" p:headerText="Waitlist" p:render="@{!#dp.hasWaitlistCO and #dp.colocatedAO}">
+    <bean id="ActivityOfferingEdit-NoWaitlistColo" parent="Uif-VerticalBoxSection" p:headerText="Waitlist"
+          p:render="@{!#dp.hasWaitlistCO and #dp.colocatedAO}">
         <property name="items">
             <list>
-                <bean parent="Uif-Message" p:messageText="Waitlists are deactivated for at least one Course Offering associated with this co-located activity"/>
+                <bean parent="Uif-Message"
+                      p:messageText="Waitlists are deactivated for at least one Course Offering associated with this co-located activity"/>
             </list>
         </property>
     </bean>
 
-    <bean id="ActivityOfferingEdit-Waitlist" parent="Uif-VerticalBoxSection" p:headerText="Waitlist" p:render="@{#dp.hasWaitlistCO}">
+    <bean id="ActivityOfferingEdit-Waitlist" parent="Uif-VerticalBoxSection" p:headerText="Waitlist"
+          p:render="@{#dp.hasWaitlistCO}">
         <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
         <property name="viewAuthz" value="true"/>
         <property name="additionalCssClasses">
@@ -461,9 +521,10 @@
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean id="ActivityOfferingEdit-HasWaitlist" parent="KS-Uif-InputField" p:propertyName="hasWaitlist">
+                            <bean id="ActivityOfferingEdit-HasWaitlist" parent="KS-Uif-InputField"
+                                  p:propertyName="hasWaitlist">
                                 <property name="control">
-                                    <bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="Waitlist Active" />
+                                    <bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="Waitlist Active"/>
                                 </property>
                             </bean>
                         </list>
@@ -489,13 +550,15 @@
                             <bean parent="Uif-VerticalBoxSection">
                                 <property name="items">
                                     <list>
-                                        <bean parent="KS-Uif-InputField-LabelTop" p:id="wait_list_type" p:propertyName="waitListType" p:label="Waitlist Type"
+                                        <bean parent="KS-Uif-InputField-LabelTop" p:id="wait_list_type"
+                                              p:propertyName="waitListType" p:label="Waitlist Type"
                                               p:fieldLabel.renderColon="false">
                                             <property name="control">
                                                 <bean parent="KS-Uif-VerticalRadioControl"/>
                                             </property>
                                             <property name="optionsFinder">
-                                                <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.WaitlistTypeOptionsKeyValues" p:addBlankOption="false" />
+                                                <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.WaitlistTypeOptionsKeyValues"
+                                                      p:addBlankOption="false"/>
                                             </property>
                                         </bean>
                                     </list>
@@ -504,27 +567,35 @@
                             <bean parent="Uif-VerticalBoxSection">
                                 <property name="items">
                                     <list>
-                                        <bean  parent="Uif-MessageField"  p:label="Waitlist Options" p:fieldLabel.renderColon="false"/>
+                                        <bean parent="Uif-MessageField" p:label="Waitlist Options"
+                                              p:fieldLabel.renderColon="false"/>
                                         <bean parent="Uif-HorizontalBoxSection">
                                             <property name="items">
                                                 <list>
                                                     <bean parent="KS-Uif-InputField" p:propertyName="limitWaitlistSize">
                                                         <property name="control">
-                                                            <bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="Limit Waitlist Size" />
+                                                            <bean parent="KS-Uif-CheckboxControl"
+                                                                  p:checkboxLabel="Limit Waitlist Size"/>
                                                         </property>
                                                     </bean>
-                                                    <bean  id="limit_waitlist_size_text" parent="KS-Uif-InputField" p:required="true" p:inclusiveMax="999" p:exclusiveMin="0" p:dataType="INTEGER"
-                                                           p:propertyName="courseWaitListInfo.maxSize" p:refreshWhenChangedPropertyNames="#dp.limitWaitlistSize">
+                                                    <bean id="limit_waitlist_size_text" parent="KS-Uif-InputField"
+                                                          p:required="true" p:inclusiveMax="999" p:exclusiveMin="0"
+                                                          p:dataType="INTEGER"
+                                                          p:propertyName="courseWaitListInfo.maxSize"
+                                                          p:refreshWhenChangedPropertyNames="#dp.limitWaitlistSize">
                                                         <property name="control">
-                                                            <bean parent="KS-Uif-TextControl" p:disabled="@{!#dp.limitWaitlistSize}" />
+                                                            <bean parent="KS-Uif-TextControl"
+                                                                  p:disabled="@{!#dp.limitWaitlistSize}"/>
                                                         </property>
                                                     </bean>
                                                 </list>
                                             </property>
                                         </bean>
-                                        <bean parent="KS-Uif-InputField" p:id="allow-hold-list-checkbox" p:propertyName="courseWaitListInfo.allowHoldUntilEntries">
+                                        <bean parent="KS-Uif-InputField" p:id="allow-hold-list-checkbox"
+                                              p:propertyName="courseWaitListInfo.allowHoldUntilEntries">
                                             <property name="control">
-                                                <bean parent="KS-Uif-CheckboxControl"  p:checkboxLabel="Allow Hold List" />
+                                                <bean parent="KS-Uif-CheckboxControl"
+                                                      p:checkboxLabel="Allow Hold List"/>
                                             </property>
                                         </bean>
                                     </list>
@@ -539,18 +610,22 @@
 
     <bean id="ActivityOfferingView-Waitlist" parent="Uif-VerticalBoxSection" p:render="@{#dp.hasWaitlistCO}">
         <property name="viewAuthz" value="true"/>
-        <property name="headerText" value="Waitlist" />
+        <property name="headerText" value="Waitlist"/>
         <property name="items">
             <list>
                 <bean parent="Uif-VerticalBoxSubSection">
                     <property name="items">
                         <list>
-                            <bean p:id="waitlist_active_ro" parent="Uif-MessageField" p:label="Waitlist Active" p:messageText="@{(!#dp.hasWaitlist) ? 'No' : 'Yes'}" p:fieldLabel.renderColon="true"/>
-                            <bean p:id="waitlist_proc_ro" parent="Uif-MessageField" p:label="Waitlist Processing" p:messageText="@{(#dp.waitListType eq null) ? '' : (#dp.waitListTypeUI)}"
+                            <bean p:id="waitlist_active_ro" parent="Uif-MessageField" p:label="Waitlist Active"
+                                  p:messageText="@{(!#dp.hasWaitlist) ? 'No' : 'Yes'}" p:fieldLabel.renderColon="true"/>
+                            <bean p:id="waitlist_proc_ro" parent="Uif-MessageField" p:label="Waitlist Processing"
+                                  p:messageText="@{(#dp.waitListType eq null) ? '' : (#dp.waitListTypeUI)}"
                                   p:fieldLabel.renderColon="true" p:render="@{#dp.hasWaitlist}"/>
-                            <bean p:id="waitlist_max_size_ro" parent="Uif-MessageField" p:label="Waitlist Max Size" p:messageText="@{(#dp.courseWaitListInfo.maxSize eq null) ? 'Unlimited':'Limit to '} @{(#dp.courseWaitListInfo.maxSize eq null) ? '': (#dp.courseWaitListInfo.maxSize)}"
+                            <bean p:id="waitlist_max_size_ro" parent="Uif-MessageField" p:label="Waitlist Max Size"
+                                  p:messageText="@{(#dp.courseWaitListInfo.maxSize eq null) ? 'Unlimited':'Limit to '} @{(#dp.courseWaitListInfo.maxSize eq null) ? '': (#dp.courseWaitListInfo.maxSize)}"
                                   p:fieldLabel.renderColon="true" p:render="@{#dp.hasWaitlist}"/>
-                            <bean p:id="waitlist_holds_ro" parent="Uif-MessageField" p:label="Allow Holds in Waitlist" p:messageText="@{(#dp.courseWaitListInfo.allowHoldUntilEntries eq null or !#dp.courseWaitListInfo.allowHoldUntilEntries) ? 'No' : 'Yes'}"
+                            <bean p:id="waitlist_holds_ro" parent="Uif-MessageField" p:label="Allow Holds in Waitlist"
+                                  p:messageText="@{(#dp.courseWaitListInfo.allowHoldUntilEntries eq null or !#dp.courseWaitListInfo.allowHoldUntilEntries) ? 'No' : 'Yes'}"
                                   p:fieldLabel.renderColon="true" p:render="@{#dp.hasWaitlist}"/>
                         </list>
                     </property>
@@ -559,7 +634,8 @@
         </property>
     </bean>
 
-    <bean id="ActivityOfferingEdit-SeatPool" parent="Uif-VerticalBoxSection" p:additionalCssClasses="ks-seatpools,ks-section">
+    <bean id="ActivityOfferingEdit-SeatPool" parent="Uif-VerticalBoxSection"
+          p:additionalCssClasses="ks-seatpools,ks-section">
         <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
         <property name="headerText" value="Seat Pools"/>
         <property name="editAuthz" value="true"/>
@@ -571,27 +647,33 @@
                 </bean>
                 <bean id="ActivityOffering-SeatpoolsSection" parent="KS-TableCollectionSubSection-BottomAddLine"
                       p:id="ao-seatpoolgroupZ"
-                      p:layoutManager.id="ao-seatpoolgroup-table" p:additionalCssClasses="ks-subSection" p:render="@{!(!#dp.hasSeatpools and #parent.readOnly)}">
-                    <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.SeatPoolWrapper" />
-                    <property name="propertyName" value="seatpools" />
+                      p:layoutManager.id="ao-seatpoolgroup-table" p:additionalCssClasses="ks-subSection"
+                      p:render="@{!(!#dp.hasSeatpools and #parent.readOnly)}">
+                    <property name="collectionObjectClass"
+                              value="org.kuali.student.enrollment.class2.courseoffering.dto.SeatPoolWrapper"/>
+                    <property name="propertyName" value="seatpools"/>
                     <property name="addBlankLineAction.actionLabel" value="Add Seat Pool"/>
-                    <property name="addBlankLineAction.onDocumentReadyScript" value="showSPAddlinePriority(); reDisplaySeatPoolSection();"/>
+                    <property name="addBlankLineAction.onDocumentReadyScript"
+                              value="showSPAddlinePriority(); reDisplaySeatPoolSection();"/>
                     <property name="addBlankLineAction.id" value="ao-seatpoolgroupZ_add"/>
-                    <property name="addBlankLineAction.dirtyOnAction" value="true" />
+                    <property name="addBlankLineAction.dirtyOnAction" value="true"/>
                     <property name="items">
                         <list>
-                            <bean parent="KS-Uif-InputField" p:id="seatPoolPriority" p:propertyName="seatPool.processingPriority" p:label="Priority"
+                            <bean parent="KS-Uif-InputField" p:id="seatPoolPriority"
+                                  p:propertyName="seatPool.processingPriority" p:label="Priority"
                                   p:maxLength="2" p:required="true">
                                 <property name="control">
-                                    <bean parent="KS-Uif-TextControl" p:size="2" />
+                                    <bean parent="KS-Uif-TextControl" p:size="2"/>
                                 </property>
                                 <property name="validCharactersConstraint">
-                                    <bean parent="IntegerPatternConstraint" />
+                                    <bean parent="IntegerPatternConstraint"/>
                                 </property>
                             </bean>
-                            <bean parent="KS-Uif-InputField" p:propertyName="seatPool.seatLimit" p:label="Seats" p:maxLength="3" p:id="seatLimit" >
+                            <bean parent="KS-Uif-InputField" p:propertyName="seatPool.seatLimit" p:label="Seats"
+                                  p:maxLength="3" p:id="seatLimit">
                                 <property name="control">
-                                    <bean parent="KS-Uif-TextControl" p:size="3" p:onBlurScript="validateSeatsForSP(jQuery(this))" />
+                                    <bean parent="KS-Uif-TextControl" p:size="3"
+                                          p:onBlurScript="validateSeatsForSP(jQuery(this))"/>
                                 </property>
                                 <property name="dependencyConstraints">
                                     <list>
@@ -599,19 +681,23 @@
                                     </list>
                                 </property>
                                 <property name="validCharactersConstraint">
-                                    <bean parent="IntegerPatternConstraint" />
+                                    <bean parent="IntegerPatternConstraint"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-MessageField" p:messageText="%" p:label="Percent" p:id="seatLimitPercent" p:style="padding-left: 10px;"/>
-                            <bean parent="KS-Uif-InputField" p:label="Population Name" p:id="ao-seatpoolgroup-population-name" p:propertyName="seatPoolPopulation.name"
+                            <bean parent="Uif-MessageField" p:messageText="%" p:label="Percent" p:id="seatLimitPercent"
+                                  p:additionalCssClasses="activityOfferingSeatpoolsPercent"/>
+                            <bean parent="KS-Uif-InputField" p:label="Population Name"
+                                  p:id="ao-seatpoolgroup-population-name" p:propertyName="seatPoolPopulation.name"
                                   p:onChangeScript="jQuery('#dirtyForm').val(true);" p:cssClasses="col_6">
                                 <property name="control">
-                                    <bean parent="KS-Uif-TextControl" p:size="40" p:onBlurScript="validatePopulationForSP(this,'@{document.newMaintainableObject.dataObject.populationsJSONString}');"
+                                    <bean parent="KS-Uif-TextControl" p:size="40"
+                                          p:onBlurScript="validatePopulationForSP(this,'@{document.newMaintainableObject.dataObject.populationsJSONString}');"
                                           p:cssClasses="this, validSeatsAndPopulationName"/>
                                 </property>
                                 <property name="quickfinder">
                                     <bean parent="Uif-QuickFinderByScript">
-                                        <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
+                                        <property name="dataObjectClassName"
+                                                  value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
                                         <property name="fieldConversions">
                                             <map>
                                                 <entry key="populationInfo.id" value="seatPoolPopulation.id"/>
@@ -626,12 +712,15 @@
                                     </list>
                                 </property>
                             </bean>
-                            <bean parent="KS-Uif-InputField" p:id="seatpool_milestone" p:propertyName="seatPool.expirationMilestoneTypeKey" p:onChangeScript="jQuery('#dirtyForm').val(true);" p:label="Expiration Milestone">
+                            <bean parent="KS-Uif-InputField" p:id="seatpool_milestone"
+                                  p:propertyName="seatPool.expirationMilestoneTypeKey"
+                                  p:onChangeScript="jQuery('#dirtyForm').val(true);" p:label="Expiration Milestone">
                                 <property name="control">
-                                    <bean parent="KS-Uif-DropdownControl" />
+                                    <bean parent="KS-Uif-DropdownControl"/>
                                 </property>
                                 <property name="optionsFinder">
-                                    <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.SeatPoolExpirationMilestoneTypeKeyValues" p:addBlankOption="false"/>
+                                    <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.SeatPoolExpirationMilestoneTypeKeyValues"
+                                          p:addBlankOption="false"/>
                                 </property>
                             </bean>
                         </list>
@@ -639,7 +728,8 @@
 
                     <property name="lineActions">
                         <list>
-                            <bean parent="KS-Uif-Delete-ActionLink" p:methodToCall="deleteLine" p:actionLabel="delete" p:onDocumentReadyScript="calculatePercent()" p:dirtyOnAction="true"/>
+                            <bean parent="KS-Uif-Delete-ActionLink" p:methodToCall="deleteLine" p:actionLabel="delete"
+                                  p:onDocumentReadyScript="calculatePercent()" p:dirtyOnAction="true"/>
                         </list>
                     </property>
                 </bean>
@@ -647,7 +737,8 @@
         </property>
     </bean>
 
-    <bean id="ActivityOfferingEdit-Miscellaneous" parent="Uif-VerticalBoxSection" p:headerText="Miscellaneous" p:id="aoInfo.Miscellaneous">
+    <bean id="ActivityOfferingEdit-Miscellaneous" parent="Uif-VerticalBoxSection" p:headerText="Miscellaneous"
+          p:id="aoInfo.Miscellaneous">
         <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
         <property name="additionalCssClasses">
             <list merge="true">
@@ -675,7 +766,8 @@
                                   p:fieldLabel.render="false"
                                   p:required="false">
                                 <property name="control">
-                                    <bean parent="KS-Uif-CheckboxControl"  p:checkboxLabel="This lecture requires an evaluation" />
+                                    <bean parent="KS-Uif-CheckboxControl"
+                                          p:checkboxLabel="This lecture requires an evaluation"/>
                                 </property>
                             </bean>
                         </list>
@@ -693,7 +785,7 @@
                                   p:fieldLabel.render="false"
                                   p:required="false">
                                 <property name="control">
-                                    <bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="This is an honors course" />
+                                    <bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="This is an honors course"/>
                                 </property>
                             </bean>
                         </list>
@@ -703,21 +795,24 @@
         </property>
     </bean>
 
-    <bean id="ActivityOfferingEdit-NavigationConfirmation" parent="Uif-VerticalBoxSection" p:layoutManager.orientation="VERTICAL">
+    <bean id="ActivityOfferingEdit-NavigationConfirmation" parent="Uif-VerticalBoxSection"
+          p:layoutManager.orientation="VERTICAL">
         <property name="headerText" value="Unsaved Changes"/>
         <property name="hidden" value="true"/>
         <property name="items">
             <list>
-                <bean parent="Uif-Message" p:messageText="You are about to leave this page and any unsaved changes will not be retained?"/>
+                <bean parent="Uif-Message"
+                      p:messageText="You are about to leave this page and any unsaved changes will not be retained?"/>
 
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean id="edit_ao_save_and_continue" parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route" p:actionLabel="Save and Continue">
+                            <bean id="edit_ao_save_and_continue" parent="Uif-PrimaryActionButton" p:ajaxSubmit="false"
+                                  p:methodToCall="route" p:actionLabel="Save and Continue">
                                 <property name="actionParameters">
-                                  <map>
-                                    <entry key="aoId" value=""/>
-                                  </map>
+                                    <map>
+                                        <entry key="aoId" value=""/>
+                                    </map>
                                 </property>
                             </bean>
                             <bean id="edit_ao_cancel" parent="Uif-SecondaryActionButton"
@@ -725,12 +820,13 @@
                                   p:methodToCall="cancel"
                                   p:actionLabel="Continue Without Saving">
                                 <property name="actionParameters">
-                                  <map>
-                                    <entry key="aoId" value=""/>
-                                  </map>
+                                    <map>
+                                        <entry key="aoId" value=""/>
+                                    </map>
                                 </property>
                             </bean>
-                            <bean parent="Uif-ActionLink" p:actionScript="closeLightbox();" p:ajaxSubmit="false" p:actionLabel="Cancel"/>
+                            <bean parent="Uif-ActionLink" p:actionScript="closeLightbox();" p:ajaxSubmit="false"
+                                  p:actionLabel="Cancel"/>
                         </list>
                     </property>
                 </bean>
@@ -739,7 +835,8 @@
         </property>
     </bean>
 
-    <bean id="ActivityOfferingEdit-CoLocatedAddLineDialog" parent="Uif-VerticalBoxSection" p:layoutManager.orientation="VERTICAL">
+    <bean id="ActivityOfferingEdit-CoLocatedAddLineDialog" parent="Uif-VerticalBoxSection"
+          p:layoutManager.orientation="VERTICAL">
         <property name="headerText" value="Colocation Warning"/>
         <property name="hidden" value="true"/>
         <property name="items">
@@ -750,18 +847,21 @@
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean id="edit_ao_add_colocate_line" parent="Uif-PrimaryActionButton"  p:ajaxSubmit="false"
+                            <bean id="edit_ao_add_colocate_line" parent="Uif-PrimaryActionButton" p:ajaxSubmit="false"
                                   p:methodToCall="addLine" p:actionLabel="Proceed">
                                 <property name="actionParameters">
                                     <map>
                                         <entry key="actionType" value="addLine"/>
-                                        <entry key="selectedCollectionId" value="ActivityOfferingEdit-CoLocatedActivities"/>
-                                        <entry key="selectedCollectionPath" value="document.newMaintainableObject.dataObject.colocatedActivities"/>
+                                        <entry key="selectedCollectionId"
+                                               value="ActivityOfferingEdit-CoLocatedActivities"/>
+                                        <entry key="selectedCollectionPath"
+                                               value="document.newMaintainableObject.dataObject.colocatedActivities"/>
                                         <entry key="actionEvent" value="addLine"/>
                                     </map>
                                 </property>
                             </bean>
-                             <bean parent="Uif-ActionLink" p:actionScript="closeLightbox();" p:ajaxSubmit="false" p:actionLabel="Cancel" p:cssClasses="cancel_link"/>
+                            <bean parent="Uif-ActionLink" p:actionScript="closeLightbox();" p:ajaxSubmit="false"
+                                  p:actionLabel="Cancel" p:cssClasses="cancel_link"/>
                         </list>
                     </property>
                 </bean>
