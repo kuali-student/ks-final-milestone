@@ -406,45 +406,26 @@
                                         <bean parent="PrerequisiteConstraint" p:propertyName="contactHours.unitTypeKey">
                                             <property name="messageKey" value="error.cm.course.format.activities.frequency.requiredForContactHours"/>
                                         </bean>
-                                        <bean parent="PrerequisiteConstraint" p:propertyName="typeKey">
-                                            <property name="messageKey" value="error.cm.course.format.activities.type.required"/>
-                                        </bean>
-
                                     </list>
                                 </property>
-
                                 <property name="maxLength" value="9" />
                                 <property name="control">
-                                    <bean parent="KS-Uif-TextControl" p:size="9" />
+                                    <bean parent="KS-Uif-TextControl" p:size="9"  p:disabled="@{#lp.typeKey eq null}" />
                                 </property>
                             </bean>
                             <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="contactHours.unitTypeKey"
                                   p:label="Contact Frequency" p:required="false"
                                   p:optionsFinderClass="org.kuali.student.lum.lu.ui.course.keyvalues.FrequencyKeyValueFinder" >
-                                <property name="dependencyConstraints">
-                                    <list>
-                                        <bean parent="PrerequisiteConstraint" p:propertyName="typeKey">
-                                            <property name="messageKey" value="error.cm.course.format.activities.type.required"/>
-                                        </bean>
-                                    </list>
-                                </property>
                                 <property name="control">
-                                    <bean parent="KS-Uif-DropdownControl" />
+                                    <bean parent="KS-Uif-DropdownControl"  p:disabled="@{#lp.typeKey eq null}"/>
                                 </property>
                             </bean>
                             <bean id="KS-Logistics-Format-DurationTypeDropDown" parent="KS-Uif-InputField-LabelTop"
                                   p:propertyName="duration.atpDurationTypeKey" p:label="Duration Type"
                                   p:optionsFinderClass="org.kuali.student.lum.lu.ui.course.keyvalues.DurationTypeKeyValueFinder">
                                 <property name="fieldLabel.render" value="false"/>
-                                <property name="dependencyConstraints">
-                                    <list>
-                                        <bean parent="PrerequisiteConstraint" p:propertyName="typeKey">
-                                            <property name="messageKey" value="error.cm.course.format.activities.type.required"/>
-                                        </bean>
-                                    </list>
-                                </property>
                                 <property name="control">
-                                    <bean parent="KS-Uif-DropdownControl"/>
+                                    <bean parent="KS-Uif-DropdownControl"  p:disabled="@{#lp.typeKey eq null}"/>
                                 </property>
                             </bean>
                             <bean id="KS-Logistics-Format-DurationTimeQuantity-Field" parent="KS-Uif-InputField-LabelTop"
@@ -457,15 +438,12 @@
                                         <bean parent="PrerequisiteConstraint" p:propertyName="duration.atpDurationTypeKey">
                                             <property name="messageKey" value="error.cm.course.format.activities.durationType.requiredForDurationCount"/>
                                         </bean>
-                                        <bean parent="PrerequisiteConstraint" p:propertyName="typeKey">
-                                            <property name="messageKey" value="error.cm.course.format.activities.type.required"/>
-                                        </bean>
                                     </list>
                                 </property>
 
                                 <property name="maxLength" value="3" />
                                 <property name="control">
-                                    <bean parent="KS-Uif-TextControl" p:size="3" p:maxLength="3"/>
+                                    <bean parent="KS-Uif-TextControl" p:size="3" p:maxLength="3" p:disabled="@{#lp.typeKey eq null}"/>
                                 </property>
                             </bean>
                             <bean parent="KS-Uif-InputField-LabelTop" p:label="Class Size"
@@ -473,16 +451,9 @@
                                 <property name="validCharactersConstraint">
                                     <bean parent="NumericPatternConstraint" />
                                 </property>
-                                <property name="dependencyConstraints">
-                                    <list>
-                                        <bean parent="PrerequisiteConstraint" p:propertyName="typeKey">
-                                            <property name="messageKey" value="error.cm.course.format.activities.type.required"/>
-                                        </bean>
-                                    </list>
-                                </property>
                                 <property name="maxLength" value="3" />
                                 <property name="control">
-                                    <bean parent="KS-Uif-TextControl" p:size="3" p:maxLength="3" />
+                                    <bean parent="KS-Uif-TextControl" p:size="3" p:maxLength="3" p:disabled="@{#lp.typeKey eq null}"/>
                                 </property>
                             </bean>
                         </list>
