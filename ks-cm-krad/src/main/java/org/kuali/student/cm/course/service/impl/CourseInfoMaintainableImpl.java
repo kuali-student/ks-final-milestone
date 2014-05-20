@@ -1452,9 +1452,11 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                     if (StringUtils.isBlank(activity.getId())) { // If it's new
                         activity.setState(DtoConstants.STATE_DRAFT);
                     }
+                    // blank activities are removed from the list.
                     if(activity.getId() == null && (activity.getTypeKey() == null)) {
                         continue;
                     }
+                    // only non blank activities are added to the list
                     activities.add(activity);
                 }
                 format.getActivities().clear();
