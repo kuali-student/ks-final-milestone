@@ -225,7 +225,7 @@ limitations under the License.
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"
                       p:performActionAuthz="true" p:actionEvent="useActions"/>
                 <bean parent="KS-Uif-NavigationActionLink" p:ajaxSubmit="false" p:methodToCall="cancelEditMatrix"
-                      p:actionLabel="Cancel"/>
+                      p:actionLabel="Cancel" p:performDirtyValidation="false"/>
             </list>
         </property>
     </bean>
