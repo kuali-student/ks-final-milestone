@@ -541,7 +541,12 @@ function updateStickyHeaderText() {
 function refreshOutcome(index) {
 
     var successFunction = function () {
-        jQuery('#creditValue_line' + index + '_control').focus();
+        var selected = jQuery('#typeKey_line' + index + '_control').val()
+        if (selected != null && selected.length > 2) {
+            jQuery('#creditValue_line' + index + '_control').focus();
+        } else {
+            jQuery('#outcome-addline').focus();
+        }
     };
     retrieveComponent('KS-CourseView-CourseLogisticsPage-Outcome-Widgets', 'refreshCourseLogistics', successFunction, {outComeIndex:index});
 
