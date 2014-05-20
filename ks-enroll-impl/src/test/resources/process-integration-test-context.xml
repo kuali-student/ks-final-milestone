@@ -27,6 +27,9 @@
     <bean id="courseRegistrationServiceMapImpl" class="org.kuali.student.enrollment.class2.courseregistration.service.impl.CourseRegistrationServiceMapImpl" >
         <property name="merger" ref="mergerImpl"/>
     </bean>
+    <bean id = "courseWaitListServiceMapImpl" class="org.kuali.student.enrollment.class2.coursewaitlist.service.impl.CourseWaitListServiceMapImpl" >
+
+    </bean>
     <bean id="krmsEvaluator" class="org.kuali.student.core.process.evaluator.KRMSEvaluator" >
         <property name="defaultFacts">
             <map>
@@ -34,6 +37,7 @@
                 <entry key="atpService" value-ref="atpService"/>
                 <entry key="processService" value-ref="processService"/>
                 <entry key="courseRegistrationService" value-ref="courseRegistrationService"/>
+                <entry key="courseWaitListService" value-ref="courseWaitListServiceMapImpl"/>
                 <entry key="populationService" value-ref="populationService"/>
                 <entry key="exemptionService" value-ref="exemptionService"/>
                 <entry key="identityService" value-ref="identityService"/>

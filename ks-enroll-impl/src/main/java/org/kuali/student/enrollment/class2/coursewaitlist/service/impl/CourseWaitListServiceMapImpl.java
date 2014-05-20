@@ -16,9 +16,12 @@
 package org.kuali.student.enrollment.class2.coursewaitlist.service.impl;
 
 
+import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.UUIDHelper;
 import org.kuali.student.common.mock.MockService;
+import org.kuali.student.enrollment.courseregistration.dto.ActivityRegistrationInfo;
+import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListEntryInfo;
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListInfo;
 import org.kuali.student.enrollment.coursewaitlist.dto.WaitListPositionInfo;
@@ -47,6 +50,8 @@ import java.util.Map;
 
 public class CourseWaitListServiceMapImpl implements MockService, CourseWaitListService
 {
+    public static final Logger LOGGER = Logger.getLogger(CourseWaitListServiceMapImpl.class);
+
     // cache variable
     // The LinkedHashMap is just so the values come back in a predictable order
     private Map<String, CourseWaitListInfo> courseWaitListMap = new LinkedHashMap<String, CourseWaitListInfo>();
@@ -592,6 +597,25 @@ public class CourseWaitListServiceMapImpl implements MockService, CourseWaitList
     {
         // UNKNOWN
         throw new OperationFailedException ("getTopCourseWaitListEntries has not been implemented");
+    }
+
+    @Override
+    public List<CourseRegistrationInfo> getCourseWaitListRegistrationsByStudentAndTerm(String studentId,
+                                                                                       String termId,
+                                                                                       ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO: KSENROLL-12923
+        LOGGER.warn(">>>>>>>> Finish implementing getCourseWaitListRegistrationsByStudentAndTerm");
+        return new ArrayList<CourseRegistrationInfo>();
+    }
+
+    @Override
+    public List<ActivityRegistrationInfo> getActivityWaitListRegistrationsForCourseRegistration(String courseRegistrationId,
+                                                                                                ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO: KSENROLL-12923
+        LOGGER.warn(">>>>>>>> Finish implementing getActivityWaitListRegistrationsForCourseRegistration");
+        return new ArrayList<ActivityRegistrationInfo>();
     }
 
     private StatusInfo newStatus() {

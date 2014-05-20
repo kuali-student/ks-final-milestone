@@ -25,6 +25,7 @@ import org.kuali.student.enrollment.academicrecord.dto.LoadInfo;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
+import org.kuali.student.enrollment.coursewaitlist.service.CourseWaitListService;
 import org.kuali.student.enrollment.rules.credit.limit.LoadCalculator;
 import org.kuali.student.enrollment.rules.credit.limit.LoadCalculatorRuleFactory;
 import org.kuali.student.enrollment.rules.credit.limit.RegistrationRequestMerger;
@@ -46,6 +47,8 @@ public class CreditLoadProposition extends AbstractLeafProposition {
         String atpId = environment.resolveTerm(RulesExecutionConstants.ATP_ID_TERM, this);
         Date asOfDate = environment.resolveTerm(RulesExecutionConstants.AS_OF_DATE_TERM, this);
         CourseRegistrationService crService = environment.resolveTerm(RulesExecutionConstants.COURSE_REGISTRATION_SERVICE_TERM,
+                this);
+        CourseWaitListService wlService = environment.resolveTerm(RulesExecutionConstants.COURSE_WAIT_LIST_SERVICE_TERM,
                 this);
         RegistrationRequestMerger merger = environment.resolveTerm(RulesExecutionConstants.REGISTRATION_REQUEST_MERGER_TERM, this);
         LoadCalculatorRuleFactory loadCalculatorRuleFactory =
@@ -78,6 +81,11 @@ public class CreditLoadProposition extends AbstractLeafProposition {
             existingCrs = crService.getCourseRegistrationsByStudentAndTerm(personId,
                     request.getTermId(),
                     contextInfo);
+            List<CourseRegistrationInfo> waitListedCourses =
+                    wlService.getCourseWaitListRegistrationsByStudentAndTerm(personId, request.getTermId(),
+                            contextInfo);
+            // Credit load is computed from actual plus waitlisted courses
+            existingCrs.addAll(waitListedCourses);
         } catch (Exception ex) {
             return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
         }
