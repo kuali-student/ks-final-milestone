@@ -84,11 +84,12 @@ public class CurriculumManagementConstants {
 
         /**
          * Gets a CourseViewSections given a sectionId (aka bean name).
+         *
          * @param id The sectionId of the CourseViewSections.
          * @return The corresponding CourseViewSections if one matches. Otherwise, null.
          */
         public static CourseViewSections getSection(String id) {
-            for(CourseViewSections section : CourseViewSections.values()) {
+            for (CourseViewSections section : CourseViewSections.values()) {
                 if (StringUtils.equalsIgnoreCase(section.getSectionId(), id)) {
                     return section;
                 }
@@ -117,10 +118,10 @@ public class CurriculumManagementConstants {
         public final static String ERROR_NO_RESULTS_FOUND = "error.search.result.notfound";
         public final static String ERROR_DATA_NOT_FOUND = "error.cm.course.data.notfound";
         public final static String ERROR_DATA_MULTIPLE_MATCH_FOUND = "error.cm.course.data.multiplematch";
-        public final static String ERROR_OUTCOME_CREDIT_VALUE_REQUIRED = "error.cm.course.data.outcomecreditvaluerequired";
+        public final static String ERROR_OUTCOME_CREDIT_VALUE_REQUIRED = "error.cm.course.data.outcome.creditvalue.required";
     }
 
-    public static class OrganizationMessageKeys{
+    public static class OrganizationMessageKeys {
         public final static String ORG_QUERY_PARAM_OPTIONAL_LONG_NAME = "org.queryParam.orgOptionalLongName";
         public final static String ORG_QUERY_PARAM_OPTIONAL_ID = "org.queryParam.orgOptionalId";
         public final static String ORG_QUERY_PARAM_OPTIONAL_TYPE = "org.queryParam.orgOptionalType";
