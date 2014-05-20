@@ -548,6 +548,8 @@ function refreshOutcome(index) {
             jQuery('#outcome-addline').focus();
         }
     };
+    // When outcome type changes it affects the credit value input field also. The retrieveComponent
+    // is used to refresh the outcome component to apply the type changes to the component
     retrieveComponent('KS-CourseView-CourseLogisticsPage-Outcome-Widgets', 'refreshCourseLogistics', successFunction, {outComeIndex:index});
 
 }
