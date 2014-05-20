@@ -47,8 +47,10 @@
     </bean>
 
     <bean id="KS-ActivityOfferingWrapper-InquiryView" parent="KS-Uif-InquiryView"
+          p:headerText="Activity Offering Inquiry"
           p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper"
           p:viewHelperServiceClass="org.kuali.student.enrollment.class2.courseoffering.service.impl.ActivityOfferingWrapperInquirableImpl">
+        <property name="stickyHeader" value="true"/>
         <property name="additionalCssFiles">
             <list merge="true">
                 <value>themes/ksboot/stylesheets/activityOffering.css</value>
@@ -64,8 +66,7 @@
         </property>
         <property name="Items">
             <list>
-                <bean id="ActivityOffering-InquiryView-HeaderOne" parent="Uif-HeaderOne" p:headerText="Activity Offering Inquiry" />
-                <bean parent="Uif-HeaderFour" p:headerText="@{dataObject.courseOfferingCode} - @{dataObject.courseOfferingTitle} (@{dataObject.credits} Credits)" p:additionalCssClasses="ks-subSection,ks-subSection-marginTop"/>
+                <bean id="activity-OfferingInquiry-HeaderFour-marginTop" parent="Uif-HeaderFour" p:headerText="@{dataObject.courseOfferingCode} - @{dataObject.courseOfferingTitle} (@{dataObject.credits} Credits)"/>
                 <bean parent="Uif-HeaderThree" p:headerText="Activity Offering: @{dataObject.activityCode} (@{dataObject.abbreviatedCourseType})"/>
                 <ref bean="ActivityOfferingEdit-section1"/>
                 <bean parent="ActivityOfferingEdit-section2">
