@@ -119,7 +119,6 @@ public class CluSetWrapper implements Serializable {
     public void clear(){
         this.id = null;
         this.name = null;
-        this.clus = null;
         this.cluSets = null;
         this.cluSetRanges = null;
     }
