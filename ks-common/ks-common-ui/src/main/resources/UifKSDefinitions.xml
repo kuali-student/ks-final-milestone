@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:p="http://www.springframework.org/schema/p"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd"
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
         >
     <!--
     Copyright 2007-2009 The Kuali Foundation
@@ -39,7 +39,7 @@
                 <value>themes/ksboot/scripts/bootstrap.js</value>
                 <value>themes/ksboot/scripts/enroll.js</value>
                 <value>krad/scripts/ks.krad.override.js</value>
-                <value>themes/ksboot/scripts/krad.request.js</value>
+                <value>themes/ksboot/scripts/ks.krad.request.js</value>
                 <value>krad/scripts/ks.krad.widget.js</value>
             </list>
         </property>
