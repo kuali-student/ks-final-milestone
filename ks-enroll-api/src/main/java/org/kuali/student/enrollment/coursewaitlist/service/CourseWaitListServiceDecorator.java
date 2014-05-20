@@ -17,6 +17,8 @@ package org.kuali.student.enrollment.coursewaitlist.service;
 
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.enrollment.courseregistration.dto.ActivityRegistrationInfo;
+import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListEntryInfo;
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListInfo;
 import org.kuali.student.enrollment.coursewaitlist.dto.WaitListPositionInfo;
@@ -32,6 +34,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
+import javax.jws.WebParam;
 import java.util.List;
 
 /**
@@ -198,6 +201,16 @@ public class CourseWaitListServiceDecorator implements CourseWaitListService {
     @Override
     public List<CourseWaitListEntryInfo> getTopCourseWaitListEntries(String courseWaitListId, String activityOfferingId, Integer count, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getTopCourseWaitListEntries(courseWaitListId, activityOfferingId, count, contextInfo);
+    }
+
+    @Override
+    public List<CourseRegistrationInfo> getCourseWaitListRegistrationsByStudentAndTerm(@WebParam(name = "studentId") String studentId, @WebParam(name = "termId") String termId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getCourseWaitListRegistrationsByStudentAndTerm(studentId, termId, contextInfo);
+    }
+
+    @Override
+    public List<ActivityRegistrationInfo> getActivityWaitListRegistrationsForCourseRegistration(@WebParam(name = "courseRegistrationId") String courseRegistrationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getActivityWaitListRegistrationsForCourseRegistration(courseRegistrationId, contextInfo);
     }
 
 }

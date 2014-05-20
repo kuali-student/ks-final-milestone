@@ -17,6 +17,8 @@ package org.kuali.student.enrollment.coursewaitlist.service;
 
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.enrollment.courseregistration.dto.ActivityRegistrationInfo;
+import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListEntryInfo;
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListInfo;
 import org.kuali.student.enrollment.coursewaitlist.dto.WaitListPositionInfo;
@@ -806,4 +808,12 @@ public interface CourseWaitListService {
             OperationFailedException,
             PermissionDeniedException;
 
+    List<CourseRegistrationInfo> getCourseWaitListRegistrationsByStudentAndTerm(@WebParam(name = "studentId") String studentId,
+                                                                                @WebParam(name = "termId") String termId,
+                                                                                @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    List<ActivityRegistrationInfo> getActivityWaitListRegistrationsForCourseRegistration(@WebParam(name = "courseRegistrationId") String courseRegistrationId,
+                                                                                         @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 }
