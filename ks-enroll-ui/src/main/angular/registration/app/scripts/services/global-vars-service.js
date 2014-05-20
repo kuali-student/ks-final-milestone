@@ -13,7 +13,7 @@ angular.module('regCartApp')
         var successStates = ['kuali.lpr.trans.state.succeeded', 'kuali.lpr.trans.item.state.succeeded'];
         var waitlistStates = ['kuali.lpr.trans.item.state.waitlist'];
         var errorStates = ['kuali.lpr.trans.state.failed', 'kuali.lpr.trans.item.state.failed'];
-        var actionStates = ["kuali.lpr.trans.item.state.waitlistActionAvailable"];
+        var actionStates = ['kuali.lpr.trans.item.state.waitlistActionAvailable'];
 
         this.getRegisteredCredits = function () {
             return registeredCredits;
@@ -119,7 +119,7 @@ angular.module('regCartApp')
         // In this method we pass in a status and it returns a message to display
         this.getCorrespondingMessageFromStatus = function(status){
             var statusMessage = '';
-            if(status == 'waitlist'){
+            if(status === 'waitlist'){
                 statusMessage = 'If a seat becomes available you will be registered automatically';
             }
 

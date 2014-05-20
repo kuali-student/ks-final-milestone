@@ -2,7 +2,7 @@
 
 angular.module('regCartApp')
     .controller('MainCtrl',
-    function ($scope, TermsService, ScheduleService, GlobalVarsService, APP_URL, LoginService) {
+    function ($scope, $state, TermsService, ScheduleService, GlobalVarsService, APP_URL, LoginService) {
         console.log('In Main Controller');
 
         $scope.appUrl = APP_URL.replace('/services/', '/');
@@ -50,4 +50,10 @@ angular.module('regCartApp')
             });
         };
 
+        //Update the UI routing state so it is available in the scope.
+        $scope.$parent.uiState = $state.current.name;
+        $scope.$on('$stateChangeEnd',
+            function(event, toState, toParams, fromState, fromParams){
+                $scope.$parent.uiState = toState.name;
+            });
     });

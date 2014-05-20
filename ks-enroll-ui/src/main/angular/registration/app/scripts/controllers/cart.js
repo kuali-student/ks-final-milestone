@@ -6,14 +6,14 @@ angular.module('regCartApp')
         $scope.oneAtATime = false;
         $scope.isCollapsed = true;
         var hasCartBeenLoaded = false;
-        $scope.cartResults = {items : []};
+        $scope.cartResults = {items: []};
 
         //Add a watch so that when termId changes, the cart is reloaded with the new termId
         $scope.$watch('termId', function (newValue) {
             console.log('term id has changed');
             $scope.cartResults.items.splice(0, $scope.cartResults.items.length);
-            if($scope.userMessage && $scope.userMessage.txt){
-                    $scope.removeUserMessage();
+            if ($scope.userMessage && $scope.userMessage.txt) {
+                $scope.removeUserMessage();
             }
 
             if (newValue) {
@@ -23,7 +23,7 @@ angular.module('regCartApp')
         });
 
         // this method loads the cart and kicks off polling if needed
-        function loadCart(termId){
+        function loadCart(termId) {
             CartService.getCart().query({termId: termId}, function (theCart) {
                 $scope.cart = theCart; // right now theCart is a mix of processing and cart items
                 var cartItems = [];
@@ -32,12 +32,14 @@ angular.module('regCartApp')
                 var submittedCartId; // we must assume that the items are all from one cart
 
                 // if there are any processing items in the cart we need to start polling
-                for(var i = 0; i < $scope.cart.items.length; i++){
+                for (var i = 0; i < $scope.cart.items.length; i++) {
 
                     var item = $scope.cart.items[i];
-                    if (GlobalVarsService.getCorrespondingStatusFromState(item.state) === 'processing'){
+                    if (GlobalVarsService.getCorrespondingStatusFromState(item.state) === 'processing') {
                         item.status = 'processing';
-                        var newItem = $.extend( true, {}, item );
+
+                        //var newItem = $.extend(true, {}, item);
+                        var newItem = angular.copy(item);
                         $scope.cartResults.items.push(newItem);
                         // set cart and all items in cart to processing
                         $scope.cartResults.state = 'kuali.lpr.trans.state.processing';
@@ -50,22 +52,23 @@ angular.module('regCartApp')
                 }
 
                 $scope.cart.items = cartItems;
-                if(startPolling){
+                if (startPolling) {
                     cartPoller(submittedCartId);  // each items has a reference back to the cartId
                 }
             });
         }
 
-        $scope.getStatusMessageFromStatus = function(status) {
+        $scope.getStatusMessageFromStatus = function (status) {
             var retStatus = '';
-            if(status === 'success'){
+            if (status === 'success') {
                 retStatus = ' - Success!';
-            } if(status === 'error' || status === 'action'){
+            }
+            if (status === 'error' || status === 'action') {
                 retStatus = ' - Failed!';
             }
 
             return retStatus;
-        }
+        };
 
         $scope.addRegGroupToCart = function () {
             $scope.courseCode = $scope.courseCode.toUpperCase();
@@ -178,7 +181,7 @@ angular.module('regCartApp')
             CartService.invokeActionLink(actionLink).query({},
                 function (response) {
                     $scope.cart.items.unshift(response);
-                    $scope.userMessage = {txt :''};
+                    $scope.userMessage = {txt: ''};
                 });
         };
 
@@ -227,7 +230,8 @@ angular.module('regCartApp')
                 //cartItem.waitlistedStatus = true;
                 //cartItem.statusMessage = GlobalVarsService.getCorrespondingMessageFromStatus('waitlisted');
 
-                $timeout(function(){}, 250);    // delay for 250 milliseconds
+                $timeout(function () {
+                }, 250);    // delay for 250 milliseconds
                 console.log('Just waited 250, now start the polling');
                 cartPoller(registrationResponseInfo.registrationRequestId);
 
@@ -235,23 +239,24 @@ angular.module('regCartApp')
             });
         };
 
-        $scope.removeAlertMessage = function (cartItem){
+        $scope.removeAlertMessage = function (cartItem) {
             cartItem.alertMessage = null;
-        }
+        };
 
-        $scope.removeUserMessage = function() {
+        $scope.removeUserMessage = function () {
             $scope.userMessage.txt = null;
             $scope.userMessage.linkText = null;
-        }
+        };
 
         $scope.register = function () {
             CartService.submitCart().query({
                 cartId: $scope.cart.cartId
             }, function (registrationResponseInfo) {
-                $scope.userMessage = {txt :''};
+                $scope.userMessage = {txt: ''};
                 console.log('Submitted cart. RegReqId[' + registrationResponseInfo.registrationRequestId + ']');
 
-                $scope.cartResults = $.extend( true, {}, $scope.cart );
+                //$scope.cartResults = $.extend(true, {}, $scope.cart);
+                $scope.cartResults = angular.copy($scope.cart);
                 $scope.cart.items.splice(0, $scope.cart.items.length);
 
                 // set cart and all items in cart to processing
@@ -263,19 +268,19 @@ angular.module('regCartApp')
                     item.state = 'kuali.lpr.trans.item.state.processing';
                     item.status = 'processing';
                 });
-                $timeout(function(){}, 250);    // delay for 250 milliseconds
+                $timeout(function () {
+                }, 250);    // delay for 250 milliseconds
                 console.log('Just waited 250, now start the polling');
                 cartPoller(registrationResponseInfo.registrationRequestId);
             });
         };
 
         // This method is used to update the states/status of each cart item by polling the server
-        var cartPoller = function(registrationRequestId){
+        var cartPoller = function (registrationRequestId) {
             $scope.pollingCart = false; // prime to false
-            $timeout(function(){
+            $timeout(function () {
                 CartService.getRegistrationStatus().query({regReqId: registrationRequestId}, function (regResponseResult) {
                     $scope.cart.state = regResponseResult.state;
-                    var locCart = $scope.cart;  // for debug only
                     angular.forEach(regResponseResult.responseItemResults, function (responseItem) {
                         angular.forEach($scope.cartResults.items, function (item) {
                             if (item.cartItemId === responseItem.registrationRequestItemId) {
@@ -286,23 +291,23 @@ angular.module('regCartApp')
                                 item.statusMessage = responseItem.message;
                             }
                             // If anything is still processing, continue polling
-                            if(responseItem.state === 'kuali.lpr.trans.item.state.processing'){
+                            if (responseItem.state === 'kuali.lpr.trans.item.state.processing') {
                                 $scope.pollingCart = true;
                             }
                         });
                     });
-                    if ($scope.pollingCart){
+                    if ($scope.pollingCart) {
                         console.log('Continue polling');
                         cartPoller(registrationRequestId);
                     } else {
                         console.log('Stop polling');
                         $scope.cart.status = '';  // set the overall status to nothing... which is the default i guess
-                        $scope.cartResults.state ='kuali.lpr.trans.state.succeeded';
+                        $scope.cartResults.state = 'kuali.lpr.trans.state.succeeded';
                         $scope.cartResults.successCount = 0;
                         $scope.cartResults.waitlistCount = 0;
                         $scope.cartResults.errorCount = 0;
                         angular.forEach($scope.cartResults.items, function (item) {
-                            switch(item.status) {
+                            switch (item.status) {
                                 case 'success':
                                     $scope.cartResults.successCount++;
                                     break;
@@ -349,11 +354,11 @@ angular.module('regCartApp')
 
         $scope.showBadge = function (cartItem) {
             //console.log("Cart Item Grading: " + JSON.stringify(cartItem));
-            return cartItem.gradingOptions[cartItem.grading] != 'Letter';
+            return cartItem.gradingOptions[cartItem.grading] !== 'Letter';
         };
 
         $scope.editing = function (cartItem) {
-            return cartItem.status =='editing';
+            return cartItem.status === 'editing';
         };
 
     });

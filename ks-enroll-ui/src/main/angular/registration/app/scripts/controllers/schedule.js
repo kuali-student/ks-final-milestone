@@ -14,11 +14,11 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
 
         $scope.$watch('termId', function (newValue) {
             console.log('term id has changed');
-            if($scope.userMessage && $scope.userMessage.txt){
-                    $scope.removeUserMessage();
+            if ($scope.userMessage && $scope.userMessage.txt) {
+                $scope.removeUserMessage();
             }
-            if($scope.waitlistUserMessage && $scope.waitlistUserMessage.txt){
-                    $scope.removeWaitlistUserMessage();
+            if ($scope.waitlistUserMessage && $scope.waitlistUserMessage.txt) {
+                $scope.removeWaitlistUserMessage();
             }
             ScheduleService.getScheduleFromServer().query({termId: newValue }, function (result) {
                 console.log('called rest service to get schedule data - in schedule.js');
@@ -129,25 +129,25 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
             });
         };
 
-        $scope.removeStatusMessage = function (course){
+        $scope.removeStatusMessage = function (course) {
             course.statusMessage = null;
-        }
+        };
 
-        $scope.removeUserMessage = function() {
+        $scope.removeUserMessage = function () {
             $scope.userMessage.txt = null;
             $scope.userMessage.linkText = null;
-        }
+        };
 
-        $scope.removeWaitlistStatusMessage = function(course) {
+        $scope.removeWaitlistStatusMessage = function (course) {
             course.statusMessage = null;
             $scope.numberOfDroppedWailistedCourses = $scope.numberOfDroppedWailistedCourses - 1;
-            if ($scope.numberOfDroppedWailistedCourses == 0) {
+            if ($scope.numberOfDroppedWailistedCourses === 0) {
                 $scope.showWaitlistMessages = false;
             }
-        }
+        };
 
         $scope.showBadge = function (course) {
-            return course.gradingOptions[course.gradingOptionId] != 'Letter';
+            return course.gradingOptions[course.gradingOptionId] !== 'Letter';
         };
 
     }]);

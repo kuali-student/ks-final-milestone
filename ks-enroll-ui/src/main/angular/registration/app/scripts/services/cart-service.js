@@ -17,10 +17,10 @@ angular.module('regCartApp')
             return $resource(APP_URL + 'CourseRegistrationCartClientService/addCourseToCart', {}, {
                 query: {headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
                     method: 'POST', cache: false, isArray: false,
-                    transformRequest: function(obj) {
+                    transformRequest: function (obj) {
                         var str = [];
-                        for(var p in obj){
-                            if(obj[p]){
+                        for (var p in obj) {
+                            if (obj[p]) {
                                 str.push(encodeURIComponent(p) + '=' + encodeURIComponent(obj[p]));
                             }
                         }
@@ -42,10 +42,10 @@ angular.module('regCartApp')
         this.updateCartItem = function () {
             return $resource(APP_URL + 'CourseRegistrationCartClientService/updateCartItem', {}, {
                 query: {headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
-                    method: 'PUT', cache: false, isArray: false, transformRequest: function(obj) {
+                    method: 'PUT', cache: false, isArray: false, transformRequest: function (obj) {
                         var str = [];
-                        for(var p in obj){
-                            if(obj[p]){
+                        for (var p in obj) {
+                            if (obj[p]) {
                                 str.push(encodeURIComponent(p) + '=' + encodeURIComponent(obj[p]));
                             }
                         }
@@ -65,8 +65,8 @@ angular.module('regCartApp')
             });
         };
 
-    this.undoDeleteCourse = function () {
-        return $resource(APP_URL + 'CourseRegistrationCartClientService/undoDeleteCourse', {}, {
+        this.undoDeleteCourse = function () {
+            return $resource(APP_URL + 'CourseRegistrationCartClientService/undoDeleteCourse', {}, {
                 query: {method: 'GET', cache: false, isArray: false}
             });
         };

@@ -13,6 +13,35 @@ angular.module('regCartApp', [
         $urlRouterProvider.otherwise('/myCart');
 
         $stateProvider
+            .state('root.responsive', {
+                templateUrl: 'partials/responsive/responsive.html'
+            })
+            .state('root.responsive.schedule', {
+                url: '/responsive/schedule',
+                views:{
+                    mycart:{
+                        templateUrl: 'partials/cart.html',
+                        controller: 'CartCtrl'
+                    },
+                    schedule:{
+                        templateUrl: 'partials/responsive/schedule.html',
+                        controller: 'ScheduleCtrl'
+                    }
+                }
+            })
+            .state('root.responsive.cart', {
+                url: '/responsive/cart',
+                views:{
+                    mycart:{
+                        templateUrl: 'partials/cart.html',
+                        controller: 'CartCtrl'
+                    },
+                    schedule:{
+                        templateUrl: 'partials/responsive/schedule.html',
+                        controller: 'ScheduleCtrl'
+                    }
+                }
+            })
             .state('root', {
                 templateUrl: 'partials/main.html',
                 controller: 'MainCtrl'
