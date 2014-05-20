@@ -52,7 +52,7 @@ angular.module('regCartApp')
 
         //Update the UI routing state so it is available in the scope.
         $scope.$parent.uiState = $state.current.name;
-        $scope.$on('$stateChangeEnd',
+        $scope.$on('$stateChangeStart',
             function(event, toState, toParams, fromState, fromParams){
                 $scope.$parent.uiState = toState.name;
             });
