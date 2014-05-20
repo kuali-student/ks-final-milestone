@@ -69,8 +69,10 @@
 
     <bean id="courseWaitListDao" class="org.kuali.student.enrollment.class2.coursewaitlist.dao.CourseWaitListDao"/>
     <!--    <bean id="courseWaitListEntryDao" class="org.kuali.student.enrollment.class2.coursewaitlist.dao.CourseWaitListEntryDao"/> CourseWaitListEntry is not yet implemented; uncomment when ready to implement -->
-        <bean id="courseWaitListService" class="org.kuali.student.enrollment.class2.coursewaitlist.service.impl.CourseWaitListServiceImpl">
-            <property name="courseWaitListDao" ref="courseWaitListDao"/>
+
+    <bean id="courseWaitListService" class="org.kuali.student.enrollment.class2.coursewaitlist.service.impl.CourseWaitListServiceImpl">
+        <property name="courseWaitListDao" ref="courseWaitListDao"/>
+
     <!--        <property name="courseWaitListEntryDao" ref="courseWaitListEntryDao"/> CourseWaitListEntry is not yet implemented; uncomment when ready to implement -->
     </bean>
 

@@ -46,7 +46,6 @@ import java.util.Map;
 public class CourseWaitListServiceImpl implements CourseWaitListService {
     @Resource
     private CourseWaitListDaoApi courseWaitListDao;
-    @Resource
     private LprService lprService;
 
     @Override
