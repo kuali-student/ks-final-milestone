@@ -541,7 +541,7 @@ function updateStickyHeaderText() {
 function refreshOutcome(index) {
 
     var successFunction = function () {
-        var selected = jQuery('#typeKey_line' + index + '_control').val()
+        var selected = jQuery('#typeKey_line' + index + '_control').val();
         if (selected != null && selected.length > 2) {
             jQuery('#creditValue_line' + index + '_control').focus();
         } else {
