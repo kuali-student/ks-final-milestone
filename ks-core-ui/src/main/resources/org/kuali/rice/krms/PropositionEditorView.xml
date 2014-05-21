@@ -82,11 +82,11 @@ limitations under the License.
                     <list>
                         <bean parent="Uif-SecondaryActionButton-Small" p:performClientSideValidation="true">
                             <property name="actionLabel" value="Preview Change"/>
-                            <property name="actionScript" value="updateProposition('updateProposition', 'KRMS-RuleEditor-TreeGroup');"/>
+                            <property name="actionScript" value="updateProposition('updateProposition');"/>
                         </bean>
                         <bean parent="Uif-ActionLink" p:style="margin-left: 0.5em;margin-top: 0.3em;color: #3F7826;">
                             <property name="actionLabel" value="Cancel"/>
-                            <property name="actionScript" value="updateProposition('cancelEditProposition', 'KRMS-RuleEditor-TreeGroup');"/>
+                            <property name="actionScript" value="cancelEditProposition('cancelEditProposition');"/>
                         </bean>
                     </list>
                 </property>

@@ -227,19 +227,34 @@ function getPropositionIdFromParentLi(parentLiNode) {
     return jq(parentLiNode).find('input.hiddenId').first().attr('value');
 }
 
-function ajaxCallPropositionTree(controllerMethod, collectionGroupId) {
+function ajaxCallForComponent(controllerMethod, componentId) {
     var selectedItemInput = getSelectedPropositionInput();
     var selectedItemId = selectedItemInput.val();
     var actionRevealCallBack = function (htmlContent) {
     };
-    retrieveComponent(collectionGroupId, controllerMethod, actionRevealCallBack, {selectedItemInputName: selectedItemId});
+    retrieveComponent(componentId, controllerMethod, actionRevealCallBack, {selectedItemInputName: selectedItemId});
+}
+
+function ajaxCallPropositionTree(controllerMethod) {
+    var selectedItemInput = getSelectedPropositionInput();
+    var selectedItemId = selectedItemInput.val();
+    var actionRevealCallBack = function (htmlContent) {
+    };
+    retrieveEditTree(controllerMethod, actionRevealCallBack, selectedItemId);
+}
+
+function retrieveEditTree(controllerMethod, actionRevealCallBack, selectedItemId) {
+    jq('.editTreeGroup').each(function () {
+        var componentId = this.id;
+        retrieveComponent(componentId, controllerMethod, actionRevealCallBack, {selectedItemInputName: selectedItemId});
+    });
 }
 
 function ajaxCallPropositionTypeUpdate(dropDown, controllerMethod) {
     handleEditNodeClick(jq(dropDown).closest('li'));
     jq('.detailSection').each(function () {
-        var collectionGroupId = this.id;
-        ajaxCallPropositionTree(controllerMethod, collectionGroupId);
+        var componentId = this.id;
+        ajaxCallForComponent(controllerMethod, componentId);
     });
 }
 
@@ -378,27 +393,26 @@ function ajaxPastePropositionTree(controllerMethod, collectionGroupId) {
 
 }
 
-function updateProposition(controllerMethod, collectionGroupId) {
-    var selectedItemInput = getSelectedPropositionInput();
-    if (controllerMethod != 'cancelEditProposition') {
-        if (validateForm()) {
-            var selectedItemInput = getSelectedPropositionInput();
-            var selectedItemId = selectedItemInput.val();
-            var actionRevealCallBack = function (htmlContent) {
-            };
+function updateProposition() {
+    if (validateForm()) {
+       var selectedItemInput = getSelectedPropositionInput();
+       var selectedItemId = selectedItemInput.val();
+       var actionRevealCallBack = function (htmlContent) {
+       };
 
-            retrieveComponent(collectionGroupId, controllerMethod, actionRevealCallBack, {selectedItemInputName: selectedItemId});
-        }
-    } else {
-        var selectedItemInput = getSelectedPropositionInput();
-        var selectedItemId = selectedItemInput.val();
-        var actionRevealCallBack = function (htmlContent) {
-        };
-
-        enableAddButton();
-
-        retrieveComponent(collectionGroupId, controllerMethod, actionRevealCallBack, {selectedItemInputName: selectedItemId});
+       retrieveEditTree('updateProposition', actionRevealCallBack, selectedItemId);
     }
+}
+
+function cancelEditProposition() {
+    var selectedItemInput = getSelectedPropositionInput();
+    var selectedItemId = selectedItemInput.val();
+    var actionRevealCallBack = function (htmlContent) {
+    };
+
+    enableAddButton();
+
+    retrieveEditTree('cancelEditProposition', actionRevealCallBack, selectedItemId);
 }
 
 function resetControlKeys() {
