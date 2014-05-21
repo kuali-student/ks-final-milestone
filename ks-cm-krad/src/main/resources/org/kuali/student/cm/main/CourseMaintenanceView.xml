@@ -267,10 +267,11 @@
         <property name="label" value="Create Course"></property>
     </bean>
 
-    <bean id="CourseInfoMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
+    <bean id="CourseInfoMaintenanceDocument-Base" parent="CourseInfoMaintenanceDocument-Base-parent" abstract="true"/>
+
+    <bean id="CourseInfoMaintenanceDocument-Base-parent" parent="uifMaintenanceDocumentEntry" abstract="true">
         <property name="dataObjectClass" value="org.kuali.student.cm.course.form.CourseInfoWrapper" />
         <property name="maintainableClass" value="org.kuali.student.cm.course.service.impl.CourseInfoMaintainableImpl"/>
-        <property name="documentTypeName" value="kuali.proposal.type.course.create"/>
         <property name="documentClass" value="org.kuali.student.cm.maintenance.CMMaintenanceDocument"/>
         <property name="documentAuthorizerClass" value="org.kuali.student.cm.course.auth.CMMaintenanceDocumentAuthorizer"/>
         <property name="businessRulesClass" value="org.kuali.student.cm.course.rule.CourseRule"/>
@@ -281,18 +282,20 @@
         </property>
     </bean>
 
-    <bean id="CourseInfoAdminMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
-        <property name="dataObjectClass" value="org.kuali.student.cm.course.form.CourseInfoWrapper" />
-        <property name="maintainableClass" value="org.kuali.student.cm.course.service.impl.CourseInfoMaintainableImpl"/>
-        <property name="documentClass" value="org.kuali.student.cm.maintenance.CMMaintenanceDocument"/>
+    <bean id="CourseInfoCreateMaintenanceDocument" parent="CourseInfoMaintenanceDocument-Base">
+        <property name="documentTypeName" value="kuali.proposal.type.course.create"/>
+    </bean>
+
+    <bean id="CourseInfoAdminCreateMaintenanceDocument" parent="CourseInfoMaintenanceDocument-Base">
         <property name="documentTypeName" value="kuali.proposal.type.course.create.admin"/>
-        <property name="documentAuthorizerClass" value="org.kuali.student.cm.course.auth.CMMaintenanceDocumentAuthorizer"/>
-        <property name="businessRulesClass" value="org.kuali.student.cm.course.rule.CourseRule"/>
-        <property name="lockingKeys">
-            <list>
-                <value>courseInfo.id</value>
-            </list>
-        </property>
+    </bean>
+
+    <bean id="CourseInfoModifyMaintenanceDocument" parent="CourseInfoMaintenanceDocument-Base">
+        <property name="documentTypeName" value="kuali.proposal.type.course.modify"/>
+    </bean>
+
+    <bean id="CourseInfoAdminModifyMaintenanceDocument" parent="CourseInfoMaintenanceDocument-Base">
+        <property name="documentTypeName" value="kuali.proposal.type.course.modify.admin"/>
     </bean>
 
     <!--
