@@ -21,6 +21,7 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.core.impl.config.property.ConfigLogger;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.uif.util.GrowlIcon;
@@ -202,6 +203,7 @@ public class KitchenSinkController extends UifControllerBase {
         return getUIFModelAndView(form);
     }
 
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=trees")
     public ModelAndView trees(@ModelAttribute("KualiForm") KitchenSinkForm form, BindingResult result,
                                    HttpServletRequest request, HttpServletResponse response) {
