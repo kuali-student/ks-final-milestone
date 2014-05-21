@@ -68,7 +68,7 @@
                     <property name="disclosure.render" value="false"/>
                     <property name="items">
                         <list>
-                            <bean parent="KS-Uif-DataField" p:id="deleteCluster" p:label="Term:" p:propertyName="termInfo.name" p:fieldLabel.renderColon="false"/>
+                            <bean parent="KS-Uif-DataField" p:id="deleteCluster" p:label="Term" p:propertyName="termInfo.name"/>
                             <bean parent="KS-Uif-DataField" p:propertyName="selectedCluster.clusterNameForDisplay" p:fieldLabel.renderColon="false"/>
                         </list>
                     </property>
