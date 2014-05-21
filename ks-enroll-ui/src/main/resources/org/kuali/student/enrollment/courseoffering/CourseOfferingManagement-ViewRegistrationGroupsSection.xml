@@ -16,7 +16,11 @@
 
     <bean id="KS-CourseOfferingManagement-AllRegistrationGroupsForACourseOffering" parent="Uif-TableCollectionSection"
           p:renderAddLine="false"  p:renderLineActions="false" >
-        <property name="hidden" value="true"/>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>off</value>
+            </list>
+        </property>
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper" />
         <property name="propertyName" value="rgResultList" />
         <property name="headerText" value="Registration Groups (@{rgResultList.size()})"/>
