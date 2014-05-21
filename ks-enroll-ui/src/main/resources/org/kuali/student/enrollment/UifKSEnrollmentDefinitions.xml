@@ -65,12 +65,6 @@
 
     <bean id="KS-CourseOffering-View-ContextBar-PlaceHolder" parent="KS-Uif-HorizontalBoxGroup-TopGroup" />
 
-    <!-- Validation messages and message counts turned off. -->
-    <bean id="KS-ValidationMessages-Off" parent="Uif-GroupValidationMessages">
-        <property name="displayMessages" value="false"/>
-        <property name="displayHeaderMessageSummary" value="false"/>
-    </bean>
-
     <!-- Note: due to the way breadcrumbs are implemented, EC found that we need to initially set the CSS display to none -->
     <!-- Also note: Uif-HorizontalBoxGroup is inheriting from KRAD a margin-bottom:10px which on CreateCO and ManageSoc views is causing
                     the breadcrumb-bar to be pushed down and look horrible (the bar remains where it is but the text gets pushed down) -->
