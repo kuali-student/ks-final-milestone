@@ -43,6 +43,7 @@
         </property>
 
         <property name="headerText" value="@{document.oldMaintainableObject.dataObject.courseOfferingInfo.courseOfferingCode}"/>
+
         <property name="page.headerText" value="@{(document.oldMaintainableObject.dataObject.createCO) ? 'Create':'Edit'} Course Offering" />
         <!--<property name="header.style" value="width:60%"/>-->
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper"/>
