@@ -11,12 +11,6 @@
     <packaging>war</packaging>
     <properties>
         <web.launch.spring.file>classpath:SpringBeans.xml</web.launch.spring.file>
-        <webapp.source.dir>${project.build.directory}/themebuilder</webapp.source.dir>
-        <theme.builder.output.dir>${project.build.directory}/${project.artifactId}-webapp</theme.builder.output.dir>
-        <theme.builder.excludes>bootstrap,kboot,ksboot</theme.builder.excludes>
-        <theme.builder.theme.adddirs/>
-        <theme.builder.plugin.adddirs/>
-        <theme.skip.theme.processing>false</theme.skip.theme.processing>
     </properties>
     <build>
         <resources>
@@ -29,84 +23,6 @@
             </resource>
         </resources>
         <plugins>
-            <plugin>
-                <artifactId>maven-resources-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>copy-theme-files</id>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <phase>prepare-package</phase>
-                        <configuration>
-                            <resources>
-                                <resource>
-                                    <directory>${basedir}/src/main/webapp/themes</directory>
-                                </resource>
-                            </resources>
-                            <outputDirectory>${project.build.directory}/themebuilder</outputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.kuali.maven.plugins</groupId>
-                <artifactId>spring-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>build-themes-in-package-phase</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>loadxml</goal>
-                        </goals>
-                        <configuration>
-                            <location>classpath:org/kuali/rice/krad/theme/themebuilder-context.xml</location>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <!-- First step is to disable the default-war build step. -->
-                        <id>default-war</id>
-                        <phase>none</phase>
-                    </execution>
-                    <execution>
-                        <!-- Second step is to create an exploded war. Done in prepare-package -->
-                        <id>war-exploded</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>exploded</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <!-- Last step is to make sure that the war is built in the package phase -->
-                        <id>create-war-in-package-phase</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>war</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <webappDirectory>${project.build.directory}/${project.artifactId}-webapp</webappDirectory>
-                    <workDirectory>${project.build.directory}/themebuilder</workDirectory>
-                    <overlays>
-                        <overlay>
-                            <groupId>org.kuali.student.core</groupId>
-                            <artifactId>ks-common-web</artifactId>
-                            <includes>
-                                <!--<include>krad/scripts/**</include>-->
-                                <include>themes/ksboot/**</include>
-                                <!--<include>plugins/**</include>-->
-                            </includes>
-                        </overlay>
-                    </overlays>
-                </configuration>
-            </plugin>
             <plugin>
                 <groupId>org.mortbay.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
@@ -122,25 +38,25 @@
                     <webappDirectory>${project.build.directory}/${project.artifactId}-webapp</webappDirectory>
                 </configuration>
             </plugin>
-            <!--<plugin>-->
-            <!--<groupId>org.lesscss</groupId>-->
-            <!--<artifactId>lesscss-maven-plugin</artifactId>-->
-            <!--<version>${lesscss.version}</version>-->
-            <!--<configuration>-->
-            <!--<sourceDirectory>${project.basedir}/src/main/webapp/themes/ksapboot/stylesheets</sourceDirectory>-->
-            <!--<outputDirectory>${project.build.directory}/${project.artifactId}-webapp/ks-ap/themes/ksapboot/stylesheets</outputDirectory>-->
-            <!--<compress>false</compress>-->
-            <!--<force>true</force>-->
-            <!--<lessJs>${project.basedir}/src/main/webapp/themes/ksapboot/scripts/vendor/less-1.7.0.min.js</lessJs>-->
-            <!--</configuration>-->
-            <!--<executions>-->
-            <!--<execution>-->
-            <!--<goals>-->
-            <!--<goal>compile</goal>-->
-            <!--</goals>-->
-            <!--</execution>-->
-            <!--</executions>-->
-            <!--</plugin>-->
+            <plugin>
+                <groupId>org.lesscss</groupId>
+                <artifactId>lesscss-maven-plugin</artifactId>
+                <version>${lesscss.version}</version>
+                <configuration>
+                    <sourceDirectory>${project.basedir}/src/main/webapp/themes/ksapboot/stylesheets</sourceDirectory>
+                    <outputDirectory>${project.build.directory}/${project.artifactId}-webapp/themes/ksapboot/stylesheets</outputDirectory>
+                    <compress>false</compress>
+                    <force>true</force>
+                    <lessJs>${project.basedir}/src/main/webapp/themes/ksapboot/scripts/vendor/less-1.7.0.min.js</lessJs>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
     <dependencies>
@@ -184,23 +100,6 @@
             <groupId>org.lesscss</groupId>
             <artifactId>lesscss-maven-plugin</artifactId>
             <version>${lesscss.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.kuali.rice</groupId>
-            <artifactId>rice-impl</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.kuali.student.core</groupId>
-            <artifactId>ks-common-web</artifactId>
-            <type>war</type>
-            <scope>runtime</scope>
-            <version>${ks.core.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.kuali.student.core</groupId>
-            <artifactId>ks-common-web</artifactId>
-            <type>pom</type>
-            <version>${ks.core.version}</version>
         </dependency>
     </dependencies>
 </project>

@@ -173,26 +173,30 @@
     <bean id="KSAPTheme" abstract="true" parent="KSAPTheme-parentBean"/>
     <bean id="KSAPTheme-parentBean" parent="Uif-BaseTheme">
         <property name="usesThemeBuilder" value="false"/>
-        <property name="minCssFile" value="themes/ksapboot/stylesheets/ksapboot.@{#ConfigProperties['ksap.theme.version']}.min.css"/>
-        <property name="minCssSourceFiles">
+        <property name="cssFiles">
             <list merge="true">
-                <!--<value>themes/ksboot/stylesheets/ksboot.css</value>-->
+                <value>themes/ksboot/stylesheets/ksboot.css</value>
                 <value>plugins/jquery-popover/jquery.popover.css</value>
                 <value>ks-ap/jquery-ui/jquery-ui.css</value>
                 <value>themes/ksboot/stylesheets/enroll.css</value>
-                <!--<value>themes/ksboot/stylesheets/fontello.css</value>-->
                 <value>themes/ksapboot/stylesheets/ksap.css</value>
             </list>
         </property>
-        <property name="minScriptFile" value="themes/ksapboot/scripts/ksapboot.@{#ConfigProperties['ksap.theme.version']}.min.js"/>
-        <property name="minScriptSourceFiles">
+        <property name="scriptFiles">
             <!--@TODO: KSAP-254: Create ksap.js and include here-->
             <list merge="true">
                 <value>themes/ksapboot/scripts/KradOverrides.js</value>
                 <value>themes/ksapboot/scripts/plan/planner.js</value>
                 <value>themes/ksapboot/scripts/ksap.widgets.js</value>
                 <value>plugins/jquery-popover/jquery.popover.js</value>
-                <value>themes/bootstrap/scripts/bootstrap.js</value>
+            </list>
+        </property>
+        <property name="minScriptSourceFiles">
+            <!-- This list is for additional files to include in dev mode -->
+            <list merge="true">
+                <value>themes/ksboot/scripts/bootstrap.js</value>
+                <value>themes/ksapboot/scripts/devmode/live_less_loading.js</value>
+                <value>themes/ksapboot/scripts/vendor/less-1.7.0.min.js</value>
             </list>
         </property>
     </bean>
