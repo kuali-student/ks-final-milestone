@@ -182,26 +182,17 @@ div.ks-multiSelectItem {
 }
 
 
-
 /* Tabs */
-.ui-widget-content a {
-  color: #222;
+.ui-tabs .ui-tabs-nav {
+  background:none;
 }
 
-.nav-tabs > li > a {
-  border: 0px solid transparent;
-}
-.nav > li > a {
-  padding: 3px 2px;
-}
-.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
-  border-color: #555 #555 transparent;
+.ui-tabs .ui-tabs-nav .ui-state-default .ui-tabs-anchor {
+  background-color: @inactiveTabBackground;
+  .border-radius-individual(5px, 5px, 0, 0);
 }
 
-.nav-tabs {
-  border-bottom: 1px solid #555;
-  border-color: #555 #555;
-}
+
 
 
 
