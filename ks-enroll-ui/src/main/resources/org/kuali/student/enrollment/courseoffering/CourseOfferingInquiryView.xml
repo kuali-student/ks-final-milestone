@@ -107,9 +107,11 @@
                                         </bean>
                                         <bean parent="KS-Uif-DataField" p:propertyName="courseOfferingWrapper.finalExamDriverUI" p:label="Final Exam Driver" p:render="@{#dp.courseOfferingInfo.finalExamType eq 'STANDARD'}"/>
                                         <bean parent="Uif-MessageField" p:label="Final Exam Driver"
+                                              p:additionalCssClasses="ks-uif-label-inline"
                                               p:messageText="Alternate exam for this offering"
                                               p:render="@{#dp.courseOfferingInfo.finalExamType eq 'ALTERNATE'}" />
                                         <bean parent="Uif-MessageField" p:label="Final Exam Driver"
+                                              p:additionalCssClasses="ks-uif-label-inline"
                                               p:messageText="No final exam for this offering"
                                               p:render="@{#dp.courseOfferingInfo.finalExamType eq 'NONE'}" />
                                         <bean parent="KS-Uif-DataField" p:propertyName="finalExamUI" p:label="Final Exam Driver Activity" p:render="@{#dp.courseOfferingInfo.finalExamType eq 'STANDARD'}"/>
