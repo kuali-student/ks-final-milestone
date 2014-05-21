@@ -1126,14 +1126,6 @@ div#Uif-ApplicationHeader-Wrapper{
   vertical-align: bottom;
 }
 
-#activityCode .uif-label, #maximumEnrollment .uif-label {
-  display: inline;
-}
-
-#gradingOptionId .uif-label, #KS-CourseOfferingEdit-CreditType_OptionTypeSelector .uif-label {
-  display: inline;
-}
-
 #ActivityOffering-InquiryView-HeaderOne  .uif-headerText{
   background-color: white;
   box-shadow: 0px 6px 6px -5px rgba(0, 0, 0, 0.5);
@@ -1937,10 +1929,6 @@ fieldset[data-type="InputSet"] {
   margin-left: 78px;
 }
 
-#socTermField .uif-label {
-  display: inline
-}
-
 ks-subSection-paddingBottom {
 padding-bottom: 75px;
 }
@@ -2134,14 +2122,6 @@ section.uif-disclosure {
     margin-top: 20px;
 }
 
-#KS-CourseOfferingEdit-CourseOfferingInformation .uif-label{
-    display: inline;
-}
-
-#finalExamType .uif-label{
-    display: block;
-}
-
 #KS-CourseOfferingEdit-HasWaitlist_label {
     display: none;
 }
@@ -2170,6 +2150,23 @@ section.uif-disclosure {
     padding: 5px;
 }
 
-#selectTermForRolloverDetails .uif-label, #deleteCluster .uif-label {
-  display: inline
+/************************************** Label Positioning for .uif-label  ******************/
+/* these are overrides after the upgrade to 2.4 with removal of label position */
+#selectTermForRolloverDetails .uif-label,
+#deleteCluster .uif-label,
+#KS-CourseOfferingEdit-CourseOfferingInformation .uif-label,
+#socTermField .uif-label,
+#activityCode .uif-label,
+#maximumEnrollment .uif-label,
+#gradingOptionId .uif-label,
+#KS-CourseOfferingEdit-FinalExamDriver .uif-label,
+#KS-CourseOfferingEdit-CreditType_OptionTypeSelector .uif-label{
+  display: inline;
 }
+
+/* Code for this p:additionalCssClasses="ks-uif-label-inline"  localed in KSENROLL-12932 */
+.ks-uif-label-inline .uif-label{
+    display: inline;
+}
+
+/************************************** End Label Positioning for .uif-label ******************/
