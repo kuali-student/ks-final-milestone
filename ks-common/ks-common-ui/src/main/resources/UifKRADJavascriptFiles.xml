@@ -24,6 +24,7 @@
     <bean id="Uif-BaseTheme" abstract="true" parent="Uif-KbootTheme">
         <property name="minCssSourceFiles">
             <list>
+                <value>plugins/fancybox/jquery.fancybox.css</value>
                 <value>themes/ksboot/stylesheets/ksboot.css</value>
                 <value>themes/ksboot/stylesheets/fontello.css</value>
                 <value>plugins/jqueryUI/jquery-ui-1.9.2.css</value>
@@ -31,7 +32,6 @@
                 <value>plugins/jgrowl/jquery.jgrowl.css</value>
                 <value>plugins/textpopout/popoutTextarea.css</value>
                 <value>plugins/datatables/TableTools.css</value>
-                <value>plugins/fancybox/jquery.fancybox.css</value>
                 <value>plugins/prettify/prettify.css</value>
                 <value>plugins/tooltip/jquery.bubblepopup.v2.3.1.css</value>
             </list>
