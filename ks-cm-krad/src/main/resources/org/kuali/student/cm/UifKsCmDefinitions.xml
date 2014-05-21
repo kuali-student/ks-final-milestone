@@ -42,12 +42,6 @@
     <bean id="Uif-CancelAction" parent="Uif-CancelActionButton" p:methodToCall="cancel"
           p:actionLabel="Cancel" p:performDirtyValidation="true" p:id="cancel"/>
 
-    <!-- Validation messages and message counts turned off. -->
-    <bean id="KS-ValidationMessages-Off" parent="Uif-GroupValidationMessages">
-        <property name="displayMessages" value="false"/>
-        <property name="displayHeaderMessageSummary" value="false"/>
-    </bean>
-
     <!-- InputField with a state aware label which should be the parent of all CM input fields that need (or potentially
          might need) a custom required indicator. If the input has a required constraint which evaluates to true the
          required indicator will be displayed. Otherwise, it will remain hidden. -->
