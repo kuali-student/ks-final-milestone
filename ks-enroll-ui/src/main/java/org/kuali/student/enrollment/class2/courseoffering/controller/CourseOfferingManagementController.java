@@ -1132,6 +1132,9 @@ public class CourseOfferingManagementController extends UifControllerBase {
                 //Only call matrix if course offering is set to use matrix.
                 if(Boolean.parseBoolean(courseOfferingInfo.getAttributeValue(CourseOfferingServiceConstants.FINAL_EXAM_USE_MATRIX))){
                     ExamOfferingContext examOfferingContext = ExamOfferingManagementUtil.createExamOfferingContext(courseOfferingInfo, eoWrapper.getAoInfo());
+                    if (examOfferingContext.getTermId() == null || (examOfferingContext.getTermId().equals("") ) ) {
+                        examOfferingContext.setTermId(examOfferingContext.getCourseOffering().getTermId());
+                    }
                     ExamOfferingResult result = CourseOfferingManagementUtil.getExamOfferingServiceFacade().reslotExamOffering(
                             eoWrapper.getEoInfo(), examOfferingContext, context);
                     ExamOfferingManagementUtil.processExamOfferingResultSet(result);
