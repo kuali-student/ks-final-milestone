@@ -393,7 +393,8 @@ limitations under the License.
                                         <property name="actionLabel" value="Update Rule"/>
                                         <property name="methodToCall" value="updateRule"/>
                                     </bean>
-                                    <bean id="KSCO-CancelRule-Button" parent="KS-Uif-NavigationActionLink">
+                                    <bean id="KSCO-CancelRule-Button" parent="KS-Uif-NavigationActionLink"
+                                          p:performDirtyValidation="false">
                                         <property name="actionLabel" value="Cancel"/>
                                         <property name="methodToCall" value="cancelEditRule"/>
                                     </bean>
