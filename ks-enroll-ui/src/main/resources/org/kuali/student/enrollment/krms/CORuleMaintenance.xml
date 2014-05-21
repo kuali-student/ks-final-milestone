@@ -454,7 +454,7 @@ limitations under the License.
             <map>
                 <entry key="selected" value="0"/>
                 <entry key="select"
-                       value="function(event, ui) {ajaxCallOnTabSelect(event, ui, 'KRMS-RuleEditor-TreeGroup', 'KSCO-EditWithLogic-EditGroup', 'refreshLogicArea', 'KRMS-LogicArea-InputField');}"/>
+                       value="function(event, ui) {ajaxCallOnTabSelect(event, ui, 'KSCO-RuleEditor-TreeGroup', 'KSCO-EditWithLogic-EditGroup', 'refreshLogicArea', 'KRMS-LogicArea-InputField');}"/>
             </map>
         </property>
     </bean>
@@ -473,7 +473,7 @@ limitations under the License.
             <list>
                 <ref bean="KSCO-EditRule-ToolbarSection"/>
                 <ref bean="KRMS-RuleEditor-TreeExpandCollapse"/>
-                <ref bean="KRMS-RuleEditor-TreeGroup"/>
+                <ref bean="KSCO-RuleEditor-TreeGroup"/>
             </list>
         </property>
     </bean>
@@ -535,17 +535,15 @@ limitations under the License.
         </property>
     </bean>
 
-    <!-- Note: this bean id is important, it is used for component matching in an ajax refresh -->
-    <!-- also, the bogus refreshWhenChanged is important because it puts a RuleEditorView-TreeGroup_refreshWrapper around the group that
-        is needed for the javascript hack that is refreshing -->
-    <bean id="KRMS-RuleEditor-TreeGroup" parent="Uif-VerticalBoxGroup"
-          p:style="margin-bottom: 5pt; margin-top: 0em;" p:forceSessionPersistence="true">
+    <bean id="KSCO-RuleEditor-TreeGroup" parent="Uif-VerticalBoxGroup"
+          p:style="margin-bottom: 5pt; margin-top: 0em;" p:forceSessionPersistence="true"
+          p:additionalCssClasses="editTreeGroup">
         <property name="layoutManager.orientation" value="VERTICAL"/>
         <property name="items">
             <list>
                 <bean parent="Uif-Message" p:messageText="Click on rule statement to move or modify"
                       p:style="font-weight:bold;margin-left: 2em;"/>
-                <bean parent="KSCO-RulerEditor-TreeSection"/>
+                <ref bean="KSCO-RulerEditor-TreeSection"/>
                 <bean id="proposition_selected" parent="KRMS-Rules-HiddenField"
                       p:propertyName="selectedKey"/>
                 <bean id="proposition_copy" parent="KRMS-Rules-HiddenField" p:propertyName="copyKey"/>
