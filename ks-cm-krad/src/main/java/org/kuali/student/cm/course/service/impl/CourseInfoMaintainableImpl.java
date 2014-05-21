@@ -1132,9 +1132,9 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
                     if (activityInfo.getDuration().getTimeQuantity() != null) {
                         durationCount = activityInfo.getDuration().getTimeQuantity().toString();
-                        if(StringUtils.isNotBlank(durationType)) {
-                            durationCount = durationCount + " " + durationType + CurriculumManagementConstants.COLLECTION_ITEM_PLURAL_END;
-                        }
+                    }
+                    if(StringUtils.isNotBlank(durationType)) {
+                        durationCount = durationCount + " " + durationType + CurriculumManagementConstants.COLLECTION_ITEM_PLURAL_END;
                     }
                 }
 
@@ -1146,9 +1146,9 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                     if (activityInfo.getContactHours().getUnitQuantity() != null) {
                         contactHours = activityInfo.getContactHours().getUnitQuantity();
                     }
-
-                    contactHours = contactHours + " per " + StringUtils.lowerCase(contactType);
-
+                    if (StringUtils.isNotBlank(contactType)) {
+                        contactHours = contactHours + " per " + StringUtils.lowerCase(contactType);
+                    }
                 }
 
                 ActivityInfoWrapper activityInfoWrapper = new ActivityInfoWrapper(anticipatedClassSize, activityType, durationCount, contactHours);
