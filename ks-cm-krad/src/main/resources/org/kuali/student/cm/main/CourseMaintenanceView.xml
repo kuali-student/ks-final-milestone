@@ -106,6 +106,9 @@
 
 
     <!--
+        TODO: KSCM-2152 - Remove this workaround once KULRICE-12708 is fixed.  CourseInfo.courseNumberSuffix.override
+        should be uncommented and CourseInfo.courseNumberSuffix.override-required-bug should come out.
+
         Per property overrides for workflow doc state P (Processed).
 
     <bean id="CourseInfo.courseNumberSuffix.override" parent="DataDictionaryBeanOverride">
