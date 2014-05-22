@@ -77,13 +77,13 @@ li.uif-errorMessageItem:before
 }
 
 /* Attributes of the Title */
-.uif-validationMessages > h3 {
+.alert > h3 {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   padding: 0px 0px 2px 0px;
 }
 
 /* single validation error message */
-.uif-validationMessages ul.uif-pageValidationMessage-single,  .uif-validationMessages ul.uif-pageValidationMessage-single > div > ul {
+.alert ul.uif-pageValidationMessage-single,  .alert ul.uif-pageValidationMessage-single > div > ul {
     margin-left: 0em;
 }
 
@@ -2134,14 +2134,6 @@ section.uif-disclosure {
 
 #KS-CourseOfferingEdit-HasWaitlist_label {
     display: none;
-}
-
-//Override krad bug that leaves off the "alert" class to add Bootstrap (http://getbootstrap.com/components/#alerts) styling to alert messages
-.alert-success, .alert-info, .alert-warning, .alert-variant, .alert-danger {
-  padding: @alert-padding;
-  margin-bottom: @line-height-computed;
-  border: 1px solid transparent;
-  border-radius: @alert-border-radius;
 }
 
 // Ensure .uif-validationMessages have same styling as alerts

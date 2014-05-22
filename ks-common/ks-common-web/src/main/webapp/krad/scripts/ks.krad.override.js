@@ -172,3 +172,213 @@ function createTable(tableId, additionalOptions, groupingOptions) {
         }
     });
 }
+
+
+/**
+ * Write the messages out for the group that are present its data
+ *
+ * Once we get the next rice release (Rice 2.4.1), have to remove this override
+ * Override to correct KSENROLL-12943
+ * Todo: KSENROLL-12994
+ *
+ * @param id id of the group
+ * @param data validationData for the group
+ * @param forceWrite forces the group write to be processed
+ */
+function writeMessagesForGroup(id, data, forceWrite, skipCalculateTotals) {
+    var group = jQuery("#" + id);
+    var parent = group.data("parent");
+
+    if (data) {
+        var messageMap = data.messageMap;
+        var pageLevel = data.pageLevel;
+        var order = data.order;
+        var sections = data.sections;
+
+        //retrieve header for section
+        if (data.isSection === undefined) {
+            var sectionHeader = jQuery("[data-header_for='" + id + "']").find("> :header, > label");
+            data.isSection = sectionHeader.length;
+        }
+
+        //show messages if data is received as force show or if this group is considered a section
+        var showMessages = data.isSection || data.forceShow;
+
+        //TabGroups rely on tab error indication to indicate messages - don't show messages here
+        var type = group.data("type");
+        if (type && type === kradVariables.TAB_GROUP_CLASS) {
+            showMessages = false;
+        }
+
+        //if this group is in a tab in a tab group show your messages because TabGroups will not
+        if (parent) {
+            var parentType = jQuery("#" + parent).data("type");
+            if (parentType && parentType === kradVariables.TAB_GROUP_CLASS) {
+                showMessages = true;
+            }
+        }
+
+        //init empty params
+        if (!data.errors) {
+            data.errors = [];
+        }
+        if (!data.warnings) {
+            data.warnings = [];
+        }
+        if (!data.info) {
+            data.info = [];
+        }
+
+        if (!skipCalculateTotals) {
+            data = calculateMessageTotals(id, data);
+        }
+
+        if (showMessages) {
+
+            var newList = jQuery("<ul class='" + kradVariables.VALIDATION_MESSAGES_CLASS + "'></ul>");
+
+            if (data.messageTotal || jQuery("span.uif-correctedError").length || forceWrite) {
+
+                newList = generateSectionLevelMessages(id, data, newList);
+
+                if (data.summarize) {
+                    newList = generateSummaries(id, messageMap, sections, order, newList);
+                }
+                else {
+                    //if not generating summaries just output field links
+                    for (var key in messageMap) {
+                        var link = generateFieldLink(messageMap[key], key, data.collapseFieldMessages, data.displayLabel);
+                        newList = writeMessageItemToList(link, newList);
+                    }
+                }
+
+                var messageBlock = jQuery("[data-messages_for='" + id + "']");
+
+                if (messageBlock.length === 0) {
+                    var cssClasses = "uif-validationMessages uif-groupValidationMessages";
+                    if (pageLevel){
+                        cssClasses = cssClasses + " uif-pageValidationMessages";
+                    }
+
+                    messageBlock = jQuery("<div id='" + id + "_messages' class='"
+                        + cssClasses + "' data-messages_for='" + id + "' "
+                        + "style='display: none;'>");
+
+                    var disclosureBlock = group.find("#" + id + "_disclosureContent");
+                    if (disclosureBlock.length) {
+                        disclosureBlock.prepend(messageBlock);
+                    } else if (!data.isSection) {
+                        group.prepend(messageBlock);
+                    } else if (data.isSection) {
+                        var header = group.find("> .uif-header-contentWrapper");
+                        if (header.length === 0){
+                            header = group.find("> [data-header_for='" + id + "']");
+                        }
+                        header.after(messageBlock);
+                    }
+                }
+
+                //remove old block styling
+                messageBlock.removeClass("alert");
+                messageBlock.removeClass(kradVariables.PAGE_VALIDATION_MESSAGE_ERROR_CLASS);
+                messageBlock.removeClass("alert-warning");
+                messageBlock.removeClass(kradVariables.PAGE_VALIDATION_MESSAGE_INFO_CLASS);
+                messageBlock.removeClass("alert-success");
+
+                //give the block styling
+                if (data.errorTotal > 0) {
+                    messageBlock.removeClass("uif-validationMessages");
+                    messageBlock.removeClass("uif-groupValidationMessages");
+                    messageBlock.addClass("alert");
+                    messageBlock.addClass(kradVariables.PAGE_VALIDATION_MESSAGE_ERROR_CLASS);
+                }
+                else if (data.warningTotal > 0) {
+                    messageBlock.removeClass("uif-validationMessages");
+                    messageBlock.removeClass("uif-groupValidationMessages");
+                    messageBlock.addClass("alert");
+                    messageBlock.addClass("alert-warning");
+                }
+                else if (data.infoTotal > 0) {
+                    messageBlock.removeClass("uif-validationMessages");
+                    messageBlock.removeClass("uif-groupValidationMessages");
+                    messageBlock.addClass("alert");
+                    messageBlock.addClass(kradVariables.PAGE_VALIDATION_MESSAGE_INFO_CLASS);
+                }
+                else {
+                    messageBlock.addClass("alert");
+                    messageBlock.addClass("alert-success");
+                }
+
+                //clear and write the new list of summary items
+                clearMessages(id, false);
+                handleTabStyle(id, data.errorTotal, data.warningTotal, data.infoTotal);
+                writeMessages(id, newList);
+
+                //page level validation messsage header handling
+                if (pageLevel) {
+                    if (newList.children().length) {
+
+                        var countMessage = generateCountString(data.errorTotal, data.warningTotal,
+                            data.infoTotal);
+
+                        //set the window title
+                        addCountToDocumentTitle(countMessage);
+
+                        var single = isSingularMessage(newList);
+                        var pageValidationHeader;
+                        if (!single) {
+                            pageValidationHeader = jQuery("<h3 tabindex='0' class='" + kradVariables.VALIDATION_PAGE_HEADER_CLASS + "' "
+                                + "id='pageValidationHeader'>This page has " + countMessage + "</h3>");
+                        }
+                        else {
+                            pageValidationHeader = jQuery(newList).detach();
+                        }
+
+                        pageValidationHeader.find(".uif-validationImage").remove();
+                        var pageSummaryClass = "";
+                        var image = errorGreyImage;
+                        if (data.errorTotal) {
+                            pageSummaryClass = kradVariables.PAGE_VALIDATION_MESSAGE_ERROR_CLASS;
+                            image = errorImage;
+                        }
+                        else if (data.warningTotal) {
+                            pageSummaryClass = "alert-warning";
+                            image = warningImage;
+                        }
+                        else if (data.infoTotal) {
+                            pageSummaryClass = kradVariables.PAGE_VALIDATION_MESSAGE_INFO_CLASS;
+                            image = infoImage;
+                        }
+
+                        if (!single) {
+                            pageValidationHeader.prepend(image);
+                        }
+                        else {
+                            pageValidationHeader.find("li").prepend(image);
+                            pageValidationHeader.addClass("uif-pageValidationMessage-single")
+                        }
+
+                        messageBlock.prepend(pageValidationHeader);
+
+                        //Handle special classes
+                        pageValidationHeader.parent().removeClass(kradVariables.PAGE_VALIDATION_MESSAGE_ERROR_CLASS);
+                        pageValidationHeader.parent().removeClass("alert-warning");
+                        pageValidationHeader.parent().removeClass(kradVariables.PAGE_VALIDATION_MESSAGE_INFO_CLASS);
+                        pageValidationHeader.parent().addClass(pageSummaryClass);
+
+                        if (!data.showPageSummaryHeader && !single) {
+                            pageValidationHeader.hide();
+                        }
+
+                        messageBlock.find(".uif-validationMessagesList").attr("id", "pageValidationList");
+                        messageBlock.find(".uif-validationMessagesList").attr("aria-labelledby",
+                            "pageValidationHeader");
+                    }
+                }
+            }
+            else {
+                clearMessages(id, true);
+            }
+        }
+    }
+}
