@@ -86,6 +86,16 @@
                         <ref bean="quarter_facet_help_tooltip"/>
                     </property>
                 </bean>
+                <bean p:id="genEdPlaceholder" parent="Uif-HorizontalBoxGroup" p:cssClasses="ksap-hide">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-Message" p:messageText="Gen Ed"/>
+                        </list>
+                    </property>
+                    <property name="toolTip">
+                        <ref bean="gened_col_help_tooltip"/>
+                    </property>
+                </bean>
 			</list>
 		</property>
         <property name="stickyFooter" value="false"/>

@@ -239,6 +239,13 @@ function searchForCourses(id, parentId) {
                             oldheader.empty();
                             newheader.removeClass("ksap-hide");
                             oldheader.append(newheader);
+
+                            newheader = jQuery("#genEdPlaceholder").clone(true);
+                            oldheader = jQuery("[aria-label='Gen Ed']");
+                            oldheader.empty();
+                            newheader.removeClass("ksap-hide");
+                            oldheader.append(newheader);
+
 							ksapSearchComplete();
 
                             //Hide dropdown pagination if there is less than X (default=20) # of items in results - Check once
