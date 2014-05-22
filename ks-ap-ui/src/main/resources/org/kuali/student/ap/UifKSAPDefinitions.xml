@@ -177,7 +177,6 @@
             <list merge="true">
                 <value>themes/ksboot/stylesheets/ksboot.css</value>
                 <value>plugins/jquery-popover/jquery.popover.css</value>
-                <value>ks-ap/jquery-ui/jquery-ui.css</value>
                 <value>themes/ksboot/stylesheets/enroll.css</value>
                 <value>themes/ksapboot/stylesheets/ksap.css</value>
             </list>
