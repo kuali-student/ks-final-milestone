@@ -318,6 +318,10 @@ angular.module('regCartApp')
                                 case 'error':
                                     $scope.cartResults.errorCount++;
                                     break;
+                                case 'action':
+                                    // Waitlist action available, indicate as a Failure
+                                    $scope.cartResults.errorCount++;
+                                    break;
                             }
                         });
                         // After all the processing is complete, get the final Schedule counts.
