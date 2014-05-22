@@ -405,10 +405,12 @@
                       p:fieldLabel.renderColon="false"
                       p:render="true"  />
                 <!-- List of checkboxes seem to break in KRAD 2.2M3 so had to replace with individual checkboxes -->
-                <bean parent="Uif-CheckboxInputField" p:id="is_pass_fail" p:label="Pass/Fail"
-                      p:propertyName="passFailStudentRegOpts"
-                      p:fieldLabel.renderColon="false"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and #dp.studentRegOptions.contains('kuali.resultComponent.grade.passFail')}"/>
+
+                <bean id="is_pass_fail" parent="Uif-InputField" p:propertyName="passFailStudentRegOpts">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl" p:checkboxLabel="Pass/Fail" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and #dp.studentRegOptions.contains('kuali.resultComponent.grade.passFail')}"/>
+                    </property>
+                </bean>
                 <!-- Rice 2.4 upgrade : removing p:labelPlacement="RIGHT" -->
                 <bean id="is_audit" parent="Uif-InputField" p:propertyName="auditStudentRegOpts">
                     <property name="control">
