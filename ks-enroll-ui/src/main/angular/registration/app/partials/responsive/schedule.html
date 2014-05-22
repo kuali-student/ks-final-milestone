@@ -1,4 +1,13 @@
-<div class="util-Text--center kscr-MainHeading-header" style="flex-wrap:wrap;flex:1">MY SCHEDULE</div>
+<div  ng-swipe-left="goToPage('/{{appUrl}}kscr-poc/index.jsp')" draggable="true" ng-swipe-right="goToPage('/responsive/cart')">
+<!--My Cart Main Heading-->
+<div class="kscr-MainHeading util-Grid util-Grid--center">
+    <div class="util-Grid-cell">
+        <div class="kscr-MainHeading-icon-left"><a ui-sref="root.responsive.cart" ><i class="glyphicon glyphicon-shopping-cart"></i></a></div>
+        <div class="util-Text--center kscr-MainHeading-header" style="flex-wrap:wrap;flex:1">My Schedule</div>
+        <div class="kscr-MainHeading-icon-right"><a href="{{appUrl}}kscr-poc/index.jsp"><i class="glyphicon glyphicon-search"></i></a></div>
+    </div>
+</div>
+
 <div class="kscr-Responsive-schedule">
 <div class="kscr-Responsive-registered">
 <div>

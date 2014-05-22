@@ -12,6 +12,7 @@
     "angular-resource": "1.2.16",
     "angular-cookies": "1.2.16",
     "angular-sanitize": "1.2.16",
+    "angular-touch": "1.2.6",
     "angular-ui-router": "0.2.10"
   },
   "devDependencies": {

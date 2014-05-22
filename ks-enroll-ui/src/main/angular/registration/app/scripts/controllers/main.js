@@ -2,7 +2,7 @@
 
 angular.module('regCartApp')
     .controller('MainCtrl',
-    function ($scope, $state, TermsService, ScheduleService, GlobalVarsService, APP_URL, LoginService) {
+    function ($scope, $rootScope, $location, $state, TermsService, ScheduleService, GlobalVarsService, APP_URL, LoginService) {
         console.log('In Main Controller');
 
         $scope.appUrl = APP_URL.replace('/services/', '/');
@@ -48,6 +48,11 @@ angular.module('regCartApp')
                 console.log('Logging out');
                 location.reload();
             });
+        };
+
+        $scope.goToPage = function (page) {
+            console.log('Navigating to page: ' + page);
+            $location.url(page);
         };
 
         //Update the UI routing state so it is available in the scope.

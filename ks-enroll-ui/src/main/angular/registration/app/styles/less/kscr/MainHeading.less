@@ -8,6 +8,16 @@
     border-top: none;
     padding-top: 0px;
     &:extend(.util-transitions-browserHelper);
+
+    * {
+        -moz-user-select: none;
+        -khtml-user-select: none;
+        -webkit-user-select: none;
+        user-select: none;
+    /* Required to make elements draggable in old WebKit */
+        -khtml-user-drag: element;
+        -webkit-user-drag: element;
+    }
 }
 
 
@@ -25,12 +35,37 @@
    opacity:0.8;
 }
 
+.kscr-MainHeading-icon-left, .kscr-MainHeading-icon-right {
+    display: none;
+}
+
+@media screen and (max-width: 660px) {
+    .kscr-MainHeading-icon-left, .kscr-MainHeading-icon-right {
+        display: block;
+    }
+}
+
+.kscr-MainHeading-icon-left{
+    float: left;
+    width: 10%;
+}
+
+.kscr-MainHeading-icon-right{
+    float: right;
+    text-align: right;
+    width: 10%;
+}
+
+
 .kscr-MainHeading-header{
     color: @primaryTextColor;
     font-family: @primaryFontFamily;
     font-size: 16px;
     font-weight: bold;
     //padding: 0.1em;
+    text-transform:uppercase;
+    width: 80%;
+    float: left;
 }
 
 .kscr-MainHeading-support{
