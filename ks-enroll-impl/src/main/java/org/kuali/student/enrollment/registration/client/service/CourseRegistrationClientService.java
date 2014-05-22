@@ -4,6 +4,7 @@ import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseI
 import org.kuali.student.enrollment.registration.client.service.dto.ScheduleCalendarEventResult;
 import org.kuali.student.enrollment.registration.client.service.dto.ScheduleItemResult;
 import org.kuali.student.enrollment.registration.client.service.dto.StudentScheduleTermResult;
+import org.kuali.student.enrollment.registration.client.service.dto.WaitlistEntryResult;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -179,4 +180,38 @@ public interface CourseRegistrationClientService {
     @DELETE
     @Path("/dropFromWaitlistEntry")
     public Response dropFromWaitlistEntryRS(@QueryParam("masterLprId") String masterLprId);
+
+    /**
+     * This method returns a roster of students on a waitlist for a particular registration group.
+     *
+     * @param termId - optional
+     * @param termCode - human readable code representing the term. ex: 201208
+     * @param courseCode - human readable code representing the course. ex: CHEM231
+     * @param regGroupCode - human readable code representing the reg group. ex: 1001
+     * @return list of WaitlistEntryResult
+     */
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("/getWaitlistRoster")
+    public Response searchForWaitlistRosterRS(@QueryParam("termId") String termId,
+                                              @QueryParam("termCode") String termCode,
+                                              @QueryParam("courseCode") String courseCode,
+                                              @QueryParam("regGroupCode") String regGroupCode);
+
+    /**
+     * This method returns a roster of students on a waitlist for a particular registration group.
+     *
+     * @param termId - optional
+     * @param termCode - human readable code representing the term. ex: 201208
+     * @param courseCode - human readable code representing the course. ex: CHEM231
+     * @param regGroupCode - human readable code representing the reg group. ex: 1001
+     * @param contextInfo
+     * @return
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public List<WaitlistEntryResult> searchForWaitlistRoster(String termId, String termCode, String courseCode, String regGroupCode, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
 }

@@ -2,8 +2,14 @@ package org.kuali.student.enrollment.registration.client.service.impl;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.criteria.OrderByField;
+import org.kuali.rice.core.api.criteria.OrderDirection;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.util.security.ContextUtils;
+import org.kuali.student.enrollment.class1.lpr.model.LprEntity;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
@@ -13,11 +19,15 @@ import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemResultInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
+import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.enrollment.registration.client.service.CourseRegistrationClientService;
 import org.kuali.student.enrollment.registration.client.service.CourseRegistrationClientServiceConstants;
+import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesService;
+import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesServiceConstants;
 import org.kuali.student.enrollment.registration.client.service.dto.ActivityOfferingScheduleComponentResult;
 import org.kuali.student.enrollment.registration.client.service.dto.InstructorSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.RegistrationCountResult;
 import org.kuali.student.enrollment.registration.client.service.dto.RegistrationResponseItemResult;
 import org.kuali.student.enrollment.registration.client.service.dto.RegistrationResponseResult;
 import org.kuali.student.enrollment.registration.client.service.dto.ScheduleCalendarEventResult;
@@ -26,6 +36,7 @@ import org.kuali.student.enrollment.registration.client.service.dto.StudentSched
 import org.kuali.student.enrollment.registration.client.service.dto.StudentScheduleCourseResult;
 import org.kuali.student.enrollment.registration.client.service.dto.StudentScheduleTermResult;
 import org.kuali.student.enrollment.registration.client.service.dto.TermSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.WaitlistEntryResult;
 import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
 import org.kuali.student.enrollment.registration.client.service.impl.util.SearchResultHelper;
 import org.kuali.student.enrollment.registration.client.service.impl.util.statistics.RegEngineMqStatisticsGenerator;
@@ -40,6 +51,7 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.infc.Context;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
@@ -68,6 +80,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
     public static final Logger LOGGER = LoggerFactory.getLogger(CourseRegistrationClientServiceImpl.class);
 
     private LprService lprService;
+    private ScheduleOfClassesService scheduleOfClassesService;
 
     @Override
     public Response registerForRegistrationGroupRS(String termCode, String courseCode, String regGroupCode, String regGroupId, String credits, String gradingOptionId, boolean okToWaitlist) {
@@ -223,6 +236,128 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         }
 
         return getRegistrationScheduleByPersonAndTerm(userId, termId, contextInfo);
+    }
+
+    @Override
+    public Response searchForWaitlistRosterRS(String termId, String termCode, String courseCode, String regGroupCode) {
+        Response.ResponseBuilder response;
+
+        try {
+            List<WaitlistEntryResult> wlSearchResults = searchForWaitlistRoster(termId, termCode, courseCode, regGroupCode, ContextUtils.createDefaultContextInfo());
+            response = Response.ok(wlSearchResults);
+        } catch (Exception e) {
+            LOGGER.warn("Exception Thrown", e);
+            response = Response.serverError().entity(e.getMessage());
+        }
+
+        return response.build();
+    }
+
+    @Override
+    public List<WaitlistEntryResult> searchForWaitlistRoster(String termId, String termCode, String courseCode, String regGroupCode, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<WaitlistEntryResult>  results =   new ArrayList<WaitlistEntryResult>();
+        RegGroupSearchResult regGroupSearchResult =  getScheduleOfClassesService().searchForRegistrationGroupByTermAndCourseAndRegGroup(termId, termCode, courseCode, regGroupCode);
+        String PRIMARY_WAITLIST_TYPE = LprServiceConstants.WAITLIST_RG_LPR_TYPE_KEY; // for this implementation the RG is the primary
+        // array of valid waitlist types. We might want to pass this in to make it configurable?
+        String[] wlTypes = {LprServiceConstants.WAITLIST_RG_LPR_TYPE_KEY,
+                LprServiceConstants.WAITLIST_CO_LPR_TYPE_KEY,
+                LprServiceConstants.WAITLIST_AO_LPR_TYPE_KEY};
+
+        // LUI ID  -> Count
+        Map<String, Integer>  typeCountMap = new HashMap<String, Integer>();
+
+        // userId, WaitlistEntry
+        Map<String, WaitlistEntryResult> resultHelperMap = new HashMap<String, WaitlistEntryResult>(); // this is used to help populate result map. needed for performance.
+
+        if(regGroupSearchResult != null ){
+
+            // get all the waitlist lprs for this registration group
+            // combine the rgId + aoIds to pass into search method
+            List<String> luiIdsToFind = new ArrayList<String>(regGroupSearchResult.getActivityOfferingIds());
+            luiIdsToFind.add(regGroupSearchResult.getRegGroupId());
+            // they will be in process order
+            List<LprInfo> lprInfos = getLprEntries(luiIdsToFind, contextInfo, wlTypes);
+
+            // loop through the results in order. Because we're in order we can create an easy count object.
+            for(LprInfo lprInfo : lprInfos){
+                // prime the counts
+                if(!typeCountMap.containsKey(lprInfo.getLuiId())){
+                    typeCountMap.put(lprInfo.getLuiId(), new Integer(0));
+                }
+
+                // get / set the count
+                int count = typeCountMap.get(lprInfo.getLuiId()).intValue() + 1; // increment count
+                typeCountMap.put(lprInfo.getLuiId(), new Integer(count)); // update map
+
+                // use the result helper to organize the results + more performant
+                if(!resultHelperMap.containsKey(lprInfo.getPersonId())){
+                    WaitlistEntryResult wlEntry =  new WaitlistEntryResult();
+                    wlEntry.setPersonId(lprInfo.getPersonId());
+
+                    // use pass by ref to update both the ret list and the helper
+                    resultHelperMap.put(lprInfo.getPersonId(), wlEntry );
+                }
+
+                // The primary and remaining need to be seperated.
+                if(PRIMARY_WAITLIST_TYPE.equals(lprInfo.getTypeKey())){
+                    WaitlistEntryResult wlEntry = resultHelperMap.get(lprInfo.getPersonId());
+                    wlEntry.setOrder(count);
+                    wlEntry.setPrimaryActivityType(lprInfo.getTypeKey());
+                    wlEntry.setPrimaryLprId(lprInfo.getMasterLprId()); // I believe this is the same as the lprId.
+                    wlEntry.setPrimaryLuiId(lprInfo.getLuiId());
+
+                    results.add(wlEntry);  // add entry to return list. Only happens here bc it's primary
+                } else {
+                    RegistrationCountResult countResult = new RegistrationCountResult();
+                    countResult.setCount(count);
+                    countResult.setCountType(lprInfo.getTypeKey());
+                    countResult.setLuiId(lprInfo.getLuiId());
+
+                    resultHelperMap.get(lprInfo.getPersonId()).getAoWaitlistOrder().add(countResult);
+
+                }
+            }
+        }
+        return results;
+
+    }
+
+
+    /**
+     * Return a list of LprInfo objects that are related to the luiIds passed in.
+     *
+     * This method looks up lprs based on the luiIds passed in. It filters based on the type.
+     * It will only return items that DO NOT have an expirationDate
+     * The results will be in Ascending Order based on the lpr createTime
+     *
+     * @param luiIds - list of luiIds to look up for the LPR table
+     * @param contextInfo
+     * @param lprTypes list of valid lpr types to filter results. ie. LprServiceConstants.WAITLIST_RG_LPR_TYPE_KEY
+     * @return
+     * @throws MissingParameterException
+     * @throws InvalidParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    protected List<LprInfo> getLprEntries(List<String> luiIds, ContextInfo contextInfo, String ... lprTypes) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException {
+
+
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.and(PredicateFactory.in("luiId", luiIds),
+                PredicateFactory.in("personRelationTypeId", lprTypes),
+                PredicateFactory.isNull("expirationDate")));  // all LPRs use effective dating
+
+        OrderByField.Builder orderByFieldBuilder = OrderByField.Builder.create();
+        orderByFieldBuilder.setFieldName("createTime");
+        orderByFieldBuilder.setOrderDirection(OrderDirection.ASCENDING);
+        qbcBuilder.setOrderByFields(orderByFieldBuilder.build());
+
+
+        QueryByCriteria criteria = qbcBuilder.build();
+
+        List<LprInfo> lprInfos =  getLprService().searchForLprs(criteria, contextInfo);
+
+        return lprInfos;
     }
 
     @Override
@@ -975,4 +1110,15 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         this.lprService = lprService;
     }
 
+    protected ScheduleOfClassesService getScheduleOfClassesService() {
+        if (scheduleOfClassesService == null) {
+            scheduleOfClassesService = GlobalResourceLoader.getService(ScheduleOfClassesServiceConstants.QNAME);
+        }
+
+        return scheduleOfClassesService;
+    }
+
+    public void setScheduleOfClassesService(ScheduleOfClassesService scheduleOfClassesService) {
+        this.scheduleOfClassesService = scheduleOfClassesService;
+    }
 }
