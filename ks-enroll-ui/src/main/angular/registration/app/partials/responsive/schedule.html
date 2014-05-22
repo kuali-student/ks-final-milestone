@@ -1,6 +1,6 @@
 <div class="util-Text--center kscr-MainHeading-header" style="flex-wrap:wrap;flex:1">MY SCHEDULE</div>
-<div class="schedule">
-<div class="registered">
+<div class="kscr-Responsive-schedule">
+<div class="kscr-Responsive-registered">
 <div>
     <span>
         <span class="kscr-Heading-sub">REGISTERED</span>
@@ -138,7 +138,7 @@
 </div>
 </div>
 
-<div class="waitlisted">
+<div ng-class="{'kscr-Responsive-waitlisted':true,'kscr-Responsive-waitlisted--inactive':!waitlistedCourseCount() && !showWaitlistMessages}">
 <!--Waitlisted section-->
 <div ng-show="waitlistedCourseCount() || showWaitlistMessages">
     <span>

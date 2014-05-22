@@ -1,14 +1,14 @@
 <html>
 <head>
     <script type="application/javascript">
-        //Toggle display of my cart and schedule
+        //Toggle display of my cart and kscr-Responsive-schedule
         function toggle() {
             if (document.getElementById("mycart").style.display === "none" || document.getElementById("mycart").style.display === "") {
                 document.getElementById("mycart").style.display = "block";
-                document.getElementById("schedule").style.display = "none";
+                document.getElementById("kscr-Responsive-schedule").style.display = "none";
             } else {
                 document.getElementById("mycart").style.display = "none";
-                document.getElementById("schedule").style.display = "block";
+                document.getElementById("kscr-Responsive-schedule").style.display = "block";
             }
         }
 
@@ -17,7 +17,7 @@
         window.onresize = function (event) {
             if (window.innerWidth > 660) {
                 document.getElementById("mycart").style.display = "";
-                document.getElementById("schedule").style.display = "";
+                document.getElementById("kscr-Responsive-schedule").style.display = "";
                 console.log("resizing ", window.innerWidth);
             }
         }
@@ -36,10 +36,10 @@
         }
 
         .maincontent {
-            display: flex; /*Uset to display child elements (schedule and cart) side by side in a flexible way*/
+            display: flex; /*Uset to display child elements (kscr-Responsive-schedule and cart) side by side in a flexible way*/
         }
 
-        .schedule {
+        .kscr-Responsive-schedule {
             flex: 1; /*set so that this takes up all the room left over from cart*/
             display: flex; /*child elements (registered and waitlist) are displayed in a flexible way*/
             background-color: #FBF;
@@ -77,7 +77,7 @@
                 display: block; /*show navigation for smaller sizes*/
             }
 
-            .schedule {
+            .kscr-Responsive-schedule {
                 flex-direction:column;/*turn off flex and turn on block so items appear vertically stacked*/
             }
         }
@@ -95,7 +95,7 @@
 <div class="header">Header</div>
 <div class="navigation"><a href="#" onclick="toggle()">CLICK</a></div>
 <div class="maincontent">
-    <div id="schedule" class="schedule">
+    <div id="kscr-Responsive-schedule" class="kscr-Responsive-schedule">
         <div class="registered">Registered
             <div class="expanded">Expanded Info</div>
         </div>

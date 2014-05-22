@@ -1,14 +1,19 @@
 <div class="kscr-Header-container" ng-class="{'kscr-Menu-background--disabled' : dropMenu}" ng-click="dropMenu = !dropMenu">
     <!-- NG class adds a wide version of the header if we are looking at the responsive states -->
-    <div ng-class="{'kscr-Header':true, 'kscr-Header--wide':uiState=='root.responsive.schedule' || uiState=='root.responsive.cart'}" ng-click="dropMenu = !dropMenu">
+    <div ng-class="{'kscr-Header':true, 'kscr-Responsive-header':uiState=='root.responsive.schedule' || uiState=='root.responsive.cart'}" ng-click="dropMenu = !dropMenu">
         <div class="kscr-Header-logo">
             <span class="kscr-Header-title kscr-Visibility-mobileElement">COURSE REGISTRATION</span>
             <span class="kscr-Header-termName"  id="header_termName">{{termName}}</span>
+            <!--<div ng-if="uiState=='root.responsive.cart'||uiState=='root.responsive.schedule'" class="kscr-Header-termName" style="display: inline">-->
+                <!--&lt;!&ndash; Defaults to the current term&ndash;&gt;-->
+                <!--<select id="searchTerm" style="color: white;background: transparent;border:none;font-family: 'Montserrat',sans-serif;font-size: 14px;font-weight: bold;color: #F8F8F8;"ng-model="$parent.termId" ng-options="t.termId as t.termName for t in terms"></select>-->
+            <!--</div>-->
             <span class="kscr-Header-filler">&nbsp;</span>
 
-            <nav class="Navigation">
+            <nav ng-class="{Navigation:true,'kscr-Responsive-navigation':uiState=='root.responsive.cart'||uiState=='root.responsive.schedule'}">
                 <span >
                     <button id="reg_menu_button" type="button" ng-model="dropMenu" class="kscr-Menu-button-menu" ng-class="{'kscr-Menu-button-menu--clicked' : dropMenu}" ng-click="dropMenu = !dropMenu">MENU</button>
+                    <!--<button ng-if="uiState=='root.responsive.cart'||uiState=='root.responsive.schedule'" id="logout_small" class="kscr-Menu-button-menu" ng-click="logout()">LOGOUT</button>-->
                 </span>
             </nav>
         </div>
