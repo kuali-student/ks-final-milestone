@@ -376,7 +376,7 @@ function resetCutSelected(selectedItemId) {
     });
 }
 
-function ajaxPastePropositionTree(controllerMethod, collectionGroupId) {
+function ajaxPastePropositionTree(controllerMethod) {
     var selectedItemInput = getSelectedPropositionInput();
     var selectedItemId = selectedItemInput.val();
     var actionRevealCallBack = function (htmlContent) {
@@ -389,7 +389,7 @@ function ajaxPastePropositionTree(controllerMethod, collectionGroupId) {
 
         disablePasteButton();
     };
-    retrieveComponent(collectionGroupId, controllerMethod, actionRevealCallBack, {selectedItemInputName: selectedItemId});
+    retrieveEditTree(controllerMethod, actionRevealCallBack, selectedItemId);
 
 }
 
@@ -513,7 +513,7 @@ function handleEditNodeClick(parentLiNode) {
     selectedItemTracker.val(propositionId);
 }
 
-function handleOperatorChange(jqObject, controllerMethod, collectionGroupId) {
+function handleOperatorChange(jqObject, controllerMethod) {
 
     //Set the selected id
     var parentLiNode = jqObject.closest('li');
@@ -521,7 +521,7 @@ function handleOperatorChange(jqObject, controllerMethod, collectionGroupId) {
     var selectedItemTracker = getSelectedPropositionInput();
     selectedItemTracker.val(propositionId);
 
-    ajaxCallPropositionTree(controllerMethod, collectionGroupId)
+    ajaxCallPropositionTree(controllerMethod)
 }
 
 /**

@@ -91,6 +91,39 @@ limitations under the License.
         </property>
     </bean>
 
+    <bean id="KRMS-RuleEditor-TreeGroup" parent="Uif-VerticalBoxGroup"
+          p:style="margin-bottom: 5pt; margin-top: 0em;" p:forceSessionPersistence="true"
+          p:additionalCssClasses="editTreeGroup">
+        <property name="layoutManager.orientation" value="VERTICAL"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Message" p:messageText="Click on rule statement to move or modify"
+                      p:style="font-weight:bold;margin-left: 2em;"/>
+                <ref bean="KRMS-RulerEditor-TreeSection"/>
+                <bean id="proposition_selected" parent="KRMS-Rules-HiddenField"
+                      p:propertyName="selectedKey"/>
+                <bean id="proposition_copy" parent="KRMS-Rules-HiddenField" p:propertyName="copyKey"/>
+                <bean id="proposition_cut" parent="KRMS-Rules-HiddenField" p:propertyName="cutKey"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KRMS-RulerEditor-TreeSection" parent="KRMS-RulerEditor-TreeSection-parent">
+        <property name="nodePrototypeMap">
+            <map key-type="java.lang.Class">
+                <entry key="#{ T(org.kuali.rice.krms.tree.node.SimplePropositionNode) }">
+                    <bean parent="KRMS-SimplePropositionNodePrototype"/>
+                </entry>
+                <entry key="#{ T(org.kuali.student.lum.lu.ui.krms.tree.node.LUPropositionEditNode) }">
+                    <bean parent="KRMS-SimplePropositionEditNodePrototype"/>
+                </entry>
+                <entry key="#{ T(org.kuali.rice.krms.tree.node.CompoundOpCodeNode) }">
+                    <bean parent="KRMS-CompoundOpCodeNodePrototype"/>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
     <bean id="KRMS-CompareRule" parent="Uif-VerticalBoxSection" p:style="width: 850px;">
         <property name="hidden" value="true"/>
         <property name="items">
