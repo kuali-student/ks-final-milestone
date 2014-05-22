@@ -123,7 +123,8 @@ limitations under the License.
     <!-- also, the bogus refreshWhenChanged is important because it puts a RuleEditorView-TreeGroup_refreshWrapper around the group that
         is needed for the javascript hack that is refreshing -->
     <bean id="KRMS-RuleEditor-TreeGroup" parent="Uif-VerticalBoxGroup"
-          p:style="margin-bottom: 5pt; margin-top: 0em;" p:forceSessionPersistence="true">
+          p:style="margin-bottom: 5pt; margin-top: 0em;" p:forceSessionPersistence="true"
+          p:additionalCssClasses="editTreeGroup">
         <property name="layoutManager.orientation" value="VERTICAL"/>
         <property name="items">
             <list>
