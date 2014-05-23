@@ -28,7 +28,7 @@ import org.kuali.student.r2.core.comment.dto.CommentInfo;
 public class CommentWrapper implements DTOWrapper {
 
     protected CommentInfo commentInfo;
-    protected RenderHelper renderHelper;
+    protected CreateCourseRenderHelper renderHelper;
 
     public CommentWrapper(){
         commentInfo = new CommentInfo();
@@ -52,11 +52,11 @@ public class CommentWrapper implements DTOWrapper {
         this.commentInfo = commentInfo;
     }
 
-    public RenderHelper getRenderHelper() {
+    public CreateCourseRenderHelper getRenderHelper() {
         return renderHelper;
     }
 
-    public void setRenderHelper(RenderHelper renderHelper) {
+    public void setRenderHelper(CreateCourseRenderHelper renderHelper) {
         this.renderHelper = renderHelper;
     }
 

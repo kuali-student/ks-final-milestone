@@ -1897,6 +1897,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             comment.setReferenceTypeKey(proposal.getTypeKey());
             comment.setTypeKey(CommentServiceConstants.COMMENT_GENERAL_REMARKS_TYPE_KEY);
             comment.setCommenterId(GlobalVariables.getUserSession().getPrincipalId());
+            comment.setStateKey(CommentServiceConstants.COMMENT_ACTIVE_STATE_KEY);
 
             try {
                 comment = getCommentService().createComment(proposal.getId(), proposal.getTypeKey(), CommentServiceConstants.COMMENT_GENERAL_REMARKS_TYPE_KEY, comment, createContextInfo());
