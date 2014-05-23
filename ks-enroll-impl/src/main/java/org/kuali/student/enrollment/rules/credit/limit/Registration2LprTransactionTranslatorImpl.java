@@ -10,7 +10,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 /**
  * Implementation of the translator
  */
-public class Registration2LprTransactionTranslatorImpl implements Registration2LprTransactionTranslator {
+public class    Registration2LprTransactionTranslatorImpl implements Registration2LprTransactionTranslator {
 
     @Override
     public LprTransactionInfo translate(List<CourseRegistrationTransaction> registrations, ContextInfo contextInfo)

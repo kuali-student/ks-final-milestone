@@ -79,6 +79,7 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
                 ScheduleService.getRegistrationStatus().query({regReqId: registrationRequestId}, function (regResponseResult) {
                     var status = GlobalVarsService.getCorrespondingStatusFromState(regResponseResult.state);
                     switch (status) {
+                        case 'new':
                         case 'processing':
                             console.log('continue polling');
                             schedulePoller(registrationRequestId, course);
@@ -116,7 +117,7 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
                             break;
                     }
                 });
-            }, 5);  // right now we're going to wait 1 second per poll
+            }, 1000);  // right now we're going to wait 1 second per poll
         };
 
         $scope.editScheduleItem = function (course) {

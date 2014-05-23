@@ -176,7 +176,7 @@
                     </div>
                 </div>
             </div>
-            <accordion close-others="oneAtATime" ng-if="!course.dropped">
+            <accordion close-others="oneAtATime" ng-if="!course.dropped && !course.dropProcessing">
                 <accordion-group is-open="isopen">
                     <accordion-heading>
                         <!--credits-->
