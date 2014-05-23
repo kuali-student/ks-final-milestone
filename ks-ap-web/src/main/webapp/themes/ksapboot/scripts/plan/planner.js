@@ -35,6 +35,7 @@ function ksapInitializePlannerItems(pageSize) {
 		detailList.jCarouselLite({
 			btnNext : '.ksap-carousel-next',
 			btnPrev : '.ksap-carousel-prev',
+            circular:false,
 			scroll : pageSize,
 			visible : pageSize,
 			start : iStart,

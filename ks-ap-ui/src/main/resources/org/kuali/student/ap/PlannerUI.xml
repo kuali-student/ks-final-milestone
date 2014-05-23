@@ -15,7 +15,7 @@
 		</property>
 		<property name="additionalScriptFiles">
 			<list>
-				<value>plugins/jcarousellite/jcarousellite.js</value>
+				<value>plugins/jcarousellite/jcarousellite_1.0.1.min.js</value>
 				<value>themes/ksapboot/scripts/plan/planner.js</value>
 			</list>
 		</property>
