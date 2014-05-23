@@ -15,7 +15,7 @@
 		</property>
 		<property name="additionalScriptFiles">
 			<list>
-				<value>plugins/jcarousellite/jcarousellite.js</value>
+				<value>plugins/jcarousellite/jcarousellite_1.0.1.min.js</value>
 				<value>themes/ksapboot/scripts/plan/planner.js</value>
 			</list>
 		</property>
@@ -250,7 +250,7 @@
                             <property name="render" value="@{!#empty(#line.allTermNotesHtml)}"/>
                             <property name="title" value="@{#line.allTermNotesHtml}"/>
                             <property name="onClickScript"
-                                      value="ksapPlannerOpenDialog('planner_edit_term_note','planner','startDialog', this, e);" />
+                                      value="ksapOpenDialog('planner_edit_term_note','planner','startDialog', this, e);" />
                             <property name="dataAttributes">
                                 <map>
                                     <entry key="termid" value="@{#line.termId}" />
@@ -263,7 +263,7 @@
                             <property name="source" value="@{#ConfigProperties['ks.ap.externalizable.images.url']}btnAdd.png"/>
                             <property name="title" value="Add Term Note"/>
                             <property name="onClickScript"
-                                      value="ksapPlannerOpenDialog('planner_edit_term_note','planner','startDialog', this, e);" />
+                                      value="ksapOpenDialog('planner_edit_term_note','planner','startDialog', this, e);" />
                             <property name="dataAttributes">
                                 <map>
                                     <entry key="termid" value="@{#line.termId}" />
@@ -377,7 +377,7 @@
                                     </map>
                                 </property>
                                 <property name="onClickScript"
-                                          value="ksapPlannerOpenDialog('planner_edit_plan_item','planner','startDialog', this, e);" />
+                                          value="ksapOpenDialog('planner_edit_plan_item','planner','startDialog', this, e);" />
                             </bean>
                             <bean p:id="__KSAP__UID___credit" parent="Uif-MessageField">
                                 <property name="messageText" value="__KSAP__CREDITS__" />
@@ -485,7 +485,7 @@
                                 <property name="render" value="@{!#empty(#line.courseNote)}"/>
                                 <property name="title" value="@{#line.courseNote}"/>
                                 <property name="onClickScript"
-                                          value="ksapPlannerOpenDialog('planner_edit_plan_item','planner','startDialog', this, e);" />
+                                          value="ksapOpenDialog('planner_edit_plan_item','planner','startDialog', this, e);" />
                                 <property name="dataAttributes">
                                     <map>
                                         <entry key="termid" value="@{#line.termId}" />
@@ -505,7 +505,7 @@
                                     </list>
                                 </property>
                                 <property name="onClickScript"
-                                          value="ksapPlannerOpenDialog('planner_edit_plan_item','planner','startDialog', this, e);" />
+                                          value="ksapOpenDialog('planner_edit_plan_item','planner','startDialog', this, e);" />
                                 <property name="dataAttributes">
                                     <map>
                                         <entry key="termid" value="@{#line.termId}" />
@@ -766,7 +766,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-ActionLink" p:actionLabel="Add a course to plan"
-                      p:actionScript="ksapPlannerOpenDialog('planner_add_course', 'planner', 'startDialog', this, e);">
+                      p:actionScript="ksapOpenDialog('planner_add_course', 'planner', 'startDialog', this, e);">
                     <property name="dataAttributes">
                         <map>
                             <entry key="termid" value="@{#line.termId}" />
@@ -897,28 +897,28 @@
             </list>
         </property>
         <property name="actionScript"
-                  value="ksapPlannerOpenDialog('sb_cart_remove','sb/cart','remove', this, e);" />
+                  value="ksapOpenDialog('sb_cart_remove','sb/cart','remove', this, e);" />
     </bean>
 
     <bean id="planner_menu_copy_plan_item" parent="planner_menu_copy_plan_item-parent"/>
     <bean id="planner_menu_copy_plan_item-parent" abstract="true" parent="Uif-ActionLink"
           p:actionLabel="Copy to another term" p:title="Copy to another term">
         <property name="actionScript"
-                  value="ksapPlannerOpenDialog('planner_copy_plan_item','planner','startDialog', this, e);" />
+                  value="ksapOpenDialog('planner_copy_plan_item','planner','startDialog', this, e);" />
     </bean>
 
     <bean id="planner_menu_copy_course" parent="planner_menu_copy_course-parent"/>
     <bean id="planner_menu_copy_course-parent" abstract="true" parent="Uif-ActionLink"
           p:actionLabel="Copy to another term" p:title="Copy to another term">
         <property name="actionScript"
-                  value="ksapPlannerOpenDialog('planner_copy_course','planner','startDialog', this, e);" />
+                  value="ksapOpenDialog('planner_copy_course','planner','startDialog', this, e);" />
     </bean>
 
     <bean id="planner_menu_course_summary" parent="planner_menu_course_summary-parent"/>
     <bean id="planner_menu_course_summary-parent" abstract="true" parent="Uif-ActionLink"
           p:actionLabel="View course summary" p:title="View course summary">
         <property name="actionScript"
-                  value="ksapPlannerOpenDialog('planner_course_summary','planner','startDialog', this, e);" />
+                  value="ksapOpenDialog('planner_course_summary','planner','startDialog', this, e);" />
     </bean>
 
     <bean id="planner_menu_completed" parent="planner_menu_completed-parent"/>
@@ -941,14 +941,14 @@
 	<bean id="planner_menu_edit_plan_item-parent" abstract="true" parent="Uif-ActionLink"
 		p:actionLabel="Edit plan item" p:title="Edit plan item">
 		<property name="actionScript"
-			      value="ksapPlannerOpenDialog('planner_edit_plan_item','planner','startDialog', this, e);" />
+			      value="ksapOpenDialog('planner_edit_plan_item','planner','startDialog', this, e);" />
 	</bean>
 
     <bean id="planner_menu_add_to_cart" parent="planner_menu_add_to_cart-parent"/>
 	<bean id="planner_menu_add_to_cart-parent" abstract="true" parent="Uif-ActionLink"
 		p:actionLabel="Add to shopping cart" p:title="Add to shopping cart">
 		<property name="actionScript"
-			      value="ksapPlannerOpenDialog('sb_cart_add_from_plan','sb/cart','addFromPlan', this, e);" />
+			      value="ksapOpenDialog('sb_cart_add_from_plan','sb/cart','addFromPlan', this, e);" />
 	</bean>
 
     <bean id="planner_menu_mark_as_backup" parent="planner_menu_mark_as_backup-parent"/>
@@ -961,7 +961,7 @@
 	<bean id="planner_menu_move_plan_item-parent" abstract="true" parent="Uif-ActionLink"
 		p:actionLabel="Move to another term" p:title="Move to another term">
 		<property name="actionScript"
-			      value="ksapPlannerOpenDialog('planner_move_plan_item','planner','startDialog', this, e);" />
+			      value="ksapOpenDialog('planner_move_plan_item','planner','startDialog', this, e);" />
 	</bean>
 
     <bean id="planner_menu_delete_plan_item" parent="planner_menu_delete_plan_item-parent"/>
@@ -973,7 +973,7 @@
 			</list>
 		</property>
 		<property name="actionScript"
-			      value="ksapPlannerOpenDialog('planner_delete_plan_item','planner','startDialog', this, e);" />
+			      value="ksapOpenDialog('planner_delete_plan_item','planner','startDialog', this, e);" />
 	</bean>
 
     <bean id="planner_menu_mark_as_planned" parent="planner_menu_mark_as_planned-parent"/>

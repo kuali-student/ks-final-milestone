@@ -30,7 +30,7 @@
 		<property name="additionalScriptFiles">
             <list>
                 <value>arm-ks/scripts/arm-review-ks.js</value>
-                <value>ks-ap/scripts/dotdotdot/jquery.dotdotdot.min.js</value>
+                <value>plugins/dotdotdot/jquery.dotdotdot.min.js</value>
             </list>
         </property>
         <property name="additionalCssFiles">

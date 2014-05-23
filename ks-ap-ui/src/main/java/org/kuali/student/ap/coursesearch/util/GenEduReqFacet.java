@@ -31,21 +31,16 @@ public class GenEduReqFacet extends AbstractFacet {
 		ContextInfo context = KsapFrameworkServiceLocator.getContext().getContextInfo();
 
 		FacetItem itemFacet = new FacetItem();
-		String genEdString = item.getGenEduReq();
+		List<String> genEdStrings = item.getGenEduReqs();
 		// Set of keys which pertain to this course.
 		Set<String> facetKeys = new HashSet<String>();
 		// If no gen edu req info was set then setup for an "Unknown" facet.
-		if (genEdString == null
-				|| genEdString.equals(CourseSearchItem.EMPTY_RESULT_VALUE_KEY)
-				|| genEdString.equals("")) {
+		if (genEdStrings == null || genEdStrings.isEmpty()) {
 			facetKeys.add(getUnknownFacetKey());
 		} else {
 
 			// Remove white space before tokenizing.
-			genEdString = genEdString.replaceAll("\\s+", "");
-			String k[] = genEdString.split(",");
-			List<String> keys = new ArrayList<String>(Arrays.asList(k));
-			for (String key : keys) {
+			for (String key : genEdStrings) {
 				/*
 				 * Doing this to fix a bug in IE8 which is trimming off the I&S
 				 * as I

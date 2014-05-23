@@ -1,19 +1,18 @@
 package org.kuali.student.ap.coursesearch.service.impl;
 
 import org.apache.cxf.common.util.StringUtils;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
 import org.kuali.rice.krms.api.repository.language.NaturalLanguageUsage;
 import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
-import org.kuali.student.ap.academicplan.dto.LearningPlanInfo;
-import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
-import org.kuali.student.ap.academicplan.infc.PlanItem;
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
+import org.kuali.student.ap.academicplan.infc.PlanItem;
+import org.kuali.student.ap.coursesearch.CreditsFormatter;
 import org.kuali.student.ap.coursesearch.dataobject.CourseDetailsPopoverWrapper;
 import org.kuali.student.ap.coursesearch.dataobject.CourseDetailsWrapper;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
-import org.kuali.student.ap.coursesearch.CreditsFormatter;
 import org.kuali.student.ap.framework.util.KsapHelperUtil;
 import org.kuali.student.ap.utils.CourseLinkBuilder;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -35,6 +34,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -50,6 +50,11 @@ public class CourseDetailsInquiryHelperImpl2 extends KualiInquirableImpl {
 
     private final String COURSE_DETAILS_INQUIRY_VIEW = "CourseDetails-InquiryView";
     private final String COURSE_DETAILS_POPOVER_INQUIRY_VIEW = "CourseDetailsPopover-InquiryView";
+
+    /**
+     * Key to look up a configuration value to determine the sorted terms offered
+     */
+    private final String TERMS_OFFERED_SORTED_KEY = "ks.ap.search.terms.offered.sorted";
 
     /**
      * @see org.kuali.rice.kns.inquiry.KualiInquirableImpl#retrieveDataObject(java.util.Map)
@@ -379,12 +384,12 @@ public class CourseDetailsInquiryHelperImpl2 extends KualiInquirableImpl {
      */
     protected List<String> getProjectedTerms(Course course){
         List<String> courseTermsOffered = course.getTermsOffered();
-        List<String> projectedTerms = new java.util.ArrayList<String>();
+        Map<String, String> projectedTerms = new HashMap<String, String>();
         if (courseTermsOffered != null) {
             try {
                 for (TypeInfo typeInfo : KsapFrameworkServiceLocator.getTypeService().getTypesByKeys(courseTermsOffered,
                         KsapFrameworkServiceLocator.getContext().getContextInfo()))
-                    projectedTerms.add(typeInfo.getName());
+                    projectedTerms.put(typeInfo.getKey(), typeInfo.getName());
             } catch (org.kuali.student.r2.common.exceptions.DoesNotExistException e) {
                 throw new IllegalArgumentException("Type lookup error", e);
             } catch (InvalidParameterException e) {
@@ -397,7 +402,22 @@ public class CourseDetailsInquiryHelperImpl2 extends KualiInquirableImpl {
                 throw new IllegalStateException("Type lookup error", e);
             }
         }
-        return projectedTerms;
+        return sortTerms(projectedTerms);
     }
 
+    /**
+     * Sort the terms offered (projected) based off of config values
+     * @param projectedTerms
+     * @return
+     */
+    private List<String> sortTerms(Map<String, String> projectedTerms) {
+        List<String> sortedTerms = new ArrayList<String>();
+        String[] terms = ConfigContext.getCurrentContextConfig().getProperty(TERMS_OFFERED_SORTED_KEY).split(",");
+        for (int i = 0; i < terms.length; i++) {
+            String typeKey = terms[i];
+            if (projectedTerms.containsKey(typeKey))
+                sortedTerms.add(projectedTerms.get(typeKey));
+        }
+        return sortedTerms;
+    }
 }

@@ -86,6 +86,16 @@
                         <ref bean="quarter_facet_help_tooltip"/>
                     </property>
                 </bean>
+                <bean p:id="genEdPlaceholder" parent="Uif-HorizontalBoxGroup" p:cssClasses="ksap-hide">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-Message" p:messageText="Gen Ed"/>
+                        </list>
+                    </property>
+                    <property name="toolTip">
+                        <ref bean="gened_col_help_tooltip"/>
+                    </property>
+                </bean>
 			</list>
 		</property>
         <property name="stickyFooter" value="false"/>
@@ -338,7 +348,6 @@
 				<ref bean="facet_credits" />
 				<ref bean="facet_level" />
 				<ref bean="facet_curriculum" />
-				<ref bean="course_quick_detail" />
 			</list>
 		</property>
         <property name="onDocumentReadyScript" value="registerCourseSearchResultsFacetsEvents(jQuery('.ksap-facets-group'))"/>
@@ -367,94 +376,4 @@
 	<bean id="facet_credits" parent="facet-parent" p:headerText="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('RESULTS_CREDITS_FACET_NAME')}" />
 	<bean id="facet_level" parent="facet-parent" p:headerText="Course Level" />
 	<bean id="facet_curriculum" parent="facet-parent" p:headerText="Course Prefix" />
-
-	<!-- Course Quick Details Menu NOTE: Text like "__KSAP__FOO__" will be replaced
-		by openMenu() with data from the HTML5 data-foo attribute on the popup box
-		element. This allows course details to be passed in statically instead of 
-		relying on a server call for "quick" details. -->
-    <bean id="course_quick_detail" parent="course_quick_detail-parent"/>
-	<bean id="course_quick_detail-parent" abstract="true" parent="Uif-VerticalBoxSubSection"
-        p:cssClasses="ksap-no-margin">
-		<property name="hidden" value="true" />
-		<property name="headerText" value="__KSAP__COURSEHEADER__" />
-		<property name="items">
-			<list>
-				<bean parent="Uif-Message" p:messageText="__KSAP__DESCRIPTION__" />
-				<bean parent="Uif-HorizontalFieldGroup"
-					p:fieldLabel.renderColon="false" p:group.validationMessages.displayMessages="false">
-					<property name="items">
-						<list>
-							<bean parent="Uif-HorizontalBoxGroup"
-								p:validationMessages.displayMessages="false">
-								<property name="cssClasses">
-									<list merge="true">
-										<value>ksap-course-detail-label</value>
-									</list>
-								</property>
-								<property name="items">
-									<list>
-										<bean parent="Uif-Label" p:labelText="Requisites"
-											p:renderColon="false" />
-
-									</list>
-								</property>
-							</bean>
-							<bean parent="Uif-HorizontalBoxGroup"
-								p:validationMessages.displayMessages="false">
-								<property name="cssClasses">
-									<list merge="true">
-										<value>ksap-course-detail-field</value>
-									</list>
-								</property>
-								<property name="items">
-									<list>
-										<bean parent="Uif-Message" p:messageText="__KSAP__REQUISITES__" />
-									</list>
-								</property>
-							</bean>
-						</list>
-					</property>
-				</bean>
-				<bean parent="Uif-HorizontalFieldGroup"
-					p:fieldLabel.renderColon="false" p:group.validationMessages.displayMessages="false">
-					<property name="items">
-						<list>
-							<bean parent="Uif-HorizontalBoxGroup"
-								p:validationMessages.displayMessages="false">
-								<property name="cssClasses">
-									<list merge="true">
-										<value>ksap-course-detail-label</value>
-									</list>
-								</property>
-								<property name="items">
-									<list>
-										<bean parent="Uif-Label" p:labelText="Projected for "
-											p:renderColon="false" />
-
-									</list>
-								</property>
-							</bean>
-							<bean parent="Uif-HorizontalBoxGroup"
-								p:validationMessages.displayMessages="false">
-								<property name="cssClasses">
-									<list merge="true">
-										<value>ksap-course-detail-field</value>
-									</list>
-								</property>
-								<property name="items">
-									<list>
-										<bean parent="Uif-Message" p:messageText="__KSAP__TERMSOFFERED__" />
-									</list>
-								</property>
-							</bean>
-						</list>
-					</property>
-				</bean>
-				<bean parent="Uif-Message" p:messageText="__KSAP__SECTIONS__" />
-				<bean parent="Uif-Link" p:target="" p:href="__KSAP__INQUIRYURL__"
-					p:linkText="Full details..." p:title="Course Details" p:cssClasses="ksap-no-margin"/>
-			</list>
-		</property>
-	</bean>
-
 </beans>

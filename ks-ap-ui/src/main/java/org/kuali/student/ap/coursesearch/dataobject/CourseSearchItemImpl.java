@@ -17,7 +17,6 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.infc.Term;
-import org.springframework.util.StringUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -53,7 +52,7 @@ public class CourseSearchItemImpl implements CourseSearchItem {
     private float[] multipleCredits;
 	private CreditType creditType;
 
-	private String genEduReq = EMPTY_RESULT_VALUE_KEY;
+	private List<String> genEduReqs;
 
     private boolean planned;
     private boolean saved;
@@ -268,14 +267,12 @@ public class CourseSearchItemImpl implements CourseSearchItem {
         return termsList.asXML();
     }
 
-	public String getGenEduReq() {
-		return genEduReq;
+	public List<String> getGenEduReqs() {
+		return genEduReqs;
 	}
 
-	public void setGenEduReq(String genEduReq) {
-		if (StringUtils.hasText(genEduReq)) {
-			this.genEduReq = genEduReq;
-		}
+	public void setGenEduReqs(List<String> genEduReqs) {
+	    this.genEduReqs = genEduReqs;
 	}
 
     public boolean isPlanned() {
@@ -526,7 +523,7 @@ public class CourseSearchItemImpl implements CourseSearchItem {
         } else {
             //Not planned anywhere
             addToPlanLink.addAttribute("class", "ks-fontello-icon-hollow-circled-plus");
-            addToPlanLink.addAttribute("onclick", "ksapPlannerOpenDialog('course_add_course','planner','startDialog', this, event);");
+            addToPlanLink.addAttribute("onclick", "ksapOpenDialog('course_add_course','planner','startDialog', this, event);");
         }
 
 		return actionDiv.asXML();
@@ -565,8 +562,8 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 	@Override
 	public String[] getSearchColumns() {
 		return searchColumns == null ? searchColumns = new String[] {
-				getCode(), getInquiryLink(), getCredit(), getCampusString(),
-				getScheduledTerms(), getOfferedTerms(), getGenEduReq(),
+				getCode(), getInquiryLink(), getCredit(),
+				getScheduledTerms(), getOfferedTerms(), getGenEduReqForUI(),
 				getStatusColumn(), } : searchColumns;
 	}
 
@@ -619,5 +616,34 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 
     public void setVersionIndependentId(String versionIndependentId) {
         this.versionIndependentId = versionIndependentId;
+    }
+
+    /**
+     * Creates a formatted string for the display of the general education requirements in the results table.
+     *
+     * @return formatted general education output
+     */
+    private String getGenEduReqForUI(){
+        List<String> genEdReqCodes = this.getGenEduReqs();
+        if(genEdReqCodes==null || genEdReqCodes.isEmpty()){
+            return EMPTY_RESULT_VALUE_KEY;
+        }
+
+        Element genEdContainer = DocumentHelper.createElement("div");
+        for(String genEd : genEdReqCodes){
+             /* Doing this to fix a bug in IE8 which is trimming off the I&S as I */
+            if (genEd.contains("&")) {
+                genEd = genEd.replace("&", "&amp;");
+            }
+            if (!genEdContainer.elements().isEmpty()) {
+                genEdContainer.addElement("br");
+            }
+            Element newGenEd = genEdContainer.addElement("abbr");
+            newGenEd.setText(genEd);
+            String genEdTitle = KsapFrameworkServiceLocator.getCourseSearchStrategy().getGenEdMap().get(genEd);
+            newGenEd.addAttribute("title",genEdTitle);
+        }
+
+        return genEdContainer.asXML();
     }
 }

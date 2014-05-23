@@ -93,7 +93,7 @@
                         </list>
                     </property>
                     <property name="onClickScript"
-                              value="ksapPlannerOpenDialog('bookmark_add_course','planner','startDialog', this, e);" />
+                              value="ksapOpenDialog('bookmark_add_course','planner','startDialog', this, e);" />
                     <property name="dataAttributes">
                         <map>
                             <entry key="courseid" value="@{#line.courseId}" />
@@ -181,7 +181,7 @@
                         </list>
                     </property>
                     <property name="onClickScript"
-                              value="ksapPlannerOpenDialog('bookmark_add_course','planner','startDialog', this, e);" />
+                              value="ksapOpenDialog('bookmark_add_course','planner','startDialog', this, e);" />
                     <property name="dataAttributes">
                         <map>
                             <entry key="courseid" value="__KSAP__COURSEID__" />
@@ -477,7 +477,7 @@
                                     </list>
                                 </property>
                                 <property name="actionScript"
-                                          value="ksapPlannerOpenDialog('bookmark_add_course','planner','startDialog', this, e);" />
+                                          value="ksapOpenDialog('bookmark_add_course','planner','startDialog', this, e);" />
                                 <property name="dataAttributes">
                                     <map>
                                         <entry key="courseid" value="@{#line.courseSummaryDetails.courseId}" />
@@ -495,7 +495,7 @@
                                     </list>
                                 </property>
                                 <property name="actionScript"
-                                          value="ksapPlannerOpenDialog('bookmark_delete_course','planner','startDialog', this, e);" />
+                                          value="ksapOpenDialog('bookmark_delete_course','planner','startDialog', this, e);" />
                                 <property name="dataAttributes">
                                     <map>
                                         <entry key="courseid" value="@{#line.courseSummaryDetails.courseId}" />

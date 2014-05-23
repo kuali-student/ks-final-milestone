@@ -1,5 +1,6 @@
 package org.kuali.student.ap.coursesearch.util;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -21,10 +22,14 @@ public class GenEduReqFacetTest {
     public void testGetFacetItems() throws Exception {
         GenEduReqFacet facet = new GenEduReqFacet();
         CourseSearchItemImpl course1 = new CourseSearchItemImpl();
-        course1.setGenEduReq("ABC");
+        List temp1 = new ArrayList<String>();
+        temp1.add("ABC");
+        course1.setGenEduReqs(temp1);
         facet.process( course1 );
         CourseSearchItemImpl course2 = new CourseSearchItemImpl();
-        course2.setGenEduReq("XYZ");
+        List temp2 = new ArrayList<String>();
+        temp2.add("XYZ");
+        course2.setGenEduReqs(temp2);
         facet.process( course2 );
 
         List<FacetItem> list = facet.getFacetItems();
@@ -41,7 +46,9 @@ public class GenEduReqFacetTest {
 
         GenEduReqFacet facet = new GenEduReqFacet();
 		CourseSearchItemImpl course = new CourseSearchItemImpl();
-        course.setGenEduReq( "ABC" );
+        List temp1 = new ArrayList<String>();
+        temp1.add("ABC");
+        course.setGenEduReqs( temp1 );
         facet.process( course );
 
         Set<String> keys = course.getGenEduReqFacetKeys();

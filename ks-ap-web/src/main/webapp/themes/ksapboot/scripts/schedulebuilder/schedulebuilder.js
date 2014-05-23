@@ -489,7 +489,7 @@ function ksapSbOpenDialog(pageId, action, data, target, e) {
 	};
 	jQuery("#popupForm").remove();
 	fnClosePopup();
-	openPopup(pageId + "_inner", retrieveData, action, {}, popupOptions, e);
+    openDialogWindow(pageId + "_inner", retrieveData, action, {}, popupOptions, e);
 	var form = jQuery("#popupForm");
 	form.attr("accept-charset", "UTF-8");
 }

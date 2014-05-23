@@ -177,7 +177,6 @@
             <list merge="true">
                 <value>themes/ksboot/stylesheets/ksboot.css</value>
                 <value>plugins/jquery-popover/jquery.popover.css</value>
-                <value>ks-ap/jquery-ui/jquery-ui.css</value>
                 <value>themes/ksboot/stylesheets/enroll.css</value>
                 <value>themes/ksapboot/stylesheets/ksap.css</value>
             </list>
@@ -188,6 +187,7 @@
                 <value>themes/ksapboot/scripts/KradOverrides.js</value>
                 <value>themes/ksapboot/scripts/plan/planner.js</value>
                 <value>themes/ksapboot/scripts/ksap.widgets.js</value>
+                <value>themes/ksapboot/scripts/ksap.dialogs.js</value>
                 <value>plugins/jquery-popover/jquery.popover.js</value>
             </list>
         </property>

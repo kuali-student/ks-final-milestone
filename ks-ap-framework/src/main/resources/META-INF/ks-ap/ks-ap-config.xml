@@ -68,6 +68,7 @@
     <param name="ks.ap.planner.future.years">4</param>
     <param name="ks.ap.planner.term.types">kuali.atp.type.Fall,kuali.atp.type.Winter,kuali.atp.type.Spring,kuali.atp.type.Summer1</param>
     <param name="ks.ap.search.terms.offered.abbrev">FA,WI,SP,SU</param>
+    <param name="ks.ap.search.terms.offered.sorted">kuali.atp.season.Fall,kuali.atp.season.Winter,kuali.atp.season.Spring,kuali.atp.season.Summer</param>
     <param name="ks.ap.search.terms.scheduled.limit">3</param>
     <param name="ksap.search.results.max">200</param>
 
@@ -76,7 +77,7 @@
 
     <param name="ks.ap.search.division.parse.allowspace">true</param>
 
-    <param name="ks.ap.TextHelper.resourceBundleNames" override="true">org.kuali.student.ap.bundles.POCResourceBundleUI</param>
+    <param name="ks.ap.TextHelper.resourceBundleNames" override="true">org.kuali.student.ap.bundles.POCResourceBundleUI,org.kuali.student.ap.bundles.HelpDefinitions</param>
 
     <param name="ks.ap.current.date.override" override="true">02/01/2014</param>
 
