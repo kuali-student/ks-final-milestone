@@ -444,7 +444,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
                 // if our selected node is a simple proposition, add a new one after
                 if (propKeyMatches(child, selectedPropKey) &&
                         (isSimpleNode(child.getNodeType()) ||
-                                (KRMSConstants.COMPOUND_NODE_TYPE.equalsIgnoreCase(child.getNodeType())) ||
+                                (child.getNodeType().contains(KRMSConstants.COMPOUND_NODE_TYPE)) ||
                                 (child.getNodeType().contains(KRMSConstants.FIRST_IN_GROUP)) ||
                                 (child.getNodeType().contains(KRMSConstants.LAST_IN_GROUP)))) {
 
