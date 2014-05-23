@@ -27,6 +27,8 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.IdentityService;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.uif.container.Container;
@@ -205,6 +207,8 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     private transient EnumerationManagementService enumerationManagementService;
 
     private transient AtpService atpService;
+
+    private PersonService personService;
 
     /**
      * Method called when queryMethodToCall is executed for Administering Organizations in order to suggest back to the user an Administering Organization
@@ -1916,9 +1920,37 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
     }
 
+    /**
+     * This method retrieves all the comments for the proposal
+     */
     public void retrieveComments(){
 
-        //retrieve comments here
+        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
+        ProposalInfo proposal =  courseInfoWrapper.getProposalInfo();
+
+        LOG.debug("Retrieving comments for  - " + proposal.getId());
+
+        List<CommentInfo> comments;
+
+        courseInfoWrapper.getComments().clear();
+
+        try {
+            comments = getCommentService().getCommentsByReferenceAndType(proposal.getId(),proposal.getTypeKey(),createContextInfo());
+            LOG.debug("Retrieved " + comments.size() + " comments for proposal " + proposal.getId());
+        } catch (Exception e) {
+            throw new RuntimeException("Error retrieving comment(s) for the proposal [id=" + proposal.getId() + "]",e);
+        }
+
+        if (comments != null) {
+            for (CommentInfo comment : comments) {
+                CommentWrapper wrapper = new CommentWrapper();
+                wrapper.setCommentInfo(comment);
+                Person person = getPersonService().getPerson(comment.getMeta().getCreateId());
+                wrapper.getRenderHelper().setUser(person.getNameUnmasked());
+                wrapper.getRenderHelper().setDateTime(DateFormatters.MONTH_DATE_YEAR_TIME_COMMA_FORMATTER.format(comment.getMeta().getCreateTime()));
+                courseInfoWrapper.getComments().add(wrapper);
+            }
+        }
 
     }
 
@@ -2070,6 +2102,13 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             identityService = GlobalResourceLoader.getService(new QName(KimConstants.Namespaces.KIM_NAMESPACE_2_0, "identityService"));
         }
         return identityService;
+    }
+
+    protected PersonService getPersonService() {
+        if (personService == null) {
+            personService = GlobalResourceLoader.getService(new QName(KimConstants.Namespaces.KIM_NAMESPACE_2_0, KimConstants.KIM_PERSON_SERVICE));
+        }
+        return personService;
     }
 
     protected TypeService getTypeService() {
