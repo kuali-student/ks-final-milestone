@@ -1809,7 +1809,6 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
             retrieveComments();
 
-            redrawDecisionTable();
             updateReview();
 
         } catch (Exception e) {
@@ -1961,7 +1960,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
      * @throws OperationFailedException  when it cannot be determined what comments were made.
      * @throws PermissionDeniedException when the user doesn't have rights to look up comments.
      */
-    protected void redrawDecisionTable()
+    /*protected void redrawDecisionTable()
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<CommentInfo> commentInfos = null;
         try {
@@ -1989,8 +1988,8 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
         final Map<String, MembershipInfo> members = getNamesForPersonIds(personIds);
 
-        redrawDecisionTable(commentInfos, members);
-    }
+//        redrawDecisionTable(commentInfos, members);
+    }*/
 
     /**
      * Responsible for rebuilding/reloading content within the decision view's HTML table.
@@ -2002,7 +2001,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
      *                     is used to determine who is responsible for the decision.
      * @see {@link #getNamesForPersonIds(List)} for the method that typically populates the members parameter.
      */
-    protected void redrawDecisionTable(final List<CommentInfo> commentInfos,
+    /*protected void redrawDecisionTable(final List<CommentInfo> commentInfos,
                                        final Map<String, MembershipInfo> members) {
 
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
@@ -2011,9 +2010,9 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
         if (commentInfos != null) {
             for (final CommentInfo commentInfo : commentInfos) {
-                /* we only want decision rationale comments so if no DecisionRationaleDetail is returned for comment
+                *//* we only want decision rationale comments so if no DecisionRationaleDetail is returned for comment
                  * type then don't add that comment to the table
-                 */
+                 *//*
                 final WorkflowUtilities.DecisionRationaleDetail drDetails = WorkflowUtilities.DecisionRationaleDetail.getByType(commentInfo.getTypeKey());
                 if (drDetails != null) {
                     final DecisionInfo decision = new DecisionInfo();
@@ -2037,7 +2036,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 }
             }
         }
-    }
+    }*/
 
     /**
      * Retrieve {@link MembershipInfo} instances populated with first and last names using {@link org.kuali.rice.kim.api.identity.entity.EntityDefault}
@@ -2046,17 +2045,17 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
      * @param personIds {@link List} of ids used to get {@link org.kuali.rice.kim.api.identity.entity.EntityDefault}s with first and last names
      * @param {@link    Map} of {@link MembershipInfo} instances with first and last names mapped to each personId
      */
-    protected Map<String, MembershipInfo> getNamesForPersonIds(final List<String> personIds) {
-        final Map<String, MembershipInfo> identities = new HashMap<String, MembershipInfo>();
-        for (String pId : personIds) {
-            final EntityDefault entity = getIdentityService().getEntityDefaultByPrincipalId(pId);
-            final MembershipInfo memeberEntity = new MembershipInfo();
-            memeberEntity.setFirstName(entity.getName().getFirstName());
-            memeberEntity.setLastName(entity.getName().getLastName());
-            identities.put(pId, memeberEntity);
-        }
-        return identities;
-    }
+//    protected Map<String, MembershipInfo> getNamesForPersonIds(final List<String> personIds) {
+//        final Map<String, MembershipInfo> identities = new HashMap<String, MembershipInfo>();
+//        for (String pId : personIds) {
+//            final EntityDefault entity = getIdentityService().getEntityDefaultByPrincipalId(pId);
+//            final MembershipInfo memeberEntity = new MembershipInfo();
+//            memeberEntity.setFirstName(entity.getName().getFirstName());
+//            memeberEntity.setLastName(entity.getName().getLastName());
+//            identities.put(pId, memeberEntity);
+//        }
+//        return identities;
+//    }
 
     /*@Override
     public Map<String,String> prepareDataObjectKeys() {
