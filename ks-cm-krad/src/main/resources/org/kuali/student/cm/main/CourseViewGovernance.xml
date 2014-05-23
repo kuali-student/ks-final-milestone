@@ -60,14 +60,11 @@
         <property name="header">
             <bean parent="Uif-KS-IconHeader">
                 <property name="richHeaderMessage.iconToolTipText" value="This is not a restrictive list - organizations here are additional organizations that can administer this course."/>
-            </bean>
-        </property>
-        <!-- Display the appropriate requiredness messaging -->
-        <property name="header.rightGroup">
-            <bean parent="Uif-VerticalBoxGroup">
-                <property name="items">
+                <property name="propertyReplacers">
                     <list>
-                        <bean parent="CM-StateAware-Label" />
+                        <!-- Conditional display of required indicator. Works by storing the required indicator
+                             in the rightGroup conditionally, based on state. -->
+                        <bean parent="CM-RequiredIndicatorForEnroute"/>
                     </list>
                 </property>
             </bean>

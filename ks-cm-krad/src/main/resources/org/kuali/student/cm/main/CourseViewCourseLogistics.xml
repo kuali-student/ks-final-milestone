@@ -191,11 +191,13 @@
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
         <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
-        <property name="header.rightGroup">
-            <bean parent="Uif-VerticalBoxGroup">
-                <property name="items">
+        <property name="header">
+            <bean parent="Uif-KS-IconHeader">
+                <property name="propertyReplacers">
                     <list>
-                        <bean parent="CM-StateAware-Label" />
+                        <!-- Conditional display of required indicator. Works by storing the required indicator
+                             in the rightGroup conditionally, based on state. -->
+                        <bean parent="CM-RequiredIndicatorForEnroute"/>
                     </list>
                 </property>
             </bean>

@@ -57,12 +57,11 @@
 
     <!--
         An extended Uif-Label which conditionally replaces the requiredIndicator text based on workflow state.
-        This can be used for any input (not just required ones) because it doesn't get displayed unless requiredness
-        in simpleConstraint is turned on for the field.
+        This can be used for any input (not just required ones) because it doesn't get displayed unless the
+        simpleConstraint#required property true.
     -->
     <bean id="CM-StateAware-Label" parent="CM-StateAware-Label-parent" abstract="true" />
     <bean id="CM-StateAware-Label-parent" parent="Uif-Label" abstract="true">
-        <property name="requiredIndicator" value="" /> <!-- Leave empty by default -->
         <property name="renderColon" value="false"/>
         <property name="cssClasses">
             <list merge="true">
@@ -76,7 +75,7 @@
                     p:condition="@{#workflowDoc.saved}" >
                     <property name="replacement">
                         <!-- This should be read from the message service -->
-                        <value>Required on Submit</value>
+                        <value>Required for Submit</value>
                     </property>
                 </bean>
                 <bean parent="Uif-ConditionalBeanPropertyReplacer"
@@ -91,19 +90,78 @@
         </property>
     </bean>
 
+    <bean id="Uif-KS-IconLabelMessage" parent="Uif-KS-IconLabelMessage-parentBean"/>
+    <bean id="Uif-KS-IconLabelMessage-parentBean" parent="Uif-Message-parentBean" abstract="true"
+          class="org.kuali.student.cm.uif.element.KSIconLabelMessage" scope="prototype" />
+
+    <!-- A section header that can display and info icon with a tooltip. -->
     <bean id="Uif-KS-IconHeader" parent="Uif-SectionHeader">
         <property name="richHeaderMessage">
             <bean parent="Uif-KS-IconLabelMessage"/>
         </property>
     </bean>
 
-    <bean id="Uif-KS-IconLabelMessage" parent="Uif-KS-IconLabelMessage-parentBean"/>
-    <bean id="Uif-KS-IconLabelMessage-parentBean" parent="Uif-Message-parentBean" abstract="true"
-          class="org.kuali.student.cm.uif.element.KSIconLabelMessage" scope="prototype" />
+    <!-- Provides required indicator text in section headers. -->
+    <bean id="CM-StateAwareRequiredIndicatorMessage" parent="CM-StateAwareRequiredIndicatorMessage-parentBean" abstract="true"/>
+    <bean id="CM-StateAwareRequiredIndicatorMessage-parentBean" parent="Uif-Message" abstract="true">
+        <property name="cssClasses">
+            <list merge="false">
+                <value>uif-requiredMessage</value>
+            </list>
+        </property>
+        <property name="propertyReplacers">
+            <list>
+                <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                    p:propertyName="messageText"
+                    p:condition="@{#workflowDoc.saved}" >
+                    <property name="replacement">
+                        <value>Required for Submit</value>
+                    </property>
+                </bean>
+                <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                     p:propertyName="messageText"
+                     p:condition="@{#workflowDoc.enroute}" >
+                    <property name="replacement">
+                        <value>Required for Approval</value>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- A conditional property replacer (minus the condition) which provides state based required indicators
+         for section headers. Basically, this bean determines if the required indicator will be displayed.
+         CM-StateAwareRequiredIndicatorMessage determines what the text will be. -->
+    <bean id="CM-RightGroupConditionalRequiredIndicator-Base" parent="Uif-ConditionalBeanPropertyReplacer" abstract="true"
+        p:propertyName="rightGroup">
+        <property name="replacement">
+            <bean parent="Uif-VerticalBoxGroup">
+                <property name="cssClasses">
+                    <list merge="false">
+                        <value>cm_requiredMessage_text</value>
+                    </list>
+                </property>
+                <property name="items">
+                    <list>
+                         <bean parent="CM-StateAwareRequiredIndicatorMessage"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <!-- A section header required indicator for state enroute -->
+    <bean id="CM-RequiredIndicatorForEnroute" parent="CM-RightGroupConditionalRequiredIndicator-Base"
+        p:condition="@{#workflowDoc.saved or #workflowDoc.enroute}" />
+
+    <!-- A section header required indicator for state approved -->
+    <bean id="CM-RequiredIndicatorForApprove" parent="CM-RightGroupConditionalRequiredIndicator-Base"
+        p:condition="@{#workflowDoc.enroute}"/>
 
     <!-- This is used within org.kuali.student.cm.uif.element.KSIconLabelMessage -->
     <bean id="Uif-KS-IconImage" parent="Uif-KS-IconImage-parentBean"/>
-    <bean id="Uif-KS-IconImage-parentBean" parent="Uif-ImageField" abstract="true" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/validation/info.png">
+    <bean id="Uif-KS-IconImage-parentBean" parent="Uif-ImageField" abstract="true"
+          p:source="@{#ConfigProperties['ks.externalizable.images.url']}/validation/info.png">
         <property name="image.style" value="vertical-align:top;"/>
         <property name="toolTip">
             <bean parent="Uif-KS-Tooltip"/>

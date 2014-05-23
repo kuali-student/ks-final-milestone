@@ -35,62 +35,53 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
  * <p>
- * The <code>KSIconLabelMessage</code> is used to display an 'info' icon and
- * hovering over the icon will display a tooltip.
+ *    This component can be used in a Label#richLabelMessage or Header#richHeaderMessage to display an info icon with a
+ *    tooltip. Supplying iconToolTipText will cause the info icon to be rendered. Otherwise, it won't be rendered.
  * </p>
- *
- * @author Kuali Student Team
+ * <p>
+ *    In the case of Header it will also pull content from rightGroup. This is useful for displaying a required indicator.
+ * </p>
  */
-
 public class KSIconLabelMessage extends Message {
 
     protected String iconToolTipText;
 
-    /**
-     * If iconToolTipText is configured that text is displayed as tooltip over the icon.
-     *
-     * @param model
-     * @param parent
-     */
     @Override
     public void performApplyModel(Object model, LifecycleElement parent) {
 
-        if (StringUtils.isNotBlank(iconToolTipText)){
+        StringBuilder labelText = new StringBuilder();
 
-            StringBuilder label = new StringBuilder();
-            List<Component> inlineComponents = null;
-
-            if (parent instanceof Label){
-                Label parentObject = (Label) parent;
-                label.append(parentObject.getLabelText()).append(CurriculumManagementConstants.KS_MESSAGE_ICON_IMAGE_ID);
-                parentObject.setLabelText(label.toString());
-            } else if (parent instanceof Header){
-                label.append(((Header)parent).getHeaderText());
-                /*
-                 * If there are any components configured to display as right group, move that
-                 * component to the middle so that icon always display as last component.
-                 */
-                Group group = ((Header) parent).getRightGroup();
-
-                if (group != null){
-                    inlineComponents = new ArrayList<Component>();
-                    Group groupCopy = ComponentUtils.copy(group);
-                    group.setRender(false);
-
-                    label.append(" [0] ").append(CurriculumManagementConstants.KS_MESSAGE_ICON_IMAGE_ID);
-                    inlineComponents.add(groupCopy);
-                    setInlineComponents(inlineComponents);
-
-                } else {
-                    label.append(CurriculumManagementConstants.KS_MESSAGE_ICON_IMAGE_ID);
-                }
-
+        //  Labels are handled differently than Headers.
+        if (parent instanceof Label) {
+            Label parentLabel = (Label) parent;
+            labelText.append(parentLabel.getLabelText());
+            if (StringUtils.isNotBlank(iconToolTipText)) {
+                labelText.append(CurriculumManagementConstants.KS_MESSAGE_ICON_IMAGE_ID);
             }
+        } else if (parent instanceof Header){
+            labelText.append(((Header) parent).getHeaderText());
 
-            setMessageText(label.toString());
+            /*
+             * Pull the content of rightGroup into the header as an inline component. This allows us to put the required
+             * indicator (for example) after the header text and before the info icon.
+             */
+            Group rightGroup = ((Header) parent).getRightGroup();
+
+            if (rightGroup != null){
+                Group groupCopy = ComponentUtils.copy(rightGroup);
+                rightGroup.setRender(false);
+                if (StringUtils.isNotBlank(iconToolTipText)) {
+                    labelText.append(CurriculumManagementConstants.KS_MESSAGE_ICON_IMAGE_ID);
+                }
+                labelText.append(" [0] ");
+                List<Component> inlineComponents = new ArrayList<Component>();
+                inlineComponents.add(groupCopy);
+                setInlineComponents(inlineComponents);
+            }
         }
+
+        setMessageText(labelText.toString());
 
         super.performApplyModel(model, parent);
     }
@@ -114,6 +105,9 @@ public class KSIconLabelMessage extends Message {
         super.performFinalize(model, parent);
     }
 
+    /**
+     * The content that will be displayed in the info icon tooltip.
+     */
     @BeanTagAttribute(name="iconToolTipText")
     public String getIconToolTipText() {
         return iconToolTipText;
@@ -136,7 +130,7 @@ public class KSIconLabelMessage extends Message {
                 } else if (getInlineComponents().isEmpty()){
                     currentValues[0] = "fieldLabel.richLabelMessage.inlineComponents is empty";
                 }
-                tracer.createError("To Use 'iconToolTipText' property, FieldLabel should be having RichLabelMessage set",currentValues);
+                tracer.createError("To Use 'iconToolTipText' property, FieldLabel should have RichLabelMessage set",currentValues);
             } else if (!(getInlineComponents().get(0) instanceof ImageField)){
                 String currentValues[] ={"fieldLabel.richLabelMessage.inlineComponents[0] " + getInlineComponents().get(0).getClass()};
                 tracer.createError("To Use KSIconInputField, it's fieldLabel.richLabelMessage.inlineComponents[0] should be an ImageField",currentValues);
@@ -145,7 +139,6 @@ public class KSIconLabelMessage extends Message {
                 tracer.createError("To Use KSIconInputField, it's fieldLabel.richLabelMessage.inlineComponents[0].toolTip should not be NULL",currentValues);
             }
         }
-
         super.completeValidation(tracer.getCopy());
     }
 }
