@@ -120,7 +120,7 @@
         <property name="theme">
             <bean parent="KSTheme"/>
         </property>
-
+        <property name="viewHelperServiceClass" value="org.kuali.student.common.uif.service.impl.KSLookupableImpl"/>
         <property name="help"><null/></property>
 
         <!-- Need Krad Fix to work see KULRICE-9578, work around inplace-->
@@ -152,6 +152,22 @@
           <list>
           </list>
         </property>
+        <property name="resultsGroup.header.upperGroup">
+          <bean parent="Uif-VerticalBoxGroup"/>
+        </property>
+        <property name="propertyReplacers">
+            <list>
+                <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                      p:propertyName="resultsGroup.header.upperGroup.items"
+                      p:condition="@{#isAssignableFrom(T(org.kuali.student.common.uif.service.KSLookupable), #view.viewHelperServiceClass)}">
+                    <property name="replacement">
+                        <list merge="true">
+                             <ref bean="KS-Uif-Message-ZeroLookupResults"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
         <property name="footer">
             <bean parent="KS-Uif-FooterBase">
                 <property name="items">
@@ -172,6 +188,14 @@
             </bean>
         </property>
     </bean>
+
+    <bean id="KS-Uif-Message-ZeroLookupResults" parent="KS-Uif-Message-ZeroLookupResults-parent"/>
+
+    <bean id="KS-Uif-Message-ZeroLookupResults-parent" parent="Uif-Message" abstract="true">
+        <property name="render" value="@{#form.lookupResults ne null and #form.lookupResults.isEmpty()}"/>
+        <property name="finalizeMethodToCall" value="generateLookupResultsNotFoundMessage"/>
+    </bean>
+
 
     <bean id="KS-Uif-InquiryView" abstract="true" parent="Uif-InquiryView">
         <property name="theme">

@@ -22,9 +22,13 @@ import org.kuali.rice.kim.impl.KIMPropertyConstants;
 import org.kuali.rice.kim.impl.identity.PersonImpl;
 import org.kuali.rice.kim.impl.identity.PersonLookupableImpl;
 import org.kuali.rice.krad.lookup.LookupForm;
+import org.kuali.rice.krad.uif.element.Message;
+import org.kuali.student.common.uif.service.KSLookupable;
+import org.kuali.student.common.uif.service.impl.KSLookupableImpl;
 import org.kuali.student.rice.kim.impl.KSPersonImpl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,14 +38,19 @@ import java.util.Map;
  *
  * @author Kuali Student Team
  */
-public class KSPersonLookupableImpl extends PersonLookupableImpl{
+public class KSPersonLookupableImpl extends PersonLookupableImpl implements KSLookupable{
 
     public static final class KSSearchParameters {
         public static final String NAME_SEARCH = "ksNameSearch";
     }
 
     @Override
-    public List<?> performSearch(LookupForm form, Map<String, String> searchCriteria, boolean bounded) {
+    public List<?> performSearch(LookupForm form, Map<String, String> criteria, boolean bounded) {
+
+        //Modification of original "criteria" map will lead to improper Message generation for No Records found case.
+        //Refer KSENROLL-12772 for additional details.
+        //Creating Shadow object of "criteria" to avoid modifications on it.
+        Map<String,String> searchCriteria = new HashMap<String,String>(criteria);
 
         String nameSearch = searchCriteria.get(KSSearchParameters.NAME_SEARCH);
         if (StringUtils.isNotBlank(nameSearch)) {
@@ -88,6 +97,11 @@ public class KSPersonLookupableImpl extends PersonLookupableImpl{
             }
         }
         return StringUtils.EMPTY;
+    }
+
+    public void generateLookupResultsNotFoundMessage(Message message,Object model){
+        KSLookupableImpl ksLookupable = new KSLookupableImpl();
+        ksLookupable.generateLookupResultsNotFoundMessage(message,model);
     }
 
 }
