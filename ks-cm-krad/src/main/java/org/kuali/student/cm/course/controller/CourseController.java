@@ -42,6 +42,7 @@ import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants.CourseViewSections;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
 import org.kuali.student.cm.course.form.CollaboratorWrapper;
+import org.kuali.student.cm.course.form.CommentWrapper;
 import org.kuali.student.cm.course.form.CourseCreateUnitsContentOwner;
 import org.kuali.student.cm.course.form.CourseInfoWrapper;
 import org.kuali.student.cm.course.form.LoDisplayInfoWrapper;
@@ -615,7 +616,7 @@ public class CourseController extends CourseRuleEditorController {
     }
 
     /**
-     * This is called from the Comments lightbox. This is used to save the comments.
+     * This method submits a new comment or the comment editing by the user
      *
      * @param form     {@link MaintenanceDocumentForm} instance used for this action
      * @param result
@@ -623,12 +624,20 @@ public class CourseController extends CourseRuleEditorController {
      * @param response The intended {@link HttpServletResponse} sent back to the user
      * @throws Exception
      */
-    @RequestMapping(params = "methodToCall=saveAndCloseComment")
-    public ModelAndView saveAndCloseComment(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
-                                            HttpServletRequest request, HttpServletResponse response) throws Exception {
+    @RequestMapping(params = "methodToCall=saveComment")
+    public ModelAndView saveComment(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
+                                    HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+        CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
+        CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
 
-        //TODO KSCM-848 : Will need to replace these temp values once we get UMD's reference data
+        maintainable.saveComment(courseInfoWrapper.getActiveComment());
+
+        courseInfoWrapper.setActiveComment(new CommentWrapper());
+
+        return returnFromLightbox(form, result, request, response);
+
+        /*//TODO KSCM-848 : Will need to replace these temp values once we get UMD's reference data
 
         String tempRefId = "temp_reference_id";
         String tempRefTypeKey = "referenceType.clu.proposal";
@@ -668,9 +677,9 @@ public class CourseController extends CourseRuleEditorController {
             ittCommentInfo = newComment;
         }
         //form.getDialogManager().removeDialog("commentsLightBox");
-        /*return getUIFModelAndView(form);*/
+        *//*return getUIFModelAndView(form);*//*
         form.getDialogManager().setDialogReturnMethod("commentsLightBox", UifConstants.MethodToCallNames.START);
-        return returnFromLightbox(form, result, request, response);
+        return returnFromLightbox(form, result, request, response);*/
     }
 
     /**

@@ -32,6 +32,7 @@ import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.uif.container.Container;
 import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.view.ViewModel;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
 import org.kuali.rice.krms.api.repository.agenda.AgendaItemDefinition;
@@ -55,6 +56,7 @@ import org.kuali.student.cm.course.controller.CourseController;
 import org.kuali.student.cm.course.form.ActivityInfoWrapper;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
 import org.kuali.student.cm.course.form.CollaboratorWrapper;
+import org.kuali.student.cm.course.form.CommentWrapper;
 import org.kuali.student.cm.course.form.CourseCreateUnitsContentOwner;
 import org.kuali.student.cm.course.form.CourseInfoWrapper;
 import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
@@ -88,11 +90,14 @@ import org.kuali.student.r1.core.proposal.ProposalConstants;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.LearningObjectiveServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.common.util.date.KSDateTimeFormatter;
@@ -1798,6 +1803,8 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             populateFormatOnWrapper();
             populateJointCourseOnWrapper();
 
+            retrieveComments();
+
             redrawDecisionTable();
             updateReview();
 
@@ -1861,6 +1868,58 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             proposal = getProposalService().updateProposal(proposal.getId(), proposal, ContextUtils.getContextInfo());
         }
         courseInfoWrapper.setProposalInfo(proposal);
+    }
+
+    /**
+     * Create or update a comment.
+     *
+     * @param commentWrapper
+     */
+    public void saveComment(CommentWrapper commentWrapper){
+
+        LOG.trace("Saving comment - " +  commentWrapper.getCommentInfo().getCommentText());
+
+        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
+        ProposalInfo proposal =  courseInfoWrapper.getProposalInfo();
+        CommentInfo comment = commentWrapper.getCommentInfo();
+
+        if (StringUtils.isBlank(courseInfoWrapper.getProposalInfo().getId())){
+            throw new RuntimeException("Proposal should be saved before adding comments");
+        }
+        
+        if (commentWrapper.isNewDto()){
+
+            comment.setReferenceId(proposal.getId());
+            comment.setReferenceTypeKey(proposal.getTypeKey());
+            comment.setTypeKey(CommentServiceConstants.COMMENT_GENERAL_REMARKS_TYPE_KEY);
+            comment.setCommenterId(GlobalVariables.getUserSession().getPrincipalId());
+
+            try {
+                comment = getCommentService().createComment(proposal.getId(), proposal.getTypeKey(), CommentServiceConstants.COMMENT_GENERAL_REMARKS_TYPE_KEY, comment, createContextInfo());
+            } catch (Exception e) {
+                LOG.error("Error adding comment " + comment.getId() + " for the proposal " + proposal.getName());
+                throw new RuntimeException("Error adding comment " + comment.getId() + " for the proposal " + proposal.getName(), e);
+            }
+
+        } else {
+            try {
+                comment = getCommentService().updateComment(comment.getId(),comment,createContextInfo());
+            } catch (Exception e) {
+                LOG.error("Error updating comment " + comment.getId() + " for the proposal " + proposal.getName());
+                throw new RuntimeException("Error updating comment " + comment.getId() + " for the proposal " + proposal.getName(), e);
+            }
+        }
+
+        commentWrapper.setCommentInfo(comment);
+
+        LOG.debug("Comment successfully added/updated. [id=" + comment.getId() + "]");
+
+    }
+
+    public void retrieveComments(){
+
+        //retrieve comments here
+
     }
 
     /**

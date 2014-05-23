@@ -44,7 +44,8 @@ public class CourseInfoWrapper implements Serializable {
     private List<CluInstructorInfoWrapper> instructorWrappers;
     private List<CourseJointInfoWrapper> courseJointWrappers;
     private List<ResultValuesGroupInfoWrapper> creditOptionWrappers;
-    private List<CommentInfo> commentInfos;
+    private List<CommentWrapper> comments;
+    private CommentWrapper activeComment;
     private List<DecisionInfo> decisions;
     private List<OrganizationInfoWrapper> administeringOrganizations;
     private List<CollaboratorWrapper> collaboratorWrappers;
@@ -73,6 +74,30 @@ public class CourseInfoWrapper implements Serializable {
     private String previousSubjectCode;
 
     private boolean missingRequiredFields;
+
+    public CourseInfoWrapper(){
+
+        proposalInfo = new ProposalInfo();
+        instructorWrappers = new ArrayList<CluInstructorInfoWrapper>();
+        courseJointWrappers = new ArrayList<CourseJointInfoWrapper>();
+        creditOptionWrappers = new ArrayList<ResultValuesGroupInfoWrapper>();
+        comments = new ArrayList<CommentWrapper>();
+        decisions = new ArrayList<DecisionInfo>();
+        administeringOrganizations = new ArrayList<OrganizationInfoWrapper>();
+        collaboratorWrappers = new ArrayList<CollaboratorWrapper>();
+        documentsToAdd = new ArrayList<SupportingDocumentInfoWrapper>();
+        supportingDocuments = new ArrayList<DocumentInfo>();
+        reviewProposalDisplay = new ReviewProposalDisplay();
+        courseInfo = new CourseInfo();
+
+        userId = "";
+        lastUpdated = "";
+        unitsContentOwnerToAdd = "";
+        unitsContentOwner = new ArrayList<CourseCreateUnitsContentOwner>();
+        loDisplayWrapperModel = new LoDisplayWrapperModel();
+        uiHelper = new CreateCourseUIHelper();
+        formats = new ArrayList<FormatInfo>();
+    }
 
     /**
      * Flag used on the Review Course Proposal page to indicate whether the "yellow bar" should be displayed.
@@ -157,30 +182,6 @@ public class CourseInfoWrapper implements Serializable {
 
     public void setLoDisplayWrapperModel(LoDisplayWrapperModel loDisplayWrapperModel) {
         this.loDisplayWrapperModel = loDisplayWrapperModel;
-    }
-
-    public CourseInfoWrapper(){
-
-        proposalInfo = new ProposalInfo();
-        instructorWrappers = new ArrayList<CluInstructorInfoWrapper>();
-        courseJointWrappers = new ArrayList<CourseJointInfoWrapper>();
-        creditOptionWrappers = new ArrayList<ResultValuesGroupInfoWrapper>();
-        commentInfos = new ArrayList<CommentInfo>();
-        decisions = new ArrayList<DecisionInfo>();
-        administeringOrganizations = new ArrayList<OrganizationInfoWrapper>();
-        collaboratorWrappers = new ArrayList<CollaboratorWrapper>();
-        documentsToAdd = new ArrayList<SupportingDocumentInfoWrapper>();
-        supportingDocuments = new ArrayList<DocumentInfo>();
-        reviewProposalDisplay = new ReviewProposalDisplay();
-        courseInfo = new CourseInfo();
-
-        userId = "";
-        lastUpdated = "";
-        unitsContentOwnerToAdd = "";
-        unitsContentOwner = new ArrayList<CourseCreateUnitsContentOwner>();
-        loDisplayWrapperModel = new LoDisplayWrapperModel();
-        uiHelper = new CreateCourseUIHelper();
-        formats = new ArrayList<FormatInfo>();
     }
 
     /**
@@ -329,15 +330,12 @@ public class CourseInfoWrapper implements Serializable {
         this.creditOptionWrappers = creditOptionWrappers;
     }
 
-    public List<CommentInfo> getCommentInfos() {
-        if (commentInfos == null) {
-            commentInfos = new ArrayList<CommentInfo>(0);
-        }
-        return commentInfos;
+    public List<CommentWrapper> getComments() {
+        return comments;
     }
 
-    public void setCommentInfos(List<CommentInfo> commentInfos) {
-        this.commentInfos = commentInfos;
+    public void setComments(List<CommentWrapper> comments) {
+        this.comments = comments;
     }
 
     public List<DecisionInfo> getDecisions() {
@@ -417,6 +415,23 @@ public class CourseInfoWrapper implements Serializable {
 
     public void setFormats(List<FormatInfo> formats) {
         this.formats = formats;
+    }
+
+    /**
+     * @see #setActiveComment(CommentWrapper)
+     * @return commentWrapper
+     */
+    public CommentWrapper getActiveComment() {
+        return activeComment;
+    }
+
+    /**
+     * Comment newly added or comment edit in progress by the user.
+     *
+     * @param activeComment
+     */
+    public void setActiveComment(CommentWrapper activeComment) {
+        this.activeComment = activeComment;
     }
 
     /**

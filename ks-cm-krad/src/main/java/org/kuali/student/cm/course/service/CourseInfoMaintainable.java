@@ -17,6 +17,7 @@ package org.kuali.student.cm.course.service;
 
 import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
+import org.kuali.student.cm.course.form.CommentWrapper;
 import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
 import org.kuali.student.cm.course.form.CourseRuleManagementWrapper;
 import org.kuali.student.cm.course.form.LoCategoryInfoWrapper;
@@ -61,5 +62,7 @@ public interface CourseInfoMaintainable {
     CourseRuleManagementWrapper getCourseRuleManagementWrapper();
 
     public void updateReview();
+
+    public void saveComment(CommentWrapper commentWrapper);
 
 }
