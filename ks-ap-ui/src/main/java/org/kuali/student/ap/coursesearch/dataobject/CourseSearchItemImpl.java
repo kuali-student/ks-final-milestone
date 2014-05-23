@@ -565,7 +565,7 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 	@Override
 	public String[] getSearchColumns() {
 		return searchColumns == null ? searchColumns = new String[] {
-				getCode(), getInquiryLink(), getCredit(), getCampusString(),
+				getCode(), getInquiryLink(), getCredit(),
 				getScheduledTerms(), getOfferedTerms(), getGenEduReq(),
 				getStatusColumn(), } : searchColumns;
 	}

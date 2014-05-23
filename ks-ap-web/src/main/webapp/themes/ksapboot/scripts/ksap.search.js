@@ -60,12 +60,6 @@ function ksapCourseSearchColumns() {
         'sTitle' : 'Credits',
         'sWidth' : '43px',
         'sKsapColIdSuffix' : '_credits'
-    }, {
-        'bSortable' : false,
-        'bSearchable' : true,
-        'sTitle' : 'Campus',
-        'sWidth' : '47px',
-        'sKsapColIdSuffix' : '_campus'
     },{
         'bSortable' : false,
         'bSearchable' : true,
@@ -592,7 +586,8 @@ function registerCourseSearchResultsFacetsEvents(jqObjects){
  */
 function updateTermsOfferedDisplay(jqObject){
     var terms = jQuery('#course_search_results_panel').data('terms-abbrev').split(",");
-    var baseDL = jqObject.find('td:nth-child(6) dl');
+    // use the column id suffix "_projectedTerms" to find the correct column
+    var baseDL = jqObject.find('td[id$=_projectedTerms] dl');
     if (baseDL.has('dd.projected').length < 1) {
         var fixEmptyList = baseDL.append(jQuery('<dd />').addClass("projected"));
         var baseArray = [];
