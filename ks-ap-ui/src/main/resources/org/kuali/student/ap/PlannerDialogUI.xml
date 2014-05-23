@@ -16,7 +16,7 @@
         </property>
 		<property name="footer.render" value="false" />
 		<property name="formClass" value="org.kuali.student.ap.planner.form.PlannerFormImpl" />
-		<property name="onSubmitScript" value="ksapPlannerSubmitDialog(e);" />
+		<property name="onSubmitScript" value="ksapSubmitDialog(e);" />
 		<property name="cssClasses">
 			<list merge="true">
 				<value>ksap-view</value>
@@ -85,7 +85,7 @@
 										<property name="items">
 											<list>
 												<bean parent="planner_submit_button" p:actionLabel="Add to Plan"
-                                                      p:actionScript="ksapPlannerSubmitDialog('planner_add_course_page',e);"/>
+                                                      p:actionScript="ksapSubmitDialog('planner_add_course_page',e);"/>
 												<bean parent="planner_cancel_button" />
 											</list>
 										</property>
@@ -121,7 +121,7 @@
 										<property name="items">
 											<list>
 												<bean parent="planner_submit_button" p:actionLabel="Save"
-                                                      p:actionScript="ksapPlannerSubmitDialog('planner_edit_term_note_page',e);"/>
+                                                      p:actionScript="ksapSubmitDialog('planner_edit_term_note_page',e);"/>
 												<bean parent="planner_cancel_button" />
 											</list>
 										</property>
@@ -341,7 +341,7 @@
 										<property name="items">
 											<list>
 												<bean parent="planner_submit_button" p:actionLabel="Save"
-                                                      p:actionScript="ksapPlannerSubmitDialog('planner_edit_plan_item_page',e);"/>
+                                                      p:actionScript="ksapSubmitDialog('planner_edit_plan_item_page',e);"/>
 												<bean parent="planner_cancel_button" />
 											</list>
 										</property>
@@ -379,7 +379,7 @@
 										<property name="items">
 											<list>
 												<bean parent="planner_submit_button" p:actionLabel="Copy"
-                                                      p:actionScript="ksapPlannerSubmitDialog('planner_copy_course_page',e);"/>
+                                                      p:actionScript="ksapSubmitDialog('planner_copy_course_page',e);"/>
 												<bean parent="planner_cancel_button" />
 											</list>
 										</property>
@@ -415,7 +415,7 @@
 										<property name="items">
 											<list>
 												<bean parent="planner_submit_button" p:actionLabel="Copy"
-                                                      p:actionScript="ksapPlannerSubmitDialog('planner_copy_plan_item_page',e);"/>
+                                                      p:actionScript="ksapSubmitDialog('planner_copy_plan_item_page',e);"/>
 												<bean parent="planner_cancel_button" />
 											</list>
 										</property>
@@ -451,7 +451,7 @@
 										<property name="items">
 											<list>
 												<bean parent="planner_submit_button" p:actionLabel="Move"
-                                                      p:actionScript="ksapPlannerSubmitDialog('planner_move_plan_item_page',e);"/>
+                                                      p:actionScript="ksapSubmitDialog('planner_move_plan_item_page',e);"/>
 												<bean parent="planner_cancel_button" />
 											</list>
 										</property>
@@ -488,7 +488,7 @@
 										<property name="items">
 											<list>
 												<bean parent="planner_submit_button" p:actionLabel="Delete"
-                                                      p:actionScript="ksapPlannerSubmitDialog('planner_delete_plan_item_page',e);"/>
+                                                      p:actionScript="ksapSubmitDialog('planner_delete_plan_item_page',e);"/>
 												<bean parent="planner_cancel_button" />
 											</list>
 										</property>
@@ -536,7 +536,7 @@
                                         <property name="items">
                                             <list>
                                                 <bean parent="planner_submit_button" p:actionLabel="Add to Plan"
-                                                      p:actionScript="ksapPlannerSubmitDialog('bookmark_add_course_page',e);"/>
+                                                      p:actionScript="ksapSubmitDialog('bookmark_add_course_page',e);"/>
                                                 <bean parent="planner_cancel_button" />
                                             </list>
                                         </property>
@@ -573,7 +573,7 @@
                                         <property name="items">
                                             <list>
                                                 <bean parent="planner_submit_button" p:actionLabel="Delete"
-                                                      p:actionScript="ksapPlannerSubmitDialog('bookmark_delete_course_page',e);"/>
+                                                      p:actionScript="ksapSubmitDialog('bookmark_delete_course_page',e);"/>
                                                 <bean parent="planner_cancel_button" />
                                             </list>
                                         </property>
@@ -618,7 +618,7 @@
                                         <property name="items">
                                             <list>
                                                 <bean parent="planner_submit_button" p:actionLabel="Add to Plan"
-                                                      p:actionScript="ksapPlannerSubmitDialog('course_add_course_page',e);"/>
+                                                      p:actionScript="ksapSubmitDialog('course_add_course_page',e);"/>
                                                 <bean parent="planner_cancel_button" />
                                             </list>
                                         </property>

@@ -187,6 +187,7 @@
                 <value>themes/ksapboot/scripts/KradOverrides.js</value>
                 <value>themes/ksapboot/scripts/plan/planner.js</value>
                 <value>themes/ksapboot/scripts/ksap.widgets.js</value>
+                <value>themes/ksapboot/scripts/ksap.dialogs.js</value>
                 <value>plugins/jquery-popover/jquery.popover.js</value>
             </list>
         </property>
