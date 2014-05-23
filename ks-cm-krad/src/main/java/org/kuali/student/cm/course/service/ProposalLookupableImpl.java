@@ -28,17 +28,11 @@ import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.lookup.LookupForm;
-import org.kuali.rice.krad.maintenance.MaintenanceDocumentBase;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.uif.UifConstants;
-import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.util.UrlFactory;
-import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.common.util.ProposalLinkBuilder;
-import org.kuali.student.cm.course.form.CourseInfoWrapper;
 import org.kuali.student.cm.maintenance.CMMaintenanceDocument;
 import org.kuali.student.common.uif.service.impl.KSLookupableImpl;
 import org.kuali.student.common.util.security.ContextUtils;
@@ -58,7 +52,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 /**
  *
@@ -98,10 +91,6 @@ public class ProposalLookupableImpl extends KSLookupableImpl {
             proposalInfos = resolveProposalSearchResultSet(searchResult);
         } catch (Exception e) {
             throw new RuntimeException(e);
-        }
-
-        if (proposalInfos.isEmpty()){
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, CurriculumManagementConstants.MessageKeys.ERROR_NO_RESULTS_FOUND);
         }
 
         return proposalInfos;
