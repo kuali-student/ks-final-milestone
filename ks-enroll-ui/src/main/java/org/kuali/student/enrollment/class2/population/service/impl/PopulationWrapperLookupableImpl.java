@@ -21,7 +21,7 @@ import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupForm;
-import org.kuali.rice.krad.lookup.LookupableImpl;
+import org.kuali.student.common.uif.service.impl.KSLookupableImpl;
 import org.kuali.student.enrollment.class2.population.dto.PopulationWrapper;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.common.util.security.ContextUtils;
@@ -41,7 +41,7 @@ import java.util.Map;
  *
  * @author Kuali Student Team
  */
-public class PopulationWrapperLookupableImpl extends LookupableImpl {
+public class PopulationWrapperLookupableImpl extends KSLookupableImpl {
     private static final long serialVersionUID = 1L;
     private transient PopulationService populationService;
 

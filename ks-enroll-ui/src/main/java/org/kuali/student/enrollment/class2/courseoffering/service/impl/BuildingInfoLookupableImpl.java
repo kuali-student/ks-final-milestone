@@ -10,6 +10,7 @@ import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.lookup.LookupForm;
+import org.kuali.student.common.uif.service.impl.KSLookupableImpl;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.core.room.dto.BuildingInfo;
@@ -24,7 +25,7 @@ import java.util.Map;
  *
  * Goes with BuildingLookupAndInquiry.xml
  */
-public class BuildingInfoLookupableImpl extends LookupableImpl implements Lookupable {
+public class BuildingInfoLookupableImpl extends KSLookupableImpl {
     private static final Logger LOGGER = LoggerFactory.getLogger(BuildingInfoLookupableImpl.class);
 
     @Override

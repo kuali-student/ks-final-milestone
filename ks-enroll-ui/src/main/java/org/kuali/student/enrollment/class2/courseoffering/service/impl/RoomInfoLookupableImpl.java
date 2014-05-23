@@ -7,6 +7,7 @@ import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.lookup.LookupForm;
+import org.kuali.student.common.uif.service.impl.KSLookupableImpl;
 import org.kuali.student.common.util.ContextBuilder;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -20,7 +21,7 @@ import java.util.Map;
 /**
  * This lookup implementation is just for the KD. This will be replaced by the autosuggest after M4 rice upgrade.
  */
-public class RoomInfoLookupableImpl extends LookupableImpl implements Lookupable {
+public class RoomInfoLookupableImpl extends KSLookupableImpl{
 
     @Override
     public boolean validateSearchParameters(LookupForm form, Map<String, String> searchCriteria){
