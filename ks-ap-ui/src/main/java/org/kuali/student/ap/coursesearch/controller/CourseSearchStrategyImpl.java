@@ -554,30 +554,6 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
     }
 
     /**
-     * Format a list of gen ed requirements into a comma seperated string
-     *
-     * @param genEduRequirements - The list of gen ed requirements
-     * @return A comma seperated string
-     */
-    private String formatGenEduReq(List<String> genEduRequirements) {
-        // Make the order predictable.
-        Collections.sort(genEduRequirements);
-        StringBuilder genEdsOut = new StringBuilder();
-        for (String req : genEduRequirements) {
-            if (genEdsOut.length() != 0) {
-                genEdsOut.append(", ");
-            }
-
-            /* Doing this to fix a bug in IE8 which is trimming off the I&S as I */
-            if (req.contains("&")) {
-                req = req.replace("&", "&amp;");
-            }
-            genEdsOut.append(req);
-        }
-        return genEdsOut.toString();
-    }
-
-    /**
      * Loads the gen ed information for the courses.
      * Gen Ed information is store as course sets that can be returned using the independent version id
      *
@@ -641,8 +617,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         for (CourseSearchItemImpl course : courses) {
             if (genEdResults.containsKey(course.getVersionIndependentId())) {
                 List<String> reqs = genEdResults.get(course.getVersionIndependentId());
-                String formatted = formatGenEduReq(reqs);
-                course.setGenEduReq(formatted);
+                course.setGenEduReqs(reqs);
             }
         }
 

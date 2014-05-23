@@ -77,7 +77,7 @@ public interface CourseSearchItem {
 	 * 
 	 * @return The gen ed requirements for this course.
 	 */
-	String getGenEduReq();
+	List<String> getGenEduReqs();
 
 	/**
 	 * Get the HTML data to present in the individual table cells related to
