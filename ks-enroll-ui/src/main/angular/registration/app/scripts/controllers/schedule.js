@@ -2,8 +2,8 @@
 
 var cartServiceModule = angular.module('regCartApp');
 
-cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleService', 'GlobalVarsService',
-    function ($scope, $modal, ScheduleService, GlobalVarsService) {
+cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleService', 'GlobalVarsService', '$timeout',
+    function ($scope, $modal, ScheduleService, GlobalVarsService, $timeout) {
 
         $scope.getSchedules = GlobalVarsService.getSchedule;
         $scope.registeredCredits = GlobalVarsService.getRegisteredCredits;
@@ -42,14 +42,11 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
             console.log('Open drop confirmation for registered course');
             ScheduleService.dropRegistrationGroup().query({
                 masterLprId: course.masterLprId
-            }, function () {
-                // "dropping" is used to display confirmation popup, "dropped" to display course details vs success to drop message
-                course.dropping = false;
-                course.dropped = true;
-                // can't use splice (which would remove the success message, so updating counts manually
-                GlobalVarsService.setRegisteredCredits(parseFloat(GlobalVarsService.getRegisteredCredits()) - parseFloat(course.credits));
-                GlobalVarsService.setRegisteredCourseCount(parseInt(GlobalVarsService.getRegisteredCourseCount()) - 1);
-                course.statusMessage = {txt: '<strong>' + course.courseCode + ' (' + course.regGroupCode + ')</strong> dropped successfully', type: 'success'};
+            }, function (dropResponseResult) {
+                course.dropping = false; // used to display confirmation popup
+                course.dropProcessing = true; // used to display spinner while poll is running
+
+                schedulePoller(dropResponseResult.registrationRequestId, course);
             }, function (error) {
                 $scope.userMessage = {txt: error.data, type: 'error'};
             });
@@ -59,20 +56,67 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
             console.log('Open drop confirmation for waitlist course');
             ScheduleService.dropFromWaitlist().query({
                 masterLprId: course.masterLprId
-            }, function () {
+            }, function (dropResponseResult) {
                 // need a count on how many success drop message for WL are opened. So if there are no WL courses when we "X" the last success drop message the "Waitlisted" section name would disappear
                 $scope.numberOfDroppedWailistedCourses = $scope.numberOfDroppedWailistedCourses + 1;
                 $scope.showWaitlistMessages = true;
-                // "dropping" is used to display confirmation popup, "dropped" to display course details vs success to drop message
-                course.dropping = false;
-                course.dropped = true;
-                // can't use splice (which would remove the success message, so updating counts manually
-                GlobalVarsService.setWaitlistedCredits(parseFloat(GlobalVarsService.getWaitlistedCredits()) - parseFloat(course.credits));
-                GlobalVarsService.setWaitlistedCourseCount(parseInt(GlobalVarsService.getWaitlistedCourseCount()) - 1);
-                course.statusMessage = {txt: 'Removed from waitlist for <strong>' + course.courseCode + ' (' + course.regGroupCode + ')</strong> successfully', type: 'success'};
+
+                course.dropping = false; // used to display confirmation popup
+                course.dropProcessing = true; // used to display spinner
+
+                schedulePoller(dropResponseResult.registrationRequestId, course);
             }, function (error) {
                 course.statusMessage = {txt: error.data, type: 'error'};
             });
+        };
+
+        // This method is used to update the status of a course by polling the server
+        var schedulePoller = function (registrationRequestId, course) {
+            console.log('start polling for course to be dropped from schedule');
+            course.statusMessage = {txt: '<strong>' + course.courseCode + ' (' + course.regGroupCode + ')</strong> drop processing', type: 'processing'};
+
+            $timeout(function () {
+                ScheduleService.getRegistrationStatus().query({regReqId: registrationRequestId}, function (regResponseResult) {
+                    var status = GlobalVarsService.getCorrespondingStatusFromState(regResponseResult.state);
+                    switch (status) {
+                        case 'processing':
+                            console.log('continue polling');
+                            schedulePoller(registrationRequestId, course);
+                            break;
+                        case 'success':
+                            console.log('stop polling - success');
+                            course.dropped = true; // used to display course details vs success to drop message
+                            course.dropProcessing = false;
+
+                            // After all the processing is complete, update the new Schedule counts.
+                            var message;
+                            if (course.waitlisted) {
+                                // can't use splice (which would remove the success message, so updating counts manually
+                                GlobalVarsService.setWaitlistedCredits(parseFloat(GlobalVarsService.getWaitlistedCredits()) - parseFloat(course.credits));
+                                GlobalVarsService.setWaitlistedCourseCount(parseInt(GlobalVarsService.getWaitlistedCourseCount()) - 1);
+
+                                message = 'Removed from waitlist for <strong>' + course.courseCode + ' (' + course.regGroupCode + ')</strong> successfully';
+                            } else {
+                                // can't use splice (which would remove the success message, so updating counts manually
+                                GlobalVarsService.setRegisteredCredits(parseFloat(GlobalVarsService.getRegisteredCredits()) - parseFloat(course.credits));
+                                GlobalVarsService.setRegisteredCourseCount(parseInt(GlobalVarsService.getRegisteredCourseCount()) - 1);
+
+                                message = '<strong>' + course.courseCode + ' (' + course.regGroupCode + ')</strong> dropped successfully';
+                            }
+
+                            course.statusMessage = {txt: message, type: 'success'};
+                            break;
+                        case 'error':
+                            console.log('stop polling - error');
+                            course.dropProcessing = false;
+
+                            // Use the message returned from the server
+                            var message = regResponseResult.responseItemResults[0].message;
+                            course.statusMessage = {txt: message, type: 'error'};
+                            break;
+                    }
+                });
+            }, 5);  // right now we're going to wait 1 second per poll
         };
 
         $scope.editScheduleItem = function (course) {

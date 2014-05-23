@@ -62,4 +62,10 @@ angular.module('regCartApp')
             });
         };
 
+        this.getRegistrationStatus = function () {
+            return $resource(APP_URL + 'CourseRegistrationClientService/getRegistrationStatus', {}, {
+                query: {method: 'GET', cache: false, isArray: false}
+            });
+        };
+
     }]);

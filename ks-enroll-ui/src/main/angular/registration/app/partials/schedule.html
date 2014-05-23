@@ -21,8 +21,8 @@
     <div ng-repeat="schedule in getSchedules()">
         <div ng-repeat="course in schedule.registeredCourseOfferings" class="kscr-course-container">
             <!--Drop from Registered section-->
-            <div id="course_status_message" ng-class="(course.dropped) ? 'util-Alert--card--dropped util-Alert--{{course.statusMessage.type}}' : 'util-Alert--card util-Alert--{{course.statusMessage.type}}'" ng-if="course.statusMessage.txt">
-                <span class="kscr-Card-statusRemove"><a href="" ng-click="removeStatusMessage(course)"><i class="glyphicon glyphicon-remove"></i></a></span>
+            <div id="course_status_message" class="util-Alert--{{course.statusMessage.type}}" ng-class="(course.dropped || course.dropProcessing) ? 'util-Alert--card--dropped' : 'util-Alert--card'" ng-if="course.statusMessage.txt">
+                <span class="kscr-Card-statusRemove"><a href="" ng-click="(!course.dropProcessing ? removeStatusMessage(course) : '')"><i class="glyphicon glyphicon-remove"></i></a></span>
                 <div  ng-bind-html="course.statusMessage.txt"></div>
             </div>
             <div class="kscr-dropCourse-container" ng-show="course.dropping">
@@ -45,7 +45,7 @@
                     </div>
                 </div>
             </div>
-            <accordion close-others="oneAtATime" ng-if="!course.dropped">
+            <accordion close-others="oneAtATime" ng-if="!course.dropped && !course.dropProcessing">
                 <accordion-group is-open="isopen">
                     <accordion-heading>
                         <!--credits-->
@@ -152,8 +152,8 @@
     <div ng-repeat="schedule in getSchedules()">
         <div ng-repeat="course in schedule.waitlistCourseOfferings" class="kscr-course-container">
             <!--Dropped from Waitlist section-->
-            <div id="waitlist_course_status_message" ng-class="(course.dropped) ? 'util-Alert--card--dropped util-Alert--{{course.statusMessage.type}}' : 'util-Alert--card util-Alert--{{course.statusMessage.type}}'" ng-if="course.statusMessage.txt">
-                <span class="kscr-Card-statusRemove"><a href="" ng-click="(course.dropped) ? removeWaitlistStatusMessage(course) : removeStatusMessage(course)"><i class="glyphicon glyphicon-remove"></i></a></span>
+            <div id="waitlist_course_status_message" class="util-Alert--{{course.statusMessage.type}}" ng-class="(course.dropped || course.dropProcessing) ? 'util-Alert--card--dropped' : 'util-Alert--card'" ng-if="course.statusMessage.txt">
+                <span class="kscr-Card-statusRemove"><a href="" ng-click="(!course.dropProcessing ? ((course.dropped) ? removeWaitlistStatusMessage(course) : removeStatusMessage(course)) : '')"><i class="glyphicon glyphicon-remove"></i></a></span>
                 <div class="kscr-Card-alert-spacing" ng-bind-html="course.statusMessage.txt"></div>
             </div>
             <div class="kscr-dropCourse-container" ng-show="course.dropping">
