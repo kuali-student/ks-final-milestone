@@ -556,7 +556,7 @@ function propositionWithoutDescription(parentLiNode) {
  * @return description jQuery object of the proposition that is being added, null if none is currently being added
  */
 function propositionAddInProgress() {
-    var flag = jQuery(".simpleEditNode");
+    var flag = jQuery(".editNode");
     return flag.length > 0 ? true : false;
 }
 

@@ -75,7 +75,7 @@ public class KRMSConstants {
     public static final String DISABLE_MOVE_IN = "disableMoveRight";
     public static final String DISABLE_MOVE_OUT = "disableMoveLeft";
 
-    public static final String EDIT_NODE_TYPE = NODE_TYPE + "EditNode";
-    public static final String SIMPLE_NODE_TYPE = NODE_TYPE + " simple";
+    public static final String EDIT_NODE_TYPE = NODE_TYPE + " editNode";
+    public static final String SIMPLE_NODE_TYPE = NODE_TYPE + " simpleNode";
 
 }

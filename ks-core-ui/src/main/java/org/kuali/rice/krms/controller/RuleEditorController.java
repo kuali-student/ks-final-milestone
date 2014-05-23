@@ -274,7 +274,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
         //Special case when only one proposition in tree or no proposition selected
         if ((selectedPropKey == null || selectedPropKey.isEmpty()) && parent == null && root.getChildren().size() > 0) {
             //Special case when now proposition selected and more than one proposition in tree
-            if (root.getChildren().get(root.getChildren().size() - 1).getNodeType().contains("compoundNode")) {
+            if (root.getChildren().get(root.getChildren().size() - 1).getNodeType().contains(KRMSConstants.COMPOUND_NODE_TYPE)) {
                 parent = root.getChildren().get(root.getChildren().size() - 1);
                 selectedPropKey = parent.getChildren().get(parent.getChildren().size() - 1).getData().getProposition().getKey();
             } //Special case when one proposition in tree and no proposition selected
@@ -284,7 +284,8 @@ public class RuleEditorController extends MaintenanceDocumentController {
             }
         } //If root compound proposition selected
         else if (parent != null) {
-            if (parent.getNodeType().equals("treeRoot") && !parent.getChildren().get(parent.getChildren().size() - 1).getNodeType().contains("simple")) {
+            if (parent.getNodeType().equals(KRMSConstants.ROOT_TYPE) &&
+                    !parent.getChildren().get(parent.getChildren().size() - 1).getNodeType().contains(KRMSConstants.SIMPLE_NODE_TYPE)) {
                 parent = root.getChildren().get(root.getChildren().size() - 1);
                 selectedPropKey = parent.getChildren().get(parent.getChildren().size() - 1).getData().getProposition().getKey();
             }

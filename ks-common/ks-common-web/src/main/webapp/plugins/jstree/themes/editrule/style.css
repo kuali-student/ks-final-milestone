@@ -20,9 +20,9 @@
  */
 
 /* get rid of ugly link underlines in tree */
-a.simpleEditNode { height: 0; }
-li.simpleEditNode > ins { display: none; }
-li.simple > ins { display: none; }
+a.editNode { height: 0; }
+li.editNode > ins { display: none; }
+li.simpleNode > ins { display: none; }
 
 li.compoundOpCodeNode > ins { display: none; }
 li.compoundOpCodeNode > a { display: none; }
