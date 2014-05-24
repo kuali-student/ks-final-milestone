@@ -21,6 +21,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.web.bind.RequestProtected;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.util.CourseProposalUtil;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
 import org.kuali.student.r2.core.comment.dto.DecisionInfo;
 import org.kuali.student.r2.core.document.dto.DocumentInfo;
@@ -40,33 +41,35 @@ public class CourseInfoWrapper implements Serializable {
 
     private static final String DEFAULT_REQUIRED_WORKFLOW_MODE = "Submit";
 
-    private ProposalInfo proposalInfo;
-    private List<CluInstructorInfoWrapper> instructorWrappers;
-    private List<CourseJointInfoWrapper> courseJointWrappers;
-    private List<ResultValuesGroupInfoWrapper> creditOptionWrappers;
-    private List<CommentWrapper> comments;
+    private ProposalInfo proposalInfo = new ProposalInfo();
+    private List<CluInstructorInfoWrapper> instructorWrappers = new ArrayList<CluInstructorInfoWrapper>();;
+    private List<CourseJointInfoWrapper> courseJointWrappers = new ArrayList<CourseJointInfoWrapper>();
+    private List<ResultValuesGroupInfoWrapper> creditOptionWrappers = new ArrayList<ResultValuesGroupInfoWrapper>();
+    private List<DecisionInfo> decisions = new ArrayList<DecisionInfo>();;
+    private List<OrganizationInfoWrapper> administeringOrganizations = new ArrayList<OrganizationInfoWrapper>();
+    private List<CollaboratorWrapper> collaboratorWrappers = new ArrayList<CollaboratorWrapper>();
+    private List<SupportingDocumentInfoWrapper> documentsToAdd = new ArrayList<SupportingDocumentInfoWrapper>();
+    private List<DocumentInfo> supportingDocuments = new ArrayList<DocumentInfo>();
+    private ReviewProposalDisplay reviewProposalDisplay = new ReviewProposalDisplay();
+    private CourseInfo courseInfo = new CourseInfo();
+    private List<FormatInfo> formats = new ArrayList<FormatInfo>();
+    private List<CommentWrapper> comments = new ArrayList<CommentWrapper>();;
+
     private CommentWrapper activeComment;
-    private List<DecisionInfo> decisions;
-    private List<OrganizationInfoWrapper> administeringOrganizations;
-    private List<CollaboratorWrapper> collaboratorWrappers;
-    private List<SupportingDocumentInfoWrapper> documentsToAdd;
-    private List<DocumentInfo> supportingDocuments;
-    private ReviewProposalDisplay reviewProposalDisplay;
-    private CourseInfo courseInfo;
-    private List<FormatInfo> formats;
+    private String comment;
 
     private String crossListingDisclosureSection;
-    private String userId;
-    private String lastUpdated;
-    private String unitsContentOwnerToAdd;
-    private List<CourseCreateUnitsContentOwner> unitsContentOwner;
-    private String requiredWorkflowMode;
+    private String userId = "";
+    private String lastUpdated = "";
+    private String unitsContentOwnerToAdd = "";
+    private List<CourseCreateUnitsContentOwner> unitsContentOwner = new ArrayList<CourseCreateUnitsContentOwner>();
+    private String requiredWorkflowMode = DEFAULT_REQUIRED_WORKFLOW_MODE;
     private String finalExamStatus;
     private boolean audit;
     private boolean passFail;
     private String finalExamRationale;
     private Boolean showAll;
-    private LoDisplayWrapperModel loDisplayWrapperModel;
+    private LoDisplayWrapperModel loDisplayWrapperModel = new LoDisplayWrapperModel();
 
     private Date effectiveDate;
     private Date expirationDate;
@@ -75,28 +78,20 @@ public class CourseInfoWrapper implements Serializable {
 
     private boolean missingRequiredFields;
 
-    public CourseInfoWrapper(){
+    private transient CreateCourseUIHelper uiHelper = new CreateCourseUIHelper();
 
-        proposalInfo = new ProposalInfo();
-        instructorWrappers = new ArrayList<CluInstructorInfoWrapper>();
-        courseJointWrappers = new ArrayList<CourseJointInfoWrapper>();
-        creditOptionWrappers = new ArrayList<ResultValuesGroupInfoWrapper>();
-        comments = new ArrayList<CommentWrapper>();
-        decisions = new ArrayList<DecisionInfo>();
-        administeringOrganizations = new ArrayList<OrganizationInfoWrapper>();
-        collaboratorWrappers = new ArrayList<CollaboratorWrapper>();
-        documentsToAdd = new ArrayList<SupportingDocumentInfoWrapper>();
-        supportingDocuments = new ArrayList<DocumentInfo>();
-        reviewProposalDisplay = new ReviewProposalDisplay();
-        courseInfo = new CourseInfo();
+    public CourseInfoWrapper() {}
 
-        userId = "";
-        lastUpdated = "";
-        unitsContentOwnerToAdd = "";
-        unitsContentOwner = new ArrayList<CourseCreateUnitsContentOwner>();
-        loDisplayWrapperModel = new LoDisplayWrapperModel();
-        uiHelper = new CreateCourseUIHelper();
-        formats = new ArrayList<FormatInfo>();
+    /**
+     * Storage for the text area on the comments form.
+     * @return
+     */
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     /**
@@ -110,8 +105,6 @@ public class CourseInfoWrapper implements Serializable {
     public void setMissingRequiredFields(boolean missingRequiredFields) {
         this.missingRequiredFields = missingRequiredFields;
     }
-
-    private transient CreateCourseUIHelper uiHelper;
 
     public Date getEffectiveDate() {
         return effectiveDate;
@@ -174,9 +167,6 @@ public class CourseInfoWrapper implements Serializable {
     }
 
     public LoDisplayWrapperModel getLoDisplayWrapperModel() {
-        if (loDisplayWrapperModel == null) {
-            loDisplayWrapperModel = new LoDisplayWrapperModel();
-        }
         return loDisplayWrapperModel;
     }
 
@@ -216,9 +206,6 @@ public class CourseInfoWrapper implements Serializable {
     }
 
     public String getRequiredWorkflowMode() {
-        if (requiredWorkflowMode == null) {
-            requiredWorkflowMode = DEFAULT_REQUIRED_WORKFLOW_MODE;;
-        }
         return requiredWorkflowMode;
     }
 
@@ -231,9 +218,6 @@ public class CourseInfoWrapper implements Serializable {
     }
 
     public List<CourseCreateUnitsContentOwner> getUnitsContentOwner() {
-        if (unitsContentOwner == null) {
-            unitsContentOwner = new ArrayList<CourseCreateUnitsContentOwner>();
-        }
         return unitsContentOwner;
     }
 
@@ -298,9 +282,6 @@ public class CourseInfoWrapper implements Serializable {
     }
 
     public List<CluInstructorInfoWrapper> getInstructorWrappers() {
-        if (instructorWrappers == null) {
-            instructorWrappers = new ArrayList<CluInstructorInfoWrapper>(0);
-        }
         return instructorWrappers;
     }
 
@@ -309,9 +290,6 @@ public class CourseInfoWrapper implements Serializable {
     }
 
     public List<CourseJointInfoWrapper> getCourseJointWrappers() {
-        if (courseJointWrappers == null) {
-            courseJointWrappers = new ArrayList<CourseJointInfoWrapper>(0);
-        }
         return courseJointWrappers;
     }
 
@@ -331,6 +309,18 @@ public class CourseInfoWrapper implements Serializable {
     }
 
     public List<CommentWrapper> getComments() {
+        /*     For testing
+        CommentWrapper commentWrapper = new CommentWrapper();
+        CommentInfo commentInfo = new CommentInfo();
+        commentInfo.setCommenterId("test");
+        commentInfo.setEffectiveDate(new java.util.Date());
+        commentInfo.setCommentText(new RichTextInfo("test", "test"));
+        commentWrapper.setCommentInfo(commentInfo);
+
+        comments = new ArrayList<CommentWrapper>();
+
+        comments.add(commentWrapper);
+         */
         return comments;
     }
 
@@ -339,9 +329,6 @@ public class CourseInfoWrapper implements Serializable {
     }
 
     public List<DecisionInfo> getDecisions() {
-        if (decisions == null) {
-            decisions = new ArrayList<DecisionInfo>(0);
-        }
         return decisions;
     }
 
@@ -350,9 +337,6 @@ public class CourseInfoWrapper implements Serializable {
     }
 
     public List<OrganizationInfoWrapper> getAdministeringOrganizations() {
-        if (administeringOrganizations == null) {
-            administeringOrganizations = new ArrayList<OrganizationInfoWrapper>(0);
-        }
         return administeringOrganizations;
     }
 
@@ -361,9 +345,6 @@ public class CourseInfoWrapper implements Serializable {
     }
 
     public List<CollaboratorWrapper> getCollaboratorWrappers() {
-        if (collaboratorWrappers == null) {
-            collaboratorWrappers = new ArrayList<CollaboratorWrapper>(0);
-        }
         return collaboratorWrappers;
     }
 
@@ -372,9 +353,6 @@ public class CourseInfoWrapper implements Serializable {
     }
 
     public List<SupportingDocumentInfoWrapper> getDocumentsToAdd() {
-        if (documentsToAdd == null) {
-            documentsToAdd = new ArrayList<SupportingDocumentInfoWrapper>();
-        }
         return documentsToAdd;
     }
 
@@ -383,9 +361,6 @@ public class CourseInfoWrapper implements Serializable {
     }
 
     public List<DocumentInfo> getSupportingDocuments() {
-        if (supportingDocuments == null) {
-            supportingDocuments = new ArrayList<DocumentInfo>();
-        }
         return supportingDocuments;
     }
 
@@ -446,7 +421,7 @@ public class CourseInfoWrapper implements Serializable {
      * involved in data persistance.
      *
      */
-    public class CreateCourseUIHelper{
+    public class CreateCourseUIHelper {
 
         CurriculumManagementConstants.CourseViewSections selectedSection;
 
