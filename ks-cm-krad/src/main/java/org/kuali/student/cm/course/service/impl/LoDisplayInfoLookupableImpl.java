@@ -89,56 +89,36 @@ public class LoDisplayInfoLookupableImpl extends LookupableImpl {
         
         List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
         SearchByKeys searchByKey = SearchByKeys.valueOf(searchCriteria.get(CourseServiceConstants.SEARCHBY_SEARCH));
-        String keywordInLO = searchCriteria.get("descr.plain") != null ? searchCriteria.get("descr.plain") : StringUtils.EMPTY;
-        String loCategory = searchCriteria.get("name");
-        String orgName = searchCriteria.get("orgName");
+        String loSearchBy = searchCriteria.get("name");
         String orgType = searchCriteria.get("orgType");
-        String code = searchCriteria.get("code");
-        String title = searchCriteria.get("title");
-                
-        SearchParamInfo keywordInLoParam = new SearchParamInfo(CourseServiceConstants.LO_DESC_PLAIN_PARAM, keywordInLO);
-        queryParamValueList.add(keywordInLoParam);
-        
-        if (StringUtils.isNotBlank(loCategory)) {
-            SearchParamInfo loCategoryParam = new SearchParamInfo(CourseServiceConstants.OPTIONAL_LO_CATEGORY_NAME_PARAM, loCategory);
-            queryParamValueList.add(loCategoryParam);
-        }
-        
-        if (StringUtils.isNotBlank(orgName)) {
-            SearchParamInfo orgNameParam = new SearchParamInfo(CourseServiceConstants.OPTIONAL_LU_OPTIONAL_ADMIN_ORG_IDS_PARAM, orgName);
-            queryParamValueList.add(orgNameParam);
-        }
-        
-        if (StringUtils.isNotBlank(orgType)) {
+
+        if(StringUtils.isNotBlank(loSearchBy)){
+            if (searchByKey == SearchByKeys.CATEGORY) {
+                SearchParamInfo loCategoryParam = new SearchParamInfo(CourseServiceConstants.OPTIONAL_LO_CATEGORY_NAME_PARAM, loSearchBy);
+                queryParamValueList.add(loCategoryParam);
+            } else if (searchByKey == SearchByKeys.DEPARTMENT) {
+                SearchParamInfo codeParam = new SearchParamInfo(CourseServiceConstants.OPTIONAL_CODE_PARAM, loSearchBy);
+                queryParamValueList.add(codeParam);
+            } else if (searchByKey == SearchByKeys.COURSE){
+                SearchParamInfo titleParam = new SearchParamInfo(CourseServiceConstants.OPTIONAL_LONGNAME_PARAM, loSearchBy);
+                queryParamValueList.add(titleParam);
+            } else if (searchByKey == SearchByKeys.KEYWORD){
+                SearchParamInfo keywordInLoParam = new SearchParamInfo(CourseServiceConstants.LO_DESC_PLAIN_PARAM, loSearchBy);
+                queryParamValueList.add(keywordInLoParam);
+            }
+        } else if (searchByKey == SearchByKeys.ORGANIZATIONTYPE && StringUtils.isNotBlank(orgType)) {
             SearchParamInfo orgTypeParam = new SearchParamInfo(CourseServiceConstants.OPTIONAL_LU_OPTIONAL_ADMIN_ORG_TYPES_PARAM, orgType);
             queryParamValueList.add(orgTypeParam);
         }
-        
-        if (searchByKey == SearchByKeys.COURSE_ONLY || searchByKey == SearchByKeys.PROGRAM_ONLY) {
-            if (StringUtils.isNotBlank(code)) {
-                SearchParamInfo codeParam = new SearchParamInfo(CourseServiceConstants.OPTIONAL_CODE_PARAM, code);
-                queryParamValueList.add(codeParam);
-            }
-                
-            if (StringUtils.isNotBlank(title)) {
-                SearchParamInfo titleParam = new SearchParamInfo(CourseServiceConstants.OPTIONAL_LONGNAME_PARAM, title);
-                queryParamValueList.add(titleParam);
-            }
-        }  
-                
+
         SearchParamInfo stateParam = new SearchParamInfo(CourseServiceConstants.OPTIONAL_STATE_PARAM, "Active");
         queryParamValueList.add(stateParam);
         
         SearchParamInfo typeParam = new SearchParamInfo();
         typeParam.setKey(CourseServiceConstants.OPTIONAL_TYPE_PARAM);
-        if (searchByKey == SearchByKeys.COURSE_AND_PROGRAM) {
-            List<String> courseAndProgramStates = new ArrayList<String>();
-            courseAndProgramStates.add(CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY);
-            courseAndProgramStates.addAll(ProgramStates.getStateKeys());
-            typeParam.setValues(courseAndProgramStates);
-        } else if (searchByKey == SearchByKeys.COURSE_ONLY) {
+        if (searchByKey == SearchByKeys.COURSE) {
             typeParam.getValues().add(CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY);
-        } else if (searchByKey == SearchByKeys.PROGRAM_ONLY) {
+        } else if (searchByKey == SearchByKeys.DEPARTMENT) {
             typeParam.setValues(ProgramStates.getStateKeys());
         }
         queryParamValueList.add(typeParam);
