@@ -594,13 +594,19 @@
     <bean id="KS-CourseOfferingEdit-DeleteFormatOfferingWarning" parent="Uif-VerticalBoxSection" p:header.style="margin-top: 0;">
         <property name="items">
             <list>
-                <bean parent="KS-Uif-Inline-WarningMessageGroup">
+                <!--<bean parent="KS-Uif-Inline-WarningMessageGroup">
                     <property name="items">
                         <list>
                             <bean parent="Uif-Message"
                                   p:messageText="Deleting a delivery format will delete all of its activities and registration groups from the system."/>
                         </list>
                     </property>
+                </bean>-->
+                <bean parent="Uif-Message"
+                      p:messageText="[image class=&quot;uif-validationImage&quot; src=&quot;@{#ConfigProperties['krad.externalizable.images.url']}/validation/info.png&quot;]
+                      Deleting a delivery format will delete all of its activities and registration groups from the system."
+                      p:additionalCssClasses="ks-informational-message-for-field" >
+                    <property name="style" value="display: inline-block;" />
                 </bean>
             </list>
         </property>
