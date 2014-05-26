@@ -1,36 +1,59 @@
 /************************************** Horizontal Tabs **********************/
-#acal_tabs_tabList, #KSAO-RuleEdit-TabSection_tabs, #KSCO-RuleEdit-TabSection_tabs{
-    .ui-state-hover,
-    .ui-widget-content .ui-state-hover,
-    .ui-widget-header .ui-state-hover,
-    .ui-state-focus,
-    .ui-widget-content .ui-state-focus,
-    .ui-widget-header .ui-state-focus {
-        .border-radius-individual(5px, 5px, 0, 0);
-        border: medium none;
-    }
-}
+  .nav-tabs .ui-tabs-anchor {
+    background-color: #EDEDED;
+  }
+  .ui-widget-content a {
+    color: #363636;
+  }
+  .ui-tabs .ui-tabs-nav .ui-tabs-anchor {
+    font-family: Lato !important;
+    font-size: 1.2em !important;
+  }
+  .nav-tabs > li.active > a,
+  .nav-tabs > li.active > a:hover,
+  .nav-tabs > li.active > a:focus {
+    color: #000000;
+  }
 
-#acal_tabs_tabs, #KSAO-RuleEdit-TabSection_tabs, #KSCO-RuleEdit-TabSection_tabs{
+  .nav > li > a:hover,
+  .nav > li > a:focus,
+  .nav .open > a,
+  .nav .open > a:hover,
+  .nav .open > a:focus {
+    color: #363636;
+  }
 
-    .nav-tabs > li > a {
-        margin-right: 2px;
-        color: #000000;
-    }
-    .nav-tabs > li.active > a,
-    .nav-tabs > li.active > a:hover,
-    .nav-tabs > li.active > a:focus{
-        cursor: text;
-        font-weight: bold;
-        outline: none;
-    }
+  .ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited {
+    text-decoration: none;
+    color: #363636;
+  }
+  .ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited {
+    text-decoration: none;
+    color: #000000;
+  }
+  .ui-tabs .ui-tabs-nav {
+    background: none;
+    margin: 0px;
+    font-family: Lato !important;
+    font-size: 1.2em !important;
+  }
 
-    .nav > li > a:hover,
-    .nav > li > a:focus,
-    .nav .open > a,
-    .nav .open > a:hover,
-    .nav .open > a:focus{
-        outline: none;
-    }
-}
+  .nav-tabs > li {
+    padding-right: 10px;
+  }
+  .nav-tabs > li > a {
+    margin-right: 0px;
+    line-height: 1.42857;
+    border: 1px solid transparent;
+    border-radius: 4px 4px 0px 0px;
+  }
+  .nav-tabs > li.ui-state-hover,
+  .nav-tabs > li.ui-state-focus,
+  .nav-tabs > li.ui-widget-header{
+    border: 0px solid /*{borderColorHover}*/;
+    background: none; //#dadada/*{bgColorHover}*/  50%/*{bgHoverXPos}*/ 50%/*{bgHoverYPos}*/ repeat-x/*{bgHoverRepeat}*/;
+    font-weight: normal /*{fwDefault}*/;
+    color: #363636 /*{fcHover}*/;
+  }
+
 /************************************** End Horizontal Tabs **********************/
