@@ -158,7 +158,7 @@ function ksapSubmitDialog(methodToCall, e) {
             methodToCall: methodToCall
         }),
         dataType : 'json',
-        success : ksapPlannerUpdateEvent,
+        success : ksapDialogCallback,
         error : function(jqXHR, textStatus, errorThrown) {
             if (textStatus == "parsererror")
                 textStatus = "JSON Parse Error";
@@ -179,6 +179,7 @@ function ksapSubmitDialog(methodToCall, e) {
  * @param element - Object the dialog is opened on.
  */
 function clickOutsideDialog(popoverId, element) {
+    jQuery("body").off("click");
     jQuery("body").on("click", function (e) {
         var tempTarget = (e.target) ? e.target : e.srcElement;
         if (jQuery(tempTarget).parents("#" + popoverId).length === 0) {
@@ -186,20 +187,6 @@ function clickOutsideDialog(popoverId, element) {
             jQuery("body").off("click");
         }
     });
-}
-
-/*
- ######################################################################################
- Function:   Close all bubble popups
- ######################################################################################
- */
-function fnCloseAllPopups() {
-    hideBubblePopups();
-    // Remove inner HTML for My Plan created popups
-    jQuery(".jquerybubblepopup-ksap > .jquerybubblepopup-innerHtml").children().remove();
-    // TODO remove after review: if (jQuery("body").HasBubblePopup()) jQuery("body").HideBubblePopup();
-    // TODO remove after review: jQuery(document).off();
-    // KRAD 2.2.0 uses a global event handler to update popups
 }
 
 /**
@@ -234,5 +221,37 @@ function fnPositionDialogWindow(popupBoxId) {
         var iTop = ( top + ( jQuery(window).height() / 2 ) ) - ( jQuery("#" + popupBoxId).height() / 2 );
         var iLeft = ( left + ( jQuery(window).width() / 2 ) ) - ( jQuery("#" + popupBoxId).width() / 2 );
         jQuery("#" + popupBoxId).css({top:iTop + 'px', left:iLeft + 'px'});
+    }
+}
+
+/**
+ * Routes json responses from the controller executing the corresponding events to change the display of the planner page.
+ * @param response - Json string from the controller with events
+ * @param textStatus - Text status to display if error occurs
+ * @param jqXHR - Page status.
+ */
+function ksapDialogCallback(response, textStatus, jqXHR) {
+    if (response.success) {
+        // Execute changes to the planner
+        for (var key in response) {
+            if (!response.hasOwnProperty(key))
+                continue;
+            var data = response[key];
+            jQuery.event.trigger(key,[data])
+        }
+
+        // Display success response message in growl message
+        if (response.message != null) {
+            showGrowl(response.message);
+        }
+        fnClosePopup();
+
+    } else {
+        // Display error response message on dialog
+        var feedback = jQuery("#popupForm").find(".ksap-feedback");
+        feedback.empty().append("<span/>").text(response.message);
+        feedback.addClass("error");
+        feedback.removeClass("success");
+        feedback.show();
     }
 }

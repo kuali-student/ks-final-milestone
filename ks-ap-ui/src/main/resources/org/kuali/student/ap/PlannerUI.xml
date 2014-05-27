@@ -23,6 +23,7 @@
 			<list>
 				<bean parent="Ksap-Page" p:id="plan-page">
                     <property name="innerViewWrapperId" value="test_wrapper_id" />
+                    <property name="onDocumentReadyScript" value="registerPlannerEvents(jQuery('#plan-page')); registerClickOutsideMenu(e);"/>
                     <property name="cssClasses">
 						<list merge="true">
 							<value>ks-plan-View-page</value>

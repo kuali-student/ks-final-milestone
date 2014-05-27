@@ -22,37 +22,37 @@ function ksapLoadPlannerItems(loaded,pageSize) {
  * @param pageSize - The number of terms to display for each view of the calender.
  */
 function ksapInitializePlannerItems(pageSize) {
-	var detailList = jQuery('#planner_courses_detail_list');
-	var detailCols = detailList.find('ul:not(.errorLines) li');
-	if (detailCols.length > 0) {
-		var iStart = 0;
-		if (readUrlHash('planView')) {
-			iStart = parseFloat(readUrlHash('planView'));
-		} else if (detailList.length > 0) {
-			iStart = jQuery("#planner_courses_detail_list").data("focustermindex");
-		}
+    var detailList = jQuery('#planner_courses_detail_list');
+    var detailCols = detailList.find('ul:not(.errorLines) li');
+    if (detailCols.length > 0) {
+        var iStart = 0;
+        if (readUrlHash('planView')) {
+            iStart = parseFloat(readUrlHash('planView'));
+        } else if (detailList.length > 0) {
+            iStart = jQuery("#planner_courses_detail_list").data("focustermindex");
+        }
 
-		detailList.jCarouselLite({
-			btnNext : '.ksap-carousel-next',
-			btnPrev : '.ksap-carousel-prev',
+        detailList.jCarouselLite({
+            btnNext : '.ksap-carousel-next',
+            btnPrev : '.ksap-carousel-prev',
             circular:false,
-			scroll : pageSize,
-			visible : pageSize,
-			start : iStart,
-			afterEnd : function(a) {
-				ksapPlannerUpdateTitle(a);
-				var planView = jQuery(a[0]).index();
-				if (planView == 0 && a.length < pageSize) {
-					planView = a.length - pageSize;
-				}
-				setUrlHash('planView', planView);
-			},
-			initCallback : function(a) {
-				ksapPlannerUpdateTitle(a);
-				jQuery.unblockUI();
-			}
-		});
-	}
+            scroll : pageSize,
+            visible : pageSize,
+            start : iStart,
+            afterEnd : function(a) {
+                ksapPlannerUpdateTitle(a);
+                var planView = jQuery(a[0]).index();
+                if (planView == 0 && a.length < pageSize) {
+                    planView = a.length - pageSize;
+                }
+                setUrlHash('planView', planView);
+            },
+            initCallback : function(a) {
+                ksapPlannerUpdateTitle(a);
+                jQuery.unblockUI();
+            }
+        });
+    }
 }
 
 /**
@@ -61,12 +61,12 @@ function ksapInitializePlannerItems(pageSize) {
  * @param a
  */
 function ksapPlannerUpdateTitle(a) {
-	var aFirst = jQuery.trim(jQuery(a[0]).find(
-			"div:hidden[id^='plan_base_atpId']").text());
-	var aLast = jQuery.trim(jQuery(a[a.length - 1]).find(
-			"div:hidden[id^='plan_base_atpId']").text());
-	jQuery("#planner_courses_detail .ksap-plan-header")
-			.html(aFirst + ' - ' + aLast);
+    var aFirst = jQuery.trim(jQuery(a[0]).find(
+        "div:hidden[id^='plan_base_atpId']").text());
+    var aLast = jQuery.trim(jQuery(a[a.length - 1]).find(
+        "div:hidden[id^='plan_base_atpId']").text());
+    jQuery("#planner_courses_detail .ksap-plan-header")
+        .html(aFirst + ' - ' + aLast);
 }
 
 /**
@@ -77,85 +77,62 @@ function ksapPlannerUpdateTitle(a) {
  * @param e - Current event going on
  */
 function ksapPlannerUpdateCategory(backup, target, e) {
-	var t = jQuery(target);
-	var retrieveData = ksapAdditionalFormData({
-			methodToCall : "updatePlanItemCategory",
-			learningPlanId : t.data('learningplanid'),
-			termId : t.data('termid'),
-			planItemId : t.data('planitemid'),
-			courseId : t.data('courseid'),
-			uniqueId : t.data('uniqueid'),
-			backup : backup
-		});
-	var form = jQuery("<form/>")
-			.attr("action", "planner")
-			.attr("method", "post");
-	form.ajaxSubmit({
-		data : retrieveData,
-		dataType : 'json',
-		success : ksapPlannerUpdateEvent,
-		error : function(jqXHR, textStatus, errorThrown) {
-			if (textStatus == "parsererror")
-				textStatus = "JSON Parse Error";
-			showGrowl(errorThrown, jqXHR.status + " " + textStatus);
-			fnClosePopup();
-		},
-		complete : function() {
-			form.remove();
-		}
-	});
+    var t = jQuery(target);
+    var retrieveData = ksapAdditionalFormData({
+        methodToCall : "updatePlanItemCategory",
+        learningPlanId : t.data('learningplanid'),
+        termId : t.data('termid'),
+        planItemId : t.data('planitemid'),
+        courseId : t.data('courseid'),
+        uniqueId : t.data('uniqueid'),
+        backup : backup
+    });
+    var form = jQuery("<form/>")
+        .attr("action", "planner")
+        .attr("method", "post");
+    form.ajaxSubmit({
+        data : retrieveData,
+        dataType : 'json',
+        success : ksapDialogCallback,
+        error : function(jqXHR, textStatus, errorThrown) {
+            if (textStatus == "parsererror")
+                textStatus = "JSON Parse Error";
+            showGrowl(errorThrown, jqXHR.status + " " + textStatus);
+            fnClosePopup();
+        },
+        complete : function() {
+            form.remove();
+        }
+    });
 }
 
-/**
- * Routes json responses from the controller executing the corresponding events to change the display of the planner page.
- * @param response - Json string from the controller with events
- * @param textStatus - Text status to display if error occurs
- * @param jqXHR - Page status.
- */
-function ksapPlannerUpdateEvent(response, textStatus, jqXHR) {
-	if (response.success) {
-        // Execute changes to the planner
-		for (var key in response) {
-			if (!response.hasOwnProperty(key))
-				continue;
-			var data = response[key];
-
-			if (key == "PLAN_ITEM_ADDED") {
-				ksapPlannerAddPlanItem(data);
-
-			} else if (key == "PLAN_ITEM_DELETED") {
-				ksapPlannerRemovePlanItem(data);
-
-			} else if (key == "PLAN_ITEM_UPDATED") {
-				ksapPlannerUpdatePlanItem(data);
-
-			} else if (key == "TERM_NOTE_UPDATED") {
-				ksapPlannerUpdateTermNote(data);
-
-			} else if (key == "UPDATE_NEW_TERM_TOTAL_CREDITS"
-					|| key == "UPDATE_OLD_TERM_TOTAL_CREDITS") {
-				ksapPlannerUpdateCredits(data);
-			} else if (key == "BOOKMARK_ADDED"){
-                ksapBookmarkAddItem(data);
-            } else if (key == "UPDATE_BOOKMARK_TOTAL"){
-                ksapBookmarkUpdateTotal(data);
-            }
-		}
-
-        // Display success response message in growl message
-		if (response.message != null) {
-			showGrowl(response.message);
-		}
-		fnClosePopup();
-
-	} else {
-        // Display error response message on dialog
-		var feedback = jQuery("#popupForm").find(".ksap-feedback");
-		feedback.empty().append("<span/>").text(response.message);
-		feedback.addClass("error");
-		feedback.removeClass("success");
-		feedback.show();
-	}
+// Registering Course Search Results Facets events
+function registerPlannerEvents(jqObjects){
+    jQuery(jqObjects)
+        .on('PLAN_ITEM_ADDED', function(event, data) {
+            ksapPlannerAddPlanItem(data);
+        })
+        .on('PLAN_ITEM_DELETED', function(event, data) {
+            ksapPlannerRemovePlanItem(data);
+        })
+        .on('PLAN_ITEM_UPDATED', function(event, data) {
+            ksapPlannerUpdatePlanItem(data);
+        })
+        .on('TERM_NOTE_UPDATED', function(event, data) {
+            ksapPlannerUpdateTermNote(data);
+        })
+        .on('UPDATE_NEW_TERM_TOTAL_CREDITS', function(event, data) {
+            ksapPlannerUpdateCredits(data);
+        })
+        .on('UPDATE_OLD_TERM_TOTAL_CREDITS', function(event, data) {
+            ksapPlannerUpdateCredits(data);
+        })
+        .on('BOOKMARK_ADDED', function(event, data) {
+            ksapBookmarkAddItem(data);
+        })
+        .on('UPDATE_BOOKMARK_TOTAL', function(event, data) {
+            ksapBookmarkUpdateTotal(data);
+        });
 }
 
 /**
@@ -183,21 +160,21 @@ function ksapPlannerAddPlanItem (data) {
             .removeAttr("script")
             .attr("name", "script");
         itemElement
-                .attr("id", data.uid+"_wrap")
-                .attr("class", "uif-collectionItem uif-boxCollectionItem")
-                .appendTo(".ksap-carousel-term." + termUid + ".ksap-term-" + data.category)
-                .css({backgroundColor:"#ffffcc"})
-                .hide()
-                .fadeIn(250, function() {
-                    var bucket = jQuery("ks-plan-Bucket-Footer.ksap-term-" + data.category + "." + termUid);
-                    var unitcell = bucket.find(".ksap-carousel-term-total");
-                    unitcell.addClass("ks-plan-Bucket-footer-show");
-                    unitcell.removeClass("ks-plan-Bucket-footer-hide");
-                })
-                .animate({backgroundColor:"#ffffff"}, 1500, function() {
-                    itemElement.css({background: "none"});
-                    runHiddenScripts(data.uid);
-                });
+            .attr("id", data.uid+"_wrap")
+            .attr("class", "uif-collectionItem uif-boxCollectionItem")
+            .appendTo(".ksap-carousel-term." + termUid + ".ksap-term-" + data.category)
+            .css({backgroundColor:"#ffffcc"})
+            .hide()
+            .fadeIn(250, function() {
+                var bucket = jQuery("ks-plan-Bucket-Footer.ksap-term-" + data.category + "." + termUid);
+                var unitcell = bucket.find(".ksap-carousel-term-total");
+                unitcell.addClass("ks-plan-Bucket-footer-show");
+                unitcell.removeClass("ks-plan-Bucket-footer-hide");
+            })
+            .animate({backgroundColor:"#ffffff"}, 1500, function() {
+                itemElement.css({background: "none"});
+                runHiddenScripts(data.uid);
+            });
         //Set static ids on some element for AFTs
         ksapSetStaticCourseIDs(data.uid + "_code", data.uid + "_courseNote");
     }
@@ -417,7 +394,7 @@ function openMenu(id, getId, atpId, e, selector, popupClasses, popupOptions, clo
 
     var popupSettings = jQuery.extend(popupOptionsDefault, popupOptions);
 
-    fnCloseAllPopups();
+    fnClosePopup();
 
     popupBox.addClass("uif-tooltip");
     initBubblePopups();
@@ -448,11 +425,16 @@ function openMenu(id, getId, atpId, e, selector, popupClasses, popupOptions, clo
 
     runHiddenScripts(id + "_popup");
 
-    jQuery(document).on('click', function (e) {
+}
+
+function registerClickOutsideMenu(e){
+    jQuery(document).on('click', function(e){
         var tempTarget = (e.target) ? e.target : e.srcElement;
+        if(jQuery("div.jquerybubblepopup.jquerybubblepopup-ksap").length === 0){
+            return;
+        }
         if (jQuery(tempTarget).parents("div.jquerybubblepopup.jquerybubblepopup-ksap").length === 0 && jQuery(tempTarget).parents("div.uif-tooltip").length === 0) {
-            popupBox.HideBubblePopup();
-            fnCloseAllPopups();
+            fnClosePopup();
         }
     });
 }
