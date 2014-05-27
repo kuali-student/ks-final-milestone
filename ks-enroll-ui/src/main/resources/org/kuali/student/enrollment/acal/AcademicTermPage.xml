@@ -589,18 +589,22 @@
                 <bean parent="KS-Uif-DataField" p:propertyName="endDateUI" p:render="@{#view.readOnly}"
                       p:label="End Date"/>
 
-                <bean parent="KS-Uif-InputField" p:id="exclude_Saturday"
-                      p:propertyName="excludeSaturday">
+                <bean parent="KS-Uif-InputField" p:id="exclude_Saturday" p:label="Exclude Saturday"
+                      p:propertyName="excludeSaturday" p:render="@{!#view.readOnly}">
                     <property name="control">
-                        <bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="Exclude Saturday" />
+                        <bean parent="KS-Uif-CheckboxControl"/>
                     </property>
                 </bean>
-                <bean parent="KS-Uif-InputField" p:id="exclude_Sunday"
-                      p:propertyName="excludeSunday">
+                <bean parent="Uif-MessageField" p:label="Exclude Saturday" p:fieldLabel.renderColon="false"
+                      p:messageText="@{(#line.isExcludeSaturdayUI() eq null or !#line.isExcludeSaturdayUI()) ? '':'Yes'}" />
+                <bean parent="KS-Uif-InputField" p:id="exclude_Sunday" p:label="Exclude Sunday"
+                      p:propertyName="excludeSunday" p:render="@{!#view.readOnly}">
                     <property name="control">
-                        <bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="Exclude Sunday" />
+                        <bean parent="KS-Uif-CheckboxControl"/>
                     </property>
                 </bean>
+                <bean parent="Uif-MessageField" p:label="Exclude Sunday" p:fieldLabel.renderColon="false"
+                      p:messageText="@{(#line.isExcludeSundayUI() eq null or !#line.isExcludeSundayUI()) ? '':'Yes'}" />
             </list>
         </property>
         <property name="lineActions">

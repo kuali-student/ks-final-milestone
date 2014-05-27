@@ -176,6 +176,16 @@ public class ExamPeriodWrapper {
 
     }
 
+    //This is for UI display purpose
+    public boolean isExcludeSaturdayUI() {
+        return excludeSaturday;
+    }
+
+    //This is for UI display purpose
+    public boolean isExcludeSundayUI() {
+        return excludeSunday;
+    }
+
     public List<Date> getExamPeriodDates()
     {
         List<Date> dates = new ArrayList<Date>();
