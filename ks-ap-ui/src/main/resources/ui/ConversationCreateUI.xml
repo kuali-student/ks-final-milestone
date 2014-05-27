@@ -238,6 +238,8 @@
 						        <property name="renderAddLine" value="false"/>
 						        <property name="renderLineActions" value="false"/>
 						        <property name="disclosure.render" value="true"/>
+                                <property name="disclosure.collapsedIconClass" value="ks-fontello-icon-right-open"/>
+                                <property name="disclosure.expandedIconClass" value="ks-fontello-icon-down-open"/>
 						        <property name="layoutManager.lineGroupPrototype.header.render" value="false"/>
 						        <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
 						        <property name="items">
@@ -265,6 +267,8 @@
         <property name="renderAddLine" value="false"/>
         <property name="renderLineActions" value="false"/>
         <property name="disclosure.render" value="true"/>
+        <property name="disclosure.collapsedIconClass" value="ks-fontello-icon-right-open"/>
+        <property name="disclosure.expandedIconClass" value="ks-fontello-icon-down-open"/>
         <property name="layoutManager.lineGroupPrototype.header.render" value="false"/>
         <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
         <property name="cssClasses">
