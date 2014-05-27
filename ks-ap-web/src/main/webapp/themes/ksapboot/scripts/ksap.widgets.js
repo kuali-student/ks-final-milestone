@@ -399,7 +399,7 @@ function bookmarkCourse(courseId, e) {
     form.ajaxSubmit({
         data : ksapAdditionalFormData(additionalFormData),
         dataType : 'json',
-        success : ksapDialogCallback,
+        success : ksapAjaxSubmitCallback,
         error : function(jqXHR, textStatus, errorThrown) {
             if (textStatus == "parsererror")
                 textStatus = "JSON Parse Error";
@@ -428,7 +428,7 @@ function addCourseSection(courseId,sectionCode, e) {
     form.ajaxSubmit({
         data : ksapAdditionalFormData(additionalFormData),
         dataType : 'json',
-        success : ksapDialogCallback,
+        success : ksapAjaxSubmitCallback,
         error : function(jqXHR, textStatus, errorThrown) {
             if (textStatus == "parsererror")
                 textStatus = "JSON Parse Error";

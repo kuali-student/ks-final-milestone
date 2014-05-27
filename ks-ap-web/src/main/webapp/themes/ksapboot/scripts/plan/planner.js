@@ -93,7 +93,7 @@ function ksapPlannerUpdateCategory(backup, target, e) {
     form.ajaxSubmit({
         data : retrieveData,
         dataType : 'json',
-        success : ksapDialogCallback,
+        success : ksapAjaxSubmitCallback,
         error : function(jqXHR, textStatus, errorThrown) {
             if (textStatus == "parsererror")
                 textStatus = "JSON Parse Error";
@@ -375,24 +375,14 @@ function openMenu(id, getId, atpId, e, selector, popupClasses, popupOptions, clo
     jQuery.each(popupBox.data(), function (key, value) {
         popupHtml = eval("popupHtml.replace(/__KSAP__"+key+"__/gi,'"+value+"')");
     });
-
-    var popupOptionsDefault = {
+    var menuPopupOptions = {
         innerHtml:popupHtml,
-        themePath:getConfigParam("kradUrl")+"/../plugins/jquery-popover/jquerypopover-theme/",
-        manageMouseEvents:false,
-        selectable:true,
-        tail:{align:'middle', hidden:false},
-        position:'left',
-        align:'center',
-        alwaysVisible:false,
-        themeMargins:{total:'20px', difference:'5px'},
-        themeName:'ksap',
-        distance:'0px',
         openingSpeed:0,
         closingSpeed:0
     };
-
-    var popupSettings = jQuery.extend(popupOptionsDefault, popupOptions);
+    var mergedOptions = jQuery.extend(popupOptions, menuPopupOptions);
+    var popupOptionsDefaults = getPopupOptionsDefaults();
+    var popupSettings = jQuery.extend(popupOptionsDefaults, mergedOptions);
 
     fnClosePopup();
 

@@ -1,24 +1,11 @@
 // Javascripts for the KSAP Dialog Functionality.
 
 /**
- * Open a dialog which loads via ajax a separate view's component
+ * Retrieves default popup/dialog settings
  *
- * @param getId - Id of the component from the separate view to select to insert into popup.
- * @param retrieveData - Object of data used to passed to generate the separate view.
- * @param formAction - The action param of the popup inner form.
- * @param popupStyle - Object of css styling to apply to the initial inner div of the popup (will be replaced with remote component)
- * @param popupOptions - Object of settings to pass to the Bubble Popup jQuery Plugin.
- * @param e - An object containing data that will be passed to the event handler.
+ * @return object containing default options.
  */
-function openDialogWindow(getId, retrieveData, formAction, popupStyle, popupOptions, e) {
-    stopEvent(e);
-    fnClosePopup();
-
-    var target = (e.currentTarget) ? e.currentTarget : e.srcElement;
-    var popupItem = (typeof popupOptions.selector == "undefined") ? jQuery(target) : jQuery(target).parents(popupOptions.selector);
-
-    if (!popupItem.HasPopOver()) popupItem.CreatePopOver({manageMouseEvents:false});
-
+function getPopupOptionsDefaults(){
     var popupOptionsDefault = {
         themePath:getConfigParam("kradUrl")+"/../plugins/jquery-popover/jquerypopover-theme/",
         manageMouseEvents:true,
@@ -34,7 +21,32 @@ function openDialogWindow(getId, retrieveData, formAction, popupStyle, popupOpti
         closingSpeed:5
     };
 
-    var popupSettings = jQuery.extend(popupOptionsDefault, popupOptions);
+    return popupOptionsDefault;
+}
+
+/**
+ * Open a dialog which loads via ajax a separate view's component
+ *
+ * @param getId - Id of the component from the separate view to select to insert into popup.
+ * @param retrieveData - Object of data used to passed to generate the separate view.
+ * @param formAction - The action param of the popup inner form.
+ * @param popupStyle - Object of css styling to apply to the initial inner div of the popup (will be replaced with remote component)
+ * @param popupOptions - Object of settings to pass to the Bubble Popup jQuery Plugin.
+ * @param e - An object containing data that will be passed to the event handler.
+ */
+function openDialogWindow(getId, retrieveData, formAction, popupStyle, popupOptions, e) {
+    // Stop any running events and close any existing dialogs
+    stopEvent(e);
+    fnClosePopup();
+
+    // Find dialog parent object
+    var target = (e.currentTarget) ? e.currentTarget : e.srcElement;
+    var popupItem = (typeof popupOptions.selector == "undefined") ? jQuery(target) : jQuery(target).parents(popupOptions.selector);
+
+    // Setup dialog popup options and settings
+    if (!popupItem.HasPopOver()) popupItem.CreatePopOver({manageMouseEvents:false});
+    var popupOptionsDefaults = getPopupOptionsDefaults();
+    var popupSettings = jQuery.extend(popupOptionsDefaults, popupOptions);
     var popupHtml = jQuery('<div />').attr("id", "KSAP-Popover");
     if (popupStyle) {
         jQuery.each(popupStyle, function (property, value) {
@@ -58,12 +70,17 @@ function openDialogWindow(getId, retrieveData, formAction, popupStyle, popupOpti
         clickOutsideDialog(popupId, popupItem);
     }
 
+    // Setup dialog information placeholder
     var retrieveForm = '<form id="retrieveForm" action="' + retrieveData.action + '" method="post" />'
     jQuery("body").append(retrieveForm);
 
+    // Set item to display loading in
     var elementToBlock = jQuery("#KSAP-Popover");
 
+    // Setup callback to finish placing and display dialog once loaded
     var successCallback = function (htmlContent) {
+
+        // Set up and configure content to display
         var component;
         if (jQuery("#requestStatus", htmlContent).length <= 0) {
             var popupForm = jQuery('<form />').attr("id", "popupForm").attr("action", formAction).attr("method", "post");
@@ -74,6 +91,8 @@ function openDialogWindow(getId, retrieveData, formAction, popupStyle, popupOpti
             var errorMessage = '<img src="/student/ks-ap/images/pixel.gif" alt="" class="icon"><div class="message">' + jQuery("#plan_item_action_response_page", htmlContent).data(kradVariables.VALIDATION_MESSAGES).serverErrors[0] + '</div>';
             component = jQuery("<div />").addClass("ksap-feedback error").html(errorMessage);
         }
+
+        // Display dialog content and final style changes
         if (jQuery("#KSAP-Popover").length) {
             popupItem.SetPopOverInnerHtml(component);
             fnPositionDialogWindow(popupId);
@@ -84,12 +103,17 @@ function openDialogWindow(getId, retrieveData, formAction, popupStyle, popupOpti
                 fnClosePopup();
             });
         }
+
+        // Run hidden scripts and remove loader
         skipPageSetup = true; // Ajax return, set true to prevent reload of whole page.
         runHiddenScripts(getId);
         elementToBlock.unblock();
     };
 
+    // Submit dialog
     ksapAjaxSubmitForm(retrieveData, successCallback, elementToBlock, "retrieveForm");
+
+    // Clean up placeholder
     jQuery("form#retrieveForm").remove();
 }
 
@@ -103,6 +127,7 @@ function openDialogWindow(getId, retrieveData, formAction, popupStyle, popupOpti
  * @param e - Current event going on.
  */
 function ksapOpenDialog(pageId, action, methodToCall, target, e) {
+    // Compile data for opening the popup
     var t = jQuery(target);
     var retrieveData = {
         action : action,
@@ -115,6 +140,8 @@ function ksapOpenDialog(pageId, action, methodToCall, target, e) {
         uniqueId : t.data('uniqueid'),
         pageId : pageId + "_page"
     };
+
+    // Setup popup options
     var popupOptions = {
         tail : {
             hidden : true
@@ -122,21 +149,29 @@ function ksapOpenDialog(pageId, action, methodToCall, target, e) {
         align : 'top',
         close : true
     };
+
+    // Remove and close existing popup objects from window
     jQuery("#popupForm").remove();
     fnClosePopup();
+
+    // Open window
     openDialogWindow(pageId + "_inner", retrieveData, action, {}, popupOptions, e);
+
+    // Set character set for created popup object
     var form = jQuery("#popupForm");
     form.attr("accept-charset", "UTF-8");
 }
 
 /**
  * Sets up and submits a dialog to the controller.
- * @param methodToCall
+ *
+ * @param methodToCall - The identifier for the method being mapped to
  * @param e - Current event going on
  */
 function ksapSubmitDialog(methodToCall, e) {
     var button = jQuery(e.currentTarget);
 
+    // Transpose loader icon on top of submit button
     button.block({
         message : '<img src="../themes/ksapboot/images/ajaxLoader.gif"/>',
         css : {
@@ -152,20 +187,23 @@ function ksapSubmitDialog(methodToCall, e) {
         }
     });
 
+    // Setup ajax call for submit
     var form = jQuery("#popupForm");
     form.ajaxSubmit({
         data : ksapAdditionalFormData({
             methodToCall: methodToCall
         }),
         dataType : 'json',
-        success : ksapDialogCallback,
+        success : ksapAjaxSubmitCallback,
         error : function(jqXHR, textStatus, errorThrown) {
+            // Display error growl
             if (textStatus == "parsererror")
                 textStatus = "JSON Parse Error";
             showGrowl(errorThrown, jqXHR.status + " " + textStatus);
             fnClosePopup();
         },
         complete : function() {
+            // Remove loader
             button.unblock();
         }
     });
@@ -190,23 +228,13 @@ function clickOutsideDialog(popoverId, element) {
 }
 
 /**
- * Close the current popup
- *
- * Used for the manual close of the popup.
+ * Closes and removes any popups or popovers on the page.
  */
 function fnClosePopup() {
-    var body = jQuery("body");
     var popover = jQuery("div.jquerypopover");
     var popup = jQuery("div.jquerybubblepopup");
-
-    if (body.HasPopOver()) {
-        body.HidePopOver();
-        body.RemovePopOver();
-    }
-
     popover.remove();
     popup.remove();
-    body.off("click");
 }
 
 /**
@@ -225,14 +253,18 @@ function fnPositionDialogWindow(popupBoxId) {
 }
 
 /**
- * Routes json responses from the controller executing the corresponding events to change the display of the planner page.
+ * Handles the return events of a general ajax submit in ksap.
+ * Triggering any needed events
+ * Handle success or failure of call
+ * Display response message
+ *
  * @param response - Json string from the controller with events
  * @param textStatus - Text status to display if error occurs
  * @param jqXHR - Page status.
  */
-function ksapDialogCallback(response, textStatus, jqXHR) {
+function ksapAjaxSubmitCallback(response, textStatus, jqXHR) {
     if (response.success) {
-        // Execute changes to the planner
+        // Trigger events
         for (var key in response) {
             if (!response.hasOwnProperty(key))
                 continue;
@@ -244,6 +276,8 @@ function ksapDialogCallback(response, textStatus, jqXHR) {
         if (response.message != null) {
             showGrowl(response.message);
         }
+
+        // Close any open popups
         fnClosePopup();
 
     } else {
