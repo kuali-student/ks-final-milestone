@@ -29,7 +29,6 @@ import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
-import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.uif.container.Container;
 import org.kuali.rice.krad.uif.element.Action;
@@ -81,7 +80,6 @@ import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.core.krms.tree.KSRuleViewTreeBuilder;
 import org.kuali.student.core.organization.ui.client.mvc.model.MembershipInfo;
-import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities;
 import org.kuali.student.lum.lu.ui.course.keyvalues.OrgsBySubjectCodeValuesFinder;
 import org.kuali.student.lum.lu.ui.krms.dto.LUAgendaEditor;
 import org.kuali.student.lum.lu.ui.krms.dto.LURuleEditor;
@@ -92,23 +90,19 @@ import org.kuali.student.r1.core.proposal.ProposalConstants;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.LearningObjectiveServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
-import org.kuali.student.r2.common.util.date.KSDateTimeFormatter;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
-import org.kuali.student.r2.core.comment.dto.DecisionInfo;
 import org.kuali.student.r2.core.comment.service.CommentService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.CommentServiceConstants;
@@ -154,7 +148,6 @@ import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -543,6 +536,43 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             }
         }
         return ((CourseRuleViewHelperServiceImpl) getRuleViewHelperService()).performAddLineValidation(viewModel, newLine, collectionId, collectionPath);
+    }
+
+    /**
+     * Overriding delete process to permanently delete comment from the database.
+     *
+     * @param model
+     * @param collectionId
+     * @param collectionPath
+     * @param lineIndex
+     */
+    @Override
+    public void processCollectionDeleteLine(ViewModel model, String collectionId, String collectionPath, int lineIndex) {
+
+        if (StringUtils.endsWith(collectionPath, "comments")) {
+            MaintenanceDocumentForm modelForm = (MaintenanceDocumentForm) model;
+            CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) modelForm.getDocument().getNewMaintainableObject().getDataObject();
+            CommentWrapper wrapper = courseInfoWrapper.getComments().get(lineIndex);
+
+            /**
+             * If it's already exists at DB, delete from DB. Otherwise, just from list.
+             */
+            if (!wrapper.isNewDto()){
+                try {
+                    StatusInfo deleteStatus = getCommentService().deleteComment(wrapper.getCommentInfo().getId(), createContextInfo());
+                    if (!deleteStatus.getIsSuccess()){
+                        GlobalVariables.getMessageMap().putError(collectionPath,CurriculumManagementConstants.MessageKeys.ERROR_COMMENT_DELETE,wrapper.getCommentInfo().getId(),deleteStatus.getMessage());
+                    }
+                } catch (Exception e) {
+                    throw new RuntimeException("Error deleting comment [id=" + wrapper.getCommentInfo().getId() + "]",e);
+                }
+                courseInfoWrapper.getComments().remove(wrapper);
+                return;
+            }
+
+        }
+
+        super.processCollectionDeleteLine(model, collectionId, collectionPath, lineIndex);
     }
 
     @Override
