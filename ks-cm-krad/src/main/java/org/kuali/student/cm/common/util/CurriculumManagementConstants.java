@@ -137,6 +137,8 @@ public class CurriculumManagementConstants {
     //  Learning Objective Repository keys
     public final static String KUALI_LO_REPOSITORY_KEY_SINGLE_USE = "kuali.loRepository.key.singleUse";
 
+    public final static String L0_MSG_ERROR_NO_LO_IS_FOUND = "error.course.lo.noLoIsFound";
+
     public final static String KS_LO_CAT_TABLE = "KS-LoCatTable";
 
     public final static String KS_MESSAGE_ICON_IMAGE_ID = "[id=Uif-KS-IconImage]";

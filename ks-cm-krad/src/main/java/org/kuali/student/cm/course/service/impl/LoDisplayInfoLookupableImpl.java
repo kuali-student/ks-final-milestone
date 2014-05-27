@@ -4,6 +4,9 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.lookup.LookupForm;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.form.LoCategoryInfoWrapper;
 import org.kuali.student.cm.course.form.LoDisplayInfoWrapper;
 import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
@@ -100,7 +103,7 @@ public class LoDisplayInfoLookupableImpl extends LookupableImpl {
                 SearchParamInfo codeParam = new SearchParamInfo(CourseServiceConstants.OPTIONAL_CODE_PARAM, loSearchBy);
                 queryParamValueList.add(codeParam);
             } else if (searchByKey == SearchByKeys.COURSE){
-                SearchParamInfo titleParam = new SearchParamInfo(CourseServiceConstants.OPTIONAL_LONGNAME_PARAM, loSearchBy);
+                SearchParamInfo titleParam = new SearchParamInfo(CourseServiceConstants.SUBJECTCODE_CODE_PARAM, loSearchBy);
                 queryParamValueList.add(titleParam);
             } else if (searchByKey == SearchByKeys.KEYWORD){
                 SearchParamInfo keywordInLoParam = new SearchParamInfo(CourseServiceConstants.LO_DESC_PLAIN_PARAM, loSearchBy);
@@ -126,27 +129,31 @@ public class LoDisplayInfoLookupableImpl extends LookupableImpl {
         searchRequest.setParams(queryParamValueList);
         try {
             SearchResultInfo searchResult = getLearningObjectiveService().search(searchRequest, ContextUtils.getContextInfo());
-            for (SearchResultRowInfo result : searchResult.getRows()) {
-                List<SearchResultCellInfo> cells = result.getCells();
-                LoDisplayInfoWrapper loWrapper = new LoDisplayInfoWrapper();
-                for (SearchResultCellInfo cell : cells) {
-                    if (CourseServiceConstants.LO_CLU_CODE_RESULT.equals(cell.getKey())) {
-                        loWrapper.setCode(cell.getValue());
+            if (searchResult.getRows()== null || searchResult.getRows().isEmpty()){
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, CurriculumManagementConstants.L0_MSG_ERROR_NO_LO_IS_FOUND);
+            }else {
+                for (SearchResultRowInfo result : searchResult.getRows()) {
+                    List<SearchResultCellInfo> cells = result.getCells();
+                    LoDisplayInfoWrapper loWrapper = new LoDisplayInfoWrapper();
+                    for (SearchResultCellInfo cell : cells) {
+                        if (CourseServiceConstants.LO_CLU_CODE_RESULT.equals(cell.getKey())) {
+                            loWrapper.setCode(cell.getValue());
+                        }
+                        else if (CourseServiceConstants.LO_CLU_TYPE_RESULT.equals(cell.getKey())) {
+                            loWrapper.setTypeName(cell.getValue());
+                        }
+                        else if (CourseServiceConstants.LO_CLU_STATE_RESULT.equals(cell.getKey())) {
+                            loWrapper.setStateKey(cell.getValue());
+                        }
+                        else if (CourseServiceConstants.LO_CATEGORY_NAME_RESULT.equals(cell.getKey())) {
+                            loWrapper.setName(cell.getValue());
+                        }
+                        else if (CourseServiceConstants.LO_DESC_PLAIN_RESULT.equals(cell.getKey())) {
+                            loWrapper.setDescr(new RichTextInfo(cell.getValue(), null));
+                        }
                     }
-                    else if (CourseServiceConstants.LO_CLU_TYPE_RESULT.equals(cell.getKey())) {
-                        loWrapper.setTypeName(cell.getValue());
-                    }
-                    else if (CourseServiceConstants.LO_CLU_STATE_RESULT.equals(cell.getKey())) {
-                        loWrapper.setStateKey(cell.getValue());
-                    }
-                    else if (CourseServiceConstants.LO_CATEGORY_NAME_RESULT.equals(cell.getKey())) {
-                        loWrapper.setName(cell.getValue());
-                    }
-                    else if (CourseServiceConstants.LO_DESC_PLAIN_RESULT.equals(cell.getKey())) {
-                        loWrapper.setDescr(new RichTextInfo(cell.getValue(), null));
-                    }
+                    loCategories.add(loWrapper);
                 }
-                loCategories.add(loWrapper);
             }
         } catch (Exception e) {
             throw new RuntimeException("An error occurred while searching for Learning Objectives", e);
