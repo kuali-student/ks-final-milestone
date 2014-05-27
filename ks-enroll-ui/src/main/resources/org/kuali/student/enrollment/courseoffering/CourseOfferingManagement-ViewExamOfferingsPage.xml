@@ -25,7 +25,7 @@
           p:id="viewExamOfferingsPage" >
         <property name="editAuthz" value="true"/>
         <!-- <property name="onDocumentReadyScript" value="updateContextBar( 'ManageCourseOfferingManagement-ContextBar', 'KS-CourseOffering-View-ContextBar-PlaceHolder', @{#dp.contextBar.termDayOfYear}, '@{#ConfigProperties['application.url']}' );" /> -->
-        <property name="onDocumentReadyScript" value="setSeasonalColor('ManageCourseOfferingManagement-ContextBar', '@{#dp.contextBar.termDayOfYear}', '@{#ConfigProperties['application.url']}'); updateViewHeaderText('@{currentCourseOfferingWrapper.courseOfferingCode}'); enableDirtyCheck()" />
+        <property name="onDocumentReadyScript" value="setSeasonalColor('ManageCourseOfferingManagement-ContextBar', '@{#dp.contextBar.termDayOfYear}', '@{#ConfigProperties['application.url']}'); updateViewHeaderText('@{currentCourseOfferingWrapper.ownerCode}'); enableDirtyCheck()" />
         <property name="pageSourceFile" value="CourseOfferingManagement-ManageCourseOfferingsPage.xml" /> <!-- Shows up in HTML so devs can find the code -->
 
         <property name="headerText" value="Exam Offerings"/>
