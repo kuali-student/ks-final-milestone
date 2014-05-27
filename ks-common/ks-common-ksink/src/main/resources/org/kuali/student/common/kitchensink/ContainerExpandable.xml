@@ -25,9 +25,8 @@
     <bean parent="Uif-Disclosure-VerticalBoxSection"  id="KS-KitchenSink-ContainerExpandable-Section">
         <!-- Uif-Disclosure-Xyz containers have disclosure.render = true as default -->
         <property name="disclosure.render" value="true"/>
-        <!-- The following disclosure properties are defaults in Uif-Disclosure: -->
-        <property name="disclosure.collapsedIconClass" value="icon-angle-right"/>
-        <property name="disclosure.expandedIconClass" value="icon-angle-down"/>
+        <property name="disclosure.collapsedIconClass" value="ks-fontello-icon-right-open"/>
+        <property name="disclosure.expandedIconClass" value="ks-fontello-icon-down-open"/>
         <property name="disclosure.animationSpeed" value="500"/>
         <property name="disclosure.defaultOpen" value="true"/>
         <!-- end of disclosure defaults -->

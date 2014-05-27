@@ -317,6 +317,8 @@
     <bean id="KS-Uif-StackedCollectionSection-HorizontalSubCollectionFieldGroupWithDisclosure"
           parent="KS-Uif-StackedCollectionSection-HorizontalSubCollectionFieldGroup">
         <property name="disclosure.render" value="true"/>
+        <property name="disclosure.collapsedIconClass" value="ks-fontello-icon-right-open"/>
+        <property name="disclosure.expandedIconClass" value="ks-fontello-icon-down-open"/>
         <!-- TODO: check with UX, do we need to set disclosure as KS-Uif-Disclosure by default? -->
         <!--<property name="disclosure">-->
         <!--<bean parent="KS-Uif-Disclosure"/>-->
@@ -340,6 +342,8 @@
     <bean id="KS-Uif-StackedCollectionSubSection-HorizontalSubCollectionFieldGroupWithDisclosure"
           parent="KS-Uif-StackedCollectionSubSection-HorizontalSubCollectionFieldGroup">
         <property name="disclosure.render" value="true"/>
+        <property name="disclosure.collapsedIconClass" value="ks-fontello-icon-right-open"/>
+        <property name="disclosure.expandedIconClass" value="ks-fontello-icon-down-open"/>
         <!-- TODO: check with UX, do we need to set disclosure as KS-Uif-Disclosure by default? -->
         <!--<property name="disclosure">-->
         <!--<bean parent="KS-Uif-Disclosure"/>-->
