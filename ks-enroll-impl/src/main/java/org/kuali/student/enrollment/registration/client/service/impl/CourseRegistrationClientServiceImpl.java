@@ -79,7 +79,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
     private ScheduleOfClassesService scheduleOfClassesService;
 
     @Override
-    public Response registerForRegistrationGroupRS(String termCode, String courseCode, String regGroupCode, String regGroupId, String credits, String gradingOptionId, boolean okToWaitlist) {
+    public Response registerForRegistrationGroup(String termCode, String courseCode, String regGroupCode, String regGroupId, String credits, String gradingOptionId, boolean okToWaitlist) {
         Response.ResponseBuilder response;
 
         try {
@@ -93,11 +93,11 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
     }
 
     @Override
-    public Response dropRegistrationGroupRS(String masterLprId) {
+    public Response dropRegistrationGroup(String masterLprId) {
         Response.ResponseBuilder response;
 
         try {
-            response = Response.ok(dropRegistrationGroup(ContextUtils.createDefaultContextInfo(), masterLprId));
+            response = Response.ok(dropRegistrationGroupLocal(ContextUtils.createDefaultContextInfo(), masterLprId));
         } catch (Exception e) {
             LOGGER.warn("Exception occurred", e);
             response = Response.serverError().entity(e.getMessage());
@@ -106,57 +106,8 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         return response.build();
     }
 
-    public RegistrationResponseInfo registerForRegistrationGroupLocal(String termCode, String courseCode, String regGroupCode, String regGroupId, String credits, String gradingOptionId, boolean okToWaitlist, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, DoesNotExistException, ReadOnlyException, AlreadyExistsException, LoginException {
-        LOGGER.debug("REGISTRATION: user[{}] termCode[{}] courseCode[{}] regGroup[{}]",
-                contextInfo.getPrincipalId(), termCode, courseCode, regGroupCode);
-
-        // get the regGroup
-        RegGroupSearchResult rg = CourseRegistrationAndScheduleOfClassesUtil.getRegGroup(null, termCode, courseCode, regGroupCode, regGroupId, contextInfo);
-
-        // get the registration group, returns default (from Course Offering) credits (as creditId) and grading options (as a string of options)
-        CourseOfferingInfo courseOfferingInfo = CourseRegistrationAndScheduleOfClassesUtil.getCourseOfferingIdCreditGrading(rg.getCourseOfferingId(), courseCode, rg.getTermId(), termCode);
-
-        // verify passed credits (must be non-empty unless fixed) and grading option (can be null)
-        credits = verifyRegistrationRequestCreditsGradingOption(courseOfferingInfo, credits, gradingOptionId, contextInfo);
-
-        //Create the request object
-        RegistrationRequestInfo regReqInfo = createRegistrationRequest(contextInfo.getPrincipalId(), rg.getTermId(), rg.getRegGroupId(), null, credits, gradingOptionId, LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY, LprServiceConstants.LPRTRANS_NEW_STATE_KEY, LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY, LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY, okToWaitlist);
-
-        // persist the request object in the service
-        RegistrationRequestInfo newRegReq = CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().createRegistrationRequest(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY, regReqInfo, contextInfo);
-
-        // submit the request to the registration engine.
-        return CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().submitRegistrationRequest(newRegReq.getId(), contextInfo);
-    }
-
-    public RegistrationResponseInfo dropRegistrationGroup(ContextInfo contextInfo, String masterLprId) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, DoesNotExistException, ReadOnlyException, AlreadyExistsException, LoginException {
-
-        String userId = contextInfo.getPrincipalId();
-
-        LOGGER.debug("REGISTRATION: user[{}] masterLprId[{}]", userId, masterLprId);
-
-
-        if (!StringUtils.isEmpty(userId)) {
-            contextInfo.setPrincipalId(userId);
-        } else if (StringUtils.isEmpty(contextInfo.getPrincipalId())) {
-            throw new LoginException("[CourseRegistrationClientServiceImpl::registerForRegistrationGroupLocal]User must be logged in to access this service");
-        }
-
-        LprInfo masterLpr = getLprService().getLpr(masterLprId, contextInfo);
-
-        //Create the request object
-        RegistrationRequestInfo regReqInfo = createRegistrationRequest(contextInfo.getPrincipalId(), masterLpr.getAtpId(), masterLpr.getLuiId(), masterLprId, null, null, LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY, LprServiceConstants.LPRTRANS_NEW_STATE_KEY, LprServiceConstants.REQ_ITEM_DROP_TYPE_KEY, LprServiceConstants.LPRTRANS_ITEM_DELETE_TYPE_KEY, false);
-
-        // persist the request object in the service
-        RegistrationRequestInfo newRegReq = CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().createRegistrationRequest(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY, regReqInfo, contextInfo);
-
-        // submit the request to the registration engine.
-        return CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().submitRegistrationRequest(newRegReq.getId(), contextInfo);
-    }
-
-
     @Override
-    public Response getRegEngineStatsRS() {
+    public Response getRegEngineStats() {
         Response.ResponseBuilder response;
 
         try {
@@ -181,7 +132,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
             // this is incredibly easy.
             MQPerformanceCounter.INSTANCE.clearPerformanceStats();
 
-            response = Response.fromResponse(getRegEngineStatsRS());
+            response = Response.fromResponse(getRegEngineStats());
         } catch (Exception e) {
             LOGGER.warn("Exception occurred", e);
             response = Response.serverError().entity(e.getMessage());
@@ -190,29 +141,11 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         return response.build();
     }
 
-    private Map<String, List> getStatsFromRegEngine() throws JMSException {
-
-        // define types of stats to collect
-        List<RegEngineMqStatisticsGenerator.RegistrationEngineStatsType> statTypesToRequest = new LinkedList<RegEngineMqStatisticsGenerator.RegistrationEngineStatsType>();
-        statTypesToRequest.add(RegEngineMqStatisticsGenerator.RegistrationEngineStatsType.BROKER);
-        statTypesToRequest.add(RegEngineMqStatisticsGenerator.RegistrationEngineStatsType.INITIALIZATION_QUEUE);
-        statTypesToRequest.add(RegEngineMqStatisticsGenerator.RegistrationEngineStatsType.VERIFICATION_QUEUE);
-        statTypesToRequest.add(RegEngineMqStatisticsGenerator.RegistrationEngineStatsType.REQ_ITEM_SPLIT_QUEUE);
-        statTypesToRequest.add(RegEngineMqStatisticsGenerator.RegistrationEngineStatsType.LPR_ACTION_QUEUE);
-        statTypesToRequest.add(RegEngineMqStatisticsGenerator.RegistrationEngineStatsType.REGISTRATION_ENGINE_STATS);
-
-        // collect the stats
-        RegEngineMqStatisticsGenerator generator = new RegEngineMqStatisticsGenerator();
-        generator.initiateRequestForStats(statTypesToRequest);
-
-        return generator.getStats();
-    }
-
     /**
      * SEARCH for STUDENT REGISTRATION INFO based on person and termCode *
      */
     @Override
-    public List<StudentScheduleTermResult> searchForScheduleByPersonAndTermRS(String termId, String termCode) throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+    public List<StudentScheduleTermResult> searchForScheduleByPersonAndTerm(String termId, String termCode) throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
 
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
         String userId = contextInfo.getPrincipalId();
@@ -235,129 +168,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
     }
 
     @Override
-    public Response searchForWaitlistRosterRS(String termId, String termCode, String courseCode, String regGroupCode) {
-        Response.ResponseBuilder response;
-
-        try {
-            List<WaitlistEntryResult> wlSearchResults = searchForWaitlistRoster(termId, termCode, courseCode, regGroupCode, ContextUtils.createDefaultContextInfo());
-            response = Response.ok(wlSearchResults);
-        } catch (Exception e) {
-            LOGGER.warn("Exception Thrown", e);
-            response = Response.serverError().entity(e.getMessage());
-        }
-
-        return response.build();
-    }
-
-    @Override
-    public List<WaitlistEntryResult> searchForWaitlistRoster(String termId, String termCode, String courseCode, String regGroupCode, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<WaitlistEntryResult>  results =   new ArrayList<WaitlistEntryResult>();
-        RegGroupSearchResult regGroupSearchResult =  getScheduleOfClassesService().searchForRegistrationGroupByTermAndCourseAndRegGroup(termId, termCode, courseCode, regGroupCode);
-        String PRIMARY_WAITLIST_TYPE = LprServiceConstants.WAITLIST_RG_LPR_TYPE_KEY; // for this implementation the RG is the primary
-        // array of valid waitlist types. We might want to pass this in to make it configurable?
-        String[] wlTypes = {LprServiceConstants.WAITLIST_RG_LPR_TYPE_KEY,
-                LprServiceConstants.WAITLIST_CO_LPR_TYPE_KEY,
-                LprServiceConstants.WAITLIST_AO_LPR_TYPE_KEY};
-
-        // LUI ID  -> Count
-        Map<String, Integer>  typeCountMap = new HashMap<String, Integer>();
-
-        // userId, WaitlistEntry
-        Map<String, WaitlistEntryResult> resultHelperMap = new HashMap<String, WaitlistEntryResult>(); // this is used to help populate result map. needed for performance.
-
-        if(regGroupSearchResult != null ){
-
-            // get all the waitlist lprs for this registration group
-            // combine the rgId + aoIds to pass into search method
-            List<String> luiIdsToFind = new ArrayList<String>(regGroupSearchResult.getActivityOfferingIds());
-            luiIdsToFind.add(regGroupSearchResult.getRegGroupId());
-            // they will be in process order
-            List<LprInfo> lprInfos = getLprEntries(luiIdsToFind, contextInfo, wlTypes);
-
-            // loop through the results in order. Because we're in order we can create an easy count object.
-            for(LprInfo lprInfo : lprInfos){
-                // prime the counts
-                if(!typeCountMap.containsKey(lprInfo.getLuiId())){
-                    typeCountMap.put(lprInfo.getLuiId(), 0);
-                }
-
-                // get / set the count
-                int count = typeCountMap.get(lprInfo.getLuiId()) + 1; // increment count
-                typeCountMap.put(lprInfo.getLuiId(), count); // update map
-
-                // use the result helper to organize the results + more performant
-                if(!resultHelperMap.containsKey(lprInfo.getPersonId())){
-                    WaitlistEntryResult wlEntry =  new WaitlistEntryResult();
-                    wlEntry.setPersonId(lprInfo.getPersonId());
-
-                    // use pass by ref to update both the ret list and the helper
-                    resultHelperMap.put(lprInfo.getPersonId(), wlEntry );
-                }
-
-                // The primary and remaining need to be seperated.
-                if(PRIMARY_WAITLIST_TYPE.equals(lprInfo.getTypeKey())){
-                    WaitlistEntryResult wlEntry = resultHelperMap.get(lprInfo.getPersonId());
-                    wlEntry.setOrder(count);
-                    wlEntry.setPrimaryActivityType(lprInfo.getTypeKey());
-                    wlEntry.setPrimaryLprId(lprInfo.getMasterLprId()); // I believe this is the same as the lprId.
-                    wlEntry.setPrimaryLuiId(lprInfo.getLuiId());
-
-                    results.add(wlEntry);  // add entry to return list. Only happens here bc it's primary
-                } else {
-                    RegistrationCountResult countResult = new RegistrationCountResult();
-                    countResult.setCount(count);
-                    countResult.setCountType(lprInfo.getTypeKey());
-                    countResult.setLuiId(lprInfo.getLuiId());
-
-                    resultHelperMap.get(lprInfo.getPersonId()).getAoWaitlistOrder().add(countResult);
-
-                }
-            }
-        }
-        return results;
-
-    }
-
-
-    /**
-     * Return a list of LprInfo objects that are related to the luiIds passed in.
-     *
-     * This method looks up lprs based on the luiIds passed in. It filters based on the type.
-     * It will only return items that DO NOT have an expirationDate
-     * The results will be in Ascending Order based on the lpr createTime
-     *
-     * @param luiIds - list of luiIds to look up for the LPR table
-     * @param contextInfo - context info
-     * @param lprTypes list of valid lpr types to filter results. ie. LprServiceConstants.WAITLIST_RG_LPR_TYPE_KEY
-     * @return A list of lprinfo objects related to the luiids passed in
-     * @throws MissingParameterException
-     * @throws InvalidParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
-     */
-    protected List<LprInfo> getLprEntries(List<String> luiIds, ContextInfo contextInfo, String ... lprTypes) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException {
-
-
-        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-        qbcBuilder.setPredicates(PredicateFactory.and(PredicateFactory.in("luiId", luiIds),
-                PredicateFactory.in("personRelationTypeId", lprTypes),
-                PredicateFactory.isNull("expirationDate")));  // all LPRs use effective dating
-
-        OrderByField.Builder orderByFieldBuilder = OrderByField.Builder.create();
-        orderByFieldBuilder.setFieldName("createTime");
-        orderByFieldBuilder.setOrderDirection(OrderDirection.ASCENDING);
-        qbcBuilder.setOrderByFields(orderByFieldBuilder.build());
-
-
-        QueryByCriteria criteria = qbcBuilder.build();
-
-        List<LprInfo> lprInfos =  getLprService().searchForLprs(criteria, contextInfo);
-
-        return lprInfos;
-    }
-
-    @Override
-    public List<List<ScheduleCalendarEventResult>> searchForScheduleCalendarByPersonAndTermRS(String termId, String termCode) throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+    public List<List<ScheduleCalendarEventResult>> searchForScheduleCalendarByPersonAndTerm(String termId, String termCode) throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
 
         //Colours this is just a poc!
         String[] colours = new String[]{"#BDF", "#DFB", "#FBD", "#FDB", "#DBF", "#BFD",
@@ -370,7 +181,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         int colourIndex = 0;
 
         //Use existing services to get the schedule
-        List<StudentScheduleTermResult> schedule = searchForScheduleByPersonAndTermRS(termId, termCode);
+        List<StudentScheduleTermResult> schedule = searchForScheduleByPersonAndTerm(termId, termCode);
 
         //Initialize a map with lists for each day of the week
         Map<String, List<ScheduleCalendarEventResult>> dayToEventListMap = new HashMap<String, List<ScheduleCalendarEventResult>>();
@@ -457,73 +268,196 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         return results;
     }
 
-    private static int toMins(String s) {
-        String[] hourMin = s.split(":");
-        if (hourMin.length == 2) {
-            int hour = Integer.parseInt(hourMin[0]);
-            int mins = Integer.parseInt(hourMin[1]);
-            int hoursInMins = hour * 60;
-            return hoursInMins + mins;
-        }
-        return -1;
-    }
-    /**
-     * This method call search service to retrieve registration schedule data for the person
-     *
-     * @param userId Person Id
-     * @param termId Term Key
-     * @return StudentScheduleCourseResults
-     * @throws OperationFailedException
-     * @throws InvalidParameterException
-     */
-    private List<StudentScheduleTermResult> getRegistrationAndWaitlistScheduleByPersonAndTerm(String userId, String termId, ContextInfo contextInfo) throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
-        List<StudentScheduleTermResult> studentScheduleTermResults = new ArrayList<StudentScheduleTermResult>();
+    @Override
+    public Response updateScheduleItem(String courseCode, String regGroupCode, String masterLprId, String credits, String gradingOptionId) {
+        Response.ResponseBuilder response;
 
-        SearchRequestInfo searchRequest = new SearchRequestInfo(CourseRegistrationSearchServiceImpl.REG_INFO_BY_PERSON_TERM_SEARCH_TYPE.getKey());
-        searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.PERSON_ID, userId);
-        searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.ATP_ID, termId);
-
-        SearchResultInfo searchResult;
         try {
-            searchResult = CourseRegistrationAndScheduleOfClassesUtil.getSearchService().search(searchRequest, contextInfo);
+            response = Response.ok(updateScheduleItem(ContextUtils.createDefaultContextInfo(), courseCode, regGroupCode, masterLprId, credits, gradingOptionId));
         } catch (Exception e) {
-            throw new OperationFailedException("Search of registration schedule for person " + userId + " and term " + termId + " failed: ", e);
+            LOGGER.warn("Exception occurred", e);
+            response = Response.serverError().entity(e.getMessage());
         }
 
-        String lastTerm = "";
-        String lastLprId="";
-        String lastAoType="";
-        for (SearchResultHelper.KeyValue row : SearchResultHelper.wrap(searchResult)) {
-            String lprType = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LPR_TYPE);
-            String masterLprId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.MASTER_LPR_ID);
-            String atpId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.ATP_ID);
-            String atpCode = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.ATP_CD);
-            String atpName = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.ATP_NAME);
-            String courseCode = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.COURSE_CODE);
-            String courseId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.COURSE_ID);
-            String rgCode = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.RG_CODE);
-            String aoName = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_NAME);
-            aoName = (aoName != null && aoName.length() >= 3 ? aoName.substring(0, 3).toUpperCase() : "");
-            String aoType = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_TYPE);
-            String courseName = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_LONG_NAME);
-            String courseDesc = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_DESC);
-            String isTBA = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.TBA_IND);
-            String roomCode = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.ROOM_CODE);
-            String buildingCode = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.BUILDING_CODE);
-            String weekdays = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.WEEKDAYS);
-            String startTimeMs = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.START_TIME_MS);
-            String endTimeMs = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.END_TIME_MS);
-            String resultValuesGroupKey = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.RES_VAL_GROUP_KEY);
-            String credits = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CREDITS);
-            String gradingOptionId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.GRADING_OPTION_ID);
-
-            if(!lastTerm.equals(atpId)){
-
-            }
-
-        }
-        return studentScheduleTermResults;
+        return response.build();
     }
+
+    @Override
+    public Response updateWaitlistEntry(String courseCode, String regGroupCode, String masterLprId, String credits, String gradingOptionId) {
+        Response.ResponseBuilder response;
+
+        try {
+            response = Response.ok(updateWaitlistEntry(courseCode, regGroupCode, masterLprId, credits, gradingOptionId, ContextUtils.createDefaultContextInfo()));
+        } catch (Exception e) {
+            LOGGER.warn("Exception occurred", e);
+            response = Response.serverError().entity(e.getMessage());
+        }
+
+        return response.build();
+    }
+
+    @Override
+    public Response getRegistrationStatus(@QueryParam("regReqId") String regReqId) {
+        Response.ResponseBuilder response;
+
+        try {
+            response = Response.ok(getRegistrationStatusLocal(regReqId, ContextUtils.createDefaultContextInfo()));
+        } catch (Exception e) {
+            LOGGER.warn("Exception occurred", e);
+            response = Response.serverError().entity(e.getMessage());
+        }
+
+        return response.build();
+    }
+
+    @Override
+    public Response dropFromWaitlistEntry(@QueryParam("masterLprId") String masterLprId) {
+        Response.ResponseBuilder response;
+
+        try {
+            response = Response.ok(dropFromWaitlistLocal(ContextUtils.createDefaultContextInfo(), masterLprId));
+        } catch (Exception e) {
+            LOGGER.warn("Exception occurred", e);
+            response = Response.serverError().entity(e.getMessage());
+        }
+
+        return response.build();
+    }
+
+    /**
+     * Finds all LPRs for a given personId and deletes them
+     * Returns an empty List of StudentScheduleCourseResult
+     *
+     * @param personId Principal ID
+     * @return Empty Response Object or Response object with Error text
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     * @throws DoesNotExistException
+     */
+    @Override
+    public Response clearLPRsByPersonRS(String personId) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+        Response.ResponseBuilder response;
+        try {
+            ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+            List<LprInfo> lprs = CourseRegistrationAndScheduleOfClassesUtil.getLprService().getLprsByPerson(personId, contextInfo);
+            for (LprInfo lprInfo : lprs) {
+                CourseRegistrationAndScheduleOfClassesUtil.getLprService().deleteLpr(lprInfo.getId(), contextInfo);
+            }
+            response = Response.noContent();
+        } catch (Exception e) {
+            LOGGER.warn("Exception occurred", e);
+            response = Response.serverError().entity(e.getMessage());
+        }
+
+        return response.build();
+    }
+
+    @Override
+    public Response searchForWaitlistRoster(String termId, String termCode, String courseCode, String regGroupCode) {
+        Response.ResponseBuilder response;
+
+        try {
+            List<WaitlistEntryResult> wlSearchResults = searchForWaitlistRosterLocal(termId, termCode, courseCode, regGroupCode, ContextUtils.createDefaultContextInfo());
+            response = Response.ok(wlSearchResults);
+        } catch (Exception e) {
+            LOGGER.warn("Exception Thrown", e);
+            response = Response.serverError().entity(e.getMessage());
+        }
+
+        return response.build();
+    }
+
+    private RegistrationResponseInfo dropFromWaitlistLocal(ContextInfo contextInfo, String masterLprId) throws DoesNotExistException, PermissionDeniedException, OperationFailedException, InvalidParameterException, ReadOnlyException, MissingParameterException, DataValidationErrorException, AlreadyExistsException, LoginException {
+
+        String userId = contextInfo.getPrincipalId();
+
+        LOGGER.debug("REGISTRATION: user[{}] masterLprId[{}]", userId, masterLprId);
+
+
+        if (!StringUtils.isEmpty(userId)) {
+            contextInfo.setPrincipalId(userId);
+        } else if (StringUtils.isEmpty(contextInfo.getPrincipalId())) {
+            throw new LoginException("[CourseRegistrationClientServiceImpl::registerForRegistrationGroupLocal] User must be logged in to access this service");
+        }
+
+        //Create the request object
+        RegistrationRequestInfo regReqInfo = createRegistrationRequest(contextInfo.getPrincipalId(), null, null, masterLprId, null, null, LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY, LprServiceConstants.LPRTRANS_NEW_STATE_KEY, LprServiceConstants.REQ_ITEM_DROP_WAITLIST_TYPE_KEY, LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY, false);
+
+        // persist the request object in the service
+        RegistrationRequestInfo newRegReq = CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().createRegistrationRequest(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY, regReqInfo, contextInfo);
+
+        // submit the request to the registration engine.
+        return CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().submitRegistrationRequest(newRegReq.getId(), contextInfo);
+    }
+
+    private RegistrationResponseInfo registerForRegistrationGroupLocal(String termCode, String courseCode, String regGroupCode, String regGroupId, String credits, String gradingOptionId, boolean okToWaitlist, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, DoesNotExistException, ReadOnlyException, AlreadyExistsException, LoginException {
+        LOGGER.debug("REGISTRATION: user[{}] termCode[{}] courseCode[{}] regGroup[{}]",
+                contextInfo.getPrincipalId(), termCode, courseCode, regGroupCode);
+
+        // get the regGroup
+        RegGroupSearchResult rg = CourseRegistrationAndScheduleOfClassesUtil.getRegGroup(null, termCode, courseCode, regGroupCode, regGroupId, contextInfo);
+
+        // get the registration group, returns default (from Course Offering) credits (as creditId) and grading options (as a string of options)
+        CourseOfferingInfo courseOfferingInfo = CourseRegistrationAndScheduleOfClassesUtil.getCourseOfferingIdCreditGrading(rg.getCourseOfferingId(), courseCode, rg.getTermId(), termCode);
+
+        // verify passed credits (must be non-empty unless fixed) and grading option (can be null)
+        credits = verifyRegistrationRequestCreditsGradingOption(courseOfferingInfo, credits, gradingOptionId, contextInfo);
+
+        //Create the request object
+        RegistrationRequestInfo regReqInfo = createRegistrationRequest(contextInfo.getPrincipalId(), rg.getTermId(), rg.getRegGroupId(), null, credits, gradingOptionId, LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY, LprServiceConstants.LPRTRANS_NEW_STATE_KEY, LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY, LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY, okToWaitlist);
+
+        // persist the request object in the service
+        RegistrationRequestInfo newRegReq = CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().createRegistrationRequest(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY, regReqInfo, contextInfo);
+
+        // submit the request to the registration engine.
+        return CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().submitRegistrationRequest(newRegReq.getId(), contextInfo);
+    }
+
+    private RegistrationResponseInfo dropRegistrationGroupLocal(ContextInfo contextInfo, String masterLprId) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, DoesNotExistException, ReadOnlyException, AlreadyExistsException, LoginException {
+
+        String userId = contextInfo.getPrincipalId();
+
+        LOGGER.debug("REGISTRATION: user[{}] masterLprId[{}]", userId, masterLprId);
+
+
+        if (!StringUtils.isEmpty(userId)) {
+            contextInfo.setPrincipalId(userId);
+        } else if (StringUtils.isEmpty(contextInfo.getPrincipalId())) {
+            throw new LoginException("[CourseRegistrationClientServiceImpl::registerForRegistrationGroupLocal]User must be logged in to access this service");
+        }
+
+        LprInfo masterLpr = getLprService().getLpr(masterLprId, contextInfo);
+
+        //Create the request object
+        RegistrationRequestInfo regReqInfo = createRegistrationRequest(contextInfo.getPrincipalId(), masterLpr.getAtpId(), masterLpr.getLuiId(), masterLprId, null, null, LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY, LprServiceConstants.LPRTRANS_NEW_STATE_KEY, LprServiceConstants.REQ_ITEM_DROP_TYPE_KEY, LprServiceConstants.LPRTRANS_ITEM_DELETE_TYPE_KEY, false);
+
+        // persist the request object in the service
+        RegistrationRequestInfo newRegReq = CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().createRegistrationRequest(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY, regReqInfo, contextInfo);
+
+        // submit the request to the registration engine.
+        return CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().submitRegistrationRequest(newRegReq.getId(), contextInfo);
+    }
+
+    private Map<String, List> getStatsFromRegEngine() throws JMSException {
+
+        // define types of stats to collect
+        List<RegEngineMqStatisticsGenerator.RegistrationEngineStatsType> statTypesToRequest = new LinkedList<RegEngineMqStatisticsGenerator.RegistrationEngineStatsType>();
+        statTypesToRequest.add(RegEngineMqStatisticsGenerator.RegistrationEngineStatsType.BROKER);
+        statTypesToRequest.add(RegEngineMqStatisticsGenerator.RegistrationEngineStatsType.INITIALIZATION_QUEUE);
+        statTypesToRequest.add(RegEngineMqStatisticsGenerator.RegistrationEngineStatsType.VERIFICATION_QUEUE);
+        statTypesToRequest.add(RegEngineMqStatisticsGenerator.RegistrationEngineStatsType.REQ_ITEM_SPLIT_QUEUE);
+        statTypesToRequest.add(RegEngineMqStatisticsGenerator.RegistrationEngineStatsType.LPR_ACTION_QUEUE);
+        statTypesToRequest.add(RegEngineMqStatisticsGenerator.RegistrationEngineStatsType.REGISTRATION_ENGINE_STATS);
+
+        // collect the stats
+        RegEngineMqStatisticsGenerator generator = new RegEngineMqStatisticsGenerator();
+        generator.initiateRequestForStats(statTypesToRequest);
+
+        return generator.getStats();
+    }
+
     /**
      * This method call search service to retrieve registration schedule data for the person
      *
@@ -754,35 +688,179 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         return studentScheduleTermResults;
     }
 
-    /**
-     * Finds all LPRs for a given personId and deletes them
-     * Returns an empty List of StudentScheduleCourseResult
-     *
-     * @param personId Principal ID
-     * @return Empty Response Object or Response object with Error text
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
-     * @throws DoesNotExistException
-     */
-    public Response clearLPRsByPersonRS(String personId) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
-        Response.ResponseBuilder response;
-        try {
-            ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
-            List<LprInfo> lprs = CourseRegistrationAndScheduleOfClassesUtil.getLprService().getLprsByPerson(personId, contextInfo);
-            for (LprInfo lprInfo : lprs) {
-                CourseRegistrationAndScheduleOfClassesUtil.getLprService().deleteLpr(lprInfo.getId(), contextInfo);
-            }
-            response = Response.noContent();
-        } catch (Exception e) {
-            LOGGER.warn("Exception occurred", e);
-            response = Response.serverError().entity(e.getMessage());
-        }
+    private List<WaitlistEntryResult> searchForWaitlistRosterLocal(String termId, String termCode, String courseCode, String regGroupCode, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<WaitlistEntryResult>  results =   new ArrayList<WaitlistEntryResult>();
+        RegGroupSearchResult regGroupSearchResult =  getScheduleOfClassesService().searchForRegistrationGroupByTermAndCourseAndRegGroup(termId, termCode, courseCode, regGroupCode);
+        String PRIMARY_WAITLIST_TYPE = LprServiceConstants.WAITLIST_RG_LPR_TYPE_KEY; // for this implementation the RG is the primary
+        // array of valid waitlist types. We might want to pass this in to make it configurable?
+        String[] wlTypes = {LprServiceConstants.WAITLIST_RG_LPR_TYPE_KEY,
+                LprServiceConstants.WAITLIST_CO_LPR_TYPE_KEY,
+                LprServiceConstants.WAITLIST_AO_LPR_TYPE_KEY};
 
-        return response.build();
+        // LUI ID  -> Count
+        Map<String, Integer>  typeCountMap = new HashMap<String, Integer>();
+
+        // userId, WaitlistEntry
+        Map<String, WaitlistEntryResult> resultHelperMap = new HashMap<String, WaitlistEntryResult>(); // this is used to help populate result map. needed for performance.
+
+        if(regGroupSearchResult != null ){
+
+            // get all the waitlist lprs for this registration group
+            // combine the rgId + aoIds to pass into search method
+            List<String> luiIdsToFind = new ArrayList<String>(regGroupSearchResult.getActivityOfferingIds());
+            luiIdsToFind.add(regGroupSearchResult.getRegGroupId());
+            // they will be in process order
+            List<LprInfo> lprInfos = getLprEntries(luiIdsToFind, contextInfo, wlTypes);
+
+            // loop through the results in order. Because we're in order we can create an easy count object.
+            for(LprInfo lprInfo : lprInfos){
+                // prime the counts
+                if(!typeCountMap.containsKey(lprInfo.getLuiId())){
+                    typeCountMap.put(lprInfo.getLuiId(), 0);
+                }
+
+                // get / set the count
+                int count = typeCountMap.get(lprInfo.getLuiId()) + 1; // increment count
+                typeCountMap.put(lprInfo.getLuiId(), count); // update map
+
+                // use the result helper to organize the results + more performant
+                if(!resultHelperMap.containsKey(lprInfo.getPersonId())){
+                    WaitlistEntryResult wlEntry =  new WaitlistEntryResult();
+                    wlEntry.setPersonId(lprInfo.getPersonId());
+
+                    // use pass by ref to update both the ret list and the helper
+                    resultHelperMap.put(lprInfo.getPersonId(), wlEntry );
+                }
+
+                // The primary and remaining need to be seperated.
+                if(PRIMARY_WAITLIST_TYPE.equals(lprInfo.getTypeKey())){
+                    WaitlistEntryResult wlEntry = resultHelperMap.get(lprInfo.getPersonId());
+                    wlEntry.setOrder(count);
+                    wlEntry.setPrimaryActivityType(lprInfo.getTypeKey());
+                    wlEntry.setPrimaryLprId(lprInfo.getMasterLprId()); // I believe this is the same as the lprId.
+                    wlEntry.setPrimaryLuiId(lprInfo.getLuiId());
+
+                    results.add(wlEntry);  // add entry to return list. Only happens here bc it's primary
+                } else {
+                    RegistrationCountResult countResult = new RegistrationCountResult();
+                    countResult.setCount(count);
+                    countResult.setCountType(lprInfo.getTypeKey());
+                    countResult.setLuiId(lprInfo.getLuiId());
+
+                    resultHelperMap.get(lprInfo.getPersonId()).getAoWaitlistOrder().add(countResult);
+
+                }
+            }
+        }
+        return results;
+
     }
 
+
+    /**
+     * Return a list of LprInfo objects that are related to the luiIds passed in.
+     *
+     * This method looks up lprs based on the luiIds passed in. It filters based on the type.
+     * It will only return items that DO NOT have an expirationDate
+     * The results will be in Ascending Order based on the lpr createTime
+     *
+     * @param luiIds - list of luiIds to look up for the LPR table
+     * @param contextInfo - context info
+     * @param lprTypes list of valid lpr types to filter results. ie. LprServiceConstants.WAITLIST_RG_LPR_TYPE_KEY
+     * @return A list of lprinfo objects related to the luiids passed in
+     * @throws MissingParameterException
+     * @throws InvalidParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    private List<LprInfo> getLprEntries(List<String> luiIds, ContextInfo contextInfo, String ... lprTypes) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException {
+
+
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.and(PredicateFactory.in("luiId", luiIds),
+                PredicateFactory.in("personRelationTypeId", lprTypes),
+                PredicateFactory.isNull("expirationDate")));  // all LPRs use effective dating
+
+        OrderByField.Builder orderByFieldBuilder = OrderByField.Builder.create();
+        orderByFieldBuilder.setFieldName("createTime");
+        orderByFieldBuilder.setOrderDirection(OrderDirection.ASCENDING);
+        qbcBuilder.setOrderByFields(orderByFieldBuilder.build());
+
+
+        QueryByCriteria criteria = qbcBuilder.build();
+
+        List<LprInfo> lprInfos =  getLprService().searchForLprs(criteria, contextInfo);
+
+        return lprInfos;
+    }
+
+    private static int toMins(String s) {
+        String[] hourMin = s.split(":");
+        if (hourMin.length == 2) {
+            int hour = Integer.parseInt(hourMin[0]);
+            int mins = Integer.parseInt(hourMin[1]);
+            int hoursInMins = hour * 60;
+            return hoursInMins + mins;
+        }
+        return -1;
+    }
+    /**
+     * This method call search service to retrieve registration schedule data for the person
+     *
+     * @param userId Person Id
+     * @param termId Term Key
+     * @return StudentScheduleCourseResults
+     * @throws OperationFailedException
+     * @throws InvalidParameterException
+     */
+    private List<StudentScheduleTermResult> getRegistrationAndWaitlistScheduleByPersonAndTerm(String userId, String termId, ContextInfo contextInfo) throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+        List<StudentScheduleTermResult> studentScheduleTermResults = new ArrayList<StudentScheduleTermResult>();
+
+        SearchRequestInfo searchRequest = new SearchRequestInfo(CourseRegistrationSearchServiceImpl.REG_INFO_BY_PERSON_TERM_SEARCH_TYPE.getKey());
+        searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.PERSON_ID, userId);
+        searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.ATP_ID, termId);
+
+        SearchResultInfo searchResult;
+        try {
+            searchResult = CourseRegistrationAndScheduleOfClassesUtil.getSearchService().search(searchRequest, contextInfo);
+        } catch (Exception e) {
+            throw new OperationFailedException("Search of registration schedule for person " + userId + " and term " + termId + " failed: ", e);
+        }
+
+        String lastTerm = "";
+        String lastLprId="";
+        String lastAoType="";
+        for (SearchResultHelper.KeyValue row : SearchResultHelper.wrap(searchResult)) {
+            String lprType = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LPR_TYPE);
+            String masterLprId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.MASTER_LPR_ID);
+            String atpId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.ATP_ID);
+            String atpCode = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.ATP_CD);
+            String atpName = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.ATP_NAME);
+            String courseCode = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.COURSE_CODE);
+            String courseId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.COURSE_ID);
+            String rgCode = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.RG_CODE);
+            String aoName = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_NAME);
+            aoName = (aoName != null && aoName.length() >= 3 ? aoName.substring(0, 3).toUpperCase() : "");
+            String aoType = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_TYPE);
+            String courseName = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_LONG_NAME);
+            String courseDesc = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_DESC);
+            String isTBA = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.TBA_IND);
+            String roomCode = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.ROOM_CODE);
+            String buildingCode = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.BUILDING_CODE);
+            String weekdays = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.WEEKDAYS);
+            String startTimeMs = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.START_TIME_MS);
+            String endTimeMs = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.END_TIME_MS);
+            String resultValuesGroupKey = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.RES_VAL_GROUP_KEY);
+            String credits = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CREDITS);
+            String gradingOptionId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.GRADING_OPTION_ID);
+
+            if(!lastTerm.equals(atpId)){
+
+            }
+
+        }
+        return studentScheduleTermResults;
+    }
 
     /**
      * This method creates a registration request for the add operation of a single registration group.
@@ -855,24 +933,53 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         return credits;
     }
 
-    @Override
-    public Response updateScheduleItemRS(String courseCode, String regGroupCode, String masterLprId, String credits, String gradingOptionId) {
-        Response.ResponseBuilder response;
-
-        try {
-            response = Response.ok(updateScheduleItem(ContextUtils.createDefaultContextInfo(), courseCode, regGroupCode, masterLprId, credits, gradingOptionId));
-        } catch (Exception e) {
-            LOGGER.warn("Exception occurred", e);
-            response = Response.serverError().entity(e.getMessage());
-        }
-
-        return response.build();
-    }
-
-    public ScheduleItemResult updateScheduleItem(ContextInfo contextInfo, String courseCode, String regGroupCode, String masterLprId, String credits, String gradingOptionId) throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException, AlreadyExistsException {
+    private ScheduleItemResult updateScheduleItem(ContextInfo contextInfo, String courseCode, String regGroupCode, String masterLprId, String credits, String gradingOptionId) throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException, AlreadyExistsException {
 
         return updateRegistrationItem(courseCode, regGroupCode, masterLprId, credits, gradingOptionId, contextInfo, LprServiceConstants.REQ_ITEM_UPDATE_TYPE_KEY);
 
+    }
+
+    private ScheduleItemResult updateWaitlistEntry(String courseCode, String regGroupCode, String masterLprId, String credits, String gradingOptionId, ContextInfo contextInfo) throws DoesNotExistException, PermissionDeniedException, OperationFailedException, InvalidParameterException, ReadOnlyException, MissingParameterException, DataValidationErrorException, AlreadyExistsException {
+
+        return updateRegistrationItem(courseCode, regGroupCode, masterLprId, credits, gradingOptionId, contextInfo, LprServiceConstants.REQ_ITEM_UPDATE_WAITLIST_TYPE_KEY);
+
+    }
+
+    /*
+     * Utility method to update any kind of schedule item (registered, waitlisted, etc)
+     */
+    private ScheduleItemResult updateRegistrationItem(String courseCode, String regGroupCode, String masterLprId, String credits, String gradingOptionId, ContextInfo contextInfo, String typeKey) throws DoesNotExistException, PermissionDeniedException, OperationFailedException, InvalidParameterException, ReadOnlyException, MissingParameterException, DataValidationErrorException, AlreadyExistsException {
+        RegistrationRequestInfo registrationRequestInfo = new RegistrationRequestInfo();
+        String userId = contextInfo.getPrincipalId();
+        LprInfo masterLpr = getLprService().getLpr(masterLprId, contextInfo);
+
+        //Populate Fields for RegRequestInfo object
+        registrationRequestInfo.setRequestorId(userId);
+        registrationRequestInfo.setStateKey(LprServiceConstants.LPRTRANS_NEW_STATE_KEY);
+        registrationRequestInfo.setTypeKey(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY);
+
+        //Create Reg Request Item
+        RegistrationRequestItemInfo registrationRequestItem = CourseRegistrationAndScheduleOfClassesUtil.createNewRegistrationRequestItem(userId, null, masterLprId, credits, gradingOptionId, typeKey, LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY, false);
+        List<RegistrationRequestItemInfo> registrationRequestItemInfos = new ArrayList<RegistrationRequestItemInfo>();
+        registrationRequestItemInfos.add(registrationRequestItem);
+        registrationRequestInfo.setRegistrationRequestItems(registrationRequestItemInfos);
+        registrationRequestInfo.setTermId(masterLpr.getAtpId());
+
+        //Create Registration Request
+        RegistrationRequestInfo newRegReq = CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().createRegistrationRequest(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY, registrationRequestInfo, contextInfo);
+
+        // submit the request to the registration engine.
+        CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().submitRegistrationRequest(newRegReq.getId(), contextInfo);
+
+        //Build Result object
+        ScheduleItemResult scheduleItemResult = new ScheduleItemResult();
+        scheduleItemResult.setCourseCode(courseCode);
+        scheduleItemResult.setCredits(credits);
+        scheduleItemResult.setGradingOptions(gradingOptionId);
+        scheduleItemResult.setRegGroupCode(regGroupCode);
+        scheduleItemResult.setUserId(userId);
+
+        return scheduleItemResult;
     }
 
     private List<String> getCourseOfferingCreditOptionValues(String creditOptionId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
@@ -903,82 +1010,11 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         return creditOptions;
     }
 
-    @Override
-    public Response getRegistrationStatusRS(@QueryParam("regReqId") String regReqId) {
-        Response.ResponseBuilder response;
-
-        try {
-            response = Response.ok(getRegistrationStatus(regReqId, ContextUtils.createDefaultContextInfo()));
-        } catch (Exception e) {
-            LOGGER.warn("Exception occurred", e);
-            response = Response.serverError().entity(e.getMessage());
-        }
-
-        return response.build();
-    }
-
-    @Override
-    public ScheduleItemResult updateWaitlistEntry(String courseCode, String regGroupCode, String masterLprId, String credits, String gradingOptionId, ContextInfo contextInfo) throws DoesNotExistException, PermissionDeniedException, OperationFailedException, InvalidParameterException, ReadOnlyException, MissingParameterException, DataValidationErrorException, AlreadyExistsException {
-
-        return updateRegistrationItem(courseCode, regGroupCode, masterLprId, credits, gradingOptionId, contextInfo, LprServiceConstants.REQ_ITEM_UPDATE_WAITLIST_TYPE_KEY);
-
-    }
-
-    @Override
-    public Response updateWaitlistEntryRS(String courseCode, String regGroupCode, String masterLprId, String credits, String gradingOptionId) {
-        Response.ResponseBuilder response;
-
-        try {
-            response = Response.ok(updateWaitlistEntry(courseCode, regGroupCode, masterLprId, credits, gradingOptionId, ContextUtils.createDefaultContextInfo()));
-        } catch (Exception e) {
-            LOGGER.warn("Exception occurred", e);
-            response = Response.serverError().entity(e.getMessage());
-        }
-
-        return response.build();
-    }
-
-    @Override
-    public RegistrationResponseInfo dropFromWaitlist(ContextInfo contextInfo, String masterLprId) throws DoesNotExistException, PermissionDeniedException, OperationFailedException, InvalidParameterException, ReadOnlyException, MissingParameterException, DataValidationErrorException, AlreadyExistsException, LoginException {
-
-        String userId = contextInfo.getPrincipalId();
-
-        LOGGER.debug("REGISTRATION: user[{}] masterLprId[{}]", userId, masterLprId);
-
-
-        if (!StringUtils.isEmpty(userId)) {
-            contextInfo.setPrincipalId(userId);
-        } else if (StringUtils.isEmpty(contextInfo.getPrincipalId())) {
-            throw new LoginException("[CourseRegistrationClientServiceImpl::registerForRegistrationGroupLocal] User must be logged in to access this service");
-        }
-
-        //Create the request object
-        RegistrationRequestInfo regReqInfo = createRegistrationRequest(contextInfo.getPrincipalId(), null, null, masterLprId, null, null, LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY, LprServiceConstants.LPRTRANS_NEW_STATE_KEY, LprServiceConstants.REQ_ITEM_DROP_WAITLIST_TYPE_KEY, LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY, false);
-
-        // persist the request object in the service
-        RegistrationRequestInfo newRegReq = CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().createRegistrationRequest(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY, regReqInfo, contextInfo);
-
-        // submit the request to the registration engine.
-        return CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().submitRegistrationRequest(newRegReq.getId(), contextInfo);
-    }
-
-    @Override
-    public Response dropFromWaitlistEntryRS(@QueryParam("masterLprId") String masterLprId) {
-        Response.ResponseBuilder response;
-
-        try {
-            response = Response.ok(dropFromWaitlist(ContextUtils.createDefaultContextInfo(), masterLprId));
-        } catch (Exception e) {
-            LOGGER.warn("Exception occurred", e);
-            response = Response.serverError().entity(e.getMessage());
-        }
-
-        return response.build();
-    }
-
     /**
      * All info about a registration request can be found in the LprTransaction. get the lpr transaction and transform
      * it into something useful.
+     *
+     * This method has been temporarily set as public because the TestCourseRegistrationEngine is relying on it...
      *
      * @param regReqId    registration request id
      * @param contextInfo context of the call
@@ -988,7 +1024,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
      * @throws OperationFailedException
      * @throws DoesNotExistException
      */
-    public RegistrationResponseResult getRegistrationStatus(String regReqId, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
+     public RegistrationResponseResult getRegistrationStatusLocal(String regReqId, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
 
         RegistrationResponseResult result = new RegistrationResponseResult();
 
@@ -1041,43 +1077,6 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         }
 
         return result;
-    }
-
-    /*
-     * Utility method to update any kind of schedule item (registered, waitlisted, etc)
-     */
-    private ScheduleItemResult updateRegistrationItem(String courseCode, String regGroupCode, String masterLprId, String credits, String gradingOptionId, ContextInfo contextInfo, String typeKey) throws DoesNotExistException, PermissionDeniedException, OperationFailedException, InvalidParameterException, ReadOnlyException, MissingParameterException, DataValidationErrorException, AlreadyExistsException {
-        RegistrationRequestInfo registrationRequestInfo = new RegistrationRequestInfo();
-        String userId = contextInfo.getPrincipalId();
-        LprInfo masterLpr = getLprService().getLpr(masterLprId, contextInfo);
-
-        //Populate Fields for RegRequestInfo object
-        registrationRequestInfo.setRequestorId(userId);
-        registrationRequestInfo.setStateKey(LprServiceConstants.LPRTRANS_NEW_STATE_KEY);
-        registrationRequestInfo.setTypeKey(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY);
-
-        //Create Reg Request Item
-        RegistrationRequestItemInfo registrationRequestItem = CourseRegistrationAndScheduleOfClassesUtil.createNewRegistrationRequestItem(userId, null, masterLprId, credits, gradingOptionId, typeKey, LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY, false);
-        List<RegistrationRequestItemInfo> registrationRequestItemInfos = new ArrayList<RegistrationRequestItemInfo>();
-        registrationRequestItemInfos.add(registrationRequestItem);
-        registrationRequestInfo.setRegistrationRequestItems(registrationRequestItemInfos);
-        registrationRequestInfo.setTermId(masterLpr.getAtpId());
-
-        //Create Registration Request
-        RegistrationRequestInfo newRegReq = CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().createRegistrationRequest(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY, registrationRequestInfo, contextInfo);
-
-        // submit the request to the registration engine.
-        CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().submitRegistrationRequest(newRegReq.getId(), contextInfo);
-
-        //Build Result object
-        ScheduleItemResult scheduleItemResult = new ScheduleItemResult();
-        scheduleItemResult.setCourseCode(courseCode);
-        scheduleItemResult.setCredits(credits);
-        scheduleItemResult.setGradingOptions(gradingOptionId);
-        scheduleItemResult.setRegGroupCode(regGroupCode);
-        scheduleItemResult.setUserId(userId);
-
-        return scheduleItemResult;
     }
 
     protected LprService getLprService() {

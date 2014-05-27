@@ -1,19 +1,12 @@
 package org.kuali.student.enrollment.registration.client.service;
 
-import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
 import org.kuali.student.enrollment.registration.client.service.dto.ScheduleCalendarEventResult;
-import org.kuali.student.enrollment.registration.client.service.dto.ScheduleItemResult;
 import org.kuali.student.enrollment.registration.client.service.dto.StudentScheduleTermResult;
-import org.kuali.student.enrollment.registration.client.service.dto.WaitlistEntryResult;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 
 import javax.security.auth.login.LoginException;
 import javax.ws.rs.Consumes;
@@ -47,18 +40,30 @@ public interface CourseRegistrationClientService {
      * @param credits
      * @param allowWaitlist
      * @return The response should be instant and give a handle to the registrationRequestId. The registration engine is
-     * ansynchonous so the client will need to poll the system for status updates.
+     * asynchronous so the client will need to poll the system for status updates.
      */
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/registerreggroup")
-    public Response registerForRegistrationGroupRS(@QueryParam("termCode") String termCode,
+    Response registerForRegistrationGroup(@QueryParam("termCode") String termCode,
                                                    @QueryParam("courseCode") String courseCode,
                                                    @QueryParam("regGroupCode") String regGroupCode,
                                                    @QueryParam("regGroupId") String regGroupId,
                                                    @QueryParam("credits") String credits,
                                                    @QueryParam("gradingOption") String gradingOptionId,
                                                    @QueryParam("allowWaitlist") boolean allowWaitlist);
+
+    /**
+     * This method drops a registration group. It will first create a drop request and then submit that request
+     * to the registration engine.
+     *
+     * @param masterLprId
+     * @return The response should be instant and give a handle to the registrationRequestId. The registration engine is
+     * asynchronous so the client will need to poll the system for status updates.
+     */
+    @DELETE
+    @Path("/dropRegistrationGroup")
+    Response dropRegistrationGroup(@QueryParam("masterLprId") String masterLprId);
 
     /**
      * Returns statistics for the registration engine.
@@ -69,7 +74,17 @@ public interface CourseRegistrationClientService {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/stats/regengine")
-    public Response getRegEngineStatsRS();
+    Response getRegEngineStats();
+
+    /**
+     * Clears the overall registration engine stats.
+     * It will not clear the MQ stats plugin.
+     *
+     * @return Http Response
+     */
+    @DELETE
+    @Path("/stats/regengine/clear")
+    Response clearRegEngineStatsRS();
 
     /**
      * SEARCH for STUDENT REGISTRATION INFO
@@ -80,25 +95,59 @@ public interface CourseRegistrationClientService {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/personschedule")
-    public List<StudentScheduleTermResult> searchForScheduleByPersonAndTermRS(@QueryParam("termId") String termId,
-                                                                              @QueryParam("termCode") String termCode) throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException;
-
+    List<StudentScheduleTermResult> searchForScheduleByPersonAndTerm(@QueryParam("termId") String termId,
+                                                                            @QueryParam("termCode") String termCode) throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException;
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/personschedulecalendar")
-    public List<List<ScheduleCalendarEventResult>> searchForScheduleCalendarByPersonAndTermRS(@QueryParam("termId") String termId,
-                                                                                              @QueryParam("termCode") String termCode) throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException;
+    List<List<ScheduleCalendarEventResult>> searchForScheduleCalendarByPersonAndTerm(@QueryParam("termId") String termId,
+                                                                                            @QueryParam("termCode") String termCode) throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException;
+    /**
+     * Creates a new RegistrationRequest with type Update
+     * and submits it to be processed
+     *
+     * @param courseCode      - course code for the selected course
+     * @param regGroupCode    - Reg Group code for the selected course
+     * @param masterLprId     - Master LPR Id for the selected course
+     * @param credits         - current credits registered for
+     * @param gradingOptionId - current grading option registered for
+     * @return
+     */
+    @PUT
+    @Produces({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
+    @Path("/updateScheduleItem")
+    Response updateScheduleItem(@FormParam("courseCode") String courseCode,
+                                       @FormParam("regGroupCode") String regGroupCode,
+                                       @FormParam("masterLprId") String masterLprId,
+                                       @FormParam("credits") String credits,
+                                       @FormParam("gradingOptionId") String gradingOptionId);
+
+    @PUT
+    @Produces({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
+    @Path("/updateWaitlistEntry")
+    Response updateWaitlistEntry(@FormParam("courseCode") String courseCode,
+                                          @FormParam("regGroupCode") String regGroupCode,
+                                          @FormParam("masterLprId") String masterLprId,
+                                          @FormParam("credits") String credits,
+                                          @FormParam("gradingOptionId") String gradingOptionId);
 
     /**
-     * Clears the overall registration engine stats.
-     * It will not clear the MQ stats plugin.
+     * Gets the current registration status for a particular registration request
      *
-     * @return Http Response
+     * @param regReqId
+     * @return
      */
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("/getRegistrationStatus")
+    Response getRegistrationStatus(@QueryParam("regReqId") String regReqId);
+
     @DELETE
-    @Path("/stats/regengine/clear")
-    public Response clearRegEngineStatsRS();
+    @Path("/dropFromWaitlistEntry")
+    Response dropFromWaitlistEntry(@QueryParam("masterLprId") String masterLprId);
 
     /**
      * Finds all LPRs for a given personId and deletes them
@@ -112,74 +161,9 @@ public interface CourseRegistrationClientService {
      * @throws PermissionDeniedException
      * @throws DoesNotExistException
      */
-
     @DELETE
     @Path("/clearpersonlprs")
-    public Response clearLPRsByPersonRS(@QueryParam("person") String personId) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException;
-
-    /**
-     * Creates a new RegistrationRequest with type Update
-     * and submits it to be processed
-     *
-     * @param courseCode      - course code for the selected course
-     * @param regGroupCode    - Reg Group code for the selected course
-     * @param masterLprId     - Master LPR Id for the selected course
-     * @param credits         - current credits registered for
-     * @param gradingOptionId - current grading option registered for
-     * @return
-     */
-
-    @PUT
-    @Produces({MediaType.APPLICATION_JSON})
-    @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
-    @Path("/updateScheduleItem")
-    public Response updateScheduleItemRS(@FormParam("courseCode") String courseCode,
-                                         @FormParam("regGroupCode") String regGroupCode,
-                                         @FormParam("masterLprId") String masterLprId,
-                                         @FormParam("credits") String credits,
-                                         @FormParam("gradingOptionId") String gradingOptionId);
-
-    /**
-     * This is the "one click" registration method. It will first create a registration request then submit that
-     * request to the registration engine.
-     *
-     * @param masterLprId
-     * @return The response should be instant and give a handle to the registrationRequestId. The registration engine is
-     * ansynchonous so the client will need to poll the system for status updates.
-     */
-    @DELETE
-    @Path("/dropRegistrationGroup")
-    public Response dropRegistrationGroupRS(@QueryParam("masterLprId") String masterLprId);
-
-    /**
-     * Gets the current registration status for a particular registration request
-     *
-     * @param regReqId
-     * @return
-     */
-    @GET
-    @Produces({MediaType.APPLICATION_JSON})
-    @Path("/getRegistrationStatus")
-    public Response getRegistrationStatusRS(@QueryParam("regReqId") String regReqId);
-
-
-    public ScheduleItemResult updateWaitlistEntry(String courseCode, String regGroupCode, String masterLprId, String credits, String gradingOptionId, ContextInfo contextInfo) throws DoesNotExistException, PermissionDeniedException, OperationFailedException, InvalidParameterException, ReadOnlyException, MissingParameterException, DataValidationErrorException, AlreadyExistsException;
-
-    @PUT
-    @Produces({MediaType.APPLICATION_JSON})
-    @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
-    @Path("/updateWaitlistEntry")
-    public Response updateWaitlistEntryRS(@FormParam("courseCode") String courseCode,
-                                          @FormParam("regGroupCode") String regGroupCode,
-                                          @FormParam("masterLprId") String masterLprId,
-                                          @FormParam("credits") String credits,
-                                          @FormParam("gradingOptionId") String gradingOptionId);
-
-    public RegistrationResponseInfo dropFromWaitlist(ContextInfo contextInfo, String masterLprId) throws DoesNotExistException, PermissionDeniedException, OperationFailedException, InvalidParameterException, ReadOnlyException, MissingParameterException, DataValidationErrorException, AlreadyExistsException, LoginException;
-
-    @DELETE
-    @Path("/dropFromWaitlistEntry")
-    public Response dropFromWaitlistEntryRS(@QueryParam("masterLprId") String masterLprId);
+    Response clearLPRsByPersonRS(@QueryParam("person") String personId) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException;
 
     /**
      * This method returns a roster of students on a waitlist for a particular registration group.
@@ -193,25 +177,9 @@ public interface CourseRegistrationClientService {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/getWaitlistRoster")
-    public Response searchForWaitlistRosterRS(@QueryParam("termId") String termId,
-                                              @QueryParam("termCode") String termCode,
-                                              @QueryParam("courseCode") String courseCode,
-                                              @QueryParam("regGroupCode") String regGroupCode);
-
-    /**
-     * This method returns a roster of students on a waitlist for a particular registration group.
-     *
-     * @param termId - optional
-     * @param termCode - human readable code representing the term. ex: 201208
-     * @param courseCode - human readable code representing the course. ex: CHEM231
-     * @param regGroupCode - human readable code representing the reg group. ex: 1001
-     * @param contextInfo
-     * @return
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
-     */
-    public List<WaitlistEntryResult> searchForWaitlistRoster(String termId, String termCode, String courseCode, String regGroupCode, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    Response searchForWaitlistRoster(@QueryParam("termId") String termId,
+                                            @QueryParam("termCode") String termCode,
+                                            @QueryParam("courseCode") String courseCode,
+                                            @QueryParam("regGroupCode") String regGroupCode);
 
 }

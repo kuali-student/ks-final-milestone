@@ -100,7 +100,7 @@ public class TestCourseRegistrationEngine {
         waitFor(3000);    // wait for reg engine to process
 
         // get status of reg request
-        RegistrationResponseResult registrationResponseResult = courseRegistrationClientService.getRegistrationStatus(responseInfo.getRegistrationRequestId(), CONTEXT);
+        RegistrationResponseResult registrationResponseResult = courseRegistrationClientService.getRegistrationStatusLocal(responseInfo.getRegistrationRequestId(), CONTEXT);
 
         System.out.println(registrationResponseResult);
 
