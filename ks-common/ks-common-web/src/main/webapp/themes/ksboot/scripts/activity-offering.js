@@ -765,7 +765,14 @@ function rdlStartTimeOnBlur(baseUrl) {
 
     ajaxGetValues(baseUrl, 'getAjaxSEndTimes', function (options) {
 
-        if (jQuery('#rdl_endtime_control.ui-autocomplete-input').length) {
+        if(jQuery('#rdl_endtime_control').is('select')){
+            jQuery('#rdl_endtime_control').find('option').remove().end();
+            for (var i = 0; i < options.length; i++) {
+                var newOption = jQuery('<option>' + options[i] + '</option>');
+                newOption.attr('value', options[i]);
+                jQuery('#rdl_endtime_control').append(newOption);
+            }
+        }else if (jQuery('#rdl_endtime_control.ui-autocomplete-input').length) {
             jQuery('#rdl_endtime_control').autocomplete("option", "source", options);
         } else {
             if (options.length > 0) {
