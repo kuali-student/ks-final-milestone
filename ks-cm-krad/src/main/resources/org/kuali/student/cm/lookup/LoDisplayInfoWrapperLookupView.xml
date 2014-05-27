@@ -66,7 +66,7 @@
                         <bean parent="KS-Uif-DropdownControl" p:additionalCssClasses="lo_lightbox_name" />
                     </property>
                 </bean>
-                <bean parent="Uif-SecondaryActionButton" p:actionLabel="Show" p:additionalCssClasses="lo_lightbox_name" p:methodToCall="performSearch"/>
+                <bean parent="Uif-SecondaryActionButton" p:actionLabel="Show" p:additionalCssClasses="lo_lightbox_name" p:methodToCall="search"/>
             </list>
         </property>
         <property name="resultFields">
@@ -76,6 +76,19 @@
                 <bean parent="KS-Uif-DataField" p:propertyName="name" p:label="Category" />
                 <bean parent="KS-Uif-DataField" p:propertyName="descr.plain" p:label="Description" p:escapeHtmlInPropertyValue="false" />
            </list>
+        </property>
+        <property name="footer">
+            <bean parent="KS-Uif-FooterBase">
+                <property name="items">
+                    <list>
+                        <bean id="KS-AddLo-Button" parent="KS-Uif-PrimaryActionButton">
+                            <property name="actionLabel" value="Add Learning Objective(s)"/>
+                            <property name="methodToCall" value=""/>
+                        </bean>
+                        <bean id="KS-CancelLo-Button" parent="Uif-CancelAction" p:onClickScript="closeLightbox();return false;"/>
+                    </list>
+                </property>
+            </bean>
         </property>
     </bean>
     
