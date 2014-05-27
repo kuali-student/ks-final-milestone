@@ -1,17 +1,67 @@
 /**** Edit section of card ****/
 
 .kscr-Edit{
-   padding: 0 1em 0.5em;
-   font-family: @secondaryFontFamily;
-   font-size: 13px;
-   font-weight: normal;
-   color: @primaryTextColor;
+    color: @primaryTextColor;
+    font-family: @secondaryFontFamily;
+    font-size: 13px;
+    font-weight: normal;
+    margin: 0 10px 0 0;
+    max-width: 185px;
+    padding: 0 0 0.5em;
+    width: 50%;
+
+    &:first-child {
+        padding-left: 1em;
+    }
 }
 
 .kscr-Edit-details {
-  display:block;
-  font-family: @secondaryFontFamily;
-  font-size: 13px;
-  font-weight: normal;
-  color: @primaryTextColor;
+    display:block;
+    font-family: @secondaryFontFamily;
+    font-size: 13px;
+    font-weight: normal;
+    color: @primaryTextColor;
+}
+
+
+.kscr-Edit-option {
+    background-color: @optionBackground;
+    border: 1px solid @optionBorder;
+    color: @optionText;
+    cursor: pointer;
+    font-family: @secondaryFontFamily;
+    font-size: 14px;
+    font-weight: normal;
+    margin: 0 0 3px;
+    outline: 1px solid @optionOutline;
+    padding: 8px 28px 8px 10px;
+    position: relative;
+
+    & input {
+        display: none;
+    }
+
+    & span {
+        font-weight: normal !important;
+    }
+
+    & .glyphicon {
+        color: #AEBACC;
+        font-size: 20px;
+        position: absolute;
+        right: 5px;
+        top: 9px;
+    }
+
+    &--Selected {
+        background-color: @optionBackgroundSelected;
+        border-color: @optionBorderSelected;
+        color: @optionTextSelected;
+        font-weight: bold;
+        outline-color: @optionOutlineSelected;
+
+        & .glyphicon {
+            color: @optionTextSelected;
+        }
+    }
 }
