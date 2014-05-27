@@ -330,6 +330,8 @@ limitations under the License.
             </list>
         </property>
         <property name="disclosure.render" value="true"/>
+        <property name="disclosure.collapsedIconClass" value="ks-fontello-icon-right-open"/>
+        <property name="disclosure.expandedIconClass" value="ks-fontello-icon-down-open"/>
         <property name="instructionalText" value="@{!#view.readOnly ? 'Adding events is optional.' : ''}"/>
         <property name="instructionalMessage">
             <bean parent="Uif-InstructionalMessage"/>
@@ -492,6 +494,8 @@ limitations under the License.
         <property name="layoutManager.lineGroupPrototype">
             <bean parent="Uif-CollectionVerticalBoxItem">
                 <property name="disclosure.render" value="true"/>
+                <property name="disclosure.collapsedIconClass" value="ks-fontello-icon-right-open"/>
+                <property name="disclosure.expandedIconClass" value="ks-fontello-icon-down-open"/>
                 <property name="footer.render" value="@{#isAddLine}"/>
                 <property name="header">
                     <bean parent="Uif-HeaderFour">

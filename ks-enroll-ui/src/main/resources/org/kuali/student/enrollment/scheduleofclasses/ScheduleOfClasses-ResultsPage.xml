@@ -183,6 +183,8 @@
         <property name="layoutManager.lineGroupPrototype">
             <bean id="linegroupPrototype_@{#index}" parent="Uif-CollectionVerticalBoxItem">
                 <property name="disclosure.render" value="true"/>
+                <property name="disclosure.collapsedIconClass" value="ks-fontello-icon-right-open"/>
+                <property name="disclosure.expandedIconClass" value="ks-fontello-icon-down-open"/>
                 <property name="footer.render" value="false"/>
                 <property name="header">
                     <bean id="ao_cluster_header" parent="Uif-HeaderFour">
@@ -319,6 +321,8 @@
         <property name="layoutManager.lineGroupPrototype">
             <bean id="linegroupPrototype_@{#index}" parent="Uif-CollectionVerticalBoxItem">
                 <property name="disclosure.render" value="true"/>
+                <property name="disclosure.collapsedIconClass" value="ks-fontello-icon-right-open"/>
+                <property name="disclosure.expandedIconClass" value="ks-fontello-icon-down-open"/>
                 <property name="footer.render" value="false"/>
                 <property name="header">
                     <bean id="reg_group_cluster_header" parent="Uif-HeaderFour">

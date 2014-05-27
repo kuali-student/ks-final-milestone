@@ -64,6 +64,8 @@
             <bean id="term_section" parent="Uif-CollectionVerticalBoxItem">
 
                 <property name="disclosure.render" value="true"/>
+                <property name="disclosure.collapsedIconClass" value="ks-fontello-icon-right-open"/>
+                <property name="disclosure.expandedIconClass" value="ks-fontello-icon-down-open"/>
                 <property name="disclosure.defaultOpen" value="false"/>
                 <property name="header">
                     <bean parent="Uif-HeaderFour"

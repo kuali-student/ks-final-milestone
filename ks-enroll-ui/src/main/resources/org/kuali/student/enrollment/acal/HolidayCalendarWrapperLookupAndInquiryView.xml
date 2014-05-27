@@ -203,6 +203,8 @@
         <property name="header">
             <bean parent="Uif-HeaderThree"/>
         </property>
+        <property name="disclosure.collapsedIconClass" value="icon-caret-right"/>
+        <property name="disclosure.expandedIconClass" value="icon-caret-down"/>
         <property name="items">
             <list>
                 <bean parent="Uif-GridGroup"
