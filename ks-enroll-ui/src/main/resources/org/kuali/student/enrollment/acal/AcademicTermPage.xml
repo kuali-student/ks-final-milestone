@@ -595,7 +595,7 @@
                         <bean parent="KS-Uif-CheckboxControl"/>
                     </property>
                 </bean>
-                <bean parent="Uif-MessageField" p:label="Exclude Saturday" p:fieldLabel.renderColon="false"
+                <bean parent="Uif-MessageField" p:label="Exclude Saturday" p:fieldLabel.renderColon="false" p:render="@{#view.readOnly}"
                       p:messageText="@{(#line.isExcludeSaturdayUI() eq null or !#line.isExcludeSaturdayUI()) ? '':'Yes'}" />
                 <bean parent="KS-Uif-InputField" p:id="exclude_Sunday" p:label="Exclude Sunday"
                       p:propertyName="excludeSunday" p:render="@{!#view.readOnly}">
@@ -603,7 +603,7 @@
                         <bean parent="KS-Uif-CheckboxControl"/>
                     </property>
                 </bean>
-                <bean parent="Uif-MessageField" p:label="Exclude Sunday" p:fieldLabel.renderColon="false"
+                <bean parent="Uif-MessageField" p:label="Exclude Sunday" p:fieldLabel.renderColon="false" p:render="@{#view.readOnly}"
                       p:messageText="@{(#line.isExcludeSundayUI() eq null or !#line.isExcludeSundayUI()) ? '':'Yes'}" />
             </list>
         </property>
