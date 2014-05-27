@@ -144,15 +144,9 @@ public class CourseSearchStrategyTest {
 	@Test
 	public void testAddDivisionSearchesNothing() {
 		CourseSearchStrategyImpl strategy = new CourseSearchStrategyImpl();
-		ArrayList<String> divisions = new ArrayList<String>();
-		ArrayList<String> levels = new ArrayList<String>();
-		ArrayList<String> codes = new ArrayList<String>();
-        ArrayList<String> incompleteCodes = new ArrayList<String>();
-        ArrayList<String> completeCodes = new ArrayList<String>();
-        ArrayList<String> completeLevels = new ArrayList<String>();
+        Map<String,List<String>> mapComponents = new HashMap<String,List<String>>();
 		ArrayList<SearchRequestInfo> requests = new ArrayList<SearchRequestInfo>();
-        ArrayList<String> keywordDivisions = new ArrayList<String>();
-		strategy.addComponentSearches(divisions, keywordDivisions, levels, codes,incompleteCodes, completeCodes, completeLevels, requests);
+		strategy.addComponentRequests(mapComponents, requests);
 		assertTrue(requests.isEmpty());
 	}
 
@@ -161,14 +155,10 @@ public class CourseSearchStrategyTest {
 		CourseSearchStrategyImpl strategy = new CourseSearchStrategyImpl();
 		ArrayList<String> divisions = new ArrayList<String>();
 		divisions.add("DIVISION");
-		ArrayList<String> codes = new ArrayList<String>();
-		ArrayList<String> levels = new ArrayList<String>();
-        ArrayList<String> incompleteCodes = new ArrayList<String>();
-        ArrayList<String> completeLevels = new ArrayList<String>();
-        ArrayList<String> completeCodes = new ArrayList<String>();
-        ArrayList<String> keywordDivisions = new ArrayList<String>();
 		ArrayList<SearchRequestInfo> requests = new ArrayList<SearchRequestInfo>();
-		strategy.addComponentSearches(divisions, keywordDivisions, codes, levels, incompleteCodes, completeCodes, completeLevels, requests);
+        Map<String,List<String>> mapComponents = new HashMap<String,List<String>>();
+        mapComponents.put("division",divisions);
+		strategy.addComponentRequests(mapComponents, requests);
 		assertEquals(1, requests.size());
 		SearchRequestInfo request = requests.get(0);
 		assertEquals("ksap.lu.search.division", request.getSearchKey());
@@ -182,13 +172,11 @@ public class CourseSearchStrategyTest {
 		divisions.add("DIVISION");
 		ArrayList<String> codes = new ArrayList<String>();
 		codes.add("CODE");
-		ArrayList<String> levels = new ArrayList<String>();
-        ArrayList<String> incompleteCodes = new ArrayList<String>();
 		ArrayList<SearchRequestInfo> requests = new ArrayList<SearchRequestInfo>();
-        ArrayList<String> completeLevels = new ArrayList<String>();
-        ArrayList<String> completeCodes = new ArrayList<String>();
-        ArrayList<String> keywordDivisions = new ArrayList<String>();
-		strategy.addComponentSearches(divisions, keywordDivisions, codes, levels, incompleteCodes, completeCodes, completeLevels, requests);
+        Map<String,List<String>> mapComponents = new HashMap<String,List<String>>();
+        mapComponents.put("division",divisions);
+        mapComponents.put("codes",codes);
+		strategy.addComponentRequests(mapComponents, requests);
 		assertEquals(3, requests.size());
 		SearchRequestInfo request = requests.get(0);
 		assertEquals("ksap.lu.search.divisionAndCode", request.getSearchKey());
@@ -202,15 +190,13 @@ public class CourseSearchStrategyTest {
 		;
 		ArrayList<String> divisions = new ArrayList<String>();
 		divisions.add("DIVISION");
-		ArrayList<String> codes = new ArrayList<String>();
 		ArrayList<String> levels = new ArrayList<String>();
 		levels.add("100");
-        ArrayList<String> incompleteCodes = new ArrayList<String>();
-        ArrayList<String> completeLevels = new ArrayList<String>();
-        ArrayList<String> completeCodes = new ArrayList<String>();
 		ArrayList<SearchRequestInfo> requests = new ArrayList<SearchRequestInfo>();
-        ArrayList<String> keywordDivisions = new ArrayList<String>();
-		strategy.addComponentSearches(divisions, keywordDivisions, codes, levels, incompleteCodes, completeCodes, completeLevels, requests);
+        Map<String,List<String>> mapComponents = new HashMap<String,List<String>>();
+        mapComponents.put("division",divisions);
+        mapComponents.put("levels",levels);
+        strategy.addComponentRequests(mapComponents, requests);
 		assertEquals(3, requests.size());
 		SearchRequestInfo request = requests.get(0);
 		assertEquals("ksap.lu.search.divisionAndLevel",
@@ -225,15 +211,13 @@ public class CourseSearchStrategyTest {
         ;
         ArrayList<String> divisions = new ArrayList<String>();
         divisions.add("DIVISION");
-        ArrayList<String> codes = new ArrayList<String>();
-        ArrayList<String> levels = new ArrayList<String>();
         ArrayList<String> incompleteCodes = new ArrayList<String>();
         incompleteCodes.add("DIVISION1");
-        ArrayList<String> completeCodes = new ArrayList<String>();
-        ArrayList<String> completeLevels = new ArrayList<String>();
         ArrayList<SearchRequestInfo> requests = new ArrayList<SearchRequestInfo>();
-        ArrayList<String> keywordDivisions = new ArrayList<String>();
-        strategy.addComponentSearches(divisions, keywordDivisions, codes, levels, incompleteCodes, completeCodes, completeLevels, requests);
+        Map<String,List<String>> mapComponents = new HashMap<String,List<String>>();
+        mapComponents.put("division",divisions);
+        mapComponents.put("incompleteCodes",incompleteCodes);
+        strategy.addComponentRequests(mapComponents, requests);
         assertEquals(1, requests.size());
         SearchRequestInfo request = requests.get(0);
         assertEquals("ksap.lu.search.courseCode",
@@ -286,7 +270,7 @@ public class CourseSearchStrategyTest {
 		form.setSearchTerm("any");
 		CourseSearchStrategyImpl strategy = new CourseSearchStrategyImpl();
 		;
-		List<SearchRequestInfo> requests = strategy.queryToRequests(form);
+		List<SearchRequestInfo> requests = strategy.buildSearchRequests(form);
 		assertEquals(1, requests.size());
 		assertEquals("ksap.lu.search.divisionAndCode", requests.get(0)
 				.getSearchKey());
@@ -318,7 +302,7 @@ public class CourseSearchStrategyTest {
 		;
 		SearchRequestInfo request = null;
 		SearchParamInfo param = null;
-		List<SearchRequestInfo> requests = strategy.queryToRequests(form);
+		List<SearchRequestInfo> requests = strategy.buildSearchRequests(form);
 		List<SearchParamInfo> params = null;
 		assertEquals(3, requests.size());
 
@@ -375,7 +359,7 @@ public class CourseSearchStrategyTest {
 		form.setSearchTerm("any");
 		CourseSearchStrategyImpl strategy = new CourseSearchStrategyImpl();
 		;
-		List<SearchRequestInfo> requests = strategy.queryToRequests(form);
+		List<SearchRequestInfo> requests = strategy.buildSearchRequests(form);
 		List<SearchParamInfo> params = null;
 		SearchRequestInfo request = null;
 		SearchParamInfo param = null;
@@ -416,7 +400,7 @@ public class CourseSearchStrategyTest {
 		form.setSearchTerm("any");
 		CourseSearchStrategyImpl strategy = new CourseSearchStrategyImpl();
 		;
-		List<SearchRequestInfo> requests = strategy.queryToRequests(form);
+		List<SearchRequestInfo> requests = strategy.buildSearchRequests(form);
 		SearchParamInfo param = null;
 		SearchRequestInfo request = null;
 		List<SearchParamInfo> params = null;
@@ -455,7 +439,7 @@ public class CourseSearchStrategyTest {
 		form.setSearchTerm("any");
 		CourseSearchStrategyImpl strategy = new CourseSearchStrategyImpl();
 		;
-		List<SearchRequestInfo> requests = strategy.queryToRequests(form);
+		List<SearchRequestInfo> requests = strategy.buildSearchRequests(form);
 		List<SearchParamInfo> params = null;
 		SearchParamInfo param = null;
 		SearchRequestInfo request = null;
@@ -555,7 +539,7 @@ public class CourseSearchStrategyTest {
 		form.setSearchTerm("any");
 		CourseSearchStrategyImpl strategy = new CourseSearchStrategyImpl();
 		;
-		List<SearchRequestInfo> requests = strategy.queryToRequests(form);
+		List<SearchRequestInfo> requests = strategy.buildSearchRequests(form);
 		List<SearchParamInfo> params = null;
 		SearchParamInfo param = null;
 		SearchRequestInfo request = null;
@@ -713,7 +697,7 @@ public class CourseSearchStrategyTest {
 		form.setCampusSelect(campusParams);
 		form.setSearchTerm("");
 		CourseSearchStrategyImpl strategy = new CourseSearchStrategyImpl();
-		List<SearchRequestInfo> requests = strategy.queryToRequests(form);
+		List<SearchRequestInfo> requests = strategy.buildSearchRequests(form);
 		assertTrue(requests.isEmpty());
 	}
 
@@ -774,7 +758,7 @@ public class CourseSearchStrategyTest {
 		request.addParam("division", "ASTR  ");
 		request.addParam("campuses", CourseSearchStrategyImpl.NO_CAMPUS);
 		requests.add(request);
-		strategy.processRequests(requests, form);
+		strategy.adjustSearchRequests(requests, form);
 		SearchParamInfo param = null;
 		List<SearchParamInfo> params = null;
 		assertEquals(3, requests.size());
@@ -836,7 +820,7 @@ public class CourseSearchStrategyTest {
 		requests.add(request);
 		List<SearchParamInfo> params = null;
 		SearchParamInfo param = null;
-		strategy.processRequests(requests, form);
+		strategy.adjustSearchRequests(requests, form);
 		assertEquals(3, requests.size());
 
 		request = requests.get(0);
@@ -912,7 +896,7 @@ public class CourseSearchStrategyTest {
 		requests.add(request);
 		List<SearchParamInfo> params = null;
 		SearchParamInfo param = null;
-		strategy.processRequests(requests, form);
+		strategy.adjustSearchRequests(requests, form);
 		assertEquals(2, requests.size());
 
 		request = requests.get(0);
@@ -962,7 +946,7 @@ public class CourseSearchStrategyTest {
 
 		List<SearchParamInfo> params = null;
 		SearchParamInfo param = null;
-		strategy.processRequests(requests, form);
+		strategy.adjustSearchRequests(requests, form);
 		assertEquals(4, requests.size());
 
 		request = requests.get(0);
@@ -1034,7 +1018,7 @@ public class CourseSearchStrategyTest {
 
 		List<SearchParamInfo> params = null;
 		SearchParamInfo param = null;
-		strategy.processRequests(requests, form);
+		strategy.adjustSearchRequests(requests, form);
 		assertEquals(6, requests.size());
 
 		request = requests.get(0);
@@ -1126,7 +1110,7 @@ public class CourseSearchStrategyTest {
 		request.addParam("division", "A S   ");
 		request.addParam("campuses", CourseSearchStrategyImpl.NO_CAMPUS);
 		requests.add(request);
-		strategy.processRequests(requests, form);
+		strategy.adjustSearchRequests(requests, form);
 		SearchParamInfo param = null;
 		List<SearchParamInfo> params = null;
 		assertEquals(1, requests.size());
@@ -1153,7 +1137,7 @@ public class CourseSearchStrategyTest {
 		form.setCampusSelect(campusParams);
 		form.setSearchTerm("");
 		CourseSearchStrategyImpl strategy = new CourseSearchStrategyImpl();
-		strategy.processRequests(requests, form);
+		strategy.adjustSearchRequests(requests, form);
 		assertTrue(requests.isEmpty());
 
 	}

@@ -35,6 +35,7 @@ import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -332,4 +333,38 @@ public class CreditsFormatter {
 			credits = credits.substring(0, credits.length() - 2);
 		return credits;
 	}
+
+    /**
+     * Comparator used specifically for the credit facet.  We used to have only integers in there
+     * but switched to floats so that we could support partial credits (3.5) and the addition of a
+     * value that wraps up all values larger than some limit (6+)
+     */
+    public static final Comparator<String> CREDIT = new Comparator<String>() {
+        @Override
+        public int compare(String o1, String o2) {
+            if (o1 == null && o2 == null)
+                return 0;
+            if (o1 == null)
+                return -1;
+            if (o2 == null)
+                return 1;
+            if (o1.endsWith("+") && !o2.endsWith("+"))
+                return 1;
+            if (o2.endsWith("+") && !o1.endsWith("+"))
+                return -1;
+            float i1;
+            try {
+                i1 = Float.parseFloat(o1);
+            } catch (NumberFormatException e) {
+                i1 = Float.MAX_VALUE;
+            }
+            float i2;
+            try {
+                i2 = Float.parseFloat(o2);
+            } catch (NumberFormatException e) {
+                i2 = Float.MAX_VALUE;
+            }
+            return i1 == i2 ? 0 : i1 < i2 ? -1 : 1;
+        }
+    };
 }

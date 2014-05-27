@@ -14,6 +14,7 @@ import org.kuali.student.ap.coursesearch.CourseSearchItem;
 import org.kuali.student.ap.coursesearch.CourseSearchStrategy;
 import org.kuali.student.ap.coursesearch.Credit;
 import org.kuali.student.ap.coursesearch.CreditsFormatter;
+import org.kuali.student.ap.coursesearch.Hit;
 import org.kuali.student.ap.coursesearch.dataobject.CourseSearchItemImpl;
 import org.kuali.student.ap.coursesearch.dataobject.FacetItem;
 import org.kuali.student.ap.coursesearch.form.CourseSearchFormImpl;
@@ -24,6 +25,7 @@ import org.kuali.student.ap.coursesearch.util.GenEduReqFacet;
 import org.kuali.student.ap.coursesearch.util.TermsFacet;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.CourseSearchConstants;
+import org.kuali.student.ap.framework.context.TermHelper;
 import org.kuali.student.ap.framework.util.KsapHelperUtil;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -46,7 +48,6 @@ import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.CollectionUtils;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -86,56 +87,26 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         // Related to CourseSearchUI.xml definitions
         Map<String, Comparator<String>> l = new java.util.LinkedHashMap<String, Comparator<String>>(
                 5);
-        l.put("facet_quarter", TERMS);
-        l.put("facet_genedureq", ALPHA);
-        l.put("facet_credits", CREDIT);
-        l.put("facet_level", NUMERIC);
-        l.put("facet_curriculum", ALPHA);
+        l.put("facet_quarter", TermHelper.TERMS);
+        l.put("facet_genedureq", KsapHelperUtil.ALPHA);
+        l.put("facet_credits", CreditsFormatter.CREDIT);
+        l.put("facet_level", KsapHelperUtil.NUMERIC);
+        l.put("facet_curriculum", KsapHelperUtil.ALPHA);
         FACET_SORT = Collections
                 .unmodifiableMap(Collections.synchronizedMap(l));
     }
 
     @Override
-    public CourseSearchForm createSearchForm() {
+    public CourseSearchForm createInitialSearchForm() {
         CourseSearchFormImpl rv = new CourseSearchFormImpl();
         Set<String> o = getCampusLocations();
         rv.setCampusSelect(new java.util.ArrayList<String>(o));
         return rv;
     }
 
-    public static class Hit {
-        public String courseID;
-        public int count = 0;
-
-        public Hit(String courseID) {
-            this.courseID = courseID;
-            count = 1;
-        }
-
-        @Override
-        public boolean equals(Object other) {
-            return courseID.equals(((Hit) other).courseID);
-        }
-
-        @Override
-        public int hashCode() {
-            return courseID.hashCode();
-        }
-    }
-
-    public static class HitComparator implements Comparator<Hit> {
-        @Override
-        public int compare(Hit x, Hit y) {
-            if (x == null)
-                return -1;
-            if (y == null)
-                return 1;
-            return y.count - x.count;
-        }
-    }
-
-    public List<Hit> processSearchRequests(List<SearchRequestInfo> requests) {
-        LOG.info("Start of processSearchRequests of CourseSearchController: {}",
+    @Override
+    public List<Hit> preformSearch(List<SearchRequestInfo> requests) {
+        LOG.info("Start of preformSearch of CourseSearchController: {}",
                 System.currentTimeMillis());
         List<Hit> hits = new java.util.LinkedList<Hit>();
         Set<String> seen = new java.util.HashSet<String>();
@@ -160,7 +131,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
             } catch (PermissionDeniedException e) {
                 throw new IllegalArgumentException("CLU lookup error", e);
             }
-        LOG.info("End of processSearchRequests of CourseSearchController: {}",
+        LOG.info("End of preformSearch of CourseSearchController: {}",
                 System.currentTimeMillis());
         return hits;
     }
@@ -437,7 +408,8 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 
     }
 
-    private List<String> getTermsToFilterOn(String termFilter) {
+    @Override
+    public List<String> getTermsToFilterOn(String termFilter) {
         List<String> termsToFilterOn = new ArrayList<String>();
 
         if (termFilter.equals(CourseSearchForm.SEARCH_TERM_ANY_ITEM) || termFilter.equals(CourseSearchForm.SEARCH_TERM_SCHEDULED)) {
@@ -777,8 +749,8 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         int maxCount = maxCountProp != null && !"".equals(maxCountProp.trim()) ? Integer
                 .valueOf(maxCountProp) : MAX_HITS;
         this.limitExceeded = false;
-        List<SearchRequestInfo> requests = queryToRequests(form);
-        List<Hit> hits = processSearchRequests(requests);
+        List<SearchRequestInfo> requests = buildSearchRequests(form);
+        List<Hit> hits = preformSearch(requests);
         List<CourseSearchItem> courseList = new ArrayList<CourseSearchItem>();
         Map<String, String> courseStatusMap = getCourseStatusMap(studentId);
         List<String> courseIDs = new ArrayList<String>();
@@ -975,51 +947,39 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
     /**
      * Add searches based on the components found in the query string
      *
-     * @param divisions       - The list of divisions found in the query string
-     * @param codes           - The list of course codes found in the query string
-     * @param levels          - The list of course levels found in the query string
-     * @param incompleteCodes - The list of possible incomplete course codes found in the query string
-     * @param completeCodes   - The list of completed (division+code) course codes found in the query string
-     * @param completeLevels  - The list of completed (division+level) course codes found in the query string
+     * @param componentMap    - A map of the different components to make requests on
      * @param requests        - The list of search requests to be ran
      */
-    public void addComponentSearches(List<String> divisions, List<String> keywordDivisions, List<String> codes,
-                                     List<String> levels, List<String> incompleteCodes, List<String> completeCodes,
-                                     List<String> completeLevels, List<SearchRequestInfo> requests) {
+    @Override
+    public void addComponentRequests(Map<String, List<String>> componentMap, List<SearchRequestInfo> requests) {
 
+        // Separate components from the map
+        List<String> divisions = componentMap.get("divisions");
+        List<String> keywordDivisions = componentMap.get("keywordDivisions");
+        List<String> codes = componentMap.get("codes");
+        List<String> levels = componentMap.get("levels");
+        List<String> incompleteCodes = componentMap.get("incompleteCodes");
+        List<String> completeCodes = componentMap.get("completedCodes");
+        List<String> completeLevels = componentMap.get("completedLevels");
+
+        // Sort Components
         Collections.sort(divisions);
-        // Add keyword divisions after sort to maintain order of keyword divisions
-        divisions.addAll(keywordDivisions);
-
         Collections.sort(codes);
         Collections.sort(levels);
         Collections.sort(incompleteCodes);
 
-        List<SearchRequestInfo> completedCodeSearches = addCompletedCodeSearches(completeCodes, divisions, codes);
-
-        List<SearchRequestInfo> completedLevelSearches = addCompletedLevelSearches(completeLevels, divisions, levels);
-
-        List<SearchRequestInfo> incompleteCodeSearches = addIncompleteCodeSearches(incompleteCodes, divisions);
-
-        List<SearchRequestInfo> divisionAndCodeSearches = addDivisionAndCodeSearches(divisions, codes);
-
-        List<SearchRequestInfo> divisionAndLevelSearches = addDivisionAndLevelSearches(divisions, levels);
-
-        List<SearchRequestInfo> divisionSearches = addDivisionSearches(divisions);
-
-        List<SearchRequestInfo> codeSearches = addCodeSearches(codes);
-
-        List<SearchRequestInfo> levelSearches = addLevelSearches(levels);
+        // Add keyword divisions after sort to maintain order of keyword divisions
+        divisions.addAll(keywordDivisions);
 
         // Combine search requests in execution order
-        requests.addAll(completedCodeSearches);
-        requests.addAll(divisionAndCodeSearches);
-        requests.addAll(completedLevelSearches);
-        requests.addAll(divisionAndLevelSearches);
-        requests.addAll(incompleteCodeSearches);
-        requests.addAll(divisionSearches);
-        requests.addAll(codeSearches);
-        requests.addAll(levelSearches);
+        requests.addAll(addCompletedCodeSearches(completeCodes, divisions, codes));
+        requests.addAll(addDivisionAndCodeSearches(divisions, codes));
+        requests.addAll(addCompletedLevelSearches(completeLevels, divisions, levels));
+        requests.addAll(addDivisionAndCodeSearches(divisions, codes));
+        requests.addAll(addIncompleteCodeSearches(incompleteCodes, divisions));
+        requests.addAll(addDivisionSearches(divisions));
+        requests.addAll(addCodeSearches(codes));
+        requests.addAll(addLevelSearches(levels));
 
     }
 
@@ -1277,8 +1237,9 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
      * @param form - Page form with search information
      * @return The list of search requests to be ran.
      */
-    public List<SearchRequestInfo> queryToRequests(CourseSearchForm form) {
-        LOG.info("Start Of Method queryToRequests in CourseSearchStrategy: {}",
+    @Override
+    public List<SearchRequestInfo> buildSearchRequests(CourseSearchForm form) {
+        LOG.info("Start Of Method buildSearchRequests in CourseSearchStrategy: {}",
                 System.currentTimeMillis());
 
         // To keep search from being case specific all text is uppercased
@@ -1334,11 +1295,18 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
             pureQuery = pureQuery.replace(division + code, "");
         }
 
-        LOG.info("Start of method addComponentSearches of CourseSearchStrategy: {}",
+        LOG.info("Start of method addComponentRequests of CourseSearchStrategy: {}",
                 System.currentTimeMillis());
-        addComponentSearches(divisions, keywordDivisions, codes, levels, incompleteCodes, completedCodes,
-                completedLevels, requests);
-        LOG.info("End of method addComponentSearches of CourseSearchStrategy: {}",
+        Map<String,List<String>> componentMap = new HashMap<String,List<String>>();
+        componentMap.put("divisions", divisions);
+        componentMap.put("keywordDivisions", keywordDivisions);
+        componentMap.put("codes", codes);
+        componentMap.put("levels", levels);
+        componentMap.put("incompleteCodes", incompleteCodes);
+        componentMap.put("completedCodes", completedCodes);
+        componentMap.put("completedLevels", completedLevels);
+        addComponentRequests(componentMap, requests);
+        LOG.info("End of method addComponentRequests of CourseSearchStrategy: {}",
                 System.currentTimeMillis());
 
         LOG.info("Start of method addFullTextSearches of CourseSearchStrategy: {}",
@@ -1349,11 +1317,11 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 
         // Process Current list of Requests into direct search queries
         LOG.info("Count of No of Query Tokens: {}", requests.size());
-        requests = processRequests(requests, form);
-        LOG.info("No of Requests after processRequest method: {}",
+        requests = adjustSearchRequests(requests, form);
+        LOG.info("No of Requests after adjustSearchRequests method: {}",
                 requests.size());
 
-        LOG.info("End Of Method queryToRequests in CourseSearchStrategy: {}",
+        LOG.info("End Of Method buildSearchRequests in CourseSearchStrategy: {}",
                 System.currentTimeMillis());
 
         return requests;
@@ -1365,9 +1333,10 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
      * @param requests - The list of requests.
      * @param form     - The search form.
      */
-    public List<SearchRequestInfo> processRequests(List<SearchRequestInfo> requests,
+    @Override
+    public List<SearchRequestInfo> adjustSearchRequests(List<SearchRequestInfo> requests,
                                                    CourseSearchForm form) {
-        LOG.info("Start of method processRequests in CourseSearchStrategy: {}",
+        LOG.info("Start of method adjustSearchRequests in CourseSearchStrategy: {}",
                 System.currentTimeMillis());
         // Process search requests
 
@@ -1378,21 +1347,10 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         }
         requests = prunedRequests;
 
-        LOG.info("End of processRequests method in CourseSearchStrategy: {}",
+        LOG.info("End of adjustSearchRequests method in CourseSearchStrategy: {}",
                 System.currentTimeMillis());
 
         return requests;
-    }
-
-    private void addVersionDateParam(List<SearchRequestInfo> searchRequests) {
-        // String currentTerm =
-        // KsapFrameworkServiceLocator.getAtpHelper().getCurrentAtpId();
-        String lastScheduledTerm = KsapFrameworkServiceLocator.getTermHelper()
-                .getLastScheduledTerm().getId();
-        for (SearchRequestInfo searchRequest : searchRequests) {
-            // searchRequest.addParam("currentTerm", currentTerm);
-            searchRequest.addParam("lastScheduledTerm", lastScheduledTerm);
-        }
     }
 
     /**

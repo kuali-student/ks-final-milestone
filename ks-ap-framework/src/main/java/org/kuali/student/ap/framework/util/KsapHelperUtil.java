@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -157,4 +158,58 @@ public class KsapHelperUtil {
 
         return currentDate;
     }
+
+    /**
+     * Comparator for sorting the facet values of Numerical facets
+     */
+    public static final Comparator<String> NUMERIC = new Comparator<String>() {
+        @Override
+        public int compare(String o1, String o2) {
+            if (o1 == null && o2 == null)
+                return 0;
+            if (o1 == null)
+                return -1;
+            if (o2 == null)
+                return 1;
+            if (o1.startsWith("<") && !o2.startsWith("<"))
+                return -1;
+            if (o2.startsWith("<") && !o1.startsWith("<"))
+                return 1;
+            int i1;
+            try {
+                i1 = Integer.parseInt(o1);
+            } catch (NumberFormatException e) {
+                i1 = Integer.MAX_VALUE;
+            }
+            int i2;
+            try {
+                i2 = Integer.parseInt(o2);
+            } catch (NumberFormatException e) {
+                i2 = Integer.MAX_VALUE;
+            }
+            return i1 == i2 ? 0 : i1 < i2 ? -1 : 1;
+        }
+    };
+
+    /**
+     * Comparator for sorting the facet values of Alphabetical facets
+     */
+    public static final Comparator<String> ALPHA = new Comparator<String>() {
+        @Override
+        public int compare(String o1, String o2) {
+            if (o1 == null && o2 == null)
+                return 0;
+            if (o1 == null)
+                return -1;
+            if (o2 == null)
+                return 1;
+            if (o1.equals(o2))
+                return 0;
+            if ("Unknown".equals(o1) || "None".equals(o1))
+                return 1;
+            if ("Unknown".equals(o2) || "None".equals(o2))
+                return -1;
+            return o1.compareTo(o2);
+        }
+    };
 }
