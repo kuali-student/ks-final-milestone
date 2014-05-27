@@ -277,6 +277,7 @@
         <property name="schedulingService" ref="SchedulingService"/>
         <property name="rolloverAssist" ref="rolloverAssist"/>
         <property name="examOfferingServiceFacade" ref="examOfferingServiceFacade" />
+        <property name="generateExamOfferings" value="${ks.enroll.examoffering.generateOnSocSchedule.defaultvalue}" />
     </bean>
 
 
@@ -352,6 +353,7 @@
         <property name="courseWaitListService" ref="courseWaitListServiceImpl"/>
         <property name="roomService" ref="RoomService"/>
         <property name="courseOfferingServiceExtender" ref="courseOfferingServiceExtender"/>
+        <property name="generateExamOfferings" value="${ks.enroll.examoffering.generateOnRollover.defaultvalue}" />
         <!--The coService property is looked up in the service bus to prevent a circular spring reference-->
     </bean>
 
@@ -663,7 +665,7 @@
         <property name="typeService" ref="typeServiceCacheDecorator" />
         <property name="scheduleEvaluator" ref="examOfferingScheduleEvaluator" />
         <property name="schedulingService" ref="SchedulingService"/>
-        <property name="setLocation" value="true" />
+        <property name="setLocation" value="${ks.enroll.examoffering.useAoLocation.defaultvalue}" />
     </bean>
 
     <bean id="examOfferingScheduleEvaluator" class="org.kuali.student.enrollment.class2.examoffering.krms.evaluator.ExamOfferingSlottingEvaluatorImpl">

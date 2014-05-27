@@ -47,6 +47,8 @@ public class CourseOfferingSetSchedulingRunner implements Runnable {
 
     private final String socId;
 
+    private final List<String> optionKeys;
+
     private CourseOfferingSetService socService;
 
     private SchedulingService schedulingService;
@@ -57,8 +59,9 @@ public class CourseOfferingSetSchedulingRunner implements Runnable {
 
     private ContextInfo contextInfo;
 
-    public CourseOfferingSetSchedulingRunner (String socId) {
+    public CourseOfferingSetSchedulingRunner(String socId, List<String> optionKeys) {
         this.socId = socId;
+        this.optionKeys = optionKeys;
     }
 
     public CourseOfferingService getCoService() {
@@ -140,11 +143,14 @@ public class CourseOfferingSetSchedulingRunner implements Runnable {
                     }
                 }
 
-                try {
-                    examOfferingServiceFacade.generateFinalExamOffering(coInfo, new ArrayList<String>(), contextInfo);
-                    logger.info("Generating exam offerings for CO, id={} , coCode={}", coInfo.getId(), coInfo.getCourseOfferingCode());
-                } catch (DoesNotExistException ex) {
-                    logger.error("", ex);
+                // Check if generate final exam offerings should be performed.
+                if(!optionKeys.contains(CourseOfferingSetServiceConstants.CONTINUE_WITHOUT_EXAM_OFFERINGS_OPTION_KEY)){
+                    try {
+                        examOfferingServiceFacade.generateFinalExamOffering(coInfo, new ArrayList<String>(), contextInfo);
+                        logger.info("Generating exam offerings for CO, id={} , coCode={}", coInfo.getId(), coInfo.getCourseOfferingCode());
+                    } catch (DoesNotExistException ex) {
+                        logger.error("", ex);
+                    }
                 }
 
             }

@@ -215,6 +215,17 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         this.courseOfferingServiceExtender = courseOfferingServiceExtender;
     }
     // ----------------------------------------------------------------
+
+    private boolean generateExamOfferings;
+
+    public boolean isGenerateExamOfferings() {
+        return generateExamOfferings;
+    }
+
+    public void setGenerateExamOfferings(boolean generateExamOfferings) {
+        this.generateExamOfferings = generateExamOfferings;
+    }
+
     /**
      * Initializes services, if needed
      */
@@ -516,8 +527,11 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                         cluster, targetFo, aosInCluster);
             }
         }
-        //process final exam offerings for target course offering
-        if (!optionKeys.contains(CourseOfferingSetServiceConstants.CONTINUE_WITHOUT_EXAM_OFFERINGS_OPTION_KEY)) {
+
+        // process final exam offerings for target course offering if service is configured and
+        // check option keys, could be set to ignore eo generation from ui.
+        if(isGenerateExamOfferings() &&
+            (!optionKeys.contains(CourseOfferingSetServiceConstants.CONTINUE_WITHOUT_EXAM_OFFERINGS_OPTION_KEY))) {
             ExamOfferingContext examOfferingContext = new ExamOfferingContext(targetCo);
             examOfferingContext.setFoIdToListOfAOs(foIdsToAOList);
             examOfferingContext.setExamPeriodId(getExamOfferingServiceFacade().getExamPeriodId(targetCo.getTermId(), context));

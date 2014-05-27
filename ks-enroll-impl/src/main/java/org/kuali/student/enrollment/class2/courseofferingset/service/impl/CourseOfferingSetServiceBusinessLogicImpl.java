@@ -26,7 +26,6 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
@@ -49,8 +48,9 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
     private RolloverAssist rolloverAssist;
     private SocDao socDao;
     private ExamOfferingServiceFacade examOfferingServiceFacade;
-
     private SchedulingService schedulingService;
+
+    private boolean generateExamOfferings;
 
     public SocDao getSocDao() {
         return socDao;
@@ -123,6 +123,14 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
 
     public void setSchedulingService(SchedulingService schedulingService) {
         this.schedulingService = schedulingService;
+    }
+
+    public boolean isGenerateExamOfferings() {
+        return generateExamOfferings;
+    }
+
+    public void setGenerateExamOfferings(boolean generateExamOfferings) {
+        this.generateExamOfferings = generateExamOfferings;
     }
 
     private boolean _hasOfferingsInTargetTerm(TermInfo targetTerm) {
@@ -456,7 +464,12 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
             throw new OperationFailedException(String.format("SOC scheduling state [%s] was invalid for mass scheduling.", socInfo.getStateKey()));
         }
 
-        final CourseOfferingSetSchedulingRunner schedulingRunner = new CourseOfferingSetSchedulingRunner(socInfo.getId());
+        // Check if service is configured to generate exam offerings.
+        if (!this.isGenerateExamOfferings()){
+            optionKeys.add(CourseOfferingSetServiceConstants.CONTINUE_WITHOUT_EXAM_OFFERINGS_OPTION_KEY);
+        }
+
+        final CourseOfferingSetSchedulingRunner schedulingRunner = new CourseOfferingSetSchedulingRunner(socInfo.getId(), optionKeys);
         schedulingRunner.setContextInfo(context);
         schedulingRunner.setCoService(coService);
         schedulingRunner.setSchedulingService(schedulingService);

@@ -27,7 +27,6 @@ import java.util.Map;
 public interface ExamOfferingServiceFacade {
 
     public static final String RECREATE_OPTION_KEY = "kuali.option.key.exam.offering.recreate";
-    public static final String EXCLUDE_SLOTTING_OPTION_KEY = "kuali.option.key.exam.offering.exclude.slotting";
 
     /**
      * This method generates new Exam Offerings for the Course Offering for the given Course Offering Id based on

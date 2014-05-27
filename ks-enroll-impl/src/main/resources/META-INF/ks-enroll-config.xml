@@ -82,4 +82,10 @@
     <param name="ks.enroll.dao.enableMaxIdFetch.defaultvalue">true</param>
     <param name="ks.enroll.dao.maxInClauseElements.defaultvalue">100</param>
 
+    <!-- default values for Exam Offering -->
+    <param name="ks.enroll.examoffering.useAoLocation.defaultvalue">true</param>
+    <param name="ks.enroll.examoffering.generateDynamic.defaultvalue">true</param>
+    <param name="ks.enroll.examoffering.generateOnRollover.defaultvalue">${ks.enroll.examoffering.generateDynamic.defaultvalue}</param>
+    <param name="ks.enroll.examoffering.generateOnSocSchedule.defaultvalue">${ks.enroll.examoffering.generateDynamic.defaultvalue}</param>
+
 </config>
