@@ -84,7 +84,7 @@ public interface CourseRegistrationClientService {
      */
     @DELETE
     @Path("/stats/regengine/clear")
-    Response clearRegEngineStatsRS();
+    Response clearRegEngineStats();
 
     /**
      * SEARCH for STUDENT REGISTRATION INFO
@@ -121,6 +121,7 @@ public interface CourseRegistrationClientService {
     Response updateScheduleItem(@FormParam("courseCode") String courseCode,
                                        @FormParam("regGroupCode") String regGroupCode,
                                        @FormParam("masterLprId") String masterLprId,
+                                       @FormParam("termId") String termId,
                                        @FormParam("credits") String credits,
                                        @FormParam("gradingOptionId") String gradingOptionId);
 
@@ -131,6 +132,7 @@ public interface CourseRegistrationClientService {
     Response updateWaitlistEntry(@FormParam("courseCode") String courseCode,
                                           @FormParam("regGroupCode") String regGroupCode,
                                           @FormParam("masterLprId") String masterLprId,
+                                          @FormParam("termId") String termId,
                                           @FormParam("credits") String credits,
                                           @FormParam("gradingOptionId") String gradingOptionId);
 

@@ -122,7 +122,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
     }
 
     @Override
-    public Response clearRegEngineStatsRS() {
+    public Response clearRegEngineStats() {
 
         Response.ResponseBuilder response;
 
@@ -269,11 +269,12 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
     }
 
     @Override
-    public Response updateScheduleItem(String courseCode, String regGroupCode, String masterLprId, String credits, String gradingOptionId) {
+    public Response updateScheduleItem(String courseCode, String regGroupCode, String masterLprId, String termId, String credits, String gradingOptionId) {
         Response.ResponseBuilder response;
 
         try {
-            response = Response.ok(updateScheduleItem(ContextUtils.createDefaultContextInfo(), courseCode, regGroupCode, masterLprId, credits, gradingOptionId));
+            response = Response.ok(updateScheduleItem(courseCode, regGroupCode, masterLprId, termId, credits, gradingOptionId,
+                    ContextUtils.createDefaultContextInfo()));
         } catch (Exception e) {
             LOGGER.warn("Exception occurred", e);
             response = Response.serverError().entity(e.getMessage());
@@ -283,11 +284,12 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
     }
 
     @Override
-    public Response updateWaitlistEntry(String courseCode, String regGroupCode, String masterLprId, String credits, String gradingOptionId) {
+    public Response updateWaitlistEntry(String courseCode, String regGroupCode, String masterLprId, String termId, String credits, String gradingOptionId) {
         Response.ResponseBuilder response;
 
         try {
-            response = Response.ok(updateWaitlistEntry(courseCode, regGroupCode, masterLprId, credits, gradingOptionId, ContextUtils.createDefaultContextInfo()));
+            response = Response.ok(updateWaitlistEntry(courseCode, regGroupCode, masterLprId, termId, credits, gradingOptionId,
+                    ContextUtils.createDefaultContextInfo()));
         } catch (Exception e) {
             LOGGER.warn("Exception occurred", e);
             response = Response.serverError().entity(e.getMessage());
@@ -933,25 +935,28 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         return credits;
     }
 
-    private ScheduleItemResult updateScheduleItem(ContextInfo contextInfo, String courseCode, String regGroupCode, String masterLprId, String credits, String gradingOptionId) throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException, AlreadyExistsException {
+    private ScheduleItemResult updateScheduleItem(String courseCode, String regGroupCode, String masterLprId, String termId, String credits, String gradingOptionId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException, AlreadyExistsException {
 
-        return updateRegistrationItem(courseCode, regGroupCode, masterLprId, credits, gradingOptionId, contextInfo, LprServiceConstants.REQ_ITEM_UPDATE_TYPE_KEY);
+        return updateRegistrationItem(courseCode, regGroupCode, masterLprId, termId, credits, gradingOptionId, contextInfo, LprServiceConstants.REQ_ITEM_UPDATE_TYPE_KEY);
 
     }
 
-    private ScheduleItemResult updateWaitlistEntry(String courseCode, String regGroupCode, String masterLprId, String credits, String gradingOptionId, ContextInfo contextInfo) throws DoesNotExistException, PermissionDeniedException, OperationFailedException, InvalidParameterException, ReadOnlyException, MissingParameterException, DataValidationErrorException, AlreadyExistsException {
+    private ScheduleItemResult updateWaitlistEntry(String courseCode, String regGroupCode, String masterLprId, String termId, String credits, String gradingOptionId, ContextInfo contextInfo) throws DoesNotExistException, PermissionDeniedException, OperationFailedException, InvalidParameterException, ReadOnlyException, MissingParameterException, DataValidationErrorException, AlreadyExistsException {
 
-        return updateRegistrationItem(courseCode, regGroupCode, masterLprId, credits, gradingOptionId, contextInfo, LprServiceConstants.REQ_ITEM_UPDATE_WAITLIST_TYPE_KEY);
+        return updateRegistrationItem(courseCode, regGroupCode, masterLprId, termId, credits, gradingOptionId, contextInfo, LprServiceConstants.REQ_ITEM_UPDATE_WAITLIST_TYPE_KEY);
 
     }
 
     /*
      * Utility method to update any kind of schedule item (registered, waitlisted, etc)
      */
-    private ScheduleItemResult updateRegistrationItem(String courseCode, String regGroupCode, String masterLprId, String credits, String gradingOptionId, ContextInfo contextInfo, String typeKey) throws DoesNotExistException, PermissionDeniedException, OperationFailedException, InvalidParameterException, ReadOnlyException, MissingParameterException, DataValidationErrorException, AlreadyExistsException {
+    private ScheduleItemResult updateRegistrationItem(String courseCode, String regGroupCode, String masterLprId, String termId, String credits,
+                                                      String gradingOptionId, ContextInfo contextInfo, String typeKey)
+                                                      throws DoesNotExistException, PermissionDeniedException, OperationFailedException,
+                                                      InvalidParameterException, ReadOnlyException, MissingParameterException, DataValidationErrorException,
+                                                      AlreadyExistsException {
         RegistrationRequestInfo registrationRequestInfo = new RegistrationRequestInfo();
         String userId = contextInfo.getPrincipalId();
-        LprInfo masterLpr = getLprService().getLpr(masterLprId, contextInfo);
 
         //Populate Fields for RegRequestInfo object
         registrationRequestInfo.setRequestorId(userId);
@@ -959,14 +964,16 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         registrationRequestInfo.setTypeKey(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY);
 
         //Create Reg Request Item
-        RegistrationRequestItemInfo registrationRequestItem = CourseRegistrationAndScheduleOfClassesUtil.createNewRegistrationRequestItem(userId, null, masterLprId, credits, gradingOptionId, typeKey, LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY, false);
+        RegistrationRequestItemInfo registrationRequestItem = CourseRegistrationAndScheduleOfClassesUtil.createNewRegistrationRequestItem(userId, null,
+                masterLprId, credits, gradingOptionId, typeKey, LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY, false);
         List<RegistrationRequestItemInfo> registrationRequestItemInfos = new ArrayList<RegistrationRequestItemInfo>();
         registrationRequestItemInfos.add(registrationRequestItem);
         registrationRequestInfo.setRegistrationRequestItems(registrationRequestItemInfos);
-        registrationRequestInfo.setTermId(masterLpr.getAtpId());
+        registrationRequestInfo.setTermId(termId);
 
         //Create Registration Request
-        RegistrationRequestInfo newRegReq = CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().createRegistrationRequest(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY, registrationRequestInfo, contextInfo);
+        RegistrationRequestInfo newRegReq = CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().
+                createRegistrationRequest(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY, registrationRequestInfo, contextInfo);
 
         // submit the request to the registration engine.
         CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().submitRegistrationRequest(newRegReq.getId(), contextInfo);

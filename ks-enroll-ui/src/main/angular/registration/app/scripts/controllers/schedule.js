@@ -138,6 +138,7 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
                 courseCode: course.courseCode,
                 regGroupCode: course.regGroupCode,
                 masterLprId: course.masterLprId,
+                termId: $scope.termId,
                 credits: newCredits,
                 gradingOptionId: newGrading
             }, function (scheduleItemResult) {
@@ -160,6 +161,7 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
                 courseCode: course.courseCode,
                 regGroupCode: course.regGroupCode,
                 masterLprId: course.masterLprId,
+                termId: $scope.termId,
                 credits: newCredits,
                 gradingOptionId: newGrading
             }, function (scheduleItemResult) {
