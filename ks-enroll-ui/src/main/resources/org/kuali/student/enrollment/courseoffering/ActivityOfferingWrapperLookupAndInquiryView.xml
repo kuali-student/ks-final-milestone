@@ -50,7 +50,6 @@
           p:headerText="Activity Offering Inquiry"
           p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper"
           p:viewHelperServiceClass="org.kuali.student.enrollment.class2.courseoffering.service.impl.ActivityOfferingWrapperInquirableImpl">
-        <property name="stickyHeader" value="true"/>
         <property name="additionalCssFiles">
             <list merge="true">
                 <value>themes/ksboot/stylesheets/activityOffering.css</value>
