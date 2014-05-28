@@ -22,6 +22,15 @@ angular.module('regCartApp')
             }
         });
 
+        // Watch the cart items to ensure the global vars are up to date
+        $scope.$watchCollection('cart.items', function(items) {
+            if (items) {
+                GlobalVarsService.setCartCourseCount(items.length);
+                GlobalVarsService.setCartCredits(creditTotal());
+            }
+        });
+
+
         // this method loads the cart and kicks off polling if needed
         function loadCart(termId) {
             CartService.getCart().query({termId: termId}, function (theCart) {

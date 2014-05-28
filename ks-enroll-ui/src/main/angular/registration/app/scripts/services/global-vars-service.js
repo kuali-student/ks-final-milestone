@@ -3,6 +3,8 @@
 angular.module('regCartApp')
     .service('GlobalVarsService', function GlobalVarsService() {
 
+        var cartCredits = 0;
+        var cartCourseCount = 0;
         var registeredCredits;
         var registeredCourseCount = 0;
         var waitlistedCredits = 0;
@@ -14,6 +16,22 @@ angular.module('regCartApp')
         var waitlistStates = ['kuali.lpr.trans.item.state.waitlist'];
         var errorStates = ['kuali.lpr.trans.state.failed', 'kuali.lpr.trans.item.state.failed'];
         var actionStates = ['kuali.lpr.trans.item.state.waitlistActionAvailable'];
+
+        this.getCartCredits = function () {
+            return cartCredits;
+        };
+
+        this.setCartCredits = function (value) {
+            cartCredits = value;
+        };
+
+        this.getCartCourseCount = function () {
+            return cartCourseCount;
+        };
+
+        this.setCartCourseCount = function (value) {
+            cartCourseCount = value;
+        };
 
         this.getRegisteredCredits = function () {
             return registeredCredits;

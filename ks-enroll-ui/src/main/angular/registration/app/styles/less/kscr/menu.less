@@ -32,22 +32,36 @@
     max-width: 90%;
     z-index: 160;
     float: right;
+    list-style: none;
     margin: 0.2em -0.2em 0 0;
     margin-bottom: 100%;
     overflow: hidden;
+    padding: 0;
     height: 100%;
     white-space: nowrap;
 
     .util-transitions-browserHelper;
     opacity:1;
-        a{
-          font-size: 1em;
-          color: @primaryTextColor;
+
+    a{
+      font-size: 1em;
+      color: @primaryTextColor;
+    }
+    a:hover, a:focus{
+       outline: none;
+       text-decoration:none;
+    }
+
+    > li {
+        padding: 10px;
+        &.kscr-Menu-links {
+            padding: 0;
+            a {
+                display: block;
+                padding: 10px;
+            }
         }
-        a:hover, a:focus{
-           outline: none;
-           text-decoration:none;
-        }
+    }
 }
 
 .kscr-Menu-Header{
@@ -62,15 +76,12 @@
     color: @secondaryTextColor;
 }
 
-
-.kscr-Menu-links{
+.kscr-Menu-links {
     border-top: @horizontalLineBorder;
-    margin: 10px;
-    margin: 10px;
-    padding: 10px 10px 0 5px;
     cursor: pointer;
     cursor: hand;
-    .kscr-Menu-heading
+    padding: 0;
+    .kscr-Menu-heading;
 }
 
 .kscr-Menu-links-heading{
