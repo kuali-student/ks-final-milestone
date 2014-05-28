@@ -155,6 +155,7 @@
         <property name="resultsGroup.header.upperGroup">
           <bean parent="Uif-VerticalBoxGroup"/>
         </property>
+        <!--Validating whether viewHelperServiceClass implements KSLookupable to show KS-Uif-Message-ZeroLookupResults-->
         <property name="propertyReplacers">
             <list>
                 <bean parent="Uif-ConditionalBeanPropertyReplacer"
@@ -191,6 +192,8 @@
 
     <bean id="KS-Uif-Message-ZeroLookupResults" parent="KS-Uif-Message-ZeroLookupResults-parent"/>
 
+    <!--This bean invokes generateLookupResultsNotFoundMessage method of viewHelperServiceClass and shows a message
+        when they are no records after search. Refer JIRA: KSENROLL-12772 for additional details-->
     <bean id="KS-Uif-Message-ZeroLookupResults-parent" parent="Uif-Message" abstract="true">
         <property name="render" value="@{#form.lookupResults ne null and #form.lookupResults.isEmpty()}"/>
         <property name="finalizeMethodToCall" value="generateLookupResultsNotFoundMessage"/>

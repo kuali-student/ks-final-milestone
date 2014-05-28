@@ -25,6 +25,15 @@ import org.kuali.rice.krad.uif.element.Message;
  */
 public interface KSLookupable extends Lookupable {
 
+    /**
+     * Override this method to validate whether they are no records on Search and set appropriate message for Message object.
+     *
+     * @param message Set your message in this object which will be shown below criteria section of lookup screen.
+     * @param model This is a Model object which contains criteria values enter by user in criteria section of lookup screen.
+     *
+     * @see  org.kuali.student.common.uif.service.impl.KSLookupableImpl KSLookupableImpl
+     * @see  org.kuali.rice.krad.lookup.LookupForm LookupForm
+     */
     public void generateLookupResultsNotFoundMessage(Message message,Object model) ;
 
 
