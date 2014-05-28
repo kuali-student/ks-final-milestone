@@ -55,7 +55,7 @@ public class AcademicPlanServiceConstants {
         }
        }
 
-    public static final String LEARNING_PLAN_ITEM_TYPE = "kuali.academicplan.planitem";
+    public static final String LEARNING_PLAN_ITEM_TYPE = "kuali.academicplan.type.planitem";
     public static final String LEARNING_PLAN_ITEM_ACTIVE_STATE_KEY = "kuali.academicplan.planitem.state.active";
     public static final String LEARNING_PLAN_ITEM_SHARED_TRUE_KEY = "true";
     public static final String LEARNING_PLAN_ITEM_SHARED_FALSE_KEY = "false";
