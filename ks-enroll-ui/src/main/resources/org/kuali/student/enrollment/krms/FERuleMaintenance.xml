@@ -158,7 +158,7 @@ limitations under the License.
                                     <bean class="org.kuali.student.enrollment.class1.krms.keyvalue.TermKeyValueFinder"/>
                                 </property>
                             </bean>
-                            <bean parent="KS-Uif-PrimaryActionButton" p:performClientSideValidation="false"
+                            <bean parent="KS-Uif-SecondaryActionButton" p:performClientSideValidation="false"
                                   p:actionLabel="Show"
                                   p:ajaxSubmit="false" p:methodToCall="show" p:id="show_button"/>
                         </list>
