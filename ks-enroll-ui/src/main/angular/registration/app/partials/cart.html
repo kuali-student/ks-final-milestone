@@ -104,10 +104,6 @@
 
 </div>
 
-<div class="kscr-Heading-sub" ng-hide="cart.items.length < 1">
-    <span>CART CONTENTS</span>
-</div>
-
 <div class="kscr-Card">
     <div ng-repeat="cartItem in cart.items" is-open="isopen">
         <div id="cartItem_status_message" class="util-Alert--card util-Alert--{{cartItem.alertMessage.type}}"  ng-if="cartItem.alertMessage.txt">
