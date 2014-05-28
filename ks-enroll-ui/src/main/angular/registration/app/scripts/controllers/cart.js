@@ -117,8 +117,8 @@ angular.module('regCartApp')
                         controller: ['$rootScope', '$scope', 'item', 'cartId', function ($rootScope, $scope, item, cartId) {
                             console.log('Controller for modal... Item: ', item);
                             $scope.newCartItem = item;
-                            $scope.newCartItem.credits = $scope.newCartItem.creditOptions[0];
-                            $scope.newCartItem.grading = 'kuali.resultComponent.grade.letter';
+                            $scope.newCartItem.credits = $scope.newCartItem.newCredits = $scope.newCartItem.creditOptions[0];
+                            $scope.newCartItem.grading = $scope.newCartItem.newGrading = 'kuali.resultComponent.grade.letter';
                             $scope.dismissAdditionalOptions = function () {
                                 console.log('Dismissing credits and grading');
                                 $scope.$close(true);
@@ -126,7 +126,7 @@ angular.module('regCartApp')
 
                             $scope.saveAdditionalOptions = function () {
                                 console.log('Save credits and grading for cartId:', cartId);
-                                $rootScope.$broadcast('addCourseToCart', cartId, $scope.newCartItem.courseCode, $scope.newCartItem.termId, $scope.newCartItem.regGroupCode, $scope.newCartItem.regGroupId, $scope.newCartItem.grading, $scope.newCartItem.credits);
+                                $rootScope.$broadcast('addCourseToCart', cartId, $scope.newCartItem.courseCode, $scope.newCartItem.termId, $scope.newCartItem.regGroupCode, $scope.newCartItem.regGroupId, $scope.newCartItem.newGrading, $scope.newCartItem.newCredits);
                                 $scope.$close(true);
 
                             };
@@ -186,27 +186,23 @@ angular.module('regCartApp')
         };
 
         $scope.editCartItem = function (cartItem) {
-            $scope.newCredits = cartItem.credits;
-            $scope.newGrading = cartItem.grading;
+            cartItem.newCredits = cartItem.credits;
+            cartItem.newGrading = cartItem.grading;
             cartItem.status = 'editing';
         };
 
-        $scope.cancelEditItem = function (cartItem) {
-            cartItem.status = '';
-        };
-
-        $scope.updateCartItem = function (cartItem, newCredits, newGrading) {
-            console.log('Updating cart item. Grading: ' + newGrading + ', credits: ' + newCredits);
+        $scope.updateCartItem = function (cartItem) {
+            console.log('Updating cart item. Grading: ' + cartItem.newGrading + ', credits: ' + cartItem.newCredits);
             CartService.updateCartItem().query({
                 cartId: $scope.cart.cartId,
                 cartItemId: cartItem.cartItemId,
-                credits: newCredits,
-                gradingOptionId: newGrading
+                credits: cartItem.newCredits,
+                gradingOptionId: cartItem.newGrading
             }, function (newCartItem) {
+                console.log('old: ' + cartItem.credits + ' To: ' + newCartItem.credits);
+                console.log('old: ' + cartItem.grading + ' To: ' + newCartItem.grading);
                 cartItem.credits = newCartItem.credits;
-                console.log('old: ' + cartItem.grading + ' To: ' + newCartItem.grading);
                 cartItem.grading = newCartItem.grading;
-                console.log('old: ' + cartItem.grading + ' To: ' + newCartItem.grading);
                 cartItem.status = '';
                 cartItem.actionLinks = newCartItem.actionLinks;
                 $scope.creditTotal = creditTotal();
@@ -234,8 +230,6 @@ angular.module('regCartApp')
                 }, 250);    // delay for 250 milliseconds
                 console.log('Just waited 250, now start the polling');
                 cartPoller(registrationResponseInfo.registrationRequestId);
-
-
             });
         };
 

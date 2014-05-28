@@ -78,6 +78,7 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
             $timeout(function () {
                 ScheduleService.getRegistrationStatus().query({regReqId: registrationRequestId}, function (regResponseResult) {
                     var status = GlobalVarsService.getCorrespondingStatusFromState(regResponseResult.state);
+                    var message;
                     switch (status) {
                         case 'new':
                         case 'processing':
@@ -90,7 +91,6 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
                             course.dropProcessing = false;
 
                             // After all the processing is complete, update the new Schedule counts.
-                            var message;
                             if (course.waitlisted) {
                                 // can't use splice (which would remove the success message, so updating counts manually
                                 GlobalVarsService.setWaitlistedCredits(parseFloat(GlobalVarsService.getWaitlistedCredits()) - parseFloat(course.credits));
@@ -112,7 +112,7 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
                             course.dropProcessing = false;
 
                             // Use the message returned from the server
-                            var message = regResponseResult.responseItemResults[0].message;
+                            message = regResponseResult.responseItemResults[0].message;
                             course.statusMessage = {txt: message, type: 'error'};
                             break;
                     }
@@ -121,26 +121,23 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
         };
 
         $scope.editScheduleItem = function (course) {
-            $scope.newCredits = course.credits;
-            $scope.newGrading = course.gradingOptionId;
+            console.log(course);
+            course.newCredits = course.credits;
+            course.newGrading = course.gradingOptionId;
             course.editing = true;
         };
 
-        $scope.cancelEditScheduleItem = function (course) {
-            course.editing = false;
-        };
-
-        $scope.updateScheduleItem = function (course, newCredits, newGrading) {
+        $scope.updateScheduleItem = function (course) {
             console.log('Updating registered course:');
-            console.log(newCredits);
-            console.log(newGrading);
+            console.log(course.newCredits);
+            console.log(course.newGrading);
             ScheduleService.updateScheduleItem().query({
                 courseCode: course.courseCode,
                 regGroupCode: course.regGroupCode,
                 masterLprId: course.masterLprId,
                 termId: $scope.termId,
-                credits: newCredits,
-                gradingOptionId: newGrading
+                credits: course.newCredits,
+                gradingOptionId: course.newGrading
             }, function (scheduleItemResult) {
                 console.log(scheduleItemResult);
                 GlobalVarsService.setRegisteredCredits(parseFloat(GlobalVarsService.getRegisteredCredits()) - parseFloat(course.credits) + parseFloat(scheduleItemResult.credits));
@@ -153,17 +150,17 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
             });
         };
 
-        $scope.updateWaitlistItem = function (course, newCredits, newGrading) {
+        $scope.updateWaitlistItem = function (course) {
             console.log('Updating waitlisted course:');
-            console.log(newCredits);
-            console.log(newGrading);
+            console.log(course.newCredits);
+            console.log(course.newGrading);
             ScheduleService.updateWaitlistItem().query({
                 courseCode: course.courseCode,
                 regGroupCode: course.regGroupCode,
                 masterLprId: course.masterLprId,
                 termId: $scope.termId,
-                credits: newCredits,
-                gradingOptionId: newGrading
+                credits: course.newCredits,
+                gradingOptionId: course.newGrading
             }, function (scheduleItemResult) {
                 console.log(scheduleItemResult);
                 GlobalVarsService.setRegisteredCredits(parseFloat(GlobalVarsService.getRegisteredCredits()) - parseFloat(course.credits) + parseFloat(scheduleItemResult.credits));

@@ -111,41 +111,10 @@
                           </span>
                         </div>
                     </div>
+
                     <!-- Schedule Item Change Section: Credits, Grading, and Save -->
-                    <div class="kscr-Card-detailsText" ng-show="course.editing">
-                        <form ng-submit="updateScheduleItem(course, newCredits, newGrading)">
-                            <div class="util-Grid">
-                                <div class="kscr-Edit" ng-show="course.creditOptions.length > 1">
-                                    <label class="kscr-Edit-details" for="credits_{{course.courseCode}}_{{course.regGroupCode}}">Credits</label>
-                                    <div ng-repeat="creditOption in course.creditOptions">
-                                        <div class="kscr-Edit-option" ng-class="$parent.newCredits == {{creditOption}} ? 'kscr-Edit-option--Selected' : ''" ng-click="$parent.newCredits = creditOption">
-                                            <input id="credits_{{course.courseCode}}_{{course.regGroupCode}}" type="radio" name="newCredits" value="{{creditOption}}" ng-model="$parent.newCredits"/>
-                                            {{creditOption}}
-                                            <i class="glyphicon glyphicon-ok-sign"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="kscr-Edit" ng-show="course.gradingOptionCount > 1">
-                                    <label class="kscr-Edit-details" for="grading_{{course.courseCode}}_{{course.regGroupCode}}">Registration Options</label>
-                                    <div ng-repeat="(key, value) in course.gradingOptions">
-                                        <div class="kscr-Edit-option" ng-class="$parent.newGrading == '{{key}}' ? 'kscr-Edit-option--Selected' : ''" ng-click="$parent.newGrading = '{{key}}'">
-                                            <input id="grading_{{course.courseCode}}_{{course.regGroupCode}}" type="radio" name="newGrading" value="{{key}}" ng-model="$parent.newGrading"/>
-                                            {{value}} <span ng-show="'{{value}}' === 'Letter'">(Default)</span>
-                                            <i class="glyphicon glyphicon-ok-sign"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--Edit buttons-->
-                            <div class="kscr-Card-buttons">
-                                <span>
-                                    <button id="saveScheduleItem_{{course.courseCode}}_{{course.regGroupCode}}" class="kscr-Button--primary" type="submit">Save Changes</button>
-                                      <div class="global-Base-divider"></div>
-                                    <button id="cancelEditScheduleItem_{{course.courseCode}}_{{course.regGroupCode}}" class="kscr-Button" type="button" ng-click="cancelEditScheduleItem(course)">Cancel</button>
-                                </span>
-                            </div>
-                        </form>
-                    </div>
+                    <course-options course="course" on-submit="updateScheduleItem(course)" ng-show="course.editing"></course-options>
+
                 </accordion-group>
             </accordion>
         </div>
@@ -252,41 +221,10 @@
                             </span>
                         </div>
                     </div>
+
                     <!-- Waitlist Item Change Section: Credits, Registration Options, and Save -->
-                    <div class="kscr-Card-detailsText" ng-show="course.editing">
-                        <form ng-submit="updateWaitlistItem(course, newCredits, newGrading)">
-                            <div class="util-Grid">
-                                <div class="kscr-Edit" ng-show="course.creditOptions.length > 1">
-                                    <label class="kscr-Edit-details" for="waitlist_credits_{{course.courseCode}}_{{course.regGroupCode}}">Credits</label>
-                                    <div ng-repeat="creditOption in course.creditOptions">
-                                        <div class="kscr-Edit-option" ng-class="$parent.newCredits == {{creditOption}} ? 'kscr-Edit-option--Selected' : ''" ng-click="$parent.newCredits = creditOption">
-                                            <input id="waitlist_credits_{{course.courseCode}}_{{course.regGroupCode}}" type="radio" name="newCredits" value="{{creditOption}}" ng-model="$parent.newCredits"/>
-                                            {{creditOption}}
-                                            <i class="glyphicon glyphicon-ok-sign"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="kscr-Edit" ng-show="course.gradingOptionCount > 1">
-                                    <label class="kscr-Edit-details" for="waitlist_grading_{{course.courseCode}}_{{course.regGroupCode}}">Registration Options</label>
-                                    <div ng-repeat="(key, value) in course.gradingOptions">
-                                        <div class="kscr-Edit-option" ng-class="$parent.newGrading == '{{key}}' ? 'kscr-Edit-option--Selected' : ''" ng-click="$parent.newGrading = '{{key}}'">
-                                            <input id="waitlist_grading_{{course.courseCode}}_{{course.regGroupCode}}" type="radio" name="newGrading" value="{{key}}" ng-model="$parent.newGrading"/>
-                                            {{value}} <span ng-show="'{{value}}' === 'Letter'">(Default)</span>
-                                            <i class="glyphicon glyphicon-ok-sign"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--Edit buttons-->
-                            <div class="kscr-Card-buttons">
-                                <span>
-                                    <button id="waitlist_saveScheduleItem_{{course.courseCode}}_{{course.regGroupCode}}" class="kscr-Button--primary" type="submit">Save Changes</button>
-                                    <div class="global-Base-divider"></div>
-                                    <button id="waitlist_cancelEditScheduleItem_{{course.courseCode}}_{{course.regGroupCode}}" class="kscr-Button" type="button" ng-click="cancelEditScheduleItem(course)">Cancel</button>
-                                </span>
-                            </div>
-                        </form>
-                    </div>
+                    <course-options course="course" prefix="waitlist_" on-submit="updateWaitlistItem(course)" ng-show="course.editing"></course-options>
+
                 </accordion-group>
             </accordion>
         </div>
