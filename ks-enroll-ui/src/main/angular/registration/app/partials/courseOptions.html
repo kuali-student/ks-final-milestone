@@ -16,7 +16,10 @@
         </div>
 
         <div class="kscr-Edit" ng-show="course.gradingOptionCount > 1">
-            <label class="kscr-Edit-details" for="{{prefix}}grading_{{course.courseCode}}_{{course.regGroupCode}}">Registration Options</label>
+            <label class="kscr-Edit-details" for="{{prefix}}grading_{{course.courseCode}}_{{course.regGroupCode}}">
+                Grading
+                <i class="glyphicon glyphicon-question-sign" ng-click="showGradingHelp()"></i>
+            </label>
             <div ng-repeat="gradingOption in gradingOptions | filter:gradingOptionsFilter" id="{{prefix}}grading_{{course.courseCode}}_{{course.regGroupCode}}">
                 <div class="kscr-Edit-option" ng-class="course.newGrading == '{{gradingOption.key}}' ? 'kscr-Edit-option--Selected' : ''" ng-click="course.newGrading = '{{gradingOption.key}}'">
                     <input id="{{prefix}}grading_{{course.courseCode}}_{{course.regGroupCode}}_{{gradingOption.label}}" type="radio" name="newGrading" value="{{gradingOption.key}}" ng-model="course.newGrading"/>

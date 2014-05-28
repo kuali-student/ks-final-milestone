@@ -121,7 +121,6 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
         };
 
         $scope.editScheduleItem = function (course) {
-            console.log(course);
             course.newCredits = course.credits;
             course.newGrading = course.gradingOptionId;
             course.editing = true;

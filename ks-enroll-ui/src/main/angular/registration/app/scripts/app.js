@@ -196,6 +196,12 @@ angular.module('regCartApp', [
                         $scope.submitFn({course: course});
                     }
                 };
+
+                $scope.showGradingHelp = function() {
+                    $modal.open({
+                        templateUrl: 'partials/gradingOptionsHelp.html'
+                    });
+                };
             }]
         };
     })
