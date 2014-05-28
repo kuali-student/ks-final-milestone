@@ -1303,6 +1303,10 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
 
+
+        String courseDescription = courseInfoWrapper.getCourseInfo().getDescr().getPlain().replace("\r\n","\n"); // replacing carriage return and new line with new line char.
+        courseInfoWrapper.getCourseInfo().getDescr().setPlain(courseDescription);
+
         //Clear collection fields (those with matching 'wrapper' collections)
         courseInfoWrapper.getCourseInfo().getInstructors().clear();
         courseInfoWrapper.getCourseInfo().getCourseSpecificLOs().clear();
