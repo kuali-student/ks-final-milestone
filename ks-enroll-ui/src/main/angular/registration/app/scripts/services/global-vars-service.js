@@ -3,7 +3,7 @@
 angular.module('regCartApp')
     .service('GlobalVarsService', function GlobalVarsService() {
 
-        var registeredCredits = 0;
+        var registeredCredits;
         var registeredCourseCount = 0;
         var waitlistedCredits = 0;
         var waitlistedCourseCount = 0;

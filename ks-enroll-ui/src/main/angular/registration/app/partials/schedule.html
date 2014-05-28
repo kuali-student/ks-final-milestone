@@ -1,14 +1,17 @@
 <div class="util-Text--center kscr-MainHeading-header">MY SCHEDULE</div>
-
+<div class="kscr-Card-ao-schedule"></div>
 <div>
-    <span>
+    <span ng-if="registeredCredits() > 0">
         <span class="kscr-Heading-sub">REGISTERED</span>
         <span id="reg_credit_count" class="kscr-Heading-support util-Grid--floatRight">
             <ng-pluralize count="registeredCredits()"
-                when="{'1' : '{} CREDIT',
+                          when="{'1' : '{} CREDIT',
                 'other': '{} CREDITS'}">
             </ng-pluralize>
          </span>
+    </span>
+    <span ng-if="registeredCredits() == 0">
+        <span class="kscr-Heading-sub">You are not registered for any courses.</span>
     </span>
 </div>
 <div class="kscr-Card-ao-schedule"></div>
