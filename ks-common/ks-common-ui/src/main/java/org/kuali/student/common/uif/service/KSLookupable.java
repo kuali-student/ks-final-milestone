@@ -19,7 +19,6 @@ import org.kuali.rice.krad.lookup.Lookupable;
 import org.kuali.rice.krad.uif.element.Message;
 
 /**
- * This class //TODO ...
  *
  * @author Kuali Student Team
  */
