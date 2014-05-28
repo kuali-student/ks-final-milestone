@@ -607,3 +607,11 @@ function ksapAjaxSubmitForm(data, successCallback, elementToBlock, formId, block
     var form = jQuery("#" + ((formId) ? formId : "kualiForm"));
     form.ajaxSubmit(submitOptions);
 }
+
+jQuery(function(){
+    //Under normal circumstances the search input values are saved for later use.  Clear the saved values when clicking
+    // the "Find Courses" link in the top application navigation section
+    jQuery('#courseSearchNav').on('click', 'a', function(){
+        sessionStorage.removeItem('last_search');
+    });
+});

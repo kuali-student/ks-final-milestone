@@ -49,9 +49,9 @@
 
                 <#--Find a Course Page Link-->
                     <#if RequestParameters.viewId=="CourseSearch-FormView">
-                        <li><a href="course?methodToCall=start&viewId=CourseSearch-FormView" class="active">Find Courses</a></li>
+                        <li id="courseSearchNav"><a href="course?methodToCall=start&viewId=CourseSearch-FormView&resetForm=true" class="active">Find Courses</a></li>
                     <#else>
-                        <li><a href="course?methodToCall=start&viewId=CourseSearch-FormView">Find Courses</a></li>
+                        <li id="courseSearchNav"><a href="course?methodToCall=start&viewId=CourseSearch-FormView&resetForm=true">Find Courses</a></li>
                     </#if>
 
                 <#--DegreeAudit Page Link-->

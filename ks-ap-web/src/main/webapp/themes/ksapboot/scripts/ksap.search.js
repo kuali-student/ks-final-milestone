@@ -1,22 +1,12 @@
 jQuery('#course_search #text_searchQuery_control').ready(function(){
-    if(sessionStorage.getItem('back_search') != null) {
-        //came from the course details page, check search input, and fill in if blank
+    if(sessionStorage.getItem('last_search') != null) {
+        //Coming back to the search page.  Set the values back to the previous search values, pulled from sessionStorage
         if(jQuery('#text_searchQuery_control').val().length == 0){
-            //fill in the form input for the user with the last search term
-            jQuery('#text_searchQuery_control').val(sessionStorage.getItem('back_search'));
+            var inputData = JSON.parse( sessionStorage.getItem('last_search') );
+            jQuery('#text_searchQuery_control').val(inputData.searchQuery);
+            jQuery("select[name='searchTerm']").val(inputData.searchTerm);
         }
     }
-    //clear the local storage values
-    sessionStorage.removeItem('back_search');
-    sessionStorage.removeItem('last_search');
-});
-
-jQuery(function(){
-    //set the search terms to pass onto course details page
-    //for setting a sentinal value there
-    jQuery('#course_search #course_search_results').on('click', 'td.details_link a', function(){
-        sessionStorage.setItem('last_search', jQuery('#text_searchQuery_control').val());
-    });
 });
 
 var oTable;
@@ -142,6 +132,9 @@ function fnSelectAllCampuses() {
  *            be hidden while the initial search is taking place.
  */
 function searchForCourses(id, parentId) {
+    //Get the search inputs and save them in sessionStorage for later retrieval
+    var inputData = {searchQuery: jQuery('#text_searchQuery_control').val(), searchTerm: jQuery("select[name='searchTerm'] option:selected").val()};
+    sessionStorage.setItem( 'last_search', JSON.stringify(inputData) );
 
 	var results = jQuery("#" + parentId); // course_search_results_panel
 	results.fadeOut("fast");
@@ -169,7 +162,7 @@ function searchForCourses(id, parentId) {
 						bSortClasses : false,
 						bStateSave : true,     // Turn save state on to allow for saving pagination when moving between pages
                         "fnStateSave": function (oSettings, oData) {
-                            jQuery.extend(oData,{searchQuery: jQuery('#text_searchQuery_control').val(), searchTerm: jQuery("select[name='searchTerm'] option:selected").val()});
+                            jQuery.extend(oData,inputData);
                             sessionStorage.setItem( 'DataTables_SearchQuery', JSON.stringify(oData) );
                         },
                         "fnStateLoad": function (oSettings) {
