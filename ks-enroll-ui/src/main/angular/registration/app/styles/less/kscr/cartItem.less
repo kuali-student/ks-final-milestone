@@ -1,0 +1,61 @@
+.kscr-cartItem-status--success-add-active,
+.kscr-cartItem-status--error-add-active,
+.kscr-cartItem-status--action-add-active,
+.kscr-cartItem-status--waitlist-add-active {
+    background-color: @cardBackgroundColor;
+    border-color: @cardBorderColor;
+    color: @cardTextColor;
+}
+
+.kscr-cartItem-status{
+
+    &--processing {
+        .kscr-cartResult-icon {
+            background-image: @processingGif;
+            background-color: inherit;
+            .kscr-Card-icon {
+                display:none;
+            }
+        }
+        .kscr-Card-buttons {
+            display: none;
+        }
+    }
+
+    &--error {
+        .util-Alert-error-mixin;
+         &:extend(.util-transitions-browserHelper);
+
+        .kscr-cartResult-icon {
+            background-image: @errorImage;
+        }
+        .kscr-Card-buttons {
+            display: none;
+        }
+    }
+
+    &--action {
+        .util-Alert-warning-mixin;
+        &:extend(.util-transitions-browserHelper);
+
+        .kscr-cartResult-icon {
+            background-image: @warningImage;
+        }
+        .kscr-Card-buttons {
+            display: none;
+        }
+    }
+
+    &--success, &--waitlist {
+        .util-Alert-success-mixin;
+         &:extend(.util-transitions-browserHelper);
+
+        .kscr-cartResult-icon {
+            background-image: @successImage;
+            background-color: inherit;
+        }
+        .kscr-Card-buttons {
+            display: none;
+        }
+    }
+}

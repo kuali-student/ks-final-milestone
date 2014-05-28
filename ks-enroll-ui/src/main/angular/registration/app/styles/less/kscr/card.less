@@ -3,6 +3,7 @@
 
 .kscr-Card, .kscr-Card-Results{
     padding: 0 0.5em 0 0.5em;
+    color: @cardTextColor;
     a {text-decoration:none;}
         font-size: 14px;
         font-family: @secondaryFontFamily;
@@ -170,70 +171,11 @@
     border: 1px solid #F2F2F2;
 }
 
-/**** Override of accordion panel for card section ****/
-.panel-default > .panel-heading {
-    background-color: @cardBackgroundColor;
-    border-color: @cardBorderColor;
-    color: @cardTextColor;
-    cursor: pointer;
-    cursor: hand;
-    padding: 10px 5px;
-}
-
-.kscr-cartResult-heading {
-      background-color: @cardBackgroundColor;
-      border-color: @cardBorderColor;
-      color: @cardTextColor;
-      padding: 10px 5px;
-      width: 82%;
-  }
-
-.kscr-cartResult-remove a {
-    color: @removeIconColor;
-    font-size: 1.2em;
-}
 
 .responseCount {
     float: right;
     padding-right: 10px;
 }
-
-.panel {
-    background-color: @cardBackgroundColor;
-
-}
-
-.panel-group .panel-heading + .panel-collapse .panel-body{
-    border-top:none;
-}
-
-.panel-body {
-    padding-bottom: 5px;
-    padding-right: 8px;
-}
-
-.panel-title {
-    font-size: 14px;
-    font-family: @secondaryFontFamily;
-}
-
-.panel-group  .panel{
-    margin-bottom: 10px;
-    border-width: 1px 1px 2px 1px;
-    &:extend(.util-transitions-browserHelper);
-    opacity:1;
-
-}
-
-.panel-group  .panel.ng-leave {
-    display:block!important;
-}
-
-.panel-group  .panel.ng-leave-active {
-    line-height:0;
-    opacity:0;
-}
-
 
 .kscr-course-container {
     position:relative;
@@ -242,8 +184,6 @@
     opacity:1;
 }
 
-
-
 .kscr-course-container.ng-leave {
     opacity:0.5;
 }
@@ -251,91 +191,6 @@
 .kscr-course-container.ng-leave-active {
     opacity:0;
 }
-
-.kscr-cartResult-heading {
-    background-color: inherit;
-    float: left;
-    color: inherit;
-}
-
-.kscr-cartResult-icon {
-    background-repeat: no-repeat;
-    background-position: @iconPosition;
-    float: left;
-    width: 30px;
-    height: 30px;
-}
-
-.kscr-cartItem-status--success,.kscr-cartItem-status--waitlist{
-    background-color: @successBackground;   // #dff0d8;
-    border-color: @successBorder;  //#D6E9C6;
-    color: @successText; // #3B723B;
-    text-shadow: 0 .5px #fff;
-
-    &:extend(.util-transitions-browserHelper);
-
-    .kscr-cartResult-icon {
-        background-image: url("../images/validation/success.png");
-        background-color: inherit;
-    }
-    .kscr-Card-buttons {
-        display: none;
-    }
-}
-
-.kscr-cartItem-status--success-add-active, .kscr-cartItem-status--error-add-active, .kscr-cartItem-status--action-add-active, .kscr-cartItem-status--waitlist-add-active {
-    background-color: @cardBackgroundColor;
-    border-color: @cardBorderColor;
-    color: @cardTextColor;
-
-}
-
-.kscr-cartItem-status--processing {
-    .kscr-cartResult-icon {
-        background-image: url("../images/validation/spinner_small.gif");
-        background-color: inherit;
-        .kscr-Card-icon {
-            display:none;
-        }
-    }
-    .kscr-Card-buttons {
-        display: none;
-    }
-}
-
-.kscr-cartItem-status--error {
-    background-color: @errorBackground; //#F2DEDE;
-    border-color: @errorBorder;  //#EFD3D7;
-    color: @errorText; //#A3403C;
-    text-shadow: 0 .5px #fff;
-
-    &:extend(.util-transitions-browserHelper);
-
-    .kscr-cartResult-icon {
-        background-image: url("../images/validation/error.png");
-    }
-    .kscr-Card-buttons {
-        display: none;
-    }
-}
-
-.kscr-cartItem-status--action {
-  background-color: @warningBackground; //#F2DEDE;
-  border-color: @warningBorder;  //#EFD3D7;
-  color: @warningText; //#A3403C;
-  text-shadow: 0 .5px #fff;
-
-    &:extend(.util-transitions-browserHelper);
-
-  .kscr-cartResult-icon {
-    background-image: url("../images/validation/warning.png");
-  }
-  .kscr-Card-buttons {
-    display: none;
-  }
-}
-
-/**** End ****/
 
 .kscr-Card-reason{
     display: flex;
@@ -357,18 +212,48 @@
     width: 78%;
  }
 
-.kscr-Card-alert--success{
-   color: @successText; // #3B723B;
-}
+ /**** Override of accordion panel for card section ****/
 
-.kscr-Card-alert--error {
-    color: @errorText; //#A3403C;
-}
+ .panel-default > .panel-heading {
+     background-color: @cardBackgroundColor;
+     border-color: @cardBorderColor;
+     color: @cardTextColor;
+     cursor: pointer;
+     cursor: hand;
+     padding: 10px 5px;
+ }
 
-.Card-alert--warning {
-   color: @warningText; //#83652E;
-}
+ .panel {
+     background-color: @cardBackgroundColor;
+ }
 
-.util-Alert--information {
-    color: @infoText; //#2A617D;
-}
+ .panel-group .panel-heading + .panel-collapse .panel-body {
+     border-top:none;
+ }
+
+ .panel-body {
+     padding-bottom: 5px;
+     padding-right: 8px;
+ }
+
+ .panel-title {
+     font-size: 14px;
+     font-family: @secondaryFontFamily;
+ }
+
+ .panel-group  .panel {
+     margin-bottom: 10px;
+     border-width: 1px 1px 2px 1px;
+     &:extend(.util-transitions-browserHelper);
+     opacity:1;
+ }
+
+ .panel-group  .panel.ng-leave {
+     display:block!important;
+ }
+
+ .panel-group  .panel.ng-leave-active {
+     line-height:0;
+     opacity:0;
+ }
+ /**** END of Override of accordion panel for card section ****/
