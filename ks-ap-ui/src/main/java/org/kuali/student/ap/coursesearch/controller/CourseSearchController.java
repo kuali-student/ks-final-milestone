@@ -32,12 +32,10 @@ import org.kuali.student.ap.coursesearch.FacetKeyValue;
 import org.kuali.student.ap.coursesearch.dataobject.CourseSummaryDetails;
 import org.kuali.student.ap.coursesearch.form.CourseSearchFormImpl;
 import org.kuali.student.ap.coursesearch.service.impl.CourseDetailsInquiryHelperImpl;
-import org.kuali.student.ap.coursesearch.util.CampusSearch;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.CourseHelper;
 import org.kuali.student.ap.framework.context.CourseSearchConstants;
 import org.kuali.student.ap.framework.util.KsapHelperUtil;
-import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -143,7 +141,6 @@ public class CourseSearchController extends UifControllerBase {
 			List<String> c = new ArrayList<String>();
 			c.add(f.getSearchQuery());
 			c.add(f.getSearchTerm());
-			c.addAll(f.getCampusSelect());
 			c.addAll(f.getAdditionalCriteria());
 			savedCourses = f.isSavedCourses();
 			criteria = Collections.unmodifiableList(c);
@@ -946,8 +943,6 @@ public class CourseSearchController extends UifControllerBase {
 	private CourseSearchStrategy searcher = KsapFrameworkServiceLocator
 			.getCourseSearchStrategy();
 
-	private CampusSearch campusSearch = new CampusSearch();
-
 	private ObjectMapper mapper = new ObjectMapper();
 
 	private CourseDetailsInquiryHelperImpl courseDetailsInquiryService;
@@ -1014,82 +1009,6 @@ public class CourseSearchController extends UifControllerBase {
 	@Override
 	protected UifFormBase createInitialForm(HttpServletRequest request) {
         return (UifFormBase) searcher.createInitialSearchForm();
-	}
-
-	@RequestMapping(value = "/course/{courseCd}", method = RequestMethod.GET)
-	public String get(@PathVariable("courseCd") String courseCd,
-			@ModelAttribute("KualiForm") CourseSearchForm form,
-			HttpServletRequest request,
-			HttpServletResponse response) throws IOException {
-
-		String number = "";
-		String subject = "";
-		String courseId = "";
-		courseCd = courseCd.toUpperCase();
-		StringBuilder campus = new StringBuilder();
-		List<KeyValue> campusKeys = campusSearch.getKeyValues();
-		for (KeyValue k : campusKeys) {
-			campus.append(k.getKey().toString());
-			campus.append(",");
-		}
-		String[] splitStr = courseCd.split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
-		if (splitStr.length == 2) {
-			number = splitStr[1];
-			subject = splitStr[0];
-		} else {
-			StringBuilder splitBuff = new StringBuilder();
-			for (int i = 0; i < splitStr.length; i++) {
-				splitBuff.append(splitStr[i]);
-			}
-			response.sendRedirect("../course?searchQuery=" + splitBuff
-					+ "&searchTerm=any&campusSelect=" + campus);
-			return null;
-
-		}
-		CourseSearchStrategy strategy = KsapFrameworkServiceLocator
-				.getCourseSearchStrategy();
-		Map<String, String> divisionMap = strategy.fetchCourseDivisions();
-
-		ArrayList<String> divisions = new ArrayList<String>();
-		QueryTokenizer.extractDivisions(divisionMap, subject, divisions, false);
-
-        if (divisions.size() > 0) {
-			try{
-                subject = KSCollectionUtils.getRequiredZeroElement(divisions);
-            }catch (OperationFailedException e) {
-                LOG.warn("No subject found from divisions",e);
-            }
-		}
-
-		SearchRequestInfo searchRequest = new SearchRequestInfo(
-				"ksap.course.getcluid");
-		SearchResult searchResult = null;
-		try {
-			searchRequest.addParam("number", number);
-			searchRequest.addParam("subject", subject.trim());
-			searchRequest.addParam("currentTerm", KsapFrameworkServiceLocator
-					.getTermHelper().getCurrentTerm().getId());
-			searchRequest.addParam("lastScheduledTerm",
-					KsapFrameworkServiceLocator.getTermHelper()
-							.getLastScheduledTerm().getId());
-			searchResult = KsapFrameworkServiceLocator.getCluService().search(
-					searchRequest,
-					KsapFrameworkServiceLocator.getContext().getContextInfo());
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-		for (SearchResultRow row : searchResult.getRows()) {
-			courseId = KsapHelperUtil.getCellValue(row, "lu.resultColumn.cluId");
-		}
-		if (courseId.equalsIgnoreCase("")) {
-			response.sendRedirect("../course?searchQuery=" + courseCd
-					+ "&searchTerm=any&campusSelect=" + campus);
-			return null;
-
-		}
-		response.sendRedirect("../inquiry?methodToCall=start&viewId=CourseDetails-InquiryView&courseId="
-				+ courseId);
-		return null;
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
@@ -1271,9 +1190,6 @@ public class CourseSearchController extends UifControllerBase {
 		ObjectNode oFacets = mapper.createObjectNode();
 		oFacets.put("sQuery", form.getSearchQuery());
 		oFacets.put("sTerm", form.getSearchTerm());
-		ArrayNode aCampus = oFacets.putArray("aCampus");
-		for (String c : form.getCampusSelect())
-			aCampus.add(c);
 		ObjectNode oSearchColumn = oFacets.putObject("oSearchColumn");
 		for (Entry<String, Integer> fce : FACET_COLUMNS.entrySet())
 			oSearchColumn.put(fce.getKey(), fce.getValue());

@@ -102,22 +102,12 @@ public class CourseSearchStrategyMockTest implements CourseSearchStrategy {
     }
 
     @Override
-    public Credit getCreditByID(String id) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
     public void populateFacets(CourseSearchForm form, List<CourseSearchItem> courses) {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
     public List<CourseSearchItem> courseSearch(CourseSearchForm form, String studentId) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public Map<String, String> fetchCourseDivisions() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 

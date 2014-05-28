@@ -22,6 +22,15 @@ public interface CourseSearchStrategy {
 	public CourseSearchForm createInitialSearchForm();
 
     /**
+     * Preforms the search detailed in the provided search form
+     *
+     * @param form - Form containing information on the search
+     * @param studentId - Id of the user the search is being ran under
+     * @return A list of courses found using the criteria defined in the form.
+     */
+    public List<CourseSearchItem> courseSearch(CourseSearchForm form, String studentId);
+
+    /**
      * Creates formatted ordered list of sql search requests objects from data passed in through the search form.
      *
      * @param form - Form containing search parameters and query
@@ -63,14 +72,6 @@ public interface CourseSearchStrategy {
     public void addComponentRequests(Map<String, List<String>> componentMap, List<SearchRequestInfo> requests);
 
     /**
-     * Populate the facet information for a set courses
-     *
-     * @param form - Form containing information on the search
-     * @param courses - The list of classes to set the facets on
-     */
-	public void populateFacets(CourseSearchForm form, List<CourseSearchItem> courses);
-
-    /**
      * Determines if the search results exceeded the max number of results allowed to be returned.
      *
      * @return True if limit is exceeded, false otherwise
@@ -78,24 +79,40 @@ public interface CourseSearchStrategy {
     public boolean isLimitExceeded();
 
     /**
-     * Preforms the search detailed in the provided search form
+     * Populates and retrieves a stored map of short and long names for the organizations related to the courses found
+     * in the search
      *
-     * @param form - Form containing information on the search
-     * @param studentId - Id of the user the search is being ran under
-     * @return A list of courses found using the criteria defined in the form.
+     * @param orgIds - List of organization ids found in the course search
+     * @return  Currently stored map of organization short name to long name
      */
-    public List<CourseSearchItem> courseSearch(CourseSearchForm form, String studentId);
-
-    Map<String, String> fetchCourseDivisions();
-
-    Map<String, Comparator<String>> getFacetSort();
-
     Map<String, String> getCurriculumMap(Set<String> orgIds);
 
+    /**
+     * Retrieve a stored map of general eduction codes and names found in the course search.
+     *
+     * @return Currently stored map of general education code to name
+     */
     Map<String, String> getGenEdMap();
 
+    /**
+     * Populate and retrieve a stored map of possible credit values
+     *
+     * @return Currently stored map of credit id to credit object
+     */
     Map<String, Credit> getCreditMap();
 
-    Credit getCreditByID(String id);
+    /**
+     * Populate the facet information for a set courses
+     *
+     * @param form - Form containing information on the search
+     * @param courses - The list of classes to set the facets on
+     */
+    public void populateFacets(CourseSearchForm form, List<CourseSearchItem> courses);
 
+    /**
+     * Retrieves a static map of facets to their related sort algorithm.
+     *
+     * @return  Static map of facet id to comparator
+     */
+    Map<String, Comparator<String>> getFacetSort();
 }

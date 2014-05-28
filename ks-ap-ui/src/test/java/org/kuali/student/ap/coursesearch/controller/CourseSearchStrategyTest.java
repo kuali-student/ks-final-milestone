@@ -36,112 +36,6 @@ public class CourseSearchStrategyTest {
 	}
 
 	@Test
-	public void testFetchCourseDivisions() throws Exception {
-		CourseSearchStrategyImpl strategy = new CourseSearchStrategyImpl();
-		Map<String, String> divisionsMap = strategy.fetchCourseDivisions();
-		assertFalse(divisionsMap.isEmpty());
-	}
-
-	@Test
-	public void testAddCampusParams() throws Exception {
-        if (disableCampusRelatedTests) return;
-		CourseSearchFormImpl form = new CourseSearchFormImpl();
-		List<String> campusParams = new ArrayList<String>();
-		campusParams.add("310");
-		campusParams.add("311");
-		campusParams.add("312");
-		campusParams.add("foobar");
-		form.setCampusSelect(campusParams);
-
-		ArrayList<SearchRequestInfo> requests = new ArrayList<SearchRequestInfo>();
-		requests.add(new SearchRequestInfo("test"));
-
-		CourseSearchStrategyImpl strategy = new CourseSearchStrategyImpl();
-		strategy.addCampusParams(requests, form);
-
-		SearchRequestInfo request = requests.get(0);
-		List<SearchParamInfo> params = request.getParams();
-		assertEquals(1, params.size());
-
-		SearchParamInfo param = null;
-		param = params.get(0);
-		assertEquals(3, param.getValues().size());
-		assertEquals("310", param.getValues().get(0));
-		assertEquals("311", param.getValues().get(1));
-		assertEquals("312", param.getValues().get(2));
-	}
-
-	@Test
-	public void testAddCampusParams2() throws Exception {
-		CourseSearchFormImpl form = new CourseSearchFormImpl();
-		form.setCampusSelect(null);
-
-		ArrayList<SearchRequestInfo> requests = new ArrayList<SearchRequestInfo>();
-		requests.add(new SearchRequestInfo("test"));
-
-		CourseSearchStrategyImpl strategy = new CourseSearchStrategyImpl();
-		strategy.addCampusParams(requests, form);
-
-		SearchRequestInfo request = requests.get(0);
-		List<SearchParamInfo> params = request.getParams();
-		assertEquals(1, params.size());
-
-		SearchParamInfo param = null;
-		param = params.get(0);
-		assertEquals(1, param.getValues().size());
-		assertEquals(CourseSearchStrategyImpl.NO_CAMPUS,
-				param.getValues().get(0));
-	}
-
-	@Test
-	public void testAddCampusParam() throws Exception {
-        if (disableCampusRelatedTests) return;
-		CourseSearchFormImpl form = new CourseSearchFormImpl();
-		List<String> campusParams = new ArrayList<String>();
-		campusParams.add("310");
-		campusParams.add("311");
-		campusParams.add("312");
-		form.setCampusSelect(campusParams);
-
-		SearchRequestInfo requests = new SearchRequestInfo("test");
-
-		CourseSearchStrategyImpl strategy = new CourseSearchStrategyImpl();
-		;
-		strategy.addCampusParam(requests, form);
-
-		List<SearchParamInfo> params = requests.getParams();
-		assertEquals(1, params.size());
-
-		SearchParamInfo param = null;
-		param = params.get(0);
-		assertEquals(3, param.getValues().size());
-		assertEquals("310", param.getValues().get(0));
-		assertEquals("311", param.getValues().get(1));
-		assertEquals("312", param.getValues().get(2));
-	}
-
-	@Test
-	public void testAddCampusParam2() throws Exception {
-		CourseSearchFormImpl form = new CourseSearchFormImpl();
-		form.setCampusSelect(null);
-
-		SearchRequestInfo requests = new SearchRequestInfo("test");
-
-		CourseSearchStrategyImpl strategy = new CourseSearchStrategyImpl();
-		;
-		strategy.addCampusParam(requests, form);
-
-		List<SearchParamInfo> params = requests.getParams();
-		assertEquals(1, params.size());
-
-		SearchParamInfo param = null;
-		param = params.get(0);
-		assertEquals(1, param.getValues().size());
-		assertEquals(CourseSearchStrategyImpl.NO_CAMPUS,
-				param.getValues().get(0));
-	}
-
-	@Test
 	public void testAddDivisionSearchesNothing() {
 		CourseSearchStrategyImpl strategy = new CourseSearchStrategyImpl();
         Map<String,List<String>> mapComponents = new HashMap<String,List<String>>();
@@ -752,11 +646,9 @@ public class CourseSearchStrategyTest {
 		form.setCampusSelect(campusParams);
 		form.setSearchTerm("any");
 		CourseSearchStrategyImpl strategy = new CourseSearchStrategyImpl();
-		;
 		SearchRequestInfo request = new SearchRequestInfo(
 				"ksap.lu.search.division");
 		request.addParam("division", "ASTR  ");
-		request.addParam("campuses", CourseSearchStrategyImpl.NO_CAMPUS);
 		requests.add(request);
 		strategy.adjustSearchRequests(requests, form);
 		SearchParamInfo param = null;
@@ -765,40 +657,27 @@ public class CourseSearchStrategyTest {
 
 		request = requests.get(0);
 		params = request.getParams();
-		assertEquals(2, params.size());
+		assertEquals(1, params.size());
 		assertEquals("ksap.lu.search.division", request.getSearchKey());
 		param = params.get(0);
 		assertEquals("division", param.getKey());
 		assertEquals("ASTR  ", param.getValues().get(0));
-		param = params.get(1);
-		assertEquals("campuses", param.getKey());
-		assertEquals(CourseSearchStrategyImpl.NO_CAMPUS,
-				param.getValues().get(0));
 
 		request = requests.get(1);
 		params = request.getParams();
-		assertEquals(2, params.size());
+		assertEquals(1, params.size());
 		assertEquals("ksap.lu.search.title", request.getSearchKey());
 		param = params.get(0);
 		assertEquals("queryText", param.getKey());
 		assertEquals("ASTR", param.getValues().get(0));
-		param = params.get(1);
-		assertEquals("campuses", param.getKey());
-		assertEquals(CourseSearchStrategyImpl.NO_CAMPUS,
-				param.getValues().get(0));
 
 		request = requests.get(2);
 		params = request.getParams();
-		assertEquals(2, params.size());
+		assertEquals(1, params.size());
 		assertEquals("ksap.lu.search.description", request.getSearchKey());
 		param = params.get(0);
 		assertEquals("queryText", param.getKey());
 		assertEquals("ASTR", param.getValues().get(0));
-		param = params.get(1);
-		assertEquals("campuses", param.getKey());
-		assertEquals(CourseSearchStrategyImpl.NO_CAMPUS,
-				param.getValues().get(0));
-
 	}
 
 	@Test
@@ -816,7 +695,6 @@ public class CourseSearchStrategyTest {
 		SearchRequestInfo request = new SearchRequestInfo(
 				"ksap.lu.search.division");
 		request.addParam("division", "HIST  ");
-		request.addParam("campuses", CourseSearchStrategyImpl.NO_CAMPUS);
 		requests.add(request);
 		List<SearchParamInfo> params = null;
 		SearchParamInfo param = null;
@@ -826,25 +704,18 @@ public class CourseSearchStrategyTest {
 		request = requests.get(0);
 		params = request.getParams();
 		assertEquals("ksap.lu.search.division", request.getSearchKey());
-		assertEquals(2, params.size());
+		assertEquals(1, params.size());
 		param = params.get(0);
 		assertEquals("division", param.getKey());
 		assertEquals("HIST  ", param.getValues().get(0));
-		param = params.get(1);
-		assertEquals("campuses", param.getKey());
-		assertEquals(CourseSearchStrategyImpl.NO_CAMPUS,
-				param.getValues().get(0));
 
 		request = requests.get(1);
 		params = request.getParams();
 		assertEquals("ksap.lu.search.title", request.getSearchKey());
-		assertEquals(2, params.size());
+		assertEquals(1, params.size());
 		param = params.get(0);
 		assertEquals("queryText", param.getKey());
 		assertEquals("HIST", param.getValues().get(0));
-		param = params.get(1);
-		assertEquals("campuses", param.getKey());
-		assertEquals("310", param.getValues().get(0));
 
 		request = requests.get(2);
 		// TODO: correct expectations
@@ -867,14 +738,10 @@ public class CourseSearchStrategyTest {
 		// request = requests.get(3);
 		params = request.getParams();
 		assertEquals("ksap.lu.search.description", request.getSearchKey());
-		assertEquals(2, params.size());
+		assertEquals(1, params.size());
 		param = params.get(0);
 		assertEquals("queryText", param.getKey());
 		assertEquals("HIST", param.getValues().get(0));
-		param = params.get(1);
-		assertEquals("campuses", param.getKey());
-		assertEquals("310", param.getValues().get(0));
-
 	}
 
 	@Test
@@ -883,16 +750,11 @@ public class CourseSearchStrategyTest {
 		ArrayList<SearchRequestInfo> requests = new ArrayList<SearchRequestInfo>();
 		CourseSearchFormImpl form = new CourseSearchFormImpl();
 		form.setSearchQuery("PHILONOMY");
-		List<String> campusParams = new ArrayList<String>();
-		campusParams.add("310");
-		form.setCampusSelect(campusParams);
 		form.setSearchTerm("any");
 		CourseSearchStrategyImpl strategy = new CourseSearchStrategyImpl();
-		;
 		SearchRequestInfo request = new SearchRequestInfo(
 				"ksap.lu.search.fulltext");
 		request.addParam("queryText", "PHILONOMY");
-		request.addParam("campuses", "310");
 		requests.add(request);
 		List<SearchParamInfo> params = null;
 		SearchParamInfo param = null;
@@ -902,24 +764,18 @@ public class CourseSearchStrategyTest {
 		request = requests.get(0);
 		params = request.getParams();
 		assertEquals("ksap.lu.search.title", request.getSearchKey());
-		assertEquals(2, params.size());
+		assertEquals(1, params.size());
 		param = params.get(0);
 		assertEquals("queryText", param.getKey());
 		assertEquals("PHILONOMY", param.getValues().get(0));
-		param = params.get(1);
-		assertEquals("campuses", param.getKey());
-		assertEquals("310", param.getValues().get(0));
 
 		request = requests.get(1);
 		params = request.getParams();
 		assertEquals("ksap.lu.search.description", request.getSearchKey());
-		assertEquals(2, params.size());
+		assertEquals(1, params.size());
 		param = params.get(0);
 		assertEquals("queryText", param.getKey());
 		assertEquals("PHILONOMY", param.getValues().get(0));
-		param = params.get(1);
-		assertEquals("campuses", param.getKey());
-		assertEquals("310", param.getValues().get(0));
 	}
 
 	@Test
@@ -1009,11 +865,9 @@ public class CourseSearchStrategyTest {
 		SearchRequestInfo request = new SearchRequestInfo(
 				"ksap.lu.search.division");
 		request.addParam("division", "ASTR  ");
-		request.addParam("campuses", CourseSearchStrategyImpl.NO_CAMPUS);
 		requests.add(request);
 		request = new SearchRequestInfo("ksap.lu.search.division");
 		request.addParam("division", "BIOL  ");
-		request.addParam("campuses", CourseSearchStrategyImpl.NO_CAMPUS);
 		requests.add(request);
 
 		List<SearchParamInfo> params = null;
@@ -1024,74 +878,50 @@ public class CourseSearchStrategyTest {
 		request = requests.get(0);
 		params = request.getParams();
 		assertEquals("ksap.lu.search.division", request.getSearchKey());
-		assertEquals(2, params.size());
+		assertEquals(1, params.size());
 		param = params.get(0);
 		assertEquals("division", param.getKey());
 		assertEquals("ASTR  ", param.getValues().get(0));
-		param = params.get(1);
-		assertEquals("campuses", param.getKey());
-		assertEquals(CourseSearchStrategyImpl.NO_CAMPUS,
-				param.getValues().get(0));
 
 		request = requests.get(1);
 		params = request.getParams();
 		assertEquals("ksap.lu.search.division", request.getSearchKey());
-		assertEquals(2, params.size());
+		assertEquals(1, params.size());
 		param = params.get(0);
 		assertEquals("division", param.getKey());
 		assertEquals("BIOL  ", param.getValues().get(0));
-		param = params.get(1);
-		assertEquals("campuses", param.getKey());
-		assertEquals(CourseSearchStrategyImpl.NO_CAMPUS,
-				param.getValues().get(0));
 
 		request = requests.get(2);
 		params = request.getParams();
 		assertEquals("ksap.lu.search.title", request.getSearchKey());
-		assertEquals(2, params.size());
+		assertEquals(1, params.size());
 		param = params.get(0);
 		assertEquals("queryText", param.getKey());
 		assertEquals("ASTR", param.getValues().get(0));
-		param = params.get(1);
-		assertEquals("campuses", param.getKey());
-		assertEquals(CourseSearchStrategyImpl.NO_CAMPUS,
-				param.getValues().get(0));
 
 		request = requests.get(3);
 		params = request.getParams();
 		assertEquals("ksap.lu.search.description", request.getSearchKey());
-		assertEquals(2, params.size());
+		assertEquals(1, params.size());
 		param = params.get(0);
 		assertEquals("queryText", param.getKey());
 		assertEquals("ASTR", param.getValues().get(0));
-		param = params.get(1);
-		assertEquals("campuses", param.getKey());
-		assertEquals(CourseSearchStrategyImpl.NO_CAMPUS,
-				param.getValues().get(0));
 
 		request = requests.get(4);
 		params = request.getParams();
 		assertEquals("ksap.lu.search.title", request.getSearchKey());
-		assertEquals(2, params.size());
+		assertEquals(1, params.size());
 		param = params.get(0);
 		assertEquals("queryText", param.getKey());
 		assertEquals("BIOL", param.getValues().get(0));
-		param = params.get(1);
-		assertEquals("campuses", param.getKey());
-		assertEquals(CourseSearchStrategyImpl.NO_CAMPUS,
-				param.getValues().get(0));
 
 		request = requests.get(5);
 		params = request.getParams();
 		assertEquals("ksap.lu.search.description", request.getSearchKey());
-		assertEquals(2, params.size());
+		assertEquals(1, params.size());
 		param = params.get(0);
 		assertEquals("queryText", param.getKey());
 		assertEquals("BIOL", param.getValues().get(0));
-		param = params.get(1);
-		assertEquals("campuses", param.getKey());
-		assertEquals(CourseSearchStrategyImpl.NO_CAMPUS,
-				param.getValues().get(0));
 	}
 
 	@Test
@@ -1108,7 +938,6 @@ public class CourseSearchStrategyTest {
 		SearchRequestInfo request = new SearchRequestInfo(
 				"ksap.lu.search.division");
 		request.addParam("division", "A S   ");
-		request.addParam("campuses", CourseSearchStrategyImpl.NO_CAMPUS);
 		requests.add(request);
 		strategy.adjustSearchRequests(requests, form);
 		SearchParamInfo param = null;
@@ -1118,14 +947,11 @@ public class CourseSearchStrategyTest {
 		request = requests.get(0);
 		params = request.getParams();
 		assertEquals("ksap.lu.search.division", request.getSearchKey());
-		assertEquals(2, params.size());
+		assertEquals(1, params.size());
 		param = params.get(0);
 		assertEquals("division", param.getKey());
 		assertEquals("A S   ", param.getValues().get(0));
-		param = params.get(1);
-		assertEquals("campuses", param.getKey());
-		assertEquals(CourseSearchStrategyImpl.NO_CAMPUS,
-				param.getValues().get(0));
+
 	}
 
 	@Test
