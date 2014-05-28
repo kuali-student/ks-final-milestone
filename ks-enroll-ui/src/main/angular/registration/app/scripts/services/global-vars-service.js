@@ -10,6 +10,7 @@ angular.module('regCartApp')
         var waitlistedCredits = 0;
         var waitlistedCourseCount = 0;
         var schedule;
+        var userId;
 
         var processingStates = ['kuali.lpr.trans.item.state.processing','kuali.lpr.trans.state.processing'];
         var successStates = ['kuali.lpr.trans.state.succeeded', 'kuali.lpr.trans.item.state.succeeded'];
@@ -73,6 +74,14 @@ angular.module('regCartApp')
             schedule = value;
         };
 
+        this.getUserId = function() {
+            return userId;
+        }
+
+        this.setUserId = function (value) {
+            userId = value;
+        }
+
         // In this method we pass in a state and it returns a status
         this.getCorrespondingStatusFromState = function(state){
             var retStatus = 'new';
@@ -94,9 +103,12 @@ angular.module('regCartApp')
         /**
          * This method takes the schedule list returned from the schedule service and updates the global counts.
          *
-         * @param scheduleList
+         * @param personSchedule
          */
-        this.updateScheduleCounts = function (scheduleList) {
+        this.updateScheduleCounts = function (personSchedule) {
+
+            var scheduleList=personSchedule.studentScheduleTermResults;
+            var userId=personSchedule.userId;
 
             //Calculate credit count, course count and grading option count
             var creditCount = 0;
@@ -132,6 +144,7 @@ angular.module('regCartApp')
             this.setRegisteredCredits(creditCount);
             this.setWaitlistedCredits(waitlistCreditCount);
             this.setWaitlistedCourseCount(waitlistCourses);
+            this.setUserId(userId);
         };
 
         // In this method we pass in a status and it returns a message to display

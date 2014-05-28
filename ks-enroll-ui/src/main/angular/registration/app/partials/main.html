@@ -19,7 +19,13 @@
                 <!--&lt;!&ndash; Defaults to the current term&ndash;&gt;-->
                 <!--<select id="searchTerm" style="color: white;background: transparent;border:none;font-family: 'Montserrat',sans-serif;font-size: 14px;font-weight: bold;color: #F8F8F8;"ng-model="$parent.termId" ng-options="t.termId as t.termName for t in terms"></select>-->
             <!--</div>-->
-
+            <div class='kscr-Responsive-logout'>
+                <div>
+                    <button id="header_logout" class="kscr-Menu-button-header-logout util-Grid--floatRight" ng-click="logout()">LOGOUT</button>
+                    <i class="glyphicon glyphicon-user"></i>
+                    <span id="header_user">{{userId()}}</span>
+                </div>
+            </div>
             <nav ng-class="{Navigation:true,'kscr-Responsive-navigation':uiState=='root.responsive.cart'||uiState=='root.responsive.schedule'}">
                 <span>
                     <button id="reg_menu_button" type="button" ng-model="dropMenu" class="kscr-Menu-button-menu" ng-class="{'kscr-Menu-button-menu--clicked' : dropMenu}" ng-click="dropMenu = !dropMenu">MENU</button>
@@ -36,6 +42,7 @@
                 <div>
                     <button id="logout" class="kscr-Menu-button-logout util-Grid--floatRight" ng-click="logout()">LOGOUT</button>
                     <i class="glyphicon glyphicon-user"></i>
+                      <span id="menu_user">{{userId()}}</span>
                 </div>
             </li>
 

@@ -5,7 +5,7 @@ angular.module('regCartApp')
 
         this.getScheduleFromServer = function () {
             return $resource(APP_URL + 'CourseRegistrationClientService/personschedule', {}, {
-                query: {method: 'GET', cache: false, isArray: true}
+                query: {method: 'GET', cache: false, isArray: false}
             });
         };
         this.updateSchedule = function () {

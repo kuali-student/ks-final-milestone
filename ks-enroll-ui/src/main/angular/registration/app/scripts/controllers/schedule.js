@@ -11,9 +11,10 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
         $scope.waitlistedCredits = GlobalVarsService.getWaitlistedCredits;
         $scope.waitlistedCourseCount = GlobalVarsService.getWaitlistedCourseCount;
         $scope.numberOfDroppedWailistedCourses = 0;
+        $scope.userId = GlobalVarsService.getUserId;
 
         $scope.$watch('termId', function (newValue) {
-            console.log('term id has changed');
+            console.log('term id has changed: '+newValue);
             if ($scope.userMessage && $scope.userMessage.txt) {
                 $scope.removeUserMessage();
             }

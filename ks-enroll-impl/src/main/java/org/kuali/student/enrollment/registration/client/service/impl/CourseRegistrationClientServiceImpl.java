@@ -23,6 +23,7 @@ import org.kuali.student.enrollment.registration.client.service.ScheduleOfClasse
 import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesServiceConstants;
 import org.kuali.student.enrollment.registration.client.service.dto.ActivityOfferingScheduleComponentResult;
 import org.kuali.student.enrollment.registration.client.service.dto.InstructorSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.PersonScheduleResult;
 import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.RegistrationCountResult;
 import org.kuali.student.enrollment.registration.client.service.dto.RegistrationResponseItemResult;
@@ -145,7 +146,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
      * SEARCH for STUDENT REGISTRATION INFO based on person and termCode *
      */
     @Override
-    public List<StudentScheduleTermResult> searchForScheduleByPersonAndTerm(String termId, String termCode) throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+    public PersonScheduleResult searchForScheduleByPersonAndTerm(String termId, String termCode) throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
 
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
         String userId = contextInfo.getPrincipalId();
@@ -164,7 +165,13 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
             termId = CourseRegistrationAndScheduleOfClassesUtil.getTermId(termId, termCode);
         }
 
-        return getRegistrationScheduleByPersonAndTerm(userId, termId, contextInfo);
+        List<StudentScheduleTermResult> studentScheduleTermResults = getRegistrationScheduleByPersonAndTerm(userId, termId, contextInfo);
+
+        PersonScheduleResult personScheduleResult = new PersonScheduleResult();
+        personScheduleResult.setStudentScheduleTermResults(studentScheduleTermResults);
+        personScheduleResult.setUserId(userId);
+
+        return personScheduleResult;
     }
 
     @Override
@@ -181,7 +188,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         int colourIndex = 0;
 
         //Use existing services to get the schedule
-        List<StudentScheduleTermResult> schedule = searchForScheduleByPersonAndTerm(termId, termCode);
+        List<StudentScheduleTermResult> schedule = searchForScheduleByPersonAndTerm(termId, termCode).getStudentScheduleTermResults();
 
         //Initialize a map with lists for each day of the week
         Map<String, List<ScheduleCalendarEventResult>> dayToEventListMap = new HashMap<String, List<ScheduleCalendarEventResult>>();
@@ -856,7 +863,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
             String credits = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CREDITS);
             String gradingOptionId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.GRADING_OPTION_ID);
 
-            if(!lastTerm.equals(atpId)){
+            if(!lastTerm.equals(atpId)) {
 
             }
 

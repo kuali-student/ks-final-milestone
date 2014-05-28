@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.registration.client.service;
 
+import org.kuali.student.enrollment.registration.client.service.dto.PersonScheduleResult;
 import org.kuali.student.enrollment.registration.client.service.dto.ScheduleCalendarEventResult;
 import org.kuali.student.enrollment.registration.client.service.dto.StudentScheduleTermResult;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -43,7 +44,7 @@ public interface CourseRegistrationClientService {
      * asynchronous so the client will need to poll the system for status updates.
      */
     @GET
-    @Produces({MediaType.APPLICATION_JSON})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/registerreggroup")
     Response registerForRegistrationGroup(@QueryParam("termCode") String termCode,
                                                    @QueryParam("courseCode") String courseCode,
@@ -93,13 +94,13 @@ public interface CourseRegistrationClientService {
      * @param termCode
      */
     @GET
-    @Produces({MediaType.APPLICATION_JSON})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/personschedule")
-    List<StudentScheduleTermResult> searchForScheduleByPersonAndTerm(@QueryParam("termId") String termId,
+    PersonScheduleResult searchForScheduleByPersonAndTerm(@QueryParam("termId") String termId,
                                                                             @QueryParam("termCode") String termCode) throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException;
 
     @GET
-    @Produces({MediaType.APPLICATION_JSON})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/personschedulecalendar")
     List<List<ScheduleCalendarEventResult>> searchForScheduleCalendarByPersonAndTerm(@QueryParam("termId") String termId,
                                                                                             @QueryParam("termCode") String termCode) throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException;
@@ -115,8 +116,8 @@ public interface CourseRegistrationClientService {
      * @return
      */
     @PUT
-    @Produces({MediaType.APPLICATION_JSON})
-    @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Path("/updateScheduleItem")
     Response updateScheduleItem(@FormParam("courseCode") String courseCode,
                                        @FormParam("regGroupCode") String regGroupCode,
@@ -126,8 +127,8 @@ public interface CourseRegistrationClientService {
                                        @FormParam("gradingOptionId") String gradingOptionId);
 
     @PUT
-    @Produces({MediaType.APPLICATION_JSON})
-    @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Path("/updateWaitlistEntry")
     Response updateWaitlistEntry(@FormParam("courseCode") String courseCode,
                                           @FormParam("regGroupCode") String regGroupCode,
@@ -143,7 +144,7 @@ public interface CourseRegistrationClientService {
      * @return
      */
     @GET
-    @Produces({MediaType.APPLICATION_JSON})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/getRegistrationStatus")
     Response getRegistrationStatus(@QueryParam("regReqId") String regReqId);
 
@@ -152,8 +153,8 @@ public interface CourseRegistrationClientService {
     Response dropFromWaitlistEntry(@QueryParam("masterLprId") String masterLprId);
 
     /**
-     * Finds all LPRs for a given personId and deletes them
-     * Returns a Response object with status
+     * Finds all LPRs for a given personId and deletes them.
+     * Returns a Response object with status.
      *
      * @param personId Principal ID
      * @return Empty Response Object or Response object with Error text

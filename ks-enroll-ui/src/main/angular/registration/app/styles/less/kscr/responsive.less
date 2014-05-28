@@ -36,6 +36,10 @@
   display: none; /*Navigation (menu button) is hidden initially*/
 }
 
+.kscr-Responsive-logout {
+  display: block; /* show the logout button if the menu is hidden */
+}
+
 /*Styles for screens smaller than 660px*/
 @media screen and (max-width: 860px) {
   .kscr-Responsive-schedule {
@@ -63,6 +67,10 @@
 
   .kscr-Responsive-navigation {
     display: block; /*show the navigation when the screen gets small enough so that only cart or schedule are displayed at a time*/
+  }
+
+  .kscr-Responsive-logout {
+    display: none; /* hide the logout button if the menu is present */
   }
 }
 

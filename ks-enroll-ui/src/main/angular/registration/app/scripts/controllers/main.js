@@ -23,6 +23,7 @@ angular.module('regCartApp')
                     $scope.waitlistedCredits = GlobalVarsService.getWaitlistedCredits;   // notice that i didn't put the (). in the ui call: {{registeredCredits()}}
                     $scope.waitlistedCourseCount = GlobalVarsService.getWaitlistedCourseCount; // notice that i didn't put the (). in the ui call: {{registeredCourseCount()}}
                     $scope.showWaitlistedSection = GlobalVarsService.getShowWaitlistedSection;
+                    $scope.userId = GlobalVarsService.getUserId;
                 });
             }
         });
