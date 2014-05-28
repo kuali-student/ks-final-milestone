@@ -21,7 +21,7 @@ public class PlanConstants extends AcademicPlanServiceConstants {
 
 	public static final String COURSE_TYPE = CLUConstants.CLU_TYPE_CREDIT_COURSE;
 	public static final String SECTION_TYPE = "kuali.lu.type.CourseSection";
-    public static final String TERM_NOTE_COMMENT_TYPE ="kuali.ap.type.note.term";
+    public static final String TERM_NOTE_COMMENT_TYPE ="kuali.academicplan.type.note.term";
     public static final String TERM_NOTE_COMMENT_ATTRIBUTE_ATPID = "kauli.ap.type.note.term.attr.atpid";
 
 	// CRUD operations positive feedback.
