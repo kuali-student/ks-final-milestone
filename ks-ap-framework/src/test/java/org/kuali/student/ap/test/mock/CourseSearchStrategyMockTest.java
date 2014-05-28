@@ -86,6 +86,19 @@ public class CourseSearchStrategyMockTest implements CourseSearchStrategy {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
+    /**
+     * Add searches based on text tokens found in the query string
+     * Tokens are used in search of the course description and title text.
+     *
+     * @param query      - The query string
+     * @param requests   - The list of search requests to be ran
+     * @param searchTerm - The term filter for the search (used for CO searches)
+     */
+    @Override
+    public void addFullTextRequests(String query, List<SearchRequestInfo> requests, String searchTerm) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
     @Override
     public Map<String, String> getCurriculumMap(Set<String> orgIds) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.

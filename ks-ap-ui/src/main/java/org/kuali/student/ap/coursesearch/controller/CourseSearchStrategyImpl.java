@@ -66,6 +66,8 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 
     private static final Logger LOG = LoggerFactory.getLogger(CourseSearchStrategyImpl.class);
 
+    private static final String KSAP_MAX_SEARCH_RESULTS_CONFIG_KEY = "ksap.search.results.max";
+
     private static final Map<String, Comparator<String>> FACET_SORT;
 
     private static WeakReference<Map<String, Credit>> creditMapRef;
@@ -102,28 +104,36 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
                 .unmodifiableMap(Collections.synchronizedMap(l));
     }
 
+    /**
+     * @see org.kuali.student.ap.coursesearch.CourseSearchStrategy#createInitialSearchForm()
+     */
     @Override
     public CourseSearchForm createInitialSearchForm() {
         CourseSearchFormImpl rv = new CourseSearchFormImpl();
         return rv;
     }
 
+    /**
+     * @see org.kuali.student.ap.coursesearch.CourseSearchStrategy#courseSearch(org.kuali.student.ap.coursesearch.CourseSearchForm, String)
+     */
     @Override
     public List<CourseSearchItem> courseSearch(CourseSearchForm form, String studentId) {
+        // Determine maximum number of search results allowed to return
         String maxCountProp = ConfigContext.getCurrentContextConfig()
-                .getProperty("ksap.search.results.max");
+                .getProperty(KSAP_MAX_SEARCH_RESULTS_CONFIG_KEY);
         int maxCount = maxCountProp != null && !"".equals(maxCountProp.trim()) ? Integer
                 .valueOf(maxCountProp) : MAX_HITS;
         this.limitExceeded = false;
+
+        // Build and run search, retrieving a list of course Ids
         List<SearchRequestInfo> requests = buildSearchRequests(form);
         List<Hit> hits = preformSearch(requests);
-        List<CourseSearchItem> courseList = new ArrayList<CourseSearchItem>();
-        Map<String, String> courseStatusMap = getCourseStatusMap(studentId);
         List<String> courseIDs = new ArrayList<String>();
         for (Hit hit : hits) {
             courseIDs.add(hit.courseID);
         }
 
+        // Filter results and trim if exceeds result limit
         List<CourseSearchItemImpl> courses = new ArrayList<CourseSearchItemImpl>();
         if (!courseIDs.isEmpty()) {
             courseIDs = termfilterCourseIds(courseIDs, form.getSearchTerm());
@@ -138,50 +148,27 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
                 }
                 courseIDs = temp;
             }
-
-            if (!courseIDs.isEmpty()) {
-                courses = getCoursesInfo(courseIDs);
-            }
         }
-        Set<String> orgIds = new HashSet<String>();
-        for (CourseSearchItemImpl course : courses) {
 
-            String courseId = course.getCourseId();
-            String orgId = "ORGID-" + course.getSubject();
-            orgIds.add(orgId);
-            if (courseStatusMap.containsKey(courseId)) {
-
-                String status = courseStatusMap.get(courseId);
-                if (status.equals(NONE)) {
-                    course.setSaved(false);
-                    course.setPlanned(false);
-                } else if (status.equals(SAVED)) {
-                    course.setSaved(true);
-                    course.setPlanned(false);
-                } else if (status.equals(PLANNED)) {
-                    course.setPlanned(true);
-                    course.setSaved(false);
-                } else if (status.equals(SAVED_AND_PLANNED)) {
-                    course.setPlanned(true);
-                    course.setSaved(true);
-                } else {
-                    LOG.debug("Unknown status in map. Unable to set status of course with ID: {}", courseId);
-                }
-            }
-            course.setSessionid(form.getSessionId());
-            courseList.add(course);
+        // Populate course data for found course ids
+        if (!courseIDs.isEmpty()) {
+            courses = getCoursesInfo(courseIDs);
         }
-        getCurriculumMap(orgIds);
+
+        // Load the plan status of each course and set its session id
+        List<CourseSearchItem> courseList = loadPlanStatus(form.getSessionId(),studentId,courses);
+
+        // Populate Curriculum Map based on orgs for found courses
+        populateCurriculumMap(courses);
+
+        // Populate Facets for the found courses
         populateFacets(form, courseList);
 
         return courseList;
     }
 
     /**
-     * Creates a list of search requests from the search information supplied by the user
-     *
-     * @param form - Page form with search information
-     * @return The list of search requests to be ran.
+     * @see org.kuali.student.ap.coursesearch.CourseSearchStrategy#buildSearchRequests(org.kuali.student.ap.coursesearch.CourseSearchForm)
      */
     @Override
     public List<SearchRequestInfo> buildSearchRequests(CourseSearchForm form) {
@@ -257,7 +244,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 
         LOG.info("Start of method addFullTextSearches of CourseSearchStrategy: {}",
                 System.currentTimeMillis());
-        addFullTextSearches(pureQuery, requests, form.getSearchTerm());
+        addFullTextRequests(pureQuery, requests, form.getSearchTerm());
         LOG.info("End of method addFullTextSearches of CourseSearchStrategy: {}",
                 System.currentTimeMillis());
 
@@ -274,16 +261,12 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
     }
 
     /**
-     * Process the Request adding any additional values or checks
-     *
-     * @param requests - The list of requests.
-     * @param form     - The search form.
+     * @see org.kuali.student.ap.coursesearch.CourseSearchStrategy#adjustSearchRequests(java.util.List, org.kuali.student.ap.coursesearch.CourseSearchForm)
      */
     @Override
     public List<SearchRequestInfo> adjustSearchRequests(List<SearchRequestInfo> requests, CourseSearchForm form) {
         LOG.info("Start of method adjustSearchRequests in CourseSearchStrategy: {}",
                 System.currentTimeMillis());
-        // Process search requests
 
         // Remove Duplicates
         List<SearchRequestInfo> prunedRequests = new ArrayList<SearchRequestInfo>();
@@ -298,6 +281,9 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         return requests;
     }
 
+    /**
+     * @see org.kuali.student.ap.coursesearch.CourseSearchStrategy#preformSearch(java.util.List)
+     */
     @Override
     public List<Hit> preformSearch(List<SearchRequestInfo> requests) {
         LOG.info("Start of preformSearch of CourseSearchController: {}",
@@ -330,6 +316,14 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         return hits;
     }
 
+    /**
+     * This method handles the filtering term filter options:
+     * Any Term - No filtered state
+     * Scheduled Term - Term with published SOC state
+     * Single Term - Specific term (only one specific term is allowed)
+     *
+     * @see org.kuali.student.ap.coursesearch.CourseSearchStrategy#getTermsToFilterOn(String)
+     */
     @Override
     public List<String> getTermsToFilterOn(String termFilter) {
         List<String> termsToFilterOn = new ArrayList<String>();
@@ -352,10 +346,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
     }
 
     /**
-     * Add searches based on the components found in the query string
-     *
-     * @param componentMap    - A map of the different components to make requests on
-     * @param requests        - The list of search requests to be ran
+     * @see org.kuali.student.ap.coursesearch.CourseSearchStrategy#addComponentRequests(java.util.Map, java.util.List)
      */
     @Override
     public void addComponentRequests(Map<String, List<String>> componentMap, List<SearchRequestInfo> requests) {
@@ -388,22 +379,44 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         divisions.addAll(keywordDivisions);
 
         // Combine search requests in execution order
-        requests.addAll(addCompletedCodeSearches(completeCodes, divisions, codes));
-        requests.addAll(addDivisionAndCodeSearches(divisions, codes));
-        requests.addAll(addCompletedLevelSearches(completeLevels, divisions, levels));
-        requests.addAll(addDivisionAndLevelSearches(divisions, levels));
-        requests.addAll(addIncompleteCodeSearches(incompleteCodes, divisions));
-        requests.addAll(addDivisionSearches(divisions));
-        requests.addAll(addCodeSearches(codes));
-        requests.addAll(addLevelSearches(levels));
+        requests.addAll(addCompletedCodeRequests(completeCodes, divisions, codes));
+        requests.addAll(addDivisionAndCodeRequests(divisions, codes));
+        requests.addAll(addCompletedLevelRequests(completeLevels, divisions, levels));
+        requests.addAll(addDivisionAndLevelRequests(divisions, levels));
+        requests.addAll(addIncompleteCodeRequests(incompleteCodes, divisions));
+        requests.addAll(addDivisionRequests(divisions));
+        requests.addAll(addCodeRequests(codes));
+        requests.addAll(addLevelRequests(levels));
 
     }
 
+    /**
+     * @see org.kuali.student.ap.coursesearch.CourseSearchStrategy#addFullTextRequests(String, java.util.List, String)
+     */
+    public void addFullTextRequests(String query, List<SearchRequestInfo> requests, String searchTerm) {
+        //find all tokens in the query string
+        List<QueryTokenizer.Token> tokens = QueryTokenizer.tokenize(query);
+
+        List<SearchRequestInfo> titleSearches = addTitleSearches(tokens, searchTerm);
+        List<SearchRequestInfo> descriptionSearches = addDescriptionSearches(tokens, searchTerm);
+
+        requests.addAll(titleSearches);
+        requests.addAll(descriptionSearches);
+    }
+
+    /**
+     * This value is determined in courseSearch after filtering the courses by term
+     *
+     * @see org.kuali.student.ap.coursesearch.CourseSearchStrategy#isLimitExceeded()
+     */
     @Override
     public boolean isLimitExceeded() {
         return this.limitExceeded;
     }
 
+    /**
+     * @see org.kuali.student.ap.coursesearch.CourseSearchStrategy#getCurriculumMap(java.util.Set)
+     */
     @Override
     public Map<String, String> getCurriculumMap(Set<String> orgIds) {
         Map<String, String> rv = curriculumMapRef == null ? null : curriculumMapRef
@@ -442,6 +455,9 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         return rv;
     }
 
+    /**
+     * @see org.kuali.student.ap.coursesearch.CourseSearchStrategy#getGenEdMap()
+     */
     @Override
     public Map<String, String> getGenEdMap() {
         Map<String, String> rv = genEdMapRef == null ? null : genEdMapRef
@@ -454,21 +470,24 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         return rv;
     }
 
+    /**
+     * @see org.kuali.student.ap.coursesearch.CourseSearchStrategy#getCreditMap()
+     */
     @Override
     public Map<String, Credit> getCreditMap() {
         Map<String, Credit> rv = creditMapRef == null ? null : creditMapRef
                 .get();
         if (rv == null) {
             Map<String, Credit> creditMap = new java.util.LinkedHashMap<String, Credit>();
-            String resultScaleKey = CourseSearchConstants.COURSE_SEARCH_SCALE_CREDIT_DEGREE;
-            ContextInfo contextInfo = KsapFrameworkServiceLocator.getContext()
-                    .getContextInfo();
-            List<ResultValuesGroupInfo> resultValuesGroupInfos = null;
 
+            // Get credit information from the result values groups using the scalue key
+            String resultScaleKey = CourseSearchConstants.COURSE_SEARCH_SCALE_CREDIT_DEGREE;
+            List<ResultValuesGroupInfo> resultValuesGroupInfos = null;
             try {
                 resultValuesGroupInfos = KsapFrameworkServiceLocator
                         .getLrcService().getResultValuesGroupsByResultScale(
-                                resultScaleKey, contextInfo);
+                                resultScaleKey, KsapFrameworkServiceLocator.getContext()
+                                .getContextInfo());
             } catch (DoesNotExistException e) {
                 throw new IllegalArgumentException("LRC lookup error", e);
             } catch (InvalidParameterException e) {
@@ -481,10 +500,9 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
                 throw new IllegalStateException("LRC lookup error", e);
             }
 
+            // Create and fill in credit infomation from found groups
             Map<String, String> types = CreditsFormatter.getCreditType(resultValuesGroupInfos);
-
-            if ((resultValuesGroupInfos != null)
-                    && (resultValuesGroupInfos.size() > 0)) {
+            if ((resultValuesGroupInfos != null) && (resultValuesGroupInfos.size() > 0)) {
                 for (ResultValuesGroupInfo resultValuesGroupInfo : resultValuesGroupInfos) {
                     CreditsFormatter.Range range = CreditsFormatter.getRange(resultValuesGroupInfo);
                     CreditImpl credit = new CreditImpl();
@@ -507,6 +525,8 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
                     creditMap.put(credit.getId(), credit);
                 }
             }
+
+            // Fill in stored map
             creditMapRef = new WeakReference<Map<String, Credit>>(
                     rv = Collections.unmodifiableMap(Collections
                             .synchronizedMap(creditMap)));
@@ -514,6 +534,9 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         return rv;
     }
 
+    /**
+     * @see org.kuali.student.ap.coursesearch.CourseSearchStrategy#populateFacets(org.kuali.student.ap.coursesearch.CourseSearchForm, java.util.List)
+     */
     @Override
     public void populateFacets(CourseSearchForm form, List<CourseSearchItem> courses) {
         LOG.info("Start of method populateFacets of CourseSearchController: {}",
@@ -535,12 +558,22 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         }
     }
 
+    /**
+     * @see org.kuali.student.ap.coursesearch.CourseSearchStrategy#
+     */
     @Override
     public Map<String, Comparator<String>> getFacetSort() {
         return FACET_SORT;
     }
 
-    private List<SearchRequestInfo> addLevelSearches(List<String> levels) {
+    /**
+     * Creates a list of level only search requests from provided level components
+     * Assumed levels are in format #XX
+     *
+     * @param levels - List of level components
+     * @return A list of completed search requests for level searches
+     */
+    private List<SearchRequestInfo> addLevelRequests(List<String> levels) {
         List<SearchRequestInfo> searches = new ArrayList<SearchRequestInfo>();
 
         // Create level only search
@@ -556,7 +589,13 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         return searches;
     }
 
-    private List<SearchRequestInfo> addCodeSearches(List<String> codes) {
+    /**
+     * Creates a list of code only search requests from the provided code components
+     *
+     * @param codes - List of code components
+     * @return A list of completed search requests for code searches
+     */
+    private List<SearchRequestInfo> addCodeRequests(List<String> codes) {
         List<SearchRequestInfo> searches = new ArrayList<SearchRequestInfo>();
 
         // Create course code only search
@@ -570,7 +609,13 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         return searches;
     }
 
-    private List<SearchRequestInfo> addDivisionSearches(List<String> divisions) {
+    /**
+     * Creates a list of division only search requests from the provided division components
+     *
+     * @param divisions - List of division components
+     * @return A list of completed search requests for division searches
+     */
+    private List<SearchRequestInfo> addDivisionRequests(List<String> divisions) {
         List<SearchRequestInfo> searches = new ArrayList<SearchRequestInfo>();
 
         for (String division : divisions) {
@@ -583,7 +628,14 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         return searches;
     }
 
-    private List<SearchRequestInfo> addDivisionAndCodeSearches(List<String> divisions, List<String> codes) {
+    /**
+     * Creates a list of division and code search requests from the provided components
+     *
+     * @param divisions - List of division components
+     * @param codes - List of code components
+     * @return A list of completed search requests for division and codes searches
+     */
+    private List<SearchRequestInfo> addDivisionAndCodeRequests(List<String> divisions, List<String> codes) {
         List<SearchRequestInfo> searches = new ArrayList<SearchRequestInfo>();
 
         List<String> seenDivisions = new ArrayList<String>();
@@ -607,7 +659,14 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         return searches;
     }
 
-    private List<SearchRequestInfo> addDivisionAndLevelSearches(List<String> divisions, List<String> levels) {
+    /**
+     * Creates a list of division and level search requests from the provided components
+     *
+     * @param divisions - List of division components
+     * @param levels - List of level components
+     * @return A list of completed search requests for division and level searches
+     */
+    private List<SearchRequestInfo> addDivisionAndLevelRequests(List<String> divisions, List<String> levels) {
         List<SearchRequestInfo> searches = new ArrayList<SearchRequestInfo>();
 
         List<String> seenDivisions = new ArrayList<String>();
@@ -635,7 +694,18 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         return searches;
     }
 
-    private List<SearchRequestInfo> addCompletedLevelSearches(List<String> completeLevels, List<String> divisions, List<String> levels) {
+    /**
+     * Creates a list of division and level search requests from the provided components
+     * These requests are made from components that have strong context between them
+     * Used components are removed from their respective lists so they are not used again when creating normal division
+     * and levels requests
+     *
+     * @param completeLevels - List of completed level components
+     * @param divisions - List of division components
+     * @param levels - List of level components
+     * @return A list of completed level search requests for division and level searches
+     */
+    private List<SearchRequestInfo> addCompletedLevelRequests(List<String> completeLevels, List<String> divisions, List<String> levels) {
         List<SearchRequestInfo> searches = new ArrayList<SearchRequestInfo>();
 
         // Complete Level searches
@@ -662,7 +732,18 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         return searches;
     }
 
-    private List<SearchRequestInfo> addCompletedCodeSearches(List<String> completeCodes, List<String> divisions, List<String> codes) {
+    /**
+     * Creates a list of division and codes search requests from the provided components
+     * These requests are made from components that have strong context between them
+     * Used components are removed from their respective lists so they are not used again when creating normal division
+     * and code requests
+     *
+     * @param completeCodes - List of completed codes components
+     * @param divisions - List of division components
+     * @param codes - List of codes components
+     * @return A list of completed code search requests for division and codes searches
+     */
+    private List<SearchRequestInfo> addCompletedCodeRequests(List<String> completeCodes, List<String> divisions, List<String> codes) {
         List<SearchRequestInfo> searches = new ArrayList<SearchRequestInfo>();
 
         // Complete Code searches
@@ -686,7 +767,16 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         return searches;
     }
 
-    private List<SearchRequestInfo> addIncompleteCodeSearches(List<String> incompleteCodes, List<String> divisions) {
+    /**
+     * Creates a list of incomplete code search requests from the provided components
+     * Incomplete codes are division codes + numbers but not a full code
+     * (Example: Engl2 or Engl20)
+     *
+     * @param incompleteCodes - List of incomplete code components
+     * @param divisions - List of division components
+     * @return A list of incomplete code search requests
+     */
+    private List<SearchRequestInfo> addIncompleteCodeRequests(List<String> incompleteCodes, List<String> divisions) {
         List<SearchRequestInfo> searches = new ArrayList<SearchRequestInfo>();
 
         // Create course code only search
@@ -715,23 +805,13 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
     }
 
     /**
-     * Add the full text searches to the search requests
+     * Creates a list of title search requests from the provided tokens
+     * Title searches are created for both Course and Course Offering titles.
      *
-     * @param query      - The query string
-     * @param requests   - The list of search requests to be ran
-     * @param searchTerm - The term filter for the search (used for CO searches)
+     * @param tokens - List of text tokens
+     * @param searchTerm - Term filter for the search (Used for CO title search)
+     * @return A list of title search requests
      */
-    public void addFullTextSearches(String query, List<SearchRequestInfo> requests, String searchTerm) {
-        //find all tokens in the query string
-        List<QueryTokenizer.Token> tokens = QueryTokenizer.tokenize(query);
-
-        List<SearchRequestInfo> titleSearches = addTitleSearches(tokens, searchTerm);
-        List<SearchRequestInfo> descriptionSearches = addDescriptionSearches(tokens, searchTerm);
-
-        requests.addAll(titleSearches);
-        requests.addAll(descriptionSearches);
-    }
-
     private List<SearchRequestInfo> addTitleSearches(List<QueryTokenizer.Token> tokens, String searchTerm) {
         List<SearchRequestInfo> searches = new ArrayList<SearchRequestInfo>();
 
@@ -759,6 +839,14 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         return searches;
     }
 
+    /**
+     * Creates a list of description search requests from the provided tokens
+     * Description searches are created for both Course and Course Offering titles.
+     *
+     * @param tokens - List of text tokens
+     * @param searchTerm - Term filter for the search (Used for CO title search)
+     * @return A list of description search requests
+     */
     private List<SearchRequestInfo> addDescriptionSearches(List<QueryTokenizer.Token> tokens, String searchTerm) {
         List<SearchRequestInfo> searches = new ArrayList<SearchRequestInfo>();
 
@@ -786,10 +874,18 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         return searches;
     }
 
+    /**
+     * Loads and returns course information base on the ids found in the search
+     *
+     * @param courseIDs - List of course ids found in the search
+     * @return A list of filled in courses
+     */
     private List<CourseSearchItemImpl> getCoursesInfo(List<String> courseIDs) {
         LOG.info("Start of method getCourseInfo of CourseSearchController: {}",
                 System.currentTimeMillis());
         List<CourseSearchItemImpl> listOfCourses = new ArrayList<CourseSearchItemImpl>();
+
+        // Get course information for each course from the course id
         SearchRequestInfo request = new SearchRequestInfo("ksap.course.info");
         request.addParam("courseIDs", courseIDs);
         SearchResult result;
@@ -808,10 +904,13 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         } catch (PermissionDeniedException e) {
             throw new IllegalArgumentException("CLU lookup error", e);
         }
+
+        // Create and fill in course object
         if ((result != null) && (!result.getRows().isEmpty())) {
             for (String courseId : courseIDs) {
                 for (SearchResultRow row : result.getRows()) {
                     String id = KsapHelperUtil.getCellValue(row, "course.id");
+                    // Course information is filled in based on the original result order
                     if (id.equals(courseId)) {
                         CourseSearchItemImpl course = new CourseSearchItemImpl();
                         course.setCourseId(id);
@@ -837,6 +936,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
             }
         }
 
+        // Load additional data for each course
         loadScheduledTerms(listOfCourses);
         loadTermsOffered(listOfCourses, courseIDs);
         loadGenEduReqs(listOfCourses);
@@ -1189,6 +1289,11 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         return map;
     }
 
+    /**
+     * Retrieves a list of all unique divisions in which there are courses for
+     *
+     * @return A list of divisions
+     */
     private List<String> getDivisionCodes() {
         ContextInfo context = KsapFrameworkServiceLocator.getContext()
                 .getContextInfo();
@@ -1217,5 +1322,57 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
             for (SearchResultCell cell : row.getCells())
                 rv.add(cell.getValue());
         return rv;
+    }
+
+    /**
+     * Populate the curriculumMap from the org ids associated with the provided list of courses
+     *
+     * @param courses - List of courses returned by search
+     */
+    private void populateCurriculumMap(List<CourseSearchItemImpl> courses){
+        Set<String> orgIds = new HashSet<String>();
+        for (CourseSearchItemImpl course : courses) {
+            String orgId = "ORGID-" + course.getSubject();
+            orgIds.add(orgId);
+        }
+        getCurriculumMap(orgIds);
+    }
+
+    /**
+     * Load the plan status and session id for each course found in the search
+     *
+     * @param sessionId - Form's session id
+     * @param studentId - Id of the user the search is being ran under
+     * @param courses - List of courses found in the search
+     * @return A list of courses with the plan status and session id filled in.
+     */
+    private List<CourseSearchItem> loadPlanStatus(String sessionId, String studentId, List<CourseSearchItemImpl> courses){
+        Map<String, String> courseStatusMap = getCourseStatusMap(studentId);
+        List<CourseSearchItem> courseList = new ArrayList<CourseSearchItem>();
+        for (CourseSearchItemImpl course : courses) {
+            String courseId = course.getCourseId();
+            if (courseStatusMap.containsKey(courseId)) {
+
+                String status = courseStatusMap.get(courseId);
+                if (status.equals(NONE)) {
+                    course.setSaved(false);
+                    course.setPlanned(false);
+                } else if (status.equals(SAVED)) {
+                    course.setSaved(true);
+                    course.setPlanned(false);
+                } else if (status.equals(PLANNED)) {
+                    course.setPlanned(true);
+                    course.setSaved(false);
+                } else if (status.equals(SAVED_AND_PLANNED)) {
+                    course.setPlanned(true);
+                    course.setSaved(true);
+                } else {
+                    LOG.debug("Unknown status in map. Unable to set status of course with ID: {}", courseId);
+                }
+            }
+            course.setSessionid(sessionId);
+            courseList.add(course);
+        }
+        return courseList;
     }
 }

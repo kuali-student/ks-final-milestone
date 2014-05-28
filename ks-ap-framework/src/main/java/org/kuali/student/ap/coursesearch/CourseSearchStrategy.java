@@ -72,6 +72,16 @@ public interface CourseSearchStrategy {
     public void addComponentRequests(Map<String, List<String>> componentMap, List<SearchRequestInfo> requests);
 
     /**
+     * Add searches based on text tokens found in the query string
+     * Tokens are used in search of the course description and title text.
+     *
+     * @param query      - The query string
+     * @param requests   - The list of search requests to be ran
+     * @param searchTerm - The term filter for the search (used for CO searches)
+     */
+    public void addFullTextRequests(String query, List<SearchRequestInfo> requests, String searchTerm);
+
+    /**
      * Determines if the search results exceeded the max number of results allowed to be returned.
      *
      * @return True if limit is exceeded, false otherwise

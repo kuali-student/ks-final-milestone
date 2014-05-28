@@ -125,7 +125,7 @@ public class CourseSearchStrategyTest {
 		;
 		String query = "text \"text\"";
 		ArrayList<SearchRequestInfo> requests = new ArrayList<SearchRequestInfo>();
-		strategy.addFullTextSearches(query, requests, "termlist");
+		strategy.addFullTextRequests(query, requests, "termlist");
 		assertEquals(8, requests.size());
 		assertEquals("ksap.lu.search.title", requests.get(0)
 				.getSearchKey());
