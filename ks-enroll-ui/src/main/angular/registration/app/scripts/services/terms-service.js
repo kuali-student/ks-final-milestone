@@ -3,7 +3,8 @@
 angular.module('regCartApp')
     .service('TermsService', ['$resource', 'APP_URL', function TermsService($resource, APP_URL) {
 
-
+        var scheduleOfClassesService=APP_URL+'ScheduleOfClassesClientService';
+        var termsMethod=scheduleOfClassesService+'/terms';
         var termId = 'kuali.atp.2012Fall';   // default value
 
         this.getTermId = function () {
@@ -15,7 +16,7 @@ angular.module('regCartApp')
         };
 
         this.getTermsFromServer = function () {
-            return $resource(APP_URL + 'ScheduleOfClassesService/terms', {}, {
+            return $resource(termsMethod, {}, {
                 query: { method: 'GET', cache: true, isArray: true }
             });
         };

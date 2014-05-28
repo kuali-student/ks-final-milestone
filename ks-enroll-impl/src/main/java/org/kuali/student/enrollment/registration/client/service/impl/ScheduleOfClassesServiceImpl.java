@@ -43,7 +43,6 @@ import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.ws.rs.core.Response;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -58,76 +57,30 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(ScheduleOfClassesServiceImpl.class);
 
-    private static final Comparator<RegGroupSearchResult> regResultComparator = new RegResultComparator();
+    private static final Comparator<RegGroupSearchResult> REG_RESULT_COMPARATOR = new RegResultComparator();
 
     /**
      * COURSE OFFERINGS *
      */
 
     @Override
-    public Response searchForCourseOfferingsRS(String termId, String termCode, String courseCode) {
-        Response.ResponseBuilder response;
-
-        try {
-            List<CourseSearchResult> courseSearchResults = searchForCourseOfferings(termId, termCode, courseCode);
-            response = Response.ok(courseSearchResults);
-        } catch (Exception e) {
-            LOGGER.warn("Exception Thrown", e);
-            response = Response.serverError().entity(e.getMessage());
-        }
-
-        return response.build();
-    }
-
-    @Override
     public List<CourseSearchResult> searchForCourseOfferingsByTermIdAndCourse(String termId, String courseCode) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
-        return searchForCourseOfferings(termId, null, courseCode);
+        return searchForCourseOfferingsLocal(termId, null, courseCode);
     }
 
     @Override
     public List<CourseSearchResult> searchForCourseOfferingsByTermCodeAndCourse(String termCode, String courseCode) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
-        return searchForCourseOfferings(null, termCode, courseCode);
+        return searchForCourseOfferingsLocal(null, termCode, courseCode);
     }
-
-    @Override
-    public Response searchForCourseOfferingsAndPrimaryAosByTermAndCourseRS(String termId, String termCode, String courseCode) {
-        Response.ResponseBuilder response;
-
-        try {
-            List<CourseAndPrimaryAOSearchResult> courseSearchResults = searchForCourseOfferingsAndPrimaryAosByTermAndCourse(termId, termCode, courseCode);
-            response = Response.ok(courseSearchResults);
-        } catch (Exception e) {
-            LOGGER.warn("Exception Thrown", e);
-            response = Response.serverError().entity(e.getMessage());
-        }
-
-        return response.build();
-    }
-
 
     /**
      * REGISTRATION GROUPS *
      */
 
     @Override
-    public Response searchForRegistrationGroupsRS(String courseOfferingId, String termId, String termCode, String courseCode, String regGroupName) {
-        Response.ResponseBuilder response;
-
-        try {
-            List<RegGroupSearchResult> regGroupSearchResults = searchForRegistrationGroups(courseOfferingId, termId, termCode, courseCode, regGroupName);
-            response = Response.ok(regGroupSearchResults);
-        } catch (Exception e) {
-            LOGGER.warn("Exception Thrown", e);
-            response = Response.serverError().entity(e.getMessage());
-        }
-
-        return response.build();
-    }
-
-    @Override
     public RegGroupSearchResult searchForRegistrationGroupByTermAndCourseAndRegGroup(String termId, String termCode, String courseCode, String regGroupCode) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<RegGroupSearchResult> regGroupSearchResults =  searchForRegistrationGroups(null, termId, termCode, courseCode, regGroupCode);
-        if(regGroupSearchResults != null && !regGroupSearchResults.isEmpty()){
+        List<RegGroupSearchResult> regGroupSearchResults =  searchForRegistrationGroupsLocal(null, termId, termCode, courseCode, regGroupCode);
+        if (regGroupSearchResults != null && !regGroupSearchResults.isEmpty()) {
            return  KSCollectionUtils.getRequiredZeroElement(regGroupSearchResults);
         }  else {
             return null;
@@ -135,85 +88,9 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
 
     }
 
-
-    /**
-     * ACTIVITY OFFERINGS *
-     */
-
-    @Override
-    public Response searchForActivityOfferingsRS(String courseOfferingId, String termId, String termCode, String courseCode) {
-        Response.ResponseBuilder response;
-
-        try {
-            List<ActivityOfferingSearchResult> activityOfferingSearchResults = searchForActivityOfferings(courseOfferingId, termId, termCode, courseCode);
-            response = Response.ok(activityOfferingSearchResults);
-        } catch (Exception e) {
-            LOGGER.warn("Exception Thrown", e);
-            response = Response.serverError().entity(e.getMessage());
-        }
-
-        return response.build();
-    }
-
-
-    /**
-     * ACTIVITY TYPES *
-     */
-
-    @Override
-    public Response searchForActivityTypesRS(String courseOfferingId, String termId, String termCode, String courseCode) {
-        Response.ResponseBuilder response;
-
-        try {
-            List<ActivityTypeSearchResult> activityTypeSearchResults = searchForActivityTypes(courseOfferingId, termId, termCode, courseCode);
-            response = Response.ok(activityTypeSearchResults);
-        } catch (Exception e) {
-            LOGGER.warn("Exception Thrown", e);
-            response = Response.serverError().entity(e.getMessage());
-        }
-
-        return response.build();
-    }
-
-
-    /**
-     * INSTRUCTORS *
-     */
-
-    @Override
-    public Response searchForInstructorsRS(String courseOfferingId, String activityOfferingId, String termId, String termCode, String courseCode) {
-        Response.ResponseBuilder response;
-
-        try {
-            List<InstructorSearchResult> instructorSearchResults = searchForInstructors(courseOfferingId, activityOfferingId, termId, termCode, courseCode);
-            response = Response.ok(instructorSearchResults);
-        } catch (Exception e) {
-            LOGGER.warn("Exception Thrown", e);
-            response = Response.serverError().entity(e.getMessage());
-        }
-
-        return response.build();
-    }
-
-
     /**
      * TERMS *
      */
-
-    @Override
-    public Response searchForTermsRS(String termCode, boolean isActiveTerms) {
-        Response.ResponseBuilder response;
-
-        try {
-            List<TermSearchResult> termSearchResults = searchForTerms(termCode, isActiveTerms);
-            response = Response.ok(termSearchResults);
-        } catch (Exception e) {
-            LOGGER.warn("Exception Thrown", e);
-            response = Response.serverError().entity(e.getMessage());
-        }
-
-        return response.build();
-    }
 
     @Override
     public String getTermIdByTermCode(String termCode) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
@@ -222,10 +99,10 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
 
 
     /**
-     * PRIVATE HELPERS *
+     * PROTECTED HELPERS *
      */
 
-    private List<TermSearchResult> searchForTerms(String termCode, boolean isActiveTerms) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    protected List<TermSearchResult> searchForTermsLocal(String termCode, boolean isActiveTerms) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         if (!StringUtils.isEmpty(termCode)) {
             return CourseRegistrationAndScheduleOfClassesUtil.getTermsByTermCode(termCode);
@@ -238,17 +115,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         return getAllTerms();
     }
 
-    private List<TermSearchResult> getActiveTerms() {
-        List<AtpInfo> validAtps = getValidAtps(ContextUtils.createDefaultContextInfo());
-        return CourseRegistrationAndScheduleOfClassesUtil.getTermSearchResultsFromAtpInfos(validAtps);
-    }
-
-    private List<TermSearchResult> getAllTerms() throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
-        QueryByCriteria criteria = QueryByCriteria.Builder.create().build();
-        return CourseRegistrationAndScheduleOfClassesUtil.getTermSearchResultsFromAtpInfos(CourseRegistrationAndScheduleOfClassesUtil.getAtpService().searchForAtps(criteria, ContextUtils.createDefaultContextInfo()));
-    }
-
-    private List<InstructorSearchResult> searchForInstructors(String courseOfferingId, String activityOfferingId, String termId, String termCode, String courseCode) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+    protected List<InstructorSearchResult> searchForInstructorsLocal(String courseOfferingId, String activityOfferingId, String termId, String termCode, String courseCode) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
 
         List<InstructorSearchResult> instructors = null;
 
@@ -264,6 +131,160 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         }
 
         return emptyIfNull(instructors);
+    }
+
+    protected List<ActivityTypeSearchResult> searchForActivityTypesLocal(String courseOfferingId, String termId, String termCode, String courseCode) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+        courseOfferingId = getCourseOfferingId(courseOfferingId, courseCode, termId, termCode);
+
+        // get the FOs for the course offering. Note: FO's contain a list of activity offering type keys
+        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+        List<FormatOfferingInfo> formatOfferings;
+        if(!StringUtils.isEmpty(courseOfferingId)){
+            formatOfferings = CourseRegistrationAndScheduleOfClassesUtil.getCourseOfferingService().getFormatOfferingsByCourseOffering(courseOfferingId, contextInfo);
+        } else {
+            formatOfferings=new ArrayList<FormatOfferingInfo>();
+        }
+
+        return getActivityTypesForFormatOfferings(formatOfferings, contextInfo);
+    }
+
+    protected List<RegGroupSearchResult> searchForRegistrationGroupsLocal(String courseOfferingId, String termId, String termCode, String courseCode, String regGroupName) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        courseOfferingId = getCourseOfferingId(courseOfferingId, courseCode, termId, termCode);
+        List<RegGroupSearchResult> retList = null;
+
+        if(!StringUtils.isEmpty(courseOfferingId)){
+            retList =  getRegGroupList(courseOfferingId, regGroupName);
+        }
+
+        // We want to add registration counts to the results
+        if(retList != null && !retList.isEmpty()){
+            List<String> rgIds = new ArrayList<String>();
+            Map<String, RegGroupSearchResult> tmpMap = new HashMap<String, RegGroupSearchResult>(); // used for performance
+            for(RegGroupSearchResult sr : retList){
+                rgIds.add(sr.getRegGroupId()); // build list of ids to pass into search
+                tmpMap.put(sr.getRegGroupId(), sr); // create mapping so we can update in O(n) time
+            }
+
+            List<RegistrationCountResult> countResults = getRegGroupCounts(rgIds); // perform search
+
+            for(RegistrationCountResult rgCount : countResults){ // for each rg, update corresponding map value
+                tmpMap.get(rgCount.getLuiId()).getRegistrationCounts().add(rgCount);
+            }
+        }
+
+        return emptyIfNull(retList);
+
+    }
+
+    /**
+     * This is an internal method that will return a map of scheduleId, ScheduleSearchResult. We are using a map object
+     * so it is easier to build up complex objects in a more performant way. ie. If you're building a list of complex
+     * ActivityOffering display objects and you want that object to contain schedule information. you can build this
+     * list of schedules THEN as your building your list of ActivityObjects you can easily add a schedule object.
+     *
+     * @param scheduleIds list of schedule Ids to retrieve from db
+     * @param contextInfo context of the call
+     * @return a mapping of schedule id to a schedule result
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws PermissionDeniedException
+     * @throws OperationFailedException
+     */
+    protected Map<String, ScheduleSearchResult> searchForScheduleByScheduleIds(List<String> scheduleIds, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+        Map<String, ScheduleSearchResult> resultList = new HashMap<String, ScheduleSearchResult>();
+
+        SearchRequestInfo sr = new SearchRequestInfo(CoreSearchServiceImpl.SCH_AND_ROOM_SEARH_BY_ID_SEARCH_KEY);
+        sr.addParam(CoreSearchServiceImpl.SearchParameters.SCHEDULE_IDS, new ArrayList<String>(scheduleIds));
+        SearchResultInfo searchResult = CourseRegistrationAndScheduleOfClassesUtil.getSearchService().search(sr, contextInfo);
+
+        for (SearchResultRowInfo row : searchResult.getRows()) {
+            ScheduleSearchResult searchResultRow = new ScheduleSearchResult();
+            for (SearchResultCellInfo cell : row.getCells()) {
+                String value = StringUtils.EMPTY;
+                if (cell.getValue() != null) {
+                    value = cell.getValue();
+                }
+                if (CoreSearchServiceImpl.SearchResultColumns.SCH_ID.equals(cell.getKey())) {
+                    searchResultRow.setScheduleId(value);
+                } else if (CoreSearchServiceImpl.SearchResultColumns.START_TIME.equals(cell.getKey())) {
+                    searchResultRow.setStartTimeMili(value);
+                    if (value != null && !value.isEmpty()) {
+                        TimeOfDayInfo tod = TimeOfDayHelper.setMillis(Long.parseLong(value));
+                        searchResultRow.setStartTimeDisplay(convertTimeOfDayToDisplayTime(tod));
+                    }
+                } else if (CoreSearchServiceImpl.SearchResultColumns.END_TIME.equals(cell.getKey())) {
+                    searchResultRow.setEndTimeMili(value);
+                    if (value != null && !value.isEmpty()) {
+                        TimeOfDayInfo tod = TimeOfDayHelper.setMillis(Long.parseLong(value));
+                        searchResultRow.setEndTimeDisplay(convertTimeOfDayToDisplayTime(tod));
+                    }
+                } else if (CoreSearchServiceImpl.SearchResultColumns.TBA_IND.equals(cell.getKey())) {
+                    searchResultRow.setTba(Boolean.parseBoolean(value));
+                } else if (CoreSearchServiceImpl.SearchResultColumns.ROOM_CODE.equals(cell.getKey())) {
+                    searchResultRow.setRoomName(value);
+                } else if (CoreSearchServiceImpl.SearchResultColumns.BLDG_NAME.equals(cell.getKey())) {
+                    searchResultRow.setBuildingName(value);
+                } else if (CoreSearchServiceImpl.SearchResultColumns.BLDG_CODE.equals(cell.getKey())) {
+                    searchResultRow.setBuildingCode(value);
+                } else if (CoreSearchServiceImpl.SearchResultColumns.WEEKDAYS.equals(cell.getKey())) {
+                    searchResultRow.setDays(value);
+                } else if (CoreSearchServiceImpl.SearchResultColumns.SCH_ID.equals(cell.getKey())) {
+                    searchResultRow.setScheduleId(value);
+                }
+            }
+            resultList.put(searchResultRow.getScheduleId(), searchResultRow);
+        }
+
+        return resultList;
+    }
+
+    protected List<CourseSearchResult> searchForCourseOfferingsLocal(String termId, String termCode, String courseCode) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+        termId = CourseRegistrationAndScheduleOfClassesUtil.getTermId(termId, termCode);
+
+        return searchForCourseOfferings(termId, courseCode);
+    }
+
+    protected List<CourseAndPrimaryAOSearchResult> searchForCourseOfferingsAndPrimaryAosByTermAndCourseLocal(String termId, String termCode, String courseCode) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+
+        List<CourseAndPrimaryAOSearchResult> resultList = new ArrayList<CourseAndPrimaryAOSearchResult>();
+        List<CourseSearchResult> courseOfferingList = searchForCourseOfferingsLocal(termId, termCode, courseCode); // search for the course offerings
+        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();  // build default context info
+
+        if (courseOfferingList != null && !courseOfferingList.isEmpty()) {   // if we found course offerings
+            for (CourseSearchResult csr : courseOfferingList) {
+                CourseAndPrimaryAOSearchResult resultElement = new CourseAndPrimaryAOSearchResult(); // this is the element in the list we will return
+                List<ActivityOfferingSearchResult> activityOfferingList = getPrimaryActivityOfferingsByCo(csr.getCourseOfferingId(), contextInfo);
+
+                resultElement.setCourseOfferingInfo(csr);
+                resultElement.setPrimaryActivityOfferingInfo(activityOfferingList);
+                resultList.add(resultElement);
+            }
+        }
+        return resultList;
+    }
+
+    protected List<ActivityOfferingSearchResult> searchForActivityOfferingsLocal(String courseOfferingId, String termId, String termCode, String courseCode) throws MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException, InvalidParameterException {
+        List<ActivityOfferingSearchResult> activityOfferingSearchResults = null;
+        courseOfferingId = getCourseOfferingId(courseOfferingId, courseCode, termId, termCode);
+        if(!StringUtils.isEmpty(courseOfferingId)){
+            activityOfferingSearchResults = loadPopulatedActivityOfferingsByCourseOfferingId(courseOfferingId, ContextUtils.createDefaultContextInfo());
+        }
+
+        return emptyIfNull(activityOfferingSearchResults);
+    }
+
+    /**
+     * PRIVATE HELPERS *
+     */
+
+    private List<TermSearchResult> getActiveTerms() {
+        List<AtpInfo> validAtps = getValidAtps(ContextUtils.createDefaultContextInfo());
+        return CourseRegistrationAndScheduleOfClassesUtil.getTermSearchResultsFromAtpInfos(validAtps);
+    }
+
+    private List<TermSearchResult> getAllTerms() throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+        QueryByCriteria criteria = QueryByCriteria.Builder.create().build();
+        return CourseRegistrationAndScheduleOfClassesUtil.getTermSearchResultsFromAtpInfos(CourseRegistrationAndScheduleOfClassesUtil.getAtpService().searchForAtps(criteria, ContextUtils.createDefaultContextInfo()));
     }
 
     private List<InstructorSearchResult> getInstructorsByCourseOfferingId(String courseOfferingId) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
@@ -283,20 +304,6 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         List<String> aoIds = new ArrayList<String>();
         aoIds.add(activityOfferingId);
         return getInstructorListByAoIds(aoIds, ContextUtils.createDefaultContextInfo());
-    }
-
-
-    private List<ActivityTypeSearchResult> searchForActivityTypes(String courseOfferingId, String termId, String termCode, String courseCode) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
-        courseOfferingId = getCourseOfferingId(courseOfferingId, courseCode, termId, termCode);
-
-        // get the FOs for the course offering. Note: FO's contain a list of activity offering type keys
-        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
-        List<FormatOfferingInfo> formatOfferings = null;
-        if(!StringUtils.isEmpty(courseOfferingId)){
-             formatOfferings = CourseRegistrationAndScheduleOfClassesUtil.getCourseOfferingService().getFormatOfferingsByCourseOffering(courseOfferingId, contextInfo);
-        }
-
-        return getActivityTypesForFormatOfferings(formatOfferings, contextInfo);
     }
 
     private List<ActivityTypeSearchResult> getActivityTypesForFormatOfferings(List<FormatOfferingInfo> formatOfferings, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
@@ -335,34 +342,6 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
 
     }
 
-    private List<RegGroupSearchResult> searchForRegistrationGroups(String courseOfferingId, String termId, String termCode, String courseCode, String regGroupName) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        courseOfferingId = getCourseOfferingId(courseOfferingId, courseCode, termId, termCode);
-        List<RegGroupSearchResult> retList = null;
-
-        if(!StringUtils.isEmpty(courseOfferingId)){
-            retList =  getRegGroupList(courseOfferingId, regGroupName);
-        }
-
-        // We want to add registration counts to the results
-        if(retList != null && !retList.isEmpty()){
-            List<String> rgIds = new ArrayList<String>();
-            Map<String, RegGroupSearchResult> tmpMap = new HashMap<String, RegGroupSearchResult>(); // used for performance
-            for(RegGroupSearchResult sr : retList){
-               rgIds.add(sr.getRegGroupId()); // build list of ids to pass into search
-               tmpMap.put(sr.getRegGroupId(), sr); // create mapping so we can update in O(n) time
-            }
-
-            List<RegistrationCountResult> countResults = getRegGroupCounts(rgIds); // perform search
-
-            for(RegistrationCountResult rgCount : countResults){ // for each rg, update corresponding map value
-                tmpMap.get(rgCount.getLuiId()).getRegistrationCounts().add(rgCount);
-            }
-        }
-
-        return emptyIfNull(retList);
-
-    }
-
     private List<RegistrationCountResult>  getRegGroupCounts(List<String> regGroupIds) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException {
 
         List<RegistrationCountResult> retList = new ArrayList<RegistrationCountResult>();
@@ -370,9 +349,6 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.LUI_IDS, regGroupIds);
 
         SearchResultInfo searchResult = CourseRegistrationAndScheduleOfClassesUtil.getSearchService().search(searchRequest, ContextUtils.createDefaultContextInfo());
-
-        Map<String, RegGroupSearchResult> regGroupResultMap = new HashMap<String, RegGroupSearchResult>();
-
 
         for (SearchResultRowInfo row : searchResult.getRows()) {
 
@@ -468,7 +444,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         // Because there can be multiple formats [Lec/lab, lab/disc] we need to seperate our results by the FoId. That is because if there are
         // multiple formats, the primary for one FO could be Lecture, while another FO could be Discussion.
         // Map<FoId, List<ActivityOfferings>>
-        Map<String, List<ActivityOfferingSearchResult>> aoMap = groupActivityOfferingsByFormatOfferingId(searchForActivityOfferings(coId, null, null, null));
+        Map<String, List<ActivityOfferingSearchResult>> aoMap = groupActivityOfferingsByFormatOfferingId(searchForActivityOfferingsLocal(coId, null, null, null));
 
         for (FormatOfferingInfo formatOffering : formatOfferings) {
             CourseRegistrationAndScheduleOfClassesUtil.sortActivityOfferingTypeKeyList(formatOffering.getActivityOfferingTypeKeys(), contextInfo);  // sort the activity offerings type keys by priority order
@@ -529,32 +505,6 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
             throw new RuntimeException("Error getting Valid SOC Terms", e);
         }
         return atps;
-    }
-
-    private List<CourseSearchResult> searchForCourseOfferings(String termId, String termCode, String courseCode) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
-        termId = CourseRegistrationAndScheduleOfClassesUtil.getTermId(termId, termCode);
-        List<CourseSearchResult> courseSearchResults = searchForCourseOfferings(termId, courseCode);
-
-        return courseSearchResults;
-    }
-
-    private List<CourseAndPrimaryAOSearchResult> searchForCourseOfferingsAndPrimaryAosByTermAndCourse(String termId, String termCode, String courseCode) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
-
-        List<CourseAndPrimaryAOSearchResult> resultList = new ArrayList<CourseAndPrimaryAOSearchResult>();
-        List<CourseSearchResult> courseOfferingList = searchForCourseOfferings(termId, termCode, courseCode); // search for the course offerings
-        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();  // build defualt context info
-
-        if (courseOfferingList != null && !courseOfferingList.isEmpty()) {   // if we found course offerings
-            for (CourseSearchResult csr : courseOfferingList) {
-                CourseAndPrimaryAOSearchResult resultElement = new CourseAndPrimaryAOSearchResult(); // this is the element in the list we will return
-                List<ActivityOfferingSearchResult> activityOfferingList = getPrimaryActivityOfferingsByCo(csr.getCourseOfferingId(), contextInfo);
-
-                resultElement.setCourseOfferingInfo(csr);
-                resultElement.setPrimaryActivityOfferingInfo(activityOfferingList);
-                resultList.add(resultElement);
-            }
-        }
-        return resultList;
     }
 
     private List<CourseSearchResult> searchForCourseOfferings(String termId, String courseCode) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
@@ -663,7 +613,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         List<RegGroupSearchResult> resultList = new ArrayList<RegGroupSearchResult>(regGroupResultMap.values());
 
 
-        Collections.sort(resultList, regResultComparator);
+        Collections.sort(resultList, REG_RESULT_COMPARATOR);
         return resultList;
     }
 
@@ -787,68 +737,6 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
                     resultList.add(value);
                 }
             }
-        }
-
-        return resultList;
-    }
-
-    /**
-     * This is an internal method that will return a map of scheduleId, ScheduleSearchResult. We are using a map object
-     * so it is easier to build up complex objects in a more performant way. ie. If you're building a list of complex
-     * ActivityOffering display objects and you want that object to contain schedule information. you can build this
-     * list of schedules THEN as your building your list of ActivityObjects you can easily add a schedule object.
-     *
-     * @param scheduleIds list of schedule Ids to retrieve from db
-     * @param contextInfo context of the call
-     * @return a mapping of schedule id to a schedule result
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws PermissionDeniedException
-     * @throws OperationFailedException
-     */
-    protected Map<String, ScheduleSearchResult> searchForScheduleByScheduleIds(List<String> scheduleIds, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
-        Map<String, ScheduleSearchResult> resultList = new HashMap<String, ScheduleSearchResult>();
-
-        SearchRequestInfo sr = new SearchRequestInfo(CoreSearchServiceImpl.SCH_AND_ROOM_SEARH_BY_ID_SEARCH_KEY);
-        sr.addParam(CoreSearchServiceImpl.SearchParameters.SCHEDULE_IDS, new ArrayList<String>(scheduleIds));
-        SearchResultInfo searchResult = CourseRegistrationAndScheduleOfClassesUtil.getSearchService().search(sr, contextInfo);
-
-        for (SearchResultRowInfo row : searchResult.getRows()) {
-            ScheduleSearchResult searchResultRow = new ScheduleSearchResult();
-            for (SearchResultCellInfo cell : row.getCells()) {
-                String value = StringUtils.EMPTY;
-                if (cell.getValue() != null) {
-                    value = cell.getValue();
-                }
-                if (CoreSearchServiceImpl.SearchResultColumns.SCH_ID.equals(cell.getKey())) {
-                    searchResultRow.setScheduleId(value);
-                } else if (CoreSearchServiceImpl.SearchResultColumns.START_TIME.equals(cell.getKey())) {
-                    searchResultRow.setStartTimeMili(value);
-                    if (value != null && !value.isEmpty()) {
-                        TimeOfDayInfo tod = TimeOfDayHelper.setMillis(Long.parseLong(value));
-                        searchResultRow.setStartTimeDisplay(convertTimeOfDayToDisplayTime(tod));
-                    }
-                } else if (CoreSearchServiceImpl.SearchResultColumns.END_TIME.equals(cell.getKey())) {
-                    searchResultRow.setEndTimeMili(value);
-                    if (value != null && !value.isEmpty()) {
-                        TimeOfDayInfo tod = TimeOfDayHelper.setMillis(Long.parseLong(value));
-                        searchResultRow.setEndTimeDisplay(convertTimeOfDayToDisplayTime(tod));
-                    }
-                } else if (CoreSearchServiceImpl.SearchResultColumns.TBA_IND.equals(cell.getKey())) {
-                    searchResultRow.setTba(Boolean.parseBoolean(value));
-                } else if (CoreSearchServiceImpl.SearchResultColumns.ROOM_CODE.equals(cell.getKey())) {
-                    searchResultRow.setRoomName(value);
-                } else if (CoreSearchServiceImpl.SearchResultColumns.BLDG_NAME.equals(cell.getKey())) {
-                    searchResultRow.setBuildingName(value);
-                } else if (CoreSearchServiceImpl.SearchResultColumns.BLDG_CODE.equals(cell.getKey())) {
-                    searchResultRow.setBuildingCode(value);
-                } else if (CoreSearchServiceImpl.SearchResultColumns.WEEKDAYS.equals(cell.getKey())) {
-                    searchResultRow.setDays(value);
-                } else if (CoreSearchServiceImpl.SearchResultColumns.SCH_ID.equals(cell.getKey())) {
-                    searchResultRow.setScheduleId(value);
-                }
-            }
-            resultList.put(searchResultRow.getScheduleId(), searchResultRow);
         }
 
         return resultList;
@@ -1006,16 +894,6 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         return searchRequest;
     }
 
-    private List<ActivityOfferingSearchResult> searchForActivityOfferings(String courseOfferingId, String termId, String termCode, String courseCode) throws MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException, InvalidParameterException {
-        List<ActivityOfferingSearchResult> activityOfferingSearchResults = null;
-        courseOfferingId = getCourseOfferingId(courseOfferingId, courseCode, termId, termCode);
-        if(!StringUtils.isEmpty(courseOfferingId)){
-            activityOfferingSearchResults = loadPopulatedActivityOfferingsByCourseOfferingId(courseOfferingId, ContextUtils.createDefaultContextInfo());
-        }
-
-        return emptyIfNull(activityOfferingSearchResults);
-    }
-
     /**
      * This is the method that should be called when you want a FULLY populated ActivityOfferingSearchResult object.
      * That means that the activityOfferingSearchResult objects will be populated with schedule, and instructor data.
@@ -1031,7 +909,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
      */
     private List<ActivityOfferingSearchResult> loadPopulatedActivityOfferingsByCourseOfferingId(String courseOfferingId, ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, InvalidParameterException {
         List<ActivityOfferingSearchResult> retList = searchForRawActivities(courseOfferingId);
-        if(retList != null && !retList.isEmpty()){
+        if (retList != null && !retList.isEmpty()) {
             populateActivityOfferingsWithScheduleData(retList, contextInfo);
             populateActivityOfferingsWithInstructorData(retList, contextInfo);
             populateActivityOfferingsWithActivityTypeNames(retList, contextInfo);
@@ -1053,8 +931,8 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         return searchRequest;
     }
 
-    private static  <T> List<T> emptyIfNull(List<T> inList){
-        if(inList == null){
+    private static  <T> List<T> emptyIfNull(List<T> inList) {
+        if (inList == null) {
             inList = new ArrayList<T>();
         }
         return inList;

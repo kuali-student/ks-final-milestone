@@ -1470,11 +1470,26 @@
 
     <bean id="ks.exp.scheduleOfClassesService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
-            <bean class="org.kuali.rice.ksb.api.bus.support.RestServiceDefinition">
-                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/scheduleOfClasses" />
+            <bean class="org.kuali.rice.ksb.api.bus.support.JavaServiceDefinition">
                 <property name="service" ref="scheduleOfClassesService" />
-                <property name="resourceClass" value="org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesService" />
+                <property name="serviceInterface" value="org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesService"/>
                 <property name="localServiceName" value="ScheduleOfClassesService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/scheduleOfClasses" />
+                <property name="busSecurity" value="${ks.core.bus.security}" />
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="scheduleOfClassesClientService" class="org.kuali.student.enrollment.registration.client.service.impl.ScheduleOfClassesClientServiceImpl">
+    </bean>
+
+    <bean id="ks.exp.scheduleOfClassesClientService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.RestServiceDefinition">
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/scheduleOfClassesClient" />
+                <property name="service" ref="scheduleOfClassesClientService" />
+                <property name="resourceClass" value="org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesClientService" />
+                <property name="localServiceName" value="ScheduleOfClassesClientService" />
                 <property name="providers">
                     <list>
                         <bean class="org.kuali.student.enrollment.registration.client.service.impl.CustomHeaderJacksonJsonProvider">
@@ -1493,7 +1508,7 @@
     </bean>
 
     <bean id="courseRegistrationClientService" class="org.kuali.student.enrollment.registration.client.service.impl.CourseRegistrationClientServiceImpl">
-</bean>
+    </bean>
 
     <bean id="ks.exp.courseRegistrationClientService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
