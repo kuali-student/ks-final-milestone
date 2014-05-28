@@ -52,13 +52,13 @@ function ksapCourseSearchColumns() {
         'bSearchable' : true,
         'sTitle' : 'Title',
         'sClass' : 'sortable details_link',
-        'sWidth' : '170px',
+        'sWidth' : '225px',
         'sKsapColIdSuffix' : '_title'
     }, {
         'bSortable' : false,
         'bSearchable' : true,
         'sTitle' : 'Credits',
-        'sWidth' : '43px',
+        'sWidth' : '68px',
         'sKsapColIdSuffix' : '_credits'
     },{
         'bSortable' : false,
