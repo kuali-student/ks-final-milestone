@@ -11,7 +11,7 @@ angular.module('regCartApp', [
         'ui.bootstrap'
     ])
     .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
-        $urlRouterProvider.otherwise('/myCart');
+        $urlRouterProvider.otherwise('/responsive/cart');
 
         $stateProvider
             .state('root.responsive', {
@@ -46,16 +46,6 @@ angular.module('regCartApp', [
             .state('root', {
                 templateUrl: 'partials/main.html',
                 controller: 'MainCtrl'
-            })
-            .state('root.cart', {
-                url: '/myCart',
-                templateUrl: 'partials/cart.html',
-                controller: 'CartCtrl'
-            })
-            .state('root.schedule', {
-                url: '/mySchedule',
-                templateUrl: 'partials/schedule.html',
-                controller: 'ScheduleCtrl'
             })
             .state('root.additionalOptions', {
                 url: '/options',
