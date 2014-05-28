@@ -816,7 +816,7 @@
   <property name="maxLength" value="500" />
     <property name="caseConstraint">
    <bean parent="caseConstraint">
-    <property name="operator" value="HAS_VALUE"/>
+    <property name="operator" value="EQUALS"/>
     <property name="fieldPath" value="/fees"/>
     <property name="caseSensitive" value="false"/>
     <property name="whenConstraint">
