@@ -159,7 +159,7 @@ public class SpringSecurityTest {
 
     @Test
     public void testAccessToProtectedServices() throws Exception {
-        List<String> servicesToTest = Arrays.asList("/services/ScheduleOfClassesService/A",
+        List<String> servicesToTest = Arrays.asList("/services/ScheduleOfClassesClientService/A",
                 "/services/CourseRegistrationClientService/A",
                 "/services/CourseRegistrationCartClientService/A");
 
