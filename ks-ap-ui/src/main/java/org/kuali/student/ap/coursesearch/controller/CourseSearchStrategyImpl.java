@@ -16,7 +16,6 @@ import org.kuali.student.ap.coursesearch.Credit;
 import org.kuali.student.ap.coursesearch.CreditsFormatter;
 import org.kuali.student.ap.coursesearch.Hit;
 import org.kuali.student.ap.coursesearch.dataobject.CourseSearchItemImpl;
-import org.kuali.student.ap.coursesearch.dataobject.FacetItem;
 import org.kuali.student.ap.coursesearch.form.CourseSearchFormImpl;
 import org.kuali.student.ap.coursesearch.util.CourseLevelFacet;
 import org.kuali.student.ap.coursesearch.util.CreditsFacet;
@@ -82,6 +81,14 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
     private final String SAVED = "saved";
     private final String PLANNED = "planned";
     private final String SAVED_AND_PLANNED = "saved_and_planned";
+
+    public static final String DIVISIONS_COMPONENTS = "divisions";
+    public static final String KEYWORDDIVISIONS_COMPONENTS = "keywordDivisions";
+    public static final String CODES_COMPONENTS = "codes";
+    public static final String LEVELS_COMPONENTS = "levels";
+    public static final String INCOMPLETEDCODES_COMPONENTS = "incompleteCodes";
+    public static final String COMPLETEDCODES_COMPONENTS = "completedCodes";
+    public static final String COMPLETEDLEVELS_COMPONENTS = "completedLevels";
 
     static {
         // Related to CourseSearchUI.xml definitions
@@ -334,15 +341,14 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
             }
         }
 
+        loadCampuses(listOfCourses, courseIDs);
+        loadScheduledTerms(listOfCourses);
+        loadTermsOffered(listOfCourses, courseIDs);
+        loadGenEduReqs(listOfCourses);
+
         LOG.info("End of method getCourseInfo of CourseSearchController: {}",
                 System.currentTimeMillis());
         return listOfCourses;
-    }
-
-    public boolean isCourseOffered(CourseSearchForm form,
-                                   CourseSearchItem course) {
-        // Unused in Default Implementation
-        return true;
     }
 
     /**
@@ -727,19 +733,6 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
             creditsFacet.process(course);
             termsFacet.process(course);
         }
-        /* Removing Duplicate entries from genEduReqFacet */
-        List<FacetItem> genEduReqFacetItems = new ArrayList<FacetItem>();
-        for (FacetItem facetItem : genEduReqFacet.getFacetItems()) {
-            boolean itemExists = false;
-            for (FacetItem facetItem1 : genEduReqFacetItems) {
-                if (facetItem1.getKey().equalsIgnoreCase(facetItem.getKey())) {
-                    itemExists = true;
-                }
-            }
-            if (!itemExists) {
-                genEduReqFacetItems.add(facetItem);
-            }
-        }
     }
 
     public List<CourseSearchItem> courseSearch(CourseSearchForm form,
@@ -772,12 +765,9 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
                 }
                 courseIDs = temp;
             }
+
             if (!courseIDs.isEmpty()) {
                 courses = getCoursesInfo(courseIDs);
-                loadCampuses(courses, courseIDs);
-                loadScheduledTerms(courses);
-                loadTermsOffered(courses, courseIDs);
-                loadGenEduReqs(courses);
             }
         }
         Set<String> orgIds = new HashSet<String>();
@@ -954,13 +944,22 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
     public void addComponentRequests(Map<String, List<String>> componentMap, List<SearchRequestInfo> requests) {
 
         // Separate components from the map
-        List<String> divisions = componentMap.get("divisions");
-        List<String> keywordDivisions = componentMap.get("keywordDivisions");
-        List<String> codes = componentMap.get("codes");
-        List<String> levels = componentMap.get("levels");
-        List<String> incompleteCodes = componentMap.get("incompleteCodes");
-        List<String> completeCodes = componentMap.get("completedCodes");
-        List<String> completeLevels = componentMap.get("completedLevels");
+        List<String> divisions = componentMap.get(DIVISIONS_COMPONENTS);
+        List<String> keywordDivisions = componentMap.get(KEYWORDDIVISIONS_COMPONENTS);
+        List<String> codes = componentMap.get(CODES_COMPONENTS);
+        List<String> levels = componentMap.get(LEVELS_COMPONENTS);
+        List<String> incompleteCodes = componentMap.get(INCOMPLETEDCODES_COMPONENTS);
+        List<String> completeCodes = componentMap.get(COMPLETEDCODES_COMPONENTS);
+        List<String> completeLevels = componentMap.get(COMPLETEDLEVELS_COMPONENTS);
+
+        // Insure no null lists
+        if(divisions == null) divisions = Collections.EMPTY_LIST;
+        if(keywordDivisions == null) keywordDivisions = Collections.EMPTY_LIST;
+        if(codes == null) codes = Collections.EMPTY_LIST;
+        if(levels == null) levels = Collections.EMPTY_LIST;
+        if(incompleteCodes == null) incompleteCodes = Collections.EMPTY_LIST;
+        if(completeCodes == null) completeCodes = Collections.EMPTY_LIST;
+        if(completeLevels == null) completeLevels = Collections.EMPTY_LIST;
 
         // Sort Components
         Collections.sort(divisions);
@@ -975,7 +974,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         requests.addAll(addCompletedCodeSearches(completeCodes, divisions, codes));
         requests.addAll(addDivisionAndCodeSearches(divisions, codes));
         requests.addAll(addCompletedLevelSearches(completeLevels, divisions, levels));
-        requests.addAll(addDivisionAndCodeSearches(divisions, codes));
+        requests.addAll(addDivisionAndLevelSearches(divisions, levels));
         requests.addAll(addIncompleteCodeSearches(incompleteCodes, divisions));
         requests.addAll(addDivisionSearches(divisions));
         requests.addAll(addCodeSearches(codes));
@@ -1263,14 +1262,14 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         // Extract components from query
         levels = QueryTokenizer.extractCourseLevels(query);
         codes = QueryTokenizer.extractCourseCodes(query);
-        extractDivisions(fetchCourseDivisions(), query, divisions, Boolean.parseBoolean(
+        QueryTokenizer.extractDivisions(fetchCourseDivisions(), query, divisions, Boolean.parseBoolean(
                 ConfigContext.getCurrentContextConfig().getProperty(CourseSearchConstants.COURSE_SEARCH_DIVISION_SPACEALLOWED)));
 
         // Extract divisions using their keywords.
         if (subjectAreaMap == null || subjectAreaMap.size() == 0) {
             subjectAreaMap = KsapFrameworkServiceLocator.getOrgHelper().getSubjectAreas();
         }
-        keywordDivisions = QueryTokenizer.extractDivisionsFromSubjectKeywords(query,subjectAreaMap);
+        keywordDivisions = QueryTokenizer.extractDivisionsFromSubjectKeywords(query, subjectAreaMap);
 
         // remove found levels and codes to find incomplete code components
         for (String level : levels) query = query.replace(level, "");
@@ -1298,13 +1297,13 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         LOG.info("Start of method addComponentRequests of CourseSearchStrategy: {}",
                 System.currentTimeMillis());
         Map<String,List<String>> componentMap = new HashMap<String,List<String>>();
-        componentMap.put("divisions", divisions);
-        componentMap.put("keywordDivisions", keywordDivisions);
-        componentMap.put("codes", codes);
-        componentMap.put("levels", levels);
-        componentMap.put("incompleteCodes", incompleteCodes);
-        componentMap.put("completedCodes", completedCodes);
-        componentMap.put("completedLevels", completedLevels);
+        componentMap.put(DIVISIONS_COMPONENTS, divisions);
+        componentMap.put(KEYWORDDIVISIONS_COMPONENTS, keywordDivisions);
+        componentMap.put(CODES_COMPONENTS, codes);
+        componentMap.put(LEVELS_COMPONENTS, levels);
+        componentMap.put(INCOMPLETEDCODES_COMPONENTS, incompleteCodes);
+        componentMap.put(COMPLETEDCODES_COMPONENTS, completedCodes);
+        componentMap.put(COMPLETEDLEVELS_COMPONENTS, completedLevels);
         addComponentRequests(componentMap, requests);
         LOG.info("End of method addComponentRequests of CourseSearchStrategy: {}",
                 System.currentTimeMillis());
@@ -1351,32 +1350,6 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
                 System.currentTimeMillis());
 
         return requests;
-    }
-
-    /**
-     * Extracts the possible divisions in the query string
-     *
-     * @param divisionMap    - Map of possible divisions
-     * @param query          - The query string
-     * @param divisions      - List of extracted divisions
-     * @param isSpaceAllowed - If spaces are allowed in the divisions
-     * @return query string, minus matches found
-     */
-    @Override
-    public String extractDivisions(Map<String, String> divisionMap,
-                                   String query, List<String> divisions, boolean isSpaceAllowed) {
-        if (!isSpaceAllowed) {
-            query = query.trim().replaceAll(
-                    "[\\s\\\\/:?\\\"<>|`~!@#$%^*()_+-={}\\]\\[;',.]", " ");
-            divisions.addAll(QueryTokenizer.extractDivisionsNoSpaces(query, divisionMap));
-        } else {
-            query = query.replaceAll(
-                    "[\\\\/:?\\\"<>|`~!@#$%^*()_+-={}\\]\\[;',.]", " ");
-            divisions.addAll(QueryTokenizer.extractDivisionsSpaces(query, divisionMap));
-        }
-
-
-        return query;
     }
 
     @Override

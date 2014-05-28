@@ -157,7 +157,7 @@ public class CourseSearchStrategyTest {
 		divisions.add("DIVISION");
 		ArrayList<SearchRequestInfo> requests = new ArrayList<SearchRequestInfo>();
         Map<String,List<String>> mapComponents = new HashMap<String,List<String>>();
-        mapComponents.put("division",divisions);
+        mapComponents.put(CourseSearchStrategyImpl.DIVISIONS_COMPONENTS,divisions);
 		strategy.addComponentRequests(mapComponents, requests);
 		assertEquals(1, requests.size());
 		SearchRequestInfo request = requests.get(0);
@@ -174,8 +174,8 @@ public class CourseSearchStrategyTest {
 		codes.add("CODE");
 		ArrayList<SearchRequestInfo> requests = new ArrayList<SearchRequestInfo>();
         Map<String,List<String>> mapComponents = new HashMap<String,List<String>>();
-        mapComponents.put("division",divisions);
-        mapComponents.put("codes",codes);
+        mapComponents.put(CourseSearchStrategyImpl.DIVISIONS_COMPONENTS,divisions);
+        mapComponents.put(CourseSearchStrategyImpl.CODES_COMPONENTS,codes);
 		strategy.addComponentRequests(mapComponents, requests);
 		assertEquals(3, requests.size());
 		SearchRequestInfo request = requests.get(0);
@@ -194,8 +194,8 @@ public class CourseSearchStrategyTest {
 		levels.add("100");
 		ArrayList<SearchRequestInfo> requests = new ArrayList<SearchRequestInfo>();
         Map<String,List<String>> mapComponents = new HashMap<String,List<String>>();
-        mapComponents.put("division",divisions);
-        mapComponents.put("levels",levels);
+        mapComponents.put(CourseSearchStrategyImpl.DIVISIONS_COMPONENTS,divisions);
+        mapComponents.put(CourseSearchStrategyImpl.LEVELS_COMPONENTS,levels);
         strategy.addComponentRequests(mapComponents, requests);
 		assertEquals(3, requests.size());
 		SearchRequestInfo request = requests.get(0);
@@ -252,7 +252,7 @@ public class CourseSearchStrategyTest {
 		;
 		ArrayList<String> divisions = new ArrayList<String>();
 		String query = "A B C";
-		query = strategy.extractDivisions(map, query, divisions, true);
+		query = QueryTokenizer.extractDivisions(map, query, divisions, true);
 		assertEquals(2, divisions.size());
 		assertEquals("A B ", divisions.get(0));
 		assertEquals("C   ", divisions.get(1));

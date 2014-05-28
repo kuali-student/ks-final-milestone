@@ -362,6 +362,31 @@ public class QueryTokenizer
     }
 
     /**
+     * Extracts the possible divisions in the query string
+     *
+     * @param divisionMap    - Map of possible divisions
+     * @param query          - The query string
+     * @param divisions      - List of extracted divisions
+     * @param isSpaceAllowed - If spaces are allowed in the divisions
+     * @return query string, minus matches found
+     */
+    public static String extractDivisions(Map<String, String> divisionMap,
+                                   String query, List<String> divisions, boolean isSpaceAllowed) {
+        if (!isSpaceAllowed) {
+            query = query.trim().replaceAll(
+                    "[\\s\\\\/:?\\\"<>|`~!@#$%^*()_+-={}\\]\\[;',.]", " ");
+            divisions.addAll(QueryTokenizer.extractDivisionsNoSpaces(query, divisionMap));
+        } else {
+            query = query.replaceAll(
+                    "[\\\\/:?\\\"<>|`~!@#$%^*()_+-={}\\]\\[;',.]", " ");
+            divisions.addAll(QueryTokenizer.extractDivisionsSpaces(query, divisionMap));
+        }
+
+
+        return query;
+    }
+
+    /**
      * Convert token to its correct text, remove quote if any
      *
      * @param token - The token to be cleaned up

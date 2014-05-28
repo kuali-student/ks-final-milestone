@@ -1051,7 +1051,7 @@ public class CourseSearchController extends UifControllerBase {
 		Map<String, String> divisionMap = strategy.fetchCourseDivisions();
 
 		ArrayList<String> divisions = new ArrayList<String>();
-		strategy.extractDivisions(divisionMap, subject, divisions, false);
+		QueryTokenizer.extractDivisions(divisionMap, subject, divisions, false);
 
         if (divisions.size() > 0) {
 			try{

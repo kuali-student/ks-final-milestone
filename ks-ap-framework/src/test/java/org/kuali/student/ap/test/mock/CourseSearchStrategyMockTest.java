@@ -107,11 +107,6 @@ public class CourseSearchStrategyMockTest implements CourseSearchStrategy {
     }
 
     @Override
-    public boolean isCourseOffered(CourseSearchForm form, CourseSearchItem course) {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
     public void populateFacets(CourseSearchForm form, List<CourseSearchItem> courses) {
         //To change body of implemented methods use File | Settings | File Templates.
     }
@@ -123,11 +118,6 @@ public class CourseSearchStrategyMockTest implements CourseSearchStrategy {
 
     @Override
     public Map<String, String> fetchCourseDivisions() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public String extractDivisions(Map<String, String> divisionMap, String query, List<String> divisions, boolean isSpaceAllowed) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 

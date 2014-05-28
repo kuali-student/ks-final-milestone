@@ -62,27 +62,40 @@ public interface CourseSearchStrategy {
      */
     public void addComponentRequests(Map<String, List<String>> componentMap, List<SearchRequestInfo> requests);
 
+    /**
+     * Populate the facet information for a set courses
+     *
+     * @param form - Form containing information on the search
+     * @param courses - The list of classes to set the facets on
+     */
+	public void populateFacets(CourseSearchForm form, List<CourseSearchItem> courses);
+
+    /**
+     * Determines if the search results exceeded the max number of results allowed to be returned.
+     *
+     * @return True if limit is exceeded, false otherwise
+     */
+    public boolean isLimitExceeded();
+
+    /**
+     * Preforms the search detailed in the provided search form
+     *
+     * @param form - Form containing information on the search
+     * @param studentId - Id of the user the search is being ran under
+     * @return A list of courses found using the criteria defined in the form.
+     */
+    public List<CourseSearchItem> courseSearch(CourseSearchForm form, String studentId);
+
+    Map<String, String> fetchCourseDivisions();
+
+    Map<String, Comparator<String>> getFacetSort();
+
     Map<String, String> getCurriculumMap(Set<String> orgIds);
 
     Map<String, String> getGenEdMap();
 
-	Map<String, Credit> getCreditMap();
+    Map<String, Credit> getCreditMap();
 
-	Credit getCreditByID(String id);
-
-	boolean isCourseOffered(CourseSearchForm form, CourseSearchItem course);
-
-	void populateFacets(CourseSearchForm form, List<CourseSearchItem> courses);
-
-	List<CourseSearchItem> courseSearch(CourseSearchForm form, String studentId);
-
-	Map<String, String> fetchCourseDivisions();
-
-	String extractDivisions(Map<String, String> divisionMap, String query,
-			List<String> divisions, boolean isSpaceAllowed);
-
-	Map<String, Comparator<String>> getFacetSort();
-
-    public boolean isLimitExceeded();
+    Credit getCreditByID(String id);
 
 }
