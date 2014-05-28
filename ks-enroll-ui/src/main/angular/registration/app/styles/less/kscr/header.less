@@ -1,40 +1,54 @@
 /**** global header ****/
 
-.kscr-Header-container{
+.kscr-Header-container {
     left:0;
     position:fixed;
-    width:100%;
     top:0;
+    width:100%;
     z-index: 150;
 }
-.kscr-Header{
+.kscr-Header {
+    background-color: @black;
+    color: @headerFontColor; //#F8F8F8
     font-family: @primaryFontFamily;
     font-size: 14px;
     font-weight: bold;
-    background-color: @black;
-    color: @headerFontColor; //#F8F8F8
-    padding: 0.2em;
     margin-left: auto;
     margin-right: auto;
     max-width: 730px;
-
+    padding: 0 0.2em;
 }
 
-.kscr-Header-title{
-    padding-left: 2em;
+.kscr-Header-logo {
+    background: url('../images/logo_kuali_k_only.png') no-repeat 5px center;
+    height: @headerHeight;
+    padding: 0 0.2em 0 40px;
+}
+
+.kscr-Header-title {
+    display: none;
+}
+
+.kscr-Header-separator {
+    border-left: 2px solid @lightGray;
+    border-right: 2px solid @lightGray;
+    display: none;
+    height: 1.5em;
+    margin: 0 0.7em;
+    width: 8px;
 }
 
 .kscr-Header-termName {
-  padding-left: 2em;
+    display: block;
+    font-weight: normal;
+    line-height: 14px;
 }
 
-.kscr-Header-filler{
-    height:12em;
-}
-
-.kscr-Header-logo{
-     background-image:url('../images/logo_kuali_k_only.png');
-     background-repeat: no-repeat;
-     padding: 0.5em;
-     margin: 0.2em;
+.kscr-Header-credits {
+    display: block;
+    font-family: @secondaryFontFamily;
+    font-size: 13px;
+    font-weight: normal;
+    line-height: 13px;
+    margin-top: 3px;
 }

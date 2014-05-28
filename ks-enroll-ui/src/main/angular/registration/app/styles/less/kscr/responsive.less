@@ -64,5 +64,18 @@
   .kscr-Responsive-navigation {
     display: block; /*show the navigation when the screen gets small enough so that only cart or schedule are displayed at a time*/
   }
+}
 
+@media screen and (min-width: 660px) {
+    .kscr-Responsive-header {
+        & .kscr-Header-logo { // use the larger logo in the expanded mode
+            background-image: url('../images/logo_kuali_bak.png');
+            padding-left: 115px;
+        }
+
+        & .kscr-Header-title,
+        & .kscr-Header-separator {
+            display: block; /* show the header title & separator in large format only */
+        }
+    }
 }
