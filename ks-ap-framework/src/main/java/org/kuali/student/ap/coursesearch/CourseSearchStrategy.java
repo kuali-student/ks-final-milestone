@@ -125,4 +125,11 @@ public interface CourseSearchStrategy {
      * @return  Static map of facet id to comparator
      */
     Map<String, Comparator<String>> getFacetSort();
+
+    /**
+     * Retrieves the configured QueryTokenizer
+     * @return QueryTokenizer
+     */
+    QueryTokenizer getQueryTokenizer();
+
 }

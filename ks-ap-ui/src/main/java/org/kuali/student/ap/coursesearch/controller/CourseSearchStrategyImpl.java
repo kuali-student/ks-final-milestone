@@ -15,6 +15,7 @@ import org.kuali.student.ap.coursesearch.CourseSearchStrategy;
 import org.kuali.student.ap.coursesearch.Credit;
 import org.kuali.student.ap.coursesearch.CreditsFormatter;
 import org.kuali.student.ap.coursesearch.Hit;
+import org.kuali.student.ap.coursesearch.QueryTokenizer;
 import org.kuali.student.ap.coursesearch.dataobject.CourseSearchItemImpl;
 import org.kuali.student.ap.coursesearch.form.CourseSearchFormImpl;
 import org.kuali.student.ap.coursesearch.util.CourseLevelFacet;
@@ -35,14 +36,11 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.acal.infc.Term;
-import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
-import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.infc.SearchResult;
 import org.kuali.student.r2.core.search.infc.SearchResultCell;
 import org.kuali.student.r2.core.search.infc.SearchResultRow;
-import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.slf4j.Logger;
@@ -54,7 +52,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -91,6 +88,8 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
     public static final String COMPLETEDCODES_COMPONENTS = "completedCodes";
     public static final String COMPLETEDLEVELS_COMPONENTS = "completedLevels";
 
+    private QueryTokenizer queryTokenizer;
+
     static {
         // Related to CourseSearchUI.xml definitions
         Map<String, Comparator<String>> l = new java.util.LinkedHashMap<String, Comparator<String>>(
@@ -102,6 +101,15 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         l.put("facet_curriculum", KsapHelperUtil.ALPHA);
         FACET_SORT = Collections
                 .unmodifiableMap(Collections.synchronizedMap(l));
+    }
+
+    @Override
+    public QueryTokenizer getQueryTokenizer() {
+        return queryTokenizer;
+    }
+
+    public void setQueryTokenizer(QueryTokenizer queryTokenizer) {
+        this.queryTokenizer = queryTokenizer;
     }
 
     /**
@@ -194,25 +202,25 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         List<SearchRequestInfo> requests = new ArrayList<SearchRequestInfo>();
 
         // Extract components from query
-        levels = QueryTokenizer.extractCourseLevels(query);
-        codes = QueryTokenizer.extractCourseCodes(query);
-        QueryTokenizer.extractDivisions(fetchCourseDivisions(), query, divisions, Boolean.parseBoolean(
+        levels = queryTokenizer.extractCourseLevels(query);
+        codes = queryTokenizer.extractCourseCodes(query);
+        queryTokenizer.extractDivisions(fetchCourseDivisions(), query, divisions, Boolean.parseBoolean(
                 ConfigContext.getCurrentContextConfig().getProperty(CourseSearchConstants.COURSE_SEARCH_DIVISION_SPACEALLOWED)));
 
         // Extract divisions using their keywords.
         if (subjectAreaMap == null || subjectAreaMap.size() == 0) {
             subjectAreaMap = KsapFrameworkServiceLocator.getOrgHelper().getSubjectAreas();
         }
-        keywordDivisions = QueryTokenizer.extractDivisionsFromSubjectKeywords(query, subjectAreaMap);
+        keywordDivisions = queryTokenizer.extractDivisionsFromSubjectKeywords(query, subjectAreaMap);
 
         // remove found levels and codes to find incomplete code components
         for (String level : levels) query = query.replace(level, "");
         for (String code : codes) query = query.replace(code, "");
-        incompleteCodes = QueryTokenizer.extractIncompleteCourseCodes(query, divisions);
+        incompleteCodes = queryTokenizer.extractIncompleteCourseCodes(query, divisions);
 
 
-        completedCodes = QueryTokenizer.extractCompleteCourseCodes(pureQuery, divisions, codes);
-        completedLevels = QueryTokenizer.extractCompleteCourseLevels(pureQuery, divisions, levels);
+        completedCodes = queryTokenizer.extractCompleteCourseCodes(pureQuery, divisions, codes);
+        completedLevels = queryTokenizer.extractCompleteCourseLevels(pureQuery, divisions, levels);
 
         // Remove found completed levels to not make full text for them
         for (String completedLevel : completedLevels) {
@@ -395,7 +403,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
      */
     public void addFullTextRequests(String query, List<SearchRequestInfo> requests, String searchTerm) {
         //find all tokens in the query string
-        List<QueryTokenizer.Token> tokens = QueryTokenizer.tokenize(query);
+        List<QueryTokenizer.Token> tokens = queryTokenizer.tokenize(query);
 
         List<SearchRequestInfo> titleSearches = addTitleSearches(tokens, searchTerm);
         List<SearchRequestInfo> descriptionSearches = addDescriptionSearches(tokens, searchTerm);
@@ -817,7 +825,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 
         for (QueryTokenizer.Token token : tokens) {
             // Convert token to its correct text
-            String queryText = QueryTokenizer.cleanToken(token);
+            String queryText = queryTokenizer.cleanToken(token);
 
             // Skip if query is less than 3 characters
             if (queryText != null && queryText.length() < 3) continue;
@@ -852,7 +860,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 
         for (QueryTokenizer.Token token : tokens) {
             // Convert token to its correct text
-            String queryText = QueryTokenizer.cleanToken(token);
+            String queryText = queryTokenizer.cleanToken(token);
 
             // Skip if query is less than 3 characters
             if (queryText != null && queryText.length() < 3) continue;

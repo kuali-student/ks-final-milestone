@@ -5,6 +5,7 @@ import org.kuali.student.ap.coursesearch.CourseSearchItem;
 import org.kuali.student.ap.coursesearch.CourseSearchStrategy;
 import org.kuali.student.ap.coursesearch.Credit;
 import org.kuali.student.ap.coursesearch.Hit;
+import org.kuali.student.ap.coursesearch.QueryTokenizer;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 
 import java.util.Comparator;
@@ -132,5 +133,10 @@ public class CourseSearchStrategyMockTest implements CourseSearchStrategy {
     @Override
     public boolean isLimitExceeded() {
         return false;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public QueryTokenizer getQueryTokenizer() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }

@@ -10,7 +10,11 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-    <bean id="courseSearchStrategy" class="org.kuali.student.ap.coursesearch.controller.CourseSearchStrategyImpl"/>
+    <bean id="courseSearchStrategy" class="org.kuali.student.ap.coursesearch.controller.CourseSearchStrategyImpl">
+        <property name="queryTokenizer" ref="queryTokenizer"/>
+    </bean>
+
+    <bean id="queryTokenizer" class="org.kuali.student.ap.coursesearch.controller.QueryTokenizerImpl" />
 
     <!-- Setting the courseSearchStrategy in the KsapFrameworkServiceLocator since we couldn't do it in ks-ap-no-tx-context.xml -->
     <bean class="org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator" factory-method="getInstance">

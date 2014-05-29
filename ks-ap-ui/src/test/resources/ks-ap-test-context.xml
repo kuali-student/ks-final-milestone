@@ -16,7 +16,11 @@
 
     <bean id="searchController" class="org.kuali.student.ap.coursesearch.controller.CourseSearchController"/>
 
-    <bean id="courseSearchStrategy" class="org.kuali.student.ap.coursesearch.controller.CourseSearchStrategyImpl" />
+    <bean id="courseSearchStrategy" class="org.kuali.student.ap.coursesearch.controller.CourseSearchStrategyImpl">
+        <property name="queryTokenizer" ref="queryTokenizer"/>
+    </bean>
+
+    <bean id="queryTokenizer" class="org.kuali.student.ap.coursesearch.controller.QueryTokenizerImpl" />
 
     <bean id="ksapEnumerationHelper" class="org.kuali.student.ap.framework.context.support.DefaultEnumerationHelper" />
     <import resource="classpath:enumService-test-context.xml"/>
