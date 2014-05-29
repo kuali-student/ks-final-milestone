@@ -1,3 +1,17 @@
+/*
+ * Copyright 2014 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
 package org.kuali.student.ap.coursesearch;
 
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
@@ -56,12 +70,23 @@ public interface CourseSearchStrategy {
     public List<Hit> preformSearch(List<SearchRequestInfo> requests);
 
     /**
-     * Determines a list of terms to filter results on based on a filter value
+     * Preforms filtering of the search results and returns a filtered list of course ids based on the filtering
      *
-     * @param termFilter - A value that determines what terms to filter on.
-     * @return A list of term ids.
+     * @param courseIds - List of course ids returned by the search
+     * @param form - The search form
+     * @return A list of filter course ids
      */
-    public List<String> getTermsToFilterOn(String termFilter);
+    public List<String> filterSearchResults(List<String> courseIds, CourseSearchForm form);
+
+    /**
+     * Loads and returns course information base on the ids found in the search
+     *
+     * @param courseIDs - List of course ids found in the search
+     * @param studentId - Id of the user the search is being ran under
+     * @param form - The search form
+     * @return A list of filled in courses
+     */
+    public List<? extends CourseSearchItem> loadCourseItems(List<String> courseIDs, String studentId, CourseSearchForm form);
 
     /**
      * Add searches based on the components found in the query string
@@ -117,7 +142,7 @@ public interface CourseSearchStrategy {
      * @param form - Form containing information on the search
      * @param courses - The list of classes to set the facets on
      */
-    public void populateFacets(CourseSearchForm form, List<CourseSearchItem> courses);
+    public void populateFacets(CourseSearchForm form, List<? extends CourseSearchItem> courses);
 
     /**
      * Retrieves a static map of facets to their related sort algorithm.

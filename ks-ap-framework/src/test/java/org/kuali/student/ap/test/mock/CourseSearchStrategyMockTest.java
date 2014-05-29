@@ -66,13 +66,25 @@ public class CourseSearchStrategyMockTest implements CourseSearchStrategy {
     }
 
     /**
-     * Determines a list of terms to filter results on based on a filter value
+     * Preforms filtering of the search results and returns a filtered list of course ids based on the filtering
      *
-     * @param termFilter - A value that determines what terms to filter on.
-     * @return A list of term ids.
+     * @param courseIds - List of course ids returned by the search
+     * @param form      - The search form
+     * @return A list of filter course ids
      */
     @Override
-    public List<String> getTermsToFilterOn(String termFilter) {
+    public List<String> filterSearchResults(List<String> courseIds, CourseSearchForm form) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    /**
+     * Loads and returns course information base on the ids found in the search
+     *
+     * @param courseIDs - List of course ids found in the search
+     * @return A list of filled in courses
+     */
+    @Override
+    public List<? extends CourseSearchItem> loadCourseItems(List<String> courseIDs, String studentId, CourseSearchForm form) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
@@ -116,7 +128,7 @@ public class CourseSearchStrategyMockTest implements CourseSearchStrategy {
     }
 
     @Override
-    public void populateFacets(CourseSearchForm form, List<CourseSearchItem> courses) {
+    public void populateFacets(CourseSearchForm form, List<? extends CourseSearchItem> courses) {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 

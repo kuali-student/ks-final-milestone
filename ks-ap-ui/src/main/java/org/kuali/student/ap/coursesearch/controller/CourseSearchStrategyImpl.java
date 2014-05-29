@@ -1,3 +1,17 @@
+/*
+ * Copyright 2014 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
 package org.kuali.student.ap.coursesearch.controller;
 
 import org.kuali.rice.core.api.config.property.ConfigContext;
@@ -135,6 +149,11 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 
         // Build and run search, retrieving a list of course Ids
         List<SearchRequestInfo> requests = buildSearchRequests(form);
+
+        // Process Current list of Requests into direct search queries
+        requests = adjustSearchRequests(requests, form);
+
+        // Search for course Ids on the list of requests
         List<Hit> hits = preformSearch(requests);
         List<String> courseIDs = new ArrayList<String>();
         for (Hit hit : hits) {
@@ -142,7 +161,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         }
 
         // Filter results and trim if exceeds result limit
-        List<CourseSearchItemImpl> courses = new ArrayList<CourseSearchItemImpl>();
+        List<? extends CourseSearchItem> courses = new ArrayList<CourseSearchItemImpl>();
         if (!courseIDs.isEmpty()) {
             courseIDs = termfilterCourseIds(courseIDs, form.getSearchTerm());
             if (courseIDs.size() > maxCount) {
@@ -160,19 +179,16 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 
         // Populate course data for found course ids
         if (!courseIDs.isEmpty()) {
-            courses = getCoursesInfo(courseIDs);
+            courses = loadCourseItems(courseIDs, studentId, form);
         }
-
-        // Load the plan status of each course and set its session id
-        List<CourseSearchItem> courseList = loadPlanStatus(form.getSessionId(),studentId,courses);
 
         // Populate Curriculum Map based on orgs for found courses
         populateCurriculumMap(courses);
 
         // Populate Facets for the found courses
-        populateFacets(form, courseList);
+        populateFacets(form, courses);
 
-        return courseList;
+        return (List<CourseSearchItem>)courses;
     }
 
     /**
@@ -180,7 +196,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
      */
     @Override
     public List<SearchRequestInfo> buildSearchRequests(CourseSearchForm form) {
-        LOG.info("Start Of Method buildSearchRequests in CourseSearchStrategy: {}",
+        LOG.debug("Start Of Method buildSearchRequests in CourseSearchStrategy: {}",
                 System.currentTimeMillis());
 
         // To keep search from being case specific all text is uppercased
@@ -236,7 +252,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
             pureQuery = pureQuery.replace(division + code, "");
         }
 
-        LOG.info("Start of method addComponentRequests of CourseSearchStrategy: {}",
+        LOG.debug("Start of method addComponentRequests of CourseSearchStrategy: {}",
                 System.currentTimeMillis());
         Map<String,List<String>> componentMap = new HashMap<String,List<String>>();
         componentMap.put(DIVISIONS_COMPONENTS, divisions);
@@ -247,22 +263,16 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         componentMap.put(COMPLETEDCODES_COMPONENTS, completedCodes);
         componentMap.put(COMPLETEDLEVELS_COMPONENTS, completedLevels);
         addComponentRequests(componentMap, requests);
-        LOG.info("End of method addComponentRequests of CourseSearchStrategy: {}",
+        LOG.debug("End of method addComponentRequests of CourseSearchStrategy: {}",
                 System.currentTimeMillis());
 
-        LOG.info("Start of method addFullTextSearches of CourseSearchStrategy: {}",
+        LOG.debug("Start of method addFullTextSearches of CourseSearchStrategy: {}",
                 System.currentTimeMillis());
         addFullTextRequests(pureQuery, requests, form.getSearchTerm());
-        LOG.info("End of method addFullTextSearches of CourseSearchStrategy: {}",
+        LOG.debug("End of method addFullTextSearches of CourseSearchStrategy: {}",
                 System.currentTimeMillis());
 
-        // Process Current list of Requests into direct search queries
-        LOG.info("Count of No of Query Tokens: {}", requests.size());
-        requests = adjustSearchRequests(requests, form);
-        LOG.info("No of Requests after adjustSearchRequests method: {}",
-                requests.size());
-
-        LOG.info("End Of Method buildSearchRequests in CourseSearchStrategy: {}",
+        LOG.debug("End Of Method buildSearchRequests in CourseSearchStrategy: {}",
                 System.currentTimeMillis());
 
         return requests;
@@ -273,7 +283,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
      */
     @Override
     public List<SearchRequestInfo> adjustSearchRequests(List<SearchRequestInfo> requests, CourseSearchForm form) {
-        LOG.info("Start of method adjustSearchRequests in CourseSearchStrategy: {}",
+        LOG.debug("Start of method adjustSearchRequests in CourseSearchStrategy: {}",
                 System.currentTimeMillis());
 
         // Remove Duplicates
@@ -283,7 +293,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         }
         requests = prunedRequests;
 
-        LOG.info("End of adjustSearchRequests method in CourseSearchStrategy: {}",
+        LOG.debug("End of adjustSearchRequests method in CourseSearchStrategy: {}",
                 System.currentTimeMillis());
 
         return requests;
@@ -294,7 +304,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
      */
     @Override
     public List<Hit> preformSearch(List<SearchRequestInfo> requests) {
-        LOG.info("Start of preformSearch of CourseSearchController: {}",
+        LOG.debug("Start of preformSearch of CourseSearchController: {}",
                 System.currentTimeMillis());
         List<Hit> hits = new java.util.LinkedList<Hit>();
         Set<String> seen = new java.util.HashSet<String>();
@@ -319,38 +329,95 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
             } catch (PermissionDeniedException e) {
                 throw new IllegalArgumentException("CLU lookup error", e);
             }
-        LOG.info("End of preformSearch of CourseSearchController: {}",
+        LOG.debug("End of preformSearch of CourseSearchController: {}",
                 System.currentTimeMillis());
         return hits;
     }
 
     /**
-     * This method handles the filtering term filter options:
-     * Any Term - No filtered state
-     * Scheduled Term - Term with published SOC state
-     * Single Term - Specific term (only one specific term is allowed)
+     * Currently supports filtering by:
+     * Term
      *
-     * @see org.kuali.student.ap.coursesearch.CourseSearchStrategy#getTermsToFilterOn(String)
+     * @see org.kuali.student.ap.coursesearch.CourseSearchStrategy#filterSearchResults(java.util.List, org.kuali.student.ap.coursesearch.CourseSearchForm)
      */
     @Override
-    public List<String> getTermsToFilterOn(String termFilter) {
-        List<String> termsToFilterOn = new ArrayList<String>();
+    public List<String> filterSearchResults(List<String> courseIds, CourseSearchForm form){
+        // Filter results by term
+        List<String> filteredIds = termfilterCourseIds(courseIds, form.getSearchTerm());
 
-        if (termFilter.equals(CourseSearchForm.SEARCH_TERM_ANY_ITEM) || termFilter.equals(CourseSearchForm.SEARCH_TERM_SCHEDULED)) {
-            // Any Term or Any Scheduled term selected
-            List<Term> terms = new ArrayList<Term>();
-            List<Term> currentScheduled = KsapFrameworkServiceLocator.getTermHelper().getCurrentTermsWithPublishedSOC();
-            List<Term> futureScheduled = KsapFrameworkServiceLocator.getTermHelper().getFutureTermsWithPublishedSOC();
-            if (currentScheduled != null) terms.addAll(currentScheduled);
-            if (futureScheduled != null) terms.addAll(futureScheduled);
-            for (int i = 0; i < terms.size(); i++) {
-                termsToFilterOn.add(terms.get(i).getId());
-            }
-        } else {
-            // Single Term selected
-            termsToFilterOn.add(termFilter);
+        return filteredIds;
+    }
+
+    /**
+     * @see org.kuali.student.ap.coursesearch.CourseSearchStrategy#loadCourseItems(java.util.List, String, org.kuali.student.ap.coursesearch.CourseSearchForm)
+     */
+    @Override
+    public List<? extends CourseSearchItem> loadCourseItems(List<String> courseIDs, String studentId, CourseSearchForm form) {
+        LOG.debug("Start of method getCourseInfo of CourseSearchController: {}",
+                System.currentTimeMillis());
+        List<CourseSearchItem> listOfCourses = new ArrayList<CourseSearchItem>();
+
+        // Get course information for each course from the course id
+        SearchRequestInfo request = new SearchRequestInfo("ksap.course.info");
+        request.addParam("courseIDs", courseIDs);
+        SearchResult result;
+        try {
+            result = KsapFrameworkServiceLocator.getCluService().search(
+                    request,
+                    KsapFrameworkServiceLocator.getContext().getContextInfo());
+        } catch (MissingParameterException e) {
+            throw new IllegalArgumentException(
+                    "Invalid course ID or CLU lookup error", e);
+        } catch (InvalidParameterException e) {
+            throw new IllegalArgumentException(
+                    "Invalid course ID or CLU lookup error", e);
+        } catch (OperationFailedException e) {
+            throw new IllegalStateException("CLU lookup error", e);
+        } catch (PermissionDeniedException e) {
+            throw new IllegalArgumentException("CLU lookup error", e);
         }
-        return termsToFilterOn;
+
+        // Create and fill in course object
+        if ((result != null) && (!result.getRows().isEmpty())) {
+            for (String courseId : courseIDs) {
+                for (SearchResultRow row : result.getRows()) {
+                    String id = KsapHelperUtil.getCellValue(row, "course.id");
+                    // Course information is filled in based on the original result order
+                    if (id.equals(courseId)) {
+                        CourseSearchItemImpl course = new CourseSearchItemImpl();
+                        course.setCourseId(id);
+                        course.setSubject(KsapHelperUtil.getCellValue(row, "course.subject"));
+                        course.setNumber(KsapHelperUtil.getCellValue(row, "course.number"));
+                        course.setLevel(KsapHelperUtil.getCellValue(row, "course.level"));
+                        course.setCourseName(KsapHelperUtil.getCellValue(row, "course.name"));
+                        course.setCode(KsapHelperUtil.getCellValue(row, "course.code"));
+                        course.setVersionIndependentId(KsapHelperUtil.getCellValue(row, "course.versionIndId"));
+                        String cellValue = KsapHelperUtil.getCellValue(row, "course.credits");
+                        Credit credit = getCreditByID(cellValue);
+                        if (credit != null) {
+                            course.setCreditMin(credit.getMin());
+                            course.setCreditMax(credit.getMax());
+                            course.setCreditType(credit.getType());
+                            course.setMultipleCredits(credit.getMultiple());
+                            course.setCredit(credit.getDisplay());
+                        }
+                        listOfCourses.add((CourseSearchItem)course);
+                        break;
+                    }
+                }
+            }
+        }
+
+        // Load additional data for each course
+        loadScheduledTerms(listOfCourses);
+        loadTermsOffered(listOfCourses, courseIDs);
+        loadGenEduReqs(listOfCourses);
+        // Load the plan status of each course and set its session id
+        loadPlanStatus(form.getSessionId(),studentId, listOfCourses);
+
+        LOG.debug("End of method getCourseInfo of CourseSearchController: {}",
+                System.currentTimeMillis());
+        return listOfCourses;
     }
 
     /**
@@ -404,12 +471,8 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
     public void addFullTextRequests(String query, List<SearchRequestInfo> requests, String searchTerm) {
         //find all tokens in the query string
         List<QueryTokenizer.Token> tokens = queryTokenizer.tokenize(query);
-
-        List<SearchRequestInfo> titleSearches = addTitleSearches(tokens, searchTerm);
-        List<SearchRequestInfo> descriptionSearches = addDescriptionSearches(tokens, searchTerm);
-
-        requests.addAll(titleSearches);
-        requests.addAll(descriptionSearches);
+        requests.addAll(addTitleRequests(tokens, searchTerm));
+        requests.addAll(addDescriptionRequests(tokens, searchTerm));
     }
 
     /**
@@ -546,7 +609,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
      * @see org.kuali.student.ap.coursesearch.CourseSearchStrategy#populateFacets(org.kuali.student.ap.coursesearch.CourseSearchForm, java.util.List)
      */
     @Override
-    public void populateFacets(CourseSearchForm form, List<CourseSearchItem> courses) {
+    public void populateFacets(CourseSearchForm form, List<? extends CourseSearchItem> courses) {
         LOG.info("Start of method populateFacets of CourseSearchController: {}",
                 System.currentTimeMillis());
         // Initialize facets.
@@ -820,7 +883,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
      * @param searchTerm - Term filter for the search (Used for CO title search)
      * @return A list of title search requests
      */
-    private List<SearchRequestInfo> addTitleSearches(List<QueryTokenizer.Token> tokens, String searchTerm) {
+    private List<SearchRequestInfo> addTitleRequests(List<QueryTokenizer.Token> tokens, String searchTerm) {
         List<SearchRequestInfo> searches = new ArrayList<SearchRequestInfo>();
 
         for (QueryTokenizer.Token token : tokens) {
@@ -855,7 +918,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
      * @param searchTerm - Term filter for the search (Used for CO title search)
      * @return A list of description search requests
      */
-    private List<SearchRequestInfo> addDescriptionSearches(List<QueryTokenizer.Token> tokens, String searchTerm) {
+    private List<SearchRequestInfo> addDescriptionRequests(List<QueryTokenizer.Token> tokens, String searchTerm) {
         List<SearchRequestInfo> searches = new ArrayList<SearchRequestInfo>();
 
         for (QueryTokenizer.Token token : tokens) {
@@ -883,78 +946,6 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
     }
 
     /**
-     * Loads and returns course information base on the ids found in the search
-     *
-     * @param courseIDs - List of course ids found in the search
-     * @return A list of filled in courses
-     */
-    private List<CourseSearchItemImpl> getCoursesInfo(List<String> courseIDs) {
-        LOG.info("Start of method getCourseInfo of CourseSearchController: {}",
-                System.currentTimeMillis());
-        List<CourseSearchItemImpl> listOfCourses = new ArrayList<CourseSearchItemImpl>();
-
-        // Get course information for each course from the course id
-        SearchRequestInfo request = new SearchRequestInfo("ksap.course.info");
-        request.addParam("courseIDs", courseIDs);
-        SearchResult result;
-        try {
-            result = KsapFrameworkServiceLocator.getCluService().search(
-                    request,
-                    KsapFrameworkServiceLocator.getContext().getContextInfo());
-        } catch (MissingParameterException e) {
-            throw new IllegalArgumentException(
-                    "Invalid course ID or CLU lookup error", e);
-        } catch (InvalidParameterException e) {
-            throw new IllegalArgumentException(
-                    "Invalid course ID or CLU lookup error", e);
-        } catch (OperationFailedException e) {
-            throw new IllegalStateException("CLU lookup error", e);
-        } catch (PermissionDeniedException e) {
-            throw new IllegalArgumentException("CLU lookup error", e);
-        }
-
-        // Create and fill in course object
-        if ((result != null) && (!result.getRows().isEmpty())) {
-            for (String courseId : courseIDs) {
-                for (SearchResultRow row : result.getRows()) {
-                    String id = KsapHelperUtil.getCellValue(row, "course.id");
-                    // Course information is filled in based on the original result order
-                    if (id.equals(courseId)) {
-                        CourseSearchItemImpl course = new CourseSearchItemImpl();
-                        course.setCourseId(id);
-                        course.setSubject(KsapHelperUtil.getCellValue(row, "course.subject"));
-                        course.setNumber(KsapHelperUtil.getCellValue(row, "course.number"));
-                        course.setLevel(KsapHelperUtil.getCellValue(row, "course.level"));
-                        course.setCourseName(KsapHelperUtil.getCellValue(row, "course.name"));
-                        course.setCode(KsapHelperUtil.getCellValue(row, "course.code"));
-                        course.setVersionIndependentId(KsapHelperUtil.getCellValue(row, "course.versionIndId"));
-                        String cellValue = KsapHelperUtil.getCellValue(row, "course.credits");
-                        Credit credit = getCreditByID(cellValue);
-                        if (credit != null) {
-                            course.setCreditMin(credit.getMin());
-                            course.setCreditMax(credit.getMax());
-                            course.setCreditType(credit.getType());
-                            course.setMultipleCredits(credit.getMultiple());
-                            course.setCredit(credit.getDisplay());
-                        }
-                        listOfCourses.add(course);
-                        break;
-                    }
-                }
-            }
-        }
-
-        // Load additional data for each course
-        loadScheduledTerms(listOfCourses);
-        loadTermsOffered(listOfCourses, courseIDs);
-        loadGenEduReqs(listOfCourses);
-
-        LOG.info("End of method getCourseInfo of CourseSearchController: {}",
-                System.currentTimeMillis());
-        return listOfCourses;
-    }
-
-    /**
      * Filters the result course ids from the search based on the term filter
      *
      * @param courseIds  - Full list of course ids found by the search
@@ -962,7 +953,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
      * @return A list of course ids with offerings matching the selected filter
      */
     private List<String> termfilterCourseIds(List<String> courseIds, String termFilter) {
-        LOG.info("Start of method termfilterCourseIds of CourseSearchController: {}",
+        LOG.debug("Start of method termfilterCourseIds of CourseSearchController: {}",
                 System.currentTimeMillis());
 
         // If any term option is select return list as is, no filtering needed.
@@ -1011,7 +1002,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         } catch (PermissionDeniedException e) {
             throw new IllegalStateException("ATP lookup failed", e);
         }
-        LOG.info("End of method termfilterCourseIds of CourseSearchController: {}",
+        LOG.debug("End of method termfilterCourseIds of CourseSearchController: {}",
                 System.currentTimeMillis());
         return filteredIds;
 
@@ -1022,7 +1013,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
      *
      * @param courses - List of courses to load information for.
      */
-    private void loadScheduledTerms(List<CourseSearchItemImpl> courses) {
+    private void loadScheduledTerms(List<? extends CourseSearchItem> courses) {
         LOG.info("Start of method loadScheduledTerms of CourseSearchController: {}",
                 System.currentTimeMillis());
 
@@ -1031,11 +1022,11 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 
         // Load scheduling data into course results from there course offerings
         for (CourseOfferingInfo offering : offerings) {
-            for (CourseSearchItemImpl course : courses) {
+            for (CourseSearchItem course : courses) {
                 if (course.getCourseId().equals(offering.getCourseId())) {
                     // Avoid Duplicates
                     if (!course.getScheduledTermsList().contains(offering.getTermId())) {
-                        course.addScheduledTerm(offering.getTermId());
+                        ((CourseSearchItemImpl)course).addScheduledTerm(offering.getTermId());
                     }
                 }
             }
@@ -1052,8 +1043,8 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
      * @param courses   - The list of course information for the courses
      * @param courseIDs - The list of course ids for the courses.
      */
-    private void loadTermsOffered(List<CourseSearchItemImpl> courses, final List<String> courseIDs) {
-        LOG.info("Start of method loadTermsOffered of CourseSearchController: {}",
+    private void loadTermsOffered(List<? extends CourseSearchItem> courses, final List<String> courseIDs) {
+        LOG.debug("Start of method loadTermsOffered of CourseSearchController: {}",
                 System.currentTimeMillis());
 
         // Search for projected offered terms for the courses
@@ -1095,15 +1086,15 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
             }
         }
 
-        for (CourseSearchItemImpl course : courses) {
+        for (CourseSearchItem course : courses) {
             if (offeredMap.containsKey(course.getCourseId())) {
                 List<String> termsOffered = offeredMap.get(course.getCourseId());
                 Collections.sort(termsOffered);
-                course.setTermInfoList(termsOffered);
+                ((CourseSearchItemImpl)course).setTermInfoList(termsOffered);
             }
         }
 
-        LOG.info("End of method loadTermsOffered of CourseSearchController: {}",
+        LOG.debug("End of method loadTermsOffered of CourseSearchController: {}",
                 System.currentTimeMillis());
     }
 
@@ -1113,8 +1104,8 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
      *
      * @param courses - The list of course inforamtion for the courses
      */
-    private void loadGenEduReqs(List<CourseSearchItemImpl> courses) {
-        LOG.info("Start of method loadGenEduReqs of CourseSearchController: {}",
+    private void loadGenEduReqs(List<? extends CourseSearchItem> courses) {
+        LOG.debug("Start of method loadGenEduReqs of CourseSearchController: {}",
                 System.currentTimeMillis());
 
         // Search for gen ed requirements
@@ -1123,8 +1114,8 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 
         // Create a list of version Ids for the search
         List<String> versionIndIds = new ArrayList<String>();
-        for (CourseSearchItemImpl course : courses) {
-            versionIndIds.add(course.getVersionIndependentId());
+        for (CourseSearchItem course : courses) {
+            versionIndIds.add(((CourseSearchItem)course).getVersionIndependentId());
         }
         request.addParam("courseIDs", versionIndIds);
 
@@ -1168,14 +1159,14 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         }
 
         // Fill in the course information
-        for (CourseSearchItemImpl course : courses) {
+        for (CourseSearchItem course : courses) {
             if (genEdResults.containsKey(course.getVersionIndependentId())) {
                 List<String> reqs = genEdResults.get(course.getVersionIndependentId());
-                course.setGenEduReqs(reqs);
+                ((CourseSearchItemImpl)course).setGenEduReqs(reqs);
             }
         }
 
-        LOG.info("End of method loadGenEduReqs of CourseSearchController: {}",
+        LOG.debug("End of method loadGenEduReqs of CourseSearchController: {}",
                 System.currentTimeMillis());
     }
 
@@ -1186,7 +1177,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
      * @return A map of the plan state for a course.
      */
     private Map<String, String> getCourseStatusMap(String studentID) {
-        LOG.info("Start of method getCourseStatusMap of CourseSearchController: {}",
+        LOG.debug("Start of method getCourseStatusMap of CourseSearchController: {}",
                 System.currentTimeMillis());
         AcademicPlanService academicPlanService = KsapFrameworkServiceLocator
                 .getAcademicPlanService();
@@ -1267,7 +1258,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
                 }
             }
         }
-        LOG.info("End of method getCourseStatusMap of CourseSearchController: {}",
+        LOG.debug("End of method getCourseStatusMap of CourseSearchController: {}",
                 System.currentTimeMillis());
         return savedCourseSet;
     }
@@ -1337,9 +1328,9 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
      *
      * @param courses - List of courses returned by search
      */
-    private void populateCurriculumMap(List<CourseSearchItemImpl> courses){
+    private void populateCurriculumMap(List<? extends CourseSearchItem> courses){
         Set<String> orgIds = new HashSet<String>();
-        for (CourseSearchItemImpl course : courses) {
+        for (CourseSearchItem course : courses) {
             String orgId = "ORGID-" + course.getSubject();
             orgIds.add(orgId);
         }
@@ -1354,33 +1345,60 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
      * @param courses - List of courses found in the search
      * @return A list of courses with the plan status and session id filled in.
      */
-    private List<CourseSearchItem> loadPlanStatus(String sessionId, String studentId, List<CourseSearchItemImpl> courses){
+    private void loadPlanStatus(String sessionId, String studentId, List<? extends CourseSearchItem> courses){
         Map<String, String> courseStatusMap = getCourseStatusMap(studentId);
-        List<CourseSearchItem> courseList = new ArrayList<CourseSearchItem>();
-        for (CourseSearchItemImpl course : courses) {
+        for (CourseSearchItem course : courses) {
             String courseId = course.getCourseId();
             if (courseStatusMap.containsKey(courseId)) {
 
                 String status = courseStatusMap.get(courseId);
                 if (status.equals(NONE)) {
-                    course.setSaved(false);
-                    course.setPlanned(false);
+                    ((CourseSearchItemImpl)course).setSaved(false);
+                    ((CourseSearchItemImpl)course).setPlanned(false);
                 } else if (status.equals(SAVED)) {
-                    course.setSaved(true);
-                    course.setPlanned(false);
+                    ((CourseSearchItemImpl)course).setSaved(true);
+                    ((CourseSearchItemImpl)course).setPlanned(false);
                 } else if (status.equals(PLANNED)) {
-                    course.setPlanned(true);
-                    course.setSaved(false);
+                    ((CourseSearchItemImpl)course).setPlanned(true);
+                    ((CourseSearchItemImpl)course).setSaved(false);
                 } else if (status.equals(SAVED_AND_PLANNED)) {
-                    course.setPlanned(true);
-                    course.setSaved(true);
+                    ((CourseSearchItemImpl)course).setPlanned(true);
+                    ((CourseSearchItemImpl)course).setSaved(true);
                 } else {
                     LOG.debug("Unknown status in map. Unable to set status of course with ID: {}", courseId);
                 }
             }
-            course.setSessionid(sessionId);
-            courseList.add(course);
+            ((CourseSearchItemImpl)course).setSessionid(sessionId);
         }
-        return courseList;
+    }
+
+    /**
+     * Determines a list of terms to filter results on based on a filter value
+     * This method handles the filtering term filter options:
+     * Any Term - No filtered state
+     * Scheduled Term - Term with published SOC state
+     * Single Term - Specific term (only one specific term is allowed)
+     *
+     * @param termFilter - A value that determines what terms to filter on.
+     * @return A list of term ids.
+     */
+    private List<String> getTermsToFilterOn(String termFilter) {
+        List<String> termsToFilterOn = new ArrayList<String>();
+
+        if (termFilter.equals(CourseSearchForm.SEARCH_TERM_ANY_ITEM) || termFilter.equals(CourseSearchForm.SEARCH_TERM_SCHEDULED)) {
+            // Any Term or Any Scheduled term selected
+            List<Term> terms = new ArrayList<Term>();
+            List<Term> currentScheduled = KsapFrameworkServiceLocator.getTermHelper().getCurrentTermsWithPublishedSOC();
+            List<Term> futureScheduled = KsapFrameworkServiceLocator.getTermHelper().getFutureTermsWithPublishedSOC();
+            if (currentScheduled != null) terms.addAll(currentScheduled);
+            if (futureScheduled != null) terms.addAll(futureScheduled);
+            for (int i = 0; i < terms.size(); i++) {
+                termsToFilterOn.add(terms.get(i).getId());
+            }
+        } else {
+            // Single Term selected
+            termsToFilterOn.add(termFilter);
+        }
+        return termsToFilterOn;
     }
 }
