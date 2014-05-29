@@ -10,7 +10,7 @@
                     <i class="glyphicon glyphicon-ok-sign"></i>
                 </div>
             </div>
-            <div class="kscr-Edit-option" ng-click="showOptionsDialog()" ng-if="shouldShowMoreCreditOptionsToggle()">
+            <div id="credit_options_more" class="kscr-Edit-option" ng-click="showOptionsDialog()" ng-if="shouldShowMoreCreditOptionsToggle()">
                 More...
             </div>
         </div>
@@ -27,7 +27,7 @@
                     <i class="glyphicon glyphicon-ok-sign"></i>
                 </div>
             </div>
-            <div class="kscr-Edit-option" ng-click="showOptionsDialog()" ng-if="shouldShowMoreGradingOptionsToggle()">
+            <div id="grading_options_more" class="kscr-Edit-option" ng-click="showOptionsDialog()" ng-if="shouldShowMoreGradingOptionsToggle()">
                 More...
             </div>
         </div>
@@ -37,9 +37,9 @@
 <!--Edit buttons-->
 <div class="kscr-Card-buttons">
         <span>
-            <button id="save_{{course.courseCode}}_{{course.regGroupCode}}" class="kscr-Button--primary" type="button" ng-click="submit()">Save Changes</button>
+            <button id="{{prefix}}save_{{course.courseCode}}_{{course.regGroupCode}}" class="kscr-Button--primary" type="button" ng-click="submit()">Save Changes</button>
             <div class="global-Base-divider"></div>
-            <button id="cancel_{{course.courseCode}}_{{course.regGroupCode}}" class="kscr-Button" type="button" ng-click="cancel()">Cancel</button>
+            <button id="{{prefix}}cancel_{{course.courseCode}}_{{course.regGroupCode}}" class="kscr-Button" type="button" ng-click="cancel()">Cancel</button>
         </span>
 </div>
 <div class="util-Grid--clearfix"></div>
