@@ -1,5 +1,8 @@
 var dirtyFieldsRefreshed = false;
 
+//KSENROLL-12648: workaround for rice 2.4 upgrade issue.
+var keyDateBlankLineClass = 'key_date_blank_line_class';
+
 function toggleAddAOCButton(buttonId, controlId) {
     if ((buttonId=="moveAOCButton" && jQuery("#clusterIDListForAOMove_control").val()== "createNewCluster")
         || buttonId=="addAOCButton" || buttonId=="renameAOCButton") {
@@ -1256,3 +1259,325 @@ function timeFieldOnBlur(event){
 function setDirtyManully (dirtyFlag) {
     dirtyFormState.dirtyFormInput.val(dirtyFlag);
 }
+
+
+
+/* --------- KSENROLL-12648: workaround for rice 2.4 upgrade issue. ------ */
+function initAddKeyDateButton(tempButtonId, keyDateTableId) {
+    var tempAddKeyDateButtons = jQuery('button[id^="' + tempButtonId + '"]');
+    jQuery.each(tempAddKeyDateButtons, function (index) {
+        var tempButtonId = jQuery(this).attr('id');
+        var keyDateGroupSuffix = tempButtonId.substring(tempButtonId.indexOf('_line'));
+        var keyDateGroupTableId = keyDateTableId + keyDateGroupSuffix;
+        var keyDateGroupTable = jQuery('#' + keyDateGroupTableId);
+        jQuery(keyDateGroupTable).find('tbody').find('tr.uif-collectionAddItem').remove();
+
+        jQuery(this).insertAfter(keyDateGroupTable);
+    });
+}
+
+function attachBlankLineFieldValidationSection (fieldDiv, requiredField) {
+    var fieldDivId = jQuery(fieldDiv).attr('id');
+
+    var blankLineFieldErrorDiv = jQuery('<div id="' + fieldDivId + '_errors" class="uif-validationMessages" style="display: none;" data-messages_for="' + fieldDivId + '" />');
+    if (requiredField) {
+        var clientErrorDiv = jQuery('<div class="uif-clientMessageItems uif-clientErrorDiv"/>');
+        var clientErrorLi = jQuery('<li class="uif-errorMessageItem-field"><img class="uif-validationImage" src="http://staging.ks.kuali.org/themes/ksboot/images/validation/error.png" alt="Error">  Required</li>');
+        clientErrorDiv.append(jQuery('<ul />').append(clientErrorLi));
+        blankLineFieldErrorDiv.append(clientErrorDiv);
+    }
+
+    fieldDiv.append(jQuery('<span id="' + fieldDivId + '_markers" />'));
+    fieldDiv.append(blankLineFieldErrorDiv);
+    fieldDiv.append(jQuery('<span id="' + fieldDivId + '_info_message" />'));
+}
+
+function populateBlankLineKeyDateWrapper(baseUrl) {
+    var newKeyDateRows = jQuery('#KS-AcademicTerm-EditSection').find('table').find('tbody').find('tr.' + keyDateBlankLineClass);
+    jQuery.each(newKeyDateRows, function (key, value) {
+        var firstTdDiv = jQuery(this).find('td:first').find('div:first');
+        var firstTdDivId = firstTdDiv.attr('id');
+
+        var rowSuffix = firstTdDivId.substring(firstTdDivId.indexOf('_line'));
+        var termIndex = rowSuffix.replace(/^(\D+)(\d+)(\D+)(\d+)(\D+)(\d+)$/, '$2');
+        var keyDateGroupIndex = rowSuffix.replace(/^(\D+)(\d+)(\D+)(\d+)(\D+)(\d+)$/, '$4');
+        var keyDateIndex = rowSuffix.replace(/^(\D+)(\d+)(\D+)(\d+)(\D+)(\d+)$/, '$6');
+        var inputNamePrefix = 'termWrapperList[' + termIndex + '].keyDatesGroupWrappers[' + keyDateGroupIndex + '].keydates[' + keyDateIndex + ']';
+
+
+        var keyDateParams = {
+            termIndex : "",
+            keyDateGroupIndex : "",
+            keyDateIndex : "",
+            keyDateType : "",
+            keyDateStartDate : "",
+            keyDateStartTime : "",
+            keyDateStartTimeAmPm : "",
+            keyDateEndDate : "",
+            keyDateEndTime : "",
+            keyDateEndTimeAmPm : ""
+        };
+
+        keyDateParams['termIndex'] = termIndex;
+        keyDateParams['keyDateGroupIndex'] = keyDateGroupIndex;
+        keyDateParams['keyDateIndex'] = keyDateIndex;
+
+        keyDateParams['keyDateType'] = jQuery('#key_date_type' + rowSuffix + '_control').val();
+        keyDateParams['keyDateStartDate'] = jQuery('#key_date_start_date' + rowSuffix + '_control').val();
+        keyDateParams['keyDateStartTime'] = jQuery('#key_date_start_time' + rowSuffix + '_control').val();
+        keyDateParams['keyDateStartTimeAmPm'] = jQuery( 'input[name="' + inputNamePrefix + '.startTimeAmPm"]:checked').val();
+        keyDateParams['keyDateEndDate'] = jQuery('#key_date_end_date' + rowSuffix + '_control').val();
+        keyDateParams['keyDateEndTime'] = jQuery('#key_date_end_time' + rowSuffix + '_control').val();
+        keyDateParams['keyDateEndTimeAmPm'] = jQuery( 'input[name="' + inputNamePrefix + '.endTimeAmPm"]:checked').val();
+
+        var formData = jQuery('#kualiForm').serialize() + '&' + jQuery.param(keyDateParams);
+        jQuery.ajax({
+            dataType:"json",
+            url:baseUrl + "/kr-krad/academicCalendar?methodToCall=processBlankLineKeyDate",
+            type:"POST",
+            data:formData,
+            success:function (data, textStatus, jqXHR) {
+                //jQuery(this).removeClass(keyDateBlankLineClass);
+            },
+            error: function (jqXHR, status, error) {
+            }
+        });
+
+        jQuery(this).removeClass(keyDateBlankLineClass);
+    });
+
+
+
+}
+
+function constructKeyDateAddBlankLine(event, keyDateTypesJSON, baseUrl) {
+    //if no available key date types, not to create blank line
+    if (jQuery.isEmptyObject(keyDateTypesJSON)) {
+        return false;
+    }
+
+    var currentKeyDateSubSection = jQuery(event.target).parent().parent();
+    var currentKeyDateSubSectionTbody = currentKeyDateSubSection.find('table').find('tbody');
+    var lastRowFirstTdDivId = currentKeyDateSubSectionTbody.find('tr:last').find('td:first').find('div:first').attr('id');
+
+    var lastRowSuffix = lastRowFirstTdDivId.substring(lastRowFirstTdDivId.indexOf('_line'));
+    var termIndex = lastRowSuffix.replace(/^(\D+)(\d+)(\D+)(\d+)(\D+)(\d+)$/, '$2');
+    var keyDateGroupIndex = lastRowSuffix.replace(/^(\D+)(\d+)(\D+)(\d+)(\D+)(\d+)$/, '$4');
+    var keyDateIndex = lastRowSuffix.replace(/^(\D+)(\d+)(\D+)(\d+)(\D+)(\d+)$/, '$6');
+
+    var blankLineIndex = parseInt(keyDateIndex)+1;
+    var blankLineSuffix = lastRowSuffix.replace(/^(.+)(\D)(\d+)$/, '$1'+'$2'+blankLineIndex);
+    var blankLineInputNamePrefix = 'termWrapperList[' + termIndex + '].keyDatesGroupWrappers[' + keyDateGroupIndex + '].keydates[' + blankLineIndex + ']';
+    var blankLineDataParent = currentKeyDateSubSection.attr('id');
+
+    /* add blank line key date wrapper to form */
+    /*var selectedCollectionPathAndIndex = {
+        termIndex : "",
+        keyDateGroupIndex : "",
+        keyDateIndex : ""
+    };
+    selectedCollectionPathAndIndex['termIndex'] = termIndex;
+    selectedCollectionPathAndIndex['keyDateGroupIndex'] = keyDateGroupIndex;
+    selectedCollectionPathAndIndex['keyDateIndex'] = blankLineIndex;
+
+    var formData = jQuery('#kualiForm').serialize() + '&' + jQuery.param(selectedCollectionPathAndIndex);
+    jQuery.ajax({
+        dataType:"json",
+        url:baseUrl + "/kr-krad/academicCalendar?methodToCall=addKeyDateWrapperToForm",
+        type:"POST",
+        data:formData,
+        success:function (data, textStatus, jqXHR) {
+            responseData = data;
+        },
+        error: function (jqXHR, status, error) {
+        }
+    });*/
+
+
+    /* key date type td */
+    var jSonObj = jQuery.parseJSON(keyDateTypesJSON);
+    //if no available key date types, not to create blank line
+    if (jQuery.isEmptyObject(jSonObj)) {
+        return false;
+    }
+    var blankLineKeyDateTypeDivId = 'key_date_type' + blankLineSuffix;
+    var blankLineKeyDateTypeDiv = jQuery('<div id="' + blankLineKeyDateTypeDivId +
+        '" class="uif-inputField ks-subSection" style="font-weight:bold;" data-parent="' + blankLineDataParent +'" data-role="InputField"/>');
+    var blankLineKeyDateTypeSelect = jQuery('<select id="' + blankLineKeyDateTypeDivId + '_control' +
+        '" name="' + blankLineInputNamePrefix + '.keyDateType" size="1" class="form-control input-sm uif-dropdownControl required dirty valid" tabindex="0" data-role="Control"  data-control_for="' +
+        blankLineKeyDateTypeDivId + '" aria-invalid="true" />');
+    blankLineKeyDateTypeSelect.append(jQuery('<option value="">Select Keydate Type</option>'));
+
+    jQuery.each(jSonObj, function (key, value) {
+        var option = jQuery('<option value="' + key + '">' + value + '</option>')
+        blankLineKeyDateTypeSelect.append(option);
+    });
+
+    blankLineKeyDateTypeDiv.append(blankLineKeyDateTypeSelect);
+    attachBlankLineFieldValidationSection(blankLineKeyDateTypeDiv, true);
+
+    var blankLineKeyDateTypeScript = jQuery('<input type="hidden" data-role="script" data-for="' + blankLineKeyDateTypeDivId +
+        '" value="jQuery(document).ready(function(e) {window.setTimeout(removeNewItemHighlights(),5000); resetDirtyFields(\'AcalEdit-DirtyFields\');});" script="first_run" />');
+    var blankLineKeyDateTypeTD =  jQuery('<td role="presentation" colspan="1" rowspan="1"/>').append(blankLineKeyDateTypeDiv).append(blankLineKeyDateTypeScript);
+
+
+    /* start date td */
+    var blankLineStartDateDivId = 'key_date_start_date' + blankLineSuffix;
+    var blankLineStartDateInputClass = 'form-control input-sm uif-dateControl validChar-' + blankLineInputNamePrefix + '.startDate0 hasDatepicker';
+    var blankLineStartDateDiv = jQuery('<div id="' + blankLineStartDateDivId +
+        '" class="uif-inputField" data-parent="' + blankLineDataParent +'" data-role="InputField"/>');
+    var blankLineStartDateInput = jQuery('<input id="' + blankLineStartDateDivId + '_control' +
+        '" type="text" name="' + blankLineInputNamePrefix + '.startDate" size="9" class="' + blankLineStartDateInputClass + '" tabindex="0" data-role="Control" data-control_for="' +
+        blankLineStartDateDivId + '" maxlength="10" minlength="8" placeholder="mm/dd/yyyy "/>');
+
+    blankLineStartDateDiv.append(blankLineStartDateInput);
+    blankLineStartDateDiv.append(jQuery('<button type="button" class="ui-datepicker-trigger btn-link ks-fontello-icon-calendar" alt="Date picker" value="Date picker"/>'));
+    blankLineStartDateDiv.append(jQuery('<input type="hidden" data-role="script" value="createWatermark(\'' + blankLineStartDateDivId + '_control\', \'mm/dd/yyyy \');" script="first_run" />'));
+    blankLineStartDateDiv.append(jQuery('<input type="hidden" data-role="script" value="createDatePicker(\'' + blankLineStartDateDivId + '_control\', {constrainInput:false,buttonImageOnly:false,buttonImage:\'http://staging.ks.kuali.org/themes/kboot/images/cal.gif\',showOn:\'button\',disabled:false});" script="first_run" />'));
+    attachBlankLineFieldValidationSection(blankLineStartDateDiv, false);
+    var blankLineStartDateTD =  jQuery('<td role="presentation" colspan="1" rowspan="1"/>').append(blankLineStartDateDiv);
+    blankLineStartDateTD.append(jQuery('<input type="hidden" data-role="script" data-for="' + blankLineStartDateDivId +
+        '" value="jQuery(document).ready(function(e){runValidationScript(function(){jQuery.validator.addMethod(&quot;validChar-' + blankLineInputNamePrefix +
+        '.startDate0&quot;, function(value, element) {return this.optional(element) || /(^(0[1-9]|1[012])[\\-\\/](0[1-9]|[12][0-9]|3[01])[\\-\\/]((19|2[0-9])?[0-9]{2})$)/.test(value);}, &quot;Must be a date in the following format(s): MM/dd/yy, MM/dd/yyyy, MM-dd-yy, MM-dd-yyyy&quot;);});});" script="first_run" />'));
+
+    /*  start time td */
+    var blankLineStartTimeDivId = 'key_date_start_time' + blankLineSuffix;
+    var blankLineStartTimeInputClass = 'uif-textControl validChar-' + blankLineInputNamePrefix + '.startTime0';
+    var blankLineStartTimeDiv = jQuery('<div id="' + blankLineStartTimeDivId +
+        '" class="uif-inputField" data-parent="' + blankLineDataParent +'" data-role="InputField"/>');
+    var blankLineStartTimeInput = jQuery('<input id="' + blankLineStartTimeDivId + '_control' +
+        '" type="text" name="' + blankLineInputNamePrefix + '.startTime" size="4" class="' + blankLineStartTimeInputClass + '" tabindex="0" data-role="Control" data-control_for="' +
+        blankLineStartTimeDivId + '" placeholder="hh:mm "/>');
+    blankLineStartTimeDiv.append(blankLineStartTimeInput)
+    blankLineStartTimeDiv.append(jQuery('<input type="hidden" data-role="script" value="createWatermark(\'' + blankLineStartTimeDivId + '_control\', \'hh:mm \');" script="first_run" />'));
+    attachBlankLineFieldValidationSection(blankLineStartTimeDiv, false);
+
+    var blankLineStartTimeTD =  jQuery('<td role="presentation" colspan="1" rowspan="1"/>').append(blankLineStartTimeDiv);
+    blankLineStartTimeTD.append(jQuery('<input type="hidden" data-role="script" data-for="' + blankLineStartTimeDivId +
+        '" value="jQuery(document).ready(function(e){runValidationScript(function(){jQuery.validator.addMethod(&quot;validChar-' + blankLineInputNamePrefix +
+        '.startTime0&quot;, function(value, element) {return this.optional(element) || /^(1[0-2]|0?[1-9]):([0-5][0-9])(:[0-5][0-9])?$/.test(value);}, &quot;Must be a valid 12 hour time in HH:mm format, seconds are optional&quot;);});});" script="first_run" />'));
+
+
+    /* start time ampm td*/
+    var blankLineStartTimeAmPmDivId = 'key_date_start_time_ampm' + blankLineSuffix;
+    var blankLineStartTimeAmPmDiv = jQuery('<div id="' + blankLineStartTimeAmPmDivId +
+        '" class="uif-inputField acal_keydate_radiobutton" data-parent="' + blankLineDataParent + '" data-role="InputField"/>');
+    var blankLineStartTimeAmPmFieldSet = jQuery('<fieldset id="' + blankLineStartTimeAmPmDivId + '_fieldset' + '" aria-labelledby="' + blankLineStartTimeAmPmDivId + '_label"' +
+        ' class="uif-verticalRadioFieldset" data-type="RadioSet"/>');
+
+    var blankLineStartTimeAmSpan = jQuery('<span />');
+    var blankLineStartTimeAmInput = jQuery('<input id="' + blankLineStartTimeAmPmDivId + '_control_0' + '" type="radio" name="' + blankLineInputNamePrefix +
+        '.startTimeAmPm" value="AM" checked="checked" class="uif-verticalRadioControl valid" data-role="Control" tabindex="0" data-control_for="' + blankLineStartTimeAmPmDivId + '" />');
+    var blankLineStartTimeAmLabel = jQuery('<label for="' + blankLineStartTimeAmPmDivId + '_control_0' + '" onclick="handleRadioLabelClick(\'' + blankLineStartTimeAmPmDivId + '_control_0\', event); return false;" />');
+    blankLineStartTimeAmLabel.append(jQuery('<span class="acal_keydate_radiobutton_label">am</span>'));
+    blankLineStartTimeAmSpan.append(blankLineStartTimeAmInput);
+    blankLineStartTimeAmSpan.append(blankLineStartTimeAmLabel);
+
+    var blankLineStartTimePmSpan = jQuery('<span />');
+    var blankLineStartTimePmInput = jQuery('<input id="' + blankLineStartTimeAmPmDivId + '_control_1' + '" type="radio" name="' + blankLineInputNamePrefix +
+        '.startTimeAmPm" value="PM" class="uif-verticalRadioControl" tabindex="0" data-role="Control" data-control_for="' + blankLineStartTimeAmPmDivId + '" />');
+    var blankLineStartTimePmLabel = jQuery('<label for="' + blankLineStartTimeAmPmDivId + '_control_1' + '" onclick="handleRadioLabelClick(\'' + blankLineStartTimeAmPmDivId + '_control_1\', event); return false;" />');
+    blankLineStartTimePmLabel.append(jQuery('<span class="acal_keydate_radiobutton_label">pm</span>'));
+    blankLineStartTimePmSpan.append(blankLineStartTimePmInput);
+    blankLineStartTimePmSpan.append(blankLineStartTimePmLabel);
+
+    blankLineStartTimeAmPmFieldSet.append(jQuery('<legend style="display: none" />'));
+    blankLineStartTimeAmPmFieldSet.append(jQuery('<span class="uif-tooltip" style="width:100%;height:0px;"/>'));
+    blankLineStartTimeAmPmFieldSet.append(blankLineStartTimeAmSpan);
+    blankLineStartTimeAmPmFieldSet.append(blankLineStartTimePmSpan);
+
+    blankLineStartTimeAmPmDiv.append(blankLineStartTimeAmPmFieldSet);
+    blankLineStartTimeAmPmDiv.append(jQuery('<input type="hidden" data-role="script" value="var condition = function(){return (isValueEmpty(coerceValue(&quot;' + blankLineInputNamePrefix + '.startTime&quot;)));}; ' +
+        'setupDisabledCheck(\'' + blankLineInputNamePrefix + '.startTime\', \'' + blankLineStartTimeAmPmDivId + '_control\', \'radioGroup\', condition, true);" script="first_run" />'));
+    blankLineStartTimeAmPmDiv.append(jQuery('<input type="hidden" data-role="script" value="setupOnChangeRefresh(\'#lp.startTime\', \'' + blankLineStartTimeAmPmDivId + '_control\',\'\');" script="first_run" />'));
+    attachBlankLineFieldValidationSection(blankLineStartTimeAmPmDiv, false);
+
+    var blankLineStartTimeAmPmTD = jQuery('<td role="presentation" colspan="1" rowspan="1"/>').append(blankLineStartTimeAmPmDiv);
+
+    /* end date td */
+    var blankLineEndDateDivId = 'key_date_end_date' + blankLineSuffix;
+    var blankLineEndDateInputClass = 'uif-dateControl validChar-' + blankLineInputNamePrefix + 'endDate0 hasDatepicker valid';
+    var blankLineEndDateDiv = jQuery('<div id="' + blankLineEndDateDivId +
+        '" class="uif-inputField" data-parent="' + blankLineDataParent +'" data-role="InputField"/>');
+
+    var blankLineEndDateInput = jQuery('<input id="' + blankLineEndDateDivId + '_control' +
+        '" type="text" name="' + blankLineInputNamePrefix + '.endDate" size="9" class="' + blankLineEndDateInputClass + '" tabindex="0" data-role="Control" data-control_for="' +
+        blankLineEndDateDivId + '" maxlength="10" minlength="8" placeholder="mm/dd/yyyy "/>');
+    blankLineEndDateDiv.append(blankLineEndDateInput);
+    blankLineEndDateDiv.append(jQuery('<button type="button" class="ui-datepicker-trigger btn-link ks-fontello-icon-calendar" alt="Date picker" value="Date picker"/>'));
+    blankLineEndDateDiv.append(jQuery('<input type="hidden" data-role="script" value="createWatermark(\'' + blankLineEndDateDivId + '_control\', \'mm/dd/yyyy \');" script="first_run" />'));
+    blankLineEndDateDiv.append(jQuery('<input type="hidden" data-role="script" value="createDatePicker(\'' + blankLineEndDateDivId + '_control\', {constrainInput:false,buttonImageOnly:false,buttonImage:\'http://staging.ks.kuali.org/themes/kboot/images/cal.gif\',showOn:\'button\',disabled:false});" script="first_run" />'));
+    attachBlankLineFieldValidationSection(blankLineEndDateDiv, false);
+
+    var blankLineEndDateTD =  jQuery('<td role="presentation" colspan="1" rowspan="1"/>').append(blankLineEndDateDiv);
+    blankLineEndDateTD.append(jQuery('<input type="hidden" data-role="script" data-for="' + blankLineEndDateDivId +
+        '" value="jQuery(document).ready(function(e){runValidationScript(function(){jQuery.validator.addMethod(&quot;validChar-' + blankLineInputNamePrefix +
+        '.endDate0&quot;, function(value, element) {return this.optional(element) || /(^(0[1-9]|1[012])[\\-\\/](0[1-9]|[12][0-9]|3[01])[\\-\\/]((19|2[0-9])?[0-9]{2})$)/.test(value);}, &quot;Must be a date in the following format(s): MM/dd/yy, MM/dd/yyyy, MM-dd-yy, MM-dd-yyyy&quot;);});});" script="first_run" />'));
+
+
+    /*  end time td */
+    var blankLineEndTimeDivId = 'key_date_end_time' + blankLineSuffix;
+    var blankLineEndTimeInputClass = 'uif-textControl validChar-' + blankLineInputNamePrefix + '.endTime0';
+    var blankLineEndTimeDiv = jQuery('<div id="' + blankLineEndTimeDivId +
+        '" class="uif-inputField" data-parent="' + blankLineDataParent +'" data-role="InputField"/>');
+    var blankLineEndTimeInput = jQuery('<input id="' + blankLineEndTimeDivId + '_control' +
+        '" type="text" name="' + blankLineInputNamePrefix + '.endTime" size="4" class="' + blankLineEndTimeInputClass + '" tabindex="0" data-role="Control" data-control_for="' +
+        blankLineEndTimeDivId + '" placeholder="hh:mm "/>');
+    blankLineEndTimeDiv.append(blankLineEndTimeInput)
+    blankLineEndTimeDiv.append(jQuery('<input type="hidden" data-role="script" value="createWatermark(\'' + blankLineEndTimeDivId + '_control\', \'hh:mm \');" script="first_run" />'));
+    attachBlankLineFieldValidationSection(blankLineEndTimeDiv, false);
+
+    var blankLineEndTimeTD =  jQuery('<td role="presentation" colspan="1" rowspan="1"/>').append(blankLineEndTimeDiv);
+    blankLineEndTimeTD.append(jQuery('<input type="hidden" data-role="script" data-for="' + blankLineEndTimeDivId +
+        '" value="jQuery(document).ready(function(e){runValidationScript(function(){jQuery.validator.addMethod(&quot;validChar-' + blankLineInputNamePrefix +
+        '.endTime0&quot;, function(value, element) {return this.optional(element) || /^(1[0-2]|0?[1-9]):([0-5][0-9])(:[0-5][0-9])?$/.test(value);}, &quot;Must be a valid 12 hour time in HH:mm format, seconds are optional&quot;);});});" script="first_run" />'));
+
+    /* end time ampm td*/
+    var blankLineEndTimeAmPmDivId = 'key_date_end_time_ampm' + blankLineSuffix;
+    var blankLineEndTimeAmPmDiv = jQuery('<div id="' + blankLineEndTimeAmPmDivId +
+        '" class="uif-inputField acal_keydate_radiobutton" data-parent="' + blankLineDataParent + '" data-role="InputField"/>');
+    var blankLineEndTimeAmPmFieldSet = jQuery('<fieldset id="' + blankLineEndTimeAmPmDivId + '_fieldset' + '" aria-labelledby="' + blankLineEndTimeAmPmDivId + '_label"' +
+        ' class="uif-verticalRadioFieldset" data-type="RadioSet"/>');
+
+    var blankLineEndTimeAmSpan = jQuery('<span />');
+    var blankLineEndTimeAmInput = jQuery('<input id="' + blankLineEndTimeAmPmDivId + '_control_0' + '" type="radio" name="' + blankLineInputNamePrefix +
+        '.endTimeAmPm" value="AM" checked="checked" class="uif-verticalRadioControl" data-role="Control" tabindex="0" data-control_for="' + blankLineEndTimeAmPmDivId + '" />');
+    var blankLineEndTimeAmLabel = jQuery('<label for="' + blankLineEndTimeAmPmDivId + '_control_0' + '" onclick="handleRadioLabelClick(\'' + blankLineEndTimeAmPmDivId + '_control_0\', event); return false;" />');
+    blankLineEndTimeAmLabel.append(jQuery('<span class="acal_keydate_radiobutton_label">am</span>'));
+    blankLineEndTimeAmSpan.append(blankLineEndTimeAmInput);
+    blankLineEndTimeAmSpan.append(blankLineEndTimeAmLabel);
+
+    var blankLineEndTimePmSpan = jQuery('<span />');
+    var blankLineEndTimePmInput = jQuery('<input id="' + blankLineEndTimeAmPmDivId + '_control_1' + '" type="radio" name="' + blankLineInputNamePrefix +
+        '.endTimeAmPm" value="PM" class="uif-verticalRadioControl" tabindex="0" data-role="Control" data-control_for="' + blankLineEndTimeAmPmDivId + '" />');
+    var blankLineEndTimePmLabel = jQuery('<label for="' + blankLineEndTimeAmPmDivId + '_control_1' + '" onclick="handleRadioLabelClick(\'' + blankLineEndTimeAmPmDivId + '_control_1\', event); return false;" />');
+    blankLineEndTimePmLabel.append(jQuery('<span class="acal_keydate_radiobutton_label">pm</span>'));
+    blankLineEndTimePmSpan.append(blankLineEndTimePmInput);
+    blankLineEndTimePmSpan.append(blankLineEndTimePmLabel);
+
+    blankLineEndTimeAmPmFieldSet.append(jQuery('<legend style="display: none" />'));
+    blankLineEndTimeAmPmFieldSet.append(jQuery('<span class="uif-tooltip" style="width:100%;height:0px;"/>'));
+    blankLineEndTimeAmPmFieldSet.append(blankLineEndTimeAmSpan);
+    blankLineEndTimeAmPmFieldSet.append(blankLineEndTimePmSpan);
+
+    blankLineEndTimeAmPmDiv.append(blankLineEndTimeAmPmFieldSet);
+    blankLineEndTimeAmPmDiv.append(jQuery('<input type="hidden" data-role="script" value="var condition = function(){return (isValueEmpty(coerceValue(&quot;' + blankLineInputNamePrefix + '.endTime&quot;)));}; ' +
+        'setupDisabledCheck(\'' + blankLineInputNamePrefix + '.endTime\', \'' + blankLineEndTimeAmPmDivId + '_control\', \'radioGroup\', condition, true);" script="first_run" />'));
+    blankLineEndTimeAmPmDiv.append(jQuery('<input type="hidden" data-role="script" value="setupOnChangeRefresh(\'#lp.endTime\', \'' + blankLineEndTimeAmPmDivId + '_control\',\'\');" script="first_run" />'));
+    attachBlankLineFieldValidationSection(blankLineEndTimeAmPmDiv, false);
+
+    var blankLineEndTimeAmPmTD = jQuery('<td role="presentation" colspan="1" rowspan="1"/>').append(blankLineEndTimeAmPmDiv);
+
+    /* construct TR */
+    var blankLineTR = jQuery('<tr class="' + keyDateBlankLineClass + '"/>');
+    blankLineTR.append(blankLineKeyDateTypeTD);
+    blankLineTR.append(blankLineStartDateTD);
+    blankLineTR.append(blankLineStartTimeTD);
+    blankLineTR.append(blankLineStartTimeAmPmTD);
+    blankLineTR.append(blankLineEndDateTD);
+    blankLineTR.append(blankLineEndTimeTD);
+    blankLineTR.append(blankLineEndTimeAmPmTD);
+    currentKeyDateSubSectionTbody.append(blankLineTR);
+
+}
+/* ----------- end of KSENROLL-12648: workaround for rice 2.4 upgrade issue. -------------- */
