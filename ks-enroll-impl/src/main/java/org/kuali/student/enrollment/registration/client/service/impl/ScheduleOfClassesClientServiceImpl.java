@@ -18,6 +18,8 @@ public class ScheduleOfClassesClientServiceImpl extends ScheduleOfClassesService
 
     public static final Logger LOGGER = LoggerFactory.getLogger(ScheduleOfClassesClientServiceImpl.class);
 
+    private static final String EXCEPTION_MSG="Exception Thrown";
+
     /**
      * COURSE OFFERINGS *
      */
@@ -30,7 +32,7 @@ public class ScheduleOfClassesClientServiceImpl extends ScheduleOfClassesService
             List<CourseSearchResult> courseSearchResults = searchForCourseOfferingsLocal(termId, termCode, courseCode);
             response = Response.ok(courseSearchResults);
         } catch (Exception e) {
-            LOGGER.warn("Exception Thrown", e);
+            LOGGER.warn(EXCEPTION_MSG, e);
             response = Response.serverError().entity(e.getMessage());
         }
 
@@ -45,7 +47,7 @@ public class ScheduleOfClassesClientServiceImpl extends ScheduleOfClassesService
             List<CourseAndPrimaryAOSearchResult> courseSearchResults = searchForCourseOfferingsAndPrimaryAosByTermAndCourseLocal(termId, termCode, courseCode);
             response = Response.ok(courseSearchResults);
         } catch (Exception e) {
-            LOGGER.warn("Exception Thrown", e);
+            LOGGER.warn(EXCEPTION_MSG, e);
             response = Response.serverError().entity(e.getMessage());
         }
 
@@ -64,7 +66,7 @@ public class ScheduleOfClassesClientServiceImpl extends ScheduleOfClassesService
             List<RegGroupSearchResult> regGroupSearchResults = searchForRegistrationGroupsLocal(courseOfferingId, termId, termCode, courseCode, regGroupName);
             response = Response.ok(regGroupSearchResults);
         } catch (Exception e) {
-            LOGGER.warn("Exception Thrown", e);
+            LOGGER.warn(EXCEPTION_MSG, e);
             response = Response.serverError().entity(e.getMessage());
         }
 
@@ -83,7 +85,7 @@ public class ScheduleOfClassesClientServiceImpl extends ScheduleOfClassesService
             List<ActivityOfferingSearchResult> activityOfferingSearchResults = searchForActivityOfferingsLocal(courseOfferingId, termId, termCode, courseCode);
             response = Response.ok(activityOfferingSearchResults);
         } catch (Exception e) {
-            LOGGER.warn("Exception Thrown", e);
+            LOGGER.warn(EXCEPTION_MSG, e);
             response = Response.serverError().entity(e.getMessage());
         }
 
@@ -102,7 +104,7 @@ public class ScheduleOfClassesClientServiceImpl extends ScheduleOfClassesService
             List<ActivityTypeSearchResult> activityTypeSearchResults = searchForActivityTypesLocal(courseOfferingId, termId, termCode, courseCode);
             response = Response.ok(activityTypeSearchResults);
         } catch (Exception e) {
-            LOGGER.warn("Exception Thrown", e);
+            LOGGER.warn(EXCEPTION_MSG, e);
             response = Response.serverError().entity(e.getMessage());
         }
 
@@ -121,7 +123,7 @@ public class ScheduleOfClassesClientServiceImpl extends ScheduleOfClassesService
             List<InstructorSearchResult> instructorSearchResults = searchForInstructorsLocal(courseOfferingId, activityOfferingId, termId, termCode, courseCode);
             response = Response.ok(instructorSearchResults);
         } catch (Exception e) {
-            LOGGER.warn("Exception Thrown", e);
+            LOGGER.warn(EXCEPTION_MSG, e);
             response = Response.serverError().entity(e.getMessage());
         }
 
@@ -140,7 +142,7 @@ public class ScheduleOfClassesClientServiceImpl extends ScheduleOfClassesService
             List<TermSearchResult> termSearchResults = searchForTermsLocal(termCode, isActiveTerms);
             response = Response.ok(termSearchResults);
         } catch (Exception e) {
-            LOGGER.warn("Exception Thrown", e);
+            LOGGER.warn(EXCEPTION_MSG, e);
             response = Response.serverError().entity(e.getMessage());
         }
 
