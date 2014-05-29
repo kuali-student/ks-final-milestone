@@ -1,13 +1,7 @@
-.kscr-cartItem-status--success-add-active,
-.kscr-cartItem-status--error-add-active,
-.kscr-cartItem-status--action-add-active,
-.kscr-cartItem-status--waitlist-add-active {
-    background-color: @cardBackgroundColor;
-    border-color: @cardBorderColor;
-    color: @cardTextColor;
-}
 
-.kscr-cartItem-status{
+.kscr-cartItem-status {
+    padding: 10px 10px 10px 35px;
+    position: relative;
 
     &--processing {
         .kscr-cartResult-icon {
@@ -42,7 +36,7 @@
             background-image: @warningImage;
         }
         .kscr-Card-buttons {
-            display: none;
+            padding-bottom: 0;
         }
     }
 
@@ -57,5 +51,15 @@
         .kscr-Card-buttons {
             display: none;
         }
+    }
+
+
+    &--success-add-active,
+    &--error-add-active,
+    &--action-add-active,
+    &--waitlist-add-active {
+        background-color: @cardBackgroundColor;
+        border-color: @cardBorderColor;
+        color: @cardTextColor;
     }
 }

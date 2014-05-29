@@ -1,134 +1,139 @@
 /******These are styles for use in the card section ******/
 
 
-.kscr-Card, .kscr-Card-Results{
-    padding: 0 0.5em 0 0.5em;
+.kscr-Card, .kscr-Card-Results {
     color: @cardTextColor;
-    a {text-decoration:none;}
-        font-size: 14px;
-        font-family: @secondaryFontFamily;
+    font-size: 14px;
+    font-family: @secondaryFontFamily;
+    margin: 0 0.5em;
+    position: relative;
+    a {text-decoration: none;}
 }
 
-.kscr-Card-title{
+.kscr-Card-title {
     color: @cardTextColor; //#666666;
     font-weight: bold;
     padding-left: 1.5em;
+
+    &-alert {
+        font-weight: bold;
+    }
 }
 
-.kscr-Card-text{
+.kscr-Card-text {
     color: @primaryTextColor;
     padding-left: 1.5em;
     padding-top: 0.3em;
+
+    &-alert {
+        padding: 3px 0 10px 0;
+    }
 }
 
-.kscr-Card-detailsText-common{
-  border-bottom:@horizontalLineBorder;
-  border-top:@horizontalLineBorder;
-  color: @primaryTextColor;
-  font-size: 14px;
-  font-family: @secondaryFontFamily;
-  font-weight: normal;
+.kscr-Card-detailsText-common() {
+    border-bottom: @horizontalLineBorder;
+    border-top: @horizontalLineBorder;
+    color: @primaryTextColor;
+    font-size: 14px;
+    font-family: @secondaryFontFamily;
+    font-weight: normal;
+    padding: 10px 0;
 }
 
-.kscr-Card-detailsText{
-  .kscr-Card-detailsText-common;
-  padding-bottom:10px;
-  padding-top:10px;
+.kscr-Card-detailsText {
+    .kscr-Card-detailsText-common();
+
+    &--action {
+        .kscr-Card-detailsText-common();
+        border-color: @warningBorder;
+        color: @warningText;
+    }
+
+    &--edit {
+        .kscr-Card-detailsText-common();
+        padding: 0.5em 0.9em 2em 0;
+    }
+
+    &--error {
+        .kscr-Card-detailsText-common();
+        border-color: @errorBorder;
+        color: @errorText;
+    }
+
+    &--show {
+        .kscr-Card-detailsText-common();
+        border-bottom: none;
+        border-top: none;
+        padding-left: 0.5em;
+        padding-top: 0.3em;
+    }
 }
 
-.kscr-Card-detailsText--edit{
-  .kscr-Card-detailsText-common;
-  padding-top: 0.5em;
-  padding-bottom: 2em;
-  padding-left: 0.9em;
-}
 
-.kscr-Card-detailsText--show{
-  padding-left: 0.5em;
-  padding-top: 0.3em;
-}
-
- /* Transitions for fade effect in Card Edit */
+/* Transitions for fade effect in Card Edit */
 
 .kscr-Card-detailsText--edit.ng-hide-remove,
- .kscr-Card-detailsText.ng-hide-remove{
+.kscr-Card-detailsText.ng-hide-remove {
    .util-transitions-browserHelper;
-    display:block!important;
+    display: block!important;
 }
 
- .kscr-Card-detailsText.ng-hide-add,
-.kscr-Card-detailsText--edit.ng-hide-add{
+.kscr-Card-detailsText.ng-hide-add,
+.kscr-Card-detailsText--edit.ng-hide-add {
     display: none;
 }
 
 .kscr-Card-detailsText--edit.ng-hide-add.ng-hide-add-active,
 .kscr-Card-detailsText--edit.ng-hide-remove,
- .kscr-Card-detailsText.ng-hide-add.ng-hide-add-active,
- .kscr-Card-detailsText.ng-hide-remove{
-   opacity:0;
+.kscr-Card-detailsText.ng-hide-add.ng-hide-add-active,
+.kscr-Card-detailsText.ng-hide-remove {
+    opacity: 0;
 }
 
 .kscr-Card-detailsText--edit.ng-hide-add,
 .kscr-Card-detailsText--edit.ng-hide-remove.ng-hide-remove-active,
- .kscr-Card-detailsText.ng-hide-add,
- .kscr-Card-detailsText.ng-hide-remove.ng-hide-remove-active {
-   opacity:0.75;
+.kscr-Card-detailsText.ng-hide-add,
+.kscr-Card-detailsText.ng-hide-remove.ng-hide-remove-active {
+    opacity: 0.75;
 }
- /* END of Transitions for fade effect in Card Edit */
+/* END of Transitions for fade effect in Card Edit */
 
 
-.kscr-CardResult-detailsText--action {
-    border-top: 1px solid @warningBorder;
-    border-bottom: 1px solid @warningBorder;
-    color: @warningText;
-    padding: 10px 0px;
-    margin-bottom: 10px;
-    width: 110%;
+.kscr-Card-courseTimes {
+    display: inline-flex;
+    padding-left: 1em;
+    width: 100%;
 }
 
-.kscr-CardResult-detailsText--error {
-    border-top: 1px solid @errorBorder;
-    color: @errorText;
-    padding: 10px 0px;
-    margin: 0em;
-    width: 110%;
-}
-
-.kscr-Card-courseTimes{
-   display: inline-flex;
-   padding-left: 1em;
-   width: 100%;
-}
-
-.kscr-Card-scheduleComponent{
-  width: 100%;
+.kscr-Card-scheduleComponent {
+    width: 100%;
 }
 
 .kscr-Card-ao-type {
-  float: left;
-  width: 35px;
+    float: left;
+    width: 35px;
 }
 
 .kscr-Card-ao-instructor {
-  float: right;
-  text-align: right;
+    float: right;
+    text-align: right;
 }
 
 .kscr-Card-ao-schedule {
-  clear: both;
+    clear: both;
 }
 
-.kscr-Card-supportText{
+.kscr-Card-supportText {
     color: @cardTextColor;
     font-weight: normal;
     float: right;
 }
 
 .kscr-Card-remove {
-    float: right;
-    display: inline;
-    padding-right: 6px;
-    padding-top: 6px;
+    display: block;
+    position: absolute;
+    right: 6px;
+    top: 6px;
 }
 
 .kscr-Card-statusRemove a {
@@ -138,27 +143,27 @@
     font-size: 1.2em;
 }
 
-.kscr-Card-buttons{
-   margin-top:20px;
-   padding: 0.5em 0em;
-   float: right;
+.kscr-Card-buttons {
+    margin-top: 5px;
+    padding: 0.5em 0em;
+    text-align: right;
 }
 
-.kscr-Card-button{
-  float: right;
+.kscr-Card-button {
+//    float: right;
 }
 
-.kscr-Card-icon{
-   position: absolute;
-   font-size: 13px;
-   color:  @secondaryTextColor;
+.kscr-Card-icon {
+    position: absolute;
+    font-size: 13px;
+    color:  @secondaryTextColor;
 }
 
 
-.kscr-Card-badge{
-    -webkit-border-radius:5px;
-    -moz-border-radius:5px;
-    border-radius:5px;
+.kscr-Card-badge {
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
     background-color: @badgeColor;
     color: @bodyColor;
     font-size: 11px;
@@ -167,7 +172,7 @@
     padding-right: 4px;
 }
 
-.kscr-horizontalRule{
+.kscr-horizontalRule {
     border: 1px solid #F2F2F2;
 }
 
@@ -178,82 +183,74 @@
 }
 
 .kscr-course-container {
-    position:relative;
-    width:100%;
+    position: relative;
+    width: 100%;
     &:extend(.util-transitions-browserHelper);
-    opacity:1;
+    opacity: 1;
 }
 
 .kscr-course-container.ng-leave {
-    opacity:0.5;
+    opacity: 0.5;
 }
 
 .kscr-course-container.ng-leave-active {
-    opacity:0;
+    opacity: 0;
 }
 
-.kscr-Card-reason{
+.kscr-Card-reason {
     display: flex;
 }
 
-.kscr-Card-reason-message{
+.kscr-Card-reason-message {
     padding-left: 4px;
 }
 
-.kscr-Card-title-alert{
-    font-weight: bold;
+.kscr-Card-alert-spacing {
+    padding-right: 20px;
 }
 
-.kscr-Card-text-alert{
-    padding: 3px 0 10px 0;
+/**** Override of accordion panel for card section ****/
+
+.panel-default > .panel-heading {
+    background-color: @cardBackgroundColor;
+    border-color: @cardBorderColor;
+    color: @cardTextColor;
+    cursor: pointer;
+    cursor: hand;
+    padding: 10px 5px;
 }
 
-.kscr-Card-alert-spacing{
-    width: 78%;
- }
+.panel {
+    background-color: @cardBackgroundColor;
+}
 
- /**** Override of accordion panel for card section ****/
+.panel-group .panel-heading + .panel-collapse .panel-body {
+    border-top: none;
+}
 
- .panel-default > .panel-heading {
-     background-color: @cardBackgroundColor;
-     border-color: @cardBorderColor;
-     color: @cardTextColor;
-     cursor: pointer;
-     cursor: hand;
-     padding: 10px 5px;
- }
+.panel-body {
+    padding-bottom: 5px;
+    padding-right: 8px;
+}
 
- .panel {
-     background-color: @cardBackgroundColor;
- }
+.panel-title {
+    font-size: 14px;
+    font-family: @secondaryFontFamily;
+}
 
- .panel-group .panel-heading + .panel-collapse .panel-body {
-     border-top:none;
- }
+.panel-group  .panel {
+    margin-bottom: 10px;
+    border-width: 1px 1px 2px 1px;
+    &:extend(.util-transitions-browserHelper);
+    opacity: 1;
+}
 
- .panel-body {
-     padding-bottom: 5px;
-     padding-right: 8px;
- }
+.panel-group  .panel.ng-leave {
+    display: block!important;
+}
 
- .panel-title {
-     font-size: 14px;
-     font-family: @secondaryFontFamily;
- }
-
- .panel-group  .panel {
-     margin-bottom: 10px;
-     border-width: 1px 1px 2px 1px;
-     &:extend(.util-transitions-browserHelper);
-     opacity:1;
- }
-
- .panel-group  .panel.ng-leave {
-     display:block!important;
- }
-
- .panel-group  .panel.ng-leave-active {
-     line-height:0;
-     opacity:0;
- }
- /**** END of Override of accordion panel for card section ****/
+.panel-group  .panel.ng-leave-active {
+    line-height: 0;
+    opacity: 0;
+}
+/**** END of Override of accordion panel for card section ****/
