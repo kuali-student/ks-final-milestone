@@ -27,4 +27,9 @@ public class KimIdentityServiceConstants {
     public static final String MODULE_TARGET_NAMESPACE = RiceConstants.RICE_JAXWS_TARGET_NAMESPACE_BASE + "/kim";
     public static final String INTERFACE_CLASS = "org.kuali.rice.kim.api.identity.IdentityService";
 	public static final String WEB_SERVICE_PORT = "IdentityServicePort";
+
+    /*
+    * This is constant for proposal comments
+    */
+    public static String COMMENT_ID_QUALIFICATION = "commentId";
 }
