@@ -22,4 +22,6 @@ public interface ManageSOCViewHelperService extends KSViewHelperService {
 
     public void startMassScheduling(ManageSOCForm socForm);
 
+    public void startEOBulkSlotting(ManageSOCForm socForm);
+
 }

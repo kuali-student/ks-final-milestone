@@ -16,50 +16,23 @@
 
 package org.kuali.student.enrollment.class2.examoffering.batch;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.student.common.util.security.ContextUtils;
+import org.kuali.student.enrollment.batch.util.BatchSchedulerConstants;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.springframework.aop.support.AopUtils;
 import org.springframework.batch.item.ExecutionContext;
-import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.NonTransientResourceException;
 import org.springframework.batch.item.ParseException;
-import org.springframework.batch.item.ReaderNotOpenException;
 import org.springframework.batch.item.UnexpectedInputException;
-import org.springframework.batch.item.file.BufferedReaderFactory;
-import org.springframework.batch.item.file.DefaultBufferedReaderFactory;
-import org.springframework.batch.item.file.FlatFileParseException;
-import org.springframework.batch.item.file.LineCallbackHandler;
-import org.springframework.batch.item.file.LineMapper;
-import org.springframework.batch.item.file.NonTransientFlatFileException;
-import org.springframework.batch.item.file.ResourceAwareItemReaderItemStream;
-import org.springframework.batch.item.file.separator.RecordSeparatorPolicy;
-import org.springframework.batch.item.file.separator.SimpleRecordSeparatorPolicy;
-import org.springframework.batch.item.support.AbstractItemCountingItemStreamItemReader;
 import org.springframework.batch.item.support.AbstractItemStreamItemReader;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.core.io.Resource;
-import org.springframework.util.Assert;
-import org.springframework.util.ClassUtils;
-import org.springframework.util.StringUtils;
 
 /**
  * Retrieve list of course offerings for soc.
@@ -69,6 +42,8 @@ import org.springframework.util.StringUtils;
 public class CourseOfferingItemReader extends AbstractItemStreamItemReader<CourseOfferingInfo> implements InitializingBean {
 
     private static final Log logger = LogFactory.getLog(CourseOfferingItemReader.class);
+
+    private ContextInfo context;
 
     private String socId;
     private Iterator<String> courseOfferingIds;
@@ -106,11 +81,19 @@ public class CourseOfferingItemReader extends AbstractItemStreamItemReader<Cours
     @Override
     public void open(ExecutionContext executionContext) {
         try {
-            List<String> coIdList = socService.getCourseOfferingIdsBySoc(socId, ContextUtils.createDefaultContextInfo());
+            List<String> coIdList = socService.getCourseOfferingIdsBySoc(socId, context);
             courseOfferingIds = coIdList.iterator();
         } catch (Exception e) {
             //Don't know what do to yet.
         }
+    }
+
+    public ContextInfo getContext() {
+        return context;
+    }
+
+    public void setContext(ContextInfo context) {
+        this.context = context;
     }
 
     public String getSocId() {
@@ -136,4 +119,5 @@ public class CourseOfferingItemReader extends AbstractItemStreamItemReader<Cours
     public void setSocService(CourseOfferingSetService socService) {
         this.socService = socService;
     }
+
 }

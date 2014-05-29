@@ -20,8 +20,14 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DurationFormatUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.student.common.uif.util.KSControllerHelper;
+import org.kuali.student.common.util.security.ContextUtils;
+import org.kuali.student.enrollment.batch.BatchScheduler;
+import org.kuali.student.enrollment.batch.dto.BatchParameter;
+import org.kuali.student.enrollment.batch.util.BatchSchedulerConstants;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseofferingset.util.CourseOfferingSetUtil;
@@ -43,6 +49,7 @@ import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.xml.namespace.QName;
 import java.util.*;
 
 /**
@@ -152,6 +159,23 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
             }
         }
 
+        Date eoInitiatedDate = parseStateChangeDateString(socInfo, CourseOfferingSetServiceConstants.EO_SLOTTING_STATE_IN_PROGRESS);
+        if(eoInitiatedDate != null) {
+            socForm.setEoSlottingInitiatedDate(formatScheduleDate(eoInitiatedDate));
+            Date eoCompletedDate = parseStateChangeDateString(socInfo, CourseOfferingSetServiceConstants.EO_SLOTTING_STATE_COMPLETED);
+            if (eoCompletedDate != null) {
+                socForm.setEoSlottingDuration(getTimeDiffUI(eoCompletedDate, eoInitiatedDate, true));
+                socForm.setEoSlottingCompleteDate(formatScheduleDate(eoCompletedDate));
+                socForm.setEoSlottingStatus(getStateInfo(CourseOfferingSetServiceConstants.EO_SLOTTING_STATE_COMPLETED).getName());
+            } else {
+                socForm.setEoSlottingDuration(getTimeDiffUI(new Date(), eoInitiatedDate, true)+ ManageSocConstants.DISPLAY_IN_PROGRESS);
+                socForm.setEoSlottingCompleteDate(ManageSocConstants.DISPLAY_SLOTTING_IN_PROGRESS);
+                socForm.setEoSlottingStatus(getStateInfo(CourseOfferingSetServiceConstants.EO_SLOTTING_STATE_IN_PROGRESS).getName());
+            }
+        } else {
+            socForm.setEoSlottingStatus(ManageSocConstants.NOT_STARTED_STATUS_UI);
+        }
+
         try {
             socForm.setContextBar( CourseOfferingContextBar.NEW_INSTANCE(socForm.getTermInfo(), socForm.getSocInfo(),
                     CourseOfferingManagementUtil.getStateService(), CourseOfferingManagementUtil.getAcademicCalendarService(), createContextInfo()) );
@@ -160,6 +184,18 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
             throw convertServiceExceptionsToUI(e);
         }
 
+    }
+
+    protected Date parseStateChangeDateString(SocInfo socInfo, String stateKey) {
+        String initiatedDate = socInfo.getAttributeValue(stateKey);
+        if ((initiatedDate != null) && (StringUtils.isNotBlank(initiatedDate))){
+            try{
+                return DateFormatters.SERVER_DATE_PARSER_FORMATTER.parse(initiatedDate);
+            }catch(IllegalArgumentException e){
+                throw new RuntimeException(e);
+            }
+        }
+        return null;
     }
 
     protected void buildStatusHistory(ManageSOCForm socForm){
@@ -437,4 +473,21 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
         socForm.setSocStatus(stateName);
 
     }
+
+    public void startEOBulkSlotting(ManageSOCForm socForm){
+        Date eoInitiatedDate = new Date();
+
+        //Start the buld process via the batch scheduler.
+        List<BatchParameter> parameters = new ArrayList<BatchParameter>();
+        parameters.add(new BatchParameter(BatchSchedulerConstants.BATCH_PARAMETER_SOC_ID, socForm.getSocInfo().getId()));
+        CourseOfferingManagementUtil.getBatchScheduler().schedule(BatchSchedulerConstants.BATCH_JOB_EXAM_OFFERING_SLOTTING, parameters, eoInitiatedDate, ContextUtils.createDefaultContextInfo());
+
+        //Set UI display values.
+        socForm.setEoSlottingInitiatedDate(formatScheduleDate(eoInitiatedDate));
+        socForm.setEoSlottingCompleteDate(ManageSocConstants.DISPLAY_SLOTTING_IN_PROGRESS);
+        socForm.setEoSlottingDuration(this.getTimeDiffUI(new Date(), eoInitiatedDate, true)+ ManageSocConstants.DISPLAY_IN_PROGRESS);
+        socForm.setEoSlottingStatus(getStateInfo(CourseOfferingSetServiceConstants.EO_SLOTTING_STATE_IN_PROGRESS).getName());
+
+    }
+
 }

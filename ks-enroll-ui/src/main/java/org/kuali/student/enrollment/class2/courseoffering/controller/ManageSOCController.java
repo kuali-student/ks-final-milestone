@@ -61,7 +61,6 @@ import java.util.List;
 public class ManageSOCController extends UifControllerBase {
 
     private final static Logger LOG = LoggerFactory.getLogger(ManageSOCController.class);
-    private BatchScheduler batchScheduler;
 
     @Override
     protected UifFormBase createInitialForm(@SuppressWarnings("unused") HttpServletRequest request) {
@@ -256,25 +255,10 @@ public class ManageSOCController extends UifControllerBase {
     public ModelAndView createEOBulkScheduler(@ModelAttribute("KualiForm") ManageSOCForm socForm, @SuppressWarnings("unused") BindingResult result,
                                                           @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
-        KSDateTimeFormatter dateFormatter = DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER;
-        String date = dateFormatter.format(new Date());
+        ManageSOCViewHelperService viewHelper = (ManageSOCViewHelperService) KSControllerHelper.getViewHelperService(socForm);
+        viewHelper.startEOBulkSlotting(socForm);
 
-        //03/26/2014 02:14 PM
-        KSDateTimeFormatter dateTimeFormatter = DateFormatters.MONTH_DAY_YEAR_TIME_DATE_FORMATTER;
-        Date dateAndTime = dateTimeFormatter.parse(date + " " + "02:52"  + " " + "AM");
-
-        List<BatchParameter> parameters = new ArrayList<BatchParameter>();
-        parameters.add(new BatchParameter("kuali.batch.socId", socForm.getSocInfo().getId()));
-        this.getBatchScheduler().schedule("kuali.batch.job.examOffering.slotting", parameters, dateAndTime, ContextUtils.createDefaultContextInfo());
         return super.navigate(socForm, result, request, response);
     }
-
-    private BatchScheduler getBatchScheduler() {
-        if (batchScheduler == null) {
-            batchScheduler = GlobalResourceLoader.getService(new QName(BatchSchedulerConstants.NAMESPACE, BatchSchedulerConstants.SERVICE_NAME_LOCAL_PART));
-        }
-        return batchScheduler;
-    }
-
 
 }

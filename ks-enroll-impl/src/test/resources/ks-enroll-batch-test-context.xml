@@ -60,7 +60,7 @@
 
     <bean id="eoResultWriter" class="org.kuali.student.enrollment.class2.examoffering.batch.ExamOfferingResultWriter" scope="step"/>
 
-    <bean id="executionListener" class="org.kuali.student.enrollment.class2.examoffering.batch.ContextInfoExecutionListener" scope="step"/>
+    <bean id="executionListener" class="org.kuali.student.enrollment.batch.listener.ContextInfoExecutionListener" scope="step"/>
 
     <bean id="jobTaskletStep1"
           class="org.kuali.student.enrollment.class2.examoffering.batch.ExamOfferingSlottingTasklet">

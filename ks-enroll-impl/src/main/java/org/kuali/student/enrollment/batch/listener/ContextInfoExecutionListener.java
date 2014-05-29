@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.student.enrollment.class2.examoffering.batch;
+package org.kuali.student.enrollment.batch.listener;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -25,60 +25,43 @@ import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.enrollment.batch.util.BatchSchedulerConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
+import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.StepExecution;
+import org.springframework.batch.core.listener.JobExecutionListenerSupport;
 import org.springframework.batch.core.listener.StepExecutionListenerSupport;
 import org.springframework.batch.item.file.FlatFileFooterCallback;
 
 /**
  * Writes summary info in the footer of a file.
  */
-public class ContextInfoExecutionListener extends StepExecutionListenerSupport {
+public class ContextInfoExecutionListener extends JobExecutionListenerSupport {
 
-	private String userId;
-    private String language;
-    private String country;
-	
 	@Override
-	public void beforeStep(StepExecution stepExecution) {
-        stepExecution.getExecutionContext().put(BatchSchedulerConstants.BATCH_PARAMETER_CONTEXT, this.createContextInfo());
+	public void beforeJob(JobExecution jobExecution) {
+
+        //We retrieve these values directly form jobparameters as scope="job" does not exist.
+        String userId = jobExecution.getJobParameters().getString(BatchSchedulerConstants.BATCH_PARAMETER_USER_ID);
+        String language = jobExecution.getJobParameters().getString(BatchSchedulerConstants.BATCH_PARAMETER_USER_ID);
+        String country = jobExecution.getJobParameters().getString(BatchSchedulerConstants.BATCH_PARAMETER_USER_ID);
+
+        ContextInfo contextInfo = this.createContextInfo(userId, language, country);
+
+        jobExecution.getExecutionContext().put(BatchSchedulerConstants.BATCH_PARAMETER_CONTEXT, contextInfo);
 	}
 
-    public ContextInfo createContextInfo(){
+    public ContextInfo createContextInfo(String userId, String language, String country){
 
         LocaleInfo localeInfo = new LocaleInfo();
-        localeInfo.setLocaleLanguage(this.getLanguage());
-        localeInfo.setLocaleRegion(this.getCountry());
+        localeInfo.setLocaleLanguage(language);
+        localeInfo.setLocaleRegion(country);
 
         ContextInfo contextInfo = new ContextInfo();
-        contextInfo.setAuthenticatedPrincipalId(this.getUserId());
-        contextInfo.setPrincipalId(this.getUserId());
+        contextInfo.setAuthenticatedPrincipalId(userId);
+        contextInfo.setPrincipalId(userId);
         contextInfo.setCurrentDate(new Date());
         contextInfo.setLocale(localeInfo);
 
         return contextInfo;
     }
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getLanguage() {
-        return language;
-    }
-
-    public void setLanguage(String language) {
-        this.language = language;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
 }

@@ -55,8 +55,8 @@
             <list>
                 <ref bean="ManageSOCView-termSelection-Section"/>
                 <ref bean="ManageSOCView-ManageLockButtonSection"/>
-                <ref bean="ManageSOCView-DetailsSection-1"/>
-                <ref bean="ManageSOCView-DetailsSection-2"/>
+                <ref bean="ManageSOCView-StatusAndExam-Section"/>
+                <ref bean="ManageSOCView-SchedulingDetails-Section"/>
             </list>
         </property>
         <property name="additionalCssFiles">
@@ -182,18 +182,11 @@
         </property>
     </bean>
 
-    <bean id="ManageSOCView-DetailsSection-1" parent="Uif-HorizontalBoxSection" p:render="@{renderDetailsSection}" >
+    <bean id="ManageSOCView-StatusAndExam-Section" parent="Uif-HorizontalBoxSection" p:render="@{renderDetailsSection}" >
         <property name="items">
             <list>
                 <ref bean="ManageSOCView-StatusHistory-Section"/>
                 <ref bean="ManageSOCView-EOBulkSchedule-Section"/>
-            </list>
-        </property>
-    </bean>
-    <bean id="ManageSOCView-DetailsSection-2" parent="Uif-HorizontalBoxSection" p:render="@{renderDetailsSection}">
-        <property name="items">
-            <list>
-                <ref bean="ManageSOCView-SchedulingDetails-Section"/>
             </list>
         </property>
     </bean>
@@ -238,7 +231,7 @@
         </property>
     </bean>
 
-    <bean id="ManageSOCView-SchedulingDetails-Section" parent="Uif-VerticalBoxSection">
+    <bean id="ManageSOCView-SchedulingDetails-Section" parent="Uif-VerticalBoxSection" p:render="@{renderDetailsSection}">
         <property name="items">
             <list>
                 <ref bean="ManageSOCView-SchedulingDetails-SubSection1"/>
@@ -288,6 +281,11 @@
 
             </list>
         </property>
+        <property name="additionalCssClasses">
+            <list merge="true">
+                <value>ks-processDetailsSection</value>
+            </list>
+        </property>
     </bean>
 
     <bean id="ManageSOCView-SchedulingDetails-SubSection3" parent="Uif-VerticalBoxSubSection">
@@ -304,6 +302,11 @@
                         </list>
                     </property>
                 </bean>
+            </list>
+        </property>
+        <property name="additionalCssClasses">
+            <list merge="true">
+                <value>ks-processDetailsSection</value>
             </list>
         </property>
     </bean>
@@ -325,21 +328,26 @@
                 <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4">
                     <property name="items">
                         <list>
-                            <bean parent="KS-Uif-DataField" p:colSpan="3" id="bulkSchedulingStatus"
-                                  p:label="Creation Status" p:propertyName="bulkSchedulingStatus"/>
-                            <bean parent="KS-Uif-DataField" p:colSpan="3" id="bulkSchedule_initiated_date"
-                                  p:label="Initiated" p:propertyName="bulkScheduleInitiatedDate"/>
-                            <bean parent="KS-Uif-DataField" p:colSpan="3" id="bulkSchedule_completed_date"
-                                  p:label="Completed" p:propertyName="bulkScheduleCompleteDate"/>
-                            <bean parent="KS-Uif-DataField" p:colSpan="3" id="bulkSchedule_duration"
-                                  p:label="Scheduling Duration" p:propertyName="bulkScheduleDuration"/>
+                            <bean parent="KS-Uif-DataField" p:colSpan="3" id="eoSlottingStatus"
+                                  p:label="Creation Status" p:propertyName="eoSlottingStatus"/>
+                            <bean parent="KS-Uif-DataField" p:colSpan="3" id="eoSlottingInitiatedDate"
+                                  p:label="Initiated" p:propertyName="eoSlottingInitiatedDate"/>
+                            <bean parent="KS-Uif-DataField" p:colSpan="3" id="eoSlottingCompleteDate"
+                                  p:label="Completed" p:propertyName="eoSlottingCompleteDate"/>
+                            <bean parent="KS-Uif-DataField" p:colSpan="3" id="eoSlottingDuration"
+                                  p:label="Scheduling Duration" p:propertyName="eoSlottingDuration"/>
                         </list>
                     </property>
                 </bean>
                 <ref bean="ManageSOCView-CreateEOBulk-SchedulerButton"/>
             </list>
         </property>
+        <property name="additionalCssClasses">
+            <list merge="true">
+                <value>ks-processDetailsSection</value>
+            </list>
+        </property>
     </bean>
-    <bean id="ManageSOCView-CreateEOBulk-SchedulerButton" parent="Uif-PrimaryActionButton" p:methodToCall="createEOBulkScheduler" p:actionLabel="Create" />
+    <bean id="ManageSOCView-CreateEOBulk-SchedulerButton" parent="Uif-PrimaryActionButton" p:methodToCall="createEOBulkScheduler" p:actionLabel="Create" p:render="@{eoSlottingInitiatedDate==null}"/>
 
 </beans>

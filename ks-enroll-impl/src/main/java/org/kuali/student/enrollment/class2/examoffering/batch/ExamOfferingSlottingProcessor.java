@@ -16,24 +16,17 @@
 package org.kuali.student.enrollment.class2.examoffering.batch;
 
 import java.util.ArrayList;
-import java.util.Date;
 
-import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingResult;
 import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingServiceFacade;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.springframework.batch.item.ItemProcessor;
-import org.springframework.mail.SimpleMailMessage;
 
 /**
- * @author Dan Garrette
- * @author Dave Syer
- * 
- * @since 2.1
+ * This processor is used for the exam offering bulk slotting process.
  */
-public class ExamOfferingGenerationProcessor implements
+public class ExamOfferingSlottingProcessor implements
         ItemProcessor<CourseOfferingInfo, ExamOfferingResult> {
 
     private ContextInfo context;

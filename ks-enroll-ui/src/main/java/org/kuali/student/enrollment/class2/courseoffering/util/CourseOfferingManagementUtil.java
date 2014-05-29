@@ -24,6 +24,8 @@ import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
 import org.kuali.student.common.uif.form.KSUifForm;
 import org.kuali.student.common.uif.util.KSGrowlMessenger;
 import org.kuali.student.common.uif.util.Messenger;
+import org.kuali.student.enrollment.batch.BatchScheduler;
+import org.kuali.student.enrollment.batch.util.BatchSchedulerConstants;
 import org.kuali.student.enrollment.class2.acal.dto.ExamPeriodWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.controller.ActivityOfferingControllerTransactionHelper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
@@ -177,6 +179,7 @@ public class CourseOfferingManagementUtil {
     private static PersonService personService;
     private static CourseSeatCountService courseSeatCountService;
     private static KrmsTypeRepositoryService krmsTypeRepositoryService;
+    private static BatchScheduler batchScheduler;
 
     private static HashMap<String, String> scheduleStateHm = null;
 
@@ -482,6 +485,13 @@ public class CourseOfferingManagementUtil {
             krmsTypeRepositoryService = GlobalResourceLoader.getService(new QName(KrmsConstants.Namespaces.KRMS_NAMESPACE_2_0, "krmsTypeRepositoryService"));
         }
         return krmsTypeRepositoryService;
+    }
+
+    public static BatchScheduler getBatchScheduler() {
+        if (batchScheduler == null) {
+            batchScheduler = GlobalResourceLoader.getService(new QName(BatchSchedulerConstants.NAMESPACE, BatchSchedulerConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return batchScheduler;
     }
 
     public static boolean checkEditViewAuthz(CourseOfferingManagementForm theForm) {

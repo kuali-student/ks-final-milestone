@@ -55,10 +55,10 @@ public class ManageSOCForm extends UifFormBase {
 
     private CourseOfferingContextBar contextBar = CourseOfferingContextBar.NULL_SAFE_INSTANCE;
 
-    private String bulkSchedulingStatus;
-    private String bulkScheduleInitiatedDate;
-    private String bulkScheduleCompleteDate;
-    private String bulkScheduleDuration;
+    private String eoSlottingStatus;
+    private String eoSlottingInitiatedDate;
+    private String eoSlottingCompleteDate;
+    private String eoSlottingDuration;
 
     public ManageSOCForm()  {
         statusHistory = new ArrayList<ManageSOCStatusHistory> ();
@@ -344,35 +344,35 @@ public class ManageSOCForm extends UifFormBase {
         this.contextBar = contextBar;
     }
 
-    public String getbulkSchedulingStatus() {
-        return bulkSchedulingStatus;
+    public String getEoSlottingStatus() {
+        return eoSlottingStatus;
     }
 
-    public void setBulkSchedulingStatus(String bulkSchedulingStatus) {
-        this.bulkSchedulingStatus = bulkSchedulingStatus;
+    public void setEoSlottingStatus(String eoSlottingStatus) {
+        this.eoSlottingStatus = eoSlottingStatus;
     }
 
-    public String getBulkScheduleInitiatedDate() {
-        return bulkScheduleInitiatedDate;
+    public String getEoSlottingInitiatedDate() {
+        return eoSlottingInitiatedDate;
     }
 
-    public void setBulkScheduleInitiatedDate(String bulkScheduleInitiatedDate) {
-        this.bulkScheduleInitiatedDate = bulkScheduleInitiatedDate;
+    public void setEoSlottingInitiatedDate(String eoSlottingInitiatedDate) {
+        this.eoSlottingInitiatedDate = eoSlottingInitiatedDate;
     }
 
-    public String getBulkScheduleCompleteDate() {
-        return bulkScheduleCompleteDate;
+    public String getEoSlottingCompleteDate() {
+        return eoSlottingCompleteDate;
     }
 
-    public void setBulkScheduleCompleteDate(String bulkScheduleCompleteDate) {
-        this.bulkScheduleCompleteDate = bulkScheduleCompleteDate;
+    public void setEoSlottingCompleteDate(String eoSlottingCompleteDate) {
+        this.eoSlottingCompleteDate = eoSlottingCompleteDate;
     }
 
-    public String getBulkScheduleDuration() {
-        return bulkScheduleDuration;
+    public String getEoSlottingDuration() {
+        return eoSlottingDuration;
     }
 
-    public void setBulkScheduleDuration(String bulkScheduleDuration) {
-        this.bulkScheduleDuration = bulkScheduleDuration;
+    public void setEoSlottingDuration(String eoSlottingDuration) {
+        this.eoSlottingDuration = eoSlottingDuration;
     }
 }

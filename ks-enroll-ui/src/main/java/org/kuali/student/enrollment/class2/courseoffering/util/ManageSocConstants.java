@@ -45,7 +45,7 @@ public class ManageSocConstants {
     public static final  String DISPLAY_SCHEDULE_IN_PROGRESS = "Scheduling in progress";
     public static final  String DISPLAY_IN_PROGRESS = "  (in progress)";
     public static final  String DISPLAY_PUBLISHING_IN_PROGRESS = "Publishing in progress";
-
+    public static final  String DISPLAY_SLOTTING_IN_PROGRESS = "Slotting in progress";
 
     /**
      * Info/Error/Warn message keys goes here
