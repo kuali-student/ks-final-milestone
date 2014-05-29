@@ -334,6 +334,10 @@ public class ManageSOCForm extends UifFormBase {
         setSocStatus(StringUtils.EMPTY);
         setSocPublishingStatus(StringUtils.EMPTY);
         setSocSchedulingStatus(StringUtils.EMPTY);
+        setEoSlottingStatus(StringUtils.EMPTY);
+        setEoSlottingInitiatedDate(null);
+        setEoSlottingCompleteDate(null);
+        setEoSlottingDuration(StringUtils.EMPTY);
     }
 
     public CourseOfferingContextBar getContextBar() {
