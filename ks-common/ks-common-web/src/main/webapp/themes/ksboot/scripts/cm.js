@@ -838,3 +838,16 @@ function refreshEndTerm() {
         retrieveComponent('CourseView-ActiveDatesPage-EndTerm');
     }
 }
+
+function hideName() {
+    var criteria = jQuery('#searchByCriteria_control').val();
+    if(criteria=='ORGANIZATIONTYPE'){
+        retrieveComponent('searchByOrgTypeField');
+        jQuery('#searchByField_control').hide();
+        jQuery('#searchByOrgTypeField_control').show();
+    }else{
+        jQuery('#searchByOrgTypeField_control').hide();
+        jQuery('#searchByField_control').show();
+        retrieveComponent('searchByField');
+    }
+}
