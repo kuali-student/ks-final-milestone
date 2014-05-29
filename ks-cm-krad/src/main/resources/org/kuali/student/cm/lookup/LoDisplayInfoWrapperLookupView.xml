@@ -45,34 +45,37 @@
         </property>
         <property name="criteriaFields">
             <list>
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="searchBy" p:label="Type Of Search" p:required="true">
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="searchBy" p:label="Type Of Search"
+                      p:required="true" p:id="searchByCriteria">
                     <property name="control">
-                        <bean parent="KS-Uif-DropdownControl" />
+                        <bean parent="KS-Uif-DropdownControl" p:onChangeScript="hideName();"/>
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.LoSearchByValuesFinder" p:addBlankOption="false"/>
                     </property>
                 </bean>
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="name"
-                      p:render="@{lookupCriteria['searchBy'] ne 'ORGANIZATIONTYPE'}">
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="name" p:id="searchByField"
+                        p:render="@{lookupCriteria['searchBy'] ne 'ORGANIZATIONTYPE'}"
+                        p:progressiveRender="@{lookupCriteria['searchBy'] ne 'ORGANIZATIONTYPE'}">
                     <property name="control">
                         <bean parent="KS-Uif-TextControl" p:additionalCssClasses="lo_lightbox_name" />
                     </property>
                 </bean>
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="orgType"
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="orgType" p:id="searchByOrgTypeField"
                       p:optionsFinderClass="org.kuali.student.lum.lu.ui.course.keyvalues.OrganizationTypeValuesFinder"
-                      p:render="@{lookupCriteria['searchBy'] eq 'ORGANIZATIONTYPE'}">
+                      p:progressiveRender="@{lookupCriteria['searchBy'] eq 'ORGANIZATIONTYPE'}">
                     <property name="control">
-                        <bean parent="KS-Uif-DropdownControl" p:additionalCssClasses="lo_lightbox_name" />
+                        <bean parent="KS-Uif-DropdownControl" p:additionalCssClasses="lo_lightbox_name" p:onChangeScript="hideName();"/>
                     </property>
                 </bean>
-                <bean parent="Uif-SecondaryActionButton" p:actionLabel="Show" p:additionalCssClasses="lo_lightbox_name" p:methodToCall="search"/>
+                <bean parent="Uif-SecondaryActionButton" p:actionLabel="Show" p:additionalCssClasses="lo_lightbox_name"  p:methodToCall="search" p:onClickScript="hideName();"/>
             </list>
         </property>
+
         <property name="resultFields">
             <list>
                 <bean parent="KS-Uif-DataField" p:propertyName="code" p:label="Code" />
-                <bean parent="KS-Uif-DataField" p:propertyName="typeName" p:label="Type" />
+                <bean parent="KS-Uif-DataField" p:propertyName="typeName" p:label="Type" p:hidden="@{(lookupCriteria['searchBy'] eq 'COURSE')}"/>
                 <bean parent="KS-Uif-DataField" p:propertyName="name" p:label="Category" />
                 <bean parent="KS-Uif-DataField" p:propertyName="descr.plain" p:label="Description" p:escapeHtmlInPropertyValue="false" />
            </list>
