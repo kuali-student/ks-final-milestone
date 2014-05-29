@@ -99,11 +99,11 @@ public class LoDisplayInfoLookupableImpl extends LookupableImpl {
             if (searchByKey == SearchByKeys.CATEGORY) {
                 SearchParamInfo loCategoryParam = new SearchParamInfo(CourseServiceConstants.OPTIONAL_LO_CATEGORY_NAME_PARAM, loSearchBy);
                 queryParamValueList.add(loCategoryParam);
-            } else if (searchByKey == SearchByKeys.DEPARTMENT) {
-                SearchParamInfo codeParam = new SearchParamInfo(CourseServiceConstants.OPTIONAL_CODE_PARAM, loSearchBy);
+            } else if (searchByKey == SearchByKeys.ORGANIZATION) {
+                SearchParamInfo codeParam = new SearchParamInfo(CourseServiceConstants.OPTIONAL_LU_OPTIONAL_ADMIN_ORG_IDS_PARAM, loSearchBy);
                 queryParamValueList.add(codeParam);
             } else if (searchByKey == SearchByKeys.COURSE){
-                SearchParamInfo titleParam = new SearchParamInfo(CourseServiceConstants.SUBJECTCODE_CODE_PARAM, loSearchBy);
+                SearchParamInfo titleParam = new SearchParamInfo(CourseServiceConstants.OPTIONAL_CODE_PARAM, loSearchBy);
                 queryParamValueList.add(titleParam);
             } else if (searchByKey == SearchByKeys.KEYWORD){
                 SearchParamInfo keywordInLoParam = new SearchParamInfo(CourseServiceConstants.LO_DESC_PLAIN_PARAM, loSearchBy);
@@ -120,9 +120,10 @@ public class LoDisplayInfoLookupableImpl extends LookupableImpl {
         SearchParamInfo typeParam = new SearchParamInfo();
         typeParam.setKey(CourseServiceConstants.OPTIONAL_TYPE_PARAM);
         if (searchByKey == SearchByKeys.COURSE) {
-            typeParam.getValues().add(CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY);
-        } else if (searchByKey == SearchByKeys.DEPARTMENT) {
-            typeParam.setValues(ProgramStates.getStateKeys());
+            List<String> courseAndProgramStates = new ArrayList<String>();
+            courseAndProgramStates.add(CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY);
+            courseAndProgramStates.addAll(ProgramStates.getStateKeys());
+            typeParam.setValues(courseAndProgramStates);
         }
         queryParamValueList.add(typeParam);
         
