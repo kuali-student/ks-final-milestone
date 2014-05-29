@@ -128,6 +128,7 @@ angular.module('regCartApp')
                             $scope.newCartItem = item;
                             $scope.newCartItem.credits = $scope.newCartItem.newCredits = $scope.newCartItem.creditOptions[0];
                             $scope.newCartItem.grading = $scope.newCartItem.newGrading = 'kuali.resultComponent.grade.letter';
+                            $scope.newCartItem.editing = true;
                             $scope.dismissAdditionalOptions = function () {
                                 console.log('Dismissing credits and grading');
                                 $scope.$close(true);
@@ -198,6 +199,7 @@ angular.module('regCartApp')
             cartItem.newCredits = cartItem.credits;
             cartItem.newGrading = cartItem.grading;
             cartItem.status = 'editing';
+            cartItem.editing = true;
         };
 
         $scope.updateCartItem = function (cartItem) {
@@ -213,6 +215,7 @@ angular.module('regCartApp')
                 cartItem.credits = newCartItem.credits;
                 cartItem.grading = newCartItem.grading;
                 cartItem.status = '';
+                cartItem.editing = false;
                 cartItem.actionLinks = newCartItem.actionLinks;
                 $scope.creditTotal = creditTotal();
                 cartItem.alertMessage = {txt: 'Changes saved successfully', type: 'success'};
