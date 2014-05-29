@@ -187,9 +187,9 @@
                     <list>
                         <bean parent="KS-Uif-DataField" p:label="Proposal Status"
                               p:shortLabel="Status" p:propertyName="proposalInfo.stateKey" />
-                        <bean parent="Uif-ActionLink" p:actionLabel="Comments"
+                        <bean id="CourseView-LinkGroup-Comments" parent="Uif-ActionLink" p:actionLabel="Comments"
                               p:methodToCall="showComment" />
-                        <bean parent="Uif-ActionLink" p:actionLabel="Decisions"
+                        <bean id="CourseView-LinkGroup-Decisions" parent="Uif-ActionLink" p:actionLabel="Decisions"
                               p:methodToCall="showDecisions" />
                         <bean parent="Uif-Space" />
                         <bean parent="KS-Uif-DataField" p:label="Last Updated"
