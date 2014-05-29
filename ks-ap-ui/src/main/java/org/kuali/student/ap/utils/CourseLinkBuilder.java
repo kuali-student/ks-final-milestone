@@ -1,18 +1,7 @@
 package org.kuali.student.ap.utils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javax.xml.namespace.QName;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.util.KsapHelperUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -21,12 +10,20 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.infc.SearchResult;
-import org.kuali.student.r2.core.search.infc.SearchResultCell;
 import org.kuali.student.r2.core.search.infc.SearchResultRow;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.xml.namespace.QName;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Helper class to parse lines of text and create links where course codes are
@@ -39,9 +36,9 @@ public class CourseLinkBuilder {
 	private transient static CluService cluService;
 
 	public enum LINK_TEMPLATE {
-		COURSE_DETAILS(
-				"<a onclick=\"openCourse('{params}', event);\" href=\"#\" title=\"{title}\">{label}</a>"), TEST(
-				"[{params}::{title}::{label}]");
+		COURSE_DETAILS("<a onclick=\"openCourse('{params}', event);\" href=\"#\" title=\"{title}\">{label}</a>"),
+        TEST("[{params}::{title}::{label}]"),
+        INACTIVE_COURSE("[id='course_req_inactiveCourse_tooltip' messageText='{label}' toolTip.tooltipContent='This course may be inactive. Check with the department or your adviser for more information about this course.']");
 
 		private final String templateText;
 
@@ -133,16 +130,18 @@ public class CourseLinkBuilder {
 	 * Parses requirements lines of degree audit reports and replaces course
 	 * code text into course code links.
 	 * <p/>
-	 * This method allow a link template to be specified. This is to make
+	 * This method allows separate link templates to be specified for active and inactive courses. This is to make
 	 * testing easier.
 	 * 
 	 * @param rawText
 	 *            A line of text to transform.
-	 * @param template
-	 *            The link template to use.
+	 * @param activeTemplate
+	 *            The link template to use for active courses.
+     * @param inactiveTemplate
+     *            The link template to use for inactive courses.
 	 * @return
 	 */
-	public static String makeLinks(String rawText, LINK_TEMPLATE template,
+	public static String makeLinks(String rawText, LINK_TEMPLATE activeTemplate, LINK_TEMPLATE inactiveTemplate,
 			ContextInfo context) {
 		/**
 		 * Break the line of text into sub-lines which begin with a course
@@ -155,7 +154,7 @@ public class CourseLinkBuilder {
 			List<String> subLines = makeSublines(rawText);
 			// Transform each line.
 			for (String line : subLines) {
-				out.append(parseSublines(line, template, context));
+				out.append(parseSublines(line, activeTemplate, inactiveTemplate, context));
 			}
 		} catch (Exception e) {
 			logger.error(String.format("Could not parse input [%s].", rawText),
@@ -173,7 +172,7 @@ public class CourseLinkBuilder {
 	 * @return
 	 */
 	public static String makeLinks(String rawText, ContextInfo context) {
-		return makeLinks(rawText, LINK_TEMPLATE.COURSE_DETAILS, context);
+        return makeLinks(rawText, LINK_TEMPLATE.COURSE_DETAILS, LINK_TEMPLATE.INACTIVE_COURSE, context);
 	}
 
 	/**
@@ -189,7 +188,7 @@ public class CourseLinkBuilder {
 	 * that curriculum abbreviation. If that constraint isn't followed the
 	 * generated links might be inaccurate.
 	 */
-	private static String parseSublines(String rawText, LINK_TEMPLATE template,
+	private static String parseSublines(String rawText, LINK_TEMPLATE activeTemplate, LINK_TEMPLATE inactiveTemplate,
 			ContextInfo context) {
 
 		// Storage for a list of substitutions. Using LinkedHashMap to preserve
@@ -236,7 +235,7 @@ public class CourseLinkBuilder {
 		while (matcher.find()) {
 			String courseCode = matcher.group(1);
 			placeHolders.put(courseCode,
-					makeLink(courseCode, courseCode, template, context));
+					makeLink(courseCode, courseCode, activeTemplate, inactiveTemplate, context));
 		}
 
 		// Look for 3 digit numbers
@@ -247,7 +246,7 @@ public class CourseLinkBuilder {
 			String courseCode = String.format("%s %s", curriculumAbbreviation,
 					number);
 			placeHolders.put(number,
-					makeLink(courseCode, number, template, context));
+					makeLink(courseCode, number, activeTemplate, inactiveTemplate, context));
 			isCourseNumberPattern = true;
 		}
 
@@ -316,13 +315,15 @@ public class CourseLinkBuilder {
 	 * Build a link given a course code and a link template.
 	 * 
 	 * @param courseCode
-	 * @param template
+	 * @param activeTemplate
+     * @param inactiveTemplate
 	 * @return
 	 */
 	private static String makeLink(String courseCode, String label,
-			LINK_TEMPLATE template, ContextInfo context) {
+			LINK_TEMPLATE activeTemplate, LINK_TEMPLATE inactiveTemplate, ContextInfo context) {
 		String courseTitle = "Unknown";
 		String courseId = "unknown";
+        boolean courseActive = false;
 
 		// Parse out the curriculum code and number.
 		String number = courseCode.replaceAll("\\D*", "").trim();
@@ -331,7 +332,7 @@ public class CourseLinkBuilder {
 		String link = null;
 
 		// Do not link (skip) 100, 200, 300, 400, etc level courses
-		if (!template.equals(LINK_TEMPLATE.TEST)) {
+		if (!activeTemplate.equals(LINK_TEMPLATE.TEST)) {
 			try {
 				Map<String, String> results = getCourseInfo(code, number,
 						context);
@@ -342,6 +343,7 @@ public class CourseLinkBuilder {
 					}
 					courseTitle = results.get("courseTitle");
 					courseTitle = courseTitle.replace("\"", "\\\"");
+                    courseActive = results.get("courseStatus").equals("Active") ? true : false;
 				} else {
 					link = label;
 				}
@@ -352,8 +354,11 @@ public class CourseLinkBuilder {
 		}
 
 		if (link == null) {
-			link = template.getTemplateText().replace("{params}", courseId)
-					.replace("{title}", courseTitle).replace("{label}", label);
+            LINK_TEMPLATE theTemplate = inactiveTemplate;
+			if (courseActive)
+                theTemplate = activeTemplate;
+            link = theTemplate.getTemplateText().replace("{params}", courseId)
+                    .replace("{title}", courseTitle).replace("{label}", label);
 		}
 		return link;
 	}
@@ -361,7 +366,7 @@ public class CourseLinkBuilder {
 	private static synchronized Map<String, String> getCourseInfo(
 			String curriculumCode, String courseNumber, ContextInfo context) {
 		SearchRequestInfo searchRequest = new SearchRequestInfo(
-				"ksap.course.getCourseTitleAndId");
+				"ksap.course.getCourseTitleAndIdAndStatus");
 		searchRequest.addParam("subject", curriculumCode);
 		searchRequest.addParam("number", courseNumber);
 
@@ -383,8 +388,19 @@ public class CourseLinkBuilder {
 		for (SearchResultRow row : searchResult.getRows()) {
 			String courseId = KsapHelperUtil.getCellValue(row, "lu.resultColumn.cluId");
 			String courseTitle = KsapHelperUtil.getCellValue(row, "id.lngName");
+            String courseStatus = KsapHelperUtil.getCellValue(row, "clu.st");
 			result.put("courseId", courseId);
 			result.put("courseTitle", courseTitle);
+
+            if (courseStatus.equals("Active")) {
+                result.put("courseStatus", courseStatus);
+                //No reason to continue if we've found an active status
+                break;
+            } else {
+                //Collapse all non-active statuses into "Inactive"
+                result.put("courseStatus", "Inactive");
+            }
+
 		}
 		return result;
 	}

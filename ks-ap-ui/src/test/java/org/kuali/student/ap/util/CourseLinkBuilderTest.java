@@ -1,15 +1,15 @@
 package org.kuali.student.ap.util;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.Arrays;
-import java.util.Collection;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.kuali.student.ap.utils.CourseLinkBuilder;
 import org.kuali.student.r2.common.dto.ContextInfo;
+
+import java.util.Arrays;
+import java.util.Collection;
+
+import static org.junit.Assert.assertEquals;
 
 @RunWith(value = Parameterized.class)
 public class CourseLinkBuilderTest {
@@ -116,6 +116,6 @@ public class CourseLinkBuilderTest {
 
     @Test
     public void testLinkBuilder() {
-          assertEquals(cookedText, CourseLinkBuilder.makeLinks(rawText, CourseLinkBuilder.LINK_TEMPLATE.TEST, new ContextInfo()));
+          assertEquals(cookedText, CourseLinkBuilder.makeLinks(rawText, CourseLinkBuilder.LINK_TEMPLATE.TEST, CourseLinkBuilder.LINK_TEMPLATE.TEST, new ContextInfo()));
     }
 }

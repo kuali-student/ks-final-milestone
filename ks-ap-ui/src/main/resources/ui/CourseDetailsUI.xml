@@ -276,6 +276,16 @@
                                                 </list>
                                             </property>
                                         </bean>
+                                        <bean id="course_req_inactiveCourse_tooltip" parent="Uif-MessageField">
+                                            <property name="cssClasses">
+                                                <list merge="true">
+                                                    <value>ksap-inactive-course-link</value>
+                                                </list>
+                                            </property>
+                                            <property name="toolTip">
+                                                <bean parent="Uif-Tooltip" p:tooltipContent=""/>
+                                            </property>
+                                        </bean>
                                         <bean parent="Uif-Message" p:messageText="Source: @{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_REQUISITE_SOURCE_NAME')}">
                                             <property name="cssClasses">
                                                 <list merge="true">

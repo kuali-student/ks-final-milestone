@@ -1,11 +1,12 @@
 package org.kuali.student.ap.coursesearch.service.impl;
 
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
+import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
 import org.kuali.student.ap.academicplan.dto.LearningPlanInfo;
 import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
 import org.kuali.student.ap.academicplan.infc.PlanItem;
 import org.kuali.student.ap.academicplan.service.AcademicPlanService;
-import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
+import org.kuali.student.ap.coursesearch.CreditsFormatter;
 import org.kuali.student.ap.coursesearch.dataobject.ActivityOfferingItem;
 import org.kuali.student.ap.coursesearch.dataobject.CourseDetails;
 import org.kuali.student.ap.coursesearch.dataobject.CourseOfferingInstitution;
@@ -17,7 +18,6 @@ import org.kuali.student.ap.framework.context.CourseSearchConstants;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.framework.context.TermHelper;
 import org.kuali.student.ap.framework.context.YearTerm;
-import org.kuali.student.ap.coursesearch.CreditsFormatter;
 import org.kuali.student.ap.utils.CourseLinkBuilder;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
@@ -69,6 +69,7 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 
 	// default is to create real links
 	private CourseLinkBuilder.LINK_TEMPLATE courseLinkTemplateStyle = CourseLinkBuilder.LINK_TEMPLATE.COURSE_DETAILS;
+    private CourseLinkBuilder.LINK_TEMPLATE inactiveCourseLinkTemplateStyle = CourseLinkBuilder.LINK_TEMPLATE.COURSE_DETAILS;
 
 	public CourseLinkBuilder getCourseLinkBuilder() {
 		if (courseLinkBuilder == null) {
@@ -144,7 +145,7 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 
 		if (str != null && str.contains("Prerequisite:")) {
 			String req = (CourseLinkBuilder.makeLinks(str.substring(str.indexOf("Prerequisite:"), str.length()),
-					courseLinkTemplateStyle, KsapFrameworkServiceLocator.getContext().getContextInfo()));
+					courseLinkTemplateStyle, inactiveCourseLinkTemplateStyle, KsapFrameworkServiceLocator.getContext().getContextInfo()));
 			req = req.substring(req.indexOf("Prerequisite:"), req.length());
 			req = req.replace("Prerequisite:", "").trim();
 			req = req.substring(0, 1).toUpperCase().concat(req.substring(1, req.length()));
