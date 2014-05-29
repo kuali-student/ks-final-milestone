@@ -99,6 +99,9 @@
     <!-- Organization Hierarchy Role Type -->
     <bean id="ksOrganizationHierarchyRoleTypeService" class="org.kuali.student.lum.kim.role.type.OrganizationHierarchyRoleTypeService"/>
 
+    <!-- Comment Author Derived Role Type -->
+    <bean id="ksCommentAuthorDerivedRoleTypeService" class="org.kuali.student.lum.kim.role.type.CommentAuthorDerivedRoleTypeServiceImpl"/>
+
     <bean id="ksViewPermissionTypeService" class="org.kuali.student.enroll.kim.permission.type.KSViewPermissionTypeServiceImpl"/>
     <bean id="ksViewActionPermissionTypeService" class="org.kuali.student.enroll.kim.permission.type.KSViewActionPermissionTypeServiceImpl"/>
     <bean id="ksViewFieldPermissionTypeService" class="org.kuali.student.enroll.kim.permission.type.KSViewFieldPermissionTypeServiceImpl"/>
