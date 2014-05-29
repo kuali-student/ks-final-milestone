@@ -74,6 +74,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -161,6 +163,47 @@ public class AcademicCalendarController extends UifControllerBase {
         String controllerPath = CalendarConstants.ACAL_CONTROLLER_PATH;
         return super.performRedirect(acalForm,controllerPath, urlParameters);
 
+    }
+
+    /**
+     * KSENROLL-12648: workaround for rice 2.4 upgrade issue
+     * This method takes request params to construct key date wrapper from add blank line
+     * and add it to the collection
+     */
+    @MethodAccessible
+    @RequestMapping(params = "methodToCall=processBlankLineKeyDate")
+    public void processBlankLineKeyDate(@ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
+                                            HttpServletRequest request, HttpServletResponse response){
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+
+        String termIndex = request.getParameter("termIndex");
+        String keyDateGroupIndex = request.getParameter("keyDateGroupIndex");
+        String keyDateIndex = request.getParameter("keyDateIndex");
+        KeyDateWrapper keyDateWrapper = new KeyDateWrapper();
+
+        keyDateWrapper.setKeyDateType(request.getParameter("keyDateType")) ;
+        keyDateWrapper.setStartTime(request.getParameter("keyDateStartTime"));
+        keyDateWrapper.setStartTimeAmPm(request.getParameter("keyDateStartTimeAmPm"));
+        keyDateWrapper.setEndTime(request.getParameter("keyDateEndTime"));
+        keyDateWrapper.setEndTimeAmPm(request.getParameter("keyDateEndTimeAmPm"));
+        if (StringUtils.isNotBlank(request.getParameter("keyDateStartDate"))) {
+            try {
+                keyDateWrapper.setStartDate(df.parse(request.getParameter("keyDateStartDate")));
+            } catch (Exception e) {
+                throw getAcalViewHelperService(acalForm).convertServiceExceptionsToUI(e);
+            }
+
+        }
+        if (StringUtils.isNotBlank(request.getParameter("keyDateEndDate"))) {
+            try {
+                keyDateWrapper.setEndDate(df.parse(request.getParameter("keyDateEndDate")));
+            } catch (Exception e) {
+                throw getAcalViewHelperService(acalForm).convertServiceExceptionsToUI(e);
+            }
+
+        }
+
+        acalForm.getTermWrapperList().get(Integer.parseInt(termIndex)).getKeyDatesGroupWrappers().get(Integer.parseInt(keyDateGroupIndex)).getKeydates().add(keyDateWrapper);
     }
 
     /**

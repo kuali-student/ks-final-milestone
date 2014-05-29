@@ -32,6 +32,9 @@ public class KeyDatesGroupWrapper {
     private String keyDateGroupNameUI;
     private List<KeyDateWrapper> keydates;
 
+    //KSENROLL-12648: workaround for rice 2.4 upgrade issue.
+    private String keyDateTypesJSON;
+
     private TypeInfo typeInfo;
 
     public KeyDatesGroupWrapper(){
@@ -79,6 +82,14 @@ public class KeyDatesGroupWrapper {
 
     public void setTypeInfo(TypeInfo typeInfo) {
         this.typeInfo = typeInfo;
+    }
+
+    public String getKeyDateTypesJSON() {
+        return keyDateTypesJSON;
+    }
+
+    public void setKeyDateTypesJSON(String keyDateTypesJSON) {
+        this.keyDateTypesJSON = keyDateTypesJSON;
     }
 
     public boolean isKeyDateExists(String keyDateType){

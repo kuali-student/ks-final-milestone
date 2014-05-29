@@ -53,8 +53,9 @@
                 <value>ks-subSection-marginTop</value>
             </list>
         </property>
+        <!-- KSENROLL-12648: workaround for rice 2.4 upgrade issue -->
         <property name="onDocumentReadyScript"
-                  value="window.setTimeout(removeNewItemHighlights(),5000); resetDirtyFields('AcalEdit-DirtyFields'); initAddExamPeriodButtons('acal-term-examdates', 'exam_date_type', 'acal-term-examdates-add', '@{#ConfigProperties['application.url']}');"/>
+                  value="window.setTimeout(removeNewItemHighlights(),5000); resetDirtyFields('AcalEdit-DirtyFields'); initAddExamPeriodButtons('acal-term-examdates', 'exam_date_type', 'acal-term-examdates-add', '@{#ConfigProperties['application.url']}'); initAddKeyDateButton('key_date_addblankline_button', 'key-dates-table');"/>
         <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
         <property name="headerText" value="&#160;"/>
         <property name="layoutManager.addLineGroup.header.render" value="true"/>
@@ -232,7 +233,7 @@
                                                     <property name="returnFieldMapping" value="termCode:termCode"/>
                                                 </bean>
                                             </property>
-                                        </bean>                                  
+                                        </bean>
                                         <bean id="term_name" parent="KS-Uif-InputField-LabelTop" p:propertyName="name"
                                               p:render="@{!#isAddLine}" p:label="Term Name" p:required="true">
                                             <property name="control">
@@ -383,8 +384,8 @@
                     </list>
                 </property>
                 <!--<property name="items">-->
-                    <!--<bean id="key_date_group_delete_button" parent="Uif-SecondaryActionButton-Small"-->
-                          <!--p:methodToCall="deleteKeyDateGroup" p:actionLabel="Delete keydate group"/>-->
+                <!--<bean id="key_date_group_delete_button" parent="Uif-SecondaryActionButton-Small"-->
+                <!--p:methodToCall="deleteKeyDateGroup" p:actionLabel="Delete keydate group"/>-->
                 <!--</property>-->
             </bean>
         </property>
@@ -400,8 +401,14 @@
                         <bean parent="Uif-Image" p:altText="Delete" p:title="Delete" p:source="" p:cssClasses="ks-fontello-icon-cancel"/>
                     </property>
                 </bean>
+                <!-- KSENROLL-12648: workaround for rice 2.4 upgrade issue -->
+                <bean id="key_date_addblankline_button" parent="Uif-SecondaryActionButton" scope="prototype" p:actionScript="constructKeyDateAddBlankLine(e, '@{#lp.keyDateTypesJSON}', '@{#ConfigProperties['application.url']}');">
+                    <property name="hidden" value="@{#parent.readOnly}"/>
+                    <property name="actionLabel" value="Add Key Date"/>
+                    <property name="additionalCssClasses" value="ks-fontello-icon-plus-1"/>
+                </bean>
                 <!--<bean id="key_date_group_delete_button" parent="Uif-SecondaryActionButton-Small"-->
-                      <!--p:methodToCall="deleteKeyDateGroup" p:actionLabel="Delete keydate group"/>-->
+                <!--p:methodToCall="deleteKeyDateGroup" p:actionLabel="Delete keydate group"/>-->
             </list>
         </property>
         <property name="lineActions">
@@ -437,7 +444,7 @@
     <bean id="KS-KeyDates-EditSubSection" parent="Uif-Disclosure-TableSubCollection-WithinSubSection"
           p:id="acal-term-keydates" p:readOnly="@{#view.readOnly}"
           p:onDocumentReadyScript="highlightElements(@{validationJSONString == '' ? '{}' : validationJSONString}, @{addLineValid}, '@{#ConfigProperties['application.url']}');"
-          p:layoutManager.id="key-dates-table"  >
+          p:layoutManager.id="key-dates-table">
         <property name="propertyName" value="keydates"/>
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.KeyDateWrapper"/>
         <property name="header.render" value="false"/>
@@ -451,13 +458,20 @@
             <bean parent="KS-BottomAddLine"/>
         </property>
         <property name="addBlankLineAction.actionLabel" value="Add Key Date"/>
-        <property name="renderAddBlankLineButton" value="true"/>
+
+        <!-- KSENROLL-12648: workaround for rice 2.4 upgrade issue -->
+        <property name="renderAddBlankLineButton" value="false"/>
+
         <property name="addLinePlacement" value="BOTTOM"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
         <property name="layoutManager.generateAutoSequence" value="false"/>
         <property name="layoutManager.separateAddLine" value="false"/>
         <property name="layoutManager.richTable.disableTableSort" value="true"/>
         <property name="layoutManager.richTable.render" value="false"/>
+
+        <!-- KSENROLL-12648: workaround for rice 2.4 upgrade issue -->
+        <property name="additionalCssClasses" value="key-dates-sub-collection"/>
+
         <property name="items">
             <list>
                 <bean id="key_date_type" parent="KS-Uif-InputField" p:propertyName="keyDateType"

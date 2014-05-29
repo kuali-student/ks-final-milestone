@@ -109,8 +109,9 @@ limitations under the License.
                                           p:performClientSideValidation="true" p:render="@{!#view.readOnly and !reload}"
                                           p:disabled="@{reload}"
                                           p:jumpToIdAfterSubmit="TOP">
+                                        <!-- KSENROLL-12648: workaround for rice 2.4 upgrade issue -->
                                         <property name="onClickScript"
-                                                  value="saveAcalPreProcess('AcalEdit-DirtyFields');"/>
+                                                  value="saveAcalPreProcess('AcalEdit-DirtyFields'); populateBlankLineKeyDateWrapper('@{#ConfigProperties['application.url']}');"/>
                                     </bean>
                                     <bean parent="KS-Uif-SecondaryActionButton" p:methodToCall="reload"
                                           p:actionLabel="Reload"

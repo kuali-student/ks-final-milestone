@@ -77,6 +77,8 @@ import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.json.Json;
+import javax.json.JsonObjectBuilder;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -338,6 +340,17 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
 
         for (KeyDatesGroupWrapper group : keyDateGroup.values()) {
             if (!group.getKeydates().isEmpty()){
+
+                //KSENROLL-12648: workaround for rice 2.4 upgrade issue.
+                //Construct key date types JSON string for js to populate key date type dropdown in key date add blank line
+                List<TypeInfo> types = getTypeService().getTypesForGroupType(group.getKeyDateGroupType(),createContextInfo());
+                JsonObjectBuilder keyDateTypesJsonBuilder = Json.createObjectBuilder();
+                for (TypeInfo typeInfo : types) {
+                    if (!group.isKeyDateExists(typeInfo.getKey())){
+                        keyDateTypesJsonBuilder.add(typeInfo.getKey(), typeInfo.getName().replace("\"","\\\""));
+                    }
+                }
+                group.setKeyDateTypesJSON(keyDateTypesJsonBuilder.build().toString());
                 termWrapper.getKeyDatesGroupWrappers().add(group);
             }
         }
