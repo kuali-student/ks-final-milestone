@@ -3,6 +3,7 @@ package org.kuali.student.enrollment.class2.examoffering.service.facade;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.class2.courseofferingset.util.CourseOfferingSetUtil;
 import org.kuali.student.enrollment.class2.examoffering.krms.evaluator.ExamOfferingSlottingEvaluator;
@@ -66,7 +67,6 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
     private SchedulingService schedulingService;
     private TypeService typeService;
     private boolean setLocation;
-
     private ExamOfferingSlottingEvaluator scheduleEvaluator;
 
     @Override
@@ -118,8 +118,10 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
         //Get the Exam Period Id for the term.
         List<AtpAtpRelationInfo> results = atpService.getAtpAtpRelationsByTypeAndAtp(termID,
                 AtpServiceConstants.ATP_ATP_RELATION_ASSOCIATED_TERM2EXAMPERIOD_TYPE_KEY, context);
-        for (AtpAtpRelationInfo atpRelation : results) {
-            return atpRelation.getRelatedAtpId();
+
+        AtpAtpRelationInfo atpRelation = KSCollectionUtils.getOptionalZeroElement(results);
+        if(atpRelation != null){
+            atpRelation.getRelatedAtpId();
         }
 
         return null;
@@ -234,7 +236,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        if (!scheduleRequestSetInfoList.isEmpty() || scheduleRequestSetInfoList != null) {
+        if (scheduleRequestSetInfoList != null && !scheduleRequestSetInfoList.isEmpty()) {
             try {
                 for (ScheduleRequestSetInfo scheduleRequestSetInfo : scheduleRequestSetInfoList) {
                     List<ScheduleRequestInfo> scheduleRequestInfoList = getSchedulingService().getScheduleRequestsByScheduleRequestSet(scheduleRequestSetInfo.getId(), context);
@@ -299,6 +301,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
                 if (eo.getStateKey().equals(ExamOfferingServiceConstants.EXAM_OFFERING_CANCELED_STATE_KEY)) {
                     this.getExamOfferingService().changeExamOfferingState(eoRelation.getExamOfferingId(),
                             ExamOfferingServiceConstants.EXAM_OFFERING_DRAFT_STATE_KEY, context);
+                    hasEo = true;
                     break;
                 }
             }
@@ -570,7 +573,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
     }
 
     private ExamOfferingInfo createFinalExamOfferingPerAO(String foId, ActivityOfferingInfo activityOffering, String activityDriver, String examPeriodId,
-                                              String stateKey, String termType, ContextInfo context)
+                                                          String stateKey, String termType, ContextInfo context)
             throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException,
             DoesNotExistException, DataValidationErrorException, ReadOnlyException {
 
@@ -732,10 +735,9 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
     private String getCanonicalExam(ContextInfo context) throws MissingParameterException, InvalidParameterException,
             OperationFailedException, PermissionDeniedException {
         List<String> examIds = this.getExamService().getExamIdsByType(ExamServiceConstants.EXAM_FINAL_TYPE_KEY, context);
-        for (String examId : examIds) {
-            return examId; //Return the first one as there should only be one canonical final exam.
-        }
-        return null;
+
+        return KSCollectionUtils.getOptionalZeroElement(examIds);
+
     }
 
     @Override
