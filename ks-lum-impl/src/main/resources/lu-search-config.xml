@@ -2614,13 +2614,16 @@
         </search:searchCriteriaTypeInfo>
     </search:searchType>
 
-    <search:searchType id="ksap.course.getCourseTitleAndId">
+    <search:searchType id="ksap.course.getCourseTitleAndIdAndStatus">
         <search:searchResultTypeInfo>
             <search:name/>
             <search:desc/>
             <search:resultColumns>
                 <ref bean="lu.resultColumn.cluId"/>
                 <search:resultColumn id="id.lngName">
+                    <search:dataType>string</search:dataType>
+                </search:resultColumn>
+                <search:resultColumn id="clu.st">
                     <search:dataType>string</search:dataType>
                 </search:resultColumn>
             </search:resultColumns>
@@ -3114,10 +3117,10 @@
                         AND clu.EXP_FIRST_ATP = (select min(c.EXP_FIRST_ATP) FROM KSLU_CLU c where c.ver_ind_id = clu.ver_ind_id group by c.ver_ind_id )
                     </value>
                 </entry>
-                <entry key="ksap.course.getCourseTitleAndId">
+                <entry key="ksap.course.getCourseTitleAndIdAndStatus">
                     <value>NATIVE:
                         SELECT
-                        clu.id, id.LNG_NAME
+                        clu.id, id.LNG_NAME, clu.ST
                         FROM
                         KSLU_CLU clu,
                         KSLU_CLU_IDENT id
@@ -3127,7 +3130,6 @@
                         trim( id.SUFX_CD ) = :number
                         AND
                         trim( id.DIVISION ) = :subject
-                        AND clu.ST = 'Active'
                     </value>
                 </entry>
 
