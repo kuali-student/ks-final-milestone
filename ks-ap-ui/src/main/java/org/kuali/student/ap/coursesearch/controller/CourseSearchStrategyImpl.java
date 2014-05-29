@@ -108,7 +108,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         // Related to CourseSearchUI.xml definitions
         Map<String, Comparator<String>> l = new java.util.LinkedHashMap<String, Comparator<String>>(
                 5);
-        l.put("facet_quarter", TermHelper.TERMS);
+        l.put("facet_quarter", KsapHelperUtil.TERMS);
         l.put("facet_genedureq", KsapHelperUtil.ALPHA);
         l.put("facet_credits", CreditsFormatter.CREDIT);
         l.put("facet_level", KsapHelperUtil.NUMERIC);

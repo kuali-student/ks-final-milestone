@@ -224,4 +224,67 @@ public class KsapHelperUtil {
             return o1.compareTo(o2);
         }
     };
+
+    /**
+     * Comparator for sorting the facet values of Terms
+     */
+    public static final Comparator<String> TERMS = new Comparator<String>() {
+        @Override
+        public int compare(String o1, String o2) {
+
+            // Compare terms for nulls
+            if (o1 == null && o2 == null)
+                return 0;
+            if (o1 == null)
+                return -1;
+            if (o2 == null)
+                return 1;
+            if (o1.equals(o2))
+                return 0;
+            if ("Unknown".equals(o1) || "None".equals(o1))
+                return 1;
+            if ("Unknown".equals(o2) || "None".equals(o2))
+                return -1;
+
+            // Compare terms for proper format
+            String[] s1 = o1.split(" ");
+            String[] s2 = o2.split(" ");
+            if (s1.length != 2 && s2.length != 2)
+                return o1.compareTo(o2);
+            if (s1.length != 2)
+                return 1;
+            if (s2.length != 2)
+                return -1;
+
+            // Compare year value of the terms
+            int year1;
+            try {
+                year1 = Integer.parseInt(s1[1]);
+                if (year1 < 0 || year1 > 100)
+                    year1 = -1;
+            } catch (NumberFormatException e) {
+                year1 = -1;
+            }
+            int year2;
+            try {
+                year2 = Integer.parseInt(s2[1]);
+                if (year2 < 0 || year2 > 100)
+                    year2 = -1;
+            } catch (NumberFormatException e) {
+                year2 = -1;
+            }
+            if (year1 == -1)
+                return -1;
+            if (year2 == -1)
+                return 1;
+            if(year1 != year2) return Integer.compare(year1,year2);
+
+            // Compare term value of the terms
+            String termOrder = ConfigContext.getCurrentContextConfig().getProperty("ks.ap.search.terms.offered.abbrev");
+            int term1Location = termOrder.indexOf(s1[0]);
+            int term2Location = termOrder.indexOf(s2[0]);
+            return Integer.compare(term1Location,term2Location);
+        }
+
+    };
 }
