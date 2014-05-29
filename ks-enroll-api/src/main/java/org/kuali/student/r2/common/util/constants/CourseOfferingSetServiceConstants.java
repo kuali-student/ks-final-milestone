@@ -72,6 +72,16 @@ public class CourseOfferingSetServiceConstants {
             SOC_SCHEDULING_STATE_COMPLETED
     };
 
+    // SOC scheduling states (see https://wiki.kuali.org/display/STUDENT/SOC+Scheduling+States )
+    public static final String EO_SLOTTING_STATE_NOT_STARTED = "kuali.eo.slotting.state.notstarted";
+    public static final String EO_SLOTTING_STATE_IN_PROGRESS = "kuali.eo.slotting.state.inprogress";
+    public static final String EO_SLOTTING_STATE_COMPLETED   = "kuali.eo.slotting.state.completed";
+    public static final String[] ALL_EO_SLOTTING_STATES = {
+            EO_SLOTTING_STATE_NOT_STARTED,
+            EO_SLOTTING_STATE_IN_PROGRESS,
+            EO_SLOTTING_STATE_COMPLETED
+    };
+
     // rollover  types
     public static final String ROLLOVER_RESULT_TYPE_KEY = "kuali.soc.rollover.results.type.rollover";
     public static final String REVERSE_ROLLOVER_RESULT_TYPE_KEY = "kuali.soc.rollover.results.type.reverse";
