@@ -2,7 +2,6 @@ package org.kuali.student.enrollment.registration.client.service;
 
 import org.kuali.student.enrollment.registration.client.service.dto.PersonScheduleResult;
 import org.kuali.student.enrollment.registration.client.service.dto.ScheduleCalendarEventResult;
-import org.kuali.student.enrollment.registration.client.service.dto.StudentScheduleTermResult;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
