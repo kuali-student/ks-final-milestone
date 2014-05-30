@@ -134,7 +134,8 @@ angular.module('regCartApp')
                                 $scope.$close(true);
                             };
 
-                            $scope.saveAdditionalOptions = function () {
+                            $scope.saveAdditionalOptions = function (course) {
+                                course.editing=false;
                                 console.log('Save credits and grading for cartId:', cartId);
                                 $rootScope.$broadcast('addCourseToCart', cartId, $scope.newCartItem.courseCode, $scope.newCartItem.termId, $scope.newCartItem.regGroupCode, $scope.newCartItem.regGroupId, $scope.newCartItem.newGrading, $scope.newCartItem.newCredits);
                                 $scope.$close(true);
