@@ -71,13 +71,14 @@ describe('Directive: CourseOptions', function () {
 
     describe('configuration', function() {
         it('should initialize the parameters', function() {
-            compileDirective(null, '<course-options course="course" prefix="TESTPREFIX_" max="3" show-all="true"></course-options>');
+            compileDirective(null, '<course-options course="course" prefix="TESTPREFIX_" max="3" show-all="true" more-behavior="dialog"></course-options>');
 
             expect(el.isolateScope().prefix).toBe('TESTPREFIX_');
             expect(el.isolateScope().maxOptions).toBe(3);
             expect(el.isolateScope().showAll).toBeTruthy();
             expect(el.isolateScope().showAllCreditOptions).toBeTruthy();
             expect(el.isolateScope().showAllGradingOptions).toBeTruthy();
+            expect(el.isolateScope().moreBehavior).toBe('dialog');
         });
 
         it('should create the correct number of credit options', function() {
@@ -331,4 +332,6 @@ describe('Directive: CourseOptions', function () {
             expect(course.editing).toBeFalsy();
         });
     });
+
+    // TODO: test More behavior
 });

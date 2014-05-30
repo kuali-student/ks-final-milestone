@@ -11,6 +11,7 @@ angular.module('regCartApp')
                 maxOptions: '=max', // Max # of items to show at a time
                 prefix: '@', // Element ID prefix (e.g. waitlist_)
                 showAll: '=', // Show all items, preventing the More toggle from showing [true, false]
+                moreBehavior: '@', // Behavior of expand button [expand, dialog]
                 cancelFn: '&onCancel', // Function to call when canceling the form, provides course as parameter
                 submitFn: '&onSubmit' // Function to call when submitting the form, provides course as parameter
             },
@@ -18,7 +19,8 @@ angular.module('regCartApp')
             controller: ['$scope', '$modal', function($scope, $modal) {
                 var course = $scope.course,
                     maxOptions = $scope.maxOptions || 4,
-                    showAll = $scope.showAll ? true : false;
+                    showAll = $scope.showAll ? true : false,
+                    moreBehavior = $scope.moreBehavior || 'expand';
 
                 $scope.showAllCreditOptions = showAll;
                 $scope.showAllGradingOptions = showAll;
@@ -49,6 +51,65 @@ angular.module('regCartApp')
                     return shouldShow(Object.keys(course.gradingOptions), course.grading, option.key);
                 };
 
+                $scope.showMoreCreditOptions = function() {
+                    if (moreBehavior == 'expand') {
+                        $scope.showAllCreditOptions = true;
+                    } else {
+                        showOptionsDialog();
+                    }
+                };
+
+                $scope.showMoreGradingOptions = function() {
+                    if (moreBehavior == 'expand') {
+                        $scope.showAllGradingOptions = true;
+                    } else {
+                        showOptionsDialog();
+                    }
+                };
+
+                $scope.shouldShowMoreCreditOptionsToggle = function() {
+                    return !$scope.showAllCreditOptions && course.creditOptions.length > maxOptions;
+                };
+
+                $scope.shouldShowMoreGradingOptionsToggle = function() {
+                    return !$scope.showAllGradingOptions && Object.keys(course.gradingOptions).length > maxOptions;
+                };
+
+                $scope.cancel = function() {
+                    console.log('Canceling options changes');
+
+                    // Reset the edit state on the course & form
+                    course.newCredits = course.credits;
+                    course.newGrading = course.grading || course.gradingOptionId; // grading in cart, gradingOptionId in schedule
+
+                    course.status = ''; // From cart
+                    course.editing = false; // From schedule
+
+                    if ($scope.cancelFn) {
+                        $scope.cancelFn({course: course});
+                    }
+
+                    // Reset the state of the options form
+                    reset();
+                };
+
+                $scope.submit = function() {
+                    console.log('Submitting options form');
+
+                    if ($scope.submitFn) {
+                        $scope.submitFn({course: course});
+                    }
+
+                    // Reset the state of the options form
+                    reset();
+                };
+
+                $scope.showGradingHelp = function() {
+                    $modal.open({
+                        templateUrl: 'partials/gradingOptionsHelp.html'
+                    });
+                };
+
                 function shouldShow(options, selectedItem, currentItem) {
                     if (options.length <= maxOptions) {
                         return true;
@@ -73,13 +134,14 @@ angular.module('regCartApp')
                     return min <= currentItemIndex && currentItemIndex <= max;
                 }
 
-                $scope.showOptionsDialog = function(course) {
+                function showOptionsDialog() {
                     // Create a sanitized copy of the scope for the modal dialog
                     var modalScope = $scope.$new();
                     modalScope.course = angular.copy(course);
-                    course.editing=false;
                     modalScope.cancel = function() {};
                     modalScope.submit = function() {};
+
+                    course.editing = false;
 
                     var dialog = $modal.open({
                         backdrop: 'static',
@@ -109,44 +171,13 @@ angular.module('regCartApp')
                     }, function() {
                         $scope.cancel();
                     });
-                };
+                }
 
-                $scope.shouldShowMoreCreditOptionsToggle = function() {
-                    return !$scope.showAllCreditOptions && course.creditOptions.length > maxOptions;
-                };
-
-                $scope.shouldShowMoreGradingOptionsToggle = function() {
-                    return !$scope.showAllGradingOptions && Object.keys(course.gradingOptions).length > maxOptions;
-                };
-
-                $scope.cancel = function() {
-                    console.log('Canceling options changes');
-
-                    // Reset the edit state on the course & form
-                    course.newCredits = course.credits;
-                    course.newGrading = course.grading || course.gradingOptionId; // grading in cart, gradingOptionId in schedule
-
-                    course.status = ''; // From cart
-                    course.editing = false; // From schedule
-
-                    if ($scope.cancelFn) {
-                        $scope.cancelFn({course: course});
-                    }
-                };
-
-                $scope.submit = function() {
-                    console.log('Submitting options form');
-
-                    if ($scope.submitFn) {
-                        $scope.submitFn({course: course});
-                    }
-                };
-
-                $scope.showGradingHelp = function() {
-                    $modal.open({
-                        templateUrl: 'partials/gradingOptionsHelp.html'
-                    });
-                };
+                function reset () {
+                    // Reset the option visibility based on the showAll parameter.
+                    $scope.showAllCreditOptions = showAll;
+                    $scope.showAllGradingOptions = showAll;
+                }
             }]
         };
     })

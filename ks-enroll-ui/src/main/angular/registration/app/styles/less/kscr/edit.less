@@ -22,11 +22,14 @@
     font-weight: normal;
     color: @primaryTextColor;
 
-    & > .glyphicon {
-        color: @optionBackgroundSelected;
+    & > .kscr-Edit-helpIcon {
+        background: url('../images/validation/help.png') no-repeat center center;
         cursor: pointer;
+        display: block;
         float: right;
-        font-size: 16px;
+        height: 18px;
+        text-indent: -9999px;
+        width: 18px;
     }
 }
 
@@ -52,12 +55,14 @@
         font-weight: normal !important;
     }
 
-    & .glyphicon {
-        color: #AEBACC;
-        font-size: 20px;
+    & .kscr-Edit-option-icon {
+        background: url('../images/validation/check_dark.png') no-repeat right top;
+        display: block;
+        height: 20px;
         position: absolute;
         right: 5px;
-        top: 9px;
+        top: 8px;
+        width: 20px;
     }
 
     &--Selected {
@@ -67,8 +72,8 @@
         font-weight: bold;
         outline-color: @optionOutlineSelected;
 
-        & .glyphicon {
-            color: @optionTextSelected;
+        & .kscr-Edit-option-icon {
+            background-image: url('../images/validation/check_light.png');
         }
     }
 }
