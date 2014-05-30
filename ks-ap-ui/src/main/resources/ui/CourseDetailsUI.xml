@@ -215,7 +215,7 @@
                 <bean parent="Uif-CssGridGroup">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-VerticalBoxSection" p:colSpan="2">
+                            <bean parent="Uif-VerticalBoxSection" p:colSpan="2" p:wrapperCssClasses="ksap-right-labels">
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-Message" p:messageText="Course Description">
@@ -247,7 +247,7 @@
                 <bean parent="Uif-CssGridGroup">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-VerticalBoxSection" p:colSpan="2">
+                            <bean parent="Uif-VerticalBoxSection" p:colSpan="2" p:wrapperCssClasses="ksap-right-labels">
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-Message" p:messageText="Course Requisites">
@@ -303,7 +303,7 @@
                 <bean parent="Uif-CssGridGroup">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-VerticalBoxSection" p:colSpan="2">
+                            <bean parent="Uif-VerticalBoxSection" p:colSpan="2" p:wrapperCssClasses="ksap-right-labels">
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-Message" p:messageText="Scheduled Terms">
@@ -350,7 +350,7 @@
                 <bean parent="Uif-CssGridGroup" p:render="@{dataObject.scheduledTerms.size() gt 0 ? false : dataObject.lastOffered ne null ? true : false}">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-VerticalBoxSection" p:colSpan="2">
+                            <bean parent="Uif-VerticalBoxSection" p:colSpan="2" p:wrapperCssClasses="ksap-right-labels">
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-Message" p:messageText="Last Offered">
@@ -392,7 +392,7 @@
                 <bean parent="Uif-CssGridGroup">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-VerticalBoxSection" p:colSpan="2">
+                            <bean parent="Uif-VerticalBoxSection" p:colSpan="2" p:wrapperCssClasses="ksap-right-labels">
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-Message" p:messageText="Projected Terms">
@@ -439,7 +439,7 @@
                 <bean parent="Uif-CssGridGroup">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-VerticalBoxSection" p:colSpan="2">
+                            <bean parent="Uif-VerticalBoxSection" p:colSpan="2" p:wrapperCssClasses="ksap-right-labels">
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-Message" p:messageText="General Edu. Req.">
@@ -479,7 +479,7 @@
                 <bean parent="Uif-CssGridGroup">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-VerticalBoxSection" p:colSpan="2">
+                            <bean parent="Uif-VerticalBoxSection" p:colSpan="2" p:wrapperCssClasses="ksap-right-labels">
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-Message" p:messageText="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_CURRICULUM_HEADER')}">
