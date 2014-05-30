@@ -14,6 +14,7 @@ import org.kuali.student.cm.course.service.util.CourseCodeSearchUtil;
 import org.kuali.student.cm.course.service.util.CourseCodeSearchWrapper;
 import org.kuali.student.cm.course.service.util.LoCategorySearchUtil;
 import org.kuali.student.cm.course.service.util.OrganizationSearchUtil;
+import org.kuali.student.common.uif.service.impl.KSLookupableImpl;
 import org.kuali.student.lum.lu.ui.course.keyvalues.LoSearchByValuesFinder.SearchByKeys;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.common.util.security.ContextUtils;
@@ -39,7 +40,7 @@ import java.util.Map;
  * 
  * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
  */
-public class LoDisplayInfoLookupableImpl extends LookupableImpl {
+public class LoDisplayInfoLookupableImpl extends KSLookupableImpl {
 
     private static final long serialVersionUID = 3381719326948770678L;
     public static final String QNAME = "http://student.kuali.org/wsdl/organization";
@@ -130,9 +131,6 @@ public class LoDisplayInfoLookupableImpl extends LookupableImpl {
         searchRequest.setParams(queryParamValueList);
         try {
             SearchResultInfo searchResult = getLearningObjectiveService().search(searchRequest, ContextUtils.getContextInfo());
-            if (searchResult.getRows()== null || searchResult.getRows().isEmpty()){
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, CurriculumManagementConstants.L0_MSG_ERROR_NO_LO_IS_FOUND);
-            }else {
                 for (SearchResultRowInfo result : searchResult.getRows()) {
                     List<SearchResultCellInfo> cells = result.getCells();
                     LoDisplayInfoWrapper loWrapper = new LoDisplayInfoWrapper();
@@ -155,7 +153,6 @@ public class LoDisplayInfoLookupableImpl extends LookupableImpl {
                     }
                     loCategories.add(loWrapper);
                 }
-            }
         } catch (Exception e) {
             throw new RuntimeException("An error occurred while searching for Learning Objectives", e);
         }
