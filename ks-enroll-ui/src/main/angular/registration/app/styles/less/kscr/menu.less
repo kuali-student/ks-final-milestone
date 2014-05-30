@@ -1,6 +1,6 @@
 /**** soon to be in Menu dropdown ****/
 
-.kscr-Menu-button{
+.kscr-Menu-button {
     color: @whiteText;
     border: 1px solid #797979;
     border-radius: 5px;
@@ -9,27 +9,29 @@
     font-size: 13px;
 }
 
-.kscr-Menu-button-menu{
-  background-color: @black;
-  padding:3px;
-  .kscr-Menu-button;
-}
+.kscr-Menu-button {
+    &-menu {
+        background-color: @black;
+        padding: 3px;
+        .kscr-Menu-button;
 
-.kscr-Menu-button-logout{
-    background-color: @lightGray;
-    padding: 1px 2px;
-    .kscr-Menu-button;
-}
+        &--clicked {
+            background-color: @whiteBackground;
+            color: @secondaryTextColor;
+        }
+    }
 
-.kscr-Menu-button-header-logout{
-  background-color: @black;
-  margin-left: 10px;
-  .kscr-Menu-button;
-}
+    &-logout {
+        background-color: @lightGray;
+        padding: 1px 2px;
+        .kscr-Menu-button;
+    }
 
-.kscr-Menu-button-menu--clicked{
-    background-color: @whiteBackground;
-    color: @secondaryTextColor;
+    &-header-logout {
+        background-color: @black;
+        margin-left: 10px;
+        .kscr-Menu-button;
+    }
 }
 
 

@@ -5,7 +5,19 @@
             <div class="kscr-Header-title">COURSE REGISTRATION</div>
             <div class="kscr-Header-separator"></div>
             <div class="util-Grid-cell">
-                <span class="kscr-Header-termName" id="header_termName">{{termName}}</span>
+                <div class="kscr-Header-termName dropdown">
+                    <span class="kscr-Header-termName-label" ng-if="termName">{{termName}}</span>
+                    <span class="kscr-Header-termName-label--selector" id="header_termName" ng-if="termName" data-toggle="dropdown">{{termName}}</span>
+                    <ul class="kscr-Menu-container kscr-Header-termMenu dropdown-menu" id="header_term_dropmenu" role="menu">
+                        <li class="kscr-Menu-searchTerm">
+                            <!-- Defaults to the current term - in form tag to prevent closing by dropmenu -->
+                            <form>
+                                <span class="kscr-Menu-heading">Term</span>
+                                <select id="searchTerm" ng-model="termId" ng-options="t.termId as t.termName for t in terms"></select>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
                 <span class="kscr-Header-credits" id="header_credits" ng-show="registeredCredits() > 0">
                     <ng-pluralize count="registeredCredits()"
                                   when="{'0' : ' ',

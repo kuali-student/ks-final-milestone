@@ -52,7 +52,7 @@ angular.module('regCartApp')
                 };
 
                 $scope.showMoreCreditOptions = function() {
-                    if (moreBehavior == 'expand') {
+                    if (moreBehavior === 'expand') {
                         $scope.showAllCreditOptions = true;
                     } else {
                         showOptionsDialog();
@@ -60,7 +60,7 @@ angular.module('regCartApp')
                 };
 
                 $scope.showMoreGradingOptions = function() {
-                    if (moreBehavior == 'expand') {
+                    if (moreBehavior === 'expand') {
                         $scope.showAllGradingOptions = true;
                     } else {
                         showOptionsDialog();
