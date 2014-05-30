@@ -63,10 +63,11 @@
     > li {
         padding: 10px;
         &.kscr-Menu-links {
-            padding: 0;
+            padding: 0 10px;
             a {
+                border-top: @horizontalLineBorder;
                 display: block;
-                padding: 10px;
+                padding: 10px 0;
             }
         }
     }
@@ -85,11 +86,14 @@
 }
 
 .kscr-Menu-links {
-    border-top: @horizontalLineBorder;
     cursor: pointer;
     cursor: hand;
     padding: 0;
     .kscr-Menu-heading;
+
+    &:hover {
+        background-color: @menuHoverColor;
+    }
 }
 
 .kscr-Menu-links-heading{
@@ -121,17 +125,16 @@
 }
 
 #searchTerm{
-    font-size: 12px;
+    font-family: @secondaryFontFamily;
+    font-size: 14px;
+    font-weight: normal;
+    margin-left: 5px;
     max-width: 85%;
 }
 
 .kscr-Menu-background--disabled{
     background: rgb(244, 244, 244); /* The Fallback */
     background: rgba(244, 244, 244, 0.5);
-}
-
-.kscr-Menu-links:hover {
-    background-color: @menuHoverColor;
 }
 
 .kscr-Menu-user {
