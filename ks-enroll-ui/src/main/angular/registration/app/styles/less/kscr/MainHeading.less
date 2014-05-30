@@ -1,13 +1,19 @@
 /**** My Cart section ****/
 
+/**mixin for main heading**/
+.kscr-Mainheading-styles{
+    color: @primaryTextColor;
+    font-family: @primaryFontFamily;
+    font-size: 16px;
+}
+
 .kscr-MainHeading {
     background-color: @whiteBackground;
-    padding: 10px;
     border: 1px @cardBorderColor solid;
     border-bottom: 2px @cardBorderColor solid;
     border-top: none;
-    padding-top: 0px;
-    &:extend(.util-transitions-browserHelper);
+    padding: 10px;
+    .util-transitions-browserHelper;
 
     * {
         -moz-user-select: none;
@@ -22,17 +28,17 @@
 
 
 .kscr-MainHeading.ng-hide-remove {
-    &:extend(.util-transitions-browserHelper);
+   .util-transitions-browserHelper;
 }
 
 .kscr-MainHeading.ng-hide-add.ng-hide-add-active,
 .kscr-MainHeading.ng-hide-remove {
-   opacity:1;
+   opacity: 1;
 }
 
 .kscr-MainHeading.ng-hide-add,
 .kscr-MainHeading.ng-hide-remove.ng-hide-remove-active {
-   opacity:0.8;
+   opacity: 0.8;
 }
 
 .kscr-MainHeading-icon-left, .kscr-MainHeading-icon-right {
@@ -42,6 +48,10 @@
 @media screen and (max-width: 660px) {
     .kscr-MainHeading-icon-left, .kscr-MainHeading-icon-right {
         display: block;
+         & .glyphicon {
+            color: @darkGray;
+            font-size: 16px;
+         }
     }
 }
 
@@ -58,47 +68,32 @@
 
 
 .kscr-MainHeading-header{
-    color: @primaryTextColor;
-    font-family: @primaryFontFamily;
-    font-size: 16px;
-    font-weight: bold;
-    //padding: 0.1em;
-    text-transform:uppercase;
-    width: 80%;
+    .kscr-Mainheading-styles;
     float: left;
+    font-weight: bold;
+    text-transform: uppercase;
+    width: 80%;
 }
 
 .kscr-MainHeading-support{
+    color: @secondaryTextColor;
     font-family: @primaryFontFamily;
     font-size: 14px;
-    color: @secondaryTextColor;
     font-weight: normal;
     line-height: 0.6;
 }
 
 .kscr-MainHeading-header--processing{
-  color: @primaryTextColor;
-  font-family: @primaryFontFamily;
-  font-size: 16px;
-  font-weight: normal;
-  padding: 18px;
-  padding-left:45px;
-  background-image: url("../images/validation/spinner_big.gif");
-  background-repeat: no-repeat;
-  background-position: @iconPosition;
-  background-color: inherit;
+    .kscr-Mainheading-styles;
+    font-weight: normal;
+    padding: 18px;
+    padding-left:45px;
+    background-image: url("../images/validation/spinner_big.gif");
+    background-repeat: no-repeat;
+    background-position: @iconPosition;
+    background-color: inherit;
 }
 
 .kscr-MainHeading-button{
     margin-top: 9px;
 }
-
-/**mixin for main heading**/
-#mainHeadingStyles{
-    .kscr-Mainheading-styles{
-        color: @primaryTextColor;
-        font-size: 16px;
-        font-weight: bold;
-    };
-}
-
