@@ -23,7 +23,7 @@
                 <div>
                     <button id="header_logout" class="kscr-Menu-button-header-logout util-Grid--floatRight" ng-click="logout()">LOGOUT</button>
                     <i class="glyphicon glyphicon-user"></i>
-                    <span id="header_user">{{userId()}}</span>
+                    <span id="header_user" class="kscr-Header-user">{{userId()}}</span>
                 </div>
             </div>
             <nav ng-class="{Navigation:true,'kscr-Responsive-navigation':uiState=='root.responsive.cart'||uiState=='root.responsive.schedule'}">
@@ -42,7 +42,7 @@
                 <div>
                     <button id="logout" class="kscr-Menu-button-logout util-Grid--floatRight" ng-click="logout()">LOGOUT</button>
                     <i class="glyphicon glyphicon-user"></i>
-                      <span id="menu_user">{{userId()}}</span>
+                      <span id="menu_user" class="kscr-Menu-user">{{userId()}}</span>
                 </div>
             </li>
 
