@@ -527,14 +527,20 @@
                 </bean>
                 <bean parent="Uif-VerticalBoxSection">
                     <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
-                    <property name="refreshWhenChangedPropertyNames" value="#dp.courseOfferingInfo.finalExamType"/>
+                    <property name="refreshWhenChangedPropertyNames">
+                        <list>
+                            <value>#dp.courseOfferingInfo.finalExamType</value>
+                            <value>#dp.finalExamDriver</value>
+                        </list>
+                    </property>
                     <property name="items">
                         <list>
                             <bean parent="Uif-VerticalBoxGroup">
                                 <property name="hidden" value="@{#dp.courseOfferingInfo.finalExamType != 'STANDARD'}"/>
                                 <property name="items">
                                     <list>
-                                        <bean parent="KS-Uif-InputField" p:label="Final Exam Driver" p:propertyName="finalExamDriver" p:fieldLabel.renderColon="false" p:onChangeScript="updateExamDriverInFOTable('KS-CourseOfferingEdit-FinalExamDriver', 'final_exam_driver_ui', @{#parent.readOnly});">
+                                        <bean parent="KS-Uif-InputField" p:label="Final Exam Driver" p:propertyName="finalExamDriver" p:fieldLabel.renderColon="false"
+                                              p:onChangeScript="updateExamDriverInFOTable('KS-CourseOfferingEdit-FinalExamDriver', 'final_exam_driver_ui', @{#parent.readOnly});">
                                             <property name="id" value="KS-CourseOfferingEdit-FinalExamDriver" />
                                             <property name="control">
                                                 <bean parent="KS-Uif-DropdownControl"/>
@@ -615,7 +621,7 @@
     <bean id="KS-CourseOffering-FormatOfferingSubSection" parent="KS-CourseOffering-FormatOfferingSubSection-parent"/>
 
     <bean id="KS-CourseOffering-FormatOfferingSubSection-parent" parent="KS-TableCollectionSubSection-BottomAddLine" abstract="true"
-          p:layoutManager.style="width: 59.1em;" >
+          p:layoutManager.style="width: 47em;" >
         <property name="addBlankLineAction.actionLabel" value="Add Format"/>
         <property name="addBlankLineAction.render" value="@{#dp.renderHelper.showFormatAddButton}"/>
         <property name="addBlankLineAction.id" value="KS-CourseOffering-FormatOfferingSubSection_add"/>
@@ -644,7 +650,8 @@
                       p:label="Format"
                       p:readOnlyDisplayReplacementPropertyName="formatOfferingInfo.name"
                       p:required="true"
-                      p:additionalCssClasses="format_course_offering">
+                      p:additionalCssClasses="format_course_offering"
+                      p:style="width: 15em;">
                     <property name="control">
                         <bean parent="KS-Uif-DropdownControl" p:onChangeScript="retrieveDeliveryFormatsComponent(e, '@{#ConfigProperties['application.url']}', 'edit_co_grade_roster_level_line@{#index}','edit_co_final_exam_type_line@{#index}', '@{#dp.courseOfferingInfo.finalExamType}', @{#parent.readOnly});"/>
                     </property>
@@ -670,7 +677,7 @@
                 <bean parent="KS-Uif-DataField"
                       p:id="final_exam_driver_ui"
                       p:propertyName="courseOfferingWrapper.finalExamDriverUI"
-                      p:render="@{#dp.courseOfferingInfo.finalExamType eq 'STANDARD'}"
+                      p:render="@{#dp.finalExamDriver eq 'kuali.lu.exam.driver.ActivityOffering' and #dp.courseOfferingInfo.finalExamType eq 'STANDARD'}"
                       p:label="Final Exam Driver"
                       p:additionalCssClasses="final_exam_course_offering"/>
 
@@ -678,7 +685,7 @@
                       p:propertyName="formatOfferingInfo.finalExamLevelTypeKey"
                       p:label="Final Exam Driver Activity"
                       p:required="true"
-                      p:render="@{#dp.courseOfferingInfo.finalExamType eq 'STANDARD'}"
+                      p:render="@{#dp.finalExamDriver eq 'kuali.lu.exam.driver.ActivityOffering' and #dp.courseOfferingInfo.finalExamType eq 'STANDARD'}"
                       p:finalizeMethodToCall="populateFinalExamDriverTypes" p:forceSessionPersistence="true"
                       p:readOnlyDisplayReplacementPropertyName="finalExamUI"
                       p:onDocumentReadyScript="updateExamDriverInFOTable('KS-CourseOfferingEdit-FinalExamDriver', 'final_exam_driver_ui', @{#parent.readOnly});"
@@ -690,8 +697,6 @@
                         <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.DummyKeyValue"/>
                     </property>
                 </bean>
-                <bean parent="KS-Uif-MessageField-LabelTop" p:label="Final Exam Driver" p:fieldLabel.renderColon="false" p:messageText="Alternate exam for this offering" p:render="@{#dp.courseOfferingInfo.finalExamType eq 'ALTERNATE'}" />
-                <bean parent="KS-Uif-MessageField-LabelTop" p:label="Final Exam Driver" p:fieldLabel.renderColon="false" p:messageText="No final exam for this offering" p:render="@{#dp.courseOfferingInfo.finalExamType eq 'NONE'}" />
             </list>
         </property>
     </bean>

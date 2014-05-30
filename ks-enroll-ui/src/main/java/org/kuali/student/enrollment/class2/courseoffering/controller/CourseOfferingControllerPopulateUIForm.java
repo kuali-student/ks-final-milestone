@@ -44,6 +44,7 @@ import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
@@ -104,6 +105,7 @@ public class CourseOfferingControllerPopulateUIForm {
             defaultFO.getRenderHelper().setNewRow(true);
             defaultFO.setCourseOfferingWrapper(formObject);
             formObject.getFormatOfferingList().add(defaultFO);
+            formObject.setFinalExamDriver( LuServiceConstants.LU_EXAM_DRIVER_AO_KEY);
 
             //4. Checking if Grading Options should be disabled or not and assign default (if no value)
             //5. Checking if there are any student registration options from CLU for screen display
