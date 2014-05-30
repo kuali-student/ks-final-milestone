@@ -14,12 +14,9 @@
  */
 package org.kuali.student.ap.framework.context;
 
-import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.student.r2.core.acal.infc.AcademicCalendar;
 import org.kuali.student.r2.core.acal.infc.Term;
-import sun.util.LocaleServiceProviderPool;
 
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 /**
