@@ -121,7 +121,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
 
         AtpAtpRelationInfo atpRelation = KSCollectionUtils.getOptionalZeroElement(results);
         if(atpRelation != null){
-            atpRelation.getRelatedAtpId();
+            return atpRelation.getRelatedAtpId();
         }
 
         return null;
