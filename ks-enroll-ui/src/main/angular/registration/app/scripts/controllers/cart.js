@@ -139,7 +139,6 @@ angular.module('regCartApp')
                                 console.log('Save credits and grading for cartId:', cartId);
                                 $rootScope.$broadcast('addCourseToCart', cartId, $scope.newCartItem.courseCode, $scope.newCartItem.termId, $scope.newCartItem.regGroupCode, $scope.newCartItem.regGroupId, $scope.newCartItem.newGrading, $scope.newCartItem.newCredits);
                                 $scope.$close(true);
-
                             };
                         }]
                     });
@@ -147,7 +146,6 @@ angular.module('regCartApp')
                     console.log('Error with adding course', error.data.consoleMessage);
                     $scope.userMessage = {txt: error.data.genericMessage, type: error.data.type, detail: error.data.detailedMessage};
                 }
-
             });
         }
 
@@ -178,7 +176,7 @@ angular.module('regCartApp')
                         }
                     });
 
-                    $scope.userMessage = {'txt': item.courseCode + '(' + item.regGroupCode + ') ' + 'has been successfully removed from your cart.',
+                    $scope.userMessage = {'txt': 'Removed <b>' + item.courseCode + '(' + item.regGroupCode + ')</b>',
                         'actionLink': actionUri,
                         'linkText': 'Undo',
                         'type': 'success'};

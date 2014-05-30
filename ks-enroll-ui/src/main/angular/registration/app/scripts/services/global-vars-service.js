@@ -76,11 +76,11 @@ angular.module('regCartApp')
 
         this.getUserId = function() {
             return userId;
-        }
+        };
 
         this.setUserId = function (value) {
             userId = value;
-        }
+        };
 
         // In this method we pass in a state and it returns a status
         this.getCorrespondingStatusFromState = function(state){

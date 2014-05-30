@@ -31,7 +31,6 @@
 }
 
 .kscr-Card-detailsText-common() {
-    border-bottom: @horizontalLineBorder;
     border-top: @horizontalLineBorder;
     color: @primaryTextColor;
     font-size: 14px;
@@ -144,9 +143,23 @@
 }
 
 .kscr-Card-buttons {
+    border-top: @horizontalLineBorder;
     margin-top: 5px;
-    padding: 0.5em 0em;
+    padding: 0.5em 0em 0;
     text-align: right;
+
+    .util-Alert--error & {
+        border-color: @errorBorder;
+    }
+    .util-Alert--information & {
+        border-color: @infoText;
+    }
+    .util-Alert--success & {
+        border-color: @successBorder;
+    }
+    .util-Alert--warning & {
+        border-color: @warningBorder;
+    }
 }
 
 .kscr-Card-button {
