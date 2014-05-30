@@ -1035,6 +1035,11 @@ textarea,
 .uneditable-input, select {
   width: auto;
 }
+
+/* This is removing yellow background/fade in Schedule of Classes on expand KSENROLL-13082 */
+.detailsRow .uif-progressiveDisclosure-highlight {
+    background: none;
+}
 /************************************** END BOOTSTRAP OVERRIDES **********************/
 
 
@@ -1916,18 +1921,12 @@ table.dataTable th.sorting_desc {
   background-color: #c4c4c4;
 }
 
-table.dataTable tr.odd td.sorting_1 {
-  background-color: #fff;
-}
-
+table.dataTable tr.odd td.sorting_1,
 table.dataTable tr.even td.sorting_1 {
   background-color: #fff;
 }
 
-.uif-tableCollectionLayout tbody tr:hover > td, .uif-tableCollectionLayout tbody tr:hover > th {
-  background-color: #F5F5F5;
-}
-
+.uif-tableCollectionLayout tbody tr:hover > td, .uif-tableCollectionLayout tbody tr:hover > th,
 .uif-tableCollectionLayout tbody tr:hover > td.sorting_1, .uif-tableCollectionLayout tbody tr:hover > th.sorting_1 {
   background-color: #F5F5F5;
 }
@@ -2045,16 +2044,12 @@ section.uif-disclosure {
   margin-bottom: 10px;
 }
 
-#manageTheCourseOfferingPage_messages .uif-pageValidationMessage-single{
-  background-color: #fffeda;
-}
-
-#manageTheCourseOfferingPage_messages .uif-validationMessagesList>li{
-  background-color: #fffeda;
-}
-
 #manageTheCourseOfferingPage_messages {
   background-color: #fffeda;
+
+  .uif-pageValidationMessage-single, .uif-validationMessagesList>li{
+    background-color: #fffeda;
+  }
 }
 
 #KS-CourseOffering-Title .uif-label{
