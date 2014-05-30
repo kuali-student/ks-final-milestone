@@ -277,14 +277,20 @@ public class KsapHelperUtil {
                 return -1;
             if (year2 == -1)
                 return 1;
-            if(year1 != year2) return Integer.compare(year1,year2);
+            if(year1 != year2) return compareIntegers(year1,year2);
 
             // Compare term value of the terms
             String termOrder = ConfigContext.getCurrentContextConfig().getProperty("ks.ap.search.terms.offered.abbrev");
             int term1Location = termOrder.indexOf(s1[0]);
             int term2Location = termOrder.indexOf(s2[0]);
-            return Integer.compare(term1Location,term2Location);
+            return compareIntegers(term1Location,term2Location);
         }
 
     };
+
+    private static int compareIntegers(int o1, int o2){
+        if(o1 == o2) return 0;
+        if(o1 > o2) return 1;
+        return -1;
+    }
 }
