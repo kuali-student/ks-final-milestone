@@ -16,7 +16,7 @@ function getPopupOptionsDefaults(){
         alwaysVisible:false,
         themeMargins:{total:"20px", difference:"5px"},
         themeName:"ksap",
-        distance:"0px",
+        distance:"10px",
         openingSpeed:5,
         closingSpeed:5
     };
@@ -54,7 +54,7 @@ function openDialogWindow(getId, retrieveData, formAction, popupStyle, popupOpti
         });
     } else {
         popupHtml.css({
-            width: "300px",
+            width: "315px",
             height: "16px"
         });
     }

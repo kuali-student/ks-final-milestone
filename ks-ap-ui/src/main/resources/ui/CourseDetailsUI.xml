@@ -628,7 +628,7 @@
                 <bean parent="Uif-CssGridGroup">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-VerticalBoxSection" p:colSpan="4">
+                            <bean parent="Uif-VerticalBoxSection" p:colSpan="5">
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-Message" p:messageText="Scheduled Terms">
@@ -641,7 +641,7 @@
                                     </list>
                                 </property>
                             </bean>
-                            <bean parent="Uif-VerticalBoxSection" p:colSpan="8">
+                            <bean parent="Uif-VerticalBoxSection" p:colSpan="7">
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-MessageField" p:messageText="
@@ -664,7 +664,7 @@
                 <bean parent="Uif-CssGridGroup" p:render="@{dataObject.scheduledTerms.size() gt 0 ? false : dataObject.lastOffered ne null ? true : false}">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-VerticalBoxSection" p:colSpan="4">
+                            <bean parent="Uif-VerticalBoxSection" p:colSpan="5">
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-Message" p:messageText="Last Offered">
@@ -677,7 +677,7 @@
                                     </list>
                                 </property>
                             </bean>
-                            <bean parent="Uif-VerticalBoxSection" p:colSpan="8">
+                            <bean parent="Uif-VerticalBoxSection" p:colSpan="7">
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-MessageField" p:messageText="@{dataObject.lastOffered}"
@@ -698,7 +698,7 @@
                 <bean parent="Uif-CssGridGroup">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-VerticalBoxSection" p:colSpan="4">
+                            <bean parent="Uif-VerticalBoxSection" p:colSpan="5">
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-Message" p:messageText="Projected Terms">
@@ -711,7 +711,7 @@
                                     </list>
                                 </property>
                             </bean>
-                            <bean parent="Uif-VerticalBoxSection" p:colSpan="8">
+                            <bean parent="Uif-VerticalBoxSection" p:colSpan="7">
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-MessageField" p:messageText="
@@ -734,7 +734,7 @@
                 <bean parent="Uif-CssGridGroup">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-VerticalBoxSection" p:colSpan="4">
+                            <bean parent="Uif-VerticalBoxSection" p:colSpan="5">
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-Message" p:messageText="Course Requisites">
@@ -747,7 +747,7 @@
                                     </list>
                                 </property>
                             </bean>
-                            <bean parent="Uif-VerticalBoxSection" p:colSpan="8">
+                            <bean parent="Uif-VerticalBoxSection" p:colSpan="7">
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-MessageField" p:messageText=
