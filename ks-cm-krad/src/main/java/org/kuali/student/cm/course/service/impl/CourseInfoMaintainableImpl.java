@@ -144,9 +144,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 
 import javax.xml.namespace.QName;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -514,11 +517,11 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 MaintenanceDocumentForm modelForm = (MaintenanceDocumentForm) viewModel;
                 CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) modelForm.getDocument().getNewMaintainableObject().getDataObject();
                 CourseInfoMaintainable courseInfoMaintainable = (CourseInfoMaintainable) modelForm.getDocument().getNewMaintainableObject();
-                if(courseInfoWrapper.getCollaboratorWrappers().size() == 0) {
+                if (courseInfoWrapper.getCollaboratorWrappers().size() == 0) {
                     return true;
                 }
                 for (CollaboratorWrapper collaboratorAuthor : courseInfoWrapper.getCollaboratorWrappers()) {
-                    if(StringUtils.isBlank(collaboratorAuthor.getDisplayName()) ) {
+                    if (StringUtils.isBlank(collaboratorAuthor.getDisplayName())) {
                         return false; //already have a blank line
                     }
                 }
@@ -556,14 +559,14 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             /**
              * If it's already exists at DB, delete from DB. Otherwise, just from list.
              */
-            if (!wrapper.isNewDto()){
+            if (!wrapper.isNewDto()) {
                 try {
                     StatusInfo deleteStatus = getCommentService().deleteComment(wrapper.getCommentInfo().getId(), createContextInfo());
-                    if (!deleteStatus.getIsSuccess()){
-                        GlobalVariables.getMessageMap().putError(collectionPath,CurriculumManagementConstants.MessageKeys.ERROR_COMMENT_DELETE,wrapper.getCommentInfo().getId(),deleteStatus.getMessage());
+                    if (!deleteStatus.getIsSuccess()) {
+                        GlobalVariables.getMessageMap().putError(collectionPath, CurriculumManagementConstants.MessageKeys.ERROR_COMMENT_DELETE, wrapper.getCommentInfo().getId(), deleteStatus.getMessage());
                     }
                 } catch (Exception e) {
-                    throw new RuntimeException("Error deleting comment [id=" + wrapper.getCommentInfo().getId() + "]",e);
+                    throw new RuntimeException("Error deleting comment [id=" + wrapper.getCommentInfo().getId() + "]", e);
                 }
                 courseInfoWrapper.getComments().remove(wrapper);
                 return;
@@ -1159,7 +1162,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
                 if (activityInfo.getDuration() != null) {
                     String durationType = null;
-                    if(StringUtils.isNotBlank(activityInfo.getDuration().getAtpDurationTypeKey())) {
+                    if (StringUtils.isNotBlank(activityInfo.getDuration().getAtpDurationTypeKey())) {
                         try {
                             TypeInfo duration = getTypeService().getType(activityInfo.getDuration().getAtpDurationTypeKey(), createContextInfo());
                             durationType = duration.getName();
@@ -1171,7 +1174,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                     if (activityInfo.getDuration().getTimeQuantity() != null) {
                         durationCount = activityInfo.getDuration().getTimeQuantity().toString();
                     }
-                    if(StringUtils.isNotBlank(durationType)) {
+                    if (StringUtils.isNotBlank(durationType)) {
                         durationCount = durationCount + " " + durationType + CurriculumManagementConstants.COLLECTION_ITEM_PLURAL_END;
                     }
                 }
@@ -1302,8 +1305,8 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
 
-        if(courseInfoWrapper.getCourseInfo().getDescr() != null && courseInfoWrapper.getCourseInfo().getDescr().getPlain() != null) {
-            String courseDescription = courseInfoWrapper.getCourseInfo().getDescr().getPlain().replace("\r\n","\n"); // replacing carriage return and new line with new line char.
+        if (courseInfoWrapper.getCourseInfo().getDescr() != null && courseInfoWrapper.getCourseInfo().getDescr().getPlain() != null) {
+            String courseDescription = courseInfoWrapper.getCourseInfo().getDescr().getPlain().replace("\r\n", "\n"); // replacing carriage return and new line with new line char.
             courseInfoWrapper.getCourseInfo().getDescr().setPlain(courseDescription);
         }
 
@@ -1406,17 +1409,16 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
     /**
      * This method creates <class>CourseJointInfoWrapper</class> instances from <class>CourseJointInfo</class> instance
-     *
      */
-    protected void populateJointCourseOnDTO(){
+    protected void populateJointCourseOnDTO() {
 
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
         courseInfoWrapper.getCourseInfo().getJoints().clear();
 
         for (final CourseJointInfoWrapper jointInfoDisplay : courseInfoWrapper.getCourseJointWrappers()) {
 
-            if (StringUtils.isNotBlank(jointInfoDisplay.getCourseCode())){
-                CourseCodeSearchUtil.getCourseJointInfoWrapper(jointInfoDisplay.getCourseCode(), getCluService(),jointInfoDisplay);
+            if (StringUtils.isNotBlank(jointInfoDisplay.getCourseCode())) {
+                CourseCodeSearchUtil.getCourseJointInfoWrapper(jointInfoDisplay.getCourseCode(), getCluService(), jointInfoDisplay);
                 courseInfoWrapper.getCourseInfo().getJoints().add(jointInfoDisplay);
             }
 
@@ -1482,7 +1484,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         courseInfoWrapper.getCourseInfo().getFormats().clear();
         List<ActivityInfo> activities;
         for (FormatInfo format : courseInfoWrapper.getFormats()) {
-            activities  = new ArrayList<ActivityInfo>();
+            activities = new ArrayList<ActivityInfo>();
             if (!isEmptyFormat(format)) {
 
                 if (StringUtils.isBlank(format.getId())) { // If it's new
@@ -1496,7 +1498,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                         activity.setState(DtoConstants.STATE_DRAFT);
                     }
                     // blank activities are removed from the list.
-                    if(activity.getId() == null && (activity.getTypeKey() == null)) {
+                    if (activity.getId() == null && (activity.getTypeKey() == null)) {
                         continue;
                     }
                     // only non blank activities are added to the list
@@ -1853,16 +1855,15 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
     /**
      * This method creates <class>CourseJointInfoWrapper</class> instances from <class>CourseJointInfo</class> instance
-     *
      */
-    protected void populateJointCourseOnWrapper(){
+    protected void populateJointCourseOnWrapper() {
 
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
         courseInfoWrapper.getCourseJointWrappers().clear();
 
         for (final CourseJointInfo jointInfo : courseInfoWrapper.getCourseInfo().getJoints()) {
             CourseJointInfoWrapper jointInfoWrapper = new CourseJointInfoWrapper();
-            BeanUtils.copyProperties(jointInfo,jointInfoWrapper);
+            BeanUtils.copyProperties(jointInfo, jointInfoWrapper);
             jointInfoWrapper.setCourseCode(jointInfo.getSubjectArea() + jointInfo.getCourseNumberSuffix());
             courseInfoWrapper.getCourseJointWrappers().add(jointInfoWrapper);
         }
@@ -1912,26 +1913,27 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
      *
      * @param commentWrapper
      */
-    public void saveComment(CommentWrapper commentWrapper){
+    public void saveComment(CommentWrapper commentWrapper) {
 
-        LOG.trace("Saving comment - " +  commentWrapper.getCommentInfo().getCommentText());
+        LOG.trace("Saving comment - " + commentWrapper.getCommentInfo().getCommentText());
 
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
-        ProposalInfo proposal =  courseInfoWrapper.getProposalInfo();
+        ProposalInfo proposal = courseInfoWrapper.getProposalInfo();
         CommentInfo comment = commentWrapper.getCommentInfo();
 
-        if (StringUtils.isBlank(courseInfoWrapper.getProposalInfo().getId())){
+        if (StringUtils.isBlank(courseInfoWrapper.getProposalInfo().getId())) {
             throw new RuntimeException("Proposal should be saved before adding comments");
         }
-        
-        if (commentWrapper.isNewDto()){
+
+        if (commentWrapper.isNewDto()) {
 
             comment.setReferenceId(proposal.getId());
             comment.setReferenceTypeKey(proposal.getTypeKey());
             comment.setTypeKey(CommentServiceConstants.COMMENT_GENERAL_REMARKS_TYPE_KEY);
-            comment.setCommenterId(GlobalVariables.getUserSession().getPrincipalId());
+            DateFormat dateFormat = new SimpleDateFormat("MMMMM dd, yyyy, HH:mm a");
+            Date date = new Date();
+            comment.setCommenterId(GlobalVariables.getUserSession().getPrincipalId() + " on " + dateFormat.format(date) );
             comment.setStateKey(CommentServiceConstants.COMMENT_ACTIVE_STATE_KEY);
-
             try {
                 comment = getCommentService().createComment(proposal.getId(), proposal.getTypeKey(), CommentServiceConstants.COMMENT_GENERAL_REMARKS_TYPE_KEY, comment, createContextInfo());
             } catch (Exception e) {
@@ -1941,7 +1943,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
         } else {
             try {
-                comment = getCommentService().updateComment(comment.getId(),comment,createContextInfo());
+                comment = getCommentService().updateComment(comment.getId(), comment, createContextInfo());
             } catch (Exception e) {
                 LOG.error("Error updating comment " + comment.getId() + " for the proposal " + proposal.getName());
                 throw new RuntimeException("Error updating comment " + comment.getId() + " for the proposal " + proposal.getName(), e);
@@ -1957,10 +1959,10 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     /**
      * This method retrieves all the comments for the proposal
      */
-    public void retrieveComments(){
+    public void retrieveComments() {
 
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
-        ProposalInfo proposal =  courseInfoWrapper.getProposalInfo();
+        ProposalInfo proposal = courseInfoWrapper.getProposalInfo();
 
         LOG.debug("Retrieving comments for  - " + proposal.getId());
 
@@ -1969,10 +1971,10 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         courseInfoWrapper.getComments().clear();
 
         try {
-            comments = getCommentService().getCommentsByReferenceAndType(proposal.getId(),proposal.getTypeKey(),createContextInfo());
+            comments = getCommentService().getCommentsByReferenceAndType(proposal.getId(), proposal.getTypeKey(), createContextInfo());
             LOG.debug("Retrieved " + comments.size() + " comments for proposal " + proposal.getId());
         } catch (Exception e) {
-            throw new RuntimeException("Error retrieving comment(s) for the proposal [id=" + proposal.getId() + "]",e);
+            throw new RuntimeException("Error retrieving comment(s) for the proposal [id=" + proposal.getId() + "]", e);
         }
 
         if (comments != null) {
@@ -1980,7 +1982,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 CommentWrapper wrapper = new CommentWrapper();
                 wrapper.setCommentInfo(comment);
 //                Person person = getPersonService().getPerson(comment.getMeta().getCreateId());
-  //              wrapper.getRenderHelper().setUser(person.getNameUnmasked());
+                //              wrapper.getRenderHelper().setUser(person.getNameUnmasked());
                 wrapper.getRenderHelper().setDateTime(DateFormatters.MONTH_DATE_YEAR_TIME_COMMA_FORMATTER.format(comment.getMeta().getCreateTime()));
                 courseInfoWrapper.getComments().add(wrapper);
             }

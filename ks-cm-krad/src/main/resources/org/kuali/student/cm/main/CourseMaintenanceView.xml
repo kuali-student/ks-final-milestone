@@ -606,7 +606,7 @@
                                 <property name="layoutManager.richTable.render" value="true" />
                                 <property name="items">
                                     <list>
-<!--                                        <bean parent="KS-Uif-DataField" p:label=" " p:propertyName="activeComment.commentInfo.commenterId"/>-->
+                                        <bean parent="KS-Uif-DataField" p:label=" " p:propertyName="commentInfo.commenterId"/>
                                         <bean parent="KS-Uif-InputField" p:label=" " p:propertyName="commentInfo.commentText.plain"/>
                                     </list>
                                 </property>
@@ -625,6 +625,17 @@
                                     </list>
                                 </property>
                             </bean>
+                        </list>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-HorizontalBoxGroup" p:cssClasses="ks-dottedHeaderActions">
+                    <property name="items">
+                        <list>
+                            <bean id="commentsLightBoxContents-cancel"
+                                  parent="Uif-CancelAction"
+                                  p:ajaxSubmit="false"
+                                  p:methodToCall="close"/>
                         </list>
                     </property>
                 </bean>
