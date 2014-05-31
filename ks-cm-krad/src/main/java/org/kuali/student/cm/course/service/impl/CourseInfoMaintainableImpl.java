@@ -27,7 +27,6 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.IdentityService;
-import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.uif.container.Container;
@@ -1980,8 +1979,8 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             for (CommentInfo comment : comments) {
                 CommentWrapper wrapper = new CommentWrapper();
                 wrapper.setCommentInfo(comment);
-                Person person = getPersonService().getPerson(comment.getMeta().getCreateId());
-                wrapper.getRenderHelper().setUser(person.getNameUnmasked());
+//                Person person = getPersonService().getPerson(comment.getMeta().getCreateId());
+  //              wrapper.getRenderHelper().setUser(person.getNameUnmasked());
                 wrapper.getRenderHelper().setDateTime(DateFormatters.MONTH_DATE_YEAR_TIME_COMMA_FORMATTER.format(comment.getMeta().getCreateTime()));
                 courseInfoWrapper.getComments().add(wrapper);
             }

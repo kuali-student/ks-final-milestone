@@ -18,7 +18,6 @@ package org.kuali.student.cm.course.controller;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
-import org.joda.time.DateTime;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -58,9 +57,7 @@ import org.kuali.student.common.uif.util.KSViewAttributeValueReader;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
-import org.kuali.student.r2.common.dto.DtoConstants.DtoState;
 import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
 import org.kuali.student.r2.core.comment.service.CommentService;
@@ -94,7 +91,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -631,11 +627,19 @@ public class CourseController extends CourseRuleEditorController {
         CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
         CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
 
+        CommentInfo commentInfo = new CommentInfo() ;
+        RichTextInfo richTextInfo = new RichTextInfo();
+        richTextInfo.setPlain(courseInfoWrapper.getComment());
+
+        commentInfo.setCommentText(richTextInfo);
+        CommentWrapper commentWrapper = new CommentWrapper();
+        commentWrapper.setCommentInfo(commentInfo);
+        courseInfoWrapper.setActiveComment(commentWrapper);
         maintainable.saveComment(courseInfoWrapper.getActiveComment());
+        maintainable.retrieveComments();
 
-        courseInfoWrapper.setActiveComment(new CommentWrapper());
+        return start(form, request, response);
 
-        return returnFromLightbox(form, result, request, response);
 
         /*//TODO KSCM-848 : Will need to replace these temp values once we get UMD's reference data
 

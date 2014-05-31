@@ -580,7 +580,7 @@
 
                 <bean parent="Uif-SecondaryActionButton"
                     p:ajaxSubmit="true"
-                    p:methodToCall="addComment"
+                    p:methodToCall="saveComment"
                     p:actionLabel="Add Comment"
                     p:performClientSideValidation="true"
                     p:render="true"/>
@@ -595,7 +595,7 @@
                     <!-- There is a property replacer below which, if there are no comments, replaces it with a Message -->
                     <property name="items">
                         <list>
-                            <bean parent="Uif-TableCollectionSection" lazy-init="false">
+                            <bean  parent="Uif-TableCollectionSection" lazy-init="false">
                                 <property name="header.render" value="false"/>
                                 <property name="collectionObjectClass" value="org.kuali.student.cm.course.form.CommentWrapper" />
                                 <property name="propertyName" value="comments" />
@@ -606,7 +606,7 @@
                                 <property name="layoutManager.richTable.render" value="true" />
                                 <property name="items">
                                     <list>
-                                        <bean parent="KS-Uif-DataField" p:label=" " p:propertyName="commentInfo.commenterId"/>
+<!--                                        <bean parent="KS-Uif-DataField" p:label=" " p:propertyName="activeComment.commentInfo.commenterId"/>-->
                                         <bean parent="KS-Uif-InputField" p:label=" " p:propertyName="commentInfo.commentText.plain"/>
                                     </list>
                                 </property>

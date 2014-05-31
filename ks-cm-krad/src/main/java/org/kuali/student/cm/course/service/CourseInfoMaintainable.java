@@ -65,4 +65,6 @@ public interface CourseInfoMaintainable {
 
     public void saveComment(CommentWrapper commentWrapper);
 
+    public void retrieveComments();
+
 }
