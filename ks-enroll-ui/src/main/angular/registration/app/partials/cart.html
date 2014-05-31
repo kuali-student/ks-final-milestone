@@ -182,7 +182,7 @@
     <span class="responseCount" ng-if="cartResults.successCount > 0">Success ({{cartResults.successCount}})</span>
     <span>RESULTS</span>
 </div>
-<div class="kscr-Card kscr-Card-Results panel-group">
+<div id="resultsSection" class="kscr-Card kscr-Card-Results panel-group">
     <div ng-repeat="cartResultItem in cartResults.items" is-open="isopen" class="panel kscr-cartItem-status kscr-cartItem-status--{{cartResultItem.status}}">
         <div class="kscr-cartResult-icon">&nbsp;</div>
         <div id="course_remove_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}" class="kscr-Card-remove" ng-if="cartResultItem.status != 'processing'">
