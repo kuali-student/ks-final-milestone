@@ -131,6 +131,8 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
             console.log('Updating registered course:');
             console.log(course.newCredits);
             console.log(course.newGrading);
+            var oldCredits = course.credits;
+            var oldGrading = course.gradingOptionId;
             ScheduleService.updateScheduleItem().query({
                 courseCode: course.courseCode,
                 regGroupCode: course.regGroupCode,
@@ -144,7 +146,36 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
                 course.credits = scheduleItemResult.credits;
                 course.gradingOptionId = scheduleItemResult.gradingOptionId;
                 course.editing = false;
-                course.statusMessage = {txt: 'Changes saved successfully', type: 'success'};
+//                course.statusMessage = {txt: 'Changes saved successfully', type: 'success'};
+                console.log('Started to animate...');
+                if (course.newGrading != oldGrading) {
+                    course.editGradingOption = true;
+                    if (course.gradingOptions[course.gradingOptionId] == 'Letter') {
+                        course.editGradingOptionLetter = true;
+                        $timeout(function(){
+                            course.editGradingOptionDone = true;
+                        }, 200)
+                        $timeout(function(){
+                            course.editGradingOption = false;
+                            course.editGradingOptionDone = false;
+                            course.editGradingOptionLetter = false;
+                        }, 2000)
+                    } else {
+                        $timeout(function(){
+                            course.editGradingOption = false;
+                        }, 2000)
+                    }
+                }
+                if (course.newCredits != oldCredits) {
+                    course.editCredits = true;
+                    $timeout(function(){
+                        course.editCredits = false;
+                        course.editCreditsDone = true;
+                    }, 2000)
+                    $timeout(function(){
+                        course.editCreditsDone = false;
+                    }, 4000)
+                }
             }, function (error) {
                 course.statusMessage = {txt: error.data, type: 'error'};
             });
@@ -154,6 +185,8 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
             console.log('Updating waitlisted course:');
             console.log(course.newCredits);
             console.log(course.newGrading);
+            var oldCredits = course.credits;
+            var oldGrading = course.gradingOptionId;
             ScheduleService.updateWaitlistItem().query({
                 courseCode: course.courseCode,
                 regGroupCode: course.regGroupCode,
@@ -167,7 +200,34 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
                 course.credits = scheduleItemResult.credits;
                 course.gradingOptionId = scheduleItemResult.gradingOptionId;
                 course.editing = false;
-                course.statusMessage = {txt: 'Changes saved successfully', type: 'success'};
+//                course.statusMessage = {txt: 'Changes saved successfully', type: 'success'};
+                console.log('Started to animate...');
+                if (newGrading != oldGrading) {
+                    course.editGradingOption = true;
+                    if (course.gradingOptions[course.gradingOptionId] == 'Letter') {
+                        course.editGradingOptionLetter = true;
+                    }
+                    $timeout(function(){
+                        course.editGradingOption = false;
+                        course.editGradingOptionDone = true;
+                    }, 2000)
+                    $timeout(function(){
+                        course.editGradingOptionDone = false;
+                        if (course.gradingOptions[course.gradingOptionId] == 'Letter') {
+                            course.editGradingOptionLetter = false;
+                        }
+                    }, 4000)
+                }
+                if (newCredits != oldCredits) {
+                    course.editCredits = true;
+                    $timeout(function(){
+                        course.editCredits = false;
+                        course.editCreditsDone = true;
+                    }, 2000)
+                    $timeout(function(){
+                        course.editCreditsDone = false;
+                    }, 4000)
+                }
             }, function (error) {
                 course.statusMessage = {txt: error.data, type: 'error'};
             });
@@ -191,7 +251,7 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
         };
 
         $scope.showBadge = function (course) {
-            return course.gradingOptions[course.gradingOptionId] !== 'Letter';
+            return course.gradingOptions[course.gradingOptionId] !== 'Letter' || course.editGradingOptionLetter;
         };
 
     }]);

@@ -1,72 +1,69 @@
-/******These are styles for use in the card section ******/
-
-
 .kscr-Card, .kscr-Card-Results {
-    color: @cardTextColor;
-    font-size: 14px;
-    font-family: @secondaryFontFamily;
-    margin: 0 0.5em;
-    position: relative;
-    a {text-decoration: none;}
+  color: @cardTextColor;
+  font-size: 14px;
+  font-family: @secondaryFontFamily;
+  margin: 0 0.5em;
+  position: relative;
+  a {text-decoration: none;}
 }
 
 .kscr-Card-title {
-    color: @cardTextColor; //#666666;
-    font-weight: bold;
-    padding-left: 1.5em;
+  color: @cardTextColor; //#666666;
+  font-weight: bold;
+  padding-left: 1.5em;
 
-    &-alert {
-        font-weight: bold;
-    }
+  &-alert {
+    font-weight: bold;
+  }
 }
 
 .kscr-Card-text {
-    color: @primaryTextColor;
-    padding-left: 1.5em;
-    padding-top: 0.3em;
+  color: @primaryTextColor;
+  padding-left: 1.5em;
+  padding-top: 0.3em;
 
-    &-alert {
-        padding: 3px 0 10px 0;
-    }
+  &-alert {
+    padding: 3px 0 10px 0;
+  }
 }
 
 .kscr-Card-detailsText-common() {
-    border-top: @horizontalLineBorder;
-    color: @primaryTextColor;
-    font-size: 14px;
-    font-family: @secondaryFontFamily;
-    font-weight: normal;
-    padding: 10px 0;
+  border-top: @horizontalLineBorder;
+  color: @primaryTextColor;
+  font-size: 14px;
+  font-family: @secondaryFontFamily;
+  font-weight: normal;
+  padding: 10px 0;
 }
 
 .kscr-Card-detailsText {
+  .kscr-Card-detailsText-common();
+
+  &--action {
     .kscr-Card-detailsText-common();
+    border-color: @warningBorder;
+    color: @warningText;
+    padding-bottom: 5px;
+  }
 
-    &--action {
-        .kscr-Card-detailsText-common();
-        border-color: @warningBorder;
-        color: @warningText;
-        padding-bottom: 5px;
-    }
+  &--edit {
+    .kscr-Card-detailsText-common();
+    padding: 0.5em 0.9em 2em 0;
+  }
 
-    &--edit {
-        .kscr-Card-detailsText-common();
-        padding: 0.5em 0.9em 2em 0;
-    }
+  &--error {
+    .kscr-Card-detailsText-common();
+    border-color: @errorBorder;
+    color: @errorText;
+  }
 
-    &--error {
-        .kscr-Card-detailsText-common();
-        border-color: @errorBorder;
-        color: @errorText;
-    }
-
-    &--show {
-        .kscr-Card-detailsText-common();
-        border-bottom: none;
-        border-top: none;
-        padding-left: 0.5em;
-        padding-top: 0.3em;
-    }
+  &--show {
+    .kscr-Card-detailsText-common();
+    border-bottom: none;
+    border-top: none;
+    padding-left: 0.5em;
+    padding-top: 0.3em;
+  }
 }
 
 
@@ -74,197 +71,354 @@
 
 .kscr-Card-detailsText--edit.ng-hide-remove,
 .kscr-Card-detailsText.ng-hide-remove {
-   .util-transitions-browserHelper;
-    display: block!important;
+  .util-transitions-browserHelper;
+  display: block!important;
 }
 
 .kscr-Card-detailsText.ng-hide-add,
 .kscr-Card-detailsText--edit.ng-hide-add {
-    display: none;
+  display: none;
 }
 
 .kscr-Card-detailsText--edit.ng-hide-add.ng-hide-add-active,
 .kscr-Card-detailsText--edit.ng-hide-remove,
 .kscr-Card-detailsText.ng-hide-add.ng-hide-add-active,
 .kscr-Card-detailsText.ng-hide-remove {
-    opacity: 0;
+  opacity: 0;
 }
 
 .kscr-Card-detailsText--edit.ng-hide-add,
 .kscr-Card-detailsText--edit.ng-hide-remove.ng-hide-remove-active,
 .kscr-Card-detailsText.ng-hide-add,
 .kscr-Card-detailsText.ng-hide-remove.ng-hide-remove-active {
-    opacity: 0.75;
+  opacity: 0.75;
 }
 /* END of Transitions for fade effect in Card Edit */
 
 
 .kscr-Card-courseTimes {
-    display: inline-flex;
-    padding-left: 1em;
-    width: 100%;
+  display: inline-flex;
+  padding-left: 1em;
+  width: 100%;
 }
 
 .kscr-Card-scheduleComponent {
-    width: 100%;
+  width: 100%;
 }
 
 .kscr-Card-ao-type {
-    float: left;
-    width: 35px;
+  float: left;
+  width: 35px;
 }
 
 .kscr-Card-ao-instructor {
-    float: right;
-    text-align: right;
+  float: right;
+  text-align: right;
 }
 
 .kscr-Card-ao-schedule {
-    clear: both;
+  clear: both;
 }
 
 .kscr-Card-supportText {
-    color: @cardTextColor;
-    font-weight: normal;
-    float: right;
+  color: @cardTextColor;
+  font-weight: normal;
+  float: right;
 }
 
 .kscr-Card-remove {
-    display: block;
-    position: absolute;
-    right: 6px;
-    top: 6px;
+  display: block;
+  position: absolute;
+  right: 6px;
+  top: 6px;
 }
 
 .kscr-Card-statusRemove a {
-    float: right;
-    display: inline;
-    color: @removeIconColor;
-    font-size: 1.2em;
+  float: right;
+  display: inline;
+  color: @removeIconColor;
+  font-size: 1.2em;
 }
 
 .kscr-Card-buttons {
-    border-top: @horizontalLineBorder;
-    margin-top: 5px;
-    padding: 0.5em 0em 0;
-    text-align: right;
+  border-top: @horizontalLineBorder;
+  margin-top: 5px;
+  padding: 0.5em 0em 0;
+  text-align: right;
 
-    .util-Alert--error & {
-        border-color: @errorBorder;
-    }
-    .util-Alert--information & {
-        border-color: @infoText;
-    }
-    .util-Alert--success & {
-        border-color: @successBorder;
-    }
-    .util-Alert--warning & {
-        border-color: @warningBorder;
-    }
+  .util-Alert--error & {
+    border-color: @errorBorder;
+  }
+  .util-Alert--information & {
+    border-color: @infoText;
+  }
+  .util-Alert--success & {
+    border-color: @successBorder;
+  }
+  .util-Alert--warning & {
+    border-color: @warningBorder;
+  }
 }
 
 .kscr-Card-button {
-//    float: right;
+  //    float: right;
 }
 
 .kscr-Card-icon {
-    position: absolute;
-    font-size: 13px;
-    color:  @secondaryTextColor;
+  position: absolute;
+  font-size: 13px;
+  color:  @secondaryTextColor;
 }
 
 
 .kscr-Card-badge {
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    background-color: @badgeColor;
-    color: @bodyColor;
-    font-size: 11px;
-    font-weight: bold;
-    padding-left: 4px;
-    padding-right: 4px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  background-color: @badgeColor;
+  color: @bodyColor;
+  font-size: 11px;
+  font-weight: bold;
+  padding-left: 4px;
+  padding-right: 4px;
 }
 
 .kscr-horizontalRule {
-    border: 1px solid #F2F2F2;
+  border: 1px solid #F2F2F2;
 }
 
 
 .responseCount {
-    float: right;
-    padding-right: 10px;
+  float: right;
+  padding-right: 10px;
 }
 
 .kscr-course-container {
-    position: relative;
-    width: 100%;
-    &:extend(.util-transitions-browserHelper);
-    opacity: 1;
+  position: relative;
+  width: 100%;
+  &:extend(.util-transitions-browserHelper);
+  opacity: 1;
 }
 
 .kscr-course-container.ng-leave {
-    opacity: 0.5;
+  opacity: 0.5;
 }
 
 .kscr-course-container.ng-leave-active {
-    opacity: 0;
+  opacity: 0;
 }
 
 .kscr-Card-reason {
-    display: flex;
+  display: flex;
 }
 
 .kscr-Card-reason-message {
-    padding-left: 4px;
+  padding-left: 4px;
 }
 
 .kscr-Card-alert-spacing {
-    padding-right: 20px;
+  padding-right: 20px;
 }
 
 /**** Override of accordion panel for card section ****/
 
+.panel-default {
+  background-color: @cardBackgroundColor;
+  border-color: @cardBorderColor;
+}
+
 .panel-default > .panel-heading {
-    background-color: @cardBackgroundColor;
-    border-color: @cardBorderColor;
-    color: @cardTextColor;
-    cursor: pointer;
-    cursor: hand;
-    padding: 10px 5px;
+  background-color: @cardBackgroundColor;
+  border-color: @cardBorderColor;
+  color: @cardTextColor;
+  cursor: pointer;
+  cursor: hand;
+  padding: 0px 0px;
 }
 
 .panel {
-    background-color: @cardBackgroundColor;
+  background-color: @cardBackgroundColor;
 }
 
 .panel-group .panel-heading + .panel-collapse .panel-body {
-    border-top: none;
+  border-top: none;
 }
 
 .panel-body {
-    padding-bottom: 5px;
-    padding-right: 8px;
+  padding-bottom: 5px;
+  padding-right: 8px;
 }
 
 .panel-title {
-    font-size: 14px;
-    font-family: @secondaryFontFamily;
+  font-size: 14px;
+  font-family: @secondaryFontFamily;
 }
 
 .panel-group  .panel {
-    margin-bottom: 10px;
-    border-width: 1px 1px 2px 1px;
-    &:extend(.util-transitions-browserHelper);
-    opacity: 1;
+  margin-bottom: 10px;
+  border-width: 1px 1px 2px 1px;
+  &:extend(.util-transitions-browserHelper);
+  opacity: 1;
 }
 
 .panel-group  .panel.ng-leave {
-    display: block!important;
+  display: block!important;
 }
 
 .panel-group  .panel.ng-leave-active {
-    line-height: 0;
-    opacity: 0;
+  line-height: 0;
+  opacity: 0;
 }
 /**** END of Override of accordion panel for card section ****/
+
+// Fading in/fading out for changes
+
+/* .kscr-Card-badge-fade {
+  .kscr-Card-badge;
+  opacity: 0.8;
+}
+
+.kscr-Card-badge-fadeIn {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  border-style: solid;
+  border-width: 5px;
+  margin-left: -5px;
+//  border-top: 5px solid;
+//  border-bottom: 5px solid;
+//  border-right: 5px solid;
+  border-color: #FFFF00;
+  background-color: #FFFFCC;
+  //  background-color: #ffff7f;
+  -webkit-transition: .2s linear;
+  -moz-transition: .2s linear;
+  -o-transition: .2s linear;
+  -ms-transition: .2s linear;
+  transition: .2s linear;
+  opacity: 1;
+}
+
+.kscr-Card-badge-fadeOut {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  margin-left: -5px;
+  border-radius: 5px;
+  border-style: solid;
+  border-width: 5px;
+  margin-left: -5px;
+  border-color: #FFFFFF;
+  background-color: #FFFFFF;
+  -webkit-transition: 2s linear;
+  -moz-transition: 2s linear;
+  -o-transition: 2s linear;
+  -ms-transition: 2s linear;
+  transition: 2s linear;
+  opacity: 1;
+}  */
+
+.kscr-Card-badge-fade {
+  .kscr-Card-badge;
+  border-style: solid;
+  border-width: 5px;
+  border-color: @cardBackgroundColor;
+  -webkit-transition: 2s linear;
+  -moz-transition: 2s linear;
+  -o-transition: 2s linear;
+  -ms-transition: 2s linear;
+  transition: 2s linear;
+  opacity: .8;
+}
+
+.kscr-Card-badge-fadeIn {
+  .kscr-Card-badge-fade;
+  border-color: #FFFF00;
+  color: #ffff7f;
+//  color: #FFFFCC;
+//  background-color: #ffff7f;
+  -webkit-transition: .2s linear;
+  -moz-transition: .2s linear;
+  -o-transition: .2s linear;
+  -ms-transition: .2s linear;
+  transition: .2s linear;
+}
+
+/* .kscr-Card-badge-fadeOut {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  margin-left: -5px;
+  border-radius: 5px;
+  border-style: solid;
+  border-width: 5px;
+  margin-left: -5px;
+  border-color: #FFFFFF;
+  background-color: #FFFFFF;
+  -webkit-transition: 2s linear;
+  -moz-transition: 2s linear;
+  -o-transition: 2s linear;
+  -ms-transition: 2s linear;
+  transition: 2s linear;
+  opacity: 1;
+}  */
+
+.kscr-Card-badge-fadeOutLetter {
+  .kscr-Card-badge-fade;
+  border-color: #FFFFFF;
+  background-color: #FFFFFF;
+}
+
+.kscr-Card-credits-fadeIn {
+  border-style: solid;
+  border-width: 5px;
+  border-color: #FFFF00;
+  background-color: #FFFFCC;
+  -webkit-transition: .2s linear;
+  -moz-transition: .2s linear;
+  -o-transition: .2s linear;
+  -ms-transition: .2s linear;
+  transition: .2s linear;
+  opacity: 1;
+  margin-top: -5px;
+  margin-right: -5px;
+ }
+
+.kscr-Card-credits-fadeOut {
+  border-style: solid;
+  border-width: 5px;
+  border-color: @cardBackgroundColor;
+  background-color: @cardBackgroundColor;
+  -webkit-transition: 2s linear;
+  -moz-transition: 2s linear;
+  -o-transition: 2s linear;
+  -ms-transition: 2s linear;
+  transition: 2s linear;
+  opacity: 1;
+  margin-top: -5px;
+  margin-right: -5px;
+}
+
+/**** Override of accordion panel for card section to animate ****/
+
+.kscr-Card-accordion-heading {
+  padding: 10px 5px;
+  border-color: @cardBackgroundColor;
+  border-style: solid;
+  border-width: 5px;
+  -webkit-transition: 2s linear;
+  -moz-transition: 2s linear;
+  -o-transition: 2s linear;
+  -ms-transition: 2s linear;
+  transition: 2s linear;
+  opacity: 1;
+}
+
+.kscr-Card-accordion-heading-fadeIn {
+  .kscr-Card-accordion-heading;
+  border-color: #FFFF00;
+  background-color: #FFFFCC;
+  -webkit-transition: .2s linear;
+  -moz-transition: .2s linear;
+  -o-transition: .2s linear;
+  -ms-transition: .2s linear;
+  transition: .2s linear;
+}

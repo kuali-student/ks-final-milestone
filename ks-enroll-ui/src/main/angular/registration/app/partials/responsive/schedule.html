@@ -61,31 +61,33 @@
             <accordion close-others="oneAtATime" ng-if="!course.dropped && !course.dropProcessing">
                 <accordion-group is-open="isopen">
                     <accordion-heading>
-                        <!--credits-->
-                        <div id="course_info_{{course.courseCode}}_{{course.regGroupCode}}" class="kscr-Card-supportText" ng-hide="cartItem.editing">
-                            <ng-pluralize count="course.credits"
-                                          when="{'1'    : '{} cr',
-                                                 'other': '{} cr'}">
-                            </ng-pluralize>
-                        </div>
-                        <!--Course Header Section-->
-                        <div>
-                            <span class="kscr-Card-icon"><i class="glyphicon" ng-class="{'glyphicon-chevron-down': isopen, 'glyphicon-chevron-right': !isopen}"></i></span>
-                            <span class="kscr-Card-title" id="course_code_{{course.courseCode}}_{{course.regGroupCode}}"><strong>{{course.courseCode}} ({{course.regGroupCode}})</strong></span>
-                            <span class="kscr-Card-badge" id="grading_badge_{{course.courseCode}}_{{course.regGroupCode}}" ng-show="showBadge(course)">{{course.gradingOptions[course.gradingOptionId]}}</span>
-                        </div>
-                        <!--Course Title and description-->
-                        <div class="kscr-Card-text" id="title_{{course.courseCode}}_{{course.regGroupCode}}" ng-show="isopen">{{course.longName}}</div>
-                        <!--AO info: type, time, location-->
-                        <div ng-repeat="ao in course.activityOfferings" class="kscr-Card-detailsText--show" ng-show="!isopen">
-                            <span class="kscr-Card-courseTimes">
-                                <div id="ao_type_{{course.courseCode}}_{{course.regGroupCode}}_{{$index}}" class="kscr-Card-ao-type">{{ao.activityOfferingTypeName | limitTo : 3}}</div>
-                                <div ng-repeat="scheduleComponent in ao.scheduleComponents" id="schedule_{{course.courseCode}}_{{course.regGroupCode}}_{{$parent.$index}}_{{$index}}" class="kscr-Card-scheduleComponent">
-                                    <span ng-hide="scheduleComponent.isTBA" class="util-Grid--floatLeft">{{scheduleComponent.days}} {{scheduleComponent.displayTime}}</span>
-                                    <span ng-hide="scheduleComponent.isTBA" class="util-Grid--floatRight">{{scheduleComponent.buildingCode}} {{scheduleComponent.roomCode}}</span>
-                                    <span ng-show="scheduleComponent.isTBA" class="util-Grid--floatRight">TBA</span>
-                                </div>
-                            </span>
+                        <div ng-class="{'kscr-Card-accordion-heading': true}">
+                            <!--credits-->
+                            <div id="course_info_{{course.courseCode}}_{{course.regGroupCode}}" class="kscr-Card-supportText" ng-hide="cartItem.editing" ng-class="{ 'kscr-Card-credits-fadeIn': course.editCredits, 'kscr-Card-credits-fadeOut': course.editCreditsDone }">
+                                <ng-pluralize count="course.credits"
+                                              when="{'1'    : '{} cr',
+                                                     'other': '{} cr'}">
+                                </ng-pluralize>
+                            </div>
+                            <!--Course Header Section-->
+                            <div>
+                                <span class="kscr-Card-icon"><i class="glyphicon" ng-class="{'glyphicon-chevron-down': isopen, 'glyphicon-chevron-right': !isopen}"></i></span>
+                                <span class="kscr-Card-title" id="course_code_{{course.courseCode}}_{{course.regGroupCode}}"><strong>{{course.courseCode}} ({{course.regGroupCode}})</strong></span>
+                                <span id="grading_badge_{{course.courseCode}}_{{course.regGroupCode}}" ng-show="showBadge(course)" ng-class="{ 'kscr-Card-badge-fadeIn': course.editGradingOption, 'kscr-Card-badge-fade': !course.editGradingOption, 'kscr-Card-badge-fadeOutLetter': course.editGradingOptionLetter && course.editGradingOptionDone }">{{course.gradingOptions[course.gradingOptionId]}}</span>
+                            </div>
+                            <!--Course Title and description-->
+                            <div class="kscr-Card-text" id="title_{{course.courseCode}}_{{course.regGroupCode}}" ng-show="isopen">{{course.longName}}</div>
+                            <!--AO info: type, time, location-->
+                            <div ng-repeat="ao in course.activityOfferings" class="kscr-Card-detailsText--show" ng-show="!isopen">
+                                <span class="kscr-Card-courseTimes">
+                                    <div id="ao_type_{{course.courseCode}}_{{course.regGroupCode}}_{{$index}}" class="kscr-Card-ao-type">{{ao.activityOfferingTypeName | limitTo : 3}}</div>
+                                    <div ng-repeat="scheduleComponent in ao.scheduleComponents" id="schedule_{{course.courseCode}}_{{course.regGroupCode}}_{{$parent.$index}}_{{$index}}" class="kscr-Card-scheduleComponent">
+                                        <span ng-hide="scheduleComponent.isTBA" class="util-Grid--floatLeft">{{scheduleComponent.days}} {{scheduleComponent.displayTime}}</span>
+                                        <span ng-hide="scheduleComponent.isTBA" class="util-Grid--floatRight">{{scheduleComponent.buildingCode}} {{scheduleComponent.roomCode}}</span>
+                                        <span ng-show="scheduleComponent.isTBA" class="util-Grid--floatRight">TBA</span>
+                                    </div>
+                                </span>
+                            </div>
                         </div>
                     </accordion-heading>
                     <!-- Course details: AO type, start-end dates, etc. -->
@@ -117,7 +119,6 @@
 
                     <!-- Schedule Item Change Section: Credits, Grading, and Save -->
                     <course-options course="course" on-submit="updateScheduleItem(course)" ng-show="course.editing"></course-options>
-
                 </accordion-group>
             </accordion>
         </div>
@@ -169,31 +170,33 @@
             <accordion close-others="oneAtATime" ng-if="!course.dropped && !course.dropProcessing">
                 <accordion-group is-open="isopen">
                     <accordion-heading>
-                        <!--credits-->
-                        <div id="waitlist_course_info_{{course.courseCode}}_{{course.regGroupCode}}" class="kscr-Card-supportText" ng-hide="cartItem.editing">
-                            <ng-pluralize count="course.credits"
-                                          when="{'1'    : '{} cr',
-                                                 'other': '{} cr'}">
-                            </ng-pluralize>
-                        </div>
-                        <!--Course Header Section-->
-                        <div>
-                            <span class="kscr-Card-icon"><i class="glyphicon" ng-class="{'glyphicon-chevron-down': isopen, 'glyphicon-chevron-right': !isopen}"></i></span>
-                            <span class="kscr-Card-title" id="waitlist_course_code_{{course.courseCode}}_{{course.regGroupCode}}"><strong>{{course.courseCode}} ({{course.regGroupCode}}) </strong> <i class="glyphicon glyphicon-time kscr-Waitlisted-clockIcon"></i></span>
-                            <span class="kscr-Card-badge" id="waitlist_grading_badge_{{course.courseCode}}_{{course.regGroupCode}}" ng-show="showBadge(course)">{{course.gradingOptions[course.gradingOptionId]}}</span>
-                        </div>
-                        <!--Course Title and description-->
-                        <div class="kscr-Card-text" id="waitlist_title_{{course.courseCode}}_{{course.regGroupCode}}" ng-show="isopen">{{course.longName}}</div>
-                        <!--AO info: type, time, location-->
-                        <div ng-repeat="ao in course.activityOfferings" class="kscr-Card-detailsText--show" ng-show="!isopen">
-                            <span class="kscr-Card-courseTimes">
-                                <div id="waitlist_ao_type_{{course.courseCode}}_{{course.regGroupCode}}_{{$index}}" class="kscr-Card-ao-type">{{ao.activityOfferingTypeName | limitTo : 3}}</div>
-                                <div ng-repeat="scheduleComponent in ao.scheduleComponents" id="waitlist_schedule_{{course.courseCode}}_{{course.regGroupCode}}_{{$parent.$index}}_{{$index}}" class="kscr-Card-scheduleComponent">
-                                    <span ng-hide="scheduleComponent.isTBA" class="util-Grid--floatLeft">{{scheduleComponent.days}} {{scheduleComponent.displayTime}}</span>
-                                    <span ng-hide="scheduleComponent.isTBA" class="util-Grid--floatRight">{{scheduleComponent.buildingCode}} {{scheduleComponent.roomCode}}</span>
-                                    <span ng-show="scheduleComponent.isTBA" class="util-Grid--floatRight">TBA</span>
-                                </div>
-                            </span>
+                        <div ng-class="{'kscr-Card-accordion-heading': true}">
+                            <!--credits-->
+                            <div id="waitlist_course_info_{{course.courseCode}}_{{course.regGroupCode}}" class="kscr-Card-supportText" ng-hide="cartItem.editing" ng-class="{ 'kscr-Card-credits-fadeIn': course.editCredits, 'kscr-Card-credits-fadeOut': course.editCreditsDone }">
+                                <ng-pluralize count="course.credits"
+                                              when="{'1'    : '{} cr',
+                                                     'other': '{} cr'}">
+                                </ng-pluralize>
+                            </div>
+                            <!--Course Header Section-->
+                            <div>
+                                <span class="kscr-Card-icon"><i class="glyphicon" ng-class="{'glyphicon-chevron-down': isopen, 'glyphicon-chevron-right': !isopen}"></i></span>
+                                <span class="kscr-Card-title" id="waitlist_course_code_{{course.courseCode}}_{{course.regGroupCode}}"><strong>{{course.courseCode}} ({{course.regGroupCode}}) </strong> <i class="glyphicon glyphicon-time kscr-Waitlisted-clockIcon"></i></span>
+                                <span id="waitlist_grading_badge_{{course.courseCode}}_{{course.regGroupCode}}" ng-show="showBadge(course)" ng-class="{ 'kscr-Card-badge-fadeIn': course.editGradingOption, 'kscr-Card-badge-fade': !course.editGradingOption, 'kscr-Card-badge-fadeOutLetter': course.editGradingOptionLetter && course.editGradingOptionDone }">{{course.gradingOptions[course.gradingOptionId]}}</span>
+                            </div>
+                            <!--Course Title and description-->
+                            <div class="kscr-Card-text" id="waitlist_title_{{course.courseCode}}_{{course.regGroupCode}}" ng-show="isopen">{{course.longName}}</div>
+                            <!--AO info: type, time, location-->
+                            <div ng-repeat="ao in course.activityOfferings" class="kscr-Card-detailsText--show" ng-show="!isopen">
+                                <span class="kscr-Card-courseTimes">
+                                    <div id="waitlist_ao_type_{{course.courseCode}}_{{course.regGroupCode}}_{{$index}}" class="kscr-Card-ao-type">{{ao.activityOfferingTypeName | limitTo : 3}}</div>
+                                    <div ng-repeat="scheduleComponent in ao.scheduleComponents" id="waitlist_schedule_{{course.courseCode}}_{{course.regGroupCode}}_{{$parent.$index}}_{{$index}}" class="kscr-Card-scheduleComponent">
+                                        <span ng-hide="scheduleComponent.isTBA" class="util-Grid--floatLeft">{{scheduleComponent.days}} {{scheduleComponent.displayTime}}</span>
+                                        <span ng-hide="scheduleComponent.isTBA" class="util-Grid--floatRight">{{scheduleComponent.buildingCode}} {{scheduleComponent.roomCode}}</span>
+                                        <span ng-show="scheduleComponent.isTBA" class="util-Grid--floatRight">TBA</span>
+                                    </div>
+                                </span>
+                            </div>
                         </div>
                     </accordion-heading>
                     <div class="kscr-Waitlisted-details">

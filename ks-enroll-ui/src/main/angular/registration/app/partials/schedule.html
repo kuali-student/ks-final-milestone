@@ -53,7 +53,7 @@
                 <accordion-group is-open="isopen">
                     <accordion-heading>
                         <!--credits-->
-                        <div id="course_info_{{course.courseCode}}_{{course.regGroupCode}}" class="kscr-Card-supportText" ng-hide="cartItem.editing">
+                        <div id="course_info_{{course.courseCode}}_{{course.regGroupCode}}" class="kscr-Card-supportText" ng-hide="cartItem.editing" ng-class="{ 'kscr-Card-credits-fadeIn': course.editCredits, 'kscr-Card-credits-fadeOut': course.editCreditsDone }">
                             <ng-pluralize count="course.credits"
                                           when="{'1'    : '{} cr',
                                                  'other': '{} cr'}">
@@ -63,7 +63,7 @@
                         <div>
                             <span class="kscr-Card-icon"><i class="glyphicon" ng-class="{'glyphicon-chevron-down': isopen, 'glyphicon-chevron-right': !isopen}"></i></span>
                             <span class="kscr-Card-title" id="course_code_{{course.courseCode}}_{{course.regGroupCode}}"><strong>{{course.courseCode}} ({{course.regGroupCode}})</strong></span>
-                            <span class="kscr-Card-badge" id="grading_badge_{{course.courseCode}}_{{course.regGroupCode}}" ng-show="showBadge(course)">{{course.gradingOptions[course.gradingOptionId]}}</span>
+                            <span id="grading_badge_{{course.courseCode}}_{{course.regGroupCode}}" ng-show="showBadge(course)" ng-class="{ 'kscr-Card-badge-fadeIn': course.editGradingOption, 'kscr-Card-badge-fade': !course.editGradingOption, 'kscr-Card-badge-fadeOutLetter': course.editGradingOptionLetter && course.editGradingOptionDone }">{{course.gradingOptions[course.gradingOptionId]}}</span>
                         </div>
                         <!--Course Title and description-->
                         <div class="kscr-Card-text" id="title_{{course.courseCode}}_{{course.regGroupCode}}" ng-show="isopen">{{course.longName}}</div>
@@ -159,7 +159,7 @@
                 <accordion-group is-open="isopen">
                     <accordion-heading>
                         <!--credits-->
-                        <div id="waitlist_course_info_{{course.courseCode}}_{{course.regGroupCode}}" class="kscr-Card-supportText" ng-hide="cartItem.editing">
+                        <div id="waitlist_course_info_{{course.courseCode}}_{{course.regGroupCode}}" class="kscr-Card-supportText" ng-hide="cartItem.editing" ng-class="{ 'kscr-Card-credits-fadeIn': course.editCredits, 'kscr-Card-credits-fadeOut': course.editCreditsDone }">
                             <ng-pluralize count="course.credits"
                                           when="{'1'    : '{} cr',
                                                  'other': '{} cr'}">
@@ -169,7 +169,7 @@
                         <div>
                             <span class="kscr-Card-icon"><i class="glyphicon" ng-class="{'glyphicon-chevron-down': isopen, 'glyphicon-chevron-right': !isopen}"></i></span>
                             <span class="kscr-Card-title" id="waitlist_course_code_{{course.courseCode}}_{{course.regGroupCode}}"><strong>{{course.courseCode}} ({{course.regGroupCode}}) </strong> <i class="glyphicon glyphicon-time kscr-Waitlisted-clockIcon"></i></span>
-                            <span class="kscr-Card-badge" id="waitlist_grading_badge_{{course.courseCode}}_{{course.regGroupCode}}" ng-show="showBadge(course)">{{course.gradingOptions[course.gradingOptionId]}}</span>
+                            <span id="waitlist_grading_badge_{{course.courseCode}}_{{course.regGroupCode}}" ng-show="showBadge(course)" ng-class="{ 'kscr-Card-badge-fadeIn': course.editGradingOption, 'kscr-Card-badge-fade': !course.editGradingOption, 'kscr-Card-badge-fadeOutLetter': course.editGradingOptionLetter && course.editGradingOptionDone }">{{course.gradingOptions[course.gradingOptionId]}}</span>
                         </div>
                         <!--Course Title and description-->
                         <div class="kscr-Card-text" id="waitlist_title_{{course.courseCode}}_{{course.regGroupCode}}" ng-show="isopen">{{course.longName}}</div>

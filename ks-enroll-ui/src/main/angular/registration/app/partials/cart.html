@@ -115,31 +115,33 @@
         <accordion close-others="oneAtATime">
             <accordion-group is-open="isopen">
                 <accordion-heading>
-                    <!--credits-->
-                    <div id="course_info_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" class="kscr-Card-supportText" ng-hide="editing(cartItem)">
-                        <ng-pluralize count="cartItem.credits"
-                                      when="{'1' : '{} cr',
-                                     'other': '{} cr'}">
-                        </ng-pluralize>
-                    </div>
-                    <!--Course Header Section-->
-                    <div>
-                        <span class="kscr-Card-icon"><i class="glyphicon" ng-class="{'glyphicon-chevron-down': isopen, 'glyphicon-chevron-right': !isopen}"></i></span>
-                        <span class="kscr-Card-title" id="course_code_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}">{{cartItem.courseCode}} ({{cartItem.regGroupCode}})</span>
-                        <span class="kscr-Card-badge" id="grading_badge_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" ng-show="showBadge(cartItem)">{{cartItem.gradingOptions[cartItem.grading]}}</span>
-                    </div>
-                    <!--Course Title and description-->
-                    <div class="kscr-Card-text" id="title_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" ng-show="isopen">{{cartItem.courseTitle}}</div>
-                    <!--AO info: type, time, location-->
-                    <div ng-repeat="item in cartItem.schedule" class="kscr-Card-detailsText--show" ng-show="!isopen">
-                        <span class="kscr-Card-courseTimes">
-                            <div id="ao_type_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}_{{$index}}" class="kscr-Card-ao-type">{{item.activityOfferingType | limitTo : 3}}</div>
-                            <div ng-repeat="scheduleItem in item.activityOfferingLocationTime" id="schedule_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}_{{$parent.$index}}_{{$index}}" class="kscr-Card-scheduleComponent">
-                                <span ng-hide="scheduleItem.isTBA" class="util-Grid--floatLeft">{{scheduleItem.time.days}} {{scheduleItem.time.displayTime}}</span>
-                                <span ng-hide="scheduleItem.isTBA" class="util-Grid--floatRight">{{scheduleItem.location.building}} {{scheduleItem.location.room}}</span>
-                                <span ng-show="scheduleItem.isTBA" class="util-Grid--floatRight">TBA</span>
-                            </div>
-                        </span>
+                    <div ng-class="{'kscr-Card-accordion-heading-fadeIn': cartItem.addingNewCartItem, 'kscr-Card-accordion-heading': !cartItem.addingNewCartItem}">
+                        <!--credits-->
+                        <div id="course_info_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" class="kscr-Card-supportText" ng-hide="editing(cartItem)">
+                            <ng-pluralize count="cartItem.credits"
+                                          when="{'1' : '{} cr',
+                                         'other': '{} cr'}">
+                            </ng-pluralize>
+                        </div>
+                        <!--Course Header Section-->
+                        <div>
+                            <span class="kscr-Card-icon"><i class="glyphicon" ng-class="{'glyphicon-chevron-down': isopen, 'glyphicon-chevron-right': !isopen}"></i></span>
+                            <span class="kscr-Card-title" id="course_code_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}">{{cartItem.courseCode}} ({{cartItem.regGroupCode}})</span>
+                            <span class="kscr-Card-badge" id="grading_badge_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" ng-show="showBadge(cartItem)">{{cartItem.gradingOptions[cartItem.grading]}}</span>
+                        </div>
+                        <!--Course Title and description-->
+                        <div class="kscr-Card-text" id="title_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" ng-show="isopen">{{cartItem.courseTitle}}</div>
+                        <!--AO info: type, time, location-->
+                        <div ng-repeat="item in cartItem.schedule" class="kscr-Card-detailsText--show" ng-show="!isopen">
+                            <span class="kscr-Card-courseTimes">
+                                <div id="ao_type_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}_{{$index}}" class="kscr-Card-ao-type">{{item.activityOfferingType | limitTo : 3}}</div>
+                                <div ng-repeat="scheduleItem in item.activityOfferingLocationTime" id="schedule_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}_{{$parent.$index}}_{{$index}}" class="kscr-Card-scheduleComponent">
+                                    <span ng-hide="scheduleItem.isTBA" class="util-Grid--floatLeft">{{scheduleItem.time.days}} {{scheduleItem.time.displayTime}}</span>
+                                    <span ng-hide="scheduleItem.isTBA" class="util-Grid--floatRight">{{scheduleItem.location.building}} {{scheduleItem.location.room}}</span>
+                                    <span ng-show="scheduleItem.isTBA" class="util-Grid--floatRight">TBA</span>
+                                </div>
+                            </span>
+                        </div>
                     </div>
                 </accordion-heading>
                 <div ng-hide="editing(cartItem)">
@@ -170,10 +172,9 @@
 
                 <!-- Cart Change Section: Credits, Grading, and Save -->
                 <course-options course="cartItem" prefix="cart_" on-submit="updateCartItem(course)" ng-show="editing(cartItem)"></course-options>
-
             </accordion-group>
         </accordion>
-    </div>
+     </div>
 </div>
 
 <div class="kscr-Heading-sub" ng-show="cartResults.items.length">

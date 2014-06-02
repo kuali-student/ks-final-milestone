@@ -100,10 +100,15 @@ angular.module('regCartApp')
                 credits: credits
             }, function (response) {
                 console.log('Searched for course: ' + $scope.courseCode + ', Term: ' + $scope.termId);
-                $scope.userMessage = {txt: 'Course Added to Cart', type: 'success'};
+//                $scope.userMessage = {txt: 'Course Added to Cart', type: 'success'};
                 $scope.courseCode = '';
                 $scope.regCode = '';
                 $scope.cart.items.unshift(response);
+                console.log('Started to animate...');
+                $scope.cart.items[0].addingNewCartItem = true;
+                $timeout(function(){
+                    $scope.cart.items[0].addingNewCartItem = false;
+                }, 2000)
             }, function (error) {
                 console.log('CartId:', cartId);
                 if (error.status === 404) {
