@@ -221,7 +221,9 @@ angular.module('regCartApp')
                 cartItem.status = '';
                 cartItem.editing = false;
                 cartItem.actionLinks = newCartItem.actionLinks;
+                cartItem.isopen = !cartItem.isopen; //collapse the card
                 $scope.creditTotal = creditTotal();
+
                 cartItem.alertMessage = {txt: 'Changes saved successfully', type: 'success'};
             });
         };
