@@ -841,13 +841,18 @@ function refreshEndTerm() {
 
 function hideName() {
     var criteria = jQuery('#searchByCriteria_control').val();
-    if(criteria=='ORGANIZATIONTYPE'){
+    if (criteria == 'ORGANIZATIONTYPE') {
         retrieveComponent('searchByOrgTypeField');
         jQuery('#searchByField_control').hide();
         jQuery('#searchByOrgTypeField_control').show();
-    }else{
+    } else {
         jQuery('#searchByOrgTypeField_control').hide();
         jQuery('#searchByField_control').show();
         retrieveComponent('searchByField');
     }
+}
+
+function updateCapturedComment() {
+    var inputComment = jQuery('#commentsTextArea_control').val();
+    jQuery('#CaptureCommentsTextArea_control').val(inputComment);
 }
