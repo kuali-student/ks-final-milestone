@@ -1,3 +1,6 @@
+// General styles
+// --------------------------------------------------
+
 .blockUI.blockOverlay {
   z-index: 100 !important;
 }
@@ -6,13 +9,9 @@
   z-index: 101 !important;
 }
 
-.jquerybubblepopup {
-  z-index: 200 !important;
-}
-td.jquerybubblepopup-innerHtml {
-  background-color : white;
-}
-/* jGrowl ########################################################################### */
+// jGrowl
+// --------------------------------------------------
+
 div.jGrowl div.jGrowl-notification {
   font-family: inherit;
 }
@@ -31,16 +30,29 @@ div.jGrowl div.jGrowl-notification div.jGrowl-close {
 .errorGrowl {
   background-position: 10px 11px;
 }
-.fancybox-skin {
+
+
+// Popovers
+// --------------------------------------------------
+
+.jquerybubblepopup { /*Really needed?*/
+  z-index: 200 !important;
+}
+td.jquerybubblepopup-innerHtml { /*Really needed?*/
+  background-color : white;
+}
+
+.fancybox-skin { /*Really needed?*/
   background: #fff !important;
 }
 
-.fancybox-inner #kualiLightboxForm.uif-lightbox {
+.fancybox-inner #kualiLightboxForm.uif-lightbox { /*Really needed?*/
   height: 100% !important;
 }
+
 .ks-Popover-header h4.uif-headerText{
-  display: block;
   border-bottom: solid 1px #000000;
+  display: block;
   margin-bottom: 10px;
   padding-bottom: 5px;
 }
@@ -49,67 +61,12 @@ div.jGrowl div.jGrowl-notification div.jGrowl-close {
   z-index:1000;
 }
 
-.ksap-view .ksap-popup-detail-label {
-   width: 140px;
-   text-align:right;
- }
-
- .ksap-popup-detail-label .uif-message{
-   float:right;
-   font-weight:bold;
-   margin-top: 0px;
-   margin-bottom: 0px;
- }
-
- .ksap-view .ksap-popup-detail-field {
-   width: 140px;
-   text-align:left;
-   margin-top: 0px;
-   margin-bottom: 0px;
-   margin-right:0px;
- }
- .ksap-view .ksap-popup-detail-field .uif-horizontalBoxLayout .uif-inputField {
-   width: 100%;
- }
- .ksap-view .ksap-popup-detail-field .uif-horizontalBoxLayout .uif-inputField .uif-dropdownControl {
-   width: 100%;
- }
-
- .ksap-inquiry-view .ksap-popup-detail-label {
-   width: 90px;
-   text-align:left;
- }
-
- .ksap-inquiry-view .ksap-popup-detail-field {
-   width: 180px;
-   text-align:left;
-   margin-top: 0px;
-   margin-bottom: 0px;
- }
- .ksap-inquiry-view .ksap-popup-detail-field .uif-horizontalBoxLayout .uif-inputField {
-   width: 100%;
- }
- .ksap-inquiry-view .ksap-popup-detail-field .uif-horizontalBoxLayout .uif-inputField .uif-dropdownControl {
-   width: 100%;
- }
-
-  .ksap-inquiry-view .ksap-popup-detail-label .uif-message{
-    float:left;
-    font-weight:bold;
-    margin-top: 0px;
-    margin-bottom: 0px;
-  }
-
 .ks-Popover .ks-Popover-body .uif-boxLayoutVerticalItem {
-    margin: 0px
-}
-
-.ks-Popover-footer a {
-    padding-top: 5px;
+  margin: 0;
 }
 
 .ks-Popover.uif-page {
-    min-height: 0px;
+  min-height: 0;
 }
 
 .ks-Popover .uif-checkboxInputField .uif-checkboxControl,
@@ -120,4 +77,81 @@ div.jGrowl div.jGrowl-notification div.jGrowl-close {
 
 .ks-Popover .uif-checkboxInputField  label {
   padding-left: .5em;
+}
+
+.jquerypopover-innerHtml {
+  form {
+    margin: 0;
+    min-height: 0;
+    width: 305px;
+  }
+  .uif-cssGridGroup {
+    margin-bottom: 10px;
+  }
+  .ksap-right-labels .uif-boxSection { // Right aligned labels
+    display: inline-block;
+    float: right;
+  }
+}
+
+.ksap-popup-detail-label .uif-message{ /*Really needed?*/
+  float:right;
+  font-weight:bold;
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+.ksap-view .ksap-popup-detail-field { /*Really needed?*/
+  margin-bottom: 0;
+  margin-right:0;
+  margin-top: 0;
+  text-align:left;
+  width: 140px;
+}
+
+.ksap-view .ksap-popup-detail-field .uif-horizontalBoxLayout .uif-inputField { /*Really needed?*/
+  width: 100%;
+}
+
+.ksap-view .ksap-popup-detail-field .uif-horizontalBoxLayout .uif-inputField .uif-dropdownControl { /*Really needed?*/
+  width: 100%;
+}
+
+.ksap-inquiry-view .ksap-popup-detail-label { /*Really needed?*/
+  width: 90px;
+  text-align:left;
+}
+
+.ksap-inquiry-view .ksap-popup-detail-field { /*Really needed?*/
+  width: 180px;
+  text-align:left;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.ksap-inquiry-view .ksap-popup-detail-field .uif-horizontalBoxLayout .uif-inputField { /*Really needed?*/
+  width: 100%;
+}
+
+.ksap-inquiry-view .ksap-popup-detail-field .uif-horizontalBoxLayout .uif-inputField .uif-dropdownControl { /*Really needed?*/
+  width: 100%;
+}
+
+.ksap-inquiry-view .ksap-popup-detail-label .uif-message{ /*Really needed?*/
+  float:left;
+  font-weight:bold;
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+// Footer styles
+.ks-Popover-footer {
+  margin-top:10px;
+
+  a {
+    padding-top: 5px;
+  }
+  button {
+    margin-right:10px;
+  }
 }

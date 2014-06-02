@@ -221,7 +221,7 @@
                                         <bean parent="Uif-Message" p:messageText="Course Description">
                                             <property name="cssClasses">
                                                 <list merge="true">
-                                                    <value>ksap-course-detail-label</value>
+                                                    <value>ksap-label</value>
                                                 </list>
                                             </property>
                                         </bean>
@@ -253,7 +253,7 @@
                                         <bean parent="Uif-Message" p:messageText="Course Requisites">
                                             <property name="cssClasses">
                                                 <list merge="true">
-                                                    <value>ksap-course-detail-label</value>
+                                                    <value>ksap-label</value>
                                                 </list>
                                             </property>
                                         </bean>
@@ -309,7 +309,7 @@
                                         <bean parent="Uif-Message" p:messageText="Scheduled Terms">
                                             <property name="cssClasses">
                                                 <list merge="true">
-                                                    <value>ksap-course-detail-label</value>
+                                                    <value>ksap-label</value>
                                                 </list>
                                             </property>
                                         </bean>
@@ -356,7 +356,7 @@
                                         <bean parent="Uif-Message" p:messageText="Last Offered">
                                             <property name="cssClasses">
                                                 <list merge="true">
-                                                    <value>ksap-course-detail-label</value>
+                                                    <value>ksap-label</value>
                                                 </list>
                                             </property>
                                         </bean>
@@ -398,7 +398,7 @@
                                         <bean parent="Uif-Message" p:messageText="Projected Terms">
                                             <property name="cssClasses">
                                                 <list merge="true">
-                                                    <value>ksap-course-detail-label</value>
+                                                    <value>ksap-label</value>
                                                 </list>
                                             </property>
                                         </bean>
@@ -445,7 +445,7 @@
                                         <bean parent="Uif-Message" p:messageText="General Edu. Req.">
                                             <property name="cssClasses">
                                                 <list merge="true">
-                                                    <value>ksap-course-detail-label</value>
+                                                    <value>ksap-label</value>
                                                 </list>
                                             </property>
                                         </bean>
@@ -485,7 +485,7 @@
                                         <bean parent="Uif-Message" p:messageText="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_CURRICULUM_HEADER')}">
                                             <property name="cssClasses">
                                                 <list merge="true">
-                                                    <value>ksap-course-detail-label</value>
+                                                    <value>ksap-label</value>
                                                 </list>
                                             </property>
                                         </bean>
@@ -634,7 +634,7 @@
                                         <bean parent="Uif-Message" p:messageText="Scheduled Terms">
                                             <property name="cssClasses">
                                                 <list merge="true">
-                                                    <value>ksap-course-detail-label</value>
+                                                    <value>ksap-label</value>
                                                 </list>
                                             </property>
                                         </bean>
@@ -670,7 +670,7 @@
                                         <bean parent="Uif-Message" p:messageText="Last Offered">
                                             <property name="cssClasses">
                                                 <list merge="true">
-                                                    <value>ksap-course-detail-label</value>
+                                                    <value>ksap-label</value>
                                                 </list>
                                             </property>
                                         </bean>
@@ -704,7 +704,7 @@
                                         <bean parent="Uif-Message" p:messageText="Projected Terms">
                                             <property name="cssClasses">
                                                 <list merge="true">
-                                                    <value>ksap-course-detail-label</value>
+                                                    <value>ksap-label</value>
                                                 </list>
                                             </property>
                                         </bean>
@@ -740,7 +740,7 @@
                                         <bean parent="Uif-Message" p:messageText="Course Requisites">
                                             <property name="cssClasses">
                                                 <list merge="true">
-                                                    <value>ksap-course-detail-label</value>
+                                                    <value>ksap-label</value>
                                                 </list>
                                             </property>
                                         </bean>

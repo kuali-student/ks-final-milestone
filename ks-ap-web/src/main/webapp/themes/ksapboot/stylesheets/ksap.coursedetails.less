@@ -1,0 +1,207 @@
+// Course Details
+// --------------------------------------------------
+
+// Back link
+#CourseDetails-InquiryView {
+  .uif-header-upperGroup {
+    padding-left: 0;
+    .cdp-back-link {
+      &:hover::before {text-decoration: none}
+    }  // End .cdp-back-link
+  }  // End .uif-header-upperGroup
+} // End back link
+
+// Header
+#course_details_back_link {
+  padding-left: 0;
+
+  h1.uif-headerText {
+    font-size: 1.8467em;
+    line-height: 1.6667em;
+
+    span.uif-headerText-span {
+      display: none !important; //Using !important because ksboot is also, and we can't override
+    }
+    p.uif-viewHeader-supportTitle {
+      color: #000;
+      padding-top: 0;
+    }
+  } // End h1.uif-headerText
+} // End header
+
+
+// Course Details Overview
+// --------------------------------------------------
+
+#course_details_overview {
+  .uif-cssGridGroup {
+    margin-bottom: 10px;
+  }
+
+  .ksap-right-labels .uif-boxSection { // Right aligned labels
+    display: inline-block;
+    float: right;
+  }
+}
+
+.ksap-course-detail-source {
+  color: #666;
+  clear: both;
+  font-size: 1.1rem;
+  margin-top: 3px;
+}
+
+// Hiding unused page header
+#course_details_page .uif-header-contentWrapper {
+  display: none;
+}
+
+#course_details_section {
+  margin-top: 0;
+  width: 100%;
+}
+
+// Action buttons
+#course_details_actions {
+  margin-bottom: 10px;
+
+  button {
+    margin-right: 10px;
+  }
+}
+
+// Messaging
+#planStatusMessages {
+  display: table;
+
+  &.ksap-hide {display: none;}
+  div.uif-horizontalBoxLayout {
+    display:table-cell;
+    vertical-align: middle;
+
+    img.uif-image.uif-validationImage {
+      margin-bottom:0;
+      margin-top:2px;
+      padding-top:0;
+      padding-bottom:0;
+      vertical-align: inherit;
+    }
+    div.uif-verticalBoxGroup.uif-boxLayoutVerticalItem {
+      margin-bottom:0;
+      margin-top:0;
+
+      span.uif-message {
+        margin:0;
+      }
+    } // End div.uif-verticalBoxGroup.uif-boxLayoutVerticalItem
+  } // End div.uif-horizontalBoxLayout
+} // End messaging
+
+
+// Course details bottom
+// --------------------------------------------------
+
+.ksap-course-sections {
+  h5.uif-headerText {
+    color: #666;
+    border-radius: 5px;
+    font-size: 1.4em;
+    font-weight: 500;
+    margin-bottom: 10px;
+    padding: 2px 10px;
+    text-transform: uppercase;
+  }
+  .dataTables_wrapper {
+    margin: 20px 0;
+  }
+  .dataTables_filter label {
+    font-weight: normal;
+    margin: 0 10px 0 0;
+  }
+
+  // Tabel collection layout
+  table.uif-tableCollectionLayout {
+    border: 1px solid #ccc;
+    line-height: 16px;
+
+    th,
+    td {
+      border: 1px solid #ccc;
+      padding: 4px;
+      vertical-align: middle;
+    }
+    td a {
+      white-space: normal;
+    }
+    label {
+      color: #777;
+      font-size: 10px;
+      font-weight: normal;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    tbody tr.even,
+    tbody tr.odd {
+      border-top: 1px solid #ccc;
+    }
+    tbody td.uif-rowDetails > .uif-group {
+      border-left: 1px dotted #ccc;
+      border-right: 1px dotted #ccc;
+    }
+    tbody .closed {
+      color: #b4b4b4 !important;
+    }
+    tbody td.uif-rowDetails > .uif-group .uif-field {
+      border-top: 1px dotted #ccc;
+      margin: 0;
+      padding: 4px;
+    }
+    .uif-rowDetails .uif-verticalFieldGroup .uif-verticalBoxGroup .uif-verticalBoxLayout > span {
+      margin: 0;
+    }
+  } // End tabel collection layout
+
+  // Meeting details
+  .meetingdetails {
+    display: block;
+    margin: 0;
+    padding: 0;
+
+    .meetingdays,
+    .meetingtime,
+    .meetingtba,
+    .meetingbuilding,
+    .meetingroom {
+      display: inline-block;
+      margin-right: 8px;
+    }
+    .meetingdays {
+      width: 56px;
+    }
+    .meetingtime {
+      width: 127px;
+    }
+    .meetingtba {
+      width: 191px;
+    }
+    .meetingbuilding {
+      width: 40px;
+    }
+    .meetingroom {
+      margin: 0;
+      width: 30px;
+    }
+  } // End meeting details 
+} // End .ksap-course-sections
+
+
+// Popover
+// --------------------------------------------------
+
+#course_details_popover_overview {
+  margin-top:10px;
+}
+
+#planner_course_summary_details_data {
+  margin-top:5px;
+}
