@@ -238,39 +238,30 @@ div.jstree-editrule ul.uif-validationMessagesList a {
 /************************************** CSS COLUMN Fixed Widths **************************************/
 /**These widths are to help standardise columns. As of Dec 2013 they are used in Manage Time Slot and Manage CO edit view***/
 
-.checkBox_course_offering{
+.checkBox_course_offering {
   width:10px;
 }
 
-.delete_course_offering{
+.delete_course_offering {
   width:50px;
 }
 
-.course_course_offering{
+.course_course_offering,
+.code_course_offering,
+.type_course_offering,
+.status_course_offering {
   width: 65px;
 }
 
-.title_course_offering{
+.title_course_offering {
   width:600px;
 }
 
-.credits_course_offering{
+.credits_course_offering {
   width:100px;
 }
 
-.status_course_offering{
-  width: 65px;
-}
-
-.code_course_offering{
-  width:65px;
-}
-
-.type_course_offering{
-  width: 65px;
-}
-
-.format_course_offering{
+.format_course_offering {
   width: 150px;
   select.input-sm {
     width: 12.5em;
@@ -278,87 +269,50 @@ div.jstree-editrule ul.uif-validationMessagesList a {
   }
 }
 
-.days_course_offering{
+.days_course_offering,
+.startTime_course_offering,
+.endTime_course_offering,
+.maxEnr_course_offering {
   width: 90px;
 }
 
-.startTime_course_offering{
-  width: 90px;
-}
-
-.endTime_course_offering{
-  width: 90px;
-}
-
-.instructor_course_offering{
+.id_search_course_offering,
+.organization_id_course_offering,
+.instructor_course_offering,
+.final_exam_activity_course_offering {
   width: 200px;
 }
 
-.maxEnr_course_offering{
-  width:90px;
-}
-
-.grade_roster_course_offering{
-  width:150px;
-}
-
-.final_exam_course_offering{
+.format_activity_offering,
+.grade_roster_course_offering,
+.final_exam_course_offering {
    width:150px;
 }
 
-.final_exam_activity_course_offering{
-   width:200px;
-}
-
-.id_search_course_offering{
-  width:280px;
-}
-
-.organization_id_course_offering{
-  width:200px;
-}
-
-.organization_name_course_offering{
+.organization_name_course_offering {
   width:300px;
 }
 /***Activity Offerings****/
-.status_activity_offering{
+.code_timeSlot,
+.status_activity_offering,
+.code_activity_offering,
+.type_activity_offering {
   width: 65px;
 }
 
-.code_activity_offering{
-  width:65px;
-}
-
-.type_activity_offering{
-  width: 65px;
-}
-
-.format_activity_offering{
-  width: 150px;
-}
 /***TimeSlotView.xml****/
 .check_timeSlot{
   width:35px;
 }
 
-.code_timeSlot{
-  width:65px;
-}
-
-.termType_timeSlot{
+.termType_timeSlot {
   width:120px;
 }
 
-.days_timeSlot{
-  width:90px;
-}
 
-.startTime_timeSlot{
-  width:90px;
-}
-
-.endTime_timeSlot{
+.days_timeSlot,
+.startTime_timeSlot,
+.endTime_timeSlot {
   width:90px;
 }
 
@@ -574,7 +528,11 @@ fieldset .uif-smallActionButton {
   padding: 6px 0 1px 6px;
   background-color: #f1f1f1;
   margin-bottom: 10px;
-  display: flex;
+    display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+    display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+    display: -ms-flexbox;      /* TWEENER - IE 10 */
+    display: -webkit-flex;     /* NEW - Chrome */
+    display: flex;
 
   .btn span {
     margin-left: 0;
