@@ -459,21 +459,28 @@
                 </bean>
             </list>
         </property>
+        <property name="layoutManager.actionFieldPrototype">
+            <bean parent="Uif-HorizontalFieldGroup" p:align="left" p:required="false" p:label="" p:style="min-width:111px;"/>
+        </property>
         <property name="lineActions">
             <list>
-                <bean id="EO-toggleEditButton" parent="KS-Uif-ActionLink" p:actionLabel="" p:additionalCssClasses="toggleable-element on" p:actionScript="editInlineRow(e);">
+                <bean id="EO-toggleEditButton" parent="KS-Uif-ActionLink" p:actionLabel=""
+                      p:additionalCssClasses="toggleable-element on" p:actionScript="editInlineRow(e);">
                     <property name="actionImage">
                         <bean parent="Uif-Image" p:altText="Edit" p:title="Edit"
                               p:source="" p:cssClasses="ks-fontello-icon-pencil"/>
                     </property>
                 </bean>
-                <bean id="EO-toggleUpdateButton" parent="KS-Uif-ActionLink" p:actionLabel="" p:additionalCssClasses="toggleable-element off" p:actionScript="saveInlineRSI(e, '@{#ConfigProperties['application.url']}');">
+                <bean id="EO-toggleUpdateButton" parent="KS-Uif-ActionLink" p:actionLabel=""
+                      p:additionalCssClasses="toggleable-element off"
+                      p:actionScript="saveInlineRSI(e, '@{#ConfigProperties['application.url']}');">
                     <property name="actionImage">
                         <bean parent="Uif-Image" p:altText="Update" p:title="Update"
                               p:source="" p:cssClasses="ks-fontello-icon-floppy"/>
                     </property>
                 </bean>
-                <bean id="EO-toggleCancelButton" parent="KS-Uif-ActionLink" p:actionLabel="" p:additionalCssClasses="toggleable-element off" p:actionScript="cancelInlineRow(e);">
+                <bean id="EO-toggleCancelButton" parent="KS-Uif-ActionLink" p:actionLabel=""
+                      p:additionalCssClasses="toggleable-element off" p:actionScript="cancelInlineRow(e);">
                     <property name="actionImage">
                         <bean parent="Uif-Image" p:altText="Cancel" p:title="Cancel"
                               p:source="" p:cssClasses="ks-fontello-icon-block-1"/>
