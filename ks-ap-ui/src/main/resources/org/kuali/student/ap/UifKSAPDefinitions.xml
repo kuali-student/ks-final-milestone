@@ -411,7 +411,6 @@
         <property name="items">
             <list>
                 <ref bean="watch_list" />
-                <ref bean="non_student_degree_audits_list" />
             </list>
         </property>
         <property name="propertyReplacers">
@@ -421,7 +420,6 @@
                     <property name="replacement">
                         <list>
                             <ref bean="watch_list" />
-                            <ref bean="degree_audits_list" />
                         </list>
                     </property>
                 </bean>
@@ -448,7 +446,6 @@
         <property name="items">
             <list>
                 <ref bean="watch_list" />
-                <ref bean="non_student_degree_audits_list" />
             </list>
         </property>
         <property name="propertyReplacers">
@@ -458,7 +455,6 @@
                     <property name="replacement">
                         <list>
                             <ref bean="watch_list" />
-                            <ref bean="degree_audits_list" />
                         </list>
                     </property>
                 </bean>
@@ -503,37 +499,6 @@
         <property name="onDocumentReadyScript"
                   value="ksapRetrieveComponent('watch_list','bookmark_summary','search','lookup',{viewId:'BookmarkSideBar-LookupView'});"/>
     </bean>
-
-    <bean id="degree_audits_list" parent="degree_audits_list-parent"/>
-    <bean id="degree_audits_list-parent" abstract="true" parent="Uif-VerticalBoxGroup" p:headerText="Recent Audit Reports">
-        <property name="cssClasses">
-            <list merge="true">
-                <value>ksap-recent-audit</value>
-                <value>ksap-stacked-list</value>
-            </list>
-        </property>
-        <property name="header">
-            <bean parent="Uif-HeaderSix"/>
-        </property>
-        <property name="onDocumentReadyScript"
-                  value="ksapRetrieveComponent('degree_audits_list','degree_audits_summary','search','lookup',{viewId:'DegreeAuditsSummary-LookupView'});
-                        registerDegreeAuditListEvents(jQuery('#degree_audits_summary'));"/>
-    </bean>
-
-    <bean id="non_student_degree_audits_list" parent="non_student_degree_audits_list-parent"/>
-    <bean id="non_student_degree_audits_list-parent" abstract="true" parent="Uif-VerticalBoxGroup" p:headerText="Recent Audit Reports">
-        <property name="cssClasses">
-            <list merge="true">
-                <value>ksap-recent-audit</value>
-                <value>ksap-stacked-list</value>
-            </list>
-        </property>
-        <property name="header">
-            <bean parent="Uif-HeaderSix"/>
-        </property>
-        <property name="instructionalText" value="No recent audits found."/>
-    </bean>
-
 
     <bean id="data_list_formatter" class="org.kuali.student.ap.coursesearch.util.CollectionListPropertyEditor">
         <property name="emptyListMessage" value="None"/>
@@ -582,28 +547,6 @@
                         <list>
                             <bean parent="Uif-Message"
                                   p:messageText="Advisers are unable to add or bookmark courses."/>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="audit_adviser_actions_message" parent="audit_adviser_actions_message-parent"/>
-    <bean id="audit_adviser_actions_message-parent" abstract="true" parent="Uif-VerticalBoxGroup">
-        <property name="cssClasses">
-            <list merge="true">
-                <value>ksap-status</value>
-                <value>info</value>
-            </list>
-        </property>
-        <property name="items">
-            <list>
-                <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false">
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-Message"
-                                  p:messageText="Advisers are unable to run degree audits."/>
                         </list>
                     </property>
                 </bean>

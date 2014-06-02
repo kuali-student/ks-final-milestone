@@ -1,8 +1,5 @@
 package org.kuali.student.ap.framework.context.support;
 
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.entity.Entity;
 import org.kuali.rice.kim.api.identity.type.EntityTypeContactInfo;
@@ -14,6 +11,9 @@ import org.kuali.student.ap.framework.context.UserSessionHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataRetrievalFailureException;
+
+import java.util.List;
+import java.util.Map;
 
 public class DefaultUserSessionHelper implements UserSessionHelper {
 
@@ -145,11 +145,6 @@ public class DefaultUserSessionHelper implements UserSessionHelper {
 			logger.error("Could not get the Email Address for the student" + e);
 			return null;
 		}
-	}
-
-	@Override
-	public String getAuditSystemKey() {
-		return getStudentId();
 	}
 
     /**

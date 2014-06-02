@@ -25,16 +25,13 @@
 			<list>
 				<!-- KSAP Application Bean Files -->
 				<value>classpath:org/kuali/rice/student/bo</value>
-				<value>classpath:ks-AuditReportInfo-dictionary.xml</value>
-		
+
 				<value>classpath:org/kuali/student/ap/UifKSAPDefinitions.xml</value>
 				<value>classpath:ui/UifExtensionDefinitions.xml</value>
 				<value>classpath:ui/KSAPDataObjects.xml</value>
 				<value>classpath:org/kuali/student/ap/HelpDefinitions.xml</value>
 				<value>classpath:org/kuali/student/ap/CourseSearchUI.xml</value>
 				<value>classpath:ui/CourseDetailsUI.xml</value>
-				<value>classpath:ui/DegreeAuditUI.xml</value>
-				<value>classpath:ui/DegreeAuditDetailsUI.xml</value>
 				<value>classpath:ui/CommentUI.xml</value>
 				<!--<value>classpath:ui/CourseSectionsUI.xml</value>-->
 				<value>classpath:ui/FullPlanCoursesUI.xml</value>

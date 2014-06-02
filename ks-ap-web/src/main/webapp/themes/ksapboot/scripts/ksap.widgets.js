@@ -33,7 +33,7 @@ function ksapAdditionalFormData(additionalData) {
 }
 
 /**
- * Open a course item popup by id, mostly used in linking course codes in audit reports and course reqs text (course linkifier)
+ * Open a course item popup by id, mostly used in linking course codes in course reqs text (course linkifier)
  *
  * @param courseId - GUID string of course to open in popup
  * @param e - An object containing data that will be passed to the event handler.
@@ -492,19 +492,6 @@ function registerMessageEvents(jqObject){
     }).on('COMMENT_SENT', function(){
         ksapRetrieveComponent('messages_summary','messages_summary','search','lookup',{viewId:'MessagesSummary-LookupView'});
     });
-}
-
-/**
- * Registers events for the degree_audits_list
- *
- * @param messagewidget - A jQuery messagewidget object
- */
-function registerDegreeAuditListEvents(jqObject){
-    jqObject.on('REFRESH_AUDITS', function(data){
-        ksapRetrieveComponent('degree_audits_summary','degree_audits_summary','search','lookup',{viewId:'DegreeAuditsSummary-LookupView'});
-    }).on('AUDIT_COMPLETE', function(data){
-        ksapRetrieveComponent('degree_audits_summary','degree_audits_summary','search','lookup',{viewId:'DegreeAuditsSummary-LookupView'});
-        });
 }
 
 /**

@@ -268,7 +268,6 @@
                             <bean parent="your_stuff_widget">
                                 <property name="items">
                                     <list>
-                                        <ref bean="non_student_degree_audits_list" />
                                     </list>
                                 </property>
                                 <property name="propertyReplacers">
@@ -278,7 +277,6 @@
                                               p:condition="T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getUserSessionHelper().isStudent()">
                                             <property name="replacement">
                                                 <list>
-                                                    <ref bean="degree_audits_list" />
                                                 </list>
                                             </property>
                                         </bean>
@@ -546,7 +544,6 @@
     <bean id="empty_bookmark_section" parent="Uif-VerticalFieldGroup" p:style="padding: 10px;">
         <property name="cssClasses">
             <list merge="true">
-                <value>ksap-audit-info-panel</value>
                 <value>ksap-carousel-list</value>
             </list>
         </property>

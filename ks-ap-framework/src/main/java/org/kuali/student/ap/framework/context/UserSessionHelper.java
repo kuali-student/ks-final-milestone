@@ -57,8 +57,6 @@ public interface UserSessionHelper {
 
 	String getMailAddress(String principleId);
 
-	String getAuditSystemKey();
-
 	boolean isStudent();
 
     String getStudentNumber();

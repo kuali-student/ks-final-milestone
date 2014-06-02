@@ -256,23 +256,6 @@
         <property name="em" ref="lpEntityManager"/>
     </bean>
 
-    <bean id="degreeAuditService" class="org.kuali.student.ap.audit.service.mock.DegreeAuditServiceMockImpl">
-    </bean>
-
-    <bean id="ks.exp.degreeAuditService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-        <property name="serviceDefinition">
-            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
-                <property name="jaxWsService" value="true" />
-                <property name="service" ref="degreeAuditService" />
-                <property name="serviceInterface"
-                          value="org.kuali.student.ap.audit.service.DegreeAuditService" />
-                <property name="localServiceName" value="DegreeAuditService" />
-                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/da" />
-                <property name="busSecurity" value="${ks.ap.bus.security}" />
-            </bean>
-        </property>
-    </bean>
-
     <!-- Exception mapping. This is needed because many operations are proxied
         and do not throw exceptions until a later time -->
     <bean id="mapExceptionAdvisor" class="org.kuali.student.common.util.ExceptionMappingAdvice">
