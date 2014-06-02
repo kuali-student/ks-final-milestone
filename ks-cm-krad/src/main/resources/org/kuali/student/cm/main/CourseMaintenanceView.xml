@@ -604,6 +604,19 @@
                                 <property name="addLineLabel.messageText" value=" " />
                                 <property name="layoutManager.renderSequenceField" value="false" />
                                 <property name="layoutManager.richTable.render" value="true" />
+                                <property name="layoutManager.richTable">
+                                    <bean parent="KS-Uif-PagedRichTable">
+                                        <property name="templateOptions">
+                                            <map merge="true">
+                                                <entry key="bFilter" value="false"/>
+                                                <entry key="bInfo" value="false"/>
+                                                <entry key="bLengthChange" value="false"/>
+                                                <entry key="bPaginate" value="false"/>
+                                                <entry key="aaSorting" value="[[1,'asc']]"/>
+                                            </map>
+                                        </property>
+                                    </bean>
+                                </property>
                                 <property name="items">
                                     <list>
                                         <bean parent="KS-Uif-DataField" p:label=" " p:propertyName="commentInfo.commenterId"/>
@@ -611,7 +624,6 @@
                                     </list>
                                 </property>
                             </bean>
-                            <bean parent="Uif-PrimaryActionButton" p:actionLabel="Submit" p:methodToCall="saveAndCloseComment"/>
                         </list>
                     </property>
                     <property name="propertyReplacers">
