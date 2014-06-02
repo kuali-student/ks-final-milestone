@@ -16,12 +16,8 @@
  */
 package org.kuali.student.enrollment.registration.client.service.impl.util;
 
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
-import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 
-import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,9 +30,7 @@ import java.util.Map;
  */
 public class TimeConflictCalculator {
 
-    private static  SchedulingService schedulingService;
-
-    Map<String, List<String>> calculateConflicts(Map<String, List<TimeSlotInfo>> timeSlots, int overlapInMinutes){
+    public Map<String, List<String>> calculateConflicts(Map<String, List<TimeSlotInfo>> timeSlots, int overlapInMinutes){
         Map<String, List<String>> conflicts = new HashMap<String, List<String>>();
         ArrayList<String> nonConflicts = new ArrayList<String>();
 
@@ -44,7 +38,7 @@ public class TimeConflictCalculator {
             //for each id(AO/RG), look at each other id
             for(String otherId: timeSlots.keySet()){
                 //make sure it's not the same one or on the whitelist
-                if(!(otherId.equals(id)) && nonConflicts.contains(otherId)){
+                if(!(otherId.equals(id)) && !nonConflicts.contains(otherId)){
                     for(TimeSlotInfo timeSlotInfo: timeSlots.get(id)){
                         for(TimeSlotInfo otherTimeSlot: timeSlots.get(otherId)){
                             //for each original id timeslot, compare with each timeslot for the other id
@@ -53,7 +47,7 @@ public class TimeConflictCalculator {
                                     //if !( slot2.start >= slot1.end ||  slot1.end <= slot2.start)
                                     if(!((otherTimeSlot.getStartTime().isAfter(timeSlotInfo.getEndTime())
                                             || otherTimeSlot.getStartTime().equals(timeSlotInfo.getEndTime()))
-                                        || (timeSlotInfo.getEndTime().isBefore(otherTimeSlot.getStartTime())
+                                        || (otherTimeSlot.getEndTime().isBefore(timeSlotInfo.getStartTime())
                                             || timeSlotInfo.getEndTime().equals(otherTimeSlot.getStartTime())))){
                                         //Conflict
                                         if(conflicts.containsKey(id)){
@@ -78,14 +72,5 @@ public class TimeConflictCalculator {
             }
         }
         return conflicts;
-    }
-
-    private static SchedulingService getSchedulingService() {
-        if (schedulingService == null) {
-            QName qname = new QName(SchedulingServiceConstants.NAMESPACE,
-                    SchedulingServiceConstants.SERVICE_NAME_LOCAL_PART);
-            schedulingService =  GlobalResourceLoader.getService(qname);
-        }
-        return schedulingService;
     }
 }
