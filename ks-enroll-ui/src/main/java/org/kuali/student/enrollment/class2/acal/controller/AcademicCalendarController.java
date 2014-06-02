@@ -171,6 +171,25 @@ public class AcademicCalendarController extends UifControllerBase {
      * and add it to the collection
      */
     @MethodAccessible
+    @RequestMapping(params = "methodToCall=addKeyDateWrapperToForm")
+    public void addKeyDateWrapperToForm(@ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
+                                        HttpServletRequest request, HttpServletResponse response){
+        String termIndex = request.getParameter("termIndex");
+        String keyDateGroupIndex = request.getParameter("keyDateGroupIndex");
+        String keyDateIndex = request.getParameter("keyDateIndex");
+        KeyDateWrapper keyDateWrapper = new KeyDateWrapper();
+
+        acalForm.getTermWrapperList().get(Integer.parseInt(termIndex)).getKeyDatesGroupWrappers().get(Integer.parseInt(keyDateGroupIndex)).getKeydates().add(keyDateWrapper);
+
+
+    }
+
+    /**
+     * KSENROLL-12648: workaround for rice 2.4 upgrade issue
+     * This method takes request params to construct key date wrapper from add blank line
+     * and add it to the collection
+     */
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=processBlankLineKeyDate")
     public void processBlankLineKeyDate(@ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
                                             HttpServletRequest request, HttpServletResponse response){
@@ -203,7 +222,7 @@ public class AcademicCalendarController extends UifControllerBase {
 
         }
 
-        acalForm.getTermWrapperList().get(Integer.parseInt(termIndex)).getKeyDatesGroupWrappers().get(Integer.parseInt(keyDateGroupIndex)).getKeydates().add(keyDateWrapper);
+        acalForm.getTermWrapperList().get(Integer.parseInt(termIndex)).getKeyDatesGroupWrappers().get(Integer.parseInt(keyDateGroupIndex)).getKeydates().set(Integer.parseInt(keyDateIndex), keyDateWrapper);
     }
 
     /**

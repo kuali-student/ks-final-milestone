@@ -55,7 +55,7 @@
         </property>
         <!-- KSENROLL-12648: workaround for rice 2.4 upgrade issue -->
         <property name="onDocumentReadyScript"
-                  value="window.setTimeout(removeNewItemHighlights(),5000); resetDirtyFields('AcalEdit-DirtyFields'); initAddExamPeriodButtons('acal-term-examdates', 'exam_date_type', 'acal-term-examdates-add', '@{#ConfigProperties['application.url']}'); initAddKeyDateButton('key_date_addblankline_button', 'key-dates-table');"/>
+                  value="window.setTimeout(removeNewItemHighlights(),5000); resetDirtyFields('AcalEdit-DirtyFields'); initAddExamPeriodButtons('acal-term-examdates', 'exam_date_type', 'acal-term-examdates-add', '@{#ConfigProperties['application.url']}');"/>
         <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
         <property name="headerText" value="&#160;"/>
         <property name="layoutManager.addLineGroup.header.render" value="true"/>
@@ -341,7 +341,7 @@
 
     <bean id="KS-KeyDatesGroup-EditSubSection"
           parent="KS-Uif-StackedCollectionSubSection-HorizontalSubCollectionFieldGroupWithDisclosure"
-          p:onDocumentReadyScript="highlightElements(@{validationJSONString == '' ? '{}' : validationJSONString}, @{addLineValid}, '@{#ConfigProperties['application.url']}');"
+          p:onDocumentReadyScript="initAddKeyDateButton('key_date_addblankline_button', 'key-dates-table');highlightElements(@{validationJSONString == '' ? '{}' : validationJSONString}, @{addLineValid}, '@{#ConfigProperties['application.url']}');"
           p:additionalCssClasses="acal_keydate_group,ks-subSection,ks-subSection-marginTop,ks-uif-diclosureContent-noIndent">
         <property name="id" value="acal-term-keydatesgroup"/>
         <property name="disclosure.render" value="false"/>

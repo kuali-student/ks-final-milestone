@@ -343,14 +343,17 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
 
                 //KSENROLL-12648: workaround for rice 2.4 upgrade issue.
                 //Construct key date types JSON string for js to populate key date type dropdown in key date add blank line
-                List<TypeInfo> types = getTypeService().getTypesForGroupType(group.getKeyDateGroupType(),createContextInfo());
-                JsonObjectBuilder keyDateTypesJsonBuilder = Json.createObjectBuilder();
-                for (TypeInfo typeInfo : types) {
-                    if (!group.isKeyDateExists(typeInfo.getKey())){
-                        keyDateTypesJsonBuilder.add(typeInfo.getKey(), typeInfo.getName().replace("\"","\\\""));
+                if (StringUtils.isBlank(group.getKeyDateTypesJSON())) {
+                    List<TypeInfo> types = getTypeService().getTypesForGroupType(group.getKeyDateGroupType(),createContextInfo());
+                    JsonObjectBuilder keyDateTypesJsonBuilder = Json.createObjectBuilder();
+                    for (TypeInfo typeInfo : types) {
+                        if (!group.isKeyDateExists(typeInfo.getKey())){
+                            keyDateTypesJsonBuilder.add(typeInfo.getKey(), typeInfo.getName().replace("\"","\\\""));
+                        }
                     }
+                    group.setKeyDateTypesJSON(keyDateTypesJsonBuilder.build().toString());
                 }
-                group.setKeyDateTypesJSON(keyDateTypesJsonBuilder.build().toString());
+
                 termWrapper.getKeyDatesGroupWrappers().add(group);
             }
         }
@@ -1253,6 +1256,19 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
                     KeyDateWrapper keyDate = new KeyDateWrapper();
                     group.getKeydates().add(keyDate);
                     ((AcademicCalendarForm) model).getAddedCollectionItems().add(keyDate);
+
+                    //KSENROLL-12648: workaround for rice 2.4 upgrade issue.
+                    //Construct key date types JSON string for js to populate key date type dropdown in key date add blank line
+                    if (StringUtils.isBlank(group.getKeyDateTypesJSON())) {
+                        List<TypeInfo> types = getTypeService().getTypesForGroupType(group.getKeyDateGroupType(),createContextInfo());
+                        JsonObjectBuilder keyDateTypesJsonBuilder = Json.createObjectBuilder();
+                        for (TypeInfo typeInfo : types) {
+                            if (!group.isKeyDateExists(typeInfo.getKey())){
+                                keyDateTypesJsonBuilder.add(typeInfo.getKey(), typeInfo.getName().replace("\"","\\\""));
+                            }
+                        }
+                        group.setKeyDateTypesJSON(keyDateTypesJsonBuilder.build().toString());
+                    }
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
