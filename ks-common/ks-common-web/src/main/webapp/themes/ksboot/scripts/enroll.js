@@ -1265,15 +1265,19 @@ function setDirtyManully (dirtyFlag) {
 /* --------- KSENROLL-12648: workaround for rice 2.4 upgrade issue. ------ */
 function initAddKeyDateButton(tempButtonId, keyDateTableId) {
     var tempAddKeyDateButtons = jQuery('button[id^="' + tempButtonId + '"]');
-    jQuery.each(tempAddKeyDateButtons, function (index) {
-        var tempButtonId = jQuery(this).attr('id');
-        var keyDateGroupSuffix = tempButtonId.substring(tempButtonId.indexOf('_line'));
-        var keyDateGroupTableId = keyDateTableId + keyDateGroupSuffix;
-        var keyDateGroupTable = jQuery('#' + keyDateGroupTableId);
-        jQuery(keyDateGroupTable).find('tbody').find('tr.uif-collectionAddItem').remove();
 
-        jQuery(this).insertAfter(keyDateGroupTable);
-    });
+    if (tempAddKeyDateButtons.length > 0) {
+        jQuery.each(tempAddKeyDateButtons, function (index) {
+            var tempButtonId = jQuery(this).attr('id');
+            var keyDateGroupSuffix = tempButtonId.substring(tempButtonId.indexOf('_line'));
+            var keyDateGroupTableId = keyDateTableId + keyDateGroupSuffix;
+            var keyDateGroupTable = jQuery('#' + keyDateGroupTableId);
+            jQuery(keyDateGroupTable).find('tbody').find('tr.uif-collectionAddItem').remove();
+
+            jQuery(this).insertAfter(keyDateGroupTable);
+        });
+    }
+
 }
 
 function attachBlankLineFieldValidationSection (fieldDiv, requiredField) {
@@ -1352,7 +1356,8 @@ function populateBlankLineKeyDateWrapper(baseUrl) {
 
 function constructKeyDateAddBlankLine(event, keyDateTypesJSON, baseUrl) {
     //if no available key date types, not to create blank line
-    if (jQuery.isEmptyObject(keyDateTypesJSON)) {
+    var jSonObj = jQuery.parseJSON(keyDateTypesJSON);
+    if (jQuery.isEmptyObject(jSonObj)) {
         return false;
     }
 
@@ -1371,7 +1376,7 @@ function constructKeyDateAddBlankLine(event, keyDateTypesJSON, baseUrl) {
     var blankLineDataParent = currentKeyDateSubSection.attr('id');
 
     /* add blank line key date wrapper to form */
-    /*var selectedCollectionPathAndIndex = {
+    var selectedCollectionPathAndIndex = {
         termIndex : "",
         keyDateGroupIndex : "",
         keyDateIndex : ""
@@ -1391,15 +1396,10 @@ function constructKeyDateAddBlankLine(event, keyDateTypesJSON, baseUrl) {
         },
         error: function (jqXHR, status, error) {
         }
-    });*/
+    });
 
 
     /* key date type td */
-    var jSonObj = jQuery.parseJSON(keyDateTypesJSON);
-    //if no available key date types, not to create blank line
-    if (jQuery.isEmptyObject(jSonObj)) {
-        return false;
-    }
     var blankLineKeyDateTypeDivId = 'key_date_type' + blankLineSuffix;
     var blankLineKeyDateTypeDiv = jQuery('<div id="' + blankLineKeyDateTypeDivId +
         '" class="uif-inputField ks-subSection" style="font-weight:bold;" data-parent="' + blankLineDataParent +'" data-role="InputField"/>');
