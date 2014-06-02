@@ -46,14 +46,12 @@ import org.kuali.student.enrollment.registration.client.service.dto.StudentSched
 import org.kuali.student.enrollment.registration.client.service.dto.TermSearchResult;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.common.util.security.ContextUtils;
-import org.kuali.student.r2.common.util.TimeOfDayFormattingEnum;
 import org.kuali.student.r2.common.util.TimeOfDayHelper;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
@@ -203,8 +201,8 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
         String endTime = StringUtils.isEmpty(endTimeMs) ? "" : TimeOfDayHelper.formatTimeOfDay(TimeOfDayHelper.setMillis(Long.valueOf(endTimeMs)));
         scheduleComponent.setStartTime(startTime);
         scheduleComponent.setEndTime(endTime);
-        if (!StringUtils.isEmpty(startTime) && !StringUtils.isEmpty(endTime)) {
-            scheduleComponent.setDisplayTime(startTime.substring(0, startTime.length() - 3) + "-" + endTime.substring(0, endTime.length() - 3) + endTime.substring(endTime.length() - 2).toLowerCase());
+        if (!StringUtils.isEmpty(startTimeMs) && !StringUtils.isEmpty(endTimeMs)) {
+            scheduleComponent.setDisplayTime(TimeOfDayHelper.makeFormattedTimeForAOScheduleComponent(startTimeMs, endTimeMs));
         }
 
         if (!weekdays.isEmpty()) {

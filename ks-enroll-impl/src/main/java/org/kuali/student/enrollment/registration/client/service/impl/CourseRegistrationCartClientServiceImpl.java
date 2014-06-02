@@ -672,8 +672,8 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
             String endTime = StringUtils.isEmpty(endTimeMs) ? "" : TimeOfDayHelper.formatTimeOfDay(TimeOfDayHelper.setMillis(Long.valueOf(endTimeMs)));
             scheduleTimeResult.setStartTime(startTime);
             scheduleTimeResult.setEndTime(endTime);
-            if (!StringUtils.isEmpty(startTime) && !StringUtils.isEmpty(endTime)) {
-                scheduleTimeResult.setDisplayTime(startTime.substring(0, startTime.length() - 3) + "-" + endTime.substring(0, endTime.length() - 3) + endTime.substring(endTime.length() - 2).toLowerCase());
+            if (!StringUtils.isEmpty(startTimeMs) && !StringUtils.isEmpty(endTimeMs)) {
+                scheduleTimeResult.setDisplayTime(TimeOfDayHelper.makeFormattedTimeForAOScheduleComponent(startTimeMs, endTimeMs));
             }
             locationTimeResult.setTime(scheduleTimeResult);
 
