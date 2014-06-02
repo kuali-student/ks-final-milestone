@@ -708,4 +708,32 @@
         <property name="url.baseUrl" value="cmHome"/>
         <property name="url.viewId" value="curriculumHomeView"/>
     </bean>
+
+
+    <!--  need to hook it up with "edit comment" click ( once KSCM-2197 is done) -->
+    <bean id="KS-EditCommentSection" parent="Uif-HorizontalBoxGroup">
+        <property name="items">
+            <list>
+                <bean id="KS-EditCommentSection-InputField" parent="CM-InputField"
+                      p:propertyName="courseInfoWrapper.activeComment.commentInfo.commentText.plain">
+                    <property name="control">
+                        <bean parent="Uif-LargeTextAreaControl">
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="EditCommentSection-Save"
+                      parent="Uif-PrimaryActionButton"
+                      p:ajaxSubmit="false"
+                      p:methodToCall="saveComment"
+                      p:actionLabel="Save"/>
+
+                <bean id="KS-EditCommentSection-cancel"
+                      parent="Uif-CancelAction"
+                      p:ajaxSubmit="false"
+                      p:methodToCall="cancel"
+                      p:actionLabel="Cancel"/>
+            </list>
+        </property>
+    </bean>
+
 </beans>
