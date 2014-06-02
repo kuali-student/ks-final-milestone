@@ -258,4 +258,26 @@ public class TimeOfDayHelper {
 
         return new TimeOfDayInfo(hour, min);
     }
+
+    /**
+     * Creates a time string as hh:mm-hh:mm{am/pm} or hh:mm{am}-hh:mm{pm}
+     *
+     * @param startTimeMs AO start time
+     * @param endTimeMs AO end time
+     * @return  A time string.
+     */
+    public static String makeFormattedTimeForAOScheduleComponent(String startTimeMs, String endTimeMs) throws InvalidParameterException {
+        TimeOfDay startTimeOfDay = TimeOfDayHelper.setMillis(Long.valueOf(startTimeMs));
+        TimeOfDay endTimeOfDay = TimeOfDayHelper.setMillis(Long.valueOf(endTimeMs));
+        String startTime = TimeOfDayHelper.formatTimeOfDay(startTimeOfDay);
+        String endTime = TimeOfDayHelper.formatTimeOfDay(endTimeOfDay);
+
+        if ((isAM(startTimeOfDay) && isAM(endTimeOfDay)) || (isPM(startTimeOfDay) && isPM(endTimeOfDay))) {
+            // 11:00-11:50am
+            return startTime.substring(0, startTime.length() - 3) + "-" + endTime.substring(0, endTime.length() - 3) + endTime.substring(endTime.length() - 2);
+        } else {
+            // 11:00am-1:50pm
+            return startTime.substring(0, startTime.length() - 3) + startTime.substring(endTime.length() - 2) + "-" + endTime.substring(0, endTime.length() - 3) + endTime.substring(endTime.length() - 2);
+        }
+    }
 }
