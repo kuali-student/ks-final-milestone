@@ -953,6 +953,18 @@
         <property name="style" value="display: inline-block;" />
     </bean>
 
+    <bean id="KS-Uif-InfoMessageGroup" parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="alert,alert-info">
+        <property name="items">
+            <list>
+                <bean parent="Uif-ImageField" p:image.altText="Info: "
+                      p:source="@{#ConfigProperties['ks.externalizable.images.url']}/validation/info.png">
+                    <property name="image">
+                        <bean parent="Uif-Image" p:additionalCssClasses="uif-validationImage"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
 
     <bean id="KS-OptimisticLock-Page" parent="KS-Uif-Page" p:disclosure.render="false">
         <property name="items">
