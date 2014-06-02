@@ -42,10 +42,12 @@ public class CourseInfoWrapper implements Serializable {
     private static final String DEFAULT_REQUIRED_WORKFLOW_MODE = "Submit";
 
     private ProposalInfo proposalInfo = new ProposalInfo();
-    private List<CluInstructorInfoWrapper> instructorWrappers = new ArrayList<CluInstructorInfoWrapper>();;
+    private List<CluInstructorInfoWrapper> instructorWrappers = new ArrayList<CluInstructorInfoWrapper>();
+    ;
     private List<CourseJointInfoWrapper> courseJointWrappers = new ArrayList<CourseJointInfoWrapper>();
     private List<ResultValuesGroupInfoWrapper> creditOptionWrappers = new ArrayList<ResultValuesGroupInfoWrapper>();
-    private List<DecisionInfo> decisions = new ArrayList<DecisionInfo>();;
+    private List<DecisionInfo> decisions = new ArrayList<DecisionInfo>();
+    ;
     private List<OrganizationInfoWrapper> administeringOrganizations = new ArrayList<OrganizationInfoWrapper>();
     private List<CollaboratorWrapper> collaboratorWrappers = new ArrayList<CollaboratorWrapper>();
     private List<SupportingDocumentInfoWrapper> documentsToAdd = new ArrayList<SupportingDocumentInfoWrapper>();
@@ -53,10 +55,12 @@ public class CourseInfoWrapper implements Serializable {
     private ReviewProposalDisplay reviewProposalDisplay = new ReviewProposalDisplay();
     private CourseInfo courseInfo = new CourseInfo();
     private List<FormatInfo> formats = new ArrayList<FormatInfo>();
-    private List<CommentWrapper> comments = new ArrayList<CommentWrapper>();;
+    private List<CommentWrapper> comments = new ArrayList<CommentWrapper>();
+    ;
 
     private CommentWrapper activeComment;
     private String comment;
+    private String capturedComment;
 
     private String crossListingDisclosureSection;
     private String userId = "";
@@ -80,10 +84,12 @@ public class CourseInfoWrapper implements Serializable {
 
     private transient CreateCourseUIHelper uiHelper = new CreateCourseUIHelper();
 
-    public CourseInfoWrapper() {}
+    public CourseInfoWrapper() {
+    }
 
     /**
      * Storage for the text area on the comments form.
+     *
      * @return
      */
     public String getComment() {
@@ -94,8 +100,17 @@ public class CourseInfoWrapper implements Serializable {
         this.comment = comment;
     }
 
+    public String getCapturedComment() {
+        return capturedComment;
+    }
+
+    public void setCapturedComment(String capturedComment) {
+        this.capturedComment = capturedComment;
+    }
+
     /**
      * Flag used on the Review Course Proposal page to indicate whether the "yellow bar" should be displayed.
+     *
      * @return True if the course is missing required fields for the next state or routing node. Otherwise, false.
      */
     public boolean isMissingRequiredFields() {
@@ -393,8 +408,8 @@ public class CourseInfoWrapper implements Serializable {
     }
 
     /**
-     * @see #setActiveComment(CommentWrapper)
      * @return commentWrapper
+     * @see #setActiveComment(CommentWrapper)
      */
     public CommentWrapper getActiveComment() {
         return activeComment;
@@ -416,10 +431,9 @@ public class CourseInfoWrapper implements Serializable {
      * properties with those. This seperation would help to easily identify which are the ui only properties.
      * Also, the same <class>CourseInfoWrapper</class> class can be used at other views, we can have multiple ui helper
      * implementation if needed to support multiple ways to display the same data.
-     *
+     * <p/>
      * For example, <method>getHeaderText</method> is used to display the header text at Create Course view only and not
      * involved in data persistance.
-     *
      */
     public class CreateCourseUIHelper {
 
@@ -433,7 +447,7 @@ public class CourseInfoWrapper implements Serializable {
         @RequestProtected
         boolean useReviewProcess;
 
-        public CreateCourseUIHelper(){
+        public CreateCourseUIHelper() {
             curriculumSpecialistUser = CourseProposalUtil.isUserCurriculumSpecialist();
             selectedSection = CurriculumManagementConstants.CourseViewSections.COURSE_INFO;
         }
@@ -444,7 +458,7 @@ public class CourseInfoWrapper implements Serializable {
          * @return True if an admin doc type is being used. Otherwise, false.
          */
         public boolean isAdminProposal() {
-            return curriculumSpecialistUser && ! isUseReviewProcess();
+            return curriculumSpecialistUser && !isUseReviewProcess();
         }
 
         public void setCurriculumSpecialistUser(boolean curriculumSpecialistUser) {
@@ -485,7 +499,7 @@ public class CourseInfoWrapper implements Serializable {
                 headerSuffixText = " (Proposal)";
             }
 
-            if (proposalInfo != null && StringUtils.isNotBlank(proposalInfo.getName())){
+            if (proposalInfo != null && StringUtils.isNotBlank(proposalInfo.getName())) {
                 return proposalInfo.getName() + headerSuffixText;
             } else {
                 return "New Course" + headerSuffixText;

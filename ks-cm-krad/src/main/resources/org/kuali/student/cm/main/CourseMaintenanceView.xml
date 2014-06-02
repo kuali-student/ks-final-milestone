@@ -22,7 +22,7 @@
     <!--
         The data dictionary for the CourseInfoWrapper class.
     -->
-    <bean id="CourseInfoWrapper" parent="CourseInfoWrapper-parentBean" />
+    <bean id="CourseInfoWrapper" parent="CourseInfoWrapper-parentBean"/>
     <bean id="CourseInfoWrapper-parentBean" abstract="true" parent="DataObjectEntry">
         <property name="dataObjectClass" value="org.kuali.student.cm.course.form.CourseInfoWrapper"/>
         <property name="titleAttribute" value="courseInfo.id"/>
@@ -47,8 +47,8 @@
     <!-- Common beans -->
 
     <!-- Override simpleConstraint.states with workflow doc state R (Enroute) and beyond -->
-    <bean id="DDValueReplacer-Enroute" parent="FieldOverrideForValueReplace" abstract="true" >
-        <property name="propertyName" value="simpleConstraint.states" />
+    <bean id="DDValueReplacer-Enroute" parent="FieldOverrideForValueReplace" abstract="true">
+        <property name="propertyName" value="simpleConstraint.states"/>
         <property name="value">
             <list>
                 <value>R+</value>
@@ -57,8 +57,8 @@
     </bean>
 
     <!-- Override simpleConstraint.states with workflow doc state P (Processed) -->
-    <bean id="DDValueReplacer-Processed" parent="FieldOverrideForValueReplace" abstract="true" >
-        <property name="propertyName" value="simpleConstraint.states" />
+    <bean id="DDValueReplacer-Processed" parent="FieldOverrideForValueReplace" abstract="true">
+        <property name="propertyName" value="simpleConstraint.states"/>
         <property name="value">
             <list>
                 <value>P</value>
@@ -70,37 +70,37 @@
         Per property overrides for workflow doc state R (Enroute).
     -->
     <bean id="CourseInfo.subjectArea-override" parent="DataDictionaryBeanOverride">
-        <property name="beanName" value="CourseInfo.subjectArea" />
+        <property name="beanName" value="CourseInfo.subjectArea"/>
         <property name="fieldOverrides">
-            <bean parent="DDValueReplacer-Enroute" />
+            <bean parent="DDValueReplacer-Enroute"/>
         </property>
     </bean>
 
     <bean id="CourseInfo.descr.plain-override" parent="DataDictionaryBeanOverride">
-	    <property name="beanName" value="CourseInfo.descr.plain" />
+        <property name="beanName" value="CourseInfo.descr.plain"/>
         <property name="fieldOverrides">
-            <bean parent="DDValueReplacer-Enroute" />
+            <bean parent="DDValueReplacer-Enroute"/>
         </property>
-	</bean>
+    </bean>
 
     <bean id="ProposalInfo.rationale.plain-override" parent="DataDictionaryBeanOverride">
-        <property name="beanName" value="ProposalInfo.rationale.plain" />
+        <property name="beanName" value="ProposalInfo.rationale.plain"/>
         <property name="fieldOverrides">
-            <bean parent="DDValueReplacer-Enroute" />
+            <bean parent="DDValueReplacer-Enroute"/>
         </property>
     </bean>
 
     <bean id="CourseInfo.startTerm-override" parent="DataDictionaryBeanOverride">
-        <property name="beanName" value="CourseInfo.startTerm" />
+        <property name="beanName" value="CourseInfo.startTerm"/>
         <property name="fieldOverrides">
-            <bean parent="DDValueReplacer-Enroute" />
+            <bean parent="DDValueReplacer-Enroute"/>
         </property>
     </bean>
 
     <bean id="ActivityInfo.typeKey-override" parent="DataDictionaryBeanOverride">
-        <property name="beanName" value="ActivityInfo.typeKey" />
+        <property name="beanName" value="ActivityInfo.typeKey"/>
         <property name="fieldOverrides">
-            <bean parent="DDValueReplacer-Enroute" />
+            <bean parent="DDValueReplacer-Enroute"/>
         </property>
     </bean>
 
@@ -120,15 +120,15 @@
      -->
     <!-- Explicitly set a simple constraint with required=false so that the requiredness message will behave -->
     <bean id="CourseInfo.courseNumberSuffix.override-required-bug" parent="DataDictionaryBeanOverride">
-        <property name="beanName" value="CourseInfo.courseNumberSuffix" />
+        <property name="beanName" value="CourseInfo.courseNumberSuffix"/>
         <property name="fieldOverrides">
-            <bean parent="FieldOverrideForValueReplace" >
-                <property name="propertyName" value="simpleConstraint" />
+            <bean parent="FieldOverrideForValueReplace">
+                <property name="propertyName" value="simpleConstraint"/>
                 <property name="value">
                     <bean parent="SimpleConstraint">
-                        <property name="maxLength" value="3" />
-                        <property name="minLength" value="3" />
-                        <property name="required" value="false" />
+                        <property name="maxLength" value="3"/>
+                        <property name="minLength" value="3"/>
+                        <property name="required" value="false"/>
                         <property name="states">
                             <list>
                                 <value>I,S,R</value>
@@ -137,8 +137,8 @@
                         <property name="constraintStateOverrides">
                             <list>
                                 <bean parent="RequiredConstraint">
-                                    <property name="maxLength" value="3" />
-                                    <property name="minLength" value="3" />
+                                    <property name="maxLength" value="3"/>
+                                    <property name="minLength" value="3"/>
                                     <property name="states">
                                         <list>
                                             <value>P</value>
@@ -163,10 +163,13 @@
         commenting below code in case required in future.
          @{!#empty(document.newMaintainableObject.proposal.name) ? document.newMaintainableObject.proposal.name + ' (Proposal)': 'New Course (Proposal)'} -->
         <!--<property name="headerText" value="@{(document.newMaintainableObject.proposal != null and !#empty(document.newMaintainableObject.proposal.name)) ? document.newMaintainableObject.proposal.name + ' (Proposal)': 'New Course (Proposal)'}" />-->
-        <property name="headerText" value="@{(#uiHelper.headerText eq null or #uiHelper.headerText.length() lt 1) ? 'Create Course': #uiHelper.headerText }" />
-        <property name="singlePageView" value="false"/><!-- Override the default to allow for navigation -->
-        <property name="viewHelperServiceClass" value="org.kuali.student.cm.course.service.impl.CourseInfoMaintainableImpl" />
-        <property name="applyDirtyCheck" value="true" />
+        <property name="headerText"
+                  value="@{(#uiHelper.headerText eq null or #uiHelper.headerText.length() lt 1) ? 'Create Course': #uiHelper.headerText }"/>
+        <property name="singlePageView" value="false"/>
+        <!-- Override the default to allow for navigation -->
+        <property name="viewHelperServiceClass"
+                  value="org.kuali.student.cm.course.service.impl.CourseInfoMaintainableImpl"/>
+        <property name="applyDirtyCheck" value="true"/>
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <list>
                 <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
@@ -180,20 +183,21 @@
             </list>
         </property>
         <property name="header.id" value="KS-CourseView-Header"/>
-        <property name="header.lowerGroup" >
-            <bean id="KS-CourseView-LinkGroup" parent="Uif-LinkGroup" p:linkSeparator="|" p:render="@{#form.pageId eq 'KS-CourseView-CoursePage'}"
+        <property name="header.lowerGroup">
+            <bean id="KS-CourseView-LinkGroup" parent="Uif-LinkGroup" p:linkSeparator="|"
+                  p:render="@{#form.pageId eq 'KS-CourseView-CoursePage'}"
                   p:additionalCssClasses="cm-StickyHeader-links">
                 <property name="items">
                     <list>
                         <bean parent="KS-Uif-DataField" p:label="Proposal Status"
-                              p:shortLabel="Status" p:propertyName="proposalInfo.stateKey" />
+                              p:shortLabel="Status" p:propertyName="proposalInfo.stateKey"/>
                         <bean id="CourseView-LinkGroup-Comments" parent="Uif-ActionLink" p:actionLabel="Comments"
-                              p:methodToCall="showComment" />
+                              p:methodToCall="showComment"/>
                         <bean id="CourseView-LinkGroup-Decisions" parent="Uif-ActionLink" p:actionLabel="Decisions"
-                              p:methodToCall="showDecisions" />
-                        <bean parent="Uif-Space" />
+                              p:methodToCall="showDecisions"/>
+                        <bean parent="Uif-Space"/>
                         <bean parent="KS-Uif-DataField" p:label="Last Updated"
-                              p:shortLabel="Updated" p:propertyName="lastUpdated" />
+                              p:shortLabel="Updated" p:propertyName="lastUpdated"/>
                     </list>
                 </property>
             </bean>
@@ -203,10 +207,10 @@
             <bean parent="WorkflowStateMapping">
                 <property name="customClientSideValidationStates">
                     <map>
-                        <entry key="I" value="S" />
-                        <entry key="S" value="S" />
-                        <entry key="R" value="S" />
-                        <entry key="P" value="S" />
+                        <entry key="I" value="S"/>
+                        <entry key="S" value="S"/>
+                        <entry key="R" value="S"/>
+                        <entry key="P" value="S"/>
                     </map>
                 </property>
             </bean>
@@ -214,8 +218,8 @@
 
         <property name="dialogs">
             <list>
-                <ref bean="commentsLightBox" />
-                <ref bean="decisionsDialog" />
+                <ref bean="commentsLightBox"/>
+                <ref bean="decisionsDialog"/>
                 <!-- <bean id="compareRuleLightBox" parent="KS-KRMS-CompareRule">
                     <property name="headerText" value="Compare Catalog and Course Offering Rules"/>
                 </bean> -->
@@ -228,8 +232,8 @@
         <property name="items">
             <list>
                 <ref bean="KS-CourseView-CoursePage"/>
-                <ref bean="KS-CourseView-ReviewProposalPage" />
-                <ref bean="KS-RuleMaintenance-Page-Parent" />
+                <ref bean="KS-CourseView-ReviewProposalPage"/>
+                <ref bean="KS-RuleMaintenance-Page-Parent"/>
             </list>
         </property>
         <property name="additionalScriptFiles">
@@ -270,10 +274,11 @@
     <bean id="CourseInfoMaintenanceDocument-Base" parent="CourseInfoMaintenanceDocument-Base-parent" abstract="true"/>
 
     <bean id="CourseInfoMaintenanceDocument-Base-parent" parent="uifMaintenanceDocumentEntry" abstract="true">
-        <property name="dataObjectClass" value="org.kuali.student.cm.course.form.CourseInfoWrapper" />
+        <property name="dataObjectClass" value="org.kuali.student.cm.course.form.CourseInfoWrapper"/>
         <property name="maintainableClass" value="org.kuali.student.cm.course.service.impl.CourseInfoMaintainableImpl"/>
         <property name="documentClass" value="org.kuali.student.cm.maintenance.CMMaintenanceDocument"/>
-        <property name="documentAuthorizerClass" value="org.kuali.student.cm.course.auth.CMMaintenanceDocumentAuthorizer"/>
+        <property name="documentAuthorizerClass"
+                  value="org.kuali.student.cm.course.auth.CMMaintenanceDocumentAuthorizer"/>
         <property name="businessRulesClass" value="org.kuali.student.cm.course.rule.CourseRule"/>
         <property name="lockingKeys">
             <list>
@@ -308,40 +313,42 @@
             </list>
         </property>
         <property name="header">
-            <bean parent="Uif-HeaderTwo" />
+            <bean parent="Uif-HeaderTwo"/>
         </property>
         <!--  Turn off validation messages for the tab sections -->
         <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
     </bean>
 
-    <bean id="KS-CourseView-HorizontalBoxSection" parent="Uif-HorizontalBoxSection" abstract="true" />
+    <bean id="KS-CourseView-HorizontalBoxSection" parent="Uif-HorizontalBoxSection" abstract="true"/>
 
     <bean id="KS-CourseView-CoursePage" parent="Uif-MaintenancePage" p:disclosure.render="false">
-        <property name="header" ref="KS-CourseView-Header" />
+        <property name="header" ref="KS-CourseView-Header"/>
         <property name="headerText" value="Create Course"/>
         <property name="footer.items">
             <list>
                 <bean parent="KS-CourseView-Footer" p:render="@{!#uiHelper.curriculumSpecialistUser}"/>
-                <bean parent="KS-CourseView-CurriculumSpecialistFooter" p:render="@{#uiHelper.curriculumSpecialistUser}"/>
+                <bean parent="KS-CourseView-CurriculumSpecialistFooter"
+                      p:render="@{#uiHelper.curriculumSpecialistUser}"/>
             </list>
         </property>
-        <property name="onDocumentReadyScript" value="onCourseLoad(@{#uiHelper.curriculumSpecialistUser}, '@{#uiHelper.selectedSection.sectionId}')"/>
+        <property name="onDocumentReadyScript"
+                  value="onCourseLoad(@{#uiHelper.curriculumSpecialistUser}, '@{#uiHelper.selectedSection.sectionId}')"/>
         <property name="items">
             <list>
                 <bean parent="Uif-TabGroup" p:id="course_tabs">
-                    <property name="validationMessages.displayMessages" value="false" />
+                    <property name="validationMessages.displayMessages" value="false"/>
                     <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
                     <property name="items">
                         <list>
                             <ref bean="KS-CourseView-CourseInfo-Section"/>
                             <ref bean="KS-CourseView-Governance-Section"/>
                             <ref bean="KS-CourseView-Logistics-Section"/>
-                            <ref bean="KS-CourseView-LearningObjectives-Section" />
+                            <ref bean="KS-CourseView-LearningObjectives-Section"/>
                             <ref bean="KS-CourseView-CourseRequisites-Section"/>
                             <ref bean="KS-CourseView-ActiveDates-Section"/>
                             <ref bean="KS-CourseView-Financials-Section"/>
                             <ref bean="KS-CourseView-AuthorsAndCollaborators-Section"/>
-                            <ref bean="KS-CourseView-SupportingDocuments-Section" />
+                            <ref bean="KS-CourseView-SupportingDocuments-Section"/>
                         </list>
                     </property>
                     <property name="tabsWidget.templateOptionsJSString">
@@ -353,7 +360,8 @@
                 </bean>
 
                 <!-- The text above the tab panel. This gets fixed positioning via JS. -->
-                <bean id="course_tabs_header" parent="Uif-VerticalBoxGroup" p:render="@{!#uiHelper.curriculumSpecialistUser or #uiHelper.useReviewProcess}">
+                <bean id="course_tabs_header" parent="Uif-VerticalBoxGroup"
+                      p:render="@{!#uiHelper.curriculumSpecialistUser or #uiHelper.useReviewProcess}">
                     <property name="header">
                         <bean parent="Uif-HeaderFour">
                             <property name="cssClasses">
@@ -361,7 +369,7 @@
                                     <value>course_tabs_header_text</value>
                                 </list>
                             </property>
-                            <property name="headerText" value="1. Define Course" />
+                            <property name="headerText" value="1. Define Course"/>
                         </bean>
                     </property>
                 </bean>
@@ -376,7 +384,7 @@
                                     <value>course_tabs_header_text</value>
                                 </list>
                             </property>
-                            <property name="headerText" value="2. Review and Submit" />
+                            <property name="headerText" value="2. Review and Submit"/>
                         </bean>
                     </property>
                     <property name="items">
@@ -399,6 +407,12 @@
                                 <property name="render" value="@{#actionFlags[#Constants.KUALI_ACTION_CAN_EDIT]}"/>
                             </bean>
                         </list>
+                    </property>
+                </bean>
+                <bean id="CaptureCommentsTextArea" parent="Uif-InputField" p:propertyName="capturedComment"
+                      p:additionalCssClasses="alwaysHide">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10"/>
                     </property>
                 </bean>
             </list>
@@ -429,7 +443,8 @@
                                     <bean parent="Uif-Message" p:id="Create-CourseView-Admin-Message"
                                           p:messageText="Showing required and optional fields.">
                                     </bean>
-                                    <bean parent="KS-Uif-ActionLink" p:id="Create-CourseView-Admin-Message-expand-optional-link"
+                                    <bean parent="KS-Uif-ActionLink"
+                                          p:id="Create-CourseView-Admin-Message-expand-optional-link"
                                           p:actionScript="showHideCreateCourseOptionalElements();"
                                           p:actionLabel="Show only required fields">
                                     </bean>
@@ -441,7 +456,7 @@
             </bean>
         </property>
     </bean>
-    
+
     <bean id="KS-CourseView-CurriculumSpecialistFooter" parent="Uif-FooterBase">
         <property name="items">
             <list>
@@ -462,9 +477,9 @@
                       p:performClientSideValidation="true"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_BLANKET_APPROVE]}"/>
                 <bean parent="Uif-PrimaryActionButton"
-                      p:ajaxSubmit="false" 
+                      p:ajaxSubmit="false"
                       p:methodToCall="route"
-                      p:actionLabel="Submit" 
+                      p:actionLabel="Submit"
                       p:performClientSideValidation="true"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and #form.pageId eq 'KS-CourseView-ReviewProposalPage'}"/>
                 <bean parent="Uif-SecondaryActionButton"
@@ -534,11 +549,11 @@
                                   p:actionLabel="Save and Continue"
                                   p:performClientSideValidation="true"
                                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}">
-                                  <property name="actionParameters">
-                                      <map>
+                                <property name="actionParameters">
+                                    <map>
                                         <entry key="displayPage" value="NEXT"/>
-                                      </map>
-                                  </property>
+                                    </map>
+                                </property>
                             </bean>
                             <bean parent="Uif-SecondaryActionButton"
                                   p:ajaxSubmit="false"
@@ -562,48 +577,49 @@
     <!-- Dialogs -->
 
     <bean id="commentsLightBox" parent="Uif-VerticalBoxSection">
-        <property name="hidden" value="true" />
+        <property name="hidden" value="true"/>
         <property name="header">
             <bean parent="Uif-HeaderOne" p:headerText="Comments for @{#dataObject.proposalInfo.name}"
                   p:cssClasses="ks-dottedHeaderActions"/>
         </property>
         <property name="items">
             <list>
-                <bean id="commentsTextArea" parent="Uif-InputField" p:propertyName="comment" >
+                <bean id="commentsTextArea" parent="Uif-InputField" p:propertyName="comment">
                     <property name="instructionalText"
-                        value="All comments posted here will be visible to authors, and to reviewers after you submit the proposal" />
+                              value="All comments posted here will be visible to authors, and to reviewers after you submit the proposal"/>
 
                     <property name="control">
-                        <bean parent="Uif-LargeTextAreaControl"/>
+                        <bean parent="Uif-LargeTextAreaControl" p:onKeyUpScript="updateCapturedComment();"/>
                     </property>
                 </bean>
 
                 <bean parent="Uif-SecondaryActionButton"
-                    p:ajaxSubmit="true"
-                    p:methodToCall="saveComment"
-                    p:actionLabel="Add Comment"
-                    p:performClientSideValidation="true"
-                    p:render="true"/>
+                      p:ajaxSubmit="true"
+                      p:methodToCall="saveComment"
+                      p:actionLabel="Add Comment"
+                      p:performClientSideValidation="true"
+                      p:render="true"/>
 
                 <!-- Display existing comments or a message indicating that there aren't any comments. Using a box section
                      here so that both the tableCollectionSection and the simple Message can share the header. -->
                 <bean id="commentsLightBoxContents" parent="Uif-VerticalBoxSection">
-                     <property name="header">
+                    <property name="header">
                         <bean parent="Uif-HeaderThree" p:headerText="Comments (@{#dataObject.comments.size()})"
-                                p:cssClasses=""/>
+                              p:cssClasses=""/>
                     </property>
                     <!-- There is a property replacer below which, if there are no comments, replaces it with a Message -->
                     <property name="items">
                         <list>
-                            <bean  parent="Uif-TableCollectionSection" lazy-init="false">
+                            <bean parent="Uif-TableCollectionSection" lazy-init="false">
                                 <property name="header.render" value="false"/>
-                                <property name="collectionObjectClass" value="org.kuali.student.cm.course.form.CommentWrapper" />
-                                <property name="propertyName" value="comments" />
+                                <property name="collectionObjectClass"
+                                          value="org.kuali.student.cm.course.form.CommentWrapper"/>
+                                <property name="propertyName" value="comments"/>
 
-                                <property name="layoutManager.separateAddLine" value="true" />
-                                <property name="addLineLabel.messageText" value=" " />
-                                <property name="layoutManager.renderSequenceField" value="false" />
-                                <property name="layoutManager.richTable.render" value="true" />
+                                <property name="layoutManager.separateAddLine" value="true"/>
+                                <property name="addLineLabel.messageText" value=" "/>
+                                <property name="layoutManager.renderSequenceField" value="false"/>
+                                <property name="layoutManager.richTable.render" value="true"/>
                                 <property name="layoutManager.richTable">
                                     <bean parent="KS-Uif-PagedRichTable">
                                         <property name="templateOptions">
@@ -619,8 +635,10 @@
                                 </property>
                                 <property name="items">
                                     <list>
-                                        <bean parent="KS-Uif-DataField" p:label=" " p:propertyName="commentInfo.commenterId"/>
-                                        <bean parent="KS-Uif-InputField" p:label=" " p:propertyName="commentInfo.commentText.plain"/>
+                                        <bean parent="KS-Uif-DataField" p:label=" "
+                                              p:propertyName="commentInfo.commenterId"/>
+                                        <bean parent="KS-Uif-InputField" p:label=" "
+                                              p:propertyName="commentInfo.commentText.plain"/>
                                     </list>
                                 </property>
                             </bean>
@@ -630,7 +648,7 @@
                         <list>
                             <!-- If there are no comments then just show a message -->
                             <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items"
-                                p:condition="@{#dataObject.comments.size() == 0}">
+                                  p:condition="@{#dataObject.comments.size() == 0}">
                                 <property name="replacement">
                                     <list>
                                         <bean parent="Uif-Message" p:messageText="There are no comments."/>
@@ -656,24 +674,24 @@
     </bean>
 
     <bean id="decisionsDialog" parent="Uif-VerticalBoxSection">
-        <property name="hidden" value="true" />
-        <property name="headerText" value="Decisions" />
+        <property name="hidden" value="true"/>
+        <property name="headerText" value="Decisions"/>
         <property name="items">
             <list>
                 <bean parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="4">
-                    <property name="header.render" value="false" />
-                    <property name="collectionObjectClass" value="org.kuali.student.r2.core.comment.dto.DecisionInfo" />
-                    <property name="propertyName" value="decisions" />
-                    <property name="layoutManager.generateAutoSequence" value="true" />
-                    <property name="layoutManager.richTable.render" value="false" />
-                    <property name="renderAddLine" value="false" />
-                    <property name="renderLineActions" value="false" />
+                    <property name="header.render" value="false"/>
+                    <property name="collectionObjectClass" value="org.kuali.student.r2.core.comment.dto.DecisionInfo"/>
+                    <property name="propertyName" value="decisions"/>
+                    <property name="layoutManager.generateAutoSequence" value="true"/>
+                    <property name="layoutManager.richTable.render" value="false"/>
+                    <property name="renderAddLine" value="false"/>
+                    <property name="renderLineActions" value="false"/>
                     <property name="items">
                         <list>
-                            <bean parent="KS-Uif-InputField" p:label="Decision" p:propertyName="decision" />
-                            <bean parent="KS-Uif-InputField" p:label="Date" p:propertyName="date" />
-                            <bean parent="KS-Uif-InputField" p:label="Actor" p:propertyName="actor" />
-                            <bean parent="KS-Uif-InputField" p:label="Rationale" p:propertyName="rationale" />
+                            <bean parent="KS-Uif-InputField" p:label="Decision" p:propertyName="decision"/>
+                            <bean parent="KS-Uif-InputField" p:label="Date" p:propertyName="date"/>
+                            <bean parent="KS-Uif-InputField" p:label="Actor" p:propertyName="actor"/>
+                            <bean parent="KS-Uif-InputField" p:label="Rationale" p:propertyName="rationale"/>
                         </list>
                     </property>
                 </bean>
@@ -685,7 +703,8 @@
         <property name="label" value="Course Information"></property>
     </bean>
     <bean id="KS-HomewardPathBreadcrumbs-NewCourse" parent="Uif-BreadcrumbItem">
-        <property name="label" value=" @{(#form.pageId eq 'KS-CourseView-CoursePage') ? #uiHelper.headerText : 'Create Course'}" />
+        <property name="label"
+                  value=" @{(#form.pageId eq 'KS-CourseView-CoursePage') ? #uiHelper.headerText : 'Create Course'}"/>
         <property name="url.baseUrl" value="cmHome"/>
         <property name="url.viewId" value="curriculumHomeView"/>
     </bean>

@@ -274,10 +274,10 @@ public class CourseController extends CourseRuleEditorController {
 
         String displaySectionId = form.getActionParameters().get("displaySection");
         CourseInfoWrapper wrapper = getCourseInfoWrapper(form);
-        if(wrapper.getInstructorWrappers().size() == 0) {
-            wrapper.getInstructorWrappers().add( new CluInstructorInfoWrapper());
+        if (wrapper.getInstructorWrappers().size() == 0) {
+            wrapper.getInstructorWrappers().add(new CluInstructorInfoWrapper());
         }
-        if(wrapper.getCollaboratorWrappers().size() == 0) {
+        if (wrapper.getCollaboratorWrappers().size() == 0) {
             wrapper.getCollaboratorWrappers().add(new CollaboratorWrapper());
         }
         if (displaySectionId == null) {
@@ -339,7 +339,6 @@ public class CourseController extends CourseRuleEditorController {
     }
 
     /**
-     *
      * @param message - the error message (both to log and throw as a new exception)
      */
     protected void logAndThrowRuntime(String message) {
@@ -627,9 +626,9 @@ public class CourseController extends CourseRuleEditorController {
         CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
         CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
 
-        CommentInfo commentInfo = new CommentInfo() ;
+        CommentInfo commentInfo = new CommentInfo();
         RichTextInfo richTextInfo = new RichTextInfo();
-        richTextInfo.setPlain(courseInfoWrapper.getComment());
+        richTextInfo.setPlain(courseInfoWrapper.getCapturedComment());
 
         commentInfo.setCommentText(richTextInfo);
         CommentWrapper commentWrapper = new CommentWrapper();
