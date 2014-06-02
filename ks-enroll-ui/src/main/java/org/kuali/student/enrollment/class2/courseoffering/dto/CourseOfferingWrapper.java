@@ -61,6 +61,7 @@ public class CourseOfferingWrapper implements Serializable{
     private String finalExamDriverUI;
     private boolean useFinalExamMatrix;
     private String useFinalExamMatrixUI;
+    private boolean finalExamTypeEdited;
     private String examPeriodId;
 
     private boolean isColocatedAoToDelete;
@@ -463,6 +464,14 @@ public class CourseOfferingWrapper implements Serializable{
 
     public void setUseFinalExamMatrixUI(String useFinalExamMatrixUI) {
         this.useFinalExamMatrixUI = useFinalExamMatrixUI;
+    }
+
+    public boolean getFinalExamTypeEdited() {
+        return finalExamTypeEdited;
+    }
+
+    public void setFinalExamTypeEdited(boolean finalExamTypeEdited) {
+        this.finalExamTypeEdited = finalExamTypeEdited;
     }
 
     public String getExamPeriodId() {

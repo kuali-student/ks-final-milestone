@@ -219,6 +219,13 @@
     <bean id="KS-CourseOffering-EditCo-Page-Header" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
+                <bean parent="KS-Uif-InfoMessageGroup" p:render="@{#dp.FinalExamTypeEdited}">
+                    <property name="items">
+                        <list merge="true">
+                            <bean parent="Uif-Message" p:messageText="Course exam data differs from Catalog."/>
+                        </list>
+                    </property>
+                </bean>
                 <bean parent="Uif-MessageField" p:messageText="Crosslisted as: @{#dp.alternateCOCodesUIList}" p:render="@{!#dp.alternateCourseCodesSuffixStripped.isEmpty()}" p:style="font-weight:bold; margin-top:4px; margin-bottom:8px;"/>
             </list>
         </property>
@@ -600,19 +607,13 @@
     <bean id="KS-CourseOfferingEdit-DeleteFormatOfferingWarning" parent="Uif-VerticalBoxSection" p:header.style="margin-top: 0;">
         <property name="items">
             <list>
-                <!--<bean parent="KS-Uif-Inline-WarningMessageGroup">
+                <bean parent="KS-Uif-Inline-WarningMessageGroup">
                     <property name="items">
                         <list>
                             <bean parent="Uif-Message"
                                   p:messageText="Deleting a delivery format will delete all of its activities and registration groups from the system."/>
                         </list>
                     </property>
-                </bean>-->
-                <bean parent="Uif-Message"
-                      p:messageText="[image class=&quot;uif-validationImage&quot; src=&quot;@{#ConfigProperties['krad.externalizable.images.url']}/validation/info.png&quot;]
-                      Deleting a delivery format will delete all of its activities and registration groups from the system."
-                      p:additionalCssClasses="ks-informational-message-for-field" >
-                    <property name="style" value="display: inline-block;" />
                 </bean>
             </list>
         </property>
@@ -732,10 +733,12 @@
           p:progressiveRender="@{#dp.CourseOfferingInfo.hasWaitlist}" >
         <property name="items">
             <list>
-                <bean parent="Uif-Message"
-                      p:messageText="[image class=&quot;uif-validationImage&quot; src=&quot;@{#ConfigProperties['krad.externalizable.images.url']}/validation/info.png&quot;] The waitlist settings can be managed on the individual Edit Activity Offering screens."
-                      p:additionalCssClasses="ks-informational-message-for-field" >
-                    <property name="style" value="display: inline-block;" />
+                <bean parent="KS-Uif-InfoMessageGroup">
+                    <property name="items">
+                        <list merge="true">
+                            <bean parent="Uif-Message" p:messageText="The waitlist settings can be managed on the individual Edit Activity Offering screens."/>
+                        </list>
+                    </property>
                 </bean>
             </list>
         </property>

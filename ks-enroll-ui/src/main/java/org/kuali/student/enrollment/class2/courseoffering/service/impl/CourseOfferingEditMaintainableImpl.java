@@ -692,8 +692,9 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
                         }
                     }
                 }
+
                 if (!finalExamTypeCM.isEmpty() && !StringUtils.equals(convertCourseFinalExamTypeToCourseOfferingFinalExamType(finalExamTypeCM), coInfo.getFinalExamType())) {
-                    GlobalVariables.getMessageMap().putWarningForSectionId("delivery_and_assessment", CourseOfferingConstants.COURSEOFFERING_MSG_WARNING_FINALEXAMTYPE_DIFF_CM);
+                    formObject.setFinalExamTypeEdited(true);
                 }
 
                 // set the display text for use final exam matrix in read-only view
