@@ -75,6 +75,16 @@
     width: 80%;
 }
 
+.kscr-MainHeading-stickyHeader {
+    display: none;
+    float: none;
+    width: auto;
+
+    .util-sticky--stuck & {
+        display: block;
+    }
+}
+
 .kscr-MainHeading-support{
     color: @secondaryTextColor;
     font-family: @primaryFontFamily;
@@ -92,8 +102,4 @@
     background-repeat: no-repeat;
     background-position: @iconPosition;
     background-color: inherit;
-}
-
-.kscr-MainHeading-button{
-    margin-top: 9px;
 }

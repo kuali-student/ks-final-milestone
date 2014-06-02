@@ -7,49 +7,52 @@
             <div class="kscr-MainHeading-icon-right"><a ui-sref="root.responsive.schedule" ><i class="glyphicon glyphicon-calendar"></i></a></div>
         </div>
     </div>
-    <div class="kscr-MainHeading util-Grid util-Grid--center" ng-hide="showConfirmation||cartResults.state=='kuali.lpr.trans.state.processing'">
-        <div class="util-Grid-cell">
-            <div id="credit_count_title" class="kscr-MainHeading-support">
-                <strong>
-                <ng-pluralize count="cart.items.length"
-                              when="{'1'    : '{} course ',
-                                         'other': '{} courses '}">
-                </ng-pluralize>
-                </strong>
-                (<ng-pluralize count="creditTotal"
-                               when="{'1'    : '{} credit',
-                                         'other': '{} credits'}">
-                </ng-pluralize>)
+    <!-- Sticky Cart Summary & Registration Action -->
+    <div sticky max-width="660">
+        <div class="kscr-MainHeading util-Grid util-Grid--center" ng-hide="showConfirmation||cartResults.state=='kuali.lpr.trans.state.processing'">
+            <div class="util-Grid-cell">
+                <div class="kscr-MainHeading-header kscr-MainHeading-stickyHeader">My Cart</div>
+                <div id="credit_count_title" class="kscr-MainHeading-support">
+                    <strong>
+                        <ng-pluralize count="cart.items.length"
+                                      when="{'1'    : '{} course ',
+                                                 'other': '{} courses '}">
+                        </ng-pluralize>
+                    </strong>
+                    (<ng-pluralize count="creditTotal"
+                                   when="{'1'    : '{} credit',
+                                             'other': '{} credits'}">
+                    </ng-pluralize>)
+                </div>
+            </div>
+            <div>
+                <button id="register" ng-disabled="cart.items.length < 1" class="kscr-MainHeading-button kscr-Button--primary" type="button" ng-click="showConfirmation =!showConfirmation">Register</button>
             </div>
         </div>
-
-        <div>
-            <button id="register" ng-disabled="cart.items.length < 1" class="kscr-MainHeading-button kscr-Button--primary" type="button" ng-click="showConfirmation =!showConfirmation">Register</button>
+        <div class="kscr-MainHeading" ng-show="cartResults.state=='kuali.lpr.trans.state.processing'">
+            <div class="kscr-MainHeading-header--processing">
+                Registering for courses...
+            </div>
         </div>
+        <form ng-submit="register()">
+            <!-- Registration Confirmation Box-->
+            <div ng-show="showConfirmation" class="kscr-Confirmation-container">
+                <div class="kscr-Confirmation-header  util-Grid">
+                    <ng-pluralize count="cart.items.length"
+                        when="{  '1'    : 'Register for the course below?',
+                                 'other': 'Register for the courses below?'}">
+                    </ng-pluralize>
+                </div>
+                <div class="util-Grid">
+                    <span class="kscr-Confirmation-buttons util-Grid-cell">
+                        <button id="confirmRegistration" class="kscr-Button--primary" type="submit" focus-me="showConfirmation">Confirm Registration</button>
+                            <div class="global-Base-divider"></div>
+                        <button id="cancelRegistration" class="kscr-Button" type="button" ng-click="showConfirmation = !showConfirmation">Cancel</button>
+                    </span>
+                </div>
+            </div>
+        </form>
     </div>
-    <div class="kscr-MainHeading" ng-show="cartResults.state=='kuali.lpr.trans.state.processing'">
-        <div class="kscr-MainHeading-header--processing">
-            Registering for courses...
-        </div>
-    </div>
-    <form ng-submit="register()">
-        <!-- Registration Confirmation Box-->
-        <div ng-show="showConfirmation" class="kscr-Confirmation-container">
-            <div class="kscr-Confirmation-header  util-Grid">
-                <ng-pluralize count="cart.items.length"
-                    when="{  '1'    : 'Register for the course below?',
-                             'other': 'Register for the courses below?'}">
-                </ng-pluralize>
-            </div>
-            <div class="util-Grid">
-                <span class="kscr-Confirmation-buttons util-Grid-cell">
-                    <button id="confirmRegistration" class="kscr-Button--primary" type="submit" focus-me="showConfirmation">Confirm Registration</button>
-                        <div class="global-Base-divider"></div>
-                    <button id="cancelRegistration" class="kscr-Button" type="button" ng-click="showConfirmation = !showConfirmation">Cancel</button>
-                </span>
-            </div>
-        </div>
-    </form>
 </div>
 
 <div  class="kscr-addToCard">
