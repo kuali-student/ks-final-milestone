@@ -16,6 +16,7 @@
  */
 package org.kuali.student.enrollment.registration.search.service.impl;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.r2.common.class1.search.SearchServiceAbstractHardwiredImplBase;
@@ -42,7 +43,6 @@ import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -483,6 +483,10 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "ON " +
                         "    grading.LPR_ID = lpr.id " +
                         "AND grading.RESULT_VAL_GRP_ID LIKE 'kuali.resultComponent.grade.%' " +
+                        "LEFT OUTER JOIN " +
+                        "    KSEN_ATP atp " +
+                        "ON " +
+                        "   atp.id = lpr.atp_id " +
                         "WHERE " +
                         "    lpr.PERS_ID = :personId " +
                         "AND lpr.LPR_STATE = '" + LprServiceConstants.ACTIVE_STATE_KEY + "' " +
@@ -499,7 +503,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "AND co.id = co2fo.LUI_ID " +
                         "AND rg.id = lpr.LUI_ID " +
                         "AND coId.LUI_ID = co.id " +
-                        "ORDER BY atp.id, lpr.LPR_TYPE, lpr.id, ao.LUI_TYPE";
+                        "ORDER BY lpr.ATP_ID, lpr.LPR_TYPE, lpr.id, ao.LUI_TYPE";
 
 
         Query query = entityManager.createNativeQuery(queryStr);
@@ -889,8 +893,11 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
         String atpId = requestHelper.getParamAsString(SearchParameters.ATP_ID);
         String personId = requestHelper.getParamAsString(SearchParameters.PERSON_ID);
+        List<String> lprTypes = requestHelper.getParamAsList(SearchParameters.LPR_TYPE);
 
-        String queryStr =
+        StringBuilder queryBuilder=new StringBuilder("");
+
+        queryBuilder.append(
                 "SELECT atp.ID, atp.ATP_CD, atp.NAME as atp_name, " +
                         "lpr.LUI_ID, lpr.MASTER_LPR_ID, lpr.LPR_TYPE, lpr.LPR_STATE, lpr.CREDITS, lpr.GRADING_OPT_ID, " +
                         "luiId.LUI_CD, lui.NAME as lui_name, lui.DESCR_FORMATTED, lui.LUI_TYPE, luiId.LNG_NAME, " +
@@ -922,16 +929,22 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "  AND lui.ID = lpr.LUI_ID " +
                         "  AND lui.ATP_ID = lpr.ATP_ID " +
                         "  AND luiId.LUI_ID = lui.ID " +
-                        "  AND lpr.LPR_STATE = '" + LprServiceConstants.ACTIVE_STATE_KEY + "' ";
+                        "  AND lpr.LPR_STATE = '" + LprServiceConstants.ACTIVE_STATE_KEY + "' ");
 
         if (!StringUtils.isEmpty(atpId)) {
-            queryStr = queryStr + " AND lpr.ATP_ID = :atpId ";
+            queryBuilder.append(" AND lpr.ATP_ID = :atpId ");
+        }
+        if (!CollectionUtils.isEmpty(lprTypes)) {
+            queryBuilder.append(" AND lpr.LPR_TYPE in (:lprType) ");
         }
 
-        Query query = entityManager.createNativeQuery(queryStr);
+        Query query = entityManager.createNativeQuery(queryBuilder.toString());
         query.setParameter(SearchParameters.PERSON_ID, personId);
         if (!StringUtils.isEmpty(atpId)) {
             query.setParameter(SearchParameters.ATP_ID, atpId);
+        }
+        if (!CollectionUtils.isEmpty(lprTypes)) {
+              query.setParameter(SearchParameters.LPR_TYPE, lprTypes);
         }
         List<Object[]> results = query.getResultList();
 
@@ -1067,7 +1080,6 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         SearchResultInfo resultInfo = new SearchResultInfo();
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
         List<String> aoIdsList = requestHelper.getParamAsList(SearchParameters.AO_IDS);
-        String aoIdsStr = commaString(aoIdsList);
         String queryStr =
                 "SELECT lui.ID, lui.LUI_TYPE, lui.MAX_SEATS " +
                         "FROM KSEN_LUI lui " +
@@ -1104,7 +1116,6 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         aoTypes.add(LuiServiceConstants.LAB_ACTIVITY_OFFERING_TYPE_KEY);
         aoTypes.add(LuiServiceConstants.DISCUSSION_ACTIVITY_OFFERING_TYPE_KEY);
 
-        String aoIdsStr = commaString(aoIdsList);
         String queryStr =
                 "SELECT COUNT(lui.id) " +
                         "FROM KSEN_LUI lui " +

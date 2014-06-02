@@ -2,6 +2,7 @@ package org.kuali.student.enrollment.registration.client.service;
 
 import org.kuali.student.enrollment.registration.client.service.dto.PersonScheduleResult;
 import org.kuali.student.enrollment.registration.client.service.dto.ScheduleCalendarEventResult;
+import org.kuali.student.enrollment.registration.client.service.dto.StudentScheduleTermResult;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -72,7 +73,7 @@ public interface CourseRegistrationClientService {
      * an array of key-value pairs.
      */
     @GET
-    @Produces({MediaType.APPLICATION_JSON})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/stats/regengine")
     Response getRegEngineStats();
 
@@ -103,6 +104,21 @@ public interface CourseRegistrationClientService {
     @Path("/personschedulecalendar")
     List<List<ScheduleCalendarEventResult>> searchForScheduleCalendarByPersonAndTerm(@QueryParam("termId") String termId,
                                                                                             @QueryParam("termCode") String termCode) throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException;
+
+    /**
+     * SEARCH for STUDENT WAITLIST INFO
+     *
+     * @param termId
+     * @param termCode
+     */
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/personwaitlist")
+    List<StudentScheduleTermResult> getWaitlistedCoursesByPersonAndTerm(
+            @QueryParam("termId") String termId,
+            @QueryParam("termCode") String termCode)
+            throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException;
+
     /**
      * Creates a new RegistrationRequest with type Update
      * and submits it to be processed
@@ -177,7 +193,7 @@ public interface CourseRegistrationClientService {
      * @return list of WaitlistEntryResult
      */
     @GET
-    @Produces({MediaType.APPLICATION_JSON})
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/getWaitlistRoster")
     Response searchForWaitlistRoster(@QueryParam("termId") String termId,
                                             @QueryParam("termCode") String termCode,

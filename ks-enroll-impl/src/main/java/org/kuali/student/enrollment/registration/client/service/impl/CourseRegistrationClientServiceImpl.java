@@ -53,6 +53,7 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
+import org.kuali.student.r2.core.search.util.SearchRequestHelper;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
@@ -275,6 +276,32 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         return results;
     }
 
+    /**
+     * SEARCH for STUDENT REGISTRATION INFO based on person and termCode *
+     */
+    @Override
+    public List<StudentScheduleTermResult> getWaitlistedCoursesByPersonAndTerm(String termId, String termCode) throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+
+        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+        String userId = contextInfo.getPrincipalId();
+
+        if (StringUtils.isEmpty(userId)) {
+            userId = contextInfo.getPrincipalId();
+        }
+
+        if (StringUtils.isEmpty(userId)) {
+            throw new LoginException("[CourseRegistrationClientServiceImpl::getWaitlistedCoursesByPersonAndTerm] User must be logged in to access this service");
+        }
+
+        if (StringUtils.isEmpty(termId) && StringUtils.isEmpty(termCode)) {
+            termId = "";
+        } else {
+            termId = CourseRegistrationAndScheduleOfClassesUtil.getTermId(termId, termCode);
+        }
+
+        return getWaitlistByPersonAndTerm(userId, termId, contextInfo);
+    }
+
     @Override
     public Response updateScheduleItem(String courseCode, String regGroupCode, String masterLprId, String termId, String credits, String gradingOptionId) {
         Response.ResponseBuilder response;
@@ -468,7 +495,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
     }
 
     /**
-     * This method call search service to retrieve registration schedule data for the person
+     * This method retrieves registration schedule data for the person
      *
      * @param userId Person Id
      * @param termId Term Key
@@ -477,15 +504,57 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
      * @throws InvalidParameterException
      */
     private List<StudentScheduleTermResult> getRegistrationScheduleByPersonAndTerm(String userId, String termId, ContextInfo contextInfo) throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+        SearchRequestInfo searchRequest = new SearchRequestInfo(CourseRegistrationSearchServiceImpl.REG_INFO_BY_PERSON_TERM_SEARCH_TYPE.getKey());
+        searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.PERSON_ID, userId);
+        searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.ATP_ID, termId);
+
+        return searchRegistrationScheduleByPersonAndTerm(searchRequest, contextInfo);
+    }
+
+    /**
+     * This method retrieves waitlist data for the person
+     *
+     * @param userId Person Id
+     * @param termId Term Key
+     * @return StudentScheduleCourseResults
+     * @throws OperationFailedException
+     * @throws InvalidParameterException
+     */
+    private List<StudentScheduleTermResult> getWaitlistByPersonAndTerm(String userId, String termId, ContextInfo contextInfo) throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+        SearchRequestInfo searchRequest = new SearchRequestInfo(CourseRegistrationSearchServiceImpl.REG_INFO_BY_PERSON_TERM_SEARCH_TYPE.getKey());
+
+        searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.PERSON_ID, userId);
+        searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.ATP_ID, termId);
+
+        List<String> lprTypeParameters=new ArrayList<String>();
+        lprTypeParameters.add(LprServiceConstants.WAITLIST_CO_LPR_TYPE_KEY);
+        lprTypeParameters.add(LprServiceConstants.WAITLIST_RG_LPR_TYPE_KEY);
+        lprTypeParameters.add(LprServiceConstants.WAITLIST_AO_LPR_TYPE_KEY);
+
+        searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.LPR_TYPE, lprTypeParameters);
+
+        return searchRegistrationScheduleByPersonAndTerm(searchRequest, contextInfo);
+    }
+
+    /**
+     * This method calls the search service to retrieve registration schedule data for the person
+     *
+     * @param searchRequest Seach request info
+     * @return StudentScheduleCourseResults
+     * @throws OperationFailedException
+     * @throws InvalidParameterException
+     */
+    private List<StudentScheduleTermResult> searchRegistrationScheduleByPersonAndTerm(SearchRequestInfo searchRequest, ContextInfo contextInfo) throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+
+        SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequest);
+        String userId = requestHelper.getParamAsString(CourseRegistrationSearchServiceImpl.SearchParameters.PERSON_ID);
+        String termId = requestHelper.getParamAsString(CourseRegistrationSearchServiceImpl.SearchParameters.ATP_ID);
+
         List<StudentScheduleTermResult> studentScheduleTermResults = new ArrayList<StudentScheduleTermResult>();
         List<String> activityOfferingList = new ArrayList<String>();
         HashMap<String, StudentScheduleCourseResult> hmCourseOffering = new HashMap<String, StudentScheduleCourseResult>();
         HashMap<String, TermSearchResult> hmTermInfo = new HashMap<String, TermSearchResult>();
         HashMap<String, List<String>> hmTerm = new HashMap<String, List<String>>();
-
-        SearchRequestInfo searchRequest = new SearchRequestInfo(CourseRegistrationSearchServiceImpl.REG_INFO_BY_PERSON_TERM_SEARCH_TYPE.getKey());
-        searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.PERSON_ID, userId);
-        searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.ATP_ID, termId);
 
         SearchResultInfo searchResult;
         try {
@@ -712,7 +781,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         // userId, WaitlistEntry
         Map<String, WaitlistEntryResult> resultHelperMap = new HashMap<String, WaitlistEntryResult>(); // this is used to help populate result map. needed for performance.
 
-        if(regGroupSearchResult != null ){
+        if (regGroupSearchResult != null) {
 
             // get all the waitlist lprs for this registration group
             // combine the rgId + aoIds to pass into search method
@@ -722,9 +791,9 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
             List<LprInfo> lprInfos = getLprEntries(luiIdsToFind, contextInfo, wlTypes);
 
             // loop through the results in order. Because we're in order we can create an easy count object.
-            for(LprInfo lprInfo : lprInfos){
+            for (LprInfo lprInfo : lprInfos) {
                 // prime the counts
-                if(!typeCountMap.containsKey(lprInfo.getLuiId())){
+                if (!typeCountMap.containsKey(lprInfo.getLuiId())) {
                     typeCountMap.put(lprInfo.getLuiId(), 0);
                 }
 
@@ -733,16 +802,16 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                 typeCountMap.put(lprInfo.getLuiId(), count); // update map
 
                 // use the result helper to organize the results + more performant
-                if(!resultHelperMap.containsKey(lprInfo.getPersonId())){
+                if (!resultHelperMap.containsKey(lprInfo.getPersonId())) {
                     WaitlistEntryResult wlEntry =  new WaitlistEntryResult();
                     wlEntry.setPersonId(lprInfo.getPersonId());
 
                     // use pass by ref to update both the ret list and the helper
-                    resultHelperMap.put(lprInfo.getPersonId(), wlEntry );
+                    resultHelperMap.put(lprInfo.getPersonId(), wlEntry);
                 }
 
                 // The primary and remaining need to be seperated.
-                if(PRIMARY_WAITLIST_TYPE.equals(lprInfo.getTypeKey())){
+                if (PRIMARY_WAITLIST_TYPE.equals(lprInfo.getTypeKey())) {
                     WaitlistEntryResult wlEntry = resultHelperMap.get(lprInfo.getPersonId());
                     wlEntry.setOrder(count);
                     wlEntry.setPrimaryActivityType(lprInfo.getTypeKey());
@@ -837,8 +906,8 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         }
 
         String lastTerm = "";
-        String lastLprId="";
-        String lastAoType="";
+        String lastLprId = "";
+        String lastAoType = "";
         for (SearchResultHelper.KeyValue row : SearchResultHelper.wrap(searchResult)) {
             String lprType = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LPR_TYPE);
             String masterLprId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.MASTER_LPR_ID);
@@ -863,7 +932,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
             String credits = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CREDITS);
             String gradingOptionId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.GRADING_OPTION_ID);
 
-            if(!lastTerm.equals(atpId)) {
+            if (!lastTerm.equals(atpId)) {
 
             }
 
@@ -905,8 +974,8 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         int firstValue = 0;
 
         // checking grading option. If null - just keep it that way
-        if (!StringUtils.isEmpty(gradingOptionId) && (courseOfferingInfo.getStudentRegistrationGradingOptions().isEmpty() ||
-                !courseOfferingInfo.getStudentRegistrationGradingOptions().contains(gradingOptionId)) && !ArrayUtils.contains(CourseOfferingServiceConstants.ALL_GRADING_OPTION_TYPE_KEYS, gradingOptionId)) {
+        if (!StringUtils.isEmpty(gradingOptionId) && (courseOfferingInfo.getStudentRegistrationGradingOptions().isEmpty()
+                || !courseOfferingInfo.getStudentRegistrationGradingOptions().contains(gradingOptionId)) && !ArrayUtils.contains(CourseOfferingServiceConstants.ALL_GRADING_OPTION_TYPE_KEYS, gradingOptionId)) {
             throw new InvalidParameterException("Grading option doesn't match");
         }
 
@@ -923,8 +992,8 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                 if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)) {
                     credits = resultValueInfos.get(firstValue).getValue(); // fixed credits
                 } else if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)) {  // range
-                    if (credits.isEmpty() || (Float.valueOf(credits) < Float.valueOf(resultValuesGroupInfo.getResultValueRange().getMinValue())) ||
-                            (Float.valueOf(credits) > Float.valueOf(resultValuesGroupInfo.getResultValueRange().getMaxValue()))) {
+                    if (credits.isEmpty() || (Float.valueOf(credits) < Float.valueOf(resultValuesGroupInfo.getResultValueRange().getMinValue()))
+                            || (Float.valueOf(credits) > Float.valueOf(resultValuesGroupInfo.getResultValueRange().getMaxValue()))) {
                         throw new InvalidParameterException("Credits are incorrect");
                     }
                 } else if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE)) {  // multiple
