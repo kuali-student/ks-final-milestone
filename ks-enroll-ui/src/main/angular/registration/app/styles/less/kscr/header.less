@@ -44,22 +44,36 @@
     line-height: 14px;
     position: relative;
 
-    &-label {
-        &--selector {
+    &-selector {
+        display: none; // hide the selector by default
+
+        &-label {
             background: url('../images/validation/arrow_down.png') no-repeat right center;
-            cursor: pointer;
-            display: none; // hide the selector by default
+            margin-bottom: 0;
             padding-right: 16px;
         }
-    }
 
-    .kscr-Header-termMenu {
-        float: none;
-        height: auto;
-        left: 0;
-        margin: 0;
-        position: absolute;
-        top: 20px;
+        & .kscr-Header-termName-selectWrap {
+            height: 100%;
+            left: 0;
+            overflow: hidden;
+            position: absolute;
+            top: 0;
+        }
+
+        & select {
+            background: transparent;
+            border: 0;
+            border-radius: 0;
+            height: 100%;
+            outline: none;
+            text-indent: -999em; // Offsets the text in the select to a non-visible portion of the screen so that it won't conflict with the styled label
+            width: calc(~'100% + 20px'); // Force the select arrow to be hidden by the parent div overflow
+
+            & option {
+                background: @white;
+            }
+        }
     }
 }
 

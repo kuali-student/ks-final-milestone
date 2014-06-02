@@ -108,7 +108,7 @@ angular.module('regCartApp')
                 $scope.cart.items[0].addingNewCartItem = true;
                 $timeout(function(){
                     $scope.cart.items[0].addingNewCartItem = false;
-                }, 2000)
+                }, 2000);
             }, function (error) {
                 console.log('CartId:', cartId);
                 if (error.status === 404) {
