@@ -49,7 +49,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -124,59 +123,7 @@ public class CourseSearchController extends UifControllerBase {
 				.unmodifiableList(l));
 	}
 
-	/**
-	 * Opaque key representing a unique search form.
-	 * <p>
-	 * This key is used to match cached results across multiple requests for the
-	 * same search, and is considered to be unique if all search inputs on the
-	 * form used to construct the key are unique.
-	 * </p>
-	 */
-	public static class FormKey {
-		private final List<String> criteria;
-		private final boolean savedCourses;
-
-		public FormKey(CourseSearchForm f) {
-			List<String> c = new ArrayList<String>();
-			c.add(f.getSearchQuery());
-			c.add(f.getSearchTerm());
-			c.addAll(f.getAdditionalCriteria());
-			savedCourses = f.isSavedCourses();
-			criteria = Collections.unmodifiableList(c);
-		}
-
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = 1;
-			result = prime * result
-					+ ((criteria == null) ? 0 : criteria.hashCode());
-			result = prime * result + (savedCourses ? 1231 : 1237);
-			return result;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			FormKey other = (FormKey) obj;
-			if (criteria == null) {
-				if (other.criteria != null)
-					return false;
-			} else if (!criteria.equals(other.criteria))
-				return false;
-			if (savedCourses != other.savedCourses)
-				return false;
-			return true;
-		}
-
-	}
-
-	/**
+    /**
 	 * Input command processor for supporting DataTables server-side processing.
 	 *
 	 * 
@@ -964,7 +911,7 @@ public class CourseSearchController extends UifControllerBase {
 	 */
 	private SessionSearchInfo getSearchResults(FormKey k,
 			Callable<SessionSearchInfo> search, HttpServletRequest request) {
-		if (k.savedCourses) // don't cache saved course searches
+		if (k.isSavedCourses()) // don't cache saved course searches
 			try {
 				return search.call();
 			} catch (RuntimeException e) {
