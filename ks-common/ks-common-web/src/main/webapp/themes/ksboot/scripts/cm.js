@@ -856,3 +856,16 @@ function updateCapturedComment() {
     var inputComment = jQuery('#commentsTextArea_control').val();
     jQuery('#CaptureCommentsTextArea_control').val(inputComment);
 }
+
+function editDeleteCapturedComment() {
+    var inputComment = jQuery('#commentsDisplayArea_control').val();
+    jQuery('#CaptureCommentsTextArea_control').val(inputComment);
+}
+
+function showEditCommentWidget() {
+    jQuery('#KS-EditCommentSection').attr('style', 'display: inline;');
+}
+
+function hideEditCommentWidget() {
+    jQuery('#KS-EditCommentSection').attr('style', 'display: none;');
+}
