@@ -86,7 +86,7 @@
             <bean parent="Uif-FooterBase">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="ac_stickyfooter" p:render="@{!#view.readOnly}">
+                        <bean parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="ac_stickyfooter ks-calendar-footer-button" p:render="@{!#view.readOnly}">
                             <property name="items">
                                 <list>
                                     <bean parent="KS-Uif-PrimaryActionButton"
@@ -95,8 +95,7 @@
                                     <bean parent="KS-Uif-ActionLink" p:methodToCall="delete"
                                           p:actionLabel="Delete"
                                           p:render="@{!newCalendar and !officialUI}"/>
-                                    <bean parent="KS-Uif-ActionLink" p:actionLabel="Cancel" p:actionScript="skipDirtyChecks();stepBrowserBackTwoPages()"
-                                            p:style="float: right  !important;"/>
+                                    <bean parent="KS-Uif-ActionLink" p:actionLabel="Cancel" p:actionScript="skipDirtyChecks();stepBrowserBackTwoPages()"/>
                                 </list>
                             </property>
                         </bean>
