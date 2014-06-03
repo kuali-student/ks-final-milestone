@@ -253,25 +253,7 @@ public class CourseSearchController extends UifControllerBase {
 		}
 	}
 
-	/**
-	 * Simple object for tracking facet click/count state.
-	 * 
-	 * @see org.kuali.student.ap.coursesearch.controller.CourseSearchController.SessionSearchInfo
-	 */
-	public static class FacetState implements Serializable {
-		private static final long serialVersionUID = 1719950239861974273L;
-
-		private FacetState(KeyValue value) {
-			this.value = value;
-		}
-
-		private final KeyValue value;
-		private boolean checked = true;
-		private int count;
-        private String description;
-	}
-
-	/**
+    /**
 	 * Simple object representing pre-processed search data.
 	 * 
 	 * @see org.kuali.student.ap.coursesearch.controller.CourseSearchController.SessionSearchInfo
@@ -403,7 +385,7 @@ public class CourseSearchController extends UifControllerBase {
 			// Tread pruned facets as not checked unless all
 			// visible facet values in the same group are checked
 			pruned = new FacetState(new FacetKeyValue("", ""));
-			pruned.checked = false;
+			pruned.setChecked(false);
 		}
 
         private Map<String, Map<String, FacetState>> createFacetStateMap(CourseSearchStrategy searcher) {
@@ -448,12 +430,12 @@ public class CourseSearchController extends UifControllerBase {
                                 if (fs == null) {
                                     fm.put(facetKey, fs = new FacetState(fv));
                                     if (fce.getKey().equals("facet_genedureq")) {
-                                        fs.description = searcher.getGenEdMap().get(fv.getKey());
+                                        fs.setDescription(searcher.getGenEdMap().get(fv.getKey()));
                                     } else if (fce.getKey().equals("facet_curriculum")) {
-                                        fs.description = searcher.getCurriculumMap(null).get(fv.getKey());
+                                        fs.setDescription(searcher.getCurriculumMap(null).get(fv.getKey()));
                                     }
                                 }
-                                fs.count++;
+                                fs.incrementCount();
                             }
                 }
 
@@ -475,8 +457,8 @@ public class CourseSearchController extends UifControllerBase {
                         public int compare(String o1, String o2) {
                             FacetState fs1 = fm.get(o1);
                             FacetState fs2 = fm.get(o2);
-                            return fs1.count == fs2.count ? 0
-                                    : fs1.count < fs2.count ? 1 : -1;
+                            return fs1.getCount() == fs2.getCount() ? 0
+                                    : fs1.getCount() < fs2.getCount() ? 1 : -1;
                         }
                     });
                     // Truncate results to show only the 50 most relevant
@@ -485,7 +467,7 @@ public class CourseSearchController extends UifControllerBase {
                     Map<String, List<String>> vtk = new java.util.HashMap<String, List<String>>();
                     for (String k : sk) {
                         assert k != null : fk;
-                        String fvk = fm.get(k).value.getKey();
+                        String fvk = fm.get(k).getValue().getKey();
                         assert fvk.length() >= 1 : fk + " " + fvk;
                         List<String> l = vtk.get(fvk);
                         if (l == null)
@@ -554,15 +536,15 @@ public class CourseSearchController extends UifControllerBase {
 					+ " != " + facetCols.size();
 
 			// Reset the count on all facet state leaf nodes to 0
-			pruned.count = 0;
+			pruned.setCount(0);
 			Map<String, Boolean> all = new java.util.HashMap<String, Boolean>(
 					facetState.size());
 			for (Entry<String, Map<String, FacetState>> fse : facetState
 					.entrySet())
 				for (FacetState fs : fse.getValue().values()) {
-					fs.count = 0;
+					fs.setCount(0);
 					if (!Boolean.FALSE.equals(all.get(fse.getKey())))
-						all.put(fse.getKey(), fs.checked);
+						all.put(fse.getKey(), fs.isChecked());
 				}
 
 			// Iterate search results
@@ -588,7 +570,7 @@ public class CourseSearchController extends UifControllerBase {
 						// checked facet on this row
 						boolean hasOne = false;
 						for (String fci : row.facetColumns.get(fk))
-							if (!hasOne && getFacetState(fci, fk).checked)
+							if (!hasOne && getFacetState(fci, fk).isChecked())
 								hasOne = true;
 						assert !filtered : "filtered state changed";
 						filtered = !hasOne;
@@ -599,10 +581,10 @@ public class CourseSearchController extends UifControllerBase {
 					for (Entry<String, List<String>> fce : row.facetColumns
 							.entrySet())
 						for (String fci : fce.getValue())
-							getFacetState(fci, fce.getKey()).count++;
+							getFacetState(fci, fce.getKey()).incrementCount();
 			}
 			if (LOG.isDebugEnabled())
-				LOG.debug("Pruned facet entry {}", pruned.count);
+				LOG.debug("Pruned facet entry {}", pruned.getCount());
 		}
 
 		/**
@@ -621,7 +603,7 @@ public class CourseSearchController extends UifControllerBase {
 				return;
 			if ("All".equals(key))
 				for (FacetState fs : fsm.values())
-					fs.checked = true;
+					fs.setChecked(true);
 			else {
 				FacetState fs = null;
 
@@ -634,15 +616,17 @@ public class CourseSearchController extends UifControllerBase {
 					if (!all)
 						continue;
 					else
-						all = all && ifs.checked;
+						all = all && ifs.isChecked();
 
 				// when all checked, clear all but the clicked box
 				if (all) {
-					for (Entry<String, FacetState> fe : fsm.entrySet())
-						if (fe.getValue().checked = key.equals(fe.getKey())) {
+					for (Entry<String, FacetState> fe : fsm.entrySet()) {
+                        fe.getValue().setChecked(key.equals(fe.getKey()));
+                        if (fe.getValue().isChecked()) {
 							assert fs == null : fs + " " + fe;
 							fs = fe.getValue();
 						}
+                    }
 					assert fs != null : fcol + " " + key;
 					oneClick = true;
 				} else {
@@ -650,7 +634,8 @@ public class CourseSearchController extends UifControllerBase {
 					fs = facetState.get(fcol).get(key);
 					assert fs != null : fcol + " " + key;
 					// Update checked status of facet
-					if (!(fs.checked = !fs.checked))
+                    fs.setChecked(!fs.isChecked());
+                    if (!fs.isChecked())
 						oneClick = true;
 					// unchecking the last box in the group, check all
 					boolean none = true;
@@ -658,10 +643,10 @@ public class CourseSearchController extends UifControllerBase {
 						if (!none)
 							continue;
 						else
-							none = !ifs.checked;
+							none = !ifs.isChecked();
 					if (none)
 						for (FacetState tfs : fsm.values())
-							tfs.checked = true;
+							tfs.setChecked(true);
 				}
 			}
 			if (oneClick)
@@ -674,7 +659,7 @@ public class CourseSearchController extends UifControllerBase {
 				for (Entry<String, Map<String, FacetState>> fse : facetState
 						.entrySet())
 					for (FacetState fs : fse.getValue().values())
-						fs.checked = true;
+						fs.setChecked(true);
 				updateFacetCounts();
 				oneClick = false;
 			}
@@ -1145,12 +1130,12 @@ public class CourseSearchController extends UifControllerBase {
 			ObjectNode ofm = oFacetState.putObject(row.getKey());
 			for (Entry<String, FacetState> fse : row.getValue().entrySet()) {
 				ObjectNode ofs = ofm.putObject(fse.getKey());
-				ofs.put("key", fse.getValue().value.getKey());
-				ofs.put("value", fse.getValue().value.getValue());
-				ofs.put("checked", fse.getValue().checked);
-				ofs.put("count", fse.getValue().count);
-                if (fse.getValue().description != null)
-                    ofs.put("description", fse.getValue().description);
+				ofs.put("key", fse.getValue().getValue().getKey());
+				ofs.put("value", fse.getValue().getValue().getValue());
+				ofs.put("checked", fse.getValue().isChecked());
+				ofs.put("count", fse.getValue().getCount());
+                if (fse.getValue().getDescription() != null)
+                    ofs.put("description", fse.getValue().getDescription());
 			}
 		}
 
