@@ -34,7 +34,10 @@
         </property>
     </bean>
 
-    <bean id="KS-ScheduleOfClasses-CriteriaSection" parent="Uif-HorizontalBoxSection" p:id="scheduleOfClassesCriteriaSection" p:onDocumentReadyScript="toggleShowButton();">
+    <bean id="KS-ScheduleOfClasses-CriteriaSection" parent="Uif-HorizontalBoxSection"
+          p:id="scheduleOfClassesCriteriaSection"
+          p:onDocumentReadyScript="toggleShowButton();"
+          p:additionalCssClasses="ks-ContentSpacer">
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>
