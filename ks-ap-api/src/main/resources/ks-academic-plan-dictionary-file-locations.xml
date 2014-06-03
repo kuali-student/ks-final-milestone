@@ -24,17 +24,11 @@
         </constructor-arg>
     </bean>
 
-    <!-- Degree Audit Service -->
-    <bean id="auditReportInfoDictionaryLocation" class="java.lang.String">
-        <constructor-arg value="classpath:ks-AuditReportInfo-dictionary.xml"/>
-    </bean>
-
     <bean name="ks-ap-dictionary-file-locations" class="java.util.ArrayList">
         <constructor-arg index="0">
         	<list>
                 <bean parent="learningPlanInfoDictionaryLocation" />
                 <bean parent="planItemInfoDictionaryLocation" />
-                <bean parent="auditReportInfoDictionaryLocation" />
             </list>
         </constructor-arg>
     </bean>
