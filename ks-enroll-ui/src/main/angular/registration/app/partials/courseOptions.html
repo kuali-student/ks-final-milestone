@@ -5,9 +5,9 @@
             <label class="kscr-Edit-details" for="{{prefix}}credits_{{course.courseCode}}_{{course.regGroupCode}}">Credits</label>
             <div ng-repeat="creditOption in course.creditOptions | filter:creditOptionsFilter" id="{{prefix}}credits_{{course.courseCode}}_{{course.regGroupCode}}">
                 <div class="kscr-Edit-option" ng-class="course.newCredits == {{creditOption}} ? 'kscr-Edit-option--Selected' : ''" ng-click="course.newCredits = creditOption">
-                    <input id="{{prefix}}credits_{{course.courseCode}}_{{course.regGroupCode}}_{{creditOption}}" type="radio" name="newCredits" value="{{creditOption}}" ng-model="course.newCredits"/>
+                    <input type="radio" name="newCredits" value="{{creditOption}}" ng-model="course.newCredits"/>
                     {{creditOption}}
-                    <i class="kscr-Edit-option-icon"></i>
+                    <i id="{{prefix}}credits_{{course.courseCode}}_{{course.regGroupCode}}_{{creditOption}}" class="kscr-Edit-option-icon"></i>
                 </div>
             </div>
             <div id="{{prefix}}credits_{{course.courseCode}}_{{course.regGroupCode}}_more" class="kscr-Edit-option" ng-click="showMoreCreditOptions()" ng-if="shouldShowMoreCreditOptionsToggle()">
@@ -22,9 +22,9 @@
             </label>
             <div ng-repeat="gradingOption in gradingOptions | filter:gradingOptionsFilter" id="{{prefix}}grading_{{course.courseCode}}_{{course.regGroupCode}}">
                 <div class="kscr-Edit-option" ng-class="course.newGrading == '{{gradingOption.key}}' ? 'kscr-Edit-option--Selected' : ''" ng-click="course.newGrading = '{{gradingOption.key}}'">
-                    <input id="{{prefix}}grading_{{course.courseCode}}_{{course.regGroupCode}}_{{gradingOption.label}}" type="radio" name="newGrading" value="{{gradingOption.key}}" ng-model="course.newGrading"/>
+                    <input type="radio" name="newGrading" value="{{gradingOption.key}}" ng-model="course.newGrading"/>
                     {{gradingOption.label}} <span ng-show="'{{gradingOption.label}}' === 'Letter'">(Default)</span>
-                    <i class="kscr-Edit-option-icon"></i>
+                    <i id="{{prefix}}grading_{{course.courseCode}}_{{course.regGroupCode}}_{{gradingOption.label}}" class="kscr-Edit-option-icon"></i>
                 </div>
             </div>
             <div id="{{prefix}}grading_{{course.courseCode}}_{{course.regGroupCode}}_more" class="kscr-Edit-option" ng-click="showMoreGradingOptions()" ng-if="shouldShowMoreGradingOptionsToggle()">
