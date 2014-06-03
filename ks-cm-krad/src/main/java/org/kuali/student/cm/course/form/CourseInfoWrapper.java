@@ -21,8 +21,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.web.bind.RequestProtected;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.util.CourseProposalUtil;
-import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.core.comment.dto.CommentInfo;
 import org.kuali.student.r2.core.comment.dto.DecisionInfo;
 import org.kuali.student.r2.core.document.dto.DocumentInfo;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
@@ -31,6 +29,8 @@ import org.kuali.student.r2.lum.course.dto.FormatInfo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -45,7 +45,7 @@ public class CourseInfoWrapper implements Serializable {
     private List<CluInstructorInfoWrapper> instructorWrappers = new ArrayList<CluInstructorInfoWrapper>();
     ;
     private List<CourseJointInfoWrapper> courseJointWrappers = new ArrayList<CourseJointInfoWrapper>();
-    private List<ResultValuesGroupInfoWrapper> creditOptionWrappers = new ArrayList<ResultValuesGroupInfoWrapper>();
+    private List<ResultValuesGroupInfoWrapper> creditOptionWrappers;
     private List<DecisionInfo> decisions = new ArrayList<DecisionInfo>();
     ;
     private List<OrganizationInfoWrapper> administeringOrganizations = new ArrayList<OrganizationInfoWrapper>();
@@ -314,7 +314,26 @@ public class CourseInfoWrapper implements Serializable {
 
     public List<ResultValuesGroupInfoWrapper> getCreditOptionWrappers() {
         if (creditOptionWrappers == null) {
-            creditOptionWrappers = new ArrayList<ResultValuesGroupInfoWrapper>(0);
+            creditOptionWrappers = new ArrayList<ResultValuesGroupInfoWrapper>() {
+                public boolean add(ResultValuesGroupInfoWrapper rvgiw) {
+                    super.add(rvgiw);
+                    Collections.sort(creditOptionWrappers,
+                            new Comparator<ResultValuesGroupInfoWrapper>() {
+                                public int compare(ResultValuesGroupInfoWrapper a, ResultValuesGroupInfoWrapper b) {
+                                    if (a.getTypeKey() == null) {
+                                        return 1;
+                                    }
+                                    else if (a.getTypeKey() == null) {
+                                        return -1;
+                                    }
+                                    return a.getTypeKey().compareToIgnoreCase(b.getTypeKey());
+                                }
+
+                            }
+                    );
+                    return true;
+                }
+            };
         }
         return creditOptionWrappers;
     }
