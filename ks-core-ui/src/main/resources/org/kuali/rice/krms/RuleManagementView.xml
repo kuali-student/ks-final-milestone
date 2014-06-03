@@ -156,7 +156,7 @@ limitations under the License.
     </bean>
     <bean id="KRMS-View-Section" parent="KRMS-View-Section-parent"/>
 
-    <bean id="KRMS-CompareTree-Section-parent" parent="KRMS-Tree-Section" p:style="width: 790px; min-height:100px;"
+    <bean id="KRMS-CompareTree-Section-parent" parent="KRMS-Tree-Section" p:style="width: 790px; min-height:100px; margin-bottom: 5px;"
           p:additionalCssClasses="compareTree">
         <property name="tree"><null/></property>
         <property name="propertyName" value="compareTree"/>
@@ -187,7 +187,7 @@ limitations under the License.
         <property name="hidden" value="true"/>
         <property name="items">
             <list>
-                <bean parent="KRMS-VerticalBoxSection">
+                <bean parent="KRMS-VerticalBoxSection" p:style="margin-bottom: 1em;">
                     <property name="headerText" value="@{#dp.compareLightBoxHeader}"/>
                     <property name="items">
                         <list>
@@ -205,7 +205,7 @@ limitations under the License.
                             <property name="items">
                                 <list>
                                     <bean parent="KS-Uif-PrimaryActionButton" p:actionLabel="Close"
-                                          p:actionScript="jQuery.fancybox.close();"/>
+                                          p:actionScript="jQuery.fancybox.close();" p:style="margin-bottom: 0.4em;"/>
                                 </list>
                             </property>
                         </bean>
