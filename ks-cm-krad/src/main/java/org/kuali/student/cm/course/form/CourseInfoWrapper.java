@@ -323,7 +323,7 @@ public class CourseInfoWrapper implements Serializable {
                                     if (a.getTypeKey() == null) {
                                         return 1;
                                     }
-                                    else if (a.getTypeKey() == null) {
+                                    else if (b.getTypeKey() == null) {
                                         return -1;
                                     }
                                     return a.getTypeKey().compareToIgnoreCase(b.getTypeKey());
