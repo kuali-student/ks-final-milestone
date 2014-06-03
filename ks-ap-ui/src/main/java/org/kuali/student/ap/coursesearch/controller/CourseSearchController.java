@@ -123,136 +123,6 @@ public class CourseSearchController extends UifControllerBase {
 	}
 
     /**
-	 * Input command processor for supporting DataTables server-side processing.
-	 *
-	 * 
-	 * @see <a
-	 *      href="http://datatables.net/usage/server-side">http://datatables.net/usage/server-side</a>
-	 */
-	private static class DataTablesInputs {
-		private final int iDisplayStart, iDisplayLength, iColumns,
-				iSortingCols, sEcho;
-		private final String sSearch;
-		private final Pattern patSearch;
-		private final boolean bRegex;
-        private final boolean bSmart;
-		private final boolean[] bSearchable_, bRegex_, bSortable_, bSmart_;
-		private final String[] sSearch_, sSortDir_, mDataProp_;
-		private final Pattern[] patSearch_;
-		private final int[] iSortCol_;
-
-		private DataTablesInputs(HttpServletRequest request) {
-			String s;
-			iDisplayStart = (s = request.getParameter("iDisplayStart")) == null ? 0
-					: Integer.parseInt(s);
-			iDisplayLength = (s = request.getParameter("iDisplayLength")) == null ? 0
-					: Integer.parseInt(s);
-			iColumns = (s = request.getParameter("iColumns")) == null ? 0
-					: Integer.parseInt(s);
-			bRegex = (s = request.getParameter("bRegex")) == null ? false
-					: new Boolean(s);
-            bSmart = (s = request.getParameter("bSmart")) == null ? false
-                    : new Boolean(s);
-			patSearch = (sSearch = escape(request.getParameter("sSearch"), "+")) == null
-					|| !bRegex ? null : Pattern.compile(sSearch);
-			bSearchable_ = new boolean[iColumns];
-			sSearch_ = new String[iColumns];
-			patSearch_ = new Pattern[iColumns];
-			bRegex_ = new boolean[iColumns];
-            bSmart_ = new boolean[iColumns];
-			bSortable_ = new boolean[iColumns];
-			for (int i = 0; i < iColumns; i++) {
-				bSearchable_[i] = (s = request.getParameter("bSearchable_" + i)) == null ? false
-						: new Boolean(s);
-				bRegex_[i] = (s = request.getParameter("bRegex_" + i)) == null ? false
-						: new Boolean(s);
-                bSmart_[i] = (s = request.getParameter("bSmart_" + i)) == null ? false
-                        : new Boolean(s);
-				patSearch_[i] = (sSearch_[i] = escape(request.getParameter("sSearch_"
-						+ i), "+")) == null
-						|| !bRegex_[i] ? null : Pattern.compile(sSearch_[i]);
-				bSortable_[i] = (s = request.getParameter("bSortable_" + i)) == null ? false
-						: new Boolean(s);
-			}
-			iSortingCols = (s = request.getParameter("iSortingCols")) == null ? 0
-					: Integer.parseInt(s);
-			iSortCol_ = new int[iSortingCols];
-			sSortDir_ = new String[iSortingCols];
-			for (int i = 0; i < iSortingCols; i++) {
-				iSortCol_[i] = (s = request.getParameter("iSortCol_" + i)) == null ? 0
-						: Integer.parseInt(s);
-				sSortDir_[i] = request.getParameter("sSortDir_" + i);
-			}
-			mDataProp_ = new String[iColumns];
-			for (int i = 0; i < iColumns; i++)
-				mDataProp_[i] = request.getParameter("mDataProp_" + i);
-			sEcho = (s = request.getParameter("sEcho")) == null ? 0 : Integer
-					.parseInt(s);
-		}
-
-        /**
-         * Look through the input string for occurrences of escapeVal and escape them
-         * @param input Input string to search
-         * @param escapeVal Value to look for in the input
-         * @return The string, with the escapeVal character escaped
-         */
-        private String escape(String input, String escapeVal) {
-            String retVal = input;
-            if (input != null && escapeVal != null && input.contains(escapeVal))
-                retVal = input.replace(escapeVal, "\\".concat(escapeVal));
-            return retVal;
-        }
-
-		@Override
-		public String toString() {
-			StringBuilder sb = new StringBuilder(super.toString());
-			sb.append("\n\tiDisplayStart = ");
-			sb.append(iDisplayStart);
-			sb.append("\n\tiDisplayLength = ");
-			sb.append(iDisplayLength);
-			sb.append("\n\tiColumns = ");
-			sb.append(iColumns);
-			sb.append("\n\tsSearch = ");
-			sb.append(sSearch);
-			sb.append("\n\tbRegex = ");
-			sb.append(bRegex);
-            sb.append("\n\tbSmart = ");
-            sb.append(bSmart);
-            sb.append("\n\tpatSearch = ");
-            sb.append(patSearch);
-			for (int i = 0; i < iColumns; i++) {
-				sb.append("\n\tbSearchable_").append(i).append(" = ");
-				sb.append(bSearchable_[i]);
-				sb.append("\n\tsSearch_").append(i).append(" = ");
-				sb.append(sSearch_[i]);
-				sb.append("\n\tbRegex_").append(i).append(" = ");
-				sb.append(bRegex_[i]);
-                sb.append("\n\tbSmart_").append(i).append(" = ");
-                sb.append(bSmart_[i]);
-				sb.append("\n\tpatSearch_").append(i).append(" = ");
-				sb.append(patSearch_[i]);
-                sb.append("\n\tbSortable_").append(i).append(" = ");
-                sb.append(bSortable_[i]);
-			}
-			sb.append("\n\tiSortingCols = ");
-			sb.append(iSortingCols);
-			for (int i = 0; i < iSortingCols; i++) {
-				sb.append("\n\tiSortCol_").append(i).append(" = ");
-				sb.append(iSortCol_[i]);
-				sb.append("\n\tsSortDir_").append(i).append(" = ");
-				sb.append(sSortDir_[i]);
-			}
-			for (int i = 0; i < iColumns; i++) {
-				sb.append("\n\tmDataProp_").append(i).append(" = ");
-				sb.append(mDataProp_[i]);
-			}
-			sb.append("\n\tsEcho = ");
-			sb.append(sEcho);
-			return sb.toString();
-		}
-	}
-
-    /**
 	 * Session-bound search results cache. This object backs the facet and data
 	 * table result views on the KSAP course search front-end. Up to three
 	 * searches are stored in the HTTP session via these objects.
@@ -651,12 +521,12 @@ public class CourseSearchController extends UifControllerBase {
 				/**
 				 * The search string on the current column.
 				 */
-				String searchString = dataTablesInputs.sSearch;
+				String searchString = dataTablesInputs.getsSearch();
 
 				/**
 				 * The search patter on the current column, null if non-regex.
 				 */
-				Pattern searchPattern = dataTablesInputs.patSearch;
+				Pattern searchPattern = dataTablesInputs.getPatSearch();
 
 				/**
 				 * Current column pointer.
@@ -682,12 +552,12 @@ public class CourseSearchController extends UifControllerBase {
 									"Row has been removed");
 						// increase column pointer, update search fields
 						j++;
-						if (dataTablesInputs.sSearch_[j] != null) {
-							searchString = dataTablesInputs.sSearch_[j];
-							searchPattern = dataTablesInputs.patSearch_[j];
+						if (dataTablesInputs.getsSearch_()[j] != null) {
+							searchString = dataTablesInputs.getsSearch_()[j];
+							searchPattern = dataTablesInputs.getPatSearch_()[j];
 						} else {
-							searchString = dataTablesInputs.sSearch;
-							searchPattern = dataTablesInputs.patSearch;
+							searchString = dataTablesInputs.getsSearch();
+							searchPattern = dataTablesInputs.getPatSearch();
 						}
 						// Here is where data tables column # is tied to
 						// internal
@@ -710,7 +580,7 @@ public class CourseSearchController extends UifControllerBase {
 				 *         searchable.
 				 */
 				private boolean isSearchable() {
-					return dataTablesInputs.bSearchable_[j];
+					return dataTablesInputs.getbSearchable_()[j];
 				}
 
 				/**
@@ -791,25 +661,25 @@ public class CourseSearchController extends UifControllerBase {
 			}
 
 			// Perform sorting if requested
-			if (dataTablesInputs.iSortingCols > 0)
+			if (dataTablesInputs.getiSortingCols() > 0)
 				Collections.sort(filteredResults, new Comparator<SearchInfo>() {
 					@Override
 					public int compare(SearchInfo o1, SearchInfo o2) {
-						for (int i = 0; i < dataTablesInputs.iSortingCols; i++) {
-							String s1 = o1.getSortColumns()[dataTablesInputs.iSortCol_[i]];
-							String s2 = o2.getSortColumns()[dataTablesInputs.iSortCol_[i]];
+						for (int i = 0; i < dataTablesInputs.getiSortingCols(); i++) {
+							String s1 = o1.getSortColumns()[dataTablesInputs.getiSortCol_()[i]];
+							String s2 = o2.getSortColumns()[dataTablesInputs.getiSortCol_()[i]];
 							if (s1 == null && s2 == null)
 								continue;
 							if (s1 == null)
 								return "desc"
-										.equals(dataTablesInputs.sSortDir_[i]) ? 1
+										.equals(dataTablesInputs.getsSortDir_()[i]) ? 1
 										: -1;
 							if (s2 == null)
 								return "desc"
-										.equals(dataTablesInputs.sSortDir_[i]) ? -1
+										.equals(dataTablesInputs.getsSortDir_()[i]) ? -1
 										: 1;
                             int rv = 0;
-                            if("desc".equals(dataTablesInputs.sSortDir_[i])){
+                            if("desc".equals(dataTablesInputs.getsSortDir_()[i])){
                                 rv = s2.compareTo(s1);
                             }else{
                                 rv = s1.compareTo(s2);
@@ -977,28 +847,28 @@ public class CourseSearchController extends UifControllerBase {
 			// Validate incoming jQuery datatables inputs
 			assert table != null;
 			assert table.searchResults.isEmpty()
-					|| dataTablesInputs.iColumns >= firstRow.getItem()
+					|| dataTablesInputs.getiColumns() >= firstRow.getItem()
 							.getSearchColumns().length : firstRow.getItem()
 					.getSearchColumns().length
 					+ " > "
-					+ dataTablesInputs.iColumns;
+					+ dataTablesInputs.getiColumns();
 			assert table.searchResults.isEmpty()
-					|| dataTablesInputs.iColumns >= firstRow.getSortColumns().length : firstRow.getSortColumns().length
-					+ " > " + dataTablesInputs.iColumns;
+					|| dataTablesInputs.getiColumns() >= firstRow.getSortColumns().length : firstRow.getSortColumns().length
+					+ " > " + dataTablesInputs.getiColumns();
 			assert table.searchResults.isEmpty()
-					|| dataTablesInputs.iColumns >= firstRow.getFacetColumns()
+					|| dataTablesInputs.getiColumns() >= firstRow.getFacetColumns()
 							.size() : firstRow.getFacetColumns().size() + " > "
-					+ dataTablesInputs.iColumns;
+					+ dataTablesInputs.getiColumns();
 			assert table.searchResults.isEmpty()
-					|| dataTablesInputs.iColumns == firstRow.getFacetColumns()
+					|| dataTablesInputs.getiColumns() == firstRow.getFacetColumns()
 							.size()
-					|| dataTablesInputs.iColumns == firstRow.getSortColumns().length
-					|| dataTablesInputs.iColumns == firstRow.getItem()
+					|| dataTablesInputs.getiColumns() == firstRow.getSortColumns().length
+					|| dataTablesInputs.getiColumns() == firstRow.getItem()
 							.getSearchColumns().length : "Max("
 					+ firstRow.getFacetColumns().size() + ","
 					+ firstRow.getSortColumns().length + ","
 					+ firstRow.getItem().getSearchColumns().length + ") != "
-					+ dataTablesInputs.iColumns;
+					+ dataTablesInputs.getiColumns();
 		}
 
 		/*DataTables search filter is tied to facet click state on the front end,
@@ -1009,12 +879,12 @@ public class CourseSearchController extends UifControllerBase {
 		// Render JSON response for DataTables
 		json.put("iTotalRecords", table.searchResults.size());
 		json.put("iTotalDisplayRecords", filteredResults.size());
-		json.put("sEcho", Integer.toString(dataTablesInputs.sEcho));
+		json.put("sEcho", Integer.toString(dataTablesInputs.getsEcho()));
 		ArrayNode aaData = mapper.createArrayNode();
 		int rsize = Math.min(filteredResults.size(),
-				dataTablesInputs.iDisplayLength);
+				dataTablesInputs.getiDisplayLength());
 		for (int i = 0; i < rsize; i++) {
-			int resultsIndex = dataTablesInputs.iDisplayStart + i;
+			int resultsIndex = dataTablesInputs.getiDisplayStart() + i;
 			if (resultsIndex >= filteredResults.size())
 				break;
 			ArrayNode cs = mapper.createArrayNode();
@@ -1022,7 +892,7 @@ public class CourseSearchController extends UifControllerBase {
 			String[] scol = item.getSearchColumns();
 			for (String col : scol)
 				cs.add(col);
-			for (int j = scol.length; j < dataTablesInputs.iColumns; j++)
+			for (int j = scol.length; j < dataTablesInputs.getiColumns(); j++)
 				cs.add((String) null);
 			aaData.add(cs);
 		}
