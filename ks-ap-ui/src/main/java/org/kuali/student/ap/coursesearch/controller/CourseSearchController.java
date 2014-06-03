@@ -57,7 +57,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -254,47 +253,6 @@ public class CourseSearchController extends UifControllerBase {
 	}
 
     /**
-	 * Simple object representing pre-processed search data.
-	 * 
-	 * @see org.kuali.student.ap.coursesearch.controller.CourseSearchController.SessionSearchInfo
-	 * @see org.kuali.student.ap.coursesearch.CourseSearchItem#getSearchColumns()
-	 * @see org.kuali.student.ap.coursesearch.CourseSearchItem#getFacetColumns()
-	 */
-	public static class SearchInfo implements Serializable {
-		private static final long serialVersionUID = 8697147011424347285L;
-
-		private final CourseSearchItem item;
-		private final String[] sortColumns;
-		private final Map<String, List<String>> facetColumns;
-
-		private SearchInfo(CourseSearchItem item) {
-			this.item = item;
-			sortColumns = item.getSortColumns();
-			facetColumns = new java.util.LinkedHashMap<String, List<String>>();
-			for (Entry<String, Map<String, Map<String, KeyValue>>> fe : item
-					.getFacetColumns().entrySet()) {
-				List<String> fl = facetColumns.get(fe.getKey());
-				if (fl == null)
-					facetColumns.put(fe.getKey(), fl = new ArrayList<String>());
-				for (Map<String, KeyValue> fv : fe.getValue().values())
-					fl.addAll(fv.keySet());
-			}
-
-		}
-
-		@Override
-		public String toString() {
-			return "SearchInfo [searchColumns=" + item.getCourseId()
-					+ ", sortColumns=" + Arrays.toString(sortColumns)
-					+ ", facetColumns=" + facetColumns + "]";
-		}
-
-		public CourseSearchItem getItem() {
-			return item;
-		}
-	}
-
-	/**
 	 * Session-bound search results cache. This object backs the facet and data
 	 * table result views on the KSAP course search front-end. Up to three
 	 * searches are stored in the HTTP session via these objects.
@@ -389,7 +347,7 @@ public class CourseSearchController extends UifControllerBase {
 		}
 
         private Map<String, Map<String, FacetState>> createFacetStateMap(CourseSearchStrategy searcher) {
-            Map<String, List<String>> facetColumns = searchResults.get(0).facetColumns;
+            Map<String, List<String>> facetColumns = searchResults.get(0).getFacetColumns();
             assert facetColumns.size() == searcher.getFacetSort().size() : facetColumns
                     .size()
                     + " != "
@@ -405,9 +363,9 @@ public class CourseSearchController extends UifControllerBase {
             for (SearchInfo row : searchResults) {
                 // Validate that the number of facet columns is uniform
                 // across all search rows
-                assert row.facetColumns != null
-                        || row.facetColumns.size() == facetColumns.size() : row.facetColumns == null ? "null"
-                        : row.facetColumns.size() + " != "
+                assert row.getFacetColumns() != null
+                        || row.getFacetColumns().size() == facetColumns.size() : row.getFacetColumns() == null ? "null"
+                        : row.getFacetColumns().size() + " != "
                                 + facetColumns.size();
                 // Update facet counts for all columns, creating pre-checked
                 // state nodes as needed
@@ -415,8 +373,8 @@ public class CourseSearchController extends UifControllerBase {
                         .entrySet()) {
                     Map<String, FacetState> fm = fce.getValue();
                     Map<String, Map<String, KeyValue>> fcr;
-                    if (row.item != null
-                            && (fcr = row.item.getFacetColumns().get(
+                    if (row.getItem() != null
+                            && (fcr = row.getItem().getFacetColumns().get(
                                     fce.getKey())) != null)
                         for (Entry<String, Map<String, KeyValue>> group : fcr
                                 .entrySet())
@@ -527,7 +485,7 @@ public class CourseSearchController extends UifControllerBase {
 			// across the facet state table and the facet columns in each row
             Map<String, List<String>> facetCols;
             if(!(searchResults==null) && !searchResults.isEmpty()){
-                facetCols = searchResults.get(0).facetColumns;
+                facetCols = searchResults.get(0).getFacetColumns();
             }else{
                 return;
             }
@@ -551,9 +509,9 @@ public class CourseSearchController extends UifControllerBase {
 			for (SearchInfo row : searchResults) {
 
 				// Validate facet column count matches facet table size
-				assert row.facetColumns != null
-						|| row.facetColumns.size() == facetCols.size() : row.facetColumns == null ? "null"
-						: row.facetColumns.size() + " != " + facetCols.size();
+				assert row.getFacetColumns() != null
+						|| row.getFacetColumns().size() == facetCols.size() : row.getFacetColumns() == null ? "null"
+						: row.getFacetColumns().size() + " != " + facetCols.size();
 
 				// identify filtered rows before counting
 				boolean filtered = false;
@@ -561,7 +519,7 @@ public class CourseSearchController extends UifControllerBase {
 					if (filtered)
 						continue;
 					String fk = fce.getKey();
-					if (row.facetColumns.get(fk).size() == 0) {
+					if (row.getFacetColumns().get(fk).size() == 0) {
 						// When there are no values on this facet column, filter
 						// unless all is checked on the column
 						filtered = Boolean.FALSE.equals(all.get(fk));
@@ -569,7 +527,7 @@ public class CourseSearchController extends UifControllerBase {
 						// Filter unless there is at least one match for one
 						// checked facet on this row
 						boolean hasOne = false;
-						for (String fci : row.facetColumns.get(fk))
+						for (String fci : row.getFacetColumns().get(fk))
 							if (!hasOne && getFacetState(fci, fk).isChecked())
 								hasOne = true;
 						assert !filtered : "filtered state changed";
@@ -578,7 +536,7 @@ public class CourseSearchController extends UifControllerBase {
 				}
 				if (!filtered)
 					// count all cells in all non-filtered rows
-					for (Entry<String, List<String>> fce : row.facetColumns
+					for (Entry<String, List<String>> fce : row.getFacetColumns()
 							.entrySet())
 						for (String fci : fce.getValue())
 							getFacetState(fci, fce.getKey()).incrementCount();
@@ -713,7 +671,7 @@ public class CourseSearchController extends UifControllerBase {
 					public boolean hasNext() {
 						// break column loop once row has been removed,
 						// or when all columns have been seen
-						return !removed && j < current.facetColumns.size() - 1;
+						return !removed && j < current.getFacetColumns().size() - 1;
 					}
 
 					@Override
@@ -734,7 +692,7 @@ public class CourseSearchController extends UifControllerBase {
 						// Here is where data tables column # is tied to
 						// internal
 						// facet column order.
-						return current.facetColumns.get(FACET_COLUMNS_REVERSE
+						return current.getFacetColumns().get(FACET_COLUMNS_REVERSE
 								.get(j));
 					}
 
@@ -793,7 +751,7 @@ public class CourseSearchController extends UifControllerBase {
 				@Override
 				public String toString() {
 					return "Iter [current="
-							+ current.facetColumns.get(FACET_COLUMNS_REVERSE
+							+ current.getFacetColumns().get(FACET_COLUMNS_REVERSE
 									.get(j)) + ", removed=" + removed
 							+ ", searchString=" + searchString
 							+ ", searchPattern=" + searchPattern + ", j=" + j
@@ -838,8 +796,8 @@ public class CourseSearchController extends UifControllerBase {
 					@Override
 					public int compare(SearchInfo o1, SearchInfo o2) {
 						for (int i = 0; i < dataTablesInputs.iSortingCols; i++) {
-							String s1 = o1.sortColumns[dataTablesInputs.iSortCol_[i]];
-							String s2 = o2.sortColumns[dataTablesInputs.iSortCol_[i]];
+							String s1 = o1.getSortColumns()[dataTablesInputs.iSortCol_[i]];
+							String s2 = o2.getSortColumns()[dataTablesInputs.iSortCol_[i]];
 							if (s1 == null && s2 == null)
 								continue;
 							if (s1 == null)
@@ -1019,27 +977,27 @@ public class CourseSearchController extends UifControllerBase {
 			// Validate incoming jQuery datatables inputs
 			assert table != null;
 			assert table.searchResults.isEmpty()
-					|| dataTablesInputs.iColumns >= firstRow.item
-							.getSearchColumns().length : firstRow.item
+					|| dataTablesInputs.iColumns >= firstRow.getItem()
+							.getSearchColumns().length : firstRow.getItem()
 					.getSearchColumns().length
 					+ " > "
 					+ dataTablesInputs.iColumns;
 			assert table.searchResults.isEmpty()
-					|| dataTablesInputs.iColumns >= firstRow.sortColumns.length : firstRow.sortColumns.length
+					|| dataTablesInputs.iColumns >= firstRow.getSortColumns().length : firstRow.getSortColumns().length
 					+ " > " + dataTablesInputs.iColumns;
 			assert table.searchResults.isEmpty()
-					|| dataTablesInputs.iColumns >= firstRow.facetColumns
-							.size() : firstRow.facetColumns.size() + " > "
+					|| dataTablesInputs.iColumns >= firstRow.getFacetColumns()
+							.size() : firstRow.getFacetColumns().size() + " > "
 					+ dataTablesInputs.iColumns;
 			assert table.searchResults.isEmpty()
-					|| dataTablesInputs.iColumns == firstRow.facetColumns
+					|| dataTablesInputs.iColumns == firstRow.getFacetColumns()
 							.size()
-					|| dataTablesInputs.iColumns == firstRow.sortColumns.length
-					|| dataTablesInputs.iColumns == firstRow.item
+					|| dataTablesInputs.iColumns == firstRow.getSortColumns().length
+					|| dataTablesInputs.iColumns == firstRow.getItem()
 							.getSearchColumns().length : "Max("
-					+ firstRow.facetColumns.size() + ","
-					+ firstRow.sortColumns.length + ","
-					+ firstRow.item.getSearchColumns().length + ") != "
+					+ firstRow.getFacetColumns().size() + ","
+					+ firstRow.getSortColumns().length + ","
+					+ firstRow.getItem().getSearchColumns().length + ") != "
 					+ dataTablesInputs.iColumns;
 		}
 
@@ -1060,7 +1018,7 @@ public class CourseSearchController extends UifControllerBase {
 			if (resultsIndex >= filteredResults.size())
 				break;
 			ArrayNode cs = mapper.createArrayNode();
-			CourseSearchItem item = filteredResults.get(resultsIndex).item;
+			CourseSearchItem item = filteredResults.get(resultsIndex).getItem();
 			String[] scol = item.getSearchColumns();
 			for (String col : scol)
 				cs.add(col);
