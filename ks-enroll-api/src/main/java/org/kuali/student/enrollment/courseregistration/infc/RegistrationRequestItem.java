@@ -16,6 +16,7 @@
 
 package org.kuali.student.enrollment.courseregistration.infc;
 
+import java.util.Date;
 import java.util.List;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
@@ -110,6 +111,13 @@ public interface RegistrationRequestItem
      *       ResultValuesGroup Type for a grade system
      */
     public String getGradingOptionId();
+
+    /**
+     * The requested effective date of the registrationRequestItem
+     *
+     * @name Requested Effective Date
+     */
+    public Date getRequestedEffectiveDate();
 
     /**
      * If the course is full and there is a waitlist, is it okay to be
