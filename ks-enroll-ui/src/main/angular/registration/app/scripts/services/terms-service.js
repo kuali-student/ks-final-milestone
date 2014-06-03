@@ -1,10 +1,8 @@
 'use strict';
 
 angular.module('regCartApp')
-    .service('TermsService', ['$resource', 'APP_URL', function TermsService($resource, APP_URL) {
+    .service('TermsService', ['ServiceUtilities', 'URLS', function (ServiceUtilities, URLS) {
 
-        var scheduleOfClassesService=APP_URL+'ScheduleOfClassesClientService';
-        var termsMethod=scheduleOfClassesService+'/terms';
         var termId = 'kuali.atp.2012Fall';   // default value
 
         this.getTermId = function () {
@@ -16,9 +14,7 @@ angular.module('regCartApp')
         };
 
         this.getTermsFromServer = function () {
-            return $resource(termsMethod, {}, {
-                query: { method: 'GET', cache: true, isArray: true }
-            });
+            return ServiceUtilities.getArray(URLS.scheduleOfClasses+'/terms');
         };
 
         this.getTermNameForTermId = function(terms, termId){
@@ -32,12 +28,3 @@ angular.module('regCartApp')
         };
 
     }]);
-//angular.module('regCartApp')
-//    .service('TermsService', function TermsService($resource) {
-//        this.getTerms = function () {
-//            return $resource('json/static-terms.json', {}, {
-//                query:{method:'GET', cache:false, isArray:true}
-//            });
-//        };
-//
-//    });

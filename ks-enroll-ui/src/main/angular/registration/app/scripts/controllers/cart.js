@@ -321,7 +321,7 @@ angular.module('regCartApp')
         var cartPoller = function (registrationRequestId) {
             $scope.pollingCart = false; // prime to false
             $timeout(function () {
-                CartService.getRegistrationStatus().query({regReqId: registrationRequestId}, function (regResponseResult) {
+                ScheduleService.getRegistrationStatus().query({regReqId: registrationRequestId}, function (regResponseResult) {
                     $scope.cart.state = regResponseResult.state;
                     angular.forEach(regResponseResult.responseItemResults, function (responseItem) {
                         angular.forEach($scope.cartResults.items, function (item) {
