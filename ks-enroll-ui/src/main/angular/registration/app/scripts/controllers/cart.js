@@ -216,6 +216,10 @@ angular.module('regCartApp')
             }, function (newCartItem) {
                 console.log('old: ' + cartItem.credits + ' To: ' + newCartItem.credits);
                 console.log('old: ' + cartItem.grading + ' To: ' + newCartItem.grading);
+
+                var oldCredits=cartItem.credits;
+                var oldGrading=cartItem.grading;
+
                 cartItem.credits = newCartItem.credits;
                 cartItem.grading = newCartItem.grading;
                 cartItem.status = '';
@@ -224,7 +228,33 @@ angular.module('regCartApp')
                 cartItem.isopen = !cartItem.isopen; //collapse the card
                 $scope.creditTotal = creditTotal();
 
-                cartItem.alertMessage = {txt: 'Changes saved successfully', type: 'success'};
+                console.log('Started to animate...');
+                if (cartItem.newGrading !== oldGrading) {
+                    cartItem.editGradingOption = true;
+                    if (cartItem.gradingOptions[cartItem.grading] === 'Letter') {
+                        cartItem.editGradingOptionLetter = true;
+                    }
+                    $timeout(function(){
+                        cartItem.editGradingOption = false;
+                        cartItem.editGradingOptionDone = true;
+                    }, 2000);
+                    $timeout(function(){
+                        cartItem.editGradingOptionDone = false;
+                        if (cartItem.gradingOptions[cartItem.grading] === 'Letter') {
+                            cartItem.editGradingOptionLetter = false;
+                        }
+                    }, 4000);
+                }
+                if (cartItem.newCredits !== oldCredits) {
+                    cartItem.editCredits = true;
+                    $timeout(function(){
+                        cartItem.editCredits = false;
+                        cartItem.editCreditsDone = true;
+                    }, 2000);
+                    $timeout(function(){
+                        cartItem.editCreditsDone = false;
+                    }, 4000);
+                }
             });
         };
 
@@ -370,7 +400,7 @@ angular.module('regCartApp')
 
         $scope.showBadge = function (cartItem) {
             //console.log("Cart Item Grading: " + JSON.stringify(cartItem));
-            return cartItem.gradingOptions[cartItem.grading] !== 'Letter';
+            return cartItem.gradingOptions[cartItem.grading] !== 'Letter' || cartItem.editGradingOptionLetter;
         };
 
         $scope.editing = function (cartItem) {

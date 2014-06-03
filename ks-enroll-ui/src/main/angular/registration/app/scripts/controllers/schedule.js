@@ -137,9 +137,7 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
                 masterLprId: course.masterLprId,
                 termId: $scope.termId,
                 credits: course.newCredits,
-                gradingOptionId: course.newGrading,
-                oldCredits: course.credits,
-                oldGrading: course.gradingOptionId
+                gradingOptionId: course.newGrading
             }, function (scheduleItemResult) {
                 GlobalVarsService.setRegisteredCredits(parseFloat(GlobalVarsService.getRegisteredCredits()) - parseFloat(course.credits) + parseFloat(scheduleItemResult.credits));
                 updateCard(course, scheduleItemResult);
@@ -158,9 +156,7 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
                 masterLprId: course.masterLprId,
                 termId: $scope.termId,
                 credits: course.newCredits,
-                gradingOptionId: course.newGrading,
-                oldCredits: course.credits,
-                oldGrading: course.gradingOptionId
+                gradingOptionId: course.newGrading
             }, function (scheduleItemResult) {
                 GlobalVarsService.setWaitlistedCredits(parseFloat(GlobalVarsService.getWaitlistedCredits()) - parseFloat(course.credits) + parseFloat(scheduleItemResult.credits));
                 updateCard(course, scheduleItemResult);
@@ -192,13 +188,15 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
 
         function updateCard(course, scheduleItemResult) {
             console.log(scheduleItemResult);
+            var oldCredits=course.credits;
+            var oldGrading=course.gradingOptionId;
             course.credits = scheduleItemResult.credits;
             course.gradingOptionId = scheduleItemResult.gradingOptionId;
             course.editing = false;
             course.isopen = !course.isopen; // collapse the card
 //                course.statusMessage = {txt: 'Changes saved successfully', type: 'success'};
             console.log('Started to animate...');
-            if (course.newGrading !== scheduleItemResult.oldGrading) {
+            if (course.newGrading !== oldGrading) {
                 course.editGradingOption = true;
                 if (course.gradingOptions[course.gradingOptionId] === 'Letter') {
                     course.editGradingOptionLetter = true;
@@ -214,7 +212,7 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
                     }
                 }, 4000);
             }
-            if (course.newCredits !== scheduleItemResult.oldCredits) {
+            if (course.newCredits !== oldCredits) {
                 course.editCredits = true;
                 $timeout(function(){
                     course.editCredits = false;

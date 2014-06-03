@@ -120,7 +120,8 @@
                 <accordion-heading>
                     <div ng-class="{'kscr-Card-accordion-heading-fadeIn': cartItem.addingNewCartItem, 'kscr-Card-accordion-heading': !cartItem.addingNewCartItem}">
                         <!--credits-->
-                        <div id="course_info_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" class="kscr-Card-supportText" ng-hide="editing(cartItem)">
+                        <div id="course_info_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" class="kscr-Card-supportText" ng-hide="editing(cartItem)"
+                             ng-class="{ 'kscr-Card-credits-fadeIn': cartItem.editCredits, 'kscr-Card-credits-fadeOut': cartItem.editCreditsDone }">
                             <ng-pluralize count="cartItem.credits"
                                           when="{'1' : '{} cr',
                                          'other': '{} cr'}">
@@ -130,7 +131,10 @@
                         <div>
                             <span class="kscr-Card-icon"><i class="glyphicon" ng-class="{'glyphicon-chevron-down': cartItem.isopen, 'glyphicon-chevron-right': !cartItem.isopen}"></i></span>
                             <span class="kscr-Card-title" id="course_code_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}">{{cartItem.courseCode}} ({{cartItem.regGroupCode}})</span>
-                            <span class="kscr-Card-badge" id="grading_badge_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" ng-show="showBadge(cartItem)">{{cartItem.gradingOptions[cartItem.grading]}}</span>
+                            <span id="grading_badge_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" ng-show="showBadge(cartItem)"
+                                  ng-class="{ 'kscr-Card-badge-fadeIn': cartItem.editGradingOption, 'kscr-Card-badge-fade': !cartItem.editGradingOption,
+                                  'kscr-Card-badge-fadeOutLetter': cartItem.editGradingOptionLetter
+                                  && cartItem.editGradingOptionDone }">{{cartItem.gradingOptions[cartItem.grading]}}</span>
                         </div>
                         <!--Course Title and description-->
                         <div class="kscr-Card-text" id="title_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" ng-show="cartItem.isopen">{{cartItem.courseTitle}}</div>
