@@ -40,13 +40,8 @@ import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.infc.ValidationResult;
-import org.kuali.student.r2.lum.clu.dto.CluInfo;
-import org.kuali.student.r2.lum.lu.entity.Clu;
-import org.kuali.student.r2.lum.lu.service.impl.CluServiceAssembler;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.jws.WebParam;
-import javax.persistence.OptimisticLockException;
 import java.util.ArrayList;
 import java.util.List;
 

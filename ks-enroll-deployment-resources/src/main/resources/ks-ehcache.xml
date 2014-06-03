@@ -5,6 +5,12 @@
     <cache name="orgCache" maxElementsInMemory="300" eternal="true" timeToIdleSeconds="0" />
     <cache name="lrcCache" maxElementsInMemory="200" eternal="true" timeToIdleSeconds="0" />
     <cache name="luiCache" maxElementsInMemory="500" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="600" />
+    <cache name="luiLuiRelationCache" maxElementsInMemory="500" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="600">
+        <searchable>
+            <searchAttribute name="luiId"/>
+            <searchAttribute name="relatedLuiId"/>
+        </searchable>
+    </cache>
     <cache name="scheduleCache" maxElementsInMemory="1000" eternal="true" timeToIdleSeconds="0" />
     <cache name="scheduleDisplayCache" maxElementsInMemory="500" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="100"/>
     <cache name="lprCache" maxElementsInMemory="500" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="300" />
