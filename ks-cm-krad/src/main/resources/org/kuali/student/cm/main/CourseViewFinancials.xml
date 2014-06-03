@@ -13,8 +13,8 @@
         <property name="headerText" value="Financials"/>
         <property name="items">
             <list>
-                <ref bean="CourseView-Financials-NoRequiredMessageLink" />
-                <ref bean="CourseView-Financials-CollectionSection" />
+                <ref bean="CourseView-Financials-NoRequiredMessageLink"/>
+                <ref bean="CourseView-Financials-CollectionSection"/>
             </list>
         </property>
     </bean>
@@ -27,14 +27,14 @@
         </property>
         <property name="items">
             <list>
-                <ref bean="KS-CourseView-Financials-CourseFees-Widgets" />
-                <ref bean="KS-CourseView-Financials-Widgets" />
+                <ref bean="KS-CourseView-Financials-CourseFees-Widgets"/>
+                <ref bean="KS-CourseView-Financials-Widgets"/>
             </list>
         </property>
     </bean>
 
-    <bean id="CourseView-Financials-NoRequiredMessageLink" parent="Uif-HorizontalFieldGroup" >
-        <property name="style" value="display: none;" />
+    <bean id="CourseView-Financials-NoRequiredMessageLink" parent="Uif-HorizontalFieldGroup">
+        <property name="style" value="display: none;"/>
         <property name="cssClasses">
             <list merge="true">
                 <value>hide-when-show-all-fields</value>
@@ -54,14 +54,17 @@
     </bean>
 
     <bean id="KS-CourseView-Financials-CourseFees-Widgets" parent="Uif-HorizontalBoxSection" p:headerText="Course Fees">
-        <property name="instructionalText" value="These are the required fees for the course, for example lab, material, field trips." />
+        <property name="instructionalText"
+                  value="These are the required fees for the course, for example lab, material, field trips."/>
     </bean>
 
     <bean id="KS-CourseView-Financials-Widgets" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
-                <bean parent="CM-InputField" p:label="Justification of Fees" p:propertyName="courseInfo.feeJustification.plain">
-                    <property name="instructionalText" value="This is for internal use only and will not be seen by students." />
+                <bean p:id="CourseView-Financials-Fee-Text" parent="CM-InputField" p:label="Justification of Fees"
+                      p:propertyName="courseInfo.feeJustification.plain">
+                    <property name="instructionalText"
+                              value="This is for internal use only and will not be seen by students."/>
                     <property name="cssClasses">
                         <list>
                             <value>uif-label</value>

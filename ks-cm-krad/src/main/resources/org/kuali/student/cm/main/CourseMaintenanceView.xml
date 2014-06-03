@@ -605,6 +605,7 @@
                 <bean id="commentsLightBoxContents" parent="Uif-VerticalBoxSection">
                     <property name="header">
                         <bean parent="Uif-HeaderThree" p:headerText="Comments (@{#dataObject.comments.size()})"
+                              p:id="Comment_list_Header"
                               p:cssClasses=""/>
                     </property>
                     <!-- There is a property replacer below which, if there are no comments, replaces it with a Message -->
@@ -635,9 +636,9 @@
                                 </property>
                                 <property name="items">
                                     <list>
-                                        <bean parent="KS-Uif-DataField" p:label=" "
+                                        <bean p:id="commentInfoCommenterId" parent="KS-Uif-DataField" p:label=" "
                                               p:propertyName="commentInfo.commenterId"/>
-                                        <bean parent="KS-Uif-InputField" p:label=" "
+                                        <bean p:id="commentInfoCommentTextPlain" parent="KS-Uif-InputField" p:label=" "
                                               p:propertyName="commentInfo.commentText.plain"/>
                                     </list>
                                 </property>
