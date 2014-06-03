@@ -1642,7 +1642,13 @@ div.ks-uif-table-column table tr td:nth-child(1) img {
       }
 
   }
-
+//Override buttons alignemt of the popup Dialog  box
+.uif-dialogGroup .uif-horizontalRadioFieldset > span, .uif-verticalCheckboxesFieldset > span {
+  padding-left: 1.5em;
+}
+.uif-dialogGroup .ui-button .ui-button-text {
+  display: inline;
+}
 /* This is a copy of the exact same definition from ksboot.less -- but for some reason IE isn't "seeing" that rule.  If you view the raw CSS from within IE9, this rule from ksboot is entirely missing.
  * For some reason, including the rule here gets picked up by IE.
  * Note: the rule is actually found in kboot.less but is then inherited by ksboot.less
