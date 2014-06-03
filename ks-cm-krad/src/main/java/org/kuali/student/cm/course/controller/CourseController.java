@@ -610,6 +610,30 @@ public class CourseController extends CourseRuleEditorController {
         return showDialog("commentsLightBox", form, request, response);
     }
 
+
+    @RequestMapping(params = "methodToCall=deleteComment")
+    public ModelAndView deleteComment(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
+                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
+        CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
+
+        return start(form, request, response);
+    }
+
+/*
+
+    @RequestMapping(params = "methodToCall=editComment")
+    public ModelAndView editComment(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
+                                    HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
+        CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
+
+        return start(form, request, response);
+    }
+*/
+
     /**
      * This method submits a new comment or the comment editing by the user
      *
