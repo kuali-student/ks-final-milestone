@@ -32,7 +32,6 @@
 
     <bean id="ManageSOCView" parent="KS-CourseOffering-FormViewWithTermContextBarPlaceholder">
         <property name="id" value="ManageSOCView"/>
-
         <property name="headerText" value="Set of Courses" />
         <property name="page.headerText" value="@{(termCode eq null)? 'EMPTY' : termCode}" />
         <property name="singlePageView" value="true"/>
@@ -145,7 +144,9 @@
         </property>
     </bean>
 
-    <bean id="ManageSOCView-termSelection-Section" parent="Uif-HorizontalBoxSection" p:onDocumentReadyScript="toggleButtonOnInput('socTermField', 'socShowButton');">
+    <bean id="ManageSOCView-termSelection-Section" parent="Uif-HorizontalBoxSection"
+          p:onDocumentReadyScript="toggleButtonOnInput('socTermField', 'socShowButton');"
+          p:additionalCssClasses="ks-ContentSpacer">
         <property name="items">
             <list>
                 <bean parent="Uif-HorizontalBoxSection">
