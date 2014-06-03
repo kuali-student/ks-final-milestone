@@ -94,7 +94,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CalendarSearch-CriteriaSection" parent="Uif-HorizontalBoxSection">
+    <bean id="KS-CalendarSearch-CriteriaSection" parent="Uif-HorizontalBoxSection"  p:additionalCssClasses="ks-Calendar-search">
         <property name="disclosure.render" value="false"/>
         <property name="style" value="margin-bottom:0;"/>
         <property name="items">
@@ -110,8 +110,6 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-HorizontalFieldGroup">
-                                <!--added margin-left base on experiment to align the search criteria with the rest of the page-->
-                                <property name="style" value="margin-left:-20px;"/>
                                 <property name="items">
                                     <list>
 
@@ -138,7 +136,7 @@
                                             </property>
                                         </bean>
 
-                                        <bean parent="Uif-HorizontalBoxGroup" >
+                                        <bean parent="Uif-HorizontalBoxGroup">
                                             <property name="items">
                                                 <list>
                                                     <bean parent="Uif-SecondaryActionButton" p:actionLabel="Search" p:methodToCall="search"/>
