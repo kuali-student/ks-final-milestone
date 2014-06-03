@@ -67,7 +67,7 @@ public class TestLuiServiceCacheDecorator extends TestLuiServiceImpl {
     public void setUp() throws Exception {
         super.setUp();
         this.getCacheManager().getCache("luiCache").removeAll();
-        this.getCacheManager().getCache("luiluiRelationCache").removeAll();
+        this.getCacheManager().getCache("luiLuiRelationCache").removeAll();
     }
 
     @Test
