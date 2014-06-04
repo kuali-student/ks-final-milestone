@@ -1,5 +1,6 @@
 package org.kuali.student.r2.lum.service.decorator;
 
+import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
 import org.apache.commons.collections.keyvalue.MultiKey;
@@ -20,8 +21,11 @@ import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.lum.clu.dto.CluCluRelationInfo;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
+import org.kuali.student.r2.lum.lu.entity.Clu;
+import org.kuali.student.r2.lum.lu.service.impl.CluServiceAssembler;
 
 import javax.jws.WebParam;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,7 +38,6 @@ import java.util.List;
 public class CluServiceCacheDecorator extends CluServiceDecorator {
 
     private static final String CLU_CACHE_NAME = "cluCache";
-    private static final String CLU_CLU_RELTN_KEY = "cluclureltn";
     private static final String CLU_SEARCH_KEY_PREFIX = "clusearch";
 
     private static final String INVALIDATE_SEARCH_CACHE_ONLY_CONFIG_KEY = "clu.cache.search.invalidateSearchCacheOnly";
@@ -43,7 +46,9 @@ public class CluServiceCacheDecorator extends CluServiceDecorator {
     private CacheManager cacheManager;
 
     @Override
-    public CluInfo createClu(@WebParam(name = "luTypeKey") String luTypeKey, @WebParam(name = "cluInfo") CluInfo cluInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    public CluInfo createClu(String luTypeKey, CluInfo cluInfo, ContextInfo contextInfo)
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException, ReadOnlyException {
         CluInfo result = getNextDecorator().createClu(luTypeKey, cluInfo, contextInfo);
         SearchCacheDecoratorUtil.invalidateCache(getCacheManager().getCache(CLU_CACHE_NAME), CLU_SEARCH_KEY_PREFIX,
                 INVALIDATE_SEARCH_CACHE_ONLY_CONFIG_KEY, VERIFY_RESULTS_BEFORE_INVALIDATE_CONFIG_KEY, null, "lu.resultColumn.cluId");
@@ -52,25 +57,26 @@ public class CluServiceCacheDecorator extends CluServiceDecorator {
     }
 
     @Override
-    public StatusInfo deleteClu(@WebParam(name = "cluId") String cluId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DependentObjectsExistException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo deleteClu(String cluId, ContextInfo contextInfo)
+            throws DependentObjectsExistException, DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
         StatusInfo result = getNextDecorator().deleteClu(cluId, contextInfo);
         getCacheManager().getCache(CLU_CACHE_NAME).remove(cluId);
-        for(CluCluRelationInfo cluCluRelationInfo : getCluCluRelationsByClu(cluId, contextInfo)) {
-            //remove the related Clus
-            removeRelatedClusByClu(cluCluRelationInfo.getCluId());
-        }
         SearchCacheDecoratorUtil.invalidateCache(getCacheManager().getCache(CLU_CACHE_NAME), CLU_SEARCH_KEY_PREFIX,
                 INVALIDATE_SEARCH_CACHE_ONLY_CONFIG_KEY, VERIFY_RESULTS_BEFORE_INVALIDATE_CONFIG_KEY, cluId, "lu.resultColumn.cluId");
         return result;
     }
 
     @Override
-    public CluInfo getClu(@WebParam(name = "cluId") String cluId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        Element cachedResult = getCacheManager().getCache(CLU_CACHE_NAME).get(cluId);
+    public CluInfo getClu(String cluId, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        Cache cluCache = getCacheManager().getCache(CLU_CACHE_NAME);
+        Element cachedResult = cluCache.get(cluId);
         Object result;
         if (cachedResult == null) {
             result = getNextDecorator().getClu(cluId, contextInfo);
-            getCacheManager().getCache(CLU_CACHE_NAME).put(new Element(cluId, result));
+            cluCache.put(new Element(cluId, result));
         } else {
             result = cachedResult.getValue();
         }
@@ -79,72 +85,76 @@ public class CluServiceCacheDecorator extends CluServiceDecorator {
     }
 
     @Override
-    public CluInfo updateClu(@WebParam(name = "cluId") String cluId, @WebParam(name = "cluInfo") CluInfo cluInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-        CluInfo result = getNextDecorator().updateClu(cluId, cluInfo, contextInfo);
-        getCacheManager().getCache(CLU_CACHE_NAME).remove(cluId);
-        for(CluCluRelationInfo cluCluRelationInfo : getCluCluRelationsByClu(cluId, contextInfo)) {
-            //remove the related Clus
-            removeRelatedClusByClu(cluCluRelationInfo.getCluId());
+    public List<CluInfo> getClusByIds(List<String> cluIds, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        List<CluInfo> result = new ArrayList<CluInfo>();
+        try {
+            for (String cluId : cluIds) {
+                result.add(this.getClu(cluId, context));
+            }
+        } catch (PermissionDeniedException e) {
+            throw new OperationFailedException(e);
         }
-        SearchCacheDecoratorUtil.invalidateCache(getCacheManager().getCache(CLU_CACHE_NAME), CLU_SEARCH_KEY_PREFIX,
-                INVALIDATE_SEARCH_CACHE_ONLY_CONFIG_KEY, VERIFY_RESULTS_BEFORE_INVALIDATE_CONFIG_KEY, cluId, "lu.resultColumn.cluId");
-        getCacheManager().getCache(CLU_CACHE_NAME).put(new Element(cluId, result));
         return result;
     }
 
-
     @Override
-    public List<CluInfo> getRelatedClusByCluAndRelationType(@WebParam(name = "cluId") String cluId, @WebParam(name = "cluCluRelationTypeKey") String cluCluRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        MultiKey cacheKey = new MultiKey(CLU_CLU_RELTN_KEY, cluId, cluCluRelationTypeKey);
-        Element cachedResult = getCacheManager().getCache(CLU_CACHE_NAME).get(cacheKey);
-        Object result;
-        if (cachedResult != null && !((List<CluInfo>)cachedResult.getValue()).isEmpty()) {
-            result = cachedResult.getValue();
-        } else {
-            result = getNextDecorator().getRelatedClusByCluAndRelationType(cluId, cluCluRelationTypeKey, contextInfo);
-            getCacheManager().getCache(CLU_CACHE_NAME).put(new Element(cacheKey, result));
-        }
-
-        return (List<CluInfo>) result;
-    }
-
-    @Override
-    public List<CluCluRelationInfo> getCluCluRelationsByClu(@WebParam(name = "cluId") String cluId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        MultiKey cacheKey = new MultiKey(CLU_CLU_RELTN_KEY, cluId);
-        Element cachedResult = getCacheManager().getCache(CLU_CACHE_NAME).get(cacheKey);
-        Object result;
-        if (cachedResult != null && !((List<CluCluRelationInfo>)cachedResult.getValue()).isEmpty()) {
-            result = cachedResult.getValue();
-        } else {
-            result = getNextDecorator().getCluCluRelationsByClu(cluId, contextInfo);
-            getCacheManager().getCache(CLU_CACHE_NAME).put(new Element(cacheKey, result));
-        }
-
-        return (List<CluCluRelationInfo>) result;
-    }
-
-    @Override
-    public CluCluRelationInfo createCluCluRelation(@WebParam(name = "cluId") String cluId, @WebParam(name = "relatedCluId") String relatedCluId, @WebParam(name = "cluCluRelationTypeKey") String cluCluRelationTypeKey, @WebParam(name = "cluCluRelationInfo") CluCluRelationInfo cluCluRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws CircularRelationshipException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        //remove the related Clus
-        removeRelatedClusByClu(cluId);
-        removeRelatedClusByClu(relatedCluId);
-        return getNextDecorator().createCluCluRelation(cluId, relatedCluId, cluCluRelationTypeKey, cluCluRelationInfo, contextInfo);
-    }
-
-    @Override
-    public SearchResultInfo search(SearchRequestInfo searchRequestInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException {
-        return SearchCacheDecoratorUtil.search(getCacheManager().getCache(CLU_CACHE_NAME), CLU_SEARCH_KEY_PREFIX, getNextDecorator(), searchRequestInfo, contextInfo);
-    }
-
-    private void removeRelatedClusByClu(String cluId) {
-        for(Object key  : getCacheManager().getCache(CLU_CACHE_NAME).getKeys()) {
-            if(key instanceof MultiKey) {
-                MultiKey cacheKey = (MultiKey) key;
-                if(cacheKey.size() > 1 && CLU_CLU_RELTN_KEY.equals(cacheKey.getKey(0)) && cluId.equals(cacheKey.getKey(1))) {
-                    getCacheManager().getCache(CLU_CACHE_NAME).remove(cacheKey);
-                }
+    public List<CluInfo> getClusByLuType(String luTypeKey, String luState, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        List<CluInfo> result = new ArrayList<CluInfo>();
+        try {
+            List<String> cluIds = this.getNextDecorator().getCluIdsByLuType(luTypeKey, luState, context);
+            for (String cluId : cluIds) {
+                result.add(this.getClu(cluId, context));
             }
+        } catch (PermissionDeniedException e) {
+            throw new OperationFailedException(e);
         }
+        return result;
+    }
+
+    @Override
+    public CluInfo updateClu(String cluId, CluInfo cluInfo, ContextInfo contextInfo)
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+        CluInfo result = getNextDecorator().updateClu(cluId, cluInfo, contextInfo);
+        getCacheManager().getCache(CLU_CACHE_NAME).put(new Element(cluId, result));
+        SearchCacheDecoratorUtil.invalidateCache(getCacheManager().getCache(CLU_CACHE_NAME), CLU_SEARCH_KEY_PREFIX,
+                INVALIDATE_SEARCH_CACHE_ONLY_CONFIG_KEY, VERIFY_RESULTS_BEFORE_INVALIDATE_CONFIG_KEY, cluId, "lu.resultColumn.cluId");
+        return result;
+    }
+
+    @Override
+    public List<CluInfo> getRelatedClusByCluAndRelationType(String cluId, String cluCluRelationTypeKey, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<String> cluIds = getNextDecorator().getRelatedCluIdsByCluAndRelationType(cluId, cluCluRelationTypeKey, contextInfo);
+        List<CluInfo> result = new ArrayList<CluInfo>();
+        for (String relatedCluId : cluIds) {
+            result.add(this.getClu(relatedCluId, contextInfo));
+        }
+
+        return result;
+    }
+
+    @Override
+    public List<CluInfo> getClusByRelatedCluAndRelationType(String relatedCluId, String luLuRelationTypeKey, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        List<CluInfo> result = new ArrayList<CluInfo>();
+        try {
+            List<String> cluIds = getNextDecorator().getCluIdsByRelatedCluAndRelationType(relatedCluId, luLuRelationTypeKey, context);
+            for (String cluId : cluIds) {
+                result.add(this.getClu(cluId, context));
+            }
+        } catch (PermissionDeniedException e) {
+            throw new OperationFailedException(e);
+        }
+        return result;
+    }
+
+    @Override
+    public SearchResultInfo search(SearchRequestInfo searchRequestInfo, ContextInfo contextInfo)
+            throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException {
+        return SearchCacheDecoratorUtil.search(getCacheManager().getCache(CLU_CACHE_NAME), CLU_SEARCH_KEY_PREFIX, getNextDecorator(), searchRequestInfo, contextInfo);
     }
 
     public CacheManager getCacheManager() {
