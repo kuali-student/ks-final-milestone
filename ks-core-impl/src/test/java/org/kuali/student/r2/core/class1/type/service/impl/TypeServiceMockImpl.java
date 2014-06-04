@@ -170,6 +170,17 @@ public class TypeServiceMockImpl implements TypeService, MockService {
     @Override
     public TypeInfo createType(String typeKey, TypeInfo typeInfo,  ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         allTypes.put(typeInfo.getKey(), typeInfo);
+
+        //Load refObjectUriMap when new type is added (created) so it will be available for validation
+        String uri = typeInfo.getRefObjectUri();
+        List<TypeInfo> typeList = refObjfectUriMap.get(uri);
+        if (typeList ==null) {
+            typeList = new ArrayList<TypeInfo>();
+            refObjfectUriMap.put(uri,typeList);
+        }
+        if (!typeList.contains(typeInfo)) {
+            typeList.add(typeInfo);
+        }
         return typeInfo;
     }
 
@@ -233,7 +244,23 @@ public class TypeServiceMockImpl implements TypeService, MockService {
 
     @Override
     public TypeTypeRelationInfo createTypeTypeRelation( String typeTypeRelationKey, String typeKey,  String typePeerKey,  TypeTypeRelationInfo typeTypeRelationInfo,  ContextInfo contextInfo) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        throw new OperationFailedException("Method not implemented."); // TODO implement
+        TypeInfo typeType = getType(typeTypeRelationKey);
+        if (typeType==null || !typeTypeRelationKey.equals(typeTypeRelationInfo.getTypeKey())) {
+            throw new InvalidParameterException(String.format("[%s] is not a valid type",typeTypeRelationKey));
+        }
+        TypeInfo type = getType(typeKey);
+        if (type==null || !typeKey.equals(typeTypeRelationInfo.getOwnerTypeKey())) {
+            throw new InvalidParameterException(String.format("[%s] is not a valid type",type));
+        }
+        TypeInfo peerType = getType(typePeerKey);
+        if (peerType==null || !typePeerKey.equals(typeTypeRelationInfo.getRelatedTypeKey())) {
+            throw new InvalidParameterException(String.format("[%s] is not a valid type",peerType));
+        }
+        TypeTypeRelationInfo relationInfo = this.createTypeTypeRelationInfo(typeKey, typePeerKey);
+        relationInfo.setRelatedTypeKey(typeTypeRelationKey);
+        associate(typeTypeRelationKey+typeKey+typePeerKey,typeTypeRelationKey,typeKey,typePeerKey,"0",
+                String.format("%s to %s relationship",type,typePeerKey));
+        return relationInfo;
     }
 
     @Override

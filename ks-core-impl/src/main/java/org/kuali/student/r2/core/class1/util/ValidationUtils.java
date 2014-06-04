@@ -22,6 +22,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.infc.HasType;
+import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.springframework.util.Log4jConfigurer;
@@ -123,8 +124,9 @@ public class ValidationUtils {
 //            typeService.getType(typeKey, contextInfo);
             List<TypeInfo> types = typeService.getTypesByRefObjectUri(refObjectUri, contextInfo);
             if (types == null) {
-                errors.add(new ValidationResultInfo(String.format("No TypeInfo found for the Ref Object Uri %s", refObjectUri)));
-                log.debug(String.format("No TypeInfo found for the Ref Object Uri %s", refObjectUri));
+                String errMsg=String.format("No TypeInfo found for the Ref Object Uri %s", refObjectUri);
+                errors.add(makeValidationResultInfo(errMsg, "typeKey", ValidationResult.ErrorLevel.ERROR));
+                log.debug(errMsg);
             } else {
                 boolean isKeyFound = false;
                 for (TypeInfo info : types) {
@@ -133,17 +135,61 @@ public class ValidationUtils {
                     }
                 }
                 if (!isKeyFound) {
-                    errors.add(new ValidationResultInfo(String.format("No TypeInfo found for the Type Key %s with Ref Object Uri %s", typeKey, refObjectUri)));
-                    log.debug(String.format("No TypeInfo found for the Type Key %s with Ref Object Uri %s", typeKey, refObjectUri));
+                    String errMsg=String.format("No TypeInfo found for the Type Key %s with Ref Object Uri %s", typeKey, refObjectUri);
+                    errors.add(makeValidationResultInfo(errMsg, "typeKey", ValidationResult.ErrorLevel.ERROR));
+                    log.debug(errMsg);
                 }
             }
         } catch (DoesNotExistException ex) {
-            ValidationResultInfo validationResult = new ValidationResultInfo();
-            validationResult.setError("Error trying to use Type that is not configured. Make sure the type exists in the database. [" + typeKey + "] must be configured.");
-            validationResult.setElement(typeKey);
-            errors.add(validationResult);
+            String errMsg="Error trying to use Type that is not configured. Make sure the type exists in the database. ["
+                            + typeKey + "] must be configured.";
+            errors.add(makeValidationResultInfo(errMsg, "typeKey", ValidationResult.ErrorLevel.ERROR));
+            log.debug(errMsg);
         }
 
+        return errors;
+    }
+
+    /**
+     * Validate Group Member Type (note: this is not recursive!)
+     * @param groupTypeKey - owner type of type group
+     * @param memberTypeKey - key to be checked for group membership
+     * @param contextInfo
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public static List<ValidationResultInfo> validateGroupMbrTypeKey(String groupTypeKey, String memberTypeKey,
+            TypeService typeService, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<ValidationResultInfo> errors = new ArrayList<ValidationResultInfo>();
+
+        try {
+            List<TypeInfo> types = typeService.getAllowedTypesForType(groupTypeKey,contextInfo);
+            String errMsg = String.format("No TypeTypeInfo found for the member Type Key %s " +
+                    "in owner Group Type:  %s", memberTypeKey, groupTypeKey);
+            if (types == null) {
+                errors.add(makeValidationResultInfo(errMsg, "memberTypeKey", ValidationResult.ErrorLevel.ERROR));
+                log.debug(errMsg);
+            } else {
+                boolean isKeyFound = false;
+                for (TypeInfo info : types) {
+                    if (memberTypeKey!=null && memberTypeKey.equals(info.getKey())) {
+                        isKeyFound = true;
+                    }
+                }
+                if (!isKeyFound) {
+                    errors.add(makeValidationResultInfo(errMsg, "memberTypeKey", ValidationResult.ErrorLevel.ERROR));
+                    log.debug(errMsg);
+                }
+            }
+        } catch (DoesNotExistException ex) {
+            String errMsg = String.format("Error validating that Type [%s] is member" +
+                " of owner Group Type [%s]. Make sure Type Group is properly configured.",memberTypeKey, groupTypeKey);
+            errors.add(makeValidationResultInfo(errMsg, "memberTypeKey", ValidationResult.ErrorLevel.ERROR));
+        }
         return errors;
     }
 
@@ -179,6 +225,14 @@ public class ValidationUtils {
         }
 
         return false;
+    }
+    private static ValidationResultInfo makeValidationResultInfo(String errorMessage, String element,
+            ValidationResult.ErrorLevel errorLevel) {
+        ValidationResultInfo vri = new ValidationResultInfo();
+        vri.setError(errorMessage);
+        vri.setElement(element);
+        vri.setLevel(errorLevel);
+        return vri;
     }
 
 
