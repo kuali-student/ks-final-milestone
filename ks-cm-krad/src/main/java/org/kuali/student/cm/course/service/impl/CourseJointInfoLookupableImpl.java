@@ -83,6 +83,7 @@ public class CourseJointInfoLookupableImpl extends LookupableImpl {
         SearchParamInfo typeParam = new SearchParamInfo();
         typeParam.setKey(CourseServiceConstants.OPTIONAL_TYPE_PARAM);
         typeParam.getValues().add(CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY);
+        queryParamValueList.add(typeParam);
 
         SearchParamInfo stateParam = new SearchParamInfo();
         stateParam.setKey(CourseServiceConstants.OPTIONAL_STATE_PARAM);
