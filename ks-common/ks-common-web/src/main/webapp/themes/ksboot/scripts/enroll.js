@@ -1013,6 +1013,9 @@ function cancelInlineRow(event){
         if(jQuery('#' + initialValue.id).is(':checkbox')){
             //setInlineEditCheckboxReadonlyValue(jQuery('#' + initialValue.id).parent('div.toggleable-element').attr('id'), initialValue.value);
             jQuery('#' + initialValue.id).prop("checked", initialValue.value);
+
+            // set inline fields enabled/disabled based on the checkbox initial value
+            setInlineFieldsAccessibility(initialValue.id, initialValue.value);
             //setInlineEditCheckboxReadonlyValue(jQuery('#' + initialValue.id).parent('div.toggleable-element').attr('id'), initialValue.value);
         }else{
             jQuery("#" + initialValue.id).val(initialValue.value);
@@ -1214,16 +1217,61 @@ function setInlineEditCheckboxReadonlyValue(id, checked) {
     }
 }
 
-function removeMatrixOverrideConfirm(checkbox_id, dialog_id){
-    var checkBoxId = '#' + checkbox_id + '_control';
-    var checkBox = jQuery(checkBoxId);
+/*
+   Enable/Disable inline fields given the check box id of the row
+ */
+function setInlineFieldsAccessibility(checkboxId, enable) {
+    var checkBox = jQuery('#' + checkboxId);
+    jQuery(checkBox).closest('td').siblings().find('div.toggleable-element').find('[id$=_control]').each(function() {
+        if (enable) {
+            if(jQuery(this).prop('disabled')) {
+                jQuery(this).attr('disabled', false);
+            }
+        } else {
+            if(!jQuery(this).prop('disabled')) {
+                jQuery(this).attr('disabled', true);
+            }
+        }
+    });
+}
+
+/*
+    Initialize (enable/disable) EO inline edit rows fields
+ */
+function initInlineRowFields() {
+    jQuery('table').find('input:checkbox[id^=eoOverrideMatrix]').each(function() {
+        var overrideMatrix = jQuery(this).is(':checked')
+        if(!overrideMatrix) {
+            setInlineFieldsAccessibility(jQuery(this).attr('id'), false);
+        } else {
+            setInlineFieldsAccessibility(jQuery(this).attr('id'), true);
+        }
+
+    });
+}
+
+/*
+     Enable EO inline row fields when override matrix check box is checked
+     Display the override matrix uncheck confirmation dialog if check box is unchecked
+ */
+function matrixOverrideFlagChange(event, dialog_id){
+    var checkBox = jQuery(event.target);
 
     if( !checkBox.is(":checked")) {
         //overrideOptions = { autoDimensions:false, width:500, afterClose:breakColoWarningHasClosed };
         showLightboxComponent(dialog_id);
+    } else {
+        setInlineFieldsAccessibility(checkBox.attr('id'), true);
     }
+}
 
-
+/*
+ Disable EO inline row fields when confirming un-override matrix in the confirmation dialog
+ */
+function disableInlineFields(matrixOverrideCheckBoxId) {
+    var checkBoxId = jQuery("input[name='" + matrixOverrideCheckBoxId +"']").val() + '_control';
+    setInlineFieldsAccessibility(checkBoxId, false);
+    closeLightbox();
 }
 
 function keepMatrixOverrideChecked (matrixOverrideCheckBoxId) {
