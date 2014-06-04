@@ -1909,6 +1909,23 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     }
 
     /**
+     * Delete a comment.
+     *
+     * @param commentId
+     */
+    public void deleteComment(String commentId) {
+        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
+        ProposalInfo proposal = courseInfoWrapper.getProposalInfo();
+        try {
+            getCommentService().deleteComment(commentId, createContextInfo());
+
+        } catch (Exception e) {
+            LOG.error("Error deleting comment " + commentId + " for the proposal " + proposal.getName());
+            //throw new RuntimeException("Error adding comment " + comment.getId() + " for the proposal " + proposal.getName(), e);
+        }
+    }
+
+    /**
      * Create or update a comment.
      *
      * @param commentWrapper

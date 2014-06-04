@@ -617,22 +617,20 @@ public class CourseController extends CourseRuleEditorController {
 
         CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
         CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
-
+        maintainable.deleteComment(courseInfoWrapper.getCapturedCommenterId());
         return start(form, request, response);
     }
 
-/*
 
     @RequestMapping(params = "methodToCall=editComment")
     public ModelAndView editComment(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
                                     HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
         CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
-
-        return start(form, request, response);
+        maintainable.deleteComment(courseInfoWrapper.getCapturedCommenterId());
+        return saveComment(form, result, request, response);
     }
-*/
+
 
     /**
      * This method submits a new comment or the comment editing by the user

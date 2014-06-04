@@ -62,6 +62,16 @@ public class CourseInfoWrapper implements Serializable {
     private String comment;
     private String capturedComment;
 
+    public String getCapturedCommenterId() {
+        return capturedCommenterId;
+    }
+
+    public void setCapturedCommenterId(String capturedCommenterId) {
+        this.capturedCommenterId = capturedCommenterId;
+    }
+
+    private String capturedCommenterId;
+
     private String crossListingDisclosureSection;
     private String userId = "";
     private String lastUpdated = "";

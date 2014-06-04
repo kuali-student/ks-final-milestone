@@ -67,4 +67,6 @@ public interface CourseInfoMaintainable {
 
     public void retrieveComments();
 
+    public void deleteComment(String commentId);
+
 }
