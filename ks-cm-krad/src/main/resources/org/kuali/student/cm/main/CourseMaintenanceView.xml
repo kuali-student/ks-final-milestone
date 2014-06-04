@@ -656,7 +656,7 @@
                                                                 <bean parent="Uif-HorizontalBoxSection" p:headerText="">
                                                                     <property name="items">
                                                                         <list>
-                                                                            <bean parent="KS-Uif-InputField" p:label="" p:readOnly="true"
+                                                                            <bean id="commentsDisplayArea" parent="KS-Uif-InputField" p:label="" p:readOnly="true"
                                                                                   p:propertyName="commentInfo.commentText.plain" p:style="padding:6px;"/>
 
                                                                         </list>
