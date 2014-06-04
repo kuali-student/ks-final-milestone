@@ -857,9 +857,14 @@ function updateCapturedComment() {
     jQuery('#CaptureCommentsTextArea_control').val(inputComment);
 }
 
-function editDeleteCapturedComment() {
-    var inputComment = jQuery('#commentsDisplayArea_control').val();
-    jQuery('#CaptureCommentsTextArea_control').val(inputComment);
+function editDeleteCapturedComment(index) {
+    var inputComment = jQuery('#commentsDisplayArea_line ' +index + '_control').val();
+
+    // trying to set modifying/editing comment text to captureCommentsText
+    jQuery('#CaptureCommentsTextArea_control').val(inputComment);    // even this is not getting assigned properly. not sure with the syntax. need to set with iterated values.
+
+    // tryinig to set modifying/editing comment id to CaptureCommentID
+  //  jQuery('#CaptureCommentIDTextArea_control').val(commenterId);   // Trying to set commmenterId/@{#line.commentInfo.commenterId} to   CaptureCommentIDTextArea (courseInfo.capturedCommenterId), but am not sure with correct syntax.
 }
 
 function showEditCommentWidget() {
