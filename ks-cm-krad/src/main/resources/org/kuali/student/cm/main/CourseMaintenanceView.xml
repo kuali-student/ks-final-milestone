@@ -585,15 +585,15 @@
 
     <bean id="commentsLightBox" parent="Uif-VerticalBoxSection" p:style="width:600px;padding:10px">
         <property name="hidden" value="true"/>
+        <property name="header">
+            <bean parent="Uif-HeaderOne" p:headerText="Comments for @{#dataObject.proposalInfo.name}"
+                  p:cssClasses="ks-dottedHeaderActions"/>
+        </property>
         <property name="items">
             <list>
                 <!-- Display existing comments or a message indicating that there aren't any comments. Using a box section
                      here so that both the tableCollectionSection and the simple Message can share the header. -->
-                <bean id="commentsLightBoxContents" parent="Uif-VerticalBoxSection">
-                    <property name="header">
-                        <bean parent="Uif-HeaderOne" p:headerText="Comments for @{#dataObject.proposalInfo.name}"
-                              p:cssClasses="ks-dottedHeaderActions"/>
-                    </property>
+                <bean id="commentsLightBoxContents" parent="Uif-VerticalBoxSection" >
                     <property name="scrollpane">
                         <bean parent="Uif-Scrollpane">
                             <property name="height" value="600px"/>
@@ -694,6 +694,7 @@
                                                                                   p:actionLabel="Edit"
                                                                                   p:actionScript="showEditCommentWidget(@{#index});"
                                                                                   p:dirtyOnAction="false"
+                                                                                  p:onClickScript="editDeleteCapturedComment(@{#index});"
                                                                                   p:style="background-color:white"/>
                                                                             <!--, @{#line.commentInfo.commenterId});"/> -->
                                                                             <bean parent="KS-Uif-Delete-NavigationActionLink"
