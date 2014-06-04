@@ -657,7 +657,7 @@
                                                                     <property name="items">
                                                                         <list>
                                                                             <bean parent="KS-Uif-InputField" p:label="" p:readOnly="true"
-                                                                                  p:propertyName="commentInfo.commentText.plain"/>
+                                                                                  p:propertyName="commentInfo.commentText.plain" p:style="padding:6px;"/>
 
                                                                         </list>
                                                                     </property>
@@ -686,7 +686,8 @@
                                                                                   p:actionLabel="Edit"
                                                                                   p:actionScript="showEditCommentWidget();"
                                                                                   p:dirtyOnAction="false"
-                                                                                  p:onClickScript="editDeleteCapturedComment(@{#index});" /> <!--, @{#line.commentInfo.commenterId});"/> -->
+                                                                                  p:onClickScript="editDeleteCapturedComment(@{#index});"
+                                                                                  p:style="background-color:white"  /> <!--, @{#line.commentInfo.commenterId});"/> -->
                                                                             <bean parent="KS-Uif-Delete-NavigationActionLink"
                                                                                   p:methodToCall="deleteComment"
                                                                                   p:actionLabel="Delete"
