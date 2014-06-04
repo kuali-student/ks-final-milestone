@@ -593,7 +593,7 @@
             <list>
                 <!-- Display existing comments or a message indicating that there aren't any comments. Using a box section
                      here so that both the tableCollectionSection and the simple Message can share the header. -->
-                <bean id="commentsLightBoxContents" parent="Uif-VerticalBoxSection" >
+                <bean id="commentsLightBoxContents" parent="Uif-VerticalBoxSection">
                     <property name="scrollpane">
                         <bean parent="Uif-Scrollpane">
                             <property name="height" value="600px"/>
@@ -690,18 +690,20 @@
                                                                 <bean parent="Uif-HorizontalBoxGroup">
                                                                     <property name="items">
                                                                         <list>
-                                                                            <bean parent="KS-Uif-Edit-NavigationActionLink"
+                                                                            <bean p:id="Comment-Edit-NavigationActionLink"
+                                                                                  parent="KS-Uif-Edit-NavigationActionLink"
                                                                                   p:actionLabel="Edit"
                                                                                   p:actionScript="showEditCommentWidget(@{#index});"
                                                                                   p:dirtyOnAction="false"
-                                                                                  p:onClickScript="editDeleteCapturedComment(@{#index});"
-                                                                                  p:style="background-color:white"/>
+                                                                                  p:style="background-color:white; width:20px;"/>
                                                                             <!--, @{#line.commentInfo.commenterId});"/> -->
-                                                                            <bean parent="KS-Uif-Delete-NavigationActionLink"
+                                                                            <bean p:id="Comment-Delete-NavigationActionLink"
+                                                                                  parent="KS-Uif-Delete-NavigationActionLink"
                                                                                   p:methodToCall="deleteComment"
                                                                                   p:actionLabel="Delete"
                                                                                   p:performClientSideValidation="true"
-                                                                                  p:onClickScript="deleteExistingComment(@{#index});"/>
+                                                                                  p:onClickScript="deleteExistingComment(@{#index});"
+                                                                                  p:style="background-color:white; width:20px;"/>
                                                                             <!-- @{#line.commentInfo.commenterId});"/> -->
                                                                         </list>
                                                                     </property>
@@ -797,14 +799,12 @@
                         <list>
                             <bean id="EditCommentSection-Save"
                                   parent="Uif-PrimaryActionButton"
-                                  p:ajaxSubmit="false"
                                   p:methodToCall="editComment"
                                   p:actionLabel="Save"
-                                  p:preSubmitCall="hideEditCommentWidget();"/>
+                                  p:preSubmitCall="return hideEditCommentWidget();"/>
 
                             <bean id="KS-EditCommentSection-cancel"
                                   parent="Uif-CancelAction"
-                                  p:ajaxSubmit="false"
                                   p:methodToCall="cancel"
                                   p:actionLabel="Cancel"
                                   p:preSubmitCall="hideEditCommentWidget();"/>
