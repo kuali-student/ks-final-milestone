@@ -65,10 +65,15 @@ public class ExamOfferingServiceConstants {
     public static final String EXAM_OFFERING_CO_MATRIX_MATCH_NOT_FOUND = "warning.enroll.examoffering.finalexam.co.matrix.match.not.found";
     public static final String EXAM_OFFERING_ACTIVITY_OFFERING_TIMESLOTS_NOT_FOUND = "warning.enroll.examoffering.finalexam.activity.offering.timeslots.not.found";
     public static final String EXAM_OFFERING_EXAM_PERIOD_NOT_FOUND = "error.enroll.examoffering.finalexam.exam.period.not.found";
+    public static final String EXAM_OFFERING_SOC_NOT_FOUND = "error.enroll.examoffering.finalexam.soc.not.found";
+    public static final String EXAM_OFFERING_TERM_NOT_FOUND = "error.enroll.examoffering.finalexam.term.not.found";
     public static final String EXAM_OFFERING_DRIVER_UNKNOWN = "info.enroll.examoffering.finalexam.driver.unknown";
     public static final String EXAM_OFFERING_GENERATED_PER_CO = "success.enroll.examoffering.finalexam.generated.per.co";
     public static final String EXAM_OFFERING_GENERATED_PER_FO = "success.enroll.examoffering.finalexam.generated.per.fo";
     public static final String EXAM_OFFERING_GENERATED_PER_AO = "success.enroll.examoffering.finalexam.generated.per.ao";
     public static final String EXAM_OFFERING_SLOTTED_SUCCESS = "success.enroll.examoffering.finalexam.slotted";
+
+    public static final String EXAM_OFFERING_BULK_PROCESS = "error.enroll.examoffering.finalexam.bulk.process";
+    public static final String EXAM_OFFERING_BULK_PROCESS_NOT_COMPLETED = "error.enroll.examoffering.finalexam.bulk.process.not.completed";
 
 }
