@@ -3,7 +3,6 @@ package org.kuali.student.ap.academicplan.service;
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
 import org.kuali.student.ap.academicplan.dto.LearningPlanInfo;
 import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
-import org.kuali.student.ap.academicplan.model.PlanItemEntity;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -15,7 +14,6 @@ import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.core.class1.util.ValidationUtils;
 
 import javax.jws.WebParam;
-import java.util.ArrayList;
 import java.util.List;
 
 public class AcademicPlanServiceValidationDecorator extends
@@ -156,11 +154,10 @@ public class AcademicPlanServiceValidationDecorator extends
 	}
 
 	@Override
-	public List<ValidationResultInfo> validatePlanItem(String validationType,
+    public List<ValidationResultInfo> validatePlanItem(String validationType,
 			PlanItemInfo planItemInfo, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException,
-                   MissingParameterException, OperationFailedException,
-                   AlreadyExistsException, PermissionDeniedException {
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+                   OperationFailedException, PermissionDeniedException {
 
         List<ValidationResultInfo> validationResultInfos = validateInfo(validator, validationType,
             planItemInfo, context);
@@ -215,19 +212,6 @@ public class AcademicPlanServiceValidationDecorator extends
                     }
                 }
             }
-        }
-
-		/*
-		 * Check for duplicate list items: Make sure a saved courses item with
-		 * this course id doesn't already exist in the plan. Make sure a planned
-		 * course item with the same ATP id doesn't exist in the plan.
-		 *
-		 * Note: This validation is last to insure that all of the other
-		 * validations are performed on "update" operations. The duplicate check
-		 * throw an AlreadyExistsException on updates.
-		 */
-        if (planItemInfo.getLearningPlanId()!=null) {
-            checkPlanItemDuplicate(planItemInfo,context);
         }
 
         try {
@@ -338,7 +322,21 @@ public class AcademicPlanServiceValidationDecorator extends
 			throw new OperationFailedException("Error validating plan item.",
 					ex);
 		}
-	}
+        		/*
+		 * Check for duplicate list items: Make sure a saved courses item with
+		 * this course id doesn't already exist in the plan. Make sure a planned
+		 * course item with the same ATP id doesn't exist in the plan.
+		 *
+		 * Note: This validation is last to insure that all of the other
+		 * validations are performed on "update" operations. The duplicate check
+		 * throw an AlreadyExistsException on updates.
+		 */
+        if (planItemInfo.getLearningPlanId()!=null) {
+            checkPlanItemDuplicate(planItemInfo,context);
+        }
+
+
+    }
 
 	@Override
     public LearningPlanInfo updateLearningPlan(String learningPlanId,

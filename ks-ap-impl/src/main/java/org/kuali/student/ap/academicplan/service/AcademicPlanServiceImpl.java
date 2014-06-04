@@ -6,7 +6,6 @@ import java.util.List;
 import javax.jws.WebParam;
 
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
-import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.ap.academicplan.dao.LearningPlanDao;
 import org.kuali.student.ap.academicplan.dao.PlanItemDao;
@@ -25,7 +24,6 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -342,10 +340,10 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
 	}
 
 	@Override
-	public List<ValidationResultInfo> validatePlanItem(@WebParam(name = "validationType") String validationType,
+    public List<ValidationResultInfo> validatePlanItem(@WebParam(name = "validationType") String validationType,
 			@WebParam(name = "planItemInfo") PlanItemInfo planItemInfo, @WebParam(name = "context") ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-			OperationFailedException, AlreadyExistsException {
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+                   OperationFailedException, PermissionDeniedException {
         return new ArrayList<ValidationResultInfo>();
 	}
 

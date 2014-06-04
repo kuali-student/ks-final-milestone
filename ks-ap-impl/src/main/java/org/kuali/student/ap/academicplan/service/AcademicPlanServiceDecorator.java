@@ -149,7 +149,7 @@ public class AcademicPlanServiceDecorator implements AcademicPlanService {
     public List<ValidationResultInfo> validatePlanItem(String validationType, PlanItemInfo planItemInfo,
                                                        ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-                   OperationFailedException, AlreadyExistsException, PermissionDeniedException {
+                   OperationFailedException, PermissionDeniedException {
         return getNextDecorator().validatePlanItem(validationType, planItemInfo, context);
     }
 

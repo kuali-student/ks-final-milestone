@@ -41,8 +41,6 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
-import javax.jws.WebParam;
-
 
 public class AcademicPlanServiceMockImpl implements MockService, AcademicPlanService
 {
@@ -376,12 +374,9 @@ public class AcademicPlanServiceMockImpl implements MockService, AcademicPlanSer
 	}
 	
 	@Override
-	public List<ValidationResultInfo> validatePlanItem(String validationType, PlanItemInfo planItemInfo, ContextInfo context)
-		throws DoesNotExistException
-		      ,InvalidParameterException
-		      ,MissingParameterException
-		      ,OperationFailedException
-		      ,AlreadyExistsException
+    public List<ValidationResultInfo> validatePlanItem(String validationType, PlanItemInfo planItemInfo, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+                   OperationFailedException, PermissionDeniedException
 	{
 		// VALIDATE
 		return new ArrayList<ValidationResultInfo> ();
