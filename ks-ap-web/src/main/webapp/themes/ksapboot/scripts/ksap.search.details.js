@@ -1,3 +1,4 @@
+//Called onDocumentReady in CourseDetailsUI.xml (Course Details page) to detect page referrer
 function detectReferrerForBackLinkText() {
     var backLink = jQuery('.uif-link.cdp-back-link:visible');
 
