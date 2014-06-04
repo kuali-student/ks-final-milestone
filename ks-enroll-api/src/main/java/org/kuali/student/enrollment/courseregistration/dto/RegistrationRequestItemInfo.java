@@ -46,6 +46,7 @@ import org.w3c.dom.Element;
                 "credits", 
                 "gradingOptionId",
                 "requestedEffectiveDate",
+                "lastAttendanceDate",
                 "okToWaitlist", 
                 "okToHoldUntilList", "validationResults",
                 "meta", "attributes", "_futureElements"})
@@ -76,6 +77,9 @@ public class RegistrationRequestItemInfo
 
     @XmlElement
     private Date requestedEffectiveDate;
+
+    @XmlElement
+    private Date lastAttendanceDate;
 
     @XmlElement
     private Boolean okToWaitlist;
@@ -115,6 +119,7 @@ public class RegistrationRequestItemInfo
             }
             this.gradingOptionId = registrationRequestItem.getGradingOptionId();
             this.requestedEffectiveDate = registrationRequestItem.getRequestedEffectiveDate();
+            this.lastAttendanceDate = registrationRequestItem.getLastAttendanceDate();
             this.okToWaitlist = registrationRequestItem.getOkToWaitlist();
             this.okToHoldUntilList = registrationRequestItem.getOkToHoldUntilList();
             this.validationResults = new ArrayList<ValidationResultInfo>();
@@ -176,6 +181,15 @@ public class RegistrationRequestItemInfo
 
     public void setGradingOptionId(String gradingOptionId) {
         this.gradingOptionId = gradingOptionId;
+    }
+
+    @Override
+    public Date getLastAttendanceDate() {
+        return lastAttendanceDate;
+    }
+
+    public void setLastAttendanceDate(Date lastAttendanceDate) {
+        this.lastAttendanceDate = lastAttendanceDate;
     }
 
     @Override

@@ -120,6 +120,13 @@ public interface RegistrationRequestItem
     public Date getRequestedEffectiveDate();
 
     /**
+     * The Last Attendance Date of the registrationRequestItem
+     *
+     * @name Last Attendance Date
+     */
+    public Date getLastAttendanceDate();
+
+    /**
      * If the course is full and there is a waitlist, is it okay to be
      * placed in the waitlist for the course.
      *

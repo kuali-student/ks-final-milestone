@@ -20,6 +20,8 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 import org.kuali.student.r2.common.infc.Relationship;
 
+import java.util.Date;
+
 
 /**
  * Course Registration is the consolidated view of the details of a
@@ -98,10 +100,17 @@ public interface CourseRegistration
      * The Id for the Grading Option for which the student
      * registered. Typically, this option should be in the allowable
      * range defined at the CourseOffering or RegistrationGroup.
-     * 
+     *
      * @name Grading Option Id
      * @impl Lpr.ResultValuesGroup consult the ResultValuesGroup Type
      *       for grading system options
      */
     public String getGradingOptionId();
+
+    /**
+     * The Last Attendance Date.
+     *
+     * @name Last Attendance Date
+     */
+    public Date getLastAttendanceDate();
 }

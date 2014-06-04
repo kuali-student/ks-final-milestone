@@ -17,6 +17,7 @@
 package org.kuali.student.enrollment.courseregistration.dto;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -42,9 +43,10 @@ import org.w3c.dom.Element;
         "courseOfferingId", 
         "registrationGroupId", 
         "credits", 
-        "gradingOptionId", 
-        "effectiveDate", 
-        "expirationDate", 
+        "gradingOptionId",
+        "effectiveDate",
+        "lastAttendanceDate",
+        "expirationDate",
         "meta", 
         "attributes", 
         "_futureElements"})
@@ -73,6 +75,9 @@ public class CourseRegistrationInfo
     @XmlElement
     private String gradingOptionId;
 
+    @XmlElement
+    private Date lastAttendanceDate;
+
     @XmlAnyElement
     private List<Element> _futureElements;
 
@@ -99,6 +104,7 @@ public class CourseRegistrationInfo
             this.registrationGroupId = courseRegistration.getRegistrationGroupId();
             this.credits = new KualiDecimal(courseRegistration.getCredits().bigDecimalValue());
             this.gradingOptionId = courseRegistration.getGradingOptionId();
+            this.lastAttendanceDate = courseRegistration.getLastAttendanceDate();
          }
     }
 
@@ -156,5 +162,14 @@ public class CourseRegistrationInfo
 
     public void setGradingOptionId(String gradingOptionId) {
         this.gradingOptionId = gradingOptionId;
+    }
+
+    @Override
+    public Date getLastAttendanceDate() {
+        return lastAttendanceDate;
+    }
+
+    public void setLastAttendanceDate(Date lastAttendanceDate) {
+        this.lastAttendanceDate = lastAttendanceDate;
     }
 }
