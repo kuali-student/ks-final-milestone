@@ -122,7 +122,7 @@ public class TestLuiServiceImpl {
         principalId = "123";
         callContext = new ContextInfo();
         callContext.setPrincipalId(principalId);
-        new LuiTestDataLoader(luiDao, luiLuiRelationDao).loadData();
+        new LuiTestDataLoader(luiDao, luiLuiRelationDao).loadData(callContext);
         luiDao.getEm().flush();
     }
 

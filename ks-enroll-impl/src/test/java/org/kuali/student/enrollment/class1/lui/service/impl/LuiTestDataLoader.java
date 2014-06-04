@@ -1,5 +1,7 @@
 package org.kuali.student.enrollment.class1.lui.service.impl;
 
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
 import org.kuali.student.enrollment.class1.lui.dao.LuiDao;
 import org.kuali.student.enrollment.class1.lui.dao.LuiLuiRelationDao;
 import org.kuali.student.enrollment.class1.lui.model.LuCodeEntity;
@@ -9,6 +11,7 @@ import org.kuali.student.enrollment.class1.lui.model.LuiIdentifierEntity;
 import org.kuali.student.enrollment.class1.lui.model.LuiLuiRelationEntity;
 import org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -19,9 +22,14 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.class1.type.service.TypeService;
+import org.kuali.student.r2.core.constants.TypeServiceConstants;
 
+import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -29,6 +37,7 @@ import java.util.Map;
 
 public class LuiTestDataLoader {
 
+    protected TypeService typeService = null;
 
     public LuiTestDataLoader(LuiDao luiDao, LuiLuiRelationDao luiLuiRelationDao) {
         this.luiDao = luiDao;
@@ -41,10 +50,19 @@ public class LuiTestDataLoader {
 
     private String principalId = LuiTestDataLoader.class.getSimpleName();
 
-    public void loadData() throws DoesNotExistException, InvalidParameterException,
+    public void loadData(ContextInfo callContext) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException,
             DataValidationErrorException, ReadOnlyException, VersionMismatchException,
             AlreadyExistsException, CircularRelationshipException {
+        try {
+            createType(LuiServiceConstants.LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY, "Lui Lui association type",
+                    "Lui Lui association type",
+                    "http://student.kuali.org/wsdl/lui/LuiLuiRelationInfo",callContext);
+        } catch (Exception e) {
+            throw new OperationFailedException("unexpected exception creating lui lui  type-type type: " +
+                    ""+LuiServiceConstants.LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY);
+        }
+
         loadLui("Lui-1", "Lui one", "cluId1", "atpId1", "kuali.lui.type.course.offering", "kuali.lui.state.draft", "Lui Desc 101", 200, 50, "ref.url", "LUI-IDENT-2", "lui_one_official", "Chem 123", "attr1", "attr2");
         loadLui("Lui-2", "Lui rwo", "cluId2", "atpId2", "kuali.lui.type.activity.offering.lecture", "kuali.lui.state.draft", "Lui Desc 201", 200, 50, "ref.url", "LUI-IDENT-3", "lui_two_official", "Phy 123");
         loadLui("Lui-3", "Lui three", "cluId3", "atpId3", "kuali.lui.type.course.offering", "kuali.lui.state.draft", "Lui Desc 301 for deletion", 200, 50, "ref.url", "lui_three_additional", "lui_three_official", "Bio 123");
@@ -177,4 +195,26 @@ public class LuiTestDataLoader {
         }
         return DateFormatters.DEFAULT_YEAR_MONTH_24HOUR_MILLISECONDS_FORMATTER.parse(str);
     }
+    void createType(String typeKey, String typeName, String typeDescription, String refObjectUri,
+            ContextInfo callContext) throws Exception {
+        TypeInfo type = new TypeInfo();
+        type.setKey(typeKey);
+        type.setName(typeName);
+        type.setDescr(new RichTextHelper().fromPlain(typeDescription));
+        type.setRefObjectUri(refObjectUri);
+        type.setEffectiveDate(new Date());
+        getTypeService().createType(type.getKey(), type, callContext);
+    }
+    public TypeService getTypeService() {
+        if(typeService == null){
+            typeService = (TypeService) GlobalResourceLoader.getService(
+                    new QName(TypeServiceConstants.NAMESPACE, TypeServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return typeService;
+    }
+
+    public void setTypeService(TypeService typeService) {
+        this.typeService = typeService;
+    }
+
 }
