@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * Simple object representing pre-processed search data.
  *
- * @see org.kuali.student.ap.coursesearch.controller.CourseSearchController.SessionSearchInfo
+ * @see SessionSearchInfo
  * @see org.kuali.student.ap.coursesearch.CourseSearchItem#getSearchColumns()
  * @see org.kuali.student.ap.coursesearch.CourseSearchItem#getFacetColumns()
  */

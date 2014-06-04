@@ -7,7 +7,7 @@ import java.io.Serializable;
 /**
  * Simple object for tracking facet click/count state.
  *
- * @see org.kuali.student.ap.coursesearch.controller.CourseSearchController.SessionSearchInfo
+ * @see SessionSearchInfo
  */
 public class FacetState implements Serializable {
     private static final long serialVersionUID = 1719950239861974273L;
