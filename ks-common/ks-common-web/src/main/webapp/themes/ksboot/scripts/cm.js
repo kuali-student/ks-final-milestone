@@ -859,7 +859,7 @@ function updateCapturedComment(fieldId) {
 
 function deleteExistingComment(index) {
     var id = jQuery('#comments-StackedSection').find('span')[index].innerText;
-    jQuery('#CaptureCommentsTextArea_control').val(id);
+    jQuery('#CaptureCommentIDTextArea_control').val(id);
 }
 
 function showEditCommentWidget(index) {
