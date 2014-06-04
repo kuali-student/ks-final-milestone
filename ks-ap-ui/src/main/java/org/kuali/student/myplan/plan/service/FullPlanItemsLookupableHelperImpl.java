@@ -92,7 +92,7 @@ public class FullPlanItemsLookupableHelperImpl extends
             for (int j = 0; j < numberOfTerms; j++){
                 PlannedTerm pluckedTerm=null;
                 if(perfectPlannedTerms.size()>0){
-                    pluckedTerm = perfectPlannedTerms.get(0);
+                    pluckedTerm = getFirstPlannedTermInList(perfectPlannedTerms);
                     if (startYear==null) {
                         startYear = getStartYearOfAcadYearHavingTerm(pluckedTerm.getAtpId());
                         endYear=getEndYearOfAcadYearHavingTerm(pluckedTerm.getAtpId());
@@ -132,6 +132,14 @@ public class FullPlanItemsLookupableHelperImpl extends
 		}
 		return fullPlanItemsDataObjectList;
 	}
+
+    private PlannedTerm getFirstPlannedTermInList(List<PlannedTerm> perfectPlannedTerms) {
+        for (PlannedTerm term : perfectPlannedTerms) {
+            return term;
+        }
+        return null;
+    }
+
     private YearTerm getEndYearOfAcadYearHavingTerm(String termAtpId) {
         YearTerm startYear=getStartYearOfAcadYearHavingTerm(termAtpId);
         YearTerm endYear=null;
