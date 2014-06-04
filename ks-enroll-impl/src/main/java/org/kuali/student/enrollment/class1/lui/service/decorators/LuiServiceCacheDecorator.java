@@ -167,7 +167,7 @@ public class LuiServiceCacheDecorator extends LuiServiceDecorator {
                 result.add(this.getLuiLuiRelation(relationdId, context));
             }
         } catch (DoesNotExistException e) {
-            throw new OperationFailedException();
+            throw new OperationFailedException(e);
         }
         return result;
     }
