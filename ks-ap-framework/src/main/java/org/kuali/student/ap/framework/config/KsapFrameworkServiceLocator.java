@@ -1,8 +1,9 @@
 package org.kuali.student.ap.framework.config;
 
-import javax.ejb.EJB;
-
 import org.kuali.rice.krms.api.repository.RuleManagementService;
+import org.kuali.student.ap.academicplan.service.AcademicPlanService;
+import org.kuali.student.ap.coursesearch.CourseFacetStrategy;
+import org.kuali.student.ap.coursesearch.CourseSearchStrategy;
 import org.kuali.student.ap.framework.context.CourseHelper;
 import org.kuali.student.ap.framework.context.EnrollmentStatusHelper;
 import org.kuali.student.ap.framework.context.EnumerationHelper;
@@ -13,18 +14,16 @@ import org.kuali.student.ap.framework.context.ShoppingCartHelper;
 import org.kuali.student.ap.framework.context.TermHelper;
 import org.kuali.student.ap.framework.context.TextHelper;
 import org.kuali.student.ap.framework.context.UserSessionHelper;
-import org.kuali.student.ap.coursesearch.CourseSearchStrategy;
 import org.kuali.student.ap.plannerreview.LearningPlanReviewStrategy;
 import org.kuali.student.ap.schedulebuilder.ScheduleBuildStrategy;
 import org.kuali.student.ap.schedulebuilder.ShoppingCartStrategy;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
+import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
-import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
-import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.lui.service.LuiService;
-import org.kuali.student.ap.academicplan.service.AcademicPlanService;
 import org.kuali.student.r2.common.messages.service.MessageService;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.comment.service.CommentService;
@@ -34,6 +33,8 @@ import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.program.service.ProgramService;
+
+import javax.ejb.EJB;
 
 
 /**
@@ -341,6 +342,14 @@ public final class KsapFrameworkServiceLocator {
         return getInstance().learningPlanReviewStrategy;
     }
 
+    /**
+     * Get the course facet strategy
+     * @return The course facet strategy
+     */
+    public static CourseFacetStrategy getCourseFacetStrategy() {
+        return getInstance().courseFacetStrategy;
+    }
+
     public void setAtpService(AtpService atpService) {
         getInstance().atpService = atpService;
     }
@@ -472,7 +481,11 @@ public final class KsapFrameworkServiceLocator {
 
     public void setScheduleBuildStrategy(ScheduleBuildStrategy scheduleBuildStrategy) {
         getInstance().scheduleBuildStrategy = scheduleBuildStrategy;
-    }    
+    }
+
+    public void setCourseFacetStrategy(CourseFacetStrategy courseFacetStrategy) {
+        getInstance().courseFacetStrategy = courseFacetStrategy;
+    }
 
 	@EJB
 	private transient AtpService atpService;
@@ -547,6 +560,9 @@ public final class KsapFrameworkServiceLocator {
     @OptionalResource
     @EJB
     private transient ShoppingCartStrategy shoppingCartStrategy;
+
+    @EJB
+    private transient CourseFacetStrategy courseFacetStrategy;
 
 	private KsapFrameworkServiceLocator() {
 	}

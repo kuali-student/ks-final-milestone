@@ -16,9 +16,12 @@
 
     <bean id="queryTokenizer" class="org.kuali.student.ap.coursesearch.controller.QueryTokenizerImpl" />
 
+    <bean id="courseFacetStrategy" class="org.kuali.student.ap.coursesearch.controller.CourseFacetStrategyImpl" />
+
     <!-- Setting the courseSearchStrategy in the KsapFrameworkServiceLocator since we couldn't do it in ks-ap-no-tx-context.xml -->
     <bean class="org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator" factory-method="getInstance">
         <property name="courseSearchStrategy" ref="courseSearchStrategy"/>
+        <property name="courseFacetStrategy" ref="courseFacetStrategy"/>
     </bean>
 
     <import resource="classpath:ksb/ks-ap-no-tx-context.xml" />
