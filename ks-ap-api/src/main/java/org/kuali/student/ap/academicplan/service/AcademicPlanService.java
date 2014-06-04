@@ -362,6 +362,7 @@ public interface AcademicPlanService {
 
     /**
      * validate the passed in plan item
+     *
      * @param validationType must be one of: "FULL_VALIDATION", "SKIP_REQUREDNESS_VALIDATIONS", see: DataDictionaryValidator
      * @param planItemInfo the learning plan item to be validated
      * @param context service call context, including: date-time of call, id of user executing the call
@@ -376,6 +377,5 @@ public interface AcademicPlanService {
             @WebParam(name = "planItemInfo") PlanItemInfo planItemInfo,
             @WebParam(name = "context") ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-                   OperationFailedException,
-                   AlreadyExistsException, PermissionDeniedException;
+                   OperationFailedException, PermissionDeniedException;
 }
