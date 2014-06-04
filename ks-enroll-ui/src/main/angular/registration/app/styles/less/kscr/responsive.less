@@ -1,9 +1,11 @@
 .kscr-Responsive-maincontent {
   display: flex; /*Uset to display child elements (schedule and cart) side by side in a flexible way*/
+  height: 100%;
 }
 
 .kscr-Responsive-scheduleWrapper {
   flex: 1;
+  background-color: @sectionColor;
 }
 
 .kscr-Responsive-schedule {
@@ -13,6 +15,7 @@
 
 .kscr-Responsive-mycart {
   width: 320px; /*fixed width for cart*/
+  background-color:  @sectionColor;
 }
 
 .kscr-Responsive-registered {
@@ -45,6 +48,10 @@
   .kscr-Responsive-schedule {
     flex-direction: column; /* items appear vertically stacked*/
   }
+
+  .kscr-MainHeading-header {
+      text-align: center;
+  }
 }
 
 @media screen and (max-width: 660px) {
@@ -72,6 +79,11 @@
   .kscr-Responsive-logout {
     display: none; /* hide the logout button if the menu is present */
   }
+
+  .kscr-MainHeading-stickyHeader {
+        display: none;
+  }
+
 }
 
 @media screen and (min-width: 660px) {
@@ -101,5 +113,21 @@
 
     .kscr-MainHeading-header {
         width: 100%; // this will properly center the heading of the schedule & cart in large format
+        text-align: left;
     }
+
+    .kscr-Responsive-scheduleWrapper {
+        margin-top: 6px;
+        height: 100%;
+    }
+
+    .kscr-Responsive-mycart {
+        margin-top: 6px;
+        margin-left: 6px;
+    }
+
+    .kscr-Responsive-mycart .kscr-MainHeading-icons  {
+        display: none;
+    }
+
 }
