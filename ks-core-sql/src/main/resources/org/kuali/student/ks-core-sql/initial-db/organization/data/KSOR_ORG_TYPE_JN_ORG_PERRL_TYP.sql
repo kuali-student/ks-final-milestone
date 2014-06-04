@@ -1,0 +1,11 @@
+TRUNCATE TABLE KSOR_ORG_TYPE_JN_ORG_PERRL_TYP DROP STORAGE
+/
+INSERT INTO KSOR_ORG_TYPE_JN_ORG_PERRL_TYP (ORG_PERS_RELTN_TYPE_ID,ORG_TYPE_ID)
+  VALUES ('kuali.org.PersonRelation.Professor','kuali.org.Department')
+/
+INSERT INTO KSOR_ORG_TYPE_JN_ORG_PERRL_TYP (ORG_PERS_RELTN_TYPE_ID,ORG_TYPE_ID)
+  VALUES ('kuali.org.PersonRelation.Head','kuali.org.School')
+/
+INSERT INTO KSOR_ORG_TYPE_JN_ORG_PERRL_TYP (ORG_PERS_RELTN_TYPE_ID,ORG_TYPE_ID)
+  VALUES ('kuali.org.PersonRelation.Professor','kuali.org.School')
+/

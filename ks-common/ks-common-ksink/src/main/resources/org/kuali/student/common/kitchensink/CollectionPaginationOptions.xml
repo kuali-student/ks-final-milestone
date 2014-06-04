@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright 2006-2011 The Kuali Foundation
+  ~
+  ~ Licensed under the Educational Community License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.opensource.org/licenses/ecl2.php
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <!--Here is the main page-->
+
+    <bean id="KS-KitchenSink-CollectionPaginationOptions-View-Base" parent="KS-KitchenSink-FormView" />
+
+    <!--Tables to demo pagination-->
+
+    <bean id="KS-KitchenSink-CollectionPaginationOptions-NoPaging" parent="KS-KitchenSink-Collection-Base">
+        <!-- KS-KitchenSink-Collection-Base is in KitchenSinkView.xml; parent="Uif-TableCollectionSection" -->
+        <property name="layoutManager.richTable">
+            <!-- see http://datatables.net/ref for all options -->
+            <bean parent="KS-Uif-PagedRichTable">
+                <property name="templateOptions">
+                    <map merge="true">
+                        <entry key="bPaginate" value="false"/>
+                    </map>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-CollectionPaginationOptions-FullNumberPaging" parent="KS-KitchenSink-Collection-Base">
+        <!-- KS-KitchenSink-Collection-Base is in KitchenSinkView.xml; parent="Uif-TableCollectionSection" -->
+        <property name="layoutManager.richTable">
+            <!-- see http://datatables.net/ref for all options -->
+            <bean parent="KS-Uif-PagedRichTable" />
+        </property>
+    </bean>
+    <bean id="KS-KitchenSink-CollectionPaginationOptions-FullNumberCurrentPagePaging" parent="KS-KitchenSink-Collection-Base">
+        <!-- KS-KitchenSink-Collection-Base is in KitchenSinkView.xml; parent="Uif-TableCollectionSection" -->
+        <property name="layoutManager.richTable">
+            <!-- see http://datatables.net/ref for all options -->
+            <bean parent="KS-Uif-PagedRichTable" />
+        </property>
+    </bean>
+    <bean id="KS-KitchenSink-CollectionPaginationOptions-FullNumberCurrentPageNoFirstLastPaging"
+          parent="KS-KitchenSink-Collection-Base"
+          p:additionalCssClasses="pagination-hide-first-last">
+        <!-- KS-KitchenSink-Collection-Base is in KitchenSinkView.xml; parent="Uif-TableCollectionSection" -->
+        <property name="layoutManager.richTable">
+            <!-- see http://datatables.net/ref for all options -->
+            <bean parent="KS-Uif-PagedRichTable" />
+        </property>
+    </bean>
+
+    <!--View for tables-->
+
+    <bean id="KS-KitchenSink-CollectionPaginationOptions-View" parent="KS-KitchenSink-CollectionPaginationOptions-View-Base">
+        <property name="headerText" value="Collection Pagination"/>
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-Page" p:headerText="Pagination Options">
+                    <property name="items">
+                        <list>
+                            <bean parent="KS-KitchenSink-Page-Summary">
+                                <property name="messageText">
+                                    <value>
+                                        Options for paginating data in Collections
+                                    </value>
+                                </property>
+                            </bean>
+                            <ref bean="KS-KitchenSink-CollectionPaginationOptions-Content"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!--Container for tables-->
+
+    <bean id="KS-KitchenSink-CollectionPaginationOptions-Content" parent="KS-KitchenSink-VerticalBoxSection-Contents">
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-CollectionPaginationOptions-NoPaging-Section" />
+
+                <bean parent="KS-KitchenSink-CollectionPaginationOptions-FullNumberCurrentPagePaging-Section" />
+
+                <bean parent="KS-KitchenSink-CollectionPaginationOptions-FullNumberCurrentPageNoFirstLastPaging-Section" />
+            </list>
+        </property>
+    </bean>
+
+    <!--Descriptive content for each table-->
+
+    <bean id="KS-KitchenSink-CollectionPaginationOptions-NoPaging-Section" parent="Uif-VerticalBoxSection"
+          p:headerText="No Paging." p:header.render="true">
+        <property name="items">
+            <list>
+                <ref bean="KS-KitchenSink-CollectionPaginationOptions-NoPaging"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="KS-KitchenSink-CollectionPaginationOptions-FullNumberCurrentPagePaging-Section" parent="Uif-VerticalBoxSection"
+          p:headerText="Full Number paging" p:header.render="true">
+        <property name="items">
+            <list>
+                <ref bean="KS-KitchenSink-CollectionPaginationOptions-FullNumberCurrentPagePaging"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="KS-KitchenSink-CollectionPaginationOptions-FullNumberCurrentPageNoFirstLastPaging-Section" parent="Uif-VerticalBoxSection"
+          p:headerText="Full Number paging with no first/last buttons" p:header.render="true">
+        <property name="items">
+            <list>
+                <ref bean="KS-KitchenSink-CollectionPaginationOptions-FullNumberCurrentPageNoFirstLastPaging"/>
+            </list>
+        </property>
+    </bean>
+</beans>

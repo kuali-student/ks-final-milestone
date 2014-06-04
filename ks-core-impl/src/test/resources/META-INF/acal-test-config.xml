@@ -1,0 +1,5 @@
+<config>
+    <!-- Instructional days have a system default set here. It can be individually overridden per term via the term type attributes -->
+    <!-- MTWHF equates to Mon->Friday. The full week would be MTWHFSU-->
+    <param name="kuali.ks.core.academiccalendar.instructionalDaysDefault">MTWHF</param>
+</config>

@@ -1,0 +1,25 @@
+/* KS uif-modals.less overrides and additional styles found in ks-uif-modals.less */
+
+// Override background from #F9F9F9; defined in uif-modals.less
+.fancybox-skin{
+  background: white;
+}
+
+// Adding the padding to the popup dialogs
+.fancybox-outer, .fancybox-inner {
+  padding: 5px;
+}
+
+// Header styling per https://jira.kuali.org/browse/KSENROLL-12890 for content in iFrame and not in iFrame
+.ks-iframe .uif-viewHeader .uif-headerText, .fancybox-inner .uif-viewHeader .uif-headerText {
+  border-bottom: 1px solid #c5c5c5;
+  margin: 15px 0;
+}
+
+.ks-iframe .uif-viewHeader h1.uif-headerText, .fancybox-inner .uif-viewHeader h1.uif-headerText {
+  padding: 0 0 15px 0;
+}
+
+.uif-lightbox {
+    max-width: 100%;
+}
