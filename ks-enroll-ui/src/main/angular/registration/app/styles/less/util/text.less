@@ -1,12 +1,26 @@
 
 .util-Text--center{
-  text-align:center;
+    text-align:center;
 }
 
 .util-Text--left{
-  text-align:left;
+    text-align:left;
 }
 
 .util-Text--right{
-  text-align:right;
+    text-align:right;
+}
+
+
+.util-Text-highlight {
+    background-color: @highlightColor;
+}
+
+.util-Text-highlight--withPadding(@hPadding, @vPadding) {
+    .util-Text-highlight;
+
+    box-shadow: -@hPadding -@vPadding 0 0 @highlightColor,
+                -@hPadding @vPadding 0 0 @highlightColor,
+                @hPadding -@vPadding 0 0 @highlightColor,
+                @hPadding @vPadding 0 0 @highlightColor;
 }
