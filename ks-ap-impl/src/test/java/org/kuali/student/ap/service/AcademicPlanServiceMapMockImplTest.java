@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
 import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
+import org.kuali.student.ap.academicplan.service.AcademicPlanService;
 import org.kuali.student.ap.academicplan.service.AcademicPlanServiceDecorator;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.support.DefaultKsapContext;
@@ -20,13 +21,12 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.lum.clu.CLUConstants;
+import org.kuali.student.r2.lum.course.service.impl.CourseServiceMapImpl;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -48,6 +48,7 @@ public class AcademicPlanServiceMapMockImplTest extends TestAcademicPlanServiceI
 
 
     private final AcademicPlanServiceTstHelper testHelper = new AcademicPlanServiceTstHelper();
+    private AcademicPlanService nonDecoratedMockService;
 
     @Before
     public void setUp() throws Exception {
@@ -58,17 +59,20 @@ public class AcademicPlanServiceMapMockImplTest extends TestAcademicPlanServiceI
         contextInfo.setPrincipalId(principalId);
 
         testHelper.createKsapTypes();
+        testHelper.createMockCourses();
 
-        testServiceNoValidator=testService;
-        while (testServiceNoValidator!=null &&
-                !(testServiceNoValidator instanceof AcademicPlanServiceMockImpl)) {
-            testServiceNoValidator = ((AcademicPlanServiceDecorator)testService).getNextDecorator();
+
+
+        nonDecoratedMockService =testService;
+        while (nonDecoratedMockService !=null &&
+                !(nonDecoratedMockService instanceof AcademicPlanServiceMockImpl)) {
+            nonDecoratedMockService = ((AcademicPlanServiceDecorator)testService).getNextDecorator();
         }
 
         //Load Test Plans/Items
         AcademicPlanDataLoader loader = new AcademicPlanDataLoader();
         loader.setContextInfo(contextInfo);
-        loader.setPlanService(testServiceNoValidator);
+        loader.setPlanService(testService);
         loader.load();
 
         contextInfo.setPrincipalId(principalId); //reset context principalId...after loading plans
@@ -76,6 +80,8 @@ public class AcademicPlanServiceMapMockImplTest extends TestAcademicPlanServiceI
 
     @After
     public void tearDown() {
+        ((AcademicPlanServiceMockImpl) nonDecoratedMockService).clear();
+        ((CourseServiceMapImpl)KsapFrameworkServiceLocator.getCourseService()).clear();
         DefaultKsapContext.after();
     }
 
@@ -128,12 +134,9 @@ public class AcademicPlanServiceMapMockImplTest extends TestAcademicPlanServiceI
             KsapFrameworkServiceLocator.getAcademicPlanService().createPlanItem(planItem,
                     KsapFrameworkServiceLocator.getContext().getContextInfo());
             fail("DataValidationErrorException should have been thrown");
-        } catch (DataValidationErrorException dvee) {
-            dvee.printStackTrace();
-            assertTrue("validation messages should not be empty", !dvee.getValidationResults().isEmpty());
-            ValidationResultInfo resultInfo = dvee.getValidationResults().get(0);
-            assertEquals("refObjectType", resultInfo.getElement());
-            assertEquals("error.required", resultInfo.getMessage());
+        } catch (InvalidParameterException exc) {
+            exc.printStackTrace();
+            assertTrue(exc.getMessage().startsWith("Invalid item reference object type"));
         }
     }
 

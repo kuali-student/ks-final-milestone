@@ -52,69 +52,69 @@ public class AcademicPlanDataLoader {
     }
 
     public void load() {
-        loadPlan("lp1", "0", "student1", "kuali.academicplan.type.plan", "student1", "2012-01-01 00:00:00.0",
+        loadPlan("lp1", "0", "student1", AcademicPlanServiceConstants.LEARNING_PLAN_TYPE_PLAN, "student1", "2012-01-01 00:00:00.0",
                 "<p>Student 1 Learning Plan 1</p>",  "Student 1 Learning Plan 1", "lp1 plan name");
-        loadPlan("lp2", "0", "student1", "kuali.academicplan.type.plan", "student1", "2012-02-01 00:00:00.0",
+        loadPlan("lp2", "0", "student1", AcademicPlanServiceConstants.LEARNING_PLAN_TYPE_PLAN, "student1", "2012-02-01 00:00:00.0",
                 "<p>Student 1 Learning Plan 2</p>",  "Student 1 Learning Plan 2","plan2 name");
-        loadPlan("lp3", "0", "student2", "kuali.academicplan.type.plan", "student2", "2012-01-02 00:00:00.0", 
+        loadPlan("lp3", "0", "student2", AcademicPlanServiceConstants.LEARNING_PLAN_TYPE_PLAN, "student2", "2012-01-02 00:00:00.0", 
                 "<p>Student 2 Learning Plan 3</p>",  "Student 2 Learning Plan 3","plan3 name");
-        loadPlan("lp4", "0", "student2", "kuali.academicplan.type.plan", "student2", "2012-02-03 00:00:00.0",
+        loadPlan("lp4", "0", "student2", AcademicPlanServiceConstants.LEARNING_PLAN_TYPE_PLAN, "student2", "2012-02-03 00:00:00.0",
                 "<p>Student 2 Learning Plan 4</p>",  "Student 2 Learning Plan 4","plan4 name");
 
-        loadItem("lp1-i1", "0", "006476b5-18d8-4830-bbb6-2bb9e79600fb","kuali.lu.type.CreditCourse",
-                "kuali.academicplan.type.item.course", AcademicPlanServiceConstants.ItemCategory.WISHLIST, "lp1",
+        loadItem("lp1-i1", "0", "ENGL101",CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY,
+                AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE, AcademicPlanServiceConstants.ItemCategory.WISHLIST, "lp1",
                 "student1", "2012-01-01 00:00:00.0", "<p>Comment 1</p>",  "Comment 1", "lp1-i1 name","");
 
-        loadItem("lp1-i1.x", "0", "006476b5-18d8-4830-bbb6-2bb9e79600fb", "kuali.lu.type.NonCreditCourse",
-                "kuali.academicplan.type.item.course", AcademicPlanServiceConstants.ItemCategory.WISHLIST, "lp1",
+        loadItem("lp1-i1.x", "0", "CHEM131", CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY,
+                AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE, AcademicPlanServiceConstants.ItemCategory.WISHLIST, "lp1",
                 "student1", "2012-01-01 00:00:00.0","<p>Comment 1.x</p>",  "Comment 1.x", "lp1-i1.x name","");
-        loadItem("lp1-i2", "0", "008d8bea-d63d-43fc-8a77-e52634202f6e", "kuali.lu.type.CreditCourse", 
-                "kuali.academicplan.type.item.course", AcademicPlanServiceConstants.ItemCategory.WISHLIST, "lp1",
+        loadItem("lp1-i2", "0", "BSCI121", CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY,
+                AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE, AcademicPlanServiceConstants.ItemCategory.WISHLIST, "lp1",
                 "student1", "2012-01-01 00:00:00.0","","","","");
-        loadItem("lp1-i3", "0", "00ac5436-7014-4d54-95d6-98a6aeaa70c7", "kuali.lu.type.CreditCourse", 
-                "kuali.academicplan.type.item.course", AcademicPlanServiceConstants.ItemCategory.WISHLIST, "lp1",
+        loadItem("lp1-i3", "0", "BSCI122", CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY,
+                AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE, AcademicPlanServiceConstants.ItemCategory.WISHLIST, "lp1",
                 "student1", "2012-01-01 00:00:00.0","","","","");
-        loadItem("lp1-i4", "0", "00ee833d-f4d6-4aca-b40f-8f80854f8cb3", "kuali.lu.type.CreditCourse",
-                "kuali.academicplan.type.item.course", AcademicPlanServiceConstants.ItemCategory.PLANNED, "lp1",
+        loadItem("lp1-i4", "0", "ENGL205", CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY,
+                AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE, AcademicPlanServiceConstants.ItemCategory.PLANNED, "lp1",
                 "student1", "2012-01-01 00:00:00.0","","","","testTermId3");
 
         List<String> termIds = new ArrayList<String>() {{add("testTermId1");add("testTermId2");}};
-        loadItem("lp1-i5", "0", "0005df5d-82e9-4663-8440-aee5ad8046d4", "kuali.lu.type.CreditCourse",
-                "kuali.academicplan.type.item.course", AcademicPlanServiceConstants.ItemCategory.PLANNED, "lp1",
+        loadItem("lp1-i5", "0", "BSCI123", CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY,
+                AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE, AcademicPlanServiceConstants.ItemCategory.PLANNED, "lp1",
                 "student1", "2012-01-01 00:00:00.0","","","",termIds);
-        loadItem("lp1-i7", "0", "0005df5d-82e9-4663-8440-aee5ad8046d4", "kuali.lu.type.CreditCourse",
-                "kuali.academicplan.type.item.course", AcademicPlanServiceConstants.ItemCategory.BACKUP, "lp1",
-                "student1", "2012-01-01 00:00:00.0","","","","");
+        loadItem("lp1-i7", "0", "BSCI123", CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY,
+                AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE, AcademicPlanServiceConstants.ItemCategory.BACKUP, "lp1",
+                "student1", "2012-01-01 00:00:00.0","","","","testTermId3");
 
         termIds = new ArrayList<String>() {{add("testTermId1");add("testTermId2");add("testTermId3");}};
-        loadItem("lp1-i6", "0", "00edd03d-d7c0-4151-b7f0-8977951c75bd", "kuali.lu.type.CreditCourse",
-                "kuali.academicplan.type.item.course", AcademicPlanServiceConstants.ItemCategory.PLANNED, "lp1",
+        loadItem("lp1-i6", "0", "ENGL206", CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY,
+                AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE, AcademicPlanServiceConstants.ItemCategory.PLANNED, "lp1",
                 "student1", "2012-01-01 00:00:00.0", "<p>Very Important</p>",  "Very Important","lp1-i6 name",termIds);
-        loadItem("lp2-i1", "0", "00b3683b-fd14-4771-af6c-3c69a43f4592", "kuali.lu.type.CreditCourse", 
-                "kuali.academicplan.type.item.course", AcademicPlanServiceConstants.ItemCategory.PLANNED, "lp2",
-                "student1", "2012-01-01 00:00:00.0","","","","");
-        loadItem("lp2-i2", "0", "00a4c70c-051c-42f9-b45e-6488986a374d", "kuali.lu.type.CreditCourse", 
-                "kuali.academicplan.type.item.course", AcademicPlanServiceConstants.ItemCategory.PLANNED, "lp2",
-                "student1", "2012-01-01 00:00:00.0","","","","");
-        loadItem("lp2-i3", "0", "015f969b-9c18-4938-bcad-39c8a51f230d", "kuali.lu.type.CreditCourse", 
-                "kuali.academicplan.type.item.course", AcademicPlanServiceConstants.ItemCategory.PLANNED, "lp2",
-                "student1", "2012-01-01 00:00:00.0","","","","");
-        loadItem("lp3-i1", "0", "012cc945-7fa1-4df0-9124-8913f250eaf6", "kuali.lu.type.CreditCourse", 
-                "kuali.academicplan.type.item.course", AcademicPlanServiceConstants.ItemCategory.WISHLIST, "lp3",
+        loadItem("lp2-i1", "0", "CHEM131", CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY,
+                AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE, AcademicPlanServiceConstants.ItemCategory.PLANNED, "lp2",
+                "student1", "2012-01-01 00:00:00.0","","","","testTermId3");
+        loadItem("lp2-i2", "0", "BSCI121", CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY,
+                AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE, AcademicPlanServiceConstants.ItemCategory.PLANNED, "lp2",
+                "student1", "2012-01-01 00:00:00.0","","","","testTermId3");
+        loadItem("lp2-i3", "0", "BSCI122", CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY,
+                AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE, AcademicPlanServiceConstants.ItemCategory.PLANNED, "lp2",
+                "student1", "2012-01-01 00:00:00.0","","","","testTermId3");
+        loadItem("lp3-i1", "0", "ENGL101", CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY,
+                AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE, AcademicPlanServiceConstants.ItemCategory.WISHLIST, "lp3",
                 "student2", "2012-01-01 00:00:00.0","","","","");
-        loadItem("lp3-i2", "0", "008739f0-8e62-4f98-88d1-30e6ac779b11", "kuali.lu.type.CreditCourse", 
-                "kuali.academicplan.type.item.course", AcademicPlanServiceConstants.ItemCategory.WISHLIST, "lp3",
+        loadItem("lp3-i2", "0", "CHEM131", CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY,
+                AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE, AcademicPlanServiceConstants.ItemCategory.WISHLIST, "lp3",
                 "student2", "2012-01-01 00:00:00.0","<p>Maybe Spring 13</p>",  "Maybe Spring 13", "lp3-i3 name","");
-        loadItem("lp3-i3", "0", "0131b128-d2dd-47f5-bdc0-3950b81f00e9", "kuali.lu.type.CreditCourse", 
-                "kuali.academicplan.type.item.course", AcademicPlanServiceConstants.ItemCategory.WISHLIST, "lp3",
+        loadItem("lp3-i3", "0", "BSCI121", CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY,
+                AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE, AcademicPlanServiceConstants.ItemCategory.WISHLIST, "lp3",
                 "student2", "2012-01-01 00:00:00.0","","","","");
-        loadItem("lp4-i1", "0", "0099ce3a-0fe8-4586-96b6-c42f6db7c11e", "kuali.lu.type.CreditCourse", 
-                "kuali.academicplan.type.item.course", AcademicPlanServiceConstants.ItemCategory.WHATIF, "lp4",
+        loadItem("lp4-i1", "0", "ENGL101", CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY,
+                AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE, AcademicPlanServiceConstants.ItemCategory.WHATIF, "lp4",
                 "student2", "2012-01-01 00:00:00.0","<p>Comment 2</p>",  "Comment 2", "lp4-i2 name","");
 
         termIds = new ArrayList<String>() {{add("testTermId1");add("testTermId3");}};
-        loadItem("lp4-i2", "0", "02711400-c66d-4ecb-aca5-565118f167cf", "kuali.lu.type.CreditCourse",
-                "kuali.academicplan.type.item.course", AcademicPlanServiceConstants.ItemCategory.PLANNED, "lp4",
+        loadItem("lp4-i2", "0", "BSCI122", CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY,
+                AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE, AcademicPlanServiceConstants.ItemCategory.PLANNED, "lp4",
                 "student2", "2012-01-01 00:00:00.0","","","",termIds);
     }
 
@@ -147,7 +147,7 @@ public class AcademicPlanDataLoader {
             AcademicPlanServiceConstants.ItemCategory category, String planId, String createdById, String createTime, String descrPlain,
             String descrFormatted, String Name, String termId) {
         List<String> termIdList = new ArrayList<String>();
-        if (!StringUtils.isNotEmpty(termId )) {
+        if (StringUtils.isNotEmpty(termId )) {
             termIdList.add(termId);
         }
         return this.loadItem(id, version,  refObjectId,  refObjectType,  itemType, category,  planId,  createdById,  createTime,  descrPlain,

@@ -30,7 +30,7 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.RichTextHelper;
-import org.springframework.test.context.ContextConfiguration;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
@@ -133,15 +133,15 @@ public abstract class TestAcademicPlanServiceImplConformanceExtendedCrud extends
 	*/
 	public void testCrudPlanItem_setDTOFieldsForTestCreate(PlanItemInfo expected) 
 	{
-		expected.setRefObjectId("refObjectId01");
-		expected.setRefObjectType("refObjectType01");
+		expected.setRefObjectId("ENGL101");
+		expected.setRefObjectType(CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY);
         List<String> planTermIds= new ArrayList<String>();
         planTermIds.add("planTermId01");
         planTermIds.add("planTermid02");
 		expected.setPlanTermIds(planTermIds);
         expected.setCredit(new BigDecimal("3.10"));
 		expected.setCategory(AcademicPlanServiceConstants.ItemCategory.PLANNED);
-		expected.setTypeKey("typeKey01");
+		expected.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE);
 		expected.setStateKey("stateKey01");
         expected.setName("item name 01");
 		expected.setDescr(RichTextHelper.buildRichTextInfo("descr01", "<span>descr01</span>"));
@@ -174,13 +174,13 @@ public abstract class TestAcademicPlanServiceImplConformanceExtendedCrud extends
 	*/
 	public void testCrudPlanItem_setDTOFieldsForTestUpdate(PlanItemInfo expected) 
 	{
-		expected.setRefObjectId("refObjectId_Updated");
-		expected.setRefObjectType("refObjectType_Updated");
+		expected.setRefObjectId("CHEM131");
+        expected.setRefObjectType(CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY);
         expected.getPlanTermIds().remove("planTermId01");
         expected.getPlanTermIds().add("planTermId03");
-		expected.setCredit(new BigDecimal("4.10"));
+		expected.setCredit(new BigDecimal("4.00"));
         expected.setCategory(AcademicPlanServiceConstants.ItemCategory.BACKUP);
-		expected.setStateKey("stateKey_Updated");
+		expected.setStateKey("stateKeyUpdated");
         expected.setName("item name 01  updated");
 		expected.setDescr(RichTextHelper.buildRichTextInfo("descr_Updated", "<span>descr_Updated</span>"));
 	}
@@ -212,12 +212,12 @@ public abstract class TestAcademicPlanServiceImplConformanceExtendedCrud extends
 	*/
 	public void testCrudPlanItem_setDTOFieldsForTestReadAfterUpdate(PlanItemInfo expected) 
 	{
-		expected.setRefObjectId("refObjectId_Updated");
-		expected.setRefObjectType("refObjectType_Updated");
+        expected.setRefObjectId("CHEM131");
+        expected.setRefObjectType(CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY);
 		expected.setLearningPlanId("learningPlanId_Updated");
         expected.getPlanTermIds().add("planTermId02");
         expected.getPlanTermIds().add("planTermId03");
-        expected.setCredit(new BigDecimal("4.10"));
+        expected.setCredit(new BigDecimal("4.00"));
         expected.setName("item name 01 updated again");
         expected.setDescr(RichTextHelper.buildRichTextInfo("descr_Updated2", "<span>descr_Updated2</span>"));
         expected.setCategory(AcademicPlanServiceConstants.ItemCategory.BACKUP);

@@ -10,7 +10,20 @@
           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
 
-    <import resource="classpath:ks-ap-test-context2.xml"/>
+	<!-- Copy per-module to src/test/resources
+		
+		This context file builds the Kuali Rice container, then bootstraps
+		KS services required by KSAP. Further KSAP configuration belongs in
+		
+		src/test/resources/META-INF/ks-ap/ap-test-context.xml
+		
+		/mwfyffe 2012-12-16
+	-->
 
-    <bean id="academicPlanServiceImpl" class="org.kuali.student.ap.service.mock.AcademicPlanServiceMockImpl"/>
+    <import resource="classpath:ks-ap-test-context.xml"/>
+
+    <!--Add dumb TermHelperMock to support AcademicPlanServiceTest-->
+    <bean id="ksapTermHelper" class="org.kuali.student.ap.test.mock.TermHelperMockTest" />
+
+
 </beans>

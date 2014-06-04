@@ -285,7 +285,10 @@ public class AcademicCalendarServiceMockTest implements AcademicCalendarService{
 
     @Override
     public TermInfo getTerm(@WebParam(name = "termId") String termId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        //For now...just return emtpy turn w/ passed in termId....to suuport academicPlanServiceImplTest
+        TermInfo term = new TermInfo();
+        term.setId(termId);
+        return term;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override

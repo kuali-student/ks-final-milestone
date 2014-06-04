@@ -2,6 +2,7 @@ package org.kuali.student.ap.test.mock;
 
 import org.kuali.student.ap.framework.context.TermHelper;
 import org.kuali.student.ap.framework.context.YearTerm;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.infc.AcademicCalendar;
 import org.kuali.student.r2.core.acal.infc.Term;
 
@@ -41,7 +42,10 @@ public class TermHelperMockTest implements TermHelper {
      */
     @Override
     public Term getTerm(String atpId) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        //return a mockTerm for the given atpId ...to simply support AcademicPlanServiceImplTest
+        TermInfo mockTerm = new TermInfo();
+        mockTerm.setId(atpId);
+        return mockTerm;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     /**

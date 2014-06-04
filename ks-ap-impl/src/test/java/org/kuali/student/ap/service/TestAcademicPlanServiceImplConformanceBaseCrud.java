@@ -69,7 +69,6 @@ public abstract class TestAcademicPlanServiceImplConformanceBaseCrud {
     //Get service without the validation decorator
     // ...for some test cases to avoid courseId validation....
     // ....until we can implement a mapImpl for the CourseService
-    AcademicPlanService testServiceNoValidator;
 
     public AcademicPlanService getAcademicPlanService() { return testService; }
 	public void setAcademicPlanService(AcademicPlanService service) { testService = service; }
@@ -339,7 +338,7 @@ public abstract class TestAcademicPlanServiceImplConformanceBaseCrud {
             PlanItemInfo expected = new PlanItemInfo (planItem);
 
             // code to create actual
-			PlanItemInfo actual = testServiceNoValidator.createPlanItem ( expected, contextInfo);
+			PlanItemInfo actual = testService.createPlanItem ( expected, contextInfo);
 
 			assertNotNull(actual.getId());
 			new IdEntityTester().check(expected, actual);
@@ -371,7 +370,7 @@ public abstract class TestAcademicPlanServiceImplConformanceBaseCrud {
 
             expected.setLearningPlanId(learningPlan.getId());
 			
-			expected.setStateKey(expected.getState() + "_Updated");
+			expected.setStateKey(expected.getStateKey() + "Updated");
 			
 			// METHOD TO INSERT CODE TO UPDATE DTO FIELDS HERE
 			testCrudPlanItem_setDTOFieldsForTestUpdate (expected);
@@ -379,7 +378,7 @@ public abstract class TestAcademicPlanServiceImplConformanceBaseCrud {
 			new AttributeTester().delete1Update1Add1ForUpdate(expected.getAttributes());
 
         	// code to update
-			actual = testServiceNoValidator.updatePlanItem ( expected.getId(), expected, contextInfo);
+			actual = testService.updatePlanItem ( expected.getId(), expected, contextInfo);
 			
 			assertEquals(expected.getId(), actual.getId());
 			new IdEntityTester().check(expected, actual);
@@ -393,7 +392,7 @@ public abstract class TestAcademicPlanServiceImplConformanceBaseCrud {
 			// Test that VersionMissmatchException's are being detected
 			boolean exception = false;
 			try {
-   			testServiceNoValidator.updatePlanItem ( expected.getId(), expected, contextInfo);
+   			testService.updatePlanItem ( expected.getId(), expected, contextInfo);
 			}
 			catch (VersionMismatchException e) { 
    			exception = true;			}
@@ -427,7 +426,7 @@ public abstract class TestAcademicPlanServiceImplConformanceBaseCrud {
 			
 			betaDTO.setTypeKey("typeKeyBeta");
 			betaDTO.setStateKey("stateKeyBeta");
-			betaDTO = testServiceNoValidator.createPlanItem ( planItem, contextInfo);
+			betaDTO = testService.createPlanItem ( planItem, contextInfo);
 
 // NOTE: There is not currently a need for method:  testService.getPlanItemsByIds
 //			// -------------------------------------

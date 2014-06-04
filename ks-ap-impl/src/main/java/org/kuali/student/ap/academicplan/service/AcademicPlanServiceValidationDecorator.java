@@ -1,7 +1,6 @@
 package org.kuali.student.ap.academicplan.service;
 
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
-import org.kuali.student.ap.academicplan.dao.PlanItemDao;
 import org.kuali.student.ap.academicplan.dto.LearningPlanInfo;
 import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
 import org.kuali.student.ap.academicplan.model.PlanItemEntity;
@@ -13,9 +12,10 @@ import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.infc.HoldsValidator;
 import org.kuali.student.r2.common.infc.ValidationResult;
-import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.class1.util.ValidationUtils;
 
 import javax.jws.WebParam;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AcademicPlanServiceValidationDecorator extends
@@ -111,7 +111,7 @@ public class AcademicPlanServiceValidationDecorator extends
 			DataDictionaryValidator validator, String validationType,
 			Object info, ContextInfo context) throws OperationFailedException,
 			MissingParameterException, InvalidParameterException {
-                                         		if (null == validator) {
+        if (null == validator) {
 			throw new InvalidParameterException(
 					"DataDictionaryValidator parameter cannot be null");
 		}
@@ -147,8 +147,7 @@ public class AcademicPlanServiceValidationDecorator extends
 				errors.addAll(nextDecoratorErrors);
 			}
 		} catch (DoesNotExistException ex) {
-			throw new OperationFailedException(
-					"Error validating learning plan.", ex);
+			throw new OperationFailedException("Error validating learning plan.", ex);
 		} catch (PermissionDeniedException e) {
             throw new OperationFailedException(
                     "Permission denied error while validating learning plan.", e);
@@ -182,8 +181,9 @@ public class AcademicPlanServiceValidationDecorator extends
                     "refObjectId", ValidationResult.ErrorLevel.ERROR));
             }
         } catch (RuntimeException e) {
-            validationResultInfos.add(makeValidationResultInfo(e.getLocalizedMessage(), "refObjectId",
-                    ValidationResult.ErrorLevel.ERROR));
+            validationResultInfos.add(makeValidationResultInfo(
+                    String.format("Could not find course with ID [%s].", planItemInfo.getRefObjectId()),
+                    "refObjectId", ValidationResult.ErrorLevel.ERROR));
         }
 
         //  Make sure a plan term exists if category is planned course.
@@ -244,7 +244,7 @@ public class AcademicPlanServiceValidationDecorator extends
 	}
 
     /**
-	 * Data dictionary validation for LearningPlanInfo.
+	 * Data dictionary & Type validation for LearningPlanInfo.
 	 */
 	private List<ValidationResultInfo> fullValidation(LearningPlanInfo learningPlanInfo,
 			ContextInfo context) throws DataValidationErrorException,
@@ -255,31 +255,34 @@ public class AcademicPlanServiceValidationDecorator extends
 			throw new MissingParameterException("learningPlanInfo was null.");
 		}
 
-        TypeInfo type = null;
+        String refUri = AcademicPlanServiceConstants.REF_OBJECT_URI_ACADEMIC_PLAN_INFO;
+        String errMsg = String.format("Invalid type [%s] for ref-uri [%s].",
+                learningPlanInfo.getTypeKey(), refUri);
         try {
-            type = KsapFrameworkServiceLocator.getTypeService().getType(learningPlanInfo.getTypeKey(), context);
+             List<ValidationResultInfo> resultInfos = ValidationUtils.validateTypeKey(learningPlanInfo.getTypeKey(),
+                    refUri,KsapFrameworkServiceLocator.getTypeService(), context);
+            if (checkForErrors(resultInfos)) {
+                throw new InvalidParameterException(errMsg);
+            }
         } catch (DoesNotExistException e) {
-            throw new InvalidParameterException(String.format("Unknown type [%s].", learningPlanInfo.getTypeKey()),e);
+            throw new InvalidParameterException(errMsg,e);
         } catch (PermissionDeniedException e) {
-            throw new OperationFailedException(
-                    "Error validating learning plan type.", e);
+            throw new OperationFailedException(String.format("Error validating learning plan type[%s].",
+                    learningPlanInfo.getTypeKey()), e);
         }
 
-
-        List<ValidationResultInfo> errors = null;
 		try {
-			errors = this.validateLearningPlan(
-					DataDictionaryValidator.ValidationType.FULL_VALIDATION
+            List<ValidationResultInfo> errors = this.validateLearningPlan(DataDictionaryValidator.ValidationType.FULL_VALIDATION
 							.toString(), learningPlanInfo, context);
 			if (checkForErrors(errors)) {
 				throw new DataValidationErrorException(
 						"Error(s) validating learning plan.", errors);
 			}
+            return errors;
 		} catch (DoesNotExistException ex) {
 			throw new OperationFailedException(
 					"Error validating learning plan.", ex);
 		}
-        return errors;
 	}
 
 	/**
@@ -294,14 +297,42 @@ public class AcademicPlanServiceValidationDecorator extends
 			throw new MissingParameterException("planItemInfo was null.");
 		}
 
-        List<ValidationResultInfo> errors = null;
-		try {
-			errors = this.validatePlanItem(
+        //Validate Plan Item Type
+        String refUri = AcademicPlanServiceConstants.REF_OBJECT_URI_ACADEMIC_PLAN_ITEM_INFO;
+        String errMsg = String.format("Invalid type [%s] for ref-uri [%s].",planItemInfo.getTypeKey(), refUri);
+        try {
+            List<ValidationResultInfo> results = ValidationUtils.validateTypeKey(planItemInfo.getTypeKey(),
+                    refUri,KsapFrameworkServiceLocator.getTypeService(), context);
+            if (checkForErrors(results)) {
+                throw new InvalidParameterException(errMsg);
+            }
+        } catch (DoesNotExistException e) {
+            throw new InvalidParameterException(errMsg,e);
+        } catch (PermissionDeniedException e) {
+            throw new OperationFailedException("Error validating plan item type.", e);
+        }
+
+        //Validate Ref Object Type
+        errMsg = String.format("Invalid item reference object type [%s] for item type [%s].",
+                planItemInfo.getRefObjectType(), planItemInfo.getTypeKey());
+        try {
+            List<ValidationResultInfo> results = ValidationUtils.validateGroupMbrTypeKey(planItemInfo.getTypeKey(),
+                    planItemInfo.getRefObjectType(),KsapFrameworkServiceLocator.getTypeService(), context);
+            if (checkForErrors(results)) {
+                throw new InvalidParameterException(errMsg);
+            }
+        } catch (DoesNotExistException e) {
+            throw new InvalidParameterException(errMsg,e);
+        } catch (PermissionDeniedException e) {
+            throw new OperationFailedException("Error validating item reference object type.", e);
+        }
+
+        try {
+            List<ValidationResultInfo> errors = this.validatePlanItem(
 					DataDictionaryValidator.ValidationType.FULL_VALIDATION
 							.toString(), planItemInfo, context);
 			if (checkForErrors(errors)) {
-				throw new DataValidationErrorException(
-						"Error(s) validating plan item.", errors);
+				throw new DataValidationErrorException("Error(s) validating plan item.", errors);
 			}
 		} catch (DoesNotExistException ex) {
 			throw new OperationFailedException("Error validating plan item.",

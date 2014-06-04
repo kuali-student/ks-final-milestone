@@ -59,7 +59,7 @@
     <bean id="ksapUserSessionHelper" class="org.kuali.student.ap.test.mock.UserSessionHelperMockTest" />
     <bean id="ksapEnumerationHelper" class="org.kuali.student.ap.test.mock.EnumerationHelperMockTest" />
     <bean id="ksapOrgHelper" class="org.kuali.student.ap.test.mock.OrgHelperMockTest" />
-    <bean id="ksapCourseHelper" class="org.kuali.student.ap.test.mock.CourseHelperMockTest" />
+    <bean id="ksapCourseHelper" class="org.kuali.student.ap.framework.context.support.DefaultCourseHelper" />
     <bean id="shoppingCartHelper" class="org.kuali.student.ap.test.mock.ShoppingCartHelperMockTest" />
     <bean id="planHelper" class="org.kuali.student.ap.test.mock.PlanHelperMockTest" />
     <bean id="courseSearchStrategy" class="org.kuali.student.ap.test.mock.CourseSearchStrategyMockTest"/>
@@ -71,7 +71,7 @@
     <bean id="luiService" class="org.kuali.student.ap.test.mock.LuiServiceMockTest"/>
     <bean id="commentService" class="org.kuali.student.ap.test.mock.CommentServiceMockTest"/>
     <bean id="enumerationManagementService" class="org.kuali.student.ap.test.mock.EnumerationManagementServiceMockTest"/>
-    <bean id="courseService" class="org.kuali.student.ap.test.mock.CourseServiceMockTest"/>
+    <bean id="courseService" class="org.kuali.student.r2.lum.course.service.impl.CourseServiceMapImpl"/>
     <bean id="programService" class="org.kuali.student.ap.test.mock.ProgramServiceMockTest"/>
     <bean id="cluService" class="org.kuali.student.r2.lum.lu.service.impl.CluServiceMockImpl"/>
     <bean id="lrcService" class="org.kuali.student.ap.test.mock.LRCServiceMockTest"/>
