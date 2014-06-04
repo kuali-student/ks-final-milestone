@@ -24,6 +24,8 @@ import org.kuali.rice.kim.api.identity.CodedAttribute;
  */
 public class KimIdentityServiceConstants {
 
+    public static final String SERVICE_NAME_LOCAL_PART = "identityService";
+    public static final String NAMESPACE = "http://rice.kuali.org/kim/v2_0";
     /**
      * Entity Type keys
      */
