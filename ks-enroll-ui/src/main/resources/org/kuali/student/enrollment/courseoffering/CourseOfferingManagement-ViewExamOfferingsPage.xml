@@ -194,6 +194,7 @@
         <property name="collectionLookup">
             <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false"/>
         </property>
+        <property name="onDocumentReadyScript" value="initInlineRowFields();"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
         <property name="layoutManager.applyDefaultCellWidths" value="false"/>
         <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
@@ -232,7 +233,7 @@
                     <property name="items">
                         <list>
                             <bean id="eoOverrideMatrix" parent="Uif-InputField" p:propertyName="overrideMatrix">
-                                <property name="onChangeScript" value="removeMatrixOverrideConfirm('@{#component.id}', 'examOfferingRemoveMatrixOverrideConfirmDialog'); writeHiddenToForm(&quot;matrixOverrideCheckBoxId&quot;, &quot;@{#component.id}&quot;);"/>
+                                <property name="onChangeScript" value="matrixOverrideFlagChange(e, 'examOfferingRemoveMatrixOverrideConfirmDialog'); writeHiddenToForm(&quot;matrixOverrideCheckBoxId&quot;, &quot;@{#component.id}&quot;);"/>
                                 <property name="additionalCssClasses">
                                     <list merge="true">
                                         <value>off</value>
@@ -581,7 +582,7 @@
                         <list>
                             <bean id="remove_matrix_override_yes_button" parent="Uif-PrimaryActionButton"
                                   p:actionLabel="Yes"
-                                  p:actionScript="closeLightbox();"/>
+                                  p:actionScript="disableInlineFields('matrixOverrideCheckBoxId');"/>
                             <bean id="remove_matrix_override_no_link" parent="Uif-ActionLink" p:actionLabel="No" p:actionScript="keepMatrixOverrideChecked('matrixOverrideCheckBoxId');"  p:additionalCssClasses="cancel_link" />
                         </list>
                     </property>
