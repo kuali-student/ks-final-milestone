@@ -860,8 +860,16 @@ function updateCapturedComment() {
 function editDeleteCapturedComment(index) {
     var inputComment = jQuery('#commentsDisplayArea_line ' +index + '_control').val();
 
+
+
+    jQuery('#comments-StackedSection').find('table td').each(function(index){
+        var control = jQuery(this).find("*[data-role='Control']");
+        var value = control.val();
+        jQuery('#CaptureCommentsTextArea_control').val(value);
+    } );
+
     // trying to set modifying/editing comment text to captureCommentsText
-    jQuery('#CaptureCommentsTextArea_control').val(inputComment);    // even this is not getting assigned properly. not sure with the syntax. need to set with iterated values.
+       // even this is not getting assigned properly. not sure with the syntax. need to set with iterated values.
 
     // tryinig to set modifying/editing comment id to CaptureCommentID
   //  jQuery('#CaptureCommentIDTextArea_control').val(commenterId);   // Trying to set commmenterId/@{#line.commentInfo.commenterId} to   CaptureCommentIDTextArea (courseInfo.capturedCommenterId), but am not sure with correct syntax.
