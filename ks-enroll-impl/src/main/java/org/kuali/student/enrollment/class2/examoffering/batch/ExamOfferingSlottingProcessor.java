@@ -16,11 +16,14 @@
 package org.kuali.student.enrollment.class2.examoffering.batch;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import org.kuali.student.enrollment.class2.examoffering.krms.evaluator.ExamOfferingSlottingEvaluator;
 import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingResult;
 import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingServiceFacade;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.util.constants.ExamOfferingServiceConstants;
 import org.springframework.batch.item.ItemProcessor;
 
 /**
@@ -37,7 +40,9 @@ public class ExamOfferingSlottingProcessor implements
      * @see org.springframework.batch.item.ItemProcessor#process(Object)
      */
     public ExamOfferingResult process(CourseOfferingInfo courseOfferingInfo) throws Exception {
-        return examOfferingServiceFacade.generateFinalExamOffering(courseOfferingInfo, new ArrayList<String>(), context);
+        List<String> options = new ArrayList<String>();
+        options.add(ExamOfferingServiceConstants.EXAM_OFFERING_BULK_PROCESS);
+        return examOfferingServiceFacade.generateFinalExamOffering(courseOfferingInfo, options, context);
     }
 
     public ContextInfo getContext() {

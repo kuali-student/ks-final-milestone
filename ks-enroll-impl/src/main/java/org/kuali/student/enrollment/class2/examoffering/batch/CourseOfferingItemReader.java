@@ -27,6 +27,11 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.NonTransientResourceException;
 import org.springframework.batch.item.ParseException;
@@ -57,7 +62,7 @@ public class CourseOfferingItemReader extends AbstractItemStreamItemReader<Cours
     }
 
     @Override
-    public CourseOfferingInfo read() throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
+    public CourseOfferingInfo read() throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
         if (courseOfferingIds.hasNext()) {
             String coId = courseOfferingIds.next();
             return courseOfferingService.getCourseOffering(coId, ContextUtils.createDefaultContextInfo());

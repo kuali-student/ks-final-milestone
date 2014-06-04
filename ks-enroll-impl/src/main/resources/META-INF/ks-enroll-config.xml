@@ -87,5 +87,6 @@
     <param name="ks.enroll.examoffering.generateDynamic.defaultvalue">false</param>
     <param name="ks.enroll.examoffering.generateOnRollover.defaultvalue">${ks.enroll.examoffering.generateDynamic.defaultvalue}</param>
     <param name="ks.enroll.examoffering.generateOnSocSchedule.defaultvalue">${ks.enroll.examoffering.generateDynamic.defaultvalue}</param>
+    <param name="ks.enroll.examoffering.useFinalExamMatrix.defaultvalue">true</param>
 
 </config>

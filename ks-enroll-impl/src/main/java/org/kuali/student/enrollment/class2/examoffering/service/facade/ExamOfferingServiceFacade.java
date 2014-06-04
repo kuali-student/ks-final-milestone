@@ -206,14 +206,23 @@ public interface ExamOfferingServiceFacade {
      * Resend the examoffering to the slotting process.
      *
      * @param examOfferingContext
+     * @param optionKeys
      * @param context
      */
-    ExamOfferingResult reslotExamOffering(ExamOfferingInfo examOfferingInfo, ExamOfferingContext examOfferingContext, ContextInfo context)
+    ExamOfferingResult reslotExamOffering(ExamOfferingInfo examOfferingInfo, ExamOfferingContext examOfferingContext, List<String> optionKeys, ContextInfo context)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException;
 
     /**
      * This method retrieves the boolea value to indicate if the execution process should or not set the location on the RDL.
      *
+     * Note: This is a system property and cannot be changed by a user.
      */
     public boolean isSetLocation();
+
+    /**
+     * This method retrieves the boolean value to indicate if the execution process should or not use the Final Exam Matrix to slot the Exam Offerings.
+     *
+     *
+     */
+    public boolean isUseFinalExamMatrix();
 }

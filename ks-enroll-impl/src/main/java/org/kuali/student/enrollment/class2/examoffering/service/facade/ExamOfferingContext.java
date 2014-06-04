@@ -1,10 +1,19 @@
 package org.kuali.student.enrollment.class2.examoffering.service.facade;
 
+import org.kuali.student.enrollment.class2.courseofferingset.util.CourseOfferingSetUtil;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FinalExam;
 import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
+import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
+import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import org.kuali.student.r2.lum.course.infc.Activity;
 
@@ -21,6 +30,12 @@ public class ExamOfferingContext {
     private CourseOfferingInfo courseOffering;
     private String termId;
     private String examPeriodId;
+    private SocInfo soc;
+    private String termType;
+
+    private List<String> options;
+
+    private ExamOfferingResult validationResult;
 
     /**
      * For the courseOfferingId, this is a map from FO Ids (of the CO) to the AO Infos belonging to the FO.
@@ -94,6 +109,38 @@ public class ExamOfferingContext {
         this.driver = driver;
     }
 
+    public SocInfo getSoc() {
+        return soc;
+    }
+
+    public void setSoc(SocInfo soc) {
+        this.soc = soc;
+    }
+
+    public String getTermType() {
+        return termType;
+    }
+
+    public void setTermType(String termType) {
+        this.termType = termType;
+    }
+
+    public List<String> getOptions() {
+        return options;
+    }
+
+    public void setOptions(List<String> options) {
+        this.options = options;
+    }
+
+    public ExamOfferingResult getValidationResult() {
+        return validationResult;
+    }
+
+    public void setValidationResult(ExamOfferingResult validationResult) {
+        this.validationResult = validationResult;
+    }
+
     private Driver calculateEODriver() {
         if (FinalExam.STANDARD.toString().equals(this.getCourseOffering().getFinalExamType())) {
 
@@ -110,6 +157,14 @@ public class ExamOfferingContext {
             //If it is not a Standard exam, the course offering should not have any exams.
             return Driver.NONE;
         }
+    }
+
+    public boolean isSocPublished() {
+        if (CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY.equals(this.getSoc().getStateKey())
+                || CourseOfferingSetServiceConstants.PUBLISHED_SOC_STATE_KEY.equals(this.getSoc().getStateKey())) {
+            return true;
+        }
+        return false;
     }
 
     /**

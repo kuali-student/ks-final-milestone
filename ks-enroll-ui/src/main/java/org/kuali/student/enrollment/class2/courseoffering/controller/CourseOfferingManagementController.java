@@ -1136,7 +1136,7 @@ public class CourseOfferingManagementController extends UifControllerBase {
                         examOfferingContext.setTermId(examOfferingContext.getCourseOffering().getTermId());
                     }
                     ExamOfferingResult result = CourseOfferingManagementUtil.getExamOfferingServiceFacade().reslotExamOffering(
-                            eoWrapper.getEoInfo(), examOfferingContext, context);
+                            eoWrapper.getEoInfo(), examOfferingContext, new ArrayList<String>(), context);
                     ExamOfferingManagementUtil.processExamOfferingResultSet(result);
                     slotted = true;
                 }

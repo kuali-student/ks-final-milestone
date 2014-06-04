@@ -112,6 +112,9 @@
         <property name="socService" ref="socService"/>
         <property name="typeService" ref="typeService" />
         <property name="scheduleEvaluator" ref="examOfferingScheduleEvaluator"/>
+        <property name="setLocation" value="true" />
+        <property name="useFinalExamMatrix" value="true"/>
+        <property name="generateEODynamically" value="true"/>
     </bean>
 
     <bean id="examOfferingScheduleEvaluator" class="org.kuali.student.enrollment.class2.examoffering.service.ExamOfferingSlottingEvaluatorMockImpl"/>

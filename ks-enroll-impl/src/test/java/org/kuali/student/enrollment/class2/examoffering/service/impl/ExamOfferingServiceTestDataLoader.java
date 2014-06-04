@@ -92,17 +92,18 @@ public class ExamOfferingServiceTestDataLoader extends AbstractMockServicesAware
             ReadOnlyException, OperationFailedException, MissingParameterException, DoesNotExistException {
 
         SocInfo socInfo = new SocInfo();
+        socInfo.setId("soc1");
         socInfo.setName("test name");
         socInfo.setDescr(new RichTextHelper().toRichTextInfo("description plain 1", "description formatted 1"));
         socInfo.setTypeKey(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY);
         socInfo.setStateKey(CourseOfferingSetServiceConstants.PUBLISHED_SOC_STATE_KEY);
-        socInfo.setTermId(TERM_ONE_ID);
+        socInfo.setTermId("2012FA");
         socInfo.setSubjectArea("ENG");
         socInfo.setUnitsContentOwnerId("myUnitId");
         socInfo.getAttributes().add(new AttributeTester().toAttribute("key1", "value1"));
         socInfo.getAttributes().add(new AttributeTester().toAttribute("key2", "value2"));
 
-        this.getSocService().createSoc(TERM_ONE_ID, CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY, socInfo, context);
+        this.getSocService().createSoc("2012FA", CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY, socInfo, context);
     }
 
     private void createExamPeriodData() throws DataValidationErrorException, DoesNotExistException,

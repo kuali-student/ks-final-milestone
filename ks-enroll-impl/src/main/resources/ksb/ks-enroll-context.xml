@@ -666,6 +666,8 @@
         <property name="scheduleEvaluator" ref="examOfferingScheduleEvaluator" />
         <property name="schedulingService" ref="SchedulingService"/>
         <property name="setLocation" value="${ks.enroll.examoffering.useAoLocation.defaultvalue}" />
+        <property name="useFinalExamMatrix" value="${ks.enroll.examoffering.useFinalExamMatrix.defaultvalue}"/>
+        <property name="generateEODynamically" value="${ks.enroll.examoffering.generateDynamic.defaultvalue}"/>
     </bean>
 
     <bean id="examOfferingScheduleEvaluator" class="org.kuali.student.enrollment.class2.examoffering.krms.evaluator.ExamOfferingSlottingEvaluatorImpl">
