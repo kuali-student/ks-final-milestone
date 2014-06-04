@@ -866,9 +866,12 @@ function showEditCommentWidget(index) {
     var inputComment = jQuery('#commentsDisplayArea_line' + index).text();
     jQuery('#KS-EditCommentSection-InputField_control').val(inputComment);
     jQuery('#CaptureCommentsTextArea_control').val(inputComment);
+    var id = jQuery('#comments-StackedSection').find('span')[index].innerText;
+    jQuery('#CaptureCommentIDTextArea_control').val(id);
     jQuery('#KS-EditCommentSection').attr('style', 'display: inline;');
 }
 
 function hideEditCommentWidget() {
     jQuery('#KS-EditCommentSection').attr('style', 'display: none;');
+    return true;
 }
