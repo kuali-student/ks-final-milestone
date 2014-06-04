@@ -298,6 +298,7 @@
                 <value>classpath:org/kuali/rice/krad/uif/UifFieldDefinitions.xml</value>
                 <value>classpath:org/kuali/rice/krad/uif/UifElementDefinitions.xml</value>
                 <value>classpath:org/kuali/rice/krad/uif/UifHeaderFooterDefinitions.xml</value>
+                <value>classpath:org/kuali/rice/krad/uif/UifDialogDefinitions.xml</value>
                 <value>classpath:org/kuali/rice/krad/uif/UifGroupDefinitions.xml</value>
                 <value>classpath:org/kuali/rice/krad/uif/UifLayoutManagerDefinitions.xml</value>
                 <value>classpath:org/kuali/rice/krad/uif/UifMenuDefinitions.xml</value>
