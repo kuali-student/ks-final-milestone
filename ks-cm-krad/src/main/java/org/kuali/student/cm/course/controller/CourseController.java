@@ -659,7 +659,7 @@ public class CourseController extends CourseRuleEditorController {
         maintainable.saveComment(courseInfoWrapper.getActiveComment());
         maintainable.retrieveComments();
 
-        return start(form, request, response);
+        return showDialog("commentsLightBox", form, request, response);
 
 
         /*//TODO KSCM-848 : Will need to replace these temp values once we get UMD's reference data
