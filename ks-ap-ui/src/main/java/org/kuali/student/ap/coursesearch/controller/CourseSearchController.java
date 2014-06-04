@@ -23,9 +23,11 @@ import org.codehaus.jackson.node.ObjectNode;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.ap.coursesearch.CourseFacetStrategy;
 import org.kuali.student.ap.coursesearch.CourseSearchForm;
 import org.kuali.student.ap.coursesearch.CourseSearchItem;
 import org.kuali.student.ap.coursesearch.CourseSearchStrategy;
+import org.kuali.student.ap.coursesearch.SearchInfo;
 import org.kuali.student.ap.coursesearch.dataobject.CourseSummaryDetails;
 import org.kuali.student.ap.coursesearch.form.CourseSearchFormImpl;
 import org.kuali.student.ap.coursesearch.service.impl.CourseDetailsInquiryHelperImpl;
@@ -60,8 +62,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 import java.util.concurrent.Callable;
 
 @Controller
@@ -76,49 +76,11 @@ public class CourseSearchController extends UifControllerBase {
 	private static final String RESULTS_ATTR = CourseSearchController.class
 			.getName() + ".results";
 
-	/**
-	 * Keyed mapping of DataTables search column order by facet id. This column
-	 * order is fully internal to this controller class, and is used to tie
-	 * faceted searches columns on the search item.
-	 * 
-	 * @see #FACET_COLUMNS_REVERSE
-	 * @see #getFacetValues(javax.servlet.http.HttpServletResponse,
-     *      org.kuali.student.ap.coursesearch.CourseSearchForm, javax.servlet.http.HttpServletRequest)
-	 */
-	private static final Map<String, Integer> FACET_COLUMNS;
-
-	/**
-	 * Ordered list of facet column ids by DataTables column order. This column
-	 * order is fully internal to this controller class, and is used to tie
-	 * faceted searches columns on the search item.
-	 *
-	 * @see #FACET_COLUMNS
-     * @see #getFacetValues(javax.servlet.http.HttpServletResponse,
-     *      org.kuali.student.ap.coursesearch.CourseSearchForm, javax.servlet.http.HttpServletRequest)
-     */
-	public static final List<String> FACET_COLUMNS_REVERSE;
-
-	/**
-	 * Initialize internal facet column order.
-	 */
-	static {
-		Set<String> facetKeys = KsapFrameworkServiceLocator
-				.getCourseSearchStrategy().getFacetSort().keySet();
-		Map<String, Integer> m = new java.util.HashMap<String, Integer>(
-				facetKeys.size());
-		List<String> l = new ArrayList<String>(facetKeys.size());
-		for (String fk : facetKeys) {
-			m.put(fk, l.size());
-			l.add(fk);
-		}
-		FACET_COLUMNS = Collections.synchronizedMap(Collections
-				.unmodifiableMap(m));
-		FACET_COLUMNS_REVERSE = Collections.synchronizedList(Collections
-				.unmodifiableList(l));
-	}
-
     private CourseSearchStrategy searcher = KsapFrameworkServiceLocator
-			.getCourseSearchStrategy();
+            .getCourseSearchStrategy();
+
+    private CourseFacetStrategy facetStrategy = KsapFrameworkServiceLocator
+            .getCourseFacetStrategy();
 
 	private ObjectMapper mapper = new ObjectMapper();
 
@@ -345,50 +307,26 @@ public class CourseSearchController extends UifControllerBase {
 
 		if (LOG.isDebugEnabled())
 			LOG.debug("Search form: {}", form);
+        SessionSearchInfo table = getSearchResults(new FormKey(form),
+                new Callable<SessionSearchInfo>() {
+                    @Override
+                    public SessionSearchInfo call() throws Exception {
+                        return new SessionSearchInfo(request, form);
+                    }
+                }, request);
 
-        // Run search and retrieve results in the table
-		SessionSearchInfo table = getSearchResults(new FormKey(form),
-				new Callable<SessionSearchInfo>() {
-					@Override
-					public SessionSearchInfo call() throws Exception {
-						return new SessionSearchInfo(request, form);
-					}
-				}, request);
+        assert table.getFacetState() != null;
 
-		assert table.getFacetState() != null;
+        String fclick = request.getParameter("fclick");
+        String fcol = request.getParameter("fcol");
 
-		// Update click state based on inputs - see ksap.search.js
-		String fclick = request.getParameter("fclick");
-		String fcol = request.getParameter("fcol");
-		if (fclick != null && fcol != null)
-			table.facetClick(fclick, fcol);
+        if (fclick != null && fcol != null)
+            table.facetClick(fclick, fcol);
 
-		// Create the oFacets object used by ksap.search.js
-		ObjectNode oFacets = mapper.createObjectNode();
-		oFacets.put("sQuery", form.getSearchQuery());
-		oFacets.put("sTerm", form.getSearchTerm());
-		ObjectNode oSearchColumn = oFacets.putObject("oSearchColumn");
-		for (Entry<String, Integer> fce : FACET_COLUMNS.entrySet())
-			oSearchColumn.put(fce.getKey(), fce.getValue());
-		ObjectNode oFacetState = oFacets.putObject("oFacetState");
-		for (Entry<String, Map<String, FacetState>> row : table.getFacetState()
-				.entrySet()) {
-			ObjectNode ofm = oFacetState.putObject(row.getKey());
-			for (Entry<String, FacetState> fse : row.getValue().entrySet()) {
-				ObjectNode ofs = ofm.putObject(fse.getKey());
-				ofs.put("key", fse.getValue().getValue().getKey());
-				ofs.put("value", fse.getValue().getValue().getValue());
-				ofs.put("checked", fse.getValue().isChecked());
-				ofs.put("count", fse.getValue().getCount());
-                if (fse.getValue().getDescription() != null)
-                    ofs.put("description", fse.getValue().getDescription());
-			}
-		}
+        String jsonString = facetStrategy.writeFacetToJson(form, table.getFacetState());
 
-        // Write json string
-		String jsonString = mapper.writeValueAsString(oFacets);
-		if (LOG.isDebugEnabled())
-			LOG.debug("JSON output: {}", jsonString.length() < 8192
+        if (LOG.isDebugEnabled())
+            LOG.debug("JSON output: {}", jsonString.length() < 8192
                     ? jsonString
                     : jsonString.substring(0, 8192));
 

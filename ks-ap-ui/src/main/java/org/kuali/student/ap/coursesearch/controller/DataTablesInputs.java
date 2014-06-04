@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
  * @see <a
  *      href="http://datatables.net/usage/server-side">http://datatables.net/usage/server-side</a>
  */
-class DataTablesInputs {
+public class DataTablesInputs {
     private final int iDisplayStart, iDisplayLength, iColumns,
             iSortingCols, sEcho;
     private final String sSearch;
@@ -22,7 +22,7 @@ class DataTablesInputs {
     private final Pattern[] patSearch_;
     private final int[] iSortCol_;
 
-    DataTablesInputs(HttpServletRequest request) {
+    public DataTablesInputs(HttpServletRequest request) {
         String s;
         iDisplayStart = (s = request.getParameter("iDisplayStart")) == null ? 0
                 : Integer.parseInt(s);
@@ -132,75 +132,75 @@ class DataTablesInputs {
         return sb.toString();
     }
 
-    int getiDisplayStart() {
+    public int getiDisplayStart() {
         return iDisplayStart;
     }
 
-    int getiDisplayLength() {
+    public int getiDisplayLength() {
         return iDisplayLength;
     }
 
-    int getiColumns() {
+    public int getiColumns() {
         return iColumns;
     }
 
-    int getiSortingCols() {
+    public int getiSortingCols() {
         return iSortingCols;
     }
 
-    int getsEcho() {
+    public int getsEcho() {
         return sEcho;
     }
 
-    String getsSearch() {
+    public String getsSearch() {
         return sSearch;
     }
 
-    Pattern getPatSearch() {
+    public Pattern getPatSearch() {
         return patSearch;
     }
 
-    boolean isbRegex() {
+    public boolean isbRegex() {
         return bRegex;
     }
 
-    boolean isbSmart() {
+    public boolean isbSmart() {
         return bSmart;
     }
 
-    boolean[] getbSearchable_() {
+    public boolean[] getbSearchable_() {
         return bSearchable_;
     }
 
-    boolean[] getbRegex_() {
+    public boolean[] getbRegex_() {
         return bRegex_;
     }
 
-    boolean[] getbSortable_() {
+    public boolean[] getbSortable_() {
         return bSortable_;
     }
 
-    boolean[] getbSmart_() {
+    public boolean[] getbSmart_() {
         return bSmart_;
     }
 
-    String[] getsSearch_() {
+    public String[] getsSearch_() {
         return sSearch_;
     }
 
-    String[] getsSortDir_() {
+    public String[] getsSortDir_() {
         return sSortDir_;
     }
 
-    String[] getmDataProp_() {
+    public String[] getmDataProp_() {
         return mDataProp_;
     }
 
-    Pattern[] getPatSearch_() {
+    public Pattern[] getPatSearch_() {
         return patSearch_;
     }
 
-    int[] getiSortCol_() {
+    public int[] getiSortCol_() {
         return iSortCol_;
     }
 }

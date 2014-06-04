@@ -2,6 +2,7 @@ package org.kuali.student.ap.coursesearch.controller;
 
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.student.ap.coursesearch.CourseSearchItem;
+import org.kuali.student.ap.coursesearch.SearchInfo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -16,14 +17,14 @@ import java.util.Map;
  * @see org.kuali.student.ap.coursesearch.CourseSearchItem#getSearchColumns()
  * @see org.kuali.student.ap.coursesearch.CourseSearchItem#getFacetColumns()
  */
-public class SearchInfo implements Serializable {
+public class SearchInfoImpl implements Serializable, SearchInfo {
     private static final long serialVersionUID = 8697147011424347285L;
 
     private final CourseSearchItem item;
     private final String[] sortColumns;
     private final Map<String, List<String>> facetColumns;
 
-    public SearchInfo(CourseSearchItem item) {
+    public SearchInfoImpl(CourseSearchItem item) {
         this.item = item;
         sortColumns = item.getSortColumns();
         facetColumns = new java.util.LinkedHashMap<String, List<String>>();
@@ -40,19 +41,22 @@ public class SearchInfo implements Serializable {
 
     @Override
     public String toString() {
-        return "SearchInfo [searchColumns=" + item.getCourseId()
+        return "SearchInfoImpl [searchColumns=" + item.getCourseId()
                 + ", sortColumns=" + Arrays.toString(sortColumns)
                 + ", facetColumns=" + facetColumns + "]";
     }
 
+    @Override
     public CourseSearchItem getItem() {
         return item;
     }
 
+    @Override
     public String[] getSortColumns() {
         return sortColumns;
     }
 
+    @Override
     public Map<String, List<String>> getFacetColumns() {
         return facetColumns;
     }

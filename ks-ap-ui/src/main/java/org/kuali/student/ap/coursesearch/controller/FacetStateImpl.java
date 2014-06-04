@@ -1,6 +1,7 @@
 package org.kuali.student.ap.coursesearch.controller;
 
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.student.ap.coursesearch.FacetState;
 
 import java.io.Serializable;
 
@@ -9,7 +10,7 @@ import java.io.Serializable;
  *
  * @see SessionSearchInfo
  */
-public class FacetState implements Serializable {
+public class FacetStateImpl implements Serializable, FacetState {
     private static final long serialVersionUID = 1719950239861974273L;
 
     private final KeyValue value;
@@ -17,14 +18,16 @@ public class FacetState implements Serializable {
     private int count;
     private String description;
 
-    public FacetState(KeyValue value) {
+    public FacetStateImpl(KeyValue value) {
         this.value = value;
     }
 
+    @Override
     public KeyValue getValue() {
         return value;
     }
 
+    @Override
     public boolean isChecked() {
         return checked;
     }
@@ -33,6 +36,7 @@ public class FacetState implements Serializable {
         this.checked = checked;
     }
 
+    @Override
     public int getCount() {
         return count;
     }
@@ -44,10 +48,17 @@ public class FacetState implements Serializable {
     /**
      * Increment the count
      */
+    @Override
     public void incrementCount() {
         count++;
     }
 
+    @Override
+    public void resetCount() {
+        count = 0;
+    }
+
+    @Override
     public String getDescription() {
         return description;
     }
