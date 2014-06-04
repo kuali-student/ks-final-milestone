@@ -209,9 +209,8 @@ public class CourseFacetStrategyImpl implements CourseFacetStrategy {
      *            The facet state map
      */
     @Override
-    public boolean facetClick(String key, String fcol, Map<String, FacetState> fsm) {
+    public boolean facetClick(String key, String fcol, Map<String, FacetState> fsm, boolean oneClick) {
         LOG.debug("Facet click {} {}", key, fcol);
-        boolean oneClick = false;
         if ("All".equals(key))
             for (FacetState fs : fsm.values())
                 fs.setChecked(true);

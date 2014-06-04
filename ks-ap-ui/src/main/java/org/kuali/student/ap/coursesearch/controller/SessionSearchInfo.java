@@ -149,7 +149,7 @@ public class SessionSearchInfo {
         Map<String, FacetState> fsm = facetState.get(fcol);
         if (fsm == null)
             return;
-        oneClick = facetStrategy.facetClick(key, fcol, fsm);
+        oneClick = facetStrategy.facetClick(key, fcol, fsm,oneClick);
         if (oneClick)
             updateFacetCounts();
     }

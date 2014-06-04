@@ -39,7 +39,7 @@ public class CourseFacetStrategyMockTest implements CourseFacetStrategy {
     }
 
     @Override
-    public boolean facetClick(String fclick, String fcol, Map<String, FacetState> facetStateMap) {
+    public boolean facetClick(String fclick, String fcol, Map<String, FacetState> facetStateMap, boolean oneclick) {
         return false;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
