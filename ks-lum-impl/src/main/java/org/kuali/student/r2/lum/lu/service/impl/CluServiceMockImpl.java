@@ -1140,7 +1140,11 @@ public class CluServiceMockImpl implements CluService {
 
     @Override
     public VersionDisplayInfo getCurrentVersion(String refObjectUri, String refObjectId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //Just pass back the passed in versionId for this mock...until something more is required
+        //...BUT strip "ind" suffix added by CourseOfferingMapImpl
+        VersionDisplayInfo version = new VersionDisplayInfo();
+        version.setId(refObjectId.substring(0,refObjectId.indexOf("ind")));
+        return version;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
