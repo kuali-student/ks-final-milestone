@@ -93,7 +93,7 @@ public class FullPlanItemsLookupableHelperImpl extends
                 PlannedTerm pluckedTerm=null;
                 if(perfectPlannedTerms.size()>0){
                     pluckedTerm = getFirstPlannedTermInList(perfectPlannedTerms);
-                    if (startYear==null) {
+                    if (startYear==null && pluckedTerm!=null) {
                         startYear = getStartYearOfAcadYearHavingTerm(pluckedTerm.getAtpId());
                         endYear=getEndYearOfAcadYearHavingTerm(pluckedTerm.getAtpId());
                         termsInYear=KsapFrameworkServiceLocator.getTermHelper().getTermsInAcademicYear(startYear);
