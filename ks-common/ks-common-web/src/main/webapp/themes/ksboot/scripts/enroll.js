@@ -912,7 +912,8 @@ jQuery(document).on('DOMNodeInserted', function (e) {
     if (jQuery(element).is('main.uif-page') || jQuery(element).is('main.uif-maintenancePage')) {
         handleEventforDisabledElements();
         addBootstrapImageToLink();
-    } else if (jQuery(element).is('section.uif-tableCollectionSection') || jQuery(element).is('section.uif-stackedCollectionSection') || jQuery(element).is('section.uif-boxSection')) {
+    } else if (jQuery(element).is('section.uif-tableCollectionSection') || jQuery(element).is('section.uif-stackedCollectionSection')
+        || (jQuery(element).is('div.uif-tableCollectionSection'))  || (jQuery(element).is('div.uif-stackedCollectionSection')) ) {
         addBootstrapImageToLink();
     }
 });
