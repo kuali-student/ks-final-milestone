@@ -127,8 +127,7 @@ public class CourseLinkBuilder {
 	}
 
 	/**
-	 * Parses requirements lines of degree audit reports and replaces course
-	 * code text into course code links.
+	 * Parses text and replaces course code text into course code links.
 	 * <p/>
 	 * This method allows separate link templates to be specified for active and inactive courses. This is to make
 	 * testing easier.
@@ -165,8 +164,7 @@ public class CourseLinkBuilder {
 	}
 
 	/**
-	 * Parses requirements lines of degree audit reports and replaces course
-	 * code text into course code links.
+	 * Parses text and replaces course code text into course code links.
 	 * 
 	 * @param rawText
 	 * @return
