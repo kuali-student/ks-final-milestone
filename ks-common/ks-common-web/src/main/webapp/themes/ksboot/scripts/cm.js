@@ -858,7 +858,7 @@ function updateCapturedComment(fieldId) {
 }
 
 function deleteExistingComment(index) {
-    var id = jQuery('#comments-StackedSection').find('span')[index].innerText;
+    var id = jQuery(jQuery('#comments-StackedSection').find('header').find('span')[0]).text().trim();
     jQuery('#CaptureCommentIDTextArea_control').val(id);
 }
 
@@ -866,7 +866,7 @@ function showEditCommentWidget(index) {
     var inputComment = jQuery('#commentsDisplayArea_line' + index).text();
     jQuery('#KS-EditCommentSection-InputField_control').val(inputComment);
     jQuery('#CaptureCommentsTextArea_control').val(inputComment);
-    var id = jQuery('#comments-StackedSection').find('span')[index].innerText;
+    var id = jQuery(jQuery('#comments-StackedSection').find('header').find('span')[0]).text().trim();
     jQuery('#CaptureCommentIDTextArea_control').val(id);
     jQuery('#KS-EditCommentSection').attr('style', 'display: inline;');
 }
