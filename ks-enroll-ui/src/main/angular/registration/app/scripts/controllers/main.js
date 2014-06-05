@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('regCartApp')
-    .controller('MainCtrl',
+    .controller('MainCtrl', ['$scope', '$rootScope', '$location', '$state', 'TermsService', 'ScheduleService', 'GlobalVarsService', 'APP_URL', 'LoginService',
     function ($scope, $rootScope, $location, $state, TermsService, ScheduleService, GlobalVarsService, APP_URL, LoginService) {
         console.log('In Main Controller');
 
@@ -64,4 +64,4 @@ angular.module('regCartApp')
             function(event, toState, toParams, fromState, fromParams){
                 $scope.$parent.uiState = toState.name;
             });
-    });
+    }]);

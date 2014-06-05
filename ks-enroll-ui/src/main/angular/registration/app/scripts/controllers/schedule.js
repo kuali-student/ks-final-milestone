@@ -2,8 +2,8 @@
 
 var cartServiceModule = angular.module('regCartApp');
 
-cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleService', 'GlobalVarsService', '$timeout',
-    function ($scope, $modal, ScheduleService, GlobalVarsService, $timeout) {
+cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', '$timeout', 'STATUS', 'GRADING_OPTION', 'ScheduleService', 'GlobalVarsService',
+    function ($scope, $modal, $timeout, STATUS, GRADING_OPTION, ScheduleService, GlobalVarsService) {
 
         $scope.getSchedules = GlobalVarsService.getSchedule;
         $scope.registeredCredits = GlobalVarsService.getRegisteredCredits;
@@ -49,7 +49,7 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
 
                 schedulePoller(dropResponseResult.registrationRequestId, course);
             }, function (error) {
-                $scope.userMessage = {txt: error.data, type: 'error'};
+                $scope.userMessage = {txt: error.data, type: STATUS.error};
             });
         };
 
@@ -67,26 +67,26 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
 
                 schedulePoller(dropResponseResult.registrationRequestId, course);
             }, function (error) {
-                course.statusMessage = {txt: error.data, type: 'error'};
+                course.statusMessage = {txt: error.data, type: STATUS.error};
             });
         };
 
         // This method is used to update the status of a course by polling the server
         var schedulePoller = function (registrationRequestId, course) {
             console.log('start polling for course to be dropped from schedule');
-            course.statusMessage = {txt: '<strong>' + course.courseCode + ' (' + course.regGroupCode + ')</strong> drop processing', type: 'processing'};
+            course.statusMessage = {txt: '<strong>' + course.courseCode + ' (' + course.regGroupCode + ')</strong> drop processing', type: STATUS.processing};
 
             $timeout(function () {
                 ScheduleService.getRegistrationStatus().query({regReqId: registrationRequestId}, function (regResponseResult) {
                     var status = GlobalVarsService.getCorrespondingStatusFromState(regResponseResult.state);
                     var message;
                     switch (status) {
-                        case 'new':
-                        case 'processing':
+                        case STATUS.new:
+                        case STATUS.processing:
                             console.log('continue polling');
                             schedulePoller(registrationRequestId, course);
                             break;
-                        case 'success':
+                        case STATUS.success:
                             console.log('stop polling - success');
                             course.dropped = true; // used to display course details vs success to drop message
                             course.dropProcessing = false;
@@ -106,15 +106,15 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
                                 message = '<strong>' + course.courseCode + ' (' + course.regGroupCode + ')</strong> dropped successfully';
                             }
 
-                            course.statusMessage = {txt: message, type: 'success'};
+                            course.statusMessage = {txt: message, type: STATUS.success};
                             break;
-                        case 'error':
+                        case STATUS.error:
                             console.log('stop polling - error');
                             course.dropProcessing = false;
 
                             // Use the message returned from the server
                             message = regResponseResult.responseItemResults[0].message;
-                            course.statusMessage = {txt: message, type: 'error'};
+                            course.statusMessage = {txt: message, type: STATUS.error};
                             break;
                     }
                 });
@@ -142,7 +142,7 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
                 GlobalVarsService.setRegisteredCredits(parseFloat(GlobalVarsService.getRegisteredCredits()) - parseFloat(course.credits) + parseFloat(scheduleItemResult.credits));
                 updateCard(course, scheduleItemResult);
             }, function (error) {
-                course.statusMessage = {txt: error.data, type: 'error'};
+                course.statusMessage = {txt: error.data, type: STATUS.error};
             });
         };
 
@@ -161,7 +161,7 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
                 GlobalVarsService.setWaitlistedCredits(parseFloat(GlobalVarsService.getWaitlistedCredits()) - parseFloat(course.credits) + parseFloat(scheduleItemResult.credits));
                 updateCard(course, scheduleItemResult);
             }, function (error) {
-                course.statusMessage = {txt: error.data, type: 'error'};
+                course.statusMessage = {txt: error.data, type: STATUS.error};
             });
         };
 
@@ -183,7 +183,7 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
         };
 
         $scope.showBadge = function (course) {
-            return course.gradingOptions[course.gradingOptionId] !== 'Letter' || course.editGradingOptionLetter;
+            return course.gradingOptionId !== GRADING_OPTION.letter || course.editGradingOptionLetter;
         };
 
         function updateCard(course, scheduleItemResult) {
@@ -198,7 +198,7 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
             console.log('Started to animate...');
             if (course.newGrading !== oldGrading) {
                 course.editGradingOption = true;
-                if (course.gradingOptions[course.gradingOptionId] === 'Letter') {
+                if (course.gradingOptionId === GRADING_OPTION.letter) {
                     course.editGradingOptionLetter = true;
                 }
                 $timeout(function(){
@@ -207,7 +207,7 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
                 }, 2000);
                 $timeout(function(){
                     course.editGradingOptionDone = false;
-                    if (course.gradingOptions[course.gradingOptionId] === 'Letter') {
+                    if (course.gradingOptionId === GRADING_OPTION.letter) {
                         course.editGradingOptionLetter = false;
                     }
                 }, 4000);

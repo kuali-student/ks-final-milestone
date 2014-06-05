@@ -28,12 +28,12 @@ describe('Controller: CartCtrl', function () {
     });
 
     // Test getStatusMessageFromStatus()
-    it('should get the transformed status message from the status', function () {
-        expect(scope.getStatusMessageFromStatus('success')).toBe(' - Success!');
-        expect(scope.getStatusMessageFromStatus('error')).toBe(' - Failed!');
-        expect(scope.getStatusMessageFromStatus('action')).toBe(' - Failed!');
+    it('should get the transformed status message from the status', inject(function (STATUS) {
+        expect(scope.getStatusMessageFromStatus(STATUS.success)).toBe(' - Success!');
+        expect(scope.getStatusMessageFromStatus(STATUS.error)).toBe(' - Failed!');
+        expect(scope.getStatusMessageFromStatus(STATUS.action)).toBe(' - Failed!');
         expect(scope.getStatusMessageFromStatus('')).toBe('');
-    });
+    }));
 
     // Test cancelNewCartItem()
     it('should cancel the new cart item', function() {
@@ -69,16 +69,16 @@ describe('Controller: CartCtrl', function () {
     });
 
     // Test showBadge(cartItem)
-    it('should correctly check whether or not to show a badge for a cart item', function() {
-        var cartItem = {
-            grading: 'Letter',
-            gradingOptions: []
-        };
+    it('should correctly check whether or not to show a badge for a cart item', inject(function(GRADING_OPTION) {
+        var cartItem = { grading: '' };
 
-        cartItem.gradingOptions[cartItem.grading] = 'Letter';
+        cartItem.grading = GRADING_OPTION.letter;
         expect(scope.showBadge(cartItem)).toBeFalsy();
 
-        cartItem.gradingOptions[cartItem.grading] = 'Audit';
+        cartItem.grading = GRADING_OPTION.audit;
         expect(scope.showBadge(cartItem)).toBeTruthy();
-    });
+
+        cartItem.grading = GRADING_OPTION.passFail;
+        expect(scope.showBadge(cartItem)).toBeTruthy();
+    }));
 });

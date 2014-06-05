@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('regCartApp')
-    .service('CartService', ['ServiceUtilities', 'URLS', function (ServiceUtilities, URLS) {
+    .service('CartService', ['ServiceUtilities', 'URLS', function CartService(ServiceUtilities, URLS) {
 
         this.getCart = function () {
             return ServiceUtilities.getData(URLS.courseRegistrationCart+'/searchForCart');

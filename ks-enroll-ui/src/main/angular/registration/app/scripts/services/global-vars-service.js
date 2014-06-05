@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('regCartApp')
-    .service('GlobalVarsService', function GlobalVarsService() {
+    .service('GlobalVarsService', ['STATE', 'STATUS', function GlobalVarsService(STATE, STATUS) {
 
         var cartCredits = 0;
         var cartCourseCount = 0;
@@ -12,11 +12,6 @@ angular.module('regCartApp')
         var schedule;
         var userId;
 
-        var processingStates = ['kuali.lpr.trans.item.state.processing','kuali.lpr.trans.state.processing'];
-        var successStates = ['kuali.lpr.trans.state.succeeded', 'kuali.lpr.trans.item.state.succeeded'];
-        var waitlistStates = ['kuali.lpr.trans.item.state.waitlist'];
-        var errorStates = ['kuali.lpr.trans.state.failed', 'kuali.lpr.trans.item.state.failed'];
-        var actionStates = ['kuali.lpr.trans.item.state.waitlistActionAvailable'];
 
         this.getCartCredits = function () {
             return cartCredits;
@@ -83,18 +78,18 @@ angular.module('regCartApp')
         };
 
         // In this method we pass in a state and it returns a status
-        this.getCorrespondingStatusFromState = function(state){
-            var retStatus = 'new';
-            if(processingStates.indexOf(state) >= 0){
-                retStatus = 'processing';
-            } else if(successStates.indexOf(state) >= 0){
-                retStatus = 'success';
-            } else if(errorStates.indexOf(state) >= 0){
-                retStatus = 'error';
-            } else if(waitlistStates.indexOf(state) >= 0){
-                retStatus = 'waitlist';
-            } else if(actionStates.indexOf(state) >= 0){
-                retStatus = 'action';
+        this.getCorrespondingStatusFromState = function(state) {
+            var retStatus = STATUS.new;
+            if (STATE.processing.indexOf(state) >= 0){
+                retStatus = STATUS.processing;
+            } else if(STATE.success.indexOf(state) >= 0){
+                retStatus = STATUS.success;
+            } else if(STATE.error.indexOf(state) >= 0){
+                retStatus = STATUS.error;
+            } else if(STATE.waitlist.indexOf(state) >= 0){
+                retStatus = STATUS.waitlist;
+            } else if(STATE.action.indexOf(state) >= 0){
+                retStatus = STATUS.action;
             }
 
             return retStatus;
@@ -107,14 +102,14 @@ angular.module('regCartApp')
          */
         this.updateScheduleCounts = function (personSchedule) {
 
-            var scheduleList=personSchedule.studentScheduleTermResults;
-            var userId=personSchedule.userId;
+            var scheduleList = personSchedule.studentScheduleTermResults;
+            var userId = personSchedule.userId;
 
             //Calculate credit count, course count and grading option count
             var creditCount = 0;
             var courses = 0;
             var waitlistCreditCount = 0;
-            var waitlistCourses =0;
+            var waitlistCourses = 0;
 
             this.setSchedule(scheduleList);
             angular.forEach(scheduleList, function (schedule) {
@@ -150,11 +145,11 @@ angular.module('regCartApp')
         // In this method we pass in a status and it returns a message to display
         this.getCorrespondingMessageFromStatus = function(status){
             var statusMessage = '';
-            if(status === 'waitlist'){
+            if (status === STATUS.waitlist){
                 statusMessage = 'If a seat becomes available you will be registered automatically';
             }
 
             return statusMessage;
         };
 
-    });
+    }]);

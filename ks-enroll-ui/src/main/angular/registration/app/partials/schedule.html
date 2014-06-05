@@ -181,7 +181,7 @@
                             <!--Course Header Section-->
                             <div>
                                 <span class="kscr-Card-icon"><i class="glyphicon" ng-class="{'glyphicon-chevron-down': course.isopen, 'glyphicon-chevron-right': !course.isopen}"></i></span>
-                                <span class="kscr-Card-title" id="waitlist_course_code_{{course.courseCode}}_{{course.regGroupCode}}"><strong>{{course.courseCode}} ({{course.regGroupCode}}) </strong> <i class="glyphicon glyphicon-time kscr-Waitlisted-clockIcon"></i></span>
+                                <span class="kscr-Card-title" id="waitlist_course_code_{{course.courseCode}}_{{course.regGroupCode}}"><strong>{{course.courseCode}} ({{course.regGroupCode}}) </strong><i class="glyphicon glyphicon-time kscr-Waitlisted-clockIcon"></i></span>
                                 <span id="waitlist_grading_badge_{{course.courseCode}}_{{course.regGroupCode}}" ng-show="showBadge(course)" ng-class="{ 'kscr-Card-badge-fadeIn': course.editGradingOption, 'kscr-Card-badge-fade': !course.editGradingOption, 'kscr-Card-badge-fadeOutLetter': course.editGradingOptionLetter && course.editGradingOptionDone }">{{course.gradingOptions[course.gradingOptionId]}}</span>
                             </div>
                             <!--Course Title and description-->

@@ -1,8 +1,9 @@
 'use strict';
 
 angular.module('regCartApp')
-    .controller('CartCtrl',
-    function ($scope, $modal, CartService, ScheduleService, GlobalVarsService, $timeout) {
+    .controller('CartCtrl', ['$scope', '$modal', '$timeout', 'STATE', 'STATUS', 'GRADING_OPTION', 'ACTION_LINK', 'CartService', 'ScheduleService', 'GlobalVarsService',
+    function ($scope, $modal, $timeout, STATE, STATUS, GRADING_OPTION, ACTION_LINK, CartService, ScheduleService, GlobalVarsService) {
+        $scope.statuses = STATUS;
         $scope.oneAtATime = false;
         $scope.isCollapsed = true;
         var hasCartBeenLoaded = false;
@@ -10,6 +11,7 @@ angular.module('regCartApp')
 
         //Add a watch so that when termId changes, the cart is reloaded with the new termId
         $scope.$watch('termId', function (newValue) {
+            console.log('term id has changed');
             console.log('term id has changed');
             $scope.cartResults.items.splice(0, $scope.cartResults.items.length);
             if ($scope.userMessage && $scope.userMessage.txt) {
@@ -24,9 +26,10 @@ angular.module('regCartApp')
 
         // Watch the cart items to ensure the global vars are up to date
         $scope.$watchCollection('cart.items', function(items) {
+            $scope.creditTotal = creditTotal();
             if (items) {
                 GlobalVarsService.setCartCourseCount(items.length);
-                GlobalVarsService.setCartCredits(creditTotal());
+                GlobalVarsService.setCartCredits($scope.creditTotal);
             }
         });
 
@@ -44,15 +47,15 @@ angular.module('regCartApp')
                 for (var i = 0; i < $scope.cart.items.length; i++) {
 
                     var item = $scope.cart.items[i];
-                    if (GlobalVarsService.getCorrespondingStatusFromState(item.state) === 'processing') {
-                        item.status = 'processing';
+                    if (GlobalVarsService.getCorrespondingStatusFromState(item.state) === STATUS.processing) {
+                        item.status = STATUS.processing;
 
                         //var newItem = $.extend(true, {}, item);
                         var newItem = angular.copy(item);
                         $scope.cartResults.items.push(newItem);
                         // set cart and all items in cart to processing
-                        $scope.cartResults.state = 'kuali.lpr.trans.state.processing';
-                        $scope.cartResults.status = 'processing';  // set the overall status to processing
+                        $scope.cartResults.state = STATE.lpr.processing;
+                        $scope.cartResults.status = STATUS.processing;  // set the overall status to processing
                         startPolling = true;
                         submittedCartId = item.cartId;
                     } else {
@@ -69,10 +72,9 @@ angular.module('regCartApp')
 
         $scope.getStatusMessageFromStatus = function (status) {
             var retStatus = '';
-            if (status === 'success') {
+            if (status === STATUS.success) {
                 retStatus = ' - Success!';
-            }
-            if (status === 'error' || status === 'action') {
+            } else if (status === STATUS.error || status === STATUS.action) {
                 retStatus = ' - Failed!';
             }
 
@@ -81,7 +83,7 @@ angular.module('regCartApp')
 
         $scope.addRegGroupToCart = function () {
             $scope.courseCode = $scope.courseCode.toUpperCase();
-            addCourseToCart($scope.cart.cartId, $scope.courseCode, $scope.termId, $scope.regCode, null, null, null, null);
+            addCourseToCart($scope.cart.cartId, $scope.courseCode, $scope.termId, $scope.regCode, null, null, null);
         };
 
         $scope.$on('addCourseToCart', function (event, cartId, courseCode, termId, regGroupCode, regGroupId, gradingOptionId, credits) {
@@ -105,15 +107,15 @@ angular.module('regCartApp')
                 $scope.regCode = '';
                 $scope.cart.items.unshift(response);
                 console.log('Started to animate...');
-                $scope.cart.items[0].addingNewCartItem = true;
+                response.addingNewCartItem = true;
                 $timeout(function(){
-                    $scope.cart.items[0].addingNewCartItem = false;
+                    response.addingNewCartItem = false;
                 }, 2000);
             }, function (error) {
                 console.log('CartId:', cartId);
                 if (error.status === 404) {
                     //Reg group was not found
-                    $scope.userMessage = {txt: error.data, type: 'error'};
+                    $scope.userMessage = {txt: error.data, type: STATUS.error};
                 } else if (error.status === 400) {
                     console.log('CartId: ', cartId);
                     //Additional options are required
@@ -132,7 +134,7 @@ angular.module('regCartApp')
                             console.log('Controller for modal... Item: ', item);
                             $scope.newCartItem = item;
                             $scope.newCartItem.credits = $scope.newCartItem.newCredits = $scope.newCartItem.creditOptions[0];
-                            $scope.newCartItem.grading = $scope.newCartItem.newGrading = 'kuali.resultComponent.grade.letter';
+                            $scope.newCartItem.grading = $scope.newCartItem.newGrading = GRADING_OPTION.letter;
                             $scope.newCartItem.editing = true;
                             $scope.dismissAdditionalOptions = function () {
                                 console.log('Dismissing credits and grading');
@@ -162,9 +164,9 @@ angular.module('regCartApp')
         $scope.deleteCartItem = function (index) {
             var item = $scope.cart.items[index];
             var actionLinks = item.actionLinks;
-            var deleteUri;
+            var deleteUri = null;
             angular.forEach(actionLinks, function (actionLink) {
-                if (actionLink.action === 'removeItemFromCart') {
+                if (actionLink.action === ACTION_LINK.removeItemFromCart) {
                     deleteUri = actionLink.uri;
                 }
             });
@@ -174,9 +176,9 @@ angular.module('regCartApp')
                 function (response) {
                     $scope.cart.items.splice(index, 1);
 
-                    var actionUri;
+                    var actionUri = null;
                     angular.forEach(response.actionLinks, function (actionLink) {
-                        if (actionLink.action === 'undoDeleteCourse') {
+                        if (actionLink.action === ACTION_LINK.undoDeleteCourse) {
                             actionUri = actionLink.uri;
                         }
                     });
@@ -184,7 +186,7 @@ angular.module('regCartApp')
                     $scope.userMessage = {'txt': 'Removed <b>' + item.courseCode + '(' + item.regGroupCode + ')</b>',
                         'actionLink': actionUri,
                         'linkText': 'Undo',
-                        'type': 'success'};
+                        'type': STATUS.success};
                     $scope.userActionSuccessful = true;
                 });
         };
@@ -202,7 +204,7 @@ angular.module('regCartApp')
         $scope.editCartItem = function (cartItem) {
             cartItem.newCredits = cartItem.credits;
             cartItem.newGrading = cartItem.grading;
-            cartItem.status = 'editing';
+            cartItem.status = STATUS.editing;
             cartItem.editing = true;
         };
 
@@ -231,7 +233,7 @@ angular.module('regCartApp')
                 console.log('Started to animate...');
                 if (cartItem.newGrading !== oldGrading) {
                     cartItem.editGradingOption = true;
-                    if (cartItem.gradingOptions[cartItem.grading] === 'Letter') {
+                    if (cartItem.grading === GRADING_OPTION.letter) {
                         cartItem.editGradingOptionLetter = true;
                     }
                     $timeout(function(){
@@ -240,7 +242,7 @@ angular.module('regCartApp')
                     }, 2000);
                     $timeout(function(){
                         cartItem.editGradingOptionDone = false;
-                        if (cartItem.gradingOptions[cartItem.grading] === 'Letter') {
+                        if (cartItem.grading === GRADING_OPTION.letter) {
                             cartItem.editGradingOptionLetter = false;
                         }
                     }, 4000);
@@ -267,8 +269,8 @@ angular.module('regCartApp')
                 credits: cartItem.credits,
                 allowWaitlist: true
             }, function (registrationResponseInfo) {
-                cartItem.state = 'kuali.lpr.trans.item.state.processing';
-                cartItem.status = 'processing';
+                cartItem.state = STATE.lpr.item.processing;
+                cartItem.status = STATUS.processing;
                 cartItem.cartItemId = registrationResponseInfo.registrationResponseItems[0].registrationRequestItemId;
 
                 //cartItem.waitlistedStatus = true;
@@ -303,12 +305,12 @@ angular.module('regCartApp')
 
                 // set cart and all items in cart to processing
                 $scope.showConfirmation = false;
-                $scope.cartResults.state = 'kuali.lpr.trans.state.processing';
-                $scope.cartResults.status = 'processing';  // set the overall status to processing
+                $scope.cartResults.state = STATE.lpr.processing;
+                $scope.cartResults.status = STATUS.processing;  // set the overall status to processing
                 $scope.creditTotal = 0; // your cart will always update to zero upon submit
                 angular.forEach($scope.cartResults.items, function (item) {
-                    item.state = 'kuali.lpr.trans.item.state.processing';
-                    item.status = 'processing';
+                    item.state = STATE.lpr.item.processing;
+                    item.status = STATUS.processing;
                 });
                 $timeout(function () {
                 }, 250);    // delay for 250 milliseconds
@@ -317,7 +319,7 @@ angular.module('regCartApp')
             });
         };
 
-        // This method is used to update the states/status of each cart item by polling the server
+        // This method is used to update the STATE/status of each cart item by polling the server
         var cartPoller = function (registrationRequestId) {
             $scope.pollingCart = false; // prime to false
             $timeout(function () {
@@ -333,7 +335,7 @@ angular.module('regCartApp')
                                 item.statusMessage = responseItem.message;
                             }
                             // If anything is still processing, continue polling
-                            if (responseItem.state === 'kuali.lpr.trans.item.state.processing') {
+                            if (item.state === STATUS.processing) {
                                 $scope.pollingCart = true;
                             }
                         });
@@ -344,23 +346,23 @@ angular.module('regCartApp')
                     } else {
                         console.log('Stop polling');
                         $scope.cart.status = '';  // set the overall status to nothing... which is the default i guess
-                        $scope.cartResults.state = 'kuali.lpr.trans.state.succeeded';
+                        $scope.cartResults.state = STATE.lpr.item.succeeded;
                         $scope.cartResults.successCount = 0;
                         $scope.cartResults.waitlistCount = 0;
                         $scope.cartResults.errorCount = 0;
                         angular.forEach($scope.cartResults.items, function (item) {
                             switch (item.status) {
-                                case 'success':
+                                case STATUS.success:
                                     $scope.cartResults.successCount++;
                                     break;
-                                case 'waitlist':
+                                case STATUS.waitlist:
                                     $scope.cartResults.waitlistCount++;
                                     item.statusMessage = GlobalVarsService.getCorrespondingMessageFromStatus(item.status);
                                     break;
-                                case 'error':
+                                case STATUS.error:
                                     $scope.cartResults.errorCount++;
                                     break;
-                                case 'action':
+                                case STATUS.action:
                                     // Waitlist action available, indicate as a Failure
                                     $scope.cartResults.errorCount++;
                                     break;
@@ -394,20 +396,16 @@ angular.module('regCartApp')
             return totalNumber;
         }
 
-        $scope.$watchCollection('cart.items', function () {
-            $scope.creditTotal = creditTotal();
-        });
-
         $scope.showBadge = function (cartItem) {
             //console.log("Cart Item Grading: " + JSON.stringify(cartItem));
-            return cartItem.gradingOptions[cartItem.grading] !== 'Letter' || cartItem.editGradingOptionLetter;
+            return cartItem.grading !== GRADING_OPTION.letter || cartItem.editGradingOptionLetter;
         };
 
         $scope.editing = function (cartItem) {
-            return cartItem.status === 'editing';
+            return cartItem.status === STATUS.editing;
         };
 
-    });
+    }]);
 
 
 

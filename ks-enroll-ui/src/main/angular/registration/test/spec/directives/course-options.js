@@ -42,6 +42,11 @@ describe('Directive: CourseOptions', function () {
         scope.$digest();
     }
 
+    function findOptions () {
+        // Select on the icon since the More uses the same class
+        return angular.element(el[0].querySelectorAll('.kscr-Edit-option-icon'));
+    }
+
 
     describe('initialization', function() {
         it('should inject the appropriate html contents', function() {
@@ -74,7 +79,7 @@ describe('Directive: CourseOptions', function () {
             compileDirective(null, '<course-options course="course" prefix="TESTPREFIX_" max="3" show-all="true" more-behavior="dialog"></course-options>');
 
             expect(el.isolateScope().prefix).toBe('TESTPREFIX_');
-            expect(el.isolateScope().maxOptions).toBe(3);
+            expect(el.isolateScope().maxOptions).toBe('3');
             expect(el.isolateScope().showAll).toBeTruthy();
             expect(el.isolateScope().showAllCreditOptions).toBeTruthy();
             expect(el.isolateScope().showAllGradingOptions).toBeTruthy();
@@ -88,7 +93,7 @@ describe('Directive: CourseOptions', function () {
 
             compileDirective(course);
 
-            expect(el.find('input').length).toBe(3);
+            expect(findOptions().length).toBe(3);
             expect(el.html()).toContain('credits_COURSECODE_REGGROUPCODE_1');
             expect(el.html()).toContain('credits_COURSECODE_REGGROUPCODE_2');
             expect(el.html()).toContain('credits_COURSECODE_REGGROUPCODE_3');
@@ -101,7 +106,7 @@ describe('Directive: CourseOptions', function () {
 
             compileDirective(course);
 
-            expect(el.find('input').length).toBe(2);
+            expect(findOptions().length).toBe(2);
             expect(el.html()).toContain('OptionA');
             expect(el.html()).toContain('OptionB');
         });
@@ -123,12 +128,12 @@ describe('Directive: CourseOptions', function () {
             compileDirective(course);
 
             expect(el.isolateScope().shouldShowMoreCreditOptionsToggle()).toBeTruthy();
-            expect(el.find('input').length).toBe(4);
+            expect(findOptions().length).toBe(4);
 
             el.isolateScope().showAllCreditOptions = true;
             el.isolateScope().$digest();
             expect(el.isolateScope().shouldShowMoreCreditOptionsToggle()).toBeFalsy();
-            expect(el.find('input').length).toBe(6);
+            expect(findOptions().length).toBe(6);
         });
 
         it('should correctly determine whether or not to show the More grading options toggle', function() {
@@ -141,12 +146,12 @@ describe('Directive: CourseOptions', function () {
             compileDirective(course);
 
             expect(el.isolateScope().shouldShowMoreGradingOptionsToggle()).toBeTruthy();
-            expect(el.find('input').length).toBe(4);
+            expect(findOptions().length).toBe(4);
 
             el.isolateScope().showAllGradingOptions = true;
             el.isolateScope().$digest();
             expect(el.isolateScope().shouldShowMoreGradingOptionsToggle()).toBeFalsy();
-            expect(el.find('input').length).toBe(6);
+            expect(findOptions().length).toBe(6);
         });
 
         it('should show the correct options based on the selected credits option', function() {
@@ -159,7 +164,7 @@ describe('Directive: CourseOptions', function () {
 
             expect(el.html()).toContain('More');
 
-            expect(el.find('input').length).toBe(4);
+            expect(findOptions().length).toBe(4);
             expect(el.html()).toContain('credits_COURSECODE_REGGROUPCODE_1');
             expect(el.html()).toContain('credits_COURSECODE_REGGROUPCODE_2');
             expect(el.html()).toContain('credits_COURSECODE_REGGROUPCODE_3');
@@ -167,7 +172,7 @@ describe('Directive: CourseOptions', function () {
 
             scope.course.credits = '2';
             scope.$digest();
-            expect(el.find('input').length).toBe(4);
+            expect(findOptions().length).toBe(4);
             expect(el.html()).toContain('credits_COURSECODE_REGGROUPCODE_1');
             expect(el.html()).toContain('credits_COURSECODE_REGGROUPCODE_2');
             expect(el.html()).toContain('credits_COURSECODE_REGGROUPCODE_3');
@@ -175,7 +180,7 @@ describe('Directive: CourseOptions', function () {
 
             scope.course.credits = '3';
             scope.$digest();
-            expect(el.find('input').length).toBe(4);
+            expect(findOptions().length).toBe(4);
             expect(el.html()).toContain('credits_COURSECODE_REGGROUPCODE_1');
             expect(el.html()).toContain('credits_COURSECODE_REGGROUPCODE_2');
             expect(el.html()).toContain('credits_COURSECODE_REGGROUPCODE_3');
@@ -183,7 +188,7 @@ describe('Directive: CourseOptions', function () {
 
             scope.course.credits = '4';
             scope.$digest();
-            expect(el.find('input').length).toBe(4);
+            expect(findOptions().length).toBe(4);
             expect(el.html()).toContain('credits_COURSECODE_REGGROUPCODE_2');
             expect(el.html()).toContain('credits_COURSECODE_REGGROUPCODE_3');
             expect(el.html()).toContain('credits_COURSECODE_REGGROUPCODE_4');
@@ -191,7 +196,7 @@ describe('Directive: CourseOptions', function () {
 
             scope.course.credits = '5';
             scope.$digest();
-            expect(el.find('input').length).toBe(4);
+            expect(findOptions().length).toBe(4);
             expect(el.html()).toContain('credits_COURSECODE_REGGROUPCODE_3');
             expect(el.html()).toContain('credits_COURSECODE_REGGROUPCODE_4');
             expect(el.html()).toContain('credits_COURSECODE_REGGROUPCODE_5');
@@ -199,7 +204,7 @@ describe('Directive: CourseOptions', function () {
 
             scope.course.credits = '6';
             scope.$digest();
-            expect(el.find('input').length).toBe(4);
+            expect(findOptions().length).toBe(4);
             expect(el.html()).toContain('credits_COURSECODE_REGGROUPCODE_3');
             expect(el.html()).toContain('credits_COURSECODE_REGGROUPCODE_4');
             expect(el.html()).toContain('credits_COURSECODE_REGGROUPCODE_5');
@@ -223,7 +228,7 @@ describe('Directive: CourseOptions', function () {
 
             expect(el.html()).toContain('More');
 
-            expect(el.find('input').length).toBe(4);
+            expect(findOptions().length).toBe(4);
             expect(el.html()).toContain('grading_COURSECODE_REGGROUPCODE_OptionA');
             expect(el.html()).toContain('grading_COURSECODE_REGGROUPCODE_OptionB');
             expect(el.html()).toContain('grading_COURSECODE_REGGROUPCODE_OptionC');
@@ -231,7 +236,7 @@ describe('Directive: CourseOptions', function () {
 
             scope.course.grading = 'b';
             scope.$digest();
-            expect(el.find('input').length).toBe(4);
+            expect(findOptions().length).toBe(4);
             expect(el.html()).toContain('grading_COURSECODE_REGGROUPCODE_OptionA');
             expect(el.html()).toContain('grading_COURSECODE_REGGROUPCODE_OptionB');
             expect(el.html()).toContain('grading_COURSECODE_REGGROUPCODE_OptionC');
@@ -239,7 +244,7 @@ describe('Directive: CourseOptions', function () {
 
             scope.course.grading = 'c';
             scope.$digest();
-            expect(el.find('input').length).toBe(4);
+            expect(findOptions().length).toBe(4);
             expect(el.html()).toContain('grading_COURSECODE_REGGROUPCODE_OptionA');
             expect(el.html()).toContain('grading_COURSECODE_REGGROUPCODE_OptionB');
             expect(el.html()).toContain('grading_COURSECODE_REGGROUPCODE_OptionC');
@@ -247,7 +252,7 @@ describe('Directive: CourseOptions', function () {
 
             scope.course.grading = 'd';
             scope.$digest();
-            expect(el.find('input').length).toBe(4);
+            expect(findOptions().length).toBe(4);
             expect(el.html()).toContain('grading_COURSECODE_REGGROUPCODE_OptionB');
             expect(el.html()).toContain('grading_COURSECODE_REGGROUPCODE_OptionC');
             expect(el.html()).toContain('grading_COURSECODE_REGGROUPCODE_OptionD');
@@ -255,7 +260,7 @@ describe('Directive: CourseOptions', function () {
 
             scope.course.grading = 'e';
             scope.$digest();
-            expect(el.find('input').length).toBe(4);
+            expect(findOptions().length).toBe(4);
             expect(el.html()).toContain('grading_COURSECODE_REGGROUPCODE_OptionC');
             expect(el.html()).toContain('grading_COURSECODE_REGGROUPCODE_OptionD');
             expect(el.html()).toContain('grading_COURSECODE_REGGROUPCODE_OptionE');
@@ -263,7 +268,7 @@ describe('Directive: CourseOptions', function () {
 
             scope.course.grading = 'f';
             scope.$digest();
-            expect(el.find('input').length).toBe(4);
+            expect(findOptions().length).toBe(4);
             expect(el.html()).toContain('grading_COURSECODE_REGGROUPCODE_OptionC');
             expect(el.html()).toContain('grading_COURSECODE_REGGROUPCODE_OptionD');
             expect(el.html()).toContain('grading_COURSECODE_REGGROUPCODE_OptionE');

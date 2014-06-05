@@ -8,9 +8,9 @@ angular.module('regCartApp')
             transclude: true,
             scope: {
                 course: '=', // Handle on the course object
-                maxOptions: '=max', // Max # of items to show at a time
+                maxOptions: '@max', // Max # of items to show at a time
                 prefix: '@', // Element ID prefix (e.g. waitlist_)
-                showAll: '=', // Show all items, preventing the More toggle from showing [true, false]
+                showAll: '@', // Show all items, preventing the More toggle from showing [true, false]
                 moreBehavior: '@', // Behavior of expand button [expand, dialog]
                 cancelFn: '&onCancel', // Function to call when canceling the form, provides course as parameter
                 submitFn: '&onSubmit' // Function to call when submitting the form, provides course as parameter
@@ -18,12 +18,13 @@ angular.module('regCartApp')
             templateUrl: 'partials/courseOptions.html',
             controller: ['$scope', '$modal', function($scope, $modal) {
                 var course = $scope.course,
-                    maxOptions = $scope.maxOptions || 4,
-                    showAll = $scope.showAll ? true : false,
-                    moreBehavior = $scope.moreBehavior || 'expand';
+                    maxOptions = $scope.maxOptions || 4;
 
-                $scope.showAllCreditOptions = showAll;
-                $scope.showAllGradingOptions = showAll;
+                $scope.showAll = $scope.showAll ? true : false;
+                $scope.moreBehavior = $scope.moreBehavior || 'expand';
+
+                $scope.showAllCreditOptions = $scope.showAll;
+                $scope.showAllGradingOptions = $scope.showAll;
 
 
                 // Transpose the grading options object into a more consumable format for the view
@@ -52,7 +53,7 @@ angular.module('regCartApp')
                 };
 
                 $scope.showMoreCreditOptions = function() {
-                    if (moreBehavior === 'expand') {
+                    if ($scope.moreBehavior === 'expand') {
                         $scope.showAllCreditOptions = true;
                     } else {
                         showOptionsDialog();
@@ -60,7 +61,7 @@ angular.module('regCartApp')
                 };
 
                 $scope.showMoreGradingOptions = function() {
-                    if (moreBehavior === 'expand') {
+                    if ($scope.moreBehavior === 'expand') {
                         $scope.showAllGradingOptions = true;
                     } else {
                         showOptionsDialog();
@@ -175,8 +176,8 @@ angular.module('regCartApp')
 
                 function reset () {
                     // Reset the option visibility based on the showAll parameter.
-                    $scope.showAllCreditOptions = showAll;
-                    $scope.showAllGradingOptions = showAll;
+                    $scope.showAllCreditOptions = $scope.showAll;
+                    $scope.showAllGradingOptions = $scope.showAll;
                 }
             }]
         };
