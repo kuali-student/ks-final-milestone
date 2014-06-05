@@ -618,7 +618,9 @@ public class CourseController extends CourseRuleEditorController {
         CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
         CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
         maintainable.deleteComment(courseInfoWrapper.getCapturedCommenterId());
-        return start(form, request, response);
+        maintainable.retrieveComments();
+        courseInfoWrapper.setComment("");
+        return showDialog("commentsLightBox", form, request, response);
     }
 
 
@@ -658,6 +660,7 @@ public class CourseController extends CourseRuleEditorController {
         courseInfoWrapper.setActiveComment(commentWrapper);
         maintainable.saveComment(courseInfoWrapper.getActiveComment());
         maintainable.retrieveComments();
+        courseInfoWrapper.setComment("");
 
         return showDialog("commentsLightBox", form, request, response);
 

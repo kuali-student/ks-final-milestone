@@ -1915,13 +1915,22 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
      */
     public void deleteComment(String commentId) {
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
+        CommentInfo commentDelete =  null;
         ProposalInfo proposal = courseInfoWrapper.getProposalInfo();
         try {
-            getCommentService().deleteComment(commentId, createContextInfo());
+            List<CommentInfo> commentsOfTheProposal = getCommentService().getCommentsByReferenceAndType(proposal.getId(), proposal.getTypeKey(), createContextInfo());
 
+            for (CommentInfo commentInfo : commentsOfTheProposal) {
+                if (StringUtils.equals(courseInfoWrapper.getCapturedCommenterId(), commentInfo.getCommenterId())) {
+                    commentDelete = commentInfo;
+                    continue;
+                }
+            }
+            if(commentDelete!= null)
+            getCommentService().deleteComment(commentDelete.getId(),createContextInfo());
         } catch (Exception e) {
-            LOG.error("Error deleting comment " + commentId + " for the proposal " + proposal.getName());
-            //throw new RuntimeException("Error adding comment " + comment.getId() + " for the proposal " + proposal.getName(), e);
+            LOG.error("Error deleting comment " + commentDelete.getId() + " for the proposal " + proposal.getName());
+            throw new RuntimeException("Error adding comment " + commentDelete.getId() + " for the proposal " + proposal.getName(), e);
         }
     }
 
@@ -1949,7 +1958,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             comment.setTypeKey(CommentServiceConstants.COMMENT_GENERAL_REMARKS_TYPE_KEY);
             DateFormat dateFormat = new SimpleDateFormat("MMMMM dd, yyyy, HH:mm a");
             Date date = new Date();
-            comment.setCommenterId(GlobalVariables.getUserSession().getPrincipalId() + " on " + dateFormat.format(date) );
+            comment.setCommenterId(GlobalVariables.getUserSession().getPrincipalId() + " on " + dateFormat.format(date));
             comment.setStateKey(CommentServiceConstants.COMMENT_ACTIVE_STATE_KEY);
             try {
                 comment = getCommentService().createComment(proposal.getId(), proposal.getTypeKey(), CommentServiceConstants.COMMENT_GENERAL_REMARKS_TYPE_KEY, comment, createContextInfo());
@@ -2004,7 +2013,6 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 courseInfoWrapper.getComments().add(wrapper);
             }
         }
-
     }
 
     /**
