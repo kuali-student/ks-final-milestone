@@ -31,8 +31,6 @@ import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInf
 import org.kuali.student.enrollment.courseregistration.dto.CreditLoadInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
-import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
-import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseItemInfo;
 import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequest;
 import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequestItem;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
@@ -57,7 +55,13 @@ import org.kuali.student.r2.common.util.date.KSDateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public class CourseRegistrationServiceMockImpl2
     extends AbstractCourseRegistrationService
@@ -689,7 +693,7 @@ public class CourseRegistrationServiceMockImpl2
     }
 
     @Override
-    public RegistrationResponseInfo submitRegistrationRequest(String registrationRequestId, ContextInfo contextInfo)
+    public RegistrationRequestInfo submitRegistrationRequest(String registrationRequestId, ContextInfo contextInfo)
         throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         /* look up the registration request */
@@ -708,10 +712,7 @@ public class CourseRegistrationServiceMockImpl2
         /* check to see if the student is already regsistered in the course offering */
         //...... TODO
 
-        /* create the response */
-        RegistrationResponseInfo response = new RegistrationResponseInfo();
-        response.setRegistrationRequestId(rr.getId());
-        
+
         /* cddr through the list of request items */
         for (RegistrationRequestItemInfo item : rr.getRegistrationRequestItems()) {
 
@@ -775,15 +776,6 @@ public class CourseRegistrationServiceMockImpl2
                 /* set the state for the item */
                 item.setStateKey(LprServiceConstants.LPRTRANS_SUCCEEDED_STATE_KEY);
 
-                /* add the response item */
-                RegistrationResponseItemInfo responseItem = new RegistrationResponseItemInfo();
-                responseItem.setRegistrationRequestItemId(item.getId());
-                OperationStatusInfo status = new OperationStatusInfo();
-                status.setStatus("ok");
-                responseItem.setOperationStatus(status);
-                responseItem.setCourseRegistrationId(cr.getId());
-                response.getRegistrationResponseItems().add(responseItem);
-
             } else if (item.getTypeKey().equals(LprServiceConstants.REQ_ITEM_DROP_TYPE_KEY)) {
                 String error = String.format("Empty If Statement: No action defined for %s", LprServiceConstants.REQ_ITEM_DROP_TYPE_KEY);
                 LOGGER.debug(error);
@@ -804,7 +796,7 @@ public class CourseRegistrationServiceMockImpl2
         OperationStatusInfo status = new OperationStatusInfo();
         status.setStatus("ok");
 
-        return response;
+        return rr;
     }
 
     @Override
