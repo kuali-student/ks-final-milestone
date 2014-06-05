@@ -1510,7 +1510,9 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
             });
         }
     }
-
+       /*
+        * Compare with check nullability
+        */
     protected int compareObject(Comparable s1, Comparable s2) {
         if (s1 == null && s2 != null) {
             return -1;
