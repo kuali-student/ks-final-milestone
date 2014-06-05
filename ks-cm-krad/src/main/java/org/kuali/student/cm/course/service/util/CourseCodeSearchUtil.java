@@ -2,9 +2,7 @@ package org.kuali.student.cm.course.service.util;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
-import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.util.security.ContextUtils;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
@@ -17,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -100,13 +99,17 @@ public class CourseCodeSearchUtil {
      */
     public static void getCourseJointInfoWrapper(String courseNumber, CluService cluService,CourseJointInfoWrapper jointInfoWrapper) {
 
+        // TODO: jira KSCM-2195: The design here, searching for CLUs based on coursecode is incorrect as multiple clus can exist (e.g., proposal, active course)
+        // The correct design is to obtain the entity id based on the user selection in the 'suggest' box.
         List<CourseCodeSearchWrapper> searchWrappers = searchForCourseNumbers(courseNumber, cluService);
 
         if (searchWrappers != null) {
             try {
-                BeanUtils.copyProperties(jointInfoWrapper, KSCollectionUtils.getRequiredZeroElement(searchWrappers));
+                // TODO: jira KSCM-2195 Fix to avoid stacktrace, till the above design issue  is addressed
+                Iterator iter = searchWrappers.iterator();
+                BeanUtils.copyProperties(jointInfoWrapper, iter.next());
             } catch (Exception e) {
-                LOG.error("An error occurred while converting from the CouresCodeSearchWrapper to a CourseJointInfoWrapper: ", e);
+                LOG.error("An error occurred while converting from the CourseCodeSearchWrapper to a CourseJointInfoWrapper: ", e);
             }
         }
     }
