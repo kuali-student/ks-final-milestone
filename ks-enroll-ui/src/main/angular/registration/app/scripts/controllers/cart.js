@@ -12,7 +12,6 @@ angular.module('regCartApp')
         //Add a watch so that when termId changes, the cart is reloaded with the new termId
         $scope.$watch('termId', function (newValue) {
             console.log('term id has changed');
-            console.log('term id has changed');
             $scope.cartResults.items.splice(0, $scope.cartResults.items.length);
             if ($scope.userMessage && $scope.userMessage.txt) {
                 $scope.removeUserMessage();
@@ -332,7 +331,7 @@ angular.module('regCartApp')
                                 item.type = responseItem.type;
                                 // we need to update the status, which is used to controll css
                                 item.status = GlobalVarsService.getCorrespondingStatusFromState(responseItem.state);
-                                item.statusMessage = responseItem.messages[0];
+                                item.statusMessages = responseItem.messages;
                             }
                             // If anything is still processing, continue polling
                             if (item.state === STATUS.processing) {
@@ -357,7 +356,7 @@ angular.module('regCartApp')
                                     break;
                                 case STATUS.waitlist:
                                     $scope.cartResults.waitlistCount++;
-                                    item.statusMessage = GlobalVarsService.getCorrespondingMessageFromStatus(item.status);
+                                    item.waitlistMessage = GlobalVarsService.getCorrespondingMessageFromStatus(item.status);
                                     break;
                                 case STATUS.error:
                                     $scope.cartResults.errorCount++;

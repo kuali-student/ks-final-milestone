@@ -209,11 +209,19 @@
 }
 
 .kscr-Card-reason {
-  display: flex;
-}
+    display: flex;
 
-.kscr-Card-reason-message {
-  padding-left: 4px;
+    &-label {}
+    &-messages {
+        flex: 1;
+        padding-left: 5px;
+    }
+    &-message {
+        margin-bottom: 5px;
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
 }
 
 .kscr-Card-alert-spacing {

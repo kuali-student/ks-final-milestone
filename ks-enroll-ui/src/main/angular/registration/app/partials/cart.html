@@ -210,13 +210,18 @@
             </div>
             <!--Course Title and description-->
             <div class="kscr-Card-text-alert" id="title_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}">{{cartResultItem.courseTitle}}</div>
-            <div ng-if="cartResultItem.statusMessage && (cartResultItem.status != statuses.success)" id="result_status_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}" class="kscr-Card-detailsText--{{cartResultItem.status}}">
-                <span class="kscr-Card-reason">
-                    <span><strong>Reason:</strong></span><span class="kscr-Card-reason-message" ng-bind-html="cartResultItem.statusMessage"></span>
-                </span>
+            <div ng-if="cartResultItem.statusMessages && (cartResultItem.status != statuses.success)" id="result_status_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}" class="kscr-Card-detailsText--{{cartResultItem.status}}">
+                <div class="kscr-Card-reason">
+                    <div class="kscr-Card-reason-label"><strong>Reason:</strong></div>
+                    <div class="kscr-Card-reason-messages">
+                        <div class="kscr-Card-reason-message" ng-repeat="message in cartResultItem.statusMessages">
+                            <span ng-bind-html="message"></span>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="kscr-Card-buttons">
-                <div class="kscr-Card-button" ng-if="cartResultItem.statusMessage && (cartResultItem.status == statuses.action)">
+            <div class="kscr-Card-buttons" ng-if="cartResultItem.statusMessages && (cartResultItem.status == statuses.action)">
+                <div class="kscr-Card-button">
                     <span>
                         <button class="kscr-Button" id="waitlist_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}" ng-click="addCartItemToWaitlist(cartResultItem)">Add to Waitlist</button>
                     </span>
@@ -228,7 +233,7 @@
             <div class="ng-scope kscr-cartResult-heading">
                 <span class="kscr-Card-title-alert" id="waitlisted_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}">Added to Waitlist</span>
             </div>
-            <div class="kscr-Card-text-alert" id="waitlisted_message_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}">{{cartResultItem.statusMessage}}</div>
+            <div class="kscr-Card-text-alert" id="waitlisted_message_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}">{{cartResultItem.waitlistMessage}}</div>
             <div class="ng-scope">
                 <span class="kscr-Card-title-alert" id="waitlisted_course_code_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}">{{cartResultItem.courseCode}} ({{cartResultItem.regGroupCode}})</span>
             </div>
