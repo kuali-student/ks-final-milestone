@@ -19,7 +19,6 @@ import org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemEntity;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
-import org.kuali.student.enrollment.lpr.dto.LprTransactionItemResultInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.r2.common.criteria.CriteriaLookupService;
 import org.kuali.student.r2.common.dto.BulkStatusInfo;
@@ -381,6 +380,63 @@ public class LprServiceImpl implements LprService {
     }
 
     @Override
+    public List<LprTransactionItemInfo> getLprTransactionItemsByIds(@WebParam(name = "lprTransactionItemIds") List<String> lprTransactionItemIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException("unimplemented");
+    }
+
+    @Override
+    public List<String> getLprTransactionItemsByType(@WebParam(name = "lprTransactionItemTypeKey") String lprTransactionItemTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException("unimplemented");
+    }
+
+    @Override
+    public List<String> searchForLprTransactionItemIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException("unimplemented");
+    }
+
+    @Override
+    public List<LprTransactionItemInfo> searchForLprTransactionItems(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException("unimplemented");
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateLprTransactionItem(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "lprTransactionItemTypeKey") String lprTransactionItemTypeKey, @WebParam(name = "lprTransactionItem") LprTransactionItemInfo lprTransactionItem, @WebParam(name = "lprTransactionId") String lprTransactionId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException("unimplemented");
+    }
+
+    @Override
+    @Transactional
+    public LprTransactionItemInfo changeLprTransactionItem(@WebParam(name = "lprTransactionItemId") String lprTransactionItemId, @WebParam(name = "lprTransactionItemInfo") LprTransactionItemInfo lprTransactionItemInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+        LprTransactionItemEntity lprTransItem = lprTransactionItemDao.find(lprTransactionItemId);
+
+        if (null != lprTransItem) {
+
+            lprTransItem.fromDto(lprTransactionItemInfo);
+
+            if (null != lprTransactionItemInfo.getStateKey()) {
+                lprTransItem.setLprTransactionItemState(lprTransactionItemInfo.getStateKey());
+            }
+
+            lprTransItem.setEntityUpdated(contextInfo);
+
+            try {
+                lprTransItem = lprTransactionItemDao.merge(lprTransItem);
+            } catch (VersionMismatchException e) {
+                // TODO KSENROLL-9296 remove this exception translation once
+                // version mismatch exception is added to the updateLprTransaction method
+                throw new OperationFailedException("Version Mismatch", e);
+            }
+
+            lprTransactionItemDao.getEm().flush();
+
+            return lprTransItem.toDto();
+
+        } else {
+            throw new DoesNotExistException(lprTransactionItemId);
+        }
+    }
+
+    @Override
     @Transactional
     public StatusInfo deleteLprTransaction(String lprTransactionId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -503,9 +559,8 @@ public class LprServiceImpl implements LprService {
         LprTransactionInfo lprTransaction = getLprTransaction(lprTransactionId, context);
 
         for (LprTransactionItemInfo lprTransactionItemInfo : lprTransaction.getLprTransactionItems()) {
-            LprTransactionItemResultInfo lprTransResultInfo = new LprTransactionItemResultInfo();
             if (lprTransactionItemInfo.getTypeKey().equals(LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY) ||
-                    lprTransactionItemInfo.getTypeKey().equals(LprServiceConstants.REQ_ITEM_ADD_TO_WAITLIST_TYPE_KEY)) {
+                lprTransactionItemInfo.getTypeKey().equals(LprServiceConstants.REQ_ITEM_ADD_TO_WAITLIST_TYPE_KEY)) {
                 /*
                 // TODO Mezba - the method createLprFromLprTransactionItem is no longer there, decide what to do
                 String lprCreated = createLprFromLprTransactionItem(lprTransactionItemInfo, context);
@@ -551,7 +606,7 @@ public class LprServiceImpl implements LprService {
                      * OperationFailedException("updateLpr() failure in processLprTransaction()", e); }
                      */
                     deleteLpr(lprInfo.getId(), context);
-                    lprTransResultInfo.setResultingLprId(lprInfo.getId());
+                    lprTransactionItemInfo.setResultingLprId(lprInfo.getId());
                 }
 
             } else if (lprTransactionItemInfo.getTypeKey().equals(LprServiceConstants.REQ_ITEM_SWAP_TYPE_KEY)) {
@@ -588,9 +643,7 @@ public class LprServiceImpl implements LprService {
 
                 throw new OperationFailedException("The LPR Transaction Item did not have one of the supported type ");
             }
-            lprTransResultInfo.setStatus(true);
             lprTransactionItemInfo.setStateKey(LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY);
-            lprTransactionItemInfo.setLprTransactionItemResult(lprTransResultInfo);
 
         }
         try {
@@ -665,37 +718,37 @@ public class LprServiceImpl implements LprService {
         }
     }
 
-    @Transactional
-    @Override
-    public LprTransactionItemInfo updateLprTransactionItem(String lprTransactionItemId, LprTransactionItemInfo lprTransactionItemInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        LprTransactionItemEntity lprTransItem = lprTransactionItemDao.find(lprTransactionItemId);
-
-        if (null != lprTransItem) {
-
-            lprTransItem.fromDto(lprTransactionItemInfo);
-
-            if (null != lprTransactionItemInfo.getStateKey()) {
-                lprTransItem.setLprTransactionItemState(lprTransactionItemInfo.getStateKey());
-            }
-
-            lprTransItem.setEntityUpdated(contextInfo);
-
-            try {
-                lprTransItem = lprTransactionItemDao.merge(lprTransItem);
-            } catch (VersionMismatchException e) {
-                // TODO KSENROLL-9296 remove this exception translation once
-                // version mismatch exception is added to the updateLprTransaction method
-                throw new OperationFailedException("Version Mismatch", e);
-            }
-
-            lprTransactionItemDao.getEm().flush();
-
-            return lprTransItem.toDto();
-
-        } else {
-            throw new DoesNotExistException(lprTransactionItemId);
-        }
-    }
+//    @Transactional
+//    @Override
+//    public LprTransactionItemInfo updateLprTransactionItem(String lprTransactionItemId, LprTransactionItemInfo lprTransactionItemInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+//        LprTransactionItemEntity lprTransItem = lprTransactionItemDao.find(lprTransactionItemId);
+//
+//        if (null != lprTransItem) {
+//
+//            lprTransItem.fromDto(lprTransactionItemInfo);
+//
+//            if (null != lprTransactionItemInfo.getStateKey()) {
+//                lprTransItem.setLprTransactionItemState(lprTransactionItemInfo.getStateKey());
+//            }
+//
+//            lprTransItem.setEntityUpdated(contextInfo);
+//
+//            try {
+//                lprTransItem = lprTransactionItemDao.merge(lprTransItem);
+//            } catch (VersionMismatchException e) {
+//                // TODO KSENROLL-9296 remove this exception translation once
+//                // version mismatch exception is added to the updateLprTransaction method
+//                throw new OperationFailedException("Version Mismatch", e);
+//            }
+//
+//            lprTransactionItemDao.getEm().flush();
+//
+//            return lprTransItem.toDto();
+//
+//        } else {
+//            throw new DoesNotExistException(lprTransactionItemId);
+//        }
+//    }
 
     @Transactional
     @Override

@@ -82,7 +82,7 @@ public class RegistrationRequestTransformer {
         // resultValuesGroupKeys, requestOptions, lprTransactionItemResult
         item.setPersonId(requestItem.getPersonId());
         item.setTransactionId(requestItem.getRegistrationRequestId());
-        item.setLuiId(requestItem.getRegistrationGroupId());
+        item.setNewLuiId(requestItem.getRegistrationGroupId());
         item.setExistingLprId(requestItem.getExistingCourseRegistrationId());
         item.getResultValuesGroupKeys().clear();
 
@@ -162,7 +162,7 @@ public class RegistrationRequestTransformer {
         // resultValuesGroupKeys, requestOptions, lprTransactionItemResult
         requestItem.setPersonId(item.getPersonId());
         requestItem.setRegistrationRequestId(item.getTransactionId());
-        requestItem.setRegistrationGroupId(item.getLuiId());
+        requestItem.setRegistrationGroupId(item.getNewLuiId());
         requestItem.setExistingCourseRegistrationId(item.getExistingLprId());
 
         // Admittedly, a hacky way of doing things, so open for better ways to do this

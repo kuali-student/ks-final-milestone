@@ -4,6 +4,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by swedev on 2/11/14.
@@ -12,7 +14,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RegistrationResponseItemResult", propOrder = {
         "registrationRequestId", "registrationRequestItemId","state", "status",
-        "resultingLprId","message", "newLuiId", "type"})
+        "resultingLprId","messages", "newLuiId", "type"})
 public class RegistrationResponseItemResult {
     String state;  // current state of the lprTransaction
     String status; // human readable message, typically based on the state
@@ -21,7 +23,7 @@ public class RegistrationResponseItemResult {
     String registrationRequestItemId;
 
     String resultingLprId;
-    String message;
+    List<String> messages;
     String newLuiId;
 
 
@@ -68,14 +70,6 @@ public class RegistrationResponseItemResult {
         this.resultingLprId = resultingLprId;
     }
 
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
     public String getNewLuiId() {
         return newLuiId;
     }
@@ -92,6 +86,15 @@ public class RegistrationResponseItemResult {
         this.type = type;
     }
 
+    public List<String> getMessages() {
+        if(messages == null){
+            messages = new ArrayList<String>();
+        }
+        return messages;
+    }
+
+    public void setMessages(List<String> messages) { this.messages = messages; }
+
     @Override
     public String toString() {
         return "RegistrationResponseItemResult{" +
@@ -101,7 +104,7 @@ public class RegistrationResponseItemResult {
                 ", registrationRequestId='" + registrationRequestId + '\'' +
                 ", registrationRequestItemId='" + registrationRequestItemId + '\'' +
                 ", resultingLprId='" + resultingLprId + '\'' +
-                ", message='" + message + '\'' +
+                ", messages='" + messages + '\'' +
                 ", newLuiId='" + newLuiId + '\'' +
                 '}';
     }

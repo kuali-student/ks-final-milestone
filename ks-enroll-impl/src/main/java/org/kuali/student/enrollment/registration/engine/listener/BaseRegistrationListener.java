@@ -2,9 +2,10 @@ package org.kuali.student.enrollment.registration.engine.listener;
 
 
 import org.apache.activemq.command.ActiveMQMapMessage;
-import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
+import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.registration.engine.service.CourseRegistrationConstants;
 import org.kuali.student.enrollment.registration.engine.service.RegistrationProcessService;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jms.core.JmsTemplate;
@@ -65,16 +66,16 @@ public class BaseRegistrationListener implements MessageListener {
             // hook point before the process call
             beforeProcessHook(regReqId);
             // Process whatever the registrationProcessService was designed to process.
-            RegistrationResponseInfo regInfo = registrationProcessService.process(regReqId);
+            RegistrationRequestInfo regInfo = registrationProcessService.process(regReqId);
 
             // hook point after the process call
-            afterProcessHook(regInfo.getRegistrationRequestId());
+            afterProcessHook(regInfo.getId());
 
             // notify user queue
             notifyUserQueue(userId, regInfo);
 
             // We can configure standard destinations via spring.
-            notifyDestinations(buildResponseMessage(userId, regInfo.getRegistrationRequestId()));
+            notifyDestinations(buildResponseMessage(userId, regInfo.getId()));
 
 
         } catch (JMSException jmsEx) {
@@ -102,12 +103,12 @@ public class BaseRegistrationListener implements MessageListener {
         return mapMessage;
     }
 
-    protected void notifyUserQueue(String userId, RegistrationResponseInfo regInfo) {
+    protected void notifyUserQueue(String userId, RegistrationRequestInfo regInfo) {
         // Processing can generate n messages. iterate through the messages, sending them to the user's queue
-        for (String regMessage : regInfo.getMessages()) {
+        for (ValidationResultInfo regMessage : regInfo.getValidationResults()) {
             final String destination = CourseRegistrationConstants.USER_MESSAGE_QUEUE_PREFIX + userId;
             LOG.debug("Reg Request Message: {}", regMessage);  // debugging message
-            getJmsTemplate().convertAndSend(destination, regMessage);   // sends message to user queue
+            getJmsTemplate().convertAndSend(destination, regMessage.getMessage());   // sends message to user queue
         }
     }
 

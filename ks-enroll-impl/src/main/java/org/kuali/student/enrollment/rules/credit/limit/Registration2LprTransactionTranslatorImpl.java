@@ -20,7 +20,7 @@ public class    Registration2LprTransactionTranslatorImpl implements Registratio
             switch (regTrans.getAction()) {
                 case CREATE:
                     LprTransactionItemInfo item = constructNewTransactionItem(regTrans.getRegistration(), contextInfo);
-                    item.setLuiId(regTrans.getRegistration().getCourseOfferingId());
+                    item.setNewLuiId(regTrans.getRegistration().getCourseOfferingId());
             }
             for (ActivityRegistrationTransaction actTrans : regTrans.getActivityRegistrationTransactions()) {
             }
@@ -31,7 +31,7 @@ public class    Registration2LprTransactionTranslatorImpl implements Registratio
     protected LprTransactionItemInfo constructNewTransactionItem(CourseRegistrationInfo reg, ContextInfo contextInfo)
             throws OperationFailedException {
         LprTransactionItemInfo item = new LprTransactionItemInfo();
-        item.setLuiId(reg.getCourseOfferingId());
+        item.setNewLuiId(reg.getCourseOfferingId());
         item.setPersonId(reg.getPersonId());
         item.setTypeKey(reg.getTypeKey());
         return item;

@@ -14,7 +14,6 @@ import org.kuali.student.enrollment.courseseatcount.service.CourseSeatCountServi
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
-import org.kuali.student.enrollment.lpr.dto.LprTransactionItemResultInfo;
 import org.kuali.student.enrollment.lpr.infc.Lpr;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.lui.service.LuiService;
@@ -24,6 +23,7 @@ import org.kuali.student.enrollment.registration.engine.service.CourseRegistrati
 import org.kuali.student.enrollment.registration.engine.service.WaitlistManagerService;
 import org.kuali.student.enrollment.registration.search.service.impl.CourseRegistrationSearchServiceImpl;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -32,6 +32,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseSeatCountServiceConstants;
@@ -53,7 +54,7 @@ import java.util.List;
 import java.util.Map;
 
 public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEngineService {
-    public static final Logger LOGGER = LoggerFactory.getLogger(CourseRegistrationInitilizationServiceImpl.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(CourseRegistrationEngineServiceImpl.class);
 
     // -------------------------------------
     private CourseRegistrationService courseRegistrationService;
@@ -65,17 +66,16 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
     private WaitlistManagerService waitlistManagerService;
 
     @Override
-    public void updateLprTransactionItemResult(String lprTransactionId, String lprTransactionItemId, String lprTransactionItemStateKey, String resultingLprId, String message, boolean status, ContextInfo contextInfo) throws DoesNotExistException, PermissionDeniedException, OperationFailedException, VersionMismatchException, InvalidParameterException, MissingParameterException, DataValidationErrorException {
+    public void updateLprTransactionItemResult(String lprTransactionId, String lprTransactionItemId, String lprTransactionItemStateKey, String resultingLprId, String message, boolean status, ContextInfo contextInfo) throws DoesNotExistException, PermissionDeniedException, OperationFailedException, VersionMismatchException, InvalidParameterException, MissingParameterException, DataValidationErrorException, ReadOnlyException {
         LprTransactionItemInfo lprTransactionItem = getLprService().getLprTransactionItem(lprTransactionItemId, contextInfo);
         lprTransactionItem.setStateKey(lprTransactionItemStateKey);
-        LprTransactionItemResultInfo transactionItemResult = new LprTransactionItemResultInfo();
-        transactionItemResult.setMessage(message);
-        transactionItemResult.setStatus(status);
-        transactionItemResult.setResultingLprId(resultingLprId);
-        lprTransactionItem.setLprTransactionItemResult(transactionItemResult);
+        if (LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY.equals(lprTransactionItemStateKey)) {
+            lprTransactionItem.getValidationResults().add(new ValidationResultInfo("", ValidationResult.ErrorLevel.ERROR, message));
+        }
+        lprTransactionItem.setResultingLprId(resultingLprId);
 
         //update the state and result message;
-        getLprService().updateLprTransactionItem(lprTransactionItem.getId(), lprTransactionItem, contextInfo);
+        getLprService().changeLprTransactionItem(lprTransactionItem.getId(), lprTransactionItem, contextInfo);
         return;
     }
 

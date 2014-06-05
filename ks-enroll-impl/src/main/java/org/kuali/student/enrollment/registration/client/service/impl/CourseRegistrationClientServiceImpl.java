@@ -11,11 +11,9 @@ import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
-import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
-import org.kuali.student.enrollment.lpr.dto.LprTransactionItemResultInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.registration.client.service.CourseRegistrationClientService;
 import org.kuali.student.enrollment.registration.client.service.CourseRegistrationClientServiceConstants;
@@ -41,6 +39,7 @@ import org.kuali.student.enrollment.registration.client.service.impl.util.statis
 import org.kuali.student.enrollment.registration.engine.util.MQPerformanceCounter;
 import org.kuali.student.enrollment.registration.search.service.impl.CourseRegistrationSearchServiceImpl;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -405,7 +404,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         return response.build();
     }
 
-    private RegistrationResponseInfo dropFromWaitlistLocal(ContextInfo contextInfo, String masterLprId) throws DoesNotExistException, PermissionDeniedException, OperationFailedException, InvalidParameterException, ReadOnlyException, MissingParameterException, DataValidationErrorException, AlreadyExistsException, LoginException {
+    private RegistrationRequestInfo dropFromWaitlistLocal(ContextInfo contextInfo, String masterLprId) throws DoesNotExistException, PermissionDeniedException, OperationFailedException, InvalidParameterException, ReadOnlyException, MissingParameterException, DataValidationErrorException, AlreadyExistsException, LoginException {
 
         String userId = contextInfo.getPrincipalId();
 
@@ -428,7 +427,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         return CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().submitRegistrationRequest(newRegReq.getId(), contextInfo);
     }
 
-    private RegistrationResponseInfo registerForRegistrationGroupLocal(String termCode, String courseCode, String regGroupCode, String regGroupId, String credits, String gradingOptionId, boolean okToWaitlist, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, DoesNotExistException, ReadOnlyException, AlreadyExistsException, LoginException {
+    private RegistrationRequestInfo registerForRegistrationGroupLocal(String termCode, String courseCode, String regGroupCode, String regGroupId, String credits, String gradingOptionId, boolean okToWaitlist, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, DoesNotExistException, ReadOnlyException, AlreadyExistsException, LoginException {
         LOGGER.debug("REGISTRATION: user[{}] termCode[{}] courseCode[{}] regGroup[{}]",
                 contextInfo.getPrincipalId(), termCode, courseCode, regGroupCode);
 
@@ -451,7 +450,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         return CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().submitRegistrationRequest(newRegReq.getId(), contextInfo);
     }
 
-    private RegistrationResponseInfo dropRegistrationGroupLocal(ContextInfo contextInfo, String masterLprId) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, DoesNotExistException, ReadOnlyException, AlreadyExistsException, LoginException {
+    private RegistrationRequestInfo dropRegistrationGroupLocal(ContextInfo contextInfo, String masterLprId) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, DoesNotExistException, ReadOnlyException, AlreadyExistsException, LoginException {
 
         String userId = contextInfo.getPrincipalId();
 
@@ -1115,46 +1114,41 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
 
         result.setRegistrationRequestId(lprTransactionInfo.getId());
         result.setState(lprTransactionInfo.getStateKey());
-        result.setStatus(lprTransactionInfo.getStateKey()); // use state for now until we come up with something better
+        result.getStatuses().add(lprTransactionInfo.getStateKey()); // use state for now until we come up with something better
 
         for (LprTransactionItemInfo lprTransactionItemInfo : lprTransactionInfo.getLprTransactionItems()) {
             RegistrationResponseItemResult resultItem = new RegistrationResponseItemResult();
-            LprTransactionItemResultInfo lprTransactionItemResultInfo = lprTransactionItemInfo.getLprTransactionItemResult();
 
             resultItem.setRegistrationRequestItemId(lprTransactionItemInfo.getId());
             resultItem.setRegistrationRequestId(lprTransactionInfo.getId());
             resultItem.setState(lprTransactionItemInfo.getStateKey());
             resultItem.setStatus(lprTransactionItemInfo.getStateKey()); // we should be useing the result state, but that is currently a boolean and not useful
-            resultItem.setNewLuiId(lprTransactionItemInfo.getLuiId());
+            resultItem.setNewLuiId(lprTransactionItemInfo.getNewLuiId());
             resultItem.setType(lprTransactionItemInfo.getTypeKey());
 
-            if (lprTransactionItemResultInfo != null) {
-                //resultItem.setStatus(lprTransactionItemResultInfo.getStatus()); // the status is currently boolean. not usable. use state for now
-                resultItem.setMessage(lprTransactionItemResultInfo.getMessage());
-                if (lprTransactionItemResultInfo.getMessage() != null) {
-                    if (StringUtils.equals(lprTransactionItemResultInfo.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_MESSAGE_KEY)) {
-                        resultItem.setMessage(CourseRegistrationClientServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_MESSAGE);
-                        resultItem.setState("kuali.lpr.trans.item.state.waitlistActionAvailable");
-                    } else if (StringUtils.equals(lprTransactionItemResultInfo.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_STUDENT_REMOVED_MESSAGE_KEY)) {
-                        resultItem.setMessage(CourseRegistrationClientServiceConstants.LPRTRANS_ITEM_WAITLIST_STUDENT_REMOVED_MESSAGE);
-                    } else if (StringUtils.equals(lprTransactionItemResultInfo.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_OPTIONS_UPDATED_MESSAGE_KEY)) {
-                        resultItem.setMessage(CourseRegistrationClientServiceConstants.LPRTRANS_ITEM_WAITLIST_OPTIONS_UPDATED_MESSAGE);
-                    } else if (StringUtils.equals(lprTransactionItemResultInfo.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_WAITLISTED_MESSAGE_KEY)) {
-                        resultItem.setMessage(CourseRegistrationClientServiceConstants.LPRTRANS_ITEM_WAITLIST_WAITLISTED_MESSAGE);
-                    } else if (StringUtils.equals(lprTransactionItemResultInfo.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_FULL_MESSAGE_KEY)) {
-                        resultItem.setMessage(CourseRegistrationClientServiceConstants.LPRTRANS_ITEM_WAITLIST_FULL_MESSAGE);
-                    } else if (StringUtils.equals(lprTransactionItemResultInfo.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_NOT_OFFERED_MESSAGE_KEY)) {
-                        resultItem.setMessage(CourseRegistrationClientServiceConstants.LPRTRANS_ITEM_WAITLIST_NOT_OFFERED_MESSAGE);
-                    } else if (StringUtils.equals(lprTransactionItemResultInfo.getMessage(), LprServiceConstants.LPRTRANS_ITEM_COURSE_UPDATED_MESSAGE_KEY)) {
-                        resultItem.setMessage(CourseRegistrationClientServiceConstants.LPRTRANS_ITEM_COURSE_UPDATED_MESSAGE);
-                    } else if (StringUtils.equals(lprTransactionItemResultInfo.getMessage(), LprServiceConstants.LPRTRANS_ITEM_COURSE_DROPPED_MESSAGE_KEY)) {
-                        resultItem.setMessage(CourseRegistrationClientServiceConstants.LPRTRANS_ITEM_COURSE_DROPPED_MESSAGE);
-                    } else if (StringUtils.equals(lprTransactionItemResultInfo.getMessage(), LprServiceConstants.LPRTRANS_ITEM_PERSON_REGISTERED_MESSAGE_KEY)) {
-                        resultItem.setMessage(CourseRegistrationClientServiceConstants.LPRTRANS_ITEM_PERSON_REGISTERED_MESSAGE);
-                    }
+            for(ValidationResultInfo validationResult:lprTransactionItemInfo.getValidationResults()){
+                if (StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_MESSAGE_KEY)) {
+                    resultItem.getMessages().add(CourseRegistrationClientServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_MESSAGE);
+                    resultItem.setState("kuali.lpr.trans.item.state.waitlistActionAvailable");
+                } else if (StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_STUDENT_REMOVED_MESSAGE_KEY)) {
+                    resultItem.getMessages().add(CourseRegistrationClientServiceConstants.LPRTRANS_ITEM_WAITLIST_STUDENT_REMOVED_MESSAGE);
+                } else if (StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_OPTIONS_UPDATED_MESSAGE_KEY)) {
+                    resultItem.getMessages().add(CourseRegistrationClientServiceConstants.LPRTRANS_ITEM_WAITLIST_OPTIONS_UPDATED_MESSAGE);
+                } else if (StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_WAITLISTED_MESSAGE_KEY)) {
+                    resultItem.getMessages().add(CourseRegistrationClientServiceConstants.LPRTRANS_ITEM_WAITLIST_WAITLISTED_MESSAGE);
+                } else if (StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_FULL_MESSAGE_KEY)) {
+                    resultItem.getMessages().add(CourseRegistrationClientServiceConstants.LPRTRANS_ITEM_WAITLIST_FULL_MESSAGE);
+                } else if (StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_NOT_OFFERED_MESSAGE_KEY)) {
+                    resultItem.getMessages().add(CourseRegistrationClientServiceConstants.LPRTRANS_ITEM_WAITLIST_NOT_OFFERED_MESSAGE);
+                } else if (StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_COURSE_UPDATED_MESSAGE_KEY)) {
+                    resultItem.getMessages().add(CourseRegistrationClientServiceConstants.LPRTRANS_ITEM_COURSE_UPDATED_MESSAGE);
+                } else if (StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_COURSE_DROPPED_MESSAGE_KEY)) {
+                    resultItem.getMessages().add(CourseRegistrationClientServiceConstants.LPRTRANS_ITEM_COURSE_DROPPED_MESSAGE);
+                } else if (StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_PERSON_REGISTERED_MESSAGE_KEY)) {
+                    resultItem.getMessages().add(CourseRegistrationClientServiceConstants.LPRTRANS_ITEM_PERSON_REGISTERED_MESSAGE);
                 }
-                resultItem.setResultingLprId(lprTransactionItemResultInfo.getResultingLprId());
             }
+            resultItem.setResultingLprId(lprTransactionItemInfo.getResultingLprId());
 
             result.getResponseItemResults().add(resultItem);
         }

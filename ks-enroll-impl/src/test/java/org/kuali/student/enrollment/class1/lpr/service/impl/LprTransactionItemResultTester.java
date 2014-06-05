@@ -4,10 +4,10 @@
  */
 package org.kuali.student.enrollment.class1.lpr.service.impl;
 
-import static org.junit.Assert.*;
+import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
 
-import org.apache.commons.lang.BooleanUtils;
-import org.kuali.student.enrollment.lpr.dto.LprTransactionItemResultInfo;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 /**
  * Helps create a dynamic 
@@ -17,7 +17,7 @@ public class LprTransactionItemResultTester {
 
    
 
-    public void check(LprTransactionItemResultInfo expected, LprTransactionItemResultInfo actual) {
+    public void check(LprTransactionItemInfo expected, LprTransactionItemInfo actual) {
         if (expected == null && actual == null) {
             return;
         }
@@ -27,9 +27,7 @@ public class LprTransactionItemResultTester {
         if (actual == null) {
             fail ("expected was not null but expected was null");
         }
-        assertEquals(BooleanUtils.toBoolean(expected.getStatus()), BooleanUtils.toBoolean(actual.getStatus()));
         assertEquals(expected.getResultingLprId(), actual.getResultingLprId());
-        assertEquals(expected.getMessage(), actual.getMessage());        
     }
 
 }

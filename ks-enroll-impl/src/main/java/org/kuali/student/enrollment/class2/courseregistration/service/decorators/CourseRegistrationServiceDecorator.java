@@ -16,17 +16,15 @@
 
 package org.kuali.student.enrollment.class2.courseregistration.service.decorators;
 
-import java.util.List;
-
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
-import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
+import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseregistration.dto.ActivityRegistrationInfo;
+import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
+import org.kuali.student.enrollment.courseregistration.dto.CreditLoadInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
-import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
-import org.kuali.student.enrollment.courseregistration.dto.CreditLoadInfo;
-import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
+import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequestItem;
+import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -39,6 +37,9 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+
+import javax.jws.WebParam;
+import java.util.List;
 
 public class CourseRegistrationServiceDecorator 
     implements CourseRegistrationService {
@@ -285,10 +286,35 @@ public class CourseRegistrationServiceDecorator
     }
 
     @Override
-    public RegistrationResponseInfo submitRegistrationRequest(String registrationRequestId, ContextInfo contextInfo) 
+    public RegistrationRequestInfo submitRegistrationRequest(String registrationRequestId, ContextInfo contextInfo)
         throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         
         return getNextDecorator().submitRegistrationRequest(registrationRequestId, contextInfo);
+    }
+
+    @Override
+    public RegistrationRequestItemInfo getRegistrationRequestItem(@WebParam(name = "registrationRequestItemId") String registrationRequestItemId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getRegistrationRequestItem(registrationRequestItemId, contextInfo);
+    }
+
+    @Override
+    public List<RegistrationRequestItemInfo> getRegistrationRequestItemsByIds(@WebParam(name = "registrationRequestItemIds") List<String> registrationRequestItemIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getRegistrationRequestItemsByIds(registrationRequestItemIds, contextInfo);
+    }
+
+    @Override
+    public List<String> getRegistrationRequestItemIdsByType(@WebParam(name = "registrationRequestItemTypeKey") String registrationRequestItemTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getRegistrationRequestItemIdsByType(registrationRequestItemTypeKey, contextInfo);
+    }
+
+    @Override
+    public List<String> searchForRegistrationRequestItemIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().searchForRegistrationRequestItemIds(criteria, contextInfo);
+    }
+
+    @Override
+    public List<RegistrationRequestItemInfo> searchForRegistrationRequestItems(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().searchForRegistrationRequestItems(criteria, contextInfo);
     }
 
     @Override
@@ -296,6 +322,16 @@ public class CourseRegistrationServiceDecorator
         throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         
         return getNextDecorator().getRegistrationRequestItemsForCourseRegistration(courseRegistrationId, contextInfo);
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateRegistrationRequestItem(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "registrationRequestItemTypeKey") String registrationRequestItemTypeKey, @WebParam(name = "registrationRequestItemInfo") RegistrationRequestItemInfo registrationRequestItemInfo, @WebParam(name = "registrationRequestId") String registrationRequestId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().validateRegistrationRequestItem(validationTypeKey, registrationRequestItemTypeKey, registrationRequestItemInfo, registrationRequestId, contextInfo);
+    }
+
+    @Override
+    public RegistrationRequestItemInfo changeRegistrationRequestItem(@WebParam(name = "registrationRequestItemId") String registrationRequestItemId, @WebParam(name = "registrationRequestItemInfo") RegistrationRequestItemInfo registrationRequestItemInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+        return getNextDecorator().changeRegistrationRequestItem(registrationRequestItemId, registrationRequestItemInfo, contextInfo);
     }
 
     @Override

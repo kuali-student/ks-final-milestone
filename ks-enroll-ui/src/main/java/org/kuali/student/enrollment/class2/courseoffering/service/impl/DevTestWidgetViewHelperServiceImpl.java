@@ -18,13 +18,13 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
+import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.class2.courseoffering.form.DevTestWidgetForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.DevTestWidgetViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
-import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.courseseatcount.service.CourseSeatCountService;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
@@ -39,7 +39,6 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
@@ -148,7 +147,7 @@ public class DevTestWidgetViewHelperServiceImpl extends ViewHelperServiceImpl im
         CourseRegistrationService courseRegistrationService =
                 CourseOfferingManagementUtil.getCourseRegistrationService();
         for (String regRequestId: regRequestIds) {
-            RegistrationResponseInfo resp =
+            RegistrationRequestInfo resp =
                 courseRegistrationService.submitRegistrationRequest(regRequestId, CONTEXT);
         }
         System.err.println("DONE");
@@ -212,7 +211,7 @@ public class DevTestWidgetViewHelperServiceImpl extends ViewHelperServiceImpl im
             ReadOnlyException, MissingParameterException, DataValidationErrorException, AlreadyExistsException {
         CourseRegistrationService courseRegistrationService =
                 CourseOfferingManagementUtil.getCourseRegistrationService();
-        RegistrationResponseInfo response =
+        RegistrationRequestInfo response =
                 courseRegistrationService.submitRegistrationRequest(updateRegRequest.getId(),
                         CONTEXT);
         LOGGER.info("Done");
@@ -259,7 +258,7 @@ public class DevTestWidgetViewHelperServiceImpl extends ViewHelperServiceImpl im
         RegistrationRequestInfo requestResult =
                 courseRegistrationService.createRegistrationRequest(request.getTypeKey(),
                         request, CONTEXT);
-        RegistrationResponseInfo resp =
+        RegistrationRequestInfo resp =
                 courseRegistrationService.submitRegistrationRequest(requestResult.getId(), CONTEXT);
 
         try {
@@ -301,7 +300,7 @@ public class DevTestWidgetViewHelperServiceImpl extends ViewHelperServiceImpl im
         RegistrationRequestInfo requestResult =
                 courseRegistrationService.createRegistrationRequest(request.getTypeKey(),
                         request, CONTEXT);
-        RegistrationResponseInfo resp =
+        RegistrationRequestInfo resp =
                 courseRegistrationService.submitRegistrationRequest(requestResult.getId(), CONTEXT);
 
         SearchRequestInfo searchRequest = new SearchRequestInfo(CourseRegistrationSearchServiceImpl.LPRS_BY_AOIDS_LPR_STATE_TYPE.getKey());

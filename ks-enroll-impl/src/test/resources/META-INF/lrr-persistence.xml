@@ -16,6 +16,7 @@
         <class>org.kuali.student.enrollment.class1.lpr.model.LprRichTextEntity</class>
         <class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionEntity</class>
         <class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemEntity</class>
+        <class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionValidationResultItemEntity</class>
         <class>org.kuali.student.enrollment.class1.lpr.model.LprTransItemAttributeEntity</class>
         <class>org.kuali.student.enrollment.class1.lpr.model.LprTransAttributeEntity</class>
 

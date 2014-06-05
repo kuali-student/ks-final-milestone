@@ -1,6 +1,8 @@
 package org.kuali.student.enrollment.class2.courseregistration.service.decorators;
 
 //import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationServiceDecorator;
+
+import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
@@ -17,7 +19,6 @@ import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
 
 public class CourseRegistrationServiceValidationDecorator
         extends CourseRegistrationServiceDecorator {
@@ -38,7 +39,7 @@ public class CourseRegistrationServiceValidationDecorator
     }
 
     @Override
-    public RegistrationResponseInfo submitRegistrationRequest(String registrationRequestId,
+    public RegistrationRequestInfo submitRegistrationRequest(String registrationRequestId,
             ContextInfo contextInfo)
             throws AlreadyExistsException,
             DoesNotExistException,

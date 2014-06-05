@@ -1,6 +1,6 @@
 package org.kuali.student.enrollment.registration.engine.service;
 
-import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
+import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 
 /**
  * Created by swedev on 12/26/13.
@@ -14,5 +14,5 @@ public interface RegistrationProcessService {
      * @param courseRegistrationRequestId
      * @return
      */
-    public RegistrationResponseInfo process(String courseRegistrationRequestId);
+    public RegistrationRequestInfo process(String courseRegistrationRequestId);
 }

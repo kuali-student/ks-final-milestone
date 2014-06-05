@@ -78,11 +78,10 @@ public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegist
             LprTransactionInfo trans = getLprService().getLprTransaction(regRequest.getId(), contextInfo);
             trans.setStateKey(LprServiceConstants.LPRTRANS_FAILED_STATE_KEY);
             for (LprTransactionItemInfo item : trans.getLprTransactionItems()) {
-                StringBuilder errorString = new StringBuilder();
                 for(ValidationResultInfo error:errors){
-                    errorString.append(error.getMessage());
+                    item.getValidationResults().add(new ValidationResultInfo(error));
                 }
-                item.getLprTransactionItemResult().setMessage(errorString.toString());
+
                 item.setStateKey(LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY);
 
             }

@@ -1,6 +1,6 @@
 package org.kuali.student.enrollment.registration.client.service;
 
-import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
+import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.registration.client.service.dto.CartItemResult;
 import org.kuali.student.enrollment.registration.client.service.dto.CartResult;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -58,7 +58,7 @@ public interface CourseRegistrationCartClientService {
      * @throws AlreadyExistsException
      * @throws LoginException
      */
-    public RegistrationResponseInfo submitCart(ContextInfo contextInfo, String cartId) throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, LoginException;
+    public RegistrationRequestInfo submitCart(ContextInfo contextInfo, String cartId) throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, LoginException;
 
     /**
      * The REST version of addCourseToCart

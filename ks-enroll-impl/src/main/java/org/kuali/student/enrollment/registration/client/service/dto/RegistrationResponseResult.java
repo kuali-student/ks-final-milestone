@@ -13,10 +13,10 @@ import java.util.List;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RegistrationResponseResult", propOrder = {
-        "registrationRequestId", "state", "status", "state", "state"})
+        "registrationRequestId", "state", "statuses", "state", "state"})
 public class RegistrationResponseResult {
     String state;  // current state of the lprTransaction
-    String status; // human readable message, typically based on the state
+    List<String> statuses; // human readable message, typically based on the state
     String registrationRequestId;
     List<RegistrationResponseItemResult> responseItemResults;
 
@@ -32,12 +32,16 @@ public class RegistrationResponseResult {
         this.state = state;
     }
 
-    public String getStatus() {
-        return status;
+    public List<String> getStatuses() {
+        if(statuses == null){
+            statuses = new ArrayList<String>();
+        }
+        return statuses;
+
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setStatuses(List<String> statuses) {
+        this.statuses = statuses;
     }
 
     public String getRegistrationRequestId() {
@@ -63,7 +67,7 @@ public class RegistrationResponseResult {
     public String toString() {
         return "RegistrationResponseResult{" +
                 "state='" + state + '\'' +
-                ", status='" + status + '\'' +
+                ", statuses='" + statuses + '\'' +
                 ", registrationRequestId='" + registrationRequestId + '\'' +
                 ", responseItemResults=" + responseItemResults +
                 '}';

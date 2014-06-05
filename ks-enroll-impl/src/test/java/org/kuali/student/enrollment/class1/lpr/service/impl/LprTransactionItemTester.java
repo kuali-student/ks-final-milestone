@@ -26,13 +26,13 @@ public class LprTransactionItemTester {
         LprTransactionItemInfo item = new LprTransactionItemInfo();
         item.setTypeKey(LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY);
         item.setStateKey(LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
-        item.setLuiId("Luiid1");
+        item.setNewLuiId("Luiid1");
         item.setPersonId("person1");
         expected.add(item);
         item = new LprTransactionItemInfo();
         item.setTypeKey(LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY);
         item.setStateKey(LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
-        item.setLuiId("Luiid2");
+        item.setNewLuiId("Luiid2");
         item.setPersonId("person1");
         expected.add(item);
     }
@@ -65,10 +65,9 @@ public class LprTransactionItemTester {
             }
             new IdEntityTester().check(expected, actual);
             assertEquals(expected.getPersonId(), actual.getPersonId());
-            assertEquals(expected.getLuiId(), actual.getLuiId());
+            assertEquals(expected.getNewLuiId(), actual.getNewLuiId());
             assertEquals(expected.getExistingLprId(), actual.getExistingLprId());
             new ListOfStringTester().check(expected.getResultValuesGroupKeys(), actual.getResultValuesGroupKeys());
-            new LprTransactionItemResultTester ().check(expected.getLprTransactionItemResult(), actual.getLprTransactionItemResult());
         }
     }
 
@@ -82,7 +81,7 @@ public class LprTransactionItemTester {
     public void dump(List<LprTransactionItemInfo> list) {
         for (int i = 0; i < list.size(); i++) {
             LprTransactionItemInfo expected = list.get(i);
-            System.out.println(i + ".) " + expected.getId() + "=" + expected.getExistingLprId() + "\t" + expected.getLuiId());
+            System.out.println(i + ".) " + expected.getId() + "=" + expected.getExistingLprId() + "\t" + expected.getNewLuiId());
         }
     }
 
@@ -91,8 +90,8 @@ public class LprTransactionItemTester {
         @Override
         public int compare(LprTransactionItemInfo o1, LprTransactionItemInfo o2) {
         	
-        	String k1 = o1.getLuiId();
-        	String k2 = o2.getLuiId();
+        	String k1 = o1.getNewLuiId();
+        	String k2 = o2.getNewLuiId();
         	
             return k1.compareTo(k2);
         }

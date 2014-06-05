@@ -8,7 +8,6 @@ import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceDataLoader;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
-import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.registration.client.service.dto.RegistrationResponseItemResult;
 import org.kuali.student.enrollment.registration.client.service.dto.RegistrationResponseResult;
@@ -95,12 +94,12 @@ public class TestCourseRegistrationEngine {
 
         System.out.println("Submitting: " + requestResult.getId());
 
-        RegistrationResponseInfo responseInfo = courseRegistrationService.submitRegistrationRequest(requestResult.getId(), CONTEXT);
+        RegistrationRequestInfo requestInfo = courseRegistrationService.submitRegistrationRequest(requestResult.getId(), CONTEXT);
 
         waitFor(3000);    // wait for reg engine to process
 
         // get status of reg request
-        RegistrationResponseResult registrationResponseResult = courseRegistrationClientService.getRegistrationStatusLocal(responseInfo.getRegistrationRequestId(), CONTEXT);
+        RegistrationResponseResult registrationResponseResult = courseRegistrationClientService.getRegistrationStatusLocal(requestInfo.getId(), CONTEXT);
 
         System.out.println(registrationResponseResult);
 

@@ -271,7 +271,7 @@ angular.module('regCartApp')
             }, function (registrationResponseInfo) {
                 cartItem.state = STATE.lpr.item.processing;
                 cartItem.status = STATUS.processing;
-                cartItem.cartItemId = registrationResponseInfo.registrationResponseItems[0].registrationRequestItemId;
+                cartItem.cartItemId = registrationResponseInfo.registrationRequestItems[0].id;
 
                 //cartItem.waitlistedStatus = true;
                 //cartItem.statusMessage = GlobalVarsService.getCorrespondingMessageFromStatus('waitlisted');
@@ -279,7 +279,7 @@ angular.module('regCartApp')
                 $timeout(function () {
                 }, 250);    // delay for 250 milliseconds
                 console.log('Just waited 250, now start the polling');
-                cartPoller(registrationResponseInfo.registrationRequestId);
+                cartPoller(registrationResponseInfo.id);
             });
         };
 
@@ -297,7 +297,7 @@ angular.module('regCartApp')
                 cartId: $scope.cart.cartId
             }, function (registrationResponseInfo) {
                 $scope.userMessage = {txt: ''};
-                console.log('Submitted cart. RegReqId[' + registrationResponseInfo.registrationRequestId + ']');
+                console.log('Submitted cart. RegReqId[' + registrationResponseInfo.id + ']');
 
                 //$scope.cartResults = $.extend(true, {}, $scope.cart);
                 $scope.cartResults = angular.copy($scope.cart);
@@ -315,7 +315,7 @@ angular.module('regCartApp')
                 $timeout(function () {
                 }, 250);    // delay for 250 milliseconds
                 console.log('Just waited 250, now start the polling');
-                cartPoller(registrationResponseInfo.registrationRequestId);
+                cartPoller(registrationResponseInfo.id);
             });
         };
 
@@ -332,7 +332,7 @@ angular.module('regCartApp')
                                 item.type = responseItem.type;
                                 // we need to update the status, which is used to controll css
                                 item.status = GlobalVarsService.getCorrespondingStatusFromState(responseItem.state);
-                                item.statusMessage = responseItem.message;
+                                item.statusMessage = responseItem.messages[0];
                             }
                             // If anything is still processing, continue polling
                             if (item.state === STATUS.processing) {

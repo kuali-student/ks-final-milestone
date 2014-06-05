@@ -16,26 +16,44 @@
 package org.kuali.student.enrollment.class2.courseregistration.service.impl;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.common.UUIDHelper;
 import org.kuali.student.common.mock.MockService;
+import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.enrollment.courseregistration.dto.*;
+import org.kuali.student.enrollment.courseregistration.dto.ActivityRegistrationInfo;
+import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
+import org.kuali.student.enrollment.courseregistration.dto.CreditLoadInfo;
+import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
+import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequest;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
-import org.kuali.student.r2.common.dto.*;
-import org.kuali.student.r2.common.exceptions.*;
-import org.kuali.student.r2.common.infc.ValidationResult;
-import org.kuali.student.r2.common.util.constants.LprServiceConstants;
-
-import java.util.*;
-import org.kuali.student.common.UUIDHelper;
-import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
-import static org.kuali.student.enrollment.rules.credit.limit.ActionEnum.CREATE;
-import static org.kuali.student.enrollment.rules.credit.limit.ActionEnum.UPDATE;
 import org.kuali.student.enrollment.rules.credit.limit.ActivityRegistrationTransaction;
 import org.kuali.student.enrollment.rules.credit.limit.CourseRegistrationTransaction;
 import org.kuali.student.enrollment.rules.credit.limit.RegistrationRequestMerger;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.MetaInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.infc.ValidationResult;
+import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 
-public class CourseRegistrationServiceMapImpl
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+public class CourseRegistrationServiceMapImpl extends AbstractCourseRegistrationService
         implements CourseRegistrationService, MockService {
 
     private final Map<String, CourseRegistrationInfo> crMap = new LinkedHashMap<String, CourseRegistrationInfo>();
@@ -560,7 +578,7 @@ public class CourseRegistrationServiceMapImpl
     }
 
     @Override
-    public RegistrationResponseInfo submitRegistrationRequest(String registrationRequestId, ContextInfo contextInfo)
+    public RegistrationRequestInfo submitRegistrationRequest(String registrationRequestId, ContextInfo contextInfo)
             throws AlreadyExistsException,
             DoesNotExistException,
             InvalidParameterException,
@@ -612,20 +630,9 @@ public class CourseRegistrationServiceMapImpl
             }
         }
 
-        /* create the response */
-        RegistrationResponseInfo response = new RegistrationResponseInfo();
-        response.setRegistrationRequestId(rr.getId());
-
-        /* cddr through the list of request items */
-        for (RegistrationRequestItemInfo item : rr.getRegistrationRequestItems()) {
-        }
-
         rr.setStateKey(LprServiceConstants.LPRTRANS_SUCCEEDED_STATE_KEY);
 
-        OperationStatusInfo status = new OperationStatusInfo();
-        status.setStatus("ok");
-
-        return response;
+        return rr;
     }
 
     private void _processActivityOfferingTransactions(List<ActivityRegistrationTransaction> arts, ContextInfo contextInfo)

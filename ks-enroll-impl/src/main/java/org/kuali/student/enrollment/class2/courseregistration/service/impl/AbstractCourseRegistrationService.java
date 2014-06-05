@@ -23,7 +23,7 @@ import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInf
 import org.kuali.student.enrollment.courseregistration.dto.CreditLoadInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
-import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
+import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequestItem;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -38,11 +38,46 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
+import javax.jws.WebParam;
 import java.util.List;
 
 public abstract class AbstractCourseRegistrationService
     implements CourseRegistrationService {
 
+    @Override
+    public List<RegistrationRequestItemInfo> getRegistrationRequestItemsByIds(@WebParam(name = "registrationRequestItemIds") List<String> registrationRequestItemIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException("unimplemented");
+    }
+
+    @Override
+    public RegistrationRequestItemInfo getRegistrationRequestItem(@WebParam(name = "registrationRequestItemId") String registrationRequestItemId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException("unimplemented");
+    }
+
+    @Override
+    public List<String> getRegistrationRequestItemIdsByType(@WebParam(name = "registrationRequestItemTypeKey") String registrationRequestItemTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException("unimplemented");
+    }
+
+    @Override
+    public List<String> searchForRegistrationRequestItemIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException("unimplemented");
+    }
+
+    @Override
+    public List<RegistrationRequestItemInfo> searchForRegistrationRequestItems(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException("unimplemented");
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateRegistrationRequestItem(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "registrationRequestItemTypeKey") String registrationRequestItemTypeKey, @WebParam(name = "registrationRequestItemInfo") RegistrationRequestItemInfo registrationRequestItemInfo, @WebParam(name = "registrationRequestId") String registrationRequestId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException("unimplemented");
+    }
+
+    @Override
+    public RegistrationRequestItemInfo changeRegistrationRequestItem(@WebParam(name = "registrationRequestItemId") String registrationRequestItemId, @WebParam(name = "registrationRequestItemInfo") RegistrationRequestItemInfo registrationRequestItemInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+        throw new OperationFailedException("unimplemented");
+    }
 
     @Override
     public CourseRegistrationInfo getCourseRegistration(String courseRegistrationId, ContextInfo contextInfo)
@@ -276,7 +311,7 @@ public abstract class AbstractCourseRegistrationService
     }
 
     @Override
-    public RegistrationResponseInfo submitRegistrationRequest(String registrationRequestId, ContextInfo contextInfo) 
+    public RegistrationRequestInfo submitRegistrationRequest(String registrationRequestId, ContextInfo contextInfo)
         throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         throw new OperationFailedException("unimplemented");

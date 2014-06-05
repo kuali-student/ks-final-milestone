@@ -1,8 +1,6 @@
 package org.kuali.student.enrollment.class2.courseregistration.service.impl;
 
 import org.apache.activemq.command.ActiveMQMapMessage;
-import org.apache.activemq.command.ActiveMQObjectMessage;
-import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -13,9 +11,6 @@ import org.kuali.student.enrollment.courseregistration.dto.ActivityRegistrationI
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
-import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
-import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseItemInfo;
-import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequestItem;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
@@ -40,7 +35,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.jms.JMSException;
 import javax.jms.MapMessage;
-import javax.jms.ObjectMessage;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -73,39 +67,28 @@ public class CourseRegistrationServiceImpl extends AbstractCourseRegistrationSer
      * @throws OperationFailedException
      * @throws PermissionDeniedException
      */
-    public RegistrationResponseInfo submitRegistrationRequest(String registrationRequestId, ContextInfo contextInfo)
+    @Override
+    public RegistrationRequestInfo submitRegistrationRequest(String registrationRequestId, ContextInfo contextInfo)
             throws AlreadyExistsException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-
 
         RegistrationRequestInfo regRequestInfo =
                 getRegistrationRequest(registrationRequestId, contextInfo);
 
-        String regReqId = regRequestInfo.getId();
-
         if (LprServiceConstants.LPRTRANS_REG_CART_TYPE_KEY.equals(regRequestInfo.getTypeKey())) {
-            regReqId = convertRegCartToRegRequest(regRequestInfo, contextInfo);
+            regRequestInfo = convertRegCartToRegRequest(regRequestInfo, contextInfo);
         }
 
         try {
             MapMessage mapMessage = new ActiveMQMapMessage();
             mapMessage.setString(CourseRegistrationConstants.REGISTRATION_QUEUE_MESSAGE_USER_ID, contextInfo.getPrincipalId());
-            mapMessage.setString(CourseRegistrationConstants.REGISTRATION_QUEUE_MESSAGE_REG_REQ_ID, regReqId);
+            mapMessage.setString(CourseRegistrationConstants.REGISTRATION_QUEUE_MESSAGE_REG_REQ_ID, regRequestInfo.getId());
             jmsTemplate.convertAndSend(CourseRegistrationConstants.REGISTRATION_INITILIZATION_QUEUE, mapMessage);
         } catch (JMSException jmsEx) {
             throw new RuntimeException("Error submitting registration request.", jmsEx);
         }
 
-        RegistrationResponseInfo regResp = new RegistrationResponseInfo();
-        regResp.setRegistrationRequestId(regReqId);
-        regResp.getMessages().add("Request Submitted");
-        for(RegistrationRequestItemInfo reqItem : regRequestInfo.getRegistrationRequestItems()){
-            RegistrationResponseItemInfo respItem = new RegistrationResponseItemInfo();
-            respItem.setRegistrationRequestItemId(reqItem.getId());
-            regResp.getRegistrationResponseItems().add(respItem);
-        }
-
-        return regResp;
+        return regRequestInfo;
     }
 
     /**
@@ -114,7 +97,7 @@ public class CourseRegistrationServiceImpl extends AbstractCourseRegistrationSer
      *                           object (with type
      * @param contextInfo The context info
      */
-    private String convertRegCartToRegRequest(RegistrationRequestInfo cartInfo, ContextInfo contextInfo)
+    private RegistrationRequestInfo convertRegCartToRegRequest(RegistrationRequestInfo cartInfo, ContextInfo contextInfo)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException, AlreadyExistsException {
 
@@ -139,8 +122,8 @@ public class CourseRegistrationServiceImpl extends AbstractCourseRegistrationSer
             RegistrationRequestInfo updated =
                     createRegistrationRequest(copy.getTypeKey(), copy, contextInfo);
 
-            // return the copy id
-            return updated.getId();
+            // return the copy
+            return updated;
         } catch (ReadOnlyException ex) {
             throw new OperationFailedException("Exception: " + ex.getMessage(), ex);
         } catch (DataValidationErrorException ex) {

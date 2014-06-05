@@ -495,11 +495,6 @@ public class LprServiceMockImpl implements LprService, MockService {
     }
 
     @Override
-    public LprTransactionItemInfo updateLprTransactionItem(@WebParam(name = "lprTransactionItemId") String lprTransactionItemId, @WebParam(name = "lprTransactionItemInfo") LprTransactionItemInfo lprTransactionItemInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
     public StatusInfo changeLprTransactionItemState(@WebParam(name = "lprTransactionItemId") String lprTransactionItemId, @WebParam(name = "nextStateKey") String nextStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException();
     }
@@ -522,7 +517,7 @@ public class LprServiceMockImpl implements LprService, MockService {
         for (LprTransactionInfo trans : lprTransactionMap.values()) {
             for (LprTransactionItemInfo info : trans.getLprTransactionItems()) {
                 if (personId.equals(info.getPersonId())) {
-                    if (luiId.equals(info.getLuiId())) {
+                    if (luiId.equals(info.getNewLuiId())) {
                         list.add(info);
                     }
                 }
@@ -548,10 +543,8 @@ public class LprServiceMockImpl implements LprService, MockService {
         List<LprTransactionItemInfo> list = new ArrayList<LprTransactionItemInfo>();
         for (LprTransactionInfo trans : this.lprTransactionMap.values()) {
             for (LprTransactionItemInfo info : trans.getLprTransactionItems()) {
-                if (info.getLprTransactionItemResult() != null) {
-                    if (lprId.equals(info.getLprTransactionItemResult().getResultingLprId())) {
-                        list.add(info);
-                    }
+                if (lprId.equals(info.getResultingLprId())) {
+                    list.add(info);
                 }
             }
         }
@@ -565,7 +558,7 @@ public class LprServiceMockImpl implements LprService, MockService {
 
         for (LprTransactionInfo trans : lprTransactionMap.values()) {
             for (LprTransactionItemInfo info : trans.getLprTransactionItems()) {
-                if (luiId.equals(info.getLuiId())) {
+                if (luiId.equals(info.getNewLuiId())) {
                     list.add(info);
                 }
             }
@@ -693,5 +686,35 @@ public class LprServiceMockImpl implements LprService, MockService {
 			PermissionDeniedException {
 		throw new UnsupportedOperationException("not implemented");
 	}
-    
+
+    @Override
+    public List<LprTransactionItemInfo> getLprTransactionItemsByIds(@WebParam(name = "lprTransactionItemIds") List<String> lprTransactionItemIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException("unimplemented");
+    }
+
+    @Override
+    public List<String> getLprTransactionItemsByType(@WebParam(name = "lprTransactionItemTypeKey") String lprTransactionItemTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException("unimplemented");
+    }
+
+    @Override
+    public List<String> searchForLprTransactionItemIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException("unimplemented");
+    }
+
+    @Override
+    public List<LprTransactionItemInfo> searchForLprTransactionItems(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException("unimplemented");
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateLprTransactionItem(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "lprTransactionItemTypeKey") String lprTransactionItemTypeKey, @WebParam(name = "lprTransactionItem") LprTransactionItemInfo lprTransactionItem, @WebParam(name = "lprTransactionId") String lprTransactionId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException("unimplemented");
+    }
+
+    @Override
+    public LprTransactionItemInfo changeLprTransactionItem(@WebParam(name = "lprTransactionItemId") String lprTransactionItemId, @WebParam(name = "lprTransactionItemInfo") LprTransactionItemInfo lprTransactionItemInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+        throw new OperationFailedException("unimplemented");
+    }
+
 }

@@ -47,7 +47,7 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', '$timeout', 'S
                 course.dropping = false; // used to display confirmation popup
                 course.dropProcessing = true; // used to display spinner while poll is running
 
-                schedulePoller(dropResponseResult.registrationRequestId, course);
+                schedulePoller(dropResponseResult.id, course);
             }, function (error) {
                 $scope.userMessage = {txt: error.data, type: STATUS.error};
             });
@@ -65,7 +65,7 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', '$timeout', 'S
                 course.dropping = false; // used to display confirmation popup
                 course.dropProcessing = true; // used to display spinner
 
-                schedulePoller(dropResponseResult.registrationRequestId, course);
+                schedulePoller(dropResponseResult.id, course);
             }, function (error) {
                 course.statusMessage = {txt: error.data, type: STATUS.error};
             });
@@ -113,7 +113,7 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', '$timeout', 'S
                             course.dropProcessing = false;
 
                             // Use the message returned from the server
-                            message = regResponseResult.responseItemResults[0].message;
+                            message = regResponseResult.responseItemResults[0].messages[0];
                             course.statusMessage = {txt: message, type: STATUS.error};
                             break;
                     }

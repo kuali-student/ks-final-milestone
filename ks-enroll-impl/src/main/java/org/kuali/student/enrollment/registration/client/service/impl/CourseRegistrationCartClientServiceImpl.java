@@ -9,7 +9,6 @@ import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
-import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.registration.client.service.CourseRegistrationCartClientService;
@@ -82,7 +81,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
         Response.ResponseBuilder response;
 
         try {
-            RegistrationResponseInfo info = submitCart(ContextUtils.createDefaultContextInfo(), cartId);
+            RegistrationRequestInfo info = submitCart(ContextUtils.createDefaultContextInfo(), cartId);
             response = Response.ok(info);
         } catch (Exception e) {
             LOGGER.warn("Error submitting cart", e);
@@ -101,7 +100,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
 
     @Override
     @Transactional
-    public RegistrationResponseInfo submitCart(ContextInfo contextInfo, String cartId) throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, LoginException {
+    public RegistrationRequestInfo submitCart(ContextInfo contextInfo, String cartId) throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, LoginException {
 
         //Make sure that the user is the owner of the cart!
         RegistrationRequestInfo cartRegistrationRequest = getCourseRegistrationService().getRegistrationRequest(cartId, contextInfo);
