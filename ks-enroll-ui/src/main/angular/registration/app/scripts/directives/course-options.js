@@ -18,13 +18,12 @@ angular.module('regCartApp')
             templateUrl: 'partials/courseOptions.html',
             controller: ['$scope', '$modal', function($scope, $modal) {
                 var course = $scope.course,
-                    maxOptions = $scope.maxOptions || 4;
+                    maxOptions = $scope.maxOptions || 4,
+                    showAll = $scope.showAll ? true : false,
+                    moreBehavior = $scope.moreBehavior || 'expand';
 
-                $scope.showAll = $scope.showAll ? true : false;
-                $scope.moreBehavior = $scope.moreBehavior || 'expand';
-
-                $scope.showAllCreditOptions = $scope.showAll;
-                $scope.showAllGradingOptions = $scope.showAll;
+                $scope.showAllCreditOptions = showAll;
+                $scope.showAllGradingOptions = showAll;
 
 
                 // Transpose the grading options object into a more consumable format for the view
@@ -53,7 +52,7 @@ angular.module('regCartApp')
                 };
 
                 $scope.showMoreCreditOptions = function() {
-                    if ($scope.moreBehavior === 'expand') {
+                    if (moreBehavior === 'expand') {
                         $scope.showAllCreditOptions = true;
                     } else {
                         showOptionsDialog();
@@ -61,7 +60,7 @@ angular.module('regCartApp')
                 };
 
                 $scope.showMoreGradingOptions = function() {
-                    if ($scope.moreBehavior === 'expand') {
+                    if (moreBehavior === 'expand') {
                         $scope.showAllGradingOptions = true;
                     } else {
                         showOptionsDialog();
@@ -176,8 +175,8 @@ angular.module('regCartApp')
 
                 function reset () {
                     // Reset the option visibility based on the showAll parameter.
-                    $scope.showAllCreditOptions = $scope.showAll;
-                    $scope.showAllGradingOptions = $scope.showAll;
+                    $scope.showAllCreditOptions = showAll;
+                    $scope.showAllGradingOptions = showAll;
                 }
             }]
         };
