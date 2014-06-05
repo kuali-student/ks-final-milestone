@@ -173,7 +173,7 @@ limitations under the License.
 
     <bean id="KRMS-WarningMessagedYesNo" parent="Uif-DialogGroup">
         <property name="header.render" value="false"/>
-        <property name="promptText" value="Single value entered for plural rule statement, Are you sure you want to continue?"/>
+        <property name="promptText" value="Single value entered for plural rule statement. Are you sure you want to continue?"/>
         <property name="availableResponses">
             <list>
                 <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Yes"/>
