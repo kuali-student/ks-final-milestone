@@ -910,6 +910,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
         this.setLocation = setLocation;
     }
 
+    @Override
     public boolean isGenerateEODynamically() {
         return generateEODynamically;
     }

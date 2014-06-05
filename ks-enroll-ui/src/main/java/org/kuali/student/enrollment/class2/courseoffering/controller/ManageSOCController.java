@@ -17,22 +17,16 @@
 package org.kuali.student.enrollment.class2.courseoffering.controller;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.uif.util.KSControllerHelper;
-import org.kuali.student.common.util.security.ContextUtils;
-import org.kuali.student.enrollment.batch.BatchScheduler;
-import org.kuali.student.enrollment.batch.dto.BatchParameter;
-import org.kuali.student.enrollment.batch.util.BatchSchedulerConstants;
 import org.kuali.student.enrollment.class2.courseoffering.form.ManageSOCForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.ManageSOCViewHelperService;
+import org.kuali.student.enrollment.class2.courseoffering.util.ExamOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.ManageSocConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
-import org.kuali.student.r2.common.util.date.DateFormatters;
-import org.kuali.student.r2.common.util.date.KSDateTimeFormatter;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,10 +38,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.namespace.QName;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 /**
  * This class handles all the request for Managing SOC. This handles requests from ManageSOCView for different SOC state
@@ -256,9 +246,28 @@ public class ManageSOCController extends UifControllerBase {
                                                           @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
         ManageSOCViewHelperService viewHelper = (ManageSOCViewHelperService) KSControllerHelper.getViewHelperService(socForm);
-        viewHelper.startEOBulkSlotting(socForm);
 
-        return super.navigate(socForm, result, request, response);
+        // Check if exam period exist for SOC, if not display blocker dialog.
+        if (!viewHelper.termHasExamPeriod(socForm.getTermInfo().getId())) {
+            return showDialog(ExamOfferingConstants.NO_EXAM_PERIOD_WARNING_DIALOG, socForm, request, response);
+        }
+
+        // Display confirmation dialog.
+        String dialogName = ManageSocConstants.ConfirmDialogs.EXAM_OFFERING_BULK_PROCESS;
+        if (!hasDialogBeenAnswered(dialogName, socForm)) {
+            return showDialog(dialogName, socForm, request, response);
+        }
+
+        boolean dialogAnswer = getBooleanDialogResponse(dialogName, socForm, request, response);
+        socForm.getDialogManager().resetDialogStatus(dialogName);
+
+        if (dialogAnswer) {
+            viewHelper.startEOBulkSlotting(socForm);
+
+            return super.navigate(socForm, result, request, response);
+        } else {
+            return getUIFModelAndView(socForm);
+        }
     }
 
 }

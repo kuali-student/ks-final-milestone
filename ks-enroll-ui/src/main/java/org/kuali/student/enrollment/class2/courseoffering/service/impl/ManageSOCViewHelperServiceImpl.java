@@ -20,17 +20,15 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DurationFormatUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.student.common.uif.util.KSControllerHelper;
 import org.kuali.student.common.util.security.ContextUtils;
-import org.kuali.student.enrollment.batch.BatchScheduler;
 import org.kuali.student.enrollment.batch.dto.BatchParameter;
 import org.kuali.student.enrollment.batch.util.BatchSchedulerConstants;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseofferingset.util.CourseOfferingSetUtil;
+import org.kuali.student.r2.core.acal.dto.ExamPeriodInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ManageSOCStatusHistory;
@@ -49,7 +47,6 @@ import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.xml.namespace.QName;
 import java.util.*;
 
 /**
@@ -472,6 +469,19 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
         String stateName = getStateInfo(socInfo.getStateKey()).getName();
         socForm.setSocStatus(stateName);
 
+    }
+
+    @Override
+    public boolean termHasExamPeriod(String termId) {
+        try {
+            List<ExamPeriodInfo> epInfos = CourseOfferingManagementUtil.getAcademicCalendarService().getExamPeriodsForTerm(termId, new ContextInfo());
+            if (epInfos == null || epInfos.isEmpty()) {
+                return false;
+            }
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public void startEOBulkSlotting(ManageSOCForm socForm){

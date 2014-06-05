@@ -38,6 +38,7 @@ public class ExamOfferingConstants {
     public static final String EXAM_OFFERING_MSG_ERROR_SCHEDULING_INVALID_BUILDING_ROOM = "error.enroll.examoffering.scheduling.building.room.invalid";
     public static final String EXAM_OFFERING_MSG_ERROR_SCHEDULING_REQUIRED_FIELD_EMPTY = "error.enroll.examoffering.scheduling.required.field.empty";
 
-
+    public static final String NO_EXAM_PERIOD_WARNING_DIALOG = "warningNoExamPeriod";
+    public static final String NO_EXAM_PERIOD_ERROR_DIALOG = "errorNoExamPeriod";
 
 }

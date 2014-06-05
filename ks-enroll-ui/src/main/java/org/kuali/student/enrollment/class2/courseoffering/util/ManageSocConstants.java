@@ -37,6 +37,7 @@ public class ManageSocConstants {
         public static final String LOCK = "lockConfirmDialog";
         public static final String FINAL_EDITS = "finalEditConfirmDialog";
         public static final String CLOSE_SET = "closeConfirmDialog";
+        public static final String EXAM_OFFERING_BULK_PROCESS = "examOfferingConfirmDialog";
     }
 
     /**

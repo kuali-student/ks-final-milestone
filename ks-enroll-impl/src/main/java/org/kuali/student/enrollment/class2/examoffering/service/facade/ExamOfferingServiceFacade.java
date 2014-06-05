@@ -222,7 +222,14 @@ public interface ExamOfferingServiceFacade {
     /**
      * This method retrieves the boolean value to indicate if the execution process should or not use the Final Exam Matrix to slot the Exam Offerings.
      *
-     *
+     * Note: This is a system property and cannot be changed by a user.
      */
     public boolean isUseFinalExamMatrix();
+
+    /**
+     * This method retrieves the boolean value to indicate if the execution process should always create exam offerings on dynamic triggers.
+     *
+     * Note: This is a system property and cannot be changed by a user.
+     */
+    public boolean isGenerateEODynamically();
 }

@@ -57,4 +57,7 @@ public interface CourseOfferingViewHelperService extends ViewHelperService {
 
     // User friendly term string
     public String getTermDesc(String termId);
+
+    public boolean isExamOfferingsCreatedOnRollover();
+
 }

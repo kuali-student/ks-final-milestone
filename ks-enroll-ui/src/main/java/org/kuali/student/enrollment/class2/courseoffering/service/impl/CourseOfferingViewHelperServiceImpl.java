@@ -21,6 +21,7 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
+import org.kuali.student.enrollment.class2.courseoffering.util.ExamOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseofferingset.util.CourseOfferingSetUtil;
 import org.kuali.student.r2.core.acal.dto.ExamPeriodInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
@@ -220,5 +221,10 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
         } catch (Exception e) {
             return "NO TERM DATA";
         }
+    }
+
+    @Override
+    public boolean isExamOfferingsCreatedOnRollover() {
+        return ExamOfferingManagementUtil.getExamOfferingServiceFacade().isGenerateEODynamically();
     }
 }

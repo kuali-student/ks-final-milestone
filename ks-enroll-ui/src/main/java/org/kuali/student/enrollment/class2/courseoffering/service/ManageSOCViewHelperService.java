@@ -4,8 +4,6 @@ import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.enrollment.class2.courseoffering.form.ManageSOCForm;
 import org.kuali.student.common.uif.service.KSViewHelperService;
 
-import java.util.List;
-
 public interface ManageSOCViewHelperService extends KSViewHelperService {
 
     public TermInfo getTermByCode(String termCode);
@@ -21,6 +19,8 @@ public interface ManageSOCViewHelperService extends KSViewHelperService {
     public void closeSOC(ManageSOCForm socForm);
 
     public void startMassScheduling(ManageSOCForm socForm);
+
+    public boolean termHasExamPeriod(String termId);
 
     public void startEOBulkSlotting(ManageSOCForm socForm);
 

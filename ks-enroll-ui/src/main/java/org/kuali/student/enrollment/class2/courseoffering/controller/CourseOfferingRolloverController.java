@@ -29,6 +29,7 @@ import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingRol
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
+import org.kuali.student.enrollment.class2.courseoffering.util.ExamOfferingConstants;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
@@ -378,7 +379,7 @@ public class CourseOfferingRolloverController extends UifControllerBase {
     public ModelAndView performRollover(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form,
                                         @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         if (!validateSourceTargetTerms(form)) {
-            form.getDialogManager().removeDialog(CourseOfferingSetServiceConstants.NO_EXAM_PERIOD_WARNING_DIALOG);
+            form.getDialogManager().removeDialog(ExamOfferingConstants.NO_EXAM_PERIOD_WARNING_DIALOG);
             return getUIFModelAndView(form);
         }
 
@@ -392,13 +393,13 @@ public class CourseOfferingRolloverController extends UifControllerBase {
         String sourceTermId = form.getSourceTerm().getId();
         String targetTermId = form.getTargetTerm().getId();
 
-        if (!helper.termHasExamPeriod(targetTermId)) {
+        if (helper.isExamOfferingsCreatedOnRollover() && !helper.termHasExamPeriod(targetTermId)) {
             if (form.getActionParamaterValue("confirm") == null || form.getActionParamaterValue("confirm").equals("")) {
                 // redirect back to client to display lightbox
-                return showDialog(CourseOfferingSetServiceConstants.NO_EXAM_PERIOD_WARNING_DIALOG, form, request, response);
+                return showDialog(ExamOfferingConstants.NO_EXAM_PERIOD_WARNING_DIALOG, form, request, response);
             } else if (form.getActionParamaterValue("confirm").equals("do")) {
                 form.getDialogManager().removeAllDialogs();
-                form.setLightboxScript("closeLightbox('" + CourseOfferingSetServiceConstants.NO_EXAM_PERIOD_WARNING_DIALOG + "');");
+                form.setLightboxScript("closeLightbox('" + ExamOfferingConstants.NO_EXAM_PERIOD_WARNING_DIALOG + "');");
             }
         }
 
