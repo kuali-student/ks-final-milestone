@@ -1472,78 +1472,102 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
     public void sortTermWrappers(List<AcademicTermWrapper> termWrappers) {
         //Sort the termWrappers by start date
         if (termWrappers != null && !termWrappers.isEmpty()) {
+
+
             Collections.sort(termWrappers, new Comparator<AcademicTermWrapper>() {
                 @Override
                 public int compare(AcademicTermWrapper termWrapper1, AcademicTermWrapper termWrapper2) {
+
                     int ret = 0;
                     if (!termWrapper1.isSubTerm() && !termWrapper2.isSubTerm()) { // term comp term
-                        ret = termWrapper1.getStartDate().compareTo(termWrapper2.getStartDate());
+                        ret = compareObject ( termWrapper1.getStartDate(),termWrapper2.getStartDate());
                     }
                     if (!termWrapper1.isSubTerm() && termWrapper2.isSubTerm()) { // term comp subterm
-                        if (termWrapper2.getParentTerm().compareTo(termWrapper1.getTermType()) == 0) { // term is  parent
+                        if (compareObject ( termWrapper2.getParentTerm(),termWrapper1.getTermType()) == 0) { // term is  parent
                             ret = -1; // term > direct subterm
                         } else {      // term comp subterm.parent
                             ret = termWrapper1.getStartDate().compareTo(termWrapper2.getParentTermInfo().getStartDate());
                         }
                     }
                     if (termWrapper1.isSubTerm() && !termWrapper2.isSubTerm()) { // subterm comp term
-                        if (termWrapper1.getParentTerm().compareTo(termWrapper2.getTermType()) == 0) { // term is  parent
+                        if ( compareObject (termWrapper1.getParentTerm(),termWrapper2.getTermType()) == 0) { // term is  parent
                             ret = 1; // direct subterm < parent term
                         } else {      // subterm.parent comp term
-                            ret = termWrapper1.getParentTermInfo().getStartDate().compareTo(termWrapper2.getStartDate());
+                            ret = compareObject ( termWrapper1.getParentTermInfo().getStartDate(),termWrapper2.getStartDate());
                         }
                     }
-                    if (termWrapper1.isSubTerm() && termWrapper2.isSubTerm()) { // subterm comp subterm
-                        if (termWrapper1.getParentTerm().compareTo(termWrapper2.getParentTerm()) == 0) { // same parent
+                    if ( termWrapper1.isSubTerm() && termWrapper2.isSubTerm()) { // subterm comp subterm
+                        if (  compareObject  (termWrapper1.getParentTerm(), termWrapper2.getParentTerm()) == 0) { // same parent
                             ret = termWrapper1.getStartDate().compareTo(termWrapper2.getStartDate());
                         } else {
-                            ret = termWrapper1.getParentTermInfo().getStartDate().compareTo(termWrapper2.getParentTermInfo().getStartDate());
+                            ret = compareObject (termWrapper1.getParentTermInfo().getStartDate(),termWrapper2.getParentTermInfo().getStartDate());
                         }
                     }
                     return ret;
+
                 }
+
             });
         }
     }
 
-    /**
-     * Sort the given AcademicTermWrapper list based on the start date
-     *
-     * @param simplifiedAcademicTermWrappers - SimplifiedAcademicTermWrapper list
-     *
-     */
+    protected int compareObject(Comparable s1, Comparable s2) {
+        if (s1 == null && s2 != null) {
+            return -1;
+        }
+        if (s1 != null && s2 == null) {
+            return 1;
+        }
+        if (s1 == null && s2 == null) {
+            return 0;
+        }
+        return s1.compareTo(s2);
+    }
+
+
+        /**
+         * Sort the given AcademicTermWrapper list based on the start date
+         *
+         * @param simplifiedAcademicTermWrappers - SimplifiedAcademicTermWrapper list
+         *
+         */
     private void sortSimplifiedAcademicTermWrappers(List<SimplifiedAcademicTermWrapper> simplifiedAcademicTermWrappers) {
         //Sort the termWrappers by start date
         if (simplifiedAcademicTermWrappers != null && !simplifiedAcademicTermWrappers.isEmpty()) {
             Collections.sort(simplifiedAcademicTermWrappers, new Comparator<SimplifiedAcademicTermWrapper>() {
                 @Override
                 public int compare(SimplifiedAcademicTermWrapper simplifiedAcademicTermWrapper1, SimplifiedAcademicTermWrapper simplifiedAcademicTermWrapper2) {
-                    int ret = 0;
-                    if (!simplifiedAcademicTermWrapper1.subTerm && !simplifiedAcademicTermWrapper2.subTerm) { // term comp term
-                        ret = simplifiedAcademicTermWrapper1.startDate.compareTo(simplifiedAcademicTermWrapper2.startDate);
-                    }
-                    if (!simplifiedAcademicTermWrapper1.subTerm && simplifiedAcademicTermWrapper2.subTerm) { // term comp subterm
-                        if (simplifiedAcademicTermWrapper2.parentTerm.compareTo(simplifiedAcademicTermWrapper1.termType) == 0) { // term is  parent
-                            ret = -1; // term > direct subterm
-                        } else {      // term comp subterm.parent
-                            ret = simplifiedAcademicTermWrapper1.startDate.compareTo(simplifiedAcademicTermWrapper2.parentTermInfo.getStartDate());
+
+
+                        int ret = 0;
+                        if (!simplifiedAcademicTermWrapper1.subTerm && !simplifiedAcademicTermWrapper2.subTerm) { // term comp term
+                            ret = compareObject( simplifiedAcademicTermWrapper1.startDate, simplifiedAcademicTermWrapper2.startDate);
                         }
-                    }
-                    if (simplifiedAcademicTermWrapper1.subTerm && !simplifiedAcademicTermWrapper2.subTerm) { // subterm comp term
-                        if (simplifiedAcademicTermWrapper1.parentTerm.compareTo(simplifiedAcademicTermWrapper2.termType) == 0) { // term is  parent
-                            ret = 1; // direct subterm < parent term
-                        } else {      // subterm.parent comp term
-                            ret = simplifiedAcademicTermWrapper1.parentTermInfo.getStartDate().compareTo(simplifiedAcademicTermWrapper2.startDate);
+                        if (!simplifiedAcademicTermWrapper1.subTerm && simplifiedAcademicTermWrapper2.subTerm) { // term comp subterm
+                            if ( compareObject (simplifiedAcademicTermWrapper2.parentTerm, simplifiedAcademicTermWrapper1.termType )== 0) { // term is  parent
+                                ret = -1; // term > direct subterm
+                            } else {      // term comp subterm.parent
+                                ret = compareObject (simplifiedAcademicTermWrapper1.startDate,simplifiedAcademicTermWrapper2.parentTermInfo.getStartDate());
+                            }
                         }
-                    }
-                    if (simplifiedAcademicTermWrapper1.subTerm && simplifiedAcademicTermWrapper2.subTerm) { // subterm comp subterm
-                        if (simplifiedAcademicTermWrapper1.parentTerm.compareTo(simplifiedAcademicTermWrapper2.parentTerm) == 0) { // same parent
-                            ret = simplifiedAcademicTermWrapper1.startDate.compareTo(simplifiedAcademicTermWrapper2.startDate);
-                        } else {
-                            ret = simplifiedAcademicTermWrapper1.parentTermInfo.getStartDate().compareTo(simplifiedAcademicTermWrapper2.parentTermInfo.getStartDate());
+                        if (simplifiedAcademicTermWrapper1.subTerm && !simplifiedAcademicTermWrapper2.subTerm) { // subterm comp term
+                            if (compareObject (simplifiedAcademicTermWrapper1.parentTerm ,simplifiedAcademicTermWrapper2.termType) == 0) { // term is  parent
+                                ret = 1; // direct subterm < parent term
+                            } else {      // subterm.parent comp term
+                       }
                         }
-                    }
-                    return ret;
+                        if (simplifiedAcademicTermWrapper1.subTerm && simplifiedAcademicTermWrapper2.subTerm) { // subterm comp subterm
+                            if ( compareObject ( simplifiedAcademicTermWrapper1.parentTerm, simplifiedAcademicTermWrapper2.parentTerm) == 0) { // same parent
+                                ret = simplifiedAcademicTermWrapper1.startDate.compareTo(simplifiedAcademicTermWrapper2.startDate);
+                            } else {
+                                ret = simplifiedAcademicTermWrapper1.parentTermInfo.getStartDate().compareTo(simplifiedAcademicTermWrapper2.parentTermInfo.getStartDate());
+                            }
+                        }
+
+
+                 return ret;
+
+
                 }
             });
         }
