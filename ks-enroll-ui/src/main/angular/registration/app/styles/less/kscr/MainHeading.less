@@ -43,7 +43,7 @@
     display: none;
 }
 
-@media screen and (max-width: 660px) {
+@media screen and (max-width: @smallFormatMax) {
     .kscr-MainHeading-icon-left, .kscr-MainHeading-icon-right {
         display: block;
          & .glyphicon {
@@ -100,4 +100,49 @@
     background-repeat: no-repeat;
     background-position: @iconPosition;
     background-color: inherit;
+}
+
+.kscr-MainHeading--small {
+  .kscr-MainHeading
+}
+
+.kscr-MainHeading--large {
+  .kscr-MainHeading
+}
+
+.kscr-Schedule-header {
+  .kscr-MainHeading-header
+}
+
+@media screen and (max-width: @smallFormatMax) {
+  .kscr-Responsive-mycart .kscr-Heading-support {
+    display: none;
+  }
+}
+
+@media screen and (min-width: @largeFormatMin) {
+  .kscr-MainHeading {
+    padding-bottom: 0px;
+  }
+
+  .kscr-MainHeading--small {
+    display: none !important;
+  }
+
+  .kscr-MainHeading-largeHeader {
+    display: block;
+  }
+
+  .kscr-MainHeading--large {
+    background-color: @border-light-color;
+    border: none;
+  }
+
+  .kscr-Responsive-mycart .kscr-MainHeading-support {
+    display: none;
+  }
+
+  .kscr-Schedule-header {
+    margin-left: 10px;
+  }
 }

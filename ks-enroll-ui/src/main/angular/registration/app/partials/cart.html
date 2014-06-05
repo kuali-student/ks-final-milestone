@@ -24,6 +24,12 @@
                                              'other': '{} credits'}">
                     </ng-pluralize>)
                 </div>
+                <div id="credit_count_title" class="kscr-Heading-support">
+                    <ng-pluralize count="creditTotal"
+                                   when="{'1'    : '{} CREDIT',
+                                             'other': '{} CREDITS'}">
+                    </ng-pluralize>
+                </div>
             </div>
             <div>
                 <button id="register" ng-disabled="cart.items.length < 1" class="kscr-MainHeading-button kscr-Button--primary" type="button" ng-click="showConfirmation =!showConfirmation">Register</button>
@@ -118,7 +124,7 @@
         <accordion close-others="oneAtATime">
             <accordion-group is-open="cartItem.isopen">
                 <accordion-heading>
-                    <div ng-class="{'kscr-Card-accordion-heading-fadeIn': cartItem.addingNewCartItem, 'kscr-Card-accordion-heading': !cartItem.addingNewCartItem}">
+                    <div class="kscr-Card-course" ng-class="{'kscr-Card-accordion-heading-fadeIn': cartItem.addingNewCartItem, 'kscr-Card-accordion-heading': !cartItem.addingNewCartItem}">
                         <!--credits-->
                         <div id="course_info_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" class="kscr-Card-supportText" ng-hide="editing(cartItem)"
                              ng-class="{ 'kscr-Card-credits-fadeIn': cartItem.editCredits, 'kscr-Card-credits-fadeOut': cartItem.editCreditsDone }">

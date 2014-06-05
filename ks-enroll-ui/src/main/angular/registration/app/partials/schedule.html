@@ -3,14 +3,14 @@
 <div class="kscr-MainHeading util-Grid util-Grid--center">
     <div class="util-Grid-cell">
         <div class="kscr-MainHeading-icon-left"><a ui-sref="root.responsive.cart" ><i class="glyphicon glyphicon-shopping-cart"></i></a></div>
-        <div class="kscr-MainHeading-header" style="flex-wrap:wrap;flex:1">My Schedule</div>
+        <div class="kscr-Schedule-header">My Schedule</div>
         <div class="kscr-MainHeading-icon-right"><a href="{{appUrl}}kscr-poc/index.jsp"><i class="glyphicon glyphicon-search"></i></a></div>
     </div>
 </div>
 
 <div class="kscr-Responsive-schedule">
 <div class="kscr-Responsive-registered">
-<div>
+<div class="kscr-Card-heading">
     <span ng-if="registeredCredits() > 0">
         <span class="kscr-Heading-sub">REGISTERED</span>
         <span id="reg_credit_count" class="kscr-Heading-support util-Grid--floatRight">
@@ -128,7 +128,7 @@
 
 <div ng-class="{'kscr-Responsive-waitlisted':true,'kscr-Responsive-waitlisted--inactive':!waitlistedCourseCount() && !showWaitlistMessages}">
 <!--Waitlisted section-->
-<div ng-show="waitlistedCourseCount() || showWaitlistMessages">
+<div class="kscr-Card-heading" ng-show="waitlistedCourseCount() || showWaitlistMessages">
     <span>
         <span class="kscr-Heading-sub">WAITLISTED</span>
         <span id="waitlisted_credit_count" class="kscr-Heading-support util-Grid--floatRight">
