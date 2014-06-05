@@ -46,9 +46,7 @@
         display: none; // hide the selector by default
 
         &-label {
-            background: url('../images/validation/arrow_down.png') no-repeat right center;
-            margin-bottom: 0;
-            padding-right: 16px;
+          .kscr-Header-moreOptions;
         }
 
         & .kscr-Header-termName-selectWrap {
@@ -87,4 +85,56 @@
 .kscr-Header-user {
   font-weight: normal;
   font-family: @secondaryFontFamily;
+  .kscr-Header-moreOptions;
+}
+
+.kscr-Header-menu {
+  cursor: pointer;
+  border: 1px solid @black;
+  border-radius: 4px;
+  padding: 5px;
+  margin-right: 15px;
+
+  &:hover, &--clicked {
+    border-color: @white;
+  }
+}
+
+.kscr-Header-moreOptions {
+  background: url('../images/validation/arrow_down.png') no-repeat right center;
+  margin-bottom: 0;
+  padding-right: 16px;
+}
+
+.kscr-Header-userMenu {
+  background: @white;
+  position: absolute;
+  right: 21px;
+  top: 36px;
+
+  & ul {
+    padding: 0;
+    margin: 0;
+  }
+  & ul li {
+    color: @black;
+    list-style-type: none;
+    font-weight: normal;
+    text-align: center;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.176);
+    cursor: pointer;
+    padding: 0px 15px 0px 15px;
+
+    &:hover {
+      background-color: @blue;
+    }
+  }
+}
+
+@media screen and (max-width: 660px) {
+  .kscr-Header-menu {
+    display: none; /* only shown in large view */
+  }
 }
