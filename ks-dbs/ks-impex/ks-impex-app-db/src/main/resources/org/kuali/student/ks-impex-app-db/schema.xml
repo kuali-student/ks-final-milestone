@@ -236,6 +236,10 @@
         <foreignColumnNames>ID</foreignColumnNames>
         <localColumnNames>LPR_TRANS_ID</localColumnNames>
     </foreignKey>
+    <foreignKey foreignTableName="KSEN_LPR_TRANS_ITEM" localTableName="KSEN_LPR_TRANS_ITEM_VR" name="KSEN_LPR_TRANS_ITEM_VR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>LPR_TRANS_ITEM_ID</localColumnNames>
+    </foreignKey>
     <foreignKey foreignTableName="KSEN_LRC_RESULT_SCALE" localTableName="KSEN_LRC_RESULT_SCALE_ATTR" name="KSEN_LRC_RESULT_SCALE_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
         <foreignColumnNames>ID</foreignColumnNames>
         <localColumnNames>OWNER_ID</localColumnNames>
@@ -3466,12 +3470,6 @@
         <column name="LTI_RESULTING_LPR_ID" type="STRING">
             <size value="255"/>
         </column>
-        <column name="LTI_RESULT_MESSAGE" type="STRING">
-            <size value="4000"/>
-        </column>
-        <column name="LTI_RESULT_STATUS" type="STRING">
-            <size value="255"/>
-        </column>
         <column name="NAME" type="STRING">
             <size value="255"/>
         </column>
@@ -3560,6 +3558,26 @@
             <size value="255"/>
         </column>
         <index name="KSEN_LPR_LTI_RVG_IF1">
+            <column>LPR_TRANS_ITEM_ID</column>
+        </index>
+    </table>
+    <table name="KSEN_LPR_TRANS_ITEM_VR">
+        <column name="ELEMENT" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="ERROR_LEVEL_CD" nullable="false" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="ID" nullable="false" primaryKey="true" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="LPR_TRANS_ITEM_ID" nullable="false" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="VR_MESSAGE" type="STRING">
+            <size value="4000"/>
+        </column>
+        <index name="KSEN_LPR_TRANS_ITEM_VR_IF1">
             <column>LPR_TRANS_ITEM_ID</column>
         </index>
     </table>
