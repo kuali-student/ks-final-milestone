@@ -271,157 +271,73 @@
 }
 /**** END of Override of accordion panel for card section ****/
 
-// Fading in/fading out for changes
+/**** Fading in/out Section ****/
 
-/* .kscr-Card-badge-fade {
-  .kscr-Card-badge;
-  opacity: 0.8;
+.kscr-Card-badge {
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    background-color: @badgeColor;
+    color: @bodyColor;
+    font-size: 11px;
+    font-weight: bold;
+    padding-left: 4px;
+    padding-right: 4px;
 }
-
-.kscr-Card-badge-fadeIn {
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  border-style: solid;
-  border-width: 5px;
-  margin-left: -5px;
-//  border-top: 5px solid;
-//  border-bottom: 5px solid;
-//  border-right: 5px solid;
-  border-color: #FFFF00;
-  background-color: #FFFFCC;
-  //  background-color: #ffff7f;
-  -webkit-transition: .2s linear;
-  -moz-transition: .2s linear;
-  -o-transition: .2s linear;
-  -ms-transition: .2s linear;
-  transition: .2s linear;
-  opacity: 1;
-}
-
-.kscr-Card-badge-fadeOut {
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  margin-left: -5px;
-  border-radius: 5px;
-  border-style: solid;
-  border-width: 5px;
-  margin-left: -5px;
-  border-color: #FFFFFF;
-  background-color: #FFFFFF;
-  -webkit-transition: 2s linear;
-  -moz-transition: 2s linear;
-  -o-transition: 2s linear;
-  -ms-transition: 2s linear;
-  transition: 2s linear;
-  opacity: 1;
-}  */
 
 .kscr-Card-badge-fade {
-  .kscr-Card-badge;
-  border-style: solid;
-  border-width: 5px;
-  border-color: @cardBackgroundColor;
-  -webkit-transition: 2s linear;
-  -moz-transition: 2s linear;
-  -o-transition: 2s linear;
-  -ms-transition: 2s linear;
-  transition: 2s linear;
-  opacity: .8;
+    .kscr-Card-badge;
+     opacity: 1;
+      @transitionSpeed: 2s;
+     .util-transitions-browserHelper;
 }
 
 .kscr-Card-badge-fadeIn {
-  .kscr-Card-badge-fade;
-  border-color: #FFFF00;
-  color: #ffff7f;
-//  color: #FFFFCC;
-//  background-color: #ffff7f;
-  -webkit-transition: .2s linear;
-  -moz-transition: .2s linear;
-  -o-transition: .2s linear;
-  -ms-transition: .2s linear;
-  transition: .2s linear;
+    .kscr-Card-badge-fade;
+    color: @textColor--highlight; //#ffff7f;
+    opacity: 1;
+     @transitionSpeed: 0.2s;
+    .util-transitions-browserHelper;
+    .util-Text-highlighter(@distance, @angle, @blur, @spread, @shadowColor);
 }
 
-/* .kscr-Card-badge-fadeOut {
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  margin-left: -5px;
-  border-radius: 5px;
-  border-style: solid;
-  border-width: 5px;
-  margin-left: -5px;
-  border-color: #FFFFFF;
-  background-color: #FFFFFF;
-  -webkit-transition: 2s linear;
-  -moz-transition: 2s linear;
-  -o-transition: 2s linear;
-  -ms-transition: 2s linear;
-  transition: 2s linear;
-  opacity: 1;
-}  */
 
 .kscr-Card-badge-fadeOutLetter {
-  .kscr-Card-badge-fade;
-  border-color: #FFFFFF;
-  background-color: #FFFFFF;
+    .kscr-Card-badge-fade;
+    opacity: 0.5;
+     @transitionSpeed: 2s;
+    .util-transitions-browserHelper;
 }
 
+
+/* Credits Fade */
 .kscr-Card-credits-fadeIn {
-  border-style: solid;
-  border-width: 5px;
-  border-color: #FFFF00;
-  background-color: #FFFFCC;
-  -webkit-transition: .2s linear;
-  -moz-transition: .2s linear;
-  -o-transition: .2s linear;
-  -ms-transition: .2s linear;
-  transition: .2s linear;
-  opacity: 1;
-  margin-top: -5px;
-  margin-right: -5px;
+    background-color: @backgroundColor--highlight;
+    .util-Text-highlighter(@distance, @angle, @blur, @spread, @shadowColor);
  }
 
 .kscr-Card-credits-fadeOut {
-  border-style: solid;
-  border-width: 5px;
-  border-color: @cardBackgroundColor;
-  background-color: @cardBackgroundColor;
-  -webkit-transition: 2s linear;
-  -moz-transition: 2s linear;
-  -o-transition: 2s linear;
-  -ms-transition: 2s linear;
-  transition: 2s linear;
-  opacity: 1;
-  margin-top: -5px;
-  margin-right: -5px;
+   @transitionSpeed: 2s;
+  .util-transitions-browserHelper;
 }
 
-/**** Override of accordion panel for card section to animate ****/
+
+/* Override of accordion panel for card section to animate */
 
 .kscr-Card-accordion-heading {
-  padding: 10px 5px;
-  border-color: @cardBackgroundColor;
-  border-style: solid;
-  border-width: 5px;
-  -webkit-transition: 2s linear;
-  -moz-transition: 2s linear;
-  -o-transition: 2s linear;
-  -ms-transition: 2s linear;
-  transition: 2s linear;
-  opacity: 1;
+    padding: 10px 10px 10px 5px;
+     @transitionSpeed: 2s;
+    .util-transitions-browserHelper;
 }
 
 .kscr-Card-accordion-heading-fadeIn {
-  .kscr-Card-accordion-heading;
-  border-color: #FFFF00;
-  background-color: #FFFFCC;
-  -webkit-transition: .2s linear;
-  -moz-transition: .2s linear;
-  -o-transition: .2s linear;
-  -ms-transition: .2s linear;
-  transition: .2s linear;
+    background-color: @backgroundColor--highlight;
+    .kscr-Card-accordion-heading;
+     @transitionSpeed: 0.2s;
+    .util-transitions-browserHelper;
+    .util-Text-highlighter--inset(@distance, @angle, @blur, @spread, @shadowColor);
 }
+/**** End Fading in/out Section ****/
 
 @media screen and (min-width: @largeFormatMin) {
   .kscr-Card {
@@ -441,6 +357,43 @@
 
   .kscr-Responsive-mycart .kscr-Card-course {
     padding: 0 5px 0 5px;
+  }
+
+  .kscr-Responsive-mycart .kscr-Card-detailsText--show {
+    padding: 0;
+  }
+
+  #kscr-Responsive-mycart {
+    background-color: @bodyColor;
+  }
+
+  .kscr-Responsive-schedule .panel-group .panel {
+    margin: 0px 10px 10px 10px;
+  }
+
+  .kscr-Card-heading {
+    margin: 0px 10px 0px 10px;
+  }
+}
+
+@media screen and (min-width: @largeFormatMin) {
+  .kscr-Card {
+    margin: 0;
+    border: none;
+  }
+
+  .kscr-Responsive-mycart .kscr-Card-courseTimes {
+    display: none;
+  }
+
+  .kscr-Responsive-mycart .panel-group .panel {
+    margin: 0;
+    border: none;
+    border-radius: 0;
+  }
+
+  .kscr-Responsive-mycart .kscr-Card-course {
+    padding: 10px;
   }
 
   .kscr-Responsive-mycart .kscr-Card-detailsText--show {
