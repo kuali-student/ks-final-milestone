@@ -18,6 +18,7 @@ package org.kuali.student.enrollment.lpr.infc;
 
 import java.util.List;
 
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.infc.IdEntity;
 
 /**
@@ -82,11 +83,11 @@ public interface LprTransactionItem
      * 
      * @name New LUI Id
      */
-    public String getLuiId();
+    public String getNewLuiId();
 
     /**
      * The existing Lpr id for an existing relation for delete or
-     * updaterequests.
+     * update requests.
      * 
      * @name Existing LPR Id
      */
@@ -101,12 +102,11 @@ public interface LprTransactionItem
     public List<? extends LprTransactionItemRequestOption> getRequestOptions();
 
     /**
-     * Returns the result for this transaction item once it has been
-     * processed.
+     * The LPR that resulted from processing this transaction item.
      * 
-     * @name LPR Transaction Item Result
+     * @name Resulting LPR Id
      */
-    public LprTransactionItemResult getLprTransactionItemResult();
+    public String getResultingLprId();
 
     /**
      * The keys of the result values groups to be applied to the LPR
@@ -118,4 +118,15 @@ public interface LprTransactionItem
      * @name Result Values Group Keys
      */
     public List<String> getResultValuesGroupKeys();
+
+    /**
+     * During any kind of checks that may occur on the LprTransactionItem,
+     * these represent the results of that check.  The kinds of validation
+     * result items are defined by the implementation.
+     *
+     * @name Validation Results
+     *
+     * @return List of validation result items
+     */
+    public List<ValidationResultInfo> getValidationResults();
 }

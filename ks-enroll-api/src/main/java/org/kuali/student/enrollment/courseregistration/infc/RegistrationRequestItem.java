@@ -16,9 +16,11 @@
 
 package org.kuali.student.enrollment.courseregistration.infc;
 
+import java.util.List;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 import org.kuali.student.r2.common.infc.IdEntity;
+import org.kuali.student.r2.common.infc.ValidationResult;
 
 /**
  * Represents a single transaction item for a Student and Registration
@@ -126,4 +128,12 @@ public interface RegistrationRequestItem
      * @name Ok To HoldUntillist
      */
     public Boolean getOkToHoldUntilList();
+
+    /**
+     * Validation messages that happen when submitted.
+     * 
+     * @return list of validation results
+     */
+    public List<? extends ValidationResult> getValidationResults();
+
 }

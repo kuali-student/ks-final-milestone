@@ -19,12 +19,12 @@ package org.kuali.student.enrollment.lpr.infc;
 import java.util.List;
 
 import org.kuali.student.r2.common.infc.IdEntity;
+import org.kuali.student.r2.common.infc.ValidationResult;
 
 /**
  * The LprTransaction represents an object to capture an overall
  * transaction request. The requesting person ID is the person who creates this
- * overall request. There are multiple transaction items,
- * {@link LprTransactionItem}, in a single overall transaction.
+ * overall request.
  * 
  * @author Kuali Student Team (sambit)
  */
@@ -53,11 +53,27 @@ public interface LprTransaction
      * @name ATP Id
      */
     public String getAtpId();
+
+    /**
+     * During any kind of checks that may occur on the LprTransaction,
+     * these represent the results of that check.  The kinds of validation
+     * result items are defined by the implementation.
+     * 
+     * These represent "global" messages that apply to the overall transaction and not to 
+     * a particular item.  For example: exceeded credit limit check
+     *
+     * @name Validation Results
+     *
+     * @return List of validation result items
+     */
+    public List<? extends ValidationResult> getValidationResults();
     
     /**
-     * Transaction item for this 
-     * 
-     * @name LPR Transaction Items
+     * The transaction items that compose this request.     * 
+     *
+     * @name Lpr Transaction Items
+     *
+     * @return List of transaction items
      */
-    List<? extends LprTransactionItem> getLprTransactionItems();
+    public List<? extends LprTransactionItem> getLprTransactionItems();
 }

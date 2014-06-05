@@ -29,6 +29,8 @@ import javax.xml.bind.annotation.XmlType;
 import org.kuali.student.enrollment.lpr.infc.LprTransaction;
 import org.kuali.student.enrollment.lpr.infc.LprTransactionItem;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.infc.ValidationResult;
 import org.w3c.dom.Element;
 
 /**
@@ -37,7 +39,10 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "LprTransactionInfo", propOrder = {
                 "id", "typeKey", "stateKey", "name", "descr",
-                "requestingPersonId", "atpId", "lprTransactionItems",
+                "requestingPersonId", 
+                "atpId",
+                "lprTransactionItems",
+                "validationResults",
                 "meta", "attributes", "_futureElements"})
 
 public class LprTransactionInfo 
@@ -55,6 +60,9 @@ public class LprTransactionInfo
     @XmlElement
     private List<LprTransactionItemInfo> lprTransactionItems;
 
+    @XmlElement
+    private List<ValidationResultInfo> validationResults;
+
     @XmlAnyElement
     private List<Element> _futureElements;
 
@@ -70,23 +78,19 @@ public class LprTransactionInfo
         this.requestingPersonId = input.getRequestingPersonId();
         this.atpId = input.getAtpId();
         this.lprTransactionItems = new ArrayList<LprTransactionItemInfo>();
-        if (input.getLprTransactionItems() != null) {
-            for (LprTransactionItem item : input.getLprTransactionItems()) {
-                this.lprTransactionItems.add(new LprTransactionItemInfo(item));
+        if (input.getLprTransactionItems()!= null) {
+            // Make a deep copy
+            for (LprTransactionItem info: input.getLprTransactionItems()) {
+                this.lprTransactionItems.add(new LprTransactionItemInfo(info));
             }
         }
-    }
-
-    @Override
-    public List<LprTransactionItemInfo> getLprTransactionItems() {
-        if (this.lprTransactionItems == null) {
-            this.lprTransactionItems = new ArrayList<LprTransactionItemInfo>();
+        this.validationResults = new ArrayList<ValidationResultInfo>();
+        if (input.getValidationResults() != null) {
+            // Make a deep copy
+            for (ValidationResult info: input.getValidationResults()) {
+                this.validationResults.add(new ValidationResultInfo(info));
+            }
         }
-        return lprTransactionItems;
-    }
-
-    public void setLprTransactionItems(List<LprTransactionItemInfo> lprTransactionItems) {
-        this.lprTransactionItems = lprTransactionItems;
     }
 
     @Override
@@ -106,4 +110,30 @@ public class LprTransactionInfo
     public void setAtpId(String atpId) {
         this.atpId = atpId;
     }
+    
+    
+    @Override
+    public List<LprTransactionItemInfo> getLprTransactionItems() {
+        if (lprTransactionItems == null) {
+            lprTransactionItems = new ArrayList<LprTransactionItemInfo>();
+        }
+        return lprTransactionItems;
+    }
+
+    public void setLprTransactionItems(List<LprTransactionItemInfo> lprTransactionItems) {
+        this.lprTransactionItems = lprTransactionItems;
+    }
+
+    @Override
+    public List<ValidationResultInfo> getValidationResults() {
+        if (validationResults == null) {
+            validationResults = new ArrayList<ValidationResultInfo>();
+        }
+        return validationResults;
+    }
+
+    public void setValidationResults(List<ValidationResultInfo> validationResults) {
+        this.validationResults = validationResults;
+    }
+
 }

@@ -17,7 +17,9 @@
 package org.kuali.student.enrollment.courseregistration.infc;
 
 import java.util.List;
+import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.infc.IdEntity;
 
 /**
@@ -72,10 +74,20 @@ public interface RegistrationRequest
     public String getTermId();
 
     /**
-     * A list of specific registration request items.
+     * Items that compose the Registration Request.
      * 
      * @name Registration Request Items
-     * @impl LprTransaction.LprTransactionItems
+     * @impl LprTransactoinItem
+     * @return list of validation results
      */
-    public List<? extends RegistrationRequestItem> getRegistrationRequestItems();
+    public List<? extends RegistrationRequestItem> getRegistrationRequestItems(); 
+    
+    /**
+     * Results messages that occur when this item is submitted.
+     * 
+     * @name Validation Results
+     * @readOnly
+     * @return list of validation results
+     */
+    public List<ValidationResultInfo> getValidationResults();
 }

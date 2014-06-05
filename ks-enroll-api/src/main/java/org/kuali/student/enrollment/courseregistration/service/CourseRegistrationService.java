@@ -16,26 +16,17 @@
 
 package org.kuali.student.enrollment.courseregistration.service;
 
-import java.util.List;
-
-import javax.jws.WebParam;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
-
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-
+import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseregistration.dto.ActivityRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
+import org.kuali.student.enrollment.courseregistration.dto.CreditLoadInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
-import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
-import org.kuali.student.enrollment.courseregistration.dto.CreditLoadInfo;
-import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
-
+import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequestItem;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -45,8 +36,12 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-
 import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
+
+import javax.jws.WebParam;
+import javax.jws.WebService;
+import javax.jws.soap.SOAPBinding;
+import java.util.List;
 
 /**
  * The Course Registration Service is a Class II service supporting
@@ -641,7 +636,7 @@ public interface CourseRegistrationService  {
      * Gets a list of unsubmitted RegistrationRequests by requesting
      * person Id and Term.
      *
-     * @param personId an identifier for a Person
+     * @param requestorId an identifier for the person who is authoring the request
      * @param termId an identifier for a Term
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of the service
@@ -818,7 +813,7 @@ public interface CourseRegistrationService  {
                PermissionDeniedException;
 
     /**
-     * Updates an existing RegistrationRequest. The
+     * Updates an existing Registration Request. The
      * RegistrationRequest Id, Type, and Meta information may not be
      * changed.
      *
@@ -925,7 +920,7 @@ public interface CourseRegistrationService  {
      * @throws DoesNotExistException registrationRequestId
      *         is not found
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException, registrationRequestId or
+     * @throws MissingParameterException registrationRequestId or
      *         contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
@@ -939,25 +934,30 @@ public interface CourseRegistrationService  {
                PermissionDeniedException;
 
     /**
-     * Submits a RegsitrationRequest. This method is transactional and
-     * for multiple items, each RegistrationRequestItem must succeed
-     * or the entireregistration transaction fails.
+     * Submits a RegsitrationRequest. 
+     * 
+     * This method is transactional in that the processing for all items 
+     * must complete or all the items must be rolled back.
+     * 
+     * Note: "complete" does not mean the student got into the class.  She could have been
+     * denied because the class was full or some other reason.  Complete means all of the items were
+     * successfully processed and the results (whether successfully or not) happen as a single unit.
      *
      * @param registrationRequestId an identifier for a RegistrationRequest
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of the service
      *        operation
-     * @return a RegistrationResponse
+     * @return the registration request updated based on the submit
      * @throws AlreadyExistsException When the reg request is already submitted
      * @throws DoesNotExistException registrationRequestId
      *         is not found
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException, registrationRequestId or
+     * @throws MissingParameterException registrationRequestId or
      *         contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public RegistrationResponseInfo submitRegistrationRequest(@WebParam(name = "registrationRequestId") String registrationRequestId, 
+    public RegistrationRequestInfo submitRegistrationRequest(@WebParam(name = "registrationRequestId") String registrationRequestId, 
                                                               @WebParam(name = "contextInfo") ContextInfo contextInfo) 
         throws AlreadyExistsException,
                DoesNotExistException,
@@ -965,6 +965,96 @@ public interface CourseRegistrationService  {
                MissingParameterException, 
                OperationFailedException, 
                PermissionDeniedException;
+
+    /**
+     * Retrieves a single RegistrationRequestItem by an RegistrationRequestItem Id.
+     * @param registrationRequestItemId the identifier for the RegistrationRequestItem to be retrieved
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return the RegistrationRequestItem requested
+     * @throws DoesNotExistException registrationRequestItemId is not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException registrationRequestItemId or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public RegistrationRequestItemInfo getRegistrationRequestItem(@WebParam(name = "registrationRequestItemId") String registrationRequestItemId,
+                                                                  @WebParam(name = "contextInfo") ContextInfo contextInfo)
+        throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Retrieves a list of RegistrationRequestItems from a list of RegistrationRequestItem Ids. The returned list may be
+     * in any order and if duplicate Ids are supplied, a unique set may or may not be returned.
+     * @param registrationRequestItemIds a list of RegistrationRequestItem identifiers
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return a list of RegistrationRequestItems
+     * @throws DoesNotExistException a registrationRequestItemId was not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException registrationRequestItemIds, an Id in the registrationRequestItemIds, or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<RegistrationRequestItemInfo> getRegistrationRequestItemsByIds(@WebParam(name = "registrationRequestItemIds") List<String> registrationRequestItemIds,
+                                                                              @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Retrieves a list of RegistrationRequestItem Ids by RegistrationRequestItem Type.
+     * @param registrationRequestItemTypeKey an identifier for an RegistrationRequestItem Type
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return a list of RegistrationRequestItem identifiers matching registrationRequestItemTypeKey or an empty list if none found
+     * @throws InvalidParameterException registrationRequestItemTypeKey or contextInfo is not valid
+     * @throws MissingParameterException registrationRequestItemTypeKey or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> getRegistrationRequestItemIdsByType(@WebParam(name = "registrationRequestItemTypeKey") String registrationRequestItemTypeKey,
+                                                            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Searches for RegistrationRequestItem Ids that meet the given search criteria.
+     * @param criteria the search criteria
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return a list of RegistrationRequestItem identifiers matching the criteria
+     * @throws InvalidParameterException criteria or contextInfo is not valid
+     * @throws MissingParameterException criteria or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> searchForRegistrationRequestItemIds(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                                            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Searches for RegistrationRequestItems that meet the given search criteria.
+     * @param criteria the search criteria
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return a list of RegistrationRequestItems matching the criteria
+     * @throws InvalidParameterException criteria or contextInfo is not valid
+     * @throws MissingParameterException criteria or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<RegistrationRequestItemInfo> searchForRegistrationRequestItems(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                                                           @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Gets the RegistrationRequestItems that resulted in or impacted
@@ -988,6 +1078,70 @@ public interface CourseRegistrationService  {
                MissingParameterException, 
                OperationFailedException, 
                PermissionDeniedException;
+
+    /**
+     * Validates an RegistrationRequestItem. Depending on the value of validationType, this validation could be limited to tests on just
+     * the current RegistrationRequestItem and its directly contained sub-objects or expanded to perform all tests related to this
+     * RegistrationRequestItem. If an identifier is present for the RegistrationRequestItem (and/or one of its contained sub-objects) and a record is
+     * found for that identifier, the validation checks if the RegistrationRequestItem can be updated to the new values. If an identifier
+     * is not present or a record does not exist, the validation checks if the RegistrationRequestItem with the given data can be created.
+     * @param validationTypeKey the identifier for the validation Type
+     * @param registrationRequestItemTypeKey the identifier for the RegistrationRequestItem Type to be validated
+     * @param registrationRequestItemInfo the RegistrationRequestItemInfo to be validated
+     * @param registrationRequestId the registrationRequestId
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return a list of validation results or an empty list if validation succeeded
+     * @throws DoesNotExistException validationTypeKey or registrationRequestItemTypeKey is not found
+     * @throws InvalidParameterException registrationRequestItemInfo or contextInfo is not valid
+     * @throws MissingParameterException registrationRequestItemId or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<ValidationResultInfo> validateRegistrationRequestItem(@WebParam(name = "validationTypeKey") String validationTypeKey,
+                                                                      @WebParam(name = "registrationRequestItemTypeKey") String registrationRequestItemTypeKey,
+                                                                      @WebParam(name = "registrationRequestItemInfo") RegistrationRequestItemInfo registrationRequestItemInfo,
+                                                                      @WebParam(name = "registrationRequestId") String registrationRequestId,
+                                                                      @WebParam(name = "contextInfo") ContextInfo contextInfo)
+        throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+   
+    /**
+     * Changes an existing Registration Request Item. 
+     * 
+     * This is a convenience operation so that the data associated with a single item may be changed without having to 
+     * resubmit the entire registration request.
+     * 
+     * The RegistrationRequestItem Id, Type, and Meta information may not be changed.
+     * @param registrationRequestItemId the identifier for the RegistrationRequestItem to be updated
+     * @param registrationRequestItemInfo the new data for the RegistrationRequestItem
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return the updated RegistrationRequestItem
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException registrationRequestItemTypeKey does not exist or is not supported
+     * @throws InvalidParameterException registrationRequestItemInfo or contextInfo is not valid
+     * @throws MissingParameterException registrationRequestItemInfo, or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     * @throws ReadOnlyException an attempt at supplying information designated as read only
+     * @throws VersionMismatchException an optimistic locking failure or the action was attempted on an out of date version
+     */
+    public RegistrationRequestItemInfo changeRegistrationRequestItem(@WebParam(name = "registrationRequestItemId") String registrationRequestItemId,
+                                                                     @WebParam(name = "registrationRequestItemInfo") RegistrationRequestItemInfo registrationRequestItemInfo,
+                                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException,
+            VersionMismatchException;
+
+   
 
     /**
      * Gets list of RegistrationRequestItems resulting in or impacting

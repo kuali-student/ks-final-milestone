@@ -16,20 +16,24 @@
 
 package org.kuali.student.enrollment.courseregistration.dto;
 
-import org.kuali.rice.core.api.util.jaxb.KualiDecimalAdapter;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequestItem;
-import org.kuali.student.r2.common.dto.IdEntityInfo;
-import org.w3c.dom.Element;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import java.io.Serializable;
-import java.util.List;
+
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+
+import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequestItem;
+import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.infc.ValidationResult;
+
+import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RegistrationRequestItemInfo", propOrder = {
@@ -37,11 +41,11 @@ import java.util.List;
                 "registrationRequestId", 
                 "personId", 
                 "registrationGroupId",
-                "existingCourseRegistrationId",
+                "existingCourseRegistrationId", 
                 "credits", 
                 "gradingOptionId", 
                 "okToWaitlist", 
-                "okToHoldUntilList", 
+                "okToHoldUntilList", "validationResults",
                 "meta", "attributes", "_futureElements"})
 
 public class RegistrationRequestItemInfo 
@@ -63,7 +67,6 @@ public class RegistrationRequestItemInfo
     private String existingCourseRegistrationId;
 
     @XmlElement
-    @XmlJavaTypeAdapter(KualiDecimalAdapter.class)
     private KualiDecimal credits;
 
     @XmlElement
@@ -74,6 +77,9 @@ public class RegistrationRequestItemInfo
 
     @XmlElement
     private Boolean okToHoldUntilList;
+
+    @XmlElement
+    private List<ValidationResultInfo> validationResults;
 
     @XmlAnyElement
     private List<Element> _futureElements;
@@ -88,7 +94,7 @@ public class RegistrationRequestItemInfo
      * Constructs a new RegistrationRequestItemInfo from another
      * RegistrationRequestItem.
      *
-     * @param reqistrationRequestItem the RegistrationRequestItem to
+     * @param registrationRequestItem the RegistrationRequestItem to
      *        copy
      */
     public RegistrationRequestItemInfo(RegistrationRequestItem registrationRequestItem) {
@@ -105,6 +111,10 @@ public class RegistrationRequestItemInfo
             this.gradingOptionId = registrationRequestItem.getGradingOptionId();
             this.okToWaitlist = registrationRequestItem.getOkToWaitlist();
             this.okToHoldUntilList = registrationRequestItem.getOkToHoldUntilList();
+            this.validationResults = new ArrayList<ValidationResultInfo>();
+            for(ValidationResult validationResult:registrationRequestItem.getValidationResults ()){
+                this.getValidationResults().add(new ValidationResultInfo(validationResult));
+            }
         }
     }
 
@@ -178,5 +188,18 @@ public class RegistrationRequestItemInfo
 
     public void setOkToHoldUntilList(Boolean okToHoldUntilList) {
         this.okToHoldUntilList = okToHoldUntilList;
+    }
+
+
+    @Override
+    public List<ValidationResultInfo> getValidationResults() {
+        if (validationResults == null) {
+            validationResults = new ArrayList<ValidationResultInfo>();
+        }
+        return validationResults;
+    }
+
+    public void setValidationResults(List<ValidationResultInfo> validationResults) {
+        this.validationResults = validationResults;
     }
 }

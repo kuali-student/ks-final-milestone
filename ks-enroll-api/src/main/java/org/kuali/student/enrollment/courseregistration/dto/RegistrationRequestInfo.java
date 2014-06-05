@@ -29,12 +29,15 @@ import javax.xml.bind.annotation.XmlType;
 import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequest;
 import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequestItem;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RegistrationRequestInfo", propOrder = {
                 "id", "name", "descr", "typeKey", "stateKey", 
-                "requestorId", "termId", "registrationRequestItems", 
+                "requestorId", "termId", 
+                "registrationRequestItems",
+                "validationResults",
                 "meta", "attributes", "_futureElements"})
 
 public class RegistrationRequestInfo 
@@ -51,6 +54,9 @@ public class RegistrationRequestInfo
 
     @XmlElement
     private List<RegistrationRequestItemInfo> registrationRequestItems;
+    
+    @XmlElement
+    private List<ValidationResultInfo> validationResults;
 
     @XmlAnyElement
     private List<Element> _futureElements;
@@ -74,10 +80,14 @@ public class RegistrationRequestInfo
         if (registrationRequest != null) {
             this.requestorId = registrationRequest.getRequestorId();
             this.termId = registrationRequest.getTermId();
+
             this.registrationRequestItems = new ArrayList<RegistrationRequestItemInfo>();
-      
-            for (RegistrationRequestItem registrationRequestItem : registrationRequest.getRegistrationRequestItems()) {
-                this.registrationRequestItems.add(new RegistrationRequestItemInfo(registrationRequestItem));
+            for(RegistrationRequestItem info: registrationRequest.getRegistrationRequestItems()){
+                this.registrationRequestItems.add(new RegistrationRequestItemInfo(info));
+            }
+            this.validationResults = new ArrayList<ValidationResultInfo>();
+            for(ValidationResultInfo validationResult: registrationRequest.getValidationResults()){
+                this.validationResults.add(new ValidationResultInfo(validationResult));
             }
         }
     }
@@ -102,14 +112,28 @@ public class RegistrationRequestInfo
 
     @Override
     public List<RegistrationRequestItemInfo> getRegistrationRequestItems() {
-        if (this.registrationRequestItems == null) {
-            this.registrationRequestItems = new ArrayList<RegistrationRequestItemInfo>();
+        if (registrationRequestItems == null) {
+            registrationRequestItems = new ArrayList<RegistrationRequestItemInfo>();
         }
-
         return registrationRequestItems;
     }
 
     public void setRegistrationRequestItems(List<RegistrationRequestItemInfo> registrationRequestItems) {
         this.registrationRequestItems = registrationRequestItems;
     }
+
+
+    
+    @Override
+    public List<ValidationResultInfo> getValidationResults() {
+        if (validationResults == null) {
+            validationResults = new ArrayList<ValidationResultInfo>();
+        }
+        return validationResults;
+    }
+
+    public void setValidationResults(List<ValidationResultInfo> validationResults) {
+        this.validationResults = validationResults;
+    }
+    
 }
