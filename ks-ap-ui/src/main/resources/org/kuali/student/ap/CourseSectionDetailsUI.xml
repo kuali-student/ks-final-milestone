@@ -28,14 +28,14 @@
 					</property>
 					<property name="items">
 						<list>
-                            <bean parent="Uif-VerticalBoxGroup">
-                                <property name="items">
-                                    <list>
+                            <!--<bean parent="Uif-VerticalBoxGroup">-->
+                                <!--<property name="items">-->
+                                    <!--<list>-->
                                         <bean parent="Uif-MessageField" p:messageText="@{courseCode}  Course Sections" />
                                         <ref bean="course-term-list"/>
-                                    </list>
-                                </property>
-                            </bean>
+                                    <!--</list>-->
+                                <!--</property>-->
+                            <!--</bean>-->
 						</list>
 					</property>
                     <property name="stickyFooter" value="false"/>
@@ -54,18 +54,16 @@
         <property name="renderLineActions" value="false"/>
         <property name="disclosure.render" value="true"/>
         <property name="propertyName" value="courseTermDetailsWrappers"/>
+        <!-- Disclosure items REQUIRE a summary title to work correctly -->
         <property name="layoutManager.lineGroupPrototype.header.render" value="true"/>
-        <!-- property to activate disclosure -->
+        <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
+
+        <property name="layoutManager.summaryTitle" value="@{#line.termName}"/>
+        <property name="layoutManager.lineGroupPrototype.disclosure.defaultOpen" value="false"/>
         <property name="items">
             <list>
-                <!--<bean parent="Uif-VerticalBoxGroup">-->
-                    <!--<property name="disclosure.render" value="true"/>-->
-                    <!--<property name="items">-->
-                        <!--<list>-->
-                            <bean parent="Uif-MessageField" p:messageText="@{#line.termName}"/>
-                        <!--</list>-->
-                    <!--</property>-->
-                <!--</bean>-->
+                            <bean parent="Uif-MessageField" p:messageText="term detail line 1"/>
+                            <bean parent="Uif-MessageField" p:messageText="term detail line 2"/>
             </list>
         </property>
         <property name="subCollections">
