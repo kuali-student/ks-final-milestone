@@ -29,8 +29,17 @@ import java.util.List;
  */
 public class CourseSectionDetailsForm extends UifFormBase {
 
+    private String courseCode;
     private String courseTitle;
     private List<CourseTermDetailsWrapper> courseTermDetailsWrappers;
+
+    public String getCourseCode() {
+        return courseCode;
+    }
+
+    public void setCourseCode(String courseCode) {
+        this.courseCode = courseCode;
+    }
 
     public String getCourseTitle() {
         return courseTitle;
@@ -51,17 +60,21 @@ public class CourseSectionDetailsForm extends UifFormBase {
     public void load(String courseId) {
         CourseInfo courseInfo= KsapFrameworkServiceLocator.getCourseHelper().getCourseInfo(courseId);
         this.setCourseTitle(courseInfo.getCourseTitle());
+        this.setCourseCode(courseInfo.getCode());
         List<String> termIds = KsapFrameworkServiceLocator.getCourseHelper().getScheduledTermsForCourse(courseInfo);
         this.setCourseTermDetailsWrappers(getScheduledTerms(termIds));
     }
 
     public List<CourseTermDetailsWrapper> getScheduledTerms(List<String> scheduledTermsList) {
+
+        List<CourseTermDetailsWrapper> courseTermDetailsList = new ArrayList<CourseTermDetailsWrapper>();
+
         //Return only the scheduled terms
         if (scheduledTermsList != null && scheduledTermsList.size() > 0) {
 
-            List<TermInfo> scheduledTermsListIds;
+            List<TermInfo> scheduledTerms;
             try {
-                scheduledTermsListIds = KsapFrameworkServiceLocator.getAcademicCalendarService().getTermsByIds(scheduledTermsList, KsapFrameworkServiceLocator.getContext().getContextInfo());
+                scheduledTerms = KsapFrameworkServiceLocator.getAcademicCalendarService().getTermsByIds(scheduledTermsList, KsapFrameworkServiceLocator.getContext().getContextInfo());
             } catch (DoesNotExistException e) {
                 throw new IllegalArgumentException("ATP lookup error", e);
             } catch (InvalidParameterException e) {
@@ -75,7 +88,7 @@ public class CourseSectionDetailsForm extends UifFormBase {
             }
 
             //sort scheduledTermsListIds
-            List<Term> terms = new ArrayList<Term>(scheduledTermsListIds);
+            List<Term> terms = new ArrayList<Term>(scheduledTerms);
             List<Term> scheduledTermsListSorted = KsapFrameworkServiceLocator.getTermHelper().sortTermsByStartDate(terms, true);
 
             Integer displayLimit = Integer.valueOf(ConfigContext.getCurrentContextConfig().getProperty("ks.ap.search.terms.scheduled.limit"));
@@ -84,15 +97,14 @@ public class CourseSectionDetailsForm extends UifFormBase {
             if ( scheduledTermsListSorted.size() >  displayLimit )
                 scheduledTermsListSorted = scheduledTermsListSorted.subList(0, displayLimit);
 
-            List<CourseTermDetailsWrapper> courseTermDetailsWrappers = new ArrayList<CourseTermDetailsWrapper>();
             for (Term scheduledTermId : scheduledTermsListSorted) {
 
                 CourseTermDetailsWrapper courseTerm = new CourseTermDetailsWrapper();
                 courseTerm.setTermName(scheduledTermId.getName());
                 courseTerm.setTermId(scheduledTermId.getId());
-                courseTermDetailsWrappers.add(courseTerm);
+                courseTermDetailsList.add(courseTerm);
             }
         }
-        return courseTermDetailsWrappers;
+        return courseTermDetailsList;
     }
 }
