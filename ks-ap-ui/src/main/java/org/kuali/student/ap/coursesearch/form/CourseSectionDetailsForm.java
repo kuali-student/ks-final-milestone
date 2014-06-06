@@ -1,13 +1,11 @@
 package org.kuali.student.ap.coursesearch.form;
 
-import org.dom4j.DocumentHelper;
-import org.dom4j.Element;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.ap.coursedetails.CourseDetailsHelper;
+import org.kuali.student.ap.coursesearch.dataobject.CourseOfferingDetailsWrapper;
 import org.kuali.student.ap.coursesearch.dataobject.CourseTermDetailsWrapper;
-import org.kuali.student.ap.coursesearch.util.CollectionListPropertyEditorHtmlListType;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -18,7 +16,9 @@ import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -62,10 +62,10 @@ public class CourseSectionDetailsForm extends UifFormBase {
         this.setCourseTitle(courseInfo.getCourseTitle());
         this.setCourseCode(courseInfo.getCode());
         List<String> termIds = KsapFrameworkServiceLocator.getCourseHelper().getScheduledTermsForCourse(courseInfo);
-        this.setCourseTermDetailsWrappers(getScheduledTerms(termIds));
+        this.setCourseTermDetailsWrappers(getScheduledTerms(termIds, courseId));
     }
 
-    public List<CourseTermDetailsWrapper> getScheduledTerms(List<String> scheduledTermsList) {
+    private List<CourseTermDetailsWrapper> getScheduledTerms(List<String> scheduledTermsList, String courseId) {
 
         List<CourseTermDetailsWrapper> courseTermDetailsList = new ArrayList<CourseTermDetailsWrapper>();
 
@@ -97,14 +97,37 @@ public class CourseSectionDetailsForm extends UifFormBase {
             if ( scheduledTermsListSorted.size() >  displayLimit )
                 scheduledTermsListSorted = scheduledTermsListSorted.subList(0, displayLimit);
 
+            List<String> courseIds = new ArrayList<String>();
+            courseIds.add(courseId);
+            Map<String, List<CourseOfferingDetailsWrapper>> courseOfferingsByTerm = processCourseOfferingsByTerm(courseIds, terms);
+
+
             for (Term scheduledTermId : scheduledTermsListSorted) {
 
                 CourseTermDetailsWrapper courseTerm = new CourseTermDetailsWrapper();
                 courseTerm.setTermName(scheduledTermId.getName());
                 courseTerm.setTermId(scheduledTermId.getId());
+                courseTerm.setCourseOfferingDetailWrappers(courseOfferingsByTerm.get(scheduledTermId.getId()));
+
+
                 courseTermDetailsList.add(courseTerm);
             }
         }
         return courseTermDetailsList;
+    }
+
+    private Map<String, List<CourseOfferingDetailsWrapper>> processCourseOfferingsByTerm(List<String> courseIds, List<Term> terms) {
+        List<CourseOfferingInfo> courseOfferings = KsapFrameworkServiceLocator.getCourseHelper().getCourseOfferingsForCoursesAndTerms(courseIds, terms);
+        Map<String, List<CourseOfferingDetailsWrapper>> map = new HashMap<String, List<CourseOfferingDetailsWrapper>>();
+
+        for (CourseOfferingInfo offering : courseOfferings) {
+            String termId = offering.getTermId();
+            List<CourseOfferingDetailsWrapper> offeringsByTerm = map.get(termId);
+            if (offeringsByTerm == null)
+                offeringsByTerm = new ArrayList<CourseOfferingDetailsWrapper>();
+            offeringsByTerm.add(new CourseOfferingDetailsWrapper(offering));
+            map.put(termId, offeringsByTerm);
+        }
+        return map;
     }
 }

@@ -68,13 +68,40 @@
                 <!--</bean>-->
             </list>
         </property>
+        <property name="subCollections">
+            <list>
+                <ref bean="course-offering-list" />
+            </list>
+        </property>
+    </bean>
+    <bean id="course-offering-list" parent="course-offering-list-parent"/>
+    <bean id="course-offering-list-parent" abstract="true" parent="Uif-ListCollectionSection">
+        <property name="collectionObjectClass"
+                  value="org.kuali.student.ap.coursesearch.dataobject.CourseOfferingDetailsWrapper"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="disclosure.render" value="true"/>
+        <property name="propertyName" value="courseOfferingDetailWrappers"/>
+        <property name="layoutManager.lineGroupPrototype.header.render" value="true"/>
+        <!-- property to activate disclosure -->
+        <property name="items">
+            <list>
+                <!--<bean parent="Uif-VerticalBoxGroup">-->
+                <!--<property name="disclosure.render" value="true"/>-->
+                <!--<property name="items">-->
+                <!--<list>-->
+                <bean parent="Uif-MessageField" p:messageText="@{#line.courseOfferingCode} - @{#line.courseOfferingTitle}"/>
+                <!--</list>-->
+                <!--</property>-->
+                <!--</bean>-->
+            </list>
+        </property>
         <!--<property name="subCollections">-->
-            <!--<list>-->
-                <!--<ref bean="conversation_list" />-->
-            <!--</list>-->
+        <!--<list>-->
+        <!--<ref bean="conversation_list" />-->
+        <!--</list>-->
         <!--</property>-->
     </bean>
-
 
 
 </beans>

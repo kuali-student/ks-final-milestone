@@ -62,6 +62,14 @@ public interface CourseHelper {
     List<CourseOfferingInfo> getCourseOfferingsForCourses(List<CourseSearchItem> courses);
 
     /**
+     * Get a list of offerings for a list of course ids in a given list of terms
+     * @param courseIds - List of courses
+     * @param terms - List of terms
+     * @return List of all offerings for each course id that occurs during one of the listed terms
+     */
+    List<CourseOfferingInfo> getCourseOfferingsForCoursesAndTerms(List<String> courseIds, List<Term> terms);
+
+    /**
      * returns a SLN for given params
      *
      * @param year

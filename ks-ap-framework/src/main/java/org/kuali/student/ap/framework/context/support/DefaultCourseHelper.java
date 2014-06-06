@@ -6,9 +6,9 @@ import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
 import org.kuali.student.ap.academicplan.infc.PlanItem;
+import org.kuali.student.ap.coursesearch.CourseSearchItem;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.CourseHelper;
-import org.kuali.student.ap.coursesearch.CourseSearchItem;
 import org.kuali.student.ap.framework.util.KsapHelperUtil;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -35,10 +35,10 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Calendar;
 
 import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
 import static org.kuali.rice.core.api.criteria.PredicateFactory.or;
@@ -420,6 +420,34 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 
         return offerings;
     }
+
+    @Override
+    public List<CourseOfferingInfo> getCourseOfferingsForCoursesAndTerms(List<String> courseIds, List<Term> terms){
+        List<CourseOfferingInfo> offerings = new ArrayList<CourseOfferingInfo>();
+        try {
+            // Load list of terms to find offerings in
+            // Search for all course offerings of search results in terms
+            Predicate termPredicates[] = KsapHelperUtil.getTermPredicates(terms);
+            List<String> tempCourseIds = new ArrayList<String>(courseIds);
+            Predicate coursePredicates[] = KsapHelperUtil.getCourseIdPredicates(tempCourseIds);
+            QueryByCriteria query = QueryByCriteria.Builder.fromPredicates(or(coursePredicates),
+                    or(termPredicates), equal("luiType", LuiServiceConstants.COURSE_OFFERING_TYPE_KEY));
+            offerings = KsapFrameworkServiceLocator.getCourseOfferingService()
+                    .searchForCourseOfferings(query,KsapFrameworkServiceLocator.getContext().getContextInfo());
+        } catch (InvalidParameterException e) {
+            throw new IllegalArgumentException("ATP lookup failed", e);
+        } catch (MissingParameterException e) {
+            throw new IllegalArgumentException("ATP lookup failed", e);
+        } catch (OperationFailedException e) {
+            throw new IllegalStateException("ATP lookup failed", e);
+        } catch (PermissionDeniedException e) {
+            throw new IllegalStateException("ATP lookup failed", e);
+        }
+
+        return offerings;
+    }
+
+
 
     /*
      *  - Only display Last Offered if it has been offered within the last 10 years.
