@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="CourseDetails-FormView" parent="CourseDetails-FormView-parent" />
+	<bean abstract="true" id="CourseDetails-FormView-parent" parent="KSAPFormView">
+		<property name="id" value="CourseDetails-FormView" />
+		<property name="cssClasses">
+			<list merge="true">
+				<value>ksap-view</value>
+			</list>
+		</property>
+		<property name="additionalScriptFiles">
+			<list>
+			</list>
+		</property>
+		<property name="items">
+			<list>
+				<bean parent="Ksap-Page" p:id="coursedetails-page">
+                    <property name="cssClasses">
+						<list merge="true">
+						</list>
+					</property>
+					<property name="layoutManager">
+						<bean parent="Uif-HorizontalBoxLayout" />
+					</property>
+					<property name="items">
+						<list>
+                            <bean parent="Uif-VerticalBoxGroup">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-Message" p:messageText="@{courseTitle}" />
+                                    </list>
+                                </property>
+                            </bean>
+
+						</list>
+					</property>
+                    <property name="stickyFooter" value="false"/>
+				</bean>
+			</list>
+		</property>
+		<property name="footer.render" value="false" />
+        <property name="persistFormToSession" value="false"/>
+		<property name="formClass" value="org.kuali.student.ap.coursesearch.form.CourseSectionDetailsForm" />
+	</bean>
+
+
+</beans>
