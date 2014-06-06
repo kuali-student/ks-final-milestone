@@ -85,6 +85,12 @@ angular.module('regCartApp')
             addCourseToCart($scope.cart.cartId, $scope.courseCode, $scope.termId, $scope.regCode, null, null, null);
         };
 
+        // Allows you to add a cartResultItem back into the cart. useful when a user wants to add a failed item back
+        // into their cart.
+        $scope.addCartItemToCart = function (cartItem) {
+            addCourseToCart($scope.cart.cartId, null, $scope.termId, null, cartItem.regGroupId, cartItem.grading, cartItem.credits);
+        };
+
         $scope.$on('addCourseToCart', function (event, cartId, courseCode, termId, regGroupCode, regGroupId, gradingOptionId, credits) {
             console.log('Received event addCourseToCart ', event);
             addCourseToCart(cartId, courseCode, termId, regGroupCode, regGroupId, gradingOptionId, credits);

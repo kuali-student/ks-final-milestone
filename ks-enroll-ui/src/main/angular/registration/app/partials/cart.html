@@ -200,7 +200,7 @@
     <div ng-repeat="cartResultItem in cartResults.items" is-open="isopen" class="panel kscr-cartItem-status kscr-cartItem-status--{{cartResultItem.status}}">
         <div class="kscr-cartResult-icon">&nbsp;</div>
         <div id="course_remove_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}" class="kscr-Card-remove" ng-if="cartResultItem.status != statuses.processing">
-            <span class="kscr-cartResult-remove"><a href="" ng-click="removeCartResultItem(cartResultItem)"><i class="glyphicon glyphicon-remove"></i></a></span>
+            <span class="kscr-cartResult-remove"><a href="" ng-click="removeCartResultItem($index)"><i class="glyphicon glyphicon-remove"></i></a></span>
         </div>
         <!-- Displays block with course info if course is not waitlisted -->
         <div class="kscr-cartResult-content" ng-if="cartResultItem.status != statuses.waitlist">
@@ -218,6 +218,15 @@
                             <span ng-bind-html="message"></span>
                         </div>
                     </div>
+                </div>
+            </div>
+            <!-- All Error cards must provide the ability to add the item back into the cart -->
+            <div class="kscr-Card-buttons" ng-if="(cartResultItem.status == statuses.error)">
+                <div class="kscr-Card-button">
+                    <span>
+                        <!-- Add to cart, then remove the result item-->
+                        <button class="kscr-Button" id="addBackToCart_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}" ng-click="addCartItemToCart(cartResultItem);  removeCartResultItem($index);">Keep in Cart</button>
+                    </span>
                 </div>
             </div>
             <div class="kscr-Card-buttons" ng-if="cartResultItem.statusMessages && (cartResultItem.status == statuses.action)">
