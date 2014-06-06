@@ -340,7 +340,7 @@ angular.module('regCartApp')
                                 item.statusMessages = responseItem.messages;
                             }
                             // If anything is still processing, continue polling
-                            if (item.state === STATUS.processing) {
+                            if (item.status === STATUS.processing) {
                                 $scope.pollingCart = true;
                             }
                         });

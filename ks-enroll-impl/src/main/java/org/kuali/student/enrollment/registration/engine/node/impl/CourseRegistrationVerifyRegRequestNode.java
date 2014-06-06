@@ -79,56 +79,33 @@ public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegist
             trans.setStateKey(LprServiceConstants.LPRTRANS_FAILED_STATE_KEY);
             for (LprTransactionItemInfo item : trans.getLprTransactionItems()) {
                 for(ValidationResultInfo error:errors){
-                    item.getValidationResults().add(new ValidationResultInfo(error));
+                    //Match each error with the corresponding id.
+                    String itemId = error.getElement().replaceFirst("registrationRequestItems\\['([^']*)'\\]","$1");
+                    if(item.getId().equals(itemId)){
+                        //Update the item with the failed validation state and result
+                        item.getValidationResults().add(new ValidationResultInfo(error));
+                        item.setStateKey(LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY);
+
+                        //Update the message too
+                        for(RegistrationRequestItemInfo requestItem:updatedMessage.getRegistrationRequestItems()){
+                            if(requestItem.getId().equals(item.getId())){
+                                requestItem.setStateKey(LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY);
+                                requestItem.getValidationResults().add(new ValidationResultInfo(error));
+                            }
+                        }
+                    }
                 }
-
-                item.setStateKey(LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY);
-
             }
             getLprService().updateLprTransaction(trans.getId(), trans, contextInfo);
 
-            for(RegistrationRequestItemInfo requestItem:updatedMessage.getRegistrationRequestItems()){
-                requestItem.setStateKey(LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY);
-            }
             message.setRegistrationRequest(updatedMessage);
+
         }catch (Exception ex) {
             throw new RuntimeException(ex);
         }
 
         return message;
-//
-//        LprTransactionInfo trans;
-//        try {
-//            trans = getLprService().getLprTransaction(regRequest.getId(), contextInfo);
-//            int itemFailures = 0;
-//            for (LprTransactionItemInfo item : trans.getLprTransactionItems()) {
-//                LprTransactionItemResultInfo result = item.getLprTransactionItemResult();
-//                if (result == null) {
-//                    result = new LprTransactionItemResultInfo();
-//                }
-//                List<ValidationResultInfo> errors4item = this.getResultsForItem(errors, item);
-//                if (!errors4item.isEmpty()) {
-//                    result.setMessage(computeSingleErrorMessage(errors4item));
-//                    getLprService().updateLprTransactionItem(item.getId(), item, contextInfo);
-//                    getLprService().changeLprTransactionItemState(item.getId(), LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY,
-//                            contextInfo);
-//                    itemFailures++;
-//                }
-//            }
-//            List<ValidationResultInfo> generalErrors = this.getGeneralResults(errors);
-//            if (errors.size() != (itemFailures + generalErrors.size())) {
-//                // this shouldn't happen
-//                throw new RuntimeException(
-//                        "coding error -- the errors did not all fall into an item error nor general error for display back to the user: " + errors);
-//            }
-//            // ToODO: setup a message structure on the overall request instead of using the description
-//            trans.setDescr(new RichTextHelper().fromPlain(this.computeSingleErrorMessage(generalErrors, itemFailures)));
-//            trans = getLprService().updateLprTransaction(trans.getId(), trans, contextInfo);
-//            getLprService().changeLprTransactionState(regRequest.getId(), LprServiceConstants.LPRTRANS_FAILED_STATE_KEY, contextInfo);
-//        } catch (Exception ex) {
-//            throw new RuntimeException(ex);
-//        }
-//        return message;
+
     }
 
     private boolean shouldValidate(RegistrationRequest regRequest) {
@@ -151,56 +128,5 @@ public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegist
         return errors;
     }
 
-    public static final String REQUEST_ITEM_ID_PREFIX = "requestItemId:";
-
-    private List<ValidationResultInfo> getResultsForItem(List<ValidationResultInfo> results, LprTransactionItemInfo item) {
-        // Note we shouldn't actually get any of these YET because we have not implemented item specific errors like pre-req checking
-        List<ValidationResultInfo> filtered = new ArrayList<ValidationResultInfo>();
-        for (ValidationResultInfo vr : results) {
-            if (vr.getElement().contains(REQUEST_ITEM_ID_PREFIX + item.getId())) {
-                filtered.add(vr);
-            }
-        }
-        return filtered;
-    }
-
-    private List<ValidationResultInfo> getGeneralResults(List<ValidationResultInfo> results) {
-        List<ValidationResultInfo> filtered = new ArrayList<ValidationResultInfo>();
-        for (ValidationResultInfo vr : results) {
-            if (!vr.getElement().contains(REQUEST_ITEM_ID_PREFIX)) {
-                filtered.add(vr);
-            }
-        }
-        return filtered;
-    }
-
-    private String computeSingleErrorMessage(List<ValidationResultInfo> errors) {
-        StringBuilder bldr = new StringBuilder();
-        String comma = "";
-        for (ValidationResultInfo vr : errors) {
-            bldr.append(comma);
-            comma = "; ";
-            bldr.append(vr.getMessage());
-        }
-        return bldr.toString();
-    }
-
-    private String computeSingleErrorMessage(List<ValidationResultInfo> errors, int itemFailures) {
-
-        StringBuilder bldr = new StringBuilder();
-        String comma = "";
-        for (ValidationResultInfo vr : errors) {
-            bldr.append(comma);
-            comma = "; ";
-            bldr.append(vr.getMessage());
-        }
-        bldr.append(comma);
-        bldr.append(itemFailures + " individual items failed");
-        return bldr.toString();
-    }
-
-    public void setCourseRegistrationEngineService(CourseRegistrationEngineService courseRegistrationEngineService) {
-        this.courseRegistrationEngineService = courseRegistrationEngineService;
-    }
 
 }

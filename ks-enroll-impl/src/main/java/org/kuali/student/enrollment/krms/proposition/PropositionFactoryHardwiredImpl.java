@@ -20,6 +20,7 @@ public class PropositionFactoryHardwiredImpl extends
     public static final String RULE_ID_CREDIT_LOAD = "kuali.rule.credit.load";
     public static final String RULE_ID_CREDIT_LIMIT = "kuali.rule.credit.limit";
     public static final String RULE_ID_CREDIT_MINIMUM = "kuali.rule.credit.minimum";
+    public static final String RULE_ID_CREDIT_LOAD_BEST_EFFORT = "kuali.rule.best.effort.credit.load";
 
     @Override
     public Proposition getProposition(String ruleId, ContextInfo contextInfo) throws DoesNotExistException,
@@ -35,6 +36,10 @@ public class PropositionFactoryHardwiredImpl extends
         }
         if (ruleId.equals(RULE_ID_CREDIT_MINIMUM)) {
             Proposition prop = new CreditMinimumProposition();
+            return prop;
+        }
+        if (ruleId.equals(RULE_ID_CREDIT_LOAD_BEST_EFFORT)) {
+            Proposition prop = new BestEffortCreditLoadProposition();
             return prop;
         }
         return super.getProposition(ruleId, contextInfo);

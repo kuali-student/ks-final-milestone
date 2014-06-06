@@ -28,6 +28,7 @@ import org.kuali.student.core.process.evaluator.ProcessProposition;
  *
  * @author nwright
  */
+@Deprecated
 public class CourseRegistrationServiceProcessCheckDecorator
         extends CourseRegistrationServiceDecorator {
 

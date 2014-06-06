@@ -1146,6 +1146,8 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                     resultItem.getMessages().add(CourseRegistrationClientServiceConstants.LPRTRANS_ITEM_COURSE_DROPPED_MESSAGE);
                 } else if (StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_PERSON_REGISTERED_MESSAGE_KEY)) {
                     resultItem.getMessages().add(CourseRegistrationClientServiceConstants.LPRTRANS_ITEM_PERSON_REGISTERED_MESSAGE);
+                } else {
+                    resultItem.getMessages().add(validationResult.getMessage());
                 }
             }
             resultItem.setResultingLprId(lprTransactionItemInfo.getResultingLprId());
