@@ -248,8 +248,15 @@ public class ManageSOCController extends UifControllerBase {
         ManageSOCViewHelperService viewHelper = (ManageSOCViewHelperService) KSControllerHelper.getViewHelperService(socForm);
 
         // Check if exam period exist for SOC, if not display blocker dialog.
+        String dialogBlock = ExamOfferingConstants.NO_EXAM_PERIOD_ERROR_DIALOG;
         if (!viewHelper.termHasExamPeriod(socForm.getTermInfo().getId())) {
-            return showDialog(ExamOfferingConstants.NO_EXAM_PERIOD_WARNING_DIALOG, socForm, request, response);
+            if (!hasDialogBeenAnswered(dialogBlock, socForm)) {
+                return showDialog(dialogBlock, socForm, request, response);
+            } else {
+                // clear dialog history so user can press the button again
+                socForm.getDialogManager().resetDialogStatus(dialogBlock);
+                return getUIFModelAndView(socForm);
+            }
         }
 
         // Display confirmation dialog.

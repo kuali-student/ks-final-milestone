@@ -75,7 +75,7 @@
                 <ref bean="closeConfirmDialog"/>
                 <ref bean="massScheduleConfirmDialog"/>
                 <ref bean="massPublishConfirmDialog"/>
-                <ref bean="examOfferingExamPeriodDialog"/>
+                <ref bean="errorNoExamPeriodDialog"/>
                 <ref bean="examOfferingConfirmDialog"/>
             </list>
         </property>
@@ -157,7 +157,7 @@
         </property>
     </bean>
 
-    <bean id="examOfferingExamPeriodDialog" parent="Uif-OK-Cancel-DialogGroup"
+    <bean id="errorNoExamPeriodDialog" parent="Uif-OK-Cancel-DialogGroup"
           p:promptText="No exam period exists for the term. An exam period must exist before exam offerings can be created.">
         <property name="headerText" value="Exam Offerings"/>
         <property name="availableResponses">
