@@ -1,4 +1,4 @@
-<div class="kscr-Header-container" ng-class="{'kscr-Menu-background--disabled' : dropMenu}">
+<div class="kscr-Header-container">
     <!-- NG class adds a wide version of the header if we are looking at the responsive states -->
     <div ng-class="{'kscr-Header':true, 'kscr-Responsive-header':uiState=='root.responsive.schedule' || uiState=='root.responsive.cart'}">
         <div class="kscr-Header-logo util-Grid util-Grid--center">
@@ -146,3 +146,5 @@
         <div ui-view></div>
    </div>
 </div>
+
+<div ng-class="{'kscr-Menu-background--disabled' : dropMenu}" ng-click="dropMenu=false"></div>
