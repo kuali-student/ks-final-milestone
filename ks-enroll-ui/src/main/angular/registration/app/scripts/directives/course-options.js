@@ -121,19 +121,9 @@ angular.module('regCartApp')
 
                     var selectedItemIndex = options.indexOf(selectedItem),
                         currentItemIndex = options.indexOf(currentItem),
-                        min = (selectedItemIndex < (maxOptions) ? 0 : selectedItemIndex - 2),
-                        max = (selectedItemIndex < (maxOptions - 1) ? (maxOptions - 1) : selectedItemIndex + 1);
-
-                    if (selectedItemIndex < 3) { // In first 3 items, show 0-3
-                        min = 0;
-                        max = 3;
-                    } else if (selectedItemIndex >= (options.length - 2)) { // In last 2, show last-3
-                        max = options.length - 1;
-                        min = max - 3;
-                    } else {
-                        min = selectedItemIndex - 2;
-                        max = selectedItemIndex + 1;
-                    }
+                        padding = 2,
+                        min = Math.max(0, Math.min(selectedItemIndex - padding, options.length - maxOptions)),
+                        max = Math.min(min + maxOptions, options.length) - 1;
 
                     return min <= currentItemIndex && currentItemIndex <= max;
                 }
