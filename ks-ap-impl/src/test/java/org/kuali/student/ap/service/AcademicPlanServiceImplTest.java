@@ -80,17 +80,6 @@ public class AcademicPlanServiceImplTest extends TestAcademicPlanServiceImplConf
 
         contextInfo.setPrincipalId(principalId); //reset context principalId...after loading plans
 
-//TODO:  KSAP-1016 - Setup Course MapImpl to sppt KSAP service tests
-//        this is a clu loader helper that I found, but it may not be what we need
-//        we also need tp inject a Course / CLU mapimpl..
-//
-//        CluDataLoader cluDataLoader = new CluDataLoader();
-//        cluDataLoader.setCluService(KsapFrameworkServiceLocator.getCluService());
-//        cluDataLoader.setContextInfo(new DefaultKsapContext().getContextInfo());
-//        cluDataLoader.load();
-//
-//        TermAndCalDataLoader termAndCalDataLoader = new TermAndCalDataLoader();
-//        termAndCalDataLoader.loadData();
     }
 
     @After
