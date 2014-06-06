@@ -7,13 +7,17 @@ angular.module('regCartApp')
             restrict: 'E',
             transclude: true,
             scope: {
-                course: '=', // Handle on the course object
+                // = : 2-way data binding, changes made locally propagate out
+                // @ : no binding, value comes through as a string
+                // & : value gets evaluated in the original scope, ideal for callbacks
+
+                course: '=', // Handle on the course object, 2-way binding due to '='
                 maxOptions: '@max', // Max # of items to show at a time
                 prefix: '@', // Element ID prefix (e.g. waitlist_)
                 showAll: '@', // Show all items, preventing the More toggle from showing [true, false]
                 moreBehavior: '@', // Behavior of expand button [expand, dialog]
-                cancelFn: '&onCancel', // Function to call when canceling the form, provides course as parameter
-                submitFn: '&onSubmit' // Function to call when submitting the form, provides course as parameter
+                cancelFn: '&onCancel', // Function to call when canceling the form, provides course as parameter, usage: on-submit="processSubmit(course)"
+                submitFn: '&onSubmit' // Function to call when submitting the form, provides course as parameter, usage: on-submit="processCancel(course)"
             },
             templateUrl: 'partials/courseOptions.html',
             controller: ['$scope', '$modal', function($scope, $modal) {
