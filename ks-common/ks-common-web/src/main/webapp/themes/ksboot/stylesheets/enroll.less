@@ -679,8 +679,9 @@ fieldset .uif-smallActionButton {
 
 
 /************************************** APPLICATION HEADER **************************************/
+
 .ks-uif-viewHeader-container {
-  background-color: #000;
+  background-color: @ks-stickyHeader-color;
   height: 49px;
 }
 
@@ -700,15 +701,37 @@ fieldset .uif-smallActionButton {
 .ks-header-list {
   list-style: none;
   float: right;
+
+    li {
+      float: left;
+      padding-top: 5px;
+    }
+
+  /* Adjusting the padding issues of the logout highlight */
+    .dropdown-menu li {
+      float: none;
+      padding-right: 0px;
+      padding-top: 0px;
+    }
+
+    /* Adjusting the colour of the user icon */
+    li a i {
+      padding-right: .2em;
+      color: inherit;
+    }
+
+    li a:hover i {
+      opacity: 1;
+    }
+
+    /* Centering the drop down arrow beside the username */
+    li a b {
+      margin-top: 0;
+    }
 }
 
 .ks-header-action-list {
   padding-right: 17px;
-}
-
-.ks-header-list li{
-  float: left;
-  padding-top: 5px;
 }
 
 .open > .dropdown-menu {
@@ -716,73 +739,51 @@ fieldset .uif-smallActionButton {
   margin-top: 5px;
 }
 
-/* Adjusting the padding issues of the logout highlight */
-.ks-header-list .dropdown-menu li{
-  float: none;
-  padding-right: 0px;
-  padding-top: 0px;
-}
-
-/* Adjusting the colour of the user icon */
-.ks-header-list li a i {
-  padding-right: .2em;
-  color: inherit;
-}
-
-.ks-header-list li a:hover i {
-  opacity: 1;
-}
-
-/* Centering the drop down arrow beside the username */
-.ks-header-list li a b {
-  margin-top: 0;
-}
-
-/* Alignment of the Right Content Area  */
-.header-right-group{
-  float: right;
-  padding-right: 13px;
-}
-
-/* Altering the Default Link Colour in Header Navigation */
-.header-right-group a {
-  color: @navText;
-  font-size: 1em;
-}
-
-/* Altering the Default Hover Treatment */
-.header-right-group a:hover {
-  color: @navText--hover;
-  text-decoration: none;
-}
 
 /* Logout Button */
 .ks-header-logout {
   padding-top: 10px;
 }
 
-.navbar {
-  margin-bottom: 0px;
-}
+.header-right-group {
+  /* Alignment of the Right Content Area  */
+  float: right;
+  padding-right: 13px;
 
-.navbar .nav > li > a {
-  padding: 10px 7px 10px;
-  text-transform: capitalize;
-}
+    /* Altering the Default Link Colour in Header Navigation */
+    a {
+      color: @navText;
+      font-size: 1em;
+    }
 
-.nav .caret{
-    border-bottom-color: @navText;
-    border-top-color: @navText;
-}
+    .navbar {
+      margin-bottom: 0px;
+    }
 
-.nav a:hover .caret{
-    border-bottom-color: @navText--hover;
-    border-top-color:  @navText--hover;
-}
+    .navbar .nav > li > a {
+      padding: 10px 7px 10px;
+      text-transform: capitalize;
+    }
 
-.nav > li > a:hover, .nav > li > a:focus,
-.nav .open > a, .nav .open > a:hover, .nav .open > a:focus{
-    background-color: inherit;
+    .nav .caret {
+        border-bottom-color: @navText;
+        border-top-color: @navText;
+    }
+
+    .nav a:hover .caret {
+        border-bottom-color: @navText--hover;
+        border-top-color:  @navText--hover;
+    }
+
+    .nav > li > a:hover,
+    .nav > li > a:focus,
+    .nav .open > a,
+    .nav .open > a:hover,
+    .nav .open > a:focus {
+        background-color: @ks-stickyHeader-color;
+        color: @navText--hover;
+        text-decoration: none;
+    }
 }
 /************************************** END APPLICATION HEADER **************************************/
 
@@ -2093,7 +2094,6 @@ section.uif-disclosure {
 #selectTermForRolloverDetails .uif-label,
 #deleteCluster .uif-label,
 #KS-CourseOfferingEdit-CourseOfferingInformation .uif-label,
-#socTermField .uif-label,
 #activityCode .uif-label,
 #maximumEnrollment .uif-label,
 #gradingOptionId .uif-label,

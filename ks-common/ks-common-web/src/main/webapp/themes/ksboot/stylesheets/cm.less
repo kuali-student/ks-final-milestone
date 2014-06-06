@@ -511,9 +511,78 @@ label > div.uif-message {
  *   Create Course tab styling
  */
 
-/* Remove the bottom border of the nav ul */
-#course_tabs_tabs .nav-tabs {
-  border-bottom: 0px solid #dddddd;
+
+#course_tabs_tabs{
+ /* The background hides the TabGroup Header when it's position: fixed; */
+  background: none;
+
+    /* Remove the bottom border of the nav ul */
+    .nav-tabs {
+      border-bottom: 0px solid #dddddd;
+    }
+
+    .nav-tabs > li > a {
+        border-radius: 5px 0px 0px 5px;
+    }
+
+    /* Get rid of the focus outline on the active tab item. */
+    .nav-tabs > li.active > a,
+    .nav-tabs > li.active > a:hover,
+    .nav-tabs > li.active > a:focus {
+        outline: 0px;
+    }
+
+    /* Darkens the top item's top border */
+    .nav-tabs li:first-child {
+        border-top: 1px solid #888888;
+    }
+
+    .nav-tabs > li {
+        border: 1px solid #888888;
+         padding-right: 0;
+    }
+
+    .nav-tabs li {
+        /* Make the left corners round and the right ones square*/
+        .border-radius-individual(5px, 0, 0, 5px);
+    }
+
+    .nav-tabs li a {
+        width: 100%; /* Make the action links in the tab panel extend all the way across */
+        color: #000000;
+        padding-top: 6px;
+        padding-right: 0;
+        padding-bottom: 6px;
+        padding-left: 15px;
+
+        /* Make the left corners round and the right ones square*/
+        .border-radius-individual(5px, 0, 0, 5px);
+    }
+
+    a {
+        cursor: pointer;
+        box-shadow: none;
+    }
+
+    /*#course_tabs_tabs .ui-tabs-panel {*/
+     > div {
+        border: 0; /* Remove the border/line from the top of the sections */
+
+        padding: 1em !important;
+        float: right;
+        width: 70em;
+    }
+
+    /* Validations icons on the tab items need to float right. */
+    .uif-validationImage {
+        float: right;
+        padding-right: 5px;
+    }
+
+    /* Make the grid layout tables enclose their contents (e.g. other tables, the formats widgets). */
+     table.uif-gridLayout {
+        display: inherit;
+    }
 }
 
 .ui-tabs-vertical-left .nav-tabs {
@@ -539,38 +608,9 @@ label > div.uif-message {
     margin: 0 -1px .2em 0;
 }
 
-#course_tabs_tabs .nav-tabs > li > a {
-    border-radius: 5px 0px 0px 5px;
-}
-
-/* Get rid of the focus outline on the active tab item. */
-#course_tabs_tabs .nav-tabs > li.active > a,
-#course_tabs_tabs .nav-tabs > li.active > a:hover,
-#course_tabs_tabs .nav-tabs > li.active > a:focus {
-    outline: 0px;
-}
-
-/* Darkens the top item's top border */
-#course_tabs_tabs .nav-tabs li:first-child {
-    border-top: 1px solid #888888;
-}
-
-#course_tabs_tabs .nav-tabs > li {
-  border: 1px solid #888888;
-}
-
 /* .ui-tabs-vertical .ui-tabs-panel { */
 .ui-tabs-vertical > div {
     width: 67em;
-}
-
-/*#course_tabs_tabs .ui-tabs-panel {*/
-#course_tabs_tabs > div {
-    border: 0; /* Remove the border/line from the top of the sections */
-
-    padding: 1em !important;
-    float: right;
-    width: 70em;
 }
 
 /* .ui-tabs-vertical-left .ui-tabs-nav li { */
@@ -587,15 +627,12 @@ label > div.uif-message {
   .border-radius-individual(5px, 0, 0, 5px);
 }
 
-
-
 .ui-tabs-vertical-left .nav-tabs li.active a {
   padding-bottom: 0;
   padding-right: .1em;
   border-right-width: 0px;
   border-top: 0px;
 }
-
 
 /* The words at the top of the tab panel */
 #course_tabs_header {
@@ -621,57 +658,14 @@ label > div.uif-message {
     position: fixed;
 }
 
-/* The background hides the TabGroup Header when it's position: fixed; */
-#course_tabs_tabs {
-    background: none;
-}
-
-
-#course_tabs_tabs .nav-tabs li {
-    /* Make the left corners round and the right ones square*/
-    .border-radius-individual(5px, 0, 0, 5px);
-}
-
-.nav-tabs .ui-tabs-anchor {
-    background-color: #ededed;
-}
-
-#course_tabs_tabs .nav-tabs li a {
-    width: 100%; /* Make the action links in the tab panel extend all the way across */
-    color: #000000;
-    padding-top: 6px;
-    padding-right: 0;
-    padding-bottom: 6px;
-    padding-left: 15px;
-
-    /* Make the left corners round and the right ones square*/
-    .border-radius-individual(5px, 0, 0, 5px);
-}
-
 /* The tab content sections have this class */
 .course_details_tab_section {
     padding: 0 0 10px 10px;
 }
 
-#course_tabs_tabs a {
-    cursor: pointer;
-    box-shadow: none;
-}
-
 /*  Used to keep all of the tabs/sections visible in Curriculum Specialist mode */
 .never_hide {
     display: block !important;
-}
-
-/* Validations icons on the tab items need to float right. */
-#course_tabs_tabs .uif-validationImage {
-    float: right;
-    padding-right: 5px;
-}
-
-/* Make the grid layout tables enclose their contents (e.g. other tables, the formats widgets). */
-#course_tabs_tabs table.uif-gridLayout {
-    display: inherit;
 }
 
 /*
