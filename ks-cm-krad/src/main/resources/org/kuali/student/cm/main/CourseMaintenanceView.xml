@@ -192,7 +192,8 @@
                         <bean parent="KS-Uif-DataField" p:label="Proposal Status"
                               p:shortLabel="Status" p:propertyName="proposalInfo.stateKey"/>
                         <bean id="CourseView-LinkGroup-Comments" parent="Uif-ActionLink" p:actionLabel="Comments"
-                              p:methodToCall="showComment"/>
+                              p:methodToCall="showComment" p:disabled="@{#dataObject.proposalInfo.id == null or (#dataObject.proposalInfo.id == '')}"
+                              p:refreshWhenChangedPropertyNames="#dataObject.proposalInfo.id"/>
                         <bean id="CourseView-LinkGroup-Decisions" parent="Uif-ActionLink" p:actionLabel="Decisions"
                               p:methodToCall="showDecisions"/>
                         <bean parent="Uif-Space"/>
