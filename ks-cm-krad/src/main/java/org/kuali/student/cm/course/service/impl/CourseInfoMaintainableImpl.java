@@ -1923,7 +1923,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             for (CommentInfo commentInfo : commentsOfTheProposal) {
                 if (StringUtils.equals(courseInfoWrapper.getCapturedCommenterId(), commentInfo.getCommenterId())) {
                     commentDelete = commentInfo;
-                    continue;
+                    break;
                 }
             }
             if(commentDelete!= null)
