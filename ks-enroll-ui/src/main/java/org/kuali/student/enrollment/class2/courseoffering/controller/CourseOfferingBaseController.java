@@ -12,6 +12,7 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.uif.form.KSUifMaintenanceDocumentForm;
 import org.kuali.student.common.uif.util.KSControllerHelper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingEditMaintainableImpl;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
@@ -132,5 +133,22 @@ public class CourseOfferingBaseController extends MaintenanceDocumentController 
         } else {
             return getUIFModelAndView(form);
         }
+    }
+
+    /**
+     * This method makes sure that if the examtype is standard and the system is configured to use a final exam matrix,
+     * the useFinalExamMatrix checkbox defaults to true.
+     */
+    @RequestMapping(params = "methodToCall=checkExamMatrix")
+    public ModelAndView checkExamMatrix(final @ModelAttribute("KualiForm") MaintenanceDocumentForm form,
+                                                   final HttpServletRequest request,
+                                                   final HttpServletResponse response) {
+        CourseOfferingWrapper wrapper = (CourseOfferingWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
+        if (wrapper.getCourseOfferingInfo().getFinalExamType().equals("STANDARD") && wrapper.isUseFinalExamMatrixSystemDefault()) {
+            wrapper.setUseFinalExamMatrix(true);
+        } else {
+            wrapper.setUseFinalExamMatrix(false);
+        }
+        return getUIFModelAndView(form);
     }
 }

@@ -540,6 +540,7 @@
                             <value>#dp.finalExamDriver</value>
                         </list>
                     </property>
+                    <property name="methodToCallOnRefresh" value="checkExamMatrix"/>
                     <property name="items">
                         <list>
                             <bean parent="Uif-VerticalBoxGroup">
@@ -557,7 +558,7 @@
                                             </property>
                                         </bean>
                                         <bean parent="KS-Uif-InputField" p:id="finalExamMatrix" p:propertyName="useFinalExamMatrix"
-                                            p:render="@{!#parent.readOnly}" p:defaultValue="true">
+                                              p:render="@{#dp.useFinalExamMatrixSystemDefault}">
                                             <property name="control">
                                                 <bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="Use Final Exam Matrix" />
                                             </property>

@@ -206,6 +206,9 @@ public class CourseOfferingControllerPopulateUIForm {
                 throw new RuntimeException(e);
             }
 
+            formObject.setUseFinalExamMatrixSystemDefault( CourseOfferingManagementUtil.getExamOfferingServiceFacade().isUseFinalExamMatrix());
+            formObject.setUseFinalExamMatrix( CourseOfferingManagementUtil.getExamOfferingServiceFacade().isUseFinalExamMatrix());
+
             // adding SOC
             SocInfo socInfo = CourseOfferingManagementUtil.getCourseOfferingSetService().getSoc(request.getParameter(CourseOfferingConstants.SOC_ID), contextInfo);
             formObject.setSocInfo(socInfo);

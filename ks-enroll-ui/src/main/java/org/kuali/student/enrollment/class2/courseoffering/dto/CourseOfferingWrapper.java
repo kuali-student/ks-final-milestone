@@ -60,6 +60,7 @@ public class CourseOfferingWrapper implements Serializable{
     private String finalExamDriver;
     private String finalExamDriverUI;
     private boolean useFinalExamMatrix;
+    private boolean useFinalExamMatrixSystemDefault;
     private String useFinalExamMatrixUI;
     private boolean finalExamTypeEdited;
     private String examPeriodId;
@@ -456,6 +457,14 @@ public class CourseOfferingWrapper implements Serializable{
 
     public void setUseFinalExamMatrix(boolean useFinalExamMatrix) {
         this.useFinalExamMatrix = useFinalExamMatrix;
+    }
+
+    public boolean isUseFinalExamMatrixSystemDefault() {
+        return useFinalExamMatrixSystemDefault;
+    }
+
+    public void setUseFinalExamMatrixSystemDefault(boolean useFinalExamMatrixSystemDefault) {
+        this.useFinalExamMatrixSystemDefault = useFinalExamMatrixSystemDefault;
     }
 
     public String getUseFinalExamMatrixUI() {

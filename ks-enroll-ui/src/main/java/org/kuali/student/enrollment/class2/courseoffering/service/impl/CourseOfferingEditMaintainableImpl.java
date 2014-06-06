@@ -696,7 +696,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
                 if (!finalExamTypeCM.isEmpty() && !StringUtils.equals(convertCourseFinalExamTypeToCourseOfferingFinalExamType(finalExamTypeCM), coInfo.getFinalExamType())) {
                     formObject.setFinalExamTypeEdited(true);
                 }
-
+                formObject.setUseFinalExamMatrixSystemDefault( CourseOfferingManagementUtil.getExamOfferingServiceFacade().isUseFinalExamMatrix());
                 // set the display text for use final exam matrix in read-only view
                 if (formObject.isUseFinalExamMatrix()) {
                     formObject.setUseFinalExamMatrixUI(CourseOfferingConstants.COURSEOFFERING_TEXT_USE_FINAL_EXAM_MATRIX);
