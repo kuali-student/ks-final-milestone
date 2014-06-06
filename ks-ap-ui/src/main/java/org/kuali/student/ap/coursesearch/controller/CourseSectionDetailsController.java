@@ -38,8 +38,7 @@ public class CourseSectionDetailsController extends KsapControllerBase {
                               HttpServletRequest request,
                               HttpServletResponse response) {
         super.start(form, request, response);
-        form.setCourseTitle("Hello world! - " + courseId);
-
+        form.load(courseId);
         form.setViewId(COURSE_SECTION_DETAILS_FORM);
         form.setView(super.getViewService().getViewById(COURSE_SECTION_DETAILS_FORM));
 
