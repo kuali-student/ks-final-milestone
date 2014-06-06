@@ -40,8 +40,11 @@
     margin-bottom: 100%;
     overflow: hidden;
     padding: 0;
-    height: 100%;
     white-space: nowrap;
+    position: absolute;
+    right: 0;
+    border: solid @border-color;
+    border-width: 0px 0px 2px 1px;
 
     .util-transitions-browserHelper;
     opacity:1;
@@ -132,5 +135,6 @@
 }
 
 .kscr-Menu-user {
-  .kscr-Header-user
+  font-weight: normal;
+  font-family: @secondaryFontFamily;
 }
