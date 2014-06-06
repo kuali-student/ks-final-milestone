@@ -32,7 +32,7 @@ function ksapCourseSearchColumns() {
     return [ {
         'bSortable' : true,
         'bSearchable' : true,
-        'sTitle' : 'Code',
+        'sTitle' : '<span>Code</span>',
         'sClass' : 'ksap-text-nowrap sortable',
         'sWidth' : '78px',
         'sType' : 'string',
@@ -40,33 +40,33 @@ function ksapCourseSearchColumns() {
     }, {
         'bSortable' : true,
         'bSearchable' : true,
-        'sTitle' : 'Title',
+        'sTitle' : '<span>Title</span>',
         'sClass' : 'sortable details_link',
         'sWidth' : '225px',
         'sKsapColIdSuffix' : '_title'
     }, {
         'bSortable' : false,
         'bSearchable' : true,
-        'sTitle' : 'Credits',
+        'sTitle' : '<span>Credits</span>',
         'sWidth' : '68px',
         'sKsapColIdSuffix' : '_credits'
     },{
         'bSortable' : false,
         'bSearchable' : true,
-        'sTitle' : 'Scheduled Terms',
+        'sTitle' : '<span>Scheduled Terms</span>',
         'sClass' : 'ksap-data-list',
         'sWidth' : '130px',
         'sKsapColIdSuffix' : '_scheduledTerms'
     },{
         'bSortable' : false,
         'bSearchable' : true,
-        'sTitle' : 'Projected Terms',
+        'sTitle' : '<span>Projected Terms</span>',
         'sClass' : 'ksap-data-list',
         'sKsapColIdSuffix' : '_projectedTerms'
     }, {
         'bSortable' : false,
         'bSearchable' : true,
-        'sTitle' : 'Gen Ed',
+        'sTitle' : '<span>Gen Ed</span>',
         'sWidth' : '55px',
         'sKsapColIdSuffix' : '_gened'
     }, {
