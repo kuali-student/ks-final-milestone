@@ -695,16 +695,14 @@
                                                                                   parent="KS-Uif-Edit-NavigationActionLink"
                                                                                   p:actionLabel="Edit"
                                                                                   p:actionScript="showEditCommentWidget(@{#index});"
-                                                                                  p:dirtyOnAction="false"
-                                                                                  p:style="background-color:white; width:20px;"/>
+                                                                                  p:dirtyOnAction="false"/>
                                                                             <!--, @{#line.commentInfo.commenterId});"/> -->
                                                                             <bean p:id="Comment-Delete-NavigationActionLink"
                                                                                   parent="KS-Uif-Delete-NavigationActionLink"
                                                                                   p:methodToCall="deleteComment"
                                                                                   p:actionLabel="Delete"
                                                                                   p:performClientSideValidation="true"
-                                                                                  p:onClickScript="deleteExistingComment(@{#index});"
-                                                                                  p:style="background-color:white; width:20px;"/>
+                                                                                  p:onClickScript="deleteExistingComment(@{#index});"/>
                                                                             <!-- @{#line.commentInfo.commenterId});"/> -->
                                                                         </list>
                                                                     </property>
