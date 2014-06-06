@@ -5,7 +5,7 @@
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<bean id="CourseDetails-FormView" parent="CourseDetails-FormView-parent" />
-	<bean abstract="true" id="CourseDetails-FormView-parent" parent="KSAPBaseFormView">
+	<bean abstract="true" id="CourseDetails-FormView-parent" parent="KSAPFormView">
 		<property name="id" value="CourseDetails-FormView" />
 		<property name="cssClasses">
 			<list merge="true">
@@ -28,7 +28,6 @@
 					</property>
 					<property name="items">
 						<list>
-                            <ref bean="course-term-list"/>
                             <bean parent="Uif-VerticalBoxGroup">
                                 <property name="items">
                                     <list>
@@ -47,28 +46,6 @@
         <property name="persistFormToSession" value="false"/>
 		<property name="formClass" value="org.kuali.student.ap.coursesearch.form.CourseSectionDetailsForm" />
 	</bean>
-    <bean id="course-term-list" parent="course-term-list-parent"/>
-    <bean id="course-term-list-parent" abstract="true" parent="Uif-ListCollectionSection">
-        <property name="collectionObjectClass"
-                  value="org.kuali.student.ap.coursesearch.dataobject.CourseTermDetailsWrapper"/>
-        <property name="renderAddLine" value="false"/>
-        <property name="renderLineActions" value="false"/>
-        <property name="disclosure.render" value="true"/>
-        <property name="propertyName" value="courseTermDetailsWrappers"/>
-        <property name="layoutManager.lineGroupPrototype.header.render" value="false"/>
-
-        <property name="items">
-            <list>
-                <bean parent="Uif-Message" p:messageText="@{termName}"/>
-            </list>
-        </property>
-        <!--<property name="subCollections">-->
-            <!--<list>-->
-                <!--<ref bean="conversation_list" />-->
-            <!--</list>-->
-        <!--</property>-->
-    </bean>
-
 
 
 </beans>
