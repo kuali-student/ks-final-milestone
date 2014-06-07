@@ -211,7 +211,7 @@
 
     <bean id="LearningObjectives-MoveUp-Button" parent="Uif-ActionImage">
 		<property name="actionImage">
-            <bean parent="Uif-Image" p:source="@{#ConfigProperties['cm.krad.externalizable.images.url']+'/ArrowUp.png'}" p:altText="Move Up"/>
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['krad.externalizable.images.url']+'/arrow-up.png'}" p:altText="Move Up"/>
         </property>
         <property name="actionScript" value="moveLo(this, 'LearningObjective-CollectionSection', 'moveLearningObjectiveUp');" />
         <property name="toolTip">
@@ -221,7 +221,7 @@
 
     <bean id="LearningObjectives-MoveDown-Button" parent="Uif-ActionImage">
     	<property name="actionImage">
-            <bean parent="Uif-Image" p:source="@{#ConfigProperties['cm.krad.externalizable.images.url']+'/ArrowDown.png'}" p:altText="Move Down"/>
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['krad.externalizable.images.url']+'/arrow-down.png'}" p:altText="Move Down"/>
         </property>
         <property name="actionScript" value="moveLo(this, 'LearningObjective-CollectionSection', 'moveLearningObjectiveDown');" />
         <property name="toolTip">
@@ -231,7 +231,7 @@
 
     <bean id="LearningObjectives-IncreaseIndent-Button" parent="Uif-ActionImage">
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="@{#ConfigProperties['cm.krad.externalizable.images.url']+'/IncreaseIndent.png'}" p:altText="Increase Indent"/>
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['krad.externalizable.images.url']+'/IncreaseIndent.png'}" p:altText="Increase Indent"/>
         </property>
         <property name="actionScript" value="moveLo(this, 'LearningObjective-CollectionSection', 'moveLearningObjectiveRight');" />
         <property name="toolTip">
@@ -242,7 +242,7 @@
 
     <bean id="LearningObjectives-DecreaseIndent-Button" parent="Uif-ActionImage">
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="@{#ConfigProperties['cm.krad.externalizable.images.url']+'/DecreaseIndent.png'}" p:altText="Decrease Indent"/>
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['krad.externalizable.images.url']+'/DecreaseIndent.png'}" p:altText="Decrease Indent"/>
         </property>
         <property name="actionScript" value="moveLo(this, 'LearningObjective-CollectionSection', 'moveLearningObjectiveLeft');" />
         <property name="toolTip">
