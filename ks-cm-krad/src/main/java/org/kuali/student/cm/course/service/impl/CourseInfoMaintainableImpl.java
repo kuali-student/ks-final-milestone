@@ -1201,6 +1201,14 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         if (!formatInfoWrappers.isEmpty())
             reviewData.getCourseLogisticsSection().setFormatInfoWrappers(formatInfoWrappers);
 
+
+        List<String> learningObjectives = new ArrayList<String>();
+        for(LoDisplayInfo loDisplayInfo :courseInfoWrapper.getCourseInfo().getCourseSpecificLOs()) {
+            if(loDisplayInfo.getLoInfo() != null && loDisplayInfo.getLoInfo().getDescr() != null)
+               learningObjectives.add(loDisplayInfo.getLoInfo().getDescr().getPlain());
+        }
+        reviewData.getLearningObjectivesSection().getLearningObjectives().addAll(learningObjectives);
+
         /**
          * Active Dates section
          */
