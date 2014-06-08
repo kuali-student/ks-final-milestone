@@ -606,6 +606,8 @@ public class CourseController extends CourseRuleEditorController {
     public ModelAndView showComment(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
                                     HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+        CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
+        courseInfoWrapper.setComment("");
         // redirect back to client to display lightbox
         return showDialog("commentsLightBox", form, request, response);
     }
