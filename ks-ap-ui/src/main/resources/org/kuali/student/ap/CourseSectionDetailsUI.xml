@@ -29,7 +29,7 @@
 					</property>
 					<property name="items">
 						<list>
-                            <bean parent="Uif-MessageField" p:messageText="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getFormattedMessage('details.course.sestion.title', new Object[]{courseCode})}" />
+                            <bean parent="Uif-MessageField" p:messageText="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getFormattedMessage('details.course.section.title', new Object[]{courseCode})}" />
                             <ref bean="course-term-list"/>
 						</list>
 					</property>
