@@ -442,7 +442,7 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        if (!scheduleRequestSetInfoList.isEmpty() || scheduleRequestSetInfoList != null) {
+        if (scheduleRequestSetInfoList != null && !scheduleRequestSetInfoList.isEmpty()) {
             try {
                 for (ScheduleRequestSetInfo scheduleRequestSetInfo : scheduleRequestSetInfoList) {
                     List<ScheduleRequestInfo> scheduleRequestInfoList = getSchedulingService().getScheduleRequestsByScheduleRequestSet(scheduleRequestSetInfo.getId(), context);
