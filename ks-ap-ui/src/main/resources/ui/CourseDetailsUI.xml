@@ -29,6 +29,11 @@
         <property name="header.render" value="true"/>
         <property name="footer.render" value="false"/>
         <property name="singlePageView" value="true"/>
+        <property name="additionalCssFiles">
+            <list>
+                <value>themes/ksapboot/stylesheets/ksap.coursedetails.css</value>
+            </list>
+        </property>
         <property name="additionalScriptFiles">
             <list>
                 <value>themes/ksapboot/scripts/ksap.search.details.js</value>

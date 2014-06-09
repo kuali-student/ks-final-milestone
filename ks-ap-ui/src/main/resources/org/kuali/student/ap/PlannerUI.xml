@@ -13,7 +13,13 @@
 				<value>ks-plan-View</value>
 			</list>
 		</property>
-		<property name="additionalScriptFiles">
+        <property name="additionalCssFiles">
+            <list>
+                <value>themes/ksapboot/stylesheets/ksap.planner.css</value>
+                <value>themes/ksapboot/stylesheets/ksap.yourstuff.css</value>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
 			<list>
 				<value>plugins/jcarousellite/jcarousellite_1.0.1.min.js</value>
 				<value>themes/ksapboot/scripts/plan/planner.js</value>

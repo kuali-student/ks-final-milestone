@@ -26,7 +26,12 @@
 		<property name="header">
 			<bean parent="Uif-HeaderTwo" />
 		</property>
-		<property name="additionalScriptFiles">
+        <property name="additionalCssFiles">
+            <list>
+                <value>themes/ksapboot/stylesheets/ksap.search.css</value>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
 			<list>
 				<value>themes/ksapboot/scripts/ksap.search.js</value>
 			</list>
