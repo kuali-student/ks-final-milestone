@@ -51,6 +51,7 @@
         <property name="propertyName" value="courseTermDetailsWrappers"/>
         <!-- Disclosure items REQUIRE a summary title to work correctly -->
         <property name="layoutManager.lineGroupPrototype.header.render" value="true"/>
+        <property name="layoutManager.lineGroupPrototype.header.additionalCssClasses" value="@{#line.getTermAbbreviation()}"/>
         <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
         <property name="layoutManager.lineGroupPrototype.disclosure.renderIcon" value="true"/>
         <property name="layoutManager.summaryTitle" value="@{#line.termName} @{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getFormattedMessage('details.term.coSummary', new Object[]{#line.courseOfferingDetailsWrappers.size()})}"/>
