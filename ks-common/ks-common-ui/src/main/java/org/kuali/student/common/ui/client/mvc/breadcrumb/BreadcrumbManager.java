@@ -86,7 +86,7 @@ public class BreadcrumbManager extends Composite{
 		//Special link, a controller is adding a breadcrumb outside the scope of the current controller
 		//in format name@path
 		else if(names.size() > arr.length){
-            StringBuffer path = new StringBuffer("");
+            StringBuilder path = new StringBuilder("");
 			int j = 1;
 			//account for applicationController - skip first item from both
 			for(int i = 1; i < names.size(); i++){
