@@ -612,7 +612,7 @@ function compareCourseCode(value, element) {
             isValid = false;
         } else {
             for (var i = 0; len = data.resultData.length, i < len; i++) {
-                if (data.resultData[i].value == value) {
+                if (data.resultData[i].courseCode == value) {
                     isValid = true;
                     break;
                 }
