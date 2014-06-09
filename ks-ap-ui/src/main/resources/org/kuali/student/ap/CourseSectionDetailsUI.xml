@@ -58,9 +58,6 @@
         <property name="layoutManager.lineGroupPrototype.header.render" value="true"/>
         <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
         <property name="layoutManager.lineGroupPrototype.disclosure.renderIcon" value="true"/>
-        <!--<property name="layoutManager.lineGroupPrototype.disclosure.expandImageSrc" value="../h3_collapse.png"/>-->
-        <!--<property name="layoutManager.lineGroupPrototype.disclosure.collapseImageSrc" value="../h3_expand.png"/>-->
-
         <property name="layoutManager.summaryTitle" value="@{#line.termName}"/>
         <property name="layoutManager.lineGroupPrototype.disclosure.defaultOpen" value="false"/>
         <property name="subCollections">
@@ -78,17 +75,14 @@
         <property name="disclosure.render" value="true"/>
         <property name="propertyName" value="courseOfferingDetailWrappers"/>
         <property name="layoutManager.lineGroupPrototype.header.render" value="true"/>
+        <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
+        <property name="layoutManager.lineGroupPrototype.disclosure.renderIcon" value="true"/>
+        <property name="layoutManager.summaryTitle" value="@{#line.courseOfferingCode} - @{#line.courseOfferingTitle}"/>
+        <property name="layoutManager.lineGroupPrototype.disclosure.defaultOpen" value="false"/>
         <!-- property to activate disclosure -->
         <property name="items">
             <list>
-                <!--<bean parent="Uif-VerticalBoxGroup">-->
-                <!--<property name="disclosure.render" value="true"/>-->
-                <!--<property name="items">-->
-                <!--<list>-->
-                <bean parent="Uif-MessageField" p:messageText="@{#line.courseOfferingCode} - @{#line.courseOfferingTitle}"/>
-                <!--</list>-->
-                <!--</property>-->
-                <!--</bean>-->
+                <bean parent="Uif-MessageField" p:messageText="test"/>
             </list>
         </property>
         <!--<property name="subCollections">-->
