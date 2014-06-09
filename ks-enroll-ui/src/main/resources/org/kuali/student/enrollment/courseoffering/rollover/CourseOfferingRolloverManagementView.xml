@@ -75,27 +75,16 @@
             </list>
         </property>
     </bean>
-    <bean id="KS-CourseOfferingRolloverManagement-NoExamPeriodDialog" parent="Uif-VerticalBoxGroup" p:hidden="true" p:style="width: 600px; overflow: hidden" p:cssClasses="aoc_dialog">
-        <property name="items">
+
+   <bean id="KS-CourseOfferingRolloverManagement-NoExamPeriodDialog" parent="Uif-DialogGroup" p:style="width: 415px;">
+        <property name="header.render" value="true"/>
+        <property name="headerText" value="Continue without Exams?"/>
+        <property name="promptText"
+                  value="Exam periods do not exist for terms and subterms for this rollover.&lt;br&gt; Exam offerings will not be created. Proceed Y/N?"/>
+        <property name="availableResponses">
             <list>
-                <bean id="warningNoExamPeriodVBoxSec" parent="Uif-VerticalBoxSection">
-                    <property name="headerText" value="Continue without Exams?"/>
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-Message" p:messageText="Exam periods do not exist for terms and subterms for this rollover.&lt;br&gt; Exam offerings will not be created. Proceed Y/N?"
-                                  p:style="padding-bottom:25px; font-size:125%"/>
-                            <bean parent="Uif-HorizontalBoxGroup" p:style="padding-top:25px; float:right;">
-                                <property name="items">
-                                    <list>
-                                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Yes" p:id="noExamPeriodButton"
-                                              p:actionParameters="confirm:do" p:methodToCall="performRollover"/>
-                                        <bean parent="Uif-ActionLink" p:actionLabel="No" p:onClickScript="e.preventDefault();closeLightbox();return false;"  p:style="padding-top:5px;"/>
-                                    </list>
-                                </property>
-                            </bean>
-                        </list>
-                    </property>
-                </bean>
+                <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Yes" />
+                <bean parent="Uif-KeyLabelPair" p:key="N" p:value="No" />
             </list>
         </property>
     </bean>

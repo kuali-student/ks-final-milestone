@@ -394,12 +394,14 @@ public class CourseOfferingRolloverController extends UifControllerBase {
         String targetTermId = form.getTargetTerm().getId();
 
         if (helper.isExamOfferingsCreatedOnRollover() && !helper.termHasExamPeriod(targetTermId)) {
-            if (form.getActionParamaterValue("confirm") == null || form.getActionParamaterValue("confirm").equals("")) {
-                // redirect back to client to display lightbox
+            if (!hasDialogBeenAnswered(ExamOfferingConstants.NO_EXAM_PERIOD_WARNING_DIALOG, form)) {
                 return showDialog(ExamOfferingConstants.NO_EXAM_PERIOD_WARNING_DIALOG, form, request, response);
-            } else if (form.getActionParamaterValue("confirm").equals("do")) {
-                form.getDialogManager().removeAllDialogs();
-                form.setLightboxScript("closeLightbox('" + ExamOfferingConstants.NO_EXAM_PERIOD_WARNING_DIALOG + "');");
+            }
+
+            String dialogResponse = getStringDialogResponse(ExamOfferingConstants.NO_EXAM_PERIOD_WARNING_DIALOG, form, request, response);
+            if ("N".equals(dialogResponse)) {
+                form.getDialogManager().resetDialogStatus(ExamOfferingConstants.NO_EXAM_PERIOD_WARNING_DIALOG);
+                return getUIFModelAndView(form);
             }
         }
 
