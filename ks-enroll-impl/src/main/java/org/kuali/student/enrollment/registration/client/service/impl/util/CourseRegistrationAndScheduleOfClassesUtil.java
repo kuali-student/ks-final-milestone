@@ -544,7 +544,7 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
      * @return dayDisplay - Timeslot Day Display Code
      */
     public static String dayDisplayHelper(String day){
-        StringBuffer dayDisplay= new StringBuffer();
+        StringBuilder dayDisplay= new StringBuilder();
         for(char c: day.toCharArray()){
             switch(c){
                 case 'M': dayDisplay.append(SchedulingServiceConstants.MONDAY_TIMESLOT_DISPLAY_DAY_CODE);
