@@ -263,7 +263,8 @@
         </property>
     </bean>
 
-    <bean id="KS-TimeSlot-EditTimeSlotPopupForm" parent="Uif-VerticalBoxSection">
+    <bean id="KS-TimeSlot-EditTimeSlotPopupForm" parent="Uif-VerticalBoxSection"
+        p:additionalCssClasses="ks-TimeSlots-editTimeSlot-lightbox" >
         <property name="hidden" value="true"/>
         <property name="header.id" value="timeSlotLightBoxHeader"/>
         <property name="headerText" value="Add Timeslot"/>
