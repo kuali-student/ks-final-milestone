@@ -370,18 +370,31 @@
                     <property name="items">
                         <list>
                             <bean id="KS-CourseCode-Field" parent="CM-InputField" p:label="Course Code"
-                                  p:propertyName="courseCode">
+                                  p:propertyName="courseCode" p:additionalHiddenPropertyNames="courseId">
                                 <property name="instructionalText" value="Enter an existing course or proposal."/>
                                 <property name="control">
                                     <bean parent="KS-Uif-TextControl" p:cssClasses="validCourseCode"/>
                                 </property>
                                 <property name="suggest">
-                                    <bean parent="Uif-Suggest" p:render="true">
-                                        <property name="valuePropertyName" value="courseCode"/>
-                                        <property name="templateOptions" value="minLength:1,delay:0"/>
+                                    <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true" p:labelPropertyName="courseCode" p:valuePropertyName="courseId">
                                         <property name="suggestQuery">
                                             <bean parent="Uif-AttributeQueryConfig"
                                                   p:queryMethodToCall="searchForJointOfferingCourses" />
+                                        </property>
+                                        <property name="templateOptions">
+                                            <map merge="true">
+                                                <entry key="minLength" value="1"/>
+                                                <entry key="delay" value="0"/>
+                                                <entry key="select">
+                                                    <value>
+                                                        function( event, ui ) {
+                                                            jQuery( "input[name='document.newMaintainableObject.dataObject.courseJointWrappers["+@{#index}+"].courseCode']" ).val(ui.item.label);
+                                                            jQuery( "input[name='document.newMaintainableObject.dataObject.courseJointWrappers["+@{#index}+"].courseId']" ).val(ui.item.value);
+                                                            return false;
+                                                        }
+                                                    </value>
+                                                </entry>
+                                            </map>
                                         </property>
                                     </bean>
                                 </property>

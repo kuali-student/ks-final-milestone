@@ -1426,7 +1426,6 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         for (final CourseJointInfoWrapper jointInfoDisplay : courseInfoWrapper.getCourseJointWrappers()) {
 
             if (StringUtils.isNotBlank(jointInfoDisplay.getCourseCode())) {
-                CourseCodeSearchUtil.getCourseJointInfoWrapper(jointInfoDisplay.getCourseCode(), getCluService(), jointInfoDisplay);
                 courseInfoWrapper.getCourseInfo().getJoints().add(jointInfoDisplay);
             }
 

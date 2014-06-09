@@ -15,7 +15,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 
@@ -86,32 +85,6 @@ public class CourseCodeSearchUtil {
         }
         
         return searchWrappers;
-    }
-    
-    /**
-     * This method might be temporary. (See Jira KSCM-912) Retrieves the
-     * {@link CourseCodeSearchWrapper} that matches the specific courseNumber and converts
-     * it to a {@link CourseJointInfoWrapper}. Only 1 instance will be returned.
-     * 
-     * @param courseNumber
-     * @param cluService
-     * @return The exact match for the 'courseNumber' parameter.
-     */
-    public static void getCourseJointInfoWrapper(String courseNumber, CluService cluService,CourseJointInfoWrapper jointInfoWrapper) {
-
-        // TODO: jira KSCM-2195: The design here, searching for CLUs based on coursecode is incorrect as multiple clus can exist (e.g., proposal, active course)
-        // The correct design is to obtain the entity id based on the user selection in the 'suggest' box.
-        List<CourseCodeSearchWrapper> searchWrappers = searchForCourseNumbers(courseNumber, cluService);
-
-        if (searchWrappers != null) {
-            try {
-                // TODO: jira KSCM-2195 Fix to avoid stacktrace, till the above design issue  is addressed
-                Iterator iter = searchWrappers.iterator();
-                BeanUtils.copyProperties(jointInfoWrapper, iter.next());
-            } catch (Exception e) {
-                LOG.error("An error occurred while converting from the CourseCodeSearchWrapper to a CourseJointInfoWrapper: ", e);
-            }
-        }
     }
     
     /**
