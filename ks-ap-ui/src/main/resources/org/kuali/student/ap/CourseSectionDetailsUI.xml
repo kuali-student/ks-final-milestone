@@ -100,7 +100,7 @@
         <!-- property to activate disclosure -->
         <property name="items">
             <list>
-                <bean parent="Uif-MessageField" p:messageText="@{#line.formatName}"/>
+                <bean parent="Uif-MessageField" p:messageText="@{#line.formatName} (@{#line.activityOfferingDetailsWrappers.size()})"/>
             </list>
         </property>
         <property name="subCollections">
