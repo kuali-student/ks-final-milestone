@@ -4,8 +4,10 @@ import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.ap.coursesearch.dataobject.CourseOfferingDetailsWrapper;
 import org.kuali.student.ap.coursesearch.dataobject.CourseTermDetailsWrapper;
+import org.kuali.student.ap.coursesearch.dataobject.FormatOfferingDetailsWrapper;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -107,7 +109,7 @@ public class CourseSectionDetailsForm extends UifFormBase {
                 CourseTermDetailsWrapper courseTerm = new CourseTermDetailsWrapper();
                 courseTerm.setTermName(scheduledTermId.getName());
                 courseTerm.setTermId(scheduledTermId.getId());
-                courseTerm.setCourseOfferingDetailWrappers(courseOfferingsByTerm.get(scheduledTermId.getId()));
+                courseTerm.setCourseOfferingDetailsWrappers(courseOfferingsByTerm.get(scheduledTermId.getId()));
 
 
                 courseTermDetailsList.add(courseTerm);
@@ -125,7 +127,31 @@ public class CourseSectionDetailsForm extends UifFormBase {
             List<CourseOfferingDetailsWrapper> offeringsByTerm = map.get(termId);
             if (offeringsByTerm == null)
                 offeringsByTerm = new ArrayList<CourseOfferingDetailsWrapper>();
-            offeringsByTerm.add(new CourseOfferingDetailsWrapper(offering));
+
+            CourseOfferingDetailsWrapper courseOfferingDetailsWrapper = new CourseOfferingDetailsWrapper(offering);
+            try {
+                List<FormatOfferingInfo> formatOfferingList = KsapFrameworkServiceLocator.getCourseOfferingService().getFormatOfferingsByCourseOffering(courseOfferingDetailsWrapper.getCourseOfferingId(), KsapFrameworkServiceLocator.getContext().getContextInfo());
+                List<FormatOfferingDetailsWrapper> formatOfferingDetailsWrappers = new ArrayList<FormatOfferingDetailsWrapper>();
+                for (FormatOfferingInfo formatOffering : formatOfferingList) {
+                    FormatOfferingDetailsWrapper formatOfferingDetailsWrapper = new FormatOfferingDetailsWrapper(formatOffering);
+                    formatOfferingDetailsWrappers.add(formatOfferingDetailsWrapper);
+                }
+
+                courseOfferingDetailsWrapper.setFormatOfferingDetailsWrappers(formatOfferingDetailsWrappers);
+            } catch (DoesNotExistException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (InvalidParameterException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (MissingParameterException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (OperationFailedException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (PermissionDeniedException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+
+
+            offeringsByTerm.add(courseOfferingDetailsWrapper);
             map.put(termId, offeringsByTerm);
         }
         return map;

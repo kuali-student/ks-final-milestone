@@ -31,7 +31,7 @@
                             <!--<bean parent="Uif-BoxGroup">-->
                                 <!--<property name="items">-->
                                     <!--<list>-->
-                                        <bean parent="Uif-MessageField" p:messageText="@{courseCode}  Course Sections" />
+                                        <bean parent="Uif-MessageField" p:messageText="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getFormattedMessage('details.course.sestion.title', new Object[]{courseCode})}" />
                                         <ref bean="course-term-list"/>
                                     <!--</list>-->
                                 <!--</property>-->
@@ -58,7 +58,7 @@
         <property name="layoutManager.lineGroupPrototype.header.render" value="true"/>
         <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
         <property name="layoutManager.lineGroupPrototype.disclosure.renderIcon" value="true"/>
-        <property name="layoutManager.summaryTitle" value="@{#line.termName}"/>
+        <property name="layoutManager.summaryTitle" value="@{#line.termName} @{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getFormattedMessage('details.term.coSummary', new Object[]{#line.courseOfferingDetailsWrappers.size()})}"/>
         <property name="layoutManager.lineGroupPrototype.disclosure.defaultOpen" value="false"/>
         <property name="subCollections">
             <list>
@@ -73,7 +73,7 @@
         <property name="renderAddLine" value="false"/>
         <property name="renderLineActions" value="false"/>
         <property name="disclosure.render" value="true"/>
-        <property name="propertyName" value="courseOfferingDetailWrappers"/>
+        <property name="propertyName" value="courseOfferingDetailsWrappers"/>
         <property name="layoutManager.lineGroupPrototype.header.render" value="true"/>
         <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
         <property name="layoutManager.lineGroupPrototype.disclosure.renderIcon" value="true"/>
@@ -89,6 +89,34 @@
                                   p:messageText="@{#line.courseOfferingDescription}"/>
                         <!--</list>-->
                     <!--</property>-->
+                <!--</bean>-->
+            </list>
+        </property>
+        <property name="subCollections">
+            <list>
+                <ref bean="format-offering-list" />
+            </list>
+        </property>
+    </bean>
+    <bean id="format-offering-list" parent="format-offering-list-parent"/>
+    <bean id="format-offering-list-parent" abstract="true" parent="Uif-ListCollectionSection">
+        <property name="collectionObjectClass"
+                  value="org.kuali.student.ap.coursesearch.dataobject.FormatOfferingDetailsWrapper"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="disclosure.render" value="true"/>
+        <property name="propertyName" value="formatOfferingDetailsWrappers"/>
+        <property name="layoutManager.lineGroupPrototype.header.render" value="true"/>
+        <!-- property to activate disclosure -->
+        <property name="items">
+            <list>
+                <!--<bean parent="Uif-VerticalBoxGroup">-->
+                <!--<property name="disclosure.render" value="true"/>-->
+                <!--<property name="items">-->
+                <!--<list>-->
+                <bean parent="Uif-MessageField" p:messageText="@{#line.formatName}"/>
+                <!--</list>-->
+                <!--</property>-->
                 <!--</bean>-->
             </list>
         </property>

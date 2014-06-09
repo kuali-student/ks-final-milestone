@@ -2,6 +2,8 @@ package org.kuali.student.ap.coursesearch.dataobject;
 
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * User: chmaurer
@@ -11,18 +13,28 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
  */
 public class CourseOfferingDetailsWrapper {
 
+    private String courseOfferingId;
     private String courseOfferingCode;
     private String courseOfferingTitle;
     private String courseOfferingDescription;
     private boolean multipleFormatOfferings;
 //    private List<PlannedRegGroupDetails> plannedRegGroupDetails;
-//    private List<FormatOfferingDetailsWrapper> formatOfferingDetailsWrappers;
+    private List<FormatOfferingDetailsWrapper> formatOfferingDetailsWrappers;
 
     public CourseOfferingDetailsWrapper (CourseOfferingInfo courseOfferingInfo) {
+        courseOfferingId = courseOfferingInfo.getId();
         courseOfferingCode = courseOfferingInfo.getCourseOfferingCode();
         courseOfferingTitle = courseOfferingInfo.getCourseOfferingTitle();
         courseOfferingDescription = courseOfferingInfo.getDescr().getPlain();
 //        multipleFormatOfferings = courseOfferingInfo.
+    }
+
+    public String getCourseOfferingId() {
+        return courseOfferingId;
+    }
+
+    public void setCourseOfferingId(String courseOfferingId) {
+        this.courseOfferingId = courseOfferingId;
     }
 
     public String getCourseOfferingCode() {
@@ -55,5 +67,13 @@ public class CourseOfferingDetailsWrapper {
 
     public void setMultipleFormatOfferings(boolean multipleFormatOfferings) {
         this.multipleFormatOfferings = multipleFormatOfferings;
+    }
+
+    public List<FormatOfferingDetailsWrapper> getFormatOfferingDetailsWrappers() {
+        return formatOfferingDetailsWrappers;
+    }
+
+    public void setFormatOfferingDetailsWrappers(List<FormatOfferingDetailsWrapper> formatOfferingDetailsWrappers) {
+        this.formatOfferingDetailsWrappers = formatOfferingDetailsWrappers;
     }
 }

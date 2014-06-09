@@ -10,7 +10,7 @@ public class CourseTermDetailsWrapper {
     private String termId;
     private String termName;
     private boolean openDisclosure;
-    private List<CourseOfferingDetailsWrapper> courseOfferingDetailWrappers;
+    private List<CourseOfferingDetailsWrapper> courseOfferingDetailsWrappers;
 
     public String getTermId() {
         return termId;
@@ -36,11 +36,19 @@ public class CourseTermDetailsWrapper {
         this.openDisclosure = openDisclosure;
     }
 
-    public List<CourseOfferingDetailsWrapper> getCourseOfferingDetailWrappers() {
-        return courseOfferingDetailWrappers;
+    public List<CourseOfferingDetailsWrapper> getCourseOfferingDetailsWrappers() {
+        return courseOfferingDetailsWrappers;
     }
 
-    public void setCourseOfferingDetailWrappers(List<CourseOfferingDetailsWrapper> courseOfferingDetailWrappers) {
-        this.courseOfferingDetailWrappers = courseOfferingDetailWrappers;
+    public void setCourseOfferingDetailsWrappers(List<CourseOfferingDetailsWrapper> courseOfferingDetailsWrappers) {
+        this.courseOfferingDetailsWrappers = courseOfferingDetailsWrappers;
+    }
+
+    /**
+     * Get the term abbreviation.  It's used in styling the term display
+     * @return
+     */
+    public String getTermAbbreviation() {
+        return termName.substring(0, 2).toUpperCase();
     }
 }
