@@ -169,7 +169,7 @@
 
     <bean id="ManageSOCView-termSelection-Section" parent="Uif-HorizontalBoxSection"
           p:onDocumentReadyScript="toggleButtonOnInput('socTermField', 'socShowButton');"
-          p:additionalCssClasses="ks-ContentSpacer">
+          p:additionalCssClasses="ks-ContentSpacer ks-uif-label-inline">
         <property name="items">
             <list>
                 <bean parent="Uif-HorizontalBoxSection">
