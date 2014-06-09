@@ -29,8 +29,6 @@ import org.kuali.student.r2.lum.course.dto.FormatInfo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -324,26 +322,7 @@ public class CourseInfoWrapper implements Serializable {
 
     public List<ResultValuesGroupInfoWrapper> getCreditOptionWrappers() {
         if (creditOptionWrappers == null) {
-            creditOptionWrappers = new ArrayList<ResultValuesGroupInfoWrapper>() {
-                public boolean add(ResultValuesGroupInfoWrapper rvgiw) {
-                    super.add(rvgiw);
-                    Collections.sort(creditOptionWrappers,
-                            new Comparator<ResultValuesGroupInfoWrapper>() {
-                                public int compare(ResultValuesGroupInfoWrapper a, ResultValuesGroupInfoWrapper b) {
-                                    if (a.getTypeKey() == null) {
-                                        return 1;
-                                    }
-                                    else if (b.getTypeKey() == null) {
-                                        return -1;
-                                    }
-                                    return a.getTypeKey().compareToIgnoreCase(b.getTypeKey());
-                                }
-
-                            }
-                    );
-                    return true;
-                }
-            };
+            creditOptionWrappers = new ArrayList<ResultValuesGroupInfoWrapper>();
         }
         return creditOptionWrappers;
     }

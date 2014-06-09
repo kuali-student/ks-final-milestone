@@ -1574,6 +1574,20 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             courseInfoWrapper.getCreditOptionWrappers().add(rvgWrapper);
         }
 
+        Collections.sort(courseInfoWrapper.getCreditOptionWrappers(),
+                new Comparator<ResultValuesGroupInfoWrapper>() {
+                    public int compare(ResultValuesGroupInfoWrapper a, ResultValuesGroupInfoWrapper b) {
+                        if (a.getTypeKey() == null) {
+                            return 1;
+                        }
+                        else if (b.getTypeKey() == null) {
+                            return -1;
+                        }
+                        return a.getTypeKey().compareToIgnoreCase(b.getTypeKey());
+                    }
+                }
+        );
+
         initializeOutcome(courseInfoWrapper);
 
     }
