@@ -54,6 +54,8 @@
         <property name="layoutManager.lineGroupPrototype.header.additionalCssClasses" value="@{#line.getTermAbbreviation()}"/>
         <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
         <property name="layoutManager.lineGroupPrototype.disclosure.renderIcon" value="true"/>
+        <property name="layoutManager.lineGroupPrototype.disclosure.collapsedIconClass" value="ks-fontello-icon-right-open"/>
+        <property name="layoutManager.lineGroupPrototype.disclosure.expandedIconClass" value="ks-fontello-icon-down-open"/>
         <property name="layoutManager.summaryTitle" value="@{#line.termName} @{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getFormattedMessage('details.term.coSummary', new Object[]{#line.courseOfferingDetailsWrappers.size()})}"/>
         <property name="layoutManager.lineGroupPrototype.disclosure.defaultOpen" value="false"/>
         <property name="subCollections">
@@ -73,6 +75,8 @@
         <property name="layoutManager.lineGroupPrototype.header.render" value="true"/>
         <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
         <property name="layoutManager.lineGroupPrototype.disclosure.renderIcon" value="true"/>
+        <property name="layoutManager.lineGroupPrototype.disclosure.collapsedIconClass" value="ks-fontello-icon-right-open"/>
+        <property name="layoutManager.lineGroupPrototype.disclosure.expandedIconClass" value="ks-fontello-icon-down-open"/>
         <property name="layoutManager.summaryTitle" value="@{#line.courseOfferingCode} - @{#line.courseOfferingTitle}"/>
         <property name="layoutManager.lineGroupPrototype.disclosure.defaultOpen" value="false"/>
         <!-- property to activate disclosure -->
@@ -100,7 +104,13 @@
         <!-- property to activate disclosure -->
         <property name="items">
             <list>
-                <bean parent="Uif-MessageField" p:messageText="@{#line.formatName} (@{#line.activityOfferingDetailsWrappers.size()})"/>
+                <bean parent="Uif-MessageField" p:messageText="@{#line.formatName} (@{#line.activityOfferingDetailsWrappers.size()})">
+                  <property name="cssClasses">
+                      <list merge="true">
+                          <value>ksap-section-name</value>
+                      </list>
+                  </property>
+                </bean>
             </list>
         </property>
         <property name="subCollections">
