@@ -57,15 +57,12 @@
         <!-- Disclosure items REQUIRE a summary title to work correctly -->
         <property name="layoutManager.lineGroupPrototype.header.render" value="true"/>
         <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
+        <property name="layoutManager.lineGroupPrototype.disclosure.renderIcon" value="true"/>
+        <!--<property name="layoutManager.lineGroupPrototype.disclosure.expandImageSrc" value="../h3_collapse.png"/>-->
+        <!--<property name="layoutManager.lineGroupPrototype.disclosure.collapseImageSrc" value="../h3_expand.png"/>-->
 
         <property name="layoutManager.summaryTitle" value="@{#line.termName}"/>
         <property name="layoutManager.lineGroupPrototype.disclosure.defaultOpen" value="false"/>
-        <property name="items">
-            <list>
-                            <bean parent="Uif-MessageField" p:messageText="term detail line 1"/>
-                            <bean parent="Uif-MessageField" p:messageText="term detail line 2"/>
-            </list>
-        </property>
         <property name="subCollections">
             <list>
                 <ref bean="course-offering-list" />
