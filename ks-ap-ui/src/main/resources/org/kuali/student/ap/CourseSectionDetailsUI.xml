@@ -6,7 +6,8 @@
 
 	<bean id="CourseDetails-FormView" parent="CourseDetails-FormView-parent" />
 	<bean abstract="true" id="CourseDetails-FormView-parent" parent="KSAPBaseFormView">
-		<property name="id" value="CourseDetails-FormView" />
+		<property name="viewHelperServiceClass" value="org.kuali.student.ap.coursedetails.CourseDetailsViewHelperServiceImpl" />
+        <property name="id" value="CourseDetails-FormView" />
 		<property name="cssClasses">
 			<list merge="true">
 				<value>ksap-view</value>
@@ -28,14 +29,8 @@
 					</property>
 					<property name="items">
 						<list>
-                            <!--<bean parent="Uif-BoxGroup">-->
-                                <!--<property name="items">-->
-                                    <!--<list>-->
-                                        <bean parent="Uif-MessageField" p:messageText="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getFormattedMessage('details.course.sestion.title', new Object[]{courseCode})}" />
-                                        <ref bean="course-term-list"/>
-                                    <!--</list>-->
-                                <!--</property>-->
-                            <!--</bean>-->
+                            <bean parent="Uif-MessageField" p:messageText="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getFormattedMessage('details.course.sestion.title', new Object[]{courseCode})}" />
+                            <ref bean="course-term-list"/>
 						</list>
 					</property>
                     <property name="stickyFooter" value="false"/>
@@ -82,14 +77,8 @@
         <!-- property to activate disclosure -->
         <property name="items">
             <list>
-                <!--<bean parent="Uif-HorizontalBoxGroup">-->
-                    <!--<property name="items">-->
-                        <!--<list>-->
-                            <bean parent="Uif-MessageField" p:fieldLabel.labelText="Course Description"
-                                  p:messageText="@{#line.courseOfferingDescription}"/>
-                        <!--</list>-->
-                    <!--</property>-->
-                <!--</bean>-->
+                <bean parent="Uif-MessageField" p:fieldLabel.labelText="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('details.course.description.label')}"
+                      p:messageText="@{#line.courseOfferingDescription}"/>
             </list>
         </property>
         <property name="subCollections">
@@ -110,20 +99,32 @@
         <!-- property to activate disclosure -->
         <property name="items">
             <list>
-                <!--<bean parent="Uif-VerticalBoxGroup">-->
-                <!--<property name="disclosure.render" value="true"/>-->
-                <!--<property name="items">-->
-                <!--<list>-->
                 <bean parent="Uif-MessageField" p:messageText="@{#line.formatName}"/>
-                <!--</list>-->
-                <!--</property>-->
-                <!--</bean>-->
             </list>
         </property>
-        <!--<property name="subCollections">-->
-        <!--<list>-->
-        <!--<ref bean="conversation_list" />-->
-        <!--</list>-->
-        <!--</property>-->
+        <property name="subCollections">
+            <list>
+                <ref bean="activity_offering_list" />
+            </list>
+        </property>
+    </bean>
+    <bean id="activity_offering_list" parent="activity_offering_list_parent"/>
+    <bean id="activity_offering_list_parent" abstract="true" parent="Uif-ListCollectionSection">
+        <property name="collectionObjectClass"
+                  value="org.kuali.student.ap.coursesearch.dataobject.ActivityOfferingDetailsWrapper"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="disclosure.render" value="true"/>
+        <property name="propertyName" value="activityOfferingDetailsWrappers"/>
+        <property name="layoutManager.lineGroupPrototype.header.render" value="true"/>
+        <!-- property to activate disclosure -->
+        <property name="items">
+            <list>
+                <bean parent="Uif-MessageField" p:messageText="Activity goes here!"/>
+                <bean parent="Uif-MessageField" p:messageText="@{#line.activityOfferingId}"/>
+                <bean parent="Uif-MessageField" p:messageText="@{#line.activityOfferingCode}"/>
+
+            </list>
+        </property>
     </bean>
 </beans>

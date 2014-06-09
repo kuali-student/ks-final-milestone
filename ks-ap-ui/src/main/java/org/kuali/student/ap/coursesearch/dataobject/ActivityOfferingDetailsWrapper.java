@@ -1,5 +1,7 @@
 package org.kuali.student.ap.coursesearch.dataobject;
 
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+
 /**
  * Created with IntelliJ IDEA.
  * User: chmaurer
@@ -21,6 +23,17 @@ public class ActivityOfferingDetailsWrapper {
     private String requirementsUrl;
     private boolean selected;
     private String regGroupIdForSingleFO;
+
+    public ActivityOfferingDetailsWrapper(ActivityOfferingInfo activityOffering) {
+        this.activityOfferingId = activityOffering.getId();
+        //TODO Is this right?
+        this.activityOfferingCode = activityOffering.getActivityCode();
+//        this.days = activityOffering.get
+        this.maxEnrollment = activityOffering.getMaximumEnrollment();
+        this.honors = activityOffering.getIsHonorsOffering();
+
+    }
+
 
     public String getActivityOfferingId() {
         return activityOfferingId;

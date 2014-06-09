@@ -3,7 +3,9 @@ package org.kuali.student.ap.coursesearch.controller;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.controller.extension.KsapControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.ap.coursedetails.CourseDetailsViewHelperService;
 import org.kuali.student.ap.coursesearch.form.CourseSectionDetailsForm;
+import org.kuali.student.common.uif.util.KSControllerHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,12 +40,17 @@ public class CourseSectionDetailsController extends KsapControllerBase {
                               HttpServletRequest request,
                               HttpServletResponse response) {
         super.start(form, request, response);
-        form.load(courseId);
+
         form.setViewId(COURSE_SECTION_DETAILS_FORM);
         form.setView(super.getViewService().getViewById(COURSE_SECTION_DETAILS_FORM));
+
+        getViewHelperService(form).loadCourseSectionDetails(form, courseId);
 
         return getUIFModelAndView(form);
     }
 
-
+    private CourseDetailsViewHelperService getViewHelperService(CourseSectionDetailsForm form) {
+        CourseDetailsViewHelperService viewHelperService = (CourseDetailsViewHelperService) KSControllerHelper.getViewHelperService(form);
+        return viewHelperService;
+    }
 }
