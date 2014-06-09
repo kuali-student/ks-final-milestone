@@ -28,7 +28,7 @@
 					</property>
 					<property name="items">
 						<list>
-                            <!--<bean parent="Uif-VerticalBoxGroup">-->
+                            <!--<bean parent="Uif-BoxGroup">-->
                                 <!--<property name="items">-->
                                     <!--<list>-->
                                         <bean parent="Uif-MessageField" p:messageText="@{courseCode}  Course Sections" />
@@ -82,7 +82,14 @@
         <!-- property to activate disclosure -->
         <property name="items">
             <list>
-                <bean parent="Uif-MessageField" p:messageText="test"/>
+                <!--<bean parent="Uif-HorizontalBoxGroup">-->
+                    <!--<property name="items">-->
+                        <!--<list>-->
+                            <bean parent="Uif-MessageField" p:fieldLabel.labelText="Course Description"
+                                  p:messageText="@{#line.courseOfferingDescription}"/>
+                        <!--</list>-->
+                    <!--</property>-->
+                <!--</bean>-->
             </list>
         </property>
         <!--<property name="subCollections">-->
@@ -91,6 +98,4 @@
         <!--</list>-->
         <!--</property>-->
     </bean>
-
-
 </beans>
