@@ -263,3 +263,25 @@
   font-weight: bold;
   font-size: 90%;
 }
+
+
+/*
+    @TODO cleanup when we get to bookmarks list page. Onlny include when needed. Change layout to CSS Grid.
+*/
+#bookmark_detail_list {
+  .ksap-data-list {
+    margin-bottom: 10px;
+  }
+  .uif-label,
+  .uif-message,
+  dl,
+  dd {
+    display: inline; //CSS Grid layout will make this null
+  }
+  .courseDescription label {
+    display: block; //CSS Grid layout will make this null
+  }
+  .ksap-bookmark-buttons {
+    margin: 10px 0;
+  }
+}

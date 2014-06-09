@@ -318,6 +318,7 @@
         </property>
     </bean>
 
+    <!-- TODO: Change to CSS Grid -->
     <bean id="bookmark_detail_list" parent="Uif-ListCollectionSection" p:style="clear:both;">
         <property name="headerText"
                   value="&lt;strong&gt;@{lookupResults.size()}&lt;/strong&gt; course(s) bookmarked"/>
@@ -364,7 +365,6 @@
                             </bean>
                             <bean parent="KS-Uif-DataField" p:propertyName="dateAdded"
                                   p:style="width:131px;" p:label="Added on">
-                                <property name="fieldLabel.cssClasses" value="ksap-text-normal"/>
                                 <property name="fieldLabel.renderColon" value="false"/>
                                 <property name="fieldLabel.render" value="false"/>
                                 <property name="cssClasses">
@@ -391,9 +391,13 @@
 
                             <!--Last Offered -->
 
-                            <bean parent="KS-Uif-DataField-LabelLeft" p:label="Last Offered"
-                                  p:propertyName="courseSummaryDetails.lastOffered">
-                                <property name="fieldLabel.cssClasses" value="ksap-text-normal"/>
+                            <bean parent="Uif-MessageField" p:label="Last Offered"
+                                  p:messageText="@{#line.courseSummaryDetails.lastOffered}">
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>ksap-data-list</value>
+                                    </list>
+                                </property>
                                 <property name="render" value="@{#line.courseSummaryDetails.lastOffered ne null and #line.courseSummaryDetails.scheduledTerms.size() eq 0}"/>
                             </bean>
                             <bean parent="Uif-MessageField" p:label="Projected For" p:messageText="@{#line.projectedForUI}" >
@@ -414,7 +418,6 @@
                         <list>
                             <bean parent="Uif-MessageField" p:label="Course Requisites" p:messageText="@{#line.requisitesForUI}">
                                 <!-- Rice 2.4 upgrade : removing p:labelPlacement="LEFT" -->
-                                <property name="fieldLabel.cssClasses" value="ksap-text-normal"/>
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>ksap-data-list</value>
@@ -436,7 +439,6 @@
                         <list>
                             <bean parent="Uif-MessageField" p:label="Course Description"
                                   p:messageText="@{#line.courseSummaryDetails.courseDescription}">
-                                <property name="fieldLabel.cssClasses" value="ksap-text-normal"/>
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>courseDescription</value>
@@ -447,7 +449,6 @@
                             </bean>
                             <!-- If Course Description is empty-->
                             <bean parent="Uif-MessageField" p:label="Course Description">
-                                <property name="fieldLabel.cssClasses" value="ksap-text-normal"/>
                                 <property name="message">
                                     <bean parent="Uif-Message" p:messageText="This course has no description."/>
                                 </property>
@@ -463,7 +464,7 @@
                     <property name="group.validationMessages.displayMessages" value="false"/>
                     <property name="cssClasses">
                         <list merge="true">
-                            <value>uif-boxLayoutVerticalItem</value>
+                            <value>ksap-bookmark-buttons</value>
                         </list>
                     </property>
                     <property name="items">
