@@ -1253,8 +1253,8 @@ public class CourseSummaryConfigurer extends Configurer implements
                         + RichTextInfoConstants.PLAIN);
                 String catalogText = "<b> " + code + " " + title + " "
                         + credits + "</b> " + description + " ";
-                catalogText.replace(" null ", "");
-                catalogText.trim();
+                catalogText = catalogText.replace(" null ", "");
+                catalogText = catalogText.trim();
                 widget.setHTML(catalogText);
 
             }
