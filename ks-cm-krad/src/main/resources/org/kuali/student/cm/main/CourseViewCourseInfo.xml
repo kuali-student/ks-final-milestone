@@ -284,19 +284,28 @@
                     <property name="layoutManager.renderSequenceField" value="false"/>
                     <property name="layoutManager.generateAutoSequence" value="false"/>
                     <property name="layoutManager.separateAddLine" value="false"/>
-                    <property name="layoutManager.richTable.disableTableSort" value="true"/>
                     <property name="layoutManager.richTable.render" value="false"/>
                     <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
                     <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
                     <property name="header">
                         <bean parent="Uif-KS-IconHeader">
+                           <property name="rightGroup">
+                                <bean parent="Uif-VerticalBoxGroup">
+                                    <property name="items">
+                                        <list/>
+                                    </property>
+                                </bean>
+                            </property>
                             <property name="richHeaderMessage.iconToolTipText" value="This is not a restrictive list - Courses here are crosslisted."/>
                         </bean>
                     </property>
+
                     <property name="cssClasses">
                         <list merge="true">
                             <value>cm-collection-width</value>
                             <value>admin-not-required-field</value>
+                            <value>cm_requiredMessage_sectionHeader</value>
+                            <value>cm-CurriculumOversight-subtext</value>
                         </list>
                     </property>
                     <property name="items">
@@ -329,6 +338,7 @@
                                     <bean parent="KS-Uif-TextControl" p:size="3" p:watermarkText="111">
                                     </bean>
                                 </property>
+
                             </bean>
                         </list>
                     </property>
@@ -358,6 +368,13 @@
                     <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
                     <property name="header">
                         <bean parent="Uif-KS-IconHeader">
+                            <property name="rightGroup">
+                                <bean parent="Uif-VerticalBoxGroup">
+                                    <property name="items">
+                                        <list/>
+                                    </property>
+                                </bean>
+                            </property>
                             <property name="richHeaderMessage.iconToolTipText" value="Can't find the course? If a course is still in proposal (pre-approval) stage, you may not be able to find it without being designated as a collaborator on that proposal. If you can't find a proposal you know exists, contact the author and ask them to make you a collaborator."/>
                         </bean>
                     </property>
@@ -371,7 +388,6 @@
                         <list>
                             <bean id="KS-CourseCode-Field" parent="CM-InputField" p:label="Course Code"
                                   p:propertyName="courseCode" p:additionalHiddenPropertyNames="courseId">
-                                <property name="instructionalText" value="Enter an existing course or proposal."/>
                                 <property name="control">
                                     <bean parent="KS-Uif-TextControl" p:cssClasses="validCourseCode"/>
                                 </property>
@@ -439,6 +455,13 @@
                     <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
                     <property name="header">
                         <bean parent="Uif-KS-IconHeader">
+                            <property name="rightGroup">
+                                <bean parent="Uif-VerticalBoxGroup">
+                                    <property name="items">
+                                        <list/>
+                                    </property>
+                                </bean>
+                            </property>
                             <property name="richHeaderMessage.iconToolTipText" value="This is not a restrictive list."/>
                         </bean>
                     </property>
@@ -452,9 +475,9 @@
                         <list>
                             <bean parent="KS-Uif-InputField" p:propertyName="variationCode" p:id="variationCode" p:label="Version Code" >
                                 <property name="refreshWhenChangedPropertyNames" value="subjectArea"/>
-                                <property name="constraintText" value="Code must be a capital letter."/>
+                                <property name="constraintText" value="Must be a capital letter"/>
                                 <property name="control">
-                                    <bean parent="KS-Uif-TextControl" p:size="1" p:maxLength="1" />
+                                    <bean parent="KS-Uif-TextControl" p:size="10" p:maxLength="1" />
                                 </property>
                                 <property name="dependencyConstraints">
                                     <list>
@@ -470,7 +493,7 @@
 
                             <bean parent="KS-Uif-InputField" p:propertyName="variationTitle" p:id="variationTitle" p:label="Course Title" p:required="true">
                                 <property name="control">
-                                    <bean parent="KS-Uif-TextControl"   p:size="70" />
+                                    <bean parent="KS-Uif-TextControl"   p:size="60" />
                                 </property>
                             </bean>
                         </list>
