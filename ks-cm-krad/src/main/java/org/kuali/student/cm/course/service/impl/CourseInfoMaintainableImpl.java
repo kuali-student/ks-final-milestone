@@ -1837,7 +1837,10 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             dataObject.getInstructorWrappers().clear();
 
             for (CluInstructorInfo instructorInfo : course.getInstructors()) {
-                dataObject.getInstructorWrappers().addAll(getInstructorsById(instructorInfo.getPersonId()));
+                List<CluInstructorInfoWrapper> cluInstructorInfoWrapperList = getInstructorsById(instructorInfo.getPersonId());
+                CluInstructorInfoWrapper cluInstructorInfoWrapper = KSCollectionUtils.getRequiredZeroElement(cluInstructorInfoWrapperList);
+                cluInstructorInfoWrapper.setId(instructorInfo.getId());
+                dataObject.getInstructorWrappers().add(cluInstructorInfoWrapper);
             }
 
             dataObject.getAdministeringOrganizations().clear();
