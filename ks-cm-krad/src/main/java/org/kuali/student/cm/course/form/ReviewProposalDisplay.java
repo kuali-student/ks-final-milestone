@@ -517,14 +517,30 @@ public class ReviewProposalDisplay {
     }
 
     public class CollaboratorSectionWrapper {
-        private String name;
 
-        public String getName() {
-            return name;
+        private List<CollaboratorWrapper> collaboratorWrappers;
+
+        public List<CollaboratorWrapper> getCollaboratorWrappers() {
+            if (collaboratorWrappers == null) {
+                collaboratorWrappers = new ArrayList<CollaboratorWrapper>();
+            }
+            return collaboratorWrappers;
         }
 
-        public void setName(String name) {
-            this.name = name;
+        public void setCollaboratorWrappers(List<CollaboratorWrapper> collaboratorWrappers) {
+            this.collaboratorWrappers = collaboratorWrappers;
         }
+        /**
+         * This is for the authors and collaborators "empty collection" input field. KRAD needs a property name to bind the constraints.
+         * Using the same property name for two input fields causes the constraints to be overwritten. Simply setting a
+         * KRAD component render=false doesn't prevent it from being considered during validation, so if authors and collaborators are
+         * defined there needs to be some text in the input field.
+         *
+         * @return An empty String if no authors and collaborators have been defined. Otherwise, returns some text.
+         */
+        public String getEmptyStringAuthorAndCollaborator() {
+            return collaboratorWrappers.isEmpty() ? "" : "Has Authors and Collaborators";
+        }
+
     }
 }

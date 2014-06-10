@@ -25,8 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
  */
 
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
+
 public class CollaboratorWrapper {
 
         private static final long serialVersionUID = 1L;
@@ -47,7 +46,13 @@ public class CollaboratorWrapper {
         private boolean canRevokeRequest = false;
         private String actionRequestId;
         private String actionRequestStatus;
-        
+
+        private String fullName;
+
+        public String getFullName() {
+                return lastName + "," + firstName + "(Author)";
+        }
+
         public String getPrincipalId() {
             return principalId;
         }
@@ -65,7 +70,7 @@ public class CollaboratorWrapper {
         }
         public void setLastName(String lastName) {
             this.lastName = lastName;
-        }   
+        }
         public String getPermission() {
             return permission;
         }
@@ -77,7 +82,7 @@ public class CollaboratorWrapper {
         }
         public void setAction(String action) {
             this.action = action;
-        }   
+        }
         public boolean isAuthor() {
             return author;
         }

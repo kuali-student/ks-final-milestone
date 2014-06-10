@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- 
+<!--
   Copyright 2005-2013 The Kuali Foundation
  
   Licensed under the Educational Community License, Version 2.0 (the "License");
@@ -580,9 +580,41 @@
                 <bean parent="CM-ReviewProposal-GridGroup">
                     <property name="items">
                         <list>
-                            <bean parent="CM-ReadOnlyInput" p:label="Authors and Collaborators"
-                                  id="collaboratorSection_name"
-                                  p:propertyName="reviewProposalDisplay.collaboratorSection.name"/>
+                            <bean parent="Uif-VerticalFieldGroup" p:label="Authors and Collaborators" p:colSpan="3"
+                                  p:fieldLabel.renderColon="false"
+                                  p:render="@{!#emptyList(#dataObject.reviewProposalDisplay.collaboratorSection.collaboratorWrappers)}">
+                                <property name="items">
+                                    <list>
+                                        <bean id="course_review_authors_and_collaborators_details" parent="Uif-StackedCollectionSection"
+                                              p:propertyName="reviewProposalDisplay.collaboratorSection.collaboratorWrappers"
+                                              p:collectionObjectClass="org.kuali.student.cm.course.form.CollaboratorWrapper"
+                                              p:colSpan="3">
+                                            <property name="layoutManager.lineGroupPrototype.header.headerText"
+                                                      value="@{(#line.firstName)}"/>
+                                            <property name="layoutManager.lineGroupPrototype.header.style"
+                                                      value="border-bottom : 1px solid black;"/>
+                                            <property name="renderLineActions" value="false"/>
+                                            <property name="renderAddLine" value="false"/>
+                                            <property name="items">
+                                                <list>
+                                                    <bean parent="CM-ReadOnlyInput" p:label="Permissions"
+                                                          p:fieldLabel.style="white-space : nowrap; float:left;"
+                                                          p:propertyName="permission" p:colSpan="1"/>
+                                                    <bean parent="CM-ReadOnlyInput" p:label="Action Request"
+                                                          p:fieldLabel.style="white-space : nowrap; float:left;"
+                                                          p:propertyName="action" p:colSpan="1" />
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+
+                            <!-- This bean gets rendered if the Authors and Collaborators collection is empty. Otherwise, the one above does. -->
+                            <bean parent="CM-ReadOnlyInput" p:label="Authors and Collaborators" id="emptyStringAuthorsAndCollaborators"
+                                  p:propertyName="reviewProposalDisplay.collaboratorSection.emptyStringAuthorAndCollaborator"
+                                  p:render="@{#emptyList(#dataObject.reviewProposalDisplay.collaboratorSection.collaboratorWrappers)}">
+                            </bean>
                         </list>
                     </property>
                 </bean>
