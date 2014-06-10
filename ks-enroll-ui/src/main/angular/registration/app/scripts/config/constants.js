@@ -85,8 +85,16 @@ angular.module('regCartApp')
 
 
     // Validation error type identifiers that get returned from the server
-    .constant('VALIDATION_ERROR_TYPE', { // TODO: these currently are stubs, they will need to be updated to match what the server returns
-        maxCredits: 'validation.creditLoadExceeded',
-        timeConflict: 'validation.timeConflict'
+    .constant('VALIDATION_ERROR_TYPE', {
+        maxCredits: 'kuali.lpr.trans.message.credit.load.exceeded',
+        waitListAvailable: 'kuali.lpr.trans.message.waitlist.available',
+        timeConflict: 'validation.timeConflict' // Currently a stub. Needs to be updated to match what the server returns
+    })
+
+
+    // Validation error type identifiers that get returned from the server
+    .constant('VALIDATION_ERROR_TYPE', { // These currently are stubs, they will need to be updated to match what the server returns
+        maxCredits: 'ks.maxConflict',
+        timeConflict: 'ks.timeConflict'
     })
 ;

@@ -1148,7 +1148,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                     resultItem.getMessages().add(CourseRegistrationClientServiceConstants.LPRTRANS_ITEM_COURSE_DROPPED_MESSAGE);
                 } else if (StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_PERSON_REGISTERED_MESSAGE_KEY)) {
                     resultItem.getMessages().add(CourseRegistrationClientServiceConstants.LPRTRANS_ITEM_PERSON_REGISTERED_MESSAGE);
-                } else if (StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_COURSE_LOAD_EXCEEDED_MESSAGE_KEY)) {
+                } else if (StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_CREDIT_LOAD_EXCEEDED_MESSAGE_KEY)) {
                     resultItem.getMessages().add(RegistrationValidationResultsUtil.
                             marshallSimpleMessage(validationResult.getMessage()));
                 } else {

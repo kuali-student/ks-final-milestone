@@ -215,7 +215,7 @@
                     <div class="kscr-Card-reason-label"><strong>Reason:</strong></div>
                     <div class="kscr-Card-reason-messages">
                         <div class="kscr-Card-reason-message" ng-repeat="message in cartResultItem.statusMessages">
-                            <span ng-bind-html="message"></span>
+                            <span ng-bind-html="message | formatValidationMessage:cartResultItem"></span>
                         </div>
                     </div>
                 </div>
