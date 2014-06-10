@@ -23,7 +23,7 @@ public class ActivityOfferingDetailsWrapper {
     private String classUrl;
     private String requirementsUrl;
     private boolean selected;
-    private String regGroupIdForSingleFO;
+    private String regGroupCode;
     private String activityFormatType;
     private boolean partOfRegGroup = false;
 
@@ -144,12 +144,12 @@ public class ActivityOfferingDetailsWrapper {
         this.selected = selected;
     }
 
-    public String getRegGroupIdForSingleFO() {
-        return regGroupIdForSingleFO;
+    public String getRegGroupCode() {
+        return regGroupCode;
     }
 
-    public void setRegGroupIdForSingleFO(String regGroupIdForSingleFO) {
-        this.regGroupIdForSingleFO = regGroupIdForSingleFO;
+    public void setRegGroupCode(String regGroupCode) {
+        this.regGroupCode = regGroupCode;
     }
 
     public boolean isPartOfRegGroup() {

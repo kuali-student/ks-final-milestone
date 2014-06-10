@@ -144,11 +144,11 @@
         <property name="renderLineActions" value="false"/>
         <property name="propertyName" value="plannedRegGroupDetailsWrappers" />
         <property name="layoutManager.lineGroupPrototype.header.render" value="true"/>
-        <property name="headerText" value="Planned Registration Groups ()"/>
+        <property name="headerText" value="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getFormattedMessage('details.regGroup.header', new Object[]{#line.plannedRegGroupDetailsWrappers.size()})}"/>
         <!-- property to activate disclosure -->
         <property name="items">
             <list>
-                <bean parent="Uif-MessageField" p:messageText="Registration Group: @{#line.regGroupCode}"/>
+                <!--<bean parent="Uif-MessageField" p:messageText="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getFormattedMessage('details.regGroup.code', new Object[]{#line.regGroupCode})}"/>-->
             </list>
         </property>
         <property name="subCollections">
@@ -158,7 +158,14 @@
         </property>
     </bean>
 
-    <bean id="planned_reg_group_activity_offering_table" parent="activity_offering_table_parent"/>
+    <bean id="planned_reg_group_activity_offering_table" parent="activity_offering_table_parent">
+        <property name="layoutManager.groupingTitle" value="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getFormattedMessage('details.regGroup.code', new Object[]{#line.regGroupCode})}"/>
+        <property name="layoutManager.groupingPropertyNames">
+            <list>
+                <value>regGroupCode</value>
+            </list>
+        </property>
+    </bean>
 
     <bean id="activity_offering_table" parent="activity_offering_table_parent"/>
 
@@ -181,60 +188,71 @@
                 <entry key="bPaginate" value="false"/>
                 <entry key="bAutoWidth" value="false"/>
                 <entry key="bFilter" value="false"/>
+                <entry key="bInfo" value="false"/>
             </map>
         </property>
         <property name="layoutManager.richTable.disableTableSort" value="true" />
         <property name="items">
             <list>
+                <!--p:label="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('details.ao.header.type')}"-->
                 <bean parent="Uif-MessageField"
                       p:label="Type"
                       p:messageText="@{#line.activityFormatType}" p:render="@{#line.partOfRegGroup==true}">
                 </bean>
+                <!--p:label="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('details.ao.header.code')}"-->
                 <bean parent="Uif-MessageField"
                       p:label="Code"
                       p:messageText="@{#line.activityOfferingCode}">
                 </bean>
-                <bean parent="Uif-MessageField"
+                <!--p:label="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('details.ao.header.instructor')}" p:additionalCssClasses="nowrap"-->
+                <bean parent="Uif-DataField"
                       p:label="Instructor" p:additionalCssClasses="nowrap"
-                      p:messageText="@{#line.instructorName}">
+                      p:propertyName="instructorName">
                 </bean>
+                <!--p:label="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('details.ao.header.days')}"-->
                 <bean parent="Uif-MessageField"
                       p:label="Days"
                       p:messageText="@{#line.days}">
                 </bean>
                 <bean parent="Uif-MessageField"
-                      p:label="Time"  p:additionalCssClasses="nowrap"
+                      p:label="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('details.ao.header.time')}"  p:additionalCssClasses="nowrap"
                       p:messageText="@{#line.time}">
                 </bean>
+                <!--p:label="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('details.ao.header.location')}"-->
                 <bean parent="Uif-MessageField"
                       p:label="Location"
                       p:messageText="@{#line.location}">
                 </bean>
+                <!--p:label="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('details.ao.header.seats')}"-->
                 <bean parent="Uif-MessageField"
                       p:label="Seats"
                       p:messageText="@{#line.currentEnrollment}/@{#line.maxEnrollment}">
                 </bean>
-                <bean parent="Uif-FieldGroupBase" p:fieldLabel.labelText="Additional Details" >
+                <!--@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('details.ao.header.additionalDetails')} -->
+                <bean parent="Uif-FieldGroupBase" p:fieldLabel.labelText="Additional Details">
                     <property name="items">
                         <list>
                             <bean parent="Uif-ListGroup">
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-Message" p:render="@{#line.honors==true}"
-                                              p:messageText="Honors" />
+                                              p:messageText="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('details.ao.additionalDetails.honors')}" />
                                         <bean parent="Uif-Link" p:render="@{#line.classUrl != null}"
                                               p:href="@{#line.classUrl}"
-                                              p:linkText="Course website"/>
+                                              p:linkText="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('details.ao.additionalDetails.courseUrl')}"/>
                                         <bean parent="Uif-Link" p:render="@{#line.requirementsUrl != null}"
                                               p:href="@{#line.requirementsUrl}"
-                                              p:linkText="Requirements"/>
+                                              p:linkText="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('details.ao.additionalDetails.restrictions')}"/>
                                     </list>
                                 </property>
                             </bean>
                         </list>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="selected" p:label="Select" p:render="@{#line.partOfRegGroup==false}">
+                <!--@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('details.ao.header.select')}" >-->
+                <bean parent="Uif-InputField" p:propertyName="selected"
+                      p:label="Select"
+                      p:render="@{#line.partOfRegGroup==false}">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl">
                             <property name="onChangeScript" value="alert('checkbox clicked')"/>
