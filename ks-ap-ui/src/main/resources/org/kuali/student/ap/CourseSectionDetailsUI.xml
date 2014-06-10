@@ -214,17 +214,23 @@
                       p:label="Seats"
                       p:messageText="@{#line.currentEnrollment}/@{#line.maxEnrollment}">
                 </bean>
-                <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.labelText="Additional Details" >
+                <bean parent="Uif-FieldGroupBase" p:fieldLabel.labelText="Additional Details" >
                     <property name="items">
                         <list>
-                            <bean parent="Uif-Message" p:render="@{#line.honors==true}"
-                                  p:messageText="Honors}" />
-                            <bean parent="Uif-Link" p:render="@{#line.classUrl != null}"
-                                  p:href="@{#line.classUrl}"
-                                  p:linkText="Course website"/>
-                            <bean parent="Uif-Link" p:render="@{#line.requirementsUrl != null}"
-                                  p:href="@{#line.requirementsUrl}"
-                                  p:linkText="Requirements"/>
+                            <bean parent="Uif-ListGroup">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-Message" p:render="@{#line.honors==true}"
+                                              p:messageText="Honors" />
+                                        <bean parent="Uif-Link" p:render="@{#line.classUrl != null}"
+                                              p:href="@{#line.classUrl}"
+                                              p:linkText="Course website"/>
+                                        <bean parent="Uif-Link" p:render="@{#line.requirementsUrl != null}"
+                                              p:href="@{#line.requirementsUrl}"
+                                              p:linkText="Requirements"/>
+                                    </list>
+                                </property>
+                            </bean>
                         </list>
                     </property>
                 </bean>

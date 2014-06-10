@@ -160,19 +160,41 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
         //Fake data for now
         List<PlannedRegGroupDetailsWrapper> regGroups = new ArrayList<PlannedRegGroupDetailsWrapper>();
         PlannedRegGroupDetailsWrapper regGroup = new PlannedRegGroupDetailsWrapper();
+
         regGroup.setRegGroupCode("FD1-ForDUMMIES");
+
         List<ActivityOfferingDetailsWrapper> activityOfferings = new ArrayList<ActivityOfferingDetailsWrapper>();
+
         regGroup.setActivityOfferingDetailsWrappers(activityOfferings);
+
         ActivityOfferingDetailsWrapper activityOffering = new ActivityOfferingDetailsWrapper();
+        activityOffering.setPartOfRegGroup(true);
         activityOffering.setActivityFormatType("Lecture");
         activityOffering.setInstructorName("Neal, Jerry");
-        activityOffering.setPartOfRegGroup(true);
+        activityOffering.setActivityOfferingCode("KRAD101Y");
+        activityOffering.setDays("MF");
+        activityOffering.setTime("09:00-09:50 AM");
+        activityOffering.setLocation("UITS Rec Studio1");
+        activityOffering.setCurrentEnrollment(1);
+        activityOffering.setMaxEnrollment(17);
+        activityOffering.setHonors(true);
+        activityOffering.setClassUrl("http://krad.rice.kuali.org/kr-krad/kradsampleapp?viewId=ComponentLibraryHome");
+        activityOffering.setRequirementsUrl("http://site.kuali.org/rice/2.4.0/reference/html/KRAD_Guide.html#d10268e992");
         activityOfferings.add(activityOffering);
+
         activityOffering = new ActivityOfferingDetailsWrapper();
+        activityOffering.setPartOfRegGroup(true);
         activityOffering.setActivityFormatType("Lab");
         activityOffering.setInstructorName("Westfall, Eric");
-        activityOffering.setPartOfRegGroup(true);
+        activityOffering.setActivityOfferingCode("KRAD101Z");
+        activityOffering.setDays("TW");
+        activityOffering.setLocation("UITS Rec Studio2");
+        activityOffering.setCurrentEnrollment(1);
+        activityOffering.setMaxEnrollment(17);
+        activityOffering.setClassUrl("http://krad.rice.kuali.org/kr-krad/kradsampleapp?viewId=ComponentLibraryHome");
+        activityOffering.setRequirementsUrl("http://site.kuali.org/rice/2.4.0/reference/html/KRAD_Guide.html#d10268e992");
         activityOfferings.add(activityOffering);
+
         regGroups.add(regGroup);
         return regGroups;
     }
