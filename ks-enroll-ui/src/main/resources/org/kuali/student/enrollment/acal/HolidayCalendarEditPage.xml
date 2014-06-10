@@ -150,7 +150,6 @@
     <bean id="KS-HolidayCalendar-HolidaySection" parent="Uif-TableCollectionSection"
           p:id="KS-HolidayCalendar-HolidaySection"
           p:layoutManager.numberOfColumns="10"
-          p:layoutManager.style="width: 70%;"
           p:additionalCssClasses="ks-holidays-collection">
 		<property name="headerText" value="Holidays" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.HolidayWrapper" />
