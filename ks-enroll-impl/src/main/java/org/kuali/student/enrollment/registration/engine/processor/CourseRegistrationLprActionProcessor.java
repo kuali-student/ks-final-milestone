@@ -9,6 +9,7 @@ import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequestI
 import org.kuali.student.enrollment.courseseatcount.infc.SeatCount;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
+import org.kuali.student.enrollment.registration.client.service.impl.util.RegistrationValidationResultsUtil;
 import org.kuali.student.enrollment.registration.engine.dto.RegistrationRequestItemEngineMessage;
 import org.kuali.student.enrollment.registration.engine.service.CourseRegistrationConstants;
 import org.kuali.student.enrollment.registration.engine.service.CourseRegistrationEngineService;
@@ -110,9 +111,9 @@ public class CourseRegistrationLprActionProcessor {
                 message.getRequestItem().getId(),
                 LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY,
                 registrationRequestItem.getExistingCourseRegistrationId(),
-                LprServiceConstants.LPRTRANS_ITEM_WAITLIST_STUDENT_REMOVED_MESSAGE_KEY,
-                true,
-                contextInfo);
+                RegistrationValidationResultsUtil.marshallSimpleMessage(LprServiceConstants.LPRTRANS_ITEM_WAITLIST_STUDENT_REMOVED_MESSAGE_KEY),
+                        true,
+                        contextInfo);
     }
 
     private void updateWaitlist(RegistrationRequestItemEngineMessage message, ContextInfo contextInfo) throws DataValidationErrorException, PermissionDeniedException, OperationFailedException, VersionMismatchException, InvalidParameterException, ReadOnlyException, MissingParameterException, DoesNotExistException {
@@ -123,7 +124,7 @@ public class CourseRegistrationLprActionProcessor {
                 message.getRequestItem().getId(),
                 LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY,
                 registrationRequestItem.getExistingCourseRegistrationId(),
-                LprServiceConstants.LPRTRANS_ITEM_WAITLIST_OPTIONS_UPDATED_MESSAGE_KEY,
+                RegistrationValidationResultsUtil.marshallSimpleMessage(LprServiceConstants.LPRTRANS_ITEM_WAITLIST_OPTIONS_UPDATED_MESSAGE_KEY),
                 true,
                 contextInfo);
     }
@@ -133,7 +134,7 @@ public class CourseRegistrationLprActionProcessor {
                 message.getRequestItem().getId(),
                 LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY,
                 null,
-                LprServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_MESSAGE_KEY,
+                RegistrationValidationResultsUtil.marshallSimpleMessage(LprServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_MESSAGE_KEY),
                 false,
                 contextInfo);
     }
@@ -146,7 +147,7 @@ public class CourseRegistrationLprActionProcessor {
                 message.getRequestItem().getId(),
                 LprServiceConstants.LPRTRANS_ITEM_WAITLIST_STATE_KEY,
                 masterLprId,
-                LprServiceConstants.LPRTRANS_ITEM_WAITLIST_WAITLISTED_MESSAGE_KEY,
+                RegistrationValidationResultsUtil.marshallSimpleMessage(LprServiceConstants.LPRTRANS_ITEM_WAITLIST_WAITLISTED_MESSAGE_KEY),
                 true,
                 contextInfo);
     }
@@ -160,7 +161,7 @@ public class CourseRegistrationLprActionProcessor {
                 message.getRequestItem().getId(),
                 LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY,
                 null,
-                LprServiceConstants.LPRTRANS_ITEM_WAITLIST_FULL_MESSAGE_KEY,
+                RegistrationValidationResultsUtil.marshallSimpleMessage(LprServiceConstants.LPRTRANS_ITEM_WAITLIST_FULL_MESSAGE_KEY),
                 false,
                 contextInfo);
     }
@@ -209,7 +210,7 @@ public class CourseRegistrationLprActionProcessor {
                 message.getRequestItem().getId(),
                 LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY,
                 registrationRequestItem.getExistingCourseRegistrationId(),
-                LprServiceConstants.LPRTRANS_ITEM_COURSE_UPDATED_MESSAGE_KEY,
+                RegistrationValidationResultsUtil.marshallSimpleMessage(LprServiceConstants.LPRTRANS_ITEM_COURSE_UPDATED_MESSAGE_KEY),
                 true,
                 contextInfo);
     }
@@ -221,7 +222,7 @@ public class CourseRegistrationLprActionProcessor {
                 message.getRequestItem().getId(),
                 LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY,
                 registrationRequestItem.getExistingCourseRegistrationId(),
-                LprServiceConstants.LPRTRANS_ITEM_COURSE_DROPPED_MESSAGE_KEY,
+                RegistrationValidationResultsUtil.marshallSimpleMessage(LprServiceConstants.LPRTRANS_ITEM_COURSE_DROPPED_MESSAGE_KEY),
                 true,
                 contextInfo);
         // checking if event is removing student from the course = open seat(s)
@@ -250,7 +251,7 @@ public class CourseRegistrationLprActionProcessor {
                 message.getRequestItem().getId(),
                 LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY,
                 null,
-                LprServiceConstants.LPRTRANS_ITEM_WAITLIST_NOT_OFFERED_MESSAGE_KEY,
+                RegistrationValidationResultsUtil.marshallSimpleMessage(LprServiceConstants.LPRTRANS_ITEM_WAITLIST_NOT_OFFERED_MESSAGE_KEY),
                 false,
                 contextInfo);
     }
@@ -263,7 +264,7 @@ public class CourseRegistrationLprActionProcessor {
                 message.getRequestItem().getId(),
                 LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY,
                 masterLprId,
-                LprServiceConstants.LPRTRANS_ITEM_PERSON_REGISTERED_MESSAGE_KEY,
+                RegistrationValidationResultsUtil.marshallSimpleMessage(LprServiceConstants.LPRTRANS_ITEM_PERSON_REGISTERED_MESSAGE_KEY),
                 true,
                 contextInfo);
     }
@@ -275,7 +276,7 @@ public class CourseRegistrationLprActionProcessor {
                 message.getRequestItem().getId(),
                 LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY,
                 masterLprId,
-                LprServiceConstants.LPRTRANS_ITEM_ADD_FROM_WAITLIST_MESSAGE_KEY,
+                RegistrationValidationResultsUtil.marshallSimpleMessage(LprServiceConstants.LPRTRANS_ITEM_ADD_FROM_WAITLIST_MESSAGE_KEY),
                 true,
                 contextInfo);
     }

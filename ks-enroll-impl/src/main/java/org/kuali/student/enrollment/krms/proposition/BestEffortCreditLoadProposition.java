@@ -37,6 +37,7 @@ import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestIn
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.coursewaitlist.service.CourseWaitListService;
+import org.kuali.student.enrollment.registration.client.service.impl.util.RegistrationValidationResultsUtil;
 import org.kuali.student.enrollment.rules.credit.limit.ActionEnum;
 import org.kuali.student.enrollment.rules.credit.limit.ActivityRegistrationTransaction;
 import org.kuali.student.enrollment.rules.credit.limit.CourseRegistrationTransaction;
@@ -155,7 +156,7 @@ public class BestEffortCreditLoadProposition extends AbstractLeafProposition {
         result.setLevel(ValidationResult.ErrorLevel.ERROR);
         String elt = "registrationRequestItems['" + item.getId() + "']";
         result.setElement(elt);
-        String msg = LprServiceConstants.LPRTRANS_ITEM_CREDIT_LOAD_EXCEEDED_MESSAGE_KEY;
+        String msg = RegistrationValidationResultsUtil.marshallSimpleMessage(LprServiceConstants.LPRTRANS_ITEM_CREDIT_LOAD_EXCEEDED_MESSAGE_KEY);
         result.setMessage(msg);
         return result;
     }

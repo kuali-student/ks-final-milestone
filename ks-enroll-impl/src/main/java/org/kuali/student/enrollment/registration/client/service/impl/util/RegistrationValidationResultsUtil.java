@@ -17,11 +17,14 @@
 package org.kuali.student.enrollment.registration.client.service.impl.util;
 
 import org.codehaus.jackson.map.ObjectMapper;
+import org.kuali.student.enrollment.registration.client.service.dto.ConflictCourseResult;
+import org.kuali.student.enrollment.registration.client.service.dto.RegistrationValidationConflictCourseResult;
 import org.kuali.student.enrollment.registration.client.service.dto.RegistrationValidationResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * This class contains utility methods for passing complex messaging out of ValidationResultInfo objects
@@ -32,14 +35,17 @@ public class RegistrationValidationResultsUtil {
     public static final Logger LOGGER = LoggerFactory.getLogger(RegistrationValidationResultsUtil.class);
 
     private RegistrationValidationResultsUtil() {
-
     }
 
     public static String marshallSimpleMessage(String messageKey) {
         return marshallResult(new RegistrationValidationResult(messageKey));
     }
 
-    public static String marshallResult(RegistrationValidationResult result) {
+    public static String marshallConflictCourseMessage(String messageKey, List<ConflictCourseResult> conflictingCourses) {
+        return marshallResult(new RegistrationValidationConflictCourseResult(messageKey, conflictingCourses));
+    }
+
+    public static String marshallResult(Object result) {
         ObjectMapper mapper=new ObjectMapper();
         String json= null;
         try {

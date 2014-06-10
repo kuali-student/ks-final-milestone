@@ -16,7 +16,6 @@ import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.registration.client.service.CourseRegistrationClientService;
-import org.kuali.student.enrollment.registration.client.service.CourseRegistrationClientServiceConstants;
 import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesService;
 import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesServiceConstants;
 import org.kuali.student.enrollment.registration.client.service.dto.ActivityOfferingScheduleComponentResult;
@@ -1127,30 +1126,20 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
             resultItem.setNewLuiId(lprTransactionItemInfo.getNewLuiId());
             resultItem.setType(lprTransactionItemInfo.getTypeKey());
 
-            for(ValidationResultInfo validationResult:lprTransactionItemInfo.getValidationResults()){
-                if (StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_MESSAGE_KEY)) {
-                    resultItem.getMessages().add(RegistrationValidationResultsUtil.
-                            marshallSimpleMessage(validationResult.getMessage()));
-                    resultItem.setState(LprServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_STATE_KEY);
-                } else if (StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_STUDENT_REMOVED_MESSAGE_KEY)) {
-                    resultItem.getMessages().add(CourseRegistrationClientServiceConstants.LPRTRANS_ITEM_WAITLIST_STUDENT_REMOVED_MESSAGE);
-                } else if (StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_OPTIONS_UPDATED_MESSAGE_KEY)) {
-                    resultItem.getMessages().add(CourseRegistrationClientServiceConstants.LPRTRANS_ITEM_WAITLIST_OPTIONS_UPDATED_MESSAGE);
-                } else if (StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_WAITLISTED_MESSAGE_KEY)) {
-                    resultItem.getMessages().add(CourseRegistrationClientServiceConstants.LPRTRANS_ITEM_WAITLIST_WAITLISTED_MESSAGE);
-                } else if (StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_FULL_MESSAGE_KEY)) {
-                    resultItem.getMessages().add(CourseRegistrationClientServiceConstants.LPRTRANS_ITEM_WAITLIST_FULL_MESSAGE);
-                } else if (StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_NOT_OFFERED_MESSAGE_KEY)) {
-                    resultItem.getMessages().add(CourseRegistrationClientServiceConstants.LPRTRANS_ITEM_WAITLIST_NOT_OFFERED_MESSAGE);
-                } else if (StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_COURSE_UPDATED_MESSAGE_KEY)) {
-                    resultItem.getMessages().add(CourseRegistrationClientServiceConstants.LPRTRANS_ITEM_COURSE_UPDATED_MESSAGE);
-                } else if (StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_COURSE_DROPPED_MESSAGE_KEY)) {
-                    resultItem.getMessages().add(CourseRegistrationClientServiceConstants.LPRTRANS_ITEM_COURSE_DROPPED_MESSAGE);
-                } else if (StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_PERSON_REGISTERED_MESSAGE_KEY)) {
-                    resultItem.getMessages().add(CourseRegistrationClientServiceConstants.LPRTRANS_ITEM_PERSON_REGISTERED_MESSAGE);
-                } else if (StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_CREDIT_LOAD_EXCEEDED_MESSAGE_KEY)) {
-                    resultItem.getMessages().add(RegistrationValidationResultsUtil.
-                            marshallSimpleMessage(validationResult.getMessage()));
+            for(ValidationResultInfo validationResult : lprTransactionItemInfo.getValidationResults()){
+                if (StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_MESSAGE_KEY) ||
+                        StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_STUDENT_REMOVED_MESSAGE_KEY) ||
+                        StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_OPTIONS_UPDATED_MESSAGE_KEY) ||
+                        StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_WAITLISTED_MESSAGE_KEY) ||
+                        StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_FULL_MESSAGE_KEY) ||
+                        StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_NOT_OFFERED_MESSAGE_KEY) ||
+                        StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_COURSE_UPDATED_MESSAGE_KEY) ||
+                        StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_COURSE_DROPPED_MESSAGE_KEY) ||
+                        StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_PERSON_REGISTERED_MESSAGE_KEY)) {
+                    resultItem.getMessages().add(validationResult.getMessage());
+                    if (StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_MESSAGE_KEY)) {
+                        resultItem.setState(LprServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_STATE_KEY);
+                    }
                 } else {
                     resultItem.getMessages().add(validationResult.getMessage());
                 }
