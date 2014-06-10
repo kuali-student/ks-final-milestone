@@ -39,7 +39,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
     public void loadCourseSectionDetails(UifFormBase form, String courseId) {
         load((CourseSectionDetailsForm) form, courseId);
     }
-//
+
     private void load(CourseSectionDetailsForm form, String courseId) {
         CourseInfo courseInfo= KsapFrameworkServiceLocator.getCourseHelper().getCourseInfo(courseId);
         form.setCourseTitle(courseInfo.getCourseTitle());
@@ -126,15 +126,15 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
 
                 courseOfferingDetailsWrapper.setFormatOfferingDetailsWrappers(formatOfferingDetailsWrappers);
             } catch (DoesNotExistException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                throw new IllegalArgumentException("FO lookup error", e);
             } catch (InvalidParameterException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                throw new IllegalArgumentException("FO lookup error", e);
             } catch (MissingParameterException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                throw new IllegalArgumentException("FO lookup error", e);
             } catch (OperationFailedException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                throw new IllegalArgumentException("FO lookup error", e);
             } catch (PermissionDeniedException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                throw new IllegalArgumentException("FO lookup error", e);
             }
 
 
@@ -151,15 +151,15 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
             activityOfferings = KsapFrameworkServiceLocator.getCourseOfferingService().getActivityOfferingsByCourseOffering(courseOfferingId, KsapFrameworkServiceLocator.getContext().getContextInfo());
 
         } catch (DoesNotExistException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            throw new IllegalArgumentException("AO lookup error", e);
         } catch (InvalidParameterException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            throw new IllegalArgumentException("AO lookup error", e);
         } catch (MissingParameterException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            throw new IllegalArgumentException("AO lookup error", e);
         } catch (OperationFailedException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            throw new IllegalArgumentException("AO lookup error", e);
         } catch (PermissionDeniedException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            throw new IllegalArgumentException("AO lookup error", e);
         }
 
         for (ActivityOfferingInfo activityOffering : activityOfferings) {

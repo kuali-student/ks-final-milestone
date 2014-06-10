@@ -28,7 +28,6 @@ public class ActivityOfferingDetailsWrapper {
 
     public ActivityOfferingDetailsWrapper(ActivityOfferingInfo activityOffering) {
         this.activityOfferingId = activityOffering.getId();
-        //TODO Is this right?
         this.activityOfferingCode = activityOffering.getActivityCode();
 //        this.days = activityOffering.get
         this.maxEnrollment = activityOffering.getMaximumEnrollment();
