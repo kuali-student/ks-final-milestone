@@ -89,13 +89,13 @@ angular.module('regCartApp')
         maxCredits: 'kuali.lpr.trans.message.credit.load.exceeded',
         timeConflict: 'kuali.lpr.trans.message.time.conflict',
         waitlistAvailable: 'kuali.lpr.trans.message.waitlist.available',        //"No seats available."
-        waitlistRemoved: 'kuali.lpr.trans.message.waitlist.student.removed',    //"Student removed from waitlist."     ??? Is it error or success?
-        waitlistWaitlisted: 'kuali.lpr.trans.message.waitlist.waitlisted',      //"Waitlisted" ??? Is it error or success?
+        waitlistWaitlisted: 'kuali.lpr.trans.message.waitlist.waitlisted',      //"Waitlisted" ??? Is it error or success? Status 'waitlist'
         waitlistFull: 'kuali.lpr.trans.message.waitlist.full',                  //"No seats available.<br/>(Waitlist full)"
         waitlistNotOffered: 'kuali.lpr.trans.message.waitlist.not.offered'      //"No seats available.<br/>(Waitlist not offered)"
     })
 
     .constant('VALIDATION_SUCCESS_TYPE', { // TODO: these currently are stubs, they will need to be updated to match what the server returns
+        waitlistStudentRemoved: 'kuali.lpr.trans.message.waitlist.student.removed',    //"Student removed from waitlist."
         waitlistUpdated: 'kuali.lpr.trans.message.waitlist.options.updated',    //"Waitlist options were updated."
         courseUpdated: 'kuali.lpr.trans.message.course.updated',                //"Course was updated."
         courseDropped: 'kuali.lpr.trans.message.course.dropped',                //"Course was dropped."
