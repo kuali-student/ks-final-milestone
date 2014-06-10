@@ -499,8 +499,12 @@
                 <property name="items">
                     <list>
                     	<!-- Rice 2.4 upgrade removing p:labelPlacement="LEFT" -->
-                        <bean parent="KS-Uif-DataField" p:label="Crosslisted as" p:propertyName="currentCourseOfferingWrapper.alternateCOCodes"
-                                              p:render="@{currentCourseOfferingWrapper.alternateCOCodes.size() > 0 }" p:readOnly="true"/>
+                        <bean parent="KS-Uif-DataField"
+                              p:label="Crosslisted as"
+                              p:propertyName="currentCourseOfferingWrapper.alternateCOCodes"
+                              p:render="@{currentCourseOfferingWrapper.alternateCOCodes.size() > 0 }"
+                              p:readOnly="true"
+                              p:additionalCssClasses="ks-uif-label-inline"/>
                     </list>
                 </property>
             </bean>
@@ -537,8 +541,12 @@
                 <property name="items">
                     <list>
                     	<!-- Rice 2.4 upgrade removing p:labelPlacement="LEFT"  -->
-                        <bean parent="KS-Uif-DataField" p:label="Crosslisted as" p:propertyName="currentCourseOfferingWrapper.alternateCOCodes"
-                                              p:render="@{currentCourseOfferingWrapper.alternateCOCodes.size() > 0 }" p:readOnly="true"/>
+                        <bean parent="KS-Uif-DataField"
+                              p:label="Crosslisted as"
+                              p:propertyName="currentCourseOfferingWrapper.alternateCOCodes"
+                              p:render="@{currentCourseOfferingWrapper.alternateCOCodes.size() > 0 }"
+                              p:readOnly="true"
+                              p:additionalCssClasses="ks-uif-label-inline"/>
                     </list>
                 </property>
             </bean>
