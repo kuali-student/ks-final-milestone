@@ -34,13 +34,18 @@ public class TimeConflictCalculator {
         Map<String, List<String>> conflicts = new HashMap<String, List<String>>();
         ArrayList<String> nonConflicts = new ArrayList<String>();
 
-        for(String id: timeSlots.keySet()){
+        String idKey,otherIdKey;
+        for(Map.Entry<String, List<TimeSlotInfo>> id: timeSlots.entrySet()){
+            idKey = id.getKey();
+            List<TimeSlotInfo> idValue = id.getValue();
             //for each id(AO/RG), look at each other id
-            for(String otherId: timeSlots.keySet()){
+            for(Map.Entry<String, List<TimeSlotInfo>> otherId: timeSlots.entrySet()){
+                otherIdKey = otherId.getKey();
+                List<TimeSlotInfo> otherIdValue = otherId.getValue();
                 //make sure it's not the same one or on the whitelist
-                if(!(otherId.equals(id)) && !nonConflicts.contains(otherId)){
-                    for(TimeSlotInfo timeSlotInfo: timeSlots.get(id)){
-                        for(TimeSlotInfo otherTimeSlot: timeSlots.get(otherId)){
+                if(!(otherIdKey.equals(idKey)) && !nonConflicts.contains(otherIdKey)){
+                    for(TimeSlotInfo timeSlotInfo: idValue){
+                        for(TimeSlotInfo otherTimeSlot: otherIdValue){
                             //for each original id timeslot, compare with each timeslot for the other id
                             for(Integer weekday: timeSlotInfo.getWeekdays()){
                                 if(otherTimeSlot.getWeekdays().contains(weekday)){
@@ -50,14 +55,14 @@ public class TimeConflictCalculator {
                                         || (otherTimeSlot.getEndTime().isBefore(timeSlotInfo.getStartTime())
                                             || timeSlotInfo.getEndTime().equals(otherTimeSlot.getStartTime())))){
                                         //Conflict
-                                        if(conflicts.containsKey(id)){
-                                            if(!(conflicts.get(id).contains(otherId))){
-                                               conflicts.get(id).add(otherId);
+                                        if(conflicts.containsKey(idKey)){
+                                            if(!(conflicts.get(idKey).contains(otherIdKey))){
+                                               conflicts.get(idKey).add(otherIdKey);
                                             }
                                         } else {
                                             ArrayList<String> conflictList = new ArrayList<String>();
-                                            conflictList.add(otherId);
-                                            conflicts.put(id, conflictList);
+                                            conflictList.add(otherIdKey);
+                                            conflicts.put(idKey, conflictList);
                                         }
                                     }
                                 }
@@ -67,8 +72,8 @@ public class TimeConflictCalculator {
                 }
             }
             //Whitelist if no conflicts are found to prevent repeating checks
-            if(!(conflicts.containsKey(id))){
-                nonConflicts.add(id);
+            if(!(conflicts.containsKey(idKey))){
+                nonConflicts.add(idKey);
             }
         }
         return conflicts;
