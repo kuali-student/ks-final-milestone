@@ -63,6 +63,7 @@
         <!-- Disclosure items REQUIRE a summary title to work correctly -->
         <property name="layoutManager.lineGroupPrototype.header.render" value="true"/>
         <property name="layoutManager.lineGroupPrototype.header.additionalCssClasses" value="@{#line.getTermAbbreviation()}"/>
+        <property name="layoutManager.lineGroupPrototype.disclosure.id" value="@{#line.getTermId()}_disclosure"/>
         <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
         <property name="layoutManager.lineGroupPrototype.disclosure.renderIcon" value="true"/>
         <property name="layoutManager.lineGroupPrototype.disclosure.collapsedIconClass" value="ks-fontello-icon-right-open"/>
@@ -84,6 +85,7 @@
         <property name="disclosure.render" value="true"/>
         <property name="propertyName" value="courseOfferingDetailsWrappers"/>
         <property name="layoutManager.lineGroupPrototype.header.render" value="true"/>
+        <property name="layoutManager.lineGroupPrototype.disclosure.id" value="@{#parent.getTermId()}_@{#line.getCourseOfferingCode()}_disclosure"/>
         <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
         <property name="layoutManager.lineGroupPrototype.disclosure.renderIcon" value="true"/>
         <property name="layoutManager.lineGroupPrototype.disclosure.collapsedIconClass" value="ks-fontello-icon-right-open"/>
