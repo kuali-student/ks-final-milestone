@@ -34,6 +34,7 @@ import org.kuali.student.enrollment.registration.client.service.dto.StudentSched
 import org.kuali.student.enrollment.registration.client.service.dto.TermSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.WaitlistEntryResult;
 import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
+import org.kuali.student.enrollment.registration.client.service.impl.util.RegistrationValidationResultsUtil;
 import org.kuali.student.enrollment.registration.client.service.impl.util.SearchResultHelper;
 import org.kuali.student.enrollment.registration.client.service.impl.util.statistics.RegEngineMqStatisticsGenerator;
 import org.kuali.student.enrollment.registration.engine.util.MQPerformanceCounter;
@@ -1128,8 +1129,9 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
 
             for(ValidationResultInfo validationResult:lprTransactionItemInfo.getValidationResults()){
                 if (StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_MESSAGE_KEY)) {
-                    resultItem.getMessages().add(CourseRegistrationClientServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_MESSAGE);
-                    resultItem.setState("kuali.lpr.trans.item.state.waitlistActionAvailable");
+                    resultItem.getMessages().add(RegistrationValidationResultsUtil.
+                            marshallSimpleMessage(validationResult.getMessage()));
+                    resultItem.setState(LprServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_STATE_KEY);
                 } else if (StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_STUDENT_REMOVED_MESSAGE_KEY)) {
                     resultItem.getMessages().add(CourseRegistrationClientServiceConstants.LPRTRANS_ITEM_WAITLIST_STUDENT_REMOVED_MESSAGE);
                 } else if (StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_OPTIONS_UPDATED_MESSAGE_KEY)) {
@@ -1146,6 +1148,9 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                     resultItem.getMessages().add(CourseRegistrationClientServiceConstants.LPRTRANS_ITEM_COURSE_DROPPED_MESSAGE);
                 } else if (StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_PERSON_REGISTERED_MESSAGE_KEY)) {
                     resultItem.getMessages().add(CourseRegistrationClientServiceConstants.LPRTRANS_ITEM_PERSON_REGISTERED_MESSAGE);
+                } else if (StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_COURSE_LOAD_EXCEEDED_MESSAGE_KEY)) {
+                    resultItem.getMessages().add(RegistrationValidationResultsUtil.
+                            marshallSimpleMessage(validationResult.getMessage()));
                 } else {
                     resultItem.getMessages().add(validationResult.getMessage());
                 }

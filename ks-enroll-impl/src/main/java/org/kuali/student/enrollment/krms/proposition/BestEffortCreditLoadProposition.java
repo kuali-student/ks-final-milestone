@@ -155,7 +155,7 @@ public class BestEffortCreditLoadProposition extends AbstractLeafProposition {
         result.setLevel(ValidationResult.ErrorLevel.ERROR);
         String elt = "registrationRequestItems['" + item.getId() + "']";
         result.setElement(elt);
-        String msg = "{\"messageKey\":\"validation.creditLoadExceeded\"}";
+        String msg = LprServiceConstants.LPRTRANS_ITEM_COURSE_LOAD_EXCEEDED_MESSAGE_KEY;
         result.setMessage(msg);
         return result;
     }

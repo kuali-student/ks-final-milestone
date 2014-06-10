@@ -1,5 +1,7 @@
 package org.kuali.student.enrollment.registration.client.service.dto;
 
+import org.codehaus.jackson.annotate.JsonRawValue;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -23,9 +25,11 @@ public class RegistrationResponseItemResult {
     String registrationRequestItemId;
 
     String resultingLprId;
-    List<String> messages;
-    String newLuiId;
 
+    @JsonRawValue
+    List<String> messages;
+
+    String newLuiId;
 
     public RegistrationResponseItemResult() {}
 
