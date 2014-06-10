@@ -25,13 +25,15 @@ public class ActivityOfferingDetailsWrapper {
     private boolean selected;
     private String regGroupIdForSingleFO;
     private String activityFormatType;
+    private boolean partOfRegGroup = false;
 
-    public ActivityOfferingDetailsWrapper(ActivityOfferingInfo activityOffering) {
+    public ActivityOfferingDetailsWrapper(ActivityOfferingInfo activityOffering, boolean partOfRegGroup) {
         this.activityOfferingId = activityOffering.getId();
         this.activityOfferingCode = activityOffering.getActivityCode();
 //        this.days = activityOffering.get
         this.maxEnrollment = activityOffering.getMaximumEnrollment();
         this.honors = activityOffering.getIsHonorsOffering();
+        this.partOfRegGroup = partOfRegGroup;
 
     }
 
@@ -146,5 +148,13 @@ public class ActivityOfferingDetailsWrapper {
 
     public void setRegGroupIdForSingleFO(String regGroupIdForSingleFO) {
         this.regGroupIdForSingleFO = regGroupIdForSingleFO;
+    }
+
+    public boolean isPartOfRegGroup() {
+        return partOfRegGroup;
+    }
+
+    public void setPartOfRegGroup(boolean partOfRegGroup) {
+        this.partOfRegGroup = partOfRegGroup;
     }
 }

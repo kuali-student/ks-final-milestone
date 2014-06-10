@@ -163,7 +163,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
         }
 
         for (ActivityOfferingInfo activityOffering : activityOfferings) {
-            ActivityOfferingDetailsWrapper wrapper = new ActivityOfferingDetailsWrapper(activityOffering);
+            ActivityOfferingDetailsWrapper wrapper = new ActivityOfferingDetailsWrapper(activityOffering, false);
             String formatOfferingId = activityOffering.getFormatOfferingId();
             List<ActivityOfferingDetailsWrapper> aosByFormat = aoMapByFormatOffering.get(formatOfferingId);
             if (aosByFormat == null) {
