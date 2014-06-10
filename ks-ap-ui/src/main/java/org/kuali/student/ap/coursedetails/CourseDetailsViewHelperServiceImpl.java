@@ -1,6 +1,7 @@
 package org.kuali.student.ap.coursedetails;
 
 import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.ap.coursesearch.dataobject.ActivityOfferingDetailsWrapper;
 import org.kuali.student.ap.coursesearch.dataobject.CourseOfferingDetailsWrapper;
@@ -8,7 +9,6 @@ import org.kuali.student.ap.coursesearch.dataobject.CourseTermDetailsWrapper;
 import org.kuali.student.ap.coursesearch.dataobject.FormatOfferingDetailsWrapper;
 import org.kuali.student.ap.coursesearch.form.CourseSectionDetailsForm;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
-import org.kuali.student.common.uif.service.impl.KSViewHelperServiceImpl;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
@@ -33,7 +33,7 @@ import java.util.Map;
  * Time: 1:21 PM
  * To change this template use File | Settings | File Templates.
  */
-public class CourseDetailsViewHelperServiceImpl extends KSViewHelperServiceImpl implements CourseDetailsViewHelperService {
+public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl implements CourseDetailsViewHelperService {
 
     @Override
     public void loadCourseSectionDetails(UifFormBase form, String courseId) {

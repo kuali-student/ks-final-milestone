@@ -1,7 +1,7 @@
 package org.kuali.student.ap.coursedetails;
 
+import org.kuali.rice.krad.uif.service.ViewHelperService;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.common.uif.service.KSViewHelperService;
 
 /**
  * Created with IntelliJ IDEA.
@@ -10,6 +10,6 @@ import org.kuali.student.common.uif.service.KSViewHelperService;
  * Time: 11:19 AM
  * To change this template use File | Settings | File Templates.
  */
-public interface CourseDetailsViewHelperService extends KSViewHelperService {
+public interface CourseDetailsViewHelperService extends ViewHelperService {
     public void loadCourseSectionDetails(UifFormBase form, String courseId);
 }
