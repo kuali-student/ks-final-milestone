@@ -82,4 +82,11 @@ angular.module('regCartApp')
         removeItemFromCart: 'removeItemFromCart',
         undoDeleteCourse:   'undoDeleteCourse'
     })
+
+
+    // Validation error type identifiers that get returned from the server
+    .constant('VALIDATION_ERROR_TYPE', { // TODO: these currently are stubs, they will need to be updated to match what the server returns
+        maxCredits: 'validation.creditLoadExceeded',
+        timeConflict: 'validation.timeConflict'
+    })
 ;
