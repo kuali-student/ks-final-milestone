@@ -104,6 +104,7 @@
         </property>
         <property name="subCollections">
             <list>
+                <ref bean="planned-reg-group-list" />
                 <ref bean="format-offering-list" />
             </list>
         </property>
@@ -145,6 +146,95 @@
                 <bean parent="Uif-MessageField" p:messageText="@{#line.activityOfferingId}"/>
                 <bean parent="Uif-MessageField" p:messageText="@{#line.activityOfferingCode}"/>
 
+            </list>
+        </property>
+        <!--<property name="subCollections">-->
+        <!--<list>-->
+        <!--<ref bean="conversation_list" />-->
+        <!--</list>-->
+        <!--</property>-->
+    </bean>
+    <bean id="planned-reg-group-list" parent="planned-reg-group-list-parent"/>
+    <bean id="planned-reg-group-list-parent" abstract="true" parent="Uif-ListCollectionSection">
+        <property name="collectionObjectClass"
+                  value="org.kuali.student.ap.coursesearch.dataobject.PlannedRegGroupDetailsWrapper" />
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="propertyName" value="plannedRegGroupDetailsWrappers" />
+        <property name="layoutManager.lineGroupPrototype.header.render" value="false"/>
+        <!-- property to activate disclosure -->
+        <property name="items">
+            <list>
+                <bean parent="Uif-MessageField" p:messageText="Registration Group: @{#line.groupCode}"/>
+            </list>
+        </property>
+        <property name="subCollections">
+            <list>
+                <ref bean="planned-reg-group-activities" />
+            </list>
+        </property>
+    </bean>
+    <bean id="planned-reg-group-activities" parent="Uif-TableCollectionSubSection"
+          p:renderAddLine="false"  p:renderLineActions="false" p:renderHeader="false">
+        <property name="collectionObjectClass"
+                  value="org.kuali.student.ap.coursesearch.dataobject.ActivityOfferingDetailsWrapper" />
+        <property name="propertyName" value="activityOfferingDetailsWrappers" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.applyDefaultCellWidths" value="false" />
+        <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <!--<entry key="sDom" value="opir"/>-->
+                <entry key="aaSorting" value="[[0, 'asc']]"/>
+                <entry key="bPaginate" value="false"/>
+                <entry key="bAutoWidth" value="false"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-MessageField"
+                      p:label="Type"
+                      p:messageText="@{#line.activityFormatType">
+                </bean>
+                <bean parent="Uif-MessageField"
+                      p:label="Code"
+                      p:messageText="@{#line.activityOfferingCode}">
+                </bean>
+                <bean parent="Uif-MessageField"
+                      p:label="Instructor" p:additionalCssClasses="nowrap"
+                      p:messageText="@{#line.instructorName}">
+                </bean>
+                <bean parent="Uif-MessageField"
+                      p:label="Days"
+                      p:messageText="@{#line.days}">
+                </bean>
+                <bean parent="Uif-MessageField"
+                      p:label="Time"  p:additionalCssClasses="nowrap"
+                      p:messageText="@{#line.time}">
+                </bean>
+                <bean parent="Uif-MessageField"
+                      p:label="Location"
+                      p:messageText="@{#line.location}">
+                </bean>
+                <bean parent="Uif-MessageField"
+                      p:label="Seats"
+                      p:messageText="@{#line.currentEnrollment/maxEnrollment}">
+                </bean>
+                <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.labelText="Additional Details" >
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-Message" p:render="@{(#line.honors==true)}"
+                                  p:messageText="@{(#line.honors==true)? Honors : '' )}" />
+                            <bean parent="Uif-Link" p:render="@{(#line.courseUrl != null)}"
+                                  p:href="@{(#line.courseUrl != null)? | #line.courseUrl : '')  }"
+                                  p:linkText="Course website"/>
+                            <bean parent="Uif-Link" p:render="@{(#line.restrictionsUrl != null)}"
+                                  p:href="@{(#line.restrictionsUrl != null)? | #line.restrictionsUrl : '')  }"
+                                  p:linkText="Requirements"/>
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>

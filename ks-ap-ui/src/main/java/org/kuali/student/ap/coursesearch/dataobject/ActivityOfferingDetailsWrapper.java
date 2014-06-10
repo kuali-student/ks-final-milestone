@@ -12,7 +12,8 @@ import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 public class ActivityOfferingDetailsWrapper {
     private String activityOfferingId;
     private String activityOfferingCode;
-    private String instructorId;
+    private String instructorName;
+
     private String days;
     private String time;
     private String location;
@@ -23,6 +24,7 @@ public class ActivityOfferingDetailsWrapper {
     private String requirementsUrl;
     private boolean selected;
     private String regGroupIdForSingleFO;
+    private String activityFormatType;
 
     public ActivityOfferingDetailsWrapper(ActivityOfferingInfo activityOffering) {
         this.activityOfferingId = activityOffering.getId();
@@ -34,6 +36,14 @@ public class ActivityOfferingDetailsWrapper {
 
     }
 
+
+    public String getActivityFormatType() {
+        return activityFormatType;
+    }
+
+    public void setActivityFormatType(String activityFormatType) {
+        this.activityFormatType = activityFormatType;
+    }
 
     public String getActivityOfferingId() {
         return activityOfferingId;
@@ -51,12 +61,12 @@ public class ActivityOfferingDetailsWrapper {
         this.activityOfferingCode = activityOfferingCode;
     }
 
-    public String getInstructorId() {
-        return instructorId;
+    public String getInstructorName() {
+        return instructorName;
     }
 
-    public void setInstructorId(String instructorId) {
-        this.instructorId = instructorId;
+    public void setInstructorName(String instructorName) {
+        this.instructorName = instructorName;
     }
 
     public String getDays() {

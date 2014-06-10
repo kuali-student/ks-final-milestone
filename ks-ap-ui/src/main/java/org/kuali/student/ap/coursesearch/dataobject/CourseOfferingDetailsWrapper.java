@@ -18,7 +18,8 @@ public class CourseOfferingDetailsWrapper {
     private String courseOfferingTitle;
     private String courseOfferingDescription;
     private boolean multipleFormatOfferings;
-//    private List<PlannedRegGroupDetails> plannedRegGroupDetails;
+
+    private List<PlannedRegGroupDetailsWrapper> plannedRegGroupDetailsWrappers;
     private List<FormatOfferingDetailsWrapper> formatOfferingDetailsWrappers;
 
     public CourseOfferingDetailsWrapper (CourseOfferingInfo courseOfferingInfo) {
@@ -76,4 +77,12 @@ public class CourseOfferingDetailsWrapper {
     public void setFormatOfferingDetailsWrappers(List<FormatOfferingDetailsWrapper> formatOfferingDetailsWrappers) {
         this.formatOfferingDetailsWrappers = formatOfferingDetailsWrappers;
     }
+    public List<PlannedRegGroupDetailsWrapper> getPlannedRegGroupDetailsWrappers() {
+        return plannedRegGroupDetailsWrappers;
+    }
+
+    public void setPlannedRegGroupDetailsWrappers(List<PlannedRegGroupDetailsWrapper> plannedRegGroupDetailsWrappers) {
+        this.plannedRegGroupDetailsWrappers = plannedRegGroupDetailsWrappers;
+    }
+
 }
