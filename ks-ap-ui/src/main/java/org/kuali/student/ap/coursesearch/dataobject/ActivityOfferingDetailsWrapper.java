@@ -27,6 +27,9 @@ public class ActivityOfferingDetailsWrapper {
     private String activityFormatType;
     private boolean partOfRegGroup = false;
 
+    public ActivityOfferingDetailsWrapper() {
+    }
+
     public ActivityOfferingDetailsWrapper(ActivityOfferingInfo activityOffering, boolean partOfRegGroup) {
         this.activityOfferingId = activityOffering.getId();
         this.activityOfferingCode = activityOffering.getActivityCode();
@@ -36,7 +39,6 @@ public class ActivityOfferingDetailsWrapper {
         this.partOfRegGroup = partOfRegGroup;
 
     }
-
 
     public String getActivityFormatType() {
         return activityFormatType;

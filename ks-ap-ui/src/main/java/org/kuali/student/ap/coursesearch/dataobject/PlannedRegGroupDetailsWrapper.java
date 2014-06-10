@@ -15,6 +15,8 @@ public class PlannedRegGroupDetailsWrapper {
 
     private String regGroupCode;
 
+    private List<ActivityOfferingDetailsWrapper> activityOfferingDetailsWrappers;
+
     public List<ActivityOfferingDetailsWrapper> getActivityOfferingDetailsWrappers() {
         return activityOfferingDetailsWrappers;
     }
@@ -24,14 +26,14 @@ public class PlannedRegGroupDetailsWrapper {
         this.activityOfferingDetailsWrappers = activityOfferingDetailsWrappers;
     }
 
-    private List<ActivityOfferingDetailsWrapper> activityOfferingDetailsWrappers;
 
-    public String getCourseOfferingCode() {
+    public String getRegGroupCode() {
+
         return regGroupCode;
     }
 
-    public void setCourseOfferingCode(String courseOfferingCode) {
-        this.regGroupCode = courseOfferingCode;
+    public void setRegGroupCode(String regGroupCode) {
+        this.regGroupCode = regGroupCode;
     }
 
 }

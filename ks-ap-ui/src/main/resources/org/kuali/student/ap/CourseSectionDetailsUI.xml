@@ -143,11 +143,12 @@
         <property name="renderAddLine" value="false"/>
         <property name="renderLineActions" value="false"/>
         <property name="propertyName" value="plannedRegGroupDetailsWrappers" />
-        <property name="layoutManager.lineGroupPrototype.header.render" value="false"/>
+        <property name="layoutManager.lineGroupPrototype.header.render" value="true"/>
+        <property name="headerText" value="Planned Registration Groups ()"/>
         <!-- property to activate disclosure -->
         <property name="items">
             <list>
-                <bean parent="Uif-MessageField" p:messageText="Registration Group: @{#line.groupCode}"/>
+                <bean parent="Uif-MessageField" p:messageText="Registration Group: @{#line.regGroupCode}"/>
             </list>
         </property>
         <property name="subCollections">
@@ -187,7 +188,7 @@
             <list>
                 <bean parent="Uif-MessageField"
                       p:label="Type"
-                      p:messageText="@{#line.activityFormatType" p:render="@{#line.partOfRegGroup==true}">
+                      p:messageText="@{#line.activityFormatType}" p:render="@{#line.partOfRegGroup==true}">
                 </bean>
                 <bean parent="Uif-MessageField"
                       p:label="Code"

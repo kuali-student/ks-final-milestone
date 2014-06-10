@@ -3,10 +3,13 @@ package org.kuali.student.ap.coursedetails;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
+import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
 import org.kuali.student.ap.coursesearch.dataobject.ActivityOfferingDetailsWrapper;
 import org.kuali.student.ap.coursesearch.dataobject.CourseOfferingDetailsWrapper;
 import org.kuali.student.ap.coursesearch.dataobject.CourseTermDetailsWrapper;
 import org.kuali.student.ap.coursesearch.dataobject.FormatOfferingDetailsWrapper;
+import org.kuali.student.ap.coursesearch.dataobject.PlannedRegGroupDetailsWrapper;
 import org.kuali.student.ap.coursesearch.form.CourseSectionDetailsForm;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
@@ -123,7 +126,6 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
 
                     formatOfferingDetailsWrappers.add(formatOfferingDetailsWrapper);
                 }
-
                 courseOfferingDetailsWrapper.setFormatOfferingDetailsWrappers(formatOfferingDetailsWrappers);
             } catch (DoesNotExistException e) {
                 throw new IllegalArgumentException("FO lookup error", e);
@@ -137,11 +139,42 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
                 throw new IllegalArgumentException("FO lookup error", e);
             }
 
-
+            courseOfferingDetailsWrapper.setPlannedRegGroupDetailsWrappers(
+                    getPlannedRegGroupDetailsByTermAndCO(termId, offering.getCourseCode()));
             offeringsByTerm.add(courseOfferingDetailsWrapper);
             map.put(termId, offeringsByTerm);
         }
+
         return map;
+    }
+
+    private List<PlannedRegGroupDetailsWrapper> getPlannedRegGroupDetailsByTermAndCO(String termId, String courseCode) {
+
+        //1. get planned reg-group items  (for student (via. context), and/or planId? ...will need to decide)
+            //        List<PlanItemInfo> plannedTermItems = KsapFrameworkServiceLocator.getAcademicPlanService()
+            //                .getPlanItemsInPlanByTermIdByCategory
+            //                        (planId,termId,
+            //                                AcademicPlanServiceConstants.ItemCategory.PLANNED,KsapFrameworkServiceLocator.getContext());
+        //2. lookup AO for reg-groups (...using CourseCode to restrict)
+
+        //Fake data for now
+        List<PlannedRegGroupDetailsWrapper> regGroups = new ArrayList<PlannedRegGroupDetailsWrapper>();
+        PlannedRegGroupDetailsWrapper regGroup = new PlannedRegGroupDetailsWrapper();
+        regGroup.setRegGroupCode("FD1-ForDUMMIES");
+        List<ActivityOfferingDetailsWrapper> activityOfferings = new ArrayList<ActivityOfferingDetailsWrapper>();
+        regGroup.setActivityOfferingDetailsWrappers(activityOfferings);
+        ActivityOfferingDetailsWrapper activityOffering = new ActivityOfferingDetailsWrapper();
+        activityOffering.setActivityFormatType("Lecture");
+        activityOffering.setInstructorName("Neal, Jerry");
+        activityOffering.setPartOfRegGroup(true);
+        activityOfferings.add(activityOffering);
+        activityOffering = new ActivityOfferingDetailsWrapper();
+        activityOffering.setActivityFormatType("Lab");
+        activityOffering.setInstructorName("Westfall, Eric");
+        activityOffering.setPartOfRegGroup(true);
+        activityOfferings.add(activityOffering);
+        regGroups.add(regGroup);
+        return regGroups;
     }
 
     private Map<String, List<ActivityOfferingDetailsWrapper>> getAOData(String courseOfferingId) {
