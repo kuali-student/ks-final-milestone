@@ -135,7 +135,14 @@
                 <value>org.kuali.student.cm</value>
 			</list>
 		</property>
-	</bean>
+
+        <property name="externalizableBusinessObjectImplementations">
+            <map>
+                <entry key="org.kuali.rice.student.bo.KualiStudentKimAttributes"
+                    value="org.kuali.rice.student.bo.KualiStudentKimAttributes"/>
+            </map>
+        </property>
+    </bean>
 	
 </beans>
 
