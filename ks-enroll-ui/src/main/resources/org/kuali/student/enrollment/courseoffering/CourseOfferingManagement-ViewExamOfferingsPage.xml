@@ -115,7 +115,7 @@
                             <property name="items">
                                 <list>
                                     <!--<bean parent="KS-Uif-PrimaryActionButton" p:id="saveExamOfferingRSI" p:methodToCall="saveExamOfferingRSI" p:actionLabel="Save" p:performClientSideValidation="true" p:render="@{!#view.readOnly}"/>-->
-                                    <bean parent="KS-Uif-ActionLink" p:actionLabel="Return to Course Offering" p:ajaxSubmit="false" p:methodToCall="cancel"/>
+                                    <bean parent="KS-Uif-ActionLink" p:actionLabel="Return to Course Offering" p:methodToCall="cancel"/>
                                 </list>
                             </property>
                         </bean>
