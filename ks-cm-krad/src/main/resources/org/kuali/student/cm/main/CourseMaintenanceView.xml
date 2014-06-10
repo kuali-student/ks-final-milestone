@@ -185,7 +185,7 @@
         <property name="header.id" value="KS-CourseView-Header"/>
         <property name="header.lowerGroup">
             <bean id="KS-CourseView-LinkGroup" parent="Uif-LinkGroup" p:linkSeparator="|"
-                  p:render="@{#form.pageId eq 'KS-CourseView-CoursePage'}"
+                  p:render="@{#form.pageId eq 'KS-CourseView-CoursePage' OR #form.pageId eq 'KS-CourseView-ReviewProposalPage'}"
                   p:additionalCssClasses="cm-StickyHeader-links">
                 <property name="items">
                     <list>
