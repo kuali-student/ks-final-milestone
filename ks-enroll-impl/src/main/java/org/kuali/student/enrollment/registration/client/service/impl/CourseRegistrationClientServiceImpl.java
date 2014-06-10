@@ -1127,8 +1127,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
             resultItem.setType(lprTransactionItemInfo.getTypeKey());
 
             for(ValidationResultInfo validationResult : lprTransactionItemInfo.getValidationResults()){
-                if (StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_MESSAGE_KEY) ||
-                        StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_STUDENT_REMOVED_MESSAGE_KEY) ||
+                if (StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_STUDENT_REMOVED_MESSAGE_KEY) ||
                         StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_OPTIONS_UPDATED_MESSAGE_KEY) ||
                         StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_WAITLISTED_MESSAGE_KEY) ||
                         StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_FULL_MESSAGE_KEY) ||
@@ -1137,9 +1136,9 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                         StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_COURSE_DROPPED_MESSAGE_KEY) ||
                         StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_PERSON_REGISTERED_MESSAGE_KEY)) {
                     resultItem.getMessages().add(validationResult.getMessage());
-                    if (StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_MESSAGE_KEY)) {
-                        resultItem.setState(LprServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_STATE_KEY);
-                    }
+                } else if (StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_MESSAGE_KEY)) {
+                    resultItem.setState(LprServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_STATE_KEY);
+                    resultItem.getMessages().add(RegistrationValidationResultsUtil.marshallSimpleMessage(validationResult.getMessage()));
                 } else {
                     resultItem.getMessages().add(validationResult.getMessage());
                 }

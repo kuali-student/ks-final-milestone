@@ -33,8 +33,16 @@ angular.module('regCartApp').filter('formatValidationMessage', ['VALIDATION_ERRO
                         message = formatTimeConflict(data, course);
                         break;
 
-                    case VALIDATION_ERROR_TYPE.waitListAvailable:
+                    case VALIDATION_ERROR_TYPE.waitlistAvailable:
                         message = 'No seats available.';
+                        break;
+
+                    case VALIDATION_ERROR_TYPE.waitlistNotOffered:
+                        message = 'No seats available.<br/>(Waitlist not offered)';
+                        break;
+
+                    case VALIDATION_ERROR_TYPE.waitlistFull:
+                        message = 'No seats available.<br/>(Waitlist full)';
                         break;
                 }
             }
