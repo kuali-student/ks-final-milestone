@@ -67,7 +67,7 @@
         <property name="layoutManager.lineGroupPrototype.disclosure.renderIcon" value="true"/>
         <property name="layoutManager.lineGroupPrototype.disclosure.collapsedIconClass" value="ks-fontello-icon-right-open"/>
         <property name="layoutManager.lineGroupPrototype.disclosure.expandedIconClass" value="ks-fontello-icon-down-open"/>
-        <property name="layoutManager.summaryTitle" value="@{#line.termName} @{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getFormattedMessage('details.term.coSummary', new Object[]{#line.courseOfferingDetailsWrappers.size()})}"/>
+        <property name="layoutManager.summaryTitle" value="@{#line.termName} [css='ksap-text-small']@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getFormattedMessage('details.term.coSummary', new Object[]{#line.courseOfferingDetailsWrappers.size()})}[/css]"/>
         <property name="layoutManager.lineGroupPrototype.disclosure.defaultOpen" value="false"/>
         <property name="subCollections">
             <list>
@@ -98,8 +98,13 @@
         <!-- property to activate disclosure -->
         <property name="items">
             <list>
-                <bean parent="Uif-MessageField" p:fieldLabel.labelText="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('details.course.description.label')}"
-                      p:messageText="@{#line.courseOfferingDescription}"/>
+                <bean parent="Uif-MessageField" p:messageText="[b]@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('details.course.description.label')}:[/b] @{#line.courseOfferingDescription}">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ksap-section-description</value>
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
         <property name="subCollections">
