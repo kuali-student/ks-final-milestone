@@ -21,10 +21,13 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', '$timeout', 'S
             if ($scope.waitlistUserMessage && $scope.waitlistUserMessage.txt) {
                 $scope.removeWaitlistUserMessage();
             }
-            ScheduleService.getScheduleFromServer().query({termId: newValue }, function (result) {
-                console.log('called rest service to get schedule data - in schedule.js');
-                GlobalVarsService.updateScheduleCounts(result);
-            });
+            /*
+            Commented out unnecessary call to refresh schedule...main.js is already taking care of this...
+             */
+//            ScheduleService.getScheduleFromServer().query({termId: newValue }, function (result) {
+//                console.log('called rest service to get schedule data - in schedule.js');
+//                GlobalVarsService.updateScheduleCounts(result);
+//            });
         });
 
 

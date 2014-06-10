@@ -347,6 +347,10 @@ angular.module('regCartApp')
                     });
                     if ($scope.pollingCart) {
                         console.log('Continue polling');
+                        /*
+                        Observation: this can cause an infinite loop if the server is not responding. This process
+                        should probably timeout after a certain amount of time and/or number of tries.
+                         */
                         cartPoller(registrationRequestId);
                     } else {
                         console.log('Stop polling');
@@ -375,7 +379,7 @@ angular.module('regCartApp')
                         });
                         // After all the processing is complete, get the final Schedule counts.
                         ScheduleService.getScheduleFromServer().query({termId: $scope.termId }, function (result) {
-                            console.log('called rest service to get schedule data - in main.js');
+                            console.log('called rest service to get schedule data - in cart.js');
                             GlobalVarsService.updateScheduleCounts(result);
                             $scope.registeredCredits = GlobalVarsService.getRegisteredCredits;   // notice that i didn't put the (). in the ui call: {{registeredCredits()}}
                             $scope.registeredCourseCount = GlobalVarsService.getRegisteredCourseCount; // notice that i didn't put the (). in the ui call: {{registeredCourseCount()}}

@@ -326,7 +326,8 @@ module.exports = function (grunt) {
                             'partials/{,*/}*.html',
                             'bower_components/**/*',
                             'images/{,*/}*.{webp}',
-                            'fonts/*'
+                            'fonts/*',
+                            'json/messages.json'
                         ]
                     },
                     {
@@ -421,12 +422,20 @@ module.exports = function (grunt) {
                 src: '<%= yeoman.dist %>/index.html',
                 dest: '<%= yeoman.dist %>/index.jsp'
             }
+        },
+
+        //minify json files
+        'json-minify': {
+            build: {
+                files: 'dist/json/*.json'
+            }
         }
     });
 
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-dom-munger');
     grunt.loadNpmTasks('grunt-connect-proxy');
+    grunt.loadNpmTasks('grunt-json-minify');
 
     grunt.registerTask('serve', function (target) {
         if (target === 'dist') {
@@ -475,6 +484,7 @@ module.exports = function (grunt) {
         'usemin',
         'htmlmin',
         'dom_munger',
+        'json-minify',
         'clean:deploy',
         'copy:deploy'
     ]);

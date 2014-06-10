@@ -24,7 +24,7 @@
                                              'other': '{} credits'}">
                     </ng-pluralize>)
                 </div>
-                <div id="credit_count_title" class="kscr-Heading-support">
+                <div id="credit_count_title_large" class="kscr-Heading-support">
                     <ng-pluralize count="creditTotal"
                                    when="{'1'    : '{} CREDIT',
                                              'other': '{} CREDITS'}">
@@ -215,7 +215,7 @@
                     <div class="kscr-Card-reason-label"><strong>Reason:</strong></div>
                     <div class="kscr-Card-reason-messages">
                         <div class="kscr-Card-reason-message" ng-repeat="message in cartResultItem.statusMessages">
-                            <span ng-bind-html="message | formatValidationMessage:cartResultItem"></span>
+                            <span ng-bind-html="message | formatValidationMessage:cartResultItem:messages"></span>
                         </div>
                     </div>
                 </div>

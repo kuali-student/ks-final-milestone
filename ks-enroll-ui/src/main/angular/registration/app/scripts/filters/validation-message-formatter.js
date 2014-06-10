@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('regCartApp').filter('formatValidationMessage', ['VALIDATION_ERROR_TYPE', function(VALIDATION_ERROR_TYPE) {
+angular.module('regCartApp').filter('formatValidationMessage', ['VALIDATION_ERROR_TYPE', 'MessageService', function(VALIDATION_ERROR_TYPE, MessageService) {
 
     /**
      * In this method we take a course & validation message object and return a formatted
@@ -12,7 +12,7 @@ angular.module('regCartApp').filter('formatValidationMessage', ['VALIDATION_ERRO
      * @param course
      * @returns {string}
      */
-    return function(data, course) {
+    return function(data, course, messages) {
 
         var message = '';
 
@@ -21,48 +21,21 @@ angular.module('regCartApp').filter('formatValidationMessage', ['VALIDATION_ERRO
                 // Backwards compatibility, allow a straight string to go through
                 message = data;
             } else if (data.messageKey) {
-                console.log('Message key: '+data.messageKey);
                 // Validation message w/ messageKey value
                 switch (data.messageKey) {
 
-                    case VALIDATION_ERROR_TYPE.maxCredits:
-                        message = formatMaxCredits(data, course);
-                        break;
-
                     case VALIDATION_ERROR_TYPE.timeConflict:
-                        message = formatTimeConflict(data, course);
+                        message = formatTimeConflict(data, course, messages);
                         break;
-
-                    case VALIDATION_ERROR_TYPE.waitlistAvailable:
-                        message = 'No seats available.';
-                        break;
-
-                    case VALIDATION_ERROR_TYPE.waitlistNotOffered:
-                        message = 'No seats available.<br/>(Waitlist not offered)';
-                        break;
-
-                    case VALIDATION_ERROR_TYPE.waitlistFull:
-                        message = 'No seats available.<br/>(Waitlist full)';
-                        break;
+                    
+                    default:
+                        message = getMessage(data.messageKey, messages);
                 }
             }
         }
 
         return message;
     };
-
-
-
-    /**
-     * Format max credits violation message
-     *
-     * @param data
-     * @param course
-     * @returns {string}
-     */
-    function formatMaxCredits(data, course) {
-        return 'Reached maximum credit limit';
-    }
 
     /**
      * Format time credits violation message
@@ -76,14 +49,16 @@ angular.module('regCartApp').filter('formatValidationMessage', ['VALIDATION_ERRO
      *
      * @param data
      * @param course
+     * @param messages
      * @returns {string}
      *
      *
      * Need to update id field to be the actual one coming from the server
      */
-    function formatTimeConflict(data, course) {
-        var message = 'Time conflict';
+    function formatTimeConflict(data, course, messages) {
 
+        // look up the core message text
+        var message = getMessage(data.messageKey, messages);
 
         // Try to include the course codes of the conflicting items
         var conflicts = [];
@@ -128,6 +103,10 @@ angular.module('regCartApp').filter('formatValidationMessage', ['VALIDATION_ERRO
         }
 
         return message;
+    }
+
+    function getMessage(messageKey, messages) {
+        return MessageService.getMessage(messages, messageKey);
     }
 
 }]);

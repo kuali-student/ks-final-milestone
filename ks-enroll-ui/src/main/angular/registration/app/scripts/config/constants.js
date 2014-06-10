@@ -85,7 +85,7 @@ angular.module('regCartApp')
 
 
     // Validation error type identifiers that get returned from the server
-    .constant('VALIDATION_ERROR_TYPE', { // TODO: these currently are stubs, they will need to be updated to match what the server returns
+    .constant('VALIDATION_ERROR_TYPE', {
         maxCredits: 'kuali.lpr.trans.message.credit.load.exceeded',
         timeConflict: 'kuali.lpr.trans.message.time.conflict',
         waitlistAvailable: 'kuali.lpr.trans.message.waitlist.available',        //"No seats available."
@@ -94,7 +94,7 @@ angular.module('regCartApp')
         waitlistNotOffered: 'kuali.lpr.trans.message.waitlist.not.offered'      //"No seats available.<br/>(Waitlist not offered)"
     })
 
-    .constant('VALIDATION_SUCCESS_TYPE', { // TODO: these currently are stubs, they will need to be updated to match what the server returns
+    .constant('VALIDATION_SUCCESS_TYPE', {
         waitlistStudentRemoved: 'kuali.lpr.trans.message.waitlist.student.removed',    //"Student removed from waitlist."
         waitlistUpdated: 'kuali.lpr.trans.message.waitlist.options.updated',    //"Waitlist options were updated."
         courseUpdated: 'kuali.lpr.trans.message.course.updated',                //"Course was updated."

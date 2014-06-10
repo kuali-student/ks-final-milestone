@@ -1,8 +1,9 @@
 'use strict';
 
 angular.module('regCartApp')
-    .controller('MainCtrl', ['$scope', '$rootScope', '$location', '$state', 'TermsService', 'ScheduleService', 'GlobalVarsService', 'APP_URL', 'LoginService',
-    function ($scope, $rootScope, $location, $state, TermsService, ScheduleService, GlobalVarsService, APP_URL, LoginService) {
+    .controller('MainCtrl', ['$scope', '$rootScope', '$location', '$state', 'TermsService', 'ScheduleService', 'GlobalVarsService', 'APP_URL',
+        'LoginService', 'MessageService',
+    function ($scope, $rootScope, $location, $state, TermsService, ScheduleService, GlobalVarsService, APP_URL, LoginService, MessageService) {
         console.log('In Main Controller');
 
         $scope.appUrl = APP_URL.replace('/services/', '/');
@@ -35,7 +36,7 @@ angular.module('regCartApp')
         });
 
 
-
+        $scope.messages = MessageService.getMessages().query({messageKey: null});
 
         /**
         ScheduleService.getScheduleFromServer().query({termId: $scope.termId }, function (result) {
