@@ -57,9 +57,7 @@ public class LoInfo extends IdEntityInfo implements Lo, Serializable {
     public LoInfo(Lo lo) {
         super(lo);
         if (lo != null) {
-            if (lo.getLoRepositoryKey() != null) {
-                this.loRepositoryKey = lo.getLoRepositoryKey();
-            }
+            this.loRepositoryKey = lo.getLoRepositoryKey();
             if (lo.getEffectiveDate() != null) {
                 this.effectiveDate = new Date(lo.getEffectiveDate().getTime());
             }
