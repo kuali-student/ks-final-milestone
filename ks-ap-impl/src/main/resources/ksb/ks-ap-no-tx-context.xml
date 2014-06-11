@@ -13,7 +13,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
                            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
-    <import resource="classpath:ks-academic-plan-dictionary-file-locations.xml" />
+    <import resource="classpath:ks-academic-plan-dictionary-file-locations.xml"/>
 
     <bean class="org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator" factory-method="getInstance">
         <property name="ksapContext" ref="ksapContext"/>
@@ -31,6 +31,8 @@
         <property name="courseOfferingSetService" ref="ksEnrollCourseOfferingSetService"/>
         <property name="luiService" ref="ksEnrollLuiService"/>
         <property name="commentService" ref="ksCoreCommentService"/>
+        <property name="schedulingService" ref="ksCoreSchedulingService"/>
+        <property name="roomService" ref="ksCoreRoomService"/>
         <property name="enumerationManagementService" ref="enumServiceClient"/>
         <property name="courseService" ref="ksLumCourseService"/>
         <property name="programService" ref="ksLumProgramService"/>
@@ -50,100 +52,115 @@
     </bean>
     <bean id="ksLumLrcService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
-                  value="org.kuali.student.r2.lum.lrc.service.LRCService" />
+                  value="org.kuali.student.r2.lum.lrc.service.LRCService"/>
         <property name="serviceQName"
-                  value="{http://student.kuali.org/wsdl/lrc}LearningResultService" />
+                  value="{http://student.kuali.org/wsdl/lrc}LearningResultService"/>
     </bean>
 
     <bean id="ksLumProgramService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
-                  value="org.kuali.student.r2.lum.program.service.ProgramService" />
+                  value="org.kuali.student.r2.lum.program.service.ProgramService"/>
         <property name="serviceQName"
-                  value="{http://student.kuali.org/wsdl/program}ProgramService" />
+                  value="{http://student.kuali.org/wsdl/program}ProgramService"/>
     </bean>
 
     <bean id="ksLumCluService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
-                  value="org.kuali.student.r2.lum.clu.service.CluService" />
+                  value="org.kuali.student.r2.lum.clu.service.CluService"/>
         <property name="serviceQName"
-                  value="{http://student.kuali.org/wsdl/clu}CluService" />
+                  value="{http://student.kuali.org/wsdl/clu}CluService"/>
     </bean>
     <bean id="ksLumCourseService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
-                  value="org.kuali.student.r2.lum.course.service.CourseService" />
+                  value="org.kuali.student.r2.lum.course.service.CourseService"/>
         <property name="serviceQName"
-                  value="{http://student.kuali.org/wsdl/course}CourseService" />
+                  value="{http://student.kuali.org/wsdl/course}CourseService"/>
     </bean>
     <bean id="ksCoreCommentService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
-                  value="org.kuali.student.r2.core.comment.service.CommentService" />
+                  value="org.kuali.student.r2.core.comment.service.CommentService"/>
         <property name="serviceQName"
-                  value="{http://student.kuali.org/wsdl/comment}CommentService" />
+                  value="{http://student.kuali.org/wsdl/comment}CommentService"/>
+    </bean>
+    <bean id="ksCoreSchedulingService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface"
+                  value="org.kuali.student.r2.core.scheduling.service.SchedulingService"/>
+        <property name="serviceQName"
+                  value="{http://student.kuali.org/wsdl/scheduling}SchedulingService"/>
+    </bean>
+    <bean id="ksCoreRoomService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface"
+                  value="org.kuali.student.r2.core.room.service.RoomService"/>
+        <property name="serviceQName"
+                  value="{http://student.kuali.org/wsdl/room}RoomService"/>
     </bean>
     <bean id="ksEnrollAcalService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
-                  value="org.kuali.student.r2.core.acal.service.AcademicCalendarService" />
+                  value="org.kuali.student.r2.core.acal.service.AcademicCalendarService"/>
         <property name="serviceQName"
-                  value="{http://student.kuali.org/wsdl/acal}AcademicCalendarService" />
+                  value="{http://student.kuali.org/wsdl/acal}AcademicCalendarService"/>
     </bean>
     <bean id="ksCoreMessageService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
-                  value="org.kuali.student.r2.common.messages.service.MessageService" />
+                  value="org.kuali.student.r2.common.messages.service.MessageService"/>
         <property name="serviceQName"
-                  value="{http://student.kuali.org/wsdl/message}MessageService" />
+                  value="{http://student.kuali.org/wsdl/message}MessageService"/>
     </bean>
     <bean id="ksEnrollLuiService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
-                  value="org.kuali.student.enrollment.lui.service.LuiService" />
+                  value="org.kuali.student.enrollment.lui.service.LuiService"/>
         <property name="serviceQName"
-                  value="{http://student.kuali.org/wsdl/lui}LuiService" />
+                  value="{http://student.kuali.org/wsdl/lui}LuiService"/>
     </bean>
     <bean id="ksEnrollCourseOfferingService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
-                  value="org.kuali.student.enrollment.courseoffering.service.CourseOfferingService" />
+                  value="org.kuali.student.enrollment.courseoffering.service.CourseOfferingService"/>
         <property name="serviceQName"
-                  value="{http://student.kuali.org/wsdl/courseOffering}CourseOfferingService" />
+                  value="{http://student.kuali.org/wsdl/courseOffering}CourseOfferingService"/>
     </bean>
     <bean id="ksEnrollCourseOfferingSetService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
-                  value="org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService" />
+                  value="org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService"/>
         <property name="serviceQName"
-                  value="{http://student.kuali.org/wsdl/courseOfferingSet}CourseOfferingSetService" />
+                  value="{http://student.kuali.org/wsdl/courseOfferingSet}CourseOfferingSetService"/>
     </bean>
     <bean id="rulesManagementService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
-                  value="org.kuali.rice.krms.api.repository.RuleManagementService" />
+                  value="org.kuali.rice.krms.api.repository.RuleManagementService"/>
         <property name="serviceQName"
-                  value="{http://rice.kuali.org/krms/v2_0}ruleManagementService" />
+                  value="{http://rice.kuali.org/krms/v2_0}ruleManagementService"/>
     </bean>
     <!--<bean id="ksEnrollAcademicRecordService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">-->
-        <!--<property name="serviceEndpointInterface"-->
-                  <!--value="org.kuali.student.enrollment.academicrecord.service.AcademicRecordService" />-->
-        <!--<property name="serviceQName"-->
-                  <!--value="{http://student.kuali.org/wsdl/academicrecord}AcademicRecordService" />-->
+    <!--<property name="serviceEndpointInterface"-->
+    <!--value="org.kuali.student.enrollment.academicrecord.service.AcademicRecordService" />-->
+    <!--<property name="serviceQName"-->
+    <!--value="{http://student.kuali.org/wsdl/academicrecord}AcademicRecordService" />-->
     <!--</bean>-->
 
-    <bean id="courseRecordAssemblerMock" class="org.kuali.student.enrollment.class2.academicrecord.service.assembler.StudentCourseRecordAssemblerMockAllGradeA" >
-        <property name="luiService" ref="LuiService" />
-        <property name="atpService" ref="AtpService" />
-        <property name="gradingService" ref="gradingService" />
-        <property name="lrcService" ref="lrcServiceCache" />
+    <bean id="courseRecordAssemblerMock"
+          class="org.kuali.student.enrollment.class2.academicrecord.service.assembler.StudentCourseRecordAssemblerMockAllGradeA">
+        <property name="luiService" ref="LuiService"/>
+        <property name="atpService" ref="AtpService"/>
+        <property name="gradingService" ref="gradingService"/>
+        <property name="lrcService" ref="lrcServiceCache"/>
     </bean>
-    <bean id="academicRecordServiceWithMockAssembler" class="org.kuali.student.enrollment.class2.academicrecord.service.impl.AcademicRecordServiceImpl">
-        <property name="courseRegService" ref="courseRegistrationServiceMock" />
-        <property name="atpService" ref="AtpService" />
-        <property name="gradingService" ref="gradingService" />
-        <property name="lrcService" ref="lrcServiceCache" />
-        <property name="courseRecordAssembler" ref="courseRecordAssemblerMock" />
+    <bean id="academicRecordServiceWithMockAssembler"
+          class="org.kuali.student.enrollment.class2.academicrecord.service.impl.AcademicRecordServiceImpl">
+        <property name="courseRegService" ref="courseRegistrationServiceMock"/>
+        <property name="atpService" ref="AtpService"/>
+        <property name="gradingService" ref="gradingService"/>
+        <property name="lrcService" ref="lrcServiceCache"/>
+        <property name="courseRecordAssembler" ref="courseRecordAssemblerMock"/>
     </bean>
 
     <bean id="courseRegistrationServiceMock"
           class="org.kuali.student.enrollment.class2.courseregistration.service.decorators.CourseRegistrationServiceValidationDecorator">
-        <property name="validator" ref="validator" />
-        <property name="nextDecorator" ref="courseRegistrationMockImpl" />
+        <property name="validator" ref="validator"/>
+        <property name="nextDecorator" ref="courseRegistrationMockImpl"/>
     </bean>
 
-    <bean id="courseRegistrationMockImpl" class="org.kuali.student.ap.courseregistration.impl.CourseRegistrationServiceMockImpl2">
+    <bean id="courseRegistrationMockImpl"
+          class="org.kuali.student.ap.courseregistration.impl.CourseRegistrationServiceMockImpl2">
         <!-- setup fake registration records until better reference data is available -->
         <property name="fakeRegistrations">
             <list>
@@ -154,65 +171,68 @@
                 <value type="java.lang.String[]">janeDoe,kuali.atp.2011Fall,ENGL101</value>
             </list>
         </property>
-        <property name="courseOfferingService" ref="CourseOfferingService" />
+        <property name="courseOfferingService" ref="CourseOfferingService"/>
     </bean>
 
-    <bean id="ksapContext" class="org.kuali.student.ap.framework.context.support.DefaultKsapContext" />
+    <bean id="ksapContext" class="org.kuali.student.ap.framework.context.support.DefaultKsapContext"/>
 
     <bean id="ksapTextHelper" class="org.kuali.student.ap.framework.context.support.DefaultTextHelper">
-        <property name="messageGroup" value="ksap" />
+        <property name="messageGroup" value="ksap"/>
     </bean>
 
-    <bean id="ksapTermHelper" class="org.kuali.student.ap.framework.context.support.DefaultTermHelper" />
+    <bean id="ksapTermHelper" class="org.kuali.student.ap.framework.context.support.DefaultTermHelper"/>
 
-    <bean id="ksapUserSessionHelper" class="org.kuali.student.ap.framework.context.support.DefaultUserSessionHelper" />
+    <bean id="ksapUserSessionHelper" class="org.kuali.student.ap.framework.context.support.DefaultUserSessionHelper"/>
 
-    <bean id="ksapEnumerationHelper" class="org.kuali.student.ap.framework.context.support.DefaultEnumerationHelper" />
+    <bean id="ksapEnumerationHelper" class="org.kuali.student.ap.framework.context.support.DefaultEnumerationHelper"/>
 
-    <bean id="ksapOrgHelper" class="org.kuali.student.ap.framework.context.support.DefaultOrgHelper" />
+    <bean id="ksapOrgHelper" class="org.kuali.student.ap.framework.context.support.DefaultOrgHelper"/>
 
-    <bean name="enrollStatusHelper" class="org.kuali.student.ap.framework.context.support.DefaultEnrollmentStatusHelper" />
+    <bean name="enrollStatusHelper"
+          class="org.kuali.student.ap.framework.context.support.DefaultEnrollmentStatusHelper"/>
 
-    <bean id="ksapCourseHelper" class="org.kuali.student.ap.framework.context.support.DefaultCourseHelper" />
+    <bean id="ksapCourseHelper" class="org.kuali.student.ap.framework.context.support.DefaultCourseHelper"/>
 
-    <bean name="shoppingCartHelper" class="org.kuali.student.ap.framework.context.support.MockShoppingCartHelper" />
+    <bean name="shoppingCartHelper" class="org.kuali.student.ap.framework.context.support.MockShoppingCartHelper"/>
 
-    <bean name="planHelper" class="org.kuali.student.ap.framework.context.support.DefaultPlanHelper" />
+    <bean name="planHelper" class="org.kuali.student.ap.framework.context.support.DefaultPlanHelper"/>
 
     <bean id="academicPlanServicePersistence" class="org.kuali.student.ap.academicplan.service.AcademicPlanServiceImpl">
         <property name="learningPlanDao" ref="learningPlanDao"/>
         <property name="planItemDao" ref="planItemDao"/>
     </bean>
 
-    <bean id="academicPlanServiceValidator" class="org.kuali.student.ap.academicplan.service.AcademicPlanServiceValidationDecorator">
+    <bean id="academicPlanServiceValidator"
+          class="org.kuali.student.ap.academicplan.service.AcademicPlanServiceValidationDecorator">
         <property name="nextDecorator" ref="academicPlanServicePersistence"/>
         <property name="validator" ref="validator"/>
     </bean>
 
-    <bean id="academicPlanServiceAuthorizor" class="org.kuali.student.ap.academicplan.service.AcademicPlanServiceAuthorizationDecorator">
+    <bean id="academicPlanServiceAuthorizor"
+          class="org.kuali.student.ap.academicplan.service.AcademicPlanServiceAuthorizationDecorator">
         <property name="nextDecorator" ref="academicPlanServiceValidator"/>
         <property name="permissionService" ref="permissionService"/>
     </bean>
 
     <!--<bean id="permissionService" class="org.kuali.student.kim.permission.mock.PermissionServiceMockImpl"/>-->
     <bean id="permissionServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-        <property name="serviceEndpointInterface" value="org.kuali.rice.kim.api.permission.PermissionService" />
-        <property name="serviceQName" value="{http://rice.kuali.org/kim/v2_0}permissionService" />
+        <property name="serviceEndpointInterface" value="org.kuali.rice.kim.api.permission.PermissionService"/>
+        <property name="serviceQName" value="{http://rice.kuali.org/kim/v2_0}permissionService"/>
     </bean>
-    <alias name="permissionServiceClient" alias="permissionService" />
+    <alias name="permissionServiceClient" alias="permissionService"/>
 
-    <alias name="academicPlanServiceAuthorizor" alias="academicPlanService" />
+    <alias name="academicPlanServiceAuthorizor" alias="academicPlanService"/>
 
     <bean id="ks.exp.academicPlanService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
-                <property name="jaxWsService" value="true" />
-                <property name="service" ref="academicPlanService" />
+                <property name="jaxWsService" value="true"/>
+                <property name="service" ref="academicPlanService"/>
                 <property name="serviceInterface"
-                          value="org.kuali.student.ap.academicplan.service.AcademicPlanService" />
-                <property name="localServiceName" value="AcademicPlanService" />
-                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/acadplan" />
-                <property name="busSecurity" value="${ks.ap.bus.security}" />
+                          value="org.kuali.student.ap.academicplan.service.AcademicPlanService"/>
+                <property name="localServiceName" value="AcademicPlanService"/>
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/acadplan"/>
+                <property name="busSecurity" value="${ks.ap.bus.security}"/>
             </bean>
         </property>
     </bean>
@@ -223,16 +243,18 @@
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
                 <property name="databasePlatform"
-                          value="${ks.ap.jpa.DatabasePlatform}" />
-                <property name="showSql" value="${ks.ap.jpa.showSql}" />
-                <property name="generateDdl" value="${ks.ap.jpa.generateDdl}" />
+                          value="${ks.ap.jpa.DatabasePlatform}"/>
+                <property name="showSql" value="${ks.ap.jpa.showSql}"/>
+                <property name="generateDdl" value="${ks.ap.jpa.generateDdl}"/>
             </bean>
         </property>
         <property name="jpaPropertyMap">
             <map>
-                <entry key="hibernate.transaction.manager_lookup_class" value="${ks.ap.jpa.JpaProperties.hibernate.transaction.manager_lookup_class}"/>
+                <entry key="hibernate.transaction.manager_lookup_class"
+                       value="${ks.ap.jpa.JpaProperties.hibernate.transaction.manager_lookup_class}"/>
                 <entry key="hibernate.hbm2ddl.auto" value="${ks.ap.jpa.JpaProperties.hibernate.hbm2ddl.auto}"/>
-                <entry key="hibernate.connection.release_mode" value="${ks.ap.jpa.JpaProperties.hibernate.connection.release_mode}"/>
+                <entry key="hibernate.connection.release_mode"
+                       value="${ks.ap.jpa.JpaProperties.hibernate.connection.release_mode}"/>
             </map>
         </property>
     </bean>
@@ -260,13 +282,13 @@
         and do not throw exceptions until a later time -->
     <bean id="mapExceptionAdvisor" class="org.kuali.student.common.util.ExceptionMappingAdvice">
         <property name="defaultException"
-                  value="org.kuali.student.r2.common.exceptions.OperationFailedException" />
+                  value="org.kuali.student.r2.common.exceptions.OperationFailedException"/>
         <property name="exceptionMapping">
             <map>
                 <entry key="javax.persistence.EntityExistsException"
-                       value="org.kuali.student.r2.common.exceptions.AlreadyExistsException" />
+                       value="org.kuali.student.r2.common.exceptions.AlreadyExistsException"/>
                 <entry key="org.hibernate.exception.ConstraintViolationException"
-                       value="org.kuali.student.r2.common.exceptions.AlreadyExistsException" />
+                       value="org.kuali.student.r2.common.exceptions.AlreadyExistsException"/>
             </map>
         </property>
     </bean>
@@ -274,28 +296,28 @@
         <aop:aspect id="dataAccessToBusinessException" ref="mapExceptionAdvisor">
             <aop:after-throwing
                     pointcut="execution(* org.kuali.student.ap.academicplan.service.AcademicPlanServiceImpl.*(..))"
-                    method="afterThrowing" throwing="ex" />
+                    method="afterThrowing" throwing="ex"/>
         </aop:aspect>
     </aop:config>
 
     <bean id="apDataSource" class="org.kuali.rice.student.core.database.DerbyXAPoolDataSource">
-        <property name="transactionManager" ref="userTransaction" />
-        <property name="driverClassName" value="${ks.ap.datasource.driver.name}" />
-        <property name="maxSize" value="${ks.ap.datasource.maxSize}" />
-        <property name="minSize" value="${ks.ap.datasource.minSize}" />
-        <property name="maxWait" value="${ks.ap.datasource.maxWait}" />
-        <property name="validationQuery" value="${ks.ap.datasource.validationQuery}" />
-        <property name="url" value="${ks.ap.datasource.url}" />
-        <property name="username" value="${ks.ap.datasource.username}" />
-        <property name="password" value="${ks.ap.datasource.password}" />
+        <property name="transactionManager" ref="userTransaction"/>
+        <property name="driverClassName" value="${ks.ap.datasource.driver.name}"/>
+        <property name="maxSize" value="${ks.ap.datasource.maxSize}"/>
+        <property name="minSize" value="${ks.ap.datasource.minSize}"/>
+        <property name="maxWait" value="${ks.ap.datasource.maxWait}"/>
+        <property name="validationQuery" value="${ks.ap.datasource.validationQuery}"/>
+        <property name="url" value="${ks.ap.datasource.url}"/>
+        <property name="username" value="${ks.ap.datasource.username}"/>
+        <property name="password" value="${ks.ap.datasource.password}"/>
     </bean>
 
     <bean id="learningPlanReviewStrategy"
-          class="org.kuali.student.ap.plannerreview.support.MockLearningPlanReviewStrategy" />
+          class="org.kuali.student.ap.plannerreview.support.MockLearningPlanReviewStrategy"/>
     <bean id="scheduleBuildStrategy"
-          class="org.kuali.student.ap.schedulebuilder.support.DefaultScheduleBuildStrategy" />
+          class="org.kuali.student.ap.schedulebuilder.support.DefaultScheduleBuildStrategy"/>
 
     <bean id="shoppingCartStrategy"
-          class="org.kuali.student.ap.schedulebuilder.support.DefaultShoppingCartStrategy" />
+          class="org.kuali.student.ap.schedulebuilder.support.DefaultShoppingCartStrategy"/>
 
 </beans>

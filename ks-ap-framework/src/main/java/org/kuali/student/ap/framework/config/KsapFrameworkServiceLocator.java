@@ -29,6 +29,8 @@ import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.comment.service.CommentService;
 import org.kuali.student.r2.core.enumerationmanagement.service.EnumerationManagementService;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
+import org.kuali.student.r2.core.scheduling.service.SchedulingService;
+import org.kuali.student.r2.core.room.service.RoomService;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
@@ -39,169 +41,192 @@ import javax.ejb.EJB;
 
 /**
  * Convenience factory for acquiring KSAP provided service.
- * 
+ * <p/>
  * <p>
  * Remote services commonly used by ks-ap are also provided by this locator.
  * </p>
- * 
+ *
  * @author Mark Fyffe <mwfyffe@indiana.edu>
  * @version 0.4.5
  * @since 0.1.1
  */
 public final class KsapFrameworkServiceLocator {
 
-	/**
-	 * Internally managed singleton instance.
-	 */
-	private static KsapFrameworkServiceLocator instance;
+    /**
+     * Internally managed singleton instance.
+     */
+    private static KsapFrameworkServiceLocator instance;
 
-	/**
-	 * Get a singleton instance.
-	 * <p>
-	 * This method should be indicated as the factory method by at least one
-	 * bean in an auto-wiring container in order to populate {@link EJB}
-	 * instances.
-	 * </p>
-	 * 
-	 * <pre>
-	 * &lt;bean class=&quot;org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator&quot;
-	 * 	factory-method=&quot;getInstance&quot; /&gt;
-	 * </pre>
-	 */
-	public static KsapFrameworkServiceLocator getInstance() {
-		return instance == null ? instance = new KsapFrameworkServiceLocator()
-				: instance;
-	}
+    /**
+     * Get a singleton instance.
+     * <p>
+     * This method should be indicated as the factory method by at least one
+     * bean in an auto-wiring container in order to populate {@link EJB}
+     * instances.
+     * </p>
+     * <p/>
+     * <pre>
+     * &lt;bean class=&quot;org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator&quot;
+     * 	factory-method=&quot;getInstance&quot; /&gt;
+     * </pre>
+     */
+    public static KsapFrameworkServiceLocator getInstance() {
+        return instance == null ? instance = new KsapFrameworkServiceLocator()
+                : instance;
+    }
 
-	/**
-	 * Get the ks-core remote ATP service.
-	 * 
-	 * @return The ks-core remote ATP service.
-	 */
-	public static AtpService getAtpService() {
-		return getInstance().atpService;
-	}
+    /**
+     * Get the ks-core remote ATP service.
+     *
+     * @return The ks-core remote ATP service.
+     */
+    public static AtpService getAtpService() {
+        return getInstance().atpService;
+    }
 
-	/**
-	 * Get the ks-core remote type service.
-	 * 
-	 * @return The ks-core remote type service.
-	 */
-	public static TypeService getTypeService() {
-		return getInstance().typeService;
-	}
+    /**
+     * Get the ks-core remote type service.
+     *
+     * @return The ks-core remote type service.
+     */
+    public static TypeService getTypeService() {
+        return getInstance().typeService;
+    }
 
-	/**
-	 * Get the ks-core remote message service.
-	 * 
-	 * @return The ks-core remote message service.
-	 */
-	public static MessageService getMessageService() {
-		return getInstance().messageService;
-	}
+    /**
+     * Get the ks-core remote message service.
+     *
+     * @return The ks-core remote message service.
+     */
+    public static MessageService getMessageService() {
+        return getInstance().messageService;
+    }
 
-	/**
-	 * Get the ks-core remote organization service.
-	 * 
-	 * @return The ks-core remote organization service.
-	 */
-	public static OrganizationService getOrganizationService() {
-		return getInstance().organizationService;
-	}
+    /**
+     * Get the ks-core remote organization service.
+     *
+     * @return The ks-core remote organization service.
+     */
+    public static OrganizationService getOrganizationService() {
+        return getInstance().organizationService;
+    }
 
-	/**
-	 * Get the ks-core remote enumeration service.
-	 * 
-	 * @return The ks-core remote enumeration service.
-	 */
-	public static EnumerationManagementService getEnumerationManagementService() {
-		return getInstance().enumerationManagementService;
-	}
+    /**
+     * Get the ks-core remote enumeration service.
+     *
+     * @return The ks-core remote enumeration service.
+     */
+    public static EnumerationManagementService getEnumerationManagementService() {
+        return getInstance().enumerationManagementService;
+    }
 
-	/**
-	 * Get the ks-core remote comment service.
-	 *
-	 * @return The ks-core remote comment service.
-	 */
-	public static CommentService getCommentService() {
-		return getInstance().commentService;
-	}
+    /**
+     * Get the ks-core remote comment service.
+     *
+     * @return The ks-core remote comment service.
+     */
+    public static CommentService getCommentService() {
+        return getInstance().commentService;
+    }
 
-	/**
-	 * Get the ks-enroll remote LUI service.
-	 * 
-	 * @return The ks-enroll remote LUI service.
-	 */
-	public static LuiService getLuiService() {
-		return getInstance().luiService;
-	}
+    /**
+     * Get the ks-core remote scheduling service.
+     *
+     * @return The ks-core remote scheduling service.
+     */
+    public static SchedulingService getSchedulingService() {
+        return getInstance().schedulingService;
+    }
 
-	/**
-	 * Get the ks-enroll remote course offering service.
-	 * 
-	 * @return The ks-enroll remote course offering service.
-	 */
-	public static CourseOfferingService getCourseOfferingService() {
-		return getInstance().courseOfferingService;
-	}
-    
+    /**
+     * Get the ks-core remote room service.
+     *
+     * @return The ks-core remote room service.
+     */
+    public static RoomService getRoomService() {
+        return getInstance().roomService;
+    }
+
+    /**
+     * Get the ks-enroll remote LUI service.
+     *
+     * @return The ks-enroll remote LUI service.
+     */
+    public static LuiService getLuiService() {
+        return getInstance().luiService;
+    }
+
+    /**
+     * Get the ks-enroll remote course offering service.
+     *
+     * @return The ks-enroll remote course offering service.
+     */
+    public static CourseOfferingService getCourseOfferingService() {
+        return getInstance().courseOfferingService;
+    }
+
+    /**
+     * Get the ks-enroll remote course offering set service.
+     *
+     * @return The ks-enroll remote course offering set service.
+     */
     public static CourseOfferingSetService getCourseOfferingSetService() {
         return getInstance().courseOfferingSetService;
     }
 
-	/**
-	 * Get the ks-enroll remote academic calendar service.
-	 * 
-	 * @return The ks-enroll remote message service.
-	 */
-	public static AcademicCalendarService getAcademicCalendarService() {
-		return getInstance().academicCalendarService;
-	}
+    /**
+     * Get the ks-enroll remote academic calendar service.
+     *
+     * @return The ks-enroll remote message service.
+     */
+    public static AcademicCalendarService getAcademicCalendarService() {
+        return getInstance().academicCalendarService;
+    }
 
-	/**
-	 * Get the ks-enroll remote academic record service.
-	 * 
-	 * @return The ks-enroll remote message service.
-	 */
-	public static AcademicRecordService getAcademicRecordService() {
-		return getInstance().academicRecordService;
-	}
+    /**
+     * Get the ks-enroll remote academic record service.
+     *
+     * @return The ks-enroll remote message service.
+     */
+    public static AcademicRecordService getAcademicRecordService() {
+        return getInstance().academicRecordService;
+    }
 
-	/**
-	 * Get the ks-lum remote course service.
-	 * 
-	 * @return The ks-lum remote course service.
-	 */
-	public static CourseService getCourseService() {
-		return getInstance().courseService;
-	}
+    /**
+     * Get the ks-lum remote course service.
+     *
+     * @return The ks-lum remote course service.
+     */
+    public static CourseService getCourseService() {
+        return getInstance().courseService;
+    }
 
-	/**
-	 * Get the ks-lum remote program service.
-	 * 
-	 * @return The ks-lum remote program service.
-	 */
-	public static ProgramService getProgramService() {
-		return getInstance().programService;
-	}
+    /**
+     * Get the ks-lum remote program service.
+     *
+     * @return The ks-lum remote program service.
+     */
+    public static ProgramService getProgramService() {
+        return getInstance().programService;
+    }
 
-	/**
-	 * Get the ks-lum remote clu service.
-	 * 
-	 * @return The ks-lum remote clu service.
-	 */
-	public static CluService getCluService() {
-		return getInstance().cluService;
-	}
+    /**
+     * Get the ks-lum remote clu service.
+     *
+     * @return The ks-lum remote clu service.
+     */
+    public static CluService getCluService() {
+        return getInstance().cluService;
+    }
 
-	/**
-	 * Get the ks-lum remote lrc service.
-	 * 
-	 * @return The ks-lum remote lrc service.
-	 */
-	public static LRCService getLrcService() {
-		return getInstance().lrcService;
-	}
+    /**
+     * Get the ks-lum remote lrc service.
+     *
+     * @return The ks-lum remote lrc service.
+     */
+    public static LRCService getLrcService() {
+        return getInstance().lrcService;
+    }
 
     /**
      * Get the KS course registration service
@@ -213,103 +238,103 @@ public final class KsapFrameworkServiceLocator {
     }
 
     /**
-	 * Get the KSAP context provider.
-	 * 
-	 * @return The KSAP context provider.
-	 */
-	public static KsapContext getContext() {
-		return getInstance().ksapContext;
-	}
+     * Get the KSAP context provider.
+     *
+     * @return The KSAP context provider.
+     */
+    public static KsapContext getContext() {
+        return getInstance().ksapContext;
+    }
 
-	/**
-	 * Get the user session helper.
-	 * 
-	 * @return The user session helper.
-	 */
-	public static UserSessionHelper getUserSessionHelper() {
-		return getInstance().ksapUserSessionHelper;
-	}
+    /**
+     * Get the user session helper.
+     *
+     * @return The user session helper.
+     */
+    public static UserSessionHelper getUserSessionHelper() {
+        return getInstance().ksapUserSessionHelper;
+    }
 
-	/**
-	 * Get the ATP helper.
-	 * 
-	 * @return The ATP help.
-	 */
-	public static TermHelper getTermHelper() {
-		return getInstance().ksapTermHelper;
-	}
+    /**
+     * Get the ATP helper.
+     *
+     * @return The ATP help.
+     */
+    public static TermHelper getTermHelper() {
+        return getInstance().ksapTermHelper;
+    }
 
-	/**
-	 * Get the Enumeration helper.
-	 * 
-	 * @return The Enumeration help.
-	 */
-	public static EnumerationHelper getEnumerationHelper() {
-		return getInstance().ksapEnumerationHelper;
-	}
+    /**
+     * Get the Enumeration helper.
+     *
+     * @return The Enumeration help.
+     */
+    public static EnumerationHelper getEnumerationHelper() {
+        return getInstance().ksapEnumerationHelper;
+    }
 
-	/**
-	 * Get the Org helper.
-	 * 
-	 * @return The Org help.
-	 */
-	public static OrgHelper getOrgHelper() {
-		return getInstance().ksapOrgHelper;
-	}
+    /**
+     * Get the Org helper.
+     *
+     * @return The Org help.
+     */
+    public static OrgHelper getOrgHelper() {
+        return getInstance().ksapOrgHelper;
+    }
 
-	/**
-	 * Get the course helper.
-	 * 
-	 * @return The course helper.
-	 */
-	public static CourseHelper getCourseHelper() {
-		return getInstance().ksapCourseHelper;
-	}
+    /**
+     * Get the course helper.
+     *
+     * @return The course helper.
+     */
+    public static CourseHelper getCourseHelper() {
+        return getInstance().ksapCourseHelper;
+    }
 
-	/**
-	 * Get the academic plan service.
-	 * 
-	 * @return The academic plan service.
-	 */
-	public static AcademicPlanService getAcademicPlanService() {
-		return getInstance().academicPlanService;
-	}
+    /**
+     * Get the academic plan service.
+     *
+     * @return The academic plan service.
+     */
+    public static AcademicPlanService getAcademicPlanService() {
+        return getInstance().academicPlanService;
+    }
 
-	/**
-	 * Get the course search strategy.
-	 * 
-	 * @return The course search strategy.
-	 */
-	public static CourseSearchStrategy getCourseSearchStrategy() {
-		return getInstance().courseSearchStrategy;
-	}
+    /**
+     * Get the course search strategy.
+     *
+     * @return The course search strategy.
+     */
+    public static CourseSearchStrategy getCourseSearchStrategy() {
+        return getInstance().courseSearchStrategy;
+    }
 
-	/**
-	 * Get the course search strategy.
-	 * 
-	 * @return The course search strategy.
-	 */
-	public static EnrollmentStatusHelper getEnrollmentStatusHelper() {
-		return getInstance().enrollmentStatusHelper;
-	}
+    /**
+     * Get the course search strategy.
+     *
+     * @return The course search strategy.
+     */
+    public static EnrollmentStatusHelper getEnrollmentStatusHelper() {
+        return getInstance().enrollmentStatusHelper;
+    }
 
-	/**
-	 * Get the shopping cart helper implementation.
-	 * 
-	 * @return The shopping cart helper.
-	 */
-	public static ShoppingCartHelper getShoppingCartHelper() {
-		return getInstance().shoppingCartHelper;
-	}
+    /**
+     * Get the shopping cart helper implementation.
+     *
+     * @return The shopping cart helper.
+     */
+    public static ShoppingCartHelper getShoppingCartHelper() {
+        return getInstance().shoppingCartHelper;
+    }
 
-	/**
-	 * Get the message text helper.
-	 * 
-	 * @return The message text helper.
-	 */
-	public static TextHelper getTextHelper() {
-		return getInstance().ksapTextHelper;
-	}
+    /**
+     * Get the message text helper.
+     *
+     * @return The message text helper.
+     */
+    public static TextHelper getTextHelper() {
+        return getInstance().ksapTextHelper;
+    }
 
     /**
      * Get the plan helper implementation.
@@ -320,11 +345,11 @@ public final class KsapFrameworkServiceLocator {
         return getInstance().planHelper;
     }
 
-	/**
-	 * Get the schedule build strategy.
-	 *
-	 * @return The schedule build strategy.
-	 */
+    /**
+     * Get the schedule build strategy.
+     *
+     * @return The schedule build strategy.
+     */
     public static ScheduleBuildStrategy getScheduleBuildStrategy() {
         return getInstance().scheduleBuildStrategy;
     }
@@ -344,6 +369,7 @@ public final class KsapFrameworkServiceLocator {
 
     /**
      * Get the course facet strategy
+     *
      * @return The course facet strategy
      */
     public static CourseFacetStrategy getCourseFacetStrategy() {
@@ -372,6 +398,14 @@ public final class KsapFrameworkServiceLocator {
 
     public void setCommentService(CommentService commentService) {
         getInstance().commentService = commentService;
+    }
+
+    public void setSchedulingService(SchedulingService schedulingService) {
+        getInstance().schedulingService = schedulingService;
+    }
+
+    public void setRoomService(RoomService roomService) {
+        getInstance().roomService = roomService;
     }
 
     public void setLuiService(LuiService luiService) {
@@ -487,65 +521,69 @@ public final class KsapFrameworkServiceLocator {
         getInstance().courseFacetStrategy = courseFacetStrategy;
     }
 
-	@EJB
-	private transient AtpService atpService;
-	@EJB
-	private transient TypeService typeService;
-	@EJB
-	private transient MessageService messageService;
-	@EJB
-	private transient OrganizationService organizationService;
-	@EJB
-	private transient EnumerationManagementService enumerationManagementService;
-	@EJB
-	private transient CommentService commentService;
-	@EJB
-	private transient LuiService luiService;
-	@EJB
+    @EJB
+    private transient AtpService atpService;
+    @EJB
+    private transient TypeService typeService;
+    @EJB
+    private transient MessageService messageService;
+    @EJB
+    private transient OrganizationService organizationService;
+    @EJB
+    private transient EnumerationManagementService enumerationManagementService;
+    @EJB
+    private transient CommentService commentService;
+    @EJB
+    private transient SchedulingService schedulingService;
+    @EJB
+    private transient RoomService roomService;
+    @EJB
+    private transient LuiService luiService;
+    @EJB
     private transient CourseOfferingService courseOfferingService;
     @EJB
     private transient CourseOfferingSetService courseOfferingSetService;
-	@EJB
-	private transient AcademicCalendarService academicCalendarService;
-	@EJB
-	private transient AcademicRecordService academicRecordService;
-	@EJB
-	private transient CourseService courseService;
-	@EJB
-	private transient ProgramService programService;
-	@EJB
-	private transient CluService cluService;
-	@EJB
-	private transient LRCService lrcService;
+    @EJB
+    private transient AcademicCalendarService academicCalendarService;
+    @EJB
+    private transient AcademicRecordService academicRecordService;
+    @EJB
+    private transient CourseService courseService;
+    @EJB
+    private transient ProgramService programService;
+    @EJB
+    private transient CluService cluService;
+    @EJB
+    private transient LRCService lrcService;
     @EJB
     private transient CourseRegistrationService courseRegistrationService;
     @EJB
     private transient RuleManagementService ruleManagementService;
-	@EJB
-	private transient KsapContext ksapContext;
-	@EJB
-	private transient UserSessionHelper ksapUserSessionHelper;
-	@EJB
-	private transient TermHelper ksapTermHelper;
-	@EJB
-	private transient EnumerationHelper ksapEnumerationHelper;
-	@EJB
-	private transient OrgHelper ksapOrgHelper;
-	@EJB
-	private transient CourseHelper ksapCourseHelper;
-	@EJB
-	private transient TextHelper ksapTextHelper;
-	@EJB
-	private transient AcademicPlanService academicPlanService;
-	@EJB
-	private transient EnrollmentStatusHelper enrollmentStatusHelper;
-	@EJB
-	private transient ShoppingCartHelper shoppingCartHelper;
+    @EJB
+    private transient KsapContext ksapContext;
+    @EJB
+    private transient UserSessionHelper ksapUserSessionHelper;
+    @EJB
+    private transient TermHelper ksapTermHelper;
+    @EJB
+    private transient EnumerationHelper ksapEnumerationHelper;
+    @EJB
+    private transient OrgHelper ksapOrgHelper;
+    @EJB
+    private transient CourseHelper ksapCourseHelper;
+    @EJB
+    private transient TextHelper ksapTextHelper;
+    @EJB
+    private transient AcademicPlanService academicPlanService;
+    @EJB
+    private transient EnrollmentStatusHelper enrollmentStatusHelper;
+    @EJB
+    private transient ShoppingCartHelper shoppingCartHelper;
     @EJB
     private transient PlanHelper planHelper;
 
-	// provided by ks-ap-ui or institution override
-	@EJB
+    // provided by ks-ap-ui or institution override
+    @EJB
     @OptionalResource
     private transient CourseSearchStrategy courseSearchStrategy;
 
@@ -564,7 +602,7 @@ public final class KsapFrameworkServiceLocator {
     @EJB
     private transient CourseFacetStrategy courseFacetStrategy;
 
-	private KsapFrameworkServiceLocator() {
-	}
+    private KsapFrameworkServiceLocator() {
+    }
 
 }

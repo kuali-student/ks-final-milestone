@@ -3,7 +3,7 @@ package org.kuali.student.ap.coursesearch.controller;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.controller.extension.KsapControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.ap.coursedetails.CourseDetailsViewHelperService;
+import org.kuali.student.ap.coursesearch.service.CourseDetailsViewHelperService;
 import org.kuali.student.ap.coursesearch.form.CourseSectionDetailsForm;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -35,9 +35,9 @@ public class CourseSectionDetailsController extends KsapControllerBase {
     @MethodAccessible
     @RequestMapping(params = "methodToCall=startCourseSectionDetails")
     public ModelAndView startCourseSectionDetails(@RequestParam(value = "courseId") String courseId,
-                              @ModelAttribute("KualiForm") CourseSectionDetailsForm form,
-                              HttpServletRequest request,
-                              HttpServletResponse response) {
+                                                  @ModelAttribute("KualiForm") CourseSectionDetailsForm form,
+                                                  HttpServletRequest request,
+                                                  HttpServletResponse response) throws Exception {
         super.start(form, request, response);
 
         form.setViewId(COURSE_SECTION_DETAILS_FORM);
