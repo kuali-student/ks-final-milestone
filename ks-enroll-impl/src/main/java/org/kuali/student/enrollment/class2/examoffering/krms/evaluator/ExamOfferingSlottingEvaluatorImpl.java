@@ -92,6 +92,7 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
                 PermissionServiceConstants.KS_SYS_NAMESPACE, KSKRMSServiceConstants.AGENDA_TYPE_FINAL_EXAM_AO_DRIVEN);
         Agenda agenda = getAgendaForRefObjectId(termType, typeDefinition);
         if (agenda == null) {
+            removeRDLForExamOffering(examOfferingId, contextInfo);
             return new ExamOfferingResult(ExamOfferingServiceConstants.EXAM_OFFERING_MATRIX_NOT_FOUND);
         }
 
@@ -430,8 +431,6 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
     /**
      * This method remove the schedule request for the exam offering.
      *
-     * @param componentInfo
-     * @param timeSlot
      * @param examOfferingId
      * @param context
      */
