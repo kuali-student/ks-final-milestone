@@ -130,9 +130,8 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
             try {
                 List<FormatOfferingInfo> formatOfferingList = KsapFrameworkServiceLocator.getCourseOfferingService().getFormatOfferingsByCourseOffering(courseOfferingDetailsWrapper.getCourseOfferingId(), contextInfo);
                 List<FormatOfferingDetailsWrapper> formatOfferingDetailsWrappers = new ArrayList<FormatOfferingDetailsWrapper>();
-                boolean regGroupIdForSingleFO=(formatOfferingList!=null && formatOfferingList.size()==1)? true: false;
                 Map<String, List<ActivityOfferingDetailsWrapper>>
-                        aosByFormat = getAOData(offering.getId(),regGroupIdForSingleFO);
+                        aosByFormat = getAOData(offering.getId());
 
                 for (FormatOfferingInfo formatOffering : formatOfferingList) {
                     FormatOfferingDetailsWrapper formatOfferingDetailsWrapper = new FormatOfferingDetailsWrapper(formatOffering);
@@ -213,52 +212,10 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
         activityOfferings.add(activityOffering);
         regGroups.add(regGroup);
 
-        //Adding second reg group
-        regGroup = new PlannedRegGroupDetailsWrapper();
-        regGroup.setRegGroupCode("FD1-ForSMARTIES");
-
-        activityOfferings = new ArrayList<ActivityOfferingDetailsWrapper>();
-
-        regGroup.setActivityOfferingDetailsWrappers(activityOfferings);
-
-
-        activityOffering = new ActivityOfferingDetailsWrapper();
-        activityOffering.setPartOfRegGroup(true);
-        activityOffering.setActivityFormatName("Lecture");
-        activityOffering.setInstructorName("Neal, Jerry");
-        activityOffering.setActivityOfferingCode("KRAD101Y");
-        activityOffering.setDays("MF");
-        activityOffering.setTime("09:00-09:50 AM");
-        activityOffering.setLocation("UITS Rec Studio1");
-        activityOffering.setCurrentEnrollment(1);
-        activityOffering.setMaxEnrollment(17);
-        activityOffering.setHonors(true);
-        activityOffering.setClassUrl("http://krad.rice.kuali.org/kr-krad/kradsampleapp?viewId=ComponentLibraryHome");
-        activityOffering.setRequirementsUrl("http://site.kuali.org/rice/2.4.0/reference/html/KRAD_Guide.html#d10268e992");
-        activityOffering.setRegGroupCode(regGroup.getRegGroupCode());
-        activityOfferings.add(activityOffering);
-
-        activityOffering = new ActivityOfferingDetailsWrapper();
-        activityOffering.setPartOfRegGroup(true);
-        activityOffering.setActivityFormatName("Lab");
-        activityOffering.setInstructorName("Westfall, Eric");
-        activityOffering.setActivityOfferingCode("KRAD101Z");
-        activityOffering.setDays("TW");
-        activityOffering.setLocation("UITS Rec Studio2");
-        activityOffering.setCurrentEnrollment(1);
-        activityOffering.setMaxEnrollment(17);
-        activityOffering.setClassUrl("http://krad.rice.kuali.org/kr-krad/kradsampleapp?viewId=ComponentLibraryHome");
-        activityOffering.setRequirementsUrl("http://site.kuali.org/rice/2.4.0/reference/html/KRAD_Guide.html#d10268e992");
-        activityOffering.setRegGroupCode(regGroup.getRegGroupCode());
-        activityOfferings.add(activityOffering);
-
-
-        regGroups.add(regGroup);
         return regGroups;
     }
 
-    private Map<String, List<ActivityOfferingDetailsWrapper>> getAOData(String courseOfferingId,
-            boolean regGroupIdForSingleFO) throws Exception {
+    private Map<String, List<ActivityOfferingDetailsWrapper>> getAOData(String courseOfferingId) throws Exception {
         Map<String, List<ActivityOfferingDetailsWrapper>> aoMapByFormatOffering = new HashMap<String, List<ActivityOfferingDetailsWrapper>>();
         List<ActivityOfferingInfo> activityOfferings = null;
         try {
@@ -283,21 +240,23 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
             if (aosByFormat == null) {
                 aosByFormat = new ArrayList<ActivityOfferingDetailsWrapper>();
             }
-            ActivityOfferingDetailsWrapper wrapper = convertAOInfoToWrapper(activityOffering, regGroupIdForSingleFO);
+            ActivityOfferingDetailsWrapper wrapper = convertAOInfoToWrapper(activityOffering);
             aosByFormat.add(wrapper);
             aoMapByFormatOffering.put(formatOfferingId, aosByFormat);
         }
         return aoMapByFormatOffering;
     }
 
-    public ActivityOfferingDetailsWrapper convertAOInfoToWrapper(ActivityOfferingInfo aoInfo,
-            boolean regGroupIdForSingleFO) throws Exception {
-        ActivityOfferingDetailsWrapper wrapper = new ActivityOfferingDetailsWrapper(aoInfo, false, regGroupIdForSingleFO);
+    public ActivityOfferingDetailsWrapper convertAOInfoToWrapper(ActivityOfferingInfo aoInfo) throws Exception {
+        ActivityOfferingDetailsWrapper wrapper = new ActivityOfferingDetailsWrapper(aoInfo, false, true);
 
         int firstValue = 0;
 
         FormatOfferingInfo fo = KsapFrameworkServiceLocator.getCourseOfferingService().getFormatOffering(aoInfo.getFormatOfferingId(), contextInfo);
         wrapper.setActivityFormatName(aoInfo.getName());
+        if (fo.getActivityOfferingTypeKeys().size()>1) {
+            wrapper.setRegGroupIdForSingleFO(false);
+        }
 
         //From Bonnie: we need to better understand firstInstructor vs.multiple instructors cases -- pull in the logic from manage CO
         OfferingInstructorInfo displayInstructor = findDisplayInstructor(aoInfo.getInstructors());

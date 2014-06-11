@@ -22,5 +22,5 @@ public interface CourseDetailsViewHelperService extends ViewHelperService {
 
     public Map<String, List<CourseOfferingDetailsWrapper>> processCourseOfferingsByTerm(List<String> courseIds, List<Term> terms) throws Exception;
 
-    public ActivityOfferingDetailsWrapper convertAOInfoToWrapper(ActivityOfferingInfo ao, boolean regGroupIdForSingleFO) throws Exception;
+    public ActivityOfferingDetailsWrapper convertAOInfoToWrapper(ActivityOfferingInfo ao) throws Exception;
 }
