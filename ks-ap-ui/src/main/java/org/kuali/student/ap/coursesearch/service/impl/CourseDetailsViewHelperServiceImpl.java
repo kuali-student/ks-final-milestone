@@ -41,6 +41,7 @@ import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -119,8 +120,20 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
         return courseTermDetailsList;
     }
 
+    /**
+     * Comparator implementation so that I can sort CourseOfferingInfo objects by the course offering code
+     */
+    public class CourseOfferingInfoComparator implements Comparator<CourseOfferingInfo> {
+
+        @Override
+        public int compare(CourseOfferingInfo o1, CourseOfferingInfo o2) {
+            return o1.getCourseOfferingCode().compareTo(o2.getCourseOfferingCode());
+        }
+    }
+
     public Map<String, List<CourseOfferingDetailsWrapper>> processCourseOfferingsByTerm(List<String> courseIds, List<Term> terms) throws Exception {
         List<CourseOfferingInfo> courseOfferings = KsapFrameworkServiceLocator.getCourseHelper().getCourseOfferingsForCoursesAndTerms(courseIds, terms);
+        Collections.sort(courseOfferings, new CourseOfferingInfoComparator());
         Map<String, List<CourseOfferingDetailsWrapper>> map = new HashMap<String, List<CourseOfferingDetailsWrapper>>();
 
         for (CourseOfferingInfo offering : courseOfferings) {
