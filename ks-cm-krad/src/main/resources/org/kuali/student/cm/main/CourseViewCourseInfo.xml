@@ -420,6 +420,7 @@
                                         <property name="fieldConversions">
                                             <map>
                                                 <entry key="courseCode" value="courseCode"/>
+                                                <entry key="courseId" value="courseId"/>
                                             </map>
                                         </property>
                                     </bean>
