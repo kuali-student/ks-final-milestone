@@ -44,8 +44,7 @@
 .util-Alert {
     border-radius: 2px;
     padding: 10px 10px 10px 35px;
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
+    margin: 0.5em;
     font-family: @secondaryFontFamily;
     font-size: 14px;
     font-weight: normal;
@@ -124,4 +123,10 @@
 .util-Alert--card--dropped {
     margin-bottom: 0.7em;
     &:extend(.util-Alert--card);
+}
+
+@media screen and (min-width: @largeFormatMin) {
+  .util-Alert {
+    margin: 0.5em 0 0.5em 0;
+  }
 }

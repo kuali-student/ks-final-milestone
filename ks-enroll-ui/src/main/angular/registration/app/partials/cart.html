@@ -191,9 +191,9 @@
 </div>
 
 <div class="kscr-Heading-sub" ng-show="cartResults.items.length">
-    <span class="responseCount" ng-if="cartResults.errorCount > 0">Error ({{cartResults.errorCount}})</span>
-    <span class="responseCount" ng-if="cartResults.waitlistCount > 0">Waitlist ({{cartResults.waitlistCount}})</span>
-    <span class="responseCount" ng-if="cartResults.successCount > 0">Success ({{cartResults.successCount}})</span>
+    <span class="responseCount" ng-if="cartResults.errorCount > 0 && cartResults.successCount <= 0">Fail ({{cartResults.errorCount}})</span>
+    <span class="responseCount" ng-if="cartResults.successCount > 0 && cartResults.errorCount <=0">Success ({{cartResults.successCount}})</span>
+    <span class="responseCount" ng-if="cartResults.successCount > 0 && cartResults.errorCount > 0">Success ({{cartResults.successCount}}), Fail ({{cartResults.errorCount}})</span>
     <span>RESULTS</span>
 </div>
 <div id="resultsSection" class="kscr-Card kscr-Card-Results panel-group">
