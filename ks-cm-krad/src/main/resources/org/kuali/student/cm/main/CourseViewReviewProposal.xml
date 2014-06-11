@@ -110,7 +110,7 @@
         </property>
     </bean>
 
-    <!-- A read-only text field -->
+    <!-- A read-only text field. Don't need escapeHtml since this is an HTML input. -->
     <bean id="CM-ReadOnlyInput" parent="KS-Uif-InputField" p:colSpan="3" p:escapeHtmlInPropertyValue="false"
           class="org.kuali.student.cm.uif.element.InputFieldWithNonClobberableFieldLabel" abstract="true">
         <property name="fieldLabel.renderColon" value="false"/>

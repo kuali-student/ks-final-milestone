@@ -251,12 +251,13 @@
                 <entry key="dataObject" value="document.newMaintainableObject.dataObject"/>
                 <entry key="uiHelper" value="document.newMaintainableObject.dataObject.uiHelper"/>
                 <entry key="workflowDoc" value="document.documentHeader.workflowDocument"/>
+                <entry key="htmlUtils" value="T(org.springframework.web.util.HtmlUtils)" />
             </map>
         </property>
     </bean>
 
     <bean id="KS-HomewardPathBreadcrumbs-ProposalName" parent="Uif-BreadcrumbItem">
-        <property name="label" value="@{#uiHelper.headerText}"/>
+        <property name="label" value="@{#htmlUtils.htmlEscape(#uiHelper.headerText)}"/>
         <property name="url.viewId" value="createCourseInitialView"/>
         <property name="url.controllerMapping" value="createcourse_initial"/>
         <property name="url.requestParameters">
@@ -268,7 +269,7 @@
     </bean>
 
     <bean id="KS-HomewardPathBreadcrumbs-CreateCourse" parent="Uif-BreadcrumbItem">
-        <property name="label" value="Create Course"></property>
+        <property name="label" value="Create Course"/>
     </bean>
 
     <bean id="CourseInfoMaintenanceDocument-Base" parent="CourseInfoMaintenanceDocument-Base-parent" abstract="true"/>
