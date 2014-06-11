@@ -27,11 +27,11 @@ import java.util.List;
 
 /**
  * Detailed information about a learning objective
- * 
+ *
  * @author Kuali Student Team (sambitpa@kuali.org)
  */
 
-@XmlType(name = "LoInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "loRepositoryKey", "effectiveDate", "expirationDate", "meta", "attributes" , "_futureElements" }) 
+@XmlType(name = "LoInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "loRepositoryKey", "effectiveDate", "expirationDate", "meta", "attributes", "_futureElements"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LoInfo extends IdEntityInfo implements Lo, Serializable {
 
@@ -47,19 +47,25 @@ public class LoInfo extends IdEntityInfo implements Lo, Serializable {
     private Date expirationDate;
 
     @XmlAnyElement
-    private List<Object> _futureElements;  
+    private List<Object> _futureElements;
 
-    
-    public LoInfo(){
-        
+
+    public LoInfo() {
+
     }
-    
-    public LoInfo(Lo lo){
+
+    public LoInfo(Lo lo) {
         super(lo);
-        if(lo!=null){
-            this.loRepositoryKey= lo.getLoRepositoryKey();
-            this.effectiveDate= new Date(lo.getEffectiveDate().getTime());
-            this.expirationDate =  new Date(lo.getExpirationDate().getTime());
+        if (lo != null) {
+            if (lo.getLoRepositoryKey() != null) {
+                this.loRepositoryKey = lo.getLoRepositoryKey();
+            }
+            if (lo.getEffectiveDate() != null) {
+                this.effectiveDate = new Date(lo.getEffectiveDate().getTime());
+            }
+            if (lo.getExpirationDate() != null) {
+                this.expirationDate = new Date(lo.getExpirationDate().getTime());
+            }
         }
     }
 
