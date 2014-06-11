@@ -1083,6 +1083,9 @@ function getSelectedCollectionPathAndIndex(row){
 
 
 function saveInlineRSI(event, baseUrl){
+
+    showLoading("Loading...");
+
     var row = jQuery(event.target).closest('tr');
 
     var selectedCollectionPathAndIndex = getSelectedCollectionPathAndIndex(row);
@@ -1102,6 +1105,8 @@ function saveInlineRSI(event, baseUrl){
             showInlineUnhandledExcption(jqXHR);
         }
     });
+
+    hideLoading();
 }
 
 function showInlineUnhandledExcption(request){
