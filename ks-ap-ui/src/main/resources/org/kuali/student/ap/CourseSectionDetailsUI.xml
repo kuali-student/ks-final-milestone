@@ -211,7 +211,8 @@
                 <!--p:label="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('details.ao.header.type')}"-->
                 <bean parent="Uif-MessageField"
                       p:label="Type"
-                      p:messageText="@{#line.activityFormatType}" p:render="@{#line.partOfRegGroup==true}">
+                      p:messageText="@{#line.activityFormatName}"
+                      p:render="@{#line.partOfRegGroup==true or #line.regGroupIdForSingleFO==true}">
                 </bean>
                 <!--p:label="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('details.ao.header.code')}"-->
                 <bean parent="Uif-MessageField"
@@ -261,13 +262,58 @@
                 <!--@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('details.ao.header.select')}" >-->
                 <bean parent="Uif-InputField" p:propertyName="selected"
                       p:label="Select"
-                      p:render="@{#line.partOfRegGroup==false}">
+                      p:render="@{#line.partOfRegGroup==false and #line.regGroupIdForSingleFO==false}">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl">
                             <property name="onChangeScript" value="alert('checkbox clicked')"/>
                         </bean>
                     </property>
                 </bean>
+                <bean parent="Uif-FieldGroupBase" p:fieldLabel.labelText="Add to Plan"
+                      p:render="@{#line.regGroupIdForSingleFO==true}">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-Link" p:render="@{#line.regGroupIdForSingleFO==true}"
+                                 p:cssClasses="ks-fontello-icon-hollow-circled-plus"
+                                  p:href="http://www.kuali.org" p:linkText=""/>
+                        </list>
+                    </property>
+                </bean>
+
+
+                <!--&lt;!&ndash;@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('details.ao.header.add')}" >&ndash;&gt;-->
+                <!--<bean id="addToPlan" parent="Uif-FieldGroupBase" p:fieldLabel.labelText="Add to Plan"-->
+                      <!--p:render="@{#line.regGroupIdForSingleFO==true}">-->
+                    <!--<property name="items">-->
+                        <!--<list>-->
+                            <!--<bean parent="Uif-ActionImage"-->
+                                  <!--p:source="@{#ConfigProperties['krad.externalizable.images.url']}pdf_ne.png" />>-->
+                            <!--</bean>-->
+                        <!--</list>-->
+                    <!--</property>-->
+                <!--</bean>-->
+
+
+    <!--<a onclick="ksapOpenDialog('course_add_course','planner','startDialog', this, event);"-->
+       <!--data-coursexid="CLUID-CHEM131-200508000000" data-courseid="CLUID-CHEM131-200508000000"-->
+       <!--title="Add to Plan"-->
+       <!--class="ks-fontello-icon-hollow-circled-plus"-->
+       <!--id="CLUID-CHEM131-200508000000_add_to_plan_anchor"> </a>-->
+
+
+    <!--<bean id="LearningObjectives-MoveUp-Button" parent="Uif-ActionImage">-->
+        <!--<property name="actionImage">-->
+            <!--<bean parent="Uif-Image" p:source="@{#ConfigProperties['krad.externalizable.images.url']+'/arrow-up.png'}" p:altText="Move Up"/>-->
+        <!--</property>-->
+        <!--<property name="actionScript" value="moveLo(this, 'LearningObjective-CollectionSection', 'moveLearningObjectiveUp');" />-->
+        <!--<property name="toolTip">-->
+            <!--<bean parent="Uif-Tooltip" p:tooltipContent="Move learning objective up" />-->
+        <!--</property>-->
+    <!--</bean>-->
+
+
+
+
             </list>
         </property>
     </bean>

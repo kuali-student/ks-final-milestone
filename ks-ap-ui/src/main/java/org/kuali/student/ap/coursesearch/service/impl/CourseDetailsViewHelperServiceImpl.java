@@ -17,7 +17,6 @@ import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
-import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -26,19 +25,13 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.TimeOfDayHelper;
-import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.infc.Term;
-import org.kuali.student.r2.core.class1.state.dto.StateInfo;
-import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 
@@ -137,8 +130,9 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
             try {
                 List<FormatOfferingInfo> formatOfferingList = KsapFrameworkServiceLocator.getCourseOfferingService().getFormatOfferingsByCourseOffering(courseOfferingDetailsWrapper.getCourseOfferingId(), contextInfo);
                 List<FormatOfferingDetailsWrapper> formatOfferingDetailsWrappers = new ArrayList<FormatOfferingDetailsWrapper>();
-
-                Map<String, List<ActivityOfferingDetailsWrapper>> aosByFormat = getAOData(offering.getId());
+                boolean regGroupIdForSingleFO=(formatOfferingList!=null && formatOfferingList.size()==1)? true: false;
+                Map<String, List<ActivityOfferingDetailsWrapper>>
+                        aosByFormat = getAOData(offering.getId(),regGroupIdForSingleFO);
 
                 for (FormatOfferingInfo formatOffering : formatOfferingList) {
                     FormatOfferingDetailsWrapper formatOfferingDetailsWrapper = new FormatOfferingDetailsWrapper(formatOffering);
@@ -190,7 +184,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
 
         ActivityOfferingDetailsWrapper activityOffering = new ActivityOfferingDetailsWrapper();
         activityOffering.setPartOfRegGroup(true);
-        activityOffering.setActivityFormatType("Lecture");
+        activityOffering.setActivityFormatName("Lecture");
         activityOffering.setInstructorName("Neal, Jerry");
         activityOffering.setActivityOfferingCode("KRAD101Y");
         activityOffering.setDays("MF");
@@ -206,7 +200,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
 
         activityOffering = new ActivityOfferingDetailsWrapper();
         activityOffering.setPartOfRegGroup(true);
-        activityOffering.setActivityFormatType("Lab");
+        activityOffering.setActivityFormatName("Lab");
         activityOffering.setInstructorName("Westfall, Eric");
         activityOffering.setActivityOfferingCode("KRAD101Z");
         activityOffering.setDays("TW");
@@ -230,7 +224,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
 
         activityOffering = new ActivityOfferingDetailsWrapper();
         activityOffering.setPartOfRegGroup(true);
-        activityOffering.setActivityFormatType("Lecture");
+        activityOffering.setActivityFormatName("Lecture");
         activityOffering.setInstructorName("Neal, Jerry");
         activityOffering.setActivityOfferingCode("KRAD101Y");
         activityOffering.setDays("MF");
@@ -246,7 +240,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
 
         activityOffering = new ActivityOfferingDetailsWrapper();
         activityOffering.setPartOfRegGroup(true);
-        activityOffering.setActivityFormatType("Lab");
+        activityOffering.setActivityFormatName("Lab");
         activityOffering.setInstructorName("Westfall, Eric");
         activityOffering.setActivityOfferingCode("KRAD101Z");
         activityOffering.setDays("TW");
@@ -263,7 +257,8 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
         return regGroups;
     }
 
-    private Map<String, List<ActivityOfferingDetailsWrapper>> getAOData(String courseOfferingId) throws Exception {
+    private Map<String, List<ActivityOfferingDetailsWrapper>> getAOData(String courseOfferingId,
+            boolean regGroupIdForSingleFO) throws Exception {
         Map<String, List<ActivityOfferingDetailsWrapper>> aoMapByFormatOffering = new HashMap<String, List<ActivityOfferingDetailsWrapper>>();
         List<ActivityOfferingInfo> activityOfferings = null;
         try {
@@ -288,20 +283,21 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
             if (aosByFormat == null) {
                 aosByFormat = new ArrayList<ActivityOfferingDetailsWrapper>();
             }
-            ActivityOfferingDetailsWrapper wrapper = convertAOInfoToWrapper(activityOffering);
+            ActivityOfferingDetailsWrapper wrapper = convertAOInfoToWrapper(activityOffering, regGroupIdForSingleFO);
             aosByFormat.add(wrapper);
             aoMapByFormatOffering.put(formatOfferingId, aosByFormat);
         }
         return aoMapByFormatOffering;
     }
 
-    public ActivityOfferingDetailsWrapper convertAOInfoToWrapper(ActivityOfferingInfo aoInfo) throws Exception {
-        ActivityOfferingDetailsWrapper wrapper = new ActivityOfferingDetailsWrapper(aoInfo, false);
+    public ActivityOfferingDetailsWrapper convertAOInfoToWrapper(ActivityOfferingInfo aoInfo,
+            boolean regGroupIdForSingleFO) throws Exception {
+        ActivityOfferingDetailsWrapper wrapper = new ActivityOfferingDetailsWrapper(aoInfo, false, regGroupIdForSingleFO);
 
         int firstValue = 0;
 
         FormatOfferingInfo fo = KsapFrameworkServiceLocator.getCourseOfferingService().getFormatOffering(aoInfo.getFormatOfferingId(), contextInfo);
-        wrapper.setActivityFormatType(fo.getTypeKey());
+        wrapper.setActivityFormatName(fo.getName());
 
         //From Bonnie: we need to better understand firstInstructor vs.multiple instructors cases -- pull in the logic from manage CO
         OfferingInstructorInfo displayInstructor = findDisplayInstructor(aoInfo.getInstructors());

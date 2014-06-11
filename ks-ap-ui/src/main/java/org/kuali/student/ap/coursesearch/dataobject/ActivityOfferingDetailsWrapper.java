@@ -28,28 +28,30 @@ public class ActivityOfferingDetailsWrapper {
     private String requirementsUrl;
     private boolean selected;
     private String regGroupCode;
-    private String activityFormatType;
+    private String activityFormatName;
     private boolean partOfRegGroup = false;
+    private boolean regGroupIdForSingleFO;
 
     public ActivityOfferingDetailsWrapper() {
     }
 
-    public ActivityOfferingDetailsWrapper(ActivityOfferingInfo activityOffering, boolean partOfRegGroup) {
+    public ActivityOfferingDetailsWrapper(ActivityOfferingInfo activityOffering, boolean partOfRegGroup,
+            boolean regGroupIdForSingleFO) {
         this.activityOfferingId = activityOffering.getId();
         this.activityOfferingCode = activityOffering.getActivityCode();
 //        this.days = activityOffering.get
         this.maxEnrollment = activityOffering.getMaximumEnrollment();
         this.honors = activityOffering.getIsHonorsOffering();
         this.partOfRegGroup = partOfRegGroup;
-
+        this.regGroupIdForSingleFO=regGroupIdForSingleFO;
     }
 
-    public String getActivityFormatType() {
-        return activityFormatType;
+    public String getActivityFormatName() {
+        return activityFormatName;
     }
 
-    public void setActivityFormatType(String activityFormatType) {
-        this.activityFormatType = activityFormatType;
+    public void setActivityFormatName(String activityFormatName) {
+        this.activityFormatName = activityFormatName;
     }
 
     public String getActivityOfferingId() {
@@ -181,11 +183,19 @@ public class ActivityOfferingDetailsWrapper {
         this.regGroupCode = regGroupCode;
     }
 
-    public boolean isPartOfRegGroup() {
+    public boolean getPartOfRegGroup() {
         return partOfRegGroup;
     }
 
     public void setPartOfRegGroup(boolean partOfRegGroup) {
         this.partOfRegGroup = partOfRegGroup;
+    }
+
+    public boolean getRegGroupIdForSingleFO() {
+        return regGroupIdForSingleFO;
+    }
+
+    public void setRegGroupIdForSingleFO(boolean regGroupIdForSingleFO) {
+        this.regGroupIdForSingleFO = regGroupIdForSingleFO;
     }
 }
