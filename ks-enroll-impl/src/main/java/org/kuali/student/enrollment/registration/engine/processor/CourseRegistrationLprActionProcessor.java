@@ -134,7 +134,7 @@ public class CourseRegistrationLprActionProcessor {
                 message.getRequestItem().getId(),
                 LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY,
                 null,
-                LprServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_MESSAGE_KEY,
+                RegistrationValidationResultsUtil.marshallSimpleMessage(LprServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_MESSAGE_KEY),
                 false,
                 contextInfo);
     }

@@ -1138,7 +1138,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                     resultItem.getMessages().add(validationResult.getMessage());
                 } else if (StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_MESSAGE_KEY)) {
                     resultItem.setState(LprServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_STATE_KEY);
-                    resultItem.getMessages().add(RegistrationValidationResultsUtil.marshallSimpleMessage(validationResult.getMessage()));
+                    resultItem.getMessages().add(validationResult.getMessage());
                 } else {
                     resultItem.getMessages().add(validationResult.getMessage());
                 }
