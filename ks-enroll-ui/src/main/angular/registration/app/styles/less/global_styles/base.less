@@ -1,0 +1,54 @@
+/******* Global styling ******/
+@import url(http://fonts.googleapis.com/css?family=Montserrat);
+
+body{
+    background-color: @bodyColor;
+    font-family: @primaryFontFamily;
+}
+a{
+    cursor: pointer;
+    cursor: hand;
+}
+
+input[type="radio"] {
+    margin-right: 5px;
+}
+
+::-webkit-input-placeholder {
+   font-style: italic;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+   font-style: italic;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+   font-style: italic;
+}
+
+:-ms-input-placeholder {
+   font-style: italic;
+}
+
+input:-moz-placeholder {
+    font-style: italic;
+}
+
+.Rounded(@radius:@defaultRadius){
+    -webkit-border-radius:@radius;
+       -moz-border-radius:@radius;
+            border-radius:@radius;
+}
+
+
+.global-Base-body{
+    margin: 0 auto;
+    overflow: auto;
+    height: 100%;
+}
+
+.global-Base-divider{
+    width: 5px;
+    height:auto;
+    display:inline-block;
+}

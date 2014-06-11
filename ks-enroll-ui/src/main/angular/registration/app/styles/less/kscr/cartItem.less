@@ -1,0 +1,68 @@
+
+.kscr-cartItem-status {
+    padding: 10px 10px 10px 35px;
+    position: relative;
+
+    &--processing {
+        .kscr-cartResult-icon {
+            background-image: @processingGif;
+            background-color: inherit;
+            .kscr-Card-icon {
+                display:none;
+            }
+        }
+        .kscr-Card-buttons {
+            display: none;
+        }
+    }
+
+    &--error {
+        .util-Alert-error-mixin;
+         &:extend(.util-transitions-browserHelper);
+
+        .kscr-cartResult-icon {
+            background-image: @errorImage;
+        }
+        .kscr-Card-buttons {
+            border-color: @errorBorder;
+
+        }
+    }
+
+    &--action {
+        .util-Alert-warning-mixin;
+        &:extend(.util-transitions-browserHelper);
+
+        .kscr-cartResult-icon {
+            background-image: @warningImage;
+        }
+        .kscr-Card-buttons {
+            border-color: @warningBorder;
+            padding-bottom: 0;
+        }
+    }
+
+    &--success, &--waitlist {
+        .util-Alert-success-mixin;
+         &:extend(.util-transitions-browserHelper);
+
+        .kscr-cartResult-icon {
+            background-image: @successImage;
+            background-color: inherit;
+        }
+        .kscr-Card-buttons {
+            border-color: @successBorder;
+            display: none;
+        }
+    }
+
+
+    &--success-add-active,
+    &--error-add-active,
+    &--action-add-active,
+    &--waitlist-add-active {
+        background-color: @cardBackgroundColor;
+        border-color: @cardBorderColor;
+        color: @cardTextColor;
+    }
+}
