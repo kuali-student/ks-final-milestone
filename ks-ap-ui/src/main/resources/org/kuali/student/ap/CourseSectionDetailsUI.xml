@@ -247,20 +247,14 @@
                 <bean parent="Uif-FieldGroupBase" p:fieldLabel.labelText="Additional Details">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-ListGroup">
-                                <property name="items">
-                                    <list>
-                                        <bean parent="Uif-Message" p:render="@{#line.honors==true}"
-                                              p:messageText="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('details.ao.additionalDetails.honors')}"/>
-                                        <bean parent="Uif-Link" p:render="@{#line.classUrl != null}"
-                                              p:href="@{#line.classUrl}"
-                                              p:linkText="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('details.ao.additionalDetails.courseUrl')}"/>
-                                        <bean parent="Uif-Link" p:render="@{#line.requirementsUrl != null}"
-                                              p:href="@{#line.requirementsUrl}"
-                                              p:linkText="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('details.ao.additionalDetails.restrictions')}"/>
-                                    </list>
-                                </property>
-                            </bean>
+                            <bean parent="Uif-Message" p:render="@{#line.honors==true}"
+                                  p:messageText="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('details.ao.additionalDetails.honors')}"/>
+                            <bean parent="Uif-Link" p:render="@{#line.classUrl != null}"
+                                  p:href="@{#line.classUrl}"
+                                  p:linkText="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('details.ao.additionalDetails.courseUrl')}"/>
+                            <bean parent="Uif-Link" p:render="@{#line.requirementsUrl != null}"
+                                  p:href="@{#line.requirementsUrl}"
+                                  p:linkText="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('details.ao.additionalDetails.restrictions')}"/>
                         </list>
                     </property>
                 </bean>
