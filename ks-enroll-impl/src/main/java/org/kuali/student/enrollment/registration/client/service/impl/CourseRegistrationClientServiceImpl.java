@@ -33,7 +33,6 @@ import org.kuali.student.enrollment.registration.client.service.dto.StudentSched
 import org.kuali.student.enrollment.registration.client.service.dto.TermSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.WaitlistEntryResult;
 import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
-import org.kuali.student.enrollment.registration.client.service.impl.util.RegistrationValidationResultsUtil;
 import org.kuali.student.enrollment.registration.client.service.impl.util.SearchResultHelper;
 import org.kuali.student.enrollment.registration.client.service.impl.util.statistics.RegEngineMqStatisticsGenerator;
 import org.kuali.student.enrollment.registration.engine.util.MQPerformanceCounter;
@@ -1122,27 +1121,14 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
             resultItem.setRegistrationRequestItemId(lprTransactionItemInfo.getId());
             resultItem.setRegistrationRequestId(lprTransactionInfo.getId());
             resultItem.setState(lprTransactionItemInfo.getStateKey());
-            resultItem.setStatus(lprTransactionItemInfo.getStateKey()); // we should be useing the result state, but that is currently a boolean and not useful
+            resultItem.setStatus(lprTransactionItemInfo.getStateKey()); // we should be using the result state, but that is currently a boolean and not useful
             resultItem.setNewLuiId(lprTransactionItemInfo.getNewLuiId());
             resultItem.setType(lprTransactionItemInfo.getTypeKey());
 
             for(ValidationResultInfo validationResult : lprTransactionItemInfo.getValidationResults()){
-                if (StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_STUDENT_REMOVED_MESSAGE_KEY) ||
-                        StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_OPTIONS_UPDATED_MESSAGE_KEY) ||
-                        StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_WAITLISTED_MESSAGE_KEY) ||
-                        StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_FULL_MESSAGE_KEY) ||
-                        StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_NOT_OFFERED_MESSAGE_KEY) ||
-                        StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_COURSE_UPDATED_MESSAGE_KEY) ||
-                        StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_COURSE_DROPPED_MESSAGE_KEY) ||
-                        StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_PERSON_REGISTERED_MESSAGE_KEY)) {
-                    resultItem.getMessages().add(validationResult.getMessage());
-                } else if (StringUtils.equals(validationResult.getMessage(), LprServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_MESSAGE_KEY)) {
-                    resultItem.setState(LprServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_STATE_KEY);
-                    resultItem.getMessages().add(validationResult.getMessage());
-                } else {
-                    resultItem.getMessages().add(validationResult.getMessage());
-                }
+                resultItem.getMessages().add(validationResult.getMessage());
             }
+
             resultItem.setResultingLprId(lprTransactionItemInfo.getResultingLprId());
 
             result.getResponseItemResults().add(resultItem);

@@ -44,7 +44,8 @@ public class CourseRegistrationLprActionProcessor {
             contextInfo.setPrincipalId(message.getRequestItem().getPersonId());
             RegistrationRequestItem registrationRequestItem = message.getRequestItem();
 
-            if(LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY.equals(registrationRequestItem.getStateKey())){
+            if(LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY.equals(registrationRequestItem.getStateKey()) ||
+                    LprServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_STATE_KEY.equals(registrationRequestItem.getStateKey())){
                 //Don't process this if it has failed.
                 return message;
             }
@@ -132,7 +133,7 @@ public class CourseRegistrationLprActionProcessor {
     private void notifyWaitlistAvailable(RegistrationRequestItemEngineMessage message, ContextInfo contextInfo) throws PermissionDeniedException, OperationFailedException, VersionMismatchException, InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException, ReadOnlyException {
         courseRegistrationEngineService.updateLprTransactionItemResult(message.getRequestItem().getRegistrationRequestId(),
                 message.getRequestItem().getId(),
-                LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY,
+                LprServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_STATE_KEY,
                 null,
                 RegistrationValidationResultsUtil.marshallSimpleMessage(LprServiceConstants.LPRTRANS_ITEM_WAITLIST_AVAILABLE_MESSAGE_KEY),
                 false,
