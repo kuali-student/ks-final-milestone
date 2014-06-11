@@ -30,20 +30,20 @@ public class ActivityOfferingDetailsWrapper {
     private String regGroupCode;
     private String activityFormatName;
     private boolean partOfRegGroup = false;
-    private boolean regGroupIdForSingleFO;
+    private boolean singleFormatOffering;
 
     public ActivityOfferingDetailsWrapper() {
     }
 
     public ActivityOfferingDetailsWrapper(ActivityOfferingInfo activityOffering, boolean partOfRegGroup,
-            boolean regGroupIdForSingleFO) {
+            boolean singleFormatOffering) {
         this.activityOfferingId = activityOffering.getId();
         this.activityOfferingCode = activityOffering.getActivityCode();
 //        this.days = activityOffering.get
         this.maxEnrollment = activityOffering.getMaximumEnrollment();
         this.honors = activityOffering.getIsHonorsOffering();
         this.partOfRegGroup = partOfRegGroup;
-        this.regGroupIdForSingleFO=regGroupIdForSingleFO;
+        this.singleFormatOffering = singleFormatOffering;
     }
 
     public String getActivityFormatName() {
@@ -191,11 +191,11 @@ public class ActivityOfferingDetailsWrapper {
         this.partOfRegGroup = partOfRegGroup;
     }
 
-    public boolean getRegGroupIdForSingleFO() {
-        return regGroupIdForSingleFO;
+    public boolean getSingleFormatOffering() {
+        return singleFormatOffering;
     }
 
-    public void setRegGroupIdForSingleFO(boolean regGroupIdForSingleFO) {
-        this.regGroupIdForSingleFO = regGroupIdForSingleFO;
+    public void setSingleFormatOffering(boolean singleFormatOffering) {
+        this.singleFormatOffering = singleFormatOffering;
     }
 }
