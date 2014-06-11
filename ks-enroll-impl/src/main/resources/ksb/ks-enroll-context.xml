@@ -1627,6 +1627,7 @@
                 <entry key="courseRegistrationService" value-ref="CourseRegistrationService"/>
                 <entry key="courseWaitListService" value-ref="courseWaitListService"/>
                 <entry key="courseOfferingService" value-ref="CourseOfferingService"/>
+                <entry key="schedulingService" value-ref="SchedulingService"/>
                 <entry key="populationService" value-ref="PopulationService"/>
                 <entry key="exemptionService" value-ref="ExemptionService"/>
                 <entry key="identityService" value-ref="coreIdentityServiceClient"/>

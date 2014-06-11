@@ -16,6 +16,7 @@
  */
 package org.kuali.student.enrollment.registration.client.service.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,6 +30,9 @@ public class RegistrationValidationConflictCourseResult extends RegistrationVali
 
     public RegistrationValidationConflictCourseResult(String messageKey, List<ConflictCourseResult> conflictingCourses) {
         super(messageKey);
+        if(this.conflictingCourses==null){
+           this.conflictingCourses = new ArrayList<ConflictCourseResult>();
+        }
         if (conflictingCourses != null && !conflictingCourses.isEmpty()) {
             this.conflictingCourses.addAll(conflictingCourses);
         }
