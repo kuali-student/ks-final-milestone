@@ -1965,8 +1965,9 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                     break;
                 }
             }
-            if (commentDelete != null)
+            if (commentDelete != null) {
                 getCommentService().deleteComment(commentDelete.getId(), createContextInfo());
+            }
         } catch (Exception e) {
             LOG.error("Error deleting comment " + commentDelete.getId() + " for the proposal " + proposal.getName());
             throw new RuntimeException("Error adding comment " + commentDelete.getId() + " for the proposal " + proposal.getName(), e);
