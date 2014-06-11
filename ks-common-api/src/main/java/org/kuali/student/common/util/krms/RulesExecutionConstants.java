@@ -44,6 +44,7 @@ public class RulesExecutionConstants {
     public static final Term COURSE_REGISTRATION_SERVICE_TERM = new Term("courseRegistrationService");
     public static final Term COURSE_WAIT_LIST_SERVICE_TERM = new Term("courseWaitListService");
     public static final Term COURSE_OFFERING_SERVICE_TERM = new Term("courseOfferingService");
+    public static final Term SCHEDULING_SERVICE_TERM = new Term("schedulingService");
     public static final Term COURSE_SERVICE_TERM = new Term("courseService");
     public static final Term POPULATION_SERVICE_TERM = new Term("populationService");
     public static final Term HOLD_SERVICE_TERM = new Term("holdService");
