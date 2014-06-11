@@ -294,8 +294,8 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KSAO-ReplaceRule-Link" parent="KS-Uif-ActionLink" p:actionLabel="Replace Rule" p:methodToCall="addRule"
-          p:performActionAuthz="true" p:actionEvent="addEditRequisite"
+    <bean id="KSAO-ReplaceRule-Link" parent="KS-Uif-NavigationActionLink" p:actionLabel="Replace Rule" p:methodToCall="addRule"
+          p:performActionAuthz="true" p:actionEvent="addEditRequisite" p:performDirtyValidation="false"
           p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}">
         <property name="toolTip">
             <bean parent="Uif-KS-Tooltip" p:tooltipContent="Add new rule to excecute in place of Course Offering rule"/>
