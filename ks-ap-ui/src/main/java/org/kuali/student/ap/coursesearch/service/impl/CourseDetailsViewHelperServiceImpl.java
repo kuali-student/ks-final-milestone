@@ -2,7 +2,10 @@ package org.kuali.student.ap.coursesearch.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.krad.uif.UifConstants;
+import org.kuali.rice.krad.uif.container.GroupBase;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
+import org.kuali.rice.krad.uif.widget.Disclosure;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.ap.coursesearch.dataobject.ActivityFormatDetailsWrapper;
 import org.kuali.student.ap.coursesearch.dataobject.ActivityOfferingDetailsWrapper;
@@ -426,4 +429,26 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
         return dayOfWeek;
     }
 
+    /**
+     * This is the finalizeMethodToCall which builds the disclosure widgets.
+     * This is really a workaround until KULRICE-9003 gets addressed, allowing me to use #parentLine in the
+     * layoutManager.lineGroupPrototype.disclosure properties.
+     * @param disclosure The disclosure component that we are working in
+     * @param model The form backing object
+     */
+    public void determineDisclosureRendering(Disclosure disclosure, Object model) {
+        CourseOfferingDetailsWrapper courseOfferingDetailsWrapper = (CourseOfferingDetailsWrapper)disclosure.getContext().get(UifConstants.ContextVariableNames.LINE);
+        GroupBase parentGroup = (GroupBase)disclosure.getContext().get(UifConstants.ContextVariableNames.PARENT);
+        GroupBase grandparent = (GroupBase)parentGroup.getContext().get(UifConstants.ContextVariableNames.PARENT);
+        CourseTermDetailsWrapper courseTermDetailsWrapper = (CourseTermDetailsWrapper)grandparent.getContext().get(UifConstants.ContextVariableNames.LINE);
+
+        int size = courseTermDetailsWrapper.getCourseOfferingDetailsWrappers().size();
+
+//        disclosure.setRender(true);
+        if (size <= 1)
+            disclosure.setRender(false);
+
+        // Set the id based off of the term id and course offering code
+        disclosure.setId(courseTermDetailsWrapper.getTermId() + "_" + courseOfferingDetailsWrapper.getCourseOfferingCode());
+    }
 }
