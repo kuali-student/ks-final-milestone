@@ -21,6 +21,7 @@
         </property>
         <property name="additionalScriptFiles">
             <list>
+                <value>themes/ksapboot/scripts/ksap.search.details.js</value>
             </list>
         </property>
         <property name="items">
@@ -139,7 +140,13 @@
         <property name="items">
             <list>
                 <bean parent="Uif-MessageField"
-                      p:messageText="@{#line.formatName} (@{#line.activityOfferingDetailsWrappers.size()})"/>
+                      p:messageText="@{#line.formatName} (@{#line.activityOfferingDetailsWrappers.size()})">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ksap-section-format</value>
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
         <property name="subCollections">
@@ -157,6 +164,11 @@
         <property name="renderLineActions" value="false"/>
         <property name="propertyName" value="plannedRegGroupDetailsWrappers"/>
         <property name="layoutManager.lineGroupPrototype.header.render" value="true"/>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-section-reg</value>
+            </list>
+        </property>
         <property name="headerText"
                   value="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getFormattedMessage('details.regGroup.header', new Object[]{#line.plannedRegGroupDetailsWrappers.size()})}"/>
         <!-- property to activate disclosure -->
@@ -251,11 +263,14 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-Message" p:render="@{#line.honors==true}" p:id="honors"
+                                  p:additionalCssClasses="ksap-section-details"
                                   p:messageText="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('details.ao.additionalDetails.honors')}"/>
                             <bean parent="Uif-Link" p:render="@{#line.classUrl != null}" p:id="classUrl"
+                                  p:additionalCssClasses="ksap-section-details"
                                   p:href="@{#line.classUrl}"
                                   p:linkText="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('details.ao.additionalDetails.courseUrl')}"/>
                             <bean parent="Uif-Link" p:render="@{#line.requirementsUrl != null}" p:id="requirementsUrl"
+                                  p:additionalCssClasses="ksap-section-details"
                                   p:href="@{#line.requirementsUrl}"
                                   p:linkText="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('details.ao.additionalDetails.restrictions')}"/>
                         </list>

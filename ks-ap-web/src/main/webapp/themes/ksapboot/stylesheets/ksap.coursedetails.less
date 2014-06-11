@@ -131,32 +131,52 @@
 
   // Courses
   .ksap-section-courses {
-    li header {
+    h4 > a {
       background: #f2f2f2;
       border-radius: 3px;
       margin-bottom: 15px;
     }
-    .uif-disclosureContent {
+    .uif-disclosureContent,
+    .uif-disclosureContent .uif-disclosureContent .uif-disclosureContent {
       margin-left: 0;
     }
     .uif-disclosureContent .uif-disclosureContent {
       margin-left: 15px;
     }
-    .ksap-section-description {
-      margin-bottom: 15px;
+    th {
+      white-space: nowrap;
     }
-    .uif-listLayout li {
-      border-left: 1px solid #000;
-      display: inline;
-      padding-left: 3px;
+    tr:hover {
+      background-color:#eee;
+      cursor: pointer;
     }
-    .uif-listLayout li p {
-      display:inline;
+    tr.ksap-selected-row {
+      background-color:#eff8fd;
     }
-    .uif-listLayout li:first-child {
-      border-left:0;
-      padding-left: 0;
+    tr.ksap-selected-row td {
+      background-color: transparent;
     }
+  }
+
+  .ksap-section-description {
+    margin-bottom: 15px;
+  }
+  .ksap-section-reg h3,
+  .ksap-section-format > p {
+    font-size: 13px;
+    font-weight: bold;
+  }
+
+  // Additional Details items
+  .ksap-section-details {
+    border-left: 1px solid #000;
+    clear:none;
+    float: left;
+    padding: 0 3px;
+  }
+  .ksap-section-details:first-child {
+    border-left:0;
+    padding-left: 0;
   }
 }
 
