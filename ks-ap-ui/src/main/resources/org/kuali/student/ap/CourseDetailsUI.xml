@@ -19,7 +19,7 @@
      limitations under the License.
     -->
 
-    <bean id="CourseDetails-InquiryView" parent="CourseDetails-InquiryView-parent" />
+    <bean id="CourseDetails-InquiryView" parent="CourseDetails-InquiryView-parent"/>
     <bean id="CourseDetails-InquiryView-parent" abstract="true" parent="KSAPInquiryView">
         <property name="headerText" value="&#160;"/>
         <property name="dataObjectClassName" value="org.kuali.student.ap.coursesearch.dataobject.CourseDetailsWrapper"/>
@@ -48,23 +48,23 @@
             <ref bean="course_details_back_link"/>
         </property>
         <property name="page">
-        	<ref bean="course_details_page" />
+            <ref bean="course_details_page"/>
         </property>
     </bean>
 
-	<bean id="course_details_page" parent="course_details_page-parent" />
-	<bean id="course_details_page-parent" abstract="true" parent="Uif-Page" p:id="course_details_page"
-		p:headerText="@{dataObject.courseCode} @{dataObject.courseTitle} (@{dataObject.courseCredits} cr)">
-		<property name="layoutManager">
-			<bean parent="Uif-HorizontalBoxLayout" />
-		</property>
-		<property name="items">
-			<list>
-				<ref bean="course_details_section" />
-			</list>
-		</property>
+    <bean id="course_details_page" parent="course_details_page-parent"/>
+    <bean id="course_details_page-parent" abstract="true" parent="Uif-Page" p:id="course_details_page"
+          p:headerText="@{dataObject.courseCode} @{dataObject.courseTitle} (@{dataObject.courseCredits} cr)">
+        <property name="layoutManager">
+            <bean parent="Uif-HorizontalBoxLayout"/>
+        </property>
+        <property name="items">
+            <list>
+                <ref bean="course_details_section"/>
+            </list>
+        </property>
         <property name="stickyFooter" value="false"/>
-	</bean>
+    </bean>
 
     <bean id="course_details_back_link" parent="course_details_back_link-parent"/>
     <bean id="course_details_back_link-parent" parent="Uif-ViewHeader">
@@ -73,7 +73,7 @@
                 <property name="items">
                     <list>
                         <bean parent="Uif-Link" p:href="javascript:history.go(-1)">
-                            <property name="onDocumentReadyScript" value="detectReferrerForBackLinkText();" />
+                            <property name="onDocumentReadyScript" value="detectReferrerForBackLinkText();"/>
                             <property name="linkText">
                                 <value>Return to previous page</value>
                             </property>
@@ -90,7 +90,7 @@
         </property>
     </bean>
 
-    <bean id="course_details_section" parent="course_details_section-parent" />
+    <bean id="course_details_section" parent="course_details_section-parent"/>
     <bean id="course_details_section-parent" abstract="true" parent="Uif-VerticalBoxSubSection">
         <property name="items">
             <list>
@@ -108,7 +108,9 @@
                                         <value>uif-groupValidationMessages</value>
                                         <value>uif-pageValidationMessages</value>
                                         <value>uif-pageValidationMessages-info</value>
-                                        <value>@{!#empty(dataObject.bookmarkMessage) or !#empty(dataObject.plannedMessage)? '':'ksap-hide'}</value>
+                                        <value>@{!#empty(dataObject.bookmarkMessage) or
+                                            !#empty(dataObject.plannedMessage)? '':'ksap-hide'}
+                                        </value>
                                     </list>
                                 </property>
                                 <property name="items">
@@ -123,16 +125,20 @@
                                         </bean>
                                         <bean parent="Uif-VerticalBoxGroup">
                                             <property name="items">
-                                            <list>
-                                                <bean p:id="plannedMessage" parent="Uif-Message">
-                                                    <property name="render" value="@{!#empty(dataObject.plannedMessage)}"/>
-                                                    <property name="messageText" value="@{dataObject.plannedMessage}"/>
-                                                </bean>
-                                                <bean p:id="bookmarkMessage" parent="Uif-Message">
-                                                    <property name="render" value="@{!#empty(dataObject.bookmarkMessage)}"/>
-                                                    <property name="messageText" value="@{dataObject.bookmarkMessage}"/>
-                                                </bean>
-                                            </list>
+                                                <list>
+                                                    <bean p:id="plannedMessage" parent="Uif-Message">
+                                                        <property name="render"
+                                                                  value="@{!#empty(dataObject.plannedMessage)}"/>
+                                                        <property name="messageText"
+                                                                  value="@{dataObject.plannedMessage}"/>
+                                                    </bean>
+                                                    <bean p:id="bookmarkMessage" parent="Uif-Message">
+                                                        <property name="render"
+                                                                  value="@{!#empty(dataObject.bookmarkMessage)}"/>
+                                                        <property name="messageText"
+                                                                  value="@{dataObject.bookmarkMessage}"/>
+                                                    </bean>
+                                                </list>
                                             </property>
                                         </bean>
                                     </list>
@@ -146,31 +152,31 @@
         </property>
     </bean>
 
-	<bean id="ksapAddPlannedCourse" parent="ksapAddPlannedCourse-parent" />
-	<bean id="ksapAddPlannedCourse-parent" abstract="true" parent="Uif-SecondaryActionButton"
-		p:actionLabel="Add to Plan">
-		<property name="actionScript" value="
+    <bean id="ksapAddPlannedCourse" parent="ksapAddPlannedCourse-parent"/>
+    <bean id="ksapAddPlannedCourse-parent" abstract="true" parent="Uif-SecondaryActionButton"
+          p:actionLabel="Add to Plan">
+        <property name="actionScript" value="
                         ksapOpenDialog('course_add_course','planner','startDialog', this, e);
                     "/>
         <property name="dataAttributes">
             <map>
-                <entry key="courseid" value="@{dataObject.courseId}" />
+                <entry key="courseid" value="@{dataObject.courseId}"/>
             </map>
         </property>
     </bean>
 
-	<bean id="ksapAddSavedCourse" parent="ksapAddSavedCourse-parent" />
-	<bean id="ksapAddSavedCourse-parent" abstract="true" parent="Uif-SecondaryActionButton"
-		p:actionLabel="Bookmark">
+    <bean id="ksapAddSavedCourse" parent="ksapAddSavedCourse-parent"/>
+    <bean id="ksapAddSavedCourse-parent" abstract="true" parent="Uif-SecondaryActionButton"
+          p:actionLabel="Bookmark">
         <property name="cssClasses">
             <list>
                 <value>@{dataObject.bookmarked ? 'ksap-hide' : ''}</value>
             </list>
         </property>
         <property name="actionScript" value="bookmarkCourse('@{dataObject.courseId}', e);"/>
-	</bean>
+    </bean>
 
-    <bean id="ksapDeleteSavedCourse" parent="ksapDeleteSavedCourse-parent" />
+    <bean id="ksapDeleteSavedCourse" parent="ksapDeleteSavedCourse-parent"/>
     <bean id="ksapDeleteSavedCourse-parent" abstract="true" parent="Uif-SecondaryActionButton"
           p:actionLabel="Remove Bookmark">
         <property name="cssClasses">
@@ -182,20 +188,19 @@
     </bean>
 
 
-
-    <bean id="course_details_actions" parent="course_details_actions-parent" />
+    <bean id="course_details_actions" parent="course_details_actions-parent"/>
     <bean id="course_details_actions-parent" abstract="true" parent="Uif-HorizontalBoxGroup">
         <property name="validationMessages">
             <null/>
         </property>
         <property name="items">
             <list>
-            	<bean parent="ksapAddPlannedCourse"
-                    p:id="@{dataObject.courseIdXmlSafe}_addPlannedCourse" />
+                <bean parent="ksapAddPlannedCourse"
+                      p:id="@{dataObject.courseIdXmlSafe}_addPlannedCourse"/>
                 <bean parent="ksapAddSavedCourse"
-                    p:id="@{dataObject.courseIdXmlSafe}_addSavedCourse" />
+                      p:id="@{dataObject.courseIdXmlSafe}_addSavedCourse"/>
                 <bean parent="ksapDeleteSavedCourse"
-                      p:id="@{dataObject.courseIdXmlSafe}_deleteSavedCourse" />
+                      p:id="@{dataObject.courseIdXmlSafe}_deleteSavedCourse"/>
             </list>
         </property>
         <property name="propertyReplacers">
@@ -213,7 +218,7 @@
     </bean>
 
     <bean id="course_details_overview" parent="course_details_overview-parent"/>
-    <bean id="course_details_overview-parent" abstract="true"  parent="Uif-VerticalBoxSection">
+    <bean id="course_details_overview-parent" abstract="true" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
                 <!--Course Description-->
@@ -236,11 +241,12 @@
                             <bean parent="Uif-VerticalBoxSection" p:colSpan="10">
                                 <property name="items">
                                     <list>
-                                        <bean p:id="@{dataObject.courseCode}_description" parent="Uif-MessageField" p:messageText=
-                                                "@{dataObject.courseDescription ne null
+                                        <bean p:id="@{dataObject.courseCode}_description" parent="Uif-MessageField"
+                                              p:messageText=
+                                                      "@{dataObject.courseDescription ne null
                                                                and dataObject.courseDescription.length() gt 0
                                                                     ? dataObject.courseDescription
-                                                                    : 'This course has no description.'}" >
+                                                                    : 'This course has no description.'}">
                                         </bean>
                                     </list>
                                 </property>
@@ -271,10 +277,11 @@
                             <bean parent="Uif-VerticalBoxSection" p:colSpan="10">
                                 <property name="items">
                                     <list>
-                                        <bean p:id="@{dataObject.courseCode}_courseRequisites" parent="Uif-MessageField" p:messageText=
-                                                "@{dataObject.courseRequisites.size() gt 0
+                                        <bean p:id="@{dataObject.courseCode}_courseRequisites" parent="Uif-MessageField"
+                                              p:messageText=
+                                                      "@{dataObject.courseRequisites.size() gt 0
                                                                 ? dataObject.courseRequisitesForUI
-                                                                : 'None'}" >
+                                                                : 'None'}">
                                             <property name="cssClasses">
                                                 <list merge="true">
                                                     <value>ksap-data-list</value>
@@ -291,7 +298,8 @@
                                                 <bean parent="Uif-Tooltip" p:tooltipContent=""/>
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-Message" p:messageText="Source: @{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_REQUISITE_SOURCE_NAME')}">
+                                        <bean parent="Uif-Message"
+                                              p:messageText="Source: @{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_REQUISITE_SOURCE_NAME')}">
                                             <property name="cssClasses">
                                                 <list merge="true">
                                                     <value>ksap-course-detail-source</value>
@@ -327,10 +335,11 @@
                             <bean parent="Uif-VerticalBoxSection" p:colSpan="10">
                                 <property name="items">
                                     <list>
-                                        <bean p:id="@{dataObject.courseCode}_scheduledTerms" parent="Uif-MessageField" p:messageText="
+                                        <bean p:id="@{dataObject.courseCode}_scheduledTerms" parent="Uif-MessageField"
+                                              p:messageText="
                                                         @{dataObject.scheduledTerms.size() gt 0
                                                             ? dataObject.scheduledTermsForUI
-                                                            : 'Not Currently Scheduled'}" >
+                                                            : 'Not Currently Scheduled'}">
                                             <property name="cssClasses">
                                                 <list merge="true">
                                                     <value>ksap-data-list</value>
@@ -352,7 +361,8 @@
                     </property>
                 </bean>
                 <!--Last Offered Term-->
-                <bean parent="Uif-CssGridGroup" p:render="@{dataObject.scheduledTerms.size() gt 0 ? false : dataObject.lastOffered ne null ? true : false}">
+                <bean parent="Uif-CssGridGroup"
+                      p:render="@{dataObject.scheduledTerms.size() gt 0 ? false : dataObject.lastOffered ne null ? true : false}">
                     <property name="items">
                         <list>
                             <bean parent="Uif-VerticalBoxSection" p:colSpan="2" p:wrapperCssClasses="ksap-right-labels">
@@ -416,10 +426,11 @@
                             <bean parent="Uif-VerticalBoxSection" p:colSpan="10">
                                 <property name="items">
                                     <list>
-                                        <bean p:id="@{dataObject.courseCode}_projectedTerms" parent="Uif-MessageField" p:messageText="
+                                        <bean p:id="@{dataObject.courseCode}_projectedTerms" parent="Uif-MessageField"
+                                              p:messageText="
                                                             @{dataObject.projectedTerms.size() gt 0
                                                                 ? dataObject.projectedTerms
-                                                                : 'Check with the department or your adviser for more information about this course.'}" >
+                                                                : 'Check with the department or your adviser for more information about this course.'}">
                                             <property name="cssClasses">
                                                 <list merge="true">
                                                     <value>ksap-data-list</value>
@@ -463,11 +474,12 @@
                             <bean parent="Uif-VerticalBoxSection" p:colSpan="10">
                                 <property name="items">
                                     <list>
-                                        <bean p:id="@{dataObject.courseCode}_courseGenEdRequirements" parent="Uif-MessageField"
+                                        <bean p:id="@{dataObject.courseCode}_courseGenEdRequirements"
+                                              parent="Uif-MessageField"
                                               p:messageText="
                                                               @{dataObject.courseGenEdRequirements.size() gt 0
                                                                     ? dataObject.courseGenEdRequirementsForUI
-                                                                    : 'None'}" >
+                                                                    : 'None'}">
                                             <property name="cssClasses">
                                                 <list merge="true">
                                                     <value>ksap-data-list</value>
@@ -487,7 +499,8 @@
                             <bean parent="Uif-VerticalBoxSection" p:colSpan="2" p:wrapperCssClasses="ksap-right-labels">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-Message" p:messageText="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_CURRICULUM_HEADER')}">
+                                        <bean parent="Uif-Message"
+                                              p:messageText="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_CURRICULUM_HEADER')}">
                                             <property name="cssClasses">
                                                 <list merge="true">
                                                     <value>ksap-label</value>
@@ -511,6 +524,35 @@
                         </list>
                     </property>
                 </bean>
+
+                <!-- temporarily add a link to CourseOfferingSectionDetails page-->
+                <bean parent="Uif-CssGridGroup">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-VerticalBoxSection" p:colSpan="2" p:wrapperCssClasses="ksap-right-labels">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-Message" p:messageText="Section Details">
+                                            <property name="cssClasses">
+                                                <list merge="true">
+                                                    <value>ksap-label</value>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-VerticalBoxSection" p:colSpan="10">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-Link" p:linkText="Course Offering Section Details"
+                                              p:href="@{#ConfigProperties['application.url']}/kr-krad/course/details?methodToCall=startCourseSectionDetails&amp;courseId=@{dataObject.courseId}"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>
@@ -521,10 +563,11 @@
 
 
     <!-- Course Details Popover View-->
-    <bean id="CourseDetailsPopover-InquiryView" parent="CourseDetailsPopover-InquiryView-parent" />
+    <bean id="CourseDetailsPopover-InquiryView" parent="CourseDetailsPopover-InquiryView-parent"/>
     <bean id="CourseDetailsPopover-InquiryView-parent" abstract="true" parent="KSAPInquiryView">
         <property name="headerText" value="&#160;"/>
-        <property name="dataObjectClassName" value="org.kuali.student.ap.coursesearch.dataobject.CourseDetailsPopoverWrapper"/>
+        <property name="dataObjectClassName"
+                  value="org.kuali.student.ap.coursesearch.dataobject.CourseDetailsPopoverWrapper"/>
         <property name="viewHelperServiceClass"
                   value="org.kuali.student.ap.coursesearch.service.impl.CourseDetailsInquiryHelperImpl2"/>
         <property name="page.header.render" value="false"/>
@@ -537,15 +580,16 @@
             </list>
         </property>
         <property name="page">
-            <ref bean="course_details_popover_page" />
+            <ref bean="course_details_popover_page"/>
         </property>
     </bean>
 
-    <bean id="course_details_popover_page" parent="course_details_popover_page-parent" />
-    <bean id="course_details_popover_page-parent" abstract="true" parent="KSAP-PopoverPage" p:id="course_details_popover_page">
-        <property name="innerViewWrapperId" value="course_details_popover_inner" />
+    <bean id="course_details_popover_page" parent="course_details_popover_page-parent"/>
+    <bean id="course_details_popover_page-parent" abstract="true" parent="KSAP-PopoverPage"
+          p:id="course_details_popover_page">
+        <property name="innerViewWrapperId" value="course_details_popover_inner"/>
         <property name="layoutManager">
-            <bean parent="Uif-HorizontalBoxLayout" />
+            <bean parent="Uif-HorizontalBoxLayout"/>
         </property>
         <property name="cssClasses">
             <list merge="true">
@@ -554,13 +598,13 @@
         </property>
         <property name="items">
             <list>
-                <ref bean="course_details_popover_section" />
+                <ref bean="course_details_popover_section"/>
             </list>
         </property>
         <property name="stickyFooter" value="false"/>
     </bean>
 
-    <bean id="course_details_popover_section" parent="course_details_popover_section-parent" />
+    <bean id="course_details_popover_section" parent="course_details_popover_section-parent"/>
     <bean id="course_details_popover_section-parent" abstract="true" parent="Uif-VerticalBoxSubSection">
         <property name="items">
             <list>
@@ -570,12 +614,14 @@
                     </property>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-Message" p:messageText="@{dataObject.courseCode} @{dataObject.courseTitle} (@{dataObject.courseCredits} cr)"/>
+                            <bean parent="Uif-Message"
+                                  p:messageText="@{dataObject.courseCode} @{dataObject.courseTitle} (@{dataObject.courseCredits} cr)"/>
                             <ref bean="course_details_popover_overview"/>
                             <bean parent="Uif-Link" p:target="">
                                 <property name="linkText" value="View more details"/>
                                 <property name="title" value="View more details"/>
-                                <property name="href" value="inquiry?methodToCall=start&amp;viewId=CourseDetails-InquiryView&amp;courseId=@{dataObject.courseId}"/>
+                                <property name="href"
+                                          value="inquiry?methodToCall=start&amp;viewId=CourseDetails-InquiryView&amp;courseId=@{dataObject.courseId}"/>
                             </bean>
                             <bean parent="Uif-HorizontalBoxGroup">
                                 <property name="cssClasses">
@@ -584,7 +630,9 @@
                                         <value>uif-groupValidationMessages</value>
                                         <value>uif-pageValidationMessages</value>
                                         <value>uif-pageValidationMessages-info</value>
-                                        <value>@{!#empty(dataObject.bookmarkStatusMessage) or !#empty(dataObject.planStatusMessage)? '':'ksap-hide'}</value>
+                                        <value>@{!#empty(dataObject.bookmarkStatusMessage) or
+                                            !#empty(dataObject.planStatusMessage)? '':'ksap-hide'}
+                                        </value>
                                     </list>
                                 </property>
                                 <property name="items">
@@ -601,12 +649,16 @@
                                             <property name="items">
                                                 <list>
                                                     <bean p:id="planStatusMessage" parent="Uif-Message">
-                                                        <property name="render" value="@{!#empty(dataObject.planStatusMessage)}"/>
-                                                        <property name="messageText" value="@{dataObject.planStatusMessage}"/>
+                                                        <property name="render"
+                                                                  value="@{!#empty(dataObject.planStatusMessage)}"/>
+                                                        <property name="messageText"
+                                                                  value="@{dataObject.planStatusMessage}"/>
                                                     </bean>
                                                     <bean p:id="bookmarkStatusMessage" parent="Uif-Message">
-                                                        <property name="render" value="@{!#empty(dataObject.bookmarkStatusMessage)}"/>
-                                                        <property name="messageText" value="@{dataObject.bookmarkStatusMessage}"/>
+                                                        <property name="render"
+                                                                  value="@{!#empty(dataObject.bookmarkStatusMessage)}"/>
+                                                        <property name="messageText"
+                                                                  value="@{dataObject.bookmarkStatusMessage}"/>
                                                     </bean>
                                                 </list>
                                             </property>
@@ -622,7 +674,7 @@
     </bean>
 
     <bean id="course_details_popover_overview" parent="course_details_popover_overview-parent"/>
-    <bean id="course_details_popover_overview-parent" abstract="true"  parent="Uif-VerticalBoxSection">
+    <bean id="course_details_popover_overview-parent" abstract="true" parent="Uif-VerticalBoxSection">
         <property name="header">
             <bean parent="Uif-HeaderThree">
             </bean>
@@ -652,7 +704,7 @@
                                         <bean parent="Uif-MessageField" p:messageText="
                                                         @{dataObject.scheduledTerms.size() gt 0
                                                             ? dataObject.scheduledTermsForUI
-                                                            : 'Not Currently Scheduled'}" >
+                                                            : 'Not Currently Scheduled'}">
                                             <property name="cssClasses">
                                                 <list merge="true">
                                                     <value>ksap-data-list</value>
@@ -666,7 +718,8 @@
                     </property>
                 </bean>
                 <!--Last Offered Term-->
-                <bean parent="Uif-CssGridGroup" p:render="@{dataObject.scheduledTerms.size() gt 0 ? false : dataObject.lastOffered ne null ? true : false}">
+                <bean parent="Uif-CssGridGroup"
+                      p:render="@{dataObject.scheduledTerms.size() gt 0 ? false : dataObject.lastOffered ne null ? true : false}">
                     <property name="items">
                         <list>
                             <bean parent="Uif-VerticalBoxSection" p:colSpan="5">
@@ -722,7 +775,7 @@
                                         <bean parent="Uif-MessageField" p:messageText="
                                                             @{dataObject.projectedTerms.size() gt 0
                                                                 ? dataObject.projectedTerms
-                                                                : 'Check with the department or your adviser for more information about this course.'}" >
+                                                                : 'Check with the department or your adviser for more information about this course.'}">
                                             <property name="cssClasses">
                                                 <list merge="true">
                                                     <value>ksap-data-list</value>
@@ -758,7 +811,7 @@
                                         <bean parent="Uif-MessageField" p:messageText=
                                                 "@{dataObject.courseRequisites.size() gt 0
                                                                 ? dataObject.courseRequisitesForUI
-                                                                : 'None'}" >
+                                                                : 'None'}">
                                             <property name="cssClasses">
                                                 <list merge="true">
                                                     <value>ksap-data-list</value>
@@ -1209,7 +1262,7 @@
         </property>
     </bean>-->
 
-   <!-- <bean id="activityRegCode" parent="activityRegCode-parent"/>
+    <!-- <bean id="activityRegCode" parent="activityRegCode-parent"/>
     <bean id="activityRegCode-parent" abstract="true" parent="Uif-HorizontalFieldGroup" p:rowSpan="1" p:colSpan="1">
         <property name="group.validationMessages">
             <null/>
@@ -1557,7 +1610,7 @@
     </bean>-->
 
 
-   <!-- <bean id="course_details_page_messaging" parent="course_details_page_messaging-parent" />
+    <!-- <bean id="course_details_page_messaging" parent="course_details_page_messaging-parent" />
     <bean id="course_details_page_messaging-parent" abstract="true" parent="Uif-VerticalBoxGroup"
           p:render="@{dataObject.plannedCourseSummary.planned}">
         <property name="validationMessages">

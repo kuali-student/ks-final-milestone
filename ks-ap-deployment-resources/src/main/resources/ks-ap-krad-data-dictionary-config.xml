@@ -19,40 +19,40 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
-	<beans profile="ks-ap">
-		<bean id="ks-ap-krad-data-dictionary-config"  class="java.util.ArrayList">
-		<constructor-arg index="0">	
-			<list>
-				<!-- KSAP Application Bean Files -->
-				<value>classpath:org/kuali/rice/student/bo</value>
+    <beans profile="ks-ap">
+        <bean id="ks-ap-krad-data-dictionary-config" class="java.util.ArrayList">
+            <constructor-arg index="0">
+                <list>
+                    <!-- KSAP Application Bean Files -->
+                    <value>classpath:org/kuali/rice/student/bo</value>
 
-				<value>classpath:org/kuali/student/ap/UifKSAPDefinitions.xml</value>
-				<value>classpath:ui/UifExtensionDefinitions.xml</value>
-				<value>classpath:ui/KSAPDataObjects.xml</value>
-				<value>classpath:org/kuali/student/ap/HelpDefinitions.xml</value>
-				<value>classpath:org/kuali/student/ap/CourseSearchUI.xml</value>
-				<value>classpath:ui/CourseDetailsUI.xml</value>
-				<value>classpath:ui/CommentUI.xml</value>
-				<value>classpath:org/kuali/student/ap/CourseSectionDetailsUI.xml</value>
-				<value>classpath:ui/FullPlanCoursesUI.xml</value>
-				<value>classpath:ui/SingleQuarterUI.xml</value>
-				<value>classpath:org/kuali/student/ap/PlannerDialogUI.xml</value>
-				<value>classpath:org/kuali/student/ap/PlannerUI.xml</value>
-				<value>classpath:ui/ReservedTimeUI.xml</value>
-				<value>classpath:ui/ScheduleBuildUI.xml</value>
-				<value>classpath:ui/ShoppingCartUI.xml</value>
-				<value>classpath:ui/ConversationCreateUI.xml</value>
-				<value>classpath:ui/ConversationListUI.xml</value>
-				<value>classpath:ui/ConversationViewUI.xml</value>
-				<value>classpath:org/kuali/student/ap/BookmarkUI.xml</value>
-		
-				<!-- Course Search POC -->
-				<value>classpath:org/kuali/student/ap/CourseInfoLookupView-ForKSAP.xml</value>
+                    <value>classpath:org/kuali/student/ap/UifKSAPDefinitions.xml</value>
+                    <value>classpath:ui/UifExtensionDefinitions.xml</value>
+                    <value>classpath:ui/KSAPDataObjects.xml</value>
+                    <value>classpath:org/kuali/student/ap/HelpDefinitions.xml</value>
+                    <value>classpath:org/kuali/student/ap/CourseSearchUI.xml</value>
+                    <value>classpath:org/kuali/student/ap/CourseDetailsUI.xml</value>
+                    <value>classpath:ui/CommentUI.xml</value>
+                    <value>classpath:org/kuali/student/ap/CourseSectionDetailsUI.xml</value>
+                    <value>classpath:ui/FullPlanCoursesUI.xml</value>
+                    <value>classpath:ui/SingleQuarterUI.xml</value>
+                    <value>classpath:org/kuali/student/ap/PlannerDialogUI.xml</value>
+                    <value>classpath:org/kuali/student/ap/PlannerUI.xml</value>
+                    <value>classpath:ui/ReservedTimeUI.xml</value>
+                    <value>classpath:ui/ScheduleBuildUI.xml</value>
+                    <value>classpath:ui/ShoppingCartUI.xml</value>
+                    <value>classpath:ui/ConversationCreateUI.xml</value>
+                    <value>classpath:ui/ConversationListUI.xml</value>
+                    <value>classpath:ui/ConversationViewUI.xml</value>
+                    <value>classpath:org/kuali/student/ap/BookmarkUI.xml</value>
 
-                <!-- i18n POC -->
-                <value>classpath:org/kuali/student/ap/POCResourceBundleUI.xml</value>
-			</list>
-			</constructor-arg>
-		</bean>  
-	</beans>              
+                    <!-- Course Search POC -->
+                    <value>classpath:org/kuali/student/ap/CourseInfoLookupView-ForKSAP.xml</value>
+
+                    <!-- i18n POC -->
+                    <value>classpath:org/kuali/student/ap/POCResourceBundleUI.xml</value>
+                </list>
+            </constructor-arg>
+        </bean>
+    </beans>
 </beans>
