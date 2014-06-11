@@ -25,9 +25,7 @@ INSERT INTO KSEN_PROCESS_CHECK
    TO_DATE( '2014-06-04', 'YYYY-MM-DD' ),
    1)
 /
--- Get rid of old initial instruction
---DELETE FROM KSEN_PROCESS_INSTRN WHERE PROCESS_ID='kuali.process.registration.eligible.for.courses' AND POSITION='1'
-/
+
 -- Add new one to replace it with hardcoded IDs (which makes it easier to update later on, rather than using SYS_GUID()
 -- which alters the id each time it loads
 INSERT INTO KSEN_PROCESS_INSTRN
