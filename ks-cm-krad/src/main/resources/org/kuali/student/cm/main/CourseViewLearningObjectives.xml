@@ -70,7 +70,7 @@
 		</property>
 		<property name="renderAddBlankLineButton" value="true" />
         <property name="addBlankLineAction">
-            <bean parent="KS-BottomAddLine">
+            <bean id="KS-LearningObjective-AddLo" parent="KS-BottomAddLine">
                 <property name="methodToCall" value="addBlankLine"/>
                 <property name="actionEvent" value="addBlankLine"/>
                 <property name="id" value="uif-addBlankLine-outcome"/>
@@ -96,10 +96,10 @@
                         </bean>
                     </property>
                     <property name="quickfinder">
-                        <bean parent="Uif-QuickFinder" p:lightBox.lookupReturnByScript="true">
+                        <bean id="KS-LearningObjective-QuickFinder" parent="Uif-QuickFinder" p:lightBox.lookupReturnByScript="true">
                             <property name="dataObjectClassName" value="org.kuali.student.cm.course.form.LoDisplayInfoWrapper"/>
                             <property name="quickfinderAction">
-                                <bean parent="Uif-ActionLink" p:actionLabel="Search for Learning Objectives" p:methodToCall="performLookup"/>
+                                <bean id="KS-LoDisplayInfoWrapper-descr-Lookup"  parent="Uif-ActionLink" p:actionLabel="Search for Learning Objectives" p:methodToCall="performLookup"/>
                             </property>
                             <property name="fieldConversions">
                                 <map>
@@ -128,7 +128,7 @@
 		</property>
 		<property name="subCollections">
 			<list>
-				<bean parent="Uif-StackedCollectionSubSection"
+				<bean id="KS-LearningObjective-Category-SubSection" parent="Uif-StackedCollectionSubSection"
 					p:collectionObjectClass="org.kuali.student.r2.lum.lo.dto.LoCategoryInfo"
 					p:propertyName="loCategoryInfoList">
 					<property name="layoutManager">
@@ -146,13 +146,13 @@
                             <bean parent="Uif-HorizontalFieldGroup">
                                 <property name="items">
                                     <list>
-                                        <bean parent="KS-Uif-InputField-LabelTop" p:label="Category"
+                                        <bean id="KS-LearningObjective-Category"  parent="KS-Uif-InputField-LabelTop" p:label="Category"
                                             p:propertyName="name">
                                             <property name="control">
                                                 <bean parent="KS-Uif-TextControl" />
                                             </property>
                                             <property name="suggest">
-                                                <bean parent="Uif-Suggest">
+                                                <bean id="KS-LearningObjective-Category-Suggest" parent="Uif-Suggest">
                                                     <property name="valuePropertyName" value="catNameAndType" />
                                                     <property name="templateOptions" value="minLength:1,delay:0" />
                                                     <property name="suggestQuery">
@@ -162,7 +162,7 @@
                                                 </bean>
                                             </property>
                                             <property name="quickfinder">
-                                                <bean parent="Uif-QuickFinder">
+                                                <bean id="KS-LearningObjective-Category-QuickFinder" parent="Uif-QuickFinder">
                                                     <property name="autoSearch" value="true" />
                                                     <property name="quickfinderAction">
                                                         <bean parent="Uif-ActionLink">
@@ -195,7 +195,7 @@
                                         </bean>
                                         <bean parent="Uif-ImageField" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/validation/info.png">
                                             <property name="toolTip">
-                                                <bean parent="Uif-KS-Tooltip" p:tooltipContent="Add a category to classify your learning
+                                                <bean id="KS-LearningObjective-Category-Tooltip" parent="Uif-KS-Tooltip" p:tooltipContent="Add a category to classify your learning
                                                                                                 objectives. The categories will be used for administrative analysis."/>
                                             </property>
                                         </bean>
