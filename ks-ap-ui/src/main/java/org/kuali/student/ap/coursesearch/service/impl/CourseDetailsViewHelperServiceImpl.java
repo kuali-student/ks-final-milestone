@@ -4,10 +4,10 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.ap.coursesearch.dataobject.ActivityFormatDetailsWrapper;
 import org.kuali.student.ap.coursesearch.dataobject.ActivityOfferingDetailsWrapper;
 import org.kuali.student.ap.coursesearch.dataobject.CourseOfferingDetailsWrapper;
 import org.kuali.student.ap.coursesearch.dataobject.CourseTermDetailsWrapper;
-import org.kuali.student.ap.coursesearch.dataobject.FormatOfferingDetailsWrapper;
 import org.kuali.student.ap.coursesearch.dataobject.PlannedRegGroupDetailsWrapper;
 import org.kuali.student.ap.coursesearch.form.CourseSectionDetailsForm;
 import org.kuali.student.ap.coursesearch.service.CourseDetailsViewHelperService;
@@ -128,19 +128,17 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
 
             CourseOfferingDetailsWrapper courseOfferingDetailsWrapper = new CourseOfferingDetailsWrapper(offering);
             try {
-                List<FormatOfferingInfo> formatOfferingList = KsapFrameworkServiceLocator.getCourseOfferingService().getFormatOfferingsByCourseOffering(courseOfferingDetailsWrapper.getCourseOfferingId(), contextInfo);
-                List<FormatOfferingDetailsWrapper> formatOfferingDetailsWrappers = new ArrayList<FormatOfferingDetailsWrapper>();
+                List<ActivityFormatDetailsWrapper> activityFormatDetailsWrappers = new ArrayList<ActivityFormatDetailsWrapper>();
                 Map<String, List<ActivityOfferingDetailsWrapper>>
                         aosByFormat = getAOData(offering.getId());
 
-                for (FormatOfferingInfo formatOffering : formatOfferingList) {
-                    FormatOfferingDetailsWrapper formatOfferingDetailsWrapper = new FormatOfferingDetailsWrapper(formatOffering);
-
-                    formatOfferingDetailsWrapper.setActivityOfferingDetailsWrappers(aosByFormat.get(formatOffering.getId()));
-
-                    formatOfferingDetailsWrappers.add(formatOfferingDetailsWrapper);
+                for (String formatName : aosByFormat.keySet()) {
+                    ActivityFormatDetailsWrapper activityFormatDetailsWrapper = new ActivityFormatDetailsWrapper(
+                            formatName);
+                    activityFormatDetailsWrapper.setActivityOfferingDetailsWrappers(aosByFormat.get(formatName));
+                    activityFormatDetailsWrappers.add(activityFormatDetailsWrapper);
                 }
-                courseOfferingDetailsWrapper.setFormatOfferingDetailsWrappers(formatOfferingDetailsWrappers);
+                courseOfferingDetailsWrapper.setActivityFormatDetailsWrappers(activityFormatDetailsWrappers);
             } catch (DoesNotExistException e) {
                 throw new IllegalArgumentException("FO lookup error", e);
             } catch (InvalidParameterException e) {
@@ -216,7 +214,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
     }
 
     private Map<String, List<ActivityOfferingDetailsWrapper>> getAOData(String courseOfferingId) throws Exception {
-        Map<String, List<ActivityOfferingDetailsWrapper>> aoMapByFormatOffering = new HashMap<String, List<ActivityOfferingDetailsWrapper>>();
+        Map<String, List<ActivityOfferingDetailsWrapper>> aoMapByFormatName = new HashMap<String, List<ActivityOfferingDetailsWrapper>>();
         List<ActivityOfferingInfo> activityOfferings = null;
         try {
             activityOfferings = KsapFrameworkServiceLocator.getCourseOfferingService().getActivityOfferingsByCourseOffering(courseOfferingId, contextInfo);
@@ -233,18 +231,16 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
             throw new IllegalArgumentException("AO lookup error", e);
         }
 
-
         for (ActivityOfferingInfo activityOffering : activityOfferings) {
-            String formatOfferingId = activityOffering.getFormatOfferingId();
-            List<ActivityOfferingDetailsWrapper> aosByFormat = aoMapByFormatOffering.get(formatOfferingId);
+            List<ActivityOfferingDetailsWrapper> aosByFormat = aoMapByFormatName.get(activityOffering.getName());
             if (aosByFormat == null) {
                 aosByFormat = new ArrayList<ActivityOfferingDetailsWrapper>();
             }
             ActivityOfferingDetailsWrapper wrapper = convertAOInfoToWrapper(activityOffering);
             aosByFormat.add(wrapper);
-            aoMapByFormatOffering.put(formatOfferingId, aosByFormat);
+            aoMapByFormatName.put(activityOffering.getName(), aosByFormat);
         }
-        return aoMapByFormatOffering;
+        return aoMapByFormatName;
     }
 
     public ActivityOfferingDetailsWrapper convertAOInfoToWrapper(ActivityOfferingInfo aoInfo) throws Exception {

@@ -128,11 +128,11 @@
     <bean id="format-offering-list" parent="format-offering-list-parent"/>
     <bean id="format-offering-list-parent" abstract="true" parent="Uif-ListCollectionSection">
         <property name="collectionObjectClass"
-                  value="org.kuali.student.ap.coursesearch.dataobject.FormatOfferingDetailsWrapper"/>
+                  value="org.kuali.student.ap.coursesearch.dataobject.ActivityFormatDetailsWrapper"/>
         <property name="renderAddLine" value="false"/>
         <property name="renderLineActions" value="false"/>
         <property name="disclosure.render" value="true"/>
-        <property name="propertyName" value="formatOfferingDetailsWrappers"/>
+        <property name="propertyName" value="activityFormatDetailsWrappers"/>
         <property name="layoutManager.lineGroupPrototype.header.render" value="true"/>
         <!-- property to activate disclosure -->
         <property name="items">

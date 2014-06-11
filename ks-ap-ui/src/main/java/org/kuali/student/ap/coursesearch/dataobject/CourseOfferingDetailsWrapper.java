@@ -20,7 +20,7 @@ public class CourseOfferingDetailsWrapper {
     private boolean multipleFormatOfferings;
 
     private List<PlannedRegGroupDetailsWrapper> plannedRegGroupDetailsWrappers;
-    private List<FormatOfferingDetailsWrapper> formatOfferingDetailsWrappers;
+    private List<ActivityFormatDetailsWrapper> activityFormatDetailsWrappers;
 
     public CourseOfferingDetailsWrapper (CourseOfferingInfo courseOfferingInfo) {
         courseOfferingId = courseOfferingInfo.getId();
@@ -70,12 +70,12 @@ public class CourseOfferingDetailsWrapper {
         this.multipleFormatOfferings = multipleFormatOfferings;
     }
 
-    public List<FormatOfferingDetailsWrapper> getFormatOfferingDetailsWrappers() {
-        return formatOfferingDetailsWrappers;
+    public List<ActivityFormatDetailsWrapper> getActivityFormatDetailsWrappers() {
+        return activityFormatDetailsWrappers;
     }
 
-    public void setFormatOfferingDetailsWrappers(List<FormatOfferingDetailsWrapper> formatOfferingDetailsWrappers) {
-        this.formatOfferingDetailsWrappers = formatOfferingDetailsWrappers;
+    public void setActivityFormatDetailsWrappers(List<ActivityFormatDetailsWrapper> activityFormatDetailsWrappers) {
+        this.activityFormatDetailsWrappers = activityFormatDetailsWrappers;
     }
     public List<PlannedRegGroupDetailsWrapper> getPlannedRegGroupDetailsWrappers() {
         return plannedRegGroupDetailsWrappers;

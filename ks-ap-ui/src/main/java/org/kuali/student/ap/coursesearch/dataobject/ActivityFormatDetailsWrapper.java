@@ -1,7 +1,5 @@
 package org.kuali.student.ap.coursesearch.dataobject;
 
-import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
-
 import java.util.List;
 
 /**
@@ -11,12 +9,12 @@ import java.util.List;
  * Time: 10:30 AM
  * To change this template use File | Settings | File Templates.
  */
-public class FormatOfferingDetailsWrapper {
+public class ActivityFormatDetailsWrapper {
     private String formatName;
     private List<ActivityOfferingDetailsWrapper> activityOfferingDetailsWrappers;
 
-    public FormatOfferingDetailsWrapper(FormatOfferingInfo formatOffering) {
-        formatName = formatOffering.getName();
+    public ActivityFormatDetailsWrapper(String activityFormatName) {
+        formatName = activityFormatName;
     }
 
     public String getFormatName() {
