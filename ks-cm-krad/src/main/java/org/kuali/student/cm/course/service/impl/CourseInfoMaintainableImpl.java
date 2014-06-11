@@ -1202,10 +1202,11 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             reviewData.getCourseLogisticsSection().setFormatInfoWrappers(formatInfoWrappers);
 
 
+        reviewData.getLearningObjectivesSection().getLearningObjectives().clear();
         List<String> learningObjectives = new ArrayList<String>();
-        for(LoDisplayInfo loDisplayInfo :courseInfoWrapper.getCourseInfo().getCourseSpecificLOs()) {
-            if(loDisplayInfo.getLoInfo() != null && loDisplayInfo.getLoInfo().getDescr() != null)
-               learningObjectives.add(loDisplayInfo.getLoInfo().getDescr().getPlain());
+        for (LoDisplayInfo loDisplayInfo : courseInfoWrapper.getCourseInfo().getCourseSpecificLOs()) {
+            if (loDisplayInfo.getLoInfo() != null && loDisplayInfo.getLoInfo().getDescr() != null)
+                learningObjectives.add(loDisplayInfo.getLoInfo().getDescr().getPlain());
         }
         reviewData.getLearningObjectivesSection().getLearningObjectives().addAll(learningObjectives);
 
@@ -1578,8 +1579,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                     public int compare(ResultValuesGroupInfoWrapper a, ResultValuesGroupInfoWrapper b) {
                         if (a.getTypeKey() == null) {
                             return 1;
-                        }
-                        else if (b.getTypeKey() == null) {
+                        } else if (b.getTypeKey() == null) {
                             return -1;
                         }
                         return a.getTypeKey().compareToIgnoreCase(b.getTypeKey());
@@ -1867,6 +1867,8 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             populateFormatOnWrapper();
             populateJointCourseOnWrapper();
 
+            populateLearningObjectives();
+
             retrieveComments();
 
             updateReview();
@@ -1875,6 +1877,19 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             throw new RuntimeException(e);
         }
 
+    }
+
+    /**
+     * This method creates <class>LoDisplayWrapperModel</class> instances from <class>LoDisplayInfoWrapper</class> instances
+     */
+    protected void populateLearningObjectives() {
+        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
+        courseInfoWrapper.getLoDisplayWrapperModel().clearLoWrappers();
+        List<LoDisplayInfoWrapper> loDisplayWrappers = courseInfoWrapper.getLoDisplayWrapperModel().getLoWrappers();
+        for (LoDisplayInfo loDisplayInfo : courseInfoWrapper.getCourseInfo().getCourseSpecificLOs()) {
+            LoDisplayInfoWrapper displayInfoWrapper = new LoDisplayInfoWrapper(loDisplayInfo);
+            loDisplayWrappers.add(displayInfoWrapper);
+        }
     }
 
     /**
@@ -1939,7 +1954,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
      */
     public void deleteComment(String commentId) {
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
-        CommentInfo commentDelete =  null;
+        CommentInfo commentDelete = null;
         ProposalInfo proposal = courseInfoWrapper.getProposalInfo();
         try {
             List<CommentInfo> commentsOfTheProposal = getCommentService().getCommentsByReferenceAndType(proposal.getId(), proposal.getTypeKey(), createContextInfo());
@@ -1950,8 +1965,8 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                     break;
                 }
             }
-            if(commentDelete!= null)
-            getCommentService().deleteComment(commentDelete.getId(),createContextInfo());
+            if (commentDelete != null)
+                getCommentService().deleteComment(commentDelete.getId(), createContextInfo());
         } catch (Exception e) {
             LOG.error("Error deleting comment " + commentDelete.getId() + " for the proposal " + proposal.getName());
             throw new RuntimeException("Error adding comment " + commentDelete.getId() + " for the proposal " + proposal.getName(), e);

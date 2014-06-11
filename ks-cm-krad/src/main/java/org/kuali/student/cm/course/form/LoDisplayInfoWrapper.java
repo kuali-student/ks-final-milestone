@@ -24,6 +24,13 @@ public class LoDisplayInfoWrapper extends LoDisplayInfo {
 
     private boolean selected;
 
+    public LoDisplayInfoWrapper() {
+    }
+
+    public LoDisplayInfoWrapper(LoDisplayInfo info) {
+        super(info);
+    }
+
     public String getSearchBy() {
         return searchBy;
     }
