@@ -297,7 +297,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
         int firstValue = 0;
 
         FormatOfferingInfo fo = KsapFrameworkServiceLocator.getCourseOfferingService().getFormatOffering(aoInfo.getFormatOfferingId(), contextInfo);
-        wrapper.setActivityFormatName(fo.getName());
+        wrapper.setActivityFormatName(aoInfo.getName());
 
         //From Bonnie: we need to better understand firstInstructor vs.multiple instructors cases -- pull in the logic from manage CO
         OfferingInstructorInfo displayInstructor = findDisplayInstructor(aoInfo.getInstructors());
