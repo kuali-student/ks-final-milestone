@@ -44,6 +44,17 @@ function onCourseLoad(isCurriculumSpecialist, currentSectionId) {
 }
 
 /**
+ * Shows the comment view in a lightbox. To always get the view from the server, we need to have unique url sothat fancy
+ * box not caches the html. Here, we're adding the datetime to make sure url random
+ *
+ * @param href
+ */
+function showCommentLightBox(href) {
+    var href1 = href + "&fake=" + Date.now();
+    showLightboxUrl(href1);
+}
+
+/**
  * Initialize the Review Course Proposal page.
  */
 function onProposalReviewLoad() {
@@ -850,28 +861,4 @@ function hideName() {
         jQuery('#searchByField_control').show();
         retrieveComponent('searchByField');
     }
-}
-
-function updateCapturedComment(fieldId) {
-    var inputComment = jQuery('#' + fieldId + '_control').val();
-    jQuery('#CaptureCommentsTextArea_control').val(inputComment);
-}
-
-function deleteExistingComment(index) {
-    var id = jQuery(jQuery('#comments-StackedSection').find('header').find('span')[0]).text().trim();
-    jQuery('#CaptureCommentIDTextArea_control').val(id);
-}
-
-function showEditCommentWidget(index) {
-    var inputComment = jQuery('#commentsDisplayArea_line' + index).text();
-    jQuery('#KS-EditCommentSection-InputField_control').val(inputComment);
-    jQuery('#CaptureCommentsTextArea_control').val(inputComment);
-    var id = jQuery(jQuery('#comments-StackedSection').find('header').find('span')[0]).text().trim();
-    jQuery('#CaptureCommentIDTextArea_control').val(id);
-    jQuery('#KS-EditCommentSection').attr('style', 'display: inline;');
-}
-
-function hideEditCommentWidget() {
-    jQuery('#KS-EditCommentSection').attr('style', 'display: none;');
-    return true;
 }
