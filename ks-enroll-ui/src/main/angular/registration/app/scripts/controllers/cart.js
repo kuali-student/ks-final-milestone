@@ -365,14 +365,11 @@ angular.module('regCartApp')
                                     $scope.cartResults.successCount++;
                                     break;
                                 case STATUS.waitlist:
+                                case STATUS.action: //waitlist action available
                                     $scope.cartResults.waitlistCount++;
                                     item.waitlistMessage = GlobalVarsService.getCorrespondingMessageFromStatus(item.status);
                                     break;
                                 case STATUS.error:
-                                    $scope.cartResults.errorCount++;
-                                    break;
-                                case STATUS.action:
-                                    // Waitlist action available, indicate as a Failure
                                     $scope.cartResults.errorCount++;
                                     break;
                             }
@@ -412,6 +409,31 @@ angular.module('regCartApp')
 
         $scope.editing = function (cartItem) {
             return cartItem.status === STATUS.editing;
+        };
+
+        $scope.resultsSummary = function (cartResults) {
+            var summary='';
+            var count=0;
+
+            if (cartResults.successCount > 0) {
+                summary += 'Success ('+cartResults.successCount+')';
+                count++;
+            }
+            if (cartResults.waitlistCount > 0) {
+                if (count > 0) {
+                    summary += ', ';
+                }
+                summary += 'Waitlist ('+cartResults.waitlistCount+')';
+                count++;
+            }
+            if (cartResults.errorCount > 0) {
+                if (count > 0) {
+                    summary += ', ';
+                }
+                summary += 'Fail ('+cartResults.errorCount+')';
+            }
+
+            return summary;
         };
 
     }]);

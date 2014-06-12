@@ -8,6 +8,10 @@
     padding: 0.5em 0.7em 0 0.7em;
 }
 
+.kscr-Heading-sub--cart {
+  .kscr-Heading-sub;
+}
+
 .kscr-Heading-support{
     font-family: @primaryFontFamily !important;
     font-size: 14px !important;
@@ -21,3 +25,13 @@
    font-weight: normal;
    font-family: @secondaryFontFamily;
  }
+
+@media screen and (min-width: @largeFormatMin) {
+  .kscr-Heading-sub{
+    color: @primaryTextColor;
+  }
+
+  .kscr-Heading-sub--cart {
+    padding: 0.5em 0 0 0;
+  }
+}
