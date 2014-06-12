@@ -27,7 +27,6 @@ import org.kuali.student.core.constants.GesServiceConstants;
 import org.kuali.student.core.ges.dto.GesCriteriaInfo;
 import org.kuali.student.core.ges.dto.ValueInfo;
 import org.kuali.student.core.ges.service.GesService;
-import org.kuali.student.core.process.evaluator.AbstractCheckProposition;
 import org.kuali.student.core.process.evaluator.KRMSEvaluator;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
@@ -50,8 +49,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
-import org.kuali.student.r2.core.process.dto.CheckInfo;
-import org.kuali.student.r2.core.process.dto.InstructionInfo;
+import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -66,6 +64,7 @@ import java.util.Map;
  * @author Kuali Student Team
  */
 public class BestEffortCreditLoadProposition extends AbstractLeafProposition {
+    public static final KualiDecimal NO_CREDIT_LIMIT = new KualiDecimal(-1);
     private CourseOfferingService coService;
 
     @Override
@@ -190,6 +189,11 @@ public class BestEffortCreditLoadProposition extends AbstractLeafProposition {
      */
     private boolean verifyLoadIsOK(List<CourseRegistrationInfo> existingCrs,
                                    KualiDecimal creditLimitValue) {
+        if (creditLimitValue.equals(NO_CREDIT_LIMIT)) {
+            // If no limit is found, then NO_CREDIT_LIMIT is the value of the credit limit, which
+            // indicates there's no credit limit.
+            return true;
+        }
         KualiDecimal totalLoad = new KualiDecimal(0);
         for (CourseRegistrationInfo info: existingCrs) {
             totalLoad = totalLoad.add(info.getCredits());
@@ -212,11 +216,33 @@ public class BestEffortCreditLoadProposition extends AbstractLeafProposition {
         GesCriteriaInfo criteria = new GesCriteriaInfo();
         criteria.setPersonId(personId);
         criteria.setAtpId(atpId);
+        ValueInfo value = null;
+        try {
+            value = gesService.evaluateValueOnDate(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT,
+                    criteria,
+                    asOfDate,
+                    contextInfo);
+        } catch (DoesNotExistException e) {
+            // Set a default value of -1 if the credit limit can't be found in GES, e.g., for Winter terms
+            value = getDefaultCreditLimit();
+        }
+        return value;
+    }
+
+    /**
+     * Treat -1 as no credit limit (since infinity causes KualiDecimal to throw an exception)
+     * @return A value info with value of -1
+     */
+    private ValueInfo getDefaultCreditLimit() {
         ValueInfo value;
-        value = gesService.evaluateValueOnDate(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT,
-                criteria,
-                asOfDate,
-                contextInfo);
+        value = new ValueInfo();
+        value.setParameterKey(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT);
+        value.setAtpTypeKeys(new ArrayList<String>());
+        value.setPopulationId(PopulationServiceConstants.POPULATION_RULE_TYPE_EVERYONE_KEY);
+        value.setDecimalValue(NO_CREDIT_LIMIT);
+        value.setTypeKey(GesServiceConstants.GES_VALUE_TYPE_KEY);
+        value.setStateKey(GesServiceConstants.GES_VALUE_ACTIVE_STATE_KEY);
+        value.setId("NONE");
         return value;
     }
 
