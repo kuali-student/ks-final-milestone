@@ -358,7 +358,11 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
         }
 
         if (rg == null) {
-            throw new DoesNotExistException("Cannot find the course \"" + courseCode + "\" in the selected term");
+            if (courseCode != null && !StringUtils.isEmpty(courseCode)) {
+                throw new DoesNotExistException("Cannot find the course <strong>" + courseCode + "</strong> in the selected term");
+            } else {
+                throw new DoesNotExistException("Course Code cannot be empty");
+            }
         }
 
         return rg;
