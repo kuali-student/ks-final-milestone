@@ -17,6 +17,8 @@ package org.kuali.student.cm.course.form;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
+import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
+import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -404,11 +406,12 @@ public class ReviewProposalDisplay {
     }
 
     public class LearningObjectivesSectionWrapper {
-        private List<String> learningObjectives;
 
-        public List<String> getLearningObjectives() {
+        private List<LoReviewSection> learningObjectives;
+
+        public List<LoReviewSection> getLearningObjectives() {
             if (learningObjectives == null) {
-                learningObjectives = new ArrayList<String>();
+                learningObjectives = new ArrayList<LoReviewSection>();
             }
             return learningObjectives;
         }
@@ -416,7 +419,29 @@ public class ReviewProposalDisplay {
         public String getLearningObjectivesAsString() {
             return StringUtils.join(getLearningObjectives(), CurriculumManagementConstants.COLLECTION_ITEMS_DELIMITER);
         }
+
+        public void build(List<LoDisplayInfo> loDisplayInfos) {
+
+            if (learningObjectives == null) {
+                learningObjectives = new ArrayList<LoReviewSection>();
     }
+
+            learningObjectives.clear();
+
+            for(LoDisplayInfo loDisplayInfo : loDisplayInfos) {
+                if(loDisplayInfo.getLoInfo() != null && loDisplayInfo.getLoInfo().getDescr() != null) {
+                    String description = loDisplayInfo.getLoInfo().getDescr().getPlain();
+                    List<String> lstCategories = new ArrayList<String>();
+                    for(LoCategoryInfo loCategoryInfo : loDisplayInfo.getLoCategoryInfoList()) {
+                        lstCategories.add(loCategoryInfo.getName());
+                    }
+                    learningObjectives.add(new LoReviewSection(description,lstCategories));
+                }
+
+            }
+        }
+    }
+
 
     public class CourseRequisitesSectionWrapper {
 

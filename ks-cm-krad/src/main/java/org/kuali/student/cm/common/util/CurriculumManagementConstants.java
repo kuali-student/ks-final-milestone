@@ -148,6 +148,7 @@ public class CurriculumManagementConstants {
      * This delimiter to use when rendering collections as a String.
      */
     public static String COLLECTION_ITEMS_DELIMITER = "; ";
+    public static String COLLECTION_ITEMS_COMMA_DELIMITER = ", ";
     public static String COLLECTION_ITEMS_NEWLINE_DELIMITER = "\n";
     public static String COLLECTION_ITEMS_WHITESPACE_DELIMITER = " ";
     public static String COLLECTION_ITEM_PLURAL_END = "(s)";

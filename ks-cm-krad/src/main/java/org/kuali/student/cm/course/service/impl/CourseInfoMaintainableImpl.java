@@ -1202,13 +1202,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             reviewData.getCourseLogisticsSection().setFormatInfoWrappers(formatInfoWrappers);
 
 
-        reviewData.getLearningObjectivesSection().getLearningObjectives().clear();
-        List<String> learningObjectives = new ArrayList<String>();
-        for (LoDisplayInfo loDisplayInfo : courseInfoWrapper.getCourseInfo().getCourseSpecificLOs()) {
-            if (loDisplayInfo.getLoInfo() != null && loDisplayInfo.getLoInfo().getDescr() != null)
-                learningObjectives.add(loDisplayInfo.getLoInfo().getDescr().getPlain());
-        }
-        reviewData.getLearningObjectivesSection().getLearningObjectives().addAll(learningObjectives);
+        reviewData.getLearningObjectivesSection().build(courseInfoWrapper.getCourseInfo().getCourseSpecificLOs());
 
         /**
          * Active Dates section
@@ -1579,7 +1573,8 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                     public int compare(ResultValuesGroupInfoWrapper a, ResultValuesGroupInfoWrapper b) {
                         if (a.getTypeKey() == null) {
                             return 1;
-                        } else if (b.getTypeKey() == null) {
+                        }
+                        else if (b.getTypeKey() == null) {
                             return -1;
                         }
                         return a.getTypeKey().compareToIgnoreCase(b.getTypeKey());
