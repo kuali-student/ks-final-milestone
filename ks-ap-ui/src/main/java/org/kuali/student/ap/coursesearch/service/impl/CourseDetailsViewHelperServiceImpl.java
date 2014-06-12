@@ -131,6 +131,17 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
         }
     }
 
+    /**
+     * Comparator implementation so that I can sort ActivityOfferingInfo objects by the activity code
+     */
+    public class ActivityOfferingInfoComparator implements Comparator<ActivityOfferingInfo> {
+
+        @Override
+        public int compare(ActivityOfferingInfo o1, ActivityOfferingInfo o2) {
+            return o1.getActivityCode().compareTo(o2.getActivityCode());
+        }
+    }
+
     public Map<String, List<CourseOfferingDetailsWrapper>> processCourseOfferingsByTerm(List<String> courseIds, List<Term> terms) throws Exception {
         List<CourseOfferingInfo> courseOfferings = KsapFrameworkServiceLocator.getCourseHelper().getCourseOfferingsForCoursesAndTerms(courseIds, terms);
         Collections.sort(courseOfferings, new CourseOfferingInfoComparator());
@@ -234,6 +245,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
         List<ActivityOfferingInfo> activityOfferings = null;
         try {
             activityOfferings = KsapFrameworkServiceLocator.getCourseOfferingService().getActivityOfferingsByCourseOffering(courseOfferingId, contextInfo);
+            Collections.sort(activityOfferings, new ActivityOfferingInfoComparator());
 
         } catch (DoesNotExistException e) {
             throw new IllegalArgumentException("AO lookup error", e);
