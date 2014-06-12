@@ -107,6 +107,7 @@
                 <value>ksap-section-courses</value>
             </list>
         </property>
+        <property name="onDocumentReadyScript" value="checkboxSelectAndHighlight();"/>
         <!-- property to activate disclosure -->
         <property name="items">
             <list>
@@ -133,17 +134,22 @@
                   value="org.kuali.student.ap.coursesearch.dataobject.ActivityFormatDetailsWrapper"/>
         <property name="renderAddLine" value="false"/>
         <property name="renderLineActions" value="false"/>
-        <property name="disclosure.render" value="true"/>
+        <property name="disclosure.render" value="false"/>
         <property name="propertyName" value="activityFormatDetailsWrappers"/>
         <property name="layoutManager.lineGroupPrototype.header.render" value="true"/>
         <!-- property to activate disclosure -->
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-section-format</value>
+            </list>
+        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-MessageField"
                       p:messageText="@{#line.formatName} (@{#line.activityOfferingDetailsWrappers.size()})">
                     <property name="cssClasses">
                         <list merge="true">
-                            <value>ksap-section-format</value>
+                            <value>ksap-section-format-title</value>
                         </list>
                     </property>
                 </bean>
@@ -255,7 +261,7 @@
                 </bean>
                 <!--p:label="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('details.ao.header.seats')}"-->
                 <bean parent="Uif-MessageField" p:id="seats"
-                      p:label="Seats"
+                      p:label="Seats Open"
                       p:messageText="@{#line.currentEnrollment}/@{#line.maxEnrollment}">
                 </bean>
                 <!--@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('details.ao.header.additionalDetails')} -->

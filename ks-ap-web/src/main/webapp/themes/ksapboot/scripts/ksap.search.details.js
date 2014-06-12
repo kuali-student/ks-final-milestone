@@ -15,3 +15,22 @@ function detectReferrerForBackLinkText() {
         }
     }
 }
+
+
+//Sections with multiple offerings checkbox behavior
+
+function checkboxSelectAndHighlight() {
+    jQuery('tr').click(function(event) {
+        if (event.target.type !== 'checkbox') {
+            jQuery(':checkbox', this).trigger('click');
+        }
+    });
+    jQuery(".uif-checkboxControl").change(function () {
+        if(jQuery(this).is(":checked")){
+            jQuery(this).closest('tr').addClass("ksap-selected-row");
+        }else{
+            jQuery(this).closest('tr').removeClass("ksap-selected-row");
+        }
+    });
+}
+

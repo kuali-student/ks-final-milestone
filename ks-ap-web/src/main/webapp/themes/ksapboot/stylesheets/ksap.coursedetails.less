@@ -131,9 +131,13 @@
 
   // Courses
   .ksap-section-courses {
+    h4 {
+      margin-bottom: 15px;
+    }
     h4 > a {
       background: #f2f2f2;
       border-radius: 3px;
+      font-size: 14px;
       margin-bottom: 15px;
     }
     .uif-disclosureContent,
@@ -144,6 +148,7 @@
       margin-left: 15px;
     }
     th {
+      padding-right: 0;
       white-space: nowrap;
     }
     tr:hover {
@@ -156,13 +161,48 @@
     tr.ksap-selected-row td {
       background-color: transparent;
     }
+    .uif-inputField {
+      text-align: center;
+    }
   }
 
   .ksap-section-description {
+    margin-bottom: 35px;
+  }
+
+  // Planned Registration
+  .ksap-section-reg {
+    border-bottom: 1px solid #DDD;
+    margin-bottom: 30px;
+
+    h3 {
+      color: #093;
+      font-size: 13px;
+      font-weight: bold;
+    }
+    tr:hover {
+      background-color: transparent;
+      cursor: default;
+    }
+    tr.uif-groupRow {
+      border-top: 0;
+      border-bottom: 0!important; //KS uses !important
+    }
+    .uif-tableCollectionLayout > tbody > tr > td {
+      border: 0;
+      padding: 2px 15px 2px 15px;
+    }
+    .uif-tableCollectionLayout > tbody > tr:first-child > td {
+      padding-bottom: 5px;
+      padding-left: 0;
+    }
+  }
+
+  // Section Formats
+  .ksap-section-format {
     margin-bottom: 15px;
   }
-  .ksap-section-reg h3,
-  .ksap-section-format > p {
+  .ksap-section-format-title {
     font-size: 13px;
     font-weight: bold;
   }
@@ -177,6 +217,14 @@
   .ksap-section-details:first-child {
     border-left:0;
     padding-left: 0;
+  }
+
+  //Add to Plan button
+  a.ks-fontello-icon-hollow-circled-plus {
+    text-align: center;
+  }
+  a.ks-fontello-icon-hollow-circled-plus:hover {
+    text-decoration: none;
   }
 }
 
