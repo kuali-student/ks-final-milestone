@@ -50,6 +50,9 @@ function onCourseLoad(isCurriculumSpecialist, currentSectionId) {
  * @param href
  */
 function showCommentLightBox(href) {
+    if (!Date.now) {
+        Date.now = function() { return new Date().getTime(); };
+    }
     var href1 = href + "&fake=" + Date.now();
     showLightboxUrl(href1);
 }
