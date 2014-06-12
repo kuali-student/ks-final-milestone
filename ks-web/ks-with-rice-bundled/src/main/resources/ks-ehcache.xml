@@ -23,6 +23,13 @@
     <cache name="atpCache" maxElementsInMemory="500" eternal="true" timeToIdleSeconds="0" />
     <cache name="milestoneCache" maxElementsInMemory="500" eternal="true" timeToIdleSeconds="0" />
     <cache name="cluCache" maxElementsInMemory="100" eternal="true" timeToIdleSeconds="0" />
+    <cache name="clusetCache" maxElementsInMemory="100" eternal="true" timeToIdleSeconds="0" />
+    <cache name="cluCluRelationCache" maxElementsInMemory="100" eternal="true" timeToIdleSeconds="0">
+        <searchable>
+            <searchAttribute name="cluId"/>
+            <searchAttribute name="relatedCluId"/>
+        </searchable>
+    </cache>
 
     <!-- This is for the Course Code Lookup Cache.  -->
     <cache name="CourseOfferingMaintainableImplCache" maxElementsInMemory="2000" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="300" />
