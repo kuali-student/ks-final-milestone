@@ -10,9 +10,7 @@
                     <div class="kscr-Header-termName-selector">
                         <span class="kscr-Header-termName-selector-label" id="header_termName" for="searchTermDesktop">{{termName}}</span>
                         <div class="kscr-Header-termName-selectWrap">
-                            <select id="searchTermDesktop" ng-model="termId" ng-options="t.termId as t.termName for t in terms">
-                                <option value="" ng-if="!termId"></option>
-                            </select>
+                            <select id="searchTermDesktop" ng-model="termId" ng-options="t.termId as t.termName for t in terms"></select>
                         </div>
                     </div>
                 </div>
@@ -62,9 +60,7 @@
             <li class="kscr-Menu-searchTerm">
                 <!-- Defaults to the current term-->
                 <span class="kscr-Menu-heading">Term</span>
-                <select id="searchTerm" ng-model="termId" ng-options="t.termId as t.termName for t in terms">
-                    <option value="" ng-if="!termId"></option>
-                </select>
+                <select id="searchTerm" ng-model="termId" ng-options="t.termId as t.termName for t in terms"></select>
             </li>
 
             <!--Search Courses section-->
