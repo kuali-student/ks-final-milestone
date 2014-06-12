@@ -12,7 +12,8 @@ angular.module('regCartApp')
                         $scope.dropMenu=false;
                     }
                 });
-            }
+            },
+            templateUrl: 'dropMenu.html'
         };
     })
 
