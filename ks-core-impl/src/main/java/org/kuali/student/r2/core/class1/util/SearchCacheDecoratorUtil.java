@@ -3,6 +3,7 @@ package org.kuali.student.r2.core.class1.util;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.Element;
 import org.apache.commons.collections.keyvalue.MultiKey;
+import org.kuali.rice.core.api.config.property.Config;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -38,8 +39,13 @@ public class SearchCacheDecoratorUtil {
     public static void invalidateCache(Cache cache, String cacheSearchKeyPrefix, String invalidateSearchCacheOnlyConfigKey,
                                        String verifyResultsBeforeInvalidateConfigKey, String id, String cellKey) {
 
-        boolean invalidateSearchCacheOnly = ConfigContext.getCurrentContextConfig().getBooleanProperty(invalidateSearchCacheOnlyConfigKey);
-        boolean verifyResultsBeforeInvalidate = ConfigContext.getCurrentContextConfig().getBooleanProperty(verifyResultsBeforeInvalidateConfigKey);
+        Config config = ConfigContext.getCurrentContextConfig();
+        if(config==null){
+            return; // Return if config is null, this is so that we can execute this in a unit test.
+        }
+
+        boolean invalidateSearchCacheOnly = config.getBooleanProperty(invalidateSearchCacheOnlyConfigKey);
+        boolean verifyResultsBeforeInvalidate = config.getBooleanProperty(verifyResultsBeforeInvalidateConfigKey);
         if (!invalidateSearchCacheOnly) {
             LOG.debug("Clearing entire cache ({})", cache.getName());
             cache.removeAll();
