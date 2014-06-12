@@ -225,7 +225,7 @@
                 <bean parent="Uif-MessageField" p:id="type"
                       p:label="Type"
                       p:messageText="@{#line.activityFormatName}"
-                      p:render="@{#line.partOfRegGroup==true or #line.regGroupIdForSingleFO==true}">
+                      p:render="@{#line.partOfRegGroup==true or #line.singleFormatOffering==true}">
                 </bean>
                 <!--p:label="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('details.ao.header.code')}"-->
                 <bean parent="Uif-MessageField" p:id="code"
@@ -279,7 +279,7 @@
                 <!--@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('details.ao.header.select')}" >-->
                 <bean parent="Uif-InputField" p:propertyName="selected" p:id="select "
                       p:label="Select"
-                      p:render="@{#line.partOfRegGroup==false and #line.regGroupIdForSingleFO==false}">
+                      p:render="@{#line.partOfRegGroup==false and #line.singleFormatOffering==false}">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl">
                             <property name="onChangeScript" value="alert('checkbox clicked')"/>
@@ -287,7 +287,7 @@
                     </property>
                 </bean>
                 <bean parent="Uif-FieldGroupBase" p:fieldLabel.labelText="Add to Plan"
-                      p:render="@{#line.regGroupIdForSingleFO==true}">
+                      p:render="@{#line.singleFormatOffering==true}">
                     <property name="items">
                         <list>
                             <bean parent="Uif-Link" p:render="@{#line.singleFormatOffering==true}"
