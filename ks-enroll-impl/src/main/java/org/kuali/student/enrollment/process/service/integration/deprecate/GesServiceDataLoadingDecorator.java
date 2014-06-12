@@ -4,17 +4,18 @@
  */
 package org.kuali.student.enrollment.process.service.integration.deprecate;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import org.kuali.student.core.constants.GesServiceConstants;
-import org.kuali.student.core.ges.service.ValueType;
-import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.core.ges.dto.ParameterInfo;
 import org.kuali.student.core.ges.dto.ValueInfo;
 import org.kuali.student.core.ges.service.GesService;
 import org.kuali.student.core.ges.service.GesServiceDecorator;
+import org.kuali.student.core.ges.service.ValueType;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.RichTextHelper;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  *
@@ -47,7 +48,7 @@ public class GesServiceDataLoadingDecorator extends GesServiceDecorator {
                 "The Load Calculation to use for credit limit checks", ValueType.STRING, contextInfo);
 
         _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT, 1, "6",
-                "kuali.population.student.key.everyone", "kuali.atp.type.Summer", contextInfo);
+                "kuali.population.student.key.everyone", "kuali.atp.type.Summer1", contextInfo);
         _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT, 2, "21",
                 "kuali.population.student.key.everyone", "kuali.atp.type.Fall, kuali.atp.type.Spring", contextInfo);
 //        _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT, 3, "15",
