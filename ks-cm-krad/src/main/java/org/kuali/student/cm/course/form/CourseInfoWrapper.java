@@ -53,22 +53,6 @@ public class CourseInfoWrapper implements Serializable {
     private ReviewProposalDisplay reviewProposalDisplay = new ReviewProposalDisplay();
     private CourseInfo courseInfo = new CourseInfo();
     private List<FormatInfo> formats = new ArrayList<FormatInfo>();
-    private List<CommentWrapper> comments = new ArrayList<CommentWrapper>();
-    ;
-
-    private CommentWrapper activeComment;
-    private String comment;
-    private String capturedComment;
-
-    public String getCapturedCommenterId() {
-        return capturedCommenterId;
-    }
-
-    public void setCapturedCommenterId(String capturedCommenterId) {
-        this.capturedCommenterId = capturedCommenterId;
-    }
-
-    private String capturedCommenterId;
 
     private String crossListingDisclosureSection;
     private String userId = "";
@@ -93,27 +77,6 @@ public class CourseInfoWrapper implements Serializable {
     private transient CreateCourseUIHelper uiHelper = new CreateCourseUIHelper();
 
     public CourseInfoWrapper() {
-    }
-
-    /**
-     * Storage for the text area on the comments form.
-     *
-     * @return
-     */
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    public String getCapturedComment() {
-        return capturedComment;
-    }
-
-    public void setCapturedComment(String capturedComment) {
-        this.capturedComment = capturedComment;
     }
 
     /**
@@ -331,26 +294,6 @@ public class CourseInfoWrapper implements Serializable {
         this.creditOptionWrappers = creditOptionWrappers;
     }
 
-    public List<CommentWrapper> getComments() {
-        /*     For testing
-        CommentWrapper commentWrapper = new CommentWrapper();
-        CommentInfo commentInfo = new CommentInfo();
-        commentInfo.setCommenterId("test");
-        commentInfo.setEffectiveDate(new java.util.Date());
-        commentInfo.setCommentText(new RichTextInfo("test", "test"));
-        commentWrapper.setCommentInfo(commentInfo);
-
-        comments = new ArrayList<CommentWrapper>();
-
-        comments.add(commentWrapper);
-         */
-        return comments;
-    }
-
-    public void setComments(List<CommentWrapper> comments) {
-        this.comments = comments;
-    }
-
     public List<DecisionInfo> getDecisions() {
         return decisions;
     }
@@ -413,23 +356,6 @@ public class CourseInfoWrapper implements Serializable {
 
     public void setFormats(List<FormatInfo> formats) {
         this.formats = formats;
-    }
-
-    /**
-     * @return commentWrapper
-     * @see #setActiveComment(CommentWrapper)
-     */
-    public CommentWrapper getActiveComment() {
-        return activeComment;
-    }
-
-    /**
-     * Comment newly added or comment edit in progress by the user.
-     *
-     * @param activeComment
-     */
-    public void setActiveComment(CommentWrapper activeComment) {
-        this.activeComment = activeComment;
     }
 
     /**

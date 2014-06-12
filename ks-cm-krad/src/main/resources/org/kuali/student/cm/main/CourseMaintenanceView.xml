@@ -409,19 +409,6 @@
                         </list>
                     </property>
                 </bean>
-                <bean id="CaptureCommentsTextArea" parent="Uif-InputField" p:propertyName="capturedComment"
-                      p:additionalCssClasses="alwaysHide">
-                    <property name="control">
-                        <bean parent="Uif-TextControl" p:size="10"/>
-                    </property>
-                </bean>
-
-                <bean id="CaptureCommentIDTextArea" parent="Uif-InputField" p:propertyName="capturedCommenterId"
-                      p:additionalCssClasses="alwaysHide">
-                    <property name="control">
-                        <bean parent="Uif-TextControl" p:size="10"/>
-                    </property>
-                </bean>
             </list>
         </property>
     </bean>

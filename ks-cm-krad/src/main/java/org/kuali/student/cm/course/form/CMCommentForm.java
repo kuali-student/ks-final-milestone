@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class //TODO ...
+ * Form class to handle comments functionality.
  *
  * @author Kuali Student Team
  */

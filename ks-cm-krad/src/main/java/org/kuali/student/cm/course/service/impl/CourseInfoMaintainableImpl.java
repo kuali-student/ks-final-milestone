@@ -32,7 +32,6 @@ import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.uif.container.Container;
 import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.view.ViewModel;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
 import org.kuali.rice.krms.api.repository.agenda.AgendaItemDefinition;
@@ -56,7 +55,6 @@ import org.kuali.student.cm.course.controller.CourseController;
 import org.kuali.student.cm.course.form.ActivityInfoWrapper;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
 import org.kuali.student.cm.course.form.CollaboratorWrapper;
-import org.kuali.student.cm.course.form.CommentWrapper;
 import org.kuali.student.cm.course.form.CourseCreateUnitsContentOwner;
 import org.kuali.student.cm.course.form.CourseInfoWrapper;
 import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
@@ -78,7 +76,6 @@ import org.kuali.student.cm.maintenance.CMMaintainable;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.core.krms.tree.KSRuleViewTreeBuilder;
-import org.kuali.student.core.organization.ui.client.mvc.model.MembershipInfo;
 import org.kuali.student.lum.lu.ui.course.keyvalues.OrgsBySubjectCodeValuesFinder;
 import org.kuali.student.lum.lu.ui.krms.dto.LUAgendaEditor;
 import org.kuali.student.lum.lu.ui.krms.dto.LURuleEditor;
@@ -89,22 +86,14 @@ import org.kuali.student.r1.core.proposal.ProposalConstants;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
-import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.constants.LearningObjectiveServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
-import org.kuali.student.r2.core.comment.dto.CommentInfo;
-import org.kuali.student.r2.core.comment.service.CommentService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
-import org.kuali.student.r2.core.constants.CommentServiceConstants;
 import org.kuali.student.r2.core.constants.EnumerationManagementServiceConstants;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.constants.ProposalServiceConstants;
@@ -144,12 +133,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 
 import javax.xml.namespace.QName;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -188,10 +174,6 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     private CourseRuleManagementWrapper courseRuleManagementWrapper;
 
     private transient NaturalLanguageHelper nlHelper;
-
-    private transient CommentService commentService;
-
-    private transient IdentityService identityService;
 
     private transient ProposalService proposalService;
 
@@ -538,43 +520,6 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             }
         }
         return ((CourseRuleViewHelperServiceImpl) getRuleViewHelperService()).performAddLineValidation(viewModel, newLine, collectionId, collectionPath);
-    }
-
-    /**
-     * Overriding delete process to permanently delete comment from the database.
-     *
-     * @param model
-     * @param collectionId
-     * @param collectionPath
-     * @param lineIndex
-     */
-    @Override
-    public void processCollectionDeleteLine(ViewModel model, String collectionId, String collectionPath, int lineIndex) {
-
-        if (StringUtils.endsWith(collectionPath, "comments")) {
-            MaintenanceDocumentForm modelForm = (MaintenanceDocumentForm) model;
-            CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) modelForm.getDocument().getNewMaintainableObject().getDataObject();
-            CommentWrapper wrapper = courseInfoWrapper.getComments().get(lineIndex);
-
-            /**
-             * If it's already exists at DB, delete from DB. Otherwise, just from list.
-             */
-            if (!wrapper.isNewDto()) {
-                try {
-                    StatusInfo deleteStatus = getCommentService().deleteComment(wrapper.getCommentInfo().getId(), createContextInfo());
-                    if (!deleteStatus.getIsSuccess()) {
-                        GlobalVariables.getMessageMap().putError(collectionPath, CurriculumManagementConstants.MessageKeys.ERROR_COMMENT_DELETE, wrapper.getCommentInfo().getId(), deleteStatus.getMessage());
-                    }
-                } catch (Exception e) {
-                    throw new RuntimeException("Error deleting comment [id=" + wrapper.getCommentInfo().getId() + "]", e);
-                }
-                courseInfoWrapper.getComments().remove(wrapper);
-                return;
-            }
-
-        }
-
-        super.processCollectionDeleteLine(model, collectionId, collectionPath, lineIndex);
     }
 
     @Override
@@ -1941,224 +1886,6 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     }
 
     /**
-     * Delete a comment.
-     *
-     * @param commentId
-     */
-    public void deleteComment(String commentId) {
-        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
-        CommentInfo commentDelete =  null;
-        ProposalInfo proposal = courseInfoWrapper.getProposalInfo();
-        try {
-            List<CommentInfo> commentsOfTheProposal = getCommentService().getCommentsByReferenceAndType(proposal.getId(), proposal.getTypeKey(), createContextInfo());
-
-            for (CommentInfo commentInfo : commentsOfTheProposal) {
-                if (StringUtils.equals(courseInfoWrapper.getCapturedCommenterId(), commentInfo.getCommenterId())) {
-                    commentDelete = commentInfo;
-                    break;
-                }
-            }
-            if(commentDelete!= null)
-            getCommentService().deleteComment(commentDelete.getId(),createContextInfo());
-        } catch (Exception e) {
-            LOG.error("Error deleting comment " + commentDelete.getId() + " for the proposal " + proposal.getName());
-            throw new RuntimeException("Error adding comment " + commentDelete.getId() + " for the proposal " + proposal.getName(), e);
-        }
-    }
-
-    /**
-     * Create or update a comment.
-     *
-     * @param commentWrapper
-     */
-    public void saveComment(CommentWrapper commentWrapper) {
-
-        LOG.trace("Saving comment - " + commentWrapper.getCommentInfo().getCommentText());
-
-        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
-        ProposalInfo proposal = courseInfoWrapper.getProposalInfo();
-        CommentInfo comment = commentWrapper.getCommentInfo();
-
-        if (StringUtils.isBlank(courseInfoWrapper.getProposalInfo().getId())) {
-            throw new RuntimeException("Proposal should be saved before adding comments");
-        }
-
-        if (commentWrapper.isNewDto()) {
-
-            comment.setReferenceId(proposal.getId());
-            comment.setReferenceTypeKey(proposal.getTypeKey());
-            comment.setTypeKey(CommentServiceConstants.COMMENT_GENERAL_REMARKS_TYPE_KEY);
-            DateFormat dateFormat = new SimpleDateFormat("MMMMM dd, yyyy, HH:mm a");
-            Date date = new Date();
-            comment.setCommenterId(GlobalVariables.getUserSession().getPrincipalId() + " on " + dateFormat.format(date));
-            comment.setStateKey(CommentServiceConstants.COMMENT_ACTIVE_STATE_KEY);
-            try {
-                comment = getCommentService().createComment(proposal.getId(), proposal.getTypeKey(), CommentServiceConstants.COMMENT_GENERAL_REMARKS_TYPE_KEY, comment, createContextInfo());
-            } catch (Exception e) {
-                LOG.error("Error adding comment " + comment.getId() + " for the proposal " + proposal.getName());
-                throw new RuntimeException("Error adding comment " + comment.getId() + " for the proposal " + proposal.getName(), e);
-            }
-
-        } else {
-            try {
-                comment = getCommentService().updateComment(comment.getId(), comment, createContextInfo());
-            } catch (Exception e) {
-                LOG.error("Error updating comment " + comment.getId() + " for the proposal " + proposal.getName());
-                throw new RuntimeException("Error updating comment " + comment.getId() + " for the proposal " + proposal.getName(), e);
-            }
-        }
-
-        commentWrapper.setCommentInfo(comment);
-
-        LOG.debug("Comment successfully added/updated. [id=" + comment.getId() + "]");
-
-    }
-
-    /**
-     * This method retrieves all the comments for the proposal
-     */
-    public void retrieveComments() {
-
-        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
-        ProposalInfo proposal = courseInfoWrapper.getProposalInfo();
-
-        LOG.debug("Retrieving comments for  - " + proposal.getId());
-
-        List<CommentInfo> comments;
-
-        courseInfoWrapper.getComments().clear();
-
-        try {
-            comments = getCommentService().getCommentsByReferenceAndType(proposal.getId(), proposal.getTypeKey(), createContextInfo());
-            LOG.debug("Retrieved " + comments.size() + " comments for proposal " + proposal.getId());
-        } catch (Exception e) {
-            throw new RuntimeException("Error retrieving comment(s) for the proposal [id=" + proposal.getId() + "]", e);
-        }
-
-        if (comments != null) {
-            for (CommentInfo comment : comments) {
-                CommentWrapper wrapper = new CommentWrapper();
-                wrapper.setCommentInfo(comment);
-//                Person person = getPersonService().getPerson(comment.getMeta().getCreateId());
-                //              wrapper.getRenderHelper().setUser(person.getNameUnmasked());
-                wrapper.getRenderHelper().setDateTime(DateFormatters.MONTH_DATE_YEAR_TIME_COMMA_FORMATTER.format(comment.getMeta().getCreateTime()));
-                courseInfoWrapper.getComments().add(wrapper);
-            }
-        }
-    }
-
-    /**
-     * @throws InvalidParameterException when incorrect parameters are used for looking up the comments made
-     * @throws MissingParameterException when null or empty parameters are used for looking up the comments made
-     * @throws OperationFailedException  when it cannot be determined what comments were made.
-     * @throws PermissionDeniedException when the user doesn't have rights to look up comments.
-     */
-    /*protected void redrawDecisionTable()
-            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<CommentInfo> commentInfos = null;
-        try {
-            commentInfos = getCommentService()
-                    .getCommentsByReferenceAndType("temp_reference_id",
-                            "referenceType.clu.proposal",
-                            ContextUtils.getContextInfo());
-        } catch (DoesNotExistException e) {
-            // Add a dummy row
-            // form.getDecisions().add(new DecisionInfo());
-
-            // If there are no comments, don't go any further
-            return;
-        }
-
-        // Collect person ids to search
-        final List<String> personIds = new ArrayList<String>();
-        for (CommentInfo comment : commentInfos) {
-            if (comment.getMeta().getCreateId() != null) {
-                personIds.add(comment.getMeta().getCreateId());
-            } else {
-                personIds.add("");
-            }
-        }
-
-        final Map<String, MembershipInfo> members = getNamesForPersonIds(personIds);
-
-//        redrawDecisionTable(commentInfos, members);
-    }*/
-
-    /**
-     * Responsible for rebuilding/reloading content within the decision view's HTML table.
-     *
-     * @param commentInfos {@link List} of {@link CommentInfo} instances that currently exist.
-     *                     These are comments for decisions that represent our rationale
-     * @param members      {@link Map} of {@link MembershipInfo} instances mapped by commenter ids.
-     *                     Commenter ids are supplied in the {@link CommentInfo} instances. The {@link MembershipInfo}
-     *                     is used to determine who is responsible for the decision.
-     * @see {@link #getNamesForPersonIds(List)} for the method that typically populates the members parameter.
-     */
-    /*protected void redrawDecisionTable(final List<CommentInfo> commentInfos,
-                                       final Map<String, MembershipInfo> members) {
-
-        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
-
-        final KSDateTimeFormatter dateFormat = DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER;
-
-        if (commentInfos != null) {
-            for (final CommentInfo commentInfo : commentInfos) {
-                *//* we only want decision rationale comments so if no DecisionRationaleDetail is returned for comment
-                 * type then don't add that comment to the table
-                 *//*
-                final WorkflowUtilities.DecisionRationaleDetail drDetails = WorkflowUtilities.DecisionRationaleDetail.getByType(commentInfo.getTypeKey());
-                if (drDetails != null) {
-                    final DecisionInfo decision = new DecisionInfo();
-                    decision.setDecision(drDetails.getLabel());
-                    decision.setId(commentInfo.getId());
-
-                    final String rationaleDate = dateFormat.format(new DateTime(commentInfo.getMeta().getCreateTime().getTime()));
-                    decision.setDate(rationaleDate);
-
-                    if (members.get(commentInfo.getMeta().getCreateId()) != null) {
-                        final MembershipInfo memberInfo = members.get(commentInfo.getMeta().getCreateId());
-                        final StringBuilder memberName = new StringBuilder();
-                        memberName.append(memberInfo.getFirstName());
-                        memberName.append(" ");
-                        memberName.append(memberInfo.getLastName());
-
-                        decision.setActor(memberName.toString());
-                    }
-                    decision.setRationale(commentInfo.getCommentText().getPlain());
-                    courseInfoWrapper.getDecisions().add(decision);
-                }
-            }
-        }
-    }*/
-
-    /**
-     * Retrieve {@link MembershipInfo} instances populated with first and last names using {@link org.kuali.rice.kim.api.identity.entity.EntityDefault}
-     * instances of the personIds
-     *
-     * @param personIds {@link List} of ids used to get {@link org.kuali.rice.kim.api.identity.entity.EntityDefault}s with first and last names
-     * @param {@link    Map} of {@link MembershipInfo} instances with first and last names mapped to each personId
-     */
-//    protected Map<String, MembershipInfo> getNamesForPersonIds(final List<String> personIds) {
-//        final Map<String, MembershipInfo> identities = new HashMap<String, MembershipInfo>();
-//        for (String pId : personIds) {
-//            final EntityDefault entity = getIdentityService().getEntityDefaultByPrincipalId(pId);
-//            final MembershipInfo memeberEntity = new MembershipInfo();
-//            memeberEntity.setFirstName(entity.getName().getFirstName());
-//            memeberEntity.setLastName(entity.getName().getLastName());
-//            identities.put(pId, memeberEntity);
-//        }
-//        return identities;
-//    }
-
-    /*@Override
-    public Map<String,String> prepareDataObjectKeys() {
-        Map<String,String> dataObjectDetails = new HashMap<String, String>();
-        String courseId = ((CourseInfoWrapper)getDataObject()).getCourseInfo().getId();
-        dataObjectDetails.put("id",courseId);
-        return dataObjectDetails;
-    }*/
-
-    /**
      * The finalizeMethodToCall for the Review Proposal link. Populates the given action link with the URL for the
      * document.
      */
@@ -2175,26 +1902,11 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         actionLink.setActionScript("window.open('" + href + "', '_self');");
     }
 
-
-    protected CommentService getCommentService() {
-        if (commentService == null) {
-            commentService = (CommentService) GlobalResourceLoader.getService(new QName(CommentServiceConstants.NAMESPACE, CommentService.class.getSimpleName()));
-        }
-        return commentService;
-    }
-
     protected ProposalService getProposalService() {
         if (proposalService == null) {
             proposalService = (ProposalService) GlobalResourceLoader.getService(new QName(ProposalServiceConstants.NAMESPACE, ProposalServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return proposalService;
-    }
-
-    protected IdentityService getIdentityService() {
-        if (identityService == null) {
-            identityService = GlobalResourceLoader.getService(new QName(KimConstants.Namespaces.KIM_NAMESPACE_2_0, "identityService"));
-        }
-        return identityService;
     }
 
     protected PersonService getPersonService() {
