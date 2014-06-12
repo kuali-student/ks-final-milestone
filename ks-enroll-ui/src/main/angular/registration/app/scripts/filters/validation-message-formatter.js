@@ -44,8 +44,8 @@ angular.module('regCartApp').filter('formatValidationMessage', ['VALIDATION_ERRO
      * 1. courseCode on root level:
      *    { messageKey: '...', courseCode: '...' }
      *
-     * 2. conflictingItems array:
-     *    { messageKey: '...', conflictingItems: [{ courseCode: '...' }, { courseCode: '...' }]}
+     * 2. conflictingCourses array:
+     *    { messageKey: '...', conflictingCourses: [{ courseCode: '...' }, { courseCode: '...' }]}
      *
      * @param data
      * @param course
@@ -68,9 +68,9 @@ angular.module('regCartApp').filter('formatValidationMessage', ['VALIDATION_ERRO
             conflicts.push({id: data.id, courseCode: data.courseCode});
         }
 
-        // Case 2: Check for an array of conflictingItems
-        if (data.conflictingItems) {
-            angular.forEach(data.conflictingItems, function(item) {
+        // Case 2: Check for an array of conflictingCourses
+        if (data.conflictingCourses) {
+            angular.forEach(data.conflictingCourses, function(item) {
                 conflicts.push(item);
             });
         }
