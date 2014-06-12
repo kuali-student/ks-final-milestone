@@ -594,125 +594,6 @@ public class CourseController extends CourseRuleEditorController {
     }
 
     /**
-     * Server-side action for rendering the comments lightbox
-     *
-     * @param form     {@link MaintenanceDocumentForm} instance used for this action
-     * @param result
-     * @param request  {@link HttpServletRequest} instance of the actual HTTP request made
-     * @param response The intended {@link HttpServletResponse} sent back to the user
-     * @throws Exception
-     */
-    @RequestMapping(params = "methodToCall=showComment")
-    public ModelAndView showComment(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
-                                    HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
-        courseInfoWrapper.setComment("");
-        // redirect back to client to display lightbox
-        return showDialog("commentsLightBox", form, request, response);
-    }
-
-
-    @RequestMapping(params = "methodToCall=deleteComment")
-    public ModelAndView deleteComment(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
-                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
-        CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
-        maintainable.deleteComment(courseInfoWrapper.getCapturedCommenterId());
-        maintainable.retrieveComments();
-        courseInfoWrapper.setComment("");
-        return showDialog("commentsLightBox", form, request, response);
-    }
-
-
-    @RequestMapping(params = "methodToCall=editComment")
-    public ModelAndView editComment(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
-                                    HttpServletRequest request, HttpServletResponse response) throws Exception {
-        CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
-        CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
-        maintainable.deleteComment(courseInfoWrapper.getCapturedCommenterId());
-        return saveComment(form, result, request, response);
-    }
-
-
-    /**
-     * This method submits a new comment or the comment editing by the user
-     *
-     * @param form     {@link MaintenanceDocumentForm} instance used for this action
-     * @param result
-     * @param request  {@link HttpServletRequest} instance of the actual HTTP request made
-     * @param response The intended {@link HttpServletResponse} sent back to the user
-     * @throws Exception
-     */
-    @RequestMapping(params = "methodToCall=saveComment")
-    public ModelAndView saveComment(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
-                                    HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
-        CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
-
-        CommentInfo commentInfo = new CommentInfo();
-        RichTextInfo richTextInfo = new RichTextInfo();
-        richTextInfo.setPlain(courseInfoWrapper.getCapturedComment());
-
-        commentInfo.setCommentText(richTextInfo);
-        CommentWrapper commentWrapper = new CommentWrapper();
-        commentWrapper.setCommentInfo(commentInfo);
-        courseInfoWrapper.setActiveComment(commentWrapper);
-        maintainable.saveComment(courseInfoWrapper.getActiveComment());
-        maintainable.retrieveComments();
-        courseInfoWrapper.setComment("");
-
-        return showDialog("commentsLightBox", form, request, response);
-
-
-        /*//TODO KSCM-848 : Will need to replace these temp values once we get UMD's reference data
-
-        String tempRefId = "temp_reference_id";
-        String tempRefTypeKey = "referenceType.clu.proposal";
-
-        final CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
-        CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
-
-        final String dateStr = DateFormatters.MONTH_DATE_YEAR_HOUR_MIN_CONCAT_AMPM_FORMATTER.format(new DateTime());
-        final Date date = new Date();
-
-        // This needs to be looked at when Reference data is retrieved. Lookup what comments are in the DB
-        // prob might move to showComment so that it displays the comments already made.
-        //List<CommentInfo> commentInfoFromDB = getCommentService().getCommentsByReferenceAndType(tempRefId, tempRefTypeKey,ContextUtils.getContextInfo());
-
-        for (CommentInfo ittCommentInfo : courseInfoWrapper.getCommentInfos()) {
-            CommentInfo commentInfo = ittCommentInfo;
-            commentInfo.getCommentText().setFormatted(commentInfo.getCommentText().getPlain());
-            //get the userID from the form to save with the comment made.
-            commentInfo.setCommenterId(getUserNameLoggedin(courseInfoWrapper.getUserId()) + " " + dateStr);
-            if (commentInfo.getEffectiveDate() == null) {
-                commentInfo.setEffectiveDate(date);
-            }
-            commentInfo.setTypeKey("kuali.comment.type.generalRemarks");
-            commentInfo.setReferenceId(tempRefId);
-            commentInfo.setReferenceTypeKey(tempRefTypeKey);
-            commentInfo.setStateKey(DtoState.ACTIVE.toString());
-            CommentInfo newComment = null;
-            try {
-                newComment = getCommentService().createComment(commentInfo.getReferenceId(),
-                        commentInfo.getReferenceTypeKey(), commentInfo.getTypeKey(), commentInfo,
-                        ContextUtils.getContextInfo());
-            } catch (Exception e) {
-                LOG.error("Error creating a new comment", e);
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, CurriculumManagementConstants.MessageKeys.ERROR_CREATE_COMMENT);
-                return getUIFModelAndView(form);
-            }
-            ittCommentInfo = newComment;
-        }
-        //form.getDialogManager().removeDialog("commentsLightBox");
-        *//*return getUIFModelAndView(form);*//*
-        form.getDialogManager().setDialogReturnMethod("commentsLightBox", UifConstants.MethodToCallNames.START);
-        return returnFromLightbox(form, result, request, response);*/
-    }
-
-    /**
      * @param userId The id of the person currently logged in.
      * @return returns User name of person currently logged in.
      */
@@ -973,13 +854,6 @@ public class CourseController extends CourseRuleEditorController {
             documentService = (DocumentService) GlobalResourceLoader.getService(new QName(DocumentServiceConstants.NAMESPACE, "DocumentService"));
         }
         return documentService;
-    }
-
-    protected CommentService getCommentService() {
-        if (commentService == null) {
-            commentService = (CommentService) GlobalResourceLoader.getService(new QName(CommentServiceConstants.NAMESPACE, CommentService.class.getSimpleName()));
-        }
-        return commentService;
     }
 
     protected IdentityService getIdentityService() {

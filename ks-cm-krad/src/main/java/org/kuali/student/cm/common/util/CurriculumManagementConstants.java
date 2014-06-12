@@ -27,6 +27,7 @@ public class CurriculumManagementConstants {
     public static class ControllerRequestMappings {
         public final static String CREATE_COURSE_INITIAL = "/createcourse_initial";
         public final static String CREATE_COURSE = "/courses";
+        public final static String CM_COMMENT = "/cm_comment";
     }
 
     public static class DocumentTypeNames {

@@ -63,10 +63,4 @@ public interface CourseInfoMaintainable {
 
     public void updateReview();
 
-    public void saveComment(CommentWrapper commentWrapper);
-
-    public void retrieveComments();
-
-    public void deleteComment(String commentId);
-
 }

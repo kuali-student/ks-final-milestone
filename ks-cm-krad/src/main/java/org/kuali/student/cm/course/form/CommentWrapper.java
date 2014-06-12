@@ -19,6 +19,7 @@ package org.kuali.student.cm.course.form;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.student.cm.uif.util.DTOWrapper;
 import org.kuali.student.cm.uif.util.RenderHelper;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
 
 /**
@@ -32,6 +33,7 @@ public class CommentWrapper implements DTOWrapper {
 
     public CommentWrapper(){
         commentInfo = new CommentInfo();
+        commentInfo.setCommentText(new RichTextInfo());
         renderHelper = new CreateCourseRenderHelper();
     }
 
@@ -64,6 +66,7 @@ public class CommentWrapper implements DTOWrapper {
 
         protected String user;
         protected String dateTime;
+        protected boolean editInProgress = false;
 
         public CreateCourseRenderHelper(){
 
@@ -83,6 +86,14 @@ public class CommentWrapper implements DTOWrapper {
 
         public void setUser(String user) {
             this.user = user;
+        }
+
+        public boolean isEditInProgress() {
+            return editInProgress;
+        }
+
+        public void setEditInProgress(boolean editInProgress) {
+            this.editInProgress = editInProgress;
         }
     }
 }

@@ -1869,8 +1869,6 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
             populateLearningObjectives();
 
-            retrieveComments();
-
             updateReview();
 
         } catch (Exception e) {
@@ -1954,7 +1952,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
      */
     public void deleteComment(String commentId) {
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
-        CommentInfo commentDelete = null;
+        CommentInfo commentDelete =  null;
         ProposalInfo proposal = courseInfoWrapper.getProposalInfo();
         try {
             List<CommentInfo> commentsOfTheProposal = getCommentService().getCommentsByReferenceAndType(proposal.getId(), proposal.getTypeKey(), createContextInfo());
@@ -1965,9 +1963,8 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                     break;
                 }
             }
-            if (commentDelete != null) {
-                getCommentService().deleteComment(commentDelete.getId(), createContextInfo());
-            }
+            if(commentDelete!= null)
+            getCommentService().deleteComment(commentDelete.getId(),createContextInfo());
         } catch (Exception e) {
             LOG.error("Error deleting comment " + commentDelete.getId() + " for the proposal " + proposal.getName());
             throw new RuntimeException("Error adding comment " + commentDelete.getId() + " for the proposal " + proposal.getName(), e);
