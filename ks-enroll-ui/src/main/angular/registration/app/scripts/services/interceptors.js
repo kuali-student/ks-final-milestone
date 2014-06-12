@@ -1,7 +1,23 @@
 'use strict';
 
-angular.module('regCartApp').factory('loginInterceptor', function ($q, $injector, $window) {
+angular.module('regCartApp').factory('loginInterceptor', function ($q, $injector, $window, $rootScope) {
     return {
+        'response' : function(response) {
+            /*
+            Currently, when the session expires any http request (including REST calls) is being redirected
+            to the login page which responds with an HTTP status of 200 (making it unrecognizable as an
+            error. To account for this, we will look for the login page to come back in the response...
+            if it does we will broadcast the sessionExpired event for the controller to handle.
+             */
+            var responseData=response.data;
+            if (typeof responseData !== 'object' && responseData.indexOf("Kuali Student Login") > -1) {
+                console.log("Informing user that session has expired...");
+                $rootScope.$broadcast('sessionExpired');
+                return $q.reject(response);
+            } else {
+                return response;
+            }
+        },
         'responseError': function (rejection) {
             if (rejection.status === 0) {
                 //For failed connections, try to log in again and refresh the page

@@ -2,8 +2,8 @@
 
 angular.module('regCartApp')
     .controller('MainCtrl', ['$scope', '$rootScope', '$location', '$state', 'TermsService', 'ScheduleService', 'GlobalVarsService', 'APP_URL',
-        'LoginService', 'MessageService',
-    function ($scope, $rootScope, $location, $state, TermsService, ScheduleService, GlobalVarsService, APP_URL, LoginService, MessageService) {
+        'LoginService', 'MessageService', '$modal',
+    function ($scope, $rootScope, $location, $state, TermsService, ScheduleService, GlobalVarsService, APP_URL, LoginService, MessageService, $modal) {
         console.log('In Main Controller');
 
         $scope.appUrl = APP_URL.replace('/services/', '/');
@@ -59,10 +59,29 @@ angular.module('regCartApp')
             $location.url(page);
         };
 
+        $scope.$on('sessionExpired', function () {
+            console.log('Received event sessionExpired');
+            $modal.open({
+                backdrop: 'static',
+                templateUrl: 'sessionExpired.html',
+                controller: 'SessionCtrl'
+            });
+        });
+
         //Update the UI routing state so it is available in the scope.
         $scope.$parent.uiState = $state.current.name;
         $scope.$on('$stateChangeStart',
             function(event, toState, toParams, fromState, fromParams){
                 $scope.$parent.uiState = toState.name;
             });
+    }])
+
+    .controller('SessionCtrl', ['$scope', 'LoginService', function ($scope, LoginService) {
+        $scope.logout = function() {
+            LoginService.logout().query({}, function () {
+                //After logging in, reload the page.
+                console.log('Session expired...logging out');
+                location.reload();
+            });
+        }
     }]);
