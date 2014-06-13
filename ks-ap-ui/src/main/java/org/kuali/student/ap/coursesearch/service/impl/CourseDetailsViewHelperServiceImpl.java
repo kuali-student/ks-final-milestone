@@ -11,7 +11,6 @@ import org.kuali.student.ap.coursesearch.dataobject.ActivityFormatDetailsWrapper
 import org.kuali.student.ap.coursesearch.dataobject.ActivityOfferingDetailsWrapper;
 import org.kuali.student.ap.coursesearch.dataobject.CourseOfferingDetailsWrapper;
 import org.kuali.student.ap.coursesearch.dataobject.CourseTermDetailsWrapper;
-import org.kuali.student.ap.coursesearch.dataobject.PlannedRegGroupDetailsWrapper;
 import org.kuali.student.ap.coursesearch.form.CourseSectionDetailsForm;
 import org.kuali.student.ap.coursesearch.service.CourseDetailsViewHelperService;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
@@ -20,6 +19,7 @@ import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
+import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -105,7 +105,6 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
             courseIds.add(courseId);
             Map<String, List<CourseOfferingDetailsWrapper>> courseOfferingsByTerm = processCourseOfferingsByTerm(courseIds, terms);
 
-
             for (Term scheduledTermId : scheduledTermsListSorted) {
 
                 CourseTermDetailsWrapper courseTerm = new CourseTermDetailsWrapper();
@@ -178,8 +177,8 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
                 throw new IllegalArgumentException("FO lookup error", e);
             }
 
-            courseOfferingDetailsWrapper.setPlannedRegGroupDetailsWrappers(
-                    getPlannedRegGroupDetailsByTermAndCO(termId, offering.getCourseCode()));
+            courseOfferingDetailsWrapper.setPlannedActivityDetailsWrappers(
+                    getPlannedActivityOfferingsByTermAndCO(termId, offering.getCourseCode()));
             offeringsByTerm.add(courseOfferingDetailsWrapper);
             map.put(termId, offeringsByTerm);
         }
@@ -187,7 +186,8 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
         return map;
     }
 
-    private List<PlannedRegGroupDetailsWrapper> getPlannedRegGroupDetailsByTermAndCO(String termId, String courseCode) {
+    private List<ActivityOfferingDetailsWrapper> getPlannedActivityOfferingsByTermAndCO(String termId,
+            String courseCode) {
 
         //1. get planned reg-group items  (for student (via. context), and/or planId? ...will need to decide)
         //        List<PlanItemInfo> plannedTermItems = KsapFrameworkServiceLocator.getAcademicPlanService()
@@ -197,16 +197,11 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
         //2. lookup AO for reg-groups (...using CourseCode to restrict)
 
         //Fake data for now
-        List<PlannedRegGroupDetailsWrapper> regGroups = new ArrayList<PlannedRegGroupDetailsWrapper>();
-        PlannedRegGroupDetailsWrapper regGroup = new PlannedRegGroupDetailsWrapper();
-
-        regGroup.setRegGroupCode("FD1-ForDUMMIES");
 
         List<ActivityOfferingDetailsWrapper> activityOfferings = new ArrayList<ActivityOfferingDetailsWrapper>();
 
-        regGroup.setActivityOfferingDetailsWrappers(activityOfferings);
-
         ActivityOfferingDetailsWrapper activityOffering = new ActivityOfferingDetailsWrapper();
+        activityOffering.setRegGroupCode("FD1-ForDUMMIES");
         activityOffering.setPartOfRegGroup(true);
         activityOffering.setActivityFormatName("Lecture");
         activityOffering.setInstructorName("Neal, Jerry");
@@ -216,13 +211,12 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
         activityOffering.setLocation("UITS Rec Studio1");
         activityOffering.setCurrentEnrollment(1);
         activityOffering.setMaxEnrollment(17);
-        activityOffering.setHonors(true);
         activityOffering.setClassUrl("http://krad.rice.kuali.org/kr-krad/kradsampleapp?viewId=ComponentLibraryHome");
         activityOffering.setRequirementsUrl("http://site.kuali.org/rice/2.4.0/reference/html/KRAD_Guide.html#d10268e992");
-        activityOffering.setRegGroupCode(regGroup.getRegGroupCode());
         activityOfferings.add(activityOffering);
 
         activityOffering = new ActivityOfferingDetailsWrapper();
+        activityOffering.setRegGroupCode("FD1-ForDUMMIES");
         activityOffering.setPartOfRegGroup(true);
         activityOffering.setActivityFormatName("Lab");
         activityOffering.setInstructorName("Westfall, Eric");
@@ -233,11 +227,39 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
         activityOffering.setMaxEnrollment(17);
         activityOffering.setClassUrl("http://krad.rice.kuali.org/kr-krad/kradsampleapp?viewId=ComponentLibraryHome");
         activityOffering.setRequirementsUrl("http://site.kuali.org/rice/2.4.0/reference/html/KRAD_Guide.html#d10268e992");
-        activityOffering.setRegGroupCode(regGroup.getRegGroupCode());
+        activityOffering.setHonors(true);
         activityOfferings.add(activityOffering);
-        regGroups.add(regGroup);
 
-        return regGroups;
+        activityOffering = new ActivityOfferingDetailsWrapper();
+        activityOffering.setRegGroupCode("FD1-ForSMARTIES");
+        activityOffering.setPartOfRegGroup(true);
+        activityOffering.setActivityFormatName("Lecture");
+        activityOffering.setInstructorName("Neal, Jerry");
+        activityOffering.setActivityOfferingCode("KRAD101Y");
+        activityOffering.setDays("MF");
+        activityOffering.setTime("09:00-09:50 AM");
+        activityOffering.setLocation("UITS Rec Studio1");
+        activityOffering.setCurrentEnrollment(1);
+        activityOffering.setMaxEnrollment(17);
+        activityOffering.setClassUrl("http://krad.rice.kuali.org/kr-krad/kradsampleapp?viewId=ComponentLibraryHome");
+        activityOffering.setRequirementsUrl("http://site.kuali.org/rice/2.4.0/reference/html/KRAD_Guide.html#d10268e992");
+        activityOfferings.add(activityOffering);
+
+        activityOffering = new ActivityOfferingDetailsWrapper();
+        activityOffering.setRegGroupCode("FD1-ForSMARTIES");
+        activityOffering.setPartOfRegGroup(true);
+        activityOffering.setActivityFormatName("Lab");
+        activityOffering.setInstructorName("Westfall, Eric");
+        activityOffering.setActivityOfferingCode("KRAD101Z");
+        activityOffering.setDays("TW");
+        activityOffering.setLocation("UITS Rec Studio2");
+        activityOffering.setCurrentEnrollment(1);
+        activityOffering.setMaxEnrollment(3);
+        activityOffering.setHonors(true);
+        activityOffering.setClassUrl("http://krad.rice.kuali.org/kr-krad/kradsampleapp?viewId=ComponentLibraryHome");
+        activityOffering.setRequirementsUrl("http://site.kuali.org/rice/2.4.0/reference/html/KRAD_Guide.html#d10268e992");
+        activityOfferings.add(activityOffering);
+        return activityOfferings;
     }
 
     private Map<String, List<ActivityOfferingDetailsWrapper>> getAOData(String courseOfferingId) throws Exception {
