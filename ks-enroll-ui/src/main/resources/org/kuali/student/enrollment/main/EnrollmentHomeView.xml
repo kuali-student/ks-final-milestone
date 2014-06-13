@@ -80,6 +80,8 @@
                       p:href="@{#ConfigProperties['application.url']}/kr-krad/courseOfferingCreate?methodToCall=start&amp;dataObjectClassName=org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper&amp;hideReturnLink=true"/>
                 <bean parent="Uif-Link" p:linkText="Schedule of Classes"
                       p:href="@{#ConfigProperties['application.url']}/kr-krad/scheduleOfClassesSearch?viewId=scheduleOfClassesSearchView&amp;pageId=scheduleOfClassesSearchInputPage&amp;methodToCall=start"/>
+                <bean parent="Uif-Link" p:linkText="Course Registration"
+                      p:href="@{#ConfigProperties['application.url']}/registration/#/myCart"/>
             </list>
         </property>
     </bean>
