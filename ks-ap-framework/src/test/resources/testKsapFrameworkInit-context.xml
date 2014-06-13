@@ -84,6 +84,8 @@
     <bean id="enrollmentStatusHelper" class="org.kuali.student.ap.test.mock.EnrollmentStatusHelperMockTest" />
     <bean id="learningPlanReviewStrategy" class="org.kuali.student.ap.test.mock.LearningPlanReviewStrategyMockTest" />
     <bean id="scheduleBuildStrategy" class="org.kuali.student.ap.test.mock.ScheduleBuildStrategyMockTest" />
+    <bean id="schedulingService" class="org.kuali.student.r2.core.scheduling.service.impl.SchedulingServiceMockImpl" />
+    <bean id="roomService" class="org.kuali.student.r2.core.room.service.impl.RoomServiceMockImpl" />
     <bean id="shoppingCartStrategy" class="org.kuali.student.ap.test.mock.ShoppingCartStrategyMockTest" />
     <bean id="courseOfferingSetService" class="org.kuali.student.ap.test.mock.CourseOfferingSetServiceMockTest"/>
     <bean id="ruleManagementService" class="org.kuali.rice.krms.impl.repository.KSRuleManagementServiceImpl"/>
