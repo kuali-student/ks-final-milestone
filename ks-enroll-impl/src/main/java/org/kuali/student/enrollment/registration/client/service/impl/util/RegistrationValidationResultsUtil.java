@@ -45,7 +45,7 @@ public class RegistrationValidationResultsUtil {
         return marshallResult(new RegistrationValidationConflictCourseResult(messageKey, conflictingCourses));
     }
 
-    public static String marshallResult(Object result) {
+    public static String marshallResult(RegistrationValidationResult result) {
         ObjectMapper mapper=new ObjectMapper();
         String json= null;
         try {
