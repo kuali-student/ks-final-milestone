@@ -206,7 +206,7 @@
                 <bean parent="Uif-MessageField" p:id="type"
                       p:label="Type"
                       p:messageText="@{#line.activityFormatName}"
-                      p:render="@{#line.partOfRegGroup==true or #line.singleFormatOffering==true}">
+                      p:render="@{#line.partOfRegGroup==true}">
                 </bean>
                 <!--p:label="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('details.ao.header.code')}"-->
                 <bean parent="Uif-MessageField" p:id="code"
