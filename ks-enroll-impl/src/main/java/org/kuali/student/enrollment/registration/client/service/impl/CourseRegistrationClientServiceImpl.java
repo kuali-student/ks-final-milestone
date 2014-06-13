@@ -359,10 +359,12 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
     }
 
     /**
-     * Finds all LPRs for a given personId and deletes them
+     * Finds all LPRs for a given personId and deletes them. If term is passed - deletes LPRs only for that term.
      * Returns an empty List of StudentScheduleCourseResult
      *
      * @param personId Principal ID
+     * @param termId - optional
+     * @param termCode - optional, human readable code representing the term. ex: 201208
      * @return Empty Response Object or Response object with Error text
      * @throws InvalidParameterException
      * @throws MissingParameterException
@@ -371,11 +373,17 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
      * @throws DoesNotExistException
      */
     @Override
-    public Response clearLPRsByPersonRS(String personId) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+    public Response clearLPRsByPersonRS(String personId, String termId, String termCode) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
         Response.ResponseBuilder response;
         try {
             ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
-            List<LprInfo> lprs = CourseRegistrationAndScheduleOfClassesUtil.getLprService().getLprsByPerson(personId, contextInfo);
+            List<LprInfo> lprs = new ArrayList<LprInfo>();
+            if (StringUtils.isEmpty(termId) && StringUtils.isEmpty(termCode)) {
+                lprs = CourseRegistrationAndScheduleOfClassesUtil.getLprService().getLprsByPerson(personId, contextInfo);
+            } else {
+                termId = CourseRegistrationAndScheduleOfClassesUtil.getTermId(termId, termCode);
+                lprs = CourseRegistrationAndScheduleOfClassesUtil.getLprService().getLprsByPersonAndAtp(personId, termId, contextInfo);
+            }
             for (LprInfo lprInfo : lprs) {
                 CourseRegistrationAndScheduleOfClassesUtil.getLprService().deleteLpr(lprInfo.getId(), contextInfo);
             }

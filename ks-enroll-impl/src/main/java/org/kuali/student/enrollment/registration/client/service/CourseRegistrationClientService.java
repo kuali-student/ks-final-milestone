@@ -168,10 +168,12 @@ public interface CourseRegistrationClientService {
     Response dropFromWaitlistEntry(@QueryParam("masterLprId") String masterLprId);
 
     /**
-     * Finds all LPRs for a given personId and deletes them.
+     * Finds all LPRs for a given personId and deletes them. If term is passed - deletes LPRs only for that term.
      * Returns a Response object with status.
      *
      * @param personId Principal ID
+     * @param termId - optional
+     * @param termCode - optional, human readable code representing the term. ex: 201208
      * @return Empty Response Object or Response object with Error text
      * @throws InvalidParameterException
      * @throws MissingParameterException
@@ -181,7 +183,9 @@ public interface CourseRegistrationClientService {
      */
     @DELETE
     @Path("/clearpersonlprs")
-    Response clearLPRsByPersonRS(@QueryParam("person") String personId) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException;
+    Response clearLPRsByPersonRS(@QueryParam("person") String personId,
+                                 @QueryParam("termId") String termId,
+                                 @QueryParam("termCode") String termCode) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException;
 
     /**
      * This method returns a roster of students on a waitlist for a particular registration group.
