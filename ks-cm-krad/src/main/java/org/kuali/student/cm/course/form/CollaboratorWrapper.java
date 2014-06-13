@@ -50,7 +50,11 @@ public class CollaboratorWrapper {
         private String fullName;
 
         public String getFullName() {
-                return lastName + "," + firstName + "(Author)";
+            if(author){
+                return lastName + ", " + firstName + " (Author)";
+            }else{
+                return lastName + ", " + firstName;
+            }
         }
 
         public String getPrincipalId() {

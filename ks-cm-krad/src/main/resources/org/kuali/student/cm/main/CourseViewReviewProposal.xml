@@ -581,8 +581,7 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-VerticalFieldGroup" p:label="Authors and Collaborators" p:colSpan="3"
-                                  p:fieldLabel.renderColon="false"
-                                  p:render="@{!#emptyList(#dataObject.reviewProposalDisplay.collaboratorSection.collaboratorWrappers)}">
+                                  p:fieldLabel.renderColon="false">
                                 <property name="items">
                                     <list>
                                         <bean id="course_review_authors_and_collaborators_details" parent="Uif-StackedCollectionSection"
@@ -590,7 +589,7 @@
                                               p:collectionObjectClass="org.kuali.student.cm.course.form.CollaboratorWrapper"
                                               p:colSpan="3">
                                             <property name="layoutManager.lineGroupPrototype.header.headerText"
-                                                      value="@{(#line.firstName)}"/>
+                                                      value="@{(#line.fullName)}"/>
                                             <property name="layoutManager.lineGroupPrototype.header.style"
                                                       value="border-bottom : 1px solid black;"/>
                                             <property name="renderLineActions" value="false"/>
@@ -609,11 +608,19 @@
                                     </list>
                                 </property>
                             </bean>
-
-                            <!-- This bean gets rendered if the Authors and Collaborators collection is empty. Otherwise, the one above does. -->
-                            <bean parent="CM-ReadOnlyInput" p:label="Authors and Collaborators" id="emptyStringAuthorsAndCollaborators"
-                                  p:propertyName="reviewProposalDisplay.collaboratorSection.emptyStringAuthorAndCollaborator"
-                                  p:render="@{#emptyList(#dataObject.reviewProposalDisplay.collaboratorSection.collaboratorWrappers)}">
+                        </list>
+                    </property>
+                    <property name="propertyReplacers">
+                        <list>
+                            <!-- If there are no authors and collaborators then just show a label alone -->
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items"
+                                  p:condition="@{#emptyList(#dataObject.reviewProposalDisplay.collaboratorSection.collaboratorWrappers)}">
+                                <property name="replacement">
+                                    <list>
+                                        <bean parent="CM-ReadOnlyInput" p:label="Authors and Collaborators" id="emptyStringAuthorsAndCollaborators"
+                                              p:propertyName="reviewProposalDisplay.collaboratorSection.emptyStringAuthorAndCollaborator"/>
+                                    </list>
+                                </property>
                             </bean>
                         </list>
                     </property>
