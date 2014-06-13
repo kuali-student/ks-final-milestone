@@ -195,8 +195,8 @@
                                         </bean>
                                         <bean parent="Uif-ImageField" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/validation/info.png">
                                             <property name="toolTip">
-                                                <bean id="KS-LearningObjective-Category-Tooltip" parent="Uif-KS-Tooltip" p:tooltipContent="Add a category to classify your learning
-                                                                                                objectives. The categories will be used for administrative analysis."/>
+                                                <bean id="KS-LearningObjective-Category-Tooltip" parent="Uif-KS-Tooltip"
+                                                      p:tooltipContent="Add a category to classify your learning objectives. The categories will be used for administrative analysis."/>
                                             </property>
                                         </bean>
                                     </list>
@@ -209,54 +209,133 @@
 		</property>
 	</bean>
 
-    <bean id="LearningObjectives-MoveUp-Button" parent="Uif-ActionImage">
-		<property name="actionImage">
-            <bean parent="Uif-Image" p:source="@{#ConfigProperties['krad.externalizable.images.url']+'/arrow-up.png'}" p:altText="Move Up"/>
-        </property>
+    <bean id="LearningObjectives-Icon-MoveUp" parent="Uif-ActionLink"  p:iconClass="ks-fontello-icon-up" p:title="Move learning objective up">
         <property name="actionScript" value="moveLo(this, 'LearningObjective-CollectionSection', 'moveLearningObjectiveUp');" />
-        <property name="toolTip">
-        	<bean parent="Uif-Tooltip" p:tooltipContent="Move learning objective up" />
-        </property>
     </bean>
 
-    <bean id="LearningObjectives-MoveDown-Button" parent="Uif-ActionImage">
-    	<property name="actionImage">
-            <bean parent="Uif-Image" p:source="@{#ConfigProperties['krad.externalizable.images.url']+'/arrow-down.png'}" p:altText="Move Down"/>
-        </property>
+    <bean id="LearningObjectives-Icon-MoveDown" parent="Uif-ActionLink" p:iconClass="ks-fontello-icon-down" p:title="Move learning objective down">
         <property name="actionScript" value="moveLo(this, 'LearningObjective-CollectionSection', 'moveLearningObjectiveDown');" />
-        <property name="toolTip">
-        	<bean parent="Uif-Tooltip" p:tooltipContent="Move learning objective down" />
-        </property>
     </bean>
 
-    <bean id="LearningObjectives-IncreaseIndent-Button" parent="Uif-ActionImage">
-        <property name="actionImage">
-            <bean parent="Uif-Image" p:source="@{#ConfigProperties['krad.externalizable.images.url']+'/IncreaseIndent.png'}" p:altText="Increase Indent"/>
-        </property>
+    <bean id="LearningObjectives-Icon-IncreaseIndent" parent="Uif-ActionLink" p:iconClass="ks-fontello-icon-right" p:title="Indent learning objective">
         <property name="actionScript" value="moveLo(this, 'LearningObjective-CollectionSection', 'moveLearningObjectiveRight');" />
-        <property name="toolTip">
-        	<bean parent="Uif-Tooltip" p:tooltipContent="Indent learning objective" />
-        </property>
         <property name="successCallback" value="alert('successCallback')" />
     </bean>
 
-    <bean id="LearningObjectives-DecreaseIndent-Button" parent="Uif-ActionImage">
-        <property name="actionImage">
-            <bean parent="Uif-Image" p:source="@{#ConfigProperties['krad.externalizable.images.url']+'/DecreaseIndent.png'}" p:altText="Decrease Indent"/>
-        </property>
+    <bean id="LearningObjectives-Icon-DecreaseIndent" parent="Uif-ActionLink" p:iconClass="ks-fontello-icon-left" p:title="Outdent learning objective">
         <property name="actionScript" value="moveLo(this, 'LearningObjective-CollectionSection', 'moveLearningObjectiveLeft');" />
-        <property name="toolTip">
-        	<bean parent="Uif-Tooltip" p:tooltipContent="Outdent learning objective" />
-        </property>
+    </bean>
+
+    <bean id="LearningObjectives-Icon-Delete" parent="Uif-ActionLink" p:iconClass="ks-fontello-icon-cancel" p:title="Delete learning objective">
+        <property name="actionScript" value="alert('Deleted!')" />
     </bean>
 
 	<bean id="LearningObjectives-ToolBarSection" parent="Uif-HorizontalBoxSection">
 		<property name="items">
 			<list>
-				<ref bean="LearningObjectives-MoveUp-Button" />
-				<ref bean="LearningObjectives-MoveDown-Button" />
-				<ref bean="LearningObjectives-IncreaseIndent-Button" />
-				<ref bean="LearningObjectives-DecreaseIndent-Button" />
+                <!--
+                    Depending on whether the widget should be active or not, render an ActionLink or just the icon with
+                    disabled styling.
+                -->
+                <bean parent="Uif-HorizontalBoxGroup">
+                    <property name="items">
+			            <list>
+                            <ref bean="LearningObjectives-Icon-MoveUp" />
+                        </list>
+                    </property>
+                    <property name="propertyReplacers">
+                        <list>
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items" p:condition="@{!#line.moveUpable}">
+                                <property name="replacement">
+                                    <list>
+                                        <bean id="LearningObjectives-Icon-MoveUp-disabled" parent="Uif-Icon"
+                                              p:iconClass="ks-fontello-icon-up ks-fontello-icon-disabled" />
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-HorizontalBoxGroup">
+                    <property name="items">
+			            <list>
+                            <ref bean="LearningObjectives-Icon-MoveDown" />
+                        </list>
+                    </property>
+                    <property name="propertyReplacers">
+                        <list>
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items" p:condition="@{!#line.moveDownable}">
+                                <property name="replacement">
+                                    <list>
+                                        <bean id="LearningObjectives-Icon-MoveDown-disabled" parent="Uif-Icon"
+                                              p:iconClass="ks-fontello-icon-down ks-fontello-icon-disabled" />
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-HorizontalBoxGroup">
+                    <property name="items">
+			            <list>
+                            <ref bean="LearningObjectives-Icon-IncreaseIndent" />
+                        </list>
+                    </property>
+                    <property name="propertyReplacers">
+                        <list>
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items" p:condition="@{!#line.indentable}">
+                                <property name="replacement">
+                                    <list>
+                                        <bean id="LearningObjectives-Icon-IncreaseIndent-disabled" parent="Uif-Icon"
+                                              p:iconClass="ks-fontello-icon-right ks-fontello-icon-disabled" />
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-HorizontalBoxGroup">
+                    <property name="items">
+			            <list>
+                            <ref bean="LearningObjectives-Icon-DecreaseIndent" />
+                        </list>
+                    </property>
+                    <property name="propertyReplacers">
+                        <list>
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items" p:condition="@{!#line.outdentable}">
+                                <property name="replacement">
+                                    <list>
+                                        <bean id="LearningObjectives-Icon-DecreaseIndent-disabled" parent="Uif-Icon"
+                                              p:iconClass="ks-fontello-icon-left ks-fontello-icon-disabled" />
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-HorizontalBoxGroup" id="LearningObjectives-Container-DeleteIcon">
+                    <property name="items">
+			            <list>
+                            <ref bean="LearningObjectives-Icon-Delete" />
+                        </list>
+                    </property>
+                    <property name="propertyReplacers">
+                        <list>
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items" p:condition="@{!#line.deleteable}">
+                                <property name="replacement">
+                                    <list>
+                                        <bean id="LearningObjectives-Icon-Delete-disabled" parent="Uif-Icon"
+                                              p:iconClass="ks-fontello-icon-cancel ks-fontello-icon-disabled" />
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
 			</list>
 		</property>
 	</bean>

@@ -107,4 +107,43 @@ public class LoDisplayInfoWrapper extends LoDisplayInfo {
         this.selected = selected;
     }
 
+    /**
+     * Used by the UI to determine if the indent widget should be active.
+     * @return True if the widget should be active. Otherwise, false.
+     */
+    public boolean isIndentable() {
+        return true;
+    }
+
+    /**
+     * Used by the UI to determine if the unindent widget should be active.
+     * @return True if the widget should be active. Otherwise, false.
+     */
+    public boolean isOutdentable() {
+        return true;
+    }
+
+    /**
+     * Used by the UI to determine if the "move up" widget should be active.
+     * @return True if the widget should be active. Otherwise, false.
+     */
+    public boolean isMoveUpable() {
+        return true;
+    }
+
+    /**
+     * Used by the UI to determine if the "move down" widget should be active.
+     * @return True if the widget should be active. Otherwise, false.
+     */
+    public boolean isMoveDownable() {
+        return true;
+    }
+
+    /**
+     * Used by the UI to determine if the indent widget should be active.
+     * @return True if the widget should be active. Otherwise, false.
+     */
+    public boolean isDeleteable() {
+        return true;
+    }
 }
