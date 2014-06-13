@@ -115,7 +115,6 @@ public class LearningObjectiveServiceAssembler extends BaseAssembler {
         entity.setLoRepository(dao.fetch(LoRepository.class, dto.getLoRepositoryKey()));
         entity.setLoCategoryType(dao.fetch(LoCategoryType.class, dto.getTypeKey()));
         entity.setState(dto.getStateKey());
-        entity.setId(dto.getId());
         return entity;
     }
 
