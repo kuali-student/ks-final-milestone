@@ -344,6 +344,31 @@ label > div.uif-message {
   display: inline;
 }
 
+/**
+ * Learning Objectives widget styling
+ */
+
+a[id *= "LearningObjectives-Icon-"],
+a[id *= "LearningObjectives-Icon-"]:focus,
+a[id *= "LearningObjectives-Icon-"]:hover {
+  text-decoration: none;
+  outline: none;
+  color: @iconColor;
+}
+
+/* Float the delete icon to the right */
+[id *= "LearningObjectives-Container-DeleteIcon"] {
+  float: right;
+}
+
+/* Icon containers shouldn't wrap */
+[id*=LearningObjectives-ToolBarSection] div {
+  clear: none;
+}
+
+/*  End Learning Objectives widget styling */
+
+
 /* Review section styling */
 
 /* Float the required indicator message to the left side of the label */
