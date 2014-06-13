@@ -87,4 +87,16 @@ public class CourseOfferingDetailsWrapper {
             plannedActivityDetailsWrappers) {
         this.plannedActivityDetailsWrappers = plannedActivityDetailsWrappers;
     }
+
+    public int getPlannedGroupsCount() {
+        int count=0;
+        String lastCountedRegGroupCode="";
+        for (ActivityOfferingDetailsWrapper plannedActivities : plannedActivityDetailsWrappers ) {
+            if (!lastCountedRegGroupCode.equals(plannedActivities.getRegGroupCode())) {
+                count++;
+                lastCountedRegGroupCode=plannedActivities.getRegGroupCode();
+            }
+        }
+        return count;
+    }
 }
