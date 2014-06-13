@@ -44,13 +44,14 @@
     position: relative;
 
     &-selector {
-        display: none; // hide the selector by default
+        display: none; // hide the selector by default (small-format)
 
         &-label {
           .kscr-Header-moreOptions;
         }
 
         & .kscr-Header-termName-selectWrap {
+            // Position the term selector on top of the term label
             height: 100%;
             left: 0;
             overflow: hidden;
@@ -59,18 +60,19 @@
         }
 
         & select {
-            background: transparent;
-            border: 0;
+            // The goal here is to make the term select invisible while keeping the options list functional when you click on the label
+            background: transparent; // Removes any background styling
+            border: 0; // No border
             border-radius: 0;
             cursor: pointer;
             height: 100%;
-            outline: none;
+            outline: none; // Outline shows when element is focused in some browsers (clicked or tabbed into)
             text-indent: -999em; // Offsets the text in the select to a non-visible portion of the screen so that it won't conflict with the styled label
             width: calc(~'100% + 20px'); // Force the select arrow to be hidden by the parent div overflow
             -webkit-appearance: none;
 
             & option {
-                background: @white;
+                background: @white; // Reset the option background. Otherwise, it'll inherit the parent's transparent background
             }
         }
     }
