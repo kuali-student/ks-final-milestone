@@ -16,7 +16,9 @@
 package org.kuali.student.enrollment.class2.examoffering.krms.termresolver;
 
 import org.kuali.rice.krms.api.engine.TermResolutionException;
-import org.kuali.rice.krms.api.engine.TermResolver;
+import org.kuali.student.common.util.krms.RulesExecutionConstants;
+import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util.CourseTermResolverSupport;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.krms.util.KSKRMSExecutionUtil;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 
@@ -35,15 +37,13 @@ import java.util.Set;
  *
  * @author Kuali Student Team
  */
-public class MatchingCourseSetTermResolver implements TermResolver<Boolean> {
-
-    private TermResolver<List<String>> cluIdsInCluSetTermResolver;
+public class MatchingCourseSetTermResolver extends CourseTermResolverSupport<Boolean> {
 
     @Override
     public Set<String> getPrerequisites() {
         Set<String> prereqs = new HashSet<String>(2);
         prereqs.add(KSKRMSServiceConstants.TERM_PREREQUISITE_COURSE_VERSIONINDID);
-        prereqs.add(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
+        prereqs.add(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
         return Collections.unmodifiableSet(prereqs);
     }
 
@@ -66,11 +66,12 @@ public class MatchingCourseSetTermResolver implements TermResolver<Boolean> {
 
     @Override
     public Boolean resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
+        ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
 
         try {
-
+            String cluSetId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_COURSE_CLUSET_KEY);
             String versionIndId = (String) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_COURSE_VERSIONINDID);
-            List<String> versionIndIds = this.getCluIdsInCluSetTermResolver().resolve(resolvedPrereqs, parameters);
+            List<String> versionIndIds = this.getCluIdsForCluSet(cluSetId, context);
             if(versionIndIds.contains(versionIndId)){
                 return true;
             }
@@ -80,14 +81,6 @@ public class MatchingCourseSetTermResolver implements TermResolver<Boolean> {
         }
 
         return false;
-    }
-
-    public TermResolver<List<String>> getCluIdsInCluSetTermResolver() {
-        return cluIdsInCluSetTermResolver;
-    }
-
-    public void setCluIdsInCluSetTermResolver(TermResolver<List<String>> cluIdsInCluSetTermResolver) {
-        this.cluIdsInCluSetTermResolver = cluIdsInCluSetTermResolver;
     }
 
 }

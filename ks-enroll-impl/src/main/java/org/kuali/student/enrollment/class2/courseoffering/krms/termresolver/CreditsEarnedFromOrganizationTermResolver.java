@@ -2,6 +2,7 @@ package org.kuali.student.enrollment.class2.courseoffering.krms.termresolver;
 
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
+import org.kuali.student.common.util.krms.RulesExecutionConstants;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
@@ -31,8 +32,8 @@ public class CreditsEarnedFromOrganizationTermResolver implements TermResolver<I
     @Override
     public Set<String> getPrerequisites() {
         Set<String> prereqs = new HashSet<String>(2);
-        prereqs.add(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID);
-        prereqs.add(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
+        prereqs.add(RulesExecutionConstants.PERSON_ID_TERM.getName());
+        prereqs.add(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
         return Collections.unmodifiableSet(prereqs);
     }
 
@@ -53,8 +54,8 @@ public class CreditsEarnedFromOrganizationTermResolver implements TermResolver<I
 
     @Override
     public Integer resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
-        ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
-        String personId = (String) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID);
+        ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
+        String personId = (String) resolvedPrereqs.get(RulesExecutionConstants.PERSON_ID_TERM.getName());
 
         Integer credits = 0;
         try {

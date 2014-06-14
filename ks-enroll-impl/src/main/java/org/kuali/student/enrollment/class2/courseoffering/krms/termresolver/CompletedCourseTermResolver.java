@@ -16,8 +16,10 @@
 package org.kuali.student.enrollment.class2.courseoffering.krms.termresolver;
 
 import org.kuali.rice.krms.api.engine.TermResolutionException;
-import org.kuali.rice.krms.api.engine.TermResolver;
+import org.kuali.student.common.util.krms.RulesExecutionConstants;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
+import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util.AcademicRecordTermResolverSupport;
+import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util.CourseTermResolverSupport;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.krms.util.KSKRMSExecutionUtil;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
@@ -33,19 +35,7 @@ import java.util.Set;
  *
  * @author Kuali Student Team
  */
-public class CompletedCourseTermResolver implements TermResolver<Boolean> {
-
-    private AcademicRecordService academicRecordService;
-
-    private TermResolver<List<String>> cluIdsTermResolver;
-
-    @Override
-    public Set<String> getPrerequisites() {
-        Set<String> prereqs = new HashSet<String>(2);
-        prereqs.add(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID);
-        prereqs.add(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
-        return Collections.unmodifiableSet(prereqs);
-    }
+public class CompletedCourseTermResolver extends AcademicRecordTermResolverSupport<Boolean> {
 
     @Override
     public String getOutput() {
@@ -64,38 +54,18 @@ public class CompletedCourseTermResolver implements TermResolver<Boolean> {
 
     @Override
     public Boolean resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
-        ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
-        String personId = (String) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID);
+        ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
+        String personId = (String) resolvedPrereqs.get(RulesExecutionConstants.PERSON_ID_TERM.getName());
 
         try {
             //Retrieve the students academic record for this version.
-            List<String> courseIds = this.getCluIdsTermResolver().resolve(resolvedPrereqs, parameters);
-            for(String courseId : courseIds){
-                if(this.getAcademicRecordService().getCompletedCourseRecordsForCourse(personId, courseId, context).size()>0){
-                    return true; //if service returned anything, the student has completed a version of the clu.
-                }
-            }
+            String cluId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_COURSE_CLU_KEY);
+            return this.checkCourseCompleted(personId, cluId, context);
         } catch (Exception e) {
             KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
         }
 
         return false;
-    }
-
-    public AcademicRecordService getAcademicRecordService() {
-        return academicRecordService;
-    }
-
-    public void setAcademicRecordService(AcademicRecordService academicRecordService) {
-        this.academicRecordService = academicRecordService;
-    }
-
-    public TermResolver<List<String>> getCluIdsTermResolver() {
-        return cluIdsTermResolver;
-    }
-
-    public void setCluIdsTermResolver(TermResolver<List<String>> cluIdsTermResolver) {
-        this.cluIdsTermResolver = cluIdsTermResolver;
     }
 
 }

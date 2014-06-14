@@ -29,6 +29,7 @@ import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
 import org.kuali.rice.krms.framework.engine.Agenda;
 import org.kuali.rice.krms.framework.type.TermResolverTypeService;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
+import org.kuali.student.common.util.krms.RulesExecutionConstants;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
 import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingResult;
 import org.kuali.student.enrollment.courseoffering.infc.ActivityOffering;
@@ -121,7 +122,7 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
 
         //Execute the matrix.
         Map<String, Object> executionFacts = new HashMap<String, Object>();
-        executionFacts.put(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO, contextInfo);
+        executionFacts.put(RulesExecutionConstants.CONTEXT_INFO_TERM.getName(), contextInfo);
         executionFacts.put(KSKRMSServiceConstants.TERM_PREREQUISITE_TIMESLOTS, timeSlotsForAO);
 
         EngineResults results = executeRuleForSlotting(agenda, typeDefinition.getId(), executionFacts);
@@ -196,7 +197,7 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
 
         if (agenda != null) {
             Map<String, Object> executionFacts = new HashMap<String, Object>();
-            executionFacts.put(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO, contextInfo);
+            executionFacts.put(RulesExecutionConstants.CONTEXT_INFO_TERM.getName(), contextInfo);
 
             try {
                 Course course = this.getCourseService().getCourse(courseOffering.getCourseId(), contextInfo);

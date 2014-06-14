@@ -32,7 +32,6 @@ import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.Numb
 import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.PopulationTermResolver;
 import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.ProgramCoursesOrgDurationTermResolver;
 import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.ScoreTermResolver;
-import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util.CluIdsInCluSetTermResolver;
 import org.kuali.student.enrollment.class2.examoffering.krms.termresolver.MatchingCourseSetTermResolver;
 import org.kuali.student.enrollment.class2.examoffering.krms.termresolver.MatchingCourseTermResolver;
 import org.kuali.student.enrollment.class2.examoffering.krms.termresolver.MatchingTimeSlotTermResolver;
@@ -46,6 +45,8 @@ import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
+
+import java.util.List;
 
 /**
  * This is an implementation of the TermResolverTypeService to load actions for the execution of rules.
@@ -96,37 +97,38 @@ public class KSTermResolverTypeService implements TermResolverTypeService {
             CompletedCourseForTermTermResolver resolver = new CompletedCourseForTermTermResolver();
             resolver.setAcademicRecordService(acadRecordService);
             resolver.setCourseOfferingService(courseOfferingService);
-            resolver.setCluIdsTermResolver(null);
+            resolver.setCluService(cluService);
             return resolver;
         } else if (KSKRMSServiceConstants.TERM_RESOLVER_COMPLETEDCOURSEPRIORTOTERM.equals(termResolverDefinition.getName())){
             CompletedCoursePriorToTermTermResolver resolver = new CompletedCoursePriorToTermTermResolver();
             resolver.setAcademicRecordService(acadRecordService);
             resolver.setAtpService(atpService);
-            resolver.setCluIdsTermResolver(null);
-            resolver.setAtpForCOIdTermResolver(null);
+            resolver.setCluService(cluService);
+            resolver.setCourseOfferingService(courseOfferingService);
             return resolver;
         } else if (KSKRMSServiceConstants.TERM_RESOLVER_COMPLETEDCOURSES.equals(termResolverDefinition.getName())){
             CompletedCoursesTermResolver resolver = new CompletedCoursesTermResolver();
-            resolver.setCluIdsInCluSetTermResolver(null);
-            resolver.setCompletedCourseTermResolver(null);
+            resolver.setCluService(cluService);
+            resolver.setAcademicRecordService(acadRecordService);
             return resolver;
         } else if (KSKRMSServiceConstants.TERM_RESOLVER_COMPLETEDCOURSE.equals(termResolverDefinition.getName())){
-            CompletedCourseTermResolver resolver = new CompletedCourseTermResolver();
-            resolver.setAcademicRecordService(acadRecordService);
-            resolver.setCluIdsTermResolver(null);
-            return resolver;
+            return getCompletedCourseTermResolver();
         } else if (KSKRMSServiceConstants.TERM_RESOLVER_COURSESWITHGRADE.equals(termResolverDefinition.getName())){
             CoursesWithGradeTermResolver resolver = new CoursesWithGradeTermResolver();
-            resolver.setCluIdsInCluSetTermResolver(null);
-            resolver.setCourseWithGradeTermResolver(null);
+            resolver.setCluService(cluService);
+            resolver.setAcademicRecordService(acadRecordService);
+            resolver.setLrcService(lrcService);
             return resolver;
         } else if (KSKRMSServiceConstants.TERM_RESOLVER_COURSEWITHGRADE.equals(termResolverDefinition.getName())){
             CourseWithGradeTermResolver resolver = new CourseWithGradeTermResolver();
             resolver.setLrcService(lrcService);
-            resolver.setCourseRecordsForCourseIdTermResolver(null);
+            resolver.setCluService(cluService);
+            resolver.setAcademicRecordService(acadRecordService);
+            return resolver;
         } else if (KSKRMSServiceConstants.TERM_RESOLVER_NUMBEROFCREDITSFROMCOMPLETEDCOURSES.equals(termResolverDefinition.getName())){
             CreditsEarnedFromCoursesTermResolver resolver = new CreditsEarnedFromCoursesTermResolver();
-            resolver.setCourseRecordsForCourseSetTermResolver(null);
+            resolver.setAcademicRecordService(acadRecordService);
+            resolver.setCluService(cluService);
             return resolver;
         } else if (KSKRMSServiceConstants.TERM_RESOLVER_NUMBEROFCREDITSFROMORGANIZATION.equals(termResolverDefinition.getName())){
             CreditsEarnedFromOrganizationTermResolver resolver = new CreditsEarnedFromOrganizationTermResolver();
@@ -138,17 +140,16 @@ public class KSTermResolverTypeService implements TermResolverTypeService {
             resolver.setAcademicRecordService(acadRecordService);
             return resolver;
         } else if (KSKRMSServiceConstants.TERM_RESOLVER_ENROLLEDCOURSES.equals(termResolverDefinition.getName())){
-            EnrolledCourseTermResolver resolver = new EnrolledCourseTermResolver();
+            EnrolledCoursesTermResolver resolver = new EnrolledCoursesTermResolver();
+            resolver.setCluService(cluService);
             resolver.setCourseOfferingService(courseOfferingService);
             resolver.setCourseRegistrationService(courseRegistrationService);
-            resolver.setCluIdsTermResolver(null);
+            resolver.setAtpService(atpService);
             return resolver;
         } else if (KSKRMSServiceConstants.TERM_RESOLVER_ENROLLEDCOURSE.equals(termResolverDefinition.getName())){
-            EnrolledCoursesTermResolver resolver = new EnrolledCoursesTermResolver();
-            return resolver;
+            return getEnrolledCourseTermResolver();
         } else if (KSKRMSServiceConstants.TERM_SPEC_FREEFORMTEXT.equals(termResolverDefinition.getName())){
-            FreeFormTextTermResolver resolver = new FreeFormTextTermResolver();
-            return resolver;
+            return new FreeFormTextTermResolver();
         } else if (KSKRMSServiceConstants.TERM_RESOLVER_GPAFORCOURSES.equals(termResolverDefinition.getName())){
             GPAForCoursesTermResolver resolver = new GPAForCoursesTermResolver();
             return resolver;
@@ -163,18 +164,21 @@ public class KSTermResolverTypeService implements TermResolverTypeService {
             return resolver;
         } else if (KSKRMSServiceConstants.TERM_RESOLVER_NUMBEROFCOMPLETEDCOURSES.equals(termResolverDefinition.getName())){
             NumberOfCompletedCoursesTermResolver resolver = new NumberOfCompletedCoursesTermResolver();
-            resolver.setCluIdsInCluSetTermResolver(null);
-            resolver.setCompletedCourseTermResolver(null);
+            resolver.setCluService(cluService);
+            resolver.setAcademicRecordService(acadRecordService);
             return resolver;
         } else if (KSKRMSServiceConstants.TERM_SPEC_NUMBEROFCOURSESWITHGRADE.equals(termResolverDefinition.getName())){
             NumberOfCoursesWithGradeTermResolver resolver = new NumberOfCoursesWithGradeTermResolver();
-            resolver.setCluIdsInCluSetTermResolver(null);
-            resolver.setCourseWithGradeTermResolver(null);
+            resolver.setCluService(cluService);
+            resolver.setAcademicRecordService(acadRecordService);
             return resolver;
         } else if (KSKRMSServiceConstants.TERM_RESOLVER_NUMBEROFENROLLEDCOURSES.equals(termResolverDefinition.getName())){
             NumberOfEnrolledCoursesTermResolver resolver = new NumberOfEnrolledCoursesTermResolver();
-            resolver.setCluIdsInCluSetTermResolver(null);
-            resolver.setEnrolledCourseTermResolver(null);
+            resolver.setCluService(cluService);
+            resolver.setCourseOfferingService(courseOfferingService);
+            resolver.setCourseRegistrationService(courseRegistrationService);
+            resolver.setAtpService(atpService);
+            return resolver;
         } else if (KSKRMSServiceConstants.TERM_RESOLVER_POPULATION.equals(termResolverDefinition.getName())){
             PopulationTermResolver resolver = new PopulationTermResolver();
             return resolver;
@@ -191,20 +195,27 @@ public class KSTermResolverTypeService implements TermResolverTypeService {
             return new MatchingCourseTermResolver();
         } else if (KSKRMSServiceConstants.TERM_RESOLVER_MATCHINGCOURSESET.equals(termResolverDefinition.getName())){
             MatchingCourseSetTermResolver resolver = new MatchingCourseSetTermResolver();
-            resolver.setCluIdsInCluSetTermResolver(getCluIdsInCluSetTermResolver());
+            resolver.setCluService(cluService);
             return resolver;
-        }
-        else if (KSKRMSServiceConstants.TERM_SPEC_EXAM_FREEFORMTEXT.equals(termResolverDefinition.getName())){
-            MatrixFreeFormTextTermResolver resolver = new MatrixFreeFormTextTermResolver();
-           return resolver;
+        } else if (KSKRMSServiceConstants.TERM_SPEC_EXAM_FREEFORMTEXT.equals(termResolverDefinition.getName())){
+            return new MatrixFreeFormTextTermResolver();
         }
         return null;
 	}
 
-    private CluIdsInCluSetTermResolver getCluIdsInCluSetTermResolver() {
-        CluIdsInCluSetTermResolver cluIdsInCluSetResolver = new CluIdsInCluSetTermResolver();
-        cluIdsInCluSetResolver.setCluService(cluService);
-        return cluIdsInCluSetResolver;
+    private EnrolledCourseTermResolver getEnrolledCourseTermResolver() {
+        EnrolledCourseTermResolver resolver = new EnrolledCourseTermResolver();
+        resolver.setCourseOfferingService(courseOfferingService);
+        resolver.setCourseRegistrationService(courseRegistrationService);
+        resolver.setCluService(cluService);
+        return resolver;
+    }
+
+    private CompletedCourseTermResolver getCompletedCourseTermResolver() {
+        CompletedCourseTermResolver resolver = new CompletedCourseTermResolver();
+        resolver.setAcademicRecordService(acadRecordService);
+        resolver.setCluService(cluService);
+        return resolver;
     }
 
     public AcademicRecordService getAcadRecordService() {

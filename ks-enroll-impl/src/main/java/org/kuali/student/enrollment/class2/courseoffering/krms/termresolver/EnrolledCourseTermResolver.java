@@ -16,7 +16,9 @@
 package org.kuali.student.enrollment.class2.courseoffering.krms.termresolver;
 
 import org.kuali.rice.krms.api.engine.TermResolutionException;
-import org.kuali.rice.krms.api.engine.TermResolver;
+import org.kuali.student.common.util.krms.RulesExecutionConstants;
+import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util.CourseRegistrationTermResolverSupport;
+import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util.CourseTermResolverSupport;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
@@ -45,18 +47,13 @@ import java.util.Set;
  *
  * @author Kuali Student Team
  */
-public class EnrolledCourseTermResolver implements TermResolver<Boolean> {
-
-    private CourseRegistrationService courseRegistrationService;
-    private CourseOfferingService courseOfferingService;
-
-    private TermResolver<List<String>> cluIdsTermResolver;
+public class EnrolledCourseTermResolver extends CourseRegistrationTermResolverSupport<Boolean> {
 
     @Override
     public Set<String> getPrerequisites() {
         Set<String> prereqs = new HashSet<String>(2);
-        prereqs.add(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID);
-        prereqs.add(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
+        prereqs.add(RulesExecutionConstants.PERSON_ID_TERM.getName());
+        prereqs.add(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
         return Collections.unmodifiableSet(prereqs);
     }
 
@@ -77,75 +74,20 @@ public class EnrolledCourseTermResolver implements TermResolver<Boolean> {
 
     @Override
     public Boolean resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
-        ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
-        String personId = (String) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID);
+        ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
+        String personId = (String) resolvedPrereqs.get(RulesExecutionConstants.PERSON_ID_TERM.getName());
         String termId = (String) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_TERM_ID);
 
         try {
             //Retrieve the version independent clu id.
-            List<String> courseIds = this.getCluIdsTermResolver().resolve(resolvedPrereqs, parameters);
-
-            //First check in the students current registration requests
-            List<String> regGroupIds = new ArrayList<String>();
-            List<RegistrationRequestInfo> regRequests = this.getCourseRegistrationService().getUnsubmittedRegistrationRequestsByRequestorAndTerm(personId, termId, context) ;
-            for(RegistrationRequestInfo request : regRequests){
-                for(RegistrationRequestItemInfo regItem : request.getRegistrationRequestItems()){
-                    if(regItem.getExistingCourseRegistrationId()!=null){
-                    	// FIXME KSENROLL-11465
-                    	// the existing registration is an lpr  so this can't work this way.
-                        regGroupIds.remove(regItem.getExistingCourseRegistrationId());
-                    }
-                    regGroupIds.add(regItem.getRegistrationGroupId());
-                }
-            }
-
-            //Check to see if one of the course version is in the registration request.
-            for(String regGroupId : regGroupIds){
-                RegistrationGroupInfo regGroup = this.getCourseOfferingService().getRegistrationGroup(regGroupId, context);
-                CourseOfferingInfo courseOffering = this.getCourseOfferingService().getCourseOffering(regGroup.getCourseOfferingId(), context);
-                if(courseIds.contains(courseOffering.getCourseId())){
-                    return true;
-                }
-            }
-
-            //Also check for already enrolled but not yet completed courses.
-            List<CourseRegistrationInfo> recordInfoList = this.getCourseRegistrationService().getCourseRegistrationsByStudent(personId, context);
-            for(CourseRegistrationInfo studentRecord : recordInfoList){
-                CourseOffering courseOffering = this.getCourseOfferingService().getCourseOffering(studentRecord.getCourseOfferingId(), context);
-                if(courseIds.contains(courseOffering.getCourseId())){
-                    return true;
-                }
-            }
+            String cluId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_COURSE_CLU_KEY);
+            return this.checkCourseEnrolled(personId, cluId, termId, context);
 
         } catch (Exception e) {
             KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
         }
 
         return false;
-    }
-
-    public CourseRegistrationService getCourseRegistrationService() {
-        return courseRegistrationService;
-    }
-
-    public void setCourseRegistrationService(CourseRegistrationService courseRegistrationService) {
-        this.courseRegistrationService = courseRegistrationService;
-    }
-
-    public CourseOfferingService getCourseOfferingService() {
-        return courseOfferingService;
-    }
-
-    public void setCourseOfferingService(CourseOfferingService courseOfferingService) {
-        this.courseOfferingService = courseOfferingService;
-    }
-
-    public TermResolver<List<String>> getCluIdsTermResolver() {
-        return cluIdsTermResolver;
-    }
-
-    public void setCluIdsTermResolver(TermResolver<List<String>> cluIdsTermResolver) {
-        this.cluIdsTermResolver = cluIdsTermResolver;
     }
 
 }

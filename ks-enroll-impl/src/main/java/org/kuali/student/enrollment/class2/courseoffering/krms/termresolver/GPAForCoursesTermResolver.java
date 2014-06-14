@@ -17,9 +17,11 @@ package org.kuali.student.enrollment.class2.courseoffering.krms.termresolver;
 
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
+import org.kuali.student.common.util.krms.RulesExecutionConstants;
 import org.kuali.student.enrollment.academicrecord.dto.GPAInfo;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
+import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util.AcademicRecordTermResolverSupport;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.krms.util.KSKRMSExecutionUtil;
 import org.kuali.student.r2.common.util.constants.AcademicRecordServiceConstants;
@@ -32,24 +34,12 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- *
  * Rule statement examples:
  * 1) Must have earned a minimum GPA of <GPA> in <courses>
  *
  * @author Kuali Student Team
  */
-public class GPAForCoursesTermResolver implements TermResolver<Float> {
-
-    private TermResolver<List<StudentCourseRecordInfo>> courseRecordsForCourseSetTermResolver;
-    private AcademicRecordService academicRecordService;
-
-    @Override
-    public Set<String> getPrerequisites() {
-        Set<String> prereqs = new HashSet<String>(2);
-        prereqs.add(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID);
-        prereqs.add(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
-        return Collections.unmodifiableSet(prereqs);
-    }
+public class GPAForCoursesTermResolver extends AcademicRecordTermResolverSupport<Float> {
 
     @Override
     public String getOutput() {
@@ -68,34 +58,24 @@ public class GPAForCoursesTermResolver implements TermResolver<Float> {
 
     @Override
     public Float resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
-        ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
-        //Retrieve the completed course records from cluset.
-        List<StudentCourseRecordInfo> studentCourseRecordInfoList = this.getCourseRecordsForCourseSetTermResolver().resolve(resolvedPrereqs, parameters);
-        Float result = null;
-        if(studentCourseRecordInfoList.size() > 0){
-            try {
-                GPAInfo gpa = academicRecordService.calculateGPA(studentCourseRecordInfoList, AcademicRecordServiceConstants.ACADEMIC_RECORD_CALCULATION_GPA_TYPE_KEY, context);
-                result = Float.valueOf(gpa.getValue());
-            } catch (Exception e) {
-                KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
+        ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
+        String personId = (String) resolvedPrereqs.get(RulesExecutionConstants.PERSON_ID_TERM.getName());
+
+        try {
+            //Retrieve the completed course records from cluset.
+            String cluSetId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_COURSE_CLUSET_KEY);
+            List<StudentCourseRecordInfo> studentCourseRecordInfoList = this.getCourseRecordsForCourseSet(personId, cluSetId, context);
+
+            if (studentCourseRecordInfoList.size() > 0) {
+                GPAInfo gpa = this.getAcademicRecordService().calculateGPA(studentCourseRecordInfoList, AcademicRecordServiceConstants.ACADEMIC_RECORD_CALCULATION_GPA_TYPE_KEY, context);
+                return Float.valueOf(gpa.getValue());
             }
+
+        } catch (Exception e) {
+            KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
         }
-        return result;
+
+        return new Float(0);
     }
 
-    public AcademicRecordService getAcademicRecordService() {
-        return academicRecordService;
-    }
-
-    public void setAcademicRecordService(AcademicRecordService academicRecordService) {
-        this.academicRecordService = academicRecordService;
-    }
-
-    public TermResolver<List<StudentCourseRecordInfo>> getCourseRecordsForCourseSetTermResolver() {
-        return courseRecordsForCourseSetTermResolver;
-    }
-
-    public void setCourseRecordsForCourseSetTermResolver(TermResolver<List<StudentCourseRecordInfo>> courseRecordsForCourseSetTermResolver) {
-        this.courseRecordsForCourseSetTermResolver = courseRecordsForCourseSetTermResolver;
-    }
 }

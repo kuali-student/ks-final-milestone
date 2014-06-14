@@ -17,7 +17,9 @@ package org.kuali.student.enrollment.class2.courseoffering.krms.termresolver;
 
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
+import org.kuali.student.common.util.krms.RulesExecutionConstants;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
+import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util.AcademicRecordTermResolverSupport;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.krms.util.KSKRMSExecutionUtil;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
@@ -38,17 +40,7 @@ import java.util.Set;
  *
  * @author Kuali Student Team
  */
-public class CreditsEarnedFromCoursesTermResolver implements TermResolver<Integer> {
-
-    private TermResolver<List<StudentCourseRecordInfo>> courseRecordsForCourseSetTermResolver;
-
-    @Override
-    public Set<String> getPrerequisites() {
-        Set<String> prereqs = new HashSet<String>(2);
-        prereqs.add(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID);
-        prereqs.add(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
-        return Collections.unmodifiableSet(prereqs);
-    }
+public class CreditsEarnedFromCoursesTermResolver extends AcademicRecordTermResolverSupport<Integer> {
 
     @Override
     public String getOutput() {
@@ -67,13 +59,14 @@ public class CreditsEarnedFromCoursesTermResolver implements TermResolver<Intege
 
     @Override
     public Integer resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
-        ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
-        String personId = (String) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID);
+        ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
+        String personId = (String) resolvedPrereqs.get(RulesExecutionConstants.PERSON_ID_TERM.getName());
 
         Integer credits = 0;
         try {
             //Retrieve the list of cluIds from the cluset.
-            List<StudentCourseRecordInfo> recordInfos = this.getCourseRecordsForCourseSetTermResolver().resolve(resolvedPrereqs, parameters);
+            String cluSetId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_COURSE_CLUSET_KEY);
+            List<StudentCourseRecordInfo> recordInfos = this.getCourseRecordsForCourseSet(personId, cluSetId, context);
             for(StudentCourseRecordInfo recordInfo : recordInfos){
                 credits += Integer.parseInt(recordInfo.getCreditsEarned());
             }
@@ -85,11 +78,4 @@ public class CreditsEarnedFromCoursesTermResolver implements TermResolver<Intege
         return credits;
     }
 
-    public TermResolver<List<StudentCourseRecordInfo>> getCourseRecordsForCourseSetTermResolver() {
-        return courseRecordsForCourseSetTermResolver;
-    }
-
-    public void setCourseRecordsForCourseSetTermResolver(TermResolver<List<StudentCourseRecordInfo>> courseRecordsForCourseSetTermResolver) {
-        this.courseRecordsForCourseSetTermResolver = courseRecordsForCourseSetTermResolver;
-    }
 }

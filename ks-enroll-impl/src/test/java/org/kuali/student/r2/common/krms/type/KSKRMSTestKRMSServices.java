@@ -5,11 +5,11 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.rice.krms.api.repository.context.ContextDefinition;
 import org.kuali.rice.krms.api.repository.term.TermResolverDefinition;
+import org.kuali.student.common.util.krms.RulesExecutionConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
-import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -189,7 +189,7 @@ public class KSKRMSTestKRMSServices {
 	private Map<String, Object> setupTermResolverResolvedPrereqs() {
 		
 		Map<String, Object> resolvedPrereqs = new HashMap<String, Object>();
-		resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO, getEnglishContextInfo() );
+		resolvedPrereqs.put(RulesExecutionConstants.CONTEXT_INFO_TERM.getName(), getEnglishContextInfo() );
 		return resolvedPrereqs;
 	}
 	
