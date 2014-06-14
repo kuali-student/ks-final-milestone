@@ -1,0 +1,10 @@
+// Transition styles
+@transitionSpeed:                0.25s;
+@transition:                    all linear @transitionSpeed;
+
+.util-transitions-browserHelper{
+    -webkit-transition: @transition;
+    -moz-transition: @transition;
+    -o-transition: @transition;
+    transition: @transition;
+}

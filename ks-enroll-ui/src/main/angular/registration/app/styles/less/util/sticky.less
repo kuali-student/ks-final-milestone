@@ -1,0 +1,16 @@
+/**** Sticky Widgets ****/
+
+.util-sticky {
+    transition: none;
+
+    &--stuck {
+        position: fixed;
+        width: 100%;
+        z-index: 10000;
+    }
+
+    &-placeholder {
+        content: "";
+        width: 100%;
+    }
+}

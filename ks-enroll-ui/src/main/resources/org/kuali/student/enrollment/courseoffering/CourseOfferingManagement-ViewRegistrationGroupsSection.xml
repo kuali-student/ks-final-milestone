@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="KS-CourseOfferingManagement-ViewRegistrationGroupsSection" parent="Uif-VerticalBoxSection">
+        <property name="headerText" value=""/>
+        <property name="items">
+            <list>
+                <ref bean="KS-CourseOfferingManagement-AllRegistrationGroupsForACourseOffering" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-CourseOfferingManagement-AllRegistrationGroupsForACourseOffering" parent="Uif-TableCollectionSection"
+          p:renderAddLine="false"  p:renderLineActions="false" >
+        <property name="cssClasses">
+            <list merge="true">
+                <value>off</value>
+            </list>
+        </property>
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper" />
+        <property name="propertyName" value="rgResultList" />
+        <property name="headerText" value="Registration Groups (@{rgResultList.size()})"/>
+        <!--<property name="instructionalText" value="@{#line.clusterNameForDisplay}" />-->
+        <property name="collectionLookup">
+            <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false" />
+        </property>
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
+        <property name="layoutManager.applyDefaultCellWidths" value="false" />
+        <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="sDom" value="irtp"/>
+                <entry key="aaSorting" value="[[ 0, 'asc' ]]"/>
+                <entry key="bPaginate" value="false"/>
+                <entry key="bAutoWidth" value="false"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="KS-Uif-DataField"
+                      p:label="Reg Group ID"
+                      p:propertyName="rgInfo.name" p:valign="middle">
+                </bean>
+                <bean parent="KS-Uif-DataField"
+                      p:label="State" p:escapeHtmlInPropertyValue="false"
+                      p:propertyName="stateKey" p:valign="middle">
+                </bean>
+
+                <!-- ARG Notes By Bonnie -->
+                <!-- TODO: need to add Enroll column -->
+                <!-- TODO: when have more than one Format, display FORMAT column-->
+                <bean parent="KS-Uif-DataField"
+                      p:label="Cluster"
+                      p:propertyName="aoClusterName">
+                </bean>
+                <bean parent="KS-Uif-DataField"
+                      p:label="Enroll"
+                      p:propertyName="rgMaxEnrText">
+                </bean>
+                <bean parent="Uif-MessageField"
+                      p:label="Code"
+                      p:messageText="@{#line.aoActivityCodeText}">
+                </bean>
+                <bean parent="Uif-MessageField"
+                      p:label="Status"
+                      p:messageText="@{#line.aoStateNameText}" />
+                <bean parent="Uif-MessageField"
+                      p:label="Type"
+                      p:messageText="@{#line.aoTypeNameText}">
+                </bean>
+                <bean parent="Uif-MessageField"
+                      p:label="Max Enr"
+                      p:messageText="@{#line.aoMaxEnrText}">
+                </bean>
+                <bean parent="Uif-MessageField"
+                      p:label="Days"
+                      p:messageText="@{#line.daysDisplayName}">
+                </bean>
+                <bean parent="Uif-MessageField"
+                      p:label="Start Time" p:additionalCssClasses="nowrap"
+                      p:messageText="@{#line.startTimeDisplay}">
+                </bean>
+                <bean parent="Uif-MessageField"
+                      p:label="End Time" p:additionalCssClasses="nowrap"
+                      p:messageText="@{#line.endTimeDisplay}">
+                </bean>
+                <bean parent="Uif-MessageField"
+                      p:label="Building"
+                      p:messageText="@{#line.buildingName}">
+                </bean>
+                <bean parent="Uif-MessageField"
+                      p:label="Room"
+                      p:messageText="@{#line.roomName}">
+                </bean>
+                <bean parent="Uif-MessageField"
+                      p:label="Instructor" p:additionalCssClasses="nowrap"
+                      p:messageText="@{#line.aoInstructorText}">
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>

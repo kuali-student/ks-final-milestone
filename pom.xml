@@ -6,11 +6,12 @@
         <artifactId>student</artifactId>
         <version>2.1.1-FR2-M1-SNAPSHOT</version>
     </parent>
-    <groupId>org.kuali.student.core</groupId>
-    <artifactId>ks-core</artifactId>
-    <version>2.1.1-FR2-M1-SNAPSHOT</version>
-    <name>KS Core</name>
+    <groupId>org.kuali.student.enroll</groupId>
+    <artifactId>ks-enroll</artifactId>
+    <version>0.2.0-FR2-M1-SNAPSHOT</version>
     <packaging>pom</packaging>
+    <name>KS Enroll</name>
+    <description>KS Enrollment</description>
     <profiles>
         <profile>
             <id>default</id>
@@ -18,60 +19,41 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <modules>
-                <module>ks-common</module>
-                <module>ks-security</module>
-                <module>ks-core-impl</module>
-                <module>ks-core-sql</module>
-                <module>ks-rice-sql</module>
-                <module>ks-core-ui</module>
-                <module>ks-core-krms</module>
+                <module>ks-enroll-sql</module>
+                <module>ks-enroll-impl</module>
+                <module>ks-enroll-ui</module>
+                <module>ks-enroll-rice</module>
+                <module>ks-enroll-deployment-resources</module>
             </modules>
         </profile>
         <profile>
             <id>sql-only</id>
             <modules>
-                <module>ks-core-sql</module>
-                <module>ks-rice-sql</module>
+                <module>ks-enroll-sql</module>
             </modules>
         </profile>
         <profile>
             <id>skip-all-wars</id>
             <modules>
-                <module>ks-common</module>
-                <module>ks-security</module>
-                <module>ks-core-impl</module>
-                <module>ks-core-sql</module>
-                <module>ks-rice-sql</module>
-                <module>ks-core-ui</module>
-                <module>ks-core-krms</module>
+                <module>ks-enroll-sql</module>
+                <module>ks-enroll-impl</module>
+                <module>ks-enroll-ui</module>
+                <module>ks-enroll-rice</module>
             </modules>
         </profile>
         <profile>
             <id>test-only</id>
             <modules>
-                <module>ks-common</module>
-                <module>ks-security</module>
-                <module>ks-core-impl</module>
-                <module>ks-core-ui</module>
-                <module>ks-core-krms</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>skip-ui</id>
-            <modules>
-                <module>ks-common</module>
-                <module>ks-security</module>
-                <module>ks-core-impl</module>
-                <module>ks-core-sql</module>
-                <module>ks-rice-sql</module>
-                <module>ks-core-krms</module>
+                <module>ks-enroll-impl</module>
+                <module>ks-enroll-ui</module>
+                <module>ks-enroll-rice</module>
             </modules>
         </profile>
         <profile>
             <id>skip-surefire-tests</id>
             <activation>
                 <property>
-                    <name>skip.core.tests</name>
+                    <name>skip.enroll.tests</name>
                 </property>
             </activation>
             <build>
@@ -84,13 +66,12 @@
                     </plugin>
                 </plugins>
             </build>
-            <!-- include all the modules from the default profile (except SQL modules) -->
+            <!-- include all the modules from the default profile (except SQL and Web modules) -->
             <modules>
-                <module>ks-common</module>
-                <module>ks-security</module>
-                <module>ks-core-impl</module>
-                <module>ks-core-ui</module>
-                <module>ks-core-krms</module>
+                <module>ks-enroll-impl</module>
+                <module>ks-enroll-ui</module>
+                <module>ks-enroll-rice</module>
+                <module>ks-enroll-deployment-resources</module>
             </modules>
         </profile>
     </profiles>

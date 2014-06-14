@@ -1,0 +1,390 @@
+.kscr-Card, .kscr-Card-Results {
+  color: @cardTextColor;
+  font-size: 14px;
+  font-family: @secondaryFontFamily;
+  margin: 0 0.5em;
+  position: relative;
+  a {text-decoration: none;}
+}
+
+.kscr-Card-title {
+  color: @cardTextColor; //#666666;
+  font-weight: bold;
+  padding-left: 1.5em;
+
+  &-alert {
+    font-weight: bold;
+  }
+}
+
+.kscr-Card-text {
+  color: @primaryTextColor;
+  padding-left: 1.5em;
+  padding-top: 0.3em;
+
+  &-alert {
+    padding: 3px 0 10px 0;
+  }
+}
+
+.kscr-Card-detailsText-common() {
+  border-top: @horizontalLineBorder;
+  color: @primaryTextColor;
+  font-size: 14px;
+  font-family: @secondaryFontFamily;
+  font-weight: normal;
+  padding: 10px 0;
+}
+
+.kscr-Card-detailsText {
+  .kscr-Card-detailsText-common();
+
+  &--action {
+    .kscr-Card-detailsText-common();
+    border-color: @warningBorder;
+    color: @warningText;
+    padding-bottom: 5px;
+  }
+
+  &--edit {
+    .kscr-Card-detailsText-common();
+    padding: 0.5em 0.9em 2em 0;
+  }
+
+  &--error {
+    .kscr-Card-detailsText-common();
+    border-color: @errorBorder;
+    color: @errorText;
+  }
+
+  &--show {
+    .kscr-Card-detailsText-common();
+    border-bottom: none;
+    border-top: none;
+    padding-left: 0.5em;
+    padding-top: 0.3em;
+  }
+}
+
+
+/* Transitions for fade effect in Card Edit */
+
+.kscr-Card-detailsText--edit.ng-hide-remove,
+.kscr-Card-detailsText.ng-hide-remove {
+  .util-transitions-browserHelper;
+  display: block!important;
+}
+
+.kscr-Card-detailsText.ng-hide-add,
+.kscr-Card-detailsText--edit.ng-hide-add {
+  display: none;
+}
+
+.kscr-Card-detailsText--edit.ng-hide-add.ng-hide-add-active,
+.kscr-Card-detailsText--edit.ng-hide-remove,
+.kscr-Card-detailsText.ng-hide-add.ng-hide-add-active,
+.kscr-Card-detailsText.ng-hide-remove {
+  opacity: 0;
+}
+
+.kscr-Card-detailsText--edit.ng-hide-add,
+.kscr-Card-detailsText--edit.ng-hide-remove.ng-hide-remove-active,
+.kscr-Card-detailsText.ng-hide-add,
+.kscr-Card-detailsText.ng-hide-remove.ng-hide-remove-active {
+  opacity: 0.75;
+}
+/* END of Transitions for fade effect in Card Edit */
+
+
+.kscr-Card-courseTimes {
+  display: inline-flex;
+  padding-left: 1em;
+  width: 100%;
+}
+
+.kscr-Card-scheduleComponent {
+  width: 100%;
+}
+
+.kscr-Card-ao-type {
+  float: left;
+  width: 35px;
+}
+
+.kscr-Card-ao-instructor {
+  float: right;
+  text-align: right;
+}
+
+.kscr-Card-ao-schedule {
+  clear: both;
+}
+
+.kscr-Card-supportText {
+  color: @cardTextColor;
+  font-weight: normal;
+  float: right;
+}
+
+.kscr-Card-remove {
+  display: block;
+  position: absolute;
+  right: 6px;
+  top: 6px;
+}
+
+.kscr-Card-statusRemove a {
+  float: right;
+  display: inline;
+  color: @removeIconColor;
+  font-size: 1.2em;
+}
+
+.kscr-Card-buttons {
+  border-top: @horizontalLineBorder;
+  margin-top: 5px;
+  padding: 0.5em 0em 0;
+  text-align: right;
+
+  .util-Alert--error & {
+    border-color: @errorBorder;
+  }
+  .util-Alert--information & {
+    border-color: @infoText;
+  }
+  .util-Alert--success & {
+    border-color: @successBorder;
+  }
+  .util-Alert--warning & {
+    border-color: @warningBorder;
+  }
+}
+
+.kscr-Card-button {
+  //    float: right;
+}
+
+.kscr-Card-icon {
+  position: absolute;
+  font-size: 13px;
+  color:  @secondaryTextColor;
+}
+
+
+.kscr-Card-badge {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  background-color: @badgeColor;
+  color: @bodyColor;
+  font-size: 11px;
+  font-weight: bold;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+.kscr-horizontalRule {
+  border: 1px solid #F2F2F2;
+}
+
+
+.kscr-Card-responseCount {
+  float: right;
+  font-weight: normal;
+  text-transform: uppercase;
+}
+
+.kscr-course-container {
+  position: relative;
+  width: 100%;
+  &:extend(.util-transitions-browserHelper);
+  opacity: 1;
+}
+
+.kscr-course-container.ng-leave {
+  opacity: 0.5;
+}
+
+.kscr-course-container.ng-leave-active {
+  opacity: 0;
+}
+
+.kscr-Card-reason {
+    display: flex;
+
+    &-label {}
+    &-messages {
+        flex: 1;
+        padding-left: 5px;
+    }
+    &-message {
+        margin-bottom: 5px;
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+}
+
+.kscr-Card-alert-spacing {
+  padding-right: 20px;
+}
+
+/**** Override of accordion panel for card section ****/
+
+.panel-default {
+  background-color: @cardBackgroundColor;
+  border-color: @cardBorderColor;
+}
+
+.panel-default > .panel-heading {
+  background-color: @cardBackgroundColor;
+  border-color: @cardBorderColor;
+  color: @cardTextColor;
+  cursor: pointer;
+  cursor: hand;
+  padding: 0px 0px;
+}
+
+.panel {
+  background-color: @cardBackgroundColor;
+}
+
+.panel-group .panel-heading + .panel-collapse .panel-body {
+  border-top: none;
+}
+
+.panel-body {
+  padding-bottom: 5px;
+  padding-right: 8px;
+}
+
+.panel-title {
+  font-size: 14px;
+  font-family: @secondaryFontFamily;
+}
+
+.panel-group  .panel {
+  margin-bottom: 10px;
+  border-width: 1px 1px 2px 1px;
+  &:extend(.util-transitions-browserHelper);
+  opacity: 1;
+}
+
+.panel-group  .panel.ng-leave {
+  display: block!important;
+}
+
+.panel-group  .panel.ng-leave-active {
+  line-height: 0;
+  opacity: 0;
+}
+/**** END of Override of accordion panel for card section ****/
+
+/**** Fading in/out Section ****/
+
+.kscr-Card-badge {
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    background-color: @badgeColor;
+    color: @bodyColor;
+    font-size: 11px;
+    font-weight: bold;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+.kscr-Card-badge-fade {
+    .kscr-Card-badge;
+     opacity: 1;
+      @transitionSpeed: 2s;
+     .util-transitions-browserHelper;
+}
+
+.kscr-Card-badge-fadeIn {
+    .kscr-Card-badge-fade;
+    color: @textColor--highlight; //#ffff7f;
+    opacity: 1;
+     @transitionSpeed: 0.2s;
+    .util-transitions-browserHelper;
+    .util-Text-highlighter(@distance, @angle, @blur, @spread, @shadowColor);
+}
+
+
+.kscr-Card-badge-fadeOutLetter {
+    .kscr-Card-badge-fade;
+    opacity: 0.5;
+     @transitionSpeed: 2s;
+    .util-transitions-browserHelper;
+}
+
+
+/* Credits Fade */
+.kscr-Card-credits-fadeIn {
+    background-color: @backgroundColor--highlight;
+    .util-Text-highlighter(@distance, @angle, @blur, @spread, @shadowColor);
+ }
+
+.kscr-Card-credits-fadeOut {
+   @transitionSpeed: 2s;
+  .util-transitions-browserHelper;
+}
+
+
+/* Override of accordion panel for card section to animate */
+
+.kscr-Card-accordion-heading {
+    padding: 10px 10px 10px 5px;
+     @transitionSpeed: 2s;
+    .util-transitions-browserHelper;
+}
+
+.kscr-Card-accordion-heading-fadeIn {
+    background-color: @backgroundColor--highlight;
+    .kscr-Card-accordion-heading;
+     @transitionSpeed: 0.2s;
+    .util-transitions-browserHelper;
+    .util-Text-highlighter--inset(@distance, @angle, @blur, @spread, @shadowColor);
+}
+/**** End Fading in/out Section ****/
+
+@media screen and (min-width: @largeFormatMin) {
+  .kscr-Card {
+    margin: 0;
+    border: none;
+  }
+
+  .kscr-Responsive-mycart .kscr-Card-courseTimes {
+    display: none;
+  }
+
+  .kscr-Responsive-mycart .panel-group .panel {
+    margin: 0;
+    border: none;
+    border-radius: 0;
+  }
+
+  .kscr-Responsive-mycart .kscr-Card-course {
+    padding: 10px;
+  }
+
+  .kscr-Responsive-mycart .kscr-Card-detailsText--show {
+    padding: 0;
+  }
+
+  #kscr-Responsive-mycart {
+    background-color: @bodyColor;
+  }
+
+  .kscr-Responsive-schedule .panel-group .panel {
+    margin: 0px 10px 10px 10px;
+  }
+
+  .kscr-Card-heading {
+    margin: 0px 10px 0px 10px;
+  }
+
+  .kscr-Card-responseCount {
+    font-size: 13px;
+  }
+}
