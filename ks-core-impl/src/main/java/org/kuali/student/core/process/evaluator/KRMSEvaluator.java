@@ -30,8 +30,7 @@ public class KRMSEvaluator {
     private Map<String, Object> defaultFacts;
     private List<TermResolver<?>> termResolvers;
     private ExecutionOptions executionOptions;
-    private Map<String, String> contextQualifiers = Collections.singletonMap(RulesExecutionConstants.DOCTYPE_CONTEXT_QUALIFIER,
-            RulesExecutionConstants.STUDENT_ELIGIBILITY_DOCTYPE);
+    private Map<String, String> contextQualifiers;
 
     public Map<String, Object> getDefaultFacts() {
         return defaultFacts;
@@ -51,7 +50,26 @@ public class KRMSEvaluator {
     }
 
     public ExecutionOptions getExecutionOptions() {
+
+        if (executionOptions == null) {
+            executionOptions = new ExecutionOptions();
+            executionOptions.setFlag(ExecutionFlag.LOG_EXECUTION, true);
+            executionOptions.setFlag(ExecutionFlag.EVALUATE_ALL_PROPOSITIONS, true);
+        }
+
         return executionOptions;
+    }
+
+    public Map<String, String> getContextQualifiers() {
+        if(contextQualifiers==null){
+            contextQualifiers = Collections.singletonMap(RulesExecutionConstants.DOCTYPE_CONTEXT_QUALIFIER,
+                    RulesExecutionConstants.STUDENT_ELIGIBILITY_DOCTYPE);
+        }
+        return contextQualifiers;
+    }
+
+    public void setContextQualifiers(Map<String, String> contextQualifiers) {
+        this.contextQualifiers = contextQualifiers;
     }
 
     public void setExecutionOptions(ExecutionOptions executionOptions) {
@@ -119,21 +137,15 @@ public class KRMSEvaluator {
      */
     public EngineResults evaluateAgenda(Agenda agenda, Map<String, Object> additionalFacts, Map<String, String> agendaQualifiers) {
 
-        Engine engine = constructEngine(agenda, termResolvers);
-
-        if (executionOptions == null) {
-            executionOptions = new ExecutionOptions();
-            executionOptions.setFlag(ExecutionFlag.LOG_EXECUTION, true);
-            executionOptions.setFlag(ExecutionFlag.EVALUATE_ALL_PROPOSITIONS, true);
-        }
+        Engine engine = constructEngine(agenda, this.getTermResolvers());
 
         SelectionCriteria selectionCriteria = SelectionCriteria.
-                createCriteria(new DateTime(), contextQualifiers, agendaQualifiers);
+                createCriteria(new DateTime(), this.getContextQualifiers(), agendaQualifiers);
 
         Map<String, Object> executionFacts = new HashMap<String, Object>();
-        executionFacts.putAll(defaultFacts);
+        executionFacts.putAll(this.getDefaultFacts());
         executionFacts.putAll(additionalFacts);
-        return engine.execute(selectionCriteria, executionFacts, executionOptions);
+        return engine.execute(selectionCriteria, executionFacts, this.getExecutionOptions());
     }
 
     public static Exception checkForExceptionDuringExecution(EngineResults engineResults) {
