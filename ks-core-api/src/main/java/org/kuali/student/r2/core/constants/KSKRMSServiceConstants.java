@@ -280,8 +280,6 @@ public class KSKRMSServiceConstants {
     public static final String KRMS_NL_MATRIX = "kuali.krms.matrix";
 
     // term prerequisite
-    public static final String TERM_PREREQUISITE_CONTEXTINFO = "kuali.term.prerequisite.contextInfo";
-    public static final String TERM_PREREQUISITE_PERSON_ID = "kuali.term.prerequisite.personId";
     public static final String TERM_PREREQUISITE_CLU_ID = "kuali.term.prerequisite.cluId";
     public static final String TERM_PREREQUISITE_CO_ID = "kuali.term.prerequisite.courseOfferingId";
     public static final String TERM_PREREQUISITE_CO = "kuali.term.prerequisite.courseOffering";
