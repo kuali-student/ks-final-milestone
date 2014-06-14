@@ -189,6 +189,7 @@ public class KSKRMSServiceConstants {
 
     // term resolver types
     public static final String TERM_RESOLVER_TYPE_FINAL_EXAM = "kuali.krms.termresolver.type.final.exam";
+    public static final String TERM_RESOLVER_TYPE_COURSE_REQUISITES = "kuali.krms.termresolver.type.course";
 
     // action parameters
     public static final String ACTION_PARAMETER_TYPE_RDL_TBA = "tba";
