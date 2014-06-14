@@ -1104,9 +1104,11 @@ function saveInlineRSI(event, baseUrl){
         error: function (jqXHR, status, error) {
             showInlineUnhandledExcption(jqXHR);
         }
+    }).always(function() {
+        hideLoading();
     });
 
-    hideLoading();
+
 }
 
 function showInlineUnhandledExcption(request){
