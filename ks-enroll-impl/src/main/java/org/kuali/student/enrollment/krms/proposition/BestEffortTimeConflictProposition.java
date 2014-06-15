@@ -34,6 +34,7 @@ import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestIt
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.coursewaitlist.service.CourseWaitListService;
 import org.kuali.student.enrollment.registration.client.service.dto.ConflictCourseResult;
+import org.kuali.student.enrollment.registration.client.service.dto.TimeConflictDataContainer;
 import org.kuali.student.enrollment.registration.client.service.impl.util.RegistrationValidationResultsUtil;
 import org.kuali.student.enrollment.registration.client.service.impl.util.TimeConflictCalculator;
 import org.kuali.student.enrollment.rules.credit.limit.ActionEnum;
@@ -109,9 +110,9 @@ public class BestEffortTimeConflictProposition extends AbstractLeafProposition {
         }
         PropositionResult propositionResult = null;
 
-        Map<String, List<TimeSlotInfo>> rgIdsToTimeSlots;
+        TimeConflictDataContainer rgIdsToTimeSlots;
         try{
-        rgIdsToTimeSlots = getRgToTimeSlotMap(existingCrs, contextInfo);
+            rgIdsToTimeSlots = getTimeConflictDataContainer(existingCrs, contextInfo);
         } catch(Exception ex) {
             return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
         }
@@ -136,16 +137,20 @@ public class BestEffortTimeConflictProposition extends AbstractLeafProposition {
             copyExistingCrs.add(regItem);
             List<CourseRegistrationInfo> newRegItem = new ArrayList<CourseRegistrationInfo>();
             newRegItem.add(regItem);
-            Map<String, List<TimeSlotInfo>> regItemTimeSlots;
+            TimeConflictDataContainer regItemTimeSlots;
             try{
-                regItemTimeSlots = getRgToTimeSlotMap(newRegItem, contextInfo);
+                regItemTimeSlots = getTimeConflictDataContainer(newRegItem, contextInfo);
             } catch(Exception ex) {
                 return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
             }
-            for(String rgId: regItemTimeSlots.keySet()){
-                rgIdsToTimeSlots.put(rgId, regItemTimeSlots.get(rgId));
+            for(String rgId: regItemTimeSlots.getIds()){
+                rgIdsToTimeSlots.getIds().add(rgId);
             }
-            // Verify the credit load
+            for(List<TimeSlotInfo> timeSlotInfos: regItemTimeSlots.getTimeSlotInfos()){
+                rgIdsToTimeSlots.getTimeSlotInfos().add(timeSlotInfos);
+            }
+
+            // Check for Time Conflicts
             Map<String, List<String>> conflicts = checkForTimeConflicts(rgIdsToTimeSlots);
             if (conflicts.isEmpty()) {
                 // Add the successful cart "registrations" to the list for use in next iteration
@@ -154,10 +159,11 @@ public class BestEffortTimeConflictProposition extends AbstractLeafProposition {
                 List<ConflictCourseResult> conflictCourseResults = new ArrayList<ConflictCourseResult>();
                 List<CourseRegistrationInfo> conflictingCourseRegistrations = new ArrayList<CourseRegistrationInfo>();
                 for(CourseRegistrationInfo courseRegistrationInfo: copyExistingCrs){
-                    if(conflicts.keySet().contains(courseRegistrationInfo.getRegistrationGroupId()) || conflicts.containsValue(courseRegistrationInfo.getRegistrationGroupId())){
+                    if(conflicts.keySet().contains(courseRegistrationInfo.getRegistrationGroupId()) || conflicts.containsValue(courseRegistrationInfo.getRegistrationGroupId())
+                            && courseRegistrationInfo.getId() != null){
                         conflictingCourseRegistrations.add(courseRegistrationInfo);
                         ConflictCourseResult conflictCourseResult = new ConflictCourseResult();
-                        conflictCourseResult.setMasterLprId(item.getId());
+                        conflictCourseResult.setMasterLprId(courseRegistrationInfo.getId());
                         CourseOfferingInfo courseOfferingInfo;
                         try{
                             courseOfferingInfo = coService.getCourseOffering(courseRegistrationInfo.getCourseOfferingId(), contextInfo);
@@ -195,7 +201,7 @@ public class BestEffortTimeConflictProposition extends AbstractLeafProposition {
         return recordAllRegRequestItems(environment,  new ArrayList<ValidationResultInfo>());
     }
 
-    private Map<String, List<TimeSlotInfo>> getRgToTimeSlotMap(List<CourseRegistrationInfo> courseRegistrationInfos, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+    private TimeConflictDataContainer getTimeConflictDataContainer(List<CourseRegistrationInfo> courseRegistrationInfos, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
         List<String> regGroupIds = new ArrayList<String>();
         for(CourseRegistrationInfo courseRegistrationInfo: courseRegistrationInfos){
             regGroupIds.add(courseRegistrationInfo.getRegistrationGroupId());
@@ -206,10 +212,11 @@ public class BestEffortTimeConflictProposition extends AbstractLeafProposition {
         registrationGroupInfos = coService.getRegistrationGroupsByIds(regGroupIds, contextInfo);
 
 
-
+        ArrayList<String> rgIds = new ArrayList<String>();
         Map<String, String> aoIdsToRgIds = new LinkedHashMap<String, String>();
         List<String> aoIds = new ArrayList<String>();
         for(RegistrationGroupInfo registrationGroupInfo: registrationGroupInfos){
+            rgIds.add(registrationGroupInfo.getId());
             for(String activityOfferingId: registrationGroupInfo.getActivityOfferingIds()){
                 aoIdsToRgIds.put(activityOfferingId, registrationGroupInfo.getId());
             }
@@ -252,25 +259,31 @@ public class BestEffortTimeConflictProposition extends AbstractLeafProposition {
         timeSlots  = schedulingService.getTimeSlotsByIds(timeslotIds, contextInfo);
 
 
-        Map<String, List<TimeSlotInfo>> rgIdsToTimeSlots = new LinkedHashMap<String, List<TimeSlotInfo>>();
+        TimeConflictDataContainer rgIdsToTimeSlots = new TimeConflictDataContainer();
+
+
+        ArrayList<List<TimeSlotInfo>> timeSlotInfos = new ArrayList<List<TimeSlotInfo>>(rgIds.size());
+        for(int i=0; i<rgIds.size();i++){
+            timeSlotInfos.add(new ArrayList<TimeSlotInfo>());
+        }
 
         for(TimeSlotInfo timeSlotInfo: timeSlots){
             String rgId = aoIdsToRgIds.get(scheduleIdsToAoIds.get(timeSlotIdsToScheduleIds.get(timeSlotInfo.getId())));
-            if(rgIdsToTimeSlots.containsKey(rgId)){
-                rgIdsToTimeSlots.get(rgId).add(timeSlotInfo);
+            if(timeSlotInfo.getStartTime()!=null && timeSlotInfo.getEndTime()!=null){
+              timeSlotInfos.get(rgIds.indexOf(rgId)).add(timeSlotInfo);
             } else {
-                List<TimeSlotInfo> newTimeSlotList = new ArrayList<TimeSlotInfo>();
-                newTimeSlotList.add(timeSlotInfo);
-                rgIdsToTimeSlots.put(rgId, newTimeSlotList);
+                rgIds.remove(rgId);
             }
-
         }
+
+        rgIdsToTimeSlots.setIds(rgIds);
+        rgIdsToTimeSlots.setTimeSlotInfos(timeSlotInfos);
 
 
         return rgIdsToTimeSlots;
     }
 
-    private Map<String, List<String>> checkForTimeConflicts(Map<String, List<TimeSlotInfo>> rgsToTimeSlots){
+    private Map<String, List<String>> checkForTimeConflicts(TimeConflictDataContainer rgsToTimeSlots){
         TimeConflictCalculator timeConflictCalculator = new TimeConflictCalculator();
         Map<String, List<String>> conflicts;
         conflicts=timeConflictCalculator.calculateConflicts(rgsToTimeSlots, 0);

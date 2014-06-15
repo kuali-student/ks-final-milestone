@@ -18,6 +18,7 @@ package org.kuali.student.enrollment.registration.client.service.impl.util;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.student.enrollment.registration.client.service.dto.TimeConflictDataContainer;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
@@ -25,7 +26,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -46,7 +46,7 @@ public class TestTimeConflictCalculator {
     @Test
     public void testTimeConflictCaculator() throws Exception{
 
-        Map<String, List<TimeSlotInfo>> timeSlots = new HashMap<String, List<TimeSlotInfo>>();
+        TimeConflictDataContainer timeSlots = new TimeConflictDataContainer();
 
         List<TimeSlotInfo> chem135TimeSlots = new ArrayList<TimeSlotInfo>();
         TimeSlotInfo chemTimeSlot1 = new TimeSlotInfo();
@@ -95,16 +95,27 @@ public class TestTimeConflictCalculator {
         physTimeSlot1.setEndTime(physEndTime1);
         phys161TimeSlots.add(physTimeSlot1);
 
-        timeSlots.put("CHEM135", chem135TimeSlots);
-        timeSlots.put("ENGL101", engl101TimeSlots);
-        timeSlots.put("PHYS161", phys161TimeSlots);
+        ArrayList<String> ids = new ArrayList<String>();
+        ids.add("CHEM135");
+        ids.add("ENGL101");
+        ids.add("PHYS161");
+        ids.add("PHYS161");
+        ArrayList<List<TimeSlotInfo>> timeSlotInfos = new ArrayList<List<TimeSlotInfo>>();
+        timeSlotInfos.add(chem135TimeSlots);
+        timeSlotInfos.add(engl101TimeSlots);
+        timeSlotInfos.add(phys161TimeSlots);
+        timeSlotInfos.add(phys161TimeSlots);
+
+        timeSlots.setIds(ids);
+        timeSlots.setTimeSlotInfos(timeSlotInfos);
+
 
         TimeConflictCalculator timeConflictCalculator = new TimeConflictCalculator();
         Map<String, List<String>> conflicts = timeConflictCalculator.calculateConflicts(timeSlots, 0);
 
         assertTrue(conflicts.containsKey("CHEM135"));
-        assertTrue(conflicts.containsKey("ENGL101"));
-        assertFalse(conflicts.containsKey("PHYS161"));
+        assertFalse(conflicts.containsKey("ENGL101"));
+        assertTrue(conflicts.containsKey("PHYS161"));
 
 
 
