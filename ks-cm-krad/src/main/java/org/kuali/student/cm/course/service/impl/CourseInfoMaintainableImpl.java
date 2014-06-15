@@ -26,7 +26,6 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.kim.api.KimConstants;
-import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.uif.container.Container;
@@ -250,7 +249,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             searchResult = getInstructorsSearchResult(queryParamValueList);
             cluInstructorInfoDisplays = getInstructorsFromSearchResult(searchResult);
         } catch (Exception e) {
-            LOG.error("An error occurred in the getInstructorsForSuggest method", e);
+            throw new RuntimeException("No Instructor found for given ID :" + id);
         }
         return cluInstructorInfoDisplays;
     }
