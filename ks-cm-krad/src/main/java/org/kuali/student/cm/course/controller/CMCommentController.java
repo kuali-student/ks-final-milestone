@@ -130,6 +130,8 @@ public class CMCommentController extends KsUifControllerBase {
             commentWrapper.getRenderHelper().setEditInProgress(false);
         }
 
+        form.setDeletedComment(null);
+
         return getUIFModelAndView(form);
     }
 
@@ -167,10 +169,27 @@ public class CMCommentController extends KsUifControllerBase {
         }
 
         int index = Integer.parseInt(form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
-        getCommentService().deleteComment(form.getComments().remove(index).getCommentInfo().getId(),ContextUtils.createDefaultContextInfo());
+
+        CommentWrapper commentWrapper = form.getComments().remove(index);
+        getCommentService().deleteComment(commentWrapper.getCommentInfo().getId(),ContextUtils.createDefaultContextInfo());
+
+        commentWrapper.getCommentInfo().setId(null); //Clear out the ID sothat we can add that to DB if user decided to undo later
+        form.setDeletedComment(commentWrapper);
 
         return getUIFModelAndView(form);
 
+    }
+
+    @MethodAccessible
+    @RequestMapping(params = "methodToCall=undoDeleteComment")
+    public ModelAndView undoDeleteComment(@ModelAttribute("KualiForm") CMCommentForm form) throws Exception {
+
+        CommentWrapper deletedComment = form.getDeletedComment();
+        saveComment(form.getProposal(),deletedComment);
+        form.getComments().add(deletedComment);
+        form.setDeletedComment(null);
+
+        return getUIFModelAndView(form);
     }
 
     /**

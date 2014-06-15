@@ -32,6 +32,7 @@ public class CMCommentForm extends KsUifFormBase {
     protected List<CommentWrapper> comments = new ArrayList<CommentWrapper>();
     protected String newComment;
     protected ProposalInfo proposal;
+    protected CommentWrapper deletedComment;
 
     public CMCommentForm(){
 
@@ -59,5 +60,13 @@ public class CMCommentForm extends KsUifFormBase {
 
     public void setNewComment(String newComment) {
         this.newComment = newComment;
+    }
+
+    public CommentWrapper getDeletedComment() {
+        return deletedComment;
+    }
+
+    public void setDeletedComment(CommentWrapper deletedComment) {
+        this.deletedComment = deletedComment;
     }
 }

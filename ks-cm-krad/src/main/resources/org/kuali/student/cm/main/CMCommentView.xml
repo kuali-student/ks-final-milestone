@@ -91,6 +91,23 @@
                                             </bean>
                                         </list>
                                     </property>
+                                    <property name="header.lowerGroup">
+                                        <bean parent="Uif-HorizontalBoxGroup">
+                                           <property name="items">
+                                                <list>
+                                                    <bean parent="Uif-Message"
+                                                          p:messageText="[b]Comment has been deleted. [0][/b]"
+                                                          p:render="@{deletedComment != null}">
+                                                        <property name="inlineComponents">
+                                                            <list>
+                                                              <bean parent="Uif-ActionLink" p:methodToCall="undoDeleteComment"  p:actionLabel="Undo"/>
+                                                            </list>
+                                                        </property>
+                                                    </bean>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </property>
                                     <property name="items">
                                         <list>
                                             <bean parent="Uif-StackedCollectionSection">
