@@ -18,5 +18,10 @@
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-krad-web-framework</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.kuali.student.core</groupId>
+            <artifactId>ks-core-impl</artifactId>
+            <version>${ks.core.version}</version>
+        </dependency>
     </dependencies>
 </project>

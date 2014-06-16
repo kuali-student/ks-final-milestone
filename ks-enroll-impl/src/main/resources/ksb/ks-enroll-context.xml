@@ -1635,6 +1635,7 @@
                 <entry key="gesService" value-ref="GesService"/>
                 <entry key="registrationRequestMerger" value-ref="mergerImpl"/>
                 <entry key="loadCalculatorRuleFactory" value-ref="loadCalculatorRuleFactoryHardwiredImpl"/>
+                <entry key="ruleFactory" value-ref="ruleFactoryImpl"/>
                 <!--factory to be replaced by someething not hardwired-->
                 <entry key="propositionFactory" value-ref="propositionFactoryHardwiredImpl"/>
                 <!--flag to tell if should log sucesses as well as failures-->
@@ -1658,6 +1659,8 @@
     </bean>
     <!--TODO: KSENROLL-12395 Replace wiring to PropositionFactoryHardwiredImpl with a non-hardwired implementation-->
     <bean id="propositionFactoryHardwiredImpl" class="org.kuali.student.enrollment.krms.proposition.PropositionFactoryHardwiredImpl" >  
+    </bean>
+    <bean id="ruleFactoryImpl" class="org.kuali.student.core.krms.rule.RuleFactoryImpl" >
     </bean>
     <!--TODO: KSENROLL-12396 Change wiring from LoadCalculatorRuleFactoryHardwiredImpl into a more configurable implementation-->
     <bean id="loadCalculatorRuleFactoryHardwiredImpl" class="org.kuali.student.enrollment.rules.credit.limit.LoadCalculatorRuleFactoryHardwiredImpl" >
