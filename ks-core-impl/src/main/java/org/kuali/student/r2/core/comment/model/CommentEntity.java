@@ -45,7 +45,7 @@ import java.util.Set;
         @NamedQuery(name = CommentEntity.COMMENT_QUERY_GET_IDS_BY_TYPE,
                 query = "select id from CommentEntity where typeKey = :type"),
         @NamedQuery(name = CommentEntity.COMMENT_QUERY_GET_COMMENTS_BY_REFERENCE_ID_REFERENCE_TYPE,
-                query = "select comment from CommentEntity comment where comment.refObjectId = :id AND comment.refObjectTypeKey = :type")
+                query = "select comment from CommentEntity comment where comment.refObjectId = :id AND comment.refObjectTypeKey = :type order by updateTime desc")
 })
 public class CommentEntity extends MetaEntity implements AttributeOwner<CommentAttributeEntity> {
 
