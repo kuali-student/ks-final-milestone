@@ -21,13 +21,10 @@ import org.kuali.rice.krms.api.engine.ResultEvent;
 import org.kuali.rice.krms.framework.engine.PropositionResult;
 import org.kuali.rice.krms.framework.engine.result.BasicResult;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
-import org.kuali.student.common.util.krms.proposition.AbstractLeafProposition;
 import org.kuali.student.core.process.evaluator.KRMSEvaluator;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
-import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.enrollment.courseregistration.dto.ActivityRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
@@ -37,9 +34,6 @@ import org.kuali.student.enrollment.registration.client.service.dto.ConflictCour
 import org.kuali.student.enrollment.registration.client.service.dto.TimeConflictDataContainer;
 import org.kuali.student.enrollment.registration.client.service.impl.util.RegistrationValidationResultsUtil;
 import org.kuali.student.enrollment.registration.client.service.impl.util.TimeConflictCalculator;
-import org.kuali.student.enrollment.rules.credit.limit.ActionEnum;
-import org.kuali.student.enrollment.rules.credit.limit.ActivityRegistrationTransaction;
-import org.kuali.student.enrollment.rules.credit.limit.CourseRegistrationTransaction;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -47,7 +41,6 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
@@ -61,14 +54,15 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class is a proposition that does a time conflict check for registration requests
+ * This class is a proposition that does a time conflict check for registration requests.
  *
  * @author Kuali Student Team
  */
-public class BestEffortTimeConflictProposition extends AbstractLeafProposition {
+public class BestEffortTimeConflictProposition extends BestEffortProposition {
 
-    private CourseOfferingService coService;
     private SchedulingService schedulingService;
+
+    private static final boolean ALLOW_ALL_NON_ADDS = true; // allow all non adds right now
 
     @Override
     public PropositionResult evaluate(ExecutionEnvironment environment) {
@@ -91,14 +85,13 @@ public class BestEffortTimeConflictProposition extends AbstractLeafProposition {
             }
         }
         if (!allAddOps) {
-            if(true){//Allow all non adds right now
+            if (ALLOW_ALL_NON_ADDS) {
                 return new PropositionResult(true, Collections.<String, Object>emptyMap());
             }
 
             // All of the operations were not "add", thus this is not a reg cart.
             InvalidParameterException ex = new InvalidParameterException("Should be add ops only");
             return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
-
         }
 
         // Fetch registrations
@@ -108,16 +101,13 @@ public class BestEffortTimeConflictProposition extends AbstractLeafProposition {
         } catch (Exception ex) {
             return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
         }
-        PropositionResult propositionResult = null;
 
         TimeConflictDataContainer rgIdsToTimeSlots;
-        try{
+        try {
             rgIdsToTimeSlots = getTimeConflictDataContainer(existingCrs, contextInfo);
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
         }
-
-
 
         // Iterate over each item and check
         List<CourseRegistrationInfo> successFromCart = new ArrayList<CourseRegistrationInfo>();
@@ -138,15 +128,15 @@ public class BestEffortTimeConflictProposition extends AbstractLeafProposition {
             List<CourseRegistrationInfo> newRegItem = new ArrayList<CourseRegistrationInfo>();
             newRegItem.add(regItem);
             TimeConflictDataContainer regItemTimeSlots;
-            try{
+            try {
                 regItemTimeSlots = getTimeConflictDataContainer(newRegItem, contextInfo);
             } catch(Exception ex) {
                 return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
             }
-            for(String rgId: regItemTimeSlots.getIds()){
+            for (String rgId: regItemTimeSlots.getIds()) {
                 rgIdsToTimeSlots.getIds().add(rgId);
             }
-            for(List<TimeSlotInfo> timeSlotInfos: regItemTimeSlots.getTimeSlotInfos()){
+            for (List<TimeSlotInfo> timeSlotInfos: regItemTimeSlots.getTimeSlotInfos()) {
                 rgIdsToTimeSlots.getTimeSlotInfos().add(timeSlotInfos);
             }
 
@@ -157,25 +147,24 @@ public class BestEffortTimeConflictProposition extends AbstractLeafProposition {
                 successFromCart.add(regItem);
             } else {
                 List<ConflictCourseResult> conflictCourseResults = new ArrayList<ConflictCourseResult>();
-                List<CourseRegistrationInfo> conflictingCourseRegistrations = new ArrayList<CourseRegistrationInfo>();
-                for(CourseRegistrationInfo courseRegistrationInfo: copyExistingCrs){
-                    if(conflicts.keySet().contains(courseRegistrationInfo.getRegistrationGroupId()) || conflicts.containsValue(courseRegistrationInfo.getRegistrationGroupId())
-                            && courseRegistrationInfo.getId() != null){
-                        conflictingCourseRegistrations.add(courseRegistrationInfo);
+                for (CourseRegistrationInfo courseRegistrationInfo: copyExistingCrs) {
+                    if (conflicts.keySet().contains(courseRegistrationInfo.getRegistrationGroupId())
+                            || conflictValuesContainsString(conflicts, courseRegistrationInfo.getRegistrationGroupId())
+                            && courseRegistrationInfo.getId() != null) {
                         ConflictCourseResult conflictCourseResult = new ConflictCourseResult();
                         conflictCourseResult.setMasterLprId(courseRegistrationInfo.getId());
                         CourseOfferingInfo courseOfferingInfo;
-                        try{
+                        try {
                             courseOfferingInfo = coService.getCourseOffering(courseRegistrationInfo.getCourseOfferingId(), contextInfo);
-                        } catch(Exception e){
+                        } catch (Exception e) {
                             return KRMSEvaluator.constructExceptionPropositionResult(environment, e, this);
                         }
                         conflictCourseResult.setCourseCode(courseOfferingInfo.getCourseOfferingCode());
                         conflictCourseResult.setLongName(courseOfferingInfo.getCourseOfferingTitle());
                         RegistrationGroupInfo registrationGroupInfo;
-                        try{
+                        try {
                             registrationGroupInfo = coService.getRegistrationGroup(courseRegistrationInfo.getRegistrationGroupId(), contextInfo);
-                        } catch(Exception e){
+                        } catch (Exception e) {
                             return KRMSEvaluator.constructExceptionPropositionResult(environment, e, this);
                         }
                         conflictCourseResult.setRegGroupCode(registrationGroupInfo.getName());
@@ -193,83 +182,91 @@ public class BestEffortTimeConflictProposition extends AbstractLeafProposition {
             }
         }
 
-        if(propositionResult!=null){
-            return propositionResult;
-        }
-
         // This result contains all the other results
         return recordAllRegRequestItems(environment,  new ArrayList<ValidationResultInfo>());
     }
 
+    @Override
+    protected CourseRegistrationInfo createNewCourseRegistration(RegistrationRequestItemInfo item, ContextInfo contextInfo)
+            throws OperationFailedException {
+        CourseRegistrationInfo reg = super.createNewCourseRegistration(item, contextInfo);
+        reg.setRegistrationGroupId(item.getRegistrationGroupId());
+        return reg;
+    }
+
+    private boolean conflictValuesContainsString(Map<String, List<String>> conflicts, String string) {
+        boolean stringFound = false;
+
+        for (List<String> stringList:conflicts.values()) {
+            if (stringList.contains(string)) {
+                stringFound = true;
+                break;
+            }
+        }
+
+        return stringFound;
+    }
+
+    @SuppressWarnings("ForLoopReplaceableByForEach")
     private TimeConflictDataContainer getTimeConflictDataContainer(List<CourseRegistrationInfo> courseRegistrationInfos, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
         List<String> regGroupIds = new ArrayList<String>();
-        for(CourseRegistrationInfo courseRegistrationInfo: courseRegistrationInfos){
+        for (CourseRegistrationInfo courseRegistrationInfo: courseRegistrationInfos) {
             regGroupIds.add(courseRegistrationInfo.getRegistrationGroupId());
         }
 
-        List<RegistrationGroupInfo> registrationGroupInfos = new ArrayList<RegistrationGroupInfo>();
-
-        registrationGroupInfos = coService.getRegistrationGroupsByIds(regGroupIds, contextInfo);
+        List<RegistrationGroupInfo> registrationGroupInfos = coService.getRegistrationGroupsByIds(regGroupIds, contextInfo);
 
 
         ArrayList<String> rgIds = new ArrayList<String>();
         Map<String, String> aoIdsToRgIds = new LinkedHashMap<String, String>();
         List<String> aoIds = new ArrayList<String>();
-        for(RegistrationGroupInfo registrationGroupInfo: registrationGroupInfos){
+        for (RegistrationGroupInfo registrationGroupInfo: registrationGroupInfos) {
             rgIds.add(registrationGroupInfo.getId());
-            for(String activityOfferingId: registrationGroupInfo.getActivityOfferingIds()){
+            for (String activityOfferingId: registrationGroupInfo.getActivityOfferingIds()) {
                 aoIdsToRgIds.put(activityOfferingId, registrationGroupInfo.getId());
             }
             aoIds.addAll(registrationGroupInfo.getActivityOfferingIds());
 
         }
 
-        List<ActivityOfferingInfo> activityOfferingInfos = new ArrayList<ActivityOfferingInfo>();
-
-        activityOfferingInfos  = coService.getActivityOfferingsByIds(aoIds, contextInfo);
-
+        List<ActivityOfferingInfo> activityOfferingInfos = coService.getActivityOfferingsByIds(aoIds, contextInfo);
 
         Map<String, String> scheduleIdsToAoIds = new LinkedHashMap<String, String>();
         List<String> scheduleIds = new ArrayList<String>();
-        for(ActivityOfferingInfo activityOfferingInfo: activityOfferingInfos){
-            for(String scheduleId: activityOfferingInfo.getScheduleIds()){
+        for (ActivityOfferingInfo activityOfferingInfo: activityOfferingInfos) {
+            for (String scheduleId: activityOfferingInfo.getScheduleIds()) {
                 scheduleIdsToAoIds.put(scheduleId, activityOfferingInfo.getId());
             }
             scheduleIds.addAll(activityOfferingInfo.getScheduleIds());
         }
 
-        List<ScheduleInfo> scheduleInfos = new ArrayList<ScheduleInfo>();
-
-        scheduleInfos  = schedulingService.getSchedulesByIds(scheduleIds, contextInfo);
+        List<ScheduleInfo> scheduleInfos = schedulingService.getSchedulesByIds(scheduleIds, contextInfo);
 
         Map<String, String> timeSlotIdsToScheduleIds = new LinkedHashMap<String, String>();
         List<String> timeslotIds = new ArrayList<String>();
-        for(ScheduleInfo scheduleInfo: scheduleInfos){
-            for(ScheduleComponentInfo scheduleComponent: scheduleInfo.getScheduleComponents()){
+        for (ScheduleInfo scheduleInfo: scheduleInfos) {
+            for (ScheduleComponentInfo scheduleComponent: scheduleInfo.getScheduleComponents()) {
                 timeslotIds.addAll(scheduleComponent.getTimeSlotIds());
-                for(String timeSlotId: scheduleComponent.getTimeSlotIds()){
+                for (String timeSlotId: scheduleComponent.getTimeSlotIds()) {
                     timeSlotIdsToScheduleIds.put(timeSlotId, scheduleInfo.getId());
                 }
             }
         }
 
-
-        List<TimeSlotInfo> timeSlots = new ArrayList<TimeSlotInfo>();
-
-        timeSlots  = schedulingService.getTimeSlotsByIds(timeslotIds, contextInfo);
-
+        List<TimeSlotInfo> timeSlots = schedulingService.getTimeSlotsByIds(timeslotIds, contextInfo);
 
         TimeConflictDataContainer rgIdsToTimeSlots = new TimeConflictDataContainer();
 
+        int rgIdCount = rgIds.size();
 
-        ArrayList<List<TimeSlotInfo>> timeSlotInfos = new ArrayList<List<TimeSlotInfo>>(rgIds.size());
-        for(int i=0; i<rgIds.size();i++){
+        ArrayList<List<TimeSlotInfo>> timeSlotInfos = new ArrayList<List<TimeSlotInfo>>(rgIdCount);
+        for (int i = 0; i < rgIdCount; i++) {
             timeSlotInfos.add(new ArrayList<TimeSlotInfo>());
         }
 
-        for(TimeSlotInfo timeSlotInfo: timeSlots){
+        for (TimeSlotInfo timeSlotInfo: timeSlots) {
             String rgId = aoIdsToRgIds.get(scheduleIdsToAoIds.get(timeSlotIdsToScheduleIds.get(timeSlotInfo.getId())));
-            if(timeSlotInfo.getStartTime()!=null && timeSlotInfo.getEndTime()!=null){
+            if (timeSlotInfo.getStartTime() != null && timeSlotInfo.getEndTime() != null) {
               timeSlotInfos.get(rgIds.indexOf(rgId)).add(timeSlotInfo);
             } else {
                 rgIds.remove(rgId);
@@ -283,149 +280,17 @@ public class BestEffortTimeConflictProposition extends AbstractLeafProposition {
         return rgIdsToTimeSlots;
     }
 
-    private Map<String, List<String>> checkForTimeConflicts(TimeConflictDataContainer rgsToTimeSlots){
+    private Map<String, List<String>> checkForTimeConflicts(TimeConflictDataContainer rgsToTimeSlots) {
         TimeConflictCalculator timeConflictCalculator = new TimeConflictCalculator();
         Map<String, List<String>> conflicts;
-        conflicts=timeConflictCalculator.calculateConflicts(rgsToTimeSlots, 0);
+        conflicts = timeConflictCalculator.calculateConflicts(rgsToTimeSlots, 0);
 
         return conflicts;
     }
 
     private ValidationResultInfo createValidationResultFailureForRegRequestItem(RegistrationRequestItemInfo item, List<ConflictCourseResult> conflictCourseResults) {
-        ValidationResultInfo result = new ValidationResultInfo();
-        result.setLevel(ValidationResult.ErrorLevel.ERROR);
-        String elt = "registrationRequestItems['" + item.getId() + "']";
-        result.setElement(elt);
         String msg = RegistrationValidationResultsUtil.marshallConflictCourseMessage(LprServiceConstants.LPRTRANS_ITEM_TIME_CONFLICT_MESSAGE_KEY, conflictCourseResults);
-        result.setMessage(msg);
-        return result;
+        return createValidationResultFailureForRegRequestItem(item, msg);
     }
 
-    private PropositionResult recordAllRegRequestItems(ExecutionEnvironment environment,
-                                                       List<ValidationResultInfo> validationResults) {
-        Map<String, Object> executionDetails = new LinkedHashMap<String, Object>();
-        executionDetails.put(RulesExecutionConstants.PROCESS_EVALUATION_RESULTS, validationResults);
-        PropositionResult result = new PropositionResult(true, executionDetails);
-        BasicResult br = new BasicResult(ResultEvent.PROPOSITION_EVALUATED, this, environment, result.getResult());
-        environment.getEngineResults().addResult(br);
-        return result;
-    }
-
-    private PropositionResult recordRegRequestItemResult(ExecutionEnvironment environment,
-                                                         String regRequestItemId,
-                                                         boolean isSuccess) {
-        Map<String, Object> executionDetails = new LinkedHashMap<String, Object>();
-        executionDetails.put(RulesExecutionConstants.PROCESS_EVALUATION_RESULTS, regRequestItemId);
-        PropositionResult result = new PropositionResult(isSuccess, executionDetails);
-        BasicResult br = new BasicResult(ResultEvent.PROPOSITION_EVALUATED, this, environment, isSuccess);
-        environment.getEngineResults().addResult(br);
-        return result;
-    }
-
-
-    private List<CourseRegistrationInfo> getCourseAndWaitlistRegistrations(RegistrationRequestInfo request,
-                                                                           String personId,
-                                                                           CourseRegistrationService crService,
-                                                                           CourseWaitListService wlService,
-                                                                           ContextInfo contextInfo)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<CourseRegistrationInfo> existingCrs;
-        existingCrs = crService.getCourseRegistrationsByStudentAndTerm(personId,
-                request.getTermId(),
-                contextInfo);
-        List<CourseRegistrationInfo> waitListedCourses =
-                wlService.getCourseWaitListRegistrationsByStudentAndTerm(personId, request.getTermId(),
-                        contextInfo);
-        // Credit load is computed from actual plus waitlisted courses
-        existingCrs.addAll(waitListedCourses);
-        return existingCrs;
-    }
-
-
-    private CourseRegistrationTransaction createNewCourseRegistrationTransaction(RegistrationRequestItemInfo item,
-                                                                                 boolean skipActivities,
-                                                                                 ContextInfo contextInfo)
-            throws OperationFailedException {
-        CourseRegistrationInfo reg = this.createNewCourseRegistration(item, contextInfo);
-        List<ActivityRegistrationTransaction> activityTrans;
-        if (skipActivities) {
-            activityTrans = Collections.EMPTY_LIST;
-        } else {
-            activityTrans = this.createNewActivityTransactions(item, contextInfo);
-        }
-        CourseRegistrationTransaction rt = new CourseRegistrationTransaction(ActionEnum.CREATE, reg, activityTrans);
-        return rt;
-    }
-
-    private CourseRegistrationInfo createNewCourseRegistration(RegistrationRequestItemInfo item, ContextInfo contextInfo)
-            throws OperationFailedException {
-        CourseRegistrationInfo reg = new CourseRegistrationInfo();
-        RegistrationGroupInfo regGroup = this.getRegGroup(item.getRegistrationGroupId(), contextInfo);
-        reg.setPersonId(item.getPersonId());
-        reg.setTypeKey(LprServiceConstants.REGISTRANT_CO_LPR_TYPE_KEY);
-        reg.setStateKey(LprServiceConstants.ACTIVE_STATE_KEY);
-        reg.setCourseOfferingId(regGroup.getCourseOfferingId());
-        reg.setCredits(item.getCredits());
-        reg.setGradingOptionId(item.getGradingOptionId());
-        reg.setEffectiveDate(contextInfo.getCurrentDate());
-        reg.setExpirationDate(null);
-        reg.setRegistrationGroupId(item.getRegistrationGroupId());
-        // Adding all but we might want to split and store some attributes on the Activity and others on Course registration
-        reg.getAttributes().addAll(item.getAttributes());
-        return reg;
-    }
-
-    private RegistrationGroupInfo getRegGroup(String regGroupId, ContextInfo contextInfo)
-            throws OperationFailedException {
-        RegistrationGroupInfo regGroup;
-        try {
-            regGroup = coService.getRegistrationGroup(regGroupId, contextInfo);
-            return regGroup;
-        } catch (DoesNotExistException ex) {
-            throw new OperationFailedException("new reg group should exist", ex);
-        } catch (InvalidParameterException ex) {
-            throw new OperationFailedException("unexpected", ex);
-        } catch (MissingParameterException ex) {
-            throw new OperationFailedException("unexpected", ex);
-        } catch (PermissionDeniedException ex) {
-            throw new OperationFailedException("unexpected", ex);
-        }
-    }
-
-    private List<ActivityRegistrationTransaction> createNewActivityTransactions(RegistrationRequestItemInfo item,
-                                                                                ContextInfo contextInfo)
-            throws OperationFailedException {
-        List<ActivityRegistrationTransaction> list = new ArrayList<ActivityRegistrationTransaction>();
-        RegistrationGroupInfo regGroup = this.getRegGroup(item.getRegistrationGroupId(), contextInfo);
-        for (String activityOfferingId : regGroup.getActivityOfferingIds()) {
-            ActivityRegistrationTransaction trans = this.createNewActivityTransaction(item, contextInfo, activityOfferingId);
-            list.add(trans);
-        }
-        return list;
-    }
-
-    private ActivityRegistrationTransaction createNewActivityTransaction(RegistrationRequestItemInfo item,
-                                                                         ContextInfo contextInfo,
-                                                                         String activityOfferingId)
-            throws OperationFailedException {
-        ActivityRegistrationInfo reg = this.createNewActivityRegistration(item, contextInfo, activityOfferingId);
-        ActivityRegistrationTransaction trans = new ActivityRegistrationTransaction(ActionEnum.CREATE, reg);
-        return trans;
-    }
-
-    private ActivityRegistrationInfo createNewActivityRegistration(RegistrationRequestItemInfo item,
-                                                                   ContextInfo contextInfo,
-                                                                   String activityOfferingId)
-            throws OperationFailedException {
-        ActivityRegistrationInfo reg = new ActivityRegistrationInfo();
-        reg.setPersonId(item.getPersonId());
-        reg.setTypeKey(LprServiceConstants.REGISTRANT_AO_LPR_TYPE_KEY);
-        reg.setStateKey(LprServiceConstants.ACTIVE_STATE_KEY);
-        reg.setActivityOfferingId(activityOfferingId);
-        reg.setEffectiveDate(contextInfo.getCurrentDate());
-        reg.setExpirationDate(null);
-        // Adding all but we might want to split and store some attributes on the Activity and others on Course registration
-        reg.getAttributes().addAll(item.getAttributes());
-        return reg;
-    }
 }
