@@ -70,38 +70,38 @@ public class CMCommentController extends KsUifControllerBase {
     @MethodAccessible
     @RequestMapping(params = "methodToCall=start")
     public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, HttpServletRequest request,
-            HttpServletResponse response) {
+                              HttpServletResponse response) {
 
-        CMCommentForm commentForm = (CMCommentForm)form;
+        CMCommentForm commentForm = (CMCommentForm) form;
 
         String proposalId = request.getParameter("proposalId");
 
-        if (StringUtils.isBlank(proposalId)){
+        if (StringUtils.isBlank(proposalId)) {
             throw new RuntimeException("Missing proposal Id");
         }
 
         try {
-            ProposalInfo proposalInfo = getProposalService().getProposal(proposalId,ContextUtils.createDefaultContextInfo());
+            ProposalInfo proposalInfo = getProposalService().getProposal(proposalId, ContextUtils.createDefaultContextInfo());
             commentForm.setProposal(proposalInfo);
             retrieveComments(commentForm);
         } catch (Exception e) {
             throw new RuntimeException("Invalid Proposal [id=" + proposalId + "]");
         }
 
-        return super.start(form,request,response);
+        return super.start(form, request, response);
     }
 
     /**
      * This method submits a new comment or the comment editing by the user
      *
-     * @param form     {@link org.kuali.rice.krad.web.form.MaintenanceDocumentForm} instance used for this action
+     * @param form {@link org.kuali.rice.krad.web.form.MaintenanceDocumentForm} instance used for this action
      * @throws Exception
      */
     @MethodAccessible
     @RequestMapping(params = "methodToCall=saveComment")
     public ModelAndView saveComment(@ModelAttribute("KualiForm") CMCommentForm form) throws Exception {
 
-        if (form.getProposal() == null){
+        if (form.getProposal() == null) {
             throw new RuntimeException("Proposal not found.");
         }
 
@@ -110,12 +110,12 @@ public class CMCommentController extends KsUifControllerBase {
         /**
          * If it's new comment, just create a new wrapper and call save, which should initialize all the details at the DTO
          */
-        if (StringUtils.isBlank(collectionPath)){
+        if (StringUtils.isBlank(collectionPath)) {
 
             CommentWrapper wrapper = new CommentWrapper();
             wrapper.getCommentInfo().getCommentText().setPlain(form.getNewComment());
-            saveComment(form.getProposal(),wrapper);
-            form.getComments().set(0,wrapper);
+            saveComment(form.getProposal(), wrapper);
+            form.getComments().add(wrapper);
 
             form.setNewComment(StringUtils.EMPTY);
 
@@ -126,7 +126,7 @@ public class CMCommentController extends KsUifControllerBase {
         }
 
         //Reset edit in progress flag from all the comments.
-        for (CommentWrapper commentWrapper : form.getComments()){
+        for (CommentWrapper commentWrapper : form.getComments()) {
             commentWrapper.getRenderHelper().setEditInProgress(false);
         }
 
@@ -139,7 +139,7 @@ public class CMCommentController extends KsUifControllerBase {
     @RequestMapping(params = "methodToCall=cancelEditComment")
     public ModelAndView cancelEditComment(@ModelAttribute("KualiForm") CMCommentForm form) throws Exception {
 
-        for (CommentWrapper commentWrapper : form.getComments()){
+        for (CommentWrapper commentWrapper : form.getComments()) {
             commentWrapper.getRenderHelper().setEditInProgress(false);
         }
 
@@ -150,7 +150,7 @@ public class CMCommentController extends KsUifControllerBase {
     @RequestMapping(params = "methodToCall=editComment")
     public ModelAndView editComment(@ModelAttribute("KualiForm") CMCommentForm form) throws Exception {
 
-        if (form.getProposal() == null){
+        if (form.getProposal() == null) {
             throw new RuntimeException("Proposal not found.");
         }
 
@@ -164,14 +164,14 @@ public class CMCommentController extends KsUifControllerBase {
     @RequestMapping(params = "methodToCall=deleteComment")
     public ModelAndView deleteComment(@ModelAttribute("KualiForm") CMCommentForm form) throws Exception {
 
-        if (form.getProposal() == null){
+        if (form.getProposal() == null) {
             throw new RuntimeException("Proposal not found.");
         }
 
         int index = Integer.parseInt(form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
 
         CommentWrapper commentWrapper = form.getComments().remove(index);
-        getCommentService().deleteComment(commentWrapper.getCommentInfo().getId(),ContextUtils.createDefaultContextInfo());
+        getCommentService().deleteComment(commentWrapper.getCommentInfo().getId(), ContextUtils.createDefaultContextInfo());
 
         commentWrapper.getCommentInfo().setId(null); //Clear out the ID sothat we can add that to DB if user decided to undo later
         form.setDeletedComment(commentWrapper);
@@ -185,7 +185,7 @@ public class CMCommentController extends KsUifControllerBase {
     public ModelAndView undoDeleteComment(@ModelAttribute("KualiForm") CMCommentForm form) throws Exception {
 
         CommentWrapper deletedComment = form.getDeletedComment();
-        saveComment(form.getProposal(),deletedComment);
+        saveComment(form.getProposal(), deletedComment);
         form.getComments().add(deletedComment);
         form.setDeletedComment(null);
 
@@ -198,7 +198,7 @@ public class CMCommentController extends KsUifControllerBase {
      * @param proposalInfo
      * @param commentWrapper
      */
-    protected void saveComment(ProposalInfo proposalInfo,CommentWrapper commentWrapper) {
+    protected void saveComment(ProposalInfo proposalInfo, CommentWrapper commentWrapper) {
 
         LOG.trace("Saving comment - " + commentWrapper.getCommentInfo().getCommentText());
 
