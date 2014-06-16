@@ -33,7 +33,6 @@ public class TimeConflictCalculator {
 
     public Map<String, List<String>> calculateConflicts(TimeConflictDataContainer timeSlots, int overlapInMinutes){
         Map<String, List<String>> conflicts = new HashMap<String, List<String>>();
-        ArrayList<String> nonConflicts = new ArrayList<String>();
         List<String> ids = timeSlots.getIds();
         List<List<TimeSlotInfo>> timeSlotInfos = timeSlots.getTimeSlotInfos();
 
@@ -47,7 +46,6 @@ public class TimeConflictCalculator {
                 otherIdKey = ids.get(j);
                 List<TimeSlotInfo> otherIdValue = timeSlotInfos.get(j);
                 //make sure it's not the same one or on the whitelist
-                //if(!nonConflicts.contains(otherIdKey)){
                     for(TimeSlotInfo timeSlotInfo: idValue){
                         for(TimeSlotInfo otherTimeSlot: otherIdValue){
                             //for each original id timeslot, compare with each timeslot for the other id
@@ -73,58 +71,8 @@ public class TimeConflictCalculator {
                             }
                         }
                     }
-                //}
             }
-
-       /* //Whitelist if no conflicts are found to prevent repeating checks
-        if(!(conflicts.containsKey(idKey))){
-            nonConflicts.add(idKey);
-        }     */
         }
-
-       /*
-       String idKey,otherIdKey;
-        for(Map.Entry<String, List<TimeSlotInfo>> id: timeSlots.entrySet()){
-            idKey = id.getKey();
-            List<TimeSlotInfo> idValue = id.getValue();
-            //for each id(AO/RG), look at each other id
-            for(Map.Entry<String, List<TimeSlotInfo>> otherId: timeSlots.entrySet()){
-                otherIdKey = otherId.getKey();
-                List<TimeSlotInfo> otherIdValue = otherId.getValue();
-                //make sure it's not the same one or on the whitelist
-                if(!(otherIdKey.equals(idKey)) && !nonConflicts.contains(otherIdKey)){
-                    for(TimeSlotInfo timeSlotInfo: idValue){
-                        for(TimeSlotInfo otherTimeSlot: otherIdValue){
-                            //for each original id timeslot, compare with each timeslot for the other id
-                            for(Integer weekday: timeSlotInfo.getWeekdays()){
-                                if(otherTimeSlot.getWeekdays().contains(weekday)){
-                                    //if !( slot2.start >= slot1.end ||  slot1.end <= slot2.start)
-                                    if(!((otherTimeSlot.getStartTime().isAfter(timeSlotInfo.getEndTime())
-                                            || otherTimeSlot.getStartTime().equals(timeSlotInfo.getEndTime()))
-                                        || (otherTimeSlot.getEndTime().isBefore(timeSlotInfo.getStartTime())
-                                            || timeSlotInfo.getEndTime().equals(otherTimeSlot.getStartTime())))){
-                                        //Conflict
-                                        if(conflicts.containsKey(idKey)){
-                                            if(!(conflicts.get(idKey).contains(otherIdKey))){
-                                               conflicts.get(idKey).add(otherIdKey);
-                                            }
-                                        } else {
-                                            ArrayList<String> conflictList = new ArrayList<String>();
-                                            conflictList.add(otherIdKey);
-                                            conflicts.put(idKey, conflictList);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            //Whitelist if no conflicts are found to prevent repeating checks
-            if(!(conflicts.containsKey(idKey))){
-            nonConflicts.add(idKey);
-        }
-    }   */
         return conflicts;
     }
 }
