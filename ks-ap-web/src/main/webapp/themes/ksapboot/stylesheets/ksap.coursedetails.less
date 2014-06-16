@@ -166,8 +166,8 @@
       padding-right: 0;
       white-space: nowrap;
     }
-    tr:hover {
-      background-color:#eee;
+    tr:hover > td {
+      background-color: #eee;
       cursor: pointer;
     }
     tr.ksap-selected-row {
@@ -218,11 +218,13 @@
       font-size: 13px;
       font-weight: bold;
     }
-    table {
-      border-bottom: 1px solid #DDD;
+    table,
+    thead {
+      border-bottom: 1px solid #ddd;
       margin-bottom: 30px;
     }
-    tr:hover {
+    tr,
+    tr:hover > td {
       background-color: transparent;
       cursor: default;
     }
