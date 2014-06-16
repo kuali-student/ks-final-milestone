@@ -101,7 +101,7 @@
         <property name="layoutManager.lineGroupPrototype.disclosure.expandedIconClass"
                   value="ks-fontello-icon-down-open"/>
         <property name="layoutManager.summaryTitle"
-        value="@{#line.courseOfferingCode} - @{#line.courseOfferingTitle} [css='co-planned-indicator'](planned)[/css]"/>
+        value="@{#line.courseOfferingCode} - @{#line.courseOfferingTitle} [css='ksap-section-planned ks-fontello-icon-ok-circled']planned[/css]"/>
         <property name="layoutManager.lineGroupPrototype.disclosure.defaultOpen" value="false"/>
         <property name="cssClasses">
             <list merge="true">
@@ -162,10 +162,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-MessageField"
-                      p:messageText="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getFormattedMessage('details.format.header')} (@{#line.activityOfferingDetailsWrappers.size()})">
-                    <!-- p:messageText="@{#line.formatName} (@{#line.activityOfferingDetailsWrappers.size()})"-->
-
+                <bean parent="Uif-MessageField" p:messageText="@{#line.formatName} (@{#line.activityOfferingDetailsWrappers.size()})">
                     <property name="cssClasses">
                         <list merge="true">
                             <value>ksap-section-format-title</value>
@@ -235,7 +232,7 @@
                       p:id="type"
                       p:label="Type"
                       p:messageText="@{#line.activityFormatName}"
-                      p:render="@{#line.partOfRegGroup==true or #line.singleFormatOffering==true}">
+                      p:render="@{#line.partOfRegGroup==true}">
                 </bean>
                 <!--p:label="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('details.ao.header.code')}"-->
                 <bean parent="Uif-MessageField"
@@ -260,7 +257,7 @@
                 </bean>
                 <!--p:label="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('details.ao.header.time')}"-->
                 <bean parent="Uif-MessageField"
-                      p:additionalCssClasses="ksap-section-time @{#line.singleFormatOffering ? '' : 'ksap-section-multi'} @{#line.partOfRegGroup ? '' : 'ksap-section-nonreg'}"
+                      p:additionalCssClasses="ksap-section-time"
                       p:id="time"
                       p:label="Time"
                       p:messageText="@{#line.time}">
@@ -283,7 +280,7 @@
                 <bean parent="Uif-FieldGroupBase"
                       p:fieldLabel.labelText="Additional Details"
                       p:id="additionalDetails"
-                      p:additionalCssClasses="ksap-section-details @{#line.singleFormatOffering ? 'ksap-section-single' : 'ksap-section-multi'} @{#line.partOfRegGroup ? '' : 'ksap-section-nonreg'}">
+                      p:additionalCssClasses="ksap-section-details">
                     <property name="items">
                         <list>
                             <bean parent="Uif-Message" p:render="@{#line.honors==true}" p:id="honors"
