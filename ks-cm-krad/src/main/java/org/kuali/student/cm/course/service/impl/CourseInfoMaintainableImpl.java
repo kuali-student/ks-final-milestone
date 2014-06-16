@@ -825,6 +825,24 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         newCourseCreateUnitsContentOwner.getRenderHelper().setNewRow(true);
         courseInfoWrapper.getUnitsContentOwner().add(newCourseCreateUnitsContentOwner);
 
+        // Initialize Crosslistings if it hasn't already been.
+        if (courseInfoWrapper.getCourseInfo().getCrossListings().isEmpty()) {
+            List<CourseCrossListingInfo> crossListingInfoList = courseInfoWrapper.getCourseInfo().getCrossListings() ;
+            crossListingInfoList.add(new CourseCrossListingInfo());
+            courseInfoWrapper.getCourseInfo().setCrossListings(crossListingInfoList);
+        }
+        // Initialize Joint Offerings if it hasn't already been.
+        if (courseInfoWrapper.getCourseJointWrappers() == null || courseInfoWrapper.getCourseJointWrappers().isEmpty()) {
+            List<CourseJointInfoWrapper> courseJointInfoList = courseInfoWrapper.getCourseJointWrappers() ;
+            courseJointInfoList.add(new CourseJointInfoWrapper());
+            courseInfoWrapper.setCourseJointWrappers(courseJointInfoList);
+        }
+        // Initialize Variations if it hasn't already been.
+        if (courseInfoWrapper.getCourseInfo().getVariations().isEmpty()) {
+            List<CourseVariationInfo> courseVariationInfoList = courseInfoWrapper.getCourseInfo().getVariations() ;
+            courseVariationInfoList.add(new CourseVariationInfo());
+            courseInfoWrapper.getCourseInfo().setVariations(courseVariationInfoList);
+        }
         //Initialize formats/activities
         initializeFormat(courseInfoWrapper);
 
