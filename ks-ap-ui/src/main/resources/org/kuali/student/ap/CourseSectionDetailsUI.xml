@@ -116,7 +116,7 @@
                       p:messageText="[b]@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('details.course.honors.label')}[/b]">
                     <property name="cssClasses">
                         <list merge="true">
-                            <value>ksap-section-description</value>
+                            <value>ksap-section-honors</value>
                         </list>
                     </property>
                 </bean>
@@ -124,7 +124,7 @@
                       p:messageText="[b]@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('details.course.requisites.label')}:[/b] @{#line.courseRequisites}">
                     <property name="cssClasses">
                         <list merge="true">
-                            <value>ksap-section-description</value>
+                            <value>ksap-section-requisites</value>
                         </list>
                     </property>
                 </bean>
