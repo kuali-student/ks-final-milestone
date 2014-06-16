@@ -149,7 +149,8 @@
                                                         <bean parent="Uif-SimpleLayout"/>
                                                     </property>
                                                     <property name="header">
-                                                        <bean parent="Uif-HeaderFour">
+                                                        <bean id="KSCM-CommentField-comment-header-id"
+                                                              parent="Uif-HeaderFour">
                                                             <property name="render"
                                                                       value="@{!#line.renderHelper.editInProgress}"/>
                                                             <property name="rightGroup">
