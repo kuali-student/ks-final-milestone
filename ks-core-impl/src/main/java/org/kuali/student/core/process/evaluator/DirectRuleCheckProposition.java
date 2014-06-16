@@ -14,9 +14,11 @@ package org.kuali.student.core.process.evaluator;
 
 import org.kuali.rice.krms.api.engine.ExecutionEnvironment;
 import org.kuali.rice.krms.framework.engine.PropositionResult;
+import org.kuali.rice.krms.framework.engine.Rule;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
 
 import org.kuali.rice.krms.framework.engine.Proposition;
+import org.kuali.student.core.krms.rule.RuleFactory;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.process.dto.CheckInfo;
 import org.kuali.student.r2.core.process.dto.InstructionInfo;
@@ -49,6 +51,19 @@ public class DirectRuleCheckProposition extends AbstractCheckProposition {
         if (directRuleResult.getResult()) {
             return this.recordSuccessResult(environment);
         }
+
+        /* TODO: KSENROLL-13199 - Uncomment this section and remove propositionfactory when afts are tested
+
+        RuleFactory ruleFactory = environment.resolveTerm(RulesExecutionConstants.RULE_FACTORY_TERM, this);
+        Rule directRule;
+        try {
+            directRule = ruleFactory.getRule(check.getRuleId(), contextInfo);
+        } catch (Exception ex) {
+            return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
+        }
+
+        boolean result = directRule.evaluate(environment);*/
+
         return this.recordFailureResultOrExemption(environment);
     }
 }
