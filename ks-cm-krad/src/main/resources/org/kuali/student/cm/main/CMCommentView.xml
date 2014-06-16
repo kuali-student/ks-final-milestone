@@ -49,11 +49,6 @@
                     <!-- Display existing comments or a message indicating that there aren't any comments. Using a box section
                          here so that both the tableCollectionSection and the simple Message can share the header. -->
                     <bean parent="Uif-VerticalBoxSection">
-                        <property name="scrollpane">
-                            <bean parent="Uif-Scrollpane">
-                                <property name="height" value="600px"/>
-                            </bean>
-                        </property>
                         <property name="items">
                             <list>
                                 <bean id="KSCM-NewCommentField" parent="Uif-InputField" p:propertyName="newComment">
@@ -120,10 +115,10 @@
                                                 <property name="renderAddLine" value="false"/>
                                                 <property name="items">
                                                     <list>
-                                                        <bean id="KSCM-CommentField" parent="KS-Uif-InputField" p:label=""
+                                                        <bean id="KSCM-CommentField" p:id ="KSCM-Comment-Add" parent="KS-Uif-InputField" p:label=""
                                                               p:readOnly="@{!#line.renderHelper.editInProgress}"
                                                               p:propertyName="commentInfo.commentText.plain"
-                                                              p:style="padding:6px;">
+                                                              p:style="padding:6px; text-indent: 1.5em;">
                                                             <property name="control">
                                                                 <bean parent="Uif-LargeTextAreaControl" p:cols="71"/>
                                                             </property>
