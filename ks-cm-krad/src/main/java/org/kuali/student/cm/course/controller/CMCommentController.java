@@ -115,7 +115,7 @@ public class CMCommentController extends KsUifControllerBase {
             CommentWrapper wrapper = new CommentWrapper();
             wrapper.getCommentInfo().getCommentText().setPlain(form.getNewComment());
             saveComment(form.getProposal(),wrapper);
-            form.getComments().add(wrapper);
+            form.getComments().set(0,wrapper);
 
             form.setNewComment(StringUtils.EMPTY);
 
