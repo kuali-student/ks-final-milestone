@@ -50,6 +50,7 @@ public class RulesExecutionConstants {
     public static final Term HOLD_SERVICE_TERM = new Term("holdService");
     public static final Term GES_SERVICE_TERM = new Term("gesService");
     // factories
+    public static final Term RULE_FACTORY_TERM = new Term("ruleFactory");
     public static final Term PROPOSITION_FACTORY_TERM = new Term("propositionFactory");
     public static final Term LOAD_CALCULATOR_RULE_FACTORY_TERM = new Term("loadCalculatorRuleFactory");
     // logic
