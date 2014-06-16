@@ -416,15 +416,15 @@ public class ReviewProposalDisplay {
             return learningObjectives;
         }
 
-        public String getLearningObjectivesAsString() {
-            return StringUtils.join(getLearningObjectives(), CurriculumManagementConstants.COLLECTION_ITEMS_DELIMITER);
+        public String getEmptyStringLO() {
+            return learningObjectives.isEmpty() ? "" : "Has LO";
         }
 
         public void build(List<LoDisplayInfo> loDisplayInfos) {
 
             if (learningObjectives == null) {
                 learningObjectives = new ArrayList<LoReviewSection>();
-    }
+            }
 
             learningObjectives.clear();
 
