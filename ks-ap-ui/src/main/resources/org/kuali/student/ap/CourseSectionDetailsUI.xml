@@ -100,7 +100,8 @@
                   value="ks-fontello-icon-right-open"/>
         <property name="layoutManager.lineGroupPrototype.disclosure.expandedIconClass"
                   value="ks-fontello-icon-down-open"/>
-        <property name="layoutManager.summaryTitle" value="@{#line.courseOfferingCode} - @{#line.courseOfferingTitle}"/>
+        <property name="layoutManager.summaryTitle"
+        value="@{#line.courseOfferingCode} - @{#line.courseOfferingTitle} [css='co-planned-indicator'](planned)[/css]"/>
         <property name="layoutManager.lineGroupPrototype.disclosure.defaultOpen" value="false"/>
         <property name="cssClasses">
             <list merge="true">
