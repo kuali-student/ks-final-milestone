@@ -3,19 +3,16 @@ package org.kuali.student.ap.coursesearch.service.impl;
 import org.apache.cxf.common.util.StringUtils;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
-import org.kuali.rice.krms.api.repository.RuleManagementService;
-import org.kuali.rice.krms.api.repository.language.NaturalLanguageUsage;
-import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
 import org.kuali.student.ap.academicplan.infc.PlanItem;
 import org.kuali.student.ap.coursesearch.CreditsFormatter;
 import org.kuali.student.ap.coursesearch.dataobject.CourseDetailsPopoverWrapper;
 import org.kuali.student.ap.coursesearch.dataobject.CourseDetailsWrapper;
+import org.kuali.student.ap.coursesearch.util.CourseDetailsUtil;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.framework.util.KsapHelperUtil;
 import org.kuali.student.ap.utils.CourseLinkBuilder;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
@@ -24,7 +21,6 @@ import org.kuali.student.r2.common.infc.RichText;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
-import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.infc.SearchResult;
 import org.kuali.student.r2.core.search.infc.SearchResultRow;
@@ -112,7 +108,7 @@ public class CourseDetailsInquiryHelperImpl2 extends KualiInquirableImpl {
         courseDetails.setCourseCredits(CreditsFormatter.formatCredits(course));
         courseDetails.setCourseTitle(course.getCourseTitle());
 
-        courseDetails.setCourseRequisites(getCourseRequisites(course));
+        courseDetails.setCourseRequisites(CourseDetailsUtil.getCourseRequisites(course));
 
         // Load Term information
         courseDetails.setScheduledTerms(KsapFrameworkServiceLocator.getCourseHelper()
@@ -166,7 +162,7 @@ public class CourseDetailsInquiryHelperImpl2 extends KualiInquirableImpl {
 
         // Load formated information
         courseDetails.setCourseDescription(getCourseDescription(course));
-        courseDetails.setCourseRequisites(getCourseRequisites(course));
+        courseDetails.setCourseRequisites(CourseDetailsUtil.getCourseRequisites(course));
         courseDetails.setCourseGenEdRequirements(getCourseGenEdRequirements(course));
 
         // Load Term information
@@ -288,50 +284,6 @@ public class CourseDetailsInquiryHelperImpl2 extends KualiInquirableImpl {
         description = CourseLinkBuilder.makeLinks(description,KsapFrameworkServiceLocator.getContext().getContextInfo());
 
         return description;
-    }
-
-    /**
-     * Retrieve and format the list of course requisites to be displayed on the page
-     *
-     * @param course - Course that is being displayed
-     * @return Formatted list of requisites
-     */
-    protected List<String> getCourseRequisites(Course course){
-        List<String> courseRequisites = new ArrayList<String>();
-
-        RuleManagementService rms = KsapFrameworkServiceLocator.getRuleManagementService();
-        try{
-            // Gather components for natural language translation
-            TypeInfo typeInfo = KsapFrameworkServiceLocator.getTypeService().getType(
-                    course.getTypeKey(), KsapFrameworkServiceLocator.getContext().getContextInfo());
-            List<ReferenceObjectBinding> referenceObjectBindings = rms.findReferenceObjectBindingsByReferenceObject(
-                    typeInfo.getRefObjectUri(), course.getId());
-            String language = KsapFrameworkServiceLocator.getContext().getContextInfo().getLocale().getLocaleLanguage();
-
-            // Get requisites as natural language descriptions
-            for(ReferenceObjectBinding referenceObjectBinding : referenceObjectBindings){
-                NaturalLanguageUsage nlu = rms.getNaturalLanguageUsageByNameAndNamespace(
-                        KSKRMSServiceConstants.KRMS_NL_RULE_EDIT, referenceObjectBinding.getNamespace());
-                String description = rms.translateNaturalLanguageForObject(
-                        nlu.getId(),referenceObjectBinding.getKrmsDiscriminatorType().toLowerCase(),
-                        referenceObjectBinding.getKrmsObjectId(),language);
-                String formattedDescription = CourseLinkBuilder.makeLinks(description,KsapFrameworkServiceLocator.getContext().getContextInfo());
-                courseRequisites.add(formattedDescription);
-
-            }
-        } catch (PermissionDeniedException e) {
-            throw new IllegalArgumentException("Type lookup error", e);
-        } catch (MissingParameterException e) {
-            throw new IllegalArgumentException("Type lookup error", e);
-        } catch (InvalidParameterException e) {
-            throw new IllegalArgumentException("Type lookup error", e);
-        } catch (OperationFailedException e) {
-            throw new IllegalArgumentException("Type lookup error", e);
-        } catch (DoesNotExistException e) {
-            throw new IllegalArgumentException("Type lookup error", e);
-        }
-
-        return courseRequisites;
     }
 
     /**

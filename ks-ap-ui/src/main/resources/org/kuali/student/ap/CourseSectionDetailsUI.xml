@@ -112,10 +112,22 @@
         <!-- property to activate disclosure -->
         <property name="items">
             <list>
-                <!--<bean parent="Uif-MessageField"
-                      p:render="@{#line.honors==true}"
-                      p:messageText="[b]@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('details.ao.additionalDetails.honors')}[/b]"/>
-                 -->
+                <bean parent="Uif-MessageField" p:render="@{#line.honors}"
+                      p:messageText="[b]@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('details.course.honors.label')}[/b]">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ksap-section-description</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-MessageField" p:render="@{#line.courseRequisites.size() > 0}"
+                      p:messageText="[b]@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('details.course.requisites.label')}:[/b] @{#line.courseRequisites}">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ksap-section-description</value>
+                        </list>
+                    </property>
+                </bean>
                 <bean parent="Uif-MessageField"
                       p:messageText="[b]@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('details.course.description.label')}:[/b] @{#line.courseOfferingDescription}">
                     <property name="cssClasses">
@@ -292,7 +304,7 @@
                 <bean parent="Uif-InputField"
                       p:additionalCssClasses="ksap-section-select"
                       p:propertyName="selected"
-                      p:id="select "
+                      p:id="select"
                       p:label="Select"
                       p:render="@{#line.partOfRegGroup==false and #line.singleFormatOffering==false}">
                     <property name="control">
