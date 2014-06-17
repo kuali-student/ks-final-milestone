@@ -63,7 +63,7 @@ angular.module('regCartApp')
             console.log('Received event sessionExpired');
             $modal.open({
                 backdrop: 'static',
-                templateUrl: 'sessionExpired.html',
+                templateUrl: 'partials/sessionExpired.html',
                 controller: 'SessionCtrl'
             });
         });
