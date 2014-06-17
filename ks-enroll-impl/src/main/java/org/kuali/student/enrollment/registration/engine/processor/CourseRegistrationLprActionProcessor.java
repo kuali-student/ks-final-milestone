@@ -8,6 +8,7 @@ import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequestItem;
 import org.kuali.student.enrollment.courseseatcount.infc.SeatCount;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
+import org.kuali.student.enrollment.lpr.infc.LprTransaction;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.registration.client.service.impl.util.RegistrationValidationResultsUtil;
 import org.kuali.student.enrollment.registration.engine.dto.RegistrationRequestItemEngineMessage;
@@ -188,6 +189,9 @@ public class CourseRegistrationLprActionProcessor {
 
         String regReqId = null;
         String requestorId = null;
+        String lprTransFinalState = LprServiceConstants.LPRTRANS_SUCCEEDED_STATE_KEY;
+
+
 
         // for this implementation we just want the requestId and the id of the person initiating the request.
         // in the future we might want to inspect each item
@@ -197,9 +201,16 @@ public class CourseRegistrationLprActionProcessor {
             break;
         }
 
+        // Each node can update the LPR transaction. If an exception happens, the LPR trans state should have been
+        // updated to failure. Pull it now
+        LprTransaction lprTransaction = getLprService().getLprTransaction(regReqId, contextInfo);
+        if(!lprTransaction.getStateKey().equals(LprServiceConstants.LPRTRANS_PROCESSING_STATE_KEY)){
+            lprTransFinalState = lprTransaction.getStateKey();
+        }
+
         contextInfo.setPrincipalId(requestorId);
 
-        courseRegistrationEngineService.updateLprTransaction(regReqId, LprServiceConstants.LPRTRANS_SUCCEEDED_STATE_KEY, contextInfo);
+        courseRegistrationEngineService.updateLprTransaction(regReqId, lprTransFinalState, contextInfo);
 
     }
 
