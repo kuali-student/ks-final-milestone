@@ -57,6 +57,10 @@ function showCommentLightBox(href) {
     showLightboxUrl(href1);
 }
 
+function closeCommentUndo(){
+    jQuery("#KSCM-CloseCommentDeleteUndoInfo").hide();
+}
+
 /**
  * Initialize the Review Course Proposal page.
  */
