@@ -495,8 +495,7 @@
 
                             <bean parent="KS-Uif-InputField" p:propertyName="variationTitle" p:id="variationTitle" p:label="Course Title" >
                                 <property name="control">
-                                    <bean parent="KS-Uif-TextControl"   p:size="70"
-                                    p:disabled="@{#lp.variationCode eq null or #lp.variationCode eq ''}"   />
+                                    <bean parent="KS-Uif-TextControl"   p:size="70" />
                                 </property>
                             </bean>
                         </list>
