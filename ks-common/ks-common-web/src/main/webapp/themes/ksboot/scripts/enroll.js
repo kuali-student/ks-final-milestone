@@ -919,6 +919,9 @@ jQuery(document).on('DOMNodeInserted', function (e) {
         || (jQuery(element).find('div.uif-tableCollectionSection'))  || (jQuery(element).find('div.uif-stackedCollectionSection'))) ) {
         addBootstrapImageToLink();
     }
+    else if (jQuery(element).is('section.jquerybubblepopup') || jQuery(element).is('div.jquerybubblepopup')){
+        handleEventforDisabledElements();
+    }
 });
 
 /*
