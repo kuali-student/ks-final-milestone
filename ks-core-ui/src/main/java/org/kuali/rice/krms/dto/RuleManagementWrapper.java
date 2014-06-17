@@ -31,7 +31,7 @@ import java.util.List;
 /**
  * @author Kuali Student Team
  */
-public class RuleManagementWrapper implements Serializable {
+public class RuleManagementWrapper implements Serializable, RuleManager {
 
     private String refObjectId;
     private String viewId;

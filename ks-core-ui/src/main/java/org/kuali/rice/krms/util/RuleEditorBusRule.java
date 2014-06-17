@@ -20,7 +20,6 @@ import org.kuali.rice.krad.bo.GlobalBusinessObject;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krms.dto.RuleManagementWrapper;
 import org.kuali.student.common.uif.rule.KsMaintenanceDocumentRuleBase;
 
 /**
@@ -37,8 +36,8 @@ public class RuleEditorBusRule extends KsMaintenanceDocumentRuleBase {
         Class<?> dataObjectClass = document.getNewMaintainableObject().getDataObjectClass();
 
         // Since the dataObject is a wrapper class we need to return the agendaBo instead.
-        Object oldBo = ((RuleManagementWrapper) document.getOldMaintainableObject().getDataObject());
-        Object newDataObject = ((RuleManagementWrapper) document.getNewMaintainableObject().getDataObject());
+        Object oldBo = document.getOldMaintainableObject().getDataObject();
+        Object newDataObject = document.getNewMaintainableObject().getDataObject();
 
         // We dont do primaryKeyChecks on Global Business Object maintenance documents. This is
         // because it doesnt really make any sense to do so, given the behavior of Globals. When a

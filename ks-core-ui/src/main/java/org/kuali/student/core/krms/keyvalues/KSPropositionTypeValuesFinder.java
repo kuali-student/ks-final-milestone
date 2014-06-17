@@ -29,7 +29,7 @@ import org.kuali.rice.krms.api.repository.language.NaturalLanguageUsage;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
 import org.kuali.rice.krms.api.repository.typerelation.TypeTypeRelation;
 import org.kuali.rice.krms.dto.RuleEditor;
-import org.kuali.rice.krms.dto.RuleManagementWrapper;
+import org.kuali.rice.krms.dto.RuleManager;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
@@ -65,8 +65,8 @@ public class KSPropositionTypeValuesFinder extends UifKeyValuesFinderBase {
         String ruleTypeId = null;
         if (dataObject instanceof RuleEditor){
             ruleTypeId = ((RuleEditor) dataObject).getTypeId();
-        } else if (dataObject instanceof RuleManagementWrapper){
-            ruleTypeId = ((RuleManagementWrapper) dataObject).getRuleEditor().getTypeId();
+        } else if (dataObject instanceof RuleManager){
+            ruleTypeId = ((RuleManager) dataObject).getRuleEditor().getTypeId();
         }
 
         NaturalLanguageUsage usage = this.getRuleManagementService().getNaturalLanguageUsageByNameAndNamespace(KSKRMSServiceConstants.KRMS_NL_TYPE_DESCRIPTION, StudentIdentityConstants.KS_NAMESPACE_CD);
@@ -108,7 +108,7 @@ public class KSPropositionTypeValuesFinder extends UifKeyValuesFinderBase {
 
     public RuleManagementService getRuleManagementService() {
         if (ruleManagementService == null) {
-            ruleManagementService = (RuleManagementService) GlobalResourceLoader.getService(new QName(KrmsConstants.Namespaces.KRMS_NAMESPACE_2_0, "ruleManagementService"));
+            ruleManagementService = GlobalResourceLoader.getService(new QName(KrmsConstants.Namespaces.KRMS_NAMESPACE_2_0, "ruleManagementService"));
         }
         return ruleManagementService;
     }

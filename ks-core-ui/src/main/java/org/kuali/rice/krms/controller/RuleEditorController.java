@@ -29,6 +29,7 @@ import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.dto.RuleManagementWrapper;
+import org.kuali.rice.krms.dto.RuleManager;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.rice.krms.service.RuleViewHelperService;
 import org.kuali.rice.krms.tree.node.RuleEditorTreeNode;
@@ -100,7 +101,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
                                    @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
 
         MaintenanceDocumentForm document = (MaintenanceDocumentForm) form;
-        RuleManagementWrapper ruleWrapper = AgendaUtilities.getRuleWrapper(document);
+        RuleManager ruleWrapper = AgendaUtilities.getRuleWrapper(document);
         String ruleKey = AgendaUtilities.getRuleKey(document);
 
         AgendaEditor agenda = AgendaUtilities.getSelectedAgendaEditor(ruleWrapper, ruleKey);
@@ -175,8 +176,8 @@ public class RuleEditorController extends MaintenanceDocumentController {
 
             if (dataObject instanceof RuleEditor) {
                 return (RuleEditor) dataObject;
-            } else if (dataObject instanceof RuleManagementWrapper) {
-                RuleManagementWrapper wrapper = (RuleManagementWrapper) dataObject;
+            } else if (dataObject instanceof RuleManager) {
+                RuleManager wrapper = (RuleManager) dataObject;
                 return wrapper.getRuleEditor();
             }
         }
@@ -937,7 +938,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
 
     protected void compareRulePropositions(MaintenanceDocumentForm form, RuleEditor ruleEditor) {
 
-        RuleManagementWrapper ruleWrapper = (RuleManagementWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
+        RuleManager ruleWrapper = (RuleManager) form.getDocument().getNewMaintainableObject().getDataObject();
 
         //Compare rule to parent and display info message
         if (ruleEditor.getProposition() != null) {
@@ -987,7 +988,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
         this.getViewHelper(form).refreshViewTree(ruleEditor);
 
         //Replace edited rule with existing rule.
-        RuleManagementWrapper ruleWrapper = AgendaUtilities.getRuleWrapper((MaintenanceDocumentForm) form);
+        RuleManager ruleWrapper = AgendaUtilities.getRuleWrapper((MaintenanceDocumentForm) form);
         AgendaEditor agendaEditor = AgendaUtilities.getSelectedAgendaEditor(ruleWrapper, ruleEditor.getKey());
         agendaEditor.getRuleEditors().put(ruleEditor.getKey(), ruleEditor);
 
@@ -1195,8 +1196,8 @@ public class RuleEditorController extends MaintenanceDocumentController {
     protected void doCompareRules(UifFormBase form) {
         MaintenanceDocumentForm document = (MaintenanceDocumentForm) form;
         Object dataObject = document.getDocument().getNewMaintainableObject().getDataObject();
-        if (dataObject instanceof RuleManagementWrapper) {
-            RuleManagementWrapper ruleWrapper = (RuleManagementWrapper) dataObject;
+        if (dataObject instanceof RuleManager) {
+            RuleManager ruleWrapper = (RuleManager) dataObject;
             String ruleId = document.getActionParamaterValue(KRMSConstants.KRMS_PARM_RULE_KEY);
             RuleEditor ruleEditor = null;
             if ((ruleId != null) && (StringUtils.isNotBlank(ruleId))) {

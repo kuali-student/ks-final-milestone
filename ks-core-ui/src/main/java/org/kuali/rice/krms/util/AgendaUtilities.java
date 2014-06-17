@@ -20,6 +20,7 @@ import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.dto.RuleManagementWrapper;
+import org.kuali.rice.krms.dto.RuleManager;
 
 /**
  * @author Kuali Student Team
@@ -28,7 +29,7 @@ public class AgendaUtilities {
 
     public static RuleEditor retrieveSelectedRuleEditor(MaintenanceDocumentForm document) {
 
-        RuleManagementWrapper ruleWrapper = getRuleWrapper(document);
+        RuleManager ruleWrapper = getRuleWrapper(document);
         RuleEditor ruleEditor = getSelectedRuleEditor(ruleWrapper, getRuleKey(document));
         ruleWrapper.setRuleEditor((RuleEditor) ObjectUtils.deepCopy(ruleEditor));
 
@@ -39,7 +40,7 @@ public class AgendaUtilities {
         return AgendaUtilities.getSelectedRuleEditor(getRuleWrapper(document), getRuleKey(document));
     }
 
-    public static RuleEditor getSelectedRuleEditor(RuleManagementWrapper wrapper, String ruleKey) {
+    public static RuleEditor getSelectedRuleEditor(RuleManager wrapper, String ruleKey) {
 
         AgendaEditor agendaEditor = getSelectedAgendaEditor(wrapper, ruleKey);
         if (agendaEditor != null) {
@@ -53,7 +54,7 @@ public class AgendaUtilities {
         return AgendaUtilities.getSelectedAgendaEditor(getRuleWrapper(document), getRuleKey(document));
     }
 
-    public static AgendaEditor getSelectedAgendaEditor(RuleManagementWrapper wrapper, String ruleKey) {
+    public static AgendaEditor getSelectedAgendaEditor(RuleManager wrapper, String ruleKey) {
 
         for (AgendaEditor agendaEditor : wrapper.getAgendas()) {
             if (agendaEditor.getRuleEditors().containsKey(ruleKey)) {
@@ -68,8 +69,8 @@ public class AgendaUtilities {
         return document.getActionParamaterValue("ruleKey");
     }
 
-    public static RuleManagementWrapper getRuleWrapper(MaintenanceDocumentForm document) {
-        return (RuleManagementWrapper) document.getDocument().getNewMaintainableObject().getDataObject();
+    public static RuleManager getRuleWrapper(MaintenanceDocumentForm document) {
+        return (RuleManager) document.getDocument().getNewMaintainableObject().getDataObject();
     }
 
 }

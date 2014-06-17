@@ -43,6 +43,7 @@ import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.PropositionParameterEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.dto.RuleManagementWrapper;
+import org.kuali.rice.krms.dto.RuleManager;
 import org.kuali.rice.krms.dto.TermEditor;
 import org.kuali.rice.krms.dto.TermParameterEditor;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
@@ -95,8 +96,8 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
 
             if (dataObject instanceof RuleEditor) {
                 return (RuleEditor) dataObject;
-            } else if (dataObject instanceof RuleManagementWrapper) {
-                RuleManagementWrapper wrapper = (RuleManagementWrapper) dataObject;
+            } else if (dataObject instanceof RuleManager) {
+                RuleManager wrapper = (RuleManager) dataObject;
                 return wrapper.getRuleEditor();
             }
         }
@@ -120,7 +121,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
         MaintenanceDocumentForm maintenanceDocumentForm = (MaintenanceDocumentForm) model;
         Object dataObject = maintenanceDocumentForm.getDocument().getNewMaintainableObject().getDataObject();
 
-        RuleEditor ruleEditor = ((RuleManagementWrapper) dataObject).getRuleEditor();
+        RuleEditor ruleEditor = ((RuleManager) dataObject).getRuleEditor();
         PropositionEditor propEditor = PropositionTreeUtil.getProposition(ruleEditor);
 
         List<Component> components = new ArrayList<Component>();

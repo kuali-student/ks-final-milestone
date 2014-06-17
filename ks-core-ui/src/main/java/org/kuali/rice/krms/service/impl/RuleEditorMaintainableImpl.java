@@ -48,6 +48,7 @@ import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.PropositionParameterEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.dto.RuleManagementWrapper;
+import org.kuali.rice.krms.dto.RuleManager;
 import org.kuali.rice.krms.dto.RuleTypeInfo;
 import org.kuali.rice.krms.dto.TermEditor;
 import org.kuali.rice.krms.dto.TermParameterEditor;
@@ -115,7 +116,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
 
     @Override
     public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
-        RuleManagementWrapper dataObject = new RuleManagementWrapper();
+        RuleManager dataObject = new RuleManagementWrapper();
 
         String refObjectId = dataObjectKeys.get("refObjectId");
         dataObject.setRefObjectId(refObjectId);
@@ -373,7 +374,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
 
     @Override
     public void saveDataObject() {
-        RuleManagementWrapper ruleWrapper = (RuleManagementWrapper) getDataObject();
+        RuleManager ruleWrapper = (RuleManager) getDataObject();
 
         for (AgendaEditor agenda : ruleWrapper.getAgendas()) {
 
