@@ -47,7 +47,13 @@ public class DirectRuleCheckProposition extends AbstractCheckProposition {
             return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
         }
 
-        PropositionResult directRuleResult = directRuleProp.evaluate(environment);
+        PropositionResult directRuleResult = null;
+        try {
+            directRuleResult = directRuleProp.evaluate(environment);
+        } catch (Exception ex) {     // Fail safe. Many devs are not catching their errors
+            return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
+        }
+
         if (directRuleResult.getResult()) {
             return this.recordSuccessResult(environment);
         }
