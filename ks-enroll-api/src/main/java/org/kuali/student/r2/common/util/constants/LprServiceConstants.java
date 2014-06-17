@@ -86,6 +86,8 @@ public class LprServiceConstants {
     public static final String LPRTRANS_ITEM_WAITLIST_NOT_OFFERED_MESSAGE_KEY = "kuali.lpr.trans.message.waitlist.not.offered";
     public static final String LPRTRANS_ITEM_WAITLIST_AVAILABLE_MESSAGE_KEY = "kuali.lpr.trans.message.waitlist.available";
     public static final String LPRTRANS_ITEM_ADD_FROM_WAITLIST_MESSAGE_KEY = "kuali.lpr.trans.message.waitlist.add.from";
+    public static final String LPRTRANS_ITEM_EXCEPTION_MESSAGE_KEY = "kuali.lpr.trans.item.message.exception";
+
 
     // transaction item course action messages
     public static final String LPRTRANS_ITEM_COURSE_UPDATED_MESSAGE_KEY = "kuali.lpr.trans.message.course.updated";
