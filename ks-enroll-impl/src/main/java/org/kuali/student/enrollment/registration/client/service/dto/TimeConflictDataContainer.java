@@ -27,7 +27,7 @@ import java.util.List;
  * @author Kuali Student Team
  */
 public class TimeConflictDataContainer {
-
+    // These are parallel lists with ids[i] and timeSlotsInfos[i] corresponding to one another
     private List<String> ids;
     private List<List<TimeSlotInfo>> timeSlotInfos;
 
