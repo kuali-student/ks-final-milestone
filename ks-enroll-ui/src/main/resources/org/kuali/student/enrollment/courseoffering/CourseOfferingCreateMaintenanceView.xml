@@ -63,7 +63,7 @@
         </property>
 
         <property name="topGroup">
-            <bean id="CreateCOByCopy-ContextBar" parent="KS-CourseOffering-ContextBar" p:style="@{(#dp.targetTermCode eq null or #dp.catalogCourseCode eq null )? 'display:none;' : 'display:block;'}">
+            <bean id="CreateCOByCopy-ContextBar" parent="KS-CourseOffering-ContextBar" p:style="@{(#dp.showContextBar)? 'display:block;' : 'display:none;'}">
                 <property name="onDocumentReadyScript" value="setSeasonalColor('CreateCOByCopy-ContextBar', '@{#dp.contextBar.termDayOfYear}', '@{#ConfigProperties['application.url']}');"/>
             </bean>
         </property>

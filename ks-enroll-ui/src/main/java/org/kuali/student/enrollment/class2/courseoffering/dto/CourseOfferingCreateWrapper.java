@@ -45,6 +45,8 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
     private boolean showAllSections;
     private boolean enableCreateButton;
 
+    private boolean showContextBar;
+
     private String courseOfferingSuffix;
 
     private List<FormatOfferingWrapper> formatOfferingWrappers;
@@ -197,6 +199,10 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
     public void setEnableCreateButton(boolean enableCreateButton) {
         this.enableCreateButton = enableCreateButton;
     }
+
+    public boolean isShowContextBar() { return showContextBar; }
+
+    public void setShowContextBar(boolean showContextBar) { this.showContextBar = showContextBar; }
 
     public boolean isExcludeCancelledActivityOfferings() {
         return excludeCancelledActivityOfferings;

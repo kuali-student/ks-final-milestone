@@ -329,7 +329,8 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
         int firstMatchingCourse = 0;
         if (matchingCourses.size() == 1) {
             CourseInfo course = matchingCourses.get(firstMatchingCourse);
-
+            //Show context bar
+            coWrapper.setShowContextBar(true);
             // set organization IDs and check if the user is authorized to create a course
             List<String> orgIds = course.getUnitsContentOwner();
             if(orgIds != null && !orgIds.isEmpty()){
@@ -406,7 +407,8 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
             } else if (matchingCourses.isEmpty()) {
                     GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, CourseOfferingConstants.ERROR_INVALID_CLU_VERSION, courseCode, termCode);
             }
-
+            //Hide context bar
+            coWrapper.setShowContextBar(false);
             return getUIFModelAndView(form);
         }
     }
