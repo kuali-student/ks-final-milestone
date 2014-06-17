@@ -24,6 +24,7 @@ import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.dto.RuleManagementWrapper;
+import org.kuali.rice.krms.dto.RuleManager;
 import org.kuali.student.lum.lu.ui.krms.dto.LUPropositionEditor;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.common.util.ContextBuilder;
@@ -55,8 +56,8 @@ public class GradeValuesKeyFinder extends UifKeyValuesFinderBase {
 
         MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) model;
         Object dataObject = maintenanceForm.getDocument().getNewMaintainableObject().getDataObject();
-        if (dataObject instanceof RuleManagementWrapper) {
-            RuleEditor ruleEditor = ((RuleManagementWrapper) dataObject).getRuleEditor();
+        if (dataObject instanceof RuleManager) {
+            RuleEditor ruleEditor = ((RuleManager) dataObject).getRuleEditor();
             PropositionEditor propositionEditor = PropositionTreeUtil.getProposition(ruleEditor);
             if ((propositionEditor != null) && (propositionEditor instanceof LUPropositionEditor)) {
                 resultValuesGroupKey = ((LUPropositionEditor) propositionEditor).getGradeScale();

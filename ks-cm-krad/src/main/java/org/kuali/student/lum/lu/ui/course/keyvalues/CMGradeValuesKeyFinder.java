@@ -30,6 +30,8 @@ import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
+import org.kuali.rice.krms.dto.RuleManager;
+import org.kuali.rice.krms.util.AgendaUtilities;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.cm.course.form.CourseRuleManagementWrapper;
 import org.kuali.student.cm.course.service.CourseInfoMaintainable;
@@ -56,9 +58,8 @@ public class CMGradeValuesKeyFinder extends UifKeyValuesFinderBase {
         String resultValuesGroupKey = "";
 
         MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) model;
-        CourseInfoMaintainable courseInfoMaintainable = (CourseInfoMaintainable)maintenanceForm.getDocument().getNewMaintainableObject();
-        CourseRuleManagementWrapper courseRuleManagementWrapper = courseInfoMaintainable.getCourseRuleManagementWrapper();
-        RuleEditor ruleEditor = courseRuleManagementWrapper.getRuleEditor();
+        RuleEditor ruleEditor = AgendaUtilities.getRuleWrapper(maintenanceForm).getRuleEditor();
+
         PropositionEditor propositionEditor = PropositionTreeUtil.getProposition(ruleEditor);
         if ((propositionEditor != null) && (propositionEditor instanceof LUPropositionEditor)) {
                 resultValuesGroupKey = ((LUPropositionEditor) propositionEditor).getGradeScale();

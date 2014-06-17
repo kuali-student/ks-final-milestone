@@ -170,8 +170,6 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
     private transient KSRuleViewTreeBuilder viewTreeBuilder;
 
-    private CourseRuleManagementWrapper courseRuleManagementWrapper;
-
     private transient NaturalLanguageHelper nlHelper;
 
     private transient ProposalService proposalService;
@@ -396,96 +394,6 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     @Override
     public String getDocumentTitle(MaintenanceDocument document) {
         return document.getDocumentHeader().getDocumentDescription();
-    }
-
-    /**
-     * Specifically created for KRMS purposes.
-     */
-    public Tree<RuleEditorTreeNode, String> getEditTree() {
-        return getCourseRuleManagementWrapper().getEditTree();
-    }
-
-    /**
-     * Specifically created for KRMS purposes.
-     */
-    public Tree<TreeNode, String> getPreviewTree() {
-        return getCourseRuleManagementWrapper().getPreviewTree();
-    }
-
-    /**
-     * Specifically created for KRMS purposes.
-     */
-    public Tree<TreeNode, String> getViewTree() {
-        return getCourseRuleManagementWrapper().getViewTree();
-    }
-
-    /**
-     * Specifically created for KRMS purposes.
-     */
-    public String getSelectedKey() {
-        return getCourseRuleManagementWrapper().getSelectedKey();
-    }
-
-
-    public CourseRuleManagementWrapper getCourseRuleManagementWrapper() {
-        if (courseRuleManagementWrapper == null) {
-            courseRuleManagementWrapper = new CourseRuleManagementWrapper();
-        }
-        return courseRuleManagementWrapper;
-    }
-
-    public void setCourseRuleManagementWrapper(CourseRuleManagementWrapper courseRuleManagementWrapper) {
-        this.courseRuleManagementWrapper = courseRuleManagementWrapper;
-    }
-
-
-    /**
-     * Specifically created for KRMS purposes.
-     */
-    public void setSelectedKey(String selectedKey) {
-        getCourseRuleManagementWrapper().setSelectedKey(selectedKey);
-    }
-
-    /**
-     * Specifically created for KRMS purposes.
-     */
-    public String getCutKey() {
-        return getCourseRuleManagementWrapper().getCutKey();
-    }
-
-    /**
-     * Specifically created for KRMS purposes.
-     */
-    public void setCutKey(String cutKey) {
-        getCourseRuleManagementWrapper().setCutKey(cutKey);
-    }
-
-    /**
-     * Specifically created for KRMS purposes.
-     */
-    public String getCopyKey() {
-        return getCourseRuleManagementWrapper().getCopyKey();
-    }
-
-    /**
-     * Specifically created for KRMS purposes.
-     */
-    public void setCopyKey(String copyKey) {
-        getCourseRuleManagementWrapper().setCopyKey(copyKey);
-    }
-
-    /**
-     * Specifically created for KRMS purposes.
-     */
-    public String getLogicArea() {
-        return getCourseRuleManagementWrapper().getLogicArea();
-    }
-
-    /**
-     * Specifically created for KRMS purposes.
-     */
-    public void setLogicArea(String logicArea) {
-        getCourseRuleManagementWrapper().setLogicArea(logicArea);
     }
 
     @Override
@@ -802,13 +710,10 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         courseInfoWrapper.setUserId(ContextUtils.getContextInfo().getPrincipalId());
 
         // Initialize Course Requisites
-        final CourseRuleManagementWrapper ruleWrapper = getCourseRuleManagementWrapper();
-        ruleWrapper.setNamespace(KSKRMSServiceConstants.NAMESPACE_CODE);
-
-        ruleWrapper.setRefDiscriminatorType(CourseServiceConstants.REF_OBJECT_URI_COURSE);
-        ruleWrapper.setRefObjectId(courseInfoWrapper.getCourseInfo().getId());
-
-        ruleWrapper.setAgendas(getAgendasForRef(ruleWrapper.getRefDiscriminatorType(), ruleWrapper.getRefObjectId()));
+        courseInfoWrapper.setNamespace(KSKRMSServiceConstants.NAMESPACE_CODE);
+        courseInfoWrapper.setRefDiscriminatorType(CourseServiceConstants.REF_OBJECT_URI_COURSE);
+        courseInfoWrapper.setRefObjectId(courseInfoWrapper.getCourseInfo().getId());
+        courseInfoWrapper.setAgendas(getAgendasForRef(courseInfoWrapper.getRefDiscriminatorType(), courseInfoWrapper.getRefObjectId()));
 
         courseInfoWrapper.getCourseInfo().setStateKey(DtoConstants.STATE_DRAFT);
         courseInfoWrapper.setLastUpdated(DateFormatters.SIMPLE_TIMESTAMP_FORMATTER.format(new DateTime()));

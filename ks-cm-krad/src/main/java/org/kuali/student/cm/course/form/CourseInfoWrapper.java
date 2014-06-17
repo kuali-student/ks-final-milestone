@@ -21,6 +21,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.web.bind.RequestProtected;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.util.CourseProposalUtil;
+import org.kuali.student.lum.lu.ui.krms.dto.LURuleManagementWrapper;
 import org.kuali.student.r2.core.comment.dto.DecisionInfo;
 import org.kuali.student.r2.core.document.dto.DocumentInfo;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
@@ -35,7 +36,7 @@ import java.util.List;
 /**
  * Base class for all the wrappers around CourseInfo.
  */
-public class CourseInfoWrapper implements Serializable {
+public class CourseInfoWrapper extends LURuleManagementWrapper implements Serializable {
 
     private static final String DEFAULT_REQUIRED_WORKFLOW_MODE = "Submit";
 

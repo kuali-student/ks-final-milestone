@@ -53,14 +53,6 @@ public interface CourseInfoMaintainable {
 
     List<AgendaEditor> getAgendasForRef(String discriminatorType, String refObjectId);
 
-    /**
-     * 
-     * Retrieve the {@link CourseRuleManagementWrapper} instance that is specifically used for KRMS (Course Requisites) purposes.
-     * 
-     * @return {@link CourseRuleManagementWrapper}
-     */
-    CourseRuleManagementWrapper getCourseRuleManagementWrapper();
-
     public void updateReview();
 
 }

@@ -30,9 +30,11 @@ import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.dto.RuleManagementWrapper;
+import org.kuali.rice.krms.dto.RuleManager;
 import org.kuali.rice.krms.util.AgendaUtilities;
 import org.kuali.rice.krms.util.KRMSConstants;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
+import org.kuali.student.cm.course.form.CourseInfoWrapper;
 import org.kuali.student.cm.course.form.CourseRuleManagementWrapper;
 import org.kuali.student.cm.course.service.CourseInfoMaintainable;
 import org.springframework.stereotype.Controller;
@@ -131,9 +133,8 @@ public class CourseRuleEditorController extends RuleEditorController {
         this.getViewHelper(form).refreshViewTree(ruleEditor);
 
         //Replace edited rule with existing rule.
-        CourseInfoMaintainable courseInfoMaintainable = (CourseInfoMaintainable)((MaintenanceDocumentForm)form).getDocument().getNewMaintainableObject();
-        CourseRuleManagementWrapper courseRuleManagementWrapper = courseInfoMaintainable.getCourseRuleManagementWrapper();
-        AgendaEditor agendaEditor = AgendaUtilities.getSelectedAgendaEditor(courseRuleManagementWrapper, ruleEditor.getKey());
+        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper)((MaintenanceDocumentForm)form).getDocument().getNewMaintainableObject().getDataObject();
+        AgendaEditor agendaEditor = AgendaUtilities.getSelectedAgendaEditor(courseInfoWrapper, ruleEditor.getKey());
         agendaEditor.getRuleEditors().put(ruleEditor.getKey(), ruleEditor);
 
         if (!form.getActionParameters().containsKey(UifParameters.NAVIGATE_TO_PAGE_ID)) {
@@ -141,15 +142,13 @@ public class CourseRuleEditorController extends RuleEditorController {
         }
         return super.navigate(form, result, request, response);
     }
-    
-    
 
     @Override
     public ModelAndView deleteRule(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result, HttpServletRequest request,
             HttpServletResponse response) {
         MaintenanceDocumentForm documentForm = (MaintenanceDocumentForm) form;
         CourseInfoMaintainable courseInfoMaintainable = (CourseInfoMaintainable)documentForm.getDocument().getNewMaintainableObject();
-        RuleManagementWrapper ruleWrapper = courseInfoMaintainable.getCourseRuleManagementWrapper();
+        RuleManager ruleWrapper = AgendaUtilities.getRuleWrapper(documentForm);
         String ruleKey = AgendaUtilities.getRuleKey(documentForm);
 
         AgendaEditor agenda = AgendaUtilities.getSelectedAgendaEditor(ruleWrapper, ruleKey);
@@ -195,7 +194,7 @@ public class CourseRuleEditorController extends RuleEditorController {
 
     protected void compareRulePropositions(MaintenanceDocumentForm form, RuleEditor ruleEditor) {
 
-        RuleManagementWrapper ruleWrapper = getCourseMaintainableFrom(form).getCourseRuleManagementWrapper();
+        RuleManager ruleWrapper = AgendaUtilities.getRuleWrapper(form);
 
         //Compare CO to CLU and display info message
         if (ruleEditor.getProposition() != null) {
@@ -217,8 +216,7 @@ public class CourseRuleEditorController extends RuleEditorController {
     protected RuleEditor getRuleEditor(UifFormBase form) {
         if (form instanceof MaintenanceDocumentForm) {
             MaintenanceDocumentForm maintenanceDocumentForm = (MaintenanceDocumentForm) form;
-            CourseInfoMaintainable courseInfoMaintainable = getCourseMaintainableFrom(maintenanceDocumentForm);
-            RuleManagementWrapper ruleWrapper = courseInfoMaintainable.getCourseRuleManagementWrapper();
+            RuleManager ruleWrapper = AgendaUtilities.getRuleWrapper(maintenanceDocumentForm);
             return ruleWrapper.getRuleEditor();
         }
         return null;
@@ -233,8 +231,7 @@ public class CourseRuleEditorController extends RuleEditorController {
     @Override
     protected RuleEditor retrieveSelectedRuleEditor(MaintenanceDocumentForm document){
 
-        CourseInfoMaintainable courseInfoMaintainable = getCourseMaintainableFrom(document);
-        RuleManagementWrapper ruleWrapper = courseInfoMaintainable.getCourseRuleManagementWrapper();
+        RuleManager ruleWrapper = AgendaUtilities.getRuleWrapper(document);
 
         String ruleKey = document.getActionParamaterValue("ruleKey");
         RuleEditor ruleEditor = getSelectedRuleEditor(ruleWrapper, ruleKey);
@@ -243,7 +240,7 @@ public class CourseRuleEditorController extends RuleEditorController {
         return ruleWrapper.getRuleEditor();
     }
 
-    protected RuleEditor getSelectedRuleEditor(RuleManagementWrapper wrapper, String ruleKey) {
+    protected RuleEditor getSelectedRuleEditor(RuleManager wrapper, String ruleKey) {
 
         AgendaEditor agendaEditor = getSelectedAgendaEditor(wrapper, ruleKey);
         if (agendaEditor != null) {
@@ -253,7 +250,7 @@ public class CourseRuleEditorController extends RuleEditorController {
         return null;
     }
 
-    protected AgendaEditor getSelectedAgendaEditor(RuleManagementWrapper wrapper, String ruleKey) {
+    protected AgendaEditor getSelectedAgendaEditor(RuleManager wrapper, String ruleKey) {
 
         for (AgendaEditor agendaEditor : wrapper.getAgendas()) {
             if (agendaEditor.getRuleEditors().containsKey(ruleKey)) {

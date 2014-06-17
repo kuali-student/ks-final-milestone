@@ -34,11 +34,13 @@ import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.PropositionParameterEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.dto.RuleManagementWrapper;
+import org.kuali.rice.krms.dto.RuleManager;
 import org.kuali.rice.krms.dto.TemplateInfo;
 import org.kuali.rice.krms.dto.TermEditor;
 import org.kuali.rice.krms.dto.TermParameterEditor;
 import org.kuali.rice.krms.tree.RuleCompareTreeBuilder;
 import org.kuali.rice.krms.tree.node.CompareTreeNode;
+import org.kuali.rice.krms.util.AgendaUtilities;
 import org.kuali.rice.krms.util.KRMSConstants;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.cm.course.service.CourseInfoMaintainable;
@@ -142,10 +144,8 @@ public class CourseRuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl
     private void customizePropositionEditSection(View view, Object model, Container container) {
         //Retrieve the current editing proposition if exists.
         MaintenanceDocumentForm maintenanceDocumentForm = (MaintenanceDocumentForm) model;
-        CourseInfoMaintainable courseInfoMaintainable = (CourseInfoMaintainable)maintenanceDocumentForm.getDocument().getNewMaintainableObject();
-
-        RuleEditor ruleEditor = courseInfoMaintainable.getCourseRuleManagementWrapper().getRuleEditor();
-        PropositionEditor propEditor = PropositionTreeUtil.getProposition(ruleEditor);
+        RuleManager ruleWrapper = AgendaUtilities.getRuleWrapper(maintenanceDocumentForm);
+        PropositionEditor propEditor = PropositionTreeUtil.getProposition(ruleWrapper.getRuleEditor());
 
         List<Component> components = new ArrayList<Component>();
         if (propEditor != null) {
@@ -199,8 +199,7 @@ public class CourseRuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl
     protected RuleEditor getRuleEditor(Object model) {
         if (model instanceof MaintenanceDocumentForm) {
             MaintenanceDocumentForm maintenanceDocumentForm = (MaintenanceDocumentForm) model;
-            CourseInfoMaintainable courseInfoMaintainable = (CourseInfoMaintainable)maintenanceDocumentForm.getDocument().getNewMaintainableObject();
-            RuleManagementWrapper ruleWrapper = courseInfoMaintainable.getCourseRuleManagementWrapper();
+            RuleManager ruleWrapper = AgendaUtilities.getRuleWrapper(maintenanceDocumentForm);
             return ruleWrapper.getRuleEditor();
         }
         return null;
