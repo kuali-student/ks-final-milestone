@@ -255,7 +255,7 @@
 
     <bean id="KS-CrossListingEtcDisclosure-Section" parent="Uif-Disclosure-VerticalBoxSubSection">
         <property name="disclosure.defaultOpen"
-                  value="@{document.newMaintainableObject.dataObject.crossListingDisclosureSection}"/>
+                  value="false"/>
         <property name="headerText" value="Cross List, Offer Jointly, Add Version Codes"/>
         <property name="header">
             <bean parent="Uif-HeaderThree"/>
@@ -474,7 +474,7 @@
                     </property>
                     <property name="items">
                         <list>
-                            <bean parent="KS-Uif-InputField" p:propertyName="variationCode" p:id="variationCode" p:label="Version Code" >
+                            <bean parent="KS-Uif-InputField" p:propertyName="variationCode" p:id="variationCode" p:label="Version Code">
                                 <property name="refreshWhenChangedPropertyNames" value="subjectArea"/>
                                 <property name="constraintText" value="Must be a capital letter"/>
                                 <property name="control">
@@ -488,13 +488,15 @@
                                     </list>
                                 </property>
                                 <property name="validCharactersConstraint">
-                                    <bean parent="AlphaPatternConstraint"/>
+                                 <bean parent="ValidCharactersConstraint" p:value="^[A-Z]$"
+                                                 p:messageKey="Must be a capital letter"/>
                                 </property>
                             </bean>
 
-                            <bean parent="KS-Uif-InputField" p:propertyName="variationTitle" p:id="variationTitle" p:label="Course Title" p:required="true">
+                            <bean parent="KS-Uif-InputField" p:propertyName="variationTitle" p:id="variationTitle" p:label="Course Title" >
                                 <property name="control">
-                                    <bean parent="KS-Uif-TextControl"   p:size="70" />
+                                    <bean parent="KS-Uif-TextControl"   p:size="70"
+                                    p:disabled="@{#lp.variationCode eq null or #lp.variationCode eq ''}"   />
                                 </property>
                             </bean>
                         </list>

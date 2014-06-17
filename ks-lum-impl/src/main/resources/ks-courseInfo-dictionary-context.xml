@@ -1463,6 +1463,7 @@
 
  <bean id="courseVariationInfo.variationTitle-parent" abstract="true" parent="courseInfo.courseTitle-parent">
   <property name="name" value="variationTitle" />
+     <property name="minOccurs" value="0"/>
  </bean>
  <bean id="courseVariationInfo.variationTitle" parent="courseVariationInfo.variationTitle-parent" />
 
