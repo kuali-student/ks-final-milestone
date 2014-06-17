@@ -32,8 +32,8 @@ public class DateFormatters {
     public static final String YEAR_MONTH_DAY_CONCAT_DATE_FORMAT = "yyyyMMdd";                        // 20121108
     public static final String COURSE_OFFERING_VIEW_HELPER_DATE_FORMAT = "EEE, MMMMM d, yyyy";        // Thu, November 8, 2012
     public static final String COURSE_OFFERING_VIEW_HELPER_DATE_TIME_FORMAT = "MMMMM d, yyyy, h:mm a";// November 8, 2012, 2:52 PM
-    public static final String HOUR_MINUTE_TIME_FORMAT = "hh:mm";                                     // 02:52
-    public static final String HOUR_MINUTE_AM_PM_TIME_FORMAT = "hh:mm a";                             // 02:52 PM
+    public static final String HOUR_MINUTE_TIME_FORMAT = "k:mm";                                     // 02:52
+    public static final String HOUR_MINUTE_AM_PM_TIME_FORMAT = "h:mm a";                             // 02:52 PM
     public static final String HOUR_MINUTE_NOSPACE_AM_PM_TIME_FORMAT = "hh:mma";                      // 02:52pm
     public static final String HOUR_NOZERO_MINUTE_AM_PM_TIME_FORMAT = "h:mm a";                       // 2:52 pm
     public static final String AM_PM_TIME_FORMAT = "a";                                               // PM
