@@ -107,22 +107,22 @@ public class TestTimeConflictCalculator {
                     intDays.add(Calendar.MONDAY);
                     break;
                 case 'T':
-                    intDays.add(Calendar.MONDAY);
+                    intDays.add(Calendar.TUESDAY);
                     break;
                 case 'W':
-                    intDays.add(Calendar.MONDAY);
+                    intDays.add(Calendar.WEDNESDAY);
                     break;
                 case 'H':
-                    intDays.add(Calendar.MONDAY);
+                    intDays.add(Calendar.THURSDAY);
                     break;
                 case 'F':
-                    intDays.add(Calendar.MONDAY);
+                    intDays.add(Calendar.FRIDAY);
                     break;
                 case 'S':
-                    intDays.add(Calendar.MONDAY);
+                    intDays.add(Calendar.SATURDAY);
                     break;
                 case 'U':
-                    intDays.add(Calendar.MONDAY);
+                    intDays.add(Calendar.SUNDAY);
                     break;
                 default:
                     throw new IllegalArgumentException("Unexpected day code "
