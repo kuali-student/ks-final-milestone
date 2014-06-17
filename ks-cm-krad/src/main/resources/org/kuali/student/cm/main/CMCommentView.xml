@@ -24,6 +24,8 @@
         <property name="header.render" value="false"/>
         <property name="singlePageView" value="true"/>
         <property name="viewSourceFile" value="CMCommentView.xml"/>
+        <property name="stickyFooter" value="true"/>
+        <property name="onLoadScript" value="jQuery(&quot;#Uif-BreadcrumbWrapper&quot;).remove();"/>
         <property name="applicationHeader">
             <null/>
         </property>
@@ -36,6 +38,10 @@
                     </list>
                 </property>
             </bean>
+        </property>
+
+        <property name="footer">
+            <ref bean="KSCM-CommentFooter"/>
         </property>
     </bean>
 
@@ -185,30 +191,27 @@
 
                         </list>
                     </property>
-
                 </bean>
             </list>
         </property>
-        <property name="footer">
-            <bean parent="KS-Uif-FooterBase" p:style="border-top: 1px solid;border-color:lightgray">
-                <property name="items">
-                    <list>
-                        <bean parent="Uif-HorizontalBoxGroup" p:style="float:right;padding-top:10px">
-                            <property name="items">
-                                <list>
-                                    <bean id="commentsLightBoxContents-cancel"
-                                          parent="Uif-PrimaryActionButton"
-                                          p:actionLabel="Close"
-                                          p:actionScript="e.preventDefault();closeLightbox();"
-                                          p:ajaxSubmit="false"
-                                          p:methodToCall="close"/>
-                                </list>
-                            </property>
-                        </bean>
-                    </list>
-                </property>
-            </bean>
-        </property>
     </bean>
 
+    <bean id="KSCM-CommentFooter" parent="KS-Uif-FooterBase" p:style="border-top: 1px solid;border-color:lightgray">
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalBoxGroup" p:style="float:right;padding-top:10px">
+                    <property name="items">
+                        <list>
+                            <bean id="commentsLightBoxContents-cancel"
+                                  parent="Uif-PrimaryActionButton"
+                                  p:actionLabel="Close"
+                                  p:actionScript="e.preventDefault();closeLightbox();"
+                                  p:ajaxSubmit="false"
+                                  p:methodToCall="close"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
 </beans>
