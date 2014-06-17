@@ -18,6 +18,7 @@ package org.kuali.student.enrollment.registration.client.service.impl.util;
 
 import org.junit.Test;
 import org.kuali.student.enrollment.registration.client.service.dto.TimeConflictDataContainer;
+import org.kuali.student.enrollment.registration.client.service.dto.TimeConflictResult;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
@@ -67,11 +68,11 @@ public class TestTimeConflictCalculator {
 
 
         TimeConflictCalculator timeConflictCalculator = new TimeConflictCalculator();
-        Map<String, List<String>> conflicts = timeConflictCalculator.calculateConflicts(timeSlots, 0);
+        TimeConflictResult conflicts = timeConflictCalculator.calculateConflicts(timeSlots, 0);
 
-        assertTrue(conflicts.containsKey("CHEM135"));
-        assertFalse(conflicts.containsKey("ENGL101"));
-        assertTrue(conflicts.containsKey("PHYS161"));
+        assertTrue(conflicts.getIds().contains("CHEM135"));
+        assertFalse(conflicts.getIds().contains("ENGL101"));
+        assertTrue(conflicts.getIds().contains("PHYS161"));
 
 
 

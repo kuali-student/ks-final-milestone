@@ -17,12 +17,11 @@
 package org.kuali.student.enrollment.registration.client.service.impl.util;
 
 import org.kuali.student.enrollment.registration.client.service.dto.TimeConflictDataContainer;
+import org.kuali.student.enrollment.registration.client.service.dto.TimeConflictResult;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * This class checks sets of AOs or RGs and their corresponding timeslots for time conflicts
@@ -38,13 +37,13 @@ public class TimeConflictCalculator {
      * @return A map between ids (RGs and AOs) and a list of ids indicating that that id conflicts with.  Each
      * id is associated with a list of time slots.
      */
-    public Map<String, List<String>> calculateConflicts(TimeConflictDataContainer timeSlotContainer,
+    public TimeConflictResult calculateConflicts(TimeConflictDataContainer timeSlotContainer,
                                                         int overlapInMinutes) {
         List<String> ids = timeSlotContainer.getIds();
         List<List<TimeSlotInfo>> timeSlotInfosList = timeSlotContainer.getTimeSlotInfos();
 
         String idKey, otherIdKey;
-        Map<String, List<String>> conflicts = new HashMap<String, List<String>>();
+        TimeConflictResult conflicts = new TimeConflictResult();
         for(int i = 0; i < ids.size(); i++) {
             idKey = ids.get(i); // Fetch id (e.g. RG id or AO id)
             List<TimeSlotInfo> idTimeSlots = timeSlotInfosList.get(i); // And fetch corresponding time slots
@@ -70,7 +69,7 @@ public class TimeConflictCalculator {
      * @param idKey The id that is associated with idTimeSlots (can be a RG id or an AO id, etc)
      * @param otherIdKey The other id that is associated with otherIdTimeSlots
      */
-    private void computeConflictsBetweenTimeSlots(Map<String, List<String>> conflicts,
+    private void computeConflictsBetweenTimeSlots(TimeConflictResult conflicts,
                                                   List<TimeSlotInfo> idTimeSlots,
                                                   List<TimeSlotInfo> otherIdTimeSlots,
                                                   String idKey,
@@ -85,14 +84,17 @@ public class TimeConflictCalculator {
                 //if !( slot2.start >= slot1.end ||  slot1.end <= slot2.start)
                 if (doTimeSlotsConflict(timeSlotInfo, otherTimeSlot)){
                     //Conflict
-                    if(conflicts.containsKey(idKey)){
-                        if(!(conflicts.get(idKey).contains(otherIdKey))){
-                            conflicts.get(idKey).add(otherIdKey);
+                    int idIndex = conflicts.getIds().indexOf(idKey);
+                    if(conflicts.getIds().contains(idKey)){
+                        if(!(conflicts.getConflicts().get(idIndex).contains(otherIdKey))){
+                            conflicts.getConflicts().get(idIndex).add(otherIdKey);
                         }
                     } else {
                         ArrayList<String> conflictList = new ArrayList<String>();
                         conflictList.add(otherIdKey);
-                        conflicts.put(idKey, conflictList);
+                        conflicts.getIds().add(idKey);
+                        conflicts.getConflicts().add(conflictList);
+                        //conflicts.put(idKey, conflictList);
                     }
                 }
             }

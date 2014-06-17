@@ -32,6 +32,7 @@ import org.kuali.student.enrollment.courseregistration.service.CourseRegistratio
 import org.kuali.student.enrollment.coursewaitlist.service.CourseWaitListService;
 import org.kuali.student.enrollment.registration.client.service.dto.ConflictCourseResult;
 import org.kuali.student.enrollment.registration.client.service.dto.TimeConflictDataContainer;
+import org.kuali.student.enrollment.registration.client.service.dto.TimeConflictResult;
 import org.kuali.student.enrollment.registration.client.service.impl.util.RegistrationValidationResultsUtil;
 import org.kuali.student.enrollment.registration.client.service.impl.util.TimeConflictCalculator;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -102,16 +103,18 @@ public class BestEffortTimeConflictProposition extends BestEffortProposition {
             return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
         }
 
-        TimeConflictDataContainer rgIdsToTimeSlots;
-        try {
-            rgIdsToTimeSlots = getTimeConflictDataContainer(existingCrs, contextInfo);
-        } catch (Exception ex) {
-            return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
-        }
+
 
         // Iterate over each item and check
         List<CourseRegistrationInfo> successFromCart = new ArrayList<CourseRegistrationInfo>();
         for (RegistrationRequestItemInfo item: request.getRegistrationRequestItems()) {
+
+            TimeConflictDataContainer rgIdsToTimeSlots;
+            try {
+                rgIdsToTimeSlots = getTimeConflictDataContainer(existingCrs, contextInfo);
+            } catch (Exception ex) {
+                return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
+            }
             List<CourseRegistrationInfo> copyExistingCrs = new ArrayList<CourseRegistrationInfo>();
             // Copy the existing registrations
             copyExistingCrs.addAll(existingCrs);
@@ -141,15 +144,14 @@ public class BestEffortTimeConflictProposition extends BestEffortProposition {
             }
 
             // Check for Time Conflicts
-            Map<String, List<String>> conflicts = checkForTimeConflicts(rgIdsToTimeSlots);
-            if (conflicts.isEmpty()) {
+            TimeConflictResult conflicts = checkForTimeConflicts(rgIdsToTimeSlots);
+            if (conflicts.getIds().isEmpty()) {
                 // Add the successful cart "registrations" to the list for use in next iteration
                 successFromCart.add(regItem);
             } else {
                 List<ConflictCourseResult> conflictCourseResults = new ArrayList<ConflictCourseResult>();
                 for (CourseRegistrationInfo courseRegistrationInfo: copyExistingCrs) {
-                    if (conflicts.keySet().contains(courseRegistrationInfo.getRegistrationGroupId())
-                            || conflictValuesContainsString(conflicts, courseRegistrationInfo.getRegistrationGroupId())
+                    if (conflicts.getIds().contains(courseRegistrationInfo.getRegistrationGroupId())
                             && courseRegistrationInfo.getId() != null) {
                         ConflictCourseResult conflictCourseResult = new ConflictCourseResult();
                         conflictCourseResult.setMasterLprId(courseRegistrationInfo.getId());
@@ -169,7 +171,12 @@ public class BestEffortTimeConflictProposition extends BestEffortProposition {
                         }
                         conflictCourseResult.setRegGroupCode(registrationGroupInfo.getName());
                         conflictCourseResults.add(conflictCourseResult);
-                    }
+
+
+
+                    }/* else {
+                        successFromCart.add(regItem);
+                    }    */
                 }
 
                 ValidationResultInfo vr = createValidationResultFailureForRegRequestItem(item, conflictCourseResults);
@@ -183,7 +190,7 @@ public class BestEffortTimeConflictProposition extends BestEffortProposition {
         }
 
         // This result contains all the other results
-        return recordAllRegRequestItems(environment,  new ArrayList<ValidationResultInfo>());
+        return recordAllRegRequestItems(environment, new ArrayList<ValidationResultInfo>());
     }
 
     @Override
@@ -253,7 +260,8 @@ public class BestEffortTimeConflictProposition extends BestEffortProposition {
             }
         }
 
-        List<TimeSlotInfo> timeSlots = schedulingService.getTimeSlotsByIds(timeslotIds, contextInfo);
+        List<TimeSlotInfo> timeSlots = new ArrayList<TimeSlotInfo>();
+        timeSlots= schedulingService.getTimeSlotsByIds(timeslotIds, contextInfo);
 
         TimeConflictDataContainer rgIdsToTimeSlots = new TimeConflictDataContainer();
 
@@ -269,7 +277,9 @@ public class BestEffortTimeConflictProposition extends BestEffortProposition {
             if (timeSlotInfo.getStartTime() != null && timeSlotInfo.getEndTime() != null) {
               timeSlotInfos.get(rgIds.indexOf(rgId)).add(timeSlotInfo);
             } else {
+                timeSlotInfos.remove(rgIds.indexOf(rgId));
                 rgIds.remove(rgId);
+
             }
         }
 
@@ -280,9 +290,9 @@ public class BestEffortTimeConflictProposition extends BestEffortProposition {
         return rgIdsToTimeSlots;
     }
 
-    private Map<String, List<String>> checkForTimeConflicts(TimeConflictDataContainer rgsToTimeSlots) {
+    private TimeConflictResult checkForTimeConflicts(TimeConflictDataContainer rgsToTimeSlots) {
         TimeConflictCalculator timeConflictCalculator = new TimeConflictCalculator();
-        Map<String, List<String>> conflicts;
+        TimeConflictResult conflicts;
         conflicts = timeConflictCalculator.calculateConflicts(rgsToTimeSlots, 0);
 
         return conflicts;
