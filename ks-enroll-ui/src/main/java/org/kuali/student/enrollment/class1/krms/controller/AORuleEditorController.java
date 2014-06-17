@@ -8,14 +8,13 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
-import org.kuali.rice.krms.dto.RuleManagementWrapper;
+import org.kuali.rice.krms.dto.RuleManager;
 import org.kuali.rice.krms.util.AgendaUtilities;
 import org.kuali.rice.krms.util.KRMSConstants;
 import org.kuali.student.enrollment.class1.krms.dto.AORuleEditor;
 import org.kuali.student.enrollment.class1.krms.dto.AORuleManagementWrapper;
 import org.kuali.student.enrollment.class1.krms.service.impl.AORuleViewHelperServiceImpl;
 import org.kuali.student.enrollment.class1.krms.util.EnrolKRMSConstants;
-import org.kuali.student.lum.lu.ui.krms.dto.LURuleEditor;
 import org.kuali.student.enrollment.class1.krms.service.impl.AORuleEditorMaintainableImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -226,7 +225,7 @@ public class AORuleEditorController extends EnrolRuleEditorController {
                                              @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
 
         MaintenanceDocumentForm document = (MaintenanceDocumentForm) form;
-        RuleManagementWrapper ruleWrapper = AgendaUtilities.getRuleWrapper(document);
+        RuleManager ruleWrapper = AgendaUtilities.getRuleWrapper(document);
         String ruleKey = AgendaUtilities.getRuleKey(document);
 
         AgendaEditor agenda = AgendaUtilities.getSelectedAgendaEditor(ruleWrapper, ruleKey);
@@ -302,7 +301,7 @@ public class AORuleEditorController extends EnrolRuleEditorController {
                                    @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
 
         MaintenanceDocumentForm document = (MaintenanceDocumentForm) form;
-        RuleManagementWrapper ruleWrapper = AgendaUtilities.getRuleWrapper(document);
+        RuleManager ruleWrapper = AgendaUtilities.getRuleWrapper(document);
         String ruleKey = AgendaUtilities.getRuleKey(document);
 
         AgendaEditor agenda = AgendaUtilities.getSelectedAgendaEditor(ruleWrapper, ruleKey);
@@ -329,7 +328,7 @@ public class AORuleEditorController extends EnrolRuleEditorController {
 
     protected void compareRulePropositions(MaintenanceDocumentForm form, RuleEditor ruleEditor) {
 
-        RuleManagementWrapper ruleWrapper = (RuleManagementWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
+        RuleManager ruleWrapper = (RuleManager) form.getDocument().getNewMaintainableObject().getDataObject();
 
         //Compare CO to CLU and display info message
         if (ruleEditor.getProposition() != null) {

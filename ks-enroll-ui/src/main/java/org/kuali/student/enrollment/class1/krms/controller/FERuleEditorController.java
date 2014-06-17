@@ -12,7 +12,7 @@ import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krms.dto.AgendaTypeInfo;
 import org.kuali.rice.krms.dto.RuleEditor;
-import org.kuali.rice.krms.dto.RuleManagementWrapper;
+import org.kuali.rice.krms.dto.RuleManager;
 import org.kuali.rice.krms.dto.RuleTypeInfo;
 import org.kuali.rice.krms.util.AgendaUtilities;
 import org.kuali.rice.krms.util.KRMSConstants;
@@ -297,7 +297,7 @@ public class FERuleEditorController extends EnrolRuleEditorController {
                                    HttpServletRequest request, HttpServletResponse response) {
 
         FERuleEditor ruleEditor = (FERuleEditor) getRuleEditor(form);
-        RuleManagementWrapper ruleWrapper = AgendaUtilities.getRuleWrapper((MaintenanceDocumentForm) form);
+        RuleManager ruleWrapper = AgendaUtilities.getRuleWrapper((MaintenanceDocumentForm) form);
 
         MaintenanceDocumentForm feRuleMaintenanceForm = (MaintenanceDocumentForm) form;
         FERuleManagementWrapper feRuleMgtWrapper = (FERuleManagementWrapper)AgendaUtilities.getRuleWrapper(feRuleMaintenanceForm);

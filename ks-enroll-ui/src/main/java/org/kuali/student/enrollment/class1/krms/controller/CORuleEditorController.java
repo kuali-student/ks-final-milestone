@@ -5,7 +5,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krms.dto.RuleEditor;
-import org.kuali.rice.krms.dto.RuleManagementWrapper;
+import org.kuali.rice.krms.dto.RuleManager;
 import org.kuali.rice.krms.util.AgendaUtilities;
 import org.kuali.rice.krms.util.KRMSConstants;
 import org.kuali.student.enrollment.class1.krms.dto.CORuleManagementWrapper;
@@ -172,7 +172,7 @@ public class CORuleEditorController extends EnrolRuleEditorController {
 
     protected void compareRulePropositions(MaintenanceDocumentForm form, RuleEditor ruleEditor) {
 
-        RuleManagementWrapper ruleWrapper = (RuleManagementWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
+        RuleManager ruleWrapper = (RuleManager) form.getDocument().getNewMaintainableObject().getDataObject();
 
         //Compare CO to CLU and display info message
         if (ruleEditor.getProposition() != null) {

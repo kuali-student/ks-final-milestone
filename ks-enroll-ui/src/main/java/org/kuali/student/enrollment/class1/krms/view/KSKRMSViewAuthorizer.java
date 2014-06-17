@@ -26,7 +26,7 @@ import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krms.dto.AgendaEditor;
-import org.kuali.rice.krms.dto.RuleManagementWrapper;
+import org.kuali.rice.krms.dto.RuleManager;
 import org.kuali.rice.krms.dto.RuleTypeInfo;
 import org.kuali.student.enrollment.class1.krms.dto.CORuleManagementWrapper;
 import org.kuali.student.enrollment.main.view.KsViewAuthorizerBase;
@@ -88,7 +88,7 @@ public class KSKRMSViewAuthorizer extends KsViewAuthorizerBase {
 
     }
 
-    private boolean isAuthorizedToUpdate(RuleManagementWrapper ruleWrapper, View view, Component action, ViewModel model, Person user,
+    private boolean isAuthorizedToUpdate(RuleManager ruleWrapper, View view, Component action, ViewModel model, Person user,
                                          Map<String, String> permissionDetails, Map<String, String> roleQualifications) {
 
         for(AgendaEditor agenda : ruleWrapper.getAgendas()){
