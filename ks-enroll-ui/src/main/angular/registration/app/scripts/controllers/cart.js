@@ -74,7 +74,7 @@ angular.module('regCartApp')
             if (status === STATUS.success) {
                 retStatus = ' - Success!';
             } else if (status === STATUS.error || status === STATUS.action) {
-                retStatus = ' - Failed!';
+                retStatus = ' - Failed';
             }
 
             return retStatus;
