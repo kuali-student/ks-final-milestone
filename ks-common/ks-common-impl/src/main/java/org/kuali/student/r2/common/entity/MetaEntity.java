@@ -74,7 +74,9 @@ public abstract class MetaEntity extends BaseVersionEntity {
     public void setEntityCreated(ContextInfo context) {
 
     	if (context != null) {
-    		this.setCreateTime(context.getCurrentDate());
+            if (getCreateTime() == null){
+    		    this.setCreateTime(context.getCurrentDate());
+            }
     		this.setCreateId(context.getPrincipalId());
 
     		setEntityUpdated(context);
