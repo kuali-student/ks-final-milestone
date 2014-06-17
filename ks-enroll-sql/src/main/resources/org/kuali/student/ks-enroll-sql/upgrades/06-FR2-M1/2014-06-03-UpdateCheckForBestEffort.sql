@@ -60,7 +60,7 @@ INSERT INTO KSEN_PROCESS_INSTRN
     'c199fbd4-add1-4474-ac7e-2e28c109ccea',
     'Registration eligibility - Credit Limit Exceeded',
     '4dde773f-8296-4e0c-ba61-78e6e4c7894b',
-    1,
+    2,
     'kuali.process.registration.eligible.for.courses',
     'kuali.process.instruction.state.active',
     'kuali.process.instruction.type.instruction',
