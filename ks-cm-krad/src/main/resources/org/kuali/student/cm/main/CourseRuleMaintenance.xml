@@ -60,13 +60,15 @@ limitations under the License.
         <property name="items">
             <list>
                 <bean parent="KS-Uif-ActionLink" p:actionLabel="Compare to Catalog" p:methodToCall="compareRules"
-                      p:performActionAuthz="true" p:actionEvent="compare" p:render="@{#line.dummy and #line.parent != null}">
+                      p:render="@{#line.dummy and #line.parent != null}">
                     <property name="toolTip">
                         <bean parent="Uif-KS-Tooltip" p:tooltipContent="Compare Catalog and Course Offering rules"/>
                     </property>
                 </bean>
-                <bean parent="KS-Uif-NavigationActionLink" p:actionLabel="Add Rule" p:methodToCall="addRule"
+                <!--bean parent="KS-Uif-NavigationActionLink" p:actionLabel="Add Rule" p:methodToCall="addRule"
                       p:performActionAuthz="true" p:actionEvent="addEditRequisite"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/-->
+                <bean parent="KS-Uif-NavigationActionLink" p:actionLabel="Add Rule" p:methodToCall="addRule"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
             </list>
         </property>
@@ -75,16 +77,24 @@ limitations under the License.
     <bean id="Course-RuleEdit-Links" parent="KRMS-RuleEdit-Links">
         <property name="items">
             <list>
-                <bean parent="KS-Uif-ActionLink" p:actionLabel="Compare to Catalog" p:methodToCall="compareRules"
+                <!--bean parent="KS-Uif-ActionLink" p:actionLabel="Compare to Catalog" p:methodToCall="compareRules"
                       p:performActionAuthz="true" p:actionEvent="compare">
                     <property name="toolTip">
                         <bean parent="Uif-KS-Tooltip" p:tooltipContent="Compare Catalog and Course Offering rules"/>
                     </property>
+                </bean-->
+                <bean parent="KS-Uif-ActionLink" p:actionLabel="Compare to Catalog" p:methodToCall="compareRules">
+                    <property name="toolTip">
+                        <bean parent="Uif-KS-Tooltip" p:tooltipContent="Compare Catalog and Course Offering rules"/>
+                    </property>
                 </bean>
+                <!--bean parent="KS-Uif-NavigationActionLink" p:actionLabel="Edit Rule" p:methodToCall="goToRuleView"
+                      p:performActionAuthz="true" p:actionEvent="addEditRequisite" p:performDirtyValidation="false"/-->
                 <bean parent="KS-Uif-NavigationActionLink" p:actionLabel="Edit Rule" p:methodToCall="goToRuleView"
-                      p:performActionAuthz="true" p:actionEvent="addEditRequisite" p:performDirtyValidation="false"/>
-                <bean parent="KS-Uif-ActionLink" p:actionLabel="Delete Rule" p:methodToCall="deleteRule"
-                      p:performActionAuthz="true" p:actionEvent="deleteRequisite"/>
+                      p:performDirtyValidation="false"/>
+                <!--bean parent="KS-Uif-ActionLink" p:actionLabel="Delete Rule" p:methodToCall="deleteRule"
+                      p:performActionAuthz="true" p:actionEvent="deleteRequisite"/-->
+                <bean parent="KS-Uif-ActionLink" p:actionLabel="Delete Rule" p:methodToCall="deleteRule"/>
             </list>
         </property>
     </bean>
@@ -92,8 +102,13 @@ limitations under the License.
     <bean id="Course-RuleView-Links" parent="KRMS-RuleView-Links">
         <property name="items">
             <list>
-                <bean parent="KS-Uif-ActionLink" p:actionLabel="Compare to Catalog" p:methodToCall="compareRules"
+                <!--bean parent="KS-Uif-ActionLink" p:actionLabel="Compare to Catalog" p:methodToCall="compareRules"
                       p:performActionAuthz="true" p:actionEvent="compare">
+                    <property name="toolTip">
+                        <bean parent="Uif-KS-Tooltip" p:tooltipContent="Compare Catalog and Course Offering rules"/>
+                    </property>
+                </bean-->
+                <bean parent="KS-Uif-ActionLink" p:actionLabel="Compare to Catalog" p:methodToCall="compareRules">
                     <property name="toolTip">
                         <bean parent="Uif-KS-Tooltip" p:tooltipContent="Compare Catalog and Course Offering rules"/>
                     </property>
@@ -327,10 +342,12 @@ limitations under the License.
                 <bean parent="KS-Uif-HorizontalBoxGroup-ToolbarGroup">
                     <property name="items">
                         <list>
-                            <bean parent="KRMS-RuleEditorView-AddButton" p:performActionAuthz="true"
-                                  p:actionEvent="addEditGroupRule"/>
-                            <bean parent="KRMS-RuleEditorView-EditButton" p:performActionAuthz="true"
-                                  p:actionEvent="addEditGroupRule"/>
+                            <!--bean parent="KRMS-RuleEditorView-AddButton" p:performActionAuthz="true"
+                                  p:actionEvent="addEditGroupRule"/-->
+                            <bean parent="KRMS-RuleEditorView-AddButton"/>
+                            <!--bean parent="KRMS-RuleEditorView-EditButton" p:performActionAuthz="true"
+                                  p:actionEvent="addEditGroupRule"/-->
+                            <bean parent="KRMS-RuleEditorView-EditButton"/>
                         </list>
                     </property>
                 </bean>
@@ -338,12 +355,15 @@ limitations under the License.
                 <bean parent="KS-Uif-HorizontalBoxGroup-ToolbarGroup">
                     <property name="items">
                         <list>
-                            <bean parent="KRMS-RuleEditorView-GroupButton" p:performActionAuthz="true"
-                                  p:actionEvent="addEditGroupRule"/>
-                            <bean parent="KRMS-RuleEditorView-LeftButton" p:performActionAuthz="true"
-                                  p:actionEvent="moveRule"/>
-                            <bean parent="KRMS-RuleEditorView-RightButton" p:performActionAuthz="true"
-                                  p:actionEvent="moveRule"/>
+                            <!--bean parent="KRMS-RuleEditorView-GroupButton" p:performActionAuthz="true"
+                                  p:actionEvent="addEditGroupRule"/-->
+                            <bean parent="KRMS-RuleEditorView-GroupButton"/>
+                            <!--bean parent="KRMS-RuleEditorView-LeftButton" p:performActionAuthz="true"
+                                  p:actionEvent="moveRule"/-->
+                            <bean parent="KRMS-RuleEditorView-LeftButton"/>
+                            <!--bean parent="KRMS-RuleEditorView-RightButton" p:performActionAuthz="true"
+                                  p:actionEvent="moveRule"/-->
+                            <bean parent="KRMS-RuleEditorView-RightButton"/>
                         </list>
                     </property>
                 </bean>
@@ -351,10 +371,12 @@ limitations under the License.
                 <bean parent="KS-Uif-HorizontalBoxGroup-ToolbarGroup">
                     <property name="items">
                         <list>
-                            <bean parent="KRMS-RuleEditorView-UpButton" p:performActionAuthz="true"
-                                  p:actionEvent="moveRule"/>
-                            <bean parent="KRMS-RuleEditorView-DownButton" p:performActionAuthz="true"
-                                  p:actionEvent="moveRule"/>
+                            <!--bean parent="KRMS-RuleEditorView-UpButton" p:performActionAuthz="true"
+                                  p:actionEvent="moveRule"/-->
+                            <bean parent="KRMS-RuleEditorView-UpButton"/>
+                            <!--bean parent="KRMS-RuleEditorView-DownButton" p:performActionAuthz="true"
+                                  p:actionEvent="moveRule"/-->
+                            <bean parent="KRMS-RuleEditorView-DownButton"/>
                         </list>
                     </property>
                 </bean>
@@ -362,14 +384,18 @@ limitations under the License.
                 <bean parent="KS-Uif-HorizontalBoxGroup-ToolbarGroup">
                     <property name="items">
                         <list>
-                            <bean parent="KRMS-RuleEditorView-CopyButton" p:performActionAuthz="true"
-                                  p:actionEvent="copyCutRule"/>
-                            <bean parent="KRMS-RuleEditorView-CutButton" p:performActionAuthz="true"
-                                  p:actionEvent="copyCutRule"/>
-                            <bean parent="KRMS-RuleEditorView-PasteButton" p:performActionAuthz="true"
-                                  p:actionEvent="copyCutRule"/>
-                            <bean parent="KRMS-RuleEditorView-DeleteButton"
-                                  p:performActionAuthz="true" p:actionEvent="deleteRule"/>
+                            <!--bean parent="KRMS-RuleEditorView-CopyButton" p:performActionAuthz="true"
+                                  p:actionEvent="copyCutRule"/-->
+                            <bean parent="KRMS-RuleEditorView-CopyButton"/>
+                            <!--bean parent="KRMS-RuleEditorView-CutButton" p:performActionAuthz="true"
+                                  p:actionEvent="copyCutRule"/-->
+                            <bean parent="KRMS-RuleEditorView-CutButton"/>
+                            <!--bean parent="KRMS-RuleEditorView-PasteButton" p:performActionAuthz="true"
+                                  p:actionEvent="copyCutRule"/-->
+                            <bean parent="KRMS-RuleEditorView-PasteButton"/>
+                            <!--bean parent="KRMS-RuleEditorView-DeleteButton"
+                                  p:performActionAuthz="true" p:actionEvent="deleteRule"/-->
+                            <bean parent="KRMS-RuleEditorView-DeleteButton"/>
                         </list>
                     </property>
                 </bean>
