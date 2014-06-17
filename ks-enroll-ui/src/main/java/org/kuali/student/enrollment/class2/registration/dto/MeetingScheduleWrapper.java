@@ -88,7 +88,7 @@ public class MeetingScheduleWrapper implements Serializable {
     }
 
     public String getJsScheduleObject() {
-        StringBuffer scheduleString = new StringBuffer("[");
+        StringBuilder scheduleString = new StringBuilder("[");
         //FindBugs - it is fine as is
         for (String day : getDays()) {
             scheduleString.append("'");
