@@ -192,7 +192,8 @@
                         <bean parent="KS-Uif-DataField" p:label="Proposal Status"
                               p:shortLabel="Status" p:propertyName="proposalInfo.stateKey"/>
                         <bean id="CourseView-LinkGroup-Comments" parent="Uif-ActionLink" p:actionLabel="Comments"
-                              p:actionScript="showCommentLightBox('@{#ConfigProperties['application.url']}/kr-krad/cm_comment?viewId=KSCM-Comment-FormView&amp;methodToCall=start&amp;proposalId=@{#dataObject.proposalInfo.id}');" p:disabled="@{#workflowDoc.initiated}"/>
+                              p:actionScript="showCommentLightBox('@{#ConfigProperties['application.url']}/kr-krad/cm_comment?viewId=KSCM-Comment-FormView&amp;methodToCall=start&amp;proposalId=@{#dataObject.proposalInfo.id}');"
+                              p:disabled="@{#workflowDoc.initiated}"/>
                         <bean id="CourseView-LinkGroup-Decisions" parent="Uif-ActionLink" p:actionLabel="Decisions"
                               p:methodToCall="showDecisions"/>
                         <bean parent="Uif-Space"/>
