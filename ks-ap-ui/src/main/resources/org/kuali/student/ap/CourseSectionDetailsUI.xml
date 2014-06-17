@@ -112,7 +112,7 @@
         <!-- property to activate disclosure -->
         <property name="items">
             <list>
-                <bean parent="Uif-MessageField" p:render="@{#line.honors}"
+                <bean parent="Uif-MessageField" p:render="@{#line.honors}" p:id="courseOfferingHonors"
                       p:messageText="[b]@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('details.course.honors.label')}[/b]">
                     <property name="cssClasses">
                         <list merge="true">
@@ -120,7 +120,7 @@
                         </list>
                     </property>
                 </bean>
-                <bean parent="Uif-MessageField" p:render="@{#line.courseRequisites.size() > 0}"
+                <bean parent="Uif-MessageField" p:render="@{#line.courseRequisites.size() > 0}" p:id="courseOfferingRequisites"
                       p:messageText="[b]@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('details.course.requisites.label')}:[/b] @{#line.courseRequisites}">
                     <property name="cssClasses">
                         <list merge="true">
@@ -128,7 +128,7 @@
                         </list>
                     </property>
                 </bean>
-                <bean parent="Uif-MessageField"
+                <bean parent="Uif-MessageField" p:id="courseOfferingDescription"
                       p:messageText="[b]@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('details.course.description.label')}:[/b] @{#line.courseOfferingDescription}">
                     <property name="cssClasses">
                         <list merge="true">
