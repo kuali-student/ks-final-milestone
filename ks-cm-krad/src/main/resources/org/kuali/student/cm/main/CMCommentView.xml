@@ -90,18 +90,22 @@
                                     <bean parent="Uif-HorizontalBoxGroup">
                                         <property name="render" value="@{deletedComment != null}"/>
                                         <property name="id" value="KSCM-CloseCommentDeleteUndoInfo"/>
-                                       <property name="items">
+                                        <property name="items">
                                             <list>
                                                 <bean parent="Uif-Message"
                                                       p:messageText="[b]Comment has been deleted. [0][/b]">
                                                     <property name="inlineComponents">
                                                         <list>
-                                                          <bean parent="Uif-ActionLink" p:methodToCall="undoDeleteComment"  p:actionLabel="Undo"/>
+                                                            <bean id="KSCM-Comment-undo-delete" parent="Uif-ActionLink"
+                                                                  p:methodToCall="undoDeleteComment"
+                                                                  p:actionLabel="Undo"/>
                                                         </list>
                                                     </property>
                                                 </bean>
-                                               <bean parent="KS-Uif-Delete-NavigationActionLink" p:actionScript="closeCommentUndo();" p:actionLabel="" p:style="float:right;">
-                                               </bean>
+                                                <bean parent="KS-Uif-Delete-NavigationActionLink"
+                                                      p:actionScript="closeCommentUndo();" p:actionLabel=""
+                                                      p:style="float:right;">
+                                                </bean>
                                             </list>
                                         </property>
                                     </bean>
