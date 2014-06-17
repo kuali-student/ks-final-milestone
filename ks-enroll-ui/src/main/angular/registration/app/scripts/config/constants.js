@@ -91,7 +91,9 @@ angular.module('regCartApp')
         waitlistAvailable: 'kuali.lpr.trans.message.waitlist.available',        //"No seats available."
         waitlistWaitlisted: 'kuali.lpr.trans.message.waitlist.waitlisted',      //"Waitlisted" ??? Is it error or success? Status 'waitlist'
         waitlistFull: 'kuali.lpr.trans.message.waitlist.full',                  //"No seats available.<br/>(Waitlist full)"
-        waitlistNotOffered: 'kuali.lpr.trans.message.waitlist.not.offered'      //"No seats available.<br/>(Waitlist not offered)"
+        waitlistNotOffered: 'kuali.lpr.trans.message.waitlist.not.offered',      //"No seats available.<br/>(Waitlist not offered)"
+        transactionException: 'kuali.lpr.trans.message.exception',
+        transactionItemException: 'kuali.lpr.trans.item.message.exception'
     })
 
     .constant('VALIDATION_SUCCESS_TYPE', {

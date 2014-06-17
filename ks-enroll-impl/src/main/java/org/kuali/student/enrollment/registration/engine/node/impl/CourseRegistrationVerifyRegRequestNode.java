@@ -9,13 +9,17 @@ import org.kuali.student.enrollment.courseregistration.service.CourseRegistratio
 import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
+import org.kuali.student.enrollment.registration.client.service.dto.RegistrationValidationResult;
 import org.kuali.student.enrollment.registration.engine.dto.RegistrationRequestEngineMessage;
 import org.kuali.student.enrollment.registration.engine.node.AbstractCourseRegistrationNode;
 import org.kuali.student.enrollment.registration.engine.service.CourseRegistrationEngineService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -23,6 +27,7 @@ import java.util.List;
 
 public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegistrationNode<RegistrationRequestEngineMessage, RegistrationRequestEngineMessage> {
 
+    public static final Logger LOG = LoggerFactory.getLogger(CourseRegistrationVerifyRegRequestNode.class);
     private CourseRegistrationService courseRegistrationService;
     private LprService lprService;
     private CourseRegistrationEngineService courseRegistrationEngineService;
@@ -58,16 +63,18 @@ public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegist
         ContextInfo contextInfo = message.getContextInfo();
         contextInfo.setPrincipalId(regRequest.getRequestorId());
         List<ValidationResultInfo> validationResults = new ArrayList<ValidationResultInfo>();
+        Exception transactionException = null; // if an exception happens during processing we should fail the entire transaction
         try {
             if(shouldValidate(regRequest)){
                 validationResults.addAll(this.getCourseRegistrationService().verifyRegistrationRequestForSubmission(message.
                         getRegistrationRequest().getId(), contextInfo));
             }
         } catch (Exception ex) {
-            throw new RuntimeException(ex);
+            transactionException = ex;
+            LOG.error("Error during rules execution.", ex);
         }
         List<ValidationResultInfo> errors = this.getErrors(validationResults);
-        if (errors.isEmpty()) {
+        if (errors.isEmpty() && transactionException == null) {
             return message;
         }
 
@@ -77,21 +84,24 @@ public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegist
         try {
             LprTransactionInfo trans = getLprService().getLprTransaction(regRequest.getId(), contextInfo);
             trans.setStateKey(LprServiceConstants.LPRTRANS_FAILED_STATE_KEY);
+            updatedMessage.setStateKey(LprServiceConstants.LPRTRANS_FAILED_STATE_KEY);
             for (LprTransactionItemInfo item : trans.getLprTransactionItems()) {
-                for(ValidationResultInfo error:errors){
-                    //Match each error with the corresponding id.
-                    String itemId = error.getElement().replaceFirst("registrationRequestItems\\['([^']*)'\\]","$1");
-                    if(item.getId().equals(itemId)){
-                        //Update the item with the failed validation state and result
-                        item.getValidationResults().add(new ValidationResultInfo(error));
-                        item.setStateKey(LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY);
+                if(transactionException != null){
+                    ValidationResultInfo vr =
+                            new ValidationResultInfo(trans.getId(), ValidationResult.ErrorLevel.ERROR,
+                                    "Exception occurred during processing. Entire transaction will roll back." );
+                    RegistrationValidationResult vrex = new RegistrationValidationResult(LprServiceConstants.LPRTRANS_ITEM_EXCEPTION_MESSAGE_KEY);
 
-                        //Update the message too
-                        for(RegistrationRequestItemInfo requestItem:updatedMessage.getRegistrationRequestItems()){
-                            if(requestItem.getId().equals(item.getId())){
-                                requestItem.setStateKey(LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY);
-                                requestItem.getValidationResults().add(new ValidationResultInfo(error));
-                            }
+                    vr.setMessage(vrex.marshallResult());
+                    updateRequestItemsToError(item, updatedMessage, vr);
+
+                }  else {
+
+                    for (ValidationResultInfo error : errors) {
+                        //Match each error with the corresponding id.
+                        String itemId = error.getElement().replaceFirst("registrationRequestItems\\['([^']*)'\\]", "$1");
+                        if (item.getId().equals(itemId)) {
+                            updateRequestItemsToError(item, updatedMessage, error);
                         }
                     }
                 }
@@ -106,6 +116,20 @@ public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegist
 
         return message;
 
+    }
+
+    private void updateRequestItemsToError(LprTransactionItemInfo item, RegistrationRequestInfo updatedMessage, ValidationResultInfo error){
+        //Update the item with the failed validation state and result
+        item.getValidationResults().add(new ValidationResultInfo(error));
+        item.setStateKey(LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY);
+
+        //Update the message too
+        for(RegistrationRequestItemInfo requestItem:updatedMessage.getRegistrationRequestItems()){
+            if(requestItem.getId().equals(item.getId())){
+                requestItem.setStateKey(LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY);
+                requestItem.getValidationResults().add(new ValidationResultInfo(error));
+            }
+        }
     }
 
     private boolean shouldValidate(RegistrationRequest regRequest) {

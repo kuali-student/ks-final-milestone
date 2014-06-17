@@ -4,6 +4,11 @@
  */
 package org.kuali.student.enrollment.class2.courseregistration.service.decorators;
 
+import org.kuali.rice.krms.api.engine.EngineResults;
+import org.kuali.rice.krms.framework.engine.Proposition;
+import org.kuali.student.common.util.krms.RulesExecutionConstants;
+import org.kuali.student.core.process.evaluator.KRMSEvaluator;
+import org.kuali.student.core.process.evaluator.ProcessProposition;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -18,11 +23,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import org.kuali.rice.krms.api.engine.EngineResults;
-import org.kuali.rice.krms.framework.engine.Proposition;
-import org.kuali.student.common.util.krms.RulesExecutionConstants;
-import org.kuali.student.core.process.evaluator.KRMSEvaluator;
-import org.kuali.student.core.process.evaluator.ProcessProposition;
 
 /**
  *
