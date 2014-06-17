@@ -5,6 +5,7 @@ import org.kuali.rice.krms.api.repository.language.NaturalLanguageUsage;
 import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.utils.CourseLinkBuilder;
+import org.kuali.student.enrollment.courseoffering.infc.ActivityOffering;
 import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -58,6 +59,17 @@ public class CourseDetailsUtil {
     public static List<String> getCourseOfferingRequisites(CourseOffering courseOffering){
         String coType = CourseOfferingServiceConstants.REF_OBJECT_URI_COURSE_OFFERING;
         return getRequisites(courseOffering.getId(), coType);
+
+    }
+
+    /**
+     * Retrieve and format the list of AO requisites to be displayed on the page
+     * @param activityOffering - activity offering that is being displayed
+     * @return Formatted list of requisites
+     */
+    public static List<String> getActivityOfferingRequisites(ActivityOffering activityOffering){
+        String aoType = CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING;
+        return getRequisites(activityOffering.getId(), aoType);
 
     }
 

@@ -13,6 +13,7 @@ import org.kuali.student.ap.coursesearch.dataobject.CourseOfferingDetailsWrapper
 import org.kuali.student.ap.coursesearch.dataobject.CourseTermDetailsWrapper;
 import org.kuali.student.ap.coursesearch.form.CourseSectionDetailsForm;
 import org.kuali.student.ap.coursesearch.service.CourseDetailsViewHelperService;
+import org.kuali.student.ap.coursesearch.util.CourseDetailsUtil;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
@@ -343,6 +344,14 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
             }
 
         }
+        wrapper.setClassUrl(aoInfo.getActivityOfferingURL());
+
+        List<String> aoRequisites = CourseDetailsUtil.getActivityOfferingRequisites(aoInfo);
+
+
+        if (aoRequisites.size()>0)
+            wrapper.setRequirementsUrl("kr-krad/scheduleOfClassesSearch?viewId=scheduleOfClassesSearchView" +
+                    "&methodToCall=show&term_code=" +aoInfo.getTermCode()+"&course="+aoInfo.getCourseOfferingCode());
         return wrapper;
 
     }

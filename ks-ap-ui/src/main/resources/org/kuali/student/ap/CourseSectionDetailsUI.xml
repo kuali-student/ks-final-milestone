@@ -292,7 +292,7 @@
                                   p:linkText="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('details.ao.additionalDetails.courseUrl')}"/>
                             <bean parent="Uif-Link" p:render="@{#line.requirementsUrl != null}" p:id="requirementsUrl"
                                   p:additionalCssClasses="ksap-section-details-item"
-                                  p:href="@{#line.requirementsUrl}"
+                                  p:href="@{#ConfigProperties['application.url']}/@{#line.requirementsUrl}"
                                   p:linkText="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('details.ao.additionalDetails.restrictions')}"/>
                         </list>
                     </property>
