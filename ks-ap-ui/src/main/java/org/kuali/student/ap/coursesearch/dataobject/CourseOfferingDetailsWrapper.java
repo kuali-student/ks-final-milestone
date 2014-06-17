@@ -1,5 +1,6 @@
 package org.kuali.student.ap.coursesearch.dataobject;
 
+import org.kuali.student.ap.coursesearch.CreditsFormatter;
 import org.kuali.student.ap.coursesearch.util.CourseDetailsUtil;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 
@@ -21,6 +22,7 @@ public class CourseOfferingDetailsWrapper {
     private boolean multipleFormatOfferings;
     private List<String> courseRequisites;
     private boolean honors;
+    private String creditsDisplay;
 
     private List<ActivityFormatDetailsWrapper> activityFormatDetailsWrappers;
 
@@ -34,6 +36,7 @@ public class CourseOfferingDetailsWrapper {
 //        multipleFormatOfferings = courseOfferingInfo.
         honors = Boolean.TRUE.equals(courseOfferingInfo.getIsHonorsOffering());
         courseRequisites = CourseDetailsUtil.getCourseOfferingRequisites(courseOfferingInfo);
+        creditsDisplay = CreditsFormatter.formatCredits(courseOfferingInfo);
     }
 
     public String getCourseOfferingId() {
@@ -119,5 +122,13 @@ public class CourseOfferingDetailsWrapper {
 
     public void setCourseRequisites(List<String> courseRequisites) {
         this.courseRequisites = courseRequisites;
+    }
+
+    public String getCreditsDisplay() {
+        return creditsDisplay;
+    }
+
+    public void setCreditsDisplay(String creditsDisplay) {
+        this.creditsDisplay = creditsDisplay;
     }
 }

@@ -18,6 +18,7 @@ import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.common.collection.KSCollectionUtils;
+import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -297,6 +298,31 @@ public class CreditsFormatter {
 	public static String formatCredits(Course course) {
 		return formatCredits(getRange(course));
 	}
+
+    /**
+     * Format credit values of a course offering
+     * @param courseOffering - The course offering to retrieve credit value for
+     * @return Formatted string of the credit values of the course offering
+     */
+    public static String formatCredits(CourseOffering courseOffering) {
+        LRCService lrc = KsapFrameworkServiceLocator.getLrcService();
+        ResultValuesGroupInfo resultValuesGroupInfo = null;
+        try {
+            resultValuesGroupInfo = lrc.getResultValuesGroup(courseOffering.getCreditOptionId(),
+                    KsapFrameworkServiceLocator.getContext().getContextInfo());
+        } catch (DoesNotExistException e) {
+            throw new IllegalArgumentException("LRC lookup error", e);
+        } catch (InvalidParameterException e) {
+            throw new IllegalArgumentException("LRC lookup error", e);
+        } catch (MissingParameterException e) {
+            throw new IllegalArgumentException("LRC lookup error", e);
+        } catch (OperationFailedException e) {
+            throw new IllegalArgumentException("LRC lookup error", e);
+        } catch (PermissionDeniedException e) {
+            throw new IllegalArgumentException("LRC lookup error", e);
+        }
+        return formatCredits(getRange(resultValuesGroupInfo));
+    }
 
     /**
      * Formats credit values of a range

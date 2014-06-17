@@ -101,7 +101,7 @@
         <property name="layoutManager.lineGroupPrototype.disclosure.expandedIconClass"
                   value="ks-fontello-icon-down-open"/>
         <property name="layoutManager.summaryTitle"
-        value="@{#line.courseOfferingCode} - @{#line.courseOfferingTitle} [css='ksap-section-planned ks-fontello-icon-ok-circled']planned[/css]"/>
+        value="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getFormattedMessage('details.courseOffering.header', new Object[]{#line.courseOfferingCode, #line.courseOfferingTitle, #line.creditsDisplay})} [css='ksap-section-planned ks-fontello-icon-ok-circled']@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('details.courseOffering.header.planned')}[/css]"/>
         <property name="layoutManager.lineGroupPrototype.disclosure.defaultOpen" value="false"/>
         <property name="cssClasses">
             <list merge="true">
