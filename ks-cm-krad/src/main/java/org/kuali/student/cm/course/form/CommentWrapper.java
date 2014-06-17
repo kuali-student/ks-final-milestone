@@ -65,19 +65,19 @@ public class CommentWrapper implements DTOWrapper {
     public class CreateCourseRenderHelper implements RenderHelper {
 
         protected String user;
-        protected String dateTime;
+        protected String creationTime;
         protected boolean editInProgress = false;
 
         public CreateCourseRenderHelper(){
 
         }
 
-        public String getDateTime() {
-            return dateTime;
+        public String getCreationTime() {
+            return creationTime;
         }
 
-        public void setDateTime(String dateTime) {
-            this.dateTime = dateTime;
+        public void setCreationTime(String creationTime) {
+            this.creationTime = creationTime;
         }
 
         public String getUser() {

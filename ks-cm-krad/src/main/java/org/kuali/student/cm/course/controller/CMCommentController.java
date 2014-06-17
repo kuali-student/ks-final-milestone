@@ -209,12 +209,12 @@ public class CMCommentController extends KsUifControllerBase {
             comment.setReferenceId(proposalInfo.getId());
             comment.setReferenceTypeKey(proposalInfo.getTypeKey());
             comment.setTypeKey(CommentServiceConstants.COMMENT_GENERAL_REMARKS_TYPE_KEY);
-            DateFormat dateFormat = new SimpleDateFormat("MMMMM dd, yyyy, HH:mm a");
-            Date date = new Date();
-            comment.setCommenterId(GlobalVariables.getUserSession().getPrincipalId() + " on " + dateFormat.format(date));
+            comment.setCommenterId(GlobalVariables.getUserSession().getPrincipalId());
             comment.setStateKey(CommentServiceConstants.COMMENT_ACTIVE_STATE_KEY);
+            
             try {
                 comment = getCommentService().createComment(proposalInfo.getId(), proposalInfo.getTypeKey(), CommentServiceConstants.COMMENT_GENERAL_REMARKS_TYPE_KEY, comment, ContextUtils.createDefaultContextInfo());
+                commentWrapper.getRenderHelper().setCreationTime(DateFormatters.COURSE_OFFERING_VIEW_HELPER_DATE_TIME_FORMATTER.format(comment.getMeta().getCreateTime()));
             } catch (Exception e) {
                 LOG.error("Error adding comment " + comment.getId() + " for the proposal " + proposalInfo.getName());
                 throw new RuntimeException("Error adding comment " + comment.getId() + " for the proposal " + proposalInfo.getName(), e);
@@ -261,7 +261,7 @@ public class CMCommentController extends KsUifControllerBase {
                 wrapper.setCommentInfo(comment);
 //                Person person = getPersonService().getPerson(comment.getMeta().getCreateId());
                 //              wrapper.getRenderHelper().setUser(person.getNameUnmasked());
-                wrapper.getRenderHelper().setDateTime(DateFormatters.MONTH_DATE_YEAR_TIME_COMMA_FORMATTER.format(comment.getMeta().getCreateTime()));
+                wrapper.getRenderHelper().setCreationTime(DateFormatters.COURSE_OFFERING_VIEW_HELPER_DATE_TIME_FORMATTER.format(comment.getMeta().getCreateTime()));
                 form.getComments().add(wrapper);
             }
         }
