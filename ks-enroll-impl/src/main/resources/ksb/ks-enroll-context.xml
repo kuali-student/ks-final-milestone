@@ -1592,6 +1592,33 @@
         </property>
     </bean>
 
+    <bean id="staticUserDateClientService" class="org.kuali.student.enrollment.registration.client.service.impl.StaticUserDateClientServiceImpl">
+    </bean>
+
+    <bean id="ks.exp.staticUserDateClientService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.RestServiceDefinition">
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/staticUserDateClient" />
+                <property name="service" ref="staticUserDateClientService" />
+                <property name="resourceClass" value="org.kuali.student.enrollment.registration.client.service.StaticUserDateClientService" />
+                <property name="localServiceName" value="StaticUserDateClientService" />
+                <property name="providers">
+                    <list>
+                        <bean class="org.kuali.student.enrollment.registration.client.service.impl.CustomHeaderJacksonJsonProvider">
+                            <property name="headers">
+                                <map>
+                                    <entry key="Access-Control-Allow-Origin" value="http://127.0.0.1:9000"/>
+                                    <entry key="Access-Control-Allow-Methods" value="POST, GET, OPTIONS"/>
+                                    <entry key="Access-Control-Allow-Header" value="Content-Type"/>
+                                </map>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
     <!-- Batch Scheduler: the bean is defined in ks-enroll-batch-context.xml. -->
     <bean id="ks.exp.batchScheduler" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
