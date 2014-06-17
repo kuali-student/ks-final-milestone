@@ -26,7 +26,7 @@ import org.kuali.student.r2.core.comment.dto.CommentInfo;
  *
  * @author Kuali Student Team
  */
-public class CommentWrapper implements DTOWrapper {
+public class CommentWrapper implements DTOWrapper, Comparable<CommentWrapper> {
 
     protected CommentInfo commentInfo;
     protected CreateCourseRenderHelper renderHelper;
@@ -60,6 +60,18 @@ public class CommentWrapper implements DTOWrapper {
 
     public void setRenderHelper(CreateCourseRenderHelper renderHelper) {
         this.renderHelper = renderHelper;
+    }
+
+    @Override
+    public int compareTo(CommentWrapper o) {
+        if (o.getCommentInfo().getMeta() != null &&
+            o.getCommentInfo().getMeta().getCreateTime() != null &&
+            getCommentInfo().getMeta() != null &&
+            getCommentInfo().getMeta().getCreateTime() != null ) {
+            return o.getCommentInfo().getMeta().getCreateTime().compareTo(getCommentInfo().getMeta().getCreateTime()) ;
+        } else {
+            return 0;
+        }
     }
 
     public class CreateCourseRenderHelper implements RenderHelper {

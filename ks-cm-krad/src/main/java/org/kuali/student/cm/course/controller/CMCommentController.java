@@ -43,9 +43,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -115,7 +113,7 @@ public class CMCommentController extends KsUifControllerBase {
             CommentWrapper wrapper = new CommentWrapper();
             wrapper.getCommentInfo().getCommentText().setPlain(form.getNewComment());
             saveComment(form.getProposal(), wrapper);
-            form.getComments().add(wrapper);
+            form.getComments().add(0,wrapper);
 
             form.setNewComment(StringUtils.EMPTY);
 
@@ -188,6 +186,8 @@ public class CMCommentController extends KsUifControllerBase {
         saveComment(form.getProposal(), deletedComment);
         form.getComments().add(deletedComment);
         form.setDeletedComment(null);
+
+        Collections.sort(form.getComments());
 
         return getUIFModelAndView(form);
     }
