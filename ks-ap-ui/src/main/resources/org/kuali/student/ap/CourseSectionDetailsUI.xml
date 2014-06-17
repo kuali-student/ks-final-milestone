@@ -75,7 +75,7 @@
         <property name="layoutManager.lineGroupPrototype.disclosure.expandedIconClass"
                   value="ks-fontello-icon-down-open"/>
         <property name="layoutManager.summaryTitle"
-                  value="@{#line.termName} [css='ksap-text-small']@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getFormattedMessage('details.term.coSummary', new Object[]{#line.courseOfferingDetailsWrappers.size()})}[/css]"/>
+                  value="@{#line.termName} [css='ksap-text-small']@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getFormattedMessage(#line.courseOfferingDetailsWrappers.size() == 1 ? 'details.term.coSummary.1' : 'details.term.coSummary.many', new Object[]{#line.courseOfferingDetailsWrappers.size()})}[/css]"/>
         <property name="layoutManager.lineGroupPrototype.disclosure.defaultOpen" value="@{#index==0}"/>
         <property name="subCollections">
             <list>
