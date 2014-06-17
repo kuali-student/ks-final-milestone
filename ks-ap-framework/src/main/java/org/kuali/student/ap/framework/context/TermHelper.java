@@ -227,6 +227,15 @@ public interface TermHelper {
     public List<Term> sortTermsByEndDate(List<Term> terms, boolean ascending);
 
     /**
+     * Sort a list by the date the Schedule of Classes was released
+     *
+     * @param terms     - List of Terms to be sorted
+     * @param ascending - If True sort ascending, else sort descending
+     * @return - A list of sorted terms
+     */
+    public List<Term> sortTermsBySocReleaseDate(List<Term> terms, boolean ascending);
+
+    /**
      * Query the Academic Calendar Service, determine the current ATP based on a
      * specified key date, and return the list of the current terms.
      *

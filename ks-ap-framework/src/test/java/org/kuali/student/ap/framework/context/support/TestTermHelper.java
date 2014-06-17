@@ -108,4 +108,30 @@ public class TestTermHelper {
         assertEquals("ksapAtpNow2", termId);
     }
 
+    @Test
+    public void testSortBySocPublishedDateDecending() throws Exception {
+        List<Term> terms = th.getCurrentTermsWithPublishedSOC();
+        terms.addAll(th.getFutureTermsWithPublishedSOC());
+
+        assertEquals("Incorrect list size", 2, terms.size());
+
+        terms = th.sortTermsBySocReleaseDate(terms, false);
+
+        assertEquals("Bad term sort", "ksapAtpFuture", terms.get(0).getId());
+        assertEquals("Bad term sort", "ksapAtpNow2", terms.get(1).getId());
+    }
+
+    @Test
+    public void testSortByStartDate() throws Exception {
+        List<Term> terms = th.getCurrentTermsWithPublishedSOC();
+        terms.addAll(th.getFutureTermsWithPublishedSOC());
+
+        assertEquals("Incorrect list size", 2, terms.size());
+
+        terms = th.sortTermsByStartDate(terms, true);
+
+        assertEquals("Bad term sort", "ksapAtpNow2", terms.get(0).getId());
+        assertEquals("Bad term sort", "ksapAtpFuture", terms.get(1).getId());
+    }
+
 }

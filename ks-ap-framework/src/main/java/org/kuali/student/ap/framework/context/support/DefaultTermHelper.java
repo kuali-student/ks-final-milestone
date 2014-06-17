@@ -24,6 +24,7 @@ import org.kuali.student.ap.framework.context.YearTerm;
 import org.kuali.student.ap.framework.util.KsapConstants;
 import org.kuali.student.ap.framework.util.KsapHelperUtil;
 import org.kuali.student.common.collection.KSCollectionUtils;
+import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -31,7 +32,6 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
@@ -58,6 +58,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -629,6 +630,48 @@ public class DefaultTermHelper implements TermHelper {
     }
 
     /**
+     * Sort a list by the date the Schedule of Classes was released
+     *
+     * @param terms     - List of Terms to be sorted
+     * @param ascending - If True sort ascending, else sort descending
+     * @return - A list of sorted terms
+     */
+    @Override
+    public List<Term> sortTermsBySocReleaseDate(List<Term> terms, boolean ascending) {
+        Map<String, SocInfo> socsByTerm = new HashMap<String, SocInfo>(terms.size());
+
+        for (Term term : terms) {
+            SocInfo socInfo = getPublishedSocForTerm(term.getId());
+            socsByTerm.put(term.getId(), socInfo);
+        }
+
+        Collections.sort(terms, new TermSocComparator(socsByTerm, ascending));
+        return terms;
+    }
+
+    /**
+     * Comparator that uses a map containing SocInfo objects mapped by termId
+     */
+    private class TermSocComparator implements Comparator<Term> {
+        private Map<String, SocInfo> socsByTerm;
+        private boolean ascending;
+
+        public TermSocComparator(final Map<String, SocInfo> socsByTerm, boolean ascending) {
+            this.socsByTerm = socsByTerm;
+            this.ascending = ascending;
+        }
+        @Override
+        public int compare(Term o1, Term o2) {
+            SocInfo soc1 = socsByTerm.get(o1.getId());
+            SocInfo soc2 = socsByTerm.get(o2.getId());
+            if (ascending)
+                return soc1.getPublishingCompleted().compareTo(soc2.getPublishingCompleted());
+            else
+                return soc2.getPublishingCompleted().compareTo(soc1.getPublishingCompleted());
+        }
+    }
+
+    /**
      *  See https://wiki.kuali.org/display/STUDENT/Term+Analysis
      *  Current term:
      *       Academic Calendar: Term Start Date through Registration Key Date: the start date of Last Day to Add Classes
@@ -769,6 +812,39 @@ public class DefaultTermHelper implements TermHelper {
         }
         return returnTerms;
 
+    }
+
+    private SocInfo getPublishedSocForTerm(String termId) {
+        List<String> socIds = null;
+        try {
+            socIds = KsapFrameworkServiceLocator.getCourseOfferingSetService().getSocIdsByTerm(termId, ContextUtils.createDefaultContextInfo());
+        } catch (Exception e){
+            if (LOG.isDebugEnabled()){
+                LOG.debug("Getting SOCs for the term " + termId + " results in service error");
+            }
+        }
+
+        SocInfo socInfo = null;
+        if (socIds != null && socIds.size() == 1) {
+            String socId = null;
+            try {
+                socId = KSCollectionUtils.getRequiredZeroElement(socIds);
+            } catch (OperationFailedException e) {
+                if (LOG.isDebugEnabled()){
+                    LOG.debug("Getting SOCs for the term " + termId + " results in service error");
+                }
+            }
+            if (socId != null) {
+                try {
+                    socInfo = KsapFrameworkServiceLocator.getCourseOfferingSetService().getSoc(socId, ContextUtils.createDefaultContextInfo());
+                } catch (Exception e){
+                    if (LOG.isDebugEnabled()){
+                        LOG.debug("Error getting the soc [id={}]", socId);
+                    }
+                }
+            }
+        }
+        return socInfo;
     }
 
     /*

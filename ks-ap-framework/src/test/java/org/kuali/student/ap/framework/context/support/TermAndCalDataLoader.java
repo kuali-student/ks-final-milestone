@@ -72,15 +72,18 @@ public class TermAndCalDataLoader {
         cal.add(Calendar.DAY_OF_YEAR, 1);
         Date dayAfterTomorrow = cal.getTime();
 
+        cal.add(Calendar.DAY_OF_YEAR, -8);
+        Date lastWeek = cal.getTime();
+
         loadAtp("ksapAtpNow", "ksapAtpNow", yesterday, tomorrow, AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY, AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, "Now Cal");
 
         loadAtp("ksapAtpNow2", "ksapAtpNow2", yesterday, tomorrow, AtpServiceConstants.ATP_FALL_TYPE_KEY, AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, "Now Term");
-        loadSoc("ksapAtpNow2");
+        loadSoc("ksapAtpNow2", lastWeek);
 
         loadTypeTypeRelation(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY, 0, AtpServiceConstants.ATP_FALL_TYPE_KEY,"kuali.type.type.relation.state.active", TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY);
 
         loadAtp("ksapAtpFuture", "ksapAtpFuture", tomorrow, dayAfterTomorrow, AtpServiceConstants.ATP_FALL_TYPE_KEY, AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, "Next Term");
-        loadSoc("ksapAtpFuture");
+        loadSoc("ksapAtpFuture", yesterday);
 
         loadAtp("kuali.atp.Fall3123", "Fall 3123", DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse("08/01/3123"), DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse("12/11/3123"), AtpServiceConstants.ATP_FALL_TYPE_KEY, AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, "Fall 3123");
         loadAtp("kuali.atp.Spring3123", "Spring 3123", DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse("02/01/3123"), DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse("05/11/3123"), AtpServiceConstants.ATP_SPRING_TYPE_KEY, AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, "Spring 3123");
@@ -141,13 +144,14 @@ public class TermAndCalDataLoader {
         loadAtp(id, name, DateFormatters.DEFAULT_DATE_FORMATTER.parse(startDate), DateFormatters.DEFAULT_DATE_FORMATTER.parse(endDate), type, state, descrPlain);
     }
 
-    public void loadSoc(String termId) throws PermissionDeniedException, DataValidationErrorException, InvalidParameterException, ReadOnlyException, OperationFailedException, MissingParameterException, DoesNotExistException {
+    public void loadSoc(String termId, Date socPublishedDate) throws PermissionDeniedException, DataValidationErrorException, InvalidParameterException, ReadOnlyException, OperationFailedException, MissingParameterException, DoesNotExistException {
 
         SocInfo socInfo = new SocInfo();
         socInfo.setId(termId);
         socInfo.setTermId(termId);
         socInfo.setStateKey(CourseOfferingSetServiceConstants.PUBLISHED_SOC_STATE_KEY);
         socInfo.setTypeKey(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY);
+        socInfo.setPublishingCompleted(socPublishedDate);
 
         courseOfferingSetService.createSoc(termId, socInfo.getTypeKey(), socInfo, KsapFrameworkServiceLocator.getContext().getContextInfo());
     }

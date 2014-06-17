@@ -283,6 +283,18 @@ public class TermHelperMockTest implements TermHelper {
     }
 
     /**
+     * Sort a list by the date the Schedule of Classes was released
+     *
+     * @param terms     - List of Terms to be sorted
+     * @param ascending - If True sort ascending, else sort descending
+     * @return - A list of sorted terms
+     */
+    @Override
+    public List<Term> sortTermsBySocReleaseDate(List<Term> terms, boolean ascending) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    /**
      * Query the Academic Calendar Service, determine the current ATP based on a
      * specified key date, and return the list of the current terms.
      *
