@@ -338,6 +338,28 @@ public class CourseController extends CourseRuleEditorController {
         return retval;
     }
 
+
+    /**
+     * Add a Learning Objective
+     *
+     * @param form     {@link MaintenanceDocumentForm} instance used for this action
+     * @param result
+     * @param request  {@link HttpServletRequest} instance of the actual HTTP request made
+     * @param response The intended {@link HttpServletResponse} sent back to the user
+     * @return The new {@link ModelAndView} that contains the newly created/updated Supporting document information.
+     */
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=addLearningObjective")
+    public ModelAndView addLearningObjective(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
+                                             HttpServletRequest request, HttpServletResponse response) {
+        final CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
+
+        CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
+
+        courseInfoWrapper.getLoDisplayWrapperModel().addLoWrapperAtTop(new LoDisplayInfoWrapper());
+
+        return getUIFModelAndView(form);
+    }
+
     /**
      * @param message - the error message (both to log and throw as a new exception)
      */

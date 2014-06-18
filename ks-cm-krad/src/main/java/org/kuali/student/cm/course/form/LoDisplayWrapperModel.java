@@ -42,6 +42,14 @@ public class LoDisplayWrapperModel implements java.io.Serializable {
         return loWrappers;
     }
 
+    public void addLoWrapperAtTop(LoDisplayInfoWrapper loWrapper) {
+        if(loWrappers.size()==0) {
+            loWrappers.add(loWrapper);
+        } else {
+            loWrappers.add(0,loWrapper);
+        }
+    }
+
     public void addLoWrapper(LoDisplayInfoWrapper loWrapper) {
         loWrappers.add(loWrapper);
     }

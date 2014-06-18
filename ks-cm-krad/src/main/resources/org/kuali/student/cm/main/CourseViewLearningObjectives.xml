@@ -24,6 +24,7 @@
             <property name="items">
                 <list>
                     <ref bean="LearningObjective-NoRequiredMessageLink" />
+                    <ref bean="LearningObjective-MainToolBarSection"/>
                     <ref bean="LearningObjective-CollectionSection" />
                 </list>
             </property>
@@ -49,6 +50,44 @@
         </property>
     </bean>
 
+
+    <bean id="LearningObjective-ToolBar-Button-parent" parent="KS-Uif-ToolBar-Button" p:disabled="false">
+        <property name="style" value="min-width: 117px;" />
+    </bean>
+
+    <bean id="LearningObjective-ToolBar-AddNewObjective-parent" parent="LearningObjective-ToolBar-Button-parent">
+        <property name="actionLabel" value="Add New Objective"/>
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:source="" p:cssClasses="ks-fontello-icon-plus-1"/>
+        </property>
+    </bean>
+
+    <bean id="LearningObjective-ToolBar-FindObjectives-parent" parent="LearningObjective-ToolBar-Button-parent">
+        <property name="actionLabel" value="Find Objective(s)"/>
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['krad.externalizable.images.url']+'/searchicon.png'}" p:altText="Find Objective(s)"/>
+        </property>
+    </bean>
+
+    <bean id="LearningObjective-MainToolBarSection" parent="KS-Uif-HorizontalBoxSection-ToolbarSection">
+        <property name="items">
+            <list>
+                <bean parent="KS-Uif-HorizontalBoxGroup-ToolbarGroup">
+                    <property name="items">
+                        <list>
+                            <bean id="LearningObjective-ToolBar-AddNewObjective"
+                                  parent="LearningObjective-ToolBar-AddNewObjective-parent"
+                                  p:refreshId="LearningObjective-CollectionSection">
+                                <property name="methodToCall" value="addLearningObjective"/>
+                            </bean>
+                            <bean id="LearningObjective-ToolBar-FindObjectives" parent="LearningObjective-ToolBar-FindObjectives-parent" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
     <bean id="LearningObjective-CollectionSection" parent="Uif-StackedCollectionSection"
 		p:propertyName="loDisplayWrapperModel.loWrappers" p:collectionObjectClass="org.kuali.student.cm.course.form.LoDisplayInfoWrapper">
         <property name="cssClasses">
@@ -68,20 +107,8 @@
 		<property name="layoutManager.lineGroupPrototype.header.lowerGroup">
 			<ref bean="LearningObjectives-ToolBarSection" />
 		</property>
-		<property name="renderAddBlankLineButton" value="true" />
-        <property name="addBlankLineAction">
-            <bean id="KS-LearningObjective-AddLo" parent="KS-BottomAddLine">
-                <property name="methodToCall" value="addBlankLine"/>
-                <property name="actionEvent" value="addBlankLine"/>
-                <property name="id" value="uif-addBlankLine-outcome"/>
-                <property name="dirtyOnAction" value="true" />
-                <property name="actionLabel" value="Add Learning Objective"/>
-                <property name="actionImagePlacement" value="LEFT"/>
-                <property name="style" value="margin-top:5px;"/>
-            </bean>
-        </property>
-		<property name="addLinePlacement" value="BOTTOM" />
-
+        <property name="renderAddLine" value="false"/>
+		<property name="renderAddBlankLineButton" value="false" />
         <property name="items">
 			<list>
 				<bean id="KS-LoDisplayInfoWrapper-descr" parent="KS-Uif-InputField"
