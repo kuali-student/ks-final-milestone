@@ -45,7 +45,8 @@
         </property>
     </bean>
 
-    <bean id="KSCM-CommentSection" parent="Uif-VerticalBoxSection" p:style="width:600px;padding:10px">
+    <bean id="KSCM-CommentSection" parent="Uif-VerticalBoxSection" p:style="width:600px;padding:10px"
+          p:onDocumentReadyScript="setCommentEditFieldFocus()">
         <property name="header">
             <bean parent="Uif-HeaderOne" p:headerText="Comments for @{proposal.name}"
                   p:cssClasses="ks-dottedHeaderActions"/>
@@ -58,7 +59,7 @@
                     <property name="items">
                         <list>
                             <bean id="KSCM-NewCommentField" parent="Uif-InputField" p:propertyName="newComment"
-                                    p:render="@{canAddComment}">
+                                  p:render="@{canAddComment}">
                                 <property name="instructionalText"
                                           value="Comments posted here will be visible to anyone with view access to the proposal."/>
                                 <property name="control">
@@ -199,7 +200,8 @@
         </property>
     </bean>
 
-    <bean id="KSCM-CommentFooter" parent="KS-Uif-FooterBase" p:style="border-top: 1px solid;border-color:lightgray">
+    <bean id="KSCM-CommentFooter" parent="KS-Uif-FooterBase" p:style="border-top: 1px solid;border-color:lightgray"
+          p:onDocumentReadyScript="setCommentEditFieldFocus()">
         <property name="items">
             <list>
                 <bean parent="Uif-HorizontalBoxGroup" p:style="float:right;padding-top:10px">
