@@ -20,6 +20,8 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.uif.UifParameters;
@@ -69,6 +71,7 @@ public class CMCommentController extends KsUifControllerBase {
 
     protected CommentService commentService;
     protected ProposalService proposalService;
+    protected PersonService personService;
 
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
@@ -237,7 +240,6 @@ public class CMCommentController extends KsUifControllerBase {
             
             try {
                 comment = getCommentService().createComment(proposalInfo.getId(), StudentIdentityConstants.QUALIFICATION_PROPOSAL_REF_TYPE, CommentServiceConstants.COMMENT_GENERAL_REMARKS_TYPE_KEY, comment, ContextUtils.createDefaultContextInfo());
-                commentWrapper.getRenderHelper().setCreationTime(DateFormatters.COURSE_OFFERING_VIEW_HELPER_DATE_TIME_FORMATTER.format(comment.getMeta().getCreateTime()));
             } catch (Exception e) {
                 LOG.error("Error adding comment " + comment.getId() + " for the proposal " + proposalInfo.getName());
                 throw new RuntimeException("Error adding comment " + comment.getId() + " for the proposal " + proposalInfo.getName(), e);
@@ -252,9 +254,7 @@ public class CMCommentController extends KsUifControllerBase {
             }
         }
 
-        commentWrapper.setCommentInfo(comment);
-        setupAuthorizations(proposalInfo, commentWrapper);
-
+        setupCommentWrapper(commentWrapper,comment,proposalInfo);
         LOG.debug("Comment successfully added/updated. [id=" + comment.getId() + "]");
 
     }
@@ -327,14 +327,32 @@ public class CMCommentController extends KsUifControllerBase {
         if (comments != null) {
             for (CommentInfo comment : comments) {
                 CommentWrapper wrapper = new CommentWrapper();
-                wrapper.setCommentInfo(comment);
-                setupAuthorizations(proposal, wrapper);
-//                Person person = getPersonService().getPerson(comment.getMeta().getCreateId());
-                //              wrapper.getRenderHelper().setUser(person.getNameUnmasked());
-                wrapper.getRenderHelper().setCreationTime(DateFormatters.COURSE_OFFERING_VIEW_HELPER_DATE_TIME_FORMATTER.format(comment.getMeta().getCreateTime()));
+                setupCommentWrapper(wrapper,comment,proposal);
                 form.getComments().add(wrapper);
             }
         }
+    }
+
+    protected void setupCommentWrapper(CommentWrapper commentWrapper, CommentInfo commentInfo, ProposalInfo proposalInfo) {
+        commentWrapper.setCommentInfo(commentInfo);
+        setupAuthorizations(proposalInfo, commentWrapper);
+        setupDisplayNameForComment(commentWrapper);
+        commentWrapper.getRenderHelper().setCreationTime(DateFormatters.COURSE_OFFERING_VIEW_HELPER_DATE_TIME_FORMATTER.format(commentInfo.getMeta().getCreateTime()));
+    }
+
+    protected void setupDisplayNameForComment(CommentWrapper commentWrapper) {
+        Person person = getPersonService().getPerson(commentWrapper.getCommentInfo().getCommenterId());
+        if (person == null) {
+            throw new RuntimeException("Error fetching person for principal id '" + commentWrapper.getCommentInfo().getCommenterId() + "'");
+        }
+        commentWrapper.getRenderHelper().setDisplayName((new StringBuilder(person.getFirstName())).append(" ").append(person.getLastName()).toString());
+    }
+
+    public PersonService getPersonService() {
+        if (personService == null) {
+            personService = KimApiServiceLocator.getPersonService();
+        }
+        return personService;
     }
 
     protected CommentService getCommentService() {

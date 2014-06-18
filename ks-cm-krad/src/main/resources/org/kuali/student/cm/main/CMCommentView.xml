@@ -125,7 +125,7 @@
                                                       value="org.kuali.student.cm.course.form.CommentWrapper"/>
                                             <property name="propertyName" value="comments"/>
                                             <property name="layoutManager.summaryTitle"
-                                                      value="@{#line.commentInfo.commenterId} on @{#line.renderHelper.creationTime}"/>
+                                                      value="@{#line.renderHelper.displayName} on @{#line.renderHelper.creationTime}"/>
                                             <property name="disclosure.render" value="false"/>
                                             <property name="renderAddLine" value="false"/>
                                             <property name="items">

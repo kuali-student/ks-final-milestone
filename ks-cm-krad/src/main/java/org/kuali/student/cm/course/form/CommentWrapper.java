@@ -76,7 +76,7 @@ public class CommentWrapper implements DTOWrapper, Comparable<CommentWrapper> {
 
     public class CreateCourseRenderHelper implements RenderHelper {
 
-        protected String user;
+        protected String displayName;
         protected String creationTime;
         protected boolean editInProgress = false;
         protected boolean canEdit = false;
@@ -86,20 +86,20 @@ public class CommentWrapper implements DTOWrapper, Comparable<CommentWrapper> {
 
         }
 
+        public String getDisplayName() {
+            return displayName;
+        }
+
+        public void setDisplayName(String displayName) {
+            this.displayName = displayName;
+        }
+
         public String getCreationTime() {
             return creationTime;
         }
 
         public void setCreationTime(String creationTime) {
             this.creationTime = creationTime;
-        }
-
-        public String getUser() {
-            return user;
-        }
-
-        public void setUser(String user) {
-            this.user = user;
         }
 
         public boolean isEditInProgress() {
