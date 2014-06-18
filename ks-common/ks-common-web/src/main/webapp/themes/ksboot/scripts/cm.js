@@ -51,13 +51,15 @@ function onCourseLoad(isCurriculumSpecialist, currentSectionId) {
  */
 function showCommentLightBox(href) {
     if (!Date.now) {
-        Date.now = function() { return new Date().getTime(); };
+        Date.now = function () {
+            return new Date().getTime();
+        };
     }
     var href1 = href + "&fake=" + Date.now();
     showLightboxUrl(href1);
 }
 
-function closeCommentUndo(){
+function closeCommentUndo() {
     jQuery("#KSCM-CloseCommentDeleteUndoInfo").hide();
 }
 
@@ -867,5 +869,20 @@ function hideName() {
         jQuery('#searchByOrgTypeField_control').hide();
         jQuery('#searchByField_control').show();
         retrieveComponent('searchByField');
+    }
+}
+
+function setCommentEditFieldFocus() {
+
+    if (jQuery('#Comment_list_Header').length > 0) {
+        var lpos = jQuery('#Comment_list_Header').text().trim().indexOf("(") + 1;
+        var rpos = jQuery('#Comment_list_Header').text().trim().indexOf(")");
+
+        var total = jQuery('#Comment_list_Header').text().trim().substr(lpos, rpos - lpos);
+        for (i = 0; i < total; i++) {
+            if (jQuery('#KSCM-Comment-Add_line' + i + '_control').length > 0) {
+                jQuery('#KSCM-Comment-Add_line' + i + '_control').focus();
+            }
+        }
     }
 }
