@@ -79,6 +79,8 @@ public class CommentWrapper implements DTOWrapper, Comparable<CommentWrapper> {
         protected String user;
         protected String creationTime;
         protected boolean editInProgress = false;
+        protected boolean canEdit = false;
+        protected boolean canDelete = false;
 
         public CreateCourseRenderHelper(){
 
@@ -107,5 +109,22 @@ public class CommentWrapper implements DTOWrapper, Comparable<CommentWrapper> {
         public void setEditInProgress(boolean editInProgress) {
             this.editInProgress = editInProgress;
         }
+
+        public boolean isCanEdit() {
+            return canEdit;
+        }
+
+        public void setCanEdit(boolean canEdit) {
+            this.canEdit = canEdit;
+        }
+
+        public boolean isCanDelete() {
+            return canDelete;
+        }
+
+        public void setCanDelete(boolean canDelete) {
+            this.canDelete = canDelete;
+        }
+
     }
 }

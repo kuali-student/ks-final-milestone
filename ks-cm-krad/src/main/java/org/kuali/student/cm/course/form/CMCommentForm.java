@@ -33,6 +33,7 @@ public class CMCommentForm extends KsUifFormBase {
     protected String newComment;
     protected ProposalInfo proposal;
     protected CommentWrapper deletedComment;
+    protected boolean canAddComment = true;
 
     public CMCommentForm(){
 
@@ -69,4 +70,13 @@ public class CMCommentForm extends KsUifFormBase {
     public void setDeletedComment(CommentWrapper deletedComment) {
         this.deletedComment = deletedComment;
     }
+
+    public boolean isCanAddComment() {
+        return canAddComment;
+    }
+
+    public void setCanAddComment(boolean canAddComment) {
+        this.canAddComment = canAddComment;
+    }
+
 }

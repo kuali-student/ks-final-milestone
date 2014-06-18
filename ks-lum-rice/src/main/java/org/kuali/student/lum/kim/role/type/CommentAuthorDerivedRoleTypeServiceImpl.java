@@ -64,7 +64,7 @@ public class CommentAuthorDerivedRoleTypeServiceImpl extends
         // check to see what comment role types that principalID has
         CommentInfo commentInfo;
         try {
-            commentInfo = commentService.getComment(commentId, context);
+            commentInfo = getCommentService().getComment(commentId, context);
         } catch (DoesNotExistException e) {
             throw new RuntimeException("comment [id=" + commentId + "] does not exist.", e);
         } catch (InvalidParameterException e) {

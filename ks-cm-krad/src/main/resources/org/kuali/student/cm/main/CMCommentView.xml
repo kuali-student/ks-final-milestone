@@ -57,7 +57,8 @@
                 <bean parent="Uif-VerticalBoxSection">
                     <property name="items">
                         <list>
-                            <bean id="KSCM-NewCommentField" parent="Uif-InputField" p:propertyName="newComment">
+                            <bean id="KSCM-NewCommentField" parent="Uif-InputField" p:propertyName="newComment"
+                                    p:render="@{canAddComment}">
                                 <property name="instructionalText"
                                           value="Comments posted here will be visible to anyone with view access to the proposal."/>
                                 <property name="control">
@@ -70,7 +71,7 @@
                                   p:methodToCall="saveComment"
                                   p:actionLabel="Add Comment"
                                   p:performClientSideValidation="true"
-                                  p:render="true"/>
+                                  p:render="@{canAddComment}"/>
                             <!-- There is a property replacer below which, if there are no comments, replaces it with a Message -->
                             <bean parent="Uif-VerticalBoxSection">
                                 <property name="header">
@@ -171,11 +172,13 @@
                                                                                   parent="KS-Uif-Edit-NavigationActionLink"
                                                                                   p:actionLabel="Edit"
                                                                                   p:methodToCall="editComment"
-                                                                                  p:dirtyOnAction="false"/>
+                                                                                  p:dirtyOnAction="false"
+                                                                                  p:render="@{#line.renderHelper.canEdit}"/>
                                                                             <bean id="KSCM-CommentDeleteAction"
                                                                                   parent="KS-Uif-Delete-NavigationActionLink"
                                                                                   p:methodToCall="deleteComment"
-                                                                                  p:actionLabel="Delete"/>
+                                                                                  p:actionLabel="Delete"
+                                                                                  p:render="@{#line.renderHelper.canDelete}"/>
                                                                         </list>
                                                                     </property>
                                                                 </bean>
