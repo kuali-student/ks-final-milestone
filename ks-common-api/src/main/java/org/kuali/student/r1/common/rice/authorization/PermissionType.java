@@ -35,10 +35,7 @@ public enum PermissionType {
 	BLANKET_APPROVE("Blanket Approve","KS-SYS","Blanket Approve"),
 	UPLOAD_DOCUMENTS("Upload","KS-SYS","Upload to Document"),
 	USE_SCREEN("Use Screen","KS-SYS","Use Screen"),
-    ADD_COLLABORATOR_ACTION("Add Collaborator Action","KS-SYS","Add Collaborator Action"),
-    ADD_COMMENT_FOR_PROPOSALS("Add a Comment","KS-SYS","Add a Comment"),
-    EDIT_COMMENT_FOR_PROPOSALS("Edit a Comment","KS-SYS","Edit a Comment"),
-    DELETE_COMMENT_FOR_PROPOSALS("Delete a Comment","KS-SYS","Delete a Comment");
+    ADD_COLLABORATOR_ACTION("Add Collaborator Action","KS-SYS","Add Collaborator Action");
 
 	private String label = "";
 	private String permissionNamespace = "";
