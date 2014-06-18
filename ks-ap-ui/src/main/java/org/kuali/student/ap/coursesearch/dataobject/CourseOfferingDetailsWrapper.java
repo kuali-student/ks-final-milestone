@@ -36,7 +36,7 @@ public class CourseOfferingDetailsWrapper {
 //        multipleFormatOfferings = courseOfferingInfo.
         honors = Boolean.TRUE.equals(courseOfferingInfo.getIsHonorsOffering());
         courseRequisites = CourseDetailsUtil.getCourseOfferingRequisites(courseOfferingInfo);
-        creditsDisplay = CreditsFormatter.formatCredits(courseOfferingInfo);
+        creditsDisplay = courseOfferingInfo.getCreditCnt();
     }
 
     public String getCourseOfferingId() {
