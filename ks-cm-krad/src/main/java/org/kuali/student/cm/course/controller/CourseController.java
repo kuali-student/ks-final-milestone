@@ -346,7 +346,7 @@ public class CourseController extends CourseRuleEditorController {
      * @param result
      * @param request  {@link HttpServletRequest} instance of the actual HTTP request made
      * @param response The intended {@link HttpServletResponse} sent back to the user
-     * @return The new {@link ModelAndView} that contains the newly created/updated Supporting document information.
+     * @return The new {@link ModelAndView} that contains the newly added blank Learning Objective at the top.
      */
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=addLearningObjective")
     public ModelAndView addLearningObjective(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
