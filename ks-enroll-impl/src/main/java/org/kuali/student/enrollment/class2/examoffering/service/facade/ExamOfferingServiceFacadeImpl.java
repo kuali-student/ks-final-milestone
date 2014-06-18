@@ -247,51 +247,49 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
         ExamOfferingInfo eo = null;
         Map<String, ExamOfferingInfo> eos = loadExamOfferings(foToEoRelations, context);
         //Do not create exam offerings for canceled course offerings.
-        if (!LuiServiceConstants.LUI_CO_STATE_CANCELED_KEY.equals(coInfo.getStateKey())){
-            for (Map.Entry<FormatOfferingInfo, List<ExamOfferingRelationInfo>> foEntry : foToEoRelations.entrySet()) {
+        if (!LuiServiceConstants.LUI_CO_STATE_CANCELED_KEY.equals(coInfo.getStateKey())) {
+        for (Map.Entry<FormatOfferingInfo, List<ExamOfferingRelationInfo>> foEntry : foToEoRelations.entrySet()) {
 
-                //Get all existing eo as per co driver, and remove them from the map.
-                List<ExamOfferingRelationInfo> eors = getExistingExamOfferingsPerDriver(eos, foEntry.getValue(), ExamOfferingContext.Driver.PER_CO.name());
-
+            //Get all existing eo as per co driver, and remove them from the map.
+            List<ExamOfferingRelationInfo> eors = getExistingExamOfferingsPerDriver(eos, foEntry.getValue(), ExamOfferingContext.Driver.PER_CO.name());
 
                 //Create new exam offerings per CO
                 for (ExamOfferingRelationInfo eoRelation : eors) {
-
                     eo = eos.get(eoRelation.getExamOfferingId());
                     if (eo.getStateKey().equals(ExamOfferingServiceConstants.EXAM_OFFERING_CANCELED_STATE_KEY)) {
                         this.getExamOfferingService().changeExamOfferingState(eoRelation.getExamOfferingId(),
                                 ExamOfferingServiceConstants.EXAM_OFFERING_DRAFT_STATE_KEY, context);
                     }
-
-                    ExamOfferingResult foResult;
-                    if (eo == null) {
-                        //Create a new Exam Offering
-                        eo = createExamOffering(examOfferingContext.getExamPeriodId(), ExamOfferingServiceConstants.EXAM_OFFERING_DRAFT_STATE_KEY,
-                                ExamOfferingContext.Driver.PER_CO.name(), new ArrayList<AttributeInfo>(), context);
-                        foResult = new ExamOfferingResult(ExamOfferingServiceConstants.EXAM_OFFERING_CREATED);
-                    } else {
-                        foResult = removeExamOfferingRDLIfNeeded(eo, examOfferingContext, context);
-                    }
-
-                    //(re)perform slotting if use fe matrix toggle is selected and use did not override timeslot.
-                    if (checkForMatrixSlotting(examOfferingContext, eo)) {
-                        foResult.getChildren().add(this.getScheduleEvaluator().executeRuleForCOSlotting(coInfo, eo.getId(),
-                                examOfferingContext.getTermType(), new ArrayList<String>(), context));
-                    }
-
-                    //Create new Exam Offering Relationship
-                    List<ActivityOfferingInfo> aoInfos = getAOsForFoId(foEntry.getKey().getId(), examOfferingContext.getFoIdToListOfAOs(), context);
-                    createExamOfferingRelationPerFO(foEntry.getKey().getId(), eo.getId(), aoInfos, context);
-
-                    // Update the result.
-                    Map<String, String> contextParms = new HashMap<String, String>();
-                    contextParms.put(CourseOfferingServiceConstants.CONTEXT_ELEMENT_COURSE_OFFERING_CODE, coInfo.getCourseOfferingCode());
-                    foResult.setContext(contextParms);
-                    result.getChildren().add(foResult);
                 }
-            }
 
+                ExamOfferingResult foResult;
+                if (eo == null) {
+                    //Create a new Exam Offering
+                    eo = createExamOffering(examOfferingContext.getExamPeriodId(), ExamOfferingServiceConstants.EXAM_OFFERING_DRAFT_STATE_KEY,
+                            ExamOfferingContext.Driver.PER_CO.name(), new ArrayList<AttributeInfo>(), context);
+                    foResult = new ExamOfferingResult(ExamOfferingServiceConstants.EXAM_OFFERING_CREATED);
+                } else {
+                    foResult = removeExamOfferingRDLIfNeeded(eo, examOfferingContext, context);
+                }
+
+                //(re)perform slotting if use fe matrix toggle is selected and use did not override timeslot.
+                if (checkForMatrixSlotting(examOfferingContext, eo)) {
+                    foResult.getChildren().add(this.getScheduleEvaluator().executeRuleForCOSlotting(coInfo, eo.getId(),
+                            examOfferingContext.getTermType(), new ArrayList<String>(), context));
+                }
+
+                //Create new Exam Offering Relationship
+                List<ActivityOfferingInfo> aoInfos = getAOsForFoId(foEntry.getKey().getId(), examOfferingContext.getFoIdToListOfAOs(), context);
+                createExamOfferingRelationPerFO(foEntry.getKey().getId(), eo.getId(), aoInfos, context);
+
+                // Update the result.
+                Map<String, String> contextParms = new HashMap<String, String>();
+                contextParms.put(CourseOfferingServiceConstants.CONTEXT_ELEMENT_COURSE_OFFERING_CODE, coInfo.getCourseOfferingCode());
+                foResult.setContext(contextParms);
+                result.getChildren().add(foResult);
+            }
         }
+
 
         removeFinalExamOfferingIfNeeded(examOfferingContext, context, foToEoRelations, eos);
         return result;
