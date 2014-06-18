@@ -1,8 +1,7 @@
 'use strict';
 
-var cartServiceModule = angular.module('regCartApp');
-
-cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', '$timeout', 'STATUS', 'GRADING_OPTION', 'ScheduleService', 'GlobalVarsService',
+angular.module('regCartApp')
+    .controller('ScheduleCtrl', ['$scope', '$modal', '$timeout', 'STATUS', 'GRADING_OPTION', 'ScheduleService', 'GlobalVarsService',
     function ($scope, $modal, $timeout, STATUS, GRADING_OPTION, ScheduleService, GlobalVarsService) {
 
         $scope.getSchedules = GlobalVarsService.getSchedule;
@@ -13,36 +12,15 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', '$timeout', 'S
         $scope.numberOfDroppedWailistedCourses = 0;
         $scope.userId = GlobalVarsService.getUserId;
 
-        $scope.$watch('termId', function (newValue) {
-            console.log('term id has changed: '+newValue);
-            if ($scope.userMessage && $scope.userMessage.txt) {
-                $scope.removeUserMessage();
+        $scope.$on('removeWaitlistStatusMessage',function (event, course) {
+            course.statusMessage = null;
+            $scope.numberOfDroppedWailistedCourses = $scope.numberOfDroppedWailistedCourses - 1;
+            if ($scope.numberOfDroppedWailistedCourses === 0) {
+                $scope.showWaitlistMessages = false;
             }
-            if ($scope.waitlistUserMessage && $scope.waitlistUserMessage.txt) {
-                $scope.removeWaitlistUserMessage();
-            }
-            /*
-            Commented out unnecessary call to refresh schedule...main.js is already taking care of this...
-             */
-//            ScheduleService.getScheduleFromServer().query({termId: newValue }, function (result) {
-//                console.log('called rest service to get schedule data - in schedule.js');
-//                GlobalVarsService.updateScheduleCounts(result);
-//            });
         });
 
-
-        $scope.openDropConfirmation = function (index, course) {
-            console.log('Open drop confirmation');
-            course.dropping = true;
-            $scope.index = index;
-            $scope.course = course;
-        };
-
-        $scope.cancelDropConfirmation = function (course) {
-            course.dropping = false;
-        };
-
-        $scope.dropRegistrationGroup = function (index, course) {
+        $scope.$on('dropRegistered', function (event, index, course) {
             console.log('Open drop confirmation for registered course');
             ScheduleService.dropRegistrationGroup().query({
                 masterLprId: course.masterLprId
@@ -54,9 +32,9 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', '$timeout', 'S
             }, function (error) {
                 $scope.userMessage = {txt: error.data, type: STATUS.error};
             });
-        };
+        });
 
-        $scope.dropFromWaitlist = function (index, course) {
+        $scope.$on('dropWaitlist', function (event, index, course) {
             console.log('Open drop confirmation for waitlist course');
             ScheduleService.dropFromWaitlist().query({
                 masterLprId: course.masterLprId
@@ -72,7 +50,7 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', '$timeout', 'S
             }, function (error) {
                 course.statusMessage = {txt: error.data, type: STATUS.error};
             });
-        };
+        });
 
         // This method is used to update the status of a course by polling the server
         var schedulePoller = function (registrationRequestId, course) {
@@ -123,108 +101,5 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', '$timeout', 'S
                 });
             }, 1000);  // right now we're going to wait 1 second per poll
         };
-
-        $scope.editScheduleItem = function (course) {
-            course.newCredits = course.credits;
-            course.newGrading = course.gradingOptionId;
-            course.editing = true;
-        };
-
-        $scope.updateScheduleItem = function (course) {
-            console.log('Updating registered course:');
-            console.log(course.newCredits);
-            console.log(course.newGrading);
-            ScheduleService.updateScheduleItem().query({
-                courseCode: course.courseCode,
-                regGroupCode: course.regGroupCode,
-                masterLprId: course.masterLprId,
-                termId: $scope.termId,
-                credits: course.newCredits,
-                gradingOptionId: course.newGrading
-            }, function (scheduleItemResult) {
-                GlobalVarsService.setRegisteredCredits(parseFloat(GlobalVarsService.getRegisteredCredits()) - parseFloat(course.credits) + parseFloat(scheduleItemResult.credits));
-                updateCard(course, scheduleItemResult);
-            }, function (error) {
-                course.statusMessage = {txt: error.data, type: STATUS.error};
-            });
-        };
-
-        $scope.updateWaitlistItem = function (course) {
-            console.log('Updating waitlisted course:');
-            console.log(course.newCredits);
-            console.log(course.newGrading);
-            ScheduleService.updateWaitlistItem().query({
-                courseCode: course.courseCode,
-                regGroupCode: course.regGroupCode,
-                masterLprId: course.masterLprId,
-                termId: $scope.termId,
-                credits: course.newCredits,
-                gradingOptionId: course.newGrading
-            }, function (scheduleItemResult) {
-                GlobalVarsService.setWaitlistedCredits(parseFloat(GlobalVarsService.getWaitlistedCredits()) - parseFloat(course.credits) + parseFloat(scheduleItemResult.credits));
-                updateCard(course, scheduleItemResult);
-            }, function (error) {
-                course.statusMessage = {txt: error.data, type: STATUS.error};
-            });
-        };
-
-        $scope.removeStatusMessage = function (course) {
-            course.statusMessage = null;
-        };
-
-        $scope.removeUserMessage = function () {
-            $scope.userMessage.txt = null;
-            $scope.userMessage.linkText = null;
-        };
-
-        $scope.removeWaitlistStatusMessage = function (course) {
-            course.statusMessage = null;
-            $scope.numberOfDroppedWailistedCourses = $scope.numberOfDroppedWailistedCourses - 1;
-            if ($scope.numberOfDroppedWailistedCourses === 0) {
-                $scope.showWaitlistMessages = false;
-            }
-        };
-
-        $scope.showBadge = function (course) {
-            return course.gradingOptionId !== GRADING_OPTION.letter || course.editGradingOptionLetter;
-        };
-
-        function updateCard(course, scheduleItemResult) {
-            console.log(scheduleItemResult);
-            var oldCredits=course.credits;
-            var oldGrading=course.gradingOptionId;
-            course.credits = scheduleItemResult.credits;
-            course.gradingOptionId = scheduleItemResult.gradingOptionId;
-            course.editing = false;
-            course.isopen = !course.isopen; // collapse the card
-//                course.statusMessage = {txt: 'Changes saved successfully', type: 'success'};
-            console.log('Started to animate...');
-            if (course.newGrading !== oldGrading) {
-                course.editGradingOption = true;
-                if (course.gradingOptionId === GRADING_OPTION.letter) {
-                    course.editGradingOptionLetter = true;
-                }
-                $timeout(function(){
-                    course.editGradingOption = false;
-                    course.editGradingOptionDone = true;
-                }, 2000);
-                $timeout(function(){
-                    course.editGradingOptionDone = false;
-                    if (course.gradingOptionId === GRADING_OPTION.letter) {
-                        course.editGradingOptionLetter = false;
-                    }
-                }, 4000);
-            }
-            if (course.newCredits !== oldCredits) {
-                course.editCredits = true;
-                $timeout(function(){
-                    course.editCredits = false;
-                    course.editCreditsDone = true;
-                }, 2000);
-                $timeout(function(){
-                    course.editCreditsDone = false;
-                }, 4000);
-            }
-        }
 
     }]);
