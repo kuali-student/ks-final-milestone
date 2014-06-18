@@ -39,7 +39,7 @@ public class ActivityOfferingDetailsWrapper {
             boolean singleFormatOffering) {
         this.activityOfferingId = activityOffering.getId();
         this.activityOfferingCode = activityOffering.getActivityCode();
-        this.maxEnrollment = activityOffering.getMaximumEnrollment() == 0 ? 0 : activityOffering.getMaximumEnrollment();
+        this.maxEnrollment = activityOffering.getMaximumEnrollment() == null ? 0 : activityOffering.getMaximumEnrollment();
         this.honors = Boolean.TRUE.equals(activityOffering.getIsHonorsOffering());
         this.partOfRegGroup = partOfRegGroup;
         this.singleFormatOffering = singleFormatOffering;
