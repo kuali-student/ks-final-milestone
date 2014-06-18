@@ -101,7 +101,7 @@
         <property name="layoutManager.lineGroupPrototype.disclosure.expandedIconClass"
                   value="ks-fontello-icon-down-open"/>
         <property name="layoutManager.summaryTitle"
-        value="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getFormattedMessage('details.courseOffering.header', new Object[]{#line.courseOfferingCode, #line.courseOfferingTitle, #line.creditsDisplay})} [css='ksap-section-planned ks-fontello-icon-ok-circled']@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('details.courseOffering.header.planned')}[/css]"/>
+                  value="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getFormattedMessage('details.courseOffering.header', new Object[]{#line.courseOfferingCode, #line.courseOfferingTitle, #line.creditsDisplay})} @{#line.plannedActivityDetailsWrappers.size() > 0 ? '[css=''ksap-section-planned ks-fontello-icon-ok-circled'']'+T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('details.courseOffering.header.planned') + '[/css]' : ' '} "/>
         <property name="layoutManager.lineGroupPrototype.disclosure.defaultOpen" value="false"/>
         <property name="cssClasses">
             <list merge="true">
@@ -179,7 +179,8 @@
     </bean>
 
     <bean id="planned-activities-list" parent="activities-list-with-group-summary"
-          p:propertyName="plannedActivityDetailsWrappers" p:renderHeader="true">
+          p:propertyName="plannedActivityDetailsWrappers"
+          p:renderHeader="@{#parentLine.plannedGroupsCount>0}">
         <property name="headerText"
                   value="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getFormattedMessage('details.regGroup.header', new Object[]{#parentLine.plannedGroupsCount})}"/>
         <property name="cssClasses">
