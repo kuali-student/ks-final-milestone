@@ -36,7 +36,7 @@
                     </property>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-HeaderThree"
+                            <bean parent="Uif-HeaderThree" p:id="courseCodeTitle"
                                   p:headerText="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getFormattedMessage('details.course.section.title', new Object[]{courseCode})}"/>
                             <ref bean="course-term-list"/>
                         </list>
