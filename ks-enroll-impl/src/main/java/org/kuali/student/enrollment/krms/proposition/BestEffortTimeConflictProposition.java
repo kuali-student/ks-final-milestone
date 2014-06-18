@@ -109,17 +109,19 @@ public class BestEffortTimeConflictProposition extends BestEffortProposition {
         List<CourseRegistrationInfo> successFromCart = new ArrayList<CourseRegistrationInfo>();
         for (RegistrationRequestItemInfo item: request.getRegistrationRequestItems()) {
 
-            TimeConflictDataContainer rgIdsToTimeSlots;
-            try {
-                rgIdsToTimeSlots = getTimeConflictDataContainer(existingCrs, contextInfo);
-            } catch (Exception ex) {
-                return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
-            }
             List<CourseRegistrationInfo> copyExistingCrs = new ArrayList<CourseRegistrationInfo>();
             // Copy the existing registrations
             copyExistingCrs.addAll(existingCrs);
             // Add the successful RGs from the cart (added from previous iterations)
             copyExistingCrs.addAll(successFromCart);
+
+            TimeConflictDataContainer rgIdsToTimeSlots;
+            try {
+                rgIdsToTimeSlots = getTimeConflictDataContainer(copyExistingCrs, contextInfo);
+            } catch (Exception ex) {
+                return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
+            }
+
             // Add the item being iterated over
             CourseRegistrationInfo regItem;
             try {
@@ -152,6 +154,7 @@ public class BestEffortTimeConflictProposition extends BestEffortProposition {
                 List<ConflictCourseResult> conflictCourseResults = new ArrayList<ConflictCourseResult>();
                 for (CourseRegistrationInfo courseRegistrationInfo: copyExistingCrs) {
                     if (conflicts.getIds().contains(courseRegistrationInfo.getRegistrationGroupId())
+                            || conflictValuesContainsString(conflicts, courseRegistrationInfo.getRegistrationGroupId())
                             && courseRegistrationInfo.getId() != null) {
                         ConflictCourseResult conflictCourseResult = new ConflictCourseResult();
                         conflictCourseResult.setMasterLprId(courseRegistrationInfo.getId());
@@ -201,10 +204,10 @@ public class BestEffortTimeConflictProposition extends BestEffortProposition {
         return reg;
     }
 
-    private boolean conflictValuesContainsString(Map<String, List<String>> conflicts, String string) {
+    private boolean conflictValuesContainsString(TimeConflictResult conflicts, String string) {
         boolean stringFound = false;
 
-        for (List<String> stringList:conflicts.values()) {
+        for (List<String> stringList:conflicts.getConflicts()) {
             if (stringList.contains(string)) {
                 stringFound = true;
                 break;
