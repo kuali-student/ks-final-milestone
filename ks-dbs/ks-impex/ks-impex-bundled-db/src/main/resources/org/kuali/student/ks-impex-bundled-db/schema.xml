@@ -2028,7 +2028,7 @@
     <sequence name="KRIM_PRNCPL_ID_S" startValue="10000"/>
     <sequence name="KRIM_ROLE_ID_S" startValue="10003"/>
     <sequence name="KRIM_ROLE_MBR_ID_S" startValue="10006"/>
-    <sequence name="KRIM_ROLE_PERM_ID_S" startValue="10015"/>
+    <sequence name="KRIM_ROLE_PERM_ID_S" startValue="10018"/>
     <sequence name="KRIM_ROLE_RSP_ACTN_ID_S" startValue="10000"/>
     <sequence name="KRIM_ROLE_RSP_ID_S" startValue="10000"/>
     <sequence name="KRIM_RSP_ID_S" startValue="10000"/>
@@ -2083,7 +2083,7 @@
     <sequence name="KRSB_MSG_QUE_S" startValue="467"/>
     <sequence name="KRSB_SVC_DEF_S" startValue="10105"/>
     <sequence name="KRSB_SVC_DSCRPTR_S" startValue="10105"/>
-    <sequence name="KS_RICE_ID_S" startValue="55771"/>
+    <sequence name="KS_RICE_ID_S" startValue="55773"/>
     <table name="KRAD_MSG_T">
         <column name="CMPNT_CD" nullable="false" primaryKey="true" type="STRING">
             <size value="100"/>
