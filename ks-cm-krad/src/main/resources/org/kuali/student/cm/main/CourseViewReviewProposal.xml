@@ -457,7 +457,7 @@
                                             <property name="items">
                                                 <list>
                                                     <bean parent="CM-ReadOnlyInput" id="learningObjectivesSection_learningObjectives"
-                                                          p:propertyName="description" p:colSpan="1"/>
+                                                          p:propertyName="description" p:colSpan="1" p:fieldLabel.render="false"/>
                                                 </list>
                                             </property>
                                         </bean>
