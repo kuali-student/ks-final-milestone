@@ -374,7 +374,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
 
         if (roomInfo != null && StringUtils.isNotBlank(roomInfo.getBuildingId())) {
             BuildingInfo buildingInfo = KsapFrameworkServiceLocator.getRoomService().getBuilding(roomInfo.getBuildingId(), ContextUtils.createDefaultContextInfo());
-            aoWrapper.setLocation(buildingInfo.getName() + " " + roomInfo.getRoomCode());
+            aoWrapper.setLocation(buildingInfo.getBuildingCode() + " " + roomInfo.getRoomCode());
 //            aoWrapper.setBuildingName(buildingInfo.getName(),append);
 //            aoWrapper.setRoomName(roomInfo.getRoomCode(),append);
         }
