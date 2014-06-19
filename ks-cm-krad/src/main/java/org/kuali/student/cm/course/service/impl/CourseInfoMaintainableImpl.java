@@ -936,7 +936,13 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         reviewData.getCourseSection().getVariations().clear();
         if (!savedCourseInfo.getVariations().isEmpty()) {
             for (CourseVariationInfo variationInfo : savedCourseInfo.getVariations()) {
-                reviewData.getCourseSection().getVariations().add(variationInfo.getVariationCode() + ": " + variationInfo.getVariationTitle());
+                if (variationInfo.getVariationCode() == null && variationInfo.getVariationTitle()==null){
+                    reviewData.getCourseSection().getVariations().add("");
+                } else if (variationInfo.getVariationCode() == null){
+                    reviewData.getCourseSection().getVariations().add("" + ": " + variationInfo.getVariationTitle());
+                } else {
+                    reviewData.getCourseSection().getVariations().add(variationInfo.getVariationCode() + ": " + variationInfo.getVariationTitle());
+                }
             }
         }
 
