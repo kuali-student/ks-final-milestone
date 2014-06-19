@@ -111,8 +111,11 @@ angular.module('regCartApp')
                 $scope.courseCode = '';
                 $scope.regCode = '';
                 $scope.cart.items.unshift(response);
-                console.log('Started to animate...');
+                // This part is responsible for glow effect: when the new item is added we want to highlight it and then fade the highlight away after 2 secs
+                console.log('Started to glow...');
+                // the highlighting fades in
                 response.addingNewCartItem = true;
+                // the highlighting stays for 2 secs and fades out
                 $timeout(function(){
                     response.addingNewCartItem = false;
                 }, 2000);

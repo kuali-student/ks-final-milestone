@@ -134,21 +134,28 @@ angular.module('regCartApp')
 
                     function updateCard(course, scheduleItemResult) {
                         console.log(scheduleItemResult);
-                        var oldCredits=course.credits;
-                        var oldGrading=course.gradingOptionId;
+                        var oldCredits=course.credits;  // need to compare to see if it was changed and need a glow
+                        var oldGrading=course.gradingOptionId;  // need to compare to see if it was changed and need a glow
                         course.credits = scheduleItemResult.credits;
                         course.gradingOptionId = scheduleItemResult.gradingOptionId;
                         course.editing = false;
                         course.isopen = !course.isopen; // collapse the card
+                        // This part is responsible for glow effect: when the card is updated (whether credit or grading) we want to highlight the change and then fade the highlight away after 2 secs
+                        console.log('Started to glow...');
                         if (course.newGrading !== oldGrading) {
+                            // the highlighting fades in
                             course.editGradingOption = true;
+                            // The diffeence with the grading option LETTER is that we don't display it permanently.
+                            // So when we change the grading option to LETTER we display and highlight it, then it fades out and disappears completely.
                             if (course.gradingOptionId === GRADING_OPTION.letter) {
                                 course.editGradingOptionLetter = true;
                             }
+                            // the highlighting stays for 2 secs
                             $timeout(function(){
                                 course.editGradingOption = false;
                                 course.editGradingOptionDone = true;
                             }, 2000);
+                            // the highlighting fades out
                             $timeout(function(){
                                 course.editGradingOptionDone = false;
                                 if (course.gradingOptionId === GRADING_OPTION.letter) {
@@ -157,15 +164,19 @@ angular.module('regCartApp')
                             }, 4000);
                         }
                         if (course.newCredits !== oldCredits) {
+                            // the highlighting fades in
                             course.editCredits = true;
+                            // the highlighting stays for 2 secs
                             $timeout(function(){
                                 course.editCredits = false;
                                 course.editCreditsDone = true;
                             }, 2000);
+                            // the highlighting fades out
                             $timeout(function(){
                                 course.editCreditsDone = false;
                             }, 4000);
                         }
+                        // End of glow effect
                     }
                 }]
         };
