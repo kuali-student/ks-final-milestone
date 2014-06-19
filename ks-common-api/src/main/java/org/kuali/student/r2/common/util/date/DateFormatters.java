@@ -12,6 +12,9 @@ package org.kuali.student.r2.common.util.date;
  */
 public class DateFormatters {
 
+    private DateFormatters() {
+
+    }
 
     /**
      * ***********************************************************
@@ -31,7 +34,7 @@ public class DateFormatters {
     public static final String MONTH_NOZERO_DAY_YEAR_DATE_FORMAT = "M/dd/yyyy";                       // 11/08/2012
     public static final String YEAR_MONTH_DAY_CONCAT_DATE_FORMAT = "yyyyMMdd";                        // 20121108
     public static final String COURSE_OFFERING_VIEW_HELPER_DATE_FORMAT = "EEE, MMMMM d, yyyy";        // Thu, November 8, 2012
-    public static final String COURSE_OFFERING_VIEW_HELPER_DATE_TIME_FORMAT = "MMMMM d, yyyy, h:mm a";// November 8, 2012, 2:52 PM
+    public static final String COURSE_OFFERING_VIEW_HELPER_DATE_TIME_FORMAT = "MMMMM d, yyyy, h:mm a"; // November 8, 2012, 2:52 PM
     public static final String HOUR_MINUTE_TIME_FORMAT = "k:mm";                                     // 02:52
     public static final String HOUR_MINUTE_AM_PM_TIME_FORMAT = "h:mm a";                             // 02:52 PM
     public static final String HOUR_MINUTE_NOSPACE_AM_PM_TIME_FORMAT = "hh:mma";                      // 02:52pm
@@ -59,6 +62,7 @@ public class DateFormatters {
     public static final String DAY_MONTH_DATE_YEAR_FORMAT = "EEEE, MMMM d YYYY";                      // Thursday, November 8 2012
     public static final String MONTH_DAY_FORMAT = "M/d";                                              // 11/8
     public static final String EXAM_OFFERING_VIEW_EXAM_OFFERING_DATE_FORMAT = "MMMMM d, yyyy";        // November 8, 2012
+    public static final String SIMPLE_DATE_TIME_FORMAT = "yyyy-MM-dd@HH:mm";                          // 2012-11-08@14:52
 
     // Fast Thread Safe Formatter. Use this instead of SimpleDateFormat
     public static final KSDateTimeFormatter STATE_CHANGE_DATE_FORMATTER = new KSDateTimeFormatter(STATE_CHANGE_DATE_FORMAT);
@@ -90,4 +94,5 @@ public class DateFormatters {
     public static final KSDateTimeFormatter MONTH_DAY_FORMATTER = new KSDateTimeFormatter(MONTH_DAY_FORMAT);
     public static final KSDateTimeFormatter MONTH_DATE_YEAR_HOUR_MIN_CONCAT_AMPM_FORMATTER = new KSDateTimeFormatter(MONTH_DATE_YEAR_HOUR_MIN_CONCAT_AMPM_FORMAT);
     public static final KSDateTimeFormatter EXAM_OFFERING_VIEW_EXAM_OFFERING_DATE_FORMATTER = new KSDateTimeFormatter(EXAM_OFFERING_VIEW_EXAM_OFFERING_DATE_FORMAT);
+    public static final KSDateTimeFormatter SIMPLE_DATE_TIME_FORMATTER = new KSDateTimeFormatter(SIMPLE_DATE_TIME_FORMAT);
 }
