@@ -15,7 +15,7 @@ angular.module('regCartApp')
                 maxOptions: '@max', // Max # of items to show at a time
                 prefix: '@', // Element ID prefix (e.g. waitlist_)
                 showAll: '@', // Show all items, preventing the More toggle from showing [true, false]
-                moreBehavior: '@', // Behavior of expand button [expand, dialog]
+                moreButtonSelectBehavior: '@moreBehavior', // Behavior of more/expand button when it is selected [expand, dialog]
                 cancelFn: '&onCancel', // Function to call when canceling the form, provides course as parameter, usage: on-submit="processSubmit(course)"
                 submitFn: '&onSubmit' // Function to call when submitting the form, provides course as parameter, usage: on-submit="processCancel(course)"
             },
@@ -24,7 +24,7 @@ angular.module('regCartApp')
                 var course = $scope.course,
                     maxOptions = $scope.maxOptions || 4,
                     showAll = $scope.showAll ? true : false,
-                    moreBehavior = $scope.moreBehavior || 'expand';
+                    moreButtonSelectBehavior = $scope.moreButtonSelectBehavior || 'expand';
 
                 $scope.showAllCreditOptions = showAll;
                 $scope.showAllGradingOptions = showAll;
@@ -56,7 +56,7 @@ angular.module('regCartApp')
                 };
 
                 $scope.showMoreCreditOptions = function() {
-                    if (moreBehavior === 'expand') {
+                    if (moreButtonSelectBehavior === 'expand') {
                         $scope.showAllCreditOptions = true;
                     } else {
                         showOptionsDialog();
@@ -64,7 +64,7 @@ angular.module('regCartApp')
                 };
 
                 $scope.showMoreGradingOptions = function() {
-                    if (moreBehavior === 'expand') {
+                    if (moreButtonSelectBehavior === 'expand') {
                         $scope.showAllGradingOptions = true;
                     } else {
                         showOptionsDialog();

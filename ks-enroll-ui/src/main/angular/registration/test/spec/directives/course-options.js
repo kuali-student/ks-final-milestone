@@ -83,7 +83,7 @@ describe('Directive: CourseOptions', function () {
             expect(el.isolateScope().showAll).toBeTruthy();
             expect(el.isolateScope().showAllCreditOptions).toBeTruthy();
             expect(el.isolateScope().showAllGradingOptions).toBeTruthy();
-            expect(el.isolateScope().moreBehavior).toBe('dialog');
+            expect(el.isolateScope().moreButtonSelectBehavior).toBe('dialog');
         });
 
         it('should create the correct number of credit options', function() {
