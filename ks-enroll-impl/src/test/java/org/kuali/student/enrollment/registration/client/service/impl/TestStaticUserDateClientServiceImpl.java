@@ -46,9 +46,9 @@ public class TestStaticUserDateClientServiceImpl {
     private static final String USER_01="admin";
     private static final String USER_02="student";
 
-    private static final String DATE_01="2014-06-16T15:51";
+    private static final String DATE_01="2014-06-16@15:51";
     private static final String DATE_02="I am an invalid date";
-    private static final String DATE_03="2013-05-15T14:41";
+    private static final String DATE_03="2013-05-15@14:41";
 
     @Before
     public void setUp() {
@@ -102,6 +102,29 @@ public class TestStaticUserDateClientServiceImpl {
     @Test
     public void testGetStaticDate_invalidUserId() {
         Response response=staticUserDateClientService.getStaticDate(null);
+
+        // response should be a 400 ("Bad Request")
+        assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
+    }
+
+    @Test
+    public void testGetStaticDate_withUpdate() {
+        String userId=USER_02;
+        String date=DATE_01;
+
+        Response response=staticUserDateClientService.getStaticDate(userId, date);
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+
+        Object entity=response.getEntity();
+        assertTrue(entity instanceof UserDateResult); // verify that it's the right object
+
+        UserDateResult userDateResult = (UserDateResult) entity;
+        assertEquals(date, userDateResult.getDate()); // verify that the date is the same one we put in
+    }
+
+    @Test
+    public void testGetStaticDate_withUpdate_invalidDate() {
+        Response response=staticUserDateClientService.getStaticDate(USER_01, DATE_02);
 
         // response should be a 400 ("Bad Request")
         assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());

@@ -16,14 +16,13 @@
  */
 package org.kuali.student.enrollment.registration.client.service.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.registration.client.service.StaticUserDateClientService;
 import org.kuali.student.enrollment.registration.client.service.impl.util.StaticUserDateUtil;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.ws.rs.PathParam;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
@@ -40,7 +39,7 @@ public class StaticUserDateClientServiceImpl implements StaticUserDateClientServ
     public static final Logger LOGGER = LoggerFactory.getLogger(ScheduleOfClassesClientServiceImpl.class);
 
     @Override
-    public Response setStaticDate(@PathParam("userId") String userId, @QueryParam("date") String date) {
+    public Response setStaticDate(String userId, String date) {
         ResponseBuilder response;
 
         try {
@@ -58,24 +57,48 @@ public class StaticUserDateClientServiceImpl implements StaticUserDateClientServ
     }
 
     @Override
-    public Response getStaticDate(@PathParam("userId") String userId) {
-        ResponseBuilder response;
-
-        try {
-            response = Response.ok(StaticUserDateUtil.getDateFromMap(userId));
-        } catch (InvalidParameterException ex) {
-            LOGGER.warn("Unable to get static date for userId {} ... invalid parameters.", userId, ex);
-            response = Response.status(Response.Status.BAD_REQUEST);
-        } catch (Exception ex) {
-            LOGGER.warn("Unable to get static date for userId {}: {}", userId, ex.getMessage(), ex);
-            response = Response.serverError();
-        }
-
-        return response.build();
+    public Response getStaticDate(String userId) {
+        return getStaticDate(userId, null);
     }
 
     @Override
-    public Response clearStaticDate(@PathParam("userId") String userId) {
+    public Response getStaticDate(String userId, String date) {
+        ResponseBuilder builder = null;
+        Response response = null;
+
+        /*
+        Date is optional, but if it is passed in, attempt to update the user
+        before proceeding
+         */
+        if (StringUtils.isNotEmpty(date)) {
+            Response updateResponse = setStaticDate(userId, date);
+            if (updateResponse.getStatus() != Response.Status.OK.getStatusCode()) {
+                response = updateResponse;
+            }
+        }
+
+        if (response == null) {
+            try {
+                builder = Response.ok(StaticUserDateUtil.getDateFromMap(userId));
+            } catch (InvalidParameterException ex) {
+                LOGGER.warn("Unable to get static date for userId {} ... invalid parameters.", userId, ex);
+                builder = Response.status(Response.Status.BAD_REQUEST);
+            } catch (Exception ex) {
+                LOGGER.warn("Unable to get static date for userId {}: {}", userId, ex.getMessage(), ex);
+                builder = Response.serverError();
+            } finally {
+                if (builder == null) {
+                    builder = Response.serverError();
+                }
+                response = builder.build();
+            }
+        }
+
+        return response;
+    }
+
+    @Override
+    public Response clearStaticDate(String userId) {
         ResponseBuilder response;
 
         try {

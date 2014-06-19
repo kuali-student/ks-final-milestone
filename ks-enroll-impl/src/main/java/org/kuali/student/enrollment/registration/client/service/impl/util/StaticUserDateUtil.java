@@ -17,10 +17,10 @@
 package org.kuali.student.enrollment.registration.client.service.impl.util;
 
 import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.kuali.student.enrollment.registration.client.service.dto.UserDateResult;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.common.util.date.KSDateTimeFormatter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,12 +31,14 @@ import java.util.concurrent.ConcurrentHashMap;
  * This class is a utility for storing and retrieving static user dates in
  * memory.
  *
+ * Expected date format is yyyy-MM-dd@HH:mm
+ *
  * @author Kuali Student Team
  */
 public class StaticUserDateUtil {
 
     private static final Map<String, DateTime> STATIC_DATE_MAP = new ConcurrentHashMap<String, DateTime>();
-    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm");
+    private static final KSDateTimeFormatter DATE_TIME_FORMATTER = DateFormatters.SIMPLE_DATE_TIME_FORMATTER;
 
     private StaticUserDateUtil() {
 
@@ -108,7 +110,7 @@ public class StaticUserDateUtil {
     private static DateTime parseString(String dateString) throws InvalidParameterException {
         DateTime dateTime;
         try {
-            dateTime = DATE_FORMAT.parseDateTime(dateString);
+            dateTime = new DateTime(DATE_TIME_FORMATTER.parse(dateString));
         } catch (IllegalArgumentException ex) {
             throw new InvalidParameterException(ex.getMessage(), ex);
         }
@@ -116,6 +118,6 @@ public class StaticUserDateUtil {
     }
 
     private static String formatDate(DateTime dateTime) {
-        return dateTime.toString(DATE_FORMAT);
+        return DATE_TIME_FORMATTER.format(dateTime);
     }
 }

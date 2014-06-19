@@ -1592,6 +1592,12 @@
         </property>
     </bean>
 
+    <!--
+        StaticUserDateClientService
+
+        This is a RESTful service used in conjunction with the registration cart. It allows
+        a static date to be set (in memory) for a user for reg cart date testing purposes.
+    -->
     <bean id="staticUserDateClientService" class="org.kuali.student.enrollment.registration.client.service.impl.StaticUserDateClientServiceImpl">
     </bean>
 
