@@ -3,7 +3,7 @@
 describe('Service: GlobalVarsService', function () {
 
     // load the service's module
-    beforeEach(module('regCartApp', 'mockJson'));
+    beforeEach(module('regCartApp', 'mockPersonSchedule'));
 
     var GlobalVarsService;
 

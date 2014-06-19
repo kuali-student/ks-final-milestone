@@ -3,18 +3,24 @@
 describe('Filter: FormatValidationMessage', function() {
 
     // load the module
-    beforeEach(module('regCartApp'));
+    beforeEach(module('regCartApp', 'mockTransactionMessages'));
 
-    var filter,
+    var _filter,
+        messages,
         VALIDATION_ERROR_TYPE,
         baseCourseId = 'BASE_COURSE_ID';
 
     // instantiate the filter
-    beforeEach(inject(function(formatValidationMessageFilter, _VALIDATION_ERROR_TYPE_) {
-        filter = formatValidationMessageFilter;
+    beforeEach(inject(function(formatValidationMessageFilter, _VALIDATION_ERROR_TYPE_, transactionMessages) {
+        _filter = formatValidationMessageFilter;
         VALIDATION_ERROR_TYPE = _VALIDATION_ERROR_TYPE_;
+        messages = transactionMessages;
     }));
 
+
+    function filter(data, course) {
+        return _filter(data, course, messages);
+    }
 
     function filterWithCourse(errorType, course) {
         if (!course) {
@@ -63,7 +69,7 @@ describe('Filter: FormatValidationMessage', function() {
         it('should return the correct message for garbage data', function() {
             expect(filterWithKey(VALIDATION_ERROR_TYPE.timeConflict)).toBe('Time conflict');
             expect(filterWithCourse(VALIDATION_ERROR_TYPE.timeConflict, {})).toBe('Time conflict');
-            expect(filterWithCourse(VALIDATION_ERROR_TYPE.timeConflict, {conflictingItems: []})).toBe('Time conflict');
+            expect(filterWithCourse(VALIDATION_ERROR_TYPE.timeConflict, {conflictingCourses: []})).toBe('Time conflict');
         });
 
         it('should handle a courseCode on the root object', function() {
@@ -76,20 +82,20 @@ describe('Filter: FormatValidationMessage', function() {
             // Base case
             expect(filter(data, {})).toBe('Time conflict (<strong>code1</strong>)');
 
-            // Malformed conflictingItems array
-            data.conflictingItems = {};
+            // Malformed conflictingCourses array
+            data.conflictingCourses = {};
             expect(filter(data, {})).toBe('Time conflict (<strong>code1</strong>)');
 
-            // Existing but empty conflictingItems array
-            data.conflictingItems = [];
+            // Existing but empty conflictingCourses array
+            data.conflictingCourses = [];
             expect(filter(data, {})).toBe('Time conflict (<strong>code1</strong>)');
 
             // Populated conflicting items array
-            data.conflictingItems.push({courseCode: 'code2'});
+            data.conflictingCourses.push({courseCode: 'code2'});
             expect(filter(data, {})).toBe('Time conflict (<strong>code1</strong>, <strong>code2</strong>)');
 
-            // Duplicate item in conflictingItems array
-            data.conflictingItems.push({courseCode: 'code1', id: 'id1'});
+            // Duplicate item in conflictingCourses array
+            data.conflictingCourses.push({courseCode: 'code1', id: 'id1'});
             expect(filter(data, {})).toBe('Time conflict (<strong>code1</strong>, <strong>code2</strong>)');
         });
 
@@ -107,10 +113,10 @@ describe('Filter: FormatValidationMessage', function() {
             expect(filter(data, course)).toBe('Time conflict');
         });
 
-        it('should handle an array of conflictingItems', function() {
+        it('should handle an array of conflictingCourses', function() {
             var data = {
                 messageKey: VALIDATION_ERROR_TYPE.timeConflict,
-                conflictingItems: [
+                conflictingCourses: [
                     { courseCode: 'code1', id: 'id1' }
                 ]
             };
@@ -119,18 +125,18 @@ describe('Filter: FormatValidationMessage', function() {
             expect(filter(data, {})).toBe('Time conflict (<strong>code1</strong>)');
 
             // Multiple items
-            data.conflictingItems.push({courseCode: 'code2', id: 'id2'});
+            data.conflictingCourses.push({courseCode: 'code2', id: 'id2'});
             expect(filter(data, {})).toBe('Time conflict (<strong>code1</strong>, <strong>code2</strong>)');
 
-            // Duplicate item in conflictingItems
-            data.conflictingItems.push({courseCode: 'code1', id: 'id1'});
+            // Duplicate item in conflictingCourses
+            data.conflictingCourses.push({courseCode: 'code1', id: 'id1'});
             expect(filter(data, {})).toBe('Time conflict (<strong>code1</strong>, <strong>code2</strong>)');
         });
 
         it('should not show the course code in a conflictingItem that matches the current course', function() {
             var data = {
                     messageKey: VALIDATION_ERROR_TYPE.timeConflict,
-                    conflictingItems: [
+                    conflictingCourses: [
                         { courseCode: 'code1', id: 'id1' }
                     ]
                 },
@@ -143,7 +149,7 @@ describe('Filter: FormatValidationMessage', function() {
             expect(filter(data, course)).toBe('Time conflict (<strong>code1</strong>)');
 
             // Multiple items
-            data.conflictingItems.push({courseCode: 'BASE_COURSE_CODE', id: baseCourseId});
+            data.conflictingCourses.push({courseCode: 'BASE_COURSE_CODE', id: baseCourseId});
             expect(filter(data, course)).toBe('Time conflict (<strong>code1</strong>)');
         });
     });

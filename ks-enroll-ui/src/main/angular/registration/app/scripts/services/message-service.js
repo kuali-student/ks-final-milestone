@@ -14,7 +14,7 @@ angular.module('regCartApp')
         };
 
         this.getMessage = function(messages, messageKey){
-            var message;
+            var message = '';
             angular.forEach(messages, function (msgObj) {
                 if (msgObj.messageKey === messageKey) {
                     message = msgObj.message;

@@ -29,9 +29,9 @@ describe('Controller: CartCtrl', function () {
 
     // Test getStatusMessageFromStatus()
     it('should get the transformed status message from the status', inject(function (STATUS) {
-        expect(scope.getStatusMessageFromStatus(STATUS.success)).toBe(' - Success!');
-        expect(scope.getStatusMessageFromStatus(STATUS.error)).toBe(' - Failed!');
-        expect(scope.getStatusMessageFromStatus(STATUS.action)).toBe(' - Failed!');
+        expect(scope.getStatusMessageFromStatus(STATUS.success)).toContain('- Success');
+        expect(scope.getStatusMessageFromStatus(STATUS.error)).toContain('- Failed');
+        expect(scope.getStatusMessageFromStatus(STATUS.action)).toContain('- Failed');
         expect(scope.getStatusMessageFromStatus('')).toBe('');
     }));
 

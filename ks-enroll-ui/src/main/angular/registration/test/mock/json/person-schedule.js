@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('mockJson', []).value('personSchedule', {
+angular.module('mockPersonSchedule', []).value('personSchedule', {
     "userId": "admin",
     "studentScheduleTermResults": [
         {

@@ -6,10 +6,11 @@ angular.module('regCartApp').filter('formatValidationMessage', ['VALIDATION_ERRO
      * In this method we take a course & validation message object and return a formatted
      * message depending on the validation message key.
      *
-     * @example {{ validationMessage | formatValidationMessage:course }}
+     * @example {{ validationMessage | formatValidationMessage:course:messages }}
      *
-     * @param validationMessage
+     * @param data
      * @param course
+     * @param messages
      * @returns {string}
      */
     return function(data, course, messages) {
