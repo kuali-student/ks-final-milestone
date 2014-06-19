@@ -32,7 +32,6 @@ import org.kuali.student.enrollment.courseregistration.service.CourseRegistratio
 import org.kuali.student.enrollment.coursewaitlist.service.CourseWaitListService;
 import org.kuali.student.enrollment.rules.credit.limit.ActionEnum;
 import org.kuali.student.enrollment.rules.credit.limit.ActivityRegistrationTransaction;
-import org.kuali.student.enrollment.rules.credit.limit.CourseRegistrationTransaction;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -44,7 +43,6 @@ import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,9 +52,7 @@ import java.util.Map;
  *
  * @author Kuali Student Team
  */
-public abstract class BestEffortProposition extends AbstractLeafProposition {
-
-    protected CourseOfferingService coService;
+public abstract class AbstractBestEffortProposition extends AbstractLeafProposition {
 
     protected ValidationResultInfo createValidationResultFailureForRegRequestItem(RegistrationRequestItemInfo item, String msg) {
         ValidationResultInfo result = new ValidationResultInfo();
@@ -107,25 +103,27 @@ public abstract class BestEffortProposition extends AbstractLeafProposition {
         return existingCrs;
     }
 
-    @SuppressWarnings("unused")
-    protected CourseRegistrationTransaction createNewCourseRegistrationTransaction(RegistrationRequestItemInfo item,
-                                                                                 boolean skipActivities,
-                                                                                 ContextInfo contextInfo)
-            throws OperationFailedException {
-        CourseRegistrationInfo reg = this.createNewCourseRegistration(item, contextInfo);
-        List<ActivityRegistrationTransaction> activityTrans;
-        if (skipActivities) {
-            activityTrans = Collections.emptyList();
-        } else {
-            activityTrans = this.createNewActivityTransactions(item, contextInfo);
-        }
-        return new CourseRegistrationTransaction(ActionEnum.CREATE, reg, activityTrans);
-    }
+//    @SuppressWarnings("unused")
+//    protected CourseRegistrationTransaction createNewCourseRegistrationTransaction(CourseOfferingService coService,
+//                                                                                   RegistrationRequestItemInfo item,
+//                                                                                   boolean skipActivities,
+//                                                                                   ContextInfo contextInfo)
+//            throws OperationFailedException {
+//        CourseRegistrationInfo reg = this.createNewCourseRegistration(item, contextInfo);
+//        List<ActivityRegistrationTransaction> activityTrans;
+//        if (skipActivities) {
+//            activityTrans = Collections.emptyList();
+//        } else {
+//            activityTrans = this.createNewActivityTransactions(item, contextInfo);
+//        }
+//        return new CourseRegistrationTransaction(ActionEnum.CREATE, reg, activityTrans);
+//    }
 
-    protected CourseRegistrationInfo createNewCourseRegistration(RegistrationRequestItemInfo item, ContextInfo contextInfo)
+    protected CourseRegistrationInfo createNewCourseRegistration(CourseOfferingService coService,
+            RegistrationRequestItemInfo item, ContextInfo contextInfo)
             throws OperationFailedException {
         CourseRegistrationInfo reg = new CourseRegistrationInfo();
-        RegistrationGroupInfo regGroup = this.getRegGroup(item.getRegistrationGroupId(), contextInfo);
+        RegistrationGroupInfo regGroup = this.getRegGroup(coService, item.getRegistrationGroupId(), contextInfo);
         reg.setPersonId(item.getPersonId());
         reg.setTypeKey(LprServiceConstants.REGISTRANT_CO_LPR_TYPE_KEY);
         reg.setStateKey(LprServiceConstants.ACTIVE_STATE_KEY);
@@ -134,12 +132,14 @@ public abstract class BestEffortProposition extends AbstractLeafProposition {
         reg.setGradingOptionId(item.getGradingOptionId());
         reg.setEffectiveDate(contextInfo.getCurrentDate());
         reg.setExpirationDate(null);
+        reg.setRegistrationGroupId(regGroup.getId());
         // Adding all but we might want to split and store some attributes on the Activity and others on Course registration
         reg.getAttributes().addAll(item.getAttributes());
         return reg;
     }
 
-    protected RegistrationGroupInfo getRegGroup(String regGroupId, ContextInfo contextInfo)
+    private RegistrationGroupInfo getRegGroup(CourseOfferingService coService,
+                                                String regGroupId, ContextInfo contextInfo)
             throws OperationFailedException {
         RegistrationGroupInfo regGroup;
         try {
@@ -156,11 +156,12 @@ public abstract class BestEffortProposition extends AbstractLeafProposition {
         }
     }
 
-    protected List<ActivityRegistrationTransaction> createNewActivityTransactions(RegistrationRequestItemInfo item,
-                                                                                ContextInfo contextInfo)
+    protected List<ActivityRegistrationTransaction> createNewActivityTransactions(CourseOfferingService coService,
+                                                                                  RegistrationRequestItemInfo item,
+                                                                                  ContextInfo contextInfo)
             throws OperationFailedException {
         List<ActivityRegistrationTransaction> list = new ArrayList<ActivityRegistrationTransaction>();
-        RegistrationGroupInfo regGroup = this.getRegGroup(item.getRegistrationGroupId(), contextInfo);
+        RegistrationGroupInfo regGroup = this.getRegGroup(coService, item.getRegistrationGroupId(), contextInfo);
         for (String activityOfferingId : regGroup.getActivityOfferingIds()) {
             ActivityRegistrationTransaction trans = this.createNewActivityTransaction(item, contextInfo, activityOfferingId);
             list.add(trans);
@@ -168,7 +169,7 @@ public abstract class BestEffortProposition extends AbstractLeafProposition {
         return list;
     }
 
-    protected ActivityRegistrationTransaction createNewActivityTransaction(RegistrationRequestItemInfo item,
+    private ActivityRegistrationTransaction createNewActivityTransaction(RegistrationRequestItemInfo item,
                                                                          ContextInfo contextInfo,
                                                                          String activityOfferingId)
             throws OperationFailedException {
@@ -176,7 +177,7 @@ public abstract class BestEffortProposition extends AbstractLeafProposition {
         return new ActivityRegistrationTransaction(ActionEnum.CREATE, reg);
     }
 
-    protected ActivityRegistrationInfo createNewActivityRegistration(RegistrationRequestItemInfo item,
+    private ActivityRegistrationInfo createNewActivityRegistration(RegistrationRequestItemInfo item,
                                                                    ContextInfo contextInfo,
                                                                    String activityOfferingId)
             throws OperationFailedException {

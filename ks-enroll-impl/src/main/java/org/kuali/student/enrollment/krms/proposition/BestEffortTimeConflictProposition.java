@@ -25,6 +25,7 @@ import org.kuali.student.core.process.evaluator.KRMSEvaluator;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
+import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
@@ -60,7 +61,7 @@ import java.util.Map;
  *
  * @author Kuali Student Team
  */
-public class BestEffortTimeConflictProposition extends BestEffortProposition {
+public class BestEffortTimeConflictProposition extends AbstractBestEffortProposition {
 
     private SchedulingService schedulingService;
 
@@ -75,7 +76,7 @@ public class BestEffortTimeConflictProposition extends BestEffortProposition {
                 this);
         CourseWaitListService wlService = environment.resolveTerm(RulesExecutionConstants.COURSE_WAIT_LIST_SERVICE_TERM,
                 this);
-        coService = environment.resolveTerm(RulesExecutionConstants.COURSE_OFFERING_SERVICE_TERM, this);
+        CourseOfferingService coService = environment.resolveTerm(RulesExecutionConstants.COURSE_OFFERING_SERVICE_TERM, this);
         schedulingService = environment.resolveTerm(RulesExecutionConstants.SCHEDULING_SERVICE_TERM, this);
 
         // Verify that all operations are add
@@ -118,7 +119,7 @@ public class BestEffortTimeConflictProposition extends BestEffortProposition {
 
             TimeConflictDataContainer rgIdsToTimeSlots;
             try {
-                rgIdsToTimeSlots = getTimeConflictDataContainer(copyExistingCrs, contextInfo);
+                rgIdsToTimeSlots = getTimeConflictDataContainer(coService, copyExistingCrs, contextInfo);
             } catch (Exception ex) {
                 return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
             }
@@ -126,7 +127,7 @@ public class BestEffortTimeConflictProposition extends BestEffortProposition {
             // Add the item being iterated over
             CourseRegistrationInfo regItem;
             try {
-                regItem = createNewCourseRegistration(item, contextInfo);
+                regItem = createNewCourseRegistration(coService, item, contextInfo);
             } catch (OperationFailedException ex) {
                 return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
             }
@@ -135,7 +136,7 @@ public class BestEffortTimeConflictProposition extends BestEffortProposition {
             newRegItem.add(regItem);
             TimeConflictDataContainer regItemTimeSlots;
             try {
-                regItemTimeSlots = getTimeConflictDataContainer(newRegItem, contextInfo);
+                regItemTimeSlots = getTimeConflictDataContainer(coService, newRegItem, contextInfo);
             } catch(Exception ex) {
                 return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
             }
@@ -195,14 +196,6 @@ public class BestEffortTimeConflictProposition extends BestEffortProposition {
         return recordAllRegRequestItems(environment, new ArrayList<ValidationResultInfo>());
     }
 
-    @Override
-    protected CourseRegistrationInfo createNewCourseRegistration(RegistrationRequestItemInfo item, ContextInfo contextInfo)
-            throws OperationFailedException {
-        CourseRegistrationInfo reg = super.createNewCourseRegistration(item, contextInfo);
-        reg.setRegistrationGroupId(item.getRegistrationGroupId());
-        return reg;
-    }
-
     private boolean conflictValuesContainsString(TimeConflictResult conflicts, String string) {
         boolean stringFound = false;
 
@@ -217,7 +210,9 @@ public class BestEffortTimeConflictProposition extends BestEffortProposition {
     }
 
     @SuppressWarnings("ForLoopReplaceableByForEach")
-    private TimeConflictDataContainer getTimeConflictDataContainer(List<CourseRegistrationInfo> courseRegistrationInfos, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+    private TimeConflictDataContainer getTimeConflictDataContainer(CourseOfferingService coService,
+                                                                   List<CourseRegistrationInfo> courseRegistrationInfos,
+                                                                   ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
         List<String> regGroupIds = new ArrayList<String>();
         for (CourseRegistrationInfo courseRegistrationInfo: courseRegistrationInfos) {
             regGroupIds.add(courseRegistrationInfo.getRegistrationGroupId());

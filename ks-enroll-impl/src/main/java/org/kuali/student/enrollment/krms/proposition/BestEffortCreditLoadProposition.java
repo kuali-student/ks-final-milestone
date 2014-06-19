@@ -27,6 +27,7 @@ import org.kuali.student.core.ges.dto.GesCriteriaInfo;
 import org.kuali.student.core.ges.dto.ValueInfo;
 import org.kuali.student.core.ges.service.GesService;
 import org.kuali.student.core.process.evaluator.KRMSEvaluator;
+import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
@@ -55,7 +56,7 @@ import java.util.Map;
  *
  * @author Kuali Student Team
  */
-public class BestEffortCreditLoadProposition extends BestEffortProposition {
+public class BestEffortCreditLoadProposition extends AbstractBestEffortProposition {
     public static final KualiDecimal NO_CREDIT_LIMIT = new KualiDecimal(-1);
     private static final boolean ALLOW_ALL_NON_ADDS = true; // allow all non adds right now
 
@@ -68,7 +69,7 @@ public class BestEffortCreditLoadProposition extends BestEffortProposition {
                 this);
         CourseWaitListService wlService = environment.resolveTerm(RulesExecutionConstants.COURSE_WAIT_LIST_SERVICE_TERM,
                 this);
-        coService = environment.resolveTerm(RulesExecutionConstants.COURSE_OFFERING_SERVICE_TERM, this);
+        CourseOfferingService coService = environment.resolveTerm(RulesExecutionConstants.COURSE_OFFERING_SERVICE_TERM, this);
 
         // Verify that all operations are add
         boolean allAddOps = true;
@@ -115,7 +116,7 @@ public class BestEffortCreditLoadProposition extends BestEffortProposition {
             // Add the item being iterated over
             CourseRegistrationInfo regItem;
             try {
-                regItem = createNewCourseRegistration(item, contextInfo);
+                regItem = createNewCourseRegistration(coService, item, contextInfo);
             } catch (OperationFailedException ex) {
                 return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
             }
