@@ -18,7 +18,10 @@ package org.kuali.student.enrollment.class2.registration.admin.controller;
 
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.enrollment.class2.courseoffering.util.ExamOfferingConstants;
+import org.kuali.student.enrollment.class2.registration.admin.form.KSRegistrationIssue;
 import org.kuali.student.enrollment.class2.registration.admin.form.KSWorkshopForm;
+import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationIssueItem;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -51,6 +54,22 @@ public class KSWorkshopController extends UifControllerBase {
         form.setDepartment("Arts and Humanites");
         form.setMajor("Psychology");
         form.setCredits("68");
+
+        return getUIFModelAndView(form);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=register")
+    public ModelAndView register(@ModelAttribute("KualiForm") KSWorkshopForm form, BindingResult result,
+                                       HttpServletRequest request, HttpServletResponse response) {
+
+        if (!hasDialogBeenAnswered("registerConfirmDialog", form)) {
+            return showDialog("registerConfirmDialog", form, request, response);
+        }
+
+        KSRegistrationIssue issue = new KSRegistrationIssue();
+        issue.getItems().add(new RegistrationIssueItem("No seats available."));
+        issue.getItems().add(new RegistrationIssueItem("Time conflict with ENGL100 (10001)."));
+        form.getRegistrationIssues().add(issue);
 
         return getUIFModelAndView(form);
     }
