@@ -39,6 +39,7 @@
         <li><a class="portal_link" title="POC Search" href="${ConfigProperties.lum.application.url}/kscr-poc/index.jsp">POC Search</a></li>
         <li><a class="portal_link" title="Reg Cart" href="${ConfigProperties.lum.application.url}/registration/">Reg Cart</a></li>
         <li><a class="portal_link" title="Performance Test" href="${ConfigProperties.lum.application.url}/kr-krad/courseRegistrationKrad?viewId=CourseRegistrationKrad-FormView&methodToCall=start&hideReturnLink=true">Performance Test</a></li>
+        <li><a class="portal_link" title="Admin Registration" href="${ConfigProperties.lum.application.url}/kr-krad/adminreg?viewId=KS-AdminRegistration&methodToCall=start"">Admin Registration</a></li>
     </ul>
 </div>
 <channel:portalChannelBottom />
