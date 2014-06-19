@@ -133,8 +133,7 @@
                                                     <bean id="KSCM-CommentField" p:id="KSCM-Comment-Add"
                                                           parent="KS-Uif-InputField" p:label=""
                                                           p:readOnly="@{!#line.renderHelper.editInProgress}"
-                                                          p:propertyName="commentInfo.commentText.plain"
-                                                          p:style="padding:6px; text-indent: 1.5em; font-family: Helvetica Neue, Helvetica, Arial, sans-serif; font-size: 1em;line-height: 18px;color: #000000;">
+                                                          p:propertyName="commentInfo.commentText.plain" >
                                                         <property name="control">
                                                             <bean parent="Uif-LargeTextAreaControl" p:cols="71"/>
                                                         </property>
@@ -162,7 +161,7 @@
                                                     </property>
                                                     <property name="header">
                                                         <bean id="KSCM-CommentField-comment-header-id"
-                                                              parent="Uif-HeaderFour">
+                                                              parent="Uif-HeaderFive">
                                                             <property name="render"
                                                                       value="@{!#line.renderHelper.editInProgress}"/>
                                                             <property name="rightGroup">
