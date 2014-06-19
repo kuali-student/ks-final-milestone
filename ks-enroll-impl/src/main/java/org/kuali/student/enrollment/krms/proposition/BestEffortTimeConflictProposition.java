@@ -43,6 +43,7 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
+import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
@@ -177,9 +178,7 @@ public class BestEffortTimeConflictProposition extends BestEffortProposition {
 
 
 
-                    }/* else {
-                        successFromCart.add(regItem);
-                    }    */
+                    }
                 }
 
                 ValidationResultInfo vr = createValidationResultFailureForRegRequestItem(item, conflictCourseResults);
@@ -251,20 +250,31 @@ public class BestEffortTimeConflictProposition extends BestEffortProposition {
         }
 
         List<ScheduleInfo> scheduleInfos = schedulingService.getSchedulesByIds(scheduleIds, contextInfo);
+        List<TimeSlotInfo> timeSlots = new ArrayList<TimeSlotInfo>();
 
         Map<String, String> timeSlotIdsToScheduleIds = new LinkedHashMap<String, String>();
         List<String> timeslotIds = new ArrayList<String>();
         for (ScheduleInfo scheduleInfo: scheduleInfos) {
             for (ScheduleComponentInfo scheduleComponent: scheduleInfo.getScheduleComponents()) {
-                timeslotIds.addAll(scheduleComponent.getTimeSlotIds());
                 for (String timeSlotId: scheduleComponent.getTimeSlotIds()) {
-                    timeSlotIdsToScheduleIds.put(timeSlotId, scheduleInfo.getId());
+                    List<TimeSlotInfo> timeSlotsInfosById= schedulingService.getTimeSlotsByIds(scheduleComponent.getTimeSlotIds(), contextInfo);
+                    for(TimeSlotInfo timeSlotInfo: timeSlotsInfosById){
+                        if(!(timeSlotInfo.getTypeKey().equals(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_TBA))) {
+                            timeSlotIdsToScheduleIds.put(timeSlotId, scheduleInfo.getId());
+                            timeslotIds.add(timeSlotId);
+                            timeSlots.add(timeSlotInfo);
+
+                        } else {
+                            if(scheduleComponent.getTimeSlotIds().size() < 2){
+                                String rgId = aoIdsToRgIds.get(scheduleIdsToAoIds.get(scheduleComponent.getId()));
+                                rgIds.remove(rgId);
+                            }
+                        }
+                    }
+
                 }
             }
         }
-
-        List<TimeSlotInfo> timeSlots = new ArrayList<TimeSlotInfo>();
-        timeSlots= schedulingService.getTimeSlotsByIds(timeslotIds, contextInfo);
 
         TimeConflictDataContainer rgIdsToTimeSlots = new TimeConflictDataContainer();
 
