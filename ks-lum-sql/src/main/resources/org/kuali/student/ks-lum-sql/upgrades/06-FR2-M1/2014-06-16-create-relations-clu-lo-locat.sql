@@ -1,4 +1,4 @@
-insert into KSLU_CLU_LO_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, EFF_DT, EXPIR_DT, LO_ID, ST, TYPE, CLU_ID, OBJ_ID) values ('57fa1940-f67d-11e3-a3ac-0800200c9a66', 'admin', TIMESTAMP '2014-06-17 00:00:00', null, TIMESTAMP '2014-06-17 00:00:00', 0, null, null, '67c34a95-631c-45f7-905a-110237f9588e', 'Active', 'kuali.lu.lo.relation.type.includes', 'cde07415-fbd3-4e4e-8f07-94f7cbd3da7d', null)
+insert into KSLU_CLU_LO_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, EFF_DT, EXPIR_DT, LO_ID, ST, TYPE, CLU_ID, OBJ_ID) values ('57fa1940-f67d-11e3-a3ac-0800200c9a66', 'admin', TIMESTAMP '2014-06-17 00:00:00', null, TIMESTAMP '2014-06-17 00:00:00', 0, null, null, '3590eb21-7050-41ec-be06-f041d808a483', 'Active', 'kuali.lu.lo.relation.type.includes', 'cde07415-fbd3-4e4e-8f07-94f7cbd3da7d', null)
 /
 insert into KSLO_LO_JN_LOCATEGORY (ID, LOCATEGORY_ID, LO_ID, OBJ_ID, VER_NBR) values ('f3c12770-f677-11e3-a3ac-0800200c9a66', '007a91fa-d954-41ac-aa19-96030e538fdc', '3590eb21-7050-41ec-be06-f041d808a483', null, 0)
 /
