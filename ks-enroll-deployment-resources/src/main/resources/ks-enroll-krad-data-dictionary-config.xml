@@ -179,9 +179,10 @@
                 <value>classpath:org/kuali/student/ui/admin/lrc/ResultValuesGroupInfoAdminLookupView.xml</value>
                 <value>classpath:org/kuali/student/ui/admin/lrc/ResultValuesGroupInfoAdminInquiryView.xml</value>
 
-		<!-- registration -->
+		        <!-- registration -->
                 <value>classpath:org/kuali/student/enrollment/registration/performance/PerformanceTestView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/registration/CourseRegistrationKradView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/registration/admin/CourseRegistrationAdminView.xml</value>
 
 	    	</list>
 	    	</constructor-arg>
