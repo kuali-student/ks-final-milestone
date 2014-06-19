@@ -1030,6 +1030,12 @@ function cancelInlineRow(event){
 
     // Remove all error messages
     jQuery(row).find('.toggleable-element').each(function(){
+        //remove dirty flags from fields that are being cancelled and reset dirty field counts
+        jQuery(this).find('.dirty').each(function() {
+            jQuery(this).removeClass('dirty');
+            dirtyFormState.dirtyFieldCount--;
+        });
+
         jQuery(this).removeClass('uif-hasError');
         jQuery(this).removeAttr('data-has_messages');
         jQuery(this).removeAttr('data-validation_messages');
@@ -1159,6 +1165,12 @@ function updateInlineTableRow(event, baseUrl, data) {
         });
 
         jQuery(row).find('.toggleable-element').each(function () {
+            //remove dirty flags from fields that are being cancelled and reset dirty field counts
+            jQuery(this).find('.dirty').each(function() {
+                jQuery(this).removeClass('dirty');
+                dirtyFormState.dirtyFieldCount--;
+            });
+
             var id = jQuery(this).attr("id");
             if (id != undefined) {
                 var modelKey = getModelAttributeValue(id);
@@ -1191,7 +1203,6 @@ function updateInlineTableRow(event, baseUrl, data) {
             }
         });
         toggleInlineRow(event, false);
-        resetDirty();
     }
 }
 
