@@ -120,12 +120,8 @@ angular.module('regCartApp')
                 console.log('CartId:', cartId);
                 if (error.status === 404) {
                     //Reg group was not found
-                    console.log('111 ' + courseCode);
-                    console.log('222 ' + error.data);
                     if (error.data !='' && error.data.indexOf(courseCode) != -1) {
-                        console.log('333 ');
                         error.data = error.data.replace(courseCode, "<strong>" + courseCode + "</strong>");
-                        console.log('444 ' + error.data);
                     }
                     $scope.userMessage = {txt: error.data, type: STATUS.error};
                 } else if (error.status === 400) {
