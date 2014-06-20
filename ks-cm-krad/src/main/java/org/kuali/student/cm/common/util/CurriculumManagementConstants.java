@@ -121,6 +121,7 @@ public class CurriculumManagementConstants {
         public final static String ERROR_DATA_MULTIPLE_MATCH_FOUND = "error.cm.course.data.multiplematch";
         public final static String ERROR_OUTCOME_CREDIT_VALUE_REQUIRED = "error.cm.course.data.outcome.creditvalue.required";
         public final static String ERROR_COMMENT_DELETE = "error.cm.course.comment.delete";
+        public final static String INFO_NEW_CATEGORY_TYPE_REQUIRED = "info.new.category.type.required";
     }
 
     public static class OrganizationMessageKeys {
@@ -144,6 +145,8 @@ public class CurriculumManagementConstants {
     public final static String KS_LO_CAT_TABLE = "KS-LoCatTable";
 
     public final static String KS_MESSAGE_ICON_IMAGE_ID = "[id=Uif-KS-IconImage]";
+
+    public final static String KS_LEARNING_OBJECTIVE_SECTION_ID = "learning_objective_section_{0}";
     /**
      * This delimiter to use when rendering collections as a String.
      */

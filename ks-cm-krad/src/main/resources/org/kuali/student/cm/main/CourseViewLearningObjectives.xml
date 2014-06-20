@@ -104,6 +104,7 @@
 			</bean>
 		</property>
 		<property name="layoutManager.lineGroupPrototype.header.headerText" value="Learning Objective @{(#index + 1)}" />
+        <property name="layoutManager.lineGroupPrototype.id" value="learning_objective_section_@{#index}"/>
 		<property name="layoutManager.lineGroupPrototype.header.lowerGroup">
 			<ref bean="LearningObjectives-ToolBarSection" />
 		</property>
@@ -167,6 +168,11 @@
 					</property>
 					<property name="layoutManager.lineGroupPrototype.header.headerText"
 						value="Category @{(#index + 1)}" />
+                    <property name="addLineActions">
+                        <list>
+                            <bean parent="Uif-AddLineAction" p:actionLabel="Add" p:methodToCall="addLineCategory" p:ajaxSubmit="false" />
+                        </list>
+                    </property>
 					<property name="addLineLabel.render" value="false" />
 					<property name="items">
 						<list>
@@ -224,6 +230,22 @@
                                             <property name="toolTip">
                                                 <bean id="KS-LearningObjective-Category-Tooltip" parent="Uif-KS-Tooltip"
                                                       p:tooltipContent="Add a category to classify your learning objectives. The categories will be used for administrative analysis."/>
+                                            </property>
+                                        </bean>
+                                        <bean id="KS-LearningObjective-CategoryType" parent="KS-Uif-InputField" p:progressiveRender="@{#isAddLine and #parentLine.newCategory}" p:label="Type" p:propertyName="typeKey" p:required="true" >
+                                            <property name="control">
+                                                <bean parent="KS-Uif-DropdownControl" p:cssClasses="validLoCategory"/>
+                                            </property>
+                                            <property name="dependencyConstraints">
+                                                <list>
+                                                    <bean parent="PrerequisiteConstraint" p:propertyName="name">
+                                                        <property name="messageKey" value="error.category.and.type.required"/>
+                                                    </bean>
+                                                </list>
+                                            </property>
+                                            <property name="optionsFinder">
+                                                <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.LoCategoryInfoTypeKeyValueFinder"
+                                                    p:addBlankOption="true" />
                                             </property>
                                         </bean>
                                     </list>

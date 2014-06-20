@@ -30,6 +30,7 @@ import org.kuali.rice.kim.api.identity.name.EntityNameContract;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
+import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -44,6 +45,7 @@ import org.kuali.student.cm.course.form.CollaboratorWrapper;
 import org.kuali.student.cm.course.form.CommentWrapper;
 import org.kuali.student.cm.course.form.CourseCreateUnitsContentOwner;
 import org.kuali.student.cm.course.form.CourseInfoWrapper;
+import org.kuali.student.cm.course.form.LoCategoryInfoWrapper;
 import org.kuali.student.cm.course.form.LoDisplayInfoWrapper;
 import org.kuali.student.cm.course.form.LoDisplayWrapperModel;
 import org.kuali.student.cm.course.form.RecentlyViewedDocsUtil;
@@ -58,6 +60,8 @@ import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.util.constants.LearningObjectiveServiceConstants;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
 import org.kuali.student.r2.core.comment.service.CommentService;
@@ -76,21 +80,26 @@ import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
+import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.PropertyAccessorUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -116,6 +125,7 @@ public class CourseController extends CourseRuleEditorController {
     private CluService cluService;
     private ProposalService proposalService;
     private TypeService typeService;
+    private LearningObjectiveService learningObjectiveService;
 
     /**
      * This method creates the form and in the case of a brand new proposal where this method is called after the user uses
@@ -720,6 +730,96 @@ public class CourseController extends CourseRuleEditorController {
         return getUIFModelAndView(form);
     }
 
+    /**
+     *  This method is invoked on a AJAX call from LoCategoryType JQuery validation. Checks whether user entered category and type already exist or not.
+     * @param form     the {@link MaintenanceDocumentForm} associated with the request
+     * @param result
+     * @param request  the {@link HttpServletRequest} instance
+     * @param response the {@link HttpServletResponse} instance
+     * @return boolean  returns true if user entered category and type already exist or returns false.
+     */
+    @MethodAccessible
+    @RequestMapping(params = "methodToCall=validateNewLoCategoryAndType")
+    protected @ResponseBody boolean validateNewLoCategoryAndType(final @ModelAttribute("KualiForm") MaintenanceDocumentForm form,
+                                                  final BindingResult result,
+                                                  final HttpServletRequest request,
+                                                  final HttpServletResponse response) {
+        LOG.info("Check whether new LO category and type already exist");
+        String categoryName = request.getParameter("categoryName");
+        String categoryType = request.getParameter("categoryType");
+        boolean isCategoryAlreadyExist = false;
+
+        if (StringUtils.isNotBlank(categoryName)) {
+            categoryName = categoryName.split("-")[0].trim();
+            List<LoCategoryInfoWrapper> loCategoryInfoWrapper = ((CourseInfoMaintainable) form.getDocument().getNewMaintainableObject()).searchForLoCategories(categoryName);
+            if (loCategoryInfoWrapper != null && !loCategoryInfoWrapper.isEmpty()) {
+                //Check against the each existing category and its type
+                for (LoCategoryInfoWrapper loCategoryInfoWrap : loCategoryInfoWrapper) {
+                    if (loCategoryInfoWrap.getName().equals(categoryName) && loCategoryInfoWrap.getTypeKey().equals(categoryType)) {
+                        isCategoryAlreadyExist = true;
+                        break;
+                    }
+                }
+            }
+        }
+        return isCategoryAlreadyExist;
+    }
+
+    /**
+     *  Invoked to add category to the collections. Category can either be existing or new.
+     *  <p>Check whether the category is new or existing
+     *  if a new Category is entered,
+     *      display the type dropdown and info message. Then get the user entered type and add it to collection.
+     *  if a existing category is entered, simply add it to the collections.</p>
+     * @param form     the {@link MaintenanceDocumentForm} associated with the request
+     *
+     *  Note: This validation is performed in controller since the default addLine method call for StackedCollection > Sub-collection
+     *        is not retaining the category value during the server side validation.
+     * @param result
+     * @param request  the {@link HttpServletRequest} instance
+     * @param response the {@link HttpServletResponse} instance
+     * @return ModelAndView .
+     */
+    @SuppressWarnings("deprecation")
+    @RequestMapping(params = "methodToCall=addLineCategory")
+    public ModelAndView addLineCategory(final @ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
+                                                   HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        LoDisplayInfoWrapper loDisplayInfoWrapper = null;
+        Map<String, Object> newCollectionLines = form.getNewCollectionLines();
+        String collectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
+
+        //Get the parent object of LoCategoryInfo to identify whether the category is new or existing.
+        int lastSepIndex = PropertyAccessorUtils.getLastNestedPropertySeparatorIndex(collectionPath);
+        if (lastSepIndex != -1) {
+            String collectionParentPath = collectionPath.substring(0, lastSepIndex);
+            loDisplayInfoWrapper = (LoDisplayInfoWrapper) ObjectPropertyUtils.getPropertyValue(form, collectionParentPath);
+        }
+
+        if (newCollectionLines != null && !newCollectionLines.isEmpty()) {
+            LoCategoryInfo loInfo = (LoCategoryInfo)newCollectionLines.get(collectionPath.replace('[','_').replace(']','_'));
+            if (StringUtils.isNotBlank(loInfo.getName())) {
+                String categoryName = loInfo.getName().split("-")[0].trim();
+                if (loDisplayInfoWrapper.isNewCategory()) {
+                    TypeInfo typeInfo = getLearningObjectiveService().getLoCategoryType(loInfo.getTypeKey(), ContextUtils.createDefaultContextInfo());
+                    loInfo.setName((new StringBuilder().append(loInfo.getName()).append(" - ").append(typeInfo.getName()).toString()));
+                    loDisplayInfoWrapper.setNewCategory(false);
+                    return super.addLine(form, result, request, response);
+                } else {
+                    List<LoCategoryInfoWrapper> loCategoryInfoWrapper = ((CourseInfoMaintainable) form.getDocument().getNewMaintainableObject()).searchForLoCategories(categoryName);
+                    if (loCategoryInfoWrapper != null && !loCategoryInfoWrapper.isEmpty()) {
+                        return super.addLine(form, result, request, response);
+                    } else {
+                        GlobalVariables.getMessageMap().putInfoForSectionId(MessageFormat.format(
+                                CurriculumManagementConstants.KS_LEARNING_OBJECTIVE_SECTION_ID, collectionPath.charAt(lastSepIndex - 2)),
+                                CurriculumManagementConstants.MessageKeys.INFO_NEW_CATEGORY_TYPE_REQUIRED, loInfo.getName());
+                        loDisplayInfoWrapper.setNewCategory(true);
+                    }
+                }
+            }
+        }
+        return getUIFModelAndView(form);
+    }
 
     /**
      * Lookup Organization by subject area and organization id
@@ -898,5 +998,13 @@ public class CourseController extends CourseRuleEditorController {
         }
 
         return typeService;
+    }
+
+    protected LearningObjectiveService getLearningObjectiveService() {
+        if (learningObjectiveService == null) {
+            learningObjectiveService = GlobalResourceLoader.getService(new QName(
+                    LearningObjectiveServiceConstants.NAMESPACE, LearningObjectiveService.class.getSimpleName()));
+        }
+        return learningObjectiveService;
     }
 }
