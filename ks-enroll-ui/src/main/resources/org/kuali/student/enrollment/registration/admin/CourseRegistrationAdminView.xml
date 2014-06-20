@@ -100,7 +100,8 @@
         </property>
     </bean>
 
-    <bean id="KS-AdminRegistration-RegisteredTab" parent="Uif-VerticalBoxSection" p:headerText="Registered (@{registeredCredits}) / Waitlist (@{waitlistedCredits})">
+    <bean id="KS-AdminRegistration-RegisteredTab" parent="Uif-VerticalBoxSection"
+          p:headerText="Registered (@{registeredCredits}) / Waitlist (@{waitlistedCredits})">
         <property name="header.render" value="false"/>
         <property name="items">
             <list>
@@ -154,17 +155,20 @@
                     <property name="collectionObjectClass"
                               value="org.kuali.student.enrollment.class2.registration.admin.form.KSRegistrationIssue"/>
                     <property name="propertyName" value="registrationIssues"/>
+                    <property name="layoutManager.richTable.render" value="false"/>
+                    <property name="layoutManager.renderSequenceField" value="false"/>
+                    <property name="renderAddLine" value="false"/>
                     <property name="lineActions">
                         <list>
                             <bean parent="Uif-PrimaryActionButton" p:actionLabel="Allow" p:methodToCall="allowCourse"/>
                             <bean parent="Uif-SecondaryActionButton" p:actionLabel="Deny" p:methodToCall="denyCourse"/>
                         </list>
                     </property>
-                    <property name="renderAddLine" value="false"/>
                     <property name="items">
                         <list>
                             <bean parent="Uif-DataField" p:propertyName="course.course" p:label="Registration Issues"/>
-                            <bean parent="Uif-DataField" p:propertyName="message"/>
+                            <bean parent="Uif-DataField" p:propertyName="itemDescriptions"
+                                  p:readOnlyListDisplayType="BREAK"/>
                         </list>
                     </property>
                 </bean>
@@ -223,11 +227,11 @@
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-MessageField" p:label="Course (Section)"
-                                            p:messageText="[b]@{#line.course} (@{#line.section})[/b]"/>
+                                              p:messageText="[b]@{#line.course} (@{#line.section})[/b]"/>
                                         <bean parent="Uif-DataField" p:propertyName="activityTypes"
-                                            p:readOnlyListDisplayType="BREAK"/>
+                                              p:readOnlyListDisplayType="BREAK"/>
                                         <bean parent="Uif-DataField" p:propertyName="activityDateTimes"
-                                            p:readOnlyListDisplayType="BREAK"/>
+                                              p:readOnlyListDisplayType="BREAK"/>
                                     </list>
                                 </property>
                             </bean>
@@ -259,28 +263,50 @@
 
     <bean id="KS-AdminRegistration-HistoryTab" parent="Uif-VerticalBoxSection" p:headerText="Registration History">
         <property name="header.render" value="false"/>
-            <property name="items">
-                <list>
+        <property name="items">
+            <list>
 
-                    <bean id="KS-AdminRegistration-RegisteredTab" parent="Uif-VerticalBoxSection">
-                        <property name="header.render" value="false"/>
-                        <property name="items">
-                            <list>
-                                <bean parent="KS-AdminRegistration-HistoryCourseCollection" p:propertyName="registeredCourses">
-                                    <property name="headerText" value="Courses"/>
-                                </bean>
-                                <bean parent="KS-AdminRegistration-HistoryTransactionCollection" p:propertyName="waitlistedCourses">
-                                    <property name="headerText" value="Transactions"/>
-                                </bean>
-                            </list>
-                        </property>
-                    </bean>
+                <bean id="KS-AdminRegistration-HistoryTabs" parent="Uif-TabSection">
+                    <property name="header.render" value="false"/>
+                    <property name="items">
+                        <list>
 
-                </list>
-            </property>
+                            <bean id="KS-AdminRegistration-HistoryCoursesTab" parent="Uif-VerticalBoxSection"
+                                  p:headerText="Courses">
+                                <property name="header.render" value="false"/>
+                                <property name="items">
+                                    <list>
+                                        <bean parent="KS-AdminRegistration-HistoryCourseCollection"
+                                              p:propertyName="registeredCourses">
+                                            <property name="headerText" value="Courses"/>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+
+                            <bean id="KS-AdminRegistration-HistoryTransactionsTab" parent="Uif-VerticalBoxSection"
+                                  p:headerText="Transactions">
+                                <property name="header.render" value="false"/>
+                                <property name="items">
+                                    <list>
+                                        <bean parent="KS-AdminRegistration-HistoryTransactionCollection"
+                                              p:propertyName="waitlistedCourses">
+                                            <property name="headerText" value="Transactions"/>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+
+                        </list>
+                    </property>
+                </bean>
+
+            </list>
+        </property>
     </bean>
 
-    <bean id="KS-AdminRegistration-HistoryCourseCollection" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="10">
+    <bean id="KS-AdminRegistration-HistoryCourseCollection" parent="Uif-TableCollectionSection"
+          p:layoutManager.numberOfColumns="10">
 
         <property name="collectionObjectClass"
                   value="org.kuali.student.enrollment.class2.registration.admin.form.KSWorkshopCourse"/>
@@ -305,7 +331,8 @@
         </property>
     </bean>
 
-    <bean id="KS-AdminRegistration-HistoryTransactionCollection" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="10">
+    <bean id="KS-AdminRegistration-HistoryTransactionCollection" parent="Uif-TableCollectionSection"
+          p:layoutManager.numberOfColumns="10">
 
         <property name="collectionObjectClass"
                   value="org.kuali.student.enrollment.class2.registration.admin.form.KSWorkshopCourse"/>

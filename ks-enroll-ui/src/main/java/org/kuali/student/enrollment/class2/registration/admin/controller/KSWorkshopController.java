@@ -67,6 +67,7 @@ public class KSWorkshopController extends UifControllerBase {
         }
 
         KSRegistrationIssue issue = new KSRegistrationIssue();
+        issue.setCourse(form.getRegisteredCourses().get(0));
         issue.getItems().add(new RegistrationIssueItem("No seats available."));
         issue.getItems().add(new RegistrationIssueItem("Time conflict with ENGL100 (10001)."));
         form.getRegistrationIssues().add(issue);

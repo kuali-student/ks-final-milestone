@@ -43,4 +43,17 @@ public class KSRegistrationIssue {
         this.items = items;
     }
 
+    public List<String> getItemDescriptions(){
+        ArrayList<String> list = new ArrayList<String>();
+        if(items==null){
+            return list;
+        }
+
+        for (RegistrationIssueItem item: items) {
+            list.add(item.getDescription());
+        }
+
+        return list;
+    }
+
 }
