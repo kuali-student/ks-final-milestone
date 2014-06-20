@@ -66,7 +66,7 @@ angular.module('regCartApp').filter('formatValidationMessage', ['VALIDATION_ERRO
 
         // Case 1: Check for a courseCode included at the root level
         if (data.courseCode) {
-            conflicts.push({id: data.id, courseCode: data.courseCode});
+            conflicts.push({masterLprId: data.masterLprId, courseCode: data.courseCode});
         }
 
         // Case 2: Check for an array of conflictingCourses
@@ -78,19 +78,28 @@ angular.module('regCartApp').filter('formatValidationMessage', ['VALIDATION_ERRO
 
         // Parse the identified codes
         if (conflicts.length) {
-            var currentCourse = (course && course.id) ? course.id : null,
+            var currentCourseId = null,
                 codes = [],
                 includedIds = [];
 
+            if (course) {
+                // Try to get the id of the current course so we can can avoid including it in the conflicting list
+                if (angular.isDefined(course.cartItemId)) {
+                    currentCourseId = course.cartItemId; // In cart
+                } else if (angular.isDefined(course.masterLprId)) {
+                    currentCourseId = course.masterLprId;
+                }
+            }
+
             for (var i = 0; i < conflicts.length; i++) {
-                if (conflicts[i].id) {
+                if (conflicts[i].masterLprId) {
                     // Don't include courses that match the current course (conflicts w/ itself)
                     // & only include them once
-                    if (conflicts[i].id === currentCourse || includedIds.indexOf(conflicts[i].id) >= 0) {
+                    if (conflicts[i].masterLprId === currentCourseId || includedIds.indexOf(conflicts[i].masterLprId) >= 0) {
                         continue;
                     }
 
-                    includedIds.push(conflicts[i].id);
+                    includedIds.push(conflicts[i].masterLprId);
                 }
 
                 if (conflicts[i].courseCode) {
