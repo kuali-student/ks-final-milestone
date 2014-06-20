@@ -874,14 +874,39 @@ function hideName() {
 
 function setCommentEditFieldFocus() {
 
-    if (jQuery('#Comment_list_Header').length > 0) {
+    if (jQuery('#Comment_list_Header') != null && jQuery('#Comment_list_Header').length > 0) {
         var lpos = jQuery('#Comment_list_Header').text().trim().indexOf("(") + 1;
         var rpos = jQuery('#Comment_list_Header').text().trim().indexOf(")");
 
         var total = jQuery('#Comment_list_Header').text().trim().substr(lpos, rpos - lpos);
         for (i = 0; i < total; i++) {
-            if (jQuery('#KSCM-Comment-Add_line' + i + '_control').length > 0) {
+            if (jQuery('#KSCM-Comment-Add_line' + i + '_control').length > 0 && jQuery('#KSCM-Comment-Add_line' + i + '_control').attr('readonly') != "readonly") {
                 jQuery('#KSCM-Comment-Add_line' + i + '_control').focus();
+            }
+        }
+    }
+}
+
+function setReadonlyTextWidthForComment() {
+    if (jQuery('#KSCM-NewCommentField_control') != null) {
+        var editAreaWidth = jQuery('#KSCM-NewCommentField_control').width();
+    }
+
+    if (jQuery('#Comment_list_Header') != null && jQuery('#Comment_list_Header').length > 0) {
+        var lpos = jQuery('#Comment_list_Header').text().trim().indexOf("(") + 1;
+        var rpos = jQuery('#Comment_list_Header').text().trim().indexOf(")");
+
+        var total = jQuery('#Comment_list_Header').text().trim().substr(lpos, rpos - lpos);
+        for (i = 0; i < total; i++) {
+            if (jQuery('#KSCM-Comment-Add_line' + i).length > 0) {
+                if (jQuery('#KSCM-Comment-Add_line' + i + '_control').attr('readonly') == "readonly") {
+                    var width = jQuery('#KSCM-CommentField-comment-header-id_line' + i).width();
+                    if (width < 1) {
+                        width = 580;
+                        /* set the default value */
+                    }
+                    jQuery('#KSCM-Comment-Add_line' + i + '_control').width(width);
+                }
             }
         }
     }
@@ -896,8 +921,8 @@ jQuery.validator.addMethod("validLoCategory",
 function validateNewLoCategoryAndType(value, element) {
     var isValid = false;
     var loCategoryName = element.id;
-    loCategoryName = loCategoryName.replace('KS-LearningObjective-CategoryType','KS-LearningObjective-Category');
-    if (jQuery('#' +loCategoryName).val() != '' && value != '') {
+    loCategoryName = loCategoryName.replace('KS-LearningObjective-CategoryType', 'KS-LearningObjective-Category');
+    if (jQuery('#' + loCategoryName).val() != '' && value != '') {
         var successFunction = function (data) {
             isValid = data;
         };

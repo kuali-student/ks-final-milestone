@@ -21,7 +21,7 @@
 }
 
 h3.uif-headerText a {
-  font-size: 1.3em;
+    font-size: 1.3em;
 }
 
 .ks-cm-page-header {
@@ -94,20 +94,20 @@ h3.uif-headerText a {
     white-space: nowrap;
 }
 
-.ks-cm-find-course .uif-inputField input[type="text"]{
-    height : 28px;
+.ks-cm-find-course .uif-inputField input[type="text"] {
+    height: 28px;
 }
 
-.ks-cm-course-instructor .uif-tableCollectionLayout input[type="text"]{
-  width : 300px;
+.ks-cm-course-instructor .uif-tableCollectionLayout input[type="text"] {
+    width: 300px;
 }
 
-.ks-cm-reviewproposal-validation-spacing{
-  padding-top:25px;
+.ks-cm-reviewproposal-validation-spacing {
+    padding-top: 25px;
 }
 
-.ks-cm-reviewproposal-validation{
-  padding-top:15px;
+.ks-cm-reviewproposal-validation {
+    padding-top: 15px;
 }
 
 /* end */
@@ -281,21 +281,23 @@ h3.uif-headerText a {
  */
 /* Position validation message h3 */
 .uif-pageValidationHeader {
-  margin: 0 !important;
-  padding: 8px 0 0 8px;
+    margin: 0 !important;
+    padding: 8px 0 0 8px;
 }
 
 /* Position the contents of the yellow bars */
 .uif-validationMessages.uif-groupValidationMessages.uif-pageValidationMessages-warning.ks-subSection {
-  background-position: 8px 12px;
-  width: 100%;
-  padding: 5px;
+    background-position: 8px 12px;
+    width: 100%;
+    padding: 5px;
 }
+
 .uif-validationMessages.uif-groupValidationMessages.uif-pageValidationMessages-warning.ks-subSection a {
-  box-shadow: none;
+    box-shadow: none;
 }
+
 .uif-validationMessages.uif-groupValidationMessages.uif-pageValidationMessages-warning.ks-subSection p {
-  margin: 7px  5px 8px 30px;
+    margin: 7px 5px 8px 30px;
 }
 
 #KS-CourseView-AdminMessageGroup {
@@ -308,40 +310,49 @@ h3.uif-headerText a {
 }
 
 .uif-stackedCollectionSection .uif-headerText {
-  background:none;
+    background: none;
 }
 
-section.uif-disclosure .uif-headerText{
-  background: none;
+section.uif-disclosure .uif-headerText {
+    background: none;
 }
 
 section.uif-disclosure {
-  border: none;
+    border: none;
 }
 
 section.uif-disclosure .uif-headerText .uif-headerText-span [class*='icon-caret-'] {
-  border-right : none;
-  padding : 0px;
+    border-right: none;
+    padding: 0px;
 }
 
 /*  The required message text on course details */
-.cm_requiredMessage_text > .uif-requiredMessage {
-    color: #ABABAB;
-    font-style: italic;
-    font-size: 13px;
-    font-weight: normal;
-    margin: 0;
+.cm_requiredMessage_text > .uif-requiredMessage
+
+{
+    color: #ABABAB
+;
+    font-style: italic
+;
+    font-size: 13px
+;
+    font-weight: normal
+;
+    margin: 0
+;
 }
 
- /*  Allow the required message to in the rightGroup to align adjacent to the label text */
-.cm_requiredMessage_text > div {
+/*  Allow the required message to in the rightGroup to align adjacent to the label text */
+.cm_requiredMessage_text >
+
+div {
     float: left;
     margin-right: 5px;
 }
 
- /* Makes the required indicator in Uif-KS-IconLabelMessage aka labels which contain an (i) icon not wrap. */
+/* Makes the required indicator in Uif-KS-IconLabelMessage aka labels which contain an (i) icon not wrap. */
 label > div.uif-message {
-  display: inline;
+    display: inline;
 }
 
 /**
@@ -351,23 +362,22 @@ label > div.uif-message {
 a[id *= "LearningObjectives-Icon-"],
 a[id *= "LearningObjectives-Icon-"]:focus,
 a[id *= "LearningObjectives-Icon-"]:hover {
-  text-decoration: none;
-  outline: none;
-  color: @iconColor;
+    text-decoration: none;
+    outline: none;
+    color: @iconColor;
 }
 
 /* Float the delete icon to the right */
 [id *= "LearningObjectives-Container-DeleteIcon"] {
-  float: right;
+    float: right;
 }
 
 /* Icon containers shouldn't wrap */
 [id*=LearningObjectives-ToolBarSection] div {
-  clear: none;
+    clear: none;
 }
 
 /*  End Learning Objectives widget styling */
-
 
 /* Review section styling */
 
@@ -455,14 +465,16 @@ a[id *= "LearningObjectives-Icon-"]:hover {
     margin-left: 1em;
 }
 
-.course_format_line_header {
-    margin-top: 10px;
-    margin-left: 5px;
-    border-bottom: 1px dotted gray;
+.comment_format_text {
+    word-break: break-word;
+    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+    font-size: 1em;
+    line-height: 18px;
+    color: #000000;
 }
 
 .ks-stackedcollection-table-outcome {
-    margin-top:-9px;
+    margin-top: -9px;
 }
 
 [id^="course_format_activities_table_line"] td:nth-child(4) {
@@ -524,90 +536,94 @@ a[id *= "LearningObjectives-Icon-"]:hover {
 
 /* End */
 
-
-
 /*
- * TODO: KSCM-2058 This section contains workarounds for breakage that come in with the Rice 2.4 upgrade. The KRAD team
- * is probably going to replace the jQuery tab implementation with the one from Bootstrap. When that happens the left nav
- * panel will need to be completely reworked.
- */
+* TODO: KSCM-2058 This section contains workarounds for breakage that come in with the Rice 2.4 upgrade. The KRAD team
+* is probably going to replace the jQuery tab implementation with the one from Bootstrap. When that happens the left nav
+* panel will need to be completely reworked.
+*/
 /*
  *   Create Course tab styling
  */
 
+#course_tabs_tabs {
+/* The background hides the TabGroup Header when it's position: fixed; */
+    background: none;
 
-#course_tabs_tabs{
- /* The background hides the TabGroup Header when it's position: fixed; */
-  background: none;
-
-    /* Remove the bottom border of the nav ul */
+/* Remove the bottom border of the nav ul */
     .nav-tabs {
-      border-bottom: 0px solid #dddddd;
+        border-bottom: 0px solid #dddddd;
     }
 
-    .nav-tabs > li > a {
-        border-radius: 5px 0px 0px 5px;
-    }
+    .nav-tabs >
 
-    /* Get rid of the focus outline on the active tab item. */
-    .nav-tabs > li.active > a,
-    .nav-tabs > li.active > a:hover,
-    .nav-tabs > li.active > a:focus {
-        outline: 0px;
-    }
-
-    /* Darkens the top item's top border */
-    .nav-tabs li:first-child {
-        border-top: 1px solid #888888;
-    }
-
-    .nav-tabs > li {
-        border: 1px solid #888888;
-         padding-right: 0;
-    }
-
-    .nav-tabs li {
-        /* Make the left corners round and the right ones square*/
-        .border-radius-individual(5px, 0, 0, 5px);
-    }
-
-    .nav-tabs li a {
-        width: 100%; /* Make the action links in the tab panel extend all the way across */
-        color: #000000;
-        padding-top: 6px;
-        padding-right: 0;
-        padding-bottom: 6px;
-        padding-left: 15px;
-
-        /* Make the left corners round and the right ones square*/
-        .border-radius-individual(5px, 0, 0, 5px);
-    }
-
-    a {
-        cursor: pointer;
-        box-shadow: none;
-    }
-
-    /*#course_tabs_tabs .ui-tabs-panel {*/
-     > div {
-        border: 0; /* Remove the border/line from the top of the sections */
-
-        padding: 1em !important;
-        float: right;
-        width: 70em;
-    }
-
-    /* Validations icons on the tab items need to float right. */
-    .uif-validationImage {
-        float: right;
-        padding-right: 5px;
-    }
-
-    /* Make the grid layout tables enclose their contents (e.g. other tables, the formats widgets). */
-     table.uif-gridLayout {
-        display: inherit;
-    }
+li > a {
+    border-radius: 5px 0px 0px 5px;
 }
+
+/* Get rid of the focus outline on the active tab item. */
+.nav-tabs >
+
+li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus {
+    outline: 0px;
+}
+
+/* Darkens the top item's top border */
+.nav-tabs li:first-child {
+    border-top: 1px solid #888888;
+}
+
+.nav-tabs >
+
+li {
+    border: 1px solid #888888;
+    padding-right: 0;
+}
+
+.nav-tabs li {
+/* Make the left corners round and the right ones square*/
+    .border-radius-individual(5px, 0, 0, 5px);
+}
+
+.nav-tabs li a {
+    width: 100%; /* Make the action links in the tab panel extend all the way across */
+    color: #000000;
+    padding-top: 6px;
+    padding-right: 0;
+    padding-bottom: 6px;
+    padding-left: 15px;
+
+/* Make the left corners round and the right ones square*/
+    .border-radius-individual(5px, 0, 0, 5px);
+}
+
+a {
+    cursor: pointer;
+    box-shadow: none;
+}
+
+/*#course_tabs_tabs .ui-tabs-panel {*/
+> div {
+    border: 0; /* Remove the border/line from the top of the sections */
+
+    padding: 1em !important;
+    float: right;
+    width: 70em;
+}
+
+/* Validations icons on the tab items need to float right. */
+.uif-validationImage {
+    float: right;
+    padding-right: 5px;
+}
+
+/* Make the grid layout tables enclose their contents (e.g. other tables, the formats widgets). */
+table.uif-gridLayout {
+    display: inherit;
+}
+
+    }
 
 .ui-tabs-vertical-left .nav-tabs {
     width: 15em;
@@ -618,7 +634,9 @@ a[id *= "LearningObjectives-Icon-"]:hover {
 }
 
 /* .ui-tabs-vertical-left .ui-tabs-panel { */
-.ui-tabs-vertical-left > div {
+.ui-tabs-vertical-left >
+
+div {
     clear: none !important;
 }
 
@@ -633,29 +651,31 @@ a[id *= "LearningObjectives-Icon-"]:hover {
 }
 
 /* .ui-tabs-vertical .ui-tabs-panel { */
-.ui-tabs-vertical > div {
+.ui-tabs-vertical >
+
+div {
     width: 67em;
 }
 
 /* .ui-tabs-vertical-left .ui-tabs-nav li { */
 .ui-tabs-vertical-left .nav-tabs li {
-  clear: left;
-  width: 100%;
-  border-bottom-width: 1px;
-  border-bottom: 1px solid #888888 !important;
-  border-right-width: 0px !important;
-  border-top-width: 0px;
-  border-left-width: 1px;
-  margin: 0px;
+    clear: left;
+    width: 100%;
+    border-bottom-width: 1px;
+    border-bottom: 1px solid #888888 !important;
+    border-right-width: 0px !important;
+    border-top-width: 0px;
+    border-left-width: 1px;
+    margin: 0px;
 
-  .border-radius-individual(5px, 0, 0, 5px);
+    .border-radius-individual(5px, 0, 0, 5px);
 }
 
 .ui-tabs-vertical-left .nav-tabs li.active a {
-  padding-bottom: 0;
-  padding-right: .1em;
-  border-right-width: 0px;
-  border-top: 0px;
+    padding-bottom: 0;
+    padding-right: .1em;
+    border-right-width: 0px;
+    border-top: 0px;
 }
 
 /* The words at the top of the tab panel */
@@ -697,16 +717,16 @@ a[id *= "LearningObjectives-Icon-"]:hover {
  */
 
 /* styling for supportTitle with header KSCM-2069 */
-#KS-CourseView-Header{
+#KS-CourseView-Header {
     padding-left: 4px;
 }
 
-.cm-StickyHeader-links{
+.cm-StickyHeader-links {
     padding-left: 6px;
 }
 
 .course_tabs_header_text {
-   padding-left: 6px;
+    padding-left: 6px;
 }
 
 #review_proposal_ReviewErrorMessageActionLink {
@@ -715,56 +735,55 @@ a[id *= "LearningObjectives-Icon-"]:hover {
     box-shadow: none;
 }
 
-
 #review_proposal_details-grid .table-condensed thead>tr>th,
 #review_proposal_details-grid .table-condensed tbody>tr>th,
 #review_proposal_details-grid .table-condensed tfoot>tr>th,
 #review_proposal_details-grid .table-condensed thead>tr>td,
 #review_proposal_details-grid .table-condensed tbody>tr>td,
 #review_proposal_details-grid .table-condensed tfoot>tr>td {
-  padding: 1px;
+    padding: 1px;
 }
 
-.lo_lightbox_name{
-  margin-top: 17px;
+.lo_lightbox_name {
+    margin-top: 17px;
 }
 
 #comments-StackedSection {
-  .uif-collectionItem.uif-boxCollectionItem,
-  .uif-collectionItem.uif-boxCollectionItem {
-    border: 1px solid;
-    border-color: #D3D3D3;
-  }
-  .uif-headerText {
-    font-size:18px;
-    padding:6px;
-  }
+    .uif-collectionItem.uif-boxCollectionItem,
+    .uif-collectionItem.uif-boxCollectionItem {
+        border: 1px solid;
+        border-color: #D3D3D3;
+    }
+    .uif-headerText {
+        font-size: 18px;
+        padding: 6px;
+    }
 }
 
-#AuthorsAndCollaborators-Review-section table.uif-gridLayout th[scope="row"] label{
-  padding-top : 8px;
+#AuthorsAndCollaborators-Review-section table.uif-gridLayout th[scope="row"] label {
+    padding-top: 8px;
 }
 
 #course_review_authors_and_collaborators_details table.uif-gridLayout th[scope="row"] {
-  width:100px;
+    width: 100px;
 }
 
 #course_review_authors_and_collaborators_details {
-  margin-left : 20px;
+    margin-left: 20px;
 }
 
 [id^="KSCM-Comment-Add_"] > textarea {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 1em;
-  line-height: 18px;
-  color: #000000;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1em;
+    line-height: 18px;
+    color: #000000;
 }
 
 [id^="KSCM-Comment-Add_"] > pre {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 1em;
-  line-height: 18px;
-  color: #000000;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1em;
+    line-height: 18px;
+    color: #000000;
 }
 
 #KSCM-CloseCommentDeleteUndoInfo {
