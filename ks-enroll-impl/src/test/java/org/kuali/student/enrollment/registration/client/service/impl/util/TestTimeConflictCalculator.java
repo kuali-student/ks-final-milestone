@@ -40,14 +40,6 @@ import static org.junit.Assert.assertTrue;
  */
 
 public class TestTimeConflictCalculator {
-
-
-    public static final String CHEM_135_A_LEC = "CHEM-135-A-Lec";
-    public static final String CHEM_137_A_LEC = "CHEM-137-A-Lec";
-    public static final String REG_REQ_ID_CHEM135_1 = "RegReqId-CHEM135-1";
-    public static final String CHEM_135_A_LAB = "CHEM-135-A-Lab";
-    public static final String REG_REQ_ID_CHEM137_2 = "RegReqId-CHEM137-2";
-
     public static final String MON_WED_FRI = "MWF";
     public static final String MON_WED = "MW";
     public static final String TUE_THU = "TH";
@@ -55,39 +47,48 @@ public class TestTimeConflictCalculator {
     public static final String TUE = "T";
     public static final String FRI = "F";
 
-    public static final String TIME_10AM = "10:00";
     public static final String TIME_9_AM = "09:00";
-    public static final String TIME_NOON = "12:00";
-    public static final String TIME_10_50AM = "10:50";
-    public static final String TIME_12_50PM = "12:50";
-    public static final String TIME_4_50PM = "16:50";
-    public static final String TIME_9_50AM = "09:50";
     public static final String TIME_9_30AM = "09:30";
+    public static final String TIME_9_50AM = "09:50";
+    public static final String TIME_10AM = "10:00";
     public static final String TIME_10_20AM = "10:20";
+    public static final String TIME_10_50AM = "10:50";
+    public static final String TIME_NOON = "12:00";
     public static final String TIME_12_30PM = "12:30";
+    public static final String TIME_12_50PM = "12:50";
     public static final String TIME_1_45PM = "13:45";
     public static final String TIME_2_PM = "14:00";
+    public static final String TIME_4_50PM = "16:50";
 
+    public static final String REG_REQ_ID_BSCI105_1 = "RegReqId-BSCI105-1";
+    public static final String REG_REQ_ID_BSCI120_1 = "RegReqId-BSCI120-1";
+    public static final String REG_REQ_ID_CHEM135_1 = "RegReqId-CHEM135-1";
+    public static final String REG_REQ_ID_CHEM135_2 = "RegReqId-CHEM135-2";
+    public static final String REG_REQ_ID_CHEM137_2 = "RegReqId-CHEM137-2";
+    public static final String REG_REQ_ID_ENGL101_1 = "RegReqId-ENGL101-1";
+    public static final String REG_REQ_ID_ENGL101_2 = "RegReqId-ENGL101-2";
     public static final String REG_REQ_ID_ENGL201_1 = "RegReqId-ENGL201-1";
+    public static final String REG_REQ_ID_ENGL202_1 = "RegReqId-ENGL202-1";
+    public static final String REG_REQ_ID_ENGL206_1 = "RegReqId-ENGL206-1";
+    public static final String REG_REQ_ID_ENGL212_1 = "RegReqId-ENGL212-1";
+
     public static final String BSCI105_LAB = "BSCI105-Lab";
     public static final String BSCI105_LEC = "BSCI105-Lec";
-    public static final String REG_REQ_ID_BSCI105_1 = "RegReqId-BSCI105-1";
-    public static final String ENGL201_LEC = "ENGL201-Lec";
-    public static final String REG_REQ_ID_BSCI120_1 = "RegReqId-BSCI120-1";
+
     public static final String BSCI120_LEC = "BSCI120-Lec";
     public static final String BSCI120_LAB = "BSCI120-Lab";
-    public static final String REG_REQ_ID_ENGL101_1 = "RegReqId-ENGL101-1";
-    public static final String ENGL101_LEC = "ENGL101-Lec";
-    public static final String REG_REQ_ID_CHEM135_2 = "RegReqId-CHEM135-2";
-    public static final String REG_REQ_ID_ENGL101_2 = "RegReqId-ENGL101-2";
-    public static final String ENGL_101_A_LEC = "ENGL-101-A-Lec";
 
-    public static final String ENGL212_LEC = "ENGL212-Lec";
-    public static final String REG_REQ_ID_ENGL206_1 = "RegReqId-ENGL206-1";
-    public static final String ENGL206_LEC = "ENGL206-Lec";
-    public static final String REG_REQ_ID_ENGL202_1 = "RegReqId-ENGL202-1";
+    public static final String CHEM_135_A_LEC = "CHEM-135-A-Lec";
+    public static final String CHEM_135_A_LAB = "CHEM-135-A-Lab";
+    public static final String CHEM_137_A_LEC = "CHEM-137-A-Lec";
+
+    public static final String ENGL101_LEC = "ENGL101-Lec";
+    public static final String ENGL_101_A_LEC = "ENGL-101-A-Lec";
+    public static final String ENGL201_LEC = "ENGL201-Lec";
+
     public static final String ENGL202_LEC = "ENGL202-Lec";
-    public static final String REG_REQ_ID_ENGL212_1 = "RegReqId-ENGL212-1";
+    public static final String ENGL206_LEC = "ENGL206-Lec";
+    public static final String ENGL212_LEC = "ENGL212-Lec";
 
     @Test
     public void testTimeConflictCaculator_New_and_existing() throws Exception {
