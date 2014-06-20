@@ -111,6 +111,16 @@
         display: block; // show the term label selector in large format only
     }
 
+    #kscr-CartHeading {
+        // Disable the stickiness of the main heading in large format
+        & .util-sticky-placeholder {
+            display: none;
+        }
+        & .kscr-MainHeading-CartHeading {
+            .util-sticky--disabled();
+        }
+    }
+
     .kscr-MainHeading-header {
         text-align: left;
     }

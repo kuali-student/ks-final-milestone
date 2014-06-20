@@ -5,6 +5,7 @@
 
     &--stuck {
         position: fixed;
+        top: 0;
         width: 100%;
         z-index: 10000;
     }
@@ -13,4 +14,13 @@
         content: "";
         width: 100%;
     }
+}
+
+
+// Override class to disable the sticky via CSS
+.util-sticky--disabled(@topOffset: 0px) {
+    position: relative !important;
+    top: @topOffset !important;
+    width: auto !important;
+    z-index: auto !important;
 }
