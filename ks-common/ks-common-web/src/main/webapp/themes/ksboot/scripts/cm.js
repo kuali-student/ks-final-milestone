@@ -886,3 +886,40 @@ function setCommentEditFieldFocus() {
         }
     }
 }
+
+jQuery.validator.addMethod("validLoCategory",
+    function (value, element) {
+        return this.optional(element) || validateNewLoCategoryAndType(value, element);
+    }, "The category matches more than one type. Please select the correct type below.")
+
+
+function validateNewLoCategoryAndType(value, element) {
+    var isValid = false;
+    var loCategoryName = element.id;
+    loCategoryName = loCategoryName.replace('KS-LearningObjective-CategoryType','KS-LearningObjective-Category');
+    if (jQuery('#' +loCategoryName).val() != '' && value != '') {
+        var successFunction = function (data) {
+            isValid = data;
+        };
+
+        var queryData = {};
+        queryData.methodToCall = 'validateNewLoCategoryAndType';
+        queryData.ajaxRequest = true;
+        queryData.ajaxReturnType = 'update-none';
+        queryData.formKey = jQuery("input[name='" + kradVariables.FORM_KEY + "']").val();
+        queryData.categoryName = jQuery('#' + loCategoryName).val();
+        queryData.categoryType = value;
+
+        jQuery.ajax({
+            url:jQuery("form#kualiForm").attr("action"),
+            dataType:"json",
+            async:false,
+            beforeSend:null,
+            complete:null,
+            error:null,
+            data:queryData,
+            success:successFunction
+        });
+    }
+    return !isValid;
+}
