@@ -47,15 +47,14 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created with IntelliJ IDEA.
- * User: chmaurer
- * Date: 6/9/14
- * Time: 1:21 PM
- * To change this template use File | Settings | File Templates.
+ * {@inheritDoc}
  */
 public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl implements CourseDetailsViewHelperService {
     public ContextInfo contextInfo = KsapFrameworkServiceLocator.getContext().getContextInfo();
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void loadCourseSectionDetails(UifFormBase form, String courseId) throws Exception {
         load((CourseSectionDetailsForm) form, courseId);
@@ -93,7 +92,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
 
             //sort scheduledTermsListIds
             List<Term> terms = new ArrayList<Term>(scheduledTerms);
-            List<Term> scheduledTermsListSorted = KsapFrameworkServiceLocator.getTermHelper().sortTermsBySocReleaseDate(terms, false);
+            List<Term> scheduledTermsListSorted = sortTerms(terms);
 
             Integer displayLimit = Integer.valueOf(ConfigContext.getCurrentContextConfig().getProperty("ks.ap.search.terms.scheduled.limit"));
 
@@ -120,6 +119,15 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
     }
 
     /**
+     * {@inheritDoc}
+     * This implementation is sorting by the date that the Soc was released/published
+     */
+    @Override
+    public List<Term> sortTerms(List<Term> terms) {
+        return KsapFrameworkServiceLocator.getTermHelper().sortTermsBySocReleaseDate(terms, false);
+    }
+
+    /**
      * Comparator implementation so that I can sort CourseOfferingInfo objects by the course offering code
      */
     public class CourseOfferingInfoComparator implements Comparator<CourseOfferingInfo> {
@@ -141,6 +149,10 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public Map<String, List<CourseOfferingDetailsWrapper>> processCourseOfferingsByTerm(List<String> courseIds, List<Term> terms) throws Exception {
         List<CourseOfferingInfo> courseOfferings = KsapFrameworkServiceLocator.getCourseHelper().getCourseOfferingsForCoursesAndTerms(courseIds, terms);
         Collections.sort(courseOfferings, new CourseOfferingInfoComparator());
@@ -233,6 +245,10 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
         return aoMapByFormatName;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public ActivityOfferingDetailsWrapper convertAOInfoToWrapper(ActivityOfferingInfo aoInfo) throws Exception {
         ActivityOfferingDetailsWrapper wrapper = new ActivityOfferingDetailsWrapper(aoInfo, false, true);
 
