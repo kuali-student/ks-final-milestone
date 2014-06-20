@@ -172,7 +172,7 @@ angular.module('regCartApp')
             $scope.showNew = false;
         };
 
-        $scope.deleteCartItem = function (index) {
+        $scope.$on('deleteCartItem', function (event, index) {
             var item = $scope.cart.items[index];
             var actionLinks = item.actionLinks;
             var deleteUri = null;
@@ -200,7 +200,7 @@ angular.module('regCartApp')
                         'type': STATUS.success};
                     $scope.userActionSuccessful = true;
                 });
-        };
+        });
 
         $scope.invokeActionLink = function (actionLink) {
             $scope.userActionSuccessful = false;
@@ -210,65 +210,6 @@ angular.module('regCartApp')
                     $scope.cart.items.unshift(response);
                     $scope.userMessage = {txt: ''};
                 });
-        };
-
-        $scope.editCartItem = function (cartItem) {
-            cartItem.newCredits = cartItem.credits;
-            cartItem.newGrading = cartItem.grading;
-            cartItem.status = STATUS.editing;
-            cartItem.editing = true;
-        };
-
-        $scope.updateCartItem = function (cartItem) {
-            console.log('Updating cart item. Grading: ' + cartItem.newGrading + ', credits: ' + cartItem.newCredits);
-            CartService.updateCartItem().query({
-                cartId: $scope.cart.cartId,
-                cartItemId: cartItem.cartItemId,
-                credits: cartItem.newCredits,
-                gradingOptionId: cartItem.newGrading
-            }, function (newCartItem) {
-                console.log('old: ' + cartItem.credits + ' To: ' + newCartItem.credits);
-                console.log('old: ' + cartItem.grading + ' To: ' + newCartItem.grading);
-
-                var oldCredits=cartItem.credits;
-                var oldGrading=cartItem.grading;
-
-                cartItem.credits = newCartItem.credits;
-                cartItem.grading = newCartItem.grading;
-                cartItem.status = '';
-                cartItem.editing = false;
-                cartItem.actionLinks = newCartItem.actionLinks;
-                cartItem.isopen = !cartItem.isopen; //collapse the card
-                $scope.creditTotal = creditTotal();
-
-                console.log('Started to animate...');
-                if (cartItem.newGrading !== oldGrading) {
-                    cartItem.editGradingOption = true;
-                    if (cartItem.grading === GRADING_OPTION.letter) {
-                        cartItem.editGradingOptionLetter = true;
-                    }
-                    $timeout(function(){
-                        cartItem.editGradingOption = false;
-                        cartItem.editGradingOptionDone = true;
-                    }, 2000);
-                    $timeout(function(){
-                        cartItem.editGradingOptionDone = false;
-                        if (cartItem.grading === GRADING_OPTION.letter) {
-                            cartItem.editGradingOptionLetter = false;
-                        }
-                    }, 4000);
-                }
-                if (cartItem.newCredits !== oldCredits) {
-                    cartItem.editCredits = true;
-                    $timeout(function(){
-                        cartItem.editCredits = false;
-                        cartItem.editCreditsDone = true;
-                    }, 2000);
-                    $timeout(function(){
-                        cartItem.editCreditsDone = false;
-                    }, 4000);
-                }
-            });
         };
 
         $scope.addCartItemToWaitlist = function (cartItem) {
@@ -408,11 +349,6 @@ angular.module('regCartApp')
             return totalNumber;
         }
 
-        $scope.showBadge = function (cartItem) {
-            //console.log("Cart Item Grading: " + JSON.stringify(cartItem));
-            return cartItem.grading !== GRADING_OPTION.letter || cartItem.editGradingOptionLetter;
-        };
-
         $scope.editing = function (cartItem) {
             return cartItem.status === STATUS.editing;
         };
@@ -443,6 +379,3 @@ angular.module('regCartApp')
         };
 
     }]);
-
-
-
