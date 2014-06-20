@@ -21,9 +21,9 @@ import org.kuali.rice.kim.api.identity.name.EntityNameContract;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
 import org.kuali.student.core.comments.ui.client.service.CommentRpcService;
+import org.kuali.student.r1.common.rice.authorization.PermissionTypeGwt;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
-import org.kuali.student.r1.common.rice.authorization.PermissionType;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.core.comment.service.CommentService;
@@ -85,10 +85,10 @@ public class CommentRpcGwtServlet extends BaseRpcGwtServletAbstract<CommentServi
 		if (id != null && (!"".equals(id.trim()))) {
 			Map<String,String> permissionDetails = new LinkedHashMap<String,String>();
                         permissionDetails.put (StudentIdentityConstants.KS_REFERENCE_TYPE_KEY, referenceTypeKey);
-			if (getPermissionService().isPermissionDefinedByTemplate(PermissionType.ADD_COMMENT.getPermissionNamespace(), PermissionType.ADD_COMMENT.getPermissionTemplateName(), permissionDetails)) {
+			if (getPermissionService().isPermissionDefinedByTemplate(PermissionTypeGwt.ADD_COMMENT.getPermissionNamespace(), PermissionTypeGwt.ADD_COMMENT.getPermissionTemplateName(), permissionDetails)) {
 	            Map<String,String> roleQuals = new LinkedHashMap<String,String>();
 	            roleQuals.put(referenceTypeKey, id);
-	            return Boolean.valueOf(getPermissionService().isAuthorizedByTemplate(getCurrentUser(), PermissionType.ADD_COMMENT.getPermissionNamespace(), PermissionType.ADD_COMMENT.getPermissionTemplateName(), permissionDetails, roleQuals));
+	            return Boolean.valueOf(getPermissionService().isAuthorizedByTemplate(getCurrentUser(), PermissionTypeGwt.ADD_COMMENT.getPermissionNamespace(), PermissionTypeGwt.ADD_COMMENT.getPermissionTemplateName(), permissionDetails, roleQuals));
 			}
 		}
 		return Boolean.TRUE;

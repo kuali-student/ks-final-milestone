@@ -24,7 +24,7 @@ import org.kuali.student.core.organization.ui.client.mvc.model.*;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.r1.common.assembly.data.AssemblyException;
 import org.kuali.student.r1.common.assembly.data.Data;
-import org.kuali.student.r1.common.rice.authorization.PermissionType;
+import org.kuali.student.r1.common.rice.authorization.PermissionTypeGwt;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.common.util.security.ContextUtils;
@@ -533,7 +533,7 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
     }
     
     @Override
-    public Boolean isAuthorized(PermissionType type, Map<String, String> attributes) {
+    public Boolean isAuthorized(PermissionTypeGwt type, Map<String, String> attributes) {
         return null;
     }
 

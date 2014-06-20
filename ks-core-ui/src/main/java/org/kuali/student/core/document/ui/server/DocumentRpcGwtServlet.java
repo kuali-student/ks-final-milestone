@@ -19,11 +19,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.r1.common.rice.authorization.PermissionTypeGwt;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
 import org.kuali.student.core.document.ui.client.service.DocumentRpcService;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
-import org.kuali.student.r1.common.rice.authorization.PermissionType;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
@@ -76,10 +76,10 @@ public class DocumentRpcGwtServlet extends BaseRpcGwtServletAbstract<DocumentSer
 			String user = getCurrentUser();
             Map<String,String> permissionDetails = new LinkedHashMap<String,String>();
             permissionDetails.put(StudentIdentityConstants.KS_REFERENCE_TYPE_KEY, referenceTypeKey);
-	        if (getPermissionService().isPermissionDefinedByTemplate(PermissionType.UPLOAD_DOCUMENTS.getPermissionNamespace(), PermissionType.UPLOAD_DOCUMENTS.getPermissionTemplateName(), permissionDetails)) {
+	        if (getPermissionService().isPermissionDefinedByTemplate(PermissionTypeGwt.UPLOAD_DOCUMENTS.getPermissionNamespace(), PermissionTypeGwt.UPLOAD_DOCUMENTS.getPermissionTemplateName(), permissionDetails)) {
 	            Map<String,String> roleQuals = new LinkedHashMap<String,String>();
 	            roleQuals.put(referenceTypeKey, id);
-	            return Boolean.valueOf(getPermissionService().isAuthorizedByTemplate(user, PermissionType.UPLOAD_DOCUMENTS.getPermissionNamespace(), PermissionType.UPLOAD_DOCUMENTS.getPermissionTemplateName(), permissionDetails, roleQuals));
+	            return Boolean.valueOf(getPermissionService().isAuthorizedByTemplate(user, PermissionTypeGwt.UPLOAD_DOCUMENTS.getPermissionNamespace(), PermissionTypeGwt.UPLOAD_DOCUMENTS.getPermissionTemplateName(), permissionDetails, roleQuals));
 	        }
 		}
 		return Boolean.TRUE;

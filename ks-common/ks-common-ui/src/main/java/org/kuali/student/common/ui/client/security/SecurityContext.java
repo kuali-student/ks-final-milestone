@@ -24,7 +24,7 @@ import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.service.SecurityRpcService;
 import org.kuali.student.common.ui.client.service.SecurityRpcServiceAsync;
-import org.kuali.student.r1.common.rice.authorization.PermissionType;
+import org.kuali.student.r1.common.rice.authorization.PermissionTypeGwt;
 
 import com.google.gwt.core.client.GWT;
 
@@ -201,8 +201,8 @@ public class SecurityContext {
 	/**
 	 * Loads into the permission cache all the permissions user has for a permission type.
 	 */
-	public void loadPermissionsByPermissionType(PermissionType permissionType){
-		securityRpcService.getPermissionsByType(permissionType, new KSAsyncCallback<ArrayList<String>>(){
+	public void loadPermissionsByPermissionType(PermissionTypeGwt permissionTypeGwt){
+		securityRpcService.getPermissionsByType(permissionTypeGwt, new KSAsyncCallback<ArrayList<String>>(){
 
 			@Override
 			public void onSuccess(ArrayList<String> result) {

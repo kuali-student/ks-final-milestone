@@ -19,7 +19,6 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.security.AuthorizationCallback;
 import org.kuali.student.common.ui.client.security.RequiresAuthorization;
-import org.kuali.student.r1.common.rice.authorization.PermissionType;
 
 
 /**

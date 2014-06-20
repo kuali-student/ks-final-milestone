@@ -1,13 +1,5 @@
 package org.kuali.student.core.rice.authorization;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.action.ActionRequest;
@@ -27,16 +19,24 @@ import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 import org.kuali.rice.kim.api.identity.name.EntityName;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kim.api.role.RoleService;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
 import org.kuali.student.r1.common.rice.StudentWorkflowConstants;
-import org.kuali.student.r1.common.rice.authorization.PermissionType;
-import org.kuali.student.common.util.security.SecurityUtils;
+import org.kuali.student.r1.common.rice.authorization.PermissionTypeGwt;
 import org.kuali.student.r1.core.workflow.dto.WorkflowPersonInfo;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class CollaboratorHelper implements Serializable {
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+public class CollaboratorHelperGwt implements Serializable {
 	protected IdentityService identityService;
 	protected RoleService roleService;
 	private WorkflowDocumentActionsService workflowDocumentActionsService;
@@ -45,7 +45,7 @@ public class CollaboratorHelper implements Serializable {
 	private PermissionService permissionService;
 	
 	private static final long serialVersionUID = 1L;
-	private final static Logger LOG = LoggerFactory.getLogger(CollaboratorHelper.class);
+	private final static Logger LOG = LoggerFactory.getLogger(CollaboratorHelperGwt.class);
 	
     public Boolean addCollaborator(String docId, String dataId, String dataTitle, String recipientPrincipalId, String selectedPermissionCode, String actionRequestTypeCode, boolean participationRequired, String respondBy) throws OperationFailedException {
         if(getWorkflowDocumentActionsService()==null){
@@ -90,7 +90,7 @@ public class CollaboratorHelper implements Serializable {
             }
         }        
 
-        PermissionType selectedPermType = PermissionType.getByCode(selectedPermissionCode);
+        PermissionTypeGwt selectedPermType = PermissionTypeGwt.getByCode(selectedPermissionCode);
         if (selectedPermType == null) {
         	throw new OperationFailedException("No valid permission type found for code: " + selectedPermissionCode);
         }
@@ -100,10 +100,10 @@ public class CollaboratorHelper implements Serializable {
 //            List<String> roleIds = getPermissionService().getRoleIdsForPermissions(permissions);
 //            RoleService roleService;
 //            List<KimRoleInfo> roles = getRoleService().getRoles(roleIds);
-            if (PermissionType.EDIT.equals(selectedPermType)) {
+            if (PermissionTypeGwt.EDIT.equals(selectedPermType)) {
             	addRoleMember(StudentWorkflowConstants.ROLE_NAME_ADHOC_EDIT_PERMISSIONS_ROLE_NAMESPACE, StudentWorkflowConstants.ROLE_NAME_ADHOC_EDIT_PERMISSIONS_ROLE_NAME, docId, dataId, recipientPrincipalId);       	
             }
-            else if (PermissionType.ADD_COMMENT.equals(selectedPermType)) {
+            else if (PermissionTypeGwt.ADD_COMMENT.equals(selectedPermType)) {
             	addRoleMember(StudentWorkflowConstants.ROLE_NAME_ADHOC_ADD_COMMENT_PERMISSIONS_ROLE_NAMESPACE, StudentWorkflowConstants.ROLE_NAME_ADHOC_ADD_COMMENT_PERMISSIONS_ROLE_NAME, docId, dataId, recipientPrincipalId);
             }
             return Boolean.TRUE;
@@ -189,19 +189,19 @@ public class CollaboratorHelper implements Serializable {
 	        			}
 	        			
 	        			Map<String,String> permissionDetails = new LinkedHashMap<String,String>();
-	        			boolean editAuthorized = Boolean.valueOf(getPermissionService().isAuthorizedByTemplate(actionRequest.getPrincipalId(), PermissionType.EDIT.getPermissionNamespace(),
-	        					PermissionType.EDIT.getPermissionTemplateName(), permissionDetails, qualification));
-	        			boolean openAuthorized = Boolean.valueOf(getPermissionService().isAuthorizedByTemplate(actionRequest.getPrincipalId(), PermissionType.OPEN.getPermissionNamespace(),
-	        					PermissionType.OPEN.getPermissionTemplateName(), permissionDetails, qualification));
-	        			boolean commentAuthorized = Boolean.valueOf(getPermissionService().isAuthorizedByTemplate(actionRequest.getPrincipalId(), PermissionType.ADD_COMMENT.getPermissionNamespace(),
-	        					PermissionType.ADD_COMMENT.getPermissionTemplateName(), permissionDetails, qualification));
+	        			boolean editAuthorized = Boolean.valueOf(getPermissionService().isAuthorizedByTemplate(actionRequest.getPrincipalId(), PermissionTypeGwt.EDIT.getPermissionNamespace(),
+	        					PermissionTypeGwt.EDIT.getPermissionTemplateName(), permissionDetails, qualification));
+	        			boolean openAuthorized = Boolean.valueOf(getPermissionService().isAuthorizedByTemplate(actionRequest.getPrincipalId(), PermissionTypeGwt.OPEN.getPermissionNamespace(),
+	        					PermissionTypeGwt.OPEN.getPermissionTemplateName(), permissionDetails, qualification));
+	        			boolean commentAuthorized = Boolean.valueOf(getPermissionService().isAuthorizedByTemplate(actionRequest.getPrincipalId(), PermissionTypeGwt.ADD_COMMENT.getPermissionNamespace(),
+	        					PermissionTypeGwt.ADD_COMMENT.getPermissionTemplateName(), permissionDetails, qualification));
 
 	        			if(editAuthorized){
-	        				person.setPermission(PermissionType.EDIT.getCode());
+	        				person.setPermission(PermissionTypeGwt.EDIT.getCode());
 	        			} else if (commentAuthorized){
-	        				person.setPermission(PermissionType.ADD_COMMENT.getCode());
+	        				person.setPermission(PermissionTypeGwt.ADD_COMMENT.getCode());
 	        			} else if (openAuthorized){
-	        				person.setPermission(PermissionType.OPEN.getCode());
+	        				person.setPermission(PermissionTypeGwt.OPEN.getCode());
 	        			}
 
         				ActionRequestType requestType = actionRequest.getActionRequested();
@@ -257,8 +257,8 @@ public class CollaboratorHelper implements Serializable {
 			Map<String,String> permissionDetails = new LinkedHashMap<String,String>();
 			Map<String,String> roleQuals = new LinkedHashMap<String,String>();
 			roleQuals.put(StudentIdentityConstants.DOCUMENT_NUMBER,docId);
-			return Boolean.valueOf(getPermissionService().isAuthorizedByTemplate(SecurityUtils.getCurrentUserId(), PermissionType.ADD_ADHOC_REVIEWER.getPermissionNamespace(), 
-					PermissionType.ADD_ADHOC_REVIEWER.getPermissionTemplateName(), permissionDetails, roleQuals));
+			return Boolean.valueOf(getPermissionService().isAuthorizedByTemplate(SecurityUtils.getCurrentUserId(), PermissionTypeGwt.ADD_ADHOC_REVIEWER.getPermissionNamespace(),
+					PermissionTypeGwt.ADD_ADHOC_REVIEWER.getPermissionTemplateName(), permissionDetails, roleQuals));
 		}
 		return Boolean.FALSE;
     }

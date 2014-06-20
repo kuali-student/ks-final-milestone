@@ -126,8 +126,8 @@ public abstract class Controller extends Composite implements HistorySupport, Br
                         
                         if (requiresAuthz){
                         	ViewContext currView = getViewContext();
-				        	if (getViewContext()!=null && getViewContext().getPermissionType()!=null && viewType!=null)
-				            GWT.log("Checking permission type '" + getViewContext().getPermissionType().getPermissionTemplateName() + "' for viewType '" + viewType.toString() + "'", null);
+				        	if (getViewContext()!=null && getViewContext().getPermissionTypeGwt()!=null && viewType!=null)
+				            GWT.log("Checking permission type '" + getViewContext().getPermissionTypeGwt().getPermissionTemplateName() + "' for viewType '" + viewType.toString() + "'", null);
 				        	
                             //A callback is required if async rpc call is required for authz check
                             ((RequiresAuthorization)view).checkAuthorization(new AuthorizationCallback(){

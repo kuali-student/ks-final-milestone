@@ -15,24 +15,23 @@
 
 package org.kuali.student.r1.common.assembly.old;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kim.api.permission.Permission;
 import org.kuali.rice.kim.api.permission.PermissionService;
+import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.r1.common.assembly.data.AssemblyException;
 import org.kuali.student.r1.common.assembly.data.Data;
 import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.r1.common.assembly.dictionary.old.MetadataServiceImpl;
-import org.kuali.student.r1.common.rice.authorization.PermissionType;
-import org.kuali.student.common.util.security.SecurityUtils;
+import org.kuali.student.r1.common.rice.authorization.PermissionTypeGwt;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 @Deprecated
 public abstract class BaseAssembler<TargetType, SourceType> implements Assembler<TargetType, SourceType> {
@@ -72,7 +71,7 @@ public abstract class BaseAssembler<TargetType, SourceType> implements Assembler
             Map<String,String> permissionDetails = new LinkedHashMap <String,String> ();
             permissionDetails.put ("dtoName", dtoName);
 //            List<Permission> permissions = permissionService.getAuthorizedPermissionsByTemplateName(principalId,
-//            		PermissionType.FIELD_ACCESS.getPermissionNamespace(), PermissionType.FIELD_ACCESS.getPermissionTemplateName(), permissionDetails, qualification);
+//            		PermissionTypeGwt.FIELD_ACCESS.getPermissionNamespace(), PermissionTypeGwt.FIELD_ACCESS.getPermissionTemplateName(), permissionDetails, qualification);
             Map<String, String> permMap = new HashMap<String, String>();
 //            if (permissions != null) {
 //                for (Permission permission : permissions) {
@@ -116,10 +115,10 @@ public abstract class BaseAssembler<TargetType, SourceType> implements Assembler
         if (StringUtils.isNotBlank(id) && checkDocumentLevelPermissions()) {
             Map<String,String> qualification = getQualification(idType, id);
         	String currentUser = SecurityUtils.getCurrentUserId();
-	        authorized = permissionService.isAuthorizedByTemplate(currentUser, PermissionType.EDIT.getPermissionNamespace(),
-                    PermissionType.EDIT.getPermissionTemplateName(), null, qualification);
+	        authorized = permissionService.isAuthorizedByTemplate(currentUser, PermissionTypeGwt.EDIT.getPermissionNamespace(),
+                    PermissionTypeGwt.EDIT.getPermissionTemplateName(), null, qualification);
 			LOG.info("Permission '{}/{}' for user '{}': {}",
-                    PermissionType.EDIT.getPermissionNamespace(), PermissionType.EDIT.getPermissionTemplateName(), currentUser, authorized);
+                    PermissionTypeGwt.EDIT.getPermissionNamespace(), PermissionTypeGwt.EDIT.getPermissionTemplateName(), currentUser, authorized);
 	        metadata.setCanEdit(authorized);
         }  
         if(metadata != null && metadata.getProperties() != null) {
