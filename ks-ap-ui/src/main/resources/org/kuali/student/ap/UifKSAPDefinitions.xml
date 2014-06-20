@@ -28,6 +28,12 @@
         <property name="persistFormToSession" value="false"/>
         <property name="breadcrumbs.render" value="false"/>
         <property name="applyDirtyCheck" value="false"/>
+
+        <property name="expressionVariables">
+            <map merge="true">
+                <entry key="textHelper" value="T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper()"/>
+            </map>
+        </property>
     </bean>
 
     <bean id="KSAPFormView" abstract="true" parent="KSAPFormView-parent"/>
@@ -102,6 +108,12 @@
         <property name="persistFormToSession" value="false"/>
         <property name="breadcrumbs.render" value="false"/>
         <property name="applyDirtyCheck" value="false"/>
+
+        <property name="expressionVariables">
+            <map merge="true">
+                <entry key="textHelper" value="T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper()"/>
+            </map>
+        </property>
     </bean>
 
     <bean id="KSAPInquiryView" abstract="true" parent="KSAPInquiryView-parent"/>

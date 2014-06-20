@@ -299,7 +299,7 @@
                                             </property>
                                         </bean>
                                         <bean parent="Uif-Message"
-                                              p:messageText="Source: @{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_REQUISITE_SOURCE_NAME')}">
+                                              p:messageText="Source: @{#textHelper.getText('DETAILS_REQUISITE_SOURCE_NAME')}">
                                             <property name="cssClasses">
                                                 <list merge="true">
                                                     <value>ksap-course-detail-source</value>
@@ -347,7 +347,7 @@
                                             </property>
                                         </bean>
                                         <bean parent="Uif-Message"
-                                              p:messageText="Source: @{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_TERMS_SCHEDULED_SOURCE_NAME')}">
+                                              p:messageText="Source: @{#textHelper.getText('DETAILS_TERMS_SCHEDULED_SOURCE_NAME')}">
                                             <property name="cssClasses">
                                                 <list merge="true">
                                                     <value>ksap-course-detail-source</value>
@@ -390,7 +390,7 @@
                                             </property>
                                         </bean>
                                         <bean parent="Uif-Message"
-                                              p:messageText="Source: @{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_TERMS_SCHEDULED_SOURCE_NAME')}">
+                                              p:messageText="Source: @{#textHelper.getText('DETAILS_TERMS_SCHEDULED_SOURCE_NAME')}">
                                             <property name="cssClasses">
                                                 <list merge="true">
                                                     <value>ksap-course-detail-source</value>
@@ -438,7 +438,7 @@
                                             </property>
                                         </bean>
                                         <bean parent="Uif-Message"
-                                              p:messageText="Source: @{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_TERMS_TYPICALLYOFFERED_SOURCE_NAME')}">
+                                              p:messageText="Source: @{#textHelper.getText('DETAILS_TERMS_TYPICALLYOFFERED_SOURCE_NAME')}">
                                             <property name="cssClasses">
                                                 <list merge="true">
                                                     <value>ksap-course-detail-source</value>
@@ -500,7 +500,7 @@
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-Message"
-                                              p:messageText="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_CURRICULUM_HEADER')}">
+                                              p:messageText="@{#textHelper.getText('DETAILS_CURRICULUM_HEADER')}">
                                             <property name="cssClasses">
                                                 <list merge="true">
                                                     <value>ksap-label</value>
@@ -1201,7 +1201,7 @@
         <property name="group.validationMessages">
             <null/>
         </property>
-        <property name="label" value="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_SECTION_NUMBER_HEADING')}"/>
+        <property name="label" value="@{#textHelper.getText('DETAILS_SECTION_NUMBER_HEADING')}"/>
         <property name="cssClasses">
             <list merge="true">
                 <value>activityCode</value>
@@ -1236,7 +1236,7 @@
         <property name="group.validationMessages">
             <null/>
         </property>
-        <property name="label" value="Type (@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_CREDITS_HEADING')})"/>
+        <property name="label" value="Type (@{#textHelper.getText('DETAILS_CREDITS_HEADING')})"/>
         <property name="cssClasses">
             <list merge="true">
                 <value>activityType</value>

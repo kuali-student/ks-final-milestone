@@ -21,7 +21,7 @@
 
     <bean id="quarter_facet_help_icon" parent="KSAPHelpImage">
         <property name="toolTip">
-          <bean parent="KSAP-Tooltip-Left" p:tooltipContent="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_TERMS_TOOLTIP_TEXT')}"/>
+          <bean parent="KSAP-Tooltip-Left" p:tooltipContent="@{#textHelper.getText('DETAILS_TERMS_TOOLTIP_TEXT')}"/>
         </property>
     </bean>
 
@@ -35,22 +35,22 @@
     <bean id="course_requisite_help_icon" parent="KSAPHelpImage">
         <property name="toolTip">
             <bean parent="KSAP-Tooltip-Left"
-                  p:tooltipContent="&lt;div class=\ks-Tooltip\&gt;@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_REQUISITE_TOOLTOP_COREQ_TEXT')}
-                                    @{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_REQUISITE_TOOLTOP_PREREQ_TEXT')}&lt;/div&gt;"/>
+                  p:tooltipContent="&lt;div class=\ks-Tooltip\&gt;@{#textHelper.getText('DETAILS_REQUISITE_TOOLTOP_COREQ_TEXT')}
+                                    @{#textHelper.getText('DETAILS_REQUISITE_TOOLTOP_PREREQ_TEXT')}&lt;/div&gt;"/>
         </property>
     </bean>
 
     <bean id="course_quarter_help_icon" parent="KSAPHelpImage">
         <property name="toolTip">
             <bean parent="KSAP-Tooltip-Left"
-                  p:tooltipContent="&lt;div class=\ks-Tooltip\&gt;@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_TERMS_TOOLTIP_TEXT')}&lt;/div&gt;"/>
+                  p:tooltipContent="&lt;div class=\ks-Tooltip\&gt;@{#textHelper.getText('DETAILS_TERMS_TOOLTIP_TEXT')}&lt;/div&gt;"/>
         </property>
     </bean>
 
     <bean id="course_gened_help_icon" parent="KSAPHelpImage">
         <property name="toolTip">
             <bean parent="KSAP-Tooltip-Left"
-                  p:tooltipContent="&lt;div class=\ks-Tooltip\&gt;@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_GENED_TOOLTIP_TEXT')}&lt;/div&gt;"/>
+                  p:tooltipContent="&lt;div class=\ks-Tooltip\&gt;@{#textHelper.getText('DETAILS_GENED_TOOLTIP_TEXT')}&lt;/div&gt;"/>
         </property>
     </bean>
 
@@ -71,8 +71,8 @@
     <bean id="backup_help_tooltip" parent="KSAP-Tooltip" p:tooltipContent="A course you&#39;re considering in case a planned course is not available or is full."/>
     <bean id="total_credits_help_tooltip" parent="KSAP-Tooltip" p:tooltipContent="The total number of credits attempted for a completed term. Check your transcript to verify earned credits."/>
     <bean id="bookmarks_help_tooltip" parent="KSAP-Tooltip" p:tooltipContent="Bookmark a course to save it for future planning. The course remains in your bookmarks until you've added it to your Plan or deleted it."/>
-    <bean id="quarter_facet_help_tooltip" parent="KSAP-Tooltip" p:tooltipContent="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_TERMS_TOOLTIP_TEXT')}"/>
-    <bean id="gened_col_help_tooltip" parent="KSAP-Tooltip" p:tooltipContent="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('help.coursesearch.col.gened')}"/>
+    <bean id="quarter_facet_help_tooltip" parent="KSAP-Tooltip" p:tooltipContent="@{#textHelper.getText('DETAILS_TERMS_TOOLTIP_TEXT')}"/>
+    <bean id="gened_col_help_tooltip" parent="KSAP-Tooltip" p:tooltipContent="@{#textHelper.getText('help.coursesearch.col.gened')}"/>
     <bean id="details_course_req_tooltip" parent="KSAP-Tooltip" p:tooltipContent="Restrictions or conditions that may limit your ability to enroll in a course."/>
     <bean id="details_scheduled_terms_tooltip" parent="KSAP-Tooltip" p:tooltipContent="Current and all future terms for which the course is offered."/>
     <bean id="details_projected_terms_tooltip" parent="KSAP-Tooltip" p:tooltipContent="Terms when a course may be offered. This is not a guarantee that the course will be offered within the specified terms."/>
