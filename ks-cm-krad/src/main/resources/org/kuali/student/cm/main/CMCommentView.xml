@@ -45,8 +45,7 @@
         </property>
     </bean>
 
-    <bean id="KSCM-CommentSection" parent="Uif-VerticalBoxSection" p:style="width:600px;padding:10px"
-          p:onDocumentReadyScript="setCommentEditFieldFocus()">
+    <bean id="KSCM-CommentSection" parent="Uif-VerticalBoxSection" p:style="width:600px;padding:10px">
         <property name="header">
             <bean parent="Uif-HeaderOne" p:headerText="Comments for @{proposal.name}"
                   p:cssClasses="ks-dottedHeaderActions"/>
@@ -55,7 +54,7 @@
             <list>
                 <!-- Display existing comments or a message indicating that there aren't any comments. Using a box section
   here so that both the tableCollectionSection and the simple Message can share the header. -->
-                <bean parent="Uif-VerticalBoxSection">
+                <bean parent="Uif-VerticalBoxSection" p:onDocumentReadyScript="setReadonlyTextWidthForComment();">
                     <property name="items">
                         <list>
                             <bean id="KSCM-NewCommentField" parent="Uif-InputField" p:propertyName="newComment"
@@ -120,7 +119,8 @@
                                 </property>
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-StackedCollectionSection">
+                                        <bean parent="Uif-StackedCollectionSection"
+                                              p:onDocumentReadyScript="setReadonlyTextWidthForComment();">
                                             <property name="collectionObjectClass"
                                                       value="org.kuali.student.cm.course.form.CommentWrapper"/>
                                             <property name="propertyName" value="comments"/>
@@ -132,10 +132,15 @@
                                                 <list>
                                                     <bean id="KSCM-CommentField" p:id="KSCM-Comment-Add"
                                                           parent="KS-Uif-InputField" p:label=""
-                                                          p:readOnly="@{!#line.renderHelper.editInProgress}"
-                                                          p:propertyName="commentInfo.commentText.plain" >
+                                                          p:propertyName="commentInfo.commentText.plain">
                                                         <property name="control">
-                                                            <bean parent="Uif-LargeTextAreaControl" p:cols="71"/>
+                                                            <bean parent="Uif-LargeTextAreaControl" p:cols="71"
+                                                                  p:readOnly="@{!#line.renderHelper.editInProgress}"/>
+                                                        </property>
+                                                        <property name="cssClasses">
+                                                            <list merge="true">
+                                                                <value>comment_format_text</value>
+                                                            </list>
                                                         </property>
                                                     </bean>
                                                 </list>
@@ -200,7 +205,7 @@
     </bean>
 
     <bean id="KSCM-CommentFooter" parent="KS-Uif-FooterBase" p:style="border-top: 1px solid;border-color:lightgray"
-          p:onDocumentReadyScript="setCommentEditFieldFocus()">
+          p:onDocumentReadyScript="setReadonlyTextWidthForComment(); setCommentEditFieldFocus();">
         <property name="items">
             <list>
                 <bean parent="Uif-HorizontalBoxGroup" p:style="float:right;padding-top:10px">
