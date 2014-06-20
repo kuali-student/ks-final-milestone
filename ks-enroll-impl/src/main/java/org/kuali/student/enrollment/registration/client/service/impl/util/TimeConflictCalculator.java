@@ -18,10 +18,14 @@ package org.kuali.student.enrollment.registration.client.service.impl.util;
 
 import org.kuali.student.enrollment.registration.client.service.dto.TimeConflictDataContainer;
 import org.kuali.student.enrollment.registration.client.service.dto.TimeConflictResult;
+import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class checks sets of AOs or RGs and their corresponding timeslots for time conflicts
@@ -30,76 +34,97 @@ import java.util.List;
  */
 public class TimeConflictCalculator {
 
-    /**
-     * Computes conflicts between id's (of RGs or AOs, etc)
-     * @param timeSlotContainer Contains
-     * @param overlapInMinutes 0 indicates that an overlap of at least one minute must occur (currently, ignored)
-     * @return A map between ids (RGs and AOs) and a list of ids indicating that that id conflicts with.  Each
-     * id is associated with a list of time slots.
-     */
-    public TimeConflictResult calculateConflicts(TimeConflictDataContainer timeSlotContainer,
-                                                        int overlapInMinutes) {
-        List<String> ids = timeSlotContainer.getIds();
-        List<List<TimeSlotInfo>> timeSlotInfosList = timeSlotContainer.getTimeSlotInfos();
+    public static final Logger LOGGER = LoggerFactory.getLogger(TimeConflictCalculator.class);
 
-        String idKey, otherIdKey;
-        TimeConflictResult conflicts = new TimeConflictResult();
-        for(int i = 0; i < ids.size(); i++) {
-            idKey = ids.get(i); // Fetch id (e.g. RG id or AO id)
-            List<TimeSlotInfo> idTimeSlots = timeSlotInfosList.get(i); // And fetch corresponding time slots
-            //for each id(AO/RG), look at each other id, start at i + 1 to avoid revisiting same time slots
-            for (int j = i + 1; j < ids.size(); j++) {
-                otherIdKey = ids.get(j);
-                List<TimeSlotInfo> otherIdTimeSlots = timeSlotInfosList.get(j);
-                //make sure it's not the same one or on the whitelist
-                computeConflictsBetweenTimeSlots(conflicts, idTimeSlots, otherIdTimeSlots, idKey, otherIdKey);
+    public List<TimeConflictResult> getTimeConflictResults( List<TimeConflictDataContainer> newCoursesTimeConflictContainers, List<TimeConflictDataContainer> existingCoursesTimeConflictContainers)  {
+
+        List<TimeConflictResult> conflictsExistingCourses = new ArrayList<TimeConflictResult>();
+
+        for (TimeConflictDataContainer newTimeConflictDataContainer : newCoursesTimeConflictContainers) {
+            if(existingCoursesTimeConflictContainers.isEmpty()){
+                existingCoursesTimeConflictContainers.add(newTimeConflictDataContainer);
+            }else {
+                TimeConflictResult timeConflictResult = calculateConflicts(newTimeConflictDataContainer, existingCoursesTimeConflictContainers, 0);
+                if (timeConflictResult != null) {
+                    conflictsExistingCourses.add(timeConflictResult);
+                } else {
+                    existingCoursesTimeConflictContainers.add(newTimeConflictDataContainer);
+                }
             }
         }
-        return conflicts;
+
+        return conflictsExistingCourses;
     }
 
     /**
-     * Given one list of time slots and another list of time slots, attempts to find if there is a conflict
-     * with one time slot in the first list with a time slot in the second list.  If so, it adds it to conflicts
-     * (see first parameter).
-     * @param conflicts A map between ids and a list of ids, indicating what the id conflicts with.  This
-     *                  stores the result of the call (thus, a void return value)
-     * @param idTimeSlots The list of time slots associated with one id
-     * @param otherIdTimeSlots The list of time slots associated with another id
-     * @param idKey The id that is associated with idTimeSlots (can be a RG id or an AO id, etc)
-     * @param otherIdKey The other id that is associated with otherIdTimeSlots
+     *
+     * @param timeSlotContainer
+     * @param containersToCompare
+     * @param overlapInMinutes
+     * @return Will return an object that represents the time conflict or null
      */
-    private void computeConflictsBetweenTimeSlots(TimeConflictResult conflicts,
-                                                  List<TimeSlotInfo> idTimeSlots,
-                                                  List<TimeSlotInfo> otherIdTimeSlots,
-                                                  String idKey,
-                                                  String otherIdKey) {
-        for (TimeSlotInfo timeSlotInfo: idTimeSlots){
-            for (TimeSlotInfo otherTimeSlot: otherIdTimeSlots) {
-                //for each original id timeslot, compare with each timeslot for the other id
-                if (!doWeekdaysOverlap(timeSlotInfo.getWeekdays(), otherTimeSlot.getWeekdays())) {
-                    // If there's no overlap in weekdays, skip
-                    continue;
-                }
-                //if !( slot2.start >= slot1.end ||  slot1.end <= slot2.start)
-                if (doTimeSlotsConflict(timeSlotInfo, otherTimeSlot)){
-                    //Conflict
-                    int idIndex = conflicts.getIds().indexOf(idKey);
-                    if(conflicts.getIds().contains(idKey)){
-                        if(!(conflicts.getConflicts().get(idIndex).contains(otherIdKey))){
-                            conflicts.getConflicts().get(idIndex).add(otherIdKey);
+    public TimeConflictResult calculateConflicts(TimeConflictDataContainer timeSlotContainer, List<TimeConflictDataContainer> containersToCompare,
+                                                 int overlapInMinutes) {
+        TimeConflictResult tcResult = new TimeConflictResult();
+        tcResult.setId(timeSlotContainer.getId());
+
+        for(TimeConflictDataContainer compareAgainst : containersToCompare){
+            if(timeSlotContainer.getId().equals(compareAgainst.getId())){
+                continue; // don't compare against yourself
+            }
+
+            computeConflictsBetweenContainers(tcResult, timeSlotContainer, compareAgainst);
+        }
+
+        // If there are no conflicts, return null
+        if(tcResult.getConflictingItemMap().isEmpty()){
+            tcResult = null;
+        }
+
+        return tcResult;
+
+    }
+
+    public void computeConflictsBetweenContainers(TimeConflictResult conflict,
+                                                  TimeConflictDataContainer primaryContainer,
+                                                  TimeConflictDataContainer otherContainer) {
+        Map<String, List<TimeSlotInfo>> primaryTimeSlotMap = primaryContainer.getAoToTimeSlotMap();
+        Map<String, List<TimeSlotInfo>> otherTimeSlotMap = otherContainer.getAoToTimeSlotMap();
+
+        for(String primaryAoId : primaryTimeSlotMap.keySet()){
+            List<TimeSlotInfo> primaryAoTimeSlots = primaryTimeSlotMap.get(primaryAoId);
+
+            for(String otherAoId : otherTimeSlotMap.keySet()){
+                List<TimeSlotInfo> otherAoTimeSlots = otherTimeSlotMap.get(otherAoId);
+
+                for (TimeSlotInfo timeSlotInfo: primaryAoTimeSlots){
+                    for (TimeSlotInfo otherTimeSlot: otherAoTimeSlots) {
+                        //for each original id timeslot, compare with each timeslot for the other id
+                        if (!doWeekdaysOverlap(timeSlotInfo.getWeekdays(), otherTimeSlot.getWeekdays())) {
+                            // If there's no overlap in weekdays, skip
+                            continue;
                         }
-                    } else {
-                        ArrayList<String> conflictList = new ArrayList<String>();
-                        conflictList.add(otherIdKey);
-                        conflicts.getIds().add(idKey);
-                        conflicts.getConflicts().add(conflictList);
-                        //conflicts.put(idKey, conflictList);
+                        //if !( slot2.start >= slot1.end ||  slot1.end <= slot2.start)
+                        if (doTimeSlotsConflict(timeSlotInfo, otherTimeSlot)){
+                            //Conflict
+                            if(!conflict.getConflictingItemMap().containsKey(otherContainer.getId())){
+                                conflict.getConflictingItemMap().put(otherContainer.getId(), new ArrayList<String>());
+                            }
+                            List<String> conflictingOtherAoIds = conflict.getConflictingItemMap().get(otherContainer.getId());
+                            if(!conflictingOtherAoIds.contains(otherAoId)){
+                                conflictingOtherAoIds.add(otherAoId);
+                            }
+                        }
                     }
                 }
+
             }
         }
+
+
     }
+
+
 
     /**
      * Determines if two lists of weekdays (represented by a list of integers) overlap
@@ -123,9 +148,24 @@ public class TimeConflictCalculator {
      * @return true, if timeSlot overlaps with otherTimeSlot
      */
     private boolean doTimeSlotsConflict(TimeSlotInfo timeSlot, TimeSlotInfo otherTimeSlot) {
-        return !((otherTimeSlot.getStartTime().isAfter(timeSlot.getEndTime())
-                || otherTimeSlot.getStartTime().equals(timeSlot.getEndTime()))
-                || (otherTimeSlot.getEndTime().isBefore(timeSlot.getStartTime())
-                || timeSlot.getEndTime().equals(otherTimeSlot.getStartTime())));
+        boolean bRet =false;
+        try {
+            if(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_TBA.equals(timeSlot.getTypeKey()) ||
+                    SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_TBA.equals(otherTimeSlot.getTypeKey())  ) {
+                bRet = false; // don't compare tba time slots
+            } else {
+                bRet = !((otherTimeSlot.getStartTime().isAfter(timeSlot.getEndTime())
+                        || otherTimeSlot.getStartTime().equals(timeSlot.getEndTime()))
+                        || (otherTimeSlot.getEndTime().isBefore(timeSlot.getStartTime())
+                        || timeSlot.getEndTime().equals(otherTimeSlot.getStartTime())));
+            }
+        } catch (NullPointerException ex){
+            String err = "Null Pointer Exception in time conflict check: " + timeSlot.toString() + "/n" + otherTimeSlot.toString();
+            NullPointerException newEx = new NullPointerException(err);
+            LOGGER.error(err, newEx);
+            throw newEx;
+        }
+
+        return  bRet;
     }
 }

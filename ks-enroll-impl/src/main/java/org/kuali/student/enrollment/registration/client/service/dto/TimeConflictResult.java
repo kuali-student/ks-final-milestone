@@ -15,8 +15,9 @@
  * Created by cmuller on 6/17/14
  */
 package org.kuali.student.enrollment.registration.client.service.dto;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class holds time conflict validation results
@@ -25,34 +26,44 @@ import java.util.List;
  */
 public class TimeConflictResult {
 
-    private List<String> ids;
-    private List<List<String>> conflicts;
 
-    public TimeConflictResult(){
-        ids = new ArrayList<String>();
-        conflicts = new ArrayList<List<String>>();
+    // so, this object will say that id conflicts with this map<otherIds, aoIds
+    private String id; // id of the item.
+    private Map<String, List<String>> conflictingItemMap; // map that contains a list of conflicting items->aoids
+
+    public String getId() {
+        return id;
     }
 
-    public TimeConflictResult(List<String> ids, List<List<String>> timeSlots){
-        this.ids = ids;
-        this.conflicts = timeSlots;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public List<String> getIds() {
-        return ids;
+    public Map<String, List<String>> getConflictingItemMap() {
+        if(conflictingItemMap == null){
+            conflictingItemMap = new HashMap<String, List<String>>();
+        }
+        return conflictingItemMap;
     }
 
-    public void setIds(List<String> ids) {
-        this.ids = ids;
+    public void setConflictingItemMap(Map<String, List<String>> conflictingItemMap) {
+        this.conflictingItemMap = conflictingItemMap;
     }
 
-    public List<List<String>> getConflicts() {
-        return conflicts;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        TimeConflictResult that = (TimeConflictResult) o;
+
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+
+        return true;
     }
 
-    public void setConflicts(List<List<String>> conflicts) {
-        this.conflicts = conflicts;
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
     }
-
-
 }

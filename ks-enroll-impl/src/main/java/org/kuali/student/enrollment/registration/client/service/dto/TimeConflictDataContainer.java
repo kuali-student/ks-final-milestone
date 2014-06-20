@@ -18,8 +18,8 @@ package org.kuali.student.enrollment.registration.client.service.dto;
 
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class is a data structure containing necessary data for time conflict checks
@@ -27,35 +27,23 @@ import java.util.List;
  * @author Kuali Student Team
  */
 public class TimeConflictDataContainer {
-    // These are parallel lists with ids[i] and timeSlotsInfos[i] corresponding to one another
-    private List<String> ids;
-    private List<List<TimeSlotInfo>> timeSlotInfos;
 
-    public TimeConflictDataContainer(){
-        ids = new ArrayList<String>();
-        timeSlotInfos = new ArrayList<List<TimeSlotInfo>>();
+    private String id; // unique id. can be regReqItemId or lprId
+    private Map<String, List<TimeSlotInfo>> aoToTimeSlotMap;
+
+    public String getId() {
+        return id;
     }
 
-    public TimeConflictDataContainer(List<String> ids, List<List<TimeSlotInfo>> timeSlots){
-        this.ids = ids;
-        this.timeSlotInfos = timeSlots;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public List<String> getIds() {
-        return ids;
+    public Map<String, List<TimeSlotInfo>> getAoToTimeSlotMap() {
+        return aoToTimeSlotMap;
     }
 
-    public void setIds(List<String> ids) {
-        this.ids = ids;
+    public void setAoToTimeSlotMap(Map<String, List<TimeSlotInfo>> aoToTimeSlotMap) {
+        this.aoToTimeSlotMap = aoToTimeSlotMap;
     }
-
-    public List<List<TimeSlotInfo>> getTimeSlotInfos() {
-        return timeSlotInfos;
-    }
-
-    public void setTimeSlotInfos(List<List<TimeSlotInfo>> timeSlotInfos) {
-        this.timeSlotInfos = timeSlotInfos;
-    }
-
-
 }

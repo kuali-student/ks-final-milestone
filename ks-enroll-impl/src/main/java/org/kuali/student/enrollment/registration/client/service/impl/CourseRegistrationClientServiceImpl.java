@@ -78,6 +78,20 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
     private LprService lprService;
     private ScheduleOfClassesService scheduleOfClassesService;
 
+    protected static Comparator<LprTransactionItemInfo> LPR_TRANS_ITEM_CREATE_DATE = new Comparator<LprTransactionItemInfo>() {
+
+        @Override
+        public int compare(LprTransactionItemInfo o1, LprTransactionItemInfo o2) {
+            int ret = 0;
+            try {
+                ret = o1.getMeta().getCreateTime().compareTo(o2.getMeta().getCreateTime());
+            } catch (NullPointerException ex) {
+                LOGGER.error("Error comparing reg request meta data", ex);
+            }
+            return ret;
+        }
+    };
+
     @Override
     public Response registerForRegistrationGroup(String termCode, String courseCode, String regGroupCode, String regGroupId, String credits, String gradingOptionId, boolean okToWaitlist) {
         Response.ResponseBuilder response;
@@ -1034,9 +1048,9 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
      */
     private ScheduleItemResult updateRegistrationItem(String courseCode, String regGroupCode, String masterLprId, String termId, String credits,
                                                       String gradingOptionId, ContextInfo contextInfo, String typeKey)
-                                                      throws DoesNotExistException, PermissionDeniedException, OperationFailedException,
-                                                      InvalidParameterException, ReadOnlyException, MissingParameterException, DataValidationErrorException,
-                                                      AlreadyExistsException {
+            throws DoesNotExistException, PermissionDeniedException, OperationFailedException,
+            InvalidParameterException, ReadOnlyException, MissingParameterException, DataValidationErrorException,
+            AlreadyExistsException {
         RegistrationRequestInfo registrationRequestInfo = new RegistrationRequestInfo();
         String userId = contextInfo.getPrincipalId();
 
@@ -1113,7 +1127,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
      * @throws OperationFailedException
      * @throws DoesNotExistException
      */
-     public RegistrationResponseResult getRegistrationStatusLocal(String regReqId, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
+    public RegistrationResponseResult getRegistrationStatusLocal(String regReqId, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
 
         RegistrationResponseResult result = new RegistrationResponseResult();
 
@@ -1123,7 +1137,12 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         result.setState(lprTransactionInfo.getStateKey());
         result.getStatuses().add(lprTransactionInfo.getStateKey()); // use state for now until we come up with something better
 
-        for (LprTransactionItemInfo lprTransactionItemInfo : lprTransactionInfo.getLprTransactionItems()) {
+        List<LprTransactionItemInfo> lprTransItems = lprTransactionInfo.getLprTransactionItems();
+
+        // for some reason the users want this in reverse order.
+        Collections.sort(lprTransItems, LPR_TRANS_ITEM_CREATE_DATE); // make sure we're sorting by date
+
+        for (LprTransactionItemInfo lprTransactionItemInfo : lprTransItems) {
             RegistrationResponseItemResult resultItem = new RegistrationResponseItemResult();
 
             resultItem.setRegistrationRequestItemId(lprTransactionItemInfo.getId());
