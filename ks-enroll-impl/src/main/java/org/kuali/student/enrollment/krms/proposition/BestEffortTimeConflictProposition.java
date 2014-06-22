@@ -71,6 +71,10 @@ public class BestEffortTimeConflictProposition extends AbstractBestEffortProposi
     public static final Logger LOGGER = LoggerFactory.getLogger(BestEffortTimeConflictProposition.class);
 
     private SchedulingService schedulingService;
+    private CourseOfferingService courseOfferingService;
+    private CourseWaitListService courseWaitListService;
+    private CourseRegistrationService courseRegistrationService;
+
 
     private static final boolean ALLOW_ALL_NON_ADDS = true; // allow all non adds right now
 
@@ -96,12 +100,13 @@ public class BestEffortTimeConflictProposition extends AbstractBestEffortProposi
         ContextInfo contextInfo = environment.resolveTerm(RulesExecutionConstants.CONTEXT_INFO_TERM, this);
         RegistrationRequestInfo request = environment.resolveTerm(RulesExecutionConstants.REGISTRATION_REQUEST_TERM, this);
         String personId = environment.resolveTerm(RulesExecutionConstants.PERSON_ID_TERM, this);
-        CourseRegistrationService crService = environment.resolveTerm(RulesExecutionConstants.COURSE_REGISTRATION_SERVICE_TERM,
-                this);
-        CourseWaitListService wlService = environment.resolveTerm(RulesExecutionConstants.COURSE_WAIT_LIST_SERVICE_TERM,
-                this);
-        CourseOfferingService coService = environment.resolveTerm(RulesExecutionConstants.COURSE_OFFERING_SERVICE_TERM, this);
-        schedulingService = environment.resolveTerm(RulesExecutionConstants.SCHEDULING_SERVICE_TERM, this);
+
+        this.setCourseRegistrationService((CourseRegistrationService)environment.resolveTerm(RulesExecutionConstants.COURSE_REGISTRATION_SERVICE_TERM,
+                this));
+        this.setCourseWaitListService((CourseWaitListService)environment.resolveTerm(RulesExecutionConstants.COURSE_WAIT_LIST_SERVICE_TERM,
+                this));
+        this.setCourseOfferingService((CourseOfferingService)environment.resolveTerm(RulesExecutionConstants.COURSE_OFFERING_SERVICE_TERM, this));
+        this.setSchedulingService((SchedulingService)environment.resolveTerm(RulesExecutionConstants.SCHEDULING_SERVICE_TERM, this));
 
         // Verify that all operations are add
         boolean allAddOps = true;
@@ -124,7 +129,7 @@ public class BestEffortTimeConflictProposition extends AbstractBestEffortProposi
         // Fetch registrations
         List<CourseRegistrationInfo> existingCrs;
         try {
-            existingCrs = getCourseAndWaitlistRegistrations(request, personId, crService, wlService, contextInfo);
+            existingCrs = getCourseAndWaitlistRegistrations(request, personId, getCourseRegistrationService(), getCourseWaitListService(), contextInfo);
         } catch (Exception ex) {
             return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
         }
@@ -138,7 +143,7 @@ public class BestEffortTimeConflictProposition extends AbstractBestEffortProposi
          */
         List<TimeConflictResult> timeConflicts = null;
         try {
-            timeConflicts =  getTimeConflictResults(request.getRegistrationRequestItems(), existingCrs, coService,contextInfo);
+            timeConflicts =  getTimeConflictResults(request.getRegistrationRequestItems(), existingCrs, getCourseOfferingService(),contextInfo);
         } catch (Exception ex) {
             return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
         }
@@ -160,13 +165,16 @@ public class BestEffortTimeConflictProposition extends AbstractBestEffortProposi
                     CourseRegistrationInfo courseRegistrationInfo = findCoRegInfoInList(conflictingId, copyExistingCrs);
                     if(courseRegistrationInfo != null){   // it's an existing course
                         try {
-                            conflictCourseResult = buildConflictCourseResultForCourseRegInfo(courseRegistrationInfo, coService, contextInfo);
+                            conflictCourseResult = buildConflictCourseResultForCourseRegInfo(courseRegistrationInfo, getCourseOfferingService(), contextInfo);
                         } catch (Exception ex) {
                             return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
                         }
                     }else {
+                        // In this case the conflicting ID == the Reg Req Id. So we need to get the reg group id
+                        // for that reg req id.
                         try {
-                            conflictCourseResult = buildConflictCourseResultForRegGroup(item.getRegistrationGroupId(), coService, contextInfo);
+                            String regGroupIdOfConflictingReq = findRegReqItemById(conflictingId, request.getRegistrationRequestItems()).getRegistrationGroupId();
+                            conflictCourseResult = buildConflictCourseResultForRegGroup(regGroupIdOfConflictingReq, getCourseOfferingService(), contextInfo);
                             conflictCourseResult.setMasterLprId(tcr.getId());   // this is incorrect. this is a reg req id, not master.
                         } catch (Exception ex) {
                             return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
@@ -280,6 +288,21 @@ public class BestEffortTimeConflictProposition extends AbstractBestEffortProposi
         for(CourseRegistrationInfo coRegInfo : coRegInfoList){
             if(coRegInfo.getId().equals(id)){
                 return coRegInfo;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * returnts the corresponding regReqItem from list for the given id.
+     * @param id
+     * @param regReqItems
+     * @return
+     */
+    private RegistrationRequestItemInfo findRegReqItemById(String id, List<RegistrationRequestItemInfo> regReqItems){
+        for(RegistrationRequestItemInfo regReqItem : regReqItems){
+            if(regReqItem.getId().equals(id)){
+                return regReqItem;
             }
         }
         return null;
@@ -488,7 +511,7 @@ public class BestEffortTimeConflictProposition extends AbstractBestEffortProposi
             return timeSlots; // return empty list if there are no schedule ids
         }
 
-        List<ScheduleInfo> scheduleInfos = schedulingService.getSchedulesByIds(activityOfferingInfo.getScheduleIds(), contextInfo);
+        List<ScheduleInfo> scheduleInfos = getSchedulingService().getSchedulesByIds(activityOfferingInfo.getScheduleIds(), contextInfo);
 
         List<String> timeslotIds = new ArrayList<String>();
         for (ScheduleInfo scheduleInfo: scheduleInfos) {
@@ -497,9 +520,40 @@ public class BestEffortTimeConflictProposition extends AbstractBestEffortProposi
             }
         }
 
-        timeSlots= schedulingService.getTimeSlotsByIds(timeslotIds, contextInfo);
+        timeSlots= getSchedulingService().getTimeSlotsByIds(timeslotIds, contextInfo);
         return timeSlots;
 
     }
 
+    public SchedulingService getSchedulingService() {
+        return schedulingService;
+    }
+
+    public void setSchedulingService(SchedulingService schedulingService) {
+        this.schedulingService = schedulingService;
+    }
+
+    public CourseOfferingService getCourseOfferingService() {
+        return courseOfferingService;
+    }
+
+    public void setCourseOfferingService(CourseOfferingService courseOfferingService) {
+        this.courseOfferingService = courseOfferingService;
+    }
+
+    public CourseWaitListService getCourseWaitListService() {
+        return courseWaitListService;
+    }
+
+    public void setCourseWaitListService(CourseWaitListService courseWaitListService) {
+        this.courseWaitListService = courseWaitListService;
+    }
+
+    public CourseRegistrationService getCourseRegistrationService() {
+        return courseRegistrationService;
+    }
+
+    public void setCourseRegistrationService(CourseRegistrationService courseRegistrationService) {
+        this.courseRegistrationService = courseRegistrationService;
+    }
 }
