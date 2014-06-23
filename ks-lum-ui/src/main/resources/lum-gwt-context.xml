@@ -607,7 +607,7 @@
         <constructor-arg ref="idTranslator"/>
     </bean>
 
-	<bean id="collaboratorHelperGwt" class = "org.kuali.student.core.rice.authorization.CollaboratorHelperGwt">
+	<bean id="collaboratorHelper" class = "org.kuali.student.core.rice.authorization.CollaboratorHelper">
 		<property name="permissionService" ref="permissionServiceClient"/>
         <property name="identityService" ref="identityServiceClient"/>
         <property name="roleService" ref="roleServiceClient"/>
@@ -616,14 +616,14 @@
 	
 	<bean id="collaboratorFilter" class = "org.kuali.student.core.assembly.transform.CollaboratorsFilter">
 		<property name="metadataService" ref="metadataServiceImpl"/>
-		<property name="collaboratorHelperGwt" ref="collaboratorHelperGwt"/>
+		<property name="collaboratorHelper" ref="collaboratorHelper"/>		
 		<property name="proposalService" ref="proposalClient"/>
 		<property name="proposalObjectType" value="org.kuali.student.core.proposal.definition.CourseProposalInfo"/>
 	</bean>
 
 	<bean id="programCollaboratorFilter" class = "org.kuali.student.core.assembly.transform.CollaboratorsFilter">
 		<property name="metadataService" ref="metadataServiceImpl"/>
-		<property name="collaboratorHelperGwt" ref="collaboratorHelperGwt"/>
+		<property name="collaboratorHelper" ref="collaboratorHelper"/>		
 		<property name="proposalService" ref="proposalClient"/>
         <property name="proposalObjectType" value="org.kuali.student.core.proposal.definition.ProgramProposalInfo"/>	
 	</bean>

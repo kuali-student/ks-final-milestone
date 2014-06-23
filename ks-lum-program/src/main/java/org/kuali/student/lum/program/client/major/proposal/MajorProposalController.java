@@ -75,7 +75,7 @@ import org.kuali.student.r1.common.assembly.data.Data.Property;
 import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.r1.common.assembly.data.QueryPath;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
-import org.kuali.student.r1.common.rice.authorization.PermissionTypeGwt;
+import org.kuali.student.r1.common.rice.authorization.PermissionType;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
@@ -221,7 +221,7 @@ public class MajorProposalController extends MajorController implements Workflow
             if(viewContext.getIdType() != IdType.COPY_OF_OBJECT_ID && viewContext.getIdType() != IdType.COPY_OF_KS_KEW_OBJECT_ID){
                 
 
-            viewContext.setPermissionTypeGwt(PermissionTypeGwt.OPEN);
+            viewContext.setPermissionType(PermissionType.OPEN);
             } else{
                 // Since we are making a copy and we are in the proposal controller we know
                 // we are submitting a new proposal.  We need to reset the model so that
@@ -230,12 +230,12 @@ public class MajorProposalController extends MajorController implements Workflow
                 resetModel();
                 //they are trying to make a modification
 
-          viewContext.setPermissionTypeGwt(PermissionTypeGwt.INITIATE);
+          viewContext.setPermissionType(PermissionType.INITIATE);
             }
         }
         else{
 
-            viewContext.setPermissionTypeGwt(PermissionTypeGwt.INITIATE);
+            viewContext.setPermissionType(PermissionType.INITIATE);
         }
     }
 
@@ -984,7 +984,7 @@ public class MajorProposalController extends MajorController implements Workflow
                 attributes.put(getViewContext().getIdType().toString(), getViewContext().getId());
             }
         }
-        programRemoteService.isAuthorized(getViewContext().getPermissionTypeGwt(), attributes, new KSAsyncCallback<Boolean>(){
+        programRemoteService.isAuthorized(getViewContext().getPermissionType(), attributes, new KSAsyncCallback<Boolean>(){
 
             @Override
             public void handleFailure(Throwable caught) {
@@ -995,12 +995,12 @@ public class MajorProposalController extends MajorController implements Workflow
 
             @Override
             public void onSuccess(Boolean result) {
-                GWT.log("Succeeded checking auth for permission type '" + getViewContext().getPermissionTypeGwt().toString() + "' with result: " + result, null);
+                GWT.log("Succeeded checking auth for permission type '" + getViewContext().getPermissionType().toString() + "' with result: " + result, null);
                 if (Boolean.TRUE.equals(result)) {
                     callbackLocatedOnBaseControllerClass.isAuthorized();
                 }
                 else {
-                    callbackLocatedOnBaseControllerClass.isNotAuthorized("User is not authorized: " + getViewContext().getPermissionTypeGwt().toString());
+                    callbackLocatedOnBaseControllerClass.isNotAuthorized("User is not authorized: " + getViewContext().getPermissionType().toString());
                 }
             }
         });

@@ -57,7 +57,7 @@ import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.course.client.widgets.CourseWorkflowActionList;
 import org.kuali.student.r1.common.assembly.data.Data;
 import org.kuali.student.r1.common.assembly.data.Metadata;
-import org.kuali.student.r1.common.rice.authorization.PermissionTypeGwt;
+import org.kuali.student.r1.common.rice.authorization.PermissionType;
 import org.kuali.student.r1.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
 
@@ -108,7 +108,7 @@ public class ViewCourseController extends TabMenuController implements DocumentL
     public void setViewContext(ViewContext viewContext) {
     	super.setViewContext(viewContext);
     	if(viewContext.getId() != null && !viewContext.getId().isEmpty()){
-    		viewContext.setPermissionTypeGwt(PermissionTypeGwt.OPEN);
+    		viewContext.setPermissionType(PermissionType.OPEN);
     		this.setCourseId(viewContext.getId());
     	}
     }

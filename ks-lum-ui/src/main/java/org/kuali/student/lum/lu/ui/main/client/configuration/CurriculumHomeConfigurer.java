@@ -28,7 +28,7 @@ import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramRegistry;
 import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
-import org.kuali.student.r1.common.rice.authorization.PermissionTypeGwt;
+import org.kuali.student.r1.common.rice.authorization.PermissionType;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -60,7 +60,7 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
         layout.addContentTitleWidget(getActionListLink());
 
         //TODO: Fix to improve performance, so permissions don't have to be loaded every time
-        Application.getApplicationContext().getSecurityContext().loadPermissionsByPermissionType(PermissionTypeGwt.INITIATE);
+        Application.getApplicationContext().getSecurityContext().loadPermissionsByPermissionType(PermissionType.INITIATE);
         permissionList.add(LUUIPermissions.USE_CREATE_COURSE_BY_PROPOSAL);
         permissionList.add(LUUIPermissions.USE_CREATE_COURSE_BY_ADMIN_PROPOSAL);
         permissionList.add(LUUIPermissions.USE_CREATE_PROGRAM_BY_PROPOSAL);       

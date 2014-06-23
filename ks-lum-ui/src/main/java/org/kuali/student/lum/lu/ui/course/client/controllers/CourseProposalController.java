@@ -93,7 +93,7 @@ import org.kuali.student.r1.common.assembly.data.Data;
 import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.r1.common.assembly.data.QueryPath;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
-import org.kuali.student.r1.common.rice.authorization.PermissionTypeGwt;
+import org.kuali.student.r1.common.rice.authorization.PermissionType;
 import org.kuali.student.r1.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -1016,7 +1016,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 		//Note: Additional attributes required for permission check (eg. permission details and role qualifiers) will
 		//be determined server side in the AbstractDataService.isAuthorized method. All that is required here is
 		//id of the proposal object)
-		cluProposalRpcServiceAsync.isAuthorized(getViewContext().getPermissionTypeGwt(), attributes, new KSAsyncCallback<Boolean>(){
+		cluProposalRpcServiceAsync.isAuthorized(getViewContext().getPermissionType(), attributes, new KSAsyncCallback<Boolean>(){
 
 			@Override
 			public void handleFailure(Throwable caught) {
@@ -1027,12 +1027,12 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
 			@Override
 			public void onSuccess(Boolean result) {
-			    GWT.log("Succeeded checking auth for permission type '" + getViewContext().getPermissionTypeGwt().toString() + "' with result: " + result, null);
+			    GWT.log("Succeeded checking auth for permission type '" + getViewContext().getPermissionType().toString() + "' with result: " + result, null);
 				if (Boolean.TRUE.equals(result)) {
 					authCallback.isAuthorized();
 				}
 				else {
-				    authCallback.isNotAuthorized("User is not authorized: " + getViewContext().getPermissionTypeGwt().toString());
+				    authCallback.isNotAuthorized("User is not authorized: " + getViewContext().getPermissionType().toString());
 				}
 			}
     	});
@@ -1042,7 +1042,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
     public void setViewContext(ViewContext viewContext) {
         //Determine the permission type being checked
         
-//        viewContext.setPermissionTypeGwt(PermissionTypeGwt.MY_PERM);
+//        viewContext.setPermissionType(PermissionType.MY_PERM);
         
         
         
@@ -1050,14 +1050,14 @@ public class CourseProposalController extends MenuEditableSectionController impl
             if (viewContext.getIdType() != IdType.COPY_OF_OBJECT_ID
                     && viewContext.getIdType() != IdType.COPY_OF_KS_KEW_OBJECT_ID) {
                 //Id provided, and not a copy id, so opening an existing proposal
-                viewContext.setPermissionTypeGwt(PermissionTypeGwt.OPEN);
+                viewContext.setPermissionType(PermissionType.OPEN);
             } else {
                 //Copy id provided, so creating a proposal for modification
-                viewContext.setPermissionTypeGwt(PermissionTypeGwt.INITIATE);
+                viewContext.setPermissionType(PermissionType.INITIATE);
             }
         } else {
             //No id in view context, so creating new empty proposal
-            viewContext.setPermissionTypeGwt(PermissionTypeGwt.INITIATE);
+            viewContext.setPermissionType(PermissionType.INITIATE);
         }
         
         context = viewContext;
