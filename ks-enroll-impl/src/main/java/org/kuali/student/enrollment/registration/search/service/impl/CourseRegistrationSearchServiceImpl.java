@@ -265,8 +265,14 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "Returns (regGroupId, registeredCount, waitlistedCount) for a list of reg group ids");
         WL_BY_AO_IDS_SEARCH_TYPE =
                 createTypeInfo(WL_BY_AO_IDS_SEARCH_KEY,
-                        "waitlist information for a list of activity offering ids",
-                        "Returns waitlist information for a list of activity offering ids");
+                        "waitlist information (aoid, rgid, atpid, lprid, personid, effectiveDate, numRegisteredForAo, " +
+                                "maxAoSeats) for a list of activity offering ids. The activity ids passed in will match" +
+                                "against all of the RGs that contain those AOs, and the search itself will be matched against" +
+                                "all AOs that exist in those RGs",
+                        "Returns waitlist information (aoid, rgid, atpid, lprid, personid, effectiveDate, " +
+                                "numRegisteredForAo, maxAoSeats)  for a list of activity offering ids. The activity ids passed in will match" +
+                                "against all of the RGs that contain those AOs, and the search itself will be matched against" +
+                                "all AOs that exist in those RGs");
     }
 
     @Override
@@ -332,18 +338,40 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         }
     }
 
+    /**
+     * Given a set of AO ids, RG that contain those IDs are found. Then all AOs that exist in those RGs are selected,
+     * along with any associated waitlist information per AO, including the number of people already registered, the
+     * max seats for the AO, and the person currently waiting for that AO.
+     * Given:
+     *  RG1      | RG2     | RG3
+     *  AO1 AO2  | AO1 AO3 | AO4 AO3
+     * If AO1 is passed in, the search will match with all the RGs that contain AO1 (RG1,RG2)
+     * Then all the AOs contained in those RGs are matched (AO1, AO2, AO3)
+     *
+     * The results will have:
+     * AOID  RGID ATPID  LPRID PERSONID  EFFECTIVE_DATE NUM_REGISTERED_FOR_AO MAX_AO_SEATS
+     * AO1   RG1  Fall12 123   Bob.Smith 1-1-2011 11:24 3                     3
+     * AO2   RG1  Fall12 123   Jane.Doe  1-1-2011 11:25 1                     2
+     * AO2   RG1  Fall12 123   Sue.Allen 1-1-2011 11:26 1                     2
+     *
+     * Using this information you can go line by line to see who gets in the AO and who does not.
+     *
+     * @param searchRequestInfo
+     * @return search results
+     * @throws OperationFailedException
+     */
     private SearchResultInfo searchForWaitlistByAoIds(SearchRequestInfo searchRequestInfo) throws OperationFailedException {
         SearchResultInfo resultInfo = new SearchResultInfo();
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
         List<String> aoIds = requestHelper.getParamAsList(SearchParameters.AO_IDS);
         String queryStr =
                 "SELECT DISTINCT " +
-                        "    rg2ao.related_lui_id, " +
-                        "    waitlistRgLpr.lui_Id, " +
-                        "    waitlistRgLpr.atp_Id, " +
-                        "    waitlistAoLpr.MASTER_LPR_ID, " +
-                        "    waitlistAoLpr.PERS_ID, " +
-                        "    waitlistAoLpr.EFF_DT, " +
+                        "    rg2ao.related_lui_id aoid, " +
+                        "    waitlistRgLpr.lui_Id rgid, " +
+                        "    waitlistRgLpr.atp_Id atpid, " +
+                        "    waitlistAoLpr.MASTER_LPR_ID lprid, " +
+                        "    waitlistAoLpr.PERS_ID personid, " +
+                        "    waitlistAoLpr.EFF_DT effectiveDate, " +
                         "    ( " +
                         "        SELECT " +
                         "            COUNT(*) " +
@@ -352,8 +380,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "        WHERE " +
                         "            lpr.LUI_ID = rg2ao.related_lui_id " +
                         "        AND lpr.LPR_TYPE='" + LprServiceConstants.REGISTRANT_AO_LPR_TYPE_KEY + "' " +
-                        "        AND lpr.LPR_STATE='" + LprServiceConstants.ACTIVE_STATE_KEY + "') registered, " +
-                        "    aolui.max_seats " +
+                        "        AND lpr.LPR_STATE='" + LprServiceConstants.ACTIVE_STATE_KEY + "') numRegisteredForAo, " +
+                        "    aolui.max_seats maxAoSeats " +
                         "FROM " +
                         "    KSEN_LPR waitlistAoLpr, " +
                         "    KSEN_LPR waitlistRgLpr, " +
