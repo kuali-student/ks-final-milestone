@@ -30,7 +30,7 @@ import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.r1.common.assembly.old.Assembler;
 import org.kuali.student.r1.common.assembly.old.data.SaveResult;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
-import org.kuali.student.r1.common.rice.authorization.PermissionType;
+import org.kuali.student.r1.common.rice.authorization.PermissionTypeGwt;
 import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcService;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
@@ -115,7 +115,7 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 		return false;
 	}
 
-	public Boolean isAuthorized(PermissionType type, Map<String,String> attributes) {
+	public Boolean isAuthorized(PermissionTypeGwt type, Map<String,String> attributes) {
         try
         {
             String user = getCurrentUser();

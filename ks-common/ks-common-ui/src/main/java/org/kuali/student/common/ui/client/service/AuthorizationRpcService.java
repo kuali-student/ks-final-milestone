@@ -17,7 +17,7 @@ package org.kuali.student.common.ui.client.service;
 
 import java.util.Map;
 
-import org.kuali.student.r1.common.rice.authorization.PermissionType;
+import org.kuali.student.r1.common.rice.authorization.PermissionTypeGwt;
 
 
 /**
@@ -26,6 +26,6 @@ import org.kuali.student.r1.common.rice.authorization.PermissionType;
  */
 public interface AuthorizationRpcService {
 
-	public Boolean isAuthorized(PermissionType type, Map<String,String> attributes);
+	public Boolean isAuthorized(PermissionTypeGwt type, Map<String,String> attributes);
 
 }

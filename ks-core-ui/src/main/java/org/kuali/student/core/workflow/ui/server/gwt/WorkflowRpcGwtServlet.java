@@ -1,13 +1,6 @@
 package org.kuali.student.core.workflow.ui.server.gwt;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.logging.Level;
-
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
@@ -32,11 +25,17 @@ import org.kuali.student.common.ui.client.service.exceptions.OperationFailedExce
 import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.core.workflow.ui.client.service.WorkflowRpcService;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
-import org.kuali.student.r1.common.rice.authorization.PermissionType;
-
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import org.kuali.student.r1.common.rice.authorization.PermissionTypeGwt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.logging.Level;
 
 public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements WorkflowRpcService {
 
@@ -243,8 +242,8 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
             Map<String,String> workflowDetails = new LinkedHashMap<String,String> ();
             workflowDetails.put (StudentIdentityConstants.DOCUMENT_NUMBER,workflowId);
             if (getPermissionService().isAuthorizedByTemplate(principalId, 
-            		PermissionType.WITHDRAW.getPermissionNamespace(), 
-            		PermissionType.WITHDRAW.getPermissionTemplateName(), 
+            		PermissionTypeGwt.WITHDRAW.getPermissionNamespace(),
+            		PermissionTypeGwt.WITHDRAW.getPermissionTemplateName(),
                         permDetails, 
             		workflowDetails)) {
             	LOG.info("User '{}' is allowed to Withdraw the Document", principalId);
@@ -258,8 +257,8 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
             Map<String,String> qualifiers = new LinkedHashMap<String, String>();
             qualifiers.put (StudentIdentityConstants.DOCUMENT_NUMBER,workflowId);
             boolean canBlanketApprove = getPermissionService().isAuthorizedByTemplate(principalId, 
-                    PermissionType.BLANKET_APPROVE.getPermissionNamespace(), 
-                    PermissionType.BLANKET_APPROVE.getPermissionTemplateName(), new LinkedHashMap<String,String>(permDetails2), 
+                    PermissionTypeGwt.BLANKET_APPROVE.getPermissionNamespace(),
+                    PermissionTypeGwt.BLANKET_APPROVE.getPermissionTemplateName(), new LinkedHashMap<String,String>(permDetails2),
                     qualifiers);
             for (String nodeName : getCurrentActiveNodeNames(docDetail.getDocument().getStatus().getCode())) {
                 if (canBlanketApprove) {
@@ -270,8 +269,8 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
                 qualifiers = new LinkedHashMap<String, String>();
                 qualifiers.put (StudentIdentityConstants.DOCUMENT_NUMBER,workflowId);
                 canBlanketApprove = getPermissionService().isAuthorizedByTemplate(principalId, 
-                        PermissionType.BLANKET_APPROVE.getPermissionNamespace(), 
-                        PermissionType.BLANKET_APPROVE.getPermissionTemplateName(), newSet, 
+                        PermissionTypeGwt.BLANKET_APPROVE.getPermissionNamespace(),
+                        PermissionTypeGwt.BLANKET_APPROVE.getPermissionTemplateName(), newSet,
                         qualifiers);
             }
             if (canBlanketApprove) {
@@ -379,8 +378,8 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
                 Map<String, String> roleQuals = new LinkedHashMap<String, String>();
                 roleQuals.put(StudentIdentityConstants.DOCUMENT_NUMBER, docId);
                 return getPermissionService().isAuthorizedByTemplate(SecurityUtils.getCurrentUserId(),
-                        PermissionType.ADD_ADHOC_REVIEWER.getPermissionNamespace(),
-                        PermissionType.ADD_ADHOC_REVIEWER.getPermissionTemplateName(), permissionDetails, roleQuals);
+                        PermissionTypeGwt.ADD_ADHOC_REVIEWER.getPermissionNamespace(),
+                        PermissionTypeGwt.ADD_ADHOC_REVIEWER.getPermissionTemplateName(), permissionDetails, roleQuals);
             }
             return Boolean.FALSE;
         } catch (Exception ex) {
@@ -399,8 +398,8 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
                 permissionDetails.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME,docType.getName());
                 Map<String,String> roleQuals = new LinkedHashMap<String,String>();
                 roleQuals.put(StudentIdentityConstants.DOCUMENT_NUMBER,docId);
-                return getPermissionService().isAuthorizedByTemplate(SecurityUtils.getCurrentUserId(), PermissionType.REMOVE_ADHOC_REVIEWERS.getPermissionNamespace(),
-                        PermissionType.REMOVE_ADHOC_REVIEWERS.getPermissionTemplateName(), permissionDetails, roleQuals);
+                return getPermissionService().isAuthorizedByTemplate(SecurityUtils.getCurrentUserId(), PermissionTypeGwt.REMOVE_ADHOC_REVIEWERS.getPermissionNamespace(),
+                        PermissionTypeGwt.REMOVE_ADHOC_REVIEWERS.getPermissionTemplateName(), permissionDetails, roleQuals);
             }
             return Boolean.FALSE;
 	    } catch (Exception e) {

@@ -16,7 +16,7 @@ import org.kuali.student.r1.common.assembly.data.QueryPath;
 import org.kuali.student.r1.common.assembly.util.AssemblerUtils;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
 import org.kuali.student.r1.common.rice.StudentWorkflowConstants;
-import org.kuali.student.r1.common.rice.authorization.PermissionType;
+import org.kuali.student.r1.common.rice.authorization.PermissionTypeGwt;
 import org.kuali.student.common.util.security.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -154,10 +154,10 @@ public class AuthorizationFilter extends AbstractDataFilter implements MetadataF
         	//If doc level permissions are enabled, lookup "Edit Document" permission for this object for this user. 
             Map<String, String> qualification = getQualification(idType, id, docType);
         	String currentUser = SecurityUtils.getCurrentUserId();
-        	editDocumentAllowed = permissionService.isAuthorizedByTemplate(currentUser, PermissionType.EDIT.getPermissionNamespace(),
-                    PermissionType.EDIT.getPermissionTemplateName(), null, qualification);
+        	editDocumentAllowed = permissionService.isAuthorizedByTemplate(currentUser, PermissionTypeGwt.EDIT.getPermissionNamespace(),
+                    PermissionTypeGwt.EDIT.getPermissionTemplateName(), null, qualification);
 			LOG.info("Permission '{}/{}' for user '{}': {}",
-                    PermissionType.EDIT.getPermissionNamespace(), PermissionType.EDIT.getPermissionTemplateName(), currentUser, editDocumentAllowed);
+                    PermissionTypeGwt.EDIT.getPermissionNamespace(), PermissionTypeGwt.EDIT.getPermissionTemplateName(), currentUser, editDocumentAllowed);
         }  else {
         	//Doc level permissions not enabled, by default allow user to edit
         	editDocumentAllowed = true;
@@ -209,8 +209,8 @@ public class AuthorizationFilter extends AbstractDataFilter implements MetadataF
             Map<String, String> permissionDetails = new LinkedHashMap<String, String> ();
             permissionDetails.put ("dtoName", dtoName);
             List<Permission> permissions = permissionService.getAuthorizedPermissionsByTemplate(principalId,
-            		PermissionType.FIELD_ACCESS.getPermissionNamespace(), 
-                        PermissionType.FIELD_ACCESS.getPermissionTemplateName(), 
+            		PermissionTypeGwt.FIELD_ACCESS.getPermissionNamespace(),
+                        PermissionTypeGwt.FIELD_ACCESS.getPermissionTemplateName(),
                         permissionDetails, 
                         qualification);
             Map<String, String> permMap = new HashMap<String, String>();

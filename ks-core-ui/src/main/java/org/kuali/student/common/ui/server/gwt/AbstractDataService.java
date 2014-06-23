@@ -23,9 +23,9 @@ import org.kuali.student.r1.common.assembly.transform.MetadataFilter;
 import org.kuali.student.r1.common.assembly.transform.TransformFilter;
 import org.kuali.student.r1.common.assembly.transform.TransformFilter.TransformFilterAction;
 import org.kuali.student.r1.common.assembly.transform.TransformationManager;
+import org.kuali.student.r1.common.rice.authorization.PermissionTypeGwt;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
-import org.kuali.student.r1.common.rice.authorization.PermissionType;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -186,7 +186,7 @@ public abstract class AbstractDataService implements DataService{
 	}
 
 	@Override
-    public Boolean isAuthorized(PermissionType type, Map<String,String> attributes, ContextInfo contextInfo) {
+    public Boolean isAuthorized(PermissionTypeGwt type, Map<String,String> attributes, ContextInfo contextInfo) {
         String user = SecurityUtils.getCurrentUserId();
         boolean result = false;
         if (checkDocumentLevelPermissions()) {

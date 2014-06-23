@@ -15,11 +15,11 @@
 
 package org.kuali.student.common.ui.client.application;
 
+import org.kuali.student.common.ui.shared.IdAttributes.IdType;
+import org.kuali.student.r1.common.rice.authorization.PermissionTypeGwt;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import org.kuali.student.common.ui.shared.IdAttributes.IdType;
-import org.kuali.student.r1.common.rice.authorization.PermissionType;
 
 /**
  * ViewContext can be used to pass along context information when switching or initializing a view.
@@ -39,7 +39,7 @@ public class ViewContext implements Comparable<ViewContext>{
 	private IdType idType = null;
 	// FIXME: change state to proper default or null
 	private String state = "draft";
-	private PermissionType permissionType;
+	private PermissionTypeGwt permissionTypeGwt;
 
 	public String getId() {
 		return id;
@@ -77,8 +77,8 @@ public class ViewContext implements Comparable<ViewContext>{
 		this.state = state;
 	}
 
-	public PermissionType getPermissionType() {
-    	return permissionType;
+	public PermissionTypeGwt getPermissionTypeGwt() {
+    	return permissionTypeGwt;
     }
 
 	/**
@@ -86,8 +86,8 @@ public class ViewContext implements Comparable<ViewContext>{
 	 * if set which checks with the server to see if the user has this kind of permission.  Doesn't appear in
 	 * the address bar
 	 */
-	public void setPermissionType(PermissionType permissionType) {
-    	this.permissionType = permissionType;
+	public void setPermissionTypeGwt(PermissionTypeGwt permissionTypeGwt) {
+    	this.permissionTypeGwt = permissionTypeGwt;
     }
 
 	@Override

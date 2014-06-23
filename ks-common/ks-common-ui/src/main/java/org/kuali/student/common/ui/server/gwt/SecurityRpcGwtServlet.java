@@ -29,7 +29,7 @@ import org.kuali.student.common.ui.client.service.SecurityRpcService;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
 import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
-import org.kuali.student.r1.common.rice.authorization.PermissionType;
+import org.kuali.student.r1.common.rice.authorization.PermissionTypeGwt;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -112,8 +112,8 @@ public class SecurityRpcGwtServlet extends RemoteServiceServlet implements Secur
             permDetails.put(StudentIdentityConstants.SCREEN_COMPONENT, screenName);
             boolean hasAccess = false;
             hasAccess = getPermissionService().isAuthorizedByTemplate(principalId,
-                    PermissionType.USE_SCREEN.getPermissionNamespace(),
-                    PermissionType.USE_SCREEN.getPermissionTemplateName(), permDetails,
+                    PermissionTypeGwt.USE_SCREEN.getPermissionNamespace(),
+                    PermissionTypeGwt.USE_SCREEN.getPermissionTemplateName(), permDetails,
                     permDetails);
 
             LOG.debug(principalId + " access : " + hasAccess);
@@ -155,18 +155,18 @@ public class SecurityRpcGwtServlet extends RemoteServiceServlet implements Secur
 	 * TODO: Need to determine if permission details are required.   
 	 */
 	@Override
-    public ArrayList<String> getPermissionsByType(PermissionType permissionType) throws OperationFailedException {
+    public ArrayList<String> getPermissionsByType(PermissionTypeGwt permissionTypeGwt) throws OperationFailedException {
         ArrayList<String> matchingPermissions = new ArrayList<String>();
         try
         {
             String principalId = SecurityUtils.getCurrentPrincipalId();
 
-            LOG.debug("Retreiving permissions for template: " + permissionType.getPermissionTemplateName() + " for "
+            LOG.debug("Retreiving permissions for template: " + permissionTypeGwt.getPermissionTemplateName() + " for "
                     + principalId);
 
             Map<String, String> permDetails = new LinkedHashMap<String, String>();
             List<Permission> permissions = permissionService.getAuthorizedPermissionsByTemplate(
-                    principalId, permissionType.getPermissionNamespace(), permissionType.getPermissionTemplateName(),
+                    principalId, permissionTypeGwt.getPermissionNamespace(), permissionTypeGwt.getPermissionTemplateName(),
                     permDetails, permDetails);
 
             // Null check required in case web service method returns empty list, 
@@ -191,7 +191,7 @@ public class SecurityRpcGwtServlet extends RemoteServiceServlet implements Secur
      * TODO: Need to determine if permission details are required.   
      */
     @Override
-    public ArrayList<String> getPermissionsByType(PermissionType permissionType, HashMap<String, String> attributes)
+    public ArrayList<String> getPermissionsByType(PermissionTypeGwt permissionTypeGwt, HashMap<String, String> attributes)
             throws OperationFailedException {
         ArrayList<String> matchingPermissions = new ArrayList<String>();
         //AttributeSet attributeSet = new AttributeSet(attributes);
@@ -199,13 +199,13 @@ public class SecurityRpcGwtServlet extends RemoteServiceServlet implements Secur
         {
             String principalId = SecurityUtils.getCurrentPrincipalId();
 
-            LOG.debug("Retreiving permissions for template: " + permissionType.getPermissionTemplateName() + " for "
+            LOG.debug("Retreiving permissions for template: " + permissionTypeGwt.getPermissionTemplateName() + " for "
                     + principalId + " with details: " + attributes != null ? attributes.toString() : "null");
 
             List<Permission> permissions = (List<Permission>) getPermissionService()
                     .getAuthorizedPermissionsByTemplate(
-                            principalId, permissionType.getPermissionNamespace(),
-                            permissionType.getPermissionTemplateName(), attributes, attributes);
+                            principalId, permissionTypeGwt.getPermissionNamespace(),
+                            permissionTypeGwt.getPermissionTemplateName(), attributes, attributes);
 
             // Null check required in case web service method returns empty list, 
             // SOAP messages return empty list as null  by default
