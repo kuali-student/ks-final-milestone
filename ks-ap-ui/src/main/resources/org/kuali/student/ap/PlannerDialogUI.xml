@@ -730,33 +730,30 @@
         <property name="render" value="@{variableCredit}"/>
         <property name="items">
             <list>
-                <bean parent="Uif-HorizontalBoxGroup">
-                    <property name="validationMessages">
-                        <null/>
-                    </property>
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>ksap-popup-detail-label</value>
-                        </list>
-                    </property>
+                <!-- Term & Year -->
+                <bean parent="Uif-CssGridGroup">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-Message" p:messageText="Credits"/>
-                        </list>
-                    </property>
-                </bean>
-                <bean parent="Uif-HorizontalBoxGroup">
-                    <property name="validationMessages">
-                        <null/>
-                    </property>
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>ksap-popup-detail-field</value>
-                        </list>
-                    </property>
-                    <property name="items">
-                        <list>
-                            <bean parent="planner_course_credit_input" p:fieldLabel.render="false"/>
+                            <bean parent="Uif-VerticalBoxSection" p:colSpan="5" p:wrapperCssClasses="ksap-right-labels">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-Message" p:messageText="Credits">
+                                            <property name="cssClasses">
+                                                <list merge="true">
+                                                    <value>ksap-label</value>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-VerticalBoxSection" p:colSpan="7">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="planner_course_credit_input" p:fieldLabel.render="false"/>
+                                    </list>
+                                </property>
+                            </bean>
                         </list>
                     </property>
                 </bean>
