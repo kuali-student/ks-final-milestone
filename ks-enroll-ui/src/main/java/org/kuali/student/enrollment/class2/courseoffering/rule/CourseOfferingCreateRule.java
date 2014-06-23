@@ -7,6 +7,7 @@ import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.common.uif.rule.KsMaintenanceDocumentRuleBase;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -36,17 +37,29 @@ public class CourseOfferingCreateRule extends KsMaintenanceDocumentRuleBase {
             if ( ! validateDuplicateSuffix(coWrapper)) {
                 return false;
             }
-            }
+        }
 
         return true;
     }
 
 
     protected boolean validateRequiredFields(CourseOfferingCreateWrapper coWrapper){
-        if (coWrapper.getFormatOfferingWrappers().isEmpty()){
+        boolean valid = false;
+        if (!coWrapper.getFormatOfferingWrappers().isEmpty()) {
+            for (FormatOfferingWrapper offeringWrapper : coWrapper.getFormatOfferingWrappers()) {
+                if (offeringWrapper.getFormatId() != null) {
+                    // At least 1 format offering must have an ID (can select an 'empty' option that still comes through in the list).
+                    valid = true;
+                    break;
+                }
+            }
+        }
+
+        if (!valid) {
             GlobalVariables.getMessageMap().putError(CourseOfferingConstants.DELIVERY_FORMAT_SECTION_ID,CourseOfferingConstants.DELIVERY_FORMAT_REQUIRED_ERROR);
             return false;
         }
+
         return true;
     }
 

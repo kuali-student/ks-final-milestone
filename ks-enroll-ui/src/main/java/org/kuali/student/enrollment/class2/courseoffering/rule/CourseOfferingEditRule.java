@@ -24,6 +24,7 @@ import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.common.uif.rule.KsMaintenanceDocumentRuleBase;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
@@ -172,10 +173,22 @@ public class CourseOfferingEditRule extends KsMaintenanceDocumentRuleBase {
     }
 
     protected boolean validateRequiredFields(CourseOfferingEditWrapper coWrapper){
-        if (coWrapper.getFormatOfferingList().isEmpty()){
+        boolean valid = false;
+        if (!coWrapper.getFormatOfferingList().isEmpty()) {
+            for (FormatOfferingWrapper offeringWrapper : coWrapper.getFormatOfferingList()) {
+                if (offeringWrapper.getFormatId() != null) {
+                    // At least 1 format offering must have an ID (can select an 'empty' option that still comes through in the list).
+                    valid = true;
+                    break;
+                }
+            }
+        }
+
+        if (!valid) {
             GlobalVariables.getMessageMap().putErrorForSectionId("KS-CourseOfferingEdit-DeliveryFormats", CourseOfferingConstants.DELIVERY_FORMAT_REQUIRED_ERROR);
             return false;
         }
+
         return true;
     }
 
