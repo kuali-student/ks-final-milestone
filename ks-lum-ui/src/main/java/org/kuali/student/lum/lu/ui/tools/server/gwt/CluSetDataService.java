@@ -5,22 +5,17 @@ import java.util.Map;
 
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.server.gwt.DataService;
-import org.kuali.student.common.ui.shared.IdAttributes;
-import org.kuali.student.r1.common.assembly.data.AssemblyException;
 import org.kuali.student.r1.common.assembly.data.Data;
 import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.r1.common.assembly.dictionary.MetadataServiceImpl;
 import org.kuali.student.r1.common.assembly.old.Assembler;
 import org.kuali.student.r1.common.assembly.old.data.SaveResult;
-import org.kuali.student.r1.common.assembly.transform.MetadataFilter;
-import org.kuali.student.r1.common.assembly.transform.TransformFilter;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r1.common.rice.authorization.PermissionType;
+import org.kuali.student.r1.common.rice.authorization.PermissionTypeGwt;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,7 +68,7 @@ public class CluSetDataService  implements DataService{
     }
 
     @Override
-    public Boolean isAuthorized(PermissionType type, Map<String, String> attributes, ContextInfo contextInfo) {
+    public Boolean isAuthorized(PermissionTypeGwt type, Map<String, String> attributes, ContextInfo contextInfo) {
         return new Boolean(true);
     }
 

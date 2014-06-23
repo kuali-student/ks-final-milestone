@@ -36,7 +36,7 @@ import org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcServiceAsync;
 import org.kuali.student.lum.program.client.widgets.ProgramSideBar;
 import org.kuali.student.r1.common.assembly.data.Data;
 import org.kuali.student.r1.common.assembly.data.Metadata;
-import org.kuali.student.r1.common.rice.authorization.PermissionType;
+import org.kuali.student.r1.common.rice.authorization.PermissionTypeGwt;
 import org.kuali.student.r2.common.dto.DtoConstants;
 
 import java.util.ArrayList;
@@ -369,10 +369,10 @@ public abstract class ProgramController extends MenuSectionController {
         super.setViewContext(viewContext);
         if (viewContext.getId() != null && !viewContext.getId().isEmpty()) {
 
-       viewContext.setPermissionType(PermissionType.OPEN);
+       viewContext.setPermissionTypeGwt(PermissionTypeGwt.OPEN);
         } else {
 
-        viewContext.setPermissionType(PermissionType.INITIATE);
+        viewContext.setPermissionTypeGwt(PermissionTypeGwt.INITIATE);
         }
     }
 
