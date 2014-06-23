@@ -105,22 +105,15 @@ public class KSWorkshopCourse implements Serializable{
 
     public List<String> getActivityTypes(){
         ArrayList<String> list = new ArrayList<String>();
-        if(activities==null){
-            return list;
-        }
-
         for (KSWorkshopActivity activity: activities) {
             list.add(activity.getType());
         }
+
         return list;
     }
 
     public List<String> getActivityDateTimes(){
         ArrayList<String> list = new ArrayList<String>();
-        if(activities==null){
-            return list;
-        }
-
         for (KSWorkshopActivity activity: activities) {
             list.add(activity.getDateTime());
         }
@@ -130,10 +123,6 @@ public class KSWorkshopCourse implements Serializable{
 
     public List<String> getActivityInstructors(){
         ArrayList<String> list = new ArrayList<String>();
-        if(activities==null){
-            return list;
-        }
-
         for (KSWorkshopActivity activity: activities) {
             list.add(activity.getInstructor());
         }
@@ -143,10 +132,6 @@ public class KSWorkshopCourse implements Serializable{
 
     public List<String> getActivityRooms(){
         ArrayList<String> list = new ArrayList<String>();
-        if(activities==null){
-            return list;
-        }
-
         for (KSWorkshopActivity activity: activities) {
             list.add(activity.getRoom());
         }

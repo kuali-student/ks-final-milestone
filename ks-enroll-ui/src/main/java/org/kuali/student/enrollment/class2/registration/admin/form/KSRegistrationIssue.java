@@ -16,16 +16,20 @@
 
 package org.kuali.student.enrollment.class2.registration.admin.form;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by Brian on 6/18/14.
  */
 public class KSRegistrationIssue {
-
+    private String message;
     private KSWorkshopCourse course;
-    private List<RegistrationIssueItem> items = new ArrayList<RegistrationIssueItem>();
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
     public KSWorkshopCourse getCourse() {
         return course;
@@ -34,26 +38,4 @@ public class KSRegistrationIssue {
     public void setCourse(KSWorkshopCourse course) {
         this.course = course;
     }
-
-    public List<RegistrationIssueItem> getItems() {
-        return items;
-    }
-
-    public void setItems(List<RegistrationIssueItem> items) {
-        this.items = items;
-    }
-
-    public List<String> getItemDescriptions(){
-        ArrayList<String> list = new ArrayList<String>();
-        if(items==null){
-            return list;
-        }
-
-        for (RegistrationIssueItem item: items) {
-            list.add(item.getDescription());
-        }
-
-        return list;
-    }
-
 }

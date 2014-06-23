@@ -43,11 +43,11 @@
             </bean>
         </property>
         <property name="formClass" value="org.kuali.student.enrollment.class2.registration.admin.form.KSWorkshopForm"/>
-        <property name="dialogs">
+        <!--property name="dialogs">
             <list>
                 <bean id="registerConfirmDialog" parent="KS-AdminRegistration-ConfirmDialogResponse"/>
             </list>
-        </property>
+        </property-->
     </bean>
 
     <bean id="KS-AdminRegistration-StudentInfo" parent="Uif-CssGridSection-1FieldLabelColumn">
@@ -55,13 +55,13 @@
         <property name="items">
             <list>
                 <bean parent="Uif-HorizontalFieldGroup" p:label="Student Id">
+                    <!--property name="group.enterKeyAction" value="KS-AdminRegistration-StudentInfoGo"/-->
                     <property name="group.items">
                         <list>
                             <bean parent="Uif-InputField" p:propertyName="studentId">
                                 <property name="postInputAddons">
                                     <list>
-                                        <bean parent="Uif-SecondaryActionButton" p:iconClass="icon-search"
-                                              p:methodToCall="getStudentInfo"/>
+                                        <ref bean="KS-AdminRegistration-StudentInfoGo"/>
                                     </list>
                                 </property>
                             </bean>
@@ -74,6 +74,9 @@
         </property>
     </bean>
 
+    <bean id="KS-AdminRegistration-StudentInfoGo" parent="Uif-SecondaryActionButton" p:actionLabel="Go"
+          p:methodToCall="getStudentInfo"/>
+
     <bean id="KS-AdminRegistration-RegistrationTabs" p:render="@{studentName != null}" parent="Uif-TabSection"
           p:headerText="Schedule - @{termName}">
         <property name="header.rightGroup">
@@ -83,7 +86,7 @@
                         <bean parent="Uif-InputField" p:label="Change Term" p:propertyName="termId">
                             <property name="postInputAddons">
                                 <list>
-                                    <bean parent="Uif-SecondaryActionButton" p:iconClass="icon-search"
+                                    <bean parent="Uif-SecondaryActionButton" p:actionLabel="Go"
                                           p:methodToCall="getRegistrationInfo"/>
                                 </list>
                             </property>
@@ -119,56 +122,51 @@
     <bean id="KS-AdminRegistration-RegisterGroup" parent="Uif-CssGridGroup">
         <property name="items">
             <list>
-                <bean parent="Uif-StackedCollectionGroup" p:colSpan="3">
+                <bean parent="Uif-TableCollectionSection" p:colSpan="3">
                     <property name="collectionObjectClass"
                               value="org.kuali.student.enrollment.class2.registration.admin.form.KSWorkshopCourse"/>
                     <property name="propertyName" value="pendingCourses"/>
                     <property name="renderAddBlankLineButton" value="true"/>
-                    <property name="renderAddLine" value="false"/>
                     <property name="addLinePlacement" value="BOTTOM"/>
+                    <property name="layoutManager.richTable.render" value="false"/>
+                    <property name="layoutManager.renderSequenceField" value="false"/>
+                    <property name="renderAddLine" value="false"/>
+                    <property name="lineActions">
+                        <list>
+                            <bean parent="Uif-PrimaryActionButton" p:render="@{#index == pendingCourses.size() - 1}"
+                                  p:actionLabel="Register" p:methodToCall="register"
+                                  p:refreshId="KS-AdminRegistration-RegistrationTabs"
+                                  p:ajaxReturnType="update-component"/>
+                        </list>
+                    </property>
                     <property name="addBlankLineAction">
                         <bean parent="Uif-ActionLink" p:methodToCall="addBlankLine"
                               p:actionLabel="+Add Additional" p:actionEvent="addBlankLine"
                               p:id="@{#collectionGroup.id}_add"/>
                     </property>
-                    <property name="layoutManager">
-                        <bean parent="Uif-StackedCollectionLayout-List">
-                            <property name="lineGroupPrototype">
-                                <bean parent="Uif-CssGridGroup"/>
-                            </property>
-                        </bean>
-                    </property>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="course" p:colSpan="8" p:label="Course Code"
-                                  p:fieldLabel.render="@{#index == 0}"/>
-                            <bean parent="Uif-InputField" p:propertyName="section" p:colSpan="4" p:label="Section"
-                                  p:fieldLabel.render="@{#index == 0}"/>
+                            <bean parent="Uif-InputField" p:propertyName="course" p:label="Course Code"/>
+                            <bean parent="Uif-InputField" p:propertyName="section" p:label="Section"/>
                         </list>
                     </property>
                 </bean>
-
-                <bean parent="Uif-PrimaryActionButton" p:colSpan="2" p:actionLabel="Register"
-                      p:methodToCall="register"/>
 
                 <bean parent="Uif-TableCollectionGroup" p:colSpan="7">
                     <property name="collectionObjectClass"
                               value="org.kuali.student.enrollment.class2.registration.admin.form.KSRegistrationIssue"/>
                     <property name="propertyName" value="registrationIssues"/>
-                    <property name="layoutManager.richTable.render" value="false"/>
-                    <property name="layoutManager.renderSequenceField" value="false"/>
-                    <property name="renderAddLine" value="false"/>
                     <property name="lineActions">
                         <list>
                             <bean parent="Uif-PrimaryActionButton" p:actionLabel="Allow" p:methodToCall="allowCourse"/>
                             <bean parent="Uif-SecondaryActionButton" p:actionLabel="Deny" p:methodToCall="denyCourse"/>
                         </list>
                     </property>
+                    <property name="renderAddLine" value="false"/>
                     <property name="items">
                         <list>
                             <bean parent="Uif-DataField" p:propertyName="course.course" p:label="Registration Issues"/>
-                            <bean parent="Uif-DataField" p:propertyName="itemDescriptions"
-                                  p:readOnlyListDisplayType="BREAK"/>
+                            <bean parent="Uif-DataField" p:propertyName="message"/>
                         </list>
                     </property>
                 </bean>
@@ -176,7 +174,7 @@
         </property>
     </bean>
 
-    <bean id="KS-AdminRegistration-Collection" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="10">
+    <bean id="KS-AdminRegistration-Collection" parent="Uif-TableCollectionSection">
 
         <property name="collectionObjectClass"
                   value="org.kuali.student.enrollment.class2.registration.admin.form.KSWorkshopCourse"/>
@@ -209,11 +207,11 @@
         </property>
     </bean>
 
-    <bean id="KS-AdminRegistration-ConfirmDialogResponse" parent="Uif-DialogGroup" p:headerText="Confirm Registration">
+    <bean id="KS-AdminRegistration-RegisterDialogResponse" parent="Uif-DialogGroup" p:modalLarge="true">
+        <property name="headerText" value="Confirm Registration"/>
         <property name="items">
             <list>
-                <bean id="KS-AdminRegistration-ConfirmDialogCollection" parent="Uif-TableCollectionSection"
-                      p:layoutManager.numberOfColumns="10">
+                <bean parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="10">
                     <property name="collectionObjectClass"
                               value="org.kuali.student.enrollment.class2.registration.admin.form.KSWorkshopCourse"/>
                     <property name="layoutManager.richTable.render" value="false"/>
@@ -223,11 +221,11 @@
                     <property name="renderLineActions" value="false"/>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-VerticalFieldGroup" p:label="Course (Section)">
-                                <property name="items">
+                            <bean parent="Uif-MessageField" p:label="Course (Section)"
+                                  p:messageText="@{#line.course} (@{#line.section})"/>
+                            <bean parent="Uif-HorizontalFieldGroup" p:label="Activities">
+                                <property name="group.items">
                                     <list>
-                                        <bean parent="Uif-MessageField" p:label="Course (Section)"
-                                              p:messageText="[b]@{#line.course} (@{#line.section})[/b]"/>
                                         <bean parent="Uif-DataField" p:propertyName="activityTypes"
                                               p:readOnlyListDisplayType="BREAK"/>
                                         <bean parent="Uif-DataField" p:propertyName="activityDateTimes"
@@ -240,23 +238,43 @@
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
                                             <list>
-                                                <bean parent="Uif-KeyLabelPair" p:key="1" p:value="1 Credit"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="1" p:value="1.0"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="2" p:value="2.0"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="3" p:value="3.0"/>
                                             </list>
                                         </property>
                                     </bean>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:label="Reg Options" p:propertyName="regOptions"/>
-                            <bean parent="Uif-DataField" p:label="Effective Reg Date" p:propertyName="regDate"/>
+                            <bean parent="Uif-InputField" p:label="Reg Options" p:propertyName="regOptions">
+                                <property name="control">
+                                    <!--                   TODO: Key value finders would be used to populate the options here in real implementation-->
+                                    <bean parent="Uif-DropdownControl">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="reg" p:value="Regular"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="pf" p:value="Pass/Fail"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="audit" p:value="Audit"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:label="Effective Reg Date" p:propertyName="regDate">
+                                <property name="control">
+                                    <bean parent="Uif-DateControl"/>
+                                </property>
+                            </bean>
                         </list>
                     </property>
                 </bean>
             </list>
         </property>
-        <property name="availableResponses">
+        <property name="footer.items">
             <list>
-                <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Confirm Registration"/>
-                <bean parent="Uif-KeyLabelPair" p:key="N" p:value="Cancel"/>
+                <bean parent="Uif-PrimaryActionButton" p:actionLabel="Confirm Registration" p:methodToCall="register"
+                      p:dialogResponse="true" p:performClientSideValidation="true" p:dialogDismissOption="PRESUBMIT"/>
+                <bean parent="Uif-SecondaryActionButton" p:actionLabel="Cancel"/>
             </list>
         </property>
     </bean>
