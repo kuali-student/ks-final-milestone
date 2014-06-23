@@ -17,8 +17,6 @@ package org.kuali.student.enrollment.class2.acal.controller;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormatter;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
@@ -52,8 +50,6 @@ import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.util.date.DateFormatters;
-import org.kuali.student.r2.common.util.date.KSDateTimeFormatter;
 import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.r2.core.acal.dto.AcalEventInfo;
 import org.kuali.student.r2.core.acal.dto.ExamPeriodInfo;
@@ -197,7 +193,7 @@ public class AcademicCalendarController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=processBlankLineKeyDate")
     public void processBlankLineKeyDate(@ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
                                             HttpServletRequest request, HttpServletResponse response){
-        KSDateTimeFormatter df = DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER;
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 
         String termIndex = request.getParameter("termIndex");
         String keyDateGroupIndex = request.getParameter("keyDateGroupIndex");
@@ -211,7 +207,7 @@ public class AcademicCalendarController extends UifControllerBase {
         keyDateWrapper.setEndTimeAmPm(request.getParameter("keyDateEndTimeAmPm"));
         if (StringUtils.isNotBlank(request.getParameter("keyDateStartDate"))) {
             try {
-                keyDateWrapper.setStartDate(df.parse(df.format(new DateTime(request.getParameter("keyDateStartDate")))));
+                keyDateWrapper.setStartDate(df.parse(request.getParameter("keyDateStartDate")));
             } catch (Exception e) {
                 throw getAcalViewHelperService(acalForm).convertServiceExceptionsToUI(e);
             }
@@ -219,7 +215,7 @@ public class AcademicCalendarController extends UifControllerBase {
         }
         if (StringUtils.isNotBlank(request.getParameter("keyDateEndDate"))) {
             try {
-                keyDateWrapper.setEndDate(df.parse(df.format(new DateTime(request.getParameter("keyDateEndDate")))));
+                keyDateWrapper.setEndDate(df.parse(request.getParameter("keyDateEndDate")));
             } catch (Exception e) {
                 throw getAcalViewHelperService(acalForm).convertServiceExceptionsToUI(e);
             }
