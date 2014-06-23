@@ -20,6 +20,6 @@
 	<source path='rice' >
 		<include name="**/*StudentIdentityConstants.java"/>
 		<include name="**/*StudentWorkflowConstants.java"/>
-		<include name="**/*PermissionType.java"/>
+		<include name="**/*PermissionTypeGwt.java"/>
 	</source>
 </module>

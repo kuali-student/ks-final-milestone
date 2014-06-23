@@ -21,7 +21,7 @@ package org.kuali.student.r1.common.rice.authorization;
  * When using permission types, permission checks will be performed using template names. 
  *
  */
-public enum PermissionType {
+public enum PermissionTypeGwt {
 	INITIATE("Initiate","KR-SYS","Initiate Document"),
 	OPEN("View","KS-SYS","Open Document (GWT)"),
 	EDIT("Edit","KS-SYS","Edit Document"),
@@ -41,7 +41,7 @@ public enum PermissionType {
 	private String permissionNamespace = "";
 	private String permissionTemplateName = "";
 
-	private PermissionType(String label, String permissionNamespace, String permissionTemplateName) {
+	private PermissionTypeGwt(String label, String permissionNamespace, String permissionTemplateName) {
         this.label = label;
         this.permissionNamespace = permissionNamespace;
         this.permissionTemplateName = permissionTemplateName;
@@ -75,8 +75,8 @@ public enum PermissionType {
 		return permissionNamespace + "~" + permissionTemplateName;
 	}
 
-	public static PermissionType getByCode(String code) {
-		for (PermissionType type : PermissionType.values()) {
+	public static PermissionTypeGwt getByCode(String code) {
+		for (PermissionTypeGwt type : PermissionTypeGwt.values()) {
 			if (type.getCode().equals(code)) {
 				return type;
 			}
