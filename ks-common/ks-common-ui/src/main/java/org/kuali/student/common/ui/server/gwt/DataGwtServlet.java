@@ -29,7 +29,7 @@ import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.common.util.security.ContextUtils;
-import org.kuali.student.r1.common.rice.authorization.PermissionTypeGwt;
+import org.kuali.student.r1.common.rice.authorization.PermissionType;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -96,7 +96,7 @@ public class DataGwtServlet extends RemoteServiceServlet implements BaseDataOrch
 	}
 
 	@Override
-	public Boolean isAuthorized(PermissionTypeGwt type, Map<String,String> attributes) {
+	public Boolean isAuthorized(PermissionType type, Map<String,String> attributes) {
 		return dataService.isAuthorized(type, attributes, ContextUtils.getContextInfo());
 	}
 

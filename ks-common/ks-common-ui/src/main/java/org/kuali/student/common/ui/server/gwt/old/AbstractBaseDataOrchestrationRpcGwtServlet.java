@@ -15,27 +15,29 @@
 
 package org.kuali.student.common.ui.server.gwt.old;
 
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+
 import org.kuali.rice.kew.api.action.WorkflowDocumentActionsService;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.permission.PermissionService;
-import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcService;
-import org.kuali.student.common.ui.client.service.DataSaveResult;
-import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
-import org.kuali.student.common.ui.shared.IdAttributes;
-import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.r1.common.assembly.data.AssemblyException;
 import org.kuali.student.r1.common.assembly.data.Data;
 import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.r1.common.assembly.old.Assembler;
 import org.kuali.student.r1.common.assembly.old.data.SaveResult;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
-import org.kuali.student.r1.common.rice.authorization.PermissionTypeGwt;
+import org.kuali.student.r1.common.rice.authorization.PermissionType;
+import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcService;
+import org.kuali.student.common.ui.client.service.DataSaveResult;
+import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
+import org.kuali.student.common.ui.shared.IdAttributes;
+import org.kuali.student.common.util.security.SecurityUtils;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
  * Generic implementation of data orchestration calls and workflow calls
@@ -113,7 +115,7 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 		return false;
 	}
 
-	public Boolean isAuthorized(PermissionTypeGwt type, Map<String,String> attributes) {
+	public Boolean isAuthorized(PermissionType type, Map<String,String> attributes) {
         try
         {
             String user = getCurrentUser();

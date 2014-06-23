@@ -12,7 +12,7 @@ import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.r1.common.assembly.data.Metadata.WriteAccess;
 import org.kuali.student.r1.common.assembly.data.QueryPath;
 import org.kuali.student.r1.common.rice.StudentWorkflowConstants.ActionRequestType;
-import org.kuali.student.r1.common.rice.authorization.PermissionTypeGwt;
+import org.kuali.student.r1.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
@@ -366,11 +366,11 @@ public class CollaboratorSectionView extends SectionView {
         permissionListItems.clear();
         // SEE JAVADOC ABOVE IF CODE BELOW IS CHANGED OR OVERRIDEN
         if (selectedAction != null && selectedAction.equals(ActionRequestType.APPROVE.getActionRequestCode()) || isDocumentPreRoute()) {
-            permissionListItems.addItem(PermissionTypeGwt.EDIT.getCode(), "Edit, Comment, View");
+            permissionListItems.addItem(PermissionType.EDIT.getCode(), "Edit, Comment, View");
         }
 
-        permissionListItems.addItem(PermissionTypeGwt.ADD_COMMENT.getCode(), "Comment, View");
-        permissionListItems.addItem(PermissionTypeGwt.OPEN.getCode(), "View");
+        permissionListItems.addItem(PermissionType.ADD_COMMENT.getCode(), "Comment, View");
+        permissionListItems.addItem(PermissionType.OPEN.getCode(), "View");
 
         permissionList.setListItems(permissionListItems);
     }
@@ -382,7 +382,7 @@ public class CollaboratorSectionView extends SectionView {
      * @return
      */
     private String translatePermissionCode(String permCode) {
-        PermissionTypeGwt permType = PermissionTypeGwt.getByCode(permCode);
+        PermissionType permType = PermissionType.getByCode(permCode);
         switch (permType) {
             case ADD_COMMENT:
                 return "Comment, View";

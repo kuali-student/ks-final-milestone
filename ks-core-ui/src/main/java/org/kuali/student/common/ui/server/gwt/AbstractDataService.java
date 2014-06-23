@@ -1,5 +1,12 @@
 package org.kuali.student.common.ui.server.gwt;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.net.URLDecoder;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentDetail;
@@ -7,7 +14,6 @@ import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.shared.IdAttributes;
-import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.core.assembly.transform.ProposalWorkflowFilter;
 import org.kuali.student.r1.common.assembly.data.Data;
@@ -17,27 +23,21 @@ import org.kuali.student.r1.common.assembly.transform.MetadataFilter;
 import org.kuali.student.r1.common.assembly.transform.TransformFilter;
 import org.kuali.student.r1.common.assembly.transform.TransformFilter.TransformFilterAction;
 import org.kuali.student.r1.common.assembly.transform.TransformationManager;
-import org.kuali.student.r1.common.rice.StudentIdentityConstants;
-import org.kuali.student.r1.common.rice.authorization.PermissionTypeGwt;
-import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
+import org.kuali.student.r1.common.rice.StudentIdentityConstants;
+import org.kuali.student.r1.common.rice.authorization.PermissionType;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r2.core.proposal.service.ProposalService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.net.URLDecoder;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 
 @Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public abstract class AbstractDataService implements DataService{
@@ -186,7 +186,7 @@ public abstract class AbstractDataService implements DataService{
 	}
 
 	@Override
-    public Boolean isAuthorized(PermissionTypeGwt type, Map<String,String> attributes, ContextInfo contextInfo) {
+    public Boolean isAuthorized(PermissionType type, Map<String,String> attributes, ContextInfo contextInfo) {
         String user = SecurityUtils.getCurrentUserId();
         boolean result = false;
         if (checkDocumentLevelPermissions()) {

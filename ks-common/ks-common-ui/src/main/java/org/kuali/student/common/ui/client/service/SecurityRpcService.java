@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
-import org.kuali.student.r1.common.rice.authorization.PermissionTypeGwt;
+import org.kuali.student.r1.common.rice.authorization.PermissionType;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
@@ -75,15 +75,15 @@ public interface SecurityRpcService extends RemoteService {
 	 * @param templateName
 	 * @return list of permission names
 	 */
-	public ArrayList<String> getPermissionsByType(PermissionTypeGwt permissionTypeGwt) throws OperationFailedException;
+	public ArrayList<String> getPermissionsByType(PermissionType permissionType) throws OperationFailedException;
 	
 	/**
      * This is used to get all permissions assigned to the user based on a permission template.
      * 
-     * @param permissionTypeGwt
+     * @param permissionType
      * @param attributes
      * @return list of permission names
      * @throws OperationFailedException
      */
-    public ArrayList<String> getPermissionsByType(PermissionTypeGwt permissionTypeGwt, HashMap<String, String> attributes) throws OperationFailedException;
+    public ArrayList<String> getPermissionsByType(PermissionType permissionType, HashMap<String, String> attributes) throws OperationFailedException;
 }

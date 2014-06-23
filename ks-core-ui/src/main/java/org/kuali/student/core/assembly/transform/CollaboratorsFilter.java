@@ -1,22 +1,22 @@
 package org.kuali.student.core.assembly.transform;
 
-import org.kuali.student.common.util.security.ContextUtils;
-import org.kuali.student.core.rice.authorization.CollaboratorHelperGwt;
+import java.util.List;
+import java.util.Map;
+
 import org.kuali.student.r1.common.assembly.data.Data;
-import org.kuali.student.r1.common.assembly.data.Data.StringKey;
 import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.Data.StringKey;
 import org.kuali.student.r1.common.assembly.dictionary.MetadataServiceImpl;
 import org.kuali.student.r1.common.assembly.transform.AbstractDataFilter;
 import org.kuali.student.r1.common.assembly.transform.DataBeanMapper;
 import org.kuali.student.r1.common.assembly.transform.DefaultDataBeanMapper;
 import org.kuali.student.r1.common.assembly.transform.MetadataFilter;
+import org.kuali.student.core.rice.authorization.CollaboratorHelper;
 import org.kuali.student.r1.core.workflow.dto.CollaboratorInfo;
 import org.kuali.student.r1.core.workflow.dto.WorkflowPersonInfo;
+import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r2.core.proposal.service.ProposalService;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * Filter can be used to add authors and collaborators to a workflow process. The filter must be
@@ -27,7 +27,7 @@ import java.util.Map;
  * */
 public class CollaboratorsFilter extends AbstractDataFilter implements MetadataFilter{
 	public static final String COLLABORATOR_INFO 		= "CollaboratorFilter.CollaboratorInfo";
-	private CollaboratorHelperGwt collaboratorHelperGwt;
+	private CollaboratorHelper collaboratorHelper;
 	private ProposalService proposalService;
 	
 	private MetadataServiceImpl metadataService;
@@ -73,14 +73,14 @@ public class CollaboratorsFilter extends AbstractDataFilter implements MetadataF
         if (collabInfo.getCollaborators() != null) {
             for (WorkflowPersonInfo wfPerson : collabInfo.getCollaborators()) {
                 if ("New".equals(wfPerson.getActionRequestStatus())) {
-                    collaboratorHelperGwt.addCollaborator(proposalInfo.getWorkflowId(), proposalInfo.getId(), "title here", wfPerson.getPrincipalId(), wfPerson.getPermission(), wfPerson.getAction(),
+                    collaboratorHelper.addCollaborator(proposalInfo.getWorkflowId(), proposalInfo.getId(), "title here", wfPerson.getPrincipalId(), wfPerson.getPermission(), wfPerson.getAction(),
                             true, "");
                     if (wfPerson.isAuthor()) {
                         proposalInfo.getProposerPerson().add(wfPerson.getPrincipalId());
                         updateProposal = true;
                     }
                 } else if ("Remove".equals(wfPerson.getActionRequestStatus())) {
-                    collaboratorHelperGwt.removeCollaborator(proposalInfo.getWorkflowId(), proposalInfo.getId(), wfPerson.getActionRequestId());
+                    collaboratorHelper.removeCollaborator(proposalInfo.getWorkflowId(), proposalInfo.getId(), wfPerson.getActionRequestId());
                     if (wfPerson.isAuthor()) {
                         proposalInfo.getProposerPerson().remove(wfPerson.getPrincipalId());
                         updateProposal = true;
@@ -105,7 +105,7 @@ public class CollaboratorsFilter extends AbstractDataFilter implements MetadataF
         }
 
         // Retrieve updated collaborator info for this workflow
-        List<WorkflowPersonInfo> collaborators = collaboratorHelperGwt.getCollaborators(proposalInfo.getWorkflowId(), proposalInfo.getId(), proposalInfo.getType());
+        List<WorkflowPersonInfo> collaborators = collaboratorHelper.getCollaborators(proposalInfo.getWorkflowId(), proposalInfo.getId(), proposalInfo.getType());
 
         // Add the author notation to retrieved collaborators
         for (WorkflowPersonInfo wfPerson : collaborators) {
@@ -168,8 +168,8 @@ public class CollaboratorsFilter extends AbstractDataFilter implements MetadataF
 		this.metadataService = metadataService;
 	}
 
-	public void setCollaboratorHelperGwt(CollaboratorHelperGwt collaboratorHelperGwt) {
-		this.collaboratorHelperGwt = collaboratorHelperGwt;
+	public void setCollaboratorHelper(CollaboratorHelper collaboratorHelper) {
+		this.collaboratorHelper = collaboratorHelper;
 	}
 
 	public void setProposalService(ProposalService proposalService) {
