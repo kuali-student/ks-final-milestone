@@ -313,6 +313,11 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
         cartItemResult.setGradingOptions(optionsCartItem.getGradingOptions());
         cartItemResult.setCreditOptions(optionsCartItem.getCreditOptions());
 
+        //If the user provided a course, code, ensure it is the same one returned (for cross-listed courses).
+        if (StringUtils.isNotEmpty(courseCode)) {
+            cartItemResult.setCourseCode(courseCode);
+        }
+
         //Return just the item
         return cartItemResult;
     }
