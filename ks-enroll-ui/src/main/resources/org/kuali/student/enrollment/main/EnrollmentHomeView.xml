@@ -29,6 +29,7 @@
                     <property name="items">
                         <list>
                             <ref bean="KS-EnrollmentHome-CourseOfferings"/>
+                            <ref bean="KS-EnrollmentHome-CourseRegistration"/>
                             <ref bean="KS-EnrollmentHome-Calendars"/>
                             <ref bean="KS-EnrollmentHome-Administration"/>
                         </list>
@@ -80,7 +81,15 @@
                       p:href="@{#ConfigProperties['application.url']}/kr-krad/courseOfferingCreate?methodToCall=start&amp;dataObjectClassName=org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper&amp;hideReturnLink=true"/>
                 <bean parent="Uif-Link" p:linkText="Schedule of Classes"
                       p:href="@{#ConfigProperties['application.url']}/kr-krad/scheduleOfClassesSearch?viewId=scheduleOfClassesSearchView&amp;pageId=scheduleOfClassesSearchInputPage&amp;methodToCall=start"/>
-                <bean parent="Uif-Link" p:linkText="Course Registration"
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-EnrollmentHome-CourseRegistration" parent="Uif-VerticalBoxSection" p:additionalCssClasses="ks-enrollment-home-group">
+        <property name="headerText" value="Course Registration"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Link" p:linkText="Student Registration"
                       p:href="@{#ConfigProperties['application.url']}/registration/#/myCart"/>
             </list>
         </property>
