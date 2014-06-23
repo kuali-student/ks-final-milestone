@@ -45,17 +45,19 @@ public class TestStaticUserDateClientServiceImpl {
 
     private static final String USER_01="admin";
     private static final String USER_02="student";
+    private static final String USER_03="TestStudent";
 
     private static final String DATE_01="2014-06-16@15:51";
     private static final String DATE_02="I am an invalid date";
     private static final String DATE_03="2013-05-15@14:41";
+    private static final String DATE_04="2014-06-23@09:05";
 
     @Before
     public void setUp() {
         /*
         Remove entries for all users
          */
-        StaticUserDateUtil.clearMap();
+        StaticUserDateUtil.resetMap();
     }
 
     @Test
@@ -131,6 +133,18 @@ public class TestStaticUserDateClientServiceImpl {
     }
 
     @Test
+    public void testGetStaticDate_preloaded() {
+        Response response=staticUserDateClientService.getStaticDate(USER_03);
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+
+        Object entity=response.getEntity();
+        assertTrue(entity instanceof UserDateResult); // verify that it's the right object
+
+        UserDateResult userDateResult = (UserDateResult) entity;
+        assertEquals(DATE_04, userDateResult.getDate()); // verify that the date is the correct pre-loaded one
+    }
+
+    @Test
     public void testClearStaticDate() {
         String userId=USER_01;
 
@@ -161,6 +175,8 @@ public class TestStaticUserDateClientServiceImpl {
 
     @Test
     public void testGetStaticDates() {
+        StaticUserDateUtil.clearMap(); //clear the Map
+
         String[] users=new String[]{USER_01, USER_02}; //create an array of users
         String date=DATE_01;
 

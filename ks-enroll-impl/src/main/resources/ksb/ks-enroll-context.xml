@@ -21,6 +21,7 @@
     <import resource="classpath:statement-context.xml" />
     <import resource="classpath:mq-context.xml" />
     <import resource="classpath:ks-enroll-batch-context.xml" />
+    <import resource="classpath:cr-user-dates.xml" />
     <!-- import resource="classpath:ks-enroll-mock-room-data-context.xml"/ -->
 
     <!-- Top Level Alias -->
@@ -1599,6 +1600,7 @@
         a static date to be set (in memory) for a user for reg cart date testing purposes.
     -->
     <bean id="staticUserDateClientService" class="org.kuali.student.enrollment.registration.client.service.impl.StaticUserDateClientServiceImpl">
+        <property name="regUserMap" ref="regUserMap" />
     </bean>
 
     <bean id="ks.exp.staticUserDateClientService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">

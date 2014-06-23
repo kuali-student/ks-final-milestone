@@ -25,6 +25,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
+import java.util.Map;
 
 /**
  * This class implements RESTful services for setting and retrieving
@@ -128,4 +129,7 @@ public class StaticUserDateClientServiceImpl implements StaticUserDateClientServ
         return response.build();
     }
 
+    public void setRegUserMap(Map<String, String> regUserMap) {
+        StaticUserDateUtil.loadMap(regUserMap);
+    }
 }

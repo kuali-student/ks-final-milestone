@@ -21,6 +21,8 @@ import org.kuali.student.enrollment.registration.client.service.dto.UserDateResu
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.common.util.date.KSDateTimeFormatter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +39,10 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class StaticUserDateUtil {
 
+    public static final Logger LOGGER = LoggerFactory.getLogger(StaticUserDateUtil.class);
+
     private static final Map<String, DateTime> STATIC_DATE_MAP = new ConcurrentHashMap<String, DateTime>();
+    private static final Map<String, DateTime> PRE_LOADED_MAP = new ConcurrentHashMap<String, DateTime>();
     private static final KSDateTimeFormatter DATE_TIME_FORMATTER = DateFormatters.SIMPLE_DATE_TIME_FORMATTER;
 
     private StaticUserDateUtil() {
@@ -105,6 +110,32 @@ public class StaticUserDateUtil {
      */
     public static void clearMap() {
         STATIC_DATE_MAP.clear();
+    }
+
+    /**
+     * Helper method for loading the map
+     */
+    public static void loadMap(Map<String, String> regUserMap) {
+        if (regUserMap != null) {
+            for (Map.Entry<String, String> entry:regUserMap.entrySet()) {
+                try {
+                    String key=entry.getKey();
+                    DateTime value=parseString(entry.getValue());
+                    STATIC_DATE_MAP.put(key, value);
+                    PRE_LOADED_MAP.put(key, value);
+                } catch (InvalidParameterException ex) {
+                    LOGGER.warn("Unable to parse date: {}", entry.getValue(), ex);
+                }
+            }
+        }
+    }
+
+    /**
+     * Resets the map to only have the pre-loaded values
+     */
+    public static void resetMap() {
+        STATIC_DATE_MAP.clear();
+        STATIC_DATE_MAP.putAll(PRE_LOADED_MAP);
     }
 
     private static DateTime parseString(String dateString) throws InvalidParameterException {

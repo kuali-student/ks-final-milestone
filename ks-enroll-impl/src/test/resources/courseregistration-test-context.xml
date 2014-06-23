@@ -14,6 +14,7 @@
     <import resource="classpath:META-INF/default-property-config-context-test.xml"/>
     <import resource="classpath:base-courseregistration-test-context.xml" />
     <import resource="classpath:mq-context.xml" />
+    <import resource="classpath:cr-user-dates.xml" />
 
 
     <alias name="luiService" alias="LuiService" />
@@ -87,6 +88,10 @@
     <!-- Seat count service START -->
     <bean id="courseSeatCountService" class="org.kuali.student.enrollment.class2.courseseatcount.service.impl.CourseSeatCountServiceImpl"
           scope="singleton">
+    </bean>
+
+    <bean id="staticUserDateClientService" class="org.kuali.student.enrollment.registration.client.service.impl.StaticUserDateClientServiceImpl">
+        <property name="regUserMap" ref="regUserMap" />
     </bean>
 
 </beans>
