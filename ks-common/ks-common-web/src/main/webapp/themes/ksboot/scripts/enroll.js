@@ -1036,7 +1036,7 @@ function cancelInlineRow(event){
             dirtyFormState.dirtyFieldCount--;
         });
 
-        jQuery(this).removeClass('uif-hasError');
+        jQuery(this).removeClass('uif-hasErrors');
         jQuery(this).removeAttr('data-has_messages');
         jQuery(this).removeAttr('data-validation_messages');
         var id = jQuery(this).attr('id');
@@ -1132,7 +1132,7 @@ function processInlineRowError(row, data, baseUrl){
         var input = jQuery(row).find('[name="' + key + '"]');
         jQuery(input).switchClass('valid', 'error');
         var parent = jQuery(input).closest('.toggleable-element.on');
-        jQuery(parent).addClass('uif-hasError');
+        jQuery(parent).addClass('uif-hasErrors');
         jQuery(parent).attr('data-has_messages', 'true');
         jQuery(parent).attr('data-validation_messages', "{&quot;hasOwnMessages&quot;:true,&quot;serverErrors&quot;:[&quot;" + value[0] + "&quot;]}");
         var parentId = jQuery(parent).attr('id');
@@ -1173,6 +1173,9 @@ function updateInlineTableRow(event, baseUrl, data) {
 
             var id = jQuery(this).attr("id");
             if (id != undefined) {
+                // Remove any erros that might have occured prior to this
+                jQuery(this).removeClass('uif-hasErrors');
+
                 var modelKey = getModelAttributeValue(id);
 
                 //if this is an editable field and override matrix unchecked, reset the field value from matrix
