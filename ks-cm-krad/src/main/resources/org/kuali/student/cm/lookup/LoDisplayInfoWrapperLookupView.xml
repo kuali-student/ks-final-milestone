@@ -72,6 +72,13 @@
             </list>
         </property>
 
+        <property name="defaultSortAttributeNames">
+            <list>
+                <value>code</value>
+                <value>descr.plain</value>
+            </list>
+        </property>
+
         <property name="resultFields">
             <list>
                 <bean parent="KS-Uif-DataField" p:propertyName="code" p:label="Code" />
