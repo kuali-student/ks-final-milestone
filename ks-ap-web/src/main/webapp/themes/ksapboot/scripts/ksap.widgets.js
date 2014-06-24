@@ -135,10 +135,17 @@ function stopEvent(e) {
     return false;
 }
 
-/*
- ######################################################################################
- Function: Retrieve component content through ajax
- ######################################################################################
+/**
+ * Retrieves a component from another view created based on a ajax call then copies a section from it and places it
+ * into the view that is currently being displayed in the browser.
+ *
+ * @param id - Id of the component to paste into
+ * @param getId - Id of the component being copied
+ * @param methodToCall - Method in the controller to call for the new view
+ * @param action - Controller mapping to use
+ * @param retrieveOptions - Data parameters to pass to the form
+ * @param highlightId - Id of component to highlight after function is called
+ * @param elementBlockingSettings - Settings for the html object
  */
 function ksapRetrieveComponent(id, getId, methodToCall, action, retrieveOptions, highlightId, elementBlockingSettings) {
     var tempForm = '<form id="' + id + '_form" action="' + action + '" method="post" style="display:none;">';
@@ -188,11 +195,11 @@ function ksapRetrieveComponent(id, getId, methodToCall, action, retrieveOptions,
     jQuery("form#" + id + "_form").remove();
 }
 
-/*
- ######################################################################################
- Function:   Truncate (ellipse) a single horizontally aligned item so all items
- fit on one line.  Used for bookmark side bar
- ######################################################################################
+/**
+ * Formats a component so each ellipsis item within it fit into a single line
+ *
+ * @param id - Id of the component with items to format
+ * @param floated - If floated only items with widths greater than available are reset. Else are items are reset.
  */
 function truncateField(id, floated) {
     jQuery("#" + id + " .uif-horizontalFieldGroup").each(function () {
@@ -200,12 +207,16 @@ function truncateField(id, floated) {
         var ellipsisItem = jQuery(this).find(itemSelector + ".ksap-text-ellipsis");
         if (ellipsisItem.length != 0) {
             jQuery(this).css("display", "block");
+
+            // Calculated available width
             var fixed = 0;
             jQuery(this).find(itemSelector + ":not(.ksap-text-ellipsis)").each(function () {
                 fixed = fixed + jQuery(this).outerWidth(true);
             });
             var available = jQuery(this).width() - ( fixed + ( ellipsisItem.outerWidth(true) - ellipsisItem.width() ) + 1 );
             ellipsisItem.css("white-space", "nowrap");
+
+            // Reset widths
             if (!floated) {
                 ellipsisItem.width(available);
             } else {
@@ -284,105 +295,6 @@ function ksapGetSectionEnrollment(url, retrieveOptions, componentId) {
 }
 
 /**
- * Toggles content for sections on course details page
- * @param sectionRow
- * @param obj
- * @param expandText
- * @param collapseText
- */
-function toggleSectionDetails(sectionRow, obj, expandText, collapseText) {
-    if (typeof obj.data("hidden") == "undefined") {
-        obj.data("hidden", true);
-    }
-    var collapsibleRow = sectionRow.next("tr.collapsible");
-    if (obj.data("hidden")) {
-        sectionRow.find("td").first().attr("rowspan", "3");
-        sectionRow.find("td").last().attr("rowspan", "3");
-        collapsibleRow.show().next("tr.collapsible").show();
-        obj.text(collapseText).data("hidden", false);
-    } else {
-        sectionRow.find("td").first().attr("rowspan", "1");
-        sectionRow.find("td").last().attr("rowspan", "1");
-        collapsibleRow.hide().next("tr.collapsible").hide();
-        obj.text(expandText).data("hidden", true);
-    }
-}
-
-/**
- * Expands curriculum information for sections on course details page
- *
- * @param actionComponent
- * @param expandText
- * @param collapseText
- */
-function expandCurriculumComments(actionComponent, expandText, collapseText) {
-    var curriculumMessage = jQuery(actionComponent).parent().find('.curriculum-comment');
-    if (curriculumMessage.is(":visible")) {
-        curriculumMessage.slideUp(250, function () {
-            if (expandText) {
-                jQuery(actionComponent).text(expandText);
-            }
-        });
-    } else {
-        curriculumMessage.slideDown(250, function () {
-            if (collapseText) {
-                jQuery(actionComponent).text(collapseText);
-            }
-        });
-    }
-}
-
-/**
- * Builds hover text for sections in course details
- *
- * @param obj - Obj text is created for
- */
-function buildHoverText(obj) {
-    var message = '';
-    var temp = '';
-    // condition to check whether section is primary or secondary
-    if (obj.data("primary")) {
-        // Primary sections
-        // condition to check if planned or not planned
-        if (obj.data("planned")) {
-            var secondarySections = [];
-            // Find list of secondary sections associated
-            jQuery("div[data-courseid='" + obj.data("courseid") + "'][data-primarysection='" + obj.data("coursesection") + "'][data-planned='true'][data-primary='false']").each(function () {
-                secondarySections.push(jQuery(this).data("coursesection"));
-            });
-            // Build string of secondary sections associated
-            if (secondarySections.length > 0) {
-                if (secondarySections.length == 1) {
-                    temp = " and " + secondarySections.join();
-                } else {
-                    // commas separated string of secondary sections
-                    temp = ", " + secondarySections.slice(0, -1).join(", ") + ", and " + secondarySections[secondarySections.length - 1];
-                }
-            }
-            // Text should give "Delete {primary section} {list of secondary sections if any exist}"
-            message = "Delete " + obj.data("coursesection") + temp;
-        } else {
-            // Text should give "Add {primary section}"
-            message = "Add " + obj.data("coursesection");
-        }
-    } else {
-        // Secondary sections
-        // condition to check if planned or not planned
-        if (obj.data("planned")) {
-            // Text should give "Delete {secondary section}"
-            message = "Delete " + obj.data("coursesection");
-        } else {
-            // Text should give "Add {secondary section} and {primary section if not planned}"
-            if (!jQuery("div[data-courseid='" + obj.data("courseid") + "'][data-coursesection='" + obj.data("primarysection") + "']").data("planned")) {
-                temp = " and " + obj.data("primarysection");
-            }
-            message = "Add " + obj.data("coursesection") + temp;
-        }
-    }
-    obj.attr("title", message).find("img.uif-image").attr("alt", message);
-}
-
-/**
  * Bookmarks a course using an ajax call to the controller and growl message response
  *
  * @param courseid - Id of the course being bookmarked
@@ -399,42 +311,8 @@ function bookmarkCourse(courseId, e) {
     form.ajaxSubmit({
         data : ksapAdditionalFormData(additionalFormData),
         dataType : 'json',
-        success : ksapAjaxSubmitCallback,
-        error : function(jqXHR, textStatus, errorThrown) {
-            if (textStatus == "parsererror")
-                textStatus = "JSON Parse Error";
-            showGrowl(errorThrown, jqXHR.status + " " + textStatus);
-            fnClosePopup();
-        }
-    });
-    fnClosePopup();
-    jQuery("form#popupForm").remove();
-}
-
-/**
- * Bookmarks a course using an ajax call to the controller and growl message response
- *
- * @param courseid - Id of the course being bookmarked
- * @param e - An object containing data that will be passed to the event handler.
- */
-function addCourseSection(courseId,sectionCode, e) {
-    stopEvent(e);
-    var form = jQuery('<form />').attr("id", "popupForm").attr("action", "planner").attr("method", "post");
-    jQuery("body").append(form);
-    var additionalFormData = {
-        methodToCall:"addBookmark",
-        courseId:courseId
-    }
-    form.ajaxSubmit({
-        data : ksapAdditionalFormData(additionalFormData),
-        dataType : 'json',
-        success : ksapAjaxSubmitCallback,
-        error : function(jqXHR, textStatus, errorThrown) {
-            if (textStatus == "parsererror")
-                textStatus = "JSON Parse Error";
-            showGrowl(errorThrown, jqXHR.status + " " + textStatus);
-            fnClosePopup();
-        }
+        success : ksapAjaxSubmitSuccessCallback,
+        error : ksapAjaxSubmitErrorCallback
     });
     fnClosePopup();
     jQuery("form#popupForm").remove();
@@ -515,6 +393,7 @@ function focusOnElement(jqObject){
 function ksapAjaxSubmitForm(data, successCallback, elementToBlock, formId, blockingSettings) {
     data = ksapAdditionalFormData(data);
 
+    // Setup ajax submit options
     var submitOptions = {
         data:data,
         success:function (response) {
@@ -545,6 +424,7 @@ function ksapAjaxSubmitForm(data, successCallback, elementToBlock, formId, block
         }
     };
 
+    // Setup loading icon display options for element being loaded on
     if (elementToBlock != null && elementToBlock.length) {
         var elementBlockingOptions = {
             beforeSend:function () {

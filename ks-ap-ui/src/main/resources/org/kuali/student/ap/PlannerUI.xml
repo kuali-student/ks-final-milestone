@@ -22,7 +22,7 @@
         <property name="additionalScriptFiles">
 			<list>
 				<value>plugins/jcarousellite/jcarousellite_1.0.1.min.js</value>
-				<value>themes/ksapboot/scripts/plan/planner.js</value>
+				<value>themes/ksapboot/scripts/ksap.planner.js</value>
 			</list>
 		</property>
 		<property name="items">

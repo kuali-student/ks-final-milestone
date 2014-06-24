@@ -795,7 +795,6 @@
 		</property>
 		<property name="constraintMessage">
 			<bean parent="KSAP-Message" p:messageText="characters remaining">
-                <!--@TODO: KSAP-254: Refactor this JS into planner.js-->
 				<property name="onDocumentReadyScript"
 					      value="setPlannerNoteMessageLength(jQuery('.ksap-characterCount'), {maxLength:500});" />
 				<property name="cssClasses">
@@ -826,7 +825,6 @@
 		</property>
 		<property name="constraintMessage">
 			<bean parent="KSAP-Message" p:messageText="characters remaining">
-                <!--@TODO: KSAP-254: Refactor this JS into planner.js-->
 				<property name="onDocumentReadyScript"
 					      value="setPlannerNoteMessageLength(jQuery('.ksap-characterCount'), {maxLength:500});" />
 				<property name="cssClasses">

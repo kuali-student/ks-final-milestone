@@ -168,7 +168,7 @@ function ksapOpenDialog(pageId, action, methodToCall, target, e) {
  * @param methodToCall - The identifier for the method being mapped to
  * @param e - Current event going on
  */
-function ksapSubmitDialog(methodToCall, e) {
+function ksapSubmitDialog(methodToCall, e, successCallback, errorCallback) {
     var button = jQuery(e.currentTarget);
 
     // Transpose loader icon on top of submit button
@@ -187,6 +187,10 @@ function ksapSubmitDialog(methodToCall, e) {
         }
     });
 
+    // Set callbacks if needed
+    if(successCallback == null ) successCallback = ksapAjaxSubmitSuccessCallback;
+    if(errorCallback == null) errorCallback = ksapAjaxSubmitErrorCallback;
+
     // Setup ajax call for submit
     var form = jQuery("#popupForm");
     form.ajaxSubmit({
@@ -194,14 +198,8 @@ function ksapSubmitDialog(methodToCall, e) {
             methodToCall: methodToCall
         }),
         dataType : 'json',
-        success : ksapAjaxSubmitCallback,
-        error : function(jqXHR, textStatus, errorThrown) {
-            // Display error growl
-            if (textStatus == "parsererror")
-                textStatus = "JSON Parse Error";
-            showGrowl(errorThrown, jqXHR.status + " " + textStatus);
-            fnClosePopup();
-        },
+        success : successCallback,
+        error : errorCallback,
         complete : function() {
             // Remove loader
             button.unblock();
@@ -262,7 +260,7 @@ function fnPositionDialogWindow(popupBoxId) {
  * @param textStatus - Text status to display if error occurs
  * @param jqXHR - Page status.
  */
-function ksapAjaxSubmitCallback(response, textStatus, jqXHR) {
+function ksapAjaxSubmitSuccessCallback(response, textStatus, jqXHR) {
     if (response.success) {
         // Trigger events
         for (var key in response) {
@@ -288,4 +286,19 @@ function ksapAjaxSubmitCallback(response, textStatus, jqXHR) {
         feedback.removeClass("success");
         feedback.show();
     }
+}
+
+/**
+ * Handles failure to submit ajax call
+ *
+ * @param response - Json string from the controller with events
+ * @param textStatus - Text status to display if error occurs
+ * @param jqXHR - Page status.
+ */
+function ksapAjaxSubmitErrorCallback(response, textStatus, jqXHR){
+    // Display error growl
+    if (textStatus == "parsererror")
+        textStatus = "JSON Parse Error";
+    showGrowl(errorThrown, jqXHR.status + " " + textStatus);
+    fnClosePopup();
 }

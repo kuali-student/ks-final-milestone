@@ -93,13 +93,8 @@ function ksapPlannerUpdateCategory(backup, target, e) {
     form.ajaxSubmit({
         data : retrieveData,
         dataType : 'json',
-        success : ksapAjaxSubmitCallback,
-        error : function(jqXHR, textStatus, errorThrown) {
-            if (textStatus == "parsererror")
-                textStatus = "JSON Parse Error";
-            showGrowl(errorThrown, jqXHR.status + " " + textStatus);
-            fnClosePopup();
-        },
+        success : ksapAjaxSubmitSuccessCallback,
+        error : ksapAjaxSubmitErrorCallback,
         complete : function() {
             form.remove();
         }

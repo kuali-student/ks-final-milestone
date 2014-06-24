@@ -21,6 +21,7 @@ import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.framework.context.TermHelper;
 import org.kuali.student.ap.coursesearch.CreditsFormatter;
 import org.kuali.student.ap.coursesearch.CreditsFormatter.Range;
+import org.kuali.student.ap.framework.util.KsapHelperUtil;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -56,53 +57,6 @@ public class PlanEventUtils {
 	}
 
 	private static final EventsKey EVENTS_KEY = new EventsKey();
-
-	private static String getTotalCredits(String termId, AcademicPlanServiceConstants.ItemCategory  category) {
-		BigDecimal plannedTotalMin = BigDecimal.ZERO;
-		BigDecimal plannedTotalMax = BigDecimal.ZERO;
-
-		LearningPlanInfo plan = KsapFrameworkServiceLocator.getPlanHelper()
-				.getDefaultLearningPlan();
-
-		List<PlanItemInfo> planItems;
-		try {
-			planItems = KsapFrameworkServiceLocator.getAcademicPlanService()
-					.getPlanItemsInPlanByTermIdByCategory(
-                            plan.getId(),
-                            termId,
-                            category,
-                            KsapFrameworkServiceLocator.getContext()
-                                    .getContextInfo());
-		} catch (InvalidParameterException e) {
-			throw new IllegalArgumentException("LP lookup error", e);
-		} catch (MissingParameterException e) {
-			throw new IllegalArgumentException("LP lookup error", e);
-		} catch (OperationFailedException e) {
-			throw new IllegalStateException("LP lookup error", e);
-		} catch (PermissionDeniedException e) {
-            throw new IllegalStateException("LP lookup error", e);
-        }
-
-        for (PlanItemInfo planItem : planItems) {
-			if (!PlanConstants.COURSE_TYPE.equals(planItem.getRefObjectType()))
-				continue;
-
-			BigDecimal credit = planItem.getCredits();
-			if (credit != null) {
-				plannedTotalMin = plannedTotalMin.add(credit);
-				plannedTotalMax = plannedTotalMax.add(credit);
-			} else {
-				Course course = KsapFrameworkServiceLocator.getCourseHelper()
-						.getCourseInfo(planItem.getRefObjectId());
-				Range range = CreditsFormatter.getRange(course);
-				plannedTotalMin = plannedTotalMin.add(range.getMin());
-				plannedTotalMax = plannedTotalMax.add(range.getMax());
-			}
-		}
-
-		return CreditsFormatter.formatCredits(new Range(plannedTotalMin,
-				plannedTotalMax));
-	}
 
 	/**
 	 * Get a transactional events object.
@@ -219,6 +173,13 @@ public class PlanEventUtils {
         return events;
     }
 
+    /**
+     * Creates a remove event on the current transaction
+     *
+     * @param uniqueId - Id of the component being removed
+     * @param planItem - PlanItem being removed
+     * @return The transactional events builder, with the event added.
+     */
     public static JsonObjectBuilder makeRemoveEvent(String uniqueId,
                                                     PlanItem planItem) {
         JsonObjectBuilder removeEvent = Json.createObjectBuilder();
@@ -247,6 +208,13 @@ public class PlanEventUtils {
         return events;
     }
 
+    /**
+     * Creates an update event for a plan item's credits on the current transaction
+     *
+     * @param uniqueId - Id of the component being updated
+     * @param planItem - PlanItem being updated
+     * @return The transactional events builder, with the event added.
+     */
     public static JsonObjectBuilder updatePlanItemCreditsEvent(String uniqueId,
                                                                PlanItem planItem) {
         JsonObjectBuilder updateCreditsEvent = Json.createObjectBuilder();
@@ -267,17 +235,24 @@ public class PlanEventUtils {
         return events;
     }
 
+    /**
+     * Creates an update event for a term's credits on the current transaction
+     *
+     * @param newTerm - Flag on whether its new or old credits being updated
+     * @param termId  - Id of the term being updated
+     * @return The transactional events builder, with the event added.
+     */
     public static JsonObjectBuilder updateTotalCreditsEvent(boolean newTerm,
                                                             String termId) {
         JsonObjectBuilder updateTotalCreditsEvent = Json.createObjectBuilder();
         updateTotalCreditsEvent.add("termId", termId.replace('.', '-'));
         updateTotalCreditsEvent.add(
                 "totalCredits",
-                getTotalCredits(termId,
-                        AcademicPlanServiceConstants.ItemCategory.PLANNED));
+                KsapHelperUtil.getTotalCredits(termId,
+                AcademicPlanServiceConstants.ItemCategory.PLANNED));
         updateTotalCreditsEvent.add(
                 "cartCredits",
-                getTotalCredits(termId,
+                KsapHelperUtil.getTotalCredits(termId,
                         AcademicPlanServiceConstants.ItemCategory.CART));
 
         JsonObjectBuilder events = getEventsBuilder();
@@ -289,6 +264,12 @@ public class PlanEventUtils {
         return events;
     }
 
+    /**
+     * Creates an update event for a terms note on the current transaction
+     * @param uniqueId - Id of the component being updated
+     * @param termNote - The new term note text
+     * @return The transactional events builder, with the event added.
+     */
     public static JsonObjectBuilder updateTermNoteEvent(String uniqueId,
                                                         String termNote) {
         JsonObjectBuilder updateTotalTermNoteEvent = Json.createObjectBuilder();
@@ -301,6 +282,14 @@ public class PlanEventUtils {
         return events;
     }
 
+    /**
+     * Writes the json of the current transactional events builder
+     * @param success - If actions was successful
+     * @param message - Message to display
+     * @param response - Pages response object
+     * @throws IOException - Thrown if write fails
+     * @throws ServletException - Thrown if write fails
+     */
     public static void sendJsonEvents(boolean success, String message,
                                       HttpServletResponse response) throws IOException, ServletException {
         JsonObjectBuilder json = PlanEventUtils.getEventsBuilder();
@@ -318,12 +307,11 @@ public class PlanEventUtils {
     }
 
 	/**
-	 * Creates an add plan item event on the current transaction.
+	 * Creates an add plan item event on a passed in event builder
 	 * 
-	 * @param planItem
-	 *            The plan item to report as added.
-	 * @return The transactional events builder, with the add plan item event
-	 *         added.
+	 * @param planItem The plan item to report as added.
+     * @param eventList - Event builder being used to compile event list
+	 * @return The events builder, with the add plan item event added.
 	 */
 	public static JsonObjectBuilder makeAddEvent(PlanItem planItem, JsonObjectBuilder eventList) {
 		CourseHelper courseHelper = KsapFrameworkServiceLocator
@@ -409,6 +397,14 @@ public class PlanEventUtils {
 		return eventList;
 	}
 
+    /**
+     * Creates a remove event on a passed in event builder
+     *
+     * @param uniqueId - Id of the component being removed
+     * @param planItem - PlanItem being removed
+     * @param eventList - Event builder being used to compile event list
+     * @return The events builder, with the add plan item event added.
+     */
 	public static JsonObjectBuilder makeRemoveEvent(String uniqueId,
 			PlanItem planItem, JsonObjectBuilder eventList) {
 		JsonObjectBuilder removeEvent = Json.createObjectBuilder();
@@ -436,6 +432,14 @@ public class PlanEventUtils {
 		return eventList;
 	}
 
+    /**
+     * Creates an update event for a plan item on a passed in event builder
+     *
+     * @param uniqueId - Id of the component being updated
+     * @param planItem - PlanItem being updated
+     * @param eventList - Event builder being used to compile event list
+     * @return The events builder, with the add plan item event added.
+     */
 	public static JsonObjectBuilder updatePlanItemEvent(String uniqueId,
                                                         PlanItem planItem, JsonObjectBuilder eventList) {
 		JsonObjectBuilder updatePlanItemEvent = Json.createObjectBuilder();
@@ -462,17 +466,26 @@ public class PlanEventUtils {
 		return eventList;
 	}
 
+
+    /**
+     * Creates an update event for a term's credits on a passed in event builder
+     *
+     * @param newTerm - Flag on whether its new or old credits being updated
+     * @param termId  - Id of the term being updated
+     * @param eventList - Event builder being used to compile event list
+     * @return The events builder, with the add plan item event added.
+     */
 	public static JsonObjectBuilder updateTotalCreditsEvent(boolean newTerm,
 			String termId, JsonObjectBuilder eventList) {
 		JsonObjectBuilder updateTotalCreditsEvent = Json.createObjectBuilder();
 		updateTotalCreditsEvent.add("termId", termId.replace('.', '-'));
 		updateTotalCreditsEvent.add(
 				"totalCredits",
-				getTotalCredits(termId,
+                KsapHelperUtil.getTotalCredits(termId,
 						AcademicPlanServiceConstants.ItemCategory.PLANNED));
 		updateTotalCreditsEvent.add(
 				"cartCredits",
-				getTotalCredits(termId,
+                KsapHelperUtil.getTotalCredits(termId,
 						AcademicPlanServiceConstants.ItemCategory.CART));
 
         eventList.add(
@@ -483,6 +496,13 @@ public class PlanEventUtils {
 		return eventList;
 	}
 
+    /**
+     * Creates an update event for a terms note on a passed in event builder
+     * @param uniqueId - Id of the component being updated
+     * @param termNote - The new term note text
+     * @param eventList - Event builder being used to compile event list
+     * @return The events builder, with the add plan item event added.
+     */
 	public static JsonObjectBuilder updateTermNoteEvent(String uniqueId,
 			String termNote, JsonObjectBuilder eventList) {
 		JsonObjectBuilder updateTotalTermNoteEvent = Json.createObjectBuilder();
@@ -494,6 +514,15 @@ public class PlanEventUtils {
 		return eventList;
 	}
 
+    /**
+     * Writes the json of a passed in event builder
+     * @param success - If actions was successful
+     * @param message - Message to display
+     * @param response - Pages response object
+     * @param eventList - Event builder being used to compile event list
+     * @throws IOException - Thrown if write fails
+     * @throws ServletException - Thrown if write fails
+     */
 	public static void sendJsonEvents(boolean success, String message,
 			HttpServletResponse response, JsonObjectBuilder eventList) throws IOException, ServletException {
 

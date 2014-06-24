@@ -18,17 +18,28 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
+import org.kuali.student.ap.academicplan.dto.LearningPlanInfo;
+import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
+import org.kuali.student.ap.coursesearch.CreditsFormatter;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.coursesearch.CourseSearchItem;
+import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.r2.core.search.infc.SearchResultCell;
 import org.kuali.student.r2.core.search.infc.SearchResultRow;
+import org.kuali.student.r2.lum.course.infc.Course;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
@@ -292,5 +303,59 @@ public class KsapHelperUtil {
         if(o1 == o2) return 0;
         if(o1 > o2) return 1;
         return -1;
+    }
+
+    /**
+     * Calculates the total credits for all courses in a term for a certain plan category.
+     *
+     * @param termId - Id of the term courses are planned for
+     * @param category - Category that the plan items are in
+     * @return - String of total credits calculated
+     */
+    public static String getTotalCredits(String termId, AcademicPlanServiceConstants.ItemCategory  category) {
+        BigDecimal plannedTotalMin = BigDecimal.ZERO;
+        BigDecimal plannedTotalMax = BigDecimal.ZERO;
+
+        LearningPlanInfo plan = KsapFrameworkServiceLocator.getPlanHelper()
+                .getDefaultLearningPlan();
+
+        List<PlanItemInfo> planItems;
+        try {
+            planItems = KsapFrameworkServiceLocator.getAcademicPlanService()
+                    .getPlanItemsInPlanByTermIdByCategory(
+                            plan.getId(),
+                            termId,
+                            category,
+                            KsapFrameworkServiceLocator.getContext()
+                                    .getContextInfo());
+        } catch (InvalidParameterException e) {
+            throw new IllegalArgumentException("LP lookup error", e);
+        } catch (MissingParameterException e) {
+            throw new IllegalArgumentException("LP lookup error", e);
+        } catch (OperationFailedException e) {
+            throw new IllegalStateException("LP lookup error", e);
+        } catch (PermissionDeniedException e) {
+            throw new IllegalStateException("LP lookup error", e);
+        }
+
+        for (PlanItemInfo planItem : planItems) {
+            if (!PlanConstants.COURSE_TYPE.equals(planItem.getRefObjectType()))
+                continue;
+
+            BigDecimal credit = planItem.getCredits();
+            if (credit != null) {
+                plannedTotalMin = plannedTotalMin.add(credit);
+                plannedTotalMax = plannedTotalMax.add(credit);
+            } else {
+                Course course = KsapFrameworkServiceLocator.getCourseHelper()
+                        .getCourseInfo(planItem.getRefObjectId());
+                CreditsFormatter.Range range = CreditsFormatter.getRange(course);
+                plannedTotalMin = plannedTotalMin.add(range.getMin());
+                plannedTotalMax = plannedTotalMax.add(range.getMax());
+            }
+        }
+
+        return CreditsFormatter.formatCredits(new CreditsFormatter.Range(plannedTotalMin,
+                plannedTotalMax));
     }
 }
