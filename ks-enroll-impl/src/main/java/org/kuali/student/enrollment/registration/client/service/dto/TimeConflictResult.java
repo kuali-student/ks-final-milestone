@@ -22,6 +22,24 @@ import java.util.Map;
 /**
  * This class holds time conflict validation results
  *
+ * Specifically, this lists all the conflicts associated with the id field.
+ *
+ * The id either refers to a RegistrationRequestInfoItem id (thus, a cart item) or an LPR id (either a
+ * registered or waitlisted course, since both use LPRs to represent the relationship).  This id is indirectly
+ * related to a reg group ID.  We could use the reg group ID, but due to the cart permitting duplicate reg group
+ * IDs (but not duplicate RegistrationRequestItemInfo ids) which create problems, we prefer the cart id or LPR id.
+ *
+ * This id is associated with conflictingItemMap.  The keys in conflictingItemMap are either RegistrationRequestItemInfo
+ * ids (thus, cart items) or Lpr ids (thus, registered or waitlisted courses, both of which are represented using
+ * LPR ids).
+ *
+ * This is done to support wireframes where time slots of AO's are highlighted (rather than the entire reg group).
+ * In particular, if the id refers to, say, ENGL101-1001 reg group, and that conflicts with CHEM231-1022 reg group
+ * which contains a lecture and a lab, and the conflict is with the lecture, then there would be a map with, say,
+ * the Lpr id associated with CHEM231-1022 which is then mapped to a list containing the AO id for the lecture.
+ * In most cases, the list is likely to have only one item (as it is difficult to conflict with multiple AOs in
+ * a reg group since the reg group is, in theory, conflict free).
+ *
  * @author Kuali Student Team
  */
 public class TimeConflictResult {
