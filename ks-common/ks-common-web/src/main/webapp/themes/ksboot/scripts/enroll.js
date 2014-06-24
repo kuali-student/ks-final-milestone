@@ -971,17 +971,56 @@ var inlineTableInitialFields = {};
 var prefix = 'inline_field_index_';
 var responseData;
 
-function toggleInlineRow(event, saveInitialValues){
+function showOrHideSaveInlineIcon(event){
     var row = jQuery(event.target).closest('tr');
+    var overrideMatrix = false;
+
+    jQuery(row).find("input:checkbox").each(function () {
+        overrideMatrix = jQuery(this).is(':checked');
+    });
+
+    jQuery(row).find('a[id^=EO-toggleUpdateButton_]').each(function() {
+        if (overrideMatrix) {
+            if(jQuery(this).hasClass("off")) {
+                jQuery(this).switchClass("off", "on");
+            }
+        } else {
+            if(jQuery(this).hasClass("on")) {
+                jQuery(this).switchClass("on", "off");
+            }
+        }
+    });
+}
+
+function toggleInlineRowByComponent(component, saveInitialValues){
+    var row = jQuery(component).closest('tr');
     var index = jQuery(row).index();
     var selectedIndex = prefix + index;
     var initialValues = [];
+    var overrideMatrix = false;
+    jQuery(row).find("input:checkbox").each(function () {
+        overrideMatrix = jQuery(this).is(':checked');
+    });
+
     jQuery(row).find('.toggleable-element').each(function(){
-        if(jQuery(this).hasClass("on")) {
-            jQuery(this).switchClass("on", "off");
+        if(jQuery(this).attr('id').indexOf('EO-toggleUpdateButton_')===0 && saveInitialValues) {
+            if (overrideMatrix) {
+                if(jQuery(this).hasClass("off")) {
+                    jQuery(this).switchClass("off", "on");
+                }
+            } else {
+                if(jQuery(this).hasClass("on")) {
+                    jQuery(this).switchClass("on", "off");
+                }
+            }
         } else {
-            jQuery(this).switchClass("off", "on");
-        };
+            if(jQuery(this).hasClass("on")) {
+                jQuery(this).switchClass("on", "off");
+            } else {
+                jQuery(this).switchClass("off", "on");
+            };
+        }
+
         if(saveInitialValues){
             var id = jQuery(this).attr("id");
             var controlId = id + '_control';
@@ -1001,6 +1040,9 @@ function toggleInlineRow(event, saveInitialValues){
         }
     });
     inlineTableInitialFields[selectedIndex] = initialValues;
+}
+function toggleInlineRow(event, saveInitialValues){
+    toggleInlineRowByComponent(event.target, saveInitialValues);
 }
 
 function editInlineRow(event){
@@ -1150,8 +1192,8 @@ function processInlineRowError(row, data, baseUrl){
     });
 }
 
-function updateInlineTableRow(event, baseUrl, data) {
-    var row = jQuery(event.target).closest('tr');
+function updateInlineTableRowByComponent(component, baseUrl, data) {
+    var row = jQuery(component).closest('tr');
     var overrideMatrix;
 
     if (data.hasErrors) {
@@ -1205,8 +1247,11 @@ function updateInlineTableRow(event, baseUrl, data) {
                 }
             }
         });
-        toggleInlineRow(event, false);
+        toggleInlineRowByComponent(component, false);
     }
+}
+function updateInlineTableRow(event, baseUrl, data) {
+    updateInlineTableRowByComponent(jQuery(event.target), baseUrl, data);
 }
 
 /*
@@ -1289,14 +1334,35 @@ function matrixOverrideFlagChange(event, dialog_id){
         showLightboxComponent(dialog_id);
     } else {
         setInlineFieldsAccessibility(checkBox.attr('id'), true);
+        showOrHideSaveInlineIcon (event);
     }
 }
 
 /*
  Disable EO inline row fields when confirming un-override matrix in the confirmation dialog
  */
-function disableInlineFields(matrixOverrideCheckBoxId) {
-    var checkBoxId = jQuery("input[name='" + matrixOverrideCheckBoxId +"']").val() + '_control';
+function resendEORsiToMatrix(matrixOverrideCheckBoxId, baseUrl) {
+    var checkBoxId = jQuery("input[name='" + matrixOverrideCheckBoxId + "']").val() + '_control';
+    var row = jQuery('#' + checkBoxId).closest('tr');
+    var selectedCollectionPathAndIndex = getSelectedCollectionPathAndIndex(row);
+    var formData = jQuery('#kualiForm').serialize() + '&' + jQuery.param(selectedCollectionPathAndIndex);
+
+    jQuery.ajax({
+        dataType:"json",
+        url:baseUrl + "/kr-krad/courseOfferingManagement?methodToCall=saveExamOfferingRSIJSON",
+        type:"POST",
+        data:formData,
+        success:function (data, textStatus, jqXHR) {
+            responseData = data;
+            updateInlineTableRowByComponent(jQuery('#' + checkBoxId), baseUrl, data);
+        },
+        error:function (jqXHR, status, error) {
+            showInlineUnhandledExcption(jqXHR);
+        }
+    }).always(function () {
+        hideLoading();
+    });
+
     setInlineFieldsAccessibility(checkBoxId, false);
     closeLightbox();
 }
