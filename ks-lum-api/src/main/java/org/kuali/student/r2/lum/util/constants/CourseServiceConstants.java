@@ -47,6 +47,7 @@ public class CourseServiceConstants {
      * Search constants.
      */
     public static final String SEARCHBY_SEARCH = "searchBy";
+    public static final String SEARCH_CRITERIABY = "searchCriteriaBy";
     public static final String COURSETITLE_SEARCH = "courseTitle";
     public static final String COURSECODE_SEARCH = "courseCode";
     public static final String DESCR_PLAIN_SEARCH ="descr.plain";
