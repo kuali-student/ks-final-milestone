@@ -61,7 +61,7 @@
                 <bean id="KS-Author-displayName" parent="KS-Uif-InputField" p:label="Name"
                       p:propertyName="displayName">
                     <property name="control">
-                        <bean parent="KS-Uif-TextControl" p:size="50" p:style="width: 200px;" p:cssClasses="validInstructorNameAndID" />
+                        <bean parent="KS-Uif-TextControl" p:size="50" p:style="width: 200px;" p:cssClasses="validInstructorAuthorNameAndID" />
                     </property>
                     <property name="suggest">
                         <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true">
