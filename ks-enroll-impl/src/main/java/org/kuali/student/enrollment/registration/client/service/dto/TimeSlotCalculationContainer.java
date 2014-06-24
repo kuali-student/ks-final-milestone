@@ -26,7 +26,7 @@ import java.util.Map;
  *
  * @author Kuali Student Team
  */
-public class TimeConflictDataContainer {
+public class TimeSlotCalculationContainer {
 
     private String id; // unique id. can be regReqItemId or lprId
     private Map<String, List<TimeSlotInfo>> aoToTimeSlotMap;

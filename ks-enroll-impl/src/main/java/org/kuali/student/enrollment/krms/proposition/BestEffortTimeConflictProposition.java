@@ -34,7 +34,7 @@ import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequestI
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.coursewaitlist.service.CourseWaitListService;
 import org.kuali.student.enrollment.registration.client.service.dto.ConflictCourseResult;
-import org.kuali.student.enrollment.registration.client.service.dto.TimeConflictDataContainer;
+import org.kuali.student.enrollment.registration.client.service.dto.TimeSlotCalculationContainer;
 import org.kuali.student.enrollment.registration.client.service.dto.TimeConflictResult;
 import org.kuali.student.enrollment.registration.client.service.impl.util.RegistrationValidationResultsUtil;
 import org.kuali.student.enrollment.registration.client.service.impl.util.TimeConflictCalculator;
@@ -101,12 +101,12 @@ public class BestEffortTimeConflictProposition extends AbstractBestEffortProposi
         RegistrationRequestInfo request = environment.resolveTerm(RulesExecutionConstants.REGISTRATION_REQUEST_TERM, this);
         String personId = environment.resolveTerm(RulesExecutionConstants.PERSON_ID_TERM, this);
 
-        this.setCourseRegistrationService((CourseRegistrationService)environment.resolveTerm(RulesExecutionConstants.COURSE_REGISTRATION_SERVICE_TERM,
+        this.setCourseRegistrationService((CourseRegistrationService) environment.resolveTerm(RulesExecutionConstants.COURSE_REGISTRATION_SERVICE_TERM,
                 this));
-        this.setCourseWaitListService((CourseWaitListService)environment.resolveTerm(RulesExecutionConstants.COURSE_WAIT_LIST_SERVICE_TERM,
+        this.setCourseWaitListService((CourseWaitListService) environment.resolveTerm(RulesExecutionConstants.COURSE_WAIT_LIST_SERVICE_TERM,
                 this));
-        this.setCourseOfferingService((CourseOfferingService)environment.resolveTerm(RulesExecutionConstants.COURSE_OFFERING_SERVICE_TERM, this));
-        this.setSchedulingService((SchedulingService)environment.resolveTerm(RulesExecutionConstants.SCHEDULING_SERVICE_TERM, this));
+        this.setCourseOfferingService((CourseOfferingService) environment.resolveTerm(RulesExecutionConstants.COURSE_OFFERING_SERVICE_TERM, this));
+        this.setSchedulingService((SchedulingService) environment.resolveTerm(RulesExecutionConstants.SCHEDULING_SERVICE_TERM, this));
 
         // Verify that all operations are add
         boolean allAddOps = true;
@@ -143,13 +143,16 @@ public class BestEffortTimeConflictProposition extends AbstractBestEffortProposi
          */
         List<TimeConflictResult> timeConflicts = null;
         try {
-            timeConflicts =  getTimeConflictResults(request.getRegistrationRequestItems(), existingCrs, getCourseOfferingService(),contextInfo);
+            timeConflicts =  getTimeConflictInOrderResults(request.getRegistrationRequestItems(), existingCrs, getCourseOfferingService(), contextInfo);
         } catch (Exception ex) {
             return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
         }
 
+        List<RegistrationRequestItemInfo> regRequestItems = request.getRegistrationRequestItems();
+        Collections.sort(regRequestItems, Collections.reverseOrder(REG_REQ_ITEM_CREATE_DATE)); // make sure we're sorting by date
+
         // loop through the reg requests and see if there are any conflicts
-        for (RegistrationRequestItemInfo item: request.getRegistrationRequestItems()) {
+        for (RegistrationRequestItemInfo item: regRequestItems) {
 
             TimeConflictResult tcr = findTimeConflictInList(item.getId(), timeConflicts);  // does reg req item have conflicts?
             if(tcr != null){   // is there a conflict for this reg req item
@@ -309,7 +312,8 @@ public class BestEffortTimeConflictProposition extends AbstractBestEffortProposi
     }
 
     /**
-     * This method will return a list of time conflicts between the reg request items and the existing courses.
+     * This method will return a list of time conflicts between the reg request items and the existing courses. This
+     * handles the inorder "best effort"
      *
      * In order to perform time conflict checks we need to build up a "standard" time conflict container object. that
      * object contains all info needed to perform a check.
@@ -328,18 +332,17 @@ public class BestEffortTimeConflictProposition extends AbstractBestEffortProposi
      * @throws OperationFailedException
      * @throws DoesNotExistException
      */
-    protected List<TimeConflictResult> getTimeConflictResults(List<RegistrationRequestItemInfo> regRequestItems, List<CourseRegistrationInfo> existingCourses, CourseOfferingService coService,ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
+    protected List<TimeConflictResult> getTimeConflictInOrderResults(List<RegistrationRequestItemInfo> regRequestItems, List<CourseRegistrationInfo> existingCourses, CourseOfferingService coService,ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
         Map<String, List<TimeSlotInfo>> aoToTimeSlotMap = new HashMap<String, List<TimeSlotInfo>>();
 
         // for some reason the users want this in reverse order.
         Collections.sort(regRequestItems, Collections.reverseOrder(REG_REQ_ITEM_CREATE_DATE)); // make sure we're sorting by date
 
         // get all info needed to detect time conflicts
-        List<TimeConflictDataContainer> existingCoursesTimeConflictContainers = getTimeConflictDataContainerForExistingCourses(existingCourses, aoToTimeSlotMap, coService, contextInfo);
-        List<TimeConflictDataContainer> newCoursesTimeConflictContainers = getTimeConflictDataContainersForNewCourses(regRequestItems, aoToTimeSlotMap,coService, contextInfo);
-        TimeConflictCalculator timeConflictCalculator = new TimeConflictCalculator();
+        List<TimeSlotCalculationContainer> existingCoursesTimeConflictContainers = getTimeConflictDataContainerForExistingCourses(existingCourses, aoToTimeSlotMap, coService, contextInfo);
+        List<TimeSlotCalculationContainer> newCoursesTimeConflictContainers = getTimeConflictDataContainersForNewCourses(regRequestItems, aoToTimeSlotMap,coService, contextInfo);
 
-        return timeConflictCalculator.getTimeConflictResults(newCoursesTimeConflictContainers, existingCoursesTimeConflictContainers);
+        return TimeConflictCalculator.getTimeConflictInOrderResults(newCoursesTimeConflictContainers, existingCoursesTimeConflictContainers);
     }
 
     /**
@@ -357,9 +360,9 @@ public class BestEffortTimeConflictProposition extends AbstractBestEffortProposi
      * @throws PermissionDeniedException
      * @throws OperationFailedException
      */
-    private List<TimeConflictDataContainer> getTimeConflictDataContainersForNewCourses(List<RegistrationRequestItemInfo> regRequestItems, Map<String, List<TimeSlotInfo>> aoToTimeSlotMap, CourseOfferingService coService,ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+    private List<TimeSlotCalculationContainer> getTimeConflictDataContainersForNewCourses(List<RegistrationRequestItemInfo> regRequestItems, Map<String, List<TimeSlotInfo>> aoToTimeSlotMap, CourseOfferingService coService,ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
 
-        List<TimeConflictDataContainer> timeConflictDataContainers = new ArrayList<TimeConflictDataContainer>();
+        List<TimeSlotCalculationContainer> timeSlotCalculationContainers = new ArrayList<TimeSlotCalculationContainer>();
         List<String> regGroupIds = new ArrayList<String>();
         for (RegistrationRequestItem requestItem: regRequestItems) {
             regGroupIds.add(requestItem.getRegistrationGroupId());
@@ -381,14 +384,14 @@ public class BestEffortTimeConflictProposition extends AbstractBestEffortProposi
 
         for(RegistrationRequestItem regReqItem: regRequestItems){
             List<String> courseAoIds = rgToAoIds.get(regReqItem.getRegistrationGroupId());
-            TimeConflictDataContainer tcContainer = new TimeConflictDataContainer();
+            TimeSlotCalculationContainer tcContainer = new TimeSlotCalculationContainer();
             tcContainer.setId(regReqItem.getId()); // unique lprId
             tcContainer.setAoToTimeSlotMap(getFilteredTimeSlotMapForAoIds(courseAoIds, aoToTimeSlotMap, coService, contextInfo));
-            timeConflictDataContainers.add(tcContainer);
+            timeSlotCalculationContainers.add(tcContainer);
         }
 
 
-        return timeConflictDataContainers;
+        return timeSlotCalculationContainers;
     }
 
     /**
@@ -405,8 +408,8 @@ public class BestEffortTimeConflictProposition extends AbstractBestEffortProposi
      * @throws PermissionDeniedException
      * @throws OperationFailedException
      */
-    private List<TimeConflictDataContainer> getTimeConflictDataContainerForExistingCourses(List<CourseRegistrationInfo> courseRegistrationInfos,Map<String, List<TimeSlotInfo>> aoToTimeSlotMap, CourseOfferingService coService, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
-        List<TimeConflictDataContainer> timeConflictDataContainers = new ArrayList<TimeConflictDataContainer>();
+    private List<TimeSlotCalculationContainer> getTimeConflictDataContainerForExistingCourses(List<CourseRegistrationInfo> courseRegistrationInfos,Map<String, List<TimeSlotInfo>> aoToTimeSlotMap, CourseOfferingService coService, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+        List<TimeSlotCalculationContainer> timeSlotCalculationContainers = new ArrayList<TimeSlotCalculationContainer>();
         List<String> regGroupIds = new ArrayList<String>();
         for (CourseRegistrationInfo courseRegistrationInfo: courseRegistrationInfos) {
             regGroupIds.add(courseRegistrationInfo.getRegistrationGroupId());
@@ -428,14 +431,14 @@ public class BestEffortTimeConflictProposition extends AbstractBestEffortProposi
 
         for(CourseRegistrationInfo courseRegistrationInfo: courseRegistrationInfos){
             List<String> courseAoIds = rgToAoIds.get(courseRegistrationInfo.getRegistrationGroupId());
-            TimeConflictDataContainer tcContainer = new TimeConflictDataContainer();
+            TimeSlotCalculationContainer tcContainer = new TimeSlotCalculationContainer();
             tcContainer.setId(courseRegistrationInfo.getId()); // unique lprId
             tcContainer.setAoToTimeSlotMap(getFilteredTimeSlotMapForAoIds(courseAoIds, aoToTimeSlotMap,coService, contextInfo));
-            timeConflictDataContainers.add(tcContainer);
+            timeSlotCalculationContainers.add(tcContainer);
         }
 
 
-        return timeConflictDataContainers;
+        return timeSlotCalculationContainers;
     }
 
     /**

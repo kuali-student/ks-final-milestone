@@ -16,8 +16,9 @@
  */
 package org.kuali.student.enrollment.registration.client.service.impl.util;
 
+import org.junit.Before;
 import org.junit.Test;
-import org.kuali.student.enrollment.registration.client.service.dto.TimeConflictDataContainer;
+import org.kuali.student.enrollment.registration.client.service.dto.TimeSlotCalculationContainer;
 import org.kuali.student.enrollment.registration.client.service.dto.TimeConflictResult;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.util.date.DateFormatters;
@@ -40,6 +41,16 @@ import static org.junit.Assert.assertTrue;
  */
 
 public class TestTimeConflictCalculator {
+
+
+    TimeSlotCalculationContainer engl206 = null;
+    TimeSlotCalculationContainer engl202 = null;
+    TimeSlotCalculationContainer engl212 = null;
+    TimeSlotCalculationContainer bsci105 = null;
+    TimeSlotCalculationContainer engl201 = null;
+    TimeSlotCalculationContainer bsci120 = null;
+    TimeSlotCalculationContainer engl101 = null;
+
     public static final String MON_WED_FRI = "MWF";
     public static final String MON_WED = "MW";
     public static final String TUE_THU = "TH";
@@ -90,50 +101,56 @@ public class TestTimeConflictCalculator {
     public static final String ENGL206_LEC = "ENGL206-Lec";
     public static final String ENGL212_LEC = "ENGL212-Lec";
 
-    @Test
-    public void testTimeConflictCaculator_New_and_existing() throws Exception {
-        TimeConflictCalculator timeConflictCalculator = new TimeConflictCalculator();
 
-        // This is the positive case. ie. no conflicts
-        TimeConflictDataContainer engl206 = new TimeConflictDataContainer();
+    /**
+     * this just sets up some of the base courses
+     */
+    @Before
+    public void init(){
+
+        engl206 = new TimeSlotCalculationContainer();
         engl206.setId(REG_REQ_ID_ENGL206_1);
         engl206.setAoToTimeSlotMap(buildAoToTimeSlotMap(true, ENGL206_LEC, null, null, null));
 
-        TimeConflictDataContainer engl202 = new TimeConflictDataContainer();
+        engl202 = new TimeSlotCalculationContainer();
         engl202.setId(REG_REQ_ID_ENGL202_1);
         engl202.setAoToTimeSlotMap(buildAoToTimeSlotMap(ENGL202_LEC, MON_WED_FRI, TIME_10AM, TIME_10_50AM));
 
-        TimeConflictDataContainer engl212 = new TimeConflictDataContainer();
+        engl212 = new TimeSlotCalculationContainer();
         engl212.setId(REG_REQ_ID_ENGL212_1);
         engl212.setAoToTimeSlotMap(buildAoToTimeSlotMap(ENGL212_LEC, MON_WED_FRI, TIME_NOON, TIME_12_50PM));
 
-        TimeConflictDataContainer bsci105 = new TimeConflictDataContainer();
+        bsci105 = new TimeSlotCalculationContainer();
         bsci105.setId(REG_REQ_ID_BSCI105_1);
-        bsci105.setAoToTimeSlotMap(buildAoToTimeSlotMap(BSCI105_LEC, MON, TIME_2_PM, TIME_4_50PM));
+        bsci105.setAoToTimeSlotMap(buildAoToTimeSlotMap(BSCI105_LEC, MON, TIME_2_PM, TestTimeConflictCalculator.TIME_4_50PM));
         bsci105.getAoToTimeSlotMap().put(BSCI105_LAB, buildTimeSlotList(MON_WED_FRI, TIME_9_AM, TIME_9_50AM));
 
-        TimeConflictDataContainer engl201 = new TimeConflictDataContainer();
+        engl201 = new TimeSlotCalculationContainer();
         engl201.setId(REG_REQ_ID_ENGL201_1);
         engl201.setAoToTimeSlotMap(buildAoToTimeSlotMap(true, ENGL201_LEC, null, null, null));
 
-        TimeConflictDataContainer bsci120 = new TimeConflictDataContainer();
+        bsci120 = new TimeSlotCalculationContainer();
         bsci120.setId(REG_REQ_ID_BSCI120_1);
         bsci120.setAoToTimeSlotMap(buildAoToTimeSlotMap(BSCI120_LEC, MON, TIME_9_AM, TIME_9_50AM));
         bsci120.getAoToTimeSlotMap().put(BSCI120_LAB, buildTimeSlotList(TUE_THU, TIME_9_30AM, TIME_10_20AM));
 
-        TimeConflictDataContainer engl101 = new TimeConflictDataContainer();
+        engl101 = new TimeSlotCalculationContainer();
         engl101.setId(REG_REQ_ID_ENGL101_1);
         engl101.setAoToTimeSlotMap(buildAoToTimeSlotMap(ENGL101_LEC, TUE, TIME_12_30PM, TIME_1_45PM));
+    }
 
 
-        List<TimeConflictDataContainer> newItems = new ArrayList<TimeConflictDataContainer>();
-        List<TimeConflictDataContainer> existingItems = new ArrayList<TimeConflictDataContainer>();
+    @Test
+    public void testTimeConflictCaculator_New_and_existing_InOrder() throws Exception {
+
+        List<TimeSlotCalculationContainer> newItems = new ArrayList<TimeSlotCalculationContainer>();
+        List<TimeSlotCalculationContainer> existingItems = new ArrayList<TimeSlotCalculationContainer>();
         existingItems.add(engl101);
         existingItems.add(bsci120);
         existingItems.add(engl201);
         newItems.add(bsci105);
 
-        List<TimeConflictResult> results = timeConflictCalculator.getTimeConflictResults(newItems,existingItems);
+        List<TimeConflictResult> results = TimeConflictCalculator.getTimeConflictInOrderResults(newItems,existingItems);
 
         assertTrue(results != null);
         assertTrue(results.size() == 1);
@@ -145,44 +162,20 @@ public class TestTimeConflictCalculator {
 
     }
 
+    private TimeConflictResult findTimeConflictInList(String id, List<TimeConflictResult> timeConflicts){
+        for(TimeConflictResult timeConflictResult : timeConflicts){
+            if(timeConflictResult.getId().equals(id)){
+                return timeConflictResult;
+            }
+        }
+        return null;
+    }
+
     @Test
-    public void testTimeConflictCaculator_BSCI_ERROR() throws Exception {
+    public void testTimeConflictCaculator_ConflictTest() throws Exception {
         TimeConflictCalculator timeConflictCalculator = new TimeConflictCalculator();
 
-        // This is the positive case. ie. no conflicts
-        TimeConflictDataContainer engl206 = new TimeConflictDataContainer();
-        engl206.setId(REG_REQ_ID_ENGL206_1);
-        engl206.setAoToTimeSlotMap(buildAoToTimeSlotMap(true, ENGL206_LEC, null, null, null));
-
-        TimeConflictDataContainer engl202 = new TimeConflictDataContainer();
-        engl202.setId(REG_REQ_ID_ENGL202_1);
-        engl202.setAoToTimeSlotMap(buildAoToTimeSlotMap(ENGL202_LEC, MON_WED_FRI, TIME_10AM, TIME_10_50AM));
-
-        TimeConflictDataContainer engl212 = new TimeConflictDataContainer();
-        engl212.setId(REG_REQ_ID_ENGL212_1);
-        engl212.setAoToTimeSlotMap(buildAoToTimeSlotMap(ENGL212_LEC, MON_WED_FRI, TIME_NOON, TIME_12_50PM));
-
-        TimeConflictDataContainer bsci105 = new TimeConflictDataContainer();
-        bsci105.setId(REG_REQ_ID_BSCI105_1);
-        bsci105.setAoToTimeSlotMap(buildAoToTimeSlotMap(BSCI105_LEC, MON, TIME_2_PM, TestTimeConflictCalculator.TIME_4_50PM));
-        bsci105.getAoToTimeSlotMap().put(BSCI105_LAB, buildTimeSlotList(MON_WED_FRI, TIME_9_AM, TIME_9_50AM));
-
-        TimeConflictDataContainer engl201 = new TimeConflictDataContainer();
-        engl201.setId(REG_REQ_ID_ENGL201_1);
-        engl201.setAoToTimeSlotMap(buildAoToTimeSlotMap(true, ENGL201_LEC, null, null, null));
-
-        TimeConflictDataContainer bsci120 = new TimeConflictDataContainer();
-        bsci120.setId(REG_REQ_ID_BSCI120_1);
-        bsci120.setAoToTimeSlotMap(buildAoToTimeSlotMap(BSCI120_LEC, MON, TIME_9_AM, TIME_9_50AM));
-        bsci120.getAoToTimeSlotMap().put(BSCI120_LAB, buildTimeSlotList(TUE_THU, TIME_9_30AM, TIME_10_20AM));
-
-        TimeConflictDataContainer engl101 = new TimeConflictDataContainer();
-        engl101.setId(REG_REQ_ID_ENGL101_1);
-        engl101.setAoToTimeSlotMap(buildAoToTimeSlotMap(ENGL101_LEC, TUE, TIME_12_30PM, TIME_1_45PM));
-
-
-        List<TimeConflictDataContainer> newItems = new ArrayList<TimeConflictDataContainer>();
-        List<TimeConflictDataContainer> existingItems = new ArrayList<TimeConflictDataContainer>();
+        List<TimeSlotCalculationContainer> newItems = new ArrayList<TimeSlotCalculationContainer>();
         newItems.add(engl206);
         newItems.add(engl202);
         newItems.add(engl212);
@@ -191,13 +184,19 @@ public class TestTimeConflictCalculator {
         newItems.add(bsci120);
         newItems.add(engl101);
 
-        List<TimeConflictResult> results = timeConflictCalculator.getTimeConflictResults(newItems,existingItems);
+        List<TimeConflictResult> results = timeConflictCalculator.getTimeConflictResults(newItems);
 
 
 
         assertTrue(results != null);
-        assertTrue(results.size() == 1);
-        TimeConflictResult  conflicts = results.get(0);
+        assertTrue(results.size() == 2);
+        TimeConflictResult  conflicts = findTimeConflictInList(REG_REQ_ID_BSCI105_1, results);
+        assertTrue(conflicts.getId().equals(REG_REQ_ID_BSCI105_1));  // saying that the primary is conflicting with something
+        assertTrue(conflicts.getConflictingItemMap().size() == 1);  // Make sure there's only 1 conflict... ie. we didn't count ourselves
+        assertTrue(conflicts.getConflictingItemMap().containsKey(REG_REQ_ID_BSCI120_1));  // this is what we should be conflicting with
+        assertTrue(conflicts.getConflictingItemMap().get(REG_REQ_ID_BSCI120_1).contains(BSCI120_LEC)); // This is the ao that's causing the issues
+
+        conflicts = findTimeConflictInList(REG_REQ_ID_BSCI120_1, results);
         assertTrue(conflicts.getId().equals(REG_REQ_ID_BSCI120_1));  // saying that the primary is conflicting with something
         assertTrue(conflicts.getConflictingItemMap().size() == 1);  // Make sure there's only 1 conflict... ie. we didn't count ourselves
         assertTrue(conflicts.getConflictingItemMap().containsKey(REG_REQ_ID_BSCI105_1));  // this is what we should be conflicting with
@@ -206,22 +205,31 @@ public class TestTimeConflictCalculator {
     }
 
     @Test
+    public void testTimeConflictCaculator_EmptyTest() throws Exception {
+
+        List<TimeSlotCalculationContainer> newItems = new ArrayList<TimeSlotCalculationContainer>();
+        List<TimeConflictResult> results = TimeConflictCalculator.getTimeConflictResults(newItems);
+
+        assertTrue(results.isEmpty()); // there should be no conflicts
+
+    }
+
+    @Test
     public void testTimeConflictCaculator_No_Conflicts_One_Item() throws Exception {
         TimeConflictCalculator timeConflictCalculator = new TimeConflictCalculator();
 
         // This is the positive case. ie. no conflicts
-        TimeConflictDataContainer primaryContainer = new TimeConflictDataContainer();
+        TimeSlotCalculationContainer primaryContainer = new TimeSlotCalculationContainer();
         primaryContainer.setId(REG_REQ_ID_CHEM135_1);
         primaryContainer.setAoToTimeSlotMap(buildAoToTimeSlotMap(CHEM_135_A_LEC, MON_WED, TIME_10AM, TIME_NOON));
         primaryContainer.getAoToTimeSlotMap().put(CHEM_135_A_LAB, buildTimeSlotList(TUE_THU, TIME_9_AM, TIME_10AM));
 
 
 
-        List<TimeConflictDataContainer> newItems = new ArrayList<TimeConflictDataContainer>();
-        List<TimeConflictDataContainer> existingItems = new ArrayList<TimeConflictDataContainer>();
+        List<TimeSlotCalculationContainer> newItems = new ArrayList<TimeSlotCalculationContainer>();
         newItems.add(primaryContainer);
 
-        List<TimeConflictResult> results = timeConflictCalculator.getTimeConflictResults(newItems,existingItems);
+        List<TimeConflictResult> results = timeConflictCalculator.getTimeConflictResults(newItems);
 
 
 
@@ -234,16 +242,16 @@ public class TestTimeConflictCalculator {
         TimeConflictCalculator timeConflictCalculator = new TimeConflictCalculator();
 
         // This is the positive case. ie. no conflicts
-        TimeConflictDataContainer primaryContainer = new TimeConflictDataContainer();
+        TimeSlotCalculationContainer primaryContainer = new TimeSlotCalculationContainer();
         primaryContainer.setId(REG_REQ_ID_CHEM135_1);
         primaryContainer.setAoToTimeSlotMap(buildAoToTimeSlotMap(CHEM_135_A_LEC, MON_WED, TIME_10AM, TIME_NOON));
         primaryContainer.getAoToTimeSlotMap().put(CHEM_135_A_LAB, buildTimeSlotList(TUE_THU, TIME_9_AM, TIME_10AM));
 
-        TimeConflictDataContainer secondaryContainer = new TimeConflictDataContainer();
+        TimeSlotCalculationContainer secondaryContainer = new TimeSlotCalculationContainer();
         secondaryContainer.setId(REG_REQ_ID_CHEM137_2);
         secondaryContainer.setAoToTimeSlotMap(buildAoToTimeSlotMap(CHEM_137_A_LEC, FRI, TIME_10AM, TIME_NOON));
 
-        List<TimeConflictDataContainer> newItems = new ArrayList<TimeConflictDataContainer>();
+        List<TimeSlotCalculationContainer> newItems = new ArrayList<TimeSlotCalculationContainer>();
         newItems.add(primaryContainer);
         newItems.add(secondaryContainer);
 
@@ -259,16 +267,16 @@ public class TestTimeConflictCalculator {
 
         // The first test we will be simulating what happens when a user adds the same
         // course to the cart twice. Note: they'll have unique reg req ids to tell them apart
-        TimeConflictDataContainer primaryContainer = new TimeConflictDataContainer();
+        TimeSlotCalculationContainer primaryContainer = new TimeSlotCalculationContainer();
         primaryContainer.setId(REG_REQ_ID_CHEM135_1);
         primaryContainer.setAoToTimeSlotMap(buildAoToTimeSlotMap(CHEM_135_A_LEC, MON_WED, TIME_10AM, TIME_NOON));
         //primaryContainer.getAoToTimeSlotMap().put("CHEM-135-A-Lab", buildTimeSlotList("TH", "09:00", TIME_10AM));
 
-        TimeConflictDataContainer secondaryContainer = new TimeConflictDataContainer();
+        TimeSlotCalculationContainer secondaryContainer = new TimeSlotCalculationContainer();
         secondaryContainer.setId(REG_REQ_ID_CHEM135_2);
         secondaryContainer.setAoToTimeSlotMap(buildAoToTimeSlotMap(CHEM_135_A_LEC, MON_WED, TIME_10AM, TIME_NOON));
 
-        List<TimeConflictDataContainer> newItems = new ArrayList<TimeConflictDataContainer>();
+        List<TimeSlotCalculationContainer> newItems = new ArrayList<TimeSlotCalculationContainer>();
         newItems.add(primaryContainer);
         newItems.add(secondaryContainer);
 
@@ -287,16 +295,16 @@ public class TestTimeConflictCalculator {
 
         // The first test we will be simulating what happens when a user adds the same
         // course to the cart twice. Note: they'll have unique reg req ids to tell them apart
-        TimeConflictDataContainer primaryContainer = new TimeConflictDataContainer();
+        TimeSlotCalculationContainer primaryContainer = new TimeSlotCalculationContainer();
         primaryContainer.setId(REG_REQ_ID_CHEM135_1);
         primaryContainer.setAoToTimeSlotMap(buildAoToTimeSlotMap(CHEM_135_A_LEC, MON_WED, TIME_10AM, TIME_NOON));
         primaryContainer.getAoToTimeSlotMap().put(CHEM_135_A_LAB, buildTimeSlotList(TUE_THU, TIME_9_AM, TIME_10AM));
 
-        TimeConflictDataContainer secondaryContainer = new TimeConflictDataContainer();
+        TimeSlotCalculationContainer secondaryContainer = new TimeSlotCalculationContainer();
         secondaryContainer.setId(REG_REQ_ID_ENGL101_2);
         secondaryContainer.setAoToTimeSlotMap(buildAoToTimeSlotMap(ENGL_101_A_LEC, TUE_THU, TIME_9_50AM, TIME_NOON));
 
-        List<TimeConflictDataContainer> newItems = new ArrayList<TimeConflictDataContainer>();
+        List<TimeSlotCalculationContainer> newItems = new ArrayList<TimeSlotCalculationContainer>();
         newItems.add(primaryContainer);
         newItems.add(secondaryContainer);
 

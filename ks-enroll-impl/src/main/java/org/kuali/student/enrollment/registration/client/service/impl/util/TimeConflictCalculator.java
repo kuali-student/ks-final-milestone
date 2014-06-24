@@ -16,7 +16,7 @@
  */
 package org.kuali.student.enrollment.registration.client.service.impl.util;
 
-import org.kuali.student.enrollment.registration.client.service.dto.TimeConflictDataContainer;
+import org.kuali.student.enrollment.registration.client.service.dto.TimeSlotCalculationContainer;
 import org.kuali.student.enrollment.registration.client.service.dto.TimeConflictResult;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
@@ -36,24 +36,55 @@ public class TimeConflictCalculator {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(TimeConflictCalculator.class);
 
-    public List<TimeConflictResult> getTimeConflictResults( List<TimeConflictDataContainer> newCoursesTimeConflictContainers, List<TimeConflictDataContainer> existingCoursesTimeConflictContainers)  {
+    /**
+     * Process the newCoursesTimeConflictContainers list in-order. Find any conflicts between each item in the new list
+     * and itself, as well as each item in new list and each item in existingCoursesTimeConflictContainers.
+     * @param newCoursesTimeConflictContainers
+     * @param existingCoursesTimeConflictContainers
+     * @return
+     */
+    public static List<TimeConflictResult> getTimeConflictInOrderResults( List<TimeSlotCalculationContainer> newCoursesTimeConflictContainers, List<TimeSlotCalculationContainer> existingCoursesTimeConflictContainers)  {
 
         List<TimeConflictResult> conflictsExistingCourses = new ArrayList<TimeConflictResult>();
 
-        for (TimeConflictDataContainer newTimeConflictDataContainer : newCoursesTimeConflictContainers) {
+        for (TimeSlotCalculationContainer newTimeSlotCalculationContainer : newCoursesTimeConflictContainers) {
             if(existingCoursesTimeConflictContainers.isEmpty()){
-                existingCoursesTimeConflictContainers.add(newTimeConflictDataContainer);
+                existingCoursesTimeConflictContainers.add(newTimeSlotCalculationContainer);
             }else {
-                TimeConflictResult timeConflictResult = calculateConflicts(newTimeConflictDataContainer, existingCoursesTimeConflictContainers, 0);
+                TimeConflictResult timeConflictResult = calculateConflicts(newTimeSlotCalculationContainer, existingCoursesTimeConflictContainers, 0);
                 if (timeConflictResult != null) {
                     conflictsExistingCourses.add(timeConflictResult);
                 } else {
-                    existingCoursesTimeConflictContainers.add(newTimeConflictDataContainer);
+                    existingCoursesTimeConflictContainers.add(newTimeSlotCalculationContainer);
                 }
             }
         }
 
         return conflictsExistingCourses;
+    }
+
+    /**
+     * This method returns all conflicts between each data container.
+     * So, given the set of N containers such that a & b are items in N.
+     * Return conflicts between a->b, b->a where a != b.
+     *
+     * For example, there are containers for ENGL101 and CHEM235. If ENGL101 and CHEM235 conflict then there will be
+     * a TimeConflictResult for each in the returned List.
+     *
+     * @param dataContainers
+     * @return
+     */
+    public static List<TimeConflictResult> getTimeConflictResults( List<TimeSlotCalculationContainer> dataContainers)  {
+        List<TimeConflictResult> conflicts = new ArrayList<TimeConflictResult>();
+
+        for(TimeSlotCalculationContainer container : dataContainers){
+            TimeConflictResult tcr = calculateConflicts(container, dataContainers, 0);
+            if(tcr != null) {
+                conflicts.add(tcr);
+            }
+        }
+
+        return conflicts;
     }
 
     /**
@@ -63,12 +94,12 @@ public class TimeConflictCalculator {
      * @param overlapInMinutes
      * @return Will return an object that represents the time conflict or null
      */
-    public TimeConflictResult calculateConflicts(TimeConflictDataContainer timeSlotContainer, List<TimeConflictDataContainer> containersToCompare,
+    public static TimeConflictResult calculateConflicts(TimeSlotCalculationContainer timeSlotContainer, List<TimeSlotCalculationContainer> containersToCompare,
                                                  int overlapInMinutes) {
         TimeConflictResult tcResult = new TimeConflictResult();
         tcResult.setId(timeSlotContainer.getId());
 
-        for(TimeConflictDataContainer compareAgainst : containersToCompare){
+        for(TimeSlotCalculationContainer compareAgainst : containersToCompare){
             if(timeSlotContainer.getId().equals(compareAgainst.getId())){
                 continue; // don't compare against yourself
             }
@@ -85,9 +116,9 @@ public class TimeConflictCalculator {
 
     }
 
-    public void computeConflictsBetweenContainers(TimeConflictResult conflict,
-                                                  TimeConflictDataContainer primaryContainer,
-                                                  TimeConflictDataContainer otherContainer) {
+    public static void computeConflictsBetweenContainers(TimeConflictResult conflict,
+                                                  TimeSlotCalculationContainer primaryContainer,
+                                                  TimeSlotCalculationContainer otherContainer) {
         Map<String, List<TimeSlotInfo>> primaryTimeSlotMap = primaryContainer.getAoToTimeSlotMap();
         Map<String, List<TimeSlotInfo>> otherTimeSlotMap = otherContainer.getAoToTimeSlotMap();
 
@@ -132,7 +163,7 @@ public class TimeConflictCalculator {
      * @param otherWeekdays Another set of weekdays
      * @return true, if there is at least one weekday in common
      */
-    private boolean doWeekdaysOverlap(List<Integer> weekdays, List<Integer> otherWeekdays) {
+    private static boolean doWeekdaysOverlap(List<Integer> weekdays, List<Integer> otherWeekdays) {
         for (int day: weekdays) {
             if (otherWeekdays.contains(day)) {
                 return true;
@@ -147,7 +178,7 @@ public class TimeConflictCalculator {
      * @param otherTimeSlot A different time slot
      * @return true, if timeSlot overlaps with otherTimeSlot
      */
-    private boolean doTimeSlotsConflict(TimeSlotInfo timeSlot, TimeSlotInfo otherTimeSlot) {
+    private static boolean doTimeSlotsConflict(TimeSlotInfo timeSlot, TimeSlotInfo otherTimeSlot) {
         boolean bRet =false;
         try {
             if(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_TBA.equals(timeSlot.getTypeKey()) ||
