@@ -127,7 +127,7 @@ public class BestEffortCreditLoadProposition extends AbstractBestEffortPropositi
                 // Add the successful cart "registrations" to the list for use in next iteration
                 successFromCart.add(regItem);
             } else {
-                ValidationResultInfo vr = createValidationResultFailureForRegRequestItem(item);
+                ValidationResultInfo vr = createValidationResultFailureForRegRequestItem(item, creditLimitValue);
                 Map<String, Object> executionDetails = new LinkedHashMap<String, Object>();
                 executionDetails.put(RulesExecutionConstants.PROCESS_EVALUATION_RESULTS, vr);
                 PropositionResult result = new PropositionResult(false, executionDetails);
@@ -140,8 +140,9 @@ public class BestEffortCreditLoadProposition extends AbstractBestEffortPropositi
         return recordAllRegRequestItems(environment,  new ArrayList<ValidationResultInfo>());
     }
 
-    private ValidationResultInfo createValidationResultFailureForRegRequestItem(RegistrationRequestItemInfo item) {
-        String msg = RegistrationValidationResultsUtil.marshallSimpleMessage(LprServiceConstants.LPRTRANS_ITEM_CREDIT_LOAD_EXCEEDED_MESSAGE_KEY);
+    private ValidationResultInfo createValidationResultFailureForRegRequestItem(RegistrationRequestItemInfo item, KualiDecimal creditLimitValue) {
+        String msg = RegistrationValidationResultsUtil.marshallMaxCreditMessage(
+                LprServiceConstants.LPRTRANS_ITEM_CREDIT_LOAD_EXCEEDED_MESSAGE_KEY, creditLimitValue.floatValue());
         return createValidationResultFailureForRegRequestItem(item, msg);
     }
 

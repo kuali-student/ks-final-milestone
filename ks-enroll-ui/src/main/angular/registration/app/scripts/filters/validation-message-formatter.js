@@ -28,6 +28,10 @@ angular.module('regCartApp').filter('formatValidationMessage', ['VALIDATION_ERRO
                     case VALIDATION_ERROR_TYPE.timeConflict:
                         message = formatTimeConflict(data, course, messages);
                         break;
+
+                    case VALIDATION_ERROR_TYPE.maxCredits:
+                        message = formatMaxCredits(data, messages);
+                        break;
                     
                     default:
                         message = getMessage(data.messageKey, messages);
@@ -110,6 +114,18 @@ angular.module('regCartApp').filter('formatValidationMessage', ['VALIDATION_ERRO
             if (codes.length) {
                 message += ' (' + codes.join(', ') + ')';
             }
+        }
+
+        return message;
+    }
+
+    function formatMaxCredits(data, messages) {
+        // look up the core message text
+        var message = getMessage(data.messageKey, messages);
+
+        // if max credits are sent back with the message key, include them in the message back to the user
+        if (data.maxCredits) {
+            message += ' (<strong>' + data.maxCredits + ' credits</strong>)';
         }
 
         return message;

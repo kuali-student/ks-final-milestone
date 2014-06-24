@@ -19,6 +19,7 @@ package org.kuali.student.enrollment.registration.client.service.impl.util;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.kuali.student.enrollment.registration.client.service.dto.ConflictCourseResult;
 import org.kuali.student.enrollment.registration.client.service.dto.RegistrationValidationConflictCourseResult;
+import org.kuali.student.enrollment.registration.client.service.dto.RegistrationValidationMaxCreditResult;
 import org.kuali.student.enrollment.registration.client.service.dto.RegistrationValidationResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,6 +44,10 @@ public class RegistrationValidationResultsUtil {
 
     public static String marshallConflictCourseMessage(String messageKey, List<ConflictCourseResult> conflictingCourses) {
         return marshallResult(new RegistrationValidationConflictCourseResult(messageKey, conflictingCourses));
+    }
+
+    public static String marshallMaxCreditMessage(String messageKey, float maxCredits) {
+        return marshallResult(new RegistrationValidationMaxCreditResult(messageKey, maxCredits));
     }
 
     public static String marshallResult(RegistrationValidationResult result) {
