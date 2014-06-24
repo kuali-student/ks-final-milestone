@@ -178,7 +178,7 @@ public class BestEffortTimeConflictProposition extends AbstractBestEffortProposi
                         try {
                             String regGroupIdOfConflictingReq = findRegReqItemById(conflictingId, request.getRegistrationRequestItems()).getRegistrationGroupId();
                             conflictCourseResult = buildConflictCourseResultForRegGroup(regGroupIdOfConflictingReq, getCourseOfferingService(), contextInfo);
-                            conflictCourseResult.setMasterLprId(tcr.getId());   // this is incorrect. this is a reg req id, not master.
+                            conflictCourseResult.setMasterLprId(conflictingId);   // this is incorrect. this is a reg req id, not master.
                         } catch (Exception ex) {
                             return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
                         }
