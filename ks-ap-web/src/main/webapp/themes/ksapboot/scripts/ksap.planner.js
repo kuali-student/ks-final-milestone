@@ -326,21 +326,11 @@ function ksapSetStaticCourseIDs(){
 }
 
 /**
- * Set message length options for planner notes
- *
- * @param jqObject - Element to set options on
- * @param opts - Options to set
- */
-function setPlannerNoteMessageLength(jqObject, opts){
-    jqObject.characterCount(opts);
-}
-
-/**
  *
  *
- * @param id -
- * @param getId - Id of the component from the separate view to select to insert into popup.
- * @param atpId -
+ * @param id - Id of component menu is being opened on
+ * @param getId - Id of the component from the template insert into menu.
+ * @param atpId - Id of term menu is being opened in
  * @param e - An object containing data that will be passed to the event handler.
  * @param selector -
  * @param popupClasses -

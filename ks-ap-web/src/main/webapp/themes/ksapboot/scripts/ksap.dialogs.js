@@ -302,3 +302,13 @@ function ksapAjaxSubmitErrorCallback(response, textStatus, jqXHR){
     showGrowl(errorThrown, jqXHR.status + " " + textStatus);
     fnClosePopup();
 }
+
+/**
+ * Set message length options for planner notes
+ *
+ * @param jqObject - Element to set options on
+ * @param opts - Options to set
+ */
+function setNoteMessageLength(jqObject, opts){
+    jqObject.characterCount(opts);
+}

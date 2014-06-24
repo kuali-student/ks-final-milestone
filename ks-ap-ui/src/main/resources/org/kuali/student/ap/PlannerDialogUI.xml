@@ -796,7 +796,7 @@
 		<property name="constraintMessage">
 			<bean parent="KSAP-Message" p:messageText="characters remaining">
 				<property name="onDocumentReadyScript"
-					      value="setPlannerNoteMessageLength(jQuery('.ksap-characterCount'), {maxLength:500});" />
+					      value="setNoteMessageLength(jQuery('.ksap-characterCount'), {maxLength:500});" />
 				<property name="cssClasses">
 					<list merge="true">
 						<value>counter</value>
@@ -826,7 +826,7 @@
 		<property name="constraintMessage">
 			<bean parent="KSAP-Message" p:messageText="characters remaining">
 				<property name="onDocumentReadyScript"
-					      value="setPlannerNoteMessageLength(jQuery('.ksap-characterCount'), {maxLength:500});" />
+					      value="setNoteMessageLength(jQuery('.ksap-characterCount'), {maxLength:500});" />
 				<property name="cssClasses">
 					<list merge="true">
 						<value>counter</value>
