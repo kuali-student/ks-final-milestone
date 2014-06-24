@@ -607,7 +607,7 @@ jQuery.validator.addMethod("validCourseCode",
         return this.optional(element) || compareCourseCode(value, element);
     }, "Course code is invalid")
 
-jQuery.validator.addMethod("validInstructorNameAndID",
+jQuery.validator.addMethod("validInstructorAuthorNameAndID",
     function (value, element) {
         return this.optional(element) || compareInstructorNameInput(value, element);
     }, "Instructor name/ID combo is invalid")
