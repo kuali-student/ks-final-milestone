@@ -352,8 +352,8 @@ public class TestTimeConflictCalculator {
             timeSlotInfo.setTypeKey(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_TBA);
         }else {
             List<Integer> intDays = buildDaysOfWeek(daysOfWeek);
-            Date start = DateFormatters.HOUR_MINUTE_TIME_FORMATTER.parse(startTime);
-            Date end =   DateFormatters.HOUR_MINUTE_TIME_FORMATTER.parse(endTime);
+            Date start = DateFormatters.HOUR_MINUTE_24_HR_TIME_FORMATTER.parse(startTime);
+            Date end =   DateFormatters.HOUR_MINUTE_24_HR_TIME_FORMATTER.parse(endTime);
             timeSlotInfo.setWeekdays(intDays);
             timeSlotInfo.setStartTime(new TimeOfDayInfo(start.getHours(), start.getMinutes(), start.getSeconds()));
             timeSlotInfo.setEndTime(new TimeOfDayInfo(end.getHours(), end.getMinutes(), end.getSeconds()));
