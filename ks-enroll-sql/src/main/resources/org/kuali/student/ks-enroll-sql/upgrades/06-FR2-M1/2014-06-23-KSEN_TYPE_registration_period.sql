@@ -60,7 +60,11 @@ insert into KSEN_MSTONE (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATE
 insert into KSEN_ATPMSTONE_RELTN (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, ATP_ID, MSTONE_ID, ID) values ('62048703-e490-467f-b064-13e7e39d069f', 0, 'admin', TIMESTAMP '2014-06-23 13:29:15.608', 'admin', TIMESTAMP '2014-06-23 13:29:15.608', 'kuali.atp.2012HalfFall2', '4ccad224-f9a8-4c62-87b0-04517bbced51', '4471d788-1be0-48ee-be30-1249f133e6b0')
 /
 
-
+-- CHEM147 / AO A - add Half Fall 2 2012
+insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('e9e5c62b-3b8d-44bd-b0b6-1b66b8df484c', 'kuali.attribute.nonstd.ts.indicator', '50cca1cc-8e5d-47a0-8bdc-c7d25eefe395', '0', '25bd80d0-252c-432f-a634-737357ec1836')
+/
+update KSEN_LUI set ATP_ID='kuali.atp.2012HalfFall2' where ID='50cca1cc-8e5d-47a0-8bdc-c7d25eefe395' and VER_NBR=1
+/
 
 
 
