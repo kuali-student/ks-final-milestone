@@ -359,7 +359,7 @@ function updateContextBar(contextBarId) {
     if (!initialViewLoad) {
         var topGroupUpdateContextbar = jQuery("#" + kradVariables.TOP_GROUP_UPDATE + " > #" + contextBarId);
         var bc = jQuery("#Uif-BreadcrumbWrapper");
-        var vh = jQuery(".uif-viewHeader-contentWrapper.uif-sticky");
+        var vh = jQuery(".uif-sticky");
         var applicationHeaderWrapper = jQuery("#Uif-ApplicationHeader-Wrapper");
 
         if (topGroupUpdateContextbar.length) {
