@@ -45,30 +45,53 @@
         </property>
         <property name="criteriaFields">
             <list>
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="searchBy" p:label="Type Of Search"
-                      p:required="true" p:id="searchByCriteria">
-                    <property name="control">
-                        <bean parent="KS-Uif-DropdownControl" p:onChangeScript="hideName();"/>
-                    </property>
-                    <property name="optionsFinder">
-                        <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.LoSearchByValuesFinder" p:addBlankOption="false"/>
+                <bean parent="Uif-VerticalBoxSection" p:style="margin-top:-1.5em">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-HorizontalBoxSection">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="searchCriteriaBy" p:label="Search By" p:id="searchByCriteria"
+                                              p:onChangeScript="jQuery('#dirtyForm').val(true); " p:defaultValue="All">
+                                            <property name="control">
+                                                <bean parent="Uif-HorizontalRadioControl">
+                                                    <property name="options">
+                                                        <list>
+                                                            <bean parent="Uif-KeyLabelPair" p:key="All" p:value="All" />
+                                                            <bean parent="Uif-KeyLabelPair" p:key="COURSE_OLY" p:value="Course Only"/>
+                                                            <bean parent="Uif-KeyLabelPair" p:key="PRG_OLY" p:value="Program Only"/>
+                                                        </list>
+                                                    </property>
+                                                </bean>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-HorizontalBoxSection">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="searchBy" p:label="Type Of Search"
+                                              p:required="true" p:id="searchByCriteria">
+                                            <property name="control">
+                                                <bean parent="KS-Uif-DropdownControl" p:onChangeScript="hideName();"/>
+                                            </property>
+                                            <property name="optionsFinder">
+                                                <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.LoSearchByValuesFinder" p:addBlankOption="false"/>
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="name" p:id="searchByField">
+                                            <property name="control">
+                                                <bean parent="KS-Uif-TextControl" p:additionalCssClasses="lo_lightbox_name" />
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Show" p:additionalCssClasses="lo_lightbox_name"  p:methodToCall="search" p:onClickScript="hideName();"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
                     </property>
                 </bean>
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="name" p:id="searchByField"
-                        p:render="@{lookupCriteria['searchBy'] ne 'ORGANIZATIONTYPE'}"
-                        p:progressiveRender="@{lookupCriteria['searchBy'] ne 'ORGANIZATIONTYPE'}">
-                    <property name="control">
-                        <bean parent="KS-Uif-TextControl" p:additionalCssClasses="lo_lightbox_name" />
-                    </property>
-                </bean>
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="orgType" p:id="searchByOrgTypeField"
-                      p:optionsFinderClass="org.kuali.student.lum.lu.ui.course.keyvalues.OrganizationTypeValuesFinder"
-                      p:progressiveRender="@{lookupCriteria['searchBy'] eq 'ORGANIZATIONTYPE'}">
-                    <property name="control">
-                        <bean parent="KS-Uif-DropdownControl" p:additionalCssClasses="lo_lightbox_name" p:onChangeScript="hideName();"/>
-                    </property>
-                </bean>
-                <bean parent="Uif-SecondaryActionButton" p:actionLabel="Show" p:additionalCssClasses="lo_lightbox_name"  p:methodToCall="search" p:onClickScript="hideName();"/>
             </list>
         </property>
 

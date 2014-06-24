@@ -35,7 +35,7 @@ public class LoSearchByValuesFinder extends UifKeyValuesFinderBase {
     private static final long serialVersionUID = 2760967200064651984L;
     
     public enum SearchByKeys {
-        ORGANIZATION("Organization"), COURSE("Course"), CATEGORY("Category"), KEYWORD("Keyword"), ORGANIZATIONTYPE("Organization Type");
+       KEYWORD("Keyword"), CATEGORY("Category"), CODE("Code"), TITLE("Title");
         
         private String display;
         
@@ -51,11 +51,10 @@ public class LoSearchByValuesFinder extends UifKeyValuesFinderBase {
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
         final List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue(SearchByKeys.ORGANIZATION.toString(), SearchByKeys.ORGANIZATION.getDisplay()));
-        keyValues.add(new ConcreteKeyValue(SearchByKeys.COURSE.toString(), SearchByKeys.COURSE.getDisplay()));
-        keyValues.add(new ConcreteKeyValue(SearchByKeys.CATEGORY.toString(), SearchByKeys.CATEGORY.getDisplay()));
         keyValues.add(new ConcreteKeyValue(SearchByKeys.KEYWORD.toString(), SearchByKeys.KEYWORD.getDisplay()));
-        keyValues.add(new ConcreteKeyValue(SearchByKeys.ORGANIZATIONTYPE.toString(), SearchByKeys.ORGANIZATIONTYPE.getDisplay()));
+        keyValues.add(new ConcreteKeyValue(SearchByKeys.CATEGORY.toString(), SearchByKeys.CATEGORY.getDisplay()));
+        keyValues.add(new ConcreteKeyValue(SearchByKeys.CODE.toString(), SearchByKeys.CODE.getDisplay()));
+        keyValues.add(new ConcreteKeyValue(SearchByKeys.TITLE.toString(), SearchByKeys.TITLE.getDisplay()));
         return keyValues;
     }
 

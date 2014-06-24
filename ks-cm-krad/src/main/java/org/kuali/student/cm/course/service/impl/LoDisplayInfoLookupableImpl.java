@@ -26,6 +26,7 @@ import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
@@ -94,25 +95,23 @@ public class LoDisplayInfoLookupableImpl extends KSLookupableImpl {
         List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
         SearchByKeys searchByKey = SearchByKeys.valueOf(searchCriteria.get(CourseServiceConstants.SEARCHBY_SEARCH));
         String loSearchBy = searchCriteria.get("name");
-        String orgType = searchCriteria.get("orgType");
+        String loSearchCriteriaBy = searchCriteria.get(CourseServiceConstants.SEARCH_CRITERIABY);
+
 
         if(StringUtils.isNotBlank(loSearchBy)){
             if (searchByKey == SearchByKeys.CATEGORY) {
                 SearchParamInfo loCategoryParam = new SearchParamInfo(CourseServiceConstants.OPTIONAL_LO_CATEGORY_NAME_PARAM, loSearchBy);
                 queryParamValueList.add(loCategoryParam);
-            } else if (searchByKey == SearchByKeys.ORGANIZATION) {
-                SearchParamInfo codeParam = new SearchParamInfo(CourseServiceConstants.OPTIONAL_LU_OPTIONAL_ADMIN_ORG_IDS_PARAM, loSearchBy);
-                queryParamValueList.add(codeParam);
-            } else if (searchByKey == SearchByKeys.COURSE){
-                SearchParamInfo titleParam = new SearchParamInfo(CourseServiceConstants.OPTIONAL_CODE_PARAM, loSearchBy);
+            } else if (searchByKey == SearchByKeys.TITLE) {
+                SearchParamInfo titleParam = new SearchParamInfo(CourseServiceConstants.OPTIONAL_LONGNAME_PARAM, loSearchBy);
                 queryParamValueList.add(titleParam);
+            } else if (searchByKey == SearchByKeys.CODE){
+                SearchParamInfo codeParam = new SearchParamInfo(CourseServiceConstants.OPTIONAL_CODE_PARAM, loSearchBy);
+                queryParamValueList.add(codeParam);
             } else if (searchByKey == SearchByKeys.KEYWORD){
                 SearchParamInfo keywordInLoParam = new SearchParamInfo(CourseServiceConstants.LO_DESC_PLAIN_PARAM, loSearchBy);
                 queryParamValueList.add(keywordInLoParam);
             }
-        } else if (searchByKey == SearchByKeys.ORGANIZATIONTYPE && StringUtils.isNotBlank(orgType)) {
-            SearchParamInfo orgTypeParam = new SearchParamInfo(CourseServiceConstants.OPTIONAL_LU_OPTIONAL_ADMIN_ORG_TYPES_PARAM, orgType);
-            queryParamValueList.add(orgTypeParam);
         }
 
         SearchParamInfo stateParam = new SearchParamInfo(CourseServiceConstants.OPTIONAL_STATE_PARAM, "Active");
@@ -120,11 +119,15 @@ public class LoDisplayInfoLookupableImpl extends KSLookupableImpl {
         
         SearchParamInfo typeParam = new SearchParamInfo();
         typeParam.setKey(CourseServiceConstants.OPTIONAL_TYPE_PARAM);
-        if (searchByKey == SearchByKeys.COURSE) {
+        if (loSearchCriteriaBy.equals("All")) {
             List<String> courseAndProgramStates = new ArrayList<String>();
             courseAndProgramStates.add(CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY);
             courseAndProgramStates.addAll(ProgramStates.getStateKeys());
             typeParam.setValues(courseAndProgramStates);
+        } else if (loSearchCriteriaBy.equals("COURSE_OLY")) {
+            typeParam.getValues().add(CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY);
+        } else if (loSearchCriteriaBy.equals("PRG_OLY")) {
+            typeParam.setValues(ProgramStates.getStateKeys());
         }
         queryParamValueList.add(typeParam);
         
