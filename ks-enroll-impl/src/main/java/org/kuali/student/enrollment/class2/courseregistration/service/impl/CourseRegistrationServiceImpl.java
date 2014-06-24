@@ -109,10 +109,6 @@ public class CourseRegistrationServiceImpl extends AbstractCourseRegistrationSer
             // Remove IDs and meta
             copy.setId(null);
             copy.setMeta(null);
-            for (RegistrationRequestItemInfo item: copy.getRegistrationRequestItems()) {
-                //item.setId(null);
-                item.setMeta(null);
-            }
 
             // Empty out original cart so it can be reused
             cartInfo.setRegistrationRequestItems(new ArrayList<RegistrationRequestItemInfo>());
