@@ -1470,8 +1470,16 @@ input[type="color"],
 }
 
 /*
+  override the tooltip to prevent it from covering the elements.
+*/
+.jquerybubblepopup {
+  margin-top: -10px !important;
+}
+
+/*
   override the tooltip content text size for all-black theme to base font size
 */
+
 .jquerybubblepopup-all-black  .jquerybubblepopup-innerHtml {
   font-size: 0.9em;
   font-family: @font-family-base;
