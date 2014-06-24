@@ -2,9 +2,6 @@ package org.kuali.student.r2.core.class1.search;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.kuali.student.r2.common.class1.search.SearchServiceAbstractHardwiredImpl;
 import org.kuali.student.r2.common.dao.GenericEntityDao;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -72,10 +69,10 @@ public class CourseOfferingHistorySearchImpl extends SearchServiceAbstractHardwi
         info.setKey("kuali.search.type.lui.pastCourseOfferings");
         info.setName("Past COs");
         info.setDescr(new RichTextHelper().fromPlain("Get all the past 5 years Course Offerings"));
-        DateTimeFormatter mmddyyyy = DateTimeFormat.forPattern("MM/dd/yyyy");
+        DateFormat mmddyyyy = new SimpleDateFormat("MM/dd/yyyy");
         try {
-            info.setEffectiveDate(mmddyyyy.parseDateTime("01/01/2012").toDate());
-        } catch (Exception ex) {
+            info.setEffectiveDate(mmddyyyy.parse("01/01/2012"));
+        } catch (ParseException ex) {
             throw new RuntimeException("bad code");
         }
         PAST_CO_SEARCH = info;
