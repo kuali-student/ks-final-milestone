@@ -13,22 +13,11 @@
             <div class="util-Grid-cell">
                 <div class="kscr-MainHeading-header kscr-MainHeading-stickyHeader">My Cart</div>
                 <div id="credit_count_title" class="kscr-MainHeading-support">
-                    <strong>
-                        <ng-pluralize count="cart.items.length"
-                                      when="{'1'    : '{} course ',
-                                                 'other': '{} courses '}">
-                        </ng-pluralize>
-                    </strong>
-                    (<ng-pluralize count="creditTotal"
-                                   when="{'1'    : '{} credit',
-                                             'other': '{} credits'}">
-                    </ng-pluralize>)
+                    <strong><ng-pluralize count="cart.items.length" when="{'1': '{} course', 'other': '{} courses'}"></ng-pluralize></strong>
+                    (<ng-pluralize count="creditTotal" when="{'1': '{} credit', 'other': '{} credits'}"></ng-pluralize>)
                 </div>
-                <div id="credit_count_title_large" class="kscr-Heading-support">
-                    <ng-pluralize count="creditTotal"
-                                   when="{'1'    : '{} CREDIT',
-                                             'other': '{} CREDITS'}">
-                    </ng-pluralize>
+                <div id="credit_count_title_large" class="kscr-MainHeading-support">
+                    <ng-pluralize count="creditTotal" when="{'1': '{} CREDIT', 'other': '{} CREDITS'}"></ng-pluralize>
                 </div>
             </div>
             <div>

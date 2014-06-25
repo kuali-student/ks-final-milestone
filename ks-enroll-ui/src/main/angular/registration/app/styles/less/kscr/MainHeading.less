@@ -5,25 +5,29 @@
     color: @primaryTextColor;
     font-family: @primaryFontFamily;
     font-size: 16px;
+    line-height: 1.2;
 }
 
 .kscr-MainHeading {
-    background-color: @sectionColor;
-    border: 0px;
-    padding: 10px;
-    .util-transitions-browserHelper;
+    &,
+    &--small,
+    &--large {
+        background-color: @sectionColor;
+        border: 0px;
+        padding: 10px;
+        .util-transitions-browserHelper;
 
-    * {
-        -moz-user-select: none;
-        -khtml-user-select: none;
-        -webkit-user-select: none;
-        user-select: none;
-    /* Required to make elements draggable in old WebKit */
-        -khtml-user-drag: element;
-        -webkit-user-drag: element;
+        * {
+            -moz-user-select: none;
+            -khtml-user-select: none;
+            -webkit-user-select: none;
+            user-select: none;
+        /* Required to make elements draggable in old WebKit */
+            -khtml-user-drag: element;
+            -webkit-user-drag: element;
+        }
     }
 }
-
 
 .kscr-MainHeading.ng-hide-remove {
    .util-transitions-browserHelper;
@@ -65,7 +69,7 @@
 }
 
 
-.kscr-MainHeading-header{
+.kscr-MainHeading-header {
     .kscr-Mainheading-styles;
     float: left;
     font-weight: bold;
@@ -84,12 +88,12 @@
     }
 }
 
-.kscr-MainHeading-support{
+.kscr-MainHeading-support {
     color: @secondaryTextColor;
     font-family: @primaryFontFamily;
     font-size: 14px;
     font-weight: normal;
-    line-height: 0.6;
+    line-height: 1.2;
 }
 
 .kscr-MainHeading-header--processing{
@@ -103,21 +107,18 @@
     background-color: inherit;
 }
 
-.kscr-MainHeading--small {
-  .kscr-MainHeading;
-}
-
-.kscr-MainHeading--large {
-  .kscr-MainHeading;
-}
 
 @media screen and (max-width: @smallFormatMax) {
-  .kscr-Responsive-mycart .kscr-Heading-support {
+  .kscr-Responsive-mycart #credit_count_title_large {
     display: none;
   }
 }
 
 @media screen and (min-width: @largeFormatMin) {
+  .kscr-Responsive-mycart #credit_count_title {
+    display: none;
+  }
+
   .kscr-MainHeading {
     padding-bottom: 0px;
   }
@@ -135,14 +136,9 @@
     border: none;
   }
 
-  .kscr-Responsive-mycart .kscr-MainHeading-support {
-    display: none;
-  }
-
   .kscr-MainHeading-CartHeading .kscr-MainHeading {
-    // Cut down the padding around the Register section in large format
-    padding-bottom: 5px;
-    padding-top: 5px;
+    padding-bottom: 8px;
+    padding-top: 8px;
   }
 
   .kscr-Schedule-header {
