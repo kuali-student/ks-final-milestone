@@ -1,12 +1,10 @@
 package org.kuali.student.enrollment.class2.courseoffering.krms.termresolver;
 
 import org.kuali.rice.krms.api.engine.TermResolutionException;
-import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util.CourseOfferingTermResolverSupport;
-import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util.CourseTermResolverSupport;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.krms.util.KSKRMSExecutionUtil;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
@@ -65,12 +63,12 @@ public class CompletedCoursePriorToTermTermResolver extends CourseOfferingTermRe
             AtpInfo term = this.getAtpService().getAtp(startTermId, context);
 
             //Retrieve the version independent clu id.
-            List<String> courseIds = this.getCluIdsFromVersionIndId(cluId, context);
+            List<String> courseIds = this.getCluIdsFromVersionIndId(cluId, parameters, context);
             for(String courseId : courseIds){
                 //Retrieve the students academic record for this version.
                 List<StudentCourseRecordInfo> courseRecords = this.getAcademicRecordService().getCompletedCourseRecordsForCourse(personId, courseId, context);
                 for (StudentCourseRecordInfo courseRecord : courseRecords){
-                    AtpInfo atpInfo = this.getAtpForCourseOfferingId(courseRecord.getCourseOfferingId(), context);
+                    AtpInfo atpInfo = this.getAtpForCourseOfferingId(courseRecord.getCourseOfferingId(), parameters, context);
                     if(atpInfo.getEndDate().before(term.getEndDate())) {
                         return true;
                     }

@@ -1,10 +1,8 @@
 package org.kuali.student.enrollment.class2.courseoffering.krms.termresolver;
 
 import org.kuali.rice.krms.api.engine.TermResolutionException;
-import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
 import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util.CourseRegistrationTermResolverSupport;
-import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util.CourseTermResolverSupport;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.krms.util.KSKRMSExecutionUtil;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
@@ -59,10 +57,10 @@ public class EnrolledCoursesTermResolver extends CourseRegistrationTermResolverS
         try {
             //Retrieve the list of cluIds from the cluset.
             String cluSetId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_COURSE_CLUSET_KEY);
-            List<String> versionIndIds = this.getCluIdsForCluSet(cluSetId, context);
+            List<String> versionIndIds = this.getCluIdsForCluSet(cluSetId, parameters, context);
             for(String versionIndId : versionIndIds){
                 resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_COURSE_CLU_KEY, versionIndId);
-                if(!this.checkCourseEnrolled(personId, versionIndId, termId, context)){
+                if(!this.checkCourseEnrolled(personId, versionIndId, termId, parameters, context)){
                     return false;
                 }
             }

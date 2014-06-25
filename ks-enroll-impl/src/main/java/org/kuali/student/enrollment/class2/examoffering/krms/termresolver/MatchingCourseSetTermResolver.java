@@ -71,7 +71,7 @@ public class MatchingCourseSetTermResolver extends CourseTermResolverSupport<Boo
         try {
             String cluSetId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_COURSE_CLUSET_KEY);
             String versionIndId = (String) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_COURSE_VERSIONINDID);
-            List<String> versionIndIds = this.getCluIdsForCluSet(cluSetId, context);
+            List<String> versionIndIds = this.getCluIdsForCluSet(cluSetId, parameters, context);
             if(versionIndIds.contains(versionIndId)){
                 return true;
             }

@@ -62,7 +62,7 @@ public class CompletedCourseForTermTermResolver extends CourseTermResolverSuppor
             String cluId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_COURSE_CLU_KEY);
 
             //Retrieve the version independent clu id.
-            List<String> courseIds = this.getCluIdsFromVersionIndId(cluId, context);
+            List<String> courseIds = this.getCluIdsFromVersionIndId(cluId, parameters, context);
             for(String courseId : courseIds){
                 //Retrieve the students academic record for this version.
                 List<StudentCourseRecordInfo> courseRecords = this.getAcademicRecordService().getCompletedCourseRecordsForCourse(personId, courseId, context);

@@ -16,7 +16,6 @@
 package org.kuali.student.enrollment.class2.courseoffering.krms.termresolver;
 
 import org.kuali.rice.krms.api.engine.TermResolutionException;
-import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util.AcademicRecordTermResolverSupport;
@@ -25,7 +24,6 @@ import org.kuali.student.r2.common.krms.util.KSKRMSExecutionUtil;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -66,7 +64,7 @@ public class CreditsEarnedFromCoursesTermResolver extends AcademicRecordTermReso
         try {
             //Retrieve the list of cluIds from the cluset.
             String cluSetId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_COURSE_CLUSET_KEY);
-            List<StudentCourseRecordInfo> recordInfos = this.getCourseRecordsForCourseSet(personId, cluSetId, context);
+            List<StudentCourseRecordInfo> recordInfos = this.getCourseRecordsForCourseSet(personId, cluSetId, parameters, context);
             for(StudentCourseRecordInfo recordInfo : recordInfos){
                 credits += Integer.parseInt(recordInfo.getCreditsEarned());
             }

@@ -74,12 +74,12 @@ public class CompletedCourseBetweenTermsTermResolver extends CourseOfferingTermR
             String cluId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_COURSE_CLU_KEY);
 
             //Retrieve the version independent clu id.
-            List<String> courseIds = this.getCluIdsFromVersionIndId(cluId, context);
+            List<String> courseIds = this.getCluIdsFromVersionIndId(cluId, parameters, context);
             for(String courseId : courseIds){
                 //Retrieve the students academic record for this version.
                 List<StudentCourseRecordInfo> courseRecords = this.getAcademicRecordService().getCompletedCourseRecordsForCourse(personId, courseId, context);
                 for (StudentCourseRecordInfo courseRecord : courseRecords){
-                    AtpInfo atpInfo = this.getAtpForCourseOfferingId(courseRecord.getCourseOfferingId(), context);
+                    AtpInfo atpInfo = this.getAtpForCourseOfferingId(courseRecord.getCourseOfferingId(), parameters, context);
                     if((atpInfo.getStartDate().before(startTerm.getStartDate())) || (atpInfo.getEndDate().after(endTerm.getEndDate()))){
                         continue;
                     }

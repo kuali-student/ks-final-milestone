@@ -1,10 +1,14 @@
 package org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util;
 
+import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.krms.util.KSKRMSExecutionUtil;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
+
+import java.util.Map;
 
 /**
  * Created by SW Genis on 2014/06/14.
@@ -14,10 +18,15 @@ public abstract class CourseOfferingTermResolverSupport<T> extends CourseTermRes
     private CourseOfferingService courseOfferingService;
     private AtpService atpService;
 
-    public AtpInfo getAtpForCourseOfferingId(String coId, ContextInfo context) throws Exception {
+    public AtpInfo getAtpForCourseOfferingId(String coId, Map<String, String> parameters, ContextInfo context) throws TermResolutionException {
         //Retrieve term.
-        CourseOffering courseOffering = this.getCourseOfferingService().getCourseOffering(coId, context);
-        return this.getAtpService().getAtp(courseOffering.getTermId(), context);
+        try {
+            CourseOffering courseOffering = this.getCourseOfferingService().getCourseOffering(coId, context);
+            return this.getAtpService().getAtp(courseOffering.getTermId(), context);
+        } catch (Exception e) {
+            KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
+        }
+        return null;
     }
 
     public CourseOfferingService getCourseOfferingService() {

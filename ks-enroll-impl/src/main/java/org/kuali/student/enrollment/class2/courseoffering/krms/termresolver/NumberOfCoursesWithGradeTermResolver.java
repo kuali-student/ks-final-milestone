@@ -16,9 +16,7 @@
 package org.kuali.student.enrollment.class2.courseoffering.krms.termresolver;
 
 import org.kuali.rice.krms.api.engine.TermResolutionException;
-import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
-import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util.CourseTermResolverSupport;
 import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util.GradeTermResolverSupport;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.krms.util.KSKRMSExecutionUtil;
@@ -70,9 +68,9 @@ public class NumberOfCoursesWithGradeTermResolver extends GradeTermResolverSuppo
             String gradeType = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_GRADE_TYPE_KEY);
             String grade = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_GRADE_KEY);
 
-            List<String> versionIndIds = this.getCluIdsForCluSet(cluSetId, context);
+            List<String> versionIndIds = this.getCluIdsForCluSet(cluSetId, parameters, context);
             for(String versionIndId : versionIndIds){
-                if(this.checkCourseWithGrade(personId, versionIndId, grade, gradeType, context)){
+                if(this.checkCourseWithGrade(personId, versionIndId, grade, gradeType, parameters, context)){
                     result++;
                 }
             }
