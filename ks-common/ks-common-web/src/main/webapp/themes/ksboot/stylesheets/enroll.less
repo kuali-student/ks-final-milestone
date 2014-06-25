@@ -1069,20 +1069,6 @@ div#Uif-ApplicationHeader-Wrapper{
   z-index: 100;
 }
 
-/*define a gray box as background. This is basically the "info grid" styling. */
-.ks-details-panel  {
-  background-color: #ebebeb;
-  border: none;
-  padding: 10px;
-}
-
-.ks-details-panel table {
-  //width: auto !important;
-  border: none;
-  vertical-align: bottom;
-  float:right;
-}
-
 #ClusterDeleteConfirmationPage .uif-pageHeader {
   min-height: initial;
 }
@@ -1095,31 +1081,44 @@ div#Uif-ApplicationHeader-Wrapper{
   min-height:40px;
 }
 
-.ks-details-panel th {
-  background-color: #ebebeb !important;
-  padding: 1px 6px;
-  border: none;
-  text-align: right;
-}
-
-.ks-details-panel  td {
-  background-color: #ebebeb !important;
-  padding: 1px 6px;
-  border: none;
-}
-
 /* Removing borders and fixing alignment for KSENROLL-12692 */
-.ks-details-panel pre{
-    margin: 0px;
-}
-.ks-details-panel .table thead > tr > th,
-.ks-details-panel .table tbody > tr > th,
-.ks-details-panel .table tfoot > tr > th,
-.ks-details-panel.table thead > tr > td,
-.ks-details-panel .table tbody > tr > td,
-.ks-details-panel .table tfoot > tr > td {
-    vertical-align: bottom;
+.ks-details-panel {
+  /*define a gray box as background. This is basically the "info grid" styling. */
+  background-color: @infoBackground-color;
+  border: none;
+  padding: 10px;
+
+  pre {
+      margin: 0px;
+  }
+
+  .table thead > tr > th,
+  .table tbody > tr > th,
+  .table tfoot > tr > th,
+  .table thead > tr > td,
+  .table tbody > tr > td,
+  .table tfoot > tr > td {
+      vertical-align: bottom;
+      border: none;
+  }
+
+  table {
+    //width: auto !important;
     border: none;
+    vertical-align: bottom;
+    float:right;
+  }
+
+  td, th {
+    background-color: @infoBackground-color !important;
+    padding: 1px 6px;
+    border: none;
+  }
+
+  th {
+    text-align: right;
+  }
+
 }
 
 //Override paddings from .uif-boxSubSection uif-boxLayoutVerticalItem
@@ -2173,3 +2172,38 @@ section.uif-disclosure {
 .uif-hasErrors>div.input-group [data-role="Control"] {
   border: 2px solid #ff2300 !important;
 }
+
+// Fix for layout,width,padding in Course Offering Inquiry KSENROLL-13121/KSENROLL-13201
+.ks-ObjectDetailsPanel {
+  .table-condensed {
+      thead > tr > th,
+      tbody > tr > th,
+      tfoot > tr > th,
+      thead > tr > td,
+      tbody > tr > td,
+      tfoot > tr > td {
+        padding: 2px;
+        white-space: nowrap;
+      }
+  }
+
+  table.uif-gridLayout th[scope="row"] label {
+    padding-top: 0;
+    white-space: nowrap;
+  }
+
+  pre.no-pad-bkgd-bor {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  }
+
+  .uif-table-fixed {
+    float: left;
+    width: auto;
+    table-layout: auto;
+  }
+
+  .container-fluid {
+    padding: 0;
+  }
+}
+
