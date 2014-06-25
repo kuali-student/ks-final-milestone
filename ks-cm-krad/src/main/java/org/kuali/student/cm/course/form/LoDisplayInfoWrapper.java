@@ -24,8 +24,6 @@ public class LoDisplayInfoWrapper extends LoDisplayInfo {
 
     private boolean selected;
 
-    private boolean newCategory = false;
-
     public LoDisplayInfoWrapper() {
     }
 
@@ -107,14 +105,6 @@ public class LoDisplayInfoWrapper extends LoDisplayInfo {
 
     public void setSelected(boolean selected) {
         this.selected = selected;
-    }
-
-    public boolean isNewCategory() {
-        return newCategory;
-    }
-
-    public void setNewCategory(boolean newCategory) {
-        this.newCategory = newCategory;
     }
 
     /**

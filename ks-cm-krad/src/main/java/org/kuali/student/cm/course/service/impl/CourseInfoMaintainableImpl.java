@@ -120,6 +120,7 @@ import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstants;
+import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueRangeInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
@@ -396,6 +397,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         return document.getDocumentHeader().getDocumentDescription();
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     protected boolean performAddLineValidation(ViewModel viewModel, Object newLine, String collectionId,
                                                String collectionPath) {
@@ -424,6 +426,46 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 if (StringUtils.isBlank(unitsContentOwner.getOrgId())) {
                     return false;
                 }
+            }
+        } else if (newLine instanceof LoCategoryInfo) {
+            LoCategoryInfo loCategoryInfo = (LoCategoryInfo) newLine;
+
+            boolean isCategoryAlreadyExist = false;
+            if (StringUtils.isNotBlank(loCategoryInfo.getName())) {
+                String[] categoryItems = loCategoryInfo.getName().split("-");
+                //Check if Category is existing one or a new.
+                if(categoryItems != null && categoryItems.length != 2) {
+                    String categoryName = categoryItems[0];
+                    if (StringUtils.isNotBlank(categoryName) && StringUtils.isNotBlank(loCategoryInfo.getTypeKey())) {
+                        String categoryType = loCategoryInfo.getTypeKey();
+                        List<LoCategoryInfoWrapper> loCategoryInfoWrapper = ((CourseInfoMaintainable) ((MaintenanceDocumentForm) viewModel).getDocument().getNewMaintainableObject()).searchForLoCategories(categoryName);
+                        if (loCategoryInfoWrapper != null && !loCategoryInfoWrapper.isEmpty()) {
+                            //Check against the each existing category and its type
+                            for (LoCategoryInfoWrapper loCategoryInfoWrap : loCategoryInfoWrapper) {
+                                if (loCategoryInfoWrap.getName().equals(categoryName) && loCategoryInfoWrap.getTypeKey().equals(categoryType)) {
+                                    isCategoryAlreadyExist = true;
+                                    break;
+                                }
+                            }
+                        }
+
+                        try{
+                            //Get the type info
+                            TypeInfo typeInfo = getLearningObjectiveService().getLoCategoryType(loCategoryInfo.getTypeKey(), ContextUtils.createDefaultContextInfo());
+                            loCategoryInfo.setName((new StringBuilder().append(loCategoryInfo.getName()).append(" - ").append(typeInfo.getName()).toString()));
+                        }   catch(Exception e) {
+                            LOG.error("An error occurred while retrieving the LoCategoryType", e);
+                        }
+
+                        if (!isCategoryAlreadyExist) {
+                            //new category creation code goes here
+                        }
+                    } else {
+                        return false;
+                    }
+                }
+            } else {
+                return false;
             }
         }
         return ((CourseRuleViewHelperServiceImpl) getRuleViewHelperService()).performAddLineValidation(viewModel, newLine, collectionId, collectionPath);

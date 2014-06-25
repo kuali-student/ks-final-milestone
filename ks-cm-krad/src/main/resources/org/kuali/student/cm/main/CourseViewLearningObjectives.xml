@@ -107,8 +107,25 @@
         <property name="layoutManager.lineGroupPrototype.header.headerText" value=" " />
         <property name="layoutManager.lineGroupPrototype.id" value="learning_objective_section_@{#index}"/>
         <property name="layoutManager.lineGroupPrototype.additionalCssClasses" value="learning_objective_section"/>
+        <property name="layoutManager.lineGroupPrototype.validationMessages.displayMessages" value="false"/>
+        <property name="layoutManager.lineGroupPrototype.validationMessages.displayHeaderMessageSummary" value="false"/>
+        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
 		<property name="layoutManager.lineGroupPrototype.header.lowerGroup">
-			<ref bean="LearningObjectives-ToolBarSection" />
+            <bean parent="Uif-VerticalBoxGroup">
+                <property name="items">
+                    <list>
+                        <ref bean="LearningObjectives-ToolBarSection" />
+                        <bean parent="Uif-Message" p:style="display:none"
+                              p:messageText="[image src=&quot;@{#ConfigProperties['krad.externalizable.images.url']}/validation/info.png&quot;]  You must add a category type to create the new category.">
+                            <property name="additionalCssClasses">
+                                <list merge="true">
+                                    <value>ks-informational-message-for-field</value>
+                                </list>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
 		</property>
         <property name="renderAddLine" value="false"/>
         <property name="renderLineActions" value="false"/>
@@ -161,8 +178,11 @@
 			<list>
 				<bean id="KS-LearningObjective-Category-SubSection" parent="Uif-StackedCollectionSubSection"
 					p:collectionObjectClass="org.kuali.student.r2.lum.lo.dto.LoCategoryInfo"
-					p:propertyName="loCategoryInfoList">
-					<property name="layoutManager">
+					p:propertyName="loCategoryInfoList"
+                        p:onDocumentReadyScript="jQuery('#KS-LearningObjective-CategoryType_line'+@{#index}+'_add').hide();
+                        jQuery('#KS-LearningObjective-CategoryType_line'+@{#index}+'_add').closest('div[id^=&quot;learning_objective_section&quot;]').find('p.ks-informational-message-for-field').hide();">
+                    <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
+                    <property name="layoutManager">
 						<bean parent="Uif-StackedCollectionLayout-WithBoxItems">
 							<property name="subCollectionFieldGroupPrototype">
 								<bean parent="Uif-HorizontalFieldGroup" />
@@ -171,7 +191,7 @@
 					</property>
                     <property name="addLineActions">
                         <list>
-                            <bean parent="Uif-SecondaryActionButton" p:id="KS-LearningObjective-Category-Add" p:actionLabel="Add" p:methodToCall="addLineCategory" p:ajaxSubmit="false" />
+                            <bean parent="Uif-SecondaryActionButton" p:id="KS-LearningObjective-Category-Add" p:actionLabel="Add" p:methodToCall="addLine" />
                         </list>
                     </property>
                     <property name="lineActions">
@@ -189,7 +209,7 @@
                             <bean id="KS-LearningObjective-Category"  parent="KS-Uif-InputField-LabelTop" p:label="Category"
                                   p:propertyName="name" p:render="@{#isAddLine}" p:additionalCssClasses="nowrap">
                                 <property name="control">
-                                    <bean parent="KS-Uif-TextControl" p:size="15"/>
+                                    <bean parent="KS-Uif-TextControl" p:size="15" p:cssClasses="validLoCategory"/>
                                 </property>
                                 <property name="suggest">
                                     <bean id="KS-LearningObjective-Category-Suggest" parent="Uif-Suggest">
@@ -230,10 +250,10 @@
                                     </bean>
                                 </property>
                             </bean>
-                            <bean id="KS-LearningObjective-CategoryType" parent="KS-Uif-InputField" p:progressiveRender="@{#isAddLine and #parentLine.newCategory}"
+                            <bean id="KS-LearningObjective-CategoryType" parent="KS-Uif-InputField"
                                   p:label="Type" p:propertyName="typeKey" p:required="true" >
                                 <property name="control">
-                                    <bean parent="KS-Uif-DropdownControl" p:cssClasses="validLoCategory"/>
+                                    <bean parent="KS-Uif-DropdownControl" />
                                 </property>
                                 <property name="dependencyConstraints">
                                     <list>
