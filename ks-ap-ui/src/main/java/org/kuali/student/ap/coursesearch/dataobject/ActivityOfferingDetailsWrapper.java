@@ -32,6 +32,7 @@ public class ActivityOfferingDetailsWrapper {
     private String activityFormatName;
     private boolean partOfRegGroup = false;
     private boolean singleFormatOffering;
+    private boolean inPlan;
 
     public ActivityOfferingDetailsWrapper() {
     }
@@ -205,5 +206,13 @@ public class ActivityOfferingDetailsWrapper {
 
     public void setRegGroupId(String regGroupId) {
         this.regGroupId = regGroupId;
+    }
+
+    public boolean isInPlan() {
+        return inPlan;
+    }
+
+    public void setInPlan(boolean inPlan) {
+        this.inPlan = inPlan;
     }
 }

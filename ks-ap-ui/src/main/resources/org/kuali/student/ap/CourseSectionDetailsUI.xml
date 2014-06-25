@@ -360,8 +360,12 @@
                       p:render="@{#line.singleFormatOffering==true}">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-ActionLink" p:render="@{#line.singleFormatOffering==true}"
-                                 p:cssClasses="ks-fontello-icon-hollow-circled-plus">
+                            <bean parent="Uif-ActionLink" p:render="@{#line.singleFormatOffering==true}">
+                                <property name="cssClasses">
+                                    <list>
+                                        <value>@{#line.inPlan ? 'ks-fontello-icon-ok-circled' : 'ks-fontello-icon-hollow-circled-plus'}</value>
+                                    </list>
+                                </property>
                                 <property name="actionScript" value="ksapOpenDialog('KSAP-CourseDetailsSection-AddCoursePage','details','startAddDialog', this, e,{regGroupId: '@{#line.regGroupId}'});"/>
                             </bean>
                         </list>

@@ -7,6 +7,8 @@ import org.kuali.rice.krad.uif.container.GroupBase;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.uif.widget.Disclosure;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
+import org.kuali.student.ap.academicplan.infc.PlanItem;
 import org.kuali.student.ap.coursesearch.dataobject.ActivityFormatDetailsWrapper;
 import org.kuali.student.ap.coursesearch.dataobject.ActivityOfferingDetailsWrapper;
 import org.kuali.student.ap.coursesearch.dataobject.CourseOfferingDetailsWrapper;
@@ -16,6 +18,7 @@ import org.kuali.student.ap.coursesearch.form.CourseSectionDetailsForm;
 import org.kuali.student.ap.coursesearch.service.CourseDetailsViewHelperService;
 import org.kuali.student.ap.coursesearch.util.CourseDetailsUtil;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
+import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
@@ -330,6 +333,18 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
         if (aoRequisites.size()>0)
             wrapper.setRequirementsUrl("kr-krad/scheduleOfClassesSearch?viewId=scheduleOfClassesSearchView" +
                     "&methodToCall=show&term_code=" +aoInfo.getTermCode()+"&course="+aoInfo.getCourseOfferingCode());
+
+        wrapper.setInPlan(false);
+        List<RegistrationGroupInfo> regGroups = KsapFrameworkServiceLocator.getCourseOfferingService().getRegistrationGroupsByActivityOffering(wrapper.getActivityOfferingId(), KsapFrameworkServiceLocator.getContext().getContextInfo());
+        String planId = KsapFrameworkServiceLocator.getPlanHelper().getDefaultLearningPlan().getId();
+        for(RegistrationGroupInfo regGroup : regGroups){
+            List<PlanItemInfo> items = KsapFrameworkServiceLocator.getAcademicPlanService()
+                    .getPlanItemsInPlanByRefObjectIdByRefObjectType(planId, regGroup.getId(),
+                            PlanConstants.REG_GROUP_TYPE,KsapFrameworkServiceLocator.getContext().getContextInfo());
+            if(!items.isEmpty()){
+                wrapper.setInPlan(true);
+            }
+        }
         return wrapper;
 
     }

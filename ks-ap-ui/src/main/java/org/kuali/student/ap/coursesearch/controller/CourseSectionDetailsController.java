@@ -14,6 +14,7 @@ import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.planner.util.PlanEventUtils;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -93,12 +94,12 @@ public class CourseSectionDetailsController extends KsapControllerBase {
         terms.add(regGroup.getTermId());
         newPlanItem.setPlanTermIds(terms);
 
-        /*try{
+        try{
             KsapFrameworkServiceLocator.getAcademicPlanService().createPlanItem(newPlanItem,KsapFrameworkServiceLocator.getContext().getContextInfo());
         }catch (AlreadyExistsException e){
             PlanEventUtils.sendJsonEvents(false,"Course " +course.getCourseCode() + " is already planned for " + term.getName(), response, eventList);
             return null;
-        }*/
+        }
 
 
         PlanEventUtils.sendJsonEvents(true,"Registration Group For " +course.getCourseOfferingCode() + " added for " + term.getName(), response, eventList);
