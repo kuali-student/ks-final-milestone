@@ -47,16 +47,6 @@ public class CollaboratorWrapper {
         private String actionRequestId;
         private String actionRequestStatus;
 
-        private String fullName;
-
-        public String getFullName() {
-            if(author){
-                return lastName + ", " + firstName + " (Author)";
-            }else{
-                return lastName + ", " + firstName;
-            }
-        }
-
         public String getPrincipalId() {
             return principalId;
         }

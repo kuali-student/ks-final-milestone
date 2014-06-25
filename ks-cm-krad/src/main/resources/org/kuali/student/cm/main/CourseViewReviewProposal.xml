@@ -619,7 +619,7 @@
                                               p:collectionObjectClass="org.kuali.student.cm.course.form.CollaboratorWrapper"
                                               p:colSpan="3">
                                             <property name="layoutManager.lineGroupPrototype.header.headerText"
-                                                      value="@{(#line.fullName)}"/>
+                                                      value="@{(#line.author==true) ? (#line.lastName) + ', ' + (#line.firstName) + ' (Author)' : (#line.lastName) + ', ' + (#line.firstName)}"/>
                                             <property name="layoutManager.lineGroupPrototype.header.style"
                                                       value="border-bottom : 1px solid black;"/>
                                             <property name="renderLineActions" value="false"/>
@@ -628,10 +628,10 @@
                                                 <list>
                                                     <bean parent="CM-ReadOnlyInput" p:label="Permissions"
                                                           p:fieldLabel.style="white-space : nowrap; float:left;"
-                                                          p:propertyName="permission" p:colSpan="1"/>
+                                                          p:propertyName="permission" p:colSpan="1" p:style="padding-top: 5px"/>
                                                     <bean parent="CM-ReadOnlyInput" p:label="Action Request"
                                                           p:fieldLabel.style="white-space : nowrap; float:left;"
-                                                          p:propertyName="action" p:colSpan="1" />
+                                                          p:propertyName="action" p:colSpan="1" p:style="padding-top: 5px"/>
                                                 </list>
                                             </property>
                                         </bean>
