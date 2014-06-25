@@ -915,36 +915,27 @@ function setReadonlyTextWidthForComment() {
 jQuery.validator.addMethod("validLoCategory",
     function (value, element) {
         return this.optional(element) || validateNewLoCategoryAndType(value, element);
-    }, "The category matches more than one type. Please select the correct type below.")
+    }, "")
 
 
 function validateNewLoCategoryAndType(value, element) {
-    var isValid = false;
-    var loCategoryName = element.id;
-    loCategoryName = loCategoryName.replace('KS-LearningObjective-CategoryType', 'KS-LearningObjective-Category');
-    if (jQuery('#' + loCategoryName).val() != '' && value != '') {
-        var successFunction = function (data) {
-            isValid = data;
-        };
+    var loCategoryType_control = element.id;
+    loCategoryType_control = loCategoryType_control.replace('KS-LearningObjective-Category', 'KS-LearningObjective-CategoryType');
+    var items = value.split('-');
+    var loCategoryType = jQuery('#' + loCategoryType_control).parent();
+    var loCategoryInfoMessage = jQuery('#' + loCategoryType_control).closest('div[id^="learning_objective_section"]').find('p.ks-informational-message-for-field');
 
-        var queryData = {};
-        queryData.methodToCall = 'validateNewLoCategoryAndType';
-        queryData.ajaxRequest = true;
-        queryData.ajaxReturnType = 'update-none';
-        queryData.formKey = jQuery("input[name='" + kradVariables.FORM_KEY + "']").val();
-        queryData.categoryName = jQuery('#' + loCategoryName).val();
-        queryData.categoryType = value;
-
-        jQuery.ajax({
-            url:jQuery("form#kualiForm").attr("action"),
-            dataType:"json",
-            async:false,
-            beforeSend:null,
-            complete:null,
-            error:null,
-            data:queryData,
-            success:successFunction
-        });
+    if (value != '' && items.length < 2) {
+        loCategoryType.show();
+        var imgOuterHTML = loCategoryInfoMessage.find('img')[0].outerHTML
+        loCategoryInfoMessage.html(imgOuterHTML + ' You must add a category type to create the new category ' + value + '.');
+        loCategoryInfoMessage.show();
+    } else {
+        if (loCategoryType.is(':visible')) {
+            loCategoryType.hide();
+            loCategoryInfoMessage.hide();
+            jQuery("#" + loCategoryType_control + " option[value='']").attr('selected', true);
+        }
     }
-    return !isValid;
+    return true;
 }
