@@ -158,7 +158,7 @@
                 <bean id="term_start_date_add" parent="KS-Uif-InputField-LabelTop" p:propertyName="startDate"
                       p:label="Start Date" p:required="true">
                     <property name="control">
-                        <bean parent="KS-Uif-Default-DateControl"/>
+                        <bean parent="KS-Uif-Deferred-Datepicker-DateControl"/>
                     </property>
                     <property name="validCharactersConstraint">
                         <bean parent="KS-BasicDatePatternConstraint"/>
@@ -180,7 +180,7 @@
                 <bean id="term_end_date_add" parent="KS-Uif-InputField-LabelTop" p:propertyName="endDate"
                       p:label="End Date" p:required="true">
                     <property name="control">
-                        <bean parent="KS-Uif-Default-DateControl"/>
+                        <bean parent="KS-Uif-Deferred-Datepicker-DateControl"/>
                     </property>
                     <property name="validCharactersConstraint">
                         <bean parent="KS-BasicDatePatternConstraint"/>
@@ -280,7 +280,7 @@
                                         <bean id="term_start_date" parent="KS-Uif-InputField-LabelTop"
                                               p:propertyName="startDate" p:label="Start Date" p:required="true">
                                             <property name="control">
-                                                <bean parent="KS-Uif-Default-DateControl"/>
+                                                <bean parent="KS-Uif-Deferred-Datepicker-DateControl"/>
                                             </property>
                                             <property name="validCharactersConstraint">
                                                 <bean parent="KS-BasicDatePatternConstraint"/>
@@ -303,7 +303,7 @@
                                         <bean id="term_end_date" parent="KS-Uif-InputField-LabelTop"
                                               p:propertyName="endDate" p:label="End Date" p:required="true">
                                             <property name="control">
-                                                <bean parent="KS-Uif-Default-DateControl"/>
+                                                <bean parent="KS-Uif-Deferred-Datepicker-DateControl"/>
                                             </property>
                                             <property name="validCharactersConstraint">
                                                 <bean parent="KS-BasicDatePatternConstraint"/>
@@ -494,7 +494,7 @@
                       p:readOnlyDisplayReplacementPropertyName="startDateUI"
                       p:label="Start Date">
                     <property name="control">
-                        <bean parent="KS-Uif-Default-DateControl"/>
+                        <bean parent="KS-Uif-Deferred-Datepicker-DateControl"/>
                     </property>
                     <property name="validCharactersConstraint">
                         <bean parent="KS-BasicDatePatternConstraint"/>
@@ -522,7 +522,7 @@
                 <bean id="key_date_end_date" parent="KS-Uif-InputField" p:propertyName="endDate"
                       p:render="@{!#view.readOnly}" p:label="End Date">
                     <property name="control">
-                        <bean parent="KS-Uif-Default-DateControl"/>
+                        <bean parent="KS-Uif-Deferred-Datepicker-DateControl"/>
                     </property>
                     <property name="validCharactersConstraint">
                         <bean parent="KS-BasicDatePatternConstraint"/>
@@ -583,7 +583,7 @@
                 <bean id="exam_date_start_date" parent="KS-Uif-InputField" p:propertyName="startDate"
                       p:render="@{!#view.readOnly}" p:label="Start Date">
                     <property name="control">
-                        <bean parent="KS-Uif-Default-DateControl"/>
+                        <bean parent="KS-Uif-Deferred-Datepicker-DateControl"/>
                     </property>
                     <property name="validCharactersConstraint">
                         <bean parent="KS-BasicDatePatternConstraint"/>
@@ -594,7 +594,7 @@
                 <bean id="exam_date_end_date" parent="KS-Uif-InputField" p:propertyName="endDate"
                       p:render="@{!#view.readOnly}" p:label="End Date">
                     <property name="control">
-                        <bean parent="KS-Uif-Default-DateControl"/>
+                        <bean parent="KS-Uif-Deferred-Datepicker-DateControl"/>
                     </property>
                     <property name="validCharactersConstraint">
                         <bean parent="KS-BasicDatePatternConstraint"/>

@@ -288,7 +288,7 @@ limitations under the License.
                                   p:label="Start Date" p:required="true"
                                   p:onChangeScript="displayCalendarInformation(jQuery(this),'academicCalendarStartDate')">
                                 <property name="control">
-                                    <bean parent="KS-Uif-Default-DateControl"/>
+                                    <bean parent="KS-Uif-Deferred-Datepicker-DateControl"/>
                                 </property>
                                 <property name="validCharactersConstraint">
                                     <bean parent="KS-BasicDatePatternConstraint"/>
@@ -298,7 +298,7 @@ limitations under the License.
                                   p:label="End Date" p:required="true"
                                   p:onChangeScript="displayCalendarInformation(jQuery(this),'academicCalendarEndDate')">
                                 <property name="control">
-                                    <bean parent="KS-Uif-Default-DateControl"/>
+                                    <bean parent="KS-Uif-Deferred-Datepicker-DateControl"/>
                                 </property>
                                 <property name="validCharactersConstraint">
                                     <bean parent="KS-BasicDatePatternConstraint"/>
@@ -381,7 +381,7 @@ limitations under the License.
                 <bean parent="KS-Uif-InputField" p:id="event_start_date" p:propertyName="startDate" p:label="Start Date"
                       p:style="font-weight:normal;" p:readOnlyDisplayReplacementPropertyName="startDateUI">
                     <property name="control">
-                        <bean parent="KS-Uif-Default-DateControl"/>
+                        <bean parent="KS-Uif-Deferred-Datepicker-DateControl"/>
                     </property>
                     <property name="validCharactersConstraint">
                         <bean parent="KS-BasicDatePatternConstraint"/>
@@ -409,7 +409,7 @@ limitations under the License.
                 <bean parent="KS-Uif-InputField" p:id="event_end_date" p:propertyName="endDate" p:render="@{!#view.readOnly}"
                       p:label="End Date">
                     <property name="control">
-                        <bean parent="KS-Uif-Default-DateControl"/>
+                        <bean parent="KS-Uif-Deferred-Datepicker-DateControl"/>
                     </property>
                     <property name="validCharactersConstraint">
                         <bean parent="KS-BasicDatePatternConstraint"/>
@@ -645,5 +645,27 @@ limitations under the License.
         <bean parent="Uif-KeyLabelPair" p:key="AM" p:value="[css='acal_keydate_radiobutton_label']am[/css]"/>
         <bean parent="Uif-KeyLabelPair" p:key="PM" p:value="[css='acal_keydate_radiobutton_label']pm[/css]"/>
     </util:list>
+
+<!-- The Deferred DatePicker adds static HTML with a class of "ks-deferred-datepicker" by using a custom template
+    ("ks-deferred-datePicker.ftl").
+    A Global event handler is added in ks.krad.override.js to see if the on click was for one of these
+    date pickers. If so, the button is removed and the old KRAD createDatepicker function is called.
+    By doing this we remove costly calls to createDatePicker, which add lots of overhead in terms of JS execution time and
+    memory (100+ on the screen)-->
+    <bean id="KS-Uif-Deferred-Datepicker-DateControl" parent="KS-Uif-Deferred-Datepicker-DateControl-parent"/>
+    <bean id="KS-Uif-Deferred-Datepicker-DateControl-parent" parent="Uif-DateControl" p:size="9" p:minLength="8" p:maxLength="10" p:watermarkText="mm/dd/yyyy">
+        <property name="datePicker.template" value="/ks-krad/WEB-INF/ftl/ks-deferred-datePicker.ftl"/>
+        <property name="datePicker.templateName" value="uif_deferred_datePicker"/>
+        <property name="datePicker.templateOptions">
+            <map merge="true">
+                <entry key="showOn" value="button"/>
+                <entry key="buttonImageOnly" value="false"/>
+                <entry key="constrainInput" value="false"/>
+            </map>
+        </property>
+        <property name="toolTip">
+            <null/>
+        </property>
+    </bean>
 
 </beans>
