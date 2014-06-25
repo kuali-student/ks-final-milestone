@@ -1,11 +1,17 @@
 /******* Global styling ******/
 @import url(http://fonts.googleapis.com/css?family=Montserrat);
 
-body{
+html {
+    height: 100%;
+}
+
+body {
     background-color: @bodyColor;
     font-family: @primaryFontFamily;
+    height: 100%;
 }
-a{
+
+a {
     cursor: pointer;
     cursor: hand;
 }
@@ -14,24 +20,12 @@ input[type="radio"] {
     margin-right: 5px;
 }
 
-::-webkit-input-placeholder {
-   font-style: italic;
-}
-
-:-moz-placeholder { /* Firefox 18- */
-   font-style: italic;
-}
-
-::-moz-placeholder {  /* Firefox 19+ */
-   font-style: italic;
-}
-
-:-ms-input-placeholder {
-   font-style: italic;
-}
-
+::-webkit-input-placeholder,
+:-moz-placeholder, /* Firefox 18- */
+::-moz-placeholder, /* Firefox 19+ */
+:-ms-input-placeholder,
 input:-moz-placeholder {
-    font-style: italic;
+   font-style: italic;
 }
 
 .Rounded(@radius:@defaultRadius){
@@ -41,14 +35,9 @@ input:-moz-placeholder {
 }
 
 
-.global-Base-body{
-    margin: 0 auto;
-    overflow: auto;
-    height: 100%;
+.global-Base-divider {
+    width: 5px;
+    height: auto;
+    display: inline-block;
 }
 
-.global-Base-divider{
-    width: 5px;
-    height:auto;
-    display:inline-block;
-}

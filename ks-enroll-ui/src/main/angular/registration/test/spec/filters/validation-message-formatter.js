@@ -27,8 +27,8 @@ describe('Filter: FormatValidationMessage', function() {
             course = {};
         }
 
-        if (!course.id) {
-            course.id = baseCourseId;
+        if (!course.masterLprId) {
+            course.masterLprId = baseCourseId;
         }
 
         return filterWithKey(errorType, course);
@@ -76,7 +76,7 @@ describe('Filter: FormatValidationMessage', function() {
             var data = {
                 messageKey: VALIDATION_ERROR_TYPE.timeConflict,
                 courseCode: 'code1',
-                id: 'id1'
+                masterLprId: 'id1'
             };
 
             // Base case
@@ -95,7 +95,7 @@ describe('Filter: FormatValidationMessage', function() {
             expect(filter(data, {})).toBe('Time conflict (<strong>code1</strong>, <strong>code2</strong>)');
 
             // Duplicate item in conflictingCourses array
-            data.conflictingCourses.push({courseCode: 'code1', id: 'id1'});
+            data.conflictingCourses.push({courseCode: 'code1', masterLprId: 'id1'});
             expect(filter(data, {})).toBe('Time conflict (<strong>code1</strong>, <strong>code2</strong>)');
         });
 
@@ -103,11 +103,11 @@ describe('Filter: FormatValidationMessage', function() {
             var data = {
                     messageKey: VALIDATION_ERROR_TYPE.timeConflict,
                     courseCode: 'code1',
-                    id: baseCourseId
+                    masterLprId: baseCourseId
                 },
                 course = {
                     courseCode: 'code1',
-                    id: baseCourseId
+                    masterLprId: baseCourseId
                 };
 
             expect(filter(data, course)).toBe('Time conflict');
@@ -117,7 +117,7 @@ describe('Filter: FormatValidationMessage', function() {
             var data = {
                 messageKey: VALIDATION_ERROR_TYPE.timeConflict,
                 conflictingCourses: [
-                    { courseCode: 'code1', id: 'id1' }
+                    { courseCode: 'code1', masterLprId: 'id1' }
                 ]
             };
 
@@ -125,11 +125,11 @@ describe('Filter: FormatValidationMessage', function() {
             expect(filter(data, {})).toBe('Time conflict (<strong>code1</strong>)');
 
             // Multiple items
-            data.conflictingCourses.push({courseCode: 'code2', id: 'id2'});
+            data.conflictingCourses.push({courseCode: 'code2', masterLprId: 'id2'});
             expect(filter(data, {})).toBe('Time conflict (<strong>code1</strong>, <strong>code2</strong>)');
 
             // Duplicate item in conflictingCourses
-            data.conflictingCourses.push({courseCode: 'code1', id: 'id1'});
+            data.conflictingCourses.push({courseCode: 'code1', masterLprId: 'id1'});
             expect(filter(data, {})).toBe('Time conflict (<strong>code1</strong>, <strong>code2</strong>)');
         });
 
@@ -137,19 +137,19 @@ describe('Filter: FormatValidationMessage', function() {
             var data = {
                     messageKey: VALIDATION_ERROR_TYPE.timeConflict,
                     conflictingCourses: [
-                        { courseCode: 'code1', id: 'id1' }
+                        { courseCode: 'code1', masterLprId: 'id1' }
                     ]
                 },
                 course = {
                     courseCode: 'BASE_COURSE_CODE',
-                    id: baseCourseId
+                    masterLprId: baseCourseId
                 };
 
             // Single item base case
             expect(filter(data, course)).toBe('Time conflict (<strong>code1</strong>)');
 
             // Multiple items
-            data.conflictingCourses.push({courseCode: 'BASE_COURSE_CODE', id: baseCourseId});
+            data.conflictingCourses.push({courseCode: 'BASE_COURSE_CODE', masterLprId: baseCourseId});
             expect(filter(data, course)).toBe('Time conflict (<strong>code1</strong>)');
         });
     });

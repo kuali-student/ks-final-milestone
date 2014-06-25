@@ -55,10 +55,8 @@
 </div>
 
 
-<div class="global-Base-body">
-   <div ng-disabled="dropMenu">
-        <div ui-view></div>
-   </div>
+<div class="kscr-Main-content" ng-disabled="dropMenu">
+    <div ui-view></div>
 </div>
 
 <div ng-class="{'kscr-Menu-background--disabled' : dropMenu}" ng-click="dropMenu=false"></div>

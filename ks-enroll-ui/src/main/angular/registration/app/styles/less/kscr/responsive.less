@@ -1,30 +1,28 @@
 .kscr-Responsive-maincontent {
-  display: flex; /*Uset to display child elements (schedule and cart) side by side in a flexible way*/
-  height: 100%;
+  .flexbox(); /*Uset to display child elements (schedule and cart) side by side in a flexible way*/
 }
 
 .kscr-Responsive-scheduleWrapper {
-  flex: 1;
+  .flex(1);
   background-color: @sectionColor;
 }
 
 .kscr-Responsive-schedule {
-  flex: 1; /*set so that this takes up all the room left over from cart*/
-  display: flex; /*child elements (registered and waitlist) are displayed in a flexible way*/
+  .flex(1); /*set so that this takes up all the room left over from cart*/
+  .flexbox();/*child elements (registered and waitlist) are displayed in a flexible way*/
 }
 
 .kscr-Responsive-mycart {
   width: 320px; /*fixed width for cart*/
-  background-color:  @sectionColor;
 }
 
 .kscr-Responsive-registered {
-  flex: 1; /*set to take up the same percentage as waitlisted (1/2 the size of the container)*/
+  .flex(1); /* set to take up the same percentage as waitlisted (1/2 the size of the container) */
   display: block; /*show initially*/
 }
 
 .kscr-Responsive-waitlisted {
-  flex: 1; /*set to take up the same percentage as registered (1/2 the size of the container)*/
+  .flex(1); /*set to take up the same percentage as registered (1/2 the size of the container)*/
 }
 
 .kscr-Responsive-waitlisted--inactive{
@@ -81,9 +79,8 @@
   }
 
   .kscr-MainHeading-stickyHeader {
-        display: none;
+    display: none;
   }
-
 }
 
 @media screen and (min-width: @largeFormatMin) {
@@ -125,13 +122,16 @@
         text-align: left;
     }
 
-    .kscr-Responsive-scheduleWrapper {
-        margin-top: 10px;
-        height: 100%;
+    .kscr-Responsive-maincontent {
+        background: @bodyColorDark;
+        min-height: 100%;
+        padding: 10px 0 0;
     }
 
     .kscr-Responsive-mycart {
-        margin: 10px 10px 0px 10px;
+        background: transparent;
+        margin: 0;
+        padding: 0 10px;
     }
 
     .kscr-Responsive-mycart .kscr-MainHeading-icons  {

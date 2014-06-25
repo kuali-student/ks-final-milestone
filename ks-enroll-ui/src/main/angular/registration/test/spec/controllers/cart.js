@@ -69,7 +69,8 @@ describe('Controller: CartCtrl', function () {
     });
 
     // Test showBadge(cartItem)
-    it('should correctly check whether or not to show a badge for a cart item', inject(function(GRADING_OPTION) {
+    // Disabled to since card was moved to directive
+    xit('should correctly check whether or not to show a badge for a cart item', inject(function(GRADING_OPTION) {
         var cartItem = { grading: '' };
 
         cartItem.grading = GRADING_OPTION.letter;
