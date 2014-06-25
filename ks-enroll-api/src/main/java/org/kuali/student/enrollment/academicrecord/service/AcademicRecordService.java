@@ -103,6 +103,27 @@ public interface AcademicRecordService {
             PermissionDeniedException;
 
     /**
+     * This method returns a list of all StudentCourseRecords for a student for a given course
+     * @param personId an Id of a student
+     * @param courseId Unique Id of the Course (canonical)
+     * @param contextInfo Context information containing the principalId and locale information about the caller of service operation
+     * @return a list of StudentCourseRecords for the specified course or empty list if none exist
+     * @throws DoesNotExistException     personId or courseId not found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException personId, courseId or contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<StudentCourseRecordInfo> getStudentCourseRecordsForCourse(@WebParam(name = "personId") String personId,
+                                                                          @WebParam(name = "courseId") String courseId,
+                                                                          @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
      * This method returns a list of StudentCourseRecord for a student for a
      * given course
      *
