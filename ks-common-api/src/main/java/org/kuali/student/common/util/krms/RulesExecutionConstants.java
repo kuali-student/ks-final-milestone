@@ -4,6 +4,9 @@ import org.kuali.rice.krms.api.engine.Term;
 
 public class RulesExecutionConstants {
 
+    private static final String personId = "kuali.term.prerequisite.personId";
+    private static final String contextInfo = "kuali.term.prerequisite.contextInfo";
+
     /**
      * Rule execution related Term's  
      */
@@ -27,8 +30,8 @@ public class RulesExecutionConstants {
     public static final Term COMPLETED_COURSE_TERM = new Term("completedCourse");
     // data
     public static final Term PROCESS_KEY_TERM = new Term("processKey");
-    public static final Term CONTEXT_INFO_TERM = new Term("kuali.term.prerequisite.contextInfo");
-    public static final Term PERSON_ID_TERM = new Term("kuali.term.prerequisite.personId");
+    public static final Term CONTEXT_INFO_TERM = new Term(contextInfo);
+    public static final Term PERSON_ID_TERM = new Term(personId);
     public static final Term REG_GROUP_ID_TERM = new Term("registrationGroupId");
     public static final Term REGISTRATION_REQUEST_ID_TERM = new Term("registrationRequestId");
     public static final Term REGISTRATION_REQUEST_TERM = new Term("registrationRequest");
