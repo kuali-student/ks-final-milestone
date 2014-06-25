@@ -15,31 +15,34 @@
   limitations under the License.
 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="LoCategoryInfoWrapper-DataObjectEntry" parent="DataObjectEntry">
-        <property name="objectLabel" value="LoCategoryInfoWrapper" />
-        <property name="dataObjectClass" value="org.kuali.student.cm.course.form.LoCategoryInfoWrapper" />
+        <property name="objectLabel" value="LoCategoryInfoWrapper"/>
+        <property name="dataObjectClass" value="org.kuali.student.cm.course.form.LoCategoryInfoWrapper"/>
     </bean>
-    
-    <bean id="KS-LoCategoryInfoWrapper-View" parent="KS-Uif-LookupView">
-        <property name="id" value="LoCategoryInfoWrapperView" />
-        <property name="headerText" value="Select Categories" />
+
+    <bean id="KS-LoCategoryInfoWrapper-View" parent="Uif-LookupView">
+        <property name="viewName" value="KS-LoCategoryInfoWrapper-View"/>
+        <property name="headerText" value="Select Categories"/>
         <property name="dataObjectClassName"
-            value="org.kuali.student.cm.course.form.LoCategoryInfoWrapper" />
+                  value="org.kuali.student.cm.course.form.LoCategoryInfoWrapper"/>
         <property name="viewHelperServiceClass"
-            value="org.kuali.student.cm.course.service.impl.LoCategoryInfoLookupableImpl" />
-        <property name="multipleValuesSelect" value="true" />    
-        <property name="criteriaGroup.render" value="false" />
+                  value="org.kuali.student.cm.course.service.impl.LoCategoryInfoLookupableImpl"/>
+        <property name="multipleValuesSelect" value="true"/>
+        <property name="criteriaGroup.render" value="false"/>
         <!-- Removing property. Looks like Rice no longer supports it: KULRICE-10618
         <property name="resultsGroup.layoutManager.richTable.showSearchAndExportOptions" value="true" />
         -->
+        <property name="resultsGroup.includeLineSelectionField" value="true"/>
+        <!-- <property name="resultsGroup.lineSelectPropertyName" value="selected"/>
+        -->
         <property name="resultsGroup.layoutManager.richTable.templateOptions">
             <map>
-                 <entry key="sDom" value="frtip"/>
-           </map>
+                <entry key="sDom" value="frtip"/>
+            </map>
         </property>
         <!-- Must define the criteriaFields even though it's not being rendered, because of framework restriction. -->
         <property name="criteriaFields">
@@ -49,10 +52,9 @@
         </property>
         <property name="resultFields">
             <list>
-                <bean parent="KS-Uif-DataField" p:propertyName="name" p:label="Category" />
-                <bean parent="KS-Uif-DataField" p:propertyName="typeName" p:label="Type" />
-           </list>
+                <bean parent="KS-Uif-DataField" p:propertyName="name" p:label="Category"/>
+                <bean parent="KS-Uif-DataField" p:propertyName="typeName" p:label="Type"/>
+            </list>
         </property>
     </bean>
-
 </beans>

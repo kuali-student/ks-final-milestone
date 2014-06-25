@@ -15,23 +15,24 @@
   limitations under the License.
 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:spring="http://camel.apache.org/schema/spring"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring-2.0-M3.xsd">
 
     <bean id="KS-CourseView-LearningObjectives-Section" parent="KS-CourseView-VerticalBoxSection">
-            <property name="headerText" value="Learning Objectives"/>
-            <property name="items">
-                <list>
-                    <ref bean="LearningObjective-NoRequiredMessageLink" />
-                    <ref bean="LearningObjective-MainToolBarSection"/>
-                    <ref bean="LearningObjective-CollectionSection" />
-                </list>
-            </property>
+        <property name="headerText" value="Learning Objectives"/>
+        <property name="items">
+            <list>
+                <ref bean="LearningObjective-NoRequiredMessageLink"/>
+                <ref bean="LearningObjective-MainToolBarSection"/>
+                <ref bean="LearningObjective-CollectionSection"/>
+            </list>
+        </property>
     </bean>
 
-    <bean id="LearningObjective-NoRequiredMessageLink" parent="Uif-HorizontalFieldGroup" >
-        <property name="style" value="display: none;" />
+    <bean id="LearningObjective-NoRequiredMessageLink" parent="Uif-HorizontalFieldGroup">
+        <property name="style" value="display: none;"/>
         <property name="cssClasses">
             <list merge="true">
                 <value>hide-when-show-all-fields</value>
@@ -52,7 +53,7 @@
 
 
     <bean id="LearningObjective-ToolBar-Button-parent" parent="KS-Uif-ToolBar-Button" p:disabled="false">
-        <property name="style" value="min-width: 117px;" />
+        <property name="style" value="min-width: 117px;"/>
     </bean>
 
     <bean id="LearningObjective-ToolBar-AddNewObjective-parent" parent="LearningObjective-ToolBar-Button-parent">
@@ -65,7 +66,8 @@
     <bean id="LearningObjective-ToolBar-FindObjectives-parent" parent="LearningObjective-ToolBar-Button-parent">
         <property name="actionLabel" value="Find Objective(s)"/>
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="@{#ConfigProperties['krad.externalizable.images.url']+'/searchicon.png'}" p:altText="Find Objective(s)"/>
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['krad.externalizable.images.url']+'/searchicon.png'}"
+                  p:altText="Find Objective(s)"/>
         </property>
     </bean>
 
@@ -80,7 +82,8 @@
                                   p:refreshId="LearningObjective-CollectionSection">
                                 <property name="methodToCall" value="addLearningObjective"/>
                             </bean>
-                            <bean id="LearningObjective-ToolBar-FindObjectives" parent="LearningObjective-ToolBar-FindObjectives-parent" />
+                            <bean id="LearningObjective-ToolBar-FindObjectives"
+                                  parent="LearningObjective-ToolBar-FindObjectives-parent"/>
                         </list>
                     </property>
                 </bean>
@@ -89,32 +92,33 @@
     </bean>
 
     <bean id="LearningObjective-CollectionSection" parent="Uif-StackedCollectionSection"
-		p:propertyName="loDisplayWrapperModel.loWrappers" p:collectionObjectClass="org.kuali.student.cm.course.form.LoDisplayInfoWrapper">
+          p:propertyName="loDisplayWrapperModel.loWrappers"
+          p:collectionObjectClass="org.kuali.student.cm.course.form.LoDisplayInfoWrapper">
         <property name="cssClasses">
             <list merge="true">
                 <value>admin-not-required-field</value>
             </list>
         </property>
-        <property name="onDocumentReadyScript" value="setupCharCounters(); applyIndentationStyling();" />
+        <property name="onDocumentReadyScript" value="setupCharCounters(); applyIndentationStyling();"/>
         <property name="layoutManager">
-			<bean parent="Uif-StackedCollectionLayout-WithBoxItems">
-				<property name="subCollectionFieldGroupPrototype">
-					<bean parent="Uif-HorizontalFieldGroup" />
-				</property>
-			</bean>
-		</property>
+            <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
+                <property name="subCollectionFieldGroupPrototype">
+                    <bean parent="Uif-HorizontalFieldGroup"/>
+                </property>
+            </bean>
+        </property>
         <!-- Removal of this headerText property is not getting the validation messages displayed at section level. Need to investigate -->
-        <property name="layoutManager.lineGroupPrototype.header.headerText" value=" " />
+        <property name="layoutManager.lineGroupPrototype.header.headerText" value=" "/>
         <property name="layoutManager.lineGroupPrototype.id" value="learning_objective_section_@{#index}"/>
         <property name="layoutManager.lineGroupPrototype.additionalCssClasses" value="learning_objective_section"/>
         <property name="layoutManager.lineGroupPrototype.validationMessages.displayMessages" value="false"/>
         <property name="layoutManager.lineGroupPrototype.validationMessages.displayHeaderMessageSummary" value="false"/>
         <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
-		<property name="layoutManager.lineGroupPrototype.header.lowerGroup">
+        <property name="layoutManager.lineGroupPrototype.header.lowerGroup">
             <bean parent="Uif-VerticalBoxGroup">
                 <property name="items">
                     <list>
-                        <ref bean="LearningObjectives-ToolBarSection" />
+                        <ref bean="LearningObjectives-ToolBarSection"/>
                         <bean parent="Uif-Message" p:style="display:none"
                               p:messageText="[image src=&quot;@{#ConfigProperties['krad.externalizable.images.url']}/validation/info.png&quot;]  You must add a category type to create the new category.">
                             <property name="additionalCssClasses">
@@ -126,16 +130,16 @@
                     </list>
                 </property>
             </bean>
-		</property>
+        </property>
         <property name="renderAddLine" value="false"/>
         <property name="renderLineActions" value="false"/>
-		<property name="renderAddBlankLineButton" value="false" />
+        <property name="renderAddBlankLineButton" value="false"/>
         <property name="items">
-			<list>
-				<bean id="KS-LoDisplayInfoWrapper-descr" parent="KS-Uif-InputField" p:label="Objective"
-					p:propertyName="loInfo.descr.plain">
-					<property name="control">
-						<bean parent="Uif-MediumTextAreaControl" >
+            <list>
+                <bean id="KS-LoDisplayInfoWrapper-descr" parent="KS-Uif-InputField" p:label="Objective"
+                      p:propertyName="loInfo.descr.plain">
+                    <property name="control">
+                        <bean parent="Uif-MediumTextAreaControl">
                             <property name="cssClasses">
                                 <list merge="true">
                                     <value>cm-charcount-max-500</value>
@@ -144,10 +148,13 @@
                         </bean>
                     </property>
                     <property name="quickfinder">
-                        <bean id="KS-LearningObjective-QuickFinder" parent="Uif-QuickFinder" p:lightBox.lookupReturnByScript="true">
-                            <property name="dataObjectClassName" value="org.kuali.student.cm.course.form.LoDisplayInfoWrapper"/>
+                        <bean id="KS-LearningObjective-QuickFinder" parent="Uif-QuickFinder"
+                              p:lightBox.lookupReturnByScript="true">
+                            <property name="dataObjectClassName"
+                                      value="org.kuali.student.cm.course.form.LoDisplayInfoWrapper"/>
                             <property name="quickfinderAction">
-                                <bean id="KS-LoDisplayInfoWrapper-descr-Lookup"  parent="Uif-ActionLink" p:actionLabel="Search for Learning Objectives" p:methodToCall="performLookup"/>
+                                <bean id="KS-LoDisplayInfoWrapper-descr-Lookup" parent="Uif-ActionLink"
+                                      p:actionLabel="Search for Learning Objectives" p:methodToCall="performLookup"/>
                             </property>
                             <property name="fieldConversions">
                                 <map>
@@ -160,100 +167,106 @@
                                 </map>
                             </property>
                         </bean>
-					</property>
-				</bean>
-                <bean id="KS-LoDisplayInfoWrapper-selected" parent="KS-Uif-InputField" p:propertyName="selected" >
-                    <property name="control">
-                        <bean parent="KS-Uif-HiddenControl" />
                     </property>
                 </bean>
-                <bean id="KS-LoDisplayInfoWrapper-indentLevel" parent="KS-Uif-InputField" p:propertyName="indentLevel" >
+                <bean id="KS-LoDisplayInfoWrapper-selected" parent="KS-Uif-InputField" p:propertyName="selected">
                     <property name="control">
-                        <bean parent="KS-Uif-HiddenControl" />
+                        <bean parent="KS-Uif-HiddenControl"/>
                     </property>
                 </bean>
-			</list>
-		</property>
-		<property name="subCollections">
-			<list>
-				<bean id="KS-LearningObjective-Category-SubSection" parent="Uif-StackedCollectionSubSection"
-					p:collectionObjectClass="org.kuali.student.r2.lum.lo.dto.LoCategoryInfo"
-					p:propertyName="loCategoryInfoList"
-                        p:onDocumentReadyScript="jQuery('#KS-LearningObjective-CategoryType_line'+@{#index}+'_add').hide();
+                <bean id="KS-LoDisplayInfoWrapper-indentLevel" parent="KS-Uif-InputField" p:propertyName="indentLevel">
+                    <property name="control">
+                        <bean parent="KS-Uif-HiddenControl"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="subCollections">
+            <list>
+                <bean id="KS-LearningObjective-Category-SubSection" parent="Uif-TableCollectionGroup"
+                      p:collectionObjectClass="org.kuali.student.r2.lum.lo.dto.LoCategoryInfo"
+                      p:propertyName="loCategoryInfoList"
+                      p:onDocumentReadyScript="jQuery('#KS-LearningObjective-CategoryType_line'+@{#index}+'_add').hide();
                         jQuery('#KS-LearningObjective-CategoryType_line'+@{#index}+'_add').closest('div[id^=&quot;learning_objective_section&quot;]').find('p.ks-informational-message-for-field').hide();">
                     <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
                     <property name="layoutManager">
-						<bean parent="Uif-StackedCollectionLayout-WithBoxItems">
-							<property name="subCollectionFieldGroupPrototype">
-								<bean parent="Uif-HorizontalFieldGroup" />
-							</property>
-						</bean>
-					</property>
+                        <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
+                            <property name="subCollectionFieldGroupPrototype">
+                                <bean parent="Uif-HorizontalFieldGroup"/>
+                            </property>
+                        </bean>
+                    </property>
+                    <property name="collectionLookup">
+                        <bean id="KS-LearningObjective-Category-QuickFinder" parent="Uif-CollectionQuickFinder">
+                            <property name="autoSearch" value="true"/>
+                            <property name="quickfinderAction">
+                                <bean parent="Uif-ActionLink">
+                                    <property name="methodToCall" value="performLookup"/>
+                                    <property name="actionImage">
+                                        <bean parent="Uif-QuickLookupImage"/>
+                                    </property>
+                                </bean>
+                            </property>
+                            <property name="lightBox">
+                                <bean parent="Uif-LightBox" p:lookupReturnByScript="false"/>
+                            </property>
+                            <property name="dataObjectClassName"
+                                      value="org.kuali.student.cm.course.form.LoCategoryInfoWrapper"/>
+                            <property name="fieldConversions">
+                                <map>
+                                    <entry key="catNameAndType" value="name"/>
+                                </map>
+                            </property>
+                            <property name="viewName" value="KS-LoCategoryInfoWrapper-View"/>
+                        </bean>
+                    </property>
+
                     <property name="addLineActions">
                         <list>
-                            <bean parent="Uif-SecondaryActionButton" p:id="KS-LearningObjective-Category-Add" p:actionLabel="Add" p:methodToCall="addLine" />
+                            <bean parent="Uif-SecondaryActionButton" p:id="KS-LearningObjective-Category-Add"
+                                  p:actionLabel="Add" p:methodToCall="addLine"/>
                         </list>
                     </property>
                     <property name="lineActions">
                         <list>
-                            <bean parent="KS-Uif-Delete-ActionLink" p:id="KS-LearningObjective-Category-Delete" p:methodToCall="deleteLine" p:actionLabel="Delete"
-                                  p:actionEvent="deleteLine" p:dirtyOnAction="true" />
+                            <bean parent="KS-Uif-Delete-ActionLink" p:id="KS-LearningObjective-Category-Delete"
+                                  p:methodToCall="deleteLine" p:actionLabel="Delete"
+                                  p:actionEvent="deleteLine" p:dirtyOnAction="true"/>
                         </list>
                     </property>
-                    <property name="newItemsCssClass" value="lo_category_items" />
+                    <property name="newItemsCssClass" value="lo_category_items"/>
                     <property name="layoutManager.actionsInLineGroup" value="true"/>
                     <property name="addItemCssClass" value="lo_category_add_items"/>
-					<property name="addLineLabel.render" value="false" />
-					<property name="addLineItems">
-						<list>
-                            <bean id="KS-LearningObjective-Category"  parent="KS-Uif-InputField-LabelTop" p:label="Category"
+                    <property name="addLineLabel.render" value="false"/>
+                    <property name="addLineItems">
+                        <list>
+                            <bean id="KS-LearningObjective-Category" parent="KS-Uif-InputField-LabelTop"
+                                  p:label="Category"
                                   p:propertyName="name" p:render="@{#isAddLine}" p:additionalCssClasses="nowrap">
                                 <property name="control">
                                     <bean parent="KS-Uif-TextControl" p:size="15" p:cssClasses="validLoCategory"/>
                                 </property>
                                 <property name="suggest">
                                     <bean id="KS-LearningObjective-Category-Suggest" parent="Uif-Suggest">
-                                        <property name="valuePropertyName" value="catNameAndType" />
-                                        <property name="templateOptions" value="minLength:1,delay:0" />
+                                        <property name="valuePropertyName" value="catNameAndType"/>
+                                        <property name="templateOptions" value="minLength:1,delay:0"/>
                                         <property name="suggestQuery">
                                             <bean parent="Uif-AttributeQueryConfig"
-                                                  p:queryMethodToCall="searchForLoCategories" />
-                                        </property>
-                                    </bean>
-                                </property>
-                                <property name="quickfinder">
-                                    <bean id="KS-LearningObjective-Category-QuickFinder" parent="Uif-QuickFinder">
-                                        <property name="autoSearch" value="true" />
-                                        <property name="quickfinderAction">
-                                            <bean parent="Uif-ActionLink">
-                                                <property name="methodToCall" value="performLookup" />
-                                                <property name="actionImage">
-                                                    <bean parent="Uif-QuickLookupImage"/>
-                                                </property>
-                                            </bean>
-                                        </property>
-                                        <property name="lightBox">
-                                            <bean parent="Uif-LightBox" p:lookupReturnByScript="false" />
-                                        </property>
-                                        <property name="dataObjectClassName"
-                                                  value="org.kuali.student.cm.course.form.LoCategoryInfoWrapper" />
-                                        <property name="fieldConversions">
-                                            <map>
-                                                <entry key="catNameAndType" value="name" />
-                                            </map>
+                                                  p:queryMethodToCall="searchForLoCategories"/>
                                         </property>
                                     </bean>
                                 </property>
                                 <property name="fieldLabel.richLabelMessage">
                                     <bean id="KS-LearningObjective-Category-Tooltip" parent="Uif-KS-IconLabelMessage">
-                                        <property name="iconToolTipText" value="Add a category to classify your learning objectives. The categories will be used for administrative analysis."/>
+                                        <property name="iconToolTipText"
+                                                  value="Add a category to classify your learning objectives. The categories will be used for administrative analysis."/>
                                     </bean>
                                 </property>
                             </bean>
                             <bean id="KS-LearningObjective-CategoryType" parent="KS-Uif-InputField"
-                                  p:label="Type" p:propertyName="typeKey" p:required="true" >
+                                  p:label="Type" p:propertyName="typeKey" p:required="true">
                                 <property name="control">
-                                    <bean parent="KS-Uif-DropdownControl" />
+                                    <bean parent="KS-Uif-DropdownControl"/>
                                 </property>
                                 <property name="dependencyConstraints">
                                     <list>
@@ -264,62 +277,74 @@
                                 </property>
                                 <property name="optionsFinder">
                                     <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.LoCategoryInfoTypeKeyValueFinder"
-                                          p:addBlankOption="true" />
+                                          p:addBlankOption="true"/>
                                 </property>
                             </bean>
-						</list>
-					</property>
+                        </list>
+                    </property>
                     <property name="items">
                         <list>
-                            <bean id="KS-LearningObjective-Category-Items" parent="KS-Uif-DataField" p:showLabel="false" p:propertyName="name" />
+                            <bean id="KS-LearningObjective-Category-Items" parent="KS-Uif-DataField" p:showLabel="false"
+                                  p:propertyName="name"/>
                         </list>
                     </property>
                 </bean>
-			</list>
-		</property>
-	</bean>
-
-    <bean id="LearningObjectives-Icon-MoveUp" parent="Uif-ActionLink"  p:iconClass="ks-fontello-icon-up" p:title="Move learning objective up">
-        <property name="actionScript" value="moveLo(this, 'LearningObjective-CollectionSection', 'moveLearningObjectiveUp');" />
+            </list>
+        </property>
     </bean>
 
-    <bean id="LearningObjectives-Icon-MoveDown" parent="Uif-ActionLink" p:iconClass="ks-fontello-icon-down" p:title="Move learning objective down">
-        <property name="actionScript" value="moveLo(this, 'LearningObjective-CollectionSection', 'moveLearningObjectiveDown');" />
+    <bean id="LearningObjectives-Icon-MoveUp" parent="Uif-ActionLink" p:iconClass="ks-fontello-icon-up"
+          p:title="Move learning objective up">
+        <property name="actionScript"
+                  value="moveLo(this, 'LearningObjective-CollectionSection', 'moveLearningObjectiveUp');"/>
     </bean>
 
-    <bean id="LearningObjectives-Icon-IncreaseIndent" parent="Uif-ActionLink" p:iconClass="ks-fontello-icon-right" p:title="Indent learning objective">
-        <property name="actionScript" value="moveLo(this, 'LearningObjective-CollectionSection', 'moveLearningObjectiveRight');" />
-        <property name="successCallback" value="alert('successCallback')" />
+    <bean id="LearningObjectives-Icon-MoveDown" parent="Uif-ActionLink" p:iconClass="ks-fontello-icon-down"
+          p:title="Move learning objective down">
+        <property name="actionScript"
+                  value="moveLo(this, 'LearningObjective-CollectionSection', 'moveLearningObjectiveDown');"/>
     </bean>
 
-    <bean id="LearningObjectives-Icon-DecreaseIndent" parent="Uif-ActionLink" p:iconClass="ks-fontello-icon-left" p:title="Outdent learning objective">
-        <property name="actionScript" value="moveLo(this, 'LearningObjective-CollectionSection', 'moveLearningObjectiveLeft');" />
+    <bean id="LearningObjectives-Icon-IncreaseIndent" parent="Uif-ActionLink" p:iconClass="ks-fontello-icon-right"
+          p:title="Indent learning objective">
+        <property name="actionScript"
+                  value="moveLo(this, 'LearningObjective-CollectionSection', 'moveLearningObjectiveRight');"/>
+        <property name="successCallback" value="alert('successCallback')"/>
     </bean>
 
-    <bean id="LearningObjectives-Icon-Delete" parent="Uif-ActionLink" p:iconClass="ks-fontello-icon-cancel" p:title="Delete learning objective">
-        <property name="methodToCall" value="deleteLine" />
+    <bean id="LearningObjectives-Icon-DecreaseIndent" parent="Uif-ActionLink" p:iconClass="ks-fontello-icon-left"
+          p:title="Outdent learning objective">
+        <property name="actionScript"
+                  value="moveLo(this, 'LearningObjective-CollectionSection', 'moveLearningObjectiveLeft');"/>
     </bean>
 
-	<bean id="LearningObjectives-ToolBarSection" parent="Uif-HorizontalBoxSection" p:additionalCssClasses="learning_objective_section_header">
-		<property name="items">
-			<list>
+    <bean id="LearningObjectives-Icon-Delete" parent="Uif-ActionLink" p:iconClass="ks-fontello-icon-cancel"
+          p:title="Delete learning objective">
+        <property name="methodToCall" value="deleteLine"/>
+    </bean>
+
+    <bean id="LearningObjectives-ToolBarSection" parent="Uif-HorizontalBoxSection"
+          p:additionalCssClasses="learning_objective_section_header">
+        <property name="items">
+            <list>
                 <!--
                     Depending on whether the widget should be active or not, render an ActionLink or just the icon with
                     disabled styling.
                 -->
                 <bean parent="Uif-HorizontalBoxGroup">
                     <property name="items">
-			            <list>
-                            <ref bean="LearningObjectives-Icon-MoveUp" />
+                        <list>
+                            <ref bean="LearningObjectives-Icon-MoveUp"/>
                         </list>
                     </property>
                     <property name="propertyReplacers">
                         <list>
-                            <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items" p:condition="@{!#line.moveUpable}">
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items"
+                                  p:condition="@{!#line.moveUpable}">
                                 <property name="replacement">
                                     <list>
                                         <bean id="LearningObjectives-Icon-MoveUp-disabled" parent="Uif-Icon"
-                                              p:iconClass="ks-fontello-icon-up ks-fontello-icon-disabled" />
+                                              p:iconClass="ks-fontello-icon-up ks-fontello-icon-disabled"/>
                                     </list>
                                 </property>
                             </bean>
@@ -329,17 +354,18 @@
 
                 <bean parent="Uif-HorizontalBoxGroup">
                     <property name="items">
-			            <list>
-                            <ref bean="LearningObjectives-Icon-MoveDown" />
+                        <list>
+                            <ref bean="LearningObjectives-Icon-MoveDown"/>
                         </list>
                     </property>
                     <property name="propertyReplacers">
                         <list>
-                            <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items" p:condition="@{!#line.moveDownable}">
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items"
+                                  p:condition="@{!#line.moveDownable}">
                                 <property name="replacement">
                                     <list>
                                         <bean id="LearningObjectives-Icon-MoveDown-disabled" parent="Uif-Icon"
-                                              p:iconClass="ks-fontello-icon-down ks-fontello-icon-disabled" />
+                                              p:iconClass="ks-fontello-icon-down ks-fontello-icon-disabled"/>
                                     </list>
                                 </property>
                             </bean>
@@ -349,17 +375,18 @@
 
                 <bean parent="Uif-HorizontalBoxGroup">
                     <property name="items">
-			            <list>
-                            <ref bean="LearningObjectives-Icon-IncreaseIndent" />
+                        <list>
+                            <ref bean="LearningObjectives-Icon-IncreaseIndent"/>
                         </list>
                     </property>
                     <property name="propertyReplacers">
                         <list>
-                            <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items" p:condition="@{!#line.indentable}">
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items"
+                                  p:condition="@{!#line.indentable}">
                                 <property name="replacement">
                                     <list>
                                         <bean id="LearningObjectives-Icon-IncreaseIndent-disabled" parent="Uif-Icon"
-                                              p:iconClass="ks-fontello-icon-right ks-fontello-icon-disabled" />
+                                              p:iconClass="ks-fontello-icon-right ks-fontello-icon-disabled"/>
                                     </list>
                                 </property>
                             </bean>
@@ -369,17 +396,18 @@
 
                 <bean parent="Uif-HorizontalBoxGroup">
                     <property name="items">
-			            <list>
-                            <ref bean="LearningObjectives-Icon-DecreaseIndent" />
+                        <list>
+                            <ref bean="LearningObjectives-Icon-DecreaseIndent"/>
                         </list>
                     </property>
                     <property name="propertyReplacers">
                         <list>
-                            <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items" p:condition="@{!#line.outdentable}">
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items"
+                                  p:condition="@{!#line.outdentable}">
                                 <property name="replacement">
                                     <list>
                                         <bean id="LearningObjectives-Icon-DecreaseIndent-disabled" parent="Uif-Icon"
-                                              p:iconClass="ks-fontello-icon-left ks-fontello-icon-disabled" />
+                                              p:iconClass="ks-fontello-icon-left ks-fontello-icon-disabled"/>
                                     </list>
                                 </property>
                             </bean>
@@ -389,24 +417,25 @@
 
                 <bean parent="Uif-HorizontalBoxGroup" id="LearningObjectives-Container-DeleteIcon">
                     <property name="items">
-			            <list>
-                            <ref bean="LearningObjectives-Icon-Delete" />
+                        <list>
+                            <ref bean="LearningObjectives-Icon-Delete"/>
                         </list>
                     </property>
                     <property name="propertyReplacers">
                         <list>
-                            <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items" p:condition="@{!#line.deleteable}">
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items"
+                                  p:condition="@{!#line.deleteable}">
                                 <property name="replacement">
                                     <list>
                                         <bean id="LearningObjectives-Icon-Delete-disabled" parent="Uif-Icon"
-                                              p:iconClass="ks-fontello-icon-cancel ks-fontello-icon-disabled" />
+                                              p:iconClass="ks-fontello-icon-cancel ks-fontello-icon-disabled"/>
                                     </list>
                                 </property>
                             </bean>
                         </list>
                     </property>
                 </bean>
-			</list>
-		</property>
-	</bean>
+            </list>
+        </property>
+    </bean>
 </beans>
