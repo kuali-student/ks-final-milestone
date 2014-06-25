@@ -974,19 +974,23 @@ var responseData;
 function showOrHideSaveInlineIcon(event){
     var row = jQuery(event.target).closest('tr');
     var overrideMatrix = false;
+    var onMatrix = false;
 
     jQuery(row).find("input:checkbox").each(function () {
         overrideMatrix = jQuery(this).is(':checked');
+        onMatrix = true;
     });
 
     jQuery(row).find('a[id^=EO-toggleUpdateButton_]').each(function() {
-        if (overrideMatrix) {
-            if(jQuery(this).hasClass("off")) {
-                jQuery(this).switchClass("off", "on");
-            }
-        } else {
-            if(jQuery(this).hasClass("on")) {
-                jQuery(this).switchClass("on", "off");
+        if (onMatrix) {
+            if (overrideMatrix) {
+                if(jQuery(this).hasClass("off")) {
+                    jQuery(this).switchClass("off", "on");
+                }
+            } else {
+                if(jQuery(this).hasClass("on")) {
+                    jQuery(this).switchClass("on", "off");
+                }
             }
         }
     });
@@ -1000,18 +1004,20 @@ function toggleInlineRowByComponent(component, saveInitialValues){
     var selectedIndex = prefix + index;
     var initialValues = [];
     var overrideMatrix = false;
+    var onMatrix = false;
     jQuery(row).find("input:checkbox").each(function () {
         overrideMatrix = jQuery(this).is(':checked');
+        onMatrix = true;
     });
 
     jQuery(row).find('.toggleable-element').each(function(){
-        if(jQuery(this).attr('id').indexOf('EO-toggleUpdateButton_')===0 && saveInitialValues) {
+        if (jQuery(this).attr('id').indexOf('EO-toggleUpdateButton_') === 0 && saveInitialValues && onMatrix) {
             if (overrideMatrix) {
-                if(jQuery(this).hasClass("off")) {
+                if (jQuery(this).hasClass("off")) {
                     jQuery(this).switchClass("off", "on");
                 }
             } else {
-                if(jQuery(this).hasClass("on")) {
+                if (jQuery(this).hasClass("on")) {
                     jQuery(this).switchClass("on", "off");
                 }
             }
