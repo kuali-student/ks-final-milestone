@@ -358,6 +358,11 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
     public String getAlternateCOCodesUIList() {
         //JIRA FIX : KSENROLL-8731 - Replaced StringBuffer with StringBuilder
         StringBuilder sb = new StringBuilder();
+
+        if (alternateCourseCodesSuffixStripped == null) {
+            alternateCourseCodesSuffixStripped=new ArrayList<String>();
+        }
+
         for (String crosslistingCode : alternateCourseCodesSuffixStripped) {
             sb.append(crosslistingCode + ", ");
         }
