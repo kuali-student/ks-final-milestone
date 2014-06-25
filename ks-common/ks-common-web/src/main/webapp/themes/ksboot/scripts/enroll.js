@@ -990,6 +990,8 @@ function showOrHideSaveInlineIcon(event){
             }
         }
     });
+
+    toggleSearchIcons(row, overrideMatrix);
 }
 
 function toggleInlineRowByComponent(component, saveInitialValues){
@@ -1039,8 +1041,27 @@ function toggleInlineRowByComponent(component, saveInitialValues){
             }
         }
     });
+
+    toggleSearchIcons(row, overrideMatrix);
+
     inlineTableInitialFields[selectedIndex] = initialValues;
 }
+
+function toggleSearchIcons(row, overrideMatrix) {
+    // Hide/show all search icons in the row based on the matrix override flag
+    jQuery(row).find('.icon-search').each(function() {
+        if (overrideMatrix) {
+            if(jQuery(this).hasClass("off")) {
+                jQuery(this).removeClass("off");
+            }
+        } else {
+            if(!jQuery(this).hasClass("off")) {
+                jQuery(this).addClass("off");
+            }
+        }
+    });
+}
+
 function toggleInlineRow(event, saveInitialValues){
     toggleInlineRowByComponent(event.target, saveInitialValues);
 }
