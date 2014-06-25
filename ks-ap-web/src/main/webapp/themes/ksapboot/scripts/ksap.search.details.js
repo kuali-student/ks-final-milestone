@@ -18,13 +18,21 @@ function detectReferrerForBackLinkText() {
 
 
 //Sections with multiple offerings checkbox behavior
-
 function checkboxSelectAndHighlight() {
+
+    //Select checkbox if clicking anywhere on the row
     jQuery('tr').click(function(event) {
         if (event.target.type !== 'checkbox') {
             jQuery(':checkbox', this).trigger('click');
         }
     });
+
+    //Don't select checkbox if clicking on link
+    jQuery('tr a').click(function(event) {
+        event.stopPropagation();
+    });
+
+    //Add and remove class when checkbox is toggled
     jQuery(".uif-checkboxControl").change(function () {
         if(jQuery(this).is(":checked")){
             jQuery(this).closest('tr').addClass("ksap-selected-row");
@@ -33,4 +41,3 @@ function checkboxSelectAndHighlight() {
         }
     });
 }
-

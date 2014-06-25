@@ -125,6 +125,9 @@
     display: block;
     padding: 5px;
   }
+  tr:hover {
+    cursor: pointer;
+  }
   .ksap-text-small {
     font-size: 80%;
   }
@@ -132,6 +135,7 @@
     vertical-align: middle;
     height: 14px;
   }
+
 
   // Courses
   .ksap-section-courses {
@@ -176,9 +180,6 @@
     th {
       padding-right: 0;
       white-space: nowrap;
-    }
-    tr:hover > td {
-      cursor: pointer;
     }
     tr.ksap-selected-row {
       background-color:#eff8fd;
@@ -234,24 +235,31 @@
     }
   }
 
+  //Remove row hover styling for planned reg groups and single format offerings
+  .ksap-section-reg tr,
+  .ksap-section-reg tr:hover > td,
+  tr.ksap-activity-single,
+  tr.ksap-activity-single:hover > td {
+    background-color: transparent;
+    cursor: default;
+  }
+
   // Planned Registration
   .ksap-section-reg {
     // Heading
     h4 {
+      background: transparent;
+      border-radius: 0;
       color: #093;
       font-size: 13px;
       font-weight: bold;
+      margin: 0;
     }
     // Planned registration tables
     table,
     thead {
       border-bottom: 1px solid #ddd;
       margin-bottom: 30px;
-    }
-    tr,
-    tr:hover > td {
-      background-color: transparent;
-      cursor: default;
     }
     tr.uif-groupRow {
       border-top: 0;

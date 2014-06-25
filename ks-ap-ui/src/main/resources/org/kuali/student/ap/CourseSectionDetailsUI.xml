@@ -248,6 +248,11 @@
         <property name="layoutManager.renderSequenceField" value="false"/>
         <property name="layoutManager.applyDefaultCellWidths" value="false"/>
         <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
+        <property name="layoutManager.conditionalRowCssClasses">
+          <map>
+              <entry key="@{#line.singleFormatOffering}" value="ksap-activity-single"/>
+          </map>
+        </property>
         <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
         <property name="layoutManager.richTable">
             <bean parent="KS-Uif-RichTable"/>
