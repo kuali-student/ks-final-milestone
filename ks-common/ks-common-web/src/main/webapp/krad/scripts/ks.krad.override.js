@@ -382,3 +382,30 @@ function writeMessagesForGroup(id, data, forceWrite, skipCalculateTotals) {
         }
     }
 }
+
+/**
+ * This is a workaround for the Acal pages where there are 100+ datepickers on a given page.
+ * Due to the slow rendering time, we can replace the datepicker icons with static HTML. Having a single event handler
+ * eliminates having 100+ on click eventHandlers. Once the user clicks on the deferred datepicker (Which has a class of
+ * "ks-deferred-datepicker", the old KRAD createDatePicker() script is run.
+ * This sped up JS execution ~6s locally.
+ */
+//Add a global event for onclick
+jQuery(document).click(function(e){
+    var target = jQuery(e.target);
+    //Check if the click target has a ks-deferred-datepicker class
+    if(target.hasClass('ks-deferred-datepicker')) {
+        //Parse the original variables from data attributes on the static HTML
+        var controlId = jQuery(target[0]).data('dpControlId');
+        var optionsString = jQuery(target[0]).data('dpOptions');
+        optionsString = optionsString.replace(/&quot;/g,"\"").replace(/([\{,])([^\},:]+)(?=:)/g,"$1\"$2\"");
+        var options = jQuery.parseJSON(optionsString);
+        //Remove the placeholder
+        target.remove();
+        //Call the original KRAD datepicker code
+        createDatePicker(controlId, options);
+        //Show the datepicker as if nothing changed.
+        var datePickerControl = jQuery("#" + controlId);
+        datePickerControl.datepicker("show");
+    }
+});
