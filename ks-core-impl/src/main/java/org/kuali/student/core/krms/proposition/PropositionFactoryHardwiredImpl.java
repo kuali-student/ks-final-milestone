@@ -19,8 +19,7 @@ public class PropositionFactoryHardwiredImpl implements PropositionFactory {
     public Proposition getProposition(String ruleId, ContextInfo contextInfo) throws DoesNotExistException,
             OperationFailedException {
         if (ruleId.equals(RULE_ID_IS_ALIVE)) {
-            Proposition prop = new IsAliveProposition();
-            return prop;
+            return new IsAliveProposition();
         }
         throw new DoesNotExistException("unknown/unsupported proposition " + ruleId);
     }
