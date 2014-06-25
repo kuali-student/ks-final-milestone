@@ -61,7 +61,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4"
-                      p:additionalCssClasses="ks-details-panel,ks-no-margins,ks-subSection">
+                      p:additionalCssClasses="ks-details-panel,ks-no-margins,ks-subSection,ks-ObjectDetailsPanel">
                     <property name="items">
                         <list>
                             <bean parent="KS-Uif-DataField" p:colSpan="3" id="status" p:label="Status"
