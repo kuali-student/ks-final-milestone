@@ -18,7 +18,7 @@
             <div ng-switch-when="registered">
                 <!--Drop from Registered section-->
                 <div id="course_status_message" class="util-Alert--{{course.statusMessage.type}}" ng-class="(course.dropped || course.dropProcessing) ? 'util-Alert--card--dropped' : 'util-Alert--card'" ng-if="course.statusMessage.txt">
-                    <span class="kscr-Card-statusRemove"><a href="" ng-click="(!course.dropProcessing ? removeStatusMessage(course) : '')"><i class="glyphicon glyphicon-remove"></i></a></span>
+                    <span class="kscr-Card-statusRemove"><a href="" ng-click="(!course.dropProcessing ? removeStatusMessage(course) : '')"></a></span>
                     <div  ng-bind-html="course.statusMessage.txt"></div>
                 </div>
                 <div class="kscr-dropCourse-container" ng-show="course.dropping">
@@ -45,7 +45,7 @@
             <div ng-switch-when="waitlist">
                 <!--Dropped from Waitlist section-->
                 <div id="waitlist_course_status_message" class="util-Alert--{{course.statusMessage.type}}" ng-class="(course.dropped || course.dropProcessing) ? 'util-Alert--card--dropped' : 'util-Alert--card'" ng-if="course.statusMessage.txt">
-                    <span class="kscr-Card-statusRemove"><a href="" ng-click="(!course.dropProcessing ? ((course.dropped) ? removeWaitlistStatusMessage(course) : removeStatusMessage(course)) : '')"><i class="glyphicon glyphicon-remove"></i></a></span>
+                    <span class="kscr-Card-statusRemove"><a href="" ng-click="(!course.dropProcessing ? ((course.dropped) ? removeWaitlistStatusMessage(course) : removeStatusMessage(course)) : '')"></a></span>
                     <div class="kscr-Card-alert-spacing" ng-bind-html="course.statusMessage.txt"></div>
                 </div>
                 <div class="kscr-dropCourse-container" ng-show="course.dropping">

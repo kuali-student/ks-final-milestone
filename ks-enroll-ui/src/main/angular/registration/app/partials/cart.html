@@ -78,7 +78,7 @@
 
 <!--Alert message-->
 <div id="user_message" class="util-Alert util-Alert--{{userMessage.type}}" ng-if="userMessage.txt">
-    <span class="kscr-Card-statusRemove"><a href="" ng-click="removeUserMessage()"><i class="glyphicon glyphicon-remove"></i></a></span>
+    <span class="kscr-Card-statusRemove"><a href="" ng-click="removeUserMessage()"></a></span>
     <span ng-bind-html="userMessage.txt"></span>
 
     <div class="kscr-Card-buttons" ng-if="userMessage.linkText">
@@ -90,7 +90,7 @@
     <div ng-repeat="cartItem in cart.items" is-open="isopen">
         <div id="cartItem_status_message" class="util-Alert--card util-Alert--{{cartItem.alertMessage.type}}"  ng-if="cartItem.alertMessage.txt">
             {{cartItem.alertMessage.txt}}
-            <span class="kscr-Card-statusRemove"><a href="" ng-click="removeAlertMessage(cartItem)"><i class="glyphicon glyphicon-remove"></i></a></span>
+            <span class="kscr-Card-statusRemove"><a href="" ng-click="removeAlertMessage(cartItem)"></a></span>
         </div>
         <course-accordion course="cartItem" type="cart" card-index="$index" cart-id="cart.cartId"></course-accordion>
      </div>
@@ -104,7 +104,7 @@
     <div ng-repeat="cartResultItem in cartResults.items" is-open="isopen" class="panel kscr-cartItem-status kscr-cartItem-status--{{cartResultItem.status}}">
         <div class="kscr-cartResult-icon">&nbsp;</div>
         <div id="course_remove_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}" class="kscr-Card-remove" ng-if="cartResultItem.status != statuses.processing">
-            <span class="kscr-cartResult-remove"><a href="" ng-click="removeCartResultItem($index)"><i class="glyphicon glyphicon-remove"></i></a></span>
+            <span class="kscr-cartResult-remove"><a href="" ng-click="removeCartResultItem($index)"></a></span>
         </div>
         <!-- Displays block with course info if course is not waitlisted -->
         <div class="kscr-cartResult-content" ng-if="cartResultItem.status != statuses.waitlist">

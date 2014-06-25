@@ -1,0 +1,52 @@
+/**** Non-Glyphicon Icons ****/
+
+// Base icon mixin
+.icon(@url, @hAlign: center, @vAlign: center) {
+    background: url(@url) no-repeat @hAlign @vAlign;
+    display: block;
+    text-indent: -9999px; // Offset any text in the element to a non-visible screen location
+}
+
+
+// Dismiss: X
+.dismiss-icon {
+    .icon('../images/validation/dismiss.png');
+    height: 16px;
+    width: 16px;
+}
+
+// Help: (?)
+.help-icon {
+    .icon('../images/validation/help.png');
+    height: 18px;
+    width: 18px;
+}
+
+
+// Dark Check Variant
+.check-dark-icon {
+    .icon('../images/validation/check_dark.png');
+    height: 20px;
+    width: 20px;
+}
+
+// Light Check Variant
+.check-light-icon {
+    .icon('../images/validation/check_light.png');
+    height: 20px;
+    width: 20px;
+}
+
+
+// Down Arrow Used In Term Selector & Header Menu
+.arrow-down-icon {
+    // Don't use .icon() mixin b/c of the additional display setting
+    background: url('../images/validation/arrow_down.png') no-repeat right center;
+}
+
+
+// Large Spinner Icon
+.spinner-big-icon {
+    // Don't use .icon() mixin b/c of the split position parameters setting
+    background: url('../images/validation/spinner_big.gif') no-repeat @iconPosition;
+}
