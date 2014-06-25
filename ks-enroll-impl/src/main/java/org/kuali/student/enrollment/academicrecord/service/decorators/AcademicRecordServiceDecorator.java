@@ -31,6 +31,8 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 
+import javax.jws.WebParam;
+
 public class AcademicRecordServiceDecorator 
     implements AcademicRecordService {
 
@@ -62,6 +64,16 @@ public class AcademicRecordServiceDecorator
             OperationFailedException,
             PermissionDeniedException {
         return nextDecorator.getCompletedCourseRecords(personId, contextInfo);
+    }
+
+    @Override
+    public List<StudentCourseRecordInfo> getStudentCourseRecordsForCourse(String personId, String courseId, ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        return nextDecorator.getStudentCourseRecordsForCourse(personId, courseId, contextInfo);
     }
 
     @Override

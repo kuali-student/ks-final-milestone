@@ -120,7 +120,33 @@ public class AcademicRecordServiceImpl implements AcademicRecordService{
 		return courseRecords;
 	}
 
-	@Override
+    @Override
+    public List<StudentCourseRecordInfo> getStudentCourseRecordsForCourse(String personId, String courseId, ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+
+        List<StudentCourseRecordInfo> courseRecords = new ArrayList<StudentCourseRecordInfo>();
+        try {
+            List<CourseRegistrationInfo> regs = courseRegService.getCourseRegistrationsByStudent(personId, contextInfo);
+            if(regs != null && !regs.isEmpty()){
+                for (CourseRegistrationInfo reg : regs ){
+                    StudentCourseRecordInfo courseRecord = courseRecordAssembler.assemble(reg, contextInfo);
+                    if (courseRecord != null) courseRecords.add(courseRecord);
+                }
+            }
+        } catch (PermissionDeniedException e) {
+            throw new OperationFailedException();
+        } catch (AssemblyException e) {
+            throw new OperationFailedException("AssemblyException : " + e.getMessage());
+        }
+
+        return courseRecords;
+    }
+
+    @Override
 	public List<StudentCourseRecordInfo> getCompletedCourseRecordsForTerm(
 			String personId, String termId, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,

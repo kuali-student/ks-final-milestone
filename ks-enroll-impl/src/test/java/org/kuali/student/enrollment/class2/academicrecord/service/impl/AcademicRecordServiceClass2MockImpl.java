@@ -187,6 +187,20 @@ public class AcademicRecordServiceClass2MockImpl implements
         return studentToCourseRecordsMap.get(personId);
     }
 
+    @Override
+    public List<StudentCourseRecordInfo> getStudentCourseRecordsForCourse(String personId, String courseId, ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+
+        if (!studentToCourseRecordsMap.keySet().contains(personId))
+            throw new DoesNotExistException("No course records for student Id = " + personId);
+
+        return studentToCourseRecordsMap.get(personId);
+    }
+
     /* (non-Javadoc)
      * @see org.kuali.student.enrollment.academicrecord.service.AcademicRecordService#getCompletedCourseRecordsForCourse(java.lang.String, java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
      */
