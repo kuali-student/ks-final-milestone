@@ -35,7 +35,7 @@
     <bean id="KS-CourseView-AuthorsAndCollaboratorsSubSection"  parent="KS-CourseView-AuthorsAndCollaboratorsSubSection-parent"/>
     <bean id="KS-CourseView-AuthorsAndCollaboratorsSubSection-parent" parent="KS-TableCollectionSubSection-BottomAddLine"
           p:layoutManager.id="cc-authorsandcollaboratorsgroup-table" p:layoutManager.style="width: 60em;">
-        <property name="collectionObjectClass" value="org.kuali.student.cm.course.form.CollaboratorWrapper"/>
+        <property name="collectionObjectClass" value="org.kuali.student.r1.core.workflow.dto.CollaboratorWrapper"/>
         <property name="propertyName" value="collaboratorWrappers"/>
         <property name="addBlankLineAction.actionLabel" value="Add Person"/>
         <property name="addBlankLineAction.render" value="true"/>

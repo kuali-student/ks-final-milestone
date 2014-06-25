@@ -22,7 +22,7 @@
 	<bean id="CollaboratorWrapper-DataObjectEntry" parent="DataObjectEntry">
 		<property name="objectLabel" value="Instructor Info Display" />
 		<property name="dataObjectClass"
-			value="org.kuali.student.cm.course.form.CollaboratorWrapper" />
+			value="org.kuali.student.r1.core.workflow.dto.CollaboratorWrapper" />
 		<property name="titleAttribute" value="personInfo.id" />
 		<property name="attributes">
 			<list>
@@ -98,7 +98,7 @@
 		<property name="id" value="CollaboratorWrapperLookupView" />
 		<property name="headerText" value="Advanced Search: Person" />
 		<property name="dataObjectClassName"
-			value="org.kuali.student.cm.course.form.CollaboratorWrapper" />
+			value="org.kuali.student.r1.core.workflow.dto.CollaboratorWrapper" />
 		<property name="viewHelperServiceClass"
 			value="org.kuali.student.cm.course.service.impl.CollaboratorLookupableImpl" />
 		<property name="criteriaFields">

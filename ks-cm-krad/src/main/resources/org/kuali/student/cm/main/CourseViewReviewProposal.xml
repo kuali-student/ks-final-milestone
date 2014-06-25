@@ -616,7 +616,7 @@
                                     <list>
                                         <bean id="course_review_authors_and_collaborators_details" parent="Uif-StackedCollectionSection"
                                               p:propertyName="reviewProposalDisplay.collaboratorSection.collaboratorWrappers"
-                                              p:collectionObjectClass="org.kuali.student.cm.course.form.CollaboratorWrapper"
+                                              p:collectionObjectClass="org.kuali.student.r1.core.workflow.dto.CollaboratorWrapper"
                                               p:colSpan="3">
                                             <property name="layoutManager.lineGroupPrototype.header.headerText"
                                                       value="@{(#line.author==true) ? (#line.lastName) + ', ' + (#line.firstName) + ' (Author)' : (#line.lastName) + ', ' + (#line.firstName)}"/>
