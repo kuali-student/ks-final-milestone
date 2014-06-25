@@ -28,6 +28,7 @@ public class ActivityOfferingDetailsWrapper {
     private String requirementsUrl;
     private boolean selected;
     private String regGroupCode;
+    private String regGroupId;
     private String activityFormatName;
     private boolean partOfRegGroup = false;
     private boolean singleFormatOffering;
@@ -196,5 +197,13 @@ public class ActivityOfferingDetailsWrapper {
 
     public void setSingleFormatOffering(boolean singleFormatOffering) {
         this.singleFormatOffering = singleFormatOffering;
+    }
+
+    public String getRegGroupId() {
+        return regGroupId;
+    }
+
+    public void setRegGroupId(String regGroupId) {
+        this.regGroupId = regGroupId;
     }
 }

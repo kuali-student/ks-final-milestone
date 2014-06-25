@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+    <!--
+        Copyright 2014 The Kuali Foundation Licensed under the
+        Educational Community License, Version 2.0 (the "License"); you may
+        not use this file except in compliance with the License. You may
+        obtain a copy of the License at
+
+        http://www.osedu.org/licenses/ECL-2.0
+
+        Unless required by applicable law or agreed to in writing,
+        software distributed under the License is distributed on an "AS IS"
+        BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+        or implied. See the License for the specific language governing
+        permissions and limitations under the License.
+    -->
+
+    <bean id="KSAP-CourseSectionDetailsDialog-FormView" parent="KSAP-CourseSectionDetailsDialog-FormView-parent"/>
+    <bean id="KSAP-CourseSectionDetailsDialog-FormView-parent" abstract="true" parent="KSAPBaseFormView">
+
+        <property name="id" value="KSAP-CourseSectionDetailsDialog-FormView" />
+        <property name="header">
+            <bean parent="Uif-HeaderFour">
+                <property name="headerText" value="&#160;" />
+                <property name="render" value="false" />
+            </bean>
+        </property>
+        <property name="footer.render" value="false" />
+        <property name="formClass" value="org.kuali.student.ap.coursesearch.form.CourseSectionDetailsDialogForm" />
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-view</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <ref bean="KSAP-CourseDetailsSection-AddCoursePage" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Dialog Pages -->
+
+    <bean id="KSAP-CourseDetailsSection-AddCoursePage" parent="KSAP-CourseDetailsSection-AddCoursePage-parent"/>
+    <bean id="KSAP-CourseDetailsSection-AddCoursePage-parent" abstract="true" parent="KSAP-PopoverPage">
+        <property name="id" value="KSAP-CourseDetailsSection-AddCoursePage" />
+        <property name="innerViewWrapperId" value="KSAP-CourseDetailsSection-AddCoursePage_inner" />
+        <property name="headerText" value="Add Course Section" />
+        <property name="items">
+            <list merge="true">
+                <bean parent="planner_hidden_input" p:propertyName="regGroupId" />
+            </list>
+        </property>
+        <property name="footer">
+            <bean parent="Uif-FooterBase">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-VerticalBoxGroup">
+                            <property name="items">
+                                <list>
+                                    <bean parent="Uif-HorizontalBoxGroup">
+                                        <property name="items">
+                                            <list>
+                                                <bean parent="planner_submit_button" p:actionLabel="Add to Plan"
+                                                      p:actionScript="ksapSubmitDialog('addRegGroup',e);"/>
+                                                <bean parent="planner_cancel_button" />
+                                            </list>
+                                        </property>
+                                    </bean>
+                                    <bean parent="planner_error_placeholder" />
+                                </list>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+</beans>

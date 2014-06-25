@@ -34,6 +34,7 @@
                     <value>classpath:org/kuali/student/ap/CourseDetailsUI.xml</value>
                     <value>classpath:ui/CommentUI.xml</value>
                     <value>classpath:org/kuali/student/ap/CourseSectionDetailsUI.xml</value>
+                    <value>classpath:org/kuali/student/ap/CourseSectionDetailsDialogUI.xml</value>
                     <value>classpath:ui/FullPlanCoursesUI.xml</value>
                     <value>classpath:ui/SingleQuarterUI.xml</value>
                     <value>classpath:org/kuali/student/ap/PlannerDialogUI.xml</value>

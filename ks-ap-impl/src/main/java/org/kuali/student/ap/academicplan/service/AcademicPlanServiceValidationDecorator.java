@@ -4,6 +4,7 @@ import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
 import org.kuali.student.ap.academicplan.dto.LearningPlanInfo;
 import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
+import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -168,14 +169,26 @@ public class AcademicPlanServiceValidationDecorator extends
                     String.format("PlanId is null on planItem with ID [%s].", planItemInfo.getId()),
                     "id", ValidationResult.ErrorLevel.ERROR));
         }
-		/*
-		 * Validate that the course exists.
-		 */
+
+		 //Validate that the ref object exists.
         try {
-            if (KsapFrameworkServiceLocator.getCourseHelper().getCourseInfo(planItemInfo.getRefObjectId()) == null) {
+
+            // Validate that the course exists if course object
+            if (planItemInfo.getRefObjectType().equals(PlanConstants.COURSE_TYPE) &&
+                    KsapFrameworkServiceLocator.getCourseHelper().getCourseInfo(
+                            planItemInfo.getRefObjectId()) == null) {
                 validationResultInfos.add(makeValidationResultInfo(
                     String.format("Could not find course with ID [%s].", planItemInfo.getRefObjectId()),
                     "refObjectId", ValidationResult.ErrorLevel.ERROR));
+            }
+
+            // Validate that the reg group exists if reg group object
+            if (planItemInfo.getRefObjectType().equals(PlanConstants.REG_GROUP_TYPE) &&
+                    KsapFrameworkServiceLocator.getCourseOfferingService().getRegistrationGroup(
+                            planItemInfo.getRefObjectId(),context)== null) {
+                validationResultInfos.add(makeValidationResultInfo(
+                        String.format("Could not find course with ID [%s].", planItemInfo.getRefObjectId()),
+                        "refObjectId", ValidationResult.ErrorLevel.ERROR));
             }
         } catch (RuntimeException e) {
             validationResultInfos.add(makeValidationResultInfo(

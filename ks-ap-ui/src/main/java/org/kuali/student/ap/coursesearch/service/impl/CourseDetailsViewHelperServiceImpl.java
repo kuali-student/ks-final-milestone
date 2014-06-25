@@ -16,11 +16,13 @@ import org.kuali.student.ap.coursesearch.form.CourseSectionDetailsForm;
 import org.kuali.student.ap.coursesearch.service.CourseDetailsViewHelperService;
 import org.kuali.student.ap.coursesearch.util.CourseDetailsUtil;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
+import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
+import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -268,6 +270,16 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
         wrapper.setActivityFormatName(aoInfo.getName());
         if (fo.getActivityOfferingTypeKeys().size()>1) {
             wrapper.setSingleFormatOffering(false);
+        }else{
+            List<RegistrationGroupInfo> regGroups = KsapFrameworkServiceLocator.getCourseOfferingService().getRegistrationGroupsByActivityOffering(aoInfo.getId(),KsapFrameworkServiceLocator.getContext().getContextInfo());
+            RegistrationGroupInfo regGroup;
+            try{
+                regGroup = KSCollectionUtils.getRequiredZeroElement(regGroups);
+                wrapper.setRegGroupCode(regGroup.getRegistrationCode());
+                wrapper.setRegGroupId(regGroup.getId());
+            }catch(OperationFailedException e){
+                throw new IllegalArgumentException("Multiple Registration Groups Found for Single Format Activity Offering",e);
+            }
         }
 
         //From Bonnie: we need to better understand firstInstructor vs.multiple instructors cases -- pull in the logic from manage CO

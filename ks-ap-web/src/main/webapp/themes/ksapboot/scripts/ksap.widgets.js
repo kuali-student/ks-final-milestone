@@ -237,13 +237,14 @@ function truncateField(id, floated) {
 function ksapGetSectionEnrollment(url, retrieveOptions, componentId) {
     var elementToBlock = jQuery(".ksap-enrl-data").parent();
     if (componentId) elementToBlock = jQuery("#" + componentId + " .ksap-enrl-data").parent();
+    var imageUrl = getConfigParam("kradUrl")+"/../themes/ksapboot/images/ajaxLoader.gif";
     jQuery.ajax({
         url:url,
         data:retrieveOptions,
         dataType:"json",
         beforeSend:function () {
             elementToBlock.block({
-                message:'<img src="../themes/ksapboot/images/ajaxLoader.gif" alt="Fetching enrollment data..." />',
+                message:'<img src='+imageUrl+' alt="Fetching enrollment data..." />',
                 fadeIn:0,
                 fadeOut:0,
                 overlayCSS:{
@@ -426,6 +427,7 @@ function ksapAjaxSubmitForm(data, successCallback, elementToBlock, formId, block
 
     // Setup loading icon display options for element being loaded on
     if (elementToBlock != null && elementToBlock.length) {
+        var imageUrl = getConfigParam("kradUrl")+"/../themes/ksapboot/images/ajaxLoader.gif";
         var elementBlockingOptions = {
             beforeSend:function () {
                 if (elementToBlock.hasClass("unrendered")) {
@@ -435,7 +437,7 @@ function ksapAjaxSubmitForm(data, successCallback, elementToBlock, formId, block
                 else {
                     var elementBlockingDefaults = {
                         baseZ:500,
-                        message:'<img src="../themes/ksapboot/images/ajaxLoader.gif" alt="loading..." />',
+                        message:'<img src='+imageUrl+' alt="loading..." />',
                         fadeIn:0,
                         fadeOut:0,
                         overlayCSS:{

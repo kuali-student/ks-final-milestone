@@ -97,7 +97,8 @@ function openDialogWindow(getId, retrieveData, formAction, popupStyle, popupOpti
             popupItem.SetPopOverInnerHtml(component);
             fnPositionDialogWindow(popupId);
             //@TODO ksap-961 Convert to icon font instead of image
-            if (popupOptions.close || typeof popupOptions.close === 'undefined') jQuery("#" + popupId + " .jquerypopover-innerHtml").append('<img src="../themes/ksapboot/images/btnClose.png" class="ksap-popup-close"/>');
+            var imageUrl = getConfigParam("kradUrl")+"/../themes/ksapboot/images/btnClose.png";
+            if (popupOptions.close || typeof popupOptions.close === 'undefined') jQuery("#" + popupId + " .jquerypopover-innerHtml").append('<img src='+imageUrl+' class="ksap-popup-close"/>');
             jQuery("#" + popupId + " img.ksap-popup-close").on('click', function () {
                 popupItem.HidePopOver();
                 fnClosePopup();
@@ -125,8 +126,9 @@ function openDialogWindow(getId, retrieveData, formAction, popupStyle, popupOpti
  * @param methodToCall - The identifier for the method being mapped to
  * @param target - The html object its being opened on
  * @param e - Current event going on.
+ * @param additionalData - Any additional data to be sent to the controller
  */
-function ksapOpenDialog(pageId, action, methodToCall, target, e) {
+function ksapOpenDialog(pageId, action, methodToCall, target, e, additionalData) {
     // Compile data for opening the popup
     var t = jQuery(target);
     var retrieveData = {
@@ -138,8 +140,11 @@ function ksapOpenDialog(pageId, action, methodToCall, target, e) {
         courseId : t.data('courseid'),
         backup : t.data('backup'),
         uniqueId : t.data('uniqueid'),
-        pageId : pageId + "_page"
+
+        pageId : pageId
     };
+
+    jQuery.extend(retrieveData, additionalData);
 
     // Setup popup options
     var popupOptions = {
@@ -172,8 +177,9 @@ function ksapSubmitDialog(methodToCall, e, successCallback, errorCallback) {
     var button = jQuery(e.currentTarget);
 
     // Transpose loader icon on top of submit button
+    var imageUrl = getConfigParam("kradUrl")+"/../themes/ksapboot/images/ajaxLoader.gif";
     button.block({
-        message : '<img src="../themes/ksapboot/images/ajaxLoader.gif"/>',
+        message : '<img src='+imageUrl+'/>',
         css : {
             width : '100%',
             border : 'none',
