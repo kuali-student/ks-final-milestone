@@ -264,8 +264,11 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
 
                 ExamOfferingResult foResult;
                 if (eo == null) {
+
+                    //Retrieve corresponding eo state for co.
+                    String eoState = this.getExamOfferingStateForCourseOffering(coInfo);
                     //Create a new Exam Offering
-                    eo = createExamOffering(examOfferingContext.getExamPeriodId(), ExamOfferingServiceConstants.EXAM_OFFERING_DRAFT_STATE_KEY,
+                    eo = createExamOffering(examOfferingContext.getExamPeriodId(), eoState,
                             ExamOfferingContext.Driver.PER_CO.name(), new ArrayList<AttributeInfo>(), context);
                     foResult = new ExamOfferingResult(ExamOfferingServiceConstants.EXAM_OFFERING_CREATED);
                 } else {
@@ -555,6 +558,13 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
             return ExamOfferingServiceConstants.EXAM_OFFERING_CANCELED_STATE_KEY;
         }
         if (LuiServiceConstants.LUI_AO_STATE_SUSPENDED_KEY.equals(aoInfo.getStateKey())){
+            return ExamOfferingServiceConstants.EXAM_OFFERING_SUSPENDED_STATE_KEY;
+        }
+        return ExamOfferingServiceConstants.EXAM_OFFERING_DRAFT_STATE_KEY;
+    }
+
+    protected String getExamOfferingStateForCourseOffering(CourseOfferingInfo coInfo) {
+        if (LuiServiceConstants.LUI_CO_STATE_SUSPENDED_KEY.equals(coInfo.getStateKey())){
             return ExamOfferingServiceConstants.EXAM_OFFERING_SUSPENDED_STATE_KEY;
         }
         return ExamOfferingServiceConstants.EXAM_OFFERING_DRAFT_STATE_KEY;
