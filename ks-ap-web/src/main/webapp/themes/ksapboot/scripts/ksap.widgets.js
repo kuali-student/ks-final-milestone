@@ -437,7 +437,7 @@ function ksapAjaxSubmitForm(data, successCallback, elementToBlock, formId, block
                 else {
                     var elementBlockingDefaults = {
                         baseZ:500,
-                        message:'<img src='+imageUrl+' alt="loading..." />',
+                        message:'<img src="'+imageUrl+'" alt="loading..." />',
                         fadeIn:0,
                         fadeOut:0,
                         overlayCSS:{

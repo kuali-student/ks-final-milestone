@@ -28,9 +28,9 @@ function checkboxSelectAndHighlight() {
     });
 
     //Don't select checkbox if clicking on link
-    jQuery('tr a').click(function(event) {
+    /*jQuery('tr a').click(function(event) {
         event.stopPropagation();
-    });
+    });*/
 
     //Add and remove class when checkbox is toggled
     jQuery(".uif-checkboxControl").change(function () {

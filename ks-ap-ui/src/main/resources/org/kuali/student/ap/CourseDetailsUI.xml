@@ -156,7 +156,7 @@
     <bean id="ksapAddPlannedCourse-parent" abstract="true" parent="Uif-SecondaryActionButton"
           p:actionLabel="Add to Plan">
         <property name="actionScript" value="
-                        ksapOpenDialog('course_add_course_page','planner','startDialog', this, e);
+                        ksapOpenPlanDialog('course_add_course_page','planner','startDialog', this, e);
                     "/>
         <property name="dataAttributes">
             <map>

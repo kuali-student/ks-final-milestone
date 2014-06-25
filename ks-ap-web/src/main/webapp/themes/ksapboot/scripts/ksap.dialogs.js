@@ -98,7 +98,7 @@ function openDialogWindow(getId, retrieveData, formAction, popupStyle, popupOpti
             fnPositionDialogWindow(popupId);
             //@TODO ksap-961 Convert to icon font instead of image
             var imageUrl = getConfigParam("kradUrl")+"/../themes/ksapboot/images/btnClose.png";
-            if (popupOptions.close || typeof popupOptions.close === 'undefined') jQuery("#" + popupId + " .jquerypopover-innerHtml").append('<img src='+imageUrl+' class="ksap-popup-close"/>');
+            if (popupOptions.close || typeof popupOptions.close === 'undefined') jQuery("#" + popupId + " .jquerypopover-innerHtml").append('<img src="'+imageUrl+'" class="ksap-popup-close"/>');
             jQuery("#" + popupId + " img.ksap-popup-close").on('click', function () {
                 popupItem.HidePopOver();
                 fnClosePopup();
@@ -134,13 +134,6 @@ function ksapOpenDialog(pageId, action, methodToCall, target, e, additionalData)
     var retrieveData = {
         action : action,
         methodToCall : methodToCall,
-        learningPlanId : t.data('learningplanid'),
-        termId : t.data('termid'),
-        planItemId : t.data('planitemid'),
-        courseId : t.data('courseid'),
-        backup : t.data('backup'),
-        uniqueId : t.data('uniqueid'),
-
         pageId : pageId
     };
 
@@ -179,7 +172,7 @@ function ksapSubmitDialog(methodToCall, e, successCallback, errorCallback) {
     // Transpose loader icon on top of submit button
     var imageUrl = getConfigParam("kradUrl")+"/../themes/ksapboot/images/ajaxLoader.gif";
     button.block({
-        message : '<img src='+imageUrl+'/>',
+        message : '<img src="'+imageUrl+'"/>',
         css : {
             width : '100%',
             border : 'none',
@@ -317,4 +310,18 @@ function ksapAjaxSubmitErrorCallback(response, textStatus, jqXHR){
  */
 function setNoteMessageLength(jqObject, opts){
     jqObject.characterCount(opts);
+}
+
+function ksapOpenPlanDialog(pageId, action, methodToCall, target, e) {
+    var t = jQuery(target);
+    var retrieveData = {
+        learningPlanId : t.data('learningplanid'),
+        termId : t.data('termid'),
+        planItemId : t.data('planitemid'),
+        courseId : t.data('courseid'),
+        backup : t.data('backup'),
+        uniqueId : t.data('uniqueid')
+    };
+    jQuery.extend(retrieveData);
+    ksapOpenDialog(pageId, action, methodToCall, target, e, retrieveData)
 }
