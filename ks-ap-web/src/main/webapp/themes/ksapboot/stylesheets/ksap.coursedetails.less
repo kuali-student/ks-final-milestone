@@ -137,13 +137,14 @@
   .ksap-section-courses {
     // Heading
     h4 {
+      background: #f2f2f2;
+      border-radius: 3px;
       font-size: 14px;
       margin-bottom: 15px;
     }
-    h4 > a {
-      background: #f2f2f2;
-      border-radius: 3px;
-      margin-bottom: 15px;
+    h4 > span {
+      padding: 5px 5px 5px 22px;
+      display: block !important; //Must use because kboot uses important declaration for .uif-headerText-span
     }
     .ksap-section-planned {
       color: #093;
