@@ -1,3 +1,10 @@
+.kscr-Responsive-header,
+.kscr-Responsive-maincontent {
+    // Set up outer width of site and set to be centered beyond that
+    margin: 0 auto;
+    max-width: @largeFormatMax;
+}
+
 .kscr-Responsive-maincontent {
   .flexbox(); /*Uset to display child elements (schedule and cart) side by side in a flexible way*/
 }
@@ -27,10 +34,6 @@
 
 .kscr-Responsive-waitlisted--inactive{
   display:none; /*when there is no waitlist information, hide the section so that registered section takes up all of the space*/
-}
-
-.kscr-Responsive-header {
-  max-width: none; /* in responsive mode, the header takes up the entire space*/
 }
 
 .kscr-Responsive-navigation {
@@ -84,6 +87,10 @@
 }
 
 @media screen and (min-width: @largeFormatMin) {
+    .kscr-Main-content {
+        border-top: 10px solid @bodyColorDark;
+    }
+
     .kscr-Responsive-header {
         & .kscr-Header-logo { // use the larger logo in the expanded mode
             background-image: url('../images/logo_kuali_bak.png');
@@ -123,15 +130,13 @@
     }
 
     .kscr-Responsive-maincontent {
-        background: @bodyColorDark;
         min-height: 100%;
-        padding: 10px 0 0;
     }
 
     .kscr-Responsive-mycart {
-        background: transparent;
+        background: @bodyColorDark;
         margin: 0;
-        padding: 0 10px;
+        padding: 0 10px 10px;
     }
 
     .kscr-Responsive-mycart .kscr-MainHeading-icons  {
@@ -141,5 +146,4 @@
     .kscr-Responsive-schedule {
         color: @primaryTextColor;
     }
-
 }
