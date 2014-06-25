@@ -14,10 +14,9 @@
  */
 package org.kuali.student.ap.academicplan.infc;
 
-import org.kuali.student.r2.common.infc.HasId;
+import java.util.Date;
+
 import org.kuali.student.r2.common.infc.IdEntity;
-import org.kuali.student.r2.common.infc.RichText;
-import org.kuali.student.r2.common.infc.TypeStateEntity;
 
 /**
  * Student's Learning Plan that contains a list of plan items
@@ -39,4 +38,20 @@ public interface LearningPlan extends IdEntity {
      * @name Shared
      */
     public Boolean getShared();
+
+    /**
+     * @name ProgramId
+     */
+	public String getProgramId();
+	
+	/**
+     * @name effectiveDate
+     */
+    public Date getEffectiveDate();
+    
+	/**
+     * @name expirationDate
+     */
+    public Date getExpirationDate();
+
 }

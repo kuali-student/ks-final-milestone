@@ -60,4 +60,15 @@ public class AcademicPlanServiceConstants {
     public static final String LEARNING_PLAN_ITEM_SHARED_TRUE_KEY = "true";
     public static final String LEARNING_PLAN_ITEM_SHARED_FALSE_KEY = "false";
 
+    
+    /* Placeholder Types */
+    public static final String PLACEHOLDER_MILESTONE = "org.kuali.student.ap.placeholder.milestone";
+    public static final String PLACEHOLDER_COURSE = "org.kuali.student.ap.placeholder.course";
+    public static final String PLACEHOLDER_SEARCH = "org.kuali.student.ap.placeholder.search";
+    public static final String PLACEHOLDER_LIST = "org.kuali.student.ap.placeholder.list";
+    public static final String PLACEHOLDER_ERROR = "org.kuali.student.ap.placeholder.error";
+
+	/* Degree Map invalid Status */
+    public static final String LEARNING_PLAN_INVALID_STATE_KEY  = "kuali.academicplan.plan.state.invalid";
+
 }
