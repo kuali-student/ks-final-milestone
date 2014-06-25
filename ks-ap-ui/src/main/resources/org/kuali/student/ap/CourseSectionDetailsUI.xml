@@ -136,15 +136,53 @@
                         </list>
                     </property>
                 </bean>
-            </list>
-        </property>
-        <property name="subCollections">
-            <list>
-                <ref bean="planned-activities-list"/>
-                <ref bean="format-offering-list"/>
+
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <ref bean="planned-activities-list"/>
+                        </list>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-VerticalFieldGroup" p:fieldLabel.renderColon="false"
+                      p:render="@{#line.formatOfferingInfoWrappers.size()>1}"
+                      p:label="@{#textHelper.getFormattedMessage('details.courseOffering.formats', new Object[]{#line.formatOfferingInfoWrappers.size()})}">
+                    <property name="items">
+                        <list>
+
+                            <bean parent="Uif-InputField" p:label="@{#textHelper.getText('details.courseOffering.format.options')}"
+                                  p:id="@{#line.termId}_@{#line.courseOfferingCode}_formatOfferingOptions"
+                                  p:width="auto">
+                                <property name="control">
+                                    <bean parent="Uif-VerticalRadioControl" />
+                                    <!--<bean parent="Uif-KeyLabelPair" p:key="@{#line.formatId}" p:value="@{#line.formatName}"/>-->
+                                </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.student.ap.coursesearch.util.FormatOfferingOptionsFinder" p:addBlankOption="false"/>
+                                </property>
+                                <property name="dataAttributes">
+                                    <map>
+                                        <entry key="termId" value="@{#line.termId}" />
+                                        <entry key="courseOfferingId" value="@{#line.courseOfferingId}" />
+                                    </map>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <ref bean="format-offering-list"/>
+                        </list>
+                    </property>
+                </bean>
+
             </list>
         </property>
     </bean>
+
     <bean id="format-offering-list" parent="format-offering-list-parent"/>
     <bean id="format-offering-list-parent" abstract="true" parent="Uif-ListCollectionSection">
         <property name="collectionObjectClass"
@@ -180,9 +218,9 @@
 
     <bean id="planned-activities-list" parent="activities-list-with-group-summary"
           p:propertyName="plannedActivityDetailsWrappers"
-          p:renderHeader="@{#parentLine.plannedGroupsCount>0}">
+          p:renderHeader="@{#line.plannedGroupsCount>0}">
         <property name="headerText"
-                  value="@{#textHelper.getFormattedMessage('details.regGroup.header', new Object[]{#parentLine.plannedGroupsCount})}"/>
+                  value="@{#textHelper.getFormattedMessage('details.regGroup.header', new Object[]{#line.plannedGroupsCount})}"/>
         <property name="cssClasses">
             <list merge="true">
                 <value>ksap-section-reg</value>

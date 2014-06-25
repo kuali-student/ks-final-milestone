@@ -1,6 +1,5 @@
 package org.kuali.student.ap.coursesearch.dataobject;
 
-import org.kuali.student.ap.coursesearch.CreditsFormatter;
 import org.kuali.student.ap.coursesearch.util.CourseDetailsUtil;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 
@@ -23,6 +22,10 @@ public class CourseOfferingDetailsWrapper {
     private List<String> courseRequisites;
     private boolean honors;
     private String creditsDisplay;
+    private String selectedFormatOfferingId;
+    private String termId;
+
+    private List<FormatOfferingInfoWrapper> formatOfferingInfoWrappers;
 
     private List<ActivityFormatDetailsWrapper> activityFormatDetailsWrappers;
 
@@ -33,10 +36,11 @@ public class CourseOfferingDetailsWrapper {
         courseOfferingCode = courseOfferingInfo.getCourseOfferingCode();
         courseOfferingTitle = courseOfferingInfo.getCourseOfferingTitle();
         courseOfferingDescription = courseOfferingInfo.getDescr().getPlain();
-//        multipleFormatOfferings = courseOfferingInfo.
+
         honors = Boolean.TRUE.equals(courseOfferingInfo.getIsHonorsOffering());
         courseRequisites = CourseDetailsUtil.getCourseOfferingRequisites(courseOfferingInfo);
         creditsDisplay = courseOfferingInfo.getCreditCnt();
+        termId = courseOfferingInfo.getTermId();
     }
 
     public String getCourseOfferingId() {
@@ -130,5 +134,29 @@ public class CourseOfferingDetailsWrapper {
 
     public void setCreditsDisplay(String creditsDisplay) {
         this.creditsDisplay = creditsDisplay;
+    }
+
+    public List<FormatOfferingInfoWrapper> getFormatOfferingInfoWrappers() {
+        return formatOfferingInfoWrappers;
+    }
+
+    public void setFormatOfferingInfoWrappers(List<FormatOfferingInfoWrapper> formatOfferingInfoWrappers) {
+        this.formatOfferingInfoWrappers = formatOfferingInfoWrappers;
+    }
+
+    public String getSelectedFormatOfferingId() {
+        return selectedFormatOfferingId;
+    }
+
+    public void setSelectedFormatOfferingId(String selectedFormatOfferingId) {
+        this.selectedFormatOfferingId = selectedFormatOfferingId;
+    }
+
+    public String getTermId() {
+        return termId;
+    }
+
+    public void setTermId(String termId) {
+        this.termId = termId;
     }
 }
