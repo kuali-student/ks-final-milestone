@@ -50,6 +50,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
     public static final TypeInfo AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_TYPE;
     public static final TypeInfo AO_AND_FO_IDS_BY_CO_ID_SEARCH_TYPE;
     public static final TypeInfo REG_GROUPS_BY_CO_ID_SEARCH_TYPE;
+    public static final TypeInfo REG_GROUPS_BY_RG_ID_SEARCH_TYPE;
     public static final TypeInfo AOS_WO_CLUSTER_BY_FO_ID_SEARCH_TYPE;
     public static final TypeInfo AO_CODES_TYPES_BY_CO_ID_SEARCH_TYPE;
     public static final TypeInfo TERM_ID_BY_OFFERING_ID_SEARCH_TYPE;
@@ -68,6 +69,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
     public static final String AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForAOsAndClustersByCoId";
     public static final String AO_AND_FO_IDS_BY_CO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForAOIdsFOIdsByCoId";
     public static final String REG_GROUPS_BY_CO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForRegGroupsByCoId";
+    public static final String REG_GROUPS_BY_RG_ID_SEARCH_KEY = "kuali.search.type.lui.searchForRegGroupsByRgId";
     public static final String AOS_WO_CLUSTER_BY_FO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForAOsWithoutClusterByFormatId";
     public static final String COLOCATED_AOS_BY_AO_IDS_SEARCH_KEY = "kuali.search.type.lui.searchForAosByAoIds";
     public static final String COLOCATED_AOIDS_BY_AO_IDS_SEARCH_KEY = "kuali.search.type.lui.searchForColocatedAoIdsByAoIds";
@@ -91,6 +93,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
     public static final class SearchParameters {
         public static final String AO_ID = "id";
         public static final String CO_ID = "coId";
+        public static final String RG_ID = "rgId";
         public static final String OFFERING_ID = "offeringId";
         public static final String FO_ID = "foId";
         public static final String AO_IDS = "aoIds";
@@ -122,6 +125,18 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         public static final String AO_CLUSTER_COUNT = "aoClusterCount";
         public static final String WL_IND = "wlInd";
         public static final String AO_ISHONORS = "aoIsHonors";
+
+        public static final String RG_TYPE = "rgType";
+        public static final String RG_DESC_PLAIN = "rgDescPlain";
+        public static final String RG_DESC_FORMATTED = "rgDescFormatted";
+        public static final String RG_VERSION = "rgVersion";
+        public static final String RG_CREATE_TIME = "rgCreateTime";
+        public static final String RG_CREATE_ID = "rgCreateId";
+        public static final String RG_UPDATE_TIME = "rgUpdateTime";
+        public static final String RG_UPDATE_ID = "rgUpdateId";
+        public static final String RG_IS_GENERATED = "isGenerated";
+        public static final String AO_CLUSTER_ID = "aoClusterId";
+
     }
 
     static {
@@ -156,6 +171,14 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
 
         REG_GROUPS_BY_CO_ID_SEARCH_TYPE = info;
+
+        info = new TypeInfo();
+        info.setKey(REG_GROUPS_BY_RG_ID_SEARCH_KEY);
+        info.setName("Reg Groups by RG ID Search");
+        info.setDescr(new RichTextHelper().fromPlain("Return search results for Reg Groups by RG ID"));
+        info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
+
+        REG_GROUPS_BY_RG_ID_SEARCH_TYPE = info;
 
         info = new TypeInfo();
         info.setKey(COLOCATED_AOS_BY_AO_IDS_SEARCH_KEY);
@@ -288,6 +311,9 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         if (REG_GROUPS_BY_CO_ID_SEARCH_KEY.equals(searchTypeKey)) {
             return REG_GROUPS_BY_CO_ID_SEARCH_TYPE;
         }
+        if (REG_GROUPS_BY_RG_ID_SEARCH_KEY.equals(searchTypeKey)) {
+            return REG_GROUPS_BY_RG_ID_SEARCH_TYPE;
+        }
         if (COLOCATED_AOS_BY_AO_IDS_SEARCH_KEY.equals(searchTypeKey)) {
             return COLOCATED_AOS_BY_AO_IDS_SEARCH_TYPE;
         }
@@ -337,7 +363,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
             MissingParameterException,
             OperationFailedException {
         return Arrays.asList(SCH_IDS_BY_AO_SEARCH_TYPE, AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_TYPE, AO_AND_FO_IDS_BY_CO_ID_SEARCH_TYPE,
-                REG_GROUPS_BY_CO_ID_SEARCH_TYPE, AOS_WO_CLUSTER_BY_FO_ID_SEARCH_TYPE, COLOCATED_AOS_BY_AO_IDS_SEARCH_TYPE, FO_BY_CO_ID_SEARCH_TYPE,
+                REG_GROUPS_BY_CO_ID_SEARCH_TYPE, REG_GROUPS_BY_RG_ID_SEARCH_TYPE, AOS_WO_CLUSTER_BY_FO_ID_SEARCH_TYPE, COLOCATED_AOS_BY_AO_IDS_SEARCH_TYPE, FO_BY_CO_ID_SEARCH_TYPE,
                 FO_IDS_BY_CO_ID_SEARCH_TYPE, WL_IND_BY_AO_IDS_SEARCH_TYPE, RELATED_AO_TYPES_BY_CO_ID_SEARCH_TYPE, TERM_ID_BY_OFFERING_ID_SEARCH_TYPE,
                 AO_CODES_TYPES_BY_CO_ID_SEARCH_TYPE, AO_CLUSTER_COUNT_BY_FO_TYPE, AO_ID_AND_TYPE_BY_FO_TYPE, COLOCATED_AOIDS_BY_AO_IDS_SEARCH_TYPE, CO_IDS_AND_FO_IDS_AND_ATP_IDS_BY_AO_IDS_SEARCH_TYPE);
     }
@@ -357,6 +383,9 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         }
         else if (REG_GROUPS_BY_CO_ID_SEARCH_KEY.equals(searchRequestInfo.getSearchKey())){
             return searchForRegGroupsByCoId(searchRequestInfo);
+        }
+        else if (REG_GROUPS_BY_RG_ID_SEARCH_KEY.equals(searchRequestInfo.getSearchKey())){
+            return searchForRegGroupsByRegGroupId(searchRequestInfo);
         }
         else if (COLOCATED_AOS_BY_AO_IDS_SEARCH_KEY.equals(searchRequestInfo.getSearchKey())){
             return searchForAosByAoIds(searchRequestInfo);
@@ -658,6 +687,169 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
             row.addCell(SearchResultColumns.RG_NAME, (String)resultRow[i++]);
             row.addCell(SearchResultColumns.RG_STATE, (String)resultRow[i++]);
             row.addCell(SearchResultColumns.ATP_ID, (String)resultRow[i++]);
+            resultInfo.getRows().add(row);
+        }
+
+        return resultInfo;
+    }
+
+    protected SearchResultInfo searchForRegGroupsByRegGroupId(SearchRequestInfo searchRequestInfo) throws OperationFailedException {
+
+        SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
+        String rgId = requestHelper.getParamAsString(SearchParameters.RG_ID);
+        List<String> regGroupStates = requestHelper.getParamAsList(SearchParameters.REGGROUP_STATES);
+        return searchForRegGroupsByRegGroupIdInternal(rgId, regGroupStates);
+
+    }
+
+    protected SearchResultInfo searchForRegGroupsByRegGroupIdInternal(String regGroupId,  List<String> regGroupStates) throws OperationFailedException {
+        SearchResultInfo resultInfo = new SearchResultInfo();
+
+        String queryStr = "SELECT\n" +
+                "    rgLui.ID             AS rgId,\n" +
+                "    rgLui.NAME           AS rgName,\n" +
+                "    rgLui.LUI_STATE      AS rgState,\n" +
+                "    rgLui.LUI_TYPE       AS rgType,\n" +
+                "    rgLui.DESCR_PLAIN    AS rgDescPlain,\n" +
+                "    rgLui.DESCR_FORMATTED    AS rgDescFormatted,\n" +
+                "    \n" +
+                "    rgLui.VER_NBR        AS rgVersion,\n" +
+                "    rgLui.CREATETIME     AS rgCreateTime,\n" +
+                "    rgLui.CREATEID       AS rgCreateId,\n" +
+                "    rgLui.UPDATETIME     as rgUpdateTime,\n" +
+                "    rgLui.UPDATEID       as rgUpdateId,\n" +
+                "    \n" +
+                "    rg2ao.RELATED_LUI_ID AS aoId,    \n" +
+                "    fo2ao.LUI_ID         AS foId,\n" +
+                "    co2fo.LUI_ID         AS coId,\n" +
+                "    rgLui.ATP_ID         AS atpId,\n" +
+                "    rgAttr.ATTR_VALUE         AS isGenerated,\n" +
+                "    aoClusterAttr.ATTR_VALUE  AS aoClusterId    \n" +
+                "FROM\n" +
+                "    KSEN_LUILUI_RELTN co2fo,\n" +
+                "    KSEN_LUILUI_RELTN fo2ao,\n" +
+                "    KSEN_LUILUI_RELTN rg2ao,    \n" +
+                "    KSEN_LUI rgLui\n" +
+                "LEFT OUTER JOIN\n" +
+                "    KSEN_LUI_ATTR rgAttr\n" +
+                "ON\n" +
+                "    rgLui.id = rgAttr.OWNER_ID\n" +
+                "AND rgAttr.ATTR_KEY = :isGeneratedName " +
+                "LEFT OUTER JOIN\n" +
+                "    KSEN_LUI_ATTR aoClusterAttr\n" +
+                "ON\n" +
+                "    rgLui.id = aoClusterAttr.OWNER_ID\n" +
+                "AND aoClusterAttr.ATTR_KEY = :aoClusterIdName  " +
+                "WHERE co2fo.LUILUI_RELTN_TYPE = '" + LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_CO_TO_FO_TYPE_KEY + "' " +
+                "  AND fo2ao.LUILUI_RELTN_TYPE = '" + LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_AO_TYPE_KEY + "' " +
+                "  AND rg2ao.LUILUI_RELTN_TYPE = '" + LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY + "' " +
+                "  AND rg2ao.LUI_ID = :rgId " +
+                "AND co2fo.RELATED_LUI_ID = fo2ao.LUI_ID\n" +
+                "AND rg2ao.RELATED_LUI_ID = fo2ao.RELATED_LUI_ID\n" +
+                "AND rgLui.id = rg2ao.LUI_ID";
+
+        if(regGroupStates != null && !regGroupStates.isEmpty()) {
+            queryStr = queryStr + " AND rg2ao.lui.luiState IN(:regGroupStates)";
+        }
+
+        Query query = entityManager.createNativeQuery(queryStr);
+        query.setParameter(SearchParameters.RG_ID, regGroupId);
+        query.setParameter("isGeneratedName", CourseOfferingServiceConstants.IS_REGISTRATION_GROUP_GENERATED_INDICATOR_ATTR);
+        query.setParameter("aoClusterIdName", CourseOfferingServiceConstants.AOCLUSTER_ID_ATTR);
+
+
+        if(regGroupStates != null && !regGroupStates.isEmpty()) {
+            query.setParameter(SearchParameters.REGGROUP_STATES, regGroupStates);
+        }
+        List<Object[]> results = query.getResultList();
+
+        for(Object[] resultRow : results){
+            int i = 0;
+
+            SearchResultRowInfo row = new SearchResultRowInfo();
+            row.addCell(SearchResultColumns.RG_ID, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.RG_NAME, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.RG_STATE, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.RG_TYPE, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.RG_DESC_PLAIN, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.RG_DESC_FORMATTED, (String)resultRow[i++]);
+
+            row.addCell(SearchResultColumns.RG_VERSION, (String)resultRow[i++].toString());
+            row.addCell(SearchResultColumns.RG_CREATE_TIME, (String)resultRow[i++].toString());
+            row.addCell(SearchResultColumns.RG_CREATE_ID, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.RG_UPDATE_TIME, (String)resultRow[i++].toString());
+            row.addCell(SearchResultColumns.RG_UPDATE_ID, (String)resultRow[i++]);
+
+            row.addCell(SearchResultColumns.AO_ID, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.FO_ID, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.CO_ID, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.ATP_ID, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.RG_IS_GENERATED, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.AO_CLUSTER_ID, (String)resultRow[i++]);
+            resultInfo.getRows().add(row);
+        }
+
+        return resultInfo;
+    }
+
+    protected SearchResultInfo searchForRegGroupsByRegGroupIdInternalNotWorking(String regGroupId,  List<String> regGroupStates) throws OperationFailedException {
+        SearchResultInfo resultInfo = new SearchResultInfo();
+
+        String queryStr =
+                "SELECT rg2ao.relatedLui.id as aoId," +
+                        "       rg2ao.lui.id as rgId," +
+                        "       fo2ao.lui.id as foId," +
+                        "       co2fo.lui.id as coId," +
+                        "       rg2ao.lui.name as rgName," +
+                        "       rg2ao.lui.luiState as rgState, " +
+                        "       rg2ao.lui.atpId as atpId, " +
+                        "       rgAttr.value as isGenerated, " +
+                        "       aoClusterAttr.value as aoClusterId, " +
+                        "       rg2ao.lui.identifiers.code as rgCode "    +
+                        "FROM LuiLuiRelationEntity co2fo," +
+                        "     LuiLuiRelationEntity fo2ao," +
+                        "     LuiLuiRelationEntity rg2ao, " +
+                        " IN (rg2ao.lui.attributes ) as rgAttr, " +
+                        " IN (rg2ao.lui.attributes ) as aoClusterAttr  " +
+                        "WHERE co2fo.luiLuiRelationType = '" + LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_CO_TO_FO_TYPE_KEY + "' " +
+                        "  AND fo2ao.luiLuiRelationType = '" + LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_AO_TYPE_KEY + "' " +
+                        "  AND rg2ao.luiLuiRelationType = '" + LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY + "' " +
+                        "  AND rg2ao.lui.id = :rgId " +
+                        "  AND co2fo.relatedLui.id = fo2ao.lui.id " +
+                        "  AND rg2ao.relatedLui.id = fo2ao.relatedLui.id " +
+                        "  AND rgAttr.name = :isGeneratedName " +
+                        "  AND aoClusterAttr.name = :aoClusterIdName " +
+                        "  AND rg2ao.lui.identifiers.type = :identifierType ";
+
+        if(regGroupStates != null && !regGroupStates.isEmpty()) {
+            queryStr = queryStr + " AND rg2ao.lui.luiState IN(:regGroupStates)";
+        }
+
+        Query query = entityManager.createNativeQuery(queryStr);
+        query.setParameter(SearchParameters.RG_ID, regGroupId);
+        query.setParameter("isGeneratedName", CourseOfferingServiceConstants.IS_REGISTRATION_GROUP_GENERATED_INDICATOR_ATTR);
+        query.setParameter("aoClusterIdName", CourseOfferingServiceConstants.AOCLUSTER_ID_ATTR);
+        query.setParameter("identifierType", LuiServiceConstants.LUI_IDENTIFIER_OFFICIAL_TYPE_KEY);
+
+
+        if(regGroupStates != null && !regGroupStates.isEmpty()) {
+            query.setParameter(SearchParameters.REGGROUP_STATES, regGroupStates);
+        }
+        List<Object[]> results = query.getResultList();
+
+        for(Object[] resultRow : results){
+            int i = 0;
+            SearchResultRowInfo row = new SearchResultRowInfo();
+            row.addCell(SearchResultColumns.AO_ID, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.RG_ID, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.FO_ID, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.CO_ID, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.RG_NAME, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.RG_STATE, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.ATP_ID, (String)resultRow[i++]);
+            row.addCell("isGenerated", (String)resultRow[i++]);
+            row.addCell("aoClusterId", (String)resultRow[i++]);
+            row.addCell("rgCode", (String)resultRow[i++]);
             resultInfo.getRows().add(row);
         }
 
