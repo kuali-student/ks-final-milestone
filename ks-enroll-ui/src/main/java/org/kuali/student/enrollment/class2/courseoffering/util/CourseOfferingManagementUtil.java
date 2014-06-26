@@ -1,6 +1,5 @@
 package org.kuali.student.enrollment.class2.courseoffering.util;
 
-import groovy.ui.Console;
 import net.sf.ehcache.CacheManager;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.Predicate;
@@ -12,7 +11,6 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-import org.kuali.rice.krad.messages.MessageService;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -22,12 +20,10 @@ import org.kuali.rice.krms.api.KrmsConstants;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
 import org.kuali.student.common.uif.form.KSUifForm;
-import org.kuali.student.common.uif.util.KSGrowlMessenger;
-import org.kuali.student.common.uif.util.Messenger;
+import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.batch.BatchScheduler;
 import org.kuali.student.enrollment.batch.util.BatchSchedulerConstants;
-import org.kuali.student.enrollment.class2.acal.dto.ExamPeriodWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.controller.ActivityOfferingControllerTransactionHelper;
+import org.kuali.student.enrollment.class2.courseoffering.controller.ControllerTransactionHelper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
@@ -55,7 +51,6 @@ import org.kuali.student.enrollment.class2.courseoffering.service.impl.DefaultOp
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.SeatPoolUtilityServiceImpl;
 import org.kuali.student.enrollment.class2.coursewaitlist.service.facade.CourseWaitListServiceFacade;
 import org.kuali.student.enrollment.class2.coursewaitlist.service.facade.CourseWaitListServiceFacadeConstants;
-import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingResult;
 import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingServiceFacade;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingSetInfo;
@@ -74,7 +69,6 @@ import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
@@ -82,7 +76,6 @@ import org.kuali.student.r2.common.util.constants.CourseSeatCountServiceConstant
 import org.kuali.student.r2.common.util.constants.ExamOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-import org.kuali.student.r2.common.util.constants.MessageServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
@@ -115,17 +108,13 @@ import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import javax.xml.namespace.QName;
-import java.lang.reflect.Array;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Date;
 import java.util.Formatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Properties;
 
 import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
@@ -174,7 +163,7 @@ public class CourseOfferingManagementUtil {
     private static FeeService feeService;
     private static CluFixer cluFixer;
     private static LuiService luiService = null;
-    private static ActivityOfferingControllerTransactionHelper activityOfferingControllerTransactionHelper;
+    private static ControllerTransactionHelper controllerTransactionHelper;
     private static EnumerationManagementService enumerationManagementService;
     private static PersonService personService;
     private static CourseSeatCountService courseSeatCountService;
@@ -201,12 +190,12 @@ public class CourseOfferingManagementUtil {
         return courseRegistrationService;
     }
 
-    public static ActivityOfferingControllerTransactionHelper getActivityOfferingControllerTransactionHelper() {
-        if (activityOfferingControllerTransactionHelper == null) {
-            activityOfferingControllerTransactionHelper = GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "activityOfferingControllerTransactionHelper", ActivityOfferingControllerTransactionHelper.class.getSimpleName()));
+    public static ControllerTransactionHelper getControllerTransactionHelper() {
+        if (controllerTransactionHelper == null) {
+            controllerTransactionHelper = GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "controllerTransactionHelper", ControllerTransactionHelper.class.getSimpleName()));
         }
 
-        return activityOfferingControllerTransactionHelper;
+        return controllerTransactionHelper;
     }
 
     public static LuiService getLuiService() {

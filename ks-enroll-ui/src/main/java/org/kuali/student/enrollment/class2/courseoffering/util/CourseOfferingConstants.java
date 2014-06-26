@@ -132,6 +132,10 @@ public class CourseOfferingConstants {
      */
     public static final String COURSEOFFERING_INFO_COPIED_SUCCESSFULLY = "info.enroll.courseoffering.copied.successful";
     public static final String COURSEOFFERING_ROLLOVER_RELEASE_TO_DEPTS_SUCCESSFULLY = "info.enroll.courseoffering.rollover.releaseToDepts.successful";
+    /**
+     * Course Offering manage constants
+     */
+    public static final String COURSEOFFERING_ERROR_VERSION_MISMATCH = "error.enroll.courseOffering.version.mismatch";
 
     //JSON string root keys
     public static final String BREADCRUMB_JSON_ROOT_KEY = "breadCrumb";

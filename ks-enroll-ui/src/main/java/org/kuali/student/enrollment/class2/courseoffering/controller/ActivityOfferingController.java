@@ -231,7 +231,7 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
             //This way if the super.route transaction fails, the current transaction will still succeed and errors can
             //be displayed in the UI
 
-            ActivityOfferingControllerTransactionHelper helper = CourseOfferingManagementUtil.getActivityOfferingControllerTransactionHelper();
+            ControllerTransactionHelper helper = CourseOfferingManagementUtil.getControllerTransactionHelper();
             helper.routeSuper(form, result, request, response, this);
         } catch (Exception e) {
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, KSObjectUtils.unwrapException(20, e).getMessage());

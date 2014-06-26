@@ -30,16 +30,26 @@ import javax.servlet.http.HttpServletResponse;
  * Then in the controller we can catch exceptions without having our initial transaction rolling back.
  *
  */
-public class ActivityOfferingControllerTransactionHelperImpl implements ActivityOfferingControllerTransactionHelper {
+public class ControllerTransactionHelperImpl implements ControllerTransactionHelper {
 
     /* (non-Javadoc)
-	 * @see org.kuali.student.enrollment.class2.courseoffering.controller.ActivityOfferingControllerTransactionHelper#routeSuper(org.kuali.rice.krad.web.form.DocumentFormBase, org.springframework.validation.BindingResult, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, org.kuali.student.enrollment.class2.courseoffering.controller.ActivityOfferingController)
+	 * @see org.kuali.student.enrollment.class2.courseoffering.controller.ControllerTransactionHelper#routeSuper(org.kuali.rice.krad.web.form.DocumentFormBase, org.springframework.validation.BindingResult, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, org.kuali.student.enrollment.class2.courseoffering.controller.ActivityOfferingController)
 	 */
     @Override
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
     public ModelAndView routeSuper(DocumentFormBase form, BindingResult result,
                               HttpServletRequest request, HttpServletResponse response, ActivityOfferingController activityOfferingController) {
         return activityOfferingController.routeSuper(form, result, request, response);
+    }
+
+    /* (non-Javadoc)
+  * @see org.kuali.student.enrollment.class2.courseoffering.controller.ControllerTransactionHelper#routeSuper(org.kuali.rice.krad.web.form.DocumentFormBase, org.springframework.validation.BindingResult, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, org.kuali.student.enrollment.class2.courseoffering.controller.CourseOfferingEditController)
+  */
+    @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public ModelAndView routeSuper(DocumentFormBase form, BindingResult result,
+                                   HttpServletRequest request, HttpServletResponse response, CourseOfferingEditController courseOfferingEditController) {
+        return courseOfferingEditController.routeSuper(form, result, request, response);
     }
 
 }

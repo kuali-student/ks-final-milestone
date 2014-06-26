@@ -17,6 +17,7 @@
 package org.kuali.student.enrollment.class2.courseoffering.controller;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
@@ -24,6 +25,8 @@ import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.common.uif.form.KSUifMaintenanceDocumentForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.class1.search.CourseOfferingManagementSearchImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -80,13 +83,38 @@ public class CourseOfferingEditController extends CourseOfferingBaseController {
     public ModelAndView route(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
                               HttpServletRequest request, HttpServletResponse response) {
 
-        super.route(form, result, request, response);
+        try {
+            ControllerTransactionHelper helper = CourseOfferingManagementUtil.getControllerTransactionHelper();
+            helper.routeSuper(form, result, request, response, this);
+        } catch (RuntimeException ex) {
+            /*
+            Version mismatch exceptions are caught in the KEW and sent back as a RuntimeException -- check the
+            root cause, and if it's a version mismatch, display a user-friendly error message.
+             */
+            String rootCause = ExceptionUtils.getRootCause(ex).getClass().getName();
+            if (rootCause.equals(VersionMismatchException.class.getName())) {
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, CourseOfferingConstants.COURSEOFFERING_ERROR_VERSION_MISMATCH);
+            } else {
+                throw ex;
+            }
+        }
 
-        if( GlobalVariables.getMessageMap().hasErrors() ) {
-            return handleRouteForErrors( form );
+        if (GlobalVariables.getMessageMap().hasErrors()) {
+            return handleRouteForErrors(form);
         }
 
         return handleRouteForCoEdit(form);
+    }
+
+    /**
+     * This method is called by a helper service to perform the super.route method. It's indirect, but we need a new
+     * transaction boundary around this call to support handling errors without causing a rollback exception in the UI
+     *
+     * @return model and view
+     */
+    public ModelAndView routeSuper(DocumentFormBase form, BindingResult result,
+                                   HttpServletRequest request, HttpServletResponse response) {
+        return super.route(form, result, request, response);
     }
 
     /* Returns a ModelAndView for the route()-method to return a new view if we are editing a CO */
