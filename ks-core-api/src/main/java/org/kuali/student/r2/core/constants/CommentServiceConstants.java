@@ -18,6 +18,7 @@ public class CommentServiceConstants {
     public static final String REF_OBJECT_URI_COMMENT = NAMESPACE + "/" + CommentInfo.class.getSimpleName();
 
     //comment types
+    public static final String COMMENT_ADMINISTRATIVE_TYPE_KEY = "kuali.comment.comment.type.comment.administrative";
     public static final String COMMENT_GENERAL_REMARKS_TYPE_KEY = "kuali.comment.type.generalRemarks";
 
     public static final String COMMENT_ACKNOWLEDGE_WORKFLOW_DECISION_TYPE_KEY = "kuali.comment.type.workflowDecisionRationale.acknowledge";
@@ -30,7 +31,7 @@ public class CommentServiceConstants {
     public static final String COMMENT_WITHDRAW_WORKFLOW_DECISION_TYPE_KEY = "kuali.comment.type.workflowDecisionRationale.withdraw";
 
     //comment states
-    public static final String COMMENT_ACTIVE_STATE_KEY = "kuali.comment.state.active";
-    public static final String COMMENT_INACTIVE_STATE_KEY = "kuali.comment.state.inactive";
+    public static final String COMMENT_ACTIVE_STATE_KEY = "kuali.comment.comment.state.active";
+    public static final String COMMENT_INACTIVE_STATE_KEY = "kuali.comment.comment.state.inactive";
 
 }
