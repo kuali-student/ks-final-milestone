@@ -169,23 +169,9 @@
   color:  @secondaryTextColor;
 }
 
-
-.kscr-Card-badge {
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  background-color: @badgeColor;
-  color: @bodyColor;
-  font-size: 11px;
-  font-weight: bold;
-  padding-left: 4px;
-  padding-right: 4px;
-}
-
 .kscr-horizontalRule {
   border: 1px solid #F2F2F2;
 }
-
 
 .kscr-Card-responseCount {
   float: right;
@@ -196,7 +182,7 @@
 .kscr-course-container {
   position: relative;
   width: 100%;
-  &:extend(.util-transitions-browserHelper);
+  .util-transitions-browserHelper;
   opacity: 1;
 }
 
@@ -265,7 +251,7 @@
 .panel-group  .panel {
   margin-bottom: 10px;
   border-width: 1px 1px 2px 1px;
-  &:extend(.util-transitions-browserHelper);
+  .util-transitions-browserHelper;
   opacity: 1;
 }
 
@@ -282,50 +268,46 @@
 /**** Fading in/out Section ****/
 
 .kscr-Card-badge {
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    background-color: @badgeColor;
-    color: @bodyColor;
-    font-size: 11px;
-    font-weight: bold;
-    padding-left: 4px;
-    padding-right: 4px;
+  @defaultRadius: 5px;
+  .Rounded(@radius:@defaultRadius);
+  background-color: @badgeColor;
+  color: @badgeTextColor;
+  font-size: 11px;
+  font-weight: bold;
+  padding: 0 4px;
 }
 
 .kscr-Card-badge-fade {
-    .kscr-Card-badge;
-     opacity: 1;
-      @transitionSpeed: 2s;
-     .util-transitions-browserHelper;
+  .kscr-Card-badge;
+  opacity: 1;
+  @transitionSpeed: 2s;
+  .util-transitions-browserHelper;
 }
 
 .kscr-Card-badge-fadeIn {
-    .kscr-Card-badge-fade;
-    color: @textColor--highlight; //#ffff7f;
-    opacity: 1;
-     @transitionSpeed: 0.2s;
-    .util-transitions-browserHelper;
-    .util-Text-highlighter(@distance, @angle, @blur, @spread, @shadowColor);
+  .kscr-Card-badge-fade;
+  color: @textColor--highlight; //#ffff7f;
+  opacity: 1;
+  @transitionSpeed: 0.2s;
+  .util-transitions-browserHelper;
+  .util-Text-highlighter(@distance, @angle, @blur, @spread, @shadowColor);
 }
-
 
 .kscr-Card-badge-fadeOutLetter {
-    .kscr-Card-badge-fade;
-    opacity: 0.5;
-     @transitionSpeed: 2s;
-    .util-transitions-browserHelper;
+  .kscr-Card-badge-fade;
+  opacity: 0.5;
+  @transitionSpeed: 2s;
+  .util-transitions-browserHelper;
 }
-
 
 /* Credits Fade */
 .kscr-Card-credits-fadeIn {
-    background-color: @backgroundColor--highlight;
-    .util-Text-highlighter(@distance, @angle, @blur, @spread, @shadowColor);
+  background-color: @backgroundColor--highlight;
+  .util-Text-highlighter(@distance, @angle, @blur, @spread, @shadowColor);
  }
 
 .kscr-Card-credits-fadeOut {
-   @transitionSpeed: 2s;
+  @transitionSpeed: 2s;
   .util-transitions-browserHelper;
 }
 
@@ -333,17 +315,17 @@
 /* Override of accordion panel for card section to animate */
 
 .kscr-Card-accordion-heading {
-    padding: 10px 10px 10px 5px;
-     @transitionSpeed: 2s;
-    .util-transitions-browserHelper;
+  padding: 10px 10px 10px 5px;
+  @transitionSpeed: 2s;
+  .util-transitions-browserHelper;
 }
 
 .kscr-Card-accordion-heading-fadeIn {
-    background-color: @backgroundColor--highlight;
-    .kscr-Card-accordion-heading;
-     @transitionSpeed: 0.2s;
-    .util-transitions-browserHelper;
-    .util-Text-highlighter--inset(@distance, @angle, @blur, @spread, @shadowColor);
+  background-color: @backgroundColor--highlight;
+  .kscr-Card-accordion-heading;
+  @transitionSpeed: 0.2s;
+  .util-transitions-browserHelper;
+  .util-Text-highlighter--inset(@distance, @angle, @blur, @spread, @shadowColor);
 }
 /**** End Fading in/out Section ****/
 
