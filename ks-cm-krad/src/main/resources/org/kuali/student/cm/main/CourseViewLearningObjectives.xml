@@ -200,11 +200,8 @@
                         <bean id="KS-LearningObjective-Category-QuickFinder" parent="Uif-CollectionQuickFinder">
                             <property name="autoSearch" value="true"/>
                             <property name="quickfinderAction">
-                                <bean parent="Uif-ActionLink">
+                                <bean parent="Uif-ActionLink" p:actionLabel="Find Categories">
                                     <property name="methodToCall" value="performLookup"/>
-                                    <property name="actionImage">
-                                        <bean parent="Uif-QuickLookupImage"/>
-                                    </property>
                                 </bean>
                             </property>
                             <property name="lightBox">
