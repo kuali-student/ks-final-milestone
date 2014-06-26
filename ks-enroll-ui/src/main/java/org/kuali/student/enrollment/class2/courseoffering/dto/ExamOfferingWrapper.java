@@ -33,6 +33,7 @@ public class ExamOfferingWrapper implements Serializable, ComparatorModel{
     private ScheduleWrapper requestedSchedule;
     private ScheduleWrapper scheduleRequest;
     private ScheduleRequestSetInfo scheduleRequestSetInfo;
+    private String courseOfferingCode;
     private boolean driverPerAO;
     private boolean overrideMatrix;
     private String overrideMatrixUI;
@@ -203,5 +204,13 @@ public class ExamOfferingWrapper implements Serializable, ComparatorModel{
 
     public void setOverrideMatrixUI(String overrideMatrixUI) {
         this.overrideMatrixUI = overrideMatrixUI;
+    }
+
+    public String getCourseOfferingCode() {
+        return courseOfferingCode;
+    }
+
+    public void setCourseOfferingCode(String courseOfferingCode) {
+        this.courseOfferingCode = courseOfferingCode;
     }
 }

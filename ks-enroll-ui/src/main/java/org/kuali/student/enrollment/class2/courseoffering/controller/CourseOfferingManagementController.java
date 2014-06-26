@@ -1069,6 +1069,7 @@ public class CourseOfferingManagementController extends UifControllerBase {
         if (selectedObject instanceof ExamOfferingWrapper) {
 
             ExamOfferingWrapper eoWrapper = (ExamOfferingWrapper)selectedObject;
+            eoWrapper.setCourseOfferingCode(theForm.getCurrentCourseOfferingWrapper().getCourseOfferingCode());
             jsonResponseDTO.setExamOfferingWrapper(eoWrapper);
 
             //save exam offering override information
