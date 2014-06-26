@@ -170,9 +170,15 @@
   border: 1px solid #F2F2F2;
 }
 
+.kscr-Card-responseLabel {
+  float: left;
+  margin-right: 10px;
+}
+
 .kscr-Card-responseCount {
-  float: right;
-  font-weight: normal;
+  display: block;
+  font-weight: bold;
+  text-align: right;
   text-transform: uppercase;
 }
 
@@ -336,6 +342,10 @@
     margin-top: 0;
   }
 
+  .kscr-Card-Cart {
+      margin-bottom: 1px;
+  }
+
   .kscr-Responsive-mycart .kscr-Card-courseTimes {
     display: none;
   }
@@ -354,14 +364,27 @@
     margin: 0px 10px 10px;
   }
 
-  .kscr-Card-responseCount {
-    font-size: 13px;
-  }
-
-  .kscr-Card-heading {
-    margin: 0px 10px; // Main heading in Schedule & Waitlist
-    .panel-heading & {
-      margin: 0; // Course card panel heading
+    .kscr-Card-heading {
+        margin: 0px 10px; // Main heading in Schedule & Waitlist
+        .panel-heading & {
+            margin: 0; // Course card panel heading
+        }
     }
-  }
+
+    .kscr-Card-Results {
+        background-color: @whiteBackground;
+
+        .kscr-Card-text-alert {
+            // Hide the schedule info in large-format
+            display: none;
+        }
+        .kscr-Card-detailsText .kscr-Card-text-alert,
+        .kscr-cartItem-status--waitlist .kscr-Card-text-alert {
+            display: block; // But... show them in the Add to Waitlist success
+        }
+    }
+
+    .kscr-Card-responseCount {
+        color: @secondaryTextColor;
+    }
 }

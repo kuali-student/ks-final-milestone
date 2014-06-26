@@ -1,4 +1,3 @@
-
 .kscr-cartItem-status {
     padding: 10px 10px 10px 35px;
     position: relative;
@@ -64,5 +63,27 @@
         background-color: @cardBackgroundColor;
         border-color: @cardBorderColor;
         color: @cardTextColor;
+    }
+}
+
+
+.kscr-cartItem-supportText {
+    color: @cardTextColor;
+    display: none; // Hide by default in small-format
+    font-weight: normal;
+    float: right;
+}
+
+
+@media screen and (min-width: @largeFormatMin) {
+    .kscr-cartItem-status {
+        background: none;
+        box-shadow: none;
+        -webkit-box-shadow: none; // iOS <4.3 & Android <4.1
+
+        &--processing .kscr-cartItem-supportText {
+            // Show the credit count only when processing cart item in large-format
+            display: block;
+        }
     }
 }

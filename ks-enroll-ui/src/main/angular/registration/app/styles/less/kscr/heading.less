@@ -10,7 +10,7 @@
 }
 
 .kscr-Heading-sub--cart {
-  .kscr-Heading-sub;
+    .kscr-Heading-sub;
 }
 
 .kscr-Heading-support{
@@ -22,18 +22,21 @@
 }
 
 .kscr-Heading-message{
-   .kscr-Heading-sub;
-   font-weight: normal;
-   font-family: @secondaryFontFamily;
-   text-transform: none;
- }
+    .kscr-Heading-sub;
+    font-weight: normal;
+    font-family: @secondaryFontFamily;
+    text-transform: none;
+}
 
 @media screen and (min-width: @largeFormatMin) {
-  .kscr-Heading-sub{
-    color: @primaryTextColor;
-  }
+    .kscr-Heading-sub {
+        color: @primaryTextColor;
+    }
 
-  .kscr-Heading-sub--cart {
-    padding: 0.5em 0 0 0;
-  }
+    .kscr-Heading-sub--cart {
+        border-bottom: @horizontalLineBorder;
+        color: @primaryTextColor;
+        margin: 0 10px;
+        padding: 10px 0;
+    }
 }
