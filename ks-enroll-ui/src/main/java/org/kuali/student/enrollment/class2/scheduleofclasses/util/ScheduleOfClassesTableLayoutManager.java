@@ -2,14 +2,10 @@ package org.kuali.student.enrollment.class2.scheduleofclasses.util;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.uif.UifConstants;
-import org.kuali.rice.krad.uif.component.Component;
-import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.container.collections.LineBuilderContext;
 import org.kuali.rice.krad.uif.field.Field;
 import org.kuali.rice.krad.uif.field.FieldGroup;
-import org.kuali.rice.krad.uif.layout.TableLayoutManager;
 import org.kuali.rice.krad.uif.layout.TableLayoutManagerBase;
-import org.kuali.rice.krad.uif.lifecycle.ViewLifecycle;
 import org.kuali.rice.krad.uif.util.ComponentUtils;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
@@ -140,7 +136,8 @@ public class ScheduleOfClassesTableLayoutManager extends TableLayoutManagerBase 
                         field.setRowSpan(2);
                     }
                 }
-
+                //This line was needed after the rice upgrade since the binding path was not set correctly
+                requisites.getContext().put(UifConstants.ContextVariableNames.LINE, currentLine);
                 this.getAllRowFields().add(requisites);
             }
         }
