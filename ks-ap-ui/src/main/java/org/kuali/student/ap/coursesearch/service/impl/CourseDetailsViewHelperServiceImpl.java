@@ -337,12 +337,14 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
         wrapper.setInPlan(false);
         List<RegistrationGroupInfo> regGroups = KsapFrameworkServiceLocator.getCourseOfferingService().getRegistrationGroupsByActivityOffering(wrapper.getActivityOfferingId(), KsapFrameworkServiceLocator.getContext().getContextInfo());
         String planId = KsapFrameworkServiceLocator.getPlanHelper().getDefaultLearningPlan().getId();
-        for(RegistrationGroupInfo regGroup : regGroups){
-            List<PlanItemInfo> items = KsapFrameworkServiceLocator.getAcademicPlanService()
-                    .getPlanItemsInPlanByRefObjectIdByRefObjectType(planId, regGroup.getId(),
-                            PlanConstants.REG_GROUP_TYPE,KsapFrameworkServiceLocator.getContext().getContextInfo());
-            if(!items.isEmpty()){
-                wrapper.setInPlan(true);
+        if(regGroups!=null){
+            for(RegistrationGroupInfo regGroup : regGroups){
+                List<PlanItemInfo> items = KsapFrameworkServiceLocator.getAcademicPlanService()
+                        .getPlanItemsInPlanByRefObjectIdByRefObjectType(planId, regGroup.getId(),
+                                PlanConstants.REG_GROUP_TYPE,KsapFrameworkServiceLocator.getContext().getContextInfo());
+                if(!items.isEmpty()){
+                    wrapper.setInPlan(true);
+                }
             }
         }
         return wrapper;
