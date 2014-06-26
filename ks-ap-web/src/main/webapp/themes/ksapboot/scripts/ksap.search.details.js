@@ -52,6 +52,11 @@ function registerCourseSectionEvents(jqObjects){
 
 function ksapAddCourseSection (data){
     activityId = data.activityOfferingId;
+    var courseOfferingMarker = jQuery(".ksap-section-planned-marker");
+    if(courseOfferingMarker.length){
+        courseOfferingMarker.removeClass("ksap-hide");
+    }
+
     var addLink = jQuery("#"+data.activityOfferingId+"_addLink");
     if(addLink.length){
         addLink.removeClass("ks-fontello-icon-hollow-circled-plus");

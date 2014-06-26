@@ -102,7 +102,7 @@
         <property name="layoutManager.lineGroupPrototype.disclosure.expandedIconClass"
                   value="ks-fontello-icon-down-open"/>
         <property name="layoutManager.summaryTitle"
-                  value="@{#textHelper.getFormattedMessage('details.courseOffering.header', new Object[]{#line.courseOfferingCode, #line.courseOfferingTitle, #line.creditsDisplay})} @{#line.plannedActivityDetailsWrappers.size() > 0 ? '[css=''ksap-section-planned ks-fontello-icon-ok-circled'']'+#textHelper.getText('details.courseOffering.header.planned') + '[/css]' : ' '} "/>
+                  value="@{#textHelper.getFormattedMessage('details.courseOffering.header', new Object[]{#line.courseOfferingCode, #line.courseOfferingTitle, #line.creditsDisplay})} @{#line.plannedActivityDetailsWrappers.size() > 0 ? '[css=''ksap-section-planned-marker ksap-section-planned ks-fontello-icon-ok-circled'']'+#textHelper.getText('details.courseOffering.header.planned') + '[/css]' : '[css=''ksap-section-planned-marker ksap-section-planned ks-fontello-icon-ok-circled ksap-hide'']'+#textHelper.getText('details.courseOffering.header.planned') + '[/css]'} "/>
         <property name="layoutManager.lineGroupPrototype.disclosure.defaultOpen" value="false"/>
         <property name="cssClasses">
             <list merge="true">

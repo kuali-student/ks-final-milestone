@@ -191,6 +191,10 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
                     activityFormatDetailsWrappers.add(activityFormatDetailsWrapper);
                 }
                 courseOfferingDetailsWrapper.setActivityFormatDetailsWrappers(activityFormatDetailsWrappers);
+                for(ActivityFormatDetailsWrapper activityFormatDetailsWrapper : activityFormatDetailsWrappers){
+                courseOfferingDetailsWrapper.setPlannedActivityDetailsWrappers(
+                        getPlannedActivityOfferingsByTermAndCO(activityFormatDetailsWrapper.getActivityOfferingDetailsWrappers()));
+                }
             } catch (DoesNotExistException e) {
                 throw new IllegalArgumentException("FO lookup error", e);
             } catch (InvalidParameterException e) {
@@ -203,8 +207,6 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
                 throw new IllegalArgumentException("FO lookup error", e);
             }
 
-            courseOfferingDetailsWrapper.setPlannedActivityDetailsWrappers(
-                    getPlannedActivityOfferingsByTermAndCO(termId, offering.getCourseCode()));
             offeringsByTerm.add(courseOfferingDetailsWrapper);
             map.put(termId, offeringsByTerm);
         }
@@ -212,19 +214,15 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
         return map;
     }
 
-    private List<ActivityOfferingDetailsWrapper> getPlannedActivityOfferingsByTermAndCO(String termId,
-            String courseCode) {
-
-        //1. get planned reg-group items  (for student (via. context), and/or planId? ...will need to decide)
-        //        List<PlanItemInfo> plannedTermItems = KsapFrameworkServiceLocator.getAcademicPlanService()
-        //                .getPlanItemsInPlanByTermIdByCategory
-        //                        (planId,termId,
-        //                                AcademicPlanServiceConstants.ItemCategory.PLANNED,KsapFrameworkServiceLocator.getContext());
-        //2. lookup AO for reg-groups (...using CourseCode to restrict)
-
-        //Fake data for now
-
+    private List<ActivityOfferingDetailsWrapper> getPlannedActivityOfferingsByTermAndCO(
+            List<ActivityOfferingDetailsWrapper> activities) throws Exception{
         List<ActivityOfferingDetailsWrapper> activityOfferings = new ArrayList<ActivityOfferingDetailsWrapper>();
+        for(ActivityOfferingDetailsWrapper activityOfferingDetailsWrapper : activities){
+            if(activityOfferingDetailsWrapper.isInPlan()){
+                activityOfferings.add(activityOfferingDetailsWrapper);
+            }
+        }
+
         return activityOfferings;
     }
 
@@ -278,7 +276,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
             RegistrationGroupInfo regGroup;
             try{
                 regGroup = KSCollectionUtils.getRequiredZeroElement(regGroups);
-                wrapper.setRegGroupCode(regGroup.getRegistrationCode());
+                wrapper.setRegGroupCode(regGroup.getName());
                 wrapper.setRegGroupId(regGroup.getId());
             }catch(OperationFailedException e){
                 throw new IllegalArgumentException("Multiple Registration Groups Found for Single Format Activity Offering",e);
@@ -344,6 +342,8 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
                                 PlanConstants.REG_GROUP_TYPE,KsapFrameworkServiceLocator.getContext().getContextInfo());
                 if(!items.isEmpty()){
                     wrapper.setInPlan(true);
+                    wrapper.setRegGroupCode(regGroup.getName());
+                    wrapper.setRegGroupId(regGroup.getId());
                 }
             }
         }
