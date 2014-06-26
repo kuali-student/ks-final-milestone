@@ -46,13 +46,13 @@ public class RegistrationValidationResultsUtil {
         return marshallResult(new RegistrationValidationConflictCourseResult(messageKey, conflictingCourses));
     }
 
-    public static String marshallMaxCreditMessage(String messageKey, float maxCredits) {
+    public static String marshallMaxCreditMessage(String messageKey, String maxCredits) {
         return marshallResult(new RegistrationValidationMaxCreditResult(messageKey, maxCredits));
     }
 
     public static String marshallResult(RegistrationValidationResult result) {
-        ObjectMapper mapper=new ObjectMapper();
-        String json= null;
+        ObjectMapper mapper = new ObjectMapper();
+        String json = null;
         try {
             json = mapper.writeValueAsString(result);
         } catch (IOException ex) {

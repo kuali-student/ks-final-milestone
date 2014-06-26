@@ -22,18 +22,25 @@ package org.kuali.student.enrollment.registration.client.service.dto;
  * @author Kuali Student Team
  */
 public class RegistrationValidationMaxCreditResult extends RegistrationValidationResult {
-    private float maxCredits;
 
-    public RegistrationValidationMaxCreditResult(String messageKey, float maxCredits) {
+    /*
+    This is a String to prevent strange rounding errors that might come back from KualiDecimal
+    if we set it as a float (e.g. "12.399999"). However, for best results it should be
+    numeric in case we need to do math on it client-side (this is not enforced or used at
+    this time...more of a best practice for future compatibility).
+     */
+    private String maxCredits;
+
+    public RegistrationValidationMaxCreditResult(String messageKey, String maxCredits) {
         super(messageKey);
-        this.maxCredits=maxCredits;
+        this.maxCredits = maxCredits;
     }
 
-    public float getMaxCredits() {
+    public String getMaxCredits() {
         return maxCredits;
     }
 
-    public void setMaxCredits(float maxCredits) {
+    public void setMaxCredits(String maxCredits) {
         this.maxCredits = maxCredits;
     }
 }

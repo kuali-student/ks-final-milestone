@@ -142,7 +142,7 @@ public class BestEffortCreditLoadProposition extends AbstractBestEffortPropositi
 
     private ValidationResultInfo createValidationResultFailureForRegRequestItem(RegistrationRequestItemInfo item, KualiDecimal creditLimitValue) {
         String msg = RegistrationValidationResultsUtil.marshallMaxCreditMessage(
-                LprServiceConstants.LPRTRANS_ITEM_CREDIT_LOAD_EXCEEDED_MESSAGE_KEY, creditLimitValue.floatValue());
+                LprServiceConstants.LPRTRANS_ITEM_CREDIT_LOAD_EXCEEDED_MESSAGE_KEY, creditLimitValue.toString());
         return createValidationResultFailureForRegRequestItem(item, msg);
     }
 

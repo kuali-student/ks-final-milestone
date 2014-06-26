@@ -125,7 +125,8 @@ angular.module('regCartApp').filter('formatValidationMessage', ['VALIDATION_ERRO
 
         // if max credits are sent back with the message key, include them in the message back to the user
         if (data.maxCredits) {
-            message += ' (<strong>' + data.maxCredits + ' credits</strong>)';
+            var maxCredits = parseFloat(data.maxCredits); // convert to a float to eliminate unnecessary decimals
+            message += ' (<strong>' + maxCredits + ' credits</strong>)';
         }
 
         return message;
