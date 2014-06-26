@@ -13,10 +13,28 @@
 }
 
 .kscr-cartResult-heading {
-    padding-right: 15px;
+    padding-right: 20px;
 }
 
 .kscr-cartResult-remove a {
     .dismiss-icon;
 }
 
+.kscr-cartResult-content .kscr-Card-detailsText {
+    // Add to waitlist
+    border-color: @successBorder;
+    color: @successText;
+    margin-top: 10px;
+    padding-bottom: 0;
+
+    .kscr-Card-text-alert {
+        margin-top: 0;
+    }
+
+    &--action,
+    &--error {
+        // Add to Waitlist & Error reason messages
+        // Margin to push border down
+        margin-top: 10px;
+    }
+}

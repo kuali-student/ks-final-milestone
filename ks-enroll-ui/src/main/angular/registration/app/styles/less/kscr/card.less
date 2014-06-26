@@ -11,7 +11,6 @@
 .kscr-Card-title {
   color: @cardTextColor; //#666666;
   font-weight: bold;
-  padding-left: 1.5em;
 
   &-alert {
     font-weight: bold;
@@ -20,11 +19,10 @@
 
 .kscr-Card-text {
   color: @primaryTextColor;
-  padding-left: 1.5em;
-  padding-top: 0.3em;
+  margin-top: 0.3em;
 
   &-alert {
-    padding: 3px 0 10px 0;
+      margin: 0.3em 0 0;
   }
 }
 
@@ -34,35 +32,33 @@
   font-size: 14px;
   font-family: @secondaryFontFamily;
   font-weight: normal;
-  padding: 10px 0;
+  padding: 10px 0 0;
 }
 
 .kscr-Card-detailsText {
   .kscr-Card-detailsText-common();
 
-  &--action {
+  &--action { // e.g. Add to Waitlist
     .kscr-Card-detailsText-common();
     border-color: @warningBorder;
     color: @warningText;
-    padding-bottom: 5px;
   }
 
-  &--edit {
+  &--edit { // Expand || Edit Course Options
     .kscr-Card-detailsText-common();
-    padding: 0.5em 0.9em 2em 0;
   }
 
-  &--error {
+  &--error { // e.g. Time Conflict Warning
     .kscr-Card-detailsText-common();
     border-color: @errorBorder;
     color: @errorText;
   }
 
-  &--show {
+  &--show { // Collapsed accordion
     .kscr-Card-detailsText-common();
     border-bottom: none;
     border-top: none;
-    padding-left: 0.5em;
+    padding-bottom: 0;
     padding-top: 0.3em;
   }
 }
@@ -99,7 +95,6 @@
 
 .kscr-Card-courseTimes {
   display: inline-flex;
-  padding-left: 1em;
   width: 100%;
 }
 
@@ -130,8 +125,8 @@
 .kscr-Card-remove {
   display: block;
   position: absolute;
-  right: 6px;
-  top: 6px;
+  right: 10px;
+  top: 10px;
 }
 
 .kscr-Card-statusRemove a {
@@ -141,8 +136,8 @@
 
 .kscr-Card-buttons {
   border-top: @horizontalLineBorder;
-  margin-top: 5px;
-  padding: 0.5em 0em 0;
+  margin-top: 10px;
+  padding: 10px 0 0;
   text-align: right;
 
   .util-Alert--error & {
@@ -164,9 +159,11 @@
 }
 
 .kscr-Card-icon {
-  position: absolute;
-  font-size: 13px;
-  color:  @secondaryTextColor;
+    color:  @secondaryTextColor;
+    left: 5px;
+    position: absolute;
+    font-size: 13px;
+    top: 10px;
 }
 
 .kscr-horizontalRule {
@@ -239,8 +236,7 @@
 }
 
 .panel-body {
-  padding-bottom: 5px;
-  padding-right: 8px;
+    padding: 0 10px 10px 25px;
 }
 
 .panel-title {
@@ -315,9 +311,10 @@
 /* Override of accordion panel for card section to animate */
 
 .kscr-Card-accordion-heading {
-  padding: 10px 10px 10px 5px;
-  @transitionSpeed: 2s;
-  .util-transitions-browserHelper;
+    padding: 10px 10px 10px 25px;
+    position: relative;
+    @transitionSpeed: 2s;
+    .util-transitions-browserHelper;
 }
 
 .kscr-Card-accordion-heading-fadeIn {
@@ -349,10 +346,6 @@
     border-radius: 0;
   }
 
-  .kscr-Responsive-mycart .kscr-Card-course {
-    padding: 10px;
-  }
-
   .kscr-Responsive-mycart .kscr-Card-detailsText--show {
     padding: 0;
   }
@@ -361,11 +354,14 @@
     margin: 0px 10px 10px;
   }
 
-  .kscr-Card-heading {
-    margin: 0px 10px;
-  }
-
   .kscr-Card-responseCount {
     font-size: 13px;
+  }
+
+  .kscr-Card-heading {
+    margin: 0px 10px; // Main heading in Schedule & Waitlist
+    .panel-heading & {
+      margin: 0; // Course card panel heading
+    }
   }
 }
