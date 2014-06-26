@@ -1275,6 +1275,18 @@ function updateInlineTableRowByComponent(component, baseUrl, data) {
             }
         });
         toggleInlineRowByComponent(component, false);
+
+        //show growl message after the update
+        var driverPerAO = eval("responseData.examOfferingWrapper['driverPerAO']");
+        var courseOfferingCode = eval("responseData.examOfferingWrapper['courseOfferingCode']");
+        var growlMsg;
+        if (driverPerAO) {
+            var activityCode = eval("responseData.examOfferingWrapper['aoInfo']['activityCode']");
+            growlMsg = 'AO-driven exams: ' + '\"' + courseOfferingCode + ' Activity ' + activityCode + ': Exam Offering Schedule Request successfully updated.\"';
+        } else {
+            growlMsg = 'CO-driven exams: ' + '\"' + courseOfferingCode + ': Exam Offering Schedule Request successfully updated.\"';
+        }
+        showGrowl(growlMsg, '', 'SUCCESS');
     }
 }
 function updateInlineTableRow(event, baseUrl, data) {
