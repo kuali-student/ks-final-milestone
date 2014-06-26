@@ -2,11 +2,7 @@ package org.kuali.student.cm.course.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.lookup.LookupForm;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.form.LoCategoryInfoWrapper;
 import org.kuali.student.cm.course.form.LoDisplayInfoWrapper;
 import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
@@ -15,9 +11,9 @@ import org.kuali.student.cm.course.service.util.CourseCodeSearchWrapper;
 import org.kuali.student.cm.course.service.util.LoCategorySearchUtil;
 import org.kuali.student.cm.course.service.util.OrganizationSearchUtil;
 import org.kuali.student.common.uif.service.impl.KSLookupableImpl;
+import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.lum.lu.ui.course.keyvalues.LoSearchByValuesFinder.SearchByKeys;
 import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.common.util.constants.LearningObjectiveServiceConstants;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
@@ -26,7 +22,6 @@ import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
-import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
@@ -50,8 +45,9 @@ public class LoDisplayInfoLookupableImpl extends KSLookupableImpl {
     private LearningObjectiveService learningObjectiveService;
     private CluService cluService;
     private OrganizationService organizationService;
-    
-    public enum ProgramStates {
+
+    //TODO: KSCM-2293 Consult Type Service
+    public enum ProgramTypes {
         BACCALAUREATE("kuali.lu.type.credential.Baccalaureate"),
         MASTERS("kuali.lu.type.credential.Masters"),
         PROFESSIONAL("kuali.lu.type.credential.Professional"),
@@ -68,7 +64,7 @@ public class LoDisplayInfoLookupableImpl extends KSLookupableImpl {
         
         private String key;
         
-        ProgramStates(String key) {
+        ProgramTypes(String key) {
             this.key = key;
         }
         
@@ -76,12 +72,12 @@ public class LoDisplayInfoLookupableImpl extends KSLookupableImpl {
             return key;
         }
         
-        public static List<String> getStateKeys() {
-            List<String> stateKeys = new ArrayList<String>();
-            for (ProgramStates state : values()) {
-                stateKeys.add(state.getKey());
+        public static List<String> getTypeKeys() {
+            List<String> typeKeys = new ArrayList<String>();
+            for (ProgramTypes state : values()) {
+                typeKeys.add(state.getKey());
             }
-            return stateKeys;
+            return typeKeys;
         }
     }
 
@@ -120,14 +116,14 @@ public class LoDisplayInfoLookupableImpl extends KSLookupableImpl {
         SearchParamInfo typeParam = new SearchParamInfo();
         typeParam.setKey(CourseServiceConstants.OPTIONAL_TYPE_PARAM);
         if (loSearchCriteriaBy.equals("All")) {
-            List<String> courseAndProgramStates = new ArrayList<String>();
-            courseAndProgramStates.add(CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY);
-            courseAndProgramStates.addAll(ProgramStates.getStateKeys());
-            typeParam.setValues(courseAndProgramStates);
+            List<String> courseAndProgramTypes = new ArrayList<String>();
+            courseAndProgramTypes.add(CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY);
+            courseAndProgramTypes.addAll(ProgramTypes.getTypeKeys());
+            typeParam.setValues(courseAndProgramTypes);
         } else if (loSearchCriteriaBy.equals("COURSE_OLY")) {
             typeParam.getValues().add(CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY);
         } else if (loSearchCriteriaBy.equals("PRG_OLY")) {
-            typeParam.setValues(ProgramStates.getStateKeys());
+            typeParam.setValues(ProgramTypes.getTypeKeys());
         }
         queryParamValueList.add(typeParam);
         
