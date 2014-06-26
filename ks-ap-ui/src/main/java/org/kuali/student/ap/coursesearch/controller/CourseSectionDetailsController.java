@@ -6,13 +6,16 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
 import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
 import org.kuali.student.ap.academicplan.infc.LearningPlan;
+import org.kuali.student.ap.coursesearch.dataobject.ActivityOfferingDetailsWrapper;
 import org.kuali.student.ap.coursesearch.form.CourseSectionDetailsForm;
 import org.kuali.student.ap.coursesearch.form.CourseSectionDetailsDialogForm;
 import org.kuali.student.ap.coursesearch.service.CourseDetailsViewHelperService;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.planner.util.PlanEventUtils;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
+import org.kuali.student.enrollment.courseoffering.infc.ActivityOffering;
 import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.core.acal.infc.Term;
@@ -75,11 +78,16 @@ public class CourseSectionDetailsController extends KsapControllerBase {
     public ModelAndView addRegGroupFromSingleAO(@ModelAttribute("KualiForm") CourseSectionDetailsForm form,
                                                   HttpServletRequest request,
                                                   HttpServletResponse response) throws Exception {
-
+        JsonObjectBuilder eventList = Json.createObjectBuilder();
         String regGroupId = request.getParameter("regGroupId");
         RegistrationGroupInfo regGroup = KsapFrameworkServiceLocator.getCourseOfferingService().getRegistrationGroup(regGroupId, KsapFrameworkServiceLocator.getContext().getContextInfo());
-        JsonObjectBuilder eventList = Json.createObjectBuilder();
         CourseOffering course = KsapFrameworkServiceLocator.getCourseOfferingService().getCourseOffering(regGroup.getCourseOfferingId(), KsapFrameworkServiceLocator.getContext().getContextInfo());
+        List<ActivityOfferingInfo> activities = KsapFrameworkServiceLocator.getCourseOfferingService().getActivityOfferingsByIds(regGroup.getActivityOfferingIds(), KsapFrameworkServiceLocator.getContext().getContextInfo());
+        List<ActivityOfferingDetailsWrapper> activityWrappers = new ArrayList<ActivityOfferingDetailsWrapper>();
+        for(ActivityOfferingInfo activityOfferingInfo : activities){
+            activityWrappers.add(getViewHelperService(form).convertAOInfoToWrapper(activityOfferingInfo));
+        }
+
         Term term = KsapFrameworkServiceLocator.getTermHelper().getTerm(regGroup.getTermId());
         LearningPlan learningPlan = KsapFrameworkServiceLocator.getPlanHelper().getDefaultLearningPlan();
 
@@ -100,7 +108,9 @@ public class CourseSectionDetailsController extends KsapControllerBase {
             PlanEventUtils.sendJsonEvents(false,"Course " +course.getCourseCode() + " is already planned for " + term.getName(), response, eventList);
             return null;
         }
-
+        for(ActivityOfferingDetailsWrapper activityOfferingDetailsWrapper : activityWrappers){
+            eventList = createAddSectionEvent(activityOfferingDetailsWrapper, eventList);
+        }
 
         PlanEventUtils.sendJsonEvents(true,"Registration Group For " +course.getCourseOfferingCode() + " added for " + term.getName(), response, eventList);
         return null;
@@ -122,5 +132,13 @@ public class CourseSectionDetailsController extends KsapControllerBase {
         String regGroupId = request.getParameter("regGroupId");
         dialogForm.setRegGroupId(regGroupId);
         return getUIFModelAndView(dialogForm);
+    }
+
+    private JsonObjectBuilder createAddSectionEvent(ActivityOfferingDetailsWrapper activity, JsonObjectBuilder eventList){
+        JsonObjectBuilder addEvent = Json.createObjectBuilder();
+        addEvent.add("activityOfferingId", activity.getActivityOfferingId());
+
+        eventList.add("COURSE_SECTION_ADDED", addEvent);
+        return eventList;
     }
 }

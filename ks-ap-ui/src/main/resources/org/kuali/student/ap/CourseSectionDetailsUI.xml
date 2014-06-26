@@ -82,6 +82,7 @@
                 <ref bean="course-offering-list"/>
             </list>
         </property>
+        <property name="onDocumentReadyScript" value="registerCourseSectionEvents(jQuery('#coursedetails-page'));"/>
     </bean>
     <bean id="course-offering-list" parent="course-offering-list-parent"/>
     <bean id="course-offering-list-parent" abstract="true" parent="Uif-ListCollectionSection">
@@ -361,6 +362,7 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-ActionLink" p:render="@{#line.singleFormatOffering==true}">
+                                <property name="id" value="@{#line.activityOfferingId}_addLink"/>
                                 <property name="cssClasses">
                                     <list>
                                         <value>@{#line.inPlan ? 'ks-fontello-icon-ok-circled' : 'ks-fontello-icon-hollow-circled-plus'}</value>

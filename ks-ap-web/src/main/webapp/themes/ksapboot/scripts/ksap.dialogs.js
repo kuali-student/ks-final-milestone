@@ -294,7 +294,7 @@ function ksapAjaxSubmitSuccessCallback(response, textStatus, jqXHR) {
  * @param textStatus - Text status to display if error occurs
  * @param jqXHR - Page status.
  */
-function ksapAjaxSubmitErrorCallback(response, textStatus, jqXHR){
+function ksapAjaxSubmitErrorCallback(jqXHR, textStatus, errorThrown){
     // Display error growl
     if (textStatus == "parsererror")
         textStatus = "JSON Parse Error";

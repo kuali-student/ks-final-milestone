@@ -40,6 +40,8 @@
                 <ref bean="KSAP-CourseDetailsSection-AddCoursePage" />
             </list>
         </property>
+        <property name="viewHelperServiceClass"
+                  value="org.kuali.student.ap.coursesearch.service.impl.CourseDetailsViewHelperServiceImpl"/>
     </bean>
 
     <!-- Dialog Pages -->

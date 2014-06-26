@@ -41,3 +41,20 @@ function checkboxSelectAndHighlight() {
         }
     });
 }
+
+// Registering Course Search Results Facets events
+function registerCourseSectionEvents(jqObjects){
+    jQuery(jqObjects)
+        .on('COURSE_SECTION_ADDED', function(event, data) {
+            ksapAddCourseSection(data);
+        });
+}
+
+function ksapAddCourseSection (data){
+    activityId = data.activityOfferingId;
+    var addLink = jQuery("#"+data.activityOfferingId+"_addLink");
+    if(addLink.length){
+        addLink.removeClass("ks-fontello-icon-hollow-circled-plus");
+        addLink.addClass("ks-fontello-icon-ok-circled");
+    }
+}
