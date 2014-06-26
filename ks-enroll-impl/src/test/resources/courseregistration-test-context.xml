@@ -2,25 +2,22 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-
           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
-
-          http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+          http://www.springframework.org/schema/util
+          http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 
     <context:annotation-config/>
 
     <import resource="classpath:META-INF/default-property-config-context-test.xml"/>
     <import resource="classpath:base-courseregistration-test-context.xml" />
     <import resource="classpath:mq-context.xml" />
-    <import resource="classpath:cr-user-dates.xml" />
-
 
     <alias name="luiService" alias="LuiService" />
     <alias name="SearchService" alias="searchService" />
     <alias name="courseRegistrationValidatorServiceImpl" alias="CourseRegistrationService" />
-
+    <alias name="lprService" alias="LprService" />
 
     <!--  Preloaded data -->
     <bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener">
@@ -50,9 +47,11 @@
         <property name="searchService" ref="SearchService" />
         <property name="waitlistManagerService" ref="waitlistManagerService"/>
     </bean>
+
     <bean id="courseRegistrationValidatorServiceImpl" class="org.kuali.student.enrollment.class2.courseregistration.service.impl.TestCourseRegistrationValidationDecoratorMock">
         <property name="nextDecorator" ref="courseRegistrationServiceImpl"/>
     </bean>
+
     <bean id="courseRegistrationServiceImpl" class="org.kuali.student.enrollment.class2.courseregistration.service.impl.CourseRegistrationServiceImpl">
         <property name="lprService" ref="lprService" />
         <property name="courseOfferingService" ref="CourseOfferingService" />
@@ -64,15 +63,6 @@
         <property name="lrcService" ref="lrcService"/>
     </bean>
 
-
-    <!--
-    <alias name="courseOfferingService" alias="CourseOfferingService" />
-    <bean id="courseOfferingServiceMapImpl" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceMapImpl" />
-    <bean id="courseOfferingService" class="org.kuali.student.enrollment.process.service.integration.test.ProcessIntegrationTestCourseOfferingServiceDataLoadingDecorator" init-method="init" >
-        <property name="nextDecorator" ref="courseOfferingServiceMapImpl"/>
-    </bean>
-        -->
-    <alias name="lprService" alias="LprService" />
     <bean id="lprService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LprServiceImpl">
         <property name="lprDao" ref="lprDao" />
         <property name="lprTransactionDao" ref="lprTrasactionDao" />
@@ -93,5 +83,10 @@
     <bean id="staticUserDateClientService" class="org.kuali.student.enrollment.registration.client.service.impl.StaticUserDateClientServiceImpl">
         <property name="regUserMap" ref="regUserMap" />
     </bean>
+
+    <!-- This is a map of mock users with pre-set static dates. -->
+    <util:map id="regUserMap">
+        <entry key="TestStudent" value="2014-06-23@09:05" />
+    </util:map>
 
 </beans>

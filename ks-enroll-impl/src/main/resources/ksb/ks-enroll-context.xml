@@ -21,7 +21,6 @@
     <import resource="classpath:statement-context.xml" />
     <import resource="classpath:mq-context.xml" />
     <import resource="classpath:ks-enroll-batch-context.xml" />
-    <import resource="classpath:cr-user-dates.xml" />
     <!-- import resource="classpath:ks-enroll-mock-room-data-context.xml"/ -->
 
     <!-- Top Level Alias -->
@@ -1633,6 +1632,14 @@
             </bean>
         </property>
     </bean>
+
+    <!--
+        This is a map of users with pre-set static dates for functional testing. Adding them here prevents the need for
+        having to manually set them every time we test.
+    -->
+    <util:map id="regUserMap">
+        <entry key="TestStudent" value="2014-06-23@09:05" />
+    </util:map>
 
     <!-- Batch Scheduler: the bean is defined in ks-enroll-batch-context.xml. -->
     <bean id="ks.exp.batchScheduler" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
