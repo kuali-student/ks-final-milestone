@@ -229,12 +229,114 @@
         </property>
     </bean>
 
-    <bean id="activities-list-with-group-summary" parent="activity_offering_table_parent">
+    <bean id="activities-list-with-group-summary" parent="Uif-TableCollectionSubSection"
+          p:renderAddLine="false" p:renderLineActions="false" p:renderHeader="false">
         <property name="layoutManager.groupingTitle"
                   value="@{#textHelper.getFormattedMessage('details.regGroup.code', new Object[]{#line.regGroupCode})}"/>
         <property name="layoutManager.groupingPropertyNames">
             <list>
                 <value>regGroupCode</value>
+            </list>
+        </property>
+        <property name="collectionObjectClass"
+                  value="org.kuali.student.ap.coursesearch.dataobject.ActivityOfferingDetailsWrapper"/>
+        <property name="propertyName" value="activityOfferingDetailsWrappers"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.applyDefaultCellWidths" value="false"/>
+        <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
+        <property name="layoutManager.conditionalRowCssClasses">
+            <map>
+                <entry key="@{#line.singleFormatOffering}" value="ksap-activity-single"/>
+            </map>
+        </property>
+        <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
+        <property name="layoutManager.richTable">
+            <bean parent="KS-Uif-RichTable"/>
+        </property>
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <!--<entry key="sDom" value="opir"/>-->
+                <!--<entry key="aaSorting" value="[[0, 'asc']]"/>-->
+                <entry key="bPaginate" value="false"/>
+                <entry key="bAutoWidth" value="false"/>
+                <entry key="bFilter" value="false"/>
+                <entry key="bInfo" value="false"/>
+            </map>
+        </property>
+        <property name="layoutManager.richTable.disableTableSort" value="true"/>
+        <property name="items">
+            <list>
+                <!--p:label="@{#textHelper.getText('details.ao.header.type')}"-->
+                <bean parent="Uif-MessageField"
+                      p:additionalCssClasses="ksap-section-type"
+                      p:id="type"
+                      p:label="Type"
+                      p:messageText="@{#line.activityFormatName}"
+                      p:render="@{#line.partOfRegGroup==true}">
+                </bean>
+                <!--p:label="@{#textHelper.getText('details.ao.header.code')}"-->
+                <bean parent="Uif-MessageField"
+                      p:additionalCssClasses="ksap-section-code"
+                      p:id="code"
+                      p:label="Code"
+                      p:messageText="@{#line.activityOfferingCode}">
+                </bean>
+                <!--p:label="@{#textHelper.getText('details.ao.header.instructor')}" p:additionalCssClasses="nowrap"-->
+                <bean parent="Uif-DataField"
+                      p:additionalCssClasses="ksap-section-instructor"
+                      p:id="instructor"
+                      p:label="Instructor"
+                      p:propertyName="instructorName">
+                </bean>
+                <!--p:label="@{#textHelper.getText('details.ao.header.days')}"-->
+                <bean parent="Uif-MessageField"
+                      p:additionalCssClasses="ksap-section-days"
+                      p:id="days"
+                      p:label="Days"
+                      p:messageText="@{#line.days}">
+                </bean>
+                <!--p:label="@{#textHelper.getText('details.ao.header.time')}"-->
+                <bean parent="Uif-MessageField"
+                      p:additionalCssClasses="ksap-section-time"
+                      p:id="time"
+                      p:label="Time"
+                      p:messageText="@{#line.time}">
+                </bean>
+                <!--p:label="@{#textHelper.getText('details.ao.header.location')}"-->
+                <bean parent="Uif-MessageField"
+                      p:additionalCssClasses="ksap-section-location"
+                      p:id="location"
+                      p:label="Location"
+                      p:messageText="@{#line.location}">
+                </bean>
+                <!--p:label="@{#textHelper.getText('details.ao.header.seats')}"-->
+                <bean parent="Uif-MessageField"
+                      p:additionalCssClasses="ksap-section-seats"
+                      p:id="seats"
+                      p:label="Seats Open"
+                      p:messageText="@{#line.currentEnrollment}/@{#line.maxEnrollment}">
+                </bean>
+                <!--@{#textHelper.getText('details.ao.header.additionalDetails')} -->
+                <bean parent="Uif-FieldGroupBase"
+                      p:fieldLabel.labelText="Additional Details"
+                      p:id="additionalDetails"
+                      p:additionalCssClasses="ksap-section-details">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-Message" p:render="@{#line.honors==true}" p:id="honors"
+                                  p:additionalCssClasses="ksap-section-details-item"
+                                  p:messageText="@{#textHelper.getText('details.ao.additionalDetails.honors')}"/>
+                            <bean parent="Uif-Link" p:render="@{#line.classUrl != null}" p:id="classUrl"
+                                  p:additionalCssClasses="ksap-section-details-item"
+                                  p:href="@{#line.classUrl}"
+                                  p:linkText="@{#textHelper.getText('details.ao.additionalDetails.courseUrl')}"/>
+                            <bean parent="Uif-Link" p:render="@{#line.requirementsUrl != null}" p:id="requirementsUrl"
+                                  p:additionalCssClasses="ksap-section-details-item"
+                                  p:href="@{#ConfigProperties['application.url']}/@{#line.requirementsUrl}"
+                                  p:linkText="@{#textHelper.getText('details.ao.additionalDetails.restrictions')}"/>
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>
