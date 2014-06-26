@@ -2,6 +2,8 @@ package org.kuali.student.ap.coursesearch.dataobject;
 
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * User: chmaurer
@@ -10,29 +12,16 @@ import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
  * To change this template use File | Settings | File Templates.
  */
 public class FormatOfferingInfoWrapper {
-    private String formatName;
-    private String formatId;
+    private String formatOfferingName;
+    private String formatOfferingId;
     private boolean selected;
 
+    private List<ActivityFormatDetailsWrapper> activityFormatDetailsWrappers;
+
+
     public FormatOfferingInfoWrapper(FormatOfferingInfo formatOfferingInfo) {
-        formatName = formatOfferingInfo.getName();
-        formatId = formatOfferingInfo.getFormatId();
-    }
-
-    public String getFormatName() {
-        return formatName;
-    }
-
-    public void setFormatName(String formatName) {
-        this.formatName = formatName;
-    }
-
-    public String getFormatId() {
-        return formatId;
-    }
-
-    public void setFormatId(String formatId) {
-        this.formatId = formatId;
+        formatOfferingName = formatOfferingInfo.getName();
+        formatOfferingId = formatOfferingInfo.getId();
     }
 
     public boolean isSelected() {
@@ -41,5 +30,29 @@ public class FormatOfferingInfoWrapper {
 
     public void setSelected(boolean selected) {
         this.selected = selected;
+    }
+
+    public String getFormatOfferingName() {
+        return formatOfferingName;
+    }
+
+    public void setFormatOfferingName(String formatOfferingName) {
+        this.formatOfferingName = formatOfferingName;
+    }
+
+    public String getFormatOfferingId() {
+        return formatOfferingId;
+    }
+
+    public void setFormatOfferingId(String formatOfferingId) {
+        this.formatOfferingId = formatOfferingId;
+    }
+
+    public List<ActivityFormatDetailsWrapper> getActivityFormatDetailsWrappers() {
+        return activityFormatDetailsWrappers;
+    }
+
+    public void setActivityFormatDetailsWrappers(List<ActivityFormatDetailsWrapper> activityFormatDetailsWrappers) {
+        this.activityFormatDetailsWrappers = activityFormatDetailsWrappers;
     }
 }

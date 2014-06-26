@@ -30,7 +30,7 @@ public class FormatOfferingOptionsFinder extends UifKeyValuesFinderBase {
         List<FormatOfferingInfoWrapper> formatOfferings = getFormatOfferingsByTermAndCourseOffering((CourseSectionDetailsForm)model, termId, courseOfferingId);
 
         for (FormatOfferingInfoWrapper formatOfferingInfoWrapper : formatOfferings) {
-            formatOfferingList.add(new ConcreteKeyValue(formatOfferingInfoWrapper.getFormatId(), formatOfferingInfoWrapper.getFormatName()));
+            formatOfferingList.add(new ConcreteKeyValue(formatOfferingInfoWrapper.getFormatOfferingId(), formatOfferingInfoWrapper.getFormatOfferingName()));
         }
         return formatOfferingList;
     }

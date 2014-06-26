@@ -27,7 +27,6 @@ public class CourseOfferingDetailsWrapper {
 
     private List<FormatOfferingInfoWrapper> formatOfferingInfoWrappers;
 
-    private List<ActivityFormatDetailsWrapper> activityFormatDetailsWrappers;
 
     private List<ActivityOfferingDetailsWrapper> plannedActivityDetailsWrappers;
 
@@ -81,14 +80,6 @@ public class CourseOfferingDetailsWrapper {
 
     public void setMultipleFormatOfferings(boolean multipleFormatOfferings) {
         this.multipleFormatOfferings = multipleFormatOfferings;
-    }
-
-    public List<ActivityFormatDetailsWrapper> getActivityFormatDetailsWrappers() {
-        return activityFormatDetailsWrappers;
-    }
-
-    public void setActivityFormatDetailsWrappers(List<ActivityFormatDetailsWrapper> activityFormatDetailsWrappers) {
-        this.activityFormatDetailsWrappers = activityFormatDetailsWrappers;
     }
 
     public List<ActivityOfferingDetailsWrapper> getPlannedActivityDetailsWrappers() {
