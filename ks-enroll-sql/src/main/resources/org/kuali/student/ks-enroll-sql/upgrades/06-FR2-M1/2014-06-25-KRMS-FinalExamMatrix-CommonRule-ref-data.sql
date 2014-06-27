@@ -56,6 +56,12 @@ Where TERM_ID ='KS-KRMS-TERM-13433'
 and TERM_PARM_ID = 'KS-KRMS-TERM-PARM-13490'
 /
 
+Update KRMS_TERM_T
+   set TERM_SPEC_ID = 'KS-KRMS-TERM-SPEC-10021',
+       DESC_TXT = 'Matching Course Set Term'
+ Where TERM_ID = 'KS-KRMS-TERM-13425'
+/
+
 Update KRMS_TERM_PARM_T set NM = 'kuali.term.parameter.type.course.cluSet.id',
 VAL = 'e5f1c380-04f8-c548-e040-007f0101104a'
 Where TERM_ID ='KS-KRMS-TERM-13425'
