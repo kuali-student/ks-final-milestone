@@ -39,6 +39,7 @@
                             <bean parent="Uif-HeaderThree" p:id="courseCodeTitle"
                                   p:headerText="@{#textHelper.getFormattedMessage('details.course.section.title', new Object[]{courseCode})}"/>
                             <ref bean="course-term-list"/>
+                            <ref bean="KSAP-CourseSectionDetails-PlannedSection-Template"/>
                         </list>
                     </property>
                     <property name="stickyFooter" value="false"/>
@@ -141,6 +142,7 @@
                 <bean parent="Uif-VerticalFieldGroup">
                     <property name="items">
                         <list>
+                            <ref bean="KSAP-CourseSectionDetails-PlannedSections"/>
                             <ref bean="planned-activities-list"/>
                         </list>
                     </property>
@@ -249,6 +251,255 @@
         <property name="subCollections">
             <list>
                 <ref bean="activity_offering_table"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KSAP-CourseSectionDetails-PlannedSections" parent="Uif-StackedCollectionGroup">
+        <property name="validationMessages.displayMessages" value="false" />
+        <property name="header">
+            <bean parent="Uif-HeaderFour"/>
+        </property>
+        <property name="collectionLookup">
+            <bean parent="Uif-QuickFinder">
+                <property name="render" value="false"/>
+            </bean>
+        </property>
+        <property name="headerText"
+                  value="@{#textHelper.getFormattedMessage('details.regGroup.header', new Object[]{#line.plannedGroupsCount})}"/>
+        <property name="collectionObjectClass"
+                  value="org.kuali.student.ap.coursesearch.dataobject.ActivityOfferingDetailsWrapper"/>
+        <property name="propertyName" value="plannedActivityDetailsWrappers"/>
+        <property name="renderAddLine" value="false" />
+        <property name="renderLineActions" value="false" />
+        <property name="bindingInfo.bindToForm" value="true" />
+        <property name="disclosure.render" value="false" />
+        <property name="layoutManager">
+            <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
+                <property name="lineGroupPrototype">
+                    <bean parent="Uif-CollectionHorizontalBoxItem" />
+                </property>
+            </bean>
+        </property>
+        <property name="header.lowerGroup">
+            <bean parent="Uif-HorizontalBoxGroup">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-MessageField" p:messageText="Type"/>
+                        <bean parent="Uif-MessageField" p:messageText="Code"/>
+                        <bean parent="Uif-MessageField" p:messageText="Instructor"/>
+                        <bean parent="Uif-MessageField" p:messageText="Days"/>
+                        <bean parent="Uif-MessageField" p:messageText="Time"/>
+                        <bean parent="Uif-MessageField" p:messageText="Location"/>
+                        <bean parent="Uif-MessageField" p:messageText="Seats Open"/>
+                        <bean parent="Uif-MessageField" p:messageText="Additional Details"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-MessageField"
+                                  p:messageText="@{#textHelper.getFormattedMessage('details.regGroup.code', new Object[]{#line.regGroupCode})}"
+                                  p:labelRendered="true">
+                            </bean>
+                            <bean parent="Uif-HorizontalBoxGroup">
+                                <property name="items">
+                                    <list>
+                                        <!--p:label="@{#textHelper.getText('details.ao.header.type')}"-->
+                                        <bean parent="Uif-MessageField"
+                                              p:additionalCssClasses="ksap-section-type"
+                                              p:id="type"
+                                              p:label="Type"
+                                              p:messageText="@{#line.activityFormatName}"
+                                              p:labelRendered="true">
+                                        </bean>
+                                        <!--p:label="@{#textHelper.getText('details.ao.header.code')}"-->
+                                        <bean parent="Uif-MessageField"
+                                              p:additionalCssClasses="ksap-section-code"
+                                              p:id="code"
+                                              p:label="Code"
+                                              p:labelRendered="true"
+                                              p:messageText="@{#line.activityOfferingCode}">
+                                        </bean>
+                                        <!--p:label="@{#textHelper.getText('details.ao.header.instructor')}" p:additionalCssClasses="nowrap"-->
+                                        <bean parent="Uif-DataField"
+                                              p:additionalCssClasses="ksap-section-instructor"
+                                              p:id="instructor"
+                                              p:label="Instructor"
+                                              p:labelRendered="true"
+                                              p:propertyName="instructorName">
+                                        </bean>
+                                        <!--p:label="@{#textHelper.getText('details.ao.header.days')}"-->
+                                        <bean parent="Uif-MessageField"
+                                              p:additionalCssClasses="ksap-section-days"
+                                              p:id="days"
+                                              p:label="Days"
+                                              p:labelRendered="true"
+                                              p:messageText="@{#line.days}">
+                                        </bean>
+                                        <!--p:label="@{#textHelper.getText('details.ao.header.time')}"-->
+                                        <bean parent="Uif-MessageField"
+                                              p:additionalCssClasses="ksap-section-time"
+                                              p:id="time"
+                                              p:label="Time"
+                                              p:labelRendered="true"
+                                              p:messageText="@{#line.time}">
+                                        </bean>
+                                        <!--p:label="@{#textHelper.getText('details.ao.header.location')}"-->
+                                        <bean parent="Uif-MessageField"
+                                              p:additionalCssClasses="ksap-section-location"
+                                              p:id="location"
+                                              p:label="Location"
+                                              p:labelRendered="true"
+                                              p:messageText="@{#line.location}">
+                                        </bean>
+                                        <!--p:label="@{#textHelper.getText('details.ao.header.seats')}"-->
+                                        <bean parent="Uif-MessageField"
+                                              p:additionalCssClasses="ksap-section-seats"
+                                              p:id="seats"
+                                              p:label="Seats Open"
+                                              p:labelRendered="true"
+                                              p:messageText="@{#line.currentEnrollment}/@{#line.maxEnrollment}">
+                                        </bean>
+                                        <!--@{#textHelper.getText('details.ao.header.additionalDetails')} -->
+                                        <bean parent="Uif-FieldGroupBase"
+                                              p:fieldLabel.labelText="Additional Details"
+                                              p:labelRendered="true"
+                                              p:id="additionalDetails"
+                                              p:additionalCssClasses="ksap-section-details">
+                                            <property name="items">
+                                                <list>
+                                                    <bean parent="Uif-Message" p:render="@{#line.honors==true}" p:id="honors"
+                                                          p:additionalCssClasses="ksap-section-details-item"
+                                                          p:messageText="@{#textHelper.getText('details.ao.additionalDetails.honors')}"/>
+                                                    <bean parent="Uif-Link" p:render="@{#line.classUrl != null}" p:id="classUrl"
+                                                          p:additionalCssClasses="ksap-section-details-item"
+                                                          p:href="@{#line.classUrl}"
+                                                          p:linkText="@{#textHelper.getText('details.ao.additionalDetails.courseUrl')}"/>
+                                                    <bean parent="Uif-Link" p:render="@{#line.requirementsUrl != null}" p:id="requirementsUrl"
+                                                          p:additionalCssClasses="ksap-section-details-item"
+                                                          p:href="@{#ConfigProperties['application.url']}/@{#line.requirementsUrl}"
+                                                          p:linkText="@{#textHelper.getText('details.ao.additionalDetails.restrictions')}"/>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KSAP-CourseSectionDetails-PlannedSection-Template" parent="Uif-VerticalBoxGroup">
+        <property name="dataAttributes">
+            <map>
+                <entry key="open" value="false" />
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-MessageField"
+                                  p:messageText="@{#textHelper.getFormattedMessage('details.regGroup.code', '__KSAP__REGGROUPCODE__')}"
+                                  p:labelRendered="true">
+                            </bean>
+                            <bean parent="Uif-HorizontalBoxGroup">
+                                <property name="items">
+                                    <list>
+                                        <!--p:label="@{#textHelper.getText('details.ao.header.type')}"-->
+                                        <bean parent="Uif-MessageField"
+                                              p:additionalCssClasses="ksap-section-type"
+                                              p:id="type"
+                                              p:label="Type"
+                                              p:messageText="__KSAP__ACTIVITYOFFERINGID__"
+                                              p:labelRendered="true">
+                                        </bean>
+                                        <!--p:label="@{#textHelper.getText('details.ao.header.code')}"-->
+                                        <bean parent="Uif-MessageField"
+                                              p:additionalCssClasses="ksap-section-code"
+                                              p:id="code"
+                                              p:label="Code"
+                                              p:labelRendered="true"
+                                              p:messageText="__KSAP__ACTIVITYOFFERINGCODE__">
+                                        </bean>
+                                        <!--p:label="@{#textHelper.getText('details.ao.header.instructor')}" p:additionalCssClasses="nowrap"-->
+                                        <bean parent="Uif-MessageField"
+                                              p:additionalCssClasses="ksap-section-instructor"
+                                              p:id="instructor"
+                                              p:label="Instructor"
+                                              p:labelRendered="true"
+                                              p:messageText="__KSAP__INSTRUCTOR__">
+                                        </bean>
+                                        <!--p:label="@{#textHelper.getText('details.ao.header.days')}"-->
+                                        <bean parent="Uif-MessageField"
+                                              p:additionalCssClasses="ksap-section-days"
+                                              p:id="days"
+                                              p:label="Days"
+                                              p:labelRendered="true"
+                                              p:messageText="__KSAP__DAYS__">
+                                        </bean>
+                                        <!--p:label="@{#textHelper.getText('details.ao.header.time')}"-->
+                                        <bean parent="Uif-MessageField"
+                                              p:additionalCssClasses="ksap-section-time"
+                                              p:id="time"
+                                              p:label="Time"
+                                              p:labelRendered="true"
+                                              p:messageText="__KSAP__TIME__">
+                                        </bean>
+                                        <!--p:label="@{#textHelper.getText('details.ao.header.location')}"-->
+                                        <bean parent="Uif-MessageField"
+                                              p:additionalCssClasses="ksap-section-location"
+                                              p:id="location"
+                                              p:label="Location"
+                                              p:labelRendered="true"
+                                              p:messageText="__KSAP__LOCATION__">
+                                        </bean>
+                                        <!--p:label="@{#textHelper.getText('details.ao.header.seats')}"-->
+                                        <bean parent="Uif-MessageField"
+                                              p:additionalCssClasses="ksap-section-seats"
+                                              p:id="seats"
+                                              p:label="Seats Open"
+                                              p:labelRendered="true"
+                                              p:messageText="__KSAP__CURRENTENROLLMENT__/__KSAP__MAXENROLLMENT__">
+                                        </bean>
+                                        <!--@{#textHelper.getText('details.ao.header.additionalDetails')} -->
+                                        <bean parent="Uif-FieldGroupBase"
+                                              p:fieldLabel.labelText="Additional Details"
+                                              p:labelRendered="true"
+                                              p:id="additionalDetails"
+                                              p:additionalCssClasses="ksap-section-details">
+                                            <property name="items">
+                                                <list>
+                                                    <bean parent="Uif-Message" p:render="true" p:id="honors"
+                                                          p:additionalCssClasses="ksap-section-details-item"
+                                                          p:messageText="@{#textHelper.getText('details.ao.additionalDetails.honors')}"/>
+                                                    <bean parent="Uif-Link" p:render="true" p:id="classUrl"
+                                                          p:additionalCssClasses="ksap-section-details-item"
+                                                          p:href="__KSAP__CLASSURL__"
+                                                          p:linkText="@{#textHelper.getText('details.ao.additionalDetails.courseUrl')}"/>
+                                                    <bean parent="Uif-Link" p:render="true" p:id="requirementsUrl"
+                                                          p:additionalCssClasses="ksap-section-details-item"
+                                                          p:href="@{#ConfigProperties['application.url']}/__KSAP__REQUIREMENTSURL__"
+                                                          p:linkText="@{#textHelper.getText('details.ao.additionalDetails.restrictions')}"/>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>
