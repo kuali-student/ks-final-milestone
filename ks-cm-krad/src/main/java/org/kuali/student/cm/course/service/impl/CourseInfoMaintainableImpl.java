@@ -1787,6 +1787,8 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             indentLoOnLoad(newDisplayWrappers,displayInfoWrapper,indent);
         }
         courseInfoWrapper.getLoDisplayWrapperModel().getLoWrappers().addAll(newDisplayWrappers);
+
+        setLOActionFlags();
     }
 
     protected void indentLoOnLoad(List<LoDisplayInfoWrapper> newDisplayWrappers,LoDisplayInfoWrapper loDisplayInfoWrapper,int currentIndent){
