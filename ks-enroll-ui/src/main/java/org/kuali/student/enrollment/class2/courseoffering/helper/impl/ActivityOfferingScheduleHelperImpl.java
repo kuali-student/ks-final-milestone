@@ -23,6 +23,7 @@ import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.common.collection.KSCollectionUtils;
+import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ColocatedActivity;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper;
@@ -42,7 +43,6 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.common.util.TimeOfDayHelper;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
@@ -161,6 +161,10 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
 
         if (StringUtils.isBlank(scheduleWrapper.getRoomCode())){
             scheduleWrapper.setRoom(null);
+        }
+
+        if (StringUtils.isBlank(scheduleWrapper.getBuildingCode())){
+            scheduleWrapper.setBuilding(null);
         }
 
         activityOfferingWrapper.getRequestedScheduleComponents().add(scheduleWrapper);
