@@ -69,7 +69,7 @@ public class LoDisplayInfo extends IdEntityInfo implements LoDisplay, Serializab
         super(loDisplay);
         if (loDisplay != null) {
             this.loInfo = new LoInfo(loDisplay.getLoInfo());
-            List<LoDisplayInfo> loDisplayInfoList = new ArrayList<LoDisplayInfo>();
+            loDisplayInfoList = new ArrayList<LoDisplayInfo>();
             for (LoDisplay containedLoDisplay : loDisplay.getLoDisplayInfoList()) {
                 loDisplayInfoList.add(new LoDisplayInfo(containedLoDisplay));
             }
