@@ -19,6 +19,7 @@ import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 import org.kuali.rice.kim.api.identity.name.EntityName;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
 import org.kuali.student.r1.common.rice.StudentWorkflowConstants;
@@ -37,17 +38,17 @@ import java.util.List;
 import java.util.Map;
 
 public class DocumentCollaboratorHelper implements Serializable {
-    protected IdentityService identityService;
-    protected RoleService roleService;
-    private WorkflowDocumentActionsService workflowDocumentActionsService;
-    private WorkflowDocumentService workflowDocumentService;
-    private DocumentTypeService documentTypeService;
-    private PermissionService permissionService;
+    protected static IdentityService identityService;
+    protected static RoleService roleService;
+    private static WorkflowDocumentActionsService workflowDocumentActionsService;
+    private static WorkflowDocumentService workflowDocumentService;
+    private static DocumentTypeService documentTypeService;
+    private static PermissionService permissionService;
 
     private static final long serialVersionUID = 1L;
     private final static Logger LOG = LoggerFactory.getLogger(CollaboratorHelperGwt.class);
 
-    public Boolean addCollaborator(String docId, String dataId, String dataTitle, String recipientPrincipalId, String selectedPermissionCode, String actionRequestTypeCode, boolean participationRequired, String respondBy) throws OperationFailedException {
+    public static Boolean addCollaborator(String docId, String dataId, String dataTitle, String recipientPrincipalId, String selectedPermissionCode, String actionRequestTypeCode, boolean participationRequired, String respondBy) throws OperationFailedException {
         if(getWorkflowDocumentActionsService()==null){
             throw new OperationFailedException("Workflow Service is unavailable");
         }
@@ -113,7 +114,7 @@ public class DocumentCollaboratorHelper implements Serializable {
         }
     }
 
-    public Boolean removeCollaborator(String docId, String dataId, String actionRequestId) throws OperationFailedException {
+    public static Boolean removeCollaborator(String docId, String dataId, String actionRequestId) throws OperationFailedException {
         //get the current user
         String currentUserPrincipalId = SecurityUtils.getCurrentUserId();
 
@@ -148,7 +149,7 @@ public class DocumentCollaboratorHelper implements Serializable {
         }
     }
 
-    public List<CollaboratorWrapper> getCollaborators(String docId, String dataId, String docType) throws OperationFailedException{
+    public static List<CollaboratorWrapper> getCollaborators(String docId, String dataId, String docType) throws OperationFailedException{
         //Check if there is no doc id
         if(docId==null){
             return Collections.<CollaboratorWrapper>emptyList();
@@ -234,7 +235,7 @@ public class DocumentCollaboratorHelper implements Serializable {
         return newArStatusLabels.get(key);
     }
 
-    private void addRoleMember(String roleNamespace, String roleName, String docId, String dataId, String recipientPrincipalId) throws OperationFailedException, org.kuali.rice.kew.api.exception.WorkflowException {
+    private static void addRoleMember(String roleNamespace, String roleName, String docId, String dataId, String recipientPrincipalId) throws OperationFailedException, org.kuali.rice.kew.api.exception.WorkflowException {
         DocumentDetail docDetail = getWorkflowDocumentService().getDocumentDetail(docId);
         DocumentType docType = getDocumentTypeService().getDocumentTypeById(docDetail.getDocument().getDocumentTypeId());
         Map<String,String> roleMemberQuals = new LinkedHashMap<String,String>();
@@ -243,7 +244,7 @@ public class DocumentCollaboratorHelper implements Serializable {
         getRoleService().assignPrincipalToRole(recipientPrincipalId, roleNamespace, roleName, roleMemberQuals);
     }
 
-    private void removeRoleMemberIfNeccesary(String roleNamespace, String roleName, String docId, String dataId, String recipientPrincipalId) throws OperationFailedException, org.kuali.rice.kew.api.exception.WorkflowException {
+    private static void removeRoleMemberIfNeccesary(String roleNamespace, String roleName, String docId, String dataId, String recipientPrincipalId) throws OperationFailedException, org.kuali.rice.kew.api.exception.WorkflowException {
         DocumentDetail docDetail = getWorkflowDocumentService().getDocumentDetail(docId);
         DocumentType docType = getDocumentTypeService().getDocumentTypeById(docDetail.getDocument().getDocumentTypeId());
         Map<String,String> roleMemberQuals = new LinkedHashMap<String,String>();
@@ -265,9 +266,12 @@ public class DocumentCollaboratorHelper implements Serializable {
         return Boolean.FALSE;
     }
 
-    public IdentityService getIdentityService() throws OperationFailedException {
+    public static IdentityService getIdentityService() throws OperationFailedException {
         if (identityService == null) {
-            throw new OperationFailedException("unable to find valid identityService");
+            identityService = KimApiServiceLocator.getIdentityService();
+            if(identityService == null) {
+                throw new OperationFailedException("unable to find valid identityService");
+            }
         }
         return identityService;
     }
@@ -276,9 +280,12 @@ public class DocumentCollaboratorHelper implements Serializable {
         this.identityService = identityService;
     }
 
-    public RoleService getRoleService() throws OperationFailedException {
+    public static RoleService getRoleService() throws OperationFailedException {
         if (roleService == null) {
-            throw new OperationFailedException("unable to find valid roleService");
+            roleService = KimApiServiceLocator.getRoleService();
+            if(roleService == null) {
+                throw new OperationFailedException("unable to find valid roleService");
+            }
         }
         return roleService;
     }
@@ -287,7 +294,7 @@ public class DocumentCollaboratorHelper implements Serializable {
         this.roleService = roleService;
     }
 
-    public WorkflowDocumentActionsService getWorkflowDocumentActionsService() throws OperationFailedException {
+    public static WorkflowDocumentActionsService getWorkflowDocumentActionsService() throws OperationFailedException {
 
         if (workflowDocumentActionsService == null) {
 
@@ -306,7 +313,7 @@ public class DocumentCollaboratorHelper implements Serializable {
     }
 
 
-    public WorkflowDocumentService getWorkflowDocumentService() throws OperationFailedException {
+    public static WorkflowDocumentService getWorkflowDocumentService() throws OperationFailedException {
 
         if (workflowDocumentService == null) {
 
@@ -325,9 +332,12 @@ public class DocumentCollaboratorHelper implements Serializable {
     }
 
 
-    public DocumentTypeService getDocumentTypeService() throws OperationFailedException {
+    public static DocumentTypeService getDocumentTypeService() throws OperationFailedException {
         if (documentTypeService == null) {
-            throw new OperationFailedException("unable to find valid documentTypeService");
+            documentTypeService = KewApiServiceLocator.getDocumentTypeService();
+            if(documentTypeService == null)  {
+                throw new OperationFailedException("unable to find valid documentTypeService");
+            }
         }
         return documentTypeService;
     }
@@ -336,9 +346,12 @@ public class DocumentCollaboratorHelper implements Serializable {
         this.documentTypeService = documentTypeService;
     }
 
-    public PermissionService getPermissionService() throws OperationFailedException {
+    public static PermissionService getPermissionService() throws OperationFailedException {
         if (permissionService == null) {
-            throw new OperationFailedException("unable to find valid permissionService");
+            permissionService = KimApiServiceLocator.getPermissionService();
+            if(permissionService == null) {
+                throw new OperationFailedException("unable to find valid permissionService");
+            }
         }
         return permissionService;
     }
