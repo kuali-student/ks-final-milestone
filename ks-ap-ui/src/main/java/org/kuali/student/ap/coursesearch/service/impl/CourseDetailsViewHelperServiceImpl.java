@@ -43,6 +43,8 @@ import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 
+import javax.json.Json;
+import javax.json.JsonObjectBuilder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -50,6 +52,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * {@inheritDoc}
@@ -523,5 +526,45 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
 
         // Set the id based off of the term id and course offering code
         disclosure.setId(courseTermDetailsWrapper.getTermId() + "_" + courseOfferingDetailsWrapper.getCourseOfferingCode());
+    }
+
+    /**
+     * @see org.kuali.student.ap.coursesearch.service.CourseDetailsViewHelperService
+     */
+    @Override
+    public JsonObjectBuilder createAddSectionEvent(String courseOfferingId, ActivityOfferingDetailsWrapper activity, JsonObjectBuilder eventList){
+        JsonObjectBuilder addEvent = Json.createObjectBuilder();
+        String instructor = "";
+        String days = "";
+        String time = "";
+        String location = "";
+        String classUrl = "";
+        String requirementsUrl = "";
+
+        if(activity.getInstructorName()!=null) instructor = activity.getInstructorName();
+        if(activity.getDays()!=null) days = activity.getDays();
+        if(activity.getTime()!=null) time = activity.getTime();
+        if(activity.getLocation()!=null) location = activity.getLocation();
+        if(activity.getRequirementsUrl()!=null) requirementsUrl = activity.getRequirementsUrl();
+        if(activity.getClassUrl()!=null) classUrl = activity.getClassUrl();
+
+        addEvent.add("activityOfferingId", activity.getActivityOfferingId());
+        addEvent.add("activityFormatName", activity.getActivityFormatName());
+        addEvent.add("activityOfferingCode", activity.getActivityOfferingCode());
+        addEvent.add("regGroupCode", activity.getRegGroupCode());
+        addEvent.add("instructor", instructor);
+        addEvent.add("days",days);
+        addEvent.add("time", time);
+        addEvent.add("location", location);
+        addEvent.add("currentEnrollment", activity.getCurrentEnrollment());
+        addEvent.add("maxEnrollment", activity.getMaxEnrollment());
+        addEvent.add("honors", activity.isHonors());
+        addEvent.add("classUrl", classUrl);
+        addEvent.add("requirementsUrl", requirementsUrl);
+        addEvent.add("courseOfferingId", courseOfferingId);
+        addEvent.add("uid", UUID.randomUUID().toString());
+
+        eventList.add("COURSE_SECTION_ADDED", addEvent);
+        return eventList;
     }
 }

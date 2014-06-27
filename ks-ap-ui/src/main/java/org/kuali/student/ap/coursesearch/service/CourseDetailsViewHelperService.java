@@ -1,3 +1,17 @@
+/*
+ * Copyright 2014 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
 package org.kuali.student.ap.coursesearch.service;
 
 import org.kuali.rice.krad.uif.service.ViewHelperService;
@@ -7,6 +21,7 @@ import org.kuali.student.ap.coursesearch.dataobject.CourseOfferingDetailsWrapper
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.r2.core.acal.infc.Term;
 
+import javax.json.JsonObjectBuilder;
 import java.util.List;
 import java.util.Map;
 
@@ -47,4 +62,14 @@ public interface CourseDetailsViewHelperService extends ViewHelperService {
      * @return - A list of sorted terms
      */
     public List<Term> sortTerms(List<Term> terms);
+
+    /**
+     * Creates the json object needed in the add section event when dynamically updating the page.
+     *
+     * @param courseOfferingId - Id of the course offering the added registration group is in
+     * @param activity - Activity being added
+     * @param eventList - List of currently being build
+     * @return Current list of events being build with the new event added
+     */
+    public JsonObjectBuilder createAddSectionEvent(String courseOfferingId, ActivityOfferingDetailsWrapper activity, JsonObjectBuilder eventList);
 }

@@ -255,7 +255,8 @@
         </property>
     </bean>
 
-    <bean id="KSAP-CourseSectionDetails-PlannedSections" parent="Uif-StackedCollectionGroup">
+    <bean id="KSAP-CourseSectionDetails-PlannedSections" parent="KSAP-CourseSectionDetails-PlannedSections-parent"/>
+    <bean id="KSAP-CourseSectionDetails-PlannedSections-parent" abstract="true" parent="Uif-StackedCollectionGroup">
         <property name="id" value="KSAP-CourseSectionDetails-PlannedSections_@{#line.courseOfferingId}"/>
         <property name="validationMessages.displayMessages" value="false" />
         <property name="header">
@@ -409,7 +410,8 @@
         </property>
     </bean>
 
-    <bean id="KSAP-CourseSectionDetails-PlannedSection-Template" parent="Uif-VerticalBoxGroup" p:hidden="true">
+    <bean id="KSAP-CourseSectionDetails-PlannedSection-Template" parent="KSAP-CourseSectionDetails-PlannedSection-Template-parent" p:hidden="true"/>
+    <bean id="KSAP-CourseSectionDetails-PlannedSection-Template-parent" abstract="true" parent="Uif-VerticalBoxGroup" p:hidden="true">
         <property name="dataAttributes">
             <map>
                 <entry key="open" value="false" />
