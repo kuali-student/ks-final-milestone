@@ -1,7 +1,6 @@
 package org.kuali.student.ap.coursesearch.service.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.container.GroupBase;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
@@ -100,12 +99,6 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
             List<Term> terms = new ArrayList<Term>(scheduledTerms);
             List<Term> scheduledTermsListSorted = sortTerms(terms);
 
-            Integer displayLimit = Integer.valueOf(ConfigContext.getCurrentContextConfig().getProperty("ks.ap.search.terms.scheduled.limit"));
-
-            //list greater than displayLimit, truncate
-            if (scheduledTermsListSorted.size() > displayLimit)
-                scheduledTermsListSorted = scheduledTermsListSorted.subList(0, displayLimit);
-
             List<String> courseIds = new ArrayList<String>();
             courseIds.add(courseId);
             Map<String, List<CourseOfferingDetailsWrapper>> courseOfferingsByTerm = processCourseOfferingsByTerm(courseIds, terms);
@@ -116,7 +109,6 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
                 courseTerm.setTermName(scheduledTermId.getName());
                 courseTerm.setTermId(scheduledTermId.getId());
                 courseTerm.setCourseOfferingDetailsWrappers(courseOfferingsByTerm.get(scheduledTermId.getId()));
-
 
                 courseTermDetailsList.add(courseTerm);
             }
