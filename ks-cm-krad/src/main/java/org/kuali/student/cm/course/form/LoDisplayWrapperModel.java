@@ -56,6 +56,10 @@ public class LoDisplayWrapperModel {
         currentLoWrapper = loWrapper;
     }
 
+    public LoDisplayInfoWrapper getCurrentLoWrapper() {
+        return currentLoWrapper;
+    }
+
     public void moveUpCurrent() {
         if (!this.isMoveUpable(currentLoWrapper)) {
             return;
@@ -173,6 +177,24 @@ public class LoDisplayWrapperModel {
             }
         }
         return siblingList;
+    }
+
+    public void deleteLearningObjective(LoDisplayInfoWrapper loDisplayInfoWrapper){
+
+        int index = loWrappers.indexOf(loDisplayInfoWrapper);
+
+        if (index == -1){
+            return;
+        }
+
+        List<LoDisplayInfoWrapper> childList = getChildList(loDisplayInfoWrapper);
+
+        for (LoDisplayInfoWrapper loChild : childList){
+            deleteLearningObjective(loChild);
+        }
+
+        loWrappers.remove(loDisplayInfoWrapper);
+
     }
 
     public boolean isIndentable(LoDisplayInfoWrapper loDisplayInfoWrapper) {

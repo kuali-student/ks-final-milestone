@@ -355,7 +355,7 @@ public class CourseController extends CourseRuleEditorController {
         LoDisplayInfoWrapper loDisplayInfoWrapper = new LoDisplayInfoWrapper();
         courseInfoWrapper.getLoDisplayWrapperModel().addLoWrapperAtTop(loDisplayInfoWrapper);
 
-        maintainable.setLOActionFlags();
+        maintainable.setLOActions();
 
         return getUIFModelAndView(form);
     }
@@ -761,45 +761,42 @@ public class CourseController extends CourseRuleEditorController {
 
     @MethodAccessible
     @RequestMapping(params = "methodToCall=moveLearningObjectiveUp")
-    public ModelAndView moveLearningObjectiveUp(final @ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
-                                                HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
+    public ModelAndView moveLearningObjectiveUp(final @ModelAttribute("KualiForm") MaintenanceDocumentForm form)
+    throws Exception {
+
         LoDisplayWrapperModel loModel = setupLoModel(form);
         loModel.moveUpCurrent();
-        clearSelectedLoItem(loModel.getLoWrappers());
 
         CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
-        maintainable.setLOActionFlags();
+        maintainable.setLOActions();
 
         return getUIFModelAndView(form);
     }
 
     @MethodAccessible
     @RequestMapping(params = "methodToCall=moveLearningObjectiveDown")
-    public ModelAndView moveLearningObjectiveDown(final @ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
-                                                  HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
+    public ModelAndView moveLearningObjectiveDown(final @ModelAttribute("KualiForm") MaintenanceDocumentForm form)
+    throws Exception {
+
         LoDisplayWrapperModel loItemModel = setupLoModel(form);
         loItemModel.moveDownCurrent();
-        clearSelectedLoItem(loItemModel.getLoWrappers());
 
         CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
-        maintainable.setLOActionFlags();
+        maintainable.setLOActions();
 
         return getUIFModelAndView(form);
     }
 
     @MethodAccessible
     @RequestMapping(params = "methodToCall=moveLearningObjectiveRight")
-    public ModelAndView moveLearningObjectiveRight(final @ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
-                                                   HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
+    public ModelAndView moveLearningObjectiveRight(final @ModelAttribute("KualiForm") MaintenanceDocumentForm form)
+    throws Exception {
+
         LoDisplayWrapperModel loItemModel = setupLoModel(form);
         loItemModel.indentCurrent();
-        clearSelectedLoItem(loItemModel.getLoWrappers());
 
         CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
-        maintainable.setLOActionFlags();
+        maintainable.setLOActions();
 
         return getUIFModelAndView(form);
     }
@@ -821,48 +818,44 @@ public class CourseController extends CourseRuleEditorController {
 
     @MethodAccessible
     @RequestMapping(params = "methodToCall=moveLearningObjectiveLeft")
-    public ModelAndView moveLearningObjectiveLeft(final @ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
-                                                  HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
+    public ModelAndView moveLearningObjectiveLeft(final @ModelAttribute("KualiForm") MaintenanceDocumentForm form)
+    throws Exception {
+
         LoDisplayWrapperModel loItemModel = setupLoModel(form);
         loItemModel.outdentCurrent();
-        clearSelectedLoItem(loItemModel.getLoWrappers());
 
         CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
-        maintainable.setLOActionFlags();
+        maintainable.setLOActions();
+
+        return getUIFModelAndView(form);
+    }
+
+    @MethodAccessible
+    @RequestMapping(params = "methodToCall=deleteLO")
+    public ModelAndView deleteLO(final @ModelAttribute("KualiForm") MaintenanceDocumentForm form) throws Exception {
+
+        LoDisplayWrapperModel loModel = setupLoModel(form);
+
+        loModel.deleteLearningObjective(loModel.getCurrentLoWrapper());
+
+        CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
+        maintainable.setLOActions();
 
         return getUIFModelAndView(form);
     }
 
     private LoDisplayWrapperModel setupLoModel(MaintenanceDocumentForm form) {
-        final CourseInfoMaintainable courseInfoMaintainable = getCourseMaintainableFrom(form);
+
+        String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
+        final int selectedLineIndex = Integer.parseInt(selectedLine);
+
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
         LoDisplayWrapperModel loDisplayWrapperModel = courseInfoWrapper.getLoDisplayWrapperModel();
         List<LoDisplayInfoWrapper> loWrappers = loDisplayWrapperModel.getLoWrappers();
-        LoDisplayInfoWrapper selectedLoWrapper = getSelectedLoWrapper(loWrappers);
+        LoDisplayInfoWrapper selectedLoWrapper = loWrappers.get(selectedLineIndex);
         loDisplayWrapperModel.setCurrentLoWrapper(selectedLoWrapper);
+
         return loDisplayWrapperModel;
-    }
-
-    private LoDisplayInfoWrapper getSelectedLoWrapper(List<LoDisplayInfoWrapper> loWrappers) {
-        LoDisplayInfoWrapper selectedLo = null;
-        if (loWrappers != null && !loWrappers.isEmpty()) {
-            for (LoDisplayInfoWrapper loItem : loWrappers) {
-                if (loItem.isSelected()) {
-                    selectedLo = loItem;
-                    break;
-                }
-            }
-        }
-        return selectedLo;
-    }
-
-    private void clearSelectedLoItem(List<LoDisplayInfoWrapper> loWrappers) {
-        if (loWrappers != null && !loWrappers.isEmpty()) {
-            for (LoDisplayInfoWrapper loWrapper : loWrappers) {
-                loWrapper.setSelected(false);
-            }
-        }
     }
 
     protected CluService getCluService() {

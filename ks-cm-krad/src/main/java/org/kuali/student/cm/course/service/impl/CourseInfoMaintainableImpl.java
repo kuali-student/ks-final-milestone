@@ -1800,7 +1800,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         }
         courseInfoWrapper.getLoDisplayWrapperModel().getLoWrappers().addAll(newDisplayWrappers);
 
-        setLOActionFlags();
+        setLOActions();
     }
 
     protected void indentLoOnLoad(List<LoDisplayInfoWrapper> newDisplayWrappers,LoDisplayInfoWrapper loDisplayInfoWrapper,int currentIndent){
@@ -1817,9 +1817,9 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     }
 
     /**
-     * This method sets the indent, outdent, move up and move down actions for each LO.
+     * This method enables/disables the indent, outdent, move up and move down actions for each LO.
      */
-    public void setLOActionFlags(){
+    public void setLOActions(){
 
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
 

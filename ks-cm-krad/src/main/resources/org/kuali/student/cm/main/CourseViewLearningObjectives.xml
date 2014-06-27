@@ -296,34 +296,20 @@
     </bean>
 
     <bean id="LearningObjectives-Icon-MoveUp" parent="Uif-ActionLink" p:iconClass="ks-fontello-icon-up"
-          p:title="Move learning objective up">
-        <property name="actionScript"
-                  value="moveLo(this, 'LearningObjective-CollectionSection', 'moveLearningObjectiveUp');"/>
-    </bean>
+          p:title="Move learning objective up" p:methodToCall="moveLearningObjectiveUp"/>
 
     <bean id="LearningObjectives-Icon-MoveDown" parent="Uif-ActionLink" p:iconClass="ks-fontello-icon-down"
-          p:title="Move learning objective down">
-        <property name="actionScript"
-                  value="moveLo(this, 'LearningObjective-CollectionSection', 'moveLearningObjectiveDown');"/>
-    </bean>
+          p:title="Move learning objective down" p:methodToCall="moveLearningObjectiveDown"/>
 
     <bean id="LearningObjectives-Icon-IncreaseIndent" parent="Uif-ActionLink" p:iconClass="ks-fontello-icon-right"
-          p:title="Indent learning objective">
-        <property name="actionScript"
-                  value="moveLo(this, 'LearningObjective-CollectionSection', 'moveLearningObjectiveRight');"/>
-        <property name="successCallback" value="alert('successCallback')"/>
-    </bean>
+          p:title="Indent learning objective" p:methodToCall="moveLearningObjectiveRight"/>
 
     <bean id="LearningObjectives-Icon-DecreaseIndent" parent="Uif-ActionLink" p:iconClass="ks-fontello-icon-left"
-          p:title="Outdent learning objective">
-        <property name="actionScript"
-                  value="moveLo(this, 'LearningObjective-CollectionSection', 'moveLearningObjectiveLeft');"/>
-    </bean>
+          p:title="Outdent learning objective" p:methodToCall="moveLearningObjectiveLeft"/>
 
     <bean id="LearningObjectives-Icon-Delete" parent="Uif-ActionLink" p:iconClass="ks-fontello-icon-cancel"
-          p:title="Delete learning objective">
-        <property name="methodToCall" value="deleteLine"/>
-    </bean>
+          p:title="Delete learning objective" p:methodToCall="deleteLO"/>
+
 
     <bean id="LearningObjectives-ToolBarSection" parent="Uif-HorizontalBoxSection"
           p:additionalCssClasses="learning_objective_section_header">
@@ -421,19 +407,6 @@
                     <property name="items">
                         <list>
                             <ref bean="LearningObjectives-Icon-Delete"/>
-                        </list>
-                    </property>
-                    <property name="propertyReplacers">
-                        <list>
-                            <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items"
-                                  p:condition="@{!#line.deleteable}">
-                                <property name="replacement">
-                                    <list>
-                                        <bean id="LearningObjectives-Icon-Delete-disabled" parent="Uif-Icon"
-                                              p:iconClass="ks-fontello-icon-cancel ks-fontello-icon-disabled"/>
-                                    </list>
-                                </property>
-                            </bean>
                         </list>
                     </property>
                 </bean>

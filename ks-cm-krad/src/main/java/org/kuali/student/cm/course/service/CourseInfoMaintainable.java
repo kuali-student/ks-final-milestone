@@ -55,6 +55,6 @@ public interface CourseInfoMaintainable {
 
     public void updateReview();
 
-    public void setLOActionFlags();
+    public void setLOActions();
 
 }

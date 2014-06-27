@@ -164,11 +164,4 @@ public class LoDisplayInfoWrapper extends LoDisplayInfo {
         return moveDownable;
     }
 
-    /**
-     * Used by the UI to determine if the indent widget should be active.
-     * @return True if the widget should be active. Otherwise, false.
-     */
-    public boolean isDeleteable() {
-        return true;
-    }
 }
