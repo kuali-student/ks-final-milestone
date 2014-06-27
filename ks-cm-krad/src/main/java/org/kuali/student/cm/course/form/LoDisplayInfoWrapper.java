@@ -24,6 +24,11 @@ public class LoDisplayInfoWrapper extends LoDisplayInfo {
 
     private boolean selected;
 
+    protected boolean indentable;
+    protected boolean outdentable;
+    protected boolean moveUpable;
+    protected boolean moveDownable;
+
     public LoDisplayInfoWrapper() {
     }
 
@@ -99,6 +104,10 @@ public class LoDisplayInfoWrapper extends LoDisplayInfo {
         return indentLevel;
     }
 
+    public void setIndentLevel(int indentLevel) {
+        this.indentLevel = indentLevel;
+    }
+
     public boolean isSelected() {
         return selected;
     }
@@ -107,12 +116,28 @@ public class LoDisplayInfoWrapper extends LoDisplayInfo {
         this.selected = selected;
     }
 
+    public void setIndentable(boolean indentable) {
+        this.indentable = indentable;
+    }
+
+    public void setOutdentable(boolean outdentable) {
+        this.outdentable = outdentable;
+    }
+
+    public void setMoveUpable(boolean moveUpable) {
+        this.moveUpable = moveUpable;
+    }
+
+    public void setMoveDownable(boolean moveDownable) {
+        this.moveDownable = moveDownable;
+    }
+
     /**
      * Used by the UI to determine if the indent widget should be active.
      * @return True if the widget should be active. Otherwise, false.
      */
     public boolean isIndentable() {
-        return true;
+        return indentable;
     }
 
     /**
@@ -120,7 +145,7 @@ public class LoDisplayInfoWrapper extends LoDisplayInfo {
      * @return True if the widget should be active. Otherwise, false.
      */
     public boolean isOutdentable() {
-        return true;
+        return outdentable;
     }
 
     /**
@@ -128,7 +153,7 @@ public class LoDisplayInfoWrapper extends LoDisplayInfo {
      * @return True if the widget should be active. Otherwise, false.
      */
     public boolean isMoveUpable() {
-        return true;
+        return moveUpable;
     }
 
     /**
@@ -136,7 +161,7 @@ public class LoDisplayInfoWrapper extends LoDisplayInfo {
      * @return True if the widget should be active. Otherwise, false.
      */
     public boolean isMoveDownable() {
-        return true;
+        return moveDownable;
     }
 
     /**

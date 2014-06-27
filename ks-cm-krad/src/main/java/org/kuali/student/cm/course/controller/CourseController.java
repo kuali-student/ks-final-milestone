@@ -352,7 +352,10 @@ public class CourseController extends CourseRuleEditorController {
 
         CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
 
-        courseInfoWrapper.getLoDisplayWrapperModel().addLoWrapperAtTop(new LoDisplayInfoWrapper());
+        LoDisplayInfoWrapper loDisplayInfoWrapper = new LoDisplayInfoWrapper();
+        courseInfoWrapper.getLoDisplayWrapperModel().addLoWrapperAtTop(loDisplayInfoWrapper);
+
+        maintainable.setLOActionFlags();
 
         return getUIFModelAndView(form);
     }
@@ -756,6 +759,7 @@ public class CourseController extends CourseRuleEditorController {
         return null;
     }
 
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=moveLearningObjectiveUp")
     public ModelAndView moveLearningObjectiveUp(final @ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
                                                 HttpServletRequest request, HttpServletResponse response)
@@ -764,9 +768,13 @@ public class CourseController extends CourseRuleEditorController {
         loModel.moveUpCurrent();
         clearSelectedLoItem(loModel.getLoWrappers());
 
+        CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
+        maintainable.setLOActionFlags();
+
         return getUIFModelAndView(form);
     }
 
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=moveLearningObjectiveDown")
     public ModelAndView moveLearningObjectiveDown(final @ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
                                                   HttpServletRequest request, HttpServletResponse response)
@@ -775,9 +783,13 @@ public class CourseController extends CourseRuleEditorController {
         loItemModel.moveDownCurrent();
         clearSelectedLoItem(loItemModel.getLoWrappers());
 
+        CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
+        maintainable.setLOActionFlags();
+
         return getUIFModelAndView(form);
     }
 
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=moveLearningObjectiveRight")
     public ModelAndView moveLearningObjectiveRight(final @ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
                                                    HttpServletRequest request, HttpServletResponse response)
@@ -785,6 +797,9 @@ public class CourseController extends CourseRuleEditorController {
         LoDisplayWrapperModel loItemModel = setupLoModel(form);
         loItemModel.indentCurrent();
         clearSelectedLoItem(loItemModel.getLoWrappers());
+
+        CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
+        maintainable.setLOActionFlags();
 
         return getUIFModelAndView(form);
     }
@@ -804,6 +819,7 @@ public class CourseController extends CourseRuleEditorController {
         return retval;
     }
 
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=moveLearningObjectiveLeft")
     public ModelAndView moveLearningObjectiveLeft(final @ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
                                                   HttpServletRequest request, HttpServletResponse response)
@@ -811,6 +827,9 @@ public class CourseController extends CourseRuleEditorController {
         LoDisplayWrapperModel loItemModel = setupLoModel(form);
         loItemModel.outdentCurrent();
         clearSelectedLoItem(loItemModel.getLoWrappers());
+
+        CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
+        maintainable.setLOActionFlags();
 
         return getUIFModelAndView(form);
     }

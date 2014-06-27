@@ -25,14 +25,16 @@ import java.util.List;
  * 
  * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
  */
-public class LoDisplayWrapperModel implements java.io.Serializable {
+public class LoDisplayWrapperModel {
 
     private List<LoDisplayInfoWrapper> loWrappers;
 
     private LoDisplayInfoWrapper currentLoWrapper;
 
     public void clearLoWrappers() {
-        loWrappers = new ArrayList<LoDisplayInfoWrapper>(0);
+        if (loWrappers != null){
+            loWrappers.clear();
+        }
     }
 
     public List<LoDisplayInfoWrapper> getLoWrappers() {
@@ -55,10 +57,10 @@ public class LoDisplayWrapperModel implements java.io.Serializable {
     }
 
     public void moveUpCurrent() {
-        if (!this.isMoveUpable()) {
+        if (!this.isMoveUpable(currentLoWrapper)) {
             return;
         }
-        List<LoDisplayInfoWrapper> siblingList = getSiblingList();
+        List<LoDisplayInfoWrapper> siblingList = getSiblingList(currentLoWrapper);
         int indexInSibling = siblingList.indexOf(currentLoWrapper);
         LoDisplayInfoWrapper nextLoDisplayInfoWrapperInSibling = siblingList.get(indexInSibling - 1);
 
@@ -78,14 +80,14 @@ public class LoDisplayWrapperModel implements java.io.Serializable {
     }
 
     public void moveDownCurrent() {
-        if (!this.isMoveDownable()) {
+        if (!this.isMoveDownable(currentLoWrapper)) {
             return;
         }
         int index = loWrappers.indexOf(currentLoWrapper);
         if (index == -1 || index == loWrappers.size() - 1) {
             return;
         }
-        List<LoDisplayInfoWrapper> siblingList = getSiblingList();
+        List<LoDisplayInfoWrapper> siblingList = getSiblingList(currentLoWrapper);
         int indexInSibling = siblingList.indexOf(currentLoWrapper);
         LoDisplayInfoWrapper nextLoDisplayInfoWrapperInSibling = siblingList.get(indexInSibling + 1);
 
@@ -113,13 +115,13 @@ public class LoDisplayWrapperModel implements java.io.Serializable {
     }
 
     public void indentCurrent() {
-        if (this.isIndentable()) {
+        if (this.isIndentable(currentLoWrapper)) {
             currentLoWrapper.indent();
         }
     }
 
     public void outdentCurrent() {
-        if (this.isOutdentable()) {
+        if (this.isOutdentable(currentLoWrapper)) {
             List<LoDisplayInfoWrapper> childList = getChildList(currentLoWrapper);
             childList.add(0, currentLoWrapper);// add parent
             for (LoDisplayInfoWrapper childLoDisplayInfoWrapper : childList) {
@@ -141,11 +143,11 @@ public class LoDisplayWrapperModel implements java.io.Serializable {
         return childList;
     }
 
-    private List<LoDisplayInfoWrapper> getSiblingList() {
+    private List<LoDisplayInfoWrapper> getSiblingList(LoDisplayInfoWrapper loDisplayInfoWrapper) {
         List<LoDisplayInfoWrapper> siblingList = new ArrayList<LoDisplayInfoWrapper>();
-        int index = loWrappers.indexOf(currentLoWrapper);
+        int index = loWrappers.indexOf(loDisplayInfoWrapper);
         // if first level
-        if (currentLoWrapper.getIndentLevel() == 0) {
+        if (loDisplayInfoWrapper.getIndentLevel() == 0) {
             for (int i = 0; i < loWrappers.size(); i++) {
                 if (loWrappers.get(i).getIndentLevel() == 0) {
                     siblingList.add(loWrappers.get(i));
@@ -157,7 +159,7 @@ public class LoDisplayWrapperModel implements java.io.Serializable {
         // get parent first and then get all Siblings
         LoDisplayInfoWrapper parentLoDisplayInfoWrapper = null;
         for (int i = index - 1; i >= 0; i--) {
-            if (loWrappers.get(i).getIndentLevel() - currentLoWrapper.getIndentLevel() == -1) {
+            if (loWrappers.get(i).getIndentLevel() - loDisplayInfoWrapper.getIndentLevel() == -1) {
                 parentLoDisplayInfoWrapper = loWrappers.get(i);
                 break;
             }
@@ -173,19 +175,19 @@ public class LoDisplayWrapperModel implements java.io.Serializable {
         return siblingList;
     }
 
-    private boolean isIndentable() {
-        int index = loWrappers.indexOf(currentLoWrapper);
+    public boolean isIndentable(LoDisplayInfoWrapper loDisplayInfoWrapper) {
+        int index = loWrappers.indexOf(loDisplayInfoWrapper);
         if (index == 0) {
             return false;
         }
         // if current node is the only child
 
-        List<LoDisplayInfoWrapper> siblingList = getSiblingList();
+        List<LoDisplayInfoWrapper> siblingList = getSiblingList(loDisplayInfoWrapper);
         if (siblingList.size() == 1) {
             return false;
         }
         //first kid
-        int indexInSiblings = siblingList.indexOf(currentLoWrapper);
+        int indexInSiblings = siblingList.indexOf(loDisplayInfoWrapper);
         if (indexInSiblings == 0) {
             return false;
         }
@@ -193,31 +195,31 @@ public class LoDisplayWrapperModel implements java.io.Serializable {
         return true;
     }
 
-    private boolean isOutdentable() {
-        if (currentLoWrapper.getIndentLevel() == 0) {// first level
+    public boolean isOutdentable(LoDisplayInfoWrapper loDisplayInfoWrapper) {
+        if (loDisplayInfoWrapper.getIndentLevel() == 0) {// first level
             return false;
         }
         return true;
     }
 
-    private boolean isMoveUpable() {
-        List<LoDisplayInfoWrapper> list = getSiblingList();
+    public boolean isMoveUpable(LoDisplayInfoWrapper loDisplayInfoWrapper) {
+        List<LoDisplayInfoWrapper> list = getSiblingList(loDisplayInfoWrapper);
         if (list.size() == 1) { // only child
             return false;
         }
-        int index = list.indexOf(currentLoWrapper);
+        int index = list.indexOf(loDisplayInfoWrapper);
         if (index == 0) {// first child
             return false;
         }
         return true;
     }
 
-    private boolean isMoveDownable() {
-        List<LoDisplayInfoWrapper> list = getSiblingList();
+    public boolean isMoveDownable(LoDisplayInfoWrapper loDisplayInfoWrapper) {
+        List<LoDisplayInfoWrapper> list = getSiblingList(loDisplayInfoWrapper);
         if (list.size() == 0) { // only child
             return false;
         }
-        int index = list.indexOf(currentLoWrapper);
+        int index = list.indexOf(loDisplayInfoWrapper);
         if (index == list.size() - 1) {// last child
             return false;
         }

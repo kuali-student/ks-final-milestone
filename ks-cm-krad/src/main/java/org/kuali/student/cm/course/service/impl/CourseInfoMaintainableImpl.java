@@ -1779,11 +1779,43 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     protected void populateLearningObjectives() {
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
         courseInfoWrapper.getLoDisplayWrapperModel().clearLoWrappers();
-        List<LoDisplayInfoWrapper> loDisplayWrappers = courseInfoWrapper.getLoDisplayWrapperModel().getLoWrappers();
+        List<LoDisplayInfoWrapper> newDisplayWrappers = new ArrayList<LoDisplayInfoWrapper>();
+        int indent = 0;
         for (LoDisplayInfo loDisplayInfo : courseInfoWrapper.getCourseInfo().getCourseSpecificLOs()) {
             LoDisplayInfoWrapper displayInfoWrapper = new LoDisplayInfoWrapper(loDisplayInfo);
-            loDisplayWrappers.add(displayInfoWrapper);
+            newDisplayWrappers.add(displayInfoWrapper);
+            indentLoOnLoad(newDisplayWrappers,displayInfoWrapper,indent);
         }
+        courseInfoWrapper.getLoDisplayWrapperModel().getLoWrappers().addAll(newDisplayWrappers);
+    }
+
+    protected void indentLoOnLoad(List<LoDisplayInfoWrapper> newDisplayWrappers,LoDisplayInfoWrapper loDisplayInfoWrapper,int currentIndent){
+        if (loDisplayInfoWrapper.getLoDisplayInfoList().isEmpty()){
+            return;
+        }
+        int nextLevel = currentIndent + 1;
+        for (LoDisplayInfo loWrapper : loDisplayInfoWrapper.getLoDisplayInfoList()){
+            LoDisplayInfoWrapper displayInfoWrapper = new LoDisplayInfoWrapper(loWrapper);
+            newDisplayWrappers.add(displayInfoWrapper);
+            displayInfoWrapper.setIndentLevel(nextLevel);
+            indentLoOnLoad(newDisplayWrappers,displayInfoWrapper, nextLevel + 1);
+        }
+    }
+
+    /**
+     * This method sets the indent, outdent, move up and move down actions for each LO.
+     */
+    public void setLOActionFlags(){
+
+        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
+
+        for (LoDisplayInfoWrapper loWrapper : courseInfoWrapper.getLoDisplayWrapperModel().getLoWrappers()){
+            loWrapper.setIndentable(courseInfoWrapper.getLoDisplayWrapperModel().isIndentable(loWrapper));
+            loWrapper.setOutdentable(courseInfoWrapper.getLoDisplayWrapperModel().isOutdentable(loWrapper));
+            loWrapper.setMoveDownable(courseInfoWrapper.getLoDisplayWrapperModel().isMoveDownable(loWrapper));
+            loWrapper.setMoveUpable(courseInfoWrapper.getLoDisplayWrapperModel().isMoveUpable(loWrapper));
+        }
+
     }
 
     /**
