@@ -62,4 +62,51 @@ function ksapAddCourseSection (data){
         addLink.removeClass("ks-fontello-icon-hollow-circled-plus");
         addLink.addClass("ks-fontello-icon-ok-circled");
     }
+
+    var plannedContainer = jQuery("#KSAP-CourseSectionDetails-PlannedSections_"+data.courseOfferingId);
+    plannedContainer.removeClass("ksap-hide");
+    var plannedCount = parseInt(plannedContainer.attr("data-numberplanned"));
+    plannedCount = plannedCount+1;
+    plannedContainer.attr("data-numberplanned",plannedCount);
+    var plannedHeaderText = plannedContainer.find(".uif-headerText-span");
+    var newText = "Planned Registration Groups ("+plannedCount+")";
+    plannedHeaderText[0].innerHTML = newText;
+
+    var plannedTemplate = jQuery("#KSAP-CourseSectionDetails-PlannedSection-Template");
+
+    if(plannedTemplate.length){
+        var item = plannedTemplate.html();
+        for (var key in data)
+            if (data.hasOwnProperty(key))
+                item = eval("item.replace(/__KSAP__"+key.toUpperCase()+"__/gi,'"+data[key]+"')");
+        item = item.replace(/id=\"(u\d+)\"/gi,"id=\""+data.uid+"_$1\"");
+        var itemElement = jQuery("<div/>").html(item);
+        if(data.honors == false){
+            itemElement.find("#honors").addClass("invisible");
+        }else{
+            itemElement.find("#honors").removeClass("invisible");
+        }
+
+        if(data.classUrl.length == 0){
+            itemElement.find("#classUrl").addClass("invisible");
+        }else{
+            itemElement.find("#classUrl").removeClass("invisible");
+        }
+
+        if(data.requirementsUrl.length == 0){
+            itemElement.find("#requirementsUrl").addClass("invisible");
+        }else{
+            itemElement.find("#requirementsUrl").removeClass("invisible");
+        }
+
+        itemElement.appendTo("#KSAP-CourseSectionDetails-PlannedSections_"+data.courseOfferingId)
+            .css({backgroundColor:"#ffffcc"})
+            .hide()
+            .fadeIn(250, function() {
+            })
+            .animate({backgroundColor:"#ffffff"}, 1500, function() {
+                itemElement.css({background: "none"});
+                runHiddenScripts(data.uid);
+            });
+    }
 }

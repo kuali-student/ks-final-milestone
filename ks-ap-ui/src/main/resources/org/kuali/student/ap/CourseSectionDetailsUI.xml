@@ -257,6 +257,7 @@
     </bean>
 
     <bean id="KSAP-CourseSectionDetails-PlannedSections" parent="Uif-StackedCollectionGroup">
+        <property name="id" value="KSAP-CourseSectionDetails-PlannedSections_@{#line.courseOfferingId}"/>
         <property name="validationMessages.displayMessages" value="false" />
         <property name="header">
             <bean parent="Uif-HeaderFour"/>
@@ -268,6 +269,16 @@
         </property>
         <property name="headerText"
                   value="@{#textHelper.getFormattedMessage('details.regGroup.header', new Object[]{#line.plannedGroupsCount})}"/>
+        <property name="dataAttributes">
+            <map>
+                <entry key="numberPlanned" value="@{#line.plannedGroupsCount}" />
+            </map>
+        </property>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>@{#line.plannedGroupsCount == 0 ? 'ksap-hide' : ''}</value>
+            </list>
+        </property>
         <property name="collectionObjectClass"
                   value="org.kuali.student.ap.coursesearch.dataobject.ActivityOfferingDetailsWrapper"/>
         <property name="propertyName" value="plannedActivityDetailsWrappers"/>
@@ -399,7 +410,7 @@
         </property>
     </bean>
 
-    <bean id="KSAP-CourseSectionDetails-PlannedSection-Template" parent="Uif-VerticalBoxGroup">
+    <bean id="KSAP-CourseSectionDetails-PlannedSection-Template" parent="Uif-VerticalBoxGroup" p:hidden="true">
         <property name="dataAttributes">
             <map>
                 <entry key="open" value="false" />
@@ -422,7 +433,7 @@
                                               p:additionalCssClasses="ksap-section-type"
                                               p:id="type"
                                               p:label="Type"
-                                              p:messageText="__KSAP__ACTIVITYOFFERINGID__"
+                                              p:messageText="__KSAP__ACTIVITYFORMATNAME__"
                                               p:labelRendered="true">
                                         </bean>
                                         <!--p:label="@{#textHelper.getText('details.ao.header.code')}"-->

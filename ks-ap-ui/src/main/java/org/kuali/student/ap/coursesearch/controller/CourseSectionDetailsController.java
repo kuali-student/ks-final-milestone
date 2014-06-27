@@ -31,6 +31,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created with IntelliJ IDEA.
@@ -75,7 +76,7 @@ public class CourseSectionDetailsController extends KsapControllerBase {
 
     @MethodAccessible
     @RequestMapping(params = "methodToCall=addRegGroup")
-    public ModelAndView addRegGroupFromSingleAO(@ModelAttribute("KualiForm") CourseSectionDetailsForm form,
+    public ModelAndView addRegGroup(@ModelAttribute("KualiForm") CourseSectionDetailsForm form,
                                                   HttpServletRequest request,
                                                   HttpServletResponse response) throws Exception {
         JsonObjectBuilder eventList = Json.createObjectBuilder();
@@ -109,7 +110,7 @@ public class CourseSectionDetailsController extends KsapControllerBase {
             return null;
         }
         for(ActivityOfferingDetailsWrapper activityOfferingDetailsWrapper : activityWrappers){
-            eventList = createAddSectionEvent(activityOfferingDetailsWrapper, eventList);
+            eventList = createAddSectionEvent(regGroup.getCourseOfferingId(), activityOfferingDetailsWrapper, eventList);
         }
 
         PlanEventUtils.sendJsonEvents(true,"Registration Group For " +course.getCourseOfferingCode() + " added for " + term.getName(), response, eventList);
@@ -134,9 +135,37 @@ public class CourseSectionDetailsController extends KsapControllerBase {
         return getUIFModelAndView(dialogForm);
     }
 
-    private JsonObjectBuilder createAddSectionEvent(ActivityOfferingDetailsWrapper activity, JsonObjectBuilder eventList){
+    private JsonObjectBuilder createAddSectionEvent(String courseOfferingId, ActivityOfferingDetailsWrapper activity, JsonObjectBuilder eventList){
         JsonObjectBuilder addEvent = Json.createObjectBuilder();
+        String instructor = "";
+        String days = "";
+        String time = "";
+        String location = "";
+        String classUrl = "";
+        String requirementsUrl = "";
+
+        if(activity.getInstructorName()!=null) instructor = activity.getInstructorName();
+        if(activity.getDays()!=null) days = activity.getDays();
+        if(activity.getTime()!=null) time = activity.getTime();
+        if(activity.getLocation()!=null) location = activity.getLocation();
+        if(activity.getRequirementsUrl()!=null) requirementsUrl = activity.getRequirementsUrl();
+        if(activity.getClassUrl()!=null) classUrl = activity.getClassUrl();
+
         addEvent.add("activityOfferingId", activity.getActivityOfferingId());
+        addEvent.add("activityFormatName", activity.getActivityFormatName());
+        addEvent.add("activityOfferingCode", activity.getActivityOfferingCode());
+        addEvent.add("regGroupCode", activity.getRegGroupCode());
+        addEvent.add("instructor", instructor);
+        addEvent.add("days",days);
+        addEvent.add("time", time);
+        addEvent.add("location", location);
+        addEvent.add("currentEnrollment", activity.getCurrentEnrollment());
+        addEvent.add("maxEnrollment", activity.getMaxEnrollment());
+        addEvent.add("honors", activity.isHonors());
+        addEvent.add("classUrl", classUrl);
+        addEvent.add("requirementsUrl", requirementsUrl);
+        addEvent.add("courseOfferingId", courseOfferingId);
+        addEvent.add("uid", UUID.randomUUID().toString());
 
         eventList.add("COURSE_SECTION_ADDED", addEvent);
         return eventList;
