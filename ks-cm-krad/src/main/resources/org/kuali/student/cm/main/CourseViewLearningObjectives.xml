@@ -82,8 +82,34 @@
                                   p:refreshId="LearningObjective-CollectionSection">
                                 <property name="methodToCall" value="addLearningObjective"/>
                             </bean>
-                            <bean id="LearningObjective-ToolBar-FindObjectives"
-                                  parent="LearningObjective-ToolBar-FindObjectives-parent"/>
+                            <bean id="KS-LoDisplayInfoWrapper-descr-hidden" parent="KS-Uif-InputField"
+                                  p:propertyName="hiddenDescr">
+                                <property name="control">
+                                    <bean parent="KS-Uif-TextControl" p:hidden="true"/>
+                                </property>
+                                <property name="quickfinder">
+                                    <bean id="KS-LearningObjective-QuickFinder" parent="Uif-QuickFinder"
+                                          p:lightBox.lookupReturnByScript="true">
+                                        <property name="dataObjectClassName"
+                                                  value="org.kuali.student.cm.course.form.LoDisplayInfoWrapper"/>
+                                        <property name="quickfinderAction">
+                                            <bean id="LearningObjective-ToolBar-FindObjectives"
+                                                  parent="LearningObjective-ToolBar-FindObjectives-parent"
+                                                  p:methodToCall="performLookup"/>
+                                        </property>
+                                        <property name="fieldConversions">
+                                            <map>
+                                                <entry key="descr.plain" value="loInfo.descr.plain"/>
+                                            </map>
+                                        </property>
+                                        <property name="lookupParameters">
+                                            <map>
+                                                <entry key="descr.plain" value="loInfo.descr.plain"/>
+                                            </map>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
                         </list>
                     </property>
                 </bean>
@@ -144,27 +170,6 @@
                                 <list merge="true">
                                     <value>cm-charcount-max-500</value>
                                 </list>
-                            </property>
-                        </bean>
-                    </property>
-                    <property name="quickfinder">
-                        <bean id="KS-LearningObjective-QuickFinder" parent="Uif-QuickFinder"
-                              p:lightBox.lookupReturnByScript="true">
-                            <property name="dataObjectClassName"
-                                      value="org.kuali.student.cm.course.form.LoDisplayInfoWrapper"/>
-                            <property name="quickfinderAction">
-                                <bean id="KS-LoDisplayInfoWrapper-descr-Lookup" parent="Uif-ActionLink"
-                                      p:actionLabel="Search for Learning Objectives" p:methodToCall="performLookup"/>
-                            </property>
-                            <property name="fieldConversions">
-                                <map>
-                                    <entry key="descr.plain" value="loInfo.descr.plain"/>
-                                </map>
-                            </property>
-                            <property name="lookupParameters">
-                                <map>
-                                    <entry key="descr.plain" value="loInfo.descr.plain"/>
-                                </map>
                             </property>
                         </bean>
                     </property>

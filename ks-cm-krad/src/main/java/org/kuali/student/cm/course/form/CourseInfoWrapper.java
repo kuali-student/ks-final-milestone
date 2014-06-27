@@ -74,6 +74,16 @@ public class CourseInfoWrapper extends LURuleManagementWrapper implements Serial
 
     private String previousSubjectCode;
 
+    public String getHiddenDescr() {
+        return hiddenDescr;
+    }
+
+    public void setHiddenDescr(String hiddenDescr) {
+        this.hiddenDescr = hiddenDescr;
+    }
+
+    private String hiddenDescr;
+
     private boolean missingRequiredFields;
 
     private transient CreateCourseUIHelper uiHelper = new CreateCourseUIHelper();
