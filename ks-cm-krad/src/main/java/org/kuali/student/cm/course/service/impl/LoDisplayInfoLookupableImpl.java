@@ -30,6 +30,8 @@ import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
+import java.util.TreeSet;
 
 /**
  * Lookupable service class for {@link LoDisplayInfoWrapper} "Search for Learning Objectives" link
@@ -81,13 +83,34 @@ public class LoDisplayInfoLookupableImpl extends KSLookupableImpl {
         }
     }
 
+    public static void processLO(List<LoDisplayInfoWrapper> loCategories,HashMap<String,TreeSet<String>> categories,HashMap<String,Integer> indexes) {
+
+        for(String categoryKey : categories.keySet()) {
+
+            TreeSet<String> categoryValue = categories.get(categoryKey);
+            LoDisplayInfoWrapper wrapper  = loCategories.get(indexes.get(categoryKey));
+
+            StringBuilder sortedCategories = new StringBuilder();
+
+            for(String category : categoryValue) {
+                sortedCategories.append("<p class=\"lineHeight130\">").append(category).append("</p>");
+            }
+
+            wrapper.setName(sortedCategories.toString());
+
+        }
+
+        categories.clear();
+        indexes.clear();
+    }
+
     @Override
     public List<?> performSearch(LookupForm form, Map<String, String> searchCriteria, boolean bounded) {
         List<LoDisplayInfoWrapper> loCategories = new ArrayList<LoDisplayInfoWrapper>();
         SearchRequestInfo searchRequest = new SearchRequestInfo();
         searchRequest.setSearchKey(CourseServiceConstants.LO_BY_CATEGORY_CLU_CROSS_SEARCH);
         searchRequest.setSortColumn(CourseServiceConstants.LU_CLU_OFFICIAL_IDENTIFIER_CLU_CODE_RESULT);
-        
+
         List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
         SearchByKeys searchByKey = SearchByKeys.valueOf(searchCriteria.get(CourseServiceConstants.SEARCHBY_SEARCH));
         String loSearchBy = searchCriteria.get("name");
@@ -130,28 +153,53 @@ public class LoDisplayInfoLookupableImpl extends KSLookupableImpl {
         searchRequest.setParams(queryParamValueList);
         try {
             SearchResultInfo searchResult = getLearningObjectiveService().search(searchRequest, ContextUtils.getContextInfo());
-                for (SearchResultRowInfo result : searchResult.getRows()) {
-                    List<SearchResultCellInfo> cells = result.getCells();
-                    LoDisplayInfoWrapper loWrapper = new LoDisplayInfoWrapper();
-                    for (SearchResultCellInfo cell : cells) {
-                        if (CourseServiceConstants.LO_CLU_CODE_RESULT.equals(cell.getKey())) {
-                            loWrapper.setCode(cell.getValue());
-                        }
-                        else if (CourseServiceConstants.LO_CLU_TYPE_RESULT.equals(cell.getKey())) {
-                            loWrapper.setTypeName(cell.getValue());
-                        }
-                        else if (CourseServiceConstants.LO_CLU_STATE_RESULT.equals(cell.getKey())) {
-                            loWrapper.setStateKey(cell.getValue());
-                        }
-                        else if (CourseServiceConstants.LO_CATEGORY_NAME_RESULT.equals(cell.getKey())) {
-                            loWrapper.setName(cell.getValue());
-                        }
-                        else if (CourseServiceConstants.LO_DESC_PLAIN_RESULT.equals(cell.getKey())) {
-                            loWrapper.setDescr(new RichTextInfo(cell.getValue(), null));
-                        }
+
+            HashMap<String,TreeSet<String>> categories = new HashMap<String, TreeSet<String>>();
+            HashMap<String,Integer> indexes = new HashMap<String, Integer>();
+            int index = 0;
+            for (SearchResultRowInfo result : searchResult.getRows()) {
+                List<SearchResultCellInfo> cells = result.getCells();
+                LoDisplayInfoWrapper loWrapper = new LoDisplayInfoWrapper();
+                for (SearchResultCellInfo cell : cells) {
+                    if (CourseServiceConstants.LO_CLU_CODE_RESULT.equals(cell.getKey())) {
+                        loWrapper.setCode(cell.getValue());
                     }
-                    loCategories.add(loWrapper);
+                    else if (CourseServiceConstants.LO_CLU_TYPE_RESULT.equals(cell.getKey())) {
+                        loWrapper.setTypeName(cell.getValue());
+                    }
+                    else if (CourseServiceConstants.LO_CLU_STATE_RESULT.equals(cell.getKey())) {
+                        loWrapper.setStateKey(cell.getValue());
+                    }
+                    else if (CourseServiceConstants.LO_CATEGORY_NAME_RESULT.equals(cell.getKey())) {
+                        loWrapper.setName(cell.getValue());
+                    }
+                    else if (CourseServiceConstants.LO_DESC_PLAIN_RESULT.equals(cell.getKey())) {
+                        loWrapper.setDescr(new RichTextInfo(cell.getValue(), null));
+                    }
                 }
+
+                String key = loWrapper.getCode() + loWrapper.getTypeName() + (loWrapper.getDescr()!=null?loWrapper.getDescr().getPlain():"");
+                TreeSet<String> value = categories.get(key);
+                if(value==null) {
+
+                    value = new TreeSet<String>();
+
+                    if(loWrapper.getName()!=null) {
+                        value.add(loWrapper.getName());
+                    }
+                    categories.put(key, value);
+
+                    indexes.put(key,index);
+                    loCategories.add(loWrapper);
+                    index++;
+
+                } else {
+                    value.add(loWrapper.getName());
+                }
+
+            }
+            processLO(loCategories,categories,indexes);
+
         } catch (Exception e) {
             throw new RuntimeException("An error occurred while searching for Learning Objectives", e);
         }
