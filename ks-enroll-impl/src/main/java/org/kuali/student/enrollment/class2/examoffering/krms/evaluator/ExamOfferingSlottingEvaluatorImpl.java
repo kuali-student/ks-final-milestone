@@ -139,7 +139,7 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
             }
             createRDLForExamOffering(componentInfo, timeslot, examOfferingId, contextInfo);
         } else {
-            removeRDLForExamOffering(examOfferingId, contextInfo);
+            setErrorStateRDLForExamOffering(examOfferingId, contextInfo);
             return new ExamOfferingResult(ExamOfferingServiceConstants.EXAM_OFFERING_AO_MATRIX_MATCH_NOT_FOUND);
         }
 
@@ -214,7 +214,7 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
                 ScheduleRequestComponentInfo componentInfo = createScheduleRequestFromResults(results);
                 createRDLForExamOffering(componentInfo, timeslot, examOfferingId, contextInfo);
             } else {
-                removeRDLForExamOffering(examOfferingId, contextInfo);
+                setErrorStateRDLForExamOffering(examOfferingId, contextInfo);
                 return new ExamOfferingResult(ExamOfferingServiceConstants.EXAM_OFFERING_CO_MATRIX_MATCH_NOT_FOUND);
             }
 
@@ -453,6 +453,37 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
                 }
             } catch (Exception e) {
                 throw new RuntimeException("Error deleting ScheduleRequest for " + examOfferingId, e);
+            }
+        }
+    }
+
+    /**
+     * This method updates the schedule request with an error status.
+     *
+     * @param examOfferingId
+     * @param context
+     */
+    private void setErrorStateRDLForExamOffering(String examOfferingId, ContextInfo context) {
+        List<ScheduleRequestSetInfo> scheduleRequestSetInfoList = null;
+        try {
+            scheduleRequestSetInfoList = getSchedulingService().getScheduleRequestSetsByRefObject(ExamOfferingServiceConstants.REF_OBJECT_URI_EXAM_OFFERING, examOfferingId, context);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        if (scheduleRequestSetInfoList != null && !scheduleRequestSetInfoList.isEmpty()) {
+            try {
+                for (ScheduleRequestSetInfo scheduleRequestSetInfo : scheduleRequestSetInfoList) {
+                    List<ScheduleRequestInfo> scheduleRequestInfoList = getSchedulingService().getScheduleRequestsByScheduleRequestSet(scheduleRequestSetInfo.getId(), context);
+                    for (ScheduleRequestInfo scheduleRequestInfo : scheduleRequestInfoList) {
+                        scheduleRequestInfo.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_ERROR);
+                        getSchedulingService().updateScheduleRequest(scheduleRequestInfo.getId(), scheduleRequestInfo, context);
+                    }
+                    scheduleRequestSetInfo.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_STATE_ERROR);
+                    getSchedulingService().updateScheduleRequestSet(scheduleRequestSetInfo.getId(),scheduleRequestSetInfo, context);
+
+                }
+            } catch (Exception e) {
+                throw new RuntimeException("Error updating ScheduleRequest for " + examOfferingId, e);
             }
         }
     }

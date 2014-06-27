@@ -22,7 +22,9 @@ import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
+import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -121,7 +123,7 @@ public class ExamOfferingTransformer {
         if (eo.getScheduleId() != null) {
             eo.setSchedulingStateKey(getSchedulingState(eo, scheduleIdToScheduleMap));
         } else {
-            eo.setSchedulingStateKey(getSchedulingStateByScheduleRequest(eo, luiToScheduleRequestsMap.get(eo.getId())));
+            eo.setSchedulingStateKey(getSchedulingStateByScheduleRequest(eo, luiToScheduleRequestsMap.get(eo.getId()), schedulingService, context));
         }
 
         //Dynamic attributes
@@ -235,16 +237,20 @@ public class ExamOfferingTransformer {
         // get the schedule request for this AO
         List<ScheduleRequestInfo> requests = schedulingService.getScheduleRequestsByRefObject(ExamOfferingServiceConstants.REF_OBJECT_URI_EXAM_OFFERING, eo.getId(), context);
 
-        return getSchedulingStateByScheduleRequest(eo, requests);
+        return getSchedulingStateByScheduleRequest(eo, requests, schedulingService, context);
     }
 
-    private static String getSchedulingStateByScheduleRequest(ExamOfferingInfo eo, List<ScheduleRequestInfo> requests) {
+    private static String getSchedulingStateByScheduleRequest(ExamOfferingInfo eo, List<ScheduleRequestInfo> requests, SchedulingService schedulingService, ContextInfo context) {
         if (requests == null || requests.isEmpty()) {
             // if there are no requests, the EO scheduling state is Unscheduled
             return ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_UNSCHEDULED_STATE_KEY;
         }
 
         for (ScheduleRequestInfo request : requests) {
+            if(request.getStateKey().equals(SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_ERROR)){
+                removeRDLForExamOffering(eo.getId(), schedulingService, context);
+                return ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_MATRIX_ERROR_STATE_KEY;
+            }
             // if all the schedule request components are set as TBA, the EO scheduling state is Exempt
             // otherwise, it's Unscheduled
             for (ScheduleRequestComponentInfo reqComp : request.getScheduleRequestComponents()) {
@@ -252,10 +258,34 @@ public class ExamOfferingTransformer {
                     return ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_UNSCHEDULED_STATE_KEY;
                 }
             }
+
         }
 
         return ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_EXEMPT_STATE_KEY;
     }
+
+    private static void removeRDLForExamOffering(String examOfferingId, SchedulingService schedulingService, ContextInfo context) {
+        List<ScheduleRequestSetInfo> scheduleRequestSetInfoList = null;
+        try {
+            scheduleRequestSetInfoList = schedulingService.getScheduleRequestSetsByRefObject(ExamOfferingServiceConstants.REF_OBJECT_URI_EXAM_OFFERING, examOfferingId, context);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        if (scheduleRequestSetInfoList != null && !scheduleRequestSetInfoList.isEmpty()) {
+            try {
+                for (ScheduleRequestSetInfo scheduleRequestSetInfo : scheduleRequestSetInfoList) {
+                    List<ScheduleRequestInfo> scheduleRequestInfoList = schedulingService.getScheduleRequestsByScheduleRequestSet(scheduleRequestSetInfo.getId(), context);
+                    for (ScheduleRequestInfo scheduleRequestInfo : scheduleRequestInfoList) {
+                        schedulingService.deleteScheduleRequest(scheduleRequestInfo.getId(), context);
+                    }
+                    schedulingService.deleteScheduleRequestSet(scheduleRequestSetInfo.getId(), context);
+                }
+            } catch (Exception e) {
+                throw new RuntimeException("Error deleting ScheduleRequest for " + examOfferingId, e);
+            }
+        }
+    }
+
 
     /*Bulk load a list a ScheduleRequestInfo objects and return the results set in a Map of ActivityOffering ids to a list of ScheduleRequestInfo objects.*/
     private static Map<String, List<ScheduleRequestInfo>> buildLuiToScheduleRequestsMap(List<String> luiIds, SchedulingService schedulingService, ContextInfo context)
