@@ -1282,9 +1282,9 @@ function updateInlineTableRowByComponent(component, baseUrl, data) {
         var growlMsg;
         if (driverPerAO) {
             var activityCode = eval("responseData.examOfferingWrapper['aoInfo']['activityCode']");
-            growlMsg = 'AO-driven exams: ' + '\"' + courseOfferingCode + ' Activity ' + activityCode + ': Exam Offering Schedule Request successfully updated.\"';
+            growlMsg = courseOfferingCode + ' Activity ' + activityCode + ': Exam Offering Schedule Request successfully updated.';
         } else {
-            growlMsg = 'CO-driven exams: ' + '\"' + courseOfferingCode + ': Exam Offering Schedule Request successfully updated.\"';
+            growlMsg = courseOfferingCode + ': Exam Offering Schedule Request successfully updated.';
         }
         showGrowl(growlMsg, '', 'SUCCESS');
     }
