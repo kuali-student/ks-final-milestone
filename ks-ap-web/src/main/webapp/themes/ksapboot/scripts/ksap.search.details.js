@@ -110,3 +110,12 @@ function ksapAddCourseSection (data){
             });
     }
 }
+
+function setupActivityIds(){
+    var rowIds = jQuery(".rowActivityOfferingId");
+    for(var i = 0;i<rowIds.length;i++){
+        var rowId = rowIds[i];
+        var parentRow = jQuery("#"+rowId.getAttribute("id")).parents(".ksap-activity-row");
+        parentRow.attr("id",rowId.innerHTML.trim());
+    }
+}
