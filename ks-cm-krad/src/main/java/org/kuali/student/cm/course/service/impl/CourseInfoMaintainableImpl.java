@@ -51,6 +51,7 @@ import org.kuali.student.cm.common.util.ProposalLinkBuilder;
 import org.kuali.student.cm.course.controller.CourseController;
 import org.kuali.student.cm.course.form.ActivityInfoWrapper;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
+import org.kuali.student.core.rice.authorization.DocumentCollaboratorHelper;
 import org.kuali.student.r1.core.workflow.dto.CollaboratorWrapper;
 import org.kuali.student.cm.course.form.CourseCreateUnitsContentOwner;
 import org.kuali.student.cm.course.form.CourseInfoWrapper;
@@ -1312,6 +1313,20 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         courseInfoWrapper.getCourseInfo().setStartTerm(courseInfoWrapper.getCourseInfo().getStartTerm());
         courseInfoWrapper.getCourseInfo().setEndTerm(courseInfoWrapper.getCourseInfo().getEndTerm());
         courseInfoWrapper.getCourseInfo().setPilotCourse(courseInfoWrapper.getCourseInfo().isPilotCourse());
+
+        for (CollaboratorWrapper collaboratorWrapper : courseInfoWrapper.getCollaboratorWrappers()) {
+            ProposalInfo proposalInfo = courseInfoWrapper.getProposalInfo();
+            if(proposalInfo.getWorkflowId() == null && (collaboratorWrapper.getDisplayName() == null) )
+                continue;
+            String displayName = collaboratorWrapper.getDisplayName();
+            String principalId = displayName.substring(displayName.indexOf("(") + 1, displayName.length() - 1);
+            collaboratorWrapper.setPrincipalId(principalId.toUpperCase());
+            try {
+                DocumentCollaboratorHelper.addCollaborator(proposalInfo.getWorkflowId(), proposalInfo.getId(), "title here", collaboratorWrapper.getPrincipalId(), collaboratorWrapper.getPermission(), collaboratorWrapper.getAction(), true, "");
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
 
         try {
             saveProposal();

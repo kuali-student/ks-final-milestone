@@ -96,9 +96,9 @@
                         <bean parent="KS-Uif-DropdownControl">
                             <property name="options">
                                 <list>
-                                    <bean parent="Uif-KeyLabelPair" p:key="view" p:value="View"/>
-                                    <bean parent="Uif-KeyLabelPair" p:key="comment" p:value="Comments, View"/>
-                                    <bean parent="Uif-KeyLabelPair" p:key="edit" p:value="Edit, Comments, View"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="KS-SYS~Open Document" p:value="View"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="KS-SYS~Add a Comment" p:value="Comments, View"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="KS-SYS~Edit Document" p:value="Edit, Comments, View"/>
                                 </list>
                             </property>
                         </bean>
@@ -110,7 +110,7 @@
                         <bean parent="KS-Uif-DropdownControl">
                             <property name="options">
                                 <list>
-                                    <bean parent="Uif-KeyLabelPair" p:key="fyi" p:value="FYI"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="F" p:value="FYI"/>
                                 </list>
                             </property>
                         </bean>
