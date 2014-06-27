@@ -203,6 +203,8 @@
                     </property>
                     <property name="collectionLookup">
                         <bean id="KS-LearningObjective-Category-QuickFinder" parent="Uif-CollectionQuickFinder">
+                            <property name="baseLookupUrl"
+                                      value="@{#ConfigProperties['application.url']}/kr-krad/CategoryTypelookup"/>
                             <property name="autoSearch" value="true"/>
                             <property name="quickfinderAction">
                                 <bean parent="Uif-ActionLink" p:actionLabel="Find Categories">
