@@ -1011,10 +1011,16 @@ function toggleInlineRowByComponent(component, saveInitialValues){
     });
 
     jQuery(row).find('.toggleable-element').each(function(){
-        if (jQuery(this).attr('id').indexOf('EO-toggleUpdateButton_') === 0 && saveInitialValues && onMatrix) {
-            if (overrideMatrix) {
-                if (jQuery(this).hasClass("off")) {
-                    jQuery(this).switchClass("off", "on");
+        if (jQuery(this).attr('id').indexOf('EO-toggleUpdateButton_') === 0 && onMatrix) {
+            if (saveInitialValues ) {
+                if (overrideMatrix) {
+                    if (jQuery(this).hasClass("off")) {
+                        jQuery(this).switchClass("off", "on");
+                    }
+                } else {
+                    if (jQuery(this).hasClass("on")) {
+                        jQuery(this).switchClass("on", "off");
+                    }
                 }
             } else {
                 if (jQuery(this).hasClass("on")) {
