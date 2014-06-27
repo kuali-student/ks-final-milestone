@@ -84,7 +84,7 @@
                             </bean>
                             <bean parent="KS-Uif-DataField" p:colSpan="3" id="start_end_date" p:label="Start/End"
                                   p:fieldLabel.renderColon="false" p:propertyName="termStartEndDate"/>
-                            <bean parent="KS-Uif-DataField" id="type_name" p:label="Activity Type"
+                            <bean parent="KS-Uif-DataField" id="type_name" p:label="Activity Type" p:additionalCssClasses="ks-ObjectDetailsPanel-spacing"
                                   p:fieldLabel.renderColon="false" p:propertyName="typeName"/>
                             <bean parent="KS-Uif-DataField" id="format_offering_name" p:label="Format"
                                   p:fieldLabel.renderColon="false" p:propertyName="aoInfo.formatOfferingName"/>
