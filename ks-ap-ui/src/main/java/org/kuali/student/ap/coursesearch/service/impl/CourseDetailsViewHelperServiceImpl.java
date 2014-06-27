@@ -35,6 +35,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.TimeOfDayHelper;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.infc.Term;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
@@ -183,15 +184,17 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
                     FormatOfferingInfoWrapper formatOfferingInfo = new FormatOfferingInfoWrapper(formatOffering);
 
                     List<ActivityFormatDetailsWrapper> activityFormatDetailsWrappers = new ArrayList<ActivityFormatDetailsWrapper>();
-                    Map<String, List<ActivityOfferingDetailsWrapper>> aosByType = aosByFormat.get(formatOfferingInfo.getFormatOfferingId());
+                    Map<String, List<ActivityOfferingDetailsWrapper>> aosByTypeMap = aosByFormat.get(formatOfferingInfo.getFormatOfferingId());
 
-                    for (Map.Entry<String, List<ActivityOfferingDetailsWrapper>> entry2 : aosByType.entrySet()) {
+                    for (Map.Entry<String, List<ActivityOfferingDetailsWrapper>> aosByType : aosByTypeMap.entrySet()) {
+                        //TypeService is cached, so this should be safe to have inside the loop here
+                        TypeInfo typeInfo = KsapFrameworkServiceLocator.getTypeService().getType(aosByType.getKey(), contextInfo);
                         ActivityFormatDetailsWrapper activityFormatDetailsWrapper = new ActivityFormatDetailsWrapper(
-                                entry2.getKey());
-                        activityFormatDetailsWrapper.setActivityOfferingDetailsWrappers(entry2.getValue());
+                                typeInfo.getName());
+                        activityFormatDetailsWrapper.setActivityOfferingDetailsWrappers(aosByType.getValue());
                         activityFormatDetailsWrappers.add(activityFormatDetailsWrapper);
 
-                        plannedActivityOfferings.addAll(getPlannedActivityOfferingsByTermAndCO(entry2.getValue()));
+                        plannedActivityOfferings.addAll(getPlannedActivityOfferingsByTermAndCO(aosByType.getValue()));
 
                     }
 
