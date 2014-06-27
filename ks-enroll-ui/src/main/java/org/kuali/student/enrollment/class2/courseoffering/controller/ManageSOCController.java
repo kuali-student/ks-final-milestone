@@ -85,8 +85,10 @@ public class ManageSOCController extends UifControllerBase {
 
             ManageSOCViewHelperService viewHelper = (ManageSOCViewHelperService) KSControllerHelper.getViewHelperService(socForm);
             viewHelper.lockSOC(socForm);
+            buildModelForTerm(socForm);
 
-            return buildModel(socForm, result, request, response);
+            //TODO KSENROLL-13333: Revisit navigate once KS is upgraded to Rice 2.5
+            return super.navigate(socForm, result, request, response);
 
         } else {
             return getUIFModelAndView(socForm);
@@ -129,21 +131,23 @@ public class ManageSOCController extends UifControllerBase {
     public ModelAndView buildModel(@ModelAttribute("KualiForm") ManageSOCForm socForm, @SuppressWarnings("unused") BindingResult result,
                                    @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
 
+        buildModelForTerm(socForm);
+        return getUIFModelAndView(socForm);
+    }
+
+    private void buildModelForTerm(ManageSOCForm socForm) {
+        // Always clear form before building the model.
+        socForm.clear();
+
         ManageSOCViewHelperService viewHelper = (ManageSOCViewHelperService) KSControllerHelper.getViewHelperService(socForm);
-
-
         TermInfo term = viewHelper.getTermByCode(socForm.getTermCode());
         if(term!=null){
-            socForm.clear();
             socForm.setTermInfo(term);
             viewHelper.buildModel(socForm);
-        } else {
-            socForm.clear();
         }
-        return getUIFModelAndView(socForm);
-
 
     }
+
 
     @RequestMapping(params = "methodToCall=allowFinalEdits")
     public ModelAndView allowFinalEdits(@ModelAttribute("KualiForm") ManageSOCForm socForm, @SuppressWarnings("unused") BindingResult result,
@@ -271,6 +275,7 @@ public class ManageSOCController extends UifControllerBase {
         if (dialogAnswer) {
             viewHelper.startEOBulkSlotting(socForm);
 
+            //TODO KSENROLL-13333: Revisit navigate once KS is upgraded to Rice 2.5
             return super.navigate(socForm, result, request, response);
         } else {
             return getUIFModelAndView(socForm);
