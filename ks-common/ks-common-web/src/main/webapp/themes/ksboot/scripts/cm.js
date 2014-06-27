@@ -448,22 +448,6 @@ function setupCharCounters() {
     jQuery(".cm-charcount-max-1000").jqEasyCounter({'maxChars':1000, 'maxCharsWarning':950, 'msgTextAlign':'left'});
 }
 
-/*Learning Objective functionality*/
-
-function moveLo(button, collectionGroupId, controllerMethod) {
-    performLOToolbarAction(button, collectionGroupId, controllerMethod);
-    retrieveComponent(collectionGroupId, controllerMethod);
-}
-
-function performLOToolbarAction(button, collectionGroupId, controllerMethod) {
-    var id = button.id;
-    var lineSuffixIndex = id.lastIndexOf("_line");
-    var lineNumberIndex = lineSuffixIndex + "_line".length;
-    var index = id.substr(lineNumberIndex);
-    /* Set the 'selected' property on the LoItem */
-    jQuery('#KS-LoDisplayInfoWrapper-selected_line' + index + '_control').prop('value', true);
-}
-
 function applyIndentationStyling() {
     jQuery(".uif-collectionItem[data-parent='LearningObjective-CollectionSection']").each(function (index) {
         var indentString = jQuery('#KS-LoDisplayInfoWrapper-indentLevel_line' + index + '_control').prop('value');
