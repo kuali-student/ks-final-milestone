@@ -12,6 +12,7 @@ import org.kuali.student.ap.coursesearch.dataobject.ActivityOfferingDetailsWrapp
 import org.kuali.student.ap.coursesearch.dataobject.CourseOfferingDetailsWrapper;
 import org.kuali.student.ap.coursesearch.dataobject.CourseTermDetailsWrapper;
 import org.kuali.student.ap.coursesearch.dataobject.FormatOfferingInfoWrapper;
+import org.kuali.student.ap.coursesearch.dataobject.PlannedRegistrationGroupDetailsWrapper;
 import org.kuali.student.ap.coursesearch.form.CourseSectionDetailsForm;
 import org.kuali.student.ap.coursesearch.service.CourseDetailsViewHelperService;
 import org.kuali.student.ap.coursesearch.util.CourseDetailsUtil;
@@ -173,7 +174,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
                 Map<String, Map<String, List<ActivityOfferingDetailsWrapper>>>
                         aosByFormat = getAOData(offering.getId());
 
-                List<ActivityOfferingDetailsWrapper> plannedActivityOfferings = new ArrayList<ActivityOfferingDetailsWrapper>();
+                List<PlannedRegistrationGroupDetailsWrapper> plannedActivityOfferings = new ArrayList<PlannedRegistrationGroupDetailsWrapper>();
 
                 for (FormatOfferingInfo formatOffering : formatOfferings) {
                     FormatOfferingInfoWrapper formatOfferingInfo = new FormatOfferingInfoWrapper(formatOffering);
@@ -190,7 +191,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
                             activityFormatDetailsWrapper.setActivityOfferingDetailsWrappers(aosByType.getValue());
                             activityFormatDetailsWrappers.add(activityFormatDetailsWrapper);
 
-                            plannedActivityOfferings.addAll(getPlannedActivityOfferingsByTermAndCO(aosByType.getValue()));
+                            plannedActivityOfferings.addAll(getPlannedPlannedRegistrationGroups(aosByType.getValue()));
 
                         }
                     }
@@ -234,8 +235,9 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
         return map;
     }
 
-    private List<ActivityOfferingDetailsWrapper> getPlannedActivityOfferingsByTermAndCO(
+    private List<PlannedRegistrationGroupDetailsWrapper> getPlannedPlannedRegistrationGroups(
             List<ActivityOfferingDetailsWrapper> activities) throws Exception{
+
         List<ActivityOfferingDetailsWrapper> activityOfferings = new ArrayList<ActivityOfferingDetailsWrapper>();
         for(ActivityOfferingDetailsWrapper activityOfferingDetailsWrapper : activities){
             if(activityOfferingDetailsWrapper.isInPlan()){
@@ -243,7 +245,24 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
             }
         }
 
-        return activityOfferings;
+        List<PlannedRegistrationGroupDetailsWrapper> plannedRegistrationGroupDetailsWrappers = new ArrayList<PlannedRegistrationGroupDetailsWrapper>();
+        for(ActivityOfferingDetailsWrapper activityFormatDetailsWrapper : activityOfferings){
+            boolean found = false;
+            for(PlannedRegistrationGroupDetailsWrapper plannedRegistrationGroupDetailsWrapper : plannedRegistrationGroupDetailsWrappers){
+                if(plannedRegistrationGroupDetailsWrapper.getRegGroupCode().equals(activityFormatDetailsWrapper.getRegGroupCode())){
+                    found = true;
+                    plannedRegistrationGroupDetailsWrapper.addActivities(activityFormatDetailsWrapper);
+                }
+            }
+            if(!found){
+                PlannedRegistrationGroupDetailsWrapper newPlanReg = new PlannedRegistrationGroupDetailsWrapper();
+                newPlanReg.setRegGroupCode(activityFormatDetailsWrapper.getRegGroupCode());
+                newPlanReg.addActivities(activityFormatDetailsWrapper);
+                plannedRegistrationGroupDetailsWrappers.add(newPlanReg);
+            }
+        }
+
+        return plannedRegistrationGroupDetailsWrappers;
     }
 
     private Map<String, Map<String, List<ActivityOfferingDetailsWrapper>>> getAOData(String courseOfferingId) throws Exception {

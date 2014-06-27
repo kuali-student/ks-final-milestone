@@ -28,7 +28,7 @@ public class CourseOfferingDetailsWrapper {
     private List<FormatOfferingInfoWrapper> formatOfferingInfoWrappers;
 
 
-    private List<ActivityOfferingDetailsWrapper> plannedActivityDetailsWrappers;
+    private List<PlannedRegistrationGroupDetailsWrapper> plannedActivityDetailsWrappers;
 
     public CourseOfferingDetailsWrapper (CourseOfferingInfo courseOfferingInfo) {
         courseOfferingId = courseOfferingInfo.getId();
@@ -82,11 +82,11 @@ public class CourseOfferingDetailsWrapper {
         this.multipleFormatOfferings = multipleFormatOfferings;
     }
 
-    public List<ActivityOfferingDetailsWrapper> getPlannedActivityDetailsWrappers() {
+    public List<PlannedRegistrationGroupDetailsWrapper> getPlannedActivityDetailsWrappers() {
         return plannedActivityDetailsWrappers;
     }
 
-    public void setPlannedActivityDetailsWrappers(List<ActivityOfferingDetailsWrapper>
+    public void setPlannedActivityDetailsWrappers(List<PlannedRegistrationGroupDetailsWrapper>
             plannedActivityDetailsWrappers) {
         this.plannedActivityDetailsWrappers = plannedActivityDetailsWrappers;
     }
@@ -94,7 +94,7 @@ public class CourseOfferingDetailsWrapper {
     public int getPlannedGroupsCount() {
         int count=0;
         String lastCountedRegGroupCode="";
-        for (ActivityOfferingDetailsWrapper plannedActivities : plannedActivityDetailsWrappers ) {
+        for (PlannedRegistrationGroupDetailsWrapper plannedActivities : plannedActivityDetailsWrappers ) {
             if (!lastCountedRegGroupCode.equals(plannedActivities.getRegGroupCode())) {
                 count++;
                 lastCountedRegGroupCode=plannedActivities.getRegGroupCode();

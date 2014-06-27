@@ -280,7 +280,7 @@
             </list>
         </property>
         <property name="collectionObjectClass"
-                  value="org.kuali.student.ap.coursesearch.dataobject.ActivityOfferingDetailsWrapper"/>
+                  value="org.kuali.student.ap.coursesearch.dataobject.PlannedRegistrationGroupDetailsWrapper"/>
         <property name="propertyName" value="plannedActivityDetailsWrappers"/>
         <property name="renderAddLine" value="false" />
         <property name="renderLineActions" value="false" />
@@ -318,7 +318,31 @@
                                   p:messageText="@{#textHelper.getFormattedMessage('details.regGroup.code', new Object[]{#line.regGroupCode})}"
                                   p:labelRendered="true">
                             </bean>
-                            <bean parent="Uif-HorizontalBoxGroup">
+                            <bean parent="Uif-StackedCollectionGroup">
+                                <property name="id" value="KSAP-CourseSectionDetails-PlannedSections_@{#line.regGroupCode}"/>
+                                <property name="validationMessages.displayMessages" value="false" />
+                                <property name="header">
+                                    <bean parent="Uif-HeaderFour" p:render="false" />
+                                </property>
+                                <property name="collectionLookup">
+                                    <bean parent="Uif-QuickFinder">
+                                        <property name="render" value="false"/>
+                                    </bean>
+                                </property>
+                                <property name="collectionObjectClass"
+                                          value="org.kuali.student.ap.coursesearch.dataobject.ActivityOfferingDetailsWrapper"/>
+                                <property name="propertyName" value="activities"/>
+                                <property name="renderAddLine" value="false" />
+                                <property name="renderLineActions" value="false" />
+                                <property name="bindingInfo.bindToForm" value="true" />
+                                <property name="disclosure.render" value="false" />
+                                <property name="layoutManager">
+                                    <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
+                                        <property name="lineGroupPrototype">
+                                            <bean parent="Uif-CollectionHorizontalBoxItem" />
+                                        </property>
+                                    </bean>
+                                </property>
                                 <property name="items">
                                     <list>
                                         <!--p:label="@{#textHelper.getText('details.ao.header.type')}"-->
@@ -338,12 +362,12 @@
                                               p:messageText="@{#line.activityOfferingCode}">
                                         </bean>
                                         <!--p:label="@{#textHelper.getText('details.ao.header.instructor')}" p:additionalCssClasses="nowrap"-->
-                                        <bean parent="Uif-DataField"
+                                        <bean parent="Uif-MessageField"
                                               p:additionalCssClasses="ksap-section-instructor"
                                               p:id="instructor"
                                               p:label="Instructor"
                                               p:labelRendered="true"
-                                              p:propertyName="instructorName">
+                                              p:messageText="@{#line.instructorName}">
                                         </bean>
                                         <!--p:label="@{#textHelper.getText('details.ao.header.days')}"-->
                                         <bean parent="Uif-MessageField"
