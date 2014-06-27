@@ -51,8 +51,6 @@ import org.kuali.student.cm.common.util.ProposalLinkBuilder;
 import org.kuali.student.cm.course.controller.CourseController;
 import org.kuali.student.cm.course.form.ActivityInfoWrapper;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
-import org.kuali.student.core.rice.authorization.DocumentCollaboratorHelper;
-import org.kuali.student.r1.core.workflow.dto.CollaboratorWrapper;
 import org.kuali.student.cm.course.form.CourseCreateUnitsContentOwner;
 import org.kuali.student.cm.course.form.CourseInfoWrapper;
 import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
@@ -73,6 +71,7 @@ import org.kuali.student.cm.maintenance.CMMaintainable;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.core.krms.tree.KSRuleViewTreeBuilder;
+import org.kuali.student.core.rice.authorization.DocumentCollaboratorHelper;
 import org.kuali.student.lum.lu.ui.course.keyvalues.OrgsBySubjectCodeValuesFinder;
 import org.kuali.student.lum.lu.ui.krms.dto.LUAgendaEditor;
 import org.kuali.student.lum.lu.ui.krms.dto.LURuleEditor;
@@ -81,6 +80,7 @@ import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.r1.core.personsearch.service.impl.QuickViewByGivenName;
 import org.kuali.student.r1.core.proposal.ProposalConstants;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
+import org.kuali.student.r1.core.workflow.dto.CollaboratorWrapper;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -1137,6 +1137,21 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     }
 
 
+    private void retriveCollaborators(CourseInfoWrapper courseInfoWrapper){
+        ProposalInfo proposalInfo = courseInfoWrapper.getProposalInfo();
+        try{
+            courseInfoWrapper.getCollaboratorWrappers().clear();
+            courseInfoWrapper.setCollaboratorWrappers(DocumentCollaboratorHelper.getCollaborators(proposalInfo.getWorkflowId(), proposalInfo.getId(), proposalInfo.getType()));
+            for(CollaboratorWrapper collaboratorWrapper : courseInfoWrapper.getCollaboratorWrappers()) {
+                String displayName = collaboratorWrapper.getLastName() + "," + collaboratorWrapper.getFirstName() + " (" + collaboratorWrapper.getPrincipalId().toLowerCase() + ")";
+                collaboratorWrapper.setDisplayName(displayName);
+            }
+        }
+        catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
+
     private String getTermDesc(String term) {
 
         String result = "";
@@ -1314,20 +1329,30 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         courseInfoWrapper.getCourseInfo().setEndTerm(courseInfoWrapper.getCourseInfo().getEndTerm());
         courseInfoWrapper.getCourseInfo().setPilotCourse(courseInfoWrapper.getCourseInfo().isPilotCourse());
 
-        for (CollaboratorWrapper collaboratorWrapper : courseInfoWrapper.getCollaboratorWrappers()) {
+        if(courseInfoWrapper.getProposalInfo().getWorkflowId() != null){
             ProposalInfo proposalInfo = courseInfoWrapper.getProposalInfo();
-            if(proposalInfo.getWorkflowId() == null && (collaboratorWrapper.getDisplayName() == null) )
-                continue;
-            String displayName = collaboratorWrapper.getDisplayName();
-            String principalId = displayName.substring(displayName.indexOf("(") + 1, displayName.length() - 1);
-            collaboratorWrapper.setPrincipalId(principalId.toUpperCase());
-            try {
-                DocumentCollaboratorHelper.addCollaborator(proposalInfo.getWorkflowId(), proposalInfo.getId(), "title here", collaboratorWrapper.getPrincipalId(), collaboratorWrapper.getPermission(), collaboratorWrapper.getAction(), true, "");
-            } catch (Exception e) {
+            try{
+                for(CollaboratorWrapper collaboratorWrapper : DocumentCollaboratorHelper.getCollaborators(proposalInfo.getWorkflowId(), proposalInfo.getId(), proposalInfo.getType()) ){
+                    DocumentCollaboratorHelper.removeCollaborator(proposalInfo.getWorkflowId(), proposalInfo.getId(), collaboratorWrapper.getActionRequestId());
+                }
+            }
+            catch(Exception e){
                 throw new RuntimeException(e);
             }
-        }
 
+            for (CollaboratorWrapper collaboratorWrapper : courseInfoWrapper.getCollaboratorWrappers()) {
+                if(proposalInfo.getWorkflowId() == null && (collaboratorWrapper.getDisplayName() == null) )
+                    continue;
+                String displayName = collaboratorWrapper.getDisplayName();
+                String principalId = displayName.substring(displayName.indexOf("(") + 1, displayName.length() - 1);
+                collaboratorWrapper.setPrincipalId(principalId.toUpperCase());
+                try {
+                    DocumentCollaboratorHelper.addCollaborator(proposalInfo.getWorkflowId(), proposalInfo.getId(), "title here", collaboratorWrapper.getPrincipalId(), collaboratorWrapper.getPermission(), collaboratorWrapper.getAction(), true, "");
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
         try {
             saveProposal();
         } catch (Exception e) {
@@ -1782,6 +1807,8 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             if (dataObject.getCollaboratorWrappers().isEmpty()) {
                 dataObject.getCollaboratorWrappers().add(new CollaboratorWrapper());
             }
+
+            retriveCollaborators(dataObject);
 
             populateAuditOnWrapper();
             populateFinalExamOnWrapper();
