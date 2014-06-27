@@ -33,7 +33,7 @@ public class KSWorkshopCourse implements Serializable{
     private Integer credits;
     private String regOptions;
     private Date regDate;
-    private List<KSWorkshopActivity> activities;
+    private List<KSWorkshopActivity> activities = new ArrayList<KSWorkshopActivity>();
 
     public KSWorkshopCourse(){}
 

@@ -18,9 +18,11 @@ package org.kuali.student.enrollment.class2.registration.admin.controller;
 
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.enrollment.class2.registration.admin.form.KSRegistrationIssue;
 import org.kuali.student.enrollment.class2.registration.admin.form.KSWorkshopActivity;
 import org.kuali.student.enrollment.class2.registration.admin.form.KSWorkshopCourse;
 import org.kuali.student.enrollment.class2.registration.admin.form.KSWorkshopForm;
+import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationIssueItem;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -60,12 +62,13 @@ public class KSWorkshopController extends UifControllerBase {
         return getUIFModelAndView(form);
     }
 
-    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=register")
+    @RequestMapping(params = "methodToCall=register")
     public ModelAndView register(@ModelAttribute("KualiForm") KSWorkshopForm form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) {
-        /*
-        DialogResponse dialogResponse = form.getDialogResponse("KS-AdminRegistration-RegisterDialogResponse");
-        if (dialogResponse == null) {    */
+
+        String dialogName = "registerConfirmDialog";
+        if (!hasDialogBeenAnswered(dialogName, form)) {
+
             for (KSWorkshopCourse course: form.getPendingCourses()) {
                 course.setCourseName("Some course name here");
                 course.setCredits(3);
@@ -77,15 +80,30 @@ public class KSWorkshopController extends UifControllerBase {
                 course.setActivities(activities);
             }
 
-      /*      return showDialog("KS-AdminRegistration-RegisterDialogResponse", true, form);
-        }
-        else if (dialogResponse != null) {           */
-            // continue with registration
+            return showDialog(dialogName, form, request, response);
+        } else  {
 
-            form.getRegisteredCourses().addAll(form.getPendingCourses());
-            form.setPendingCourses(new ArrayList<KSWorkshopCourse>());
-            form.getPendingCourses().add(new KSWorkshopCourse());
-       // }   */
+            for(KSWorkshopCourse course : form.getPendingCourses()){
+                if("PHYS232".equals(course.getCourse())){
+
+                    // add registration issue
+                    KSRegistrationIssue issue = new KSRegistrationIssue();
+                    issue.setCourse(course);
+                    issue.getItems().add(new RegistrationIssueItem("No seats available."));
+                    issue.getItems().add(new RegistrationIssueItem("Time conflict with ENGL100 (10001)."));
+                    form.getRegistrationIssues().add(issue);
+
+                } else {
+
+                    // continue with registration
+                    form.getRegisteredCourses().addAll(form.getPendingCourses());
+                    form.setPendingCourses(new ArrayList<KSWorkshopCourse>());
+                    form.getPendingCourses().add(new KSWorkshopCourse());
+                }
+            }
+
+            form.getDialogManager().resetDialogStatus(dialogName);
+        }
 
         return getUIFModelAndView(form);
     }
