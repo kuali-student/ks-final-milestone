@@ -47,9 +47,9 @@ public class GesServiceDataLoadingDecorator extends GesServiceDecorator {
         _createParam(GesServiceConstants.PARAMETER_KEY_LOAD_CALCULATION_FOR_CREDIT_CHECKS, "Load Calculation for Credit Checks",
                 "The Load Calculation to use for credit limit checks", ValueType.STRING, contextInfo);
 
-        _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT, 1, "6",
+        _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT, 1, "8",
                 "kuali.population.student.key.everyone", "kuali.atp.type.Summer1", contextInfo);
-        _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT, 2, "21",
+        _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT, 2, "20",
                 "kuali.population.student.key.everyone", "kuali.atp.type.Fall, kuali.atp.type.Spring", contextInfo);
 //        _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT, 3, "15",
 //                "kuali.population.freshman", "kuali.atp.type.Fall, kuali.atp.type.Spring", contextInfo);
