@@ -923,3 +923,12 @@ function validateNewLoCategoryAndType(value, element) {
     }
     return true;
 }
+
+function categoryTypeSelection(selectAll) {
+    if (selectAll == 'true') {
+        /*  select all types  */
+
+    } else {
+        /* deselect all types */
+    }
+}
