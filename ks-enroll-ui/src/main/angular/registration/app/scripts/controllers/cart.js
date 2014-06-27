@@ -97,6 +97,7 @@ angular.module('regCartApp')
         });
 
         function addCourseToCart(cartId, courseCode, termId, regGroupCode, regGroupId, gradingOptionId, credits) {
+            $scope.courseAdded = false; // reset cursor focus
             CartService.addCourseToCart().query({
                 cartId: cartId,
                 courseCode: courseCode,
@@ -119,6 +120,7 @@ angular.module('regCartApp')
                 $timeout(function(){
                     response.addingNewCartItem = false;
                 }, 2000);
+                $scope.courseAdded = true; // refocus cursor back to course code
             }, function (error) {
                 console.log('CartId:', cartId);
                 if (error.status === 404) {
@@ -127,6 +129,7 @@ angular.module('regCartApp')
                         error.data = error.data.replace(courseCode, "<strong>" + courseCode + "</strong>");
                     }
                     $scope.userMessage = {txt: error.data, type: STATUS.error};
+                    $scope.courseAdded = true;  // refocus cursor back to course code
                 } else if (error.status === 400) {
                     console.log('CartId: ', cartId);
                     //Additional options are required
@@ -160,9 +163,11 @@ angular.module('regCartApp')
                             };
                         }]
                     });
+                    $scope.courseAdded = true; // refocus cursor back to course code
                 } else {
                     console.log('Error with adding course', error.data.consoleMessage);
                     $scope.userMessage = {txt: error.data.genericMessage, type: error.data.type, detail: error.data.detailedMessage};
+                    $scope.courseAdded = true; // refocus cursor back to course code
                 }
             });
         }

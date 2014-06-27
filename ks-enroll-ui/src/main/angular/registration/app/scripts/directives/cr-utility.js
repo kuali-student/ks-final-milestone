@@ -30,6 +30,24 @@ angular.module('regCartApp')
     })
 
     /*
+     This directive puts focus on an element, but allows for blur.
+     */
+    .directive('focusOnce', function($timeout, $parse) {
+        return {
+            link: function(scope, element, attrs) {
+                var model = $parse(attrs.focusOnce);
+                scope.$watch(model, function(value) {
+                    if(value === true) {
+                        $timeout(function() {
+                            element[0].focus();
+                        });
+                    }
+                });
+            }
+        };
+    })
+
+    /*
     This directive puts the drop menu on any page. The menu will hide itself if
     resized (based on the dropMenu scope variable)
      */
