@@ -359,15 +359,8 @@
 
 
     <bean id="coServiceValidation" class="org.kuali.student.enrollment.class2.courseoffering.service.decorators.CourseOfferingServiceValidationDecorator">
-        <property name="nextDecorator" ref="coServicePerformanceImpl" />
-        <property name="validator" ref="validator" />
-        <property name="searchService" ref="searchService" />
-    </bean>
-
-    <!-- This performance impl goes directly against the database layer. If you are implementing your own database for course offering
-         please do not use this decorator. ie. take it out of the decorator chain. -->
-    <bean id="coServicePerformanceImpl" class="org.kuali.student.enrollment.class2.courseoffering.service.decorators.CourseOfferingServicePerformanceDecorator">
         <property name="nextDecorator" ref="coServiceImpl" />
+        <property name="validator" ref="validator" />
         <property name="searchService" ref="searchService" />
     </bean>
 
