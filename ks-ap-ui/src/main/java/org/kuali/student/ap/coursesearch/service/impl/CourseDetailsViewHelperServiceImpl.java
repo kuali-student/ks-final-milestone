@@ -186,16 +186,18 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
                     List<ActivityFormatDetailsWrapper> activityFormatDetailsWrappers = new ArrayList<ActivityFormatDetailsWrapper>();
                     Map<String, List<ActivityOfferingDetailsWrapper>> aosByTypeMap = aosByFormat.get(formatOfferingInfo.getFormatOfferingId());
 
-                    for (Map.Entry<String, List<ActivityOfferingDetailsWrapper>> aosByType : aosByTypeMap.entrySet()) {
-                        //TypeService is cached, so this should be safe to have inside the loop here
-                        TypeInfo typeInfo = KsapFrameworkServiceLocator.getTypeService().getType(aosByType.getKey(), contextInfo);
-                        ActivityFormatDetailsWrapper activityFormatDetailsWrapper = new ActivityFormatDetailsWrapper(
-                                typeInfo.getName());
-                        activityFormatDetailsWrapper.setActivityOfferingDetailsWrappers(aosByType.getValue());
-                        activityFormatDetailsWrappers.add(activityFormatDetailsWrapper);
+                    if (aosByTypeMap != null) {
+                        for (Map.Entry<String, List<ActivityOfferingDetailsWrapper>> aosByType : aosByTypeMap.entrySet()) {
+                            //TypeService is cached, so this should be safe to have inside the loop here
+                            TypeInfo typeInfo = KsapFrameworkServiceLocator.getTypeService().getType(aosByType.getKey(), contextInfo);
+                            ActivityFormatDetailsWrapper activityFormatDetailsWrapper = new ActivityFormatDetailsWrapper(
+                                    typeInfo.getName());
+                            activityFormatDetailsWrapper.setActivityOfferingDetailsWrappers(aosByType.getValue());
+                            activityFormatDetailsWrappers.add(activityFormatDetailsWrapper);
 
-                        plannedActivityOfferings.addAll(getPlannedActivityOfferingsByTermAndCO(aosByType.getValue()));
+                            plannedActivityOfferings.addAll(getPlannedActivityOfferingsByTermAndCO(aosByType.getValue()));
 
+                        }
                     }
 
 
