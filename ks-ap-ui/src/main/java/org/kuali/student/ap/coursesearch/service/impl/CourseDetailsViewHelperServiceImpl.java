@@ -183,7 +183,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
                             //TypeService is cached, so this should be safe to have inside the loop here
                             TypeInfo typeInfo = KsapFrameworkServiceLocator.getTypeService().getType(aosByType.getKey(), contextInfo);
                             ActivityFormatDetailsWrapper activityFormatDetailsWrapper = new ActivityFormatDetailsWrapper(
-                                    typeInfo.getName());
+                                    termId, offering.getCourseOfferingCode(), formatOfferingInfo.getFormatOfferingId(), typeInfo.getName(), typeInfo.getKey());
                             activityFormatDetailsWrapper.setActivityOfferingDetailsWrappers(aosByType.getValue());
                             activityFormatDetailsWrappers.add(activityFormatDetailsWrapper);
 

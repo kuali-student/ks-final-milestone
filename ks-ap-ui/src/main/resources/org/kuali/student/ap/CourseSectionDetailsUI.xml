@@ -239,7 +239,8 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-MessageField" p:messageText="@{#line.formatName} (@{#line.activityOfferingDetailsWrappers.size()})">
+                <bean parent="Uif-MessageField" p:messageText="@{#line.formatName} (@{#line.activityOfferingDetailsWrappers.size()})"
+                        p:id="@{#line.termId}_@{#line.courseOfferingCode}_@{#line.formatOfferingId}_@{#line.formatType}">
                     <property name="cssClasses">
                         <list merge="true">
                             <value>ksap-section-format-title</value>

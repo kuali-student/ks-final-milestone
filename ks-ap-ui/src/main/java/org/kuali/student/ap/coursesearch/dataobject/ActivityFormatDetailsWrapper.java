@@ -11,10 +11,18 @@ import java.util.List;
  */
 public class ActivityFormatDetailsWrapper {
     private String formatName;
+    private String formatType;
+    private String termId;
+    private String courseOfferingCode;
+    private String formatOfferingId;
     private List<ActivityOfferingDetailsWrapper> activityOfferingDetailsWrappers;
 
-    public ActivityFormatDetailsWrapper(String activityFormatName) {
+    public ActivityFormatDetailsWrapper(String termId, String courseOfferingCode, String formatOfferingId, String activityFormatName, String activityTypeKey) {
         formatName = activityFormatName;
+        formatType = activityTypeKey;
+        this.termId = termId;
+        this.courseOfferingCode = courseOfferingCode;
+        this.formatOfferingId = formatOfferingId;
     }
 
     public String getFormatName() {
@@ -23,6 +31,38 @@ public class ActivityFormatDetailsWrapper {
 
     public void setFormatName(String formatName) {
         this.formatName = formatName;
+    }
+
+    public String getFormatType() {
+        return formatType;
+    }
+
+    public void setFormatType(String formatType) {
+        this.formatType = formatType;
+    }
+
+    public String getTermId() {
+        return termId;
+    }
+
+    public void setTermId(String termId) {
+        this.termId = termId;
+    }
+
+    public String getCourseOfferingCode() {
+        return courseOfferingCode;
+    }
+
+    public void setCourseOfferingCode(String courseOfferingCode) {
+        this.courseOfferingCode = courseOfferingCode;
+    }
+
+    public String getFormatOfferingId() {
+        return formatOfferingId;
+    }
+
+    public void setFormatOfferingId(String formatOfferingId) {
+        this.formatOfferingId = formatOfferingId;
     }
 
     public List<ActivityOfferingDetailsWrapper> getActivityOfferingDetailsWrappers() {
