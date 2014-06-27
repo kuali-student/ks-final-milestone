@@ -9,7 +9,7 @@ import org.kuali.student.enrollment.courseregistration.service.CourseRegistratio
 import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
-import org.kuali.student.enrollment.registration.client.service.dto.RegistrationValidationResult;
+import org.kuali.student.enrollment.registration.client.service.impl.util.RegistrationValidationResultsUtil;
 import org.kuali.student.enrollment.registration.engine.dto.RegistrationRequestEngineMessage;
 import org.kuali.student.enrollment.registration.engine.node.AbstractCourseRegistrationNode;
 import org.kuali.student.enrollment.registration.engine.service.CourseRegistrationEngineService;
@@ -30,7 +30,6 @@ public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegist
     public static final Logger LOG = LoggerFactory.getLogger(CourseRegistrationVerifyRegRequestNode.class);
     private CourseRegistrationService courseRegistrationService;
     private LprService lprService;
-    private CourseRegistrationEngineService courseRegistrationEngineService;
 
     public CourseRegistrationService getCourseRegistrationService() {
         if (courseRegistrationService == null) {
@@ -90,9 +89,8 @@ public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegist
                     ValidationResultInfo vr =
                             new ValidationResultInfo(trans.getId(), ValidationResult.ErrorLevel.ERROR,
                                     "Exception occurred during processing. Entire transaction will roll back." );
-                    RegistrationValidationResult vrex = new RegistrationValidationResult(LprServiceConstants.LPRTRANS_ITEM_EXCEPTION_MESSAGE_KEY);
-
-                    vr.setMessage(vrex.marshallResult());
+                    vr.setMessage(RegistrationValidationResultsUtil.
+                            marshallSimpleMessage(LprServiceConstants.LPRTRANS_ITEM_EXCEPTION_MESSAGE_KEY));
                     updateRequestItemsToError(item, updatedMessage, vr);
 
                 }  else {
