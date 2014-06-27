@@ -82,6 +82,7 @@ import org.kuali.student.r1.core.proposal.ProposalConstants;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.util.constants.LearningObjectiveServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
@@ -455,7 +456,18 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                         }
 
                         if (!isCategoryAlreadyExist) {
-                            //new category creation code goes here
+                            //if category doesn't exist then create newly.
+                            loCategoryInfo.setStateKey(CurriculumManagementConstants.STATE_KEY_ACTIVE);
+                            loCategoryInfo.setLoRepositoryKey(CurriculumManagementConstants.KUALI_LO_REPOSITORY_KEY_SINGLE_USE);
+                            try {
+                                LoCategoryInfo savedLoCat = getLearningObjectiveService().createLoCategory(loCategoryInfo.getTypeKey(), loCategoryInfo,
+                                        ContextUtils.getContextInfo());
+                                BeanUtils.copyProperties(loCategoryInfo, savedLoCat);
+                            } catch (DataValidationErrorException e) {
+                                LOG.error("An error occurred while trying to create a duplicate Learning Objective Category", e);
+                            } catch (Exception e) {
+                                LOG.error("An error occurred while trying to create a new Learning Objective Category", e);
+                            }
                         }
                     } else {
                         return false;
@@ -1942,5 +1954,6 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         }
         return atpService;
     }
+
 
 }
