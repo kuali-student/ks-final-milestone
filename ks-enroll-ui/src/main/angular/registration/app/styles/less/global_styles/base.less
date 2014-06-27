@@ -28,12 +28,18 @@ input:-moz-placeholder {
    font-style: italic;
 }
 
+// Rounded corners
 .Rounded(@radius:@defaultRadius){
     -webkit-border-radius:@radius;
        -moz-border-radius:@radius;
             border-radius:@radius;
 }
 
+// Drop shadows (Pulled from bootstrap mixins.less)
+.box-shadow(@shadow) {
+    -webkit-box-shadow: @shadow; // iOS <4.3 & Android <4.1
+    box-shadow: @shadow;
+}
 
 .global-Base-divider {
     width: 5px;
