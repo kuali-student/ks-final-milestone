@@ -65,6 +65,7 @@
         <property name="disclosure.render" value="true"/>
         <property name="propertyName" value="courseTermDetailsWrappers"/>
         <!-- Disclosure items REQUIRE a summary title to work correctly -->
+        <property name="layoutManager.lineGroupPrototype.id" value="@{#line.xmlSafeTermId}_section"/>
         <property name="layoutManager.lineGroupPrototype.header.render" value="true"/>
         <property name="layoutManager.lineGroupPrototype.header.additionalCssClasses"
                   value="@{#line.getTermAbbreviation()}"/>
@@ -93,6 +94,7 @@
         <property name="renderLineActions" value="false"/>
         <property name="disclosure.render" value="true"/>
         <property name="propertyName" value="courseOfferingDetailsWrappers"/>
+        <property name="layoutManager.lineGroupPrototype.id" value="@{#line.xmlSafeTermId}_@{#line.courseOfferingCode}_section"/>
         <property name="layoutManager.lineGroupPrototype.header.render" value="true"/>
         <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
         <!-- The below finalizeMethodToCall will handle turning on/off the rendering of the disclosure based on how many COs there are "/>-->
@@ -194,7 +196,7 @@
         <property name="renderLineActions" value="false"/>
         <property name="disclosure.render" value="false"/>
         <property name="propertyName" value="formatOfferingInfoWrappers"/>
-        <property name="layoutManager.lineGroupPrototype.id" value="@{#line.xmlSafeTermId}_@{#line.courseOfferingCode}_@{#line.formatOfferingId}"/>
+        <property name="layoutManager.lineGroupPrototype.id" value="@{#line.xmlSafeTermId}_@{#line.courseOfferingCode}_@{#line.formatOfferingId}_section"/>
         <property name="layoutManager.lineGroupPrototype.header.render" value="true"/>
         <!-- Might be able to reenable this when KULRICE-12902 is fixed -->
         <!--<property name="layoutManager.lineGroupPrototype.render" value="@{#parentLine.formatOfferingInfoWrappers.size() eq 1 or #parentLine.selectedFormatOfferingId eq #line.formatOfferingId}"/>-->
