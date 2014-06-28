@@ -68,7 +68,7 @@
         <property name="layoutManager.lineGroupPrototype.header.render" value="true"/>
         <property name="layoutManager.lineGroupPrototype.header.additionalCssClasses"
                   value="@{#line.getTermAbbreviation()}"/>
-        <property name="layoutManager.lineGroupPrototype.disclosure.id" value="@{#line.getTermId()}_disclosure"/>
+        <property name="layoutManager.lineGroupPrototype.disclosure.id" value="@{#line.getXmlSafeTermId()}_disclosure"/>
         <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
         <property name="layoutManager.lineGroupPrototype.disclosure.renderIcon" value="true"/>
         <property name="layoutManager.lineGroupPrototype.disclosure.collapsedIconClass"
@@ -154,9 +154,10 @@
                         <list>
 
                             <bean parent="Uif-InputField" p:label="@{#textHelper.getText('details.courseOffering.format.options')}"
-                                  p:id="@{#line.termId}_@{#line.courseOfferingCode}_formatOfferingOptions"
+                                  p:id="@{#line.xmlSafeTermId}_@{#line.courseOfferingCode}_formatOfferingOptions"
                                   p:propertyName="selectedFormatOfferingId"
-                                  p:width="auto">
+                                  p:width="auto"
+                                  p:onChangeScript="toggleFormatOfferingSections(this, '#@{#line.xmlSafeTermId}_@{#line.courseOfferingCode}_');">
                                 <property name="control">
                                     <bean parent="Uif-VerticalRadioControl" />
                                     <!--<bean parent="Uif-KeyLabelPair" p:key="@{#line.formatId}" p:value="@{#line.formatName}"/>-->
@@ -187,13 +188,17 @@
     <bean id="format-offering-list-parent" abstract="true" parent="Uif-ListCollectionSection">
         <property name="collectionObjectClass"
                   value="org.kuali.student.ap.coursesearch.dataobject.FormatOfferingInfoWrapper"/>
+        <!-- Might be able to reenable this when KULRICE-12902 is fixed -->
+        <!--<property name="refreshWhenChangedPropertyNames" value="#lp.selectedFormatOfferingId"/>-->
         <property name="renderAddLine" value="false"/>
         <property name="renderLineActions" value="false"/>
         <property name="disclosure.render" value="false"/>
         <property name="propertyName" value="formatOfferingInfoWrappers"/>
+        <property name="layoutManager.lineGroupPrototype.id" value="@{#line.xmlSafeTermId}_@{#line.courseOfferingCode}_@{#line.formatOfferingId}"/>
         <property name="layoutManager.lineGroupPrototype.header.render" value="true"/>
-        <!--<property name="layoutManager.lineGroupPrototype.progressiveRender" value="@{#parent.context.size() eq 1 or #lp.selectedFormatOfferingId eq #line.formatOfferingId}"/>-->
-        <property name="layoutManager.lineGroupPrototype.progressiveRender" value="@{#parentLine.formatOfferingInfoWrappers.size() eq 1 or #parentLine.selectedFormatOfferingId eq #line.formatOfferingId}"/>
+        <!-- Might be able to reenable this when KULRICE-12902 is fixed -->
+        <!--<property name="layoutManager.lineGroupPrototype.render" value="@{#parentLine.formatOfferingInfoWrappers.size() eq 1 or #parentLine.selectedFormatOfferingId eq #line.formatOfferingId}"/>-->
+        <property name="layoutManager.lineGroupPrototype.hidden" value="@{#parentLine.formatOfferingInfoWrappers.size() > 1}"/>
         <property name="layoutManager.lineGroupPrototype.disclosure.render" value="false"/>
 
         <!-- property to activate disclosure -->
@@ -239,7 +244,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-MessageField" p:messageText="@{#line.formatName} (@{#line.activityOfferingDetailsWrappers.size()})"
-                        p:id="@{#line.termId}_@{#line.courseOfferingCode}_@{#line.formatOfferingId}_@{#line.formatType}">
+                        p:id="@{#line.xmlSafeTermId}_@{#line.courseOfferingCode}_@{#line.formatOfferingId}_@{#line.xmlSafeFormatType}">
                     <property name="cssClasses">
                         <list merge="true">
                             <value>ksap-section-format-title</value>

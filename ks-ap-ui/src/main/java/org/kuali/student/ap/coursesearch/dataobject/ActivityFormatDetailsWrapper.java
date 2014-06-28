@@ -37,12 +37,28 @@ public class ActivityFormatDetailsWrapper {
         return formatType;
     }
 
+    /**
+     * Get an XML safe representation of the formatType by replacing "." with "-"
+     * @return A formatType with all occurrences of "." replaced with "-"
+     */
+    public String getXmlSafeFormatType() {
+        return formatType.replace(".", "-");
+    }
+
     public void setFormatType(String formatType) {
         this.formatType = formatType;
     }
 
     public String getTermId() {
         return termId;
+    }
+
+    /**
+     * Get an XML safe representation of the termId by replacing "." with "-"
+     * @return A termId with all occurrences of "." replaced with "-"
+     */
+    public String getXmlSafeTermId() {
+        return termId.replace(".", "-");
     }
 
     public void setTermId(String termId) {

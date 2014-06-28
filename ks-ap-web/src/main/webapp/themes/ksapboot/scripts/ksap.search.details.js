@@ -129,3 +129,21 @@ function setupActivityIds(){
         parentRow.attr("id",rowId.innerHTML.trim());
     }
 }
+
+/**
+ * Toggle the divs on/off based on the selected FormatOffering radio option
+ * @param element - Element containing the radio control
+ * @param divIdPrefix - Prefix of the ID that will be built to toggle on/off
+ */
+function toggleFormatOfferingSections(element, divIdPrefix) {
+    var selectedFormatOfferingId = jQuery(element).find('input:checked').val();
+    var idToToggleOn = divIdPrefix + selectedFormatOfferingId;
+
+    jQuery(idToToggleOn).show();
+
+    jQuery.each(jQuery(element).find('input:unchecked'), function() {
+        var idToToggleOff = divIdPrefix + jQuery(this).val();
+        jQuery(idToToggleOff).hide();
+    });
+
+}

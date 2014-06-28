@@ -177,7 +177,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
                 List<PlannedRegistrationGroupDetailsWrapper> plannedActivityOfferings = new ArrayList<PlannedRegistrationGroupDetailsWrapper>();
 
                 for (FormatOfferingInfo formatOffering : formatOfferings) {
-                    FormatOfferingInfoWrapper formatOfferingInfo = new FormatOfferingInfoWrapper(formatOffering);
+                    FormatOfferingInfoWrapper formatOfferingInfo = new FormatOfferingInfoWrapper(formatOffering, courseOfferingDetailsWrapper.getCourseOfferingCode());
 
                     List<ActivityFormatDetailsWrapper> activityFormatDetailsWrappers = new ArrayList<ActivityFormatDetailsWrapper>();
                     Map<String, List<ActivityOfferingDetailsWrapper>> aosByTypeMap = aosByFormat.get(formatOfferingInfo.getFormatOfferingId());
