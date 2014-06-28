@@ -17,7 +17,6 @@ package org.kuali.student.r2.core.scheduling.model;
 
 import org.kuali.student.r1.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.assembler.TransformUtility;
-import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
@@ -30,6 +29,7 @@ import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -78,7 +78,7 @@ public class TimeSlotEntity extends MetaEntity implements AttributeOwner<TimeSlo
     @Column(name = "END_TIME_MS")
     private Long endTimeMillis;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", orphanRemoval=true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval=true)
     private Set<TimeSlotAttributeEntity> attributes = new HashSet<TimeSlotAttributeEntity>();
 
     public TimeSlotEntity() {
