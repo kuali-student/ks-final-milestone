@@ -1129,6 +1129,11 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             reviewData.getFinancialsSection().setJustificationOfFees(savedCourseInfo.getFeeJustification().getPlain());
         }
 
+        reviewData.getCollaboratorSection().getCollaboratorWrappers().clear();
+        retriveCollaborators(courseInfoWrapper);
+        reviewData.getCollaboratorSection().setCollaboratorWrappers(courseInfoWrapper.getCollaboratorWrappers());
+
+
         // update learning Objectives Section;
         // update  course Requisites Section;
         // update  financials Section;
@@ -1333,7 +1338,8 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             ProposalInfo proposalInfo = courseInfoWrapper.getProposalInfo();
             try{
                 for(CollaboratorWrapper collaboratorWrapper : DocumentCollaboratorHelper.getCollaborators(proposalInfo.getWorkflowId(), proposalInfo.getId(), proposalInfo.getType()) ){
-                    DocumentCollaboratorHelper.removeCollaborator(proposalInfo.getWorkflowId(), proposalInfo.getId(), collaboratorWrapper.getActionRequestId());
+      //              for some reason removeCollaborator is throwing exception, need to investigate further.
+      //              DocumentCollaboratorHelper.removeCollaborator(proposalInfo.getWorkflowId(), proposalInfo.getId(), collaboratorWrapper.getActionRequestId());
                 }
             }
             catch(Exception e){
