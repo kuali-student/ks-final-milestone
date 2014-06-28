@@ -51,6 +51,14 @@ public class KSDateFormatterTest {
 
     }
 
+    @Test
+    public void parseTest(){
+        String dateStr = "2014-06-28 16:32:46.368";     // This timestamp was getting errors so we created a test.
+
+        DateFormatters.DEFAULT_YEAR_MONTH_24HOUR_MILLISECONDS_FORMATTER.parse(dateStr);
+
+    }
+
     private void printFormatOnly(String format, Date dateTime){
         KSDateTimeFormatter kdf = new KSDateTimeFormatter(format);
 
