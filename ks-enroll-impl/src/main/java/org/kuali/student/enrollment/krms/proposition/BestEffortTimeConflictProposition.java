@@ -17,6 +17,7 @@
 package org.kuali.student.enrollment.krms.proposition;
 
 
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krms.api.engine.ExecutionEnvironment;
 import org.kuali.rice.krms.api.engine.ResultEvent;
 import org.kuali.rice.krms.framework.engine.PropositionResult;
@@ -33,11 +34,14 @@ import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestIt
 import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequestItem;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.coursewaitlist.service.CourseWaitListService;
+import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesService;
+import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesServiceConstants;
 import org.kuali.student.enrollment.registration.client.service.dto.ConflictCourseResult;
-import org.kuali.student.enrollment.registration.client.service.dto.TimeSlotCalculationContainer;
 import org.kuali.student.enrollment.registration.client.service.dto.TimeConflictResult;
+import org.kuali.student.enrollment.registration.client.service.dto.TimeSlotCalculationContainer;
 import org.kuali.student.enrollment.registration.client.service.impl.util.RegistrationValidationResultsUtil;
 import org.kuali.student.enrollment.registration.client.service.impl.util.TimeConflictCalculator;
+import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -50,9 +54,11 @@ import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
+import org.kuali.student.r2.core.search.service.SearchService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -74,6 +80,8 @@ public class BestEffortTimeConflictProposition extends AbstractBestEffortProposi
     private CourseOfferingService courseOfferingService;
     private CourseWaitListService courseWaitListService;
     private CourseRegistrationService courseRegistrationService;
+    private SearchService searchService;
+    private ScheduleOfClassesService scheduleOfClassesService;
 
 
     private static final boolean ALLOW_ALL_NON_ADDS = true; // allow all non adds right now
@@ -480,7 +488,7 @@ public class BestEffortTimeConflictProposition extends AbstractBestEffortProposi
      * @throws OperationFailedException
      * @throws DoesNotExistException
      */
-    protected void populateTimeSlotMapForAoIds(List<String> aoIds, Map<String, List<TimeSlotInfo>> aoToTimeSlotMap, CourseOfferingService coService,ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
+    protected void populateTimeSlotMapForAoIds(List<String> aoIds, Map<String, List<TimeSlotInfo>> aoToTimeSlotMap, CourseOfferingService coService,ContextInfo contextInfo) {
         // I don't want to search the DB for timeslots we already have
         List<String> aoIdsToProcess = new ArrayList<String>();
         for(String aoId : aoIds){
@@ -489,10 +497,14 @@ public class BestEffortTimeConflictProposition extends AbstractBestEffortProposi
             }
         }
 
-        if(!aoIdsToProcess.isEmpty()) {
-            List<ActivityOfferingInfo> activityOfferingInfos = coService.getActivityOfferingsByIds(aoIdsToProcess, contextInfo);
-            for (ActivityOfferingInfo aoInfo : activityOfferingInfos) {
-                aoToTimeSlotMap.put(aoInfo.getId(), getTimeSlotsByAoInfo(aoInfo, contextInfo));
+        if(aoIds != null &&  !aoIds.isEmpty()) {
+            if (!aoIdsToProcess.isEmpty()) {
+                Map<String, List<TimeSlotInfo>> newAoToTimeSlotMap = getScheduleOfClassesService().getAoTimeSlotMap(aoIdsToProcess);
+                if(newAoToTimeSlotMap != null && !newAoToTimeSlotMap.isEmpty()) {
+                    for (String aoid : newAoToTimeSlotMap.keySet()) {
+                        aoToTimeSlotMap.put(aoid, newAoToTimeSlotMap.get(aoid));
+                    }
+                }
             }
         }
 
@@ -562,5 +574,24 @@ public class BestEffortTimeConflictProposition extends AbstractBestEffortProposi
 
     public void setCourseRegistrationService(CourseRegistrationService courseRegistrationService) {
         this.courseRegistrationService = courseRegistrationService;
+    }
+
+    public SearchService getSearchService() {
+        if (searchService == null) {
+            searchService = (SearchService) GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "search", SearchService.class.getSimpleName()));
+        }
+        return searchService;
+    }
+
+    public ScheduleOfClassesService getScheduleOfClassesService() {
+        if(scheduleOfClassesService == null){
+            scheduleOfClassesService = GlobalResourceLoader.getService(ScheduleOfClassesServiceConstants.QNAME);
+        }
+
+        return scheduleOfClassesService;
+    }
+
+    public void setScheduleOfClassesService(ScheduleOfClassesService scheduleOfClassesService) {
+        this.scheduleOfClassesService = scheduleOfClassesService;
     }
 }

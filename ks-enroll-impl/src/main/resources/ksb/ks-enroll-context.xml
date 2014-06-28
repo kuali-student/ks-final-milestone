@@ -1468,6 +1468,7 @@
     </bean>
 
     <bean id="scheduleOfClassesService" class="org.kuali.student.enrollment.registration.client.service.impl.ScheduleOfClassesServiceImpl">
+        <property name="entityManager" ref="enrollEntityManager" />
     </bean>
 
     <bean id="ks.exp.scheduleOfClassesService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">

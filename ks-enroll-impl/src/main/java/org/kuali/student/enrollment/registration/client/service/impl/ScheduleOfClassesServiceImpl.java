@@ -36,6 +36,8 @@ import org.kuali.student.r2.core.class1.search.ActivityOfferingSearchServiceImpl
 import org.kuali.student.r2.core.class1.search.CoreSearchServiceImpl;
 import org.kuali.student.r2.core.class1.search.CourseOfferingManagementSearchImpl;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
+import org.kuali.student.r2.core.scheduling.model.TimeSlotEntity;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
@@ -43,6 +45,8 @@ import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -58,6 +62,10 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
     public static final Logger LOGGER = LoggerFactory.getLogger(ScheduleOfClassesServiceImpl.class);
 
     private static final Comparator<RegGroupSearchResult> REG_RESULT_COMPARATOR = new RegResultComparator();
+
+    private EntityManager entityManager;
+
+
 
     /**
      * COURSE OFFERINGS *
@@ -937,5 +945,63 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         }
         return inList;
 
+    }
+
+    /**
+     * The method was created for performance reasons
+     * and goes directly against the JPA entities.
+     * @param aoIds
+     * @return  returns null if no records are found
+     */
+    @Override
+    public Map<String, List<TimeSlotInfo>> getAoTimeSlotMap(List<String> aoIds) {
+        Map<String, List<TimeSlotInfo>> resultMap = new HashMap<String, List<TimeSlotInfo>>();
+
+        if(aoIds == null || aoIds.isEmpty()) return null;
+
+        String queryStr =
+                "SELECT\n" +
+                        "    lui.id,\n" +
+                        "    timeslot\n" +
+                        "FROM\n" +
+                        "    LuiEntity lui,\n" +
+                        "    IN (lui.scheduleIds) scheduleId,\n" +
+                        "    ScheduleEntity sch,\n" +
+                        "    IN ( sch.scheduleComponents ) scheduleComponents,\n" +
+                        "    IN ( scheduleComponents.timeSlotIds ) timeSlotId,\n" +
+                        "    TimeSlotEntity timeslot\n" +
+                        "WHERE\n" +
+                        "    lui.id IN (:aoIds)\n" +
+                        "AND sch.id = scheduleId\n" +
+                        "AND timeslot.id = timeSlotId\n";
+
+        TypedQuery<Object[]> query = getEntityManager().createQuery(queryStr, Object[].class);
+        query.setParameter("aoIds", aoIds);
+        List<Object[]> results = query.getResultList();
+
+        if(results.isEmpty())return null;
+
+        for(Object[] resultRow : results){
+            int i = 0;
+
+            String aoId =  (String)resultRow[i++];
+            TimeSlotEntity timeSlotEntity = (TimeSlotEntity)resultRow[i++];
+
+            if(!resultMap.containsKey(aoId)){
+                resultMap.put(aoId, new ArrayList<TimeSlotInfo>());
+            }
+
+            resultMap.get(aoId).add(timeSlotEntity.toDto());
+        }
+
+        return  resultMap;
+    }
+
+    private EntityManager getEntityManager() {
+        return entityManager;
+    }
+
+    public void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
     }
 }

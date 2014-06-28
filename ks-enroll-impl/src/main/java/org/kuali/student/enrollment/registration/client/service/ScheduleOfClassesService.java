@@ -7,8 +7,10 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Note that common parameters used by this object's methods have the following meaning:
@@ -99,4 +101,11 @@ public interface ScheduleOfClassesService {
      * @throws OperationFailedException
      */
     String getTermIdByTermCode(String termCode) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException;
+
+    /**
+     * This method will return a map of AO IDs -> List<TimeSlotInfo>.
+     * @param aoIds
+     * @return  map of AO IDs -> List<TimeSlotInfo>. Null if no records are found
+     */
+    Map<String, List<TimeSlotInfo>>  getAoTimeSlotMap(List<String> aoIds);
 }
