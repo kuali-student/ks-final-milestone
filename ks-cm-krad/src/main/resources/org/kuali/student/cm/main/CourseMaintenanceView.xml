@@ -350,26 +350,6 @@
                             <ref bean="KS-CourseView-SupportingDocuments-Section"/>
                         </list>
                     </property>
-                    <property name="propertyReplacers">
-                        <list>
-                            <!-- If it is admin proposal then authors and collaborators tab is not shown -->
-                            <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items"
-                                  p:condition="@{#uiHelper.adminProposal}">
-                                <property name="replacement">
-                                    <list>
-                                        <ref bean="KS-CourseView-CourseInfo-Section"/>
-                                        <ref bean="KS-CourseView-Governance-Section"/>
-                                        <ref bean="KS-CourseView-Logistics-Section"/>
-                                        <ref bean="KS-CourseView-LearningObjectives-Section"/>
-                                        <ref bean="KS-CourseView-CourseRequisites-Section"/>
-                                        <ref bean="KS-CourseView-ActiveDates-Section"/>
-                                        <ref bean="KS-CourseView-Financials-Section"/>
-                                        <ref bean="KS-CourseView-SupportingDocuments-Section"/>
-                                    </list>
-                                </property>
-                            </bean>
-                        </list>
-                    </property>
                     <property name="tabsWidget.templateOptionsJSString">
                         <value>
                             { selected: @{#uiHelper.selectedSection.ordinal() - 1} }

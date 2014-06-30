@@ -20,7 +20,6 @@
             </list>
         </property>
         <property name="header.headerText" value="Authors &amp; Collaborators"/>
-        <property name="render" value="@{!#uiHelper.adminProposal}"/>
         <property name="header.headerLevel" value="h2"/>
         <property name="header.style" value="font-weight:bold;"/>
         <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
