@@ -910,15 +910,24 @@ function validateNewLoCategoryAndType(value, element) {
     var loCategoryInfoMessage = jQuery('#' + loCategoryType_control).closest('div[id^="learning_objective_section"]').find('p.ks-informational-message-for-field');
 
     if (value != '' && items.length < 2) {
-        loCategoryType.show();
-        var imgOuterHTML = loCategoryInfoMessage.find('img')[0].outerHTML
-        loCategoryInfoMessage.html(imgOuterHTML + ' You must add a category type to create the new category ' + value + '.');
-        loCategoryInfoMessage.show();
+        if (!loCategoryType.is(':visible')) {
+            loCategoryType.show();
+            var imgOuterHTML = loCategoryInfoMessage.find('img')[0].outerHTML
+            loCategoryInfoMessage.html(imgOuterHTML + ' You must add a category type to create the new category ' + value + '.');
+            loCategoryInfoMessage.show();
+            // Add the requiredness for Category Type when it is visible
+            checkForRequiredness(jQuery('#' + loCategoryType_control).attr('name'), function() { return true; }, '*');
+        }
     } else {
         if (loCategoryType.is(':visible')) {
             loCategoryType.hide();
             loCategoryInfoMessage.hide();
             jQuery("#" + loCategoryType_control + " option[value='']").attr('selected', true);
+            // Hide the required messages if any exist
+            hideMessageTooltip(loCategoryType.attr('id'));
+            jQuery('#' + loCategoryType_control).removeClass('error');
+            // Remove the requiredness for Category Type when it is hidden
+            checkForRequiredness(jQuery('#' + loCategoryType_control).attr('name'), function() { return false; }, '*');
         }
     }
     return true;

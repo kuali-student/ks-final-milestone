@@ -913,7 +913,8 @@ jQuery(document).on('DOMNodeInserted', function (e) {
         handleEventforDisabledElements();
         addBootstrapImageToLink();
     } else if (jQuery(element).is('section.uif-tableCollectionSection') || jQuery(element).is('section.uif-stackedCollectionSection')
-        || (jQuery(element).is('div.uif-tableCollectionSection'))  || (jQuery(element).is('div.uif-stackedCollectionSection')) ) {
+        || (jQuery(element).is('div.uif-tableCollectionSection'))  || (jQuery(element).is('div.uif-stackedCollectionSection'))
+        || (jQuery(element).is('div.uif-tableCollectionGroup')) || (jQuery(element).is('section.uif-tableCollectionGroup'))) {
         addBootstrapImageToLink();
     } else if (jQuery(element).is('section.uif-lightbox') && (jQuery(element).find('section.uif-tableCollectionSection') || jQuery(element).find('section.uif-stackedCollectionSection')
         || (jQuery(element).find('div.uif-tableCollectionSection'))  || (jQuery(element).find('div.uif-stackedCollectionSection'))) ) {
