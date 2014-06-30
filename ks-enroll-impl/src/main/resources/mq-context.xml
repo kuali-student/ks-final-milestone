@@ -99,6 +99,19 @@
     </bean>
 
     <camelContext xmlns="http://camel.apache.org/schema/spring">
+
+        <!--
+        Any uncaught exceptions will go through the error processor, which
+        will set the state of the error item(s) as "failed". The transaction
+        will be marked as "handled".
+        -->
+        <onException>
+            <exception>java.lang.Exception</exception>
+            <handled><constant>true</constant></handled>
+            <bean ref="courseRegistrationErrorProcessor" method="process" />
+            <to uri="activemq:org.kuali.student.enrollment.registration.regReqItemJoinQueue"/> <!-- attempt to rejoin the queue -->
+        </onException>
+
         <route> <!-- This route splits the reg request into it's items. Adding needed info to the message header.  -->
             <from uri="activemq:org.kuali.student.enrollment.registration.splitByItemQueue" />  <!-- pick up the reg req -->
             <setHeader headerName="regReqId"> <!-- Need to store the Reg Req in the header  -->
@@ -147,6 +160,11 @@
         <property name="courseRegistrationEngineService" ref="courseRegistrationEngineService"/>
         <property name="jmsTemplate" ref="jmsTemplate"/>
     </bean>
+
+    <bean id="courseRegistrationErrorProcessor" class="org.kuali.student.enrollment.registration.engine.processor.CourseRegistrationErrorProcessor">
+        <property name="courseRegistrationEngineService" ref="courseRegistrationEngineService"/>
+    </bean>
+
     <bean id="waitlistManagerService" class="org.kuali.student.enrollment.registration.engine.service.impl.WaitlistManagerServiceImpl"/>
 
     <bean id="waitlistManagerNode" class="org.kuali.student.enrollment.registration.engine.node.impl.CourseRegistrationWaitlistManagerNode">
