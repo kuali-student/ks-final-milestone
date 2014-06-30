@@ -45,6 +45,7 @@ import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 
 import javax.json.Json;
+import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -551,37 +552,47 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
      * @see org.kuali.student.ap.coursesearch.service.CourseDetailsViewHelperService
      */
     @Override
-    public JsonObjectBuilder createAddSectionEvent(String courseOfferingId, ActivityOfferingDetailsWrapper activity, JsonObjectBuilder eventList){
+    public JsonObjectBuilder createAddSectionEvent(String courseOfferingId, List<ActivityOfferingDetailsWrapper> activities, JsonObjectBuilder eventList){
         JsonObjectBuilder addEvent = Json.createObjectBuilder();
-        String instructor = "";
-        String days = "";
-        String time = "";
-        String location = "";
-        String classUrl = "";
-        String requirementsUrl = "";
-
-        if(activity.getInstructorName()!=null) instructor = activity.getInstructorName();
-        if(activity.getDays()!=null) days = activity.getDays();
-        if(activity.getTime()!=null) time = activity.getTime();
-        if(activity.getLocation()!=null) location = activity.getLocation();
-        if(activity.getRequirementsUrl()!=null) requirementsUrl = activity.getRequirementsUrl();
-        if(activity.getClassUrl()!=null) classUrl = activity.getClassUrl();
-
-        addEvent.add("activityOfferingId", activity.getActivityOfferingId());
-        addEvent.add("activityFormatName", activity.getActivityFormatName());
-        addEvent.add("activityOfferingCode", activity.getActivityOfferingCode());
-        addEvent.add("regGroupCode", activity.getRegGroupCode());
-        addEvent.add("instructor", instructor);
-        addEvent.add("days",days);
-        addEvent.add("time", time);
-        addEvent.add("location", location);
-        addEvent.add("currentEnrollment", activity.getCurrentEnrollment());
-        addEvent.add("maxEnrollment", activity.getMaxEnrollment());
-        addEvent.add("honors", activity.isHonors());
-        addEvent.add("classUrl", classUrl);
-        addEvent.add("requirementsUrl", requirementsUrl);
         addEvent.add("courseOfferingId", courseOfferingId);
         addEvent.add("uid", UUID.randomUUID().toString());
+
+        String regGroupCode="";
+        JsonArrayBuilder activityEvents = Json.createArrayBuilder();
+        for(ActivityOfferingDetailsWrapper activity : activities){
+            JsonObjectBuilder activityEvent = Json.createObjectBuilder();
+            String instructor = "";
+            String days = "";
+            String time = "";
+            String location = "";
+            String classUrl = "";
+            String requirementsUrl = "";
+            regGroupCode=activity.getRegGroupCode();
+
+            if(activity.getInstructorName()!=null) instructor = activity.getInstructorName();
+            if(activity.getDays()!=null) days = activity.getDays();
+            if(activity.getTime()!=null) time = activity.getTime();
+            if(activity.getLocation()!=null) location = activity.getLocation();
+            if(activity.getRequirementsUrl()!=null) requirementsUrl = activity.getRequirementsUrl();
+            if(activity.getClassUrl()!=null) classUrl = activity.getClassUrl();
+
+            activityEvent.add("activityOfferingId", activity.getActivityOfferingId());
+            activityEvent.add("activityFormatName", activity.getActivityFormatName());
+            activityEvent.add("activityOfferingCode", activity.getActivityOfferingCode());
+
+            activityEvent.add("instructor", instructor);
+            activityEvent.add("days",days);
+            activityEvent.add("time", time);
+            activityEvent.add("location", location);
+            activityEvent.add("currentEnrollment", activity.getCurrentEnrollment());
+            activityEvent.add("maxEnrollment", activity.getMaxEnrollment());
+            activityEvent.add("honors", activity.isHonors());
+            activityEvent.add("classUrl", classUrl);
+            activityEvent.add("requirementsUrl", requirementsUrl);
+            activityEvents.add(activityEvent);
+        }
+        addEvent.add("activities", activityEvents);
+        addEvent.add("regGroupCode", regGroupCode);
 
         eventList.add("COURSE_SECTION_ADDED", addEvent);
         return eventList;

@@ -63,13 +63,6 @@ function ksapAddCourseSection (data){
         courseOfferingMarker.removeClass("ksap-hide");
     }
 
-    // For now modify the add to plan button to indicate that it is added and display click functionality
-    var addLink = jQuery("#"+data.activityOfferingId+"_addLink");
-    if(addLink.length){
-        addLink.removeClass("ks-fontello-icon-hollow-circled-plus");
-        addLink.addClass("ks-fontello-icon-ok-circled");
-    }
-
     // Show the planned groups if needed and update the number of planned registration groups displayed in header
     var plannedContainer = jQuery("#KSAP-CourseSectionDetails-PlannedSections_"+data.courseOfferingId);
     plannedContainer.removeClass("ksap-hide");
@@ -82,6 +75,7 @@ function ksapAddCourseSection (data){
 
     // Add the new planned activities to the planned groups
     var plannedTemplate = jQuery("#KSAP-CourseSectionDetails-PlannedSection-Template");
+
     if(plannedTemplate.length){
         var item = plannedTemplate.html();
 
@@ -90,20 +84,44 @@ function ksapAddCourseSection (data){
             if (data.hasOwnProperty(key))
                 item = eval("item.replace(/__KSAP__"+key.toUpperCase()+"__/gi,'"+data[key]+"')");
         item = item.replace(/id=\"(u\d+)\"/gi,"id=\""+data.uid+"_$1\"");
-        var itemElement = jQuery("<div/>").html(item);
+        var itemElement = jQuery("<div/>").html(item).attr("class", "uif-collectionItem uif-boxCollectionItem");
 
-        // Hide needed fields
-        if(data.honors == false){
-            itemElement.find("#honors").addClass("invisible");
+        // Add Activities
+        var activities = data.activities;
+        for(var i = 0; i<activities.length; i++){
+            var activity = activities[i];
+            var plannedActivityTemplate = jQuery("#KSAP-CourseSectionDetails-PlannedSection-Activity-Template");
+            var item2 = plannedActivityTemplate.html();
+            // Replace placeholders
+            for (var key2 in activity)
+                if (activity.hasOwnProperty(key2))
+                    item2 = eval("item2.replace(/__KSAP__"+key2.toUpperCase()+"__/gi,'"+activity[key2]+"')");
+            var item2Element = jQuery("<div/>").html(item2);
+
+            // Hide needed fields
+            if(activity.honors == false){
+                item2Element.find("#honors").addClass("invisible");
+            }
+
+            if(activity.classUrl.length == 0){
+                item2Element.find("#classUrl").addClass("invisible");
+            }
+
+            if(activity.requirementsUrl.length == 0){
+                item2Element.find("#requirementsUrl").addClass("invisible");
+            }
+
+            // For now modify the add to plan button to indicate that it is added and display click functionality
+            var addLink = jQuery("#"+activity.activityOfferingId+"_addLink");
+            if(addLink.length){
+                addLink.removeClass("ks-fontello-icon-hollow-circled-plus");
+                addLink.addClass("ks-fontello-icon-ok-circled");
+            }
+
+            // Add activity
+            item2Element.appendTo(itemElement.find("#Activities-Placeholder"));
         }
 
-        if(data.classUrl.length == 0){
-            itemElement.find("#classUrl").addClass("invisible");
-        }
-
-        if(data.requirementsUrl.length == 0){
-            itemElement.find("#requirementsUrl").addClass("invisible");
-        }
 
         // Add new element to the planned groups section
         itemElement.appendTo("#KSAP-CourseSectionDetails-PlannedSections_"+data.courseOfferingId)

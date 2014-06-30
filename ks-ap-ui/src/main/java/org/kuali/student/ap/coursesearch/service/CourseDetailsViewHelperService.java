@@ -71,5 +71,5 @@ public interface CourseDetailsViewHelperService extends ViewHelperService {
      * @param eventList - List of currently being build
      * @return Current list of events being build with the new event added
      */
-    public JsonObjectBuilder createAddSectionEvent(String courseOfferingId, ActivityOfferingDetailsWrapper activity, JsonObjectBuilder eventList);
+    public JsonObjectBuilder createAddSectionEvent(String courseOfferingId, List<ActivityOfferingDetailsWrapper> activities, JsonObjectBuilder eventList);
 }

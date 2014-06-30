@@ -126,9 +126,8 @@ public class CourseSectionDetailsController extends KsapControllerBase {
             PlanEventUtils.sendJsonEvents(false,"Course " +course.getCourseCode() + " is already planned for " + term.getName(), response, eventList);
             return null;
         }
-        for(ActivityOfferingDetailsWrapper activityOfferingDetailsWrapper : activityWrappers){
-            eventList = getViewHelperService(form).createAddSectionEvent(regGroup.getCourseOfferingId(), activityOfferingDetailsWrapper, eventList);
-        }
+
+        eventList = getViewHelperService(form).createAddSectionEvent(regGroup.getCourseOfferingId(), activityWrappers, eventList);
 
         //Create events needed to update the page
         PlanEventUtils.sendJsonEvents(true,"Registration Group For " +course.getCourseOfferingCode() + " added for " + term.getName(), response, eventList);
