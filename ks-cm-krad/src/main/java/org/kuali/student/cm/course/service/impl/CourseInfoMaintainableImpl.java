@@ -448,14 +448,6 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                             }
                         }
 
-                        try{
-                            //Get the type info
-                            TypeInfo typeInfo = getLearningObjectiveService().getLoCategoryType(loCategoryInfo.getTypeKey(), ContextUtils.createDefaultContextInfo());
-                            loCategoryInfo.setName((new StringBuilder().append(loCategoryInfo.getName()).append(" - ").append(typeInfo.getName()).toString()));
-                        }   catch(Exception e) {
-                            LOG.error("An error occurred while retrieving the LoCategoryType", e);
-                        }
-
                         if (!isCategoryAlreadyExist) {
                             //if category doesn't exist then create newly.
                             loCategoryInfo.setStateKey(CurriculumManagementConstants.STATE_KEY_ACTIVE);
@@ -469,6 +461,14 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                             } catch (Exception e) {
                                 LOG.error("An error occurred while trying to create a new Learning Objective Category", e);
                             }
+                        }
+
+                        try{
+                            //Get the type info
+                            TypeInfo typeInfo = getLearningObjectiveService().getLoCategoryType(loCategoryInfo.getTypeKey(), ContextUtils.createDefaultContextInfo());
+                            loCategoryInfo.setName((new StringBuilder().append(loCategoryInfo.getName()).append(" - ").append(typeInfo.getName()).toString()));
+                        }   catch(Exception e) {
+                            LOG.error("An error occurred while retrieving the LoCategoryType", e);
                         }
                     } else {
                         return false;
