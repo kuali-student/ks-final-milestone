@@ -971,6 +971,10 @@ function filterCategoriesByTypes() {
         }
     });
 
-    jQuery("#uLookupResults_layout").dataTable().fnFilter('', 2, true, false)
-    jQuery("#uLookupResults_layout").dataTable().fnFilter(labels, 2, true, false)
+    if (i == 0) {
+        jQuery("#uLookupResults_layout").dataTable().fnFilter('|', 2);
+    } else {
+        jQuery("#uLookupResults_layout").dataTable().fnFilter('', 2, true, false);
+        jQuery("#uLookupResults_layout").dataTable().fnFilter(labels, 2, true, false);
+    }
 }
