@@ -5,6 +5,7 @@ import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.action.ActionRequest;
 import org.kuali.rice.kew.api.action.ActionRequestStatus;
 import org.kuali.rice.kew.api.action.ActionRequestType;
+import org.kuali.rice.kew.api.action.ActionType;
 import org.kuali.rice.kew.api.action.AdHocToPrincipal;
 import org.kuali.rice.kew.api.action.DocumentActionParameters;
 import org.kuali.rice.kew.api.action.DocumentActionResult;
@@ -174,7 +175,7 @@ public class DocumentCollaboratorHelper implements Serializable {
                 for(ActionRequest actionRequest :actionRequests){
                     if (actionRequest.isAdHocRequest()) {
                         // if action request is complete and action taken was a 'revoke action' we do not want to show the person
-                        if (actionRequest.isDone() && (actionRequest.getActionTaken() != null) && KewApiConstants.ACTION_TAKEN_ADHOC_REVOKED_CD.equals(actionRequest.getActionTaken().getActionTaken())) {
+                        if (actionRequest.isDone() && (actionRequest.getActionTaken() != null) && ActionType.ADHOC_REQUEST_REVOKE.equals(actionRequest.getActionTaken().getActionTaken())) {
                             continue;
                         }
 
