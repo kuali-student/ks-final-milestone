@@ -268,7 +268,7 @@
         <property name="id" value="KSAP-CourseSectionDetails-PlannedSections_@{#line.courseOfferingId}"/>
         <property name="validationMessages.displayMessages" value="false" />
         <property name="header">
-            <bean parent="Uif-HeaderFour"/>
+            <bean parent="Uif-HeaderFive"/>
         </property>
         <property name="collectionLookup">
             <bean parent="Uif-QuickFinder">
@@ -285,6 +285,7 @@
         <property name="cssClasses">
             <list merge="true">
                 <value>@{#line.plannedGroupsCount == 0 ? 'ksap-hide' : ''}</value>
+                <value>ksap-section-reg</value>
             </list>
         </property>
         <property name="collectionObjectClass"
@@ -305,14 +306,19 @@
             <bean parent="Uif-HorizontalBoxGroup">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-MessageField" p:messageText="Type"/>
-                        <bean parent="Uif-MessageField" p:messageText="Code"/>
-                        <bean parent="Uif-MessageField" p:messageText="Instructor"/>
-                        <bean parent="Uif-MessageField" p:messageText="Days"/>
-                        <bean parent="Uif-MessageField" p:messageText="Time"/>
-                        <bean parent="Uif-MessageField" p:messageText="Location"/>
-                        <bean parent="Uif-MessageField" p:messageText="Seats Open"/>
-                        <bean parent="Uif-MessageField" p:messageText="Additional Details"/>
+                        <bean parent="Uif-MessageField" p:messageText="Type" p:additionalCssClasses="ksap-section-type "/>
+                        <bean parent="Uif-MessageField" p:messageText="Code" p:additionalCssClasses="ksap-section-code"/>
+                        <bean parent="Uif-MessageField" p:messageText="Instructor" p:additionalCssClasses="ksap-section-instructor"/>
+                        <bean parent="Uif-MessageField" p:messageText="Days" p:additionalCssClasses="ksap-section-days"/>
+                        <bean parent="Uif-MessageField" p:messageText="Time" p:additionalCssClasses="ksap-section-time"/>
+                        <bean parent="Uif-MessageField" p:messageText="Location" p:additionalCssClasses="ksap-section-location"/>
+                        <bean parent="Uif-MessageField" p:messageText="Seats Open" p:additionalCssClasses="ksap-section-seats"/>
+                        <bean parent="Uif-MessageField" p:messageText="Additional Details" p:additionalCssClasses="ksap-section-details"/>
+                    </list>
+                </property>
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>ksap-section-reg-header</value>
                     </list>
                 </property>
             </bean>
@@ -320,11 +326,16 @@
         <property name="items">
             <list>
                 <bean parent="Uif-VerticalFieldGroup">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ksap-section-reg-group</value>
+                        </list>
+                    </property>
                     <property name="items">
                         <list>
                             <bean parent="Uif-MessageField"
                                   p:messageText="@{#textHelper.getFormattedMessage('details.regGroup.code', new Object[]{#line.regGroupCode})}"
-                                  p:labelRendered="true">
+                                  p:labelRendered="true" p:additionalCssClasses="ksap-section-reggroup">
                             </bean>
                             <bean parent="Uif-StackedCollectionGroup">
                                 <property name="id" value="KSAP-CourseSectionDetails-PlannedSections_@{#line.regGroupCode}"/>

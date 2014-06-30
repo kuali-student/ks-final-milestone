@@ -249,10 +249,12 @@
     cursor: default;
   }
 
-  // Planned Registration
+  // Planned Registration Groups
   .ksap-section-reg {
+    margin-bottom: 30px;
+
     // Heading
-    h4 {
+    h5 {
       background: transparent;
       border-radius: 0;
       color: #093;
@@ -260,35 +262,45 @@
       font-weight: bold;
       margin: 0;
     }
-    // Planned registration tables
-    table,
-    thead {
+    // Planned registration faux tables
+    .uif-messageField {
+      padding:10px 0 5px 15px;
+    }
+    .ksap-section-reggroup.uif-messageField {
+      padding: 5px 0 0 0;
+    }
+    .ksap-section-reg-header {
+      background-color: #EEE;
+      border-bottom: 2px solid #ddd;
+      font-weight:bold;
+    }
+    .ksap-section-reg-group {
       border-bottom: 1px solid #ddd;
-      margin-bottom: 30px;
     }
-    tr.uif-groupRow {
-      border-top: 0;
-      border-bottom: 0!important; //KS uses !important
-    }
-    .uif-tableCollectionLayout > tbody > tr > td {
-      border: 0;
-    }
-    .uif-tableCollectionLayout > tbody > tr:first-child > td {
-      padding-bottom: 5px;
-      padding-left: 0;
+    .uif-collectionItem.uif-boxCollectionItem {
+      margin-bottom: 0;
     }
     // Planned registration tables - fixed column width
     .ksap-section-type {
-      width: 50px;
-    }
-    .ksap-section-code {
-      width: 65px;
+      width: 100px;
     }
     .ksap-section-instructor {
-      width: 100px;
+      width: 160px;
     }
     .ksap-section-time {
-      width: 100px;
+      width: 140px;
+    }
+    .ksap-section-location {
+      width: 120px;
+    }
+    .ksap-section-days {
+      width: 50px;
+    }
+    .ksap-section-seats {
+      width: 90px;
+    }
+    .ksap-section-details {
+      width: 225px;
     }
   }
 
