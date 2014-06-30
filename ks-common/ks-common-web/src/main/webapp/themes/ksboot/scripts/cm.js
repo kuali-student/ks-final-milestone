@@ -916,7 +916,9 @@ function validateNewLoCategoryAndType(value, element) {
             loCategoryInfoMessage.html(imgOuterHTML + ' You must add a category type to create the new category ' + value + '.');
             loCategoryInfoMessage.show();
             // Add the requiredness for Category Type when it is visible
-            checkForRequiredness(jQuery('#' + loCategoryType_control).attr('name'), function() { return true; }, '*');
+            checkForRequiredness(jQuery('#' + loCategoryType_control).attr('name'), function () {
+                return true;
+            }, '*');
         }
     } else {
         if (loCategoryType.is(':visible')) {
@@ -927,7 +929,9 @@ function validateNewLoCategoryAndType(value, element) {
             hideMessageTooltip(loCategoryType.attr('id'));
             jQuery('#' + loCategoryType_control).removeClass('error');
             // Remove the requiredness for Category Type when it is hidden
-            checkForRequiredness(jQuery('#' + loCategoryType_control).attr('name'), function() { return false; }, '*');
+            checkForRequiredness(jQuery('#' + loCategoryType_control).attr('name'), function () {
+                return false;
+            }, '*');
         }
     }
     return true;
@@ -935,9 +939,38 @@ function validateNewLoCategoryAndType(value, element) {
 
 function categoryTypeSelection(selectAll) {
     if (selectAll == 'true') {
-        /*  select all types  */
+        jQuery('#KS-LoListedType-Checkbox-Group').find('input').each(function (index) {
+            jQuery('#KS-LoListedType-Checkbox-Group_control_' + index).selected(true);
+        });
 
     } else {
-        /* deselect all types */
+        jQuery('#KS-LoListedType-Checkbox-Group').find('input').each(function (index) {
+            jQuery('#KS-LoListedType-Checkbox-Group_control_' + index).selected(false);
+        });
     }
+    filterCategoriesByTypes();
+}
+
+function filterCategoriesByName() {
+    var inputVal = jQuery('#LoCategory-Category-Filter-Input_control').val().trim();
+    jQuery("#uLookupResults_layout").dataTable().fnFilter(inputVal, 1);
+}
+
+function filterCategoriesByTypes() {
+    var labels = '';
+    var i = 0;
+    jQuery('#KS-LoListedType-Checkbox-Group').find('input').each(function (index) {
+        if (jQuery('#KS-LoListedType-Checkbox-Group_control_' + index).is(':checked') == true) {
+            var label = jQuery('#KS-LoListedType-Checkbox-Group_control_' + index).next("label").text();
+            if (i > 0) {
+                labels = labels + '|' + label;
+            } else {
+                labels = label;
+                i++;
+            }
+        }
+    });
+
+    jQuery("#uLookupResults_layout").dataTable().fnFilter('', 2, true, false)
+    jQuery("#uLookupResults_layout").dataTable().fnFilter(labels, 2, true, false)
 }
