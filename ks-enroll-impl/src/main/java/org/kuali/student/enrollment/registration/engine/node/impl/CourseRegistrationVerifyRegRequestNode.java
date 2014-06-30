@@ -2,20 +2,17 @@ package org.kuali.student.enrollment.registration.engine.node.impl;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
-import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequest;
 import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequestItem;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
-import org.kuali.student.enrollment.registration.client.service.impl.util.RegistrationValidationResultsUtil;
 import org.kuali.student.enrollment.registration.engine.dto.RegistrationRequestEngineMessage;
 import org.kuali.student.enrollment.registration.engine.node.AbstractCourseRegistrationNode;
-import org.kuali.student.enrollment.registration.engine.service.CourseRegistrationEngineService;
+import org.kuali.student.enrollment.registration.engine.processor.CourseRegistrationErrorProcessor;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.slf4j.Logger;
@@ -30,6 +27,7 @@ public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegist
     public static final Logger LOG = LoggerFactory.getLogger(CourseRegistrationVerifyRegRequestNode.class);
     private CourseRegistrationService courseRegistrationService;
     private LprService lprService;
+    private CourseRegistrationErrorProcessor courseRegistrationErrorProcessor;
 
     public CourseRegistrationService getCourseRegistrationService() {
         if (courseRegistrationService == null) {
@@ -77,57 +75,36 @@ public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegist
             return message;
         }
 
-        //Error out the items
-        RegistrationRequestInfo updatedMessage = new RegistrationRequestInfo(message.getRegistrationRequest());
+        if (transactionException != null) {
+            message = courseRegistrationErrorProcessor.process(message); // roll back the entire transaction
+        } else {
+            //Error out the items
+            RegistrationRequestInfo updatedMessage = new RegistrationRequestInfo(message.getRegistrationRequest());
 
-        try {
-            LprTransactionInfo trans = getLprService().getLprTransaction(regRequest.getId(), contextInfo);
-            trans.setStateKey(LprServiceConstants.LPRTRANS_FAILED_STATE_KEY);
-            updatedMessage.setStateKey(LprServiceConstants.LPRTRANS_FAILED_STATE_KEY);
-            for (LprTransactionItemInfo item : trans.getLprTransactionItems()) {
-                if(transactionException != null){
-                    ValidationResultInfo vr =
-                            new ValidationResultInfo(trans.getId(), ValidationResult.ErrorLevel.ERROR,
-                                    "Exception occurred during processing. Entire transaction will roll back." );
-                    vr.setMessage(RegistrationValidationResultsUtil.
-                            marshallSimpleMessage(LprServiceConstants.LPRTRANS_ITEM_EXCEPTION_MESSAGE_KEY));
-                    updateRequestItemsToError(item, updatedMessage, vr);
-
-                }  else {
-
+            try {
+                LprTransactionInfo trans = getLprService().getLprTransaction(regRequest.getId(), contextInfo);
+                trans.setStateKey(LprServiceConstants.LPRTRANS_FAILED_STATE_KEY);
+                updatedMessage.setStateKey(LprServiceConstants.LPRTRANS_FAILED_STATE_KEY);
+                for (LprTransactionItemInfo item : trans.getLprTransactionItems()) {
                     for (ValidationResultInfo error : errors) {
                         //Match each error with the corresponding id.
                         String itemId = error.getElement().replaceFirst("registrationRequestItems\\['([^']*)'\\]", "$1");
                         if (item.getId().equals(itemId)) {
-                            updateRequestItemsToError(item, updatedMessage, error);
+                            courseRegistrationErrorProcessor.updateRequestItemsToError(item, updatedMessage, error);
                         }
                     }
                 }
+                getLprService().updateLprTransaction(trans.getId(), trans, contextInfo);
+
+                message.setRegistrationRequest(updatedMessage);
+
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
             }
-            getLprService().updateLprTransaction(trans.getId(), trans, contextInfo);
-
-            message.setRegistrationRequest(updatedMessage);
-
-        }catch (Exception ex) {
-            throw new RuntimeException(ex);
         }
 
         return message;
 
-    }
-
-    private void updateRequestItemsToError(LprTransactionItemInfo item, RegistrationRequestInfo updatedMessage, ValidationResultInfo error){
-        //Update the item with the failed validation state and result
-        item.getValidationResults().add(new ValidationResultInfo(error));
-        item.setStateKey(LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY);
-
-        //Update the message too
-        for(RegistrationRequestItemInfo requestItem:updatedMessage.getRegistrationRequestItems()){
-            if(requestItem.getId().equals(item.getId())){
-                requestItem.setStateKey(LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY);
-                requestItem.getValidationResults().add(new ValidationResultInfo(error));
-            }
-        }
     }
 
     private boolean shouldValidate(RegistrationRequest regRequest) {
@@ -150,5 +127,7 @@ public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegist
         return errors;
     }
 
-
+    public void setCourseRegistrationErrorProcessor(CourseRegistrationErrorProcessor courseRegistrationErrorProcessor) {
+        this.courseRegistrationErrorProcessor = courseRegistrationErrorProcessor;
+    }
 }

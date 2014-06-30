@@ -91,6 +91,7 @@
     <!-- Verifies the reg request -->
     <bean id="registrationVerificationListener" class="org.kuali.student.enrollment.registration.engine.node.impl.CourseRegistrationVerifyRegRequestNode">
         <property name="jmsTemplate" ref="jmsTemplate"/>
+        <property name="courseRegistrationErrorProcessor" ref="courseRegistrationErrorProcessor"/>
         <property name="destinations">
             <list>
                 <value>org.kuali.student.enrollment.registration.splitByItemQueue</value>

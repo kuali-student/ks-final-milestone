@@ -99,7 +99,14 @@ public class CourseRegistrationErrorProcessor {
         return message;
     }
 
-    private void updateRequestItemsToError(LprTransactionItemInfo item, RegistrationRequestInfo updatedMessage, ValidationResultInfo error) {
+    /**
+     * Update an LPR transaction item with the "failed" state
+     *
+     * @param item the item to update
+     * @param updatedMessage the full registration request we are are updating
+     * @param error validation result info about the error
+     */
+    public void updateRequestItemsToError(LprTransactionItemInfo item, RegistrationRequestInfo updatedMessage, ValidationResultInfo error) {
         //Update the item with the failed validation state and result
         item.getValidationResults().add(new ValidationResultInfo(error));
         item.setStateKey(LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY);
