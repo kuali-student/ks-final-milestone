@@ -217,7 +217,7 @@
                 <bean id="rdl_endtime" parent="KS-Uif-InputField-LabelTop" p:label="End Time"  p:propertyName="newScheduleRequest.endTime"  p:additionalCssClasses="uif-boxLayoutHorizontalItem"
                                        p:disableNativeAutocomplete="true" p:forceSessionPersistence="true"
                                        p:required="@{(!#dp.newScheduleRequest.tba or (#dp.newScheduleRequest.tba and #dp.newScheduleRequest.startTime ne null))}"
-                                       p:refreshWhenChangedPropertyNames="#dp.newScheduleRequest.tba,#dp.newScheduleRequest.startTime">
+                                       p:refreshWhenChangedPropertyNames="#dp.newScheduleRequest.tba">
                      <property name="control">
                          <bean parent="KS-Uif-DropdownControl" p:cssClasses="new_rdl_components, validDaysStartimeComboForStandardTimeSlot"/>
                     </property>
