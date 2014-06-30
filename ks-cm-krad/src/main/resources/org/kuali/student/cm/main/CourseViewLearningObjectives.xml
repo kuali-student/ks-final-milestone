@@ -228,7 +228,7 @@
                     <property name="addLineActions">
                         <list>
                             <bean parent="Uif-SecondaryActionButton" p:id="KS-LearningObjective-Category-Add"
-                                  p:actionLabel="Add" p:methodToCall="addLine"/>
+                                  p:actionLabel="Add" p:methodToCall="addLine" p:performClientSideValidation="true"/>
                         </list>
                     </property>
                     <property name="lineActions">
@@ -267,8 +267,9 @@
                                     </bean>
                                 </property>
                             </bean>
+                            <!-- Requiredness of Category Type is dynamically handled in cm.js under function validateNewLoCategoryAndType. -->
                             <bean id="KS-LearningObjective-CategoryType" parent="KS-Uif-InputField"
-                                  p:label="Type" p:propertyName="typeKey" p:required="true">
+                                  p:label="Type" p:propertyName="typeKey" p:required="false">
                                 <property name="control">
                                     <bean parent="KS-Uif-DropdownControl"/>
                                 </property>
