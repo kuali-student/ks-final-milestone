@@ -24,7 +24,8 @@
         <property name="dataObjectClass" value="org.kuali.student.cm.course.form.LoCategoryInfoWrapper"/>
     </bean>
 
-    <bean id="KS-LoCategoryInfoWrapper-View" parent="Uif-LookupView">
+    <bean id="KS-LoCategoryInfoWrapper-View" parent="Uif-LookupView"
+          p:onDocumentReadyScript="categoryTypeSelection('true');">
         <property name="viewName" value="KS-LoCategoryInfoWrapper-View"/>
         <property name="headerText" value="Select Categories"/>
         <property name="theme">
@@ -69,18 +70,27 @@
         <property name="resultsGroup.layoutManager.actionColumnPlacement" value="RIGHT"/>
         <property name="resultsGroup.footer.items">
             <list>
-                <bean id="KSCM-AddCategoryButton" parent="Uif-PrimaryActionButton" p:methodToCall="returnSelected"
-                      p:actionLabel="Add Categories"
-                      p:preSubmitCall="setupMultiValueReturn();return true;"
-                      p:disabled="@{#form.selectedLookupResultsCache.size() == 0}" p:ajaxSubmit="false">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>uif-returnSelectedAction</value>
+                <bean id="LoCategoryInfoWrapper-type-selection" parent="Uif-HorizontalFieldGroup"
+                      p:style="float: right;">
+                    <property name="items">
+                        <list>
+
+                            <bean id="KSCM-AddCategoryButton" parent="Uif-PrimaryActionButton"
+                                  p:methodToCall="returnSelected"
+                                  p:actionLabel="Add Categories"
+                                  p:preSubmitCall="setupMultiValueReturn();return true;"
+                                  p:disabled="@{#form.selectedLookupResultsCache.size() == 0}" p:ajaxSubmit="false">
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>uif-returnSelectedAction</value>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean id="KS-CancelLo-Button" parent="Uif-CancelAction"
+                                  p:onClickScript="closeLightbox();return false;"/>
                         </list>
                     </property>
                 </bean>
-                <bean id="KS-CancelLo-Button" parent="Uif-CancelAction"
-                      p:onClickScript="closeLightbox();return false;"/>
             </list>
         </property>
 
