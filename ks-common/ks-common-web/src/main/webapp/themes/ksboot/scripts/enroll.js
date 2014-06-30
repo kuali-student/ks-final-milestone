@@ -1388,7 +1388,9 @@ function matrixOverrideFlagChange(event, dialog_id){
  Disable EO inline row fields when confirming un-override matrix in the confirmation dialog
  */
 function resendEORsiToMatrix(matrixOverrideCheckBoxId, baseUrl) {
+    showLoading("Loading...");
     closeLightbox();
+
     var checkBoxId = jQuery("input[name='" + matrixOverrideCheckBoxId + "']").val() + '_control';
     var row = jQuery('#' + checkBoxId).closest('tr');
     var selectedCollectionPathAndIndex = getSelectedCollectionPathAndIndex(row);
