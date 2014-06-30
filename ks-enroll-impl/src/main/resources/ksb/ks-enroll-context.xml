@@ -1640,6 +1640,8 @@
     -->
     <util:map id="regUserMap">
         <entry key="TestStudent" value="2014-06-23@09:05" />
+        <entry key="student7" value="2012-03-05@00:01" />
+        <entry key="student8" value="2012-10-20@00:01" />
     </util:map>
 
     <!-- Batch Scheduler: the bean is defined in ks-enroll-batch-context.xml. -->
