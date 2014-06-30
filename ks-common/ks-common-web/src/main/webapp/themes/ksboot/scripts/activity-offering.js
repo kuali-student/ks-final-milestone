@@ -773,6 +773,7 @@ function rdlStartTimeOnBlur(baseUrl) {
                 jQuery('#rdl_endtime_control').append(newOption);
             }
         }else if (jQuery('#rdl_endtime_control.ui-autocomplete-input').length) {
+            jQuery('#rdl_endtime_control').val(options[0]);
             jQuery('#rdl_endtime_control').autocomplete("option", "source", options);
         } else {
             if (options.length > 0) {
