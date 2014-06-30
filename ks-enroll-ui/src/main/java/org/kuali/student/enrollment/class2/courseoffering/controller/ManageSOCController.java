@@ -118,7 +118,10 @@ public class ManageSOCController extends UifControllerBase {
             // start send approved activities to scheduler
             ManageSOCViewHelperService viewHelper = (ManageSOCViewHelperService) KSControllerHelper.getViewHelperService(socForm);
             viewHelper.startMassScheduling(socForm);
-            return buildModel(socForm, result, request, response);
+            buildModelForTerm(socForm);
+
+            //TODO KSENROLL-13333: Revisit navigate once KS is upgraded to Rice 2.5
+            return super.navigate(socForm, result, request, response);
         } else {
             return getUIFModelAndView(socForm);
         }
@@ -176,7 +179,10 @@ public class ManageSOCController extends UifControllerBase {
             ManageSOCViewHelperService viewHelper = (ManageSOCViewHelperService) KSControllerHelper.getViewHelperService(socForm);
             viewHelper.allowSOCFinalEdit(socForm);
 
-            return buildModel(socForm, result, request, response);
+            buildModelForTerm(socForm);
+
+            //TODO KSENROLL-13333: Revisit navigate once KS is upgraded to Rice 2.5
+            return super.navigate(socForm, result, request, response);
 
         } else {
             return getUIFModelAndView(socForm);
@@ -208,7 +214,10 @@ public class ManageSOCController extends UifControllerBase {
         if (dialogAnswer) {
             ManageSOCViewHelperService viewHelper = (ManageSOCViewHelperService) KSControllerHelper.getViewHelperService(socForm);
             viewHelper.publishSOC(socForm);
-            return buildModel(socForm, result, request, response);
+            buildModelForTerm(socForm);
+
+            //TODO KSENROLL-13333: Revisit navigate once KS is upgraded to Rice 2.5
+            return super.navigate(socForm, result, request, response);
         } else {
             return getUIFModelAndView(socForm);
         }
@@ -239,7 +248,10 @@ public class ManageSOCController extends UifControllerBase {
             ManageSOCViewHelperService viewHelper = (ManageSOCViewHelperService) KSControllerHelper.getViewHelperService(socForm);
             viewHelper.closeSOC(socForm);
 
-            return buildModel(socForm, result, request, response);
+            buildModelForTerm(socForm);
+
+            //TODO KSENROLL-13333: Revisit navigate once KS is upgraded to Rice 2.5
+            return super.navigate(socForm, result, request, response);
         } else {
             return getUIFModelAndView(socForm);
         }
