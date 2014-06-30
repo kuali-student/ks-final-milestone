@@ -1132,7 +1132,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         reviewData.getCollaboratorSection().getCollaboratorWrappers().clear();
         retriveCollaborators(courseInfoWrapper);
         reviewData.getCollaboratorSection().setCollaboratorWrappers(courseInfoWrapper.getCollaboratorWrappers());
-
+        reviewData.getCollaboratorSection().changeToUserReadableOptions();
 
         // update learning Objectives Section;
         // update  course Requisites Section;
@@ -1150,6 +1150,11 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             for(CollaboratorWrapper collaboratorWrapper : courseInfoWrapper.getCollaboratorWrappers()) {
                 String displayName = collaboratorWrapper.getLastName() + "," + collaboratorWrapper.getFirstName() + " (" + collaboratorWrapper.getPrincipalId().toLowerCase() + ")";
                 collaboratorWrapper.setDisplayName(displayName);
+                for(String proposerPerson : courseInfoWrapper.getProposalInfo().getProposerPerson()) {
+                    if(StringUtils.equals(proposerPerson,collaboratorWrapper.getPrincipalId())){
+                        collaboratorWrapper.setAuthor(true);
+                    }
+                }
             }
         }
         catch (Exception e){
@@ -1354,6 +1359,9 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 collaboratorWrapper.setPrincipalId(principalId.toUpperCase());
                 try {
                     DocumentCollaboratorHelper.addCollaborator(proposalInfo.getWorkflowId(), proposalInfo.getId(), "title here", collaboratorWrapper.getPrincipalId(), collaboratorWrapper.getPermission(), collaboratorWrapper.getAction(), true, "");
+                    if(collaboratorWrapper.isAuthor()){
+                        courseInfoWrapper.getProposalInfo().getProposerPerson().add(collaboratorWrapper.getPrincipalId());
+                    }
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }

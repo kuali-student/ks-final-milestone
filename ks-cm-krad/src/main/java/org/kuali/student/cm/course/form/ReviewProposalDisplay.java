@@ -568,5 +568,22 @@ public class ReviewProposalDisplay {
             return collaboratorWrappers.isEmpty() ? "" : "Has Authors and Collaborators";
         }
 
+        public void changeToUserReadableOptions(){
+
+            for(CollaboratorWrapper collaboratorWrapper : getCollaboratorWrappers()){
+                if(collaboratorWrapper.getAction() == "F" )
+                    collaboratorWrapper.setAction("FYI");
+                if(StringUtils.equals(collaboratorWrapper.getPermission(), "KS-SYS~Open Document")) {
+                    collaboratorWrapper.setPermission("View");
+                }
+                else if(StringUtils.equals(collaboratorWrapper.getPermission(), "KS-SYS~Add a Comment")) {
+                    collaboratorWrapper.setPermission("Comments, View");
+                }
+                else if(StringUtils.equals(collaboratorWrapper.getPermission(), "KS-SYS~Edit Document"))  {
+                    collaboratorWrapper.setPermission("Edit, Comments, View");
+                }
+            }
+        }
+
     }
 }
