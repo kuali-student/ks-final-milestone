@@ -44,7 +44,7 @@ public interface ExamOfferingSlottingEvaluator {
      * @throws OperationFailedException
      */
     public ExamOfferingResult executeRuleForAOSlotting(ActivityOffering activityOffering, String examOfferingId, String termType,
-                                         List<String> optionKeys, ContextInfo context) throws OperationFailedException;
+                                         List<String> optionKeys, boolean userOverride, ContextInfo context) throws OperationFailedException;
 
     /**
      * This method will evaluate the appropriate final exam matrix and create the requested delivery logistic.
@@ -57,5 +57,5 @@ public interface ExamOfferingSlottingEvaluator {
      * @throws OperationFailedException
      */
     public ExamOfferingResult executeRuleForCOSlotting(CourseOffering courseOffering,String examOfferingId, String termType,
-                                         List<String> optionKeys, ContextInfo context) throws OperationFailedException;
+                                         List<String> optionKeys, boolean userOverride, ContextInfo context) throws OperationFailedException;
 }

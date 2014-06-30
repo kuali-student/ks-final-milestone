@@ -86,7 +86,7 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
      * @see ExamOfferingSlottingEvaluator
      */
     public ExamOfferingResult executeRuleForAOSlotting(ActivityOffering activityOffering, String examOfferingId, String termType,
-                                         List<String> optionKeys, ContextInfo contextInfo) throws OperationFailedException {
+                                         List<String> optionKeys, boolean userOverride, ContextInfo contextInfo) throws OperationFailedException {
 
         //Retrieve the matrix for the specific term type.
         KrmsTypeDefinition typeDefinition = this.getKrmsTypeRepositoryService().getTypeByName(
@@ -139,7 +139,11 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
             }
             createRDLForExamOffering(componentInfo, timeslot, examOfferingId, contextInfo);
         } else {
-            setErrorStateRDLForExamOffering(examOfferingId, contextInfo);
+            if(userOverride){
+                setErrorStateRDLForExamOffering(examOfferingId, contextInfo);
+            }else{
+                removeRDLForExamOffering(examOfferingId, contextInfo);
+            }
             return new ExamOfferingResult(ExamOfferingServiceConstants.EXAM_OFFERING_AO_MATRIX_MATCH_NOT_FOUND);
         }
 
@@ -189,7 +193,7 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
      * @see ExamOfferingSlottingEvaluator
      */
     public ExamOfferingResult executeRuleForCOSlotting(CourseOffering courseOffering, String examOfferingId, String termType,
-                                         List<String> optionKeys, ContextInfo contextInfo) throws OperationFailedException {
+                                         List<String> optionKeys, boolean userOverride, ContextInfo contextInfo) throws OperationFailedException {
 
         KrmsTypeDefinition typeDefinition = this.getKrmsTypeRepositoryService().getTypeByName(
                 PermissionServiceConstants.KS_SYS_NAMESPACE, KSKRMSServiceConstants.AGENDA_TYPE_FINAL_EXAM_CO_DRIVEN);
@@ -214,7 +218,11 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
                 ScheduleRequestComponentInfo componentInfo = createScheduleRequestFromResults(results);
                 createRDLForExamOffering(componentInfo, timeslot, examOfferingId, contextInfo);
             } else {
-                setErrorStateRDLForExamOffering(examOfferingId, contextInfo);
+                if(userOverride){
+                    setErrorStateRDLForExamOffering(examOfferingId, contextInfo);
+                }else{
+                    removeRDLForExamOffering(examOfferingId, contextInfo);
+                }
                 return new ExamOfferingResult(ExamOfferingServiceConstants.EXAM_OFFERING_CO_MATRIX_MATCH_NOT_FOUND);
             }
 

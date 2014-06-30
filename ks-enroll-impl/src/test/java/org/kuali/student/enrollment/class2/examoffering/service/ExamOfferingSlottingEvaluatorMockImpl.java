@@ -16,13 +16,13 @@ public class ExamOfferingSlottingEvaluatorMockImpl implements ExamOfferingSlotti
 
     @Override
     public ExamOfferingResult executeRuleForAOSlotting(ActivityOffering activityOffering, String examOfferingId, String termType,
-                                         List<String> optionKeys, ContextInfo context) throws OperationFailedException {
+                                         List<String> optionKeys, boolean userOverride, ContextInfo context) throws OperationFailedException {
         return null;
     }
 
     @Override
     public ExamOfferingResult executeRuleForCOSlotting(CourseOffering courseOffering, String examOfferingId, String termType,
-                                         List<String> optionKeys, ContextInfo context) throws OperationFailedException {
+                                         List<String> optionKeys, boolean userOverride, ContextInfo context) throws OperationFailedException {
         return null;
     }
 }
