@@ -50,6 +50,7 @@ public class CourseInfoWrapper extends LURuleManagementWrapper implements Serial
     ;
     private List<OrganizationInfoWrapper> administeringOrganizations = new ArrayList<OrganizationInfoWrapper>();
     private List<CollaboratorWrapper> collaboratorWrappers = new ArrayList<CollaboratorWrapper>();
+    private List<String> deletedCollaboratorWrapperActionRequestIds = new ArrayList<String>();
     private List<SupportingDocumentInfoWrapper> documentsToAdd = new ArrayList<SupportingDocumentInfoWrapper>();
     private List<DocumentInfo> supportingDocuments = new ArrayList<DocumentInfo>();
     private ReviewProposalDisplay reviewProposalDisplay = new ReviewProposalDisplay();
@@ -328,6 +329,14 @@ public class CourseInfoWrapper extends LURuleManagementWrapper implements Serial
 
     public void setCollaboratorWrappers(List<CollaboratorWrapper> collaboratorWrappers) {
         this.collaboratorWrappers = collaboratorWrappers;
+    }
+
+    public List<String> getDeletedCollaboratorWrapperActionRequestIds() {
+        return deletedCollaboratorWrapperActionRequestIds;
+    }
+
+    public void setDeletedCollaboratorWrapperActionRequestIds(List<String> deletedCollaboratorWrapperActionRequestIds) {
+        this.deletedCollaboratorWrapperActionRequestIds = deletedCollaboratorWrapperActionRequestIds;
     }
 
     public List<SupportingDocumentInfoWrapper> getDocumentsToAdd() {

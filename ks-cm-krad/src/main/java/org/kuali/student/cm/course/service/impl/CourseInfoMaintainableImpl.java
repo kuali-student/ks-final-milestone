@@ -30,6 +30,7 @@ import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.uif.container.Container;
 import org.kuali.rice.krad.uif.element.Action;
+import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
@@ -133,6 +134,7 @@ import org.springframework.beans.BeanUtils;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -896,6 +898,35 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         super.processCollectionAddBlankLine(model, collectionId, collectionPath);
     }
 
+    @Override
+    public void processCollectionDeleteLine(ViewModel model, String collectionId, String collectionPath, int lineIndex) {
+        MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) model;
+        MaintenanceDocument document = maintenanceForm.getDocument();
+
+        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) document.getNewMaintainableObject().getDataObject();
+        Collection<Object> collection = ObjectPropertyUtils.getPropertyValue(model, collectionPath);
+        if (collection == null) {
+            logAndThrowRuntime(CurriculumManagementConstants.MessageKeys.ERROR_UNABLE_TO_GET_COLLECTION_PROPERTY + collectionPath);
+        }
+
+        if (collection instanceof List) {
+            Object deleteLine = ((List<Object>) collection).get(lineIndex);
+            // if deleted line is CollaboratorWrapper then add the actionRequestId to the list that should be removed
+            if ((deleteLine != null) && (deleteLine instanceof CollaboratorWrapper)) {
+                CollaboratorWrapper wrapper = (CollaboratorWrapper) deleteLine;
+                String actionRequestId = wrapper.getActionRequestId();
+                if (StringUtils.isNotBlank(actionRequestId)) {
+                    courseInfoWrapper.getDeletedCollaboratorWrapperActionRequestIds().add(actionRequestId);
+                    // if person is also listed as an author then remove the listing
+                    if (wrapper.isAuthor()) {
+                        courseInfoWrapper.getProposalInfo().getProposerPerson().remove(wrapper.getPrincipalId());
+                    }
+                }
+            }
+        }
+        super.processCollectionDeleteLine(model, collectionId, collectionPath, lineIndex);
+    }
+
     protected String populateOrgName(String subjectArea, CourseCreateUnitsContentOwner unitsContentOwner) {
 
         if (StringUtils.isBlank(unitsContentOwner.getOrgId())) {
@@ -1130,7 +1161,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         }
 
         reviewData.getCollaboratorSection().getCollaboratorWrappers().clear();
-        retriveCollaborators(courseInfoWrapper);
+        retrieveCollaborators(courseInfoWrapper);
         reviewData.getCollaboratorSection().setCollaboratorWrappers(courseInfoWrapper.getCollaboratorWrappers());
         reviewData.getCollaboratorSection().changeToUserReadableOptions();
 
@@ -1142,7 +1173,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     }
 
 
-    private void retriveCollaborators(CourseInfoWrapper courseInfoWrapper){
+    private void retrieveCollaborators(CourseInfoWrapper courseInfoWrapper){
         ProposalInfo proposalInfo = courseInfoWrapper.getProposalInfo();
         try{
             courseInfoWrapper.getCollaboratorWrappers().clear();
@@ -1150,10 +1181,9 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             for(CollaboratorWrapper collaboratorWrapper : courseInfoWrapper.getCollaboratorWrappers()) {
                 String displayName = collaboratorWrapper.getLastName() + "," + collaboratorWrapper.getFirstName() + " (" + collaboratorWrapper.getPrincipalId().toLowerCase() + ")";
                 collaboratorWrapper.setDisplayName(displayName);
-                for(String proposerPerson : courseInfoWrapper.getProposalInfo().getProposerPerson()) {
-                    if(StringUtils.equals(proposerPerson,collaboratorWrapper.getPrincipalId())){
-                        collaboratorWrapper.setAuthor(true);
-                    }
+                // if person is listed as a proposer person in proposalInfo, list them as an author in the collaborators section
+                if (proposalInfo.getProposerPerson().contains(collaboratorWrapper.getPrincipalId())) {
+                    collaboratorWrapper.setAuthor(true);
                 }
             }
         }
@@ -1341,29 +1371,33 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
         if(courseInfoWrapper.getProposalInfo().getWorkflowId() != null){
             ProposalInfo proposalInfo = courseInfoWrapper.getProposalInfo();
+            // first delete the collaborators that the user requested to be deleted
             try{
-                for(CollaboratorWrapper collaboratorWrapper : DocumentCollaboratorHelper.getCollaborators(proposalInfo.getWorkflowId(), proposalInfo.getId(), proposalInfo.getType()) ){
-      //              for some reason removeCollaborator is throwing exception, need to investigate further.
-      //              DocumentCollaboratorHelper.removeCollaborator(proposalInfo.getWorkflowId(), proposalInfo.getId(), collaboratorWrapper.getActionRequestId());
+                for (String actionRequestId : courseInfoWrapper.getDeletedCollaboratorWrapperActionRequestIds()) {
+                    DocumentCollaboratorHelper.removeCollaborator(proposalInfo.getWorkflowId(), proposalInfo.getId(), actionRequestId);
                 }
             }
             catch(Exception e){
                 throw new RuntimeException(e);
             }
 
+            // add in any new collaborators created
             for (CollaboratorWrapper collaboratorWrapper : courseInfoWrapper.getCollaboratorWrappers()) {
-                if(proposalInfo.getWorkflowId() == null && (collaboratorWrapper.getDisplayName() == null) )
-                    continue;
-                String displayName = collaboratorWrapper.getDisplayName();
-                String principalId = displayName.substring(displayName.indexOf("(") + 1, displayName.length() - 1);
-                collaboratorWrapper.setPrincipalId(principalId.toUpperCase());
-                try {
-                    DocumentCollaboratorHelper.addCollaborator(proposalInfo.getWorkflowId(), proposalInfo.getId(), "title here", collaboratorWrapper.getPrincipalId(), collaboratorWrapper.getPermission(), collaboratorWrapper.getAction(), true, "");
-                    if(collaboratorWrapper.isAuthor()){
-                        courseInfoWrapper.getProposalInfo().getProposerPerson().add(collaboratorWrapper.getPrincipalId());
+                // only save the collaborator if the actionRequestId is blank indicating new
+                if (StringUtils.isBlank(collaboratorWrapper.getActionRequestId())) {
+                    if(proposalInfo.getWorkflowId() == null && (collaboratorWrapper.getDisplayName() == null) )
+                        continue;
+                    String displayName = collaboratorWrapper.getDisplayName();
+                    String principalId = displayName.substring(displayName.indexOf("(") + 1, displayName.length() - 1);
+                    collaboratorWrapper.setPrincipalId(principalId.toUpperCase());
+                    try {
+                        DocumentCollaboratorHelper.addCollaborator(proposalInfo.getWorkflowId(), proposalInfo.getId(), "title here", collaboratorWrapper.getPrincipalId(), collaboratorWrapper.getPermission(), collaboratorWrapper.getAction(), true, "");
+                        if (collaboratorWrapper.isAuthor()) {
+                            proposalInfo.getProposerPerson().add(collaboratorWrapper.getPrincipalId());
+                        }
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
                     }
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
                 }
             }
         }
@@ -1822,7 +1856,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 dataObject.getCollaboratorWrappers().add(new CollaboratorWrapper());
             }
 
-            retriveCollaborators(dataObject);
+            retrieveCollaborators(dataObject);
 
             populateAuditOnWrapper();
             populateFinalExamOnWrapper();
