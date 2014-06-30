@@ -1,4 +1,4 @@
-<div id="kscr-CartHeading" ng-swipe-left="goToPage('/mySchedule')" draggable="true" ng-swipe-right="goToPage('/{{appUrl}}kscr-poc/index.jsp')">
+<div id="kscr-CartHeading" draggable="true" ng-swipe-right="goToPage('/mySchedule')"> <!-- ** change schedule swipe back to left ** ng-swipe-right="goToPage('/{{appUrl}}kscr-poc/index.jsp')"> -->
     <!--My Cart Main Heading-->
     <div class="kscr-MainHeading kscr-MainHeading-icons util-Grid util-Grid--center">
         <div class="util-Grid-cell">
@@ -98,7 +98,11 @@
 <div class="kscr-Card kscr-Card-Results" ng-show="cartResults.items.length">
     <div class="kscr-Heading-sub--cart">
         <span class="kscr-Card-responseLabel">RESULTS</span>
-        <span class="kscr-Card-responseCount" ng-bind-html="resultsSummary(cartResults)"></span>
+        <span class="kscr-Card-responseCount" ng-show="(cartResults.successCount + cartResults.waitlistCount + cartResults.errorCount) > 0">
+            <span ng-if="cartResults.successCount > 0">Success ({{cartResults.successCount}})</span>
+            <span ng-if="cartResults.waitlistCount > 0">Waitlist ({{cartResults.waitlistCount}})</span>
+            <span ng-if="cartResults.errorCount > 0">Fail ({{cartResults.errorCount}})</span>
+        </span>
         <span class="util-Grid--clearfix"></span>
     </div>
     <div id="resultsSection" class="panel-group">
