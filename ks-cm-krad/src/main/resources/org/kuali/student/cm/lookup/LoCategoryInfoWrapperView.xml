@@ -25,7 +25,7 @@
     </bean>
 
     <bean id="KS-LoCategoryInfoWrapper-View" parent="Uif-LookupView"
-          p:onDocumentReadyScript="categoryTypeSelection('true');">
+          p:onDocumentReadyScript="categoryTypeSelection('true'); jQuery('#LoCategoryInfoWrapper-Category-Filter_fieldset').find('legend').attr('style', 'display: block');">
         <property name="viewName" value="KS-LoCategoryInfoWrapper-View"/>
         <property name="headerText" value="Select Categories"/>
         <property name="theme">
@@ -64,8 +64,10 @@
         </property>
         <property name="resultFields">
             <list>
-                <bean parent="KS-Uif-DataField" p:propertyName="name" p:label="Category"/>
-                <bean parent="KS-Uif-DataField" p:propertyName="typeName" p:label="Type"/>
+                <bean id="Category-result-field-name" parent="KS-Uif-DataField" p:propertyName="name"
+                      p:label="Category"/>
+                <bean id="Category-result-field-type" parent="KS-Uif-DataField" p:propertyName="typeName"
+                      p:label="Type"/>
             </list>
         </property>
         <property name="resultsGroup.layoutManager.actionColumnPlacement" value="RIGHT"/>
