@@ -129,6 +129,9 @@
                   p:dataObjectClassName="org.kuali.student.cm.course.form.LoDisplayInfoWrapper"
                   p:fieldConversions="descr.plain:loInfo.descr.plain"
                   p:viewName="KS-LoDisplayInfoWrapper-LookupView" p:additionalCssClasses="learning_objective_section_header">
+                <property name="baseLookupUrl"
+                          value="@{#ConfigProperties['application.url']}/kr-krad/LoDisplaylookup"/>
+                <property name="autoSearch" value="true"/>
                 <property name="quickfinderAction">
                     <bean id="LearningObjective-ToolBar-FindObjectives"
                           parent="LearningObjective-ToolBar-FindObjectives-parent"
