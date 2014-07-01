@@ -53,7 +53,8 @@
                       p:methodToCall="deleteLine"
                       p:actionLabel="Delete"
                       p:actionEvent="deleteLine"
-                      p:dirtyOnAction="true"/>
+                      p:dirtyOnAction="true"
+                      p:render="@{#line.canRevokeRequest}"/>
             </list>
         </property>
         <property name="Items">
@@ -97,7 +98,7 @@
                                 <list>
                                     <bean parent="Uif-KeyLabelPair" p:key="KS-SYS~Open Document" p:value="View"/>
                                     <bean parent="Uif-KeyLabelPair" p:key="KS-SYS~Add a Comment" p:value="Comments, View"/>
-                                    <bean parent="Uif-KeyLabelPair" p:key="KS-SYS~Edit Document" p:value="Edit, Comments, View"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="KR-NS~Edit Document" p:value="Edit, Comments, View"/>
                                 </list>
                             </property>
                         </bean>

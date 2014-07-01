@@ -78,6 +78,7 @@ import org.kuali.student.lum.lu.ui.krms.dto.LUAgendaEditor;
 import org.kuali.student.lum.lu.ui.krms.dto.LURuleEditor;
 import org.kuali.student.lum.lu.ui.krms.tree.LURuleViewTreeBuilder;
 import org.kuali.student.lum.program.client.ProgramConstants;
+import org.kuali.student.r1.common.rice.StudentIdentityConstants;
 import org.kuali.student.r1.common.rice.StudentWorkflowConstants.ActionRequestType;
 import org.kuali.student.r1.common.rice.authorization.ProposalPermissionTypes;
 import org.kuali.student.r1.core.personsearch.service.impl.QuickViewByGivenName;
@@ -1219,7 +1220,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         ProposalInfo proposalInfo = courseInfoWrapper.getProposalInfo();
         try {
             courseInfoWrapper.getCollaboratorWrappers().clear();
-            for(CollaboratorWrapper collaboratorWrapper : DocumentCollaboratorHelper.getCollaborators(proposalInfo.getWorkflowId(), proposalInfo.getId(), proposalInfo.getType())) {
+            for(CollaboratorWrapper collaboratorWrapper : DocumentCollaboratorHelper.getCollaborators(proposalInfo.getWorkflowId(), proposalInfo.getId(), StudentIdentityConstants.QUALIFICATION_PROPOSAL_REF_TYPE)) {
                 String displayName = collaboratorWrapper.getLastName() + "," + collaboratorWrapper.getFirstName() + " (" + collaboratorWrapper.getPrincipalId().toLowerCase() + ")";
                 collaboratorWrapper.setDisplayName(displayName);
                 // if person is listed as a proposer person in proposalInfo, list them as an author in the collaborators section
@@ -1229,6 +1230,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 courseInfoWrapper.getCollaboratorWrappers().add(collaboratorWrapper);
             }
         } catch (Exception e){
+            LOG.error("Error updating Collaborators", e);
             throw new RuntimeException(e);
         }
     }
