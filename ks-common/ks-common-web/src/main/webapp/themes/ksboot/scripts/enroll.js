@@ -269,16 +269,20 @@ function removeZebraColoring(id){
 
 function createErrorDiv(message, url, controlId) {
     var div = jQuery('<div id="' + controlId + '_messageDiv" class="uif-clientMessageItems uif-clientErrorDiv" style="display: none;"/>');
+    var subdiv = jQuery('<div class="uif-clientMessageItems uif-clientErrorDiv"/>');
     var ul = jQuery("<ul/>");
     var li = jQuery("<li class='uif-errorMessageItem-field'/>");
-    var image = jQuery("<img class='uif-validationImage' src='" + url + "/themes/ksboot/images/validation/error.png' alt='Error'>" + message + "</img>");
+    var image = jQuery("<img class='uif-validationImage' src='" + url + "/themes/ksboot/images/validation/error.png' alt='Error'> " + message + "</img>");
     //jQuery(image).text(message);
     jQuery(li).append(image);
     jQuery(ul).append(li);
-    jQuery(div).append(ul);
+    jQuery(subdiv).append(ul);
+    jQuery(div).append(subdiv);
 
     return div;
 }
+
+
 
 function createErrorTable(url) {
     var table = jQuery("#errorTable");
