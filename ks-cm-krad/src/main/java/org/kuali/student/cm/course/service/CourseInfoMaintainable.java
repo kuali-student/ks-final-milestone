@@ -53,6 +53,11 @@ public interface CourseInfoMaintainable {
 
     List<AgendaEditor> getAgendasForRef(String discriminatorType, String refObjectId);
 
+    /**
+     * Updates the ReviewProposalDisplay object for the Course Proposal
+     *
+     * NOTE: Will force a refresh of remote data elements (such as Collaborator data)
+     */
     public void updateReview();
 
     public void setLOActions();

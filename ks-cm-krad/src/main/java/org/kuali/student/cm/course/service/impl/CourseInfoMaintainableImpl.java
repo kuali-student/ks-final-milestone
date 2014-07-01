@@ -78,6 +78,8 @@ import org.kuali.student.lum.lu.ui.krms.dto.LUAgendaEditor;
 import org.kuali.student.lum.lu.ui.krms.dto.LURuleEditor;
 import org.kuali.student.lum.lu.ui.krms.tree.LURuleViewTreeBuilder;
 import org.kuali.student.lum.program.client.ProgramConstants;
+import org.kuali.student.r1.common.rice.StudentWorkflowConstants.ActionRequestType;
+import org.kuali.student.r1.common.rice.authorization.ProposalPermissionTypes;
 import org.kuali.student.r1.core.personsearch.service.impl.QuickViewByGivenName;
 import org.kuali.student.r1.core.proposal.ProposalConstants;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
@@ -969,7 +971,19 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         }
     }
 
+    /**
+     * @see org.kuali.student.cm.course.service.CourseInfoMaintainable#updateReview()
+     */
     public void updateReview() {
+        updateReview(true);
+    }
+
+    /**
+     * Updates the ReviewProposalDisplay object for the Course Proposal and refreshes remote data elements based on passed in @shouldRepopulateRemoteData param
+     *
+     * @param shouldRepopulateRemoteData identifies whether remote data elements like Collaborators should be refreshed
+     */
+    protected void updateReview(boolean shouldRepopulateRemoteData) {
 
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
         CourseInfo savedCourseInfo = courseInfoWrapper.getCourseInfo();
@@ -1156,40 +1170,71 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         reviewData.getActiveDatesSection().setEndTerm(getTermDesc(courseInfoWrapper.getCourseInfo().getEndTerm()));
         reviewData.getActiveDatesSection().setPilotCourse(BooleanUtils.toStringYesNo(courseInfoWrapper.getCourseInfo().isPilotCourse()));
 
+        // update financials section
         if (savedCourseInfo.getFeeJustification() != null) {
             reviewData.getFinancialsSection().setJustificationOfFees(savedCourseInfo.getFeeJustification().getPlain());
         }
 
+        // update collaborator section
         reviewData.getCollaboratorSection().getCollaboratorWrappers().clear();
-        retrieveCollaborators(courseInfoWrapper);
-        reviewData.getCollaboratorSection().setCollaboratorWrappers(courseInfoWrapper.getCollaboratorWrappers());
-        reviewData.getCollaboratorSection().changeToUserReadableOptions();
+        if (shouldRepopulateRemoteData) {
+            updateCollaborators(courseInfoWrapper);
+        }
+        try {
+            for (CollaboratorWrapper collaboratorWrapper : courseInfoWrapper.getCollaboratorWrappers()) {
+                // need to clone the object because we're hacking the use of the 'action' and 'permission' fields on the CollaboratorWrapper object
+                CollaboratorWrapper reviewPageCollaboratorWrapper = collaboratorWrapper.clone();
+                ActionRequestType actionRequestType = ActionRequestType.getByCode(reviewPageCollaboratorWrapper.getAction());
+                if (actionRequestType == null) {
+                    throw new RuntimeException("Cannot find valid action request type for code: " + reviewPageCollaboratorWrapper.getAction());
+                }
+                reviewPageCollaboratorWrapper.setAction(actionRequestType.getActionRequestLabel());
+
+                ProposalPermissionTypes proposalPermissionType = ProposalPermissionTypes.getByCode(reviewPageCollaboratorWrapper.getPermission());
+                if (proposalPermissionType == null) {
+                    throw new RuntimeException("Cannot find valid permission type for code: " + reviewPageCollaboratorWrapper.getPermission());
+                }
+                if (ProposalPermissionTypes.EDIT.equals(proposalPermissionType)) {
+                    reviewPageCollaboratorWrapper.setPermission(ProposalPermissionTypes.EDIT.getLabel() + ", " + ProposalPermissionTypes.ADD_COMMENT.getLabel() + ", " + ProposalPermissionTypes.OPEN.getLabel());
+                } else if (ProposalPermissionTypes.ADD_COMMENT.equals(proposalPermissionType)) {
+                    reviewPageCollaboratorWrapper.setPermission(ProposalPermissionTypes.ADD_COMMENT.getLabel() + ", " + ProposalPermissionTypes.OPEN.getLabel());
+                } else if (ProposalPermissionTypes.OPEN.equals(proposalPermissionType)) {
+                    reviewPageCollaboratorWrapper.setPermission(ProposalPermissionTypes.OPEN.getLabel());
+                } else {
+                    throw new RuntimeException("Invalid Collaboration Permission Type Used: " + proposalPermissionType.getCode());
+                }
+                reviewData.getCollaboratorSection().getCollaboratorWrappers().add(reviewPageCollaboratorWrapper);
+            }
+        } catch (Exception e) {
+            LOG.error("Error setting up Collaborators", e);
+            throw new RuntimeException(e);
+        }
 
         // update learning Objectives Section;
         // update  course Requisites Section;
-        // update  financials Section;
-        // update  collaborator Section;
         // update  supporting Documents Section;
     }
 
-
-    private void retrieveCollaborators(CourseInfoWrapper courseInfoWrapper){
+    protected void updateCollaborators(CourseInfoWrapper courseInfoWrapper) {
         ProposalInfo proposalInfo = courseInfoWrapper.getProposalInfo();
-        try{
+        try {
             courseInfoWrapper.getCollaboratorWrappers().clear();
-            courseInfoWrapper.setCollaboratorWrappers(DocumentCollaboratorHelper.getCollaborators(proposalInfo.getWorkflowId(), proposalInfo.getId(), proposalInfo.getType()));
-            for(CollaboratorWrapper collaboratorWrapper : courseInfoWrapper.getCollaboratorWrappers()) {
+            for(CollaboratorWrapper collaboratorWrapper : DocumentCollaboratorHelper.getCollaborators(proposalInfo.getWorkflowId(), proposalInfo.getId(), proposalInfo.getType())) {
                 String displayName = collaboratorWrapper.getLastName() + "," + collaboratorWrapper.getFirstName() + " (" + collaboratorWrapper.getPrincipalId().toLowerCase() + ")";
                 collaboratorWrapper.setDisplayName(displayName);
                 // if person is listed as a proposer person in proposalInfo, list them as an author in the collaborators section
                 if (proposalInfo.getProposerPerson().contains(collaboratorWrapper.getPrincipalId())) {
                     collaboratorWrapper.setAuthor(true);
                 }
+                courseInfoWrapper.getCollaboratorWrappers().add(collaboratorWrapper);
             }
-        }
-        catch (Exception e){
+        } catch (Exception e){
             throw new RuntimeException(e);
         }
+    }
+
+    protected void populateCollaborators() {
+        updateCollaborators((CourseInfoWrapper) getDataObject());
     }
 
     private String getTermDesc(String term) {
@@ -1856,7 +1901,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 dataObject.getCollaboratorWrappers().add(new CollaboratorWrapper());
             }
 
-            retrieveCollaborators(dataObject);
+            populateCollaborators();
 
             populateAuditOnWrapper();
             populateFinalExamOnWrapper();
@@ -1867,7 +1912,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
             populateLearningObjectives();
 
-            updateReview();
+            updateReview(false);
 
         } catch (Exception e) {
             throw new RuntimeException(e);
