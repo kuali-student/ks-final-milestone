@@ -132,7 +132,8 @@
             <list>
                 <bean parent="KS-Uif-InputField" id="activity_code" p:label="Activity Code "
                       p:fieldLabel.renderColon="false" p:propertyName="aoInfo.activityCode"
-                      p:onChangeScript="jQuery('#dirtyForm').val(true);" p:id="activityCode" p:editAuthz="true">
+                      p:onChangeScript="jQuery('#dirtyForm').val(true);" p:id="activityCode" p:editAuthz="true"
+                      p:required="true">
                     <property name="control">
                         <bean parent="KS-Uif-TextControl" p:size="1" p:disabled="@{!#dp.editActivityCodeAllowed}"/>
                     </property>
