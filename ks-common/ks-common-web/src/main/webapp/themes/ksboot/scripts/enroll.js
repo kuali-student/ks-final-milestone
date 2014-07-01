@@ -316,6 +316,14 @@ function createNumberOfErrorsH3(url, errorCount) {
     return h3;
 }
 
+function cleanInlineAndGlobalErrors(controlId) {
+    jQuery("#" + controlId + "_messages").remove();
+    jQuery(".error").switchClass('error', 'valid');
+    jQuery(".uif-hasErrors").removeAttr('data-validation_messages');
+    jQuery(".uif-hasErrors").removeAttr('data-has_messages');
+    jQuery(".uif-hasErrors").removeClass('uif-hasErrors');
+}
+
 function createErrorTable(url) {
     var table = jQuery("#errorTable");
     if (jQuery(table).length) {
@@ -1284,7 +1292,7 @@ function updateInlineTableRowByComponent(component, baseUrl, data) {
 
     // remove global errors (if any)
     var pageId = jQuery('main').attr('id');
-    jQuery("#" + pageId + "_messages").remove();
+    cleanInlineAndGlobalErrors(pageId);
 
     if (data.hasErrors) {
         if(data.messageMap.errorCount > 0){
