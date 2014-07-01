@@ -69,7 +69,7 @@ public class ActivitiesForCreateAOKeyValues extends UifKeyValuesFinderBase imple
                 FormatOfferingInfo foInfo = coForm.getFoId2aoTypeMap().get(formatOfferingId);
 
                 if(foInfo == null) {
-                    throw new RuntimeException("No FormatInfo found with id " + foInfo.getFormatId() + " in course " + courseId);
+                    throw new RuntimeException("No FormatInfo found with id " + formatOfferingId + " in course " + courseId);
                 }
 
                 SearchRequestInfo request = new SearchRequestInfo("lu.search.relatedTypes");
