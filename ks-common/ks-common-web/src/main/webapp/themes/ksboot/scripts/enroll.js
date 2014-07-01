@@ -282,7 +282,39 @@ function createErrorDiv(message, url, controlId) {
     return div;
 }
 
+function createGlobalErrorLi(message, url, controlId, errorCount) {
+    var li;
 
+    if(errorCount > 1) {
+        li = jQuery('<li class="uif-errorMessageItem" data-messageitemfor="' + controlId + '"> ' + message + '</li>');
+    } else {
+        li = jQuery('<li class="uif-errorMessageItem" tabindex="0" />');
+        var image = jQuery("<img class='uif-validationImage' src='" + url + "/themes/ksboot/images/validation/error.png' alt='Error'> " + message + "</img>");
+        jQuery(li).append(image);
+    }
+
+    return li;
+}
+
+function createGlobalErrorsDiv(url, controlId, errorCount, element) {
+    var globalErrorsDiv = jQuery('<div id="' + controlId + '_messages" class="uif-pageValidationMessages alert alert-danger" data-messages_for="' + controlId + '" />');
+
+    if(errorCount > 1) {
+        var h3 = createNumberOfErrorsH3(url, errorCount);
+        jQuery(globalErrorsDiv).append(h3);
+    }
+
+    jQuery(globalErrorsDiv).append(element);
+
+    return globalErrorsDiv;
+}
+
+function createNumberOfErrorsH3(url, errorCount) {
+    var h3 = jQuery('<h3 id="pageValidationHeader" class="uif-pageValidationHeader" tabindex="0" />');
+    var image = jQuery("<img class='uif-validationImage' src='" + url + "/themes/ksboot/images/validation/error.png' alt='Error'> This page has " + errorCount + " errors</img>");
+    jQuery(h3).append(image);
+    return h3;
+}
 
 function createErrorTable(url) {
     var table = jQuery("#errorTable");
@@ -1207,7 +1239,15 @@ function showInlineUnhandledExcption(request){
 }
 
 
-function processInlineRowError(row, data, baseUrl){
+function processInlineRowError(row, data, baseUrl, pageId){
+    // global errors on form
+    var globalErrorsUl;
+    if(data.messageMap.errorCount > 1) {
+        globalErrorsUl = jQuery('<ul id="pageValidationList" class="uif-validationMessagesList" aria-labelledby="pageValidationHeader" />');
+    } else {
+        globalErrorsUl = jQuery('<ul id="pageValidationList" class="uif-validationMessagesList uif-pageValidationMessage-single" aria-labelledby="pageValidationHeader" />');
+    }
+
     jQuery.each(data.translatedErrorMessages, function(key, value){
         var input = jQuery(row).find('[name="' + key + '"]');
         jQuery(input).switchClass('valid', 'error');
@@ -1227,16 +1267,28 @@ function processInlineRowError(row, data, baseUrl){
 
         var errorDiv = createErrorDiv(value[0], baseUrl, parentId);
         jQuery(messageDiv).html(jQuery(errorDiv).html());
+
+        // global errors on form
+        var globalErrorLi = createGlobalErrorLi(value[0], baseUrl, parentId, data.messageMap.errorCount);
+        jQuery(globalErrorsUl).append(globalErrorLi);
     });
+
+    // global errors on form
+    var globalErrorsDiv = createGlobalErrorsDiv(baseUrl, pageId, data.messageMap.errorCount, globalErrorsUl);
+    jQuery("#" + pageId + " header:eq(0)").after(globalErrorsDiv);
 }
 
 function updateInlineTableRowByComponent(component, baseUrl, data) {
     var row = jQuery(component).closest('tr');
     var overrideMatrix;
 
+    // remove global errors (if any)
+    var pageId = jQuery('main').attr('id');
+    jQuery("#" + pageId + "_messages").remove();
+
     if (data.hasErrors) {
         if(data.messageMap.errorCount > 0){
-            processInlineRowError(row, data, baseUrl);
+            processInlineRowError(row, data, baseUrl, pageId);
         }
     } else {
         // there should be only one checkbox one row
