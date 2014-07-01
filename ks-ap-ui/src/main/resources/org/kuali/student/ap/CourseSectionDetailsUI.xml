@@ -326,16 +326,11 @@
         <property name="items">
             <list>
                 <bean parent="Uif-VerticalFieldGroup">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>ksap-section-reg-group</value>
-                        </list>
-                    </property>
                     <property name="items">
                         <list>
                             <bean parent="Uif-MessageField"
                                   p:messageText="@{#textHelper.getFormattedMessage('details.regGroup.code', new Object[]{#line.regGroupCode})}"
-                                  p:labelRendered="true" p:additionalCssClasses="ksap-section-reggroup">
+                                  p:labelRendered="true">
                             </bean>
                             <bean parent="Uif-StackedCollectionGroup">
                                 <property name="id" value="KSAP-CourseSectionDetails-PlannedSections_@{#line.regGroupCode}"/>
