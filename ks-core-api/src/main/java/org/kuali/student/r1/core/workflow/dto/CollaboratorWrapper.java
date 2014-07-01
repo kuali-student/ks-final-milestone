@@ -22,7 +22,7 @@ package org.kuali.student.r1.core.workflow.dto;
  */
 
 
-public class CollaboratorWrapper {
+public class CollaboratorWrapper implements Cloneable {
 
         private static final long serialVersionUID = 1L;
         
@@ -46,7 +46,13 @@ public class CollaboratorWrapper {
         public String getPrincipalId() {
             return principalId;
         }
-        public void setPrincipalId(String principalId) {
+
+    @Override
+    public CollaboratorWrapper clone() throws CloneNotSupportedException {
+        return (CollaboratorWrapper) super.clone();
+    }
+
+    public void setPrincipalId(String principalId) {
             this.principalId = principalId;
         }
         public String getFirstName() {

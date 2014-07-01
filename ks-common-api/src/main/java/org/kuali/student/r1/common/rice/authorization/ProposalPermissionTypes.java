@@ -26,7 +26,7 @@ public enum ProposalPermissionTypes {
 	OPEN("View","KS-SYS","Open Document"),
 	EDIT("Edit","KS-SYS","Edit Document"),
     BLANKET_APPROVE("Blanket Approve","KS-SYS","Blanket Approve"),
-	ADD_COMMENT("Add a Comment","KS-SYS","Add a Comment"),
+	ADD_COMMENT("Comment","KS-SYS","Add a Comment"),
     EDIT_COMMENT("Edit Comment","KS-SYS","Edit a Comment"),
     DELETE_COMMENT("Delete Comment","KS-SYS","Delete a Comment");
 
