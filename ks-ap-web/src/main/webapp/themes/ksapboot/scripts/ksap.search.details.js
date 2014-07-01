@@ -154,15 +154,25 @@ function setupActivityIds(){
  * @param divIdPrefix - Prefix of the ID that will be built to toggle on/off
  */
 function toggleFormatOfferingSections(element, divIdPrefix) {
-    var selectedFormatOfferingId = jQuery(element).find('input:checked').val();
+    // Find selected format offering list
+    var selectedElement = jQuery(element);
+    var selectedInput = selectedElement.find('input:checked');
+    var selectedFormatOfferingId = selectedInput.val();
     var idToToggleOn = divIdPrefix + selectedFormatOfferingId+"_section";
     var toggleOn = jQuery(idToToggleOn);
-    jQuery(idToToggleOn).removeClass('ksap-hide');
 
-    jQuery.each(jQuery(element).find('input:unchecked'), function() {
-        var idToToggleOff = divIdPrefix + jQuery(this).val(+"_section");
+    // Hide all format offering lists
+    jQuery.each(jQuery(element).find('.uif-verticalRadioControl'), function() {
+        var unselectedElement = jQuery(this);
+        var unselectedFormatOfferingId = unselectedElement.val();
+        var idToToggleOff = divIdPrefix + unselectedFormatOfferingId +"_section";
         var toggleOff = jQuery(idToToggleOff);
         toggleOff.addClass('ksap-hide');
     });
 
+    // Show selected format offering list
+    jQuery(idToToggleOn).removeClass('ksap-hide');
+
+
 }
+

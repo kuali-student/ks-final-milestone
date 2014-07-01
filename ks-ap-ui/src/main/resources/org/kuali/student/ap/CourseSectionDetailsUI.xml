@@ -160,7 +160,8 @@
                                   p:id="@{#line.xmlSafeTermId}_@{#line.courseOfferingCode}_formatOfferingOptions"
                                   p:propertyName="selectedFormatOfferingId"
                                   p:width="auto"
-                                  p:onChangeScript="toggleFormatOfferingSections(this, '#@{#line.xmlSafeTermId}_@{#line.courseOfferingCode}_');">
+                                  p:onChangeScript="toggleFormatOfferingSections(this, '#@{#line.xmlSafeTermId}_@{#line.courseOfferingCode}_');"
+                                  p:onDocumentReadyScript="toggleFormatOfferingSections(this, '#@{#line.xmlSafeTermId}_@{#line.courseOfferingCode}_');">
                                 <property name="control">
                                     <bean parent="Uif-VerticalRadioControl" />
                                     <!--<bean parent="Uif-KeyLabelPair" p:key="@{#line.formatId}" p:value="@{#line.formatName}"/>-->
@@ -201,7 +202,11 @@
         <property name="layoutManager.lineGroupPrototype.header.render" value="true"/>
         <!-- Might be able to reenable this when KULRICE-12902 is fixed -->
         <!--<property name="layoutManager.lineGroupPrototype.render" value="@{#parentLine.formatOfferingInfoWrappers.size() eq 1 or #parentLine.selectedFormatOfferingId eq #line.formatOfferingId}"/>-->
-        <property name="layoutManager.lineGroupPrototype.hidden" value="@{#parentLine.formatOfferingInfoWrappers.size() > 1}"/>
+        <property name="layoutManager.lineGroupPrototype.cssClasses">
+            <list merge="true">
+                <value>@{#parentLine.formatOfferingInfoWrappers.size() > 1 ? 'ksap-hide' : ''}</value>
+            </list>
+        </property>
         <property name="layoutManager.lineGroupPrototype.disclosure.render" value="false"/>
 
         <!-- property to activate disclosure -->
