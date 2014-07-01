@@ -15,30 +15,50 @@
  */
 package org.kuali.student.common.uif.controller;
 
+import com.sun.corba.se.impl.logging.InterceptorsSystemException;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
+import org.kuali.rice.core.api.util.RiceConstants;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.datadictionary.DataObjectEntry;
 import org.kuali.rice.krad.lookup.LookupController;
 import org.kuali.rice.krad.lookup.LookupForm;
+import org.kuali.rice.krad.lookup.LookupUtils;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.service.ModuleService;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
+import org.kuali.rice.krad.uif.UifPropertyPaths;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.KRADUtils;
+import org.kuali.rice.krad.util.UrlFactory;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.uif.view.KSLookupView;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
+
+
+
+
+
+
+
+
+
 
 /**
  * This is the base class for the KS Lookup controller which extends from KRAD controller class. This class is intended to
@@ -121,5 +141,106 @@ public class KSLookupController extends LookupController {
 
         return modelAndView;
     }
+
+
+
+    @RequestMapping(method = RequestMethod.POST,params = "methodToCall=returnSelected")
+    @Override
+    public String returnSelected(@ModelAttribute(UifConstants.KUALI_FORM_ATTR) LookupForm lookupForm,
+                                         HttpServletRequest request, final RedirectAttributes redirectAttributes) {
+
+        LookupUtils.refreshLookupResultSelections((LookupForm) lookupForm);
+
+        // build string of select line fields
+        String multiValueReturnFieldsParam = "";
+        List<String> multiValueReturnFields = lookupForm.getMultiValueReturnFields();
+        Collections.sort(multiValueReturnFields);
+        if (multiValueReturnFields != null && !multiValueReturnFields.isEmpty()) {
+            for (String field : multiValueReturnFields) {
+                multiValueReturnFieldsParam += field + ",";
+            }
+            multiValueReturnFieldsParam = StringUtils.removeEnd(multiValueReturnFieldsParam, ",");
+        }
+
+        // build string of select line identifiers
+        String selectedLineValues = "";
+        Set<String> selectedLines = lookupForm.getSelectedCollectionLines().get(UifPropertyPaths.LOOKUP_RESULTS);
+        if (selectedLines != null) {
+            for (String selectedLine : selectedLines) {
+                selectedLineValues += selectedLine.replaceAll(",", "&#44;") + ",";
+            }
+            selectedLineValues = StringUtils.removeEnd(selectedLineValues, ",");
+
+        }
+
+        Properties parameters = new Properties();
+        parameters.put(UifParameters.SELECTED_LINE_VALUES, selectedLineValues);
+        parameters.putAll(lookupForm.getInitialRequestParameters());
+
+        String redirectUrl = UrlFactory.parameterizeUrl(lookupForm.getReturnLocation(), parameters);
+
+        boolean lookupCameFromDifferentServer = KRADUtils.areDifferentDomains(lookupForm.getReturnLocation(),
+                lookupForm.getRequestUrl());
+
+        if (StringUtils.isNotBlank(multiValueReturnFieldsParam)) {
+            redirectAttributes.addAttribute(UifParameters.MULIT_VALUE_RETURN_FILEDS, multiValueReturnFieldsParam);
+        }
+
+        if (redirectUrl.length() > RiceConstants.MAXIMUM_URL_LENGTH && !lookupCameFromDifferentServer) {
+            redirectAttributes.addFlashAttribute(UifParameters.SELECTED_LINE_VALUES, selectedLineValues);
+        }
+        if (redirectUrl.length() > RiceConstants.MAXIMUM_URL_LENGTH && lookupCameFromDifferentServer) {
+            Map<String, String[]> parms = lookupForm.getInitialRequestParameters();
+            parms.remove(UifParameters.RETURN_FORM_KEY);
+
+            //add an error message to display to the user
+            redirectAttributes.mergeAttributes(parms);
+            redirectAttributes.addAttribute(UifParameters.MESSAGE_TO_DISPLAY,
+                    RiceKeyConstants.INFO_LOOKUP_RESULTS_MV_RETURN_EXCEEDS_LIMIT);
+
+            String formKeyParam = request.getParameter(UifParameters.FORM_KEY);
+            redirectAttributes.addAttribute(UifParameters.FORM_KEY, formKeyParam);
+
+            return UifConstants.REDIRECT_PREFIX + lookupForm.getRequestUrl();
+        }
+
+        if (redirectUrl.length() < RiceConstants.MAXIMUM_URL_LENGTH) {
+            redirectAttributes.addAttribute(UifParameters.SELECTED_LINE_VALUES, selectedLineValues);
+        }
+
+        redirectAttributes.addAttribute(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.RETURN_METHOD_TO_CALL);
+
+        if (StringUtils.isNotBlank(lookupForm.getReturnFormKey())) {
+            redirectAttributes.addAttribute(UifParameters.FORM_KEY, lookupForm.getReturnFormKey());
+        }
+
+        redirectAttributes.addAttribute(KRADConstants.REFRESH_CALLER, lookupForm.getView().getId());
+        redirectAttributes.addAttribute(KRADConstants.REFRESH_CALLER_TYPE,
+                UifConstants.RefreshCallerTypes.MULTI_VALUE_LOOKUP);
+        redirectAttributes.addAttribute(KRADConstants.REFRESH_DATA_OBJECT_CLASS, lookupForm.getDataObjectClassName());
+
+        if (StringUtils.isNotBlank(lookupForm.getQuickfinderId())) {
+            redirectAttributes.addAttribute(UifParameters.QUICKFINDER_ID, lookupForm.getQuickfinderId());
+        }
+
+        if (StringUtils.isNotBlank(lookupForm.getLookupCollectionName())) {
+            redirectAttributes.addAttribute(UifParameters.LOOKUP_COLLECTION_NAME, lookupForm.getLookupCollectionName());
+        }
+
+        if (StringUtils.isNotBlank(lookupForm.getLookupCollectionId())) {
+            redirectAttributes.addAttribute(UifParameters.LOOKUP_COLLECTION_ID, lookupForm.getLookupCollectionId());
+        }
+
+        if (StringUtils.isNotBlank(lookupForm.getReferencesToRefresh())) {
+            redirectAttributes.addAttribute(KRADConstants.REFERENCES_TO_REFRESH, lookupForm.getReferencesToRefresh());
+        }
+
+        // clear current form from session
+        GlobalVariables.getUifFormManager().removeSessionForm(lookupForm);
+
+        return UifConstants.REDIRECT_PREFIX + lookupForm.getReturnLocation();
+    }
+
+
 
 }
