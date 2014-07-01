@@ -85,10 +85,10 @@ public class LoDisplayInfoLookupableImpl extends KSLookupableImpl {
 
     public static void processLO(List<LoDisplayInfoWrapper> loCategories,HashMap<String,TreeSet<String>> categories,HashMap<String,Integer> indexes) {
 
-        for(String categoryKey : categories.keySet()) {
+        for(Map.Entry<String,TreeSet<String>> entry : categories.entrySet()) {
 
-            TreeSet<String> categoryValue = categories.get(categoryKey);
-            LoDisplayInfoWrapper wrapper  = loCategories.get(indexes.get(categoryKey));
+            TreeSet<String> categoryValue = entry.getValue();
+            LoDisplayInfoWrapper wrapper  = loCategories.get(indexes.get(entry.getKey()));
 
             StringBuilder sortedCategories = new StringBuilder();
 
