@@ -989,3 +989,8 @@ function loCategoryAutocomplete(ui, control) {
     jQuery("#" + hiddenFieldId).val(ui.item.value);
     return false;
 }
+
+function filterObjectivesByName(){
+    var inputVal = jQuery('#LoDisplayInfoWrapper-LookupView-Filter-Input_control').val().trim();
+    jQuery("#uLookupResults_layout").dataTable().fnFilter(inputVal, 1);
+}
