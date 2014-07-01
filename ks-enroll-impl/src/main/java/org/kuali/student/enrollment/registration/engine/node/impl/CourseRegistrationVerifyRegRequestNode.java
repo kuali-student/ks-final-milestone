@@ -75,13 +75,13 @@ public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegist
             return message;
         }
 
-        if (transactionException != null) {
-            message = courseRegistrationErrorProcessor.process(message); // roll back the entire transaction
-        } else {
-            //Error out the items
-            RegistrationRequestInfo updatedMessage = new RegistrationRequestInfo(message.getRegistrationRequest());
+        //Error out the items
+        RegistrationRequestInfo updatedMessage = new RegistrationRequestInfo(message.getRegistrationRequest());
 
-            try {
+        try {
+            if (transactionException != null) {
+                message = courseRegistrationErrorProcessor.processRequest(message); // roll back the entire transaction
+            } else {
                 LprTransactionInfo trans = getLprService().getLprTransaction(regRequest.getId(), contextInfo);
                 trans.setStateKey(LprServiceConstants.LPRTRANS_FAILED_STATE_KEY);
                 updatedMessage.setStateKey(LprServiceConstants.LPRTRANS_FAILED_STATE_KEY);
@@ -97,10 +97,9 @@ public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegist
                 getLprService().updateLprTransaction(trans.getId(), trans, contextInfo);
 
                 message.setRegistrationRequest(updatedMessage);
-
-            } catch (Exception ex) {
-                throw new RuntimeException(ex);
             }
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
         }
 
         return message;

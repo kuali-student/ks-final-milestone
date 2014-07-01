@@ -14,6 +14,14 @@ import org.kuali.student.enrollment.registration.engine.dto.RegistrationRequestI
 import org.kuali.student.enrollment.registration.engine.service.CourseRegistrationEngineService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.slf4j.Logger;
@@ -32,31 +40,64 @@ public class CourseRegistrationErrorProcessor {
     private LprService lprService;
 
     /**
-     * This method processes errors occurring at the item level. The item's state is set to failed,
-     * and processing continues. Other items in this registration request will be unaffected.
+     * This is the process method for Camel exception handling. It will attempt to fail the request
+     * item and then return the updated message.
      *
      * @param message the jms message coming in
      * @return the jms message going out
      */
     public RegistrationRequestItemEngineMessage process(RegistrationRequestItemEngineMessage message) {
 
+        try {
+            processRequestItem(message);
+        } catch (Exception ex) {
+            LOGGER.error("Unable to update item transaction {} with failure state", message.getRequestItem().getId(), ex);
+        }
+
+        return message;
+    }
+
+    /**
+     * This is the process method for Camel exception handling. It will attempt to fail the request
+     * and then return the updated message.
+     *
+     * @param message the jms message coming in
+     * @return the jms message going out
+     */
+    public RegistrationRequestEngineMessage process(RegistrationRequestEngineMessage message) {
+
+        try {
+            processRequest(message);
+        }  catch (Exception ex) {
+            LOGGER.error("Unable to update transaction {} with failure state", message.getRegistrationRequest().getId(), ex);
+        }
+
+        return message;
+    }
+
+    /**
+     * This method processes errors occurring at the item level. The item's state is set to failed,
+     * and processing continues. Other items in this registration request will be unaffected.
+     *
+     * @param message the jms message coming in
+     * @return the jms message going out
+     */
+    public RegistrationRequestItemEngineMessage processRequestItem (RegistrationRequestItemEngineMessage message) throws PermissionDeniedException, ReadOnlyException, OperationFailedException, VersionMismatchException, InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException {
+
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
         contextInfo.setPrincipalId(message.getRequestItem().getPersonId());
 
         String transactionItemId = message.getRequestItem().getId();
 
-        try {
-            courseRegistrationEngineService.updateLprTransactionItemResult(message.getRequestItem().getRegistrationRequestId(),
-                    transactionItemId,
-                    LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY,
-                    null,
-                    RegistrationValidationResultsUtil.marshallSimpleMessage(LprServiceConstants.LPRTRANS_ITEM_EXCEPTION_MESSAGE_KEY),
-                    false,
-                    contextInfo);
-            LOGGER.error("Failed item transaction id {} due to internal server error", transactionItemId);
-        } catch (Exception ex) {
-            LOGGER.error("Unable to update item transaction {} with failure state", transactionItemId, ex);
-        }
+        courseRegistrationEngineService.updateLprTransactionItemResult(message.getRequestItem().getRegistrationRequestId(),
+                transactionItemId,
+                LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY,
+                null,
+                RegistrationValidationResultsUtil.marshallSimpleMessage(LprServiceConstants.LPRTRANS_ITEM_EXCEPTION_MESSAGE_KEY),
+                false,
+                contextInfo);
+
+        LOGGER.error("Failed item transaction id {} due to internal server error", transactionItemId);
 
         return message;
     }
@@ -68,7 +109,7 @@ public class CourseRegistrationErrorProcessor {
      * @param message the jms message coming in
      * @return the jms message going out
      */
-    public RegistrationRequestEngineMessage process(RegistrationRequestEngineMessage message) {
+    public RegistrationRequestEngineMessage processRequest (RegistrationRequestEngineMessage message) throws DoesNotExistException, PermissionDeniedException, OperationFailedException, VersionMismatchException, InvalidParameterException, MissingParameterException, DataValidationErrorException {
 
         RegistrationRequest regRequest = message.getRegistrationRequest();
         ContextInfo contextInfo = message.getContextInfo();
@@ -78,23 +119,19 @@ public class CourseRegistrationErrorProcessor {
         RegistrationRequestInfo updatedRequestInfo = new RegistrationRequestInfo(message.getRegistrationRequest());
         updatedRequestInfo.setStateKey(LprServiceConstants.LPRTRANS_FAILED_STATE_KEY);
 
-        try {
-            LprTransactionInfo trans = getLprService().getLprTransaction(transactionId, contextInfo);
-            trans.setStateKey(LprServiceConstants.LPRTRANS_FAILED_STATE_KEY);
-            for (LprTransactionItemInfo item : trans.getLprTransactionItems()) {
-                ValidationResultInfo vr =
+        LprTransactionInfo trans = getLprService().getLprTransaction(transactionId, contextInfo);
+        trans.setStateKey(LprServiceConstants.LPRTRANS_FAILED_STATE_KEY);
+        for (LprTransactionItemInfo item : trans.getLprTransactionItems()) {
+            ValidationResultInfo vr =
                     new ValidationResultInfo(trans.getId(), ValidationResult.ErrorLevel.ERROR,
                             "Exception occurred during processing. Entire transaction will roll back.");
-                vr.setMessage(RegistrationValidationResultsUtil.
+            vr.setMessage(RegistrationValidationResultsUtil.
                     marshallSimpleMessage(LprServiceConstants.LPRTRANS_ITEM_EXCEPTION_MESSAGE_KEY));
-                updateRequestItemsToError(item, updatedRequestInfo, vr);
-            }
-            getLprService().updateLprTransaction(trans.getId(), trans, contextInfo);
-            message.setRegistrationRequest(updatedRequestInfo);
-            LOGGER.error("Failed transaction {} due to internal server error", transactionId);
-        }  catch (Exception ex) {
-            LOGGER.error("Unable to update transaction {} with failure state", transactionId, ex);
+            updateRequestItemsToError(item, updatedRequestInfo, vr);
         }
+        getLprService().updateLprTransaction(trans.getId(), trans, contextInfo);
+        message.setRegistrationRequest(updatedRequestInfo);
+        LOGGER.error("Failed transaction {} due to internal server error", transactionId);
 
         return message;
     }
