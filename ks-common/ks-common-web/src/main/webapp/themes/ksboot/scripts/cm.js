@@ -992,5 +992,5 @@ function loCategoryAutocomplete(ui, control) {
 
 function filterObjectivesByName(){
     var inputVal = jQuery('#LoDisplayInfoWrapper-LookupView-Filter-Input_control').val().trim();
-    jQuery("#uLookupResults_layout").dataTable().fnFilter(inputVal, 1);
+    jQuery("#uLookupResults_layout").dataTable().fnFilter(inputVal);
 }
