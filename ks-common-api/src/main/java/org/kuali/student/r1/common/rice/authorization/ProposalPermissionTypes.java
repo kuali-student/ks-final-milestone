@@ -15,6 +15,10 @@
 
 package org.kuali.student.r1.common.rice.authorization;
 
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.student.r1.common.rice.StudentIdentityConstants;
+
 /**
  * Enum to be used for Permission types (KRAD). Permission Type is analagous to a permission template.
  * 
@@ -22,13 +26,13 @@ package org.kuali.student.r1.common.rice.authorization;
  *
  */
 public enum ProposalPermissionTypes {
-	INITIATE("Initiate","KR-SYS","Initiate Document"),
-	OPEN("View","KS-SYS","Open Document"),
-	EDIT("Edit","KS-SYS","Edit Document"),
-    BLANKET_APPROVE("Blanket Approve","KS-SYS","Blanket Approve"),
-	ADD_COMMENT("Comment","KS-SYS","Add a Comment"),
-    EDIT_COMMENT("Edit Comment","KS-SYS","Edit a Comment"),
-    DELETE_COMMENT("Delete Comment","KS-SYS","Delete a Comment");
+	INITIATE("Initiate", KRADConstants.KUALI_RICE_SYSTEM_NAMESPACE, KewApiConstants.INITIATE_PERMISSION),
+	OPEN("View", StudentIdentityConstants.KS_NAMESPACE_CD,"Open Document"),
+	EDIT("Edit",KRADConstants.KNS_NAMESPACE,"Edit Document"),
+    BLANKET_APPROVE("Blanket Approve",StudentIdentityConstants.KS_NAMESPACE_CD,"Blanket Approve"),
+	ADD_COMMENT("Comment",StudentIdentityConstants.KS_NAMESPACE_CD,"Add a Comment"),
+    EDIT_COMMENT("Edit Comment",StudentIdentityConstants.KS_NAMESPACE_CD,"Edit a Comment"),
+    DELETE_COMMENT("Delete Comment",StudentIdentityConstants.KS_NAMESPACE_CD,"Delete a Comment");
 
 	private String label = "";
 	private String permissionNamespace = "";
