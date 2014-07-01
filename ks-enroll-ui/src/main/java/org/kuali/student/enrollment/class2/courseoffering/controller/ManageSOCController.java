@@ -112,7 +112,6 @@ public class ManageSOCController extends UifControllerBase {
         }
 
         boolean dialogAnswer = getBooleanDialogResponse(dialogName, socForm, request, response);
-        socForm.getDialogManager().resetDialogStatus(dialogName);
 
         if (dialogAnswer) {
             // start send approved activities to scheduler
@@ -120,9 +119,11 @@ public class ManageSOCController extends UifControllerBase {
             viewHelper.startMassScheduling(socForm);
             buildModelForTerm(socForm);
 
+            socForm.getDialogManager().resetDialogStatus(dialogName);
             //TODO KSENROLL-13333: Revisit navigate once KS is upgraded to Rice 2.5
             return super.navigate(socForm, result, request, response);
         } else {
+            socForm.getDialogManager().resetDialogStatus(dialogName);
             return getUIFModelAndView(socForm);
         }
     }
