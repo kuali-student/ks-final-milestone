@@ -155,13 +155,14 @@ function setupActivityIds(){
  */
 function toggleFormatOfferingSections(element, divIdPrefix) {
     var selectedFormatOfferingId = jQuery(element).find('input:checked').val();
-    var idToToggleOn = divIdPrefix + selectedFormatOfferingId;
-
-    jQuery(idToToggleOn).show();
+    var idToToggleOn = divIdPrefix + selectedFormatOfferingId+"_section";
+    var toggleOn = jQuery(idToToggleOn);
+    jQuery(idToToggleOn).removeClass('ksap-hide');
 
     jQuery.each(jQuery(element).find('input:unchecked'), function() {
-        var idToToggleOff = divIdPrefix + jQuery(this).val();
-        jQuery(idToToggleOff).hide();
+        var idToToggleOff = divIdPrefix + jQuery(this).val(+"_section");
+        var toggleOff = jQuery(idToToggleOff);
+        toggleOff.addClass('ksap-hide');
     });
 
 }
