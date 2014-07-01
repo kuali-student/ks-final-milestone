@@ -2,6 +2,7 @@ package org.kuali.student.core.rice.authorization;
 
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.action.ActionRequest;
 import org.kuali.rice.kew.api.action.ActionRequestStatus;
 import org.kuali.rice.kew.api.action.ActionRequestType;
@@ -15,12 +16,15 @@ import org.kuali.rice.kew.api.doctype.DocumentTypeService;
 import org.kuali.rice.kew.api.document.DocumentDetail;
 import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.IdentityService;
-import org.kuali.rice.kim.api.identity.entity.EntityDefault;
-import org.kuali.rice.kim.api.identity.name.EntityName;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.krad.document.DocumentAuthorizerBase;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
 import org.kuali.student.r1.common.rice.StudentWorkflowConstants;
@@ -150,82 +154,100 @@ public class DocumentCollaboratorHelper implements Serializable {
         }
     }
 
-    public static List<CollaboratorWrapper> getCollaborators(String docId, String dataId, String docType) throws OperationFailedException{
+    public static List<CollaboratorWrapper> getCollaborators(String docId, String dataId, String referenceTypeKey) throws OperationFailedException{
         //Check if there is no doc id
         if(docId==null){
             return Collections.<CollaboratorWrapper>emptyList();
         }
-        try{
-            LOG.info("Getting collaborators for docId: {}", docId);
+        LOG.info("Getting collaborators for docId: {}", docId);
+        List<CollaboratorWrapper> collaborators = new ArrayList<CollaboratorWrapper>();
+        List<ActionRequest> actionRequests = getWorkflowDocumentService().getRootActionRequests(docId);
 
-            if(getWorkflowDocumentService()==null){
-                LOG.error("No workflow Utility Service is available.");
-                throw new OperationFailedException("Workflow Service is unavailable");
-            }
-
-            List<CollaboratorWrapper> people = new ArrayList<CollaboratorWrapper>();
-
-            Map<String,String> qualification = new LinkedHashMap<String,String>();
-            qualification.put("documentNumber", docId);
-            qualification.put(StudentIdentityConstants.QUALIFICATION_DATA_ID, dataId);
-            qualification.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, docType);
-
-            List<ActionRequest> actionRequests = getWorkflowDocumentService().getRootActionRequests(docId);
-            if(actionRequests!=null){
-                for(ActionRequest actionRequest :actionRequests){
-                    if (actionRequest.isAdHocRequest()) {
-                        // if action request is complete and action taken was a 'revoke action' we do not want to show the person
-                        if (actionRequest.isDone() && (actionRequest.getActionTaken() != null) && ActionType.ADHOC_REQUEST_REVOKE.equals(actionRequest.getActionTaken().getActionTaken())) {
-                            continue;
-                        }
-
-                        CollaboratorWrapper person = new CollaboratorWrapper();
-                        person.setPrincipalId(actionRequest.getPrincipalId());
-
-                        EntityDefault info =  getIdentityService().getEntityDefaultByPrincipalId(actionRequest.getPrincipalId());
-
-                        EntityName name = info.getName();
-                        if(info != null && name != null){
-                            person.setFirstName(name.getFirstName());
-                            person.setLastName(name.getLastName());
-                        }
-
-                        Map<String,String> permissionDetails = new LinkedHashMap<String,String>();
-                        boolean editAuthorized = Boolean.valueOf(getPermissionService().isAuthorizedByTemplate(actionRequest.getPrincipalId(), ProposalPermissionTypes.EDIT.getPermissionNamespace(),
-                                ProposalPermissionTypes.EDIT.getPermissionTemplateName(), permissionDetails, qualification));
-                        boolean openAuthorized = Boolean.valueOf(getPermissionService().isAuthorizedByTemplate(actionRequest.getPrincipalId(), ProposalPermissionTypes.OPEN.getPermissionNamespace(),
-                                ProposalPermissionTypes.OPEN.getPermissionTemplateName(), permissionDetails, qualification));
-                        boolean commentAuthorized = Boolean.valueOf(getPermissionService().isAuthorizedByTemplate(actionRequest.getPrincipalId(), ProposalPermissionTypes.ADD_COMMENT.getPermissionNamespace(),
-                                ProposalPermissionTypes.ADD_COMMENT.getPermissionTemplateName(), permissionDetails, qualification));
-
-                        if(editAuthorized){
-                            person.setPermission(ProposalPermissionTypes.EDIT.getCode());
-                        } else if (commentAuthorized){
-                            person.setPermission(ProposalPermissionTypes.ADD_COMMENT.getCode());
-                        } else if (openAuthorized){
-                            person.setPermission(ProposalPermissionTypes.OPEN.getCode());
-                        }
-
-                        ActionRequestType requestType = actionRequest.getActionRequested();
-                        person.setAction(requestType.getCode());
-
-                        person.setActionRequestStatus(actionRequest.getStatus().getLabel());
-                        person.setActionRequestId(actionRequest.getId());
-
-                        if (!actionRequest.isDone()) {
-                            person.setCanRevokeRequest(true);
-                        }
-                        people.add(person);
+        if(actionRequests!=null){
+            for(ActionRequest actionRequest :actionRequests){
+                if (actionRequest.isAdHocRequest()) {
+                    // if action request is complete and action taken was a 'revoke action' we do not want to show the person
+                    if (actionRequest.isDone() && (actionRequest.getActionTaken() != null) && ActionType.ADHOC_REQUEST_REVOKE.equals(actionRequest.getActionTaken().getActionTaken())) {
+                        continue;
                     }
+
+                    CollaboratorWrapper collaborator = new CollaboratorWrapper();
+
+                    // fetch the person info using the actionRequest.principalId value to use in the authorizer calls
+                    Person actionRequestPerson = KimApiServiceLocator.getPersonService().getPerson(actionRequest.getPrincipalId());
+                    if (actionRequestPerson == null) {
+                        throw new RuntimeException("Cannot find user for principal id: " + actionRequest.getPrincipalId());
+                    }
+                    collaborator.setPrincipalId(actionRequestPerson.getPrincipalId());
+                    collaborator.setFirstName(actionRequestPerson.getFirstName());
+                    collaborator.setLastName(actionRequestPerson.getLastName());
+
+                    ActionRequestType requestType = actionRequest.getActionRequested();
+                    collaborator.setAction(requestType.getCode());
+
+                    collaborator.setActionRequestStatus(actionRequest.getStatus().getLabel());
+                    collaborator.setActionRequestId(actionRequest.getId());
+
+                    if (!actionRequest.isDone()) {
+                        collaborator.setCanRevokeRequest(true);
+                    }
+
+                    try {
+                        Map<String,String> permissionDetails = new HashMap<String,String>();
+                        buildPermissionDetails(permissionDetails, docId, referenceTypeKey);
+                        Map<String,String> roleQualification = new HashMap<String,String>();
+                        buildRoleQualification(roleQualification, docId, referenceTypeKey, dataId);
+
+                        if(getPermissionService().isAuthorizedByTemplate(actionRequest.getPrincipalId(), ProposalPermissionTypes.EDIT.getPermissionNamespace(),
+                                ProposalPermissionTypes.EDIT.getPermissionTemplateName(), permissionDetails, roleQualification)){
+                            collaborator.setPermission(ProposalPermissionTypes.EDIT.getCode());
+                        } else if (getPermissionService().isAuthorizedByTemplate(actionRequest.getPrincipalId(), ProposalPermissionTypes.ADD_COMMENT.getPermissionNamespace(),
+                                ProposalPermissionTypes.ADD_COMMENT.getPermissionTemplateName(), permissionDetails, roleQualification)){
+                            collaborator.setPermission(ProposalPermissionTypes.ADD_COMMENT.getCode());
+                        } else if (getPermissionService().isAuthorizedByTemplate(actionRequest.getPrincipalId(), ProposalPermissionTypes.OPEN.getPermissionNamespace(),
+                                ProposalPermissionTypes.OPEN.getPermissionTemplateName(), permissionDetails, roleQualification)){
+                            collaborator.setPermission(ProposalPermissionTypes.OPEN.getCode());
+                        }
+                    } catch (WorkflowException e) {
+                        throw new RuntimeException("Error checking collaborator permissions", e);
+                    }
+
+                    collaborators.add(collaborator);
                 }
             }
-
-            LOG.info("Returning collaborators: {}", people);
-            return people;
-        }catch(Exception e){
-            LOG.error("Error getting actions Requested.",e);
-            throw new OperationFailedException("Error getting actions Requested",e);
         }
+
+        LOG.info("Returning collaborators: {}", collaborators);
+        return collaborators;
+    }
+
+    protected static void buildRoleQualification(Map<String,String> qualification, String docId, String referenceTypeKey, String dataId) throws WorkflowException {
+        qualification.put(StudentIdentityConstants.QUALIFICATION_DATA_ID, dataId);
+
+        // add the Workflow data elements
+        addWorkflowData(qualification, docId);
+    }
+
+    protected static void buildPermissionDetails(Map<String,String> details, String docId, String referenceTypeKey) throws WorkflowException {
+        details.put(StudentIdentityConstants.KS_REFERENCE_TYPE_KEY, referenceTypeKey);
+
+        // add the Workflow data elements
+        addWorkflowData(details, docId);
+    }
+
+    protected static void addWorkflowData(Map<String,String> data, String docId) throws WorkflowException {
+        WorkflowDocument wd = KRADServiceLocatorWeb.getWorkflowDocumentService().loadWorkflowDocument(docId, GlobalVariables.getUserSession().getPerson());
+        data.put(KimConstants.AttributeConstants.DOCUMENT_NUMBER, wd.getDocumentId());
+        data.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, wd.getDocumentTypeName());
+
+        if (wd.isInitiated() || wd.isSaved()) {
+            data.put(KimConstants.AttributeConstants.ROUTE_NODE_NAME, DocumentAuthorizerBase.PRE_ROUTING_ROUTE_NAME);
+        } else {
+            data.put(KimConstants.AttributeConstants.ROUTE_NODE_NAME,
+                    KRADServiceLocatorWeb.getWorkflowDocumentService().getCurrentRouteNodeNames(wd));
+        }
+
+        data.put(KimConstants.AttributeConstants.ROUTE_STATUS_CODE, wd.getStatus().getCode());
     }
 
     private String getActionRequestStatusLabel(String key) {
@@ -236,7 +258,7 @@ public class DocumentCollaboratorHelper implements Serializable {
         return newArStatusLabels.get(key);
     }
 
-    private static void addRoleMember(String roleNamespace, String roleName, String docId, String dataId, String recipientPrincipalId) throws OperationFailedException, org.kuali.rice.kew.api.exception.WorkflowException {
+    private static void addRoleMember(String roleNamespace, String roleName, String docId, String dataId, String recipientPrincipalId) throws OperationFailedException, WorkflowException {
         DocumentDetail docDetail = getWorkflowDocumentService().getDocumentDetail(docId);
         DocumentType docType = getDocumentTypeService().getDocumentTypeById(docDetail.getDocument().getDocumentTypeId());
         Map<String,String> roleMemberQuals = new LinkedHashMap<String,String>();
@@ -245,7 +267,7 @@ public class DocumentCollaboratorHelper implements Serializable {
         getRoleService().assignPrincipalToRole(recipientPrincipalId, roleNamespace, roleName, roleMemberQuals);
     }
 
-    private static void removeRoleMemberIfNeccesary(String roleNamespace, String roleName, String docId, String dataId, String recipientPrincipalId) throws OperationFailedException, org.kuali.rice.kew.api.exception.WorkflowException {
+    private static void removeRoleMemberIfNeccesary(String roleNamespace, String roleName, String docId, String dataId, String recipientPrincipalId) throws OperationFailedException, WorkflowException {
         DocumentDetail docDetail = getWorkflowDocumentService().getDocumentDetail(docId);
         DocumentType docType = getDocumentTypeService().getDocumentTypeById(docDetail.getDocument().getDocumentTypeId());
         Map<String,String> roleMemberQuals = new LinkedHashMap<String,String>();
