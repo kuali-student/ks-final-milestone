@@ -42,12 +42,13 @@
         <property name="viewHelperServiceClass"
             value="org.kuali.student.cm.course.service.impl.LoDisplayInfoLookupableImpl" />
         <property name="multipleValuesSelect" value="true"/>
+        <property name="formClass" value="org.kuali.student.cm.course.form.LoDisplayBrowseForm"/>
         <property name="resultsGroup.includeLineSelectionField" value="true"/>
         <property name="resultsGroup.layoutManager.richTable">
             <bean parent="Uif-RichTable">
                 <property name="templateOptions">
                     <map merge="true">
-                        <entry key="sDom" value="lftip"/>
+                        <entry key="sDom" value="p"/>
                     </map>
                 </property>
             </bean>
@@ -114,6 +115,12 @@
             </list>
         </property>
 
+        <property name="page.items">
+            <list>
+                <ref bean="KS-LoDisplayInfoWrapper-LookupView-Filter"/>
+            </list>
+        </property>
+
         <property name="resultFields">
             <list>
                 <bean parent="KS-Uif-DataField" p:propertyName="code" p:label="Code" />
@@ -162,5 +169,21 @@
             </bean>
         </property>
     </bean>
-    
+
+    <bean id="KS-LoDisplayInfoWrapper-LookupView-Filter" parent="Uif-HorizontalFieldGroup">
+        <property name="items">
+            <list>
+                <bean id="LoDisplayInfoWrapper-LookupView-Filter-Input" parent="KS-Uif-InputField-LabelLeft" p:label="Filter"
+                      p:style="float: right;"
+                      p:propertyName="findObjectivesFilter" p:fieldLabel.style="float:left;"
+                      p:fieldLabel.renderColon="true">
+                    <property name="control">
+                        <bean parent="KS-Uif-TextControl" p:size="30" p:onKeyUpScript="filterObjectivesByName();"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
 </beans>                        

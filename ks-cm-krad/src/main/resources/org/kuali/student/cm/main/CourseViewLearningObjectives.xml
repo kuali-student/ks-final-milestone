@@ -131,7 +131,7 @@
                   p:viewName="KS-LoDisplayInfoWrapper-LookupView" p:additionalCssClasses="learning_objective_section_header">
                 <property name="baseLookupUrl"
                           value="@{#ConfigProperties['application.url']}/kr-krad/LoDisplaylookup"/>
-                <property name="autoSearch" value="true"/>
+                <property name="autoSearch" value="false"/>
                 <property name="quickfinderAction">
                     <bean id="LearningObjective-ToolBar-FindObjectives"
                           parent="LearningObjective-ToolBar-FindObjectives-parent"
