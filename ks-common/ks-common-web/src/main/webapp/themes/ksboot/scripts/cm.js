@@ -978,3 +978,14 @@ function filterCategoriesByTypes() {
         jQuery("#uLookupResults_layout").dataTable().fnFilter(labels, 2, true, false);
     }
 }
+
+/**
+ * Writes category id and label to inputs after an autocomplete item is selected.
+ */
+function loCategoryAutocomplete(ui, control) {
+    var id = jQuery(control).attr('id');
+    var hiddenFieldId = id.replace("_control", "_h0");
+    jQuery("#" + id).val(ui.item.label);
+    jQuery("#" + hiddenFieldId).val(ui.item.value);
+    return false;
+}
