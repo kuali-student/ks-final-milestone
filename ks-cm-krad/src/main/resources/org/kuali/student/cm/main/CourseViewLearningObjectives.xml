@@ -25,7 +25,6 @@
         <property name="items">
             <list>
                 <ref bean="LearningObjective-NoRequiredMessageLink"/>
-                <ref bean="LearningObjective-MainToolBarSection"/>
                 <ref bean="LearningObjective-CollectionSection"/>
             </list>
         </property>
@@ -71,51 +70,6 @@
         </property>
     </bean>
 
-    <bean id="LearningObjective-MainToolBarSection" parent="KS-Uif-HorizontalBoxSection-ToolbarSection">
-        <property name="items">
-            <list>
-                <bean parent="KS-Uif-HorizontalBoxGroup-ToolbarGroup">
-                    <property name="items">
-                        <list>
-                            <bean id="LearningObjective-ToolBar-AddNewObjective"
-                                  parent="LearningObjective-ToolBar-AddNewObjective-parent"
-                                  p:refreshId="LearningObjective-CollectionSection">
-                                <property name="methodToCall" value="addLearningObjective"/>
-                            </bean>
-                            <bean id="KS-LoDisplayInfoWrapper-descr-hidden" parent="KS-Uif-InputField"
-                                  p:propertyName="hiddenDescr">
-                                <property name="control">
-                                    <bean parent="KS-Uif-TextControl" p:hidden="true"/>
-                                </property>
-                                <property name="quickfinder">
-                                    <bean id="KS-LearningObjective-QuickFinder" parent="Uif-QuickFinder"
-                                          p:lightBox.lookupReturnByScript="true">
-                                        <property name="dataObjectClassName"
-                                                  value="org.kuali.student.cm.course.form.LoDisplayInfoWrapper"/>
-                                        <property name="quickfinderAction">
-                                            <bean id="LearningObjective-ToolBar-FindObjectives"
-                                                  parent="LearningObjective-ToolBar-FindObjectives-parent"
-                                                  p:methodToCall="performLookup"/>
-                                        </property>
-                                        <property name="fieldConversions">
-                                            <map>
-                                                <entry key="descr.plain" value="loInfo.descr.plain"/>
-                                            </map>
-                                        </property>
-                                        <property name="lookupParameters">
-                                            <map>
-                                                <entry key="descr.plain" value="loInfo.descr.plain"/>
-                                            </map>
-                                        </property>
-                                    </bean>
-                                </property>
-                            </bean>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>
 
     <bean id="LearningObjective-CollectionSection" parent="Uif-StackedCollectionSection"
           p:propertyName="loDisplayWrapperModel.loWrappers"
@@ -136,7 +90,7 @@
         <!-- Removal of this headerText property is not getting the validation messages displayed at section level. Need to investigate -->
         <property name="layoutManager.lineGroupPrototype.header.headerText" value=" "/>
         <property name="layoutManager.lineGroupPrototype.id" value="learning_objective_section_@{#index}"/>
-        <property name="layoutManager.lineGroupPrototype.additionalCssClasses" value="learning_objective_section"/>
+        <property name="layoutManager.lineGroupPrototype.additionalCssClasses" value="learning_objective_section_header"/>
         <property name="layoutManager.lineGroupPrototype.validationMessages.displayMessages" value="false"/>
         <property name="layoutManager.lineGroupPrototype.validationMessages.displayHeaderMessageSummary" value="false"/>
         <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
@@ -158,8 +112,34 @@
             </bean>
         </property>
         <property name="renderAddLine" value="false"/>
-        <property name="renderLineActions" value="false"/>
-        <property name="renderAddBlankLineButton" value="false"/>
+        <property name="renderLineActions" value="true"/>
+        <property name="addLinePlacement" value="TOP"/>
+        <property name="renderAddBlankLineButton" value="true"/>
+        <property name="addBlankLineAction">
+            <bean id="LearningObjective-ToolBar-AddNewObjective"
+                  parent="LearningObjective-ToolBar-AddNewObjective-parent"
+                  p:refreshId="LearningObjective-CollectionSection">
+                <property name="methodToCall" value="addLearningObjective"/>
+            </bean>
+        </property>
+
+        <property name="collectionLookup">
+
+            <bean id="KS-LearningObjective-QuickFinder" parent="Uif-CollectionQuickFinder"
+                  p:dataObjectClassName="org.kuali.student.cm.course.form.LoDisplayInfoWrapper"
+                  p:fieldConversions="descr.plain:loInfo.descr.plain"
+                  p:viewName="KS-LoDisplayInfoWrapper-LookupView" p:additionalCssClasses="learning_objective_section_header">
+                <property name="quickfinderAction">
+                    <bean id="LearningObjective-ToolBar-FindObjectives"
+                          parent="LearningObjective-ToolBar-FindObjectives-parent"
+                          p:methodToCall="performLookup" />
+                </property>
+                  </bean>
+
+        </property>
+
+
+
         <property name="items">
             <list>
                 <bean id="KS-LoDisplayInfoWrapper-descr" parent="KS-Uif-InputField" p:label="Objective"

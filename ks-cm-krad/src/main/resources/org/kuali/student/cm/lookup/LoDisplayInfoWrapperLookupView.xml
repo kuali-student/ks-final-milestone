@@ -34,12 +34,24 @@
     </bean>
     
     <bean id="KS-LoDisplayInfoWrapper-LookupView" parent="KS-Uif-LookupView">
+        <property name="viewName" value="KS-LoDisplayInfoWrapper-LookupView"/>
         <property name="id" value="LoDisplayInfoWrapperLookupView" />
         <property name="headerText" value="Find Learning Objectives" />
         <property name="dataObjectClassName"
             value="org.kuali.student.cm.course.form.LoDisplayInfoWrapper" />
         <property name="viewHelperServiceClass"
             value="org.kuali.student.cm.course.service.impl.LoDisplayInfoLookupableImpl" />
+        <property name="multipleValuesSelect" value="true"/>
+        <property name="resultsGroup.includeLineSelectionField" value="true"/>
+        <property name="resultsGroup.layoutManager.richTable">
+            <bean parent="Uif-RichTable">
+                <property name="templateOptions">
+                    <map merge="true">
+                        <entry key="sDom" value="lftip"/>
+                    </map>
+                </property>
+            </bean>
+        </property>
         <property name="criteriaGroup">
             <bean parent="KS-LoDisplayInfoWrapper-LookupCriteriaGroup"/>
         </property>
@@ -110,13 +122,39 @@
                 <bean parent="KS-Uif-DataField" p:propertyName="descr.plain" p:label="Description" p:escapeHtmlInPropertyValue="false" />
            </list>
         </property>
+
+        <property name="resultsGroup.footer.items">
+            <list>
+                <bean id="KS-AddLo-Button1" parent="Uif-PrimaryActionButton" p:methodToCall="returnSelected"
+                      p:actionLabel="Add Categories"
+                      p:preSubmitCall="setupMultiValueReturn();return true;"
+                      p:disabled="true"
+                      p:hidden="true">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>uif-returnSelectedAction</value>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+
+
+
         <property name="footer">
             <bean parent="KS-Uif-FooterBase">
                 <property name="items">
                     <list>
-                        <bean id="KS-AddLo-Button" parent="KS-Uif-PrimaryActionButton">
+                        <bean id="KS-AddLo-Button" parent="KS-Uif-PrimaryActionButton"
+                            p:preSubmitCall="setupMultiValueReturn();return true;"
+                            p:disabled="@{#form.selectedLookupResultsCache.size() == 0}" p:ajaxSubmit="false">
                             <property name="actionLabel" value="Add Learning Objective(s)"/>
-                            <property name="methodToCall" value=""/>
+                            <property name="methodToCall" value="returnSelected"/>
+                            <property name="cssClasses">
+                                <list merge="true">
+                                    <value>uif-returnSelectedAction</value>
+                                </list>
+                            </property>
                         </bean>
                         <bean id="KS-CancelLo-Button" parent="Uif-CancelAction" p:onClickScript="closeLightbox();return false;"/>
                     </list>
