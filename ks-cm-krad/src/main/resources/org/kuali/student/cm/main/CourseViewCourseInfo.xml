@@ -403,9 +403,9 @@
                                                 <entry key="delay" value="0"/>
                                                 <entry key="select">
                                                     <value>
-                                                        function( event, ui ) {
-                                                            jQuery( "input[name='document.newMaintainableObject.dataObject.courseJointWrappers["+@{#index}+"].courseCode']" ).val(ui.item.label);
-                                                            jQuery( "input[name='document.newMaintainableObject.dataObject.courseJointWrappers["+@{#index}+"].courseId']" ).val(ui.item.value);
+                                                        function(event, ui) {
+                                                            jQuery( "input[name='document.newMaintainableObject.dataObject.courseJointWrappers[" + @{#index} + "].courseCode']" ).val(ui.item.label);
+                                                            jQuery( "input[name='document.newMaintainableObject.dataObject.courseJointWrappers[" + @{#index} + "].courseId']" ).val(ui.item.value);
                                                             return false;
                                                         }
                                                     </value>

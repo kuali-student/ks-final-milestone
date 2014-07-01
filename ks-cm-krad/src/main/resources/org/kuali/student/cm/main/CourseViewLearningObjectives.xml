@@ -226,14 +226,29 @@
                         <list>
                             <bean id="KS-LearningObjective-Category" parent="KS-Uif-InputField-LabelTop"
                                   p:label="Category"
+                                  p:additionalHiddenPropertyNames="id"
                                   p:propertyName="name" p:render="@{#isAddLine}" p:additionalCssClasses="nowrap">
                                 <property name="control">
                                     <bean parent="KS-Uif-TextControl" p:size="15" p:cssClasses="validLoCategory"/>
                                 </property>
                                 <property name="suggest">
                                     <bean id="KS-LearningObjective-Category-Suggest" parent="Uif-Suggest">
-                                        <property name="valuePropertyName" value="catNameAndType"/>
-                                        <property name="templateOptions" value="minLength:1,delay:0"/>
+                                        <property name="returnFullQueryObject" value="true"/>
+                                        <property name="labelPropertyName" value="catNameAndType"/>
+                                        <property name="valuePropertyName" value="id"/>
+                                        <property name="templateOptions">
+                                            <map merge="true">
+                                                <entry key="minLength" value="1"/>
+                                                <entry key="delay" value="0"/>
+                                                <entry key="select">
+                                                    <value>
+                                                        function (event, ui) {
+                                                           return loCategoryAutocomplete(ui, jQuery(this));
+                                                        }
+                                                    </value>
+                                                </entry>
+                                            </map>
+                                        </property>
                                         <property name="suggestQuery">
                                             <bean parent="Uif-AttributeQueryConfig"
                                                   p:queryMethodToCall="searchForLoCategories"/>
