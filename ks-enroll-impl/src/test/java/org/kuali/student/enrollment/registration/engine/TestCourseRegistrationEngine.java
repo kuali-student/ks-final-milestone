@@ -13,6 +13,7 @@ import org.kuali.student.enrollment.registration.client.service.dto.Registration
 import org.kuali.student.enrollment.registration.client.service.dto.RegistrationResponseResult;
 import org.kuali.student.enrollment.registration.client.service.impl.CourseRegistrationClientServiceImpl;
 import org.kuali.student.lum.lrc.service.util.MockLrcTestDataLoader;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -49,6 +50,8 @@ public class TestCourseRegistrationEngine {
     private static final String SPRING_2012_TERM = "kuali.atp.2012Spring";
     private ContextInfo CONTEXT;
 
+    private static boolean FIRST_TEST=true;
+
     @Resource(name = "lrcService")
     private LRCService lrcService;
 
@@ -64,13 +67,15 @@ public class TestCourseRegistrationEngine {
     @Resource(name = "jmsTemplate")
     private JmsTemplate jmsTemplate;
 
-
     @Transactional
     @Before
     public void setUp() throws Exception {
-        new MockLrcTestDataLoader(this.lrcService).loadData();
-        luiServiceDataLoader.loadData();
 
+        if (FIRST_TEST) {
+            new MockLrcTestDataLoader(this.lrcService).loadData();
+            luiServiceDataLoader.loadData();
+            FIRST_TEST=false;
+        }
 
         CONTEXT = ContextUtils.createDefaultContextInfo();
         CONTEXT.setPrincipalId("admin");
@@ -103,10 +108,45 @@ public class TestCourseRegistrationEngine {
 
         System.out.println(registrationResponseResult);
 
-        // make sure the request and request itemes are successful
-        assertEquals(registrationResponseResult.getState(), LprServiceConstants.LPRTRANS_SUCCEEDED_STATE_KEY );
+        // make sure the request and request items are successful
+        assertEquals(LprServiceConstants.LPRTRANS_SUCCEEDED_STATE_KEY, registrationResponseResult.getState());
         for(RegistrationResponseItemResult responseItemInfo : registrationResponseResult.getResponseItemResults()){
-            assertEquals(responseItemInfo.getState(), LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY);
+            assertEquals(LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY, responseItemInfo.getState());
+        }
+
+    }
+
+    /**
+     * This tests creating an add reg request and submitting it to the registration engine. It then checks to make sure
+     * the request was successfully processed.
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testValidationException() throws Exception {
+
+        CONTEXT.getAttributes().add(new AttributeInfo("throwException", "true"));
+
+        RegistrationRequestInfo request = buildRegRequestsFor("admin");
+        RegistrationRequestInfo requestResult =
+                courseRegistrationService.createRegistrationRequest(request.getTypeKey(),
+                        request, CONTEXT);
+
+        System.out.println("Submitting: " + requestResult.getId());
+
+        RegistrationRequestInfo requestInfo = courseRegistrationService.submitRegistrationRequest(requestResult.getId(), CONTEXT);
+
+        waitFor(3000);    // wait for reg engine to process
+
+        // get status of reg request
+        RegistrationResponseResult registrationResponseResult = courseRegistrationClientService.getRegistrationStatusLocal(requestInfo.getId(), CONTEXT);
+
+        System.out.println(registrationResponseResult);
+
+        // make sure the request and request items have failed
+        assertEquals(LprServiceConstants.LPRTRANS_FAILED_STATE_KEY, registrationResponseResult.getState());
+        for(RegistrationResponseItemResult responseItemInfo : registrationResponseResult.getResponseItemResults()){
+            assertEquals(LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY, responseItemInfo.getState());
         }
 
     }

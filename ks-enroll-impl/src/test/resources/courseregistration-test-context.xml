@@ -50,6 +50,7 @@
 
     <bean id="courseRegistrationValidatorServiceImpl" class="org.kuali.student.enrollment.class2.courseregistration.service.impl.TestCourseRegistrationValidationDecoratorMock">
         <property name="nextDecorator" ref="courseRegistrationServiceImpl"/>
+        <property name="jmsTemplate" ref="jmsTemplate"/>
     </bean>
 
     <bean id="courseRegistrationServiceImpl" class="org.kuali.student.enrollment.class2.courseregistration.service.impl.CourseRegistrationServiceImpl">
@@ -88,5 +89,21 @@
     <util:map id="regUserMap">
         <entry key="TestStudent" value="2014-06-23@09:05" />
     </util:map>
+
+    <!-- override the CourseRegistrationInitializationNode -->
+    <bean id="registrationInitilizationListener" class="org.kuali.student.enrollment.registration.engine.node.impl.CourseRegistrationInitializationNodeMock">
+        <property name="jmsTemplate" ref="jmsTemplate"/>
+        <property name="courseRegistrationEngineService" ref="courseRegistrationEngineService"/>
+        <property name="destinations">
+            <list>
+                <value>org.kuali.student.enrollment.registration.verificationQueue</value>
+            </list>
+        </property>
+        <property name="filters">
+            <list>
+                <bean class="org.kuali.student.enrollment.registration.engine.node.filter.PerformanceStartNodeFilter"/>
+            </list>
+        </property>
+    </bean>
 
 </beans>
