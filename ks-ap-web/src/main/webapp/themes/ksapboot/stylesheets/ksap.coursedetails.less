@@ -263,10 +263,12 @@
       margin: 0;
     }
     // Planned registration faux tables
-    .uif-messageField {
+    .uif-messageField, .ksap-section-details  {
       padding:10px 0 5px 15px;
     }
+    // Registration Group: XXX styles. Specificity because classname is not added until page refresh (not on add to plan)
     .uif-collectionItem .uif-verticalFieldGroup .uif-verticalBoxGroup > .uif-messageField {
+      font-weight: bold;
       padding: 5px 0 0 0;
     }
     .ksap-section-reg-header {
