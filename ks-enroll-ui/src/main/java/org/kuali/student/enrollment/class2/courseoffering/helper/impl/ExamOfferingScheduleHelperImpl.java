@@ -456,7 +456,7 @@ public class ExamOfferingScheduleHelperImpl implements ExamOfferingScheduleHelpe
                 success = false;
             }
         } else {
-            GlobalVariables.getMessageMap().putError(examOfferingPath + ".requestedSchedule.dayInExamPeriod", ExamOfferingConstants.EXAM_OFFERING_MSG_ERROR_SCHEDULING_REQUIRED_FIELD_EMPTY);
+            GlobalVariables.getMessageMap().putError(examOfferingPath + ".requestedSchedule.dayInExamPeriod", ExamOfferingConstants.EXAM_OFFERING_MSG_ERROR_SCHEDULING_REQUIRED_DAY_FIELD_EMPTY);
             success = false;
         }
 
@@ -534,7 +534,7 @@ public class ExamOfferingScheduleHelperImpl implements ExamOfferingScheduleHelpe
                 success = false;
             }
         } else {
-            GlobalVariables.getMessageMap().putError(examOfferingPath + ".requestedSchedule.dayInExamPeriod", ExamOfferingConstants.EXAM_OFFERING_MSG_ERROR_SCHEDULING_REQUIRED_FIELD_EMPTY);
+            GlobalVariables.getMessageMap().putError(examOfferingPath + ".requestedSchedule.dayInExamPeriod", ExamOfferingConstants.EXAM_OFFERING_MSG_ERROR_SCHEDULING_REQUIRED_DAY_FIELD_EMPTY);
             success = false;
         }
 
@@ -688,7 +688,7 @@ public class ExamOfferingScheduleHelperImpl implements ExamOfferingScheduleHelpe
                 success = false;
             }
         } else {
-            GlobalVariables.getMessageMap().putError(examOfferingPath + ".requestedSchedule.startTime", ExamOfferingConstants.EXAM_OFFERING_MSG_ERROR_SCHEDULING_REQUIRED_FIELD_EMPTY);
+            GlobalVariables.getMessageMap().putError(examOfferingPath + ".requestedSchedule.startTime", ExamOfferingConstants.EXAM_OFFERING_MSG_ERROR_SCHEDULING_REQUIRED_START_TIME_FIELD_EMPTY);
             success = false;
         }
 
@@ -700,7 +700,7 @@ public class ExamOfferingScheduleHelperImpl implements ExamOfferingScheduleHelpe
                 success = false;
             }
         } else {
-            GlobalVariables.getMessageMap().putError(examOfferingPath + ".requestedSchedule.endTime", ExamOfferingConstants.EXAM_OFFERING_MSG_ERROR_SCHEDULING_REQUIRED_FIELD_EMPTY);
+            GlobalVariables.getMessageMap().putError(examOfferingPath + ".requestedSchedule.endTime", ExamOfferingConstants.EXAM_OFFERING_MSG_ERROR_SCHEDULING_REQUIRED_END_TIME_FIELD_EMPTY);
             success = false;
         }
 
