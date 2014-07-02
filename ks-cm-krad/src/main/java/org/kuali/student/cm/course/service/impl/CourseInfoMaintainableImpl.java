@@ -1946,16 +1946,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         int indent = 0;
         for (LoDisplayInfo loDisplayInfo : courseInfoWrapper.getCourseInfo().getCourseSpecificLOs()) {
             LoDisplayInfoWrapper displayInfoWrapper = new LoDisplayInfoWrapper(loDisplayInfo);
-            for (LoCategoryInfo loCategoryInfo : loDisplayInfo.getLoCategoryInfoList()) {
-                try {
-                    //Get the type info
-                    TypeInfo typeInfo = getLearningObjectiveService().getLoCategoryType(loCategoryInfo.getTypeKey(), ContextUtils.createDefaultContextInfo());
-                    loCategoryInfo.setName((new StringBuilder().append(loCategoryInfo.getName()).append(" - ").append(typeInfo.getName()).toString()));
-                } catch(Exception e) {
-                    LOG.error("An error occurred while retrieving the LoCategoryType", e);
-                }
-            }
-            displayInfoWrapper.setLoCategoryInfoList(loDisplayInfo.getLoCategoryInfoList());
+            populateLOCategoryName(displayInfoWrapper);
             newDisplayWrappers.add(displayInfoWrapper);
             indentLoOnLoad(newDisplayWrappers,displayInfoWrapper,indent);
         }
@@ -1969,14 +1960,26 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             return;
         }
         int nextLevel = currentIndent + 1;
-        for (LoDisplayInfo loWrapper : loDisplayInfoWrapper.getLoDisplayInfoList()){
-            LoDisplayInfoWrapper displayInfoWrapper = new LoDisplayInfoWrapper(loWrapper);
+        for (LoDisplayInfo loDisplayInfo : loDisplayInfoWrapper.getLoDisplayInfoList()){
+            LoDisplayInfoWrapper displayInfoWrapper = new LoDisplayInfoWrapper(loDisplayInfo);
+            populateLOCategoryName(displayInfoWrapper);
             newDisplayWrappers.add(displayInfoWrapper);
             displayInfoWrapper.setIndentLevel(nextLevel);
             indentLoOnLoad(newDisplayWrappers,displayInfoWrapper, nextLevel + 1);
         }
     }
 
+    protected void populateLOCategoryName(LoDisplayInfoWrapper displayInfoWrapper){
+        for (LoCategoryInfo loCategoryInfo : displayInfoWrapper.getLoCategoryInfoList()) {
+            try {
+                TypeInfo typeInfo = getLearningObjectiveService().getLoCategoryType(loCategoryInfo.getTypeKey(), ContextUtils.createDefaultContextInfo());
+                loCategoryInfo.setName((new StringBuilder().append(loCategoryInfo.getName()).append(" - ").append(typeInfo.getName()).toString()));
+            } catch(Exception e) {
+                LOG.error("An error occurred while retrieving the LoCategoryType", e);
+                throw new RuntimeException(e);
+            }
+        }
+    }
     /**
      * This method enables/disables the indent, outdent, move up and move down actions for each LO.
      */

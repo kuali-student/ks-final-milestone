@@ -34,6 +34,7 @@ public class LoDisplayInfoWrapper extends LoDisplayInfo {
 
     public LoDisplayInfoWrapper(LoDisplayInfo info) {
         super(info);
+        setLoCategoryInfoList(info.getLoCategoryInfoList());
     }
 
     public String getSearchBy() {
