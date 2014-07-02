@@ -39,7 +39,7 @@ public class CollaboratorWrapper implements Cloneable {
         private String action;
         
         private boolean author;
-        private boolean canRevokeRequest = false;
+        private boolean canRevokeRequest = true;
         private String actionRequestId;
         private String actionRequestStatus;
 
