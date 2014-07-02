@@ -12,6 +12,9 @@ import java.util.Map;
 /**
  * An extension of {@link KRADLegacyDataAdapterImpl} to work around rice bug
  * TODO: KSENROLL-12567 remove class KSKRADLegacyDataAdapterImpl
+ *
+ * TODO: KSCM-2322 - This class is duplicated at
+ * ks-cm-krad/src/main/java/org/kuali/student/cm/rice/KSKRADLegacyDataAdapterImpl.java
  */
 public class KSKRADLegacyDataAdapterImpl extends KRADLegacyDataAdapterImpl {
     @Override

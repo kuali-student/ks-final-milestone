@@ -6,13 +6,41 @@
 
     <!-- override KRADLegacyDataAdapterImpl with our own -->
     <!-- TODO: KSENROLL-12567 remove workaround bean -->
-    <bean id="kradLegacyDataAdapter" class="org.kuali.rice.krad.service.impl.KSKRADLegacyDataAdapterImpl"
+    <!--<bean id="kradLegacyDataAdapter" class="org.kuali.rice.krad.service.impl.KSKRADLegacyDataAdapterImpl"
+          p:dataObjectService-ref="dataObjectService"
+          p:lookupCriteriaGenerator-ref="lookupCriteriaGenerator"
+          p:kualiModuleService-ref="kualiModuleService"
+          p:dataDictionaryService-ref="dataDictionaryService"
+          p:kualiConfigurationService-ref="kualiConfigurationService"
+          p:viewDictionaryService-ref="viewDictionaryService"/>-->
+
+    <!--
+        Override for special handling of CMMaintenanceDocument
+        TODO: KSCM-2322
+    -->
+    <bean id="kradLegacyDataAdapter" class="org.kuali.student.cm.rice.KSKRADLegacyDataAdapterImpl"
           p:dataObjectService-ref="dataObjectService"
           p:lookupCriteriaGenerator-ref="lookupCriteriaGenerator"
           p:kualiModuleService-ref="kualiModuleService"
           p:dataDictionaryService-ref="dataDictionaryService"
           p:kualiConfigurationService-ref="kualiConfigurationService"
           p:viewDictionaryService-ref="viewDictionaryService"/>
+
+    <!-- A DocumentService implementation with special handling for CMMaintenanceDocument.
+         Only loadNotes() is overridden.
+         TODO: KSCM-2322
+         -->
+    <bean id="documentService" class="org.kuali.student.cm.rice.CMDocumentServiceImpl">
+        <property name="documentHeaderService" ref="documentHeaderService" />
+        <property name="documentAdHocService" ref="documentAdHocService" />
+        <property name="documentDictionaryService" ref="documentDictionaryService" />
+        <property name="legacyDataAdapter" ref="legacyDataAdapter"/>
+        <property name="dateTimeService" ref="dateTimeService"/>
+        <property name="workflowDocumentService" ref="workflowDocumentService"/>
+        <property name="noteService" ref="noteService"/>
+        <property name="dataDictionaryService" ref="dataDictionaryService"/>
+        <property name="kualiConfigurationService" ref="kualiConfigurationService"/>
+    </bean>
 
     <bean id="ksViewPermissionTypeService" class="org.kuali.student.enroll.kim.permission.type.KSViewPermissionTypeServiceImpl"/>
     <bean id="ksViewActionPermissionTypeService" class="org.kuali.student.enroll.kim.permission.type.KSViewActionPermissionTypeServiceImpl"/>
