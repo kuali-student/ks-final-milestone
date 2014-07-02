@@ -112,7 +112,7 @@
             </bean>
         </property>
         <property name="renderAddLine" value="false"/>
-        <property name="renderLineActions" value="true"/>
+        <property name="renderLineActions" value="false"/>
         <property name="addLinePlacement" value="TOP"/>
         <property name="renderAddBlankLineButton" value="true"/>
         <property name="addBlankLineAction">
