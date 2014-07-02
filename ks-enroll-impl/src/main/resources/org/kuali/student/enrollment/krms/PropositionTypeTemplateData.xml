@@ -514,7 +514,7 @@ limitations under the License.
                 <entry key="kuali.krms.proposition.type.final.exam.course">
                     <bean parent="TemplateInfo-parent"
                           p:termSpecName="MatchingCourse" p:value="true">
-                        <property name="componentId" value="KRMS-SingleCourse-InputField"/>
+                        <property name="componentId" value="KRMS-SingleCourse-Group"/>
                         <property name="componentBuilderClass"
                                   value="org.kuali.student.enrollment.class1.krms.builder.EnrolCourseComponentBuilder"/>
                     </bean>
