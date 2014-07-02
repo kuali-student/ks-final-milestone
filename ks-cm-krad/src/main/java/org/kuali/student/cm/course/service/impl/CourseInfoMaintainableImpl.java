@@ -1932,6 +1932,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         int indent = 0;
         for (LoDisplayInfo loDisplayInfo : courseInfoWrapper.getCourseInfo().getCourseSpecificLOs()) {
             LoDisplayInfoWrapper displayInfoWrapper = new LoDisplayInfoWrapper(loDisplayInfo);
+            displayInfoWrapper.setLoCategoryInfoList(loDisplayInfo.getLoCategoryInfoList());
             newDisplayWrappers.add(displayInfoWrapper);
             indentLoOnLoad(newDisplayWrappers,displayInfoWrapper,indent);
         }
