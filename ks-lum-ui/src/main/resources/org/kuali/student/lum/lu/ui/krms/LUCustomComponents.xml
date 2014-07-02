@@ -51,6 +51,16 @@ limitations under the License.
 
     <bean id="KRMS-CreditHours-ConstantValue" parent="KRMS-Integer-ConstantValue-Parent" p:label="Credit Hours"/>
 
+    <bean id="KRMS-CourseId-HiddenField" parent="KS-Uif-InputField" p:showLabel="false">
+        <property name="propertyName" value="proposition.courseInfo.id"/>
+        <property name="control">
+            <bean parent="KS-Uif-HiddenControl"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint" p:applyClientSide="false"/>
+        </property>
+    </bean>
+
     <bean id="KRMS-SingleCourse-InputField-Parent" parent="KS-Uif-InputField-LabelTop"
           p:propertyName="proposition.courseInfo.code" p:label="Course" p:required="true">
         <property name="quickfinder">
@@ -58,6 +68,15 @@ limitations under the License.
         </property>
     </bean>
     <bean id="KRMS-SingleCourse-InputField" parent="KRMS-SingleCourse-InputField-Parent"/>
+
+    <bean id="KRMS-SingleCourse-Group" parent="KRMS-CustomComponent-BoxGroup">
+        <property name="items">
+            <list>
+                <ref bean="KRMS-SingleCourse-InputField"/>
+                <ref bean="KRMS-CourseId-HiddenField"/>
+            </list>
+        </property>
+    </bean>
 
     <bean id="KRMS-MultiCourse-Section-Parent" parent="Uif-VerticalBoxSection">
         <property name="items">
@@ -110,6 +129,7 @@ limitations under the License.
         <property name="fieldConversions">
             <map>
                 <entry key="code" value="proposition.courseInfo.code"/>
+                <entry key="cluId" value="proposition.courseInfo.id"/>
             </map>
         </property>
     </bean>

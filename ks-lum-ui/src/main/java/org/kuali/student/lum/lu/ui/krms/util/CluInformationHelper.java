@@ -23,6 +23,7 @@ import org.kuali.student.lum.lu.ui.krms.dto.CluInformation;
 import org.kuali.student.lum.lu.ui.krms.dto.CluSetRangeInformation;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.lum.lu.ui.krms.dto.CluSetWrapper;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
@@ -300,7 +301,7 @@ public class CluInformationHelper {
         return cluInfos;
     }
 
-    public CluInformation getCluInfoForCodeAndType(String code, List<String> types) {
+    public CluInformation getCluInfoForCodeAndType(String code, List<String> types) throws OperationFailedException {
         try {
 
             //Setup search criteria.
@@ -313,9 +314,11 @@ public class CluInformationHelper {
             List<CluInfo> cluInfos = this.getCluService().searchForClus(qbcBuilder.build(), ContextUtils.getContextInfo());
             CluInfo cluInfo = KSCollectionUtils.getOptionalZeroElement(cluInfos);
 
-            if(cluInfo!=null){
+            if (cluInfo != null) {
                 return cluInformationFromCluInfo(cluInfo);
             }
+        }catch (OperationFailedException ofe){
+            throw ofe;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -27,6 +27,7 @@ import org.kuali.student.lum.lu.ui.krms.util.LUKRMSConstants;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.util.security.ContextUtils;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
@@ -122,16 +123,25 @@ public class CourseComponentBuilder extends CluComponentBuilder {
             // convert term-code to UPPERCASE
             course.setCode(course.getCode().toUpperCase());
         }
+        if(course.getId()!= null){
+            try {
+                //search for the course based on the given id
+                CourseInfo searchCourse = this.getCourseService().getCourse(course.getId(), ContextUtils.getContextInfo());
 
-        CluInformation searchClu = this.getCluInfoHelper().getCluInfoForCodeAndType(course.getCode(), CluSearchUtil.getCluTypesForCourse());
-        if(searchClu==null){
-            String propName = PropositionTreeUtil.getBindingPath(propositionEditor, "courseInfo.code");
-            GlobalVariables.getMessageMap().putErrorForSectionId(propName, LUKRMSConstants.KSKRMS_MSG_ERROR_APPROVED_COURSE_CODE_INVALID);
-        } else {
-            course.setId(searchClu.getCluId());
-            VersionInfo version = new VersionInfo();
-            version.setVersionIndId(searchClu.getVerIndependentId());
-            course.setVersion(version);
+                if(!course.getCode().equals(searchCourse.getCode())){
+                    this.validateClu(course,propositionEditor);
+                }else{
+                    course.setId(searchCourse.getId());
+                    VersionInfo version = new VersionInfo();
+                    version.setVersionIndId(searchCourse.getVersion().getVersionIndId());
+                    course.setVersion(version);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }else{
+            this.validateClu(course,propositionEditor);
         }
 
         if (propositionEditor.getTermCode() != null) {
@@ -142,6 +152,27 @@ public class CourseComponentBuilder extends CluComponentBuilder {
         if (propositionEditor.getTermCode2() != null) {
             String propName = PropositionTreeUtil.getBindingPath(propositionEditor, "termCode2");
             propositionEditor.setTermInfo2(this.getTermForTermCode(propositionEditor.getTermCode2(), propName));
+        }
+    }
+
+    private void validateClu(CourseInfo course, LUPropositionEditor propositionEditor){
+
+        CluInformation clu = null;
+        try{
+            clu = this.getCluInfoHelper().getCluInfoForCodeAndType(course.getCode(), CluSearchUtil.getCluTypesForCourse());
+        }catch(OperationFailedException ofe){
+            String propName = PropositionTreeUtil.getBindingPath(propositionEditor, "courseInfo.code");
+            GlobalVariables.getMessageMap().putErrorForSectionId(propName, LUKRMSConstants.KSKRMS_MSG_ERROR_MULTIPLE_RESULTS_FOR_CODE);
+        }
+
+        if(clu==null){
+            String propName = PropositionTreeUtil.getBindingPath(propositionEditor, "courseInfo.code");
+            GlobalVariables.getMessageMap().putErrorForSectionId(propName, LUKRMSConstants.KSKRMS_MSG_ERROR_APPROVED_COURSE_CODE_INVALID);
+        } else {
+            course.setId(clu.getCluId());
+            VersionInfo version = new VersionInfo();
+            version.setVersionIndId(clu.getVerIndependentId());
+            course.setVersion(version);
         }
     }
 

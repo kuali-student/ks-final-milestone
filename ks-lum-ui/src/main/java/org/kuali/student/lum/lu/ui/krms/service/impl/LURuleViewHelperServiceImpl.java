@@ -54,6 +54,7 @@ import org.kuali.student.lum.lu.ui.krms.util.CluSearchUtil;
 import org.kuali.student.lum.lu.ui.krms.util.LUKRMSConstants;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.constants.OrganizationServiceConstants;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
@@ -299,7 +300,12 @@ public class LURuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
 
     protected boolean validateNewCourse(ViewModel viewModel, CluInformation clu, String collectionId) {
         //Check if this is a valid course.
-        CluInformation searchClu = this.getCluInfoHelper().getCluInfoForCodeAndType(clu.getCode(), CluSearchUtil.getCluTypesForCourse());
+        CluInformation searchClu = null;
+        try{
+            searchClu = this.getCluInfoHelper().getCluInfoForCodeAndType(clu.getCode(), CluSearchUtil.getCluTypesForCourse());
+        }catch(OperationFailedException ofe){
+            GlobalVariables.getMessageMap().putErrorForSectionId(collectionId, LUKRMSConstants.KSKRMS_MSG_ERROR_MULTIPLE_RESULTS_FOR_CODE);
+        }
         if(searchClu==null){
             GlobalVariables.getMessageMap().putErrorForSectionId(collectionId, LUKRMSConstants.KSKRMS_MSG_ERROR_APPROVED_COURSE_CODE_INVALID);
             return false;
@@ -334,7 +340,12 @@ public class LURuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
 
     protected boolean validateNewProgram(ViewModel viewModel, CluInformation clu, String collectionId) {
         //Check if this is a valid program.
-        CluInformation searchClu = this.getCluInfoHelper().getCluInfoForCodeAndType(clu.getCode(), CluSearchUtil.getCluTypesForProgram());
+        CluInformation searchClu = null;
+        try{
+            searchClu = this.getCluInfoHelper().getCluInfoForCodeAndType(clu.getCode(), CluSearchUtil.getCluTypesForCourse());
+        }catch(OperationFailedException ofe){
+            GlobalVariables.getMessageMap().putErrorForSectionId(collectionId, LUKRMSConstants.KSKRMS_MSG_ERROR_MULTIPLE_RESULTS_FOR_CODE);
+        }
         if(searchClu==null){
             GlobalVariables.getMessageMap().putErrorForSectionId(collectionId, LUKRMSConstants.KSKRMS_MSG_ERROR_APPROVED_PROGRAM_CODE_INVALID);
             return false;
