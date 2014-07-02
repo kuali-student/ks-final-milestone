@@ -20,7 +20,7 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-GridGroup"
-                                  p:layoutManager.numberOfColumns="4" p:additionalCssClasses="ks-krad-tab-gridgroup-fix,ks-details-panel,ks-section,ks-ObjectDetailsPanel">
+                                  p:layoutManager.numberOfColumns="4" p:additionalCssClasses="ks-krad-tab-gridgroup-fix,ks-details-panel,ks-section">
                                   <!--p:layoutManager.applyDefaultCellWidths="false">-->
                                 <property name="items">
                                     <list>
