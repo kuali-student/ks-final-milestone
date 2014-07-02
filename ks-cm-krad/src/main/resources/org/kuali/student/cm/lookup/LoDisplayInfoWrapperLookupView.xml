@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+  Copyright 2005-2013 The Kuali Foundation
+ 
+  Licensed under the Educational Community License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+ 
+  http://www.opensource.org/licenses/ecl2.php
+ 
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+                           
+    <bean id="KS-LoDisplayInfoWrapper-DataObjectEntry" parent="DataObjectEntry">
+        <property name="objectLabel" value="Learning Objective Display Information Wrapper" />
+        <property name="dataObjectClass"
+            value="org.kuali.student.cm.course.form.LoDisplayInfoWrapper" />
+    </bean>
+
+    <bean id="KS-LoDisplayInfoWrapper-LookupCriteriaGroup" parent="Uif-HorizontalBoxGroup">
+        <property name="headerText" value="Lookup Criteria"/>
+        <property name="fieldBindingObjectPath" value="lookupCriteria"/>
+        <property name="footer">
+            <bean parent="Uif-LookupCriteriaFooter"/>
+        </property>
+    </bean>
+    
+    <bean id="KS-LoDisplayInfoWrapper-LookupView" parent="KS-Uif-LookupView">
+        <property name="viewName" value="KS-LoDisplayInfoWrapper-LookupView"/>
+        <property name="id" value="LoDisplayInfoWrapperLookupView" />
+        <property name="headerText" value="Find Learning Objectives" />
+        <property name="dataObjectClassName"
+            value="org.kuali.student.cm.course.form.LoDisplayInfoWrapper" />
+        <property name="viewHelperServiceClass"
+            value="org.kuali.student.cm.course.service.impl.LoDisplayInfoLookupableImpl" />
+        <property name="multipleValuesSelect" value="true"/>
+        <property name="formClass" value="org.kuali.student.cm.course.form.LoDisplayBrowseForm"/>
+        <property name="resultsGroup.includeLineSelectionField" value="true"/>
+        <property name="resultsGroup.layoutManager.richTable">
+            <bean parent="Uif-RichTable">
+                <property name="templateOptions">
+                    <map merge="true">
+                        <entry key="sDom" value="p"/>
+                    </map>
+                </property>
+            </bean>
+        </property>
+        <property name="criteriaGroup">
+            <bean parent="KS-LoDisplayInfoWrapper-LookupCriteriaGroup"/>
+        </property>
+        <property name="criteriaFields">
+            <list>
+                <bean parent="Uif-VerticalBoxSection" p:style="margin-top:-1.5em">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-HorizontalBoxSection">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="searchCriteriaBy" p:label="Search By" p:id="searchByCriteria"
+                                              p:onChangeScript="jQuery('#dirtyForm').val(true); " p:defaultValue="All">
+                                            <property name="control">
+                                                <bean parent="Uif-HorizontalRadioControl">
+                                                    <property name="options">
+                                                        <list>
+                                                            <bean parent="Uif-KeyLabelPair" p:key="All" p:value="All" />
+                                                            <bean parent="Uif-KeyLabelPair" p:key="COURSE_OLY" p:value="Course Only"/>
+                                                            <bean parent="Uif-KeyLabelPair" p:key="PRG_OLY" p:value="Program Only"/>
+                                                        </list>
+                                                    </property>
+                                                </bean>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-HorizontalBoxSection">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="searchBy" p:label="Type Of Search"
+                                              p:required="true" p:id="searchByCriteria">
+                                            <property name="control">
+                                                <bean parent="KS-Uif-DropdownControl" p:onChangeScript="hideName();"/>
+                                            </property>
+                                            <property name="optionsFinder">
+                                                <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.LoSearchByValuesFinder" p:addBlankOption="false"/>
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="name" p:id="searchByField">
+                                            <property name="control">
+                                                <bean parent="KS-Uif-TextControl" p:additionalCssClasses="lo_lightbox_name" />
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Show" p:additionalCssClasses="lo_lightbox_name"  p:methodToCall="search" p:onClickScript="hideName();"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+
+        <property name="defaultSortAttributeNames">
+            <list>
+                <value>code</value>
+                <value>descr.plain</value>
+            </list>
+        </property>
+
+        <property name="page.items">
+            <list>
+                <ref bean="KS-LoDisplayInfoWrapper-LookupView-Filter"/>
+            </list>
+        </property>
+
+        <property name="resultFields">
+            <list>
+                <bean parent="KS-Uif-DataField" p:propertyName="code" p:label="Code" />
+                <bean parent="KS-Uif-DataField" p:propertyName="typeName" p:label="Type" p:hidden="@{(lookupCriteria['searchBy'] eq 'COURSE')}"/>
+                <bean parent="KS-Uif-DataField" p:propertyName="name" p:label="Category" p:escapeHtmlInPropertyValue="false"/>
+                <bean parent="KS-Uif-DataField" p:propertyName="descr.plain" p:label="Description" p:escapeHtmlInPropertyValue="false" />
+           </list>
+        </property>
+
+        <property name="resultsGroup.footer.items">
+            <list>
+                <bean id="KS-AddLo-Button1" parent="Uif-PrimaryActionButton" p:methodToCall="returnSelected"
+                      p:actionLabel="Add Categories"
+                      p:preSubmitCall="setupMultiValueReturn();return true;"
+                      p:disabled="true"
+                      p:hidden="true">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>uif-returnSelectedAction</value>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+
+
+
+        <property name="footer">
+            <bean parent="KS-Uif-FooterBase">
+                <property name="items">
+                    <list>
+                        <bean id="KS-AddLo-Button" parent="KS-Uif-PrimaryActionButton"
+                            p:preSubmitCall="setupMultiValueReturn();return true;"
+                            p:disabled="@{#form.selectedLookupResultsCache.size() == 0}" p:ajaxSubmit="false">
+                            <property name="actionLabel" value="Add Learning Objective(s)"/>
+                            <property name="methodToCall" value="returnSelected"/>
+                            <property name="cssClasses">
+                                <list merge="true">
+                                    <value>uif-returnSelectedAction</value>
+                                </list>
+                            </property>
+                        </bean>
+                        <bean id="KS-CancelLo-Button" parent="Uif-CancelAction" p:onClickScript="closeLightbox();return false;"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="KS-LoDisplayInfoWrapper-LookupView-Filter" parent="Uif-HorizontalFieldGroup">
+        <property name="items">
+            <list>
+                <bean id="LoDisplayInfoWrapper-LookupView-Filter-Input" parent="KS-Uif-InputField-LabelLeft" p:label="Filter"
+                      p:style="float: right;"
+                      p:propertyName="findObjectivesFilter" p:fieldLabel.style="float:left;"
+                      p:fieldLabel.renderColon="true">
+                    <property name="control">
+                        <bean parent="KS-Uif-TextControl" p:size="30" p:onKeyUpScript="filterObjectivesByName();"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+</beans>                        

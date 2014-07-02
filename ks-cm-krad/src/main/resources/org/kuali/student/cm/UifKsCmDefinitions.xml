@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+  -->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+    <!-- Used by beans which are required for states Enroute and beyond -->
+    <bean id="CM-RequiredConstraints-Enroute" parent="RequiredConstraint" abstract="true">
+        <property name="states">
+            <list>
+                <value>R+</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Uif-CancelActionButton" parent="Uif-CancelActionButton-parentBean"/>
+    <bean id="Uif-CancelActionButton-parentBean" abstract="true" parent="Uif-Action">
+        <property name="cssClasses">
+            <list merge="false">
+                <value>btn</value>
+                <value>btn-link</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Uif-CancelAction" parent="Uif-CancelActionButton" p:methodToCall="cancel"
+          p:actionLabel="Cancel" p:performDirtyValidation="true" p:id="cancel"/>
+
+    <!-- InputField with a state aware label which should be the parent of all CM input fields that need (or potentially
+         might need) a custom required indicator. If the input has a required constraint which evaluates to true the
+         required indicator will be displayed. Otherwise, it will remain hidden. -->
+    <bean id="CM-InputField" parent="CM-InputField-parentBean"/>
+    <bean id="CM-InputField-parentBean" abstract="true" parent="Uif-InputField">
+        <property name="help">
+            <null/>
+        </property>
+        <property name="fieldLabel">
+            <bean parent="CM-StateAware-Label"/>
+        </property>
+    </bean>
+
+    <!--
+        An extended Uif-Label which conditionally replaces the requiredIndicator text based on workflow state.
+        This can be used for any input (not just required ones) because it doesn't get displayed unless the
+        simpleConstraint#required property true.
+    -->
+    <bean id="CM-StateAware-Label" parent="CM-StateAware-Label-parent" abstract="true" />
+    <bean id="CM-StateAware-Label-parent" parent="Uif-Label" abstract="true">
+        <property name="renderColon" value="false"/>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>cm_requiredMessage_text</value>
+            </list>
+        </property>
+        <property name="propertyReplacers">
+            <list>
+                <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                    p:propertyName="requiredIndicator"
+                    p:condition="@{#workflowDoc.saved}" >
+                    <property name="replacement">
+                        <!-- This should be read from the message service -->
+                        <value>Required for Submit</value>
+                    </property>
+                </bean>
+                <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                     p:propertyName="requiredIndicator"
+                     p:condition="@{#workflowDoc.enroute}" >
+                    <property name="replacement">
+                        <!-- This should be read from the message service -->
+                        <value>Required for Approval</value>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Uif-KS-IconLabelMessage" parent="Uif-KS-IconLabelMessage-parentBean"/>
+    <bean id="Uif-KS-IconLabelMessage-parentBean" parent="Uif-Message-parentBean" abstract="true"
+          class="org.kuali.student.cm.uif.element.KSIconLabelMessage" scope="prototype" />
+
+    <!-- A section header that can display and info icon with a tooltip. -->
+    <bean id="Uif-KS-IconHeader" parent="Uif-SectionHeader">
+        <property name="richHeaderMessage">
+            <bean parent="Uif-KS-IconLabelMessage"/>
+        </property>
+    </bean>
+
+    <!-- Provides required indicator text in section headers. -->
+    <bean id="CM-StateAwareRequiredIndicatorMessage" parent="CM-StateAwareRequiredIndicatorMessage-parentBean" abstract="true"/>
+    <bean id="CM-StateAwareRequiredIndicatorMessage-parentBean" parent="Uif-Message" abstract="true">
+        <property name="cssClasses">
+            <list merge="false">
+                <value>uif-requiredMessage</value>
+            </list>
+        </property>
+        <property name="propertyReplacers">
+            <list>
+                <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                    p:propertyName="messageText"
+                    p:condition="@{#workflowDoc.saved}" >
+                    <property name="replacement">
+                        <value>Required for Submit</value>
+                    </property>
+                </bean>
+                <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                     p:propertyName="messageText"
+                     p:condition="@{#workflowDoc.enroute}" >
+                    <property name="replacement">
+                        <value>Required for Approval</value>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- A conditional property replacer (minus the condition) which provides state based required indicators
+         for section headers. Basically, this bean determines if the required indicator will be displayed.
+         CM-StateAwareRequiredIndicatorMessage determines what the text will be. -->
+    <bean id="CM-RightGroupConditionalRequiredIndicator-Base" parent="Uif-ConditionalBeanPropertyReplacer" abstract="true"
+        p:propertyName="rightGroup">
+        <property name="replacement">
+            <bean parent="Uif-VerticalBoxGroup">
+                <property name="cssClasses">
+                    <list merge="false">
+                        <value>cm_requiredMessage_text</value>
+                    </list>
+                </property>
+                <property name="items">
+                    <list>
+                         <bean parent="CM-StateAwareRequiredIndicatorMessage"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <!-- A section header required indicator for state enroute -->
+    <bean id="CM-RequiredIndicatorForEnroute" parent="CM-RightGroupConditionalRequiredIndicator-Base"
+        p:condition="@{#workflowDoc.saved or #workflowDoc.enroute}" />
+
+    <!-- A section header required indicator for state approved -->
+    <bean id="CM-RequiredIndicatorForApprove" parent="CM-RightGroupConditionalRequiredIndicator-Base"
+        p:condition="@{#workflowDoc.enroute}"/>
+
+    <!-- This is used within org.kuali.student.cm.uif.element.KSIconLabelMessage -->
+    <bean id="Uif-KS-IconImage" parent="Uif-KS-IconImage-parentBean"/>
+    <bean id="Uif-KS-IconImage-parentBean" parent="Uif-ImageField" abstract="true"
+          p:source="@{#ConfigProperties['ks.externalizable.images.url']}/validation/info.png">
+        <property name="image.style" value="vertical-align:top;"/>
+        <property name="toolTip">
+            <bean parent="Uif-KS-Tooltip"/>
+        </property>
+    </bean>
+
+    <!--
+        Override the default theme to include all the cm specific css/js.
+        This will load only if ks-cm profile is active.
+    -->
+    <bean id="KSTheme" abstract="true" parent="KSTheme-CM-parentBean"/>
+
+    <bean id="KSTheme-CM-parentBean" parent="KSTheme-parentBean">
+        <property name="minCssSourceFiles">
+            <list merge="true">
+                <value>themes/ksboot/stylesheets/cm.css</value>
+            </list>
+        </property>
+        <property name="minScriptSourceFiles">
+            <list merge="true">
+                <value>themes/ksboot/scripts/cm.js</value>
+                <value>themes/ksboot/scripts/jquery.jqEasyCharCounter.custom.js</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-HomewardPathBreadcrumbs-CurriculumManagement" parent="KS-HomewardPathBreadcrumbs-CurriculumManagement-parent"/>
+
+    <bean id="KS-HomewardPathBreadcrumbs-CurriculumManagement-parent" parent="Uif-BreadcrumbItem" abstract="true">
+        <property name="label" value="Curriculum Management KRAD"/>
+        <property name="url.baseUrl" value="cmHome"/>
+        <property name="url.viewId" value="curriculumHomeView"/>
+        <property name="siblingBreadcrumbComponent">
+           <bean parent="KS-Uif-Dynamic-BreadCrumb"/>
+       </property>
+    </bean>
+
+</beans>
+
+

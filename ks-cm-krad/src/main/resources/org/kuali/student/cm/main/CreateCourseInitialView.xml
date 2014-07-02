@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright 2005-2013 The Kuali Foundation
+
+  Licensed under the Educational Community License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.opensource.org/licenses/ecl2.php
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="KS-CourseView-createCourseInitialPage" parent="KS-Uif-Page">
+        <property name="breadcrumbOptions.breadcrumbOverrides">
+            <list>
+                <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
+                <ref bean="KS-HomewardPathBreadcrumbs-CurriculumManagement"/>
+                <ref bean="KS-HomewardPathBreadcrumbs-CreateCourseInitial-Page"/>
+            </list>
+        </property>
+
+        <property name="items">
+            <list>
+                <ref bean="KS-CourseCreate-InitialView-Page-Widgets"/>
+            </list>
+        </property>
+        <property name="footer">
+            <bean parent="KS-CourseCreate-InitialView-Footer"/>
+        </property>
+    </bean>
+
+    <bean id="KS-CourseView-createCourseInitialView" parent="KS-Uif-FormView">
+        <property name="id" value="createCourseInitialView"/>
+        <property name="headerText"  value="Create Course " />
+        <property name="formClass" value="org.kuali.student.cm.course.form.CourseInitialForm"/>
+        <property name="viewSourceFile" value="CreateCourseInitialView.xml" /> <!-- Shows up in HTML so devs can find the code -->
+        <property name="items">
+            <list>
+                <ref bean="KS-CourseView-createCourseInitialPage"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-CourseCreate-InitialView-Page-Widgets" parent="Uif-VerticalBoxSection">
+        <property name="header">  <bean parent="Uif-HeaderThree"/>  </property>
+        <property name="headerText" value="How would you like to start?"/>
+        <property name="instructionalMessage">
+            <bean parent="Uif-Message">
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>cm-home-view-instruction</value>
+                    </list>
+                </property>
+                <property name="messageText"
+                          value="You can choose to start a blank proposal with no pre-filled data, or copy an existing course/proposal and then edit the copied data to meet your needs"/>
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="KS-Uif-InputField" id="KS-createCourseInitialPage-CMStartOptions" p:propertyName="createCourseInitialAction"
+                      p:required="true" p:bindingInfo.bindToForm="true" p:defaultValue="startBlankProposal">
+                    <property name="control">
+                        <bean parent="KS-Uif-VerticalRadioControl">
+                            <property name="options">
+                                <list>
+                                    <bean id="createCourse-startBlankProposal" parent="Uif-KeyLabelPair" p:key="startBlankProposal"  p:value="Start a blank proposal" />
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+
+                <bean parent="KS-Uif-InputField" id="KS-createCourseInitialPage-StartOptions" p:propertyName="createCourseInitialAction"
+                      p:required="true" p:bindingInfo.bindToForm="true" p:render="false"
+                      p:defaultValue="startBlankProposal">
+                    <property name="control">
+                        <bean parent="KS-Uif-VerticalRadioControl">
+                            <property name="options">
+                                <list>
+                                    <bean id="createCourse-startBlankProposal" parent="Uif-KeyLabelPair" p:key="startBlankProposal"  p:value="Start a blank proposal" />
+                                    <bean id="createCourse-copyApprovedCourse" parent="Uif-KeyLabelPair" p:key="copyApprovedCourse" p:value="Copy an approved course"/>
+                                    <bean id="createCourse-copyProposedCourse" parent="Uif-KeyLabelPair" p:key="copyProposedCourse" p:value="Copy a proposed course"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+
+                <ref bean="KS-CreateCourse-Review-Section" />
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-CreateCourse-Review-Section" parent="Uif-VerticalBoxSubSection"  p:render="@{#form.curriculumSpecialistUser}">
+        <property name="headerText" value="Review Process"/>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>cm-collection-width</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="createCourseInitial_is_reviewProcess"
+                      parent="KS-Uif-InputField"
+                      p:propertyName="useReviewProcess" p:bindingInfo.bindToForm="true"
+                      p:required="false">
+                    <property name="control">
+                        <bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="Use curriculum review process"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-CourseCreate-InitialView-Footer" parent="Uif-FooterBase">
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalBoxGroup">
+                    <property name="items">
+                        <list>
+                            <bean id="createCourseInitial-continueCreate"
+                                  parent="Uif-PrimaryActionButton"
+                                  p:ajaxSubmit="false"
+                                  p:methodToCall="continueCreateCourse"
+                                  p:actionLabel="Continue"/>
+                            <bean id="createCourseInitial-cancel"
+                                  parent="Uif-CancelAction"
+                                  p:ajaxSubmit="false"
+                                  p:methodToCall="cancel"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-HomewardPathBreadcrumbs-CreateCourseInitial-Page" parent="Uif-BreadcrumbItem">
+        <property name="label" value="Create Course"></property>
+    </bean>
+</beans>

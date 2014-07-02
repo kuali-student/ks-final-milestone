@@ -1,3 +1,0 @@
---KSENROLL-12308 need new types for waitlist. We can remove these later if the LPR method of waitlist is not approved.
-insert into KSEN_TYPE (CREATEID, CREATETIME, DESCR_FORMATTED, DESCR_PLAIN, EFF_DT, EXPIR_DT, NAME, OBJ_ID, REF_OBJECT_URI, SERVICE_URI, TYPE_KEY, UPDATEID, UPDATETIME, VER_NBR) values ('TESTUSER', TIMESTAMP '2014-01-08 19:00:00', 'CO-Waitlist LPR type', 'CO-Waitlist LPR type', null, null, 'kuali.lpr.type.waitlist.course.offering', null, 'http://student.kuali.org/wsdl/lpr/LprInfo', 'http://student.kuali.org/wsdl/lpr/LprService', 'kuali.lpr.type.waitlist.course.offering', 'TESTUSER', TIMESTAMP '2014-01-08 19:00:00', 0)
-/

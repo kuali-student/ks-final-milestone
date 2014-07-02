@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+  Copyright 2005-2013 The Kuali Foundation
+ 
+  Licensed under the Educational Community License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+ 
+  http://www.opensource.org/licenses/ecl2.php
+ 
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="KS-CourseView-CourseRequisites-Section" parent="KS-CourseView-VerticalBoxSection">
+        <property name="headerText" value="Course Requisites"/>
+        <property name="items">
+            <list>
+                <ref bean="CourseRequisites-NoRequiredMessageLink" />
+                <ref bean="CourseRequisites-CollectionSection" />
+            </list>
+        </property>
+    </bean>
+    <bean id="CourseRequisites-NoRequiredMessageLink" parent="Uif-HorizontalFieldGroup" >
+        <property name="style" value="display: none;" />
+        <property name="cssClasses">
+            <list merge="true">
+                <value>hide-when-show-all-fields</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Message" p:id="CourseRequisites-NoRequiredMessage"
+                      p:messageText="No required fields." p:style="margin-top: 5px; margin-right: 0px;">
+                </bean>
+                <bean parent="KS-Uif-ActionLink" p:id="CourseRequisites-NoRequiredMessage-expand-link"
+                      p:actionScript="createCourseShowHideObjectiveElements('CourseRequisites-NoRequiredMessageLink', 'CourseRequisites-CollectionSection');"
+                      p:actionLabel="Show all fields" p:style="margin-right: 15pt; margin-top: 0px;">
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CourseRequisites-CollectionSection" parent="Uif-VerticalBoxSection" p:headerText="">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>admin-not-required-field</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="KRMS-AgendaMaintenance-DisclosureLinks"/>
+                <!-- KSCM-1727 - Move the Rules wrapper within CourseInfoWrapper-->
+                <bean parent="KRMS-AgendaManage-Section" class="org.kuali.student.cm.course.service.util.CourseAgendaSection">
+                    <property name="rulePrototype">
+                        <ref bean="Course-AgendaManage-RulePrototype"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+</beans>
