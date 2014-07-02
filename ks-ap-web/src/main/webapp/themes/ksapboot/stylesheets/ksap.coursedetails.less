@@ -135,7 +135,43 @@
     vertical-align: middle;
     height: 14px;
   }
+  .ksap-selected-row {
+    background-color: #EFF8FD;
+  }
 
+  // Multiple format options
+  .ksap-section-format-options {
+    .ksap-section-format-heading {
+      display: inline-table;
+      font-weight: bold;
+    }
+    .ksap-section-format-header > label {
+      background-color: #eee;
+      border-bottom: 2px solid #ddd;
+      font-weight: bold;
+      margin-top: 10px;
+      padding: 10px 0 5px 15px;
+    }
+    fieldset[data-type="RadioSet"] {
+      max-width: 100%;
+      padding-right: 0;
+      width: 100%;
+    }
+    fieldset[data-type="RadioSet"] label {
+      cursor: pointer;
+    }
+    .ksap-section-format-header .uif-tooltip {
+      border-bottom: 1px solid #ddd;
+      padding: 10px 15px 5px 15px;
+      width: 100%;
+    }
+    .ksap-section-format-header .uif-tooltip:hover {
+      background-color: #f5f5f5;
+    }
+    input[type="radio"] {
+      float: right;
+    }
+  }
 
   // Courses
   .ksap-section-courses {
@@ -181,17 +217,11 @@
       padding-right: 0;
       white-space: nowrap;
     }
-    tr.ksap-selected-row {
-      background-color:#eff8fd;
-    }
     tr.ksap-selected-row td {
       background-color: transparent;
     }
     td {
       padding: 5px 0 5px 15px;
-    }
-    .uif-inputField {
-      text-align: center;
     }
     // Additional details items
     .ksap-section-details-item {
@@ -203,6 +233,10 @@
     .ksap-section-details-item:first-child {
       border-left:0;
       padding-left: 0;
+    }
+    //Add to Plan select
+    .ksap-section-select {
+      text-align: center;
     }
     //Add to Plan button
     a.ks-fontello-icon-ok-circled,
@@ -272,7 +306,7 @@
       padding: 5px 0 0 0;
     }
     .ksap-section-reg-header {
-      background-color: #EEE;
+      background-color: #eee;
       border-bottom: 2px solid #ddd;
       font-weight:bold;
     }
@@ -317,11 +351,11 @@
 }
 
 .ksap-invalid-activity {
-    color: #CCC;
+    color: #ccc;
 }
 
 .ksap-invalid-format {
-    color: #CCC;
+    color: #ccc;
 }
 
 

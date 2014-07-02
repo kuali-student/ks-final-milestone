@@ -77,4 +77,5 @@
     <bean id="details_scheduled_terms_tooltip" parent="KSAP-Tooltip" p:tooltipContent="Current and all future terms for which the course is offered."/>
     <bean id="details_projected_terms_tooltip" parent="KSAP-Tooltip" p:tooltipContent="Terms when a course may be offered. This is not a guarantee that the course will be offered within the specified terms."/>
     <bean id="details_gened_tooltip" parent="KSAP-Tooltip" p:tooltipContent="Foundational courses defined by the university that you must complete in order to fulfill your degree."/>
+    <bean id="details_bottom_course_format_tooltip" parent="KSAP-Tooltip" p:tooltipContent="This course is offered in multiple formats."/>
 </beans>

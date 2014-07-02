@@ -17,8 +17,15 @@ function detectReferrerForBackLinkText() {
 }
 
 
-//Sections with multiple offerings checkbox behavior
+//Sections with multiple formats or offerings input behavior
 function checkboxSelectAndHighlight() {
+
+    //Select radio if clicking anywhere on the row
+    jQuery('.uif-tooltip').click(function(event) {
+        if (event.target.type !== 'radio') {
+            jQuery(':radio', this).trigger('click');
+        }
+    });
 
     //Select checkbox if clicking anywhere on the row
     jQuery('tr').click(function(event) {
@@ -32,12 +39,19 @@ function checkboxSelectAndHighlight() {
         event.stopPropagation();
     });*/
 
-    //Add and remove class when checkbox is toggled
-    jQuery(".uif-checkboxControl").change(function () {
+    //Add and remove class when radio is toggled
+    jQuery(".uif-verticalRadioControl").change(function () {
         if(jQuery(this).is(":checked")){
-            jQuery(this).closest('tr').addClass("ksap-selected-row");
+            jQuery(this).closest('.uif-tooltip').addClass('ksap-selected-row').siblings().removeClass('ksap-selected-row');
+        }
+    });
+
+    //Add and remove class when checkbox is toggled
+    jQuery('.uif-checkboxControl').change(function () {
+        if(jQuery(this).is(":checked")){
+            jQuery(this).closest('tr').addClass('ksap-selected-row');
         }else{
-            jQuery(this).closest('tr').removeClass("ksap-selected-row");
+            jQuery(this).closest('tr').removeClass('ksap-selected-row');
         }
     });
 }

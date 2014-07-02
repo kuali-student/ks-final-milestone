@@ -141,7 +141,6 @@
                         </list>
                     </property>
                 </bean>
-
                 <bean parent="Uif-VerticalFieldGroup">
                     <property name="items">
                         <list>
@@ -149,19 +148,33 @@
                         </list>
                     </property>
                 </bean>
+                <bean parent="Uif-VerticalFieldGroup" p:render="@{#line.formatOfferingInfoWrappers.size()>1}">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ksap-section-format-options</value>
+                        </list>
+                    </property>
 
-                <bean parent="Uif-VerticalFieldGroup" p:fieldLabel.renderColon="false"
-                      p:render="@{#line.formatOfferingInfoWrappers.size()>1}"
-                      p:label="@{#textHelper.getFormattedMessage('details.courseOffering.formats', new Object[]{#line.formatOfferingInfoWrappers.size()})}">
                     <property name="items">
                         <list>
-
+                            <bean parent="Uif-MessageField" p:messageText="@{#textHelper.getFormattedMessage('details.courseOffering.formats', new Object[]{#line.formatOfferingInfoWrappers.size()})}" >
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>ksap-section-format-heading</value>
+                                    </list>
+                                </property>
+                                <property name="toolTip">
+                                    <ref bean="details_bottom_course_format_tooltip"/>
+                                </property>
+                            </bean>
                             <bean parent="Uif-InputField" p:label="@{#textHelper.getText('details.courseOffering.format.options')}"
+                                  p:additionalCssClasses="ksap-section-format-header"
                                   p:id="@{#line.xmlSafeTermId}_@{#line.courseOfferingCode}_formatOfferingOptions"
                                   p:propertyName="selectedFormatOfferingId"
                                   p:width="auto"
                                   p:onChangeScript="toggleFormatOfferingSections(this, '#@{#line.xmlSafeTermId}_@{#line.courseOfferingCode}_');"
-                                  p:onDocumentReadyScript="toggleFormatOfferingSections(this, '#@{#line.xmlSafeTermId}_@{#line.courseOfferingCode}_');">
+                                  p:onDocumentReadyScript="toggleFormatOfferingSections(this, '#@{#line.xmlSafeTermId}_@{#line.courseOfferingCode}_');"
+                                  p:fieldLabel.renderColon="false">
                                 <property name="control">
                                     <bean parent="Uif-VerticalRadioControl">
                                         <property name="cssClasses">
