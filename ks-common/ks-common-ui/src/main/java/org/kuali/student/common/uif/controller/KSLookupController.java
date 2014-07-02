@@ -159,7 +159,7 @@ public class KSLookupController extends LookupController {
             for (String field : multiValueReturnFields) {
                 multiValueReturnFieldsParam += field + ",";
             }
-            multiValueReturnFieldsParam = StringUtils.join
+
             multiValueReturnFieldsParam = StringUtils.removeEnd(multiValueReturnFieldsParam, ",");
 
         }
