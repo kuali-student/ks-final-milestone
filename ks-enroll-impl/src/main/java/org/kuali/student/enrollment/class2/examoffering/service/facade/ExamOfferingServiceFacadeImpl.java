@@ -278,7 +278,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
                 //(re)perform slotting if use fe matrix toggle is selected and use did not override timeslot.
                 if (checkForMatrixSlotting(examOfferingContext, eo)) {
                     foResult.getChildren().add(this.getScheduleEvaluator().executeRuleForCOSlotting(coInfo, eo.getId(),
-                            examOfferingContext.getTermType(), new ArrayList<String>(), userOverride(eo), context));
+                            examOfferingContext.getTermType(), new ArrayList<String>(), context));
                 }
 
                 //Create new Exam Offering Relationship
@@ -487,7 +487,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
                     //(re)perform slotting if use fe matrix toggle is selected and use did not override timeslot.
                     if (checkForMatrixSlotting(examOfferingContext, eo)) {
                         aoResult.getChildren().add(this.getScheduleEvaluator().executeRuleForAOSlotting(aoInfo, eo.getId(),
-                                examOfferingContext.getTermType(), getAOEvaluatorOptions(), userOverride(eo), context));
+                                examOfferingContext.getTermType(), getAOEvaluatorOptions(), context));
                     }
 
                     //Update the result.
@@ -822,13 +822,13 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
             for (Map.Entry<String, List<ActivityOfferingInfo>> foEntry : examOfferingContext.getFoIdToListOfAOs().entrySet()) {
                 for(ActivityOfferingInfo activityOfferingInfo : foEntry.getValue()){
                     result.getChildren().add(this.getScheduleEvaluator().executeRuleForAOSlotting(activityOfferingInfo,
-                            examOfferingInfo.getId(), examOfferingContext.getTermType(), getAOEvaluatorOptions(), userOverride(examOfferingInfo), context));
+                            examOfferingInfo.getId(), examOfferingContext.getTermType(), getAOEvaluatorOptions(), context));
                 }
             }
             return result;
         } else if (ExamOfferingContext.Driver.PER_CO.equals(examOfferingContext.getDriver())) {
             return this.getScheduleEvaluator().executeRuleForCOSlotting(examOfferingContext.getCourseOffering(), examOfferingInfo.getId(),
-                    examOfferingContext.getTermType(), new ArrayList<String>(), userOverride(examOfferingInfo), context);
+                    examOfferingContext.getTermType(), new ArrayList<String>(), context);
         }
 
         return null;

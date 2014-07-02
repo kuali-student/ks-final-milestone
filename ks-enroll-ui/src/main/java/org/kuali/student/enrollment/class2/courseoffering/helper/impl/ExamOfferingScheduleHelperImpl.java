@@ -302,17 +302,25 @@ public class ExamOfferingScheduleHelperImpl implements ExamOfferingScheduleHelpe
             if (!scheduleRequestInfos.isEmpty()){
                 int firstScheduleRequestIndex = 0;
                 for (ScheduleRequestInfo scheduleRequestInfo : scheduleRequestInfos){
-                    for (ScheduleRequestComponentInfo componentInfo : scheduleRequestInfo.getScheduleRequestComponents()) {
-                        ScheduleWrapper scheduleWrapper = new ScheduleWrapper(scheduleRequestInfo,componentInfo);
-                        buildScheduleWrapper(scheduleWrapper, componentInfo, theForm, defaultContextInfo);
+                    if(scheduleRequestInfo.getScheduleRequestComponents() != null && !scheduleRequestInfo.getScheduleRequestComponents().isEmpty()){
+                        for (ScheduleRequestComponentInfo componentInfo : scheduleRequestInfo.getScheduleRequestComponents()) {
+                            ScheduleWrapper scheduleWrapper = new ScheduleWrapper(scheduleRequestInfo,componentInfo);
+                            buildScheduleWrapper(scheduleWrapper, componentInfo, theForm, defaultContextInfo);
 
-                        eoWrapper.getRequestedScheduleComponents().add(scheduleWrapper);
+                            eoWrapper.getRequestedScheduleComponents().add(scheduleWrapper);
+                        }
                     }
                 }
                 //set current RSI of the eo
-                eoWrapper.setRequestedSchedule(eoWrapper.getRequestedScheduleComponents().get(firstScheduleRequestIndex));
-                ScheduleRequestSetInfo scheduleRequestSet = CourseOfferingManagementUtil.getSchedulingService().getScheduleRequestSet(eoWrapper.getRequestedScheduleComponents().get(firstScheduleRequestIndex).getScheduleRequestInfo().getScheduleRequestSetId(),defaultContextInfo);
-                eoWrapper.setScheduleRequestSetInfo(scheduleRequestSet);
+                if(eoWrapper.getRequestedScheduleComponents() != null && !eoWrapper.getRequestedScheduleComponents().isEmpty()){
+                    eoWrapper.setRequestedSchedule(eoWrapper.getRequestedScheduleComponents().get(firstScheduleRequestIndex));
+                    ScheduleRequestSetInfo scheduleRequestSet = CourseOfferingManagementUtil.getSchedulingService().getScheduleRequestSet(eoWrapper.getRequestedScheduleComponents().get(firstScheduleRequestIndex).getScheduleRequestInfo().getScheduleRequestSetId(),defaultContextInfo);
+                    eoWrapper.setScheduleRequestSetInfo(scheduleRequestSet);
+                }else{
+                    ScheduleWrapper scheduleWrapper = new ScheduleWrapper();
+                    //set current RSI of the eo
+                    eoWrapper.setRequestedSchedule(scheduleWrapper);
+                }
             } else {
                 ScheduleWrapper scheduleWrapper = new ScheduleWrapper();
                 //set current RSI of the eo

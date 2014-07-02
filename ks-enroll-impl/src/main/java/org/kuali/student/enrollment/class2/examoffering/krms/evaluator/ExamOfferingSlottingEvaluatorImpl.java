@@ -86,14 +86,14 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
      * @see ExamOfferingSlottingEvaluator
      */
     public ExamOfferingResult executeRuleForAOSlotting(ActivityOffering activityOffering, String examOfferingId, String termType,
-                                         List<String> optionKeys, boolean userOverride, ContextInfo contextInfo) throws OperationFailedException {
+                                         List<String> optionKeys, ContextInfo contextInfo) throws OperationFailedException {
 
         //Retrieve the matrix for the specific term type.
         KrmsTypeDefinition typeDefinition = this.getKrmsTypeRepositoryService().getTypeByName(
                 PermissionServiceConstants.KS_SYS_NAMESPACE, KSKRMSServiceConstants.AGENDA_TYPE_FINAL_EXAM_AO_DRIVEN);
         Agenda agenda = getAgendaForRefObjectId(termType, typeDefinition);
         if (agenda == null) {
-            removeRDLForExamOffering(examOfferingId, contextInfo);
+            setErrorStateRDLForExamOffering(examOfferingId, contextInfo);
             return new ExamOfferingResult(ExamOfferingServiceConstants.EXAM_OFFERING_MATRIX_NOT_FOUND);
         }
 
@@ -116,7 +116,7 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
         //Get all timeslots from ASI and RSI.
         List<TimeSlotInfo> timeSlotsForAO = this.getTimeSlotsForAO(scheduleInfos, scheduleRequestInfos, contextInfo);
         if (timeSlotsForAO == null || timeSlotsForAO.isEmpty()) {
-            removeRDLForExamOffering(examOfferingId, contextInfo);
+            setErrorStateRDLForExamOffering(examOfferingId, contextInfo);
             return new ExamOfferingResult(ExamOfferingServiceConstants.EXAM_OFFERING_ACTIVITY_OFFERING_TIMESLOTS_NOT_FOUND);
         }
 
@@ -139,11 +139,7 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
             }
             createRDLForExamOffering(componentInfo, timeslot, examOfferingId, contextInfo);
         } else {
-            if(userOverride){
-                setErrorStateRDLForExamOffering(examOfferingId, contextInfo);
-            }else{
-                removeRDLForExamOffering(examOfferingId, contextInfo);
-            }
+            setErrorStateRDLForExamOffering(examOfferingId, contextInfo);
             return new ExamOfferingResult(ExamOfferingServiceConstants.EXAM_OFFERING_AO_MATRIX_MATCH_NOT_FOUND);
         }
 
@@ -193,7 +189,7 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
      * @see ExamOfferingSlottingEvaluator
      */
     public ExamOfferingResult executeRuleForCOSlotting(CourseOffering courseOffering, String examOfferingId, String termType,
-                                         List<String> optionKeys, boolean userOverride, ContextInfo contextInfo) throws OperationFailedException {
+                                         List<String> optionKeys, ContextInfo contextInfo) throws OperationFailedException {
 
         KrmsTypeDefinition typeDefinition = this.getKrmsTypeRepositoryService().getTypeByName(
                 PermissionServiceConstants.KS_SYS_NAMESPACE, KSKRMSServiceConstants.AGENDA_TYPE_FINAL_EXAM_CO_DRIVEN);
@@ -218,11 +214,7 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
                 ScheduleRequestComponentInfo componentInfo = createScheduleRequestFromResults(results);
                 createRDLForExamOffering(componentInfo, timeslot, examOfferingId, contextInfo);
             } else {
-                if(userOverride){
-                    setErrorStateRDLForExamOffering(examOfferingId, contextInfo);
-                }else{
-                    removeRDLForExamOffering(examOfferingId, contextInfo);
-                }
+                setErrorStateRDLForExamOffering(examOfferingId, contextInfo);
                 return new ExamOfferingResult(ExamOfferingServiceConstants.EXAM_OFFERING_CO_MATRIX_MATCH_NOT_FOUND);
             }
 
@@ -383,6 +375,53 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
         }
     }
 
+
+    /**
+     * This method creates the schedule request for the exam offering in error state,
+     * so that the EO gets a state of 'matrix error'
+     *
+     * @param componentInfo
+     * @param timeSlot
+     * @param examOfferingId
+     * @param context
+     */
+    private void createRDLForExamOfferingInErrorState(String examOfferingId, ContextInfo context) {
+
+        List<ScheduleRequestSetInfo> requestSetList = new ArrayList<ScheduleRequestSetInfo>();
+        try {
+            requestSetList = getSchedulingService().getScheduleRequestSetsByRefObject(ExamOfferingServiceConstants.REF_OBJECT_URI_EXAM_OFFERING, examOfferingId, context);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        if (requestSetList.isEmpty() || requestSetList == null) {
+            //Create new sch set for this eo.
+            ScheduleRequestSetInfo requestSet = new ScheduleRequestSetInfo();
+            requestSet.setRefObjectTypeKey(ExamOfferingServiceConstants.REF_OBJECT_URI_EXAM_OFFERING);
+
+            requestSet.setName("Exam Schedule request set");
+            requestSet.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_STATE_ERROR);
+            requestSet.setTypeKey(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET);
+            requestSet.getRefObjectIds().add(examOfferingId);
+            try {
+                requestSet = getSchedulingService().createScheduleRequestSet(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET,
+                        ExamOfferingServiceConstants.REF_OBJECT_URI_EXAM_OFFERING, requestSet, context);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
+            ScheduleRequestInfo scheduleRequest = new ScheduleRequestInfo();
+            scheduleRequest.setTypeKey(SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST);
+            scheduleRequest.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_ERROR);
+            scheduleRequest.setScheduleRequestSetId(requestSet.getId());
+
+            try {
+                this.getSchedulingService().createScheduleRequest(
+                        SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST, scheduleRequest, context);
+            } catch (Exception e) {
+                throw new RuntimeException("Error creating ScheduleRequest: ", e);
+            }
+        }
+    }
       /**
      * This method update the schedule request for the exam offering. The ScheduleRequestComponentInfo and
      * TimeSlotInfo objects were already created by action and is only passed along.
@@ -426,12 +465,24 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
 
                 }
             }
-
+            if(scheduleRequestInfo.getStateKey().equals(SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_ERROR)){
+                scheduleRequestInfo.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_CREATED);
+            }
             scheduleRequestInfo.getScheduleRequestComponents().clear();
             scheduleRequestInfo.getScheduleRequestComponents().add(componentInfo);
 
             this.getSchedulingService().updateScheduleRequest(
                     scheduleRequestInfo.getId(), scheduleRequestInfo, context);
+
+            if(schedulerequestSet.getStateKey().equals(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_STATE_ERROR)){
+                try {
+                    schedulerequestSet.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_CREATED);
+                    getSchedulingService().updateScheduleRequestSet(schedulerequestSet.getId(),schedulerequestSet, context);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
         } catch (Exception e) {
             throw new RuntimeException("Error updating ScheduleRequest: " + timeSlot, e);
         }
@@ -463,6 +514,7 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
                 throw new RuntimeException("Error deleting ScheduleRequest for " + examOfferingId, e);
             }
         }
+        this.createRDLForExamOfferingInErrorState(examOfferingId, context);
     }
 
     /**
@@ -483,6 +535,7 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
                 for (ScheduleRequestSetInfo scheduleRequestSetInfo : scheduleRequestSetInfoList) {
                     List<ScheduleRequestInfo> scheduleRequestInfoList = getSchedulingService().getScheduleRequestsByScheduleRequestSet(scheduleRequestSetInfo.getId(), context);
                     for (ScheduleRequestInfo scheduleRequestInfo : scheduleRequestInfoList) {
+                        scheduleRequestInfo.getScheduleRequestComponents().clear();
                         scheduleRequestInfo.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_ERROR);
                         getSchedulingService().updateScheduleRequest(scheduleRequestInfo.getId(), scheduleRequestInfo, context);
                     }
@@ -493,6 +546,9 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
             } catch (Exception e) {
                 throw new RuntimeException("Error updating ScheduleRequest for " + examOfferingId, e);
             }
+        }else{
+            //no schedule request found so create blank in error state
+            this.createRDLForExamOfferingInErrorState(examOfferingId, context);
         }
     }
 
