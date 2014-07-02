@@ -221,7 +221,7 @@
                                   p:actionEvent="deleteLine" p:dirtyOnAction="true"/>
                         </list>
                     </property>
-                    <property name="newItemsCssClass" value="lo_category_items"/>
+                    <property name="layoutManager.lineGroupPrototype.additionalCssClasses" value="lo_category_items"/>
                     <property name="layoutManager.actionsInLineGroup" value="true"/>
                     <property name="addItemCssClass" value="lo_category_add_items"/>
                     <property name="addLineLabel.render" value="false"/>

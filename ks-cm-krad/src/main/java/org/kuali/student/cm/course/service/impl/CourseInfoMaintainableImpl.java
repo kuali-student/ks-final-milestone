@@ -460,7 +460,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                             try {
                                 LoCategoryInfo savedLoCat = getLearningObjectiveService().createLoCategory(loCategoryInfo.getTypeKey(), loCategoryInfo,
                                         ContextUtils.getContextInfo());
-                                BeanUtils.copyProperties(loCategoryInfo, savedLoCat);
+                                BeanUtils.copyProperties(savedLoCat, loCategoryInfo);
                             } catch (DataValidationErrorException e) {
                                 LOG.error("An error occurred while trying to create a duplicate Learning Objective Category", e);
                             } catch (Exception e) {
@@ -1932,6 +1932,15 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         int indent = 0;
         for (LoDisplayInfo loDisplayInfo : courseInfoWrapper.getCourseInfo().getCourseSpecificLOs()) {
             LoDisplayInfoWrapper displayInfoWrapper = new LoDisplayInfoWrapper(loDisplayInfo);
+            for (LoCategoryInfo loCategoryInfo : loDisplayInfo.getLoCategoryInfoList()) {
+                try {
+                    //Get the type info
+                    TypeInfo typeInfo = getLearningObjectiveService().getLoCategoryType(loCategoryInfo.getTypeKey(), ContextUtils.createDefaultContextInfo());
+                    loCategoryInfo.setName((new StringBuilder().append(loCategoryInfo.getName()).append(" - ").append(typeInfo.getName()).toString()));
+                } catch(Exception e) {
+                    LOG.error("An error occurred while retrieving the LoCategoryType", e);
+                }
+            }
             displayInfoWrapper.setLoCategoryInfoList(loDisplayInfo.getLoCategoryInfoList());
             newDisplayWrappers.add(displayInfoWrapper);
             indentLoOnLoad(newDisplayWrappers,displayInfoWrapper,indent);
