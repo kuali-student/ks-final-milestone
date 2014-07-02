@@ -26,7 +26,7 @@ public class CollaboratorWrapper implements Cloneable {
 
         private static final long serialVersionUID = 1L;
         
-        private String personID;
+        private String entityId;
         private String principalName;        
         private String givenName;
         private String displayName;
@@ -39,7 +39,7 @@ public class CollaboratorWrapper implements Cloneable {
         private String action;
         
         private boolean author;
-        private boolean canRevokeRequest = true;
+        private boolean canRevokeRequest = false;
         private String actionRequestId;
         private String actionRequestStatus;
 
@@ -121,11 +121,11 @@ public class CollaboratorWrapper implements Cloneable {
         public void setPrincipalName(String principalName) {
             this.principalName = principalName;
         }
-        public String getPersonID() {
-            return personID;
+        public String getEntityId() {
+            return entityId;
         }
-        public void setPersonID(String personID) {
-            this.personID = personID;
+        public void setEntityId(String entityId) {
+            this.entityId = entityId;
         }
         public String getId() {
             return id;
