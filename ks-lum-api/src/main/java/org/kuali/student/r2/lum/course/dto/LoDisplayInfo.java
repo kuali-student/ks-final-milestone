@@ -14,6 +14,7 @@ import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.lum.course.infc.LoDisplay;
 import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.r2.lum.lo.dto.LoInfo;
+import org.kuali.student.r2.lum.lo.infc.LoCategory;
 //import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -69,9 +70,16 @@ public class LoDisplayInfo extends IdEntityInfo implements LoDisplay, Serializab
         super(loDisplay);
         if (loDisplay != null) {
             this.loInfo = new LoInfo(loDisplay.getLoInfo());
+            setParentLoRelationid(loDisplay.getParentLoRelationid());
+            setParentRelType(loDisplay.getParentRelType());
             loDisplayInfoList = new ArrayList<LoDisplayInfo>();
             for (LoDisplay containedLoDisplay : loDisplay.getLoDisplayInfoList()) {
-                loDisplayInfoList.add(new LoDisplayInfo(containedLoDisplay));
+                LoDisplayInfo loDisplayInfo = new LoDisplayInfo(containedLoDisplay);
+                for (LoCategory loCategory : containedLoDisplay.getLoCategoryInfoList()){
+                    LoCategoryInfo categoryInfo = new LoCategoryInfo(loCategory);
+                    loDisplayInfo.getLoCategoryInfoList().add(categoryInfo);
+                }
+                loDisplayInfoList.add(loDisplayInfo);
             }
         }
 

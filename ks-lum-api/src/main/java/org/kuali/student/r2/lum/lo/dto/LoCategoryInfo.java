@@ -57,8 +57,12 @@ public class LoCategoryInfo extends IdEntityInfo implements LoCategory, Serializ
         super(loCategory);
         if (loCategory != null) {
             this.loRepositoryKey = loCategory.getLoRepositoryKey();
-            this.effectiveDate = new Date(loCategory.getEffectiveDate().getTime());
-            this.expirationDate = new Date(loCategory.getExpirationDate().getTime());
+            if (loCategory.getEffectiveDate() != null) {
+                this.effectiveDate = new Date(loCategory.getEffectiveDate().getTime());
+            }
+            if (loCategory.getExpirationDate() != null) {
+                this.expirationDate = new Date(loCategory.getExpirationDate().getTime());
+            }
         }
     }
 
