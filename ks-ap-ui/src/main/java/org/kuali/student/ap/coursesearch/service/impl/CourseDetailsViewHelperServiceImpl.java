@@ -314,7 +314,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
         int firstValue = 0;
 
         FormatOfferingInfo fo = KsapFrameworkServiceLocator.getCourseOfferingService().getFormatOffering(aoInfo.getFormatOfferingId(), contextInfo);
-        wrapper.setActivityFormatName(aoInfo.getName());
+        wrapper.setActivityFormatName(aoInfo.getFormatOfferingName());
         if (fo.getActivityOfferingTypeKeys().size()>1) {
             wrapper.setSingleFormatOffering(false);
         }else{
