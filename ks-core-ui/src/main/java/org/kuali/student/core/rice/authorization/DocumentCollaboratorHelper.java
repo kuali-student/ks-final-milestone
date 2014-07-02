@@ -37,6 +37,7 @@ import org.slf4j.LoggerFactory;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -53,7 +54,7 @@ public class DocumentCollaboratorHelper implements Serializable {
     private static final long serialVersionUID = 1L;
     private final static Logger LOG = LoggerFactory.getLogger(CollaboratorHelperGwt.class);
 
-    public static Boolean addCollaborator(String docId, String dataId, String dataTitle, String recipientPrincipalId, String selectedPermissionCode, String actionRequestTypeCode, boolean participationRequired, String respondBy) throws OperationFailedException {
+    public static void addCollaborator(String docId, String dataId, String recipientPrincipalId, String selectedPermissionCode, String actionRequestTypeCode, boolean participationRequired, String actionRequestLabel, String actionRequestResponsibilityDescription) throws OperationFailedException {
         if(getWorkflowDocumentActionsService()==null){
             throw new OperationFailedException("Workflow Service is unavailable");
         }
@@ -69,7 +70,9 @@ public class DocumentCollaboratorHelper implements Serializable {
         DocumentActionParameters docActionParams = DocumentActionParameters.Builder.create(docId, currentUserPrincipalId).build();
         ActionRequestType actionRequestType = ActionRequestType.fromCode(actionRequestTypeCode);
         AdHocToPrincipal.Builder ahtpBuilder = AdHocToPrincipal.Builder.create(actionRequestType, null, recipientPrincipalId);
-        ahtpBuilder.setForceAction(true);
+        ahtpBuilder.setForceAction(participationRequired);
+        ahtpBuilder.setRequestLabel(actionRequestLabel);
+        ahtpBuilder.setResponsibilityDescription(actionRequestResponsibilityDescription);
 
         DocumentActionResult stdResp = null;
         try {
@@ -112,7 +115,6 @@ public class DocumentCollaboratorHelper implements Serializable {
             else if (ProposalPermissionTypes.ADD_COMMENT.equals(selectedPermType)) {
                 addRoleMember(StudentWorkflowConstants.ROLE_NAME_ADHOC_ADD_COMMENT_PERMISSIONS_ROLE_NAMESPACE, StudentWorkflowConstants.ROLE_NAME_ADHOC_ADD_COMMENT_PERMISSIONS_ROLE_NAME, docId, dataId, recipientPrincipalId);
             }
-            return Boolean.TRUE;
         } catch (WorkflowException e) {
             LOG.error("Error adding principal id to adhoc permission roles.",e);
             throw new OperationFailedException("Error adding principal id to adhoc permission roles",e);
@@ -216,6 +218,14 @@ public class DocumentCollaboratorHelper implements Serializable {
                 }
             }
         }
+
+        Collections.sort(collaborators,
+                new Comparator<CollaboratorWrapper>() {
+                    public int compare(CollaboratorWrapper a, CollaboratorWrapper b) {
+                        return a.getActionRequestId().compareToIgnoreCase(b.getActionRequestId());
+                    }
+                }
+        );
 
         LOG.info("Returning collaborators: {}", collaborators);
         return collaborators;
