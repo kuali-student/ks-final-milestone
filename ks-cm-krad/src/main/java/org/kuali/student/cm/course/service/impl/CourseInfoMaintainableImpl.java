@@ -1435,15 +1435,17 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                     if(proposalInfo.getWorkflowId() == null && (collaboratorWrapper.getDisplayName() == null) )
                         continue;
                     String displayName = collaboratorWrapper.getDisplayName();
-                    String principalId = displayName.substring(displayName.indexOf("(") + 1, displayName.length() - 1);
-                    collaboratorWrapper.setPrincipalId(principalId.toUpperCase());
-                    try {
-                        DocumentCollaboratorHelper.addCollaborator(proposalInfo.getWorkflowId(), proposalInfo.getId(), "title here", collaboratorWrapper.getPrincipalId(), collaboratorWrapper.getPermission(), collaboratorWrapper.getAction(), true, "");
-                        if (collaboratorWrapper.isAuthor()) {
-                            proposalInfo.getProposerPerson().add(collaboratorWrapper.getPrincipalId());
+                    if (StringUtils.isNotBlank(displayName)) {
+                        String principalId = displayName.substring(displayName.indexOf("(") + 1, displayName.length() - 1);
+                        collaboratorWrapper.setPrincipalId(principalId.toUpperCase());
+                        try {
+                            DocumentCollaboratorHelper.addCollaborator(proposalInfo.getWorkflowId(), proposalInfo.getId(), collaboratorWrapper.getPrincipalId(), collaboratorWrapper.getPermission(), collaboratorWrapper.getAction(), true, null, null);
+                            if (collaboratorWrapper.isAuthor()) {
+                                proposalInfo.getProposerPerson().add(collaboratorWrapper.getPrincipalId());
+                            }
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
                         }
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
                     }
                 }
             }
