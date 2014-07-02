@@ -1084,6 +1084,7 @@ div#Uif-ApplicationHeader-Wrapper{
 }
 
 /* Removing borders and fixing alignment for KSENROLL-12692 */
+
 .ks-details-panel {
   /*define a gray box as background. This is basically the "info grid" styling. */
   background-color: @infoBackground-color;
@@ -1091,6 +1092,7 @@ div#Uif-ApplicationHeader-Wrapper{
   padding: 10px;
 
   pre {
+      font-family: @ks-fontFamily-secondary;
       margin: 0px;
   }
 
@@ -1103,24 +1105,34 @@ div#Uif-ApplicationHeader-Wrapper{
       vertical-align: bottom;
       border: none;
   }
+  // Fix for layout,width,padding in Course Offering Inquiry KSENROLL-13121/KSENROLL-13201
+  .table-condensed {
+    thead > tr > th,
+    tbody > tr > th,
+    tfoot > tr > th,
+    thead > tr > td,
+    tbody > tr > td,
+    tfoot > tr > td {
+      padding: 2px;
+      white-space: nowrap;
+    }
+  }
+
+  table.uif-gridLayout th[scope="row"] label {
+    padding-top: 0;
+    // white-space: nowrap;
+  }
 
   table {
-    //width: auto !important;
+    width: auto;
     border: none;
     vertical-align: bottom;
-    float:right;
+    float:left;
   }
 
-  td, th {
-    background-color: @infoBackground-color !important;
-    padding: 1px 6px;
-    border: none;
+  &-spacing {
+    margin-right: 2em;
   }
-
-  th {
-    text-align: right;
-  }
-
 }
 
 //Override paddings from .uif-boxSubSection uif-boxLayoutVerticalItem
@@ -2178,50 +2190,3 @@ section.uif-disclosure {
 .uif-hasError>div.input-group [data-role="Control"] {
   border: 2px solid #ff2300 !important;
 }
-
-// Fix for layout,width,padding in Course Offering Inquiry KSENROLL-13121/KSENROLL-13201
-.ks-ObjectDetailsPanel {
-  .table-condensed {
-      thead > tr > th,
-      tbody > tr > th,
-      tfoot > tr > th,
-      thead > tr > td,
-      tbody > tr > td,
-      tfoot > tr > td {
-        padding: 2px;
-        white-space: nowrap;
-      }
-  }
-
-  table.uif-gridLayout th[scope="row"] label {
-    padding-top: 0;
-    white-space: nowrap;
-  }
-
-  pre.no-pad-bkgd-bor {
-    font-family: @ks-fontFamily-secondary;
-  }
-
-  .uif-table-fixed {
-    float: left;
-    width: auto;
-    table-layout: auto;
-  }
-
-  .container-fluid {
-    padding: 0;
-  }
-
-  &-spacing {
-    margin-right: 2em;
-  }
-}
-
-.ac_disclosure {
-  .table {
-    float: left;
-    width: auto;
-  }
-  .ks-ObjectDetailsPanel;
-}
-
