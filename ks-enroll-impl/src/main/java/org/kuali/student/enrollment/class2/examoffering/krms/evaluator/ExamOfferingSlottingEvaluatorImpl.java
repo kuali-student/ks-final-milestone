@@ -465,24 +465,12 @@ public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements 
 
                 }
             }
-            if(scheduleRequestInfo.getStateKey().equals(SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_ERROR)){
-                scheduleRequestInfo.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_CREATED);
-            }
+
             scheduleRequestInfo.getScheduleRequestComponents().clear();
             scheduleRequestInfo.getScheduleRequestComponents().add(componentInfo);
 
             this.getSchedulingService().updateScheduleRequest(
                     scheduleRequestInfo.getId(), scheduleRequestInfo, context);
-
-            if(schedulerequestSet.getStateKey().equals(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_STATE_ERROR)){
-                try {
-                    schedulerequestSet.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_CREATED);
-                    getSchedulingService().updateScheduleRequestSet(schedulerequestSet.getId(),schedulerequestSet, context);
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-            }
-
         } catch (Exception e) {
             throw new RuntimeException("Error updating ScheduleRequest: " + timeSlot, e);
         }
