@@ -1129,6 +1129,10 @@ function editInlineRow(event){
 }
 
 function cancelInlineRow(event){
+    // Remove the error messages on top of the page
+    var pageId = jQuery('main').attr('id');
+    jQuery("#" + pageId + "_messages").remove();
+
     // Reset the fields in the selected row
     var row = jQuery(event.target).closest('tr');
     var index = jQuery(row).index();
@@ -1156,6 +1160,8 @@ function cancelInlineRow(event){
             dirtyFormState.dirtyFieldCount--;
         });
 
+        // Remove the field error messages
+        jQuery(this).removeClass('uif-hasError');
         jQuery(this).removeClass('uif-hasErrors');
         jQuery(this).removeAttr('data-has_messages');
         jQuery(this).removeAttr('data-validation_messages');
