@@ -27,6 +27,8 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.uif.container.Container;
 import org.kuali.rice.krad.uif.element.Action;
@@ -349,14 +351,14 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     /**
      */
     public List<CollaboratorWrapper> getCollaboratorWrappersSuggest(
-            String principalId) {
+            String textBoxName) {
         List<CollaboratorWrapper> listCollaboratorWrappers = new ArrayList<CollaboratorWrapper>();
 
         List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
 
         SearchParamInfo displayNameParam = new SearchParamInfo();
         displayNameParam.setKey(QuickViewByGivenName.NAME_PARAM);
-        displayNameParam.getValues().add(principalId.toUpperCase());
+        displayNameParam.getValues().add(textBoxName);
         queryParamValueList.add(displayNameParam);
 
         SearchRequestInfo searchRequest = new SearchRequestInfo();
@@ -376,9 +378,9 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                     if (QuickViewByGivenName.GIVEN_NAME_RESULT.equals(cell.getKey())) {
                         theCollaboratorWrapper.setGivenName(cell.getValue());
                     } else if (QuickViewByGivenName.PERSON_ID_RESULT.equals(cell.getKey())) {
-                        theCollaboratorWrapper.setPersonID(cell.getValue());
-                    } else if (QuickViewByGivenName.ENTITY_ID_RESULT.equals(cell.getKey())) {
                         theCollaboratorWrapper.setPrincipalId(cell.getValue());
+                    } else if (QuickViewByGivenName.ENTITY_ID_RESULT.equals(cell.getKey())) {
+                        theCollaboratorWrapper.setEntityId(cell.getValue());
                     } else if (QuickViewByGivenName.PRINCIPAL_NAME_RESULT.equals(cell.getKey())) {
                         theCollaboratorWrapper.setPrincipalName(cell.getValue());
                     } else if (QuickViewByGivenName.DISPLAY_NAME_RESULT.equals(cell.getKey())) {
@@ -1221,7 +1223,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         try {
             courseInfoWrapper.getCollaboratorWrappers().clear();
             for(CollaboratorWrapper collaboratorWrapper : DocumentCollaboratorHelper.getCollaborators(proposalInfo.getWorkflowId(), proposalInfo.getId(), StudentIdentityConstants.QUALIFICATION_PROPOSAL_REF_TYPE)) {
-                String displayName = collaboratorWrapper.getLastName() + "," + collaboratorWrapper.getFirstName() + " (" + collaboratorWrapper.getPrincipalId().toLowerCase() + ")";
+                String displayName = collaboratorWrapper.getLastName() + ", " + collaboratorWrapper.getFirstName() + " (" + collaboratorWrapper.getPrincipalId() + ")";
                 collaboratorWrapper.setDisplayName(displayName);
                 // if person is listed as a proposer person in proposalInfo, list them as an author in the collaborators section
                 if (proposalInfo.getProposerPerson().contains(collaboratorWrapper.getPrincipalId())) {
@@ -1429,17 +1431,27 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             }
 
             // add in any new collaborators created
-            for (CollaboratorWrapper collaboratorWrapper : courseInfoWrapper.getCollaboratorWrappers()) {
-                // only save the collaborator if the actionRequestId is blank indicating new
-                if (StringUtils.isBlank(collaboratorWrapper.getActionRequestId())) {
-                    if(proposalInfo.getWorkflowId() == null && (collaboratorWrapper.getDisplayName() == null) )
-                        continue;
-                    String displayName = collaboratorWrapper.getDisplayName();
-                    if (StringUtils.isNotBlank(displayName)) {
-                        String principalId = displayName.substring(displayName.indexOf("(") + 1, displayName.length() - 1);
-                        collaboratorWrapper.setPrincipalId(principalId.toUpperCase());
+            if (StringUtils.isNotBlank(proposalInfo.getWorkflowId())) {
+                for (CollaboratorWrapper collaboratorWrapper : courseInfoWrapper.getCollaboratorWrappers()) {
+                    // only save the collaborator if the actionRequestId is blank indicating new
+                    if (StringUtils.isBlank(collaboratorWrapper.getActionRequestId())) {
+                        String displayName = collaboratorWrapper.getDisplayName();
+                        if (StringUtils.isBlank(displayName)) {
+                            continue;
+                        }
+                        String principalName = displayName.substring(displayName.indexOf("(") + 1, displayName.length() - 1);
+                        if (StringUtils.isBlank(principalName)) {
+                            throw new RuntimeException("Cannot find principal name from display name: " + displayName);
+                        }
+                        collaboratorWrapper.setPrincipalName(principalName);
+//                        collaboratorWrapper.setPrincipalId(principalId.toUpperCase());
+                        Principal principal = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(principalName);
+                        collaboratorWrapper.setPrincipalId(principal.getPrincipalId());
+                        if (principal == null) {
+                            throw new RuntimeException("Cannot find principal for principal name:" + principalName );
+                        }
                         try {
-                            DocumentCollaboratorHelper.addCollaborator(proposalInfo.getWorkflowId(), proposalInfo.getId(), collaboratorWrapper.getPrincipalId(), collaboratorWrapper.getPermission(), collaboratorWrapper.getAction(), true, null, null);
+                            DocumentCollaboratorHelper.addCollaborator(proposalInfo.getWorkflowId(), proposalInfo.getId(), principal.getPrincipalId(), collaboratorWrapper.getPermission(), collaboratorWrapper.getAction(), true, null, null);
                             if (collaboratorWrapper.isAuthor()) {
                                 proposalInfo.getProposerPerson().add(collaboratorWrapper.getPrincipalId());
                             }

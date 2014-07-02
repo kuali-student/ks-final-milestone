@@ -92,17 +92,17 @@ public class CollaboratorLookupableImpl extends LookupableImpl {
                     if (QuickViewByGivenName.GIVEN_NAME_RESULT.equals(cell.getKey())) {
                     	collaboratorDisplay.setGivenName(cell.getValue());
                     } else if (QuickViewByGivenName.PERSON_ID_RESULT.equals(cell.getKey())) {
-                    	collaboratorDisplay.setPersonID(cell.getValue());
+                        collaboratorDisplay.setPrincipalId(cell.getValue());
                     } else if (QuickViewByGivenName.ENTITY_ID_RESULT.equals(cell.getKey())) {
-                    	collaboratorDisplay.setPrincipalId(cell.getValue());
+                        collaboratorDisplay.setEntityId(cell.getValue());
                     } else if (QuickViewByGivenName.PRINCIPAL_NAME_RESULT.equals(cell.getKey())) {
                     	collaboratorDisplay.setPrincipalName(cell.getValue());
                     } else if (QuickViewByGivenName.DISPLAY_NAME_RESULT.equals(cell.getKey())) {
                     	collaboratorDisplay.setDisplayName(cell.getValue());
                     }
                 }
-                if(!ContextUtils.getContextInfo().getPrincipalId().equals(collaboratorDisplay.getPersonID())){
-                    collaboratorDisplays.add(collaboratorDisplay);    
+                if(!ContextUtils.getContextInfo().getPrincipalId().equals(collaboratorDisplay.getPrincipalId())){
+                    collaboratorDisplays.add(collaboratorDisplay);
                 }
         	}
 		} catch (Exception e) {
