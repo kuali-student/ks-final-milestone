@@ -159,7 +159,9 @@ public class KSLookupController extends LookupController {
             for (String field : multiValueReturnFields) {
                 multiValueReturnFieldsParam += field + ",";
             }
+            multiValueReturnFieldsParam = StringUtils.join
             multiValueReturnFieldsParam = StringUtils.removeEnd(multiValueReturnFieldsParam, ",");
+
         }
 
         // build string of select line identifiers
@@ -167,7 +169,7 @@ public class KSLookupController extends LookupController {
         Set<String> selectedLines = lookupForm.getSelectedCollectionLines().get(UifPropertyPaths.LOOKUP_RESULTS);
         if (selectedLines != null) {
             for (String selectedLine : selectedLines) {
-                selectedLineValues += selectedLine.replaceAll(",", "&#44;") + ",";
+                selectedLineValues += selectedLine.replaceAll(",", "&#44;").replaceAll(":","&#58;") + ",";
             }
             selectedLineValues = StringUtils.removeEnd(selectedLineValues, ",");
 
