@@ -47,6 +47,9 @@ function registerCourseSectionEvents(jqObjects){
     jQuery(jqObjects)
         .on('COURSE_SECTION_ADDED', function(event, data) {
             ksapAddCourseSection(data);
+        })
+        .on('FILTER_COURSE_OFFERING', function(event, data) {
+            ksapFilterCourseOffering(data);
         });
 }
 
@@ -134,6 +137,61 @@ function ksapAddCourseSection (data){
                 runHiddenScripts(data.uid);
             });
     }
+}
+
+/**
+ * Dynamic updating event when recalculating valid status of AOs and FOs
+ *
+ * @param data - Information about the event
+ */
+function ksapFilterCourseOffering (data){
+    // Get DOM Object for the course offering being updated
+    var courseOffering = jQuery("#"+data.termId+"_"+data.courseOfferingCode+"_section");
+
+    // Get the AO rows under the course offering
+    var activities = courseOffering.find(".ksap-activity-row");
+    var validActivityIds = data.activities;
+
+    // Check each activity under the course offering
+    for(var i = 0; i < activities.length; i++){
+        var activity = activities[i];
+        var activityId = activity.getAttribute("id");
+        var valid = jQuery.inArray(activityId,validActivityIds);
+        // inArray returns index of found object, -1 represents not found
+        if(valid<0){
+            jQuery(activity).addClass("ksap-invalid-activity");
+        }else{
+            jQuery(activity).removeClass("ksap-invalid-activity");
+        }
+    }
+
+    // Get the FO radio objects under the course offering
+    var formatRadioOptions = jQuery("#"+data.termId+"_"+data.courseOfferingCode+"_formatOfferingOptions");
+    var formatRadios = formatRadioOptions.find(".ksap-format-radio");
+    var validFormatIds = data.formatOfferings;
+
+    // Check each radio under the course offering
+    for(var i = 0; i < formatRadios.length; i++){
+        var format = formatRadios[i];
+        var formatId = format.getAttribute("value");
+        var valid = jQuery.inArray(formatId,validFormatIds);
+        // inArray returns index of found object, -1 represents not found
+        if(valid<0){
+            jQuery(format).addClass("ksap-invalid-format");
+
+            // Include label in changes
+            var radioId = jQuery(format).attr("id");
+            var label = jQuery("[for='"+radioId+"']");
+            label.addClass("ksap-invalid-format");
+        }else{
+            // Include label in changes
+            jQuery(format).removeClass("ksap-invalid-format");
+            var radioId = jQuery(format).attr("id");
+            var label = jQuery("[for='"+radioId+"']");
+            label.removeClass("ksap-invalid-format");
+        }
+    }
+
 }
 
 /**

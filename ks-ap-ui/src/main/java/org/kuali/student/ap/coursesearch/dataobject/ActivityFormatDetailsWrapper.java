@@ -2,13 +2,6 @@ package org.kuali.student.ap.coursesearch.dataobject;
 
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: chmaurer
- * Date: 6/9/14
- * Time: 10:30 AM
- * To change this template use File | Settings | File Templates.
- */
 public class ActivityFormatDetailsWrapper {
     private String formatName;
     private String formatType;
@@ -16,6 +9,7 @@ public class ActivityFormatDetailsWrapper {
     private String courseOfferingCode;
     private String formatOfferingId;
     private List<ActivityOfferingDetailsWrapper> activityOfferingDetailsWrappers;
+    private boolean validFormat;
 
     public ActivityFormatDetailsWrapper(String termId, String courseOfferingCode, String formatOfferingId, String activityFormatName, String activityTypeKey) {
         formatName = activityFormatName;
@@ -87,5 +81,13 @@ public class ActivityFormatDetailsWrapper {
 
     public void setActivityOfferingDetailsWrappers(List<ActivityOfferingDetailsWrapper> activityOfferingDetailsWrappers) {
         this.activityOfferingDetailsWrappers = activityOfferingDetailsWrappers;
+    }
+
+    public boolean isValidFormat() {
+        return validFormat;
+    }
+
+    public void setValidFormat(boolean validFormat) {
+        this.validFormat = validFormat;
     }
 }

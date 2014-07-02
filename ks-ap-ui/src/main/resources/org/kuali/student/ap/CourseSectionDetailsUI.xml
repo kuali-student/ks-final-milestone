@@ -163,7 +163,13 @@
                                   p:onChangeScript="toggleFormatOfferingSections(this, '#@{#line.xmlSafeTermId}_@{#line.courseOfferingCode}_');"
                                   p:onDocumentReadyScript="toggleFormatOfferingSections(this, '#@{#line.xmlSafeTermId}_@{#line.courseOfferingCode}_');">
                                 <property name="control">
-                                    <bean parent="Uif-VerticalRadioControl" />
+                                    <bean parent="Uif-VerticalRadioControl">
+                                        <property name="cssClasses">
+                                            <list merge="true">
+                                                <value>ksap-format-radio</value>
+                                            </list>
+                                        </property>
+                                    </bean>
                                     <!--<bean parent="Uif-KeyLabelPair" p:key="@{#line.formatId}" p:value="@{#line.formatName}"/>-->
                                 </property>
                                 <property name="optionsFinder">

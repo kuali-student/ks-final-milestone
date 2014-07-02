@@ -7,6 +7,7 @@ import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.uif.widget.Disclosure;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
+import org.kuali.student.ap.academicplan.infc.LearningPlan;
 import org.kuali.student.ap.coursesearch.dataobject.ActivityFormatDetailsWrapper;
 import org.kuali.student.ap.coursesearch.dataobject.ActivityOfferingDetailsWrapper;
 import org.kuali.student.ap.coursesearch.dataobject.CourseOfferingDetailsWrapper;
@@ -33,6 +34,7 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.TimeOfDayHelper;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
@@ -540,7 +542,6 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
 
         int size = courseTermDetailsWrapper.getCourseOfferingDetailsWrappers().size();
 
-//        disclosure.setRender(true);
         if (size <= 1)
             disclosure.setRender(false);
 
@@ -549,7 +550,58 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
     }
 
     /**
-     * @see org.kuali.student.ap.coursesearch.service.CourseDetailsViewHelperService
+     * Validates the Reg groups by:
+     * Offered Status
+     * List of selected AOs
+     * Status in the plan
+     *
+     * @see org.kuali.student.ap.coursesearch.service.CourseDetailsViewHelperService#getValidRegGroups(String, java.util.Map)
+     */
+    @Override
+    public List<RegistrationGroupInfo> getValidRegGroups(String courseOfferingId, Map<Object,Object> additionalRestrictions){
+        // Retrieve reg groups for the Course Offering
+        List<RegistrationGroupInfo> regGroups = new ArrayList<RegistrationGroupInfo>();
+        try {
+            List<FormatOfferingInfo> formats = KsapFrameworkServiceLocator.getCourseOfferingService()
+                    .getFormatOfferingsByCourseOffering(courseOfferingId,
+                            KsapFrameworkServiceLocator.getContext().getContextInfo());
+            for(FormatOfferingInfo format : formats){
+                regGroups.addAll(KsapFrameworkServiceLocator.getCourseOfferingService().getRegistrationGroupsByFormatOffering(
+                        format.getId(), KsapFrameworkServiceLocator.getContext().getContextInfo()));
+            }
+        } catch (DoesNotExistException e) {
+            return null;
+        } catch (InvalidParameterException e) {
+            throw new IllegalArgumentException("CO lookup error", e);
+        } catch (MissingParameterException e) {
+            throw new IllegalArgumentException("CO lookup error", e);
+        } catch (OperationFailedException e) {
+            throw new IllegalArgumentException("CO lookup error", e);
+        } catch (PermissionDeniedException e) {
+            throw new IllegalArgumentException("CO lookup error", e);
+        }
+
+        // Validate Reg Groups based on them being offered
+        List<RegistrationGroupInfo> offeredRegGroups = new ArrayList<RegistrationGroupInfo>();
+        for(RegistrationGroupInfo regGroup : regGroups){
+            if(regGroup.getStateKey().equals(LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY)){
+                offeredRegGroups.add(regGroup);
+            }
+        }
+        regGroups = offeredRegGroups;
+
+        // Validate Reg Groups based on selected AOs
+        List<String> selectedActivities = (List<String>) additionalRestrictions.get("selectedActivites");
+        regGroups = getValidRegGroupsFilteredBySelectedActivities(regGroups, selectedActivities);
+
+        // Validate Reg Groups based on if they are already in plan
+        regGroups = getValidRegGroupsFilteredByPlan(regGroups);
+
+        return regGroups;
+    }
+
+    /**
+     * @see org.kuali.student.ap.coursesearch.service.CourseDetailsViewHelperService#createAddSectionEvent(String, java.util.List, javax.json.JsonObjectBuilder)
      */
     @Override
     public JsonObjectBuilder createAddSectionEvent(String courseOfferingId, List<ActivityOfferingDetailsWrapper> activities, JsonObjectBuilder eventList){
@@ -596,5 +648,85 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
 
         eventList.add("COURSE_SECTION_ADDED", addEvent);
         return eventList;
+    }
+
+    /**
+     * @see org.kuali.student.ap.coursesearch.service.CourseDetailsViewHelperService#createFilterValidRegGroupsEvent(String, String, java.util.List, javax.json.JsonObjectBuilder)
+     */
+    @Override
+    public JsonObjectBuilder createFilterValidRegGroupsEvent(String termId, String courseOfferingCode, List<RegistrationGroupInfo> regGroups, JsonObjectBuilder eventList){
+        JsonObjectBuilder filterEvent = Json.createObjectBuilder();
+        filterEvent.add("termId", termId.replace(".", "-"));
+        filterEvent.add("courseOfferingCode", courseOfferingCode);
+
+        // Deconstruct reg groups into list of AO and FO ids
+        List<String> validFormatOfferings = new ArrayList<String>();
+        List<String> validActivities = new ArrayList<String>();
+        for(RegistrationGroupInfo group : regGroups){
+            validActivities.addAll(group.getActivityOfferingIds());
+            if(!validFormatOfferings.contains(group.getFormatOfferingId())){
+                validFormatOfferings.add(group.getFormatOfferingId());
+            }
+        }
+
+        JsonArrayBuilder activities = Json.createArrayBuilder();
+        for(String activity : validActivities){
+            activities.add(activity);
+
+        }
+        filterEvent.add("activities", activities);
+
+        JsonArrayBuilder formats = Json.createArrayBuilder();
+        for(String format : validFormatOfferings){
+            formats.add(format);
+
+        }
+        filterEvent.add("formatOfferings", formats);
+
+        eventList.add("FILTER_COURSE_OFFERING", filterEvent);
+        return eventList;
+    }
+
+    private List<RegistrationGroupInfo> getValidRegGroupsFilteredBySelectedActivities(
+            List<RegistrationGroupInfo> regGroups, List<String> selectedActivities){
+        if(selectedActivities != null && !selectedActivities.isEmpty()){
+            List<RegistrationGroupInfo> validAOGroups = new ArrayList<RegistrationGroupInfo>();
+            for(RegistrationGroupInfo group : regGroups){
+                boolean valid = false;
+                for(String activityId : selectedActivities){
+                    if(group.getActivityOfferingIds().contains(activityId)){
+                        valid = true;
+                        break;
+                    }
+                }
+                if(valid){
+                    validAOGroups.add(group);
+                }
+            }
+            regGroups = validAOGroups;
+        }
+        return regGroups;
+    }
+
+    private List<RegistrationGroupInfo> getValidRegGroupsFilteredByPlan(List<RegistrationGroupInfo> regGroups){
+        LearningPlan learningPlan = KsapFrameworkServiceLocator.getPlanHelper().getDefaultLearningPlan();
+        List<RegistrationGroupInfo> validGroups = new ArrayList<RegistrationGroupInfo>();
+        for(RegistrationGroupInfo group : regGroups){
+            try {
+                List<PlanItemInfo> item = KsapFrameworkServiceLocator.getAcademicPlanService().getPlanItemsInPlanByRefObjectIdByRefObjectType(learningPlan.getId(),group.getId(),PlanConstants.REG_GROUP_TYPE,KsapFrameworkServiceLocator.getContext().getContextInfo());
+                if(item ==null || item.isEmpty()){
+                    validGroups.add(group);
+                }
+            } catch (InvalidParameterException e) {
+                throw new IllegalArgumentException("AP lookup error", e);
+            } catch (MissingParameterException e) {
+                throw new IllegalArgumentException("AP lookup error", e);
+            } catch (OperationFailedException e) {
+                throw new IllegalArgumentException("AP lookup error", e);
+            } catch (PermissionDeniedException e) {
+                throw new IllegalArgumentException("AP lookup error", e);
+            }
+        }
+        return validGroups;
     }
 }

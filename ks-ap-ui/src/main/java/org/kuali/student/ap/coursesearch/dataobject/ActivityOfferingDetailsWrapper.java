@@ -3,13 +3,6 @@ package org.kuali.student.ap.coursesearch.dataobject;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 
-/**
- * Created with IntelliJ IDEA.
- * User: chmaurer
- * Date: 6/9/14
- * Time: 10:37 AM
- * To change this template use File | Settings | File Templates.
- */
 public class ActivityOfferingDetailsWrapper {
     private String activityOfferingId;
     private String activityOfferingCode;
@@ -33,6 +26,7 @@ public class ActivityOfferingDetailsWrapper {
     private boolean partOfRegGroup = false;
     private boolean singleFormatOffering;
     private boolean inPlan;
+    private boolean validActivity;
 
     public ActivityOfferingDetailsWrapper() {
     }
@@ -214,5 +208,13 @@ public class ActivityOfferingDetailsWrapper {
 
     public void setInPlan(boolean inPlan) {
         this.inPlan = inPlan;
+    }
+
+    public boolean isValidActivity() {
+        return validActivity;
+    }
+
+    public void setValidActivity(boolean validActivity) {
+        this.validActivity = validActivity;
     }
 }

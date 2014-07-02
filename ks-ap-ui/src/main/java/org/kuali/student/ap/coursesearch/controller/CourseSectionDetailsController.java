@@ -43,6 +43,7 @@ import javax.json.JsonObjectBuilder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -127,15 +128,18 @@ public class CourseSectionDetailsController extends KsapControllerBase {
             return null;
         }
 
-        eventList = getViewHelperService(form).createAddSectionEvent(regGroup.getCourseOfferingId(), activityWrappers, eventList);
+        // Get new list of valid registration groups with added plan item
+        List<RegistrationGroupInfo> validRegGroups = getViewHelperService(form).getValidRegGroups(course.getId(), new HashMap<Object, Object>());
 
         //Create events needed to update the page
+        eventList = getViewHelperService(form).createAddSectionEvent(regGroup.getCourseOfferingId(), activityWrappers, eventList);
+        eventList = getViewHelperService(form).createFilterValidRegGroupsEvent(course.getTermId(), course.getCourseOfferingCode(),validRegGroups, eventList);
         PlanEventUtils.sendJsonEvents(true,"Registration Group For " +course.getCourseOfferingCode() + " added for " + term.getName(), response, eventList);
         return null;
     }
 
     /**
-     * Handles the creation of a dialog form for adding a Registration Gorup to the Planner
+     * Handles the creation of a dialog form for adding a Registration Group to the Planner
      */
     @MethodAccessible
     @RequestMapping(params = "methodToCall=startAddDialog")
