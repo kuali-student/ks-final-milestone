@@ -61,6 +61,7 @@
             <list>
                 <bean id="KS-Author-displayName" parent="KS-Uif-InputField" p:label="Name"
                       p:propertyName="displayName">
+                    <property name="readOnly" value="@{!#empty(#line.actionRequestId)}"/>
                     <property name="control">
                         <bean parent="KS-Uif-TextControl" p:size="50" p:style="width: 200px;" p:cssClasses="validInstructorAuthorNameAndID" />
                     </property>
@@ -92,6 +93,7 @@
                 </bean>
                 <bean id="KS-PermissionDropDown" parent="KS-Uif-InputField-LabelTop" p:propertyName="permission"
                       p:label="Permission" p:required="true">
+                    <property name="readOnly" value="@{!#empty(#line.actionRequestId)}"/>
                     <property name="control">
                         <bean parent="KS-Uif-DropdownControl">
                             <property name="options">
@@ -106,6 +108,7 @@
                 </bean>
                 <bean id="KS-ActionRequestDropDown" parent="KS-Uif-InputField-LabelTop" p:propertyName="action"
                       p:label="Action Required" p:required="true" p:style="width:10em">
+                    <property name="readOnly" value="@{!#empty(#line.actionRequestId)}"/>
                     <property name="control">
                         <bean parent="KS-Uif-DropdownControl">
                             <property name="options">
@@ -118,6 +121,8 @@
                 </bean>
                 <bean parent="KS-Uif-InputField-LabelTop" p:propertyName="author" p:label="Author Notation"
                       p:style="width:9em">
+                    <property name="readOnly" value="@{!#empty(#line.actionRequestId)}"/>
+                    <property name="readOnlyDisplayReplacement" value="@{#line.author?'Yes':'No'}"/>
                     <property name="control">
                         <bean parent="KS-Uif-CheckboxControl" p:checkboxLabel="Add Author Notation"/>
                     </property>
