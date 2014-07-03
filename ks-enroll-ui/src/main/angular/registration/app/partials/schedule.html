@@ -10,8 +10,10 @@
     </div>
 
     <div class="kscr-Responsive-schedule">
+        <!-- display registered courses via the course-card directive -->
         <div class="kscr-Responsive-registered"
              course-card type="registered" credits="registeredCredits()" schedules="getSchedules()"></div>
+        <!-- display waitlisted courses via the course-card directive -->
         <div ng-class="{'kscr-Responsive-waitlisted':true,'kscr-Responsive-waitlisted--inactive':!waitlistedCourseCount() && !showWaitlistMessages}"
              course-card type="waitlist" credits="waitlistedCredits()" schedules="getSchedules()"></div>
     </div>

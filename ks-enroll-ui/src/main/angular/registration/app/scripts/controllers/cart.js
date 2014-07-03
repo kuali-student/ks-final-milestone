@@ -177,6 +177,10 @@ angular.module('regCartApp')
             $scope.showNew = false;
         };
 
+        /*
+        Listens for the "deleteCartItem" event and calls the cart service to
+        remove the given cart item from the cart.
+         */
         $scope.$on('deleteCartItem', function (event, index) {
             var item = $scope.cart.items[index];
             var actionLinks = item.actionLinks;

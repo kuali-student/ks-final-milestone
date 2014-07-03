@@ -12,6 +12,9 @@ angular.module('regCartApp')
         $scope.numberOfDroppedWailistedCourses = 0;
         $scope.userId = GlobalVarsService.getUserId;
 
+        /*
+        Listens for the "removeWaitlistStatusMessage" event and removes the card for the given course.
+         */
         $scope.$on('removeWaitlistStatusMessage',function (event, course) {
             course.statusMessage = null;
             $scope.numberOfDroppedWailistedCourses = $scope.numberOfDroppedWailistedCourses - 1;
@@ -20,6 +23,10 @@ angular.module('regCartApp')
             }
         });
 
+        /*
+         Listens for the "dropRegistered" event and calls the schedule service to drop the given
+         course.
+         */
         $scope.$on('dropRegistered', function (event, index, course) {
             console.log('Open drop confirmation for registered course');
             ScheduleService.dropRegistrationGroup().query({
@@ -34,6 +41,10 @@ angular.module('regCartApp')
             });
         });
 
+        /*
+         Listens for the "dropWaitlist" event and calls the schedule service to remove the given
+         course from the user's waitlist.
+         */
         $scope.$on('dropWaitlist', function (event, index, course) {
             console.log('Open drop confirmation for waitlist course');
             ScheduleService.dropFromWaitlist().query({

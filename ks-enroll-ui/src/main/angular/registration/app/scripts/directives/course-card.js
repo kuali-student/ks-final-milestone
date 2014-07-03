@@ -2,11 +2,15 @@
 
 angular.module('regCartApp')
 
+    /*
+    The course-card directive displays a list of courses on your schedule (either registered
+    or waitlist).
+     */
     .directive('courseCard', function() {
         return {
             transclude: true,
             scope: {
-                schedules: '=', // the schedules to evaluate in this section
+                schedules: '=', // the schedule(s) to evaluate in this section
                 credits: '=', // total number of credits in this section
                 type: '@' // the course type [registered, waitlist]
             },
@@ -15,12 +19,19 @@ angular.module('regCartApp')
         };
     })
 
+    /*
+    The course-accordion directive displays the card for a specific course offering. The
+    card can display courses from either the schedule or the cart.
+
+    It is currently implemented in three places: registered courses, waitlisted courses,
+    and the registration cart.
+     */
     .directive('courseAccordion', function() {
         return {
             restrict: 'E',
             transclude: true,
             scope: {
-                course: '=', // the course to evaluate in this section
+                course: '=', // the course to display in this section
                 type: '@', // the course type [registered, waitlist, cart]
                 cardIndex: '=', // the index of the course in the list [0, 1, ...]
                 cartId: '=' // for cart operations only
@@ -30,10 +41,18 @@ angular.module('regCartApp')
         };
     })
 
+    /*
+    The CartCtrl controller handles various operations for both the course-card and
+    course-accordion directives.
+     */
     .controller('CardCtrl', ['$scope', '$timeout', 'GlobalVarsService', 'CartService', 'ScheduleService', 'STATUS', 'GRADING_OPTION',
         function($scope, $timeout, GlobalVarsService, CartService, ScheduleService, STATUS, GRADING_OPTION) {
             $scope.config = getConfig();
 
+            /*
+            Returns either registered or waitlisted course offerings based on the
+            type in scope
+             */
             $scope.courseOfferings = function(schedule) {
                 switch ($scope.type) {
                     case 'waitlist':
@@ -44,10 +63,15 @@ angular.module('regCartApp')
                 }
             };
 
+            /*
+            Common "drop" functionality. Can be used to drop a registered course,
+            remove a course from the waitlist, or remove a course from the cart
+             */
             $scope.dropCourse = function (index, course) {
                 console.log('course-card index: '+index);
                 switch ($scope.type) {
                     case 'cart':
+                        // emit an event to the parentt scope (handled in cart.js)
                         $scope.$emit('deleteCartItem', index);
                         break;
                     default : // 'registered', 'waitlist'
@@ -58,14 +82,23 @@ angular.module('regCartApp')
                 }
             };
 
+            /*
+            Closes the drop confirmation dialog
+             */
             $scope.cancelDropConfirmation = function (course) {
                 course.dropping = false;
             };
 
+            /*
+            Closes a status message card
+             */
             $scope.removeStatusMessage = function (course) {
                 course.statusMessage = null;
             };
 
+            /*
+            Shows the grading badge (unless it is letter -- the default)
+             */
             $scope.showBadge = function (course) {
                 switch ($scope.type) {
                     case 'cart':
@@ -76,6 +109,9 @@ angular.module('regCartApp')
                 }
             };
 
+            /*
+            Edits the credit and grading options for a course
+             */
             $scope.editItem = function (course) {
                 course.newCredits = course.credits;
                 course.editing = true;
@@ -89,6 +125,10 @@ angular.module('regCartApp')
                 }
             };
 
+            /*
+            Calls the appropriate function for updating a course offering
+            based on the scope type.
+             */
             $scope.updateItem = function(course) {
                 switch ($scope.type) {
                     case 'registered':
@@ -102,18 +142,33 @@ angular.module('regCartApp')
                 }
             };
 
+            /*
+            Removes the waitlist status message from the view
+             */
             $scope.removeWaitlistStatusMessage = function (course) {
                 $scope.$emit('removeWaitlistStatusMessage', course);
             };
 
+            /*
+            Emits an event to the parent scope to drop the registration
+            group. Actual drop is handled in schedule.js.
+             */
             $scope.dropRegistrationGroup = function (index, course) {
                 $scope.$emit('dropRegistered', index, course);
             };
 
+            /*
+            Emits an event to the parent scope to remove the user from
+            the wait list for a course. Actual removal is handled in
+             schedule.js.
+             */
             $scope.dropFromWaitlist = function (index, course) {
                 $scope.$emit('dropWaitlist', index, course);
             };
 
+            /*
+            Returns the grading option for the course
+             */
             $scope.gradingOption = function (course) {
                 switch ($scope.type) {
                     case 'cart':
@@ -124,6 +179,9 @@ angular.module('regCartApp')
                 }
             };
 
+            /*
+            Returns the course title
+             */
             $scope.courseTitle = function (course) {
                 switch ($scope.type) {
                     case 'cart':
@@ -134,6 +192,10 @@ angular.module('regCartApp')
                 }
             };
 
+            /*
+            Utility function for providing configuration variables based on
+            whether the course in scope is registered, waitlist, or cart.
+             */
             function getConfig() {
                 switch ($scope.type) {
                     case 'waitlist':
@@ -165,6 +227,9 @@ angular.module('regCartApp')
                 }
             }
 
+            /*
+            Calls the RESTful service to update a registered course on the schedule.
+             */
             function updateScheduleItem(course) {
                 console.log('Updating registered course:');
                 console.log(course.newCredits);
@@ -184,6 +249,9 @@ angular.module('regCartApp')
                 });
             }
 
+            /*
+            Calls the RESTful service to update a waitlisted course on the schedule.
+             */
             function updateWaitlistItem(course) {
                 console.log('Updating waitlisted course:');
                 console.log(course.newCredits);
@@ -203,6 +271,9 @@ angular.module('regCartApp')
                 });
             }
 
+            /*
+            Calls the RESTful service to update the cart item.
+             */
             function updateCartItem(course) {
                 console.log('Updating cart item. Grading: ' + course.newGrading + ', credits: ' + course.newCredits);
                 CartService.updateCartItem().query({
@@ -217,6 +288,10 @@ angular.module('regCartApp')
                 });
             }
 
+            /*
+            Common code for displaying the "glow" on changed items when updating
+            a card.
+             */
             function updateCard(course, itemResult) {
                 console.log(itemResult);
                 var oldCredits=course.credits;  // need to compare to see if it was changed and need a glow
