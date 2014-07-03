@@ -17,7 +17,7 @@ function detectReferrerForBackLinkText() {
 }
 
 
-//Sections with multiple formats or offerings input behavior
+//Sections with multiple formats or offerings selected row behavior
 function checkboxSelectAndHighlight() {
 
     //Select radio if clicking anywhere on the row
@@ -34,11 +34,6 @@ function checkboxSelectAndHighlight() {
         }
     });
 
-    //Don't select checkbox if clicking on link
-    /*jQuery('tr a').click(function(event) {
-        event.stopPropagation();
-    });*/
-
     //Add and remove class when radio is toggled
     jQuery(".uif-verticalRadioControl").change(function () {
         if(jQuery(this).is(":checked")){
@@ -54,6 +49,12 @@ function checkboxSelectAndHighlight() {
             jQuery(this).closest('tr').removeClass('ksap-selected-row');
         }
     });
+
+    //Replace slashes with plus signs in multiple format offering options
+    jQuery('.ksap-section-format-header label').each(function() {
+        jQuery(this).html(jQuery(this).html().replace(/\//g," + "));
+    });
+
 }
 
 // Registering Course Search Results Facets events
