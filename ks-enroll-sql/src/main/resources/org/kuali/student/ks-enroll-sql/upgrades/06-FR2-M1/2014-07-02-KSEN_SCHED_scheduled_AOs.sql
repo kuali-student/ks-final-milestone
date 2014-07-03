@@ -1,8 +1,6 @@
 -- KSENROLL-13390
 -- Half Fall 1 2012, CHEM105
 -- AO A
--- INSERT INTO KREW_ACTN_TKN_T (ACTN_TKN_ID, ACTN_DT, ACTN_CD, ANNOTN, CUR_IND, DLGTR_GRP_ID, DLGTR_PRNCPL_ID, DOC_VER_NBR, DOC_HDR_ID, VER_NBR, PRNCPL_ID) VALUES ('2329', TIMESTAMP '2014-07-02 11:24:35.486', 'C', '', '1', '', '', 1, '3025', 1, 'admin')
--- /
 insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('78498d0e-a0bb-4bad-9e69-6eca87301f8f', 'kuali.attribute.nonstd.ts.indicator', 'a2596117-c310-4d3d-9ab0-0363715df307', '0', 'ef7e4e89-e943-4a1e-9cb0-a57c877f4509')
 /
 insert into KSEN_SCHED (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, ATP_ID, DESCR_FORMATTED, NAME, DESCR_PLAIN, SCHED_STATE, SCHED_TYPE, ID) values ('3a834926-8d54-4d15-bf88-5271e8e5a6f4', 0, 'admin', TIMESTAMP '2014-07-02 11:24:35.74', 'admin', TIMESTAMP '2014-07-02 11:24:35.74', 'kuali.atp.2012HalfFall1', '', '', '', 'kuali.scheduling.schedule.state.active', 'kuali.scheduling.schedule.type.schedule', '74b8ee20-3bd0-465b-bc34-e35ebb440bc3')
@@ -18,8 +16,6 @@ insert into KSEN_LUILUI_RELTN (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, 
 insert into KSEN_LUILUI_RELTN_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('0db9f28a-0e9f-493a-8bb1-b12ed90f0745', 'AO1', '083fbfe4-6402-4cea-807d-a6291a2a473f', 'a2596117-c310-4d3d-9ab0-0363715df307', '75692c61-9f7f-4bc7-b4f6-32eb7b34193a')
 /
 -- AO B
--- INSERT INTO KREW_ACTN_TKN_T (ACTN_TKN_ID, ACTN_DT, ACTN_CD, ANNOTN, CUR_IND, DLGTR_GRP_ID, DLGTR_PRNCPL_ID, DOC_VER_NBR, DOC_HDR_ID, VER_NBR, PRNCPL_ID) VALUES ('2330', TIMESTAMP '2014-07-02 14:52:20.482', 'C', '', '1', '', '', 1, '3026', 1, 'admin')
--- /
 insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('894cc9bf-d542-4021-abeb-8304239ff55d', 'kuali.attribute.nonstd.ts.indicator', 'a03df821-38bc-4fc4-b34a-77a92405b87f', '0', '180e5d0f-a60a-4636-ab1c-6765d032e5b6')
 /
 insert into KSEN_SCHED (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, ATP_ID, DESCR_FORMATTED, NAME, DESCR_PLAIN, SCHED_STATE, SCHED_TYPE, ID) values ('860f5a6f-0013-410c-93e0-a8eb56855587', 0, 'admin', TIMESTAMP '2014-07-02 14:52:20.574', 'admin', TIMESTAMP '2014-07-02 14:52:20.574', 'kuali.atp.2012HalfFall1', '', '', '', 'kuali.scheduling.schedule.state.active', 'kuali.scheduling.schedule.type.schedule', 'e98934b1-4000-4f3b-adcd-af78e1234c1d')
@@ -37,8 +33,6 @@ insert into KSEN_LUILUI_RELTN_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) 
 
 -- Half Fall 1 2012, HIST605
 -- AO A
--- INSERT INTO KREW_ACTN_TKN_T (ACTN_TKN_ID, ACTN_DT, ACTN_CD, ANNOTN, CUR_IND, DLGTR_GRP_ID, DLGTR_PRNCPL_ID, DOC_VER_NBR, DOC_HDR_ID, VER_NBR, PRNCPL_ID) VALUES ('2331', TIMESTAMP '2014-07-02 14:57:14.254', 'C', '', '1', '', '', 1, '3027', 1, 'admin')
--- /
 insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('4ba856f6-435c-43c8-8898-2993a77d1a84', 'kuali.attribute.nonstd.ts.indicator', '95ef4b80-f3d0-498f-b094-c643c5295106', '0', 'ef74240a-0093-4c59-af00-309362b2eb15')
 /
 insert into KSEN_SCHED_RQST_SET (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, DESCR_FORMATTED, MAX_ENRL_SHARED_IND, MAX_ENRL, NAME, DESCR_PLAIN, REF_OBJECT_TYPE, SCHED_RQST_SET_STATE, SCHED_RQST_SET_TYPE, ID) values ('b7d61a07-5aee-4129-952d-0f2eea035dc8', 0, 'admin', TIMESTAMP '2014-07-02 14:57:14.328', 'admin', TIMESTAMP '2014-07-02 14:57:14.328', '', '', '', 'Schedule request set for HIST605 - A', '', 'http://student.kuali.org/wsdl/courseOffering/ActivityOfferingInfo', 'kuali.scheduling.schedule.request.set.state.created', 'kuali.scheduling.schedule.request.set.type.schedule.request.set', '1b5a55b6-30da-4f17-ad6d-aab227c91d1b')
@@ -54,8 +48,6 @@ insert into KSEN_SCHED_RQST (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UP
 
 -- Half Fall 1 2012, ENGL627
 -- AO A
--- INSERT INTO KREW_ACTN_TKN_T (ACTN_TKN_ID, ACTN_DT, ACTN_CD, ANNOTN, CUR_IND, DLGTR_GRP_ID, DLGTR_PRNCPL_ID, DOC_VER_NBR, DOC_HDR_ID, VER_NBR, PRNCPL_ID) VALUES ('2332', TIMESTAMP '2014-07-02 15:03:51.012', 'C', '', '1', '', '', 1, '3028', 1, 'admin')
--- /
 insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('4705b6d1-41ba-4d9d-b660-c5f8aec23832', 'kuali.attribute.nonstd.ts.indicator', 'cc5e8eed-9c2d-460a-9c3f-477e529e3da7', '0', 'bd6fed62-6f82-4ab4-b2fd-c303d03a4db2')
 /
 insert into KSEN_SCHED_RQST_SET (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, DESCR_FORMATTED, MAX_ENRL_SHARED_IND, MAX_ENRL, NAME, DESCR_PLAIN, REF_OBJECT_TYPE, SCHED_RQST_SET_STATE, SCHED_RQST_SET_TYPE, ID) values ('55b8f758-59f7-4c84-8f67-d1f254d920b0', 0, 'admin', TIMESTAMP '2014-07-02 15:03:51.111', 'admin', TIMESTAMP '2014-07-02 15:03:51.111', '', '', '', 'Schedule request set for ENGL627 - A', '', 'http://student.kuali.org/wsdl/courseOffering/ActivityOfferingInfo', 'kuali.scheduling.schedule.request.set.state.created', 'kuali.scheduling.schedule.request.set.type.schedule.request.set', '80c0fe8b-e03a-4cc4-afa7-84823e96f6fe')
@@ -71,8 +63,6 @@ insert into KSEN_SCHED_RQST (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UP
 
 -- Half Fall 2 2012, CHEM147
 -- AO A
--- INSERT INTO KREW_ACTN_TKN_T (ACTN_TKN_ID, ACTN_DT, ACTN_CD, ANNOTN, CUR_IND, DLGTR_GRP_ID, DLGTR_PRNCPL_ID, DOC_VER_NBR, DOC_HDR_ID, VER_NBR, PRNCPL_ID) VALUES ('2333', TIMESTAMP '2014-07-02 15:06:53.443', 'C', '', '1', '', '', 1, '3029', 1, 'admin')
--- /
 insert into KSEN_SCHED (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, ATP_ID, DESCR_FORMATTED, NAME, DESCR_PLAIN, SCHED_STATE, SCHED_TYPE, ID) values ('60dcd3a1-aea7-4674-8e01-fd056eafb076', 0, 'admin', TIMESTAMP '2014-07-02 15:06:53.527', 'admin', TIMESTAMP '2014-07-02 15:06:53.527', 'kuali.atp.2012HalfFall2', '', '', '', 'kuali.scheduling.schedule.state.active', 'kuali.scheduling.schedule.type.schedule', '7cd658f5-a7e0-4b77-b64a-d4f05b3b93a9')
 /
 insert into KSEN_SCHED_CMP (OBJ_ID, TBA_IND, ROOM_ID, SCHED_ID, ID) values ('7b5a1ec7-cf84-4127-b12d-3b611db4719d', '0', 'e95505b4-9172-4faa-8133-a4376945fdc5', '7cd658f5-a7e0-4b77-b64a-d4f05b3b93a9', '59fadfd8-118e-4528-b5d4-ace863db8454')
@@ -94,8 +84,6 @@ insert into KSEN_LUILUI_RELTN (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, 
 insert into KSEN_LUILUI_RELTN_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('b64213b7-e039-4e71-ae92-cc2a77bcf3da', 'AO1', '60afee7a-d817-45b2-af93-f2a09409a12c', '50cca1cc-8e5d-47a0-8bdc-c7d25eefe395', 'c00ed1c1-1b31-49bb-9425-bd5556a4f280')
 /
 -- AO B
--- INSERT INTO KREW_ACTN_TKN_T (ACTN_TKN_ID, ACTN_DT, ACTN_CD, ANNOTN, CUR_IND, DLGTR_GRP_ID, DLGTR_PRNCPL_ID, DOC_VER_NBR, DOC_HDR_ID, VER_NBR, PRNCPL_ID) VALUES ('2334', TIMESTAMP '2014-07-02 15:12:14.014', 'C', '', '1', '', '', 1, '3030', 1, 'admin')
--- /
 insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('79866109-cdb9-4ff4-98c4-f0cc13ee60a2', 'kuali.attribute.nonstd.ts.indicator', '465cf583-bc27-4f81-bd91-d8c36c68a695', '0', 'f89b7d0f-dd4e-43c8-b786-7499280890c9')
 /
 insert into KSEN_SCHED (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, ATP_ID, DESCR_FORMATTED, NAME, DESCR_PLAIN, SCHED_STATE, SCHED_TYPE, ID) values ('a1c26894-2afd-4fe2-9520-08787afd9f0e', 0, 'admin', TIMESTAMP '2014-07-02 15:12:14.101', 'admin', TIMESTAMP '2014-07-02 15:12:14.101', 'kuali.atp.2012Fall', '', '', '', 'kuali.scheduling.schedule.state.active', 'kuali.scheduling.schedule.type.schedule', '521c81c8-b122-4395-b07d-016ffc2673d4')
@@ -135,8 +123,6 @@ insert into KSEN_LUILUI_RELTN_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) 
 
 -- Half Fall 2 2012, HIST808
 -- AO A
--- INSERT INTO KREW_ACTN_TKN_T (ACTN_TKN_ID, ACTN_DT, ACTN_CD, ANNOTN, CUR_IND, DLGTR_GRP_ID, DLGTR_PRNCPL_ID, DOC_VER_NBR, DOC_HDR_ID, VER_NBR, PRNCPL_ID) VALUES ('2335', TIMESTAMP '2014-07-02 15:17:58.266', 'C', '', '1', '', '', 1, '3031', 1, 'admin')
--- /
 insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('5ec4ddb3-49ee-4467-b917-79a9cb672a55', 'kuali.attribute.nonstd.ts.indicator', '2bddd4dd-c4fa-468a-906e-e671fdddf7de', '0', 'a8b70e1d-b817-4782-baea-5ebd0f00df2c')
 /
 insert into KSEN_SCHED_RQST_SET (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, DESCR_FORMATTED, MAX_ENRL_SHARED_IND, MAX_ENRL, NAME, DESCR_PLAIN, REF_OBJECT_TYPE, SCHED_RQST_SET_STATE, SCHED_RQST_SET_TYPE, ID) values ('3a8c590e-b9f4-4af3-b0c1-4b64cb8c126e', 0, 'admin', TIMESTAMP '2014-07-02 15:17:58.335', 'admin', TIMESTAMP '2014-07-02 15:17:58.335', '', '', '', 'Schedule request set for HIST808 - A', '', 'http://student.kuali.org/wsdl/courseOffering/ActivityOfferingInfo', 'kuali.scheduling.schedule.request.set.state.created', 'kuali.scheduling.schedule.request.set.type.schedule.request.set', 'da12d7ef-90a8-4152-aab6-eae36f238524')
@@ -152,8 +138,6 @@ insert into KSEN_SCHED_RQST (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UP
 
 -- Half Fall 2 2012, BSCI122
 -- AO A
--- INSERT INTO KREW_ACTN_TKN_T (ACTN_TKN_ID, ACTN_DT, ACTN_CD, ANNOTN, CUR_IND, DLGTR_GRP_ID, DLGTR_PRNCPL_ID, DOC_VER_NBR, DOC_HDR_ID, VER_NBR, PRNCPL_ID) VALUES ('2336', TIMESTAMP '2014-07-02 15:23:09.914', 'C', '', '1', '', '', 1, '3032', 1, 'admin')
--- /
 insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('ee5a5ee2-95ab-4cdd-b82f-3c912f8a731c', 'kuali.attribute.nonstd.ts.indicator', '87907ef7-256e-4cc5-8aa2-6edb16a44c19', '0', '9dfa155d-1dd3-4b81-86d1-58eab5e70765')
 /
 insert into KSEN_SCHED_RQST_SET (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, DESCR_FORMATTED, MAX_ENRL_SHARED_IND, MAX_ENRL, NAME, DESCR_PLAIN, REF_OBJECT_TYPE, SCHED_RQST_SET_STATE, SCHED_RQST_SET_TYPE, ID) values ('ebb4e309-241c-4c9a-ab84-d3abdd0a8734', 0, 'admin', TIMESTAMP '2014-07-02 15:23:10.0', 'admin', TIMESTAMP '2014-07-02 15:23:10.0', '', '', '', 'Schedule request set for BSCI122 - A', '', 'http://student.kuali.org/wsdl/courseOffering/ActivityOfferingInfo', 'kuali.scheduling.schedule.request.set.state.created', 'kuali.scheduling.schedule.request.set.type.schedule.request.set', 'be46e138-5b97-4fa3-92cb-be34435c0274')
