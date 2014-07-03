@@ -36,6 +36,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.core.constants.OrganizationServiceConstants;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.lum.course.dto.CourseVariationInfo;
+import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -105,6 +106,7 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
         success = success && validateOutcomes(dataObject);
         success = success && validateInstructor(dataObject);
         success = success && validateOrganization(dataObject);
+        success = success && validateLearningObjectives(dataObject);
 
         return success;
     }
@@ -193,6 +195,22 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
             }
         }
         return true;
+    }
+
+    protected boolean validateLearningObjectives(CourseInfoWrapper dataObject){
+
+        boolean result = true;
+        int index = 0;
+        for (LoDisplayInfo loDisplayInfo : dataObject.getLoDisplayWrapperModel().getLoWrappers()) {
+            if (StringUtils.isBlank(loDisplayInfo.getLoInfo().getDescr().getPlain()) && !loDisplayInfo.getLoCategoryInfoList().isEmpty()){
+                String propertyKey = DATA_OBJECT_PATH + ".loDisplayWrapperModel.loWrappers[" + index + "]" + ".loInfo.descr.plain";
+                GlobalVariables.getMessageMap().putError(propertyKey,CurriculumManagementConstants.MessageKeys.ERROR_COURSE_LO_DESC_REQUIRED);
+                result = false;
+            }
+            index++;
+        }
+
+        return result;
     }
 
     protected boolean isMultipleOrganizationInfoFound(List<OrganizationInfoWrapper> orgs) {

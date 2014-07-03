@@ -120,6 +120,7 @@ public class CurriculumManagementConstants {
         public final static String ERROR_DATA_NOT_FOUND = "error.cm.course.data.notfound";
         public final static String ERROR_DATA_MULTIPLE_MATCH_FOUND = "error.cm.course.data.multiplematch";
         public final static String ERROR_OUTCOME_CREDIT_VALUE_REQUIRED = "error.cm.course.data.outcome.creditvalue.required";
+        public final static String ERROR_COURSE_LO_DESC_REQUIRED = "error.cm.course.lo.desc.required";
         public final static String ERROR_COMMENT_DELETE = "error.cm.course.comment.delete";
     }
 
