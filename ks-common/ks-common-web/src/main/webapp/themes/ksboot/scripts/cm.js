@@ -636,22 +636,22 @@ function compareInstructorNameInput(value, element) {
     if (value == null || value.length < 6) {
         return isValid;
     }
-    var queryVal = value.split(',')[0];
+    var queryVal = value.split(',')[0].toUpperCase();
 
     var successFunction = function (data) {
-        var lastName = value.split(',')[0];
-        var restVal = value.split(',')[1];
+        var lastName = value.split(',')[0].toUpperCase();
+        var restVal = value.split(',')[1].toUpperCase();
         var firstName = '';
         var nameID = '';
         if (restVal != null) {
-            firstName = restVal.split('(')[0];
-            nameID = restVal.split('(')[1];
+            firstName = restVal.split('(')[0].toUpperCase();
+            nameID = restVal.split('(')[1].toUpperCase();
         }
         if (data == null || data.resultData == null) {
             isValid = false;
         } else {
             for (var i = 0; len = data.resultData.length, i < len; i++) {
-                var correctName = data.resultData[i].displayName;
+                var correctName = data.resultData[i].displayName.toUpperCase();
                 if (correctName.indexOf(lastName) >= 0 && correctName.indexOf(firstName) > 1 && correctName.indexOf(nameID) > 2) {
                     isValid = true;
                     break;
