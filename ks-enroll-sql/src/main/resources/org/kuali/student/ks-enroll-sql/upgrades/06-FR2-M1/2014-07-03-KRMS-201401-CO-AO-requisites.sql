@@ -1,4 +1,4 @@
-// KSAP-1552: Ref Data for Course Search: 201401 CO/AO eligibility rules
+-- KSAP-1552: Ref Data for Course Search: 201401 CO/AO eligibility rules
 INSERT INTO KRMS_AGENDA_T (AGENDA_ID, ACTV, CNTXT_ID, INIT_AGENDA_ITM_ID, NM, TYP_ID, VER_NBR) VALUES ('-201407021529000000', 'Y', '10000', '', '0bf64f2b-f444-433c-bd32-f679ab945cdc:10002:1', '10002', 1)
 /
 INSERT INTO KRMS_REF_OBJ_KRMS_OBJ_T (REF_OBJ_KRMS_OBJ_ID, ACTV, COLLECTION_NM, KRMS_DSCR_TYP, KRMS_OBJ_ID, NMSPC_CD, REF_DSCR_TYP, REF_OBJ_ID, VER_NBR) VALUES ('-201407021529000000', 'N', '', 'Agenda', '-201407021529000000', 'KS-SYS', 'http://student.kuali.org/wsdl/courseOffering/CourseOfferingInfo', '0bf64f2b-f444-433c-bd32-f679ab945cdc', 1)
