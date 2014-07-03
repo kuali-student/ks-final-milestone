@@ -19,6 +19,7 @@ package org.kuali.student.enrollment.class2.courseoffering.controller;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.uif.util.KSControllerHelper;
@@ -131,6 +132,7 @@ public class ManageSOCController extends UifControllerBase {
     /**
      * This is called when the user enters the term code and hit the Go button.
      */
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=buildModel")
     public ModelAndView buildModel(@ModelAttribute("KualiForm") ManageSOCForm socForm, @SuppressWarnings("unused") BindingResult result,
                                    @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
@@ -144,10 +146,14 @@ public class ManageSOCController extends UifControllerBase {
         socForm.clear();
 
         ManageSOCViewHelperService viewHelper = (ManageSOCViewHelperService) KSControllerHelper.getViewHelperService(socForm);
-        TermInfo term = viewHelper.getTermByCode(socForm.getTermCode());
-        if(term!=null){
-            socForm.setTermInfo(term);
-            viewHelper.buildModel(socForm);
+        if(socForm.getTermCode() != null){
+            TermInfo term = viewHelper.getTermByCode(socForm.getTermCode());
+            if(term!=null){
+                socForm.setTermInfo(term);
+                viewHelper.buildModel(socForm);
+            }
+        }else{
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, ManageSocConstants.MessageKeys.ERROR_INVALID_TERM);
         }
 
     }
