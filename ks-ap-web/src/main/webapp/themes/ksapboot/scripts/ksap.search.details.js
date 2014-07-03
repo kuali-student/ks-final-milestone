@@ -17,22 +17,8 @@ function detectReferrerForBackLinkText() {
 }
 
 
-//Sections with multiple formats or offerings selected row behavior
+//Sections with multiple formats or offerings
 function checkboxSelectAndHighlight() {
-
-    //Select radio if clicking anywhere on the row
-    jQuery('.uif-tooltip').click(function(event) {
-        if (event.target.type !== 'radio') {
-            jQuery(':radio', this).trigger('click');
-        }
-    });
-
-    //Select checkbox if clicking anywhere on the row
-    jQuery('tr').click(function(event) {
-        if (event.target.type !== 'checkbox') {
-            jQuery(':checkbox', this).trigger('click');
-        }
-    });
 
     //Add and remove class when radio is toggled
     jQuery(".uif-verticalRadioControl").change(function () {

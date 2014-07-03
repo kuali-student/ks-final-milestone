@@ -125,9 +125,6 @@
     display: block;
     padding: 5px;
   }
-  tr:hover {
-    cursor: pointer;
-  }
   .ksap-text-small {
     font-size: 80%;
   }
@@ -159,10 +156,11 @@
       width: 100%;
     }
     fieldset[data-type="RadioSet"] label {
-      cursor: pointer;
+      cursor: default;
     }
     .ksap-section-format-header .uif-tooltip {
       border-bottom: 1px solid #ddd;
+      cursor: default;
       padding: 10px 15px 5px 15px;
       width: 100%;
     }
@@ -273,15 +271,6 @@
     .ksap-section-details {
       width: 175px;
     }
-  }
-
-  //Remove row hover styling for planned reg groups and single format offerings
-  .ksap-section-reg tr,
-  .ksap-section-reg tr:hover > td,
-  tr.ksap-activity-single,
-  tr.ksap-activity-single:hover > td {
-    background-color: transparent;
-    cursor: default;
   }
 
   // Planned Registration Groups
