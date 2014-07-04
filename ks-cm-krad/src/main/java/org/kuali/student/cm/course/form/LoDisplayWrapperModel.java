@@ -168,6 +168,11 @@ public class LoDisplayWrapperModel {
                 break;
             }
         }
+
+        if (parentLoDisplayInfoWrapper == null){
+            return siblingList;
+        }
+
         int parentIndex = loWrappers.indexOf(parentLoDisplayInfoWrapper);
         for (int i = parentIndex + 1; i < loWrappers.size(); i++) {
             if (loWrappers.get(i).getIndentLevel() - parentLoDisplayInfoWrapper.getIndentLevel() == 1) {
