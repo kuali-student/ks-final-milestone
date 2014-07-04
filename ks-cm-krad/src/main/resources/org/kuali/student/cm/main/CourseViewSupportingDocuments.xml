@@ -12,7 +12,7 @@
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
-  limitations under the License.
+  limitations under the License.canRevokeRequest
 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
@@ -31,54 +31,64 @@
         <property name="items">
             <list>
                 <ref bean="SupportingDocuments-NoRequiredMessageLink" />
-                <ref bean="KS-SupportingDocuments-Section" />
+                <ref bean="KS-CourseView-SupportingDocumentsSubSection" />
             </list>
         </property>
     </bean>
 
-    <bean id="KS-SupportingDocuments-Section" parent="Uif-StackedCollectionSection"
-          p:propertyName="documentsToAdd"
-          p:collectionObjectClass="org.kuali.student.cm.course.form.SupportingDocumentInfoWrapper">
-
-        <property name="addBlankLineAction">
-            <bean parent="KS-BottomAddLine">
-                <property name="actionLabel" value="Add a Supporting Document"/>
-                <property name="id" value="document-addline"/>
-                <property name="dirtyOnAction" value="true" />
-                <property name="style" value="margin-top:1em;" />
-            </bean>
-        </property>
-        <property name="renderAddBlankLineButton" value="true" />
+    <bean id="KS-CourseView-SupportingDocumentsSubSection"  parent="KS-CourseView-SupportingDocumentsSubSection-parent"/>
+    <bean id="KS-CourseView-SupportingDocumentsSubSection-parent" parent="KS-TableCollectionSubSection-BottomAddLine"
+          p:layoutManager.id="cc-supportingdocumentsgroup-table" p:layoutManager.style="width: 60em;">
+        <property name="collectionObjectClass" value="org.kuali.student.cm.course.form.SupportingDocumentInfoWrapper"/>
+        <property name="propertyName" value="documentsToAdd"/>
+        <property name="addBlankLineAction.actionLabel" value="Add Document"/>
+        <property name="addBlankLineAction.render" value="true"/>
+        <property name="addBlankLineAction.id" value="KS-CourseView-SupportingDocument-Section_add"/>
+        <property name="addBlankLineAction.dirtyOnAction" value="true"/>
         <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
-        <property name="renderLineActions" value="false" />
-        <property name="layoutManager.lineGroupPrototype.header.headerText"
-                  value="Document @{(#index + 1)}" />
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.generateAutoSequence" value="false"/>
+        <property name="layoutManager.separateAddLine" value="false"/>
+        <property name="layoutManager.richTable.disableTableSort" value="true"/>
+        <property name="layoutManager.richTable.render" value="false"/>
         <property name="cssClasses">
             <list merge="true">
                 <value>cm-collection-width</value>
                 <value>admin-not-required-field</value>
             </list>
         </property>
+
         <property name="lineActions">
             <list>
-                <bean parent="Uif-ActionLink" p:methodToCall="removeSupportingDocument" p:actionLabel="delete" />
+                <bean parent="KS-Uif-Delete-ActionLink"
+                      p:methodToCall="deleteLine"
+                      p:actionLabel="Delete"
+                      p:actionEvent="deleteLine"
+                      p:dirtyOnAction="true"/>
             </list>
         </property>
-
-        <property name="items">
+        <property name="Items">
             <list>
                 <bean parent="Uif-InputField" p:label="File" p:propertyName="documentUpload">
                     <property name="control">
                         <bean parent="Uif-FileControl" p:size="30"/>
                     </property>
+                    <property name="constraintText" value="Maximum File Size - 8MB "/>
                 </bean>
                 <bean parent="Uif-InputField" p:label="Description" p:propertyName="description" >
                     <property name="control">
-                        <bean parent="KS-Uif-TextControl" />
+                        <bean parent="Uif-MediumTextAreaControl">
+                            <property name="cssClasses">
+                                <list merge="true">
+                                    <value>cm-charcount-max-500</value>
+                                </list>
+                            </property>
+                        </bean>
                     </property>
                 </bean>
             </list>
         </property>
+
     </bean>
 
     <bean id="SupportingDocuments-NoRequiredMessageLink" parent="Uif-HorizontalFieldGroup" >

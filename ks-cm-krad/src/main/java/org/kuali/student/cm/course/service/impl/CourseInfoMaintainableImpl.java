@@ -66,6 +66,7 @@ import org.kuali.student.cm.course.form.OutcomeReviewSection;
 import org.kuali.student.cm.course.form.ResultValuesGroupInfoWrapper;
 import org.kuali.student.cm.course.form.ReviewProposalDisplay;
 import org.kuali.student.cm.course.form.SubjectCodeWrapper;
+import org.kuali.student.cm.course.form.SupportingDocumentInfoWrapper;
 import org.kuali.student.cm.course.service.CourseInfoMaintainable;
 import org.kuali.student.cm.course.service.util.CourseCodeSearchUtil;
 import org.kuali.student.cm.course.service.util.LoCategorySearchUtil;
@@ -102,6 +103,7 @@ import org.kuali.student.r2.core.constants.EnumerationManagementServiceConstants
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.constants.ProposalServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
+import org.kuali.student.r2.core.document.dto.DocumentInfo;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
 import org.kuali.student.r2.core.enumerationmanagement.service.EnumerationManagementService;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
@@ -827,6 +829,11 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         // Initialize Author & Collaborator
         if (courseInfoWrapper.getCollaboratorWrappers().isEmpty()) {
             courseInfoWrapper.getCollaboratorWrappers().add(new CollaboratorWrapper());
+        }
+
+        // Initialize Supporting Documents
+        if(courseInfoWrapper.getDocumentsToAdd().isEmpty()){
+            courseInfoWrapper.getDocumentsToAdd().add(new SupportingDocumentInfoWrapper());
         }
 
 
