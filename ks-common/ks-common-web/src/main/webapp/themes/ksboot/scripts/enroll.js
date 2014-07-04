@@ -1292,7 +1292,8 @@ function processInlineRowError(row, data, baseUrl, pageId){
 
 function updateInlineTableRowByComponent(component, baseUrl, data) {
     var row = jQuery(component).closest('tr');
-    var overrideMatrix;
+    var overrideMatrix = false;
+    var onMatrix = false;
 
     // remove global errors (if any)
     var pageId = jQuery('main').attr('id');
@@ -1306,6 +1307,7 @@ function updateInlineTableRowByComponent(component, baseUrl, data) {
         // there should be only one checkbox one row
         jQuery(row).find("input:checkbox").each(function () {
             overrideMatrix = jQuery(this).is(':checked');
+            onMatrix = true;
         });
 
         jQuery(row).find('.toggleable-element').each(function () {
@@ -1354,14 +1356,39 @@ function updateInlineTableRowByComponent(component, baseUrl, data) {
         //show growl message after the update
         var driverPerAO = eval("responseData.examOfferingWrapper['driverPerAO']");
         var courseOfferingCode = eval("responseData.examOfferingWrapper['courseOfferingCode']");
+        var eoSlottingResultKey = eval("responseData.examOfferingWrapper['eoResultKey']");
         var growlMsg;
+        var growMsgType = 'SUCCESS';
         if (driverPerAO) {
             var activityCode = eval("responseData.examOfferingWrapper['aoInfo']['activityCode']");
-            growlMsg = courseOfferingCode + ' Activity ' + activityCode + ': Exam Offering Schedule Request successfully updated.';
+            if (overrideMatrix || !onMatrix) {
+                growlMsg = courseOfferingCode + ' Activity ' + activityCode + ': Exam Offering Schedule Request successfully updated.';
+            } else {
+                if (eoSlottingResultKey == 'success.enroll.examoffering.finalexam.slotted') {
+                    growlMsg = courseOfferingCode + ' Activity ' + activityCode + ': Exam Offering Schedule Request successfully created.';
+                } else if (eoSlottingResultKey == 'warning.enroll.examoffering.finalexam.activity.offering.timeslots.not.found') {
+                    growlMsg = courseOfferingCode + ' Activity ' + activityCode + ': No scheduling information found on parent Activity Offering; Exam Offering Schedule Request blank.';
+                    growMsgType = 'WARNING';
+                } else if (eoSlottingResultKey == 'warning.enroll.examoffering.finalexam.ao.matrix.match.not.found') {
+                    growlMsg = courseOfferingCode + ' Activity ' + activityCode + ': No match found on the Exam Matrix; Exam Offering Schedule Request blank.';
+                    growMsgType = 'WARNING';
+                }
+            }
+
         } else {
-            growlMsg = courseOfferingCode + ': Exam Offering Schedule Request successfully updated.';
+            if (overrideMatrix || !onMatrix) {
+                growlMsg = courseOfferingCode + ': Exam Offering Schedule Request successfully updated.';
+            } else {
+                if (eoSlottingResultKey == 'success.enroll.examoffering.finalexam.slotted') {
+                    growlMsg = courseOfferingCode + ': Exam Offering Schedule Request successfully created.';
+                } else if (eoSlottingResultKey == 'warning.enroll.examoffering.finalexam.co.matrix.match.not.found') {
+                    growlMsg = courseOfferingCode + ': No match found on the Exam Matrix; Exam Offering Schedule Request blank.';
+                    growMsgType = 'WARNING';
+                }
+            }
+
         }
-        showGrowl(growlMsg, '', 'SUCCESS');
+        showGrowl(growlMsg, '', growMsgType);
     }
 }
 function updateInlineTableRow(event, baseUrl, data) {
