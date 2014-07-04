@@ -1040,7 +1040,7 @@ function showOrHideSaveInlineIcon(event){
         }
     });
 
-    toggleSearchIcons(row, overrideMatrix);
+    toggleSearchIcons(row, overrideMatrix, onMatrix);
 }
 
 function toggleInlineRowByComponent(component, saveInitialValues){
@@ -1099,18 +1099,16 @@ function toggleInlineRowByComponent(component, saveInitialValues){
         }
     });
 
-    toggleSearchIcons(row, overrideMatrix);
+    toggleSearchIcons(row, overrideMatrix, onMatrix);
 
     inlineTableInitialFields[selectedIndex] = initialValues;
 }
 
-function toggleSearchIcons(row, overrideMatrix) {
+function toggleSearchIcons(row, overrideMatrix, onMatirx) {
     // Hide/show all search icons in the row based on the matrix override flag
     jQuery(row).find('.icon-search').each(function() {
-        if (overrideMatrix) {
-            if(jQuery(this).hasClass("off")) {
+        if (overrideMatrix || !onMatirx) {
                 jQuery(this).removeClass("off");
-            }
         } else {
             if(!jQuery(this).hasClass("off")) {
                 jQuery(this).addClass("off");
