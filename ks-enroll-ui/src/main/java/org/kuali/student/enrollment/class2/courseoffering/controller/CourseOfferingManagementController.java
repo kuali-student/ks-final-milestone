@@ -1139,6 +1139,16 @@ public class CourseOfferingManagementController extends UifControllerBase {
                     ExamOfferingResult result = CourseOfferingManagementUtil.getExamOfferingServiceFacade().reslotExamOffering(
                             eoWrapper.getEoInfo(), examOfferingContext, new ArrayList<String>(), context);
                     ExamOfferingManagementUtil.processExamOfferingResultSet(result);
+
+                    int eoChildrenResultIndex = 0;
+                    if (StringUtils.isNotBlank(result.getKey())) {
+                        eoWrapper.setEoResultKey(result.getKey());
+                    } else {
+                        if (result.getChildren().size()>0 && StringUtils.isNotBlank(result.getChildren().get(eoChildrenResultIndex).getKey())) {
+                            eoWrapper.setEoResultKey(result.getChildren().get(eoChildrenResultIndex).getKey());
+                        }
+                    }
+
                     slotted = true;
                 }
             } else { //if 'override matrix' and scheduling state of 'matrix error' then a new scheduling state of 'unscheduled' should be saved

@@ -37,6 +37,7 @@ public class ExamOfferingWrapper implements Serializable, ComparatorModel{
     private boolean driverPerAO;
     private boolean overrideMatrix;
     private String overrideMatrixUI;
+    private String eoResultKey;
 
     public ExamOfferingWrapper(){
         startTime = new ArrayList<String>();
@@ -212,5 +213,13 @@ public class ExamOfferingWrapper implements Serializable, ComparatorModel{
 
     public void setCourseOfferingCode(String courseOfferingCode) {
         this.courseOfferingCode = courseOfferingCode;
+    }
+
+    public String getEoResultKey() {
+        return eoResultKey;
+    }
+
+    public void setEoResultKey(String eoResultKey) {
+        this.eoResultKey = eoResultKey;
     }
 }
