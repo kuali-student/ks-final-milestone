@@ -185,7 +185,6 @@
         <property name="header.id" value="KS-CourseView-Header"/>
         <property name="header.lowerGroup">
             <bean id="KS-CourseView-LinkGroup" parent="Uif-LinkGroup" p:linkSeparator="|"
-                  p:render="@{#form.pageId eq 'KS-CourseView-CoursePage' OR #form.pageId eq 'KS-CourseView-ReviewProposalPage'}"
                   p:additionalCssClasses="cm-StickyHeader-links">
                 <property name="items">
                     <list>
@@ -249,7 +248,7 @@
                 <entry key="dataObject" value="document.newMaintainableObject.dataObject"/>
                 <entry key="uiHelper" value="document.newMaintainableObject.dataObject.uiHelper"/>
                 <entry key="workflowDoc" value="document.documentHeader.workflowDocument"/>
-                <entry key="htmlUtils" value="T(org.springframework.web.util.HtmlUtils)" />
+                <entry key="htmlUtils" value="T(org.springframework.web.util.HtmlUtils)"/>
             </map>
         </property>
     </bean>
