@@ -8,11 +8,25 @@ angular.module('regCartApp')
 
         $scope.appUrl = APP_URL.replace('/services/', '/');
 
+        $scope.termId = null;
+        $scope.termName = '';
+        $scope.studentIsEligibleForTerm = true; // Top-level check whether student is eligible to register for the selected term
 
         // update the term name if the termId changes
         $scope.$watch('termId', function (newValue) {
             if (newValue) {
                 $scope.termName = TermsService.getTermNameForTermId($scope.terms, newValue);
+
+                // Check to see if the term is open or closed for registration
+                console.log('checking term eligibility');
+                TermsService.checkStudentEligibilityForTerm().query({termId: newValue}, function (response) {
+                    console.log('-- success');
+                    $scope.studentIsEligibleForTerm = (angular.isDefined(response.isEligible) && response.isEligible) || false;
+                }, function (error) {
+                    console.log('-- failed');
+                    console.log('Error while checking if term is open', error);
+                    $scope.studentIsEligibleForTerm = false;
+                });
 
                 ScheduleService.getScheduleFromServer().query({termId: newValue }, function (result) {
                     console.log('called rest service to get schedule data - in main.js');
@@ -83,5 +97,5 @@ angular.module('regCartApp')
                 console.log('Session expired...logging out');
                 location.reload();
             });
-        }
+        };
     }]);

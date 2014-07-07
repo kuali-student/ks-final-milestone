@@ -83,6 +83,19 @@
         color: @cardTextColor; //#2A617D;
     }
 
+    &--locked { // No Access Alert
+        background: @lockedBackground;
+        border-color: @lockedBorder;
+        color: @lockedText;
+        margin: 0;
+        max-width: @largeFormatMax;
+        padding-left: 10px;
+        & .glyphicon { // Icon element
+            color: @primaryTextColor;
+            margin-right: 5px;
+        }
+    }
+
 
     // Transitions
     &.ng-enter,

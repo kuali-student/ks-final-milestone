@@ -1,9 +1,13 @@
 'use strict';
 
 angular.module('regCartApp')
-    .service('TermsService', ['ServiceUtilities', 'URLS', function (ServiceUtilities, URLS) {
+    .service('TermsService', ['ServiceUtilities', 'URLS', function TermsService(ServiceUtilities, URLS) {
 
         var termId = 'kuali.atp.2012Fall';   // default value
+
+        this.checkStudentEligibilityForTerm = function () {
+            return ServiceUtilities.getData(URLS.scheduleOfClasses + '/checkStudentEligibilityForTerm');
+        };
 
         this.getTermId = function () {
             return termId;

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('regCartApp')
-    .service('ServiceUtilities', ['$resource', 'APP_URL', function ($resource, APP_URL) {
+    .service('ServiceUtilities', ['$resource', 'APP_URL', function ServiceUtilities($resource, APP_URL) {
 
         this.getData = function(url) {
             return $resource(APP_URL + url, {}, {

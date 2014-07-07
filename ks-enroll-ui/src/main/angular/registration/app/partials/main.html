@@ -9,6 +9,7 @@
             <div class="kscr-Header-separator"></div>
             <div class="util-Grid-cell">
                 <div class="kscr-Header-termName">
+                    <span class="kscr-Header-termName-icon" ng-show="termId && !studentIsEligibleForTerm"><i class="glyphicon glyphicon-lock"></i></span>
                     <span class="kscr-Header-termName-label">{{termName}}</span>
                     <div class="kscr-Header-termName-selector">
                         <span class="kscr-Header-termName-selector-label" id="header_termName" for="searchTermDesktop">{{termName}}</span>
@@ -55,8 +56,17 @@
 </div>
 
 
-<div class="kscr-Main-content" ng-disabled="dropMenu">
-    <div ui-view></div>
+<div class="kscr-Main-contentContainer" ng-disabled="dropMenu">
+    <!-- Main view area -->
+    <div class="kscr-Main-content" ui-view ng-show="studentIsEligibleForTerm"></div>
+
+    <!-- No access message -->
+    <div class="kscr-Main-noAccessContainer" ng-show="!studentIsEligibleForTerm">
+        <div class="util-Alert util-Alert--locked" id="reg_locked_container">
+            <span class=""><i class="glyphicon glyphicon-lock"></i></span>
+            <span class="">Registration is not currently open</span>
+        </div>
+    </div>
 </div>
 
 <div ng-class="{'kscr-Menu-background--disabled' : dropMenu}" ng-click="dropMenu=false"></div>
