@@ -119,6 +119,22 @@
         // Shown only in small-format
         display: block;
     }
+
+    // Main Cart heading in small format
+    .kscr-MainHeading-CartHeading {
+        padding: 0 0.5em;
+
+        // Styles for when stuck
+        &.util-sticky--stuck {
+            padding: 0;
+        }
+
+        & .kscr-MainHeading {
+            background-color: @whiteBackground;
+            border: 1px @cardBorderColor solid;
+            border-bottom-width: 2px;
+        }
+    }
 }
 
 

@@ -67,6 +67,7 @@ angular.module('regCartApp')
 
                         isStuck = true;
                     }
+
                     /**
                      * Return the element to its pre-sticky state.
                      */
