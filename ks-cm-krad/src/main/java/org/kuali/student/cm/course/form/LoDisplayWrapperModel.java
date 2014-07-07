@@ -210,7 +210,7 @@ public class LoDisplayWrapperModel {
         // if current node is the only child
 
         List<LoDisplayInfoWrapper> siblingList = getSiblingList(loDisplayInfoWrapper);
-        if (siblingList.size() == 1) {
+        if (siblingList.size() == 1 || siblingList.size() == 0) {
             return false;
         }
         //first kid
@@ -231,7 +231,7 @@ public class LoDisplayWrapperModel {
 
     public boolean isMoveUpable(LoDisplayInfoWrapper loDisplayInfoWrapper) {
         List<LoDisplayInfoWrapper> list = getSiblingList(loDisplayInfoWrapper);
-        if (list.size() == 1) { // only child
+        if (list.size() == 1 || list.isEmpty()) { // only child
             return false;
         }
         int index = list.indexOf(loDisplayInfoWrapper);

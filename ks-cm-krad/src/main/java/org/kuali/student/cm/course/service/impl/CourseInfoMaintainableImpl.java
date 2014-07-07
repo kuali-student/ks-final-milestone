@@ -1961,8 +1961,8 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         courseInfoWrapper.getLoDisplayWrapperModel().getLoWrappers().addAll(newDisplayWrappers);
 
         /**
-         * Once we added all the child to a single list for display reasons, clear out all the childs from each LOs to avoid
-         * duplicates on save.
+         * Once we added all the child to a single list for display reasons, clear out all the children from each LOs to avoid
+         * duplicates on save. Save will attach the children back to LOs based on the user indentation
          */
         for (LoDisplayInfo loDisplayInfo : courseInfoWrapper.getLoDisplayWrapperModel().getLoWrappers()) {
             loDisplayInfo.getLoDisplayInfoList().clear();
@@ -1981,7 +1981,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             populateLOCategoryName(displayInfoWrapper);
             newDisplayWrappers.add(displayInfoWrapper);
             displayInfoWrapper.setIndentLevel(nextLevel);
-            indentLoOnLoad(newDisplayWrappers,displayInfoWrapper, nextLevel + 1);
+            indentLoOnLoad(newDisplayWrappers,displayInfoWrapper, nextLevel);
         }
     }
 
