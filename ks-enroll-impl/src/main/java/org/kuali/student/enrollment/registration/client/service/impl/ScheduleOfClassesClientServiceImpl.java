@@ -1,13 +1,8 @@
 package org.kuali.student.enrollment.registration.client.service.impl;
 
 import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesClientService;
-import org.kuali.student.enrollment.registration.client.service.dto.ActivityOfferingSearchResult;
-import org.kuali.student.enrollment.registration.client.service.dto.ActivityTypeSearchResult;
-import org.kuali.student.enrollment.registration.client.service.dto.CourseAndPrimaryAOSearchResult;
-import org.kuali.student.enrollment.registration.client.service.dto.CourseSearchResult;
-import org.kuali.student.enrollment.registration.client.service.dto.InstructorSearchResult;
-import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
-import org.kuali.student.enrollment.registration.client.service.dto.TermSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.*;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -133,6 +128,21 @@ public class ScheduleOfClassesClientServiceImpl extends ScheduleOfClassesService
     /**
      * TERMS *
      */
+
+    @Override
+    public Response checkStudentEligibilityForTerm(final String termId) {
+        Response.ResponseBuilder response;
+
+        try {
+            EligibilityCheckResult eligibilityCheckResult = checkStudentEligibilityForTermLocal(termId);
+            response = Response.ok(eligibilityCheckResult);
+        } catch (Exception e) {
+            LOGGER.warn(EXCEPTION_MSG, e);
+            response = Response.serverError().entity(e.getMessage());
+        }
+
+        return response.build();
+    }
 
     @Override
     public Response searchForTerms(String termCode, boolean isActiveTerms) {

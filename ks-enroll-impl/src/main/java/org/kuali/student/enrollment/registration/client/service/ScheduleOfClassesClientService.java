@@ -175,6 +175,17 @@ public interface ScheduleOfClassesClientService {
 /** TERMS **/
 
     /**
+     * Returns whether or not the student is eligible for the term.
+     *
+     * @param termId      required
+     * @return Returns a list of validation results
+     */
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/checkStudentEligibilityForTerm")
+    Response checkStudentEligibilityForTerm(@QueryParam("termId") String termId);
+
+    /**
      * Returns a list of term details.
      *
      * @param termCode      optional; if provided, overrides isActiveTerms
@@ -186,5 +197,4 @@ public interface ScheduleOfClassesClientService {
     @Path("/terms")
     Response searchForTerms(@QueryParam("termCode") String termCode,
                                      @QueryParam("active") boolean isActiveTerms);
-
 }

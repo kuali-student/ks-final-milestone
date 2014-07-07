@@ -8,20 +8,12 @@ import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesService;
-import org.kuali.student.enrollment.registration.client.service.dto.ActivityOfferingScheduleComponentResult;
-import org.kuali.student.enrollment.registration.client.service.dto.ActivityOfferingSearchResult;
-import org.kuali.student.enrollment.registration.client.service.dto.ActivityTypeSearchResult;
-import org.kuali.student.enrollment.registration.client.service.dto.CourseAndPrimaryAOSearchResult;
-import org.kuali.student.enrollment.registration.client.service.dto.CourseSearchResult;
-import org.kuali.student.enrollment.registration.client.service.dto.InstructorSearchResult;
-import org.kuali.student.enrollment.registration.client.service.dto.RegistrationCountResult;
-import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
-import org.kuali.student.enrollment.registration.client.service.dto.ScheduleSearchResult;
-import org.kuali.student.enrollment.registration.client.service.dto.TermSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.*;
 import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
 import org.kuali.student.enrollment.registration.search.service.impl.CourseRegistrationSearchServiceImpl;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -109,6 +101,16 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
     /**
      * PROTECTED HELPERS *
      */
+
+    protected EligibilityCheckResult checkStudentEligibilityForTermLocal(String termId) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
+        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+        List<ValidationResultInfo> validationResults = CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().checkStudentEligibilityForTerm(contextInfo.getPrincipalId(), termId, contextInfo);
+
+        EligibilityCheckResult result = new EligibilityCheckResult(validationResults);
+        result.setIsEligible(result.getReasons().isEmpty());
+
+        return result;
+    }
 
     protected List<TermSearchResult> searchForTermsLocal(String termCode, boolean isActiveTerms) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
