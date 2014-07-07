@@ -591,10 +591,15 @@ jQuery.validator.addMethod("validCourseCode",
         return this.optional(element) || compareCourseCode(value, element);
     }, "Course code is invalid")
 
-jQuery.validator.addMethod("validInstructorAuthorNameAndID",
+jQuery.validator.addMethod("validInstructorNameAndID",
     function (value, element) {
-        return this.optional(element) || compareInstructorNameInput(value, element);
+        return this.optional(element) || comparePersonDisplayNameInput(value, element);
     }, "Instructor name/ID combo is invalid")
+
+jQuery.validator.addMethod("validCollaboratorNameAndID",
+    function (value, element) {
+        return this.optional(element) || comparePersonDisplayNameInput(value, element);
+    }, "Collaborator name/ID combo is invalid")
 
 
 /**
@@ -631,27 +636,27 @@ function compareCourseCode(value, element) {
 
 /*Compare the input instructor from the autofill suggest results: data. If the input is in the result data
  it is valid input instructor */
-function compareInstructorNameInput(value, element) {
+function comparePersonDisplayNameInput(value, element) {
     var isValid = false;
     if (value == null || value.length < 6) {
         return isValid;
     }
-    var queryVal = value.split(',')[0].toUpperCase();
+    var queryVal = value.split(',')[0];
 
     var successFunction = function (data) {
-        var lastName = value.split(',')[0].toUpperCase();
-        var restVal = value.split(',')[1].toUpperCase();
+        var lastName = value.split(',')[0];
+        var restVal = value.split(',')[1];
         var firstName = '';
         var nameID = '';
         if (restVal != null) {
-            firstName = restVal.split('(')[0].toUpperCase();
-            nameID = restVal.split('(')[1].toUpperCase();
+            firstName = restVal.split('(')[0];
+            nameID = restVal.split('(')[1];
         }
         if (data == null || data.resultData == null) {
             isValid = false;
         } else {
             for (var i = 0; len = data.resultData.length, i < len; i++) {
-                var correctName = data.resultData[i].displayName.toUpperCase();
+                var correctName = data.resultData[i].displayName;
                 if (correctName.indexOf(lastName) >= 0 && correctName.indexOf(firstName) > 1 && correctName.indexOf(nameID) > 2) {
                     isValid = true;
                     break;
