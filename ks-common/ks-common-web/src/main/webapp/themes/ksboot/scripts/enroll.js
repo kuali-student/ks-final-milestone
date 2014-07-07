@@ -1019,15 +1019,15 @@ var responseData;
 function showOrHideSaveInlineIcon(event){
     var row = jQuery(event.target).closest('tr');
     var overrideMatrix = false;
-    var onMatrix = false;
+    var useMatrix = false;
 
     jQuery(row).find("input:checkbox").each(function () {
         overrideMatrix = jQuery(this).is(':checked');
-        onMatrix = true;
+        useMatrix = true;
     });
 
     jQuery(row).find('a[id^=EO-toggleUpdateButton_]').each(function() {
-        if (onMatrix) {
+        if (useMatrix) {
             if (overrideMatrix) {
                 if(jQuery(this).hasClass("off")) {
                     jQuery(this).switchClass("off", "on");
@@ -1040,7 +1040,7 @@ function showOrHideSaveInlineIcon(event){
         }
     });
 
-    toggleSearchIcons(row, overrideMatrix, onMatrix);
+    toggleSearchIcons(row, overrideMatrix, useMatrix);
 }
 
 function toggleInlineRowByComponent(component, saveInitialValues){
@@ -1049,14 +1049,14 @@ function toggleInlineRowByComponent(component, saveInitialValues){
     var selectedIndex = prefix + index;
     var initialValues = [];
     var overrideMatrix = false;
-    var onMatrix = false;
+    var useMatrix = false;
     jQuery(row).find("input:checkbox").each(function () {
         overrideMatrix = jQuery(this).is(':checked');
-        onMatrix = true;
+        useMatrix = true;
     });
 
     jQuery(row).find('.toggleable-element').each(function(){
-        if (jQuery(this).attr('id').indexOf('EO-toggleUpdateButton_') === 0 && onMatrix) {
+        if (jQuery(this).attr('id').indexOf('EO-toggleUpdateButton_') === 0 && useMatrix) {
             if (saveInitialValues ) {
                 if (overrideMatrix) {
                     if (jQuery(this).hasClass("off")) {
@@ -1099,7 +1099,7 @@ function toggleInlineRowByComponent(component, saveInitialValues){
         }
     });
 
-    toggleSearchIcons(row, overrideMatrix, onMatrix);
+    toggleSearchIcons(row, overrideMatrix, useMatrix);
 
     inlineTableInitialFields[selectedIndex] = initialValues;
 }
@@ -1290,10 +1290,58 @@ function processInlineRowError(row, data, baseUrl, pageId){
     jQuery("#" + pageId + " header:eq(0)").after(globalErrorsDiv);
 }
 
+function showGrowlMessage(component) {
+    var row = jQuery(component).closest('tr');
+    var driverPerAO = eval("responseData.examOfferingWrapper['driverPerAO']");
+    var courseOfferingCode = eval("responseData.examOfferingWrapper['courseOfferingCode']");
+    var eoSlottingResultKey = eval("responseData.examOfferingWrapper['eoResultKey']");
+    var growlMsg;
+    var growMsgType = 'SUCCESS';
+    var overrideMatrix = false;
+    var useMatrix = false;
+
+    jQuery(row).find("input:checkbox").each(function () {
+        overrideMatrix = jQuery(this).is(':checked');
+        useMatrix = true;
+    });
+
+    if (driverPerAO) {
+        var activityCode = eval("responseData.examOfferingWrapper['aoInfo']['activityCode']");
+        if (overrideMatrix || !useMatrix) {
+            growlMsg = courseOfferingCode + ' Activity ' + activityCode + ': Exam Offering Schedule Request successfully updated.';
+        } else {
+            if (eoSlottingResultKey == 'success.enroll.examoffering.finalexam.slotted') {
+                growlMsg = courseOfferingCode + ' Activity ' + activityCode + ': Exam Offering Schedule Request successfully created.';
+            } else if (eoSlottingResultKey == 'warning.enroll.examoffering.finalexam.activity.offering.timeslots.not.found') {
+                growlMsg = courseOfferingCode + ' Activity ' + activityCode + ': No scheduling information found on parent Activity Offering; Exam Offering Schedule Request blank.';
+                growMsgType = 'WARNING';
+            } else if (eoSlottingResultKey == 'warning.enroll.examoffering.finalexam.ao.matrix.match.not.found') {
+                growlMsg = courseOfferingCode + ' Activity ' + activityCode + ': No match found on the Exam Matrix; Exam Offering Schedule Request blank.';
+                growMsgType = 'WARNING';
+            }
+        }
+
+    } else {
+        if (overrideMatrix || !useMatrix) {
+            growlMsg = courseOfferingCode + ': Exam Offering Schedule Request successfully updated.';
+        } else {
+            if (eoSlottingResultKey == 'success.enroll.examoffering.finalexam.slotted') {
+                growlMsg = courseOfferingCode + ': Exam Offering Schedule Request successfully created.';
+            } else if (eoSlottingResultKey == 'warning.enroll.examoffering.finalexam.co.matrix.match.not.found') {
+                growlMsg = courseOfferingCode + ': No match found on the Exam Matrix; Exam Offering Schedule Request blank.';
+                growMsgType = 'WARNING';
+            }
+        }
+
+    }
+    showGrowl(growlMsg, '', growMsgType);
+
+}
+
 function updateInlineTableRowByComponent(component, baseUrl, data) {
     var row = jQuery(component).closest('tr');
     var overrideMatrix = false;
-    var onMatrix = false;
+    var useMatrix = false;
 
     // remove global errors (if any)
     var pageId = jQuery('main').attr('id');
@@ -1307,7 +1355,7 @@ function updateInlineTableRowByComponent(component, baseUrl, data) {
         // there should be only one checkbox one row
         jQuery(row).find("input:checkbox").each(function () {
             overrideMatrix = jQuery(this).is(':checked');
-            onMatrix = true;
+            useMatrix = true;
         });
 
         jQuery(row).find('.toggleable-element').each(function () {
@@ -1353,42 +1401,7 @@ function updateInlineTableRowByComponent(component, baseUrl, data) {
         });
         toggleInlineRowByComponent(component, false);
 
-        //show growl message after the update
-        var driverPerAO = eval("responseData.examOfferingWrapper['driverPerAO']");
-        var courseOfferingCode = eval("responseData.examOfferingWrapper['courseOfferingCode']");
-        var eoSlottingResultKey = eval("responseData.examOfferingWrapper['eoResultKey']");
-        var growlMsg;
-        var growMsgType = 'SUCCESS';
-        if (driverPerAO) {
-            var activityCode = eval("responseData.examOfferingWrapper['aoInfo']['activityCode']");
-            if (overrideMatrix || !onMatrix) {
-                growlMsg = courseOfferingCode + ' Activity ' + activityCode + ': Exam Offering Schedule Request successfully updated.';
-            } else {
-                if (eoSlottingResultKey == 'success.enroll.examoffering.finalexam.slotted') {
-                    growlMsg = courseOfferingCode + ' Activity ' + activityCode + ': Exam Offering Schedule Request successfully created.';
-                } else if (eoSlottingResultKey == 'warning.enroll.examoffering.finalexam.activity.offering.timeslots.not.found') {
-                    growlMsg = courseOfferingCode + ' Activity ' + activityCode + ': No scheduling information found on parent Activity Offering; Exam Offering Schedule Request blank.';
-                    growMsgType = 'WARNING';
-                } else if (eoSlottingResultKey == 'warning.enroll.examoffering.finalexam.ao.matrix.match.not.found') {
-                    growlMsg = courseOfferingCode + ' Activity ' + activityCode + ': No match found on the Exam Matrix; Exam Offering Schedule Request blank.';
-                    growMsgType = 'WARNING';
-                }
-            }
-
-        } else {
-            if (overrideMatrix || !onMatrix) {
-                growlMsg = courseOfferingCode + ': Exam Offering Schedule Request successfully updated.';
-            } else {
-                if (eoSlottingResultKey == 'success.enroll.examoffering.finalexam.slotted') {
-                    growlMsg = courseOfferingCode + ': Exam Offering Schedule Request successfully created.';
-                } else if (eoSlottingResultKey == 'warning.enroll.examoffering.finalexam.co.matrix.match.not.found') {
-                    growlMsg = courseOfferingCode + ': No match found on the Exam Matrix; Exam Offering Schedule Request blank.';
-                    growMsgType = 'WARNING';
-                }
-            }
-
-        }
-        showGrowl(growlMsg, '', growMsgType);
+        showGrowlMessage(component);
     }
 }
 function updateInlineTableRow(event, baseUrl, data) {
