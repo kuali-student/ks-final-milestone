@@ -1357,6 +1357,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         if (courseInfoWrapper.getLoDisplayWrapperModel() != null && courseInfoWrapper.getLoDisplayWrapperModel().getLoWrappers() != null) {
             List<LoDisplayInfoWrapper> loWrappers = courseInfoWrapper.getLoDisplayWrapperModel().getLoWrappers();
             List<LoDisplayInfo> courseLos = courseInfoWrapper.getCourseInfo().getCourseSpecificLOs();
+            courseLos.clear();
             for (int i = 0; i < loWrappers.size(); i++) {
 
                 LoDisplayInfoWrapper currentLo = loWrappers.get(i);
@@ -1958,6 +1959,14 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             indentLoOnLoad(newDisplayWrappers,displayInfoWrapper,indent);
         }
         courseInfoWrapper.getLoDisplayWrapperModel().getLoWrappers().addAll(newDisplayWrappers);
+
+        /**
+         * Once we added all the child to a single list for display reasons, clear out all the childs from each LOs to avoid
+         * duplicates on save.
+         */
+        for (LoDisplayInfo loDisplayInfo : courseInfoWrapper.getLoDisplayWrapperModel().getLoWrappers()) {
+            loDisplayInfo.getLoDisplayInfoList().clear();
+        }
 
         setLOActions();
     }
