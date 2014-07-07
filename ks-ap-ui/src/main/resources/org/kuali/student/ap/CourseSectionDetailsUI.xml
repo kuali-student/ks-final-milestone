@@ -269,6 +269,20 @@
                 <value>ksap-section-format</value>
             </list>
         </property>
+        <property name="header.rightGroup">
+            <bean parent="Uif-HeaderRightGroup">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-PrimaryActionButton"
+                              p:render="@{#index==0 and #parentLine.activityFormatDetailsWrappers.size() > 1}"
+                              p:actionLabel="@{#textHelper.getText('details.button.addToPlan')}"
+                              p:disabled="true"
+                              p:id="@{#line.xmlSafeTermId}_@{#line.courseOfferingCode}_@{#line.formatOfferingId}_addButton"
+                              p:actionScript="ksapOpenDialog('KSAP-CourseDetailsSection-AddCoursePage','details','startAddDialog', this, e);"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-MessageField" p:messageText="@{#line.formatName} (@{#line.activityOfferingDetailsWrappers.size()})"
