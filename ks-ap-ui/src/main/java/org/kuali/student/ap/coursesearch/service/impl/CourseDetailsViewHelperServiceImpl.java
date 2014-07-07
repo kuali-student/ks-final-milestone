@@ -17,10 +17,7 @@ package org.kuali.student.ap.coursesearch.service.impl;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.container.GroupBase;
-import org.kuali.rice.krad.uif.control.RadioGroupControl;
-import org.kuali.rice.krad.uif.element.Message;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
-import org.kuali.rice.krad.uif.util.KeyMessage;
 import org.kuali.rice.krad.uif.widget.Disclosure;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
@@ -639,8 +636,8 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
             //Check if there exist a plan item in the plan for the reg group
             try {
                 List<PlanItemInfo> item = KsapFrameworkServiceLocator.getAcademicPlanService()
-                        .getPlanItemsInPlanByRefObjectIdByRefObjectType(learningPlan.getId(),group.getId(),
-                                PlanConstants.REG_GROUP_TYPE,contextInfo);
+                        .getPlanItemsInPlanByRefObjectIdByRefObjectType(learningPlan.getId(), group.getId(),
+                                PlanConstants.REG_GROUP_TYPE, contextInfo);
                 if(item ==null || item.isEmpty()){
                     // If plan item does not exist reg group is valid
                     validGroups.add(group);
@@ -841,29 +838,31 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
         }
 
         for (ActivityOfferingInfo activityOffering : activityOfferings) {
-            // Retrieve current group by the format id, if entry is missing create it
-            Map<String, List<ActivityOfferingDetailsWrapper>> aosByFormat = aoMapByFormatName.get(activityOffering.getFormatOfferingId());
-            if (aosByFormat == null) {
-                aosByFormat = new HashMap<String, List<ActivityOfferingDetailsWrapper>>();
+            if (activityOffering.getStateKey().equals(LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY)) {
+                // Retrieve current group by the format id, if entry is missing create it
+                Map<String, List<ActivityOfferingDetailsWrapper>> aosByFormat = aoMapByFormatName.get(activityOffering.getFormatOfferingId());
+                if (aosByFormat == null) {
+                    aosByFormat = new HashMap<String, List<ActivityOfferingDetailsWrapper>>();
+                }
+
+                // Convert into wrapper used on page
+                ActivityOfferingDetailsWrapper wrapper = convertAOInfoToWrapper(activityOffering);
+
+                // Retrieve current group by the format type, if entry is missing create it
+                String typeKey = activityOffering.getTypeKey();
+                List<ActivityOfferingDetailsWrapper> aosByType = aosByFormat.get(typeKey);
+                if (aosByType == null) {
+                    aosByType = new ArrayList<ActivityOfferingDetailsWrapper>();
+                }
+
+                // Set whether activity is considered  valid
+                wrapper.setValidActivity(validActivityOfferings.contains(wrapper.getActivityOfferingId()));
+
+                //Add entry into map
+                aosByType.add(wrapper);
+                aosByFormat.put(typeKey, aosByType);
+                aoMapByFormatName.put(activityOffering.getFormatOfferingId(), aosByFormat);
             }
-
-            // Convert into wrapper used on page
-            ActivityOfferingDetailsWrapper wrapper = convertAOInfoToWrapper(activityOffering);
-
-            // Retrieve current group by the format type, if entry is missing create it
-            String typeKey = activityOffering.getTypeKey();
-            List<ActivityOfferingDetailsWrapper> aosByType = aosByFormat.get(typeKey);
-            if (aosByType == null) {
-                aosByType = new ArrayList<ActivityOfferingDetailsWrapper>();
-            }
-
-            // Set whether activity is considered  valid
-            wrapper.setValidActivity(validActivityOfferings.contains(wrapper.getActivityOfferingId()));
-
-            //Add entry into map
-            aosByType.add(wrapper);
-            aosByFormat.put(typeKey, aosByType);
-            aoMapByFormatName.put(activityOffering.getFormatOfferingId(), aosByFormat);
         }
         return aoMapByFormatName;
     }
