@@ -488,7 +488,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
         regGroups = offeredRegGroups;
 
         // Validate Reg Groups based on selected AOs
-        List<String> selectedActivities = (List<String>) additionalRestrictions.get("selectedActivites");
+        List<String> selectedActivities = (List<String>) additionalRestrictions.get("selectedActivities");
         regGroups = getValidRegGroupsFilteredBySelectedActivities(regGroups, selectedActivities);
 
         // Validate Reg Groups based on if they are already in plan
@@ -560,6 +560,13 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
         JsonObjectBuilder filterEvent = Json.createObjectBuilder();
         filterEvent.add("termId", termId.replace(".", "-"));
         filterEvent.add("courseOfferingCode", courseOfferingCode);
+        if(regGroups.size()==1){
+            try {
+                filterEvent.add("regGroupId",KSCollectionUtils.getRequiredZeroElement(regGroups).getId());
+            } catch (OperationFailedException e) {
+                throw new IllegalArgumentException("Failure retrieving registration group", e);
+            }
+        }
 
         // Deconstruct reg groups into list of AO and FO ids
         List<String> validFormatOfferings = new ArrayList<String>();
@@ -604,12 +611,12 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
         if(selectedActivities != null && !selectedActivities.isEmpty()){
             List<RegistrationGroupInfo> validAOGroups = new ArrayList<RegistrationGroupInfo>();
             for(RegistrationGroupInfo group : regGroups){
-                boolean valid = false;
+                boolean valid = true;
 
                 // Check if reg group activities contain a selected activity.
                 for(String activityId : selectedActivities){
-                    if(group.getActivityOfferingIds().contains(activityId)){
-                        valid = true;
+                    if(!group.getActivityOfferingIds().contains(activityId)){
+                        valid = false;
                         break;
                     }
                 }

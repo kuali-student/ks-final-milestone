@@ -51,8 +51,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Controller handling the interactions of the course section portion of the Course Details Page.
@@ -164,18 +166,71 @@ public class CourseSectionDetailsController extends KsapControllerBase {
         // Get new list of valid registration groups with added plan item
         List<RegistrationGroupInfo> validRegGroups = getViewHelperService(form).getValidRegGroups(course.getId(), new HashMap<Object, Object>());
 
-        //Create events needed to update the page
+        // Create events needed to update the page
         eventList = getViewHelperService(form).createAddSectionEvent(regGroup.getCourseOfferingId(), activityWrappers, eventList);
         eventList = getViewHelperService(form).createFilterValidRegGroupsEvent(course.getTermId(), course.getCourseOfferingCode(),validRegGroups, eventList);
         PlanEventUtils.sendJsonEvents(true,"Registration Group For " +course.getCourseOfferingCode() + " added for " + term.getName(), response, eventList);
         return null;
     }
 
+    /**
+     * Handles the fitlering of activities when one is selected on the page
+     * Requires the activity id of the one selected
+     * Requires the list of activity ids of all activities that are checked.
+     * Returns null for the method but writes json objects for the page to use in dynamic updating
+     */
     @MethodAccessible
     @RequestMapping(params = "methodToCall=filterAOs")
     public ModelAndView filterAOs(@ModelAttribute("KualiForm") CourseSectionDetailsForm form,
                                     HttpServletRequest request,
                                     HttpServletResponse response) throws IOException, ServletException {
+        form.setViewId(COURSE_SECTION_DETAILS_FORM);
+        form.setView(super.getViewService().getViewById(COURSE_SECTION_DETAILS_FORM));
+        JsonObjectBuilder eventList = Json.createObjectBuilder();
+        List<String> selectedActivities = new ArrayList<String>();
+        Map<Object, Object> additionalRestrictions = new HashMap<Object, Object>();
+
+        // Retrieve data from page
+        String selectedActivityId = request.getParameter("selectedActivityId");
+        String checkedActivitiesStr = request.getParameter("checkedActivities");
+        if(!checkedActivitiesStr.isEmpty()){
+            String checkedActivities[] = checkedActivitiesStr.split(",");
+            for(String str : checkedActivities){
+                selectedActivities.add(str);
+            }
+        }
+
+        // Add selected activity list to restrictions map
+        additionalRestrictions.put("selectedActivities", selectedActivities);
+
+        // Retrieve activity offering for the one being interacted with.
+        ActivityOfferingInfo activityOfferingInfo = null;
+        try {
+            activityOfferingInfo = KsapFrameworkServiceLocator.getCourseOfferingService()
+                    .getActivityOffering(selectedActivityId,KsapFrameworkServiceLocator.getContext().getContextInfo());
+        } catch (DoesNotExistException e) {
+            throw new IllegalArgumentException("CO Service lookup error", e);
+        } catch (InvalidParameterException e) {
+            throw new IllegalArgumentException("CO Service lookup error", e);
+        } catch (MissingParameterException e) {
+            throw new IllegalArgumentException("CO Service lookup error", e);
+        } catch (OperationFailedException e) {
+            throw new IllegalArgumentException("CO Service lookup error", e);
+        } catch (PermissionDeniedException e) {
+            throw new IllegalArgumentException("CO Service lookup error", e);
+        }
+
+        // Retrieve filtered registration groups
+        List<RegistrationGroupInfo> regGroups = getViewHelperService(form)
+                .getValidRegGroups(activityOfferingInfo.getCourseOfferingId(),additionalRestrictions);
+
+        //Create events needed to update the page
+        eventList = getViewHelperService(form).createFilterValidRegGroupsEvent(activityOfferingInfo.getTermId(),
+                activityOfferingInfo.getCourseOfferingCode(),regGroups, eventList);
+        PlanEventUtils.sendJsonEvents(true,"Filtered Activities for those only those in groups with " +
+                activityOfferingInfo.getCourseOfferingCode() + " - " + activityOfferingInfo.getActivityCode(),
+                response, eventList);
+
         return null;
     }
 

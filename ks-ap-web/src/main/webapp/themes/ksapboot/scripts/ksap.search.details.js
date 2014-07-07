@@ -292,3 +292,12 @@ function clickActivity(selected,e){
     fnClosePopup();
     jQuery("form#tempSubmit").remove();
 }
+
+/**
+ * Resets all checkboxes to an unchecked state.
+ */
+function resetCheckBoxes(){
+    var checkedCheckboxes = jQuery("[type='checkbox']:checked");
+    checkedCheckboxes.attr("checked",false);
+
+}

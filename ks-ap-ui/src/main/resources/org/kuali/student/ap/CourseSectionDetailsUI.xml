@@ -86,7 +86,7 @@
                 <ref bean="course-offering-list"/>
             </list>
         </property>
-        <property name="onDocumentReadyScript" value="registerCourseSectionEvents(jQuery('#coursedetails-page')); setupActivityAndFormatOfferings();"/>
+        <property name="onDocumentReadyScript" value="registerCourseSectionEvents(jQuery('#coursedetails-page')); setupActivityAndFormatOfferings();resetCheckBoxes();"/>
     </bean>
 
     <bean id="course-offering-list" parent="course-offering-list-parent"/>
