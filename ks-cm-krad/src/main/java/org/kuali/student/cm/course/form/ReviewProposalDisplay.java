@@ -417,17 +417,47 @@ public class ReviewProposalDisplay {
             return learningObjectives;
         }
 
+        private String getIndentedLearningObjects(int indentLevel,List<LoReviewSection> learningObjectivesList) {
+
+            if(learningObjectivesList==null || learningObjectivesList.size()==0) {
+                return "";
+            }
+
+            StringBuilder indentedLO = new StringBuilder();
+            StringBuilder tabSpace = new StringBuilder();
+            for(int i=0 ; i<indentLevel ; i++) {
+                tabSpace.append("&nbsp;&nbsp;&nbsp;&nbsp;");
+            }
+            tabSpace.append("<b>*</b>&nbsp;");
+            for(LoReviewSection lo : learningObjectivesList) {
+                indentedLO.append("<br/>")
+                          .append(tabSpace)
+                          .append(lo.toString())
+                          .append(getIndentedLearningObjects(++indentLevel,lo.getLoReviewSectionList()));
+            }
+            return indentedLO.toString();
+        }
+
+        public String getIndentedLearningObjects() {
+            String loHtml =  getIndentedLearningObjects(0,this.learningObjectives);
+            return StringUtils.removeStart(loHtml,"<br/>");
+        }
+
         public String getEmptyStringLO() {
             return learningObjectives.isEmpty() ? "" : "Has LO";
         }
 
         public void build(List<LoDisplayInfo> loDisplayInfos) {
+            build(this.learningObjectives,loDisplayInfos);
+        }
 
-            if (learningObjectives == null) {
-                learningObjectives = new ArrayList<LoReviewSection>();
+        private void build(List<LoReviewSection> loReviewSectionList,List<LoDisplayInfo> loDisplayInfos) {
+
+            if (loReviewSectionList == null) {
+                loReviewSectionList = new ArrayList<LoReviewSection>();
             }
 
-            learningObjectives.clear();
+            loReviewSectionList.clear();
 
             for(LoDisplayInfo loDisplayInfo : loDisplayInfos) {
                 if(loDisplayInfo.getLoInfo() != null && loDisplayInfo.getLoInfo().getDescr() != null) {
@@ -436,7 +466,18 @@ public class ReviewProposalDisplay {
                     for(LoCategoryInfo loCategoryInfo : loDisplayInfo.getLoCategoryInfoList()) {
                         lstCategories.add(loCategoryInfo.getName());
                     }
-                    learningObjectives.add(new LoReviewSection(description,lstCategories));
+
+                    List<LoReviewSection> subReviewSectionList = null;
+
+                    if(loDisplayInfo.getLoDisplayInfoList()!=null && loDisplayInfo.getLoDisplayInfoList().size()!=0) {
+                        subReviewSectionList = new ArrayList<LoReviewSection>();
+                        build(subReviewSectionList,loDisplayInfo.getLoDisplayInfoList());
+                    }
+
+                    LoReviewSection reviewSection = new LoReviewSection(description,lstCategories,subReviewSectionList);
+
+                    loReviewSectionList.add(reviewSection);
+
                 }
 
             }

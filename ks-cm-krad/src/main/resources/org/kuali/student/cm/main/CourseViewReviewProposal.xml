@@ -449,18 +449,8 @@
                                   p:fieldLabel.renderColon="false">
                                 <property name="items">
                                     <list>
-                                        <bean id="course_review_LO_details" parent="Uif-StackedCollectionSection"
-                                              p:propertyName="reviewProposalDisplay.learningObjectivesSection.learningObjectives"
-                                              p:collectionObjectClass="org.kuali.student.cm.course.form.LoReviewSection">
-                                            <property name="renderLineActions" value="false"/>
-                                            <property name="renderAddLine" value="false"/>
-                                            <property name="items">
-                                                <list>
-                                                    <bean parent="CM-ReadOnlyInput" id="learningObjectivesSection_learningObjectives"
-                                                          p:propertyName="description" p:colSpan="1" p:fieldLabel.render="false"/>
-                                                </list>
-                                            </property>
-                                        </bean>
+                                            <bean parent="Uif-DataField"  id="indentedLearningObjects"
+                                                  p:propertyName="reviewProposalDisplay.learningObjectivesSection.indentedLearningObjects" p:colSpan="1" p:escapeHtmlInPropertyValue="false"/>
                                     </list>
                                 </property>
                             </bean>
