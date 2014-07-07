@@ -39,6 +39,7 @@ public class RulesExecutionConstants {
     public static final Term ATP_TERM = new Term("atp");
     public static final Term AS_OF_DATE_TERM = new Term("asOfDate");
     public static final Term RECORD_INSTRUCTION_SUCCESSES_TERM = new Term("shouldRecordInstructionSuccesses");
+    public static final Term REGISTRATION_GROUP_TERM = new Term("registrationGroup");
     // services
     public static final Term PROCESS_SERVICE_TERM = new Term("processService");
     public static final Term IDENTITY_SERVICE_TERM = new Term("identityService");
