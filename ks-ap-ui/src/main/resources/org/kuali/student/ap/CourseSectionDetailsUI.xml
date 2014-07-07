@@ -448,14 +448,21 @@
                                               p:additionalCssClasses="ksap-section-details">
                                             <property name="items">
                                                 <list>
-                                                    <bean parent="Uif-Message" p:render="@{#line.honors==true}" p:id="honors"
+                                                    <bean parent="Uif-Message"
+                                                          p:render="@{#line.honors==true}"
+                                                          p:id="honors"
                                                           p:additionalCssClasses="ksap-section-details-item"
                                                           p:messageText="@{#textHelper.getText('details.ao.additionalDetails.honors')}"/>
-                                                    <bean parent="Uif-Link" p:render="@{#line.classUrl != null}" p:id="classUrl"
+                                                    <bean parent="Uif-Link"
+                                                          p:render="@{#line.classUrl != null}"
+                                                          p:id="classUrl"
                                                           p:additionalCssClasses="ksap-section-details-item"
                                                           p:href="@{#line.classUrl}"
-                                                          p:linkText="@{#textHelper.getText('details.ao.additionalDetails.courseUrl')}"/>
-                                                    <bean parent="Uif-Link" p:render="@{#line.requirementsUrl != null}" p:id="requirementsUrl"
+                                                          p:linkText="@{#textHelper.getText('details.ao.additionalDetails.courseUrl')}"
+                                                          p:target="_blank"/>
+                                                    <bean parent="Uif-Link"
+                                                          p:render="@{#line.requirementsUrl != null}"
+                                                          p:id="requirementsUrl"
                                                           p:additionalCssClasses="ksap-section-details-item"
                                                           p:href="@{#ConfigProperties['application.url']}/@{#line.requirementsUrl}"
                                                           p:linkText="@{#textHelper.getText('details.ao.additionalDetails.restrictions')}"/>
@@ -571,7 +578,8 @@
                             <bean parent="Uif-Link" p:render="true" p:id="classUrl"
                                   p:additionalCssClasses="ksap-section-details-item"
                                   p:href="__KSAP__CLASSURL__"
-                                  p:linkText="@{#textHelper.getText('details.ao.additionalDetails.courseUrl')}"/>
+                                  p:linkText="Something different"
+                                  p:target="_blank"/>
                             <bean parent="Uif-Link" p:render="true" p:id="requirementsUrl"
                                   p:additionalCssClasses="ksap-section-details-item"
                                   p:href="@{#ConfigProperties['application.url']}/__KSAP__REQUIREMENTSURL__"
@@ -679,7 +687,8 @@
                             <bean parent="Uif-Link" p:render="@{#line.classUrl != null}" p:id="classUrl"
                                   p:additionalCssClasses="ksap-section-details-item"
                                   p:href="@{#line.classUrl}"
-                                  p:linkText="@{#textHelper.getText('details.ao.additionalDetails.courseUrl')}"/>
+                                  p:linkText="@{#textHelper.getText('details.ao.additionalDetails.courseUrl')}"
+                                  p:target="_blank"/>
                             <bean parent="Uif-Link" p:render="@{#line.requirementsUrl != null}" p:id="requirementsUrl"
                                   p:additionalCssClasses="ksap-section-details-item"
                                   p:href="@{#ConfigProperties['application.url']}/@{#line.requirementsUrl}"
