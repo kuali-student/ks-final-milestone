@@ -958,7 +958,7 @@ function categoryTypeSelection(selectAll) {
 
 function filterCategoriesByName() {
     var inputVal = jQuery('#LoCategory-Category-Filter-Input_control').val().trim();
-    jQuery("#uLookupResults_layout").dataTable().fnFilter(inputVal, 1);
+    jQuery("#uLookupResults_layout").dataTable().fnFilter(inputVal);
 }
 
 function filterCategoriesByTypes() {
