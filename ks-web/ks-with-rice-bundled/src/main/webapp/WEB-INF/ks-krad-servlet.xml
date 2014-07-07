@@ -46,7 +46,13 @@
 	<bean class="org.kuali.student.common.spring.DisplayActiveProfiles" />
 
   <context:component-scan base-package="org.kuali.rice.core.web.cache" />
-  
+
+  <!-- Increase the maximum file upload size to accommodate CM.
+       TODO: KSCM-2346 - This override will be unnecessary after Rice is updated to v2.5 or better.  -->
+  <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+    <property name="maxUploadSize" value="5000000000"/>
+  </bean>
+
   <beans profile="ks-core">
   	<context:component-scan base-package="org.kuali.student.common.uif" />
   	<context:component-scan base-package="org.kuali.student.common.kitchensink" />
@@ -58,11 +64,9 @@
   
   <beans profile="ks-ap">
  	 <context:component-scan base-package="org.kuali.student.ap" />
- 	 
   </beans>
 
   <beans profile="ks-cm">
  	 <context:component-scan base-package="org.kuali.student.cm" />
   </beans>
-  
 </beans>
