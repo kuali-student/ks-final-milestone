@@ -171,88 +171,14 @@ h3.uif-headerText a {
 .cm-charcount-max-1000 {
 }
 
-.cm-lo-indent-0 {
-    margin-left: 0px;
-}
+/* Generate classes like cm-lo-indent-0,cm-lo-indent-50 etc for LO:*/
+.generate-margin-left(1000);
 
-.cm-lo-indent-50 {
-    margin-left: 50px;
-}
-
-.cm-lo-indent-100 {
-    margin-left: 100px;
-}
-
-.cm-lo-indent-150 {
-    margin-left: 150px;
-}
-
-.cm-lo-indent-200 {
-    margin-left: 200px;
-}
-
-.cm-lo-indent-250 {
-    margin-left: 250px;
-}
-
-.cm-lo-indent-300 {
-    margin-left: 300px;
-}
-
-.cm-lo-indent-350 {
-    margin-left: 350px;
-}
-
-.cm-lo-indent-400 {
-    margin-left: 400px;
-}
-
-.cm-lo-indent-450 {
-    margin-left: 450px;
-}
-
-.cm-lo-indent-500 {
-    margin-left: 500px;
-}
-
-.cm-lo-indent-550 {
-    margin-left: 550px
-}
-
-.cm-lo-indent-600 {
-    margin-left: 600px;
-}
-
-.cm-lo-indent-650 {
-    margin-left: 650px;
-}
-
-.cm-lo-indent-700 {
-    margin-left: 700px;
-}
-
-.cm-lo-indent-750 {
-    margin-left: 750px;
-}
-
-.cm-lo-indent-800 {
-    margin-left: 800px;
-}
-
-.cm-lo-indent-850 {
-    margin-left: 850px;
-}
-
-.cm-lo-indent-900 {
-    margin-left: 900px;
-}
-
-.cm-lo-indent-950 {
-    margin-left: 950px;
-}
-
-.cm-lo-indent-1000 {
-    margin-left: 1000px;
+.generate-margin-left(@n, @i: 0) when (@i =< @n) {
+  .cm-lo-indent-@{i} {
+    margin-left: (@i + 0px);
+  }
+  .generate-margin-left(@n, (@i + 50));
 }
 
 .cm-home-view-instruction {
