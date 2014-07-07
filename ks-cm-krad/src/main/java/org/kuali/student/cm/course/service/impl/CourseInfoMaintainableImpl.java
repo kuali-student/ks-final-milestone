@@ -496,6 +496,20 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         ((CourseRuleViewHelperServiceImpl) getRuleViewHelperService()).processAfterAddLine(model, lineObject, collectionId, collectionPath, isValidLine);
     }
 
+    @Override
+    public void processMultipleValueLookupResults(ViewModel model, String collectionId, String collectionPath,
+                String multiValueReturnFields, String lookupResultValues) {
+
+        super.processMultipleValueLookupResults(model,collectionId,collectionPath,multiValueReturnFields,lookupResultValues);
+
+        /**
+         * If it;s LO lookup, rearrange all the line actions for LOs (indent,move etc)
+         */
+        if (StringUtils.equals(collectionId,"LearningObjective-CollectionSection")) {
+            setDataObject(((MaintenanceDocumentForm)model).getDocument().getNewMaintainableObject().getDataObject());
+            setLOActions();
+        }
+    }
 
     @Override
     public void addCustomContainerComponents(ViewModel model, Container container) {
