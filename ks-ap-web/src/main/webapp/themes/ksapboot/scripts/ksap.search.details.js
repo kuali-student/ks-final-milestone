@@ -252,3 +252,43 @@ function toggleFormatOfferingSections(element, divIdPrefix) {
 
 }
 
+/**
+ * Handles the selection of an activity offering by gathering all the currently selected activity offerings and
+ * submitting them to the controller.
+ *
+ * @param selected - The selected object
+ * @param e - Current event going on.
+ */
+function clickActivity(selected,e){
+    // Gather selected and checked information
+    var checkedCheckboxes = jQuery("[type='checkbox']:checked");
+    var selectedObjectId = selected.getAttribute("data-activityid");
+    var checkedIds = [];
+    for(var i = 0; i<checkedCheckboxes.length; i++){
+        var checkedItem = checkedCheckboxes[i];
+        var activityId = checkedItem.getAttribute("data-activityid");
+        checkedIds.push(activityId);
+    }
+
+    // Setup form submit
+    stopEvent(e);
+    var form = jQuery('<form />').attr("id", "tempSubmit").attr("action", "details").attr("method", "post");
+    jQuery("body").append(form);
+    var additionalFormData = {
+        methodToCall:"filterAOs",
+        selectedActivityId:selectedObjectId,
+        checkedActivities: checkedIds.toString()
+    }
+
+    // Submit to the controller
+    form.ajaxSubmit({
+        data : additionalFormData,
+        dataType : 'json',
+        success : ksapAjaxSubmitSuccessCallback,
+        error : ksapAjaxSubmitErrorCallback
+    });
+
+    // Clean up after submit
+    fnClosePopup();
+    jQuery("form#tempSubmit").remove();
+}

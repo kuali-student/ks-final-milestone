@@ -171,6 +171,14 @@ public class CourseSectionDetailsController extends KsapControllerBase {
         return null;
     }
 
+    @MethodAccessible
+    @RequestMapping(params = "methodToCall=filterAOs")
+    public ModelAndView filterAOs(@ModelAttribute("KualiForm") CourseSectionDetailsForm form,
+                                    HttpServletRequest request,
+                                    HttpServletResponse response) throws IOException, ServletException {
+        return null;
+    }
+
     /**
      * Handles the creation of a dialog form for adding a Registration Group to the Planner
      */

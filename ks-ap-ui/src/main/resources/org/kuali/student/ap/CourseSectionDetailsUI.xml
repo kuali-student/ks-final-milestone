@@ -709,7 +709,12 @@
                       p:render="@{#line.partOfRegGroup==false and #line.singleFormatOffering==false}">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl">
-                            <property name="onChangeScript" value="alert('checkbox clicked')"/>
+                            <property name="onChangeScript" value="clickActivity(this,e);"/>
+                            <property name="dataAttributes">
+                                <map>
+                                    <entry key="activityId" value="@{#line.activityOfferingId}" />
+                                </map>
+                            </property>
                         </bean>
                     </property>
                 </bean>
