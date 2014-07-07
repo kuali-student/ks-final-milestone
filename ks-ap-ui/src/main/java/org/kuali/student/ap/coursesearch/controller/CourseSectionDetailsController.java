@@ -168,7 +168,7 @@ public class CourseSectionDetailsController extends KsapControllerBase {
 
         // Create events needed to update the page
         eventList = getViewHelperService(form).createAddSectionEvent(regGroup.getCourseOfferingId(), activityWrappers, eventList);
-        eventList = getViewHelperService(form).createFilterValidRegGroupsEvent(course.getTermId(), course.getCourseOfferingCode(),validRegGroups, eventList);
+        eventList = getViewHelperService(form).createFilterValidRegGroupsEvent(course.getTermId(), course.getCourseOfferingCode(), "", validRegGroups, eventList);
         PlanEventUtils.sendJsonEvents(true,"Registration Group For " +course.getCourseOfferingCode() + " added for " + term.getName(), response, eventList);
         return null;
     }
@@ -226,7 +226,7 @@ public class CourseSectionDetailsController extends KsapControllerBase {
 
         //Create events needed to update the page
         eventList = getViewHelperService(form).createFilterValidRegGroupsEvent(activityOfferingInfo.getTermId(),
-                activityOfferingInfo.getCourseOfferingCode(),regGroups, eventList);
+                activityOfferingInfo.getCourseOfferingCode(),activityOfferingInfo.getFormatOfferingId(), regGroups, eventList);
         PlanEventUtils.sendJsonEvents(true,"Filtered Activities for those only those in groups with " +
                 activityOfferingInfo.getCourseOfferingCode() + " - " + activityOfferingInfo.getActivityCode(),
                 response, eventList);

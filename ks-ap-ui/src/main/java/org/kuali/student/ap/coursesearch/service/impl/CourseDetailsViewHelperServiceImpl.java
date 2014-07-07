@@ -553,19 +553,22 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
     }
 
     /**
-     * @see org.kuali.student.ap.coursesearch.service.CourseDetailsViewHelperService#createFilterValidRegGroupsEvent(String, String, java.util.List, javax.json.JsonObjectBuilder)
+     * @see org.kuali.student.ap.coursesearch.service.CourseDetailsViewHelperService#createFilterValidRegGroupsEvent(String, String, String, java.util.List, javax.json.JsonObjectBuilder)
      */
     @Override
-    public JsonObjectBuilder createFilterValidRegGroupsEvent(String termId, String courseOfferingCode, List<RegistrationGroupInfo> regGroups, JsonObjectBuilder eventList){
+    public JsonObjectBuilder createFilterValidRegGroupsEvent(String termId, String courseOfferingCode, String formatOfferingId, List<RegistrationGroupInfo> regGroups, JsonObjectBuilder eventList){
         JsonObjectBuilder filterEvent = Json.createObjectBuilder();
         filterEvent.add("termId", termId.replace(".", "-"));
         filterEvent.add("courseOfferingCode", courseOfferingCode);
+        filterEvent.add("formatOfferingId", formatOfferingId);
         if(regGroups.size()==1){
             try {
                 filterEvent.add("regGroupId",KSCollectionUtils.getRequiredZeroElement(regGroups).getId());
             } catch (OperationFailedException e) {
                 throw new IllegalArgumentException("Failure retrieving registration group", e);
             }
+        }else{
+            filterEvent.add("regGroupId","");
         }
 
         // Deconstruct reg groups into list of AO and FO ids

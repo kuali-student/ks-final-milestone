@@ -193,6 +193,19 @@ function ksapFilterCourseOffering (data){
         }
     }
 
+
+    // Setup the add button if reg group is returned.
+    var regGroupId = data.regGroupId;
+    var addButton = jQuery("#"+data.termId+"_"+data.courseOfferingCode+"_"+data.formatOfferingId+"_addButton");
+    if(regGroupId.length){
+        addButton.removeClass("disabled");
+        addButton.removeAttr("disabled");
+        addButton.attr("data-reggroupid",regGroupId);
+
+    }else{
+        addButton.addClass("disabled");
+        addButton.attr("disabled","disabled");
+    }
 }
 
 /**
@@ -300,4 +313,16 @@ function resetCheckBoxes(){
     var checkedCheckboxes = jQuery("[type='checkbox']:checked");
     checkedCheckboxes.attr("checked",false);
 
+}
+
+function toggleHideShowInvalidActivities(){
+    var hiddenActivities = jQuery(".ksap-invalid-activity.ksap-hide");
+    if(hiddenActivities.length){
+        hiddenActivities.removeClass("ksap-hide");
+    }else{
+        var invalidActivities = jQuery(".ksap-invalid-activity");
+        if(invalidActivities.length){
+            invalidActivities.addClass("ksap-hide");
+        }
+    }
 }

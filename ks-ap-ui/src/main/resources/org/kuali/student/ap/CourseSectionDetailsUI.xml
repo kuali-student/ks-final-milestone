@@ -278,7 +278,13 @@
                               p:actionLabel="@{#textHelper.getText('details.button.addToPlan')}"
                               p:disabled="true"
                               p:id="@{#line.xmlSafeTermId}_@{#line.courseOfferingCode}_@{#line.formatOfferingId}_addButton"
-                              p:actionScript="ksapOpenDialog('KSAP-CourseDetailsSection-AddCoursePage','details','startAddDialog', this, e);"/>
+                              p:actionScript="ksapOpenDialog('KSAP-CourseDetailsSection-AddCoursePage','details','startAddDialog', this, e);">
+                            <property name="dataAttributes">
+                                <map>
+                                    <entry key="reggroupid" value="none" />
+                                </map>
+                            </property>
+                              </bean>
                     </list>
                 </property>
             </bean>
