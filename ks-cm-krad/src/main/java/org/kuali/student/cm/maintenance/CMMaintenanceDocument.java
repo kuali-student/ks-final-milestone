@@ -95,11 +95,6 @@ public class CMMaintenanceDocument extends MaintenanceDocumentBase {
     }
 
     @Override
-    public NoteType getNoteType() {
-        return NoteType.BUSINESS_OBJECT;
-    }
-
-    @Override
     public void prepareForSave(KualiDocumentEvent event) {
         super.prepareForSave(event);
 
