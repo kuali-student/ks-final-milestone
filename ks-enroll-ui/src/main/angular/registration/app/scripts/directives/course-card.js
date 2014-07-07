@@ -47,20 +47,73 @@ angular.module('regCartApp')
      */
     .controller('CardCtrl', ['$scope', '$timeout', 'GlobalVarsService', 'CartService', 'ScheduleService', 'STATUS', 'GRADING_OPTION',
         function($scope, $timeout, GlobalVarsService, CartService, ScheduleService, STATUS, GRADING_OPTION) {
+            /*
+             Utility function for providing configuration variables based on
+             whether the course in scope is registered, waitlist, or cart.
+             */
+            function getConfig() {
+                var config;
+                switch ($scope.type) {
+                    case 'waitlist':
+                        config = {
+                            heading: 'Waitlisted',
+                            prefix: 'waitlisted',
+                            prefix2: 'waitlist_',
+                            prefix3: 'waitlist_',
+                            remove: 'Remove'
+                        };
+                        break;
+                    case 'cart':
+                        config = {
+                            heading: 'Cart', // not used
+                            prefix: 'cart', // not used
+                            prefix2: '',
+                            prefix3: 'cart_',
+                            remove: 'Remove'
+                        };
+                        break;
+                    default : // 'registered'
+                        config = {
+                            heading: 'Registered',
+                            prefix: 'reg',
+                            prefix2: '',
+                            prefix3: 'schedule_',
+                            remove: 'Drop'
+                        };
+                }
+
+                return config;
+            }
+
+
             $scope.config = getConfig();
+
+
+            /*
+             Standardize the grading option value in the course to make it easier throughout the rest of the directive.
+             In the cart, it is course.gradingOptionId, everywhere else it is course.grading.
+             */
+            if ($scope.type === 'cart') {
+                $scope.course.gradingOptionId = $scope.course.grading;
+            }
+
+
 
             /*
             Returns either registered or waitlisted course offerings based on the
             type in scope
              */
             $scope.courseOfferings = function(schedule) {
+                var offerings;
                 switch ($scope.type) {
                     case 'waitlist':
-                        return schedule.waitlistCourseOfferings;
+                        offerings = schedule.waitlistCourseOfferings;
                         break;
                     default: // 'registered'
-                        return schedule.registeredCourseOfferings;
+                        offerings = schedule.registeredCourseOfferings;
                 }
+
+                return offerings;
             };
 
             /*
@@ -100,13 +153,7 @@ angular.module('regCartApp')
             Shows the grading badge (unless it is letter -- the default)
              */
             $scope.showBadge = function (course) {
-                switch ($scope.type) {
-                    case 'cart':
-                        return course.grading !== GRADING_OPTION.letter || course.editGradingOptionLetter;
-                        break;
-                    default : // 'registered', 'waitlist'
-                        return course.gradingOptionId !== GRADING_OPTION.letter || course.editGradingOptionLetter;
-                }
+                return course.gradingOptionId !== GRADING_OPTION.letter || course.editGradingOption;
             };
 
             /*
@@ -114,15 +161,8 @@ angular.module('regCartApp')
              */
             $scope.editItem = function (course) {
                 course.newCredits = course.credits;
+                course.newGrading = course.gradingOptionId;
                 course.editing = true;
-
-                switch ($scope.type) {
-                    case 'cart':
-                        course.newGrading = course.grading;
-                        break;
-                    default : // 'registered', 'waitlist'
-                        course.newGrading = course.gradingOptionId;
-                }
             };
 
             /*
@@ -170,62 +210,24 @@ angular.module('regCartApp')
             Returns the grading option for the course
              */
             $scope.gradingOption = function (course) {
-                switch ($scope.type) {
-                    case 'cart':
-                        return course.gradingOptions[$scope.course.grading];
-                        break;
-                    default : // 'registered', 'waitlist'
-                        return course.gradingOptions[$scope.course.gradingOptionId];
-                }
+                return course.gradingOptions[$scope.course.gradingOptionId];
             };
 
             /*
             Returns the course title
              */
             $scope.courseTitle = function (course) {
+                var title;
                 switch ($scope.type) {
                     case 'cart':
-                        return course.courseTitle;
+                        title = course.courseTitle;
                         break;
                     default : // 'registered', 'waitlist'
-                        return course.longName;
+                        title = course.longName;
                 }
-            };
 
-            /*
-            Utility function for providing configuration variables based on
-            whether the course in scope is registered, waitlist, or cart.
-             */
-            function getConfig() {
-                switch ($scope.type) {
-                    case 'waitlist':
-                        return {
-                            heading: 'Waitlisted',
-                            prefix: 'waitlisted',
-                            prefix2: 'waitlist_',
-                            prefix3: 'waitlist_',
-                            remove: 'Remove'
-                        };
-                        break;
-                    case 'cart':
-                        return {
-                            heading: 'Cart', // not used
-                            prefix: 'cart', // not used
-                            prefix2: '',
-                            prefix3: 'cart_',
-                            remove: 'Remove'
-                        };
-                        break;
-                    default : // 'registered'
-                        return {
-                            heading: 'Registered',
-                            prefix: 'reg',
-                            prefix2: '',
-                            prefix3: 'schedule_',
-                            remove: 'Drop'
-                        };
-                }
-            }
+                return title;
+            };
 
             /*
             Calls the RESTful service to update a registered course on the schedule.
@@ -283,7 +285,7 @@ angular.module('regCartApp')
                     gradingOptionId: course.newGrading
                 }, function (itemResult) {
                     console.log('old: ' + course.credits + ' To: ' + itemResult.credits);
-                    console.log('old: ' + course.grading + ' To: ' + itemResult.grading);
+                    console.log('old: ' + course.gradingOptionId + ' To: ' + itemResult.gradingOptionId);
                     updateCard(course, itemResult);
                 });
             }
@@ -294,58 +296,40 @@ angular.module('regCartApp')
              */
             function updateCard(course, itemResult) {
                 console.log(itemResult);
-                var oldCredits=course.credits;  // need to compare to see if it was changed and need a glow
-                var oldGrading=course.gradingOptionId;  // need to compare to see if it was changed and need a glow
+                var oldCredits = course.credits;  // need to compare to see if it was changed and need a glow
+                var oldGrading = course.gradingOptionId;  // need to compare to see if it was changed and need a glow
+
+                // Update the course with the new credits & grading option value
                 course.credits = itemResult.credits;
-                var gradingOptionId;
+
                 switch ($scope.type) {
                     case 'cart':
-                        course.grading = itemResult.grading;
-                        gradingOptionId = course.grading;
+                        course.gradingOptionId = itemResult.grading;
+                        course.grading = course.gradingOptionId; // Cart items store this value in grading
                         break;
                     default : // 'registered', 'waitlist'
                         course.gradingOptionId = itemResult.gradingOptionId;
-                        gradingOptionId = course.grading;
                 }
+
                 course.editing = false;
                 course.isopen = !course.isopen; // collapse the card
+
                 // This part is responsible for glow effect: when the card is updated (whether credit or grading) we want to highlight the change and then fade the highlight away after 2 secs
-                console.log('Started to glow...');
                 if (course.newGrading !== oldGrading) {
-                    // the highlighting fades in
+                    // the highlighting fades in & stays for 2 seconds
                     course.editGradingOption = true;
-                    // The diffeence with the grading option LETTER is that we don't display it permanently.
-                    // So when we change the grading option to LETTER we display and highlight it, then it fades out and disappears completely.
-                    if (gradingOptionId === GRADING_OPTION.letter) {
-                        course.editGradingOptionLetter = true;
-                    }
-                    // the highlighting stays for 2 secs
                     $timeout(function(){
                         course.editGradingOption = false;
-                        course.editGradingOptionDone = true;
                     }, 2000);
-                    // the highlighting fades out
-                    $timeout(function(){
-                        course.editGradingOptionDone = false;
-                        if (gradingOptionId === GRADING_OPTION.letter) {
-                            course.editGradingOptionLetter = false;
-                        }
-                    }, 4000);
                 }
+
                 if (course.newCredits !== oldCredits) {
-                    // the highlighting fades in
+                    // the highlighting fades in & stays for 2 seconds
                     course.editCredits = true;
-                    // the highlighting stays for 2 secs
                     $timeout(function(){
                         course.editCredits = false;
-                        course.editCreditsDone = true;
                     }, 2000);
-                    // the highlighting fades out
-                    $timeout(function(){
-                        course.editCreditsDone = false;
-                    }, 4000);
                 }
-                // End of glow effect
             }
         }])
 ;

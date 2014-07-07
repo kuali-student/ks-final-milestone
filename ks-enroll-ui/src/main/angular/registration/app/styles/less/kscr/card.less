@@ -8,24 +8,30 @@
   a {text-decoration: none;}
 }
 
+// Primary text in a card title (e.g. course code & reg group)
 .kscr-Card-title {
   color: @cardTextColor; //#666666;
   font-weight: bold;
 
+  // Alert state, used in waitlist notification
   &-alert {
     font-weight: bold;
   }
 }
 
+// Primary text within a card (e.g. course title & description)
 .kscr-Card-text {
   color: @primaryTextColor;
   margin-top: 0.3em;
 
+  // Alert state, used in waitlist notification
   &-alert {
       margin: 0.3em 0 0;
   }
 }
 
+
+// Mixin for details text
 .kscr-Card-detailsText-common() {
   border-top: @horizontalLineBorder;
   color: @primaryTextColor;
@@ -35,62 +41,59 @@
   padding: 10px 0 0;
 }
 
+// Card details text (e.g. Cart item failure reason), typically shown with border and padding
 .kscr-Card-detailsText {
-  .kscr-Card-detailsText-common();
-
-  &--action { // e.g. Add to Waitlist
     .kscr-Card-detailsText-common();
-    border-color: @warningBorder;
-    color: @warningText;
-  }
 
-  &--edit { // Expand || Edit Course Options
-    .kscr-Card-detailsText-common();
-  }
+    &--action { // e.g. Add to Waitlist
+        .kscr-Card-detailsText-common();
+        border-color: @warningBorder;
+        color: @warningText;
+    }
 
-  &--error { // e.g. Time Conflict Warning
-    .kscr-Card-detailsText-common();
-    border-color: @errorBorder;
-    color: @errorText;
-  }
+    &--edit { // Expand || Edit Course Options
+        .kscr-Card-detailsText-common();
+    }
 
-  &--show { // Collapsed accordion
-    .kscr-Card-detailsText-common();
-    border-bottom: none;
-    border-top: none;
-    padding-bottom: 0;
-    padding-top: 0.3em;
-  }
+    &--error { // e.g. Time Conflict Warning
+        .kscr-Card-detailsText-common();
+        border-color: @errorBorder;
+        color: @errorText;
+    }
+
+    &--show { // Collapsed accordion
+        .kscr-Card-detailsText-common();
+        border-bottom: none;
+        border-top: none;
+        padding-bottom: 0;
+        padding-top: 0.3em;
+    }
+
+    /* Transitions for fade effect in Card Edit */
+    // Styles for hide being added
+    &.ng-hide-add,
+    &--edit.ng-hide-add {
+        display: none;
+        opacity: 0.75; // Starting opacity when element is being hidden
+
+        &.ng-hide-add-active {
+            opacity: 0; // Final opacity when element is being hidden
+        }
+    }
+
+    // Styles for hide being removed
+    &.ng-hide-remove,
+    &--edit.ng-hide-remove {
+        .util-transitions-browserHelper();
+        display: block;
+        opacity: 0; // Starting opacity when element is being shown
+
+        &.ng-hide-remove-active {
+            opacity: 0.75; // Final opacity when element is being shown
+        }
+    }
+    /* END of Transitions for fade effect in Card Edit */
 }
-
-
-/* Transitions for fade effect in Card Edit */
-
-.kscr-Card-detailsText--edit.ng-hide-remove,
-.kscr-Card-detailsText.ng-hide-remove {
-  .util-transitions-browserHelper;
-  display: block!important;
-}
-
-.kscr-Card-detailsText.ng-hide-add,
-.kscr-Card-detailsText--edit.ng-hide-add {
-  display: none;
-}
-
-.kscr-Card-detailsText--edit.ng-hide-add.ng-hide-add-active,
-.kscr-Card-detailsText--edit.ng-hide-remove,
-.kscr-Card-detailsText.ng-hide-add.ng-hide-add-active,
-.kscr-Card-detailsText.ng-hide-remove {
-  opacity: 0;
-}
-
-.kscr-Card-detailsText--edit.ng-hide-add,
-.kscr-Card-detailsText--edit.ng-hide-remove.ng-hide-remove-active,
-.kscr-Card-detailsText.ng-hide-add,
-.kscr-Card-detailsText.ng-hide-remove.ng-hide-remove-active {
-  opacity: 0.75;
-}
-/* END of Transitions for fade effect in Card Edit */
 
 
 .kscr-Card-courseTimes {
@@ -155,7 +158,7 @@
 }
 
 .kscr-Card-button {
-  //    float: right;
+
 }
 
 .kscr-Card-icon {
@@ -166,51 +169,60 @@
     top: 10px;
 }
 
-.kscr-horizontalRule {
-  border: 1px solid #F2F2F2;
-}
 
+// Transaction results label (e.g. Results)
 .kscr-Card-responseLabel {
   float: left;
   margin-right: 10px;
+  text-transform: uppercase;
 }
 
+// Transaction results counts (e.g. Success {}, Fail {})
 .kscr-Card-responseCount {
   display: block;
   font-weight: bold;
   text-align: right;
   text-transform: uppercase;
 
+  // Count items
   & > span {
     // Make the list comma-separated
     .util-Text-delimited(",");
   }
 }
 
-.kscr-course-container {
+// Container for a single course in a course card
+.kscr-Course-container {
   position: relative;
   width: 100%;
-  .util-transitions-browserHelper;
+  .util-transitions-browserHelper();
   opacity: 1;
+
+  // Transitions when items are being added within ngRepeat
+  &.ng-leave {
+    opacity: 0.5;
+  }
+  &.ng-leave-active {
+    opacity: 0;
+  }
 }
 
-.kscr-course-container.ng-leave {
-  opacity: 0.5;
-}
-
-.kscr-course-container.ng-leave-active {
-  opacity: 0;
-}
-
+// Card result reason text
 .kscr-Card-reason {
     display: flex;
 
+    // Reason label (e.g. Reason)
     &-label {}
+
+    // List of messages
     &-messages {
         flex: 1;
         padding-left: 5px;
     }
+
+    // Single message
     &-message {
+        // Space them out 5px between each element
         margin-bottom: 5px;
         &:last-child {
             margin-bottom: 0;
@@ -221,6 +233,62 @@
 .kscr-Card-alert-spacing {
   padding-right: 20px;
 }
+
+
+// Card badge, (e.g. Grading option indicator)
+.kscr-Card-badge {
+    .Rounded(5px);
+    background-color: @badgeColor;
+    color: @badgeTextColor;
+    font-size: 11px;
+    font-weight: bold;
+    padding: 0 4px;
+
+    // Edited highlighting
+    &--edited {
+        color: @textColor--highlight; //#ffff7f;
+        .util-Text-highlighter(@distance, @angle, @blur, @spread, @shadowColor);
+
+        &-add { // Styles for when the editing class is added (added with -add suffix by ngAnimate)
+            .util-transitions-browserHelper(0.2s);
+        }
+        &-remove { // Styles for when the editing class is removed (added with -remove suffix by ngAnimate)
+            .util-transitions-browserHelper(2s);
+        }
+    }
+
+    // Container fading styles (Separated out from badge so highlighting can have different transitions than fade)
+    &-wrap {
+        opacity: 1; // Starting opacity
+        &.ng-hide {
+            opacity: 0; // Ending opacity
+
+            &-add, &-add-active { // Fade out
+                display: inline !important; // Important to override the display: block !important; in .ng-hide
+                .util-transitions-browserHelper(2s);
+            }
+            &-remove, &-remove-active { // Fade in
+                .util-transitions-browserHelper(0.2s);
+            }
+        }
+    }
+}
+
+// Card credits
+.kscr-Card-credits {
+    &--edited {
+        background-color: @backgroundColor--highlight;
+        .util-Text-highlighter(@distance, @angle, @blur, @spread, @shadowColor);
+
+        &-add { // Styles for when the editing class is added (added with -add suffix by ngAnimate)
+            .util-transitions-browserHelper(0.2s);
+        }
+        &-remove { // Styles for when the editing class is removed (added with -remove suffix by ngAnimate)
+            .util-transitions-browserHelper(2s);
+        }
+    }
+}
+
 
 /**** Override of accordion panel for card section ****/
 
@@ -258,7 +326,7 @@
 .panel-group  .panel {
   margin-bottom: 10px;
   border-width: 1px 1px 2px 1px;
-  .util-transitions-browserHelper;
+  .util-transitions-browserHelper();
   opacity: 1;
 }
 
@@ -272,70 +340,22 @@
 }
 /**** END of Override of accordion panel for card section ****/
 
-/**** Fading in/out Section ****/
 
-.kscr-Card-badge {
-  @defaultRadius: 5px;
-  .Rounded(@radius:@defaultRadius);
-  background-color: @badgeColor;
-  color: @badgeTextColor;
-  font-size: 11px;
-  font-weight: bold;
-  padding: 0 4px;
-}
-
-.kscr-Card-badge-fade {
-  .kscr-Card-badge;
-  opacity: 1;
-  @transitionSpeed: 2s;
-  .util-transitions-browserHelper;
-}
-
-.kscr-Card-badge-fadeIn {
-  .kscr-Card-badge-fade;
-  color: @textColor--highlight; //#ffff7f;
-  opacity: 1;
-  @transitionSpeed: 0.2s;
-  .util-transitions-browserHelper;
-  .util-Text-highlighter(@distance, @angle, @blur, @spread, @shadowColor);
-}
-
-.kscr-Card-badge-fadeOutLetter {
-  .kscr-Card-badge-fade;
-  opacity: 0.5;
-  @transitionSpeed: 2s;
-  .util-transitions-browserHelper;
-}
-
-/* Credits Fade */
-.kscr-Card-credits-fadeIn {
-  background-color: @backgroundColor--highlight;
-  .util-Text-highlighter(@distance, @angle, @blur, @spread, @shadowColor);
- }
-
-.kscr-Card-credits-fadeOut {
-  @transitionSpeed: 2s;
-  .util-transitions-browserHelper;
-}
 
 
 /* Override of accordion panel for card section to animate */
-
 .kscr-Card-accordion-heading {
     padding: 10px 10px 10px 25px;
     position: relative;
-    @transitionSpeed: 2s;
-    .util-transitions-browserHelper;
+    .util-transitions-browserHelper(2s);
+
+    &-fadeIn {
+        background-color: @backgroundColor--highlight;
+        .util-transitions-browserHelper(0.2s);
+        .util-Text-highlighter--inset(@distance, @angle, @blur, @spread, @shadowColor);
+    }
 }
 
-.kscr-Card-accordion-heading-fadeIn {
-  background-color: @backgroundColor--highlight;
-  .kscr-Card-accordion-heading;
-  @transitionSpeed: 0.2s;
-  .util-transitions-browserHelper;
-  .util-Text-highlighter--inset(@distance, @angle, @blur, @spread, @shadowColor);
-}
-/**** End Fading in/out Section ****/
 
 @media screen and (min-width: @largeFormatMin) {
   .kscr-Card {
@@ -358,7 +378,7 @@
   .kscr-Responsive-mycart .panel-group .panel {
     margin: 0;
     border: none;
-    border-radius: 0;
+    .Rounded(0);
   }
 
   .kscr-Responsive-mycart .kscr-Card-detailsText--show {
@@ -376,6 +396,7 @@
         }
     }
 
+    // Cart results card
     .kscr-Card-Results {
         background-color: @whiteBackground;
 
@@ -384,11 +405,12 @@
             display: none;
         }
         .kscr-Card-detailsText .kscr-Card-text-alert,
-        .kscr-cartItem-status--waitlist .kscr-Card-text-alert {
+        .kscr-cartResult-status--waitlist .kscr-Card-text-alert {
             display: block; // But... show them in the Add to Waitlist success
         }
     }
 
+    // Cart results response counts (e.g. Success, Fail)
     .kscr-Card-responseCount {
         color: @secondaryTextColor;
     }

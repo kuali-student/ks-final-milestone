@@ -1,36 +1,34 @@
 /**** My Cart section ****/
 
-/**mixin for main heading**/
-.kscr-Mainheading-styles{
+/** mixin for main heading **/
+.kscr-Mainheading-styles() {
     color: @primaryTextColor;
     font-family: @primaryFontFamily;
     font-size: 16px;
     line-height: 1.2;
 }
 
-.kscr-MainHeading {
-    &,
-    &--small,
-    &--large {
-        background-color: @sectionColor;
-        border: 0px;
-        padding: 10px;
-        .util-transitions-browserHelper;
 
-        * {
-            -moz-user-select: none;
-            -khtml-user-select: none;
-            -webkit-user-select: none;
-            user-select: none;
-            /* Required to make elements draggable in old WebKit */
-            -khtml-user-drag: element;
-            -webkit-user-drag: element;
-        }
+// Main heading container
+.kscr-MainHeading {
+    background-color: @sectionColor;
+    border: 0px;
+    padding: 10px;
+    .util-transitions-browserHelper();
+
+    * {
+        -moz-user-select: none;
+        -khtml-user-select: none;
+        -webkit-user-select: none;
+        user-select: none;
+        /* Required to make elements draggable in old WebKit */
+        -khtml-user-drag: element;
+        -webkit-user-drag: element;
     }
 }
 
 .kscr-MainHeading.ng-hide-remove {
-    .util-transitions-browserHelper;
+    .util-transitions-browserHelper();
 }
 
 .kscr-MainHeading.ng-hide-add.ng-hide-add-active,
@@ -43,45 +41,48 @@
     opacity: 0.8;
 }
 
-.kscr-MainHeading-icon-left, .kscr-MainHeading-icon-right {
+
+// Heading icons
+.kscr-MainHeading-icon-left,
+.kscr-MainHeading-icon-right {
     display: none;
-}
+    width: 10%;
 
-@media screen and (max-width: @smallFormatMax) {
-    .kscr-MainHeading-icon-left, .kscr-MainHeading-icon-right {
-        display: block;
-        & .glyphicon {
-            color: @darkGray;
-            font-size: 16px;
-        }
+    & .glyphicon {
+        color: @darkGray;
+        font-size: 16px;
+    }
 
-        &.kscr-MainHeading-icon--active .glyphicon {
-            // background shading on icons in small format
-            background: @bodyColorDark;
-            .box-shadow(0 0 0 5px @bodyColorDark);
-            .Rounded(1px);
-        }
+    // Active icon styles (Should be applied to icon corresponding to current page)
+    &.kscr-MainHeading-icon--active .glyphicon {
+        // Background shading on icons in small format
+        background: @bodyColorDark;
+        .box-shadow(0 0 0 5px @bodyColorDark);
+        .Rounded(1px);
     }
 }
-
-.kscr-MainHeading-icon-left{
+.kscr-MainHeading-icon-left {
     float: left;
-    width: 10%;
 }
-
-.kscr-MainHeading-icon-right{
+.kscr-MainHeading-icon-right {
     float: right;
     text-align: right;
-    width: 10%;
 }
 
-
+// Heading text
 .kscr-MainHeading-header {
-    .kscr-Mainheading-styles;
+    .kscr-Mainheading-styles();
     float: left;
     font-weight: bold;
     text-transform: uppercase;
     width: 80%;
+
+    &--processing {
+        .kscr-Mainheading-styles();
+        .spinner-big-icon; // Processing icon mixin
+        font-weight: normal;
+        padding: 18px 18px 18px 45px;
+    }
 }
 
 .kscr-MainHeading-stickyHeader {
@@ -91,10 +92,12 @@
     text-align: left !important;
 
     .util-sticky--stuck & {
+        // Show only when stuck
         display: block;
     }
 }
 
+// Credit count text in headings
 .kscr-MainHeading-support {
     color: @secondaryTextColor;
     font-family: @primaryFontFamily;
@@ -103,43 +106,35 @@
     line-height: 1.2;
 }
 
-.kscr-MainHeading-header--processing{
-    .kscr-Mainheading-styles;
-    .spinner-big-icon;
-    font-weight: normal;
-    padding: 18px 18px 18px 45px;
-}
-
 
 @media screen and (max-width: @smallFormatMax) {
+    // Cart header credit count
     .kscr-Responsive-mycart #credit_count_title_large {
-        display: none;
+        display: none; // Don't show the large-format credit count element in small-format
+    }
+
+    // Main heading icons (cart & schedule)
+    .kscr-MainHeading-icon-left,
+    .kscr-MainHeading-icon-right {
+        // Shown only in small-format
+        display: block;
     }
 }
+
 
 @media screen and (min-width: @largeFormatMin) {
     .kscr-Responsive-mycart #credit_count_title {
-        display: none;
+        display: none; // Don't show the small-format credit count element in large-format
     }
 
+    // Main heading container
     .kscr-MainHeading {
-        padding-bottom: 0px;
+        padding-bottom: 0px; // No bottom padding in large-format, allows sibling elements to sit flush against bottom of heading
     }
 
-    .kscr-MainHeading--small {
-        display: none !important;
-    }
-
-    .kscr-MainHeading-largeHeader {
-        display: block;
-    }
-
-    .kscr-MainHeading--large {
-        background-color: @border-light-color;
-        border: none;
-    }
-
+    // Cart heading-specific styles in large format
     .kscr-MainHeading-CartHeading .kscr-MainHeading {
+        // Styles need a bit of tweaking to maintain the alignment of the Cart heading to the Schedule/Waitlist sections
         padding-bottom: 8px;
         padding-top: 10px;
 
@@ -148,7 +143,8 @@
         }
     }
 
-    .kscr-Schedule-header {
-        margin-left: 10px;
+    // Schedule heading-specific styles in large format
+    .kscr-MainHeading-ScheduleHeading {
+        margin-left: 10px; // Additional margins needed to inset from left edge in large format
     }
 }

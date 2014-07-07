@@ -96,8 +96,8 @@
 </div>
 
 <div class="kscr-Card kscr-Card-Results" ng-show="cartResults.items.length">
-    <div class="kscr-Heading-sub--cart">
-        <span class="kscr-Card-responseLabel">RESULTS</span>
+    <div class="kscr-Heading-sub kscr-Heading-sub--cart">
+        <span class="kscr-Card-responseLabel">Results</span>
         <span class="kscr-Card-responseCount" ng-show="(cartResults.successCount + cartResults.waitlistCount + cartResults.errorCount) > 0">
             <span ng-if="cartResults.successCount > 0">Success ({{cartResults.successCount}})</span>
             <span ng-if="cartResults.waitlistCount > 0">Waitlist ({{cartResults.waitlistCount}})</span>
@@ -106,11 +106,11 @@
         <span class="util-Grid--clearfix"></span>
     </div>
     <div id="resultsSection" class="panel-group">
-        <div ng-repeat="cartResultItem in cartResults.items" is-open="isopen" class="panel kscr-cartItem-status kscr-cartItem-status--{{cartResultItem.status}}">
+        <div ng-repeat="cartResultItem in cartResults.items" is-open="isopen" class="panel kscr-cartResult-status kscr-cartResult-status--{{cartResultItem.status}}">
             <div class="kscr-cartResult-icon">&nbsp;</div>
 
             <!--credits-->
-            <div class="kscr-cartItem-supportText">
+            <div class="kscr-cartResult-supportText">
                 <ng-pluralize count="cartResultItem.credits" when="{'1': '{} cr', 'other': '{} cr'}"></ng-pluralize>
             </div>
 

@@ -125,8 +125,8 @@ angular.module('regCartApp')
                 console.log('CartId:', cartId);
                 if (error.status === 404) {
                     //Reg group was not found
-                    if (error.data !='' && error.data.indexOf(courseCode) != -1) {
-                        error.data = error.data.replace(courseCode, "<strong>" + courseCode + "</strong>");
+                    if (error.data !== '' && error.data.indexOf(courseCode) !== -1) {
+                        error.data = error.data.replace(courseCode, '<strong>' + courseCode + '</strong>');
                     }
                     $scope.userMessage = {txt: error.data, type: STATUS.error};
                     $scope.courseAdded = true;  // refocus cursor back to course code
@@ -312,24 +312,22 @@ angular.module('regCartApp')
                         console.log('Stop polling');
                         $scope.cart.status = '';  // set the overall status to nothing... which is the default i guess
                         $scope.cartResults.state = STATE.lpr.item.succeeded;
+
+                        // Calculate the result counts per status (clearing out initially to trigger the view to reset the values)
                         $scope.cartResults.successCount = 0;
                         $scope.cartResults.waitlistCount = 0;
                         $scope.cartResults.errorCount = 0;
+                        calculateCartResultCounts();
+
                         angular.forEach($scope.cartResults.items, function (item) {
                             switch (item.status) {
-                                case STATUS.success:
-                                    $scope.cartResults.successCount++;
-                                    break;
                                 case STATUS.waitlist:
                                 case STATUS.action: //waitlist action available
-                                    $scope.cartResults.waitlistCount++;
                                     item.waitlistMessage = GlobalVarsService.getCorrespondingMessageFromStatus(item.status);
-                                    break;
-                                case STATUS.error:
-                                    $scope.cartResults.errorCount++;
                                     break;
                             }
                         });
+
                         // After all the processing is complete, get the final Schedule counts.
                         ScheduleService.getScheduleFromServer().query({termId: $scope.termId }, function (result) {
                             console.log('called rest service to get schedule data - in cart.js');
@@ -344,7 +342,38 @@ angular.module('regCartApp')
 
         $scope.removeCartResultItem = function (cartResultItem) {
             $scope.cartResults.items.splice(cartResultItem, 1);
+            calculateCartResultCounts();
         };
+
+        /**
+         * Calculate the counts of the cart results
+         */
+        function calculateCartResultCounts() {
+            // Store as local variables so the $scope vars don't fire change events on increments
+            var success = 0,
+                waitlist = 0,
+                error = 0;
+
+            angular.forEach($scope.cartResults.items, function (item) {
+                switch (item.status) {
+                    case STATUS.success:
+                        success++;
+                        break;
+                    case STATUS.waitlist:
+                    case STATUS.action: //waitlist action available
+                        waitlist++;
+                        break;
+                    case STATUS.error:
+                        error++;
+                        break;
+                }
+            });
+
+            // Set the counts into the scope
+            $scope.cartResults.successCount = success;
+            $scope.cartResults.waitlistCount = waitlist;
+            $scope.cartResults.errorCount = error;
+        }
 
         function creditTotal() {
             if (!$scope.cart) {

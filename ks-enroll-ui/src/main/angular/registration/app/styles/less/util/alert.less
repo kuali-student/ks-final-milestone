@@ -7,37 +7,32 @@
 @processingGif: url("../images/validation/spinner_small.gif");
 
 
-.util-Alert-success-mixin {
+.util-Alert-success-mixin() {
     background-color: @successBackground;
     border-color: @successBorder;
     color: @successText;
     .ks-fonts-textShadow;
 }
 
-.util-Alert-information-mixin {
+.util-Alert-information-mixin() {
     background-color: @infoText;
     border-color: @infoText;
     color: @infoText;
     .ks-fonts-textShadow;
 }
 
-.util-Alert-warning-mixin {
+.util-Alert-warning-mixin() {
     background-color: @warningBackground;
     border-color: @warningBorder;
     color: @warningText;
     .ks-fonts-textShadow;
 }
 
-.util-Alert-error-mixin {
+.util-Alert-error-mixin() {
     background-color: @errorBackground;
     border-color: @errorBorder;
     color: @errorText;
     .ks-fonts-textShadow;
-}
-
-.util-Alert a {
-  cursor: pointer;
-  cursor: hand;
 }
 
 
@@ -63,22 +58,22 @@
 
     &--success {
         background-image: @successImage;
-        .util-Alert-success-mixin;
+        .util-Alert-success-mixin();
     }
 
     &--information {
         background-image: @infoImage;
-        .util-Alert-information-mixin;
-     }
+        .util-Alert-information-mixin();
+    }
 
     &--warning {
         background-image: @warningImage;
-        .util-Alert-warning-mixin;
+        .util-Alert-warning-mixin();
     }
 
     &--error {
         background-image: @errorImage;
-        .util-Alert-error-mixin;
+        .util-Alert-error-mixin();
     }
 
     &--processing {
@@ -87,25 +82,34 @@
         border-color: @cardBorderColor;  //#BCE8F1;
         color: @cardTextColor; //#2A617D;
     }
+
+
+    // Transitions
+    &.ng-enter,
+    &.ng-leave {
+        .util-transitions-browserHelper();
+    }
+
+    &.ng-enter,
+    &.ng-leave.ng-leave-active {
+        opacity: 0;
+    }
+
+    &.ng-leave,
+    &.ng-enter.ng-enter-active {
+        opacity: 1;
+    }
 }
 
-.util-Alert.ng-enter,
-.util-Alert.ng-leave {
-    &:extend(.util-transitions-browserHelper);
+.util-Alert a {
+    cursor: pointer;
+    cursor: hand;
 }
 
-.util-Alert.ng-enter,
-.util-Alert.ng-leave.ng-leave-active {
-    opacity:0;
-}
-.util-Alert.ng-leave,
-.util-Alert.ng-enter.ng-enter-active {
-    opacity:1;
-}
 
 .util-Alert-dropCourse-container.ng-hide-add,
 .util-Alert.ng-hide-remove {
-    display:block!important;
+    display: block !important; // Important to override allow the transition to be visible while ng-hide'ing
 }
 
 
@@ -125,12 +129,13 @@
     &:extend(.util-Alert--card);
 }
 
+
 @media screen and (min-width: @largeFormatMin) {
   .util-Alert {
-    margin: 0.5em 0 0.5em 0;
+      margin: 0.5em 0 0.5em 0;
   }
 
   .util-Alert--card--dropped {
-    margin: 0 10px 10px;
+      margin: 0 10px 10px;
   }
 }

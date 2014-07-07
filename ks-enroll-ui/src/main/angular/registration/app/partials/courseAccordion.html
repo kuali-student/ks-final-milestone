@@ -11,7 +11,8 @@
                 <span class="kscr-Card-icon"><i class="glyphicon" ng-class="{'glyphicon-chevron-down': course.isopen, 'glyphicon-chevron-right': !course.isopen}"></i></span>
 
                 <!--credits-->
-                <div id="{{config.prefix2}}course_info_{{course.courseCode}}_{{course.regGroupCode}}" class="kscr-Card-supportText" ng-hide="course.editing" ng-class="{ 'kscr-Card-credits-fadeIn': course.editCredits, 'kscr-Card-credits-fadeOut': course.editCreditsDone }">
+                <div id="{{config.prefix2}}course_info_{{course.courseCode}}_{{course.regGroupCode}}" ng-hide="course.editing"
+                     class="kscr-Card-supportText kscr-Card-credits" ng-class="{ 'kscr-Card-credits--edited': course.editCredits }">
                     <ng-pluralize count="course.credits" when="{'1': '{} cr', 'other': '{} cr'}"></ng-pluralize>
                 </div>
 
@@ -22,11 +23,10 @@
                             <strong>{{course.courseCode}} ({{course.regGroupCode}})</strong>
                             <i ng-show="type==='waitlist'" class="glyphicon glyphicon-time kscr-Waitlisted-clockIcon"></i>
                         </span>
-                        <span id="{{config.prefix2}}grading_badge_{{course.courseCode}}_{{course.regGroupCode}}"
-                              ng-show="showBadge(course)" ng-class="{ 'kscr-Card-badge-fadeIn': course.editGradingOption,
-                              'kscr-Card-badge-fade': !course.editGradingOption,
-                              'kscr-Card-badge-fadeOutLetter': course.editGradingOptionLetter
-                              && course.editGradingOptionDone }">{{gradingOption(course)}}</span>
+                        <span class="kscr-Card-badge-wrap" ng-show="showBadge(course)">
+                            <span id="{{config.prefix2}}grading_badge_{{course.courseCode}}_{{course.regGroupCode}}"
+                                  class="kscr-Card-badge ng-animate" ng-class="{ 'kscr-Card-badge--edited': course.editGradingOption }">{{gradingOption(course)}}</span>
+                        </span>
                     </div>
 
                     <!--Course Title and description-->

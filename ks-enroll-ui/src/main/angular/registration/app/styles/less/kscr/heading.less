@@ -1,7 +1,7 @@
 /****Sub Heading and Support Heading ****/
 
 
-.kscr-Heading-sub{
+.kscr-Heading-sub {
     font-size: 14px;
     color: @secondaryTextColor;
     font-weight: bold;
@@ -9,6 +9,7 @@
     text-transform: uppercase;
 }
 
+// Cart results heading (Results: Success {}, Fail {})
 .kscr-Heading-sub--cart {
     .kscr-Heading-sub;
 }
@@ -34,8 +35,9 @@
     }
 
     .kscr-Heading-sub--cart {
+        // Update sub-heading in the cart (results heading) to have a
+        // bottom border and better appropriate spacing from sibling elements
         border-bottom: @horizontalLineBorder;
-        color: @primaryTextColor;
         margin: 0 10px;
         padding: 10px 0;
     }
