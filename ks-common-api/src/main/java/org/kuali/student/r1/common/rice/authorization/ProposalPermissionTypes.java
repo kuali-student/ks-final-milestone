@@ -26,17 +26,18 @@ import org.kuali.student.r1.common.rice.StudentIdentityConstants;
  *
  */
 public enum ProposalPermissionTypes {
-	INITIATE("Initiate", KRADConstants.KUALI_RICE_SYSTEM_NAMESPACE, KewApiConstants.INITIATE_PERMISSION),
-	OPEN("View", StudentIdentityConstants.KS_NAMESPACE_CD,"Open Document"),
-	EDIT("Edit",KRADConstants.KNS_NAMESPACE,"Edit Document"),
+
+    INITIATE("Initiate", KRADConstants.KUALI_RICE_SYSTEM_NAMESPACE, KewApiConstants.INITIATE_PERMISSION),
+    OPEN("View", StudentIdentityConstants.KS_NAMESPACE_CD,"Open Document"),
+    EDIT("Edit",KRADConstants.KNS_NAMESPACE,"Edit Document"),
     BLANKET_APPROVE("Blanket Approve",StudentIdentityConstants.KS_NAMESPACE_CD,"Blanket Approve"),
-	ADD_COMMENT("Comment",StudentIdentityConstants.KS_NAMESPACE_CD,"Add a Comment"),
+    ADD_COMMENT("Comment",StudentIdentityConstants.KS_NAMESPACE_CD,"Add a Comment"),
     EDIT_COMMENT("Edit Comment",StudentIdentityConstants.KS_NAMESPACE_CD,"Edit a Comment"),
     DELETE_COMMENT("Delete Comment",StudentIdentityConstants.KS_NAMESPACE_CD,"Delete a Comment");
 
-	private String label = "";
-	private String permissionNamespace = "";
-	private String permissionTemplateName = "";
+    private String label = "";
+    private String permissionNamespace = "";
+    private String permissionTemplateName = "";
 
 	private ProposalPermissionTypes(String label, String permissionNamespace, String permissionTemplateName) {
         this.label = label;
