@@ -44,7 +44,7 @@
                 <value>classpath:org/kuali/student/cm/lookup/CourseJointInfoWrapperLookupView.xml</value>
                 <value>classpath:org/kuali/student/cm/lookup/OrganizationInfoWrapperLookupView.xml</value>
                 <value>classpath:org/kuali/student/cm/lookup/CollaboratorWrapperLookupView.xml</value>
-                <value>classpath:org/kuali/student/cm/lookup/LoCategoryInfoWrapperView.xml</value>
+                <value>classpath:org/kuali/student/cm/lookup/LoCategoryInfoWrapperLookupView.xml</value>
                 <value>classpath:org/kuali/student/cm/lookup/LoDisplayInfoWrapperLookupView.xml</value>
 
                 <value>classpath:ks-CourseInfo-dictionary.xml</value>

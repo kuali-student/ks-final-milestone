@@ -24,9 +24,9 @@
         <property name="dataObjectClass" value="org.kuali.student.cm.course.form.LoCategoryInfoWrapper"/>
     </bean>
 
-    <bean id="KS-LoCategoryInfoWrapper-View" parent="Uif-LookupView"
+    <bean id="KS-LoCategoryInfoWrapper-LookupView" parent="Uif-LookupView"
           p:onDocumentReadyScript="categoryTypeSelection('true'); jQuery('#LoCategoryInfoWrapper-Category-Filter_fieldset').find('legend').attr('style', 'display: block');">
-        <property name="viewName" value="KS-LoCategoryInfoWrapper-View"/>
+        <property name="viewName" value="KS-LoCategoryInfoWrapper-LookupView"/>
         <property name="headerText" value="Select Categories"/>
         <property name="theme">
             <bean parent="KSTheme"/>
