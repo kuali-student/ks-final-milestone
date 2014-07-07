@@ -32,6 +32,7 @@ import org.kuali.student.cm.course.form.ResultValuesGroupInfoWrapper;
 import org.kuali.student.cm.course.service.util.OrganizationSearchUtil;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.uif.rule.KsMaintenanceDocumentRuleBase;
+import org.kuali.student.r1.core.workflow.dto.CollaboratorWrapper;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.core.constants.OrganizationServiceConstants;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
@@ -107,6 +108,7 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
         success = success && validateInstructor(dataObject);
         success = success && validateOrganization(dataObject);
         success = success && validateLearningObjectives(dataObject);
+        success = success && validateAuthorsAndCollaborators(dataObject);
 
         return success;
     }
@@ -141,7 +143,7 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
 
             } else {
 
-                String principalName = getInstructorSearchString(instructorDisplay.getDisplayName());
+                String principalName = getPrincipalNameFromDisplayName(instructorDisplay.getDisplayName());
                 Map<String, String> searchCriteria = new HashMap<String, String>();
                 searchCriteria.put(KIMPropertyConstants.Person.PRINCIPAL_NAME, principalName);
                 List<Person> persons = getPersonService().findPeople(searchCriteria);
@@ -163,6 +165,49 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
         }
 
         dataObject.getInstructorWrappers().removeAll(instructorToRemove);
+
+        return true;
+    }
+
+    protected boolean validateAuthorsAndCollaborators(CourseInfoWrapper dataObject) {
+
+        List<CollaboratorWrapper> collaboratorsToRemove = new ArrayList<CollaboratorWrapper>();
+
+        for (CollaboratorWrapper collaboratorWrapper : dataObject.getCollaboratorWrappers()) {
+
+            if (StringUtils.isBlank(collaboratorWrapper.getDisplayName())) {
+
+                collaboratorsToRemove.add(collaboratorWrapper);
+
+            } else {
+
+                // only need to validate new author collab records indicated by a blank actionRequestId value
+                if (StringUtils.isNotBlank(collaboratorWrapper.getActionRequestId())) {
+                    continue;
+                }
+
+                String principalName = getPrincipalNameFromDisplayName(collaboratorWrapper.getDisplayName());
+                Map<String, String> searchCriteria = new HashMap<String, String>();
+                searchCriteria.put(KIMPropertyConstants.Person.PRINCIPAL_NAME, principalName);
+                List<Person> persons = getPersonService().findPeople(searchCriteria);
+
+                if (persons.isEmpty()) {
+                    GlobalVariables.getMessageMap().putErrorForSectionId(CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE, CurriculumManagementConstants.MessageKeys.ERROR_DATA_NOT_FOUND, "Collaborator", principalName);
+                    return false;
+                } else if (persons.size() > 1) {
+                    GlobalVariables.getMessageMap().putErrorForSectionId(CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE, CurriculumManagementConstants.MessageKeys.ERROR_DATA_MULTIPLE_MATCH_FOUND, "Collaborator", principalName);
+                    return false;
+                } else {
+                    try {
+                        collaboratorWrapper.setPrincipalId(KSCollectionUtils.getOptionalZeroElement(persons).getPrincipalId());
+                    } catch (OperationFailedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        }
+
+        dataObject.getCollaboratorWrappers().removeAll(collaboratorsToRemove);
 
         return true;
     }
@@ -256,7 +301,7 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
      * @param displayName The display name of the instructor.
      * @return The user name of the instructor.
      */
-    protected String getInstructorSearchString(String displayName) {
+    protected String getPrincipalNameFromDisplayName(String displayName) {
         String searchString = "";
         if (displayName.contains("(") && displayName.contains(")")) {
             searchString = displayName.substring(displayName.lastIndexOf('(') + 1, displayName.lastIndexOf(')'));
