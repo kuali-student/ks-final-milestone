@@ -1939,6 +1939,11 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 dataObject.getCollaboratorWrappers().add(new CollaboratorWrapper());
             }
 
+            // Initialize Supporting Documents
+            if(dataObject.getDocumentsToAdd().isEmpty()){
+                dataObject.getDocumentsToAdd().add(new SupportingDocumentInfoWrapper());
+            }
+
             populateCollaborators();
 
             populateAuditOnWrapper();
