@@ -196,14 +196,31 @@ function ksapFilterCourseOffering (data){
 }
 
 /**
- * Sets the activity ids for eah row in the activity tables
+ * Sets the activity and format offerings since they cannot be set up in kard
  */
-function setupActivityIds(){
+function setupActivityAndFormatOfferings(){
+
+    // Sets the activity id for a row in ao lists since default krad does not allow setting ids on table rows
     var rowIds = jQuery(".rowActivityOfferingId");
     for(var i = 0;i<rowIds.length;i++){
         var rowId = rowIds[i];
         var parentRow = jQuery("#"+rowId.getAttribute("id")).parents(".ksap-activity-row");
         parentRow.attr("id",rowId.innerHTML.trim());
+    }
+
+    // Sets the invalid class for radio options of FOs
+    var validFormatOfferings = jQuery("[data-validformatoffering='False']");
+    for(var i = 0; i<validFormatOfferings.length; i++){
+        // Set class on radio input
+        var format = validFormatOfferings[i];
+        var formatId = format.getAttribute("data-formatid");
+        var formatRadios = jQuery(".ksap-format-radio[value='"+formatId+"']");
+        formatRadios.addClass("ksap-invalid-format");
+
+        // Set class on radio label
+        var radioId = formatRadios.attr("id");
+        var label = jQuery("[for='"+radioId+"']");
+        label.addClass("ksap-invalid-format");
     }
 }
 

@@ -51,6 +51,7 @@
         <property name="persistFormToSession" value="true"/>
         <property name="formClass" value="org.kuali.student.ap.coursesearch.form.CourseSectionDetailsDialogForm"/>
     </bean>
+
     <bean id="course-term-list" parent="course-term-list-parent">
         <property name="cssClasses">
             <list merge="true">
@@ -85,8 +86,9 @@
                 <ref bean="course-offering-list"/>
             </list>
         </property>
-        <property name="onDocumentReadyScript" value="registerCourseSectionEvents(jQuery('#coursedetails-page')); setupActivityIds();"/>
+        <property name="onDocumentReadyScript" value="registerCourseSectionEvents(jQuery('#coursedetails-page')); setupActivityAndFormatOfferings();"/>
     </bean>
+
     <bean id="course-offering-list" parent="course-offering-list-parent"/>
     <bean id="course-offering-list-parent" abstract="true" parent="Uif-ListCollectionSection">
         <property name="collectionObjectClass"
@@ -183,6 +185,7 @@
                                             </list>
                                         </property>
                                     </bean>
+
                                     <!--<bean parent="Uif-KeyLabelPair" p:key="@{#line.formatId}" p:value="@{#line.formatName}"/>-->
                                 </property>
                                 <property name="optionsFinder">
@@ -236,14 +239,6 @@
         </property>
         <property name="items">
             <list>
-                <!--<bean parent="Uif-MessageField" p:messageText="@{#line.formatOfferingId}"/>-->
-                <!--<bean parent="Uif-MessageField" p:messageText="@{#line.formatOfferingName} (@{#line.activityFormatDetailsWrappers.size()})">-->
-                    <!--<property name="cssClasses">-->
-                        <!--<list merge="true">-->
-                            <!--<value>ksap-section-format-title</value>-->
-                        <!--</list>-->
-                    <!--</property>-->
-                <!--</bean>-->
             </list>
         </property>
         <property name="subCollections">
@@ -262,6 +257,12 @@
         <property name="disclosure.render" value="false"/>
         <property name="propertyName" value="activityFormatDetailsWrappers"/>
         <property name="layoutManager.lineGroupPrototype.header.render" value="true"/>
+        <property name="dataAttributes">
+            <map>
+                <entry key="validFormatOffering" value="@{#line.validFormat}" />
+                <entry key="formatId" value="@{#line.formatOfferingId}" />
+            </map>
+        </property>
         <!-- property to activate disclosure -->
         <property name="cssClasses">
             <list merge="true">
@@ -583,7 +584,6 @@
     </bean>
 
     <bean id="activity_offering_table" parent="activity_offering_table_parent"/>
-
     <bean id="activity_offering_table_parent" parent="Uif-TableCollectionSubSection"
           p:renderAddLine="false" p:renderLineActions="false" p:renderHeader="false">
         <property name="collectionObjectClass"
@@ -595,6 +595,7 @@
         <property name="layoutManager.conditionalRowCssClasses">
           <map>
               <entry key="@{#line.singleFormatOffering}" value="ksap-activity-single"/>
+              <entry key="@{!#line.validActivity}" value="ksap-invalid-activity"/>
               <entry key="all" value="ksap-activity-row"/>
           </map>
         </property>

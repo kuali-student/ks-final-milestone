@@ -31,6 +31,12 @@ import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -40,8 +46,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.json.Json;
 import javax.json.JsonObjectBuilder;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -73,7 +81,7 @@ public class CourseSectionDetailsController extends KsapControllerBase {
     public ModelAndView startCourseSectionDetails(@RequestParam(value = "courseId") String courseId,
                                                   @ModelAttribute("KualiForm") CourseSectionDetailsForm form,
                                                   HttpServletRequest request,
-                                                  HttpServletResponse response) throws Exception {
+                                                  HttpServletResponse response)  {
         super.start(form, request, response);
 
         form.setViewId(COURSE_SECTION_DETAILS_FORM);
@@ -93,14 +101,29 @@ public class CourseSectionDetailsController extends KsapControllerBase {
     @RequestMapping(params = "methodToCall=addRegGroup")
     public ModelAndView addRegGroup(@ModelAttribute("KualiForm") CourseSectionDetailsForm form,
                                                   HttpServletRequest request,
-                                                  HttpServletResponse response) throws Exception {
+                                                  HttpServletResponse response) throws IOException, ServletException {
         JsonObjectBuilder eventList = Json.createObjectBuilder();
 
         // Gather information about the registration group
         String regGroupId = request.getParameter("regGroupId");
-        RegistrationGroupInfo regGroup = KsapFrameworkServiceLocator.getCourseOfferingService().getRegistrationGroup(regGroupId, KsapFrameworkServiceLocator.getContext().getContextInfo());
-        CourseOffering course = KsapFrameworkServiceLocator.getCourseOfferingService().getCourseOffering(regGroup.getCourseOfferingId(), KsapFrameworkServiceLocator.getContext().getContextInfo());
-        List<ActivityOfferingInfo> activities = KsapFrameworkServiceLocator.getCourseOfferingService().getActivityOfferingsByIds(regGroup.getActivityOfferingIds(), KsapFrameworkServiceLocator.getContext().getContextInfo());
+        RegistrationGroupInfo regGroup = null;
+        CourseOffering course = null;
+        List<ActivityOfferingInfo> activities = null;
+        try {
+            regGroup = KsapFrameworkServiceLocator.getCourseOfferingService().getRegistrationGroup(regGroupId, KsapFrameworkServiceLocator.getContext().getContextInfo());
+            course = KsapFrameworkServiceLocator.getCourseOfferingService().getCourseOffering(regGroup.getCourseOfferingId(), KsapFrameworkServiceLocator.getContext().getContextInfo());
+            activities = KsapFrameworkServiceLocator.getCourseOfferingService().getActivityOfferingsByIds(regGroup.getActivityOfferingIds(), KsapFrameworkServiceLocator.getContext().getContextInfo());
+        } catch (DoesNotExistException e) {
+            throw new IllegalArgumentException("CO Service lookup error", e);
+        } catch (InvalidParameterException e) {
+            throw new IllegalArgumentException("CO Service lookup error", e);
+        } catch (MissingParameterException e) {
+            throw new IllegalArgumentException("CO Service lookup error", e);
+        } catch (OperationFailedException e) {
+            throw new IllegalArgumentException("CO Service lookup error", e);
+        } catch (PermissionDeniedException e) {
+            throw new IllegalArgumentException("CO Service lookup error", e);
+        }
         List<ActivityOfferingDetailsWrapper> activityWrappers = new ArrayList<ActivityOfferingDetailsWrapper>();
         for(ActivityOfferingInfo activityOfferingInfo : activities){
             activityWrappers.add(getViewHelperService(form).convertAOInfoToWrapper(activityOfferingInfo));
@@ -126,6 +149,16 @@ public class CourseSectionDetailsController extends KsapControllerBase {
         }catch (AlreadyExistsException e){
             PlanEventUtils.sendJsonEvents(false,"Course " +course.getCourseCode() + " is already planned for " + term.getName(), response, eventList);
             return null;
+        } catch (OperationFailedException e) {
+            throw new IllegalArgumentException("Academic Plan Service lookup error", e);
+        } catch (MissingParameterException e) {
+            throw new IllegalArgumentException("Academic Plan Service lookup error", e);
+        } catch (InvalidParameterException e) {
+            throw new IllegalArgumentException("Academic Plan Service lookup error", e);
+        } catch (DataValidationErrorException e) {
+            throw new IllegalArgumentException("Academic Plan Service lookup error", e);
+        } catch (PermissionDeniedException e) {
+            throw new IllegalArgumentException("Academic Plan Service lookup error", e);
         }
 
         // Get new list of valid registration groups with added plan item
@@ -145,7 +178,7 @@ public class CourseSectionDetailsController extends KsapControllerBase {
     @RequestMapping(params = "methodToCall=startAddDialog")
     public ModelAndView startAddDialog(@ModelAttribute("KualiForm") UifFormBase form,
                                                 HttpServletRequest request,
-                                                HttpServletResponse response) throws Exception {
+                                                HttpServletResponse response)  {
         // Dialog uses separate form from normal
         CourseSectionDetailsDialogForm dialogForm = new CourseSectionDetailsDialogForm();
         super.start(dialogForm, request, response);

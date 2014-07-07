@@ -1,9 +1,26 @@
+/*
+ * Copyright 2014 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
 package org.kuali.student.ap.coursesearch.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.container.GroupBase;
+import org.kuali.rice.krad.uif.control.RadioGroupControl;
+import org.kuali.rice.krad.uif.element.Message;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
+import org.kuali.rice.krad.uif.util.KeyMessage;
 import org.kuali.rice.krad.uif.widget.Disclosure;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
@@ -45,6 +62,8 @@ import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
@@ -62,17 +81,19 @@ import java.util.UUID;
  * {@inheritDoc}
  */
 public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl implements CourseDetailsViewHelperService {
-    public ContextInfo contextInfo = KsapFrameworkServiceLocator.getContext().getContextInfo();
+    private ContextInfo contextInfo = KsapFrameworkServiceLocator.getContext().getContextInfo();
+    private static final Logger LOG = LoggerFactory.getLogger(CourseDetailsViewHelperServiceImpl.class);
+
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void loadCourseSectionDetails(UifFormBase form, String courseId) throws Exception {
+    public void loadCourseSectionDetails(UifFormBase form, String courseId)  {
         load((CourseSectionDetailsForm) form, courseId);
     }
 
-    private void load(CourseSectionDetailsForm form, String courseId) throws Exception {
+    private void load(CourseSectionDetailsForm form, String courseId)  {
         CourseInfo courseInfo = KsapFrameworkServiceLocator.getCourseHelper().getCourseInfo(courseId);
         form.setCourseTitle(courseInfo.getCourseTitle());
         form.setCourseCode(courseInfo.getCode());
@@ -80,7 +101,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
         form.setCourseTermDetailsWrappers(getScheduledTerms(termIds, courseId));
     }
 
-    private List<CourseTermDetailsWrapper> getScheduledTerms(List<String> scheduledTermsList, String courseId) throws Exception {
+    private List<CourseTermDetailsWrapper> getScheduledTerms(List<String> scheduledTermsList, String courseId)  {
 
         List<CourseTermDetailsWrapper> courseTermDetailsList = new ArrayList<CourseTermDetailsWrapper>();
 
@@ -158,7 +179,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
      * {@inheritDoc}
      */
     @Override
-    public Map<String, List<CourseOfferingDetailsWrapper>> processCourseOfferingsByTerm(List<String> courseIds, List<Term> terms) throws Exception {
+    public Map<String, List<CourseOfferingDetailsWrapper>> processCourseOfferingsByTerm(List<String> courseIds, List<Term> terms) {
         List<CourseOfferingInfo> courseOfferings = KsapFrameworkServiceLocator.getCourseHelper().getCourseOfferingsForCoursesAndTerms(courseIds, terms);
         Collections.sort(courseOfferings, new CourseOfferingInfoComparator());
         Map<String, List<CourseOfferingDetailsWrapper>> map = new HashMap<String, List<CourseOfferingDetailsWrapper>>();
@@ -169,19 +190,29 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
             if (offeringsByTerm == null)
                 offeringsByTerm = new ArrayList<CourseOfferingDetailsWrapper>();
 
+            List<RegistrationGroupInfo> validRegGroups = getValidRegGroups(offering.getId(),new HashMap<Object,Object>());
+            List<String> validFormatOfferings = new ArrayList<String>();
+            List<String> validActivities = new ArrayList<String>();
+            for(RegistrationGroupInfo group : validRegGroups){
+                validActivities.addAll(group.getActivityOfferingIds());
+                if(!validFormatOfferings.contains(group.getFormatOfferingId())){
+                    validFormatOfferings.add(group.getFormatOfferingId());
+                }
+            }
+
             CourseOfferingDetailsWrapper courseOfferingDetailsWrapper = new CourseOfferingDetailsWrapper(offering);
             List<FormatOfferingInfo> formatOfferings = null;
             try {
                 formatOfferings = KsapFrameworkServiceLocator.getCourseOfferingService().getFormatOfferingsByCourseOffering(offering.getId(), contextInfo);
                 List<FormatOfferingInfoWrapper> formatOfferingWrappers = new ArrayList<FormatOfferingInfoWrapper>(formatOfferings.size());
                 Map<String, Map<String, List<ActivityOfferingDetailsWrapper>>>
-                        aosByFormat = getAOData(offering.getId());
+                        aosByFormat = getAOData(offering.getId(),validActivities);
 
                 List<PlannedRegistrationGroupDetailsWrapper> plannedActivityOfferings = new ArrayList<PlannedRegistrationGroupDetailsWrapper>();
 
                 for (FormatOfferingInfo formatOffering : formatOfferings) {
                     FormatOfferingInfoWrapper formatOfferingInfo = new FormatOfferingInfoWrapper(formatOffering, courseOfferingDetailsWrapper.getCourseOfferingCode());
-
+                    formatOfferingInfo.setValidFormat(validFormatOfferings.contains(formatOfferingInfo.getFormatOfferingId()));
                     List<ActivityFormatDetailsWrapper> activityFormatDetailsWrappers = new ArrayList<ActivityFormatDetailsWrapper>();
                     Map<String, List<ActivityOfferingDetailsWrapper>> aosByTypeMap = aosByFormat.get(formatOfferingInfo.getFormatOfferingId());
 
@@ -191,6 +222,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
                             TypeInfo typeInfo = KsapFrameworkServiceLocator.getTypeService().getType(aosByType.getKey(), contextInfo);
                             ActivityFormatDetailsWrapper activityFormatDetailsWrapper = new ActivityFormatDetailsWrapper(
                                     termId, offering.getCourseOfferingCode(), formatOfferingInfo.getFormatOfferingId(), typeInfo.getName(), typeInfo.getKey());
+
                             activityFormatDetailsWrapper.setActivityOfferingDetailsWrappers(aosByType.getValue());
                             activityFormatDetailsWrappers.add(activityFormatDetailsWrapper);
 
@@ -199,25 +231,11 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
                         }
                     }
 
-
-//                    formatOfferingInfo.setActivityOfferingDetailsWrappers(aosByFormat.get(formatOffering.getFormatId()));
                     formatOfferingInfo.setActivityFormatDetailsWrappers(activityFormatDetailsWrappers);
                     formatOfferingWrappers.add(formatOfferingInfo);
 
                 }
                 courseOfferingDetailsWrapper.setFormatOfferingInfoWrappers(formatOfferingWrappers);
-
-//                List<ActivityFormatDetailsWrapper> activityFormatDetailsWrappers = new ArrayList<ActivityFormatDetailsWrapper>();
-//
-//
-//                for (Map.Entry<String, List<ActivityOfferingDetailsWrapper>> entry : aosByFormat.entrySet()) {
-//                    ActivityFormatDetailsWrapper activityFormatDetailsWrapper = new ActivityFormatDetailsWrapper(
-//                            entry.getKey());
-//                    activityFormatDetailsWrapper.setActivityOfferingDetailsWrappers(entry.getValue());
-//                    activityFormatDetailsWrappers.add(activityFormatDetailsWrapper);
-//                }
-//                courseOfferingDetailsWrapper.setActivityFormatDetailsWrappers(activityFormatDetailsWrappers);
-
                 courseOfferingDetailsWrapper.setPlannedActivityDetailsWrappers(plannedActivityOfferings);
             } catch (DoesNotExistException e) {
                 throw new IllegalArgumentException("FO lookup error", e);
@@ -238,89 +256,47 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
         return map;
     }
 
-    private List<PlannedRegistrationGroupDetailsWrapper> getPlannedPlannedRegistrationGroups(
-            List<ActivityOfferingDetailsWrapper> activities) throws Exception{
-
-        List<ActivityOfferingDetailsWrapper> activityOfferings = new ArrayList<ActivityOfferingDetailsWrapper>();
-        for(ActivityOfferingDetailsWrapper activityOfferingDetailsWrapper : activities){
-            if(activityOfferingDetailsWrapper.isInPlan()){
-                activityOfferings.add(activityOfferingDetailsWrapper);
-            }
-        }
-
-        List<PlannedRegistrationGroupDetailsWrapper> plannedRegistrationGroupDetailsWrappers = new ArrayList<PlannedRegistrationGroupDetailsWrapper>();
-        for(ActivityOfferingDetailsWrapper activityFormatDetailsWrapper : activityOfferings){
-            boolean found = false;
-            for(PlannedRegistrationGroupDetailsWrapper plannedRegistrationGroupDetailsWrapper : plannedRegistrationGroupDetailsWrappers){
-                if(plannedRegistrationGroupDetailsWrapper.getRegGroupCode().equals(activityFormatDetailsWrapper.getRegGroupCode())){
-                    found = true;
-                    plannedRegistrationGroupDetailsWrapper.addActivities(activityFormatDetailsWrapper);
-                }
-            }
-            if(!found){
-                PlannedRegistrationGroupDetailsWrapper newPlanReg = new PlannedRegistrationGroupDetailsWrapper();
-                newPlanReg.setRegGroupCode(activityFormatDetailsWrapper.getRegGroupCode());
-                newPlanReg.addActivities(activityFormatDetailsWrapper);
-                plannedRegistrationGroupDetailsWrappers.add(newPlanReg);
-            }
-        }
-
-        return plannedRegistrationGroupDetailsWrappers;
-    }
-
-    private Map<String, Map<String, List<ActivityOfferingDetailsWrapper>>> getAOData(String courseOfferingId) throws Exception {
-        Map<String, Map<String, List<ActivityOfferingDetailsWrapper>>> aoMapByFormatName = new HashMap<String, Map<String, List<ActivityOfferingDetailsWrapper>>>();
-        List<ActivityOfferingInfo>  activityOfferings = null;
-
-        try {
-            activityOfferings = KsapFrameworkServiceLocator.getCourseOfferingService().getActivityOfferingsByCourseOffering(courseOfferingId, contextInfo);
-            Collections.sort(activityOfferings, new ActivityOfferingInfoComparator());
-
-        } catch (DoesNotExistException e) {
-            throw new IllegalArgumentException("AO lookup error", e);
-        } catch (InvalidParameterException e) {
-            throw new IllegalArgumentException("AO lookup error", e);
-        } catch (MissingParameterException e) {
-            throw new IllegalArgumentException("AO lookup error", e);
-        } catch (OperationFailedException e) {
-            throw new IllegalArgumentException("AO lookup error", e);
-        } catch (PermissionDeniedException e) {
-            throw new IllegalArgumentException("AO lookup error", e);
-        }
-
-        for (ActivityOfferingInfo activityOffering : activityOfferings) {
-            Map<String, List<ActivityOfferingDetailsWrapper>> aosByFormat = aoMapByFormatName.get(activityOffering.getFormatOfferingId());
-            if (aosByFormat == null) {
-                aosByFormat = new HashMap<String, List<ActivityOfferingDetailsWrapper>>();
-            }
-            ActivityOfferingDetailsWrapper wrapper = convertAOInfoToWrapper(activityOffering);
-            String typeKey = activityOffering.getTypeKey();
-            List<ActivityOfferingDetailsWrapper> aosByType = aosByFormat.get(typeKey);
-            if (aosByType == null) {
-                aosByType = new ArrayList<ActivityOfferingDetailsWrapper>();
-            }
-            aosByType.add(wrapper);
-            aosByFormat.put(typeKey, aosByType);
-            aoMapByFormatName.put(activityOffering.getFormatOfferingId(), aosByFormat);
-        }
-        return aoMapByFormatName;
-    }
-
     /**
      * {@inheritDoc}
      */
     @Override
-    public ActivityOfferingDetailsWrapper convertAOInfoToWrapper(ActivityOfferingInfo aoInfo) throws Exception {
+    public ActivityOfferingDetailsWrapper convertAOInfoToWrapper(ActivityOfferingInfo aoInfo)  {
         ActivityOfferingDetailsWrapper wrapper = new ActivityOfferingDetailsWrapper(aoInfo, false, true);
 
         int firstValue = 0;
 
-        FormatOfferingInfo fo = KsapFrameworkServiceLocator.getCourseOfferingService().getFormatOffering(aoInfo.getFormatOfferingId(), contextInfo);
+        FormatOfferingInfo fo = null;
+        try {
+            fo = KsapFrameworkServiceLocator.getCourseOfferingService().getFormatOffering(aoInfo.getFormatOfferingId(), contextInfo);
+        } catch (DoesNotExistException e) {
+            throw new IllegalArgumentException("CO Service lookup error", e);
+        } catch (InvalidParameterException e) {
+            throw new IllegalArgumentException("CO Service lookup error", e);
+        } catch (MissingParameterException e) {
+            throw new IllegalArgumentException("CO Service lookup error", e);
+        } catch (OperationFailedException e) {
+            throw new IllegalArgumentException("CO Service lookup error", e);
+        } catch (PermissionDeniedException e) {
+            throw new IllegalArgumentException("CO Service lookup error", e);
+        }
         wrapper.setActivityFormatName(aoInfo.getFormatOfferingName());
         if (fo.getActivityOfferingTypeKeys().size()>1) {
             wrapper.setSingleFormatOffering(false);
         }else{
-            List<RegistrationGroupInfo> regGroups = KsapFrameworkServiceLocator.getCourseOfferingService().getRegistrationGroupsByActivityOffering(aoInfo.getId(),KsapFrameworkServiceLocator.getContext().getContextInfo());
+            List<RegistrationGroupInfo> regGroups = null;
+            try {
+                regGroups = KsapFrameworkServiceLocator.getCourseOfferingService().getRegistrationGroupsByActivityOffering(aoInfo.getId(),contextInfo);
+            } catch (DoesNotExistException e) {
+                throw new IllegalArgumentException("CO Service lookup error", e);
+            } catch (InvalidParameterException e) {
+                throw new IllegalArgumentException("CO Service lookup error", e);
+            } catch (MissingParameterException e) {
+                throw new IllegalArgumentException("CO Service lookup error", e);
+            } catch (OperationFailedException e) {
+                throw new IllegalArgumentException("CO Service lookup error", e);
+            } catch (PermissionDeniedException e) {
+                throw new IllegalArgumentException("CO Service lookup error", e);
+            }
             RegistrationGroupInfo regGroup;
             try{
                 regGroup = KSCollectionUtils.getRequiredZeroElement(regGroups);
@@ -350,7 +326,20 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
         //This section is to display either schedule actuals assume that when an AO is offered, actuals are always available
         if (aoInfo.getScheduleIds() != null && aoInfo.getScheduleIds().size() > 0) {
             //FIXME: Use display object once we get the TBA with ScheduleComponentDisplay
-            List<ScheduleInfo> scheduleInfoList = KsapFrameworkServiceLocator.getSchedulingService().getSchedulesByIds(aoInfo.getScheduleIds(), contextInfo);
+            List<ScheduleInfo> scheduleInfoList = null;
+            try {
+                scheduleInfoList = KsapFrameworkServiceLocator.getSchedulingService().getSchedulesByIds(aoInfo.getScheduleIds(), contextInfo);
+            } catch (DoesNotExistException e) {
+                throw new IllegalArgumentException("Scheduling Service lookup error", e);
+            } catch (InvalidParameterException e) {
+                throw new IllegalArgumentException("Scheduling Service lookup error", e);
+            } catch (MissingParameterException e) {
+                throw new IllegalArgumentException("Scheduling Service lookup error", e);
+            } catch (OperationFailedException e) {
+                throw new IllegalArgumentException("Scheduling Service lookup error", e);
+            } catch (PermissionDeniedException e) {
+                throw new IllegalArgumentException("Scheduling Service lookup error", e);
+            }
 
             if (!scheduleInfoList.isEmpty()) {
                 for (ScheduleInfo scheduleInfo : scheduleInfoList) {
@@ -360,7 +349,20 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
 
                             String roomId = scheduleComponentInfo.getRoomId();
                             // JIRA Fix : KSENROLL-8726. Added isEmpty check
-                            TimeSlotInfo timeSlotInfo = KsapFrameworkServiceLocator.getSchedulingService().getTimeSlot(scheduleComponentInfo.getTimeSlotIds().isEmpty() ? StringUtils.EMPTY : scheduleComponentInfo.getTimeSlotIds().get(firstValue), contextInfo);
+                            TimeSlotInfo timeSlotInfo = null;
+                            try {
+                                timeSlotInfo = KsapFrameworkServiceLocator.getSchedulingService().getTimeSlot(scheduleComponentInfo.getTimeSlotIds().isEmpty() ? StringUtils.EMPTY : scheduleComponentInfo.getTimeSlotIds().get(firstValue), contextInfo);
+                            } catch (DoesNotExistException e) {
+                                throw new IllegalArgumentException("Scheduling Service lookup error", e);
+                            } catch (InvalidParameterException e) {
+                                throw new IllegalArgumentException("Scheduling Service lookup error", e);
+                            } catch (MissingParameterException e) {
+                                throw new IllegalArgumentException("Scheduling Service lookup error", e);
+                            } catch (OperationFailedException e) {
+                                throw new IllegalArgumentException("Scheduling Service lookup error", e);
+                            } catch (PermissionDeniedException e) {
+                                throw new IllegalArgumentException("Scheduling Service lookup error", e);
+                            }
 
                             updateScheduleToAOWrapperForDisplay(wrapper, scheduleComponentInfo.getIsTBA(), roomId, timeSlotInfo);
 
@@ -381,13 +383,37 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
                     "&methodToCall=show&term_code=" +aoInfo.getTermCode()+"&course="+aoInfo.getCourseOfferingCode());
 
         wrapper.setInPlan(false);
-        List<RegistrationGroupInfo> regGroups = KsapFrameworkServiceLocator.getCourseOfferingService().getRegistrationGroupsByActivityOffering(wrapper.getActivityOfferingId(), KsapFrameworkServiceLocator.getContext().getContextInfo());
+        List<RegistrationGroupInfo> regGroups = null;
+        try {
+            regGroups = KsapFrameworkServiceLocator.getCourseOfferingService().getRegistrationGroupsByActivityOffering(wrapper.getActivityOfferingId(), contextInfo);
+        } catch (DoesNotExistException e) {
+            throw new IllegalArgumentException("CO Service lookup error", e);
+        } catch (InvalidParameterException e) {
+            throw new IllegalArgumentException("CO Service lookup error", e);
+        } catch (MissingParameterException e) {
+            throw new IllegalArgumentException("CO Service lookup error", e);
+        } catch (OperationFailedException e) {
+            throw new IllegalArgumentException("CO Service lookup error", e);
+        } catch (PermissionDeniedException e) {
+            throw new IllegalArgumentException("CO Service lookup error", e);
+        }
         String planId = KsapFrameworkServiceLocator.getPlanHelper().getDefaultLearningPlan().getId();
         if(regGroups!=null){
             for(RegistrationGroupInfo regGroup : regGroups){
-                List<PlanItemInfo> items = KsapFrameworkServiceLocator.getAcademicPlanService()
-                        .getPlanItemsInPlanByRefObjectIdByRefObjectType(planId, regGroup.getId(),
-                                PlanConstants.REG_GROUP_TYPE,KsapFrameworkServiceLocator.getContext().getContextInfo());
+                List<PlanItemInfo> items = null;
+                try {
+                    items = KsapFrameworkServiceLocator.getAcademicPlanService()
+                            .getPlanItemsInPlanByRefObjectIdByRefObjectType(planId, regGroup.getId(),
+                                    PlanConstants.REG_GROUP_TYPE, contextInfo);
+                } catch (InvalidParameterException e) {
+                    throw new IllegalArgumentException("Academic Plan Service lookup error", e);
+                } catch (MissingParameterException e) {
+                    throw new IllegalArgumentException("Academic Plan Service lookup error", e);
+                } catch (OperationFailedException e) {
+                    throw new IllegalArgumentException("Academic Plan Service lookup error", e);
+                } catch (PermissionDeniedException e) {
+                    throw new IllegalArgumentException("Academic Plan Service lookup error", e);
+                }
                 if(!items.isEmpty()){
                     wrapper.setInPlan(true);
                     wrapper.setRegGroupCode(regGroup.getName());
@@ -397,134 +423,6 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
         }
         return wrapper;
 
-    }
-
-    private OfferingInstructorInfo findDisplayInstructor(List<OfferingInstructorInfo> instructors) {
-        OfferingInstructorInfo result = null;
-
-        if (instructors != null && !instructors.isEmpty()) {
-
-            // Build the display name for the Instructor
-            Collection<OfferingInstructorInfo> highestInstEffortInstructors = new ArrayList<OfferingInstructorInfo>();
-            float highestInstEffortComparison = 0f;
-
-            for (OfferingInstructorInfo instructor : instructors) {
-                if (instructor.getPercentageEffort() != null) {
-                    // if this instructor has a higher percent effort than any previous instructors,
-                    // clear the list we are keeping track of and set the new comparison number to this instructor's percentage effort
-                    if (instructor.getPercentageEffort() > highestInstEffortComparison) {
-                        highestInstEffortInstructors.clear();
-                        highestInstEffortComparison = instructor.getPercentageEffort();
-                        highestInstEffortInstructors.add(instructor);
-                    }
-                    // if this instructor's percent effort is tied with the comparison number,
-                    // add this instructor to the list of highest effort instructors
-                    else if (instructor.getPercentageEffort() == highestInstEffortComparison) {
-                        highestInstEffortInstructors.add(instructor);
-                    }
-                }
-            }
-
-            if (highestInstEffortInstructors.size() == 1) {
-                result = highestInstEffortInstructors.iterator().next();
-            } else {
-                List<String> names = new ArrayList<String>(highestInstEffortInstructors.size());
-                Map<String, OfferingInstructorInfo> nameMap = new HashMap<String, OfferingInstructorInfo>(highestInstEffortInstructors.size());
-                for (OfferingInstructorInfo oiInfo : highestInstEffortInstructors) {
-                    names.add(oiInfo.getPersonName());
-                    nameMap.put(oiInfo.getPersonName(), oiInfo);
-                }
-
-                Collections.sort(names);
-                int firstName = 0;
-                result = nameMap.get(names.get(firstName));
-            }
-        }
-
-        return result;
-    }
-
-    private void updateScheduleToAOWrapperForDisplay(ActivityOfferingDetailsWrapper aoWrapper, Boolean isTBA, String roomId, TimeSlotInfo timeSlot) throws Exception {
-        RoomInfo roomInfo = null;
-        if (StringUtils.isNotBlank(roomId)) {
-            roomInfo = KsapFrameworkServiceLocator.getRoomService().getRoom(roomId, ContextUtils.createDefaultContextInfo());
-        }
-        updateScheduleToAOWrapperForDisplay(aoWrapper, isTBA, roomInfo, timeSlot);
-    }
-
-    private void updateScheduleToAOWrapperForDisplay(ActivityOfferingDetailsWrapper aoWrapper, Boolean isTBA, RoomInfo roomInfo, TimeSlotInfo timeSlot) throws Exception {
-
-//        aoWrapper.setTbaDisplayName(isTBA,append);
-
-        if (timeSlot != null) {
-
-            TimeOfDayInfo startTime = timeSlot.getStartTime();
-            TimeOfDayInfo endTime = timeSlot.getEndTime();
-            List<Integer> days = timeSlot.getWeekdays();
-
-            if ((startTime != null && startTime.getHour() != null) && (endTime != null && endTime.getHour() != null)) {
-                aoWrapper.setTime(TimeOfDayHelper.makeFormattedTimeForAOSchedules(startTime) + " - " + TimeOfDayHelper.makeFormattedTimeForAOSchedules(endTime));
-            }
-
-//            if (endTime != null && endTime.getHour() != null) {
-//                aoWrapper.setEndTimeDisplay(TimeOfDayHelper.makeFormattedTimeForAOSchedules(endTime), append);
-//            }
-//
-            if (days != null && days.size() > 0) {
-                aoWrapper.setDays(getDays(days));
-            }
-        }
-
-        if (roomInfo != null && StringUtils.isNotBlank(roomInfo.getBuildingId())) {
-            BuildingInfo buildingInfo = KsapFrameworkServiceLocator.getRoomService().getBuilding(roomInfo.getBuildingId(), ContextUtils.createDefaultContextInfo());
-            aoWrapper.setLocation(buildingInfo.getBuildingCode() + " " + roomInfo.getRoomCode());
-//            aoWrapper.setBuildingName(buildingInfo.getName(),append);
-//            aoWrapper.setRoomName(roomInfo.getRoomCode(),append);
-        }
-    }
-
-    // should go to common util?
-    private String getDays(List<Integer> intList) {
-
-        StringBuilder sb = new StringBuilder();
-        if (intList == null) return sb.toString();
-
-        for (Integer d : intList) {
-            sb.append(convertIntoDays(d));
-        }
-        return sb.toString();
-    }
-
-    // should go to common util?
-    private String convertIntoDays(int day) {
-        String dayOfWeek;
-        switch (day) {
-            case 1:
-                dayOfWeek = SchedulingServiceConstants.SUNDAY_TIMESLOT_DAY_CODE;
-                break;
-            case 2:
-                dayOfWeek = SchedulingServiceConstants.MONDAY_TIMESLOT_DAY_CODE;
-                break;
-            case 3:
-                dayOfWeek = SchedulingServiceConstants.TUESDAY_TIMESLOT_DAY_CODE;
-                break;
-            case 4:
-                dayOfWeek = SchedulingServiceConstants.WEDNESDAY_TIMESLOT_DAY_CODE;
-                break;
-            case 5:
-                dayOfWeek = SchedulingServiceConstants.THURSDAY_TIMESLOT_DAY_CODE;
-                break;
-            case 6:
-                dayOfWeek = SchedulingServiceConstants.FRIDAY_TIMESLOT_DAY_CODE;
-                break;
-            case 7:
-                dayOfWeek = SchedulingServiceConstants.SATURDAY_TIMESLOT_DAY_CODE;
-                break;
-            default:
-                dayOfWeek = StringUtils.EMPTY;
-        }
-        // TODO implement TBA when service stores it.
-        return dayOfWeek;
     }
 
     /**
@@ -564,12 +462,14 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
         try {
             List<FormatOfferingInfo> formats = KsapFrameworkServiceLocator.getCourseOfferingService()
                     .getFormatOfferingsByCourseOffering(courseOfferingId,
-                            KsapFrameworkServiceLocator.getContext().getContextInfo());
+                            contextInfo);
             for(FormatOfferingInfo format : formats){
                 regGroups.addAll(KsapFrameworkServiceLocator.getCourseOfferingService().getRegistrationGroupsByFormatOffering(
-                        format.getId(), KsapFrameworkServiceLocator.getContext().getContextInfo()));
+                        format.getId(), contextInfo));
             }
         } catch (DoesNotExistException e) {
+            // If no reg groups exit for course offering return null
+            LOG.debug("No Registration Groups found for Course Offering "+courseOfferingId);
             return null;
         } catch (InvalidParameterException e) {
             throw new IllegalArgumentException("CO lookup error", e);
@@ -609,6 +509,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
         addEvent.add("courseOfferingId", courseOfferingId);
         addEvent.add("uid", UUID.randomUUID().toString());
 
+        // Create json array of activity to add and add it to event
         String regGroupCode="";
         JsonArrayBuilder activityEvents = Json.createArrayBuilder();
         for(ActivityOfferingDetailsWrapper activity : activities){
@@ -619,8 +520,11 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
             String location = "";
             String classUrl = "";
             String requirementsUrl = "";
+
+            // activities in the reg group will have the same reg group code.
             regGroupCode=activity.getRegGroupCode();
 
+            // if activity value is null use empty string
             if(activity.getInstructorName()!=null) instructor = activity.getInstructorName();
             if(activity.getDays()!=null) days = activity.getDays();
             if(activity.getTime()!=null) time = activity.getTime();
@@ -628,6 +532,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
             if(activity.getRequirementsUrl()!=null) requirementsUrl = activity.getRequirementsUrl();
             if(activity.getClassUrl()!=null) classUrl = activity.getClassUrl();
 
+            // Add data to json for activity
             activityEvent.add("activityOfferingId", activity.getActivityOfferingId());
             activityEvent.add("activityFormatName", activity.getActivityFormatName());
             activityEvent.add("activityOfferingCode", activity.getActivityOfferingCode());
@@ -669,6 +574,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
             }
         }
 
+        // Create json array of valid activity ids and add it to event
         JsonArrayBuilder activities = Json.createArrayBuilder();
         for(String activity : validActivities){
             activities.add(activity);
@@ -676,6 +582,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
         }
         filterEvent.add("activities", activities);
 
+        // Create json array of valid format ids and add it to event
         JsonArrayBuilder formats = Json.createArrayBuilder();
         for(String format : validFormatOfferings){
             formats.add(format);
@@ -687,12 +594,22 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
         return eventList;
     }
 
+    /**
+     * Filters a list of registration groups based on a list of activity offering ids
+     *
+     * @param regGroups - List of registration groups to filter
+     * @param selectedActivities - List of activity ids to be found in valid reg groups
+     * @return A list of filtered registration groups
+     */
     private List<RegistrationGroupInfo> getValidRegGroupsFilteredBySelectedActivities(
             List<RegistrationGroupInfo> regGroups, List<String> selectedActivities){
+        // If no activities are sent skip filtering
         if(selectedActivities != null && !selectedActivities.isEmpty()){
             List<RegistrationGroupInfo> validAOGroups = new ArrayList<RegistrationGroupInfo>();
             for(RegistrationGroupInfo group : regGroups){
                 boolean valid = false;
+
+                // Check if reg group activities contain a selected activity.
                 for(String activityId : selectedActivities){
                     if(group.getActivityOfferingIds().contains(activityId)){
                         valid = true;
@@ -703,18 +620,29 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
                     validAOGroups.add(group);
                 }
             }
+
             regGroups = validAOGroups;
         }
         return regGroups;
     }
 
+    /**
+     * Filter a list of registration groups based on if it is already in the default learning plan
+     *
+     * @param regGroups - The list of registration groups to filter
+     * @return A list of filtered reg groups not already in plan
+     */
     private List<RegistrationGroupInfo> getValidRegGroupsFilteredByPlan(List<RegistrationGroupInfo> regGroups){
         LearningPlan learningPlan = KsapFrameworkServiceLocator.getPlanHelper().getDefaultLearningPlan();
         List<RegistrationGroupInfo> validGroups = new ArrayList<RegistrationGroupInfo>();
         for(RegistrationGroupInfo group : regGroups){
+            //Check if there exist a plan item in the plan for the reg group
             try {
-                List<PlanItemInfo> item = KsapFrameworkServiceLocator.getAcademicPlanService().getPlanItemsInPlanByRefObjectIdByRefObjectType(learningPlan.getId(),group.getId(),PlanConstants.REG_GROUP_TYPE,KsapFrameworkServiceLocator.getContext().getContextInfo());
+                List<PlanItemInfo> item = KsapFrameworkServiceLocator.getAcademicPlanService()
+                        .getPlanItemsInPlanByRefObjectIdByRefObjectType(learningPlan.getId(),group.getId(),
+                                PlanConstants.REG_GROUP_TYPE,contextInfo);
                 if(item ==null || item.isEmpty()){
+                    // If plan item does not exist reg group is valid
                     validGroups.add(group);
                 }
             } catch (InvalidParameterException e) {
@@ -729,4 +657,271 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
         }
         return validGroups;
     }
+
+    /**
+     * Finds the information on the primary instructor from a list of instructors
+     *
+     * @param instructors - List of instructors participating in activity
+     * @return Information on the primary instructor from the list
+     */
+    private OfferingInstructorInfo findDisplayInstructor(List<OfferingInstructorInfo> instructors) {
+        OfferingInstructorInfo result = null;
+
+        // If list of instructors is empty return null
+        if (instructors != null && !instructors.isEmpty()) {
+
+            // Build the display name for the Instructor
+            Collection<OfferingInstructorInfo> highestInstEffortInstructors = new ArrayList<OfferingInstructorInfo>();
+            float highestInstEffortComparison = 0f;
+
+            // find instructors with highest participation from the list
+            for (OfferingInstructorInfo instructor : instructors) {
+
+                // Only instructors with participation are considered
+                if (instructor.getPercentageEffort() != null) {
+
+                    // If participation is higher than current list, reset with higher participation instructor
+                    if (instructor.getPercentageEffort() > highestInstEffortComparison) {
+                        highestInstEffortInstructors.clear();
+                        highestInstEffortComparison = instructor.getPercentageEffort();
+                        highestInstEffortInstructors.add(instructor);
+                    }
+
+                    // If participation is equal to current highest add instructor to current list
+                    else if (instructor.getPercentageEffort() == highestInstEffortComparison) {
+                        highestInstEffortInstructors.add(instructor);
+                    }
+                }
+            }
+
+            // Select instructor
+            if(highestInstEffortInstructors.isEmpty()){
+                return result;
+            }else if (highestInstEffortInstructors.size() == 1) {
+                // If only one participate return first
+                result = highestInstEffortInstructors.iterator().next();
+            } else {
+
+                // If multiple instructors with highest participation get first alphabetically
+                List<String> names = new ArrayList<String>(highestInstEffortInstructors.size());
+                Map<String, OfferingInstructorInfo> nameMap = new HashMap<String, OfferingInstructorInfo>(highestInstEffortInstructors.size());
+                for (OfferingInstructorInfo oiInfo : highestInstEffortInstructors) {
+                    names.add(oiInfo.getPersonName());
+                    nameMap.put(oiInfo.getPersonName(), oiInfo);
+                }
+                Collections.sort(names);
+                result = nameMap.get(names.get(0));
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Add room and schedule information to an existing Activity Offering wrapper
+     *
+     * @param aoWrapper - Activity to update
+     * @param isTBA - If information schedule status is TBA
+     * @param roomId - Id of the room location
+     * @param timeSlot - The time slot
+     */
+    private void updateScheduleToAOWrapperForDisplay(ActivityOfferingDetailsWrapper aoWrapper, Boolean isTBA, String roomId, TimeSlotInfo timeSlot) {
+        RoomInfo roomInfo = null;
+        if (StringUtils.isNotBlank(roomId)) {
+            try {
+                roomInfo = KsapFrameworkServiceLocator.getRoomService().getRoom(roomId, ContextUtils.createDefaultContextInfo());
+            } catch (DoesNotExistException e) {
+                throw new IllegalArgumentException("Room Service lookup error", e);
+            } catch (InvalidParameterException e) {
+                throw new IllegalArgumentException("Room Service lookup error", e);
+            } catch (MissingParameterException e) {
+                throw new IllegalArgumentException("Room Service lookup error", e);
+            } catch (OperationFailedException e) {
+                throw new IllegalArgumentException("Room Service lookup error", e);
+            } catch (PermissionDeniedException e) {
+                throw new IllegalArgumentException("Room Service lookup error", e);
+            }
+        }
+        updateScheduleToAOWrapperForDisplay(aoWrapper, isTBA, roomInfo, timeSlot);
+    }
+
+    private void updateScheduleToAOWrapperForDisplay(ActivityOfferingDetailsWrapper aoWrapper, Boolean isTBA,
+                                                     RoomInfo roomInfo, TimeSlotInfo timeSlot) {
+        if (timeSlot != null) {
+
+            TimeOfDayInfo startTime = timeSlot.getStartTime();
+            TimeOfDayInfo endTime = timeSlot.getEndTime();
+            List<Integer> days = timeSlot.getWeekdays();
+
+            if ((startTime != null && startTime.getHour() != null) && (endTime != null && endTime.getHour() != null)) {
+                aoWrapper.setTime(TimeOfDayHelper.makeFormattedTimeForAOSchedules(startTime) + " - " + TimeOfDayHelper.makeFormattedTimeForAOSchedules(endTime));
+            }
+
+            if (days != null && days.size() > 0) {
+                aoWrapper.setDays(getDays(days));
+            }
+        }
+
+        if (roomInfo != null && StringUtils.isNotBlank(roomInfo.getBuildingId())) {
+
+            BuildingInfo buildingInfo = null;
+            try {
+                buildingInfo = KsapFrameworkServiceLocator.getRoomService().getBuilding(roomInfo.getBuildingId(), contextInfo);
+            } catch (DoesNotExistException e) {
+                throw new IllegalArgumentException("Room Service lookup error", e);
+            } catch (InvalidParameterException e) {
+                throw new IllegalArgumentException("Room Service lookup error", e);
+            } catch (MissingParameterException e) {
+                throw new IllegalArgumentException("Room Service lookup error", e);
+            } catch (OperationFailedException e) {
+                throw new IllegalArgumentException("Room Service lookup error", e);
+            } catch (PermissionDeniedException e) {
+                throw new IllegalArgumentException("Room Service lookup error", e);
+            }
+            aoWrapper.setLocation(buildingInfo.getBuildingCode() + " " + roomInfo.getRoomCode());
+
+        }
+    }
+
+    private List<PlannedRegistrationGroupDetailsWrapper> getPlannedPlannedRegistrationGroups(
+            List<ActivityOfferingDetailsWrapper> activities){
+
+        List<ActivityOfferingDetailsWrapper> activityOfferings = new ArrayList<ActivityOfferingDetailsWrapper>();
+        for(ActivityOfferingDetailsWrapper activityOfferingDetailsWrapper : activities){
+            if(activityOfferingDetailsWrapper.isInPlan()){
+                activityOfferings.add(activityOfferingDetailsWrapper);
+            }
+        }
+
+        List<PlannedRegistrationGroupDetailsWrapper> plannedRegistrationGroupDetailsWrappers = new ArrayList<PlannedRegistrationGroupDetailsWrapper>();
+        for(ActivityOfferingDetailsWrapper activityFormatDetailsWrapper : activityOfferings){
+            boolean found = false;
+            for(PlannedRegistrationGroupDetailsWrapper plannedRegistrationGroupDetailsWrapper : plannedRegistrationGroupDetailsWrappers){
+                if(plannedRegistrationGroupDetailsWrapper.getRegGroupCode().equals(activityFormatDetailsWrapper.getRegGroupCode())){
+                    found = true;
+                    plannedRegistrationGroupDetailsWrapper.addActivities(activityFormatDetailsWrapper);
+                }
+            }
+            if(!found){
+                PlannedRegistrationGroupDetailsWrapper newPlanReg = new PlannedRegistrationGroupDetailsWrapper();
+                newPlanReg.setRegGroupCode(activityFormatDetailsWrapper.getRegGroupCode());
+                newPlanReg.addActivities(activityFormatDetailsWrapper);
+                plannedRegistrationGroupDetailsWrappers.add(newPlanReg);
+            }
+        }
+
+        return plannedRegistrationGroupDetailsWrappers;
+    }
+
+    /**
+     * Loads the activity data for a CO and then creates a map to group it by the activity type and format offerings
+     * @param courseOfferingId - Id of the CO activities are being retrieved for
+     * @param validActivityOfferings - List of valid AO ids based on the registration groups available
+     * @return - The activity offerings grouped by there format id and then grouped related format type
+     */
+    private Map<String, Map<String, List<ActivityOfferingDetailsWrapper>>> getAOData(String courseOfferingId, List<String> validActivityOfferings) {
+        Map<String, Map<String, List<ActivityOfferingDetailsWrapper>>> aoMapByFormatName = new HashMap<String, Map<String, List<ActivityOfferingDetailsWrapper>>>();
+        List<ActivityOfferingInfo>  activityOfferings = null;
+
+        // Retrieve and sort all activities for the CO
+        try {
+            activityOfferings = KsapFrameworkServiceLocator.getCourseOfferingService().getActivityOfferingsByCourseOffering(courseOfferingId, contextInfo);
+            Collections.sort(activityOfferings, new ActivityOfferingInfoComparator());
+
+        } catch (DoesNotExistException e) {
+            throw new IllegalArgumentException("AO lookup error", e);
+        } catch (InvalidParameterException e) {
+            throw new IllegalArgumentException("AO lookup error", e);
+        } catch (MissingParameterException e) {
+            throw new IllegalArgumentException("AO lookup error", e);
+        } catch (OperationFailedException e) {
+            throw new IllegalArgumentException("AO lookup error", e);
+        } catch (PermissionDeniedException e) {
+            throw new IllegalArgumentException("AO lookup error", e);
+        }
+
+        for (ActivityOfferingInfo activityOffering : activityOfferings) {
+            // Retrieve current group by the format id, if entry is missing create it
+            Map<String, List<ActivityOfferingDetailsWrapper>> aosByFormat = aoMapByFormatName.get(activityOffering.getFormatOfferingId());
+            if (aosByFormat == null) {
+                aosByFormat = new HashMap<String, List<ActivityOfferingDetailsWrapper>>();
+            }
+
+            // Convert into wrapper used on page
+            ActivityOfferingDetailsWrapper wrapper = convertAOInfoToWrapper(activityOffering);
+
+            // Retrieve current group by the format type, if entry is missing create it
+            String typeKey = activityOffering.getTypeKey();
+            List<ActivityOfferingDetailsWrapper> aosByType = aosByFormat.get(typeKey);
+            if (aosByType == null) {
+                aosByType = new ArrayList<ActivityOfferingDetailsWrapper>();
+            }
+
+            // Set whether activity is considered  valid
+            wrapper.setValidActivity(validActivityOfferings.contains(wrapper.getActivityOfferingId()));
+
+            //Add entry into map
+            aosByType.add(wrapper);
+            aosByFormat.put(typeKey, aosByType);
+            aoMapByFormatName.put(activityOffering.getFormatOfferingId(), aosByFormat);
+        }
+        return aoMapByFormatName;
+    }
+
+
+    /**
+     * Converts a list of integer representations of a list of day into a string based
+     * If translation is needed outside this class move into a common util
+     *
+     * @param intList - The list of day ints to translate
+     * @return String value of the day list
+     */
+    private String getDays(List<Integer> intList) {
+
+        StringBuilder sb = new StringBuilder();
+        if (intList == null) return sb.toString();
+
+        for (Integer d : intList) {
+            sb.append(convertIntoDays(d));
+        }
+        return sb.toString();
+    }
+
+    /**
+     * Converts a integer representation of a day into a string based on the SchedulingService
+     * If translation is needed outside this class move into a common util
+     *
+     * @param day - The day int to translate
+     * @return String value of the day
+     */
+    private String convertIntoDays(int day) {
+        String dayOfWeek;
+        switch (day) {
+            case 1:
+                dayOfWeek = SchedulingServiceConstants.SUNDAY_TIMESLOT_DAY_CODE;
+                break;
+            case 2:
+                dayOfWeek = SchedulingServiceConstants.MONDAY_TIMESLOT_DAY_CODE;
+                break;
+            case 3:
+                dayOfWeek = SchedulingServiceConstants.TUESDAY_TIMESLOT_DAY_CODE;
+                break;
+            case 4:
+                dayOfWeek = SchedulingServiceConstants.WEDNESDAY_TIMESLOT_DAY_CODE;
+                break;
+            case 5:
+                dayOfWeek = SchedulingServiceConstants.THURSDAY_TIMESLOT_DAY_CODE;
+                break;
+            case 6:
+                dayOfWeek = SchedulingServiceConstants.FRIDAY_TIMESLOT_DAY_CODE;
+                break;
+            case 7:
+                dayOfWeek = SchedulingServiceConstants.SATURDAY_TIMESLOT_DAY_CODE;
+                break;
+            default:
+                dayOfWeek = StringUtils.EMPTY;
+        }
+        return dayOfWeek;
+    }
+
 }
