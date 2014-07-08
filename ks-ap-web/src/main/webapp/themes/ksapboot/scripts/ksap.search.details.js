@@ -165,6 +165,7 @@ function ksapFilterCourseOffering (data){
             jQuery(activity).removeClass("ksap-invalid-activity");
         }
     }
+    hideShowInvalidActivities();
 
     // Get the FO radio objects under the course offering
     var formatRadioOptions = jQuery("#"+data.termId+"_"+data.courseOfferingCode+"_formatOfferingOptions");
@@ -315,14 +316,34 @@ function resetCheckBoxes(){
 
 }
 
+/**
+ * Toggles the display of the invalid activity offerings
+ */
 function toggleHideShowInvalidActivities(){
-    var hiddenActivities = jQuery(".ksap-invalid-activity.ksap-hide");
-    if(hiddenActivities.length){
-        hiddenActivities.removeClass("ksap-hide");
+    var invalidActivities = jQuery(".ksap-invalid-activity");
+    var hideShowButton = jQuery("#toggleInvalidAODisplay");
+    var status = hideShowButton.attr("data-show");
+    if(status == "true"){
+        hideShowButton.attr("data-show","false");
+        hideShowButton.html("Show Inactive");
+        invalidActivities.addClass("ksap-hide");
     }else{
-        var invalidActivities = jQuery(".ksap-invalid-activity");
-        if(invalidActivities.length){
-            invalidActivities.addClass("ksap-hide");
-        }
+        hideShowButton.attr("data-show","true");
+        hideShowButton.html("Hide Inactive");
+        invalidActivities.removeClass("ksap-hide");
+    }
+}
+
+/**
+ * Hides or shows the activity offerings based on the toggle selection
+ */
+function hideShowInvalidActivities(){
+    var invalidActivities = jQuery(".ksap-invalid-activity");
+    var hideShowButton = jQuery("#toggleInvalidAODisplay");
+    var status = hideShowButton.attr("data-show");
+    if(status == "false"){
+        invalidActivities.addClass("ksap-hide");
+    }else{
+        invalidActivities.removeClass("ksap-hide");
     }
 }

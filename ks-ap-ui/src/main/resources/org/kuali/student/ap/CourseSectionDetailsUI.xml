@@ -38,6 +38,16 @@
                         <list>
                             <bean parent="Uif-HeaderThree" p:id="courseCodeTitle"
                                   p:headerText="@{#textHelper.getFormattedMessage('details.course.section.title', new Object[]{courseCode})}"/>
+                            <bean parent="Uif-ActionLink"
+                                  p:id="toggleInvalidAODisplay"
+                                  p:actionLabel="Show Inactive"
+                                  p:actionScript="toggleHideShowInvalidActivities()">
+                                <property name="dataAttributes">
+                                    <map>
+                                        <entry key="show" value="false" />
+                                    </map>
+                                </property>
+                            </bean>
                             <ref bean="course-term-list"/>
                             <ref bean="KSAP-CourseSectionDetails-PlannedSection-Template"/>
                             <ref bean="KSAP-CourseSectionDetails-PlannedSection-Activity-Template"/>
@@ -86,7 +96,7 @@
                 <ref bean="course-offering-list"/>
             </list>
         </property>
-        <property name="onDocumentReadyScript" value="registerCourseSectionEvents(jQuery('#coursedetails-page')); setupActivityAndFormatOfferings();resetCheckBoxes();"/>
+        <property name="onDocumentReadyScript" value="registerCourseSectionEvents(jQuery('#coursedetails-page')); setupActivityAndFormatOfferings();resetCheckBoxes();hideShowInvalidActivities();"/>
     </bean>
 
     <bean id="course-offering-list" parent="course-offering-list-parent"/>
