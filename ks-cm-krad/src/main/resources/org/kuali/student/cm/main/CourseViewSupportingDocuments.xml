@@ -69,13 +69,15 @@
         </property>
         <property name="Items">
             <list>
-                <bean parent="Uif-InputField" p:label="File" p:propertyName="documentUpload">
+                <bean parent="Uif-InputField" p:label="File" p:propertyName="documentUpload" p:render="@{#line.documentUpload eq null}">
                     <property name="control">
                         <bean parent="Uif-FileControl" p:size="30"/>
                     </property>
                     <property name="constraintText" value="Maximum File Size - 8MB "/>
                 </bean>
-                <bean parent="Uif-InputField" p:label="Description" p:propertyName="description" >
+                <bean parent="Uif-LinkField" p:linkText="@{#line.documentUpload.originalFilename}" p:label="File" p:href=""
+                      p:render="@{#line.documentUpload ne null}"/>
+                <bean parent="Uif-InputField" p:label="Description" p:propertyName="description" p:readOnly="@{#line.documentUpload ne null}">
                     <property name="control">
                         <bean parent="Uif-MediumTextAreaControl">
                             <property name="cssClasses">
