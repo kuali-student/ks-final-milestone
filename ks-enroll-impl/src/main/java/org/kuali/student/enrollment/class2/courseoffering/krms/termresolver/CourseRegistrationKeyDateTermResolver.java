@@ -26,8 +26,8 @@ import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.krms.util.KSKRMSExecutionUtil;
-import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
-import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
+import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 
 import java.util.Collections;
@@ -45,7 +45,7 @@ import java.util.Set;
 public class CourseRegistrationKeyDateTermResolver implements TermResolver<Boolean> {
 
     private CourseOfferingService courseOfferingService;
-    private AcademicCalendarService academicCalendarService;
+    private AtpService atpService;
 
     @Override
     public Set<String> getPrerequisites() {
@@ -91,12 +91,10 @@ public class CourseRegistrationKeyDateTermResolver implements TermResolver<Boole
                 }
             }
 
-            List<KeyDateInfo> keyDateInfos = getAcademicCalendarService().getKeyDatesForTerm(termId, context);
-            for (KeyDateInfo keyDateInfo : keyDateInfos) {
-                if ((StringUtils.equals(keyDateInfo.getTypeKey(), parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TERM_KEYDATE_TYPE_KEY)))) {
-                    if (keyDateInfo.getStartDate().compareTo(userActionDate) > 0 || keyDateInfo.getEndDate().compareTo(userActionDate) < 0) {
-                        return false;
-                    }
+            List<MilestoneInfo> mstones = getAtpService().getMilestonesByTypeForAtp(termId, KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TERM_KEYDATE_TYPE_KEY, context);
+            for (MilestoneInfo mstone : mstones) {
+                if (mstone.getStartDate().compareTo(userActionDate) > 0 || mstone.getEndDate().compareTo(userActionDate) < 0) {
+                    return false;
                 }
             }
             return true;
@@ -115,7 +113,11 @@ public class CourseRegistrationKeyDateTermResolver implements TermResolver<Boole
         this.courseOfferingService = courseOfferingService;
     }
 
-    public AcademicCalendarService getAcademicCalendarService() { return academicCalendarService; }
+    public AtpService getAtpService() {
+        return atpService;
+    }
 
-    public void setAcademicCalendarService(AcademicCalendarService academicCalendarService) { this.academicCalendarService = academicCalendarService; }
+    public void setAtpService(AtpService atpService) {
+        this.atpService = atpService;
+    }
 }
