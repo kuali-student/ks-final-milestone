@@ -214,6 +214,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
                     Map<String, List<ActivityOfferingDetailsWrapper>> aosByTypeMap = aosByFormat.get(formatOfferingInfo.getFormatOfferingId());
 
                     if (aosByTypeMap != null) {
+                        List<ActivityOfferingDetailsWrapper> tempActivityOfferingDetailWrappers = new ArrayList<ActivityOfferingDetailsWrapper>();
                         for (Map.Entry<String, List<ActivityOfferingDetailsWrapper>> aosByType : aosByTypeMap.entrySet()) {
                             //TypeService is cached, so this should be safe to have inside the loop here
                             TypeInfo typeInfo = KsapFrameworkServiceLocator.getTypeService().getType(aosByType.getKey(), contextInfo);
@@ -223,9 +224,10 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
                             activityFormatDetailsWrapper.setActivityOfferingDetailsWrappers(aosByType.getValue());
                             activityFormatDetailsWrappers.add(activityFormatDetailsWrapper);
 
-                            plannedActivityOfferings.addAll(getPlannedPlannedRegistrationGroups(aosByType.getValue()));
+                            tempActivityOfferingDetailWrappers.addAll(aosByType.getValue());
 
                         }
+                        plannedActivityOfferings.addAll(getPlannedPlannedRegistrationGroups(tempActivityOfferingDetailWrappers));
                     }
 
                     formatOfferingInfo.setActivityFormatDetailsWrappers(activityFormatDetailsWrappers);
@@ -276,7 +278,23 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
         } catch (PermissionDeniedException e) {
             throw new IllegalArgumentException("CO Service lookup error", e);
         }
-        wrapper.setActivityFormatName(aoInfo.getFormatOfferingName());
+
+        TypeInfo typeInfo = null;
+        try {
+            typeInfo = KsapFrameworkServiceLocator.getTypeService().getType(aoInfo.getTypeKey(), contextInfo);
+        } catch (DoesNotExistException e) {
+            throw new IllegalArgumentException("Type Service lookup error", e);
+        } catch (InvalidParameterException e) {
+            throw new IllegalArgumentException("Type Service lookup error", e);
+        } catch (MissingParameterException e) {
+            throw new IllegalArgumentException("Type Service lookup error", e);
+        } catch (OperationFailedException e) {
+            throw new IllegalArgumentException("Type Service lookup error", e);
+        } catch (PermissionDeniedException e) {
+            throw new IllegalArgumentException("Type Service lookup error", e);
+        }
+
+        wrapper.setActivityFormatName(typeInfo.getName());
         if (fo.getActivityOfferingTypeKeys().size()>1) {
             wrapper.setSingleFormatOffering(false);
         }else{
