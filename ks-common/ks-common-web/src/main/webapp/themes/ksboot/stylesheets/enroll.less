@@ -1093,7 +1093,7 @@ div#Uif-ApplicationHeader-Wrapper{
 
   pre {
       font-family: @ks-fontFamily-secondary;
-      margin: 0px;
+      margin: 2px 0 0 0;
   }
 
   .table thead > tr > th,
@@ -1102,10 +1102,10 @@ div#Uif-ApplicationHeader-Wrapper{
   .table thead > tr > td,
   .table tbody > tr > td,
   .table tfoot > tr > td {
-      vertical-align: bottom;
+      //vertical-align: bottom;
       border: none;
   }
-  // Fix for layout,width,padding in Course Offering Inquiry KSENROLL-13121/KSENROLL-13201
+  // Fix for layout,width,padding in Course Offering Inquiry KSENROLL-13121/KSENROLL-13201/KSENROLL-13490
   .table-condensed {
     thead > tr > th,
     tbody > tr > th,
@@ -1114,13 +1114,14 @@ div#Uif-ApplicationHeader-Wrapper{
     tbody > tr > td,
     tfoot > tr > td {
       padding: 2px;
-      white-space: nowrap;
+      vertical-align: top;
+      white-space: normal;
     }
   }
 
   table.uif-gridLayout th[scope="row"] label {
     padding-top: 0;
-    // white-space: nowrap;
+    white-space: nowrap;
   }
 
   table {
