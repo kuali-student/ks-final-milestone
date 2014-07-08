@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.kuali.pom</groupId>
         <artifactId>kuali-common</artifactId>
-        <version>3.3.40</version>
+        <version>4.0.0</version>
     </parent>
     <groupId>org.kuali.student</groupId>
     <artifactId>student</artifactId>
@@ -79,7 +79,7 @@
         <log4j.version>1.2.16</log4j.version>
         <log4j.javadoc.version>1.2</log4j.javadoc.version>
         <logkit.version>2.0</logkit.version>
-        <maven.min.version>3.0.4</maven.min.version>
+        <maven.min.version>3.2.1</maven.min.version>
         <metro.version>1.4</metro.version>
         <mysql.version>5.1.22</mysql.version>
         <net.sf.jasperreports.version>4.0.1</net.sf.jasperreports.version>
@@ -92,7 +92,6 @@
         <!-- Oracle values sync'd with the deploy environments -->
         <oracle.version>11.2.0.2</oracle.version>
         <oracle.artifactId>ojdbc6_g</oracle.artifactId>
-        <plugin.enforcer.version>1.3.1</plugin.enforcer.version>
         <plugin.externals.version>1.0.14</plugin.externals.version>
         <project.jdk.min.version>1.7.0-51</project.jdk.min.version>
         <selenium.version>2.7.0</selenium.version>
