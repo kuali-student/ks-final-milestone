@@ -9,10 +9,6 @@ import javax.xml.namespace.QName;
  */
 public class ScheduleOfClassesClientServiceConstants {
 
-    private ScheduleOfClassesClientServiceConstants() {
-
-    }
-
     public static final String  NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "scheduleOfClassesClient";
     public static final String  SERVICE_NAME_LOCAL_PART = ScheduleOfClassesClientService.class.getSimpleName();
     public static final QName   QNAME = new QName(NAMESPACE, SERVICE_NAME_LOCAL_PART);
