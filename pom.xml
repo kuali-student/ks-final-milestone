@@ -142,7 +142,6 @@
         <!-- Spring config that creates META-INF files describing SQL resources -->
         <metainf.sql.context>org.kuali.common.util.metainf.spring.SqlConfig</metainf.sql.context>
         <metainf.sql.propertySource>org.kuali.student.deploy.spring.SqlPropertySourceConfig</metainf.sql.propertySource>
-        <jdk6.rt.jar>/var/lib/jenkins/tools/jdk6/jre/lib/rt.jar</jdk6.rt.jar>
         <kuali-impex.version>${impex.version}</kuali-impex.version>
     </properties>
     <profiles>
@@ -185,52 +184,6 @@
                 <module>ks-lum</module>
                 <module>ks-enroll</module>
             </modules>
-        </profile>
-        <profile>
-            <id>jdk7-with-jdk6-bytecode</id>
-            <modules>
-                <module>ks-deployments</module>
-                <module>ks-core</module>
-                <module>ks-lum</module>
-                <module>ks-enroll</module>
-                <module>ks-api</module>
-                <module>ks-ap</module>
-            </modules>
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-enforcer-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>enforce-rules-for-cross-compilation</id>
-                                <goals>
-                                    <goal>enforce</goal>
-                                </goals>
-                                <phase>${ks.enforcer.phase}</phase>
-                                <configuration>
-                                    <rules>
-                                    <requireJavaVersion>
-                                    <version>1.7</version>
-                                    </requireJavaVersion>
-                                    </rules>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <artifactId>maven-compiler-plugin</artifactId>
-                        <configuration>
-                            <source>${project.java.version}</source>
-                            <target>${project.java.version}</target>
-                            <fork>true</fork>
-                            <compilerArguments>
-                                <bootclasspath>${jdk6.rt.jar}</bootclasspath>
-                                <extdirs/>
-                            </compilerArguments>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
         </profile>
         <profile>
             <id>sonar</id>
