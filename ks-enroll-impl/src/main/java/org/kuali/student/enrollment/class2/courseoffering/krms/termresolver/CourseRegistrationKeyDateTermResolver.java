@@ -91,6 +91,7 @@ public class CourseRegistrationKeyDateTermResolver implements TermResolver<Boole
                 termId = coLui.getAtpId();
             }
 
+            // Milestones store start and end date information. All KeyDates are Milestones
             List<MilestoneInfo> mstones = getAtpService().getMilestonesByTypeForAtp(termId, KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TERM_KEYDATE_TYPE_KEY, context);
             for (MilestoneInfo mstone : mstones) {
                 if (mstone.getStartDate().compareTo(userActionDate) > 0 || mstone.getEndDate().compareTo(userActionDate) < 0) {
