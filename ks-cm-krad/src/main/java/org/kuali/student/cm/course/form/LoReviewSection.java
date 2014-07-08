@@ -33,6 +33,11 @@ public class LoReviewSection {
     }
 
     public String toString() {
-        return description + " (" + StringUtils.join(lstCategories, CurriculumManagementConstants.COLLECTION_ITEMS_COMMA_DELIMITER) + ")";
+        if (lstCategories.isEmpty()){
+            return description ;
+        } else {
+            return description + " (" + StringUtils.join(lstCategories, CurriculumManagementConstants.COLLECTION_ITEMS_COMMA_DELIMITER) + ")";
+        }
+
     }
 }
