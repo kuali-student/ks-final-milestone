@@ -1,3 +1,8 @@
+-- DO NOT COPY AND PASTE THIS COMMENT.  VIOLATORS WILL LOSE COMMIT ACCESS.
+-- KEY1:MjAxNC0wNC0wMy1EUk9QLWtzcGwtZGVzY3ItdGFibGVzLnNxbA==
+-- KEY2:U1RSVUNUVVJF
+-- TYPE:STRUCTURE
+
 /* Drop rich text description tables and add columns to base entity tables, and add NAME column */
 
 alter table KSPL_LRNG_PLAN add
