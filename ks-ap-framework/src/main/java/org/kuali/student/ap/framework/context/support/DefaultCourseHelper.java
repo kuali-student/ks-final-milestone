@@ -552,31 +552,6 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
     }
 
     @Override
-	public String getSLN(String year, String term, String subject, String number, String activityCd) {
-		String activityId = StringUtils.join(new Object[]{year, term, subject, number, activityCd}, ":");
-		ActivityOfferingDisplayInfo activityOfferingInfo = null;
-		try {
-			activityOfferingInfo = KsapFrameworkServiceLocator.getCourseOfferingService().getActivityOfferingDisplay(
-					activityId, KsapFrameworkServiceLocator.getContext().getContextInfo());
-			if (activityOfferingInfo != null)
-				for (AttributeInfo attributeInfo : activityOfferingInfo.getAttributes())
-					if (attributeInfo.getKey().equalsIgnoreCase("SLN"))
-						return attributeInfo.getValue();
-			return null;
-		} catch (DoesNotExistException e) {
-			throw new IllegalArgumentException("CO lookup error", e);
-		} catch (MissingParameterException e) {
-			throw new IllegalArgumentException("CO lookup error", e);
-		} catch (InvalidParameterException e) {
-			throw new IllegalArgumentException("CO lookup error", e);
-		} catch (OperationFailedException e) {
-			throw new IllegalStateException("CO lookup error", e);
-		} catch (PermissionDeniedException e) {
-			throw new IllegalStateException("CO lookup error", e);
-		}
-	}
-
-    @Override
 	public String getCourseCdFromActivityId(String activityId) {
 		ActivityOfferingDisplayInfo activityDisplayInfo;
 		try {

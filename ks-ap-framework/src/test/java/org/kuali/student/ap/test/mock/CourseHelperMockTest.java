@@ -60,10 +60,6 @@ public class CourseHelperMockTest implements CourseHelper {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    @Override
-    public String getSLN(String year, String term, String subject, String number, String activityCd) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
 
     @Override
     public String getCurrentVersionIdOfCourse(String courseId) {

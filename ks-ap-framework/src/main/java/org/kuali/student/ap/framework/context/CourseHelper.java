@@ -70,19 +70,6 @@ public interface CourseHelper {
     List<CourseOfferingInfo> getCourseOfferingsForCoursesAndTerms(List<String> courseIds, List<Term> terms);
 
     /**
-     * returns a SLN for given params
-     *
-     * @param year
-     * @param term
-     * @param subject
-     * @param number
-     * @param activityCd
-     * @return
-     */
-	String getSLN(String year, String term, String subject, String number,
-			String activityCd);
-
-    /**
      * Takes a courseId that can be either a version independent Id or a version
      * dependent Id and returns a version dependent Id. In case of being passed
      * in a version depend
