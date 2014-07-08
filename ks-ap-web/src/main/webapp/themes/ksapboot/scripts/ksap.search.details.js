@@ -165,7 +165,7 @@ function ksapFilterCourseOffering (data){
             jQuery(activity).removeClass("ksap-invalid-activity");
         }
     }
-    hideShowInvalidActivities();
+    hideInvalidActivities();
 
     // Get the FO radio objects under the course offering
     var formatRadioOptions = jQuery("#"+data.termId+"_"+data.courseOfferingCode+"_formatOfferingOptions");
@@ -318,18 +318,21 @@ function resetCheckBoxes(){
 
 /**
  * Toggles the display of the invalid activity offerings
+ *
+ * @param showButton - The toggle button
  */
-function toggleHideShowInvalidActivities(){
-    var invalidActivities = jQuery(".ksap-invalid-activity");
-    var hideShowButton = jQuery("#toggleInvalidAODisplay");
-    var status = hideShowButton.attr("data-show");
+function toggleHideShowInvalidActivities(showButton){
+    var sectionId = jQuery(showButton).attr("data-relatedtable");
+    var table = jQuery("#"+sectionId);
+    var invalidActivities = table.find(".ksap-invalid-activity");
+    var status = jQuery(showButton).attr("data-show");
     if(status == "true"){
-        hideShowButton.attr("data-show","false");
-        hideShowButton.html("Show Inactive");
+        jQuery(showButton).attr("data-show","false");
+        jQuery(showButton).html("Show all");
         invalidActivities.addClass("ksap-hide");
     }else{
-        hideShowButton.attr("data-show","true");
-        hideShowButton.html("Hide Inactive");
+        jQuery(showButton).attr("data-show","true");
+        jQuery(showButton).html("Hide ineligible");
         invalidActivities.removeClass("ksap-hide");
     }
 }
@@ -337,13 +340,24 @@ function toggleHideShowInvalidActivities(){
 /**
  * Hides or shows the activity offerings based on the toggle selection
  */
-function hideShowInvalidActivities(){
+function hideInvalidActivities(){
     var invalidActivities = jQuery(".ksap-invalid-activity");
-    var hideShowButton = jQuery("#toggleInvalidAODisplay");
-    var status = hideShowButton.attr("data-show");
-    if(status == "false"){
-        invalidActivities.addClass("ksap-hide");
+    invalidActivities.addClass("ksap-hide");
+}
+
+/**
+ * Hides or shows the button for toggling the display of invalid activity offerings based on whether there are
+ * any invalid activities for the table
+ *
+ * @param showButtonId - Id of toggle button
+ */
+function hideShowToggleHideShowInvalidActivities(showButtonId){
+    var sectionId = jQuery("#"+showButtonId).attr("data-relatedtable");
+    var table = jQuery("#"+sectionId);
+    var invalidActivities = table.find(".ksap-invalid-activity");
+    if(invalidActivities.length){
+        jQuery("#"+showButtonId).removeClass("ksap-hide");
     }else{
-        invalidActivities.removeClass("ksap-hide");
+        jQuery("#"+showButtonId).addClass("ksap-hide");
     }
 }

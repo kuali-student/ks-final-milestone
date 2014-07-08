@@ -38,16 +38,6 @@
                         <list>
                             <bean parent="Uif-HeaderThree" p:id="courseCodeTitle"
                                   p:headerText="@{#textHelper.getFormattedMessage('details.course.section.title', new Object[]{courseCode})}"/>
-                            <bean parent="Uif-ActionLink"
-                                  p:id="toggleInvalidAODisplay"
-                                  p:actionLabel="Show Inactive"
-                                  p:actionScript="toggleHideShowInvalidActivities()">
-                                <property name="dataAttributes">
-                                    <map>
-                                        <entry key="show" value="false" />
-                                    </map>
-                                </property>
-                            </bean>
                             <ref bean="course-term-list"/>
                             <ref bean="KSAP-CourseSectionDetails-PlannedSection-Template"/>
                             <ref bean="KSAP-CourseSectionDetails-PlannedSection-Activity-Template"/>
@@ -96,7 +86,7 @@
                 <ref bean="course-offering-list"/>
             </list>
         </property>
-        <property name="onDocumentReadyScript" value="registerCourseSectionEvents(jQuery('#coursedetails-page')); setupActivityAndFormatOfferings();resetCheckBoxes();hideShowInvalidActivities();"/>
+        <property name="onDocumentReadyScript" value="registerCourseSectionEvents(jQuery('#coursedetails-page')); setupActivityAndFormatOfferings();resetCheckBoxes();hideInvalidActivities();"/>
     </bean>
 
     <bean id="course-offering-list" parent="course-offering-list-parent"/>
@@ -277,6 +267,8 @@
         <property name="cssClasses">
             <list merge="true">
                 <value>ksap-section-format</value>
+                <value>@{!#line.validFormat ? 'ksap-hide':''}</value>
+
             </list>
         </property>
         <property name="header.rightGroup">
@@ -301,14 +293,37 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-MessageField" p:messageText="@{#line.formatName} (@{#line.activityOfferingDetailsWrappers.size()})"
-                        p:id="@{#line.xmlSafeTermId}_@{#line.courseOfferingCode}_@{#line.formatOfferingId}_@{#line.xmlSafeFormatType}">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>ksap-section-format-title</value>
+                <bean parent="Uif-HorizontalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-MessageField" p:messageText="@{#line.formatName} (@{#line.activityOfferingDetailsWrappers.size()})">
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>ksap-section-format-title</value>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-ActionLink"
+                                  p:id="toggleInvalidAODisplay_@{#line.xmlSafeTermId}_@{#line.courseOfferingCode}_@{#line.formatOfferingId}_@{#line.xmlSafeFormatType}"
+                                  p:actionLabel="Show All"
+                                  p:actionScript="toggleHideShowInvalidActivities(this)">
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>ksap-section-format-toggle</value>
+                                    </list>
+                                </property>
+                                <property name="dataAttributes">
+                                    <map>
+                                        <entry key="show" value="false" />
+                                        <entry key="relatedTable" value="@{#line.xmlSafeTermId}_@{#line.courseOfferingCode}_@{#line.formatOfferingId}_@{#line.xmlSafeFormatType}"/>
+                                    </map>
+                                </property>
+                                <property name="onDocumentReadyScript" value="hideShowToggleHideShowInvalidActivities('toggleInvalidAODisplay_@{#line.xmlSafeTermId}_@{#line.courseOfferingCode}_@{#line.formatOfferingId}_@{#line.xmlSafeFormatType}');"/>
+                            </bean>
                         </list>
                     </property>
                 </bean>
+
             </list>
         </property>
         <property name="subCollections">
@@ -624,6 +639,7 @@
     <bean id="activity_offering_table" parent="activity_offering_table_parent"/>
     <bean id="activity_offering_table_parent" parent="Uif-TableCollectionSubSection"
           p:renderAddLine="false" p:renderLineActions="false" p:renderHeader="false">
+        <property name="id" value="@{#line.xmlSafeTermId}_@{#line.courseOfferingCode}_@{#line.formatOfferingId}_@{#line.xmlSafeFormatType}"/>
         <property name="collectionObjectClass"
                   value="org.kuali.student.ap.coursesearch.dataobject.ActivityOfferingDetailsWrapper"/>
         <property name="propertyName" value="activityOfferingDetailsWrappers"/>
