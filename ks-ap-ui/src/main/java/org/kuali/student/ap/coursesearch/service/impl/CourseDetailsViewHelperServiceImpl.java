@@ -498,12 +498,14 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
     }
 
     /**
-     * @see org.kuali.student.ap.coursesearch.service.CourseDetailsViewHelperService#createAddSectionEvent(String, java.util.List, javax.json.JsonObjectBuilder)
+     * @see org.kuali.student.ap.coursesearch.service.CourseDetailsViewHelperService#createAddSectionEvent(String, String, String, java.util.List, javax.json.JsonObjectBuilder)
      */
     @Override
-    public JsonObjectBuilder createAddSectionEvent(String courseOfferingId, List<ActivityOfferingDetailsWrapper> activities, JsonObjectBuilder eventList){
+    public JsonObjectBuilder createAddSectionEvent(String termId, String courseOfferingCode, String courseOfferingId, List<ActivityOfferingDetailsWrapper> activities, JsonObjectBuilder eventList){
         JsonObjectBuilder addEvent = Json.createObjectBuilder();
         addEvent.add("courseOfferingId", courseOfferingId);
+        addEvent.add("termId", termId.replace(".", "-"));
+        addEvent.add("courseOfferingCode", courseOfferingCode);
         addEvent.add("uid", UUID.randomUUID().toString());
 
         // Create json array of activity to add and add it to event

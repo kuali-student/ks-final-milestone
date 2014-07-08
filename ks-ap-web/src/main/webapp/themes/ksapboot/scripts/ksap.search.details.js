@@ -62,7 +62,7 @@ function registerCourseSectionEvents(jqObjects){
 function ksapAddCourseSection (data){
 
     // Display the planned marker on the course offering header if needed
-    var courseOfferingMarker = jQuery(".ksap-section-planned-marker");
+    var courseOfferingMarker = jQuery("#"+data.termId+"_"+data.courseOfferingCode+"_section .ksap-section-planned-marker");
     if(courseOfferingMarker.length){
         courseOfferingMarker.removeClass("ksap-hide");
     }
