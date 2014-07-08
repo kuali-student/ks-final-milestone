@@ -1,3 +1,8 @@
+-- DO NOT COPY AND PASTE THIS COMMENT.  VIOLATORS WILL LOSE COMMIT ACCESS.
+-- KEY1:MjAxNC0wMi0wNy0wMi1oYXJkZW4tcGtzLWtzZW5fc2NoZWRfdG1zbG90LnNxbA==
+-- KEY2:UkVGRVJFTkNF
+-- TYPE:REFERENCE
+
 --script to fix/harden pk of ksen_sched_tmslot
 create table t_fix_tmslot_pk as select * from ksen_sched_tmslot where id='non-existent-value'
 /

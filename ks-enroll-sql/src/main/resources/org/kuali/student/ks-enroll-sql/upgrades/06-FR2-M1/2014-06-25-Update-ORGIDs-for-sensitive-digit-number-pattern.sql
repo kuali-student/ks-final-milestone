@@ -1,3 +1,10 @@
+-- DO NOT COPY AND PASTE THIS COMMENT.  VIOLATORS WILL LOSE COMMIT ACCESS.
+-- KEY1:MjAxNC0wNi0yNS1VcGRhdGUtT1JHSURzLWZvci1zZW5zaXRpdmUtZGlnaXQtbnVtYmVyLXBhdHRlcm4uc3Fs
+-- KEY2:TUFOVUFM
+-- TYPE:MANUAL
+-- If this script is run against institutional data it will prefix all org ids with "ORGID-"  If you don't want that to
+-- happen do not run this script.  The purpose of this script was to harden the PKs, and avoid a sensitive data pattern
+
 --KSENROLL-12748
 --create duplicate orgs with new orgid's
 insert into KSOR_ORG (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, SHRT_DESCR, LNG_DESCR, EFF_DT, EXPIR_DT, LNG_NAME, SHRT_NAME, ST, TYPE)
