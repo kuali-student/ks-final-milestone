@@ -166,6 +166,10 @@ angular.module('regCartApp')
                     $scope.courseAdded = true; // refocus cursor back to course code
                 } else {
                     console.log('Error with adding course', error.data.consoleMessage);
+                    //Reg group is not in offered state
+                    if (error.data.genericMessage !== '' && error.data.genericMessage.indexOf(courseCode + ' (' + regGroupCode + ')') !== -1) {
+                        error.data.genericMessage = error.data.genericMessage.replace(courseCode + ' (' + regGroupCode + ')', '<strong>' + courseCode + ' (' + regGroupCode + ')' + '</strong>');
+                    }
                     $scope.userMessage = {txt: error.data.genericMessage, type: error.data.type, detail: error.data.detailedMessage};
                     $scope.courseAdded = true; // refocus cursor back to course code
                 }

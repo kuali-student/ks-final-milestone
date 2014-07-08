@@ -129,11 +129,8 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
             //The reg request does not exist (HTTP status 404 Not Found)
             response = getResponse(Response.Status.NOT_FOUND, e.getMessage());
         } catch (GenericUserException e) {
-            LOGGER.warn("Error adding to cart", e);
             response = getResponse(Response.Status.INTERNAL_SERVER_ERROR, e.getUserMessage());
         } catch (Exception e) {
-            LOGGER.warn("Error adding to cart", e);
-
             // Convert the generic user message into something useful to the UI.
             UserMessageResult userMessage = new UserMessageResult();
             userMessage.setGenericMessage("Unable to add item to cart.");
@@ -266,14 +263,14 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
             rg = CourseRegistrationAndScheduleOfClassesUtil.getRegGroup(cart.getTermId(), null, courseCode, regGroupCode, regGroupId, contextInfo);
         }
 
-        ValidationResultInfo regGroupValidation = validateRegGroupSearchResult(rg);
+        ValidationResultInfo regGroupValidation = validateRegGroupSearchResult(rg, courseCode, regGroupCode);
 
         if (regGroupValidation.isError()) {
             String technicalInfo = String.format("Technical Info:(term:[%s] id:[%s] state:[%s] )",
                     rg.getTermId(), rg.getRegGroupId(), rg.getRegGroupState());
 
             UserMessageResult userMessage = new UserMessageResult();
-            userMessage.setGenericMessage("Unable to add item to cart.");
+            userMessage.setGenericMessage(regGroupValidation.getMessage());
             userMessage.setDetailedMessage(regGroupValidation.getMessage());
             userMessage.setConsoleMessage(regGroupValidation.getMessage() + " " + technicalInfo);
             userMessage.setType(UserMessageResult.MessageTypes.ERROR);
@@ -322,11 +319,11 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
         return cartItemResult;
     }
 
-    protected ValidationResultInfo validateRegGroupSearchResult(RegGroupSearchResult regGroupSearchResult) {
+    protected ValidationResultInfo validateRegGroupSearchResult(RegGroupSearchResult regGroupSearchResult, String courseCode, String regGroupCode) {
 
         ValidationResultInfo resultInfo = new ValidationResultInfo();
         if (!LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY.equals(regGroupSearchResult.getRegGroupState())) {
-            resultInfo.setError("The Registration Group you selected is not in an Offered State. You can only add offered registration groups to cart.");
+            resultInfo.setError("Course " + courseCode + " (" + regGroupCode + ") is not offered in the selected term");
         }
 
         return resultInfo;
