@@ -21,8 +21,8 @@ import org.kuali.student.ap.academicplan.constants.AcademicPlanServiceConstants;
 import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
 import org.kuali.student.ap.academicplan.infc.LearningPlan;
 import org.kuali.student.ap.coursesearch.dataobject.ActivityOfferingDetailsWrapper;
-import org.kuali.student.ap.coursesearch.form.CourseSectionDetailsForm;
 import org.kuali.student.ap.coursesearch.form.CourseSectionDetailsDialogForm;
+import org.kuali.student.ap.coursesearch.form.CourseSectionDetailsForm;
 import org.kuali.student.ap.coursesearch.service.CourseDetailsViewHelperService;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
@@ -51,7 +51,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -128,7 +127,13 @@ public class CourseSectionDetailsController extends KsapControllerBase {
         }
         List<ActivityOfferingDetailsWrapper> activityWrappers = new ArrayList<ActivityOfferingDetailsWrapper>();
         for(ActivityOfferingInfo activityOfferingInfo : activities){
-            activityWrappers.add(getViewHelperService(form).convertAOInfoToWrapper(activityOfferingInfo));
+            ActivityOfferingDetailsWrapper activityOfferingDetailsWrapper = getViewHelperService(form).convertAOInfoToWrapper(activityOfferingInfo);
+            if (activityOfferingDetailsWrapper.getRegGroupCode() == null || "".equals(activityOfferingDetailsWrapper.getRegGroupCode())) {
+                activityOfferingDetailsWrapper.setRegGroupCode(regGroup.getRegistrationCode());
+                activityOfferingDetailsWrapper.setRegGroupId(regGroupId);
+                activityOfferingDetailsWrapper.setPartOfRegGroup(true);
+            }
+            activityWrappers.add(activityOfferingDetailsWrapper);
         }
 
         // Create the new plan item
