@@ -443,6 +443,7 @@ function showLightbox(componentId, url) {
 
 function setupCharCounters() {
     jQuery(".cm-charcount-max-24").jqEasyCounter({'maxChars':24, 'maxCharsWarning':14, 'msgTextAlign':'left'});
+    jQuery(".cm-charcount-max-200").jqEasyCounter({'maxChars':200, 'maxCharsWarning':180, 'msgTextAlign':'left'});
     jQuery(".cm-charcount-max-255").jqEasyCounter({'maxChars':255, 'maxCharsWarning':220, 'msgTextAlign':'left'});
     jQuery(".cm-charcount-max-500").jqEasyCounter({'maxChars':500, 'maxCharsWarning':450, 'msgTextAlign':'left'});
     jQuery(".cm-charcount-max-1000").jqEasyCounter({'maxChars':1000, 'maxCharsWarning':950, 'msgTextAlign':'left'});
