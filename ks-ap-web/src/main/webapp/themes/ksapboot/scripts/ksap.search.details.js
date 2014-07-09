@@ -62,6 +62,7 @@ function registerCourseSectionEvents(jqObjects){
 function ksapAddCourseSection (data){
 
     // Display the planned marker on the course offering header if needed
+    resetCheckBoxes();
     var courseOfferingMarker = jQuery("#"+data.termId+"_"+data.courseOfferingCode+"_section .ksap-section-planned-marker");
     if(courseOfferingMarker.length){
         courseOfferingMarker.removeClass("ksap-hide");
@@ -163,9 +164,9 @@ function ksapFilterCourseOffering (data){
             jQuery(activity).addClass("ksap-invalid-activity");
         }else{
             jQuery(activity).removeClass("ksap-invalid-activity");
+            jQuery(activity).removeClass("ksap-hide");
         }
     }
-    hideInvalidActivities();
 
     // Get the FO radio objects under the course offering
     var formatRadioOptions = jQuery("#"+data.termId+"_"+data.courseOfferingCode+"_formatOfferingOptions");
@@ -207,6 +208,8 @@ function ksapFilterCourseOffering (data){
         addButton.addClass("disabled");
         addButton.attr("disabled","disabled");
     }
+    hideInvalidActivities();
+    updateCourseOffering(courseOffering);
 }
 
 /**
@@ -319,20 +322,20 @@ function resetCheckBoxes(){
 /**
  * Toggles the display of the invalid activity offerings
  *
- * @param showButton - The toggle button
+ * @param showButtonId - Id of toggle button
  */
-function toggleHideShowInvalidActivities(showButton){
-    var sectionId = jQuery(showButton).attr("data-relatedtable");
+function toggleHideShowInvalidActivities(showButtonId){
+    var sectionId = jQuery("#"+showButtonId).attr("data-relatedtable");
     var table = jQuery("#"+sectionId);
     var invalidActivities = table.find(".ksap-invalid-activity");
-    var status = jQuery(showButton).attr("data-show");
+    var status = jQuery("#"+showButtonId).attr("data-show");
     if(status == "true"){
-        jQuery(showButton).attr("data-show","false");
-        jQuery(showButton).html("Show all");
+        jQuery("#"+showButtonId).attr("data-show","false");
+        jQuery("#"+showButtonId).html("Show all");
         invalidActivities.addClass("ksap-hide");
     }else{
-        jQuery(showButton).attr("data-show","true");
-        jQuery(showButton).html("Hide ineligible");
+        jQuery("#"+showButtonId).attr("data-show","true");
+        jQuery("#"+showButtonId).html("Hide ineligible");
         invalidActivities.removeClass("ksap-hide");
     }
 }
@@ -361,3 +364,68 @@ function hideShowToggleHideShowInvalidActivities(showButtonId){
         jQuery("#"+showButtonId).addClass("ksap-hide");
     }
 }
+
+/**
+ * Update the information on a course offering
+ *
+ * @param courseOffering - Course offering section to update
+ */
+function updateCourseOffering(courseOffering){
+
+    // Find format type sections headers in the course offering
+    var headers = courseOffering.find(".ksap-section-format-list-header");
+    headers.each(function (){
+
+        // Find section data and objects
+        var id = this.getAttribute("id");
+        var sectionHeaders = jQuery("#"+id);
+        var showButton = sectionHeaders.find(".ksap-section-format-toggle");
+        var headerText = sectionHeaders.find(".ksap-section-format-title");
+        var sectionId = showButton.attr("data-relatedtable");
+        var table = jQuery("#"+sectionId);
+        var selected = table.find('input:checked');
+        var titleLabel = headerText.attr("data-formatName");
+
+        // Update toggle button
+        hideShowToggleHideShowInvalidActivities(showButton.attr("id"));
+
+        //Update type section headers
+        if(selected.length){
+            headerText.find("p").html(titleLabel+ " (Selected)")
+            showButton.addClass("ksap-hide");
+        }else{
+            var invalidActivities = table.find(".ksap-invalid-activity");
+            if(!invalidActivities.length){
+                var totalActivities = headerText.attr("data-totalactivities");
+                headerText.find("p").html(titleLabel+" ("+totalActivities+")")
+            }else{
+                var totalActivities = headerText.attr("data-totalactivities");
+                var numberInvalidActivities = parseInt(invalidActivities.length);
+                headerText.find("p").html(titleLabel+" ("+numberInvalidActivities+" of "+totalActivities+")");
+            }
+
+        }
+    });
+}
+
+/**
+ * Updates all course offering sections
+ */
+function updateAllCourseOffering(){
+    var courseOfferings = jQuery(".ksap-courseoffering-section");
+    courseOfferings.each(function(){
+        updateCourseOffering(jQuery(this));
+    })
+}
+
+/**
+ * Javascript setup of the course section page on document ready
+ */
+function setupCourseSectionPage(){
+    registerCourseSectionEvents(jQuery('#coursedetails-page'));
+    setupActivityAndFormatOfferings();
+    resetCheckBoxes();
+    updateAllCourseOffering();
+    hideInvalidActivities();
+}
+

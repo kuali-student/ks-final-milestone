@@ -87,7 +87,7 @@
                 <ref bean="course-offering-list"/>
             </list>
         </property>
-        <property name="onDocumentReadyScript" value="registerCourseSectionEvents(jQuery('#coursedetails-page')); setupActivityAndFormatOfferings();resetCheckBoxes();hideInvalidActivities();"/>
+        <property name="onDocumentReadyScript" value="setupCourseSectionPage()"/>
     </bean>
 
     <!--Course Info-->
@@ -100,6 +100,11 @@
         <property name="disclosure.render" value="true"/>
         <property name="propertyName" value="courseOfferingDetailsWrappers"/>
         <property name="layoutManager.lineGroupPrototype.id" value="@{#line.xmlSafeTermId}_@{#line.courseOfferingCode}_section"/>
+        <property name="layoutManager.lineGroupPrototype.cssClasses">
+            <list merge="true">
+                <value>ksap-courseoffering-section</value>
+            </list>
+        </property>
         <property name="layoutManager.lineGroupPrototype.header.render" value="true"/>
         <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
         <!-- The below finalizeMethodToCall will handle turning on/off the rendering of the disclosure based on how many COs there are "/>-->
@@ -303,19 +308,31 @@
         <property name="items">
             <list>
                 <bean parent="Uif-HorizontalFieldGroup">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ksap-section-format-list-header</value>
+                        </list>
+                    </property>
                     <property name="items">
                         <list>
                             <bean parent="Uif-MessageField" p:messageText="@{#line.formatName} (@{#line.activityOfferingDetailsWrappers.size()})">
+                                <property name="id" value="formatLabel_@{#line.xmlSafeTermId}_@{#line.courseOfferingCode}_@{#line.formatOfferingId}_@{#line.xmlSafeFormatType}"/>
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>ksap-section-format-title</value>
                                     </list>
                                 </property>
+                                <property name="dataAttributes">
+                                    <map>
+                                        <entry key="totalactivities" value="@{#line.activityOfferingDetailsWrappers.size()}" />
+                                        <entry key="formatName" value="@{#line.formatName}" />
+                                    </map>
+                                </property>
                             </bean>
                             <bean parent="Uif-ActionLink"
                                   p:id="toggleInvalidAODisplay_@{#line.xmlSafeTermId}_@{#line.courseOfferingCode}_@{#line.formatOfferingId}_@{#line.xmlSafeFormatType}"
                                   p:actionLabel="Show All"
-                                  p:actionScript="toggleHideShowInvalidActivities(this)">
+                                  p:actionScript="toggleHideShowInvalidActivities('toggleInvalidAODisplay_@{#line.xmlSafeTermId}_@{#line.courseOfferingCode}_@{#line.formatOfferingId}_@{#line.xmlSafeFormatType}')">
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>ksap-section-format-toggle</value>
@@ -332,7 +349,6 @@
                         </list>
                     </property>
                 </bean>
-
             </list>
         </property>
         <property name="subCollections">
