@@ -78,6 +78,7 @@ import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -85,6 +86,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.ServletContext;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
@@ -288,55 +291,6 @@ public class CourseController extends CourseRuleEditorController {
     }
 
     /**
-     * Add a Supporting Document line
-     *
-     * @param form     {@link MaintenanceDocumentForm} instance used for this action
-     * @param result
-     * @param request  {@link HttpServletRequest} instance of the actual HTTP request made
-     * @param response The intended {@link HttpServletResponse} sent back to the user
-     * @return The new {@link ModelAndView} that contains the newly created/updated Supporting document information.
-     */
-    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=addSupportingDocument")
-    public ModelAndView addSupportingDocument(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
-                                              HttpServletRequest request, HttpServletResponse response) {
-        final CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
-        final ModelAndView retval = addLine(form, result, request, response);
-
-        CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
-
-        // Resulting Add Line is at the bottom
-        final SupportingDocumentInfoWrapper addLineResult = courseInfoWrapper.getDocumentsToAdd().get(courseInfoWrapper.getDocumentsToAdd().size() - 1);
-
-        // New document
-        DocumentInfo toAdd = new DocumentInfo();
-        toAdd.setFileName(addLineResult.getDocumentUpload().getOriginalFilename());
-        toAdd.setDescr(new RichTextInfo() {{
-            setPlain(addLineResult.getDescription());
-            setFormatted(addLineResult.getDescription());
-        }});
-        toAdd.setName(toAdd.getFileName());
-
-        try {
-            toAdd.getDocumentBinary().setBinary(new String(Base64.encodeBase64(addLineResult.getDocumentUpload().getBytes())));
-            getSupportingDocumentService().createDocument("documentType.doc", "documentCategory.proposal", toAdd, ContextUtils.getContextInfo());
-
-            // Now relate the document to the course
-            RefDocRelationInfo docRelation = new RefDocRelationInfo();
-            getSupportingDocumentService().createRefDocRelation("kuali.lu.type.CreditCourse",
-                    courseInfoWrapper.getCourseInfo().getId(),
-                    toAdd.getId(),
-                    "kuali.org.DocRelation.allObjectTypes",
-                    docRelation,
-                    ContextUtils.getContextInfo());
-        } catch (Exception e) {
-            LOG.warn("Unable to add supporting document to the course for file: " + toAdd.getFileName(), e);
-        }
-
-        return retval;
-    }
-
-
-    /**
      * Add a Learning Objective
      *
      * @param form     {@link MaintenanceDocumentForm} instance used for this action
@@ -366,53 +320,6 @@ public class CourseController extends CourseRuleEditorController {
     protected void logAndThrowRuntime(String message) {
         LOG.error(message);
         throw new RuntimeException(message);
-    }
-
-    /**
-     * Delete a Supporting Document line
-     *
-     * @param form     {@link MaintenanceDocumentForm} instance used for this action
-     * @param result
-     * @param request  {@link HttpServletRequest} instance of the actual HTTP request made
-     * @param response The intended {@link HttpServletResponse} sent back to the user
-     * @return The new {@link ModelAndView} that contains the newly created/updated Supporting document information.
-     */
-    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=removeSupportingDocument")
-    public ModelAndView removeSupportingDocument(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
-                                                 HttpServletRequest request, HttpServletResponse response) {
-        final CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
-
-        CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
-        // final ModelAndView retval = super.deleteLine(form, result, request, response);
-
-        final String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
-        if (StringUtils.isBlank(selectedCollectionPath)) {
-            GlobalVariables.getMessageMap().putErrorForSectionId(CourseViewSections.SUPPORTING_DOCUMENTS.getSectionId(), CurriculumManagementConstants.MessageKeys.UNABLE_TO_ADD_LINE);
-            return getUIFModelAndView(form);
-        }
-
-        String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
-        final int selectedLineIndex;
-        if (StringUtils.isNotBlank(selectedLine)) {
-            selectedLineIndex = Integer.parseInt(selectedLine);
-        } else {
-            selectedLineIndex = -1;
-        }
-
-        if (selectedLineIndex == -1) {
-            GlobalVariables.getMessageMap().putErrorForSectionId(CourseViewSections.SUPPORTING_DOCUMENTS.getSectionId(), CurriculumManagementConstants.MessageKeys.UNABLE_TO_DELETE_LINE);
-            return getUIFModelAndView(form);
-        }
-
-        final DocumentInfo toRemove = courseInfoWrapper.getSupportingDocuments().remove(selectedLineIndex);
-        try {
-            getSupportingDocumentService().deleteDocument(toRemove.getId(), ContextUtils.getContextInfo());
-        } catch (Exception e) {
-            LOG.warn("Unable to delete document: " + toRemove.getId(), e);
-            throw new RuntimeException("Unable to delete document: " + toRemove.getId(), e);
-        }
-
-        return deleteLine(form, result, request, response);
     }
 
     /**
@@ -533,6 +440,52 @@ public class CourseController extends CourseRuleEditorController {
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=previousPage")
     public ModelAndView previousPage(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, HttpServletRequest request) {
         return getUIFModelAndView(form);
+    }
+
+    /**
+     *  This method is used to download the user selected document at the browser.
+     * @param form     {@link MaintenanceDocumentForm} instance used for this action
+     * @param result
+     * @param request  {@link HttpServletRequest} instance of the actual HTTP request made
+     * @param response The intended {@link HttpServletResponse} sent back to the user
+     * @throws Exception
+     */
+    @MethodAccessible
+    @RequestMapping(params = "methodToCall=downloadSupportDoc")
+    public void downloadSupportDoc(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
+                                   HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        DocumentInfo document = null;
+        String docId = request.getParameter("documentId");
+        try {
+            document = getSupportingDocumentService().getDocument(docId, ContextUtils.getContextInfo());
+        } catch (Exception ex) {
+            LOG.warn("Exception occurred while retrieving the document", ex);
+        }
+        if (document != null && document.getDocumentBinary() != null
+                && document.getDocumentBinary().getBinary() != null
+                && !document.getDocumentBinary().getBinary().isEmpty()) {
+
+            ServletOutputStream outputStream = response.getOutputStream();
+            try {
+
+                byte[] bytes = Base64.decodeBase64(document.getDocumentBinary().getBinary());
+                ServletContext context = request.getSession().getServletContext();
+                String mimeType = context.getMimeType(document.getFileName());
+                response.setContentType((mimeType != null) ? mimeType : CurriculumManagementConstants.DEFAULT_MIME_TYPE);
+                response.setContentLength(bytes.length);
+                response.setHeader("Content-Disposition","attachment; filename=\"" + document.getName() + "\"");
+                // copy the file to output stream
+                FileCopyUtils.copy(bytes, outputStream);
+            } catch (Exception ex) {
+                LOG.warn("Unable to write the document to output stream: ", ex);
+            } finally{
+                outputStream.flush();
+                outputStream.close();
+            }
+        } else {
+            LOG.warn("Sorry, the file could not be retrieved.  It may not exist, or the server could not be contacted.");
+        }
     }
 
     /**

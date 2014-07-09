@@ -28,6 +28,8 @@ public class SupportingDocumentInfoWrapper implements java.io.Serializable {
 
     private MultipartFile documentUpload;
     private String description;
+    private String documentId;
+    private String documentName;
 
     /**
      * Gets the value of documentUpload
@@ -63,5 +65,37 @@ public class SupportingDocumentInfoWrapper implements java.io.Serializable {
      */
     public void setDescription(final String argDescription) {
         this.description = argDescription;
-    }    
+    }
+
+    /**
+     * Gets the value of documentId
+     * @return  value of documentId
+     */
+    public String getDocumentId() {
+        return documentId;
+    }
+
+    /**
+     * Sets the value of documentId
+     * @param argDocumentId
+     */
+    public void setDocumentId(String argDocumentId) {
+        this.documentId = argDocumentId;
+    }
+
+    /**
+     * Gets the value of documentName
+     * @return value of documentName
+     */
+    public String getDocumentName() {
+        return documentName;
+    }
+
+    /**
+     * Sets the value of documentName
+     * @param argDocumentName
+     */
+    public void setDocumentName(String argDocumentName) {
+        this.documentName = argDocumentName;
+    }
 }

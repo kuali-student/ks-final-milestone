@@ -69,15 +69,17 @@
         </property>
         <property name="Items">
             <list>
-                <bean parent="Uif-InputField" p:label="File" p:propertyName="documentUpload" p:render="@{#line.documentUpload eq null}">
+                <bean parent="Uif-InputField" p:label="File" p:propertyName="documentUpload" p:render="@{#line.documentId eq null}">
                     <property name="control">
                         <bean parent="Uif-FileControl" p:size="30"/>
                     </property>
                     <property name="constraintText" value="Maximum File Size - 7.5MB "/>
                 </bean>
-                <bean parent="Uif-LinkField" p:linkText="@{#line.documentUpload.originalFilename}" p:label="File" p:href=""
-                      p:render="@{#line.documentUpload ne null}"/>
-                <bean parent="Uif-InputField" p:label="Description" p:propertyName="description" p:readOnly="@{#line.documentUpload ne null}"
+                <bean parent="Uif-LinkField" p:linkText="@{#line.documentUpload.originalFilename}" p:label="File"
+                      p:href="courses?methodToCall=downloadSupportDoc&amp;documentId=@{#line.documentId}"
+                      p:target="_blank"
+                      p:render="@{#line.documentId ne null}"/>
+                <bean parent="Uif-InputField" p:label="Description" p:propertyName="description" p:readOnly="@{#line.documentId ne null}"
                       p:escapeHtmlInPropertyValue="false" class="org.kuali.student.cm.uif.element.InputFieldWithNonClobberableFieldLabel">
                     <property name="control">
                         <bean parent="Uif-MediumTextAreaControl">
@@ -98,7 +100,6 @@
                 </bean>
             </list>
         </property>
-
     </bean>
 
     <bean id="SupportingDocuments-NoRequiredMessageLink" parent="Uif-HorizontalFieldGroup" >

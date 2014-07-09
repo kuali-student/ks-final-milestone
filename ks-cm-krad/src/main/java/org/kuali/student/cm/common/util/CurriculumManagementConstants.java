@@ -147,6 +147,13 @@ public class CurriculumManagementConstants {
     public final static String KS_LO_CAT_TABLE = "KS-LoCatTable";
 
     public final static String KS_MESSAGE_ICON_IMAGE_ID = "[id=Uif-KS-IconImage]";
+
+    public final static String DEFAULT_MIME_TYPE = "application/octet-stream";
+
+    public final static String REF_OBJECT_TYPE_KEY = "kuali.org.RefObjectType.CluInfo";
+    public final static String REF_DOC_RELATION_TYPE_KEY = "kuali.org.DocRelation.allObjectTypes";
+    public final static String DEFAULT_DOC_TYPE_KEY = "documentType.doc";
+    public final static String DOCUMENT_CATEGORY_PROPOSAL_TYPE_KEY = "documentCategory.proposal";
     /**
      * This delimiter to use when rendering collections as a String.
      */

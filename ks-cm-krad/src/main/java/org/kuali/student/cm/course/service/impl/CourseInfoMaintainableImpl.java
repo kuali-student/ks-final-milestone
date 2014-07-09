@@ -15,6 +15,7 @@
  */
 package org.kuali.student.cm.course.service.impl;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
@@ -90,6 +91,7 @@ import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
 import org.kuali.student.r1.core.workflow.dto.CollaboratorWrapper;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.util.constants.LearningObjectiveServiceConstants;
@@ -99,11 +101,15 @@ import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.constants.DocumentServiceConstants;
 import org.kuali.student.r2.core.constants.EnumerationManagementServiceConstants;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.constants.ProposalServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
+import org.kuali.student.r2.core.document.dto.DocumentBinaryInfo;
 import org.kuali.student.r2.core.document.dto.DocumentInfo;
+import org.kuali.student.r2.core.document.dto.RefDocRelationInfo;
+import org.kuali.student.r2.core.document.service.DocumentService;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
 import org.kuali.student.r2.core.enumerationmanagement.service.EnumerationManagementService;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
@@ -190,6 +196,8 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     private transient EnumerationManagementService enumerationManagementService;
 
     private transient AtpService atpService;
+
+    private transient DocumentService documentService;
 
     private PersonService personService;
 
@@ -486,6 +494,10 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             } else {
                 return false;
             }
+        } else if (newLine instanceof SupportingDocumentInfoWrapper) {
+            MaintenanceDocumentForm modelForm = (MaintenanceDocumentForm) viewModel;
+            CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) modelForm.getDocument().getNewMaintainableObject().getDataObject();
+            addSupportingDocuments(courseInfoWrapper);
         }
         return ((CourseRuleViewHelperServiceImpl) getRuleViewHelperService()).performAddLineValidation(viewModel, newLine, collectionId, collectionPath);
     }
@@ -947,6 +959,18 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                     if (wrapper.isAuthor()) {
                         courseInfoWrapper.getProposalInfo().getProposerPerson().remove(wrapper.getPrincipalId());
                     }
+                }
+            } else if ((deleteLine != null) && (deleteLine instanceof SupportingDocumentInfoWrapper)) {
+                SupportingDocumentInfoWrapper supportingDocumentInfoWrapper = (SupportingDocumentInfoWrapper) deleteLine;
+                try {
+                    // Deletes the document and its Ref doc relations
+                    getSupportingDocumentService().deleteDocument(supportingDocumentInfoWrapper.getDocumentId(), ContextUtils.createDefaultContextInfo());
+                    List<RefDocRelationInfo> refDocRelationInfoList = getSupportingDocumentService().getRefDocRelationsByDocument(supportingDocumentInfoWrapper.getDocumentId(), ContextUtils.createDefaultContextInfo());
+                    for (RefDocRelationInfo refDocRelationInfo : refDocRelationInfoList) {
+                        getSupportingDocumentService().deleteRefDocRelation(refDocRelationInfo.getId(), ContextUtils.createDefaultContextInfo());
+                    }
+                } catch (Exception ex) {
+                    LOG.warn("Unable to delete document: " + supportingDocumentInfoWrapper.getDocumentName(), ex);
                 }
             }
         }
@@ -1436,6 +1460,8 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
         populateJointCourseOnDTO();
 
+        addSupportingDocuments(courseInfoWrapper);
+
         courseInfoWrapper.getCourseInfo().setStartTerm(courseInfoWrapper.getCourseInfo().getStartTerm());
         courseInfoWrapper.getCourseInfo().setEndTerm(courseInfoWrapper.getCourseInfo().getEndTerm());
         courseInfoWrapper.getCourseInfo().setPilotCourse(courseInfoWrapper.getCourseInfo().isPilotCourse());
@@ -1492,6 +1518,60 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
 //        super.saveDataObject();
 
+    }
+
+    /**
+     *  Add the supporting documents and create the ref doc relations between document and course.
+     * @param courseInfoWrapper
+     */
+    protected void addSupportingDocuments(CourseInfoWrapper courseInfoWrapper) {
+        if (courseInfoWrapper.getDocumentsToAdd().size() > 0) {
+            final SupportingDocumentInfoWrapper addLineResult = courseInfoWrapper.getDocumentsToAdd().get(
+                                                                    courseInfoWrapper.getDocumentsToAdd().size() - 1);
+            if (addLineResult.getDocumentId() == null && addLineResult.getDocumentUpload() != null) {
+                DocumentInfo toAdd = new DocumentInfo();
+                toAdd.setFileName(addLineResult.getDocumentUpload().getOriginalFilename());
+                toAdd.setDescr(new RichTextInfo() {{
+                    setPlain(addLineResult.getDescription());
+                    setFormatted(addLineResult.getDescription());
+                }});
+                toAdd.setStateKey(CurriculumManagementConstants.STATE_KEY_ACTIVE);
+                // This will always be set to doc type as we accept various document types
+                toAdd.setTypeKey(CurriculumManagementConstants.DEFAULT_DOC_TYPE_KEY);
+                toAdd.setName(toAdd.getFileName());
+                DocumentBinaryInfo documentBinaryInfo = new DocumentBinaryInfo();
+
+                try {
+                    documentBinaryInfo.setBinary(new String(Base64.encodeBase64(addLineResult.getDocumentUpload().getBytes())));
+                    toAdd.setDocumentBinary(documentBinaryInfo);
+                    // Save the uploaded document
+                    DocumentInfo doc = getSupportingDocumentService().createDocument(
+                                            CurriculumManagementConstants.DEFAULT_DOC_TYPE_KEY,
+                                            CurriculumManagementConstants.DOCUMENT_CATEGORY_PROPOSAL_TYPE_KEY,
+                                            toAdd, ContextUtils.getContextInfo());
+
+                    // Now relate the document to the course
+                    RefDocRelationInfo docRelation = new RefDocRelationInfo();
+                    docRelation.setRefObjectTypeKey(CurriculumManagementConstants.REF_OBJECT_TYPE_KEY);
+                    docRelation.setRefObjectId(courseInfoWrapper.getCourseInfo().getId());
+                    docRelation.setStateKey(CurriculumManagementConstants.STATE_KEY_ACTIVE);
+                    docRelation.setTypeKey(CurriculumManagementConstants.REF_DOC_RELATION_TYPE_KEY);
+                    docRelation.setDocumentId(doc.getId());
+
+                    getSupportingDocumentService().createRefDocRelation(CurriculumManagementConstants.REF_OBJECT_TYPE_KEY,
+                            courseInfoWrapper.getCourseInfo().getId(),
+                            toAdd.getId(),
+                            CurriculumManagementConstants.REF_DOC_RELATION_TYPE_KEY,
+                            docRelation,
+                            ContextUtils.getContextInfo());
+                    addLineResult.setDocumentId(doc.getId());
+                    addLineResult.setDocumentName(toAdd.getFileName());
+                } catch (Exception ex) {
+                    LOG.warn("Unable to add supporting document to the course for file: " +
+                            addLineResult.getDocumentUpload().getName() , ex);
+                }
+            }
+        }
     }
 
     /**
@@ -2154,5 +2234,10 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         return atpService;
     }
 
-
+    protected DocumentService getSupportingDocumentService() {
+        if (documentService == null) {
+            documentService = (DocumentService) GlobalResourceLoader.getService(new QName(DocumentServiceConstants.NAMESPACE, "DocumentService"));
+        }
+        return documentService;
+    }
 }
