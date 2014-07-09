@@ -77,7 +77,8 @@
                 </bean>
                 <bean parent="Uif-LinkField" p:linkText="@{#line.documentUpload.originalFilename}" p:label="File" p:href=""
                       p:render="@{#line.documentUpload ne null}"/>
-                <bean parent="Uif-InputField" p:label="Description" p:propertyName="description" p:readOnly="@{#line.documentUpload ne null}">
+                <bean parent="Uif-InputField" p:label="Description" p:propertyName="description" p:readOnly="@{#line.documentUpload ne null}"
+                      p:escapeHtmlInPropertyValue="false" class="org.kuali.student.cm.uif.element.InputFieldWithNonClobberableFieldLabel">
                     <property name="control">
                         <bean parent="Uif-MediumTextAreaControl">
                             <property name="cssClasses">
