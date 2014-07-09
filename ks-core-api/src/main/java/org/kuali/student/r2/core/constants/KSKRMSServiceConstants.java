@@ -1,7 +1,5 @@
 package org.kuali.student.r2.core.constants;
 
-import org.kuali.rice.krms.api.engine.Term;
-
 /**
  * Created with IntelliJ IDEA.
  * User: SW Genis
@@ -270,6 +268,7 @@ public class KSKRMSServiceConstants {
     public static final String TERM_RESOLVER_MATCHINGCOURSESET = "MatchingCourseSet";
     public static final String TERM_RESOLVER_EXAM_FREEFORMTEXT = "ExamFreeFormText";
     public static final String TERM_RESOLVER_CURRENT_COURSE_WITHIN_KEYDATE = "CurrentCourseWithinKeydate";
+    public static final String TERM_RESOLVER_DATEINTERMKEYDATE = "DateInTermKeyDate";
 
     // natural language usage keys
     public static final String KRMS_NL_RULE_EDIT = "kuali.krms.edit";
