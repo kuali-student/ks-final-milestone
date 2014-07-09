@@ -74,24 +74,28 @@ public class CourseRegistrationKeyDateTermResolver implements TermResolver<Boole
 
     @Override
     public Boolean resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
+        // getting contextInfo and regGroupInfo passed from Reg Cart
         ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
         RegistrationGroupInfo regGroupInfo = (RegistrationGroupInfo) resolvedPrereqs.get(RulesExecutionConstants.REGISTRATION_GROUP_TERM.getName());
+        // Date user did the action (tried to submit registration for the regGroupInfo)
         Date userActionDate = context.getCurrentDate();
 
         try {
             String termId;
+            // getting CO and AOs for the RegGroup to find the correct term
             LuiInfo coLui = getLuiService().getLui(regGroupInfo.getCourseOfferingId(), context);
             List<LuiInfo> aoLuis = getLuiService().getLuisByIds(regGroupInfo.getActivityOfferingIds(), context);
 
-            // We have co and ao terms.  There is special business logic to determine which term to use.
-            // find out if all ao terms are the same, if so use the ao term, else use co term
-            if( isAllAtpIdsTheSame(aoLuis)){
+            // We have CO and AO terms.  There is special business logic to determine which term to use.
+            // The logic: find out if all AO terms are the same, and if so use the AO term, else use CO term
+            if (isAllAtpIdsTheSame(aoLuis)){
                 termId = KSCollectionUtils.getRequiredZeroElement(aoLuis).getAtpId();
             } else {
                 termId = coLui.getAtpId();
             }
 
             // Milestones store start and end date information. All KeyDates are Milestones
+            // Have to check if user action date is within KeyDate (say, Registration Adjustment Period) start/end dates
             List<MilestoneInfo> mstones = getAtpService().getMilestonesByTypeForAtp(termId, KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TERM_KEYDATE_TYPE_KEY, context);
             for (MilestoneInfo mstone : mstones) {
                 if (mstone.getStartDate().compareTo(userActionDate) > 0 || mstone.getEndDate().compareTo(userActionDate) < 0) {
