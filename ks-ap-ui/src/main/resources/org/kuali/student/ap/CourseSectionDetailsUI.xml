@@ -52,6 +52,7 @@
         <property name="formClass" value="org.kuali.student.ap.coursesearch.form.CourseSectionDetailsDialogForm"/>
     </bean>
 
+    <!--Terms-->
     <bean id="course-term-list" parent="course-term-list-parent">
         <property name="cssClasses">
             <list merge="true">
@@ -89,6 +90,7 @@
         <property name="onDocumentReadyScript" value="registerCourseSectionEvents(jQuery('#coursedetails-page')); setupActivityAndFormatOfferings();resetCheckBoxes();hideInvalidActivities();"/>
     </bean>
 
+    <!--Course Info-->
     <bean id="course-offering-list" parent="course-offering-list-parent"/>
     <bean id="course-offering-list-parent" abstract="true" parent="Uif-ListCollectionSection">
         <property name="collectionObjectClass"
@@ -119,6 +121,7 @@
         <!-- property to activate disclosure -->
         <property name="items">
             <list>
+                <!--Honors Info-->
                 <bean parent="Uif-MessageField" p:render="@{#line.honors}" p:id="courseOfferingHonors"
                       p:messageText="[b]@{#textHelper.getText('details.course.honors.label')}[/b]">
                     <property name="cssClasses">
@@ -127,6 +130,7 @@
                         </list>
                     </property>
                 </bean>
+                <!--Requisite Info-->
                 <bean parent="Uif-MessageField" p:render="@{#line.courseRequisites.size() > 0}" p:id="courseOfferingRequisites"
                       p:messageText="[b]@{#textHelper.getText('details.course.requisites.label')}:[/b] @{#line.courseRequisites}">
                     <property name="cssClasses">
@@ -135,6 +139,7 @@
                         </list>
                     </property>
                 </bean>
+                <!--Description Info-->
                 <bean parent="Uif-MessageField" p:id="courseOfferingDescription"
                       p:messageText="[b]@{#textHelper.getText('details.course.description.label')}:[/b] @{#line.courseOfferingDescription}">
                     <property name="cssClasses">
@@ -210,6 +215,7 @@
         </property>
     </bean>
 
+    <!--Course Format Offering Wrapper-->
     <bean id="format-offering-list" parent="format-offering-list-parent"/>
     <bean id="format-offering-list-parent" abstract="true" parent="Uif-ListCollectionSection">
         <property name="collectionObjectClass"
@@ -248,6 +254,7 @@
         </property>
     </bean>
 
+    <!--Course Format Offering List-->
     <bean id="format-list" parent="format-list-parent"/>
     <bean id="format-list-parent" abstract="true" parent="Uif-ListCollectionSection">
         <property name="collectionObjectClass"
@@ -271,6 +278,8 @@
 
             </list>
         </property>
+
+        <!--Add to Plan Button for Multi-type offerings-->
         <property name="header.rightGroup">
             <bean parent="Uif-HeaderRightGroup">
                 <property name="items">
@@ -333,6 +342,7 @@
         </property>
     </bean>
 
+    <!--Planned Activity Sections (Data similar to Activity Offering Table, but layout is different) -->
     <bean id="KSAP-CourseSectionDetails-PlannedSections" parent="KSAP-CourseSectionDetails-PlannedSections-parent"/>
     <bean id="KSAP-CourseSectionDetails-PlannedSections-parent" abstract="true" parent="Uif-StackedCollectionGroup">
         <property name="id" value="KSAP-CourseSectionDetails-PlannedSections_@{#line.courseOfferingId}"/>
@@ -345,6 +355,7 @@
                 <property name="render" value="false"/>
             </bean>
         </property>
+        <!--Header "Planned Registration Groups (#)" -->
         <property name="headerText"
                   value="@{#textHelper.getFormattedMessage('details.regGroup.header', new Object[]{#line.plannedGroupsCount})}"/>
         <property name="dataAttributes">
@@ -352,6 +363,7 @@
                 <entry key="numberPlanned" value="@{#line.plannedGroupsCount}" />
             </map>
         </property>
+        <!--Hide section if no planned registration groups -->
         <property name="cssClasses">
             <list merge="true">
                 <value>@{#line.plannedGroupsCount == 0 ? 'ksap-hide' : ''}</value>
@@ -372,18 +384,20 @@
                 </property>
             </bean>
         </property>
+        <!--Registration Group Column Headers and Results -->
         <property name="header.lowerGroup">
             <bean parent="Uif-HorizontalBoxGroup">
+                <!--Registration Group Column Headers -->
                 <property name="items">
                     <list>
-                        <bean parent="Uif-MessageField" p:messageText="Type" p:additionalCssClasses="ksap-section-type "/>
-                        <bean parent="Uif-MessageField" p:messageText="Code" p:additionalCssClasses="ksap-section-code"/>
-                        <bean parent="Uif-MessageField" p:messageText="Instructor" p:additionalCssClasses="ksap-section-instructor"/>
-                        <bean parent="Uif-MessageField" p:messageText="Days" p:additionalCssClasses="ksap-section-days"/>
-                        <bean parent="Uif-MessageField" p:messageText="Time" p:additionalCssClasses="ksap-section-time"/>
-                        <bean parent="Uif-MessageField" p:messageText="Location" p:additionalCssClasses="ksap-section-location"/>
-                        <bean parent="Uif-MessageField" p:messageText="Seats Open" p:additionalCssClasses="ksap-section-seats"/>
-                        <bean parent="Uif-MessageField" p:messageText="Additional Details" p:additionalCssClasses="ksap-section-details"/>
+                        <bean parent="Uif-MessageField" p:messageText="@{#textHelper.getText('details.ao.header.type')}" p:additionalCssClasses="ksap-section-type "/>
+                        <bean parent="Uif-MessageField" p:messageText="@{#textHelper.getText('details.ao.header.code')}" p:additionalCssClasses="ksap-section-code"/>
+                        <bean parent="Uif-MessageField" p:messageText="@{#textHelper.getText('details.ao.header.instructor')}" p:additionalCssClasses="ksap-section-instructor"/>
+                        <bean parent="Uif-MessageField" p:messageText="@{#textHelper.getText('details.ao.header.days')}" p:additionalCssClasses="ksap-section-days"/>
+                        <bean parent="Uif-MessageField" p:messageText="@{#textHelper.getText('details.ao.header.time')}" p:additionalCssClasses="ksap-section-time"/>
+                        <bean parent="Uif-MessageField" p:messageText="@{#textHelper.getText('details.ao.header.location')}" p:additionalCssClasses="ksap-section-location"/>
+                        <bean parent="Uif-MessageField" p:messageText="@{#textHelper.getText('details.ao.header.seats')}" p:additionalCssClasses="ksap-section-seats"/>
+                        <bean parent="Uif-MessageField" p:messageText="@{#textHelper.getText('details.ao.header.additionalDetails')}" p:additionalCssClasses="ksap-section-details"/>
                     </list>
                 </property>
                 <property name="cssClasses">
@@ -398,10 +412,12 @@
                 <bean parent="Uif-VerticalFieldGroup">
                     <property name="items">
                         <list>
+                            <!--Planned Activity Registration Code "Registration Group: #" -->
                             <bean parent="Uif-MessageField"
                                   p:messageText="@{#textHelper.getFormattedMessage('details.regGroup.code', new Object[]{#line.regGroupCode})}"
                                   p:labelRendered="true">
                             </bean>
+                            <!--Planned Activity Layout (Data similar to Activity Offering Table, but layout is different) -->
                             <bean parent="Uif-StackedCollectionGroup">
                                 <property name="id" value="KSAP-CourseSectionDetails-PlannedSections_@{#line.regGroupCode}"/>
                                 <property name="validationMessages.displayMessages" value="false" />
@@ -433,7 +449,7 @@
                                         <bean parent="Uif-MessageField"
                                               p:additionalCssClasses="ksap-section-type"
                                               p:id="type"
-                                              p:label="Type"
+                                              p:label="@{#textHelper.getText('details.ao.header.type')}"
                                               p:messageText="@{#line.activityFormatName}"
                                               p:labelRendered="true">
                                         </bean>
@@ -441,7 +457,7 @@
                                         <bean parent="Uif-MessageField"
                                               p:additionalCssClasses="ksap-section-code"
                                               p:id="code"
-                                              p:label="Code"
+                                              p:label="@{#textHelper.getText('details.ao.header.code')}"
                                               p:labelRendered="true"
                                               p:messageText="@{#line.activityOfferingCode}">
                                         </bean>
@@ -449,7 +465,7 @@
                                         <bean parent="Uif-MessageField"
                                               p:additionalCssClasses="ksap-section-instructor"
                                               p:id="instructor"
-                                              p:label="Instructor"
+                                              p:label="@{#textHelper.getText('details.ao.header.instructor')}"
                                               p:labelRendered="true"
                                               p:messageText="@{#line.instructorName}">
                                         </bean>
@@ -457,7 +473,7 @@
                                         <bean parent="Uif-MessageField"
                                               p:additionalCssClasses="ksap-section-days"
                                               p:id="days"
-                                              p:label="Days"
+                                              p:label="@{#textHelper.getText('details.ao.header.days')}"
                                               p:labelRendered="true"
                                               p:messageText="@{#line.days}">
                                         </bean>
@@ -465,7 +481,7 @@
                                         <bean parent="Uif-MessageField"
                                               p:additionalCssClasses="ksap-section-time"
                                               p:id="time"
-                                              p:label="Time"
+                                              p:label="@{#textHelper.getText('details.ao.header.time')}"
                                               p:labelRendered="true"
                                               p:messageText="@{#line.time}">
                                         </bean>
@@ -473,7 +489,7 @@
                                         <bean parent="Uif-MessageField"
                                               p:additionalCssClasses="ksap-section-location"
                                               p:id="location"
-                                              p:label="Location"
+                                              p:label="@{#textHelper.getText('details.ao.header.location')}"
                                               p:labelRendered="true"
                                               p:messageText="@{#line.location}">
                                         </bean>
@@ -481,13 +497,13 @@
                                         <bean parent="Uif-MessageField"
                                               p:additionalCssClasses="ksap-section-seats"
                                               p:id="seats"
-                                              p:label="Seats Open"
+                                              p:label="@{#textHelper.getText('details.ao.header.seats')}"
                                               p:labelRendered="true"
                                               p:messageText="@{#line.currentEnrollment}/@{#line.maxEnrollment}">
                                         </bean>
                                         <!--@{#textHelper.getText('details.ao.header.additionalDetails')} -->
                                         <bean parent="Uif-FieldGroupBase"
-                                              p:fieldLabel.labelText="Additional Details"
+                                              p:fieldLabel.labelText="@{#textHelper.getText('details.ao.header.additionalDetails')}"
                                               p:labelRendered="true"
                                               p:id="additionalDetails"
                                               p:additionalCssClasses="ksap-section-details">
@@ -525,6 +541,7 @@
         </property>
     </bean>
 
+    <!--For dynamic updating: Planned Activity Registration Code "Registration Group: #"-->
     <bean id="KSAP-CourseSectionDetails-PlannedSection-Template" parent="KSAP-CourseSectionDetails-PlannedSection-Template-parent" p:hidden="true"/>
     <bean id="KSAP-CourseSectionDetails-PlannedSection-Template-parent" abstract="true" parent="Uif-VerticalBoxGroup" p:hidden="true">
         <property name="dataAttributes">
@@ -549,6 +566,7 @@
         </property>
     </bean>
 
+    <!--For dynamic updating: Planned Activity Layout (Data similar to Activity Offering Table, but layout is different) -->
     <bean id="KSAP-CourseSectionDetails-PlannedSection-Activity-Template" parent="KSAP-CourseSectionDetails-PlannedSection-Activity-Template-parent" p:hidden="true"/>
     <bean id="KSAP-CourseSectionDetails-PlannedSection-Activity-Template-parent" parent="Uif-HorizontalBoxGroup">
         <property name="items">
@@ -557,7 +575,7 @@
                 <bean parent="Uif-MessageField"
                       p:additionalCssClasses="ksap-section-type"
                       p:id="type"
-                      p:label="Type"
+                      p:label="@{#textHelper.getText('details.ao.header.type')}"
                       p:messageText="__KSAP__ACTIVITYFORMATNAME__"
                       p:labelRendered="true">
                 </bean>
@@ -565,7 +583,7 @@
                 <bean parent="Uif-MessageField"
                       p:additionalCssClasses="ksap-section-code"
                       p:id="code"
-                      p:label="Code"
+                      p:label="@{#textHelper.getText('details.ao.header.code')}"
                       p:labelRendered="true"
                       p:messageText="__KSAP__ACTIVITYOFFERINGCODE__">
                 </bean>
@@ -573,7 +591,7 @@
                 <bean parent="Uif-MessageField"
                       p:additionalCssClasses="ksap-section-instructor"
                       p:id="instructor"
-                      p:label="Instructor"
+                      p:label="@{#textHelper.getText('details.ao.header.instructor')}"
                       p:labelRendered="true"
                       p:messageText="__KSAP__INSTRUCTOR__">
                 </bean>
@@ -581,7 +599,7 @@
                 <bean parent="Uif-MessageField"
                       p:additionalCssClasses="ksap-section-days"
                       p:id="days"
-                      p:label="Days"
+                      p:label="@{#textHelper.getText('details.ao.header.days')}"
                       p:labelRendered="true"
                       p:messageText="__KSAP__DAYS__">
                 </bean>
@@ -589,7 +607,7 @@
                 <bean parent="Uif-MessageField"
                       p:additionalCssClasses="ksap-section-time"
                       p:id="time"
-                      p:label="Time"
+                      p:label="@{#textHelper.getText('details.ao.header.time')}"
                       p:labelRendered="true"
                       p:messageText="__KSAP__TIME__">
                 </bean>
@@ -597,7 +615,7 @@
                 <bean parent="Uif-MessageField"
                       p:additionalCssClasses="ksap-section-location"
                       p:id="location"
-                      p:label="Location"
+                      p:label="@{#textHelper.getText('details.ao.header.location')}"
                       p:labelRendered="true"
                       p:messageText="__KSAP__LOCATION__">
                 </bean>
@@ -605,13 +623,13 @@
                 <bean parent="Uif-MessageField"
                       p:additionalCssClasses="ksap-section-seats"
                       p:id="seats"
-                      p:label="Seats Open"
+                      p:label="@{#textHelper.getText('details.ao.header.seats')}"
                       p:labelRendered="true"
                       p:messageText="__KSAP__CURRENTENROLLMENT__/__KSAP__MAXENROLLMENT__">
                 </bean>
                 <!--@{#textHelper.getText('details.ao.header.additionalDetails')} -->
                 <bean parent="Uif-FieldGroupBase"
-                      p:fieldLabel.labelText="Additional Details"
+                      p:fieldLabel.labelText="@{#textHelper.getText('details.ao.header.additionalDetails')}"
                       p:labelRendered="true"
                       p:id="additionalDetails"
                       p:additionalCssClasses="ksap-section-details">
@@ -636,6 +654,8 @@
         </property>
     </bean>
 
+    <!--Activity Offering Table-->
+    <!--TODO: TextHelper not working for table header labels-->
     <bean id="activity_offering_table" parent="activity_offering_table_parent"/>
     <bean id="activity_offering_table_parent" parent="Uif-TableCollectionSubSection"
           p:renderAddLine="false" p:renderLineActions="false" p:renderHeader="false">
@@ -685,7 +705,7 @@
                       p:label="Code"
                       p:messageText="@{#line.activityOfferingCode}">
                 </bean>
-                <!--p:label="@{#textHelper.getText('details.ao.header.instructor')}" p:additionalCssClasses="nowrap"-->
+                <!--p:label="@{#textHelper.getText('details.ao.header.instructor')}"-->
                 <bean parent="Uif-DataField"
                       p:additionalCssClasses="ksap-section-instructor"
                       p:id="instructor"
