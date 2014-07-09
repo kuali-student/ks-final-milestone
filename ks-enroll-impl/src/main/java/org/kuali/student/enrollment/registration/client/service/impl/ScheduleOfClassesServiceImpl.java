@@ -5,6 +5,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.collection.KSCollectionUtils;
+import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesService;
@@ -14,12 +15,8 @@ import org.kuali.student.enrollment.registration.search.service.impl.CourseRegis
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.common.util.security.ContextUtils;
+import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.util.TimeOfDayHelper;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
@@ -40,12 +37,7 @@ import org.slf4j.LoggerFactory;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
 
@@ -104,10 +96,19 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
 
     protected EligibilityCheckResult checkStudentEligibilityForTermLocal(String termId) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
-        List<ValidationResultInfo> validationResults = CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().checkStudentEligibilityForTerm(contextInfo.getPrincipalId(), termId, contextInfo);
+        List<ValidationResultInfo> validationResults = CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService()
+                .checkStudentEligibilityForTerm(contextInfo.getPrincipalId(), termId, contextInfo);
 
-        EligibilityCheckResult result = new EligibilityCheckResult(validationResults);
-        result.setIsEligible(result.getReasons().isEmpty());
+        // Filter out anything that isn't an error
+        List<ValidationResultInfo> reasons = new ArrayList<ValidationResultInfo>();
+        for (ValidationResultInfo vr : validationResults) {
+            if (ValidationResult.ErrorLevel.ERROR.equals(vr.getLevel())) {
+                reasons.add(vr);
+            }
+        }
+
+        EligibilityCheckResult result = new EligibilityCheckResult(reasons);
+        result.setIsEligible(result.getReasons().isEmpty()); // The check passes if there are no errors
 
         return result;
     }
