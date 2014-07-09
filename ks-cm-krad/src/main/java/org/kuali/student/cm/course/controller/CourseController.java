@@ -488,6 +488,49 @@ public class CourseController extends CourseRuleEditorController {
         }
     }
 
+    @MethodAccessible
+    @RequestMapping(params = "methodToCall=downloadSupportDocByIndex")
+    public void downloadSupportDocByIndex(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
+                                   HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
+        final int selectedLineIndex = Integer.parseInt(selectedLine);
+
+        CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
+
+        SupportingDocumentInfoWrapper supportingDocument = courseInfoWrapper.getDocumentsToAdd().get(selectedLineIndex);
+        DocumentInfo document = null;
+        try {
+            document = getSupportingDocumentService().getDocument(supportingDocument.getDocumentId(), ContextUtils.getContextInfo());
+        } catch (Exception ex) {
+            LOG.warn("Exception occurred while retrieving the document", ex);
+        }
+        if (document != null && document.getDocumentBinary() != null
+                && document.getDocumentBinary().getBinary() != null
+                && !document.getDocumentBinary().getBinary().isEmpty()) {
+
+            ServletOutputStream outputStream = response.getOutputStream();
+            try {
+
+                byte[] bytes = Base64.decodeBase64(document.getDocumentBinary().getBinary());
+                ServletContext context = request.getSession().getServletContext();
+                String mimeType = context.getMimeType(document.getFileName());
+                response.setContentType((mimeType != null) ? mimeType : CurriculumManagementConstants.DEFAULT_MIME_TYPE);
+                response.setContentLength(bytes.length);
+                response.setHeader("Content-Disposition","attachment; filename=\"" + document.getName() + "\"");
+                // copy the file to output stream
+                FileCopyUtils.copy(bytes, outputStream);
+            } catch (Exception ex) {
+                LOG.warn("Unable to write the document to output stream: ", ex);
+            } finally{
+                outputStream.flush();
+                outputStream.close();
+            }
+        } else {
+            LOG.warn("Sorry, the file could not be retrieved.  It may not exist, or the server could not be contacted.");
+        }
+    }
+
     /**
      * Copied this method from CourseDataService.
      * This calculates and sets fields on course object that are derived from other course object fields.

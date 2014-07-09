@@ -568,14 +568,18 @@ public class ReviewProposalDisplay {
     }
 
     public class SupportingDocumentsSectionWrapper {
-        private String supportingDoc;
 
-        public String getSupportingDoc() {
-            return supportingDoc;
+        protected List<SupportingDocumentInfoWrapper> supportingDocuments;
+
+        public List<SupportingDocumentInfoWrapper> getSupportingDocuments() {
+            if (supportingDocuments == null){
+                supportingDocuments = new ArrayList<>();
+            }
+            return supportingDocuments;
         }
 
-        public void setSupportingDoc(String supportingDoc) {
-            this.supportingDoc = supportingDoc;
+        public void setSupportingDocuments(List<SupportingDocumentInfoWrapper> supportingDocuments) {
+            this.supportingDocuments = supportingDocuments;
         }
     }
 

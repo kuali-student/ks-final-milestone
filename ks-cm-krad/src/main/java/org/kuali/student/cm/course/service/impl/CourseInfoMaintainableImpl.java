@@ -1064,6 +1064,14 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             reviewData.getCourseSection().setRationale(proposalInfo.getRationale().getPlain());
         }
 
+        reviewData.getSupportingDocumentsSection().getSupportingDocuments().clear();
+
+        for (SupportingDocumentInfoWrapper supportingDoc : courseInfoWrapper.getDocumentsToAdd()) {
+            if (StringUtils.isNotBlank(supportingDoc.getDocumentId())){
+                reviewData.getSupportingDocumentsSection().getSupportingDocuments().add(supportingDoc);
+            }
+        }
+
         reviewData.getCourseSection().getInstructors().clear();
         for (CluInstructorInfoWrapper insturctorWrappers : courseInfoWrapper.getInstructorWrappers()) {
             reviewData.getCourseSection().getInstructors().add(insturctorWrappers.getDisplayName());

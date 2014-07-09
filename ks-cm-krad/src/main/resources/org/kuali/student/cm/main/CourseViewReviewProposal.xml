@@ -668,9 +668,31 @@
                 <bean parent="CM-ReviewProposal-GridGroup">
                     <property name="items">
                         <list>
-                            <bean parent="CM-ReadOnlyInput" p:label="Supporting Documents"
-                                  id="supportingDocumentsSection_supportingDoc"
-                                  p:propertyName="reviewProposalDisplay.supportingDocumentsSection.supportingDoc"/>
+                            <bean parent="Uif-VerticalFieldGroup" p:label="Supporting Documents" p:colSpan="3" p:fieldLabel.renderColon="false">
+                                <property name="items">
+                                    <list>
+                                        <bean id="supporting_document_review_section" parent="Uif-StackedCollectionSection"
+                                              p:propertyName="reviewProposalDisplay.supportingDocumentsSection.supportingDocuments"
+                                              p:collectionObjectClass="org.kuali.student.cm.course.form.SupportingDocumentInfoWrapper"
+                                              p:colSpan="3">
+                                            <property name="renderLineActions" value="false"/>
+                                            <property name="renderAddLine" value="false"/>
+                                            <property name="items">
+                                                <list>
+                                                    <bean id="supporting_document_@{#index}" parent="Uif-ActionLinkField" p:actionLabel="@{#line.documentName}" p:methodToCall="downloadSupportDocByIndex">
+                                                        <property name="fieldLabel.render" value="false"/>
+                                                        <property name="cssClasses">
+                                                            <list merge="true">
+                                                                <value>review_readonly</value>
+                                                            </list>
+                                                        </property>
+                                                    </bean>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
                         </list>
                     </property>
                 </bean>
