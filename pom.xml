@@ -114,7 +114,7 @@
         <kuali.javadoc.exclude.package.names>*.service.jaxws:*.exceptions.jaxws</kuali.javadoc.exclude.package.names>
         <kuali.javadoc.link.3>http://cxf.apache.org/javadoc/${cxf.javadoc.version}/</kuali.javadoc.link.3>
         <kuali.javadoc.link.4>http://download.oracle.com/javaee/5/api/</kuali.javadoc.link.4>
-        <kuali.javadoc.link.5>http://static.springframework.org/spring/docs/${spring.version}/api/</kuali.javadoc.link.5>
+        <kuali.javadoc.link.5>http://docs.spring.io/spring/docs/${spring.version}/javadoc-api/</kuali.javadoc.link.5>
         <kuali.javadoc.link.6>http://static.springsource.org/spring-security/site/docs/${spring.security.javadoc.version}/apidocs/</kuali.javadoc.link.6>
         <kuali.javadoc.link.7>http://site.kuali.org/rice/${kuali.rice.version}/apidocs/</kuali.javadoc.link.7>
         <kuali.javadoc.link.8>http://logging.apache.org/log4j/${log4j.javadoc.version}/apidocs/</kuali.javadoc.link.8>
