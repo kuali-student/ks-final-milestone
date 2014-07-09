@@ -76,4 +76,17 @@ public interface CourseSearchForm {
 	List<String> getAdditionalCriteria();
 
     public String getSessionId();
+
+    /**
+     * Determines if the search results exceeded the max number of results allowed to be returned.
+     *
+     * @return True if limit is exceeded, false otherwise
+     */
+    public boolean isLimitExceeded();
+
+    /**
+     * Set the flag on the form to indicate if the search results limit has been exceeded or not
+     * @param limitExceeded True if the limit is exceeded, false if not
+     */
+    public void setLimitExceeded(boolean limitExceeded);
 }

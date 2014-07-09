@@ -39,7 +39,6 @@ import org.kuali.student.ap.coursesearch.util.GenEduReqFacet;
 import org.kuali.student.ap.coursesearch.util.TermsFacet;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.CourseSearchConstants;
-import org.kuali.student.ap.framework.context.TermHelper;
 import org.kuali.student.ap.framework.util.KsapHelperUtil;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -86,8 +85,6 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
     private static WeakReference<Map<String, String>> curriculumMapRef = null;
 
     private static Map<String, String> subjectAreaMap = null;
-
-    private boolean limitExceeded;
 
     private final String NONE = "none";
     private final String SAVED = "saved";
@@ -145,7 +142,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
                 .getProperty(KSAP_MAX_SEARCH_RESULTS_CONFIG_KEY);
         int maxCount = maxCountProp != null && !"".equals(maxCountProp.trim()) ? Integer
                 .valueOf(maxCountProp) : MAX_HITS;
-        this.limitExceeded = false;
+        form.setLimitExceeded(false);
 
         // Build and run search, retrieving a list of course Ids
         List<SearchRequestInfo> requests = buildSearchRequests(form);
@@ -168,7 +165,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
                 List<String> temp = new ArrayList<String>();
                 for (String id : courseIDs) {
                     if (temp.size() >= maxCount) {
-                        this.limitExceeded = true;
+                        form.setLimitExceeded(true);
                         break;
                     }
                     temp.add(id);
@@ -473,16 +470,6 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         List<QueryTokenizer.Token> tokens = queryTokenizer.tokenize(query);
         requests.addAll(addTitleRequests(tokens, searchTerm));
         requests.addAll(addDescriptionRequests(tokens, searchTerm));
-    }
-
-    /**
-     * This value is determined in courseSearch after filtering the courses by term
-     *
-     * @see org.kuali.student.ap.coursesearch.CourseSearchStrategy#isLimitExceeded()
-     */
-    @Override
-    public boolean isLimitExceeded() {
-        return this.limitExceeded;
     }
 
     /**

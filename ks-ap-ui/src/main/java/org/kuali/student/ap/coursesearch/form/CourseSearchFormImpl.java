@@ -14,14 +14,14 @@
  */
 package org.kuali.student.ap.coursesearch.form;
 
-import java.util.Collections;
-import java.util.List;
-
 import org.kuali.rice.krad.web.bind.RequestAccessible;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.ap.coursesearch.CourseSearchForm;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
+
+import java.util.Collections;
+import java.util.List;
 
 public class CourseSearchFormImpl extends UifFormBase implements
 		CourseSearchForm {
@@ -37,6 +37,8 @@ public class CourseSearchFormImpl extends UifFormBase implements
     private List<String> campusSelect;
     @RequestAccessible
     private boolean savedCourses;
+
+    private boolean limitExceeded = false;
 
 	@Override
 	public String getSearchQuery() {
@@ -89,6 +91,16 @@ public class CourseSearchFormImpl extends UifFormBase implements
 	@Override
 	public List<String> getAdditionalCriteria() {
 		return Collections.emptyList();
+	}
+
+    @Override
+    public boolean isLimitExceeded() {
+        return limitExceeded;
+    }
+
+    @Override
+    public void setLimitExceeded(boolean limitExceeded) {
+        this.limitExceeded = limitExceeded;
 	}
 
 	@Override

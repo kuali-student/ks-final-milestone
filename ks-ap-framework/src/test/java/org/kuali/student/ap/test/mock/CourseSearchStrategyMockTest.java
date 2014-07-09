@@ -143,11 +143,6 @@ public class CourseSearchStrategyMockTest implements CourseSearchStrategy {
     }
 
     @Override
-    public boolean isLimitExceeded() {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
     public QueryTokenizer getQueryTokenizer() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }

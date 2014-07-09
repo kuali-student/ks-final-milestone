@@ -218,7 +218,7 @@ public class CourseSearchController extends UifControllerBase {
                     .getProperty("ksap.search.results.max");
             int maxCount = maxCountProp != null && !"".equals(maxCountProp.trim()) ? Integer
                     .valueOf(maxCountProp) : CourseSearchStrategy.MAX_HITS;
-            if(this.searcher.isLimitExceeded()){
+            if(form.isLimitExceeded()){
                 json.put("LimitExceeded", maxCount);
             }else{
                 json.put("LimitExceeded", 0);

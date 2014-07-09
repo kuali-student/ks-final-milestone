@@ -107,13 +107,6 @@ public interface CourseSearchStrategy {
     public void addFullTextRequests(String query, List<SearchRequestInfo> requests, String searchTerm);
 
     /**
-     * Determines if the search results exceeded the max number of results allowed to be returned.
-     *
-     * @return True if limit is exceeded, false otherwise
-     */
-    public boolean isLimitExceeded();
-
-    /**
      * Populates and retrieves a stored map of short and long names for the organizations related to the courses found
      * in the search
      *
