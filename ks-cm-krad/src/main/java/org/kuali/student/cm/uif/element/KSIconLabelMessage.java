@@ -20,13 +20,17 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.datadictionary.parse.BeanTagAttribute;
 import org.kuali.rice.krad.datadictionary.validator.ValidationTrace;
 import org.kuali.rice.krad.uif.component.Component;
+import org.kuali.rice.krad.uif.component.PropertyReplacer;
 import org.kuali.rice.krad.uif.container.Group;
 import org.kuali.rice.krad.uif.element.Header;
 import org.kuali.rice.krad.uif.element.Label;
 import org.kuali.rice.krad.uif.element.Message;
 import org.kuali.rice.krad.uif.field.ImageField;
+import org.kuali.rice.krad.uif.lifecycle.ViewLifecycle;
 import org.kuali.rice.krad.uif.util.ComponentUtils;
 import org.kuali.rice.krad.uif.util.LifecycleElement;
+import org.kuali.rice.krad.uif.view.ExpressionEvaluator;
+import org.kuali.rice.krad.uif.view.View;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
@@ -61,6 +65,17 @@ public class KSIconLabelMessage extends Message {
             }
         } else if (parent instanceof Header){
             labelText.append(((Header) parent).getHeaderText());
+
+            /**
+             * Process the property replacers first as right group is configured with that.
+             */
+            ExpressionEvaluator expressionEvaluator = ViewLifecycle.getExpressionEvaluator();
+            if (((Header) parent).getPropertyReplacers() != null) {
+                View view = ViewLifecycle.getView();
+                for (PropertyReplacer replacer : ((Header) parent).getPropertyReplacers()) {
+                    expressionEvaluator.evaluateExpressionsOnConfigurable(view, replacer, parent.getContext());
+                }
+            }
 
             /*
              * Pull the content of rightGroup into the header as an inline component. This allows us to put the required
