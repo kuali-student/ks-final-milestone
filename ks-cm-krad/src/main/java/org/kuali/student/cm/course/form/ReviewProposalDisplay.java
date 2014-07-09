@@ -417,30 +417,26 @@ public class ReviewProposalDisplay {
             return learningObjectives;
         }
 
-        private String getIndentedLearningObjects(int indentLevel,List<LoReviewSection> learningObjectivesList) {
+        private String getIndentedLearningObjects(List<LoReviewSection> learningObjectivesList) {
 
             if(learningObjectivesList==null || learningObjectivesList.size()==0) {
                 return "";
             }
 
             StringBuilder indentedLO = new StringBuilder();
-            StringBuilder tabSpace = new StringBuilder();
-            for(int i=0 ; i<indentLevel ; i++) {
-                tabSpace.append("&nbsp;&nbsp;&nbsp;&nbsp;");
-            }
-            tabSpace.append("<b>*</b>&nbsp;");
-            for(LoReviewSection lo : learningObjectivesList) {
-                indentedLO.append("<br/>")
-                          .append(tabSpace)
-                          .append(lo.toString())
-                          .append(getIndentedLearningObjects(++indentLevel,lo.getLoReviewSectionList()));
+            for (LoReviewSection lo : learningObjectivesList) {
+                indentedLO.append("<ul>\n")
+                            .append("<li>\n")
+                                .append(lo.toString())
+                                    .append(getIndentedLearningObjects(lo.getLoReviewSectionList()))
+                            .append("</li>\n")
+                        .append("</ul>");
             }
             return indentedLO.toString();
         }
 
         public String getIndentedLearningObjects() {
-            String loHtml =  getIndentedLearningObjects(0,this.learningObjectives);
-            return StringUtils.removeStart(loHtml,"<br/>");
+            return getIndentedLearningObjects(this.learningObjectives);
         }
 
         public String getEmptyStringLO() {
