@@ -7,7 +7,16 @@ import java.util.List;
  */
 public class RegistrationIssue {
 
+    private RegistrationCourse course;
     private List<RegistrationIssueItem> items;
+
+    public RegistrationCourse getCourse() {
+        return course;
+    }
+
+    public void setCourse(RegistrationCourse course) {
+        this.course = course;
+    }
 
     public List<RegistrationIssueItem> getItems() {
         return items;

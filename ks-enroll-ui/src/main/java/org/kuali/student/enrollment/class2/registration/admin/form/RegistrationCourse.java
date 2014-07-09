@@ -24,35 +24,42 @@ import java.util.List;
 /**
  * Created by Brian on 6/18/14.
  */
-public class KSWorkshopCourse implements Serializable{
+public class RegistrationCourse implements Serializable{
 
     private static final long serialVersionUID = 5236548204817229477L;
-    private String course;
+    private String code;
     private String section;
     private String courseName;
+
     private Integer credits;
     private String regOptions;
+
     private Date regDate;
-    private List<KSWorkshopActivity> activities = new ArrayList<KSWorkshopActivity>();
+    private Date dropDate;
+    private Date effectiveDate;
 
-    public KSWorkshopCourse(){}
+    private List<RegistrationActivity> activities = new ArrayList<RegistrationActivity>();
+    private boolean subterm;
 
-    public KSWorkshopCourse(String course, String section, String courseName, Integer credits, String regOptions,
-            Date regDate) {
-        this.course = course;
+    public RegistrationCourse(){}
+
+    public RegistrationCourse(String code, String section, String courseName, Integer credits, String regOptions,
+                              Date regDate) {
+        this.code = code;
         this.section = section;
         this.courseName = courseName;
         this.credits = credits;
         this.regOptions = regOptions;
         this.regDate = regDate;
+        this.effectiveDate = regDate;
     }
 
-    public String getCourse() {
-        return course;
+    public String getCode() {
+        return code;
     }
 
-    public void setCourse(String course) {
-        this.course = course;
+    public void setCode(String course) {
+        this.code = course;
     }
 
     public String getSection() {
@@ -95,17 +102,41 @@ public class KSWorkshopCourse implements Serializable{
         this.regDate = regDate;
     }
 
-    public List<KSWorkshopActivity> getActivities() {
+    public Date getDropDate() {
+        return dropDate;
+    }
+
+    public void setDropDate(Date dropDate) {
+        this.dropDate = dropDate;
+    }
+
+    public Date getEffectiveDate() {
+        return effectiveDate;
+    }
+
+    public void setEffectiveDate(Date effectiveDate) {
+        this.effectiveDate = effectiveDate;
+    }
+
+    public List<RegistrationActivity> getActivities() {
         return activities;
     }
 
-    public void setActivities(List<KSWorkshopActivity> activities) {
+    public void setActivities(List<RegistrationActivity> activities) {
         this.activities = activities;
+    }
+
+    public boolean isSubterm() {
+        return subterm;
+    }
+
+    public void setSubterm(boolean subterm) {
+        this.subterm = subterm;
     }
 
     public List<String> getActivityTypes(){
         ArrayList<String> list = new ArrayList<String>();
-        for (KSWorkshopActivity activity: activities) {
+        for (RegistrationActivity activity: activities) {
             list.add(activity.getType());
         }
 
@@ -114,7 +145,7 @@ public class KSWorkshopCourse implements Serializable{
 
     public List<String> getActivityDateTimes(){
         ArrayList<String> list = new ArrayList<String>();
-        for (KSWorkshopActivity activity: activities) {
+        for (RegistrationActivity activity: activities) {
             list.add(activity.getDateTime());
         }
 
@@ -123,7 +154,7 @@ public class KSWorkshopCourse implements Serializable{
 
     public List<String> getActivityInstructors(){
         ArrayList<String> list = new ArrayList<String>();
-        for (KSWorkshopActivity activity: activities) {
+        for (RegistrationActivity activity: activities) {
             list.add(activity.getInstructor());
         }
 
@@ -132,10 +163,20 @@ public class KSWorkshopCourse implements Serializable{
 
     public List<String> getActivityRooms(){
         ArrayList<String> list = new ArrayList<String>();
-        for (KSWorkshopActivity activity: activities) {
+        for (RegistrationActivity activity: activities) {
             list.add(activity.getRoom());
         }
 
         return list;
     }
+
+    public List<String> getActivityTypeDateTimes() {
+        ArrayList<String> list = new ArrayList<String>();
+        for (RegistrationActivity activity: activities) {
+            list.add(activity.getType() + " " + activity.getDateTime());
+        }
+
+        return list;
+    }
+
 }

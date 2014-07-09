@@ -182,7 +182,7 @@
 		        <!-- registration -->
                 <value>classpath:org/kuali/student/enrollment/registration/performance/PerformanceTestView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/registration/CourseRegistrationKradView.xml</value>
-                <value>classpath:org/kuali/student/enrollment/registration/admin/CourseRegistrationAdminView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/registration/admin/AdminRegistrationView.xml</value>
 
 	    	</list>
 	    	</constructor-arg>

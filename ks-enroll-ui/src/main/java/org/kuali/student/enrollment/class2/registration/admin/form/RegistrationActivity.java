@@ -21,7 +21,7 @@ import java.io.Serializable;
 /**
  * Created by Brian on 6/18/14.
  */
-public class KSWorkshopActivity implements Serializable {
+public class RegistrationActivity implements Serializable {
     private static final long serialVersionUID = -58207877197440410L;
 
     private String type;
@@ -29,7 +29,7 @@ public class KSWorkshopActivity implements Serializable {
     private String instructor;
     private String room;
 
-    public KSWorkshopActivity(String type, String dateTime, String instructor, String room) {
+    public RegistrationActivity(String type, String dateTime, String instructor, String room) {
         this.type = type;
         this.dateTime = dateTime;
         this.instructor = instructor;
