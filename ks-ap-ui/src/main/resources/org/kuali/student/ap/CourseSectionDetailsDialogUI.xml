@@ -38,14 +38,14 @@
         <property name="items">
             <list>
                 <ref bean="KSAP-CourseDetailsSection-AddCoursePage" />
+                <ref bean="KSAP-CourseDetailsSection-Requisites" />
             </list>
         </property>
         <property name="viewHelperServiceClass"
                   value="org.kuali.student.ap.coursesearch.service.impl.CourseDetailsViewHelperServiceImpl"/>
     </bean>
 
-    <!-- Dialog Pages -->
-
+    <!-- Add to Plan Dialog -->
     <bean id="KSAP-CourseDetailsSection-AddCoursePage" parent="KSAP-CourseDetailsSection-AddCoursePage-parent"/>
     <bean id="KSAP-CourseDetailsSection-AddCoursePage-parent" abstract="true" parent="KSAP-PopoverPage">
         <property name="id" value="KSAP-CourseDetailsSection-AddCoursePage" />
@@ -68,6 +68,37 @@
                                             <list>
                                                 <bean parent="planner_submit_button" p:actionLabel="Add to Plan"
                                                       p:actionScript="ksapSubmitDialog('addRegGroup',e);"/>
+                                                <bean parent="planner_cancel_button" />
+                                            </list>
+                                        </property>
+                                    </bean>
+                                    <bean parent="planner_error_placeholder" />
+                                </list>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <!-- Requisite Dialog -->
+    <bean id="KSAP-CourseDetailsSection-Requisites" parent="KSAP-CourseDetailsSection-Requisites-parent"/>
+    <bean id="KSAP-CourseDetailsSection-Requisites-parent" abstract="true" parent="KSAP-PopoverPage">
+        <property name="id" value="KSAP-CourseDetailsSection-Requisites" />
+        <property name="innerViewWrapperId" value="KSAP-CourseDetailsSection-Requisites_inner" />
+        <property name="headerText" value="Restrictions" />
+        <property name="footer">
+            <bean parent="Uif-FooterBase">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-VerticalBoxGroup">
+                            <property name="items">
+                                <list>
+                                    <bean parent="Uif-HorizontalBoxGroup">
+                                        <property name="items">
+                                            <list>
+                                                <bean parent="Uif-Message" p:messageText="Something here"/>
                                                 <bean parent="planner_cancel_button" />
                                             </list>
                                         </property>

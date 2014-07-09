@@ -3,6 +3,8 @@ package org.kuali.student.ap.coursesearch.dataobject;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 
+import java.util.List;
+
 public class ActivityOfferingDetailsWrapper {
     private String activityOfferingId;
     private String activityOfferingCode;
@@ -18,7 +20,7 @@ public class ActivityOfferingDetailsWrapper {
     private int maxEnrollment;
     private boolean honors;
     private String classUrl;
-    private String requirementsUrl;
+    private List<String> activityOfferingRequisites;
     private boolean selected;
     private String regGroupCode;
     private String regGroupId;
@@ -154,12 +156,12 @@ public class ActivityOfferingDetailsWrapper {
         this.classUrl = classUrl;
     }
 
-    public String getRequirementsUrl() {
-        return requirementsUrl;
+    public List<String> getActivityOfferingRequisites() {
+        return activityOfferingRequisites;
     }
 
-    public void setRequirementsUrl(String requirementsUrl) {
-        this.requirementsUrl = requirementsUrl;
+    public void setActivityOfferingRequisites(List<String> activityOfferingRequisites) {
+        this.activityOfferingRequisites = activityOfferingRequisites;
     }
 
     public boolean isSelected() {
