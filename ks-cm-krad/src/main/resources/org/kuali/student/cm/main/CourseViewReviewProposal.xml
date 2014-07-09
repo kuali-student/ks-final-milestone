@@ -449,7 +449,7 @@
                                   p:fieldLabel.renderColon="false">
                                 <property name="items">
                                     <list>
-                                            <bean parent="Uif-DataField"  id="indentedLearningObjects" p:cssClasses="indented-ui"
+                                            <bean parent="Uif-DataField"  id="indentedLearningObjects"
                                                   p:propertyName="reviewProposalDisplay.learningObjectivesSection.indentedLearningObjects"
                                                   p:colSpan="1" p:escapeHtmlInPropertyValue="false"/>
                                     </list>
