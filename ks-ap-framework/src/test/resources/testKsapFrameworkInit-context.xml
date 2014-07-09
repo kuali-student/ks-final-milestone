@@ -51,6 +51,7 @@
         <property name="courseRegistrationService" ref="courseRegistrationMockImpl"/>
         <property name="ruleManagementService" ref="ruleManagementService"/>
         <property name="courseFacetStrategy" ref="courseFacetStrategy"/>
+        <property name="courseSeatCountService" ref ="courseSeatCountServiceMockImpl"/>
     </bean>
     <bean id="ksapContext" class="org.kuali.student.ap.framework.context.support.DefaultKsapContext" />
     <bean id="ksapTextHelper" class="org.kuali.student.ap.framework.context.support.DefaultTextHelper">
@@ -113,5 +114,8 @@
     </bean>
 
     <alias name="messageService" alias="MessageService" />
+
+    <bean id ="courseSeatCountServiceMockImpl"
+          class="org.kuali.student.ap.test.mock.CourseSeatCountServiceMockImpl"/>
 
 </beans>

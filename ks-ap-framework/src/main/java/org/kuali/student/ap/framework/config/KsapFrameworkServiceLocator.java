@@ -21,6 +21,7 @@ import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
+import org.kuali.student.enrollment.courseseatcount.service.CourseSeatCountService;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.messages.service.MessageService;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
@@ -376,6 +377,19 @@ public final class KsapFrameworkServiceLocator {
         return getInstance().courseFacetStrategy;
     }
 
+    /**
+     * Get the course seat count service
+     *
+     * @return the course seat count service
+     */
+    public static CourseSeatCountService getCourseSeatCountService() {
+        return getInstance().courseSeatCountService;
+    }
+
+    public void setCourseSeatCountService(CourseSeatCountService courseSeatCountService) {
+        this.getInstance().courseSeatCountService = courseSeatCountService;
+    }
+
     public void setAtpService(AtpService atpService) {
         getInstance().atpService = atpService;
     }
@@ -543,6 +557,8 @@ public final class KsapFrameworkServiceLocator {
     private transient CourseOfferingService courseOfferingService;
     @EJB
     private transient CourseOfferingSetService courseOfferingSetService;
+    @EJB
+    private transient CourseSeatCountService courseSeatCountService;
     @EJB
     private transient AcademicCalendarService academicCalendarService;
     @EJB

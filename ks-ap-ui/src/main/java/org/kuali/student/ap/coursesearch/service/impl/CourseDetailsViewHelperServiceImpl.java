@@ -436,6 +436,21 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
                 }
             }
         }
+
+        try {
+            wrapper.setCurrentEnrollment(KsapFrameworkServiceLocator.getCourseSeatCountService()
+                    .getSeatCountForActivityOffering(aoInfo.getId(), contextInfo).getAvailableSeats());
+        } catch (DoesNotExistException e) {
+            throw new IllegalArgumentException("Academic Plan Service lookup error", e);
+        } catch (InvalidParameterException e) {
+            throw new IllegalArgumentException("Academic Plan Service lookup error", e);
+        } catch (MissingParameterException e) {
+            throw new IllegalArgumentException("Academic Plan Service lookup error", e);
+        } catch (OperationFailedException e) {
+            throw new IllegalArgumentException("Academic Plan Service lookup error", e);
+        } catch (PermissionDeniedException e) {
+            throw new IllegalArgumentException("Academic Plan Service lookup error", e);
+        }
         return wrapper;
 
     }

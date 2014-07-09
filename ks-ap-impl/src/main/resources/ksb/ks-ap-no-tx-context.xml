@@ -49,6 +49,7 @@
         <property name="scheduleBuildStrategy" ref="scheduleBuildStrategy"/>
         <property name="shoppingCartStrategy" ref="shoppingCartStrategy"/>
         <property name="courseRegistrationService" ref="courseRegistrationServiceMock"/>
+        <property name="courseSeatCountService" ref ="ksCourseSeatCountService"/>
     </bean>
     <bean id="ksLumLrcService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
@@ -129,6 +130,12 @@
                   value="org.kuali.rice.krms.api.repository.RuleManagementService"/>
         <property name="serviceQName"
                   value="{http://rice.kuali.org/krms/v2_0}ruleManagementService"/>
+    </bean>
+    <bean id="ksCourseSeatCountService"    class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface"
+                  value="org.kuali.student.enrollment.courseseatcount.service.CourseSeatCountService"/>
+        <property name="serviceQName"
+                  value="{http://student.kuali.org/wsdl/courseSeatCount}CourseSeatCountService"/>
     </bean>
     <!--<bean id="ksEnrollAcademicRecordService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">-->
     <!--<property name="serviceEndpointInterface"-->
