@@ -30,11 +30,6 @@
         </property>
         <property name="footer.render" value="false" />
         <property name="formClass" value="org.kuali.student.ap.coursesearch.form.CourseSectionDetailsDialogForm" />
-        <property name="cssClasses">
-            <list merge="true">
-                <value>ksap-view</value>
-            </list>
-        </property>
         <property name="items">
             <list>
                 <ref bean="KSAP-CourseDetailsSection-AddCoursePage" />
@@ -109,8 +104,7 @@
                                     <bean parent="Uif-HorizontalBoxGroup">
                                         <property name="items">
                                             <list>
-
-                                                <bean parent="planner_cancel_button"
+                                                <bean parent="Uif-PrimaryActionButton"
                                                       p:actionLabel="Close"/>
                                             </list>
                                         </property>
