@@ -1544,10 +1544,24 @@
         </property>
     </bean>
 
-    <bean id="courseRegistrationCartClientService" class="org.kuali.student.enrollment.registration.client.service.impl.CourseRegistrationCartClientServiceImpl">
+    <bean id="courseRegistrationCartService" class="org.kuali.student.enrollment.registration.client.service.impl.CourseRegistrationCartServiceImpl">
         <property name="courseRegistrationService" ref="CourseRegistrationService"/>
         <property name="lprService" ref="LprService"/>
     </bean>
+
+    <bean id="ks.exp.courseRegistrationCartService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.JavaServiceDefinition">
+                <property name="service" ref="courseRegistrationCartService" />
+                <property name="serviceInterface" value="org.kuali.student.enrollment.registration.client.service.CourseRegistrationCartService"/>
+                <property name="localServiceName" value="CourseRegistrationCartClientService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/courseRegistrationCart" />
+                <property name="busSecurity" value="${ks.core.bus.security}" />
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="courseRegistrationCartClientService" class="org.kuali.student.enrollment.registration.client.service.impl.CourseRegistrationCartClientServiceImpl" />
 
     <bean id="ks.exp.courseRegistrationCartClientService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
