@@ -78,7 +78,6 @@ import java.util.UUID;
  * {@inheritDoc}
  */
 public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl implements CourseDetailsViewHelperService {
-    private ContextInfo contextInfo = KsapFrameworkServiceLocator.getContext().getContextInfo();
     private static final Logger LOG = LoggerFactory.getLogger(CourseDetailsViewHelperServiceImpl.class);
 
 
@@ -107,7 +106,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
 
             List<TermInfo> scheduledTerms;
             try {
-                scheduledTerms = KsapFrameworkServiceLocator.getAcademicCalendarService().getTermsByIds(scheduledTermsList, contextInfo);
+                scheduledTerms = KsapFrameworkServiceLocator.getAcademicCalendarService().getTermsByIds(scheduledTermsList, KsapFrameworkServiceLocator.getContext().getContextInfo());
             } catch (DoesNotExistException e) {
                 throw new IllegalArgumentException("ATP lookup error", e);
             } catch (InvalidParameterException e) {
@@ -180,6 +179,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
         List<CourseOfferingInfo> courseOfferings = KsapFrameworkServiceLocator.getCourseHelper().getCourseOfferingsForCoursesAndTerms(courseIds, terms);
         Collections.sort(courseOfferings, new CourseOfferingInfoComparator());
         Map<String, List<CourseOfferingDetailsWrapper>> map = new HashMap<String, List<CourseOfferingDetailsWrapper>>();
+        ContextInfo contextInfo = KsapFrameworkServiceLocator.getContext().getContextInfo();
 
         for (CourseOfferingInfo offering : courseOfferings) {
             String termId = offering.getTermId();
@@ -261,6 +261,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
     @Override
     public ActivityOfferingDetailsWrapper convertAOInfoToWrapper(ActivityOfferingInfo aoInfo)  {
         ActivityOfferingDetailsWrapper wrapper = new ActivityOfferingDetailsWrapper(aoInfo, false, true);
+        ContextInfo contextInfo = KsapFrameworkServiceLocator.getContext().getContextInfo();
 
         int firstValue = 0;
 
@@ -472,6 +473,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
      */
     @Override
     public List<RegistrationGroupInfo> getValidRegGroups(String courseOfferingId, Map<Object,Object> additionalRestrictions){
+        ContextInfo contextInfo = KsapFrameworkServiceLocator.getContext().getContextInfo();
         // Retrieve reg groups for the Course Offering
         List<RegistrationGroupInfo> regGroups = new ArrayList<RegistrationGroupInfo>();
         try {
@@ -668,7 +670,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
             try {
                 List<PlanItemInfo> item = KsapFrameworkServiceLocator.getAcademicPlanService()
                         .getPlanItemsInPlanByRefObjectIdByRefObjectType(learningPlan.getId(), group.getId(),
-                                PlanConstants.REG_GROUP_TYPE, contextInfo);
+                                PlanConstants.REG_GROUP_TYPE, KsapFrameworkServiceLocator.getContext().getContextInfo());
                 if(item ==null || item.isEmpty()){
                     // If plan item does not exist reg group is (temporarily) valid
                     validGroups.add(group);
@@ -805,7 +807,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
 
             BuildingInfo buildingInfo = null;
             try {
-                buildingInfo = KsapFrameworkServiceLocator.getRoomService().getBuilding(roomInfo.getBuildingId(), contextInfo);
+                buildingInfo = KsapFrameworkServiceLocator.getRoomService().getBuilding(roomInfo.getBuildingId(), KsapFrameworkServiceLocator.getContext().getContextInfo());
             } catch (DoesNotExistException e) {
                 throw new IllegalArgumentException("Room Service lookup error", e);
             } catch (InvalidParameterException e) {
@@ -864,7 +866,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
 
         // Retrieve and sort all activities for the CO
         try {
-            activityOfferings = KsapFrameworkServiceLocator.getCourseOfferingService().getActivityOfferingsByCourseOffering(courseOfferingId, contextInfo);
+            activityOfferings = KsapFrameworkServiceLocator.getCourseOfferingService().getActivityOfferingsByCourseOffering(courseOfferingId, KsapFrameworkServiceLocator.getContext().getContextInfo());
             Collections.sort(activityOfferings, new ActivityOfferingInfoComparator());
 
         } catch (DoesNotExistException e) {
