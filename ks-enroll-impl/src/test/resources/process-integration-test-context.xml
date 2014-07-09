@@ -14,6 +14,8 @@
     
     <bean id="courseRegistrationService" class="org.kuali.student.enrollment.class2.courseregistration.service.decorators.CourseRegistrationServiceProcessCheckDecorator" >
         <property name="nextDecorator" ref="courseRegistrationServiceLoadCalculationDecorator"/>
+        <property name="courseOfferingService" ref="courseOfferingService"/>
+        <property name="waitlistService" ref="courseWaitListServiceMapImpl"/>
         <property name="krmsEvaluator" ref="krmsEvaluator"/>
     </bean>
     <bean id="courseRegistrationServiceLoadCalculationDecorator" 

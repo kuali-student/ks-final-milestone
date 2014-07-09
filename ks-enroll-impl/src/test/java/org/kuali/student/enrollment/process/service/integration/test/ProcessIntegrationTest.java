@@ -314,7 +314,7 @@ public class ProcessIntegrationTest {
         List<ValidationResultInfo> results = null;
         results = courseRegistrationService.verifyRegistrationRequestForSubmission(req.getId(), contextInfo);
         List<ValidationResultInfo> errors = getErrorsOrWarnings(results);
-        assertEquals(1, errors.size());
+        assertEquals(0, errors.size());
     }
 
     @Test
