@@ -34,6 +34,10 @@ public class RulesExecutionConstants {
     public static final Term PERSON_ID_TERM = new Term(personId);
     public static final Term REG_GROUP_ID_TERM = new Term("registrationGroupId");
     public static final Term REGISTRATION_REQUEST_ID_TERM = new Term("registrationRequestId");
+    public static final Term SIMULATED_REGISTRATIONS_TERM = new Term("simulatedRegistrations");
+    public static final Term EXISTING_REGISTRATIONS_TERM = new Term("existingRegistrations");
+    public static final Term EXISTING_WAITLISTED_REGISTRATIONS_TERM = new Term("existingWaitlistedRegistrations");
+    public static final Term REGISTRATION_REQUEST_ITEM_TERM = new Term("registrationRequestItem");
     public static final Term REGISTRATION_REQUEST_TERM = new Term("registrationRequest");
     public static final Term ATP_ID_TERM = new Term("atpId");
     public static final Term ATP_TERM = new Term("atp");

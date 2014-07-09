@@ -174,7 +174,7 @@ public class KSKRMSServiceConstants {
     public static final String TERM_PARAMETER_TYPE_PROGRAM_CLU_KEY = "kuali.term.parameter.type.program.clu.id";
     public static final String TERM_PARAMETER_TYPE_PROGRAM_CLUSET_KEY = "kuali.term.parameter.type.program.cluSet.id";
     public static final String TERM_PARAMETER_TYPE_CLASS_STANDING_KEY = "kuali.term.parameter.type.classStanding";
-    public static final String TERM_PARAMETER_TYPE_TERM_KEYDATE_TYPE_KEY = "kuali.term.parameter.type.term.keydate.type";
+    public static final String TERM_PARAMETER_TYPE_TERM_KEYDATE_TYPE_KEY = "kuali.term.parameter.type.keydate.typekey";
 
     //note, this is a test as in assessment, not environment
     public static final String TERM_PARAMETER_TYPE_TEST_CLU_KEY = "kuali.term.parameter.type.test.clu.id";
@@ -269,7 +269,7 @@ public class KSKRMSServiceConstants {
     public static final String TERM_RESOLVER_MATCHINGCOURSE = "MatchingCourse";
     public static final String TERM_RESOLVER_MATCHINGCOURSESET = "MatchingCourseSet";
     public static final String TERM_RESOLVER_EXAM_FREEFORMTEXT = "ExamFreeFormText";
-    public static final String TERM_RESOLVER_SCHEDULEADJUSTMENTPERIOD = "ScheduleAdjustmentPeriod";
+    public static final String TERM_RESOLVER_CURRENT_COURSE_WITHIN_KEYDATE = "CurrentCourseWithinKeydate";
 
     // natural language usage keys
     public static final String KRMS_NL_RULE_EDIT = "kuali.krms.edit";
