@@ -93,7 +93,6 @@
         <oracle.version>11.2.0.2</oracle.version>
         <oracle.artifactId>ojdbc6_g</oracle.artifactId>
         <plugin.externals.version>1.0.14</plugin.externals.version>
-        <plugin.site.version>3.3</plugin.site.version>
         <project.jdk.min.version>1.7.0-51</project.jdk.min.version>
         <selenium.version>2.7.0</selenium.version>
         <servlet.api.version>2.5</servlet.api.version>
