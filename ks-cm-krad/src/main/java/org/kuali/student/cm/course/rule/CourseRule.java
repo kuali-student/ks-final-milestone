@@ -27,6 +27,7 @@ import org.kuali.rice.krad.util.KRADPropertyConstants;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
 import org.kuali.student.cm.course.form.CourseInfoWrapper;
+import org.kuali.student.cm.course.form.LoDisplayInfoWrapper;
 import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
 import org.kuali.student.cm.course.form.ResultValuesGroupInfoWrapper;
 import org.kuali.student.cm.course.service.util.OrganizationSearchUtil;
@@ -246,8 +247,9 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
 
         boolean result = true;
         int index = 0;
-        for (LoDisplayInfo loDisplayInfo : dataObject.getLoDisplayWrapperModel().getLoWrappers()) {
-            if (StringUtils.isBlank(loDisplayInfo.getLoInfo().getDescr().getPlain()) && !loDisplayInfo.getLoCategoryInfoList().isEmpty()){
+        for (LoDisplayInfoWrapper loDisplayInfoWrapper : dataObject.getLoDisplayWrapperModel().getLoWrappers()) {
+            // description is always required for an LoDisplayInfo object
+            if (StringUtils.isBlank(loDisplayInfoWrapper.getLoInfo().getDescr().getPlain())) {
                 String propertyKey = DATA_OBJECT_PATH + ".loDisplayWrapperModel.loWrappers[" + index + "]" + ".loInfo.descr.plain";
                 GlobalVariables.getMessageMap().putError(propertyKey,CurriculumManagementConstants.MessageKeys.ERROR_COURSE_LO_DESC_REQUIRED);
                 result = false;
