@@ -24,6 +24,7 @@ import org.kuali.student.ap.coursesearch.dataobject.ActivityOfferingDetailsWrapp
 import org.kuali.student.ap.coursesearch.form.CourseSectionDetailsDialogForm;
 import org.kuali.student.ap.coursesearch.form.CourseSectionDetailsForm;
 import org.kuali.student.ap.coursesearch.service.CourseDetailsViewHelperService;
+import org.kuali.student.ap.coursesearch.util.CourseDetailsUtil;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.planner.util.PlanEventUtils;
@@ -65,6 +66,7 @@ public class CourseSectionDetailsController extends KsapControllerBase {
     private static final String COURSE_SECTION_DETAILS_FORM = "CourseDetails-FormView";
     private static final String COURSE_SECTION_DETAILS_DIALOG = "KSAP-CourseSectionDetailsDialog-FormView";
     private static final String COURSE_SECTION_DETAILS_ADD_DIALOG = "KSAP-CourseDetailsSection-AddCoursePage";
+    private static final String COURSE_SECTION_DETAILS_REQUISITES_DIALOG = "KSAP-CourseDetailsSection-Requisites";
 
     /**
      * @see org.kuali.rice.krad.web.controller.UifControllerBase
@@ -263,6 +265,65 @@ public class CourseSectionDetailsController extends KsapControllerBase {
         // Fill in addition information needed by the add dialog
         String regGroupId = request.getParameter("regGroupId");
         dialogForm.setRegGroupId(regGroupId);
+
+        return getUIFModelAndView(dialogForm);
+    }
+
+    /**
+     * Handles the creation of a dialog form for adding a Registration Group to the Planner
+     */
+    @MethodAccessible
+    @RequestMapping(params = "methodToCall=startRequisitesDialog")
+    public ModelAndView startRequisitesDialog(@ModelAttribute("KualiForm") UifFormBase form,
+                                       HttpServletRequest request,
+                                       HttpServletResponse response)  {
+        // Dialog uses separate form from normal
+        CourseSectionDetailsDialogForm dialogForm = new CourseSectionDetailsDialogForm();
+        super.start(dialogForm, request, response);
+
+        // Fill in basic view information to new form
+        dialogForm.setViewId(COURSE_SECTION_DETAILS_DIALOG);
+        dialogForm.setPageId(COURSE_SECTION_DETAILS_REQUISITES_DIALOG);
+        dialogForm.setView(super.getViewService().getViewById(COURSE_SECTION_DETAILS_DIALOG));
+
+        // Copy information from original view
+        dialogForm.setFormPostUrl(form.getFormPostUrl());
+        dialogForm.setRequestUrl(form.getRequestUrl());
+
+        // Fill in addition information needed by the add dialog
+        String activityOfferingId = request.getParameter("activityOfferingId");
+        ActivityOfferingInfo activity = null;
+        try {
+            activity = KsapFrameworkServiceLocator.getCourseOfferingService().getActivityOffering(activityOfferingId, KsapFrameworkServiceLocator.getContext().getContextInfo());
+        } catch (DoesNotExistException e) {
+            throw new IllegalArgumentException("CO Service lookup error", e);
+        } catch (InvalidParameterException e) {
+            throw new IllegalArgumentException("CO Service lookup error", e);
+        } catch (MissingParameterException e) {
+            throw new IllegalArgumentException("CO Service lookup error", e);
+        } catch (OperationFailedException e) {
+            throw new IllegalArgumentException("CO Service lookup error", e);
+        } catch (PermissionDeniedException e) {
+            throw new IllegalArgumentException("CO Service lookup error", e);
+        }
+        dialogForm.setCourseOfferingCode(activity.getCourseOfferingCode());
+        dialogForm.setCourseOfferingTitle(activity.getCourseOfferingTitle());
+        List<String> requisites = CourseDetailsUtil.getActivityOfferingRequisites(activity);
+        requisites.add("Prereq 2");
+        requisites.add("Prereq 3");
+        requisites.add("Prereq 4");
+
+        List<String> corequisites = CourseDetailsUtil.getActivityOfferingRequisites(activity);
+        corequisites.add("Coreq 2");
+        corequisites.add("Coreq 2");
+
+        List<String> antirequisites = CourseDetailsUtil.getActivityOfferingRequisites(activity);
+        antirequisites.add("Antireq 2");
+        antirequisites.add("Antireq 2");
+
+        dialogForm.setPrerequisites(requisites);
+        dialogForm.setCorequisites(corequisites);
+        dialogForm.setAntirequisites(antirequisites);
 
         return getUIFModelAndView(dialogForm);
     }

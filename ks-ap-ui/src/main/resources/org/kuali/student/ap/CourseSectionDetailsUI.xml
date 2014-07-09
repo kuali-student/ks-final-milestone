@@ -778,7 +778,7 @@
                                   p:id="requirementsUrl"
                                   p:additionalCssClasses="ksap-section-details-item"
                                   p:actionLabel="@{#textHelper.getText('details.ao.additionalDetails.restrictions')}"
-                                  p:actionScript="ksapOpenDialog('KSAP-CourseDetailsSection-Requisites','details','startAddDialog', this, e);"/>
+                                  p:actionScript="ksapOpenDialog('KSAP-CourseDetailsSection-Requisites','details','startRequisitesDialog', this, e, {activityOfferingId: '@{#line.activityOfferingId}'});"/>
                             <bean parent="Uif-Message"
                                   p:additionalCssClasses="ksap-hide rowActivityOfferingId"
                                   p:messageText="@{#line.activityOfferingId}">

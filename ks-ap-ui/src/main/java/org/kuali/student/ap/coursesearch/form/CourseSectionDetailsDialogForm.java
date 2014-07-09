@@ -15,6 +15,9 @@
 package org.kuali.student.ap.coursesearch.form;
 
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.ap.coursesearch.util.CollectionListPropertyEditor;
+
+import java.util.List;
 
 /**
  * This data object stores the data used in the display of the KSAP-CourseSectionDetailsDialog-FormView
@@ -24,6 +27,12 @@ public class CourseSectionDetailsDialogForm extends UifFormBase {
     private String credits;
     private String courseNote;
     private String regGroupId;
+
+    private String courseOfferingCode;
+    private String courseOfferingTitle;
+    private List<String> prerequisites;
+    private List<String> corequisites;
+    private List<String> antirequisites;
 
     public CourseSectionDetailsDialogForm() {
         super();
@@ -51,5 +60,63 @@ public class CourseSectionDetailsDialogForm extends UifFormBase {
 
     public void setRegGroupId(String regGroupId) {
         this.regGroupId = regGroupId;
+    }
+
+    public String getCourseOfferingCode() {
+        return courseOfferingCode;
+    }
+
+    public void setCourseOfferingCode(String courseOfferingCode) {
+        this.courseOfferingCode = courseOfferingCode;
+    }
+
+    public String getCourseOfferingTitle() {
+        return courseOfferingTitle;
+    }
+
+    public void setCourseOfferingTitle(String courseOfferingTitle) {
+        this.courseOfferingTitle = courseOfferingTitle;
+    }
+
+    public List<String> getPrerequisites() {
+        return prerequisites;
+    }
+
+    public void setPrerequisites(List<String> prerequisites) {
+        this.prerequisites = prerequisites;
+    }
+
+    public List<String> getCorequisites() {
+        return corequisites;
+    }
+
+    public void setCorequisites(List<String> corequisites) {
+        this.corequisites = corequisites;
+    }
+
+    public List<String> getAntirequisites() {
+        return antirequisites;
+    }
+
+    public void setAntirequisites(List<String> antirequisites) {
+        this.antirequisites = antirequisites;
+    }
+
+    public String getPrerequisitesForUI() {
+        CollectionListPropertyEditor editor = new CollectionListPropertyEditor();
+        editor.setValue(this.getPrerequisites());
+        return editor.getAsText();
+    }
+
+    public String getAntirequisitesForUI() {
+        CollectionListPropertyEditor editor = new CollectionListPropertyEditor();
+        editor.setValue(this.getAntirequisites());
+        return editor.getAsText();
+    }
+
+    public String getCorequisitesForUI() {
+        CollectionListPropertyEditor editor = new CollectionListPropertyEditor();
+        editor.setValue(this.getCorequisites());
+        return editor.getAsText();
     }
 }
