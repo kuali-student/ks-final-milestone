@@ -4,15 +4,15 @@ angular.module('regCartApp')
     .service('CartService', ['ServiceUtilities', 'URLS', function CartService(ServiceUtilities, URLS) {
 
         this.getCart = function () {
-            return ServiceUtilities.getData(URLS.courseRegistrationCart+'/searchForCart');
+            return ServiceUtilities.getData(URLS.courseRegistrationCart + '/searchForCart');
         };
 
         this.getGradingOptions = function () {
-            return ServiceUtilities.getData(URLS.courseRegistrationCart+'/getStudentRegistrationOptions');
+            return ServiceUtilities.getData(URLS.courseRegistrationCart + '/getStudentRegistrationOptions');
         };
 
         this.addCourseToCart = function () {
-            return ServiceUtilities.postData(URLS.courseRegistrationCart+'/addCourseToCart');
+            return ServiceUtilities.postData(URLS.courseRegistrationCart + '/addCourseToCart');
         };
 
         this.removeItemFromCart = function ($actionLink) {
@@ -24,14 +24,14 @@ angular.module('regCartApp')
         };
 
         this.updateCartItem = function () {
-            return ServiceUtilities.putData(URLS.courseRegistrationCart+'/updateCartItem');
+            return ServiceUtilities.putData(URLS.courseRegistrationCart + '/updateCartItem');
         };
 
         this.submitCart = function () {
-            return ServiceUtilities.getData(URLS.courseRegistrationCart+'/submitCart');
+            return ServiceUtilities.getData(URLS.courseRegistrationCart + '/submitCart');
         };
 
         this.undoDeleteCourse = function () {
-            return ServiceUtilities.getData(URLS.courseRegistrationCart+'/undoDeleteCourse');
+            return ServiceUtilities.getData(URLS.courseRegistrationCart + '/undoDeleteCourse');
         };
     }]);

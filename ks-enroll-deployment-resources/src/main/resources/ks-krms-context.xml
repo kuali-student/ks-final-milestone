@@ -65,6 +65,20 @@
         <property name="courseService" ref="courseClient"/>
     </bean>
 
+    <!--We will need these services configured in the future so they are not hardwaired into the KRMSEvaluator in ks-enroll-context.xml-->
+    <!--<bean id="checkTermresolverTypeService" class="org.kuali.student.r2.common.krms.type.KSMapTermResolverTypeService">-->
+        <!--<property name="termResolverMap">-->
+            <!--<map>-->
+                <!--<entry key="CurrentCourseWithinKeydate" value-ref="currentCourseWithinKeydateTermResolver"/>-->
+            <!--</map>-->
+        <!--</property>-->
+    <!--</bean>-->
+
+    <!--<bean id="currentCourseWithinKeydateTermResolver" class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.CourseRegistrationKeyDateTermResolver">-->
+            <!--<property name="atpService" ref="AtpService"/>-->
+            <!--<property name="luiService" ref="LuiService"/>-->
+    <!--</bean>-->
+
     <bean id="actionTypeService" class="org.kuali.student.r2.common.krms.type.KSActionTypeServiceImpl">
     </bean>
 

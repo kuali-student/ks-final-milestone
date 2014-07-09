@@ -1640,7 +1640,7 @@
     -->
     <util:map id="regUserMap">
         <entry key="TestStudent" value="2014-06-23@09:05" />
-        <entry key="student7" value="2012-03-05@00:01" />
+        <entry key="student7" value="2012-09-05@00:01" />
         <entry key="student8" value="2012-10-20@00:01" />
     </util:map>
 
@@ -1661,6 +1661,8 @@
     <bean id="courseRegistrationServiceProcessCheckDecorator" class="org.kuali.student.enrollment.class2.courseregistration.service.decorators.CourseRegistrationServiceProcessCheckDecorator" >
         <property name="nextDecorator" ref="courseRegistrationServiceLoadCalculationDecorator"/>
         <property name="krmsEvaluator" ref="krmsEvaluator"/>
+        <property name="waitlistService" ref="courseWaitListServiceImpl"/>
+        <property name="courseOfferingService" ref="CourseOfferingService"/>
     </bean>
     <bean id="courseRegistrationServiceLoadCalculationDecorator" 
           class="org.kuali.student.enrollment.class2.courseregistration.service.decorators.CourseRegistrationLoadCalculationDecorator" >
@@ -1706,6 +1708,11 @@
                 <bean class="org.kuali.student.enrollment.krms.termresolver.RegistrationRequest2AtpIdTermResolver" />
                 <bean class="org.kuali.student.enrollment.krms.termresolver.RegistrationRequestId2RegistrationRequestTermResolver" />
                 <bean class="org.kuali.student.core.krms.termresolver.AtpId2AtpTermResolver" />
+                <bean class="org.kuali.student.core.krms.termresolver.AtpId2AtpTermResolver" />
+                <bean class="org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.CourseRegistrationKeyDateTermResolver">
+                    <property name="atpService" ref="AtpService"/>
+                    <property name="luiService" ref="LuiService"/>
+                </bean>
             </list>
         </property>
     </bean>

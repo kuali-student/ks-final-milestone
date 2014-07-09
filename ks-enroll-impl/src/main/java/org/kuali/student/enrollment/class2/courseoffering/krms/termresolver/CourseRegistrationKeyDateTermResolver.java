@@ -16,15 +16,21 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.krms.termresolver;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
+import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.krms.util.KSKRMSExecutionUtil;
+import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
@@ -51,13 +57,12 @@ public class CourseRegistrationKeyDateTermResolver implements TermResolver<Boole
         Set<String> prereqs = new HashSet<String>(2);
         prereqs.add(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
         prereqs.add(RulesExecutionConstants.REGISTRATION_GROUP_TERM.getName());
-        prereqs.add("userActionDate");
         return Collections.unmodifiableSet(prereqs);
     }
 
     @Override
     public String getOutput() {
-        return KSKRMSServiceConstants.TERM_RESOLVER_SCHEDULEADJUSTMENTPERIOD;
+        return KSKRMSServiceConstants.TERM_RESOLVER_CURRENT_COURSE_WITHIN_KEYDATE;
     }
 
     @Override
@@ -79,7 +84,7 @@ public class CourseRegistrationKeyDateTermResolver implements TermResolver<Boole
         RegistrationGroupInfo regGroupInfo = (RegistrationGroupInfo) resolvedPrereqs.get(RulesExecutionConstants.REGISTRATION_GROUP_TERM.getName());
         // Date user did the action (tried to submit registration for the regGroupInfo)
         Date userActionDate = context.getCurrentDate();
-
+        String keydateTypeParameter = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TERM_KEYDATE_TYPE_KEY);
         try {
             String termId;
             // getting CO and AOs for the RegGroup to find the correct term
@@ -88,15 +93,16 @@ public class CourseRegistrationKeyDateTermResolver implements TermResolver<Boole
 
             // We have CO and AO terms.  There is special business logic to determine which term to use.
             // The logic: find out if all AO terms are the same, and if so use the AO term, else use CO term
-            if (isAllAtpIdsTheSame(aoLuis)){
-                termId = KSCollectionUtils.getRequiredZeroElement(aoLuis).getAtpId();
+            if(isAllAtpIdsTheSame(aoLuis)){
+                //Get(0) is appropriate here since we are testing that they are all the same as part of business logic
+                termId = aoLuis.get(0).getAtpId();
             } else {
                 termId = coLui.getAtpId();
             }
 
             // Milestones store start and end date information. All KeyDates are Milestones
             // Have to check if user action date is within KeyDate (say, Registration Adjustment Period) start/end dates
-            List<MilestoneInfo> mstones = getAtpService().getMilestonesByTypeForAtp(termId, KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TERM_KEYDATE_TYPE_KEY, context);
+            List<MilestoneInfo> mstones = getAtpService().getMilestonesByTypeForAtp(termId, keydateTypeParameter, context);
             for (MilestoneInfo mstone : mstones) {
                 if (mstone.getStartDate().compareTo(userActionDate) > 0 || mstone.getEndDate().compareTo(userActionDate) < 0) {
                     return false;

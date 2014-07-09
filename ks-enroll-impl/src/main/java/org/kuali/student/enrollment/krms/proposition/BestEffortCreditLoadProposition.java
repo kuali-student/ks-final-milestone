@@ -64,6 +64,12 @@ public class BestEffortCreditLoadProposition extends AbstractBestEffortPropositi
     public PropositionResult evaluate(ExecutionEnvironment environment) {
         ContextInfo contextInfo = environment.resolveTerm(RulesExecutionConstants.CONTEXT_INFO_TERM, this);
         RegistrationRequestInfo request = environment.resolveTerm(RulesExecutionConstants.REGISTRATION_REQUEST_TERM, this);
+        //List<RegistrationRequestItemInfo> regRequestItems = request.getRegistrationRequestItems();
+        //Changed this code to use a list of one from the environment
+        RegistrationRequestItemInfo requestItemInfo = environment.resolveTerm(RulesExecutionConstants.REGISTRATION_REQUEST_ITEM_TERM, this);
+        List<RegistrationRequestItemInfo> regRequestItems = new ArrayList<RegistrationRequestItemInfo>();
+        regRequestItems.add(requestItemInfo);
+
         String personId = environment.resolveTerm(RulesExecutionConstants.PERSON_ID_TERM, this);
         CourseRegistrationService crService = environment.resolveTerm(RulesExecutionConstants.COURSE_REGISTRATION_SERVICE_TERM,
                 this);
@@ -99,15 +105,22 @@ public class BestEffortCreditLoadProposition extends AbstractBestEffortPropositi
         KualiDecimal creditLimitValue = creditLimit.getDecimalValue();
 
         // Fetch registrations
-        List<CourseRegistrationInfo> existingCrs;
-        try {
-            existingCrs = getCourseAndWaitlistRegistrations(request, personId, crService, wlService, contextInfo);
-        } catch (Exception ex) {
-            return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
-        }
+        List<CourseRegistrationInfo> existingCrs = new ArrayList<CourseRegistrationInfo>();
+        existingCrs.addAll((List<CourseRegistrationInfo>) environment.resolveTerm(RulesExecutionConstants.EXISTING_REGISTRATIONS_TERM, this));
+        existingCrs.addAll((List<CourseRegistrationInfo>) environment.resolveTerm(RulesExecutionConstants.EXISTING_WAITLISTED_REGISTRATIONS_TERM, this));
+        existingCrs.addAll((List<CourseRegistrationInfo>) environment.resolveTerm(RulesExecutionConstants.SIMULATED_REGISTRATIONS_TERM, this));
+
+//        try {
+//            existingCrs = getCourseAndWaitlistRegistrations(request, personId, getCourseRegistrationService(), getCourseWaitListService(), contextInfo);
+//        } catch (Exception ex) {
+//            return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
+//        }
+
+
         // Iterate over each item and check load
         List<CourseRegistrationInfo> successFromCart = new ArrayList<CourseRegistrationInfo>();
-        for (RegistrationRequestItemInfo item: request.getRegistrationRequestItems()) {
+//        for (RegistrationRequestItemInfo item: request.getRegistrationRequestItems()) {
+        for (RegistrationRequestItemInfo item: regRequestItems) {
             List<CourseRegistrationInfo> copyExistingCrs = new ArrayList<CourseRegistrationInfo>();
             // Copy the existing registrations
             copyExistingCrs.addAll(existingCrs);

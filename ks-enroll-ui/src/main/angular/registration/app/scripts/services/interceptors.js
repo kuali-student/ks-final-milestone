@@ -10,8 +10,8 @@ angular.module('regCartApp').factory('loginInterceptor', function ($q, $injector
             if it does we will broadcast the sessionExpired event for the controller to handle.
              */
             var responseData=response.data;
-            if (typeof responseData !== 'object' && responseData.indexOf("Kuali Student Login") > -1) {
-                console.log("Informing user that session has expired...");
+            if (typeof responseData !== 'object' && responseData.indexOf('Kuali Student Login') > -1) {
+                console.log('Informing user that session has expired...');
                 $rootScope.$broadcast('sessionExpired');
                 return $q.reject(response);
             } else {

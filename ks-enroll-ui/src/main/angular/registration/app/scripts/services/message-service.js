@@ -3,7 +3,7 @@
 angular.module('regCartApp')
     .service('MessageService', ['$resource', function ($resource) {
 
-        this.getMessages = function() {
+        this.getMessages = function () {
             /*
              Currently we are getting the messages from a static json file...
              this will likely be replaced by a RESTful service call...
@@ -13,7 +13,7 @@ angular.module('regCartApp')
             });
         };
 
-        this.getMessage = function(messages, messageKey){
+        this.getMessage = function (messages, messageKey) {
             var message = '';
             angular.forEach(messages, function (msgObj) {
                 if (msgObj.messageKey === messageKey) {

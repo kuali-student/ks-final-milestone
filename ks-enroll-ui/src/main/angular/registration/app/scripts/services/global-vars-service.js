@@ -69,7 +69,7 @@ angular.module('regCartApp')
             schedule = value;
         };
 
-        this.getUserId = function() {
+        this.getUserId = function () {
             return userId;
         };
 
@@ -78,17 +78,17 @@ angular.module('regCartApp')
         };
 
         // In this method we pass in a state and it returns a status
-        this.getCorrespondingStatusFromState = function(state) {
+        this.getCorrespondingStatusFromState = function (state) {
             var retStatus = STATUS.new;
-            if (STATE.processing.indexOf(state) >= 0){
+            if (STATE.processing.indexOf(state) >= 0) {
                 retStatus = STATUS.processing;
-            } else if(STATE.success.indexOf(state) >= 0){
+            } else if (STATE.success.indexOf(state) >= 0) {
                 retStatus = STATUS.success;
-            } else if(STATE.error.indexOf(state) >= 0){
+            } else if (STATE.error.indexOf(state) >= 0) {
                 retStatus = STATUS.error;
-            } else if(STATE.waitlist.indexOf(state) >= 0){
+            } else if (STATE.waitlist.indexOf(state) >= 0) {
                 retStatus = STATUS.waitlist;
-            } else if(STATE.action.indexOf(state) >= 0){
+            } else if (STATE.action.indexOf(state) >= 0) {
                 retStatus = STATUS.action;
             }
 
@@ -118,7 +118,7 @@ angular.module('regCartApp')
                     courses++;
                     var gradingOptionCount = 0;
                     //grading options are an object (map) so there's no easy way to get the object size without this code
-                    angular.forEach(course.gradingOptions, function(){
+                    angular.forEach(course.gradingOptions, function () {
                         gradingOptionCount++;
                     });
                     course.gradingOptionCount = gradingOptionCount;
@@ -128,7 +128,7 @@ angular.module('regCartApp')
                     waitlistCourses++;
                     var gradingOptionCount = 0;
                     //grading options are an object (map) so there's no easy way to get the object size without this code
-                    angular.forEach(course.gradingOptions, function(){
+                    angular.forEach(course.gradingOptions, function () {
                         gradingOptionCount++;
                     });
                     course.gradingOptionCount = gradingOptionCount;
@@ -143,9 +143,9 @@ angular.module('regCartApp')
         };
 
         // In this method we pass in a status and it returns a message to display
-        this.getCorrespondingMessageFromStatus = function(status){
+        this.getCorrespondingMessageFromStatus = function (status) {
             var statusMessage = '';
-            if (status === STATUS.waitlist){
+            if (status === STATUS.waitlist) {
                 statusMessage = 'If a seat becomes available you will be registered automatically';
             }
 

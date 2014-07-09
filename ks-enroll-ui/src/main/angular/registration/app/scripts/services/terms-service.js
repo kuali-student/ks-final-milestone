@@ -18,10 +18,10 @@ angular.module('regCartApp')
         };
 
         this.getTermsFromServer = function () {
-            return ServiceUtilities.getArray(URLS.scheduleOfClasses+'/terms');
+            return ServiceUtilities.getArray(URLS.scheduleOfClasses + '/terms');
         };
 
-        this.getTermNameForTermId = function(terms, termId){
+        this.getTermNameForTermId = function (terms, termId) {
             var retTermName;
             angular.forEach(terms, function (term) {
                 if (term.termId === termId) {

@@ -19,12 +19,12 @@ angular.module('regCartApp', [
             })
             .state('root.responsive.schedule', {
                 url: '/mySchedule',
-                views:{
-                    mycart:{
+                views: {
+                    mycart: {
                         templateUrl: 'partials/cart.html',
                         controller: 'CartCtrl'
                     },
-                    schedule:{
+                    schedule: {
                         templateUrl: 'partials/schedule.html',
                         controller: 'ScheduleCtrl'
                     }
@@ -32,12 +32,12 @@ angular.module('regCartApp', [
             })
             .state('root.responsive.cart', {
                 url: '/myCart',
-                views:{
-                    mycart:{
+                views: {
+                    mycart: {
                         templateUrl: 'partials/cart.html',
                         controller: 'CartCtrl'
                     },
-                    schedule:{
+                    schedule: {
                         templateUrl: 'partials/schedule.html',
                         controller: 'ScheduleCtrl'
                     }

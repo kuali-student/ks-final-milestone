@@ -2,7 +2,7 @@
 
 angular.module('regCartApp')
 
-    .directive('courseOptions', function() {
+    .directive('courseOptions', function () {
         return {
             restrict: 'E',
             transclude: true,
@@ -20,7 +20,7 @@ angular.module('regCartApp')
                 submitFn: '&onSubmit' // Function to call when submitting the form, provides course as parameter, usage: on-submit="processCancel(course)"
             },
             templateUrl: 'partials/courseOptions.html',
-            controller: ['$scope', '$modal', function($scope, $modal) {
+            controller: ['$scope', '$modal', function ($scope, $modal) {
                 var course = $scope.course,
                     maxOptions = $scope.maxOptions || 4,
                     showAll = $scope.showAll ? true : false,
@@ -33,13 +33,13 @@ angular.module('regCartApp')
                 // Transpose the grading options object into a more consumable format for the view
                 $scope.gradingOptions = [];
                 if (course && course.gradingOptions) {
-                    angular.forEach(course.gradingOptions, function(v, k) {
+                    angular.forEach(course.gradingOptions, function (v, k) {
                         this.push({ key: k, label: v});
                     }, $scope.gradingOptions);
                 }
 
 
-                $scope.creditOptionsFilter = function(option) {
+                $scope.creditOptionsFilter = function (option) {
                     if (!course || $scope.showAllCreditOptions) {
                         return true;
                     }
@@ -47,7 +47,7 @@ angular.module('regCartApp')
                     return shouldShow(course.creditOptions, course.credits, option);
                 };
 
-                $scope.gradingOptionsFilter = function(option) {
+                $scope.gradingOptionsFilter = function (option) {
                     if (!course || $scope.showAllGradingOptions) {
                         return true;
                     }
@@ -55,7 +55,7 @@ angular.module('regCartApp')
                     return shouldShow(Object.keys(course.gradingOptions), course.grading, option.key);
                 };
 
-                $scope.showMoreCreditOptions = function() {
+                $scope.showMoreCreditOptions = function () {
                     if (moreButtonSelectBehavior === 'expand') {
                         $scope.showAllCreditOptions = true;
                     } else {
@@ -63,7 +63,7 @@ angular.module('regCartApp')
                     }
                 };
 
-                $scope.showMoreGradingOptions = function() {
+                $scope.showMoreGradingOptions = function () {
                     if (moreButtonSelectBehavior === 'expand') {
                         $scope.showAllGradingOptions = true;
                     } else {
@@ -71,15 +71,15 @@ angular.module('regCartApp')
                     }
                 };
 
-                $scope.shouldShowMoreCreditOptionsToggle = function() {
+                $scope.shouldShowMoreCreditOptionsToggle = function () {
                     return !$scope.showAllCreditOptions && course.creditOptions.length > maxOptions;
                 };
 
-                $scope.shouldShowMoreGradingOptionsToggle = function() {
+                $scope.shouldShowMoreGradingOptionsToggle = function () {
                     return !$scope.showAllGradingOptions && Object.keys(course.gradingOptions).length > maxOptions;
                 };
 
-                $scope.cancel = function() {
+                $scope.cancel = function () {
                     console.log('Canceling options changes');
 
                     // Reset the edit state on the course & form
@@ -97,7 +97,7 @@ angular.module('regCartApp')
                     reset();
                 };
 
-                $scope.submit = function() {
+                $scope.submit = function () {
                     console.log('Submitting options form');
 
                     if ($scope.submitFn) {
@@ -108,7 +108,7 @@ angular.module('regCartApp')
                     reset();
                 };
 
-                $scope.showGradingHelp = function() {
+                $scope.showGradingHelp = function () {
                     $modal.open({
                         templateUrl: 'partials/gradingOptionsHelp.html'
                     });
@@ -132,8 +132,10 @@ angular.module('regCartApp')
                     // Create a sanitized copy of the scope for the modal dialog
                     var modalScope = $scope.$new();
                     modalScope.course = angular.copy(course);
-                    modalScope.cancel = function() {};
-                    modalScope.submit = function() {};
+                    modalScope.cancel = function () {
+                    };
+                    modalScope.submit = function () {
+                    };
 
                     course.editing = false;
 
@@ -148,26 +150,26 @@ angular.module('regCartApp')
                             $modalScope.showAllCreditOptions = true;
                             $modalScope.showAllGradingOptions = true;
 
-                            $modalScope.modalCancel = function() {
+                            $modalScope.modalCancel = function () {
                                 $modalScope.$dismiss('cancel');
                             };
 
-                            $modalScope.modalSubmit = function() {
+                            $modalScope.modalSubmit = function () {
                                 $modalScope.$close($modalScope.course);
                             };
                         }]
                     });
 
-                    dialog.result.then(function(modalCourse) {
+                    dialog.result.then(function (modalCourse) {
                         course.newGrading = modalCourse.newGrading;
                         course.newCredits = modalCourse.newCredits;
                         $scope.submit();
-                    }, function() {
+                    }, function () {
                         $scope.cancel();
                     });
                 }
 
-                function reset () {
+                function reset() {
                     // Reset the option visibility based on the showAll parameter.
                     $scope.showAllCreditOptions = showAll;
                     $scope.showAllGradingOptions = showAll;

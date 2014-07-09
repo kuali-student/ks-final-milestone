@@ -86,6 +86,8 @@
                 <bean class="org.kuali.student.enrollment.registration.engine.node.filter.PerformanceStartNodeFilter"/>
             </list>
         </property>
+        <!--<property name="useStaticDates" value="${feature.toggle.static.user.system.time}" />-->
+        <property name="useStaticDates" value="true" />
     </bean>
 
     <!-- Verifies the reg request -->

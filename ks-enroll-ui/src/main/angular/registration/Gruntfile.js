@@ -350,6 +350,20 @@ module.exports = function (grunt) {
                 dest:'.tmp/styles/',
                 src:'{,*/}*.css'
             },
+            createJsp: {
+                src: '<%= yeoman.dist %>/index.html',
+                dest: '<%= yeoman.dist %>/index.jsp',
+                options: {
+                    process: function (content) {
+                        return content +
+                            '<script>' +
+                            '\'use strict\'; ' +
+                            'angular.module(\'configuration\', [])' +
+                            '.value(\'APP_URL\',\'${ConfigProperties.application.url}/services/\');' +
+                            '</script>';
+                    }
+                }
+            },
             deploy:{
                 expand:true,
                 cwd:'<%= yeoman.dist %>',
@@ -408,22 +422,6 @@ module.exports = function (grunt) {
             }
         },
 
-        dom_munger: {
-            createJsp: {
-                options: {
-                    append: {selector:'body',html:
-                        '<script>' +
-                        '\'use strict\'; ' +
-                        'angular.module(\'configuration\', [])' +
-                        '.value(\'APP_URL\',\'${ConfigProperties.application.url}/services/\');' +
-                        '</script>\n'
-                    }
-                },
-                src: '<%= yeoman.dist %>/index.html',
-                dest: '<%= yeoman.dist %>/index.jsp'
-            }
-        },
-
         //minify json files
         'json-minify': {
             build: {
@@ -433,7 +431,6 @@ module.exports = function (grunt) {
     });
 
     grunt.loadNpmTasks('grunt-contrib-less');
-    grunt.loadNpmTasks('grunt-dom-munger');
     grunt.loadNpmTasks('grunt-connect-proxy');
     grunt.loadNpmTasks('grunt-json-minify');
 
@@ -483,7 +480,7 @@ module.exports = function (grunt) {
         'rev',
         'usemin',
         'htmlmin',
-        'dom_munger',
+        'copy:createJsp',
         'json-minify',
         'clean:deploy',
         'copy:deploy'

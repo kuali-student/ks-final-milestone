@@ -60,6 +60,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -108,7 +109,11 @@ public class BestEffortTimeConflictProposition extends AbstractBestEffortProposi
         ContextInfo contextInfo = environment.resolveTerm(RulesExecutionConstants.CONTEXT_INFO_TERM, this);
         RegistrationRequestInfo request = environment.resolveTerm(RulesExecutionConstants.REGISTRATION_REQUEST_TERM, this);
         String personId = environment.resolveTerm(RulesExecutionConstants.PERSON_ID_TERM, this);
-        List<RegistrationRequestItemInfo> regRequestItems = request.getRegistrationRequestItems();
+        //List<RegistrationRequestItemInfo> regRequestItems = request.getRegistrationRequestItems();
+        //Changed this code to use a list of one from the environment
+        RegistrationRequestItemInfo requestItemInfo = environment.resolveTerm(RulesExecutionConstants.REGISTRATION_REQUEST_ITEM_TERM, this);
+        List<RegistrationRequestItemInfo> regRequestItems = new ArrayList<RegistrationRequestItemInfo>();
+        regRequestItems.add(requestItemInfo);
 
         this.setCourseRegistrationService((CourseRegistrationService) environment.resolveTerm(RulesExecutionConstants.COURSE_REGISTRATION_SERVICE_TERM,
                 this));
@@ -136,12 +141,16 @@ public class BestEffortTimeConflictProposition extends AbstractBestEffortProposi
         }
 
         // Fetch registrations
-        List<CourseRegistrationInfo> existingCrs;
-        try {
-            existingCrs = getCourseAndWaitlistRegistrations(request, personId, getCourseRegistrationService(), getCourseWaitListService(), contextInfo);
-        } catch (Exception ex) {
-            return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
-        }
+        List<CourseRegistrationInfo> existingCrs = new ArrayList<CourseRegistrationInfo>();
+        existingCrs.addAll((List<CourseRegistrationInfo>) environment.resolveTerm(RulesExecutionConstants.EXISTING_REGISTRATIONS_TERM, this));
+        existingCrs.addAll((List<CourseRegistrationInfo>) environment.resolveTerm(RulesExecutionConstants.EXISTING_WAITLISTED_REGISTRATIONS_TERM, this));
+        existingCrs.addAll((List<CourseRegistrationInfo>) environment.resolveTerm(RulesExecutionConstants.SIMULATED_REGISTRATIONS_TERM, this));
+
+//        try {
+//            existingCrs = getCourseAndWaitlistRegistrations(request, personId, getCourseRegistrationService(), getCourseWaitListService(), contextInfo);
+//        } catch (Exception ex) {
+//            return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
+//        }
 
         // Copy the existing registrations. The existringCrs might change
         List<CourseRegistrationInfo> copyExistingCrs = new ArrayList<CourseRegistrationInfo>();

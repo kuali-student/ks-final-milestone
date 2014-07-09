@@ -89,4 +89,6 @@
     <param name="ks.enroll.examoffering.generateOnSocSchedule.defaultvalue">${ks.enroll.examoffering.generateDynamic.defaultvalue}</param>
     <param name="ks.enroll.examoffering.useFinalExamMatrix.defaultvalue">true</param>
 
+    <!-- configures the use of static dates for the reg cart (typically only set to true for testing) -->
+    <param name="feature.toggle.static.user.system.time">true</param>
 </config>

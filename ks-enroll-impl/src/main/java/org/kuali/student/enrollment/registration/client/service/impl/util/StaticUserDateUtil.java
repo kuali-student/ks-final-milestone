@@ -138,6 +138,13 @@ public class StaticUserDateUtil {
         STATIC_DATE_MAP.putAll(PRE_LOADED_MAP);
     }
 
+    /*
+    Returns the static date for a user as a DateTime object
+     */
+    public static DateTime getDateTimeForUser(String userId) {
+        return STATIC_DATE_MAP.get(userId);
+    }
+
     private static DateTime parseString(String dateString) throws InvalidParameterException {
         DateTime dateTime;
         try {

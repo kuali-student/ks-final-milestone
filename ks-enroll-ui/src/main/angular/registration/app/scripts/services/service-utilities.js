@@ -3,19 +3,19 @@
 angular.module('regCartApp')
     .service('ServiceUtilities', ['$resource', 'APP_URL', function ServiceUtilities($resource, APP_URL) {
 
-        this.getData = function(url) {
+        this.getData = function (url) {
             return $resource(APP_URL + url, {}, {
                 query: {method: 'GET', cache: false, isArray: false}
             });
         };
 
-        this.deleteData = function(url) {
+        this.deleteData = function (url) {
             return $resource(APP_URL + url, {}, {
                 query: {method: 'DELETE', cache: false, isArray: false}
             });
         };
 
-        this.postData = function(url) {
+        this.postData = function (url) {
             return $resource(APP_URL + url, {}, {
                 query: {headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
                     method: 'POST', cache: false, isArray: false,
@@ -25,7 +25,7 @@ angular.module('regCartApp')
             });
         };
 
-        this.putData = function(url) {
+        this.putData = function (url) {
             return $resource(APP_URL + url, {}, {
                 query: {headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
                     method: 'PUT', cache: false, isArray: false,
@@ -35,7 +35,7 @@ angular.module('regCartApp')
             });
         };
 
-        this.getArray = function(url) {
+        this.getArray = function (url) {
             return $resource(APP_URL + url, {}, {
                 query: {method: 'GET', cache: false, isArray: true}
             });
@@ -51,4 +51,4 @@ angular.module('regCartApp')
             return str.join('&');
         }
     }]
-);
+    );
