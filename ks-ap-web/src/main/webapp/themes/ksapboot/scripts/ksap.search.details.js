@@ -105,15 +105,15 @@ function ksapAddCourseSection (data){
 
             // Hide needed fields
             if(activity.honors == false){
-                item2Element.find("#honors").addClass("invisible");
+                item2Element.find("#honors").addClass("ksap-hide");
             }
 
             if(activity.classUrl.length == 0){
-                item2Element.find("#classUrl").addClass("invisible");
+                item2Element.find("#classUrl").addClass("ksap-hide");
             }
 
-            if(activity.requirementsUrl.length == 0){
-                item2Element.find("#requirementsUrl").addClass("invisible");
+            if(activity.activityOfferingRequisites == null){
+                item2Element.find("#requirementsUrl").addClass("ksap-hide");
             }
 
             // For now modify the add to plan button to indicate that it is added and display click functionality

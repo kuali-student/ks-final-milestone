@@ -537,12 +537,12 @@
                                                           p:href="@{#line.classUrl}"
                                                           p:linkText="@{#textHelper.getText('details.ao.additionalDetails.courseUrl')}"
                                                           p:target="_blank"/>
-                                                    <bean parent="Uif-Link"
-                                                          p:render="@{#line.requirementsUrl != null}"
+                                                    <bean parent="Uif-ActionLink"
+                                                          p:render="@{#line.activityOfferingRequisites != null}"
                                                           p:id="requirementsUrl"
                                                           p:additionalCssClasses="ksap-section-details-item"
-                                                          p:href="@{#ConfigProperties['application.url']}/@{#line.requirementsUrl}"
-                                                          p:linkText="@{#textHelper.getText('details.ao.additionalDetails.restrictions')}"/>
+                                                          p:actionLabel="@{#textHelper.getText('details.ao.additionalDetails.restrictions')}"
+                                                          p:actionScript="ksapOpenDialog('KSAP-CourseDetailsSection-Requisites','details','startRequisitesDialog', this, e, {activityOfferingId: '@{#line.activityOfferingId}'});"/>
                                                 </list>
                                             </property>
                                         </bean>
@@ -651,18 +651,24 @@
                       p:additionalCssClasses="ksap-section-details">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-Message" p:render="true" p:id="honors"
+                            <bean parent="Uif-Message"
+                                  p:render="true"
+                                  p:id="honors"
                                   p:additionalCssClasses="ksap-section-details-item"
                                   p:messageText="@{#textHelper.getText('details.ao.additionalDetails.honors')}"/>
-                            <bean parent="Uif-Link" p:render="true" p:id="classUrl"
+                            <bean parent="Uif-Link"
+                                  p:render="true"
+                                  p:id="classUrl"
                                   p:additionalCssClasses="ksap-section-details-item"
                                   p:href="__KSAP__CLASSURL__"
                                   p:linkText="@{#textHelper.getText('details.ao.additionalDetails.courseUrl')}"
                                   p:target="_blank"/>
-                            <bean parent="Uif-Link" p:render="true" p:id="requirementsUrl"
+                            <bean parent="Uif-ActionLink"
+                                  p:render="true"
+                                  p:id="requirementsUrl"
                                   p:additionalCssClasses="ksap-section-details-item"
-                                  p:href="@{#ConfigProperties['application.url']}/__KSAP__REQUIREMENTSURL__"
-                                  p:linkText="@{#textHelper.getText('details.ao.additionalDetails.restrictions')}"/>
+                                  p:actionLabel="@{#textHelper.getText('details.ao.additionalDetails.restrictions')}"
+                                  p:actionScript="ksapOpenDialog('KSAP-CourseDetailsSection-Requisites','details','startRequisitesDialog', this, e, {activityOfferingId: '__KSAP__ACTIVITYOFFERINGID__'});"/>
                         </list>
                     </property>
                 </bean>
