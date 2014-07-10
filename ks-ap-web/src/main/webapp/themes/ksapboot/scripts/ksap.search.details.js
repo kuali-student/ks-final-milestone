@@ -89,7 +89,7 @@ function ksapAddCourseSection (data){
             if (data.hasOwnProperty(key))
                 item = eval("item.replace(/__KSAP__"+key.toUpperCase()+"__/gi,'"+data[key]+"')");
         item = item.replace(/id=\"(u\d+)\"/gi,"id=\""+data.uid+"_$1\"");
-        var itemElement = jQuery("<div/>").html(item).attr("class", "uif-collectionItem uif-boxCollectionItem");
+        var itemElement = jQuery("<div/>").html(item).attr("class", "uif-collectionItem uif-boxCollectionItem clearfix");
 
         // Add Activities
         var activities = data.activities;
@@ -101,7 +101,7 @@ function ksapAddCourseSection (data){
             for (var key2 in activity)
                 if (activity.hasOwnProperty(key2))
                     item2 = eval("item2.replace(/__KSAP__"+key2.toUpperCase()+"__/gi,'"+activity[key2]+"')");
-            var item2Element = jQuery("<div/>").html(item2);
+            var item2Element = jQuery("<div/>").html(item2).attr("class","uif-collectionItem uif-boxCollectionItem clearfix");
 
             // Hide needed fields
             if(activity.honors == false){
