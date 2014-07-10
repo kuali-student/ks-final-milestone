@@ -43,7 +43,11 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * This class //TODO ...
+ * Return true if student tried to register when it is allowed to register.
+ *
+ * Rule statement example:
+ * 1) Student action date (when he clicked on register for specific course(s)/term should be
+ * within start and end date of the Registration Adjustment Period
  *
  * @author Kuali Student Team
  */
