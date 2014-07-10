@@ -19,7 +19,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="KS-CourseView-CourseRequisites-Section" parent="KS-CourseView-VerticalBoxSection">
+    <bean id="KS-CourseView-CourseRequisites-Section" parent="KS-CourseView-VerticalBoxSection" p:render="@{!#workflowDoc.initiated}">
         <property name="headerText" value="Course Requisites"/>
         <property name="items">
             <list>

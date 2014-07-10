@@ -33,7 +33,6 @@ limitations under the License.
         <property name="items">
             <list>
                 <bean id="Course-RuleEdit-ActionLinks" parent="Course-RuleEdit-Links" p:style="margin-left:-12px;"/>
-                <bean id="Course-RuleView-ActionLinks" parent="Course-RuleView-Links" p:style="margin-left:-12px;"/>
                 <bean parent="Uif-MessageField" p:messageText="@{#line.ruleTypeInfo.instruction}"/>
                 <bean id="Course-ViewTree-Group" parent="Uif-VerticalBoxGroup"
                       p:cssClasses="ks-form-panel">
@@ -59,12 +58,6 @@ limitations under the License.
     <bean id="Course-RuleAdd-Links" parent="KRMS-RuleAdd-Links">
         <property name="items">
             <list>
-                <bean parent="KS-Uif-ActionLink" p:actionLabel="Compare to Catalog" p:methodToCall="compareRules"
-                      p:render="@{#line.dummy and #line.parent != null}">
-                    <property name="toolTip">
-                        <bean parent="Uif-KS-Tooltip" p:tooltipContent="Compare Catalog and Course Offering rules"/>
-                    </property>
-                </bean>
                 <!--bean parent="KS-Uif-NavigationActionLink" p:actionLabel="Add Rule" p:methodToCall="addRule"
                       p:performActionAuthz="true" p:actionEvent="addEditRequisite"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/-->
@@ -77,17 +70,6 @@ limitations under the License.
     <bean id="Course-RuleEdit-Links" parent="KRMS-RuleEdit-Links">
         <property name="items">
             <list>
-                <!--bean parent="KS-Uif-ActionLink" p:actionLabel="Compare to Catalog" p:methodToCall="compareRules"
-                      p:performActionAuthz="true" p:actionEvent="compare">
-                    <property name="toolTip">
-                        <bean parent="Uif-KS-Tooltip" p:tooltipContent="Compare Catalog and Course Offering rules"/>
-                    </property>
-                </bean-->
-                <bean parent="KS-Uif-ActionLink" p:actionLabel="Compare to Catalog" p:methodToCall="compareRules">
-                    <property name="toolTip">
-                        <bean parent="Uif-KS-Tooltip" p:tooltipContent="Compare Catalog and Course Offering rules"/>
-                    </property>
-                </bean>
                 <!--bean parent="KS-Uif-NavigationActionLink" p:actionLabel="Edit Rule" p:methodToCall="goToRuleView"
                       p:performActionAuthz="true" p:actionEvent="addEditRequisite" p:performDirtyValidation="false"/-->
                 <bean parent="KS-Uif-NavigationActionLink" p:actionLabel="Edit Rule" p:methodToCall="goToRuleView"
@@ -95,24 +77,6 @@ limitations under the License.
                 <!--bean parent="KS-Uif-ActionLink" p:actionLabel="Delete Rule" p:methodToCall="deleteRule"
                       p:performActionAuthz="true" p:actionEvent="deleteRequisite"/-->
                 <bean parent="KS-Uif-ActionLink" p:actionLabel="Delete Rule" p:methodToCall="deleteRule"/>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="Course-RuleView-Links" parent="KRMS-RuleView-Links">
-        <property name="items">
-            <list>
-                <!--bean parent="KS-Uif-ActionLink" p:actionLabel="Compare to Catalog" p:methodToCall="compareRules"
-                      p:performActionAuthz="true" p:actionEvent="compare">
-                    <property name="toolTip">
-                        <bean parent="Uif-KS-Tooltip" p:tooltipContent="Compare Catalog and Course Offering rules"/>
-                    </property>
-                </bean-->
-                <bean parent="KS-Uif-ActionLink" p:actionLabel="Compare to Catalog" p:methodToCall="compareRules">
-                    <property name="toolTip">
-                        <bean parent="Uif-KS-Tooltip" p:tooltipContent="Compare Catalog and Course Offering rules"/>
-                    </property>
-                </bean>
             </list>
         </property>
     </bean>
@@ -276,20 +240,6 @@ limitations under the License.
         <property name="items">
             <list>
                 <ref bean="KRMS-RuleHeader-Section"/>
-                <bean id="Course-RulePreview-ActionLinks" parent="Course-RulePreview-Links" p:style="float: right"/>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="Course-RulePreview-Links" parent="KRMS-RulePreview-Links">
-        <property name="items">
-            <list>
-                <bean parent="KS-Uif-ActionLink" p:actionLabel="Compare to Catalog" p:methodToCall="compareRules"
-                      p:performActionAuthz="true" p:actionEvent="compare">
-                    <property name="toolTip">
-                        <bean parent="Uif-KS-Tooltip" p:tooltipContent="Compare Catalog and Course Offering rules"/>
-                    </property>
-                </bean>
             </list>
         </property>
     </bean>
