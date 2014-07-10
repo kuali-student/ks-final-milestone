@@ -813,7 +813,8 @@
                 <bean parent="Uif-FieldGroupBase"
                       p:additionalCssClasses="ksap-section-add"
                       p:fieldLabel.labelText="Add to Plan"
-                      p:render="@{#line.singleFormatOffering==true}">
+                      p:render="@{#line.singleFormatOffering==true}"
+                        p:id="addPlanLink">
                     <property name="items">
                         <list>
                             <bean parent="Uif-ActionLink" p:render="@{#line.singleFormatOffering==true}">
