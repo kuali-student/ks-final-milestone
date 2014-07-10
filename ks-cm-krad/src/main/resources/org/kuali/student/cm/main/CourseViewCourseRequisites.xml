@@ -52,12 +52,13 @@
         <property name="cssClasses">
             <list merge="true">
                 <value>admin-not-required-field</value>
+                <value>CourseRequisites-DisclosureLinks</value>
             </list>
         </property>
         <property name="onDocumentReadyScript" value="setDirtyManually(@{#dp.agendaDirty});" />
         <property name="items">
             <list>
-                <bean parent="KRMS-AgendaMaintenance-DisclosureLinks"/>
+                <bean id="CourseRequisites-DisclosureLinks-AgendaMaintenance" parent="KRMS-AgendaMaintenance-DisclosureLinks"/>
                 <!-- KSCM-1727 - Move the Rules wrapper within CourseInfoWrapper-->
                 <bean parent="KRMS-AgendaManage-Section" class="org.kuali.student.cm.course.service.util.CourseAgendaSection">
                     <property name="rulePrototype">
