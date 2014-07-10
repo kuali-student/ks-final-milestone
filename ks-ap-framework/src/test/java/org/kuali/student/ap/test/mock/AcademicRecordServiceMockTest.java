@@ -89,6 +89,11 @@ public class AcademicRecordServiceMockTest implements AcademicRecordService{
         return null;
     }
 
+    @Override
+    public List<StudentCourseRecordInfo> getStudentCourseRecordsForCourses(String personId, List<String> courseIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;
+    }
+
     /**
      * This method returns a list of StudentCourseRecord for a student for a
      * given course
