@@ -28,6 +28,7 @@ import org.kuali.student.ap.coursesearch.dataobject.CourseOfferingDetailsWrapper
 import org.kuali.student.ap.coursesearch.dataobject.CourseTermDetailsWrapper;
 import org.kuali.student.ap.coursesearch.dataobject.FormatOfferingInfoWrapper;
 import org.kuali.student.ap.coursesearch.dataobject.PlannedRegistrationGroupDetailsWrapper;
+import org.kuali.student.ap.coursesearch.form.CourseSectionDetailsDialogForm;
 import org.kuali.student.ap.coursesearch.form.CourseSectionDetailsForm;
 import org.kuali.student.ap.coursesearch.service.CourseDetailsViewHelperService;
 import org.kuali.student.ap.coursesearch.util.CourseDetailsUtil;
@@ -80,6 +81,10 @@ import java.util.UUID;
 public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl implements CourseDetailsViewHelperService {
     private static final Logger LOG = LoggerFactory.getLogger(CourseDetailsViewHelperServiceImpl.class);
 
+    // Text Keys matching the Template values of the Natural Language Templates used in the requisite rules
+    private static final String PREREQUISITE_KEY = "Student Eligibility & Prerequisite";
+    private static final String COREQUISITE_KEY = "Corequisite";
+    private static final String ANTIREQUISITE_KEY = "Antirequisite";
 
     /**
      * {@inheritDoc}
@@ -640,6 +645,52 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
 
         eventList.add("FILTER_COURSE_OFFERING", filterEvent);
         return eventList;
+    }
+
+    /**
+     * @see org.kuali.student.ap.coursesearch.service.CourseDetailsViewHelperService#setupActivityRequisitesDialog(String, org.kuali.student.ap.coursesearch.form.CourseSectionDetailsDialogForm)
+     */
+    @Override
+    public CourseSectionDetailsDialogForm setupActivityRequisitesDialog(String activityOfferingId, CourseSectionDetailsDialogForm form){
+        // Fill in addition information needed by the add dialog
+        ActivityOfferingInfo activity = null;
+        try {
+            activity = KsapFrameworkServiceLocator.getCourseOfferingService().getActivityOffering(activityOfferingId, KsapFrameworkServiceLocator.getContext().getContextInfo());
+        } catch (DoesNotExistException e) {
+            throw new IllegalArgumentException("CO Service lookup error", e);
+        } catch (InvalidParameterException e) {
+            throw new IllegalArgumentException("CO Service lookup error", e);
+        } catch (MissingParameterException e) {
+            throw new IllegalArgumentException("CO Service lookup error", e);
+        } catch (OperationFailedException e) {
+            throw new IllegalArgumentException("CO Service lookup error", e);
+        } catch (PermissionDeniedException e) {
+            throw new IllegalArgumentException("CO Service lookup error", e);
+        }
+        form.setCourseOfferingCode(activity.getCourseOfferingCode());
+        form.setCourseOfferingTitle(activity.getCourseOfferingTitle());
+
+        // Retrieve a map of requisites for the activity offerings
+        Map<String,List<String>> requisitesMap = CourseDetailsUtil.getActivityOfferingRequisitesMap(activity);
+
+        // Fill in the different types of requisites from the map
+        if(requisitesMap.containsKey(PREREQUISITE_KEY)){
+            form.setPrerequisites(requisitesMap.get(PREREQUISITE_KEY));
+        }else{
+            form.setPrerequisites(new ArrayList<String>());
+        }
+        if(requisitesMap.containsKey(COREQUISITE_KEY)){
+            form.setCorequisites(requisitesMap.get(COREQUISITE_KEY));
+        }else{
+            form.setCorequisites(new ArrayList<String>());
+        }
+        if(requisitesMap.containsKey(ANTIREQUISITE_KEY)){
+            form.setAntirequisites(requisitesMap.get(ANTIREQUISITE_KEY));
+        }else{
+            form.setAntirequisites(new ArrayList<String>());
+        }
+
+        return form;
     }
 
     /**

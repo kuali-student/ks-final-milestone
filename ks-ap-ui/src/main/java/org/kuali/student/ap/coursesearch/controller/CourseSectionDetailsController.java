@@ -290,40 +290,8 @@ public class CourseSectionDetailsController extends KsapControllerBase {
         dialogForm.setFormPostUrl(form.getFormPostUrl());
         dialogForm.setRequestUrl(form.getRequestUrl());
 
-        // Fill in addition information needed by the add dialog
-        String activityOfferingId = request.getParameter("activityOfferingId");
-        ActivityOfferingInfo activity = null;
-        try {
-            activity = KsapFrameworkServiceLocator.getCourseOfferingService().getActivityOffering(activityOfferingId, KsapFrameworkServiceLocator.getContext().getContextInfo());
-        } catch (DoesNotExistException e) {
-            throw new IllegalArgumentException("CO Service lookup error", e);
-        } catch (InvalidParameterException e) {
-            throw new IllegalArgumentException("CO Service lookup error", e);
-        } catch (MissingParameterException e) {
-            throw new IllegalArgumentException("CO Service lookup error", e);
-        } catch (OperationFailedException e) {
-            throw new IllegalArgumentException("CO Service lookup error", e);
-        } catch (PermissionDeniedException e) {
-            throw new IllegalArgumentException("CO Service lookup error", e);
-        }
-        dialogForm.setCourseOfferingCode(activity.getCourseOfferingCode());
-        dialogForm.setCourseOfferingTitle(activity.getCourseOfferingTitle());
-        List<String> requisites = CourseDetailsUtil.getActivityOfferingRequisites(activity);
-        requisites.add("Prereq 2");
-        requisites.add("Prereq 3");
-        requisites.add("Prereq 4");
-
-        List<String> corequisites = CourseDetailsUtil.getActivityOfferingRequisites(activity);
-        corequisites.add("Coreq 2");
-        corequisites.add("Coreq 2");
-
-        List<String> antirequisites = CourseDetailsUtil.getActivityOfferingRequisites(activity);
-        antirequisites.add("Antireq 2");
-        antirequisites.add("Antireq 2");
-
-        dialogForm.setPrerequisites(requisites);
-        dialogForm.setCorequisites(corequisites);
-        dialogForm.setAntirequisites(antirequisites);
+        dialogForm = getViewHelperService(dialogForm)
+                .setupActivityRequisitesDialog(request.getParameter("activityOfferingId"),dialogForm);
 
         return getUIFModelAndView(dialogForm);
     }
@@ -334,7 +302,7 @@ public class CourseSectionDetailsController extends KsapControllerBase {
      * @param form - Form helper is being retrieved for
      * @return Form's view helper
      */
-    private CourseDetailsViewHelperService getViewHelperService(CourseSectionDetailsForm form) {
+    private CourseDetailsViewHelperService getViewHelperService(UifFormBase form) {
         CourseDetailsViewHelperService viewHelperService = (CourseDetailsViewHelperService) form.getViewHelperService();
         return viewHelperService;
     }

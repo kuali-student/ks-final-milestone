@@ -18,6 +18,7 @@ import org.kuali.rice.krad.uif.service.ViewHelperService;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.ap.coursesearch.dataobject.ActivityOfferingDetailsWrapper;
 import org.kuali.student.ap.coursesearch.dataobject.CourseOfferingDetailsWrapper;
+import org.kuali.student.ap.coursesearch.form.CourseSectionDetailsDialogForm;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.r2.core.acal.infc.Term;
@@ -93,4 +94,12 @@ public interface CourseDetailsViewHelperService extends ViewHelperService {
      * @return  Current list of events being build with the new event added
      */
     public JsonObjectBuilder createFilterValidRegGroupsEvent(String termId, String courseOfferingCode, String formatOfferingId, List<RegistrationGroupInfo> regGroups, JsonObjectBuilder eventList);
+
+    /**
+     * Retrieves and fills in the information needed for displaying the requisite dialog for an activity offering
+     *
+     * @param activityOfferingId - Id of the activity being displayed
+     * @param form - Form for the dialog to fill in
+     */
+    public CourseSectionDetailsDialogForm setupActivityRequisitesDialog(String activityOfferingId, CourseSectionDetailsDialogForm form);
 }
