@@ -1665,6 +1665,9 @@
         <entry key="B.EILEENL" value="2012-09-05@00:01" />
         <entry key="E.DMITRYL" value="2012-09-05@00:01" />
         <entry key="B.ELEANORB" value="2012-09-05@00:01" />
+        <entry key="E.SONALIK" value="2012-03-05@00:01" />
+        <entry key="E.SOOB" value="2012-09-05@00:01" />
+        <entry key="E.STEVENJ" value="2012-10-22@00:01" />
         <entry key="TestStudent" value="2014-06-23@09:05" />
         <entry key="student1" value="2012-09-05@00:01" />
         <entry key="student2" value="2012-09-05@00:01" />
@@ -1673,7 +1676,7 @@
         <entry key="student5" value="2012-09-05@00:01" />
         <entry key="student6" value="2012-09-05@00:01" />
         <entry key="student7" value="2012-09-05@00:01" />
-        <entry key="student8" value="2012-10-20@00:01" />
+        <entry key="student8" value="2012-09-05@00:01" />
         <entry key="student9" value="2012-09-05@00:01" />
     </util:map>
 
