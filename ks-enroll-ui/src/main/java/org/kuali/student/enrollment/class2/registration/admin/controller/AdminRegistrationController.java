@@ -33,7 +33,7 @@ import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationC
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationIssue;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationIssueItem;
 import org.kuali.student.enrollment.class2.registration.admin.service.impl.AdminRegistrationViewHelperServiceImpl;
-import org.kuali.student.enrollment.class2.registration.service.CourseRegistrationKradViewHelperServiceImpl;
+import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -78,13 +78,27 @@ public class AdminRegistrationController extends UifControllerBase {
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=getStudentInfo")
     public ModelAndView getStudentInfo(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result,
                                        HttpServletRequest request, HttpServletResponse response) {
-        // Pretend service call to get student and populate
-        form.setStudentName("Allison Glass");
-        form.setStanding("Junior");
-        form.setProgram("Undergrad");
-        form.setDepartment("Arts and Humanites");
-        form.setMajor("Psychology");
-        form.setCredits("68");
+
+        if (GlobalVariables.getMessageMap().getErrorCount() > 0) {
+            return getUIFModelAndView(form);
+        }
+
+        this.validateUserPopulatedStudentIdField( form );
+        if( GlobalVariables.getMessageMap().hasErrors() ) {
+            return getUIFModelAndView( form );
+        }
+
+        try {
+
+            form.setStudentName(null);
+            this.getViewHelper(form).populateStudentInfo(form);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        if (GlobalVariables.getMessageMap().getErrorCount() > 0) {
+            return getUIFModelAndView(form);
+        }
+
 
         return getUIFModelAndView(form);
     }
@@ -351,6 +365,13 @@ public class AdminRegistrationController extends UifControllerBase {
         }
     }
 
+    private void validateUserPopulatedStudentIdField( AdminRegistrationForm form) {
+
+        String StudentId = form.getStudentId();
+        if( StringUtils.isBlank(StudentId) ) {
+            GlobalVariables.getMessageMap().putError("studentId", AdminRegConstants.ADMIN_REG_MSG_ERROR_STUDEND_REQUIRED);
+        }
+    }
     /**
      *
      * @param form

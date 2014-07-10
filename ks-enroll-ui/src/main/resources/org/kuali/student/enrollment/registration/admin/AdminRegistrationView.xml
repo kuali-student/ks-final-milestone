@@ -35,8 +35,8 @@
                 <property name="items">
                     <list>
                         <ref bean="KS-AdminRegistration-StudentInfo"/>
-                        <bean parent="Uif-Message" p:render="@{studentName == null}"
-                              p:messageText="Enter a student ID to get started."/>
+                        <!--<bean parent="Uif-Message" p:render="@{studentName == null}"-->
+                              <!--p:messageText="Enter a student ID to get started."/>-->
                         <ref bean="KS-AdminRegistration-ChangeTermSection"/>
                         <ref bean="KS-AdminRegistration-RegistrationTabs"/>
                     </list>
@@ -63,24 +63,30 @@
     </bean>
 
     <!-- Student Info Area-->
-    <bean id="KS-AdminRegistration-StudentInfo" parent="Uif-CssGridSection-1FieldLabelColumn">
+    <bean id="KS-AdminRegistration-StudentInfo" parent="Uif-HorizontalBoxSection" >
         <property name="header.render" value="false"/>
+        <!--<property name="layoutManager">-->
+            <!--<bean parent="Uif-CssGridLabelColumnLayout" p:numberOfLabelColumns="4"/>-->
+        <!--</property>-->
         <property name="items">
             <list>
-                <bean parent="Uif-HorizontalFieldGroup" p:label="Student Id">
-                    <!--property name="group.enterKeyAction" value="KS-AdminRegistration-StudentInfoGo"/-->
-                    <property name="group.items">
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="studentId">
-                                <property name="postInputAddons">
-                                    <list>
-                                        <ref bean="KS-AdminRegistration-StudentInfoGo"/>
-                                    </list>
+                            <bean parent="KS-Uif-InputField-LabelLeft" p:propertyName="studentId"
+                                  p:label="Student Id" p:required="true" p:readOnly="false" p:id="studentIdField">
+                                <property name="control">
+                                    <bean parent="KS-Uif-TextControl" p:size="12"/>
                                 </property>
+
                             </bean>
+                            <bean parent="Uif-SecondaryActionButton" p:performClientSideValidation="false"
+                                  p:actionLabel="Go" p:methodToCall="getStudentInfo"
+                                  p:jumpToIdAfterSubmit="TOP" p:ajaxSubmit="false" p:id="go_button"/>
                             <bean parent="Uif-MessageField" p:render="@{studentName != null}"
-                                  p:messageText="[b]@{studentName} (@{studentName})[/b] - @{program} - @{standing} (@{credits} credits) - @{major} (@{department})"/>
+                                  p:messageText="[b]@{studentName} (@{studentId})[/b]"/>
                         </list>
+
                     </property>
                 </bean>
             </list>

@@ -36,6 +36,7 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
     private String credits;
     private String major;
     private String department;
+    private String dob;
 
     private String termCode;
     private TermInfo termInfo;
@@ -148,6 +149,14 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
 
     public void setDepartment(String department) {
         this.department = department;
+    }
+
+    public String getDob() {
+        return dob;
+    }
+
+    public void setDob(String dob) {
+        this.dob = dob;
     }
 
     public String getTermCode() {

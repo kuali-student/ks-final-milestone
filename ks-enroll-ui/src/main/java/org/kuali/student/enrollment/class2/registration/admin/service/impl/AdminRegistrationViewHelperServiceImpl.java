@@ -1,32 +1,27 @@
 package org.kuali.student.enrollment.class2.registration.admin.service.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.kim.api.identity.IdentityService;
+import org.kuali.rice.kim.api.identity.affiliation.EntityAffiliation;
+import org.kuali.rice.kim.api.identity.entity.Entity;
+import org.kuali.rice.kim.api.identity.name.EntityName;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.common.uif.service.impl.KSViewHelperServiceImpl;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.ManageSocConstants;
+import org.kuali.student.enrollment.class2.grading.util.GradingConstants;
+import org.kuali.student.enrollment.class2.registration.admin.form.AdminRegistrationForm;
 import org.kuali.student.enrollment.class2.registration.admin.service.CourseRegAdminViewHelperService;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
-import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
-import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.r2.common.util.constants.LprServiceConstants;
+import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 
-import javax.security.auth.login.LoginException;
+import javax.xml.namespace.QName;
 import java.util.List;
 
 /**
@@ -89,4 +84,32 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
         }
     }
 
+    @Override
+    public void populateStudentInfo(AdminRegistrationForm form) throws Exception {
+
+        IdentityService identityService = (IdentityService) GlobalResourceLoader.getService(new QName(
+                GradingConstants.IDENTITY_SERVICE_URL, GradingConstants.IDENTITY_SERVICE_NAME));
+
+        String studentId = form.getStudentId();
+
+        Entity entityInfo = identityService.getEntity(studentId);
+        if ((entityInfo != null)) {
+            List<EntityAffiliation> entityAffiliationInfos = entityInfo.getAffiliations();
+            List<EntityName> entityNameInfos = entityInfo.getNames();
+
+            for (EntityAffiliation entityAffiliationInfo : entityAffiliationInfos) {
+                if (entityAffiliationInfo.getAffiliationType().getCode().equals("STDNT")) {
+                    for (EntityName entityNameInfo : entityNameInfos) {
+                        if (entityNameInfo.isDefaultValue()) {
+                            form.setStudentName(entityNameInfo.getFirstName() + " " + entityNameInfo.getLastName());
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+        else{
+            GlobalVariables.getMessageMap().putErrorForSectionId("KS-AdminRegistration-StudentInfo", AdminRegConstants.ADMIN_REG_MSG_ERROR_INVALID_STUDEND, form.getStudentId());
+        }
+    }
 }
