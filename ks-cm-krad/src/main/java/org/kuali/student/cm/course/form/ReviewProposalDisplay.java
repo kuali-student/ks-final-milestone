@@ -419,7 +419,7 @@ public class ReviewProposalDisplay {
 
         private String getIndentedLearningObjects(List<LoReviewSection> learningObjectivesList) {
 
-            if(learningObjectivesList==null || learningObjectivesList.size()==0) {
+            if(learningObjectivesList==null || learningObjectivesList.isEmpty()) {
                 return "";
             }
 
@@ -465,7 +465,7 @@ public class ReviewProposalDisplay {
 
                     List<LoReviewSection> subReviewSectionList = null;
 
-                    if(loDisplayInfo.getLoDisplayInfoList()!=null && loDisplayInfo.getLoDisplayInfoList().size()!=0) {
+                    if(loDisplayInfo.getLoDisplayInfoList()!=null && !loDisplayInfo.getLoDisplayInfoList().isEmpty()) {
                         subReviewSectionList = new ArrayList<LoReviewSection>();
                         build(subReviewSectionList,loDisplayInfo.getLoDisplayInfoList());
                     }
