@@ -106,7 +106,7 @@ public class CourseRuleEditorController extends RuleEditorController {
     public ModelAndView cancelEditRule(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                        HttpServletRequest request, HttpServletResponse response) {
 
-        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "KS-CourseView-CourseRequisitesPage");
+        form.getActionParameters().put("displaySection", "KS-CourseView-CourseRequisites-Section");
         return super.cancelEditRule(form, result, request, response);
     }
 
@@ -114,7 +114,7 @@ public class CourseRuleEditorController extends RuleEditorController {
     public ModelAndView updateRule(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                    HttpServletRequest request, HttpServletResponse response) {
 
-        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "KS-CourseView-CourseRequisitesPage");
+        form.getActionParameters().put("displaySection", "KS-CourseView-CourseRequisites-Section");
         
         RuleEditor ruleEditor = getRuleEditor(form);
 
