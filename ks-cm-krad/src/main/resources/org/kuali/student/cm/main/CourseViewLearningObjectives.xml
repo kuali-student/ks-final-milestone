@@ -174,8 +174,7 @@
                 <bean id="KS-LearningObjective-Category-SubSection" parent="Uif-TableCollectionGroup"
                       p:collectionObjectClass="org.kuali.student.r2.lum.lo.dto.LoCategoryInfo"
                       p:propertyName="loCategoryInfoList"
-                      p:onDocumentReadyScript="jQuery('#KS-LearningObjective-CategoryType_line'+@{#index}+'_add').hide();
-                        jQuery('#KS-LearningObjective-CategoryType_line'+@{#index}+'_add').closest('div[id^=&quot;learning_objective_section&quot;]').find('p.ks-informational-message-for-field').hide();">
+                      p:onDocumentReadyScript="hideCategoryTypeAndInfoMsg(@{#index})">
                     <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
                     <property name="layoutManager">
                         <bean parent="Uif-StackedCollectionLayout-WithBoxItems">

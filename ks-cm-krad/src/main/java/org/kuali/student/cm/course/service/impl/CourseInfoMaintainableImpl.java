@@ -457,7 +457,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                         categoryType = categoryItems[1].trim();
                     }
                     if (StringUtils.isNotBlank(categoryName)) {
-                        List<LoCategoryInfoWrapper> loCategoryInfoWrapper = ((CourseInfoMaintainable) ((MaintenanceDocumentForm) viewModel).getDocument().getNewMaintainableObject()).searchForLoCategories(categoryName);
+                        List<LoCategoryInfoWrapper> loCategoryInfoWrapper = searchForLoCategories(categoryName);
                         if (loCategoryInfoWrapper != null && !loCategoryInfoWrapper.isEmpty()) {
                             //Check against the each existing category and its type
                             for (LoCategoryInfoWrapper loCategoryInfoWrap : loCategoryInfoWrapper) {
