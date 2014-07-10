@@ -20,7 +20,7 @@ public class ActivityOfferingDetailsWrapper {
     private int maxEnrollment;
     private boolean honors;
     private String classUrl;
-    private List<String> activityOfferingRequisites;
+    private boolean hasActivityOfferingRequisites;
     private boolean selected;
     private String regGroupCode;
     private String regGroupId;
@@ -156,12 +156,12 @@ public class ActivityOfferingDetailsWrapper {
         this.classUrl = classUrl;
     }
 
-    public List<String> getActivityOfferingRequisites() {
-        return activityOfferingRequisites;
+    public boolean isHasActivityOfferingRequisites() {
+        return hasActivityOfferingRequisites;
     }
 
-    public void setActivityOfferingRequisites(List<String> activityOfferingRequisites) {
-        this.activityOfferingRequisites = activityOfferingRequisites;
+    public void setHasActivityOfferingRequisites(boolean hasActivityOfferingRequisites) {
+        this.hasActivityOfferingRequisites = hasActivityOfferingRequisites;
     }
 
     public boolean isSelected() {

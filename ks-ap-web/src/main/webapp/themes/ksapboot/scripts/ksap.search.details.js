@@ -112,7 +112,7 @@ function ksapAddCourseSection (data){
                 item2Element.find("#classUrl").addClass("ksap-hide");
             }
 
-            if(activity.activityOfferingRequisites == null){
+            if(activity.activityOfferingRequisites == false){
                 item2Element.find("#requirementsUrl").addClass("ksap-hide");
             }
 

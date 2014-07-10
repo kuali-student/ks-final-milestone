@@ -538,7 +538,7 @@
                                                           p:linkText="@{#textHelper.getText('details.ao.additionalDetails.courseUrl')}"
                                                           p:target="_blank"/>
                                                     <bean parent="Uif-ActionLink"
-                                                          p:render="@{#line.activityOfferingRequisites != null}"
+                                                          p:render="@{#line.hasActivityOfferingRequisites}"
                                                           p:id="requirementsUrl"
                                                           p:additionalCssClasses="ksap-section-details-item"
                                                           p:actionLabel="@{#textHelper.getText('details.ao.additionalDetails.restrictions')}"
@@ -780,7 +780,7 @@
                                   p:linkText="@{#textHelper.getText('details.ao.additionalDetails.courseUrl')}"
                                   p:target="_blank"/>
                             <bean parent="Uif-ActionLink"
-                                  p:render="@{#line.activityOfferingRequisites != null}"
+                                  p:render="@{#line.hasActivityOfferingRequisites}"
                                   p:id="requirementsUrl"
                                   p:additionalCssClasses="ksap-section-details-item"
                                   p:actionLabel="@{#textHelper.getText('details.ao.additionalDetails.restrictions')}"

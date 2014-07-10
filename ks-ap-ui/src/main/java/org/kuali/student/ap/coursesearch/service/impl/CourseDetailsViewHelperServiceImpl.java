@@ -400,7 +400,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
 
 
         if (aoRequisites.size()>0)
-            wrapper.setActivityOfferingRequisites(aoRequisites);
+            wrapper.setHasActivityOfferingRequisites(true);
 
         wrapper.setInPlan(false);
         List<RegistrationGroupInfo> regGroups = null;
@@ -557,7 +557,6 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
             String time = "";
             String location = "";
             String classUrl = "";
-            List<String> requisites = new ArrayList<String>();
 
             // activities in the reg group will have the same reg group code.
             regGroupCode=activity.getRegGroupCode();
@@ -567,7 +566,6 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
             if(activity.getDays()!=null) days = activity.getDays();
             if(activity.getTime()!=null) time = activity.getTime();
             if(activity.getLocation()!=null) location = activity.getLocation();
-            if(activity.getActivityOfferingRequisites()!=null) requisites = activity.getActivityOfferingRequisites();
             if(activity.getClassUrl()!=null) classUrl = activity.getClassUrl();
 
             // Add data to json for activity
@@ -584,11 +582,8 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
             activityEvent.add("honors", activity.isHonors());
             activityEvent.add("classUrl", classUrl);
             JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
-            for (String requisit : requisites) {
-                jsonArrayBuilder.add(requisit);
-            }
 
-            activityEvent.add("requisites", jsonArrayBuilder);
+            activityEvent.add("activityOfferingRequisites", activity.isHasActivityOfferingRequisites());
             activityEvents.add(activityEvent);
         }
         addEvent.add("activities", activityEvents);
