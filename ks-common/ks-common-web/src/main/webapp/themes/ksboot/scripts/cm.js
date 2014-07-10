@@ -1009,3 +1009,7 @@ function hideCategoryTypeAndInfoMsg(index) {
     jQuery('#KS-LearningObjective-CategoryType_line' + index + '_add').hide();
     jQuery('#KS-LearningObjective-CategoryType_line' + index + '_add').closest('div[id^="learning_objective_section"]').find('p.ks-informational-message-for-field').hide();
 }
+
+function setDirtyManually (dirtyFlag) {
+    dirtyFormState.dirtyFormInput.val(dirtyFlag);
+}
