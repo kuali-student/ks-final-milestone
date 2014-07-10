@@ -77,6 +77,16 @@ public class AcademicRecordServiceDecorator
     }
 
     @Override
+    public List<StudentCourseRecordInfo> getStudentCourseRecordsForCourses(String personId, List<String> courseIds, ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        return nextDecorator.getStudentCourseRecordsForCourses(personId, courseIds, contextInfo);
+    }
+
+    @Override
     public List<StudentCourseRecordInfo> getCompletedCourseRecordsForCourse(String personId, String courseId,
             ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException,

@@ -198,7 +198,24 @@ public class AcademicRecordServiceClass2MockImpl implements
         if (!studentToCourseRecordsMap.keySet().contains(personId))
             throw new DoesNotExistException("No course records for student Id = " + personId);
 
-        return studentToCourseRecordsMap.get(personId);
+        List<StudentCourseRecordInfo> studentCourseRecords = studentToCourseRecordsMap.get(personId);
+        List<StudentCourseRecordInfo> studentCourseRecordsFiltered = new ArrayList<StudentCourseRecordInfo>();
+
+        for(StudentCourseRecordInfo studentCourseRecord : studentCourseRecords) {
+            if(studentCourseRecord.getId().equals(courseId)) {
+                studentCourseRecordsFiltered.add(studentCourseRecord);
+            }
+        }
+        return studentCourseRecordsFiltered;
+    }
+
+    @Override
+    public List<StudentCourseRecordInfo> getStudentCourseRecordsForCourses(String personId, List<String> courseIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<StudentCourseRecordInfo> studentCourseRecords = new ArrayList<StudentCourseRecordInfo>();
+        for(String courseId : courseIds) {
+            studentCourseRecords.addAll(getStudentCourseRecordsForCourse(personId, courseId, contextInfo));
+        }
+        return studentCourseRecords;
     }
 
     /* (non-Javadoc)

@@ -147,6 +147,20 @@ public class AcademicRecordServiceImpl implements AcademicRecordService{
     }
 
     @Override
+    public List<StudentCourseRecordInfo> getStudentCourseRecordsForCourses(String personId, List<String> courseIds, ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        List<StudentCourseRecordInfo> studentCourseRecords = new ArrayList<StudentCourseRecordInfo>();
+        for(String courseId : courseIds) {
+            studentCourseRecords.addAll(getStudentCourseRecordsForCourse(personId, courseId, contextInfo));
+        }
+        return studentCourseRecords;
+    }
+
+    @Override
 	public List<StudentCourseRecordInfo> getCompletedCourseRecordsForTerm(
 			String personId, String termId, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
