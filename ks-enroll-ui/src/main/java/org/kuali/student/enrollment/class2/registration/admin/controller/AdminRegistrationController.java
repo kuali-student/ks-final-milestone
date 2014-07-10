@@ -20,14 +20,21 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.io.SerializationUtils;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.common.uif.util.KSControllerHelper;
+import org.kuali.student.enrollment.class2.courseoffering.util.ManageSocConstants;
 import org.kuali.student.enrollment.class2.registration.admin.form.AdminRegistrationForm;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationActivity;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationCourse;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationIssue;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationIssueItem;
+import org.kuali.student.enrollment.class2.registration.admin.service.impl.AdminRegistrationViewHelperServiceImpl;
+import org.kuali.student.enrollment.class2.registration.service.CourseRegistrationKradViewHelperServiceImpl;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -78,6 +85,23 @@ public class AdminRegistrationController extends UifControllerBase {
         form.setDepartment("Arts and Humanites");
         form.setMajor("Psychology");
         form.setCredits("68");
+
+        return getUIFModelAndView(form);
+    }
+
+    @MethodAccessible
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=getRegistrationInfo")
+    public ModelAndView getTermInfo(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result,
+                                    HttpServletRequest request, HttpServletResponse response) {
+
+       if(form.getTermCode() != null){
+            TermInfo term = getViewHelper(form).getTermByCode(form.getTermCode());
+            if(term!=null){
+                form.setTermInfo(term);
+            }
+        }else{
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, ManageSocConstants.MessageKeys.ERROR_INVALID_TERM);
+        }
 
         return getUIFModelAndView(form);
     }
@@ -326,4 +350,12 @@ public class AdminRegistrationController extends UifControllerBase {
         }
     }
 
+    /**
+     *
+     * @param form
+     * @return
+     */
+    protected AdminRegistrationViewHelperServiceImpl getViewHelper(UifFormBase form) {
+        return (AdminRegistrationViewHelperServiceImpl) KSControllerHelper.getViewHelperService(form);
+    }
 }

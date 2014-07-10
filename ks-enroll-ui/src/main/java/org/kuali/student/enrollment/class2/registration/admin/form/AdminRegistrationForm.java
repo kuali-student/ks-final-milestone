@@ -17,6 +17,7 @@
 package org.kuali.student.enrollment.class2.registration.admin.form;
 
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -36,8 +37,8 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
     private String major;
     private String department;
 
-    private String termName = "Fall 2012";
-    private String termId = "11111";
+    private String termCode;
+    private TermInfo termInfo;
 
     private RegistrationCourse pendingDropCourse;
 
@@ -148,20 +149,20 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
         this.department = department;
     }
 
-    public String getTermName() {
-        return termName;
+    public String getTermCode() {
+        return termCode;
     }
 
-    public void setTermName(String termName) {
-        this.termName = termName;
+    public void setTermCode(String termCode) {
+        this.termCode = termCode;
     }
 
-    public String getTermId() {
-        return termId;
+    public TermInfo getTermInfo() {
+        return termInfo;
     }
 
-    public void setTermId(String termId) {
-        this.termId = termId;
+    public void setTermInfo(TermInfo termInfo) {
+        this.termInfo = termInfo;
     }
 
     public List<RegistrationCourse> getRegisteredCourses() {

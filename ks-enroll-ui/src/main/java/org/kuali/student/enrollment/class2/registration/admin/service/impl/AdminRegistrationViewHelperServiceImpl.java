@@ -1,5 +1,13 @@
 package org.kuali.student.enrollment.class2.registration.admin.service.impl;
 
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.student.common.uif.service.impl.KSViewHelperServiceImpl;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
+import org.kuali.student.enrollment.class2.courseoffering.util.ManageSocConstants;
 import org.kuali.student.enrollment.class2.registration.admin.service.CourseRegAdminViewHelperService;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
@@ -15,13 +23,16 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 
 import javax.security.auth.login.LoginException;
+import java.util.List;
 
 /**
  * Created by SW Genis on 2014/07/04.
  */
-public class AdminRegistrationViewHelperServiceImpl implements CourseRegAdminViewHelperService {
+public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceImpl implements CourseRegAdminViewHelperService {
 
     @Override
     public void getRegistrationStatus() {
@@ -48,6 +59,34 @@ public class AdminRegistrationViewHelperServiceImpl implements CourseRegAdminVie
 
         // submit the request to the registration engine.
         //return CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().submitRegistrationRequest(newRegReq.getId(), contextInfo);
+    }
+
+    @Override
+    public TermInfo getTermByCode(String termCode) {
+
+        try{
+            QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+
+            qbcBuilder.setPredicates(PredicateFactory.equal(CourseOfferingConstants.ATP_CODE, termCode));
+
+            QueryByCriteria criteria = qbcBuilder.build();
+
+            AcademicCalendarService acalService = CourseOfferingManagementUtil.getAcademicCalendarService();
+            List<TermInfo> terms = acalService.searchForTerms(criteria, createContextInfo());
+            int firstTerm = 0;
+            if (terms.size() > 1) {
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, ManageSocConstants.MessageKeys.ERROR_MULTIPLE_TERMS);
+                return null;
+            }
+            if (terms.isEmpty()) {
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, ManageSocConstants.MessageKeys.ERROR_INVALID_TERM);
+                return null;
+            }
+            return terms.get(firstTerm);
+        }catch (Exception e){
+//            LOG.debug("Error getting term for the code - {}", termCode);
+            throw convertServiceExceptionsToUI(e);
+        }
     }
 
 }

@@ -37,11 +37,13 @@
                         <ref bean="KS-AdminRegistration-StudentInfo"/>
                         <bean parent="Uif-Message" p:render="@{studentName == null}"
                               p:messageText="Enter a student ID to get started."/>
+                        <ref bean="KS-AdminRegistration-ChangeTermSection"/>
                         <ref bean="KS-AdminRegistration-RegistrationTabs"/>
                     </list>
                 </property>
             </bean>
         </property>
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.registration.admin.service.impl.AdminRegistrationViewHelperServiceImpl"/>
         <property name="formClass" value="org.kuali.student.enrollment.class2.registration.admin.form.AdminRegistrationForm"/>
         <property name="dialogs">
             <list>
@@ -88,24 +90,34 @@
     <bean id="KS-AdminRegistration-StudentInfoGo" parent="Uif-SecondaryActionButton" p:actionLabel="Go"
           p:methodToCall="getStudentInfo"/>
 
-    <bean id="KS-AdminRegistration-RegistrationTabs" p:render="@{studentName != null}" parent="Uif-TabSection"
-          p:headerText="Schedule - @{termName}">
-        <property name="header.lowerGroup">
-            <bean parent="Uif-HorizontalBoxGroup">
-                <property name="items">
-                    <list>
-                        <bean parent="Uif-InputField" p:label="Change Term" p:propertyName="termId">
-                            <property name="postInputAddons">
-                                <list>
-                                    <bean parent="Uif-SecondaryActionButton" p:actionLabel="Go"
-                                          p:methodToCall="getRegistrationInfo"/>
-                                </list>
-                            </property>
-                        </bean>
-                    </list>
-                </property>
-            </bean>
+    <bean id="KS-AdminRegistration-ChangeTermSection" parent="Uif-HorizontalBoxSection"
+          p:id="registrationChangeTermSection" p:render="@{studentName != null}" >
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalBoxSection" >
+                    <property name="items" >
+                        <list>
+                            <bean parent="Uif-Label" p:labelText="Change Term"/>
+                            <bean parent="Uif-InputField" p:propertyName="termCode">
+                                <!-- Constrain to 6 digits and use a custom message. -->
+                                <property name="validCharactersConstraint">
+                                    <bean parent="NumericPatternConstraint" p:messageKey="error.enroll.courseoffering.termcode.invalid" p:value="^\d{6}$"/>
+                                </property>
+
+                                <property name="control">
+                                    <bean parent="KS-Uif-TextControl" p:size="6" p:watermarkText="201301" p:minLength="6" p:maxLength="6"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-SecondaryActionButton" p:actionLabel="Go" p:methodToCall="getRegistrationInfo"/>
+                            <bean parent="Uif-MessageField" p:messageText="[b]termCode[/b]"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
         </property>
+    </bean>
+
+    <bean id="KS-AdminRegistration-RegistrationTabs" p:render="@{studentName != null}" parent="Uif-TabSection">
         <property name="items">
             <list>
                 <ref bean="KS-AdminRegistration-RegisteredTab"/>
