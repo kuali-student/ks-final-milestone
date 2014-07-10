@@ -240,7 +240,8 @@
       float: left;
       padding: 0 3px;
     }
-    .ksap-section-details-item:first-child {
+    .ksap-section-details-item:first-child,
+    .ksap-hide + .ksap-section-details-item { //Elements are hidden (instead of not displayed entirely) on dynamic update; this stops us from displaying the left border in these cases
       border-left:0;
       padding-left: 0;
     }
@@ -355,18 +356,19 @@
     margin-left: 10px;
     margin-top: 10px;
   }
-}
 
-.ksap-invalid-activity {
+  // Section Formats
+  .ksap-invalid-activity {
     color: #ccc;
 
     input[type='checkbox'] {
-        display: none;
+      display: none;
     }
-}
+  }
 
-.ksap-invalid-format {
+  .ksap-invalid-format {
     color: #ccc;
+  }
 }
 
 
