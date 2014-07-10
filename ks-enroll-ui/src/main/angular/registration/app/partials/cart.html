@@ -133,7 +133,7 @@
                         <div class="kscr-Card-reason-label"><strong>Reason:</strong></div>
                         <div class="kscr-Card-reason-messages">
                             <div class="kscr-Card-reason-message" ng-repeat="message in cartResultItem.statusMessages">
-                                <span ng-bind-html="message | formatValidationMessage:cartResultItem:messages"></span>
+                                <span id="reason_message_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}" ng-bind-html="message | formatValidationMessage:cartResultItem:messages"></span>
                             </div>
                         </div>
                     </div>
