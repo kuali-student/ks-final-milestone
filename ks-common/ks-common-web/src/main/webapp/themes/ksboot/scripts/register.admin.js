@@ -13,52 +13,58 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-var timer;
+var polling = false;
+var delay = null;
 
 function startPolling(time) {
-    if (!timer) {
-        timer = setInterval(function(){queryForRefresh()},time);
+    if(!polling) {
+        delay = time;
+        polling = true;
+        sendPoll();
     }
 }
 
 function stopPolling(){
-    if (timer) {
-        clearInterval(timer);
-        timer = null;
-    }
+    polling = false;
+    delay = null;
 }
 
-function queryForRefresh() {
-    var url = jQuery("#" + kradVariables.KUALI_FORM).attr("action");
-    var queryData = {};
+function sendPoll() {
 
-    console.log("Query");
+    if(polling){
+        var url = jQuery("#" + kradVariables.KUALI_FORM).attr("action");
+        var queryData = {};
 
-    queryData.methodToCall = "regUpdateQuery";
-    queryData.ajaxRequest = true;
-    queryData.ajaxReturnType = "update-none";
-    queryData.formKey = jQuery("input[name='" + kradVariables.FORM_KEY + "']").val();
+        console.log("Query");
 
-    jQuery.ajax({
-        url: url,
-        dataType: "json",
-        beforeSend: null,
-        complete: null,
-        error: null,
-        data: queryData,
-        success: function(data){
-            var updateIds = data.updateIds;
-            var stop = data.stop;
+        queryData.methodToCall = "regUpdateQuery";
+        queryData.ajaxRequest = true;
+        queryData.ajaxReturnType = "update-none";
+        queryData.formKey = jQuery("input[name='" + kradVariables.FORM_KEY + "']").val();
 
-            jQuery(updateIds).each(function(index, id){
-                retrieveComponent(id);
-            });
+        jQuery.ajax({
+            url: url,
+            dataType: "json",
+            beforeSend: null,
+            complete: null,
+            error: null,
+            data: queryData,
+            success: function(data){
+                var updateIds = data.updateIds;
+                var stop = data.stop;
 
-            // if no more updates expected, stop polling
-            if (stop) {
-                clearInterval(timer);
-                timer = null;
+                jQuery(updateIds).each(function(index, id){
+                    retrieveComponent(id);
+                });
+
+                // if no more updates expected, stop polling
+                if (!stop) {
+                    setTimeout(sendPoll, delay);
+                }else{
+                    stopPolling();
+                }
+
             }
-        }
-    });
+        });
+    }
 }
