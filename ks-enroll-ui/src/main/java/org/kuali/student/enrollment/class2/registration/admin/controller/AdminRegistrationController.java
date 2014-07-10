@@ -83,9 +83,9 @@ public class AdminRegistrationController extends UifControllerBase {
             return getUIFModelAndView(form);
         }
 
-        this.validateUserPopulatedStudentIdField( form );
-        if( GlobalVariables.getMessageMap().hasErrors() ) {
-            return getUIFModelAndView( form );
+        this.validateUserPopulatedStudentIdField(form);
+        if (GlobalVariables.getMessageMap().hasErrors()) {
+            return getUIFModelAndView(form);
         }
 
         try {

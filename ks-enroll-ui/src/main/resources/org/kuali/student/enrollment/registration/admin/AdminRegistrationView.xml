@@ -74,7 +74,7 @@
                     <property name="items">
                         <list>
                             <bean parent="KS-Uif-InputField-LabelLeft" p:propertyName="studentId"
-                                  p:label="Student Id" p:required="true" p:readOnly="false" p:id="studentIdField">
+                                  p:label="Student ID" p:required="true" p:readOnly="false" p:id="studentIdField">
                                 <property name="control">
                                     <bean parent="KS-Uif-TextControl" p:size="12"/>
                                 </property>
@@ -83,7 +83,7 @@
                             <bean parent="Uif-SecondaryActionButton" p:performClientSideValidation="false"
                                   p:actionLabel="Go" p:methodToCall="getStudentInfo"
                                   p:jumpToIdAfterSubmit="TOP" p:ajaxSubmit="false" p:id="go_button"/>
-                            <bean parent="Uif-MessageField" p:render="@{studentName != null}"
+                            <bean parent="Uif-MessageField" p:render="@{studentId != null}"
                                   p:messageText="[b]@{studentName} (@{studentId})[/b]"/>
                         </list>
 
