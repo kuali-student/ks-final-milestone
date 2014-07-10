@@ -792,69 +792,6 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         return resultInfo;
     }
 
-    protected SearchResultInfo searchForRegGroupsByRegGroupIdInternalNotWorking(String regGroupId,  List<String> regGroupStates) throws OperationFailedException {
-        SearchResultInfo resultInfo = new SearchResultInfo();
-
-        String queryStr =
-                "SELECT rg2ao.relatedLui.id as aoId," +
-                        "       rg2ao.lui.id as rgId," +
-                        "       fo2ao.lui.id as foId," +
-                        "       co2fo.lui.id as coId," +
-                        "       rg2ao.lui.name as rgName," +
-                        "       rg2ao.lui.luiState as rgState, " +
-                        "       rg2ao.lui.atpId as atpId, " +
-                        "       rgAttr.value as isGenerated, " +
-                        "       aoClusterAttr.value as aoClusterId, " +
-                        "       rg2ao.lui.identifiers.code as rgCode "    +
-                        "FROM LuiLuiRelationEntity co2fo," +
-                        "     LuiLuiRelationEntity fo2ao," +
-                        "     LuiLuiRelationEntity rg2ao, " +
-                        " IN (rg2ao.lui.attributes ) as rgAttr, " +
-                        " IN (rg2ao.lui.attributes ) as aoClusterAttr  " +
-                        "WHERE co2fo.luiLuiRelationType = '" + LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_CO_TO_FO_TYPE_KEY + "' " +
-                        "  AND fo2ao.luiLuiRelationType = '" + LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_AO_TYPE_KEY + "' " +
-                        "  AND rg2ao.luiLuiRelationType = '" + LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY + "' " +
-                        "  AND rg2ao.lui.id = :rgId " +
-                        "  AND co2fo.relatedLui.id = fo2ao.lui.id " +
-                        "  AND rg2ao.relatedLui.id = fo2ao.relatedLui.id " +
-                        "  AND rgAttr.name = :isGeneratedName " +
-                        "  AND aoClusterAttr.name = :aoClusterIdName " +
-                        "  AND rg2ao.lui.identifiers.type = :identifierType ";
-
-        if(regGroupStates != null && !regGroupStates.isEmpty()) {
-            queryStr = queryStr + " AND rg2ao.lui.luiState IN(:regGroupStates)";
-        }
-
-        Query query = entityManager.createNativeQuery(queryStr);
-        query.setParameter(SearchParameters.RG_ID, regGroupId);
-        query.setParameter("isGeneratedName", CourseOfferingServiceConstants.IS_REGISTRATION_GROUP_GENERATED_INDICATOR_ATTR);
-        query.setParameter("aoClusterIdName", CourseOfferingServiceConstants.AOCLUSTER_ID_ATTR);
-        query.setParameter("identifierType", LuiServiceConstants.LUI_IDENTIFIER_OFFICIAL_TYPE_KEY);
-
-
-        if(regGroupStates != null && !regGroupStates.isEmpty()) {
-            query.setParameter(SearchParameters.REGGROUP_STATES, regGroupStates);
-        }
-        List<Object[]> results = query.getResultList();
-
-        for(Object[] resultRow : results){
-            int i = 0;
-            SearchResultRowInfo row = new SearchResultRowInfo();
-            row.addCell(SearchResultColumns.AO_ID, (String)resultRow[i++]);
-            row.addCell(SearchResultColumns.RG_ID, (String)resultRow[i++]);
-            row.addCell(SearchResultColumns.FO_ID, (String)resultRow[i++]);
-            row.addCell(SearchResultColumns.CO_ID, (String)resultRow[i++]);
-            row.addCell(SearchResultColumns.RG_NAME, (String)resultRow[i++]);
-            row.addCell(SearchResultColumns.RG_STATE, (String)resultRow[i++]);
-            row.addCell(SearchResultColumns.ATP_ID, (String)resultRow[i++]);
-            row.addCell("isGenerated", (String)resultRow[i++]);
-            row.addCell("aoClusterId", (String)resultRow[i++]);
-            row.addCell("rgCode", (String)resultRow[i++]);
-            resultInfo.getRows().add(row);
-        }
-
-        return resultInfo;
-    }
 
     /**
      *
