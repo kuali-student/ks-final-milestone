@@ -118,6 +118,11 @@ public class CourseRuleEditorController extends RuleEditorController {
         
         RuleEditor ruleEditor = getRuleEditor(form);
 
+        //workaround to display browser warning when leaving course requisite screen without saving
+        MaintenanceDocumentForm ruleMaintenanceForm = (MaintenanceDocumentForm) form;
+        CourseRuleManagementWrapper courseRuleMgtWrapper = (CourseRuleManagementWrapper) AgendaUtilities.getRuleWrapper(ruleMaintenanceForm);
+        courseRuleMgtWrapper.setAgendaDirty(true);
+
         //Return with error message if user is currently editing a proposition.
         PropositionEditor proposition = PropositionTreeUtil.getProposition(ruleEditor);
         if ((proposition!=null) && (proposition.isEditMode())) {
@@ -133,7 +138,7 @@ public class CourseRuleEditorController extends RuleEditorController {
         this.getViewHelper(form).refreshViewTree(ruleEditor);
 
         //Replace edited rule with existing rule.
-        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper)((MaintenanceDocumentForm)form).getDocument().getNewMaintainableObject().getDataObject();
+        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper)(ruleMaintenanceForm).getDocument().getNewMaintainableObject().getDataObject();
         AgendaEditor agendaEditor = AgendaUtilities.getSelectedAgendaEditor(courseInfoWrapper, ruleEditor.getKey());
         agendaEditor.getRuleEditors().put(ruleEditor.getKey(), ruleEditor);
 
@@ -164,6 +169,9 @@ public class CourseRuleEditorController extends RuleEditorController {
             dummyRule.setParent(ruleEditor.getParent());
             agenda.getRuleEditors().put(ruleEditor.getKey(), dummyRule);
         }
+        //workaround to display browser warning when leaving course requisite screen without saving
+        CourseRuleManagementWrapper courseRuleMgtWrapper = (CourseRuleManagementWrapper) AgendaUtilities.getRuleWrapper(documentForm);
+        courseRuleMgtWrapper.setAgendaDirty(true);
 
         return getUIFModelAndView(documentForm);
     }
