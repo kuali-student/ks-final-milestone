@@ -149,7 +149,11 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="KS-Uif-DataField" p:label="Status" p:propertyName="stateName"/>
+
+                <bean parent="KS-Uif-DataField" p:label="Status" p:propertyName="labelState" p:escapeHtmlInPropertyValue="false"/>
+
+
+
                 <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.labelText="Activity Code"
                       p:render="@{#lp.driverPerAO}">
                     <property name="items">
@@ -212,7 +216,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="KS-Uif-DataField" p:label="Status" p:propertyName="stateName"/>
+                <bean parent="KS-Uif-DataField" p:label="Status" p:propertyName="labelState" p:escapeHtmlInPropertyValue="false"/>
                 <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.labelText="Activity Code" p:render="@{#lp.driverPerAO}">
                     <property name="items">
                         <list>
