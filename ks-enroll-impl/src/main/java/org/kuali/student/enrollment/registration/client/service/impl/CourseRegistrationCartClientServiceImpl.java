@@ -68,12 +68,11 @@ public class CourseRegistrationCartClientServiceImpl extends CourseRegistrationC
         } catch (MissingOptionException e) {
             String technicalInfo = String.format("Unable to add item to cart. Technical Info:(cartId:[%s] courseCode:[%s] regGroupCode:[%s] regGroupId:[%s] gradingOptionId:[%s] credits:[%s] )",
                     cartId, courseCode, regGroupCode, regGroupId, gradingOptionId, credits);
-            LOGGER.error(technicalInfo,e);
             response = getResponse(Response.Status.BAD_REQUEST, e.getCartItemOptions());
         } catch (DoesNotExistException e) {
             String technicalInfo = String.format("Unable to add item to cart. Technical Info:(cartId:[%s] courseCode:[%s] regGroupCode:[%s] regGroupId:[%s] gradingOptionId:[%s] credits:[%s] )",
                     cartId, courseCode, regGroupCode, regGroupId, gradingOptionId, credits);
-            LOGGER.error(technicalInfo,e);
+            LOGGER.warn(technicalInfo,e);
             //The reg request does not exist (HTTP status 404 Not Found)
             response = getResponse(Response.Status.NOT_FOUND, e.getMessage());
         } catch (GenericUserException e) {

@@ -29,6 +29,7 @@ import org.kuali.rice.kim.api.identity.entity.EntityDefaultQueryResults;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.student.common.collection.KSCollectionUtils;
+import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
@@ -51,7 +52,6 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.common.util.TimeOfDayHelper;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
@@ -76,6 +76,8 @@ import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -91,6 +93,8 @@ import java.util.Map;
  * @author Kuali Student Team
  */
 public class CourseRegistrationAndScheduleOfClassesUtil {
+
+    public static final Logger LOGGER = LoggerFactory.getLogger(CourseRegistrationAndScheduleOfClassesUtil.class);
 
     private static SearchService searchService;
     private static LprService lprService;
@@ -359,6 +363,9 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
 
         if (rg == null) {
             if (courseCode != null && !StringUtils.isEmpty(courseCode)) {
+                String technicalInfo = String.format("getRegGroup. Cannot find Course. Technical Info:(termId:[%s] termCode:[%s] courseCode:[%s] regGroupCode:[%s] regGroupId:[%s])",
+                        termId, termCode, courseCode, regGroupCode, regGroupId);
+                LOGGER.warn(technicalInfo);
                 throw new DoesNotExistException("Cannot find the course " + courseCode + " in the selected term");
             } else {
                 throw new DoesNotExistException("Course Code cannot be empty");
