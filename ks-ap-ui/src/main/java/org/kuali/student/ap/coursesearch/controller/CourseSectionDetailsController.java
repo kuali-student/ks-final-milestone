@@ -181,7 +181,7 @@ public class CourseSectionDetailsController extends KsapControllerBase {
     }
 
     /**
-     * Handles the filtering of activities when one is selected on the page
+     * Handles the fitlering of activities when one is selected on the page
      * Requires the activity id of the one selected
      * Requires the list of activity ids of all activities that are checked.
      * Returns null for the method but writes json objects for the page to use in dynamic updating

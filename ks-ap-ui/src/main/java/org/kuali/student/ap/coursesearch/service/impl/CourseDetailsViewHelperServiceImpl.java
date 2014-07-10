@@ -683,7 +683,6 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
     private List<RegistrationGroupInfo> getValidRegGroupsFilteredByPlan(List<RegistrationGroupInfo> regGroups){
         LearningPlan learningPlan = KsapFrameworkServiceLocator.getPlanHelper().getDefaultLearningPlan();
         List<RegistrationGroupInfo> validGroups = new ArrayList<RegistrationGroupInfo>();
-        List<String> plannedActivityOfferingIds = new ArrayList<String>();
         for(RegistrationGroupInfo group : regGroups){
             //Check if there exist a plan item in the plan for the reg group
             try {
@@ -691,11 +690,8 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
                         .getPlanItemsInPlanByRefObjectIdByRefObjectType(learningPlan.getId(), group.getId(),
                                 PlanConstants.REG_GROUP_TYPE, KsapFrameworkServiceLocator.getContext().getContextInfo());
                 if(item ==null || item.isEmpty()){
-                    // If plan item does not exist reg group is (temporarily) valid
+                    // If plan item does not exist reg group is valid
                     validGroups.add(group);
-                } else {
-                    // Keep track of activities in a plan item so we can have them to further filter out other groups that may also contain one of these activities
-                    plannedActivityOfferingIds.addAll(group.getActivityOfferingIds());
                 }
             } catch (InvalidParameterException e) {
                 throw new IllegalArgumentException("AP lookup error", e);
@@ -705,14 +701,6 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
                 throw new IllegalArgumentException("AP lookup error", e);
             } catch (PermissionDeniedException e) {
                 throw new IllegalArgumentException("AP lookup error", e);
-            }
-        }
-
-        //Check to see if there are any overlapping activities and remove groups that are no longer valid
-        for (String plannedActivityOfferingId : plannedActivityOfferingIds) {
-            for(RegistrationGroupInfo group : regGroups){
-                if (group.getActivityOfferingIds().contains(plannedActivityOfferingId))
-                    validGroups.remove(group);
             }
         }
         return validGroups;
