@@ -45,6 +45,8 @@ public class StaticUserDateUtil {
     private static final Map<String, DateTime> PRE_LOADED_MAP = new ConcurrentHashMap<String, DateTime>();
     private static final KSDateTimeFormatter DATE_TIME_FORMATTER = DateFormatters.SIMPLE_DATE_TIME_FORMATTER;
 
+    private static boolean useStaticDates;
+
     private StaticUserDateUtil() {
 
     }
@@ -74,7 +76,7 @@ public class StaticUserDateUtil {
             throw new InvalidParameterException("Cannot get date from map, userId is null");
         }
         String date = null;
-        DateTime dateTime = STATIC_DATE_MAP.get(userId);
+        DateTime dateTime = getStaticDateTimeForUser(userId);
         if (dateTime != null) {
             date = formatDate(dateTime);
         }
@@ -99,7 +101,7 @@ public class StaticUserDateUtil {
      */
     public static List<UserDateResult> getDatesFromMap() {
         List<UserDateResult> userDateResults = new ArrayList<UserDateResult>();
-        for (Map.Entry<String, DateTime> entry:STATIC_DATE_MAP.entrySet()) {
+        for (Map.Entry<String, DateTime> entry : STATIC_DATE_MAP.entrySet()) {
             userDateResults.add(new UserDateResult(entry.getKey(), formatDate(entry.getValue())));
         }
         return userDateResults;
@@ -119,8 +121,8 @@ public class StaticUserDateUtil {
         if (regUserMap != null) {
             for (Map.Entry<String, String> entry:regUserMap.entrySet()) {
                 try {
-                    String key=entry.getKey();
-                    DateTime value=parseString(entry.getValue());
+                    String key = entry.getKey();
+                    DateTime value = parseString(entry.getValue());
                     STATIC_DATE_MAP.put(key, value);
                     PRE_LOADED_MAP.put(key, value);
                 } catch (InvalidParameterException ex) {
@@ -134,15 +136,28 @@ public class StaticUserDateUtil {
      * Resets the map to only have the pre-loaded values
      */
     public static void resetMap() {
-        STATIC_DATE_MAP.clear();
+        clearMap();
         STATIC_DATE_MAP.putAll(PRE_LOADED_MAP);
     }
 
-    /*
-    Returns the static date for a user as a DateTime object
+    /**
+     * Returns the static date for a user as a DateTime object.
+     * This method honors the useStaticDates flag that disables the use of the static date feature.
      */
     public static DateTime getDateTimeForUser(String userId) {
+        DateTime staticDate = null;
+        if (useStaticDates) {
+            staticDate = getStaticDateTimeForUser(userId);
+        }
+        return staticDate;
+    }
+
+    private static DateTime getStaticDateTimeForUser(String userId) {
         return STATIC_DATE_MAP.get(userId);
+    }
+
+    private static String formatDate(DateTime dateTime) {
+        return DATE_TIME_FORMATTER.format(dateTime);
     }
 
     private static DateTime parseString(String dateString) throws InvalidParameterException {
@@ -155,7 +170,12 @@ public class StaticUserDateUtil {
         return dateTime;
     }
 
-    private static String formatDate(DateTime dateTime) {
-        return DATE_TIME_FORMATTER.format(dateTime);
+
+    public void setUserDateMap (Map<String, String> userDateMap) {
+        StaticUserDateUtil.loadMap(userDateMap);
+    }
+
+    public void setUseStaticDates (boolean useStaticDates) {
+        StaticUserDateUtil.useStaticDates = useStaticDates;
     }
 }

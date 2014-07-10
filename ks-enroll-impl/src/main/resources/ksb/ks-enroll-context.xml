@@ -1620,10 +1620,7 @@
         This is a RESTful service used in conjunction with the registration cart. It allows
         a static date to be set (in memory) for a user for reg cart date testing purposes.
     -->
-    <bean id="staticUserDateClientService" class="org.kuali.student.enrollment.registration.client.service.impl.StaticUserDateClientServiceImpl">
-        <property name="regUserMap" ref="regUserMap" />
-    </bean>
-
+    <bean id="staticUserDateClientService" class="org.kuali.student.enrollment.registration.client.service.impl.StaticUserDateClientServiceImpl" />
     <bean id="ks.exp.staticUserDateClientService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.api.bus.support.RestServiceDefinition">
@@ -1649,9 +1646,16 @@
     </bean>
 
     <!--
-        This is a map of users with pre-set static dates for functional testing. Adding them here prevents the need for
-        having to manually set them every time we test.
+        StaticUserDateUtil
+
+        This is a util used to pre-set static dates on specific users for functional testing.
+        Adding them here prevents the need for having to manually set them every time we test.
     -->
+    <bean id="staticUserDateUtil" class="org.kuali.student.enrollment.registration.client.service.impl.util.StaticUserDateUtil">
+        <property name="userDateMap" ref="regUserMap" />
+        <property name="useStaticDates" value="true" />
+    </bean>
+
     <util:map id="regUserMap">
         <entry key="admin" value="2012-09-05@00:01" />
         <entry key="martha" value="2012-09-05@00:01" />

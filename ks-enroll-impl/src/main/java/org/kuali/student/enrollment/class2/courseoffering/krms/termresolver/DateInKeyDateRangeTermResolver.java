@@ -50,7 +50,7 @@ public class DateInKeyDateRangeTermResolver implements TermResolver<Boolean> {
 
     @Override
     public String getOutput() {
-        return KSKRMSServiceConstants.TERM_RESOLVER_DATEINTERMKEYDATE;
+        return KSKRMSServiceConstants.TERM_RESOLVER_DATE_IN_TERM_KEY_DATE;
     }
 
     @Override
@@ -96,7 +96,7 @@ public class DateInKeyDateRangeTermResolver implements TermResolver<Boolean> {
             for (MilestoneInfo mstone : mstones) {
                 // A milestone doesn't have to have an end date. Only check it if it exist.
                 if ((mstone.getStartDate() != null && mstone.getStartDate().after(userActionDate))
-                    || (mstone.getEndDate() != null || mstone.getEndDate().before(userActionDate))) {
+                    || (mstone.getEndDate() != null && mstone.getEndDate().before(userActionDate))) {
                     // The date does not fall within the configured date range of this milestone.
                     return false;
                 }

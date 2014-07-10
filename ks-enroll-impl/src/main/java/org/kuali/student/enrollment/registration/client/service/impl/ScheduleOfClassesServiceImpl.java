@@ -2,6 +2,7 @@ package org.kuali.student.enrollment.registration.client.service.impl;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.collection.KSCollectionUtils;
@@ -11,6 +12,7 @@ import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesService;
 import org.kuali.student.enrollment.registration.client.service.dto.*;
 import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
+import org.kuali.student.enrollment.registration.client.service.impl.util.StaticUserDateUtil;
 import org.kuali.student.enrollment.registration.search.service.impl.CourseRegistrationSearchServiceImpl;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
@@ -77,7 +79,6 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         }  else {
             return null;
         }
-
     }
 
     /**
@@ -96,6 +97,16 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
 
     protected EligibilityCheckResult checkStudentEligibilityForTermLocal(String termId) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+
+        /*
+         * If we are configured to use static dates for registration date testing, get the date for this user
+         * (if it exists) and set it in the context.
+         */
+        DateTime staticDate = StaticUserDateUtil.getDateTimeForUser(contextInfo.getPrincipalId());
+        if (staticDate != null) {
+            contextInfo.setCurrentDate(staticDate.toDate());
+        }
+
         List<ValidationResultInfo> validationResults = CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService()
                 .checkStudentEligibilityForTerm(contextInfo.getPrincipalId(), termId, contextInfo);
 
