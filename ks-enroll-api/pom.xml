@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.kuali.student.api</groupId>
         <artifactId>ks-api</artifactId>
-        <version>0.8.1-iu-d6</version>
+        <version>0.8.1-iu-d7</version>
     </parent>
     <artifactId>ks-enroll-api</artifactId>
     <name>KS Enroll API</name>
