@@ -55,7 +55,7 @@
         </property>
         <property name="additionalCssFiles">
             <list merge="true">
-                <value>themes/ksboot/stylesheets/krms.css</value>
+                <value>themes/ksboot/stylesheets/admin-registration.css</value>
             </list>
         </property>
     </bean>
@@ -203,7 +203,7 @@
                         <list>
                             <bean parent="Uif-Message"
                                   p:messageText="[css='icon-warning'][/css] @{#line.course.code} (@{#line.course.section}) - "/>
-                            <bean parent="Uif-DataField" p:propertyName="messages" p:readOnlyListDisplayType="UL"/>
+                            <bean parent="Uif-DataField" p:propertyName="items" p:readOnlyListDisplayType="UL"/>
                         </list>
                     </property>
                 </bean>

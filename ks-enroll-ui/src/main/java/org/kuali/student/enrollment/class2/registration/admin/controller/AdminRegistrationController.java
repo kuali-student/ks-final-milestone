@@ -64,7 +64,7 @@ public class AdminRegistrationController extends UifControllerBase {
     @Override
     @RequestMapping(params = "methodToCall=refresh")
     public ModelAndView refresh(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        cancelEdits((AdminRegistrationForm) form, form.getUpdateComponentId());
+        //cancelEdits((AdminRegistrationForm) form, form.getUpdateComponentId());
         return super.refresh(form, result, request, response);
     }
 

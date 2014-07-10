@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.class2.registration.admin.form;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -8,7 +9,7 @@ import java.util.List;
 public class RegistrationIssue {
 
     private RegistrationCourse course;
-    private List<RegistrationIssueItem> items;
+    private List<RegistrationIssueItem> items = new ArrayList<RegistrationIssueItem>();
 
     public RegistrationCourse getCourse() {
         return course;
