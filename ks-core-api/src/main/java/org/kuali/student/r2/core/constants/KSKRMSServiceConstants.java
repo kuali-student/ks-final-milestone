@@ -268,7 +268,7 @@ public class KSKRMSServiceConstants {
     public static final String TERM_RESOLVER_MATCHINGCOURSESET = "MatchingCourseSet";
     public static final String TERM_RESOLVER_EXAM_FREEFORMTEXT = "ExamFreeFormText";
     public static final String TERM_RESOLVER_CURRENT_COURSE_WITHIN_KEYDATE = "CurrentCourseWithinKeydate";
-    public static final String TERM_RESOLVER_DATEINTERMKEYDATE = "DateInTermKeyDate";
+    public static final String TERM_RESOLVER_DATE_IN_TERM_KEY_DATE = "DateInTermKeyDate";
 
     // natural language usage keys
     public static final String KRMS_NL_RULE_EDIT = "kuali.krms.edit";
