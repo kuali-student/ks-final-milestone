@@ -117,8 +117,6 @@ public class CourseRuleEditorController extends RuleEditorController {
     public ModelAndView updateRule(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                    HttpServletRequest request, HttpServletResponse response) {
 
-        form.getActionParameters().put("displaySection", "KS-CourseView-CourseRequisites-Section");
-        
         RuleEditor ruleEditor = getRuleEditor(form);
 
         //Return with error message if user is currently editing a proposition.
@@ -141,11 +139,9 @@ public class CourseRuleEditorController extends RuleEditorController {
         agendaEditor.getRuleEditors().put(ruleEditor.getKey(), ruleEditor);
         courseInfoWrapper.setAgendaDirty(true);
 
-        if (!form.getActionParameters().containsKey(UifParameters.NAVIGATE_TO_PAGE_ID)) {
-            form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE);
-            courseInfoWrapper.getUiHelper().setSelectedSection(CurriculumManagementConstants.CourseViewSections.getSection(CurriculumManagementConstants.CourseViewSections.COURSE_REQUISITES.name()));
-        }
-        return super.navigate(form, result, request, response);
+        courseInfoWrapper.getUiHelper().setSelectedSection(CurriculumManagementConstants.CourseViewSections.COURSE_REQUISITES);
+
+        return getUIFModelAndView(form,CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE);
     }
 
     @Override

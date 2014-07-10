@@ -1528,7 +1528,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             throw new RuntimeException(e);
         }
 
-//        super.saveDataObject();
+        super.saveDataObject();
 
     }
 
