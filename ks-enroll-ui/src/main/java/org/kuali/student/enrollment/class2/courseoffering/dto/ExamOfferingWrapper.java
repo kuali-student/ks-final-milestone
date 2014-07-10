@@ -5,6 +5,7 @@ import org.kuali.student.enrollment.class2.scheduleofclasses.sort.ComparatorMode
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.examoffering.dto.ExamOfferingInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
+import org.kuali.student.r2.common.util.constants.ExamOfferingServiceConstants;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -27,6 +28,8 @@ public class ExamOfferingWrapper implements Serializable, ComparatorModel{
     private List<String> endTime;
     private List<String> weekDays;
     private ActivityOfferingInfo aoInfo;
+
+    private String labelState;
 
     private List<ScheduleWrapper> requestedScheduleComponents;
     private List<ScheduleWrapper> deletedRequestedScheduleComponents;
@@ -221,5 +224,32 @@ public class ExamOfferingWrapper implements Serializable, ComparatorModel{
 
     public void setEoResultKey(String eoResultKey) {
         this.eoResultKey = eoResultKey;
+    }
+
+
+
+    public String getLabelState() {
+
+        String stateSchedulingName = "";
+        if (StringUtils.equals(eoInfo.getSchedulingStateKey(), ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_UNSCHEDULED_STATE_KEY))
+        {
+            stateSchedulingName = "Unscheduled";
+        }else if (StringUtils.equals(eoInfo.getSchedulingStateKey(), ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_EXEMPT_STATE_KEY))
+        {
+            stateSchedulingName = "Exempt";
+        }else
+
+        {
+            stateSchedulingName = "Matrix Error";
+        }
+
+        labelState = stateName +
+                "<br/><i>" + stateSchedulingName+
+                "</i>"   ;
+        return labelState;
+    }
+
+    public void setLabelState(String labelState) {
+        this.labelState = labelState;
     }
 }
