@@ -1000,3 +1000,12 @@ function filterObjectivesByName(){
     var inputVal = jQuery('#LoDisplayInfoWrapper-LookupView-Filter-Input_control').val().trim();
     jQuery("#uLookupResults_layout").dataTable().fnFilter(inputVal);
 }
+
+/**
+ * Hides the Category Type dropdown and Information message label.
+ * @param index
+ */
+function hideCategoryTypeAndInfoMsg(index) {
+    jQuery('#KS-LearningObjective-CategoryType_line' + index + '_add').hide();
+    jQuery('#KS-LearningObjective-CategoryType_line' + index + '_add').closest('div[id^="learning_objective_section"]').find('p.ks-informational-message-for-field').hide();
+}
