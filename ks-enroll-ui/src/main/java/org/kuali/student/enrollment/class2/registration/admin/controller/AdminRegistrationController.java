@@ -98,6 +98,7 @@ public class AdminRegistrationController extends UifControllerBase {
             TermInfo term = getViewHelper(form).getTermByCode(form.getTermCode());
             if(term!=null){
                 form.setTermInfo(term);
+                form.setTermName(term.getName());
             }
         }else{
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, ManageSocConstants.MessageKeys.ERROR_INVALID_TERM);

@@ -109,7 +109,7 @@
                                 </property>
                             </bean>
                             <bean parent="Uif-SecondaryActionButton" p:actionLabel="Go" p:methodToCall="getRegistrationInfo"/>
-                            <bean parent="Uif-MessageField" p:messageText="[b]termCode[/b]"/>
+                            <bean parent="Uif-MessageField" p:messageText="[b]@{termName}[/b]"/>
                         </list>
                     </property>
                 </bean>

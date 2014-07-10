@@ -39,6 +39,7 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
 
     private String termCode;
     private TermInfo termInfo;
+    private String termName;
 
     private RegistrationCourse pendingDropCourse;
 
@@ -163,6 +164,14 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
 
     public void setTermInfo(TermInfo termInfo) {
         this.termInfo = termInfo;
+    }
+
+    public String getTermName() {
+        return termName;
+    }
+
+    public void setTermName( String termName) {
+        this.termName = termName;
     }
 
     public List<RegistrationCourse> getRegisteredCourses() {
