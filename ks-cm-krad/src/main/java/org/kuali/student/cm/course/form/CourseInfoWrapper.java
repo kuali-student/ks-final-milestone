@@ -72,6 +72,16 @@ public class CourseInfoWrapper extends LURuleManagementWrapper implements Serial
     private Date effectiveDate;
     private Date expirationDate;
 
+    private boolean agendaDirty;
+
+    public boolean isAgendaDirty() {
+        return agendaDirty;
+    }
+
+    public void setAgendaDirty(boolean agendaDirty) {
+        this.agendaDirty = agendaDirty;
+    }
+
     private String previousSubjectCode;
 
     public String getHiddenDescr() {

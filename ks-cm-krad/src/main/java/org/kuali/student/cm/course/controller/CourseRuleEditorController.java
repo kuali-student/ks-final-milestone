@@ -34,6 +34,7 @@ import org.kuali.rice.krms.dto.RuleManager;
 import org.kuali.rice.krms.util.AgendaUtilities;
 import org.kuali.rice.krms.util.KRMSConstants;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
+import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.form.CourseInfoWrapper;
 import org.kuali.student.cm.course.form.CourseRuleManagementWrapper;
 import org.kuali.student.cm.course.service.CourseInfoMaintainable;
@@ -106,7 +107,9 @@ public class CourseRuleEditorController extends RuleEditorController {
     public ModelAndView cancelEditRule(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                        HttpServletRequest request, HttpServletResponse response) {
 
-        form.getActionParameters().put("displaySection", "KS-CourseView-CourseRequisites-Section");
+        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper)((MaintenanceDocumentForm) form).getDocument().getNewMaintainableObject().getDataObject();
+        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE);
+        courseInfoWrapper.getUiHelper().setSelectedSection(CurriculumManagementConstants.CourseViewSections.getSection(CurriculumManagementConstants.CourseViewSections.COURSE_REQUISITES.getSectionId()));
         return super.cancelEditRule(form, result, request, response);
     }
 
@@ -117,11 +120,6 @@ public class CourseRuleEditorController extends RuleEditorController {
         form.getActionParameters().put("displaySection", "KS-CourseView-CourseRequisites-Section");
         
         RuleEditor ruleEditor = getRuleEditor(form);
-
-        //workaround to display browser warning when leaving course requisite screen without saving
-        MaintenanceDocumentForm ruleMaintenanceForm = (MaintenanceDocumentForm) form;
-        CourseRuleManagementWrapper courseRuleMgtWrapper = (CourseRuleManagementWrapper) AgendaUtilities.getRuleWrapper(ruleMaintenanceForm);
-        courseRuleMgtWrapper.setAgendaDirty(true);
 
         //Return with error message if user is currently editing a proposition.
         PropositionEditor proposition = PropositionTreeUtil.getProposition(ruleEditor);
@@ -138,12 +136,14 @@ public class CourseRuleEditorController extends RuleEditorController {
         this.getViewHelper(form).refreshViewTree(ruleEditor);
 
         //Replace edited rule with existing rule.
-        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper)(ruleMaintenanceForm).getDocument().getNewMaintainableObject().getDataObject();
+        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper)((MaintenanceDocumentForm) form).getDocument().getNewMaintainableObject().getDataObject();
         AgendaEditor agendaEditor = AgendaUtilities.getSelectedAgendaEditor(courseInfoWrapper, ruleEditor.getKey());
         agendaEditor.getRuleEditors().put(ruleEditor.getKey(), ruleEditor);
+        courseInfoWrapper.setAgendaDirty(true);
 
         if (!form.getActionParameters().containsKey(UifParameters.NAVIGATE_TO_PAGE_ID)) {
-            form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, KRMSConstants.KRMS_AGENDA_MAINTENANCE_PAGE_ID);
+            form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, CurriculumManagementConstants.CourseViewPageIds.CREATE_COURSE);
+            courseInfoWrapper.getUiHelper().setSelectedSection(CurriculumManagementConstants.CourseViewSections.getSection(CurriculumManagementConstants.CourseViewSections.COURSE_REQUISITES.name()));
         }
         return super.navigate(form, result, request, response);
     }
@@ -170,8 +170,8 @@ public class CourseRuleEditorController extends RuleEditorController {
             agenda.getRuleEditors().put(ruleEditor.getKey(), dummyRule);
         }
         //workaround to display browser warning when leaving course requisite screen without saving
-        CourseRuleManagementWrapper courseRuleMgtWrapper = (CourseRuleManagementWrapper) AgendaUtilities.getRuleWrapper(documentForm);
-        courseRuleMgtWrapper.setAgendaDirty(true);
+        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) AgendaUtilities.getRuleWrapper(documentForm);
+        courseInfoWrapper.setAgendaDirty(true);
 
         return getUIFModelAndView(documentForm);
     }

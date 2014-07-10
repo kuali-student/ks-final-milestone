@@ -22,14 +22,4 @@ import org.kuali.student.lum.lu.ui.krms.dto.LURuleManagementWrapper;
  */
 public class CourseRuleManagementWrapper extends LURuleManagementWrapper {
 
-    private boolean agendaDirty;
-
-    public boolean isAgendaDirty() {
-        return agendaDirty;
-    }
-
-    public void setAgendaDirty(boolean agendaDirty) {
-        this.agendaDirty = agendaDirty;
-    }
-
 }
