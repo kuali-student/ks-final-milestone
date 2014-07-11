@@ -25,7 +25,7 @@
                                 <property name="items">
                                     <list>
                                         <!--<bean parent="KS-Uif-DataField" p:label="ID" p:propertyName="courseOfferingInfo.id" />-->
-                                        <bean parent="KS-Uif-DataField" p:propertyName="courseOfferingInfo.courseOfferingCode" p:fieldLabel.renderColon="false"/>
+                                        <bean parent="KS-Uif-DataField" p:propertyName="courseOfferingInfo.courseOfferingCode" p:fieldLabel.renderColon="false" p:additionalCssClasses="ks-details-panel-separator"/>
                                         <bean parent="KS-Uif-DataField" p:propertyName="courseOfferingInfo.finalExamType" p:fieldLabel.renderColon="false"/>
                                         <bean parent="KS-Uif-DataField" p:propertyName="crosslistedCodes" p:label="Crosslisted as" p:render="@{dataObject.crosslistedCodes != ''}" p:fieldLabel.renderColon="false"/>
                                         <bean parent="KS-Uif-DataField" p:propertyName="finalExamDriverUI" p:label="Final Exam Driver" p:fieldLabel.renderColon="false"/>
