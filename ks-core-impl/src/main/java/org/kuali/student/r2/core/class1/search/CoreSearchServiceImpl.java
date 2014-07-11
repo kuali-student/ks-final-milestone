@@ -46,12 +46,14 @@ public class CoreSearchServiceImpl extends SearchServiceAbstractHardwiredImplBas
     public static final TypeInfo ACAL_GET_HOLIDAYS_BY_TERM_SEARCH_TYPE;
     public static final TypeInfo SCH_IDS_WITH_TBA_BY_SCH_IDS_SEARCH_TYPE;
     public static final TypeInfo SCH_REQ_REF_IDS_WITH_NON_TBA_BY_SCH_REQ_REF_IDS_SEARCH_TYPE;
+    public static final TypeInfo DOC_GET_DOC_HDRS_BY_REF_OBJ_ID_AND_DOC_TYPE_SEARCH_TYPE;
 
     public static final String SCH_AND_ROOM_SEARH_BY_ID_SEARCH_KEY = "kuali.search.type.core.searchForScheduleAndRoomById";
     public static final String SCH_RQST_TIMESLOT_BY_REF_ID_AND_TYPE_SEARCH_KEY = "kuali.search.type.core.searchForScheduleRequestByRefIdAndType";
     public static final String ACAL_GET_HOLIDAYS_BY_TERM_SEARCH_KEY = "kuali.search.type.core.searchForHolidaysByTermId";
     public static final String SCH_IDS_WITH_NON_TBA_BY_SCH_IDS_SEARCH_KEY = "kuali.search.type.scheduling.searchForScheduleIdsWithNonTBAByScheduleIds";
     public static final String SCH_REQ_REF_IDS_WITH_NON_TBA_BY_SCH_REQ_REF_IDS_SEARCH_KEY = "kuali.search.type.scheduling.searchForScheduleReqRefIdsWithNonTBAByScheduleReqRefIds";
+    public static final String DOC_GET_DOC_HDRS_BY_REF_OBJ_ID_AND_DOC_TYPE_SEARCH_KEY = "kuali.search.type.document.searchForDocHdrsByRefObjIdAndDocType";
 
     public static final class SearchParameters {
         public static final String SCHEDULE_IDS = "scheduleIds";
@@ -60,6 +62,8 @@ public class CoreSearchServiceImpl extends SearchServiceAbstractHardwiredImplBas
         public static final String SCH_REQ_SET_TYPE = "schedReqSetType";
         public static final String TERM_ID = "termId";
         public static final String ROOM_IDS = "roomIds";
+        public static final String REF_OBJ_ID = "refObjId";
+        public static final String DOC_TYPE = "docType";
     }
 
     public static final class SearchResultColumns {
@@ -85,6 +89,12 @@ public class CoreSearchServiceImpl extends SearchServiceAbstractHardwiredImplBas
         public static final String MSTONE_ALL_DAY = "isAllDay";
         public static final String MSTONE_INSTR_DAY = "isInstructionalDay";
         public static final String MSTONE_DT_RANGE = "isDateRange";
+
+        public static final String DOC_ID = "docId";
+        public static final String DOC_TYPE = "docType";
+        public static final String DOC_FILE_NAME = "docFileName";
+        public static final String DOC_DESCR = "docDescr";
+
     }
 
     static {
@@ -145,6 +155,17 @@ public class CoreSearchServiceImpl extends SearchServiceAbstractHardwiredImplBas
             throw new RuntimeException("bad code", ex);
         }
         SCH_REQ_REF_IDS_WITH_NON_TBA_BY_SCH_REQ_REF_IDS_SEARCH_TYPE = info;
+
+        info = new TypeInfo();
+        info.setKey(DOC_GET_DOC_HDRS_BY_REF_OBJ_ID_AND_DOC_TYPE_SEARCH_KEY);
+        info.setName("Document Headers search for given ref obj id and doc type");
+        info.setDescr(new RichTextHelper().fromPlain("Return list of document headers information"));
+        try {
+            info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse("01/01/2012"));
+        } catch ( IllegalArgumentException ex) {
+            throw new RuntimeException("bad code", ex);
+        }
+        DOC_GET_DOC_HDRS_BY_REF_OBJ_ID_AND_DOC_TYPE_SEARCH_TYPE = info;
     }
 
 
@@ -174,6 +195,9 @@ public class CoreSearchServiceImpl extends SearchServiceAbstractHardwiredImplBas
         if (SCH_REQ_REF_IDS_WITH_NON_TBA_BY_SCH_REQ_REF_IDS_SEARCH_TYPE.getKey().equals(searchTypeKey)) {
             return SCH_REQ_REF_IDS_WITH_NON_TBA_BY_SCH_REQ_REF_IDS_SEARCH_TYPE;
         }
+        if (DOC_GET_DOC_HDRS_BY_REF_OBJ_ID_AND_DOC_TYPE_SEARCH_TYPE.getKey().equals(searchTypeKey)) {
+            return DOC_GET_DOC_HDRS_BY_REF_OBJ_ID_AND_DOC_TYPE_SEARCH_TYPE;
+        }
         throw new DoesNotExistException("No Search Type Found for key:"+searchTypeKey);
     }
 
@@ -201,6 +225,8 @@ public class CoreSearchServiceImpl extends SearchServiceAbstractHardwiredImplBas
             return searchForScheduleIdsWithTBAByScheduleIds(searchRequestInfo);
         } else if (SCH_REQ_REF_IDS_WITH_NON_TBA_BY_SCH_REQ_REF_IDS_SEARCH_KEY.equals(searchRequestInfo.getSearchKey())) {
             return searchForScheduleReqRefIdsWithNonTBAByScheduleReqRefIds(searchRequestInfo);
+        } else if (DOC_GET_DOC_HDRS_BY_REF_OBJ_ID_AND_DOC_TYPE_SEARCH_KEY.equals(searchRequestInfo.getSearchKey())) {
+            return searchForDocHdrsByRefObjIdAndDocType(searchRequestInfo);
         } else{
             throw new OperationFailedException("Unsupported search type: " + searchRequestInfo.getSearchKey());
         }
@@ -568,6 +594,65 @@ public class CoreSearchServiceImpl extends SearchServiceAbstractHardwiredImplBas
 
         return resultInfo;
     }
+
+
+    /**
+     *  This method returns a list of Document headers for a given refObjectId and doc type key
+     * @param searchRequestInfo refObjectId and document type of interest
+     * @return a list of document header information
+     */
+    private SearchResultInfo searchForDocHdrsByRefObjIdAndDocType(SearchRequestInfo searchRequestInfo) throws OperationFailedException {
+        SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
+
+        String refObjId = requestHelper.getParamAsString(SearchParameters.REF_OBJ_ID);
+        String docType = requestHelper.getParamAsString(SearchParameters.DOC_TYPE);
+
+        if (refObjId == null){
+            throw new RuntimeException("Reference Object Id is required");
+        }
+        if (docType == null){
+            throw new RuntimeException("Document Type is required");
+        }
+
+        String queryStr =
+                "SELECT " +
+                        "doc.doc_id as id, " +
+                        "doc.type as type, " +
+                        "doc.file_name as fileName, " +
+                        "richtxt.plain as descr " +
+                        "FROM " +
+                        "KSDO_DOCUMENT doc, " +
+                        "KSDO_REF_DOC_RELTN ref, "+
+                        "KSDO_RICH_TEXT_T richtxt " +
+                        "WHERE " +
+                        "doc.doc_id = ref.doc_id  " +
+                        "AND doc.RT_DESCR_ID = richtxt.ID " +
+                        "AND ref.REF_OBJ_ID = :refObjId " +
+                        "AND doc.type = :docType";
+
+
+        Query query = entityManager.createNativeQuery(queryStr);
+        query.setParameter(SearchParameters.REF_OBJ_ID, refObjId);
+        query.setParameter(SearchParameters.DOC_TYPE, docType);
+
+        List<Object[]> results = query.getResultList();
+        SearchResultInfo resultInfo = new SearchResultInfo();
+        resultInfo.setTotalResults(results.size());
+        resultInfo.setStartAt(0);
+
+        for (Object[] resultRow : results) {
+            int i = 0;
+            SearchResultRowInfo row = new SearchResultRowInfo();
+            row.addCell(SearchResultColumns.DOC_ID, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.DOC_TYPE, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.DOC_FILE_NAME, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.DOC_DESCR, (String) resultRow[i++]);
+
+            resultInfo.getRows().add(row);
+        }
+        return resultInfo;
+    }
+
 
     private static String commaString(List<String> items){
         StringBuilder sb = new StringBuilder();

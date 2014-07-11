@@ -13,6 +13,7 @@
  */
 package org.kuali.student.r1.core.document.service.impl;
 
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.DictionaryService;
 import org.kuali.student.r1.core.document.dao.DocumentDao;
@@ -20,6 +21,10 @@ import org.kuali.student.r1.core.document.entity.Document;
 import org.kuali.student.r1.core.document.entity.DocumentCategory;
 import org.kuali.student.r1.core.document.entity.DocumentType;
 import org.kuali.student.r1.core.document.entity.RefDocRelation;
+import org.kuali.student.r1.core.document.entity.RefDocRelationType;
+import org.kuali.student.r2.common.constants.CommonServiceConstants;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -30,21 +35,24 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.validator.Validator;
 import org.kuali.student.r2.common.validator.ValidatorFactory;
-import org.kuali.student.r2.core.search.service.SearchManager;
-import org.springframework.transaction.annotation.Transactional;
-
-import javax.jws.WebService;
-
-import java.util.Arrays;
-import java.util.List;
-
-import org.kuali.student.r1.core.document.entity.RefDocRelationType;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.core.class1.search.CoreSearchServiceImpl;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.document.dto.DocumentHeaderDisplayInfo;
 import org.kuali.student.r2.core.document.dto.DocumentInfo;
 import org.kuali.student.r2.core.document.dto.RefDocRelationInfo;
 import org.kuali.student.r2.core.document.service.DocumentService;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
+import org.kuali.student.r2.core.search.service.SearchService;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.jws.WebService;
+import javax.xml.namespace.QName;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * This is a description of what this class does - lindholm don't forget to fill
@@ -59,14 +67,47 @@ public class DocumentServiceImpl implements DocumentService {
     private DocumentDao dao;
     private DictionaryService dictionaryServiceDelegate;
     private ValidatorFactory validatorFactory;
-    private SearchManager searchManager;
-
+    private SearchService searchService = null;
     public DocumentDao getDocumentDao() {
         return dao;
     }
 
     public void setDocumentDao(DocumentDao dao) {
         this.dao = dao;
+    }
+
+    @Override
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
+    public List<DocumentHeaderDisplayInfo> getDocumentHeaderDisplay(String refObjectId, String documentTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<DocumentHeaderDisplayInfo> documentHeaderDisplayInfos = new ArrayList<DocumentHeaderDisplayInfo>();
+
+        // Call the SearchService and get all doc headers for the refObjId and type. This was put in to increase performance
+        SearchRequestInfo sr = new SearchRequestInfo(CoreSearchServiceImpl.DOC_GET_DOC_HDRS_BY_REF_OBJ_ID_AND_DOC_TYPE_SEARCH_KEY);
+        sr.addParam(CoreSearchServiceImpl.SearchParameters.REF_OBJ_ID, refObjectId);
+        sr.addParam(CoreSearchServiceImpl.SearchParameters.DOC_TYPE, documentTypeKey);
+
+        SearchResultInfo searchResult = getSearchService().search(sr, contextInfo);
+
+        for (SearchResultRowInfo row : searchResult.getRows()) {
+            DocumentHeaderDisplayInfo documentHeaderDisplayInfo = new DocumentHeaderDisplayInfo();
+
+            for (SearchResultCellInfo cellInfo : row.getCells()) {
+                if (CoreSearchServiceImpl.SearchResultColumns.DOC_ID.equals(cellInfo.getKey())) {
+                    documentHeaderDisplayInfo.setDocumentId(cellInfo.getValue());
+                }
+                if (CoreSearchServiceImpl.SearchResultColumns.DOC_TYPE.equals(cellInfo.getKey())) {
+                    documentHeaderDisplayInfo.setDocumentTypeKey(cellInfo.getValue());
+                }
+                if (CoreSearchServiceImpl.SearchResultColumns.DOC_FILE_NAME.equals(cellInfo.getKey())) {
+                    documentHeaderDisplayInfo.setFileName(cellInfo.getValue());
+                }
+                if (CoreSearchServiceImpl.SearchResultColumns.DOC_DESCR.equals(cellInfo.getKey())) {
+                    documentHeaderDisplayInfo.setDescription(cellInfo.getValue());
+                }
+            }
+            documentHeaderDisplayInfos.add(documentHeaderDisplayInfo);
+        }
+        return documentHeaderDisplayInfos;
     }
 
     @Override
@@ -383,7 +424,7 @@ public class DocumentServiceImpl implements DocumentService {
      * Check for missing parameter and throw localized exception if missing
      *
      * @param param
-     * @param parameter name
+     * @param paramName
      * @throws MissingParameterException
      */
     private void checkForMissingParameter(Object param, String paramName)
@@ -471,30 +512,6 @@ public class DocumentServiceImpl implements DocumentService {
      * @
      */
     @Deprecated
-    public SearchManager getSearchManager() {
-        return searchManager;
-    }
-
-    /**
-     *
-     * This method ...
-     *
-     * @param searchManager
-     * @
-     */
-    @Deprecated
-    public void setSearchManager(SearchManager searchManager) {
-        this.searchManager = searchManager;
-    }
-
-    /**
-     *
-     * This method ...
-     *
-     * @return
-     * @
-     */
-    @Deprecated
     public ValidatorFactory getValidatorFactory() {
         return validatorFactory;
     }
@@ -519,6 +536,16 @@ public class DocumentServiceImpl implements DocumentService {
 			PermissionDeniedException {
 		throw new UnsupportedOperationException("not implemented");
 	}
-    
+
+    public SearchService getSearchService() {
+        if (searchService == null) {
+            searchService = (SearchService) GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "search", SearchService.class.getSimpleName()));
+        }
+        return searchService;
+    }
+
+    public void setSearchService(SearchService searchService) {
+        this.searchService = searchService;
+    }
     
 }
