@@ -992,7 +992,7 @@ function loCategoryAutocomplete(ui, control) {
     var id = jQuery(control).attr('id');
     var hiddenFieldId = id.replace("_control", "_h0");
     jQuery("#" + id).val(ui.item.label);
-    jQuery("#" + hiddenFieldId).val(ui.item.value);
+    jQuery("#" + hiddenFieldId).val(ui.item.id);
     return false;
 }
 
