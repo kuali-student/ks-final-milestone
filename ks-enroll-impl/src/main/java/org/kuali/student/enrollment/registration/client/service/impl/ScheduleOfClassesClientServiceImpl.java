@@ -2,7 +2,6 @@ package org.kuali.student.enrollment.registration.client.service.impl;
 
 import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesClientService;
 import org.kuali.student.enrollment.registration.client.service.dto.*;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -130,7 +129,7 @@ public class ScheduleOfClassesClientServiceImpl extends ScheduleOfClassesService
      */
 
     @Override
-    public Response checkStudentEligibilityForTerm(final String termId) {
+    public Response checkStudentEligibilityForTerm(String termId) {
         Response.ResponseBuilder response;
 
         try {

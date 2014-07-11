@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('regCartApp')
-    .service('MessageService', ['$resource', function ($resource) {
+    .service('MessageService', ['$resource', function MessageService($resource) {
 
         this.getMessages = function () {
             /*

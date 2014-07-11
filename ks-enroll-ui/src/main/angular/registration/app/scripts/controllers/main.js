@@ -3,7 +3,7 @@
 angular.module('regCartApp')
     .controller('MainCtrl', ['$scope', '$rootScope', '$location', '$state', 'TermsService', 'ScheduleService', 'GlobalVarsService', 'APP_URL',
         'LoginService', 'MessageService', '$modal',
-    function ($scope, $rootScope, $location, $state, TermsService, ScheduleService, GlobalVarsService, APP_URL, LoginService, MessageService, $modal) {
+    function MainCtrl($scope, $rootScope, $location, $state, TermsService, ScheduleService, GlobalVarsService, APP_URL, LoginService, MessageService, $modal) {
         console.log('In Main Controller');
 
         $scope.appUrl = APP_URL.replace('/services/', '/');
@@ -20,11 +20,9 @@ angular.module('regCartApp')
                 // Check to see if the term is open or closed for registration
                 console.log('checking term eligibility');
                 TermsService.checkStudentEligibilityForTerm().query({termId: newValue}, function (response) {
-                    console.log('-- success');
                     $scope.studentIsEligibleForTerm = (angular.isDefined(response.isEligible) && response.isEligible) || false;
                 }, function (error) {
-                    console.log('-- failed');
-                    console.log('Error while checking if term is open', error);
+                    console.log('Error while checking if term is open for registration', error);
                     $scope.studentIsEligibleForTerm = false;
                 });
 
@@ -52,14 +50,6 @@ angular.module('regCartApp')
 
         $scope.messages = MessageService.getMessages().query({messageKey: null});
 
-        /**
-        ScheduleService.getScheduleFromServer().query({termId: $scope.termId }, function (result) {
-            console.log('called rest service to get schedule data - in main.js');
-            GlobalVarsService.updateScheduleCounts(result);
-            $scope.registeredCredits = GlobalVarsService.getRegisteredCredits;   // notice that i didn't put the (). in the ui call: {{registeredCredits()}}
-            $scope.registeredCourseCount = GlobalVarsService.getRegisteredCourseCount; // notice that i didn't put the (). in the ui call: {{registeredCourseCount()}}
-        });
-         **/
         $scope.logout = function(){
             LoginService.logout().query({}, function () {
                 //After logging in, reload the page.
@@ -85,12 +75,12 @@ angular.module('regCartApp')
         //Update the UI routing state so it is available in the scope.
         $scope.$parent.uiState = $state.current.name;
         $scope.$on('$stateChangeStart',
-            function(event, toState, toParams, fromState, fromParams){
+            function(event, toState, toParams, fromState, fromParams) {
                 $scope.$parent.uiState = toState.name;
             });
     }])
 
-    .controller('SessionCtrl', ['$scope', 'LoginService', function ($scope, LoginService) {
+    .controller('SessionCtrl', ['$scope', 'LoginService', function SessionCtrl($scope, LoginService) {
         $scope.logout = function() {
             LoginService.logout().query({}, function () {
                 //After logging in, reload the page.
