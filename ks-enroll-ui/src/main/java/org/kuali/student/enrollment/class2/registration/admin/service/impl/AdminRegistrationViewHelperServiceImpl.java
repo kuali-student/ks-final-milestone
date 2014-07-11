@@ -2,13 +2,9 @@ package org.kuali.student.enrollment.class2.registration.admin.service.impl;
 
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.affiliation.EntityAffiliation;
 import org.kuali.rice.kim.api.identity.entity.Entity;
 import org.kuali.rice.kim.api.identity.name.EntityName;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.common.uif.service.impl.KSViewHelperServiceImpl;
@@ -19,31 +15,19 @@ import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationA
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationCourse;
 import org.kuali.student.enrollment.class2.registration.admin.service.CourseRegAdminViewHelperService;
 import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegConstants;
+import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegistrationUtil;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseregistration.dto.ActivityRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
-import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
-import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
-import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
-import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
-import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 
-import javax.xml.namespace.QName;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by SW Genis on 2014/07/04.
  */
 public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceImpl implements CourseRegAdminViewHelperService {
-
-    private AcademicCalendarService acalService;
-    private CourseRegistrationService courseRegService;
-    private CourseOfferingService courseOfferingService;
-
-    private IdentityService identityService;
 
     @Override
     public void getRegistrationStatus() {
@@ -82,8 +66,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
 
             QueryByCriteria criteria = qbcBuilder.build();
 
-
-            List<TermInfo> terms = getAcademicCalendarService().searchForTerms(criteria, createContextInfo());
+            List<TermInfo> terms = AdminRegistrationUtil.getAcademicCalendarService().searchForTerms(criteria, createContextInfo());
             int firstTerm = 0;
             if (terms.size() > 1) {
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, ManageSocConstants.MessageKeys.ERROR_MULTIPLE_TERMS);
@@ -107,18 +90,18 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
 
         try {
 
-            List<CourseRegistrationInfo> courseRegistrationInfos = getCourseRegistrationService().getCourseRegistrationsByStudentAndTerm(studentId, termCode, createContextInfo());
+            List<CourseRegistrationInfo> courseRegistrationInfos = AdminRegistrationUtil.getCourseRegistrationService().getCourseRegistrationsByStudentAndTerm(studentId, termCode, createContextInfo());
 
             for (CourseRegistrationInfo courseRegInfo : courseRegistrationInfos) {
 
                 RegistrationCourse registeredCourse = new RegistrationCourse();
-                CourseOfferingInfo coInfo = getCourseOfferingService().getCourseOffering(courseRegInfo.getCourseOfferingId(), createContextInfo());
+                CourseOfferingInfo coInfo = AdminRegistrationUtil.getCourseOfferingService().getCourseOffering(courseRegInfo.getCourseOfferingId(), createContextInfo());
                 registeredCourse.setCode(coInfo.getCourseOfferingCode());
                 registeredCourse.setCourseName(coInfo.getCourseOfferingTitle());
                 registeredCourse.setCredits(Integer.parseInt(coInfo.getCreditCnt()));
                 registeredCourse.setRegDate(courseRegInfo.getEffectiveDate());
 
-                List<ActivityRegistrationInfo> activityOfferings = getCourseRegistrationService().getActivityRegistrationsForCourseRegistration(courseRegInfo.getId(), createContextInfo());
+                List<ActivityRegistrationInfo> activityOfferings = AdminRegistrationUtil.getCourseRegistrationService().getActivityRegistrationsForCourseRegistration(courseRegInfo.getId(), createContextInfo());
 
                 for (ActivityRegistrationInfo activityRegInfos : activityOfferings) {
                     //Use activityRegInfos - to retrieve the hardcoded values
@@ -140,7 +123,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
     @Override
     public void populateStudentInfo(AdminRegistrationForm form) throws Exception {
 
-        Entity entityInfo = this.getIdentityService().getEntity(form.getStudentId());
+        Entity entityInfo =  AdminRegistrationUtil.getIdentityService().getEntity(form.getStudentId());
         if ((entityInfo != null)) {
           
             //KSENROLL-13558 :work around for incorrect Data
@@ -170,31 +153,4 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
         }
     }
 
-    public IdentityService getIdentityService() {
-        if(identityService==null) {
-            identityService = KimApiServiceLocator.getIdentityService();
-        }
-        return identityService;
-    }
-
-    public AcademicCalendarService getAcademicCalendarService() {
-        if (acalService == null){
-            acalService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName(AcademicCalendarServiceConstants.NAMESPACE, AcademicCalendarServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-        return acalService;
-    }
-
-    public CourseRegistrationService getCourseRegistrationService() {
-        if (courseRegService == null){
-            courseRegService = (CourseRegistrationService) GlobalResourceLoader.getService(new QName(CourseRegistrationServiceConstants.NAMESPACE, CourseRegistrationServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-        return courseRegService;
-    }
-
-    public CourseOfferingService getCourseOfferingService() {
-        if (courseOfferingService == null){
-            courseOfferingService = (CourseOfferingService) GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE, CourseOfferingServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-        return courseOfferingService;
-    }
 }
