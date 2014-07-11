@@ -170,6 +170,10 @@
                     <groupId>org.mortbay.jetty</groupId>
                     <artifactId>jetty</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>xapool</groupId>
+                    <artifactId>xapool</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
     </dependencies>
