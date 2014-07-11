@@ -1,12 +1,17 @@
-/*
- * Copyright 2009 The Kuali Foundation Licensed under the Educational Community
- * License, Version 1.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
- * http://www.opensource.org/licenses/ecl1.php Unless required by applicable law
- * or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the specific language
- * governing permissions and limitations under the License.
+/**
+ * Copyright 2014 The Kuali Foundation
+ *
+ * Licensed under the Educational Community License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing
+ * permissions and limitations under the License.
  */
 package org.kuali.student.r2.lum.program.dto;
 
@@ -65,8 +70,6 @@ import org.kuali.student.r2.lum.program.infc.ProgramVariation;
         "nextReviewPeriod",
         "publishedInstructors",
         "accreditingAgencies",
-        "variations",
-        "orgCoreProgram",
         "startTerm",
         "endTerm",
         "endProgramEntryTerm",
@@ -78,6 +81,7 @@ import org.kuali.student.r2.lum.program.infc.ProgramVariation;
         "catalogDescr",
         "catalogPublicationTargets",
         "referenceURL",
+        "lastAwardedTerm",
         "attributes",
         "meta",
         "_futureElements"  })
@@ -153,10 +157,6 @@ public class MinorDisciplineInfo extends IdNamelessEntityInfo implements MinorDi
     private List<CluInstructorInfo> publishedInstructors;
     @XmlElement
     private List<AccreditationInfo> accreditingAgencies;
-    @XmlElement
-    private List<ProgramVariationInfo> variations;
-    @XmlElement
-    private CoreProgramInfo orgCoreProgram;
 
     // ProgramAtpAssembly
     @XmlElement
@@ -185,6 +185,8 @@ public class MinorDisciplineInfo extends IdNamelessEntityInfo implements MinorDi
     private List<String> catalogPublicationTargets;
     @XmlElement
     private String referenceURL;
+    @XmlElement
+    private String lastAwardedTerm;
 
     @XmlAnyElement
     private List<Object> _futureElements;
@@ -280,16 +282,6 @@ public class MinorDisciplineInfo extends IdNamelessEntityInfo implements MinorDi
                 this.accreditingAgencies.add(new AccreditationInfo(aa));
             }
         }
-        if (minorDiscipline.getVariations() != null) {
-            this.variations = new ArrayList<ProgramVariationInfo>(minorDiscipline.getVariations().size());
-            for (ProgramVariation pv : minorDiscipline.getVariations()) {
-                ProgramVariationInfo info = new ProgramVariationInfo(pv);
-                this.variations.add(info);
-            }
-        }
-        if (minorDiscipline.getOrgCoreProgram() != null) {
-            this.orgCoreProgram = new CoreProgramInfo(minorDiscipline.getOrgCoreProgram());
-        }
         this.startTerm = minorDiscipline.getStartTerm();
         this.endTerm = minorDiscipline.getEndTerm();
         this.endProgramEntryTerm = minorDiscipline.getEndProgramEntryTerm();
@@ -332,6 +324,7 @@ public class MinorDisciplineInfo extends IdNamelessEntityInfo implements MinorDi
             }
         }
         this.referenceURL = minorDiscipline.getReferenceURL();
+        this.lastAwardedTerm = minorDiscipline.getLastAwardedTerm();
     }
 
     @Override
@@ -549,18 +542,6 @@ public class MinorDisciplineInfo extends IdNamelessEntityInfo implements MinorDi
     }
 
     @Override
-    public List<ProgramVariationInfo> getVariations() {
-        if (variations == null) {
-            variations = new ArrayList<ProgramVariationInfo>(0);
-        }
-        return variations;
-    }
-
-    public void setVariations(List<ProgramVariationInfo> variations) {
-        this.variations = variations;
-    }
-
-    @Override
     public String getNextReviewPeriod() {
         return nextReviewPeriod;
     }
@@ -576,15 +557,6 @@ public class MinorDisciplineInfo extends IdNamelessEntityInfo implements MinorDi
 
     public void setAccreditingAgencies(List<AccreditationInfo> accreditingAgencies) {
         this.accreditingAgencies = accreditingAgencies;
-    }
-
-    @Override
-    public CoreProgramInfo getOrgCoreProgram() {
-        return orgCoreProgram;
-    }
-
-    public void setOrgCoreProgram(CoreProgramInfo orgCoreProgram) {
-        this.orgCoreProgram = orgCoreProgram;
     }
 
     @Override
@@ -694,6 +666,15 @@ public class MinorDisciplineInfo extends IdNamelessEntityInfo implements MinorDi
 
     public void setReferenceURL(String referenceURL) {
         this.referenceURL = referenceURL;
+    }
+
+    @Override
+    public String getLastAwardedTerm() {
+        return lastAwardedTerm;
+    }
+
+    public void setLastAwardedTerm(String lastAwardedTerm) {
+        this.lastAwardedTerm = lastAwardedTerm;
     }
 
 }

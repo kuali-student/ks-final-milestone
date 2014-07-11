@@ -1,3 +1,18 @@
+/**
+ * Copyright 2014 The Kuali Foundation
+ *
+ * Licensed under the Educational Community License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
 package org.kuali.student.r2.lum.program.infc;
 
 
@@ -10,11 +25,9 @@ import org.kuali.student.r2.common.infc.TimeAmount;
 import org.kuali.student.r2.lum.clu.infc.Accreditation;
 import org.kuali.student.r2.lum.clu.infc.CluInstructor;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
-import org.kuali.student.r2.lum.program.dto.CoreProgramInfo;
 
 /**
- * Created by IntelliJ IDEA. User: sambitpatnaik Date: 10/27/11 Time: 10:38 AM
- * To change this template use File | Settings | File Templates.
+ * @author Kuali Student Team
  */
 public interface MinorDiscipline extends IdNamelessEntity {
 
@@ -48,24 +61,6 @@ public interface MinorDiscipline extends IdNamelessEntity {
      * @name Accrediting Agencies
      */
     public List<? extends Accreditation> getAccreditingAgencies();
-
-    /**
-     * Program variations for the Minor
-     *
-     * Also called specializations or tracks.
-     *
-     * @name Variations
-     */
-    public List<? extends ProgramVariation> getVariations();
-
-    /**
-     * The core program requirements associated with this organizational unit
-     *
-     * Also called School Core or School Wide Common Requirements.
-     *
-     * @name Organization Core Program
-     */
-    public CoreProgramInfo getOrgCoreProgram();
 
     /**
      * Indicates if the program is full time, part time, both etc
@@ -251,4 +246,8 @@ public interface MinorDiscipline extends IdNamelessEntity {
      */
     public List<LoDisplayInfo> getLearningObjectives();
 
+    /**
+     * @name Last Awarded Term
+     */
+    public String getLastAwardedTerm();
 }
