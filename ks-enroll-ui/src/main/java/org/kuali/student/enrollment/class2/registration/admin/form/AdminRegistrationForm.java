@@ -16,6 +16,7 @@
 
 package org.kuali.student.enrollment.class2.registration.admin.form;
 
+import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 
@@ -57,32 +58,10 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
 
     private List<RegistrationCourse> coursesInProcess = new ArrayList<RegistrationCourse>();
 
+    //KSENROLL-13558 :work around for incorrect Data
+    private List<Principal> principalIDs = new ArrayList<Principal>();
+
     public AdminRegistrationForm(){
-        RegistrationCourse course1 =
-                new RegistrationCourse("CHEM 237", "1001", "The Chemistry of Stuff", 3, "Regular", new Date());
-        List<RegistrationActivity> activities1 = new ArrayList<RegistrationActivity>();
-        activities1.add(new RegistrationActivity("Lec", "MWF 01:00pm - 02:30pm", "Steve Capriani", "PTX 2391"));
-        activities1.add(new RegistrationActivity("Lab", "MWF 02:30pm - 03:30pm", "Steve Capriani", "PTX 2391"));
-        course1.setActivities(activities1);
-
-        registeredCourses.add(course1);
-
-        RegistrationCourse course2 =
-                new RegistrationCourse("ENGL 233", "1001", "The World of Shakespeare", 3, "Audit", new Date());
-        List<RegistrationActivity> activities2 = new ArrayList<RegistrationActivity>();
-        activities2.add(new RegistrationActivity("Lec", "MWF 01:00pm - 02:30pm", "Someone", "PTX 1111"));
-        course2.setActivities(activities2);
-
-        registeredCourses.add(course2);
-
-        RegistrationCourse course3 =
-                new RegistrationCourse("ENGL 640", "1001", "Light and Motion", 3, "Pass/Fail", new Date());
-        List<RegistrationActivity> activities3 = new ArrayList<RegistrationActivity>();
-        activities3.add(new RegistrationActivity("Lec", "MWF 01:00pm - 02:30pm", "Someone", "PTX 1200"));
-        course3.setActivities(activities3);
-
-        registeredCourses.add(course3);
-
         RegistrationCourse course4 =
                 new RegistrationCourse("CHEM 237", "1001", "The Chemistry of Stuff", 3, "Regular", new Date());
         List<RegistrationActivity> activities4 = new ArrayList<RegistrationActivity>();
@@ -279,5 +258,13 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
 
     public void setTempWaitlistCourseEdit(RegistrationCourse tempWaitlistCourseEdit) {
         this.tempWaitlistCourseEdit = tempWaitlistCourseEdit;
+    }
+
+    public List<Principal> getPrincipalIDs() {
+        return principalIDs;
+    }
+
+    public void setPrincipalIDs(List<Principal> principalIDs) {
+        this.principalIDs = principalIDs;
     }
 }

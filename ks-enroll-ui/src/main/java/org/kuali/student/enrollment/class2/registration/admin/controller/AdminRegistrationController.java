@@ -18,6 +18,7 @@ package org.kuali.student.enrollment.class2.registration.admin.controller;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.io.SerializationUtils;
+import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -110,6 +111,15 @@ public class AdminRegistrationController extends UifControllerBase {
             if(term!=null){
                 form.setTermInfo(term);
                 form.setTermName(term.getName());
+
+                //KSENROLL-13558 :work around for incorrect Data
+                String studentID = "";
+                for(Principal principalID: form.getPrincipalIDs())  {
+                    //setting the first item to String on the assumption that there will only be one.
+                    studentID = principalID.getPrincipalId();
+                }
+                //method needs to change to pass form.getStudentId and not studentID
+                form.setRegisteredCourses(getViewHelper(form).getCourseRegStudentAndTerm(studentID, term.getId()));
             }
         }else{
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, ManageSocConstants.MessageKeys.ERROR_INVALID_TERM);
