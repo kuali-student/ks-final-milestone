@@ -94,6 +94,12 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
         load((CourseSectionDetailsForm) form, courseId);
     }
 
+    /**
+     * Load information on the course and its offerings into the form
+     *
+     * @param form - Page form to load information onto
+     * @param courseId - Id of the course being loaded
+     */
     private void load(CourseSectionDetailsForm form, String courseId)  {
         CourseInfo courseInfo = KsapFrameworkServiceLocator.getCourseHelper().getCourseInfo(courseId);
         form.setCourseTitle(courseInfo.getCourseTitle());
@@ -102,6 +108,13 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
         form.setCourseTermDetailsWrappers(getScheduledTerms(termIds, courseId));
     }
 
+    /**
+     * Load data for terms with scheduled course offerings for the course
+     *
+     * @param scheduledTermsList - List of term ids
+     * @param courseId - Id of the course being data is load for
+     * @return A list of filled in terms to display
+     */
     private List<CourseTermDetailsWrapper> getScheduledTerms(List<String> scheduledTermsList, String courseId)  {
 
         List<CourseTermDetailsWrapper> courseTermDetailsList = new ArrayList<CourseTermDetailsWrapper>();
@@ -128,10 +141,12 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
             List<Term> terms = new ArrayList<Term>(scheduledTerms);
             List<Term> scheduledTermsListSorted = sortTerms(terms);
 
+            // Create and load inforamtion of the course offerings for the term
             List<String> courseIds = new ArrayList<String>();
             courseIds.add(courseId);
             Map<String, List<CourseOfferingDetailsWrapper>> courseOfferingsByTerm = processCourseOfferingsByTerm(courseIds, terms);
 
+            // Create the term details wrapper and load data for it.
             for (Term scheduledTermId : scheduledTermsListSorted) {
 
                 CourseTermDetailsWrapper courseTerm = new CourseTermDetailsWrapper();
@@ -142,6 +157,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
                 courseTermDetailsList.add(courseTerm);
             }
         }
+
         return courseTermDetailsList;
     }
 
@@ -801,8 +817,17 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
         updateScheduleToAOWrapperForDisplay(aoWrapper, isTBA, roomInfo, timeSlot);
     }
 
+    /**
+     * Update an activity wrapper to include scheduling information
+     *
+     * @param aoWrapper - Activity wraper being updated
+     * @param isTBA - If activity scheduling data is TBA
+     * @param roomInfo - Room informationto load
+     * @param timeSlot - Time slot information to load
+     */
     private void updateScheduleToAOWrapperForDisplay(ActivityOfferingDetailsWrapper aoWrapper, Boolean isTBA,
                                                      RoomInfo roomInfo, TimeSlotInfo timeSlot) {
+        // Update time slot information
         if (timeSlot != null) {
 
             TimeOfDayInfo startTime = timeSlot.getStartTime();
@@ -818,6 +843,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
             }
         }
 
+        // Update room information
         if (roomInfo != null && StringUtils.isNotBlank(roomInfo.getBuildingId())) {
 
             BuildingInfo buildingInfo = null;
