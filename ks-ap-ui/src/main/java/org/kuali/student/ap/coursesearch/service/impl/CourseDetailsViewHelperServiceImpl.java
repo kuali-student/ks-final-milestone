@@ -232,7 +232,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
                             tempActivityOfferingDetailWrappers.addAll(aosByType.getValue());
 
                         }
-                        plannedActivityOfferings.addAll(getPlannedPlannedRegistrationGroups(tempActivityOfferingDetailWrappers));
+                        plannedActivityOfferings.addAll(getPlannedPlannedRegistrationGroups(termId, tempActivityOfferingDetailWrappers));
                     }
 
                     formatOfferingInfo.setActivityFormatDetailsWrappers(activityFormatDetailsWrappers);
@@ -403,44 +403,6 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
             wrapper.setHasActivityOfferingRequisites(true);
 
         wrapper.setInPlan(false);
-        List<RegistrationGroupInfo> regGroups = null;
-        try {
-            regGroups = KsapFrameworkServiceLocator.getCourseOfferingService().getRegistrationGroupsByActivityOffering(wrapper.getActivityOfferingId(), contextInfo);
-        } catch (DoesNotExistException e) {
-            throw new IllegalArgumentException("CO Service lookup error", e);
-        } catch (InvalidParameterException e) {
-            throw new IllegalArgumentException("CO Service lookup error", e);
-        } catch (MissingParameterException e) {
-            throw new IllegalArgumentException("CO Service lookup error", e);
-        } catch (OperationFailedException e) {
-            throw new IllegalArgumentException("CO Service lookup error", e);
-        } catch (PermissionDeniedException e) {
-            throw new IllegalArgumentException("CO Service lookup error", e);
-        }
-        String planId = KsapFrameworkServiceLocator.getPlanHelper().getDefaultLearningPlan().getId();
-        if(regGroups!=null){
-            for(RegistrationGroupInfo regGroup : regGroups){
-                List<PlanItemInfo> items = null;
-                try {
-                    items = KsapFrameworkServiceLocator.getAcademicPlanService()
-                            .getPlanItemsInPlanByRefObjectIdByRefObjectType(planId, regGroup.getId(),
-                                    PlanConstants.REG_GROUP_TYPE, contextInfo);
-                } catch (InvalidParameterException e) {
-                    throw new IllegalArgumentException("Academic Plan Service lookup error", e);
-                } catch (MissingParameterException e) {
-                    throw new IllegalArgumentException("Academic Plan Service lookup error", e);
-                } catch (OperationFailedException e) {
-                    throw new IllegalArgumentException("Academic Plan Service lookup error", e);
-                } catch (PermissionDeniedException e) {
-                    throw new IllegalArgumentException("Academic Plan Service lookup error", e);
-                }
-                if(!items.isEmpty()){
-                    wrapper.setInPlan(true);
-                    wrapper.setRegGroupCode(regGroup.getName());
-                    wrapper.setRegGroupId(regGroup.getId());
-                }
-            }
-        }
 
         try {
             wrapper.setCurrentEnrollment(KsapFrameworkServiceLocator.getCourseSeatCountService()
@@ -877,31 +839,81 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
         }
     }
 
-    private List<PlannedRegistrationGroupDetailsWrapper> getPlannedPlannedRegistrationGroups(
+    /**
+     * Finds the already planned registration group and creates the details for them
+     *
+     * @param termId - Id of the course offering being loaded
+     * @param activities - List of activities for the course offering
+     * @return A populated list of planned registration groups
+     */
+    private List<PlannedRegistrationGroupDetailsWrapper> getPlannedPlannedRegistrationGroups(String termId,
             List<ActivityOfferingDetailsWrapper> activities){
 
-        List<ActivityOfferingDetailsWrapper> activityOfferings = new ArrayList<ActivityOfferingDetailsWrapper>();
-        for(ActivityOfferingDetailsWrapper activityOfferingDetailsWrapper : activities){
-            if(activityOfferingDetailsWrapper.isInPlan()){
-                activityOfferings.add(activityOfferingDetailsWrapper);
+        // Get registration group plan items
+        String learningPlanId = KsapFrameworkServiceLocator.getPlanHelper().getDefaultLearningPlan().getId();
+        List<PlanItemInfo> regItems = new ArrayList<PlanItemInfo>();
+        List<RegistrationGroupInfo> regGroups = null;
+        try {
+            List<PlanItemInfo> items = KsapFrameworkServiceLocator.getAcademicPlanService()
+                    .getPlanItemsInPlan(learningPlanId,KsapFrameworkServiceLocator.getContext().getContextInfo());
+            for(PlanItemInfo item : items){
+                if(!item.getRefObjectType().equals(PlanConstants.REG_GROUP_TYPE)){
+                    continue;
+                }
+                if(!item.getPlanTermIds().contains(termId)){
+                    continue;
+                }
+                regItems.add(item);
             }
+        } catch (InvalidParameterException e) {
+            throw new IllegalArgumentException("Academic plan service lookup error", e);
+        } catch (MissingParameterException e) {
+            throw new IllegalArgumentException("Academic plan service lookup error", e);
+        } catch (OperationFailedException e) {
+            throw new IllegalArgumentException("Academic plan service lookup error", e);
+        } catch (PermissionDeniedException e) {
+            throw new IllegalArgumentException("Academic plan service lookup error", e);
         }
 
+
+
+        List<String> ids = new ArrayList<String>();
+        for(PlanItemInfo item : regItems){
+            ids.add(item.getRefObjectId());
+        }
+
+        // Get registration groups from plan items
+        try {
+            regGroups = KsapFrameworkServiceLocator.getCourseOfferingService().getRegistrationGroupsByIds(
+                    ids,KsapFrameworkServiceLocator.getContext().getContextInfo());
+        } catch (DoesNotExistException e) {
+            throw new IllegalArgumentException("CO service lookup error", e);
+        } catch (InvalidParameterException e) {
+            throw new IllegalArgumentException("CO service lookup error", e);
+        } catch (MissingParameterException e) {
+            throw new IllegalArgumentException("CO service lookup error", e);
+        } catch (OperationFailedException e) {
+            throw new IllegalArgumentException("CO service lookup error", e);
+        } catch (PermissionDeniedException e) {
+            throw new IllegalArgumentException("CO service lookup error", e);
+        }
+
+        // Load planned registration group details
         List<PlannedRegistrationGroupDetailsWrapper> plannedRegistrationGroupDetailsWrappers = new ArrayList<PlannedRegistrationGroupDetailsWrapper>();
-        for(ActivityOfferingDetailsWrapper activityFormatDetailsWrapper : activityOfferings){
-            boolean found = false;
-            for(PlannedRegistrationGroupDetailsWrapper plannedRegistrationGroupDetailsWrapper : plannedRegistrationGroupDetailsWrappers){
-                if(plannedRegistrationGroupDetailsWrapper.getRegGroupCode().equals(activityFormatDetailsWrapper.getRegGroupCode())){
-                    found = true;
-                    plannedRegistrationGroupDetailsWrapper.addActivities(activityFormatDetailsWrapper);
+        for(RegistrationGroupInfo regGroup : regGroups){
+            PlannedRegistrationGroupDetailsWrapper plannedRegistrationGroup = new PlannedRegistrationGroupDetailsWrapper();
+            plannedRegistrationGroup.setRegGroupCode(regGroup.getName());
+            for(String id : regGroup.getActivityOfferingIds()){
+                for(ActivityOfferingDetailsWrapper activityOfferingDetailsWrapper : activities){
+                    if(activityOfferingDetailsWrapper.getActivityOfferingId().equals(id)){
+                        // Set activity in plan status
+                        activityOfferingDetailsWrapper.setInPlan(true);
+                        plannedRegistrationGroup.addActivities(activityOfferingDetailsWrapper);
+                        break;
+                    }
                 }
             }
-            if(!found){
-                PlannedRegistrationGroupDetailsWrapper newPlanReg = new PlannedRegistrationGroupDetailsWrapper();
-                newPlanReg.setRegGroupCode(activityFormatDetailsWrapper.getRegGroupCode());
-                newPlanReg.addActivities(activityFormatDetailsWrapper);
-                plannedRegistrationGroupDetailsWrappers.add(newPlanReg);
-            }
+            plannedRegistrationGroupDetailsWrappers.add(plannedRegistrationGroup);
         }
 
         return plannedRegistrationGroupDetailsWrappers;
