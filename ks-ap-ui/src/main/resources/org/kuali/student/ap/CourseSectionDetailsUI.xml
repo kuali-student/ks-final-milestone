@@ -279,8 +279,6 @@
         <property name="cssClasses">
             <list merge="true">
                 <value>ksap-section-format</value>
-                <value>@{!#line.validFormat ? 'ksap-hide':''}</value>
-
             </list>
         </property>
 
@@ -294,7 +292,7 @@
                               p:actionLabel="@{#textHelper.getText('details.button.addToPlan')}"
                               p:disabled="true"
                               p:id="@{#line.xmlSafeTermId}_@{#line.courseOfferingCode}_@{#line.formatOfferingId}_addButton"
-                              p:actionScript="ksapOpenDialog('KSAP-CourseDetailsSection-AddCoursePage','details','startAddDialog', this, e, {regGroupId: jQuery(this).attr('data-reggroupid')});">
+                              p:actionScript="ksapOpenDialog('KSAP-CourseDetailsSection-AddCoursePage','course/details','startAddDialog', this, e, {regGroupId: jQuery(this).attr('data-reggroupid')});">
                             <property name="dataAttributes">
                                 <map>
                                     <entry key="reggroupid" value="none" />
@@ -542,7 +540,7 @@
                                                           p:id="requirementsUrl"
                                                           p:additionalCssClasses="ksap-section-details-item"
                                                           p:actionLabel="@{#textHelper.getText('details.ao.additionalDetails.restrictions')}"
-                                                          p:actionScript="ksapOpenDialog('KSAP-CourseDetailsSection-Requisites','details','startRequisitesDialog', this, e, {activityOfferingId: '@{#line.activityOfferingId}'});"/>
+                                                          p:actionScript="ksapOpenDialog('KSAP-CourseDetailsSection-Requisites','course/details','startRequisitesDialog', this, e, {activityOfferingId: '@{#line.activityOfferingId}'});"/>
                                                 </list>
                                             </property>
                                         </bean>
@@ -668,7 +666,7 @@
                                   p:id="requirementsUrl"
                                   p:additionalCssClasses="ksap-section-details-item"
                                   p:actionLabel="@{#textHelper.getText('details.ao.additionalDetails.restrictions')}"
-                                  p:actionScript="ksapOpenDialog('KSAP-CourseDetailsSection-Requisites','details','startRequisitesDialog', this, e, {activityOfferingId: '__KSAP__ACTIVITYOFFERINGID__'});"/>
+                                  p:actionScript="ksapOpenDialog('KSAP-CourseDetailsSection-Requisites','course/details','startRequisitesDialog', this, e, {activityOfferingId: '__KSAP__ACTIVITYOFFERINGID__'});"/>
                         </list>
                     </property>
                 </bean>
@@ -784,7 +782,7 @@
                                   p:id="requirementsUrl"
                                   p:additionalCssClasses="ksap-section-details-item"
                                   p:actionLabel="@{#textHelper.getText('details.ao.additionalDetails.restrictions')}"
-                                  p:actionScript="ksapOpenDialog('KSAP-CourseDetailsSection-Requisites','details','startRequisitesDialog', this, e, {activityOfferingId: '@{#line.activityOfferingId}'});"/>
+                                  p:actionScript="ksapOpenDialog('KSAP-CourseDetailsSection-Requisites','course/details','startRequisitesDialog', this, e, {activityOfferingId: '@{#line.activityOfferingId}'});"/>
                             <bean parent="Uif-Message"
                                   p:additionalCssClasses="ksap-hide rowActivityOfferingId"
                                   p:messageText="@{#line.activityOfferingId}">
@@ -824,7 +822,7 @@
                                         <value>@{#line.inPlan ? 'ks-fontello-icon-ok-circled' : 'ks-fontello-icon-hollow-circled-plus'}</value>
                                     </list>
                                 </property>
-                                <property name="actionScript" value="ksapOpenDialog('KSAP-CourseDetailsSection-AddCoursePage','details','startAddDialog', this, e,{regGroupId: '@{#line.regGroupId}'});"/>
+                                <property name="actionScript" value="ksapOpenDialog('KSAP-CourseDetailsSection-AddCoursePage','course/details','startAddDialog', this, e,{regGroupId: '@{#line.regGroupId}'});"/>
                             </bean>
                         </list>
                     </property>

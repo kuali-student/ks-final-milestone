@@ -901,6 +901,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
         // Load planned registration group details
         List<PlannedRegistrationGroupDetailsWrapper> plannedRegistrationGroupDetailsWrappers = new ArrayList<PlannedRegistrationGroupDetailsWrapper>();
         for(RegistrationGroupInfo regGroup : regGroups){
+
             PlannedRegistrationGroupDetailsWrapper plannedRegistrationGroup = new PlannedRegistrationGroupDetailsWrapper();
             plannedRegistrationGroup.setRegGroupCode(regGroup.getName());
             for(String id : regGroup.getActivityOfferingIds()){
@@ -913,6 +914,8 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
                     }
                 }
             }
+            // If no activities are filled then it is a bad registration group and don't add it to the list
+            if(plannedRegistrationGroup.getActivities() == null || plannedRegistrationGroup.getActivities().isEmpty()) continue;
             plannedRegistrationGroupDetailsWrappers.add(plannedRegistrationGroup);
         }
 

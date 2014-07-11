@@ -289,7 +289,7 @@ function clickActivity(selected,e){
 
     // Setup form submit
     stopEvent(e);
-    var form = jQuery('<form />').attr("id", "tempSubmit").attr("action", "details").attr("method", "post");
+    var form = jQuery('<form />').attr("id", "tempSubmit").attr("action", "course/details").attr("method", "post");
     jQuery("body").append(form);
     var additionalFormData = {
         methodToCall:"filterAOs",
