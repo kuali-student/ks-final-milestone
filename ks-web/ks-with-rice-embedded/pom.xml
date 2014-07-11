@@ -237,6 +237,10 @@
             <type>pom</type>
         </dependency>
         <dependency>
+            <groupId>xapool</groupId>
+            <artifactId>xapool</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-sts</artifactId>
             <version>${ks.core.version}</version>

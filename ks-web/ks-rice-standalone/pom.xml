@@ -98,6 +98,10 @@
             <artifactId>rice-impl</artifactId>
         </dependency>
         <dependency>
+            <groupId>xapool</groupId>
+            <artifactId>xapool</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-ksb-web</artifactId>
         </dependency>
