@@ -1416,6 +1416,11 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             for (int i = 0; i < loWrappers.size(); i++) {
 
                 LoDisplayInfoWrapper currentLo = loWrappers.get(i);
+                /**
+                 * Reset the ID sothat service can create a new LO instead of update. Update hibernate call rearranges
+                 * the order.
+                 */
+                currentLo.getLoInfo().setId("");
 
                 boolean rootLevel = true;
                 int parentIndex = i - 1;
@@ -1536,7 +1541,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         courseInfoWrapper.setRefDiscriminatorType(CourseServiceConstants.REF_OBJECT_URI_COURSE);
         courseInfoWrapper.setRefObjectId(courseInfoWrapper.getCourseInfo().getId());
 
-//        super.saveDataObject();
+        super.saveDataObject();
     }
 
     /**
