@@ -32,7 +32,7 @@
     </cache>
 
     <!-- This is for the Course Code Lookup Cache.  -->
-    <cache name="CourseOfferingMaintainableImplCache" maxElementsInMemory="2000" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="300" />
+    <cache name="CourseOfferingCodeCache" maxElementsInMemory="2000" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="300" />
 
     <!-- These caches do no refresh. These are for objects that do not change after startup -->
     <cache name="LRCServiceCache" maxElementsInMemory="1000" eternal="true" timeToIdleSeconds="0" timeToLiveSeconds="0" />
