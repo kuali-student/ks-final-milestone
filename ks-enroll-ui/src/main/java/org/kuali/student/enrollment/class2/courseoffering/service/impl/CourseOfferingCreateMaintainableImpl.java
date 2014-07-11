@@ -83,7 +83,7 @@ import java.util.Set;
 public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintainableImpl implements Maintainable {
 
     private static final Logger LOG = LoggerFactory.getLogger(CourseOfferingCreateMaintainableImpl.class);
-    private final static String CACHE_NAME = "CourseOfferingMaintainableImplCache";
+    private final static String CACHE_NAME = "CourseOfferingCodeCache";
 
     /**
      * Sets a default maintenace document description and if term code exists in the request parameter, set it to the wrapper.

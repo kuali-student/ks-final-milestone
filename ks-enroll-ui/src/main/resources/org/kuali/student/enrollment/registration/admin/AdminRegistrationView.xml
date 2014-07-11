@@ -134,7 +134,7 @@
         </property>
     </bean>
 
-  <!--  Tabs -->
+    <!--  Tabs -->
     <bean id="KS-AdminRegistration-RegisteredTab" parent="Uif-VerticalBoxSection"
           p:headerText="Registered (@{registeredCredits}) / Waitlist (@{waitlistedCredits})">
         <property name="header.render" value="false"/>
@@ -147,9 +147,9 @@
         </property>
     </bean>
 
-  <!--bean id="KS-AdminRegistration-HistoryTab" parent="Uif-VerticalBoxSection" p:headerText="Registration History">
-    <property name="header.render" value="false"/>
-  </bean-->
+    <!--bean id="KS-AdminRegistration-HistoryTab" parent="Uif-VerticalBoxSection" p:headerText="Registration History">
+      <property name="header.render" value="false"/>
+    </bean-->
 
     <!--  Registration Area -->
     <bean id="KS-AdminRegistration-RegisterGroup" parent="Uif-CssGridGroup">
@@ -164,7 +164,7 @@
     <bean id="KS-AdminRegistration-RegFor" parent="Uif-TableCollectionGroup" p:colSpan="4">
         <!--p:enterKeyAction="KS-AdminRegistration-RegFor_add"-->
         <property name="collectionObjectClass"
-            value="org.kuali.student.enrollment.class2.registration.admin.form.RegistrationCourse"/>
+                  value="org.kuali.student.enrollment.class2.registration.admin.form.RegistrationCourse"/>
         <property name="propertyName" value="pendingCourses"/>
         <property name="renderAddBlankLineButton" value="true"/>
         <property name="addLinePlacement" value="BOTTOM"/>
@@ -175,9 +175,9 @@
         <property name="lineActions">
             <list>
                 <bean parent="Uif-PrimaryActionButton" p:render="@{#index == pendingCourses.size() - 1}"
-                    p:actionLabel="Register" p:methodToCall="register"
-                    p:refreshId="KS-AdminRegistration-RegistrationTabs"
-                    p:ajaxReturnType="update-component"/>
+                      p:actionLabel="Register" p:methodToCall="register"
+                      p:refreshId="KS-AdminRegistration-RegistrationTabs"
+                      p:ajaxReturnType="update-component"/>
             </list>
         </property>
         <property name="addBlankLineAction">
@@ -190,6 +190,20 @@
                 <bean parent="Uif-InputField" p:propertyName="code" p:label="Course Code">
                     <property name="control">
                         <bean parent="KS-Uif-TextControl" p:size="7" />
+                    </property>
+                    <!-- The course code auto-complete -->
+                    <property name="suggest">
+                        <bean parent="Uif-Suggest" p:render="true" p:valuePropertyName="code">
+                            <property name="returnFullQueryObject" value="true"/>
+                            <property name="suggestQuery">
+                                <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="retrieveCourseCodes" p:queryMethodArgumentFieldList="termCode"/>
+                            </property>
+                            <property name="templateOptions">
+                                <map merge="true">
+                                    <entry key="minLength" value="1"/>
+                                </map>
+                            </property>
+                        </bean>
                     </property>
                 </bean>
                 <bean parent="Uif-InputField" p:propertyName="section" p:label="Section">
@@ -293,7 +307,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-MessageField" p:label="Course (Section)"
-                        p:messageText="@{#line.code} (@{#line.section}) [0]">
+                      p:messageText="@{#line.code} (@{#line.section}) [0]">
                     <property name="message.inlineComponents">
                         <list>
                             <bean parent="Uif-Message" p:title="Subterm" p:render="@{#line.subterm}" p:messageText="S"
@@ -432,7 +446,7 @@
         <property name="items">
             <list>
                 <bean id="KS-AdminRegistration-DialogCollection" parent="Uif-TableCollectionGroup"
-                    p:layoutManager.numberOfColumns="10">
+                      p:layoutManager.numberOfColumns="10">
                     <property name="collectionObjectClass"
                               value="org.kuali.student.enrollment.class2.registration.admin.form.RegistrationCourse"/>
                     <property name="layoutManager.richTable.render" value="false"/>
