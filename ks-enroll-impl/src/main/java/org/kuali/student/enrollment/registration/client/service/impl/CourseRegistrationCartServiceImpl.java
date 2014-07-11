@@ -196,6 +196,12 @@ public class CourseRegistrationCartServiceImpl implements CourseRegistrationCart
 
         //Get the cart result with the item id to trim it down and no reg options since we know these already
         CartResult cartResult = getCartForUserAndTerm(cart.getRequestorId(), cart.getTermId(), null, newCartItemId, false, contextInfo);
+        if(cartResult == null){
+            // we were getting NPE on the next method when under heavy load. Adding additional debug.
+            String technicalInfo = String.format("Error: cartResult == null. Technical Info:(cartRequestorId:[%s] cartTermId:[%s] newCartItemId:[%s] )",
+                    cart.getRequestorId(), cart.getTermId(), newCartItemId);
+            throw new NullPointerException(technicalInfo);
+        }
         CartItemResult cartItemResult = KSCollectionUtils.getRequiredZeroElement(cartResult.getItems());
 
         //populate the options we have already calculated
