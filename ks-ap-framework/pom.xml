@@ -46,6 +46,12 @@
             <groupId>org.kuali.student.enroll</groupId>
             <artifactId>ks-enroll-impl</artifactId>
             <version>${ks.enroll.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.student.enroll</groupId>
+            <artifactId>ks-enroll-impl</artifactId>
+            <version>${ks.enroll.version}</version>
+            <type>test-jar</type>
             <scope>test</scope>
         </dependency>
         <dependency>

@@ -68,8 +68,27 @@
     <bean id="academicCalendarService" class="org.kuali.student.ap.test.mock.AcademicCalendarServiceMockTest">
         <property name="termAssembler" ref="termAssembler"/>
     </bean>
+    <bean id="courseOfferingService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceMockImpl" autowire="default"/>
     <bean id="academicRecordService" class="org.kuali.student.ap.test.mock.AcademicRecordServiceMockTest"/>
-    <bean id="courseOfferingService" class="org.kuali.student.ap.test.mock.CourseOfferingServiceMockTest"/>
+    <bean id="coBusinessLogic" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceBusinessLogicImpl" />
+    <bean id="courseOfferingTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer">
+        <property name="krmsRuleManagementCopyMethods" ref="krmsRuleManagementCopyMethods" />
+    </bean>
+    <bean id="activityTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingTransformer" >
+        <property name="krmsRuleManagementCopyMethods" ref="krmsRuleManagementCopyMethods" />
+    </bean>
+    <bean id="regGroupCodeGeneratorFactory" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.FourDigitRegistrationGroupCodeGeneratorFactory" />
+    <bean id="krmsRuleManagementCopyMethods" class="org.kuali.rice.krms.impl.util.KrmsRuleManagementCopyMethodsMockImpl"></bean>
+    <bean id="acalServiceFacade" class=" org.kuali.student.r2.core.acal.service.facade.AcademicCalendarServiceFacadeImpl" autowire="byName" />
+    <alias name="academicCalendarService" alias="acalService" />
+    <bean id="rolloverAssist" class="org.kuali.student.enrollment.class2.courseofferingset.service.facade.RolloverAssistImpl"></bean>
+    <bean id="courseWaitListServiceFacade" class="org.kuali.student.enrollment.class2.coursewaitlist.service.facade.CourseWaitListServiceFacadeImpl"/>
+    <bean id="courseWaitListService" class="org.kuali.student.enrollment.class2.coursewaitlist.service.impl.CourseWaitListServiceMapImpl" />
+    <bean id="eoServiceImpl" class="org.kuali.student.enrollment.class2.examoffering.service.impl.ExamOfferingServiceMapImpl" autowire="default" />
+    <bean id="examOfferingServiceFacade" class="org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingServiceFacadeImpl" autowire="default"/>
+    <bean id="courseOfferingServiceExtender" class="org.kuali.student.enrollment.class2.courseoffering.service.extender.CourseOfferingServiceMockExtenderImpl"/>
+    <bean id="stateService" class="org.kuali.student.r2.core.class1.state.mock.StateServiceMockImpl" />
+
     <bean id="luiService" class="org.kuali.student.ap.test.mock.LuiServiceMockTest"/>
     <bean id="commentService" class="org.kuali.student.ap.test.mock.CommentServiceMockTest"/>
     <bean id="enumerationManagementService" class="org.kuali.student.ap.test.mock.EnumerationManagementServiceMockTest"/>

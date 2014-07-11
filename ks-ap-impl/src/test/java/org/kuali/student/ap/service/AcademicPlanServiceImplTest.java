@@ -27,6 +27,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.lum.clu.CLUConstants;
 import org.kuali.student.r2.lum.course.service.impl.CourseServiceMapImpl;
 import org.kuali.student.r2.lum.lu.service.impl.CluServiceMockImpl;
@@ -192,7 +193,7 @@ public class AcademicPlanServiceImplTest extends TestAcademicPlanServiceImplConf
      * @throws AlreadyExistsException
      */
     @Test
-    public void testCreatePlanItemWithInvalidType()
+    public void testCreatePlanItemTypeValidation()
             throws DataValidationErrorException,
                    DoesNotExistException,
                    InvalidParameterException,
@@ -278,11 +279,45 @@ public class AcademicPlanServiceImplTest extends TestAcademicPlanServiceImplConf
         }
         Assert.assertTrue("Invalid item type ["+invalidItemType+"] was not detected!",exception);
 
-        //Finally....Create a plan item with a valid/correct type...just to make sure it passes ok
+        //Create a plan item with a valid, but wrong ref-obj-type
         String validItemType = AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE;
+        String inValidObjRefType = "bad.ref.object.type.zzz";
+        expected.setTypeKey(validItemType);
+        expected.setRefObjectType(inValidObjRefType);
+        exception = false;
+        try {
+            testService.createPlanItem ( expected, contextInfo);
+        } catch (InvalidParameterException e) {
+            Assert.assertTrue("unexpected exception: "+e.getMessage(),
+                    e.getMessage().matches(exceptionMessageRegExpr));
+            exception = true;
+        }
+        Assert.assertTrue("Invalid re-object type ["+inValidObjRefType+"] was not detected!",exception);
+
+        //Finally....Create a plan item with a valid/correct ref-object type...just to make sure it passes ok
+        validItemType = AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE;
         String validObjRefType = CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY;
         expected.setTypeKey(validItemType);
         expected.setRefObjectType(validObjRefType);
+        exception = false;
+        try {
+            testService.createPlanItem ( expected, contextInfo);
+        } catch (InvalidParameterException e) {
+            exception = true;
+        }
+        Assert.assertFalse("Valid item type ["+inValidObjRefType+"] and/or reference object type [" +
+                validObjRefType +"] not properly recognized!",exception);
+
+        //Test addding a Registration Group item type to the plan
+        testCrudPlanItem_setDTOFieldsForTestCreate(planItem);
+        new AttributeTester().add2ForCreate(planItem.getAttributes());
+        expected = new PlanItemInfo (planItem);
+
+        validItemType = AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE;
+        validObjRefType = LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY;
+        expected.setTypeKey(validItemType);
+        expected.setRefObjectType(validObjRefType);
+        expected.setRefObjectId("RG-1");  //created in AcademicPlanServiceTstHelper.java
         exception = false;
         try {
             testService.createPlanItem ( expected, contextInfo);
