@@ -143,6 +143,7 @@
         <metainf.sql.context>org.kuali.common.util.metainf.spring.SqlConfig</metainf.sql.context>
         <metainf.sql.propertySource>org.kuali.student.deploy.spring.SqlPropertySourceConfig</metainf.sql.propertySource>
         <kuali-impex.version>${impex.version}</kuali-impex.version>
+        <xapool.version>1.5.0-patch5</xapool.version>
     </properties>
     <profiles>
         <profile>
@@ -704,7 +705,16 @@
                         <groupId>hsqldb</groupId>
                         <artifactId>hsqldb</artifactId>
                     </exclusion>
+                    <exclusion>
+                        <groupId>xapool</groupId>
+                        <artifactId>xapool</artifactId>
+                    </exclusion>
                 </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>xapool</groupId>
+                <artifactId>xapool</artifactId>
+                <version>${xapool.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.kuali.rice</groupId>
@@ -750,12 +760,24 @@
                 <artifactId>rice-web</artifactId>
                 <version>${kuali.rice.version}</version>
                 <type>war</type>
+                <exclusions>
+                    <exclusion>
+                        <groupId>xapool</groupId>
+                        <artifactId>xapool</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.kuali.rice</groupId>
                 <artifactId>rice-web</artifactId>
                 <version>${kuali.rice.version}</version>
                 <type>pom</type>
+                <exclusions>
+                    <exclusion>
+                        <groupId>xapool</groupId>
+                        <artifactId>xapool</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.kuali.rice</groupId>
