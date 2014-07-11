@@ -42,7 +42,7 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
     private TermInfo termInfo;
     private String termName;
 
-    private RegistrationCourse pendingDropCourse;
+    private RegistrationCourse pendingDropCourse = new RegistrationCourse();
 
     private int editRegisteredIndex;
     private int editWaitlistedIndex;

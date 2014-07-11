@@ -36,7 +36,7 @@
                     <list>
                         <ref bean="KS-AdminRegistration-StudentInfo"/>
                         <!--<bean parent="Uif-Message" p:render="@{studentName == null}"-->
-                              <!--p:messageText="Enter a student ID to get started."/>-->
+                        <!--p:messageText="Enter a student ID to get started."/>-->
                         <ref bean="KS-AdminRegistration-ChangeTermSection"/>
                         <ref bean="KS-AdminRegistration-RegistrationTabs"/>
                     </list>
@@ -48,6 +48,8 @@
         <property name="dialogs">
             <list>
                 <bean id="registerConfirmDialog" parent="KS-AdminRegistration-RegisterDialogResponse"/>
+                <bean id="dropCourseDialog" parent="KS-AdminRegistration-DropRegisteredDialog"/>
+                <bean id="dropWaitlistedDialog" parent="KS-AdminRegistration-DropWaitlistedDialog"/>
             </list>
         </property>
         <property name="additionalScriptFiles">
@@ -363,7 +365,8 @@
     </bean>
 
     <!-- Dialogs -->
-    <bean id="KS-AdminRegistration-DropRegisteredDialog" parent="Uif-DialogGroup" p:dialogCssClass="modal-md">
+    <!--bean id="KS-AdminRegistration-DropRegisteredDialog" parent="Uif-DialogGroup" p:dialogCssClass="modal-md"-->
+    <bean id="KS-AdminRegistration-DropRegisteredDialog" parent="Uif-DialogGroup">
         <property name="headerText" value="Drop Course @{pendingDropCourse.code} (@{pendingDropCourse.section})?"/>
         <property name="items">
             <list>

@@ -60,9 +60,6 @@ import java.util.Random;
 @RequestMapping(value = "/adminreg")
 public class AdminRegistrationController extends UifControllerBase {
 
-    private static String REG_COLL_ID = "KS-AdminRegistration-Registered";
-    private static String WAITLIST_COLL_ID = "KS-AdminRegistration-Waitlist";
-
     @Override
     protected AdminRegistrationForm createInitialForm(HttpServletRequest request) {
         return new AdminRegistrationForm();
@@ -137,7 +134,7 @@ public class AdminRegistrationController extends UifControllerBase {
             course.setActivities(activities);
         }
 
-        return showDialog("registerConfirmDialog", form, request, response);
+        return showDialog(AdminRegConstants.REG_CONFIRM_DIALOG, form, request, response);
 
     }
 
@@ -173,8 +170,7 @@ public class AdminRegistrationController extends UifControllerBase {
         Collection<Object> collection = ObjectPropertyUtils.getPropertyValue(form, selectedCollectionPath);
         Object item = ((List) collection).get(selectedLineIndex);
 
-        String dialogName = "KS-AdminRegistration-DropRegisteredDialog";
-        if (!hasDialogBeenAnswered(dialogName, form)) {
+        if (!hasDialogBeenAnswered(AdminRegConstants.DROP_COURSE_DIALOG, form)) {
 
             // Create temp object with the info we need about the course
             RegistrationCourse pendingDropCourse = new RegistrationCourse();
@@ -183,7 +179,7 @@ public class AdminRegistrationController extends UifControllerBase {
             pendingDropCourse.setDropDate(new Date());
             form.setPendingDropCourse(pendingDropCourse);
 
-            return showDialog(dialogName, form, request, response);
+            return showDialog(AdminRegConstants.DROP_COURSE_DIALOG, form, request, response);
         } else {
             // you would do the actual drop call here
             ((RegistrationCourse) item).setDropDate(form.getPendingDropCourse().getDropDate());
@@ -229,13 +225,13 @@ public class AdminRegistrationController extends UifControllerBase {
             if (i == 0) {
                 // faking a registration complete
                 form.getRegisteredCourses().add(regCourse);
-                updateIds.add(REG_COLL_ID);
+                updateIds.add(AdminRegConstants.REG_COLL_ID);
             }
 
             if (i == 1) {
                 // faking a waitlist complete
                 form.getWaitlistedCourses().add(regCourse);
-                updateIds.add(WAITLIST_COLL_ID);
+                updateIds.add(AdminRegConstants.WAITLIST_COLL_ID);
             }
 
             if (i == 2) {
@@ -245,7 +241,7 @@ public class AdminRegistrationController extends UifControllerBase {
                 regIssue.getItems().add(new RegistrationIssueItem("No seats available."));
                 regIssue.getItems().add(new RegistrationIssueItem("Time conflict with ENGL100 (10001)."));
                 form.getRegistrationIssues().add(regIssue);
-                updateIds.add("KS-AdminRegistration-Issues");
+                updateIds.add(AdminRegConstants.ISSUES_COLL_ID);
             }
         }
 
@@ -277,10 +273,10 @@ public class AdminRegistrationController extends UifControllerBase {
         // May want to write your own copy/clone method or alternatively re-retrieve value from db on cancel
         RegistrationCourse tempCourse = (RegistrationCourse) (SerializationUtils.clone((RegistrationCourse) item));
 
-        if (selectedCollectionId.equals(REG_COLL_ID)) {
+        if (selectedCollectionId.equals(AdminRegConstants.REG_COLL_ID)) {
             form.setEditRegisteredIndex(selectedLineIndex);
             form.setTempRegCourseEdit(tempCourse);
-        } else if (selectedCollectionId.equals(WAITLIST_COLL_ID)) {
+        } else if (selectedCollectionId.equals(AdminRegConstants.WAITLIST_COLL_ID)) {
             form.setEditWaitlistedIndex(selectedLineIndex);
             form.setTempWaitlistCourseEdit(tempCourse);
         }
@@ -292,10 +288,10 @@ public class AdminRegistrationController extends UifControllerBase {
     public ModelAndView saveEdit(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result,
                                  HttpServletRequest request, HttpServletResponse response) throws Exception {
         String selectedCollectionId = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_ID);
-        if (selectedCollectionId.equals(REG_COLL_ID)) {
+        if (selectedCollectionId.equals(AdminRegConstants.REG_COLL_ID)) {
             form.setEditRegisteredIndex(-1);
             form.setTempRegCourseEdit(null);
-        } else if (selectedCollectionId.equals(WAITLIST_COLL_ID)) {
+        } else if (selectedCollectionId.equals(AdminRegConstants.WAITLIST_COLL_ID)) {
             form.setEditWaitlistedIndex(-1);
             form.setTempWaitlistCourseEdit(null);
         }
@@ -352,12 +348,12 @@ public class AdminRegistrationController extends UifControllerBase {
         }
 
         // Cancel other edit if one is open
-        if (form.getEditRegisteredIndex() > -1 && collectionId.equals(REG_COLL_ID)) {
+        if (form.getEditRegisteredIndex() > -1 && collectionId.equals(AdminRegConstants.REG_COLL_ID)) {
             Collection<Object> collection = ObjectPropertyUtils.getPropertyValue(form, "registeredCourses");
             // using temp here but could retrieve original from db
             ((List) collection).set(form.getEditRegisteredIndex(), form.getTempRegCourseEdit());
             form.setEditRegisteredIndex(-1);
-        } else if (form.getEditWaitlistedIndex() > -1 && collectionId.equals(WAITLIST_COLL_ID)) {
+        } else if (form.getEditWaitlistedIndex() > -1 && collectionId.equals(AdminRegConstants.WAITLIST_COLL_ID)) {
             Collection<Object> collection = ObjectPropertyUtils.getPropertyValue(form, "waitlistedCourses");
             // using temp here but could retrieve original from db
             ((List) collection).set(form.getEditWaitlistedIndex(), form.getTempWaitlistCourseEdit());
