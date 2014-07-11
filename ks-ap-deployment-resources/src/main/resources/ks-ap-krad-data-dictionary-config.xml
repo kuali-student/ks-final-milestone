@@ -27,7 +27,6 @@
                     <value>classpath:org/kuali/rice/student/bo</value>
 
                     <value>classpath:org/kuali/student/ap/UifKSAPDefinitions.xml</value>
-                    <value>classpath:ui/UifExtensionDefinitions.xml</value>
                     <value>classpath:ui/KSAPDataObjects.xml</value>
                     <value>classpath:org/kuali/student/ap/HelpDefinitions.xml</value>
                     <value>classpath:org/kuali/student/ap/CourseSearchUI.xml</value>
