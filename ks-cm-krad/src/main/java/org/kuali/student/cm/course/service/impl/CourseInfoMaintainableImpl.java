@@ -47,6 +47,7 @@ import org.kuali.rice.krms.dto.TemplateInfo;
 import org.kuali.rice.krms.dto.TermParameterEditor;
 import org.kuali.rice.krms.service.RuleViewHelperService;
 import org.kuali.rice.krms.service.impl.RuleEditorMaintainableImpl;
+import org.kuali.rice.krms.tree.RuleCompareTreeBuilder;
 import org.kuali.rice.krms.tree.RuleViewTreeBuilder;
 import org.kuali.rice.krms.tree.node.CompareTreeNode;
 import org.kuali.rice.krms.util.NaturalLanguageHelper;
@@ -726,6 +727,9 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
      */
     @Override
     public List<ReferenceObjectBinding> getParentRefOjbects(String refObjectId) {
+        if (StringUtils.isBlank(refObjectId)){
+            return Collections.EMPTY_LIST;
+        }
         return this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject(CourseServiceConstants.REF_OBJECT_URI_COURSE, refObjectId);
     }
 
@@ -1528,8 +1532,11 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             throw new RuntimeException(e);
         }
 
-        super.saveDataObject();
+        courseInfoWrapper.setNamespace(KSKRMSServiceConstants.NAMESPACE_CODE);
+        courseInfoWrapper.setRefDiscriminatorType(CourseServiceConstants.REF_OBJECT_URI_COURSE);
+        courseInfoWrapper.setRefObjectId(courseInfoWrapper.getCourseInfo().getId());
 
+//        super.saveDataObject();
     }
 
     /**
@@ -2049,12 +2056,26 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
             updateReview(false);
 
+            populateRequisities();
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
     }
 
+    protected void populateRequisities(){
+
+        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
+
+        String courseId = courseInfoWrapper.getCourseInfo().getId();
+
+        courseInfoWrapper.setRefObjectId(courseId);
+
+        courseInfoWrapper.setAgendas(this.getAgendasForRef("", courseId, null));
+
+        courseInfoWrapper.setCompareTree(RuleCompareTreeBuilder.initCompareTree());
+    }
     /**
      * This method creates <class>LoDisplayWrapperModel</class> instances from <class>LoDisplayInfoWrapper</class> instances
      */
