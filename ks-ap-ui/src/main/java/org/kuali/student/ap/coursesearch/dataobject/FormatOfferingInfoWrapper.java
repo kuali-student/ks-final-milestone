@@ -25,6 +25,7 @@ public class FormatOfferingInfoWrapper {
     private String termId;
     private String courseOfferingCode;
     private boolean validFormat;
+    private boolean variableCredit;
 
     private List<ActivityFormatDetailsWrapper> activityFormatDetailsWrappers;
 
@@ -98,5 +99,13 @@ public class FormatOfferingInfoWrapper {
 
     public void setValidFormat(boolean validFormat) {
         this.validFormat = validFormat;
+    }
+
+    public boolean isVariableCredit() {
+        return variableCredit;
+    }
+
+    public void setVariableCredit(boolean variableCredit) {
+        this.variableCredit = variableCredit;
     }
 }

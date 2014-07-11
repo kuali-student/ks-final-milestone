@@ -31,6 +31,7 @@ public class CourseOfferingDetailsWrapper {
     private String creditsDisplay;
     private String selectedFormatOfferingId;
     private String termId;
+    private boolean variableCredit;
 
     private List<FormatOfferingInfoWrapper> formatOfferingInfoWrappers;
 
@@ -164,5 +165,13 @@ public class CourseOfferingDetailsWrapper {
 
     public void setTermId(String termId) {
         this.termId = termId;
+    }
+
+    public boolean isVariableCredit() {
+        return variableCredit;
+    }
+
+    public void setVariableCredit(boolean variableCredit) {
+        this.variableCredit = variableCredit;
     }
 }

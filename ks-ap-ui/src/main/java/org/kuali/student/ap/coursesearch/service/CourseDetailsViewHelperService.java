@@ -20,6 +20,7 @@ import org.kuali.student.ap.coursesearch.dataobject.ActivityOfferingDetailsWrapp
 import org.kuali.student.ap.coursesearch.dataobject.CourseOfferingDetailsWrapper;
 import org.kuali.student.ap.coursesearch.form.CourseSectionDetailsDialogForm;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.r2.core.acal.infc.Term;
 
@@ -50,9 +51,10 @@ public interface CourseDetailsViewHelperService extends ViewHelperService {
     /**
      * Turn an ActivityOfferingInfo into an ActivityOfferingDetailsWrapper
      * @param ao - ActivityOfferingInfo object to harvest data from
+     * @param isCourseOfferingVariableCredit - Flag indicating if the courseOffering this AO belongs to is a variable credit course
      * @return - An ActivityOfferingDetailsWrapper which is a wrapper for an ActivityOfferingInfo
      */
-    public ActivityOfferingDetailsWrapper convertAOInfoToWrapper(ActivityOfferingInfo ao) ;
+    public ActivityOfferingDetailsWrapper convertAOInfoToWrapper(ActivityOfferingInfo ao, boolean isCourseOfferingVariableCredit) ;
 
     /**
      * Sort a list of terms.  Sorting algorithm will be provided by the implementation.
@@ -102,4 +104,11 @@ public interface CourseDetailsViewHelperService extends ViewHelperService {
      * @param form - Form for the dialog to fill in
      */
     public CourseSectionDetailsDialogForm setupActivityRequisitesDialog(String activityOfferingId, CourseSectionDetailsDialogForm form);
+
+    /**
+     * Determines if a passed courseOffering is a variable credit course
+     * @param courseOffering - CourseOfferingInfo object to check
+     * @return - True if the course offering is a variable credit, false otherwise
+     */
+    public boolean isVariableCreditCourse(CourseOfferingInfo courseOffering);
 }

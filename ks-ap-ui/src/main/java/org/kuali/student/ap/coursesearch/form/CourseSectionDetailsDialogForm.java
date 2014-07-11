@@ -16,7 +16,9 @@ package org.kuali.student.ap.coursesearch.form;
 
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.ap.coursesearch.util.CollectionListPropertyEditor;
+import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -24,26 +26,40 @@ import java.util.List;
  */
 public class CourseSectionDetailsDialogForm extends UifFormBase {
 
-    private String credits;
+    private BigDecimal credits;
+    private String creditsDisplay;
     private String courseNote;
     private String regGroupId;
+    private String regGroupCode;
 
     private String courseOfferingCode;
     private String courseOfferingTitle;
+    private CourseOffering courseOffering;
     private List<String> prerequisites;
     private List<String> corequisites;
     private List<String> antirequisites;
+    private boolean variableCredit;
+    private String termId;
+    private String termName;
 
     public CourseSectionDetailsDialogForm() {
         super();
     }
 
-    public String getCredits() {
+    public BigDecimal getCredits() {
         return credits;
     }
 
-    public void setCredits(String credits) {
+    public void setCredits(BigDecimal credits) {
         this.credits = credits;
+    }
+
+    public String getCreditsDisplay() {
+        return creditsDisplay;
+    }
+
+    public void setCreditsDisplay(String creditsDisplay) {
+        this.creditsDisplay = creditsDisplay;
     }
 
     public String getCourseNote() {
@@ -100,6 +116,46 @@ public class CourseSectionDetailsDialogForm extends UifFormBase {
 
     public void setAntirequisites(List<String> antirequisites) {
         this.antirequisites = antirequisites;
+    }
+
+    public String getRegGroupCode() {
+        return regGroupCode;
+    }
+
+    public void setRegGroupCode(String regGroupCode) {
+        this.regGroupCode = regGroupCode;
+    }
+
+    public boolean isVariableCredit() {
+        return variableCredit;
+    }
+
+    public void setVariableCredit(boolean variableCredit) {
+        this.variableCredit = variableCredit;
+    }
+
+    public String getTermId() {
+        return termId;
+    }
+
+    public void setTermId(String termId) {
+        this.termId = termId;
+    }
+
+    public String getTermName() {
+        return termName;
+    }
+
+    public void setTermName(String termName) {
+        this.termName = termName;
+    }
+
+    public CourseOffering getCourseOffering() {
+        return courseOffering;
+    }
+
+    public void setCourseOffering(CourseOffering courseOffering) {
+        this.courseOffering = courseOffering;
     }
 
     public String getPrerequisitesForUI() {

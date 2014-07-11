@@ -24,11 +24,11 @@ import org.kuali.student.ap.coursesearch.dataobject.ActivityOfferingDetailsWrapp
 import org.kuali.student.ap.coursesearch.form.CourseSectionDetailsDialogForm;
 import org.kuali.student.ap.coursesearch.form.CourseSectionDetailsForm;
 import org.kuali.student.ap.coursesearch.service.CourseDetailsViewHelperService;
-import org.kuali.student.ap.coursesearch.util.CourseDetailsUtil;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.planner.util.PlanEventUtils;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -38,6 +38,7 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -51,6 +52,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -105,6 +107,12 @@ public class CourseSectionDetailsController extends KsapControllerBase {
     public ModelAndView addRegGroup(@ModelAttribute("KualiForm") CourseSectionDetailsForm form,
                                                   HttpServletRequest request,
                                                   HttpServletResponse response) throws IOException, ServletException {
+        // make sure the view details are set on the form
+        if (form.getView() == null) {
+            form.setViewId(COURSE_SECTION_DETAILS_FORM);
+            form.setView(super.getViewService().getViewById(COURSE_SECTION_DETAILS_FORM));
+        }
+
         JsonObjectBuilder eventList = Json.createObjectBuilder();
 
         // Gather information about the registration group
@@ -127,9 +135,10 @@ public class CourseSectionDetailsController extends KsapControllerBase {
         } catch (PermissionDeniedException e) {
             throw new IllegalArgumentException("CO Service lookup error", e);
         }
+        boolean isVariableCreditCourse = getViewHelperService(form).isVariableCreditCourse(new CourseOfferingInfo(course));
         List<ActivityOfferingDetailsWrapper> activityWrappers = new ArrayList<ActivityOfferingDetailsWrapper>();
         for(ActivityOfferingInfo activityOfferingInfo : activities){
-            ActivityOfferingDetailsWrapper activityOfferingDetailsWrapper = getViewHelperService(form).convertAOInfoToWrapper(activityOfferingInfo);
+            ActivityOfferingDetailsWrapper activityOfferingDetailsWrapper = getViewHelperService(form).convertAOInfoToWrapper(activityOfferingInfo, isVariableCreditCourse);
             if (activityOfferingDetailsWrapper.getRegGroupCode() == null || "".equals(activityOfferingDetailsWrapper.getRegGroupCode())) {
                 activityOfferingDetailsWrapper.setRegGroupCode(regGroup.getRegistrationCode());
                 activityOfferingDetailsWrapper.setRegGroupId(regGroupId);
@@ -148,6 +157,12 @@ public class CourseSectionDetailsController extends KsapControllerBase {
         newPlanItem.setRefObjectType(PlanConstants.REG_GROUP_TYPE);
         newPlanItem.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE);
         newPlanItem.setStateKey(PlanConstants.LEARNING_PLAN_ITEM_ACTIVE_STATE_KEY);
+
+        // Set the credits if it came through the request
+        if (isVariableCreditCourse) {
+            String credits = request.getParameter("credits");
+            newPlanItem.setCredit(new BigDecimal(credits));
+        }
         List<String> terms = new ArrayList<String>();
         terms.add(regGroup.getTermId());
         newPlanItem.setPlanTermIds(terms);
@@ -181,7 +196,7 @@ public class CourseSectionDetailsController extends KsapControllerBase {
     }
 
     /**
-     * Handles the fitlering of activities when one is selected on the page
+     * Handles the filtering of activities when one is selected on the page
      * Requires the activity id of the one selected
      * Requires the list of activity ids of all activities that are checked.
      * Returns null for the method but writes json objects for the page to use in dynamic updating
@@ -264,7 +279,41 @@ public class CourseSectionDetailsController extends KsapControllerBase {
 
         // Fill in addition information needed by the add dialog
         String regGroupId = request.getParameter("regGroupId");
+
+        boolean variableCredit = Boolean.parseBoolean(request.getParameter("variableCredit"));
+
         dialogForm.setRegGroupId(regGroupId);
+
+        RegistrationGroupInfo regGroup = null;
+        CourseOffering course = null;
+        TermInfo term = null;
+
+        try {
+            regGroup = KsapFrameworkServiceLocator.getCourseOfferingService().getRegistrationGroup(regGroupId, KsapFrameworkServiceLocator.getContext().getContextInfo());
+            course = KsapFrameworkServiceLocator.getCourseOfferingService().getCourseOffering(regGroup.getCourseOfferingId(), KsapFrameworkServiceLocator.getContext().getContextInfo());
+            term = KsapFrameworkServiceLocator.getAcademicCalendarService().getTerm(course.getTermId(), KsapFrameworkServiceLocator.getContext().getContextInfo());
+        } catch (DoesNotExistException e) {
+            throw new IllegalArgumentException("CO Service lookup error", e);
+        } catch (InvalidParameterException e) {
+            throw new IllegalArgumentException("CO Service lookup error", e);
+        } catch (MissingParameterException e) {
+            throw new IllegalArgumentException("CO Service lookup error", e);
+        } catch (OperationFailedException e) {
+            throw new IllegalArgumentException("CO Service lookup error", e);
+        } catch (PermissionDeniedException e) {
+            throw new IllegalArgumentException("CO Service lookup error", e);
+        }
+
+        dialogForm.setRegGroupCode(regGroup.getRegistrationCode());
+        dialogForm.setCourseOfferingCode(course.getCourseOfferingCode());
+        dialogForm.setVariableCredit(variableCredit);
+        dialogForm.setCourseOfferingTitle(course.getCourseOfferingTitle());
+        dialogForm.setTermId(course.getTermId());
+        dialogForm.setTermName(term.getName());
+        dialogForm.setCourseOffering(course);
+        dialogForm.setCreditsDisplay(course.getCreditCnt());
+
+
 
         return getUIFModelAndView(dialogForm);
     }

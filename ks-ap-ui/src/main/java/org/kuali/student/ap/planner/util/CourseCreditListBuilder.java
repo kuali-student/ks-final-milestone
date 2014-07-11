@@ -37,10 +37,8 @@ public class CourseCreditListBuilder extends UifKeyValuesFinderBase {
      */
     @Override
     public List<KeyValue> getKeyValues(ViewModel model){
-        PlannerFormImpl form = (PlannerFormImpl)model;
-
         // Compile list of possible credit values
-        CreditsFormatter.Range range = CreditsFormatter.getRange(form.getCourse());
+        CreditsFormatter.Range range = getRange(model);
         List<String> variableCreditValues = new ArrayList<String>();
         if(range.getMultiple()!=null && !range.getMultiple().isEmpty()){
             for(BigDecimal value : range.getMultiple()){
@@ -65,5 +63,15 @@ public class CourseCreditListBuilder extends UifKeyValuesFinderBase {
         }
 
         return keyValues;
+    }
+
+    /**
+     * Get the range based off of the Course passed in through the model (form)
+     * @param model - Model object (PlannerFormImpl)
+     * @return The Range of credits from the Course
+     */
+    protected CreditsFormatter.Range getRange(ViewModel model) {
+        PlannerFormImpl form = (PlannerFormImpl)model;
+        return CreditsFormatter.getRange(form.getCourse());
     }
 }

@@ -45,10 +45,95 @@
     <bean id="KSAP-CourseDetailsSection-AddCoursePage-parent" abstract="true" parent="KSAP-PopoverPage">
         <property name="id" value="KSAP-CourseDetailsSection-AddCoursePage" />
         <property name="innerViewWrapperId" value="KSAP-CourseDetailsSection-AddCoursePage_inner" />
-        <property name="headerText" value="Add Course Section" />
+        <property name="headerText" value="@{#textHelper.getText('details.dialog.header')}" />
         <property name="items">
             <list merge="true">
                 <bean parent="planner_hidden_input" p:propertyName="regGroupId" />
+                <bean parent="Uif-Message" p:messageText="@{#textHelper.getFormattedMessage('details.courseOffering.header', new Object[]{courseOfferingCode, courseOfferingTitle, creditsDisplay})}"/>
+
+                <bean parent="Uif-CssGridGroup">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-VerticalBoxSection" p:colSpan="5" p:wrapperCssClasses="ksap-right-labels">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-Message" p:messageText="@{#textHelper.getText('details.dialog.label.regGroup')}">
+                                            <property name="cssClasses">
+                                                <list merge="true">
+                                                    <value>ksap-label</value>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-VerticalBoxSection" p:colSpan="7">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-DataField" p:fieldLabel.render="false">
+                                            <property name="propertyName" value="regGroupCode" />
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-CssGridGroup">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-VerticalBoxSection" p:colSpan="5" p:wrapperCssClasses="ksap-right-labels">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-Message" p:messageText="@{#textHelper.getText('details.dialog.label.termYear')}">
+                                            <property name="cssClasses">
+                                                <list merge="true">
+                                                    <value>ksap-label</value>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-VerticalBoxSection" p:colSpan="7">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-DataField" p:fieldLabel.render="false">
+                                            <property name="propertyName" value="termName" />
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-CssGridGroup">
+                    <property name="render" value="@{variableCredit}"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-VerticalBoxSection" p:colSpan="5" p:wrapperCssClasses="ksap-right-labels">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-Message" p:messageText="@{#textHelper.getText('details.dialog.label.credits')}">
+                                            <property name="cssClasses">
+                                                <list merge="true">
+                                                    <value>ksap-label</value>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-VerticalBoxSection" p:colSpan="7">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="details_course_credit_input" p:fieldLabel.render="false"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
         <property name="footer">
@@ -62,6 +147,8 @@
                                         <property name="items">
                                             <list>
                                                 <bean parent="planner_submit_button" p:actionLabel="@{#textHelper.getText('details.dialog.addToPlan')}"
+                                                      p:disabled="true"
+                                                      p:enabledWhenChangedPropertyNames="credits"
                                                       p:actionScript="ksapSubmitDialog('addRegGroup',e);"/>
                                                 <bean parent="planner_cancel_button" />
                                             </list>
@@ -73,6 +160,21 @@
                         </bean>
                     </list>
                 </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="details_course_credit_input" parent="details_course_credit_input-parent"/>
+    <bean id="details_course_credit_input-parent" abstract="true" parent="KS-Uif-InputField-LabelTop">
+        <property name="propertyName" value="credits" />
+        <property name="label" value="@{#textHelper.getText('details.dialog.label.credits')}" />
+        <property name="fieldLabel.renderColon" value="false"/>
+        <property name="control">
+            <bean parent="KS-Uif-DropdownControl"/>
+        </property>
+        <property name="optionsFinder">
+            <bean class="org.kuali.student.ap.planner.util.CourseOfferingCreditListBuilder">
+                <property name="addBlankOption" value="false"/>
             </bean>
         </property>
     </bean>

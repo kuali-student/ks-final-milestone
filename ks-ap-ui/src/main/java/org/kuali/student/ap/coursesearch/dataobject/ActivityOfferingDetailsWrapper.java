@@ -3,8 +3,6 @@ package org.kuali.student.ap.coursesearch.dataobject;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 
-import java.util.List;
-
 public class ActivityOfferingDetailsWrapper {
     private String activityOfferingId;
     private String activityOfferingCode;
@@ -29,6 +27,7 @@ public class ActivityOfferingDetailsWrapper {
     private boolean singleFormatOffering;
     private boolean inPlan;
     private boolean validActivity;
+    private boolean variableCredit;
 
     public ActivityOfferingDetailsWrapper() {
     }
@@ -218,5 +217,13 @@ public class ActivityOfferingDetailsWrapper {
 
     public void setValidActivity(boolean validActivity) {
         this.validActivity = validActivity;
+    }
+
+    public boolean isVariableCredit() {
+        return variableCredit;
+    }
+
+    public void setVariableCredit(boolean variableCredit) {
+        this.variableCredit = variableCredit;
     }
 }

@@ -22,6 +22,7 @@ import org.kuali.rice.krad.uif.widget.Disclosure;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
 import org.kuali.student.ap.academicplan.infc.LearningPlan;
+import org.kuali.student.ap.coursesearch.CreditsFormatter;
 import org.kuali.student.ap.coursesearch.dataobject.ActivityFormatDetailsWrapper;
 import org.kuali.student.ap.coursesearch.dataobject.ActivityOfferingDetailsWrapper;
 import org.kuali.student.ap.coursesearch.dataobject.CourseOfferingDetailsWrapper;
@@ -223,14 +224,22 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
             try {
                 formatOfferings = KsapFrameworkServiceLocator.getCourseOfferingService().getFormatOfferingsByCourseOffering(offering.getId(), contextInfo);
                 List<FormatOfferingInfoWrapper> formatOfferingWrappers = new ArrayList<FormatOfferingInfoWrapper>(formatOfferings.size());
+                //Figure out if the CO is a variable credit course
+                boolean isCourseOfferingVariableCredit = isVariableCreditCourse(offering);
+
+                courseOfferingDetailsWrapper.setVariableCredit(isCourseOfferingVariableCredit);
+
                 Map<String, Map<String, List<ActivityOfferingDetailsWrapper>>>
-                        aosByFormat = getAOData(offering.getId(),validActivities);
+                        aosByFormat = getAOData(offering.getId(),validActivities, isCourseOfferingVariableCredit);
 
                 List<PlannedRegistrationGroupDetailsWrapper> plannedActivityOfferings = new ArrayList<PlannedRegistrationGroupDetailsWrapper>();
 
                 for (FormatOfferingInfo formatOffering : formatOfferings) {
                     FormatOfferingInfoWrapper formatOfferingInfo = new FormatOfferingInfoWrapper(formatOffering, courseOfferingDetailsWrapper.getCourseOfferingCode());
                     formatOfferingInfo.setValidFormat(validFormatOfferings.contains(formatOfferingInfo.getFormatOfferingId()));
+
+                    formatOfferingInfo.setVariableCredit(isCourseOfferingVariableCredit);
+
                     List<ActivityFormatDetailsWrapper> activityFormatDetailsWrappers = new ArrayList<ActivityFormatDetailsWrapper>();
                     Map<String, List<ActivityOfferingDetailsWrapper>> aosByTypeMap = aosByFormat.get(formatOfferingInfo.getFormatOfferingId());
 
@@ -280,7 +289,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
      * {@inheritDoc}
      */
     @Override
-    public ActivityOfferingDetailsWrapper convertAOInfoToWrapper(ActivityOfferingInfo aoInfo)  {
+    public ActivityOfferingDetailsWrapper convertAOInfoToWrapper(ActivityOfferingInfo aoInfo, boolean isCourseOfferingVariableCredit)  {
         ActivityOfferingDetailsWrapper wrapper = new ActivityOfferingDetailsWrapper(aoInfo, false, true);
         ContextInfo contextInfo = KsapFrameworkServiceLocator.getContext().getContextInfo();
 
@@ -434,6 +443,8 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
         } catch (PermissionDeniedException e) {
             throw new IllegalArgumentException("Academic Plan Service lookup error", e);
         }
+
+        wrapper.setVariableCredit(isCourseOfferingVariableCredit);
         return wrapper;
 
     }
@@ -952,9 +963,10 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
      * Loads the activity data for a CO and then creates a map to group it by the activity type and format offerings
      * @param courseOfferingId - Id of the CO activities are being retrieved for
      * @param validActivityOfferings - List of valid AO ids based on the registration groups available
+     * @param isCourseOfferingVariableCredit - Flag indicating if the course offering is a variable credit course
      * @return - The activity offerings grouped by there format id and then grouped related format type
      */
-    private Map<String, Map<String, List<ActivityOfferingDetailsWrapper>>> getAOData(String courseOfferingId, List<String> validActivityOfferings) {
+    private Map<String, Map<String, List<ActivityOfferingDetailsWrapper>>> getAOData(String courseOfferingId, List<String> validActivityOfferings, boolean isCourseOfferingVariableCredit) {
         Map<String, Map<String, List<ActivityOfferingDetailsWrapper>>> aoMapByFormatName = new HashMap<String, Map<String, List<ActivityOfferingDetailsWrapper>>>();
         List<ActivityOfferingInfo>  activityOfferings = null;
 
@@ -984,7 +996,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
                 }
 
                 // Convert into wrapper used on page
-                ActivityOfferingDetailsWrapper wrapper = convertAOInfoToWrapper(activityOffering);
+                ActivityOfferingDetailsWrapper wrapper = convertAOInfoToWrapper(activityOffering, isCourseOfferingVariableCredit);
 
                 // Retrieve current group by the format type, if entry is missing create it
                 String typeKey = activityOffering.getTypeKey();
@@ -1059,6 +1071,18 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
                 dayOfWeek = StringUtils.EMPTY;
         }
         return dayOfWeek;
+    }
+
+    @Override
+    /**
+     * {@inheritDoc}
+     */
+    public boolean isVariableCreditCourse(CourseOfferingInfo courseOffering) {
+
+        CreditsFormatter.Range range = CreditsFormatter.getRange(courseOffering);
+
+        if(range.getMultiple()!=null && !range.getMultiple().isEmpty()) return true;
+        return !range.getMax().equals(range.getMin());
     }
 
 }
