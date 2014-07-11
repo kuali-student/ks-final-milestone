@@ -1084,7 +1084,6 @@ div#Uif-ApplicationHeader-Wrapper{
 }
 
 /* Removing borders and fixing alignment for KSENROLL-12692 */
-
 .ks-details-panel {
   /*define a gray box as background. This is basically the "info grid" styling. */
   background-color: @infoBackground-color;
@@ -1104,6 +1103,7 @@ div#Uif-ApplicationHeader-Wrapper{
   .table tbody > tr > td,
   .table tfoot > tr > td {
       //vertical-align: bottom;
+      background: none;
       border: none;
   }
   // Fix for layout,width,padding in Course Offering Inquiry KSENROLL-13121/KSENROLL-13201/KSENROLL-13490
@@ -1121,6 +1121,7 @@ div#Uif-ApplicationHeader-Wrapper{
   }
 
   table.uif-gridLayout th[scope="row"] label {
+    padding-left: 30px;
     padding-top: 0;
     white-space: nowrap;
   }
@@ -1134,6 +1135,10 @@ div#Uif-ApplicationHeader-Wrapper{
 
   &-spacing {
     margin-right: 2em;
+  }
+  //column adjustment for details panel KSENROLL-12921
+  &-separator {
+    margin-right: 8em;
   }
 }
 
