@@ -16,8 +16,9 @@ public class AdminRegConstants {
     public static String DROP_WAITLISTED_DIALOG = "dropWaitlistedDialog";
 
     //Message keys
-    public static final String ADMIN_REG_MSG_ERROR_INVALID_STUDEND = "error.admin.reg.studentId.invalid";
-    public static final String ADMIN_REG_MSG_ERROR_STUDEND_REQUIRED = "error.admin.reg.studentId.required";
+    public static final String ADMIN_REG_MSG_ERROR_INVALID_STUDENT = "error.admin.reg.studentId.invalid";
+    public static final String ADMIN_REG_MSG_ERROR_STUDENT_REQUIRED = "error.admin.reg.studentId.required";
+    public static final String ADMIN_REG_MSG_ERROR_STUDENT_ROLE_NOT_FOUND = "error.admin.reg.studentId.required";
 
     //sections ids
     public static String STUDENT_INFO_SECTION = "KS-AdminRegistration-StudentInfo";

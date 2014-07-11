@@ -365,7 +365,7 @@ public class AdminRegistrationController extends UifControllerBase {
 
         String StudentId = form.getStudentId();
         if( StringUtils.isBlank(StudentId) ) {
-            GlobalVariables.getMessageMap().putError("studentId", AdminRegConstants.ADMIN_REG_MSG_ERROR_STUDEND_REQUIRED);
+            GlobalVariables.getMessageMap().putError("studentId", AdminRegConstants.ADMIN_REG_MSG_ERROR_STUDENT_REQUIRED);
         }
     }
     /**

@@ -26,6 +26,8 @@ import java.util.List;
  */
 public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceImpl implements CourseRegAdminViewHelperService {
 
+    private IdentityService identityService;
+
     @Override
     public void getRegistrationStatus() {
 
@@ -84,12 +86,20 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
     @Override
     public void populateStudentInfo(AdminRegistrationForm form) throws Exception {
 
-        IdentityService identityService = KimApiServiceLocator.getIdentityService();
-
-        String studentId = form.getStudentId();
-
-        Entity entityInfo = identityService.getEntity(studentId);
+        Entity entityInfo = this.getIdentityService().getEntity(form.getStudentId());
         if ((entityInfo != null)) {
+
+            Boolean validStudent = false;
+            for (EntityAffiliation entityAffiliationInfo : entityInfo.getAffiliations()) {
+                if (entityAffiliationInfo.getAffiliationType().getCode().equals(AdminRegConstants.STUDENT_AFFILIATION_TYPE_CODE)) {
+                    validStudent = true;
+                }
+            }
+
+            if (!validStudent) {
+//                GlobalVariables.getMessageMap().putErrorForSectionId(AdminRegConstants.STUDENT_INFO_SECTION, AdminRegConstants.ADMIN_REG_MSG_ERROR_STUDENT_ROLE_NOT_FOUND, form.getStudentId());
+//                return;
+            }
 
             for (EntityName entityNameInfo : entityInfo.getNames()) {
                 if (entityNameInfo.isDefaultValue()) {
@@ -97,17 +107,16 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
                     break;
                 }
             }
-            Boolean validStudent = false;
-            for (EntityAffiliation entityAffiliationInfo : entityInfo.getAffiliations()) {
-                if (entityAffiliationInfo.getAffiliationType().getCode().equals(AdminRegConstants.STUDENT_AFFILIATION_TYPE_CODE)) {
-                    validStudent = true;
-                }
-            }
-            if (!validStudent) {
-                GlobalVariables.getMessageMap().putErrorForSectionId(AdminRegConstants.STUDENT_INFO_SECTION, AdminRegConstants.ADMIN_REG_MSG_ERROR_INVALID_STUDEND, form.getStudentId());
-            }
+
         } else {
-            GlobalVariables.getMessageMap().putErrorForSectionId(AdminRegConstants.STUDENT_INFO_SECTION, AdminRegConstants.ADMIN_REG_MSG_ERROR_INVALID_STUDEND, form.getStudentId());
+            GlobalVariables.getMessageMap().putErrorForSectionId(AdminRegConstants.STUDENT_INFO_SECTION, AdminRegConstants.ADMIN_REG_MSG_ERROR_INVALID_STUDENT, form.getStudentId());
         }
+    }
+
+    public IdentityService getIdentityService() {
+        if(identityService==null) {
+            identityService = KimApiServiceLocator.getIdentityService();
+        }
+        return identityService;
     }
 }
