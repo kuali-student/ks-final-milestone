@@ -28,8 +28,9 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.constants.DocumentServiceConstants;
-
+import org.kuali.student.r2.core.document.dto.DocumentHeaderDisplayInfo;
 import org.kuali.student.r2.core.document.dto.DocumentInfo;
 import org.kuali.student.r2.core.document.dto.RefDocRelationInfo;
 
@@ -37,7 +38,6 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import java.util.List;
-import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 
 /**
  * The Document Service supports the management of document objects as well 
@@ -50,6 +50,24 @@ import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 @WebService(name = "DocumentService", targetNamespace = DocumentServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface DocumentService extends DictionaryService {
+
+    /**
+     * Retrieves document headers associated with a reference object of given document type
+     *
+     * @param refObjectId
+     * @param documentTypeKey
+     * @param contextInfo
+     * @return Return document headers matching the reference object and document type
+     * @throws DoesNotExistException refObjectId or documentTypeKey does not exist
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException refObjectId, documentTypeKey or contextInfo is
+     *                                   missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    List<DocumentHeaderDisplayInfo> getDocumentHeaderDisplay(String refObjectId, String documentTypeKey, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves information about a document
