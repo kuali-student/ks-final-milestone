@@ -237,7 +237,6 @@
                                     <bean id="KS-LearningObjective-Category-Suggest" parent="Uif-Suggest">
                                         <property name="returnFullQueryObject" value="true"/>
                                         <property name="labelPropertyName" value="catNameAndType"/>
-                                        <property name="valuePropertyName" value="id"/>
                                         <property name="templateOptions">
                                             <map merge="true">
                                                 <entry key="minLength" value="1"/>
