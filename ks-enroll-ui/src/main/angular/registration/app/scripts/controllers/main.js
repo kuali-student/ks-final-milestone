@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('regCartApp')
-    .controller('MainCtrl', ['$scope', '$rootScope', '$location', '$state', 'TermsService', 'ScheduleService', 'GlobalVarsService', 'APP_URL',
+    .controller('MainCtrl', ['$scope', '$rootScope', '$location', '$state', 'TermsService', 'ScheduleService', 'GlobalVarsService', 'APP_URL', 'DEFAULT_TERM',
         'LoginService', 'MessageService', '$modal',
-    function MainCtrl($scope, $rootScope, $location, $state, TermsService, ScheduleService, GlobalVarsService, APP_URL, LoginService, MessageService, $modal) {
+    function MainCtrl($scope, $rootScope, $location, $state, TermsService, ScheduleService, GlobalVarsService, APP_URL, DEFAULT_TERM, LoginService, MessageService, $modal) {
         console.log('In Main Controller');
 
         $scope.appUrl = APP_URL.replace('/services/', '/');
@@ -18,13 +18,18 @@ angular.module('regCartApp')
                 $scope.termName = TermsService.getTermNameForTermId($scope.terms, newValue);
 
                 // Check to see if the term is open or closed for registration
-                console.log('checking term eligibility');
-                TermsService.checkStudentEligibilityForTerm().query({termId: newValue}, function (response) {
-                    $scope.studentIsEligibleForTerm = (angular.isDefined(response.isEligible) && response.isEligible) || false;
-                }, function (error) {
-                    console.log('Error while checking if term is open for registration', error);
-                    $scope.studentIsEligibleForTerm = false;
-                });
+                if (newValue === DEFAULT_TERM) {
+                    console.log('checking term eligibility');
+                    TermsService.checkStudentEligibilityForTerm().query({termId: newValue}, function (response) {
+                        $scope.studentIsEligibleForTerm = (angular.isDefined(response.isEligible) && response.isEligible) || false;
+                    }, function (error) {
+                        console.log('Error while checking if term is open for registration', error);
+                        $scope.studentIsEligibleForTerm = false;
+                    });
+                } else {
+                    console.log('term eligibility check bypassed - term != default term');
+                    $scope.studentIsEligibleForTerm = true;
+                }
 
                 ScheduleService.getScheduleFromServer().query({termId: newValue }, function (result) {
                     console.log('called rest service to get schedule data - in main.js');
@@ -41,8 +46,9 @@ angular.module('regCartApp')
             }
         });
 
+        // Load up the available terms
         $scope.terms = TermsService.getTermsFromServer().query({termCode: null, active: true}, function (result) {
-            $scope.termId = 'kuali.atp.2012Fall';
+            $scope.termId = DEFAULT_TERM;
             TermsService.setTermId($scope.termId);//FIXME Term service is just a service handle, don't put business logic in it!!!
             $scope.termName = TermsService.getTermNameForTermId(result, $scope.termId);
         });
