@@ -101,7 +101,19 @@
 } // End messaging
 
 
-// Course Sections
+// Add to Plan Popover
+// --------------------------------------------------
+
+#course_details_popover_overview {
+  margin-top:10px;
+}
+
+#planner_course_summary_details_data {
+  margin-top:5px;
+}
+
+
+// Course Details Bottom Sections
 // --------------------------------------------------
 
 #course-term-list  {
@@ -357,7 +369,7 @@
     margin-top: 10px;
   }
 
-  // Section Formats
+  // Invalid Formats
   .ksap-invalid-activity {
     color: #ccc;
 
@@ -371,14 +383,19 @@
   }
 }
 
-
-// Popover
+// Requisites Dialog
 // --------------------------------------------------
-
-#course_details_popover_overview {
+.ksap-section-dialog-text dl {
+  margin:0;
+}
+.ksap-section-dialog-text dd {
+  display: list-item;
+  margin-left: 25px;
+}
+.ksap-section-dialog-label {
+  font-weight:bold;
   margin-top:10px;
 }
-
-#planner_course_summary_details_data {
-  margin-top:5px;
+.ksap-section-dialog-close {
+  margin-top:10px;
 }

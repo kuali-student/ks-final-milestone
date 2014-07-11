@@ -40,7 +40,7 @@
                   value="org.kuali.student.ap.coursesearch.service.impl.CourseDetailsViewHelperServiceImpl"/>
     </bean>
 
-    <!-- Add to Plan Dialog -->
+    <!-- Add to Plan Dialog for Variable Credit Courses -->
     <bean id="KSAP-CourseDetailsSection-AddCoursePage" parent="KSAP-CourseDetailsSection-AddCoursePage-parent"/>
     <bean id="KSAP-CourseDetailsSection-AddCoursePage-parent" abstract="true" parent="KSAP-PopoverPage">
         <property name="id" value="KSAP-CourseDetailsSection-AddCoursePage" />
@@ -61,7 +61,7 @@
                                     <bean parent="Uif-HorizontalBoxGroup">
                                         <property name="items">
                                             <list>
-                                                <bean parent="planner_submit_button" p:actionLabel="Add to Plan"
+                                                <bean parent="planner_submit_button" p:actionLabel="@{#textHelper.getText('details.dialog.addToPlan')}"
                                                       p:actionScript="ksapSubmitDialog('addRegGroup',e);"/>
                                                 <bean parent="planner_cancel_button" />
                                             </list>
@@ -82,7 +82,7 @@
     <bean id="KSAP-CourseDetailsSection-Requisites-parent" abstract="true" parent="KSAP-PopoverPage">
         <property name="id" value="KSAP-CourseDetailsSection-Requisites" />
         <property name="innerViewWrapperId" value="KSAP-CourseDetailsSection-Requisites_inner" />
-        <property name="headerText" value="@{courseOfferingCode}: Restrictions" />
+        <property name="headerText" value="@{courseOfferingCode}: @{#textHelper.getText('details.dialog.restrictions')}" />
         <property name="footer">
             <bean parent="Uif-FooterBase">
                 <property name="items">
@@ -90,22 +90,38 @@
                         <bean parent="Uif-VerticalBoxGroup">
                             <property name="items">
                                 <list>
-                                    <bean parent="Uif-Message" p:messageText="@{courseOfferingCode} - @{courseOfferingTitle}"/>
-                                    <bean parent="Uif-Message" p:messageText="@{prerequisitesForUI}"/>
-                                    <bean parent="Uif-Message" p:messageText="Corequisites"
+                                    <!-- Course Code and Title -->
+                                    <bean parent="Uif-Message"
+                                          p:messageText="@{courseOfferingCode} - @{courseOfferingTitle}"/>
+                                    <!-- Prequisites -->
+                                    <bean parent="Uif-Message"
+                                          p:messageText="@{prerequisitesForUI}"/>
+                                    <!-- Corequisites -->
+                                    <bean parent="Uif-Message"
+                                          p:additionalCssClasses="ksap-section-dialog-label"
+                                          p:messageText="@{#textHelper.getText('details.dialog.corequisites')}"
                                           p:render="@{corequisites.size()>0}"/>
-                                    <bean parent="Uif-Message" p:messageText="@{corequisitesForUI}"
+                                    <bean parent="Uif-Message"
+                                          p:additionalCssClasses="ksap-section-dialog-text"
+                                          p:messageText="@{corequisitesForUI}"
                                           p:render="@{corequisites.size()>0}"/>
-                                    <bean parent="Uif-Message" p:messageText="Antirequisites"
-                                            p:render="@{antirequisites.size()>0}"/>
-                                    <bean parent="Uif-Message" p:messageText="@{antirequisitesForUI}"
+                                    <!-- Antirequisites -->
+                                    <bean parent="Uif-Message"
+                                          p:additionalCssClasses="ksap-section-dialog-label"
+                                          p:messageText="@{#textHelper.getText('details.dialog.antirequisites')}"
+                                          p:render="@{antirequisites.size()>0}"/>
+                                    <bean parent="Uif-Message"
+                                          p:additionalCssClasses="ksap-section-dialog-text"
+                                          p:messageText="@{antirequisitesForUI}"
                                           p:render="@{antirequisites.size()>0}"/>
 
+                                    <!-- Close Button -->
                                     <bean parent="Uif-HorizontalBoxGroup">
                                         <property name="items">
                                             <list>
                                                 <bean parent="Uif-PrimaryActionButton"
-                                                      p:actionLabel="Close"
+                                                      p:additionalCssClasses="ksap-section-dialog-close"
+                                                      p:actionLabel="@{#textHelper.getText('details.dialog.closeDialog')}"
                                                       p:actionScript="fnClosePopup();"/>
                                             </list>
                                         </property>
