@@ -47,6 +47,8 @@
         <property name="resultsGroup.layoutManager.richTable.templateOptions">
             <map>
                 <entry key="sDom" value="p"/>
+                <entry key="bPaginate" value="false"/>
+                <entry key="bAutoWidth" value="false"/>
             </map>
         </property>
         <!-- Must define the criteriaFields even though it's not being rendered, because of framework restriction. -->
