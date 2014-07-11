@@ -399,9 +399,11 @@ function updateCourseOffering(courseOffering){
                 var totalActivities = headerText.attr("data-totalactivities");
                 headerText.find("p").html(titleLabel+" ("+totalActivities+")")
             }else{
-                var totalActivities = headerText.attr("data-totalactivities");
-                var numberInvalidActivities = parseInt(invalidActivities.length);
-                headerText.find("p").html(titleLabel+" ("+numberInvalidActivities+" of "+totalActivities+")");
+                var totalActivitiesStr = headerText.attr("data-totalactivities");
+                var totalActivities = parseInt(totalActivitiesStr);
+                var numberInvalidActivities = invalidActivities.length;
+                var numberValidActivities = totalActivities-numberInvalidActivities;
+                headerText.find("p").html(titleLabel+" ("+numberValidActivities+" of "+totalActivities+")");
             }
 
         }
