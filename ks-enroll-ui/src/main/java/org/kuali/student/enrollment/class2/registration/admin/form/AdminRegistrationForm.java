@@ -267,4 +267,18 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
     public void setPrincipalIDs(List<Principal> principalIDs) {
         this.principalIDs = principalIDs;
     }
+
+    public void clear() {
+        this.studentName = null;
+        this.termCode = null;
+
+        clearTermAndCourseRegistrationInfo();
+    }
+
+    public void clearTermAndCourseRegistrationInfo() {
+        this.termInfo = null;
+        this.termName = null;
+        this.registeredCourses = new ArrayList<RegistrationCourse>();
+        this.waitlistedCourses = new ArrayList<RegistrationCourse>();
+    }
 }

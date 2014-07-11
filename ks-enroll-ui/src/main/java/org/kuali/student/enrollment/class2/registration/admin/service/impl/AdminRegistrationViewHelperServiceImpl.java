@@ -90,16 +90,15 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
             List<TermInfo> terms = AdminRegistrationUtil.getAcademicCalendarService().searchForTerms(criteria, createContextInfo());
             int firstTerm = 0;
             if (terms.size() > 1) {
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, ManageSocConstants.MessageKeys.ERROR_MULTIPLE_TERMS);
+                GlobalVariables.getMessageMap().putError("termCode", AdminRegConstants.ADMIN_REG_MSG_ERROR_MULTIPLE_TERMS);
                 return null;
             }
             if (terms.isEmpty()) {
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, ManageSocConstants.MessageKeys.ERROR_INVALID_TERM);
+                GlobalVariables.getMessageMap().putError("termCode", AdminRegConstants.ADMIN_REG_MSG_ERROR_INVALID_TERM);
                 return null;
             }
             return terms.get(firstTerm);
         }catch (Exception e){
-//            LOG.debug("Error getting term for the code - {}", termCode);
             throw convertServiceExceptionsToUI(e);
         }
     }

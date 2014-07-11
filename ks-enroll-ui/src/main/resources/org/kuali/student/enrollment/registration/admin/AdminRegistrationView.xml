@@ -105,18 +105,20 @@
                 <bean parent="Uif-HorizontalBoxSection" >
                     <property name="items" >
                         <list>
-                            <bean parent="Uif-Label" p:labelText="Change Term"/>
-                            <bean parent="Uif-InputField" p:propertyName="termCode">
+                            <bean parent="KS-Uif-InputField-LabelLeft" p:propertyName="termCode"
+                                  p:label="Change Term" p:required="true" p:readOnly="false" p:id="termCodeField">
                                 <!-- Constrain to 6 digits and use a custom message. -->
                                 <property name="validCharactersConstraint">
-                                    <bean parent="NumericPatternConstraint" p:messageKey="error.enroll.courseoffering.termcode.invalid" p:value="^\d{6}$"/>
+                                    <bean parent="NumericPatternConstraint" p:messageKey="error.admin.reg.termcode.invalid" p:value="^\d{6}$"/>
                                 </property>
 
                                 <property name="control">
                                     <bean parent="KS-Uif-TextControl" p:size="6" p:watermarkText="201301" p:minLength="6" p:maxLength="6"/>
                                 </property>
+
                             </bean>
-                            <bean parent="Uif-SecondaryActionButton" p:actionLabel="Go" p:methodToCall="getRegistrationInfo"/>
+                            <bean parent="Uif-SecondaryActionButton" p:actionLabel="Go"
+                                  p:id="changeTermGoButton" p:methodToCall="getRegistrationInfo"/>
                             <bean parent="Uif-MessageField" p:messageText="[b]@{termName}[/b]"/>
                         </list>
                     </property>
@@ -125,7 +127,7 @@
         </property>
     </bean>
 
-    <bean id="KS-AdminRegistration-RegistrationTabs" p:render="@{studentName != null}" parent="Uif-TabSection">
+    <bean id="KS-AdminRegistration-RegistrationTabs" p:render="@{termName != null}" parent="Uif-TabSection">
         <property name="items">
             <list>
                 <ref bean="KS-AdminRegistration-RegisteredTab"/>

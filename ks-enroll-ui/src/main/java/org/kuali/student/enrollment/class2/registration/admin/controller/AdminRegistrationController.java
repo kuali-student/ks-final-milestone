@@ -27,7 +27,6 @@ import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.uif.util.KSControllerHelper;
-import org.kuali.student.enrollment.class2.courseoffering.util.ManageSocConstants;
 import org.kuali.student.enrollment.class2.registration.admin.form.AdminRegistrationForm;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationActivity;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationCourse;
@@ -77,6 +76,8 @@ public class AdminRegistrationController extends UifControllerBase {
     public ModelAndView getStudentInfo(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result,
                                        HttpServletRequest request, HttpServletResponse response) {
 
+        form.clear();
+
         if (GlobalVariables.getMessageMap().getErrorCount() > 0) {
             return getUIFModelAndView(form);
         }
@@ -106,7 +107,7 @@ public class AdminRegistrationController extends UifControllerBase {
     public ModelAndView getTermInfo(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result,
                                     HttpServletRequest request, HttpServletResponse response) {
 
-       if(form.getTermCode() != null){
+        if(form.getTermCode() != null){
             TermInfo term = getViewHelper(form).getTermByCode(form.getTermCode());
             if(term!=null){
                 form.setTermInfo(term);
@@ -120,9 +121,17 @@ public class AdminRegistrationController extends UifControllerBase {
                 }
                 //method needs to change to pass form.getStudentId and not studentID
                 form.setRegisteredCourses(getViewHelper(form).getCourseRegStudentAndTerm(studentID, term.getId()));
+            }else {
+                form.clearTermAndCourseRegistrationInfo();
             }
         }else{
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, ManageSocConstants.MessageKeys.ERROR_INVALID_TERM);
+           if( StringUtils.isBlank(form.getTermCode()) ) {
+               GlobalVariables.getMessageMap().putError("termCode", AdminRegConstants.ADMIN_REG_MSG_ERROR_TERM_CODE_REQUIRED);
+               form.clearTermAndCourseRegistrationInfo();
+           }else {
+               GlobalVariables.getMessageMap().putError("termCode", AdminRegConstants.ADMIN_REG_MSG_ERROR_INVALID_TERM);
+               form.clearTermAndCourseRegistrationInfo();
+           }
         }
 
         return getUIFModelAndView(form);
@@ -378,6 +387,7 @@ public class AdminRegistrationController extends UifControllerBase {
             GlobalVariables.getMessageMap().putError("studentId", AdminRegConstants.ADMIN_REG_MSG_ERROR_STUDENT_REQUIRED);
         }
     }
+
     /**
      *
      * @param form
