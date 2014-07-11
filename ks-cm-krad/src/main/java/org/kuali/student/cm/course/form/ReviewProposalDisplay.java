@@ -573,7 +573,7 @@ public class ReviewProposalDisplay {
 
         public List<SupportingDocumentInfoWrapper> getSupportingDocuments() {
             if (supportingDocuments == null){
-                supportingDocuments = new ArrayList<>();
+                supportingDocuments = new ArrayList<SupportingDocumentInfoWrapper>();
             }
             return supportingDocuments;
         }
