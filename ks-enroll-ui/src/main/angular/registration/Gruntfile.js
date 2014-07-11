@@ -358,7 +358,7 @@ module.exports = function (grunt) {
                         return content +
                             '<script>' +
                             '\'use strict\'; ' +
-                            'angular.module(\'configuration\', [])' +
+                            'angular.module(\'configuration\')' +
                             '.value(\'APP_URL\',\'${ConfigProperties.application.url}/services/\');' +
                             '</script>';
                     }
