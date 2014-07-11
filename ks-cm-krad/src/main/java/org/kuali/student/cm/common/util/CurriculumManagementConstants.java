@@ -154,6 +154,9 @@ public class CurriculumManagementConstants {
     public final static String REF_DOC_RELATION_TYPE_KEY = "kuali.org.DocRelation.allObjectTypes";
     public final static String DEFAULT_DOC_TYPE_KEY = "documentType.doc";
     public final static String DOCUMENT_CATEGORY_PROPOSAL_TYPE_KEY = "documentCategory.proposal";
+
+    public final static String FILE_SIZE_CONSTRAINT = "Maximum File Size - 7.5MB";
+
     /**
      * This delimiter to use when rendering collections as a String.
      */
