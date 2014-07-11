@@ -2,13 +2,9 @@ package org.kuali.student.enrollment.class2.registration.admin.service.impl;
 
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.affiliation.EntityAffiliation;
 import org.kuali.rice.kim.api.identity.entity.Entity;
 import org.kuali.rice.kim.api.identity.name.EntityName;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.common.uif.service.impl.KSViewHelperServiceImpl;
@@ -21,19 +17,12 @@ import org.kuali.student.enrollment.class2.registration.admin.service.CourseRegA
 import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegConstants;
 import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegistrationUtil;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseregistration.dto.ActivityRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
-import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
-import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
-import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
-import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
-import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 
-import javax.xml.namespace.QName;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by SW Genis on 2014/07/04.
@@ -113,6 +102,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
                 registeredCourse.setRegDate(courseRegInfo.getEffectiveDate());
 
                 List<ActivityRegistrationInfo> activityOfferings = AdminRegistrationUtil.getCourseRegistrationService().getActivityRegistrationsForCourseRegistration(courseRegInfo.getId(), createContextInfo());
+                registeredCourse.setSection(AdminRegistrationUtil.getCourseOfferingService().getRegistrationGroup(courseRegInfo.getRegistrationGroupId(), createContextInfo()).getRegistrationCode());
 
                 for (ActivityRegistrationInfo activityRegInfos : activityOfferings) {
                     //Use activityRegInfos - to retrieve the hardcoded values
