@@ -248,6 +248,8 @@ limitations under the License.
         <property name="items">
             <list>
                 <ref bean="Course-EditWithObject-EditSection"/>
+                <!-- Commenting out since this Edit rule logic is not in our current userstory-->
+                <!--<ref bean="Course-EditWithLogic-EditSection"/>-->
             </list>
         </property>
         <property name="tabsWidget">
@@ -351,6 +353,15 @@ limitations under the License.
             </list>
         </property>
     </bean>
+
+    <!-- Commenting out since this Edit rule logic is not in our current userstory-->
+    <!--<bean id="Course-EditWithLogic-EditSection" parent="KRMS-EditWithLogic-EditSection-parent">
+        <property name="items">
+            <list>
+                <ref bean="Course-EditWithLogic-EditGroup"/>
+            </list>
+        </property>
+    </bean>-->
 
     <bean id="Course-EditWithLogic-EditGroup" parent="KRMS-EditWithLogic-EditGroup">
         <property name="items">
