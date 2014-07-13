@@ -37,7 +37,7 @@ function sendPoll() {
 
         console.log("Query");
 
-        queryData.methodToCall = "regUpdateQuery";
+        queryData.methodToCall = "queryForRegistrationStatus";
         queryData.ajaxRequest = true;
         queryData.ajaxReturnType = "update-none";
         queryData.formKey = jQuery("input[name='" + kradVariables.FORM_KEY + "']").val();
