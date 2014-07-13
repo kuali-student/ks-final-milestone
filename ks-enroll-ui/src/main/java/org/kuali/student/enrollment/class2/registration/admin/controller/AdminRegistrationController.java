@@ -88,16 +88,15 @@ public class AdminRegistrationController extends UifControllerBase {
         }
 
         try {
-
             form.setStudentName(null);
             this.getViewHelper(form).populateStudentInfo(form);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+
         if (GlobalVariables.getMessageMap().getErrorCount() > 0) {
             return getUIFModelAndView(form);
         }
-
 
         return getUIFModelAndView(form);
     }
@@ -219,9 +218,9 @@ public class AdminRegistrationController extends UifControllerBase {
     }
 
     @MethodAccessible
-    @RequestMapping(method = RequestMethod.GET, params = "methodToCall=regUpdateQuery")
+    @RequestMapping(method = RequestMethod.GET, params = "methodToCall=queryForRegistrationStatus")
     @ResponseBody
-    public Map regUpdateQuery(@ModelAttribute("KualiForm") AdminRegistrationForm form) {
+    public Map queryForRegistrationStatus(@ModelAttribute("KualiForm") AdminRegistrationForm form) {
 
         Map<String, Object> result = new HashMap<String, Object>();
         List<String> updateIds = new ArrayList<String>();

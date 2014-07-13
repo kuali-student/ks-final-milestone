@@ -154,11 +154,14 @@
     </bean-->
 
     <!--  Registration Area -->
-    <bean id="KS-AdminRegistration-RegisterGroup" parent="Uif-CssGridGroup">
+    <bean id="KS-AdminRegistration-RegisterGroup" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
-                <ref bean="KS-AdminRegistration-RegFor"/>
                 <ref bean="KS-AdminRegistration-Issues"/>
+                <ref bean="KS-AdminRegistration-RegFor"/>
+                <bean parent="Uif-PrimaryActionButton" p:actionLabel="Register" p:methodToCall="register"
+                      p:refreshId="KS-AdminRegistration-RegistrationTabs"
+                      p:ajaxReturnType="update-component"/>
             </list>
         </property>
     </bean>
@@ -172,18 +175,16 @@
         <property name="addLinePlacement" value="BOTTOM"/>
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.actionColumnPlacement" value="LEFT" />
         <property name="renderAddLine" value="false"/>
         <property name="onDocumentReadyScript" value="startPolling(1000);"/>
         <property name="lineActions">
             <list>
-                <bean parent="Uif-PrimaryActionButton" p:render="@{#index == pendingCourses.size() - 1}"
-                      p:actionLabel="Register" p:methodToCall="register"
-                      p:refreshId="KS-AdminRegistration-RegistrationTabs"
-                      p:ajaxReturnType="update-component"/>
+                <bean parent="Uif-DeleteLineAction" p:actionLabel=" - " p:render="@{pendingCourses.size() > 1}"/>
             </list>
         </property>
         <property name="addBlankLineAction">
-            <bean parent="Uif-ActionLink" p:methodToCall="addBlankLine"
+            <bean parent="Uif-SecondaryActionButton" p:methodToCall="addBlankLine"
                   p:successCallback="jQuery(&quot;[name='pendingCourses[@{pendingCourses.size()}].code']&quot;).focus()"
                   p:actionLabel="+Add another" p:actionEvent="addBlankLine" p:id="@{#collectionGroup.id}_add"/>
         </property>
