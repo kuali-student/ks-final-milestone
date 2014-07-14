@@ -62,7 +62,7 @@ limitations under the License.
                       p:performActionAuthz="true" p:actionEvent="addEditRequisite"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/-->
                 <bean parent="KS-Uif-NavigationActionLink" p:actionLabel="Add Rule" p:methodToCall="addRule"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}" p:disabled="@{!#actionFlags[#Constants.KUALI_ACTION_CAN_BLANKET_APPROVE]}"/>
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}" />
             </list>
         </property>
     </bean>
