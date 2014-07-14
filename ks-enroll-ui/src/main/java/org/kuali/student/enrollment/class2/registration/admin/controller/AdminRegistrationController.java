@@ -109,9 +109,7 @@ public class AdminRegistrationController extends UifControllerBase {
                 form.setTermInfo(term);
                 form.setTermName(term.getName());
 
-                //method needs to change to pass form.getStudentId and not studentID
                 form.setRegisteredCourses(getViewHelper(form).getCourseRegStudentAndTerm(form.getStudentId(), term.getId()));
-                //Calling Method for Waitlisted Courses
                 form.setWaitlistedCourses(getViewHelper(form).getCourseWaitListStudentAndTerm(form.getStudentId(),term.getId()));
             }else {
                 form.clearTermAndCourseRegistrationInfo();
@@ -140,8 +138,18 @@ public class AdminRegistrationController extends UifControllerBase {
             course.setRegDate(new Date());
             course.setRegOptions("reg");
             List<RegistrationActivity> activities = new ArrayList<RegistrationActivity>();
-            activities.add(new RegistrationActivity("Lec", "MWF 01:00pm - 02:30pm", "Steve Capriani", "PTX 2391"));
-            activities.add(new RegistrationActivity("Lab", "MWF 02:30pm - 03:30pm", "Steve Capriani", "PTX 2391"));
+            RegistrationActivity activity = new RegistrationActivity();
+            activity.setType("Lec");
+            activity.setDateTime("MWF 01:00pm - 02:30pm");
+            activity.setInstructor("Steve Capriani");
+            activity.setRoom("PTX 2391");
+            activities.add(activity);
+            activity = new RegistrationActivity();
+            activity.setType("Lab");
+            activity.setDateTime( "MWF 02:30pm - 03:30pm");
+            activity.setInstructor("Steve Capriani");
+            activity.setRoom("PTX 2391");
+            activities.add(activity);
             course.setActivities(activities);
         }
 

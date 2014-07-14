@@ -29,11 +29,8 @@ public class RegistrationActivity implements Serializable {
     private String instructor;
     private String room;
 
-    public RegistrationActivity(String type, String dateTime, String instructor, String room) {
-        this.type = type;
-        this.dateTime = dateTime;
-        this.instructor = instructor;
-        this.room = room;
+    public RegistrationActivity() {
+
     }
 
     public String getType() {

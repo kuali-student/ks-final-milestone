@@ -2,10 +2,12 @@ package org.kuali.student.enrollment.class2.registration.admin.service.impl;
 
 import net.sf.ehcache.Element;
 import org.apache.commons.collections.keyvalue.MultiKey;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.uif.service.impl.KSViewHelperServiceImpl;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
@@ -15,15 +17,26 @@ import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationC
 import org.kuali.student.enrollment.class2.registration.admin.service.CourseRegAdminViewHelperService;
 import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegConstants;
 import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegistrationUtil;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseregistration.dto.ActivityRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.TimeOfDayInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.util.TimeOfDayHelper;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.room.dto.BuildingInfo;
+import org.kuali.student.r2.core.room.dto.RoomInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
+import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
+import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -108,14 +121,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
                 registeredCourse.setSection(AdminRegistrationUtil.getCourseOfferingService().getRegistrationGroup(courseRegInfo.getRegistrationGroupId(), createContextInfo()).getRegistrationCode());
 
                 List<ActivityRegistrationInfo> activityOfferings = AdminRegistrationUtil.getCourseRegistrationService().getActivityRegistrationsForCourseRegistration(courseRegInfo.getId(), createContextInfo());
-                registeredCourse.setSection(AdminRegistrationUtil.getCourseOfferingService().getRegistrationGroup(courseRegInfo.getRegistrationGroupId(), createContextInfo()).getRegistrationCode());
-
-                for (ActivityRegistrationInfo activityRegInfos : activityOfferings) {
-                    //Use activityRegInfos - to retrieve the hardcoded values
-                    RegistrationActivity regActivity = new RegistrationActivity("Lec", "MWF 04:00pm - 05:30pm", "Steve Capriani", "PTX 2391");
-                    registeredCourse.getActivities().add(regActivity);
-
-                }
+                registeredCourse.setActivities(retrieveRegistrationActivities(activityOfferings));
                 registeredCourses.add(registeredCourse);
             }
 
@@ -142,14 +148,8 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
                 waitListCourse.setRegDate(courseWaitListInfo.getEffectiveDate());
                 waitListCourse.setSection(AdminRegistrationUtil.getCourseOfferingService().getRegistrationGroup(courseWaitListInfo.getRegistrationGroupId(), createContextInfo()).getRegistrationCode());
 
-                List<ActivityRegistrationInfo> waitListActivityOfferings = AdminRegistrationUtil.getCourseWaitlistService().getActivityWaitListRegistrationsForCourseRegistration(courseWaitListInfo.getId(), createContextInfo());
-
-                for (ActivityRegistrationInfo activityWaitListedInfos : waitListActivityOfferings) {
-                    //Use activityWaitListedInfos - to retrieve the hardcoded values
-                    RegistrationActivity waitListedActivity = new RegistrationActivity("Lec", "MWF 04:00pm - 05:30pm", "Steve Capriani", "PTX 2391");
-                    waitListCourse.getActivities().add(waitListedActivity);
-                }
-
+                List<ActivityRegistrationInfo> activityOfferings = AdminRegistrationUtil.getCourseWaitlistService().getActivityWaitListRegistrationsForCourseRegistration(courseWaitListInfo.getId(), createContextInfo());
+                waitListCourse.setActivities(retrieveRegistrationActivities(activityOfferings));
                 waitListCourses.add(waitListCourse);
             }
 
@@ -157,6 +157,74 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
             throw convertServiceExceptionsToUI(e);
         }
         return waitListCourses;
+    }
+
+    /**
+     * Method accpets RegistrationCourse and CourseRegistrationInfo
+     * to retrieve the ActivitiesInfo
+     * @param activityOfferings
+     * @return
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     * @throws DoesNotExistException
+     */
+    private List<RegistrationActivity> retrieveRegistrationActivities(List<ActivityRegistrationInfo> activityOfferings) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+
+        List<RegistrationActivity> registrationActivity = new ArrayList<RegistrationActivity>();
+
+        for (ActivityRegistrationInfo activityRegInfo : activityOfferings) {
+            //"Lec", "MWF 04:00pm - 05:30pm", "Steve Capriani", "PTX 2391"
+            RegistrationActivity regActivity = new RegistrationActivity();
+
+            ActivityOfferingInfo aoInfo = AdminRegistrationUtil.getCourseOfferingService().getActivityOffering(activityRegInfo.getActivityOfferingId(), createContextInfo());
+            List<ScheduleInfo> scheduleInfos = AdminRegistrationUtil.getSchedulingService().getSchedulesByIds(aoInfo.getScheduleIds(), createContextInfo());
+
+            StringBuilder dateTimeSchedule = new StringBuilder();
+            StringBuilder roomBuildInfo = new StringBuilder();
+
+            for (ScheduleInfo scheduleInfo : scheduleInfos) {
+                /**
+                 * Until we implement external scheduler, there is going to be only one Schedule component for every scheduleinfo
+                 * and the UI doesn't allow us to add multiple components to a schedule request.
+                 */
+                for (ScheduleComponentInfo componentInfo : scheduleInfo.getScheduleComponents()) {
+
+                    List<TimeSlotInfo> timeSlotInfos = AdminRegistrationUtil.getSchedulingService().getTimeSlotsByIds(componentInfo.getTimeSlotIds(), createContextInfo());
+                    // Assume only zero or one (should never be more than 1 until we support partial colo)
+                    TimeSlotInfo timeSlotInfo = KSCollectionUtils.getOptionalZeroElement(timeSlotInfos);
+
+                    dateTimeSchedule.append(SchedulingServiceUtil.weekdaysList2WeekdaysString(timeSlotInfo.getWeekdays()));
+                    dateTimeSchedule.append(" ");
+                    //org.apache.commons.lang.StringUtils.substringBefore(timeSlotInfos.get(0).getStartTime(), " ")
+
+                    dateTimeSchedule.append(TimeOfDayHelper.makeFormattedTimeForAOSchedules(timeSlotInfo.getStartTime()));
+                    dateTimeSchedule.append(" - ");
+                    dateTimeSchedule.append(TimeOfDayHelper.makeFormattedTimeForAOSchedules(timeSlotInfo.getEndTime()));
+
+                    try {
+                        RoomInfo room = AdminRegistrationUtil.getRoomService().getRoom(componentInfo.getRoomId(), createContextInfo());
+                        //retrieve the buildingInfo from the Room.
+                        BuildingInfo buildingInfo = AdminRegistrationUtil.getRoomService().getBuilding(room.getBuildingId(), createContextInfo());
+                        roomBuildInfo.append(buildingInfo.getBuildingCode());
+                        roomBuildInfo.append(" ");
+                        roomBuildInfo.append(room.getRoomCode());
+
+                    }catch (Exception e){
+                        throw new RuntimeException("Could not retrieve Room RoomService for " + e);
+                    }
+                }
+                regActivity.setType(aoInfo.getName());
+                regActivity.setDateTime(dateTimeSchedule.toString());
+                // Assume only zero or one (should never be more than 1 until we support partial colo)
+                OfferingInstructorInfo offeringInstructorInfo = KSCollectionUtils.getOptionalZeroElement(aoInfo.getInstructors());
+                regActivity.setInstructor(offeringInstructorInfo.getPersonName());
+                regActivity.setRoom(roomBuildInfo.toString());
+            }
+            registrationActivity.add(regActivity);
+        }
+        return registrationActivity;
     }
 
     @Override

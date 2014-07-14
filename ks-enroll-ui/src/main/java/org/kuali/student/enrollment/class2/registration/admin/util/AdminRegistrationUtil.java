@@ -5,6 +5,7 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.coursewaitlist.service.CourseWaitListService;
@@ -13,6 +14,9 @@ import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConst
 import org.kuali.student.r2.common.util.constants.CourseWaitListServiceConstants;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
+import org.kuali.student.r2.core.room.service.RoomService;
+import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
+import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 
 import javax.xml.namespace.QName;
 
@@ -29,6 +33,8 @@ public class AdminRegistrationUtil {
     private static IdentityService identityService;
     private static CourseRegistrationService courseRegService;
     private static CourseOfferingService courseOfferingService;
+    private static SchedulingService schedulingService;
+    private static RoomService roomService;
     private static CacheManager cacheManager;
     private static CourseWaitListService courseWaitListService;
 
@@ -80,5 +86,19 @@ public class AdminRegistrationUtil {
             cacheManager = CacheManager.getCacheManager("ks-ehcache");
         }
         return cacheManager;
+    }
+
+    public static SchedulingService getSchedulingService() {
+        if (schedulingService == null){
+            schedulingService = (SchedulingService) GlobalResourceLoader.getService(new QName(SchedulingServiceConstants.NAMESPACE, SchedulingServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return schedulingService;
+    }
+
+    public static RoomService getRoomService() {
+        if (roomService == null) {
+            roomService = CourseOfferingResourceLoader.loadRoomService();
+        }
+        return roomService;
     }
 }
