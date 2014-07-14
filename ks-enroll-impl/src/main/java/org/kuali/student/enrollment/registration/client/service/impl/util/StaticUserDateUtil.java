@@ -62,7 +62,7 @@ public class StaticUserDateUtil {
             throw new InvalidParameterException("Cannot put date in map, userId is null");
         }
         DateTime dateTime = parseString(date);
-        STATIC_DATE_MAP.put(userId, dateTime);
+        STATIC_DATE_MAP.put(userId.toLowerCase(), dateTime);
     }
 
     /**
@@ -121,7 +121,7 @@ public class StaticUserDateUtil {
         if (regUserMap != null) {
             for (Map.Entry<String, String> entry:regUserMap.entrySet()) {
                 try {
-                    String key = entry.getKey();
+                    String key = entry.getKey().toLowerCase(); // Push to lower case to facilitate case-insensitivity
                     DateTime value = parseString(entry.getValue());
                     STATIC_DATE_MAP.put(key, value);
                     PRE_LOADED_MAP.put(key, value);
@@ -153,7 +153,10 @@ public class StaticUserDateUtil {
     }
 
     private static DateTime getStaticDateTimeForUser(String userId) {
-        return STATIC_DATE_MAP.get(userId);
+        if (userId == null) {
+            return null;
+        }
+        return STATIC_DATE_MAP.get(userId.toLowerCase());
     }
 
     private static String formatDate(DateTime dateTime) {
