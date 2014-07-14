@@ -510,7 +510,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             if (courseInfoWrapper.getDocumentsToAdd().size() > 0) {
                 final SupportingDocumentInfoWrapper addLineResult = courseInfoWrapper.getDocumentsToAdd().get(
                         courseInfoWrapper.getDocumentsToAdd().size() - 1);
-                if (addLineResult.getDocumentId() == null && addLineResult.getDocumentUpload() != null) {
+                if (StringUtils.isBlank(addLineResult.getDocumentId()) && addLineResult.getDocumentUpload() != null) {
                     long size = Long.valueOf(CoreApiServiceLocator.getKualiConfigurationService().getPropertyValueAsString(
                             CurriculumManagementConstants.MessageKeys.SUPPORTING_DOC_MAX_SIZE_LIMIT));
                     if (addLineResult.getDocumentUpload().getSize() > size) {
@@ -1580,7 +1580,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         if (courseInfoWrapper.getDocumentsToAdd().size() > 0) {
             SupportingDocumentInfoWrapper addLineResult = courseInfoWrapper.getDocumentsToAdd().get(
                     courseInfoWrapper.getDocumentsToAdd().size() - 1);
-            if (addLineResult.getDocumentId() == null && addLineResult.getDocumentUpload() != null) {
+            if (StringUtils.isBlank(addLineResult.getDocumentId()) && addLineResult.getDocumentUpload() != null) {
                 DocumentInfo toAdd = new DocumentInfo();
                 toAdd.setFileName(addLineResult.getDocumentUpload().getOriginalFilename());
                 RichTextInfo desc = new RichTextInfo();

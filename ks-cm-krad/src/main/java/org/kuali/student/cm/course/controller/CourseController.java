@@ -41,7 +41,6 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants.CourseViewSections;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
-import org.kuali.student.r1.core.workflow.dto.CollaboratorWrapper;
 import org.kuali.student.cm.course.form.CourseCreateUnitsContentOwner;
 import org.kuali.student.cm.course.form.CourseInfoWrapper;
 import org.kuali.student.cm.course.form.LoDisplayInfoWrapper;
@@ -56,15 +55,14 @@ import org.kuali.student.common.uif.util.KSUifUtils;
 import org.kuali.student.common.uif.util.KSViewAttributeValueReader;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
+import org.kuali.student.r1.core.workflow.dto.CollaboratorWrapper;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
-import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.comment.service.CommentService;
 import org.kuali.student.r2.core.constants.DocumentServiceConstants;
 import org.kuali.student.r2.core.constants.ProposalServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.document.dto.DocumentInfo;
-import org.kuali.student.r2.core.document.dto.RefDocRelationInfo;
 import org.kuali.student.r2.core.document.service.DocumentService;
 import org.kuali.student.r2.core.proposal.service.ProposalService;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
@@ -79,7 +77,6 @@ import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -87,11 +84,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
+import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.util.List;
 import java.util.Map;
@@ -445,55 +441,16 @@ public class CourseController extends CourseRuleEditorController {
     }
 
     /**
-     *  This method is used to download the user selected document at the browser.
-     * @param form     {@link MaintenanceDocumentForm} instance used for this action
-     * @param result
-     * @param request  {@link HttpServletRequest} instance of the actual HTTP request made
-     * @param response The intended {@link HttpServletResponse} sent back to the user
+     * Downloads supporting documents to the browser.
+     *
+     * @param form
+     * @param response
+     * @return
      * @throws Exception
      */
     @MethodAccessible
-    @RequestMapping(params = "methodToCall=downloadSupportDoc")
-    public void downloadSupportDoc(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
-                                   HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        DocumentInfo document = null;
-        String docId = request.getParameter("documentId");
-        try {
-            document = getSupportingDocumentService().getDocument(docId, ContextUtils.getContextInfo());
-        } catch (Exception ex) {
-            LOG.warn("Exception occurred while retrieving the document", ex);
-        }
-        if (document != null && document.getDocumentBinary() != null
-                && document.getDocumentBinary().getBinary() != null
-                && !document.getDocumentBinary().getBinary().isEmpty()) {
-
-            ServletOutputStream outputStream = response.getOutputStream();
-            try {
-
-                byte[] bytes = Base64.decodeBase64(document.getDocumentBinary().getBinary());
-                ServletContext context = request.getSession().getServletContext();
-                String mimeType = context.getMimeType(document.getFileName());
-                response.setContentType((mimeType != null) ? mimeType : CurriculumManagementConstants.DEFAULT_MIME_TYPE);
-                response.setContentLength(bytes.length);
-                response.setHeader("Content-Disposition","attachment; filename=\"" + document.getName() + "\"");
-                // copy the file to output stream
-                FileCopyUtils.copy(bytes, outputStream);
-            } catch (Exception ex) {
-                LOG.warn("Unable to write the document to output stream: ", ex);
-            } finally{
-                outputStream.flush();
-                outputStream.close();
-            }
-        } else {
-            LOG.warn("Sorry, the file could not be retrieved.  It may not exist, or the server could not be contacted.");
-        }
-    }
-
-    @MethodAccessible
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=downloadSupportingDoc")
-    public ModelAndView downloadSupportingDoc(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
-                                   HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView downloadSupportingDoc(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, HttpServletResponse response) throws Exception {
 
         String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
         final int selectedLineIndex = Integer.parseInt(selectedLine);
@@ -503,7 +460,7 @@ public class CourseController extends CourseRuleEditorController {
         SupportingDocumentInfoWrapper supportingDocument = courseInfoWrapper.getDocumentsToAdd().get(selectedLineIndex);
         DocumentInfo document = null;
         try {
-            document = getSupportingDocumentService().getDocument(supportingDocument.getDocumentId(), ContextUtils.getContextInfo());
+            document = getSupportingDocumentService().getDocument(supportingDocument.getDocumentId(), ContextUtils.createDefaultContextInfo());
         } catch (Exception ex) {
             LOG.warn("Exception occurred while retrieving the document", ex);
         }
@@ -513,7 +470,7 @@ public class CourseController extends CourseRuleEditorController {
                 && !document.getDocumentBinary().getBinary().isEmpty()) {
 
             byte[] bytes = Base64.decodeBase64(document.getDocumentBinary().getBinary());
-            ByteArrayInputStream byteStream = new ByteArrayInputStream(bytes);
+            BufferedInputStream byteStream = new BufferedInputStream(new ByteArrayInputStream(bytes));
 
             KRADUtils.addAttachmentToResponse(response, byteStream,
                     CurriculumManagementConstants.DEFAULT_MIME_TYPE, document.getName(),

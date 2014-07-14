@@ -15,6 +15,7 @@
  */
 package org.kuali.student.cm.course.form;
 
+import org.kuali.rice.krad.uif.util.SessionTransient;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -25,7 +26,7 @@ public class SupportingDocumentInfoWrapper implements java.io.Serializable {
 
 	private static final long serialVersionUID = -1L;
     
-
+    @SessionTransient
     private MultipartFile documentUpload;
     private String description;
     private String documentId;
