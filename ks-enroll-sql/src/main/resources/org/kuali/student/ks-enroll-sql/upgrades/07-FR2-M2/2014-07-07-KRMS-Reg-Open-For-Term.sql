@@ -38,7 +38,7 @@ INSERT INTO KRMS_TERM_T (DESC_TXT, TERM_ID, TERM_SPEC_ID, VER_NBR)
 
 -- Term Params: Configure the specific term key date to check against.
 INSERT INTO KRMS_TERM_PARM_T (NM, TERM_ID, TERM_PARM_ID, VAL, VER_NBR)
-  VALUES ('kuali.term.parameter.type.keydate.typekey', 'KS-KRMS-TERM-RegOpenForTerm', 'KS-KRMS-TP-RegOpenForTerm', 'kuali.atp.milestone.regstrationservicesopen', 0)
+  VALUES ('kuali.term.parameter.type.keydate.typekey', 'KS-KRMS-TERM-RegOpenForTerm', 'KS-KRMS-TP-RegOpenForTerm', 'kuali.atp.milestone.registrationservicesopen', 0)
 /
 
 

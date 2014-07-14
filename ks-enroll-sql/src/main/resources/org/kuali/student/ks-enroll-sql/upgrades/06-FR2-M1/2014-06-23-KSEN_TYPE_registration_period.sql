@@ -1,6 +1,6 @@
 --  KSENROLL-13225
 INSERT INTO KSEN_TYPE (CREATEID, CREATETIME, DESCR_FORMATTED, DESCR_PLAIN, EFF_DT, NAME, OBJ_ID, REF_OBJECT_URI, SERVICE_URI, TYPE_KEY, VER_NBR)
-  VALUES ('SYSTEMLOADER', TO_DATE( '20120912000000', 'YYYYMMDDHH24MISS' ), 'Registration Open', 'Registration Open', TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ), 'Registration Open', SYS_GUID(), 'http://student.kuali.org/wsdl/atp/MilestoneInfo', 'http://student.kuali.org/wsdl/atp/AtpService', 'kuali.atp.milestone.regstrationservicesopen', 0)
+  VALUES ('SYSTEMLOADER', TO_DATE( '20120912000000', 'YYYYMMDDHH24MISS' ), 'Registration Open', 'Registration Open', TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ), 'Registration Open', SYS_GUID(), 'http://student.kuali.org/wsdl/atp/MilestoneInfo', 'http://student.kuali.org/wsdl/atp/AtpService', 'kuali.atp.milestone.registrationservicesopen', 0)
 /
 INSERT INTO KSEN_TYPE (CREATEID, CREATETIME, DESCR_FORMATTED, DESCR_PLAIN, EFF_DT, NAME, OBJ_ID, REF_OBJECT_URI, SERVICE_URI, TYPE_KEY, VER_NBR)
   VALUES ('SYSTEMLOADER', TO_DATE( '20120912000000', 'YYYYMMDDHH24MISS' ), 'Pre-Registration Period', 'Pre-Registration Period', TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ), 'Pre-Registration Period', SYS_GUID(), 'http://student.kuali.org/wsdl/atp/MilestoneInfo', 'http://student.kuali.org/wsdl/atp/AtpService', 'kuali.atp.milestone.preregistrationperiod', 0)
@@ -9,7 +9,7 @@ INSERT INTO KSEN_TYPE (CREATEID, CREATETIME, DESCR_FORMATTED, DESCR_PLAIN, EFF_D
   VALUES ('SYSTEMLOADER', TO_DATE( '20120912000000', 'YYYYMMDDHH24MISS' ), 'Schedule Adjustment Period', 'Schedule Adjustment Period', TO_DATE( '20000101000000', 'YYYYMMDDHH24MISS' ), 'Schedule Adjustment Period', SYS_GUID(), 'http://student.kuali.org/wsdl/atp/MilestoneInfo', 'http://student.kuali.org/wsdl/atp/AtpService', 'kuali.atp.milestone.scheduleadjustmentperiod', 0)
 /
 INSERT INTO KSEN_TYPETYPE_RELTN (CREATEID,CREATETIME,ID,OWNER_TYPE_ID,RANK,RELATED_TYPE_ID,TYPETYPE_RELTN_STATE,TYPETYPE_RELTN_TYPE,VER_NBR)
-  VALUES ('SYSTEMLOADER',TO_DATE( '20120301000000', 'YYYYMMDDHH24MISS' ),'kuali.type.type.relation.type.group.kuali.milestone.type.group.registration.kuali.atp.milestone.regstrationservicesopen','kuali.milestone.type.group.registration',0,'kuali.atp.milestone.regstrationservicesopen','kuali.type.type.relation.state.active','kuali.type.type.relation.type.group',0)
+  VALUES ('SYSTEMLOADER',TO_DATE( '20120301000000', 'YYYYMMDDHH24MISS' ),'kuali.type.type.relation.type.group.kuali.milestone.type.group.registration.kuali.atp.milestone.registrationservicesopen','kuali.milestone.type.group.registration',0,'kuali.atp.milestone.registrationservicesopen','kuali.type.type.relation.state.active','kuali.type.type.relation.type.group',0)
 /
 INSERT INTO KSEN_TYPETYPE_RELTN (CREATEID,CREATETIME,ID,OWNER_TYPE_ID,RANK,RELATED_TYPE_ID,TYPETYPE_RELTN_STATE,TYPETYPE_RELTN_TYPE,VER_NBR)
   VALUES ('SYSTEMLOADER',TO_DATE( '20120301000000', 'YYYYMMDDHH24MISS' ),'kuali.type.type.relation.type.group.kuali.milestone.type.group.registration.kuali.atp.milestone.preregistrationperiod','kuali.milestone.type.group.registration',0,'kuali.atp.milestone.preregistrationperiod','kuali.type.type.relation.state.active','kuali.type.type.relation.type.group',0)
@@ -19,7 +19,7 @@ INSERT INTO KSEN_TYPETYPE_RELTN (CREATEID,CREATETIME,ID,OWNER_TYPE_ID,RANK,RELAT
 /
 
 -- Fall 2012
-insert into KSEN_MSTONE (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, MSTONE_STATE, MSTONE_TYPE, DESCR_FORMATTED, DESCR_PLAIN, END_DT, IS_ALL_DAY, IS_DATE_RANGE, IS_INSTRCT_DAY, IS_RELATIVE, NAME, RELATIVE_ANCHOR_MSTONE_ID, START_DT, ID) values ('9d6258bd-5bca-4529-9a3a-3b292f4d7b84', 0, 'admin', TIMESTAMP '2014-06-23 13:22:39.952', 'admin', TIMESTAMP '2014-06-23 13:22:39.952', 'kuali.milestone.state.Draft', 'kuali.atp.milestone.regstrationservicesopen', '', 'test', TIMESTAMP '2012-11-27 23:59:59.9', '1', '1', '0', '0', 'Regstration Open', '', TIMESTAMP '2012-03-01 00:00:00.0', 'f3c367be-70b0-4fa5-93d5-eff4590b2801')
+insert into KSEN_MSTONE (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, MSTONE_STATE, MSTONE_TYPE, DESCR_FORMATTED, DESCR_PLAIN, END_DT, IS_ALL_DAY, IS_DATE_RANGE, IS_INSTRCT_DAY, IS_RELATIVE, NAME, RELATIVE_ANCHOR_MSTONE_ID, START_DT, ID) values ('9d6258bd-5bca-4529-9a3a-3b292f4d7b84', 0, 'admin', TIMESTAMP '2014-06-23 13:22:39.952', 'admin', TIMESTAMP '2014-06-23 13:22:39.952', 'kuali.milestone.state.Draft', 'kuali.atp.milestone.registrationservicesopen', '', 'test', TIMESTAMP '2012-11-27 23:59:59.9', '1', '1', '0', '0', 'Regstration Open', '', TIMESTAMP '2012-03-01 00:00:00.0', 'f3c367be-70b0-4fa5-93d5-eff4590b2801')
 /
 insert into KSEN_ATPMSTONE_RELTN (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, ATP_ID, MSTONE_ID, ID) values ('3405197c-91a8-4577-8958-1ad5bea46483', 0, 'admin', TIMESTAMP '2014-06-23 13:22:39.952', 'admin', TIMESTAMP '2014-06-23 13:22:39.952', 'kuali.atp.2012Fall', 'f3c367be-70b0-4fa5-93d5-eff4590b2801', '1d33f292-3906-4066-bd82-affe7d7071d1')
 /
@@ -33,7 +33,7 @@ insert into KSEN_ATPMSTONE_RELTN (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEI
 /
 
 -- Half Fall 1 2012
-insert into KSEN_MSTONE (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, MSTONE_STATE, MSTONE_TYPE, DESCR_FORMATTED, DESCR_PLAIN, END_DT, IS_ALL_DAY, IS_DATE_RANGE, IS_INSTRCT_DAY, IS_RELATIVE, NAME, RELATIVE_ANCHOR_MSTONE_ID, START_DT, ID) values ('33c70bd4-9523-486e-98e6-c37a2d3fd805', 0, 'admin', TIMESTAMP '2014-06-23 13:26:30.218', 'admin', TIMESTAMP '2014-06-23 13:26:30.218', 'kuali.milestone.state.Draft', 'kuali.atp.milestone.regstrationservicesopen', '', 'test', TIMESTAMP '2012-11-27 23:59:59.9', '1', '1', '0', '0', 'Regstration Open', '', TIMESTAMP '2012-03-01 00:00:00.0', 'c0278202-2064-4999-abae-5bc64580f6cf')
+insert into KSEN_MSTONE (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, MSTONE_STATE, MSTONE_TYPE, DESCR_FORMATTED, DESCR_PLAIN, END_DT, IS_ALL_DAY, IS_DATE_RANGE, IS_INSTRCT_DAY, IS_RELATIVE, NAME, RELATIVE_ANCHOR_MSTONE_ID, START_DT, ID) values ('33c70bd4-9523-486e-98e6-c37a2d3fd805', 0, 'admin', TIMESTAMP '2014-06-23 13:26:30.218', 'admin', TIMESTAMP '2014-06-23 13:26:30.218', 'kuali.milestone.state.Draft', 'kuali.atp.milestone.registrationservicesopen', '', 'test', TIMESTAMP '2012-11-27 23:59:59.9', '1', '1', '0', '0', 'Regstration Open', '', TIMESTAMP '2012-03-01 00:00:00.0', 'c0278202-2064-4999-abae-5bc64580f6cf')
 /
 insert into KSEN_ATPMSTONE_RELTN (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, ATP_ID, MSTONE_ID, ID) values ('37169df7-c3b5-4da9-a2de-bb633486e154', 0, 'admin', TIMESTAMP '2014-06-23 13:26:30.218', 'admin', TIMESTAMP '2014-06-23 13:26:30.218', 'kuali.atp.2012HalfFall1', 'c0278202-2064-4999-abae-5bc64580f6cf', '26e0c7db-2a00-44a1-b904-2533d9aa545e')
 /
@@ -47,7 +47,7 @@ insert into KSEN_ATPMSTONE_RELTN (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEI
 /
 
 -- Half Fall 2 2012
-insert into KSEN_MSTONE (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, MSTONE_STATE, MSTONE_TYPE, DESCR_FORMATTED, DESCR_PLAIN, END_DT, IS_ALL_DAY, IS_DATE_RANGE, IS_INSTRCT_DAY, IS_RELATIVE, NAME, RELATIVE_ANCHOR_MSTONE_ID, START_DT, ID) values ('ec0a3be1-cd54-4dee-a6c9-17aa1dc23c12', 0, 'admin', TIMESTAMP '2014-06-23 13:29:15.584', 'admin', TIMESTAMP '2014-06-23 13:29:15.584', 'kuali.milestone.state.Draft', 'kuali.atp.milestone.regstrationservicesopen', '', 'test', TIMESTAMP '2012-11-27 23:59:59.9', '1', '1', '0', '0', 'Regstration Open', '', TIMESTAMP '2012-03-01 00:00:00.0', '36f85db1-d2f8-47a6-a36a-8a9fd1c71cbb')
+insert into KSEN_MSTONE (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, MSTONE_STATE, MSTONE_TYPE, DESCR_FORMATTED, DESCR_PLAIN, END_DT, IS_ALL_DAY, IS_DATE_RANGE, IS_INSTRCT_DAY, IS_RELATIVE, NAME, RELATIVE_ANCHOR_MSTONE_ID, START_DT, ID) values ('ec0a3be1-cd54-4dee-a6c9-17aa1dc23c12', 0, 'admin', TIMESTAMP '2014-06-23 13:29:15.584', 'admin', TIMESTAMP '2014-06-23 13:29:15.584', 'kuali.milestone.state.Draft', 'kuali.atp.milestone.registrationservicesopen', '', 'test', TIMESTAMP '2012-11-27 23:59:59.9', '1', '1', '0', '0', 'Regstration Open', '', TIMESTAMP '2012-03-01 00:00:00.0', '36f85db1-d2f8-47a6-a36a-8a9fd1c71cbb')
 /
 insert into KSEN_ATPMSTONE_RELTN (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, ATP_ID, MSTONE_ID, ID) values ('7558ccc7-8a4f-4016-9a2a-54ca84ba1141', 0, 'admin', TIMESTAMP '2014-06-23 13:29:15.584', 'admin', TIMESTAMP '2014-06-23 13:29:15.584', 'kuali.atp.2012HalfFall2', '36f85db1-d2f8-47a6-a36a-8a9fd1c71cbb', '1cb0c7cb-26f2-464f-bbce-b9de832c1836')
 /
