@@ -84,8 +84,6 @@ public class CourseSearchController extends UifControllerBase {
 
 	private ObjectMapper mapper = new ObjectMapper();
 
-	private CourseDetailsInquiryHelperImpl courseDetailsInquiryService;
-
 	/**
 	 * Synchronously retrieve session bound search results for an incoming
 	 * request.
@@ -351,115 +349,6 @@ public class CourseSearchController extends UifControllerBase {
 			HttpServletResponse httpresponse) {
 		return getUIFModelAndView(form,
 				CourseSearchConstants.COURSE_SEARCH_RESULT_PAGE);
-	}
-
-	public List<String> getResults(SearchRequestInfo request, String division,
-			String code) {
-
-		if (division != null && code != null) {
-			request.addParam("division", division);
-			request.addParam("code", code);
-		} else if (division != null && code == null)
-			request.addParam("division", division);
-		else
-			return Collections.emptyList();
-
-		request.addParam("lastScheduledTerm", KsapFrameworkServiceLocator
-				.getTermHelper().getLastScheduledTerm().getId());
-		request.addParam("currentTerm", KsapFrameworkServiceLocator
-				.getTermHelper().getCurrentTerm().getId());
-		SearchResult searchResult;
-		try {
-			if ((searchResult = KsapFrameworkServiceLocator.getCluService()
-					.search(request,
-							KsapFrameworkServiceLocator.getContext()
-									.getContextInfo())) == null)
-				return Collections.emptyList();
-		} catch (MissingParameterException e) {
-			throw new IllegalArgumentException("CLU lookup error", e);
-		} catch (InvalidParameterException e) {
-			throw new IllegalArgumentException("CLU lookup error", e);
-		} catch (OperationFailedException e) {
-			throw new IllegalStateException("CLU lookup error", e);
-		} catch (PermissionDeniedException e) {
-			throw new IllegalStateException("CLU lookup error", e);
-		}
-		List<String> results = new ArrayList<String>(searchResult.getRows()
-				.size());
-		for (SearchResultRow row : searchResult.getRows())
-			results.add(KsapHelperUtil.getCellValue(row, "courseCode"));
-		return results;
-	}
-
-	public synchronized CourseDetailsInquiryHelperImpl getCourseDetailsInquiryService() {
-		if (this.courseDetailsInquiryService == null) {
-			this.courseDetailsInquiryService = new CourseDetailsInquiryHelperImpl();
-		}
-		return courseDetailsInquiryService;
-	}
-
-	// Course ID GUID, atp key id eg "uw.kuali.atp.2001.1"
-	@RequestMapping(value = "/course/enroll")
-	public void getCourseSectionStatusAsJson(HttpServletResponse response,
-			HttpServletRequest request) throws IOException, ServletException {
-		String courseId = request.getParameter("courseId");
-		CourseSummaryDetails courseDetails = getCourseDetailsInquiryService()
-				.retrieveCourseSummaryById(courseId);
-
-		String termIdInput = request.getParameter("termId");
-		List<String> termIds;
-		if (StringUtils.isBlank(termIdInput))
-			termIds = new java.util.ArrayList<String>(
-					courseDetails.getScheduledTerms());
-		else
-			termIds = Collections.singletonList(termIdInput);
-
-		CourseHelper ch = KsapFrameworkServiceLocator.getCourseHelper();
-		Map<String, Map<String, Object>> payload = new java.util.LinkedHashMap<String, Map<String, Object>>();
-
-        try {
-            for (String termId : termIds){
-                for (CourseOfferingInfo co : KsapFrameworkServiceLocator.getCourseOfferingService()
-                        .getCourseOfferingsByCourseAndTerm(courseId, termId,
-                                KsapFrameworkServiceLocator.getContext().getContextInfo())) {
-                    for (ActivityOfferingInfo ao : KsapFrameworkServiceLocator.getCourseOfferingService()
-                            .getActivityOfferingsByCourseOffering(co.getId(),
-                                    KsapFrameworkServiceLocator.getContext().getContextInfo())) {
-                        Map<String, Object> enrl = new java.util.LinkedHashMap<String, Object>();
-                        enrl.put("enrollMaximum", KsapFrameworkServiceLocator.getEnrollmentStatusHelper().populateMaxEnrollmentField(ao));
-                        enrl.put("enrollCount", KsapFrameworkServiceLocator.getEnrollmentStatusHelper().populateCurrentEnrollmentField(ao));
-                        enrl.put("enrollOpen", KsapFrameworkServiceLocator.getEnrollmentStatusHelper().populateCurrentEnrollmentField(ao));
-                        enrl.put("enrollEstimate", KsapFrameworkServiceLocator.getEnrollmentStatusHelper().populateEstimatedEnrollmentField(ao));
-                        String key = "enrl_" + termId.replace('.', '-').intern() + "_" + ao.getActivityCode();
-                        payload.put(key, enrl);
-                    }
-                }
-            }
-        } catch (DoesNotExistException e) {
-            throw new IllegalArgumentException("CO lookup failure", e);
-        } catch (InvalidParameterException e) {
-            throw new IllegalArgumentException("CO lookup failure", e);
-        } catch (MissingParameterException e) {
-            throw new IllegalArgumentException("CO lookup failure", e);
-        } catch (OperationFailedException e) {
-            throw new IllegalStateException("CO lookup failure", e);
-        } catch (PermissionDeniedException e) {
-            throw new IllegalStateException("CO lookup failure", e);
-        }
-
-		String json;
-		try {
-			json = mapper.writeValueAsString(payload);
-			response.setHeader("content-type", "application/json");
-			response.setHeader("Cache-Control", "No-cache");
-			response.setHeader("Cache-Control", "No-store");
-			response.setHeader("Cache-Control", "max-age=0");
-			response.getWriter().println(json);
-		} catch (JsonGenerationException e) {
-			throw new ServletException("JSON generation failed", e);
-		} catch (JsonMappingException e) {
-			throw new ServletException("JSON generation failed", e);
-		}
 	}
 
 }

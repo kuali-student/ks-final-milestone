@@ -87,9 +87,6 @@ public interface CourseSearchItem {
 	 *         DataTables. This length of this array must be less than or equal
 	 *         to the number of columns configured on the search table in the
 	 *         front end.
-	 * 
-	 * @see CourseSearchUI.xml
-	 * @see ksap.search.js
 	 */
 	String[] getSearchColumns();
 
@@ -102,9 +99,6 @@ public interface CourseSearchItem {
 	 *         value must be present in the array at the index corresponding to
 	 *         each of the columns defined as sortable in DataTables on the
 	 *         front end.
-	 * 
-	 * @see CourseSearchUI.xml
-	 * @see ksap.search.js
 	 */
 	String[] getSortColumns();
 
@@ -120,9 +114,6 @@ public interface CourseSearchItem {
 	 *         front end. Note that facet columns do not need to line up with
 	 *         search columns; since the front end never deals with facets
 	 *         directly, there is not need for the cells to match.
-	 * 
-	 * @see CourseSearchUI.xml
-	 * @see ksap.search.js
 	 */
 	FacetIndex getFacetColumns();
 
