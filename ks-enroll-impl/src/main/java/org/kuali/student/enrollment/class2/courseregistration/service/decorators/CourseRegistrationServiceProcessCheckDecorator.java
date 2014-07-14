@@ -180,6 +180,7 @@ public class CourseRegistrationServiceProcessCheckDecorator
                     for (Map.Entry<String, String> messageKeyEntry : messageKeyMap.entrySet()) {
                         if (messageKeyEntry.getValue().equals(vr.getMessage())) {
                             vr.setMessage(RegistrationValidationResultsUtil.marshallSimpleMessage(messageKeyEntry.getKey()));
+                            break;
                         }
                     }
                 }
