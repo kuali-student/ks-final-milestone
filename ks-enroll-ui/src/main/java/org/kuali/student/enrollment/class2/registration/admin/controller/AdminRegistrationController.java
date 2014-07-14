@@ -22,7 +22,6 @@ import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
@@ -120,6 +119,8 @@ public class AdminRegistrationController extends UifControllerBase {
                 }
                 //method needs to change to pass form.getStudentId and not studentID
                 form.setRegisteredCourses(getViewHelper(form).getCourseRegStudentAndTerm(studentID, term.getId()));
+                //Calling Method for Waitlisted Courses
+                form.setWaitlistedCourses(getViewHelper(form).getCourseWaitListStudentAndTerm(studentID,term.getId()));
             }else {
                 form.clearTermAndCourseRegistrationInfo();
             }

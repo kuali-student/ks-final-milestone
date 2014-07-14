@@ -4,19 +4,13 @@ import net.sf.ehcache.Element;
 import org.apache.commons.collections.keyvalue.MultiKey;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.rice.core.api.search.SearchOperator;
 import org.kuali.rice.kim.api.identity.affiliation.EntityAffiliation;
 import org.kuali.rice.kim.api.identity.entity.Entity;
 import org.kuali.rice.kim.api.identity.name.EntityName;
-import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.common.uif.service.impl.KSViewHelperServiceImpl;
 import org.kuali.student.common.util.security.ContextUtils;
-import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseInfoByTermLookupableImpl;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
-import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
-import org.kuali.student.enrollment.class2.courseoffering.util.ManageSocConstants;
 import org.kuali.student.enrollment.class2.registration.admin.form.AdminRegistrationForm;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationActivity;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationCourse;
@@ -27,26 +21,15 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseregistration.dto.ActivityRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
-import org.kuali.student.r2.core.atp.dto.AtpInfo;
-import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
-import org.kuali.student.r2.core.search.dto.SearchResultInfo;
-import org.kuali.student.r2.core.search.infc.SearchResultCell;
-import org.kuali.student.r2.core.search.infc.SearchResultRow;
-import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -124,6 +107,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
                 registeredCourse.setCourseName(coInfo.getCourseOfferingTitle());
                 registeredCourse.setCredits(Integer.parseInt(coInfo.getCreditCnt()));
                 registeredCourse.setRegDate(courseRegInfo.getEffectiveDate());
+                registeredCourse.setSection(AdminRegistrationUtil.getCourseOfferingService().getRegistrationGroup(courseRegInfo.getRegistrationGroupId(), createContextInfo()).getRegistrationCode());
 
                 List<ActivityRegistrationInfo> activityOfferings = AdminRegistrationUtil.getCourseRegistrationService().getActivityRegistrationsForCourseRegistration(courseRegInfo.getId(), createContextInfo());
                 registeredCourse.setSection(AdminRegistrationUtil.getCourseOfferingService().getRegistrationGroup(courseRegInfo.getRegistrationGroupId(), createContextInfo()).getRegistrationCode());
@@ -137,13 +121,45 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
                 registeredCourses.add(registeredCourse);
             }
 
-
         } catch (Exception e) {
             throw convertServiceExceptionsToUI(e);
         }
         return registeredCourses;
     }
 
+    public List<RegistrationCourse> getCourseWaitListStudentAndTerm(String studentId, String termCode) {
+
+        List<RegistrationCourse> waitListCourses = new ArrayList<RegistrationCourse>();
+
+        try {
+            List<CourseRegistrationInfo> courseWaitListInfos = AdminRegistrationUtil.getCourseWaitlistService().getCourseWaitListRegistrationsByStudentAndTerm(studentId, termCode, createContextInfo());
+
+            for (CourseRegistrationInfo courseWaitListInfo : courseWaitListInfos) {
+                RegistrationCourse waitListCourse = new RegistrationCourse();
+
+                CourseOfferingInfo coInfo = AdminRegistrationUtil.getCourseOfferingService().getCourseOffering(courseWaitListInfo.getCourseOfferingId(), createContextInfo());
+                waitListCourse.setCode(coInfo.getCourseOfferingCode());
+                waitListCourse.setCourseName(coInfo.getCourseOfferingTitle());
+                waitListCourse.setCredits(Integer.parseInt(coInfo.getCreditCnt()));
+                waitListCourse.setRegDate(courseWaitListInfo.getEffectiveDate());
+                waitListCourse.setSection(AdminRegistrationUtil.getCourseOfferingService().getRegistrationGroup(courseWaitListInfo.getRegistrationGroupId(), createContextInfo()).getRegistrationCode());
+
+                List<ActivityRegistrationInfo> waitListActivityOfferings = AdminRegistrationUtil.getCourseWaitlistService().getActivityWaitListRegistrationsForCourseRegistration(courseWaitListInfo.getId(), createContextInfo());
+
+                for (ActivityRegistrationInfo activityWaitListedInfos : waitListActivityOfferings) {
+                    //Use activityWaitListedInfos - to retrieve the hardcoded values
+                    RegistrationActivity waitListedActivity = new RegistrationActivity("Lec", "MWF 04:00pm - 05:30pm", "Steve Capriani", "PTX 2391");
+                    waitListCourse.getActivities().add(waitListedActivity);
+                }
+
+                waitListCourses.add(waitListCourse);
+            }
+
+        } catch (Exception e) {
+            throw convertServiceExceptionsToUI(e);
+        }
+        return waitListCourses;
+    }
 
     @Override
     public void populateStudentInfo(AdminRegistrationForm form) throws Exception {

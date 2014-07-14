@@ -7,8 +7,10 @@ import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
+import org.kuali.student.enrollment.coursewaitlist.service.CourseWaitListService;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
+import org.kuali.student.r2.common.util.constants.CourseWaitListServiceConstants;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 
@@ -28,6 +30,7 @@ public class AdminRegistrationUtil {
     private static CourseRegistrationService courseRegService;
     private static CourseOfferingService courseOfferingService;
     private static CacheManager cacheManager;
+    private static CourseWaitListService courseWaitListService;
 
     public static PersonService getPersonService() {
         if (personService == null) {
@@ -62,6 +65,13 @@ public class AdminRegistrationUtil {
             courseOfferingService = (CourseOfferingService) GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE, CourseOfferingServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return courseOfferingService;
+    }
+
+    public static CourseWaitListService getCourseWaitlistService() {
+        if (courseWaitListService == null){
+            courseWaitListService = (CourseWaitListService) GlobalResourceLoader.getService(new QName(CourseWaitListServiceConstants.NAMESPACE, CourseWaitListServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return courseWaitListService;
     }
 
     public static CacheManager getCacheManager() {

@@ -22,7 +22,6 @@ import org.kuali.student.r2.core.acal.dto.TermInfo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -62,15 +61,6 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
     private List<Principal> principalIDs = new ArrayList<Principal>();
 
     public AdminRegistrationForm(){
-        RegistrationCourse course4 =
-                new RegistrationCourse("CHEM 237", "1001", "The Chemistry of Stuff", 3, "Regular", new Date());
-        List<RegistrationActivity> activities4 = new ArrayList<RegistrationActivity>();
-        activities4.add(new RegistrationActivity("Lec", "MWF 04:00pm - 05:30pm", "Steve Capriani", "PTX 2391"));
-        activities4.add(new RegistrationActivity("Lab", "MWF 05:30pm - 06:30pm", "Steve Capriani", "PTX 2391"));
-        course4.setActivities(activities4);
-
-        waitlistedCourses.add(course4);
-
         pendingCourses.add(new RegistrationCourse());
     }
 
