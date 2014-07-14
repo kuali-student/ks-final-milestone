@@ -5,87 +5,67 @@
     max-width: @largeFormatMax;
 }
 
-.kscr-Responsive-maincontent {
-  .flexbox(); /*Uset to display child elements (schedule and cart) side by side in a flexible way*/
-}
-
-.kscr-Responsive-scheduleWrapper {
-  .flex(1);
-  background-color: @sectionColor;
-}
-
-.kscr-Responsive-schedule {
-  .flex(1); /*set so that this takes up all the room left over from cart*/
-  .flexbox();/*child elements (registered and waitlist) are displayed in a flexible way*/
-}
-
-.kscr-Responsive-mycart {
-  width: 320px; /*fixed width for cart*/
-}
-
-.kscr-Responsive-registered {
-  .flex(1); /* set to take up the same percentage as waitlisted (1/2 the size of the container) */
-  display: block; /*show initially*/
-}
-
-.kscr-Responsive-waitlisted {
-  .flex(1); /*set to take up the same percentage as registered (1/2 the size of the container)*/
-}
-
-.kscr-Responsive-waitlisted--inactive{
-  display:none; /*when there is no waitlist information, hide the section so that registered section takes up all of the space*/
-}
 
 .kscr-Responsive-navigation {
-  display: none; /*Navigation (menu button) is hidden initially*/
+    display: none; /* Navigation (menu button) is hidden initially */
 }
 
 .kscr-Responsive-logout {
-  display: block; /* show the logout button if the menu is hidden */
+    display: block; /* show the logout button if the menu is hidden */
 }
+
+
+
+
+
+/* Styles for small-size screens */
+@media screen and (max-width: @smallFormatMax) {
+    .kscr-Responsive-navigation {
+        display: block; /* show the navigation when the screen gets small enough so that only cart or schedule are displayed at a time */
+    }
+
+    .kscr-Responsive-logout {
+        display: none; /* hide the logout button if the menu is present */
+    }
+
+    .kscr-MainHeading-stickyHeader {
+        display: none;
+    }
+
+    .kscr-Responsive-cartWrapper {
+        display: none;
+        &--active {
+            display: block; /* show only when active */
+        }
+    }
+    .kscr-Responsive-scheduleWrapper {
+        display: none;
+        &--active {
+            display: block; /* show only when active */
+        }
+    }
+    .kscr-Responsive-searchFormWrapper {
+        display: none;
+        &--active {
+            display: block; /* show only when active */
+        }
+    }
+}
+
 
 /* Styles for mid-size screens */
 @media screen and (max-width: @midFormatMax) {
-  .kscr-Responsive-schedule {
-    flex-direction: column; /* items appear vertically stacked*/
-  }
+    .kscr-Responsive-schedule {
+        flex-direction: column; /* items appear vertically stacked*/
+    }
 
-  .kscr-MainHeading-header {
-      text-align: center;
-  }
+    .kscr-MainHeading-header {
+        text-align: center;
+    }
 }
 
-@media screen and (max-width: @smallFormatMax) {
-  .kscr-Responsive-mycart {
-    display: none; /*hide this initially*/
-    width: 100%; /*set the width to take up the parent container, for when this section is displayed*/
-  }
 
-  .kscr-Responsive-mycart--active {
-    display: block; /*show this when active*/
-  }
-
-  .kscr-Responsive-scheduleWrapper {
-    display: none; /*hide this initially*/
-  }
-
-  .kscr-Responsive-scheduleWrapper--active {
-    display: block; /*show this when active*/
-  }
-
-  .kscr-Responsive-navigation {
-    display: block; /*show the navigation when the screen gets small enough so that only cart or schedule are displayed at a time*/
-  }
-
-  .kscr-Responsive-logout {
-    display: none; /* hide the logout button if the menu is present */
-  }
-
-  .kscr-MainHeading-stickyHeader {
-    display: none;
-  }
-}
-
+/* Styles for large-size screens */
 @media screen and (min-width: @largeFormatMin) {
     .kscr-Main-content {
         border-top: 10px solid @bodyColorDark;
@@ -101,10 +81,6 @@
         & .kscr-Header-separator {
             display: block; /* show the header title & separator in large format only */
         }
-    }
-
-    .kscr-Registered {
-        display: none;
     }
 
     .kscr-Header-termName-label {
@@ -129,31 +105,57 @@
         text-align: left;
     }
 
+
+    // Parent container of the content & sidebar areas
     .kscr-Responsive-maincontent {
+        .flexbox(); /* Used to display child elements (schedule and cart) side by side in a flexible way */
         min-height: 100%;
     }
 
-    .kscr-Responsive-schedule {
-        color: @primaryTextColor;
+    // Main/left content area
+    .kscr-Responsive-content {
+        .flex(1);
+        background-color: @sectionColor;
+
+        // Schedule container (Registered & Waitlist)
+        .kscr-Responsive-schedule {
+            .flex(1); /*set so that this takes up all the room left over from cart*/
+            .flexbox();/*child elements (registered and waitlist) are displayed in a flexible way*/
+            color: @primaryTextColor;
+        }
+
+        // Registered courses container
+        .kscr-Responsive-registered {
+            .flex(1); /* set to take up the same percentage as waitlisted (1/2 the size of the container) */
+            display: block; /*show initially*/
+        }
+
+        // Waitlisted coursed container
+        .kscr-Responsive-waitlisted {
+            .flex(1); /*set to take up the same percentage as registered (1/2 the size of the container)*/
+
+            &--inactive {
+                display: none; /* when there is no waitlist information, hide the section so that registered section takes up all of the space */
+            }
+        }
     }
 
-    .kscr-Responsive-mycart {
-        background: @bodyColorDark;
-        margin: 0;
-        padding: 0 10px 10px;
-    }
-
-    .kscr-Responsive-mycart .kscr-MainHeading-icons  {
+    .kscr-Responsive-cart .kscr-MainHeading-icons  {
         display: none;
     }
 
-    .kscr-Responsive-mycart .kscr-addToCart {
+    .kscr-Responsive-cart .kscr-addToCart {
         border: none;
         margin: 1px 0 1px 0;
     }
 
     // Move the expand/collapse icon (chevron) 10px from left instead of 5px.
-    .kscr-Responsive-mycart {
+    .kscr-Responsive-sidebar {
+        background: @bodyColorDark;
+        margin: 0;
+        padding: 0 10px 10px;
+        width: @largeFormatSidebarWidth; /* fixed width for sidebar */
+
         .kscr-Card-icon {
             left: 10px;
         }
@@ -163,5 +165,9 @@
         .panel-body {
             padding-left: 30px;
         }
+    }
+
+    .kscr-Responsive-searchWrapper .kscr-MainHeading {
+        display: none; // Hide the Search main heading in large-format
     }
 }

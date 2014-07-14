@@ -1,0 +1,71 @@
+/*** Search Form Section  ***/
+
+// Main search form container (header & form contents)
+.kscr-SearchForm {
+    margin-bottom: 10px;
+}
+
+// Main search form header
+.kscr-SearchForm-heading {
+    display: none; // Hide in all but large-format
+    padding-bottom: 8px; // Make sure the heading has enough padding in large-format
+
+    & .kscr-MainHeading-header {
+        float: none;
+    }
+}
+
+// Search form itself
+.kscr-SearchForm-form {
+    font-family: @secondaryFontFamily;
+    font-size: 14px;
+    margin: 10px 0.5em;
+
+    & .util-Grid-cell:first-child {
+        // Push the first grid cell (input) off of the next (button)
+        margin-right: 10px;
+    }
+}
+
+// Search text input
+.kscr-SearchForm-input {
+    color: @secondaryTextColor;
+    font-family: @secondaryFontFamily;
+    font-size: 14px;
+    font-weight: normal;
+    padding: 3px 3px 2px;
+    text-transform: uppercase;
+    width: 100%;
+}
+
+// Search label/tip below input
+.kscr-SearchForm-label {
+    color: @secondaryTextColor;
+    display: block;
+    font-family: @secondaryFontFamily;
+    font-size: 12px;
+    font-style: italic;
+    font-weight: normal;
+    margin-top: 0.2em;
+}
+
+// Search button
+.kscr-SearchForm-button .kscr-Button {
+    font-weight: normal !important; // Important to override the disabled styles
+}
+
+
+
+// Large-format styles
+@media screen and (min-width: @largeFormatMin) {
+    .kscr-SearchForm-heading {
+        display: block;
+    }
+
+    .kscr-SearchForm-form {
+        // Collapse the form contents onto the header in large-format
+        background-color: @whiteBackground;
+        margin: 1px 0;
+        padding: 10px;
+    }
+}

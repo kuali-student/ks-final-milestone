@@ -59,12 +59,12 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
 
     @Override
     public List<CourseSearchResult> searchForCourseOfferingsByTermIdAndCourse(String termId, String courseCode) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
-        return searchForCourseOfferingsLocal(termId, null, courseCode);
+        return searchForCourseOfferingsByCourseLocal(termId, null, courseCode);
     }
 
     @Override
     public List<CourseSearchResult> searchForCourseOfferingsByTermCodeAndCourse(String termCode, String courseCode) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
-        return searchForCourseOfferingsLocal(null, termCode, courseCode);
+        return searchForCourseOfferingsByCourseLocal(null, termCode, courseCode);
     }
 
     /**
@@ -260,16 +260,24 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         return resultList;
     }
 
-    protected List<CourseSearchResult> searchForCourseOfferingsLocal(String termId, String termCode, String courseCode) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+    protected List<CourseSearchResult> searchForCourseOfferingsByCourseLocal(String termId, String termCode, String courseCode) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
         termId = CourseRegistrationAndScheduleOfClassesUtil.getTermId(termId, termCode);
+        SearchRequestInfo searchRequest = createSearchRequest(termId, courseCode, null);
 
-        return searchForCourseOfferings(termId, courseCode);
+        return searchForCourseOfferings(searchRequest);
+    }
+
+    protected List<CourseSearchResult> searchForCourseOfferingsByCriteriaLocal(String termId, String termCode, String criteria) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+        termId = CourseRegistrationAndScheduleOfClassesUtil.getTermId(termId, termCode);
+        SearchRequestInfo searchRequest = createSearchRequest(termId, null, criteria);
+
+        return searchForCourseOfferings(searchRequest);
     }
 
     protected List<CourseAndPrimaryAOSearchResult> searchForCourseOfferingsAndPrimaryAosByTermAndCourseLocal(String termId, String termCode, String courseCode) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
 
         List<CourseAndPrimaryAOSearchResult> resultList = new ArrayList<CourseAndPrimaryAOSearchResult>();
-        List<CourseSearchResult> courseOfferingList = searchForCourseOfferingsLocal(termId, termCode, courseCode); // search for the course offerings
+        List<CourseSearchResult> courseOfferingList = searchForCourseOfferingsByCourseLocal(termId, termCode, courseCode); // search for the course offerings
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();  // build default context info
 
         if (courseOfferingList != null && !courseOfferingList.isEmpty()) {   // if we found course offerings
@@ -529,14 +537,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         return atps;
     }
 
-    private List<CourseSearchResult> searchForCourseOfferings(String termId, String courseCode) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
-
-        // make the course code case insensitive
-        if (courseCode != null && !courseCode.isEmpty()) {
-            courseCode = courseCode.toUpperCase();
-        }
-
-        SearchRequestInfo searchRequest = createSearchRequest(termId, courseCode);
+    private List<CourseSearchResult> searchForCourseOfferings (SearchRequestInfo searchRequest) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
         SearchResultInfo searchResult = CourseRegistrationAndScheduleOfClassesUtil.getSearchService().search(searchRequest, ContextUtils.createDefaultContextInfo());
 
         List<CourseSearchResult> results = new ArrayList<CourseSearchResult>();
@@ -939,17 +940,31 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         return retList;
     }
 
-    private SearchRequestInfo createSearchRequest(String termId, String courseCode) {
+    private SearchRequestInfo createSearchRequest(String termId, String courseCode, String criteria) {
         SearchRequestInfo searchRequest = new SearchRequestInfo(CourseOfferingManagementSearchImpl.CO_MANAGEMENT_SEARCH.getKey());
 
         List<String> filterCOStates = new ArrayList<String>(1);
         filterCOStates.add(LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY);
-        searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.COURSE_CODE, courseCode);
+
         searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.FILTER_CO_STATES, filterCOStates);
         searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.ATP_ID, termId);
         searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.CROSS_LIST_SEARCH_ENABLED, BooleanUtils.toStringTrueFalse(false));
         searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.IS_EXACT_MATCH_CO_CODE_SEARCH, BooleanUtils.toStringTrueFalse(false));
         searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.INCLUDE_PASSFAIL_AUDIT_HONORS_RESULTS, BooleanUtils.toStringTrueFalse(true));
+
+        if (StringUtils.isNotEmpty(courseCode)) {
+            // make the course code case insensitive
+            if (courseCode != null && !courseCode.isEmpty()) {
+                courseCode = courseCode.toUpperCase();
+            }
+
+            searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.COURSE_CODE, courseCode);
+        }
+
+        if (StringUtils.isNotEmpty(criteria)) {
+            searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.COURSE_CODE, criteria);
+        }
+
         return searchRequest;
     }
 

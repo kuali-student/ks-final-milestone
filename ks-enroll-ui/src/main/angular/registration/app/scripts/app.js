@@ -13,43 +13,62 @@ angular.module('regCartApp', [
     .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
         $urlRouterProvider.otherwise('/myCart');
 
+        // Define some of the more commonly used components
+        var myCart = {
+                templateUrl: 'partials/cart.html',
+                controller: 'CartCtrl'
+            },
+            mySchedule = {
+                templateUrl: 'partials/schedule.html',
+                controller: 'ScheduleCtrl'
+            },
+            searchForm = {
+                templateUrl: 'partials/searchForm.html',
+                controller: 'SearchFormCtrl'
+            };
+
+
         $stateProvider
-            .state('root.responsive', {
-                templateUrl: 'partials/responsive.html'
+            // Base 'root' state, contains a ui-view that should be referred to with '' view.
+            .state('root', {
+                abstract: true, // State is never explicity activated
+                views: {
+                    root: {
+                        templateUrl: 'partials/main.html',
+                        controller: 'MainCtrl'
+                    }
+                }
             })
-            .state('root.responsive.schedule', {
+
+            .state('root.schedule', {
                 url: '/mySchedule',
                 views: {
-                    mycart: {
-                        templateUrl: 'partials/cart.html',
-                        controller: 'CartCtrl'
-                    },
-                    schedule: {
-                        templateUrl: 'partials/schedule.html',
-                        controller: 'ScheduleCtrl'
-                    }
+                    '': mySchedule,
+                    mycart: myCart,
+                    schedule: mySchedule,
+                    searchform: searchForm
                 }
             })
-            .state('root.responsive.cart', {
+            .state('root.cart', {
                 url: '/myCart',
                 views: {
-                    mycart: {
-                        templateUrl: 'partials/cart.html',
-                        controller: 'CartCtrl'
-                    },
-                    schedule: {
-                        templateUrl: 'partials/schedule.html',
-                        controller: 'ScheduleCtrl'
-                    }
+                    '': mySchedule,
+                    mycart: myCart,
+                    schedule: mySchedule,
+                    searchform: searchForm
                 }
             })
-            .state('root', {
-                templateUrl: 'partials/main.html',
-                controller: 'MainCtrl'
-            })
-            .state('root.additionalOptions', {
-                url: '/options',
-                templateUrl: 'partials/additionalOptions.html'
+            .state('root.search', {
+                url: '/search/:searchCriteria',
+                views: {
+                    '': {
+                        templateUrl: 'partials/search.html',
+                        controller: 'SearchCtrl'
+                    },
+                    mycart: myCart,
+                    schedule: mySchedule,
+                    searchform: searchForm
+                }
             });
 
         //Add the  login interceptor to all service calls

@@ -19,11 +19,26 @@ public class ScheduleOfClassesClientServiceImpl extends ScheduleOfClassesService
      */
 
     @Override
-    public Response searchForCourseOfferings(String termId, String termCode, String courseCode) {
+    public Response searchForCourseOfferings(String termId, String termCode, String criteria) {
         Response.ResponseBuilder response;
 
         try {
-            List<CourseSearchResult> courseSearchResults = searchForCourseOfferingsLocal(termId, termCode, courseCode);
+            List<CourseSearchResult> courseSearchResults = searchForCourseOfferingsByCriteriaLocal(termId, termCode, criteria);
+            response = Response.ok(courseSearchResults);
+        } catch (Exception e) {
+            LOGGER.warn(EXCEPTION_MSG, e);
+            response = Response.serverError().entity(e.getMessage());
+        }
+
+        return response.build();
+    }
+
+    @Override
+    public Response searchForCourseOfferingsByTermAndCourse(String termId, String termCode, String courseCode) {
+        Response.ResponseBuilder response;
+
+        try {
+            List<CourseSearchResult> courseSearchResults = searchForCourseOfferingsByCourseLocal(termId, termCode, courseCode);
             response = Response.ok(courseSearchResults);
         } catch (Exception e) {
             LOGGER.warn(EXCEPTION_MSG, e);

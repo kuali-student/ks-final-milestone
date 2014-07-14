@@ -48,13 +48,28 @@ public interface ScheduleOfClassesClientService {
      *
      * @param termId     optional; if provided, overrides termCode
      * @param termCode   optional; required if termId not provided
+     * @param criteria   required
+     * @return Returns a list of course offerings
+     */
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/search")
+    Response searchForCourseOfferings(@QueryParam("termId") String termId,
+                                      @QueryParam("termCode") String termCode,
+                                      @QueryParam("criteria") String criteria);
+
+    /**
+     * Returns a list of course offering details.  Must provide either termId or termCode.
+     *
+     * @param termId     optional; if provided, overrides termCode
+     * @param termCode   optional; required if termId not provided
      * @param courseCode required
      * @return Returns a list of course offerings
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/courseofferings")
-    Response searchForCourseOfferings(@QueryParam("termId") String termId,
+    Response searchForCourseOfferingsByTermAndCourse(@QueryParam("termId") String termId,
                                                @QueryParam("termCode") String termCode,
                                                @QueryParam("courseCode") String courseCode);
 
