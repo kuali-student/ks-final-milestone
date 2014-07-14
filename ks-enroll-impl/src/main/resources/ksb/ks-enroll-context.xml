@@ -1709,7 +1709,14 @@
         <property name="krmsEvaluator" ref="krmsEvaluator"/>
         <property name="waitlistService" ref="courseWaitListServiceImpl"/>
         <property name="courseOfferingService" ref="CourseOfferingService"/>
+        <property name="messageKeyMap" ref="messageKeyMap" />
     </bean>
+
+    <!-- Map of message keys and their plain text equivalents -->
+    <util:map id="messageKeyMap">
+        <entry key="kuali.lpr.trans.message.course.not.open" value="Course eligibility - Registration is not open" />
+    </util:map>
+
     <bean id="courseRegistrationServiceLoadCalculationDecorator" 
           class="org.kuali.student.enrollment.class2.courseregistration.service.decorators.CourseRegistrationLoadCalculationDecorator" >
         <property name="registrationRequestMerger" ref="mergerImpl"/>

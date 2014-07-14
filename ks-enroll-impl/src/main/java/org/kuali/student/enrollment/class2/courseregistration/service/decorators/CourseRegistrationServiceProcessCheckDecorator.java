@@ -18,6 +18,7 @@ import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestIt
 import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequestItem;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.coursewaitlist.service.CourseWaitListService;
+import org.kuali.student.enrollment.registration.client.service.impl.util.RegistrationValidationResultsUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -45,10 +46,11 @@ public class CourseRegistrationServiceProcessCheckDecorator
     private CourseWaitListService waitlistService;
     private CourseOfferingService courseOfferingService;
     private KRMSEvaluator krmsEvaluator;
+    private Map<String, String> messageKeyMap;
 
     // this comparator is used to sort the reg req items in the order they are displayed on the screen.
     // allows us to validate in order.
-    protected static Comparator<RegistrationRequestItem> REG_REQ_ITEM_CREATE_DATE = new Comparator<RegistrationRequestItem>() {
+    protected static final Comparator<RegistrationRequestItem> REG_REQ_ITEM_CREATE_DATE = new Comparator<RegistrationRequestItem>() {
 
         @Override
         public int compare(RegistrationRequestItem o1, RegistrationRequestItem o2) {
@@ -70,7 +72,7 @@ public class CourseRegistrationServiceProcessCheckDecorator
             OperationFailedException,
             PermissionDeniedException {
         Proposition prop = new ProcessProposition(ProcessServiceConstants.PROCESS_KEY_BASIC_ELIGIBILITY);
-        Map<String, Object> executionFacts = new LinkedHashMap<String, Object>();
+        Map<String, Object> executionFacts = new LinkedHashMap<>();
         executionFacts.put(RulesExecutionConstants.PERSON_ID_TERM.getName(), personId);
         executionFacts.put(RulesExecutionConstants.CONTEXT_INFO_TERM.getName(), contextInfo);
         EngineResults engineResults = this.krmsEvaluator.evaluateProposition(prop, executionFacts);
@@ -78,8 +80,7 @@ public class CourseRegistrationServiceProcessCheckDecorator
         if (ex != null) {
             throw new OperationFailedException("Unexpected exception while executing rules", ex);
         }
-        List<ValidationResultInfo> vrs = KRMSEvaluator.extractValidationResults(engineResults);
-        return vrs;
+        return KRMSEvaluator.extractValidationResults(engineResults);
     }
 
     @Override
@@ -89,7 +90,7 @@ public class CourseRegistrationServiceProcessCheckDecorator
             OperationFailedException,
             PermissionDeniedException {
         Proposition prop = new ProcessProposition(ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM);
-        Map<String, Object> executionFacts = new LinkedHashMap<String, Object>();
+        Map<String, Object> executionFacts = new LinkedHashMap<>();
         executionFacts.put(RulesExecutionConstants.PERSON_ID_TERM.getName(), personId);
         executionFacts.put(RulesExecutionConstants.ATP_ID_TERM.getName(), termId);
         executionFacts.put(RulesExecutionConstants.CONTEXT_INFO_TERM.getName(), contextInfo);
@@ -98,8 +99,7 @@ public class CourseRegistrationServiceProcessCheckDecorator
         if (ex != null) {
             throw new OperationFailedException("Unexpected exception while executing rules", ex);
         }
-        List<ValidationResultInfo> vrs = KRMSEvaluator.extractValidationResults(engineResults);
-        return vrs;
+        return KRMSEvaluator.extractValidationResults(engineResults);
     }
 
     @Override
@@ -109,7 +109,7 @@ public class CourseRegistrationServiceProcessCheckDecorator
             OperationFailedException,
             PermissionDeniedException {
         // TODO: implement in phase II
-        return new ArrayList();
+        return new ArrayList<>();
     }
 
 
@@ -121,7 +121,7 @@ public class CourseRegistrationServiceProcessCheckDecorator
             OperationFailedException,
             PermissionDeniedException {
         Proposition prop = new ProcessProposition(ProcessServiceConstants.PROCESS_KEY_ELIGIBLE_FOR_COURSES);
-        Map<String, Object> executionFacts = new LinkedHashMap<String, Object>();
+        Map<String, Object> executionFacts = new LinkedHashMap<>();
 
         RegistrationRequestInfo registrationRequest = getRegistrationRequest(registrationRequestId, contextInfo);
 
@@ -137,7 +137,7 @@ public class CourseRegistrationServiceProcessCheckDecorator
         //Look up the existing courses currently registered for
         List<CourseRegistrationInfo> existingCourses = getCourseRegistrationsByStudentAndTerm(personId, registrationRequest.getTermId(), contextInfo);
         List<CourseRegistrationInfo> waitListedCourses = waitlistService.getCourseWaitListRegistrationsByStudentAndTerm(personId, registrationRequest.getTermId(), contextInfo);
-        List<CourseRegistrationInfo> simulatedCourses = new ArrayList<CourseRegistrationInfo>();
+        List<CourseRegistrationInfo> simulatedCourses = new ArrayList<>();
 
         //Add some facts
         executionFacts.put(RulesExecutionConstants.EXISTING_REGISTRATIONS_TERM.getName(), existingCourses);
@@ -147,7 +147,7 @@ public class CourseRegistrationServiceProcessCheckDecorator
         executionFacts.put(RulesExecutionConstants.REGISTRATION_REQUEST_ID_TERM.getName(), registrationRequestId);
         executionFacts.put(RulesExecutionConstants.CONTEXT_INFO_TERM.getName(), contextInfo);
 
-        List<ValidationResultInfo> allValidationResults = new ArrayList<ValidationResultInfo>();
+        List<ValidationResultInfo> allValidationResults = new ArrayList<>();
 
         //Sort the requests so that everything is processed in the same order (using date)
         Collections.sort(registrationRequest.getRegistrationRequestItems(), Collections.reverseOrder(REG_REQ_ITEM_CREATE_DATE));
@@ -176,9 +176,11 @@ public class CourseRegistrationServiceProcessCheckDecorator
             for(ValidationResultInfo vr:itemValidationResults){
                 if(vr.isError()||vr.isWarn()){
                     vr.setElement("registrationRequestItems['" + requestItem.getId() + "']");
-                    //Hack to translate message body for specific messages
-                    if("Course eligibility - Registration is not open".equals(vr.getMessage())){
-                        vr.setMessage("{\"messageKey\":\"kuali.lpr.trans.message.course.not.open\"}");
+                    // Translate message body for specific messages
+                    for (Map.Entry<String, String> messageKeyEntry : messageKeyMap.entrySet()) {
+                        if (messageKeyEntry.getValue().equals(vr.getMessage())) {
+                            vr.setMessage(RegistrationValidationResultsUtil.marshallSimpleMessage(messageKeyEntry.getKey()));
+                        }
                     }
                 }
             }
@@ -206,16 +208,8 @@ public class CourseRegistrationServiceProcessCheckDecorator
         return courseRegistrationInfo;
     }
 
-    public CourseWaitListService getWaitlistService() {
-        return waitlistService;
-    }
-
     public void setWaitlistService(CourseWaitListService waitlistService) {
         this.waitlistService = waitlistService;
-    }
-
-    public KRMSEvaluator getKrmsEvaluator() {
-        return krmsEvaluator;
     }
 
     public CourseRegistrationServiceProcessCheckDecorator() {
@@ -235,5 +229,9 @@ public class CourseRegistrationServiceProcessCheckDecorator
 
     public void setCourseOfferingService(CourseOfferingService courseOfferingService) {
         this.courseOfferingService = courseOfferingService;
+    }
+
+    public void setMessageKeyMap(Map<String, String> messageKeyMap) {
+        this.messageKeyMap = messageKeyMap;
     }
 }
