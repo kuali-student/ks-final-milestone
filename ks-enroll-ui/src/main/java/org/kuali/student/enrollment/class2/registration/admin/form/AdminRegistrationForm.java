@@ -32,7 +32,6 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
 
     private String studentId;
     private String studentName;
-    private Person person;
     private String program;
     private String standing;
     private String credits;
@@ -58,9 +57,6 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
 
     private List<RegistrationCourse> coursesInProcess = new ArrayList<RegistrationCourse>();
 
-    //KSENROLL-13558 :work around for incorrect Data
-    private List<Principal> principalIDs = new ArrayList<Principal>();
-
     public AdminRegistrationForm(){
         pendingCourses.add(new RegistrationCourse());
     }
@@ -79,14 +75,6 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
 
     public void setStudentName(String studentName) {
         this.studentName = studentName;
-    }
-
-    public Person getPerson() {
-        return person;
-    }
-
-    public void setPerson(Person person) {
-        this.person = person;
     }
 
     public String getProgram() {
@@ -251,16 +239,7 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
         this.tempWaitlistCourseEdit = tempWaitlistCourseEdit;
     }
 
-    public List<Principal> getPrincipalIDs() {
-        return principalIDs;
-    }
-
-    public void setPrincipalIDs(List<Principal> principalIDs) {
-        this.principalIDs = principalIDs;
-    }
-
     public void clear() {
-        this.person= null;
         this.studentName= null;
         this.termCode = null;
 

@@ -166,12 +166,10 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
         if ((person != null)) {
 
             if (!person.hasAffiliationOfType(AdminRegConstants.STUDENT_AFFILIATION_TYPE_CODE)) {
-//                GlobalVariables.getMessageMap().putError(AdminRegConstants.STUDENT_INFO_SECTION_STUDENT_ID, AdminRegConstants.ADMIN_REG_MSG_ERROR_INVALID_STUDENT,  form.getPerson().getPrincipalId());
+//                GlobalVariables.getMessageMap().putError(AdminRegConstants.STUDENT_INFO_SECTION_STUDENT_ID, AdminRegConstants.ADMIN_REG_MSG_ERROR_INVALID_STUDENT,form.getStudentId());
 //                return;
             }
-            form.setPerson(person);
             form.setStudentName(person.getFirstName() + " " + person.getLastName());
-//
         } else {
             GlobalVariables.getMessageMap().putError(AdminRegConstants.STUDENT_INFO_SECTION_STUDENT_ID, AdminRegConstants.ADMIN_REG_MSG_ERROR_INVALID_STUDENT, form.getStudentId());
         }
