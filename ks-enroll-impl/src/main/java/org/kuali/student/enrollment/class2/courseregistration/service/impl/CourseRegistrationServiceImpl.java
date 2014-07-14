@@ -81,7 +81,7 @@ public class CourseRegistrationServiceImpl extends AbstractCourseRegistrationSer
 
         try {
             MapMessage mapMessage = new ActiveMQMapMessage();
-            mapMessage.setString(CourseRegistrationConstants.REGISTRATION_QUEUE_MESSAGE_USER_ID, contextInfo.getPrincipalId());
+            mapMessage.setString(CourseRegistrationConstants.REGISTRATION_QUEUE_MESSAGE_USER_ID, regRequestInfo.getRequestorId());
             mapMessage.setString(CourseRegistrationConstants.REGISTRATION_QUEUE_MESSAGE_REG_REQ_ID, regRequestInfo.getId());
             jmsTemplate.convertAndSend(CourseRegistrationConstants.REGISTRATION_INITILIZATION_QUEUE, mapMessage);
         } catch (JMSException jmsEx) {
@@ -112,19 +112,11 @@ public class CourseRegistrationServiceImpl extends AbstractCourseRegistrationSer
 
             // Empty out original cart so it can be reused
             cartInfo.setRegistrationRequestItems(new ArrayList<RegistrationRequestItemInfo>());
-            cartInfo = updateRegistrationRequest(cartInfo.getId(), cartInfo, contextInfo);
+            updateRegistrationRequest(cartInfo.getId(), cartInfo, contextInfo);
 
-            // Persist this
-            RegistrationRequestInfo updated =
-                    createRegistrationRequest(copy.getTypeKey(), copy, contextInfo);
-
-            // return the copy
-            return updated;
-        } catch (ReadOnlyException ex) {
-            throw new OperationFailedException("Exception: " + ex.getMessage(), ex);
-        } catch (DataValidationErrorException ex) {
-            throw new OperationFailedException("Exception: " + ex.getMessage(), ex);
-        } catch (VersionMismatchException ex) {
+            // persist this and return the copy
+            return createRegistrationRequest(copy.getTypeKey(), copy, contextInfo);
+        } catch (ReadOnlyException|DataValidationErrorException|VersionMismatchException ex) {
             throw new OperationFailedException("Exception: " + ex.getMessage(), ex);
         }
     }
@@ -187,8 +179,7 @@ public class CourseRegistrationServiceImpl extends AbstractCourseRegistrationSer
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         LprTransactionInfo lprTransaction = getLprService().getLprTransaction(registrationRequestId, contextInfo);
-        RegistrationRequestInfo result = getRegistrationRequestTransformer().lprTransaction2RegRequest(lprTransaction, contextInfo);
-        return result;
+        return getRegistrationRequestTransformer().lprTransaction2RegRequest(lprTransaction, contextInfo);
     }
 
     @Override
@@ -219,7 +210,7 @@ public class CourseRegistrationServiceImpl extends AbstractCourseRegistrationSer
         List<LprInfo> lprs = getLprService().searchForLprs(lprCriteria, contextInfo);
 
         //Get a mapping from the master lprid to the COid since CourseRegistrationInfo has both CO and RG ids
-        Map<String,String> masterLprIdToCoIdMap = new HashMap<String, String>();
+        Map<String,String> masterLprIdToCoIdMap = new HashMap<>();
         for(LprInfo lpr:lprs){
             if(LprServiceConstants.REGISTRANT_CO_LPR_TYPE_KEY.equals(lpr.getTypeKey())){
                 masterLprIdToCoIdMap.put(lpr.getMasterLprId(), lpr.getLuiId());
@@ -227,7 +218,7 @@ public class CourseRegistrationServiceImpl extends AbstractCourseRegistrationSer
         }
 
         //FOr each RG lpr, greate a new courseRegistrationInfo and lookup the corresponding CO id
-        List<CourseRegistrationInfo> courseRegistrations = new ArrayList<CourseRegistrationInfo>(lprs.size());
+        List<CourseRegistrationInfo> courseRegistrations = new ArrayList<>(lprs.size());
         for(LprInfo lpr:lprs){
             if(LprServiceConstants.REGISTRANT_RG_LPR_TYPE_KEY.equals(lpr.getTypeKey())){
                 courseRegistrations.add(toCourseRegistration(lpr, masterLprIdToCoIdMap.get(lpr.getMasterLprId())));
@@ -248,7 +239,7 @@ public class CourseRegistrationServiceImpl extends AbstractCourseRegistrationSer
         List<LprInfo> lprs = getLprService().searchForLprs(lprCriteria, contextInfo);
 
         //Convert these lprs to ActivityRegistrationInfos
-        List<ActivityRegistrationInfo> activityRegistrations = new ArrayList<ActivityRegistrationInfo>(lprs.size());
+        List<ActivityRegistrationInfo> activityRegistrations = new ArrayList<>(lprs.size());
         for(LprInfo lpr:lprs){
             ActivityRegistrationInfo activityRegistration = new ActivityRegistrationInfo();
             activityRegistration.setTypeKey(lpr.getTypeKey());
@@ -301,7 +292,7 @@ public class CourseRegistrationServiceImpl extends AbstractCourseRegistrationSer
 
     public LprService getLprService() {
         if (lprService == null) {
-            lprService = (LprService) GlobalResourceLoader.getService(new QName(LprServiceConstants.NAMESPACE, LprServiceConstants.SERVICE_NAME_LOCAL_PART));
+            lprService = GlobalResourceLoader.getService(new QName(LprServiceConstants.NAMESPACE, LprServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return lprService;
     }
@@ -312,7 +303,7 @@ public class CourseRegistrationServiceImpl extends AbstractCourseRegistrationSer
 
     public CourseOfferingService getCourseOfferingService() {
         if (courseOfferingService == null) {
-            courseOfferingService = (CourseOfferingService) GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE, CourseOfferingServiceConstants.SERVICE_NAME_LOCAL_PART));
+            courseOfferingService = GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE, CourseOfferingServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return courseOfferingService;
     }

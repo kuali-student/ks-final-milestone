@@ -55,7 +55,7 @@ public class WaitlistManagerServiceImpl implements WaitlistManagerService {
      */
     @Override
     public List<WaitlistInfo> getPeopleToProcessFromWaitlist(List<String> aoIds, Map<String, Integer> aoid2openSeatsMap, ContextInfo contextInfo) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException {
-        List<WaitlistInfo> results = new ArrayList<WaitlistInfo>();
+        List<WaitlistInfo> results = new ArrayList<>();
 
         //Perform the search. It is assumed that the search returns results sorted by the waitlist order so that
         //A person who's RG is listed first in the results will have a higher priority than another person
@@ -66,11 +66,11 @@ public class WaitlistManagerServiceImpl implements WaitlistManagerService {
         //Set up data structures used for processing
         if (aoid2openSeatsMap == null) {
             //If there is no reference to this map passed in, then make one here
-            aoid2openSeatsMap = new HashMap<String, Integer>();
+            aoid2openSeatsMap = new HashMap<>();
         }
-        Map<String, Set<String>> rg2aoIds = new HashMap<String, Set<String>>();
-        List<WaitlistInfo> waitlist = new ArrayList<WaitlistInfo>();
-        Set<String> alreadyProcessedLprIds = new HashSet<String>();
+        Map<String, Set<String>> rg2aoIds = new HashMap<>();
+        List<WaitlistInfo> waitlist = new ArrayList<>();
+        Set<String> alreadyProcessedLprIds = new HashSet<>();
         //Loop through the search results
         for (SearchResultHelper.KeyValue row : SearchResultHelper.wrap(searchResult)) {
             String aoId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.AO_ID);
@@ -90,7 +90,7 @@ public class WaitlistManagerServiceImpl implements WaitlistManagerService {
             //Store a mapping of each RG to each aoid that is on a waitlist
             Set<String> aoidsInRg = rg2aoIds.get(rgId);
             if (aoidsInRg == null) {
-                aoidsInRg = new HashSet<String>();
+                aoidsInRg = new HashSet<>();
                 rg2aoIds.put(rgId, aoidsInRg);
             }
             aoidsInRg.add(aoId);
@@ -134,11 +134,11 @@ public class WaitlistManagerServiceImpl implements WaitlistManagerService {
     @Override
     public List<RegistrationRequest> processPeopleOffOfWaitlist(List<String> aoIds, ContextInfo contextInfo) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DataValidationErrorException, ReadOnlyException, AlreadyExistsException {
 
-        List<RegistrationRequest> createdRegRequests = new ArrayList<RegistrationRequest>();
+        List<RegistrationRequest> createdRegRequests = new ArrayList<>();
 
         //Get an ordered list of people to process off of the waitlist
         List<WaitlistInfo> waitlistInfos = getPeopleToProcessFromWaitlist (aoIds, null, contextInfo);
-        Map<String, RegistrationRequestInfo> person2RegRequest = new HashMap<String, RegistrationRequestInfo>();
+        Map<String, RegistrationRequestInfo> person2RegRequest = new HashMap<>();
 
         if(!waitlistInfos.isEmpty()){
             for(WaitlistInfo waitlistInfo : waitlistInfos){
@@ -149,7 +149,7 @@ public class WaitlistManagerServiceImpl implements WaitlistManagerService {
                     regRequest.setTypeKey(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY);
                     regRequest.setStateKey(LprServiceConstants.LPRTRANS_NEW_STATE_KEY);
                     regRequest.setTermId(waitlistInfo.atpId);
-                    regRequest.setRequestorId(contextInfo.getPrincipalId());//Not sure if this is the correct id to set here
+                    regRequest.setRequestorId(waitlistInfo.personId);
                     person2RegRequest.put(waitlistInfo.personId, regRequest);
                 }
 
