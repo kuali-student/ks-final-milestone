@@ -178,17 +178,6 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
         }
     }
 
-    @Override
-    public void validateCourses(AdminRegistrationForm form) throws Exception {
-
-        for (RegistrationCourse course : form.getPendingCourses()) {
-            if (course.getCode() == null) {
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, AdminRegConstants.ADMIN_REG_MSG_ERROR_COURSECODE_REQUIRED, "code");
-            }
-
-        }
-    }
-
     /**
      * The premise of this is rather simple. Return a distinct list of course code. At a minimum there needs to
      * be one character. It then does a char% search. so E% will return all ENGL or any E* codes.
