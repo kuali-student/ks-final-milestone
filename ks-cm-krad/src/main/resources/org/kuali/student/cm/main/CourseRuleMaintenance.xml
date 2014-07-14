@@ -179,7 +179,7 @@ limitations under the License.
                     <property name="url.controllerMapping" value="courses"/>
                     <property name="url.requestParameters">
                         <map key-type="java.lang.String" merge="true">
-                            <entry key="methodToCall" value="start"/>
+                            <entry key="methodToCall" value="saveProposal"/>
                             <entry key="dataObjectClassName" value="org.kuali.student.cm.course.form.CourseInfoWrapper"/>
                             <entry key="hideReturnLink" value="true"/>
                             <entry key="formKey" value="@{formKey}"/>
