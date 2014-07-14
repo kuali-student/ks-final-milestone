@@ -6,6 +6,9 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.affiliation.EntityAffiliation;
+import org.kuali.rice.kim.api.identity.entity.Entity;
+import org.kuali.rice.kim.api.identity.name.EntityName;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.uif.service.impl.KSViewHelperServiceImpl;
@@ -19,6 +22,7 @@ import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegConst
 import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegistrationUtil;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseregistration.dto.ActivityRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
@@ -39,15 +43,15 @@ import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
 
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by SW Genis on 2014/07/04.
  */
 public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceImpl implements CourseRegAdminViewHelperService {
+    
     private final static String CACHE_NAME = "AdminRegistrationCodeCache";
+    
     @Override
     public void getRegistrationStatus() {
 
@@ -115,7 +119,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
                 RegistrationCourse registeredCourse = new RegistrationCourse();
                 CourseOfferingInfo coInfo = AdminRegistrationUtil.getCourseOfferingService().getCourseOffering(courseRegInfo.getCourseOfferingId(), createContextInfo());
                 registeredCourse.setCode(coInfo.getCourseOfferingCode());
-                registeredCourse.setCourseName(coInfo.getCourseOfferingTitle());
+                registeredCourse.setTitle(coInfo.getCourseOfferingTitle());
                 registeredCourse.setCredits(Integer.parseInt(coInfo.getCreditCnt()));
                 registeredCourse.setRegDate(courseRegInfo.getEffectiveDate());
                 registeredCourse.setSection(AdminRegistrationUtil.getCourseOfferingService().getRegistrationGroup(courseRegInfo.getRegistrationGroupId(), createContextInfo()).getRegistrationCode());
@@ -143,7 +147,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
 
                 CourseOfferingInfo coInfo = AdminRegistrationUtil.getCourseOfferingService().getCourseOffering(courseWaitListInfo.getCourseOfferingId(), createContextInfo());
                 waitListCourse.setCode(coInfo.getCourseOfferingCode());
-                waitListCourse.setCourseName(coInfo.getCourseOfferingTitle());
+                waitListCourse.setTitle(coInfo.getCourseOfferingTitle());
                 waitListCourse.setCredits(Integer.parseInt(coInfo.getCreditCnt()));
                 waitListCourse.setRegDate(courseWaitListInfo.getEffectiveDate());
                 waitListCourse.setSection(AdminRegistrationUtil.getCourseOfferingService().getRegistrationGroup(courseWaitListInfo.getRegistrationGroupId(), createContextInfo()).getRegistrationCode());
@@ -243,15 +247,37 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
         }
     }
 
+    public List<String> retrieveCourseCodes(String termCode, String courseCode) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+
+        if (courseCode == null || courseCode.isEmpty()) {
+            return new ArrayList<String>();   // if nothing passed in, return empty list
+        }
+
+        courseCode = courseCode.toUpperCase(); // force toUpper
+        return this.retrieveCourseCodesFromCache(termCode, courseCode);
+    }
+
+    public String retrieveCourseTitle(RegistrationCourse course, String termCode) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException {
+        MultiKey cacheKey = new MultiKey(termCode, course.getCode());
+        Element cachedResult = AdminRegistrationUtil.getCacheManager().getCache(CACHE_NAME).get(cacheKey);
+
+        if(cachedResult!=null) {
+            course.setTitle(((CourseOfferingInfo)cachedResult.getValue()).getCourseOfferingTitle());
+        } else {
+            course.setTitle(StringUtils.EMPTY);
+        }
+        return course.getTitle();
+    }
+
     /**
      * The premise of this is rather simple. Return a distinct list of course code. At a minimum there needs to
      * be one character. It then does a char% search. so E% will return all ENGL or any E* codes.
-     *
+     * <p/>
      * This implementation is a little special. It's both cached and recursive.
-     *
+     * <p/>
      * Because this is a structured search and course codes don't update often we can cache this pretty heavily and make
      * some assumptions that allow us to make this very efficient.
-     *
+     * <p/>
      * So a user wants to type and see the type ahead results very quickly. The server wants as few db calls as possible.
      * The "bad" way to do this is to search on Every character entered. If we cache the searches then we'll get much
      * better performance. But we can go one step further because ths is a structured search. The first letter E in
@@ -265,48 +291,33 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
      * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException
      * @throws org.kuali.student.r2.common.exceptions.OperationFailedException
      */
-    public List<String> retrieveCourseCodes(String targetTermCode, String catalogCourseCode) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+    public List<String> retrieveCourseCodesFromCache(String termCode, String courseCode) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
 
         List<String> results = new ArrayList<String>();
-
-        if(catalogCourseCode == null || catalogCourseCode.isEmpty())  {
-            return results;   // if nothing passed in, return empty list
-        }
-
-        catalogCourseCode = catalogCourseCode.toUpperCase(); // force toUpper
-
-        MultiKey cacheKey = new MultiKey(targetTermCode+"retrieveCourseCodes", catalogCourseCode);
+        MultiKey cacheKey = new MultiKey("suggest", termCode, courseCode);
+        Element cachedResult = AdminRegistrationUtil.getCacheManager().getCache(CACHE_NAME).get(cacheKey);
 
         // only one character. This is the base search.
-        if(catalogCourseCode.length() == 1){
-            Element cachedResult = AdminRegistrationUtil.getCacheManager().getCache(CACHE_NAME).get(cacheKey);
-
-            Object result;
-            if (cachedResult == null) {
-                result = searchCourseCodes(targetTermCode, catalogCourseCode);
+        if (cachedResult == null) {
+            if (courseCode.length() == 1) {
+                List<String> result = searchCourseOfferingsByCodeAndTerm(termCode, courseCode);
                 AdminRegistrationUtil.getCacheManager().getCache(CACHE_NAME).put(new Element(cacheKey, result));
-                results = (List<String>)result;
-            } else {
-                results = (List<String>)cachedResult.getValue();
+                return result;
             }
-        }else{
-            Element cachedResult = AdminRegistrationUtil.getCacheManager().getCache(CACHE_NAME).get(cacheKey);
 
-            if (cachedResult == null) {
-                // This is where the recursion happens. If you entered CHEM and it didn't find anything it will
-                // recurse and search for CHE -> CH -> C (C is the base). Each time building up the cache.
-                // This for loop is the worst part of this method. I'd love to use some logic to remove the for loop.
-                for(String courseCode : retrieveCourseCodes(targetTermCode, catalogCourseCode.substring(0,catalogCourseCode.length()-1))){
-                    // for every course code, see if it's part of the Match.
-                    if(courseCode.startsWith(catalogCourseCode)){
-                        results.add(courseCode);
-                    }
+            // This is where the recursion happens. If you entered CHEM and it didn't find anything it will
+            // recurse and search for CHE -> CH -> C (C is the base). Each time building up the cache.
+            // This for loop is the worst part of this method. I'd love to use some logic to remove the for loop.
+            for (String searchedCode : retrieveCourseCodes(termCode, courseCode.substring(0, courseCode.length() - 1))) {
+                // for every course code, see if it's part of the Match.
+                if (searchedCode.startsWith(courseCode)) {
+                    results.add(searchedCode);
                 }
-
-                AdminRegistrationUtil.getCacheManager().getCache(CACHE_NAME).put(new Element(cacheKey, results));
-            } else {
-                results = (List<String>)cachedResult.getValue();
             }
+
+            AdminRegistrationUtil.getCacheManager().getCache(CACHE_NAME).put(new Element(cacheKey, results));
+        } else {
+            return (List<String>) cachedResult.getValue();
         }
 
         return results;
@@ -314,32 +325,29 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
 
     /**
      * Does a search Query for course codes used for auto suggest
-     * @param catalogCourseCode the starting characters of a course code
+     *
+     * @param courseCode the starting characters of a course code
      * @return a list of CourseCodeSuggestResults containing matching course codes
      */
-    private List<String> searchCourseCodes(String targetTermCode, String catalogCourseCode) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+    private List<String> searchCourseOfferingsByCodeAndTerm(String termCode, String courseCode) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
 
-        List<String> rList = new ArrayList<String>();
-        Set<String> rSet = new LinkedHashSet<String>(rList);
         ContextInfo context = ContextUtils.createDefaultContextInfo();
-
-        TermInfo term = this.getTermByCode(targetTermCode);
+        TermInfo term = this.getTermByCode(termCode);
 
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
         qbcBuilder.setPredicates(PredicateFactory.and(
-                PredicateFactory.like("courseOfferingCode", "*" + catalogCourseCode + "*"),
+                PredicateFactory.like("courseOfferingCode", courseCode + "*"),
                 PredicateFactory.equalIgnoreCase("atpId", term.getId())));
         QueryByCriteria criteria = qbcBuilder.build();
 
-        List<CourseOfferingInfo> courseOfferings = AdminRegistrationUtil.getCourseOfferingService().searchForCourseOfferings(criteria, context);
-        for(CourseOfferingInfo courseOffering : courseOfferings){
-            rSet.add(courseOffering.getCourseOfferingCode());
+        List<String> resultList = new ArrayList<String>();
+        List<CourseOfferingInfo> results = AdminRegistrationUtil.getCourseOfferingService().searchForCourseOfferings(criteria, context);
+        for(CourseOfferingInfo result : results) {
+            MultiKey cacheKey = new MultiKey(termCode, result.getCourseOfferingCode());
+            AdminRegistrationUtil.getCacheManager().getCache(CACHE_NAME).put(new Element(cacheKey, result));
+            resultList.add(result.getCourseOfferingCode());
         }
-        return new ArrayList<String>(rSet);
+        return resultList;
     }
 
-    public String retrieveCourseName(RegistrationCourse course) {
-        course.setCourseName(course.getCode() + " course name");
-        return course.getCourseName();
-    }
 }

@@ -29,7 +29,7 @@ public class RegistrationCourse implements Serializable{
     private static final long serialVersionUID = 5236548204817229477L;
     private String code;
     private String section;
-    private String courseName;
+    private String title;
 
     private Integer credits;
     private String regOptions;
@@ -43,11 +43,11 @@ public class RegistrationCourse implements Serializable{
 
     public RegistrationCourse(){}
 
-    public RegistrationCourse(String code, String section, String courseName, Integer credits, String regOptions,
+    public RegistrationCourse(String code, String section, String title, Integer credits, String regOptions,
                               Date regDate) {
         this.code = code;
         this.section = section;
-        this.courseName = courseName;
+        this.title = title;
         this.credits = credits;
         this.regOptions = regOptions;
         this.regDate = regDate;
@@ -70,16 +70,12 @@ public class RegistrationCourse implements Serializable{
         this.section = section;
     }
 
-    public String getCourseName() {
-        return courseName;
+    public String getTitle() {
+        return title;
     }
 
-    public void setCourseName(String courseName) {
-        this.courseName = courseName;
-    }
-
-    public String getCourseNameDisplay() {
-        return courseName;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public void setCredits(Integer credits) {

@@ -70,6 +70,11 @@ public class AdminRegistrationController extends UifControllerBase {
         return super.refresh(form, result, request, response);
     }
 
+    @RequestMapping(params = "methodToCall=refreshCourseName")
+    public ModelAndView refreshCourseName(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return super.refresh(form, result, request, response);
+    }
+
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=getStudentInfo")
     public ModelAndView getStudentInfo(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result,
                                        HttpServletRequest request, HttpServletResponse response) {
@@ -133,7 +138,6 @@ public class AdminRegistrationController extends UifControllerBase {
                                  HttpServletRequest request, HttpServletResponse response) {
 
         for (RegistrationCourse course : form.getPendingCourses()) {
-            course.setCourseName("Some course name here");
             course.setCredits(3);
             course.setRegDate(new Date());
             course.setRegOptions("reg");

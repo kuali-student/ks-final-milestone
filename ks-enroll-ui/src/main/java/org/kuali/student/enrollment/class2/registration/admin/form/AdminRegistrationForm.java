@@ -32,6 +32,7 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
 
     private String studentId;
     private String studentName;
+
     private String program;
     private String standing;
     private String credits;

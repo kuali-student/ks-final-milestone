@@ -158,26 +158,6 @@
             <list>
                 <ref bean="KS-AdminRegistration-Issues"/>
                 <ref bean="KS-AdminRegistration-RegFor"/>
-                <bean parent="Uif-HorizontalBoxGroup">
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-SecondaryActionButton" p:methodToCall="addBlankLine"
-                                  p:successCallback="jQuery(&quot;[name='pendingCourses[@{pendingCourses.size()}].code']&quot;).focus()"
-                                  p:refreshId="KS-AdminRegistration-RegFor" p:ajaxReturnType="update-component"
-                                  p:actionLabel="+Add another" p:actionEvent="addBlankLine">
-                                <property name="actionParameters">
-                                    <map>
-                                        <entry key="selectedCollectionPath" value="pendingCourses"/>
-                                        <entry key="selectedCollectionId" value="KS-AdminRegistration-RegFor"/>
-                                    </map>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-PrimaryActionButton" p:actionLabel="Register" p:methodToCall="register"
-                                  p:refreshId="KS-AdminRegistration-RegistrationTabs"
-                                  p:ajaxReturnType="update-component"/>
-                        </list>
-                    </property>
-                </bean>
             </list>
         </property>
     </bean>
@@ -225,11 +205,34 @@
                         <bean parent="KS-Uif-TextControl" p:size="5"/>
                     </property>
                 </bean>
-                <bean parent="Uif-MessageField" p:refreshWhenChangedPropertyNames="#lp.code">
+                <bean parent="Uif-MessageField" p:refreshWhenChangedPropertyNames="#lp.code" p:valign="middle">
+                    <property name="methodToCallOnRefresh" value="refreshCourseTitle"/>
                     <property name="messageText"
-                              value="@{#dp.methodToCall == 'refresh' ? #ViewHelper.retrieveCourseName(#line) : #line.courseName}"/>
+                              value="@{#dp.methodToCall == 'refreshCourseTitle' ? #ViewHelper.retrieveCourseTitle(#line, #dp.termCode) : #line.title}"/>
                 </bean>
             </list>
+        </property>
+        <property name="footer">
+            <bean parent="Uif-HorizontalBoxGroup">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-SecondaryActionButton" p:methodToCall="addBlankLine"
+                              p:successCallback="jQuery(&quot;[name='pendingCourses[@{pendingCourses.size()}].code']&quot;).focus()"
+                              p:refreshId="KS-AdminRegistration-RegFor" p:ajaxReturnType="update-component"
+                              p:actionLabel=" + " p:actionEvent="addBlankLine">
+                            <property name="actionParameters">
+                                <map>
+                                    <entry key="selectedCollectionPath" value="pendingCourses"/>
+                                    <entry key="selectedCollectionId" value="KS-AdminRegistration-RegFor"/>
+                                </map>
+                            </property>
+                        </bean>
+                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Register" p:methodToCall="register"
+                              p:refreshId="KS-AdminRegistration-RegistrationTabs"
+                              p:ajaxReturnType="update-component"/>
+                    </list>
+                </property>
+            </bean>
         </property>
     </bean>
 
@@ -333,7 +336,7 @@
                         </list>
                     </property>
                 </bean>
-                <bean parent="Uif-DataField" p:label="Course Name" p:propertyName="courseName"/>
+                <bean parent="Uif-DataField" p:label="Course Name" p:propertyName="title"/>
                 <bean parent="Uif-InputField" p:label="Cr" p:propertyName="credits"
                       p:readOnly="@{(#collectionGroup.id == 'KS-AdminRegistration-Registered' and #index != editRegisteredIndex) || (#collectionGroup.id == 'KS-AdminRegistration-Waitlist' and #index != editWaitlistedIndex)}">
                     <property name="control">
@@ -608,7 +611,7 @@
             <list>
                 <bean parent="Uif-MessageField" p:label="Course (Section)"
                       p:messageText="@{#line.code} (@{#line.section})"/>
-                <bean parent="Uif-DataField" p:label="Course Name" p:propertyName="courseName"/>
+                <bean parent="Uif-DataField" p:label="Course Name" p:propertyName="title"/>
                 <bean parent="Uif-InputField" p:readOnly="true" p:label="Cr" p:propertyName="credits"/>
                 <bean parent="Uif-InputField" p:readOnly="true" p:label="Reg Options" p:propertyName="regOptions"/>
                 <bean parent="Uif-DataField" p:label="Reg Date" p:propertyName="regDate"/>
@@ -634,7 +637,7 @@
             <list>
                 <bean parent="Uif-MessageField" p:label="Course (Section)"
                       p:messageText="@{#line.code} (@{#line.section})"/>
-                <bean parent="Uif-DataField" p:label="Course Name" p:propertyName="courseName"/>
+                <bean parent="Uif-DataField" p:label="Course Name" p:propertyName="title"/>
                 <bean parent="Uif-InputField" p:readOnly="true" p:label="Cr" p:propertyName="credits"/>
                 <bean parent="Uif-InputField" p:readOnly="true" p:label="Reg Options" p:propertyName="regOptions"/>
                 <bean parent="Uif-DataField" p:label="Reg Date" p:propertyName="regDate"/>
