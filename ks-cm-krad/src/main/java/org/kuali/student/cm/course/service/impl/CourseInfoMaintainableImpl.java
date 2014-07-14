@@ -108,6 +108,7 @@ import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.constants.ProposalServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.document.dto.DocumentBinaryInfo;
+import org.kuali.student.r2.core.document.dto.DocumentHeaderDisplayInfo;
 import org.kuali.student.r2.core.document.dto.DocumentInfo;
 import org.kuali.student.r2.core.document.dto.RefDocRelationInfo;
 import org.kuali.student.r2.core.document.service.DocumentService;
@@ -1225,7 +1226,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         if (!formatInfoWrappers.isEmpty())
             reviewData.getCourseLogisticsSection().setFormatInfoWrappers(formatInfoWrappers);
 
-
+        // update learning Objectives Section
         reviewData.getLearningObjectivesSection().build(courseInfoWrapper.getCourseInfo().getCourseSpecificLOs());
 
         /**
@@ -1275,9 +1276,17 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             throw new RuntimeException(e);
         }
 
-        // update learning Objectives Section;
         // update  course Requisites Section;
-        // update  supporting Documents Section;
+
+        // update  supporting Documents Section
+        reviewData.getSupportingDocumentsSection().getSupportingDocuments().clear();
+        for (SupportingDocumentInfoWrapper supportingDocumentInfoWrapper : courseInfoWrapper.getDocumentsToAdd()) {
+            SupportingDocumentInfoWrapper supportingDocReviewObj = new SupportingDocumentInfoWrapper();
+            supportingDocReviewObj.setDocumentId(supportingDocumentInfoWrapper.getDocumentId());
+            supportingDocReviewObj.setDescription(supportingDocumentInfoWrapper.getDescription());
+            supportingDocReviewObj.setDocumentName(supportingDocumentInfoWrapper.getDocumentName());
+            reviewData.getSupportingDocumentsSection().getSupportingDocuments().add(supportingDocReviewObj);
+        }
     }
 
     protected void updateCollaborators(CourseInfoWrapper courseInfoWrapper) {
@@ -2043,11 +2052,6 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 dataObject.getCollaboratorWrappers().add(new CollaboratorWrapper());
             }
 
-            // Initialize Supporting Documents
-            if (dataObject.getDocumentsToAdd().isEmpty()) {
-                dataObject.getDocumentsToAdd().add(new SupportingDocumentInfoWrapper());
-            }
-
             populateCollaborators();
 
             populateAuditOnWrapper();
@@ -2058,6 +2062,9 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             populateJointCourseOnWrapper();
 
             populateLearningObjectives();
+            if (dataObject.getDocumentsToAdd().isEmpty()) {
+                populateSupportingDocuments();
+            }
 
             updateReview(false);
 
@@ -2067,6 +2074,36 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             throw new RuntimeException(e);
         }
 
+    }
+
+    protected void populateSupportingDocuments() {
+
+        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
+
+        try {
+            if (StringUtils.isNotBlank(courseInfoWrapper.getCourseInfo().getId())) {
+                List<DocumentHeaderDisplayInfo> documentInfoList =  getSupportingDocumentService().getDocumentHeaderDisplay(
+                                                                        courseInfoWrapper.getCourseInfo().getId(),
+                                                                        CurriculumManagementConstants.DEFAULT_DOC_TYPE_KEY,
+                                                                        ContextUtils.createDefaultContextInfo());
+                courseInfoWrapper.getDocumentsToAdd().clear();
+                SupportingDocumentInfoWrapper supportingDocumentInfoWrapper = null;
+                for (final DocumentHeaderDisplayInfo documentHeaderDisplayInfo : documentInfoList) {
+                    supportingDocumentInfoWrapper = new SupportingDocumentInfoWrapper();
+                    supportingDocumentInfoWrapper.setDocumentId(documentHeaderDisplayInfo.getDocumentId());
+                    supportingDocumentInfoWrapper.setDocumentName(documentHeaderDisplayInfo.getFileName());
+                    supportingDocumentInfoWrapper.setDescription(documentHeaderDisplayInfo.getDescription());
+                    courseInfoWrapper.getDocumentsToAdd().add(supportingDocumentInfoWrapper);
+                }
+                // Initialize Supporting Documents if it is found empty
+                if (courseInfoWrapper.getDocumentsToAdd().isEmpty()) {
+                    courseInfoWrapper.getDocumentsToAdd().add(new SupportingDocumentInfoWrapper());
+                }
+            }
+        } catch(Exception ex) {
+            LOG.error("Error occurred while loading the supporting documents" + ex);
+            throw new RuntimeException(ex);
+        }
     }
 
     protected void populateRequisities(){
