@@ -32,6 +32,7 @@
         <property name="page">
             <bean parent="Uif-Page">
                 <property name="header.render" value="false"/>
+                <property name="validationMessages" ref="KS-ValidationMessages-Off"/>
                 <property name="items">
                     <list>
                         <ref bean="KS-AdminRegistration-StudentInfo"/>
@@ -69,12 +70,9 @@
     <!-- Student Info Area-->
     <bean id="KS-AdminRegistration-StudentInfo" parent="Uif-HorizontalBoxSection">
         <property name="header.render" value="false"/>
-        <!--<property name="layoutManager">-->
-        <!--<bean parent="Uif-CssGridLabelColumnLayout" p:numberOfLabelColumns="4"/>-->
-        <!--</property>-->
         <property name="items">
             <list>
-                <bean parent="Uif-HorizontalBoxSection">
+                <bean parent="Uif-HorizontalFieldGroup">
                     <property name="items">
                         <list>
                             <bean parent="KS-Uif-InputField-LabelLeft" p:propertyName="studentId"
@@ -87,7 +85,7 @@
                             <bean parent="Uif-SecondaryActionButton" p:performClientSideValidation="false"
                                   p:actionLabel="Go" p:methodToCall="getStudentInfo"
                                   p:jumpToIdAfterSubmit="TOP" p:ajaxSubmit="false" p:id="go_button"/>
-                            <bean parent="Uif-MessageField" p:render="@{studentId != null}"
+                            <bean parent="Uif-MessageField" p:id="studentInfoMsg" p:render="@{studentId != null}"
                                   p:messageText="[b]@{studentName} (@{studentId})[/b]"/>
                         </list>
 
@@ -97,14 +95,11 @@
         </property>
     </bean>
 
-    <bean id="KS-AdminRegistration-StudentInfoGo" parent="Uif-SecondaryActionButton" p:actionLabel="Go"
-          p:methodToCall="getStudentInfo"/>
-
     <bean id="KS-AdminRegistration-ChangeTermSection" parent="Uif-HorizontalBoxSection"
           p:id="registrationChangeTermSection" p:render="@{studentName != null}">
         <property name="items">
             <list>
-                <bean parent="Uif-HorizontalBoxSection">
+                <bean parent="Uif-HorizontalFieldGroup">
                     <property name="items">
                         <list>
                             <bean parent="KS-Uif-InputField-LabelLeft" p:propertyName="termCode"

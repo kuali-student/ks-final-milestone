@@ -25,6 +25,8 @@ public class AdminRegConstants {
 
     //sections ids
     public static String STUDENT_INFO_SECTION = "KS-AdminRegistration-StudentInfo";
+    public static String STUDENT_INFO_SECTION_STUDENT_ID = "studentId";
+
 
 
     //Affiliation Types

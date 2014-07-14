@@ -4,9 +4,7 @@ import net.sf.ehcache.Element;
 import org.apache.commons.collections.keyvalue.MultiKey;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.rice.kim.api.identity.affiliation.EntityAffiliation;
-import org.kuali.rice.kim.api.identity.entity.Entity;
-import org.kuali.rice.kim.api.identity.name.EntityName;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.common.uif.service.impl.KSViewHelperServiceImpl;
 import org.kuali.student.common.util.security.ContextUtils;
@@ -164,33 +162,18 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
     @Override
     public void populateStudentInfo(AdminRegistrationForm form) throws Exception {
 
-        Entity entityInfo =  AdminRegistrationUtil.getIdentityService().getEntity(form.getStudentId());
-        if ((entityInfo != null)) {
-          
-            //KSENROLL-13558 :work around for incorrect Data
-            form.getPrincipalIDs().addAll(entityInfo.getPrincipals());
+        Person person = AdminRegistrationUtil.getPersonService().getPerson(form.getStudentId());
+        if ((person != null)) {
 
-            Boolean validStudent = false;
-            for (EntityAffiliation entityAffiliationInfo : entityInfo.getAffiliations()) {
-                if (entityAffiliationInfo.getAffiliationType().getCode().equals(AdminRegConstants.STUDENT_AFFILIATION_TYPE_CODE)) {
-                    validStudent = true;
-                }
-            }
-
-            if (!validStudent) {
-//                GlobalVariables.getMessageMap().putErrorForSectionId(AdminRegConstants.STUDENT_INFO_SECTION, AdminRegConstants.ADMIN_REG_MSG_ERROR_STUDENT_ROLE_NOT_FOUND, form.getStudentId());
+            if (!person.hasAffiliationOfType(AdminRegConstants.STUDENT_AFFILIATION_TYPE_CODE)) {
+//                GlobalVariables.getMessageMap().putError(AdminRegConstants.STUDENT_INFO_SECTION_STUDENT_ID, AdminRegConstants.ADMIN_REG_MSG_ERROR_INVALID_STUDENT,  form.getPerson().getPrincipalId());
 //                return;
             }
-
-            for (EntityName entityNameInfo : entityInfo.getNames()) {
-                if (entityNameInfo.isDefaultValue()) {
-                    form.setStudentName(entityNameInfo.getFirstName() + " " + entityNameInfo.getLastName());
-                    break;
-                }
-            }
-
+            form.setPerson(person);
+            form.setStudentName(person.getFirstName() + " " + person.getLastName());
+//
         } else {
-            GlobalVariables.getMessageMap().putErrorForSectionId(AdminRegConstants.STUDENT_INFO_SECTION, AdminRegConstants.ADMIN_REG_MSG_ERROR_INVALID_STUDENT, form.getStudentId());
+            GlobalVariables.getMessageMap().putError(AdminRegConstants.STUDENT_INFO_SECTION_STUDENT_ID, AdminRegConstants.ADMIN_REG_MSG_ERROR_INVALID_STUDENT, form.getStudentId());
         }
     }
 

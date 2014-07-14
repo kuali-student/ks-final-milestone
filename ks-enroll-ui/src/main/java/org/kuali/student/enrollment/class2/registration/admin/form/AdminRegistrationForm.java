@@ -16,6 +16,7 @@
 
 package org.kuali.student.enrollment.class2.registration.admin.form;
 
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
@@ -31,12 +32,12 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
 
     private String studentId;
     private String studentName;
+    private Person person;
     private String program;
     private String standing;
     private String credits;
     private String major;
     private String department;
-    private String dob;
 
     private String termCode;
     private TermInfo termInfo;
@@ -80,6 +81,14 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
         this.studentName = studentName;
     }
 
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
+    }
+
     public String getProgram() {
         return program;
     }
@@ -118,14 +127,6 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
 
     public void setDepartment(String department) {
         this.department = department;
-    }
-
-    public String getDob() {
-        return dob;
-    }
-
-    public void setDob(String dob) {
-        this.dob = dob;
     }
 
     public String getTermCode() {
@@ -259,7 +260,8 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
     }
 
     public void clear() {
-        this.studentName = null;
+        this.person= null;
+        this.studentName= null;
         this.termCode = null;
 
         clearTermAndCourseRegistrationInfo();
