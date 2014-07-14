@@ -19,6 +19,7 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.exception.RiceIllegalStateException;
@@ -35,6 +36,7 @@ import org.kuali.rice.krad.uif.container.Container;
 import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.ViewModel;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
 import org.kuali.rice.krms.api.repository.agenda.AgendaItemDefinition;
@@ -505,7 +507,23 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         } else if (newLine instanceof SupportingDocumentInfoWrapper) {
             MaintenanceDocumentForm modelForm = (MaintenanceDocumentForm) viewModel;
             CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) modelForm.getDocument().getNewMaintainableObject().getDataObject();
-            addSupportingDocuments(courseInfoWrapper);
+            if (courseInfoWrapper.getDocumentsToAdd().size() > 0) {
+                final SupportingDocumentInfoWrapper addLineResult = courseInfoWrapper.getDocumentsToAdd().get(
+                        courseInfoWrapper.getDocumentsToAdd().size() - 1);
+                if (addLineResult.getDocumentId() == null && addLineResult.getDocumentUpload() != null) {
+                    long size = Long.valueOf(CoreApiServiceLocator.getKualiConfigurationService().getPropertyValueAsString(
+                            CurriculumManagementConstants.MessageKeys.SUPPORTING_DOC_MAX_SIZE_LIMIT));
+                    if (addLineResult.getDocumentUpload().getSize() > size) {
+                        GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.documentsToAdd[" +
+                                (courseInfoWrapper.getDocumentsToAdd().size() - 1) + "].documentUpload",
+                                CurriculumManagementConstants.MessageKeys.ERROR_SUPPORTING_DOCUMENTS_FILE_TOO_LARGE);
+                        LOG.warn(CurriculumManagementConstants.MessageKeys.ERROR_SUPPORTING_DOCUMENTS_FILE_TOO_LARGE);
+                        return false;
+                    } else {
+                        addSupportingDocuments(courseInfoWrapper);
+                    }
+                }
+            }
         }
         return ((CourseRuleViewHelperServiceImpl) getRuleViewHelperService()).performAddLineValidation(viewModel, newLine, collectionId, collectionPath);
     }
@@ -1601,7 +1619,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                     addLineResult.setDocumentId(doc.getId());
                     addLineResult.setDocumentName(toAdd.getFileName());
                 } catch (Exception ex) {
-                    LOG.warn("Unable to add supporting document to the course for file: " +
+                    LOG.error("Unable to add supporting document to the course for file: " +
                             addLineResult.getDocumentUpload().getName(), ex);
                 }
             }

@@ -17,6 +17,7 @@
 package org.kuali.student.cm.course.rule;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.impl.KIMPropertyConstants;
@@ -30,6 +31,7 @@ import org.kuali.student.cm.course.form.CourseInfoWrapper;
 import org.kuali.student.cm.course.form.LoDisplayInfoWrapper;
 import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
 import org.kuali.student.cm.course.form.ResultValuesGroupInfoWrapper;
+import org.kuali.student.cm.course.form.SupportingDocumentInfoWrapper;
 import org.kuali.student.cm.course.service.util.OrganizationSearchUtil;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.uif.rule.KsMaintenanceDocumentRuleBase;
@@ -110,6 +112,7 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
         success = success && validateOrganization(dataObject);
         success = success && validateLearningObjectives(dataObject);
         success = success && validateAuthorsAndCollaborators(dataObject);
+        success = success && validateSupportingDocuments(dataObject);
 
         return success;
     }
@@ -258,6 +261,25 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
         }
 
         return result;
+    }
+
+    protected boolean validateSupportingDocuments(CourseInfoWrapper courseInfoWrapper) {
+        if (courseInfoWrapper.getDocumentsToAdd().size() > 0) {
+            final SupportingDocumentInfoWrapper addLineResult = courseInfoWrapper.getDocumentsToAdd().get(
+                    courseInfoWrapper.getDocumentsToAdd().size() - 1);
+            if (addLineResult.getDocumentId() == null && addLineResult.getDocumentUpload() != null) {
+                long size = Long.valueOf(CoreApiServiceLocator.getKualiConfigurationService().getPropertyValueAsString(
+                        CurriculumManagementConstants.MessageKeys.SUPPORTING_DOC_MAX_SIZE_LIMIT));
+                if (addLineResult.getDocumentUpload().getSize() > size) {
+                    GlobalVariables.getMessageMap().putError(DATA_OBJECT_PATH + ".documentsToAdd[" +
+                            (courseInfoWrapper.getDocumentsToAdd().size() - 1) + "].documentUpload",
+                            CurriculumManagementConstants.MessageKeys.ERROR_SUPPORTING_DOCUMENTS_FILE_TOO_LARGE);
+                    LOG.warn(CurriculumManagementConstants.MessageKeys.ERROR_SUPPORTING_DOCUMENTS_FILE_TOO_LARGE);
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     protected boolean isMultipleOrganizationInfoFound(List<OrganizationInfoWrapper> orgs) {

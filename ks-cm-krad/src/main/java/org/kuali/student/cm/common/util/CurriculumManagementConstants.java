@@ -122,6 +122,9 @@ public class CurriculumManagementConstants {
         public final static String ERROR_OUTCOME_CREDIT_VALUE_REQUIRED = "error.cm.course.data.outcome.creditvalue.required";
         public final static String ERROR_COURSE_LO_DESC_REQUIRED = "error.cm.course.lo.desc.required";
         public final static String ERROR_COMMENT_DELETE = "error.cm.course.comment.delete";
+
+        public final static String SUPPORTING_DOC_MAX_SIZE_LIMIT = "supporting.document.max.size.limit";
+        public final static String ERROR_SUPPORTING_DOCUMENTS_FILE_TOO_LARGE = "error.supporting.documents.file.too.large";
     }
 
     public static class OrganizationMessageKeys {
