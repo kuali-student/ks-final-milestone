@@ -4,9 +4,11 @@ import net.sf.ehcache.Element;
 import org.apache.commons.collections.keyvalue.MultiKey;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.core.api.search.SearchOperator;
 import org.kuali.rice.kim.api.identity.affiliation.EntityAffiliation;
 import org.kuali.rice.kim.api.identity.entity.Entity;
 import org.kuali.rice.kim.api.identity.name.EntityName;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.common.uif.service.impl.KSViewHelperServiceImpl;
@@ -41,8 +43,10 @@ import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -279,4 +283,8 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
         return new ArrayList<String>(rSet);
     }
 
+    public String retrieveCourseName(RegistrationCourse course) {
+        course.setCourseName(course.getCode() + " course name");
+        return course.getCourseName();
+    }
 }

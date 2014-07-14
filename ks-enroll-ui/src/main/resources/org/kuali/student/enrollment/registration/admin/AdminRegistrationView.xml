@@ -43,8 +43,10 @@
                 </property>
             </bean>
         </property>
-        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.registration.admin.service.impl.AdminRegistrationViewHelperServiceImpl"/>
-        <property name="formClass" value="org.kuali.student.enrollment.class2.registration.admin.form.AdminRegistrationForm"/>
+        <property name="viewHelperServiceClass"
+                  value="org.kuali.student.enrollment.class2.registration.admin.service.impl.AdminRegistrationViewHelperServiceImpl"/>
+        <property name="formClass"
+                  value="org.kuali.student.enrollment.class2.registration.admin.form.AdminRegistrationForm"/>
         <property name="dialogs">
             <list>
                 <bean id="registerConfirmDialog" parent="KS-AdminRegistration-RegisterDialogResponse"/>
@@ -65,10 +67,10 @@
     </bean>
 
     <!-- Student Info Area-->
-    <bean id="KS-AdminRegistration-StudentInfo" parent="Uif-HorizontalBoxSection" >
+    <bean id="KS-AdminRegistration-StudentInfo" parent="Uif-HorizontalBoxSection">
         <property name="header.render" value="false"/>
         <!--<property name="layoutManager">-->
-            <!--<bean parent="Uif-CssGridLabelColumnLayout" p:numberOfLabelColumns="4"/>-->
+        <!--<bean parent="Uif-CssGridLabelColumnLayout" p:numberOfLabelColumns="4"/>-->
         <!--</property>-->
         <property name="items">
             <list>
@@ -99,21 +101,23 @@
           p:methodToCall="getStudentInfo"/>
 
     <bean id="KS-AdminRegistration-ChangeTermSection" parent="Uif-HorizontalBoxSection"
-          p:id="registrationChangeTermSection" p:render="@{studentName != null}" >
+          p:id="registrationChangeTermSection" p:render="@{studentName != null}">
         <property name="items">
             <list>
-                <bean parent="Uif-HorizontalBoxSection" >
-                    <property name="items" >
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="items">
                         <list>
                             <bean parent="KS-Uif-InputField-LabelLeft" p:propertyName="termCode"
                                   p:label="Change Term" p:required="true" p:readOnly="false" p:id="termCodeField">
                                 <!-- Constrain to 6 digits and use a custom message. -->
                                 <property name="validCharactersConstraint">
-                                    <bean parent="NumericPatternConstraint" p:messageKey="error.admin.reg.termcode.invalid" p:value="^\d{6}$"/>
+                                    <bean parent="NumericPatternConstraint"
+                                          p:messageKey="error.admin.reg.termcode.invalid" p:value="^\d{6}$"/>
                                 </property>
 
                                 <property name="control">
-                                    <bean parent="KS-Uif-TextControl" p:size="6" p:watermarkText="201301" p:minLength="6" p:maxLength="6"/>
+                                    <bean parent="KS-Uif-TextControl" p:size="6" p:watermarkText="201301"
+                                          p:minLength="6" p:maxLength="6"/>
                                 </property>
 
                             </bean>
@@ -159,9 +163,26 @@
             <list>
                 <ref bean="KS-AdminRegistration-Issues"/>
                 <ref bean="KS-AdminRegistration-RegFor"/>
-                <bean parent="Uif-PrimaryActionButton" p:actionLabel="Register" p:methodToCall="register"
-                      p:refreshId="KS-AdminRegistration-RegistrationTabs"
-                      p:ajaxReturnType="update-component"/>
+                <bean parent="Uif-HorizontalBoxGroup">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-SecondaryActionButton" p:methodToCall="addBlankLine"
+                                  p:successCallback="jQuery(&quot;[name='pendingCourses[@{pendingCourses.size()}].code']&quot;).focus()"
+                                  p:refreshId="KS-AdminRegistration-RegFor" p:ajaxReturnType="update-component"
+                                  p:actionLabel="+Add another" p:actionEvent="addBlankLine">
+                                <property name="actionParameters">
+                                    <map>
+                                        <entry key="selectedCollectionPath" value="pendingCourses"/>
+                                        <entry key="selectedCollectionId" value="KS-AdminRegistration-RegFor"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-PrimaryActionButton" p:actionLabel="Register" p:methodToCall="register"
+                                  p:refreshId="KS-AdminRegistration-RegistrationTabs"
+                                  p:ajaxReturnType="update-component"/>
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>
@@ -171,11 +192,10 @@
         <property name="collectionObjectClass"
                   value="org.kuali.student.enrollment.class2.registration.admin.form.RegistrationCourse"/>
         <property name="propertyName" value="pendingCourses"/>
-        <property name="renderAddBlankLineButton" value="true"/>
         <property name="addLinePlacement" value="BOTTOM"/>
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
-        <property name="layoutManager.actionColumnPlacement" value="LEFT" />
+        <property name="layoutManager.actionColumnPlacement" value="LEFT"/>
         <property name="renderAddLine" value="false"/>
         <property name="onDocumentReadyScript" value="startPolling(1000);"/>
         <property name="lineActions">
@@ -183,23 +203,19 @@
                 <bean parent="Uif-DeleteLineAction" p:actionLabel=" - " p:render="@{pendingCourses.size() > 1}"/>
             </list>
         </property>
-        <property name="addBlankLineAction">
-            <bean parent="Uif-SecondaryActionButton" p:methodToCall="addBlankLine"
-                  p:successCallback="jQuery(&quot;[name='pendingCourses[@{pendingCourses.size()}].code']&quot;).focus()"
-                  p:actionLabel="+Add another" p:actionEvent="addBlankLine" p:id="@{#collectionGroup.id}_add"/>
-        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-InputField" p:propertyName="code" p:label="Course Code">
                     <property name="control">
-                        <bean parent="KS-Uif-TextControl" p:size="7" />
+                        <bean parent="KS-Uif-TextControl" p:size="7"/>
                     </property>
                     <!-- The course code auto-complete -->
                     <property name="suggest">
                         <bean parent="Uif-Suggest" p:render="true" p:valuePropertyName="code">
                             <property name="returnFullQueryObject" value="true"/>
                             <property name="suggestQuery">
-                                <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="retrieveCourseCodes" p:queryMethodArgumentFieldList="termCode"/>
+                                <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="retrieveCourseCodes"
+                                      p:queryMethodArgumentFieldList="termCode"/>
                             </property>
                             <property name="templateOptions">
                                 <map merge="true">
@@ -211,8 +227,12 @@
                 </bean>
                 <bean parent="Uif-InputField" p:propertyName="section" p:label="Section">
                     <property name="control">
-                        <bean parent="KS-Uif-TextControl" p:size="5" />
+                        <bean parent="KS-Uif-TextControl" p:size="5"/>
                     </property>
+                </bean>
+                <bean parent="Uif-MessageField" p:refreshWhenChangedPropertyNames="#lp.code">
+                    <property name="messageText"
+                              value="@{#dp.methodToCall == 'refresh' ? #ViewHelper.retrieveCourseName(#line) : #line.courseName}"/>
                 </bean>
             </list>
         </property>
@@ -363,7 +383,8 @@
                             <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="toolTip"
                                   p:condition="@{#line.regDate != #line.effectiveDate}">
                                 <property name="replacement">
-                                    <bean parent="Uif-Tooltip" p:tooltipContent="Effective Date: @{#line.effectiveDate}"/>
+                                    <bean parent="Uif-Tooltip"
+                                          p:tooltipContent="Effective Date: @{#line.effectiveDate}"/>
                                 </property>
                             </bean>
                         </list>
@@ -390,7 +411,8 @@
                 <bean parent="Uif-CssGridSection-1FieldLabelColumn">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:label="Effective Drop Date" p:propertyName="pendingDropCourse.dropDate">
+                            <bean parent="Uif-InputField" p:label="Effective Drop Date"
+                                  p:propertyName="pendingDropCourse.dropDate">
                                 <property name="control">
                                     <bean parent="Uif-DateControl"/>
                                 </property>

@@ -78,6 +78,10 @@ public class RegistrationCourse implements Serializable{
         this.courseName = courseName;
     }
 
+    public String getCourseNameDisplay() {
+        return courseName;
+    }
+
     public void setCredits(Integer credits) {
         this.credits = credits;
     }
