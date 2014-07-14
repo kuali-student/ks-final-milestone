@@ -917,7 +917,10 @@ function validateNewLoCategoryAndType(value, element) {
 
     if (value != '' && items.length < 2) {
         if (!loCategoryType.is(':visible')) {
+            //  Show the category type drop down and give it focus.
             loCategoryType.show();
+            jQuery('#' + loCategoryType_control).focus();
+            //  Add a message indicating that a category type needs to chosen.
             var imgOuterHTML = loCategoryInfoMessage.find('img')[0].outerHTML
             loCategoryInfoMessage.html(imgOuterHTML + ' You must add a category type to create the new category ' + value + '.');
             loCategoryInfoMessage.show();
