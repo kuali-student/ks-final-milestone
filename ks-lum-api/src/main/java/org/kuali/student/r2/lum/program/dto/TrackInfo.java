@@ -15,17 +15,6 @@
  */
 package org.kuali.student.r2.lum.program.dto;
 
-import java.util.ArrayList;
-
-import java.util.Date;
-import java.util.List;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
-
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r2.common.infc.RichText;
@@ -35,9 +24,19 @@ import org.kuali.student.r2.lum.clu.dto.CluInstructorInfo;
 import org.kuali.student.r2.lum.clu.infc.Accreditation;
 import org.kuali.student.r2.lum.clu.infc.CluInstructor;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
-import org.kuali.student.r2.lum.program.infc.MinorDiscipline;
+import org.kuali.student.r2.lum.program.infc.Track;
 
-@XmlType(name = "MinorDisciplineInfo", propOrder = {"id",
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+
+@XmlType(name = "TrackInfo", propOrder = {"id",
         "typeKey",
         "stateKey",
         "version",
@@ -47,9 +46,6 @@ import org.kuali.student.r2.lum.program.infc.MinorDiscipline;
         "longTitle",
         "transcriptTitle",
         "diplomaTitle",
-        "cip2000Code",
-        "cip2010Code",
-        "hegisCode",
         "universityClassification",
         "selectiveEnrollmentCode",
         "intensity",
@@ -85,8 +81,8 @@ import org.kuali.student.r2.lum.program.infc.MinorDiscipline;
         "_futureElements"  })
     
 @XmlAccessorType(XmlAccessType.FIELD)
-public class MinorDisciplineInfo extends IdNamelessEntityInfo implements MinorDiscipline {
-    
+public class TrackInfo extends IdNamelessEntityInfo implements Track {
+
     private static final long serialVersionUID = 1L;
 
     // ProgramIdentifierAssembly
@@ -102,12 +98,6 @@ public class MinorDisciplineInfo extends IdNamelessEntityInfo implements MinorDi
     private String diplomaTitle;
 
     // ProgramCodeAssembly
-    @XmlElement
-    private String cip2000Code;
-    @XmlElement
-    private String cip2010Code;
-    @XmlElement
-    private String hegisCode;
     @XmlElement
     private String universityClassification;
     @XmlElement
@@ -185,146 +175,140 @@ public class MinorDisciplineInfo extends IdNamelessEntityInfo implements MinorDi
     private String referenceURL;
     @XmlElement
     private String lastAwardedTerm;
-    @XmlElement
-    private String trackId;
 
     @XmlAnyElement
     private List<Object> _futureElements;
-    
-    public MinorDisciplineInfo() {
+
+    public TrackInfo() {
     }
-    
-    public MinorDisciplineInfo(MinorDiscipline minorDiscipline) {
-        super(minorDiscipline);
 
-        this.code = minorDiscipline.getCode();
-        this.shortTitle = minorDiscipline.getShortTitle();
-        this.longTitle = minorDiscipline.getLongTitle();
-        this.transcriptTitle = minorDiscipline.getTranscriptTitle();
-        this.diplomaTitle = minorDiscipline.getDiplomaTitle();
+    public TrackInfo(Track track) {
+        super(track);
 
-        this.cip2000Code = minorDiscipline.getCip2000Code();
-        this.cip2010Code = minorDiscipline.getCip2010Code();
-        this.hegisCode = minorDiscipline.getHegisCode();
-        this.universityClassification = minorDiscipline.getUniversityClassification();
-        this.selectiveEnrollmentCode = minorDiscipline.getSelectiveEnrollmentCode();
+        this.code = track.getCode();
+        this.shortTitle = track.getShortTitle();
+        this.longTitle = track.getLongTitle();
+        this.transcriptTitle = track.getTranscriptTitle();
+        this.diplomaTitle = track.getDiplomaTitle();
 
-        this.intensity = minorDiscipline.getIntensity();
-        this.effectiveDate = minorDiscipline.getEffectiveDate();
-        if(minorDiscipline.getCampusLocations() != null) {
-            this.campusLocations = new ArrayList<String>(minorDiscipline.getCampusLocations().size());
-            for(String campusLocation : minorDiscipline.getCampusLocations()) {
+        this.universityClassification = track.getUniversityClassification();
+        this.selectiveEnrollmentCode = track.getSelectiveEnrollmentCode();
+
+        this.intensity = track.getIntensity();
+        this.effectiveDate = track.getEffectiveDate();
+        if(track.getCampusLocations() != null) {
+            this.campusLocations = new ArrayList<String>(track.getCampusLocations().size());
+            for(String campusLocation : track.getCampusLocations()) {
                 this.campusLocations.add(campusLocation);
             }
         }
-        if(minorDiscipline.getResultOptions() != null) {
-            this.resultOptions = new ArrayList<String>(minorDiscipline.getResultOptions().size());
-            for(String resultOption : minorDiscipline.getResultOptions()) {
+        if(track.getResultOptions() != null) {
+            this.resultOptions = new ArrayList<String>(track.getResultOptions().size());
+            for(String resultOption : track.getResultOptions()) {
                 this.resultOptions.add(resultOption);
             }
         }
-        this.stdDuration = minorDiscipline.getStdDuration();
+        this.stdDuration = track.getStdDuration();
 
-        if(minorDiscipline.getDivisionsDeployment() != null) {
-            this.divisionsDeployment = new ArrayList<String>(minorDiscipline.getDivisionsDeployment().size());
-            for(String divisionDeployment : minorDiscipline.getDivisionsDeployment()) {
+        if(track.getDivisionsDeployment() != null) {
+            this.divisionsDeployment = new ArrayList<String>(track.getDivisionsDeployment().size());
+            for(String divisionDeployment : track.getDivisionsDeployment()) {
                 this.divisionsDeployment.add(divisionDeployment);
             }
         }
-        if(minorDiscipline.getDivisionsFinancialResources() != null) {
-            this.divisionsFinancialResources = new ArrayList<String>(minorDiscipline.getDivisionsFinancialResources().size());
-            for(String divisionFinancialResources : minorDiscipline.getDivisionsFinancialResources()) {
+        if(track.getDivisionsFinancialResources() != null) {
+            this.divisionsFinancialResources = new ArrayList<String>(track.getDivisionsFinancialResources().size());
+            for(String divisionFinancialResources : track.getDivisionsFinancialResources()) {
                 this.divisionsFinancialResources.add(divisionFinancialResources);
             }
         }
-        if(minorDiscipline.getDivisionsFinancialControl() != null) {
-            this.divisionsFinancialControl = new ArrayList<String>(minorDiscipline.getDivisionsFinancialControl().size());
-            for(String divisionFinancialControl : minorDiscipline.getDivisionsFinancialControl()) {
+        if(track.getDivisionsFinancialControl() != null) {
+            this.divisionsFinancialControl = new ArrayList<String>(track.getDivisionsFinancialControl().size());
+            for(String divisionFinancialControl : track.getDivisionsFinancialControl()) {
                 this.divisionsFinancialControl.add(divisionFinancialControl);
             }
         }
-        if(minorDiscipline.getUnitsFinancialResources() != null) {
-            this.unitsFinancialResources = new ArrayList<String>(minorDiscipline.getUnitsFinancialResources().size());
-            for(String unitsFinancialResource : minorDiscipline.getUnitsFinancialResources()) {
+        if(track.getUnitsFinancialResources() != null) {
+            this.unitsFinancialResources = new ArrayList<String>(track.getUnitsFinancialResources().size());
+            for(String unitsFinancialResource : track.getUnitsFinancialResources()) {
                 this.unitsFinancialResources.add(unitsFinancialResource);
             }
         }
-        if(minorDiscipline.getUnitsFinancialControl() != null) {
-            this.unitsFinancialControl = new ArrayList<String>(minorDiscipline.getUnitsFinancialControl().size());
-            for(String unitFinancialControl : minorDiscipline.getUnitsFinancialControl()) {
+        if(track.getUnitsFinancialControl() != null) {
+            this.unitsFinancialControl = new ArrayList<String>(track.getUnitsFinancialControl().size());
+            for(String unitFinancialControl : track.getUnitsFinancialControl()) {
                 this.unitsFinancialControl.add(unitFinancialControl);
             }
         }
-        if(minorDiscipline.getUnitsDeployment() != null) {
-            this.unitsDeployment = new ArrayList<String>(minorDiscipline.getUnitsDeployment().size());
-            for(String unitDeployment : minorDiscipline.getUnitsDeployment()) {
+        if(track.getUnitsDeployment() != null) {
+            this.unitsDeployment = new ArrayList<String>(track.getUnitsDeployment().size());
+            for(String unitDeployment : track.getUnitsDeployment()) {
                 this.unitsDeployment.add(unitDeployment);
             }
         }
-        this.credentialProgramId = minorDiscipline.getCredentialProgramId();
-        if(minorDiscipline.getProgramRequirements() != null) {
-            this.programRequirements = new ArrayList<String>(minorDiscipline.getProgramRequirements().size());
-            for(String programRequirement : minorDiscipline.getProgramRequirements()) {
+        this.credentialProgramId = track.getCredentialProgramId();
+        if(track.getProgramRequirements() != null) {
+            this.programRequirements = new ArrayList<String>(track.getProgramRequirements().size());
+            for(String programRequirement : track.getProgramRequirements()) {
                 this.programRequirements.add(programRequirement);
             }
         }
-        this.nextReviewPeriod = minorDiscipline.getNextReviewPeriod();
-        if (minorDiscipline.getPublishedInstructors() != null) {
-            this.publishedInstructors = new ArrayList<CluInstructorInfo>(minorDiscipline.getPublishedInstructors().size());
-            for (CluInstructor cluInst : minorDiscipline.getPublishedInstructors()) {
+        this.nextReviewPeriod = track.getNextReviewPeriod();
+        if (track.getPublishedInstructors() != null) {
+            this.publishedInstructors = new ArrayList<CluInstructorInfo>(track.getPublishedInstructors().size());
+            for (CluInstructor cluInst : track.getPublishedInstructors()) {
                 this.publishedInstructors.add(new CluInstructorInfo(cluInst));
             }
         }
-        if (minorDiscipline.getAccreditingAgencies() != null) {
+        if (track.getAccreditingAgencies() != null) {
             this.accreditingAgencies = new ArrayList<AccreditationInfo>();
-            for (Accreditation aa : minorDiscipline.getAccreditingAgencies()) {
+            for (Accreditation aa : track.getAccreditingAgencies()) {
                 this.accreditingAgencies.add(new AccreditationInfo(aa));
             }
         }
-        this.startTerm = minorDiscipline.getStartTerm();
-        this.endTerm = minorDiscipline.getEndTerm();
-        this.endProgramEntryTerm = minorDiscipline.getEndProgramEntryTerm();
-        if(minorDiscipline.getDivisionsContentOwner() != null) {
-            this.divisionsContentOwner = new ArrayList<String>(minorDiscipline.getDivisionsContentOwner().size());
-            for(String divisionContentOwner : minorDiscipline.getDivisionsContentOwner()) {
+        this.startTerm = track.getStartTerm();
+        this.endTerm = track.getEndTerm();
+        this.endProgramEntryTerm = track.getEndProgramEntryTerm();
+        if(track.getDivisionsContentOwner() != null) {
+            this.divisionsContentOwner = new ArrayList<String>(track.getDivisionsContentOwner().size());
+            for(String divisionContentOwner : track.getDivisionsContentOwner()) {
                 this.divisionsContentOwner.add(divisionContentOwner);
             }
         }
-        if(minorDiscipline.getDivisionsStudentOversight() != null) {
-            this.divisionsStudentOversight = new ArrayList<String>(minorDiscipline.getDivisionsStudentOversight().size());
-            for(String divisionStudentOversight : minorDiscipline.getDivisionsStudentOversight()) {
+        if(track.getDivisionsStudentOversight() != null) {
+            this.divisionsStudentOversight = new ArrayList<String>(track.getDivisionsStudentOversight().size());
+            for(String divisionStudentOversight : track.getDivisionsStudentOversight()) {
                 this.divisionsStudentOversight.add(divisionStudentOversight);
             }
         }
-        if(minorDiscipline.getUnitsContentOwner() != null) {
-            this.unitsContentOwner = new ArrayList<String>(minorDiscipline.getUnitsContentOwner().size());
-            for(String unitContentOwner : minorDiscipline.getUnitsContentOwner()) {
+        if(track.getUnitsContentOwner() != null) {
+            this.unitsContentOwner = new ArrayList<String>(track.getUnitsContentOwner().size());
+            for(String unitContentOwner : track.getUnitsContentOwner()) {
                 this.unitsContentOwner.add(unitContentOwner);
             }
         }
-        if(minorDiscipline.getUnitsStudentOversight() != null) {
-            this.unitsStudentOversight = new ArrayList<String>(minorDiscipline.getUnitsStudentOversight().size());
-            for(String unitStudentOversight : minorDiscipline.getUnitsStudentOversight()) {
+        if(track.getUnitsStudentOversight() != null) {
+            this.unitsStudentOversight = new ArrayList<String>(track.getUnitsStudentOversight().size());
+            for(String unitStudentOversight : track.getUnitsStudentOversight()) {
                 this.unitsStudentOversight.add(unitStudentOversight);
             }
         }
-        if (minorDiscipline.getLearningObjectives() != null) {
-            this.learningObjectives = new ArrayList<LoDisplayInfo>(minorDiscipline.getLearningObjectives().size());
-            for (LoDisplayInfo lo : minorDiscipline.getLearningObjectives()) {
+        if (track.getLearningObjectives() != null) {
+            this.learningObjectives = new ArrayList<LoDisplayInfo>(track.getLearningObjectives().size());
+            for (LoDisplayInfo lo : track.getLearningObjectives()) {
                 LoDisplayInfo info = new LoDisplayInfo(lo);
                 this.learningObjectives.add(info);
             }
         }
-        this.catalogDescr = minorDiscipline.getCatalogDescr();
-        if(minorDiscipline.getCatalogPublicationTargets() != null) {
-            this.catalogPublicationTargets = new ArrayList<String>(minorDiscipline.getCatalogPublicationTargets().size());
-            for(String catalogPublicationTarget : minorDiscipline.getCatalogPublicationTargets()) {
+        this.catalogDescr = track.getCatalogDescr();
+        if(track.getCatalogPublicationTargets() != null) {
+            this.catalogPublicationTargets = new ArrayList<String>(track.getCatalogPublicationTargets().size());
+            for(String catalogPublicationTarget : track.getCatalogPublicationTargets()) {
                 this.catalogPublicationTargets.add(catalogPublicationTarget);
             }
         }
-        this.referenceURL = minorDiscipline.getReferenceURL();
-        this.lastAwardedTerm = minorDiscipline.getLastAwardedTerm();
-        this.trackId = minorDiscipline.getTrackId();
+        this.referenceURL = track.getReferenceURL();
+        this.lastAwardedTerm = track.getLastAwardedTerm();
     }
 
     @Override
@@ -354,33 +338,6 @@ public class MinorDisciplineInfo extends IdNamelessEntityInfo implements MinorDi
 
     public void setDiplomaTitle(String diplomaTitle) {
         this.diplomaTitle = diplomaTitle;
-    }
-
-    @Override
-    public String getCip2000Code() {
-        return cip2000Code;
-    }
-
-    public void setCip2000Code(String cip2000Code) {
-        this.cip2000Code = cip2000Code;
-    }
-
-    @Override
-    public String getCip2010Code() {
-        return cip2010Code;
-    }
-
-    public void setCip2010Code(String cip2010Code) {
-        this.cip2010Code = cip2010Code;
-    }
-
-    @Override
-    public String getHegisCode() {
-        return hegisCode;
-    }
-
-    public void setHegisCode(String hegisCode) {
-        this.hegisCode = hegisCode;
     }
 
     @Override
@@ -677,12 +634,4 @@ public class MinorDisciplineInfo extends IdNamelessEntityInfo implements MinorDi
         this.lastAwardedTerm = lastAwardedTerm;
     }
 
-    @Override
-    public String getTrackId() {
-        return trackId;
-    }
-
-    public void setTrackId(String trackId) {
-        this.trackId = trackId;
-    }
 }

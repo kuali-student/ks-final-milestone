@@ -16,9 +16,6 @@
 package org.kuali.student.r2.lum.program.infc;
 
 
-import java.util.Date;
-import java.util.List;
-
 import org.kuali.student.r2.common.infc.IdNamelessEntity;
 import org.kuali.student.r2.common.infc.RichText;
 import org.kuali.student.r2.common.infc.TimeAmount;
@@ -26,10 +23,13 @@ import org.kuali.student.r2.lum.clu.infc.Accreditation;
 import org.kuali.student.r2.lum.clu.infc.CluInstructor;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 
+import java.util.Date;
+import java.util.List;
+
 /**
  * @author Kuali Student Team
  */
-public interface MinorDiscipline extends IdNamelessEntity {
+public interface Track extends IdNamelessEntity {
 
     /**
      * Term when this minor is next slated to be reviewed
@@ -68,21 +68,6 @@ public interface MinorDiscipline extends IdNamelessEntity {
      * @name Intensity
      */
     public String getIntensity();
-
-    /**
-     * CIP 2000 Code for the Program
-     */
-    public String getCip2000Code();
-
-    /**
-     * CIP 2010 Code for the Program
-     */
-    public String getCip2010Code();
-
-    /**
-     * HEGIS Code for the Program
-     */
-    public String getHegisCode();
 
     /**
      * Specifies if the Major is Selective Major, Limited Enrollment program or
@@ -250,9 +235,4 @@ public interface MinorDiscipline extends IdNamelessEntity {
      * @name Last Awarded Term
      */
     public String getLastAwardedTerm();
-
-    /**
-     * @name Track Id
-     */
-    public String getTrackId();
 }
