@@ -34,10 +34,6 @@ public class CourseFacetStrategyImpl implements CourseFacetStrategy {
      * Keyed mapping of DataTables search column order by facet id. This column
      * order is fully internal to this controller class, and is used to tie
      * faceted searches columns on the search item.
-     *
-     * @see #FACET_COLUMNS_REVERSE
-     * @see #getFacetValues(javax.servlet.http.HttpServletResponse,
-     *      org.kuali.student.ap.coursesearch.CourseSearchForm, javax.servlet.http.HttpServletRequest)
      */
     private Map<String, Integer> facetColumns;
 
@@ -45,10 +41,6 @@ public class CourseFacetStrategyImpl implements CourseFacetStrategy {
      * Ordered list of facet column ids by DataTables column order. This column
      * order is fully internal to this controller class, and is used to tie
      * faceted searches columns on the search item.
-     *
-     * @see #FACET_COLUMNS
-     * @see #getFacetValues(javax.servlet.http.HttpServletResponse,
-     *      org.kuali.student.ap.coursesearch.CourseSearchForm, javax.servlet.http.HttpServletRequest)
      */
     private List<String> facetColumnsReverse;
 
