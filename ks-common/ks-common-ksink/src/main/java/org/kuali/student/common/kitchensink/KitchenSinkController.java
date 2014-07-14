@@ -136,6 +136,7 @@ public class KitchenSinkController extends UifControllerBase {
         return getUIFModelAndView(form);
     }
 
+    @MethodAccessible
     @RequestMapping(params = "methodToCall=configProperties")
     public ModelAndView configProperties(@ModelAttribute("KualiForm") KitchenSinkForm form, BindingResult result,
                                          HttpServletRequest request, HttpServletResponse response) {
