@@ -18,10 +18,6 @@ import java.util.Map;
  * To change this template use File | Settings | File Templates.
  */
 public class CourseFacetStrategyMockTest implements CourseFacetStrategy {
-    @Override
-    public String writeFacetToJson(CourseSearchForm form, Map<String, Map<String, FacetState>> facetStateMap) throws IOException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
 
     @Override
     public Map<String, Integer> getFacetColumns() {

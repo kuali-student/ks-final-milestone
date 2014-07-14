@@ -16,6 +16,8 @@
 		<property name="id" value="CourseSearch-FormView" />
 	</bean>
 	<bean abstract="true" id="CourseSearch-FormView-parent" parent="KSAPFormView">
+        <property name="viewHelperServiceClass"
+                  value="org.kuali.student.ap.coursesearch.service.impl.CourseSearchViewHelperServiceImpl"/>
 		<property name="headerText" value="Find Courses" />
 		<property name="entryPageId" value="course_search" />
 		<property name="cssClasses">

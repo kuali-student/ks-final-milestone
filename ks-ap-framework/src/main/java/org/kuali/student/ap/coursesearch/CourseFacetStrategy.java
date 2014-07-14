@@ -9,7 +9,6 @@ import java.util.Map;
  */
 public interface CourseFacetStrategy {
 
-    String writeFacetToJson(CourseSearchForm form, Map<String, Map<String, FacetState>> facetStateMap) throws IOException;
     Map<String, Integer> getFacetColumns();
     List<String> getFacetColumnsReversed();
     void updateFacetCounts(List<SearchInfo> searchResults, Map<String, Map<String, FacetState>> facetState, Map<String, List<String>> facetCols);

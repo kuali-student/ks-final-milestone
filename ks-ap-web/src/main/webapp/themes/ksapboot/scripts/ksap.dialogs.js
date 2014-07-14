@@ -270,9 +270,9 @@ function ksapAjaxSubmitSuccessCallback(response, textStatus, jqXHR) {
         }
 
         // Display success response message in growl message
-        if (response.message != null) {
+       /* if (response.message != null) {
             showGrowl(response.message);
-        }
+        }*/
 
         // Close any open popups
         fnClosePopup();

@@ -80,35 +80,6 @@ public class CourseFacetStrategyImpl implements CourseFacetStrategy {
         return facetColumnsReverse;
     }
 
-    @Override
-    public String writeFacetToJson(CourseSearchForm form, Map<String, Map<String, FacetState>> facetStateMap) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-
-        // Create the oFacets object used by ksap.search.js
-        ObjectNode oFacets = mapper.createObjectNode();
-        oFacets.put("sQuery", form.getSearchQuery());
-        oFacets.put("sTerm", form.getSearchTerm());
-        ObjectNode oSearchColumn = oFacets.putObject("oSearchColumn");
-        for (Map.Entry<String, Integer> fce : getFacetColumns().entrySet())
-            oSearchColumn.put(fce.getKey(), fce.getValue());
-        ObjectNode oFacetState = oFacets.putObject("oFacetState");
-        for (Map.Entry<String, Map<String, FacetState>> row : facetStateMap.entrySet()) {
-            ObjectNode ofm = oFacetState.putObject(row.getKey());
-            for (Map.Entry<String, FacetState> fse : row.getValue().entrySet()) {
-                ObjectNode ofs = ofm.putObject(fse.getKey());
-                ofs.put("key", fse.getValue().getValue().getKey());
-                ofs.put("value", fse.getValue().getValue().getValue());
-                ofs.put("checked", fse.getValue().isChecked());
-                ofs.put("count", fse.getValue().getCount());
-                if (fse.getValue().getDescription() != null)
-                    ofs.put("description", fse.getValue().getDescription());
-            }
-        }
-
-        // Write json string
-        return mapper.writeValueAsString(oFacets);
-    }
-
     /**
      * Walk through the facet columns in the search results and update
      * counts based on the current facet state. The method assumes that the

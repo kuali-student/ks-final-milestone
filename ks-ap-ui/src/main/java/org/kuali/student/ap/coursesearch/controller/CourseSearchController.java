@@ -14,61 +14,36 @@
  */
 package org.kuali.student.ap.coursesearch.controller;
 
-import org.apache.commons.lang.StringUtils;
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.node.ArrayNode;
-import org.codehaus.jackson.node.ObjectNode;
-import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.ap.coursesearch.CourseFacetStrategy;
-import org.kuali.student.ap.coursesearch.CourseSearchForm;
-import org.kuali.student.ap.coursesearch.CourseSearchItem;
 import org.kuali.student.ap.coursesearch.CourseSearchStrategy;
-import org.kuali.student.ap.coursesearch.SearchInfo;
-import org.kuali.student.ap.coursesearch.dataobject.CourseSummaryDetails;
 import org.kuali.student.ap.coursesearch.form.CourseSearchFormImpl;
-import org.kuali.student.ap.coursesearch.service.impl.CourseDetailsInquiryHelperImpl;
+import org.kuali.student.ap.coursesearch.service.CourseSearchViewHelperService;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
-import org.kuali.student.ap.framework.context.CourseHelper;
 import org.kuali.student.ap.framework.context.CourseSearchConstants;
-import org.kuali.student.ap.framework.util.KsapHelperUtil;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
-import org.kuali.student.r2.core.search.infc.SearchResult;
-import org.kuali.student.r2.core.search.infc.SearchResultRow;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.ServletException;
+import javax.json.Json;
+import javax.json.JsonObjectBuilder;
+import javax.json.JsonWriter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.Callable;
 
 @Controller
 @RequestMapping(value = "/course/**")
 public class CourseSearchController extends UifControllerBase {
 
 	private static final Logger LOG = LoggerFactory.getLogger(CourseSearchController.class);
+
+    private static final String COURSE_SEARCH_VIEW_FORM = "CourseSearch-FormView";
 
 	/**
 	 * HTTP session attribute key for holding recent search results.
@@ -84,88 +59,17 @@ public class CourseSearchController extends UifControllerBase {
 
 	private ObjectMapper mapper = new ObjectMapper();
 
-	/**
-	 * Synchronously retrieve session bound search results for an incoming
-	 * request.
-	 *
-	 * <p>
-	 * This method ensures that only one back-end search per HTTP session is
-	 * running at the same time for the same set of criteria. This is important
-	 * since the browser fires requests for the facet table and the search table
-	 * independently, so this consideration constrains those two requests to
-	 * operating synchronously on the same set of results.
-	 * </p>
-	 *
-	 * @param request
-	 *            The incoming request.
-	 * @return Session-bound search results for the request.
-	 */
-	private SessionSearchInfo getSearchResults(FormKey k,
-			Callable<SessionSearchInfo> search, HttpServletRequest request) {
-		if (k.isSavedCourses()) // don't cache saved course searches
-			try {
-				return search.call();
-			} catch (RuntimeException e) {
-				throw e;
-			} catch (Exception e) {
-				throw new IllegalStateException("search failed", e);
-			}
-		// Check HTTP session for cached search results
-		@SuppressWarnings("unchecked")
-		Map<FormKey, SessionSearchInfo> results = (Map<FormKey, SessionSearchInfo>) request
-				.getSession().getAttribute(RESULTS_ATTR);
-		if (results == null)
-			request.getSession()
-					.setAttribute(
-							RESULTS_ATTR,
-							results = Collections
-									.synchronizedMap(new java.util.LinkedHashMap<FormKey, SessionSearchInfo>()));
-		SessionSearchInfo table = null;
-		// Synchronize on the result table to constrain sessions to one back-end search at a time
-		synchronized (results) {
-			// dump search results in excess of 1
-			while (results.size() > 1) {
-				Iterator<?> ei = results.entrySet().iterator();
-				ei.next();
-				ei.remove();
-			}
-			try {
-				results.put(
-						k, // The back-end search happens here --------V
-						(table = results.remove(k)) == null ? table = search
-								.call() : table);
-			} catch (RuntimeException e) {
-				throw e;
-			} catch (Exception e) {
-				throw new IllegalStateException("search failed", e);
-			}
-		}
-		return table;
-	}
-
+    /**
+     * @see org.kuali.rice.krad.web.controller.UifControllerBase
+     */
 	@Override
 	protected UifFormBase createInitialForm(HttpServletRequest request) {
         return (UifFormBase) searcher.createInitialSearchForm();
 	}
 
-	@RequestMapping(method = RequestMethod.GET)
-	public ModelAndView get(@ModelAttribute("KualiForm") UifFormBase form,
-			HttpServletRequest request,
-			HttpServletResponse response) {
-		super.start(form, request, response);
-		form.setViewId("CourseSearch-FormView");
-		form.setView(super.getViewService()
-				.getViewById("CourseSearch-FormView"));
-		return getUIFModelAndView(form);
-	}
-
-	@RequestMapping(value = "/course/", method = RequestMethod.GET)
-	public String doGet(@ModelAttribute("KualiForm") UifFormBase form,
-			HttpServletRequest request,
-			HttpServletResponse response) {
-		return "redirect:/kr-krad/course";
-	}
-
+    /**
+     * Sets up basic empty Course search page
+     */
 	@RequestMapping(params = "methodToCall=start")
 	public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form,
 			HttpServletRequest request,
@@ -176,142 +80,54 @@ public class CourseSearchController extends UifControllerBase {
 
     /**
      * Execute a search on information supplied by the user
-     *
-     * @param form
-     * @param response
-     * @param request
-     * @throws IOException
      */
 	@RequestMapping(value = "/course/search")
 	public void getJsonResponse(
-			@ModelAttribute("KualiForm") final CourseSearchForm form,
+			@ModelAttribute("KualiForm") final CourseSearchFormImpl form,
 			HttpServletResponse response, final HttpServletRequest request)
 			throws IOException {
 
-		// Parse incoming jQuery datatables inputs
-		final DataTablesInputs dataTablesInputs = new DataTablesInputs(request);
-		if (LOG.isDebugEnabled())
-			LOG.debug(dataTablesInputs.toString());
+        if (form.getView() == null) {
+            form.setViewId(COURSE_SEARCH_VIEW_FORM);
+            form.setView(super.getViewService().getViewById(COURSE_SEARCH_VIEW_FORM));
+        }
 
-		if (LOG.isDebugEnabled())
-			LOG.debug("Search form: {}", form);
 
-        // Run search and retrieve results in the table
-		SessionSearchInfo table = getSearchResults(new FormKey(form),
-				new Callable<SessionSearchInfo>() {
-					@Override
-					public SessionSearchInfo call() throws Exception {
-						return new SessionSearchInfo(request, form);
-					}
-				}, request);
+            // Run search and retrieve results in the table
+		SessionSearchInfo table = getViewHelperService(form).getSearchResults(form, request);
 		if (table == null) {
 			return;
 		}
 
-        ObjectNode json = mapper.createObjectNode();
-
-        // Validate search results
-		if (table.getSearchResults() != null && !table.getSearchResults().isEmpty()) {
-            String maxCountProp = ConfigContext.getCurrentContextConfig()
-                    .getProperty("ksap.search.results.max");
-            int maxCount = maxCountProp != null && !"".equals(maxCountProp.trim()) ? Integer
-                    .valueOf(maxCountProp) : CourseSearchStrategy.MAX_HITS;
-            if(form.isLimitExceeded()){
-                json.put("LimitExceeded", maxCount);
-            }else{
-                json.put("LimitExceeded", 0);
-            }
-			SearchInfo firstRow = table.getSearchResults().iterator().next();
-			// Validate incoming jQuery datatables inputs
-			assert table != null;
-			assert table.getSearchResults().isEmpty()
-					|| dataTablesInputs.getiColumns() >= firstRow.getItem()
-							.getSearchColumns().length : firstRow.getItem()
-					.getSearchColumns().length
-					+ " > "
-					+ dataTablesInputs.getiColumns();
-			assert table.getSearchResults().isEmpty()
-					|| dataTablesInputs.getiColumns() >= firstRow.getSortColumns().length : firstRow.getSortColumns().length
-					+ " > " + dataTablesInputs.getiColumns();
-			assert table.getSearchResults().isEmpty()
-					|| dataTablesInputs.getiColumns() >= firstRow.getFacetColumns()
-							.size() : firstRow.getFacetColumns().size() + " > "
-					+ dataTablesInputs.getiColumns();
-			assert table.getSearchResults().isEmpty()
-					|| dataTablesInputs.getiColumns() == firstRow.getFacetColumns()
-							.size()
-					|| dataTablesInputs.getiColumns() == firstRow.getSortColumns().length
-					|| dataTablesInputs.getiColumns() == firstRow.getItem()
-							.getSearchColumns().length : "Max("
-					+ firstRow.getFacetColumns().size() + ","
-					+ firstRow.getSortColumns().length + ","
-					+ firstRow.getItem().getSearchColumns().length + ") != "
-					+ dataTablesInputs.getiColumns();
-		}
-
-		/*DataTables search filter is tied to facet click state on the front end,
-		 but is only loosely coupled on the server side.*/
-		List<SearchInfo> filteredResults = table
-				.getFilteredResults(dataTablesInputs);
-
-		// Render JSON response for DataTables
-		json.put("iTotalRecords", table.getSearchResults().size());
-		json.put("iTotalDisplayRecords", filteredResults.size());
-		json.put("sEcho", Integer.toString(dataTablesInputs.getsEcho()));
-		ArrayNode aaData = mapper.createArrayNode();
-		int rsize = Math.min(filteredResults.size(),
-				dataTablesInputs.getiDisplayLength());
-		for (int i = 0; i < rsize; i++) {
-			int resultsIndex = dataTablesInputs.getiDisplayStart() + i;
-			if (resultsIndex >= filteredResults.size())
-				break;
-			ArrayNode cs = mapper.createArrayNode();
-			CourseSearchItem item = filteredResults.get(resultsIndex).getItem();
-			String[] scol = item.getSearchColumns();
-			for (String col : scol)
-				cs.add(col);
-			for (int j = scol.length; j < dataTablesInputs.getiColumns(); j++)
-				cs.add((String) null);
-			aaData.add(cs);
-		}
-		json.put("aaData", aaData);
+        // Translate the search results into a json
+        JsonObjectBuilder json = getViewHelperService(form).getSearchResultsJson(form,table,request);
 
         // Write Json string
-        String jsonString = mapper.writeValueAsString(json);
-		if (LOG.isDebugEnabled())
-			LOG.debug("JSON output: {}", jsonString.length() < 8192
-                    ? jsonString
-                    : jsonString.substring(0, 8192));
-
-		response.setContentType("application/json");
-		response.setHeader("Cache-Control", "No-cache");
-		response.setHeader("Cache-Control", "No-store");
-		response.setHeader("Cache-Control", "max-age=0");
-		response.getWriter().println(jsonString);
+        response.setContentType("application/json; charset=UTF-8");
+        response.setHeader("Cache-Control", "No-cache");
+        response.setHeader("Cache-Control", "No-store");
+        response.setHeader("Cache-Control", "max-age=0");
+        JsonWriter jwriter = Json.createWriter(response.getWriter());
+        jwriter.writeObject(json.build());
+        jwriter.close();
 	}
 
     /**
      * Load the facets values of the search
      * This also executes the search but only returns facet information.
-     * @param response
-     * @param form
-     * @param request
-     * @throws IOException
      */
 	@RequestMapping(value = "/course/facetValues")
 	public void getFacetValues(HttpServletResponse response,
-			@ModelAttribute("KualiForm") final CourseSearchForm form,
+			@ModelAttribute("KualiForm") final CourseSearchFormImpl form,
 			final HttpServletRequest request) throws IOException {
 
-		if (LOG.isDebugEnabled())
-			LOG.debug("Search form: {}", form);
-        SessionSearchInfo table = getSearchResults(new FormKey(form),
-                new Callable<SessionSearchInfo>() {
-                    @Override
-                    public SessionSearchInfo call() throws Exception {
-                        return new SessionSearchInfo(request, form);
-                    }
-                }, request);
+        if (form.getView() == null) {
+            form.setViewId(COURSE_SEARCH_VIEW_FORM);
+            form.setView(super.getViewService().getViewById(COURSE_SEARCH_VIEW_FORM));
+        }
+
+        // Run search and retrieve results in the table
+        SessionSearchInfo table = getViewHelperService((UifFormBase) form).getSearchResults(form, request);
 
         assert table.getFacetState() != null;
 
@@ -321,26 +137,20 @@ public class CourseSearchController extends UifControllerBase {
         if (fclick != null && fcol != null)
             table.facetClick(fclick, fcol);
 
-        String jsonString = facetStrategy.writeFacetToJson(form, table.getFacetState());
+        JsonObjectBuilder json = getViewHelperService(form).getFacetsJson(form, table.getFacetState());
 
-        if (LOG.isDebugEnabled())
-            LOG.debug("JSON output: {}", jsonString.length() < 8192
-                    ? jsonString
-                    : jsonString.substring(0, 8192));
-
-		response.setContentType("application/json");
-		response.setHeader("Cache-Control", "No-cache");
-		response.setHeader("Cache-Control", "No-store");
-		response.setHeader("Cache-Control", "max-age=0");
-		response.getWriter().println(jsonString);
+        // Write Json string
+        response.setContentType("application/json; charset=UTF-8");
+        response.setHeader("Cache-Control", "No-cache");
+        response.setHeader("Cache-Control", "No-store");
+        response.setHeader("Cache-Control", "max-age=0");
+        JsonWriter jwriter = Json.createWriter(response.getWriter());
+        jwriter.writeObject(json.build());
+        jwriter.close();
 	}
 
     /**
      * Redirects to the course search results page.
-     * @param form
-     * @param httprequest
-     * @param httpresponse
-     * @return
      */
 	@RequestMapping(params = "methodToCall=searchForCourses")
 	public ModelAndView searchForCourses(
@@ -350,5 +160,16 @@ public class CourseSearchController extends UifControllerBase {
 		return getUIFModelAndView(form,
 				CourseSearchConstants.COURSE_SEARCH_RESULT_PAGE);
 	}
+
+    /**
+     * Retrieve the view helper from a form.
+     *
+     * @param form - Form helper is being retrieved for
+     * @return Form's view helper
+     */
+    private CourseSearchViewHelperService getViewHelperService(UifFormBase form) {
+        CourseSearchViewHelperService viewHelperService = (CourseSearchViewHelperService) form.getViewHelperService();
+        return viewHelperService;
+    }
 
 }
