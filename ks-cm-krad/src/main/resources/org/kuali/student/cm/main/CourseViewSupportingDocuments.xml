@@ -75,10 +75,10 @@
                     </property>
                     <property name="constraintText" value="@{T(org.kuali.student.cm.common.util.CurriculumManagementConstants).FILE_SIZE_CONSTRAINT}"/>
                 </bean>
-                <bean parent="Uif-LinkField" p:linkText="@{#line.documentUpload.originalFilename}" p:label="File"
-                      p:href="courses?methodToCall=downloadSupportDoc&amp;documentId=@{#line.documentId}"
-                      p:target="_blank"
-                      p:render="@{#line.documentId ne null}"/>
+                <bean parent="Uif-ActionLinkField" p:actionLabel="@{#line.documentName}" p:methodToCall="downloadSupportingDoc"  p:render="@{#line.documentId ne null}"
+                      p:ajaxSubmit="false"
+                      p:disableBlocking="true"
+                      p:onClickScript="writeHiddenToForm(&quot;ajaxReturnType&quot;, &quot;update-none&quot;);"/>
                 <bean parent="Uif-InputField" p:label="Description" p:propertyName="description" p:readOnly="@{#line.documentId ne null}"
                       p:escapeHtmlInPropertyValue="false" class="org.kuali.student.cm.uif.element.InputFieldWithNonClobberableFieldLabel">
                     <property name="control">

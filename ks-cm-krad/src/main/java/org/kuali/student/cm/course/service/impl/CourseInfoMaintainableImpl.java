@@ -1578,15 +1578,16 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
      */
     protected void addSupportingDocuments(CourseInfoWrapper courseInfoWrapper) {
         if (courseInfoWrapper.getDocumentsToAdd().size() > 0) {
-            final SupportingDocumentInfoWrapper addLineResult = courseInfoWrapper.getDocumentsToAdd().get(
+            SupportingDocumentInfoWrapper addLineResult = courseInfoWrapper.getDocumentsToAdd().get(
                     courseInfoWrapper.getDocumentsToAdd().size() - 1);
             if (addLineResult.getDocumentId() == null && addLineResult.getDocumentUpload() != null) {
                 DocumentInfo toAdd = new DocumentInfo();
                 toAdd.setFileName(addLineResult.getDocumentUpload().getOriginalFilename());
-                toAdd.setDescr(new RichTextInfo() {{
-                    setPlain(addLineResult.getDescription());
-                    setFormatted(addLineResult.getDescription());
-                }});
+                RichTextInfo desc = new RichTextInfo();
+                desc.setPlain(addLineResult.getDescription());
+                desc.setFormatted(addLineResult.getDescription());
+                toAdd.setDescr(desc);
+
                 toAdd.setStateKey(CurriculumManagementConstants.STATE_KEY_ACTIVE);
                 // This will always be set to doc type as we accept various document types
                 toAdd.setTypeKey(CurriculumManagementConstants.DEFAULT_DOC_TYPE_KEY);
@@ -2080,9 +2081,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             populateJointCourseOnWrapper();
 
             populateLearningObjectives();
-            if (dataObject.getDocumentsToAdd().isEmpty()) {
-                populateSupportingDocuments();
-            }
+            populateSupportingDocuments();
 
             updateReview(false);
 

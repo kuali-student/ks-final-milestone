@@ -33,6 +33,7 @@ import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.KRADUtils;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
@@ -91,6 +92,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
+import java.io.ByteArrayInputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -489,8 +491,8 @@ public class CourseController extends CourseRuleEditorController {
     }
 
     @MethodAccessible
-    @RequestMapping(params = "methodToCall=downloadSupportDocByIndex")
-    public void downloadSupportDocByIndex(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=downloadSupportingDoc")
+    public ModelAndView downloadSupportingDoc(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
                                    HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
@@ -505,30 +507,23 @@ public class CourseController extends CourseRuleEditorController {
         } catch (Exception ex) {
             LOG.warn("Exception occurred while retrieving the document", ex);
         }
+
         if (document != null && document.getDocumentBinary() != null
                 && document.getDocumentBinary().getBinary() != null
                 && !document.getDocumentBinary().getBinary().isEmpty()) {
 
-            ServletOutputStream outputStream = response.getOutputStream();
-            try {
+            byte[] bytes = Base64.decodeBase64(document.getDocumentBinary().getBinary());
+            ByteArrayInputStream byteStream = new ByteArrayInputStream(bytes);
 
-                byte[] bytes = Base64.decodeBase64(document.getDocumentBinary().getBinary());
-                ServletContext context = request.getSession().getServletContext();
-                String mimeType = context.getMimeType(document.getFileName());
-                response.setContentType((mimeType != null) ? mimeType : CurriculumManagementConstants.DEFAULT_MIME_TYPE);
-                response.setContentLength(bytes.length);
-                response.setHeader("Content-Disposition","attachment; filename=\"" + document.getName() + "\"");
-                // copy the file to output stream
-                FileCopyUtils.copy(bytes, outputStream);
-            } catch (Exception ex) {
-                LOG.warn("Unable to write the document to output stream: ", ex);
-            } finally{
-                outputStream.flush();
-                outputStream.close();
-            }
+            KRADUtils.addAttachmentToResponse(response, byteStream,
+                    CurriculumManagementConstants.DEFAULT_MIME_TYPE, document.getName(),
+                    bytes.length);
         } else {
             LOG.warn("Sorry, the file could not be retrieved.  It may not exist, or the server could not be contacted.");
         }
+
+        return null;
+
     }
 
     /**

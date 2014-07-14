@@ -679,8 +679,12 @@
                                             <property name="renderAddLine" value="false"/>
                                             <property name="items">
                                                 <list>
-                                                    <bean id="supporting_document_@{#index}" parent="Uif-ActionLinkField" p:actionLabel="@{#line.documentName}" p:methodToCall="downloadSupportDocByIndex">
+                                                    <bean id="supporting_document_@{#index}" parent="Uif-ActionLinkField" p:actionLabel="@{#line.documentName}" p:methodToCall="downloadSupportingDoc"
+                                                          p:ajaxSubmit="false"
+                                                          p:disableBlocking="true"
+                                                          p:onClickScript="writeHiddenToForm(&quot;ajaxReturnType&quot;, &quot;update-none&quot;);">
                                                         <property name="fieldLabel.render" value="false"/>
+                                                        <property name="id" value="supporting_document_@{#index}"/>
                                                         <property name="cssClasses">
                                                             <list merge="true">
                                                                 <value>review_readonly</value>
