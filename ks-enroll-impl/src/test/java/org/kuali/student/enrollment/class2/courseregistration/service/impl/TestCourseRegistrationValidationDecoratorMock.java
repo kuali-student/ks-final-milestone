@@ -4,6 +4,7 @@ import org.apache.activemq.command.ActiveMQMapMessage;
 import org.kuali.student.enrollment.class2.courseregistration.service.decorators.CourseRegistrationServiceDecorator;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
+import org.kuali.student.enrollment.registration.engine.TestCourseRegistrationEngine;
 import org.kuali.student.enrollment.registration.engine.service.CourseRegistrationConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -16,7 +17,6 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.springframework.jms.core.JmsTemplate;
 
@@ -37,12 +37,13 @@ public class TestCourseRegistrationValidationDecoratorMock extends CourseRegistr
     public List<ValidationResultInfo> verifyRegistrationRequestForSubmission(String registrationRequestId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<AttributeInfo> attributes=contextInfo.getAttributes();
         for (AttributeInfo attribute:attributes) {
-            if (attribute.getKey().equals("throwException") && attribute.getValue().equals("true")) {
-                throw new OperationFailedException("throwException attribute found in context info");
+            if (attribute.getKey().equals(TestCourseRegistrationEngine.VALIDATION_EXCEPTION)
+                    && attribute.getValue().equals(TestCourseRegistrationEngine.TRUE)) {
+                throw new OperationFailedException("Validation Exception attribute found in context info");
             }
         }
 
-        return new ArrayList<ValidationResultInfo>();
+        return new ArrayList<>();
     }
 
     @Override
@@ -62,8 +63,10 @@ public class TestCourseRegistrationValidationDecoratorMock extends CourseRegistr
             mapMessage.setString(CourseRegistrationConstants.REGISTRATION_QUEUE_MESSAGE_USER_ID, contextInfo.getPrincipalId());
             mapMessage.setString(CourseRegistrationConstants.REGISTRATION_QUEUE_MESSAGE_REG_REQ_ID, regRequestInfo.getId());
             for (AttributeInfo attribute:contextInfo.getAttributes()) {
-                if (attribute.getKey().equals("throwException") && attribute.getValue().equals("true")) {
-                    mapMessage.setBoolean("throwException", true);
+                for (String exception : TestCourseRegistrationEngine.EXCEPTIONS) {
+                    if (attribute.getKey().equals(exception) && attribute.getValue().equals(TestCourseRegistrationEngine.TRUE)) {
+                        mapMessage.setBoolean(exception, true);
+                    }
                 }
             }
             jmsTemplate.convertAndSend(CourseRegistrationConstants.REGISTRATION_INITILIZATION_QUEUE, mapMessage);
@@ -89,19 +92,12 @@ public class TestCourseRegistrationValidationDecoratorMock extends CourseRegistr
 
             // Empty out original cart so it can be reused
             cartInfo.setRegistrationRequestItems(new ArrayList<RegistrationRequestItemInfo>());
-            cartInfo = updateRegistrationRequest(cartInfo.getId(), cartInfo, contextInfo);
-
-            // Persist this
-            RegistrationRequestInfo updated =
-                    createRegistrationRequest(copy.getTypeKey(), copy, contextInfo);
 
             // return the copy
-            return updated;
+            return createRegistrationRequest(copy.getTypeKey(), copy, contextInfo);
         } catch (ReadOnlyException ex) {
             throw new OperationFailedException("Exception: " + ex.getMessage(), ex);
         } catch (DataValidationErrorException ex) {
-            throw new OperationFailedException("Exception: " + ex.getMessage(), ex);
-        } catch (VersionMismatchException ex) {
             throw new OperationFailedException("Exception: " + ex.getMessage(), ex);
         }
     }

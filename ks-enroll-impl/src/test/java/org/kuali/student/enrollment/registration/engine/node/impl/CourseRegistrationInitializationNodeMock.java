@@ -1,10 +1,7 @@
 package org.kuali.student.enrollment.registration.engine.node.impl;
 
-import org.kuali.student.common.util.security.ContextUtils;
+import org.kuali.student.enrollment.registration.engine.TestCourseRegistrationEngine;
 import org.kuali.student.enrollment.registration.engine.dto.RegistrationRequestEngineMessage;
-import org.kuali.student.enrollment.registration.engine.node.AbstractCourseRegistrationNode;
-import org.kuali.student.enrollment.registration.engine.service.CourseRegistrationConstants;
-import org.kuali.student.enrollment.registration.engine.service.CourseRegistrationEngineService;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 
@@ -13,35 +10,27 @@ import javax.jms.MapMessage;
 /**
  * Initializes the registration request for further processing
  */
-public class CourseRegistrationInitializationNodeMock extends AbstractCourseRegistrationNode<MapMessage, RegistrationRequestEngineMessage> {
-
-    private CourseRegistrationEngineService courseRegistrationEngineService;
+public class CourseRegistrationInitializationNodeMock extends CourseRegistrationInitializationNode {
 
     @Override
     public RegistrationRequestEngineMessage process(MapMessage message) {
 
+        RegistrationRequestEngineMessage requestEngineMessage=super.process(message);
+        ContextInfo contextInfo = requestEngineMessage.getContextInfo();
+
         try {
-            ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
-
-            String userId = message.getString(CourseRegistrationConstants.REGISTRATION_QUEUE_MESSAGE_USER_ID);
-            String regReqId = message.getString(CourseRegistrationConstants.REGISTRATION_QUEUE_MESSAGE_REG_REQ_ID);
-
-            if (message.getBoolean("throwException")) {
-                contextInfo.getAttributes().add(new AttributeInfo("throwException", "true"));
+            for (String exception : TestCourseRegistrationEngine.EXCEPTIONS) {
+                if (message.getBoolean(exception)) {
+                    contextInfo.getAttributes().add(new AttributeInfo(exception, TestCourseRegistrationEngine.TRUE));
+                }
             }
-
-            contextInfo.setPrincipalId(userId);
-
-            //Use the engine service to initialize the request
-            return courseRegistrationEngineService.initializeRegistrationRequest(regReqId, contextInfo);
-
         } catch (Exception e) {
             throw new RuntimeException("Error processing request", e);
         }
-    }
 
-    public void setCourseRegistrationEngineService(CourseRegistrationEngineService courseRegistrationEngineService) {
-        this.courseRegistrationEngineService = courseRegistrationEngineService;
+        requestEngineMessage.setContextInfo(contextInfo);
+
+        return requestEngineMessage;
     }
 
 }

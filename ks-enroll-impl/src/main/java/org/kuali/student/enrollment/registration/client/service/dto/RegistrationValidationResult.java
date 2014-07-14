@@ -16,16 +16,12 @@
  */
 package org.kuali.student.enrollment.registration.client.service.dto;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * This class contains details of registration validation results for marshalling to and from JSON
  *
  * @author Kuali Student Team
  */
 public class RegistrationValidationResult {
-    public static final Logger LOGGER = LoggerFactory.getLogger(RegistrationValidationResult.class);
 
     private String messageKey;
 

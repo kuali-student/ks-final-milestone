@@ -61,10 +61,6 @@
         <jms:listener id="regInitListener" destination="org.kuali.student.enrollment.registration.initilizationListenerQueue" ref="registrationInitilizationListener" />
         <jms:listener id="regVerificationListener" destination="org.kuali.student.enrollment.registration.verificationQueue" ref="registrationVerificationListener" />
         <jms:listener id="waitlistManagerListener" destination="org.kuali.student.enrollment.registration.seatOpenEventQueue" ref="waitlistManagerNode" />
-        <!-- The following have been overridden by camel.
-        <jms:listener id="regSplitByItemListener" destination="org.kuali.student.enrollment.registration.splitByItemQueue" ref="registrationSplitByItemListener" />
-        <jms:listener id="regLprActionListener" destination="org.kuali.student.enrollment.registration.lprActionQueue" ref="registrationLprActionListener" />
-        -->
     </jms:listener-container>
 
     <!--Used to collect performance statistics -->
@@ -110,7 +106,6 @@
             <exception>java.lang.Exception</exception>
             <handled><constant>true</constant></handled>
             <bean ref="courseRegistrationErrorProcessor" method="process" />
-            <to uri="activemq:org.kuali.student.enrollment.registration.regReqItemJoinQueue"/> <!-- attempt to rejoin the queue -->
         </onException>
 
         <route> <!-- This route splits the reg request into it's items. Adding needed info to the message header.  -->
@@ -132,6 +127,12 @@
 
         <route>    <!-- performs the update/drop/(waitlist check + seat check + add) -->
             <from uri="activemq:org.kuali.student.enrollment.registration.lprActionQueue" />
+            <onException>
+                <exception>java.lang.Exception</exception>
+                <handled><constant>true</constant></handled>
+                <bean ref="courseRegistrationErrorProcessor" method="process" />
+                <to uri="activemq:org.kuali.student.enrollment.registration.regReqItemJoinQueue"/> <!-- attempt to rejoin the queue -->
+            </onException>
             <bean ref="courseRegistrationLprActionProcessor" method="process"/> <!-- go to the java code that makes all the decisions -->
             <to uri="activemq:org.kuali.student.enrollment.registration.regReqItemJoinQueue"/> <!-- send to join queue's for final processing-->
         </route>
@@ -171,36 +172,6 @@
     <bean id="waitlistManagerNode" class="org.kuali.student.enrollment.registration.engine.node.impl.CourseRegistrationWaitlistManagerNode">
         <property name="waitlistManagerService" ref="waitlistManagerService"/>
     </bean>
-
-    <!-- splits the reg request into multiple queues, one for each item, with a group id of the item's FO -->
-    <!-- overwritten to use camel
-    <bean id="registrationSplitByItemListener" class="org.kuali.student.enrollment.registration.engine.node.impl.CourseRegistrationSplitRequestItemsNode">
-        <property name="jmsTemplate" ref="jmsTemplate"/>
-        <property name="destinations">
-            <list>
-                <value>org.kuali.student.enrollment.registration.lprActionQueue</value>
-            </list>
-        </property>
-    </bean>
-    -->
-
-    <!-- performs the update/drop/(waitlist check + seat check + add) -->
-    <!-- overwritten to use camel
-    <bean id="registrationLprActionListener" class="org.kuali.student.enrollment.registration.engine.node.impl.CourseRegistrationLprActionNode">
-        <property name="jmsTemplate" ref="jmsTemplate"/>
-        <property name="courseRegistrationLprActionProcessor" ref="courseRegistrationLprActionProcessor"/>
-        <property name="destinations">
-            <list>
-                <value>org.kuali.student.enrollment.registration.regReqItemJoinQueue</value>
-            </list>
-        </property>
-        <property name="filters">
-            <list>
-                <bean class="org.kuali.student.enrollment.registration.engine.node.filter.PerformanceEndNodeFilter"/>
-            </list>
-        </property>
-    </bean>
-    -->
 
     <!-- Groups common registration functions into a single service -->
     <bean id="courseRegistrationEngineService" class="org.kuali.student.enrollment.registration.engine.service.impl.CourseRegistrationEngineServiceImpl">

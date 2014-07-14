@@ -5,6 +5,7 @@ import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequest;
+import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequestItem;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
@@ -83,13 +84,14 @@ public class CourseRegistrationErrorProcessor {
      * @return the jms message going out
      */
     public RegistrationRequestItemEngineMessage processRequestItem (RegistrationRequestItemEngineMessage message) throws PermissionDeniedException, ReadOnlyException, OperationFailedException, VersionMismatchException, InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException {
+        RegistrationRequestItem registrationRequestItem=message.getRequestItem();
 
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
-        contextInfo.setPrincipalId(message.getRequestItem().getPersonId());
+        contextInfo.setPrincipalId(registrationRequestItem.getPersonId());
 
-        String transactionItemId = message.getRequestItem().getId();
+        String transactionItemId = registrationRequestItem.getId();
 
-        courseRegistrationEngineService.updateLprTransactionItemResult(message.getRequestItem().getRegistrationRequestId(),
+        courseRegistrationEngineService.updateLprTransactionItemResult(registrationRequestItem.getRegistrationRequestId(),
                 transactionItemId,
                 LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY,
                 null,
@@ -104,7 +106,8 @@ public class CourseRegistrationErrorProcessor {
 
     /**
      * This method processes errors occurring at the registration request level. Because we don't
-     * know which item(s) caused the error, we have to fail everything.
+     * know which item(s) caused the error, we have to fail anything that's still processing (in
+     * addition to the transaction itself).
      *
      * @param message the jms message coming in
      * @return the jms message going out
@@ -122,12 +125,14 @@ public class CourseRegistrationErrorProcessor {
         LprTransactionInfo trans = getLprService().getLprTransaction(transactionId, contextInfo);
         trans.setStateKey(LprServiceConstants.LPRTRANS_FAILED_STATE_KEY);
         for (LprTransactionItemInfo item : trans.getLprTransactionItems()) {
-            ValidationResultInfo vr =
-                    new ValidationResultInfo(trans.getId(), ValidationResult.ErrorLevel.ERROR,
-                            "Exception occurred during processing. Entire transaction will roll back.");
-            vr.setMessage(RegistrationValidationResultsUtil.
-                    marshallSimpleMessage(LprServiceConstants.LPRTRANS_ITEM_EXCEPTION_MESSAGE_KEY));
-            updateRequestItemsToError(item, updatedRequestInfo, vr);
+            if (item.getStateKey().equals(LprServiceConstants.LPRTRANS_ITEM_PROCESSING_STATE_KEY)) {
+                ValidationResultInfo vr =
+                        new ValidationResultInfo(trans.getId(), ValidationResult.ErrorLevel.ERROR,
+                        "Exception occurred during processing. Entire transaction will roll back.");
+                vr.setMessage(RegistrationValidationResultsUtil.
+                        marshallSimpleMessage(LprServiceConstants.LPRTRANS_ITEM_EXCEPTION_MESSAGE_KEY));
+                updateRequestItemsToError(item, updatedRequestInfo, vr);
+            }
         }
         getLprService().updateLprTransaction(trans.getId(), trans, contextInfo);
         message.setRegistrationRequest(updatedRequestInfo);

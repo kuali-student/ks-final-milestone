@@ -2,9 +2,9 @@ package org.kuali.student.enrollment.registration.engine.dto;
 
 import org.kuali.student.enrollment.courseoffering.infc.RegistrationGroup;
 import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequestItem;
+import org.kuali.student.r2.common.dto.ContextInfo;
 
 import java.io.Serializable;
-import org.kuali.student.r2.common.dto.ContextInfo;
 
 public class RegistrationRequestItemEngineMessage implements Serializable {
     private RegistrationRequestItem requestItem;
@@ -14,6 +14,7 @@ public class RegistrationRequestItemEngineMessage implements Serializable {
     public RegistrationRequestItemEngineMessage(RegistrationRequestItem requestItem, RegistrationGroup registrationGroup, ContextInfo contextInfo) {
         this.requestItem = requestItem;
         this.registrationGroup = registrationGroup;
+        this.contextInfo = contextInfo;
     }
 
     public RegistrationRequestItem getRequestItem() {

@@ -25,7 +25,6 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
-import org.springframework.jms.core.JmsTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -46,11 +45,20 @@ import static org.junit.Assert.assertNotNull;
 @TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = false)
 public class TestCourseRegistrationEngine {
 
+    public static final String TRUE = "true";
+    public static final String VALIDATION_EXCEPTION = "validationException";
+    public static final String RESULT_EXCEPTION = "resultException";
+    public static final String RESULT_ITEM_EXCEPTION = "resultItemException";
+
+    public static final String[] EXCEPTIONS = {VALIDATION_EXCEPTION, RESULT_EXCEPTION, RESULT_ITEM_EXCEPTION};
+
     private static final String LETTER_GRADE = "kuali.resultComponent.grade.letter";
     private static final String SPRING_2012_TERM = "kuali.atp.2012Spring";
+    private static final String ADMIN = "admin";
     private ContextInfo CONTEXT;
 
-    private static boolean FIRST_TEST=true;
+    private static boolean FIRST_TEST = true;
+    private static int WAIT_TIME = 3000; // 3 seconds
 
     @Resource(name = "lrcService")
     private LRCService lrcService;
@@ -63,9 +71,6 @@ public class TestCourseRegistrationEngine {
 
     @Resource(name= "luiServiceDataLoader")
     private LuiServiceDataLoader luiServiceDataLoader;
-
-    @Resource(name = "jmsTemplate")
-    private JmsTemplate jmsTemplate;
 
     @Transactional
     @Before
@@ -92,7 +97,7 @@ public class TestCourseRegistrationEngine {
     @Test
     public void testSimpleCourseRegistration() throws Exception {
 
-        RegistrationRequestInfo request = buildRegRequestsFor("admin");
+        RegistrationRequestInfo request = buildRegRequestsFor(ADMIN);
         RegistrationRequestInfo requestResult =
                 courseRegistrationService.createRegistrationRequest(request.getTypeKey(),
                         request, CONTEXT);
@@ -101,7 +106,7 @@ public class TestCourseRegistrationEngine {
 
         RegistrationRequestInfo requestInfo = courseRegistrationService.submitRegistrationRequest(requestResult.getId(), CONTEXT);
 
-        waitFor(3000);    // wait for reg engine to process
+        waitFor(WAIT_TIME);    // wait for reg engine to process
 
         // get status of reg request
         RegistrationResponseResult registrationResponseResult = courseRegistrationClientService.getRegistrationStatusLocal(requestInfo.getId(), CONTEXT);
@@ -117,17 +122,16 @@ public class TestCourseRegistrationEngine {
     }
 
     /**
-     * This tests creating an add reg request and submitting it to the registration engine. It then checks to make sure
-     * the request was successfully processed.
+     * This tests an exception being thrown during registration validation.
      *
      * @throws Exception
      */
     @Test
     public void testValidationException() throws Exception {
 
-        CONTEXT.getAttributes().add(new AttributeInfo("throwException", "true"));
+        CONTEXT.getAttributes().add(new AttributeInfo(VALIDATION_EXCEPTION, TRUE));
 
-        RegistrationRequestInfo request = buildRegRequestsFor("admin");
+        RegistrationRequestInfo request = buildRegRequestsFor(ADMIN);
         RegistrationRequestInfo requestResult =
                 courseRegistrationService.createRegistrationRequest(request.getTypeKey(),
                         request, CONTEXT);
@@ -136,7 +140,7 @@ public class TestCourseRegistrationEngine {
 
         RegistrationRequestInfo requestInfo = courseRegistrationService.submitRegistrationRequest(requestResult.getId(), CONTEXT);
 
-        waitFor(3000);    // wait for reg engine to process
+        waitFor(WAIT_TIME);    // wait for reg engine to process
 
         // get status of reg request
         RegistrationResponseResult registrationResponseResult = courseRegistrationClientService.getRegistrationStatusLocal(requestInfo.getId(), CONTEXT);
@@ -152,10 +156,78 @@ public class TestCourseRegistrationEngine {
     }
 
     /**
+     * This tests a result-level exception being thrown during registration update (before the split or after the join).
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testResultException() throws Exception {
+
+        CONTEXT.getAttributes().add(new AttributeInfo(RESULT_EXCEPTION, TRUE));
+
+        RegistrationRequestInfo request = buildRegRequestsFor(ADMIN);
+        RegistrationRequestInfo requestResult =
+                courseRegistrationService.createRegistrationRequest(request.getTypeKey(),
+                        request, CONTEXT);
+
+        System.out.println("Submitting: " + requestResult.getId());
+
+        RegistrationRequestInfo requestInfo = courseRegistrationService.submitRegistrationRequest(requestResult.getId(), CONTEXT);
+
+        waitFor(WAIT_TIME);    // wait for reg engine to process
+
+        // get status of reg request
+        RegistrationResponseResult registrationResponseResult = courseRegistrationClientService.getRegistrationStatusLocal(requestInfo.getId(), CONTEXT);
+
+        System.out.println(registrationResponseResult);
+
+        // make sure the request and request items have failed
+        assertEquals(LprServiceConstants.LPRTRANS_FAILED_STATE_KEY, registrationResponseResult.getState());
+        for(RegistrationResponseItemResult responseItemInfo : registrationResponseResult.getResponseItemResults()){
+            assertEquals(LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY, responseItemInfo.getState());
+        }
+
+    }
+
+    /**
+     * This tests a result item-level exception being thrown during registration update.
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testResultItemException() throws Exception {
+
+        CONTEXT.getAttributes().add(new AttributeInfo(RESULT_ITEM_EXCEPTION, TRUE));
+
+        RegistrationRequestInfo request = buildRegRequestsFor(ADMIN);
+        RegistrationRequestInfo requestResult =
+                courseRegistrationService.createRegistrationRequest(request.getTypeKey(),
+                        request, CONTEXT);
+
+        System.out.println("Submitting: " + requestResult.getId());
+
+        RegistrationRequestInfo requestInfo = courseRegistrationService.submitRegistrationRequest(requestResult.getId(), CONTEXT);
+
+        waitFor(WAIT_TIME);    // wait for reg engine to process
+
+        // get status of reg request
+        RegistrationResponseResult registrationResponseResult = courseRegistrationClientService.getRegistrationStatusLocal(requestInfo.getId(), CONTEXT);
+
+        System.out.println(registrationResponseResult);
+
+        // make sure the request and request items have failed
+        assertEquals(LprServiceConstants.LPRTRANS_SUCCEEDED_STATE_KEY, registrationResponseResult.getState());
+        for(RegistrationResponseItemResult responseItemInfo : registrationResponseResult.getResponseItemResults()){
+            assertEquals(LprServiceConstants.LPRTRANS_ITEM_FAILED_STATE_KEY, responseItemInfo.getState());
+        }
+
+    }
+
+    /**
      * The registration engine is asynchronous so there are times when we would want to wait.
      *
      * In production we're polling for responses.
-     * @param waitTimeMS
+     * @param waitTimeMS the time to wait
      */
     private void waitFor(long waitTimeMS){
         try {
@@ -190,16 +262,6 @@ public class TestCourseRegistrationEngine {
         request.getRegistrationRequestItems().add(itemInfo);
 
         return request;
-                           /*
-        // Now create and test
-        CourseRegistrationService courseRegistrationService =
-                this.getCourseRegistrationService();
-        RegistrationRequestInfo requestResult =
-                courseRegistrationService.createRegistrationRequest(request.getTypeKey(),
-                        request, CONTEXT);
-        regRequestIds.add(requestResult.getId());
-        System.err.println("DONE");
-        */
     }
 
     public CourseRegistrationService getCourseRegistrationService() {

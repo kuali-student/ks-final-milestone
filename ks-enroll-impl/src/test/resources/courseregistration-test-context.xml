@@ -106,4 +106,13 @@
         </property>
     </bean>
 
+    <!-- override the request splitter -->
+    <bean id="requestSplitter" class="org.kuali.student.enrollment.registration.engine.camel.splitter.RegistrationRequestSplitterMock"/>
+
+    <!-- override the lpr action processor -->
+    <bean id="courseRegistrationLprActionProcessor" class="org.kuali.student.enrollment.registration.engine.processor.CourseRegistrationLprActionProcessorMock">
+        <property name="courseRegistrationEngineService" ref="courseRegistrationEngineService"/>
+        <property name="jmsTemplate" ref="jmsTemplate"/>
+    </bean>
+
 </beans>

@@ -59,7 +59,7 @@ public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegist
         RegistrationRequest regRequest = message.getRegistrationRequest();
         ContextInfo contextInfo = message.getContextInfo();
         contextInfo.setPrincipalId(regRequest.getRequestorId());
-        List<ValidationResultInfo> validationResults = new ArrayList<ValidationResultInfo>();
+        List<ValidationResultInfo> validationResults = new ArrayList<>();
         Exception transactionException = null; // if an exception happens during processing we should fail the entire transaction
         try {
             if(shouldValidate(regRequest)){
@@ -76,27 +76,26 @@ public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegist
         }
 
         //Error out the items
-        RegistrationRequestInfo updatedMessage = new RegistrationRequestInfo(message.getRegistrationRequest());
+        RegistrationRequestInfo updatedRequestInfo = new RegistrationRequestInfo(message.getRegistrationRequest());
 
         try {
-            if (transactionException != null) {
-                message = courseRegistrationErrorProcessor.processRequest(message); // roll back the entire transaction
-            } else {
-                LprTransactionInfo trans = getLprService().getLprTransaction(regRequest.getId(), contextInfo);
-                trans.setStateKey(LprServiceConstants.LPRTRANS_FAILED_STATE_KEY);
-                updatedMessage.setStateKey(LprServiceConstants.LPRTRANS_FAILED_STATE_KEY);
-                for (LprTransactionItemInfo item : trans.getLprTransactionItems()) {
-                    for (ValidationResultInfo error : errors) {
-                        //Match each error with the corresponding id.
-                        String itemId = error.getElement().replaceFirst("registrationRequestItems\\['([^']*)'\\]", "$1");
-                        if (item.getId().equals(itemId)) {
-                            courseRegistrationErrorProcessor.updateRequestItemsToError(item, updatedMessage, error);
-                        }
+            LprTransactionInfo trans = getLprService().getLprTransaction(regRequest.getId(), contextInfo);
+            trans.setStateKey(LprServiceConstants.LPRTRANS_FAILED_STATE_KEY);
+            updatedRequestInfo.setStateKey(LprServiceConstants.LPRTRANS_FAILED_STATE_KEY);
+            for (LprTransactionItemInfo item : trans.getLprTransactionItems()) {
+                for (ValidationResultInfo error : errors) {
+                    //Match each error with the corresponding id.
+                    String itemId = error.getElement().replaceFirst("registrationRequestItems\\['([^']*)'\\]", "$1");
+                    if (item.getId().equals(itemId)) {
+                        courseRegistrationErrorProcessor.updateRequestItemsToError(item, updatedRequestInfo, error);
                     }
                 }
-                getLprService().updateLprTransaction(trans.getId(), trans, contextInfo);
+            }
+            getLprService().updateLprTransaction(trans.getId(), trans, contextInfo);
 
-                message.setRegistrationRequest(updatedMessage);
+            message.setRegistrationRequest(updatedRequestInfo);
+            if (transactionException != null) {
+                message = courseRegistrationErrorProcessor.processRequest(message); // roll back the entire transaction
             }
         } catch (Exception ex) {
             throw new RuntimeException(ex);
@@ -117,7 +116,7 @@ public class CourseRegistrationVerifyRegRequestNode extends AbstractCourseRegist
     }
 
     private List<ValidationResultInfo> getErrors(List<ValidationResultInfo> results) {
-        List<ValidationResultInfo> errors = new ArrayList<ValidationResultInfo>();
+        List<ValidationResultInfo> errors = new ArrayList<>();
         for (ValidationResultInfo vr : results) {
             if (vr.isError()) {
                 errors.add(vr);
