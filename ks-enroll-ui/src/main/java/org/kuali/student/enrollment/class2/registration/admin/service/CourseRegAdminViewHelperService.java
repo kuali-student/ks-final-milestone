@@ -22,6 +22,8 @@ public interface CourseRegAdminViewHelperService {
 
     public void populateStudentInfo(AdminRegistrationForm form) throws Exception;
 
+    public void validateCourses(AdminRegistrationForm form) throws Exception;
+
     public List<RegistrationCourse> getCourseRegStudentAndTerm(String studentId, String termCode);
 
 }

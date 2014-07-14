@@ -53,7 +53,7 @@ import java.util.Set;
  * Created by SW Genis on 2014/07/04.
  */
 public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceImpl implements CourseRegAdminViewHelperService {
-    private final static String CACHE_NAME = "CourseOfferingCodeCache";
+    private final static String CACHE_NAME = "AdminRegistrationCodeCache";
     @Override
     public void getRegistrationStatus() {
 
@@ -178,6 +178,17 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
         }
     }
 
+    @Override
+    public void validateCourses(AdminRegistrationForm form) throws Exception {
+
+        for (RegistrationCourse course : form.getPendingCourses()) {
+            if (course.getCode() == null) {
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, AdminRegConstants.ADMIN_REG_MSG_ERROR_COURSECODE_REQUIRED, "code");
+            }
+
+        }
+    }
+
     /**
      * The premise of this is rather simple. Return a distinct list of course code. At a minimum there needs to
      * be one character. It then does a char% search. so E% will return all ENGL or any E* codes.
@@ -204,7 +215,9 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
 
         List<String> results = new ArrayList<String>();
 
-        if(catalogCourseCode == null || catalogCourseCode.isEmpty())   return results;   // if nothing passed in, return empty list
+        if(catalogCourseCode == null || catalogCourseCode.isEmpty())  {
+            return results;   // if nothing passed in, return empty list
+        }
 
         catalogCourseCode = catalogCourseCode.toUpperCase(); // force toUpper
 
@@ -212,18 +225,18 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
 
         // only one character. This is the base search.
         if(catalogCourseCode.length() == 1){
-            Element cachedResult = CourseOfferingManagementUtil.getCacheManager().getCache(CACHE_NAME).get(cacheKey);
+            Element cachedResult = AdminRegistrationUtil.getCacheManager().getCache(CACHE_NAME).get(cacheKey);
 
             Object result;
             if (cachedResult == null) {
-                result = _retrieveCourseCodes(targetTermCode, catalogCourseCode);
-                CourseOfferingManagementUtil.getCacheManager().getCache(CACHE_NAME).put(new Element(cacheKey, result));
+                result = searchCourseCodes(targetTermCode, catalogCourseCode);
+                AdminRegistrationUtil.getCacheManager().getCache(CACHE_NAME).put(new Element(cacheKey, result));
                 results = (List<String>)result;
             } else {
                 results = (List<String>)cachedResult.getValue();
             }
         }else{
-            Element cachedResult = CourseOfferingManagementUtil.getCacheManager().getCache(CACHE_NAME).get(cacheKey);
+            Element cachedResult = AdminRegistrationUtil.getCacheManager().getCache(CACHE_NAME).get(cacheKey);
 
             if (cachedResult == null) {
                 // This is where the recursion happens. If you entered CHEM and it didn't find anything it will
@@ -236,7 +249,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
                     }
                 }
 
-                CourseOfferingManagementUtil.getCacheManager().getCache(CACHE_NAME).put(new Element(cacheKey, results));
+                AdminRegistrationUtil.getCacheManager().getCache(CACHE_NAME).put(new Element(cacheKey, results));
             } else {
                 results = (List<String>)cachedResult.getValue();
             }
@@ -250,35 +263,23 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
      * @param catalogCourseCode the starting characters of a course code
      * @return a list of CourseCodeSuggestResults containing matching course codes
      */
-    private List<String> _retrieveCourseCodes(String targetTermCode, String catalogCourseCode) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+    private List<String> searchCourseCodes(String targetTermCode, String catalogCourseCode) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
 
         List<String> rList = new ArrayList<String>();
         Set<String> rSet = new LinkedHashSet<String>(rList);
         ContextInfo context = ContextUtils.createDefaultContextInfo();
 
-        //First get ATP information
-        List<AtpInfo> atps = CourseOfferingManagementUtil.getAtpService().getAtpsByCode(targetTermCode, context);
-        if(atps == null || atps.size() != 1){
-            return rList;
-        }
+        TermInfo term = this.getTermByCode(targetTermCode);
 
-        //Then do the search
-        SearchRequestInfo request = new SearchRequestInfo("lu.search.courseCodes");
-        request.addParam(CourseInfoByTermLookupableImpl.QueryParamEnum.CODE.getQueryKey(), catalogCourseCode);
-        request.addParam("lu.queryParam.luOptionalType", CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY);
-        request.addParam("lu.queryParam.luOptionalState", Arrays.asList(new String[]{
-                DtoConstants.STATE_ACTIVE, DtoConstants.STATE_RETIRED, DtoConstants.STATE_SUPERSEDED}));
-        request.addParam(CourseInfoByTermLookupableImpl.QueryParamEnum.TERM_START.getQueryKey(), DateFormatters.QUERY_SERVICE_TIMESTAMP_FORMATTER.format(atps.get(0).getStartDate()));
-        request.addParam(CourseInfoByTermLookupableImpl.QueryParamEnum.TERM_END.getQueryKey(), DateFormatters.QUERY_SERVICE_TIMESTAMP_FORMATTER.format(atps.get(0).getEndDate()));
-        request.setSortColumn("lu.resultColumn.cluOfficialIdentifier.cluCode");
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.and(
+                PredicateFactory.like("courseOfferingCode", "*" + catalogCourseCode + "*"),
+                PredicateFactory.equalIgnoreCase("atpId", term.getId())));
+        QueryByCriteria criteria = qbcBuilder.build();
 
-        SearchResultInfo results = CourseOfferingManagementUtil.getCluService().search(request, context);
-        for(SearchResultRow row:results.getRows()){
-            for(SearchResultCell cell:row.getCells()){
-                if("lu.resultColumn.cluOfficialIdentifier.cluCode".equals(cell.getKey())){
-                    rSet.add(cell.getValue());
-                }
-            }
+        List<CourseOfferingInfo> courseOfferings = AdminRegistrationUtil.getCourseOfferingService().searchForCourseOfferings(criteria, context);
+        for(CourseOfferingInfo courseOffering : courseOfferings){
+            rSet.add(courseOffering.getCourseOfferingCode());
         }
         return new ArrayList<String>(rSet);
     }

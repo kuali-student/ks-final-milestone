@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.class2.registration.admin.util;
 
+import net.sf.ehcache.CacheManager;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.PersonService;
@@ -26,6 +27,7 @@ public class AdminRegistrationUtil {
     private static IdentityService identityService;
     private static CourseRegistrationService courseRegService;
     private static CourseOfferingService courseOfferingService;
+    private static CacheManager cacheManager;
 
     public static PersonService getPersonService() {
         if (personService == null) {
@@ -60,5 +62,13 @@ public class AdminRegistrationUtil {
             courseOfferingService = (CourseOfferingService) GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE, CourseOfferingServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return courseOfferingService;
+    }
+
+    public static CacheManager getCacheManager() {
+        if (cacheManager == null) {
+            // "ks-ehcache" is the parent bean in ks-ehcache.xml file. This should probably be a constant.
+            cacheManager = CacheManager.getCacheManager("ks-ehcache");
+        }
+        return cacheManager;
     }
 }
