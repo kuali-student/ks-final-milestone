@@ -205,9 +205,14 @@
                         </bean>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="section" p:label="Section">
+                <bean parent="Uif-InputField" p:propertyName="section" p:label="Section" p:required="true">
                     <property name="control">
-                        <bean parent="KS-Uif-TextControl" p:size="5"/>
+                        <bean parent="KS-Uif-TextControl" p:size="5" p:watermarkText="1001"
+                              p:minLength="4" p:maxLength="4"/>
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="NumericPatternConstraint"
+                              p:messageKey="error.admin.reg.section.code.invalid" p:value="^\d{4}$"/>
                     </property>
                 </bean>
                 <bean parent="Uif-MessageField" p:refreshWhenChangedPropertyNames="#lp.code" p:valign="middle">
