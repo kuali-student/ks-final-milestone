@@ -77,7 +77,7 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
+    @Transactional(readOnly = true)
     public List<DocumentHeaderDisplayInfo> getDocumentHeaderDisplay(String refObjectId, String documentTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<DocumentHeaderDisplayInfo> documentHeaderDisplayInfos = new ArrayList<DocumentHeaderDisplayInfo>();
 
