@@ -108,7 +108,8 @@ public class CourseRegistrationKeyDateTermResolver implements TermResolver<Boole
             // Have to check if user action date is within KeyDate (say, Registration Adjustment Period) start/end dates
             List<MilestoneInfo> mstones = getAtpService().getMilestonesByTypeForAtp(termId, keydateTypeParameter, context);
             for (MilestoneInfo mstone : mstones) {
-                if (mstone.getStartDate().compareTo(userActionDate) > 0 || mstone.getEndDate().compareTo(userActionDate) < 0) {
+                if ((mstone.getStartDate() != null && mstone.getStartDate().compareTo(userActionDate) > 0) ||
+                        (mstone.getEndDate() != null && mstone.getEndDate().compareTo(userActionDate) < 0)) {
                     return false;
                 }
             }
