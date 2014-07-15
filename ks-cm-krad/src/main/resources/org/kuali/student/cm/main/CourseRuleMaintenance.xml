@@ -211,7 +211,7 @@ limitations under the License.
                                         <property name="methodToCall" value="updateRule"/>
                                     </bean>
                                     <bean id="Course-CancelRule-Button" parent="KS-Uif-NavigationActionLink"
-                                          p:performDirtyValidation="false">
+                                          p:performDirtyValidation="true">
                                         <property name="actionLabel" value="Cancel"/>
                                         <property name="methodToCall" value="cancelEditRule"/>
                                     </bean>
