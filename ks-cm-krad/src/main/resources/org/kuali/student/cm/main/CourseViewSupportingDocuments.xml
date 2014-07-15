@@ -53,6 +53,7 @@
         <property name="layoutManager.separateAddLine" value="false"/>
         <property name="layoutManager.richTable.disableTableSort" value="true"/>
         <property name="layoutManager.richTable.render" value="false"/>
+        <property name="onDocumentReadyScript" value="setupCharCounters();"/>
         <property name="header.lowerGroup">
             <bean parent="Uif-VerticalBoxGroup">
                 <property name="render" value="@{#workflowDoc.initiated}"/>
