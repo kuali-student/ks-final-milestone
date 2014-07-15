@@ -182,12 +182,12 @@
             <list>
                 <bean parent="Uif-InputField" p:propertyName="code" p:label="Course Code" p:required="true">
                     <property name="control">
-                        <bean parent="KS-Uif-TextControl" p:size="30" p:watermarkText="ENGL101 or ENGL101A"
-                              p:minLength="7" />
+                        <bean parent="KS-Uif-TextControl" p:size="9" p:watermarkText="ENGL101"
+                              p:minLength="7" p:maxLength="8"/>
                     </property>
                     <property name="validCharactersConstraint">
                         <bean parent="AlphaNumericPatternConstraint"
-                              p:messageKey="error.admin.reg.courseoffering.code.invalid" p:value="^\w{4}\d{3}.*$"/>
+                              p:messageKey="error.admin.reg.courseoffering.code.invalid" p:value="^\w{4}\d{3}.?$"/>
                     </property>
                     <!-- The course code auto-complete -->
                     <property name="suggest">
