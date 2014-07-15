@@ -97,6 +97,7 @@ import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.util.AttributeHelper;
 import org.kuali.student.r2.common.util.constants.LearningObjectiveServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
@@ -1436,21 +1437,27 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             courseInfoWrapper.getCourseInfo().getCrossListings().get(count).setTypeKey(CourseAssemblerConstants.COURSE_CROSSLISTING_IDENT_TYPE);
         }
 
+        /*
+         * Learning Objectives
+         */
         if (courseInfoWrapper.getLoDisplayWrapperModel() != null && courseInfoWrapper.getLoDisplayWrapperModel().getLoWrappers() != null) {
             List<LoDisplayInfoWrapper> loWrappers = courseInfoWrapper.getLoDisplayWrapperModel().getLoWrappers();
             List<LoDisplayInfo> courseLos = courseInfoWrapper.getCourseInfo().getCourseSpecificLOs();
             courseLos.clear();
-            for (int i = 0; i < loWrappers.size(); i++) {
 
+            //  LOs are assigned a sequence via this variable which reflects and preserves the order in which they appeared in the form.
+            int sequence = 0;
+
+            for (int i = 0; i < loWrappers.size(); i++) {
                 LoDisplayInfoWrapper currentLo = loWrappers.get(i);
-                /**
-                 * Reset the ID sothat service can create a new LO instead of update. Update hibernate call rearranges
-                 * the order.
-                 */
-                currentLo.getLoInfo().setId("");
+
+                //  (Re)Set the sequence in the LoInfo dynamic attributes.
+                new AttributeHelper(currentLo.getLoInfo().getAttributes())
+                        .put(CurriculumManagementConstants.LoProperties.SEQUENCE, String.valueOf(sequence++));
 
                 boolean rootLevel = true;
                 int parentIndex = i - 1;
+
                 while (parentIndex >= 0) {
                     LoDisplayInfoWrapper potentialParent = loWrappers.get(parentIndex);
                     boolean parentMatch = currentLo.getIndentLevel() > potentialParent.getIndentLevel();
@@ -1458,7 +1465,6 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                         //currentLo.setParentLoRelationid(potentialParent.getLoInfo().getId());
                         //currentLo.setParentRelType(CourseAssemblerConstants.COURSE_LO_RELATION_INCLUDES);
                         potentialParent.getLoDisplayInfoList().add(currentLo);
-
                         rootLevel = false;
                         break;
                     } else {
@@ -2149,6 +2155,21 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             newDisplayWrappers.add(displayInfoWrapper);
             indentLoOnLoad(newDisplayWrappers, displayInfoWrapper, indent);
         }
+
+        //  Sort the wrappers by their sequence.
+        Collections.sort(newDisplayWrappers, new Comparator<LoDisplayInfoWrapper>() {
+            @Override
+            public int compare(LoDisplayInfoWrapper o1, LoDisplayInfoWrapper o2) {
+                int result = 0;
+                if (o1.getSequence() < o2.getSequence()) {
+                    return -1;
+                } else if (o1.getSequence() > o2.getSequence()) {
+
+                }
+                return result;
+            }
+        });
+
         courseInfoWrapper.getLoDisplayWrapperModel().getLoWrappers().addAll(newDisplayWrappers);
 
         /**

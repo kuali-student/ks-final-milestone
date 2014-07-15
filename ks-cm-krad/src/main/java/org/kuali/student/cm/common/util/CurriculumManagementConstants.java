@@ -168,4 +168,11 @@ public class CurriculumManagementConstants {
     public static String COLLECTION_ITEMS_NEWLINE_DELIMITER = "\n";
     public static String COLLECTION_ITEMS_WHITESPACE_DELIMITER = " ";
     public static String COLLECTION_ITEM_PLURAL_END = "(s)";
+
+    /**
+     * LO dynamic attribute keys.
+     */
+    public static class LoProperties {
+        public static final String SEQUENCE = "sequence";
+    }
 }
