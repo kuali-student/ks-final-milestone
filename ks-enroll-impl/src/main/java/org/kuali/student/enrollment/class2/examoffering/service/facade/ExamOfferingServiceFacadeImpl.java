@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.class2.examoffering.service.facade;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.collection.KSCollectionUtils;
@@ -277,8 +278,10 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
 
                 //(re)perform slotting if use fe matrix toggle is selected and use did not override timeslot.
                 if (checkForMatrixSlotting(examOfferingContext, eo)) {
-                    foResult.getChildren().add(this.getScheduleEvaluator().executeRuleForCOSlotting(coInfo, eo.getId(),
-                            examOfferingContext.getTermType(), new ArrayList<String>(), context));
+                    ExamOfferingResult childResult = this.getScheduleEvaluator().executeRuleForCOSlotting(coInfo, eo.getId(),
+                            examOfferingContext.getTermType(), new ArrayList<String>(), context);
+                    foResult.getChildren().add(childResult);
+                    updateExamOfferingSchedulingStateAfterSlotting(childResult, eo, context);
                 }
 
                 //Create new Exam Offering Relationship
@@ -486,8 +489,10 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
 
                     //(re)perform slotting if use fe matrix toggle is selected and use did not override timeslot.
                     if (checkForMatrixSlotting(examOfferingContext, eo)) {
-                        aoResult.getChildren().add(this.getScheduleEvaluator().executeRuleForAOSlotting(aoInfo, eo.getId(),
-                                examOfferingContext.getTermType(), getAOEvaluatorOptions(), context));
+                        ExamOfferingResult childResult = this.getScheduleEvaluator().executeRuleForAOSlotting(aoInfo, eo.getId(),
+                                examOfferingContext.getTermType(), getAOEvaluatorOptions(), context);
+                        aoResult.getChildren().add(childResult);
+                        updateExamOfferingSchedulingStateAfterSlotting(childResult, eo, context);
                     }
 
                     //Update the result.
@@ -502,6 +507,61 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
 
         removeFinalExamOfferingIfNeeded(examOfferingContext, context, foToEoRelations, eos);
         return result;
+    }
+
+    /**
+     * update the ExamOfferingInfo dynamic attribute after a matrix error slotting
+     */
+    private void updateExamOfferingSchedulingStateAfterSlotting(ExamOfferingResult slottingResult, ExamOfferingInfo eo, ContextInfo context) {
+        boolean matrixError = false;
+
+        if (slottingResult != null) {
+            if (StringUtils.equals(ExamOfferingServiceConstants.EXAM_OFFERING_AO_MATRIX_MATCH_NOT_FOUND, slottingResult.getKey())
+                    || StringUtils.equals(ExamOfferingServiceConstants.EXAM_OFFERING_CO_MATRIX_MATCH_NOT_FOUND, slottingResult.getKey())
+                    || StringUtils.equals(ExamOfferingServiceConstants.EXAM_OFFERING_MATRIX_NOT_FOUND, slottingResult.getKey())
+                    || StringUtils.equals(ExamOfferingServiceConstants.EXAM_OFFERING_ACTIVITY_OFFERING_TIMESLOTS_NOT_FOUND, slottingResult.getKey())) {
+                matrixError = true;
+            }
+        }
+
+        if (matrixError) {
+            if (updateSchedulingStateAttribute(eo.getAttributes(), ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_STATE_ATTR, ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_MATRIX_ERROR_STATE_KEY)) {
+                try {
+                    eo.setSchedulingStateKey(ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_MATRIX_ERROR_STATE_KEY);
+                    this.getExamOfferingService().updateExamOffering(eo.getId(), eo, context);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+    }
+
+    private boolean updateSchedulingStateAttribute(List<AttributeInfo> attributes, String attrKey, String attrValue) {
+        AttributeInfo attributeInfo = getAttributeForKey(attributes, attrKey);
+
+        if (attributeInfo != null) {
+            if (StringUtils.equals(ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_MATRIX_ERROR_STATE_KEY, attributeInfo.getValue())) {
+                return false;
+            } else {
+                attributeInfo.setValue(attrValue);
+            }
+        } else {
+            AttributeInfo newAttr = new AttributeInfo();
+            newAttr.setKey(attrKey);
+            newAttr.setValue(attrValue);
+            attributes.add(newAttr);
+        }
+
+        return true;
+    }
+
+    private static AttributeInfo getAttributeForKey(List<AttributeInfo> attributeInfos, String key) {
+        for (AttributeInfo info : attributeInfos) {
+            if (info.getKey().equals(key)) {
+                return info;
+            }
+        }
+        return null;
     }
 
     protected void removeFinalExamOfferingIfNeeded(ExamOfferingContext examOfferingContext, ContextInfo context, Map<FormatOfferingInfo,
@@ -756,6 +816,12 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
             attributes.add(attribute);
         }
 
+        //set initial EO scheduling state unscheduled
+        AttributeInfo eoSchedulingStateAttr = new AttributeInfo();
+        eoSchedulingStateAttr.setKey(ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_STATE_ATTR);
+        eoSchedulingStateAttr.setValue(ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_UNSCHEDULED_STATE_KEY);
+        attributes.add(eoSchedulingStateAttr);
+
         ExamOfferingInfo eo = new ExamOfferingInfo();
         eo.setTypeKey(ExamOfferingServiceConstants.EXAM_OFFERING_FINAL_TYPE_KEY);
         eo.setStateKey(stateKey);
@@ -813,22 +879,27 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
             return examOfferingContext.getValidationResult();
         }
 
+        ExamOfferingResult result = new ExamOfferingResult();
         if (ExamOfferingContext.Driver.PER_AO.equals(examOfferingContext.getDriver())) {
             if(examOfferingContext.getFoIdToListOfAOs()==null){
                 throw new MissingParameterException("Activity Offerings is null.");
             }
 
-            ExamOfferingResult result = new ExamOfferingResult();
+
             for (Map.Entry<String, List<ActivityOfferingInfo>> foEntry : examOfferingContext.getFoIdToListOfAOs().entrySet()) {
                 for(ActivityOfferingInfo activityOfferingInfo : foEntry.getValue()){
-                    result.getChildren().add(this.getScheduleEvaluator().executeRuleForAOSlotting(activityOfferingInfo,
-                            examOfferingInfo.getId(), examOfferingContext.getTermType(), getAOEvaluatorOptions(), context));
+                    ExamOfferingResult childResult = this.getScheduleEvaluator().executeRuleForAOSlotting(activityOfferingInfo,
+                            examOfferingInfo.getId(), examOfferingContext.getTermType(), getAOEvaluatorOptions(), context);
+                    result.getChildren().add(childResult);
+                    updateExamOfferingSchedulingStateAfterSlotting(childResult, examOfferingInfo, context);
                 }
             }
             return result;
         } else if (ExamOfferingContext.Driver.PER_CO.equals(examOfferingContext.getDriver())) {
-            return this.getScheduleEvaluator().executeRuleForCOSlotting(examOfferingContext.getCourseOffering(), examOfferingInfo.getId(),
+            result = this.getScheduleEvaluator().executeRuleForCOSlotting(examOfferingContext.getCourseOffering(), examOfferingInfo.getId(),
                     examOfferingContext.getTermType(), new ArrayList<String>(), context);
+            updateExamOfferingSchedulingStateAfterSlotting(result, examOfferingInfo, context);
+            return result;
         }
 
         return null;
