@@ -64,6 +64,11 @@ angular.module('regCartApp')
                             console.log('Facet "' + $scope.facet.id + '" is missing the required optionsKey value');
                         }
 
+                        // Sort the options by their label
+                        options.sort(function(a, b) {
+                            return (a.label === b.label ? 0 : (a.label < b.label ? -1 : 1));
+                        });
+
                         return options;
                     };
                 }
