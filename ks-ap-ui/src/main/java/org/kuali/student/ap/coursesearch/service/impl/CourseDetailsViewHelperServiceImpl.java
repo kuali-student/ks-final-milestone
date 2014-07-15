@@ -43,6 +43,7 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
+import org.kuali.student.enrollment.courseseatcount.infc.SeatCount;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -452,8 +453,15 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
         wrapper.setInPlan(false);
 
         try {
-            wrapper.setCurrentEnrollment(KsapFrameworkServiceLocator.getCourseSeatCountService()
-                    .getSeatCountForActivityOffering(aoInfo.getId(), contextInfo).getAvailableSeats());
+            SeatCount seatCount = KsapFrameworkServiceLocator.getCourseSeatCountService()
+                    .getSeatCountForActivityOffering(aoInfo.getId(), contextInfo);
+            if(seatCount!=null){
+                wrapper.setCurrentEnrollment(seatCount.getAvailableSeats());
+            }else{
+                LOG.error("Unable to get seat counts as returned value is null for Activity: "+aoInfo.getActivityId());
+                wrapper.setCurrentEnrollment(0);
+            }
+
         } catch (DoesNotExistException e) {
             throw new IllegalArgumentException("Academic Plan Service lookup error", e);
         } catch (InvalidParameterException e) {
