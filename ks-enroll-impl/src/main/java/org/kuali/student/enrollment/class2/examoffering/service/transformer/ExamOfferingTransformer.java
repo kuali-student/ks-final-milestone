@@ -120,16 +120,19 @@ public class ExamOfferingTransformer {
         }
 
         // if there is an actual schedule tied to the AO, and at least one of the components is not marked TBA, then the AO scheduling state is Scheduled
-        if (eo.getScheduleId() != null) {
-            eo.setSchedulingStateKey(getSchedulingState(eo, scheduleIdToScheduleMap));
-        } else {
-            eo.setSchedulingStateKey(getSchedulingStateByScheduleRequest(eo, luiToScheduleRequestsMap.get(eo.getId()), schedulingService, context));
-        }
+//        if (eo.getScheduleId() != null) {
+//            eo.setSchedulingStateKey(getSchedulingState(eo, scheduleIdToScheduleMap));
+//        } else {
+//            eo.setSchedulingStateKey(getSchedulingStateByScheduleRequest(eo, luiToScheduleRequestsMap.get(eo.getId()), schedulingService, context));
+//        }
 
         //Dynamic attributes
         List<AttributeInfo> attributes = eo.getAttributes();
         for (Attribute attr : lui.getAttributes()) {
             attributes.add(new AttributeInfo(attr));
+            if (ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_STATE_ATTR.equals(attr.getKey())) {
+                eo.setSchedulingStateKey(attr.getValue());
+            }
         }
         eo.setAttributes(attributes);
 
@@ -160,20 +163,23 @@ public class ExamOfferingTransformer {
         }
 
         // if there is an actual schedule tied to the EO, and at least one of the components is not marked TBA, then the EO scheduling state is Scheduled
-        if (eo.getScheduleId() != null) {
-            try {
-                eo.setSchedulingStateKey(getSchedulingState(eo, schedulingService, context));
-            } catch (DoesNotExistException e) {
-                throw new OperationFailedException("Unable the retrieve scheduling state.", e);
-            }
-        } else {
-            eo.setSchedulingStateKey(getSchedulingStateByScheduleRequest(eo, schedulingService, context));
-        }
+//        if (eo.getScheduleId() != null) {
+//            try {
+//                eo.setSchedulingStateKey(getSchedulingState(eo, schedulingService, context));
+//            } catch (DoesNotExistException e) {
+//                throw new OperationFailedException("Unable the retrieve scheduling state.", e);
+//            }
+//        } else {
+//            eo.setSchedulingStateKey(getSchedulingStateByScheduleRequest(eo, schedulingService, context));
+//        }
 
         //Dynamic attributes
         List<AttributeInfo> attributes = eo.getAttributes();
         for (Attribute attr : lui.getAttributes()) {
             attributes.add(new AttributeInfo(attr));
+            if (ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_STATE_ATTR.equals(attr.getKey())) {
+                eo.setSchedulingStateKey(attr.getValue());
+            }
         }
         eo.setAttributes(attributes);
 
@@ -203,6 +209,8 @@ public class ExamOfferingTransformer {
         luiIdentifierInfo.setTypeKey(LuiServiceConstants.LUI_IDENTIFIER_OFFICIAL_TYPE_KEY);
         luiIdentifierInfo.setStateKey(LuiServiceConstants.LUI_IDENTIFIER_ACTIVE_STATE_KEY);
         luiIdentifierInfo.setShortName(eo.getName());
+
+        mergeAttribute(eo.getAttributes(), ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_STATE_ATTR, eo.getSchedulingStateKey());
         lui.setAttributes(eo.getAttributes());
 
     }
@@ -307,6 +315,28 @@ public class ExamOfferingTransformer {
         }
 
         return luiToScheduleRequestsMap;
+    }
+
+    private static void mergeAttribute(List<AttributeInfo> attributes, String attrKey, String attrValue) {
+        AttributeInfo attributeInfo = getAttributeForKey(attributes, attrKey);
+
+        if (attributeInfo != null) {
+            attributeInfo.setValue(attrValue);
+        } else {
+            AttributeInfo newAttr = new AttributeInfo();
+            newAttr.setKey(attrKey);
+            newAttr.setValue(attrValue);
+            attributes.add(newAttr);
+        }
+    }
+
+    private static AttributeInfo getAttributeForKey(List<AttributeInfo> attributeInfos, String key) {
+        for (AttributeInfo info : attributeInfos) {
+            if (info.getKey().equals(key)) {
+                return info;
+            }
+        }
+        return null;
     }
 
     public void transformEORel2LuiLuiRel(ExamOfferingRelationInfo examOfferingRelationInfo, LuiLuiRelationInfo luiRel, String examOfferingTypeKey){
