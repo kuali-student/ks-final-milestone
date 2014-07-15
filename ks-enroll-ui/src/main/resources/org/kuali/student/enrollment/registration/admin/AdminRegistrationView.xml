@@ -116,7 +116,7 @@
                                 </property>
 
                             </bean>
-                            <bean parent="Uif-SecondaryActionButton" p:actionLabel="Go"
+                            <bean parent="Uif-SecondaryActionButton" p:actionLabel="Go" p:performClientSideValidation="true"
                                   p:id="changeTermGoButton" p:methodToCall="getRegistrationInfo"/>
                             <bean parent="Uif-MessageField" p:messageText="[b]@{termName}[/b]"/>
                         </list>
