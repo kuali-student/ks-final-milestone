@@ -30,6 +30,7 @@ import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationA
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationCourse;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationIssue;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationIssueItem;
+import org.kuali.student.enrollment.class2.registration.admin.service.AdminRegistrationViewHelperService;
 import org.kuali.student.enrollment.class2.registration.admin.service.impl.AdminRegistrationViewHelperServiceImpl;
 import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
@@ -114,8 +115,8 @@ public class AdminRegistrationController extends UifControllerBase {
                 form.setTermInfo(term);
                 form.setTermName(term.getName());
 
-                form.setRegisteredCourses(getViewHelper(form).getCourseRegStudentAndTerm(form.getStudentId(), term.getId()));
-                form.setWaitlistedCourses(getViewHelper(form).getCourseWaitListStudentAndTerm(form.getStudentId(),term.getId()));
+                form.setRegisteredCourses(getViewHelper(form).getCourseRegForStudentAndTerm(form.getStudentId(), term.getId()));
+                form.setWaitlistedCourses(getViewHelper(form).getCourseWaitListForStudentAndTerm(form.getStudentId(), term.getId()));
             }else {
                 form.clearTermAndCourseRegistrationInfo();
             }
@@ -141,20 +142,7 @@ public class AdminRegistrationController extends UifControllerBase {
             course.setCredits(3);
             course.setRegDate(new Date());
             course.setRegOptions("reg");
-            List<RegistrationActivity> activities = new ArrayList<RegistrationActivity>();
-            RegistrationActivity activity = new RegistrationActivity();
-            activity.setType("Lec");
-            activity.setDateTime("MWF 01:00pm - 02:30pm");
-            activity.setInstructor("Steve Capriani");
-            activity.setRoom("PTX 2391");
-            activities.add(activity);
-            activity = new RegistrationActivity();
-            activity.setType("Lab");
-            activity.setDateTime( "MWF 02:30pm - 03:30pm");
-            activity.setInstructor("Steve Capriani");
-            activity.setRoom("PTX 2391");
-            activities.add(activity);
-            course.setActivities(activities);
+            course.setActivities(getViewHelper(form).getRegistrationActivitiesForRegistrationCourse(course, form.getTermCode()));
         }
 
         return showDialog(AdminRegConstants.REG_CONFIRM_DIALOG, form, request, response);
@@ -397,7 +385,7 @@ public class AdminRegistrationController extends UifControllerBase {
      * @param form
      * @return
      */
-    protected AdminRegistrationViewHelperServiceImpl getViewHelper(UifFormBase form) {
-        return (AdminRegistrationViewHelperServiceImpl) KSControllerHelper.getViewHelperService(form);
+    protected AdminRegistrationViewHelperService getViewHelper(UifFormBase form) {
+        return (AdminRegistrationViewHelperService) KSControllerHelper.getViewHelperService(form);
     }
 }

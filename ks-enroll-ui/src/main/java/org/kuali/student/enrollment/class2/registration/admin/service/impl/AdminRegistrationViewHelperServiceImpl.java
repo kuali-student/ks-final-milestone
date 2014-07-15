@@ -6,28 +6,28 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.identity.affiliation.EntityAffiliation;
-import org.kuali.rice.kim.api.identity.entity.Entity;
-import org.kuali.rice.kim.api.identity.name.EntityName;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.uif.service.impl.KSViewHelperServiceImpl;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
 import org.kuali.student.enrollment.class2.registration.admin.form.AdminRegistrationForm;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationActivity;
 import org.kuali.student.enrollment.class2.registration.admin.form.RegistrationCourse;
-import org.kuali.student.enrollment.class2.registration.admin.service.CourseRegAdminViewHelperService;
+import org.kuali.student.enrollment.class2.registration.admin.service.AdminRegistrationViewHelperService;
 import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegConstants;
 import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegistrationUtil;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
+import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
+import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
+import org.kuali.student.enrollment.courseoffering.infc.FormatOffering;
+import org.kuali.student.enrollment.courseoffering.infc.RegistrationGroup;
 import org.kuali.student.enrollment.courseregistration.dto.ActivityRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -48,10 +48,10 @@ import java.util.List;
 /**
  * Created by SW Genis on 2014/07/04.
  */
-public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceImpl implements CourseRegAdminViewHelperService {
-    
+public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceImpl implements AdminRegistrationViewHelperService {
+
     private final static String CACHE_NAME = "AdminRegistrationCodeCache";
-    
+
     @Override
     public void getRegistrationStatus() {
 
@@ -82,7 +82,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
     @Override
     public TermInfo getTermByCode(String termCode) {
 
-        try{
+        try {
             QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
 
             qbcBuilder.setPredicates(PredicateFactory.equal(CourseOfferingConstants.ATP_CODE, termCode));
@@ -100,13 +100,13 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
                 return null;
             }
             return terms.get(firstTerm);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw convertServiceExceptionsToUI(e);
         }
     }
 
     @Override
-    public List<RegistrationCourse> getCourseRegStudentAndTerm(String studentId, String termCode) {
+    public List<RegistrationCourse> getCourseRegForStudentAndTerm(String studentId, String termCode) {
 
         List<RegistrationCourse> registeredCourses = new ArrayList<RegistrationCourse>();
 
@@ -115,17 +115,10 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
             List<CourseRegistrationInfo> courseRegistrationInfos = AdminRegistrationUtil.getCourseRegistrationService().getCourseRegistrationsByStudentAndTerm(studentId, termCode, createContextInfo());
 
             for (CourseRegistrationInfo courseRegInfo : courseRegistrationInfos) {
+                RegistrationCourse registeredCourse = createRegistrationCourse(courseRegInfo);
 
-                RegistrationCourse registeredCourse = new RegistrationCourse();
-                CourseOfferingInfo coInfo = AdminRegistrationUtil.getCourseOfferingService().getCourseOffering(courseRegInfo.getCourseOfferingId(), createContextInfo());
-                registeredCourse.setCode(coInfo.getCourseOfferingCode());
-                registeredCourse.setTitle(coInfo.getCourseOfferingTitle());
-                registeredCourse.setCredits(Integer.parseInt(coInfo.getCreditCnt()));
-                registeredCourse.setRegDate(courseRegInfo.getEffectiveDate());
-                registeredCourse.setSection(AdminRegistrationUtil.getCourseOfferingService().getRegistrationGroup(courseRegInfo.getRegistrationGroupId(), createContextInfo()).getRegistrationCode());
-
-                List<ActivityRegistrationInfo> activityOfferings = AdminRegistrationUtil.getCourseRegistrationService().getActivityRegistrationsForCourseRegistration(courseRegInfo.getId(), createContextInfo());
-                registeredCourse.setActivities(retrieveRegistrationActivities(activityOfferings));
+                List<ActivityRegistrationInfo> activityRegistrations = AdminRegistrationUtil.getCourseRegistrationService().getActivityRegistrationsForCourseRegistration(courseRegInfo.getId(), createContextInfo());
+                registeredCourse.setActivities(createRegistrationActivitiesFromList(activityRegistrations));
                 registeredCourses.add(registeredCourse);
             }
 
@@ -135,7 +128,8 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
         return registeredCourses;
     }
 
-    public List<RegistrationCourse> getCourseWaitListStudentAndTerm(String studentId, String termCode) {
+    @Override
+    public List<RegistrationCourse> getCourseWaitListForStudentAndTerm(String studentId, String termCode) {
 
         List<RegistrationCourse> waitListCourses = new ArrayList<RegistrationCourse>();
 
@@ -143,17 +137,10 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
             List<CourseRegistrationInfo> courseWaitListInfos = AdminRegistrationUtil.getCourseWaitlistService().getCourseWaitListRegistrationsByStudentAndTerm(studentId, termCode, createContextInfo());
 
             for (CourseRegistrationInfo courseWaitListInfo : courseWaitListInfos) {
-                RegistrationCourse waitListCourse = new RegistrationCourse();
+                RegistrationCourse waitListCourse = createRegistrationCourse(courseWaitListInfo);
 
-                CourseOfferingInfo coInfo = AdminRegistrationUtil.getCourseOfferingService().getCourseOffering(courseWaitListInfo.getCourseOfferingId(), createContextInfo());
-                waitListCourse.setCode(coInfo.getCourseOfferingCode());
-                waitListCourse.setTitle(coInfo.getCourseOfferingTitle());
-                waitListCourse.setCredits(Integer.parseInt(coInfo.getCreditCnt()));
-                waitListCourse.setRegDate(courseWaitListInfo.getEffectiveDate());
-                waitListCourse.setSection(AdminRegistrationUtil.getCourseOfferingService().getRegistrationGroup(courseWaitListInfo.getRegistrationGroupId(), createContextInfo()).getRegistrationCode());
-
-                List<ActivityRegistrationInfo> activityOfferings = AdminRegistrationUtil.getCourseWaitlistService().getActivityWaitListRegistrationsForCourseRegistration(courseWaitListInfo.getId(), createContextInfo());
-                waitListCourse.setActivities(retrieveRegistrationActivities(activityOfferings));
+                List<ActivityRegistrationInfo> activityRegistrations = AdminRegistrationUtil.getCourseWaitlistService().getActivityWaitListRegistrationsForCourseRegistration(courseWaitListInfo.getId(), createContextInfo());
+                waitListCourse.setActivities(createRegistrationActivitiesFromList(activityRegistrations));
                 waitListCourses.add(waitListCourse);
             }
 
@@ -163,10 +150,25 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
         return waitListCourses;
     }
 
+    private RegistrationCourse createRegistrationCourse(CourseRegistrationInfo courseWaitListInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        CourseOfferingInfo coInfo = AdminRegistrationUtil.getCourseOfferingService().getCourseOffering(courseWaitListInfo.getCourseOfferingId(), createContextInfo());
+
+        RegistrationCourse waitListCourse = new RegistrationCourse();
+        waitListCourse.setCode(coInfo.getCourseOfferingCode());
+        waitListCourse.setTitle(coInfo.getCourseOfferingTitle());
+        waitListCourse.setCredits(Integer.parseInt(coInfo.getCreditCnt()));
+        waitListCourse.setRegDate(courseWaitListInfo.getEffectiveDate());
+
+        waitListCourse.setSection(AdminRegistrationUtil.getCourseOfferingService().getRegistrationGroup(courseWaitListInfo.getRegistrationGroupId(), createContextInfo()).getRegistrationCode());
+        return waitListCourse;
+    }
+
     /**
      * Method accpets RegistrationCourse and CourseRegistrationInfo
      * to retrieve the ActivitiesInfo
-     * @param activityOfferings
+     *
+     * @param activityRegistrations
      * @return
      * @throws InvalidParameterException
      * @throws MissingParameterException
@@ -174,61 +176,103 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
      * @throws PermissionDeniedException
      * @throws DoesNotExistException
      */
-    private List<RegistrationActivity> retrieveRegistrationActivities(List<ActivityRegistrationInfo> activityOfferings) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+    private List<RegistrationActivity> createRegistrationActivitiesFromList(List<ActivityRegistrationInfo> activityRegistrations)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
 
-        List<RegistrationActivity> registrationActivity = new ArrayList<RegistrationActivity>();
-
-        for (ActivityRegistrationInfo activityRegInfo : activityOfferings) {
-            //"Lec", "MWF 04:00pm - 05:30pm", "Steve Capriani", "PTX 2391"
-            RegistrationActivity regActivity = new RegistrationActivity();
-
+        List<RegistrationActivity> registrationActivities = new ArrayList<RegistrationActivity>();
+        for (ActivityRegistrationInfo activityRegInfo : activityRegistrations) {
             ActivityOfferingInfo aoInfo = AdminRegistrationUtil.getCourseOfferingService().getActivityOffering(activityRegInfo.getActivityOfferingId(), createContextInfo());
-            List<ScheduleInfo> scheduleInfos = AdminRegistrationUtil.getSchedulingService().getSchedulesByIds(aoInfo.getScheduleIds(), createContextInfo());
-
-            StringBuilder dateTimeSchedule = new StringBuilder();
-            StringBuilder roomBuildInfo = new StringBuilder();
-
-            for (ScheduleInfo scheduleInfo : scheduleInfos) {
-                /**
-                 * Until we implement external scheduler, there is going to be only one Schedule component for every scheduleinfo
-                 * and the UI doesn't allow us to add multiple components to a schedule request.
-                 */
-                for (ScheduleComponentInfo componentInfo : scheduleInfo.getScheduleComponents()) {
-
-                    List<TimeSlotInfo> timeSlotInfos = AdminRegistrationUtil.getSchedulingService().getTimeSlotsByIds(componentInfo.getTimeSlotIds(), createContextInfo());
-                    // Assume only zero or one (should never be more than 1 until we support partial colo)
-                    TimeSlotInfo timeSlotInfo = KSCollectionUtils.getOptionalZeroElement(timeSlotInfos);
-
-                    dateTimeSchedule.append(SchedulingServiceUtil.weekdaysList2WeekdaysString(timeSlotInfo.getWeekdays()));
-                    dateTimeSchedule.append(" ");
-                    //org.apache.commons.lang.StringUtils.substringBefore(timeSlotInfos.get(0).getStartTime(), " ")
-
-                    dateTimeSchedule.append(TimeOfDayHelper.makeFormattedTimeForAOSchedules(timeSlotInfo.getStartTime()));
-                    dateTimeSchedule.append(" - ");
-                    dateTimeSchedule.append(TimeOfDayHelper.makeFormattedTimeForAOSchedules(timeSlotInfo.getEndTime()));
-
-                    try {
-                        RoomInfo room = AdminRegistrationUtil.getRoomService().getRoom(componentInfo.getRoomId(), createContextInfo());
-                        //retrieve the buildingInfo from the Room.
-                        BuildingInfo buildingInfo = AdminRegistrationUtil.getRoomService().getBuilding(room.getBuildingId(), createContextInfo());
-                        roomBuildInfo.append(buildingInfo.getBuildingCode());
-                        roomBuildInfo.append(" ");
-                        roomBuildInfo.append(room.getRoomCode());
-
-                    }catch (Exception e){
-                        throw new RuntimeException("Could not retrieve Room RoomService for " + e);
-                    }
-                }
-                regActivity.setType(aoInfo.getName());
-                regActivity.setDateTime(dateTimeSchedule.toString());
-                // Assume only zero or one (should never be more than 1 until we support partial colo)
-                OfferingInstructorInfo offeringInstructorInfo = KSCollectionUtils.getOptionalZeroElement(aoInfo.getInstructors());
-                regActivity.setInstructor(offeringInstructorInfo.getPersonName());
-                regActivity.setRoom(roomBuildInfo.toString());
-            }
-            registrationActivity.add(regActivity);
+            registrationActivities.add(createRegistrationActivity(aoInfo));
         }
-        return registrationActivity;
+        return registrationActivities;
+    }
+
+    @Override
+    public List<RegistrationActivity> getRegistrationActivitiesForRegistrationCourse(RegistrationCourse registrationCourse, String termCode) {
+
+        List<RegistrationGroupInfo> regGroups = new ArrayList<RegistrationGroupInfo>();
+        try {
+            CourseOfferingInfo courseOffering = this.getCourseOfferingByCodeAndTerm(termCode, registrationCourse.getCode());
+            List<FormatOfferingInfo> formatOfferings = AdminRegistrationUtil.getCourseOfferingService().getFormatOfferingsByCourseOffering(
+                    courseOffering.getId(), ContextUtils.createDefaultContextInfo());
+            for(FormatOfferingInfo formatOffering : formatOfferings) {
+                regGroups.addAll(AdminRegistrationUtil.getCourseOfferingService().getRegistrationGroupsByFormatOffering(
+                        formatOffering.getId(), ContextUtils.createDefaultContextInfo()));
+            }
+        } catch (Exception e) {
+            throw convertServiceExceptionsToUI(e);
+        }
+
+        RegistrationGroupInfo registrationGroup = null;
+        for(RegistrationGroupInfo regGroup : regGroups){
+            if(registrationCourse.getSection().equals(regGroup.getName())){
+                registrationGroup = regGroup;
+            }
+        }
+
+        List<RegistrationActivity> registrationActivities = new ArrayList<RegistrationActivity>();
+        try {
+            List<ActivityOfferingInfo> activityOfferings = AdminRegistrationUtil.getCourseOfferingService().getActivityOfferingsByIds(
+                    registrationGroup.getActivityOfferingIds(), createContextInfo());
+            for (ActivityOfferingInfo activityOffering : activityOfferings) {
+                registrationActivities.add(createRegistrationActivity(activityOffering));
+            }
+        } catch (Exception e){
+            throw convertServiceExceptionsToUI(e);
+        }
+
+        return registrationActivities;
+    }
+
+    private RegistrationActivity createRegistrationActivity(ActivityOfferingInfo activityOffering)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        RegistrationActivity regActivity = new RegistrationActivity();
+
+        // Assume only zero or one (should never be more than 1 until we support partial colo)
+        OfferingInstructorInfo offeringInstructorInfo = CourseOfferingViewHelperUtil.findDisplayInstructor(activityOffering.getInstructors());
+        regActivity.setInstructor(offeringInstructorInfo.getPersonName());
+        regActivity.setType(activityOffering.getName());
+
+        List<ScheduleInfo> scheduleInfos = AdminRegistrationUtil.getSchedulingService().getSchedulesByIds(activityOffering.getScheduleIds(), createContextInfo());
+
+        StringBuilder dateTimeSchedule = new StringBuilder();
+        StringBuilder roomBuildInfo = new StringBuilder();
+
+        for (ScheduleInfo scheduleInfo : scheduleInfos) {
+            /**
+             * Until we implement external scheduler, there is going to be only one Schedule component for every scheduleinfo
+             * and the UI doesn't allow us to add multiple components to a schedule request.
+             */
+            ScheduleComponentInfo componentInfo = KSCollectionUtils.getOptionalZeroElement(scheduleInfo.getScheduleComponents());
+
+            List<TimeSlotInfo> timeSlotInfos = AdminRegistrationUtil.getSchedulingService().getTimeSlotsByIds(componentInfo.getTimeSlotIds(), createContextInfo());
+            // Assume only zero or one (should never be more than 1 until we support partial colo)
+            TimeSlotInfo timeSlotInfo = KSCollectionUtils.getOptionalZeroElement(timeSlotInfos);
+
+            dateTimeSchedule.append(SchedulingServiceUtil.weekdaysList2WeekdaysString(timeSlotInfo.getWeekdays()));
+            dateTimeSchedule.append(" ");
+
+            dateTimeSchedule.append(TimeOfDayHelper.makeFormattedTimeForAOSchedules(timeSlotInfo.getStartTime()));
+            dateTimeSchedule.append(" - ");
+            dateTimeSchedule.append(TimeOfDayHelper.makeFormattedTimeForAOSchedules(timeSlotInfo.getEndTime()));
+            regActivity.setDateTime(dateTimeSchedule.toString());
+
+            try {
+                RoomInfo room = AdminRegistrationUtil.getRoomService().getRoom(componentInfo.getRoomId(), createContextInfo());
+                //retrieve the buildingInfo from the Room.
+                BuildingInfo buildingInfo = AdminRegistrationUtil.getRoomService().getBuilding(room.getBuildingId(), createContextInfo());
+                roomBuildInfo.append(buildingInfo.getBuildingCode());
+                roomBuildInfo.append(" ");
+                roomBuildInfo.append(room.getRoomCode());
+                regActivity.setRoom(roomBuildInfo.toString());
+
+            } catch (Exception e) {
+                throw new RuntimeException("Could not retrieve Room RoomService for " + e);
+            }
+
+        }
+        return regActivity;
     }
 
     @Override
@@ -261,8 +305,8 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
         MultiKey cacheKey = new MultiKey(termCode, course.getCode());
         Element cachedResult = AdminRegistrationUtil.getCacheManager().getCache(CACHE_NAME).get(cacheKey);
 
-        if(cachedResult!=null) {
-            course.setTitle(((CourseOfferingInfo)cachedResult.getValue()).getCourseOfferingTitle());
+        if (cachedResult != null) {
+            course.setTitle(((CourseOfferingInfo) cachedResult.getValue()).getCourseOfferingTitle());
         } else {
             course.setTitle(StringUtils.EMPTY);
         }
@@ -300,9 +344,12 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
         // only one character. This is the base search.
         if (cachedResult == null) {
             if (courseCode.length() == 1) {
-                List<String> result = searchCourseOfferingsByCodeAndTerm(termCode, courseCode);
-                AdminRegistrationUtil.getCacheManager().getCache(CACHE_NAME).put(new Element(cacheKey, result));
-                return result;
+                List<CourseOfferingInfo> searchResult = searchCourseOfferingsByCodeAndTerm(termCode, courseCode);
+                for(CourseOfferingInfo courseOffering : searchResult){
+                    results.add(courseOffering.getCourseOfferingCode());
+                }
+                AdminRegistrationUtil.getCacheManager().getCache(CACHE_NAME).put(new Element(cacheKey, results));
+                return results;
             }
 
             // This is where the recursion happens. If you entered CHEM and it didn't find anything it will
@@ -323,13 +370,27 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
         return results;
     }
 
+    private CourseOfferingInfo getCourseOfferingByCodeAndTerm(String termCode, String courseCode)
+            throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException {
+
+        MultiKey cacheKey = new MultiKey(termCode, courseCode);
+        Element cachedResult = AdminRegistrationUtil.getCacheManager().getCache(CACHE_NAME).get(cacheKey);
+        if (cachedResult == null) {
+            List<CourseOfferingInfo> courseOfferings = searchCourseOfferingsByCodeAndTerm(termCode, courseCode);
+            return KSCollectionUtils.getOptionalZeroElement(courseOfferings);
+        }
+
+        return (CourseOfferingInfo) cachedResult.getValue();
+    }
+
     /**
      * Does a search Query for course codes used for auto suggest
      *
      * @param courseCode the starting characters of a course code
      * @return a list of CourseCodeSuggestResults containing matching course codes
      */
-    private List<String> searchCourseOfferingsByCodeAndTerm(String termCode, String courseCode) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+    private List<CourseOfferingInfo> searchCourseOfferingsByCodeAndTerm(String termCode, String courseCode)
+            throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
 
         ContextInfo context = ContextUtils.createDefaultContextInfo();
         TermInfo term = this.getTermByCode(termCode);
@@ -340,14 +401,12 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
                 PredicateFactory.equalIgnoreCase("atpId", term.getId())));
         QueryByCriteria criteria = qbcBuilder.build();
 
-        List<String> resultList = new ArrayList<String>();
         List<CourseOfferingInfo> results = AdminRegistrationUtil.getCourseOfferingService().searchForCourseOfferings(criteria, context);
-        for(CourseOfferingInfo result : results) {
+        for (CourseOfferingInfo result : results) {
             MultiKey cacheKey = new MultiKey(termCode, result.getCourseOfferingCode());
             AdminRegistrationUtil.getCacheManager().getCache(CACHE_NAME).put(new Element(cacheKey, result));
-            resultList.add(result.getCourseOfferingCode());
         }
-        return resultList;
+        return results;
     }
 
 }
