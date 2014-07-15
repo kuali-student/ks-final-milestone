@@ -991,15 +991,17 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 }
             } else if ((deleteLine != null) && (deleteLine instanceof SupportingDocumentInfoWrapper)) {
                 SupportingDocumentInfoWrapper supportingDocumentInfoWrapper = (SupportingDocumentInfoWrapper) deleteLine;
-                try {
-                    // Deletes the document and its Ref doc relations
-                    getSupportingDocumentService().deleteDocument(supportingDocumentInfoWrapper.getDocumentId(), ContextUtils.createDefaultContextInfo());
-                    List<RefDocRelationInfo> refDocRelationInfoList = getSupportingDocumentService().getRefDocRelationsByDocument(supportingDocumentInfoWrapper.getDocumentId(), ContextUtils.createDefaultContextInfo());
-                    for (RefDocRelationInfo refDocRelationInfo : refDocRelationInfoList) {
-                        getSupportingDocumentService().deleteRefDocRelation(refDocRelationInfo.getId(), ContextUtils.createDefaultContextInfo());
+                if (StringUtils.isNotBlank(supportingDocumentInfoWrapper.getDocumentId())) {
+                    try {
+                        // Deletes the document and its Ref doc relations
+                        getSupportingDocumentService().deleteDocument(supportingDocumentInfoWrapper.getDocumentId(), ContextUtils.createDefaultContextInfo());
+                        List<RefDocRelationInfo> refDocRelationInfoList = getSupportingDocumentService().getRefDocRelationsByDocument(supportingDocumentInfoWrapper.getDocumentId(), ContextUtils.createDefaultContextInfo());
+                        for (RefDocRelationInfo refDocRelationInfo : refDocRelationInfoList) {
+                            getSupportingDocumentService().deleteRefDocRelation(refDocRelationInfo.getId(), ContextUtils.createDefaultContextInfo());
+                        }
+                    } catch (Exception ex) {
+                        LOG.warn("Unable to delete document: " + supportingDocumentInfoWrapper.getDocumentName(), ex);
                     }
-                } catch (Exception ex) {
-                    LOG.warn("Unable to delete document: " + supportingDocumentInfoWrapper.getDocumentName(), ex);
                 }
             }
         }
@@ -2087,7 +2089,9 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             populateJointCourseOnWrapper();
 
             populateLearningObjectives();
-            populateSupportingDocuments();
+            if (dataObject.getDocumentsToAdd().isEmpty()) {
+                populateSupportingDocuments();
+            }
 
             updateReview(false);
 

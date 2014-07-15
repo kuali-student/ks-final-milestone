@@ -97,7 +97,8 @@
                 <bean parent="Uif-ActionLinkField" p:actionLabel="@{#line.documentName}" p:methodToCall="downloadSupportingDoc"  p:render="@{!#empty(#line.documentId)}"
                       p:ajaxSubmit="false"
                       p:disableBlocking="true"
-                      p:onClickScript="writeHiddenToForm(&quot;ajaxReturnType&quot;, &quot;update-none&quot;);"/>
+                      p:onClickScript="writeHiddenToForm(&quot;ajaxReturnType&quot;, &quot;update-none&quot;);"
+                      p:additionalCssClasses="supporting-doc-download-link" />
                 <bean parent="Uif-InputField" p:label="Description" p:propertyName="description" p:readOnly="@{!#empty(#line.documentId)}"
                       p:escapeHtmlInPropertyValue="false" class="org.kuali.student.cm.uif.element.InputFieldWithNonClobberableFieldLabel">
                     <property name="control">
