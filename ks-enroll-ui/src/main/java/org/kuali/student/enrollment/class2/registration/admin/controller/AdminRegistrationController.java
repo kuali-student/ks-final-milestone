@@ -81,11 +81,6 @@ public class AdminRegistrationController extends UifControllerBase {
                                        HttpServletRequest request, HttpServletResponse response) {
 
         form.clear();
-
-        if (GlobalVariables.getMessageMap().getErrorCount() > 0) {
-            return getUIFModelAndView(form);
-        }
-
         this.validateUserPopulatedStudentIdField(form);
         if (GlobalVariables.getMessageMap().hasErrors()) {
             return getUIFModelAndView(form);
@@ -96,11 +91,6 @@ public class AdminRegistrationController extends UifControllerBase {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-        if (GlobalVariables.getMessageMap().getErrorCount() > 0) {
-            return getUIFModelAndView(form);
-        }
-
         return getUIFModelAndView(form);
     }
 

@@ -82,7 +82,7 @@
                                 </property>
 
                             </bean>
-                            <bean parent="Uif-SecondaryActionButton" p:performClientSideValidation="false"
+                            <bean parent="Uif-SecondaryActionButton" p:performClientSideValidation="true"
                                   p:actionLabel="Go" p:methodToCall="getStudentInfo"
                                   p:jumpToIdAfterSubmit="TOP" p:ajaxSubmit="false" p:id="go_button"/>
                             <bean parent="Uif-MessageField" p:id="studentInfoMsg" p:render="@{studentId != null}"
