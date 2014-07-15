@@ -250,9 +250,4 @@ public interface MinorDiscipline extends IdNamelessEntity {
      * @name Last Awarded Term
      */
     public String getLastAwardedTerm();
-
-    /**
-     * @name Track Id
-     */
-    public String getTrackId();
 }

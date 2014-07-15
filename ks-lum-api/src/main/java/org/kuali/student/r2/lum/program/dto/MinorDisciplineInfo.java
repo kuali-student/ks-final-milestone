@@ -185,8 +185,6 @@ public class MinorDisciplineInfo extends IdNamelessEntityInfo implements MinorDi
     private String referenceURL;
     @XmlElement
     private String lastAwardedTerm;
-    @XmlElement
-    private String trackId;
 
     @XmlAnyElement
     private List<Object> _futureElements;
@@ -324,7 +322,6 @@ public class MinorDisciplineInfo extends IdNamelessEntityInfo implements MinorDi
         }
         this.referenceURL = minorDiscipline.getReferenceURL();
         this.lastAwardedTerm = minorDiscipline.getLastAwardedTerm();
-        this.trackId = minorDiscipline.getTrackId();
     }
 
     @Override
@@ -675,14 +672,5 @@ public class MinorDisciplineInfo extends IdNamelessEntityInfo implements MinorDi
 
     public void setLastAwardedTerm(String lastAwardedTerm) {
         this.lastAwardedTerm = lastAwardedTerm;
-    }
-
-    @Override
-    public String getTrackId() {
-        return trackId;
-    }
-
-    public void setTrackId(String trackId) {
-        this.trackId = trackId;
     }
 }

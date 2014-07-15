@@ -17,7 +17,6 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
-
 import org.kuali.student.r1.common.dictionary.service.DictionaryService;
 import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -44,6 +43,7 @@ import org.kuali.student.r2.lum.program.dto.MinorDisciplineInfo;
 import org.kuali.student.r2.lum.program.dto.CoreProgramInfo;
 import org.kuali.student.r2.lum.program.dto.ProgramRequirementInfo;
 import org.kuali.student.r2.lum.program.dto.ProgramVariationInfo;
+import org.kuali.student.r2.lum.program.dto.TrackInfo;
 
 /**
  * The Program Service allows for the creation and management of programs.
@@ -798,8 +798,85 @@ public interface ProgramService extends  SearchService,  VersionManagementServic
             MissingParameterException, OperationFailedException;
 
     /**
+     * Creates a Track
+     *
+     * @param trackInfo trackInfo
+     * @return the created Track
+     * @throws AlreadyExistsException The Track already exists
+     * @throws DataValidationErrorException One or more values invalid for this
+     *             operation
+     * @throws InvalidParameterException invalid Track
+     * @throws MissingParameterException missing Track
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public TrackInfo createTrack(@WebParam(name = "trackTypeKey") String trackTypeKey,
+                                                     @WebParam(name = "trackInfo") TrackInfo trackInfo,
+                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws AlreadyExistsException,
+            DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     *
+     * @param trackId
+     * @param trackTypeKey
+     * @param trackInfo
+     * @param contextInfo
+     * @return TrackInfo the Track
+     * @throws DataValidationErrorException One or more values invalid for this operation
+     * @throws DoesNotExistException Track not found
+     * @throws InvalidParameterException invalid Track
+     * @throws MissingParameterException missing Track
+     * @throws VersionMismatchException The action was attempted on an out of date version
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public TrackInfo updateTrack(@WebParam(name = "trackId") String trackId,
+                                 @WebParam(name = "trackTypeKey") String trackTypeKey,
+                                                     @WebParam(name = "trackInfo") TrackInfo trackInfo,
+                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException,
+            OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Deletes a Track
+     *
+     * @param trackId identifier for trackId.Maps to cluId
+     * @return status of the operation (success or failure)
+     * @throws DoesNotExistException Track does not exist
+     * @throws InvalidParameterException invalid trackId
+     * @throws MissingParameterException invalid trackId
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo deleteTrack(@WebParam(name = "trackId") String trackId,
+                                            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Validates a Track against its data dictionary
+     *
+     * @param validationType identifier of the extent of validation
+     * @param trackInfo Track information to be tested
+     * @return results from performing the validation
+     * @throws InvalidParameterException invalid validationTypeKey, cluInfo
+     * @throws MissingParameterException missing validationTypeKey, cluInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException
+     */
+    public List<ValidationResultInfo> validateTrack(@WebParam(name = "validationType") String validationType,
+                                                    @WebParam(name = "trackInfo") TrackInfo trackInfo,
+                                                    @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
      * Creates a Minor Discipline Program
-     * 
+     *
      * @param minorDisciplineInfo minorDisciplineInfo
      * @return the created Minor Discipline
      * @throws AlreadyExistsException The Minor already exists
@@ -811,7 +888,7 @@ public interface ProgramService extends  SearchService,  VersionManagementServic
      * @throws PermissionDeniedException authorization failure
      */
     public MinorDisciplineInfo createMinorDiscipline(@WebParam(name = "minorDisciplineTypeKey") String minorDisciplineTypeKey,
-            @WebParam(name = "minorDisciplineInfo") MinorDisciplineInfo minorDisciplineInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException,
+                                                     @WebParam(name = "minorDisciplineInfo") MinorDisciplineInfo minorDisciplineInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException,
             DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
@@ -829,9 +906,12 @@ public interface ProgramService extends  SearchService,  VersionManagementServic
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public MinorDisciplineInfo updateMinorDiscipline(@WebParam(name = "minorDisciplineId") String minorDisciplineId, @WebParam(name = "minorDisciplineTypeKey") String minorDisciplineTypeKey,
-            @WebParam(name = "minorDisciplineInfo") MinorDisciplineInfo minorDisciplineInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException,
-            DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException, PermissionDeniedException;
+    public MinorDisciplineInfo updateMinorDiscipline(@WebParam(name = "minorDisciplineId") String minorDisciplineId,
+                                                     @WebParam(name = "minorDisciplineTypeKey") String minorDisciplineTypeKey,
+            @WebParam(name = "minorDisciplineInfo") MinorDisciplineInfo minorDisciplineInfo,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException,
+            DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException,
+            OperationFailedException, PermissionDeniedException;
 
     /**
      * Deletes a Minor Discipline
@@ -846,6 +926,28 @@ public interface ProgramService extends  SearchService,  VersionManagementServic
      */
     public StatusInfo deleteMinorDiscipline(@WebParam(name = "minorDisciplineId") String minorDisciplineId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     *
+     * Creates a new Minor Discipline version based on the current Minor
+     *
+     * @param minorDisciplineId identifier for the Minor Discipline to be versioned
+     * @param versionComment comment for the current version
+     * @return the new versioned Minor Discipline information
+     * @throws DoesNotExistException Minor does not exist
+     * @throws InvalidParameterException invalid minorDisciplineId
+     * @throws MissingParameterException invalid minorDisciplineId
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     * @throws VersionMismatchException The action was attempted on an out of date version
+     * @throws DataValidationErrorException
+     * @throws ReadOnlyException
+     */
+    public MinorDisciplineInfo createNewMinorDisciplineVersion(@WebParam(name = "minorDisciplineId") String minorDisciplineId,
+                                                               @WebParam(name = "versionComment") String versionComment,
+                                                               @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException, VersionMismatchException, DataValidationErrorException, ReadOnlyException;
 
     @Deprecated
     /**

@@ -28,6 +28,9 @@ import org.kuali.student.r2.lum.program.dto.MajorDisciplineInfo;
 import org.kuali.student.r2.lum.program.dto.MinorDisciplineInfo;
 import org.kuali.student.r2.lum.program.dto.ProgramRequirementInfo;
 import org.kuali.student.r2.lum.program.dto.ProgramVariationInfo;
+import org.kuali.student.r2.lum.program.dto.TrackInfo;
+
+import javax.jws.WebParam;
 
 public class ProgramServiceDecorator implements ProgramService {
     private ProgramService nextDecorator;
@@ -118,6 +121,11 @@ public class ProgramServiceDecorator implements ProgramService {
     @Override
     public MajorDisciplineInfo createNewMajorDisciplineVersion(String majorDisciplineId, String versionComment, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DataValidationErrorException, ReadOnlyException {
         return this.getNextDecorator().createNewMajorDisciplineVersion(majorDisciplineId, versionComment, contextInfo);
+    }
+
+    @Override
+    public MinorDisciplineInfo createNewMinorDisciplineVersion(String minorDisciplineId, String versionComment, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DataValidationErrorException, ReadOnlyException {
+        return this.getNextDecorator().createNewMinorDisciplineVersion(minorDisciplineId, versionComment, contextInfo);
     }
 
     @Override
@@ -229,6 +237,36 @@ public class ProgramServiceDecorator implements ProgramService {
     @Override
     public List<ValidationResultInfo> validateMinorDiscipline(String validationType, MinorDisciplineInfo minorDisciplineInfo, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
         return this.getNextDecorator().validateMinorDiscipline(validationType, minorDisciplineInfo, contextInfo);
+    }
+
+    @Override
+    public TrackInfo createTrack(String trackTypeKey, TrackInfo trackInfo, ContextInfo contextInfo)
+            throws AlreadyExistsException, DataValidationErrorException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        return this.getNextDecorator().createTrack(trackTypeKey, trackInfo, contextInfo);
+    }
+
+    @Override
+    public TrackInfo updateTrack(String trackId, String trackTypeKey, TrackInfo trackInfo, ContextInfo contextInfo)
+            throws DataValidationErrorException, DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            VersionMismatchException, OperationFailedException, PermissionDeniedException {
+        return this.getNextDecorator().updateTrack(trackId, trackTypeKey, trackInfo, contextInfo);
+    }
+
+    @Override
+    public StatusInfo deleteTrack(String trackId, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return this.getNextDecorator().deleteTrack(trackId, contextInfo);
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateTrack(String validationType, TrackInfo trackInfo, ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        return this.getNextDecorator().validateTrack(validationType, trackInfo, contextInfo);
     }
 
     @Override

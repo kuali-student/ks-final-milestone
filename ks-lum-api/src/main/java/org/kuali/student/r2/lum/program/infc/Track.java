@@ -235,4 +235,10 @@ public interface Track extends IdNamelessEntity {
      * @name Last Awarded Term
      */
     public String getLastAwardedTerm();
+
+    /**
+     *
+     * @name Minor Discipline Id
+     */
+    public String getMinorDisciplineId();
 }

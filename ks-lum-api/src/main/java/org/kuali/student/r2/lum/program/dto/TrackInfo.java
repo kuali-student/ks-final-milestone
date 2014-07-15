@@ -85,6 +85,9 @@ public class TrackInfo extends IdNamelessEntityInfo implements Track {
 
     private static final long serialVersionUID = 1L;
 
+    @XmlElement
+    private String minorDisciplineId;
+
     // ProgramIdentifierAssembly
     @XmlElement
     private String code;
@@ -309,6 +312,7 @@ public class TrackInfo extends IdNamelessEntityInfo implements Track {
         }
         this.referenceURL = track.getReferenceURL();
         this.lastAwardedTerm = track.getLastAwardedTerm();
+        this.minorDisciplineId = track.getMinorDisciplineId();
     }
 
     @Override
@@ -632,6 +636,15 @@ public class TrackInfo extends IdNamelessEntityInfo implements Track {
 
     public void setLastAwardedTerm(String lastAwardedTerm) {
         this.lastAwardedTerm = lastAwardedTerm;
+    }
+
+    @Override
+    public String getMinorDisciplineId() {
+        return minorDisciplineId;
+    }
+
+    public void setMinorDisciplineId(String minorDisciplineId) {
+        this.minorDisciplineId = minorDisciplineId;
     }
 
 }
