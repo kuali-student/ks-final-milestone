@@ -53,6 +53,7 @@ public class ExamOfferingServiceConstants {
     public static final String FINAL_EXAM_DRIVER_ATTR = "kuali.attribute.final.exam.driver";
     public static final String FINAL_EXAM_ACTIVITY_DRIVER_ATTR = "kuali.attribute.final.exam.activity.driver";
     public static final String EXAM_OFFERING_MATRIX_OVERRIDE_ATTR = "kuali.attribute.exam.offering.matrix.override";
+    public static final String EXAM_OFFERING_SCHEDULING_STATE_ATTR = "kuali.attribute.exam.offering.scheduling.state.key";
 
     /////////////////
     // RESULT ACTIONS
