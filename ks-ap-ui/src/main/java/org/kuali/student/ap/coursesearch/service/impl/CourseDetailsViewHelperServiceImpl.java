@@ -542,7 +542,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
     }
 
     /**
-     * @see org.kuali.student.ap.coursesearch.service.CourseDetailsViewHelperService#createAddSectionEvent(String, String, String, java.util.List, javax.json.JsonObjectBuilder)
+     * @see org.kuali.student.ap.coursesearch.service.CourseDetailsViewHelperService#createAddSectionEvent(String, String, String, String, java.util.List, javax.json.JsonObjectBuilder)
      */
     @Override
     public JsonObjectBuilder createAddSectionEvent(String termId, String courseOfferingCode, String courseOfferingId, String formatOfferingId, List<ActivityOfferingDetailsWrapper> activities, JsonObjectBuilder eventList){

@@ -14,6 +14,7 @@
  */
 package org.kuali.student.ap.coursesearch.controller;
 
+import org.kuali.rice.krad.uif.service.ViewHelperService;
 import org.kuali.rice.krad.web.controller.MethodAccessible;
 import org.kuali.rice.krad.web.controller.extension.KsapControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
@@ -24,6 +25,7 @@ import org.kuali.student.ap.coursesearch.dataobject.ActivityOfferingDetailsWrapp
 import org.kuali.student.ap.coursesearch.form.CourseSectionDetailsDialogForm;
 import org.kuali.student.ap.coursesearch.form.CourseSectionDetailsForm;
 import org.kuali.student.ap.coursesearch.service.CourseDetailsViewHelperService;
+import org.kuali.student.ap.coursesearch.service.impl.CourseDetailsViewHelperServiceImpl;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.planner.util.PlanEventUtils;
@@ -74,6 +76,8 @@ public class CourseSectionDetailsController extends KsapControllerBase {
     private static final String COURSE_SECTION_DETAILS_ADD_DIALOG = "KSAP-CourseDetailsSection-AddCoursePage";
     private static final String COURSE_SECTION_DETAILS_REQUISITES_DIALOG = "KSAP-CourseDetailsSection-Requisites";
 
+    private CourseDetailsViewHelperService viewHelper;
+
     /**
      * @see org.kuali.rice.krad.web.controller.UifControllerBase
      */
@@ -111,11 +115,6 @@ public class CourseSectionDetailsController extends KsapControllerBase {
     public ModelAndView addRegGroup(@ModelAttribute("KualiForm") CourseSectionDetailsForm form,
                                                   HttpServletRequest request,
                                                   HttpServletResponse response) throws IOException, ServletException {
-        // make sure the view details are set on the form
-        if (form.getView() == null) {
-            form.setViewId(COURSE_SECTION_DETAILS_FORM);
-            form.setView(super.getViewService().getViewById(COURSE_SECTION_DETAILS_FORM));
-        }
 
         JsonObjectBuilder eventList = Json.createObjectBuilder();
 
@@ -211,8 +210,6 @@ public class CourseSectionDetailsController extends KsapControllerBase {
     public ModelAndView filterAOs(@ModelAttribute("KualiForm") CourseSectionDetailsForm form,
                                     HttpServletRequest request,
                                     HttpServletResponse response) throws IOException, ServletException {
-        form.setViewId(COURSE_SECTION_DETAILS_FORM);
-        form.setView(super.getViewService().getViewById(COURSE_SECTION_DETAILS_FORM));
         JsonObjectBuilder eventList = Json.createObjectBuilder();
         List<String> selectedActivities = new ArrayList<String>();
         Map<Object, Object> additionalRestrictions = new HashMap<Object, Object>();
@@ -273,11 +270,6 @@ public class CourseSectionDetailsController extends KsapControllerBase {
         CourseSectionDetailsDialogForm dialogForm = new CourseSectionDetailsDialogForm();
         super.start(dialogForm, request, response);
 
-        // Fill in basic view information to new form
-        dialogForm.setViewId(COURSE_SECTION_DETAILS_DIALOG);
-        dialogForm.setPageId(COURSE_SECTION_DETAILS_ADD_DIALOG);
-        dialogForm.setView(super.getViewService().getViewById(COURSE_SECTION_DETAILS_DIALOG));
-
         // Copy information from original view
         dialogForm.setFormPostUrl(form.getFormPostUrl());
         dialogForm.setRequestUrl(form.getRequestUrl());
@@ -335,11 +327,6 @@ public class CourseSectionDetailsController extends KsapControllerBase {
         CourseSectionDetailsDialogForm dialogForm = new CourseSectionDetailsDialogForm();
         super.start(dialogForm, request, response);
 
-        // Fill in basic view information to new form
-        dialogForm.setViewId(COURSE_SECTION_DETAILS_DIALOG);
-        dialogForm.setPageId(COURSE_SECTION_DETAILS_REQUISITES_DIALOG);
-        dialogForm.setView(super.getViewService().getViewById(COURSE_SECTION_DETAILS_DIALOG));
-
         // Copy information from original view
         dialogForm.setFormPostUrl(form.getFormPostUrl());
         dialogForm.setRequestUrl(form.getRequestUrl());
@@ -357,7 +344,13 @@ public class CourseSectionDetailsController extends KsapControllerBase {
      * @return Form's view helper
      */
     private CourseDetailsViewHelperService getViewHelperService(UifFormBase form) {
-        CourseDetailsViewHelperService viewHelperService = (CourseDetailsViewHelperService) form.getViewHelperService();
-        return viewHelperService;
+        if(viewHelper==null){
+            if(form.getViewHelperService()==null){
+                form.setViewId(COURSE_SECTION_DETAILS_FORM);
+                form.setView(super.getViewService().getViewById(COURSE_SECTION_DETAILS_FORM));
+            }
+            viewHelper = (CourseDetailsViewHelperService) form.getViewHelperService();
+        }
+        return viewHelper;
     }
 }
