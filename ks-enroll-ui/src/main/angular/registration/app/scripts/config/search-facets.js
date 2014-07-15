@@ -74,7 +74,6 @@ angular.module('regCartApp')
             optionsKey: 'courseLevel',
             prepare: function(results) {
                 // Create the courseLevel field on the result item.
-                console.log(results);
                 angular.forEach(results, function(item) {
                     if (angular.isUndefined(item.courseLevel)) {
                         var level = item.courseNumber.substring(0, 1) + '00';

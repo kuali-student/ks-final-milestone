@@ -13,8 +13,8 @@ angular.module('regCartApp')
         $scope.studentIsEligibleForTerm = true; // Top-level check whether student is eligible to register for the selected term
 
         // update the term name if the termId changes
-        $scope.$watch('termId', function (newValue) {
-            if (newValue) {
+        $scope.$watch('termId', function (newValue, oldValue) {
+            if (newValue !== oldValue) {
                 $scope.termName = TermsService.getTermNameForTermId($scope.terms, newValue);
 
                 // Check to see if the term is open or closed for registration
@@ -22,6 +22,13 @@ angular.module('regCartApp')
                     console.log('checking term eligibility');
                     TermsService.checkStudentEligibilityForTerm().query({termId: newValue}, function (response) {
                         $scope.studentIsEligibleForTerm = (angular.isDefined(response.isEligible) && response.isEligible) || false;
+
+                        // Broadcast a termIdChanged event notifying any listeners that the new termId is ready to go.
+                        // Doing it this way prevents unnecessary loading & processing from the term change
+                        // of things the user won't have access to or see.
+                        if ($scope.studentIsEligibleForTerm) {
+                            $scope.$broadcast('termIdChanged', newValue, oldValue);
+                        }
                     }, function (error) {
                         console.log('Error while checking if term is open for registration', error);
                         $scope.studentIsEligibleForTerm = false;
@@ -29,27 +36,34 @@ angular.module('regCartApp')
                 } else {
                     console.log('term eligibility check bypassed - term != default term');
                     $scope.studentIsEligibleForTerm = true;
-                }
 
-                ScheduleService.getScheduleFromServer().query({termId: newValue }, function (result) {
-                    console.log('called rest service to get schedule data - in main.js');
-                    GlobalVarsService.updateScheduleCounts(result);
-                    $scope.cartCredits = GlobalVarsService.getCartCredits; // notice that i didn't put the (). in the ui call: {{cartCredits()}}
-                    $scope.cartCourseCount = GlobalVarsService.getCartCourseCount; // notice that i didn't put the (). in the ui call: {{cartCourseCount()}}
-                    $scope.registeredCredits = GlobalVarsService.getRegisteredCredits;   // notice that i didn't put the (). in the ui call: {{registeredCredits()}}
-                    $scope.registeredCourseCount = GlobalVarsService.getRegisteredCourseCount; // notice that i didn't put the (). in the ui call: {{registeredCourseCount()}}
-                    $scope.waitlistedCredits = GlobalVarsService.getWaitlistedCredits;   // notice that i didn't put the (). in the ui call: {{registeredCredits()}}
-                    $scope.waitlistedCourseCount = GlobalVarsService.getWaitlistedCourseCount; // notice that i didn't put the (). in the ui call: {{registeredCourseCount()}}
-                    $scope.showWaitlistedSection = GlobalVarsService.getShowWaitlistedSection;
-                    $scope.userId = GlobalVarsService.getUserId;
-                });
+                    // Broadcast a termIdChanged event notifying any listeners that the new termId is ready to go.
+                    $scope.$broadcast('termIdChanged', newValue, oldValue);
+                }
             }
         });
+
+        // Listen for the termIdChanged event that is fired when a term has been changed & processed
+        $scope.$on('termIdChanged', function(event, newValue) {
+            // Go and get the schedule for the new term
+            ScheduleService.getScheduleFromServer().query({termId: newValue }, function (result) {
+                console.log('called rest service to get schedule data - in main.js');
+                GlobalVarsService.updateScheduleCounts(result);
+                $scope.cartCredits = GlobalVarsService.getCartCredits; // notice that i didn't put the (). in the ui call: {{cartCredits()}}
+                $scope.cartCourseCount = GlobalVarsService.getCartCourseCount; // notice that i didn't put the (). in the ui call: {{cartCourseCount()}}
+                $scope.registeredCredits = GlobalVarsService.getRegisteredCredits;   // notice that i didn't put the (). in the ui call: {{registeredCredits()}}
+                $scope.registeredCourseCount = GlobalVarsService.getRegisteredCourseCount; // notice that i didn't put the (). in the ui call: {{registeredCourseCount()}}
+                $scope.waitlistedCredits = GlobalVarsService.getWaitlistedCredits;   // notice that i didn't put the (). in the ui call: {{registeredCredits()}}
+                $scope.waitlistedCourseCount = GlobalVarsService.getWaitlistedCourseCount; // notice that i didn't put the (). in the ui call: {{registeredCourseCount()}}
+                $scope.showWaitlistedSection = GlobalVarsService.getShowWaitlistedSection;
+                $scope.userId = GlobalVarsService.getUserId;
+            });
+        });
+
 
         // Load up the available terms
         $scope.terms = TermsService.getTermsFromServer().query({termCode: null, active: true}, function (result) {
             $scope.termId = DEFAULT_TERM;
-            TermsService.setTermId($scope.termId);//FIXME Term service is just a service handle, don't put business logic in it!!!
             $scope.termName = TermsService.getTermNameForTermId(result, $scope.termId);
         });
 

@@ -9,10 +9,15 @@ angular.module('regCartApp')
         $scope.searchResults = []; // Results from the last search request.
 
 
-        $scope.$watch('termId', function() {
+        $scope.$on('termIdChanged', function() {
             // Drop the existing search results when the term changes
             $scope.searchCriteria = '';
             $scope.searchResults = [];
+
+            // If the search page is the current page, push the user back to their cart.
+            if ($scope.uiState === 'root.search') {
+                $scope.goToPage('/myCart');
+            }
         });
 
         // Listen for any state changes from ui-router. This is where we get the search criteria from.
@@ -44,7 +49,7 @@ angular.module('regCartApp')
         var queuedSearch, // Promise handle on the queued up search.
             lastSearchCriteria = ''; // Criteria used to execute the most recent search request.
         function doSearch(criteria) {
-            if (criteria === $scope.searchCriteria && criteria !== null) {
+            if (criteria === null || ($scope.searchCriteria !== null && criteria === $scope.searchCriteria)) {
                 // Nothing to do. Last search still valid.
                 return;
             }
@@ -55,8 +60,7 @@ angular.module('regCartApp')
                 queuedSearch = null;
             }
 
-            var termId = $scope.termId;
-            if (!termId) {
+            if (!$scope.termId) {
                 // The search cannot occur w/o a termId.
                 console.log('Search blocked - no termId exists');
 
@@ -75,15 +79,14 @@ angular.module('regCartApp')
             // Store off to prevent a provide a way to reference the search results that come back in case
             // the user runs another search request while this one is still running.
             lastSearchCriteria = criteria;
-            SearchService.searchForCourses().query({termId: termId, criteria: criteria}, function(results) {
+            SearchService.searchForCourses().query({termId: $scope.termId, criteria: criteria}, function(results) {
                 if (lastSearchCriteria === criteria) {
+                    // REMOVE THIS AFTER MOCK IS REMOVED
+                    results = SearchService.filterResults(results, criteria);
+
                     // This search matches the last one ran - it's current.
                     console.log('Search for "' + criteria + '" complete. Results: ' + results.length);
-
-                    // REMOVE THIS AFTER MOCK IS REMOVED
-                    $scope.searchResults = SearchService.filterResults(results, criteria);
-
-                    // $scope.searchResults = results;
+                    $scope.searchResults = results;
                     $scope.searchCriteria = criteria;
                 } else {
                     console.log('Search completed but not the most recent, ignoring results: "' + criteria + '" !== "' + lastSearchCriteria + '"');
@@ -103,6 +106,14 @@ angular.module('regCartApp')
 
         $scope.courseSearchCriteria = '';
 
+        // Clear out the search criteria when the termId is changed.
+        $scope.$on('termIdChanged', function(event, newValue, oldValue) {
+            // Don't clear it out if the old termId is null. This occurs on a refresh.
+            if (oldValue !== null) {
+                $scope.courseSearchCriteria = '';
+            }
+        });
+
         // Listen for any state changes from ui-router. This will reinsert the search criteria into the form on a refresh.
         $scope.$on('$stateChangeSuccess', function(event, toState, toParams) {
             if (angular.isDefined(toParams.searchCriteria)) {
@@ -116,7 +127,6 @@ angular.module('regCartApp')
 
                 // Use the goToPage method to go to the search page with the criteria in the query string
                 $scope.goToPage('/search/' + $window.encodeURIComponent($scope.courseSearchCriteria));
-                $scope.searchSubmitted = true; // refocus cursor back to search input field
             }
         };
 

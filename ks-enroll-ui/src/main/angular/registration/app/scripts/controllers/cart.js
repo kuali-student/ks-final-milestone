@@ -9,9 +9,9 @@ angular.module('regCartApp')
         var hasCartBeenLoaded = false;
         $scope.cartResults = {items: []};
 
-        //Add a watch so that when termId changes, the cart is reloaded with the new termId
-        $scope.$watch('termId', function (newValue) {
-            console.log('term id has changed - cart');
+        // Add a listener to the termIdChanged event so that when termId changes, the cart is reloaded with the new termId
+        $scope.$on('termIdChanged', function (event, newValue) {
+            console.log('term id has changed - cart: ' + newValue);
             $scope.cartResults.items.splice(0, $scope.cartResults.items.length);
             if ($scope.userMessage && $scope.userMessage.txt) {
                 $scope.removeUserMessage();

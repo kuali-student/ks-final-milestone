@@ -61,7 +61,7 @@ angular.module('regCartApp')
                                 }
                             });
                         } else {
-                            console.log('Facet "' + facet.id + '" is missing the required optionsKey value');
+                            console.log('Facet "' + $scope.facet.id + '" is missing the required optionsKey value');
                         }
 
                         return options;
@@ -117,7 +117,7 @@ angular.module('regCartApp')
 
                 // Watch for changes on the results and rebuild if they occur
                 $scope.$watch('results', function(results) {
-                    console.log('Search Results changed, updating facets');
+                    // console.log('Search Results changed, updating facets');
                     populateOptions(results);
                 });
 
