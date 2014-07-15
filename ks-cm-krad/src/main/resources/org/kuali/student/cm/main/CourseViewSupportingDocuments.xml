@@ -37,8 +37,10 @@
     </bean>
 
     <bean id="KS-CourseView-SupportingDocumentsSubSection"  parent="KS-CourseView-SupportingDocumentsSubSection-parent"/>
+
     <bean id="KS-CourseView-SupportingDocumentsSubSection-parent" parent="KS-TableCollectionSubSection-BottomAddLine"
-          p:layoutManager.id="cc-supportingdocumentsgroup-table" p:layoutManager.style="width: 60em;">
+          p:layoutManager.id="cc-supportingdocumentsgroup-table" p:layoutManager.style="width: 60em;"
+          class="org.kuali.student.cm.uif.container.CMCollectionGroupBase" abstract="true">
         <property name="collectionObjectClass" value="org.kuali.student.cm.course.form.SupportingDocumentInfoWrapper"/>
         <property name="propertyName" value="documentsToAdd"/>
         <property name="addBlankLineAction.actionLabel" value="Add Document"/>
