@@ -768,6 +768,22 @@ public interface ProgramService extends  SearchService,  VersionManagementServic
             OperationFailedException,
             PermissionDeniedException;
 
+    /**
+     * Retrieves a list of MinorDiscipline Ids by MinorDiscipline Type.
+     * @param minorDisciplineTypeKey an identifier for a MinorDiscipline Type
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return a list of MinorDiscipline identifiers matching minorDisciplineTypeKey or an empty list if none found
+     * @throws InvalidParameterException minorDisciplineTypeKey or contextInfo is not valid
+     * @throws MissingParameterException minorDisciplineTypeKey or context is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> getMinorDisciplineIdsByType(@WebParam(name = "minorDisciplineTypeKey") String minorDisciplineTypeKey,
+                                                    @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Retrieves the list of Minor Discipline Program a given Credential Program
@@ -782,6 +798,20 @@ public interface ProgramService extends  SearchService,  VersionManagementServic
      */
     public List<String> getMinorsByCredentialProgramType(@WebParam(name = "programType") String programType, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /**
+     * Validates a Minor discipline against its data dictionary
+     *
+     * @param validationType identifier of the extent of validation
+     * @param minorDisciplineInfo Minor discipline information to be tested
+     * @return results from performing the validation
+     * @throws InvalidParameterException invalid validationTypeKey, cluInfo
+     * @throws MissingParameterException missing validationTypeKey, cluInfo
+     * @throws OperationFailedException unable to complete request
+     */
+    public List<ValidationResultInfo> validateMinorDiscipline(@WebParam(name = "validationType") String validationType,
+                                                              @WebParam(name = "minorDisciplineInfo") MinorDisciplineInfo minorDisciplineInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException;
 
     /**
      * Retrieves a Track
@@ -820,18 +850,20 @@ public interface ProgramService extends  SearchService,  VersionManagementServic
             PermissionDeniedException;
 
     /**
-     * Validates a Minor discipline against its data dictionary
-     * 
-     * @param validationType identifier of the extent of validation
-     * @param minorDisciplineInfo Minor discipline information to be tested
-     * @return results from performing the validation
-     * @throws InvalidParameterException invalid validationTypeKey, cluInfo
-     * @throws MissingParameterException missing validationTypeKey, cluInfo
+     * Retrieves a list of Track Ids by Track Type.
+     * @param trackTypeKey an identifier for a Track Type
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return a list of Track identifiers matching trackTypeKey or an empty list if none found
+     * @throws InvalidParameterException trackTypeKey or contextInfo is not valid
+     * @throws MissingParameterException trackTypeKey or context is missing or null
      * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<ValidationResultInfo> validateMinorDiscipline(@WebParam(name = "validationType") String validationType,
-            @WebParam(name = "minorDisciplineInfo") MinorDisciplineInfo minorDisciplineInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
-            MissingParameterException, OperationFailedException;
+    public List<String> getTrackIdsByType(@WebParam(name = "trackTypeKey") String trackTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Creates a Track

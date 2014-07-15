@@ -94,6 +94,13 @@ public class ProgramServiceDecorator implements ProgramService {
     }
 
     @Override
+    public List<String> getMinorDisciplineIdsByType(String minorDisciplineTypeKey, ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getMinorDisciplineIdsByType(minorDisciplineTypeKey, contextInfo);
+    }
+
+    @Override
     public List<String> getMajorDisciplineIdsByCredentialProgramType(String programType, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         return this.getNextDecorator().getMajorDisciplineIdsByCredentialProgramType(programType, contextInfo);
     }
@@ -280,6 +287,13 @@ public class ProgramServiceDecorator implements ProgramService {
             OperationFailedException,
             PermissionDeniedException {
         return this.getNextDecorator().getTracksByIds(trackIds, contextInfo);
+    }
+
+    @Override
+    public List<String> getTrackIdsByType(String trackTypeKey, ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        return this.getNextDecorator().getTrackIdsByType(trackTypeKey, contextInfo);
     }
 
     @Override
