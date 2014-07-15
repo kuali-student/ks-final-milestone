@@ -9,6 +9,27 @@
             </div>
         </div>
     </div>
+
+    <!-- Search Facets -->
+    <div sticky class="kscr-SearchFacets" style="float: left;">
+        <div class="kscr-SearchFacets-facetsContainer">
+            <search-facet ng-repeat="facet in facets" facet="facet" results="searchResults"></search-facet>
+        </div>
+    </div>
+
+    <!-- Search Results -->
+    <div class="kscr-SearchResults" style="margin: 0 10px 10px 210px; padding: 10px 0 0;">
+        <div class="kscr-SearchResults-heading">
+            Showing 1-{{searchResults.length}}
+            of {{searchResults.length}}
+            results for "{{searchCriteria}}"
+            in {{termName}}
+        </div>
+
+        <h4 ng-repeat="course in searchResults | filter:facetFilter">
+            <b>{{course.courseCode}}</b>
+            <span>{{course.longName}}</span>
+        </h4>
+    </div>
 </div>
 
-        <h4>Search Criteria: {{searchCriteria}} - Results: {{searchResults.length}}</h4>

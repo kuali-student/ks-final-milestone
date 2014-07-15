@@ -30,7 +30,8 @@
 }
 
 
-.kscr-Edit-option {
+// Mixin for control styling
+.kscr-Edit-control() {
     background-color: @optionBackground;
     border: 1px solid @optionBorder;
     color: @optionText;
@@ -40,7 +41,26 @@
     font-weight: normal;
     margin: 0 0 3px;
     outline: 1px solid @optionOutline;
-    padding: 8px 28px 8px 10px;
+    padding: 8px 10px;
+
+    & span {
+        font-weight: normal !important;
+    }
+
+    &--Selected {
+        background-color: @optionBackgroundSelected;
+        border-color: @optionBorderSelected;
+        color: @optionTextSelected;
+        font-weight: bold;
+        outline-color: @optionOutlineSelected;
+    }
+}
+
+
+.kscr-Edit-option {
+    .kscr-Edit-control();
+
+    padding-right: 28px;
     position: relative;
 
     & input {

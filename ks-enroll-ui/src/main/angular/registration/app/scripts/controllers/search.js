@@ -1,10 +1,13 @@
 'use strict';
 
 angular.module('regCartApp')
-    .controller('SearchCtrl', ['$scope', '$interval', 'SearchService', function SearchCtrl($scope, $interval, SearchService) {
+    .controller('SearchCtrl', ['$scope', '$interval', 'SearchService', 'SEARCH_FACETS', function SearchCtrl($scope, $interval, SearchService, SEARCH_FACETS) {
+
+        $scope.facets = SEARCH_FACETS; // Facet definitions
 
         $scope.searchCriteria = ''; // Criteria used to generate the search results.
         $scope.searchResults = []; // Results from the last search request.
+
 
         $scope.$watch('termId', function() {
             // Drop the existing search results when the term changes
@@ -19,6 +22,23 @@ angular.module('regCartApp')
             }
         });
 
+        // Filter to apply facet options to the search results
+        $scope.facetFilter = function(item) {
+            var select = true;
+            angular.forEach($scope.facets, function(facet) {
+                if (select) {
+                    // Only filter on the facet if it has selected options
+                    if (angular.isArray(facet.selectedOptions) && facet.selectedOptions.length > 0) {
+                        if (!facet.filter(item, facet.selectedOptions)) {
+                            // The item does not match the facet filter. Exclude it.
+                            select = false;
+                        }
+                    }
+                }
+            });
+
+            return select;
+        };
 
 
         var queuedSearch, // Promise handle on the queued up search.
