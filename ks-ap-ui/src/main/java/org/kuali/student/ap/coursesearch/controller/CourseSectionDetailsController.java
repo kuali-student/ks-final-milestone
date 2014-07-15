@@ -29,6 +29,7 @@ import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.planner.util.PlanEventUtils;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -140,8 +141,9 @@ public class CourseSectionDetailsController extends KsapControllerBase {
         }
         boolean isVariableCreditCourse = getViewHelperService(form).isVariableCreditCourse(new CourseOfferingInfo(course));
         List<ActivityOfferingDetailsWrapper> activityWrappers = new ArrayList<ActivityOfferingDetailsWrapper>();
+        Map<String, FormatOfferingInfo> formatOfferingInfoMap = new HashMap<String, FormatOfferingInfo>();
         for(ActivityOfferingInfo activityOfferingInfo : activities){
-            ActivityOfferingDetailsWrapper activityOfferingDetailsWrapper = getViewHelperService(form).convertAOInfoToWrapper(activityOfferingInfo, isVariableCreditCourse);
+            ActivityOfferingDetailsWrapper activityOfferingDetailsWrapper = getViewHelperService(form).convertAOInfoToWrapper(activityOfferingInfo, isVariableCreditCourse, formatOfferingInfoMap);
             if (activityOfferingDetailsWrapper.getRegGroupCode() == null || "".equals(activityOfferingDetailsWrapper.getRegGroupCode())) {
                 activityOfferingDetailsWrapper.setRegGroupCode(regGroup.getRegistrationCode());
                 activityOfferingDetailsWrapper.setRegGroupId(regGroupId);

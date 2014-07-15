@@ -21,7 +21,7 @@ import org.kuali.student.ap.coursesearch.dataobject.CourseOfferingDetailsWrapper
 import org.kuali.student.ap.coursesearch.form.CourseSectionDetailsDialogForm;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
+import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.r2.core.acal.infc.Term;
 
 import javax.json.JsonObjectBuilder;
@@ -52,9 +52,10 @@ public interface CourseDetailsViewHelperService extends ViewHelperService {
      * Turn an ActivityOfferingInfo into an ActivityOfferingDetailsWrapper
      * @param ao - ActivityOfferingInfo object to harvest data from
      * @param isCourseOfferingVariableCredit - Flag indicating if the courseOffering this AO belongs to is a variable credit course
+     * @param formatOfferingInfoMap - Map that will hold formatOfferingInfo objects keyed by the formatOfferingId.
      * @return - An ActivityOfferingDetailsWrapper which is a wrapper for an ActivityOfferingInfo
      */
-    public ActivityOfferingDetailsWrapper convertAOInfoToWrapper(ActivityOfferingInfo ao, boolean isCourseOfferingVariableCredit) ;
+    public ActivityOfferingDetailsWrapper convertAOInfoToWrapper(ActivityOfferingInfo ao, boolean isCourseOfferingVariableCredit, Map<String, FormatOfferingInfo> formatOfferingInfoMap) ;
 
     /**
      * Sort a list of terms.  Sorting algorithm will be provided by the implementation.

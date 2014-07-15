@@ -43,7 +43,6 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
-import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -211,7 +210,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
             if (offeringsByTerm == null)
                 offeringsByTerm = new ArrayList<CourseOfferingDetailsWrapper>();
 
-            List<String> validRegGroups = getValidRegGroupIds(offering.getId(),new HashMap<Object,Object>());
+            List<String> validRegGroups = getValidRegGroupIds(offering.getId(), new HashMap<Object, Object>());
 
             List<String> validFormatOfferings = new ArrayList<String>();
             List<String> validActivities = new ArrayList<String>();
@@ -308,7 +307,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
      * {@inheritDoc}
      */
     @Override
-    public ActivityOfferingDetailsWrapper convertAOInfoToWrapper(ActivityOfferingInfo aoInfo, boolean isCourseOfferingVariableCredit)  {
+    public ActivityOfferingDetailsWrapper convertAOInfoToWrapper(ActivityOfferingInfo aoInfo, boolean isCourseOfferingVariableCredit, Map<String, FormatOfferingInfo> formatOfferingInfoMap)  {
         ActivityOfferingDetailsWrapper wrapper = new ActivityOfferingDetailsWrapper(aoInfo, false, true);
         ContextInfo contextInfo = KsapFrameworkServiceLocator.getContext().getContextInfo();
 
@@ -316,7 +315,11 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
 
         FormatOfferingInfo fo = null;
         try {
-            fo = KsapFrameworkServiceLocator.getCourseOfferingService().getFormatOffering(aoInfo.getFormatOfferingId(), contextInfo);
+            fo = formatOfferingInfoMap.get(aoInfo.getFormatOfferingId());
+            if (fo == null) {
+                fo = KsapFrameworkServiceLocator.getCourseOfferingService().getFormatOffering(aoInfo.getFormatOfferingId(), contextInfo);
+                formatOfferingInfoMap.put(aoInfo.getFormatOfferingId(), fo);
+            }
         } catch (DoesNotExistException e) {
             throw new IllegalArgumentException("CO Service lookup error", e);
         } catch (InvalidParameterException e) {
@@ -1027,6 +1030,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
             throw new IllegalArgumentException("AO lookup error", e);
         }
 
+        Map<String, FormatOfferingInfo> formatOfferingInfoMap = new HashMap<String, FormatOfferingInfo>();
         for (ActivityOfferingInfo activityOffering : activityOfferings) {
             if (activityOffering.getStateKey().equals(LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY)) {
                 // Retrieve current group by the format id, if entry is missing create it
@@ -1036,7 +1040,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
                 }
 
                 // Convert into wrapper used on page
-                ActivityOfferingDetailsWrapper wrapper = convertAOInfoToWrapper(activityOffering, isCourseOfferingVariableCredit);
+                ActivityOfferingDetailsWrapper wrapper = convertAOInfoToWrapper(activityOffering, isCourseOfferingVariableCredit, formatOfferingInfoMap);
 
                 // Retrieve current group by the format type, if entry is missing create it
                 String typeKey = activityOffering.getTypeKey();
