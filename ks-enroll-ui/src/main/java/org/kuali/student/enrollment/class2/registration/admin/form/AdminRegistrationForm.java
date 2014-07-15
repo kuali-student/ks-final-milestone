@@ -58,6 +58,8 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
 
     public AdminRegistrationForm(){
         pendingCourses.add(new RegistrationCourse());
+        editRegisteredIndex = -1;
+        editWaitlistedIndex = -1;
     }
 
     public String getStudentId() {

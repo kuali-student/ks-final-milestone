@@ -328,16 +328,30 @@
     </bean>
 
     <!-- Collection for Registered and Waitlisted Courses -->
-    <bean id="KS-AdminRegistration-Collection" parent="Uif-TableCollectionSubSection">
+    <bean id="KS-AdminRegistration-Collection" parent="Uif-TableCollectionSubSection" p:renderLineActions="false">
         <property name="collectionObjectClass"
                   value="org.kuali.student.enrollment.class2.registration.admin.form.RegistrationCourse"/>
-        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="layoutManager.richTable">
+            <bean parent="KS-Uif-RichTable"/>
+        </property>
+        <property name="layoutManager.richTable.render" value="true"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.applyDefaultCellWidths" value="false" />
+        <!--<property name="layoutManager.applyAlternatingRowStyles" value="false" />-->
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="sDom" value="opir"/>
+                <entry key="aaSorting" value="[[0, 'asc']]"/>
+                <entry key="bPaginate" value="false"/>
+                <entry key="bAutoWidth" value="true"/>
+                <entry key="bInfo" value="true"/>
+            </map>
+        </property>
         <property name="renderAddLine" value="false"/>
 
         <property name="items">
             <list>
-                <bean parent="Uif-MessageField" p:label="Course (Section)"
+                <bean parent="Uif-MessageField" p:label="Course Code (Section)" p:additionalCssClasses="nowrap"
                       p:messageText="@{#line.code} (@{#line.section}) [0]">
                     <property name="message.inlineComponents">
                         <list>
@@ -379,7 +393,7 @@
                 </bean>
                 <bean parent="Uif-DataField" p:label="Activity" p:propertyName="activityTypes"
                       p:readOnlyListDisplayType="UL"/>
-                <bean parent="Uif-DataField" p:label="Date/Time" p:propertyName="activityDateTimes"
+                <bean parent="Uif-DataField" p:label="Date/Time" p:propertyName="activityDateTimes"  p:additionalCssClasses="nowrap"
                       p:readOnlyListDisplayType="UL"/>
                 <bean parent="Uif-DataField" p:label="Instructor" p:propertyName="activityInstructors"
                       p:readOnlyListDisplayType="UL"/>
@@ -391,7 +405,7 @@
                             <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="toolTip"
                                   p:condition="@{#line.regDate != #line.effectiveDate}">
                                 <property name="replacement">
-                                    <bean parent="Uif-Tooltip"
+                                    <bean parent="Uif-KS-Tooltip"
                                           p:tooltipContent="Effective Date: @{#line.effectiveDate}"/>
                                 </property>
                             </bean>
@@ -619,7 +633,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-MessageField" p:label="Course (Section)"
+                <bean parent="Uif-MessageField" p:label="Course Code (Section)"
                       p:messageText="@{#line.code} (@{#line.section})"/>
                 <bean parent="Uif-DataField" p:label="Course Name" p:propertyName="title"/>
                 <bean parent="Uif-InputField" p:readOnly="true" p:label="Cr" p:propertyName="credits"/>
@@ -645,7 +659,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-MessageField" p:label="Course (Section)"
+                <bean parent="Uif-MessageField" p:label="Course Code (Section)"
                       p:messageText="@{#line.code} (@{#line.section})"/>
                 <bean parent="Uif-DataField" p:label="Course Name" p:propertyName="title"/>
                 <bean parent="Uif-InputField" p:readOnly="true" p:label="Cr" p:propertyName="credits"/>

@@ -155,14 +155,14 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
 
         CourseOfferingInfo coInfo = AdminRegistrationUtil.getCourseOfferingService().getCourseOffering(courseWaitListInfo.getCourseOfferingId(), createContextInfo());
 
-        RegistrationCourse waitListCourse = new RegistrationCourse();
-        waitListCourse.setCode(coInfo.getCourseOfferingCode());
-        waitListCourse.setTitle(coInfo.getCourseOfferingTitle());
-        waitListCourse.setCredits(Integer.parseInt(coInfo.getCreditCnt()));
-        waitListCourse.setRegDate(courseWaitListInfo.getEffectiveDate());
+        RegistrationCourse registrationCourse = new RegistrationCourse();
+        registrationCourse.setCode(coInfo.getCourseOfferingCode());
+        registrationCourse.setTitle(coInfo.getCourseOfferingTitle());
+        registrationCourse.setCredits(Integer.parseInt(coInfo.getCreditCnt()));
+        registrationCourse.setRegDate(courseWaitListInfo.getEffectiveDate());
 
-        waitListCourse.setSection(AdminRegistrationUtil.getCourseOfferingService().getRegistrationGroup(courseWaitListInfo.getRegistrationGroupId(), createContextInfo()).getRegistrationCode());
-        return waitListCourse;
+        registrationCourse.setSection(AdminRegistrationUtil.getCourseOfferingService().getRegistrationGroup(courseWaitListInfo.getRegistrationGroupId(), createContextInfo()).getRegistrationCode());
+        return registrationCourse;
     }
 
     /**
