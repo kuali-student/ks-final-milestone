@@ -195,9 +195,15 @@
                                     <!-- Course Code and Title -->
                                     <bean parent="Uif-Message"
                                           p:messageText="@{courseOfferingCode} - @{courseOfferingTitle}"/>
-                                    <!-- Prequisites -->
+                                    <!-- Prerequisites -->
                                     <bean parent="Uif-Message"
-                                          p:messageText="@{prerequisitesForUI}"/>
+                                          p:additionalCssClasses="ksap-section-dialog-label"
+                                          p:messageText="@{#textHelper.getText('details.dialog.prerequisites')}"
+                                          p:render="@{prerequisites.size()>0}"/>
+                                    <bean parent="Uif-Message"
+                                          p:additionalCssClasses="ksap-section-dialog-text"
+                                          p:messageText="@{prerequisitesForUI}"
+                                          p:render="@{prerequisites.size()>0}" />
                                     <!-- Corequisites -->
                                     <bean parent="Uif-Message"
                                           p:additionalCssClasses="ksap-section-dialog-label"
