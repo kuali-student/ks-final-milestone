@@ -462,7 +462,7 @@ public class CourseController extends CourseRuleEditorController {
         try {
             document = getSupportingDocumentService().getDocument(supportingDocument.getDocumentId(), ContextUtils.createDefaultContextInfo());
         } catch (Exception ex) {
-            LOG.warn("Exception occurred while retrieving the document", ex);
+            LOG.error("Exception occurred while retrieving the document", ex);
         }
 
         if (document != null && document.getDocumentBinary() != null
@@ -472,11 +472,17 @@ public class CourseController extends CourseRuleEditorController {
             byte[] bytes = Base64.decodeBase64(document.getDocumentBinary().getBinary());
             BufferedInputStream byteStream = new BufferedInputStream(new ByteArrayInputStream(bytes));
 
-            KRADUtils.addAttachmentToResponse(response, byteStream,
-                    CurriculumManagementConstants.DEFAULT_MIME_TYPE, document.getName(),
-                    bytes.length);
+            try {
+                KRADUtils.addAttachmentToResponse(response, byteStream,
+                        CurriculumManagementConstants.DEFAULT_MIME_TYPE, document.getName(),
+                        bytes.length);
+            } catch (Exception ex) {
+                LOG.error("Exception occurred while attaching the document to response", ex);
+                throw new RuntimeException("An error has occurred while downloading the file. Please try again.");
+            }
         } else {
-            LOG.warn("Sorry, the file could not be retrieved.  It may not exist, or the server could not be contacted.");
+            LOG.error("Sorry, the file could not be retrieved.  It may not exist, or the server could not be contacted.");
+            throw new RuntimeException("Document cannot be found.");
         }
 
         return null;
