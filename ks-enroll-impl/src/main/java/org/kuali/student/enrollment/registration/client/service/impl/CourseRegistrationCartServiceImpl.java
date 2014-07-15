@@ -126,7 +126,59 @@ public class CourseRegistrationCartServiceImpl implements CourseRegistrationCart
 
     }
 
+
+    /**
+     * Transactional method that adds a request item to the cart. It needs to be transactions because we have to
+     * get the cart, add the item, persis the cart. This method needs to be AS SMALL AS POSSIBLE for performance
+     * reasons.
+     *
+     * @param cartId
+     * @param registrationRequestItem
+     * @param contextInfo
+     * @return
+     * @throws PermissionDeniedException
+     * @throws MissingParameterException
+     * @throws InvalidParameterException
+     * @throws OperationFailedException
+     * @throws DoesNotExistException
+     * @throws ReadOnlyException
+     * @throws DataValidationErrorException
+     * @throws VersionMismatchException
+     */
     @Transactional
+    protected RegistrationRequestInfo addItemToRegRequest(String cartId, RegistrationRequestItemInfo registrationRequestItem, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
+
+        // getting cart
+        RegistrationRequestInfo cart = getCourseRegistrationService().getRegistrationRequest(cartId, contextInfo);
+
+        cart.getRegistrationRequestItems().add(registrationRequestItem);
+        //Persist the new cart with the newly added item
+        return getCourseRegistrationService().updateRegistrationRequest(cartId, cart, contextInfo);
+
+    }
+
+    /**
+     * Helper method to get the newest (by createDate) reg request item.
+     * @param regRequestItems
+     * @return
+     */
+    private   RegistrationRequestItemInfo getNewestRegRequestItem(List<RegistrationRequestItemInfo> regRequestItems){
+        if(regRequestItems == null || regRequestItems.isEmpty()) return null;
+
+        RegistrationRequestItemInfo newest = null;
+        for(RegistrationRequestItemInfo reqItem : regRequestItems){
+            if(newest == null){
+                newest = reqItem;
+            } else {
+               if(reqItem.getMeta().getCreateTime().after(newest.getMeta().getCreateTime())){
+                   newest = reqItem;
+               }
+            }
+        }
+        return newest;
+    }
+
+
     protected CartItemResult addCourseToCart(ContextInfo contextInfo, String cartId, String courseCode, String regGroupId, String regGroupCode, String gradingOptionId, String credits) throws MissingParameterException, PermissionDeniedException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException, LoginException, MissingOptionException, GenericUserException {
 
         RegGroupSearchResult rg = null;
@@ -179,20 +231,17 @@ public class CourseRegistrationCartServiceImpl implements CourseRegistrationCart
         cart.getRegistrationRequestItems().add(registrationRequestItem);
 
         //Persist the new cart with the newly added item
-        RegistrationRequestInfo cartRegistrationRequest = getCourseRegistrationService().updateRegistrationRequest(cartId, cart, contextInfo);
+        RegistrationRequestInfo cartRegistrationRequest = addItemToRegRequest(cartId, registrationRequestItem, contextInfo);
 
         // looking for new item from the results
-        String newCartItemId = null;
-        for (RegistrationRequestItemInfo cartItem : cartRegistrationRequest.getRegistrationRequestItems()) {
-            if (!registrationRequestIds.contains(cartItem.getId())) {
-                newCartItemId = cartItem.getId();
-            }
-        }
+        RegistrationRequestItemInfo newRegReqItem = getNewestRegRequestItem(cartRegistrationRequest.getRegistrationRequestItems());
 
         //Check that the item was created
-        if (StringUtils.isEmpty(newCartItemId)) {
+        if (newRegReqItem == null) {
             throw new OperationFailedException("Can't find the newly added cart item.");
         }
+
+        String newCartItemId = newRegReqItem.getId();
 
         //Get the cart result with the item id to trim it down and no reg options since we know these already
         CartResult cartResult = getCartForUserAndTerm(cart.getRequestorId(), cart.getTermId(), null, newCartItemId, false, contextInfo);
