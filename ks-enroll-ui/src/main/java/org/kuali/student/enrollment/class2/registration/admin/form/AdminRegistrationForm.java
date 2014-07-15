@@ -16,8 +16,6 @@
 
 package org.kuali.student.enrollment.class2.registration.admin.form;
 
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 
@@ -242,15 +240,25 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
 
     public void clear() {
         this.studentName= null;
-        this.termCode = null;
-
-        clearTermAndCourseRegistrationInfo();
+        this.clearTermValues();
     }
 
-    public void clearTermAndCourseRegistrationInfo() {
+    public void clearTermValues() {
         this.termInfo = null;
+        this.termCode = null;
         this.termName = null;
+        this.clearCourseRegistrationValues();
+    }
+
+    public void clearCourseRegistrationValues() {
+        this.resetPendingCourseValues();
         this.registeredCourses = new ArrayList<RegistrationCourse>();
         this.waitlistedCourses = new ArrayList<RegistrationCourse>();
+        this.registrationIssues = new ArrayList<RegistrationIssue>();
+    }
+
+    public void resetPendingCourseValues(){
+        this.pendingCourses = new ArrayList<RegistrationCourse>();
+        this.pendingCourses.add(new RegistrationCourse());
     }
 }

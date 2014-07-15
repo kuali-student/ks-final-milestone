@@ -109,25 +109,25 @@ public class AdminRegistrationController extends UifControllerBase {
     public ModelAndView getTermInfo(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result,
                                     HttpServletRequest request, HttpServletResponse response) {
 
-        if(form.getTermCode() != null){
+        if (form.getTermCode() != null) {
             TermInfo term = getViewHelper(form).getTermByCode(form.getTermCode());
-            if(term!=null){
+            if (term != null) {
                 form.setTermInfo(term);
                 form.setTermName(term.getName());
 
                 form.setRegisteredCourses(getViewHelper(form).getCourseRegForStudentAndTerm(form.getStudentId(), term.getId()));
                 form.setWaitlistedCourses(getViewHelper(form).getCourseWaitListForStudentAndTerm(form.getStudentId(), term.getId()));
-            }else {
-                form.clearTermAndCourseRegistrationInfo();
+            } else {
+                form.clearTermValues();
             }
-        }else{
-           if( StringUtils.isBlank(form.getTermCode()) ) {
-               GlobalVariables.getMessageMap().putError("termCode", AdminRegConstants.ADMIN_REG_MSG_ERROR_TERM_CODE_REQUIRED);
-               form.clearTermAndCourseRegistrationInfo();
-           }else {
-               GlobalVariables.getMessageMap().putError("termCode", AdminRegConstants.ADMIN_REG_MSG_ERROR_INVALID_TERM);
-               form.clearTermAndCourseRegistrationInfo();
-           }
+        } else {
+            if (StringUtils.isBlank(form.getTermCode())) {
+                GlobalVariables.getMessageMap().putError("termCode", AdminRegConstants.ADMIN_REG_MSG_ERROR_TERM_CODE_REQUIRED);
+                form.clearTermValues();
+            } else {
+                GlobalVariables.getMessageMap().putError("termCode", AdminRegConstants.ADMIN_REG_MSG_ERROR_INVALID_TERM);
+                form.clearTermValues();
+            }
         }
 
         return getUIFModelAndView(form);
@@ -156,8 +156,7 @@ public class AdminRegistrationController extends UifControllerBase {
 
         // continue with registration
         form.getCoursesInProcess().addAll(form.getPendingCourses());
-        form.setPendingCourses(new ArrayList<RegistrationCourse>());
-        form.getPendingCourses().add(new RegistrationCourse());
+        form.resetPendingCourseValues();
 
         return getUIFModelAndView(form);
     }
@@ -224,7 +223,7 @@ public class AdminRegistrationController extends UifControllerBase {
         }
 
         Random generator = new Random();
-        if(generator.nextInt(3)!=0){
+        if (generator.nextInt(3) != 0) {
             return result;
         }
 
@@ -372,16 +371,15 @@ public class AdminRegistrationController extends UifControllerBase {
         }
     }
 
-    private void validateUserPopulatedStudentIdField( AdminRegistrationForm form) {
+    private void validateUserPopulatedStudentIdField(AdminRegistrationForm form) {
 
         String StudentId = form.getStudentId();
-        if( StringUtils.isBlank(StudentId) ) {
+        if (StringUtils.isBlank(StudentId)) {
             GlobalVariables.getMessageMap().putError(AdminRegConstants.STUDENT_INFO_SECTION_STUDENT_ID, AdminRegConstants.ADMIN_REG_MSG_ERROR_STUDENT_REQUIRED);
         }
     }
 
     /**
-     *
      * @param form
      * @return
      */

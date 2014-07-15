@@ -23,6 +23,7 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
+import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.enrollment.courseoffering.infc.FormatOffering;
 import org.kuali.student.enrollment.courseoffering.infc.RegistrationGroup;
 import org.kuali.student.enrollment.courseregistration.dto.ActivityRegistrationInfo;
@@ -302,14 +303,20 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
     }
 
     public String retrieveCourseTitle(RegistrationCourse course, String termCode) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException {
-        MultiKey cacheKey = new MultiKey(termCode, course.getCode());
-        Element cachedResult = AdminRegistrationUtil.getCacheManager().getCache(CACHE_NAME).get(cacheKey);
 
-        if (cachedResult != null) {
-            course.setTitle(((CourseOfferingInfo) cachedResult.getValue()).getCourseOfferingTitle());
-        } else {
+        String courseCode = course.getCode();
+        if (courseCode == null || courseCode.isEmpty()) {
             course.setTitle(StringUtils.EMPTY);
+        } else {
+
+            CourseOfferingInfo courseOffering = this.getCourseOfferingByCodeAndTerm(termCode, courseCode);
+            if (courseOffering != null) {
+                course.setTitle(courseOffering.getCourseOfferingTitle());
+            } else {
+                course.setTitle(StringUtils.EMPTY);
+            }
         }
+
         return course.getTitle();
     }
 
@@ -344,7 +351,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
         // only one character. This is the base search.
         if (cachedResult == null) {
             if (courseCode.length() == 1) {
-                List<CourseOfferingInfo> searchResult = searchCourseOfferingsByCodeAndTerm(termCode, courseCode);
+                List<CourseOfferingInfo> searchResult = searchCourseOfferingsByCodeAndTerm(termCode, courseCode, true);
                 for(CourseOfferingInfo courseOffering : searchResult){
                     results.add(courseOffering.getCourseOfferingCode());
                 }
@@ -376,7 +383,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
         MultiKey cacheKey = new MultiKey(termCode, courseCode);
         Element cachedResult = AdminRegistrationUtil.getCacheManager().getCache(CACHE_NAME).get(cacheKey);
         if (cachedResult == null) {
-            List<CourseOfferingInfo> courseOfferings = searchCourseOfferingsByCodeAndTerm(termCode, courseCode);
+            List<CourseOfferingInfo> courseOfferings = searchCourseOfferingsByCodeAndTerm(termCode, courseCode, false);
             return KSCollectionUtils.getOptionalZeroElement(courseOfferings);
         }
 
@@ -389,15 +396,17 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
      * @param courseCode the starting characters of a course code
      * @return a list of CourseCodeSuggestResults containing matching course codes
      */
-    private List<CourseOfferingInfo> searchCourseOfferingsByCodeAndTerm(String termCode, String courseCode)
+    private List<CourseOfferingInfo> searchCourseOfferingsByCodeAndTerm(String termCode, String courseCode, boolean addWildCard)
             throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
 
         ContextInfo context = ContextUtils.createDefaultContextInfo();
         TermInfo term = this.getTermByCode(termCode);
 
+        String searchCode = addWildCard ? courseCode + "*" : courseCode;
+
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
         qbcBuilder.setPredicates(PredicateFactory.and(
-                PredicateFactory.like("courseOfferingCode", courseCode + "*"),
+                PredicateFactory.like("courseOfferingCode", searchCode),
                 PredicateFactory.equalIgnoreCase("atpId", term.getId())));
         QueryByCriteria criteria = qbcBuilder.build();
 
