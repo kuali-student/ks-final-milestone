@@ -80,11 +80,12 @@ public interface CourseDetailsViewHelperService extends ViewHelperService {
          * @param termId - id of the term of the course offering the added registration group is in
          * @param courseOfferingCode - Code of the course offering the added registration group is in
          * @param courseOfferingId - Id of the course offering the added registration group is in
+         * @param formatOfferingId - Id of the course format offering the added registration group is in
          * @param activities - List of Activities being added
          * @param eventList - List of currently being build
          * @return Current list of events being build with the new event added
          */
-    public JsonObjectBuilder createAddSectionEvent(String termId, String courseOfferingCode, String courseOfferingId, List<ActivityOfferingDetailsWrapper> activities, JsonObjectBuilder eventList);
+    public JsonObjectBuilder createAddSectionEvent(String termId, String courseOfferingCode, String courseOfferingId, String formatOfferingId, List<ActivityOfferingDetailsWrapper> activities, JsonObjectBuilder eventList);
 
     /**
      * Creates the json object needed in the filtering course offerings event when dynamically updating the page

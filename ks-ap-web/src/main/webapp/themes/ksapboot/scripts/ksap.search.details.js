@@ -61,8 +61,10 @@ function registerCourseSectionEvents(jqObjects){
  */
 function ksapAddCourseSection (data){
 
+    var section = jQuery("#"+data.termId+"_"+data.courseOfferingCode+"_"+data.formatOfferingId+"_section");
+    resetCheckBoxes(section);
+
     // Display the planned marker on the course offering header if needed
-    resetCheckBoxes();
     var courseOfferingMarker = jQuery("#"+data.termId+"_"+data.courseOfferingCode+"_section .ksap-section-planned-marker");
     if(courseOfferingMarker.length){
         courseOfferingMarker.removeClass("ksap-hide");
@@ -278,8 +280,14 @@ function toggleFormatOfferingSections(element, divIdPrefix) {
  */
 function clickActivity(selected,e){
     // Gather selected and checked information
-    var checkedCheckboxes = jQuery("[type='checkbox']:checked");
     var selectedObjectId = selected.getAttribute("data-activityid");
+    var selectedObjectTerm = selected.getAttribute("data-termid").replace(/\./g,'-');
+    var selectedObjectCourseOfferingCode = selected.getAttribute("data-coursecode");
+    var selectedObjectFormatId = selected.getAttribute("data-formatid");
+
+    var parentSection = jQuery("#"+selectedObjectTerm+"_"+selectedObjectCourseOfferingCode+"_"+selectedObjectFormatId+"_section");
+    var checkedCheckboxes = parentSection.find("[type='checkbox']:checked");
+
     var checkedIds = [];
     for(var i = 0; i<checkedCheckboxes.length; i++){
         var checkedItem = checkedCheckboxes[i];
@@ -313,9 +321,15 @@ function clickActivity(selected,e){
 /**
  * Resets all checkboxes to an unchecked state.
  */
-function resetCheckBoxes(){
-    var checkedCheckboxes = jQuery("[type='checkbox']:checked");
-    checkedCheckboxes.attr("checked",false);
+function resetCheckBoxes(section){
+
+    if(section ===undefined){
+        var checkedCheckboxes = jQuery("[type='checkbox']:checked");
+        checkedCheckboxes.attr("checked",false);
+    }else{
+        var checkedCheckboxes = section.find("[type='checkbox']:checked");
+        checkedCheckboxes.attr("checked",false);
+    }
 
 }
 

@@ -805,6 +805,9 @@
                             <property name="dataAttributes">
                                 <map>
                                     <entry key="activityId" value="@{#line.activityOfferingId}" />
+                                    <entry key="courseCode" value="@{#parentLine.courseOfferingCode}" />
+                                    <entry key="termId" value="@{#parentLine.termId}" />
+                                    <entry key="formatId" value="@{#parentLine.formatOfferingId}" />
                                 </map>
                             </property>
                         </bean>

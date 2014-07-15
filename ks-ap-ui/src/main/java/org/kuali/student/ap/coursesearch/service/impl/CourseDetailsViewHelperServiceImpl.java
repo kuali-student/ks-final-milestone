@@ -503,7 +503,6 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
 
     /**
      * Validates the Reg groups by:
-     * Offered Status
      * List of selected AOs
      * Status in the plan
      *
@@ -512,6 +511,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
     @Override
     public List<String> getValidRegGroupIds(String courseOfferingId, Map<Object,Object> additionalRestrictions){
         ContextInfo contextInfo = KsapFrameworkServiceLocator.getContext().getContextInfo();
+
         // Retrieve reg groups for the Course Offering
         List<String> regGroupIds = new ArrayList<String>();
         try {
@@ -531,18 +531,12 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
 
         // Validate Reg Groups based on if they are already in plan
         regGroupIds = getValidRegGroupsFilteredByPlan(regGroupIds);
+
         // Validate Reg Groups based on selected AOs
         List<String> selectedActivities = (List<String>) additionalRestrictions.get("selectedActivities");
         regGroupIds = getValidRegGroupsFilteredBySelectedActivities(regGroupIds, selectedActivities);
 
-        // Validate Reg Groups based on them being offered
-        /*List<RegistrationGroupInfo> offeredRegGroups = new ArrayList<RegistrationGroupInfo>();
-        for(RegistrationGroupInfo regGroup : regGroups){
-            if(regGroup.getStateKey().equals(LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY)){
-                offeredRegGroups.add(regGroup);
-            }
-        }
-        regGroups = offeredRegGroups;*/
+        //Validate Offered - Shouldn't be needed since only offered reg groups are added to the page.
 
         return regGroupIds;
     }
@@ -551,11 +545,12 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
      * @see org.kuali.student.ap.coursesearch.service.CourseDetailsViewHelperService#createAddSectionEvent(String, String, String, java.util.List, javax.json.JsonObjectBuilder)
      */
     @Override
-    public JsonObjectBuilder createAddSectionEvent(String termId, String courseOfferingCode, String courseOfferingId, List<ActivityOfferingDetailsWrapper> activities, JsonObjectBuilder eventList){
+    public JsonObjectBuilder createAddSectionEvent(String termId, String courseOfferingCode, String courseOfferingId, String formatOfferingId, List<ActivityOfferingDetailsWrapper> activities, JsonObjectBuilder eventList){
         JsonObjectBuilder addEvent = Json.createObjectBuilder();
         addEvent.add("courseOfferingId", courseOfferingId);
         addEvent.add("termId", termId.replace(".", "-"));
         addEvent.add("courseOfferingCode", courseOfferingCode);
+        addEvent.add("formatOfferingid", formatOfferingId);
         addEvent.add("uid", UUID.randomUUID().toString());
 
         // Create json array of activity to add and add it to event
