@@ -83,7 +83,8 @@
         </property>
         <property name="items">
             <list>
-                <ref bean="messages_widget"/>
+                <!-- Hide messages widget for now -->
+                <!--<ref bean="messages_widget"/>-->
                 <ref bean="your_stuff_widget_planner"/>
             </list>
         </property>
