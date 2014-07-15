@@ -263,6 +263,26 @@ public class ProgramServiceDecorator implements ProgramService {
     }
 
     @Override
+    public TrackInfo getTrack(String trackId,  ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        return this.getNextDecorator().getTrack(trackId, contextInfo);
+    }
+
+    @Override
+    public List<TrackInfo> getTracksByIds(List<String> trackIds, ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        return this.getNextDecorator().getTracksByIds(trackIds, contextInfo);
+    }
+
+    @Override
     public List<ValidationResultInfo> validateTrack(String validationType, TrackInfo trackInfo, ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {

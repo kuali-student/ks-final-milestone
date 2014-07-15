@@ -784,6 +784,42 @@ public interface ProgramService extends  SearchService,  VersionManagementServic
             InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
+     * Retrieves a Track
+     *
+     * @param trackId Unique Id of the Track. Maps to cluId
+     * @return the created Track
+     * @throws DoesNotExistException Track does not exist
+     * @throws InvalidParameterException invalid Track
+     * @throws MissingParameterException missing Track
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public TrackInfo getTrack(@WebParam(name = "trackId") String trackId, @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a list of tracks from a list of track Ids.
+     * The returned list may be in any order and if duplicate Ids are supplied, a unique set may or may not be returned.
+     *
+     * @param trackIds a list of track identifiers
+     * @param contextInfo     Context information containing the principalId and
+     *                        locale information about the caller of service
+     *                        operation
+     * @return List<TrackInfo>       a list of tracks
+     * @throws DoesNotExistException    an trackId in the list was not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException trackIds, an Id in the trackIds, or contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<TrackInfo> getTracksByIds(@WebParam(name = "trackIds") List<String> trackIds, @WebParam(name = "contextInfo") ContextInfo contextInfo )
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
      * Validates a Minor discipline against its data dictionary
      * 
      * @param validationType identifier of the extent of validation
