@@ -40,6 +40,8 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.infc.Term;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -64,6 +66,7 @@ import java.util.Map;
 @Controller
 @RequestMapping(value = "/course/details/**")
 public class CourseSectionDetailsController extends KsapControllerBase {
+    private static final Logger LOG = LoggerFactory.getLogger(CourseSectionDetailsController.class);
 
     private static final String COURSE_SECTION_DETAILS_FORM = "CourseDetails-FormView";
     private static final String COURSE_SECTION_DETAILS_DIALOG = "KSAP-CourseSectionDetailsDialog-FormView";
@@ -186,7 +189,7 @@ public class CourseSectionDetailsController extends KsapControllerBase {
         }
 
         // Get new list of valid registration groups with added plan item
-        List<RegistrationGroupInfo> validRegGroups = getViewHelperService(form).getValidRegGroups(course.getId(), new HashMap<Object, Object>());
+        List<String> validRegGroups = getViewHelperService(form).getValidRegGroupIds(course.getId(), new HashMap<Object, Object>());
 
         // Create events needed to update the page
         eventList = getViewHelperService(form).createAddSectionEvent(course.getTermId(), course.getCourseOfferingCode(),regGroup.getCourseOfferingId(), activityWrappers, eventList);
@@ -243,8 +246,8 @@ public class CourseSectionDetailsController extends KsapControllerBase {
         }
 
         // Retrieve filtered registration groups
-        List<RegistrationGroupInfo> regGroups = getViewHelperService(form)
-                .getValidRegGroups(activityOfferingInfo.getCourseOfferingId(),additionalRestrictions);
+        List<String> regGroups = getViewHelperService(form)
+                .getValidRegGroupIds(activityOfferingInfo.getCourseOfferingId(),additionalRestrictions);
 
         //Create events needed to update the page
         eventList = getViewHelperService(form).createFilterValidRegGroupsEvent(activityOfferingInfo.getTermId(),

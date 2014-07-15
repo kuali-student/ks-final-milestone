@@ -14,6 +14,7 @@
  */
 package org.kuali.student.ap.coursesearch.service.impl;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.container.GroupBase;
@@ -42,6 +43,7 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
+import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -209,13 +211,30 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
             if (offeringsByTerm == null)
                 offeringsByTerm = new ArrayList<CourseOfferingDetailsWrapper>();
 
-            List<RegistrationGroupInfo> validRegGroups = getValidRegGroups(offering.getId(),new HashMap<Object,Object>());
+            List<String> validRegGroups = getValidRegGroupIds(offering.getId(),new HashMap<Object,Object>());
+
             List<String> validFormatOfferings = new ArrayList<String>();
             List<String> validActivities = new ArrayList<String>();
-            for(RegistrationGroupInfo group : validRegGroups){
-                validActivities.addAll(group.getActivityOfferingIds());
-                if(!validFormatOfferings.contains(group.getFormatOfferingId())){
-                    validFormatOfferings.add(group.getFormatOfferingId());
+            for(String id : validRegGroups){
+                List<String> activityIds = null;
+                List<String> formatIds = null;
+                try {
+                    activityIds = KsapFrameworkServiceLocator.getLuiService().getLuiIdsByLuiAndRelationType(id, LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY, KsapFrameworkServiceLocator.getContext().getContextInfo());
+                    formatIds = KsapFrameworkServiceLocator.getLuiService().getLuiIdsByRelatedLuiAndRelationType(id, LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_RG_TYPE_KEY, KsapFrameworkServiceLocator.getContext().getContextInfo());
+                } catch (InvalidParameterException e) {
+                    throw new IllegalArgumentException("Lui Service lookup error", e);
+                } catch (MissingParameterException e) {
+                    throw new IllegalArgumentException("Lui Service lookup error", e);
+                } catch (OperationFailedException e) {
+                    throw new IllegalArgumentException("Lui Service lookup error", e);
+                } catch (PermissionDeniedException e) {
+                    throw new IllegalArgumentException("Lui Service lookup error", e);
+                }
+                if(activityIds != null && !activityIds.isEmpty()){
+                    validActivities.addAll(activityIds);
+                }
+                if(formatIds != null && !formatIds.isEmpty()){
+                    validFormatOfferings.addAll(formatIds);
                 }
             }
 
@@ -477,25 +496,18 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
      * List of selected AOs
      * Status in the plan
      *
-     * @see org.kuali.student.ap.coursesearch.service.CourseDetailsViewHelperService#getValidRegGroups(String, java.util.Map)
+     * @see org.kuali.student.ap.coursesearch.service.CourseDetailsViewHelperService#getValidRegGroupIds(String, java.util.Map)
      */
     @Override
-    public List<RegistrationGroupInfo> getValidRegGroups(String courseOfferingId, Map<Object,Object> additionalRestrictions){
+    public List<String> getValidRegGroupIds(String courseOfferingId, Map<Object,Object> additionalRestrictions){
         ContextInfo contextInfo = KsapFrameworkServiceLocator.getContext().getContextInfo();
         // Retrieve reg groups for the Course Offering
-        List<RegistrationGroupInfo> regGroups = new ArrayList<RegistrationGroupInfo>();
+        List<String> regGroupIds = new ArrayList<String>();
         try {
-            List<FormatOfferingInfo> formats = KsapFrameworkServiceLocator.getCourseOfferingService()
-                    .getFormatOfferingsByCourseOffering(courseOfferingId,
-                            contextInfo);
-            for(FormatOfferingInfo format : formats){
-                regGroups.addAll(KsapFrameworkServiceLocator.getCourseOfferingService().getRegistrationGroupsByFormatOffering(
-                        format.getId(), contextInfo));
+            List<String> formatIds = KsapFrameworkServiceLocator.getLuiService().getLuiIdsByLuiAndRelationType(courseOfferingId, LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_CO_TO_FO_TYPE_KEY, contextInfo);
+            for(String format : formatIds){
+                regGroupIds.addAll(KsapFrameworkServiceLocator.getLuiService().getLuiIdsByLuiAndRelationType(format, LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_RG_TYPE_KEY, contextInfo));
             }
-        } catch (DoesNotExistException e) {
-            // If no reg groups exit for course offering return null
-            LOG.debug("No Registration Groups found for Course Offering "+courseOfferingId);
-            return null;
         } catch (InvalidParameterException e) {
             throw new IllegalArgumentException("CO lookup error", e);
         } catch (MissingParameterException e) {
@@ -506,23 +518,22 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
             throw new IllegalArgumentException("CO lookup error", e);
         }
 
+        // Validate Reg Groups based on if they are already in plan
+        regGroupIds = getValidRegGroupsFilteredByPlan(regGroupIds);
+        // Validate Reg Groups based on selected AOs
+        List<String> selectedActivities = (List<String>) additionalRestrictions.get("selectedActivities");
+        regGroupIds = getValidRegGroupsFilteredBySelectedActivities(regGroupIds, selectedActivities);
+
         // Validate Reg Groups based on them being offered
-        List<RegistrationGroupInfo> offeredRegGroups = new ArrayList<RegistrationGroupInfo>();
+        /*List<RegistrationGroupInfo> offeredRegGroups = new ArrayList<RegistrationGroupInfo>();
         for(RegistrationGroupInfo regGroup : regGroups){
             if(regGroup.getStateKey().equals(LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY)){
                 offeredRegGroups.add(regGroup);
             }
         }
-        regGroups = offeredRegGroups;
+        regGroups = offeredRegGroups;*/
 
-        // Validate Reg Groups based on selected AOs
-        List<String> selectedActivities = (List<String>) additionalRestrictions.get("selectedActivities");
-        regGroups = getValidRegGroupsFilteredBySelectedActivities(regGroups, selectedActivities);
-
-        // Validate Reg Groups based on if they are already in plan
-        regGroups = getValidRegGroupsFilteredByPlan(regGroups);
-
-        return regGroups;
+        return regGroupIds;
     }
 
     /**
@@ -586,14 +597,14 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
      * @see org.kuali.student.ap.coursesearch.service.CourseDetailsViewHelperService#createFilterValidRegGroupsEvent(String, String, String, java.util.List, javax.json.JsonObjectBuilder)
      */
     @Override
-    public JsonObjectBuilder createFilterValidRegGroupsEvent(String termId, String courseOfferingCode, String formatOfferingId, List<RegistrationGroupInfo> regGroups, JsonObjectBuilder eventList){
+    public JsonObjectBuilder createFilterValidRegGroupsEvent(String termId, String courseOfferingCode, String formatOfferingId, List<String> regGroups, JsonObjectBuilder eventList){
         JsonObjectBuilder filterEvent = Json.createObjectBuilder();
         filterEvent.add("termId", termId.replace(".", "-"));
         filterEvent.add("courseOfferingCode", courseOfferingCode);
         filterEvent.add("formatOfferingId", formatOfferingId);
         if(regGroups.size()==1){
             try {
-                filterEvent.add("regGroupId",KSCollectionUtils.getRequiredZeroElement(regGroups).getId());
+                filterEvent.add("regGroupId",KSCollectionUtils.getRequiredZeroElement(regGroups));
             } catch (OperationFailedException e) {
                 throw new IllegalArgumentException("Failure retrieving registration group", e);
             }
@@ -604,10 +615,26 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
         // Deconstruct reg groups into list of AO and FO ids
         List<String> validFormatOfferings = new ArrayList<String>();
         List<String> validActivities = new ArrayList<String>();
-        for(RegistrationGroupInfo group : regGroups){
-            validActivities.addAll(group.getActivityOfferingIds());
-            if(!validFormatOfferings.contains(group.getFormatOfferingId())){
-                validFormatOfferings.add(group.getFormatOfferingId());
+        for(String id : regGroups){
+            List<String> activityIds = null;
+            List<String> formatIds = null;
+            try {
+                activityIds = KsapFrameworkServiceLocator.getLuiService().getLuiIdsByLuiAndRelationType(id, LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY, KsapFrameworkServiceLocator.getContext().getContextInfo());
+                formatIds = KsapFrameworkServiceLocator.getLuiService().getLuiIdsByRelatedLuiAndRelationType(id, LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_RG_TYPE_KEY, KsapFrameworkServiceLocator.getContext().getContextInfo());
+            } catch (InvalidParameterException e) {
+                throw new IllegalArgumentException("Lui Service lookup error", e);
+            } catch (MissingParameterException e) {
+                throw new IllegalArgumentException("Lui Service lookup error", e);
+            } catch (OperationFailedException e) {
+                throw new IllegalArgumentException("Lui Service lookup error", e);
+            } catch (PermissionDeniedException e) {
+                throw new IllegalArgumentException("Lui Service lookup error", e);
+            }
+            if(activityIds != null && !activityIds.isEmpty()){
+                validActivities.addAll(activityIds);
+            }
+            if(formatIds != null && !formatIds.isEmpty()){
+                validFormatOfferings.addAll(formatIds);
             }
         }
 
@@ -680,53 +707,66 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
     /**
      * Filters a list of registration groups based on a list of activity offering ids
      *
-     * @param regGroups - List of registration groups to filter
+     * @param regGroupIds - List of registration ids to filter
      * @param selectedActivities - List of activity ids to be found in valid reg groups
      * @return A list of filtered registration groups
      */
-    private List<RegistrationGroupInfo> getValidRegGroupsFilteredBySelectedActivities(
-            List<RegistrationGroupInfo> regGroups, List<String> selectedActivities){
+    private List<String> getValidRegGroupsFilteredBySelectedActivities(
+            List<String> regGroupIds, List<String> selectedActivities){
         // If no activities are sent skip filtering
         if(selectedActivities != null && !selectedActivities.isEmpty()){
-            List<RegistrationGroupInfo> validAOGroups = new ArrayList<RegistrationGroupInfo>();
-            for(RegistrationGroupInfo group : regGroups){
-                boolean valid = true;
-
-                // Check if reg group activities contain a selected activity.
-                for(String activityId : selectedActivities){
-                    if(!group.getActivityOfferingIds().contains(activityId)){
-                        valid = false;
-                        break;
+            List<String> regGroupIdsFromSelectedAOs = new ArrayList<String>();
+            for(String activityId : selectedActivities){
+                try {
+                    List<String> tempIds = KsapFrameworkServiceLocator.getLuiService()
+                            .getLuiIdsByRelatedLuiAndRelationType(activityId,
+                                    LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY,
+                                    KsapFrameworkServiceLocator.getContext().getContextInfo());
+                    if(regGroupIdsFromSelectedAOs.isEmpty()){
+                        regGroupIdsFromSelectedAOs.addAll(tempIds);
+                    }else{
+                        regGroupIdsFromSelectedAOs= (List<String>)CollectionUtils.intersection(regGroupIdsFromSelectedAOs,tempIds);
                     }
+                } catch (InvalidParameterException e) {
+                    throw new IllegalArgumentException("Lui Service lookup error", e);
+                } catch (MissingParameterException e) {
+                    throw new IllegalArgumentException("Lui Service lookup error", e);
+                } catch (OperationFailedException e) {
+                    throw new IllegalArgumentException("Lui Service lookup error", e);
+                } catch (PermissionDeniedException e) {
+                    throw new IllegalArgumentException("Lui Service lookup error", e);
                 }
-                if(valid){
-                    validAOGroups.add(group);
+            }
+            List<String> validAOGroups = new ArrayList<String>();
+            for(String id : regGroupIds){
+                if(regGroupIdsFromSelectedAOs.contains(id)){
+                    validAOGroups.add(id);
                 }
             }
 
-            regGroups = validAOGroups;
+            regGroupIds = validAOGroups;
         }
-        return regGroups;
+        return regGroupIds;
     }
 
     /**
      * Filter a list of registration groups based on if it is already in the default learning plan
      *
-     * @param regGroups - The list of registration groups to filter
+     * @param regGroupIds - The list of registration ids to filter
      * @return A list of filtered reg groups not already in plan
      */
-    private List<RegistrationGroupInfo> getValidRegGroupsFilteredByPlan(List<RegistrationGroupInfo> regGroups){
+    private List<String> getValidRegGroupsFilteredByPlan(List<String> regGroupIds){
         LearningPlan learningPlan = KsapFrameworkServiceLocator.getPlanHelper().getDefaultLearningPlan();
-        List<RegistrationGroupInfo> validGroups = new ArrayList<RegistrationGroupInfo>();
-        for(RegistrationGroupInfo group : regGroups){
+        List<String> validGroupIds = new ArrayList<String>();
+        for(String id : regGroupIds){
             //Check if there exist a plan item in the plan for the reg group
             try {
                 List<PlanItemInfo> item = KsapFrameworkServiceLocator.getAcademicPlanService()
-                        .getPlanItemsInPlanByRefObjectIdByRefObjectType(learningPlan.getId(), group.getId(),
+                        .getPlanItemsInPlanByRefObjectIdByRefObjectType(learningPlan.getId(), id,
                                 PlanConstants.REG_GROUP_TYPE, KsapFrameworkServiceLocator.getContext().getContextInfo());
                 if(item ==null || item.isEmpty()){
                     // If plan item does not exist reg group is valid
-                    validGroups.add(group);
+                    validGroupIds.add(id);
                 }
             } catch (InvalidParameterException e) {
                 throw new IllegalArgumentException("AP lookup error", e);
@@ -738,7 +778,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
                 throw new IllegalArgumentException("AP lookup error", e);
             }
         }
-        return validGroups;
+        return validGroupIds;
     }
 
     /**
