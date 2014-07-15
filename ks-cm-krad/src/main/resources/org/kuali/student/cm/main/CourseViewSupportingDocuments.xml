@@ -53,6 +53,23 @@
         <property name="layoutManager.separateAddLine" value="false"/>
         <property name="layoutManager.richTable.disableTableSort" value="true"/>
         <property name="layoutManager.richTable.render" value="false"/>
+        <property name="header.lowerGroup">
+            <bean parent="Uif-VerticalBoxGroup">
+                <property name="render" value="@{#workflowDoc.initiated}"/>
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-Message"
+                              p:messageText="[image src=&quot;@{#ConfigProperties['krad.externalizable.images.url']}/validation/info.png&quot;]  The proposal must be saved before supporting documents can be added.">
+                            <property name="additionalCssClasses">
+                                <list merge="true">
+                                    <value>ks-informational-message-for-field</value>
+                                </list>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
         <property name="cssClasses">
             <list merge="true">
                 <value>cm-collection-width</value>
