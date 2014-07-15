@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('regCartApp')
-    .controller('SearchCtrl', ['$scope', '$interval', 'ScheduleService', function SearchCtrl($scope, $interval, ScheduleService) {
+    .controller('SearchCtrl', ['$scope', '$interval', 'SearchService', function SearchCtrl($scope, $interval, SearchService) {
 
         $scope.searchCriteria = ''; // Criteria used to generate the search results.
         $scope.searchResults = []; // Results from the last search request.
@@ -55,11 +55,15 @@ angular.module('regCartApp')
             // Store off to prevent a provide a way to reference the search results that come back in case
             // the user runs another search request while this one is still running.
             lastSearchCriteria = criteria;
-            ScheduleService.searchForCourses().query({termId: termId, criteria: criteria}, function(results) {
+            SearchService.searchForCourses().query({termId: termId, criteria: criteria}, function(results) {
                 if (lastSearchCriteria === criteria) {
                     // This search matches the last one ran - it's current.
                     console.log('Search for "' + criteria + '" complete. Results: ' + results.length);
-                    $scope.searchResults = results;
+
+                    // REMOVE THIS AFTER MOCK IS REMOVED
+                    $scope.searchResults = SearchService.filterResults(results, criteria);
+
+                    // $scope.searchResults = results;
                     $scope.searchCriteria = criteria;
                 } else {
                     console.log('Search completed but not the most recent, ignoring results: "' + criteria + '" !== "' + lastSearchCriteria + '"');
@@ -96,4 +100,4 @@ angular.module('regCartApp')
             }
         };
 
-    }]);;
+    }]);

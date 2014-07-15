@@ -31,8 +31,4 @@ angular.module('regCartApp')
             return ServiceUtilities.getData(URLS.courseRegistration + '/getRegistrationStatus');
         };
 
-        this.searchForCourses = function () {
-            return ServiceUtilities.getArray(URLS.scheduleOfClasses + '/search');
-        };
-
     }]);
