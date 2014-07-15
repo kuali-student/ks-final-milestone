@@ -302,6 +302,10 @@ public class LprServiceImpl implements LprService {
                 lprEntity.setPersonRelationTypeId(lprInfo.getTypeKey());
             }
 
+            if (lprInfo.getPersonId() != null) {
+                lprEntity.setPersonId(lprInfo.getPersonId());
+            }
+
             lprEntity.setEntityUpdated(contextInfo);
 
             try {
