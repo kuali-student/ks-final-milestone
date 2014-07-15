@@ -215,6 +215,8 @@ public class ActivityOfferingTransformer {
                 ao.setIsMaxEnrollmentEstimate(Boolean.valueOf(attr.getValue()));
             } else if( CourseOfferingServiceConstants.IS_AO_APPROVED_FOR_NON_STANDARD_TIME_SLOTS.equals(attr.getKey()) ) {
                 ao.setIsApprovedForNonStandardTimeSlots( Boolean.valueOf(attr.getValue()) );
+            } else if (CourseOfferingServiceConstants.ACTIVITY_OFFERING_SCHEDULING_STATE_ATTR.equals(attr.getKey())) {
+                ao.setSchedulingStateKey(attr.getValue());
             } else {
                 attributes.add(new AttributeInfo(attr));
             }
@@ -237,12 +239,12 @@ public class ActivityOfferingTransformer {
         // derive the scheduling state
 
         // if there is an actual schedule tied to the AO, and at least one of the components is not marked TBA, then the AO scheduling state is Scheduled
-        if(!ao.getScheduleIds().isEmpty()) {
-            ao.setSchedulingStateKey(getSchedulingState(ao, scheduleIdsWithNonTBA));
-        }
-        else {
-            ao.setSchedulingStateKey(getSchedulingStateByScheduleRequest(ao, ao2TBAMap));
-        }
+//        if(!ao.getScheduleIds().isEmpty()) {
+//            ao.setSchedulingStateKey(getSchedulingState(ao, scheduleIdsWithNonTBA));
+//        }
+//        else {
+//            ao.setSchedulingStateKey(getSchedulingStateByScheduleRequest(ao, ao2TBAMap));
+//        }
 
         return ao;
     }
@@ -277,6 +279,8 @@ public class ActivityOfferingTransformer {
                 ao.setIsMaxEnrollmentEstimate(Boolean.valueOf(attr.getValue()));
             } else if( CourseOfferingServiceConstants.IS_AO_APPROVED_FOR_NON_STANDARD_TIME_SLOTS.equals(attr.getKey()) ) {
                 ao.setIsApprovedForNonStandardTimeSlots( Boolean.valueOf(attr.getValue()) );
+            } else if (CourseOfferingServiceConstants.ACTIVITY_OFFERING_SCHEDULING_STATE_ATTR.equals(attr.getKey())) {
+                ao.setSchedulingStateKey(attr.getValue());
             } else {
                 attributes.add(new AttributeInfo(attr));
             }
@@ -303,12 +307,12 @@ public class ActivityOfferingTransformer {
         // derive the scheduling state
 
         // if there is an actual schedule tied to the AO, and at least one of the components is not marked TBA, then the AO scheduling state is Scheduled
-        if(!ao.getScheduleIds().isEmpty()) {
-            ao.setSchedulingStateKey(getSchedulingState(ao, searchService, context));
-        }
-        else {
-            ao.setSchedulingStateKey(getSchedulingStateByScheduleRequest(ao, searchService, context));
-        }
+//        if(!ao.getScheduleIds().isEmpty()) {
+//            ao.setSchedulingStateKey(getSchedulingState(ao, searchService, context));
+//        }
+//        else {
+//            ao.setSchedulingStateKey(getSchedulingStateByScheduleRequest(ao, searchService, context));
+//        }
     }
 
     public static void activity2Lui (ActivityOfferingInfo ao, LuiInfo lui) {
@@ -367,11 +371,35 @@ public class ActivityOfferingTransformer {
         isApprovedForNonStandardTimeSlots.setValue( String.valueOf(ao.getIsApprovedForNonStandardTimeSlots()) );
         attributes.add( isApprovedForNonStandardTimeSlots );
 
+        mergeAttribute(attributes, CourseOfferingServiceConstants.ACTIVITY_OFFERING_SCHEDULING_STATE_ATTR, ao.getSchedulingStateKey());
+
         lui.setAttributes(attributes);
 
         //Honors code
         LuCodeInfo luCode = findAddLuCode(lui, LuiServiceConstants.HONORS_LU_CODE);
         luCode.setValue(String.valueOf(ao.getIsHonorsOffering()));
+    }
+
+    private static void mergeAttribute(List<AttributeInfo> attributes, String attrKey, String attrValue) {
+        AttributeInfo attributeInfo = getAttributeForKey(attributes, attrKey);
+
+        if (attributeInfo != null) {
+            attributeInfo.setValue(attrValue);
+        } else {
+            AttributeInfo newAttr = new AttributeInfo();
+            newAttr.setKey(attrKey);
+            newAttr.setValue(attrValue);
+            attributes.add(newAttr);
+        }
+    }
+
+    private static AttributeInfo getAttributeForKey(List<AttributeInfo> attributeInfos, String key) {
+        for (AttributeInfo info : attributeInfos) {
+            if (info.getKey().equals(key)) {
+                return info;
+            }
+        }
+        return null;
     }
 
     public static LuCodeInfo findLuCode(LuiInfo lui, String typeKey) {
