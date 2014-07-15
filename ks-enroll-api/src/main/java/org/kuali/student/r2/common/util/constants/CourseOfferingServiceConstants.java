@@ -67,6 +67,7 @@ public class CourseOfferingServiceConstants {
     public static final String COLOCATED_SET_MAXIMUM_ENROLLMENT_ATTR = "kuali.attribute.colocatedset.max.enrollment";
     public static final String IS_MAX_ENROLLMENT_SHARED_ATTR = "kuali.attribute.colocatedset.is.max.enrollment.shared";
     public static final String IS_AO_APPROVED_FOR_NON_STANDARD_TIME_SLOTS = "kuali.attribute.nonstd.ts.indicator";
+    public static final String ACTIVITY_OFFERING_SCHEDULING_STATE_ATTR = "kuali.attribute.activity.offering.scheduling.state.key";
 
     // The type/states are defined in LuiServiceConstants.java
 
