@@ -1486,9 +1486,7 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
         if((null == automaticallyProcessed) || (null == confirmationRequired)) {
                waitListType = LuiServiceConstants.AUTOMATIC_WAITLIST_TYPE_KEY ;
                waitListTypeUI = "Automatic";
-        }
-
-        if(automaticallyProcessed && !(confirmationRequired)){
+        } else if(automaticallyProcessed && !(confirmationRequired)){ // patch by Dyak for UMDENR-377
             waitListType = LuiServiceConstants.AUTOMATIC_WAITLIST_TYPE_KEY ;
             waitListTypeUI = "Automatic";
         } else if(automaticallyProcessed && confirmationRequired ) {
