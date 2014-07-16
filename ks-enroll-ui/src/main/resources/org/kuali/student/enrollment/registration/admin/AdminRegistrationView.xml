@@ -78,14 +78,16 @@
                 <bean parent="Uif-HorizontalFieldGroup">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="studentId" p:required="true"
-                                  p:label="Student ID" p:readOnly="false" p:id="studentIdField">
+                            <bean parent="Uif-InputField" p:propertyName="studentId"
+                                  p:label="Student ID" p:readOnly="false" p:id="studentIdField"
+                                  p:onDocumentReadyScript="setValidation('clientState', 'studentId', ['kuali.admin.reg.state.open', 'kuali.admin.reg.state.initialized', 'kuali.admin.reg.state.ready'], 'Student Id is required.');">
                                 <property name="control">
                                     <bean parent="KS-Uif-TextControl" p:size="12"/>
                                 </property>
                             </bean>
                             <bean parent="Uif-SecondaryActionButton" p:performClientSideValidation="true"
-                                  p:actionLabel="Go" p:methodToCall="getStudentInfo" p:actionScript="goAction(this, 'kuali.admin.reg.state.open');"
+                                  p:actionLabel="Go" p:methodToCall="getStudentInfo"
+                                  p:actionScript="goAction(this, 'kuali.admin.reg.state.open');"
                                   p:jumpToIdAfterSubmit="TOP" p:ajaxSubmit="false" p:id="go_button"/>
                             <bean parent="Uif-MessageField" p:id="studentInfoMsg" p:render="@{studentId != null}"
                                   p:messageText="[b]@{studentName} (@{studentId})[/b]"/>
@@ -105,33 +107,13 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-InputField" p:propertyName="termCode"
-                                  p:label="Change Term" p:readOnly="false" p:id="termCodeField">
+                                  p:label="Change Term" p:readOnly="false" p:id="termCodeField"
+                                  p:onDocumentReadyScript="setValidation('clientState', 'termCode', ['kuali.admin.reg.state.initialized', 'kuali.admin.reg.state.ready'], 'Term Code is required.');">
                                 <!-- Constrain to 6 digits and use a custom message. -->
                                 <property name="validCharactersConstraint">
                                     <bean parent="NumericPatternConstraint"
                                           p:messageKey="error.admin.reg.termcode.invalid" p:value="^\d{6}$"/>
                                 </property>
-                                <property name="caseConstraint">
-                                    <bean parent="CaseConstraint">
-                                        <property name="propertyName" value="clientState"/>
-                                        <property name="whenConstraint">
-                                            <list>
-                                                <bean parent="WhenConstraint">
-                                                    <property name="values">
-                                                        <list>
-                                                            <value>kuali.admin.reg.state.initialized</value>
-                                                            <value>kuali.admin.reg.state.ready</value>
-                                                        </list>
-                                                    </property>
-                                                    <property name="constraint">
-                                                        <bean parent="RequiredConstraint"/>
-                                                    </property>
-                                                </bean>
-                                            </list>
-                                        </property>
-                                    </bean>
-                                </property>
-
                                 <property name="control">
                                     <bean parent="KS-Uif-TextControl" p:size="6" p:watermarkText="201301"
                                           p:minLength="6" p:maxLength="6"/>
@@ -202,7 +184,8 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="code" p:label="Course Code">
+                <bean parent="Uif-InputField" p:propertyName="code" p:label="Course Code"
+                      p:onDocumentReadyScript="setValidation('clientState', 'pendingCourses[@{#index}].code', ['kuali.admin.reg.state.ready'], 'Course Code is required.');">
                     <property name="control">
                         <bean parent="KS-Uif-TextControl" p:size="9" p:watermarkText="ENGL101"
                               p:minLength="7" p:maxLength="8"/>
@@ -210,25 +193,6 @@
                     <property name="validCharactersConstraint">
                         <bean parent="AlphaNumericPatternConstraint"
                               p:messageKey="error.admin.reg.courseoffering.code.invalid" p:value="^\w{4}\d{3}.?$"/>
-                    </property>
-                    <property name="caseConstraint">
-                        <bean parent="CaseConstraint">
-                            <property name="propertyName" value="clientState"/>
-                            <property name="whenConstraint">
-                                <list>
-                                    <bean parent="WhenConstraint">
-                                        <property name="values">
-                                            <list>
-                                                <value>kuali.admin.reg.state.ready</value>
-                                            </list>
-                                        </property>
-                                        <property name="constraint">
-                                            <bean parent="RequiredConstraint"/>
-                                        </property>
-                                    </bean>
-                                </list>
-                            </property>
-                        </bean>
                     </property>
 
                     <!-- The course code auto-complete -->
@@ -247,7 +211,8 @@
                         </bean>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="section" p:label="Section">
+                <bean parent="Uif-InputField" p:propertyName="section" p:label="Section"
+                      p:onDocumentReadyScript="setValidation('clientState', 'pendingCourses[@{#index}].section', ['kuali.admin.reg.state.ready'], 'Section is required.');">
                     <property name="control">
                         <bean parent="KS-Uif-TextControl" p:size="5" p:watermarkText="1001"
                               p:minLength="4" p:maxLength="4"/>
@@ -255,25 +220,6 @@
                     <property name="validCharactersConstraint">
                         <bean parent="NumericPatternConstraint"
                               p:messageKey="error.admin.reg.section.code.invalid" p:value="^\d{4}$"/>
-                    </property>
-                    <property name="caseConstraint">
-                        <bean parent="CaseConstraint">
-                            <property name="propertyName" value="clientState"/>
-                            <property name="whenConstraint">
-                                <list>
-                                    <bean parent="WhenConstraint">
-                                        <property name="values">
-                                            <list>
-                                                <value>kuali.admin.reg.state.ready</value>
-                                            </list>
-                                        </property>
-                                        <property name="constraint">
-                                            <bean parent="RequiredConstraint"/>
-                                        </property>
-                                    </bean>
-                                </list>
-                            </property>
-                        </bean>
                     </property>
                 </bean>
                 <bean parent="Uif-MessageField" p:refreshWhenChangedPropertyNames="#lp.code" p:valign="middle">
