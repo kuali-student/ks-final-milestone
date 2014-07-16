@@ -204,6 +204,10 @@ public class LoDisplayInfoWrapper extends LoDisplayInfo {
         return moveDownable;
     }
 
+    /**
+     * Creates a formatted String representation of the LO with the categories flattened.
+     * Used for display on the Review Course Proposal page.
+     */
     public String getTitleAndCategoriesAsString() {
         StringBuilder out = new StringBuilder(getLoInfo().getDescr().getPlain());
         if (! getLoCategoryInfoList().isEmpty()) {
