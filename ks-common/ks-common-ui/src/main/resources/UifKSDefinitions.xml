@@ -1029,4 +1029,285 @@
         <property name="displayHeaderMessageSummary" value="false"/>
     </bean>
 
+    <!--parent="Uif-DialogGroup"-->
+    <!--class="org.kuali.student.common.uif.container.CommentComponenet"-->
+    <bean id="KS-CommentComponet" parent="KS-CommentComponet-parentBean"/>
+    <bean id="KS-CommentComponet-parentBean" abstract="true" scope="prototype" parent="Uif-VerticalBoxSection">
+        <!--<property name="header">-->
+            <!--<bean parent="Uif-HeaderOne" p:headerText="Comments for @{referenceName}"-->
+                  <!--p:cssClasses="ks-dottedHeaderActions"/>-->
+        <!--</property>-->
+        <property name="items">
+            <list>
+                <!--<bean parent="KS-CreateCommentSection"/>-->
+                <!--<bean parent="KS-CommentCollectionSection"/>-->
+                <bean parent="KS-CommentSection"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-Comment-FormView" parent="KS-Uif-FormView">
+        <property name="header.render" value="false"/>
+        <property name="singlePageView" value="true"/>
+        <property name="stickyHeader" value="false"/>
+        <property name="stickyFooter" value="true"/>
+        <property name="applicationHeader"><null/></property>
+        <property name="onLoadScript" value="jQuery(&quot;#Uif-BreadcrumbWrapper&quot;).remove();"/>
+        <!--<property name="breadcrumbs"><null/></property>-->
+        <property name="page">
+            <bean parent="Uif-Page">
+                <property name="items">
+                    <list>
+                        <ref bean="KS-CommentComponet"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="footer">
+            <bean parent="KS-Uif-FooterBase">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-HorizontalBoxGroup">
+                            <property name="items">
+                                <list>
+                                    <bean id="commentsLightBoxContents-cancel"
+                                          parent="KS-Uif-PrimaryActionButton"
+                                          p:actionLabel="Close"
+                                          p:actionScript="e.preventDefault();closeLightbox();"
+                                          p:ajaxSubmit="false"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="KS-CommentSection" parent="Uif-VerticalBoxSection">
+        <property name="header">
+            <bean parent="Uif-HeaderOne" p:headerText="Comments for @{referenceName}"
+                  p:cssClasses="ks-dottedHeaderActions"/>
+        </property>
+        <property name="items">
+            <list>
+                <!-- Display existing comments or a message indicating that there aren't any comments. Using a box section
+  here so that both the tableCollectionSection and the simple Message can share the header. -->
+                <bean parent="Uif-VerticalBoxSection" p:onDocumentReadyScript="setReadonlyTextWidthForComment();">
+                    <property name="items">
+                        <list>
+                            <bean id="KSCM-NewCommentField" parent="Uif-InputField" p:propertyName="commentText" p:additionalCssClasses="ks-comment-textArea-field"
+                                  p:render="@{canAddComment}">
+                                <property name="control">
+                                    <bean parent="Uif-LargeTextAreaControl"/>
+                                </property>
+                            </bean>
+                            <bean id="hiddenRefId" parent="KS-Uif-InputField" p:propertyName="referenceId"
+                                  p:fieldLabel.renderColon="false">
+                                <property name="control">
+                                    <bean parent="KS-Uif-HiddenControl" />
+                                </property>
+                            </bean>
+                            <bean id="hiddenRefType" parent="KS-Uif-InputField" p:propertyName="referenceType"
+                                  p:fieldLabel.renderColon="false">
+                                <property name="control">
+                                    <bean parent="KS-Uif-HiddenControl" />
+                                </property>
+                            </bean>
+                            <bean id="hiddenRefName" parent="KS-Uif-InputField" p:propertyName="referenceName"
+                                  p:fieldLabel.renderColon="false">
+                                <property name="control">
+                                    <bean parent="KS-Uif-HiddenControl" />
+                                </property>
+                            </bean>
+                            <bean parent="Uif-SecondaryActionButton"
+                                  p:ajaxSubmit="true"
+                                  p:methodToCall="addComment"
+                                  p:actionLabel="Add Comment"
+                                  p:performClientSideValidation="true"
+                                  p:render="@{canAddComment}"/>
+                            <!-- There is a property replacer below which, if there are no comments, replaces it with a Message -->
+                            <bean parent="Uif-VerticalBoxSection">
+                                <property name="header">
+                                    <bean parent="Uif-HeaderThree"
+                                          p:headerText="Comments (@{comments.size()})"
+                                          p:id="Comment_list_Header"
+                                          p:cssClasses="ks-dottedHeaderActions"/>
+                                </property>
+                                <property name="propertyReplacers">
+                                    <list>
+                                        <!-- If there are no comments then just show a message -->
+                                        <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items"
+                                              p:condition="@{comments.size() == 0}">
+                                            <property name="replacement">
+                                                <list>
+                                                    <bean parent="Uif-Message" p:messageText="There are no comments."/>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                                <property name="header.lowerGroup">
+                                    <bean parent="Uif-HorizontalBoxGroup">
+                                        <property name="render" value="@{deletedComment != null}"/>
+                                        <property name="id" value="KSCM-CloseCommentDeleteUndoInfo"/>
+                                        <property name="items">
+                                            <list>
+                                                <bean parent="Uif-Message"
+                                                      p:messageText="[b]Comment has been deleted. [0][/b]">
+                                                    <property name="inlineComponents">
+                                                        <list>
+                                                            <bean id="KSCM-Comment-undo-delete" parent="Uif-ActionLink"
+                                                                  p:methodToCall="undoDeleteComment"
+                                                                  p:actionLabel="Undo"/>
+                                                        </list>
+                                                    </property>
+                                                </bean>
+                                                <bean parent="KS-Uif-Delete-NavigationActionLink"
+                                                      p:actionScript="closeCommentUndo();" p:actionLabel=""
+                                                      p:style="float:right;">
+                                                </bean>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-StackedCollectionSection"
+                                              p:onDocumentReadyScript="setReadonlyTextWidthForComment();">
+                                            <property name="collectionObjectClass"
+                                                      value="org.kuali.student.enrollment.class2.courseoffering.form.KSCommentWrapper"/>
+                                            <property name="propertyName" value="comments"/>
+                                            <!--<property name="layoutManager.summaryTitle"-->
+                                                      <!--value="@{#line.renderHelper.displayName} on @{#line.renderHelper.creationTime}"/>-->
+                                            <property name="disclosure.render" value="false"/>
+                                            <property name="renderAddLine" value="false"/>
+                                            <property name="items">
+                                                <list>
+                                                    <bean id="KSCM-CommentField" p:id="KSCM-Comment-Add"
+                                                          parent="KS-Uif-InputField" p:label=""
+                                                          p:propertyName="commentInfo.commentText.plain"
+                                                            p:readOnly="true">
+                                                        <!--p:readOnly="@{!#line.renderHelper.editInProgress}"-->
+                                                        <property name="control">
+                                                            <bean parent="Uif-LargeTextAreaControl"/>
+                                                        </property>
+                                                        <property name="cssClasses">
+                                                            <list merge="true">
+                                                                <value>comment_format_text</value>
+                                                                <value>ks-comment-textArea-field</value>
+                                                            </list>
+                                                        </property>
+                                                    </bean>
+                                                </list>
+                                            </property>
+                                            <property name="lineActions">
+                                                <list>
+                                                    <!--p:render="@{#line.renderHelper.editInProgress}"-->
+                                                    <bean id="KSCM-CommentSaveAction" parent="Uif-PrimaryActionButton"
+                                                          p:methodToCall="updateComment"
+                                                          p:actionLabel="Save"/>
+
+                                                    <!--p:render="@{#line.renderHelper.editInProgress}"-->
+                                                    <bean id="KSCM-CommentCancelAction" parent="Uif-CancelAction"
+                                                          p:methodToCall="cancelEditComment"
+                                                          p:actionLabel="Cancel"/>
+                                                </list>
+                                            </property>
+                                            <property name="layoutManager.lineGroupPrototype">
+                                                <bean parent="Uif-CollectionHorizontalBoxItem"
+                                                      p:disclosure.render="false">
+                                                    <property name="layoutManager">
+                                                        <bean parent="Uif-SimpleLayout"/>
+                                                    </property>
+                                                    <property name="header">
+                                                        <bean id="KSCM-CommentField-comment-header-id"
+                                                              parent="Uif-HeaderFive">
+                                                            <!--<property name="render"-->
+                                                                      <!--value="@{!#line.renderHelper.editInProgress}"/>-->
+                                                            <property name="upperGroup">
+                                                                <bean parent="Uif-CssGridGroup">
+                                                                    <property name="items">
+                                                                        <list>
+                                                                            <!--o.getCommentInfo().getMeta().getCreateTime().compareTo(getCommentInfo().getMeta().getCreateTime()-->
+                                                                            <bean parent="Uif-HorizontalBoxGroup" p:colSpan="9">
+                                                                                <property name="items">
+                                                                                    <list>
+                                                                                        <bean parent="Uif-Message" p:messageText="Creator">
+                                                                                        </bean>
+                                                                                        <bean parent="Uif-Message" p:messageText="@{#line.creatorName}">
+                                                                                        </bean>
+                                                                                        <bean parent="Uif-Message" p:messageText="@{#line.createdDate}">
+                                                                                        </bean>
+                                                                                    </list>
+                                                                                </property>
+                                                                            </bean>
+                                                                            <bean parent="Uif-HorizontalBoxGroup" p:colSpan="3">
+                                                                                <property name="items">
+                                                                                    <list>
+                                                                                        <!--p:render="@{#line.renderHelper.canEdit}"-->
+                                                                                        <bean id="KSCM-CommentEditAction"
+                                                                                              parent="KS-Uif-Edit-NavigationActionLink"
+                                                                                              p:actionLabel="Edit"
+                                                                                              p:methodToCall="editComment"
+                                                                                              p:dirtyOnAction="false"/>
+                                                                                        <!--p:render="@{#line.renderHelper.canDelete}"-->
+                                                                                        <bean id="KSCM-CommentDeleteAction"
+                                                                                              parent="KS-Uif-Delete-NavigationActionLink"
+                                                                                              p:methodToCall="deleteComment"
+                                                                                              p:actionLabel="Delete"/>
+                                                                                    </list>
+                                                                                </property>
+                                                                            </bean>
+                                                                            <bean parent="Uif-HorizontalBoxGroup" p:colSpan="9">
+                                                                                <property name="items">
+                                                                                    <list>
+                                                                                        <bean parent="Uif-Message" p:messageText="Last Editor">
+                                                                                        </bean>
+                                                                                        <bean parent="Uif-Message" p:messageText="@{#line.lastEditorName}">
+                                                                                        </bean>
+                                                                                        <bean parent="Uif-Message" p:messageText="@{#line.lastEditedDate}">
+                                                                                        </bean>
+                                                                                    </list>
+                                                                                </property>
+                                                                            </bean>
+                                                                        </list>
+                                                                    </property>
+                                                                </bean>
+                                                            </property>
+                                                            <!--<property name="rightGroup">-->
+                                                                <!--<bean parent="Uif-HorizontalBoxGroup">-->
+                                                                    <!--<property name="items">-->
+                                                                        <!--<list>-->
+                                                                            <!--&lt;!&ndash;p:render="@{#line.renderHelper.canEdit}"&ndash;&gt;-->
+                                                                            <!--<bean id="KSCM-CommentEditAction"-->
+                                                                                  <!--parent="KS-Uif-Edit-NavigationActionLink"-->
+                                                                                  <!--p:actionLabel="Edit"-->
+                                                                                  <!--p:methodToCall="editComment"-->
+                                                                                  <!--p:dirtyOnAction="false"/>-->
+                                                                            <!--&lt;!&ndash;p:render="@{#line.renderHelper.canDelete}"&ndash;&gt;-->
+                                                                            <!--<bean id="KSCM-CommentDeleteAction"-->
+                                                                                  <!--parent="KS-Uif-Delete-NavigationActionLink"-->
+                                                                                  <!--p:methodToCall="deleteComment"-->
+                                                                                  <!--p:actionLabel="Delete"/>-->
+                                                                        <!--</list>-->
+                                                                    <!--</property>-->
+                                                                <!--</bean>-->
+                                                            <!--</property>-->
+                                                        </bean>
+                                                    </property>
+                                                </bean>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
 </beans>
