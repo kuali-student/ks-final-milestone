@@ -99,7 +99,7 @@ angular.module('regCartApp')
             }
 
             // Cancel out the queued up search if it exists
-            if (queuedSearchHandle !== null) {
+            if (angular.isFunction(queuedSearchHandle)) {
                 queuedSearchHandle(); // Remove the event subscription
                 queuedSearchHandle = null;
             }
@@ -111,6 +111,7 @@ angular.module('regCartApp')
                 // Queue the search to be performed when the term is set.
                 queuedSearchHandle = $scope.$on('termIdChanged', function() {
                     queuedSearchHandle(); // Remove the event subscription
+                    queuedSearchHandle = null;
                     doSearch(criteria);
                 });
 
