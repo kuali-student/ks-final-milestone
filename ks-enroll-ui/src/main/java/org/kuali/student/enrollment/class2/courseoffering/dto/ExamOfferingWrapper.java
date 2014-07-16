@@ -231,16 +231,14 @@ public class ExamOfferingWrapper implements Serializable, ComparatorModel{
     public String getLabelState() {
 
         String stateSchedulingName = "";
-        if (StringUtils.equals(eoInfo.getSchedulingStateKey(), ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_UNSCHEDULED_STATE_KEY))
-        {
+        if (StringUtils.equals(eoInfo.getSchedulingStateKey(), ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_UNSCHEDULED_STATE_KEY)) {
             stateSchedulingName = "Unscheduled";
-        }else if (StringUtils.equals(eoInfo.getSchedulingStateKey(), ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_EXEMPT_STATE_KEY))
-        {
+        } else if (StringUtils.equals(eoInfo.getSchedulingStateKey(), ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_EXEMPT_STATE_KEY)) {
             stateSchedulingName = "Exempt";
-        }else
-
-        {
+        } else if (StringUtils.equals(eoInfo.getSchedulingStateKey(), ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_MATRIX_ERROR_STATE_KEY)) {
             stateSchedulingName = "Matrix Error";
+        } else {
+            stateSchedulingName = "Unscheduled";
         }
 
         labelState = stateName +
