@@ -16,6 +16,8 @@
  */package org.kuali.student.enrollment.courseoffering.service;
 
 
+import org.kuali.student.r2.common.dto.StatusInfo;
+
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
@@ -32,7 +34,7 @@ public interface CourseOfferingCallbackService {
      * @param courseOfferingIds ids created.
      * @return nothing
      */
-    public void newCourseOfferings(@WebParam(name = "courseOfferingIds") List<String> courseOfferingIds);
+    public StatusInfo newCourseOfferings(@WebParam(name = "courseOfferingIds") List<String> courseOfferingIds);
 
     /**
      * Callback for when CourseOfferings are updated.
@@ -41,7 +43,7 @@ public interface CourseOfferingCallbackService {
      * @param courseOfferingIds ids updated.
      * @return nothing
      */
-    public void updateCourseOfferings(@WebParam(name = "courseOfferingIds") List<String> courseOfferingIds);
+    public StatusInfo updateCourseOfferings(@WebParam(name = "courseOfferingIds") List<String> courseOfferingIds);
 
     /**
      * Callback for when CourseOfferings are deleted.
@@ -50,5 +52,5 @@ public interface CourseOfferingCallbackService {
      * @param courseOfferingIds ids deleted.
      * @return nothing
      */
-    public void deleteCourseOfferings(@WebParam(name = "courseOfferingIds") List<String> courseOfferingIds);
+    public StatusInfo deleteCourseOfferings(@WebParam(name = "courseOfferingIds") List<String> courseOfferingIds);
 }

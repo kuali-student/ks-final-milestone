@@ -139,6 +139,73 @@ public interface CourseOfferingSubscribeService {
             PermissionDeniedException;
 
     /**
+     * Subscribe a callback to listen for CourseOfferings updated.
+     *
+     * @param termId the identifier for the Term to be retrieved.
+     * @param courseOfferingCallbackService callback executable code to be invoked when the change event executes
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return callback registration id that can be used to explicitly desubscribe the listener.
+     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException courseRegistrationId is not found
+     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException contextInfo is not valid
+     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException courseRegistrationId or contextInfo is missing or null
+     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
+     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException an authorization failure occurred
+     */
+    public String subscribeToUpdateCourseOfferingsByTerm(@WebParam(name = "termId") String termId,
+                                                   @WebParam(name = "courseOfferingCallbackService") CourseOfferingCallbackService courseOfferingCallbackService,
+                                                   @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Subscribe a callback to listen for CourseOfferings updated.
+     *
+     * @param courseId the identifier for the Course to be retrieved.
+     * @param courseOfferingCallbackService callback executable code to be invoked when the change event executes
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return callback registration id that can be used to explicitly desubscribe the listener.
+     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException courseRegistrationId is not found
+     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException contextInfo is not valid
+     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException courseRegistrationId or contextInfo is missing or null
+     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
+     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException an authorization failure occurred
+     */
+    public String subscribeToUpdateCourseOfferingsByCourse(@WebParam(name = "courseId") String courseId,
+                                                   @WebParam(name = "courseOfferingCallbackService") CourseOfferingCallbackService courseOfferingCallbackService,
+                                                   @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Subscribe a callback to listen for CourseOfferings updated.
+     *
+     * @param courseOfferingTypeKey the identifier for the CourseOffering type to be retrieved.
+     * @param courseOfferingCallbackService callback executable code to be invoked when the change event executes
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return callback registration id that can be used to explicitly desubscribe the listener.
+     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException courseRegistrationId is not found
+     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException contextInfo is not valid
+     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException courseRegistrationId or contextInfo is missing or null
+     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
+     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException an authorization failure occurred
+     */
+    public String subscribeToUpdateCourseOfferingsByType(@WebParam(name = "courseOfferingTypeKey") String courseOfferingTypeKey,
+                                                   @WebParam(name = "courseOfferingCallbackService") CourseOfferingCallbackService courseOfferingCallbackService,
+                                                   @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+
+    /**
      * Subscribe a callback to listen for CourseOffering that is deleted.
      *
      * @param courseOfferingId the identifier for the CourseOffering to be retrieved.
@@ -159,6 +226,70 @@ public interface CourseOfferingSubscribeService {
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException;
+    /**
+     * Subscribe a callback to listen for CourseOffering that is deleted.
+     *
+     * @param termId the identifier for the Term to be retrieved.
+     * @param courseOfferingCallbackService callback executable code to be invoked when the change event executes
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return callback registration id that can be used to explicitly desubscribe the listener.
+     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException courseRegistrationId is not found
+     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException contextInfo is not valid
+     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException courseRegistrationId or contextInfo is missing or null
+     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
+     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException an authorization failure occurred
+     */
+    public String subscribeToDeleteCourseOfferingsByTerm(@WebParam(name = "termId") String termId,
+                                                   @WebParam(name = "courseOfferingCallbackService") CourseOfferingCallbackService courseOfferingCallbackService,
+                                                   @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+    /**
+     * Subscribe a callback to listen for CourseOffering that is deleted.
+     *
+     * @param courseId the identifier for the Course to be retrieved.
+     * @param courseOfferingCallbackService callback executable code to be invoked when the change event executes
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return callback registration id that can be used to explicitly desubscribe the listener.
+     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException courseRegistrationId is not found
+     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException contextInfo is not valid
+     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException courseRegistrationId or contextInfo is missing or null
+     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
+     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException an authorization failure occurred
+     */
+    public String subscribeToDeleteCourseOfferingsByCourse(@WebParam(name = "courseId") String courseId,
+                                                   @WebParam(name = "courseOfferingCallbackService") CourseOfferingCallbackService courseOfferingCallbackService,
+                                                   @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+    /**
+     * Subscribe a callback to listen for CourseOffering that is deleted.
+     *
+     * @param courseOfferingTypeKey the identifier for the CourseOffering type to be retrieved.
+     * @param courseOfferingCallbackService callback executable code to be invoked when the change event executes
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return callback registration id that can be used to explicitly desubscribe the listener.
+     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException courseRegistrationId is not found
+     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException contextInfo is not valid
+     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException courseRegistrationId or contextInfo is missing or null
+     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException unable to complete request
+     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException an authorization failure occurred
+     */
+    public String subscribeToDeleteCourseOfferingsByType(@WebParam(name = "courseOfferingTypeKey") String courseOfferingTypeKey,
+                                                   @WebParam(name = "courseOfferingCallbackService") CourseOfferingCallbackService courseOfferingCallbackService,
+                                                   @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
 
 
 
