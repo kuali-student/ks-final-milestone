@@ -15,8 +15,8 @@
 }
 
 .util-Alert-information-mixin() {
-    background-color: @infoText;
-    border-color: @infoText;
+    background-color: @infoBackground;
+    border-color: @infoBorder;
     color: @infoText;
     .ks-fonts-textShadow;
 }
@@ -84,9 +84,7 @@
     }
 
     &--locked { // No Access Alert
-        background: @lockedBackground;
-        border-color: @lockedBorder;
-        color: @lockedText;
+        .util-Alert-information-mixin();
         margin: 0;
         max-width: @largeFormatMax;
         padding-left: 10px;
