@@ -29,6 +29,49 @@ angular.module('regCartApp')
             }
         });
 
+        // the choices for limiting display of search results
+        $scope.displayLimits = [20, 50, 100];
+//        $scope.displayLimits = [2, 3, 5]; //uncomment this for testing pagination with small data sets
+
+        // set the default display limit
+        $scope.displayLimit = $scope.displayLimits[0];
+
+        // set the default sort field
+        $scope.predicate = 'courseCode';
+
+        // set the default page #
+        $scope.page = 1;
+
+        // if the display limit changes, reset the page to 1
+        $scope.$watch('displayLimit', function(newValue, oldValue) {
+            $scope.page = 1;
+        });
+
+        // the range of search results being viewed
+        $scope.displayRange = function(length) {
+            var rangeMin = (($scope.page - 1) * $scope.displayLimit) + 1;
+            var rangeMax = rangeMin + $scope.displayLimit - 1;
+            if (rangeMax > length) {
+                rangeMax = length;
+            }
+            if (rangeMin === rangeMax) {
+                return (rangeMax + ' of ' + length);
+            } else {
+                return (rangeMin + '-' + rangeMax + ' of ' + length);
+            }
+        };
+
+        // formats the credits for display
+        $scope.displayCredits = function(creditOptions) {
+            if (creditOptions.length === 1) {
+                return parseFloat(creditOptions[0])+" cr";
+            } else {
+                var min = parseFloat(Math.min.apply(null, creditOptions));
+                var max = parseFloat(Math.max.apply(null, creditOptions));
+                return min + "-" + max + " cr";
+            }
+        };
+
         // Filter to apply facet options to the search results
         $scope.facetFilter = function(item) {
             var select = true;
@@ -46,7 +89,6 @@ angular.module('regCartApp')
 
             return select;
         };
-
 
         var queuedSearchHandle, // Handle on the queued up search.
             lastSearchCriteria = ''; // Criteria used to execute the most recent search request.
@@ -123,4 +165,13 @@ angular.module('regCartApp')
             }
         };
 
-    }]);
+    }])
+
+    .filter('startFrom', function() {
+        return function(input, start) {
+            start = +start; //parse to int
+            return input.slice(start);
+        }
+    })
+
+;

@@ -8,28 +8,62 @@
                 <div class="kscr-MainHeading-icon-right"><a ui-sref="root.cart"><i class="glyphicon glyphicon-shopping-cart"></i></a></div>
             </div>
         </div>
-    </div>
 
-    <!-- Search Facets -->
-    <div sticky class="kscr-SearchFacets" style="float: left;">
-        <div class="kscr-SearchFacets-facetsContainer">
-            <search-facet ng-repeat="facet in facets" facet="facet" results="searchResults"></search-facet>
-        </div>
-    </div>
+        <div class="util-Grid">
 
-    <!-- Search Results -->
-    <div class="kscr-SearchResults" style="margin: 0 10px 10px 210px; padding: 10px 0 0;">
-        <div class="kscr-SearchResults-heading">
-            Showing 1-{{searchResults.length}}
-            of {{searchResults.length}}
-            results for "{{searchCriteria}}"
-            in {{termName}}
+        <!-- Search Facets -->
+        <div class="kscr-SearchFacets">
+            <div class="kscr-SearchFacets-facetsContainer">
+                <search-facet ng-repeat="facet in facets" facet="facet" results="searchResults"></search-facet>
+            </div>
         </div>
 
-        <h4 ng-repeat="course in searchResults | filter:facetFilter">
-            <b>{{course.courseCode}}</b>
-            <span>{{course.longName}}</span>
-        </h4>
+        <!-- Search Results -->
+        <div class="kscr-Search-results">
+            <div class="kscr-Search-results-heading">
+                <div class="kscr-Search-results-summary">Showing {{displayRange((searchResults|filter:facetFilter).length)}} results for "{{searchCriteria}}" in {{termName}}</div>
+                <div class="kscr-Search-results-picker"><span>Show </span><select ng-model="displayLimit" ng-options="limit as limit for limit in displayLimits"></select></div>
+                <div class="util-Grid--clearfix"></div>
+            </div>
+            <table class="kscr-Search-results-table">
+                <thead>
+                    <tr>
+                        <th class="kscr-Search-results-header">
+                            <span>Code</span>
+                            <i class="glyphicon glyphicon-sort kscr-Search-results-sortIcon" ng-click="predicate = 'courseCode'; reverse = !reverse"></i>
+                        </th>
+                        <th class="kscr-Search-results-header">
+                            <span>Title</span>
+                            <i class="glyphicon glyphicon-sort kscr-Search-results-sortIcon" ng-click="predicate = 'longName'; reverse = !reverse"></i>
+                        </th>
+                        <th class="kscr-Search-results-header">
+                            <span>Credits</span>
+                            <i class="glyphicon glyphicon-sort kscr-Search-results-sortIcon" ng-click="predicate = 'creditOptions'; reverse = !reverse"></i>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody ng-repeat="searchResult in searchResults | orderBy : predicate : reverse | filter:facetFilter | startFrom:(page-1)*displayLimit | limitTo:displayLimit">
+                    <tr>
+                        <td class="kscr-Search-results-cell">{{searchResult.courseCode}}</td>
+                        <td class="kscr-Search-results-cell"><a href="">{{searchResult.longName}}</a></td>
+                        <td class="kscr-Search-results-cell">{{displayCredits(searchResult.creditOptions)}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="kscr-Search-results-paginate">
+                <div class="kscr-Search-results-pageBox" ng-show="page > 1">
+                    <a ng-click="page = page-1;">&lt;</a>
+                </div>
+                <div class="kscr-Search-results-pageBox">
+                    <span>{{page}}</span>
+                </div>
+                <div class="kscr-Search-results-pageBox" ng-show="(page * displayLimit) < (searchResults|filter:facetFilter).length">
+                    <a ng-click="page = page+1;">&gt;</a>
+                </div>
+            </div>
+        </div>
+
+        </div>
+
     </div>
 </div>
-
