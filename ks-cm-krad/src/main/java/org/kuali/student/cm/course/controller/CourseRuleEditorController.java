@@ -202,11 +202,9 @@ public class CourseRuleEditorController extends RuleEditorController {
 
         //Compare CO to CLU and display info message
         if (ruleEditor.getProposition() != null) {
-            if (!this.getViewHelper(form).compareRules(ruleWrapper.getRuleEditor())) {
-                GlobalVariables.getMessageMap().putInfoForSectionId(KRMSConstants.KRMS_RULE_TREE_GROUP_ID, KSKRMS_MSG_INFO_CO_RULE_CHANGED);
-            } else if (GlobalVariables.getMessageMap().containsMessageKey(KRMSConstants.KRMS_RULE_TREE_GROUP_ID)) {
+           if (GlobalVariables.getMessageMap().containsMessageKey(KRMSConstants.KRMS_RULE_TREE_GROUP_ID)) {
                 GlobalVariables.getMessageMap().removeAllInfoMessagesForProperty(KRMSConstants.KRMS_RULE_TREE_GROUP_ID);
-            }
+           }
         }
     }
     

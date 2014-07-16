@@ -51,13 +51,6 @@ public class CourseAgendaBuilder extends AgendaBuilder {
             GlobalVariables.getMessageMap().putWarningForSectionId(group.getId(), KSKRMS_MSG_WARNING_CO_RULE_EMPTY);
             hasMessage = true;
         }
-
-        //Add Info message if co rule differs from clu rule.
-        if (!this.getViewHelperService().compareRules(rule)) {
-            GlobalVariables.getMessageMap().putInfoForSectionId(group.getId(), KSKRMS_MSG_INFO_CO_RULE_CHANGED);
-            hasMessage = true;
-        }
-
         //Open disclosure if rule has statements
         if(hasMessage || !rule.isDummy()){
             ((Group) group).getDisclosure().setDefaultOpen(true);
