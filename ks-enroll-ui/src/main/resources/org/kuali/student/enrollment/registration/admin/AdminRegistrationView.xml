@@ -78,9 +78,9 @@
                 <bean parent="Uif-HorizontalFieldGroup">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="studentId"
+                            <bean parent="Uif-InputField" p:propertyName="personInfo.id"
                                   p:label="Student ID" p:readOnly="false" p:id="studentIdField"
-                                  p:onDocumentReadyScript="setValidation('clientState', 'studentId', ['kuali.admin.reg.state.open', 'kuali.admin.reg.state.initialized', 'kuali.admin.reg.state.ready'], 'Student Id is required.');">
+                                  p:onDocumentReadyScript="setValidation('clientState', 'personInfo.id', ['kuali.admin.reg.state.open', 'kuali.admin.reg.state.initialized', 'kuali.admin.reg.state.ready'], 'Student Id is required.');">
                                 <property name="control">
                                     <bean parent="KS-Uif-TextControl" p:size="12"/>
                                 </property>
@@ -89,8 +89,8 @@
                                   p:actionLabel="Go" p:methodToCall="getStudentInfo"
                                   p:actionScript="goAction(this, 'kuali.admin.reg.state.open');"
                                   p:jumpToIdAfterSubmit="TOP" p:ajaxSubmit="false" p:id="go_button"/>
-                            <bean parent="Uif-MessageField" p:id="studentInfoMsg" p:render="@{studentId != null}"
-                                  p:messageText="[b]@{studentName} (@{studentId})[/b]"/>
+                            <bean parent="Uif-MessageField" p:id="studentInfoMsg" p:render="@{personInfo.id != null}"
+                                  p:messageText="[b]@{personInfo.name} (@{personInfo.id})[/b]"/>
                         </list>
 
                     </property>
@@ -99,7 +99,7 @@
         </property>
     </bean>
 
-    <bean id="KS-AdminRegistration-ChangeTermSection" parent="Uif-HorizontalBoxSection" p:render="@{studentName != null}">
+    <bean id="KS-AdminRegistration-ChangeTermSection" parent="Uif-HorizontalBoxSection" p:render="@{personInfo.name != null}">
         <property name="items">
             <list>
                 <bean parent="Uif-HorizontalFieldGroup">

@@ -3,8 +3,9 @@ package org.kuali.student.enrollment.class2.registration.admin.util;
 import net.sf.ehcache.CacheManager;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.api.identity.IdentityService;
-import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.student.core.person.service.PersonService;
+import org.kuali.student.core.person.service.PersonServiceNamespace;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
@@ -40,7 +41,7 @@ public class AdminRegistrationUtil {
 
     public static PersonService getPersonService() {
         if (personService == null) {
-            personService = KimApiServiceLocator.getPersonService();
+            personService = (PersonService) GlobalResourceLoader.getService(new QName(PersonServiceNamespace.NAMESPACE, PersonServiceNamespace.SERVICE_NAME_LOCAL_PART));
         }
         return personService;
     }

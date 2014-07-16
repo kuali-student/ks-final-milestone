@@ -5,11 +5,13 @@ import org.apache.commons.collections.keyvalue.MultiKey;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.uif.service.impl.KSViewHelperServiceImpl;
 import org.kuali.student.common.util.security.ContextUtils;
+import org.kuali.student.core.person.dto.PersonAffiliationInfo;
+import org.kuali.student.core.person.dto.PersonInfo;
+import org.kuali.student.core.person.service.impl.PersonServiceConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
 import org.kuali.student.enrollment.class2.registration.admin.form.AdminRegistrationForm;
@@ -174,7 +176,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
      * @param date
      * @return
      */
-    private Date generateFormattedDate(Date date){
+    private Date generateFormattedDate(Date date) {
         StringBuilder formattedDate = new StringBuilder();
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
         String formattedStringDate = sdf.format(date);
@@ -218,20 +220,20 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
     @Override
     public void validateForRegistration(AdminRegistrationForm form) {
 
-        for (int i=0; i<form.getPendingCourses().size(); i++) {
+        for (int i = 0; i < form.getPendingCourses().size(); i++) {
             RegistrationCourse course = form.getPendingCourses().get(i);
 
             List<RegistrationGroupInfo> regGroups = new ArrayList<RegistrationGroupInfo>();
             try {
                 CourseOfferingInfo courseOffering = this.getCourseOfferingByCodeAndTerm(form.getTermCode(), course.getCode());
-                if(courseOffering==null){
-                    GlobalVariables.getMessageMap().putError("pendingCourses["+i+"].code", AdminRegConstants.ADMIN_REG_MSG_ERROR_COURSE_CODE_TERM_INVALID);
+                if (courseOffering == null) {
+                    GlobalVariables.getMessageMap().putError("pendingCourses[" + i + "].code", AdminRegConstants.ADMIN_REG_MSG_ERROR_COURSE_CODE_TERM_INVALID);
                     continue;
                 }
 
                 List<FormatOfferingInfo> formatOfferings = AdminRegistrationUtil.getCourseOfferingService().getFormatOfferingsByCourseOffering(
                         courseOffering.getId(), ContextUtils.createDefaultContextInfo());
-                for(FormatOfferingInfo formatOffering : formatOfferings) {
+                for (FormatOfferingInfo formatOffering : formatOfferings) {
                     regGroups.addAll(AdminRegistrationUtil.getCourseOfferingService().getRegistrationGroupsByFormatOffering(
                             formatOffering.getId(), ContextUtils.createDefaultContextInfo()));
                 }
@@ -240,15 +242,15 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
             }
 
             RegistrationGroupInfo registrationGroup = null;
-            for(RegistrationGroupInfo regGroup : regGroups){
-                if(course.getSection().equals(regGroup.getName())){
+            for (RegistrationGroupInfo regGroup : regGroups) {
+                if (course.getSection().equals(regGroup.getName())) {
                     course.setActivityOfferingIds(regGroup.getActivityOfferingIds());
                     registrationGroup = regGroup;
                 }
             }
 
-            if(registrationGroup==null) {
-                GlobalVariables.getMessageMap().putError("pendingCourses["+i+"].section", AdminRegConstants.ADMIN_REG_MSG_ERROR_SECTION_CODE_INVALID);
+            if (registrationGroup == null) {
+                GlobalVariables.getMessageMap().putError("pendingCourses[" + i + "].section", AdminRegConstants.ADMIN_REG_MSG_ERROR_SECTION_CODE_INVALID);
             }
         }
     }
@@ -263,7 +265,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
             for (ActivityOfferingInfo activityOffering : activityOfferings) {
                 registrationActivities.add(createRegistrationActivity(activityOffering));
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             throw convertServiceExceptionsToUI(e);
         }
 
@@ -324,16 +326,26 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
     @Override
     public void populateStudentInfo(AdminRegistrationForm form) throws Exception {
 
-        Person person = AdminRegistrationUtil.getPersonService().getPerson(form.getStudentId());
-        if ((person != null)) {
+        try {
+            PersonInfo personInfo = AdminRegistrationUtil.getPersonService().getPerson(form.getPersonInfo().getId().toUpperCase(), createContextInfo());
+            //KSENROLL-13558 :work around for incorrect Data
+            form.getPrincipalIDs().addAll(AdminRegistrationUtil.getIdentityService().getPrincipalsByEntityId(personInfo.getId().toUpperCase()));
 
-            if (!person.hasAffiliationOfType(AdminRegConstants.STUDENT_AFFILIATION_TYPE_CODE)) {
+            List<PersonAffiliationInfo> personAffiliationInfos = AdminRegistrationUtil.getPersonService().getPersonAffiliationsByPerson(personInfo.getId(), createContextInfo());
+
+            Boolean validStudent = false;
+            for (PersonAffiliationInfo personAffiliationInfo : personAffiliationInfos) {
+                if (personAffiliationInfo.getTypeKey().equals(PersonServiceConstants.PERSON_AFFILIATION_TYPE_PREFIX + AdminRegConstants.STUDENT_AFFILIATION_TYPE_CODE.toLowerCase())) {
+                    validStudent = true;
+                }
+            }
+            if (!validStudent) {
 //                GlobalVariables.getMessageMap().putError(AdminRegConstants.STUDENT_INFO_SECTION_STUDENT_ID, AdminRegConstants.ADMIN_REG_MSG_ERROR_INVALID_STUDENT,form.getStudentId());
 //                return;
             }
-            form.setStudentName(person.getFirstName() + " " + person.getLastName());
-        } else {
-            GlobalVariables.getMessageMap().putError(AdminRegConstants.STUDENT_INFO_SECTION_STUDENT_ID, AdminRegConstants.ADMIN_REG_MSG_ERROR_INVALID_STUDENT, form.getStudentId());
+            form.setPersonInfo(personInfo);
+        } catch (DoesNotExistException dne) {
+            GlobalVariables.getMessageMap().putError(AdminRegConstants.STUDENT_INFO_SECTION_STUDENT_ID, AdminRegConstants.ADMIN_REG_MSG_ERROR_INVALID_STUDENT, form.getPersonInfo().getId());
         }
     }
 
@@ -383,9 +395,13 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
      *
      * @return List of distinct course codes or an empty list
      * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException
+     *
      * @throws org.kuali.student.r2.common.exceptions.MissingParameterException
+     *
      * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException
+     *
      * @throws org.kuali.student.r2.common.exceptions.OperationFailedException
+     *
      */
     public List<String> retrieveCourseCodesFromCache(String termCode, String courseCode) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
 
@@ -397,7 +413,7 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
         if (cachedResult == null) {
             if (courseCode.length() == 1) {
                 List<CourseOfferingInfo> searchResult = searchCourseOfferingsByCodeAndTerm(termCode, courseCode, true);
-                for(CourseOfferingInfo courseOffering : searchResult){
+                for (CourseOfferingInfo courseOffering : searchResult) {
                     results.add(courseOffering.getCourseOfferingCode());
                 }
                 AdminRegistrationUtil.getCacheManager().getCache(CACHE_NAME).put(new Element(cacheKey, results));

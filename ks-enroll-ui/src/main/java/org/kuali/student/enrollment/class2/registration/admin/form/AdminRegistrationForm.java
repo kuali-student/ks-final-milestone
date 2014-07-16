@@ -16,7 +16,9 @@
 
 package org.kuali.student.enrollment.class2.registration.admin.form;
 
+import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.core.person.dto.PersonInfo;
 import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 
@@ -31,8 +33,7 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
 
     private String clientState;
 
-    private String studentId;
-    private String studentName;
+    private PersonInfo personInfo;
 
     private String program;
     private String standing;
@@ -58,8 +59,14 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
     private List<RegistrationCourse> waitlistedCourses = new ArrayList<RegistrationCourse>();
     private List<RegistrationCourse> coursesInProcess = new ArrayList<RegistrationCourse>();
 
+    //KSENROLL-13558 :work around for incorrect Data
+    private List<Principal> principalIDs = new ArrayList<Principal>();
+
     public AdminRegistrationForm(){
-        this.setClientState(AdminRegConstants.ClientStates.OPEN);
+        clientState = AdminRegConstants.ClientStates.OPEN;
+        editRegisteredIndex = -1;
+        editWaitlistedIndex = -1;
+        personInfo = new PersonInfo();
         this.resetPendingCourseValues();
     }
 
@@ -69,24 +76,14 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
 
     public void setClientState(String clientState) {
         this.clientState = clientState;
-        editRegisteredIndex = -1;
-        editWaitlistedIndex = -1;
     }
 
-    public String getStudentId() {
-        return studentId;
+    public PersonInfo getPersonInfo() {
+        return personInfo;
     }
 
-    public void setStudentId(String studentId) {
-        this.studentId = studentId;
-    }
-
-    public String getStudentName() {
-        return studentName;
-    }
-
-    public void setStudentName(String studentName) {
-        this.studentName = studentName;
+    public void setPersonInfo(PersonInfo personInfo) {
+        this.personInfo = personInfo;
     }
 
     public String getProgram() {
@@ -251,8 +248,17 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
         this.tempWaitlistCourseEdit = tempWaitlistCourseEdit;
     }
 
+    public List<Principal> getPrincipalIDs() {
+        return principalIDs;
+    }
+
+    public void setPrincipalIDs(List<Principal> principalIDs) {
+        this.principalIDs = principalIDs;
+    }
+
     public void clear() {
-        this.studentName= null;
+        this.personInfo.setName(null);
+        this.personInfo.setTypeKey(null);
         this.clearTermValues();
     }
 
