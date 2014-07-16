@@ -1399,6 +1399,20 @@ function updateInlineTableRowByComponent(component, baseUrl, data) {
                 }
             }
         });
+
+        //update the EO RSI status
+        jQuery(row).find('div[id^="eoRsiStatus"]').find('i').each(function () {
+            var schedulingState = eval("responseData.examOfferingWrapper['eoInfo']['schedulingStateKey']");
+            if (schedulingState == 'kuali.lui.exam.offering.scheduling.state.unscheduled') {
+                jQuery(this).text('Unscheduled');
+            } else if(schedulingState == 'kuali.lui.exam.offering.scheduling.state.matrix.error') {
+                jQuery(this).text('Matrix Error');
+            } else if (schedulingState == 'kuali.lui.exam.offering.scheduling.state.exempt'){
+                jQuery(this).text('Exempt');
+            }
+        });
+
+
         toggleInlineRowByComponent(component, false);
 
         showGrowlMessage(component);
