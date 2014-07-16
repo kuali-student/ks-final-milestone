@@ -95,7 +95,7 @@
                     </property>
                     <property name="constraintText" value="@{T(org.kuali.student.cm.common.util.CurriculumManagementConstants).FILE_SIZE_CONSTRAINT}"/>
                 </bean>
-                <bean parent="Uif-ActionLinkField" p:actionLabel="@{#line.documentName}" p:methodToCall="downloadSupportingDoc"  p:render="@{!#empty(#line.documentName)}"
+                <bean parent="Uif-ActionLinkField" p:label="File" p:actionLabel="@{#line.documentName}" p:methodToCall="downloadSupportingDoc"  p:render="@{!#empty(#line.documentName)}"
                       p:ajaxSubmit="false"
                       p:disableBlocking="true"
                       p:onClickScript="writeHiddenToForm(&quot;ajaxReturnType&quot;, &quot;update-none&quot;);"
