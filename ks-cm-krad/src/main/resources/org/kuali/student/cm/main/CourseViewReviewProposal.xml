@@ -476,7 +476,7 @@
                                 <property name="replacement">
                                     <list>
                                         <bean parent="CM-ReadOnlyInput" p:label="Learning Objectives" id="emptyStringLOs"
-                                              p:propertyName="@{#dataObject.loDisplayWrapperModel.emptyStringLO}"/>
+                                              p:propertyName="loDisplayWrapperModel.emptyStringLO"/>
                                     </list>
                                 </property>
                             </bean>
