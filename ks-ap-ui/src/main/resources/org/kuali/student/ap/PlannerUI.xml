@@ -85,7 +85,7 @@
             <list>
                 <!-- Hide messages widget for now -->
                 <!--<ref bean="messages_widget"/>-->
-                <ref bean="your_stuff_widget_planner"/>
+                <ref bean="bookmarks_widget"/>
             </list>
         </property>
     </bean>

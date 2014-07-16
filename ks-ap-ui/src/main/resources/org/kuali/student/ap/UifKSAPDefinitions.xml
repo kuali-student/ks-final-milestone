@@ -402,6 +402,8 @@
         </property>
     </bean>
 
+    <!--TODO: Consider removal of your_stuff_widget & your_stuff_widget_planner-->
+    <!-- Moved watch_list to BookmarkUI.xml, could be removed from here, too -->
     <bean id="your_stuff_widget" parent="your_stuff_widget-parent"/>
     <bean id="your_stuff_widget-parent" abstract="true" parent="Uif-VerticalBoxSubSection" p:headerText="YOUR STUFF">
         <property name="header">

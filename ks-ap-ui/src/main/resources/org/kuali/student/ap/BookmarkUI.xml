@@ -20,6 +20,58 @@
     -->
 
     <!--  Bookmark sidebar -->
+    <bean id="bookmarks_widget" parent="bookmarks_widget-parent"/>
+    <bean id="bookmarks_widget-parent" abstract="true" parent="Uif-VerticalBoxSubSection" p:headerText="Bookmarked Courses">
+        <property name="header">
+            <bean parent="Uif-HeaderFive">
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>primary</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="header.toolTip">
+            <ref bean="bookmarks_help_tooltip"/>
+        </property>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-widget</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <ref bean="bookmarks_watch_list" />
+            </list>
+        </property>
+        <property name="propertyReplacers">
+            <list>
+                <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items"
+                      p:condition="T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getUserSessionHelper().isStudent()">
+                    <property name="replacement">
+                        <list>
+                            <ref bean="bookmarks_watch_list" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="bookmarks_watch_list" parent="bookmarks_watch_list-parent"/>
+    <bean id="bookmarks_watch_list-parent" abstract="true" parent="Uif-VerticalBoxGroup" p:headerText="Loading courses">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-saved-courses-summary</value>
+                <value>ksap-stacked-list</value>
+            </list>
+        </property>
+        <property name="header">
+            <bean parent="Uif-HeaderSix"/>
+        </property>
+        <property name="onDocumentReadyScript"
+                  value="ksapRetrieveComponent('bookmarks_watch_list','bookmark_summary','search','lookup',{viewId:'BookmarkSideBar-LookupView'});"/>
+    </bean>
 
     <bean id="BookmarkSideBar-LookupView" parent="KSAPBaseLookupView">
         <property name="headerText" value="Bookmarks"/>
@@ -56,13 +108,7 @@
         </property>
     </bean>
 
-    <bean id="bookmark_summary_list" parent="Uif-ListCollectionSection" p:headerText="Bookmarked Courses">
-        <property name="header">
-            <bean p:id="bookmark_summary_list_header" parent="Uif-HeaderSix"/>
-        </property>
-        <property name="header.toolTip">
-            <ref bean="bookmarks_help_tooltip"/>
-        </property>
+    <bean id="bookmark_summary_list" parent="Uif-ListCollectionSection">
         <property name="cssClasses">
             <list merge="true">
                 <value>ksap-saved-courses-summary</value>
