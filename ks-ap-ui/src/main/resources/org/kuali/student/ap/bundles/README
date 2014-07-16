@@ -1,0 +1,5 @@
+If you add a new properties file that you want referenced from the TextHelper, you'll need to add a reference to it in the config file:
+ks-ap/ks-ap-framework/src/main/resources/META-INF/ks-ap/ks-ap-config.xml
+
+Add the new reference to the ks.ap.TextHelper.resourceBundleNames param.
+Only need the package and file name excluding the extension and locale (if necessary)
