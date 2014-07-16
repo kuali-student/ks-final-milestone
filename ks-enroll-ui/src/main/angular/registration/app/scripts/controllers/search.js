@@ -57,7 +57,8 @@ angular.module('regCartApp')
             }
 
             // Cancel out the queued up search if it exists
-            if (angular.isDefined(queuedSearchHandle) && queuedSearchHandle !== null) {
+            if (queuedSearchHandle !== null) {
+                queuedSearchHandle(); // Remove the event subscription
                 queuedSearchHandle = null;
             }
 
