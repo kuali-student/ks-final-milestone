@@ -158,7 +158,8 @@
 }
 
 .kscr-Card-button {
-
+    display: inline;
+    margin-left: 5px;
 }
 
 .kscr-Card-icon {
@@ -169,27 +170,6 @@
     top: 10px;
 }
 
-
-// Transaction results label (e.g. Results)
-.kscr-Card-responseLabel {
-  float: left;
-  margin-right: 10px;
-  text-transform: uppercase;
-}
-
-// Transaction results counts (e.g. Success {}, Fail {})
-.kscr-Card-responseCount {
-  display: block;
-  font-weight: bold;
-  text-align: right;
-  text-transform: uppercase;
-
-  // Count items
-  & > span {
-    // Make the list comma-separated
-    .util-Text-delimited(",");
-  }
-}
 
 // Container for a single course in a course card
 .kscr-Course-container {
@@ -399,19 +379,12 @@
     // Cart results card
     .kscr-Card-Results {
         background-color: @whiteBackground;
+        padding-left: 10px;
+        padding-right: 10px;
 
-        .kscr-Card-text-alert {
-            // Hide the schedule info in large-format
-            display: none;
-        }
         .kscr-Card-detailsText .kscr-Card-text-alert,
         .kscr-cartResult-status--waitlist .kscr-Card-text-alert {
             display: block; // But... show them in the Add to Waitlist success
         }
-    }
-
-    // Cart results response counts (e.g. Success, Fail)
-    .kscr-Card-responseCount {
-        color: @secondaryTextColor;
     }
 }

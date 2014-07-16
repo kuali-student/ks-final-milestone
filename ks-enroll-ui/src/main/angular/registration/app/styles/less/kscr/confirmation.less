@@ -1,45 +1,48 @@
 /*** Registration Button Confirmation section  ***/
 
-.kscr-Confirmation-container{
-    background-color: #FCFCFC;
+.kscr-Confirmation-container {
+    background-color: @cardBackgroundColor;
     padding: 5px 10px;
     border: 1px @cardBorderColor solid;
     border-bottom-width: 2px;
-    &:extend(.util-transitions-browserHelper);
+    .util-transitions-browserHelper();
+
+    // Transitions
+    &.ng-hide-remove {
+        display: block !important; // Important to override the styles in ng-hide.
+    }
+    &.ng-hide-add {
+        display: none;
+    }
+
+    &.ng-hide-add.ng-hide-add-active,
+    &.ng-hide-remove {
+        opacity: 0;
+    }
+    &.ng-hide-remove.ng-hide-remove-active {
+        opacity: 1;
+    }
 }
 
-.kscr-Confirmation-header{
+.kscr-Confirmation-header {
+    border-bottom: @horizontalLineBorder;
+    color: @primaryTextColor;
     font-family: @secondaryFontFamily;
     font-size: 14px;
     font-weight: normal;
-    color: @primaryTextColor;
-    border-bottom:@horizontalLineBorder;
     padding-bottom: 5px;
 }
 
-.kscr-Confirmation-buttons{
-   padding: 10px 0 5px;
-   text-align: right;
+.kscr-Confirmation-buttons {
+    padding: 10px 0 5px;
+    text-align: right;
 }
 
 
-.kscr-Confirmation-container.ng-hide-remove {
-    &:extend(.util-transitions-browserHelper);
-   display:block!important;
-   opacity: 0;
- }
 
-.kscr-Confirmation-container.ng-hide-add{
-    display: none;
+@media screen and (min-width: @largeFormatMin) {
+    // No border on confirmation box in large-format
+    .kscr-Confirmation-container {
+        border: none;
+    }
 }
-
-.kscr-Confirmation-container.ng-hide-add.ng-hide-add-active,
-.kscr-Confirmation-container.ng-hide-remove {
-    opacity:0;
-}
-
-
-.kscr-Confirmation-container.ng-hide-remove.ng-hide-remove-active {
-   opacity:1;
-}
-

@@ -1,3 +1,52 @@
+
+// Cart result item container
+.kscr-cartResult-item {
+}
+
+
+// Transaction results sub-heading
+.kscr-Heading-sub.kscr-cartResult-responseHeading {
+    // Update sub-heading in the cart (results heading) to have better spacing from sibling elements
+    padding: 0 0.3em 0.3em;
+}
+
+// Transaction results label (e.g. Results)
+.kscr-cartResult-responseLabel {
+    float: left;
+    margin-right: 10px;
+    text-transform: uppercase;
+}
+
+// Transaction results counts (e.g. Success {}, Fail {})
+.kscr-cartResult-responseCount {
+    display: block;
+    font-weight: bold;
+    text-align: right;
+    text-transform: uppercase;
+
+    // Count items
+    & > span {
+        // Set up the space and alignment of the icons
+        background-position: left center;
+        background-repeat: no-repeat;
+        margin-left: 10px;
+        padding-left: 20px;
+    }
+
+    // Transaction results icons
+    &--success {
+        background-image: @successImage;
+    }
+    &--fail {
+        background-image: @errorImage;
+    }
+    &--waitlist {
+        background-image: @warningImage;
+    }
+}
+
+
+
 // Primary status icon of cart results (e.g. Success check, Fail, Progressing spinner)
 .kscr-cartResult-icon {
     background-repeat: no-repeat;
@@ -26,21 +75,19 @@
 
 // Cart results details text content
 .kscr-cartResult-content .kscr-Card-detailsText {
-    // Add to waitlist
-    border-color: @successBorder;
-    color: @successText;
-    margin-top: 10px;
+    .util-transitions-browserHelper(); // Transition to ease the text colors in with the rest of the text
+
+    margin-top: 0.3em;
     padding-bottom: 0;
 
     .kscr-Card-text-alert {
         margin-top: 0;
     }
 
-    &--action,
-    &--error {
-        // Add to Waitlist & Error reason messages
-        // Margin to push border down
-        margin-top: 10px;
+    // Add to waitlist
+    &--waitlist {
+        border-color: @successBorder;
+        color: @successText;
     }
 }
 
@@ -62,6 +109,10 @@
         .kscr-Card-buttons {
             display: none;
         }
+        .kscr-Card-text-alert {
+            // Hide the schedule info in large-format
+            display: none;
+        }
     }
 
     // Error styles
@@ -74,7 +125,6 @@
         }
         .kscr-Card-buttons {
             border-color: @errorBorder;
-
         }
     }
 
@@ -103,7 +153,6 @@
         }
         .kscr-Card-buttons {
             border-color: @successBorder;
-            display: none;
         }
     }
 
@@ -122,14 +171,44 @@
 
 // Credits count text in cart item
 .kscr-cartResult-supportText {
-    color: @cardTextColor;
-    display: none; // Hide by default in small-format
     font-weight: normal;
     float: right;
 }
 
 
+
+// Small-format styles
+@media screen and (max-width: @smallFormatMax) {
+    .kscr-cartResult-content .kscr-Card-detailsText {
+        &--action,
+        &--error {
+            // Add to Waitlist & Error reason messages
+            // Margin to push border down
+            margin-top: 0.3em;
+        }
+    }
+}
+
+
+// Large-format styles
 @media screen and (min-width: @largeFormatMin) {
+    // Cart results sub-heading
+    .kscr-Heading-sub.kscr-cartResult-responseHeading {
+        // Update sub-heading in the cart (results heading) to have better spacing from sibling elements
+        padding: 10px 0;
+    }
+
+    // Cart results response counts (e.g. Success, Fail)
+    .kscr-cartResult-responseCount {
+        color: @secondaryTextColor;
+
+        // Hide success messages in large-format
+        &--success {
+            display: none;
+        }
+    }
+
+
     // Cart item result w/ status (e.g. processing, error, success)
     .kscr-cartResult-status {
         // Don't show background shading when in large-format
@@ -137,9 +216,29 @@
         box-shadow: none;
         -webkit-box-shadow: none; // iOS <4.3 & Android <4.1
 
-        &--processing .kscr-cartResult-supportText {
-            // Show the credit count only when processing cart item in large-format
-            display: block;
+        // Update items in the cart results to have a top border
+        border-top: @horizontalLineBorder !important; // Important to override the styles on .kscr-Responsive-cart .panel-group .panel
+        padding: 10px 0 10px 25px;
+
+        // No button bar border in large-format
+        .kscr-Card-buttons {
+            border-top: none;
+            padding-top: 0;
         }
+
+        // Hide success messages in large-format
+        &--success {
+            display: none;
+        }
+    }
+
+    .kscr-cartResult-icon {
+        background-position: 0 10px;
+    }
+
+    .kscr-cartResult-content .kscr-Card-detailsText {
+        border-top: none;
+        margin-top: 0.3em;
+        padding-top: 0;
     }
 }

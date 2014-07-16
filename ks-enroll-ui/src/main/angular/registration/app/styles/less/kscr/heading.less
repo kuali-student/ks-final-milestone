@@ -9,11 +9,6 @@
     text-transform: uppercase;
 }
 
-// Cart results heading (Results: Success {}, Fail {})
-.kscr-Heading-sub--cart {
-    .kscr-Heading-sub;
-}
-
 .kscr-Heading-support{
     font-family: @primaryFontFamily !important;
     font-size: 14px !important;
@@ -32,13 +27,5 @@
 @media screen and (min-width: @largeFormatMin) {
     .kscr-Heading-sub {
         color: @primaryTextColor;
-    }
-
-    .kscr-Heading-sub--cart {
-        // Update sub-heading in the cart (results heading) to have a
-        // bottom border and better appropriate spacing from sibling elements
-        border-bottom: @horizontalLineBorder;
-        margin: 0 10px;
-        padding: 10px 0;
     }
 }
