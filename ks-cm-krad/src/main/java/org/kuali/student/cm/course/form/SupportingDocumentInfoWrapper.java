@@ -31,6 +31,7 @@ public class SupportingDocumentInfoWrapper implements DTOWrapper {
     private String description;
     private String documentId;
     private String documentName;
+    private String tempDocumentPath;
 
     /**
      * Gets the value of documentUpload
@@ -103,5 +104,13 @@ public class SupportingDocumentInfoWrapper implements DTOWrapper {
     @Override
     public boolean isNewDto() {
         return StringUtils.isBlank(documentId);
+    }
+
+    public String getTempDocumentPath() {
+        return tempDocumentPath;
+    }
+
+    public void setTempDocumentPath(String tempDocumentPath) {
+        this.tempDocumentPath = tempDocumentPath;
     }
 }

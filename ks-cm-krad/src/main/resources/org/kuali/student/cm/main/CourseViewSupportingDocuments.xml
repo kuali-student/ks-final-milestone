@@ -89,18 +89,18 @@
         </property>
         <property name="Items">
             <list>
-                <bean parent="Uif-InputField" p:label="File" p:propertyName="documentUpload" p:render="@{#empty(#line.documentId)}">
+                <bean parent="Uif-InputField" p:label="File" p:propertyName="documentUpload" p:render="@{#empty(#line.documentName)}">
                     <property name="control">
                         <bean parent="Uif-FileControl" p:size="30"/>
                     </property>
                     <property name="constraintText" value="@{T(org.kuali.student.cm.common.util.CurriculumManagementConstants).FILE_SIZE_CONSTRAINT}"/>
                 </bean>
-                <bean parent="Uif-ActionLinkField" p:actionLabel="@{#line.documentName}" p:methodToCall="downloadSupportingDoc"  p:render="@{!#empty(#line.documentId)}"
+                <bean parent="Uif-ActionLinkField" p:actionLabel="@{#line.documentName}" p:methodToCall="downloadSupportingDoc"  p:render="@{!#empty(#line.documentName)}"
                       p:ajaxSubmit="false"
                       p:disableBlocking="true"
                       p:onClickScript="writeHiddenToForm(&quot;ajaxReturnType&quot;, &quot;update-none&quot;);"
                       p:additionalCssClasses="supporting-doc-download-link" />
-                <bean parent="Uif-InputField" p:label="Description" p:propertyName="description" p:readOnly="@{!#empty(#line.documentId)}"
+                <bean parent="Uif-InputField" p:label="Description" p:propertyName="description" p:readOnly="@{!#empty(#line.documentName)}"
                       p:escapeHtmlInPropertyValue="false" class="org.kuali.student.cm.uif.element.InputFieldWithNonClobberableFieldLabel">
                     <property name="control">
                         <bean parent="Uif-MediumTextAreaControl">

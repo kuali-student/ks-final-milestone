@@ -89,6 +89,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -459,22 +461,34 @@ public class CourseController extends CourseRuleEditorController {
 
         SupportingDocumentInfoWrapper supportingDocument = courseInfoWrapper.getSupportingDocs().get(selectedLineIndex);
         DocumentInfo document = null;
-        try {
-            document = getSupportingDocumentService().getDocument(supportingDocument.getDocumentId(), ContextUtils.createDefaultContextInfo());
-        } catch (Exception ex) {
-            LOG.error("Exception occurred while retrieving the document", ex);
+        String documentName = null;
+        byte[] bytes = null;
+
+        if (supportingDocument.isNewDto()) {
+            bytes = Files.readAllBytes(Paths.get(supportingDocument.getTempDocumentPath()));
+            documentName = supportingDocument.getDocumentName();
+        } else {
+            try {
+                document = getSupportingDocumentService().getDocument(supportingDocument.getDocumentId(), ContextUtils.createDefaultContextInfo());
+            } catch (Exception ex) {
+                LOG.error("Exception occurred while retrieving the document", ex);
+            }
         }
 
-        if (document != null && document.getDocumentBinary() != null
+        if ((document != null && document.getDocumentBinary() != null
                 && document.getDocumentBinary().getBinary() != null
-                && !document.getDocumentBinary().getBinary().isEmpty()) {
+                && !document.getDocumentBinary().getBinary().isEmpty())
+                || supportingDocument.getTempDocumentPath() != null) {
 
-            byte[] bytes = Base64.decodeBase64(document.getDocumentBinary().getBinary());
+            if (bytes == null) {
+                bytes = Base64.decodeBase64(document.getDocumentBinary().getBinary());
+                documentName = document.getName();
+            }
             BufferedInputStream byteStream = new BufferedInputStream(new ByteArrayInputStream(bytes));
 
             try {
                 KRADUtils.addAttachmentToResponse(response, byteStream,
-                        CurriculumManagementConstants.DEFAULT_MIME_TYPE, document.getName(),
+                        CurriculumManagementConstants.DEFAULT_MIME_TYPE, documentName,
                         bytes.length);
             } catch (Exception ex) {
                 LOG.error("Exception occurred while attaching the document to response", ex);

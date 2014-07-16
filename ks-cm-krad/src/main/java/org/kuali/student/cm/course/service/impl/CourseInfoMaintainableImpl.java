@@ -151,6 +151,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 
 import javax.xml.namespace.QName;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -504,6 +508,26 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 }
             } else {
                 return false;
+            }
+        } else if (newLine instanceof SupportingDocumentInfoWrapper) {
+            MaintenanceDocumentForm modelForm = (MaintenanceDocumentForm) viewModel;
+            CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) modelForm.getDocument().getNewMaintainableObject().getDataObject();
+            if (courseInfoWrapper.getSupportingDocs().size() > 0) {
+                final SupportingDocumentInfoWrapper addLineResult = courseInfoWrapper.getSupportingDocs().get(
+                                                                        courseInfoWrapper.getSupportingDocs().size() - 1);
+
+                if (addLineResult.isNewDto() && addLineResult.getDocumentUpload() != null) {
+                    addLineResult.setDocumentName(addLineResult.getDocumentUpload().getOriginalFilename());
+
+                    try {
+                        // create a temp file on disk and store the uploaded file contents to it.
+                        File tempFile = File.createTempFile(addLineResult.getDocumentName(),null);
+                        addLineResult.getDocumentUpload().transferTo(tempFile);
+                        addLineResult.setTempDocumentPath(tempFile.getPath());
+                    } catch (Exception ex) {
+                        LOG.error("An error occurred while creating the temp file : " + addLineResult.getDocumentName(), ex);
+                    }
+                }
             }
         }
         return ((CourseRuleViewHelperServiceImpl) getRuleViewHelperService()).performAddLineValidation(viewModel, newLine, collectionId, collectionPath);
@@ -1575,7 +1599,13 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 DocumentBinaryInfo documentBinaryInfo = new DocumentBinaryInfo();
 
                 try {
-                    documentBinaryInfo.setBinary(new String(Base64.encodeBase64(supportingDoc.getDocumentUpload().getBytes())));
+                    if (supportingDoc.getTempDocumentPath() == null) {
+                        documentBinaryInfo.setBinary(new String(Base64.encodeBase64(supportingDoc.getDocumentUpload().getBytes())));
+                    } else {
+                        Path path = Paths.get(supportingDoc.getTempDocumentPath());
+                        byte[] data = Files.readAllBytes(path);
+                        documentBinaryInfo.setBinary(new String(Base64.encodeBase64(data)));
+                    }
                     toAdd.setDocumentBinary(documentBinaryInfo);
                     // Save the uploaded document
                     DocumentInfo doc = getSupportingDocumentService().createDocument(
@@ -1601,6 +1631,12 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                     supportingDoc.setDocumentName(toAdd.getFileName());
                     //Free up memory
                     supportingDoc.setDocumentUpload(null);
+
+                    if (supportingDoc.getTempDocumentPath() != null) {
+                        //Remove the temp file stored
+                        Files.deleteIfExists(Paths.get(supportingDoc.getTempDocumentPath()));
+                    }
+
                 } catch (Exception ex) {
                     LOG.error("Unable to add supporting document to the course for file: " +
                               supportingDoc.getDocumentUpload().getName(), ex);
@@ -1620,6 +1656,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                     getSupportingDocumentService().deleteRefDocRelation(refDocRelationInfo.getId(), ContextUtils.createDefaultContextInfo());
                 }
                 getSupportingDocumentService().deleteDocument(docToDelete.getDocumentId(), ContextUtils.createDefaultContextInfo());
+                courseInfoWrapper.getSupportingDocs().remove(docToDelete);
             } catch (Exception ex) {
                 LOG.warn("Unable to delete document: " + docToDelete.getDocumentName(), ex);
                 throw new RuntimeException(ex);
