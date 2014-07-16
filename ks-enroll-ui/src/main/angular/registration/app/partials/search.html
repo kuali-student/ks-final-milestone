@@ -22,7 +22,9 @@
         <div class="kscr-Search-results">
             <div class="kscr-Search-results-heading">
                 <div class="kscr-Search-results-summary">Showing {{displayRange((searchResults|filter:facetFilter).length)}} results for "{{searchCriteria}}" in {{termName}}</div>
-                <div class="kscr-Search-results-picker"><span>Show </span><select ng-model="displayLimit" ng-options="limit as limit for limit in displayLimits"></select></div>
+                <div class="kscr-Search-results-picker">
+                    <span>Show</span>
+                    <select ng-model="displayLimit" ng-options="limit as limit for limit in displayLimits" class="kscr-Search-results-limits"></select></div>
                 <div class="util-Grid--clearfix"></div>
             </div>
             <table class="kscr-Search-results-table">
@@ -51,14 +53,27 @@
                 </tbody>
             </table>
             <div class="kscr-Search-results-paginate">
-                <div class="kscr-Search-results-pageBox" ng-show="page > 1">
-                    <a ng-click="page = page-1;">&lt;</a>
+                <div class="kscr-Search-results-pageBox">
+                    <a ng-show="page > 1" ng-click="page = 1;">|&lt;</a>
+                    <span ng-show="page <= 1">|&lt;</span>
                 </div>
                 <div class="kscr-Search-results-pageBox">
-                    <span>{{page}}</span>
+                    <a ng-show="page > 1" ng-click="page = page-1;">&lt;</a>
+                    <span ng-show="page <= 1">&lt;</span>
                 </div>
-                <div class="kscr-Search-results-pageBox" ng-show="(page * displayLimit) < (searchResults|filter:facetFilter).length">
-                    <a ng-click="page = page+1;">&gt;</a>
+                <div ng-repeat="pageNum in pageRange()">
+                    <div class="kscr-Search-results-pageBox">
+                        <a ng-show="page != pageNum" ng-click="$parent.page = pageNum">{{pageNum}}</a>
+                        <span ng-show="page === pageNum">{{pageNum}}</span>
+                    </div>
+                </div>
+                <div class="kscr-Search-results-pageBox">
+                    <a ng-click="page = page+1;" ng-show="(page * displayLimit) < (searchResults|filter:facetFilter).length">&gt;</a>
+                    <span ng-show="(page * displayLimit) >= (searchResults|filter:facetFilter).length">&gt;</span>
+                </div>
+                <div class="kscr-Search-results-pageBox">
+                    <a ng-show="page < lastPage" ng-click="page = lastPage;">&gt;|</a>
+                    <span ng-show="page >= lastPage">&gt;|</span>
                 </div>
             </div>
         </div>

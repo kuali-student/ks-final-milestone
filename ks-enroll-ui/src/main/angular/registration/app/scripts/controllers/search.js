@@ -42,6 +42,18 @@ angular.module('regCartApp')
         // set the default page #
         $scope.page = 1;
 
+        // holds the last page
+        $scope.lastPage = 1;
+
+        // returns a the full range of pages
+        $scope.pageRange = function() {
+            var pageRange = [];
+            for (var i = 1; i <= $scope.lastPage; i++) {
+                pageRange.push(i);
+            }
+            return pageRange;
+        };
+
         // if the display limit changes, reset the page to 1
         $scope.$watch('displayLimit', function(newValue, oldValue) {
             $scope.page = 1;
@@ -54,6 +66,8 @@ angular.module('regCartApp')
             if (rangeMax > length) {
                 rangeMax = length;
             }
+            // set the last page
+            $scope.lastPage = Math.ceil (length / $scope.displayLimit);
             if (rangeMin === rangeMax) {
                 return (rangeMax + ' of ' + length);
             } else {
