@@ -270,6 +270,11 @@ public class CourseSectionDetailsController extends KsapControllerBase {
         CourseSectionDetailsDialogForm dialogForm = new CourseSectionDetailsDialogForm();
         super.start(dialogForm, request, response);
 
+        // Fill in basic view information to new form
+        dialogForm.setViewId(COURSE_SECTION_DETAILS_DIALOG);
+        dialogForm.setPageId(COURSE_SECTION_DETAILS_ADD_DIALOG);
+        dialogForm.setView(super.getViewService().getViewById(COURSE_SECTION_DETAILS_DIALOG));
+
         // Copy information from original view
         dialogForm.setFormPostUrl(form.getFormPostUrl());
         dialogForm.setRequestUrl(form.getRequestUrl());
@@ -326,6 +331,11 @@ public class CourseSectionDetailsController extends KsapControllerBase {
         // Dialog uses separate form from normal
         CourseSectionDetailsDialogForm dialogForm = new CourseSectionDetailsDialogForm();
         super.start(dialogForm, request, response);
+
+        // Fill in basic view information to new form
+        dialogForm.setViewId(COURSE_SECTION_DETAILS_DIALOG);
+        dialogForm.setPageId(COURSE_SECTION_DETAILS_REQUISITES_DIALOG);
+        dialogForm.setView(super.getViewService().getViewById(COURSE_SECTION_DETAILS_DIALOG));
 
         // Copy information from original view
         dialogForm.setFormPostUrl(form.getFormPostUrl());
