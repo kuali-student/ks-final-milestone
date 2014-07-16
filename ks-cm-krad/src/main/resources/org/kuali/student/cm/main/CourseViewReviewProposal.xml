@@ -445,13 +445,24 @@
                 <bean parent="CM-ReviewProposal-GridGroup">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-VerticalFieldGroup" p:label="Learning Objectives" p:colSpan="3"
-                                  p:fieldLabel.renderColon="false">
+                            <bean parent="Uif-VerticalFieldGroup" p:label="Learning Objectives" p:colSpan="3" p:fieldLabel.renderColon="false">
                                 <property name="items">
                                     <list>
-                                            <bean parent="Uif-DataField"  id="indentedLearningObjects"
-                                                  p:propertyName="reviewProposalDisplay.learningObjectivesSection.indentedLearningObjects"
-                                                  p:colSpan="1" p:escapeHtmlInPropertyValue="false"/>
+                                        <bean id="course_review_learning_objectives" parent="Uif-StackedCollectionSection"
+                                              p:propertyName="loDisplayWrapperModel.loWrappers"
+                                              p:collectionObjectClass="org.kuali.student.cm.course.form.LoDisplayInfoWrapper"
+                                              p:colSpan="3">
+                                            <property name="renderLineActions" value="false"/>
+                                            <property name="renderAddLine" value="false"/>
+                                            <property name="items">
+                                                <list>
+                                                    <bean id="learning_objective_item" parent="Uif-DataField"
+                                                        p:propertyName="titleAndCategoriesAsString" p:colSpan="1"
+                                                        p:style="display: list-item; margin-left: @{#line.indentLevel * 30}px;"/>
+                                                </list>
+                                            </property>
+
+                                        </bean>
                                     </list>
                                 </property>
                             </bean>
@@ -461,11 +472,11 @@
                         <list>
                             <!-- If there are no LOs then just show a label alone -->
                             <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items"
-                                  p:condition="@{#emptyList(#dataObject.reviewProposalDisplay.learningObjectivesSection.learningObjectives)}">
+                                  p:condition="@{#emptyList(#dataObject.loDisplayWrapperModel.loWrappers)}">
                                 <property name="replacement">
                                     <list>
                                         <bean parent="CM-ReadOnlyInput" p:label="Learning Objectives" id="emptyStringLOs"
-                                              p:propertyName="reviewProposalDisplay.learningObjectivesSection.emptyStringLO"/>
+                                              p:propertyName="@{#dataObject.loDisplayWrapperModel.emptyStringLO}"/>
                                     </list>
                                 </property>
                             </bean>

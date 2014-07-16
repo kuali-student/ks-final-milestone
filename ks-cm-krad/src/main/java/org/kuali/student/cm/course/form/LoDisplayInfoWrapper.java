@@ -1,9 +1,14 @@
 package org.kuali.student.cm.course.form;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
+import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class LoDisplayInfoWrapper extends LoDisplayInfo {
 
@@ -197,5 +202,19 @@ public class LoDisplayInfoWrapper extends LoDisplayInfo {
      */
     public boolean isMoveDownable() {
         return moveDownable;
+    }
+
+    public String getTitleAndCategoriesAsString() {
+        StringBuilder out = new StringBuilder(getLoInfo().getDescr().getPlain());
+        if (! getLoCategoryInfoList().isEmpty()) {
+            List<String> categoryNames = new ArrayList<>();
+            for (LoCategoryInfo categoryInfo : getLoCategoryInfoList()) {
+                categoryNames.add(categoryInfo.getName());
+            }
+            out.append(" (")
+                .append(StringUtils.join(categoryNames, CurriculumManagementConstants.COLLECTION_ITEMS_COMMA_DELIMITER))
+                .append(")");
+        }
+        return out.toString();
     }
 }

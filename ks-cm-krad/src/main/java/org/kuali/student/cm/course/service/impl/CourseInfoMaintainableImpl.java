@@ -1216,11 +1216,9 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             FormatInfoWrapper formatInfoWrapper = new FormatInfoWrapper(activityInfoWrapperList);
             formatInfoWrappers.add(formatInfoWrapper);
         }
-        if (!formatInfoWrappers.isEmpty())
+        if (!formatInfoWrappers.isEmpty()) {
             reviewData.getCourseLogisticsSection().setFormatInfoWrappers(formatInfoWrappers);
-
-        // update learning Objectives Section
-        reviewData.getLearningObjectivesSection().build(courseInfoWrapper.getCourseInfo().getCourseSpecificLOs());
+        }
 
         /**
          * Active Dates section
@@ -2162,9 +2160,9 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             public int compare(LoDisplayInfoWrapper o1, LoDisplayInfoWrapper o2) {
                 int result = 0;
                 if (o1.getSequence() < o2.getSequence()) {
-                    return -1;
+                    result = -1;
                 } else if (o1.getSequence() > o2.getSequence()) {
-
+                    result = 1;
                 }
                 return result;
             }

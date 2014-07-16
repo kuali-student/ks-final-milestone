@@ -253,4 +253,10 @@ public class LoDisplayWrapperModel {
         return true;
     }
 
+    /**
+     * Used on the Review Proposal page when conditionally rendering a list of LOs vs an empty text area.
+     */
+    public String getEmptyStringLO() {
+        return (loWrappers == null || loWrappers.isEmpty()) ? "" : "Has LO";
+    }
 }

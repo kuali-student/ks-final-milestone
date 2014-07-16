@@ -33,7 +33,6 @@ public class ReviewProposalDisplay {
     private CourseSectionWrapper courseSection;
     private GovernanceSectionWrapper governanceSection;
     private CourseLogisticsSectionWrapper courseLogisticsSection;
-    private LearningObjectivesSectionWrapper learningObjectivesSection;
     private CourseRequisitesSectionWrapper courseRequisitesSection;
     private ActiveDatesSectionWrapper activeDatesSection;
     private FinancialsSectionWrapper financialsSection;
@@ -59,14 +58,6 @@ public class ReviewProposalDisplay {
             courseLogisticsSection = new CourseLogisticsSectionWrapper();
         }
         return courseLogisticsSection;
-    }
-
-
-    public LearningObjectivesSectionWrapper getLearningObjectivesSection() {
-        if (this.learningObjectivesSection == null) {
-            learningObjectivesSection = new LearningObjectivesSectionWrapper();
-        }
-        return learningObjectivesSection;
     }
 
     public ActiveDatesSectionWrapper getActiveDatesSection() {
@@ -396,7 +387,7 @@ public class ReviewProposalDisplay {
         /**
          * This is for the outcomes "empty collection" input field. KRAD needs a property name to bind the constraints.
          * Using the same property name for two input fields causes the constraints to be overwritten. Simply setting a
-         * KRAD component render=false doens't prevent it from being considered during validation, so if outcomes are
+         * KRAD component render=false doesn't prevent it from being considered during validation, so if outcomes are
          * defined there needs to be some text in the input field.
          *
          * @return An empty String if no outcomes have been defined. Otherwise, returns some text.
@@ -405,81 +396,6 @@ public class ReviewProposalDisplay {
             return outcomes.isEmpty() ? "" : "Has Outcomes";
         }
     }
-
-    public class LearningObjectivesSectionWrapper {
-
-        private List<LoReviewSection> learningObjectives;
-
-        public List<LoReviewSection> getLearningObjectives() {
-            if (learningObjectives == null) {
-                learningObjectives = new ArrayList<LoReviewSection>();
-            }
-            return learningObjectives;
-        }
-
-        private String getIndentedLearningObjects(List<LoReviewSection> learningObjectivesList) {
-
-            if(learningObjectivesList==null || learningObjectivesList.isEmpty()) {
-                return "";
-            }
-
-            StringBuilder indentedLO = new StringBuilder();
-            for (LoReviewSection lo : learningObjectivesList) {
-                indentedLO.append("<ul>\n")
-                            .append("<li>\n")
-                                .append(lo.toString())
-                                    .append(getIndentedLearningObjects(lo.getLoReviewSectionList()))
-                            .append("</li>\n")
-                        .append("</ul>");
-            }
-            return indentedLO.toString();
-        }
-
-        public String getIndentedLearningObjects() {
-            return getIndentedLearningObjects(this.learningObjectives);
-        }
-
-        public String getEmptyStringLO() {
-            return learningObjectives.isEmpty() ? "" : "Has LO";
-        }
-
-        public void build(List<LoDisplayInfo> loDisplayInfos) {
-            build(this.learningObjectives,loDisplayInfos);
-        }
-
-        private void build(List<LoReviewSection> loReviewSectionList,List<LoDisplayInfo> loDisplayInfos) {
-
-            if (loReviewSectionList == null) {
-                loReviewSectionList = new ArrayList<LoReviewSection>();
-            }
-
-            loReviewSectionList.clear();
-
-            for(LoDisplayInfo loDisplayInfo : loDisplayInfos) {
-                if(loDisplayInfo.getLoInfo() != null && loDisplayInfo.getLoInfo().getDescr() != null) {
-                    String description = loDisplayInfo.getLoInfo().getDescr().getPlain();
-                    List<String> lstCategories = new ArrayList<String>();
-                    for(LoCategoryInfo loCategoryInfo : loDisplayInfo.getLoCategoryInfoList()) {
-                        lstCategories.add(loCategoryInfo.getName());
-                    }
-
-                    List<LoReviewSection> subReviewSectionList = null;
-
-                    if(loDisplayInfo.getLoDisplayInfoList()!=null && !loDisplayInfo.getLoDisplayInfoList().isEmpty()) {
-                        subReviewSectionList = new ArrayList<LoReviewSection>();
-                        build(subReviewSectionList,loDisplayInfo.getLoDisplayInfoList());
-                    }
-
-                    LoReviewSection reviewSection = new LoReviewSection(description,lstCategories,subReviewSectionList);
-
-                    loReviewSectionList.add(reviewSection);
-
-                }
-
-            }
-        }
-    }
-
 
     public class CourseRequisitesSectionWrapper {
 
