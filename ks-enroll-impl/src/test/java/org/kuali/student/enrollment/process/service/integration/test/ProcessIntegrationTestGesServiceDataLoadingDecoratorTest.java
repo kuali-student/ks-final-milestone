@@ -16,7 +16,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import org.junit.Ignore;
+
 import org.kuali.student.core.constants.GesServiceConstants;
 import org.kuali.student.core.ges.service.impl.GesServiceMapImpl;
 import org.kuali.student.core.ges.dto.ParameterInfo;
