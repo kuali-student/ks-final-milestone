@@ -79,3 +79,29 @@ function goAction(component, state) {
     var kradRequest = new KradRequest(action);
     kradRequest.send();
 }
+
+function setValidation(controlName, requiredName, states, message) {
+
+    var check = function(){
+        var i;
+        for (i = 0; i < states.length; i++) {
+            if((coerceValue(controlName).toUpperCase() == states[i].toUpperCase())){
+                return true;
+            }
+        }
+        return false;
+    };
+
+    runValidationScript(function(){
+        setupShowReqIndicatorCheck(controlName, requiredName, check);
+    });
+
+    runValidationScript(function(){
+        jQuery('[name="'+requiredName+'"]').rules("add", {
+            required: check,
+            messages: {
+                required: message
+            }
+        });
+    });
+}
