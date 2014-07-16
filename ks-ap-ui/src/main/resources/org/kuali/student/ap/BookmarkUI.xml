@@ -124,15 +124,10 @@
         <property name="renderLineActions" value="false"/>
         <property name="disclosure.render" value="false"/>
         <property name="layoutManager.lineGroupPrototype.header.render" value="false"/>
-        <property name="filters">
-            <list>
-                <bean parent="Uif-ConditionalCollectionFilter" p:expression="#index lt 7"/>
-            </list>
-        </property>
         <property name="onDocumentReadyScript" value="truncateField('bookmark_summary');"/>
         <property name="items">
             <list>
-                <bean parent="Uif-HorizontalFieldGroup" p:id="@{#line.uniqueId}" p:style="cursor:pointer;">
+                <bean parent="Uif-HorizontalFieldGroup" p:id="@{#line.uniqueId}">
                     <property name="fieldLabel.render" value="false"/>
                     <property name="group.validationMessages.displayMessages" value="false"/>
                     <property name="cssClasses">
@@ -141,8 +136,6 @@
                             <value>uif-tooltip</value>
                         </list>
                     </property>
-                    <property name="onClickScript"
-                              value="ksapOpenPlanDialog('bookmark_add_course_page','planner','startDialog', this, e);" />
                     <property name="dataAttributes">
                         <map>
                             <entry key="courseid" value="@{#line.courseId}" />
@@ -154,23 +147,33 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-Message" p:messageText="@{#line.courseCd}">
-                                <property name="style" value="margin-right:5px;"/>
                             </bean>
                             <bean p:id="@{#line.planItemId}_saved" parent="Uif-Message"
                                   p:messageText="@{#line.courseTitle}">
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>ksap-text-ellipsis</value>
-                                        <value>ksap-text-gray</value>
                                     </list>
                                 </property>
                             </bean>
-                            <bean parent="Uif-Message" p:messageText="(@{#line.credits})">
+                            <bean parent="Uif-Message" p:messageText="(@{#line.credits} cr)" />
+                            <bean parent="Uif-ActionLink" p:render="true">
+                                <property name="id" value="@{#line.planItemId}_addLink"/>
                                 <property name="cssClasses">
-                                    <list merge="true">
-                                        <value>ksap-text-gray</value>
+                                    <list>
+                                        <value>ks-fontello-icon-hollow-circled-plus</value>
                                     </list>
                                 </property>
+                                <property name="actionScript" value="ksapOpenPlanDialog('bookmark_add_course_page','planner','startDialog', this, e);"/>
+                            </bean>
+                            <bean parent="Uif-ActionLink" p:render="true">
+                                <property name="id" value="@{#line.planItemId}_deleteLink"/>
+                                <property name="cssClasses">
+                                    <list>
+                                        <value>ks-fontello-icon-cancel</value>
+                                    </list>
+                                </property>
+                                <property name="actionScript" value=""/>
                             </bean>
                         </list>
                     </property>
