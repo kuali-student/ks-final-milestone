@@ -10,9 +10,16 @@ angular.module('regCartApp')
 
 
         $scope.$on('termIdChanged', function(event, newValue, oldValue) {
+            var criteria = $scope.searchCriteria;
+
             // Drop the existing search results when the term changes
             $scope.searchCriteria = '';
             $scope.searchResults = [];
+
+            // Search for the old criteria under the new termId.
+            if (criteria) {
+                doSearch(criteria);
+            }
         });
 
         // Listen for any state changes from ui-router. This is where we get the search criteria from.
