@@ -17,21 +17,21 @@ var polling = false;
 var delay = null;
 
 function startPolling(time) {
-    if(!polling) {
+    if (!polling) {
         delay = time;
         polling = true;
         sendPoll();
     }
 }
 
-function stopPolling(){
+function stopPolling() {
     polling = false;
     delay = null;
 }
 
 function sendPoll() {
 
-    if(polling){
+    if (polling) {
         var url = jQuery("#" + kradVariables.KUALI_FORM).attr("action");
         var queryData = {};
 
@@ -49,22 +49,33 @@ function sendPoll() {
             complete: null,
             error: null,
             data: queryData,
-            success: function(data){
+            success: function (data) {
                 var updateIds = data.updateIds;
                 var stop = data.stop;
 
-                jQuery(updateIds).each(function(index, id){
+                jQuery(updateIds).each(function (index, id) {
                     retrieveComponent(id);
                 });
 
                 // if no more updates expected, stop polling
                 if (!stop) {
                     setTimeout(sendPoll, delay);
-                }else{
+                } else {
                     stopPolling();
                 }
 
             }
         });
     }
+}
+
+function goAction(component, state) {
+    if(state) {
+        jQuery("input[name='clientState']").val(state);
+    }
+
+    var action = jQuery(component);
+
+    var kradRequest = new KradRequest(action);
+    kradRequest.send();
 }
