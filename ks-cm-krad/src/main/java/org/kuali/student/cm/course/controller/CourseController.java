@@ -457,7 +457,7 @@ public class CourseController extends CourseRuleEditorController {
 
         CourseInfoWrapper courseInfoWrapper = getCourseInfoWrapper(form);
 
-        SupportingDocumentInfoWrapper supportingDocument = courseInfoWrapper.getDocumentsToAdd().get(selectedLineIndex);
+        SupportingDocumentInfoWrapper supportingDocument = courseInfoWrapper.getSupportingDocs().get(selectedLineIndex);
         DocumentInfo document = null;
         try {
             document = getSupportingDocumentService().getDocument(supportingDocument.getDocumentId(), ContextUtils.createDefaultContextInfo());

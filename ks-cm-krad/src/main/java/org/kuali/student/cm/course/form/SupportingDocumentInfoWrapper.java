@@ -15,18 +15,18 @@
  */
 package org.kuali.student.cm.course.form;
 
-import org.kuali.rice.krad.uif.util.SessionTransient;
+import org.apache.commons.lang.StringUtils;
+import org.kuali.student.cm.uif.util.DTOWrapper;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
  * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
  */
-public class SupportingDocumentInfoWrapper implements java.io.Serializable {
+public class SupportingDocumentInfoWrapper implements DTOWrapper {
 
 	private static final long serialVersionUID = -1L;
     
-    @SessionTransient
     private MultipartFile documentUpload;
     private String description;
     private String documentId;
@@ -98,5 +98,10 @@ public class SupportingDocumentInfoWrapper implements java.io.Serializable {
      */
     public void setDocumentName(String argDocumentName) {
         this.documentName = argDocumentName;
+    }
+
+    @Override
+    public boolean isNewDto() {
+        return StringUtils.isBlank(documentId);
     }
 }

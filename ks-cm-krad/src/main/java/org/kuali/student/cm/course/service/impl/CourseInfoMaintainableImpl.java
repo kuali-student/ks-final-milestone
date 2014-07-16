@@ -505,26 +505,6 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             } else {
                 return false;
             }
-        } else if (newLine instanceof SupportingDocumentInfoWrapper) {
-            MaintenanceDocumentForm modelForm = (MaintenanceDocumentForm) viewModel;
-            CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) modelForm.getDocument().getNewMaintainableObject().getDataObject();
-            if (courseInfoWrapper.getDocumentsToAdd().size() > 0) {
-                final SupportingDocumentInfoWrapper addLineResult = courseInfoWrapper.getDocumentsToAdd().get(
-                        courseInfoWrapper.getDocumentsToAdd().size() - 1);
-                if (StringUtils.isBlank(addLineResult.getDocumentId()) && addLineResult.getDocumentUpload() != null) {
-                    long size = Long.valueOf(CoreApiServiceLocator.getKualiConfigurationService().getPropertyValueAsString(
-                            CurriculumManagementConstants.MessageKeys.SUPPORTING_DOC_MAX_SIZE_LIMIT));
-                    if (addLineResult.getDocumentUpload().getSize() > size) {
-                        GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.documentsToAdd[" +
-                                (courseInfoWrapper.getDocumentsToAdd().size() - 1) + "].documentUpload",
-                                CurriculumManagementConstants.MessageKeys.ERROR_SUPPORTING_DOCUMENTS_FILE_TOO_LARGE);
-                        LOG.warn(CurriculumManagementConstants.MessageKeys.ERROR_SUPPORTING_DOCUMENTS_FILE_TOO_LARGE);
-                        return false;
-                    } else {
-                        addSupportingDocuments(courseInfoWrapper);
-                    }
-                }
-            }
         }
         return ((CourseRuleViewHelperServiceImpl) getRuleViewHelperService()).performAddLineValidation(viewModel, newLine, collectionId, collectionPath);
     }
@@ -888,8 +868,8 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         }
 
         // Initialize Supporting Documents
-        if (courseInfoWrapper.getDocumentsToAdd().isEmpty()) {
-            courseInfoWrapper.getDocumentsToAdd().add(new SupportingDocumentInfoWrapper());
+        if (courseInfoWrapper.getSupportingDocs().isEmpty()) {
+            courseInfoWrapper.getSupportingDocs().add(new SupportingDocumentInfoWrapper());
         }
 
 
@@ -991,17 +971,9 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 }
             } else if ((deleteLine != null) && (deleteLine instanceof SupportingDocumentInfoWrapper)) {
                 SupportingDocumentInfoWrapper supportingDocumentInfoWrapper = (SupportingDocumentInfoWrapper) deleteLine;
-                if (StringUtils.isNotBlank(supportingDocumentInfoWrapper.getDocumentId())) {
-                    try {
-                        // Deletes the document and its Ref doc relations
-                        getSupportingDocumentService().deleteDocument(supportingDocumentInfoWrapper.getDocumentId(), ContextUtils.createDefaultContextInfo());
-                        List<RefDocRelationInfo> refDocRelationInfoList = getSupportingDocumentService().getRefDocRelationsByDocument(supportingDocumentInfoWrapper.getDocumentId(), ContextUtils.createDefaultContextInfo());
-                        for (RefDocRelationInfo refDocRelationInfo : refDocRelationInfoList) {
-                            getSupportingDocumentService().deleteRefDocRelation(refDocRelationInfo.getId(), ContextUtils.createDefaultContextInfo());
-                        }
-                    } catch (Exception ex) {
-                        LOG.warn("Unable to delete document: " + supportingDocumentInfoWrapper.getDocumentName(), ex);
-                    }
+                supportingDocumentInfoWrapper.setDocumentUpload(null);
+                if (!supportingDocumentInfoWrapper.isNewDto()){
+                    courseInfoWrapper.getSupportingDocsToDelete().add(supportingDocumentInfoWrapper);
                 }
             }
         }
@@ -1092,8 +1064,8 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
         reviewData.getSupportingDocumentsSection().getSupportingDocuments().clear();
 
-        for (SupportingDocumentInfoWrapper supportingDoc : courseInfoWrapper.getDocumentsToAdd()) {
-            if (StringUtils.isNotBlank(supportingDoc.getDocumentId())){
+        for (SupportingDocumentInfoWrapper supportingDoc : courseInfoWrapper.getSupportingDocs()) {
+            if (supportingDoc.isNewDto() && supportingDoc.getDocumentUpload() != null){
                 reviewData.getSupportingDocumentsSection().getSupportingDocuments().add(supportingDoc);
             }
         }
@@ -1301,7 +1273,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
         // update  supporting Documents Section
         reviewData.getSupportingDocumentsSection().getSupportingDocuments().clear();
-        for (SupportingDocumentInfoWrapper supportingDocumentInfoWrapper : courseInfoWrapper.getDocumentsToAdd()) {
+        for (SupportingDocumentInfoWrapper supportingDocumentInfoWrapper : courseInfoWrapper.getSupportingDocs()) {
             SupportingDocumentInfoWrapper supportingDocReviewObj = new SupportingDocumentInfoWrapper();
             supportingDocReviewObj.setDocumentId(supportingDocumentInfoWrapper.getDocumentId());
             supportingDocReviewObj.setDescription(supportingDocumentInfoWrapper.getDescription());
@@ -1517,8 +1489,6 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
         populateJointCourseOnDTO();
 
-        addSupportingDocuments(courseInfoWrapper);
-
         courseInfoWrapper.getCourseInfo().setStartTerm(courseInfoWrapper.getCourseInfo().getStartTerm());
         courseInfoWrapper.getCourseInfo().setEndTerm(courseInfoWrapper.getCourseInfo().getEndTerm());
         courseInfoWrapper.getCourseInfo().setPilotCourse(courseInfoWrapper.getCourseInfo().isPilotCourse());
@@ -1572,6 +1542,11 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             throw new RuntimeException(e);
         }
 
+        /**
+         * After saving a proposal/course, lets add all the supporting documents
+         */
+        persistSupportingDocuments(courseInfoWrapper);
+
         courseInfoWrapper.setNamespace(KSKRMSServiceConstants.NAMESPACE_CODE);
         courseInfoWrapper.setRefDiscriminatorType(CourseServiceConstants.REF_OBJECT_URI_COURSE);
         courseInfoWrapper.setRefObjectId(courseInfoWrapper.getCourseInfo().getId());
@@ -1584,16 +1559,15 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
      *
      * @param courseInfoWrapper
      */
-    protected void addSupportingDocuments(CourseInfoWrapper courseInfoWrapper) {
-        if (courseInfoWrapper.getDocumentsToAdd().size() > 0) {
-            SupportingDocumentInfoWrapper addLineResult = courseInfoWrapper.getDocumentsToAdd().get(
-                    courseInfoWrapper.getDocumentsToAdd().size() - 1);
-            if (StringUtils.isBlank(addLineResult.getDocumentId()) && addLineResult.getDocumentUpload() != null) {
+    protected void persistSupportingDocuments(CourseInfoWrapper courseInfoWrapper) {
+
+        for (SupportingDocumentInfoWrapper supportingDoc : courseInfoWrapper.getSupportingDocs()){
+            if (supportingDoc.isNewDto() && supportingDoc.getDocumentUpload() != null && supportingDoc.getDocumentUpload().getSize() > 0) {
                 DocumentInfo toAdd = new DocumentInfo();
-                toAdd.setFileName(addLineResult.getDocumentUpload().getOriginalFilename());
+                toAdd.setFileName(supportingDoc.getDocumentUpload().getOriginalFilename());
                 RichTextInfo desc = new RichTextInfo();
-                desc.setPlain(addLineResult.getDescription());
-                desc.setFormatted(addLineResult.getDescription());
+                desc.setPlain(supportingDoc.getDescription());
+                desc.setFormatted(supportingDoc.getDescription());
                 toAdd.setDescr(desc);
 
                 toAdd.setStateKey(CurriculumManagementConstants.STATE_KEY_ACTIVE);
@@ -1603,7 +1577,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 DocumentBinaryInfo documentBinaryInfo = new DocumentBinaryInfo();
 
                 try {
-                    documentBinaryInfo.setBinary(new String(Base64.encodeBase64(addLineResult.getDocumentUpload().getBytes())));
+                    documentBinaryInfo.setBinary(new String(Base64.encodeBase64(supportingDoc.getDocumentUpload().getBytes())));
                     toAdd.setDocumentBinary(documentBinaryInfo);
                     // Save the uploaded document
                     DocumentInfo doc = getSupportingDocumentService().createDocument(
@@ -1625,14 +1599,36 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                             CurriculumManagementConstants.REF_DOC_RELATION_TYPE_KEY,
                             docRelation,
                             ContextUtils.getContextInfo());
-                    addLineResult.setDocumentId(doc.getId());
-                    addLineResult.setDocumentName(toAdd.getFileName());
+                    supportingDoc.setDocumentId(doc.getId());
+                    supportingDoc.setDocumentName(toAdd.getFileName());
+                    //Free up memory
+                    supportingDoc.setDocumentUpload(null);
                 } catch (Exception ex) {
                     LOG.error("Unable to add supporting document to the course for file: " +
-                            addLineResult.getDocumentUpload().getName(), ex);
+                              supportingDoc.getDocumentUpload().getName(), ex);
+                    throw new RuntimeException("Error persisting supporting document.",ex);
                 }
             }
         }
+
+        /**
+         * Now, remove all the docs marked for delete by user
+         */
+        for (SupportingDocumentInfoWrapper docToDelete : courseInfoWrapper.getSupportingDocsToDelete()){
+            try {
+                // Deletes the document and its Ref doc relations
+                List<RefDocRelationInfo> refDocRelationInfoList = getSupportingDocumentService().getRefDocRelationsByDocument(docToDelete.getDocumentId(), ContextUtils.createDefaultContextInfo());
+                for (RefDocRelationInfo refDocRelationInfo : refDocRelationInfoList) {
+                    getSupportingDocumentService().deleteRefDocRelation(refDocRelationInfo.getId(), ContextUtils.createDefaultContextInfo());
+                }
+                getSupportingDocumentService().deleteDocument(docToDelete.getDocumentId(), ContextUtils.createDefaultContextInfo());
+            } catch (Exception ex) {
+                LOG.warn("Unable to delete document: " + docToDelete.getDocumentName(), ex);
+                throw new RuntimeException(ex);
+            }
+        }
+
+        courseInfoWrapper.getSupportingDocsToDelete().clear();
     }
 
     /**
@@ -2089,7 +2085,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             populateJointCourseOnWrapper();
 
             populateLearningObjectives();
-            if (dataObject.getDocumentsToAdd().isEmpty()) {
+            if (dataObject.getSupportingDocs().isEmpty()) {
                 populateSupportingDocuments();
             }
 
@@ -2113,18 +2109,18 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                                                                         courseInfoWrapper.getCourseInfo().getId(),
                                                                         CurriculumManagementConstants.DEFAULT_DOC_TYPE_KEY,
                                                                         ContextUtils.createDefaultContextInfo());
-                courseInfoWrapper.getDocumentsToAdd().clear();
+                courseInfoWrapper.getSupportingDocs().clear();
                 SupportingDocumentInfoWrapper supportingDocumentInfoWrapper = null;
                 for (final DocumentHeaderDisplayInfo documentHeaderDisplayInfo : documentInfoList) {
                     supportingDocumentInfoWrapper = new SupportingDocumentInfoWrapper();
                     supportingDocumentInfoWrapper.setDocumentId(documentHeaderDisplayInfo.getDocumentId());
                     supportingDocumentInfoWrapper.setDocumentName(documentHeaderDisplayInfo.getFileName());
                     supportingDocumentInfoWrapper.setDescription(documentHeaderDisplayInfo.getDescription());
-                    courseInfoWrapper.getDocumentsToAdd().add(supportingDocumentInfoWrapper);
+                    courseInfoWrapper.getSupportingDocs().add(supportingDocumentInfoWrapper);
                 }
                 // Initialize Supporting Documents if it is found empty
-                if (courseInfoWrapper.getDocumentsToAdd().isEmpty()) {
-                    courseInfoWrapper.getDocumentsToAdd().add(new SupportingDocumentInfoWrapper());
+                if (courseInfoWrapper.getSupportingDocs().isEmpty()) {
+                    courseInfoWrapper.getSupportingDocs().add(new SupportingDocumentInfoWrapper());
                 }
             }
         } catch(Exception ex) {

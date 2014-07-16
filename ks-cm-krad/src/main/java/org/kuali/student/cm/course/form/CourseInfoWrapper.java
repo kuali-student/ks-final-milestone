@@ -24,7 +24,6 @@ import org.kuali.student.cm.course.util.CourseProposalUtil;
 import org.kuali.student.lum.lu.ui.krms.dto.LURuleManagementWrapper;
 import org.kuali.student.r1.core.workflow.dto.CollaboratorWrapper;
 import org.kuali.student.r2.core.comment.dto.DecisionInfo;
-import org.kuali.student.r2.core.document.dto.DocumentInfo;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
@@ -43,15 +42,16 @@ public class CourseInfoWrapper extends LURuleManagementWrapper implements Serial
 
     private ProposalInfo proposalInfo = new ProposalInfo();
     private List<CluInstructorInfoWrapper> instructorWrappers = new ArrayList<CluInstructorInfoWrapper>();
-    ;
+
     private List<CourseJointInfoWrapper> courseJointWrappers = new ArrayList<CourseJointInfoWrapper>();
     private List<ResultValuesGroupInfoWrapper> creditOptionWrappers;
     private List<DecisionInfo> decisions = new ArrayList<DecisionInfo>();
-    ;
+
     private List<OrganizationInfoWrapper> administeringOrganizations = new ArrayList<OrganizationInfoWrapper>();
     private List<CollaboratorWrapper> collaboratorWrappers = new ArrayList<CollaboratorWrapper>();
     private List<String> deletedCollaboratorWrapperActionRequestIds = new ArrayList<String>();
-    private List<SupportingDocumentInfoWrapper> documentsToAdd = new ArrayList<SupportingDocumentInfoWrapper>();
+    private List<SupportingDocumentInfoWrapper> supportingDocs = new ArrayList<SupportingDocumentInfoWrapper>();
+    private List<SupportingDocumentInfoWrapper> supportingDocsToDelete = new ArrayList<SupportingDocumentInfoWrapper>();
     private ReviewProposalDisplay reviewProposalDisplay = new ReviewProposalDisplay();
     private CourseInfo courseInfo = new CourseInfo();
     private List<FormatInfo> formats = new ArrayList<FormatInfo>();
@@ -348,12 +348,12 @@ public class CourseInfoWrapper extends LURuleManagementWrapper implements Serial
         this.deletedCollaboratorWrapperActionRequestIds = deletedCollaboratorWrapperActionRequestIds;
     }
 
-    public List<SupportingDocumentInfoWrapper> getDocumentsToAdd() {
-        return documentsToAdd;
+    public List<SupportingDocumentInfoWrapper> getSupportingDocs() {
+        return supportingDocs;
     }
 
-    public void setDocumentsToAdd(List<SupportingDocumentInfoWrapper> documentsToAdd) {
-        this.documentsToAdd = documentsToAdd;
+    public void setSupportingDocs(List<SupportingDocumentInfoWrapper> supportingDocs) {
+        this.supportingDocs = supportingDocs;
     }
 
     public ReviewProposalDisplay getReviewProposalDisplay() {
@@ -378,6 +378,17 @@ public class CourseInfoWrapper extends LURuleManagementWrapper implements Serial
 
     public void setFormats(List<FormatInfo> formats) {
         this.formats = formats;
+    }
+
+    public List<SupportingDocumentInfoWrapper> getSupportingDocsToDelete() {
+        if (supportingDocsToDelete == null){
+            supportingDocsToDelete = new ArrayList<>();
+        }
+        return supportingDocsToDelete;
+    }
+
+    public void setSupportingDocsToDelete(List<SupportingDocumentInfoWrapper> supportingDocsToDelete) {
+        this.supportingDocsToDelete = supportingDocsToDelete;
     }
 
     /**

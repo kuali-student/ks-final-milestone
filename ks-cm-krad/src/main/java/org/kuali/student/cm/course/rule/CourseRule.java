@@ -40,7 +40,6 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.core.constants.OrganizationServiceConstants;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.lum.course.dto.CourseVariationInfo;
-import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -264,22 +263,30 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
     }
 
     protected boolean validateSupportingDocuments(CourseInfoWrapper courseInfoWrapper) {
-        if (courseInfoWrapper.getDocumentsToAdd().size() > 0) {
-            final SupportingDocumentInfoWrapper addLineResult = courseInfoWrapper.getDocumentsToAdd().get(
-                    courseInfoWrapper.getDocumentsToAdd().size() - 1);
-            if (addLineResult.getDocumentId() == null && addLineResult.getDocumentUpload() != null) {
+
+        int index = 0;
+        List<SupportingDocumentInfoWrapper> emptyDocsToDelete = new ArrayList<>();
+        boolean result = true;
+
+        for (SupportingDocumentInfoWrapper supportingDoc : courseInfoWrapper.getSupportingDocs()){
+            if (supportingDoc.isNewDto() && supportingDoc.getDocumentUpload() != null && supportingDoc.getDocumentUpload().getSize() > 0) {
                 long size = Long.valueOf(CoreApiServiceLocator.getKualiConfigurationService().getPropertyValueAsString(
                         CurriculumManagementConstants.MessageKeys.SUPPORTING_DOC_MAX_SIZE_LIMIT));
-                if (addLineResult.getDocumentUpload().getSize() > size) {
+                if (supportingDoc.getDocumentUpload().getSize() > size) {
                     GlobalVariables.getMessageMap().putError(DATA_OBJECT_PATH + ".documentsToAdd[" +
-                            (courseInfoWrapper.getDocumentsToAdd().size() - 1) + "].documentUpload",
+                            index + "].documentUpload",
                             CurriculumManagementConstants.MessageKeys.ERROR_SUPPORTING_DOCUMENTS_FILE_TOO_LARGE);
                     LOG.warn(CurriculumManagementConstants.MessageKeys.ERROR_SUPPORTING_DOCUMENTS_FILE_TOO_LARGE);
-                    return false;
+                    result = true;
                 }
+            } else if (supportingDoc.isNewDto()) {
+                emptyDocsToDelete.add(supportingDoc);
             }
+            index++;
         }
-        return true;
+
+        courseInfoWrapper.getSupportingDocs().removeAll(emptyDocsToDelete);
+        return result;
     }
 
     protected boolean isMultipleOrganizationInfoFound(List<OrganizationInfoWrapper> orgs) {
