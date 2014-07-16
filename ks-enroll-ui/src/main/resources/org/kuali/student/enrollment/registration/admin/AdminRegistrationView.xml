@@ -277,7 +277,7 @@
     </bean>
 
     <!-- Registered Courses -->
-    <bean id="KS-AdminRegistration-Registered" parent="KS-AdminRegistrationRegisteredCourse-Collection"
+    <bean id="KS-AdminRegistration-Registered" parent="KS-AdminRegistration-Collection"
           p:propertyName="registeredCourses">
         <property name="headerText" value="Registered Courses (@{registeredCredits} credits)"/>
         <property name="lineActions">
@@ -296,10 +296,34 @@
                       p:render="@{#index == editRegisteredIndex}"/>
             </list>
         </property>
+        <property name="items">
+            <list merge="true">
+                <bean parent="Uif-HorizontalFieldGroup" p:label="Reg Date" >    <!--p:render="@{#line.registeredCourses}"-->
+                    <property name="propertyReplacers">
+                        <list>
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="toolTip"
+                                  p:condition="@{#line.transactionalDate != #line.effectiveDate}">
+                                <property name="replacement">
+                                    <bean parent="Uif-KS-TooltipFocus"  p:onMouseHover="true"
+                                          p:tooltipContent="Effective Date: @{#line.effectiveDate}"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-DataField" p:propertyName="transactionalDate"/>
+                            <bean parent="Uif-Icon" p:iconClass="icon-notification"
+                                  p:render="@{#line.transactionalDate != #line.effectiveDate}"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
     </bean>
 
     <!-- Waitlisted Courses -->
-    <bean id="KS-AdminRegistration-Waitlist" parent="KS-AdminRegistrationWaitlistCourse-Collection"
+    <bean id="KS-AdminRegistration-Waitlist" parent="KS-AdminRegistration-Collection"
           p:propertyName="waitlistedCourses">
         <property name="headerText" value="Waitlisted Courses (@{waitlistedCredits} credits)"/>
         <property name="lineActions">
@@ -327,8 +351,8 @@
         </property>
     </bean>
 
-    <!-- Collection for Registered  -->
-    <bean id="KS-AdminRegistrationRegisteredCourse-Collection" parent="Uif-TableCollectionSubSection" p:renderLineActions="false">
+    <!--Collection for Registered and Waitlisted Courses-->
+    <bean id="KS-AdminRegistration-Collection" parent="Uif-TableCollectionSubSection" p:renderLineActions="true">
         <property name="collectionObjectClass"
                   value="org.kuali.student.enrollment.class2.registration.admin.form.RegistrationCourse"/>
         <property name="layoutManager.richTable">
@@ -348,104 +372,6 @@
             </map>
         </property>
         <property name="renderAddLine" value="false"/>
-
-        <property name="items">
-            <list>
-                <bean parent="Uif-MessageField" p:label="Course Code (Section)" p:additionalCssClasses="nowrap"
-                      p:messageText="@{#line.code} (@{#line.section}) [0]">
-                    <property name="message.inlineComponents">
-                        <list>
-                            <bean parent="Uif-Message" p:title="Subterm" p:render="@{#line.subterm}" p:messageText="S"
-                                  p:additionalCssClasses="ks-subterm-icon"/>
-                        </list>
-                    </property>
-                </bean>
-                <bean parent="Uif-DataField" p:label="Course Name" p:propertyName="title"/>
-                <bean parent="Uif-InputField" p:label="Cr" p:propertyName="credits"
-                      p:readOnly="@{(#collectionGroup.id == 'KS-AdminRegistration-Registered' and #index != editRegisteredIndex) || (#collectionGroup.id == 'KS-AdminRegistration-Waitlist' and #index != editWaitlistedIndex)}">
-                    <property name="control">
-                        <!-- Key value finders would be used to populate the options here in real implementation-->
-                        <bean parent="Uif-DropdownControl">
-                            <property name="options">
-                                <list>
-                                    <bean parent="Uif-KeyLabelPair" p:key="1" p:value="1.0"/>
-                                    <bean parent="Uif-KeyLabelPair" p:key="2" p:value="2.0"/>
-                                    <bean parent="Uif-KeyLabelPair" p:key="3" p:value="3.0"/>
-                                </list>
-                            </property>
-                        </bean>
-                    </property>
-                </bean>
-                <bean parent="Uif-InputField" p:label="Reg Options" p:propertyName="regOptions"
-                      p:readOnly="@{(#collectionGroup.id == 'KS-AdminRegistration-Registered' and #index != editRegisteredIndex) || (#collectionGroup.id == 'KS-AdminRegistration-Waitlist' and #index != editWaitlistedIndex)}">
-                    <property name="control">
-                        <!-- Key value finders would be used to populate the options here in real implementation-->
-                        <bean parent="Uif-DropdownControl">
-                            <property name="options">
-                                <list>
-                                    <bean parent="Uif-KeyLabelPair" p:key="reg" p:value="Regular"/>
-                                    <bean parent="Uif-KeyLabelPair" p:key="pf" p:value="Pass/Fail"/>
-                                    <bean parent="Uif-KeyLabelPair" p:key="audit" p:value="Audit"/>
-                                </list>
-                            </property>
-                        </bean>
-                    </property>
-                </bean>
-                <bean parent="Uif-DataField" p:label="Activity" p:propertyName="activityTypes"
-                      p:readOnlyListDisplayType="UL"/>
-                <bean parent="Uif-DataField" p:label="Date/Time" p:propertyName="activityDateTimes"  p:additionalCssClasses="nowrap"
-                      p:readOnlyListDisplayType="UL"/>
-                <bean parent="Uif-DataField" p:label="Instructor" p:propertyName="activityInstructors"
-                      p:readOnlyListDisplayType="UL"/>
-                <bean parent="Uif-DataField" p:label="Room" p:propertyName="activityRooms"
-                      p:readOnlyListDisplayType="UL"/>
-                <bean parent="Uif-HorizontalFieldGroup" p:label="Reg Date" >    <!--p:render="@{#line.registeredCourses}"-->
-                    <property name="propertyReplacers">
-                        <list>
-                            <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="toolTip"
-                                  p:condition="@{#line.transactionalDate != #line.effectiveDate}">
-                                <property name="replacement">
-                                    <bean parent="Uif-KS-TooltipFocus"  p:onMouseHover="true"
-                                          p:tooltipContent="Effective Date: @{#line.effectiveDate}"/>
-                                </property>
-                            </bean>
-                        </list>
-                    </property>
-
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-DataField" p:propertyName="transactionalDate"/>
-                            <bean parent="Uif-Icon" p:iconClass="icon-notification"
-                                  p:render="@{#line.transactionalDate != #line.effectiveDate}"/>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>
-
-    <!--Collection for Waitlisted Courses-->
-    <bean id="KS-AdminRegistrationWaitlistCourse-Collection" parent="Uif-TableCollectionSubSection" p:renderLineActions="false">
-        <property name="collectionObjectClass"
-                  value="org.kuali.student.enrollment.class2.registration.admin.form.RegistrationCourse"/>
-        <property name="layoutManager.richTable">
-            <bean parent="KS-Uif-RichTable"/>
-        </property>
-        <property name="layoutManager.richTable.render" value="true"/>
-        <property name="layoutManager.renderSequenceField" value="false"/>
-        <property name="layoutManager.applyDefaultCellWidths" value="false" />
-        <!--<property name="layoutManager.applyAlternatingRowStyles" value="false" />-->
-        <property name="layoutManager.richTable.templateOptions">
-            <map merge="true">
-                <entry key="sDom" value="opir"/>
-                <entry key="aaSorting" value="[[0, 'asc']]"/>
-                <entry key="bPaginate" value="false"/>
-                <entry key="bAutoWidth" value="true"/>
-                <entry key="bInfo" value="true"/>
-            </map>
-        </property>
-        <property name="renderAddLine" value="false"/>
-
         <property name="items">
             <list>
                 <bean parent="Uif-MessageField" p:label="Course Code (Section)" p:additionalCssClasses="nowrap"
