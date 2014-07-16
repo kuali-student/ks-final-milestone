@@ -14,7 +14,6 @@
  */
 package org.kuali.student.core.ges.infc;
 
-import org.kuali.student.core.ges.service.ValueType;
 import org.kuali.student.r2.common.infc.KeyEntity;
 
 /**
@@ -27,7 +26,7 @@ public interface Parameter extends KeyEntity {
      * @name Ges Value Type
      * @required
      */
-    ValueType getGesValueType();
+    GesValueTypeEnum getGesGesValueTypeEnum();
 
     /**
      * Indicates if duplicate priorities are allowed for all values associated with this parameter.

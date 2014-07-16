@@ -19,20 +19,20 @@ public interface CopyableSerializable {
 
     /**
      *
-     * @return a copy of this CopyableSerializable
+     * returns a copy of this CopyableSerializable
      */
-    CopyableSerializable copy();
+    public CopyableSerializable copy();
 
     /**
      *
-     * @return String representation of the object.
+     * returns String representation of the object.
      */
-    String  serialize();
+    public String  serialize();
 
     /**
      *
-     * @return CopyableSerializable given the serialized form of the object.
+     * returns CopyableSerializable given the serialized form of the object.
      */
-    CopyableSerializable unSerialize(String serializedObject);
+    public CopyableSerializable unSerialize(String serializedObject);
 
 }

@@ -15,7 +15,7 @@
 package org.kuali.student.core.ges.dto;
 
 import org.kuali.student.core.ges.infc.Parameter;
-import org.kuali.student.core.ges.service.ValueType;
+import org.kuali.student.core.ges.infc.GesValueTypeEnum;
 import org.kuali.student.r2.common.dto.KeyEntityInfo;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -27,11 +27,11 @@ import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ParameterInfo", propOrder = {"key", "typeKey", "stateKey","name","descr",
-        "gesValueType","requireUniquePriorities", "meta", "attributes", "_futureElements" })
+        "gesGesValueTypeEnum","requireUniquePriorities", "meta", "attributes", "_futureElements" })
 public class ParameterInfo extends KeyEntityInfo implements Parameter {
 
     @XmlElement
-    private ValueType gesValueType;
+    private GesValueTypeEnum gesGesValueTypeEnum;
     @XmlElement
     private Boolean requireUniquePriorities;
     @XmlAnyElement
@@ -44,17 +44,17 @@ public class ParameterInfo extends KeyEntityInfo implements Parameter {
         super(parameter);
 
         if(parameter != null) {
-            gesValueType = parameter.getGesValueType();
+            gesGesValueTypeEnum = parameter.getGesGesValueTypeEnum();
             requireUniquePriorities = parameter.getRequireUniquePriorities();
         }
     }
 
-    public ValueType getGesValueType() {
-        return gesValueType;
+    public GesValueTypeEnum getGesGesValueTypeEnum() {
+        return gesGesValueTypeEnum;
     }
 
-    public void setGesValueType(ValueType gesValueType) {
-        this.gesValueType = gesValueType;
+    public void setGesGesValueTypeEnum(GesValueTypeEnum gesGesValueTypeEnum) {
+        this.gesGesValueTypeEnum = gesGesValueTypeEnum;
     }
 
     @Override
