@@ -1,19 +1,31 @@
+/*
+ * Copyright 2014 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package org.kuali.student.ap.coursesearch.controller;
 
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.node.ObjectNode;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.student.ap.coursesearch.CourseFacetStrategy;
-import org.kuali.student.ap.coursesearch.CourseSearchForm;
-import org.kuali.student.ap.coursesearch.CourseSearchStrategy;
+import org.kuali.student.ap.coursesearch.CreditsFormatter;
 import org.kuali.student.ap.coursesearch.FacetKeyValue;
 import org.kuali.student.ap.coursesearch.FacetState;
 import org.kuali.student.ap.coursesearch.SearchInfo;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
+import org.kuali.student.ap.framework.util.KsapHelperUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -29,26 +41,21 @@ public class CourseFacetStrategyImpl implements CourseFacetStrategy {
 
     private static final Logger LOG = LoggerFactory.getLogger(CourseFacetStrategyImpl.class);
 
+    private static Map<String, Comparator<String>> facet_sort;
+    private Map<String, Integer> facetColumns;
+    private List<String> facetColumnsReverse;
 
     /**
      * Keyed mapping of DataTables search column order by facet id. This column
      * order is fully internal to this controller class, and is used to tie
      * faceted searches columns on the search item.
+     *
+     * @see org.kuali.student.ap.coursesearch.CourseFacetStrategy#getFacetColumns()
      */
-    private Map<String, Integer> facetColumns;
-
-    /**
-     * Ordered list of facet column ids by DataTables column order. This column
-     * order is fully internal to this controller class, and is used to tie
-     * faceted searches columns on the search item.
-     */
-    private List<String> facetColumnsReverse;
-
     @Override
     public Map<String, Integer> getFacetColumns() {
         if (facetColumns == null) {
-            Set<String> facetKeys = KsapFrameworkServiceLocator
-                    .getCourseSearchStrategy().getFacetSort().keySet();
+            Set<String> facetKeys = getFacetSort().keySet();
             Map<String, Integer> m = new java.util.HashMap<String, Integer>(
                     facetKeys.size());
             List<String> l = new ArrayList<String>(facetKeys.size());
@@ -62,16 +69,19 @@ public class CourseFacetStrategyImpl implements CourseFacetStrategy {
         return facetColumns;
     }
 
+    /**
+     * Ordered list of facet column ids by DataTables column order. This column
+     * order is fully internal to this controller class, and is used to tie
+     * faceted searches columns on the search item.
+     *
+     * @see org.kuali.student.ap.coursesearch.CourseFacetStrategy#getFacetColumnsReversed()
+     */
     @Override
     public List<String> getFacetColumnsReversed() {
         if (facetColumnsReverse == null) {
-            Set<String> facetKeys = KsapFrameworkServiceLocator
-                    .getCourseSearchStrategy().getFacetSort().keySet();
-            Map<String, Integer> m = new java.util.HashMap<String, Integer>(
-                    facetKeys.size());
+            Set<String> facetKeys = getFacetSort().keySet();
             List<String> l = new ArrayList<String>(facetKeys.size());
             for (String fk : facetKeys) {
-                m.put(fk, l.size());
                 l.add(fk);
             }
             facetColumnsReverse = Collections.synchronizedList(Collections
@@ -81,10 +91,32 @@ public class CourseFacetStrategyImpl implements CourseFacetStrategy {
     }
 
     /**
+     * @see org.kuali.student.ap.coursesearch.CourseFacetStrategy#getFacetSort()
+     */
+    @Override
+    public Map<String, Comparator<String>> getFacetSort() {
+        if(facet_sort == null){
+            // Related to CourseSearchUI.xml definitions
+            Map<String, Comparator<String>> l = new java.util.LinkedHashMap<String, Comparator<String>>(
+                    5);
+            l.put("facet_quarter", KsapHelperUtil.TERMS);
+            l.put("facet_genedureq", KsapHelperUtil.ALPHA);
+            l.put("facet_credits", CreditsFormatter.CREDIT);
+            l.put("facet_level", KsapHelperUtil.NUMERIC);
+            l.put("facet_curriculum", KsapHelperUtil.ALPHA);
+            facet_sort = Collections
+                    .unmodifiableMap(Collections.synchronizedMap(l));
+        }
+        return facet_sort;
+    }
+
+    /**
      * Walk through the facet columns in the search results and update
      * counts based on the current facet state. The method assumes that the
      * facet state structure is fully formed but that the click state has
      * change since the last time counts were calculated.
+     *
+     * @see org.kuali.student.ap.coursesearch.CourseFacetStrategy#updateFacetCounts(java.util.List, java.util.Map, java.util.Map)
      */
     @Override
     public void updateFacetCounts(List<SearchInfo> searchResults, Map<String, Map<String, FacetState>> facetState, Map<String, List<String>> facetCols) {
@@ -128,6 +160,7 @@ public class CourseFacetStrategyImpl implements CourseFacetStrategy {
                     filtered = !hasOne;
                 }
             }
+
             if (!filtered)
                 // count all cells in all non-filtered rows
                 for (Map.Entry<String, List<String>> fce : row.getFacetColumns()
@@ -140,11 +173,9 @@ public class CourseFacetStrategyImpl implements CourseFacetStrategy {
     /**
      * Get the facet state associated with a specific facet column value.
      *
-     * @param key
-     *            The facet column value to use as the facet key.
-     * @param facetId
-     *            The facet id.
-     * @param facetState
+     * @param key - The facet column value to use as the facet key.
+     * @param facetId - The facet id.
+     * @param facetState - Map of the current facet information
      *
      * @return The facet state associated with the indicated column value.
      */
@@ -161,21 +192,13 @@ public class CourseFacetStrategyImpl implements CourseFacetStrategy {
     }
 
     /**
-     * Update checked state on all facets following a click event from the
-     * browser.
-     *
-     * @param key
-     *            The facet key clicked. May be 'All'.
-     * @param fcol
-     *            The facet column the click is related to.
-     * @param fsm
-     *            The facet state map
+     * @see org.kuali.student.ap.coursesearch.CourseFacetStrategy#facetClick(String, String, java.util.Map, boolean)
      */
     @Override
-    public boolean facetClick(String key, String fcol, Map<String, FacetState> fsm, boolean oneClick) {
-        LOG.debug("Facet click {} {}", key, fcol);
-        if ("All".equals(key))
-            for (FacetState fs : fsm.values())
+    public boolean facetClick(String fclick, String fcol, Map<String, FacetState> facetStateMap, boolean oneClick) {
+        LOG.debug("Facet click {} {}", fclick, fcol);
+        if ("All".equals(fclick))
+            for (FacetState fs : facetStateMap.values())
                 fs.setChecked(true);
         else {
             FacetState fs = null;
@@ -185,7 +208,7 @@ public class CourseFacetStrategyImpl implements CourseFacetStrategy {
             // checked on the browser, in which case no other boxes
             // in the group appear to be checked.
             boolean all = true;
-            for (FacetState ifs : fsm.values())
+            for (FacetState ifs : facetStateMap.values())
                 if (!all)
                     continue;
                 else
@@ -193,38 +216,41 @@ public class CourseFacetStrategyImpl implements CourseFacetStrategy {
 
             // when all checked, clear all but the clicked box
             if (all) {
-                for (Map.Entry<String, FacetState> fe : fsm.entrySet()) {
-                    fe.getValue().setChecked(key.equals(fe.getKey()));
+                for (Map.Entry<String, FacetState> fe : facetStateMap.entrySet()) {
+                    fe.getValue().setChecked(fclick.equals(fe.getKey()));
                     if (fe.getValue().isChecked()) {
                         assert fs == null : fs + " " + fe;
                         fs = fe.getValue();
                     }
                 }
-                assert fs != null : fcol + " " + key;
+                assert fs != null : fcol + " " + fclick;
                 oneClick = true;
             } else {
                 // when all are not checked, toggle the clicked box
-                fs = fsm.get(key);
-                assert fs != null : fcol + " " + key;
+                fs = facetStateMap.get(fclick);
+                assert fs != null : fcol + " " + fclick;
                 // Update checked status of facet
                 fs.setChecked(!fs.isChecked());
                 if (!fs.isChecked())
                     oneClick = true;
                 // unchecking the last box in the group, check all
                 boolean none = true;
-                for (FacetState ifs : fsm.values())
+                for (FacetState ifs : facetStateMap.values())
                     if (!none)
                         continue;
                     else
                         none = !ifs.isChecked();
                 if (none)
-                    for (FacetState tfs : fsm.values())
+                    for (FacetState tfs : facetStateMap.values())
                         tfs.setChecked(true);
             }
         }
         return oneClick;
     }
 
+    /**
+     * @see org.kuali.student.ap.coursesearch.CourseFacetStrategy#facetClickAll(boolean, java.util.Map)
+     */
     @Override
     public boolean facetClickAll(boolean oneClick, Map<String, Map<String, FacetState>> facetState) {
         LOG.debug("Facet click all");
@@ -239,8 +265,11 @@ public class CourseFacetStrategyImpl implements CourseFacetStrategy {
         return retOneClick;
     }
 
+    /**
+     * @see org.kuali.student.ap.coursesearch.CourseFacetStrategy#createInitialFacetStateMap(java.util.Map, java.util.List)
+     */
     @Override
-    public Map<String, Map<String, FacetState>> createInitialFacetStateMap(CourseSearchStrategy searcher, Map<String, List<String>> facetColumns, List<SearchInfo> searchResults) {
+    public Map<String, Map<String, FacetState>> createInitialFacetStateMap(Map<String, List<String>> facetColumns, List<SearchInfo> searchResults) {
         Map<String, Map<String, FacetState>> facetStateMap = new java.util.HashMap<String, Map<String, FacetState>>(
                 facetColumns.size());
         for (String fk : facetColumns.keySet())
@@ -275,9 +304,9 @@ public class CourseFacetStrategyImpl implements CourseFacetStrategy {
                             if (fs == null) {
                                 fm.put(facetKey, fs = new FacetStateImpl(fv));
                                 if (fce.getKey().equals("facet_genedureq")) {
-                                    fs.setDescription(searcher.getGenEdMap().get(fv.getKey()));
+                                    fs.setDescription(KsapFrameworkServiceLocator.getCourseSearchStrategy().getGenEdMap().get(fv.getKey()));
                                 } else if (fce.getKey().equals("facet_curriculum")) {
-                                    fs.setDescription(searcher.getCurriculumMap(null).get(fv.getKey()));
+                                    fs.setDescription(KsapFrameworkServiceLocator.getCourseSearchStrategy().getCurriculumMap(null).get(fv.getKey()));
                                 }
                             }
                             fs.incrementCount();
@@ -288,8 +317,16 @@ public class CourseFacetStrategyImpl implements CourseFacetStrategy {
         return facetStateMap;
     }
 
+    /**
+     * Sets up and sorts for trending
+     * Truncate facets to max 50 entries
+     * Sort facets
+     * Seal map for sync
+     *
+     * @see org.kuali.student.ap.coursesearch.CourseFacetStrategy#processFacetStateMap(java.util.Map, java.util.Map)
+     */
     @Override
-    public Map<String, Map<String, FacetState>> processFacetStateMap(CourseSearchStrategy searcher, Map<String, Map<String, FacetState>> facetStateMap, Map<String, List<String>> facetColumns) {
+    public Map<String, Map<String, FacetState>> processFacetStateMap(Map<String, Map<String, FacetState>> facetStateMap, Map<String, List<String>> facetColumns) {
         // Post-process based on calculated totals and per-column rules
         for (String fk : facetColumns.keySet()) {
             final Map<String, FacetState> fm = facetStateMap.get(fk);
@@ -328,7 +365,7 @@ public class CourseFacetStrategyImpl implements CourseFacetStrategy {
                 String[] sv = vtk.keySet().toArray(
                         new String[vtk.size()]);
                 // Sort according to strategy definitions
-                Arrays.sort(sv, searcher.getFacetSort().get(fk));
+                Arrays.sort(sv, getFacetSort().get(fk));
                 nfm = new java.util.LinkedHashMap<String, FacetState>(
                         sk.length);
                 for (String v : sv)

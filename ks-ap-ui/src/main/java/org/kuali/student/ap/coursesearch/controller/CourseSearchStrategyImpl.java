@@ -78,8 +78,6 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 
     private static final String KSAP_MAX_SEARCH_RESULTS_CONFIG_KEY = "ksap.search.results.max";
 
-    private static final Map<String, Comparator<String>> FACET_SORT;
-
     private static WeakReference<Map<String, Credit>> creditMapRef;
     private static WeakReference<Map<String, String>> genEdMapRef;
     private static WeakReference<Map<String, String>> curriculumMapRef = null;
@@ -100,19 +98,6 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
     public static final String COMPLETEDLEVELS_COMPONENTS = "completedLevels";
 
     private QueryTokenizer queryTokenizer;
-
-    static {
-        // Related to CourseSearchUI.xml definitions
-        Map<String, Comparator<String>> l = new java.util.LinkedHashMap<String, Comparator<String>>(
-                5);
-        l.put("facet_quarter", KsapHelperUtil.TERMS);
-        l.put("facet_genedureq", KsapHelperUtil.ALPHA);
-        l.put("facet_credits", CreditsFormatter.CREDIT);
-        l.put("facet_level", KsapHelperUtil.NUMERIC);
-        l.put("facet_curriculum", KsapHelperUtil.ALPHA);
-        FACET_SORT = Collections
-                .unmodifiableMap(Collections.synchronizedMap(l));
-    }
 
     @Override
     public QueryTokenizer getQueryTokenizer() {
@@ -614,14 +599,6 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
             creditsFacet.process(course);
             termsFacet.process(course);
         }
-    }
-
-    /**
-     * @see org.kuali.student.ap.coursesearch.CourseSearchStrategy#
-     */
-    @Override
-    public Map<String, Comparator<String>> getFacetSort() {
-        return FACET_SORT;
     }
 
     /**

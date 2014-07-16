@@ -7,6 +7,7 @@ import org.kuali.student.ap.coursesearch.FacetState;
 import org.kuali.student.ap.coursesearch.SearchInfo;
 
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -45,12 +46,17 @@ public class CourseFacetStrategyMockTest implements CourseFacetStrategy {
     }
 
     @Override
-    public Map<String, Map<String, FacetState>> createInitialFacetStateMap(CourseSearchStrategy searcher, Map<String, List<String>> facetColumns, List<SearchInfo> searchResults) {
+    public Map<String, Map<String, FacetState>> createInitialFacetStateMap(Map<String, List<String>> facetColumns, List<SearchInfo> searchResults) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public Map<String, Map<String, FacetState>> processFacetStateMap(CourseSearchStrategy searcher, Map<String, Map<String, FacetState>> facetStateMap, Map<String, List<String>> facetColumns) {
+    public Map<String, Map<String, FacetState>> processFacetStateMap(Map<String, Map<String, FacetState>> facetStateMap, Map<String, List<String>> facetColumns) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public Map<String, Comparator<String>> getFacetSort() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }
