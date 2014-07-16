@@ -307,7 +307,7 @@
           <property name="propertyReplacers">
             <list>
               <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="toolTip"
-                    p:condition="@{#line.regDate != #line.effectiveDate}">
+                    p:condition="@{#line.transactionalDate != #line.effectiveDate}">
                 <property name="replacement">
                   <bean parent="Uif-Tooltip" p:tooltipContent="Effective Date: @{#line.effectiveDate}"/>
                 </property>
@@ -317,9 +317,9 @@
 
           <property name="items">
             <list>
-              <bean parent="Uif-DataField" p:propertyName="regDate"/>
+              <bean parent="Uif-DataField" p:propertyName="transactionalDate"/>
               <bean parent="Uif-Icon" p:iconClass="icon-notification"
-                    p:render="@{#line.regDate != #line.effectiveDate}"/>
+                    p:render="@{#line.transactionalDate != #line.effectiveDate}"/>
             </list>
           </property>
         </bean>

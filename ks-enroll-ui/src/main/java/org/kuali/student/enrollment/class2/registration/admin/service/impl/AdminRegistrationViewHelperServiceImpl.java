@@ -23,9 +23,6 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
-import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
-import org.kuali.student.enrollment.courseoffering.infc.FormatOffering;
-import org.kuali.student.enrollment.courseoffering.infc.RegistrationGroup;
 import org.kuali.student.enrollment.courseregistration.dto.ActivityRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -43,7 +40,10 @@ import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -151,18 +151,45 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
         return waitListCourses;
     }
 
-    private RegistrationCourse createRegistrationCourse(CourseRegistrationInfo courseWaitListInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    private RegistrationCourse createRegistrationCourse(CourseRegistrationInfo courseRegistrationListInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ParseException {
 
-        CourseOfferingInfo coInfo = AdminRegistrationUtil.getCourseOfferingService().getCourseOffering(courseWaitListInfo.getCourseOfferingId(), createContextInfo());
+        CourseOfferingInfo coInfo = AdminRegistrationUtil.getCourseOfferingService().getCourseOffering(courseRegistrationListInfo.getCourseOfferingId(), createContextInfo());
 
         RegistrationCourse registrationCourse = new RegistrationCourse();
         registrationCourse.setCode(coInfo.getCourseOfferingCode());
         registrationCourse.setTitle(coInfo.getCourseOfferingTitle());
         registrationCourse.setCredits(Integer.parseInt(coInfo.getCreditCnt()));
-        registrationCourse.setRegDate(courseWaitListInfo.getEffectiveDate());
+        registrationCourse.setTransactionalDate(generateFormattedDate(courseRegistrationListInfo.getMeta().getCreateTime()));
+        registrationCourse.setEffectiveDate(generateFormattedDate(courseRegistrationListInfo.getEffectiveDate()));
 
-        registrationCourse.setSection(AdminRegistrationUtil.getCourseOfferingService().getRegistrationGroup(courseWaitListInfo.getRegistrationGroupId(), createContextInfo()).getRegistrationCode());
+        registrationCourse.setSection(AdminRegistrationUtil.getCourseOfferingService().getRegistrationGroup(courseRegistrationListInfo.getRegistrationGroupId(), createContextInfo()).getRegistrationCode());
         return registrationCourse;
+    }
+
+    /**
+     * Method was created to formatted and parse the date in
+     * the correct way. If SimpleDateFormat is used it parses the
+     * day in the month and gets an exception.
+     *
+     * @param date
+     * @return
+     */
+    private Date generateFormattedDate(Date date){
+        StringBuilder formattedDate = new StringBuilder();
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+        String formattedStringDate = sdf.format(date);
+        formattedDate.append(formattedStringDate.substring(3, 5));
+        formattedDate.append("/");
+        formattedDate.append(formattedStringDate.substring(0, 2));
+        formattedDate.append("/");
+        formattedDate.append(formattedStringDate.substring(6, 10));
+
+        try {
+            return sdf.parse(formattedDate.toString());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return new Date();
     }
 
     /**

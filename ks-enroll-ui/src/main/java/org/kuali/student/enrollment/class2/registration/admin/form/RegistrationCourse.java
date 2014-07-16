@@ -34,7 +34,7 @@ public class RegistrationCourse implements Serializable{
     private Integer credits;
     private String regOptions;
 
-    private Date regDate;
+    private Date transactionalDate;
     private Date dropDate;
     private Date effectiveDate;
 
@@ -44,14 +44,14 @@ public class RegistrationCourse implements Serializable{
     public RegistrationCourse(){}
 
     public RegistrationCourse(String code, String section, String title, Integer credits, String regOptions,
-                              Date regDate) {
+                              Date transactionalDate) {
         this.code = code;
         this.section = section;
         this.title = title;
         this.credits = credits;
         this.regOptions = regOptions;
-        this.regDate = regDate;
-        this.effectiveDate = regDate;
+        this.transactionalDate = transactionalDate;
+        this.effectiveDate = transactionalDate;
     }
 
     public String getCode() {
@@ -94,12 +94,12 @@ public class RegistrationCourse implements Serializable{
         this.regOptions = regOptions;
     }
 
-    public Date getRegDate() {
-        return regDate;
+    public Date getTransactionalDate() {
+        return transactionalDate;
     }
 
-    public void setRegDate(Date regDate) {
-        this.regDate = regDate;
+    public void setTransactionalDate(Date transactionalDate) {
+        this.transactionalDate = transactionalDate;
     }
 
     public Date getDropDate() {
