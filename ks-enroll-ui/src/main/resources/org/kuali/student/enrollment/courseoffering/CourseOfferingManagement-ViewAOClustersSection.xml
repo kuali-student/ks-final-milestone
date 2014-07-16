@@ -272,18 +272,13 @@
 
         <property name="lineActions">
             <list>
-                <!--<bean parent="KS-Uif-NavigationActionLink-withSeparator" p:seperator="&#160;&#160;|&#160;&#160;">-->
-                    <!--<property name="seperatedActions">-->
-                        <!--<list>-->
                 <bean parent="KS-Uif-Copy-NavigationActionLink" p:methodToCall="copyAO" p:actionLabel="Copy"
                       p:render="@{#line.isEnableCopyAOActionLink()}" p:actionEvent="copyAOonManageAOsPage"/>
                 <bean parent="KS-Uif-Edit-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit"
                       p:render="@{#line.isEnableEditAOActionLink()}" p:actionEvent="editAOonManageAOsPage">
                 </bean>
                 <bean parent="KS-Uif-Requisite-NavigationActionLink" p:methodToCall="manageAORules" p:actionLabel="Requisites"/>
-                <!--</list>-->
-                    <!--</property>-->
-                <!--</bean>-->
+                <bean parent="KS-Uif-ActionLink" p:cssClasses="ks-fontello-icon-comment" p:actionScript="showCommentLightBox('@{#ConfigProperties['application.url']}/kr-krad/ksComment?viewId=KS-Comment-FormView&amp;methodToCall=start&amp;refId=@{#lp.aoInfo.id}&amp;refType=@{#lp.aoInfo.typeKey}&amp;refName=@{currentCourseOfferingWrapper.courseOfferingCode}, Activity Offering: @{#lp.aoInfo.activityCode}');"/>
             </list>
         </property>
     </bean>
