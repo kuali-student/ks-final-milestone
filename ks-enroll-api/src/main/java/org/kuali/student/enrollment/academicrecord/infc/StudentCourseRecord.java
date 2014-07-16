@@ -56,7 +56,6 @@ public interface StudentCourseRecord
      *
      * @name Course Registration Id
      * @readOnly
-     * @required
      */
     public String getCourseRegistrationId();
 
@@ -76,8 +75,7 @@ public interface StudentCourseRecord
      *
      * @name Course Title
      * @readOnly
-     * @required
-     * @impl retrieved from the CourseOffering related to the Course 
+     * @impl retrieved from the CourseOffering related to the Course
      *       Registration
      */
     public String getCourseTitle();
@@ -88,8 +86,7 @@ public interface StudentCourseRecord
      *
      * @name Course Code
      * @readOnly
-     * @required
-     * @impl retrieved from the Registration Group related to the Course 
+     * @impl retrieved from the Registration Group related to the Course
      *       Registration
      */
     public String getCourseCode();
@@ -100,8 +97,7 @@ public interface StudentCourseRecord
      *
      * @name Activity Code
      * @readOnly
-     * @required
-     * @impl retrieved from the Course Offering related to the Course 
+     * @impl retrieved from the Course Offering related to the Course
      *       Registration
      */
     public String getActivityCode();
@@ -202,7 +198,6 @@ public interface StudentCourseRecord
      *
      * @return a string representing a floating point decimal number
      * @name Credits Attempted
-     * @required
      * @readonly
      */
     public String getCreditsAttempted();
