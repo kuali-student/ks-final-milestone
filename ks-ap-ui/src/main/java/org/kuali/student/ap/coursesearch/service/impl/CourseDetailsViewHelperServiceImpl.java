@@ -550,7 +550,7 @@ public class CourseDetailsViewHelperServiceImpl extends ViewHelperServiceImpl im
         addEvent.add("courseOfferingId", courseOfferingId);
         addEvent.add("termId", termId.replace(".", "-"));
         addEvent.add("courseOfferingCode", courseOfferingCode);
-        addEvent.add("formatOfferingid", formatOfferingId);
+        addEvent.add("formatOfferingId", formatOfferingId);
         addEvent.add("uid", UUID.randomUUID().toString());
 
         // Create json array of activity to add and add it to event
