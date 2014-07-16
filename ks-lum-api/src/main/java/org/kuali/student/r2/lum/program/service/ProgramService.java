@@ -17,6 +17,7 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r1.common.dictionary.service.DictionaryService;
 import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -209,6 +210,42 @@ public interface ProgramService extends  SearchService,  VersionManagementServic
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
+     * Searches for CredentialProgramIds that meet the given search criteria.
+     *
+     * @param criteria the search criteria
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return a list of CredentialProgram identifiers matching the criteria
+     * @throws InvalidParameterException criteria or contextInfo is not valid
+     * @throws MissingParameterException criteria or or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> searchForCredentialProgramIds(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                                @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Searches for CredentialPrograms that meet the given search criteria.
+     *
+     * @param criteria the search criteria
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return a list of CredentialPrograms matching the criteria
+     * @throws InvalidParameterException criteria or contextInfo is not valid
+     * @throws MissingParameterException criteria or or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<CredentialProgramInfo> searchForCredentialPrograms(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                                              @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
      * Retrieves a MajorDiscipline
      * 
      * @param majorDisciplineId Unique Id of the MajorDiscipline. Maps to cluId
@@ -358,6 +395,43 @@ public interface ProgramService extends  SearchService,  VersionManagementServic
             PermissionDeniedException, VersionMismatchException, DataValidationErrorException, ReadOnlyException;
 
     /**
+     * Searches for MajorDisciplineIds that meet the given search criteria.
+     *
+     * @param criteria the search criteria
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return a list of MajorDiscipline identifiers matching the criteria
+     * @throws InvalidParameterException criteria or contextInfo is not valid
+     * @throws MissingParameterException criteria or or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> searchForMajorDisciplineIds(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                                    @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Searches for MajorDisciplines that meet the given search criteria.
+     *
+     * @param criteria the search criteria
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return a list of MajorDisciplines matching the criteria
+     * @throws InvalidParameterException criteria or contextInfo is not valid
+     * @throws MissingParameterException criteria or or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<MajorDisciplineInfo> searchForMajorDisciplines(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                                                @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+
+    /**
      * Retrieves a HonorsProgram
      * 
      * @param honorsProgramId Unique Id of the HonorsProgram. Maps to cluId
@@ -463,6 +537,42 @@ public interface ProgramService extends  SearchService,  VersionManagementServic
      */
     public StatusInfo deleteHonorsProgram(@WebParam(name = "honorsProgramId") String honorsProgramId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Searches for HonorsProgramIds that meet the given search criteria.
+     *
+     * @param criteria the search criteria
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return a list of HonorsProgram identifiers matching the criteria
+     * @throws InvalidParameterException criteria or contextInfo is not valid
+     * @throws MissingParameterException criteria or or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> searchForHonorsProgramIds(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                                      @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Searches for HonorsPrograms that meet the given search criteria.
+     *
+     * @param criteria the search criteria
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return a list of HonorsPrograms matching the criteria
+     * @throws InvalidParameterException criteria or contextInfo is not valid
+     * @throws MissingParameterException criteria or or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<HonorsProgramInfo> searchForHonorsPrograms(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                                           @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Retrieves a Core Program
@@ -607,6 +717,42 @@ public interface ProgramService extends  SearchService,  VersionManagementServic
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
+     * Searches for CoreProgramIds that meet the given search criteria.
+     *
+     * @param criteria the search criteria
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return a list of CoreProgram identifiers matching the criteria
+     * @throws InvalidParameterException criteria or contextInfo is not valid
+     * @throws MissingParameterException criteria or or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> searchForCoreProgramIds(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                                       @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Searches for CorePrograms that meet the given search criteria.
+     *
+     * @param criteria the search criteria
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return a list of CorePrograms matching the criteria
+     * @throws InvalidParameterException criteria or contextInfo is not valid
+     * @throws MissingParameterException criteria or or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<CoreProgramInfo> searchForCorePrograms(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
      * Retrieves a ProgramRequirement
      * 
      * @param programRequirementId Unique Id of the ProgramRequirement. Maps to
@@ -703,6 +849,41 @@ public interface ProgramService extends  SearchService,  VersionManagementServic
      */
     public StatusInfo deleteProgramRequirement(@WebParam(name = "programRequirementId") String programRequirementId, @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    /**
+     * Searches for ProgramRequirementIds that meet the given search criteria.
+     *
+     * @param criteria the search criteria
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return a list of ProgramRequirement identifiers matching the criteria
+     * @throws InvalidParameterException criteria or contextInfo is not valid
+     * @throws MissingParameterException criteria or or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> searchForProgramRequirementIds(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                                       @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Searches for ProgramRequirements that meet the given search criteria.
+     *
+     * @param criteria the search criteria
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return a list of ProgramRequirements matching the criteria
+     * @throws InvalidParameterException criteria or contextInfo is not valid
+     * @throws MissingParameterException criteria or or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<ProgramRequirementInfo> searchForProgramRequirements(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Sets a specific version of the Major as current. The sequence number must
@@ -812,6 +993,134 @@ public interface ProgramService extends  SearchService,  VersionManagementServic
     public List<ValidationResultInfo> validateMinorDiscipline(@WebParam(name = "validationType") String validationType,
                                                               @WebParam(name = "minorDisciplineInfo") MinorDisciplineInfo minorDisciplineInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException;
+
+    /**
+     * Creates a Minor Discipline Program
+     *
+     * @param minorDisciplineInfo minorDisciplineInfo
+     * @return the created Minor Discipline
+     * @throws AlreadyExistsException The Minor already exists
+     * @throws DataValidationErrorException One or more values invalid for this
+     *             operation
+     * @throws InvalidParameterException invalid Minor
+     * @throws MissingParameterException missing Minor
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public MinorDisciplineInfo createMinorDiscipline(@WebParam(name = "minorDisciplineTypeKey") String minorDisciplineTypeKey,
+                                                     @WebParam(name = "minorDisciplineInfo") MinorDisciplineInfo minorDisciplineInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException,
+            DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Updates a Minor Discipline
+     *
+     * @param minorDisciplineInfo minorDisciplineInfo
+     * @return updated Minor Discipline
+     * @throws DataValidationErrorException One or more values invalid for this
+     *             operation
+     * @throws DoesNotExistException Minor not found
+     * @throws InvalidParameterException invalid Minor
+     * @throws MissingParameterException missing Minor
+     * @throws VersionMismatchException The action was attempted on an out of
+     *             date version
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public MinorDisciplineInfo updateMinorDiscipline(@WebParam(name = "minorDisciplineId") String minorDisciplineId,
+                                                     @WebParam(name = "minorDisciplineTypeKey") String minorDisciplineTypeKey,
+                                                     @WebParam(name = "minorDisciplineInfo") MinorDisciplineInfo minorDisciplineInfo,
+                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException,
+            DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException,
+            OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Deletes a Minor Discipline
+     *
+     * @param minorDisciplineId identifier for minorDisciplineId.Maps to cluId
+     * @return status of the operation (success or failure)
+     * @throws DoesNotExistException Minor does not exist
+     * @throws InvalidParameterException invalid minorDisciplineId
+     * @throws MissingParameterException invalid minorDisciplineId
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo deleteMinorDiscipline(@WebParam(name = "minorDisciplineId") String minorDisciplineId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     *
+     * Creates a new Minor Discipline version based on the current Minor
+     *
+     * @param minorDisciplineId identifier for the Minor Discipline to be versioned
+     * @param versionComment comment for the current version
+     * @return the new versioned Minor Discipline information
+     * @throws DoesNotExistException Minor does not exist
+     * @throws InvalidParameterException invalid minorDisciplineId
+     * @throws MissingParameterException invalid minorDisciplineId
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     * @throws VersionMismatchException The action was attempted on an out of date version
+     * @throws DataValidationErrorException
+     * @throws ReadOnlyException
+     */
+    public MinorDisciplineInfo createNewMinorDisciplineVersion(@WebParam(name = "minorDisciplineId") String minorDisciplineId,
+                                                               @WebParam(name = "versionComment") String versionComment,
+                                                               @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException, VersionMismatchException, DataValidationErrorException, ReadOnlyException;
+
+    @Deprecated
+    /**
+     *
+     * This method ...
+     *
+     * @param majorDisciplineId
+     * @param contextInfo
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     */
+    public List<ProgramVariationInfo> getVariationsByMajorDisciplineId(@WebParam(name="majorDisciplineId") String majorDisciplineId, @WebParam(name="contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException;
+
+    /**
+     * Searches for MinorDisciplineIds that meet the given search criteria.
+     *
+     * @param criteria the search criteria
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return a list of MinorDiscipline identifiers matching the criteria
+     * @throws InvalidParameterException criteria or contextInfo is not valid
+     * @throws MissingParameterException criteria or or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> searchForMinorDisciplineIds(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                                    @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Searches for MinorDisciplines that meet the given search criteria.
+     *
+     * @param criteria the search criteria
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return a list of MinorDisciplines matching the criteria
+     * @throws InvalidParameterException criteria or contextInfo is not valid
+     * @throws MissingParameterException criteria or or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<MinorDisciplineInfo> searchForMinorDisciplines(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                                               @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Retrieves a Track
@@ -966,95 +1275,39 @@ public interface ProgramService extends  SearchService,  VersionManagementServic
             MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Creates a Minor Discipline Program
+     * Searches for TrackIds that meet the given search criteria.
      *
-     * @param minorDisciplineInfo minorDisciplineInfo
-     * @return the created Minor Discipline
-     * @throws AlreadyExistsException The Minor already exists
-     * @throws DataValidationErrorException One or more values invalid for this
-     *             operation
-     * @throws InvalidParameterException invalid Minor
-     * @throws MissingParameterException missing Minor
+     * @param criteria the search criteria
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return a list of Track identifiers matching the criteria
+     * @throws InvalidParameterException criteria or contextInfo is not valid
+     * @throws MissingParameterException criteria or or contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      */
-    public MinorDisciplineInfo createMinorDiscipline(@WebParam(name = "minorDisciplineTypeKey") String minorDisciplineTypeKey,
-                                                     @WebParam(name = "minorDisciplineInfo") MinorDisciplineInfo minorDisciplineInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException,
-            DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> searchForTrackIds(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                          @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
-     * Updates a Minor Discipline
-     * 
-     * @param minorDisciplineInfo minorDisciplineInfo
-     * @return updated Minor Discipline
-     * @throws DataValidationErrorException One or more values invalid for this
-     *             operation
-     * @throws DoesNotExistException Minor not found
-     * @throws InvalidParameterException invalid Minor
-     * @throws MissingParameterException missing Minor
-     * @throws VersionMismatchException The action was attempted on an out of
-     *             date version
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     */
-    public MinorDisciplineInfo updateMinorDiscipline(@WebParam(name = "minorDisciplineId") String minorDisciplineId,
-                                                     @WebParam(name = "minorDisciplineTypeKey") String minorDisciplineTypeKey,
-            @WebParam(name = "minorDisciplineInfo") MinorDisciplineInfo minorDisciplineInfo,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException,
-            DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException,
-            OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Deletes a Minor Discipline
-     * 
-     * @param minorDisciplineId identifier for minorDisciplineId.Maps to cluId
-     * @return status of the operation (success or failure)
-     * @throws DoesNotExistException Minor does not exist
-     * @throws InvalidParameterException invalid minorDisciplineId
-     * @throws MissingParameterException invalid minorDisciplineId
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     */
-    public StatusInfo deleteMinorDiscipline(@WebParam(name = "minorDisciplineId") String minorDisciplineId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
+     * Searches for Tracks that meet the given search criteria.
      *
-     * Creates a new Minor Discipline version based on the current Minor
-     *
-     * @param minorDisciplineId identifier for the Minor Discipline to be versioned
-     * @param versionComment comment for the current version
-     * @return the new versioned Minor Discipline information
-     * @throws DoesNotExistException Minor does not exist
-     * @throws InvalidParameterException invalid minorDisciplineId
-     * @throws MissingParameterException invalid minorDisciplineId
+     * @param criteria the search criteria
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return a list of Tracks matching the criteria
+     * @throws InvalidParameterException criteria or contextInfo is not valid
+     * @throws MissingParameterException criteria or or contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     * @throws VersionMismatchException The action was attempted on an out of date version
-     * @throws DataValidationErrorException
-     * @throws ReadOnlyException
+     * @throws PermissionDeniedException an authorization failure occurred
      */
-    public MinorDisciplineInfo createNewMinorDisciplineVersion(@WebParam(name = "minorDisciplineId") String minorDisciplineId,
-                                                               @WebParam(name = "versionComment") String versionComment,
-                                                               @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException, VersionMismatchException, DataValidationErrorException, ReadOnlyException;
-
-    @Deprecated
-    /**
-     * 
-     * This method ...
-     * 
-     * @param majorDisciplineId
-     * @param contextInfo
-     * @return
-     * @throws DoesNotExistException
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     */
-	public List<ProgramVariationInfo> getVariationsByMajorDisciplineId(@WebParam(name="majorDisciplineId") String majorDisciplineId, @WebParam(name="contextInfo") ContextInfo contextInfo)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException;
+    public List<TrackInfo> searchForTracks(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                           @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
 }
