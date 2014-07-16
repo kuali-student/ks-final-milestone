@@ -427,6 +427,16 @@ module.exports = function (grunt) {
             build: {
                 files: 'dist/json/*.json'
             }
+        },
+
+        //Grunt check dependencies to make sure NPM dependencies are up to date
+        checkDependencies: {
+            this:{
+                options: {
+                    install: true,
+                    verbose: true
+                }
+            }
         }
     });
 
@@ -465,6 +475,7 @@ module.exports = function (grunt) {
     ]);
 
     grunt.registerTask('build', [
+        'checkDependencies',
         'clean:dist',
         'bower-install',
         'less',
