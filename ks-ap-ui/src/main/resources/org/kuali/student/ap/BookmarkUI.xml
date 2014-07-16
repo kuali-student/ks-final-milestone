@@ -21,19 +21,7 @@
 
     <!--  Bookmark sidebar -->
     <bean id="bookmarks_widget" parent="bookmarks_widget-parent"/>
-    <bean id="bookmarks_widget-parent" abstract="true" parent="Uif-VerticalBoxSubSection" p:headerText="@{#textHelper.getText('bookmarks.widget.header')}">
-        <property name="header">
-            <bean parent="Uif-HeaderFive">
-                <property name="cssClasses">
-                    <list merge="true">
-                        <value>primary</value>
-                    </list>
-                </property>
-            </bean>
-        </property>
-        <property name="header.toolTip">
-            <ref bean="bookmarks_help_tooltip"/>
-        </property>
+    <bean id="bookmarks_widget-parent" abstract="true" parent="Uif-VerticalBoxSubSection">
         <property name="cssClasses">
             <list merge="true">
                 <value>ksap-widget</value>
@@ -108,9 +96,12 @@
         </property>
     </bean>
 
-    <bean id="bookmark_summary_list" parent="Uif-ListCollectionSection" p:headerText="Bookmarked Courses">
+    <bean id="bookmark_summary_list" parent="Uif-ListCollectionSection" p:headerText="Bookmarked Courses @{(lookupResults eq null or lookupResults.size() eq 0) ? '(0)' : '('+lookupResults.size()+')'}">
         <property name="header">
-            <bean p:id="bookmark_summary_list_header" parent="Uif-HeaderSix"/>
+            <bean p:id="bookmark_summary_list_header" parent="Uif-HeaderFive"/>
+        </property>
+        <property name="header.toolTip">
+            <ref bean="bookmarks_help_tooltip"/>
         </property>
         <property name="cssClasses">
             <list merge="true">
