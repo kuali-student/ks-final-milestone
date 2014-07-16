@@ -866,9 +866,27 @@ public interface ProgramService extends  SearchService,  VersionManagementServic
             PermissionDeniedException;
 
     /**
+     * Retrieves a list of Tracks by Minor Id.
+     * @param minorDisciplineId identifier of the MinorDiscipline
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return a list of Tracks associated with the specified Minor
+     * @throws InvalidParameterException minorId or contextInfo is not valid
+     * @throws MissingParameterException minorId or context is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<TrackInfo> getTracksByMinor(@WebParam(name = "minorDisciplineId") String minorDisciplineId, @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
      * Creates a Track
      *
+     * @param minorDisciplineId identifier of the MinorDiscipline
      * @param trackInfo trackInfo
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
      * @return the created Track
      * @throws AlreadyExistsException The Track already exists
      * @throws DataValidationErrorException One or more values invalid for this
@@ -878,7 +896,8 @@ public interface ProgramService extends  SearchService,  VersionManagementServic
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public TrackInfo createTrack(@WebParam(name = "trackTypeKey") String trackTypeKey,
+    public TrackInfo createTrack(@WebParam(name = "minorDisciplineId") String minorDisciplineId,
+                                 @WebParam(name = "trackTypeKey") String trackTypeKey,
                                                      @WebParam(name = "trackInfo") TrackInfo trackInfo,
                                                      @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws AlreadyExistsException,
@@ -890,7 +909,7 @@ public interface ProgramService extends  SearchService,  VersionManagementServic
      * @param trackId
      * @param trackTypeKey
      * @param trackInfo
-     * @param contextInfo
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
      * @return TrackInfo the Track
      * @throws DataValidationErrorException One or more values invalid for this operation
      * @throws DoesNotExistException Track not found
@@ -912,6 +931,7 @@ public interface ProgramService extends  SearchService,  VersionManagementServic
      * Deletes a Track
      *
      * @param trackId identifier for trackId.Maps to cluId
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
      * @return status of the operation (success or failure)
      * @throws DoesNotExistException Track does not exist
      * @throws InvalidParameterException invalid trackId
@@ -928,15 +948,18 @@ public interface ProgramService extends  SearchService,  VersionManagementServic
     /**
      * Validates a Track against its data dictionary
      *
+     * @param minorDisciplineId identifier of the MinorDiscipline
      * @param validationType identifier of the extent of validation
      * @param trackInfo Track information to be tested
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
      * @return results from performing the validation
      * @throws InvalidParameterException invalid validationTypeKey, cluInfo
      * @throws MissingParameterException missing validationTypeKey, cluInfo
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException
      */
-    public List<ValidationResultInfo> validateTrack(@WebParam(name = "validationType") String validationType,
+    public List<ValidationResultInfo> validateTrack(@WebParam(name = "minorDisciplineId") String minorDisciplineId,
+                                                    @WebParam(name = "validationType") String validationType,
                                                     @WebParam(name = "trackInfo") TrackInfo trackInfo,
                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,

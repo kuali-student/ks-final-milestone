@@ -1,8 +1,5 @@
 package org.kuali.student.r2.lum.program.service;
 
-import java.util.Date;
-import java.util.List;
-
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -31,6 +28,8 @@ import org.kuali.student.r2.lum.program.dto.ProgramVariationInfo;
 import org.kuali.student.r2.lum.program.dto.TrackInfo;
 
 import javax.jws.WebParam;
+import java.util.Date;
+import java.util.List;
 
 public class ProgramServiceDecorator implements ProgramService {
     private ProgramService nextDecorator;
@@ -247,11 +246,11 @@ public class ProgramServiceDecorator implements ProgramService {
     }
 
     @Override
-    public TrackInfo createTrack(String trackTypeKey, TrackInfo trackInfo, ContextInfo contextInfo)
+    public TrackInfo createTrack(String minorDisciplineId, String trackTypeKey, TrackInfo trackInfo, ContextInfo contextInfo)
             throws AlreadyExistsException, DataValidationErrorException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return this.getNextDecorator().createTrack(trackTypeKey, trackInfo, contextInfo);
+        return this.getNextDecorator().createTrack(minorDisciplineId, trackTypeKey, trackInfo, contextInfo);
     }
 
     @Override
@@ -297,10 +296,19 @@ public class ProgramServiceDecorator implements ProgramService {
     }
 
     @Override
-    public List<ValidationResultInfo> validateTrack(String validationType, TrackInfo trackInfo, ContextInfo contextInfo)
+    public List<TrackInfo> getTracksByMinor(String minorDisciplineId, ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        return this.getNextDecorator().getTracksByMinor(minorDisciplineId, contextInfo);
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateTrack(String minorDisciplineId, String validationType, TrackInfo trackInfo, ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return this.getNextDecorator().validateTrack(validationType, trackInfo, contextInfo);
+        return this.getNextDecorator().validateTrack(minorDisciplineId, validationType, trackInfo, contextInfo);
     }
 
     @Override

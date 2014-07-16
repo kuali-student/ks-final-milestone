@@ -32,6 +32,14 @@ import java.util.List;
 public interface Track extends IdNamelessEntity {
 
     /**
+     *
+     * @name Minor Discipline Id
+     * @required
+     * @readonly
+     */
+    public String getMinorDisciplineId();
+
+    /**
      * Term when this minor is next slated to be reviewed
      *
      * @name Next Review Period
@@ -235,10 +243,4 @@ public interface Track extends IdNamelessEntity {
      * @name Last Awarded Term
      */
     public String getLastAwardedTerm();
-
-    /**
-     *
-     * @name Minor Discipline Id
-     */
-    public String getMinorDisciplineId();
 }
