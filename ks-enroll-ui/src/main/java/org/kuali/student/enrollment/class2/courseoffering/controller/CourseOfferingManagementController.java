@@ -1151,10 +1151,9 @@ public class CourseOfferingManagementController extends UifControllerBase {
 
                     slotted = true;
                 }
-            } else { //if 'override matrix' and scheduling state of 'matrix error' then a new scheduling state of 'unscheduled' should be saved
-                if (eoWrapper.getEoInfo().getStateKey().equals(ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_MATRIX_ERROR_STATE_KEY) ) {
-                     eoWrapper.getEoInfo().setStateKey(ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_UNSCHEDULED_STATE_KEY);
-                }
+            } else { //if 'override matrix' then a new scheduling state of 'unscheduled' should be saved
+                eoWrapper.getEoInfo().setSchedulingStateKey(ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_UNSCHEDULED_STATE_KEY);
+                CourseOfferingManagementUtil.mergeAttribute(eoWrapper.getEoInfo().getAttributes(), ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_STATE_ATTR, eoWrapper.getEoInfo().getSchedulingStateKey());
             }
 
             if (!slotted) {
