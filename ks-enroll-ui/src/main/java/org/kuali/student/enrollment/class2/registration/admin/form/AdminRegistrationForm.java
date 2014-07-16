@@ -17,6 +17,7 @@
 package org.kuali.student.enrollment.class2.registration.admin.form;
 
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.enrollment.class2.registration.admin.util.AdminRegConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 
 import java.io.Serializable;
@@ -27,6 +28,8 @@ import java.util.List;
  * Created by Brian on 6/17/14.
  */
 public class AdminRegistrationForm extends UifFormBase implements Serializable {
+
+    private String clientState;
 
     private String studentId;
     private String studentName;
@@ -49,15 +52,23 @@ public class AdminRegistrationForm extends UifFormBase implements Serializable {
     private RegistrationCourse tempRegCourseEdit;
     private RegistrationCourse tempWaitlistCourseEdit;
 
+    private List<RegistrationCourse> pendingCourses;
+    private List<RegistrationIssue> registrationIssues = new ArrayList<RegistrationIssue>();
     private List<RegistrationCourse> registeredCourses = new ArrayList<RegistrationCourse>();
     private List<RegistrationCourse> waitlistedCourses = new ArrayList<RegistrationCourse>();
-    private List<RegistrationCourse> pendingCourses = new ArrayList<RegistrationCourse>();
-    private List<RegistrationIssue> registrationIssues = new ArrayList<RegistrationIssue>();
-
     private List<RegistrationCourse> coursesInProcess = new ArrayList<RegistrationCourse>();
 
     public AdminRegistrationForm(){
-        pendingCourses.add(new RegistrationCourse());
+        this.setClientState(AdminRegConstants.ClientStates.OPEN);
+        this.resetPendingCourseValues();
+    }
+
+    public String getClientState() {
+        return clientState;
+    }
+
+    public void setClientState(String clientState) {
+        this.clientState = clientState;
         editRegisteredIndex = -1;
         editWaitlistedIndex = -1;
     }

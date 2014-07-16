@@ -81,6 +81,7 @@ public class AdminRegistrationController extends UifControllerBase {
         form.clear();
         this.validateUserPopulatedStudentIdField(form);
         if (GlobalVariables.getMessageMap().hasErrors()) {
+            form.setClientState(AdminRegConstants.ClientStates.OPEN);
             return getUIFModelAndView(form);
         }
 
@@ -89,6 +90,8 @@ public class AdminRegistrationController extends UifControllerBase {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+
+        form.setClientState(AdminRegConstants.ClientStates.INITIALIZED);
         return getUIFModelAndView(form);
     }
 
@@ -118,6 +121,7 @@ public class AdminRegistrationController extends UifControllerBase {
             }
         }
 
+        form.setClientState(AdminRegConstants.ClientStates.READY);
         return getUIFModelAndView(form);
     }
 

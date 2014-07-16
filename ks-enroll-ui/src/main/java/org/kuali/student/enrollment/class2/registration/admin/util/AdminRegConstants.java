@@ -5,15 +5,23 @@ package org.kuali.student.enrollment.class2.registration.admin.util;
  */
 public class AdminRegConstants {
 
+    //Admin Reg States
+    public static class ClientStates{
+        public static final String OPEN = "kuali.admin.reg.state.open";
+        public static final String INITIALIZED = "kuali.admin.reg.state.initialized";
+        public static final String READY = "kuali.admin.reg.state.ready";
+        public static final String REGISTERING = "kuali.admin.reg.state.registering";
+    }
+
     // Collection component ids.
-    public static String REG_COLL_ID = "KS-AdminRegistration-Registered";
-    public static String WAITLIST_COLL_ID = "KS-AdminRegistration-Waitlist";
-    public static String ISSUES_COLL_ID = "KS-AdminRegistration-Issues";
+    public static final String REG_COLL_ID = "KS-AdminRegistration-Registered";
+    public static final String WAITLIST_COLL_ID = "KS-AdminRegistration-Waitlist";
+    public static final String ISSUES_COLL_ID = "KS-AdminRegistration-Issues";
 
     // Dialog ids.
-    public static String REG_CONFIRM_DIALOG = "registerConfirmDialog";
-    public static String DROP_COURSE_DIALOG = "dropCourseDialog";
-    public static String DROP_WAITLISTED_DIALOG = "dropWaitlistedDialog";
+    public static final String REG_CONFIRM_DIALOG = "registerConfirmDialog";
+    public static final String DROP_COURSE_DIALOG = "dropCourseDialog";
+    public static final String DROP_WAITLISTED_DIALOG = "dropWaitlistedDialog";
 
     //Message keys
     public static final String ADMIN_REG_MSG_ERROR_INVALID_STUDENT = "error.admin.reg.studentId.invalid";
@@ -24,11 +32,10 @@ public class AdminRegConstants {
     public static final String ADMIN_REG_MSG_ERROR_TERM_CODE_REQUIRED = "error.admin.reg.termcode.required";
 
     //sections ids
-    public static String STUDENT_INFO_SECTION = "KS-AdminRegistration-StudentInfo";
-    public static String STUDENT_INFO_SECTION_STUDENT_ID = "studentId";
-
-
+    public static final String STUDENT_INFO_SECTION = "KS-AdminRegistration-StudentInfo";
+    public static final String STUDENT_INFO_SECTION_STUDENT_ID = "studentId";
 
     //Affiliation Types
-    public static String STUDENT_AFFILIATION_TYPE_CODE= "STDNT";
+    public static final String STUDENT_AFFILIATION_TYPE_CODE= "STDNT";
+
 }
