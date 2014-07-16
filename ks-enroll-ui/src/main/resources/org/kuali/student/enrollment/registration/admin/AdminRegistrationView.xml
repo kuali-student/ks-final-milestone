@@ -99,8 +99,7 @@
         </property>
     </bean>
 
-    <bean id="KS-AdminRegistration-ChangeTermSection" parent="Uif-HorizontalBoxSection"
-          p:id="registrationChangeTermSection" p:render="@{studentName != null}">
+    <bean id="KS-AdminRegistration-ChangeTermSection" parent="Uif-HorizontalBoxSection" p:render="@{studentName != null}">
         <property name="items">
             <list>
                 <bean parent="Uif-HorizontalFieldGroup">

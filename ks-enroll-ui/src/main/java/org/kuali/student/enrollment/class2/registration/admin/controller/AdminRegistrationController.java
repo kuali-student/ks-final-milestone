@@ -111,14 +111,9 @@ public class AdminRegistrationController extends UifControllerBase {
             } else {
                 form.clearTermValues();
             }
-        } else {
-            if (StringUtils.isBlank(form.getTermCode())) {
-                GlobalVariables.getMessageMap().putError("termCode", AdminRegConstants.ADMIN_REG_MSG_ERROR_TERM_CODE_REQUIRED);
-                form.clearTermValues();
-            } else {
-                GlobalVariables.getMessageMap().putError("termCode", AdminRegConstants.ADMIN_REG_MSG_ERROR_INVALID_TERM);
-                form.clearTermValues();
-            }
+        }else{
+           GlobalVariables.getMessageMap().putError("termCode", AdminRegConstants.ADMIN_REG_MSG_ERROR_INVALID_TERM);
+            form.clearTermValues();
         }
 
         form.setClientState(AdminRegConstants.ClientStates.READY);

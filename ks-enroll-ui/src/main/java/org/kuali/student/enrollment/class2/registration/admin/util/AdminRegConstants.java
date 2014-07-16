@@ -28,8 +28,11 @@ public class AdminRegConstants {
     public static final String ADMIN_REG_MSG_ERROR_STUDENT_REQUIRED = "error.admin.reg.studentId.required";
     public static final String ADMIN_REG_MSG_ERROR_STUDENT_ROLE_NOT_FOUND = "error.admin.reg.studentId.required";
     public static final String ADMIN_REG_MSG_ERROR_MULTIPLE_TERMS = "error.admin.reg.multiple.terms";
-    public static final String ADMIN_REG_MSG_ERROR_INVALID_TERM = "error.admin.reg.term.not.found";
+    public static final String ADMIN_REG_MSG_ERROR_INVALID_TERM = "error.admin.reg.term.invalid";
     public static final String ADMIN_REG_MSG_ERROR_TERM_CODE_REQUIRED = "error.admin.reg.termcode.required";
+    public static final String ADMIN_REG_MSG_ERROR_COURSE_CODE_TERM_INVALID = "error.admin.reg.courseoffering.code.term.invalid";
+    public static final String ADMIN_REG_MSG_ERROR_COURSE_CODE_INVALID = "error.admin.reg.courseoffering.code.invalid";
+    public static final String ADMIN_REG_MSG_ERROR_SECTION_CODE_INVALID = "error.admin.reg.section.code.invalid";
 
     //sections ids
     public static final String STUDENT_INFO_SECTION = "KS-AdminRegistration-StudentInfo";
