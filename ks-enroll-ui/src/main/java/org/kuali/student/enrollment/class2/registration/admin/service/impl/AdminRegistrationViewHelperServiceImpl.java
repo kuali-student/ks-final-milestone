@@ -216,32 +216,50 @@ public class AdminRegistrationViewHelperServiceImpl extends KSViewHelperServiceI
     }
 
     @Override
+    public void validateForRegistration(AdminRegistrationForm form) {
+
+        for (int i=0; i<form.getPendingCourses().size(); i++) {
+            RegistrationCourse course = form.getPendingCourses().get(i);
+
+            List<RegistrationGroupInfo> regGroups = new ArrayList<RegistrationGroupInfo>();
+            try {
+                CourseOfferingInfo courseOffering = this.getCourseOfferingByCodeAndTerm(form.getTermCode(), course.getCode());
+                if(courseOffering==null){
+                    GlobalVariables.getMessageMap().putError("pendingCourses["+i+"].code", AdminRegConstants.ADMIN_REG_MSG_ERROR_COURSE_CODE_TERM_INVALID);
+                    continue;
+                }
+
+                List<FormatOfferingInfo> formatOfferings = AdminRegistrationUtil.getCourseOfferingService().getFormatOfferingsByCourseOffering(
+                        courseOffering.getId(), ContextUtils.createDefaultContextInfo());
+                for(FormatOfferingInfo formatOffering : formatOfferings) {
+                    regGroups.addAll(AdminRegistrationUtil.getCourseOfferingService().getRegistrationGroupsByFormatOffering(
+                            formatOffering.getId(), ContextUtils.createDefaultContextInfo()));
+                }
+            } catch (Exception e) {
+                throw convertServiceExceptionsToUI(e);
+            }
+
+            RegistrationGroupInfo registrationGroup = null;
+            for(RegistrationGroupInfo regGroup : regGroups){
+                if(course.getSection().equals(regGroup.getName())){
+                    course.setActivityOfferingIds(regGroup.getActivityOfferingIds());
+                    registrationGroup = regGroup;
+                }
+            }
+
+            if(registrationGroup==null) {
+                GlobalVariables.getMessageMap().putError("pendingCourses["+i+"].section", AdminRegConstants.ADMIN_REG_MSG_ERROR_SECTION_CODE_INVALID);
+            }
+        }
+    }
+
+    @Override
     public List<RegistrationActivity> getRegistrationActivitiesForRegistrationCourse(RegistrationCourse registrationCourse, String termCode) {
-
-        List<RegistrationGroupInfo> regGroups = new ArrayList<RegistrationGroupInfo>();
-        try {
-            CourseOfferingInfo courseOffering = this.getCourseOfferingByCodeAndTerm(termCode, registrationCourse.getCode());
-            List<FormatOfferingInfo> formatOfferings = AdminRegistrationUtil.getCourseOfferingService().getFormatOfferingsByCourseOffering(
-                    courseOffering.getId(), ContextUtils.createDefaultContextInfo());
-            for(FormatOfferingInfo formatOffering : formatOfferings) {
-                regGroups.addAll(AdminRegistrationUtil.getCourseOfferingService().getRegistrationGroupsByFormatOffering(
-                        formatOffering.getId(), ContextUtils.createDefaultContextInfo()));
-            }
-        } catch (Exception e) {
-            throw convertServiceExceptionsToUI(e);
-        }
-
-        RegistrationGroupInfo registrationGroup = null;
-        for(RegistrationGroupInfo regGroup : regGroups){
-            if(registrationCourse.getSection().equals(regGroup.getName())){
-                registrationGroup = regGroup;
-            }
-        }
 
         List<RegistrationActivity> registrationActivities = new ArrayList<RegistrationActivity>();
         try {
             List<ActivityOfferingInfo> activityOfferings = AdminRegistrationUtil.getCourseOfferingService().getActivityOfferingsByIds(
-                    registrationGroup.getActivityOfferingIds(), createContextInfo());
+                    registrationCourse.getActivityOfferingIds(), createContextInfo());
             for (ActivityOfferingInfo activityOffering : activityOfferings) {
                 registrationActivities.add(createRegistrationActivity(activityOffering));
             }

@@ -157,6 +157,7 @@
 
     <!--  Registration Area -->
     <bean id="KS-AdminRegistration-RegisterGroup" parent="Uif-VerticalBoxSection">
+        <property name="validationMessages.displayMessages" value="false"/>
         <property name="items">
             <list>
                 <ref bean="KS-AdminRegistration-Issues"/>
@@ -165,10 +166,11 @@
         </property>
     </bean>
 
-    <bean id="KS-AdminRegistration-RegFor" parent="Uif-TableCollectionGroup" p:colSpan="4">
+    <bean id="KS-AdminRegistration-RegFor" parent="Uif-TableCollectionSection" p:colSpan="4">
         <!--p:enterKeyAction="KS-AdminRegistration-RegFor_add"-->
         <property name="collectionObjectClass"
                   value="org.kuali.student.enrollment.class2.registration.admin.form.RegistrationCourse"/>
+        <property name="headerText" value=" "/>
         <property name="propertyName" value="pendingCourses"/>
         <property name="addLinePlacement" value="BOTTOM"/>
         <property name="layoutManager.richTable.render" value="false"/>

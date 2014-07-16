@@ -29,6 +29,8 @@ public interface AdminRegistrationViewHelperService {
 
     public List<RegistrationCourse> getCourseWaitListForStudentAndTerm(String studentId, String termCode);
 
+    public void validateForRegistration(AdminRegistrationForm form);
+
     public List<RegistrationActivity> getRegistrationActivitiesForRegistrationCourse(RegistrationCourse registrationCourse, String termCode);
 
 }

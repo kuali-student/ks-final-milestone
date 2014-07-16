@@ -38,6 +38,7 @@ public class RegistrationCourse implements Serializable{
     private Date dropDate;
     private Date effectiveDate;
 
+    private List<String> activityOfferingIds = new ArrayList<String>();
     private List<RegistrationActivity> activities = new ArrayList<RegistrationActivity>();
     private boolean subterm;
 
@@ -116,6 +117,14 @@ public class RegistrationCourse implements Serializable{
 
     public void setEffectiveDate(Date effectiveDate) {
         this.effectiveDate = effectiveDate;
+    }
+
+    public List<String> getActivityOfferingIds() {
+        return activityOfferingIds;
+    }
+
+    public void setActivityOfferingIds(List<String> activityOfferingIds) {
+        this.activityOfferingIds = activityOfferingIds;
     }
 
     public List<RegistrationActivity> getActivities() {

@@ -125,6 +125,12 @@ public class AdminRegistrationController extends UifControllerBase {
     public ModelAndView register(@ModelAttribute("KualiForm") AdminRegistrationForm form, BindingResult result,
                                  HttpServletRequest request, HttpServletResponse response) {
 
+        getViewHelper(form).validateForRegistration(form);
+        if (GlobalVariables.getMessageMap().hasErrors()) {
+            form.setClientState(AdminRegConstants.ClientStates.READY);
+            return getUIFModelAndView(form);
+        }
+
         for (RegistrationCourse course : form.getPendingCourses()) {
             course.setCredits(3);
             course.setTransactionalDate(new Date());
@@ -132,6 +138,7 @@ public class AdminRegistrationController extends UifControllerBase {
             course.setActivities(getViewHelper(form).getRegistrationActivitiesForRegistrationCourse(course, form.getTermCode()));
         }
 
+        form.setClientState(AdminRegConstants.ClientStates.REGISTERING);
         return showDialog(AdminRegConstants.REG_CONFIRM_DIALOG, form, request, response);
 
     }
