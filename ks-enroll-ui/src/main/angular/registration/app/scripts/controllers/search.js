@@ -1,23 +1,18 @@
 'use strict';
 
 angular.module('regCartApp')
-    .controller('SearchCtrl', ['$scope', '$interval', 'SearchService', 'SEARCH_FACETS', function SearchCtrl($scope, $interval, SearchService, SEARCH_FACETS) {
+    .controller('SearchCtrl', ['$scope', 'SearchService', 'SEARCH_FACETS', function SearchCtrl($scope, SearchService, SEARCH_FACETS) {
 
         $scope.facets = SEARCH_FACETS; // Facet definitions
 
-        $scope.searchCriteria = ''; // Criteria used to generate the search results.
+        $scope.searchCriteria = null; // Criteria used to generate the search results.
         $scope.searchResults = []; // Results from the last search request.
 
 
-        $scope.$on('termIdChanged', function() {
+        $scope.$on('termIdChanged', function(event, newValue, oldValue) {
             // Drop the existing search results when the term changes
             $scope.searchCriteria = '';
             $scope.searchResults = [];
-
-            // If the search page is the current page, push the user back to their cart.
-            if ($scope.uiState === 'root.search') {
-                $scope.goToPage('/myCart');
-            }
         });
 
         // Listen for any state changes from ui-router. This is where we get the search criteria from.
@@ -46,7 +41,7 @@ angular.module('regCartApp')
         };
 
 
-        var queuedSearch, // Promise handle on the queued up search.
+        var queuedSearchHandle, // Handle on the queued up search.
             lastSearchCriteria = ''; // Criteria used to execute the most recent search request.
         function doSearch(criteria) {
             if (criteria === null || ($scope.searchCriteria !== null && criteria === $scope.searchCriteria)) {
@@ -55,21 +50,19 @@ angular.module('regCartApp')
             }
 
             // Cancel out the queued up search if it exists
-            if (angular.isDefined(queuedSearch) && queuedSearch !== null) {
-                $interval.cancel(queuedSearch);
-                queuedSearch = null;
+            if (angular.isDefined(queuedSearchHandle) && queuedSearchHandle !== null) {
+                queuedSearchHandle = null;
             }
 
             if (!$scope.termId) {
                 // The search cannot occur w/o a termId.
                 console.log('Search blocked - no termId exists');
 
-                queuedSearch = $interval(function() {
-                    if ($scope.termId) {
-                        $interval.cancel(queuedSearch); // Cancel any subsequent intervals
-                        doSearch(criteria); // Run the search
-                    }
-                }, 100, 20); // Repeat every 100ms up to 20 times (2s in total)
+                // Queue the search to be performed when the term is set.
+                queuedSearchHandle = $scope.$on('termIdChanged', function() {
+                    queuedSearchHandle(); // Remove the event subscription
+                    doSearch(criteria);
+                });
 
                 return;
             }
@@ -106,17 +99,9 @@ angular.module('regCartApp')
 
         $scope.courseSearchCriteria = '';
 
-        // Clear out the search criteria when the termId is changed.
-        $scope.$on('termIdChanged', function(event, newValue, oldValue) {
-            // Don't clear it out if the old termId is null. This occurs on a refresh.
-            if (oldValue !== null) {
-                $scope.courseSearchCriteria = '';
-            }
-        });
-
         // Listen for any state changes from ui-router. This will reinsert the search criteria into the form on a refresh.
         $scope.$on('$stateChangeSuccess', function(event, toState, toParams) {
-            if (angular.isDefined(toParams.searchCriteria)) {
+            if (angular.isDefined(toParams.searchCriteria) && $scope.courseSearchCriteria !== toParams.searchCriteria) {
                 $scope.courseSearchCriteria = toParams.searchCriteria;
             }
         });
