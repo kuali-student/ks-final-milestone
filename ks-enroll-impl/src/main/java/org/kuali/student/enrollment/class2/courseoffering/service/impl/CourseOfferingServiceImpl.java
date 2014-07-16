@@ -701,14 +701,22 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         for (OfferingInstructorInfo instructor : coInfo.getInstructors()) {
             // if there is no id, it's a new Lpr
-            if (instructor.getId() == null) {
+            if (instructor.getId() == null ) {
                 createdInstructors.add(instructor);
             }
+
+
             // if the Lpr already exists, update it
             else if (existingPersonMap.containsKey(instructor.getPersonId())) {
-                updatedInstructors.add(instructor);
+
                 // remove the found entry from the existing map, to build the list of existing lprs to delete
                 existingPersonMap.remove(instructor.getPersonId());
+                updatedInstructors.add(instructor);
+
+            }else{
+                instructor.setId(null);
+                createdInstructors.add(instructor);
+
             }
         }
 
