@@ -23,7 +23,7 @@ import org.kuali.student.r2.common.infc.Attribute;
 
 
 @Entity
-@Table(name = "KSEN_PARAMETER_ATTR")
+@Table(name = "KSEN_GES_PARM_ATTR")
 public class ParameterAttributeEntity extends BaseAttributeEntity<ParameterEntity> 
 {
 

@@ -23,7 +23,7 @@ import org.kuali.student.r2.common.infc.Attribute;
 
 
 @Entity
-@Table(name = "KSEN_VALUE_ATTR")
+@Table(name = "KSEN_GES_VALUE_ATTR")
 public class ValueAttributeEntity extends BaseAttributeEntity<ValueEntity> 
 {
 
