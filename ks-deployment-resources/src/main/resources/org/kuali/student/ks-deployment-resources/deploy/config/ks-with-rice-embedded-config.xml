@@ -29,7 +29,6 @@
   <param name="ks.core.datasource.password">${jdbc.password}</param>
   <param name="ks.core.datasource.maxSize">20</param>
   <param name="rice.krad.dev.mode">${rice.krad.dev.mode}</param>
-  <param name="rice.krad.script.cleanup" override="true">${rice.krad.script.cleanup}</param>
   <param name="keystore.file">${keystore.file.default}</param>
   <param name="keystore.alias">rice</param>
   <param name="keystore.password">r1c3pw</param>
