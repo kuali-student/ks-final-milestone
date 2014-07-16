@@ -20,6 +20,11 @@ angular.module('regCartApp').filter('formatValidationMessage', ['VALIDATION_ERRO
         if (data) {
             if (typeof(data) === 'string') {
                 // Backwards compatibility, allow a straight string to go through
+                if (typeof(course) === 'string') {
+                    if (data !== '' && data.indexOf(course) !== -1) {
+                        data = data.replace(course, '<strong>' + course + '</strong>');
+                    }
+                }
                 message = data;
             } else if (data.messageKey) {
                 // Validation message w/ messageKey value

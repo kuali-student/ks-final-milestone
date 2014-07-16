@@ -125,10 +125,7 @@ angular.module('regCartApp')
                 console.log('CartId:', cartId);
                 if (error.status === 404) {
                     //Reg group was not found
-                    if (error.data !== '' && error.data.indexOf(courseCode) !== -1) {
-                        error.data = error.data.replace(courseCode, '<strong>' + courseCode + '</strong>');
-                    }
-                    $scope.userMessage = {txt: error.data, type: STATUS.error};
+                    $scope.userMessage = {txt: error.data, type: STATUS.error, course: courseCode};
                     $scope.courseAdded = true;  // refocus cursor back to course code
                 } else if (error.status === 400) {
                     console.log('CartId: ', cartId);
@@ -167,10 +164,7 @@ angular.module('regCartApp')
                 } else {
                     console.log('Error with adding course', error.data.consoleMessage);
                     //Reg group is not in offered state
-                    if (error.data.genericMessage !== '' && error.data.genericMessage.indexOf(courseCode + ' (' + regGroupCode + ')') !== -1) {
-                        error.data.genericMessage = error.data.genericMessage.replace(courseCode + ' (' + regGroupCode + ')', '<strong>' + courseCode + ' (' + regGroupCode + ')' + '</strong>');
-                    }
-                    $scope.userMessage = {txt: error.data.genericMessage, type: error.data.type, detail: error.data.detailedMessage};
+                    $scope.userMessage = {txt: error.data.genericMessage, type: error.data.type, detail: error.data.detailedMessage, course: courseCode + ' (' + regGroupCode + ')'};
                     $scope.courseAdded = true; // refocus cursor back to course code
                 }
             });
