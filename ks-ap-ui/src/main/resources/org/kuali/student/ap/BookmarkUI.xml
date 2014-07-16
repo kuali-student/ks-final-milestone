@@ -21,7 +21,7 @@
 
     <!--  Bookmark sidebar -->
     <bean id="bookmarks_widget" parent="bookmarks_widget-parent"/>
-    <bean id="bookmarks_widget-parent" abstract="true" parent="Uif-VerticalBoxSubSection" p:headerText="Bookmarked Courses">
+    <bean id="bookmarks_widget-parent" abstract="true" parent="Uif-VerticalBoxSubSection" p:headerText="@{#textHelper.getText('bookmarks.widget.header')}">
         <property name="header">
             <bean parent="Uif-HeaderFive">
                 <property name="cssClasses">
@@ -59,7 +59,7 @@
     </bean>
 
     <bean id="bookmarks_watch_list" parent="bookmarks_watch_list-parent"/>
-    <bean id="bookmarks_watch_list-parent" abstract="true" parent="Uif-VerticalBoxGroup" p:headerText="Loading courses">
+    <bean id="bookmarks_watch_list-parent" abstract="true" parent="Uif-VerticalBoxGroup" p:headerText="@{#textHelper.getText('bookmarks.widget.loading')}">
         <property name="cssClasses">
             <list merge="true">
                 <value>ksap-saved-courses-summary</value>
@@ -108,7 +108,10 @@
         </property>
     </bean>
 
-    <bean id="bookmark_summary_list" parent="Uif-ListCollectionSection">
+    <bean id="bookmark_summary_list" parent="Uif-ListCollectionSection" p:headerText="Bookmarked Courses">
+        <property name="header">
+            <bean p:id="bookmark_summary_list_header" parent="Uif-HeaderSix"/>
+        </property>
         <property name="cssClasses">
             <list merge="true">
                 <value>ksap-saved-courses-summary</value>
@@ -155,7 +158,6 @@
                             </bean>
                             <bean p:id="@{#line.planItemId}_saved" parent="Uif-Message"
                                   p:messageText="@{#line.courseTitle}">
-                                <property name="style" value="margin-right:5px;"/>
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>ksap-text-ellipsis</value>
@@ -164,7 +166,6 @@
                                 </property>
                             </bean>
                             <bean parent="Uif-Message" p:messageText="(@{#line.credits})">
-                                <property name="style" value="margin-right:0px;"/>
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>ksap-text-gray</value>
@@ -181,24 +182,22 @@
         </property>
     </bean>
 
-    <bean id="bookmark_summary_footer" parent="Uif-VerticalBoxSection"
-          p:style="padding: 7px 10px;">
+    <bean id="bookmark_summary_footer" parent="Uif-VerticalBoxSection">
         <property name="header.render" value="false"/>
         <property name="items">
             <list>
                 <ref bean="bookmark_sidebar_item_template"/>
-                <bean p:id="bookmark_summary_number" parent="Uif-Link" p:style="display: block;">
+                <bean p:id="bookmark_summary_number" parent="Uif-Link">
+                    <!-- Text helper not working here-->
                     <property name="linkText"
-                              value="View @{(lookupResults eq null or lookupResults.size() lt 2) ? 'course' : 'all '+lookupResults.size()+' courses'} in full details"/>
-                    <property name="title"
-                              value="View @{(lookupResults eq null or lookupResults.size() lt 2) ? 'course' : 'all '+lookupResults.size()+' courses'} in full details"/>
+                              value="View more details"/>
                     <property name="href"
                               value="lookup?methodToCall=search&amp;viewId=BookmarkDetail-LookupView"/>
                     <property name="render"
                               value="@{lookupResults ne null and lookupResults.size() gt 0}"/>
                     <property name="target" value=""/>
                 </bean>
-                <bean parent="Uif-HorizontalBoxGroup" p:style="padding: 1em 0px;">
+                <bean parent="Uif-HorizontalBoxGroup">
                     <property name="validationMessages.displayMessages" value="false"/>
                     <property name="render"
                               value="@{lookupResults ne null and lookupResults.size() gt 0 ? false : true}"/>
