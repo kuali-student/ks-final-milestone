@@ -584,6 +584,27 @@
         </property>
     </bean>
 
+   <!--personServiceKim-->
+    <bean id="personServiceDecorator" class="org.kuali.student.core.person.service.decorators.PersonServiceDecorator">
+        <property name="nextDecorator" ref="personServiceKimImpl" />
+    </bean>
+
+    <bean id="personServiceKimImpl" class="org.kuali.student.core.person.service.impl.PersonServiceKimImpl">
+        <property name="identityService" ref="coreIdentityServiceClient"/>
+    </bean>
+    <bean id="ks.exp.personService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="personServiceKimImpl" />
+                <property name="serviceInterface" value="org.kuali.student.core.person.service.PersonService"/>
+                <property name="localServiceName" value="PersonService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/person" />
+                <property name="busSecurity" value="${ks.core.bus.security}" />
+            </bean>
+        </property>
+    </bean>
+
     <!-- Enumeration Service Config -->
     <bean id="enumDao" class="org.kuali.student.r2.core.class1.enumerationmanagement.dao.EnumerationDao">
         <property name="em" ref="coreEntityManager"/>
