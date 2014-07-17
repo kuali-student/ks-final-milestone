@@ -1,27 +1,42 @@
-/* KSAP Section (right side container) ########################################################################### */
+// KSAP Widgets
+// --------------------------------------------------
+
+// Wrapper
 .ksap-widget {
   border: solid 1px #dddddd;
   border-radius: 5px;
   line-height: 16px;
+
+// Header
+  .uif-header {
+    background: #eee;
+    border-bottom: solid 1px #ddd;
+    font-weight: normal;
+    margin: 0;
+    padding: 5px;
+  }
+
+  h5.uif-headerText {
+    font-size: 15px;
+    margin: 0;
+    padding: 0;
+  }
+
+// Header tooltip
+  .uif-tooltip span.uif-headerText-span{
+    border-bottom: dotted 1px #777;
+  }
+
+  .widget-footer {
+    background: #EEE;
+    border-top: solid 1px #DDD;
+    margin: 0;
+    min-height: 25px;
+    padding: 6px 5px;
+  }
 }
 
-.ksap-section .uif-boxLayoutVerticalItem,
-.ksap-section .uif-boxLayoutHorizontalItem {
-  margin: 0;
-  padding: 0;
-}
-/*The Your Stuff Section Headers*/
-.ksap-section .uif-header {
-  font-weight: normal;
-  margin: 0;
-  border-top: solid 1px #ddd;
-  border-bottom: solid 1px #ddd;
-  padding: 3px 10px;
-}
-.ksap-section .uif-tooltip span.uif-headerText-span{
-  border-bottom: dotted 1px #777;
-}
-/*The Your Stuff Header*/
+/*The Your Stuff Header
 .ksap-section .uif-header.primary {
   border: none;
   padding: 7px 10px;
@@ -43,15 +58,6 @@
   margin: 0 0 0 5px;
 }
 
-.ksap-section .uif-headerText {
-  display: inline-block;
-  vertical-align: middle;
-}
-
-.ksap-section h5.uif-headerText {
-  font-size: 15px;
-  text-transform: uppercase;
-}
 
 .ksap-section h6.uif-headerText {
   font-size: 13px;
@@ -80,7 +86,7 @@
 
 .ksap-section .uif-listCollectionGroup ul li:hover {
   background-color: #e3f0fe;
-}
+} */
 
 /* Saved Courses Summary Styles ########################################################################### */
 
@@ -266,7 +272,7 @@
 
 
 /*
-    @TODO cleanup when we get to bookmarks list page. Onlny include when needed. Change layout to CSS Grid.
+    @TODO cleanup when we get to bookmarks list page. Only include when needed. Change layout to CSS Grid.
 */
 #bookmark_detail_list {
   .ksap-data-list {

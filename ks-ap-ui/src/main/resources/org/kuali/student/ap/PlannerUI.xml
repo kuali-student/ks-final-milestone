@@ -16,7 +16,7 @@
         <property name="additionalCssFiles">
             <list>
                 <value>themes/ksapboot/stylesheets/ksap.planner.css</value>
-                <value>themes/ksapboot/stylesheets/ksap.yourstuff.css</value>
+                <value>themes/ksapboot/stylesheets/ksap.bookmarks.widget.css</value>
             </list>
         </property>
         <property name="additionalScriptFiles">
