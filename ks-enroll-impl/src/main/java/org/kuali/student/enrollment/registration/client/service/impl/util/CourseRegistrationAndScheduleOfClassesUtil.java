@@ -193,7 +193,6 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
         ActivityOfferingScheduleComponentResult scheduleComponent = new ActivityOfferingScheduleComponentResult();
         scheduleComponent.setRoomCode(roomCode);
         scheduleComponent.setBuildingCode(buildingCode);
-        scheduleComponent.setDays(dayDisplayHelper(weekdays));
 
         if (StringUtils.equals(isTBA, "1")) {
             scheduleComponent.setIsTBA(true);
@@ -201,6 +200,7 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
             scheduleComponent.setIsTBA(false);
         }
 
+        scheduleComponent.setDays(StringUtils.isEmpty(weekdays) ? "" : dayDisplayHelper(weekdays));
         String startTime = StringUtils.isEmpty(startTimeMs) ? "" : TimeOfDayHelper.formatTimeOfDay(TimeOfDayHelper.setMillis(Long.valueOf(startTimeMs)));
         String endTime = StringUtils.isEmpty(endTimeMs) ? "" : TimeOfDayHelper.formatTimeOfDay(TimeOfDayHelper.setMillis(Long.valueOf(endTimeMs)));
         scheduleComponent.setStartTime(startTime);

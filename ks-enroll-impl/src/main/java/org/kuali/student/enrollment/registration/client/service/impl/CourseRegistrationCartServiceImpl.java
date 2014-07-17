@@ -563,7 +563,7 @@ public class CourseRegistrationCartServiceImpl implements CourseRegistrationCart
             locationTimeResult.setLocation(locationResult);
 
             ScheduleTimeResult scheduleTimeResult = new ScheduleTimeResult();
-            scheduleTimeResult.setDays(CourseRegistrationAndScheduleOfClassesUtil.dayDisplayHelper(weekdays));
+            scheduleTimeResult.setDays(StringUtils.isEmpty(weekdays) ? "" : CourseRegistrationAndScheduleOfClassesUtil.dayDisplayHelper(weekdays));
             String startTime = StringUtils.isEmpty(startTimeMs) ? "" : TimeOfDayHelper.formatTimeOfDay(TimeOfDayHelper.setMillis(Long.valueOf(startTimeMs)));
             String endTime = StringUtils.isEmpty(endTimeMs) ? "" : TimeOfDayHelper.formatTimeOfDay(TimeOfDayHelper.setMillis(Long.valueOf(endTimeMs)));
             scheduleTimeResult.setStartTime(startTime);
