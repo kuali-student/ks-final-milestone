@@ -82,7 +82,7 @@
                                   p:label="Student ID" p:readOnly="false" p:id="studentIdField"
                                   p:onDocumentReadyScript="setValidation('clientState', 'personInfo.id', ['kuali.admin.reg.state.open', 'kuali.admin.reg.state.initialized', 'kuali.admin.reg.state.ready'], 'Student Id is required.');">
                                 <property name="control">
-                                    <bean parent="KS-Uif-TextControl" p:size="12"/>
+                                    <bean parent="KS-Uif-TextControl" p:size="12" p:maxLength="40"/>
                                 </property>
                             </bean>
                             <bean parent="Uif-SecondaryActionButton" p:performClientSideValidation="true"
