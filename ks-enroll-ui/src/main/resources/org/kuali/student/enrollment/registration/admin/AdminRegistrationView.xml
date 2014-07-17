@@ -107,7 +107,7 @@
                         <list>
                             <bean parent="Uif-InputField" p:propertyName="termCode"
                                   p:label="Change Term" p:readOnly="false" p:id="termCodeField"
-                                  p:onDocumentReadyScript="setValidation('clientState', 'termCode', ['kuali.admin.reg.state.initialized', 'kuali.admin.reg.state.ready'], 'Term Code is required.');">
+                                  p:onDocumentReadyScript="setValidation('clientState', 'termCode', ['kuali.admin.reg.state.initialized', 'kuali.admin.reg.state.ready'], 'Term is required.');">
                                 <!-- Constrain to 6 digits and use a custom message. -->
                                 <property name="validCharactersConstraint">
                                     <bean parent="NumericPatternConstraint"
